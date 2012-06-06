@@ -1,0 +1,39 @@
+<html>
+<head>
+<link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/bootstrap-responsive.css?1" rel="stylesheet">
+     <link href="css/blitzer/jquery-ui.css" rel="stylesheet">
+    
+    
+    <script src="js/jquery.js" language="javascript"></script>
+    <script src="js/jquery-ui.js" language="javascript"></script>
+    <script src="js/bootstrap.js" language="javascript"></script>
+    <script type="text/javascript" src="js/easyXDM.min.js"></script>
+    <script src="js/json.js" language="javascript"></script>
+    <script src="js/ncc.js" language="javascript"></script>
+    
+<title>Newcoin Client</title>
+</head>
+<body>
+<div class="container">
+	<div class="row">
+		<div class="span9">
+			<h1>Newcoin Client</h1>
+			<hr>
+			
+			<div class="row"> Password: <input type="password"></input> </div>
+			<div class="row"> RPC Port: <input type="text" id="RPCPort" value="5005"></input> </div>
+			IP: <input type="text" value="127.0.0.1" id="RPCIP" ></input> <p>
+			<hr>
+			
+			<p><button class="btn" onclick="rpc.peers()" >Show Peers</button>
+			<p><button class="btn" onclick="rpc.stop()" >Stop</button>
+			
+			<div id="status" class="alert alert-info"></div>
+			<div id="error" class="alert alert-error"></div>
+	
+		</div>
+	</div>
+</div>
+</body>
+</html>
