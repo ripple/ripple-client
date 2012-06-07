@@ -1,39 +1,127 @@
 <html>
 <head>
-<link href="css/bootstrap.css" rel="stylesheet">
+	<link href="css/bootstrap.css" rel="stylesheet">
     <link href="css/bootstrap-responsive.css?1" rel="stylesheet">
      <link href="css/blitzer/jquery-ui.css" rel="stylesheet">
+     <link href="css/ncc.css" rel="stylesheet">
     
     
     <script src="js/jquery.js" language="javascript"></script>
+    <script src="config.js" language="javascript"></script>
     <script src="js/jquery-ui.js" language="javascript"></script>
     <script src="js/bootstrap.js" language="javascript"></script>
+    <script src="js/bootstrap-tab.js" language="javascript"></script>
     <script type="text/javascript" src="js/easyXDM.min.js"></script>
     <script src="js/json.js" language="javascript"></script>
     <script src="js/ncc.js" language="javascript"></script>
+    <script src="js/rpc.js" language="javascript"></script>
+    <script src="js/startup.js" language="javascript"></script>
     
 <title>Newcoin Client</title>
 </head>
 <body>
+
+<p>
 <div class="container">
 	<div class="row">
-		<div class="span9">
-			<h1>Newcoin Client</h1>
+		<div class="top-status"><span id="ClientState">Connecting...</span> Balance: <span id="Balance">23</span> KNC</div>
+		<h1>Newcoin Client</h1>
 			<hr>
+	</div>
+	
+	<div class="row">
+		<div id="NCCNav" class="span2 ncc-nav" >
+			<div class="tabbable tabs-left">
+				 <ul class="nav nav-tabs">
+				 	<li>&nbsp;</li>
+				    <li class="active"><a id="SendTabButton" href="#tabSend" data-toggle="tab">Send Money</a></li>
+				    <li><a id="HistoryTabButton" href="#tabHistory" data-toggle="tab">Transaction History</a></li>
+				    <li><a id="LedgerTabButton" href="#tabLedger" data-toggle="tab">View Ledger</a></li>
+				    <li><a id="UNLTabButton" href="#tabUNL" data-toggle="tab">View UNL</a></li>
+				    <li><a id="PeersTabButton" href="#tabPeers" data-toggle="tab">View Peers</a></li>
+				  </ul>
+			 </div>
+			 <p>
+			 <div class="bottom-btn" ><button class="btn btn-danger" onclick="rpc.stop()" >Stop Server</button></div>
+		</div>
+		<div class="span10">
 			
-			<div class="row"> Password: <input type="password"></input> </div>
-			<div class="row"> RPC Port: <input type="text" id="RPCPort" value="5005"></input> </div>
-			IP: <input type="text" value="127.0.0.1" id="RPCIP" ></input> <p>
-			<hr>
 			
-			<p><button class="btn" onclick="rpc.peers()" >Show Peers</button>
-			<p><button class="btn" onclick="rpc.stop()" >Stop</button>
+			<div id="StartScreen" >
+				Connecting to the server...
+			</div>
+			
+			<div id="WelcomeScreen" class="screen">
+				welcome. Tell them the address they need to have funded to get started. Call wallet propose basically
+			</div>
+			
+			<div id="LoginScreen" class="screen">
+				<div class="row">
+					<fieldset class="span5">
+					<legend>Login</legend>
+					<table>
+						<tr><td class="span2" >Master Key</td><td valign='middle' ><input id="MasterKey" type="text"></td></tr>
+						<tr><td class="span2" ></td><td><input id="SaveMasterKey" type="checkbox" checked="false" > Save Key</td></tr>
+					</table>
+					
+					<div class="bottom-btn" > <button class="btn btn-large btn-success" onclick="ncc.login()" >Login</button></div>
+					
+					</fieldset>
+				</div>
+			</div>
+			
+			<div id="HomeScreen" class="screen">
+				
+					  <div class="tab-content">
+					    <div class="tab-pane active" id="tabSend">
+					    
+					      	<div class="row">
+								<fieldset class="span5">
+								<legend>Send</legend>
+								<table>
+									<tr><td class="span2" >Amount:</td><td><input id="SendAmount" type="text"></td></tr>
+									<tr><td class="span2" >Destination:</td><td><input id="SendDest" type="text"></td></tr>
+								</table>
+								
+								<div class="bottom-btn" > <button class="btn btn-large btn-success" onclick="ncc.send()" >Send Money</button></div>
+								
+								</fieldset>
+							</div>
+			
+					    </div>
+					    <div class="tab-pane" id="tabHistory">
+					      <p>History</p>
+					    </div>
+					    <div class="tab-pane" id="tabLedger">
+					      <p>Ledger</p>
+					    </div>
+					    <div class="tab-pane" id="tabUNL">
+					      <p>UNL</p>
+					    </div>
+					    <div class="tab-pane" id="tabPeers">
+					      <p>Peers</p>
+					    </div>
+					  </div>
+				
+
+				
+			</div>
+			
+			
+			
 			
 			<div id="status" class="alert alert-info"></div>
 			<div id="error" class="alert alert-error"></div>
 	
 		</div>
 	</div>
+	
+<div class="footer">
+		<span><a href="http://newcoin.org/" target="_blank" >HELP</a></span> | <span> email CoinsPlease@yahoo.com if you want some coins to use.</span> | <span><a href="http://lesswrong.com" target="_blank" >Think</a> about things.</span>
+	</div>
+	
+
+		
 </div>
 </body>
 </html>

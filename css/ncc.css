@@ -1,0 +1,53 @@
+.top-status {
+	float:right;
+	//margin-top: -140px;
+}
+
+#ClientState {
+	margin-right: 20px;
+	color: blue;
+}
+
+#Balance {
+	font-weight: bold;
+}
+
+.ncc-nav {
+	margin-top: 20px;
+}
+
+fieldset {
+	padding: 2em;
+	margin: 0 0 1em 0;
+	border: 1px solid #e6e6e6;
+	background: #f3f3f3;
+}
+
+legend {
+	width: auto;
+	line-height: normal;
+	
+	margin-bottom: 0;	
+	padding: .5em 1em;
+	border: 1px solid #e6e6e6;
+	background: #fff;
+	font-size: 16px;
+}
+
+input {
+	height: 28px;
+}
+
+.bottom-btn {
+
+	//margin-left: 40%;
+	//margin-right: 40%;
+	margin-top: 30px;
+	text-align: center;
+
+}
+
+.footer {
+	border-top: 1px solid #e6e6e6;
+	margin-top: 20px;
+}
