@@ -10,7 +10,7 @@ rpc.displayResult = function(response,success)
 
 rpc.call =function(request,callback)
 {
-	request.id = 1;
+	//request.id = 1;
 	
 	$.ajax({
   		type: 'POST',
@@ -32,6 +32,15 @@ rpc.send=function(key,fromAccount,toAccount,amount,callback)
 	rpc.call(request,callback);
 }
 
+rpc.wallet_propose=function(callback)
+{
+	var request = {};
+	request.method = "wallet_propose";
+	request.params = [];
+	
+	rpc.call(request,callback);
+}
+
 rpc.wallet_accounts=function(key,callback)
 {
 	var request = {};
@@ -41,20 +50,29 @@ rpc.wallet_accounts=function(key,callback)
 	rpc.call(request,callback);
 }
 
-rpc.fetch_data=function (key,callback)
+rpc.data_fetch=function (key,callback)
 {
 	var request = {};
-	request.method = "fetch_data";
+	request.method = "data_fetch";
 	request.params = [key];
 	
 	rpc.call(request,callback);
 }
 
-rpc.store_data=function(key,value)
+rpc.data_store=function(key,value)
 {
 	var request = {};
-	request.method = "store_data";
+	request.method = "data_store";
 	request.params = [key,value];
+	
+	rpc.call(request,rpc.displayResult);
+}
+
+rpc.data_delete=function(key)
+{
+	var request = {};
+	request.method = "data_delete";
+	request.params = [key];
 	
 	rpc.call(request,rpc.displayResult);
 }

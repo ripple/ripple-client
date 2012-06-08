@@ -24,8 +24,9 @@
 <p>
 <div class="container">
 	<div class="row">
-		<div class="top-status"><span id="ClientState">Connecting...</span> Balance: <span id="Balance">23</span> KNC</div>
-		<h1>Newcoin Client</h1>
+		<div class="top-status"><span id="ClientState">Starting...</span> Balance: <span id="Balance">--</span> kNC</div>
+		<div class="top-status">Your receiving address: <span id="RecvAddress">none</span></div>
+		<h1>Newcoin Client: Barely Alpha</h1>
 			<hr>
 	</div>
 	
@@ -42,6 +43,7 @@
 				  </ul>
 			 </div>
 			 <p>
+			 <div class="bottom-btn" ><button class="btn btn-info" onclick="ncc.logout()" >Logout</button></div>
 			 <div class="bottom-btn" ><button class="btn btn-danger" onclick="rpc.stop()" >Stop Server</button></div>
 		</div>
 		<div class="span10">
@@ -52,63 +54,73 @@
 			</div>
 			
 			<div id="WelcomeScreen" class="screen">
-				welcome. Tell them the address they need to have funded to get started. Call wallet propose basically
+				<div class="row">
+					<div class="span2">&nbsp;</div>
+					<fieldset class="span5">
+					<legend>Welcome</legend>
+					The first step is to get someone to send you Newcoins. 
+					Send them to: <span id="NewAddress">...</span>
+					<p><p>
+					Once some coins are sent to that address, you can claim this account with the following key: <span id="NewMasterKey">...</span>
+									
+					<div class="bottom-btn" > <button class="btn btn-large btn-success" onclick="ncc.displayScreen('LoginScreen')" >Login and claim your coins</button></div>
+					
+					
+					</fieldset>
+				</div>
+				
+				
 			</div>
 			
 			<div id="LoginScreen" class="screen">
 				<div class="row">
-					<fieldset class="span5">
+					<div class="span2">&nbsp;</div>
+					<fieldset class="span6">
 					<legend>Login</legend>
 					<table>
-						<tr><td class="span2" >Master Key</td><td valign='middle' ><input id="MasterKey" type="text"></td></tr>
+						<tr><td class="span2" >Master Key</td><td valign='middle' ><input id="MasterKey" type="text" class="span4" ></td></tr>
 						<tr><td class="span2" ></td><td><input id="SaveMasterKey" type="checkbox" checked="false" > Save Key</td></tr>
 					</table>
 					
 					<div class="bottom-btn" > <button class="btn btn-large btn-success" onclick="ncc.login()" >Login</button></div>
-					
+					If you don't have a wallet key, you can <a onclick="ncc.displayScreen('WelcomeScreen')">Create One</a>.
 					</fieldset>
 				</div>
 			</div>
 			
 			<div id="HomeScreen" class="screen">
 				
-					  <div class="tab-content">
-					    <div class="tab-pane active" id="tabSend">
-					    
-					      	<div class="row">
-								<fieldset class="span5">
-								<legend>Send</legend>
-								<table>
-									<tr><td class="span2" >Amount:</td><td><input id="SendAmount" type="text"></td></tr>
-									<tr><td class="span2" >Destination:</td><td><input id="SendDest" type="text"></td></tr>
-								</table>
-								
-								<div class="bottom-btn" > <button class="btn btn-large btn-success" onclick="ncc.send()" >Send Money</button></div>
-								
-								</fieldset>
-							</div>
-			
-					    </div>
-					    <div class="tab-pane" id="tabHistory">
-					      <p>History</p>
-					    </div>
-					    <div class="tab-pane" id="tabLedger">
-					      <p>Ledger</p>
-					    </div>
-					    <div class="tab-pane" id="tabUNL">
-					      <p>UNL</p>
-					    </div>
-					    <div class="tab-pane" id="tabPeers">
-					      <p>Peers</p>
-					    </div>
-					  </div>
-				
-
-				
+				  <div class="tab-content">
+				    <div class="tab-pane active" id="tabSend">
+				    
+				      	<div class="row">
+							<fieldset class="span6">
+							<legend>Send</legend>
+							<table>
+								<tr><td class="span2" >Amount:</td><td><input id="SendAmount" type="text" class="span2"> kNC</td></tr>
+								<tr><td class="span2" >Destination:</td><td><input id="SendDest" type="text" class="span4" ></td></tr>
+							</table>
+							
+							<div class="bottom-btn" > <button class="btn btn-large btn-success" onclick="ncc.send()" >Send Money</button></div>
+							
+							</fieldset>
+						</div>
+		
+				    </div>
+				    <div class="tab-pane" id="tabHistory">
+				      <p>History</p>
+				    </div>
+				    <div class="tab-pane" id="tabLedger">
+				      <p>Ledger</p>
+				    </div>
+				    <div class="tab-pane" id="tabUNL">
+				      <p>UNL</p>
+				    </div>
+				    <div class="tab-pane" id="tabPeers">
+				      <p>Peers</p>
+				    </div>
+				  </div>	
 			</div>
-			
-			
-			
 			
 			<div id="status" class="alert alert-info"></div>
 			<div id="error" class="alert alert-error"></div>
@@ -117,7 +129,7 @@
 	</div>
 	
 <div class="footer">
-		<span><a href="http://newcoin.org/" target="_blank" >HELP</a></span> | <span> email CoinsPlease@yahoo.com if you want some coins to use.</span> | <span><a href="http://lesswrong.com" target="_blank" >Think</a> about things.</span>
+		<span><a href="http://newcoin.org/" target="_blank" >HELP</a></span> | <span> email one of us if you want some coins to use.</span> | <span><a href="http://lesswrong.com" target="_blank" >Think</a> about things.</span>
 	</div>
 	
 

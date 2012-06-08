@@ -1,5 +1,17 @@
+a {
+	cursor: pointer;
+	//color: #858585; 
+}
+
+a:hover 
+{
+	color:#EE0909;
+	text-decoration: none;
+}
+
 .top-status {
 	float:right;
+	clear: right;
 	//margin-top: -140px;
 }
 
@@ -8,7 +20,11 @@
 	color: blue;
 }
 
-#Balance {
+#Balance, #RecvAddress {
+	font-weight: bold;
+}
+
+#NewAddress, #NewMasterKey {
 	font-weight: bold;
 }
 
@@ -39,12 +55,9 @@ input {
 }
 
 .bottom-btn {
-
-	//margin-left: 40%;
-	//margin-right: 40%;
 	margin-top: 30px;
+	margin-bottom: 20px;
 	text-align: center;
-
 }
 
 .footer {

@@ -8,9 +8,18 @@ function firstConnect(response,success)
 	{
 		$('#status').text(JSON.stringify(response));
 		
-		rpc.fetch_data('master',getMaster);
+		if(response.result.value)
+		{
+			rpc.data_fetch('MasterKey',getMaster);
+		}else
+		{
+			ncc.displayScreen('WelcomeScreen');
+			rpc.data_store('hasRun','1');	
+		}
 		
-	}else $('#error').text('No response from server. Please check if it is running.');
+		
+		
+	}else ncc.serverdown();
 };
 
 function getMaster(response,success) 
@@ -19,15 +28,26 @@ function getMaster(response,success)
 	{
 		$('#status').text(JSON.stringify(response));
 		
-		ncc.displayScreen('LoginScreen');
+		if(response.result.value)
+		{
+			ncc.masterKey=response.result.value;
+			$("#MasterKey").val(ncc.masterKey);
+			
+			rpc.wallet_accounts(ncc.masterKey,ncc.loginResponse);
+		}else
+		{
+			ncc.displayScreen('LoginScreen');
+		}
 		
-	}else $('#error').text('No response from server. Please check if it is running.');
+		
+		
+	}else ncc.serverdown();
 };	
 	
 	
 	
 $(document).ready(function(){
 	
-	rpc.fetch_data('hasRun',firstConnect);
+	rpc.data_fetch('hasRun',firstConnect);
 	
 });
