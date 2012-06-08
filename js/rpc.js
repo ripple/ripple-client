@@ -77,13 +77,31 @@ rpc.data_delete=function(key)
 	rpc.call(request,rpc.displayResult);
 }
 
-rpc.peers=function ()
+rpc.connect=function(ip,port)
+{
+	var request = {};
+	request.method = "connect";
+	request.params = [ip,port];
+	
+	rpc.call(request,rpc.displayResult);
+}
+
+rpc.unl_add=function(addr,note)
+{
+	var request = {};
+	request.method = "unl_add";
+	request.params = [addr,note];
+	
+	rpc.call(request,rpc.displayResult);
+}
+
+rpc.peers=function (callback)
 {
 	var request = {};
 	request.method = "peers";
 	request.params = [];
 	
-	rpc.call(request,rpc.displayResult);
+	rpc.call(request,callback);
 }
 
 rpc.stop=function ()
@@ -95,20 +113,20 @@ rpc.stop=function ()
 	rpc.call(request,rpc.displayResult);
 }
 
-rpc.ledger=function ()
+rpc.ledger=function(callback)
 {
 	var request = {};
 	request.method = "ledger";
 	request.params = [];
 	
-	rpc.call(request,rpc.displayResult);
+	rpc.call(request,callback);
 }
 
-rpc.unl_list=function ()
+rpc.unl_list=function(callback)
 {
 	var request = {};
 	request.method = "unl_list";
 	request.params = [];
 	
-	rpc.call(request,rpc.displayResult);
+	rpc.call(request,callback);
 }

@@ -117,6 +117,65 @@ ncc.loginResponse = function(response,success)
 	}else ncc.serverDown();
 }
 //////////
+ncc.addPeer = function()
+{
+	ip=$("#NewPeerIP").val();
+	port=$("#NewPeerPort").val();
+	rpc.connect(ip,port);
+}
+
+
+ncc.addUNLNode= function()
+{
+	addr=$("#NewUNLNodeAddr").val();
+	note=$("#NewUNLNodeNote").val();
+	rpc.unl_add(addr,note);
+}
+
+ncc.ledgerResponse = function(response,success)
+{
+	if(success)
+	{
+		$('#status').text(JSON.stringify(response));
+			
+	}else ncc.serverDown();
+}
+
+ncc.unlResponse = function(response,success)
+{
+	if(success)
+	{
+		$('#status').text(JSON.stringify(response));
+		if(response.result.unl)
+		{
+			for(var i=0; i<response.result.unl.length; i++)
+			{
+				$('#UNLTable').append('<tr><td>my data</td><td>more data</td></tr>');  // #PeerTable is actually the tbody element so this append works
+			}
+		}
+			
+	}else ncc.serverDown();
+}
+
+ncc.peersResponse = function(response,success)
+{
+	if(success)
+	{
+		$('#status').text(JSON.stringify(response));
+		if(response.result.peers)
+		{
+			for(var i=0; i<response.result.peers.length; i++)
+			{
+				$('#PeerTable').append('<tr><td>my data</td><td>more data</td></tr>');  // #PeerTable is actually the tbody element so this append works
+			}
+		}
+			
+	}else ncc.serverDown();
+}
+
+ncc.sendTabShown = function()
+{
+}
 
 ncc.send = function()
 {
@@ -183,15 +242,15 @@ $(document).ready(function(){
 	});
 	
 	var tab = document.getElementById( "LedgerTabButton");
-	tab.onTabShown = rpc.ledger;
+	tab.onTabShown = function(){ rpc.ledger(ncc.ledgerResponse); }; 
 	tab = document.getElementById( "SendTabButton");
-	tab.onTabShown = rpc.ledger;
+	tab.onTabShown = ncc.sendTabShown;
 	tab = document.getElementById( "HistoryTabButton");
 	tab.onTabShown = rpc.ledger;
 	tab = document.getElementById( "UNLTabButton");
-	tab.onTabShown = rpc.unl_list;
+	tab.onTabShown = function(){ rpc.unl_list(ncc.unlResponse); };  
 	tab = document.getElementById( "PeersTabButton");
-	tab.onTabShown = rpc.peers;
+	tab.onTabShown = function(){ rpc.peers(ncc.peersResponse); };  
 	
 	
 	$('a[data-toggle="tab"]').on('show', ncc.chageTabs);

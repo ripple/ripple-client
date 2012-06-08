@@ -39,7 +39,7 @@
 				    <li><a id="HistoryTabButton" href="#tabHistory" data-toggle="tab">Transaction History</a></li>
 				    <li><a id="LedgerTabButton" href="#tabLedger" data-toggle="tab">View Ledger</a></li>
 				    <li><a id="UNLTabButton" href="#tabUNL" data-toggle="tab">View UNL</a></li>
-				    <li><a id="PeersTabButton" href="#tabPeers" data-toggle="tab">View Peers</a></li>
+				    <li><a id="PeersTabButton" href="#tabPeers" data-toggle="tab">Peers</a></li>
 				  </ul>
 			 </div>
 			 <p>
@@ -58,8 +58,7 @@
 					<div class="span2">&nbsp;</div>
 					<fieldset class="span5">
 					<legend>Welcome</legend>
-					The first step is to get someone to send you Newcoins. 
-					Send them to: <span id="NewAddress">...</span>
+					Get someone to send you Newcoins to your Address: <span id="NewAddress">...</span>
 					<p><p>
 					Once some coins are sent to that address, you can claim this account with the following key: <span id="NewMasterKey">...</span>
 									
@@ -95,7 +94,7 @@
 				    
 				      	<div class="row">
 							<fieldset class="span6">
-							<legend>Send</legend>
+							<legend>Send Coins</legend>
 							<table>
 								<tr><td class="span2" >Amount:</td><td><input id="SendAmount" type="text" class="span2"> kNC</td></tr>
 								<tr><td class="span2" >Destination:</td><td><input id="SendDest" type="text" class="span4" ></td></tr>
@@ -112,12 +111,49 @@
 				    </div>
 				    <div class="tab-pane" id="tabLedger">
 				      <p>Ledger</p>
+				      <table id="LedgerTable"></table>
 				    </div>
 				    <div class="tab-pane" id="tabUNL">
-				      <p>UNL</p>
+				      <div class="row">
+					    	<fieldset class="span5">
+								<legend>Add Node</legend>
+								
+								<table>
+									<tr><td class="span2" >Domain or Key:</td><td><input id="NewUNLNodeKey" type="text" class="span4"></td></tr>
+									<tr><td class="span2" >Optional Note:</td><td><input id="NewUNLNodenote" type="text" ></td></tr>
+								</table>
+												
+								<div class="bottom-btn" > <button class="btn btn-info" onclick="ncc.addUNLNode()" >Add Node</button></div>
+							</fieldset>
+						</div>
+						<div class="row">
+				      		<fieldset class="span5">
+								<legend>Unique Node List</legend>
+								<table><tbody id="UNLTable"></tbody></table>
+							</fieldset>
+				 
+				      </div>
 				    </div>
 				    <div class="tab-pane" id="tabPeers">
-				      <p>Peers</p>
+				    	<div class="row">
+					    	<fieldset class="span5">
+								<legend>Add New Peer</legend>
+								If you are having connectivity issues you can manually add a peer below.
+								<table>
+									<tr><td class="span2" >IP:</td><td><input id="NewPeerIP" type="text" class="span2"></td></tr>
+									<tr><td class="span2" >Port:</td><td><input id="NewPeerPort" type="text" class="span2" value="5005" ></td></tr>
+								</table>
+												
+								<div class="bottom-btn" > <button class="btn btn-info" onclick="ncc.addPeer()" >Add New Peer</button></div>
+							</fieldset>
+						</div>
+						<div class="row">
+				      		<fieldset class="span5">
+								<legend>Peers</legend>
+								<table><tbody id="PeerTable"></tbody></table>
+							</fieldset>
+				 
+				      </div>
 				    </div>
 				  </div>	
 			</div>
@@ -132,6 +168,22 @@
 		<span><a href="http://newcoin.org/" target="_blank" >HELP</a></span> | <span> email one of us if you want some coins to use.</span> | <span><a href="http://lesswrong.com" target="_blank" >Think</a> about things.</span>
 	</div>
 	
+	
+<div class="modal hide" id="FundNewWalletModal">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">×</button>
+    <h3>Uncreated Account</h3>
+  </div>
+  <div class="modal-body">
+    <p>One fine body…</p>
+  </div>
+  <div class="modal-footer">
+    <a href="#" class="btn" data-dismiss="modal">Close</a>
+    <a href="#" class="btn btn-primary">Save changes</a>
+  </div>
+</div>
+
+
 
 		
 </div>
