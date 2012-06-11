@@ -177,7 +177,7 @@ ncc.ledgerResponse = function(response,success)
 			for(var i=0; i<accounts.length; i++)
 			{
 				var balance=ncc.addCommas( ((accounts[i].Balance)/BALANCE_DISPLAY_DIVISOR).toFixed(2) );
-				$('#LedgerTable').append('<tr><td>'+i+'</td><td>'+accounts[i].account+'</td><td>'+balance+'</td><td>'+accounts[i].Sequence+'</td></tr>');  
+				$('#LedgerTable').append('<tr><td>'+i+'</td><td>'+accounts[i].Account+'</td><td>'+balance+'</td><td>'+accounts[i].Sequence+'</td></tr>');  
 			}
 			
 			var trans=response.result.ledger.transactions;
@@ -186,7 +186,7 @@ ncc.ledgerResponse = function(response,success)
 			{
 				
 			//<tr><th>#</th><th>From ID</th><th>To ID</th><th>Amount</th><th>Fee</th><th>Type</th></tr><
-				$('#TransactionTable').append('<tr><td>'+i+'</td><td>'+trans[i].middle.sourceAccount+'</td><td>'+trans[i].middle.sourceAccount+'</td><td>'+accounts[i].Sequence+'</td></tr>');  // #PeerTable is actually the tbody element so this append works
+				$('#TransactionTable').append('<tr><td>'+i+'</td><td>'+trans[i].middle.sourceAccount+'</td><td>'+trans[i].inner.Destination+'</td><td>'+trans[i].middle.Fee+'</td><td>'+trans[i].middle.type+'</td></tr>');  // #PeerTable is actually the tbody element so this append works
 			}
 		}
 			
@@ -248,7 +248,7 @@ ncc.addCreditLine= function()
 ncc.send = function()
 {
 	toAccount=$.trim( $("#SendDest").val() );
-	amount=$.trim( $("#SendAmount").val() )*BALANCE_DISPLAY_DIVISOR;
+	amount=''+$.trim( $("#SendAmount").val() )*BALANCE_DISPLAY_DIVISOR;
 	
 	rpc.send(ncc.masterKey, ncc.accountID, toAccount, amount, ncc.sendResponse);
 }
