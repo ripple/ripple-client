@@ -19,7 +19,7 @@ function firstConnect(response,success)
 		
 		
 		
-	}else ncc.serverdown();
+	}else ncc.serverDown();
 };
 
 function getMaster(response,success) 
@@ -32,6 +32,7 @@ function getMaster(response,success)
 		{
 			ncc.masterKey=response.result.value;
 			$("#MasterKey").val(ncc.masterKey);
+			$('#InfoMasterKey').text(ncc.masterKey);
 			
 			rpc.wallet_accounts(ncc.masterKey,ncc.loginResponse);
 		}else
@@ -41,7 +42,7 @@ function getMaster(response,success)
 		
 		
 		
-	}else ncc.serverdown();
+	}else ncc.serverDown();
 };	
 	
 	

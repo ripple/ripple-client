@@ -9,6 +9,10 @@ a:hover
 	text-decoration: none;
 }
 
+.row {
+    margin-left: 0px;
+}
+
 .top-status {
 	float:right;
 	clear: right;
@@ -24,19 +28,44 @@ a:hover
 	font-weight: bold;
 }
 
-#NewAddress, #NewMasterKey {
+#NewAddress, #NewMasterKey, #InfoMasterKey {
 	font-weight: bold;
 }
 
 .ncc-nav {
-	margin-top: 20px;
+	//margin-top: 10px;
+	margin-left: 10px;
+}
+
+.dataTable td {
+	padding: 10px;
+	border-right: 1px solid;
+	border-left: 1px solid;
+}
+
+.dataTable tr {
+	border-bottom: 1px solid;
+}
+
+.containerFrame {
+
+	padding: 10px;
+	//background: #C7EBD8;
+	//background: #EDEDCE;
+	border: 1px solid #79B394;
+	border-radius: 8px 8px 8px 8px;
+	-moz-box-shadow: 0 0 6px rgba(0,0,0,.1);
+	-webkit-box-shadow: 0 0 6px rgba(0,0,0,.1);
+	box-shadow: 0 0 6px rgba(0,0,0,.1);
+
 }
 
 fieldset {
 	padding: 2em;
 	margin: 0 0 1em 0;
-	border: 1px solid #e6e6e6;
-	background: #f3f3f3;
+	border: 1px solid #888888;
+	border-radius: 4px 4px 4px 4px;
+	background: #fafafa;
 }
 
 legend {
@@ -45,7 +74,8 @@ legend {
 	
 	margin-bottom: 0;	
 	padding: .5em 1em;
-	border: 1px solid #e6e6e6;
+	border: 1px solid #888888;
+	border-radius: 4px 4px 4px 4px;
 	background: #fff;
 	font-size: 16px;
 }

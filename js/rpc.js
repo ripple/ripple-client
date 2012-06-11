@@ -117,7 +117,7 @@ rpc.ledger=function(callback)
 {
 	var request = {};
 	request.method = "ledger";
-	request.params = [];
+	request.params = ["lastclosed","full"];
 	
 	rpc.call(request,callback);
 }
