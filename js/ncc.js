@@ -28,8 +28,10 @@ ncc.checkError = function(response)
 	{
 		errorStr=response.error;
 	}
-	
-	if(response.result.error)
+	if(response.result.error_message)
+	{
+		errorStr+=' '+response.result.error_message;
+	}else if(response.result.error)
 	{
 		errorStr+=' '+response.result.error;
 	}
@@ -158,7 +160,7 @@ ncc.addPeer = function()
 
 ncc.addUNLNode= function()
 {
-	addr=$.trim( $("#NewUNLNodeAddr").val());
+	addr=$.trim( $("#NewUNLNodeKey").val());
 	note=$.trim( $("#NewUNLNodeNote").val());
 	rpc.unl_add(addr,note);
 }
@@ -186,7 +188,7 @@ ncc.ledgerResponse = function(response,success)
 			{
 				
 			//<tr><th>#</th><th>From ID</th><th>To ID</th><th>Amount</th><th>Fee</th><th>Type</th></tr><
-				$('#TransactionTable').append('<tr><td>'+i+'</td><td>'+trans[i].middle.sourceAccount+'</td><td>'+trans[i].inner.Destination+'</td><td>'+trans[i].middle.Fee+'</td><td>'+trans[i].middle.type+'</td></tr>');  // #PeerTable is actually the tbody element so this append works
+				$('#TransactionTable').append('<tr><td>'+i+'</td><td>'+trans[i].middle.SourceAccount+'</td><td>'+trans[i].inner.Destination+'</td><td>'+trans[i].inner.Amount+'</td><td>'+trans[i].middle.Fee+'</td><td>'+trans[i].middle.type+'</td></tr>');  // #PeerTable is actually the tbody element so this append works
 			}
 		}
 			
@@ -203,9 +205,10 @@ ncc.unlResponse = function(response,success)
 		if(response.result.unl)
 		{
 			$('#UNLTable').empty();
+			var unl=response.result.unl;
 			for(var i=0; i<response.result.unl.length; i++)
 			{
-				$('#UNLTable').append('<tr><td>my data</td><td>more data</td></tr>');  // #PeerTable is actually the tbody element so this append works
+				$('#UNLTable').append('<tr><td>'+i+'</td><td>'+unl[i].publicKey+'</td><td>'+unl[i].comment+'</td></tr>');  // #PeerTable is actually the tbody element so this append works
 			}
 		}
 			

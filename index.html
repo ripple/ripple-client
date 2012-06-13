@@ -27,7 +27,7 @@
 	<div class="row containerFrame">
 		<div class="row">
 			<div class="top-status"><span id="ClientState">Starting...</span> Balance: <span id="Balance">--</span> NC</div>
-			<div class="top-status">Your receiving address: <span id="RecvAddress">none</span></div>
+			<div class="top-status">Your address: <span id="RecvAddress">none</span></div>
 			<h1>Newcoin Client: Barely Alpha</h1>
 				<hr>
 		</div>
@@ -163,7 +163,7 @@
 									
 									<table>
 										<tr><td class="span2" >Domain or Key:</td><td><input id="NewUNLNodeKey" type="text" class="span4"></td></tr>
-										<tr><td class="span2" >Optional Note:</td><td><input id="NewUNLNodenote" type="text" ></td></tr>
+										<tr><td class="span2" >Optional Note:</td><td><input id="NewUNLNodeNote" type="text" ></td></tr>
 									</table>
 													
 									<div class="bottom-btn" > <button class="btn btn-info" onclick="ncc.addUNLNode()" >Add Node</button></div>
@@ -172,7 +172,7 @@
 							<div class="row">
 					      		<fieldset class="span5">
 									<legend>Unique Node List</legend>
-									<table class="dataTable"><tbody id="UNLTable"></tbody></table>
+									<table class="dataTable"><tr><th>#</th><th>Hanko</th><th>Comment</th></tr><tbody id="UNLTable"></tbody></table>
 								</fieldset>
 					 
 					      </div>
@@ -184,7 +184,7 @@
 									If you are having connectivity issues you can manually add a peer below.
 									<table>
 										<tr><td class="span2" >IP:</td><td><input id="NewPeerIP" type="text" class="span2"></td></tr>
-										<tr><td class="span2" >Port:</td><td><input id="NewPeerPort" type="text" class="span2" value="5005" ></td></tr>
+										<tr><td class="span2" >Port:</td><td><input id="NewPeerPort" type="text" class="span2" value="51235" ></td></tr>
 									</table>
 													
 									<div class="bottom-btn" > <button class="btn btn-info" onclick="ncc.addPeer()" >Add New Peer</button></div>
