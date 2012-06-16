@@ -7,13 +7,18 @@
     
     
     <script src="js/jquery.js" language="javascript"></script>
-    <script src="config.js" language="javascript"></script>
     <script src="js/jquery-ui.js" language="javascript"></script>
     <script src="js/bootstrap.js" language="javascript"></script>
     <script src="js/bootstrap-tab.js" language="javascript"></script>
     <script type="text/javascript" src="js/easyXDM.min.js"></script>
     <script src="js/json.js" language="javascript"></script>
+    
+    <script src="config.js" language="javascript"></script>
+    <script src="js/dataStore.js" language="javascript"></script>
     <script src="js/ncc.js" language="javascript"></script>
+    <script src="js/options.js" language="javascript"></script>
+    <script src="js/ledger.js" language="javascript"></script>
+    <script src="js/unl.js" language="javascript"></script>
     <script src="js/rpc.js" language="javascript"></script>
     <script src="js/startup.js" language="javascript"></script>
     
@@ -92,6 +97,36 @@
 					</div>
 				</div>
 				
+				<div id="OptionsScreen" class="screen">
+					<div class="row">
+						<div class="span2">&nbsp;</div>
+						<fieldset class="span6">
+						<legend>Options</legend>
+						<table>
+							<tr><td class="span2" >Server IP</td><td><input id="ServerIPOption" type="text"></td></tr>
+							<tr><td class="span2" >Server Port</td><td><input id="ServerPortOption" type="text" value="6561" ></td></tr>
+						</table>
+						
+						<div class="bottom-btn" > 
+							<button class="btn btn-large btn-success" onclick="optionScreen.save()" >Save options</button> 
+							<button class="btn btn-large btn-error" onclick="optionScreen.cancel()" >Cancel</button></div>
+						</fieldset>
+					</div>
+				</div>
+				
+				<div id="NoServerScreen" class="screen">
+					<div class="row">
+						<div class="span2">&nbsp;</div>
+						<fieldset class="span6">
+						<legend>Server Down?</legend>
+						Couldn't connect with the server. Please make sure it is running and try again.
+						
+						<div class="bottom-btn" > 
+							<button class="btn btn-large btn-success" onclick="startUp.start()" >Try Again</button></div>
+						</fieldset>
+					</div>
+				</div>
+				
 				<div id="HomeScreen" class="screen">
 					
 					  <div class="tab-content">
@@ -146,6 +181,14 @@
 					      <div class="row">
 						    	<fieldset class="span5">
 									<legend>Ledger</legend>
+										<table class="infoTable" >
+											<tr><td>Hash:</td><td id="LedgerInfoHash"></td></tr>
+											<tr><td>Parent Hash:</td><td id="LedgerInfoParentHash"></td></tr>
+											<tr><td>Ledger Number:</td><td id="LedgerInfoNumber"></td></tr>
+											<tr><td>Total Coins:</td><td id="LedgerInfoTotalCoins"></td></tr>
+											<tr><td>Date:</td><td id="LedgerInfoDate"></td></tr>
+											<tr><td>State:</td><td id="LedgerInfoState"></td></tr>
+										</table>
 					      				<table class="dataTable" ><tr><th>#</th><th>Account ID</th><th>Balance</th><th>Sequence #</th></tr><tbody id="LedgerTable"></tbody></table>
 					      </fieldset>
 							</div>
@@ -172,7 +215,7 @@
 							<div class="row">
 					      		<fieldset class="span5">
 									<legend>Unique Node List</legend>
-									<table class="dataTable"><tr><th>#</th><th>Hanko</th><th>Comment</th></tr><tbody id="UNLTable"></tbody></table>
+									<table class="dataTable"><tr><th>#</th><th>Hanko</th><th>Comment</th><th></th></tr><tbody id="UNLTable"></tbody></table>
 								</fieldset>
 					 
 					      </div>
@@ -239,7 +282,10 @@
 		
 	</div> <!-- Containerframe end -->
 	<div class="footer">
-			<span><a href="http://newcoin.org/" target="_blank" >HELP</a></span> | <span> email one of us if you want some coins to use.</span> | <span><a href="http://lesswrong.com" target="_blank" >Think</a> about things.</span>
+			<span><a href="http://newcoin.org/" target="_blank" >HELP</a></span> | 
+			<span> email one of us if you want some coins to use.</span> | 
+			<span><a href="http://lesswrong.com" target="_blank" >Think</a> about things.</span> | 
+			<span id="ServerDisplay">...</span> <a onclick="optionScreen.show()">change</a>
 		</div>
 		
 </div>

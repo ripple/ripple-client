@@ -1,4 +1,9 @@
 var rpc=[];
+rpc.reload = function()
+{
+	rpc.url="http://"+SERVER_IP+":"+SERVER_PORT;
+}
+
 rpc.url="http://"+SERVER_IP+":"+SERVER_PORT;
 
 rpc.displayResult = function(response,success) 
@@ -91,6 +96,15 @@ rpc.unl_add=function(addr,note)
 	var request = {};
 	request.method = "unl_add";
 	request.params = [addr,note];
+	
+	rpc.call(request,rpc.displayResult);
+}
+
+rpc.unl_delete=function(addr)
+{
+	var request = {};
+	request.method = "unl_delete";
+	request.params = [addr];
 	
 	rpc.call(request,rpc.displayResult);
 }

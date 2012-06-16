@@ -46,6 +46,15 @@ a:hover
 .dataTable tr {
 	border-bottom: 1px solid;
 }
+.infoTable 
+{
+	margin-bottom: 20px;
+} 
+
+.infoTable td {
+	padding: 10px;
+	border: 1px solid;
+}
 
 .containerFrame {
 
