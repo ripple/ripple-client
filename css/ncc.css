@@ -37,6 +37,16 @@ a:hover
 	margin-left: 10px;
 }
 
+.top-msg
+{
+	margin-top: 5px;
+	margin-bottom: 10px;
+	text-align:center;
+	//color: white;
+	font-size: 18px;
+	font-weight: bold;
+}
+
 .dataTable td {
 	padding: 10px;
 	border-right: 1px solid;

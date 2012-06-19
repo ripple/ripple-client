@@ -37,6 +37,15 @@ rpc.send=function(key,fromAccount,toAccount,amount,callback)
 	rpc.call(request,callback);
 }
 
+rpc.server_info=function(callback)
+{
+	var request = {};
+	request.method = "server_info";
+	request.params = [];
+	
+	rpc.call(request,callback);
+}
+
 rpc.wallet_propose=function(callback)
 {
 	var request = {};

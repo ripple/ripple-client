@@ -112,6 +112,28 @@ ncc.addCommas= function(nStr)
 
 ///////////////////////////
 
+ncc.infoTabShown = function()
+{
+	rpc.server_info(ncc.infoResponse);
+	
+}
+
+									
+ncc.infoResponse  = function(response,success)
+{
+	if(success)
+	{
+		ncc.checkError(response);
+		
+		if(response.result.info)
+		{
+			$('#InfoServerState').text( response.result.info.serverState );
+			$('#InfoPublicKey').text( response.result.info.validationPKey );
+		}
+		
+	}else ncc.serverDown();
+}			
+
 ncc.login = function()
 {
 	ncc.masterKey=$.trim( $("#MasterKey").val() );
@@ -284,7 +306,7 @@ $(document).ready(function(){
 	tab.onTabShown = function(){ rpc.peers(ncc.peersResponse); };
 	
 	tab = document.getElementById( "InfoTabButton");
-	tab.onTabShown = ncc.nop;  
+	tab.onTabShown = ncc.infoTabShown;  
 	
 	
 	$('a[data-toggle="tab"]').on('show', ncc.chageTabs);

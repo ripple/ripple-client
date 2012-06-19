@@ -29,11 +29,12 @@
 <p>
 
 <div class="container">
+	<div class="top-msg">Alpha! This money is even less real than normal. The ledger will be wiped. Don't get attached to your balance.</div>
 	<div class="row containerFrame">
 		<div class="row">
 			<div class="top-status"><span id="ClientState">Starting...</span> Balance: <span id="Balance">--</span> NC</div>
 			<div class="top-status">Your address: <span id="RecvAddress">none</span></div>
-			<h1>Newcoin Client: Barely Alpha</h1>
+			<h1>Newcoin Client</h1>
 				<hr>
 		</div>
 		
@@ -49,7 +50,7 @@
 					    <li><a id="LedgerTabButton" href="#tabLedger" data-toggle="tab">View Ledger</a></li>
 					    <li><a id="UNLTabButton" href="#tabUNL" data-toggle="tab">View UNL</a></li>
 					    <li><a id="PeersTabButton" href="#tabPeers" data-toggle="tab">Peers</a></li>
-					    <li><a id="InfoTabButton" href="#tabInfo" data-toggle="tab">Account Info</a></li>
+					    <li><a id="InfoTabButton" href="#tabInfo" data-toggle="tab">Info</a></li>
 					  </ul>
 				 </div>
 				 <p>
@@ -245,7 +246,9 @@
 					    	<div class="row">
 						    	<fieldset class="span5">
 									<legend>Info</legend>
-									Master Key: <span id="InfoMasterKey">...</span>
+									Master Key: <span id="InfoMasterKey">...</span><p>
+									Server State: <span id="InfoServerState">...</span><p>
+									Validating Public Key: <span id="InfoPublicKey">...</span>
 								</fieldset>
 							</div>
 							
