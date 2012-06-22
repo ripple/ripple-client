@@ -6,10 +6,10 @@ var startUp={}
 startUp.start=function()
 {
 	rpc.data_fetch('hasRun',startUp.firstConnect);
-	$('#status').text("Connecting to: "+SERVER_IP+' '+SERVER_PORT);
+	$('#status').text("Connecting to: "+SERVER_IP+' '+SERVER_RPC_PORT);
 	$('#error').text('');
 	
-	$('#ServerDisplay').text("Connecting to: "+SERVER_IP+' '+SERVER_PORT);
+	$('#ServerDisplay').text("Connecting to: "+SERVER_IP+' '+SERVER_RPC_PORT);
 }
 
 startUp.firstConnect= function(response,success) 

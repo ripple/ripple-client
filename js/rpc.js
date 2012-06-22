@@ -1,10 +1,10 @@
 var rpc=[];
 rpc.reload = function()
 {
-	rpc.url="http://"+SERVER_IP+":"+SERVER_PORT;
+	rpc.url="http://"+SERVER_IP+":"+SERVER_RPC_PORT;
 }
 
-rpc.url="http://"+SERVER_IP+":"+SERVER_PORT;
+rpc.url="http://"+SERVER_IP+":"+SERVER_RPC_PORT;
 
 rpc.displayResult = function(response,success) 
 {

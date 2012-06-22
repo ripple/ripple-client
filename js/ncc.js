@@ -313,5 +313,7 @@ $(document).ready(function(){
 	
 	startUp.start();
 	
+	server.connect();
+	
 });
 
