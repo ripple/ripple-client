@@ -9,8 +9,10 @@ rpc.url="http://"+SERVER_IP+":"+SERVER_RPC_PORT;
 rpc.displayResult = function(response,success) 
 {
 	if(success)
-		$('#status').text(JSON.stringify(response));
-	else $('#error').text('No response from server. Please check if it is running.');
+	{
+		if(!ncc.checkError(response))
+			$('#status').text(JSON.stringify(response));
+	}else $('#error').text('No response from server. Please check if it is running.');
 };
 
 rpc.call =function(request,callback)
@@ -66,29 +68,38 @@ rpc.wallet_accounts=function(key,callback)
 
 rpc.data_fetch=function (key,callback)
 {
-	var request = {};
-	request.method = "data_fetch";
-	request.params = [key];
-	
-	rpc.call(request,callback);
+	if(ncc.admin)
+	{
+		var request = {};
+		request.method = "data_fetch";
+		request.params = [key];
+		
+		rpc.call(request,callback);
+	}
 }
 
 rpc.data_store=function(key,value)
 {
-	var request = {};
-	request.method = "data_store";
-	request.params = [key,value];
-	
-	rpc.call(request,rpc.displayResult);
+	if(ncc.admin)
+	{
+		var request = {};
+		request.method = "data_store";
+		request.params = [key,value];
+		
+		rpc.call(request,rpc.displayResult);
+	}
 }
 
 rpc.data_delete=function(key)
 {
-	var request = {};
-	request.method = "data_delete";
-	request.params = [key];
-	
-	rpc.call(request,rpc.displayResult);
+	if(ncc.admin)
+	{
+		var request = {};
+		request.method = "data_delete";
+		request.params = [key];
+		
+		rpc.call(request,rpc.displayResult);
+	}
 }
 
 rpc.connect=function(ip,port)

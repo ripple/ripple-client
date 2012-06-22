@@ -15,6 +15,7 @@ ncc.masterKey='';
 ncc.accountID='';
 ncc.accounts=[];
 ncc.balance=0;
+ncc.admin=false;
 ncc.dataStore=dataStoreOptions[ DATA_STORE ];
 
 ncc.serverDown = function()
@@ -24,6 +25,7 @@ ncc.serverDown = function()
 
 ncc.checkError = function(response)
 {
+	var ret=false;
 	var errorStr='';
 	if(response.error)
 	{
@@ -31,14 +33,17 @@ ncc.checkError = function(response)
 	}
 	if(response.result.error_message)
 	{
+		ret=true;
 		errorStr+=' '+response.result.error_message;
 	}else if(response.result.error)
 	{
+		ret=true;
 		errorStr+=' '+response.result.error;
 	}
 	
 	
 	$('#error').text(errorStr);
+	return ret;
 }
 
 ncc.displayScreen =function(screenName)
