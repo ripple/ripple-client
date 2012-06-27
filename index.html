@@ -22,6 +22,7 @@
     <script src="js/unl.js" language="javascript"></script>
     <script src="js/rpc.js" language="javascript"></script>
     <script src="js/startup.js" language="javascript"></script>
+    <script src="js/feed.js" language="javascript"></script>
     
 <title>Newcoin Client</title>
 </head>
@@ -52,6 +53,7 @@
 					    <li><a id="UNLTabButton" href="#tabUNL" data-toggle="tab">View UNL</a></li>
 					    <li><a id="PeersTabButton" href="#tabPeers" data-toggle="tab">Peers</a></li>
 					    <li><a id="InfoTabButton" href="#tabInfo" data-toggle="tab">Info</a></li>
+					    <li><a id="FeedTabButton" href="#tabFeed" data-toggle="tab">Feed</a></li>
 					  </ul>
 				 </div>
 				 <p>
@@ -111,7 +113,7 @@
 						
 						<div class="bottom-btn" > 
 							<button class="btn btn-large btn-success" onclick="optionScreen.save()" >Save options</button> 
-							<button class="btn btn-large btn-error" onclick="optionScreen.cancel()" >Cancel</button></div>
+							<button class="btn btn-large btn-danger" onclick="optionScreen.cancel()" >Cancel</button></div>
 						</fieldset>
 					</div>
 				</div>
@@ -238,7 +240,7 @@
 							<div class="row">
 					      		<fieldset class="span5">
 									<legend>Peers</legend>
-									<table class="dataTable"><tr><th>#</th><th>IP</th><th>Port</th></tr><tbody id="PeerTable"></tbody></table>
+									<table class="dataTable"><tr><th>#</th><th>IP</th><th>Port</th><th>Version</th></tr><tbody id="PeerTable"></tbody></table>
 								</fieldset>
 					 
 					      </div>
@@ -250,6 +252,22 @@
 									Master Key: <span id="InfoMasterKey">...</span><p>
 									Server State: <span id="InfoServerState">...</span><p>
 									Validating Public Key: <span id="InfoPublicKey">...</span>
+								</fieldset>
+							</div>
+							
+					    	
+					    </div>
+					    <div class="tab-pane" id="tabFeed">
+					    	<div class="row">
+						    	<fieldset class="span5">
+									<legend>Feed</legend>
+									<table class="spaceTable" ><tr>
+									<td><input type="checkbox" onclick="feed.onLedgerClick(this)" /> Ledger</td>
+									<td><input type="checkbox" onclick="feed.onTransactionsClick(this)" /> Transactions</td>
+									<td><input type="checkbox" onclick="feed.onServerClick(this)" /> Server</td>
+									<td><button class="btn btn-danger" onclick="feed.clear()" >Clear Feed</button></td>
+									</tr></table>
+									<div id="FeedArea"></div>
 								</fieldset>
 							</div>
 							

@@ -15,6 +15,7 @@ startUp.start=function()
 		ncc.displayScreen('WelcomeScreen');
 	}
 	
+	server.connect();
 	
 	$('#status').text("Connecting to: "+SERVER_IP+' '+SERVER_RPC_PORT);
 	$('#error').text('');

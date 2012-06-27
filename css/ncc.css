@@ -47,6 +47,10 @@ a:hover
 	font-weight: bold;
 }
 
+.spaceTable {
+	width: 100%;
+}
+
 .dataTable td {
 	padding: 10px;
 	border-right: 1px solid;
@@ -112,4 +116,28 @@ input {
 .footer {
 	border-top: 1px solid #e6e6e6;
 	margin-top: 20px;
+}
+
+
+.ledgerFeedMsg, .unknownFeedMsg, .errorFeedMsg, .startFeedMsg, .stopFeedMsg {
+	border: 1px solid #888888;
+	margin: 5px;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+.ledgerFeedMsg {
+	background: #eeffee;
+}
+
+.startFeedMsg {
+	background: #aaffaa;
+}
+
+.unknownFeedMsg {
+	background: #ffeeee;
+}
+
+.errorFeedMsg {
+	background: #ffbbbb;
 }

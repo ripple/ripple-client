@@ -102,6 +102,18 @@ rpc.data_delete=function(key)
 	}
 }
 
+rpc.account_tx=function(accountID,callback)
+{
+	if(ncc.admin)
+	{
+		var request = {};
+		request.method = "account_tx";
+		request.params = [accountID,"0","999999"];
+		
+		rpc.call(request,callback);
+	}
+}
+
 rpc.connect=function(ip,port)
 {
 	var request = {};

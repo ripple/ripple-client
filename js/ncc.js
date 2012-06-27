@@ -90,6 +90,8 @@ ncc.processAccounts = function(accounts)
 	{
     	ncc.balance += accounts[i].Balance;
     	ncc.accountID= accounts[i].Account;
+    	server.accountSubscribe(accounts[i].Account);
+    	rpc.account_tx(accounts[i].Account);
     }
     
     ncc.balance=ncc.balance/BALANCE_DISPLAY_DIVISOR;
@@ -203,7 +205,7 @@ ncc.peersResponse = function(response,success)
 			var peers=response.result.peers;
 			for(var i=0; i<peers.length; i++)
 			{
-				$('#PeerTable').append('<tr><td>'+i+'</td><td>'+peers[i].ip+'</td><td>'+peers[i].port+'</td></tr>');  // #PeerTable is actually the tbody element so this append works
+				$('#PeerTable').append('<tr><td>'+i+'</td><td>'+peers[i].ip+'</td><td>'+peers[i].port+'</td><td>'+peers[i].version+'</td></tr>');  // #PeerTable is actually the tbody element so this append works
 			}
 		}
 			
@@ -242,6 +244,9 @@ ncc.sendResponse = function(response,success)
 		
 	}else ncc.serverDown();
 }
+
+
+
 
 ///////////
 
@@ -313,12 +318,13 @@ $(document).ready(function(){
 	tab = document.getElementById( "InfoTabButton");
 	tab.onTabShown = ncc.infoTabShown;  
 	
+	tab = document.getElementById( "FeedTabButton");
+	tab.onTabShown = feed.onShowTab;  
+	
 	
 	$('a[data-toggle="tab"]').on('show', ncc.chageTabs);
 	
 	startUp.start();
-	
-	server.connect();
 	
 });
 
