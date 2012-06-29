@@ -91,7 +91,7 @@ ncc.processAccounts = function(accounts)
     	ncc.balance += accounts[i].Balance;
     	ncc.accountID= accounts[i].Account;
     	server.accountSubscribe(accounts[i].Account);
-    	rpc.account_tx(accounts[i].Account);
+    	rpc.account_tx(accounts[i].Account,history.onHistoryResponse);
     }
     
     ncc.balance=ncc.balance/BALANCE_DISPLAY_DIVISOR;
@@ -99,6 +99,12 @@ ncc.processAccounts = function(accounts)
     $('#Balance').text(ncc.addCommas(ncc.balance));
     $('#RecvAddress').text(ncc.accountID);
     
+}
+
+ncc.displayAmount= function(str)
+{
+	str=str/BALANCE_DISPLAY_DIVISOR;
+	return(ncc.addCommas(str));
 }
 
 ncc.addCommas= function(nStr) 
@@ -160,7 +166,7 @@ ncc.loginResponse = function(response,success)
 	{
 		ncc.checkError(response);
 		
-		$('#status').text(JSON.stringify(response));
+		//$('#status').text(JSON.stringify(response));
 		if(response.result.accounts)
 		{
 			ncc.processAccounts(response.result.accounts);
@@ -198,7 +204,7 @@ ncc.peersResponse = function(response,success)
 	{
 		ncc.checkError(response);
 		
-		$('#status').text(JSON.stringify(response));
+		//$('#status').text(JSON.stringify(response));
 		if(response.result.peers)
 		{
 			$('#PeerTable').empty();
@@ -307,7 +313,7 @@ $(document).ready(function(){
 	tab.onTabShown = function(){ rpc.ledger(ledgerScreen.ledgerResponse); };
 	
 	tab = document.getElementById( "HistoryTabButton");
-	tab.onTabShown = ncc.nop;
+	tab.onTabShown = history.onShowTab;
 	
 	tab = document.getElementById( "UNLTabButton");
 	tab.onTabShown = function(){ rpc.unl_list(unlScreen.unlResponse); };

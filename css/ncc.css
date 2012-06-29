@@ -60,6 +60,10 @@ a:hover
 .dataTable tr {
 	border-bottom: 1px solid;
 }
+.smallFont {
+	font-size: 9px;
+}
+
 .infoTable 
 {
 	margin-bottom: 20px;

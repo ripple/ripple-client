@@ -19,7 +19,10 @@ server.handleMsg=function(msg)
 	var obj=jQuery.parseJSON( msg.data );
 	if(obj)
 	{
-		if(obj.type=="ledgerAccepted")
+		if(obj.type=="transactionProposed")
+		{
+			history.websocketMsg(obj);
+		}else if(obj.type=="ledgerAccepted")
 		{
 			str='<div class="ledgerFeedMsg">Accepted Ledger <strong>'+server.escape(obj.seq)+'</strong> hash:'+server.escape(obj.hash)+'</div>';
 		}else if(obj.type=="response")
@@ -73,10 +76,10 @@ server.unsubscribe=function(streamName)
 
 server.accountSubscribe=function(accountID)
 {
-	 "command" : "account_info_subscribe",
-  "accounts" : [ account_ids ]
+	// "command" : "account_info_subscribe",
+  //"accounts" : [ account_ids ]
 	
-	server.socket.send('{ "command" :  "account_info_subscribe", "accounts" : ['+streamName+'_subscribe" }');
+	//server.socket.send('{ "command" :  "account_info_subscribe", "accounts" : ['+streamName+'_subscribe" }');
 }
 
 
