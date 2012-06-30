@@ -23,7 +23,7 @@ server.handleMsg=function(msg)
 	{
 		if(obj.type=="account")
 		{
-			history.addTransaction(obj.transaction);
+			history.addTransaction(obj.transaction,true);
 		}else if(obj.type=="transaction")
 		{
 			var amount=ncc.displayAmount(server.escape(obj.transaction.inner.Amount));

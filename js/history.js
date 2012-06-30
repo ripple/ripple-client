@@ -24,7 +24,7 @@ history.onHistoryResponse=function(response,success)
 				$('#HistoryTable').empty();
 				for(var n=0; n<trans.length; n++)
 				{
-					history.addTransaction(trans[n]);
+					history.addTransaction(trans[n],false);
 				
 				}
 			}
@@ -36,11 +36,25 @@ history.onHistoryResponse=function(response,success)
 }
 
 
-history.addTransaction=function(trans)
+history.addTransaction=function(trans,adjust)
 {
 		var amount=ncc.displayAmount(trans.inner.Amount);
 		var str='<tr><td>'+trans.inLedger+'</td><td class="smallFont">'+trans.middle.SourceAccount+'</td><td class="smallFont">'+trans.inner.Destination+'</td><td>'+amount+'</td><td>'+trans.status+'</td>';
 		
 		$('#HistoryTable').prepend(str);
+		
+		if(adjust)
+		{
+			if(trans.middle.SourceAccount==ncc.accountID)
+			{
+				ncc.balance -= trans.inner.Amount;
+				ncc.balance -= trans.middle.Fee;
+				
+			}else if(trans.inner.Destination==ncc.accountID)
+			{
+				ncc.balance += trans.inner.Amount;
+			}
+			$('#Balance').text(ncc.displayAmount(ncc.balance));
+		}
 }
 

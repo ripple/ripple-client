@@ -1,11 +1,7 @@
 /*
-ClientState:
-	Starting...
-	Connected to server
-	Connected to network
-	Server Down
-	
-	these are kind of pointless. probably just report last serevr status msg here
+flash balance when it changes
+login capture enter key
+multiple accounts
 */
 
 var ncc={};
@@ -94,9 +90,7 @@ ncc.processAccounts = function(accounts)
     	rpc.account_tx(accounts[i].Account,history.onHistoryResponse);
     }
     
-    ncc.balance=ncc.balance/BALANCE_DISPLAY_DIVISOR;
-    
-    $('#Balance').text(ncc.addCommas(ncc.balance.toFixed(2)));
+    $('#Balance').text(ncc.displayAmount(ncc.balance));
     $('#RecvAddress').text(ncc.accountID);
     
 }
