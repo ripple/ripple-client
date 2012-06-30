@@ -82,10 +82,8 @@ server.unsubscribe=function(streamName)
 
 server.accountSubscribe=function(accountID)
 {
-	// "command" : "account_info_subscribe",
-  //"accounts" : [ account_ids ]
-	
-	server.socket.send('{ "command" :  "account_transaction_subscribe", "accounts" : ["'+accountID+'"] }');
+	if(accountID)
+		server.socket.send('{ "command" :  "account_transaction_subscribe", "accounts" : ["'+accountID+'"] }');
 }
 
 
