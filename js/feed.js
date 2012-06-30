@@ -26,10 +26,10 @@ feed.onTransactionsClick=function(ele)
 {
 	if(ele.checked)
 	{
-		server.subscribe("transactions");
+		server.subscribe("transaction");
 	}else
 	{
-		server.unsubscribe("transactions");
+		server.unsubscribe("transaction");
 	}
 }
 
@@ -42,4 +42,10 @@ feed.onServerClick=function(ele)
 	{
 		server.unsubscribe("server");
 	}
+}
+
+
+feed.addTransaction=function(obj)
+{
+	
 }

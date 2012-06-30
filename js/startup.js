@@ -27,7 +27,7 @@ startUp.firstConnect= function(response,success)
 {
 	if(success)
 	{
-		$('#status').text(JSON.stringify(response));
+		//$('#status').text(JSON.stringify(response));
 		
 		if(response.result.value)
 		{
@@ -49,7 +49,7 @@ startUp.getMaster=function(response,success)
 {
 	if(success)
 	{
-		$('#status').text(JSON.stringify(response));
+		//$('#status').text(JSON.stringify(response));
 		
 		if(response.result.value)
 		{

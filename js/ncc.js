@@ -96,7 +96,7 @@ ncc.processAccounts = function(accounts)
     
     ncc.balance=ncc.balance/BALANCE_DISPLAY_DIVISOR;
     
-    $('#Balance').text(ncc.addCommas(ncc.balance));
+    $('#Balance').text(ncc.addCommas(ncc.balance.toFixed(2)));
     $('#RecvAddress').text(ncc.accountID);
     
 }
@@ -243,11 +243,12 @@ ncc.sendResponse = function(response,success)
 {
 	if(success)
 	{
-		ncc.checkError(response);
-		
-		$('#status').text(JSON.stringify(response));
-		//ncc.displayScreen('HomeScreen');
-		
+		if(!ncc.checkError(response))
+		{
+			$('#status').text($("#SendAmount").val()+' NC Sent to '+$("#SendDest").val());
+			$("#SendDest").val('');
+			$("#SendAmount").val('');
+		}
 	}else ncc.serverDown();
 }
 

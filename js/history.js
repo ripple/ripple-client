@@ -24,10 +24,8 @@ history.onHistoryResponse=function(response,success)
 				$('#HistoryTable').empty();
 				for(var n=0; n<trans.length; n++)
 				{
-					var amount=ncc.displayAmount(trans[n].inner.Amount);
-					var str='<tr><td>'+n+'</td><td>'+trans[n].inLedger+'</td><td class="smallFont">'+trans[n].middle.SourceAccount+'</td><td class="smallFont">'+trans[n].inner.Destination+'</td><td>'+amount+'</td><td>'+trans[n].status+'</td>';
-					
-					$('#HistoryTable').prepend(str);
+					history.addTransaction(trans[n]);
+				
 				}
 			}
 			
@@ -38,8 +36,11 @@ history.onHistoryResponse=function(response,success)
 }
 
 
-history.websocketMsg=function(obj)
+history.addTransaction=function(trans)
 {
-	
+		var amount=ncc.displayAmount(trans.inner.Amount);
+		var str='<tr><td>'+trans.inLedger+'</td><td class="smallFont">'+trans.middle.SourceAccount+'</td><td class="smallFont">'+trans.inner.Destination+'</td><td>'+amount+'</td><td>'+trans.status+'</td>';
+		
+		$('#HistoryTable').prepend(str);
 }
 

@@ -15,13 +15,19 @@ server.escape=function(str)
 
 server.handleMsg=function(msg)
 {
+	//$('#status').text(msg.data);  
+	
 	var str='';
 	var obj=jQuery.parseJSON( msg.data );
 	if(obj)
 	{
-		if(obj.type=="transactionProposed")
+		if(obj.type=="account")
 		{
-			history.websocketMsg(obj);
+			history.addTransaction(obj.transaction);
+		}else if(obj.type=="transaction")
+		{
+			var amount=ncc.displayAmount(server.escape(obj.transaction.inner.Amount));
+			str='<div class="transFeedMsg">'+server.escape(obj.transaction.middle.SourceAccount)+' sent '+amount+'NC to '+server.escape(obj.transaction.inner.Destination)+'</div>';
 		}else if(obj.type=="ledgerAccepted")
 		{
 			str='<div class="ledgerFeedMsg">Accepted Ledger <strong>'+server.escape(obj.seq)+'</strong> hash:'+server.escape(obj.hash)+'</div>';
@@ -79,7 +85,7 @@ server.accountSubscribe=function(accountID)
 	// "command" : "account_info_subscribe",
   //"accounts" : [ account_ids ]
 	
-	//server.socket.send('{ "command" :  "account_info_subscribe", "accounts" : ['+streamName+'_subscribe" }');
+	server.socket.send('{ "command" :  "account_transaction_subscribe", "accounts" : ["'+accountID+'"] }');
 }
 
 

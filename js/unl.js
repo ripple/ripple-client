@@ -19,7 +19,7 @@ unlScreen.unlResponse = function(response,success)
 	{
 		ncc.checkError(response);
 		
-		$('#status').text(JSON.stringify(response));
+		//$('#status').text(JSON.stringify(response));
 		if(response.result.unl)
 		{
 			$('#UNLTable').empty();
