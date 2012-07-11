@@ -32,11 +32,11 @@ rpc.call =function(request,callback)
 }
 
 
-rpc.send=function(key,fromAccount,toAccount,amount,callback)
+rpc.send=function(key,fromAccount,toAccount,amount,currency,callback)
 {
 	var request = {};
 	request.method = "send";
-	request.params = [key,fromAccount,toAccount,amount];
+	request.params = [key,fromAccount,toAccount,amount,currency];
 	
 	rpc.call(request,callback);
 }
@@ -175,6 +175,26 @@ rpc.unl_list=function(callback)
 	var request = {};
 	request.method = "unl_list";
 	request.params = [];
+	
+	rpc.call(request,callback);
+}
+
+rpc.ripple_lines_get=function(accountID,callback)
+{
+	
+	var request = {};
+	request.method = "ripple_lines_get";
+	request.params = [accountID];
+	
+	rpc.call(request,callback);
+}
+
+rpc.ripple_line_set=function(key, fromAccountID, toAccountID, amount,currency,callback)
+{
+	
+	var request = {};
+	request.method = "ripple_line_set";
+	request.params = [key, fromAccountID, toAccountID, amount, currency];
 	
 	rpc.call(request,callback);
 }

@@ -23,6 +23,6 @@ optionScreen.save = function()
 
 optionScreen.cancel = function()
 {
-	if(ncc.masterKey) ncc.displayScreen('OptionsScreen');
+	if(ncc.masterKey) ncc.displayScreen('HomeScreen');
 	else ncc.displayScreen('LoginScreen');
 }

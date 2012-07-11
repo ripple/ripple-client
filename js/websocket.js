@@ -15,7 +15,7 @@ server.escape=function(str)
 
 server.handleMsg=function(msg)
 {
-	//$('#status').text(msg.data);  
+	$('#status').text(msg.data);  
 	
 	var str='';
 	var obj=jQuery.parseJSON( msg.data );

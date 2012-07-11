@@ -33,6 +33,17 @@ feed.onTransactionsClick=function(ele)
 	}
 }
 
+feed.onRippleClick=function(ele)
+{
+	if(ele.checked)
+	{
+		server.subscribe("ripple");
+	}else
+	{
+		server.unsubscribe("ripple");
+	}
+}
+
 feed.onServerClick=function(ele)
 {
 	if(ele.checked)

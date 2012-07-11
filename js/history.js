@@ -39,7 +39,7 @@ history.onHistoryResponse=function(response,success)
 history.addTransaction=function(trans,adjust)
 {
 		var amount=ncc.displayAmount(trans.inner.Amount);
-		var str='<tr><td>'+trans.inLedger+'</td><td class="smallFont">'+trans.middle.SourceAccount+'</td><td class="smallFont">'+trans.inner.Destination+'</td><td>'+amount+'</td><td>'+trans.status+'</td>';
+		var str='<tr><td>'+trans.inLedger+'</td><td class="smallFont">'+trans.middle.SourceAccount+'</td><td class="smallFont">'+trans.inner.Destination+'</td><td>'+amount+'</td><td>'+trans.status+'</td></tr>';
 		
 		$('#HistoryTable').prepend(str);
 		

@@ -11,41 +11,46 @@ ledgerScreen.ledgerResponse = function(response,success)
 		
 		if(response.result.ledger && response.result.ledger.accountState)
 		{
-			$('#LedgerInfoHash').text(response.result.ledger.hash);
-			$('#LedgerInfoParentHash').text(response.result.ledger.parentHash);
-			$('#LedgerInfoNumber').text(response.result.ledger.seqNum);
-			var total=ncc.displayAmount(response.result.ledger.totalCoins);
-			$('#LedgerInfoTotalCoins').text(total);
-			$('#LedgerInfoDate').text(response.result.ledger.closeTime);
-			
-			stateStr='';
-			if(response.result.ledger.accepted) stateStr += 'accepted ';
-			else stateStr += 'unaccepted ';
-			if(response.result.ledger.closed) stateStr += 'closed ';
-			else stateStr += 'open ';
-			
-			$('#LedgerInfoState').text(stateStr);
-		
-			var accounts=response.result.ledger.accountState;
-			$('#LedgerTable').empty();
-			for(var i=0; i<accounts.length; i++)
-			{
-				var row=ledgerScreen.makeRow(accounts[i],i);
-				$('#LedgerTable').append(row);  
-			}
-			
-			var trans=response.result.ledger.transactions;
-			$('#TransactionTable').empty();
-			for(var i=0; i<trans.length; i++)
-			{
-				var amount=ncc.displayAmount(trans[i].inner.Amount);
-				var fee=ncc.addCommas( ((trans[i].middle.Fee)/BALANCE_DISPLAY_DIVISOR).toFixed(4) );
-			//<tr><th>#</th><th>From ID</th><th>To ID</th><th>Amount</th><th>Fee</th><th>Type</th></tr><
-				$('#TransactionTable').append('<tr><td>'+i+'</td><td>'+trans[i].middle.SourceAccount+'</td><td>'+trans[i].inner.Destination+'</td><td>'+amount+'</td><td>'+fee+'</td><td>'+trans[i].middle.type+'</td></tr>');  // #PeerTable is actually the tbody element so this append works
-			}
+			ledgerScreen.addLedger(response.result.ledger);
 		}
 			
 	}else ncc.serverDown();
+}
+
+ledgerScreen.addLedger=function(ledger)
+{
+	$('#LedgerInfoHash').text(ledger.hash);
+	$('#LedgerInfoParentHash').text(ledger.parentHash);
+	$('#LedgerInfoNumber').text(ledger.seqNum);
+	var total=ncc.displayAmount(ledger.totalCoins);
+	$('#LedgerInfoTotalCoins').text(total);
+	$('#LedgerInfoDate').text(ledger.closeTime);
+	
+	stateStr='';
+	if(ledger.accepted) stateStr += 'accepted ';
+	else stateStr += 'unaccepted ';
+	if(ledger.closed) stateStr += 'closed ';
+	else stateStr += 'open ';
+	
+	$('#LedgerInfoState').text(stateStr);
+
+	var accounts=ledger.accountState;
+	$('#LedgerTable').empty();
+	for(var i=0; i<accounts.length; i++)
+	{
+		var row=ledgerScreen.makeRow(accounts[i],i);
+		$('#LedgerTable').append(row);  
+	}
+	
+	var trans=ledger.transactions;
+	$('#TransactionTable').empty();
+	for(var i=0; i<trans.length; i++)
+	{
+		var amount=ncc.displayAmount(trans[i].inner.Amount);
+		var fee=ncc.addCommas( ((trans[i].middle.Fee)/BALANCE_DISPLAY_DIVISOR).toFixed(4) );
+	//<tr><th>#</th><th>From ID</th><th>To ID</th><th>Amount</th><th>Fee</th><th>Type</th></tr><
+		$('#TransactionTable').append('<tr><td>'+i+'</td><td>'+trans[i].middle.SourceAccount+'</td><td>'+trans[i].inner.Destination+'</td><td>'+amount+'</td><td>'+fee+'</td><td>'+trans[i].middle.type+'</td></tr>');  // #PeerTable is actually the tbody element so this append works
+	}
 }
 
 

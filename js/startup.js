@@ -57,7 +57,7 @@ startUp.getMaster=function(response,success)
 			$("#MasterKey").val(ncc.masterKey);
 			$('#InfoMasterKey').text(ncc.masterKey);
 			
-			rpc.wallet_accounts(ncc.masterKey,ncc.loginResponse);
+			rpc.wallet_accounts(ncc.masterKey,loginScreen.loginResponse);
 		}else
 		{
 			ncc.displayScreen('LoginScreen');

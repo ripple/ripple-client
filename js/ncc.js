@@ -1,7 +1,16 @@
 /*
+show multiple balances
+ripple progress bar
+only fetch ripple lines when you start. then use websocket
+
+updated accepted transactions
+time stamp in feed
 flash balance when it changes
-login capture enter key
-multiple accounts
+update ledger page in real time
+tell them when they aren't connected by the websocket
+
+much later:
+	multiple accounts
 */
 
 var ncc={};
@@ -141,38 +150,7 @@ ncc.infoResponse  = function(response,success)
 	}else ncc.serverDown();
 }			
 
-ncc.login = function()
-{
-	ncc.masterKey=$.trim( $("#MasterKey").val() );
-	if($('#SaveMasterKey').is(':checked')) 
-	{
-		ncc.dataStore.save('MasterKey',ncc.masterKey);
-	}
-	
-	$('#InfoMasterKey').text(ncc.masterKey);
-	
-	rpc.wallet_accounts(ncc.masterKey,ncc.loginResponse);
-}
 
-ncc.loginResponse = function(response,success)
-{
-	if(success)
-	{
-		ncc.checkError(response);
-		
-		//$('#status').text(JSON.stringify(response));
-		if(response.result.accounts)
-		{
-			ncc.processAccounts(response.result.accounts);
-		}
-		
-		ncc.displayScreen('HomeScreen');
-		$('#NavTabs a[href="#tabSend"]').tab('show');
-		
-		$('#ClientState').text('Running');
-		
-	}else ncc.serverDown();
-}
 
 ncc.logout = function()
 {
@@ -216,21 +194,17 @@ ncc.sendTabShown = function()
 {
 }
 
-ncc.addCreditLine= function()
-{
-	account=$("#NewCreditAccount").val();
-	currency=$("#NewCreditCurrency").val();
-	max=$("#NewCreditMax").val();
-	
-	//rpc.ripple_set_line(account,currency,max);
-}
+
 
 ncc.send = function()
 {
 	toAccount=$.trim( $("#SendDest").val() );
-	amount=''+$.trim( $("#SendAmount").val() )*BALANCE_DISPLAY_DIVISOR;
 	
-	rpc.send(ncc.masterKey, ncc.accountID, toAccount, amount, ncc.sendResponse);
+	currency=$.trim( $("#SendCurrency").val() ).substring(0,3).toUpperCase();
+	if(currency=='XNS') amount=''+$.trim( $("#SendAmount").val() )*BALANCE_DISPLAY_DIVISOR;
+	else amount=''+$.trim( $("#SendAmount").val() );
+	
+	rpc.send(ncc.masterKey, ncc.accountID, toAccount, amount, currency, ncc.sendResponse);
 }
 
 ncc.sendResponse = function(response,success)
@@ -239,7 +213,8 @@ ncc.sendResponse = function(response,success)
 	{
 		if(!ncc.checkError(response))
 		{
-			$('#status').text($("#SendAmount").val()+' NC Sent to '+$("#SendDest").val());
+			currency=$.trim( $("#SendCurrency").val() ).substring(0,3).toUpperCase();
+			$('#status').text($("#SendAmount").val()+' '+currency+' Sent to '+$("#SendDest").val());
 			$("#SendDest").val('');
 			$("#SendAmount").val('');
 		}
@@ -302,7 +277,7 @@ $(document).ready(function(){
 	tab.onTabShown = ncc.sendTabShown;
 	
 	tab = document.getElementById( "RippleTabButton");
-	tab.onTabShown = ncc.nop;
+	tab.onTabShown = ripple.onShowTab;
 	
 	tab=document.getElementById( "LedgerTabButton");
 	tab.onTabShown = function(){ rpc.ledger(ledgerScreen.ledgerResponse); };
