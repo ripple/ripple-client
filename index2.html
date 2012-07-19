@@ -1,0 +1,358 @@
+<!doctype html>
+<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!-- Consider adding a manifest.appcache: h5bp.com/d/Offline -->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+	<meta charset="utf-8">
+	
+	
+	<title>Opencoin title</title>
+	<meta name="description" content="">
+	
+	<!-- Mobile viewport optimized: h5bp.com/viewport -->
+	<meta name="viewport" content="width=device-width">
+	
+	
+	<!-- CSS -->
+	<link rel="stylesheet" href="css/bootstrap.css">
+	<link href="css/bootstrap-responsive.css?1" rel="stylesheet">
+	<link href="css/ui-lightness/jquery-ui.css" rel="stylesheet">
+	<!-- Commented to prevent style override <link href="css/ncc.css" rel="stylesheet"> -->
+	
+	<link rel="stylesheet" href="css/style.css">
+	<!-- ENDS CSS -->
+	
+	<!-- GOOGLE FONTS -->
+	<link href='http://fonts.googleapis.com/css?family=Arvo:400,700' rel='stylesheet' type='text/css'>
+	
+	<!-- All JavaScript at the bottom, except this Modernizr build.
+	   Modernizr enables HTML5 elements & feature detects for optimal performance.
+	   Create your own custom Modernizr build: www.modernizr.com/download/ -->
+	<script src="js/modernizr-2.5.3.min.js"></script>
+</head>
+<body>
+	
+	
+	<!-- WRAPPER -->
+	<div class="wrapper">
+		
+		
+		<!-- HEADER -->
+		<header class="cf">
+			
+			
+			<!-- nav -->
+			<nav class="cf">
+				<div id="logo" class="cf">
+					<a href="index.html" ><img src="img/logo.png" alt="" /></a>
+				</div>
+			
+				<ul class="nav nav-tabs" id="NCCNav">
+				  <li><a href="#t-send"  data-toggle="tab">Send Money</a></li>
+				  <li><a href="#t-receive" data-toggle="tab">Receive Money</a></li>
+				  <li><a href="#t-ripple" data-toggle="tab">Ripple</a></li>
+				  <li><a href="#t-history" data-toggle="tab">History</a></li>
+				  <li><a href="#t-address" data-toggle="tab">Address Book</a></li>
+				  <li><a href="#t-advanced" data-toggle="tab">Advanced</a></li>
+				  <li class="secondary-tab pull-right"><a href="#" >Logout</a></li>
+				  <li class="secondary-tab pull-right"><a href="#" >Options</a></li>
+				</ul>
+			</nav>
+			<!-- ends nav -->
+			
+			
+			<!-- Status -->
+			<ul class="status-message">
+				<li class="heading">Status Message</li>
+				<li>27,677<span>USD</span></li>
+				<li>1,321<span>EUR</span></li>
+				<li>2,000<span>NC</span></li>
+			</ul>
+			<!-- ENDS status -->
+			
+		</header>
+		<!-- ENDS HEADER -->
+		
+		
+		
+		<!-- MAIN -->
+		<div role="main" id="main">
+			
+			
+				
+			<!-- tab-content -->
+			<div class="tab-content">
+				
+				<!-- SEND SECTION -->
+			<section class="tab-pane active" id="t-send">
+				<div class="heading">Send Money</div>
+				 <div class="page-content">
+				 
+				 	<p><strong>Pellentesque habitant morbi tristique senectus et netus </strong>et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed.</p>
+				 	
+				 	<form class="form-horizontal">
+					  <legend>Create a Link to receive Money</legend>
+					  <fieldset>
+					    <div class="control-group inline">
+					      <label class="control-label" for="input01">Ammount</label>
+					      <div class="controls">
+					        <input type="text" class="input-xlarge span3" id="input01">
+					        <select id="select01" class="span1">
+				                <option>NC</option>
+				                <option>EUR</option>
+				                <option>USD</option>
+				              </select>
+					      </div>
+					    </div>
+					    
+					    <div class="control-group">
+					      <label class="control-label" for="input02">To Account</label>
+					      <div class="controls">
+					        <input type="text" class="input-xlarge" id="input02">
+					        <p class="help-block">Supporting help text</p>
+					      </div>
+					    </div>
+					    
+					     <div class="control-group">
+				            <label class="control-label" for="optionsCheckbox">Checkbox</label>
+				            <div class="controls">
+				              <label class="checkbox">
+				                <input type="checkbox" id="optionsCheckbox" value="option1">
+				                Lorem ipsum
+				              </label>
+				            </div>
+				          </div>
+				          
+				          
+				       <div class="control-group">
+			            <label class="control-label" for="select01">Select list</label>
+			            <div class="controls">
+			              <select id="select01" class="span4">
+			                <option>something</option>
+			                <option>2</option>
+			                <option>3</option>
+			                <option>4</option>
+			                <option>5</option>
+			              </select>
+			            </div>
+			          </div>
+			          
+			          <div class="control-group">
+			            <label class="control-label" for="multiSelect">Multicon-select</label>
+			            <div class="controls">
+			              <select multiple="multiple" id="multiSelect" class="span4">
+			                <option>1</option>
+			                <option>2</option>
+			                <option>3</option>
+			                <option>4</option>
+			                <option>5</option>
+			              </select>
+			            </div>
+			          </div>
+			          
+			           <div class="control-group">
+			            <label class="control-label" for="fileInput">File input</label>
+			            <div class="controls">
+			              <input class="input-file" id="fileInput" type="file">
+			            </div>
+			          </div>
+			          <div class="control-group">
+			            <label class="control-label" for="textarea">Textarea</label>
+			            <div class="controls">
+			              <textarea class="input-xlarge" id="textarea" rows="3"></textarea>
+			            </div>
+			          </div>
+			         
+			          <div class="form-actions">
+			            <button type="submit" class="btn btn-warning">Save changes</button>
+			            
+			          </div>
+          
+					    
+					  </fieldset>
+					</form>
+
+				 </div>
+			</section>
+			<!-- ENDS SEND SECTION -->
+				
+				
+				<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+				
+				<!-- RECEIVE SECTION -->
+				<section class="tab-pane" id="t-receive">
+					<div class="heading">Receive Money</div>
+					 <div class="page-content">
+						 
+						
+	
+					 
+					 </div>
+				</section>
+				<!-- ENDS RECEIVE SECTION -->
+				
+				<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+				
+				
+				<!-- SEND RIPPLE -->
+				<section class="tab-pane" id="t-ripple">
+					<div class="heading">Ripple</div>
+					  <div class="page-content">
+						 
+						
+					 
+					 </div>
+				</section>
+				<!-- ENDS RIPPLE SECTION -->
+				
+				<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+				
+				
+				<!-- ADDRESS SECTION -->
+				<section  class="tab-pane" id="t-history">
+					<div class="heading">History</div>
+					  <div class="page-content">
+						 
+						 <table class="table table-striped">
+						  <thead>
+						    <tr>
+						      <th>#</th>
+						      <th>Account ID</th>
+						      <th>Balance</th>
+						      <th>Sequence</th>
+						    </tr>
+						  </thead>
+						  <tbody>
+						    <tr>
+						      <td>0</td>
+						      <td>i9igr2MHC9s5f1GkMmKsGb4iiQEm35FEwQ</td>
+						      <td>6,266</td>
+						      <td>21</td>
+						    </tr>
+						    <tr>
+						      <td>0</td>
+						      <td>i9igr2MHC9s5f1GkMmKsGb4iiQEm35FEwQ</td>
+						      <td>6,266</td>
+						      <td>21</td>
+						    </tr>
+						    <tr>
+						      <td>0</td>
+						      <td>i9igr2MHC9s5f1GkMmKsGb4iiQEm35FEwQ</td>
+						      <td>6,266</td>
+						      <td>21</td>
+						    </tr>
+						    <tr>
+						      <td>0</td>
+						      <td>i9igr2MHC9s5f1GkMmKsGb4iiQEm35FEwQ</td>
+						      <td>6,266</td>
+						      <td>21</td>
+						    </tr>
+						  </tbody>
+						</table>
+					 
+					 </div>
+				</section>
+				<!-- ENDS ADDRESS SECTION -->
+				
+				<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+				
+				
+				<!-- ADDRESS SECTION -->
+				<section  class="tab-pane" id="t-address">
+					<div class="heading">Address Book</div>
+					  <div class="page-content">
+						 
+						 <p><strong>Pellentesque habitant morbi tristique senectus et netus </strong>et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed.</p>
+					 <p>vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in </p>
+					 
+					 </div>
+				</section>
+				<!-- ENDS ADDRESS SECTION -->
+				
+				<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+				
+				
+				<!-- SEND ADVANCED -->
+				<section class="tab-pane" id="t-advanced">
+					<div class="heading">Send Money</div>
+					 <div class="page-content">
+						 
+						 <p><strong>Pellentesque habitant morbi tristique senectus et netus </strong>et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed.</p>
+					 <p>vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in </p>
+					 
+					 </div>			
+				</section>
+				<!-- ENDS ADVANCED SECTION -->
+	
+			</div>
+			<!-- ENDS tab-content -->
+
+		</div>
+		<!-- ENDS MAIN -->
+		
+		
+		
+		<!-- FOOTER -->
+		<footer class="cf">
+			<div class="row">
+			  <div class="span8">
+				  <a href="#" >Help</a>
+email one of us if you want some coins to use.
+Think about things
+			  </div>
+			
+			  <div class="span4 right-footer">
+				  <div class="right-footer-content">
+				  	Connecting to: 23.23.201.55 51234 <br/>
+				  	<a href="#" >Change</a>
+				  </div>
+			  </div>
+			</div>
+		</footer>
+		<!-- ENDS FOOTER -->
+		
+		
+	</div>
+	<!-- ENDS WRAPPER -->
+	
+	
+	<!-- JavaScript at the bottom for fast page loading -->
+
+	
+	<!-- scripts concatenated and minified via build script -->
+	<script src="js/custom.js"></script>
+	<script src="js/bootstrap-alert.js"></script>
+	
+	
+	
+	<script src="js/jquery.js" language="javascript"></script>
+    <script src="js/jquery-ui.js" language="javascript"></script>
+    <script src="js/bootstrap-tab.js" language="javascript"></script>
+    <script src="js/json.js" language="javascript"></script>
+    
+    <script src="js/combobox.js" language="javascript"></script>
+    <script src="config.js" language="javascript"></script>
+    <script src="js/websocket.js" language="javascript"></script>
+    <script src="js/datastore.js" language="javascript"></script>
+    <script src="js/ncc.js" language="javascript"></script>
+    <script src="js/options.js" language="javascript"></script>
+    <script src="js/ledger.js" language="javascript"></script>
+    <script src="js/unl.js" language="javascript"></script>
+    <script src="js/rpc.js" language="javascript"></script>
+    <script src="js/startup.js" language="javascript"></script>
+    <script src="js/feed.js" language="javascript"></script>
+    <script src="js/transactions.js" language="javascript"></script>
+    <script src="js/history.js" language="javascript"></script>
+    <script src="js/ripple.js" language="javascript"></script>
+    <script src="js/login.js" language="javascript"></script>
+    <script src="js/trade.js" language="javascript"></script>
+    <script src="js/send.js" language="javascript"></script>
+    
+    <!-- end scripts -->
+    
+    
+</body>
+</html>
