@@ -2,8 +2,8 @@
 <head>
 	<link href="css/bootstrap.css" rel="stylesheet">
     <link href="css/bootstrap-responsive.css?1" rel="stylesheet">
-     <link href="css/ncc.css" rel="stylesheet">
      <link href="css/ui-lightness/jquery-ui.css" rel="stylesheet">
+     <link href="css/ncc.css" rel="stylesheet">
     
     
     <script src="js/jquery.js" language="javascript"></script>
@@ -11,6 +11,7 @@
     <script src="js/bootstrap-tab.js" language="javascript"></script>
     <script src="js/json.js" language="javascript"></script>
     
+    <script src="js/combobox.js" language="javascript"></script>
     <script src="config.js" language="javascript"></script>
     <script src="js/websocket.js" language="javascript"></script>
     <script src="js/datastore.js" language="javascript"></script>
@@ -25,6 +26,8 @@
     <script src="js/history.js" language="javascript"></script>
     <script src="js/ripple.js" language="javascript"></script>
     <script src="js/login.js" language="javascript"></script>
+    <script src="js/trade.js" language="javascript"></script>
+    <script src="js/send.js" language="javascript"></script>
     
 <title>Newcoin Client</title>
 </head>
@@ -52,6 +55,7 @@
 					    <li>&nbsp;</li>
 					    <li><a id="HistoryTabButton" href="#tabHistory" data-toggle="tab">Transaction History</a></li>
 					    <li><a id="LedgerTabButton" href="#tabLedger" data-toggle="tab">View Ledger</a></li>
+					    <li><a id="TradeTabButton" href="#tabTrade" data-toggle="tab">Trade</a></li>
 					    <li><a id="UNLTabButton" href="#tabUNL" data-toggle="tab">View UNL</a></li>
 					    <li><a id="PeersTabButton" href="#tabPeers" data-toggle="tab">Peers</a></li>
 					    <li><a id="InfoTabButton" href="#tabInfo" data-toggle="tab">Info</a></li>
@@ -141,11 +145,11 @@
 								<fieldset class="span6">
 								<legend>Send Coins</legend>
 								<table>
-									<tr><td class="span2" >Amount:</td><td><input id="SendAmount" type="text" class="span2"></td><td><input id="SendCurrency" type="text" value="XNS" class="span2"></td></tr>
+									<tr><td class="span2" >Amount:</td><td><input id="SendAmount" type="text" class="span2"></td><td><select id="SendCurrency" class="span2" /></td></tr>
 									<tr><td class="span2" >Destination:</td><td colspan=2 ><input id="SendDest" type="text" class="span4" ></td></tr>
 								</table>
 								
-								<div class="bottom-btn" > <button class="btn btn-large btn-success" onclick="ncc.send()" >Send Money</button></div>
+								<div class="bottom-btn" > <button class="btn btn-large btn-success" onclick="send.send()" >Send Money</button></div>
 								
 								</fieldset>
 							</div>
@@ -159,17 +163,7 @@
 									<table>
 										<tr><td class="span2" >Account:</td><td><input id="NewCreditAccount" type="text" class="span4"></td></tr>
 										<tr><td class="span2" >Currency:</td><td>
-											<div><select id="NewCreditCurrency" class="span2" >
-												<option value="">Select one...</option>
-												<option value="AUD">AUD-Australian Dollar</option>
-												<option value="BTC">BTC-Bitcoins</option>
-												<option value="EUR">EUR-Euro</option>
-												<option value="GBP">GBP-British Pound</option>
-												<option value="RUB">RUB-Russian Ruble</option>
-												<option value="USD" selected="selected">USD-US Dollar</option>
-												<option value="XAU">XAU-Ounces of Gold</option>
-												<option value="XAG">XAG-Ounces of Silver</option>
-											</select></div>
+											<div><select id="NewCreditCurrency" class="span2" /></div>
 										</td></tr>
 										<tr><td class="span2" >Maximum Amount:</td><td><input id="NewCreditMax" type="text" class="span2" ></td></tr>
 									</table>
@@ -214,6 +208,34 @@
 					      <table class="dataTable"><tr><th>#</th><th>From ID</th><th>To ID</th><th>Amount</th><th>Fee</th><th>Type</th></tr><tbody id="TransactionTable"></tbody></table>
 					      </fieldset>
 							</div>
+					    </div>
+					    <div class="tab-pane" id="tabTrade">
+					      	<div class="row">
+					      		Newcoin automatically converts if you need to send from one type of currency to another. These trading features are not needed by ordinary users.
+								<fieldset class="span6">
+									<legend>Ticker</legend>
+									<table class="dataTable"><tr><th>Pair</th><th>Bid</th><th>Ask</th><th>Spread</th><th></th></tr><tbody id="TickerTable"></tbody></table>
+								</fieldset>
+							</div>
+							<div class="row">
+					      		<fieldset class="span5">
+									<legend>Place Order</legend>
+									<table>
+										<tr><td class="span2" >Sell Currency:</td><td><input id="PlaceOrderOutCurrency" type="text"></td></tr>
+										<tr><td class="span2" >Buy Currency:</td><td><input id="PlaceOrderInCurrency" type="text" ></td></tr>
+										<tr><td class="span2" >Amount to Sell:</td><td><input id="PlaceOrderAmount" type="text" ></td></tr>
+										<tr><td class="span2" >Price:</td><td><input id="PlaceOrderPrice" type="text" ></td></tr>
+									</table>
+									<span id="PlaceOrderStatus"></span>
+									<div class="bottom-btn" > <button class="btn btn-info" onclick="trade.placeOrder()" >Place Order</button></div>
+								</fieldset>
+					      </div>
+							<div class="row">
+					      		<fieldset class="span5">
+									<legend>Open Orders</legend>
+									<table class="dataTable"><tr><th>Date</th><th>Pair</th><th>Type</th><th>Price</th><th>Amount</th><th></th></tr><tbody id="OpenOrderTable"></tbody></table>
+								</fieldset>
+					      </div>
 					    </div>
 					    <div class="tab-pane" id="tabUNL">
 					      <div class="row">

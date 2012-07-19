@@ -2,6 +2,8 @@
 show multiple balances
 ripple progress bar
 only fetch ripple lines when you start. then use websocket
+make a generic currency combo
+trading
 
 updated accepted transactions
 time stamp in feed
@@ -22,6 +24,28 @@ ncc.accounts=[];
 ncc.balance=0;
 ncc.admin=false;
 ncc.dataStore=dataStoreOptions[ DATA_STORE ];
+ncc.currencyOptions={
+	"AUD" : "AUD-Australian Dollar",
+	"BTC" : "BTC-Bitcoins",
+	"EUR" : "EUR-Euro",
+	"GBP" : "GBP-British Pound",
+	"RUB" : "RUB-Russian Ruble",
+	"USD" : "USD-US Dollar",
+	"XAU" : "XAU-Ounces of Gold",
+	"XAG" : "XAG-Ounces of Silver"
+};
+
+ncc.allCurrencyOptions={
+	"AUD" : "AUD-Australian Dollar",
+	"BTC" : "BTC-Bitcoins",
+	"EUR" : "EUR-Euro",
+	"GBP" : "GBP-British Pound",
+	"RUB" : "RUB-Russian Ruble",
+	"USD" : "USD-US Dollar",
+	"XAU" : "XAU-Ounces of Gold",
+	"XAG" : "XAG-Ounces of Silver",
+	"XNS" : "XNS-Newcoin Stamps" 
+};
 
 ncc.serverDown = function()
 {
@@ -49,6 +73,11 @@ ncc.checkError = function(response)
 	
 	$('#error').text(errorStr);
 	return ret;
+}
+
+ncc.error=function(str)
+{
+	$('#error').text(str);
 }
 
 ncc.displayScreen =function(screenName)
@@ -190,36 +219,7 @@ ncc.peersResponse = function(response,success)
 	}else ncc.serverDown();
 }
 
-ncc.sendTabShown = function()
-{
-}
 
-
-
-ncc.send = function()
-{
-	toAccount=$.trim( $("#SendDest").val() );
-	
-	currency=$.trim( $("#SendCurrency").val() ).substring(0,3).toUpperCase();
-	if(currency=='XNS') amount=''+$.trim( $("#SendAmount").val() )*BALANCE_DISPLAY_DIVISOR;
-	else amount=''+$.trim( $("#SendAmount").val() );
-	
-	rpc.send(ncc.masterKey, ncc.accountID, toAccount, amount, currency, ncc.sendResponse);
-}
-
-ncc.sendResponse = function(response,success)
-{
-	if(success)
-	{
-		if(!ncc.checkError(response))
-		{
-			currency=$.trim( $("#SendCurrency").val() ).substring(0,3).toUpperCase();
-			$('#status').text($("#SendAmount").val()+' '+currency+' Sent to '+$("#SendDest").val());
-			$("#SendDest").val('');
-			$("#SendAmount").val('');
-		}
-	}else ncc.serverDown();
-}
 
 
 
@@ -274,7 +274,7 @@ $(document).ready(function(){
 	
 	var tab;  
 	tab = document.getElementById( "SendTabButton");
-	tab.onTabShown = ncc.sendTabShown;
+	tab.onTabShown = send.onShowTab;
 	
 	tab = document.getElementById( "RippleTabButton");
 	tab.onTabShown = ripple.onShowTab;
@@ -296,6 +296,9 @@ $(document).ready(function(){
 	
 	tab = document.getElementById( "FeedTabButton");
 	tab.onTabShown = feed.onShowTab;  
+	
+	tab = document.getElementById( "TradeTabButton");
+	tab.onTabShown = trade.onShowTab;  
 	
 	
 	$('a[data-toggle="tab"]').on('show', ncc.chageTabs);

@@ -149,7 +149,10 @@ input {
 .errorFeedMsg {
 	background: #ffbbbb;
 }
-
+.ui-widget {
+	font-size: 13px;
+	vertical-align: top;
+}
 /////////////////////////////////////
 
 

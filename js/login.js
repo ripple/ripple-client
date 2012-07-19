@@ -16,11 +16,11 @@ loginScreen.login = function()
 
 loginScreen.loginResponse = function(response,success)
 {
+	console.log(JSON.stringify(response));
 	if(success)
 	{
 		ncc.checkError(response);
 		
-		//$('#status').text(JSON.stringify(response));
 		if(response.result.accounts)
 		{
 			ncc.processAccounts(response.result.accounts);
