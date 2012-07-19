@@ -23,7 +23,7 @@ slammer.send=function()
 	}
 }
 
-send.onSendResponse = function(response,success)
+slammer.onSendResponse = function(response,success)
 {
 	
 }
