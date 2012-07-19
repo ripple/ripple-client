@@ -15,12 +15,22 @@ trade.placeOrder=function()
 	var inCurrency=$("#PlaceOrderInCurrency").parent().children()[1].value.substring(0,3).toUpperCase();
 	var inAmount=outAmount*price;
 	
+	if(outCurrency=='XNS') outAmount *= BALANCE_DISPLAY_DIVISOR;
+	if(inCurrency=='XNS')
+	{ 
+		inAmount *= BALANCE_DISPLAY_DIVISOR;
+		var inRoute={ 'max' : 9999999999 , 'accountID' : ''};
+	}else 
+	{
+		// need to discover the inIssuer
+		var inRoute=ripple.findBestRouteIn(inCurrency);
+	}
 	
-	// need to discover the inIssuer
-	var inRoute=ripple.findBestRouteIn(inCurrency);
+	
+	
 	if(inRoute.max>inAmount)
 	{
-		rpc.offer_create(ncc.masterKey,ncc.accountID,inAmount,inCurrency,inRoute.accountID,outAmount,outCurrency,ncc.accountID,0,trade.onOfferCreateResponse);
+		rpc.offer_create(ncc.masterKey,ncc.accountID,''+outAmount,outCurrency,ncc.accountID,''+inAmount,inCurrency,inRoute.accountID,'0',trade.onOfferCreateResponse);
 	}else
 	{
 		ncc.error("You need to increase your ripple credit lines to take in that much "+inCurrency+".");

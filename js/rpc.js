@@ -200,11 +200,11 @@ rpc.ripple_line_set=function(key, fromAccountID, toAccountID, amount,currency,ca
 }
 
 //seed paying_account taker_pays_amount taker_pays_currency taker_pays_issuer taker_gets_amount taker_gets_currency taker_gets_issuer expires [passive]
-rpc.offer_create=function(key,accountID,inAmount,inCurrency,inIssuer,outAmount,outCurrency,outIssuer,expires,callback)
+rpc.offer_create=function(key,accountID,outAmount,outCurrency,outIssuer,inAmount,inCurrency,inIssuer,expires,callback)
 {
 	var request = {};
 	request.method = "offer_create";
-	request.params = [key,accountID,inAmount,inCurrency,inIssuer,outAmount,outCurrency,outIssuer,expires];
+	request.params = [key,accountID,outAmount,outCurrency,outIssuer,inAmount,inCurrency,inIssuer,expires];
 	
 	rpc.call(request,callback);
 }

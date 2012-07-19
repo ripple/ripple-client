@@ -2,8 +2,9 @@
 show multiple balances
 ripple progress bar
 only fetch ripple lines when you start. then use websocket
-make a generic currency combo
 trading
+new design
+console
 
 updated accepted transactions
 time stamp in feed

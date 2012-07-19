@@ -85,5 +85,27 @@ ledgerScreen.makeRow=function(account,i)
 	{
 		return('<tr><td>'+i+'</td><td>RippleState</td><td></td><td></td></tr>');
 	}
+	if(account.type=="Offer")
+	{
+		var str='';
+		if(account.TakerGets.currency)
+		{
+			str += account.TakerGets.value+' '+account.TakerGets.currency;
+		}else
+		{
+			str += ncc.displayAmount(account.TakerGets)+' XNS';
+			
+		}
+		str += ' for ';
+		if(account.TakerPays.currency)
+		{
+			str += account.TakerPays.value+' '+account.TakerPays.currency;
+		}else
+		{
+			str += ncc.displayAmount(account.TakerPays)+' XNS';
+		}
+		
+		return('<tr><td>'+i+'</td><td>Offer</td><td>'+str+'</td><td>'+account.Sequence+'</td></tr>');
+	}
 	return('<tr><td>'+i+'</td><td>????</td><td></td><td></td></tr>');
 }

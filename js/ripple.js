@@ -73,7 +73,11 @@ ripple.findBestRouteIn=function(currency)
 		if(ripple.lines[n].currency==currency)
 		{
 			var left=ripple.lines[n].limit-ripple.lines[n].balance;
-			if(left>max) max=left;
+			if(left>max) 
+			{
+				max=left;
+				bestAccount=ripple.lines[n].account;
+			}
 		}
 	}
 	return( {'accountID' : bestAccount , 'max' : max} ); 
