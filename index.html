@@ -95,9 +95,6 @@
 			<!-- Status -->
 			<ul class="status-message">
 				<li id="ClientState" class="heading">Status Message</li>
-				<li id="Balance">27,677<span>USD</span></li>
-				<li>1,321<span>EUR</span></li>
-				<li>2,000<span>NC</span></li>
 			</ul>
 			<!-- ENDS status -->
 			
@@ -195,7 +192,7 @@
 					<div class="heading">Receive Money</div>
 					 <div class="page-content">
 						 
-						
+						<div>Your address: <span id="RecvAddress">none</span></div>
 	
 					 
 					 </div>
@@ -355,14 +352,14 @@
 					<div class="heading">Trade</div>
 					  <div class="page-content">
 						 
-						<div class="row">
+						
 					      		Newcoin automatically converts if you need to send from one type of currency to another. These trading features are not needed by ordinary users.
 								<fieldset class="span6">
 									<legend>Ticker</legend>
 									<table class="table table-striped"><tr><th>Pair</th><th>Bid</th><th>Ask</th><th>Spread</th><th></th></tr><tbody id="TickerTable"></tbody></table>
 								</fieldset>
-							</div>
-							<div class="row">
+							
+							
 					      		<fieldset class="span5">
 									<legend>Place Order</legend>
 									<table>
@@ -374,14 +371,13 @@
 									<span id="PlaceOrderStatus"></span>
 									<div class="bottom-btn" > <button class="btn btn-info" onclick="trade.placeOrder()" >Place Order</button></div>
 								</fieldset>
-					      </div>
-							<div class="row">
+					      
 					      		<fieldset class="span5">
 									<legend>Open Orders</legend>
 									<table class="table table-striped"><tr><th>Date</th><th>Pair</th><th>Type</th><th>Price</th><th>Amount</th><th></th></tr><tbody id="OpenOrderTable"></tbody></table>
 								</fieldset>
-					      </div>
-					 </div>
+					      
+					 
 				</section>
 				<!-- ENDS ADDRESS SECTION -->
 				

@@ -47,14 +47,12 @@ history.addTransaction=function(trans,adjust)
 		{
 			if(trans.middle.SourceAccount==ncc.accountID)
 			{
-				ncc.balance -= trans.inner.Amount;
-				ncc.balance -= trans.middle.Fee;
+				ncc.changeBalance('XNS', -(trans.inner.Amount+trans.middle.Fee));
 				
 			}else if(trans.inner.Destination==ncc.accountID)
 			{
-				ncc.balance += trans.inner.Amount;
+				ncc.changeBalance('XNS', trans.inner.Amount);
 			}
-			$('#Balance').text(ncc.displayAmount(ncc.balance));
 		}
 }
 

@@ -14,8 +14,14 @@ trade.placeOrder=function()
 	var price=$('#PlaceOrderPrice').val();
 	var inCurrency=$("#PlaceOrderInCurrency").parent().children()[1].value.substring(0,3).toUpperCase();
 	var inAmount=outAmount*price;
+	var outIssuer=ncc.accountID;
 	
-	if(outCurrency=='XNS') outAmount *= BALANCE_DISPLAY_DIVISOR;
+	if(outCurrency=='XNS') 
+	{
+		outIssuer='';
+		outAmount *= BALANCE_DISPLAY_DIVISOR;
+	}
+	
 	if(inCurrency=='XNS')
 	{ 
 		inAmount *= BALANCE_DISPLAY_DIVISOR;
@@ -30,7 +36,7 @@ trade.placeOrder=function()
 	
 	if(inRoute.max>inAmount)
 	{
-		rpc.offer_create(ncc.masterKey,ncc.accountID,''+outAmount,outCurrency,ncc.accountID,''+inAmount,inCurrency,inRoute.accountID,'0',trade.onOfferCreateResponse);
+		rpc.offer_create(ncc.masterKey,ncc.accountID,''+outAmount,outCurrency,outIssuer,''+inAmount,inCurrency,inRoute.accountID,'0',trade.onOfferCreateResponse);
 	}else
 	{
 		ncc.error("You need to increase your ripple credit lines to take in that much "+inCurrency+".");

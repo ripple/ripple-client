@@ -22,7 +22,7 @@ ncc.currentView='#StartScreen';
 ncc.masterKey='';
 ncc.accountID='';
 ncc.accounts=[];
-ncc.balance=0;
+ncc.balance={'XNS' : 0};
 ncc.loggedIn=false;
 ncc.advancedMode=false;
 ncc.admin=false;
@@ -90,28 +90,50 @@ ncc.displayScreen =function(screenName)
 }
 
 
-
-
-
-
 ncc.processAccounts = function(accounts)
 {
 	ncc.accounts=accounts;
 	
 	// figure total balance
-	ncc.balance=0;
+	var balance=0;
 	ncc.accountID='';
 	for(var i = 0; i < accounts.length; i++) 
 	{
-    	ncc.balance += accounts[i].Balance;
+    	balance += accounts[i].Balance;
     	ncc.accountID= accounts[i].Account;
     	server.accountSubscribe(accounts[i].Account);
     	rpc.account_tx(accounts[i].Account,history.onHistoryResponse);
     }
     
-    $('#Balance').text(ncc.displayAmount(ncc.balance));
+    ncc.changeBalance('XNS', balance-ncc.balance['XNS']);
     $('#RecvAddress').text(ncc.accountID);
     
+}
+
+ncc.changeBalance = function(currency,delta)
+{
+    if(ncc.balance[currency]) ncc.balance[currency] += delta;
+    else ncc.balance[currency]= delta;
+    
+    var eleID='#'+currency+'Balance';
+    
+    
+    if(ncc.balance[currency]==0)
+    { // need to delete 
+    	$(eleID).remove();
+    }else
+    {
+    	if(currency=='XNS') var amount=ncc.displayAmount(ncc.balance[currency]);
+    	else var amount=ncc.balance[currency];
+    	
+    	if($(eleID).length)
+    	{ // need to edit
+    		$(eleID).html(amount+'<span>'+currency+'</span>');
+    	}else
+    	{  // need to create
+    		$('#ClientState').after('<li id="'+currency+'Balance">'+amount+'<span>'+currency+'</span></li>');
+    	}
+    }
 }
 
 ncc.displayAmount= function(str)
