@@ -23,6 +23,8 @@ ncc.masterKey='';
 ncc.accountID='';
 ncc.accounts=[];
 ncc.balance=0;
+ncc.loggedIn=false;
+ncc.advancedMode=false;
 ncc.admin=false;
 ncc.dataStore=dataStoreOptions[ DATA_STORE ];
 ncc.currencyOptions={
@@ -83,33 +85,11 @@ ncc.error=function(str)
 
 ncc.displayScreen =function(screenName)
 {
-	$(ncc.currentView).hide();
-	ncc.currentView='#'+screenName;
-	$(ncc.currentView).show();
 	
-	if(ncc.currentView=='#HomeScreen') $("#NCCNav").show();
-	else if(ncc.currentView=='#WelcomeScreen') rpc.wallet_propose(ncc.walletProposeResponse);
-	else $("#NCCNav").hide();
+	$('#WelcomeNav a[href="#t-'+screenName+'"]').tab('show');
 }
 
-ncc.walletProposeResponse=function(response,success)
-{
-	if(success)
-	{
-		ncc.checkError(response);
-		if(response.result)
-		{
-			ncc.masterKey=response.result.master_seed;
-			ncc.accountID=response.result.account_id;
-			
-			$('#NewMasterKey').text(ncc.masterKey);
-			$('#NewAddress').text(ncc.accountID);
-			
-			$("#MasterKey").val(ncc.masterKey);
-		}
-		
-	}else ncc.serverDown();
-}
+
 
 
 
@@ -182,13 +162,7 @@ ncc.infoResponse  = function(response,success)
 
 
 
-ncc.logout = function()
-{
-	rpc.data_delete('MasterKey');
-	ncc.displayScreen("LoginScreen");
-	$('#Balance').text('');
-    $('#RecvAddress').text('');
-}
+
 //////////
 ncc.addPeer = function()
 {
@@ -229,80 +203,79 @@ ncc.peersResponse = function(response,success)
 
 ncc.chageTabs = function(e)
 {
-	e.target.onTabShown();
+	//if(e.target.attributes.href(onTabShown)
+	//	e.target.onTabShown();
 }
 
 ncc.nop = function() {}
 
+ncc.toggleAdvanced =function(ele)
+{
+	if(ncc.advancedMode)
+	{
+		$('#AdvancedNav').hide();
+		$('#UnlogAdvancedNav').hide();
+		ncc.advancedMode=false;
+		ele.innerHTML="Show Advanced";
+	}else
+	{
+		ele.innerHTML="Hide Advanced";
+		ncc.advancedMode=true;
+		if(ncc.loggedIn) $('#AdvancedNav').show();
+		else $('#UnlogAdvancedNav').show();
+	}
+}
 
+ncc.onLogIn=function()
+{
+	ncc.loggedIn=true;
+	
+	$('#WelcomeNav').hide();
+	$('#MainNav').show();
+	if(ncc.advancedMode)
+	{
+		$('#AdvancedNav').show();
+		$('#UnlogAdvancedNav').hide();
+	}
+	
+	$('#MainNav a[href="#t-send"]').tab('show');
+}
+
+ncc.onLogOut=function()
+{
+	ncc.loggedIn=false;
+	
+	$('#WelcomeNav').show();
+	$('#MainNav').hide();
+	if(ncc.advancedMode)
+	{
+		$('#AdvancedNav').hide();
+		$('#UnlogAdvancedNav').show();
+	}
+	
+	$('#WelcomeNav a[href="#t-welcome"]').tab('show');
+}
 
 $(document).ready(function(){
-	
-	$(".screen").hide();
-	$("#NCCNav").hide();
-	
-	$('#tabSend a').click(function (e) {
-	  e.preventDefault();
-	  $(this).tab('show');
-	});
-	
-	$('#tabHistory a').click(function (e) {
-	  e.preventDefault();
-	  $(this).tab('show');
-	});
-	
-
-	$('#tabLedger a').click(function (e) {
-	  e.preventDefault();
-	  $(this).tab('show');
-	});
+				  
+	$("#t-send").on("show", send.onShowTab );
+	$("#t-login").on("show", loginScreen.onShowTab );
+	$("#t-ripple").on("show", ripple.onShowTab );
+	$("#t-ledger").on("show", function(){ rpc.ledger(ledgerScreen.ledgerResponse); } );
+	$("#t-history").on("show", history.onShowTab );
+	$("#t-unl").on("show", function(){ rpc.unl_list(unlScreen.unlResponse); } );
+	$("#t-peers").on("show", function(){ rpc.peers(ncc.peersResponse); } );
+	$("#t-info").on("show", ncc.infoTabShown );
+	$("#t-feed").on("show", feed.onShowTab );
+	$("#t-trade").on("show", trade.onShowTab );
+	$("#t-options").on("show", optionScreen.onShowTab ); 
+	$("#t-welcome").on("show", welcomeScreen.onShowTab );
 	
 	
-	$('#tabUNL a').click(function (e) {
-	  e.preventDefault();
-	  $(this).tab('show');
-	});
 	
-	$('#tabPeers a').click(function (e) {
-	  e.preventDefault();
-	  $(this).tab('show');
-	});
-	
-	$('#tabLedger a').click(function (e) {
-	  e.preventDefault();
-	  $(this).tab('show');
-	});
-	
-	var tab;  
-	tab = document.getElementById( "SendTabButton");
-	tab.onTabShown = send.onShowTab;
-	
-	tab = document.getElementById( "RippleTabButton");
-	tab.onTabShown = ripple.onShowTab;
-	
-	tab=document.getElementById( "LedgerTabButton");
-	tab.onTabShown = function(){ rpc.ledger(ledgerScreen.ledgerResponse); };
-	
-	tab = document.getElementById( "HistoryTabButton");
-	tab.onTabShown = history.onShowTab;
-	
-	tab = document.getElementById( "UNLTabButton");
-	tab.onTabShown = function(){ rpc.unl_list(unlScreen.unlResponse); };
-	  
-	tab = document.getElementById( "PeersTabButton");
-	tab.onTabShown = function(){ rpc.peers(ncc.peersResponse); };
-	
-	tab = document.getElementById( "InfoTabButton");
-	tab.onTabShown = ncc.infoTabShown;  
-	
-	tab = document.getElementById( "FeedTabButton");
-	tab.onTabShown = feed.onShowTab;  
-	
-	tab = document.getElementById( "TradeTabButton");
-	tab.onTabShown = trade.onShowTab;  
-	
-	
-	$('a[data-toggle="tab"]').on('show', ncc.chageTabs);
+	$('#MainNav').hide();
+	$('#AdvancedNav').hide();
+	$('#UnlogAdvancedNav').hide();
 	
 	startUp.start();
 	

@@ -2,12 +2,10 @@
 
 var optionScreen={};
 
-optionScreen.show = function()
+optionScreen.onShowTab = function()
 {
 	$("#ServerIPOption").val( SERVER_IP );
 	$("#ServerPortOption").val(SERVER_RPC_PORT);
-	
-	ncc.displayScreen('OptionsScreen');
 }
 
 optionScreen.save = function()

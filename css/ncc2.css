@@ -1,0 +1,30 @@
+a {
+	cursor: pointer;
+}
+
+.ledgerFeedMsg, .unknownFeedMsg, .errorFeedMsg, .startFeedMsg, .stopFeedMsg, .transFeedMsg {
+	border: 1px solid #888888;
+	margin: 5px;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+.transFeedMsg {
+	background: #eeffff;
+}
+
+.ledgerFeedMsg {
+	background: #eeffee;
+}
+
+.startFeedMsg {
+	background: #aaffaa;
+}
+
+.unknownFeedMsg {
+	background: #ffeeee;
+}
+
+.errorFeedMsg {
+	background: #ffbbbb;
+}

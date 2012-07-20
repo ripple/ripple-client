@@ -34,7 +34,7 @@ startUp.firstConnect= function(response,success)
 			rpc.data_fetch('MasterKey',startUp.getMaster);
 		}else
 		{
-			ncc.displayScreen('WelcomeScreen');
+			welcomeScreen.onShowTab();
 			rpc.data_store('hasRun','1');	
 		}
 	}else 
@@ -60,7 +60,7 @@ startUp.getMaster=function(response,success)
 			rpc.wallet_accounts(ncc.masterKey,loginScreen.loginResponse);
 		}else
 		{
-			ncc.displayScreen('LoginScreen');
+			ncc.displayScreen('login');
 		}
 	}else ncc.serverDown();
 };	

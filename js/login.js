@@ -1,5 +1,33 @@
 
 var loginScreen={};
+var welcomeScreen={};
+
+welcomeScreen.onShowTab = function() 
+{
+	rpc.wallet_propose(welcomeScreen.walletProposeResponse);
+}
+
+welcomeScreen.walletProposeResponse=function(response,success)
+{
+	if(success)
+	{
+		ncc.checkError(response);
+		if(response.result)
+		{
+			ncc.masterKey=response.result.master_seed;
+			ncc.accountID=response.result.account_id;
+			
+			$('#NewMasterKey').text(ncc.masterKey);
+			$('#NewAddress').text(ncc.accountID);
+			
+			$("#MasterKey").val(ncc.masterKey);
+		}
+		
+	}else ncc.serverDown();
+}
+
+loginScreen.onShowTab = function() {}
+
 
 loginScreen.login = function()
 {
@@ -26,12 +54,20 @@ loginScreen.loginResponse = function(response,success)
 			ncc.processAccounts(response.result.accounts);
 		}
 		
-		ncc.displayScreen('HomeScreen');
-		$('#NavTabs a[href="#tabSend"]').tab('show');
+		ncc.onLogIn();
 		
-		$('#ClientState').text('Running');
+		
+		$('#ClientState').text('Logged in. Running');
 		
 	}else ncc.serverDown();
+}
+
+loginScreen.logout = function()
+{
+	rpc.data_delete('MasterKey');
+	ncc.onLogOut();
+	$('#Balance').text('');
+    $('#RecvAddress').text('');
 }
 
 

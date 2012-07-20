@@ -61,7 +61,8 @@
 
       $target = $(selector)
 
-      this.activate($this.parent('li'), $ul)
+      this.activate($this.parent('li'), $ul);
+      $target.trigger(e);
       this.activate($target, $target.parent(), function () {
         $this.trigger({
           type: 'shown'
@@ -82,7 +83,7 @@
           .find('> .dropdown-menu > .active')
           .removeClass('active')
 
-        element.addClass('active')
+        element.addClass('active');
 
         if (transition) {
           element[0].offsetWidth // reflow for transition
