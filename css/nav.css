@@ -1,0 +1,98 @@
+/* Welcome nav  ----------------------------------------------------*/ 
+
+#WelcomeNav{
+	background: none;
+	margin-bottom: 10px;
+}
+
+#WelcomeNav li{
+	border-right: 1px solid #fff;
+}
+
+#WelcomeNav li:first-child{
+	border-right: none;
+}
+
+#WelcomeNav a{
+	color: #fff;
+	text-shadow: none;
+	line-height: 1.3em;
+	padding-bottom: 0;
+	padding-top: 0;
+	border: 1px solid transparent;
+}
+
+
+
+#WelcomeNav a:hover{
+	background: none;
+}
+
+#WelcomeNav .active a{
+	background: none;
+	color: #ffa800;
+}
+
+/* Main nav  ----------------------------------------------------*/ 
+
+.mainNav{
+	margin-bottom: 0px;
+}
+
+.mainNav a .caret{
+	margin-top: 8px;
+	margin-left: 5px;
+}
+
+/* Sub nav  ----------------------------------------------------*/ 
+
+.subnav{
+	/* display: block !important; */
+	background: #6b727a;
+	
+	margin-bottom: 0px;
+	border: 1px solid #444547;
+	border-top: none;
+	
+	-moz-border-radius: 0px 0px 5px 5px;
+	-webkit-border-radius: 0px 0px 5px 5px;
+	border-radius: 0px 0px 5px 5px;
+	
+}
+
+.subnav > li, .nav-pills > li {
+	float: right;
+}
+
+.subnav > li > a{
+	color: #e2e3e9;
+	text-shadow: none;
+	border: 1px solid transparent;
+}
+
+.subnav > li > a:hover,
+.subnav > li.active > a,
+.subnav > li.active > a:hover{
+	background: #585d65;
+	border: 1px solid transparent;
+	color: #ffa800;
+}
+
+
+.subnav > li.secondary-tab > a{
+	color: #fff;
+	border: 1px solid transparent;
+}
+
+.subnav > li.secondary-tab > a:hover{
+	color: #ffa800;	
+	border: 1px solid transparent;
+}
+
+
+.secondary-tab{
+	cursor: pointer;
+}
+
+
+

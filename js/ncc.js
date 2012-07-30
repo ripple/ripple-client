@@ -238,10 +238,10 @@ ncc.toggleAdvanced =function(ele)
 		$('#AdvancedNav').hide();
 		$('#UnlogAdvancedNav').hide();
 		ncc.advancedMode=false;
-		ele.innerHTML="Show Advanced";
+		ele.innerHTML="Show Advanced <b class='caret'></b>";
 	}else
 	{
-		ele.innerHTML="Hide Advanced";
+		ele.innerHTML="Hide Advanced <b class='caret'></b>";
 		ncc.advancedMode=true;
 		if(ncc.loggedIn) $('#AdvancedNav').show();
 		else $('#UnlogAdvancedNav').show();
@@ -298,6 +298,21 @@ $(document).ready(function(){
 	$('#MainNav').hide();
 	$('#AdvancedNav').hide();
 	$('#UnlogAdvancedNav').hide();
+	
+	
+	/* navigation functions */
+	
+	// unactives main navigation
+	
+	$('#UnlogAdvancedNav li a').click(function(){
+		$('#mainNav li').removeClass('active');
+	})
+	
+	// unactives sub navigation
+	
+	$('#mainNav li a').click(function(){
+		$('#UnlogAdvancedNav li').removeClass('active');
+	})
 	
 	startUp.start();
 	

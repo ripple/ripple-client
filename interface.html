@@ -43,18 +43,51 @@
 					<a href="index.html" ><img src="img/logo.png" alt="" /></a>
 				</div>
 			
-				<ul class="nav nav-tabs" id="mainNav">
+			
+				<!-- WELCOME BAR -->
+				<ul class="nav nav-tabs" id="WelcomeNav">
+				  <li class="secondary-tab pull-right"><a href="#" data-toggle="tab">Options</a></li>
+				  <li  class="secondary-tab pull-right"><a href="#t-login"  data-toggle="tab">Login</a></li>
+				  <li class="secondary-tab pull-right"><a href="#t-welcome" data-toggle="tab">Welcome</a></li>
+				</ul>
+				<!-- WELCOME BAR -->
+				
+				
+				
+				<!-- MAIN BAR -->
+				<ul class="nav nav-tabs mainNav" id="mainNav">
 				  <li class="active"><a href="#t-send"  data-toggle="tab">Send Money</a></li>
 				  <li><a href="#t-receive" data-toggle="tab">Receive Money</a></li>
 				  <li><a href="#t-ripple" data-toggle="tab">Ripple</a></li>
 				  <li><a href="#t-history" data-toggle="tab">History</a></li>
 				  <li><a href="#t-address" data-toggle="tab">Address Book</a></li>
-				  <li><a href="#t-advanced" data-toggle="tab">Advanced</a></li>
-				  <li class="secondary-tab pull-right"><a href="#" >Logout</a></li>
-				  <li class="secondary-tab pull-right"><a href="#" >Options</a></li>
+				
+				  <li class="secondary-tab pull-right"><a onclick="ncc.toggleAdvanced(this)" >Show Advanced <b class="caret"></b></a></li>
 				</ul>
+				<!-- ENDS MAIN BAR -->
+				
+				
+				<!-- ADVANCED BAR -->
+				<ul class="nav nav-tabs subnav" id="UnlogAdvancedNav">
+				  <li class="secondary-tab pull-right"><a onclick="rpc.stop()" >Stop Server</a></li>
+				  <li><a href="#t-orderbook" data-toggle="tab">Order Book</a></li>
+				  <li><a href="#t-info"  data-toggle="tab">Info</a></li>
+				  <li><a href="#t-peers" data-toggle="tab">Peers</a></li>
+				  <li><a href="#t-unl" data-toggle="tab">UNL</a></li>
+				  <li><a href="#t-ledger" data-toggle="tab">Ledger</a></li>
+				  <li><a href="#t-feed" data-toggle="tab">Feed</a></li>
+				  
+				</ul>
+				<!-- ENDS ADVANCED BAR -->
+				
 			</nav>
 			<!-- ends nav -->
+			
+			
+			
+		
+				
+				
 			
 			
 			<!-- Status -->
@@ -82,6 +115,12 @@
 				 <div class="page-content">
 				 
 				 	<p><strong>Pellentesque habitant morbi tristique senectus et netus </strong>et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed.</p>
+				 	
+				
+
+
+
+
 				 	
 				 	<form class="form-horizontal">
 					  <legend>Create a Link to receive Money</legend>
@@ -325,17 +364,36 @@ Think about things
 	<!-- ENDS WRAPPER -->
 	
 	
-	<!-- JavaScript at the bottom for fast page loading -->
-
-	<!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if offline -->
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-	<script>window.jQuery || document.write('<script src="js/jquery.js"><\/script>')</script>
-	
 	<!-- scripts concatenated and minified via build script -->
 	<script src="js/custom.js"></script>
-	<script src="js/bootstrap-tab.js"></script>
 	<script src="js/bootstrap-alert.js"></script>
-	<!-- end scripts -->
+	
+	
+	
+	<script src="js/jquery.js" language="javascript"></script>
+    <script src="js/jquery-ui.js" language="javascript"></script>
+    <script src="js/bootstrap-tab.js" language="javascript"></script>
+    <script src="js/json.js" language="javascript"></script>
+    
+    <script src="js/combobox.js" language="javascript"></script>
+    <script src="config.js" language="javascript"></script>
+    <script src="js/websocket.js" language="javascript"></script>
+    <script src="js/datastore.js" language="javascript"></script>
+    <script src="js/ncc.js" language="javascript"></script>
+    <script src="js/options.js" language="javascript"></script>
+    <script src="js/ledger.js" language="javascript"></script>
+    <script src="js/unl.js" language="javascript"></script>
+    <script src="js/rpc.js" language="javascript"></script>
+    <script src="js/startup.js" language="javascript"></script>
+    <script src="js/feed.js" language="javascript"></script>
+    <script src="js/transactions.js" language="javascript"></script>
+    <script src="js/history.js" language="javascript"></script>
+    <script src="js/ripple.js" language="javascript"></script>
+    <script src="js/login.js" language="javascript"></script>
+    <script src="js/trade.js" language="javascript"></script>
+    <script src="js/send.js" language="javascript"></script>
+    
+    <!-- end scripts -->
 
 </body>
 </html>
