@@ -1,0 +1,107 @@
+/*
+* Customized input fields for the new coin client
+*
+*/
+
+
+
+textarea,
+input[type="text"],
+input[type="password"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="date"],
+input[type="month"],
+input[type="time"],
+input[type="week"],
+input[type="number"],
+input[type="email"],
+input[type="url"],
+input[type="search"],
+input[type="tel"],
+input[type="color"],
+.uneditable-input {
+	
+	padding: 10px;
+	
+	-webkit-box-shadow: inset 0px 0px 5px rgba(0, 0, 0, .2);
+	-moz-box-shadow: inset 0px 0px 5px rgba(0, 0, 0, .2);
+	box-shadow: inset 0px 0px 5px rgba(0, 0, 0, .2);
+	
+	
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 10px;
+}
+
+
+fieldset label{
+	font-size: 16px;
+}
+
+
+/* all form DIVs have position property set to relative so we can easily position newly created SPAN */
+form div{position:relative;} 
+
+.rel-select{
+	position:relative;
+	float: right;
+}
+
+.form-horizontal{
+	width: 490px
+}
+
+/* setting the width and height of the SELECT element to match the replacing graphics */
+select.select{
+    position:relative;
+    z-index:10;
+    width: 292px !important;
+    height:37px !important;
+    line-height:37px;
+}
+
+/* dynamically created SPAN, placed below the SELECT */
+span.select{
+    position:absolute;
+    bottom:0;
+    float:left;
+    left:0;
+    width: 292px;
+    height:37px;
+    line-height:37px;
+    text-indent:10px;
+    background:url(../img/select-bg.png) no-repeat 0 0;
+    cursor:default;
+    z-index:1;
+}
+
+/* SMALL SELECT ----------------------------------------------------*/ 
+
+select.select-small{
+    position:relative;
+    z-index:10;
+    width:90px !important;
+    height:37px !important;
+    line-height:37px;
+}
+
+/* dynamically created SPAN, placed below the SELECT */
+span.select-small{
+    position:absolute;
+    bottom:0;
+    float:left;
+    left:0;
+    width:90px;
+    height:37px;
+    line-height:37px;
+    text-indent:10px;
+    background:url(../img/select-bg-small.png) no-repeat 0 0;
+    cursor:default;
+    z-index:1;
+}
+
+
+
+
+

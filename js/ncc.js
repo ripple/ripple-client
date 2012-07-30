@@ -238,10 +238,10 @@ ncc.toggleAdvanced =function(ele)
 		$('#AdvancedNav').hide();
 		$('#UnlogAdvancedNav').hide();
 		ncc.advancedMode=false;
-		ele.innerHTML="Show Advanced";
+		ele.innerHTML="Show Advanced <b class='caret'></b>";
 	}else
 	{
-		ele.innerHTML="Hide Advanced";
+		ele.innerHTML="Hide Advanced <b class='caret'></b>";
 		ncc.advancedMode=true;
 		if(ncc.loggedIn) $('#AdvancedNav').show();
 		else $('#UnlogAdvancedNav').show();
@@ -299,7 +299,67 @@ $(document).ready(function(){
 	$('#AdvancedNav').hide();
 	$('#UnlogAdvancedNav').hide();
 	
+	
+	/* navigation functions */
+	
+	// unactives main navigation
+	
+	$('#UnlogAdvancedNav li a').click(function(){
+		$('#mainNav li').removeClass('active');
+	})
+	
+	// unactives sub navigation
+	
+	$('#mainNav li a').click(function(){
+		$('#UnlogAdvancedNav li').removeClass('active');
+	})
+	
 	startUp.start();
 	
+	
+	
+	/* custom select boxes */
+	
+	 if (!$.browser.opera) {
+		 
+		// for large select 
+		 
+        $('select.select').each(function(){
+            var title = $(this).attr('title');
+            if( $('option:selected', this).val() != ''  ) title = $('option:selected',this).text();
+            $(this)
+                .css({'z-index':10,'opacity':0,'-khtml-appearance':'none'})
+                .after('<span class="select">' + title + '</span>')
+                .change(function(){
+                    val = $('option:selected',this).text();
+                    $(this).next().text(val);
+                    })
+        });
+        
+        // for small select
+        
+        $('select.select-small').each(function(){
+            var title = $(this).attr('title');
+            if( $('option:selected', this).val() != ''  ) title = $('option:selected',this).text();
+            $(this)
+                .css({'z-index':10,'opacity':0,'-khtml-appearance':'none'})
+                .after('<span class="select-small">' + title + '</span>')
+                .change(function(){
+                    val = $('option:selected',this).text();
+                    $(this).next().text(val);
+                    })
+        });
+
+
+    };
+    
+    
+	
 });
+
+
+
+
+
+
 
