@@ -1,6 +1,7 @@
 @import url('reset.css');
 
 @import url('nav.css');
+@import url('custom-inputs.css');
 
 
 /* Vars ----------------------------------------------------*//* Mixins ----------------------------------------------------*/.clearfix {

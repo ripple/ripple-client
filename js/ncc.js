@@ -316,5 +316,50 @@ $(document).ready(function(){
 	
 	startUp.start();
 	
+	
+	
+	/* custom select boxes */
+	
+	 if (!$.browser.opera) {
+		 
+		// for large select 
+		 
+        $('select.select').each(function(){
+            var title = $(this).attr('title');
+            if( $('option:selected', this).val() != ''  ) title = $('option:selected',this).text();
+            $(this)
+                .css({'z-index':10,'opacity':0,'-khtml-appearance':'none'})
+                .after('<span class="select">' + title + '</span>')
+                .change(function(){
+                    val = $('option:selected',this).text();
+                    $(this).next().text(val);
+                    })
+        });
+        
+        // for small select
+        
+        $('select.select-small').each(function(){
+            var title = $(this).attr('title');
+            if( $('option:selected', this).val() != ''  ) title = $('option:selected',this).text();
+            $(this)
+                .css({'z-index':10,'opacity':0,'-khtml-appearance':'none'})
+                .after('<span class="select-small">' + title + '</span>')
+                .change(function(){
+                    val = $('option:selected',this).text();
+                    $(this).next().text(val);
+                    })
+        });
+
+
+    };
+    
+    
+	
 });
+
+
+
+
+
+
 
