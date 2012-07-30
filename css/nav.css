@@ -26,6 +26,7 @@
 
 #WelcomeNav a:hover{
 	background: none;
+	color: #ffa800;
 }
 
 #WelcomeNav .active a{
@@ -37,7 +38,7 @@
 
 .mainNav{
 	margin-bottom: 0px;
-}
+} 
 
 .mainNav a .caret{
 	margin-top: 8px;
