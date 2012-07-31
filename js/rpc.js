@@ -14,7 +14,7 @@ rpc.displayResult = function(response,success)
 		{
 			//$('#status').text(JSON.stringify(response));
 		}
-	}else $('#error').text('No response from server. Please check if it is running.');
+	}else ncc.error('No response from server. Please check if it is running.');
 };
 
 rpc.call =function(request,callback)

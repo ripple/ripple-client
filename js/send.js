@@ -28,7 +28,7 @@ send.onSendResponse = function(response,success)
 		if(!ncc.checkError(response))
 		{
 			currency=$.trim( $("#SendCurrency").val() ).substring(0,3).toUpperCase();
-			$('#status').text($("#SendAmount").val()+' '+currency+' Sent to '+$("#SendDest").val());
+			ncc.status($("#SendAmount").val()+' '+currency+' Sent to '+$("#SendDest").val());
 			$("#SendDest").val('');
 			$("#SendAmount").val('');
 		}

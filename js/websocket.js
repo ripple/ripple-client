@@ -59,13 +59,13 @@ server.connect=function()
 	
 	try{
 		server.socket = new WebSocket("ws://"+SERVER_IP+":"+SERVER_WEBSOCKET_PORT);
-		server.socket.onopen = function(){ $('#status').text("Connected to websocket");  }  
+		server.socket.onopen = function(){ ncc.status("Connected to websocket");  }  
 	  
 	    server.socket.onmessage = server.handleMsg;
 	  
-	    server.socket.onclose = function(){ $('#error').text("Disconnected from websocket");  }
+	    server.socket.onclose = function(){ ncc.error("Disconnected from websocket");  }
     } catch(exception){  
-             $('#error').text('Error: '+exception);  
+             ncc.error('Error: '+exception);  
     }      	
 }
 

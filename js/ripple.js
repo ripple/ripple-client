@@ -14,7 +14,7 @@ ripple.getLinesResponse  = function(response,success)
 	{
 		ncc.checkError(response);
 		
-		$('#status').text(JSON.stringify(response));
+		ncc.status(JSON.stringify(response));
 		if(response.result.lines)
 		{
 			$('#RippleTable').empty();
@@ -49,7 +49,7 @@ ripple.setLineResponse  = function(response,success)
 	{
 		ncc.checkError(response);
 		
-		$('#status').text(JSON.stringify(response));
+		ncc.status(JSON.stringify(response));
 		
 	}else ncc.serverDown();
 }

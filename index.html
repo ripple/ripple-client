@@ -124,6 +124,8 @@
 										
 						<div class="bottom-btn" > <button class="btn btn-large btn-success" onclick="ncc.displayScreen('login')" >Login and claim your coins</button></div>
 						
+						<hr>
+						This is temporary for Luis: <select id="TestSelect" class="span2" ></select>
 						
 					
 
@@ -162,6 +164,7 @@
 						</table>
 						
 						<div class="bottom-btn" > <button class="btn btn-large btn-success" onclick="loginScreen.login()" >Login</button></div>
+						<p>
 						If you don't have a wallet key, you can <a onclick="ncc.displayScreen('welcome')">Create One</a>.
 						
 					
@@ -417,7 +420,17 @@
 	
 			</div>
 			<!-- ENDS tab-content -->
-
+	
+			<div id="ErrorDiv" class="alert alert-error ncc-alert">
+						 <p><strong class="alert-heading">Warning!</strong></p>
+						 <span id="error"><span>
+			</div>
+			<div id="StatusDiv" class="alert alert-info ncc-alert">
+			
+						 <p><strong class="alert-heading">Info</strong></p>
+						 <span id="status"><span>
+			</div>
+		
 		</div>
 		<!-- ENDS MAIN -->
 		

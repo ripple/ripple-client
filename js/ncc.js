@@ -52,7 +52,7 @@ ncc.allCurrencyOptions={
 
 ncc.serverDown = function()
 {
-	$('#error').text('No response from server. Please check if it is running.');
+	ncc.error('No response from server. Please check if it is running.');
 }
 
 ncc.checkError = function(response)
@@ -74,13 +74,26 @@ ncc.checkError = function(response)
 	}
 	
 	
-	$('#error').text(errorStr);
+	ncc.error(errorStr);
 	return ret;
+}
+
+ncc.status=function(str)
+{
+	if(str)
+	{
+		$('#StatusDiv').show();
+		$('#status').text(str);
+	}else $('#StatusDiv').hide();
 }
 
 ncc.error=function(str)
 {
-	$('#error').text(str);
+	if(str)
+	{
+		$('#ErrorDiv').show();
+		$('#error').text(str);
+	}else $('#ErrorDiv').hide();
 }
 
 ncc.displayScreen =function(screenName)
@@ -315,6 +328,9 @@ $(document).ready(function(){
 	})
 	
 	startUp.start();
+	
+	// TEMP: for luis
+	$( "#TestSelect" ).combobox({ data: ncc.allCurrencyOptions , selected: 'XNS' });
 	
 	
 	

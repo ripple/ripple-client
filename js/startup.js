@@ -17,8 +17,8 @@ startUp.start=function()
 	
 	server.connect();
 	
-	$('#status').text("Connecting to: "+SERVER_IP+' '+SERVER_RPC_PORT);
-	$('#error').text('');
+	ncc.status("Connecting to: "+SERVER_IP+' '+SERVER_RPC_PORT);
+	ncc.error('');
 	
 	$('#ServerDisplay').text("Connecting to: "+SERVER_IP+' '+SERVER_RPC_PORT);
 }
@@ -39,7 +39,7 @@ startUp.firstConnect= function(response,success)
 		}
 	}else 
 	{
-		$('#status').text('');
+		ncc.status('');
 		ncc.displayScreen('NoServerScreen');
 		ncc.serverDown();
 	}
