@@ -265,8 +265,10 @@ ncc.onLogIn=function()
 {
 	ncc.loggedIn=true;
 	
-	$('#WelcomeNav').hide();
+	$('#UnlogMainNav').hide();
+	$('#UnlogTopNav').hide();
 	$('#MainNav').show();
+	$('#TopNav').show();
 	if(ncc.advancedMode)
 	{
 		$('#AdvancedNav').show();
@@ -280,15 +282,17 @@ ncc.onLogOut=function()
 {
 	ncc.loggedIn=false;
 	
-	$('#WelcomeNav').show();
+	$('#UnlogMainNav').show();
+	$('#UnlogTopNav').show();
 	$('#MainNav').hide();
+	$('#TopNav').hide();
 	if(ncc.advancedMode)
 	{
 		$('#AdvancedNav').hide();
 		$('#UnlogAdvancedNav').show();
 	}
 	
-	$('#WelcomeNav a[href="#t-welcome"]').tab('show');
+	$('#UnlogTopNav a[href="#t-welcome"]').tab('show');
 }
 
 $(document).ready(function(){
@@ -307,24 +311,27 @@ $(document).ready(function(){
 	$("#t-welcome").on("show", welcomeScreen.onShowTab );
 	
 	
-	
-	$('#MainNav').hide();
+	ncc.onLogOut();
 	$('#AdvancedNav').hide();
 	$('#UnlogAdvancedNav').hide();
 	
 	
-	/* navigation functions */
-	
 	// unactives main navigation
 	
 	$('#UnlogAdvancedNav li a').click(function(){
-		$('#mainNav li').removeClass('active');
+		$('#UnlogTopNav li').removeClass('active');
 	})
-	
-	// unactives sub navigation
-	
-	$('#mainNav li a').click(function(){
-		$('#UnlogAdvancedNav li').removeClass('active');
+	$('#TopNav li a').click(function(){
+		$('#MainNav li').removeClass('active');
+		$('#AdvancedNav li').removeClass('active');
+	})
+	$('#AdvancedNav li a').click(function(){
+		$('#MainNav li').removeClass('active');
+		$('#TopNav li').removeClass('active');
+	})
+	$('#MainNav li a').click(function(){
+		$('#AdvancedNav li').removeClass('active');
+		$('#TopNav li').removeClass('active');
 	})
 	
 	startUp.start();

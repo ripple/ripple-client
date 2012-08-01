@@ -50,25 +50,34 @@
 					<a href="index.html" ><img src="img/logo.png" alt="" /></a>
 				</div>
 			
-				<ul class="nav nav-tabs" id="WelcomeNav">
-				  <li><a href="#t-welcome" data-toggle="tab">Welcome</a></li>
-				  <li><a href="#t-login"  data-toggle="tab">Login</a></li>
+				<ul class="nav nav-tabs topNav" id="TopNav">
 				  <li class="secondary-tab pull-right"><a href="#t-options" data-toggle="tab">Options</a></li>
-				  <li class="secondary-tab pull-right"><a onclick="ncc.toggleAdvanced(this)" >Show Advanced</a></li>
+				  <li  class="secondary-tab pull-right"><a onclick="loginScreen.logout()">Logout</a></li>
 				</ul>
 				
-				<ul class="nav nav-tabs" id="MainNav">
+				<ul class="nav nav-tabs topNav" id="UnlogTopNav">
+				  <li class="secondary-tab pull-right"><a href="#t-options" data-toggle="tab">Options</a></li>
+				  <li  class="secondary-tab pull-right"><a href="#t-login"  data-toggle="tab">Login</a></li>
+				  <li class="secondary-tab pull-right"><a href="#t-welcome" data-toggle="tab">Welcome</a></li>
+				</ul>
+				
+				<ul class="nav nav-tabs mainNav" id="UnlogMainNav">
+				  <li>You are not logged in.</li>
+				  <li class="secondary-tab pull-right"><a onclick="ncc.toggleAdvanced(this)" >Show Advanced <b class="caret"></b></a></li>
+				</ul>
+				
+								
+				<ul class="nav nav-tabs mainNav" id="MainNav">
 				  <li><a href="#t-send"  data-toggle="tab">Send Money</a></li>
 				  <li><a href="#t-receive" data-toggle="tab">Receive Money</a></li>
 				  <li><a href="#t-ripple" data-toggle="tab">Ripple</a></li>
 				  <li><a href="#t-history" data-toggle="tab">History</a></li>
 				  <li><a href="#t-address" data-toggle="tab">Address Book</a></li>
-				  <li class="secondary-tab pull-right"><a onclick="loginScreen.logout()" >Logout</a></li>
-				  <li class="secondary-tab pull-right"><a href="#t-options" >Options</a></li>
-				  <li class="secondary-tab pull-right"><a onclick="ncc.toggleAdvanced(this)" >Show Advanced</a></li>
+				  <li class="secondary-tab pull-right"><a onclick="ncc.toggleAdvanced(this)" >Show Advanced <b class="caret"></b></a></li>
 				</ul>
 				
-				<ul class="nav nav-tabs" id="AdvancedNav">
+				<ul class="nav nav-tabs subnav" id="AdvancedNav">
+				  <li class="secondary-tab pull-right"><a onclick="rpc.stop()" >Stop Server</a></li>
 				  <li><a href="#t-trade" data-toggle="tab">Trade</a></li>
 				  <li><a href="#t-orderbook" data-toggle="tab">Order Book</a></li>
 				  <li><a href="#t-info"  data-toggle="tab">Info</a></li>
@@ -76,17 +85,16 @@
 				  <li><a href="#t-unl" data-toggle="tab">UNL</a></li>
 				  <li><a href="#t-ledger" data-toggle="tab">Ledger</a></li>
 				  <li><a href="#t-feed" data-toggle="tab">Feed</a></li>
-				  <li class="secondary-tab pull-right"><a onclick="rpc.stop()" >Stop Server</a></li>
 				</ul>
 				
-				<ul class="nav nav-tabs" id="UnlogAdvancedNav">
+				<ul class="nav nav-tabs subnav" id="UnlogAdvancedNav">
+				  <li class="secondary-tab pull-right"><a onclick="rpc.stop()" >Stop Server</a></li>
 				  <li><a href="#t-orderbook" data-toggle="tab">Order Book</a></li>
 				  <li><a href="#t-info"  data-toggle="tab">Info</a></li>
 				  <li><a href="#t-peers" data-toggle="tab">Peers</a></li>
 				  <li><a href="#t-unl" data-toggle="tab">UNL</a></li>
 				  <li><a href="#t-ledger" data-toggle="tab">Ledger</a></li>
 				  <li><a href="#t-feed" data-toggle="tab">Feed</a></li>
-				  <li class="secondary-tab pull-right"><a onclick="rpc.stop()" >Stop Server</a></li>
 				</ul>
 			</nav>
 			<!-- ends nav -->

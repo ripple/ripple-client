@@ -1,19 +1,19 @@
 /* Welcome nav  ----------------------------------------------------*/ 
 
-#WelcomeNav{
+.topNav{
 	background: none;
 	margin-bottom: 10px;
 }
 
-#WelcomeNav li{
+.topNav li{
 	border-right: 1px solid #fff;
 }
 
-#WelcomeNav li:first-child{
+.topNav li:first-child{
 	border-right: none;
 }
 
-#WelcomeNav a{
+.topNav a{
 	color: #fff;
 	text-shadow: none;
 	line-height: 1.3em;
@@ -24,12 +24,12 @@
 
 
 
-#WelcomeNav a:hover{
+.topNav a:hover{
 	background: none;
 	color: #ffa800;
 }
 
-#WelcomeNav .active a{
+.topNav .active a{
 	background: none;
 	color: #ffa800;
 }
