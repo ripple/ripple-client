@@ -173,7 +173,11 @@ header .status-message .heading {
 footer a {
   color: #468dd1;
 }
-footer .right-footer .right-footer-content {
+footer .right-footer {
   border-left: 1px solid #ccc;
   padding-left: 20px;
+}
+
+footer span {
+	padding-right: 20px;
 }
