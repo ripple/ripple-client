@@ -48,7 +48,7 @@ body {
   font-weight: 300;
   line-height: 1.5em;
   color: #444444;
-  background: #dadbdd url(../img/bg.png) repeat-x top center;
+  background: #dadbdd url(../img/bg-optimized.jpg) repeat-x top center;
 }
 body a {
   text-decoration: none;
@@ -134,7 +134,11 @@ header .status-message .heading {
   padding-bottom: 5px;
   margin-bottom: 5px;
 }
-/* MAIN ----------------------------------------------------*/#main {
+/* MAIN ----------------------------------------------------*/
+
+#main {
+position: relative;
+
   background: #fff;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
@@ -166,7 +170,17 @@ header .status-message .heading {
 #main section .page-content {
   margin: 20px;
 }
-/* FOOTER ----------------------------------------------------*/footer {
+
+#main .stick-bottom{
+	position: absolute;
+	left: 0px;
+	bottom: 10px;
+	width: 870px;
+}
+
+/* FOOTER ----------------------------------------------------*/
+
+footer {
   font-size: 14px;
   margin-bottom: 60px;
 }

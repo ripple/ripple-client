@@ -1,19 +1,19 @@
 /* Welcome nav  ----------------------------------------------------*/ 
 
-.topNav{
+header .topNav{
 	background: none;
 	margin-bottom: 10px;
 }
 
-.topNav li{
+header .topNav li{
 	border-right: 1px solid #fff;
 }
 
-.topNav li:first-child{
+header .topNav li:first-child{
 	border-right: none;
 }
 
-.topNav a{
+header .topNav a{
 	color: #fff;
 	text-shadow: none;
 	line-height: 1.3em;
@@ -24,12 +24,12 @@
 
 
 
-.topNav a:hover{
+header nav .topNav a:hover{
 	background: none;
 	color: #ffa800;
 }
 
-.topNav .active a{
+header .topNav .active a{
 	background: none;
 	color: #ffa800;
 }
@@ -43,6 +43,14 @@
 .mainNav a .caret{
 	margin-top: 8px;
 	margin-left: 5px;
+}
+
+.mainNav .log-message{
+	color: #444;
+	line-height: 37px;
+	display: block;
+	padding-left: 10px;
+	padding-right: 20px;
 }
 
 /* Sub nav  ----------------------------------------------------*/ 
@@ -93,6 +101,11 @@
 .secondary-tab{
 	cursor: pointer;
 }
+
+
+
+
+
 
 
 

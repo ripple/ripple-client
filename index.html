@@ -62,7 +62,7 @@
 				</ul>
 				
 				<ul class="nav nav-tabs mainNav" id="UnlogMainNav">
-				  <li>You are not logged in.</li>
+				  <li><span  class="log-message">You are not logged in.</span></li>
 				  <li class="secondary-tab pull-right"><a onclick="ncc.toggleAdvanced(this)" >Show Advanced <b class="caret"></b></a></li>
 				</ul>
 				
@@ -127,7 +127,10 @@
 						<div class="bottom-btn" > <button class="btn btn-large btn-success" onclick="ncc.displayScreen('login')" >Login and claim your coins</button></div>
 						
 						<hr>
-						This is temporary for Luis: <select id="TestSelect" class="span2" ></select>
+						
+						This is temporary for Luis:  
+						
+						<select id="TestSelect" class="span2" ></select>
 						
 					
 
@@ -424,7 +427,7 @@
 			</div>
 			<!-- ENDS tab-content -->
 	
-			<div id="ErrorDiv" class="alert alert-error ncc-alert">
+			<div id="ErrorDiv" class="alert alert-error ncc-alert stick-bottom">
 						 <p><strong class="alert-heading">Warning!</strong></p>
 						 <span id="error"><span>
 			</div>
