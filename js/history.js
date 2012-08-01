@@ -38,20 +38,31 @@ history.onHistoryResponse=function(response,success)
 
 history.addTransaction=function(trans,adjust)
 {
-		var amount=ncc.displayAmount(trans.inner.Amount);
-		var str='<tr><td>'+trans.inLedger+'</td><td class="smallFont">'+trans.middle.SourceAccount+'</td><td class="smallFont">'+trans.inner.Destination+'</td><td>'+amount+'</td><td>'+trans.status+'</td></tr>';
 		
-		$('#HistoryTable').prepend(str);
-		
-		if(adjust)
+		if(trans.middle.Type==20)
+			var amount=ncc.displayAmount(trans.inner.LimitAmount);
+		else var amount=ncc.displayAmount(trans.inner.Amount);
+		var oldEntry=$('#'+trans.id);
+		if(oldEntry.length)
 		{
-			if(trans.middle.SourceAccount==ncc.accountID)
+			var str='<td>'+trans.inLedger+'</td><td>'+trans.middle.type+'</td><td class="smallFont">'+trans.middle.SourceAccount+'</td><td class="smallFont">'+trans.inner.Destination+'</td><td>'+amount+'</td><td>'+trans.status+'</td>';
+			oldEntry.html(str);
+		}else
+		{
+			var str='<tr id="'+trans.id+'"><td>'+trans.inLedger+'</td><td>'+trans.middle.type+'</td><td class="smallFont">'+trans.middle.SourceAccount+'</td><td class="smallFont">'+trans.inner.Destination+'</td><td>'+amount+'</td><td>'+trans.status+'</td></tr>';
+			
+			$('#HistoryTable').prepend(str);
+			
+			if(adjust)
 			{
-				ncc.changeBalance('XNS', -(trans.inner.Amount+trans.middle.Fee));
-				
-			}else if(trans.inner.Destination==ncc.accountID)
-			{
-				ncc.changeBalance('XNS', trans.inner.Amount);
+				if(trans.middle.SourceAccount==ncc.accountID)
+				{
+					ncc.changeBalance('XNS', -(trans.inner.Amount+trans.middle.Fee));
+					
+				}else if(trans.inner.Destination==ncc.accountID)
+				{
+					ncc.changeBalance('XNS', trans.inner.Amount);
+				}
 			}
 		}
 }

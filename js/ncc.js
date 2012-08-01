@@ -3,7 +3,6 @@ show multiple balances
 ripple progress bar
 only fetch ripple lines when you start. then use websocket
 trading
-new design
 console
 
 updated accepted transactions
@@ -99,7 +98,7 @@ ncc.error=function(str)
 ncc.displayScreen =function(screenName)
 {
 	
-	$('#WelcomeNav a[href="#t-'+screenName+'"]').tab('show');
+	$('#TopNav a[href="#t-'+screenName+'"]').tab('show');
 }
 
 
@@ -149,10 +148,24 @@ ncc.changeBalance = function(currency,delta)
     }
 }
 
-ncc.displayAmount= function(str)
+ncc.displayAmount= function(amount)
 {
-	str=str/BALANCE_DISPLAY_DIVISOR;
-	return(ncc.addCommas(str));
+	if(amount.currency)
+	{
+		var value=amount.value;
+		if(amount.currency=='XNS')
+		{
+			value=value/BALANCE_DISPLAY_DIVISOR;
+			return(ncc.addCommas(value));	
+		}else
+		{
+			return(ncc.addCommas(value)+' '+amount.currency);
+		}
+	}else
+	{  // simple XNS
+		amount=amount/BALANCE_DISPLAY_DIVISOR;
+		return(ncc.addCommas(amount));
+	}
 }
 
 ncc.addCommas= function(nStr) 

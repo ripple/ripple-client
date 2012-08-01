@@ -43,3 +43,7 @@ a {
 	margin-bottom: 20px;
 	text-align: center;
 }
+
+.smallFont {
+	font-size: 9px;
+}

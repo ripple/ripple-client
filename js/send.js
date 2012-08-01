@@ -21,7 +21,7 @@ send.send = function()
 
 send.onSendResponse = function(response,success)
 {
-	console.log(JSON.stringify(response));
+	console.log("Send response:"+JSON.stringify(response));
 	
 	if(success)
 	{
