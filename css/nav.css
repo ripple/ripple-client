@@ -23,16 +23,19 @@ header .topNav a{
 }
 
 
-
-header nav .topNav a:hover{
+.topNav  > li.secondary-tab > a:hover{
 	background: none;
 	color: #ffa800;
+	border: 1px solid transparent;
 }
 
-header .topNav .active a{
+.topNav  >  .active a{
 	background: none;
 	color: #ffa800;
+	border: 1px solid transparent;
 }
+
+
 
 /* Main nav  ----------------------------------------------------*/ 
 
