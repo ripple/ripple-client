@@ -98,7 +98,7 @@ ncc.error=function(str)
 ncc.displayScreen =function(screenName)
 {
 	
-	$('#TopNav a[href="#t-'+screenName+'"]').tab('show');
+	$('#UnlogTopNav a[href="#t-'+screenName+'"]').tab('show');
 }
 
 
@@ -348,11 +348,7 @@ $(document).ready(function(){
 	})
 	
 	startUp.start();
-	
-	// TEMP: for luis
-	$( "#TestSelect" ).combobox({ data: ncc.allCurrencyOptions , selected: 'XNS' });
-	
-	
+		
 	
 	/* custom select boxes */
 	
