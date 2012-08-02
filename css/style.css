@@ -137,16 +137,16 @@ header .status-message .heading {
 /* MAIN ----------------------------------------------------*/
 
 #main {
-position: relative;
+	position: relative;
 
   background: #fff;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
-  min-height: 600px;
+  min-height: 500px;
   margin-top: 20px;
   margin-bottom: 40px;
-  padding-bottom: 20px;
+  padding-bottom: 120px; /* avoid override with the .stick-bottom info box */
   box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.22);
   font-size: 16px;
 }
@@ -176,6 +176,7 @@ position: relative;
 	left: 0px;
 	bottom: 10px;
 	width: 870px;
+	margin-top: 240px;
 }
 
 /* FOOTER ----------------------------------------------------*/

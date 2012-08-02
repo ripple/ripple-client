@@ -62,8 +62,8 @@ header .topNav a{
 	background: #6b727a;
 	
 	margin-bottom: 0px;
-	border: 1px solid #444547;
-	border-top: none;
+	border-top: 2px solid #565b62;
+	border-bottom: 2px solid #393c41;
 	
 	-moz-border-radius: 0px 0px 5px 5px;
 	-webkit-border-radius: 0px 0px 5px 5px;
