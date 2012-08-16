@@ -143,13 +143,17 @@ header .status-message .heading {
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
-  min-height: 500px;
   margin-top: 20px;
   margin-bottom: 40px;
-  padding-bottom: 120px; /* avoid override with the .stick-bottom info box */
+  padding-bottom: 20px; /* avoid override with the .stick-bottom info box */
   box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.22);
   font-size: 16px;
 }
+
+#main .tab-content {
+	min-height: 400px;
+}
+
 #main form,
 #main table {
   font-size: 12px;
@@ -172,11 +176,13 @@ header .status-message .heading {
 }
 
 #main .stick-bottom{
-	position: absolute;
+	/*position: absolute;
 	left: 0px;
 	bottom: 10px;
 	width: 870px;
 	margin-top: 240px;
+	*/
+	margin-top:40px;
 }
 
 /* FOOTER ----------------------------------------------------*/
