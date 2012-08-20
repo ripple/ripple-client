@@ -83,7 +83,9 @@ ledgerScreen.makeRow=function(account,i)
 	}
 	if(account.type=="RippleState")
 	{
-		return('<tr><td>'+i+'</td><td>RippleState</td><td></td><td></td></tr>');
+		var balance=account.Balance.value;
+		var currency=account.Balance.currency;
+		return('<tr><td>'+i+'</td><td>RippleState</td><td>'+balance+'</td><td>'+currency+'</td></tr>');
 	}
 	if(account.type=="Offer")
 	{
