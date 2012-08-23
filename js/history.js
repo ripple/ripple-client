@@ -41,6 +41,7 @@ history.addTransaction=function(trans,adjust)
 		
 		if(trans.middle.Type==20)
 			var amount=ncc.displayAmount(trans.inner.LimitAmount);
+		else if(trans.middle.Type=7) return;
 		else var amount=ncc.displayAmount(trans.inner.Amount);
 		var oldEntry=$('#'+trans.id);
 		if(oldEntry.length)
