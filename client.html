@@ -32,20 +32,7 @@
 	   Modernizr enables HTML5 elements & feature detects for optimal performance.
 	   Create your own custom Modernizr build: www.modernizr.com/download/ -->
 	<script src="js/modernizr-2.5.3.min.js"></script>
-	<script>
-function testParse()
-{
-	var content=$('#area').val();
-	//var ast=parse(content);
 	
-	 //esprima = require('../esprima');
-	 //syntax = esprima.parse(content, { tolerant: true, loc: false });
-	 parser.js2coinCode(content);
-	 
-	 //console.log(content);
-}	
-</script>
-
 </head>
 <body>
 	
@@ -139,9 +126,6 @@ function testParse()
 						Once some coins are sent to that address, you can claim this account with the following key: <span id="NewMasterKey">...</span>
 										
 						<div class="bottom-btn" > <button class="btn btn-large btn-success" onclick="ncc.displayScreen('login')" >Login and claim your coins</button></div>
-						
-						<button class="btn btn-info" onclick="testParse()" >Parse</button>
- 						<textarea class="input-xlarge" id="area" rows="8"></textarea>
 						
 				 </div>
 			</section>
