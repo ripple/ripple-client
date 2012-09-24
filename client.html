@@ -36,126 +36,118 @@
 </head>
 <body>
 	
-	
 	<!-- WRAPPER -->
 	<div class="wrapper">
 		
-		
 		<!-- HEADER -->
 		<header class="cf">
-			
 			
 			<!-- nav -->
 			<nav class="cf">
 				<div id="logo" class="cf">
 					<a href="index.html" ><img src="img/logo.png" alt="" /></a>
 				</div>
-			
+				
 				<ul class="nav nav-tabs topNav" id="TopNav">
-				  <li class="secondary-tab pull-right"><a href="#t-options" data-toggle="tab">Options</a></li>
-				  <li  class="secondary-tab pull-right"><a onclick="loginScreen.logout()">Logout</a></li>
+					<li class="secondary-tab pull-right"><a href="#t-options" data-toggle="tab">Options</a></li>
+					<li class="secondary-tab pull-right"><a onclick="loginScreen.logout()">Logout</a></li>
 				</ul>
 				
 				<ul class="nav nav-tabs topNav" id="UnlogTopNav">
-				  <li class="secondary-tab pull-right"><a href="#t-options" data-toggle="tab">Options</a></li>
-				  <li  class="secondary-tab pull-right"><a href="#t-login"  data-toggle="tab">Login</a></li>
-				  <li class="secondary-tab pull-right"><a href="#t-welcome" data-toggle="tab">Welcome</a></li>
+					<li class="secondary-tab pull-right"><a href="#t-options" data-toggle="tab">Options</a></li>
+					<li  class="secondary-tab pull-right"><a href="#t-login"  data-toggle="tab">Login</a></li>
+					<li class="secondary-tab pull-right"><a href="#t-welcome" data-toggle="tab">Welcome</a></li>
 				</ul>
 				
 				<ul class="nav nav-tabs mainNav" id="UnlogMainNav">
-				  <li><span  class="log-message">You are not logged in.</span></li>
-				  <li class="secondary-tab pull-right"><a onclick="ncc.toggleAdvanced(this)" >Show Advanced <b class="caret"></b></a></li>
+					<li><span  class="log-message">You are not logged in.</span></li>
+					<li class="secondary-tab pull-right"><a onclick="ncc.toggleAdvanced(this)" >Show Advanced <b class="caret"></b></a></li>
 				</ul>
 				
-								
 				<ul class="nav nav-tabs mainNav" id="MainNav">
-				  <li><a href="#t-send"  data-toggle="tab">Send Money</a></li>
-				  <li><a href="#t-receive" data-toggle="tab">Receive Money</a></li>
-				  <li><a href="#t-ripple" data-toggle="tab">Ripple</a></li>
-				  <li><a href="#t-history" data-toggle="tab">History</a></li>
-				  <li><a href="#t-address" data-toggle="tab">Address Book</a></li>
-				  <li class="secondary-tab pull-right"><a onclick="ncc.toggleAdvanced(this)" >Show Advanced <b class="caret"></b></a></li>
+					<li><a href="#t-send"  data-toggle="tab">Send Money</a></li>
+					<li><a href="#t-receive" data-toggle="tab">Receive Money</a></li>
+					<li><a href="#t-ripple" data-toggle="tab">Ripple</a></li>
+					<li><a href="#t-history" data-toggle="tab">History</a></li>
+					<li><a href="#t-address" data-toggle="tab">Address Book</a></li>
+					<li class="secondary-tab pull-right"><a onclick="ncc.toggleAdvanced(this)" >Show Advanced <b class="caret"></b></a></li>
 				</ul>
 				
 				<ul class="nav nav-tabs subnav" id="AdvancedNav">
-				  <li class="secondary-tab pull-right"><a onclick="rpc.stop()" >Stop Server</a></li>
-				  <li><a href="#t-feed" data-toggle="tab">Feed</a></li>
-				  <li><a href="#t-ledger" data-toggle="tab">Ledger</a></li>
-				  <li><a href="#t-unl" data-toggle="tab">UNL</a></li>
-				  <li><a href="#t-peers" data-toggle="tab">Peers</a></li>
-				  <li><a href="#t-info"  data-toggle="tab">Info</a></li>
-				  <li><a href="#t-orderbook" data-toggle="tab">Order Book</a></li>
-				  <li><a href="#t-trade" data-toggle="tab">Trade</a></li>
+					<li class="secondary-tab pull-right"><a onclick="rpc.stop()" >Stop Server</a></li>
+					<li><a href="#t-feed" data-toggle="tab">Feed</a></li>
+					<li><a href="#t-ledger" data-toggle="tab">Ledger</a></li>
+					<li><a href="#t-unl" data-toggle="tab">UNL</a></li>
+					<li><a href="#t-peers" data-toggle="tab">Peers</a></li>
+					<li><a href="#t-info"  data-toggle="tab">Info</a></li>
+					<li><a href="#t-orderbook" data-toggle="tab">Order Book</a></li>
+					<li><a href="#t-trade" data-toggle="tab">Trade</a></li>
 				</ul>
 				
 				<ul class="nav nav-tabs subnav" id="UnlogAdvancedNav">
-				  <li class="secondary-tab pull-right"><a onclick="rpc.stop()" >Stop Server</a></li>
-				  <li><a href="#t-feed" data-toggle="tab">Feed</a></li>
-				  <li><a href="#t-ledger" data-toggle="tab">Ledger</a></li>
-				  <li><a href="#t-unl" data-toggle="tab">UNL</a></li>
-				  <li><a href="#t-peers" data-toggle="tab">Peers</a></li>
-				  <li><a href="#t-info"  data-toggle="tab">Info</a></li>
-				  <li><a href="#t-orderbook" data-toggle="tab">Order Book</a></li>
+					<li class="secondary-tab pull-right"><a onclick="rpc.stop()" >Stop Server</a></li>
+					<li><a href="#t-feed" data-toggle="tab">Feed</a></li>
+					<li><a href="#t-ledger" data-toggle="tab">Ledger</a></li>
+					<li><a href="#t-unl" data-toggle="tab">UNL</a></li>
+					<li><a href="#t-peers" data-toggle="tab">Peers</a></li>
+					<li><a href="#t-info"  data-toggle="tab">Info</a></li>
+					<li><a href="#t-orderbook" data-toggle="tab">Order Book</a></li>
 				</ul>
 			</nav>
 			<!-- ends nav -->
-			
 			
 			<!-- Status -->
 			<ul class="status-message">
 				<li id="ClientState" class="heading">Status Message</li>
 			</ul>
-			<!-- ENDS status -->
+			<!-- ENDS Status -->
 			
 		</header>
 		<!-- ENDS HEADER -->
 		
-		
-		
 		<!-- MAIN -->
 		<div role="main" id="main">
+			
 			<!-- tab-content -->
 			<div class="tab-content">
 			
-			<!-- WELCOME SECTION -->
-			<section class="tab-pane active" id="t-welcome">
-				<div class="heading">Welcome</div>
-				 <div class="page-content">
-						Get someone to send you Newcoins to your Address: <span id="NewAddress">...</span>
-						<p><p>
-						Once some coins are sent to that address, you can claim this account with the following key: <span id="NewMasterKey">...</span>
-										
-						<div class="bottom-btn" > <button class="btn btn-large btn-success" onclick="ncc.displayScreen('login')" >Login and claim your coins</button></div>
+				<!-- WELCOME SECTION -->
+				<section class="tab-pane active" id="t-welcome">
+					<div class="heading">Welcome</div>
+					 <div class="page-content">
+							Get someone to send you Newcoins to your Address: <span id="NewAddress">...</span>
+							<p><p>
+								Once some coins are sent to that address, you can claim this account with the following key: <span id="NewMasterKey">...</span>
+							</p></p>
+							<div class="bottom-btn"> <button class="btn btn-large btn-success" onclick="ncc.displayScreen('login')" >Login and claim your coins</button></div>
+					 </div>
+				</section>
+				<!-- ENDS WELCOME SECTION -->
+				
+				<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+				
+				<!-- OPTIONS SECTION -->
+				<section class="tab-pane" id="t-options">
+					<div class="heading">Options</div>
+					<div class="page-content">
 						
-				 </div>
-			</section>
-			<!-- ENDS WELCOME SECTION -->
-			
-			<!-- Option SECTION -->
-			<section class="tab-pane" id="t-options">
-				<div class="heading">Options</div>
-				 <div class="page-content">
-				 
-				 	<table>
+						<table>
 							<tr><td class="span2" >Server IP</td><td><input id="ServerIPOption" type="text"></td></tr>
 							<tr><td class="span2" >Server Port</td><td><input id="ServerPortOption" type="text" value="6561" ></td></tr>
 						</table>
 						
-						<div class="bottom-btn" > 
+						<div class="bottom-btn">
 							<button class="btn btn-large btn-success" onclick="optionScreen.save()" >Save options</button> 
-							<button class="btn btn-large btn-danger" onclick="optionScreen.cancel()" >Cancel</button></div>
-
-				 </div>
-			</section>
-			<!-- ENDS Options SECTION -->
+							<button class="btn btn-large btn-danger" onclick="optionScreen.cancel()" >Cancel</button>
+						</div>
+					</div>
+				</section>
+				<!-- ENDS OPTIONS SECTION -->
 			
-			<!-- Login SECTION -->
-			<section class="tab-pane" id="t-login">
-				<div class="heading">Login</div>
-				 <div class="page-content">
-				 
-				 	
-						
+				<!-- LOGIN SECTION -->
+				<section class="tab-pane" id="t-login">
+					<div class="heading">Login</div>
+					<div class="page-content">
 						<table>
 							<tr><td class="span2" >Master Key</td><td valign='middle' ><input id="MasterKey" type="text" class="span4" ></td></tr>
 							<tr><td class="span2" ></td><td><input id="SaveMasterKey" type="checkbox" checked="false" > Save Key</td></tr>
@@ -163,30 +155,27 @@
 						
 						<div class="bottom-btn" > <button class="btn btn-large btn-success" onclick="loginScreen.login()" >Login</button></div>
 						<p>
-						If you don't have a wallet key, you can <a onclick="ncc.displayScreen('welcome')">Create One</a>.
-						
-					
-
-				 </div>
-			</section>
-			<!-- ENDS LOGIN SECTION -->
-			
-			
+							If you don't have a wallet key, you can <a onclick="ncc.displayScreen('welcome')">Create One</a>.
+						</p>
+					</div>
+				</section>
+				<!-- ENDS LOGIN SECTION -->
+				
+				<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
 				
 				<!-- SEND SECTION -->
-			<section class="tab-pane" id="t-send">
-				<div class="heading">Send Money</div>
-				 <div class="page-content">					
-						<table>
-							<tr><td class="span2" >Amount:</td><td><input id="SendAmount" type="text" class="span2"></td><td><select id="SendCurrency" class="span2" /></td></tr>
-							<tr><td class="span2" >Destination:</td><td colspan=2 ><input id="SendDest" type="text" class="span4" ></td></tr>
-						</table>
+				<section class="tab-pane" id="t-send">
+					<div class="heading">Send Money</div>
+					 <div class="page-content">					
+							<table>
+								<tr><td class="span2" >Amount:</td><td><input id="SendAmount" type="text" class="span2"></td><td><select id="SendCurrency" class="span2" /></td></tr>
+								<tr><td class="span2" >Destination:</td><td colspan=2 ><input id="SendDest" type="text" class="span4" ></td></tr>
+							</table>
 						
-						<div class="bottom-btn" > <button class="btn btn-large btn-success" onclick="send.send()" >Send Money</button></div>
-				 </div>
-			</section>
-			<!-- ENDS SEND SECTION -->
-				
+							<div class="bottom-btn" > <button class="btn btn-large btn-success" onclick="send.send()" >Send Money</button></div>
+					 </div>
+				</section>
+				<!-- ENDS SEND SECTION -->
 				
 				<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
 				
@@ -194,312 +183,298 @@
 				<section class="tab-pane" id="t-receive">
 					<div class="heading">Receive Money</div>
 					 <div class="page-content">
-						 
 						<div>Your address: <span id="RecvAddress">none</span></div>
-	
-					 
-					 </div>
+					</div>
 				</section>
 				<!-- ENDS RECEIVE SECTION -->
 				
 				<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
 				
-				
-				<!-- SEND RIPPLE -->
+				<!-- RIPPLE SECTION -->
 				<section class="tab-pane" id="t-ripple">
 					<div class="heading">Ripple</div>
-					  <div class="page-content">
+					<div class="page-content">
 						<div class="row">
 							<fieldset class="span6">
 								<legend>Add Credit Line</legend>
 								Adding a credit line enables you to hold other people's IOUs. Adding a credit line doesn't mean they owe you that much money. It only gives them the potential to owe you that much money.
 								<p>
-								<table>
-									<tr><td class="span2" >Account:</td><td><input id="NewCreditAccount" type="text" class="span4"></td></tr>
-									<tr><td class="span2" >Currency:</td><td>
+									<table>
+										<tr><td class="span2" >Account:</td><td><input id="NewCreditAccount" type="text" class="span4"></td></tr>
+										<tr><td class="span2" >Currency:</td><td>
 										<div><select id="NewCreditCurrency" class="span2" /></div>
-									</td></tr>
-									<tr><td class="span2" >Maximum Amount:</td><td><input id="NewCreditMax" type="text" class="span2" ></td></tr>
-								</table>
-								
-								<div class="bottom-btn" > <button class="btn btn-info" onclick="ripple.addLine()" >Add Credit Line</button></div>
+										</td></tr>
+										<tr><td class="span2">Maximum Amount:</td><td><input id="NewCreditMax" type="text" class="span2" ></td></tr>
+									</table>
+								</p>
+								<div class="bottom-btn"> <button class="btn btn-info" onclick="ripple.addLine()" >Add Credit Line</button></div>
 							</fieldset>
 						</div>
 						<div class="row">
-				      		<fieldset class="span5">
+							<fieldset class="span5">
 								<legend>Ripple Lines</legend>
 								<table  class="table table-striped"><tr><th>Min</th><th>Current balance</th><th>Max</th><th>Account</th><th></th><th></th></tr><tbody id="RippleTable"></tbody></table>
 							</fieldset>
-				      </div> 
-						
-					 
-					 </div>
+						</div> 
+					</div>
 				</section>
 				<!-- ENDS RIPPLE SECTION -->
 				
 				<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
 				
-				
 				<!-- HISTORY SECTION -->
 				<section  class="tab-pane" id="t-history">
 					<div class="heading">History</div>
-					  <div class="page-content">
-						 
-						 <table class="table table-striped" ><tr><th>Ledger</th><th>Type</th><th>Source</th><th>Destination</th><th>Amount</th><th>Status</th></tr><tbody id="HistoryTable"></tbody></table>
-						 
-						 
-						 
+						<div class="page-content">
+							<table class="table table-striped" ><tr><th>Ledger</th><th>Type</th><th>Source</th><th>Destination</th><th>Amount</th><th>Status</th></tr><tbody id="HistoryTable"></tbody></table>
 					 </div>
 				</section>
 				<!-- ENDS HISTORY SECTION -->
 				
 				<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
 				
-				
 				<!-- ADDRESS SECTION -->
 				<section  class="tab-pane" id="t-address">
 					<div class="heading">Address Book</div>
-					  <div class="page-content">
-						 
-						 <p><strong>Pellentesque habitant morbi tristique senectus et netus </strong>et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed.</p>
-					 <p>vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in </p>
-					 
-					 </div>
-				</section>
-				<!-- ENDS ADDRESS SECTION -->
-				
-				<!-- UNL SECTION -->
-				<section  class="tab-pane" id="t-unl">
-					<div class="heading">Unique Node List</div>
-					  <div class="page-content">
-						 
-						<div class="row">
-						    	<fieldset class="span5">
-									<legend>Add Node</legend>
-									
-									<table>
-										<tr><td class="span2" >Domain or Key:</td><td><input id="NewUNLNodeKey" type="text" class="span4"></td></tr>
-										<tr><td class="span2" >Optional Note:</td><td><input id="NewUNLNodeNote" type="text" ></td></tr>
-									</table>
-													
-									<div class="bottom-btn" > <button class="btn btn-info" onclick="ncc.addUNLNode()" >Add Node</button></div>
-								</fieldset>
-							</div>
-							<div class="row">
-					      		<fieldset class="span5">
-									<legend>Unique Node List</legend>
-									<table class="table table-striped"><tr><th>#</th><th>Hanko</th><th>Comment</th><th></th></tr><tbody id="UNLTable"></tbody></table>
-								</fieldset>
-					 
-					      </div>
-					 </div>
-				</section>
-				<!-- ENDS ADDRESS SECTION -->
-				
-				<!-- PEERS SECTION -->
-				<section  class="tab-pane" id="t-peers">
-					<div class="heading">Peers</div>
-					  <div class="page-content">
-						 
-						<div class="row">
-						    	<fieldset class="span5">
-									<legend>Add New Peer</legend>
-									If you are having connectivity issues you can manually add a peer below.
-									<table>
-										<tr><td class="span2" >IP:</td><td><input id="NewPeerIP" type="text" class="span2"></td></tr>
-										<tr><td class="span2" >Port:</td><td><input id="NewPeerPort" type="text" class="span2" value="51235" ></td></tr>
-									</table>
-													
-									<div class="bottom-btn" > <button class="btn btn-info" onclick="ncc.addPeer()" >Add New Peer</button></div>
-								</fieldset>
-							</div>
-							<div class="row">
-					      		<fieldset class="span5">
-									<legend>Peers</legend>
-									<table class="table table-striped"><tr><th>#</th><th>IP</th><th>Port</th><th>Version</th></tr><tbody id="PeerTable"></tbody></table>
-								</fieldset>
-					 
-					      </div>
-					 </div>
-				</section>
-				<!-- ENDS PEERS SECTION -->
-				
-				<!-- INFO SECTION -->
-				<section  class="tab-pane" id="t-info">
-					<div class="heading">Info</div>
-					  <div class="page-content">
-						 
-						Master Key: <span id="InfoMasterKey">...</span><p>
-									Server State: <span id="InfoServerState">...</span><p>
-									Validating Public Key: <span id="InfoPublicKey">...</span>
-					 </div>
-				</section>
-				<!-- ENDS ADDRESS SECTION -->
-				
-				<!-- Feed SECTION -->
-				<section  class="tab-pane" id="t-feed">
-					<div class="heading">Feed</div>
-					  <div class="page-content">
-						 
-						<table class="spaceTable" ><tr>
-						<td><input type="checkbox" onclick="feed.onLedgerClick(this)" /> Ledger</td>
-						<td><input type="checkbox" onclick="feed.onTransactionsClick(this)" /> Transactions</td>
-						<td><input type="checkbox" onclick="feed.onRippleClick(this)" /> Ripple</td>
-						<td><input type="checkbox" onclick="feed.onServerClick(this)" /> Server</td>
-						<td><button class="btn btn-danger" onclick="feed.clear()" >Clear Feed</button></td>
-						</tr></table>
-						<div id="FeedArea"></div>
-					 </div>
-				</section>
-				<!-- ENDS ADDRESS SECTION -->
-				
-				<!-- TRADE SECTION -->
-				<section  class="tab-pane" id="t-trade">
-					<div class="heading">Trade</div>
-					  <div class="page-content">
-						 
-						
-					      		Newcoin automatically converts if you need to send from one type of currency to another. These trading features are not needed by ordinary users.
-								<fieldset class="span6">
-									<legend>Ticker</legend>
-									<table class="table table-striped"><tr><th>Pair</th><th>Bid</th><th>Ask</th><th>Spread</th><th></th></tr><tbody id="TickerTable"></tbody></table>
-								</fieldset>
-							
-							
-					      		<fieldset class="span5">
-									<legend>Place Order</legend>
-									<table>
-										<tr><td class="span2" >Sell Currency:</td><td><input id="PlaceOrderOutCurrency" type="text"></td></tr>
-										<tr><td class="span2" >Buy Currency:</td><td><input id="PlaceOrderInCurrency" type="text" ></td></tr>
-										<tr><td class="span2" >Amount to Sell:</td><td><input id="PlaceOrderAmount" type="text" ></td></tr>
-										<tr><td class="span2" >Price:</td><td><input id="PlaceOrderPrice" type="text" ></td></tr>
-									</table>
-									<span id="PlaceOrderStatus"></span>
-									<div class="bottom-btn" > <button class="btn btn-info" onclick="trade.placeOrder()" >Place Order</button></div>
-								</fieldset>
-					      
-					      		<fieldset class="span5">
-									<legend>Open Orders</legend>
-									<table class="table table-striped"><tr><th>Date</th><th>Pair</th><th>Type</th><th>Price</th><th>Amount</th><th></th></tr><tbody id="OpenOrderTable"></tbody></table>
-								</fieldset>
-					      
-					 
+					<div class="page-content">
+						<p><strong>Pellentesque habitant morbi tristique senectus et netus </strong>et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed.</p>
+						<p>vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in </p>
+					</div>
 				</section>
 				<!-- ENDS ADDRESS SECTION -->
 				
 				<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
 				
+				<!-- UNL SECTION -->
+				<section  class="tab-pane" id="t-unl">
+					<div class="heading">Unique Node List</div>
+					<div class="page-content">
+						<div class="row">
+							<fieldset class="span5">
+								<legend>Add Node</legend>
+								
+								<table>
+									<tr><td class="span2" >Domain or Key:</td><td><input id="NewUNLNodeKey" type="text" class="span4"></td></tr>
+									<tr><td class="span2" >Optional Note:</td><td><input id="NewUNLNodeNote" type="text" ></td></tr>
+								</table>
+								
+								<div class="bottom-btn"> <button class="btn btn-info" onclick="ncc.addUNLNode()" >Add Node</button></div>
+							</fieldset>
+						</div>
+						<div class="row">
+							<fieldset class="span5">
+								<legend>Unique Node List</legend>
+								<table class="table table-striped"><tr><th>#</th><th>Hanko</th><th>Comment</th><th></th></tr><tbody id="UNLTable"></tbody></table>
+							</fieldset>
+						</div>
+					</div>
+				</section>
+				<!-- ENDS UNL SECTION -->
+				
+				<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+				
+				<!-- PEERS SECTION -->
+				<section  class="tab-pane" id="t-peers">
+					<div class="heading">Peers</div>
+					<div class="page-content">
+						<div class="row">
+							<fieldset class="span5">
+								<legend>Add New Peer</legend>
+								If you are having connectivity issues you can manually add a peer below.
+								<table>
+									<tr><td class="span2">IP:</td><td><input id="NewPeerIP" type="text" class="span2"></td></tr>
+									<tr><td class="span2">Port:</td><td><input id="NewPeerPort" type="text" class="span2" value="51235" ></td></tr>
+								</table>
+								<div class="bottom-btn"> <button class="btn btn-info" onclick="ncc.addPeer()" >Add New Peer</button></div>
+							</fieldset>
+						</div>
+						<div class="row">
+							<fieldset class="span5">
+								<legend>Peers</legend>
+								<table class="table table-striped"><tr><th>#</th><th>IP</th><th>Port</th><th>Version</th></tr><tbody id="PeerTable"></tbody></table>
+							</fieldset>
+						</div>
+					</div>
+				</section>
+				<!-- ENDS PEERS SECTION -->
+				
+				<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+				
+				<!-- INFO SECTION -->
+				<section  class="tab-pane" id="t-info">
+					<div class="heading">Info</div>
+					<div class="page-content">
+						Master Key: <span id="InfoMasterKey">...</span>
+						<p>Server State: <span id="InfoServerState">...</span></p>
+						<p>Validating Public Key: <span id="InfoPublicKey">...</span></p>
+					</div>
+				</section>
+				<!-- ENDS INFO SECTION -->
+				
+				<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+				
+				<!-- FEED SECTION -->
+				<section  class="tab-pane" id="t-feed">
+					<div class="heading">Feed</div>
+						<div class="page-content">
+						 
+						<table class="spaceTable" >
+							<tr>
+								<td><input type="checkbox" onclick="feed.onLedgerClick(this)" /> Ledger</td>
+								<td><input type="checkbox" onclick="feed.onTransactionsClick(this)" /> Transactions</td>
+								<td><input type="checkbox" onclick="feed.onRippleClick(this)" /> Ripple</td>
+								<td><input type="checkbox" onclick="feed.onServerClick(this)" /> Server</td>
+								<td><button class="btn btn-danger" onclick="feed.clear()" > Clear Feed</button></td>
+							</tr>
+						</table>
+						<div id="FeedArea"></div>
+					</div>
+				</section>
+				<!-- ENDS FEED SECTION -->
+				
+				<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+				
+				<!-- TRADE SECTION -->
+				<section  class="tab-pane" id="t-trade">
+					<div class="heading">Trade</div>
+					<div class="page-content">
+						Newcoin automatically converts if you need to send from one type of currency to another. These trading features are not needed by ordinary users.
+						<fieldset class="span6">
+							<legend>Ticker</legend>
+							<table class="table table-striped"><tr><th>Pair</th><th>Bid</th><th>Ask</th><th>Spread</th><th></th></tr><tbody id="TickerTable"></tbody></table>
+						</fieldset>
+							
+						<fieldset class="span5">
+							<legend>Place Order</legend>
+							<table>
+								<tr><td class="span2" >Sell Currency:</td><td><input id="PlaceOrderOutCurrency" type="text"></td></tr>
+								<tr><td class="span2" >Buy Currency:</td><td><input id="PlaceOrderInCurrency" type="text" ></td></tr>
+								<tr><td class="span2" >Amount to Sell:</td><td><input id="PlaceOrderAmount" type="text" ></td></tr>
+								<tr><td class="span2" >Price:</td><td><input id="PlaceOrderPrice" type="text" ></td></tr>
+							</table>
+							<span id="PlaceOrderStatus"></span>
+							<div class="bottom-btn" > <button class="btn btn-info" onclick="trade.placeOrder()" >Place Order</button></div>
+						</fieldset>
+						
+						<fieldset class="span5">
+							<legend>Open Orders</legend>
+							<table class="table table-striped"><tr><th>Date</th><th>Pair</th><th>Type</th><th>Price</th><th>Amount</th><th></th></tr><tbody id="OpenOrderTable"></tbody></table>
+						</fieldset>
+					</div>
+				</section>
+				<!-- ENDS TRADE SECTION -->
+				
+				<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
 				
 				<!-- LEDGER -->
 				<section class="tab-pane" id="t-ledger">
 					<div class="heading">Ledger</div>
-					 <div class="page-content">
-						 
-						 <div class="row">
-						    	<fieldset class="span5">
-									<legend>Ledger</legend>
-										<table class="infoTable" >
-											<tr><td>Hash:</td><td id="LedgerInfoHash" class="smallFont" ></td></tr>
-											<tr><td>Parent Hash:</td><td id="LedgerInfoParentHash"  class="smallFont" ></td></tr>
-											<tr><td>Ledger Number:</td><td id="LedgerInfoNumber"></td></tr>
-											<tr><td>Total Coins:</td><td id="LedgerInfoTotalCoins"></td></tr>
-											<tr><td>Date:</td><td id="LedgerInfoDate"></td></tr>
-											<tr><td>State:</td><td id="LedgerInfoState"></td></tr>
-										</table>
-					      				<table class="table table-striped" ><tr><th>#</th><th>Account ID</th><th>Balance</th><th>Sequence #</th></tr><tbody id="LedgerTable"></tbody></table>
-					      </fieldset>
-							</div>
-							 <div class="row">
-						    	<fieldset class="span5">
-									<legend>Transactions</legend>
-					      <table class="table table-striped"><tr><th>#</th><th>From ID</th><th>To ID</th><th>Amount</th><th>Fee</th><th>Type</th></tr><tbody id="TransactionTable"></tbody></table>
-					      </fieldset>
-							</div>
-					 </div>			
+					<div class="page-content">
+						<div class="row">
+							<fieldset class="span5">
+								<legend>Ledger</legend>
+								<table class="infoTable" >
+									<tr><td>Hash:</td><td id="LedgerInfoHash" class="smallFont" ></td></tr>
+									<tr><td>Parent Hash:</td><td id="LedgerInfoParentHash"  class="smallFont" ></td></tr>
+									<tr><td>Ledger Number:</td><td id="LedgerInfoNumber"></td></tr>
+									<tr><td>Total Coins:</td><td id="LedgerInfoTotalCoins"></td></tr>
+									<tr><td>Date:</td><td id="LedgerInfoDate"></td></tr>
+									<tr><td>State:</td><td id="LedgerInfoState"></td></tr>
+								</table>
+								<table class="table table-striped" ><tr><th>#</th><th>Account ID</th><th>Balance</th><th>Sequence #</th></tr><tbody id="LedgerTable"></tbody></table>
+							</fieldset>
+						</div>
+						<div class="row">
+							<fieldset class="span5">
+								<legend>Transactions</legend>
+								<table class="table table-striped"><tr><th>#</th><th>From ID</th><th>To ID</th><th>Amount</th><th>Fee</th><th>Type</th></tr><tbody id="TransactionTable"></tbody></table>
+							</fieldset>
+						</div>
+					</div>
 				</section>
-				<!-- ENDS ADVANCED SECTION -->
-	
+				<!-- ENDS LEDGER SECTION -->
+			
+				<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+			
+				<!-- ORDERBOOK -->
+				<section class="tab-pane" id="t-orderbook">
+					<div class="heading">Order Book</div>
+					<div class="page-content">
+						Content goes here!
+					</div>
+				</section>
+				<!-- ENDS ORDERBOOK SECTION -->
+			
 			</div>
 			<!-- ENDS tab-content -->
-	
+			
 			<div id="ErrorDiv" class="alert alert-error ncc-alert stick-bottom">
 						 <p><strong class="alert-heading">Warning!</strong></p>
 						 <span id="error"><span>
 			</div>
 			<div id="StatusDiv" class="alert alert-info ncc-alert stick-bottom">
-			
+		
 						 <p><strong class="alert-heading">Info</strong></p>
 						 <span id="status"><span>
 			</div>
-		
+			
 		</div>
 		<!-- ENDS MAIN -->
-		
-		
 		
 		<!-- FOOTER -->
 		<footer class="cf">
 			<div>
-			  <span>
-				  <a href="#" >Help</a>
-			  </span>
-			  <span class="right-footer">
-				email us for coins to use.
-			  </span>
-			  <span class="right-footer">
+				<span>
+					<a href="#" >Help</a>
+				</span>
+				<span class="right-footer">
+					email us for coins to use.
+				</span>
+				<span class="right-footer">
 					<a href="http://lesswrong.com" target="_blank" >Think</a> about things.
-			  </span>
+				</span>
 			
-			  <span class="right-footer">
-				  
-				  	<span id="ServerDisplay">...</span> <a onclick="ncc.displayScreen('options')">change</a>
-				  
-			  </span>
+				<span class="right-footer">
+					<span id="ServerDisplay">...</span> <a onclick="ncc.displayScreen('options')">change</a>
+				</span>
 			</div>
 		</footer>
 		<!-- ENDS FOOTER -->
 		
-		
 	</div>
 	<!-- ENDS WRAPPER -->
 	
-	
 	<!-- JavaScript at the bottom for fast page loading -->
-
 	
 	<!-- scripts concatenated and minified via build script -->
 	<script src="js/custom.js"></script>
 	<script src="js/bootstrap-alert.js"></script>
 	
-	
-	
 	<script src="js/jquery.js" language="javascript"></script>
-    <script src="js/jquery-ui.js" language="javascript"></script>
-    <script src="js/bootstrap-tab.js" language="javascript"></script>
-    <script src="js/json.js" language="javascript"></script>
-    
-    <script src="js/combobox.js" language="javascript"></script>
-    <script src="config.js" language="javascript"></script>
-    <script src="js/websocket.js" language="javascript"></script>
-    <script src="js/datastore.js" language="javascript"></script>
-    <script src="js/ncc.js" language="javascript"></script>
-    <script src="js/options.js" language="javascript"></script>
-    <script src="js/ledger.js" language="javascript"></script>
-    <script src="js/unl.js" language="javascript"></script>
-    <script src="js/rpc.js" language="javascript"></script>
-    <script src="js/startup.js" language="javascript"></script>
-    <script src="js/feed.js" language="javascript"></script>
-    <script src="js/transactions.js" language="javascript"></script>
-    <script src="js/history.js" language="javascript"></script>
-    <script src="js/ripple.js" language="javascript"></script>
-    <script src="js/login.js" language="javascript"></script>
-    <script src="js/trade.js" language="javascript"></script>
-    <script src="js/send.js" language="javascript"></script>
+	<script src="js/jquery-ui.js" language="javascript"></script>
+	<script src="js/bootstrap-tab.js" language="javascript"></script>
+	<script src="js/json.js" language="javascript"></script>
+	
+	<script src="js/combobox.js" language="javascript"></script>
+	<script src="config.js" language="javascript"></script>
+	<script src="js/websocket.js" language="javascript"></script>
+	<script src="js/datastore.js" language="javascript"></script>
+	<script src="js/ncc.js" language="javascript"></script>
+	<script src="js/options.js" language="javascript"></script>
+	<script src="js/ledger.js" language="javascript"></script>
+	<script src="js/unl.js" language="javascript"></script>
+	<script src="js/rpc.js" language="javascript"></script>
+	<script src="js/startup.js" language="javascript"></script>
+	<script src="js/feed.js" language="javascript"></script>
+	<script src="js/transactions.js" language="javascript"></script>
+	<script src="js/history.js" language="javascript"></script>
+	<script src="js/ripple.js" language="javascript"></script>
+	<script src="js/login.js" language="javascript"></script>
+	<script src="js/trade.js" language="javascript"></script>
+	<script src="js/send.js" language="javascript"></script>
 	<script src="js/parser.js" language="javascript"></script>
 	<script src="js/esprima.js"></script>
-    
-    <!-- end scripts -->
-    
-    
+
+	<!-- end scripts -->
 </body>
 </html>
