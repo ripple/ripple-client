@@ -347,8 +347,8 @@
 						<fieldset class="span5">
 							<legend>Place Order</legend>
 							<table>
-								<tr><td class="span2" >Sell Currency:</td><td><input id="PlaceOrderOutCurrency" type="text"></td></tr>
-								<tr><td class="span2" >Buy Currency:</td><td><input id="PlaceOrderInCurrency" type="text" ></td></tr>
+								<tr><td class="span2" >Sell Currency:</td><td><select id="PlaceOrderOutCurrency" class="span2" /></td></tr>
+								<tr><td class="span2" >Buy Currency:</td><td><select id="PlaceOrderInCurrency" class="span2" /></td></tr>
 								<tr><td class="span2" >Amount to Sell:</td><td><input id="PlaceOrderAmount" type="text" ></td></tr>
 								<tr><td class="span2" >Price:</td><td><input id="PlaceOrderPrice" type="text" ></td></tr>
 							</table>
@@ -400,7 +400,48 @@
 				<section class="tab-pane" id="t-orderbook">
 					<div class="heading">Order Book</div>
 					<div class="page-content">
-						Content goes here!
+						<div class="row">
+							<fieldset class="span8">
+								<table>
+									<tr>
+										<td class="span4"><select id="OrderBookBuyCurrency" class="span2" /></td>
+										<td class="span1">for</td>
+										<td class="span4"><select id="OrderBookSellCurrency" class="span2" /></td>
+									</tr>
+								</table>
+								<p>Show only direct issuers <input type="checkbox" id="OrderBookOnlyDirect" /></p>
+							</fieldset>
+							
+							<fieldset class="span5">
+								<legend id="OrderBookAsksLegend">Selling X/Y (asks)</legend>
+								<table class="table table-striped">
+									<tr>
+										<th>Price</th>
+										<th>Amount</th>
+										<th>Sum</th>
+										<th>Issuer In</th>
+										<th>Issuer Out</th>
+									</tr>
+									<tbody id="SellingTable"></tbody>
+								</table>
+							</fieldset>
+						</div>
+						<div class="row">
+							<fieldset class="span5">
+								<legend id="OrderBookBidsLegend">Buying X/Y (bids)</legend>
+								<table class="table table-striped">
+									<tr>
+										<th>Price</th>
+										<th>Amount</th>
+										<th>Sum</th>
+										<th>Issuer In</th>
+										<th>Issuer Out</th>
+									</tr>
+									<tbody id="BuyingTable"></tbody>
+								</table>
+							</fieldset>
+						</div>
+						
 					</div>
 				</section>
 				<!-- ENDS ORDERBOOK SECTION -->
@@ -474,6 +515,7 @@
 	<script src="js/send.js" language="javascript"></script>
 	<script src="js/parser.js" language="javascript"></script>
 	<script src="js/esprima.js"></script>
+	<script src="js/orderbook.js"></script>
 
 	<!-- end scripts -->
 </body>

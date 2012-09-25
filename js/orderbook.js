@@ -1,0 +1,123 @@
+var orderBookScreen = {};
+
+orderBookScreen.ledgerResponse = function(response, success)
+{
+  if(success) {
+    ncc.checkError(response);
+    
+    if (response.result.ledger && response.result.ledger.accountState) {
+      orderBookScreen.addLedger(response.result.ledger);
+    }
+  } else {
+    ncc.serverDown();
+  }
+};
+
+orderBookScreen.addLedger = function(ledger) {
+  var accounts = ledger.accountState,
+      offers = [];
+  
+  $('#SellingTable').empty();
+  $('#BuyingTable').empty();
+  
+  for(var i = 0; i < accounts.length; i++) {
+    if (accounts[i].type == "Offer") {
+      offers.push(new orderBookScreen.Offer(accounts[i]));
+    }
+  }
+  
+  offers.sort(function (x, y) { return y.price - x.price; });
+  
+  for (var i=0; i < offers.length; i++) {
+    var rows = orderBookScreen.makeRows(offers[i]);
+    $('#SellingTable').append(rows[0]);
+    $('#BuyingTable').prepend(rows[1]);
+  };
+  
+  orderBookScreen.updateRowsShown();
+};
+
+orderBookScreen.makeRows = function (offer) {
+  return ['<tr class="offer' + offer.TakerPaysCurr + 'for' + offer.TakerGetsCurr + '">'+
+            '<td>' + offer.price + '</td>' +
+            '<td class="amount">' + offer.TakerGetsValue + '</td>' +
+            '<td class="sum"></td>' +
+            '<td>' + offer.TakerGetsIssuer + '</td>' +
+            '<td>' + offer.TakerPaysIssuer + '</td>' +
+          '</tr>',
+          
+          '<tr class="offer' + offer.TakerGetsCurr + 'for' + offer.TakerPaysCurr + '">'+
+            '<td>' + (1 / offer.price) + '</td>' +
+            '<td class="amount">' + offer.TakerPaysValue + '</td>' +
+            '<td class="sum"></td>' +
+            '<td>' + offer.TakerPaysIssuer + '</td>' +
+            '<td>' + offer.TakerGetsIssuer + '</td>' +
+          '</tr>'];
+};
+
+orderBookScreen.updateRowsShown = function () {
+  var buyCurr = $("#OrderBookBuyCurrency").val(),
+      sellCurr = $("#OrderBookSellCurrency").val();
+  
+  $('#SellingTable tr, #BuyingTable tr').hide();
+  $('#SellingTable tr.offer' + sellCurr + 'for' + buyCurr).show();
+  $('#BuyingTable tr.offer' + sellCurr + 'for' + buyCurr).show();
+
+  var sum = 0;
+  $('#BuyingTable tr:visible').each(function () {
+    sum += Number($(this).find(".amount").text());
+    $(this).find(".sum").text(sum);
+  });
+  
+  sum = 0;
+  var sellingRows = $('#SellingTable tr:visible');
+  for (var i = sellingRows.length - 1; i >= 0; i--) {
+    var row = $(sellingRows[i]);
+    sum += Number(row.find(".amount").text());
+    row.find(".sum").text(sum);
+  }
+  
+  $('#OrderBookAsksLegend').text("Selling " + buyCurr + "/" + sellCurr + " (asks)");
+  $('#OrderBookBidsLegend').text("Buying " + buyCurr + "/" + sellCurr + " (bids)");
+}
+
+orderBookScreen.Offer = function (offerJSON) {
+  if (offerJSON.type != "Offer") {
+    throw "Not an offer!";
+  }
+  
+  this._offer = offerJSON;
+  
+  this.TakerGetsIssuer = offerJSON.TakerGets.issuer || "";
+  this.TakerPaysIssuer = offerJSON.TakerPays.issuer || "";
+  
+  this.TakerGetsCurr = offerJSON.TakerGets.currency || "XNS";
+  this.TakerPaysCurr = offerJSON.TakerPays.currency || "XNS";
+  
+  this.TakerGetsValue = this.TakerGetsCurr == "XNS" ? Number(offerJSON.TakerGets) / BALANCE_DISPLAY_DIVISOR : Number(offerJSON.TakerGets.value);
+  this.TakerPaysValue = this.TakerPaysCurr == "XNS" ? Number(offerJSON.TakerPays) / BALANCE_DISPLAY_DIVISOR : Number(offerJSON.TakerPays.value);
+  
+  this.price = this.TakerPaysValue / this.TakerGetsValue;
+};
+
+$(document).ready(function () {
+  $("#OrderBookBuyCurrency").combobox({ data: ncc.allCurrencyOptions , selected: 'USD' });
+  $("#OrderBookSellCurrency").combobox({ data: ncc.allCurrencyOptions , selected: 'XNS' });
+  
+  var buyCurr = $("#OrderBookBuyCurrency").val(),
+      sellCurr = $("#OrderBookSellCurrency").val();
+  
+  // TODO(performance): figure out how to get onchange working properly instead of this hack
+  setInterval(function () {
+    var newBuyCurr = $("#OrderBookBuyCurrency").val(),
+        newSellCurr = $("#OrderBookSellCurrency").val();
+    
+    if ((newBuyCurr != buyCurr) || (newSellCurr != sellCurr)) {
+      buyCurr = newBuyCurr;
+      sellCurr = newSellCurr;
+      if (buyCurr != sellCurr) {
+        orderBookScreen.updateRowsShown();
+      }
+    }
+  }, 200);
+});
