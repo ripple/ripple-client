@@ -42,16 +42,16 @@ orderBookScreen.makeRows = function (offer) {
             '<td>' + offer.price + '</td>' +
             '<td class="amount">' + offer.TakerGetsValue + '</td>' +
             '<td class="sum"></td>' +
-            '<td>' + offer.TakerGetsIssuer + '</td>' +
             '<td>' + offer.TakerPaysIssuer + '</td>' +
+            '<td>' + offer.TakerGetsIssuer + '</td>' +
           '</tr>',
           
           '<tr class="offer' + offer.TakerGetsCurr + 'for' + offer.TakerPaysCurr + '">'+
             '<td>' + (1 / offer.price) + '</td>' +
             '<td class="amount">' + offer.TakerPaysValue + '</td>' +
             '<td class="sum"></td>' +
-            '<td>' + offer.TakerPaysIssuer + '</td>' +
             '<td>' + offer.TakerGetsIssuer + '</td>' +
+            '<td>' + offer.TakerPaysIssuer + '</td>' +
           '</tr>'];
 };
 
