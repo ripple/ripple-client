@@ -50,12 +50,14 @@ $.widget( "ui.combobox", {
 						
 						select: function( event, ui ) {
 							ui.item.option.selected = true;
-							self._trigger( "selected", event, { item: ui.item.option } );
+							self._trigger( "onselect", event, { item: ui.item.option } );
 						},
+						
 						autocomplete : function(value) {
 							this.element.val(value);
 							this.input.val(value);
 						},
+						
 						change: function( event, ui ) {
 							if ( !ui.item ) {
 								var matcher = new RegExp( "^" + $.ui.autocomplete.escapeRegex( $(this).val() ) + "$", "i" ),

@@ -101,23 +101,24 @@ orderBookScreen.Offer = function (offerJSON) {
 };
 
 $(document).ready(function () {
-  $("#OrderBookBuyCurrency").combobox({ data: ncc.allCurrencyOptions , selected: 'USD' });
-  $("#OrderBookSellCurrency").combobox({ data: ncc.allCurrencyOptions , selected: 'XNS' });
-  
-  var buyCurr = $("#OrderBookBuyCurrency").val(),
-      sellCurr = $("#OrderBookSellCurrency").val();
-  
-  // TODO(performance): figure out how to get onchange working properly instead of this hack
-  setInterval(function () {
-    var newBuyCurr = $("#OrderBookBuyCurrency").val(),
-        newSellCurr = $("#OrderBookSellCurrency").val();
-    
-    if ((newBuyCurr != buyCurr) || (newSellCurr != sellCurr)) {
-      buyCurr = newBuyCurr;
-      sellCurr = newSellCurr;
-      if (buyCurr != sellCurr) {
-        orderBookScreen.updateRowsShown();
-      }
+  var buyCurr = 'USD',
+      sellCurr = 'XNS';
+
+  $("#OrderBookBuyCurrency").combobox({
+    data: ncc.allCurrencyOptions,
+    selected: buyCurr,
+    onselect: function () {
+      buyCurr = this.value;
+      if (buyCurr != sellCurr) orderBookScreen.updateRowsShown();
     }
-  }, 200);
+  });
+  
+  $("#OrderBookSellCurrency").combobox({
+    data: ncc.allCurrencyOptions,
+    selected: sellCurr,
+    onselect: function () {
+      sellCurr = this.value;
+      if (buyCurr != sellCurr) orderBookScreen.updateRowsShown();
+    }
+  });
 });
