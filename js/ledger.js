@@ -1,5 +1,4 @@
-
-var ledgerScreen ={};
+var ledgerScreen = {};
 
 ledgerScreen.ledgerResponse = function(response,success)
 {
@@ -13,7 +12,7 @@ ledgerScreen.ledgerResponse = function(response,success)
 		{
 			ledgerScreen.addLedger(response.result.ledger);
 		}
-			
+		
 	}else ncc.serverDown();
 }
 
@@ -33,7 +32,7 @@ ledgerScreen.addLedger=function(ledger)
 	else stateStr += 'open ';
 	
 	$('#LedgerInfoState').text(stateStr);
-
+	
 	var accounts=ledger.accountState;
 	$('#LedgerTable').empty();
 	for(var i=0; i<accounts.length; i++)
@@ -52,8 +51,6 @@ ledgerScreen.addLedger=function(ledger)
 		$('#TransactionTable').append('<tr><td>'+i+'</td><td>'+trans[i].middle.SourceAccount+'</td><td>'+trans[i].inner.Destination+'</td><td>'+amount+'</td><td>'+fee+'</td><td>'+trans[i].middle.type+'</td></tr>');  // #PeerTable is actually the tbody element so this append works
 	}
 }
-
-
 
 ledgerScreen.makeRow=function(account,i)
 {
@@ -81,12 +78,14 @@ ledgerScreen.makeRow=function(account,i)
 	{
 		return('<tr><td>'+i+'</td><td>Nickname</td><td></td><td></td></tr>');
 	}
+	
 	if(account.type=="RippleState")
 	{
 		var balance=account.Balance.value;
 		var currency=account.Balance.currency;
 		return('<tr><td>'+i+'</td><td>RippleState</td><td>'+balance+'</td><td>'+currency+'</td></tr>');
 	}
+	
 	if(account.type=="Offer")
 	{
 		var str='';
@@ -96,7 +95,6 @@ ledgerScreen.makeRow=function(account,i)
 		}else
 		{
 			str += ncc.displayAmount(account.TakerGets)+' XNS';
-			
 		}
 		str += ' for ';
 		if(account.TakerPays.currency)

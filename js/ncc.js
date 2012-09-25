@@ -72,7 +72,6 @@ ncc.checkError = function(response)
 		errorStr+=' '+response.result.error;
 	}
 	
-	
 	ncc.error(errorStr);
 	return ret;
 }
@@ -97,10 +96,8 @@ ncc.error=function(str)
 
 ncc.displayScreen =function(screenName)
 {
-	
 	$('#UnlogTopNav a[href="#t-'+screenName+'"]').tab('show');
 }
-
 
 ncc.processAccounts = function(accounts)
 {
@@ -111,45 +108,46 @@ ncc.processAccounts = function(accounts)
 	ncc.accountID='';
 	for(var i = 0; i < accounts.length; i++) 
 	{
-    	balance += accounts[i].Balance;
-    	ncc.accountID= accounts[i].Account;
-    	server.accountSubscribe(accounts[i].Account);
-    	rpc.account_tx(accounts[i].Account,history.onHistoryResponse);
-    }
-    
-    ncc.changeBalance('XNS', balance-ncc.balance['XNS']);
-    $('#RecvAddress').text(ncc.accountID);
-    
+		balance += accounts[i].Balance;
+		ncc.accountID= accounts[i].Account;
+		server.accountSubscribe(accounts[i].Account);
+		rpc.account_tx(accounts[i].Account,history.onHistoryResponse);
+	}
+	
+	ncc.changeBalance('XNS', balance-ncc.balance['XNS']);
+	$('#RecvAddress').text(ncc.accountID);
+	
 }
 
 ncc.changeBalance = function(currency,delta)
 {
-    if(ncc.balance[currency]) ncc.balance[currency] += delta;
-    else ncc.balance[currency]= delta;
-    
-    var eleID='#'+currency+'Balance';
-    
-    
-    if(ncc.balance[currency]==0)
-    { // need to delete 
-    	$(eleID).remove();
-    }else
-    {
-    	if(currency=='XNS') var amount=ncc.displayAmount(ncc.balance[currency]);
-    	else var amount=ncc.balance[currency];
-    	
-    	if($(eleID).length)
-    	{ // need to edit
-    		$(eleID).html(amount+'<span>'+currency+'</span>');
-    	}else
-    	{  // need to create
-    		$('#ClientState').after('<li id="'+currency+'Balance">'+amount+'<span>'+currency+'</span></li>');
-    	}
-    }
+	if(ncc.balance[currency]) ncc.balance[currency] += delta;
+	else ncc.balance[currency]= delta;
+	
+	var eleID='#'+currency+'Balance';
+	
+	
+	if(ncc.balance[currency]==0)
+	{ // need to delete 
+		$(eleID).remove();
+	}else
+	{
+		if(currency=='XNS') var amount=ncc.displayAmount(ncc.balance[currency]);
+		else var amount=ncc.balance[currency];
+		
+		if($(eleID).length)
+		{ // need to edit
+			$(eleID).html(amount+'<span>'+currency+'</span>');
+		}else
+		{  // need to create
+			$('#ClientState').after('<li id="'+currency+'Balance">'+amount+'<span>'+currency+'</span></li>');
+		}
+	}
 }
 
 ncc.displayAmount= function(amount)
 {
+	if(amount === undefined) return "";
 	if(amount.currency)
 	{
 		var value=amount.value;
@@ -170,29 +168,24 @@ ncc.displayAmount= function(amount)
 
 ncc.addCommas= function(nStr) 
 {
-    nStr += '';
-    x = nStr.split('.');
-    x1 = x[0];
-    x2 = x.length > 1 ? '.' + x[1] : '';
-    var rgx = /(\d+)(\d{3})/;
-    while (rgx.test(x1)) {
-        x1 = x1.replace(rgx, '$1' + ',' + '$2');
-    }
-    return x1 + x2;
+	nStr += '';
+	x = nStr.split('.');
+	x1 = x[0];
+	x2 = x.length > 1 ? '.' + x[1] : '';
+	var rgx = /(\d+)(\d{3})/;
+	while (rgx.test(x1)) {
+		x1 = x1.replace(rgx, '$1' + ',' + '$2');
+	}
+	return x1 + x2;
 }
-
-
-	
 
 ///////////////////////////
 
 ncc.infoTabShown = function()
 {
 	rpc.server_info(ncc.infoResponse);
-	
 }
 
-									
 ncc.infoResponse  = function(response,success)
 {
 	if(success)
@@ -206,21 +199,16 @@ ncc.infoResponse  = function(response,success)
 		}
 		
 	}else ncc.serverDown();
-}			
-
-
-
+}
 
 //////////
+
 ncc.addPeer = function()
 {
 	ip=$.trim( $("#NewPeerIP").val());
 	port=$.trim( $("#NewPeerPort").val());
 	rpc.connect(ip,port);
 }
-
-
-
 
 ncc.peersResponse = function(response,success)
 {
@@ -238,14 +226,8 @@ ncc.peersResponse = function(response,success)
 				$('#PeerTable').append('<tr><td>'+i+'</td><td>'+peers[i].ip+'</td><td>'+peers[i].port+'</td><td>'+peers[i].version+'</td></tr>');  // #PeerTable is actually the tbody element so this append works
 			}
 		}
-			
-	}else ncc.serverDown();
+	} else ncc.serverDown();
 }
-
-
-
-
-
 
 ///////////
 
@@ -314,6 +296,7 @@ $(document).ready(function(){
 	$("#t-login").on("show", loginScreen.onShowTab );
 	$("#t-ripple").on("show", ripple.onShowTab );
 	$("#t-ledger").on("show", function(){ rpc.ledger(ledgerScreen.ledgerResponse); } );
+	$("#t-orderbook").on("show", function(){ rpc.ledger(orderBookScreen.ledgerResponse); } );
 	$("#t-history").on("show", history.onShowTab );
 	$("#t-unl").on("show", function(){ rpc.unl_list(unlScreen.unlResponse); } );
 	$("#t-peers").on("show", function(){ rpc.peers(ncc.peersResponse); } );
@@ -348,50 +331,38 @@ $(document).ready(function(){
 	})
 	
 	startUp.start();
-		
 	
 	/* custom select boxes */
 	
-	 if (!$.browser.opera) {
+	if (!$.browser.opera) {
 		 
 		// for large select 
 		 
-        $('select.select').each(function(){
-            var title = $(this).attr('title');
-            if( $('option:selected', this).val() != ''  ) title = $('option:selected',this).text();
-            $(this)
-                .css({'z-index':10,'opacity':0,'-khtml-appearance':'none'})
-                .after('<span class="select">' + title + '</span>')
-                .change(function(){
-                    val = $('option:selected',this).text();
-                    $(this).next().text(val);
-                    })
-        });
-        
-        // for small select
-        
-        $('select.select-small').each(function(){
-            var title = $(this).attr('title');
-            if( $('option:selected', this).val() != ''  ) title = $('option:selected',this).text();
-            $(this)
-                .css({'z-index':10,'opacity':0,'-khtml-appearance':'none'})
-                .after('<span class="select-small">' + title + '</span>')
-                .change(function(){
-                    val = $('option:selected',this).text();
-                    $(this).next().text(val);
-                    })
-        });
-
-
-    };
-    
-    
-	
+		$('select.select').each(function(){
+			var title = $(this).attr('title');
+			if( $('option:selected', this).val() != ''  ) title = $('option:selected',this).text();
+			$(this)
+				.css({'z-index':10,'opacity':0,'-khtml-appearance':'none'})
+				.after('<span class="select">' + title + '</span>')
+				.change(function(){
+					val = $('option:selected',this).text();
+					$(this).next().text(val);
+					})
+		});
+		
+		// for small select
+		
+		$('select.select-small').each(function(){
+			var title = $(this).attr('title');
+			if( $('option:selected', this).val() != ''  ) title = $('option:selected',this).text();
+			$(this)
+				.css({'z-index':10,'opacity':0,'-khtml-appearance':'none'})
+				.after('<span class="select-small">' + title + '</span>')
+				.change(function(){
+					val = $('option:selected',this).text();
+					$(this).next().text(val);
+					})
+		});
+	};
 });
-
-
-
-
-
-
 

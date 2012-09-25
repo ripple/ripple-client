@@ -32,8 +32,6 @@ trade.placeOrder=function()
 		var inRoute=ripple.findBestRouteIn(inCurrency);
 	}
 	
-	
-	
 	if(inRoute.max>inAmount)
 	{
 		rpc.offer_create(ncc.masterKey,ncc.accountID,''+outAmount,outCurrency,outIssuer,''+inAmount,inCurrency,inRoute.accountID,'0',trade.onOfferCreateResponse);
@@ -52,12 +50,11 @@ trade.onOfferCreateResponse=function(response,success)
 		ncc.checkError(response);
 		if(response.result)
 		{
-			
 		}
 	}else ncc.serverDown();
 }
 
 $(document).ready(function(){
-		$( "#PlaceOrderOutCurrency" ).combobox({ data: ncc.allCurrencyOptions , selected: 'USD' });
-		$( "#PlaceOrderInCurrency" ).combobox({ data: ncc.allCurrencyOptions , selected: 'XNS' });
-	});
+	$("#PlaceOrderOutCurrency").combobox({ data: ncc.allCurrencyOptions , selected: 'USD' });
+	$("#PlaceOrderInCurrency").combobox({ data: ncc.allCurrencyOptions , selected: 'XNS' });
+});
