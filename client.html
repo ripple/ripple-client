@@ -29,7 +29,7 @@
   <!-- All JavaScript at the bottom, except this Modernizr build.
      Modernizr enables HTML5 elements & feature detects for optimal performance.
      Create your own custom Modernizr build: www.modernizr.com/download/ -->
-  <script src="js/modernizr-2.5.3.min.js"></script>
+  <script src="js/lib/modernizr-2.5.3.min.js"></script>
 </head>
 
 <body>
@@ -43,7 +43,7 @@
       <!-- NAV -->
       <nav class="cf">
         <div id="logo" class="cf">
-          <a href="index.html" ><img src="img/logo.png" alt="" /></a>
+          <a href="index.html"><img src="img/logo.png" alt="" /></a>
         </div>
         
         <ul class="nav nav-tabs topNav" id="TopNav">
@@ -53,13 +53,14 @@
         
         <ul class="nav nav-tabs topNav" id="UnlogTopNav">
           <li class="secondary-tab pull-right"><a href="#t-options" data-toggle="tab">Options</a></li>
-          <li  class="secondary-tab pull-right"><a href="#t-login"  data-toggle="tab">Login</a></li>
+          <li class="secondary-tab pull-right"><a href="#t-register" data-toggle="tab">Register</a></li>
+          <li class="secondary-tab pull-right"><a href="#t-login" data-toggle="tab">Login</a></li>
           <li class="secondary-tab pull-right"><a href="#t-welcome" data-toggle="tab">Welcome</a></li>
         </ul>
         
         <ul class="nav nav-tabs mainNav" id="UnlogMainNav">
           <li><span  class="log-message">You are not logged in.</span></li>
-          <li class="secondary-tab pull-right"><a onclick="ncc.toggleAdvanced(this)" >Show Advanced <b class="caret"></b></a></li>
+          <li class="secondary-tab pull-right"><a onclick="ncc.toggleAdvanced(this)">Show Advanced <b class="caret"></b></a></li>
         </ul>
         
         <ul class="nav nav-tabs mainNav" id="MainNav">
@@ -68,11 +69,11 @@
           <li><a href="#t-ripple" data-toggle="tab">Ripple</a></li>
           <li><a href="#t-history" data-toggle="tab">History</a></li>
           <li><a href="#t-address" data-toggle="tab">Address Book</a></li>
-          <li class="secondary-tab pull-right"><a onclick="ncc.toggleAdvanced(this)" >Show Advanced <b class="caret"></b></a></li>
+          <li class="secondary-tab pull-right"><a onclick="ncc.toggleAdvanced(this)">Show Advanced <b class="caret"></b></a></li>
         </ul>
         
         <ul class="nav nav-tabs subnav" id="AdvancedNav">
-          <li class="secondary-tab pull-right"><a onclick="rpc.stop()" >Stop Server</a></li>
+          <li class="secondary-tab pull-right"><a onclick="rpc.stop()">Stop Server</a></li>
           <li><a href="#t-feed" data-toggle="tab">Feed</a></li>
           <li><a href="#t-ledger" data-toggle="tab">Ledger</a></li>
           <li><a href="#t-unl" data-toggle="tab">UNL</a></li>
@@ -83,7 +84,7 @@
         </ul>
         
         <ul class="nav nav-tabs subnav" id="UnlogAdvancedNav">
-          <li class="secondary-tab pull-right"><a onclick="rpc.stop()" >Stop Server</a></li>
+          <li class="secondary-tab pull-right"><a onclick="rpc.stop()">Stop Server</a></li>
           <li><a href="#t-feed" data-toggle="tab">Feed</a></li>
           <li><a href="#t-ledger" data-toggle="tab">Ledger</a></li>
           <li><a href="#t-unl" data-toggle="tab">UNL</a></li>
@@ -113,7 +114,7 @@
         <section class="tab-pane active" id="t-welcome">
           <div class="heading">Welcome</div>
            <div class="page-content">
-              <!-- <p>Newcoin is an open source P2P payment system.</p>
+              <p>Newcoin is an open source P2P payment system.</p>
               <p>
                 Newcoin lets you easily, cheaply, and safely send money over the Internet to anyone, anywhere in the world.
                 Because Newcoin is P2P software, no individual, corporation, or government controls Newcoin.
@@ -121,12 +122,8 @@
               <p>
                 Anyone can create a Newcoin account. Newcoin accounts can not be shutdown by any corporation or government.
                 The Newcoin network operates through the combined efforts of the copies of the Newcoin software that are running all over the world.
-              </p> -->
-              Get someone to send you Newcoins to your Address: <span id="NewAddress">...</span>
-              <p><p>
-                Once some coins are sent to that address, you can claim this account with the following key: <span id="NewMasterKey">...</span>
-              </p></p>
-              <div class="bottom-btn"> <button class="btn btn-large btn-success" onclick="ncc.displayScreen('login')" >Login and claim your coins</button></div>
+              </p>
+              <div class="bottom-btn"> <button class="btn btn-large btn-success" onclick="ncc.displayScreen('login')">Login and claim your coins</button></div>
            </div>
         </section>
         <!-- ENDS WELCOME SECTION -->
@@ -139,35 +136,58 @@
           <div class="page-content">
             
             <table>
-              <tr><td class="span2" >Server IP</td><td><input id="ServerIPOption" type="text"></td></tr>
-              <tr><td class="span2" >Server Port</td><td><input id="ServerPortOption" type="text" value="6561" ></td></tr>
+              <tr><td class="span2">Server IP</td><td><input id="ServerIPOption" type="text"></td></tr>
+              <tr><td class="span2">Server Port</td><td><input id="ServerPortOption" type="text" value="6561"></td></tr>
             </table>
             
             <div class="bottom-btn">
-              <button class="btn btn-large btn-success" onclick="optionScreen.save()" >Save options</button> 
-              <button class="btn btn-large btn-danger" onclick="optionScreen.cancel()" >Cancel</button>
+              <button class="btn btn-large btn-success" onclick="optionScreen.save()">Save options</button> 
+              <button class="btn btn-large btn-danger" onclick="optionScreen.cancel()">Cancel</button>
             </div>
           </div>
         </section>
         <!-- ENDS OPTIONS SECTION -->
         
+        <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+        
         <!-- LOGIN SECTION -->
         <section class="tab-pane" id="t-login">
           <div class="heading">Login</div>
           <div class="page-content">
-            <table>
-              <tr><td class="span2" >Master Key</td><td valign='middle' ><input id="MasterKey" type="text" class="span4" ></td></tr>
-              <tr><td class="span2" ></td><td><input id="SaveMasterKey" type="checkbox" checked="false" > Save Key</td></tr>
-            </table>
-            
-            <div class="bottom-btn" > <button type="submit" class="btn btn-large btn-success" onclick="loginScreen.login()" >Login</button></div>
+            <form id="loginForm">
+              <table>
+                <tr><td class="span2">Username</td><td valign='middle'><input id="usernameField" type="text" class="span4"></td></tr>
+                <tr><td class="span2">Password</td><td valign='middle'><input id="passwordField" type="password" class="span4"></td></tr>
+              </table>
+              
+              <div class="bottom-btn"> <input type="submit" value="Login" class="btn btn-large btn-success" /></div>
+            </form>
             
             <p>
-              If you don't have a wallet key, you can <a onclick="ncc.displayScreen('welcome')">Create One</a>.
+              If you don't have an account, you can <a onclick="ncc.displayScreen('register')">register</a>.
             </p>
           </div>
         </section>
         <!-- ENDS LOGIN SECTION -->
+        
+        <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+        
+        <!-- REGISTER SECTION -->
+        <section class="tab-pane" id="t-register">
+          <div class="heading">Register</div>
+          <div class="page-content">
+            <form id="registerForm">
+              <table>
+                <tr><td class="span2">Username</td><td valign='middle'><input name='username' type="text" class="span4"></td></tr>
+                <tr><td class="span2">Password</td><td valign='middle'><input name="password" type="password" class="span4"></td></tr>
+                <tr><td class="span2">Repeat password</td><td valign='middle'><input name="password2" type="password" class="span4"></td></tr>
+              </table>
+              
+              <div class="bottom-btn"> <input type="submit" value="Register &amp; Login" class="btn btn-large btn-success" /></div>
+            </form>
+          </div>
+        </section>
+        <!-- ENDS REGISTER SECTION -->
         
         <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
         
@@ -176,11 +196,11 @@
           <div class="heading">Send Money</div>
            <div class="page-content">         
               <table>
-                <tr><td class="span2" >Amount:</td><td><input id="SendAmount" type="text" class="span2"></td><td><select id="SendCurrency" class="span2" /></td></tr>
-                <tr><td class="span2" >Destination:</td><td colspan=2 ><input id="SendDest" type="text" class="span4" ></td></tr>
+                <tr><td class="span2">Amount:</td><td><input id="SendAmount" type="text" class="span2"></td><td><select id="SendCurrency" class="span2" /></td></tr>
+                <tr><td class="span2">Destination:</td><td colspan=2><input id="SendDest" type="text" class="span4"></td></tr>
               </table>
             
-              <div class="bottom-btn" > <button class="btn btn-large btn-success" onclick="send.send()" >Send Money</button></div>
+              <div class="bottom-btn"> <button class="btn btn-large btn-success" onclick="send.send()">Send Money</button></div>
            </div>
         </section>
         <!-- ENDS SEND SECTION -->
@@ -208,14 +228,14 @@
                 Adding a credit line enables you to hold other people's IOUs. Adding a credit line doesn't mean they owe you that much money. It only gives them the potential to owe you that much money.
                 <p>
                   <table>
-                    <tr><td class="span2" >Account:</td><td><input id="NewCreditAccount" type="text" class="span4"></td></tr>
-                    <tr><td class="span2" >Currency:</td><td>
+                    <tr><td class="span2">Account:</td><td><input id="NewCreditAccount" type="text" class="span4"></td></tr>
+                    <tr><td class="span2">Currency:</td><td>
                     <div><select id="NewCreditCurrency" class="span2" /></div>
                     </td></tr>
-                    <tr><td class="span2">Maximum Amount:</td><td><input id="NewCreditMax" type="text" class="span2" ></td></tr>
+                    <tr><td class="span2">Maximum Amount:</td><td><input id="NewCreditMax" type="text" class="span2"></td></tr>
                   </table>
                 </p>
-                <div class="bottom-btn"> <button class="btn btn-info" onclick="ripple.addLine()" >Add Credit Line</button></div>
+                <div class="bottom-btn"> <button class="btn btn-info" onclick="ripple.addLine()">Add Credit Line</button></div>
               </fieldset>
             </div>
             <div class="row">
@@ -234,7 +254,7 @@
         <section  class="tab-pane" id="t-history">
           <div class="heading">History</div>
             <div class="page-content">
-              <table class="table table-striped" ><tr><th>Ledger</th><th>Type</th><th>Source</th><th>Destination</th><th>Amount</th><th>Status</th></tr><tbody id="HistoryTable"></tbody></table>
+              <table class="table table-striped"><tr><th>Ledger</th><th>Type</th><th>Source</th><th>Destination</th><th>Amount</th><th>Status</th></tr><tbody id="HistoryTable"></tbody></table>
            </div>
         </section>
         <!-- ENDS HISTORY SECTION -->
@@ -262,11 +282,11 @@
                 <legend>Add Node</legend>
                 
                 <table>
-                  <tr><td class="span2" >Domain or Key:</td><td><input id="NewUNLNodeKey" type="text" class="span4"></td></tr>
-                  <tr><td class="span2" >Optional Note:</td><td><input id="NewUNLNodeNote" type="text" ></td></tr>
+                  <tr><td class="span2">Domain or Key:</td><td><input id="NewUNLNodeKey" type="text" class="span4"></td></tr>
+                  <tr><td class="span2">Optional Note:</td><td><input id="NewUNLNodeNote" type="text"></td></tr>
                 </table>
                 
-                <div class="bottom-btn"> <button class="btn btn-info" onclick="ncc.addUNLNode()" >Add Node</button></div>
+                <div class="bottom-btn"> <button class="btn btn-info" onclick="ncc.addUNLNode()">Add Node</button></div>
               </fieldset>
             </div>
             <div class="row">
@@ -291,9 +311,9 @@
                 If you are having connectivity issues you can manually add a peer below.
                 <table>
                   <tr><td class="span2">IP:</td><td><input id="NewPeerIP" type="text" class="span2"></td></tr>
-                  <tr><td class="span2">Port:</td><td><input id="NewPeerPort" type="text" class="span2" value="51235" ></td></tr>
+                  <tr><td class="span2">Port:</td><td><input id="NewPeerPort" type="text" class="span2" value="51235"></td></tr>
                 </table>
-                <div class="bottom-btn"> <button class="btn btn-info" onclick="ncc.addPeer()" >Add New Peer</button></div>
+                <div class="bottom-btn"> <button class="btn btn-info" onclick="ncc.addPeer()">Add New Peer</button></div>
               </fieldset>
             </div>
             <div class="row">
@@ -326,13 +346,13 @@
           <div class="heading">Feed</div>
             <div class="page-content">
              
-            <table class="spaceTable" >
+            <table class="spaceTable">
               <tr>
                 <td><input type="checkbox" onclick="feed.onLedgerClick(this)" /> Ledger</td>
                 <td><input type="checkbox" onclick="feed.onTransactionsClick(this)" /> Transactions</td>
                 <td><input type="checkbox" onclick="feed.onRippleClick(this)" /> Ripple</td>
                 <td><input type="checkbox" onclick="feed.onServerClick(this)" /> Server</td>
-                <td><button class="btn btn-danger" onclick="feed.clear()" > Clear Feed</button></td>
+                <td><button class="btn btn-danger" onclick="feed.clear()"> Clear Feed</button></td>
               </tr>
             </table>
             <div id="FeedArea"></div>
@@ -355,13 +375,13 @@
             <fieldset class="span5">
               <legend>Place Order</legend>
               <table>
-                <tr><td class="span2" >Sell Currency:</td><td><select id="PlaceOrderOutCurrency" class="span2" /></td></tr>
-                <tr><td class="span2" >Buy Currency:</td><td><select id="PlaceOrderInCurrency" class="span2" /></td></tr>
-                <tr><td class="span2" >Amount to Sell:</td><td><input id="PlaceOrderAmount" type="text" ></td></tr>
-                <tr><td class="span2" >Price:</td><td><input id="PlaceOrderPrice" type="text" ></td></tr>
+                <tr><td class="span2">Sell Currency:</td><td><select id="PlaceOrderOutCurrency" class="span2" /></td></tr>
+                <tr><td class="span2">Buy Currency:</td><td><select id="PlaceOrderInCurrency" class="span2" /></td></tr>
+                <tr><td class="span2">Amount to Sell:</td><td><input id="PlaceOrderAmount" type="text"></td></tr>
+                <tr><td class="span2">Price:</td><td><input id="PlaceOrderPrice" type="text"></td></tr>
               </table>
               <span id="PlaceOrderStatus"></span>
-              <div class="bottom-btn" > <button class="btn btn-info" onclick="trade.placeOrder()" >Place Order</button></div>
+              <div class="bottom-btn"> <button class="btn btn-info" onclick="trade.placeOrder()">Place Order</button></div>
             </fieldset>
             
             <fieldset class="span5">
@@ -381,15 +401,15 @@
             <div class="row">
               <fieldset class="span5">
                 <legend>Ledger</legend>
-                <table class="infoTable" >
-                  <tr><td>Hash:</td><td id="LedgerInfoHash" class="smallFont" ></td></tr>
-                  <tr><td>Parent Hash:</td><td id="LedgerInfoParentHash"  class="smallFont" ></td></tr>
+                <table class="infoTable">
+                  <tr><td>Hash:</td><td id="LedgerInfoHash" class="smallFont"></td></tr>
+                  <tr><td>Parent Hash:</td><td id="LedgerInfoParentHash" class="smallFont"></td></tr>
                   <tr><td>Ledger Number:</td><td id="LedgerInfoNumber"></td></tr>
                   <tr><td>Total Coins:</td><td id="LedgerInfoTotalCoins"></td></tr>
                   <tr><td>Date:</td><td id="LedgerInfoDate"></td></tr>
                   <tr><td>State:</td><td id="LedgerInfoState"></td></tr>
                 </table>
-                <table class="table table-striped" ><tr><th>#</th><th>Account ID</th><th>Balance</th><th>Sequence #</th></tr><tbody id="LedgerTable"></tbody></table>
+                <table class="table table-striped"><tr><th>#</th><th>Account ID</th><th>Balance</th><th>Sequence #</th></tr><tbody id="LedgerTable"></tbody></table>
               </fieldset>
             </div>
             <div class="row">
@@ -476,13 +496,13 @@
     <footer class="cf">
       <div>
         <span>
-          <a href="#" >Help</a>
+          <a href="#">Help</a>
         </span>
         <span class="right-footer">
           email us for coins to use.
         </span>
         <span class="right-footer">
-          <a href="http://lesswrong.com" target="_blank" >Think</a> about things.
+          <a href="http://lesswrong.com" target="_blank">Think</a> about things.
         </span>
         <span class="right-footer">
           <span id="ServerDisplay">...</span> <a onclick="ncc.displayScreen('options')">change</a>
@@ -497,13 +517,15 @@
   <!-- JavaScript at the bottom for fast page loading -->
   
   <!-- scripts concatenated and minified via build script -->
-  <script src="js/jquery.js"></script>
-  <script src="js/jquery-ui.js"></script>
-  <script src="js/bootstrap-tab.js"></script>
-  <script src="js/json.js"></script>
+  <script src="js/lib/jquery.js"></script>
+  <script src="js/lib/jquery-ui.js"></script>
+  <script src="js/lib/bootstrap-tab.js"></script>
+  <script src="js/lib/json.js"></script>
+  <script src="js/lib/sjcl.js"></script>
   
-  <script src="js/combobox.js"></script>
   <script src="config.js"></script>
+
+  <script src="js/combobox.js"></script>
   <script src="js/websocket.js"></script>
   <script src="js/datastore.js"></script>
   <script src="js/ncc.js"></script>
@@ -517,11 +539,13 @@
   <script src="js/history.js"></script>
   <script src="js/ripple.js"></script>
   <script src="js/login.js"></script>
+  <script src="js/register.js"></script>
   <script src="js/trade.js"></script>
   <script src="js/send.js"></script>
   <script src="js/parser.js"></script>
   <script src="js/esprima.js"></script>
   <script src="js/orderbook.js"></script>
+  <script src="js/blobVault.js"></script>
 
   <!-- end scripts -->
 </body>
