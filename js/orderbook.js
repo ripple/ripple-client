@@ -65,8 +65,9 @@ orderBookScreen.updateRowsShown = function () {
 
   var sum = 0;
   $('#BuyingTable tr:visible').each(function () {
-    sum += Number($(this).find(".amount").text());
-    $(this).find(".sum").text(sum);
+    var row = $(this);
+    sum += Number(row.find(".amount").text());
+    row.find(".sum").text(sum);
   });
   
   sum = 0;
@@ -103,13 +104,15 @@ orderBookScreen.Offer = function (offerJSON) {
 $(document).ready(function () {
   var buyCurr = 'USD',
       sellCurr = 'XNS';
-
+  
   $("#OrderBookBuyCurrency").combobox({
     data: ncc.allCurrencyOptions,
     selected: buyCurr,
     onselect: function () {
       buyCurr = this.value;
-      if (buyCurr != sellCurr) orderBookScreen.updateRowsShown();
+      if (buyCurr != sellCurr) {
+        orderBookScreen.updateRowsShown();
+      }
     }
   });
   
@@ -118,7 +121,9 @@ $(document).ready(function () {
     selected: sellCurr,
     onselect: function () {
       sellCurr = this.value;
-      if (buyCurr != sellCurr) orderBookScreen.updateRowsShown();
+      if (buyCurr != sellCurr) {
+        orderBookScreen.updateRowsShown();
+      }
     }
   });
 });
