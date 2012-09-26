@@ -258,8 +258,7 @@ ncc.onLogIn = function ()
   $('#UnlogTopNav').hide();
   $('#MainNav').show();
   $('#TopNav').show();
-  if (ncc.advancedMode)
-  {
+  if (ncc.advancedMode) {
     $('#AdvancedNav').show();
     $('#UnlogAdvancedNav').hide();
   }
