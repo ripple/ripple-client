@@ -102,8 +102,10 @@ span.select-small{
 }
 
 
+/*-----------------------------------------------------------------------------------*/
+/*	UI customized. this overrides the css/lightness/jquery-ui.css 
+/*-----------------------------------------------------------------------------------*/
 
-/* UI customized. this overrides the css/lightness/jquery-ui.css ----------------------------------------------------*/ 
 
 .ui-widget-content{
 	padding: 10px;
@@ -114,22 +116,59 @@ span.select-small{
 }
 
 
-/* Interaction states
-----------------------------------*/
-.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default { border: 1px solid #cccccc; background: #f6f6f6 url(images/ui-bg_glass_100_f6f6f6_1x400.png) 50% 50% repeat-x; font-weight: bold; color: #1c94c4; }
+/* Interaction states ----------------------------------*/
 
-.ui-state-default a, .ui-state-default a:link, .ui-state-default a:visited { color: #1c94c4; text-decoration: none; }
 
-.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus { border: 1px solid #439bff; background: #f1f1f1 url(images/ui-bg_glass_100_fdf5ce_1x400.png) 50% 50% repeat-x; font-weight: bold; color: #444; }
+.ui-state-default, 
+.ui-widget-content .ui-state-default, 
+.ui-widget-header .ui-state-default { 
+	border: 1px solid #cccccc; 
+	background: #f6f6f6 url(images/ui-bg_glass_100_f6f6f6_1x400.png) 50% 50% repeat-x; 
+	font-weight: bold; 
+	color: #1c94c4; 
+}
 
-.ui-state-hover a, .ui-state-hover a:hover { color: #c77405; text-decoration: none; }
+.ui-state-default a, 
+.ui-state-default a:link, 
+.ui-state-default a:visited { 
+	color: #1c94c4; 
+	text-decoration: none; 
+}
 
-.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active { border: 1px solid #439bff; background: #ffffff url(images/ui-bg_glass_65_ffffff_1x400.png) 50% 50% repeat-x; font-weight: bold; color: #eb8f00; }
+.ui-state-hover, 
+.ui-widget-content .ui-state-hover, 
+.ui-widget-header .ui-state-hover, 
+.ui-state-focus, 
+.ui-widget-content .ui-state-focus, 
+.ui-widget-header .ui-state-focus { 
+	border: 1px solid #439bff; 
+	background: #f1f1f1 url(images/ui-bg_glass_100_fdf5ce_1x400.png) 50% 50% repeat-x; 
+	font-weight: bold; 
+	color: #444; 
+}
 
-.ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited { color: #eb8f00; text-decoration: none; }
+.ui-state-hover a, 
+.ui-state-hover a:hover { 
+	color: #c77405; 
+	text-decoration: none; 
+}
+
+.ui-state-active, 
+.ui-widget-content .ui-state-active, 
+.ui-widget-header .ui-state-active { 
+	border: 1px solid #439bff; 
+	background: #ffffff url(images/ui-bg_glass_65_ffffff_1x400.png) 50% 50% repeat-x; 
+	font-weight: bold; color: #eb8f00; 
+}
+
+.ui-state-active a, 
+.ui-state-active a:link, 
+.ui-state-active a:visited { 
+	color: #eb8f00; 
+	text-decoration: none; 
+}
 
 .ui-widget :active { outline: none; }
-
 
 
 
@@ -149,6 +188,8 @@ span.select-small{
 
 .ui-autocomplete-input:focus{
 	border-color: rgba(82, 168, 236, 0.8);
+	
+	outline: none ; /* testing if this removes the yellow glow on chrome */
 }
 
 .ui-button{
@@ -157,4 +198,4 @@ span.select-small{
 	border-radius: 0px 10px 10px 0px;
 }
 
-
+button.ui-button-icon-only { width: 2.4em; height: 36px; } 

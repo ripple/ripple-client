@@ -35,6 +35,14 @@ header .topNav a{
 	border: 1px solid transparent;
 }
 
+header a{
+	-webkit-transition: all 0.3s ease;
+	-moz-transition: all 0.3s ease;
+	-o-transition: all 0.3s ease;
+	transition: all 0.3s ease;
+	/* use transitions only on header links */
+}
+
 
 
 /* Main nav  ----------------------------------------------------*/ 

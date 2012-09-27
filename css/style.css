@@ -50,13 +50,13 @@ body {
   color: #444444;
   background: #dadbdd url(../img/bg-optimized.jpg) repeat-x top center;
 }
+
 body a {
   text-decoration: none;
-  -webkit-transition: all 0.3s ease;
-  -moz-transition: all 0.3s ease;
-  -o-transition: all 0.3s ease;
-  transition: all 0.3s ease;
+  /* removed transitions that makes strange jumping effect on comboboxes */
 }
+
+
 body p {
   margin-bottom: 21px;
 }
