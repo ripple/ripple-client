@@ -1,5 +1,5 @@
 var blobVault = new (function () {
-  var user, pass;
+  var user, pass, key;
   
   if (!localStorage.blobs) {
     localStorage.blobs = '{}';
@@ -9,22 +9,25 @@ var blobVault = new (function () {
     return sjcl.codec.hex.fromBits(sjcl.hash.sha1.hash(u + p));
   }
   
+  this.blob = '';
   this.data = {};
   this.meta = {};
   
-  this.authenticate = function (username, password, callback) {
+  this.login = function (username, password, offlineBlob, callback) {
     user = username;
     pass = password;
-    
-    var blobs = JSON.parse(localStorage.blobs);
     key = make_key(user, pass);
     
-    if (key in blobs) {
+    var blobs = JSON.parse(localStorage.blobs);
+    
+    if (offlineBlob || key in blobs) {
+      this.blob = offlineBlob || blobs[key];
       try {
-        this.data = JSON.parse(sjcl.decrypt(user + pass, JSON.stringify(blobs[key])));
-        this.meta = JSON.parse(unescape(blobs[key].adata));
-      } catch (e) { 
-        // decryption fails silently
+        this.data = JSON.parse(sjcl.decrypt(user + pass, atob(this.blob)));
+        this.meta = JSON.parse(unescape(JSON.parse(atob(this.blob)).adata));
+        if (offlineBlob) this.save();
+      } catch (e) {
+        // decryption fails silently, but caller can check this.data.master_seed
       }
       callback(true);
     } else {
@@ -46,13 +49,15 @@ var blobVault = new (function () {
         plaintext = JSON.stringify(this.data),
         adata = JSON.stringify(this.meta);
     
-    blobs[key] = JSON.parse(sjcl.encrypt(user + pass, plaintext, { iter: 10000, adata: adata }));
+    this.blob = blobs[key] = btoa(sjcl.encrypt(user + pass, plaintext, { iter: 10000, adata: adata }));
     localStorage.blobs = JSON.stringify(blobs);
   };
   
   this.logout = function () {
     delete user;
     delete pass;
+    delete key;
+    this.blob = '';
     this.data = {};
     this.meta = {};
   }

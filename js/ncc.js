@@ -112,7 +112,12 @@ ncc.processAccounts = function (accounts)
     rpc.account_tx(accounts[i].Account, history.onHistoryResponse);
   }
   
-  ncc.changeBalance('XNS', balance-ncc.balance['XNS']);
+  if (blobVault.data.account_id != ncc.accountID) {
+    blobVault.data.account_id = ncc.accountID;
+    blobVault.save();
+  }
+  
+  ncc.changeBalance('XNS', balance - ncc.balance['XNS']);
   $('#RecvAddress').text(ncc.accountID);
 }
 

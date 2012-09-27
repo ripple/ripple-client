@@ -12,9 +12,11 @@ registerScreen.register = function () {
   
   if (user && pass) {
     blobVault.register(user, pass);
-    
-    if (blobVault.data.master_seed && blobVault.data.account_id) {
-      ncc.error("This username and password already registered.");
+    if (this.pk.value) {
+      ncc.masterKey = blobVault.data.master_seed = this.pk.value;
+      blobVault.meta.registered = (new Date()).toJSON();
+      blobVault.save();
+      loginScreen.finishLogin();
     } else {
       rpc.wallet_propose(function (response, success) {
         if (success) {
@@ -30,7 +32,6 @@ registerScreen.register = function () {
         }
       });
     }
-    
   } else {
     ncc.error("Username and password can't be blank.");
   }

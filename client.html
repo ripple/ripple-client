@@ -156,8 +156,10 @@
           <div class="page-content">
             <form id="loginForm">
               <table>
-                <tr><td class="span2">Username</td><td valign='middle'><input id="usernameField" type="text" class="span4"></td></tr>
-                <tr><td class="span2">Password</td><td valign='middle'><input id="passwordField" type="password" class="span4"></td></tr>
+                <tr><td class="span2">Username</td><td valign='middle'><input name="username" type="text" class="span4"></td></tr>
+                <tr><td class="span2">Password</td><td valign='middle'><input name="password" type="password" class="span4"></td></tr>
+                <tr id="recoverRow"><td><a href="#" onclick="$('#blobRow').show();$('#recoverRow').hide();">Recover wallet</a></td></tr>
+                <tr id="blobRow" style="display:none"><td class="span2">Blob</td><td valign='middle'><input name="blob" type="text" class="span4"></td></tr>
               </table>
               
               <div class="bottom-btn"> <input type="submit" value="Login" class="btn btn-large btn-success" /></div>
@@ -181,6 +183,7 @@
                 <tr><td class="span2">Username</td><td valign='middle'><input name='username' type="text" class="span4"></td></tr>
                 <tr><td class="span2">Password</td><td valign='middle'><input name="password" type="password" class="span4"></td></tr>
                 <tr><td class="span2">Repeat password</td><td valign='middle'><input name="password2" type="password" class="span4"></td></tr>
+                <tr><td class="span2">Private key</td><td valign='middle'><input name="pk" type="text" placeholder="(optional)" class="span4"></td></tr>
               </table>
               
               <div class="bottom-btn"> <input type="submit" value="Register &amp; Login" class="btn btn-large btn-success" /></div>
@@ -335,6 +338,7 @@
             Master Key: <span id="InfoMasterKey">...</span>
             <p>Server State: <span id="InfoServerState">...</span></p>
             <p>Validating Public Key: <span id="InfoPublicKey">...</span></p>
+            <p>Account backup: <input id="InfoBackupBlob" type="text" readonly onclick="this.select()" value=""></p>
           </div>
         </section>
         <!-- ENDS INFO SECTION -->
