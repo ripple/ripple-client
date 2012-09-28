@@ -11,24 +11,20 @@ loginScreen.onShowTab = function () {
 };
 
 loginScreen.login = function () {
-  blobVault.login(
-    this.username.value,
-    this.password.value,
-    this.blob.value,
-    function (authSuccess) {
-      if (authSuccess) {
-        if (blobVault.data.master_seed) {
-          ncc.masterKey = blobVault.data.master_seed;
-          ncc.accountID = blobVault.data.account_id;
-          loginScreen.finishLogin();
-        } else {
-          ncc.error("Data decryption failed.");
-        }
-      } else { // !authSuccess
-        ncc.error("Bad username or password.");
+  try {
+    blobVault.login(
+      this.username.value,
+      this.password.value,
+      this.blob.value,
+      function success() {
+        ncc.masterKey = blobVault.data.master_seed;
+        ncc.accountID = blobVault.data.account_id;
+        loginScreen.finishLogin();
       }
-    }
-  );
+    );
+  } catch (e) {
+    ncc.error(e);
+  }
   return false;
 };
 

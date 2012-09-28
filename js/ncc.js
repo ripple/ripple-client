@@ -115,6 +115,7 @@ ncc.processAccounts = function (accounts)
   if (blobVault.data.account_id != ncc.accountID) {
     blobVault.data.account_id = ncc.accountID;
     blobVault.save();
+    blobVault.pushToServer();
   }
   
   ncc.changeBalance('XNS', balance - ncc.balance['XNS']);
