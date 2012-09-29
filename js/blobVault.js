@@ -21,7 +21,7 @@ var blobVault = new (function () {
   this.data = {};
   this.meta = {};
   
-  this.login = function (username, password, offlineBlob, onSuccess) {
+  this.login = function (username, password, offlineBlob, onSuccess, onError) {
     user = username;
     pass = password;
     key = make_key(user, pass);
@@ -37,27 +37,29 @@ var blobVault = new (function () {
         throw "Account decryption failed.";
       }
     } else {
-      function processBlob(serverBlob, status) {
+      function processBlob(blob) {
+        if (!blob) onError("Unknown username or bad password.");
+        else if (!blobVault.loadBlob(blob)) onError("Account decryption failed.");
+        else onSuccess();
+      }
+      
+      function processServerBlob(serverBlob) {
         var localBlob = blobs[key] || '';
         
-        // if server is down, or has blob same as local, just use local
-        if (status != 'success' || serverBlob == localBlob) {
-          if (localBlob) {
-            if (blobVault.loadBlob(localBlob)) {
-              onSuccess();
-            } else {
-              throw "Account decryption failed.";
-            }
-          } else {
-            throw "Unknown username or bad password.";
-          }
+        if (serverBlob == localBlob) {
+          processBlob(localBlob);
+          return;
         }
         
-        var blob = (serverBlob && localBlob) ? newer_blob(serverBlob, localBlob)
-                                             : serverBlob || localBlob;
+        var primaryBlob = (serverBlob && localBlob) ? newer_blob(serverBlob, localBlob)
+                                                    : serverBlob || localBlob;
         
-        if (blob == serverBlob) {
-          if (blobVault.loadBlob(blob)) {
+        // next, we try to load the primary blob selected above...
+        // if successful, we overwrite the secondary blob which wasn't selected with it
+        // if unsuccessful (i.e. someone modified the primary blob), we try to load the
+        //   secondary blob, and, if successful, overwrite the primary one with it
+        if (primaryBlob == serverBlob) {
+          if (blobVault.loadBlob(serverBlob)) {
             blobVault.save();
           } else {
             blobVault.loadBlob(localBlob) && blobVault.pushToServer();
@@ -70,16 +72,19 @@ var blobVault = new (function () {
           }
         }
         
+        // blobVault.blob is truthy iff a loadBlob succeeded
         if (blobVault.blob) {
           onSuccess();
         } else {
-          throw "Account decryption failed.";
+          onError("Account decryption failed.");
         }
       }
       
       $.get('http://' + BLOBVAULT_SERVER + '/' + key)
-        .success(processBlob)
-        .error(processBlob);
+        .success(processServerBlob)
+        .error(function () {
+          processBlob(blobs[key]);
+        });
     }
   };
   

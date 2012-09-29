@@ -11,20 +11,19 @@ loginScreen.onShowTab = function () {
 };
 
 loginScreen.login = function () {
-  try {
-    blobVault.login(
-      this.username.value,
-      this.password.value,
-      this.blob.value,
-      function success() {
-        ncc.masterKey = blobVault.data.master_seed;
-        ncc.accountID = blobVault.data.account_id;
-        loginScreen.finishLogin();
-      }
-    );
-  } catch (e) {
-    ncc.error(e);
-  }
+  blobVault.login(
+    this.username.value,
+    this.password.value,
+    this.blob.value,
+    function success() {
+      ncc.masterKey = blobVault.data.master_seed;
+      ncc.accountID = blobVault.data.account_id;
+      loginScreen.finishLogin();
+    },
+    function error(e) {
+      ncc.error(e);
+    }
+  );
   return false;
 };
 
