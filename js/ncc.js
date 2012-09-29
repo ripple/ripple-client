@@ -38,7 +38,7 @@ ncc.currencyOptions = {
   "XAG" : "XAG-Ounces of Silver"
 };
 
-ncc.allCurrencyOptions={
+ncc.allCurrencyOptions = {
   "AUD" : "AUD-Australian Dollar",
   "BTC" : "BTC-Bitcoins",
   "EUR" : "EUR-Euro",
@@ -50,17 +50,15 @@ ncc.allCurrencyOptions={
   "XNS" : "XNS-Newcoin Stamps" 
 };
 
-ncc.serverDown = function ()
-{
+ncc.serverDown = function () {
   ncc.error('No response from server. Please check if it is running.');
 }
 
-ncc.checkError = function (response)
-{
+ncc.checkError = function (response) {
   var ret = false;
   var errorStr = '';
   if (response.error) {
-    errorStr=response.error;
+    errorStr = response.error;
   }
   if (response.result.error_message) {
     ret = true;
@@ -74,8 +72,7 @@ ncc.checkError = function (response)
   return ret;
 }
 
-ncc.status = function (str)
-{
+ncc.status = function (str) {
   if (str) {
     $('#StatusDiv').show();
     $('#status').text(str);
@@ -84,8 +81,7 @@ ncc.status = function (str)
   }
 }
 
-ncc.error = function (str)
-{
+ncc.error = function (str) {
   if (str) {
     $('#ErrorDiv').show();
     $('#error').text(str);
@@ -94,9 +90,8 @@ ncc.error = function (str)
   }
 }
 
-ncc.displayScreen = function (screenName)
-{
-  $('#UnlogTopNav a[href="#t-'+screenName+'"]').tab('show');
+ncc.displayScreen = function (s) {
+  $('.nav.nav-tabs:visible a[href="#t-' + s + '"]').click();
 }
 
 ncc.processAccounts = function (accounts)
@@ -122,8 +117,7 @@ ncc.processAccounts = function (accounts)
   $('#RecvAddress').text(ncc.accountID);
 }
 
-ncc.changeBalance = function (currency, delta)
-{
+ncc.changeBalance = function (currency, delta) {
   if (currency in ncc.balance) ncc.balance[currency] += delta;
   else ncc.balance[currency] = delta;
   

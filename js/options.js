@@ -1,26 +1,23 @@
+var optionScreen = {};
 
-
-var optionScreen={};
-
-optionScreen.onShowTab = function()
-{
-	$("#ServerIPOption").val( SERVER_IP );
-	$("#ServerPortOption").val(SERVER_RPC_PORT);
+optionScreen.onShowTab = function () {
+  $("#WSServerOption").val(WS_SERVER);
+  $("#RPCServerOption").val(RPC_SERVER);
+  $("#BlobVaultServerOption").val(BLOBVAULT_SERVER);
 }
 
-optionScreen.save = function()
-{
-	SERVER_IP=$.trim( $("#ServerIPOption").val() );
-	SERVER_RPC_PORT=$.trim( $("#ServerPortOption").val() );
-	
-	$('#ServerDisplay').text("Connecting to: "+SERVER_IP+' '+SERVER_RPC_PORT);
-	rpc.reload();
-	
-	startUp.start();
+optionScreen.save = function () {
+  WS_SERVER = $.trim( $("#WSServerOption").val() );
+  RPC_SERVER = $.trim( $("#RPCServerOption").val() );
+  BLOBVAULT_SERVER = $.trim( $("#BlobVaultServerOption").val() );
+  
+  $('#ServerDisplay').text("Connecting to: " + RPC_SERVER);
+  rpc.reload();
+  
+  startUp.start();
 }
 
-optionScreen.cancel = function()
-{
-	if(ncc.masterKey) ncc.displayScreen('HomeScreen');
-	else ncc.displayScreen('LoginScreen');
+optionScreen.cancel = function () {
+  if (ncc.masterKey) ncc.displayScreen('send');
+  else ncc.displayScreen('welcome');
 }
