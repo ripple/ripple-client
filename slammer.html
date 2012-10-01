@@ -54,15 +54,17 @@
  Still rough. If you reload the page it will forget all the accounts it has made so far.
  
 	<table>
-		<tr><td>
-Create a bunch of accounts in the ledger. This waits for the server response before for making each account.
-
-              <table>
-                <tr><td class="span2">Number of accounts to make:</td><td><input id="NumStressAccounts" type="text" class="span2"></td></tr>
-              </table>
-         </td><td>   
-              <div class="bottom-btn"> <button class="btn btn-large btn-success" onclick="stressUI.createAccounts()">Create Accounts</button></div>
-		</td></tr>
+		<tr>
+			<td>
+				Create a bunch of accounts in the ledger. This waits for the server response before for making each account.
+				<table>
+					<tr><td class="span2">Number of accounts to make:</td><td><input id="NumStressAccounts" type="text" class="span2"></td></tr>
+				</table>
+			</td>
+			<td>   
+				<div class="bottom-btn"> <button class="btn btn-large btn-success" onclick="stressUI.createAccounts()">Create Accounts</button></div>
+			</td>
+		</tr>
 		
 		<tr><td>
 Send between accounts created above
@@ -80,6 +82,24 @@ For every account it will create N lines to some random other node.
               </table>
          </td><td>   
               <div class="bottom-btn"> <button class="btn btn-large btn-success" onclick="stressUI.createLines()">Create Lines</button></div>
+		</td></tr>
+		
+		<tr><td>
+			Send N ripple transfers between random accounts.
+			 <table>
+	                <tr><td class="span2">Number of ripple transfers:</td><td><input id="NumStressRipples" type="text" class="span2"></td></tr>
+	              </table>
+	         </td><td>   
+	              <div class="bottom-btn"> <button class="btn btn-large btn-success" onclick="stressUI.doRipples()">Do Ripples</button></div>
+		</td></tr>
+		
+		<tr><td>
+			Create N offers. Pick a random account, random in and out, random price. 
+		 <table>
+                <tr><td class="span2">Number of offers:</td><td><input id="NumStressOffers" type="text" class="span2"></td></tr>
+              </table>
+         </td><td>   
+              <div class="bottom-btn"> <button class="btn btn-large btn-success" onclick="stressUI.createOffers()">Do Offers</button></div>
 		</td></tr>
 		
 		

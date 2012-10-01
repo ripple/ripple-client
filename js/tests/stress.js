@@ -28,9 +28,18 @@ stressUI.createLines=function()
 	stress.createLines(0,num);
 }
 
+stressUI.createOffers=function()
+{
+	var num=$("#NumStressOffers").val();
+	console.log("Creating "+num+" offers");
+	
+	stress.createOffers(num);
+}
+
 var stress={};
 stress.accounts=[];
 stress.currencies=['USD','BTC','EUR','YEN'];
+stress.allCurrencies=['USD','BTC','EUR','YEN','XNS'];
 
 // add the masterpassphrase account
 stress.startUp=function()
@@ -52,6 +61,43 @@ stress.createAccounts=function(numberToAdd)
 	}
 }
 
+stress.createOffers=function(num)
+{
+	if(num>0)
+	{
+		var index=Math.floor(Math.random()*stress.accounts.length);
+		
+		var price= 1+Math.random()-Math.random();
+		
+		var outAmount=10+Math.floor(Math.random()*100);
+		var inAmount=outAmount*price;
+		
+		var inCurrency=stress.accounts[index].currency;
+		var inIssuer=stress.accounts[ stress.accounts[index].issuer ].account_id;
+		
+		var outCurrency=stress.allCurrencies[Math.floor(Math.random()*stress.allCurrencies.length)];
+		var outIssuer=stress.accounts[ index ].account_id;
+		
+		if(outCurrency=='XNS') 
+		{
+			outIssuer='';
+			outAmount *= BALANCE_DISPLAY_DIVISOR;
+		}
+		
+		if(inCurrency=='XNS')
+		{ 
+			inAmount *= BALANCE_DISPLAY_DIVISOR;
+			inIssuer= '';
+		}
+		
+		
+		console.log("offer:"+stress.accounts[index].master_seed+" "+stress.accounts[index].account_id+" "+outAmount+" "+outCurrency+" "+outIssuer+" "+inAmount+" "+inCurrency+" "+inIssuer);
+		
+		rpc.offer_create(stress.accounts[index].master_seed, stress.accounts[index].account_id,''+outAmount,outCurrency,outIssuer,''+inAmount,inCurrency,inIssuer,'0',
+			function(response, success){ stress.createOffersCB(response, success, num); });
+	}
+}
+
 stress.createLines=function(index,num)
 {
 	if(index>=stress.accounts.length) 
@@ -67,7 +113,8 @@ stress.createLines=function(index,num)
 		var amount=Math.floor(Math.random()*1000);
 		var currency=stress.currencies[Math.floor(Math.random()*stress.currencies.length)];
 		
-		
+		stress.accounts[index].currency=currency;
+		stress.accounts[index].issuer=j;
 		
 		amount *= BALANCE_DISPLAY_DIVISOR;
 		console.log("Sending:"+stress.accounts[index].master_seed+" "+stress.accounts[index].account_id+" "+stress.accounts[j].account_id+" "+amount+" XNS");
@@ -75,6 +122,15 @@ stress.createLines=function(index,num)
 		rpc.ripple_line_set(stress.accounts[index].master_seed, stress.accounts[index].account_id, stress.accounts[j].account_id,amount, currency,
 			function(response, success){ stress.createLineCB(response, success, index,num); });
 	}
+}
+
+stress.createOffersCB= function(response, success, num)
+{
+	if(success) 
+	{
+		ncc.checkError(response);
+		stress.createOffers(num-1);
+	}else ncc.serverDown();
 }
 
 stress.createLineCB = function(response, success, index,num)
