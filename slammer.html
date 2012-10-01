@@ -1,12 +1,12 @@
 <html>
 <head>
+<meta charset="utf-8">
 	<link href="css/bootstrap.css" rel="stylesheet">
     <link href="css/bootstrap-responsive.css?1" rel="stylesheet">
      <link href="css/ui-lightness/jquery-ui.css" rel="stylesheet">
-     <link href="css/ncc.css" rel="stylesheet">
+     <link href="css/ncc2.css" rel="stylesheet">
     
-    
-    <script src="js/lib/jquery.js"></script>
+        <script src="js/lib/jquery.js"></script>
   <script src="js/lib/jquery-ui.js"></script>
   <script src="js/lib/bootstrap-tab.js"></script>
   <script src="js/lib/json.js"></script>
@@ -37,25 +37,55 @@
   <script src="js/blobVault.js"></script>
     <script src="js/tests/slammer.js" language="javascript"></script>
     <script src="js/tests/stress.js" language="javascript"></script>
+
+    
     <script>
     $(document).ready(function () {
-    	stress.startUp();
-    }
+		stress.startUp();
+    } );
 
     </script>
     
-<title>Newcoin Slamer</title>
+<title>Slammer</title>
 </head>
-<body><div class="wrapper">
-<div class="page-content">         
-Create a bunch of accounts in the ledger. This waits for the server response for making each account.
+<body><div class="wrapper row ">
+<div class="page-content span5">     
+ <div class="tab-content">    
+ Still rough. If you reload the page it will forget all the accounts it has made so far.
+ 
+	<table>
+		<tr><td>
+Create a bunch of accounts in the ledger. This waits for the server response before for making each account.
 
               <table>
                 <tr><td class="span2">Number of accounts to make:</td><td><input id="NumStressAccounts" type="text" class="span2"></td></tr>
-                
               </table>
-            
+         </td><td>   
               <div class="bottom-btn"> <button class="btn btn-large btn-success" onclick="stressUI.createAccounts()">Create Accounts</button></div>
+		</td></tr>
+		
+		<tr><td>
+Send between accounts created above
+		 <table>
+                <tr><td class="span2">Number of sends to do:</td><td><input id="NumStressSends" type="text" class="span2"></td></tr>
+              </table>
+         </td><td>   
+              <div class="bottom-btn"> <button class="btn btn-large btn-success" onclick="stressUI.doSends()">Do sends</button></div>
+		</td></tr>
+	
+	<tr><td>
+Create ripple lines between random accounts.
+		 <table>
+                <tr><td class="span2">Number of lines:</td><td><input id="NumStressLines" type="text" class="span2"></td></tr>
+              </table>
+         </td><td>   
+              <div class="bottom-btn"> <button class="btn btn-large btn-success" onclick="stressUI.createLines()">Create Lines</button></div>
+		</td></tr>
+		
+		
+	</table>
+             
+             
            </div>
      <div id="ErrorDiv" class="alert alert-error ncc-alert stick-bottom">
              <p><strong class="alert-heading">Warning!</strong></p>
@@ -65,6 +95,7 @@ Create a bunch of accounts in the ledger. This waits for the server response for
              <p><strong class="alert-heading">Info</strong></p>
              <span id="status"><span>
       </div>
-            
+            </div>
+            </div>
 </div></body>
 </html>
