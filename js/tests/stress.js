@@ -1,6 +1,10 @@
 /*
- 
+	pull the ledger on startup and create all the accounts based on that. (We won't know the masterkeys though)
+	
+	not all accounts are being made
+
 */
+
 var stressUI={};
 stressUI.createAccounts=function()
 {
@@ -12,12 +16,21 @@ stressUI.createAccounts=function()
 stressUI.doSends=function()
 {
 	var num=$("#NumStressSends").val();
-	console.log("Creating "+num+" accounts");
+	console.log("Doing "+num+" sends");
 	stress.doSends(num);
+}
+
+stressUI.createLines=function()
+{
+	var num=$("#NumStressLines").val();
+	console.log("Giving each account "+num+" lines");
+	
+	stress.createLines(0,num);
 }
 
 var stress={};
 stress.accounts=[];
+stress.currencies=['USD','BTC','EUR','YEN'];
 
 // add the masterpassphrase account
 stress.startUp=function()
@@ -39,16 +52,51 @@ stress.createAccounts=function(numberToAdd)
 	}
 }
 
+stress.createLines=function(index,num)
+{
+	if(index>=stress.accounts.length) 
+	{
+		index=0;
+		num--;
+	}
+	
+	if(num>0)
+	{
+		var j=Math.floor(Math.random()*stress.accounts.length);
+		
+		var amount=Math.floor(Math.random()*1000);
+		var currency=stress.currencies[Math.floor(Math.random()*stress.currencies.length)];
+		
+		
+		
+		amount *= BALANCE_DISPLAY_DIVISOR;
+		console.log("Sending:"+stress.accounts[index].master_seed+" "+stress.accounts[index].account_id+" "+stress.accounts[j].account_id+" "+amount+" XNS");
+		
+		rpc.ripple_line_set(stress.accounts[index].master_seed, stress.accounts[index].account_id, stress.accounts[j].account_id,amount, currency,
+			function(response, success){ stress.createLineCB(response, success, index,num); });
+	}
+}
 
-
-stress.createCB = function (response, success, numberToAdd)
+stress.createLineCB = function(response, success, index,num)
 {
 	if(success) 
 	{
 		ncc.checkError(response);
-		response.result
+		stress.createLines(index+1,num);
+	}else ncc.serverDown();
+}
+
+
+
+stress.createCB = function(response, success, numberToAdd)
+{
+	if(success) 
+	{
+		ncc.checkError(response);
 		
-		var n=Math.floor(Math.random()*stress.accounts.length);
+		
+		//var n=Math.floor(Math.random()*stress.accounts.length);
+		var n=0;
 		
 		var amount=Math.floor(Math.random()*stress.accounts[n].balance);
 		if(amount>99999)amount=99999;
