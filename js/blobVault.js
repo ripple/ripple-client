@@ -109,7 +109,7 @@ var blobVault = new (function () {
     }
   }
   
-  this.register = function (username, password, callback) {
+  this.register = function (username, password) {
     user = username;
     pass = password;
     hash = make_hash(user, pass);
@@ -117,10 +117,6 @@ var blobVault = new (function () {
     this.meta = {
       created: (new Date()).toJSON()
     };
-    callback(function (lastly) {
-      this.save();
-      this.login(user, pass, '', lastly);
-    })
   };
   
   this.save = function () {
