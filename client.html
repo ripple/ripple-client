@@ -21,6 +21,7 @@
   <link href="css/ncc2.css" rel="stylesheet">
   
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/password-strength-meter.css">
   <!-- ENDS CSS -->
   
   <!-- GOOGLE FONTS -->
@@ -157,10 +158,20 @@
           <div class="page-content">
             <form id="loginForm">
               <table>
-                <tr><td class="span2">Username</td><td valign='middle'><input name="username" type="text" class="span4"></td></tr>
-                <tr><td class="span2">Password</td><td valign='middle'><input name="password" type="password" class="span4"></td></tr>
-                <tr id="recoverRow"><td><a href="#" onclick="$('#blobRow').show();$('#recoverRow').hide();">Recover wallet</a></td></tr>
-                <tr id="blobRow" style="display:none"><td class="span2">Blob</td><td valign='middle'><input name="blob" type="text" class="span4"></td></tr>
+                <tr><td class="span2">Username</td><td valign='middle'>
+                  <input name="username" type="text" class="span4">
+                </td></tr>
+                <tr>
+                  <td class="span2">Password</td>
+                  <td valign='middle'><input name="password" type="password" class="span4"></td>
+                </tr>
+                <tr id="recoverRow"><td>
+                  <a href="#" onclick="$('#blobRow').show();$('#recoverRow').hide();">Recover wallet</a>
+                </td></tr>
+                <tr id="blobRow" style="display:none">
+                  <td class="span2">Blob</td>
+                  <td valign='middle'><input name="blob" type="text" class="span4"></td>
+                </tr>
               </table>
               
               <div class="bottom-btn"> <input type="submit" value="Login" class="btn btn-large btn-success" /></div>
@@ -528,9 +539,10 @@
   <script src="js/lib/bootstrap-tab.js"></script>
   <script src="js/lib/json.js"></script>
   <script src="js/lib/sjcl.js"></script>
+  <script src="js/lib/password-strength-meter.js"></script>
   
   <script src="config.js"></script>
-
+  
   <script src="js/combobox.js"></script>
   <script src="js/websocket.js"></script>
   <script src="js/datastore.js"></script>

@@ -37,4 +37,7 @@ registerScreen.register = function () {
 
 $(document).ready(function () {
   $("#registerForm").submit(registerScreen.register);
+  $("#registerForm input[type=password]").passStrength({
+    userid: "#registerForm input[name=username]"
+  });
 });
