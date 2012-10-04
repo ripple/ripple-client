@@ -34,9 +34,8 @@ var blobVault = new (function () {
     }
     
     function processServerBlob(serverBlob) {
-      var emptyBlob = 'e30=',
-          localBlob = blobs[hash] || emptyBlob,
-          serverBlob = serverBlob || emptyBlob;
+      var localBlob = blobs[hash] || "",
+          serverBlob = serverBlob || "";
       
       if (offlineBlob) {
         if (this.loadBlob(offlineBlob)) {
@@ -50,7 +49,6 @@ var blobVault = new (function () {
       }
       
       if (serverBlob == localBlob) {
-        console.log("serverBlob == localBlob");
         processBlob(localBlob);
         return;
       }

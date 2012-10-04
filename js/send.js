@@ -2,23 +2,19 @@ var send = {};
 
 send.onShowTab = function () {}
 
-send.send = function ()
-{
+send.send = function () {
   var toAccount = $.trim( $("#SendDest").val() ),
       currency = $("#SendCurrency").val(),
       amount = $("#SendAmount").val() * (currency == 'XNS' ? BALANCE_DISPLAY_DIVISOR : 1);
   
-  rpc.send(ncc.masterKey, ncc.accountID, toAccount, amount, currency, send.onSendResponse);
+  rpc.send(ncc.masterKey, ncc.accountID, toAccount, String(amount), currency, send.onSendResponse);
 }
 
-send.onSendResponse = function (response, success)
-{
+send.onSendResponse = function (response, success) {
   console.log("Send response:", JSON.stringify(response));
   
-  if (success)
-  {
-    if (!ncc.checkError(response))
-    {
+  if (success) {
+    if (!ncc.checkError(response)) {
       currency = $.trim( $("#SendCurrency").val() ).substring(0,3).toUpperCase();
       ncc.status( $("#SendAmount").val() + ' ' + currency + ' Sent to ' + $("#SendDest").val() );
       $("#SendDest").val('');

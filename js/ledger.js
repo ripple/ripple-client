@@ -29,25 +29,25 @@ ledgerScreen.addLedger = function (ledger)
   
   var accounts = ledger.accountState;
   $('#LedgerTable').empty();
-  for(var i = 0; i < accounts.length; i++) {
+  for (var i = 0; i < accounts.length; i++) {
     var row = ledgerScreen.makeRow(accounts[i],i);
-    $('#LedgerTable').append(row);  
+    $('#LedgerTable').append(row);
   }
   
   $('#TransactionTable').empty();
   for(var i = 0; i < ledger.transactions.length; i++) {
     var tx = ledger.transactions[i],
-        amount = ncc.displayAmount(tx.inner.Amount),
+        amount = ncc.displayAmount(tx.Amount),
         fee = ncc.addCommas( (tx.middle.Fee / BALANCE_DISPLAY_DIVISOR).toFixed(4) );
     
     $('#TransactionTable').append(
       '<tr>' + 
         '<td>' + i + '</td>' +
-        '<td>' + tx.middle.SourceAccount + '</td>' +
-        '<td>' + tx.inner.Destination + '</td>' +
+        '<td>' + tx.SourceAccount + '</td>' +
+        '<td>' + tx.Destination + '</td>' +
         '<td>' + amount + '</td>' +
         '<td>' + fee + '</td>' +
-        '<td>' + tx.middle.type + '</td>' +
+        '<td>' + tx.TransactionType + '</td>' +
       '</tr>'
     );
   }
@@ -55,34 +55,34 @@ ledgerScreen.addLedger = function (ledger)
 
 ledgerScreen.makeRow = function (account, i)
 {
-  if (account.type == "AccountRoot") {
+  if (account.LedgerEntryType == "AccountRoot") {
     var balance = ncc.displayAmount(account.Balance);
     return '<tr><td>' + i + '</td><td>' + account.Account + '</td><td>' + balance + '</td><td>' + account.Sequence + '</td></tr>';
   }
   
-  if (account.type == "DirectoryRoot") {
+  if (account.LedgerEntryType == "DirectoryRoot") {
     return '<tr><td>' + i + '</td><td>DirectoryRoot</td><td></td><td></td></tr>';
   }
   
-  if (account.type == "DirectoryNode") {
+  if (account.LedgerEntryType == "DirectoryNode") {
     return '<tr><td>' + i + '</td><td>DirectoryNode</td><td></td><td></td></tr>';
   }
   
-  if (account.type == "GeneratorMap") {
+  if (account.LedgerEntryType == "GeneratorMap") {
     return '<tr><td>' + i + '</td><td>GeneratorMap</td><td></td><td></td></tr>';
   }
   
-  if (account.type == "Nickname") {
+  if (account.LedgerEntryType == "Nickname") {
     return '<tr><td>' + i + '</td><td>Nickname</td><td></td><td></td></tr>';
   }
   
-  if (account.type == "RippleState") {
+  if (account.LedgerEntryType == "RippleState") {
     var balance = account.Balance.value,
         currency = account.Balance.currency;
     return '<tr><td>' + i + '</td><td>RippleState</td><td>' + balance + '</td><td>' + currency + '</td></tr>';
   }
   
-  if (account.type == "Offer") {
+  if (account.LedgerEntryType == "Offer") {
     var str = '';
     if (account.TakerGets.currency) {
       str += account.TakerGets.value + ' ' + account.TakerGets.currency;

@@ -21,7 +21,7 @@ orderBookScreen.addLedger = function(ledger) {
   $('#BuyingTable').empty();
   
   for(var i = 0; i < accounts.length; i++) {
-    if (accounts[i].type == "Offer") {
+    if (accounts[i].LedgerEntryType == "Offer") {
       offers.push(new orderBookScreen.Offer(accounts[i]));
     }
   }
@@ -83,7 +83,7 @@ orderBookScreen.updateRowsShown = function () {
 }
 
 orderBookScreen.Offer = function (offerJSON) {
-  if (offerJSON.type != "Offer") {
+  if (offerJSON.LedgerEntryType != "Offer") {
     throw "Not an offer!";
   }
   
