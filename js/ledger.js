@@ -43,7 +43,7 @@ ledgerScreen.addLedger = function (ledger)
     $('#TransactionTable').append(
       '<tr>' + 
         '<td>' + i + '</td>' +
-        '<td>' + tx.SourceAccount + '</td>' +
+        '<td>' + tx.Account + '</td>' +
         '<td>' + tx.Destination + '</td>' +
         '<td>' + amount + '</td>' +
         '<td>' + fee + '</td>' +

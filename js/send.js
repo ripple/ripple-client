@@ -7,7 +7,11 @@ send.send = function () {
       currency = $("#SendCurrency").val(),
       amount = $("#SendAmount").val() * (currency == 'XNS' ? BALANCE_DISPLAY_DIVISOR : 1);
   
-  rpc.send(ncc.masterKey, ncc.accountID, toAccount, String(amount), currency, send.onSendResponse);
+  if (currency == 'XNS') {
+    rpc.send(ncc.masterKey, ncc.accountID, toAccount, String(amount), currency, send.onSendResponse);
+  } else {
+    rpc.send(ncc.masterKey, ncc.accountID, toAccount, String(amount), currency, ncc.accountID, send.onSendResponse);
+  }
 }
 
 send.onSendResponse = function (response, success) {

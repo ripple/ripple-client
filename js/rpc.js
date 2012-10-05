@@ -35,11 +35,20 @@ rpc.call = function (request, callback) {
 };
 
 
-rpc.send = function (key, fromAccount, toAccount, amount, currency, callback) {
-  var request = {};
-  request.method = "send";
-  request.params = [key, fromAccount, toAccount, amount, currency];
-  rpc.call(request, callback);
+rpc.send = function (key, fromAccount, toAccount, amount, currency, optIssuer, callback) {
+  var req = { method: "send" },
+      nArgs = arguments.length,
+      lastArg = arguments[nArgs - 1];
+      
+  if (lastArg.constructor == Function) {
+    callback = lastArg;
+    req.params = Array.prototype.slice.call(arguments, 0, nArgs - 1);
+  } else {
+    callback = function () {};
+    req.params = arguments;
+  }
+  
+  rpc.call(req, callback);
 };
 
 rpc.server_info = function (callback) {

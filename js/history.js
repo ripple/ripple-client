@@ -25,33 +25,38 @@ HistoryPage.onHistoryResponse = function (response, success) {
   }
 }
 
-HistoryPage.addTransaction = function (trans, adjust) {
-  if (trans.TransactionType == 'CreditSet') {
-    var amount = ncc.displayAmount(trans.LimitAmount.value);
-  } else if (trans.TransactionType == 'OfferCreate') {
+HistoryPage.addTransaction = function (t, adjust) {
+  if (t.TransactionType == 'CreditSet') {
+    var amount = ncc.displayAmount(t.LimitAmount.value);
+  } else if (t.TransactionType == 'OfferCreate') {
     return;
   } else {
-    var amount = ncc.displayAmount(trans.Amount);
+    var amount = ncc.displayAmount(t.Amount);
   }
 
-  var oldEntry = $('#' + trans.id);
+  var oldEntry = $('#' + t.id);
   if (oldEntry.length) {
-    var str = '<td>' + trans.inLedger + '</td><td>' + trans.TransactionType + '</td><td class="smallFont">' + trans.Account + '</td><td class="smallFont">' + trans.Destination + '</td><td>' + amount + '</td><td>' + trans.status + '</td>';
+    var str = '<td>' + t.inLedger + '</td><td>' + t.TransactionType + '</td><td class="smallFont">' + t.Account + '</td><td class="smallFont">' + t.Destination + '</td><td>' + amount + '</td><td>' + t.status + '</td>';
     oldEntry.html(str);
   } else {
-    var str = '<tr id="' + trans.id + '"><td>' + trans.inLedger + '</td><td>' + trans.TransactionType + '</td><td class="smallFont">' + trans.Account + '</td><td class="smallFont">' + trans.Destination + '</td><td>' + amount + '</td><td>' + trans.status + '</td></tr>';
+    var str = '<tr id="' + t.id + '"><td>' + t.inLedger + '</td><td>' + t.TransactionType + '</td><td class="smallFont">' + t.Account + '</td><td class="smallFont">' + t.Destination + '</td><td>' + amount + '</td><td>' + t.status + '</td></tr>';
     $('#HistoryTable').prepend(str);
     
     if (adjust) {
-      var curr = trans.Amount.currency || 'XNS',
-          amt = trans.Amount.value || trans.Amount;
-      
-      if (trans.Account == ncc.accountID) {
-        ncc.changeBalance(curr, -amt);
-        ncc.changeBalance('XNS', -trans.Fee);
+      if (t.TransactionType == 'CreditSet' && t.Account == ncc.accountID) {
+        ncc.changeBalance('XNS', -t.Fee);
+        return;
       }
       
-      if (trans.Destination == ncc.accountID) {
+      var curr = t.Amount.currency || 'XNS',
+          amt = t.Amount.value || t.Amount;
+      
+      if (t.Account == ncc.accountID) {
+        ncc.changeBalance(curr, -amt);
+        ncc.changeBalance('XNS', -t.Fee);
+      }
+      
+      if (t.Destination == ncc.accountID) {
         ncc.changeBalance(curr, amt);
       }
     }

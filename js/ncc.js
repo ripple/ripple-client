@@ -114,14 +114,14 @@ ncc.processAccounts = function (accounts)
 }
 
 ncc.changeBalance = function (currency, delta) {
-  if (currency in ncc.balance) ncc.balance[currency] += delta;
-  else ncc.balance[currency] = delta;
+  if (currency in ncc.balance) ncc.balance[currency] += Number(delta);
+  else ncc.balance[currency] = Number(delta);
   
   var currElem = $('li#' + currency + 'Balance');
   
-  // if (ncc.balance[currency] > 0) {
+  if (ncc.balance[currency] != 0) {
     var amount = (currency == 'XNS') ? ncc.displayAmount(ncc.balance[currency])
-                                     : ncc.balance[currency];
+                                     : String(ncc.balance[currency]);
     
     if (currElem.length) {
       // edit
@@ -130,10 +130,10 @@ ncc.changeBalance = function (currency, delta) {
       // create
       $('#ClientState').after('<li id="' + currency + 'Balance">' + amount + '<span>' + currency + '</span></li>');
     }
-  // } else {
-    // delete 
-    // currElem.remove();
-  // }
+  } else {
+    delete 
+    currElem.remove();
+  }
 }
 
 ncc.displayAmount = function (amount)
@@ -261,6 +261,7 @@ ncc.onLogIn = function ()
   }
   
   $('#MainNav a[href="#t-send"]').tab('show');
+  rpc.ripple_lines_get(ncc.accountID, ripple.getLinesResponse);
 }
 
 ncc.onLogOut = function ()
