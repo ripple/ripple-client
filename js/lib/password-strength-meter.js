@@ -45,6 +45,20 @@
   $.fn.samePassword = 'Username and Password identical.';
   $.fn.resultStyle = "";
   
+  $.fn.passEqual = function (selectOtherPass) {
+    $(this).unbind().keyup(function () {
+      if (this.value != $(selectOtherPass).val()) {
+        $(this).next(".testresult").remove();
+        $(this).after("<span class='testresult'><span></span></span>");
+        $(this).next(".testresult").addClass("badPass").find("span").text("Passwords don't match.");
+      } else {
+        $(this).next(".testresult").remove();
+        $(this).after("<span class='testresult'><span></span></span>");
+        $(this).next(".testresult").addClass("strongPass").find("span").text("Passwords match.");
+      }
+    });
+  };
+  
   $.fn.passStrength = function(options) {
     var defaults = {
       shortPass: "shortPass",   // optional
@@ -80,7 +94,7 @@
       $.fn.teststrength = function (password, username, option) {
         var score = 0; 
         
-        //password < 4
+        // password < 4
         if (password.length < 4 ) {
           this.resultStyle = option.shortPass;
           return $(this).shortPass;
@@ -157,7 +171,7 @@
 
 $.fn.checkRepetition = function (pLen, str) {
   var res = "";
-  for (var i=0; i<str.length ; i++ ) {
+  for (var i = 0; i < str.length; i++ ) {
     var repeated = true;
     
     for (var j = 0; j < pLen && (j+i+pLen) < str.length; j++) {

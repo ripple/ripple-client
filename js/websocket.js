@@ -55,10 +55,10 @@ server.handleMsg=function(msg)
 
 server.connect=function()
 {
-	if(!WS_SERVER) return;
+	if(!Options.WS_SERVER) return;
 	
 	try{
-		server.socket = new WebSocket("ws://"+WS_SERVER+"/");
+		server.socket = new WebSocket("ws://"+Options.WS_SERVER+"/");
 		server.socket.onopen = function(){ ncc.status("Connected to websocket");  }  
 	  
 	    server.socket.onmessage = server.handleMsg;

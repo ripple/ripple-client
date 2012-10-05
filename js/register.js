@@ -14,7 +14,7 @@ registerScreen.onSubmit = function () {
   
   function save_and_login() {
     blobVault.save();
-    blobVault.login(user, pass, '', loginScreen.finishLogin, function onError(e) {
+    blobVault.login(user, pass, '', loginScreen.finishLogin, function onFailure(e) {
       ncc.error(e);
     });
   }
@@ -44,7 +44,6 @@ registerScreen.onSubmit = function () {
 
 $(document).ready(function () {
   $("#registerForm").submit(registerScreen.onSubmit);
-  $("#registerForm input[type=password]").passStrength({
-    userid: "#registerForm input[name=username]"
-  });
+  $("#registerForm input[name=password]").passStrength({ userid: "#registerForm input[name=username]" });
+  $("#registerForm input[name=password2]").passEqual("#registerForm input[name=password]");
 });

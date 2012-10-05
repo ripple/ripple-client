@@ -170,7 +170,7 @@
                 </td></tr>
                 <tr id="blobRow" style="display:none">
                   <td class="span2">Blob</td>
-                  <td valign='middle'><input name="blob" type="text" class="span4"></td>
+                  <td valign='middle'><input name="blob" type="text" class="span4" placeholder="(optional)"></td>
                 </tr>
               </table>
               
@@ -192,9 +192,9 @@
           <div class="page-content">
             <form id="registerForm">
               <table>
-                <tr><td class="span2">Username</td><td valign='middle'><input name='username' type="text" class="span4"></td></tr>
-                <tr><td class="span2">Password</td><td valign='middle'><input name="password" type="password" class="span4"></td></tr>
-                <tr><td class="span2">Repeat password</td><td valign='middle'><input name="password2" type="password" class="span4"></td></tr>
+                <tr><td class="span2">Username</td><td valign='middle'><input name="username" type="text" class="span4"></td></tr>
+                <tr><td class="span2">Password</td><td valign='middle'><input name="password" type="password" class="span4" style="float:left;"></td></tr>
+                <tr><td class="span2">Repeat password</td><td valign='middle'><input name="password2" type="password" class="span4" style="float:left;"></td></tr>
                 <tr><td class="span2">Private key</td><td valign='middle'><input name="pk" type="text" placeholder="(optional)" class="span4"></td></tr>
               </table>
               
@@ -544,6 +544,7 @@
   <script src="js/lib/json.js"></script>
   <script src="js/lib/sjcl.js"></script>
   <script src="js/lib/password-strength-meter.js"></script>
+  <script src="js/lib/underscore.js"></script>
   
   <script src="config.js"></script>
   

@@ -1,19 +1,19 @@
 var optionScreen = {};
 
 optionScreen.onShowTab = function () {
-  $("#WSServerOption").val(WS_SERVER);
-  $("#RPCServerOption").val(RPC_SERVER);
-  $("#BlobVaultServerOption").val(BLOBVAULT_SERVER);
+  $("#WSServerOption").val(Options.WS_SERVER);
+  $("#RPCServerOption").val(Options.RPC_SERVER);
+  $("#BlobVaultServerOption").val(Options.BLOBVAULT_SERVER);
 }
 
 optionScreen.save = function () {
-  WS_SERVER = $.trim( $("#WSServerOption").val() );
-  RPC_SERVER = $.trim( $("#RPCServerOption").val() );
-  BLOBVAULT_SERVER = $.trim( $("#BlobVaultServerOption").val() );
+  Options.WS_SERVER = $.trim( $("#WSServerOption").val() );
+  Options.RPC_SERVER = $.trim( $("#RPCServerOption").val() );
+  Options.BLOBVAULT_SERVER = $.trim( $("#BlobVaultServerOption").val() );
+  Options.save();
   
-  $('#ServerDisplay').text("Connecting to: " + RPC_SERVER);
+  $('#ServerDisplay').text("Connecting to: " + Options.RPC_SERVER);
   rpc.reload();
-  
   startUp.start();
 }
 

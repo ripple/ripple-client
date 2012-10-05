@@ -22,14 +22,14 @@ var blobVault = new (function () {
   this.data = {};
   this.meta = {};
   
-  this.login = function (username, password, offlineBlob, onSuccess, onError) {
+  this.login = function (username, password, offlineBlob, onSuccess, onFailure) {
     user = username;
     pass = password;
     hash = make_hash(user, pass);
     
     function processBlob(blob) {
-      if (!blob) onError("Unknown username or bad password.");
-      else if (!blobVault.loadBlob(blob)) onError("Account decryption failed.");
+      if (!blob) onFailure("Unknown username or bad password.");
+      else if (!blobVault.loadBlob(blob)) onFailure("Account decryption failed.");
       else onSuccess();
     }
     
@@ -43,7 +43,7 @@ var blobVault = new (function () {
           this.pushToServer(serverBlob);
           onSuccess();
         } else {
-          onError("Account decryption failed.");
+          onFailure("Account decryption failed.");
         }
         return;
       }
@@ -84,11 +84,11 @@ var blobVault = new (function () {
       if (blobVault.blob) {
         onSuccess();
       } else {
-        onError("Account decryption failed.");
+        onFailure("Account decryption failed.");
       }
     }
     
-    $.get('http://' + BLOBVAULT_SERVER + '/' + hash)
+    $.get('http://' + Options.BLOBVAULT_SERVER + '/' + hash)
       .success(processServerBlob)
       .error(function () {
         processBlob(blobs[hash]);
@@ -148,6 +148,7 @@ var blobVault = new (function () {
             sjcl.misc.cachedPbkdf2(phrase, pbkdfParams(oldBlob)).key
           ).mod(curve.r)
         ),
+        
         sig = ecdsaKey.sign(sjcl.hash.sha256.hash(newBlob)),
         
         pub = curve.G.mult(
@@ -167,7 +168,7 @@ var blobVault = new (function () {
     var data = oldBlob ? authBlobUpdate(user + pass, oldBlob, this.blob)
                        : { blob: this.blob };
     
-    $.post('http://' + BLOBVAULT_SERVER + '/' + hash, data);
+    $.post('http://' + Options.BLOBVAULT_SERVER + '/' + hash, data);
   }
   
   this.logout = function () {

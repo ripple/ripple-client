@@ -1,10 +1,10 @@
 var rpc = {};
 
 rpc.reload = function () {
-  rpc.url = "http://" + RPC_SERVER + "/";
+  rpc.url = "http://" + Options.RPC_SERVER + "/";
 }
 
-rpc.url = "http://" + RPC_SERVER + "/";
+rpc.url = "http://" + Options.RPC_SERVER + "/";
 
 rpc.displayResult = function (response, success) {
   if (success) {
