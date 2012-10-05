@@ -99,7 +99,7 @@ ncc.processAccounts = function (accounts)
     balance += accounts[i].Balance;
     ncc.accountID = accounts[i].Account;
     server.accountSubscribe(accounts[i].Account);
-    rpc.account_tx(accounts[i].Account, history.onHistoryResponse);
+    rpc.account_tx(accounts[i].Account, HistoryPage.onHistoryResponse);
   }
   
   if (blobVault.data.account_id != ncc.accountID) {
@@ -119,7 +119,7 @@ ncc.changeBalance = function (currency, delta) {
   
   var currElem = $('li#' + currency + 'Balance');
   
-  if (ncc.balance[currency] > 0) {
+  // if (ncc.balance[currency] > 0) {
     var amount = (currency == 'XNS') ? ncc.displayAmount(ncc.balance[currency])
                                      : ncc.balance[currency];
     
@@ -130,10 +130,10 @@ ncc.changeBalance = function (currency, delta) {
       // create
       $('#ClientState').after('<li id="' + currency + 'Balance">' + amount + '<span>' + currency + '</span></li>');
     }
-  } else {
+  // } else {
     // delete 
-    currElem.remove();
-  }
+    // currElem.remove();
+  // }
 }
 
 ncc.displayAmount = function (amount)
@@ -287,7 +287,7 @@ $(document).ready(function () {
   $("#t-ripple").on("show", ripple.onShowTab );
   $("#t-ledger").on("show", function () { rpc.ledger(ledgerScreen.ledgerResponse); });
   $("#t-orderbook").on("show", function () { rpc.ledger(orderBookScreen.ledgerResponse); });
-  $("#t-history").on("show", history.onShowTab);
+  $("#t-history").on("show", HistoryPage.onShowTab);
   $("#t-unl").on("show", function () { rpc.unl_list(unlScreen.unlResponse); });
   $("#t-peers").on("show", function () { rpc.peers(ncc.peersResponse); });
   $("#t-info").on("show", ncc.infoTabShown);

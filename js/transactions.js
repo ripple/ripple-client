@@ -1,3 +1,2 @@
-
-var transactions={};
+var transactions = {};
 

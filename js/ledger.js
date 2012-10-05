@@ -38,7 +38,7 @@ ledgerScreen.addLedger = function (ledger)
   for(var i = 0; i < ledger.transactions.length; i++) {
     var tx = ledger.transactions[i],
         amount = ncc.displayAmount(tx.Amount),
-        fee = ncc.addCommas( (tx.middle.Fee / BALANCE_DISPLAY_DIVISOR).toFixed(4) );
+        fee = ncc.addCommas( (tx.Fee / BALANCE_DISPLAY_DIVISOR).toFixed(4) );
     
     $('#TransactionTable').append(
       '<tr>' + 
