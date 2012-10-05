@@ -110,6 +110,7 @@ ncc.processAccounts = function (accounts)
   
   ncc.changeBalance('XNS', balance - ncc.balance['XNS']);
   $('#RecvAddress').text(ncc.accountID);
+  $('#RecvAddress2').text(ncc.accountID);
 }
 
 ncc.changeBalance = function (currency, delta) {

@@ -54,6 +54,7 @@ loginScreen.logout = function () {
   blobVault.logout();
   $('#Balance').text('');
   $('#RecvAddress').text('');
+  $('#RecvAddress2').text('');
 };
 
 $(document).ready(function () {
