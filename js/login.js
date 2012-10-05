@@ -35,10 +35,14 @@ loginScreen.finishLogin = function () {
   
   rpc.wallet_accounts(ncc.masterKey, function (response, success) {
     if (success) {
-      ncc.checkError(response);
+      var err = ncc.checkError(response);
       ncc.processAccounts(response.result.accounts || []);
       ncc.onLogIn();
       $('#ClientState').text('Logged in. Running');
+      if (err == "No such account.") {
+        ncc.displayTab("deposit");
+        ncc.displayScreen("deposit");
+      }
     } else {
       ncc.serverDown();
     }

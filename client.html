@@ -65,6 +65,7 @@
         </ul>
         
         <ul class="nav nav-tabs mainNav" id="MainNav">
+          <li><a href="#t-deposit" data-toggle="tab" style="display:none">Welcome!</a></li>
           <li><a href="#t-send" data-toggle="tab">Send Money</a></li>
           <li><a href="#t-receive" data-toggle="tab">Receive Money</a></li>
           <li><a href="#t-ripple" data-toggle="tab">Ripple</a></li>
@@ -114,18 +115,18 @@
         <!-- WELCOME SECTION -->
         <section class="tab-pane active" id="t-welcome">
           <div class="heading">Welcome</div>
-           <div class="page-content">
-              <p>Newcoin is an open source P2P payment system.</p>
-              <p>
-                Newcoin lets you easily, cheaply, and safely send money over the Internet to anyone, anywhere in the world.
-                Because Newcoin is P2P software, no individual, corporation, or government controls Newcoin.
-              </p>
-              <p>
-                Anyone can create a Newcoin account. Newcoin accounts can not be shutdown by any corporation or government.
-                The Newcoin network operates through the combined efforts of the copies of the Newcoin software that are running all over the world.
-              </p>
-              <div class="bottom-btn"> <button class="btn btn-large btn-success" onclick="ncc.displayScreen('login')">Login and claim your coins</button></div>
-           </div>
+          <div class="page-content">
+            <p>Newcoin is an open source P2P payment system.</p>
+            <p>
+              Newcoin lets you easily, cheaply, and safely send money over the Internet to anyone, anywhere in the world.
+              Because Newcoin is P2P software, no individual, corporation, or government controls Newcoin.
+            </p>
+            <p>
+              Anyone can create a Newcoin account. Newcoin accounts can not be shutdown by any corporation or government.
+              The Newcoin network operates through the combined efforts of the copies of the Newcoin software that are running all over the world.
+            </p>
+            <div class="bottom-btn"> <button class="btn btn-large btn-success" onclick="ncc.displayScreen('login')">Login and claim your coins</button></div>
+          </div>
         </section>
         <!-- ENDS WELCOME SECTION -->
         
@@ -206,10 +207,21 @@
         
         <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
         
+        <!-- DEPOSIT SECTION -->
+        <section class="tab-pane" id="t-deposit">
+          <div class="heading">Getting started...</div>
+          <div class="page-content">
+            <p>Please deposit funds to account with id: <span id="RecvAddress">none</span></p>
+          </div>
+        </section>
+        <!-- ENDS DEPOSIT SECTION -->
+        
+        <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+        
         <!-- SEND SECTION -->
         <section class="tab-pane" id="t-send">
           <div class="heading">Send Money</div>
-           <div class="page-content">         
+           <div class="page-content">
               <table>
                 <tr>
                   <td class="span2">Amount:</td>
@@ -218,7 +230,7 @@
                 </tr>
                 <tr><td class="span2">Destination:</td><td colspan=2><input id="SendDest" type="text" class="span4"></td></tr>
               </table>
-            
+              
               <div class="bottom-btn"> <button class="btn btn-large btn-success" onclick="send.send()">Send Money</button></div>
            </div>
         </section>

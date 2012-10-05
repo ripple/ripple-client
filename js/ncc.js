@@ -55,20 +55,11 @@ ncc.serverDown = function () {
 }
 
 ncc.checkError = function (response) {
-  var ret = false;
-  var errorStr = '';
-  if (response.error) {
-    errorStr = response.error;
-  }
-  if (response.result.error_message) {
-    ret = true;
-    errorStr += ' ' + response.result.error_message;
-  } else if (response.result.error) {
-    ret = true;
-    errorStr += ' ' + response.result.error;
-  }
+  var ret = response.result.error_message || response.result.error,
+      errorStr = (response.error || '') + (ret ? ' ' + ret : '');
   
   ncc.error(errorStr);
+  
   return ret;
 }
 
@@ -92,6 +83,10 @@ ncc.error = function (str) {
 
 ncc.displayScreen = function (s) {
   $('.nav.nav-tabs:visible a[href="#t-' + s + '"]').click();
+}
+
+ncc.displayTab = function (s) {
+  $('.nav.nav-tabs:visible a[href="#t-' + s + '"]').show();
 }
 
 ncc.processAccounts = function (accounts)
@@ -258,6 +253,7 @@ ncc.onLogIn = function ()
   $('#UnlogTopNav').hide();
   $('#MainNav').show();
   $('#TopNav').show();
+  
   if (ncc.advancedMode) {
     $('#AdvancedNav').show();
     $('#UnlogAdvancedNav').hide();
