@@ -6,7 +6,7 @@ server.socket = null;
 
 // escape a string from the server so it is safe to stick in jquery's .html()
 server.escape = function (str) {
-  if (str.replace)
+  if (str && str.replace)
     return str.replace(/&/g, '&amp;').replace(/>/g, '&gt;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
   return str;
 }

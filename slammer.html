@@ -15,9 +15,15 @@
   <script src="js/lib/jquery-ui.js"></script>
   <script src="js/lib/bootstrap-tab.js"></script>
   <script src="js/lib/json.js"></script>
+  <script src="js/lib/password-strength-meter.js"></script>
+  <script src="js/lib/underscore.js"></script>
  
   
   <script src="config.js"></script>
+  <script>
+  	Options.WS_SERVER="127.0.0.1:5006";
+  	Options.RPC_SERVER="127.0.0.1:5005";
+  </script>
 
   <script src="js/combobox.js"></script>
   <script src="js/websocket.js"></script>
@@ -105,6 +111,15 @@ For every account it will create N lines to some random other node.
               </table>
          </td><td>   
               <div class="bottom-btn"> <button class="btn btn-large btn-success" onclick="stressUI.createOffers()">Do Offers</button></div>
+		</td></tr>
+		
+		<tr><td>
+			Test pathfinding
+		 <table>
+                <tr><td class="span2"></td><td></td></tr>
+              </table>
+         </td><td>   
+              <div class="bottom-btn"> <button class="btn btn-large btn-success" onclick="stressUI.testPaths()">Test Paths</button></div>
 		</td></tr>
 		
 		
