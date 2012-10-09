@@ -51,7 +51,7 @@ stressUI.testPaths=function()
 	
 stressUI.testPaths2=function(response, success)
 {
-	rpc.send("shXsvh7NGUFJeJaeeR87rnjf1W5cf","ipY6Rk6SHyde7G4tU3D4jR73u2kiFCd4Tc","iGeXL3fN2mMXPmSM4aWTYt9sjMsNShV61b","20","USD",rpc.displayResult);
+    rpc.send("shXsvh7NGUFJeJaeeR87rnjf1W5cf","ipY6Rk6SHyde7G4tU3D4jR73u2kiFCd4Tc","iGeXL3fN2mMXPmSM4aWTYt9sjMsNShV61b","20","USD", "iGeXL3fN2mMXPmSM4aWTYt9sjMsNShV61b", "100", "USD", "iGeXL3fN2mMXPmSM4aWTYt9sjMsNShV61b", rpc.displayResult);
 }
 
 var stress={};
