@@ -40,18 +40,32 @@ stressUI.createOffers=function()
 stressUI.testPaths=function()
 {
 	rpc.send("masterpassphrase","iHb9CJAWyB4ij91VRWn96DkukG4bwdtyTh","iGeXL3fN2mMXPmSM4aWTYt9sjMsNShV61b","10000000","XNS",rpc.displayResult);
+	rpc.ripple_line_set("masterpassphrase","iHb9CJAWyB4ij91VRWn96DkukG4bwdtyTh" , "iGeXL3fN2mMXPmSM4aWTYt9sjMsNShV61b" ,"200", "USD",rpc.displayResult);
+	rpc.send("sh9TTYZi9BoAqeoLSz9C67iTUtsT7", "iGeXL3fN2mMXPmSM4aWTYt9sjMsNShV61b","iHb9CJAWyB4ij91VRWn96DkukG4bwdtyTh","20","USD", "iGeXL3fN2mMXPmSM4aWTYt9sjMsNShV61b", "20", "USD", "iGeXL3fN2mMXPmSM4aWTYt9sjMsNShV61b", rpc.displayResult);
+	rpc.ripple_line_set("sh9TTYZi9BoAqeoLSz9C67iTUtsT7", "iGeXL3fN2mMXPmSM4aWTYt9sjMsNShV61b" , "iHb9CJAWyB4ij91VRWn96DkukG4bwdtyTh" ,"300", "USD",rpc.displayResult);
+	rpc.send("masterpassphrase","iHb9CJAWyB4ij91VRWn96DkukG4bwdtyTh","iGeXL3fN2mMXPmSM4aWTYt9sjMsNShV61b","100","USD", "iGeXL3fN2mMXPmSM4aWTYt9sjMsNShV61b", "20", "USD", "iGeXL3fN2mMXPmSM4aWTYt9sjMsNShV61b", rpc.displayResult);
+	
+	
+	/*
+	rpc.send("masterpassphrase","iHb9CJAWyB4ij91VRWn96DkukG4bwdtyTh","iGeXL3fN2mMXPmSM4aWTYt9sjMsNShV61b","10000000","XNS",rpc.displayResult);
 	rpc.send("masterpassphrase","iHb9CJAWyB4ij91VRWn96DkukG4bwdtyTh","iDDXKdsoMvrJ2CUsbFbNdLFhR5nivaiNnE","10000000","XNS",rpc.displayResult);
 	rpc.send("masterpassphrase","iHb9CJAWyB4ij91VRWn96DkukG4bwdtyTh","ipY6Rk6SHyde7G4tU3D4jR73u2kiFCd4Tc","10000000","XNS",rpc.displayResult);
 	
 	rpc.ripple_line_set("sh9TTYZi9BoAqeoLSz9C67iTUtsT7", "iGeXL3fN2mMXPmSM4aWTYt9sjMsNShV61b" , "iDDXKdsoMvrJ2CUsbFbNdLFhR5nivaiNnE" ,"100", "USD",rpc.displayResult);
 	rpc.ripple_line_set("sncbaAGnZrKJMvyWy6wT9RaJSwfDS", "iDDXKdsoMvrJ2CUsbFbNdLFhR5nivaiNnE" , "ipY6Rk6SHyde7G4tU3D4jR73u2kiFCd4Tc" ,"100", "USD",rpc.displayResult);
 	
+	
+	rpc.send("shXsvh7NGUFJeJaeeR87rnjf1W5cf","ipY6Rk6SHyde7G4tU3D4jR73u2kiFCd4Tc","iGeXL3fN2mMXPmSM4aWTYt9sjMsNShV61b","20","USD", "iGeXL3fN2mMXPmSM4aWTYt9sjMsNShV61b", "100", "USD", "iGeXL3fN2mMXPmSM4aWTYt9sjMsNShV61b", rpc.displayResult);
+
+	
+	
 	setTimeout('stressUI.testPaths2()',20000);
+	*/
 }
 	
 stressUI.testPaths2=function(response, success)
 {
-    rpc.send("shXsvh7NGUFJeJaeeR87rnjf1W5cf","ipY6Rk6SHyde7G4tU3D4jR73u2kiFCd4Tc","iGeXL3fN2mMXPmSM4aWTYt9sjMsNShV61b","20","USD", "iGeXL3fN2mMXPmSM4aWTYt9sjMsNShV61b", "100", "USD", "iGeXL3fN2mMXPmSM4aWTYt9sjMsNShV61b", rpc.displayResult);
+    
 }
 
 var stress={};
