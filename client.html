@@ -398,7 +398,9 @@
         <section  class="tab-pane" id="t-trade">
           <div class="heading">Trade</div>
           <div class="page-content">
-            Newcoin automatically converts if you need to send from one type of currency to another. These trading features are not needed by ordinary users.
+            <p>Newcoin automatically converts if you need to send from one type of currency to another.</p>
+            <p>These trading features are not needed by ordinary users.</p>
+            
             <fieldset class="span6">
               <legend>Ticker</legend>
               <table class="table table-striped"><tr><th>Pair</th><th>Bid</th><th>Ask</th><th>Spread</th><th></th></tr><tbody id="TickerTable"></tbody></table>
@@ -407,10 +409,22 @@
             <fieldset class="span5">
               <legend>Place Order</legend>
               <table>
-                <tr><td class="span2">Sell Currency:</td><td><select id="PlaceOrderOutCurrency" class="span2" /></td></tr>
-                <tr><td class="span2">Buy Currency:</td><td><select id="PlaceOrderInCurrency" class="span2" /></td></tr>
-                <tr><td class="span2">Amount to Sell:</td><td><input id="PlaceOrderAmount" type="text"></td></tr>
-                <tr><td class="span2">Price:</td><td><input id="PlaceOrderPrice" type="text"></td></tr>
+                <tr>
+                  <td class="span2">Sell Currency:</td>
+                  <td class="span4"><select id="PlaceOrderOutCurrency" class="span2" /></td>
+                </tr>
+                <tr>
+                  <td class="span2">Buy Currency:</td>
+                  <td class="span4"><select id="PlaceOrderInCurrency" class="span2" /></td>
+                </tr>
+                <tr>
+                  <td class="span2">Amount to Sell:</td>
+                  <td class="span4"><input id="PlaceOrderAmount" type="text"></td>
+                </tr>
+                <tr>
+                  <td class="span2">Price:</td>
+                  <td class="span4"><input id="PlaceOrderPrice" type="text"></td>
+                </tr>
               </table>
               <span id="PlaceOrderStatus"></span>
               <div class="bottom-btn"> <button class="btn btn-info" onclick="trade.placeOrder()">Place Order</button></div>
