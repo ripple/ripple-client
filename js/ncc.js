@@ -137,14 +137,14 @@ ncc.changeBalance = function (currency, delta) {
     if (!Number(currElem.attr('data-flashing'))) {
       (function () {
         var c = currElem[0],
-            sd = c.style.display,
+            so = c.style.opacity,
             id = setInterval(function() {
               var i = currElem.attr('data-flashing');
               if (i > 0) {
-                c.style.display = (c.style.display == sd ? 'none' : sd);
+                c.style.opacity = (c.style.opacity == so ? 0 : so);
                 currElem.attr('data-flashing', i-1);
               } else {
-                c.style.display = sd;
+                c.style.opacity = so;
                 clearInterval(id);
               }
             }, 300);
