@@ -21,7 +21,7 @@ ncc.currentView = '#StartScreen';
 ncc.masterKey = '';
 ncc.accountID = '';
 ncc.accounts = [];
-ncc.balance = {'XNS' : 0};
+ncc.balance = {'XNS' : new AmountValue(0)};
 ncc.loggedIn = false;
 ncc.advancedMode = false;
 ncc.admin = false;
@@ -94,9 +94,9 @@ ncc.processAccounts = function (accounts)
   ncc.accounts = accounts;
   
   // figure total balance
-  var balance = 0;
+  var balance = new AmountValue(0);
   for (var i = 0; i < accounts.length; i++) {
-    balance += accounts[i].Balance;
+    balance.add(accounts[i].Balance);
     ncc.accountID = accounts[i].Account;
     server.accountSubscribe(accounts[i].Account);
     rpc.account_tx(accounts[i].Account, HistoryPage.onHistoryResponse);
@@ -108,18 +108,18 @@ ncc.processAccounts = function (accounts)
     blobVault.pushToServer();
   }
   
-  ncc.changeBalance('XNS', balance - ncc.balance['XNS']);
+  ncc.changeBalance('XNS', balance.sub(ncc.balance['XNS']));
   $('#RecvAddress').text(ncc.accountID);
   $('#RecvAddress2').text(ncc.accountID);
 }
 
 ncc.changeBalance = function (currency, delta) {
-  if (currency in ncc.balance) ncc.balance[currency] += Number(delta);
-  else ncc.balance[currency] = Number(delta);
+  if (currency in ncc.balance) ncc.balance[currency].add(delta);
+  else ncc.balance[currency] = new AmountValue(delta);
   
   var currElem = $('li#' + currency + 'Balance');
   
-  if (ncc.balance[currency] != 0) {
+  if (ncc.balance[currency].toString() != "0") {
     var amount = (currency == 'XNS') ? ncc.displayAmount(ncc.balance[currency])
                                      : String(ncc.balance[currency]);
     
@@ -131,7 +131,7 @@ ncc.changeBalance = function (currency, delta) {
       $('#ClientState').after('<li id="' + currency + 'Balance">' + amount + '<span>' + currency + '</span></li>');
     }
   } else {
-    delete 
+    // delete 
     currElem.remove();
   }
 }
