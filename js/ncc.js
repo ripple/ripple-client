@@ -128,8 +128,30 @@ ncc.changeBalance = function (currency, delta) {
       currElem.html(amount + '<span>' + currency + '</span>');
     } else {
       // create
-      $('#ClientState').after('<li id="' + currency + 'Balance">' + amount + '<span>' + currency + '</span></li>');
+      currElem = $('<li id="' + currency + 'Balance">' + amount + '<span>' + currency + '</span></li>');
+      $('#ClientState').after(currElem);
     }
+    
+    // flash currElem text
+    // TODO: make this a jQuery method
+    if (!Number(currElem.attr('data-flashing'))) {
+      (function () {
+        var c = currElem[0],
+            sd = c.style.display,
+            id = setInterval(function() {
+              var i = currElem.attr('data-flashing');
+              if (i > 0) {
+                c.style.display = (c.style.display == sd ? 'none' : sd);
+                currElem.attr('data-flashing', i-1);
+              } else {
+                c.style.display = sd;
+                clearInterval(id);
+              }
+            }, 300);
+      })();
+    }
+    currElem.attr('data-flashing', 5);
+    
   } else {
     // delete 
     currElem.remove();
