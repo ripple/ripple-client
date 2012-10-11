@@ -43,7 +43,8 @@ stressUI.testPaths=function()
 	rpc.ripple_line_set("masterpassphrase","iHb9CJAWyB4ij91VRWn96DkukG4bwdtyTh" , "iGeXL3fN2mMXPmSM4aWTYt9sjMsNShV61b" ,"200", "USD",rpc.displayResult);
 	rpc.send("sh9TTYZi9BoAqeoLSz9C67iTUtsT7", "iGeXL3fN2mMXPmSM4aWTYt9sjMsNShV61b","iHb9CJAWyB4ij91VRWn96DkukG4bwdtyTh","20","USD", "iGeXL3fN2mMXPmSM4aWTYt9sjMsNShV61b", "20", "USD", "iGeXL3fN2mMXPmSM4aWTYt9sjMsNShV61b", rpc.displayResult);
 	rpc.ripple_line_set("sh9TTYZi9BoAqeoLSz9C67iTUtsT7", "iGeXL3fN2mMXPmSM4aWTYt9sjMsNShV61b" , "iHb9CJAWyB4ij91VRWn96DkukG4bwdtyTh" ,"300", "USD",rpc.displayResult);
-	rpc.send("masterpassphrase","iHb9CJAWyB4ij91VRWn96DkukG4bwdtyTh","iGeXL3fN2mMXPmSM4aWTYt9sjMsNShV61b","100","USD", "iGeXL3fN2mMXPmSM4aWTYt9sjMsNShV61b", "100", "USD", "iGeXL3fN2mMXPmSM4aWTYt9sjMsNShV61b", rpc.displayResult);
+	setTimeout('stressUI.testPaths2()',20000);
+	
 	
 	
 	/*
@@ -59,13 +60,13 @@ stressUI.testPaths=function()
 
 	
 	
-	setTimeout('stressUI.testPaths2()',20000);
+	
 	*/
 }
 	
 stressUI.testPaths2=function(response, success)
 {
-    
+    rpc.send("masterpassphrase","iHb9CJAWyB4ij91VRWn96DkukG4bwdtyTh","iGeXL3fN2mMXPmSM4aWTYt9sjMsNShV61b","100","USD", "iGeXL3fN2mMXPmSM4aWTYt9sjMsNShV61b", "100", "USD", "iGeXL3fN2mMXPmSM4aWTYt9sjMsNShV61b", rpc.displayResult);
 }
 
 var stress={};
