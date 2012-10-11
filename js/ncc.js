@@ -132,25 +132,40 @@ ncc.changeBalance = function (currency, delta) {
       $('#ClientState').after(currElem);
     }
     
+    currElem.stop();
+    currElem.css('color', 'red');
+    currElem.animate({ color: 'white' }, 1000);
+    
     // flash currElem text
     // TODO: make this a jQuery method
-    if (!Number(currElem.attr('data-flashing'))) {
-      (function () {
-        var c = currElem[0],
-            so = c.style.opacity,
-            id = setInterval(function() {
-              var i = currElem.attr('data-flashing');
-              if (i > 0) {
-                c.style.opacity = (c.style.opacity == so ? 0 : so);
-                currElem.attr('data-flashing', i-1);
-              } else {
-                c.style.opacity = so;
-                clearInterval(id);
-              }
-            }, 300);
-      })();
-    }
-    currElem.attr('data-flashing', 5);
+    // 
+    // var NUM_FLASHES = 2;
+    // if (currElem.attr('data-flashes-left') > 0) {
+    //   currElem.attr('data-flashes-left', NUM_FLASHES);
+    // } else {
+    //   var white = currElem.css('color'),
+    //       red = "rgb(255, 0, 0)";
+    //   
+    //   currElem.attr('data-flashes-left', NUM_FLASHES);
+    //   
+    //   (function flash() {
+    //     var flashesLeft = currElem.attr('data-flashes-left');
+    //     if (flashesLeft > 0) {
+    //       currElem.animate(
+    //         { color: red }, // properties
+    //         200,            // duration
+    //         function () {   // on complete
+    //           currElem.animate({ color: white }, 200, flash);
+    //           currElem.attr('data-flashes-left', flashesLeft - 1);
+    //         }
+    //       )
+    //     } else {
+    //       currElem.css({
+    //         'color': white
+    //       });
+    //     }
+    //   })();
+    // }
     
   } else {
     // delete 
