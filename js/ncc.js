@@ -132,35 +132,40 @@ ncc.changeBalance = function (currency, delta) {
       $('#ClientState').after(currElem);
     }
     
+    currElem.stop();
+    currElem.css('color', 'red');
+    currElem.animate({ color: 'white' }, 1000);
+    
     // flash currElem text
     // TODO: make this a jQuery method
-    var NUM_FLASHES = 2;
-    if (currElem.attr('data-flashes-left') > 0) {
-      currElem.attr('data-flashes-left', NUM_FLASHES);
-    } else {
-      var white = currElem.css('color'),
-          red = "rgb(255, 0, 0)";
-      
-      currElem.attr('data-flashes-left', NUM_FLASHES);
-      
-      (function flash() {
-        var flashesLeft = currElem.attr('data-flashes-left');
-        if (flashesLeft > 0) {
-          currElem.animate(
-            { color: red }, // properties
-            200,            // duration
-            function () {   // on complete
-              currElem.animate({ color: white }, 200, flash);
-              currElem.attr('data-flashes-left', flashesLeft - 1);
-            }
-          )
-        } else {
-          currElem.css({
-            'color': white
-          });
-        }
-      })();
-    }
+    // 
+    // var NUM_FLASHES = 2;
+    // if (currElem.attr('data-flashes-left') > 0) {
+    //   currElem.attr('data-flashes-left', NUM_FLASHES);
+    // } else {
+    //   var white = currElem.css('color'),
+    //       red = "rgb(255, 0, 0)";
+    //   
+    //   currElem.attr('data-flashes-left', NUM_FLASHES);
+    //   
+    //   (function flash() {
+    //     var flashesLeft = currElem.attr('data-flashes-left');
+    //     if (flashesLeft > 0) {
+    //       currElem.animate(
+    //         { color: red }, // properties
+    //         200,            // duration
+    //         function () {   // on complete
+    //           currElem.animate({ color: white }, 200, flash);
+    //           currElem.attr('data-flashes-left', flashesLeft - 1);
+    //         }
+    //       )
+    //     } else {
+    //       currElem.css({
+    //         'color': white
+    //       });
+    //     }
+    //   })();
+    // }
     
   } else {
     // delete 
