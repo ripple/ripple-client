@@ -40,15 +40,17 @@ rpc.send = function (key, fromAccount, toAccount, amount, currency, optIssuer, c
       nArgs = arguments.length,
       lastArg = arguments[nArgs - 1];
       
+  var	done;
+
   if (lastArg.constructor == Function) {
-    callback = lastArg;
+    done = lastArg;
     req.params = Array.prototype.slice.call(arguments, 0, nArgs - 1);
   } else {
-    callback = function () {};
+    done = function () {};
     req.params = arguments;
   }
   
-  rpc.call(req, callback);
+  rpc.call(req, done);
 };
 
 rpc.server_info = function (callback) {
