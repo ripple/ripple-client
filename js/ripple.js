@@ -12,9 +12,9 @@ ripple.getLinesResponse = function (response,success) {
     ncc.status(JSON.stringify(response));
     
     if (response.result.lines) {
-      for (b in ncc.balance) {
-        if (b != 'XNS') {
-          delete ncc.balance[b];
+      for (var curr in ncc.balance) {
+        if (curr != 'XNS') {
+          delete ncc.balance[curr];
         }
       }
       $('#RippleTable').empty();

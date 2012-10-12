@@ -44,7 +44,7 @@ rpc.send = function () {
   var	callback;
 
   if (lastArg.constructor == Function) {
-    calback = lastArg;
+    callback = lastArg;
     request.params = Array.prototype.slice.call(arguments, 0, nArgs - 1);
   } else {
     callback = rpc.displayResult;
