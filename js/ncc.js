@@ -192,17 +192,16 @@ ncc.displayAmount = function (amount)
   }
 }
 
-ncc.addCommas = function (nStr) 
+ncc.addCommas = function (n) 
 {
-  nStr += '';
-  x = nStr.split('.');
-  x1 = x[0];
-  x2 = x.length > 1 ? '.' + x[1] : '';
-  var rgx = /(\d+)(\d{3})/;
-  while (rgx.test(x1)) {
-    x1 = x1.replace(rgx, '$1' + ',' + '$2');
-  }
-  return x1 + x2;
+  if (!/^\d+(.\d*)?$/.test(n)) throw "Invalid number format.";
+  
+  var s = n.toString(),
+      m = s.match(/^(\d+?)((\d{3})*)(\.\d*)?$/),
+      whole = [m[1]].concat(m[2].match(/\d{3}/g) || []),
+      fract = m[4] || "";
+  
+  return whole + fract;
 }
 
 ///////////////////////////

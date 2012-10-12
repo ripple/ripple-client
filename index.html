@@ -226,9 +226,20 @@
                 <tr>
                   <td class="span2">Amount:</td>
                   <td class="span2"><input id="SendAmount" type="text"></td>
-                  <td class="span4"><select id="SendCurrency" class="span2" /></td>
+                  <td class="span4"><select id="SendCurrency" /></td>
                 </tr>
-                <tr><td class="span2">Destination:</td><td colspan=2><input id="SendDest" type="text" class="span4"></td></tr>
+                <tr>
+                  <td class="span2">Destination:</td>
+                  <td colspan=2><input id="SendDest" class="span3"></td>
+                </tr>
+                <tr id="SendDestNameRow" style="display:none">
+                  <td class="span2">Name this address:</td>
+                  <td colspan=2><input id="SendDestName" type="text" class="span3" placeholder="(optional)"></td>
+                </tr>
+                <tr id="AddressDisplayRow" style="display:none">
+                  <td class="span2">Associated address:</td>
+                  <td colspan=2><input id="AddressDisplay" type="text" class="span3" readonly></td>
+                </tr>
               </table>
               
               <div class="bottom-btn"> <button class="btn btn-large btn-success" onclick="send.send()">Send Money</button></div>
