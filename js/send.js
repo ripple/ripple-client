@@ -79,8 +79,11 @@ send.onSendResponse = function (response, success) {
       ncc.status( $("#SendAmount").val() + ' ' + curr + ' sent to ' + (destName ? destName + '@' + toAccount : toAccount) );
       
       $("#SendDest").val('');
-      $("#SendDestName").val('');
       $("#SendAmount").val('');
+      $("#SendDestName").val('');
+      $("#SendDestNameRow").hide();
+      $("#AddressDisplay").val('');
+      $("#AddressDisplayRow").hide();
     }
   } else {
     ncc.serverDown();
