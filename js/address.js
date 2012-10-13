@@ -5,7 +5,7 @@ var AddressBookPage = new (function () {
       blobVault.addressBook.getEntries(),
       function (name, addr) {
         $("#AddressBookTable").append(
-          '<tr id="AddressBookEntry-' + addr + '" data-name="' + name + '" data-addr="' + addr + '">' +
+          '<tr data-name="' + name + '" data-addr="' + addr + '">' +
             '<td class="addr">' + addr + '</td>' +
             '<td class="name">' + name + '</td>' +
             '<td class="edit">' +
