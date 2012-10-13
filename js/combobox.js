@@ -11,17 +11,21 @@ $.widget( "ui.combobox", {
   
   _create: function() {
     var self = this,
+        defaultOption = new Option('', ''),
         select, input;
     
     if (this.element[0].nodeName == "SELECT") {
       select = this.element.hide()
-      input = this.input = $("<input>");
+      input = this.input = $("<input>").insertAfter(select);
     } else {
       input = this.element;
-      select = $("<select>").insertBefore(this.element).hide()
+      select = $("<select>").attr('id', this.element[0].id + 'Select')
+                            .insertBefore(this.element)
+                            .hide();
     }
     
     if (this.options.data) {
+      select.append(defaultOption);
       $.each(this.options.data, function (val, text) {
         select.append(new Option(text, val));
       });
@@ -32,8 +36,18 @@ $.widget( "ui.combobox", {
         value = selected.val() ? selected.text() : "",
         strict = this.options.strict;
     
-    input.insertAfter( select )
-      .val( value )
+    input.val( value )
+      .on('input', function () {
+        var matcher = new RegExp("^" + $.ui.autocomplete.escapeRegex( this.value ) + "$", "i");
+        select.children("option").each(function () {
+          if (matcher.test(this.text)) {
+            this.selected = true;
+            return false;
+          } else {
+            defaultOption.selected = true;
+          }
+        });
+      })
       .autocomplete({
         delay: 0,
         minLength: 0,
@@ -93,7 +107,7 @@ $.widget( "ui.combobox", {
       })
       .addClass( "ui-widget-content ui-corner-left" ); // ui-widget
     
-    input.data( "autocomplete" )._renderItem = function( ul, item ) {
+    input.data("autocomplete")._renderItem = function( ul, item ) {
       return $( "<li></li>" )
         .data( "item.autocomplete", item )
         .append( "<a>" + item.label + "</a>" )

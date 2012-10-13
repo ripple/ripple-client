@@ -319,12 +319,13 @@ ncc.onLogOut = function ()
 
 $(document).ready(function () {
           
-  $("#t-send").on("show", send.onShowTab);
+  $("#t-send").on("show", SendPage.onShowTab);
   $("#t-login").on("show", loginScreen.onShowTab);
   $("#t-ripple").on("show", ripple.onShowTab );
   $("#t-ledger").on("show", function () { rpc.ledger(ledgerScreen.ledgerResponse); });
   $("#t-orderbook").on("show", function () { rpc.ledger(orderBookScreen.ledgerResponse); });
   $("#t-history").on("show", HistoryPage.onShowTab);
+  $("#t-address").on("show", AddressBookPage.onShowTab);
   $("#t-unl").on("show", function () { rpc.unl_list(unlScreen.unlResponse); });
   $("#t-peers").on("show", function () { rpc.peers(ncc.peersResponse); });
   $("#t-info").on("show", ncc.infoTabShown);

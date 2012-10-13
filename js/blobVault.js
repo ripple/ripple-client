@@ -101,9 +101,10 @@ var blobVault = new (function () {
       this.data = JSON.parse(sjcl.decrypt(user + pass, b));
       this.meta = JSON.parse(unescape(JSON.parse(b).adata));
       this.blob = blob;
+      
       if (!this.data.address_to_name) this.data.address_to_name = {};
-      if (!this.data.name_to_address) this.data.name_to_address = {};
       if (!this.data.recent_sends) this.data.recent_sends = [];
+      
       return true;
     } catch (e) {
       return false;
@@ -195,18 +196,24 @@ var blobVault = new (function () {
     );
   };
   
-  this.addressBook = {
-    setEntry : function (name, address) {
-      blobVault.data.address_to_name[address] = name;
-      blobVault.data.name_to_address[name] = address;
-    },
-    
-    getAddress : function (name) {
-      return blobVault.data.name_to_address[name];
-    },
-    
-    getName : function (address) {
-      return blobVault.data.address_to_name[address];
-    }
-  };
+  this.addressBook = (function () {
+    return {
+      getEntries : function () {
+        return blobVault.data.address_to_name;
+      },
+      
+      setEntry : function (name, address) {
+        if (name && address) {
+          blobVault.data.address_to_name[address] = name;
+        } else {
+          delete blobVault.data.address_to_name[address];
+        }
+      },
+      
+      getName : function (address) {
+        return blobVault.data.address_to_name[address];
+      }
+    };
+  })();
+
 })();

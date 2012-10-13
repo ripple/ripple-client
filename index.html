@@ -234,7 +234,7 @@
                 </tr>
                 <tr id="SendDestNameRow" style="display:none">
                   <td class="span2">Name this address:</td>
-                  <td colspan=2><input id="SendDestName" type="text" class="span3" placeholder="(optional)"></td>
+                  <td colspan=2><input id="SendDestName" type="text" class="span3" placeholder="(optional)" /></td>
                 </tr>
                 <tr id="AddressDisplayRow" style="display:none">
                   <td class="span2">Associated address:</td>
@@ -242,7 +242,9 @@
                 </tr>
               </table>
               
-              <div class="bottom-btn"> <button class="btn btn-large btn-success" onclick="send.send()">Send Money</button></div>
+              <div class="bottom-btn">
+                <button id="SendPageButton" disabled class="btn btn-large btn-success" onclick="SendPage.send()">Send Money</button>
+              </div>
            </div>
         </section>
         <!-- ENDS SEND SECTION -->
@@ -283,7 +285,10 @@
             <div class="row">
               <fieldset class="span5">
                 <legend>Ripple Lines</legend>
-                <table  class="table table-striped"><tr><th>Min</th><th>Current balance</th><th>Max</th><th>Account</th><th></th><th></th></tr><tbody id="RippleTable"></tbody></table>
+                <table class="table table-striped">
+                  <tr><th>Min</th><th>Current balance</th><th>Max</th><th>Account</th><th></th><th></th></tr>
+                  <tbody id="RippleTable"></tbody>
+                </table>
               </fieldset>
             </div> 
           </div>
@@ -296,7 +301,17 @@
         <section  class="tab-pane" id="t-history">
           <div class="heading">History</div>
             <div class="page-content">
-              <table class="table table-striped"><tr><th>Ledger</th><th>Type</th><th>Source</th><th>Destination</th><th>Amount</th><th>Status</th></tr><tbody id="HistoryTable"></tbody></table>
+              <table class="table table-striped">
+                <tr>
+                  <th>Ledger</th>
+                  <th>Type</th>
+                  <th class='addr'>Source</th>
+                  <th class='addr'>Destination</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                </tr>
+                <tbody id="HistoryTable"></tbody>
+              </table>
            </div>
         </section>
         <!-- ENDS HISTORY SECTION -->
@@ -307,8 +322,14 @@
         <section  class="tab-pane" id="t-address">
           <div class="heading">Address Book</div>
           <div class="page-content">
-            <p><strong>Pellentesque habitant morbi tristique senectus et netus </strong>et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed.</p>
-            <p>vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in </p>
+            <table class="table table-striped">
+              <tr>
+                <th class='span4'>Account</th>
+                <th>Name</th>
+                <th class="span1">&nbsp;</th>
+              </tr>
+              <tbody id="AddressBookTable"></tbody>
+            </table>
           </div>
         </section>
         <!-- ENDS ADDRESS SECTION -->
@@ -585,6 +606,7 @@
   
   <script src="config.js"></script>
   
+  <script src="js/address.js"></script>
   <script src="js/types.js"></script>
   <script src="js/combobox.js"></script>
   <script src="js/websocket.js"></script>

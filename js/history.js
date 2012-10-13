@@ -36,10 +36,22 @@ HistoryPage.addTransaction = function (t, adjust) {
 
   var oldEntry = $('#' + t.id);
   if (oldEntry.length) {
-    var str = '<td>' + t.inLedger + '</td><td>' + t.TransactionType + '</td><td class="smallFont">' + t.Account + '</td><td class="smallFont">' + t.Destination + '</td><td>' + amount + '</td><td>' + t.status + '</td>';
+    var str = ( '<td>' + t.inLedger + '</td>' +
+                '<td>' + t.TransactionType + '</td>' +
+                '<td class="addr smallFont">' + t.Account + '</td>' +
+                '<td class="addr smallFont">' + t.Destination + '</td>' +
+                '<td>' + amount + '</td>' +
+                '<td>' + t.status + '</td>' );
     oldEntry.html(str);
   } else {
-    var str = '<tr id="' + t.id + '"><td>' + t.inLedger + '</td><td>' + t.TransactionType + '</td><td class="smallFont">' + t.Account + '</td><td class="smallFont">' + t.Destination + '</td><td>' + amount + '</td><td>' + t.status + '</td></tr>';
+    var str = '<tr id="' + t.id + '">' + 
+                '<td>' + t.inLedger + '</td>' +
+                '<td>' + t.TransactionType + '</td>' +
+                '<td class="addr smallFont">' + t.Account + '</td>' +
+                '<td class="addr smallFont">' + t.Destination + '</td>' +
+                '<td>' + amount + '</td>' +
+                '<td>' + t.status + '</td>' +
+              '</tr>';
     $('#HistoryTable').prepend(str);
     
     if (adjust) {

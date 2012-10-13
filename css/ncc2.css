@@ -47,3 +47,15 @@ a {
 .smallFont {
 	font-size: 9px;
 }
+
+td.addr {
+  font-family: monospace;
+}
+
+td.name a {
+  float: right;
+}
+
+td.edit button.save {
+  display: none;
+}
