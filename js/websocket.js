@@ -27,9 +27,9 @@ server.handleMsg = function (msg) {
       var amount = ncc.displayAmount(server.escape(obj.transaction.Amount));
       str = '<div class="transFeedMsg">' + server.escape(obj.transaction.Account) + ' sent ' + amount + 'NC to ' + server.escape(obj.transaction.Destination) + '</div>';
     }
-    else if (obj.type == "ledgerAccepted")
+    else if (obj.type == "ledgerClosed")
     {
-      str = '<div class="ledgerFeedMsg">Accepted Ledger <strong>' + server.escape(obj.seq) + '</strong> hash:' + server.escape(obj.hash) + '</div>';
+      str = '<div class="ledgerFeedMsg">Accepted Ledger <strong>' + server.escape(obj.ledger_closed_index) + '</strong> hash:' + server.escape(obj.ledger_closed) + '</div>';
     }
     else if (obj.type == "response")
     {
