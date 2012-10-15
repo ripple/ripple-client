@@ -25,7 +25,7 @@ trade.placeOrder=function()
 	if(inCurrency=='XNS')
 	{ 
 		inAmount *= BALANCE_DISPLAY_DIVISOR;
-		var inRoute={ 'max' : 9999999999 , 'accountID' : ''};
+		var inRoute={ 'max' : inAmount+10 , 'accountID' : ''};
 	}else 
 	{
 		// need to discover the inIssuer

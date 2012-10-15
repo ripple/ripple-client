@@ -23,8 +23,8 @@ server.handleMsg = function (msg) {
     } else if (obj.type == "transaction") {
       var amount = ncc.displayAmount(server.escape(obj.transaction.Amount));
       str = '<div class="transFeedMsg">' + server.escape(obj.transaction.Account) + ' sent ' + amount + 'NC to ' + server.escape(obj.transaction.Destination) + '</div>';
-    } else if (obj.type == "ledgerAccepted") {
-      str = '<div class="ledgerFeedMsg">Accepted Ledger <strong>' + server.escape(obj.seq) + '</strong> hash:' + server.escape(obj.hash) + '</div>';
+    } else if (obj.type == "ledgerClosed") {
+      str = '<div class="ledgerFeedMsg">Accepted Ledger <strong>' + server.escape(obj.ledger_closed_index) + '</strong> hash:' + server.escape(obj.ledger_closed) + '</div>';
     } else if (obj.type == "response") {
       if (obj.result == "error") {
         str = '<div class="errorFeedMsg">Error Listening ' + server.escape(obj.error) + '</div>';
