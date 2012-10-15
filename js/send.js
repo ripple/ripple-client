@@ -101,13 +101,14 @@ var SendPage = new (function () {
         $("#SendDestNameRow").hide();
         $("#AddressDisplay").val('');
         $("#AddressDisplayRow").hide();
-        
-        $("#SendPageButton").attr('disabled', false).text("Send Money");
-        $("#t-send").find("input, select").attr('disabled', false);
       }
     } else {
       ncc.serverDown();
     }
+    
+    // re-enable form
+    $("#SendPageButton").attr('disabled', false).text("Send Money");
+    $("#t-send").find("input, select").attr('disabled', false);
   }
   
 })();
