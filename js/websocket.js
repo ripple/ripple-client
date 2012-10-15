@@ -18,58 +18,42 @@ server.handleMsg = function (msg) {
   var obj = jQuery.parseJSON( msg.data );
   
   if (obj) {
-    if (obj.type == "account")
-    {
+    if (obj.type == "account") {
       HistoryPage.addTransaction(obj.transaction, true);
-    }
-    else if (obj.type == "transaction")
-    {
+    } else if (obj.type == "transaction") {
       var amount = ncc.displayAmount(server.escape(obj.transaction.Amount));
       str = '<div class="transFeedMsg">' + server.escape(obj.transaction.Account) + ' sent ' + amount + 'NC to ' + server.escape(obj.transaction.Destination) + '</div>';
-    }
-    else if (obj.type == "ledgerAccepted")
-    {
+    } else if (obj.type == "ledgerAccepted") {
       str = '<div class="ledgerFeedMsg">Accepted Ledger <strong>' + server.escape(obj.seq) + '</strong> hash:' + server.escape(obj.hash) + '</div>';
-    }
-    else if (obj.type == "response")
-    {
-      if (obj.result == "error")
-      {
-        str='<div class="errorFeedMsg">Error Listening ' + server.escape(obj.error) + '</div>';
+    } else if (obj.type == "response") {
+      if (obj.result == "error") {
+        str = '<div class="errorFeedMsg">Error Listening ' + server.escape(obj.error) + '</div>';
+      } else {
+        str = (obj.id == 1) ? '<div class="stopFeedMsg">Stop Listening</div>' 
+                            : '<div class="startFeedMsg">Start Listening</div>';
       }
-      else 
-      {
-        if (obj.id == 1) str = '<div class="stopFeedMsg">Stop Listening</div>';
-        else str = '<div class="startFeedMsg">Start Listening</div>';
-      }
-    }
-    else
-    {
+    } else {
       str = '<div class="unknownFeedMsg">Unknown Msg: ' + server.escape(msg.data) + '</div>';
     }
-  }
-  else 
-  {
+  } else {
     str = '<div class="errorFeedMsg">Error: ' + server.escape(msg.data) + '</div>';
   }
+  
   $('#FeedArea').prepend(str);
-}
+};
 
-
-server.connect = function ()
-{
+server.connect = function () {
   if (!Options.WS_SERVER) return;
   
-  try{
+  try {
     server.socket = new WebSocket("ws://" + Options.WS_SERVER + "/");
+    
     server.socket.onopen = function () { ncc.status("Connected to websocket");  }
-    
-      server.socket.onmessage = server.handleMsg;
-    
-      server.socket.onclose = function () { ncc.error("Disconnected from websocket");  }
-    } catch (exception) {
-             ncc.error('Error: ' + exception);
-    }
+    server.socket.onmessage = server.handleMsg;
+    server.socket.onclose = function () { ncc.error("Disconnected from websocket");  }
+  } catch (exception) {
+    ncc.error('Error: ' + exception);
+  }
 }
 
 server.subscribe = function (streamName)
