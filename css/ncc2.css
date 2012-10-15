@@ -56,6 +56,6 @@ td.name a {
   float: right;
 }
 
-td.edit button.save {
+td button.save {
   display: none;
 }

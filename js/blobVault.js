@@ -211,6 +211,7 @@ var blobVault = new (function () {
       },
       
       getName : function (address) {
+        if (address == ncc.accountID) return "you";
         return blobVault.data.address_to_name[address];
       }
     };

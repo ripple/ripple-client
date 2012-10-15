@@ -396,3 +396,10 @@ $(document).ready(function () {
   };
 });
 
+ncc.misc = {};
+
+ncc.misc.isValidAddress = (function () {
+  var r = /^r\w{30,35}$/;
+  return function (a) { return r.test(a); }
+})();
+

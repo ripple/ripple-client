@@ -2,11 +2,7 @@ var SendPage = new (function () {
   var address, name;
   
   this.onShowTab = function () {
-    var recentSends = blobVault.getRecentSends(),
-        isValidAddress = (function () {
-          var r = /^r\w{30,35}$/;
-          return function (a) { return r.test(a); }
-        })();
+    var recentSends = blobVault.getRecentSends();
     
     function onNewVal() {
       address = $("#SendDestSelect").val() || this.value,
@@ -16,7 +12,7 @@ var SendPage = new (function () {
       $("#SendDestNameRow").hide();
       $("#SendPageButton").attr('disabled', false);
       
-      if (isValidAddress(address)) {
+      if (ncc.misc.isValidAddress(address)) {
         if (address == this.value) {
           // address in input box
           $("#SendDestNameRow").show();
@@ -107,8 +103,9 @@ var SendPage = new (function () {
     }
     
     // re-enable form
-    $("#SendPageButton").attr('disabled', false).text("Send Money");
+    $("#SendPageButton").text("Send Money");
     $("#t-send").find("input, select").attr('disabled', false);
+    $("#SendDest").trigger('input');
   }
   
 })();

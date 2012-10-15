@@ -79,6 +79,7 @@ var AddressBookPage = new (function () {
       row.find('td.name').text(newName);
       row.find('td.addr').text(addr);
       row.attr('data-name', newName);
+      row.attr('data-addr', addr);
     } else {
       row.remove();
     }
