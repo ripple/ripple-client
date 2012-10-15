@@ -4,7 +4,7 @@ var SendPage = new (function () {
   this.onShowTab = function () {
     var recentSends = blobVault.getRecentSends(),
         isValidAddress = (function () {
-          var r = /^i\w{30,35}$/;
+          var r = /^r\w{30,35}$/;
           return function (a) { return r.test(a); }
         })();
     
