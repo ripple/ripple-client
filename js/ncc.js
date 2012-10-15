@@ -47,7 +47,7 @@ ncc.allCurrencyOptions = {
   "USD" : "USD-US Dollar",
   "XAU" : "XAU-Ounces of Gold",
   "XAG" : "XAG-Ounces of Silver",
-  "XNS" : "XNS-Newcoin Stamps" 
+  "XNS" : "XNS-Ripple Stamps" 
 };
 
 ncc.serverDown = function () {
