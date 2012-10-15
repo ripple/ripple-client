@@ -19,7 +19,7 @@ server.handleMsg = function (msg) {
   
   if (obj) {
     if (obj.type == "account") {
-      HistoryPage.addTransaction(obj.ledger_closed_index, obj.transaction, true);
+      HistoryPage.addTransaction(_.extend(Object.create(obj.transaction), obj), true);
     } else if (obj.type == "transaction") {
       var amount = ncc.displayAmount(server.escape(obj.transaction.Amount));
       str = '<div class="transFeedMsg">' + server.escape(obj.transaction.Account) + ' sent ' + amount + 'NC to ' + server.escape(obj.transaction.Destination) + '</div>';

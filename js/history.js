@@ -18,7 +18,7 @@ var HistoryPage = new (function () {
         _.each(
           response.result.transactions || [],
           function (t) {
-            HistoryPage.addTransaction(response.result.ledger_closed_index, t, false);
+            HistoryPage.addTransaction(t, false);
           });
       }
     } else {
@@ -26,8 +26,7 @@ var HistoryPage = new (function () {
     }
   };
   
-  this.addTransaction = function (ledger_index, t, adjust) {
-    t.inLedger = ledger_index;
+  this.addTransaction = function (t, adjust) {
     hist[t.hash] = t;
     HistoryPage.renderTransaction(t, adjust);
   };
@@ -49,7 +48,7 @@ var HistoryPage = new (function () {
         fromAcct = t.Account,
         fromName = blobVault.addressBook.getName(fromAcct) || "",
         
-        entry = ( '<td>' + t.inLedger + '</td>' +
+        entry = ( '<td>' + (t.inLedger || t.ledger_closed_index) + '</td>' +
                   '<td>' + t.TransactionType + '</td>' +
                   '<td class="addr" data-acct='+ fromAcct + ' data-name="' + fromName + '">' +
                     '<span>' + (fromName || fromAcct) + '</span>' +
