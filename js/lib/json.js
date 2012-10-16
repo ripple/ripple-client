@@ -276,8 +276,8 @@ request.jsonrpc = "2.0";
 
 function displaySearchResult(response) {
 
-        if (response.result)
-                alert(response.result);
+        // if (response.result)
+                // alert(response.result);
 
         else if (response.error)
                 alert("Search error: " + response.error.message);

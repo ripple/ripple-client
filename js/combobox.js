@@ -1,4 +1,4 @@
-$(document).ready(function (){
+$(document).ready(function () {
 
 $.widget("ui.combobox", {
   // default options
@@ -11,12 +11,11 @@ $.widget("ui.combobox", {
   
   _create: function () {
     var self = this,
-        defaultOption = new Option('', ''),
         select, input;
     
     if (this.element[0].nodeName == "SELECT") {
       select = this.element.hide()
-      input = this.input = $("<input>").insertAfter(select);
+      input = $("<input>").insertAfter(select);
     } else {
       input = this.element;
       select = $("<select>").attr('id', this.element[0].id + 'Select')
@@ -24,8 +23,11 @@ $.widget("ui.combobox", {
                             .hide();
     }
     
+    this.input = input;
+    this.select = select;
+    
     if (this.options.data) {
-      select.append(defaultOption);
+      select.append(new Option('', ''));
       $.each(this.options.data, function (val, text) {
         select.append(new Option(text, val));
       });
@@ -33,34 +35,32 @@ $.widget("ui.combobox", {
     }
     
     var selected = select.children(":selected"),
-        value = selected.val() ? selected.text() : "",
-        strict = this.options.strict;
-    
-    function valChanged(e) {
-      var matcher = new RegExp("^" + $.ui.autocomplete.escapeRegex(this.value) + "$", "i");
-      select.children("option").each(function () {
-        if (matcher.test(this.text)) {
-          this.selected = true;
-          return false;
-        } else {
-          defaultOption.selected = true;
-        }
-      });
-      
-      var a = input.data('autocomplete'),
-          m = a.menu,
-          es = m.element.find('li:visible');
-      
-      if ((e.which == 13 && es.length) || (es.length == 1 && (new RegExp(es.eq(0).text(), "i")).test(input.val()))) {
-        m.active = m.active || es.eq(0);
-        m.select(event);
-        e.preventDefault();
-      }
-    }
+        value = selected.val() ? selected.text() : "";
     
     input.val(value)
-      .on('input', valChanged)
-      .on('keydown', valChanged)
+      .on('blur', function () {
+        if (!self.select.val() && self.options.strict) {
+          self.input.val('');
+          self._trigger("onchange");
+        }
+      })
+      .on('input', function (e) {
+        self.cleanup(e);
+      })
+      .on('keydown', function (e) {
+        if (e.which == 13) {
+          var m = input.data('autocomplete').menu,
+              es = m.element.find('li:visible');
+          
+          if (es.length) {
+            m.active = m.active || es.eq(0);
+            m.select(event);
+            // add this if you're using forms
+            // e.preventDefault();
+          }
+        }
+        e.stopImmediatePropagation();
+      })
       .autocomplete({
         delay: 0,
         minLength: 0,
@@ -86,7 +86,7 @@ $.widget("ui.combobox", {
         select: function (event, ui) {
           ui.item.option.selected = true;
           input.val(ui.item.value);
-          self._trigger("onselect", event, { item: ui.item.option });
+          self._trigger("onchange", event, { item: ui.item.option });
         },
         
         autocomplete : function (value) {
@@ -95,39 +95,24 @@ $.widget("ui.combobox", {
         },
         
         change: function (event, ui) {
-          valChanged.call(this, event);
-          self._trigger("onchange", event);
-          if (!ui.item) {
-            var matcher = new RegExp("^" + $.ui.autocomplete.escapeRegex($(this).val()) + "$", "i"),
-                valid = false;
-            select.children("option").each(function () {
-              if (this.value.match(matcher)) {
-                this.selected = valid = true;
-                return false;
-              }
-            });
-            if (!valid) {
-              // if strict is true, then unmatched values are not allowed
-              if (strict) {
-                // remove invalid value, as it didn't match anything
-                $(this).val("");
-                select.val("");
-              }
-              return false;
-            }
-          }
+          self.cleanup();
         },
         
         open: function (event, ui) {
+          input.stop();
           input.animate({'borderBottomLeftRadius': 0});
+          self.widget = $(this).autocomplete('widget');
         },
-        
         close: function (event, ui) {
-          input.animate({'borderBottomLeftRadius': 10});
+          input.stop();
+          input.animate({'borderBottomLeftRadius': borderRadius });
+          delete self.widget;
         }
         
       })
       .addClass("ui-widget-content ui-corner-left"); // ui-widget
+    
+    var borderRadius = input.css('borderBottomLeftRadius');
     
     input.data("autocomplete")._renderItem = function (ul, item) {
       return $("<li></li>")
@@ -161,6 +146,61 @@ $.widget("ui.combobox", {
           input.focus();
         }
       });
+  },
+  
+  cleanup: function (e) {
+    var self = this,
+        selectVal = self.select.val(),
+        matcher = new RegExp("^" + $.ui.autocomplete.escapeRegex(self.input.val()) + "$", "i");
+    
+    self.select.children("option").each(function () {
+      if (matcher.test(this.value)) {
+        this.selected = true;
+        self.input.val(this.value);
+        return false;
+      } else if (matcher.test(this.text)) {
+        this.selected = true;
+        self.input.val(this.text);
+        return false;
+      } else {
+        self.select.val('');
+      }
+    });
+    
+    if (self.select.val() != selectVal) {
+      self._trigger("onchange");
     }
-  });
-});
+    
+    if (self.select.val()) {
+      self.input.autocomplete("close");
+      e && e.stopImmediatePropagation();
+    }
+  },
+  
+  value: function () {
+    if (this.options.strict) {
+      return this.select.children(":selected").val();
+    } else {
+      return this.select.children(":selected").val() || (this.input.val());
+    }
+  },
+  
+  updateData: function (data) {
+    var self = this;
+    self.select.children("option[value!='']").remove();
+    _.each(data, function (name, addr) {
+      self.select.append(new Option(name, addr));
+    });
+    self.cleanup();
+  },
+  
+  promoteEntry: function (value) {
+    var sel = this.select;
+        text = sel.find("option[value=" + value + "]").remove().text();
+    sel.prepend(new Option(text, value));
+  }
+}
+  
+  
+
+);});

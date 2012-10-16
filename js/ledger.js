@@ -1,19 +1,13 @@
 var ledgerScreen = {};
 
-ledgerScreen.ledgerResponse = function (response, success)
-{
-  if (success) {
-    ncc.checkError(response);
-    if (response.result.ledger && response.result.ledger.accountState) {
-      ledgerScreen.addLedger(response.result.ledger);
-    }
-  } else {
-    ncc.serverDown();
+ledgerScreen.ledgerResponse = function (res, noErrors) {
+  res = res.result || res;
+  if (res.ledger && res.ledger.accountState) {
+    ledgerScreen.addLedger(res.ledger);
   }
-}
+};
 
-ledgerScreen.addLedger = function (ledger)
-{
+ledgerScreen.addLedger = function (ledger) {
   $('#LedgerInfoHash').text(ledger.hash);
   $('#LedgerInfoParentHash').text(ledger.parentHash);
   $('#LedgerInfoNumber').text(ledger.seqNum);

@@ -61,34 +61,50 @@ ncc.checkError = function (response) {
   ncc.error(errorStr);
   
   return ret;
-}
+};
 
-ncc.status = function (title, json) {
-  $('#StatusDiv').toggle(Boolean(title || json));
+ncc.status = function (status, json) {
+  var $statusDiv = $('#StatusDiv');
   
-  if (title) $('#StatusDiv p span').text("INFO: " + title);
-  else $('#StatusDiv p span').text('INFO');
-
+  $statusDiv.toggle(Boolean(status || json));
+  
+  if (status) {
+    $statusDiv.find('p span').text("INFO: " + status);
+  } else {
+    $statusDiv.hide();
+  }
+  
   try {
-    $('#StatusDiv pre.json').html(
+    $statusDiv.find('pre.json').html(
       ncc.misc.syntaxHighlight(
         JSON.stringify(json, undefined, 2)
       )
     );
-    $('#StatusDiv button').show();
+    $statusDiv.find('button').show();
   } catch (e) {
-    $('#status.json').html('');
-    $('#StatusDiv button').hide();
+    $statusDiv.find('pre.json').html('');
+    $statusDiv.find('button').hide();
   }
 };
 
-ncc.error = function (str) {
-  try { str = ncc.misc.syntaxHighlight(JSON.stringify(JSON.parse(str), undefined, 2)); } catch (e) {}
-  if (str) {
-    $('#ErrorDiv').show();
-    $('#error').html(str);
-  } else {
-    $('#ErrorDiv').hide();
+ncc.error = function (error, json) {
+  var $errorDiv = $('#ErrorDiv');
+  
+  $errorDiv.toggle(Boolean(error || json));
+  
+  if (error) $errorDiv.find('p span').text("ERROR: " + error);
+  else $errorDiv.hide();
+  
+  try {
+    $errorDiv.find('pre.json').html(
+      ncc.misc.syntaxHighlight(
+        JSON.stringify(json, undefined, 2)
+      )
+    );
+    $errorDiv.find('button').show();
+  } catch (e) {
+    $errorDiv.find('pre.json').html('');
+    $errorDiv.find('button').hide();
   }
 }
 
@@ -209,7 +225,7 @@ ncc.addCommas = function (n) {
   if (!/^[+-]?\d+(.\d*)?$/.test(n)) throw "Invalid number format.";
   
   var s = n.toString(),
-      m = s.match(/^(\d+?)((\d{3})*)(\.\d*)?$/),
+      m = s.match(/^([+-]?\d+?)((\d{3})*)(\.\d*)?$/),
       whole = [m[1]].concat(m[2].match(/\d{3}/g) || []),
       fract = m[4] || "";
   
@@ -223,20 +239,11 @@ ncc.infoTabShown = function ()
   rpc.server_info(ncc.infoResponse);
 }
 
-ncc.infoResponse = function (response,success)
-{
-  if (success)
-  {
-    ncc.checkError(response);
-    
-    if (response.result.info)
-    {
-      $('#InfoServerState').text( response.result.info.serverState );
-      $('#InfoPublicKey').text( response.result.info.validationPKey );
-    }
-    
-  } else {
-    ncc.serverDown();
+ncc.infoResponse = function (res, noErrors) {
+  res = res.result || res;
+  if (noErrors && res.info) {
+    $('#InfoServerState').text( res.info.serverState );
+    $('#InfoPublicKey').text( res.info.validationPKey );
   }
 }
 
@@ -249,23 +256,22 @@ ncc.addPeer = function ()
   rpc.connect(ip,port);
 }
 
-ncc.peersResponse = function (response,success)
-{
-  if (success)
-  {
-    ncc.checkError(response);
-    
-    //$('#status').text(JSON.stringify(response));
-    if (response.result.peers)
-    {
-      $('#PeerTable').empty();
-      var peers = response.result.peers;
-      for(var i = 0; i < peers.length; i++)
-      {
-        $('#PeerTable').append('<tr><td>'+i+'</td><td>'+peers[i].ip+'</td><td>'+peers[i].port+'</td><td>'+peers[i].version+'</td></tr>');  // #PeerTable is actually the tbody element so this append works
-      }
+ncc.peersResponse = function (res, noErrors) {
+  res = res.result || res;
+  if (noErrors && res.peers) {
+    $('#PeerTable').empty();
+    var peers = res.peers;
+    for (var i = 0; i < peers.length; i++) {
+      $('#PeerTable').append(
+        '<tr>' +
+          '<td>' + i + '</td>' +
+          '<td>' + peers[i].ip + '</td>' + 
+          '<td>' + peers[i].port + '</td>' +
+          '<td>' + peers[i].version + '</td>' +
+        '</tr>'
+      );
     }
-  } else ncc.serverDown();
+  }
 }
 
 ///////////
@@ -294,8 +300,7 @@ ncc.toggleAdvanced = function (ele)
   }
 }
 
-ncc.onLogIn = function ()
-{
+ncc.onLogIn = function () {
   ncc.loggedIn = true;
   
   $('#UnlogMainNav').hide();
@@ -343,7 +348,7 @@ $(document).ready(function () {
   $("#t-info").on("show", ncc.infoTabShown);
   $("#t-feed").on("show", feed.onShowTab);
   $("#t-trade").on("show", trade.onShowTab);
-  $("#t-options").on("show", optionScreen.onShowTab); 
+  $("#t-options").on("show", OptionsPage.onShowTab); 
   $("#t-welcome").on("show", welcomeScreen.onShowTab);
   
   ncc.onLogOut();
@@ -437,20 +442,38 @@ ncc.misc.forms = (function () {
   return {
     disable: function (f) {
       var $f = $(f)
-      $f.find('button').attr('disabled', true);
-      $f.find("input").attr('disabled', true);
       $f.find("input.ui-autocomplete-input+button").each(function() {
         this.style.cursor = "not-allowed";
       }).on('hover mousedown', undoClasses);
+      $f.find('button').attr('disabled', true);
+      $f.find("input").attr('disabled', true);
     },
-
+    
     enable: function (f) {
       var $f = $(f);
-      $f.find('button').attr('disabled', false);
-      $f.find("input").attr('disabled', false);
       $f.find("input.ui-autocomplete-input+button").each(function() {
         this.style.cursor = "auto";
       }).off('hover mousedown', undoClasses);
+      $f.find('button').attr('disabled', false);
+      $f.find('input').attr('disabled', false);
     }
   };
 })();
+
+ncc.misc.isValidAmount = function (amount, currency) {
+  if (currency == 'XNS') {
+    return (amount % 1 == 0) && (amount > 0) && (amount < 100000000000000000);
+  } else {
+    try {
+      var a = new AmountValue(amount);
+      assert(!a.isZero() && a.sign != '-');
+      return !!currency;
+    } catch (e) {
+      return false;
+    }
+  }
+};
+
+$(document).ready(function () {
+  $("#GetStarted").focus();
+});

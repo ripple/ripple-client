@@ -1,91 +1,83 @@
 var SendPage = new (function () {
-  var address, name, currency, amount;
+  var address, name, currency, amount, // private variables
+      
+      amntElem, // amount
+      currElem, // currency
+      destElem, // destination
+      nameElem, // (optional) name
+      sendPageButton; // button
   
-  function isValidAmount(amount, currency) {
-    if (currency == 'XNS') {
-      return (amount * BALANCE_DISPLAY_DIVISOR % 1 == 0) && (amount > 0) && (amount < 100000000000);
-    } else {
-      try {
-        var a = new AmountValue(amount);
-        assert(!a.isZero() && a.sign != '-');
-        return true;
-      } catch (e) {
-        return false;
+  function onFieldsUpdated() {
+    address = destElem.value();
+    name = nameElem.val() || blobVault.addressBook.getName(address);
+    currency = currElem.value();
+    amount = amntElem.val() * (currency == 'XNS' ? BALANCE_DISPLAY_DIVISOR : 1);
+    
+    $("#SpacerRow").show();
+    $("#AddressDisplayRow").hide();
+    $("#SendDestNameRow").hide();
+
+    sendPageButton.attr(
+      'disabled', 
+      !ncc.misc.isValidAmount(amount, currency)
+    );
+    
+    if (ncc.misc.isValidAddress(address) && name != 'you') {
+      $("#SpacerRow").hide();
+      if (address == destElem.input.val()) {
+        // address in input box
+        $("#SendDestNameRow").show();
+        $("#SendDestName").val(name);
+      } else {
+        // name in input box
+        $("#AddressDisplayRow").show();
+        $("#AddressDisplay").val(address)
       }
+    } else {
+      sendPageButton.attr('disabled', true);
     }
   }
   
-  this.onShowTab = function () {
-    var recentSends = _.extend(
-          blobVault.getRecentSends(),
-          blobVault.addressBook.getEntries()
-        );
-    
-    sendPageButton = $("#SendPageButton")
-    
-    function onNewVal(e) {
-      var sendDestVal = $("#SendDest").val();
-      
-      address = $("#SendDestSelect").val() || sendDestVal;
-      name = $("#SendDestName").val() || blobVault.addressBook.getName(address);
-      currency = $("#SendCurrency").val();
-      amount = $("#SendAmount").val() * (currency == 'XNS' ? BALANCE_DISPLAY_DIVISOR : 1);
-      
-      $("#SpacerRow").show();
-      $("#AddressDisplayRow").hide();
-      $("#SendDestNameRow").hide();
-      sendPageButton.attr('disabled', false);
-      
-      if (ncc.misc.isValidAddress(address) && name != 'you') {
-        $("#SpacerRow").hide();
-        if (address == sendDestVal) {
-          // address in input box
-          $("#SendDestNameRow").show();
-          $("#SendDestName").val(name);
-        } else {
-          // name in input box
-          $("#AddressDisplayRow").show();
-          $("#AddressDisplay").val(address)
-        }
-        
-        if (!isValidAmount(amount, currency)) {
-          sendPageButton.attr('disabled', true);
-        }
-      } else {
-        sendPageButton.attr('disabled', true);
-      }
-    }
-    
+  $(document).ready(function () {
+    sendPageButton = $("#SendPageButton");
+    amntElem = $("#SendAmount");
+    nameElem = $("#SendDestName");
     $("#t-send input").on('keydown', function (e) {
-      if (e.which == 13 && !$(this).autocomplete("widget").is(":visible") && !sendPageButton.attr('disabled')) {
+      if (e.which == 13 && !sendPageButton.attr('disabled') && !$(this).widget) {
         sendPageButton.click();
       }
     });
+    amntElem.on('input', onFieldsUpdated);
+  });
+  
+  this.onShowTab = function () {
+    var destinationOptions = _.extend(blobVault.getRecentSends(), blobVault.addressBook.getEntries());
     
-    $("#SendDest").combobox({
-      data: recentSends,
-      selected: '',
-      button_title: 'Recently used addresses',
-      onchange: onNewVal,
-      onselect: onNewVal
-    });
+    if (!destElem) {
+      destElem = $("#SendDest").combobox({
+        data: destinationOptions,
+        selected: '',
+        button_title: 'Recently used addresses',
+        onchange: onFieldsUpdated
+      }).data('combobox');
+    }
     
-    $("#t-send input").on('input', onNewVal);
+    if (!currElem) {
+      currElem = $("#SendCurrency").combobox({
+        data: ncc.allCurrencyOptions,
+        selected: 'XNS',
+        strict: true,
+        button_title: 'Select a currency',
+        onchange: onFieldsUpdated
+      }).data('combobox');
+    }
     
-    var select = $("#SendDestSelect");
-    select.children("option[value!='']").remove();
-    _.each(
-      recentSends,
-      function (name, addr) {
-        select.append(new Option(name, addr));
-      }
-    );
-    
-    $("#SendDest").trigger('input');
+    setTimeout(function () { amntElem.focus(); }, 100);
+    destElem.updateData(destinationOptions)
   }
   
   this.send = function () {
-    name = $("#SendDestName").val() || name;
+    name = nameElem.val() || name;
     
     if (currency == 'XNS') {
       rpc.send(ncc.masterKey, ncc.accountID, address, String(amount), currency, SendPage.onSendResponse);
@@ -95,56 +87,42 @@ var SendPage = new (function () {
     
     sendPageButton.text("Sending...");
     ncc.misc.forms.disable('#t-send');
-  }
-
-  this.onSendResponse = function (response, success) {
-    if (success) {
-      if (!ncc.checkError(response)) {
-        var toAccount = response.result.dstAccountID,
-            curr = $("#SendCurrency").val(),
-            sel = $("#SendDestSelect");
-        
-        if (name) {
-          blobVault.addressBook.setEntry(name, toAccount);
-        }
-        
-        blobVault.updateRecentSends(toAccount);
-        blobVault.save();
-        blobVault.pushToServer();
-        
-        sel.find("option[value=" + toAccount + "]").remove();
-        sel.prepend(new Option(name || toAccount, toAccount));
-        
-        // clean up
-        delete address;
-        delete name;
-        delete currency;
-        delete amount;
-        
-        $("#SendDest").val('');
-        $("#SendAmount").val('');
-        $("#SendDestName").val('');
-        $("#SendDestNameRow").hide();
-        $("#AddressDisplay").val('');
-        $("#AddressDisplayRow").hide();
-        $("#SpacerRow").show();
-        }
-    } else {
-      ncc.serverDown();
+  };
+  
+  this.onSendResponse = function (res, noError) {
+    res = res.result || res;
+    
+    if (noError) {
+      var toAccount = res.dstAccountID,
+          curr = res.dstISO;
+      
+      if (name) {
+        blobVault.addressBook.setEntry(name, toAccount);
+      }
+      
+      blobVault.updateRecentSends(toAccount);
+      blobVault.save();
+      blobVault.pushToServer();
+      
+      destElem.promoteEntry(toAccount);
+      
+      // clean up
+      delete address;
+      delete name;
+      delete currency;
+      delete amount;
+      
+      destElem.input.val('');
+      $("#SendAmount").val('');
+      $("#SendDestName").val('');
+      $("#SendDestNameRow").hide();
+      $("#AddressDisplay").val('');
+      $("#AddressDisplayRow").hide();
+      $("#SpacerRow").show();
     }
     
     sendPageButton.text("Send Money");
     ncc.misc.forms.enable('#t-send');
-    $("#SendDest").trigger('input');
+    destElem.cleanup();
   }
-  
 })();
-
-
-$(document).ready(function () {
-  $("#SendCurrency").combobox({
-    data: ncc.allCurrencyOptions,
-    selected: 'XNS',
-    button_title: 'Select a currency'
-  });
-});

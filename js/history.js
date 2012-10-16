@@ -11,18 +11,15 @@ var HistoryPage = new (function () {
   };
 
   //<table class="dataTable" ><tr><th>#</th><th>Ledger</th><th>Source</th><th>Destination</th><th>Amount</th><th>Status</th></tr><tbody id="HistoryTable"></tbody></table>
-  this.onHistoryResponse = function (response, success) {
-    if (success) {
-      ncc.checkError(response);
-      if (response.result) {
-        _.each(
-          response.result.transactions || [],
-          function (t) {
-            HistoryPage.addTransaction(t, false);
-          });
-      }
-    } else {
-      ncc.serverDown();
+  this.onHistoryResponse = function (res, noError) {
+    res = res.result || res;
+    if (noError && res) {
+      _.each(
+        res.transactions || [],
+        function (t) {
+          HistoryPage.addTransaction(t, false);
+        }
+      );
     }
   };
   

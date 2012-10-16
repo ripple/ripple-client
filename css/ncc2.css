@@ -69,7 +69,7 @@ ul.ui-autocomplete.ui-menu.ui-widget.ui-widget-content {
   border-top-right-radius: 0px;
 }
 
-#StatusDiv p {
+#StatusDiv p, #ErrorDiv p {
   margin-bottom: 0;
 }
 

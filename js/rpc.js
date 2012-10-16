@@ -6,29 +6,36 @@ rpc.reload = function () {
 
 rpc.url = "http://" + Options.RPC_SERVER + "/";
 
-rpc.displayResult = function (response, success) {
-  if (success) {
-    if (!ncc.checkError(response)) {
-      $('#status').text(JSON.stringify(response));
-    }
+rpc.displayResult = function () {};
+
+rpc.handleResponse = function (req, callback, response) {
+  var res = response.result,
+      err = res.error_message || res.error || res.error_code;
+  
+  if (err) {
+    ncc.status(null);
+    ncc.error(err, { response: response, request: req });
+    callback(response, false);
   } else {
-    ncc.error('No response from server. Please check if it is running.');
+    ncc.error(null);
+    ncc.status(
+      "RPC call to '" + req.method + "' command successful ",
+      { response: res, request: req }
+    );
+    callback(res, true);
   }
 };
 
-rpc.call = function (request, callback) {
-  // console.log("->", request.method, ":", request);
+rpc.call = function (req, callback) {
   $.ajax({
     type: 'POST',
     url: rpc.url,
-    data: JSON.stringify(request),
-    success: function (x) { 
-      ncc.status("RPC call to '" + request.method + "' command successful ", x);
-      callback(x, true);
-    },
-    error: function (x) {
-      // console.log("<-err", request.method, ":", x);
-      callback(x, false);
+    data: JSON.stringify(req),
+    success: _.bind(rpc.handleResponse, rpc, req, callback),
+    error: function (response) {
+      ncc.status(null);
+      ncc.error("RPC server unreacheable");
+      callback(response, true);
     },
     dataType: "json"
   });

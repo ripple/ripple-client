@@ -33,20 +33,20 @@ loginScreen.finishLogin = function () {
   $('#InfoMasterKey').text(ncc.masterKey);
   $('#InfoBackupBlob').val(blobVault.blob);
   
-  rpc.wallet_accounts(ncc.masterKey, function (response, success) {
-    if (success) {
-      var err = ncc.checkError(response);
-      ncc.processAccounts(response.result.accounts || []);
+  rpc.wallet_accounts(
+    ncc.masterKey,
+    function (res, noErrors) {
+      res = res.result || res;
+      ncc.processAccounts(res.accounts || []);
       ncc.onLogIn();
       $('#ClientState').text('Logged in. Running');
-      if (err == "No such account.") {
+      
+      if (!noErrors) {
         ncc.displayTab("deposit");
         ncc.displayScreen("deposit");
       }
-    } else {
-      ncc.serverDown();
     }
-  });
+  );
 };
 
 loginScreen.logout = function () {

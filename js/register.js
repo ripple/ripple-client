@@ -26,10 +26,10 @@ registerScreen.onSubmit = function () {
       save_and_login();
     } else {
       rpc.wallet_propose(function (res, success) {
+        res = res.result || res;
         if (success) {
-          ncc.checkError(res);
-          ncc.masterKey = blobVault.data.master_seed = res.result.master_seed;
-          ncc.accountID = blobVault.data.account_id = res.result.account_id;
+          ncc.masterKey = blobVault.data.master_seed = res.master_seed;
+          ncc.accountID = blobVault.data.account_id = res.account_id;
           save_and_login();
         } else {
           ncc.serverDown();

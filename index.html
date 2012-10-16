@@ -124,9 +124,14 @@
             </p>
             <p>
               Anyone can create a Ripple account. Ripple accounts can not be shutdown by any corporation or government.
-              The Ripple network operates through the combined efforts of the copies of the Ripple software that are running all over the world.
+              The Ripple network operates through the combined efforts of the copies of the Ripple software that are 
+              running all over the world.
             </p>
-            <div class="bottom-btn"> <button class="btn btn-large btn-success" onclick="ncc.displayScreen('login')">Login and claim your coins</button></div>
+            <div class="bottom-btn">
+              <button id="GetStarted" class="btn btn-large btn-success" onclick="ncc.displayScreen('login')">
+                Login and claim your coins
+              </button>
+            </div>
           </div>
         </section>
         <!-- ENDS WELCOME SECTION -->
@@ -145,8 +150,8 @@
             </table>
             
             <div class="bottom-btn">
-              <button class="btn btn-large btn-success" onclick="optionScreen.save()">Save options</button> 
-              <button class="btn btn-large btn-danger" onclick="optionScreen.cancel()">Cancel</button>
+              <button class="btn btn-large btn-success" onclick="OptionsPage.save()">Save options</button> 
+              <button class="btn btn-large btn-danger" onclick="OptionsPage.cancel()">Cancel</button>
             </div>
           </div>
         </section>
@@ -243,7 +248,7 @@
                 <tr>
                   <td class="span2">Amount:</td>
                   <td class="span2"><input id="SendAmount" type="text"></td>
-                  <td class="span4"><select id="SendCurrency" /></td>
+                  <td class="span4"><input id="SendCurrency" /></td>
                 </tr>
                 <tr>
                   <td class="span2">Destination:</td>
@@ -302,16 +307,16 @@
                     </tr>
                     <tr>
                       <td class="span2">Currency:</td>
-                      <td><div><select id="NewCreditCurrency" class="span2" /></div></td>
+                      <td><div><input id="NewCreditCurrency" class="span2" /></div></td>
                     </tr>
                     <tr>
-                      <td class="span2">Maximum Amount:</td>
+                      <td class="span2">Limit:</td>
                       <td><input id="NewCreditMax" type="text" class="span2"></td>
                     </tr>
                   </table>
                 </p>
                 <div class="bottom-btn">
-                  <button id="AddCreditLineButton" class="btn btn-info" onclick="RipplePage.addLine()">
+                  <button id="AddCreditLineButton" class="btn btn-info" onclick="RipplePage.submitForm()">
                     Add Credit Line
                   </button>
                 </div>
@@ -595,8 +600,11 @@
       <!-- ENDS TAB-CONTENT -->
       
       <div id="ErrorDiv" class="alert alert-error ncc-alert stick-bottom">
-        <p><strong class="alert-heading">Warning!</strong></p>
-        <pre id="error" class="json"></pre>
+        <p>
+          <span class="alert-heading">ERROR</span>
+          <button onclick="this.innerText=$('#ErrorDiv pre.json').toggle().is(':visible')?'-':'+';" >+</button>
+        </p>
+        <pre class="json" style='display:none;'></pre>
       </div>
       
       <div id="StatusDiv" class="alert alert-info ncc-alert stick-bottom">
@@ -604,7 +612,7 @@
           <span class="alert-heading">INFO</span>
           <button onclick="this.innerText=$('#StatusDiv pre.json').toggle().is(':visible')?'-':'+';" >+</button>
         </p>
-        <pre id="status" class="json" style='display:none;'></pre>
+        <pre class="json" style='display:none;'></pre>
         
       </div>
       

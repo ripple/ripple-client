@@ -1,85 +1,83 @@
 var RipplePage = new (function () {
-  var address, name, creditMax,
-      creditMaxInputElem,
-      accountElem,
-      addCreditLineButton,
-      accountElemSelect;
-
+  var address, name, creditMax, currency,
+      
+      acctElem,
+      currElem,
+      limitElem,
+      
+      ripplePageButton,
+      rippleLinesTable;
+  
+  function onFieldsUpdated() {
+    address = acctElem.value();
+    name = blobVault.addressBook.getName(address) || '';
+    creditMax = limitElem.val();
+    currency = currElem.value();
+    
+    try { // checks that the value is representable and >= 0
+      assert((new AmountValue(creditMax)).sign != "-");
+    } catch (e) {
+      creditMax = "bad";
+    }
+    
+    var allgud = ncc.misc.isValidAddress(address) && creditMax != 'bad' && currency;
+    ripplePageButton.attr('disabled', !allgud);
+  }
+  
   $(document).ready(function () {
-    creditMaxInputElem  = $("#NewCreditMax"),
-    accountElem         = $("#NewCreditAccount");
-    addCreditLineButton = $("#AddCreditLineButton");
-    $("#NewCreditCurrency").combobox({ data: ncc.currencyOptions , selected: 'USD' });
+    limitElem        = $("#NewCreditMax"),
+    ripplePageButton = $("#AddCreditLineButton");
+    rippleLinesTable = $('#RippleTable');
+    $("#t-ripple input").on('keydown', function (e) {
+      if (e.which == 13 && !ripplePageButton.attr('disabled') && !$(this).widget) {
+        ripplePageButton.click();
+      }
+    });
   });
   
   this.lines = {};
   
   this.onShowTab = function () {
-    var recentSends = _.extend(
-      blobVault.getRecentSends(),
-      blobVault.addressBook.getEntries()
-    );
+    var recentSends = _.extend(blobVault.getRecentSends(), blobVault.addressBook.getEntries());
     
-    addCreditLineButton.attr('disabled', true);
-    
-    function onNewVal() {
-      address = accountElemSelect.val() || accountElem.val();
-      name = blobVault.addressBook.getName(address) || '';
-      creditMax = creditMaxInputElem.val();
-      
-      try { // checks that the value is representable and >= 0
-        assert((new AmountValue(creditMax)).sign != "-");
-      } catch (e) {
-        creditMax = "bad";
-      }
-      
-      var allgud = ncc.misc.isValidAddress(address) && creditMax != 'bad';
-      addCreditLineButton.attr('disabled', !allgud);
+    if (!currElem) {
+      currElem = $("#NewCreditCurrency").combobox({
+        data: ncc.currencyOptions,
+        selected: 'USD',
+        strict: true,
+        button_title: 'Select a currency',
+        onchange: onFieldsUpdated
+      }).data('combobox');
     }
     
-    $("#t-ripple input").on('keydown', function (e) {
-      if (e.which == 13 && !$(this).autocomplete("widget").is(":visible") && !addCreditLineButton.attr('disabled')) {
-        addCreditLineButton.click();
-      }
-    });
+    if (!acctElem) {
+      acctElem = $("#NewCreditAccount").combobox({
+        data: recentSends,
+        selected: '',
+        button_title: 'Recently used addresses',
+        onchange: onFieldsUpdated
+      }).data('combobox');
+    }
     
-    accountElem.combobox({
-      data: recentSends,
-      selected: '',
-      button_title: 'Recently used addresses',
-      onchange: onNewVal,
-      onselect: onNewVal
-    });
+    limitElem.on('input', onFieldsUpdated);
     
-    accountElemSelect = $("#NewCreditAccountSelect");
-    accountElemSelect.children("option[value!='']").remove();
-    _.each(
-      recentSends,
-      function (name, addr) {
-        accountElemSelect.append(new Option(name, addr));
-      }
-    );
+    ripplePageButton.attr('disabled', true);
     
-    accountElem.trigger('input');
+    acctElem.updateData(recentSends);
     RipplePage.renderLines();
   };
   
-  this.getLinesResponse = function (response, success) {
-    if (success) {
-      ncc.checkError(response);
-      
-      if (response.result.lines) {
-        RipplePage.lines = _.object(
-          _.map(
-            response.result.lines,
-            function (l) { return l.account + '/' + l.currency; }
-          ),
-          response.result.lines
-        );
-        RipplePage.renderLines();
-      }
-    } else {
-      ncc.serverDown();
+  this.getLinesResponse = function (res, noErrors) {
+    res = res.result || res;
+    if (noErrors && res.lines) {
+      RipplePage.lines = _.object(
+        _.map(
+          res.lines,
+          function (l) { return l.account + '/' + l.currency; }
+        ),
+        res.lines
+      );
+      RipplePage.renderLines();
     }
   };
   
@@ -90,36 +88,41 @@ var RipplePage = new (function () {
       }
     }
     
-    $('#RippleTable').empty();
+    rippleLinesTable.empty();
     _.each(
       RipplePage.lines,
       function (line) {
         ncc.changeBalance(line.currency, line.balance);
-        $('#RippleTable').prepend(RipplePage.renderLine(line));
+        rippleLinesTable.prepend(
+          '<tr>' + 
+            '<td>' + (-line.limit_peer) + '</td>' +
+            '<td>' + line.balance + ' ' + line.currency + '</td>' +
+            '<td>' + line.limit + '</td>' +
+            '<td>' + (blobVault.addressBook.getName(line.account) || line.account) + '</td>' +
+            '<td></td>' + 
+            '<td></td>' +
+          '</tr>'
+        );
       }
     );
   }
   
-  this.addLine = function () {
-    var currency = $("#NewCreditCurrency").val();
+  this.submitForm = function () {
     rpc.ripple_line_set(ncc.masterKey, ncc.accountID, address, creditMax, currency, RipplePage.setLineResponse);
     ncc.misc.forms.disable("#t-ripple");
   }
   
-  this.setLineResponse = function (res, success) {
-    var sel = $("#NewCreditAccountSelect");
+  this.setLineResponse = function (res, noErrors) {
+    res = res.result || res;
     
-    if (success) {
-      ncc.checkError(res);
-      
+    if (noErrors) {
       blobVault.updateRecentSends(address);
       blobVault.save();
       blobVault.pushToServer();
       
-      sel.find("option[value=" + address + "]").remove();
-      sel.prepend(new Option(name || address, address));
+      acctElem.promoteEntry(address);
       
-      var limit = res.result.transaction.LimitAmount,
+      var limit = res.transaction.LimitAmount,
           key = limit.issuer + '/' + limit.currency,
           line = RipplePage.lines[key] = RipplePage.lines[key] || {};
       
@@ -132,30 +135,15 @@ var RipplePage = new (function () {
       line.quality_out = line.quality_out || 0;
       
       RipplePage.renderLines();
-    } else {
-      ncc.serverDown();
     }
     
-    $("#NewCreditAccount, #NewCreditMax").val('');
-    $("#NewCreditAccount").trigger('input');
+    acctElem.input.val('');
+    limitElem.val('');
     address = '';
     name = '';
     creditMax = '';
-    
     ncc.misc.forms.enable("#t-ripple");
-  }
-  
-  this.renderLine = function (line) {
-    return (
-      '<tr>' + 
-        '<td>' + (-line.limit_peer) + '</td>' +
-        '<td>' + line.balance + ' ' + line.currency + '</td>' +
-        '<td>' + line.limit + '</td>' +
-        '<td>' + (blobVault.addressBook.getName(line.account) || line.account) + '</td>' +
-        '<td></td>' + 
-        '<td></td>' +
-      '</tr>'
-    );
+    acctElem.cleanup();
   }
   
   // this will return the accountID of the line that has the most credit left in that currency 

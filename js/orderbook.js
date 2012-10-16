@@ -1,15 +1,9 @@
 var orderBookScreen = {};
 
-orderBookScreen.ledgerResponse = function(response, success)
-{
-  if(success) {
-    ncc.checkError(response);
-    
-    if (response.result.ledger && response.result.ledger.accountState) {
-      orderBookScreen.addLedger(response.result.ledger);
-    }
-  } else {
-    ncc.serverDown();
+orderBookScreen.ledgerResponse = function (res, noErrors) {
+  res = res.result || res;
+  if (noErrors && res.ledger && res.ledger.accountState) {
+    orderBookScreen.addLedger(res.ledger);
   }
 };
 

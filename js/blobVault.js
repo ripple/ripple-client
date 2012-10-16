@@ -182,10 +182,9 @@ var blobVault = new (function () {
     this.blob = '';
     this.data = {};
     this.meta = {};
-  }
+  };
   
   // accessors for blobVault.data
-  
   this.getRecentSends = function () {
     return _.object(
       blobVault.data.recent_sends,
@@ -197,9 +196,11 @@ var blobVault = new (function () {
   };
   
   this.updateRecentSends = function (addr) {
-    blobVault.data.recent_sends = _.without(blobVault.data.recent_sends, addr);
-    blobVault.data.recent_sends.unshift(addr);
-    blobVault.data.recent_sends.splice(NUM_RECENT_ADDRESSES);
+    if (addr) {
+      blobVault.data.recent_sends = _.without(blobVault.data.recent_sends, addr);
+      blobVault.data.recent_sends.unshift(addr);
+      blobVault.data.recent_sends.splice(NUM_RECENT_ADDRESSES);
+    }
   };
   
   this.addressBook = (function () {
