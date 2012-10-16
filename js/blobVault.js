@@ -196,6 +196,12 @@ var blobVault = new (function () {
     );
   };
   
+  this.updateRecentSends = function (addr) {
+    blobVault.data.recent_sends = _.without(blobVault.data.recent_sends, addr);
+    blobVault.data.recent_sends.unshift(addr);
+    blobVault.data.recent_sends.splice(NUM_RECENT_ADDRESSES);
+  };
+  
   this.addressBook = (function () {
     return {
       getEntries : function () {

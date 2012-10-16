@@ -273,21 +273,30 @@
                 Adding a credit line enables you to hold other people's IOUs. Adding a credit line doesn't mean they owe you that much money. It only gives them the potential to owe you that much money.
                 <p>
                   <table>
-                    <tr><td class="span2">Account:</td><td><input id="NewCreditAccount" type="text" class="span4"></td></tr>
-                    <tr><td class="span2">Currency:</td><td>
-                    <div><select id="NewCreditCurrency" class="span2" /></div>
-                    </td></tr>
-                    <tr><td class="span2">Maximum Amount:</td><td><input id="NewCreditMax" type="text" class="span2"></td></tr>
+                    <tr>
+                      <td class="span2">Account:</td>
+                      <td class="span5"><input id="NewCreditAccount" class="span3"></td>
+                    </tr>
+                    <tr>
+                      <td class="span2">Currency:</td>
+                      <td><div><select id="NewCreditCurrency" class="span2" /></div></td>
+                    </tr>
+                    <tr>
+                      <td class="span2">Maximum Amount:</td>
+                      <td><input id="NewCreditMax" type="text" class="span2"></td>
+                    </tr>
                   </table>
                 </p>
-                <div class="bottom-btn"> <button class="btn btn-info" onclick="ripple.addLine()">Add Credit Line</button></div>
+                <div class="bottom-btn">
+                  <button id="AddCreditLineButton" class="btn btn-info" onclick="RipplePage.addLine()">Add Credit Line</button>
+                </div>
               </fieldset>
             </div>
             <div class="row">
               <fieldset class="span5">
                 <legend>Ripple Lines</legend>
                 <table class="table table-striped">
-                  <tr><th>Min</th><th>Current balance</th><th>Max</th><th>Account</th><th></th><th></th></tr>
+                  <tr><th>Min</th><th>Balance</th><th>Max</th><th>Account</th><th></th><th></th></tr>
                   <tbody id="RippleTable"></tbody>
                 </table>
               </fieldset>
@@ -607,30 +616,33 @@
   
   <script src="config.js"></script>
   
-  <script src="js/address.js"></script>
-  <script src="js/types.js"></script>
   <script src="js/combobox.js"></script>
-  <script src="js/websocket.js"></script>
-  <script src="js/datastore.js"></script>
-  <script src="js/ncc.js"></script>
+  
+  <script src="js/login.js"></script>
+  <script src="js/register.js"></script>
+  <script src="js/address.js"></script>
+  <script src="js/ripple.js"></script>
   <script src="js/options.js"></script>
   <script src="js/ledger.js"></script>
   <script src="js/unl.js"></script>
-  <script src="js/rpc.js"></script>
-  <script src="js/startup.js"></script>
   <script src="js/feed.js"></script>
-  <script src="js/transactions.js"></script>
   <script src="js/history.js"></script>
-  <script src="js/ripple.js"></script>
-  <script src="js/login.js"></script>
-  <script src="js/register.js"></script>
   <script src="js/trade.js"></script>
   <script src="js/send.js"></script>
-  <script src="js/parser.js"></script>
-  <script src="js/esprima.js"></script>
   <script src="js/orderbook.js"></script>
+  
+  <script src="js/types.js"></script>
+  <script src="js/datastore.js"></script>
+  <script src="js/misc.js"></script>
+  <script src="js/ncc.js"></script>
+  <script src="js/rpc.js"></script>
   <script src="js/blobVault.js"></script>
-
+  <script src="js/websocket.js"></script>
+  <script src="js/startup.js"></script>
+  <script src="js/esprima.js"></script>
+  <script src="js/parser.js"></script>
+  
+  
   <!-- end scripts -->
 </body>
 </html>

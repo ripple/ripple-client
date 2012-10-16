@@ -29,7 +29,7 @@ trade.placeOrder=function()
 	}else 
 	{
 		// need to discover the inIssuer
-		var inRoute=ripple.findBestRouteIn(inCurrency);
+		var inRoute=RipplePage.findBestRouteIn(inCurrency);
 	}
 	
 	if(inRoute.max>inAmount)

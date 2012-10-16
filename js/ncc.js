@@ -137,7 +137,6 @@ ncc.changeBalance = function (currency, delta) {
     currElem.animate({ color: 'white' }, 1000);
     
     // flash currElem text
-    // TODO: make this a jQuery method
     // 
     // var NUM_FLASHES = 2;
     // if (currElem.attr('data-flashes-left') > 0) {
@@ -175,26 +174,28 @@ ncc.changeBalance = function (currency, delta) {
 
 ncc.displayAmount = function (amount)
 {
-  if (amount === undefined) return "";
-  if (amount.currency)
-  {
+  if (amount === undefined) {
+    return "";
+  }
+  
+  if (amount.constructor == Number || amount.constructor == String) {
+    return ncc.displayAmount(new AmountValue(amount));
+  }
+  
+  if (amount.currency) {
     var value = amount.value;
-    if (amount.currency == 'XNS')
-    {
-      value /= BALANCE_DISPLAY_DIVISOR;
-      return ncc.addCommas(value);
+    if (amount.currency == 'XNS') {
+      return ncc.addCommas(value.div(BALANCE_DISPLAY_DIVISOR));
     } else {
       return ncc.addCommas(value) + ' ' + amount.currency;
     }
   } else {  // simple XNS
-    amount /= BALANCE_DISPLAY_DIVISOR;
-    return ncc.addCommas(amount);
+    return ncc.addCommas(amount.div(BALANCE_DISPLAY_DIVISOR));
   }
 }
 
-ncc.addCommas = function (n) 
-{
-  if (!/^\d+(.\d*)?$/.test(n)) throw "Invalid number format.";
+ncc.addCommas = function (n) {
+  if (!/^[+-]?\d+(.\d*)?$/.test(n)) throw "Invalid number format.";
   
   var s = n.toString(),
       m = s.match(/^(\d+?)((\d{3})*)(\.\d*)?$/),
@@ -297,7 +298,7 @@ ncc.onLogIn = function ()
   }
   
   $('#MainNav a[href="#t-send"]').tab('show');
-  rpc.ripple_lines_get(ncc.accountID, ripple.getLinesResponse);
+  rpc.ripple_lines_get(ncc.accountID, RipplePage.getLinesResponse);
 }
 
 ncc.onLogOut = function ()
@@ -321,7 +322,7 @@ $(document).ready(function () {
           
   $("#t-send").on("show", SendPage.onShowTab);
   $("#t-login").on("show", loginScreen.onShowTab);
-  $("#t-ripple").on("show", ripple.onShowTab );
+  $("#t-ripple").on("show", RipplePage.onShowTab );
   $("#t-ledger").on("show", function () { rpc.ledger(ledgerScreen.ledgerResponse); });
   $("#t-orderbook").on("show", function () { rpc.ledger(orderBookScreen.ledgerResponse); });
   $("#t-history").on("show", HistoryPage.onShowTab);

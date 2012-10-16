@@ -51,6 +51,14 @@ var AmountValue = (function () {
     this.mantissa = mantissa;
   };
   
+  AmountValue.prototype.copy = function () {
+    var c = new AmountValue(0);
+    c.sign = this.sign;
+    c.mantissa = this.mantissa;
+    c.exponent = this.exponent;
+    return c;
+  };
+  
   AmountValue.prototype.toString = function () {
     var sign = this.sign == '-' ? '-' : '';
     if (this.exponent == 0) {
@@ -91,21 +99,22 @@ var AmountValue = (function () {
     }
   };
   
-  AmountValue.prototype.divide = function (other) {
+  AmountValue.prototype.div = function (other) {
     if (!isNaN(other) && (other.constructor == String || other.constructor == Number)) {
-      return this.divide(new AmountValue(String(other)));
+      return this.div(new AmountValue(String(other)));
     } else if (other && other.constructor == AmountValue) {
       if (other.isZero()) {
         throw "Cannon divide by zero."
       } else if (other.mantissa == '1000000000000000') {
-        this.exponent -= (other.exponent + 15);
+        var n = this.copy();
+        n.exponent -= (other.exponent + 15);
       } else {
-        throw "Dividing by this number not yet implemented."
+        throw "Dividing by this number not implemented."
       }
     } else {
       throw "divide method takes a numeric String, Number, or AmountValue."
     }
-    return this;
+    return n;
   };
   
   AmountValue.prototype.abs = function () {
@@ -120,6 +129,7 @@ var AmountValue = (function () {
     }
   };
   
+  // MODIFIES this
   AmountValue.prototype.sub = function (other) {
     if (!isNaN(other) && (other.constructor == String || other.constructor == Number)) {
       return this.sub(new AmountValue(String(other)));
@@ -131,13 +141,14 @@ var AmountValue = (function () {
     return this;
   };
   
+  // MODIFIES this
   AmountValue.prototype.add = function (m) {
     if (!isNaN(m) && (m.constructor == String || m.constructor == Number)) {
       // m is numeric string or number
       return this.add(new AmountValue(String(m)));
     } else if (m && m.constructor == AmountValue) {
       var same_sign = this.sign == m.sign,
-          comp = this.compareTo(m.abs()),
+          comp = this.abs().compareTo(m.abs()),
           smaller = comp < 0 ? this : m,
           bigger = comp < 0 ? m : this,
           exp_diff = bigger.exponent - smaller.exponent,
@@ -149,7 +160,7 @@ var AmountValue = (function () {
       for (var i = big.length - 1; i >= 0; i--) {
         var x = (same_sign ? add : sub)(Number(big[i]), (Number(sml[i]) + carry));
         res.unshift(mod(x, 10));
-        carry = Number(x > 10 || x < 0);
+        carry = Number(x >= 10 || x < 0);
       }
       
       res.unshift(carry);
