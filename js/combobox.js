@@ -51,9 +51,9 @@ $.widget("ui.combobox", {
           m = a.menu,
           es = m.element.find('li:visible');
       
-      if (e.which == 13 || (es.length == 1 && (new RegExp(es.eq(0).text(), "i")).test(input.val()))) {
+      if ((e.which == 13 && es.length) || (es.length == 1 && (new RegExp(es.eq(0).text(), "i")).test(input.val()))) {
         m.active = m.active || es.eq(0);
-        es.find('a').eq(0).click();
+        m.select(event);
       }
     }
     
