@@ -28,26 +28,26 @@ ncc.admin = false;
 ncc.dataStore = dataStoreOptions[DATA_STORE];
 
 ncc.currencyOptions = {
-  "AUD" : "AUD-Australian Dollar",
-  "BTC" : "BTC-Bitcoins",
-  "EUR" : "EUR-Euro",
-  "GBP" : "GBP-British Pound",
-  "RUB" : "RUB-Russian Ruble",
-  "USD" : "USD-US Dollar",
-  "XAU" : "XAU-Ounces of Gold",
-  "XAG" : "XAG-Ounces of Silver"
+  "USD" : "USD - US Dollar",
+  "EUR" : "EUR - Euro",
+  "BTC" : "BTC - Bitcoins",
+  "GBP" : "GBP - British Pound",
+  "AUD" : "AUD - Australian Dollar",
+  "RUB" : "RUB - Russian Ruble",
+  "XAU" : "XAU - Ounces of Gold",
+  "XAG" : "XAG - Ounces of Silver"
 };
 
 ncc.allCurrencyOptions = {
-  "AUD" : "AUD-Australian Dollar",
-  "BTC" : "BTC-Bitcoins",
-  "EUR" : "EUR-Euro",
-  "GBP" : "GBP-British Pound",
-  "RUB" : "RUB-Russian Ruble",
-  "USD" : "USD-US Dollar",
-  "XAU" : "XAU-Ounces of Gold",
-  "XAG" : "XAG-Ounces of Silver",
-  "XNS" : "XNS-Ripple Stamps" 
+  "XNS" : "XNS - Ripple Stamps",
+  "USD" : "USD - US Dollar",
+  "EUR" : "EUR - Euro",
+  "BTC" : "BTC - Bitcoins",
+  "GBP" : "GBP - British Pound",
+  "AUD" : "AUD - Australian Dollar",
+  "RUB" : "RUB - Russian Ruble",
+  "XAU" : "XAU - Ounces of Gold",
+  "XAG" : "XAG - Ounces of Silver"
 };
 
 ncc.serverDown = function () {

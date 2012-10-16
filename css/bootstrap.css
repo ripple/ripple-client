@@ -651,12 +651,12 @@ input[type="tel"],
 input[type="color"],
 .uneditable-input {
   display: inline-block;
-  height: 18px;
+  height: 14px;
   padding: 4px;
-  margin-bottom: 9px;
-  font-size: 13px;
+  margin-bottom: 0px;
+  font-size: 12px;
   line-height: 18px;
-  color: #555555;
+  color: #333333;
 }
 input,
 textarea {
@@ -681,8 +681,9 @@ input[type="search"],
 input[type="tel"],
 input[type="color"],
 .uneditable-input {
-  background-color: #ffffff;
-  border: 1px solid #cccccc;
+/*  background-color: #ffffff;*/
+  background: #EEE url(ui-lightness/images/ui-bg_highlight-soft_100_eeeeee_1x100.png) 50% top repeat-x;
+  border: 1px solid #dddddd;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;

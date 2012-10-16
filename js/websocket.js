@@ -12,12 +12,12 @@ server.escape = function (str) {
 }
 
 server.handleMsg = function (msg) {
-  console.log(msg.data);
+  console.log("ws msg:", msg.data);
   
   var str = '';
   var obj = jQuery.parseJSON( msg.data );
   
-  if (obj) {
+  if (obj && obj.engine_result == "tesSUCCESS") {
     if (obj.type == "account") {
       HistoryPage.addTransaction(_.extend(Object.create(obj.transaction), obj), true);
     } else if (obj.type == "transaction") {

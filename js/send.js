@@ -1,12 +1,14 @@
 var SendPage = new (function () {
   var address, name, currency, amount;
+      // sendPageButton;
   
   function isValidAmount(amount, currency) {
     if (currency == 'XNS') {
-      return !(amount * BALANCE_DISPLAY_DIVISOR % 1) && (amount >= 0) && (amount < 100000000000);
+      return (amount * BALANCE_DISPLAY_DIVISOR % 1 == 0) && (amount > 0) && (amount < 100000000000);
     } else {
       try {
-        assert((new AmountValue(amount)).sign != '-');
+        var a = new AmountValue(amount);
+        assert(!a.isZero() && a.sign != '-');
         return true;
       } catch (e) {
         return false;
@@ -14,24 +16,50 @@ var SendPage = new (function () {
     }
   }
   
+  function undoClasses() {
+    this.classList.remove('ui-state-hover');
+    this.classList.remove('ui-state-active');
+  }
+  
+  function disableForm() {
+    sendPageButton.attr('disabled', true);
+    $("#t-send input").attr('disabled', true);
+    $("#t-send input.ui-autocomplete-input+button")
+      .each(function () { this.style.cursor = "not-allowed"; })
+      .on('hover mousedown', undoClasses);
+  }
+  
+  function enableForm() {
+    sendPageButton.attr('disabled', false);
+    $("#t-send input").attr('disabled', false);
+    $("#t-send input.ui-autocomplete-input+button")
+      .each(function () { this.style.cursor = "auto"; })
+      .off('hover mousedown', undoClasses);
+  }
+  
   this.onShowTab = function () {
     var recentSends = _.extend(
-      blobVault.getRecentSends(),
-      blobVault.addressBook.getEntries()
-    );
+          blobVault.getRecentSends(),
+          blobVault.addressBook.getEntries()
+        );
+    
+    sendPageButton = $("#SendPageButton")
     
     function onNewVal(e) {
       var sendDestVal = $("#SendDest").val();
-      address = $("#SendDestSelect").val() || sendDestVal,
-      name = blobVault.addressBook.getName(address) || '';
+      
+      address = $("#SendDestSelect").val() || sendDestVal;
+      name = $("#SendDestName").val() || blobVault.addressBook.getName(address);
       currency = $("#SendCurrency").val();
       amount = $("#SendAmount").val() * (currency == 'XNS' ? BALANCE_DISPLAY_DIVISOR : 1);
       
+      $("#SpacerRow").show();
       $("#AddressDisplayRow").hide();
       $("#SendDestNameRow").hide();
-      $("#SendPageButton").attr('disabled', false);
+      sendPageButton.attr('disabled', false);
       
-      if (ncc.misc.isValidAddress(address) && name != 'you' && isValidAmount(amount, currency)) {
+      if (ncc.misc.isValidAddress(address) && name != 'you') {
+        $("#SpacerRow").hide();
         if (address == sendDestVal) {
           // address in input box
           $("#SendDestNameRow").show();
@@ -41,10 +69,20 @@ var SendPage = new (function () {
           $("#AddressDisplayRow").show();
           $("#AddressDisplay").val(address)
         }
+        
+        if (!isValidAmount(amount, currency)) {
+          sendPageButton.attr('disabled', true);
+        }
       } else {
-        $("#SendPageButton").attr('disabled', true);
+        sendPageButton.attr('disabled', true);
       }
     }
+    
+    $("#t-send input").on('keydown', function (e) {
+      if (e.which == 13 && !$(this).autocomplete("widget").is(":visible") && !sendPageButton.attr('disabled')) {
+        sendPageButton.click();
+      }
+    });
     
     $("#SendDest").combobox({
       data: recentSends,
@@ -52,11 +90,9 @@ var SendPage = new (function () {
       button_title: 'Recently used addresses',
       onchange: onNewVal,
       onselect: onNewVal
-    }).on('input', onNewVal);
-      
-    $("#t-send").find("input, select").on('keydown', function (e) {
-        if (e.which == 13 && !$("#SendPageButton").attr('disabled')) $("#SendPageButton").click();
     });
+    
+    $("#t-send input").on('input', onNewVal);
     
     var select = $("#SendDestSelect");
     select.children("option[value!='']").remove();
@@ -79,8 +115,8 @@ var SendPage = new (function () {
       rpc.send(ncc.masterKey, ncc.accountID, address, String(amount), currency, ncc.accountID, SendPage.onSendResponse);
     }
     
-    $("#SendPageButton").attr('disabled', true).text("Sending...");
-    $("#t-send").find("input, select").attr('disabled', true);
+    sendPageButton.text("Sending...");
+    disableForm();
   }
 
   this.onSendResponse = function (response, success) {
@@ -114,14 +150,15 @@ var SendPage = new (function () {
         $("#SendDestNameRow").hide();
         $("#AddressDisplay").val('');
         $("#AddressDisplayRow").hide();
+        $("#SpacerRow").show();
       }
     } else {
       ncc.serverDown();
     }
     
     // re-enable form
-    $("#SendPageButton").text("Send Money");
-    $("#t-send").find("input, select").attr('disabled', false);
+    sendPageButton.text("Send Money");
+    enableForm();
     $("#SendDest").trigger('input');
   }
   
@@ -129,5 +166,9 @@ var SendPage = new (function () {
 
 
 $(document).ready(function () {
-  $("#SendCurrency").combobox({ data: ncc.allCurrencyOptions, selected: 'XNS' });
+  $("#SendCurrency").combobox({
+    data: ncc.allCurrencyOptions,
+    selected: 'XNS',
+    button_title: 'Select a currency'
+  });
 });

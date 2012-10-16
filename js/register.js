@@ -43,7 +43,16 @@ registerScreen.onSubmit = function () {
 };
 
 $(document).ready(function () {
-  $("#registerForm").submit(registerScreen.onSubmit);
-  $("#registerForm input[name=password]").passStrength({ userid: "#registerForm input[name=username]" });
-  $("#registerForm input[name=password2]").passEqual("#registerForm input[name=password]");
+  var form = $("#registerForm");
+  form.submit(registerScreen.onSubmit);
+  form.find("input[name=username]").validateWithRegex(/./, "Good", "Bad");
+  form.find("input[name=password]").passStrength({ userid: "#registerForm input[name=username]" });
+  form.find("input[name=password2]").passEqual("#registerForm input[name=password]");
+  form.find("input[name=pk]").validateWithRegex(/^$|^s\w{26,28}$/, "Reasonable", "Must starts with 's' and be 27-29 chars long");
+  
+  form.find('input').on('input', function () {
+    var nonEmpty = function () { return this.name == 'pk' || this.value.length; },
+        allFilled = _.all(form.find('input:text,input:password').map(nonEmpty));
+    form.find("input[type=submit]").attr('disabled', form.find("input+span.badPass").length || !allFilled);
+  })
 });

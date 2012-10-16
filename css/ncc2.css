@@ -48,6 +48,10 @@ a {
 	font-size: 9px;
 }
 
+#t-send tr {
+  height: 51px;
+}
+
 td.addr {
   font-family: monospace;
 }
@@ -58,4 +62,9 @@ td.name a {
 
 td button.save {
   display: none;
+}
+
+ul.ui-autocomplete.ui-menu.ui-widget.ui-widget-content {
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
 }

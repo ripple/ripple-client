@@ -46,7 +46,7 @@
   $.fn.resultStyle = "";
   
   $.fn.passEqual = function (selectOtherPass) {
-    $(this).unbind().keyup(function () {
+    $(this).unbind().on('input', function () {
       if (this.value != $(selectOtherPass).val()) {
         $(this).next(".testresult").remove();
         $(this).after("<span class='testresult'><span></span></span>");
@@ -59,10 +59,24 @@
     });
   };
   
+  $.fn.validateWithRegex = function (r, good, bad) {
+    $(this).unbind().on('input', function () {
+      $(this).next(".testresult").remove();
+      if (!this.value) return;
+      
+      if (r.test(this.value)) {
+        $(this).after($('<span>').addClass('strongPass testresult').html("<span>" +  good + "</span>"));
+      } else {
+        $(this).after("<span class='testresult'><span></span></span>");
+        $(this).next(".testresult").addClass("badPass").find("span").text(bad);
+      }
+    });
+  };
+  
   $.fn.passStrength = function(options) {
     var defaults = {
-      shortPass: "shortPass",   // optional
-      badPass: "badPass",       // optional
+      shortPass: "goodPass",   // optional
+      badPass: "goodPass",       // optional
       goodPass: "goodPass",     // optional
       strongPass: "strongPass", // optional
       baseStyle: "testresult",  // optional
@@ -75,7 +89,7 @@
     return this.each(function() {
       var obj = $(this);
       
-      $(obj).unbind().keyup(function() {
+      $(obj).unbind().on('input', function() {
       
         var results = $.fn.teststrength($(this).val(), $(opts.userid).val(), opts);
         

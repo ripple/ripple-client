@@ -194,13 +194,29 @@
           <div class="page-content">
             <form id="registerForm">
               <table>
-                <tr><td class="span2">Username</td><td valign='middle'><input name="username" type="text" class="span4"></td></tr>
-                <tr><td class="span2">Password</td><td valign='middle'><input name="password" type="password" class="span4" style="float:left;"></td></tr>
-                <tr><td class="span2">Repeat password</td><td valign='middle'><input name="password2" type="password" class="span4" style="float:left;"></td></tr>
-                <tr><td class="span2">Private key</td><td valign='middle'><input name="pk" type="text" placeholder="(optional)" class="span4"></td></tr>
+                <tr>
+                  <td class="span2">Username</td>
+                  <td valign='middle'><input name="username" type="text" class="span4" style="float:left;" /></td>
+                  </tr>
+                <tr>
+                  <td class="span2">Password</td>
+                  <td valign='middle'><input name="password" type="password" class="span4" style="float:left;"></td>
+                </tr>
+                <tr>
+                  <td class="span2">Repeat password</td>
+                  <td valign='middle'><input name="password2" type="password" class="span4" style="float:left;"></td>
+                </tr>
+                <tr>
+                  <td class="span2">Private key</td>
+                  <td valign='middle'>
+                    <input name="pk" type="text" placeholder="(optional)" style="float:left;" class="span4">
+                  </td>
+                </tr>
               </table>
               
-              <div class="bottom-btn"> <input type="submit" value="Register &amp; Login" class="btn btn-large btn-success" /></div>
+              <div class="bottom-btn">
+                <input type="submit" value="Register &amp; Login" class="btn btn-large btn-success" disabled />
+              </div>
             </form>
           </div>
         </section>
@@ -238,13 +254,18 @@
                   <td colspan=2><input id="SendDestName" type="text" class="span3" placeholder="(optional)" /></td>
                 </tr>
                 <tr id="AddressDisplayRow" style="display:none">
-                  <td class="span2">Associated address:</td>
+                  <td class="span2">Address:</td>
                   <td colspan=2><input id="AddressDisplay" type="text" class="span3" readonly></td>
+                </tr>
+                <tr id="SpacerRow">
+                  <td colspan=3>&nbsp;</td>
                 </tr>
               </table>
               
               <div class="bottom-btn">
-                <button id="SendPageButton" disabled class="btn btn-large btn-success" onclick="SendPage.send()">Send Money</button>
+                <button id="SendPageButton" disabled class="btn btn-large btn-success" onclick="SendPage.send()">
+                  Send Money
+                </button>
               </div>
            </div>
         </section>
@@ -270,7 +291,9 @@
             <div class="row">
               <fieldset class="span6">
                 <legend>Add Credit Line</legend>
-                Adding a credit line enables you to hold other people's IOUs. Adding a credit line doesn't mean they owe you that much money. It only gives them the potential to owe you that much money.
+                Adding a credit line enables you to hold other people's IOUs.
+                Adding a credit line doesn't mean they owe you that much money.
+                It only gives them the potential to owe you that much money.
                 <p>
                   <table>
                     <tr>
@@ -288,7 +311,9 @@
                   </table>
                 </p>
                 <div class="bottom-btn">
-                  <button id="AddCreditLineButton" class="btn btn-info" onclick="RipplePage.addLine()">Add Credit Line</button>
+                  <button id="AddCreditLineButton" class="btn btn-info" onclick="RipplePage.addLine()">
+                    Add Credit Line
+                  </button>
                 </div>
               </fieldset>
             </div>

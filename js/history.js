@@ -48,7 +48,7 @@ var HistoryPage = new (function () {
         fromAcct = t.Account,
         fromName = blobVault.addressBook.getName(fromAcct) || "",
         
-        entry = ( '<td>' + (t.inLedger || t.ledger_closed_index) + '</td>' +
+        entry = ( '<td>' + (t.inLedger || t.ledger_current_index || t.ledger_closed_index) + '</td>' +
                   '<td>' + t.TransactionType + '</td>' +
                   '<td class="addr" data-acct='+ fromAcct + ' data-name="' + fromName + '">' +
                     '<span>' + (fromName || fromAcct) + '</span>' +
