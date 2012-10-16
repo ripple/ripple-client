@@ -1,6 +1,5 @@
 var SendPage = new (function () {
   var address, name, currency, amount;
-      // sendPageButton;
   
   function isValidAmount(amount, currency) {
     if (currency == 'XNS') {
@@ -14,27 +13,6 @@ var SendPage = new (function () {
         return false;
       }
     }
-  }
-  
-  function undoClasses() {
-    this.classList.remove('ui-state-hover');
-    this.classList.remove('ui-state-active');
-  }
-  
-  function disableForm() {
-    sendPageButton.attr('disabled', true);
-    $("#t-send input").attr('disabled', true);
-    $("#t-send input.ui-autocomplete-input+button")
-      .each(function () { this.style.cursor = "not-allowed"; })
-      .on('hover mousedown', undoClasses);
-  }
-  
-  function enableForm() {
-    sendPageButton.attr('disabled', false);
-    $("#t-send input").attr('disabled', false);
-    $("#t-send input.ui-autocomplete-input+button")
-      .each(function () { this.style.cursor = "auto"; })
-      .off('hover mousedown', undoClasses);
   }
   
   this.onShowTab = function () {
@@ -116,7 +94,7 @@ var SendPage = new (function () {
     }
     
     sendPageButton.text("Sending...");
-    disableForm();
+    ncc.misc.forms.disable('#t-send');
   }
 
   this.onSendResponse = function (response, success) {
@@ -137,8 +115,11 @@ var SendPage = new (function () {
         sel.find("option[value=" + toAccount + "]").remove();
         sel.prepend(new Option(name || toAccount, toAccount));
         
-        address = '';
-        name = '';
+        // clean up
+        delete address;
+        delete name;
+        delete currency;
+        delete amount;
         
         $("#SendDest").val('');
         $("#SendAmount").val('');
@@ -152,9 +133,8 @@ var SendPage = new (function () {
       ncc.serverDown();
     }
     
-    // re-enable form
     sendPageButton.text("Send Money");
-    enableForm();
+    ncc.misc.forms.enable('#t-send');
     $("#SendDest").trigger('input');
   }
   

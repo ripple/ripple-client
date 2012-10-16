@@ -420,10 +420,37 @@ ncc.misc.syntaxHighlight = function syntaxHighlight(json) {
     return json.replace(
       /("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g,
       function (match) {
-        var cls = /^"/.test(match) ? (/:"?$/.test(match) ? 'key': 'string')
+        var cls = /^"/.test(match) ? (/"?:$/.test(match) ? 'key': 'string')
                                    : /true|false/.test(match) ? 'boolen'
                                                               : /null/.test(match) ? 'null' : 'number';
         return '<span class="' + cls + '">' + match + '</span>';
       }
     );
 }
+
+ncc.misc.forms = (function () {
+  function undoClasses() {
+    this.classList.remove('ui-state-hover');
+    this.classList.remove('ui-state-active');
+  }
+  
+  return {
+    disable: function (f) {
+      var $f = $(f)
+      $f.find('button').attr('disabled', true);
+      $f.find("input").attr('disabled', true);
+      $f.find("input.ui-autocomplete-input+button").each(function() {
+        this.style.cursor = "not-allowed";
+      }).on('hover mousedown', undoClasses);
+    },
+
+    enable: function (f) {
+      var $f = $(f);
+      $f.find('button').attr('disabled', false);
+      $f.find("input").attr('disabled', false);
+      $f.find("input.ui-autocomplete-input+button").each(function() {
+        this.style.cursor = "auto";
+      }).off('hover mousedown', undoClasses);
+    }
+  };
+})();
