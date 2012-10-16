@@ -65,7 +65,6 @@ var RipplePage = new (function () {
   this.getLinesResponse = function (response, success) {
     if (success) {
       ncc.checkError(response);
-      ncc.status(JSON.stringify(response));
       
       if (response.result.lines) {
         RipplePage.lines = _.object(
@@ -110,7 +109,6 @@ var RipplePage = new (function () {
     
     if (success) {
       ncc.checkError(res);
-      ncc.status(JSON.stringify(res));
       
       blobVault.updateRecentSends(address);
       blobVault.save();

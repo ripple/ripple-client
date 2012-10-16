@@ -48,7 +48,7 @@ server.connect = function () {
   try {
     server.socket = new WebSocket("ws://" + Options.WS_SERVER + "/");
     
-    server.socket.onopen = function () { ncc.status("Connected to websocket");  }
+    server.socket.onopen = function () { ncc.status("connected to websocket");  }
     server.socket.onmessage = server.handleMsg;
     server.socket.onclose = function () { ncc.error("Disconnected from websocket");  }
   } catch (exception) {

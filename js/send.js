@@ -120,8 +120,6 @@ var SendPage = new (function () {
   }
 
   this.onSendResponse = function (response, success) {
-    console.log("Send response:", JSON.stringify(response));
-
     if (success) {
       if (!ncc.checkError(response)) {
         var toAccount = response.result.dstAccountID,
@@ -139,8 +137,6 @@ var SendPage = new (function () {
         sel.find("option[value=" + toAccount + "]").remove();
         sel.prepend(new Option(name || toAccount, toAccount));
         
-        ncc.status( $("#SendAmount").val() + ' ' + curr + ' sent to ' + (name ? name + ' @ ' + toAccount : toAccount) );
-        
         address = '';
         name = '';
         
@@ -151,7 +147,7 @@ var SendPage = new (function () {
         $("#AddressDisplay").val('');
         $("#AddressDisplayRow").hide();
         $("#SpacerRow").show();
-      }
+        }
     } else {
       ncc.serverDown();
     }

@@ -23,7 +23,7 @@ rpc.call = function (request, callback) {
     url: rpc.url,
     data: JSON.stringify(request),
     success: function (x) { 
-      // console.log("<-", request.method, ":", x);
+      ncc.status("RPC call to '" + request.method + "' command successful ", x);
       callback(x, true);
     },
     error: function (x) {
@@ -33,7 +33,6 @@ rpc.call = function (request, callback) {
     dataType: "json"
   });
 };
-
 
 // key paying_account account_id amount [currency] [issuer] [send_max] [send_currency] [send_issuer] callback
 rpc.send = function () {

@@ -46,7 +46,7 @@ $.widget("ui.combobox", {
           defaultOption.selected = true;
         }
       });
-
+      
       var a = input.data('autocomplete'),
           m = a.menu,
           es = m.element.find('li:visible');
@@ -54,6 +54,7 @@ $.widget("ui.combobox", {
       if ((e.which == 13 && es.length) || (es.length == 1 && (new RegExp(es.eq(0).text(), "i")).test(input.val()))) {
         m.active = m.active || es.eq(0);
         m.select(event);
+        e.preventDefault();
       }
     }
     

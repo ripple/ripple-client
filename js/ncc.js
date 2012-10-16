@@ -63,19 +63,30 @@ ncc.checkError = function (response) {
   return ret;
 }
 
-ncc.status = function (str) {
-  if (str) {
-    $('#StatusDiv').show();
-    $('#status').text(str);
-  } else {
-    $('#StatusDiv').hide();
+ncc.status = function (title, json) {
+  $('#StatusDiv').toggle(Boolean(title || json));
+  
+  if (title) $('#StatusDiv p span').text("INFO: " + title);
+  else $('#StatusDiv p span').text('INFO');
+
+  try {
+    $('#StatusDiv pre.json').html(
+      ncc.misc.syntaxHighlight(
+        JSON.stringify(json, undefined, 2)
+      )
+    );
+    $('#StatusDiv button').show();
+  } catch (e) {
+    $('#status.json').html('');
+    $('#StatusDiv button').hide();
   }
-}
+};
 
 ncc.error = function (str) {
+  try { str = ncc.misc.syntaxHighlight(JSON.stringify(JSON.parse(str), undefined, 2)); } catch (e) {}
   if (str) {
     $('#ErrorDiv').show();
-    $('#error').text(str);
+    $('#error').html(str);
   } else {
     $('#ErrorDiv').hide();
   }
@@ -404,3 +415,15 @@ ncc.misc.isValidAddress = (function () {
   return function (a) { return r.test(a); }
 })();
 
+ncc.misc.syntaxHighlight = function syntaxHighlight(json) {
+    json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    return json.replace(
+      /("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g,
+      function (match) {
+        var cls = /^"/.test(match) ? (/:"?$/.test(match) ? 'key': 'string')
+                                   : /true|false/.test(match) ? 'boolen'
+                                                              : /null/.test(match) ? 'null' : 'number';
+        return '<span class="' + cls + '">' + match + '</span>';
+      }
+    );
+}

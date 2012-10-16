@@ -68,3 +68,19 @@ ul.ui-autocomplete.ui-menu.ui-widget.ui-widget-content {
   border-top-left-radius: 0px;
   border-top-right-radius: 0px;
 }
+
+#StatusDiv p {
+  margin-bottom: 0;
+}
+
+.alert-heading {
+  font-family: monospace;
+}
+
+pre.json {outline: 1px solid #ccc; padding: 5px; margin: 5px; }
+pre.json .string { color: green; }
+pre.json .number { color: #006; }
+pre.json .boolean { color: #006; }
+pre.json .null { color: #66F; }
+pre.json .key { color: #030; } /* dark green */
+
