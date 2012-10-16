@@ -595,12 +595,17 @@
       <!-- ENDS TAB-CONTENT -->
       
       <div id="ErrorDiv" class="alert alert-error ncc-alert stick-bottom">
-             <p><strong class="alert-heading">Warning!</strong></p>
-             <span id="error"><span>
+        <p><strong class="alert-heading">Warning!</strong></p>
+        <pre id="error" class="json"></pre>
       </div>
+      
       <div id="StatusDiv" class="alert alert-info ncc-alert stick-bottom">
-             <p><strong class="alert-heading">Info</strong></p>
-             <span id="status"><span>
+        <p>
+          <span class="alert-heading">INFO</span>
+          <button onclick="this.innerText=$('#StatusDiv pre.json').toggle().is(':visible')?'-':'+';" >+</button>
+        </p>
+        <pre id="status" class="json" style='display:none;'></pre>
+        
       </div>
       
     </div>
