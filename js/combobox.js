@@ -37,6 +37,7 @@ $.widget("ui.combobox", {
     var selected = select.children(":selected"),
         value = selected.val() ? selected.text() : "";
     
+    // input definition
     input.val(value)
       .on('blur', function () {
         if (!self.select.val() && self.options.strict) {
@@ -59,7 +60,6 @@ $.widget("ui.combobox", {
             // e.preventDefault();
           }
         }
-        e.stopImmediatePropagation();
       })
       .autocomplete({
         delay: 0,
@@ -174,6 +174,9 @@ $.widget("ui.combobox", {
     if (self.select.val()) {
       self.input.autocomplete("close");
       e && e.stopImmediatePropagation();
+      setTimeout(function () {
+        self.input.autocomplete("close");
+      }, 100);
     }
   },
   

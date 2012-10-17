@@ -152,15 +152,18 @@ var RipplePage = new (function () {
         max = 0;
     
     // TODO(cleanup): use _.max
-    RipplePage.lines.each(function (line) {
-      if (line.currency == currency) {
-        var left = line.limit - line.balance;
-        if (left > max) {
-          max = left;
-          bestAccount = line.account;
+    _.each(,
+      RipplePage.lines,
+      function (line) {
+        if (line.currency == currency) {
+          var left = line.limit - line.balance;
+          if (left > max) {
+            max = left;
+            bestAccount = line.account;
+          }
         }
       }
-    });
+    );
     
     return({ 'accountID' : bestAccount , 'max' : max }); 
   }  
