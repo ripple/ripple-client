@@ -87,6 +87,7 @@ $.widget("ui.combobox", {
           ui.item.option.selected = true;
           input.val(ui.item.value);
           self._trigger("onchange", event, { item: ui.item.option });
+          self._trigger("onselect");
         },
         
         autocomplete : function (value) {
@@ -172,11 +173,11 @@ $.widget("ui.combobox", {
     }
     
     if (self.select.val()) {
-      self.input.autocomplete("close");
+      self._trigger("onselect");
       e && e.stopImmediatePropagation();
       setTimeout(function () {
         self.input.autocomplete("close");
-      }, 100);
+      }, 1);
     }
   },
   
