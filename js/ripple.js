@@ -152,7 +152,7 @@ var RipplePage = new (function () {
         max = 0;
     
     // TODO(cleanup): use _.max
-    _.each(,
+    _.each(
       RipplePage.lines,
       function (line) {
         if (line.currency == currency) {
