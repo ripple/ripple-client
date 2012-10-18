@@ -69,7 +69,7 @@
           <li><a href="#t-deposit" data-toggle="tab" style="display:none">Welcome!</a></li>
           <li><a href="#t-send" data-toggle="tab">Send Money</a></li>
           <li><a href="#t-receive" data-toggle="tab">Receive Money</a></li>
-          <li><a href="#t-ripple" data-toggle="tab">Ripple</a></li>
+          <li><a href="#t-ripple" data-toggle="tab">Trust Network</a></li>
           <li><a href="#t-history" data-toggle="tab">History</a></li>
           <li><a href="#t-address" data-toggle="tab">Address Book</a></li>
           <li class="secondary-tab pull-right"><a onclick="ncc.toggleAdvanced(this)">Show Advanced <b class="caret"></b></a></li>
@@ -291,14 +291,13 @@
         
         <!-- RIPPLE SECTION -->
         <section class="tab-pane" id="t-ripple">
-          <div class="heading">Ripple</div>
+          <div class="heading">Trust Network</div>
           <div class="page-content">
             <div class="row">
               <fieldset class="span6">
-                <legend>Add Credit Line</legend>
-                Adding a credit line enables you to hold other people's IOUs.
-                Adding a credit line doesn't mean they owe you that much money.
-                It only gives them the potential to owe you that much money.
+                <legend>Grant Trust</legend>
+                Granting trust enables you to hold other people's IOUs.
+                When you grant an account trust you are allowed to hold that many of the account's IOUs.
                 <p>
                   <table>
                     <tr>
@@ -317,16 +316,16 @@
                 </p>
                 <div class="bottom-btn">
                   <button id="AddCreditLineButton" class="btn btn-info" onclick="RipplePage.submitForm()">
-                    Add Credit Line
+                    Grant Trust
                   </button>
                 </div>
               </fieldset>
             </div>
             <div class="row">
               <fieldset class="span5">
-                <legend>Ripple Lines</legend>
+                <legend>Trust Levels</legend>
                 <table class="table table-striped">
-                  <tr><th>Min</th><th>Balance</th><th>Max</th><th>Account</th><th></th><th></th></tr>
+                  <tr><th>They Granted</th><th>Balance</th><th>You Granted</th><th>Account</th><th></th><th></th></tr>
                   <tbody id="RippleTable"></tbody>
                 </table>
               </fieldset>
@@ -494,7 +493,7 @@
                   <td class="span4"><input id="PlaceOrderAmount" type="text"></td>
                 </tr>
                 <tr>
-                  <td class="span2">Price:</td>
+                  <td class="span2">Price of Each:</td>
                   <td class="span4"><input id="PlaceOrderPrice" type="text"></td>
                 </tr>
               </table>
@@ -581,7 +580,7 @@
                 <legend id="OrderBookBidsLegend">Buying X/Y (bids)</legend>
                 <table class="table table-striped">
                   <tr>
-                    <th>Price</th>
+                    <th>Unit Price</th>
                     <th>Amount</th>
                     <th>Sum</th>
                     <th>Issuer In</th>

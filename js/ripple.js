@@ -95,7 +95,7 @@ var RipplePage = new (function () {
         ncc.changeBalance(line.currency, line.balance);
         rippleLinesTable.prepend(
           '<tr>' + 
-            '<td>' + (-line.limit_peer) + '</td>' +
+            '<td>' + (line.limit_peer) + '</td>' +
             '<td>' + line.balance + ' ' + line.currency + '</td>' +
             '<td>' + line.limit + '</td>' +
             '<td>' + (blobVault.addressBook.getName(line.account) || line.account) + '</td>' +
