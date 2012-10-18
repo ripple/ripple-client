@@ -39,11 +39,12 @@ var HistoryPage = new (function () {
     
     var oldEntry = $('#' + t.hash),
         
+        fromAcct = t.Account,
+        fromName = blobVault.addressBook.getName(fromAcct),
+
         toAcct = t.Destination,
         toName = blobVault.addressBook.getName(toAcct),
         
-        fromAcct = t.Account,
-        fromName = blobVault.addressBook.getName(fromAcct),
         
         // no button if name matches one of these
         noBut = { 'you': 1, 'undefined': 1};
@@ -56,11 +57,11 @@ var HistoryPage = new (function () {
                   '<td>' + t.TransactionType + '</td>' +
                   '<td class="addr" data-acct='+ fromAcct + ' data-name="' + fromName + '">' +
                     '<span>' + (fromName || fromAcct) + '</span>' +
-                    (fromName in noBut ? '' : editButtons) +
+                    ((fromName || fromAcct) in noBut ? '' : editButtons) +
                   '</td>' +
                   '<td class="addr" data-acct='+ toAcct + ' data-name="' + toName + '">' +
                     '<span>' + (toName || toAcct) + '</span>' +
-                    (toName in noBut ? '' : editButtons) +
+                    ((toName || toAcct) in noBut ? '' : editButtons) +
                   '</td>' +
                   '<td>' + amount + '</td>' +
                   '<td>' + t.status + '</td>' );
