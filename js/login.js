@@ -33,6 +33,8 @@ loginScreen.finishLogin = function () {
   $('#InfoMasterKey').text(ncc.masterKey);
   $('#InfoBackupBlob').val(blobVault.blob);
   
+  server.accountSubscribe(ncc.accountID);
+  
   rpc.wallet_accounts(
     ncc.masterKey,
     function (res, noErrors) {
@@ -40,7 +42,6 @@ loginScreen.finishLogin = function () {
       ncc.processAccounts(res.accounts || []);
       ncc.onLogIn();
       $('#ClientState').text('Logged in. Running');
-      
       if (!noErrors) {
         ncc.displayTab("deposit");
         ncc.displayScreen("deposit");

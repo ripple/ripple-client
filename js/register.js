@@ -14,9 +14,7 @@ registerScreen.onSubmit = function () {
   
   function save_and_login() {
     blobVault.save();
-    blobVault.login(user, pass, '', loginScreen.finishLogin, function onFailure(e) {
-      ncc.error(e);
-    });
+    blobVault.login(user, pass, '', loginScreen.finishLogin, ncc.error);
   }
   
   if (user && pass) {
@@ -25,14 +23,12 @@ registerScreen.onSubmit = function () {
       ncc.masterKey = blobVault.data.master_seed = form.pk.value;
       save_and_login();
     } else {
-      rpc.wallet_propose(function (res, success) {
+      rpc.wallet_propose(function (res, noErrors) {
         res = res.result || res;
-        if (success) {
+        if (noErrors) {
           ncc.masterKey = blobVault.data.master_seed = res.master_seed;
           ncc.accountID = blobVault.data.account_id = res.account_id;
           save_and_login();
-        } else {
-          ncc.serverDown();
         }
       });
     }

@@ -12,7 +12,8 @@ server.escape = function (str) {
 }
 
 server.handleMsg = function (msg) {
-  console.log("ws msg:", msg.data);
+  ncc.status("WS message:" + msg.engine_result_message, msg);
+  console.log("WS message:", msg.data);
   
   var str = '';
   var obj = jQuery.parseJSON( msg.data );
