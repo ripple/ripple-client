@@ -314,7 +314,10 @@ ncc.onLogIn = function () {
   }
   
   $('#MainNav a[href="#t-send"]').tab('show');
-  rpc.ripple_lines_get(ncc.accountID, RipplePage.getLinesResponse);
+  rpc.ripple_lines_get(ncc.accountID, function (res, noErrors) {
+    RipplePage.getLinesResponse(res, noErrors);
+    ncc.error('');
+  });
 }
 
 ncc.onLogOut = function ()
@@ -335,7 +338,6 @@ ncc.onLogOut = function ()
 }
 
 $(document).ready(function () {
-          
   $("#t-send").on("show", SendPage.onShowTab);
   $("#t-login").on("show", loginScreen.onShowTab);
   $("#t-ripple").on("show", RipplePage.onShowTab );
