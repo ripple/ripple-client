@@ -41,12 +41,13 @@ $.widget("ui.combobox", {
     input.val(value)
       .on('blur', function () {
         if (!self.select.val() && self.options.strict) {
-          self.input.val('');
+          self.select.val(self.options.selected);
+          self.input.val(select.children(":selected").text());
           self._trigger("onchange");
         }
       })
-      .on('input', function (e) {
-        self.cleanup(e);
+      .on('input', function () {
+        self.cleanup();
       })
       .on('keydown', function (e) {
         if (e.which == 13) {
@@ -87,6 +88,7 @@ $.widget("ui.combobox", {
           ui.item.option.selected = true;
           input.val(ui.item.value);
           self._trigger("onchange", event, { item: ui.item.option });
+          self._trigger("onselect");
         },
         
         autocomplete : function (value) {
@@ -94,21 +96,23 @@ $.widget("ui.combobox", {
           input.val(value);
         },
         
-        change: function (event, ui) {
-          self.cleanup();
-        },
+        change: function (event, ui) {},
         
         open: function (event, ui) {
           input.stop();
           input.animate({'borderBottomLeftRadius': 0});
           self.widget = $(this).autocomplete('widget');
         },
+        
         close: function (event, ui) {
           input.stop();
           input.animate({'borderBottomLeftRadius': borderRadius });
           delete self.widget;
         }
         
+      })
+      .on('input', function () {
+        self._trigger("onchange");
       })
       .addClass("ui-widget-content ui-corner-left"); // ui-widget
     
@@ -148,7 +152,7 @@ $.widget("ui.combobox", {
       });
   },
   
-  cleanup: function (e) {
+  cleanup: function () {
     var self = this,
         selectVal = self.select.val(),
         matcher = new RegExp("^" + $.ui.autocomplete.escapeRegex(self.input.val()) + "$", "i");
@@ -167,13 +171,8 @@ $.widget("ui.combobox", {
       }
     });
     
-    if (self.select.val() != selectVal) {
-      self._trigger("onchange");
-    }
-    
     if (self.select.val()) {
-      self.input.autocomplete("close");
-      e && e.stopImmediatePropagation();
+      self._trigger("onselect");
       setTimeout(function () {
         self.input.autocomplete("close");
       }, 100);
