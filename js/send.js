@@ -9,7 +9,7 @@ var SendPage = new (function () {
   
   function onFieldsUpdated() {
     address = destElem.value();
-    name = nameElem.val() || blobVault.addressBook.getName(address);
+    name = blobVault.addressBook.getName(address) || "";
     currency = currElem.value();
     amount = amntElem.val() * (currency == 'XNS' ? BALANCE_DISPLAY_DIVISOR : 1);
     
@@ -77,8 +77,6 @@ var SendPage = new (function () {
   }
   
   this.send = function () {
-    name = nameElem.val() || name;
-    
     if (currency == 'XNS') {
       rpc.send(ncc.masterKey, ncc.accountID, address, String(amount), currency, SendPage.onSendResponse);
     } else {
@@ -91,11 +89,11 @@ var SendPage = new (function () {
   
   this.onSendResponse = function (res, noError) {
     res = res.result || res;
-    
     if (noError) {
       var toAccount = res.dstAccountID,
           curr = res.dstISO;
       
+      name = nameElem.val() || name;
       if (name) {
         blobVault.addressBook.setEntry(name, toAccount);
       }
