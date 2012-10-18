@@ -1,0 +1,26 @@
+circle.node {
+  stroke: #fff;
+  stroke-width: 1.5px;
+}
+
+line.link {
+  stroke: #999;
+  stroke-opacity: .6;
+  marker-end: "url(#Triangle)";
+}
+
+path {
+		    stroke: steelblue;
+		    stroke-width: 2;
+		    fill: none;
+		}
+
+line {
+    stroke: black;
+}
+
+text {
+    font-family: Arial;
+    font-size: 9pt;
+}
+

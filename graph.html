@@ -1,0 +1,37 @@
+<html>
+<head>    
+<title>Ripple Credit Graph</title>
+
+ <link href="css/graph.css" rel="stylesheet">
+ 
+</head>
+<body>
+Current Ripple Credit lines
+
+
+<div>
+<svg id="TestSVG" >
+  <defs>
+    <marker id="Triangle"
+      viewBox="0 0 10 10" refX="30" refY="5" 
+      markerUnits="strokeWidth"
+      markerWidth="4" markerHeight="3"
+      orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" />
+    </marker>
+  </defs> 
+</svg>
+</div>
+<div id="NodeData"></div>
+
+<script src="js/lib/jquery.js"></script>
+  <script src="js/lib/underscore.js"></script>
+<script src="http://d3js.org/d3.v2.js"></script>
+<script src="config.js"></script>
+<script src="js/types.js"></script>
+  <script src="js/datastore.js"></script>
+  <script src="js/misc.js"></script>
+  <script src="js/rpc.js"></script>
+  <script src="js/graph.js"></script>
+</body>
+</html>

@@ -13,8 +13,8 @@ rpc.handleResponse = function (req, callback, response) {
       err = res.error_message || res.error || res.error_code;
   
   if (err) {
-    ncc.status(null);
-    ncc.error(err, { response: response, request: req });
+   ncc.status(null);
+   ncc.error(err, { response: response, request: req });
     callback(response, false);
   } else {
     ncc.error(null);
@@ -22,6 +22,7 @@ rpc.handleResponse = function (req, callback, response) {
       "RPC call to '" + req.method + "' command successful ",
       { response: res, request: req }
     );
+    
     callback(res, true);
   }
 };
