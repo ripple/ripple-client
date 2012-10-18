@@ -12,15 +12,17 @@ server.escape = function (str) {
 }
 
 server.handleMsg = function (msg) {
-  ncc.status("WS message:" + msg.engine_result_message, msg);
-  console.log("WS message:", msg.data);
+  var obj = jQuery.parseJSON(msg.data),
+      str = '';
   
-  var str = '';
-  var obj = jQuery.parseJSON( msg.data );
+  ncc.status("WS message: " + obj.engine_result_message, obj);
+  console.log("WS message: ", msg.data);
   
   if (obj && obj.engine_result == "tesSUCCESS") {
     if (obj.type == "account") {
-      HistoryPage.addTransaction(_.extend(Object.create(obj.transaction), obj), true);
+      var tx = _.extend(Object.create(obj.transaction), obj);
+      ncc.trigger('transaction', tx)
+      HistoryPage.addTransaction(tx, true);
     } else if (obj.type == "transaction") {
       var amount = ncc.displayAmount(server.escape(obj.transaction.Amount));
       str = '<div class="transFeedMsg">' + server.escape(obj.transaction.Account) + ' sent ' + amount + 'NC to ' + server.escape(obj.transaction.Destination) + '</div>';

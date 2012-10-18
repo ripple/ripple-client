@@ -11,11 +11,13 @@ loginScreen.onShowTab = function () {
 };
 
 loginScreen.login = function () {
+  var that = this;
   blobVault.login(
     this.username.value,
     this.password.value,
     this.blob.value,
     function success() {
+      ncc.user = that.username.value;
       ncc.masterKey = blobVault.data.master_seed;
       ncc.accountID = blobVault.data.account_id;
       loginScreen.finishLogin();
@@ -41,7 +43,10 @@ loginScreen.finishLogin = function () {
       res = res.result || res;
       ncc.processAccounts(res.accounts || []);
       ncc.onLogIn();
-      $('#ClientState').text('Logged in. Running');
+      $('#ClientState').html(
+        'Logged in as ' + ncc.user +
+        '. <a href="#" onclick="document.location=\'\'">Sign out</a>.'
+      );
       if (!noErrors) {
         ncc.displayTab("deposit");
         ncc.displayScreen("deposit");
@@ -56,6 +61,16 @@ loginScreen.logout = function () {
   $('#Balance').text('');
   $('#RecvAddress').text('');
   $('#RecvAddress2').text('');
+};
+
+var depositScreen = {};
+
+depositScreen.onShowTab = function () {
+  ncc.on('transaction', function () {
+    $("#t-deposit p").text("Well done!");
+    $("#t-deposit div.heading").text("Deposit complete!");
+    ncc.hideTab('deposit')
+  });
 };
 
 $(document).ready(function () {

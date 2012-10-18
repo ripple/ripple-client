@@ -73,6 +73,10 @@ ul.ui-autocomplete.ui-menu.ui-widget.ui-widget-content {
   margin-bottom: 0;
 }
 
+#ClientState a {
+  color: #bbb;
+}
+
 .alert-heading {
   font-family: monospace;
 }

@@ -26,6 +26,7 @@ registerScreen.onSubmit = function () {
       rpc.wallet_propose(function (res, noErrors) {
         res = res.result || res;
         if (noErrors) {
+          ncc.user = user;
           ncc.masterKey = blobVault.data.master_seed = res.master_seed;
           ncc.accountID = blobVault.data.account_id = res.account_id;
           save_and_login();

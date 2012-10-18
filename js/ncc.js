@@ -15,7 +15,7 @@ much later:
   multiple accounts
 */
 
-var ncc = {};
+var ncc = $('body');
 
 ncc.currentView = '#StartScreen';
 ncc.masterKey = '';
@@ -114,6 +114,10 @@ ncc.displayScreen = function (s) {
 
 ncc.displayTab = function (s) {
   $('.nav.nav-tabs:visible a[href="#t-' + s + '"]').show();
+}
+
+ncc.hideTab = function (s) {
+  $('.nav.nav-tabs:visible a[href="#t-' + s + '"]').hide();
 }
 
 ncc.processAccounts = function (accounts)
@@ -352,6 +356,7 @@ $(document).ready(function () {
   $("#t-trade").on("show", trade.onShowTab);
   $("#t-options").on("show", OptionsPage.onShowTab); 
   $("#t-welcome").on("show", welcomeScreen.onShowTab);
+  $("#t-deposit").on("show", depositScreen.onShowTab);
   
   ncc.onLogOut();
   $('#AdvancedNav').hide();
