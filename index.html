@@ -291,14 +291,13 @@
         
         <!-- RIPPLE SECTION -->
         <section class="tab-pane" id="t-ripple">
-          <div class="heading">Ripple</div>
+          <div class="heading">Trust Network</div>
           <div class="page-content">
             <div class="row">
               <fieldset class="span6">
-                <legend>Add Credit Line</legend>
-                Adding a credit line enables you to hold other people's IOUs.
-                Adding a credit line doesn't mean they owe you that much money.
-                It only gives them the potential to owe you that much money.
+                <legend>Grant Trust</legend>
+                Granting trust enables you to hold other people's IOUs.
+                When you grant an account trust you are allowed to hold that many of the account's IOUs.
                 <p>
                   <table>
                     <tr>
@@ -317,16 +316,16 @@
                 </p>
                 <div class="bottom-btn">
                   <button id="AddCreditLineButton" class="btn btn-info" onclick="RipplePage.submitForm()">
-                    Add Credit Line
+                    Grant Trust
                   </button>
                 </div>
               </fieldset>
             </div>
             <div class="row">
               <fieldset class="span5">
-                <legend>Ripple Lines</legend>
+                <legend>Trust Levels</legend>
                 <table class="table table-striped">
-                  <tr><th>Min</th><th>Balance</th><th>Max</th><th>Account</th><th></th><th></th></tr>
+                  <tr><th>They Granted</th><th>Balance</th><th>You Granted</th><th>Account</th><th></th><th></th></tr>
                   <tbody id="RippleTable"></tbody>
                 </table>
               </fieldset>
