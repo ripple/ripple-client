@@ -1,3 +1,5 @@
+// This tab should list all the transactions you have done with any of your accounts
+
 var HistoryPage = new (function () {
   var hist = {};
   
@@ -8,6 +10,7 @@ var HistoryPage = new (function () {
     });
   };
 
+  //<table class="dataTable" ><tr><th>#</th><th>Ledger</th><th>Source</th><th>Destination</th><th>Amount</th><th>Status</th></tr><tbody id="HistoryTable"></tbody></table>
   this.onHistoryResponse = function (res, noError) {
     res = res.result || res;
     if (noError && res) {
@@ -28,6 +31,8 @@ var HistoryPage = new (function () {
   this.renderTransaction = function (t, adjust) {
     if (t.TransactionType == 'CreditSet') {
       var amount = ncc.displayAmount(t.LimitAmount.value);
+    } else if (t.TransactionType == 'OfferCreate') {
+      return;
     } else {
       var amount = ncc.displayAmount(t.Amount);
     }

@@ -21,10 +21,8 @@ server.handleMsg = function (msg) {
   if (obj && obj.engine_result == "tesSUCCESS") {
     if (obj.type == "account") {
       var tx = _.extend(Object.create(obj.transaction), obj);
-      ncc.trigger('transaction', tx);
-      if (obj.transaction.TransactionType) {
-        ncc.trigger('transaction-' + obj.transaction.TransactionType, tx)
-      }
+      ncc.trigger('transaction', tx)
+      HistoryPage.addTransaction(tx, true);
     } else if (obj.type == "transaction") {
       var amount = ncc.displayAmount(server.escape(obj.transaction.Amount));
       str = '<div class="transFeedMsg">' + server.escape(obj.transaction.Account) + ' sent ' + amount + 'NC to ' + server.escape(obj.transaction.Destination) + '</div>';

@@ -1,15 +1,3 @@
-var Amount = function (a) {
-  if (this == window) return new Amount(a);
-  
-  if (a.constructor == String) {
-    this.currency = 'XNS';
-    this.value = a / BALANCE_DISPLAY_DIVISOR;
-    this.issuer = '';
-  } else {
-    _.extend(this, a);
-  }
-};
-
 var AmountValue = (function () {
   function repeat_str(s, n) {
     return (new Array(n+1)).join(s);
@@ -26,7 +14,7 @@ var AmountValue = (function () {
   }
   
   var AmountValue = function (s) {
-    if (this == window) return new AmountValue(s);
+    if (this == window) throw "Use the new keyword, please."
     
     if (s === undefined || !(s.constructor == Number || s.constructor == String))
       throw "AmountValue takes one argument which must be a Number or String."
