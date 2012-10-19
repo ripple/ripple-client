@@ -153,7 +153,7 @@ var TradePage = new (function () {
               '<td>' + takerGets.currency + '/' + takerPays.currency + '</td>' +
               '<td>' + (takerPays.value / takerGets.value) + '</td>' +
               '<td>' + takerGets.value + '</td>' +
-              '<td>' + a.status + '</td>' +
+              '<td>' + (a.status || 'closed') + '</td>' +
               '<td>' +
                 '<button onclick="TradePage.cancelOffer(this.parentElement.parentElement);">' +
                   'cancel?' +
