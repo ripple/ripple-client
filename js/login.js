@@ -6,51 +6,67 @@ var loginScreen = {};
 
 loginScreen.onShowTab = function () {
   setTimeout(function () {
-    $("#loginForm")[0].username.focus();
-  }, 100)
+    if (localStorage.user) {
+      $("#loginForm input[name=username]").val(localStorage.user);
+      $("#loginForm input[name=password]").focus();
+    } else {
+      $("#loginForm input[name=username]").focus();
+    }
+  }, 1)
 };
 
 loginScreen.login = function () {
-  var that = this;
+  var that = this,
+      loginErr = $("#LoginError");
   blobVault.login(
     this.username.value,
     this.password.value,
     this.blob.value,
     function success() {
-      ncc.user = that.username.value;
+      ncc.user = localStorage.user = that.username.value;
       ncc.masterKey = blobVault.data.master_seed;
       ncc.accountID = blobVault.data.account_id;
       loginScreen.finishLogin();
     },
     function error(e) {
-      ncc.error(e);
+      $("#LoginButton").removeClass('btn-success').addClass('btn-danger')
+                       .val(e).attr('disabled', true);
+                       
+      setTimeout(function () {
+        $("#LoginButton").addClass('btn-success').removeClass('btn-danger')
+                         .val("Login").attr('disabled', false);
+      }, 1500);
     }
   );
   return false;
 };
 
 loginScreen.finishLogin = function () {
+  $("#t-login div.heading").text("Login");
   $('#NewMasterKey').text(ncc.masterKey);
   $('#NewAddress').text(ncc.accountID);
   $('#InfoMasterKey').text(ncc.masterKey);
   $('#InfoBackupBlob').val(blobVault.blob);
+  $('#RecvAddress').text(ncc.accountID);
+  $('#RecvAddress2').text(ncc.accountID);
+  
+  ncc.onLogIn();
   
   server.accountSubscribe(ncc.accountID);
-  
+  rpc.ripple_lines_get(ncc.accountID, RipplePage.getLinesResponse);
   rpc.wallet_accounts(
     ncc.masterKey,
     function (res, noErrors) {
-      res = res.result || res;
-      ncc.processAccounts(res.accounts || []);
-      ncc.onLogIn();
-      $('#ClientState').html(
-        'Login is ' + ncc.user +
-        '. <a href="#" onclick="document.location=\'\'">Sign out</a>.'
-      );
-      if (!noErrors) {
+      if (noErrors) {
+        ncc.processAccounts(res.accounts);
+        if (window.location.hash == '#t-deposit') {
+          ncc.displayScreen('send');
+        }
+      } else {
         ncc.displayTab("deposit");
         ncc.displayScreen("deposit");
       }
+      ncc.navigateToHash();
     }
   );
 };
@@ -66,7 +82,7 @@ loginScreen.logout = function () {
 var depositScreen = {};
 
 depositScreen.onShowTab = function () {
-  ncc.on('transaction', function () {
+  ncc.on('account-Payment', function () {
     $("#t-deposit p").text("Initial deposit received.");
     $("#t-deposit div.heading").text("Success!");
     ncc.hideTab('deposit')

@@ -1,7 +1,6 @@
 var ledgerScreen = {};
 
 ledgerScreen.ledgerResponse = function (res, noErrors) {
-  res = res.result || res;
   if (res.ledger && res.ledger.accountState) {
     ledgerScreen.addLedger(res.ledger);
   }

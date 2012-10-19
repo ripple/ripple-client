@@ -87,9 +87,8 @@ var SendPage = new (function () {
     ncc.misc.forms.disable('#t-send');
   };
   
-  this.onSendResponse = function (res, noError) {
-    res = res.result || res;
-    if (noError) {
+  this.onSendResponse = function (res, noErrors) {
+    if (noErrors) {
       var toAccount = res.dstAccountID,
           curr = res.dstISO;
       

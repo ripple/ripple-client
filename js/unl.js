@@ -1,5 +1,6 @@
-var unlScreen = {};
-unlScreen.unl = [];
+var unlScreen = {
+  'unl': []
+};
 
 unlScreen.addUNLNode = function () {
   addr = $.trim($("#NewUNLNodeKey").val());
@@ -8,9 +9,7 @@ unlScreen.addUNLNode = function () {
 };
 
 unlScreen.unlResponse = function (res, noErrors) {
-  res = res.result || res;
-  
-  if(noErrors && res.unl) {
+  if (noErrors && res.unl) {
     $('#UNLTable').empty();
     unlScreen.unl = res.unl;
     for(var i = 0; i < unlScreen.unl.length; i++) {

@@ -9,7 +9,6 @@ var HistoryPage = new (function () {
   };
 
   this.onHistoryResponse = function (res, noError) {
-    res = res.result || res;
     if (noError && res) {
       _.each(
         res.transactions || [],
