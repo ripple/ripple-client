@@ -40,22 +40,27 @@ var HistoryPage = new (function () {
     var oldEntry = $('#' + t.hash),
         
         toAcct = t.Destination,
-        toName = blobVault.addressBook.getName(toAcct) || "",
+        toName = blobVault.addressBook.getName(toAcct),
         
         fromAcct = t.Account,
-        fromName = blobVault.addressBook.getName(fromAcct) || "",
+        fromName = blobVault.addressBook.getName(fromAcct),
+        
+        // no button if name matches one of these
+        noBut = { 'you': 1, 'undefined': 1};
+        editButtons = (' <button class="edit" onclick="HistoryPage.editName(this)">edit</button>' +
+                    '<button class="save" onclick="HistoryPage.saveName(this)">save</button>');
+        
+        console.log(fromName, toName);
         
         entry = ( '<td>' + (t.inLedger || t.ledger_current_index || t.ledger_closed_index) + '</td>' +
                   '<td>' + t.TransactionType + '</td>' +
                   '<td class="addr" data-acct='+ fromAcct + ' data-name="' + fromName + '">' +
                     '<span>' + (fromName || fromAcct) + '</span>' +
-                    (fromName == 'you' ? '' : ' <button class="edit" onclick="HistoryPage.editName(this)">edit</button>' +
-                                              '<button class="save" onclick="HistoryPage.saveName(this)">save</button>') +
+                    (fromName in noBut ? '' : editButtons) +
                   '</td>' +
                   '<td class="addr" data-acct='+ toAcct + ' data-name="' + toName + '">' +
                     '<span>' + (toName || toAcct) + '</span>' +
-                    (toName == 'you' ? '' : ' <button class="edit" onclick="HistoryPage.editName(this)">edit</button>' +
-                                            '<button class="save" onclick="HistoryPage.saveName(this)">save</button>') +
+                    (toName in noBut ? '' : editButtons) +
                   '</td>' +
                   '<td>' + amount + '</td>' +
                   '<td>' + t.status + '</td>' );
