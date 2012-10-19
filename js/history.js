@@ -49,7 +49,9 @@ var HistoryPage = new (function () {
         // no button if name matches one of these
         noBut = { 'you': 1, 'undefined': 1};
         editButtons = (' <button class="edit" onclick="HistoryPage.editName(this)">edit</button>' +
-                       '<button class="save" onclick="HistoryPage.saveName(this)">save</button>');
+                    '<button class="save" onclick="HistoryPage.saveName(this)">save</button>');
+        
+        console.log(fromName, toName);
         
         entry = ( '<td>' + (t.inLedger || t.ledger_current_index || t.ledger_closed_index) + '</td>' +
                   '<td>' + t.TransactionType + '</td>' +
@@ -115,5 +117,6 @@ var HistoryPage = new (function () {
     
     HistoryPage.onShowTab();
   };
+
 })();
 
