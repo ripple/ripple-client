@@ -117,15 +117,15 @@ ncc.status = new (function () {
 })();
 
 ncc.displayScreen = function (s) {
-  document.location.hash = '#t-' + s;
+  document.location.hash = '#' + s;
 }
 
 ncc.displayTab = function (s) {
-  $('.nav.nav-tabs:visible a[href="#t-' + s + '"]').show();
+  $('.nav.nav-tabs:visible a[href="#' + s + '"]').show();
 }
 
 ncc.hideTab = function (s) {
-  $('.nav.nav-tabs:visible a[href="#t-' + s + '"]').hide();
+  $('.nav.nav-tabs:visible a[href="#' + s + '"]').hide();
 }
 
 ncc.processAccounts = function (accounts) {
@@ -288,7 +288,7 @@ ncc.onLogIn = function () {
     $('#UnlogAdvancedNav').hide();
   }
   
-  $('#MainNav a[href="#t-send"]').tab('show');
+  $('#MainNav a[href="#send"]').tab('show');
 }
 
 ncc.onLogOut = function () {
@@ -304,7 +304,7 @@ ncc.onLogOut = function () {
     $('#UnlogAdvancedNav').show();
   }
   
-  $('#UnlogTopNav a[href="#t-welcome"]').tab('show');
+  $('#UnlogTopNav a[href="#welcome"]').tab('show');
 }
 
 $(document).ready(function () {
@@ -463,7 +463,7 @@ ncc.navigateToHash = function () {
         tab.click();
       } else {
         // tab is nowhere to be found, maybe we should try to login
-        if ($('.nav.nav-tabs:visible a[href="#t-login"]').click().length) {
+        if ($('.nav.nav-tabs:visible a[href="#login"]').click().length) {
           $("#t-login div.heading").text("Login to see this page");
         }
       }
