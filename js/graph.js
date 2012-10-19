@@ -218,7 +218,7 @@ ncc.error = function (error, json) {
   console.log("ERROR: " + error);
 }
 
-ncc.status = function (status, json) {
+ncc.info = function (status, json) {
   console.log("INFO: " + status);
 }
 

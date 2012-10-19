@@ -11,8 +11,7 @@ startUp.start = function () {
   
   server.connect();
   
-  ncc.status("connecting to " + Options.RPC_SERVER);
-  ncc.error('');
+  ncc.status.info("connecting to " + Options.RPC_SERVER);
   
   $('#ServerDisplay').text("Connecting to: " + Options.RPC_SERVER);
 }

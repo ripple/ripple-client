@@ -68,7 +68,6 @@ var RipplePage = new (function () {
   };
   
   this.getLinesResponse = function (res, noErrors) {
-    res = res.result || res;
     if (noErrors && res.lines && res.lines.length) {
       RipplePage.lines = _.object(
         _.map(
@@ -81,60 +80,17 @@ var RipplePage = new (function () {
     }
   };
   
-  this.renderLines = function () {
-    for (var curr in ncc.balance) {
-      if (curr != 'XNS') {
-        delete ncc.balance[curr];
-      }
-    }
-    
-    rippleLinesTable.empty();
-    _.each(
-      RipplePage.lines,
-      function (line) {
-        ncc.changeBalance(line.currency, line.balance);
-        rippleLinesTable.prepend(
-          '<tr>' + 
-            '<td>' + (line.limit_peer) + '</td>' +
-            '<td>' + line.balance + ' ' + line.currency + '</td>' +
-            '<td>' + line.limit + '</td>' +
-            '<td>' + (blobVault.addressBook.getName(line.account) || line.account) + '</td>' +
-            '<td></td>' + 
-            '<td></td>' +
-          '</tr>'
-        );
-      }
-    );
-  }
-  
   this.submitForm = function () {
     rpc.ripple_line_set(ncc.masterKey, ncc.accountID, address, creditMax, currency, RipplePage.setLineResponse);
     ncc.misc.forms.disable("#t-ripple");
   }
   
   this.setLineResponse = function (res, noErrors) {
-    res = res.result || res;
-    
     if (noErrors) {
       blobVault.updateRecentSends(address);
       blobVault.save();
       blobVault.pushToServer();
-      
       acctElem.promoteEntry(address);
-      
-      var limit = res.transaction.LimitAmount,
-          key = limit.issuer + '/' + limit.currency,
-          line = RipplePage.lines[key] = RipplePage.lines[key] || {};
-      
-      line.account = limit.issuer;
-      line.currency = limit.currency; 
-      line.limit = limit.value;
-      line.balance = line.balance || "0";
-      line.limit_peer = line.limit_peer || "0";
-      line.quality_in = line.quality_in || 0;
-      line.quality_out = line.quality_out || 0;
-      
-      RipplePage.renderLines();
     }
     
     acctElem.input.val('');
@@ -167,6 +123,48 @@ var RipplePage = new (function () {
     
     return({ 'accountID' : bestAccount , 'max' : max }); 
   }  
-
+  
+  this.onCreditSet = function (tx) {
+    var limit = tx.LimitAmount,
+        key = limit.issuer + '/' + limit.currency,
+        line = RipplePage.lines[key] = RipplePage.lines[key] || {};
+    
+    line.account = limit.issuer;
+    line.currency = limit.currency; 
+    line.limit = limit.value;
+    line.balance = line.balance || "0";
+    line.limit_peer = line.limit_peer || "0";
+    line.quality_in = line.quality_in || 0;
+    line.quality_out = line.quality_out || 0;
+    
+    RipplePage.renderLines();
+  };
+  
+  this.renderLines = function () {
+    for (var curr in ncc.balance) {
+      if (curr != 'XNS') {
+        delete ncc.balance[curr];
+      }
+    }
+    
+    rippleLinesTable.empty();
+    _.each(
+      RipplePage.lines,
+      function (line) {
+        ncc.changeBalance(line.currency, line.balance);
+        rippleLinesTable.prepend(
+          '<tr>' + 
+            '<td>' + (line.limit_peer) + '</td>' +
+            '<td>' + line.balance + ' ' + line.currency + '</td>' +
+            '<td>' + line.limit + '</td>' +
+            '<td>' + (blobVault.addressBook.getName(line.account) || line.account) + '</td>' +
+            '<td></td>' + 
+            '<td></td>' +
+          '</tr>'
+        );
+      }
+    );
+  };
+  
 })();
 

@@ -50,80 +50,74 @@ ncc.allCurrencyOptions = {
   "XAG" : "XAG - Ounces of Silver"
 };
 
-ncc.on('transaction-Payment transaction-CreditSet', function (e, tx) {
+ncc.on('account-Payment', function (e, tx) {
   HistoryPage.addTransaction(tx, true);
 });
 
-ncc.on('transaction-OfferCreate', function (e, tx) {
-  tx = tx.transaction || tx;
+ncc.on('account-CreditSet', function (e, tx) {
+  RipplePage.onCreditSet(tx);
+})
+
+ncc.on('account-OfferCreate', function (e, tx) {
   TradePage.appendOffer(tx);
 });
 
-ncc.on('transaction-OfferCancel', function (e, tx) {
-  tx = tx.transaction || tx;
+ncc.on('account-OfferCancel', function (e, tx) {
   TradePage.removeOrderRow(tx.OfferSequence);
 });
 
 ncc.serverDown = function () {
-  ncc.error('No response from server. Please check if it is running.');
+  ncc.status.error('No response from server. Please check if it is running.');
 }
 
 ncc.checkError = function (response) {
   var ret = response.result.error_message || response.result.error,
       errorStr = (response.error || '') + (ret ? ' ' + ret : '');
   
-  ncc.error(errorStr);
+  ncc.status.error(errorStr);
   
   return ret;
 };
 
-ncc.status = function (status, json) {
-  var $statusDiv = $('#StatusDiv');
+ncc.status = new (function () {
+  var container = $('#MainStatusArea'),
+      prot = false;
   
-  $statusDiv.toggle(Boolean(status || json));
-  
-  if (status) {
-    $statusDiv.find('p span').text("INFO: " + status);
-  } else {
-    $statusDiv.hide();
+  function status(type, msg, json) {
+    if (msg) {
+      var elem = container.find('div.template').clone().removeClass('template').addClass('alert-' + type);
+      elem.find('p span').text(type.toUpperCase() + ": " + msg);
+      try {
+        elem.find('pre.json').html(
+          ncc.misc.syntaxHighlight(
+            JSON.stringify(json, undefined, 2)
+          )
+        );
+        elem.find('button').show();
+      } catch (e) {
+        elem.find('pre.json').html('');
+        elem.find('button').hide();
+      }
+      
+      // protect messages that are within 1s of each other
+      if (!prot) {
+        container.find('div').not('.template').remove();
+        prot = true;
+        setTimeout(function () { prot = false; }, 1000);
+      }
+      
+      container.prepend(elem);
+    }
   }
   
-  try {
-    $statusDiv.find('pre.json').html(
-      ncc.misc.syntaxHighlight(
-        JSON.stringify(json, undefined, 2)
-      )
-    );
-    $statusDiv.find('button').show();
-  } catch (e) {
-    $statusDiv.find('pre.json').html('');
-    $statusDiv.find('button').hide();
-  }
-};
-
-ncc.error = function (error, json) {
-  var $errorDiv = $('#ErrorDiv');
-  
-  $errorDiv.toggle(Boolean(error || json));
-  
-  if (error) $errorDiv.find('p span').text("ERROR: " + error);
-  else $errorDiv.hide();
-  
-  try {
-    $errorDiv.find('pre.json').html(
-      ncc.misc.syntaxHighlight(
-        JSON.stringify(json, undefined, 2)
-      )
-    );
-    $errorDiv.find('button').show();
-  } catch (e) {
-    $errorDiv.find('pre.json').html('');
-    $errorDiv.find('button').hide();
-  }
-}
+  return {
+    info: _.bind(status, this, 'info'),
+    error: _.bind(status, this, 'error')
+  };
+})();
 
 ncc.displayScreen = function (s) {
-  $('.nav.nav-tabs:visible a[href="#t-' + s + '"]').click();
+  document.location.hash = '#t-' + s;
 }
 
 ncc.displayTab = function (s) {
@@ -134,8 +128,7 @@ ncc.hideTab = function (s) {
   $('.nav.nav-tabs:visible a[href="#t-' + s + '"]').hide();
 }
 
-ncc.processAccounts = function (accounts)
-{
+ncc.processAccounts = function (accounts) {
   ncc.accounts = accounts;
   
   // figure total balance
@@ -154,8 +147,6 @@ ncc.processAccounts = function (accounts)
   }
   
   ncc.changeBalance('XNS', balance.sub(ncc.balance['XNS']));
-  $('#RecvAddress').text(ncc.accountID);
-  $('#RecvAddress2').text(ncc.accountID);
 }
 
 ncc.changeBalance = function (currency, delta) {
@@ -180,45 +171,13 @@ ncc.changeBalance = function (currency, delta) {
     currElem.stop();
     currElem.css('color', 'red');
     currElem.animate({ color: 'white' }, 1000);
-    
-    // flash currElem text
-    // 
-    // var NUM_FLASHES = 2;
-    // if (currElem.attr('data-flashes-left') > 0) {
-    //   currElem.attr('data-flashes-left', NUM_FLASHES);
-    // } else {
-    //   var white = currElem.css('color'),
-    //       red = "rgb(255, 0, 0)";
-    //   
-    //   currElem.attr('data-flashes-left', NUM_FLASHES);
-    //   
-    //   (function flash() {
-    //     var flashesLeft = currElem.attr('data-flashes-left');
-    //     if (flashesLeft > 0) {
-    //       currElem.animate(
-    //         { color: red }, // properties
-    //         200,            // duration
-    //         function () {   // on complete
-    //           currElem.animate({ color: white }, 200, flash);
-    //           currElem.attr('data-flashes-left', flashesLeft - 1);
-    //         }
-    //       )
-    //     } else {
-    //       currElem.css({
-    //         'color': white
-    //       });
-    //     }
-    //   })();
-    // }
-    
   } else {
     // delete 
     currElem.remove();
   }
 }
 
-ncc.displayAmount = function (amount)
-{
+ncc.displayAmount = function (amount) {
   if (amount === undefined) {
     return "";
   }
@@ -252,13 +211,11 @@ ncc.addCommas = function (n) {
 
 ///////////////////////////
 
-ncc.infoTabShown = function ()
-{
+ncc.infoTabShown = function () {
   rpc.server_info(ncc.infoResponse);
 }
 
 ncc.infoResponse = function (res, noErrors) {
-  res = res.result || res;
   if (noErrors && res.info) {
     $('#InfoServerState').text( res.info.serverState );
     $('#InfoPublicKey').text( res.info.validationPKey );
@@ -267,15 +224,13 @@ ncc.infoResponse = function (res, noErrors) {
 
 //////////
 
-ncc.addPeer = function ()
-{
-  ip = $.trim( $("#NewPeerIP").val());
-  port = $.trim( $("#NewPeerPort").val());
+ncc.addPeer = function () {
+  ip = $.trim($("#NewPeerIP").val());
+  port = $.trim($("#NewPeerPort").val());
   rpc.connect(ip,port);
 }
 
 ncc.peersResponse = function (res, noErrors) {
-  res = res.result || res;
   if (noErrors && res.peers) {
     $('#PeerTable').empty();
     var peers = res.peers;
@@ -294,18 +249,15 @@ ncc.peersResponse = function (res, noErrors) {
 
 ///////////
 
-ncc.chageTabs = function (e)
-{
+ncc.chageTabs = function (e) {
   //if (e.target.attributes.href(onTabShown)
   //  e.target.onTabShown();
 }
 
 ncc.nop = function () {}
 
-ncc.toggleAdvanced = function (ele)
-{
-  if (ncc.advancedMode)
-  {
+ncc.toggleAdvanced = function (ele) {
+  if (ncc.advancedMode) {
     $('#AdvancedNav').hide();
     $('#UnlogAdvancedNav').hide();
     ncc.advancedMode = false;
@@ -320,6 +272,11 @@ ncc.toggleAdvanced = function (ele)
 
 ncc.onLogIn = function () {
   ncc.loggedIn = true;
+
+  $('#ClientState').html(
+    'Login is ' + ncc.user +
+    '. <a href="#" onclick="document.location=\'\'">Sign out</a>.'
+  );
   
   $('#UnlogMainNav').hide();
   $('#UnlogTopNav').hide();
@@ -332,22 +289,17 @@ ncc.onLogIn = function () {
   }
   
   $('#MainNav a[href="#t-send"]').tab('show');
-  rpc.ripple_lines_get(ncc.accountID, function (res, noErrors) {
-    RipplePage.getLinesResponse(res, noErrors);
-    ncc.error('');
-  });
 }
 
-ncc.onLogOut = function ()
-{
+ncc.onLogOut = function () {
   ncc.loggedIn = false;
   
   $('#UnlogMainNav').show();
   $('#UnlogTopNav').show();
   $('#MainNav').hide();
   $('#TopNav').hide();
-  if (ncc.advancedMode)
-  {
+  
+  if (ncc.advancedMode) {
     $('#AdvancedNav').hide();
     $('#UnlogAdvancedNav').show();
   }
@@ -495,6 +447,35 @@ ncc.misc.isValidAmount = function (amount, currency) {
   }
 };
 
+ncc.navigateToHash = function () {
+  var h = window.location.hash;
+  if (h) {
+    var tab = $('.nav.nav-tabs:visible a[href="' + h + '"]');
+    if (tab.length) {
+      tab.click();
+    } else {
+      // tab is not immediately visible
+      var advNav = $("#AdvancedNav.nav.nav-tabs"),
+          tab = advNav.find('a[href="' + h + '"]');
+      if (ncc.loggedIn && advNav.not(':visible') && tab.length) {
+        // tab is in the advanced menu
+        $("#AdvNavToggle").click();
+        tab.click();
+      } else {
+        // tab is nowhere to be found, maybe we should try to login
+        if ($('.nav.nav-tabs:visible a[href="#t-login"]').click().length) {
+          $("#t-login div.heading").text("Login to see this page");
+        }
+      }
+    }
+  }
+};
+
+window.onhashchange = function () {
+  $('.nav.nav-tabs:visible a[href="' + window.location.hash + '"]').click();
+};
+
 $(document).ready(function () {
-  $("#GetStarted").focus();
+  ncc.navigateToHash();
+  $("#GetStarted:visible").focus();
 });
