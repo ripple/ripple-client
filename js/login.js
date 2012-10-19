@@ -67,7 +67,7 @@ var depositScreen = {};
 
 depositScreen.onShowTab = function () {
   ncc.on('transaction', function () {
-    $("#t-deposit p").text("Deposit complete.");
+    $("#t-deposit p").text("Initial deposit received.");
     $("#t-deposit div.heading").text("Success!");
     ncc.hideTab('deposit')
   });

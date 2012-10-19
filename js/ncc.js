@@ -50,6 +50,20 @@ ncc.allCurrencyOptions = {
   "XAG" : "XAG - Ounces of Silver"
 };
 
+ncc.on('transaction-Payment transaction-CreditSet', function (e, tx) {
+  HistoryPage.addTransaction(tx, true);
+});
+
+ncc.on('transaction-OfferCreate', function (e, tx) {
+  tx = tx.transaction || tx;
+  TradePage.appendOffer(tx);
+});
+
+ncc.on('transaction-OfferCancel', function (e, tx) {
+  tx = tx.transaction || tx;
+  TradePage.removeOrderRow(tx.OfferSequence);
+});
+
 ncc.serverDown = function () {
   ncc.error('No response from server. Please check if it is running.');
 }
