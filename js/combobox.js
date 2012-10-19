@@ -179,11 +179,16 @@ $.widget("ui.combobox", {
     }
   },
   
-  value: function () {
-    if (this.options.strict) {
-      return this.select.children(":selected").val();
+  value: function (v) {
+    if (v === undefined) {
+      if (this.options.strict) {
+        return this.select.children(":selected").val();
+      } else {
+        return this.select.children(":selected").val() || (this.input.val());
+      }
     } else {
-      return this.select.children(":selected").val() || (this.input.val());
+      this.input.val(this.select.children('option[value=' + v + ']').text());
+      this.cleanup();
     }
   },
   

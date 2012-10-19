@@ -353,7 +353,7 @@ $(document).ready(function () {
   $("#t-peers").on("show", function () { rpc.peers(ncc.peersResponse); });
   $("#t-info").on("show", ncc.infoTabShown);
   $("#t-feed").on("show", feed.onShowTab);
-  $("#t-trade").on("show", trade.onShowTab);
+  $("#t-trade").on("show", TradePage.onShowTab);
   $("#t-options").on("show", OptionsPage.onShowTab); 
   $("#t-welcome").on("show", welcomeScreen.onShowTab);
   $("#t-deposit").on("show", depositScreen.onShowTab);
