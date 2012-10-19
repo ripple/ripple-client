@@ -213,12 +213,13 @@ function overLink(node)
 // so we don't have to include everything
 
 var ncc = {};
+ncc.status={};
 
-ncc.error = function (error, json) {
+ncc.status.error = function (error, json) {
   console.log("ERROR: " + error);
 }
 
-ncc.info = function (status, json) {
+ncc.status.info = function (status, json) {
   console.log("INFO: " + status);
 }
 
