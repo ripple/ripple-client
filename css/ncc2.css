@@ -60,7 +60,12 @@ td.name a {
   float: right;
 }
 
-td button.save {
+#AddressBookTable td button {
+  float: right;
+  margin-left: 4px;
+}
+
+td button.save, td button.delete {
   display: none;
 }
 
