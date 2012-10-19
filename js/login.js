@@ -44,7 +44,7 @@ loginScreen.finishLogin = function () {
       ncc.processAccounts(res.accounts || []);
       ncc.onLogIn();
       $('#ClientState').html(
-        'Logged in as ' + ncc.user +
+        'Logged in ' + ncc.user +
         '. <a href="#" onclick="document.location=\'\'">Sign out</a>.'
       );
       if (!noErrors) {
