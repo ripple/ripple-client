@@ -5,7 +5,7 @@ var RipplePage = new (function () {
       currElem,
       limitElem,
       
-      ripplePageButton,
+      buttonElem,
       rippleLinesTable;
   
   function onFieldsUpdated() {
@@ -21,16 +21,16 @@ var RipplePage = new (function () {
     }
     
     var allgud = ncc.misc.isValidAddress(address) && creditMax != 'bad' && currency;
-    ripplePageButton.attr('disabled', !allgud);
+    buttonElem.attr('disabled', !allgud);
   }
   
   $(document).ready(function () {
-    limitElem        = $("#NewCreditMax"),
-    ripplePageButton = $("#AddCreditLineButton");
+    limitElem = $("#NewCreditMax"),
+    buttonElem = $("#AddCreditLineButton");
     rippleLinesTable = $('#RippleTable');
     $("#t-ripple input").on('keydown', function (e) {
-      if (e.which == 13 && !ripplePageButton.attr('disabled') && !$(this).widget) {
-        ripplePageButton.click();
+      if (e.which == 13 && !buttonElem.attr('disabled') && !$(this).widget) {
+        buttonElem.click();
       }
     });
   });
@@ -61,7 +61,7 @@ var RipplePage = new (function () {
     
     limitElem.on('input', onFieldsUpdated);
     
-    ripplePageButton.attr('disabled', true);
+    buttonElem.attr('disabled', true);
     
     acctElem.updateData(recentSends);
     RipplePage.renderLines();

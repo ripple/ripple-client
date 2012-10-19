@@ -73,6 +73,23 @@
     });
   };
   
+  $.fn.validateWithFunction = function (validator) {
+    $(this).on('input', function () {
+      $(this).next(".testresult").remove();
+      if (this.value) {
+        try {
+          var msg = validator(this.value)
+          if (msg) {
+            $(this).after($('<span>').addClass('strongPass testresult').html("<span>" +  msg + "</span>"));
+          }
+        } catch (e) {
+          $(this).after("<span class='testresult'><span></span></span>");
+          $(this).next(".testresult").addClass("badPass").find("span").text(e);
+        }
+      }
+    });
+  };
+  
   $.fn.passStrength = function(options) {
     var defaults = {
       shortPass: "goodPass",   // optional

@@ -5,7 +5,7 @@ var SendPage = new (function () {
       currElem, // currency
       destElem, // destination
       nameElem, // (optional) name
-      sendPageButton; // button
+      buttonElem; // button
   
   function onFieldsUpdated() {
     address = destElem.value();
@@ -17,7 +17,7 @@ var SendPage = new (function () {
     $("#AddressDisplayRow").hide();
     $("#SendDestNameRow").hide();
 
-    sendPageButton.attr(
+    buttonElem.attr(
       'disabled', 
       !ncc.misc.isValidAmount(amount, currency)
     );
@@ -34,17 +34,17 @@ var SendPage = new (function () {
         $("#AddressDisplay").val(address)
       }
     } else {
-      sendPageButton.attr('disabled', true);
+      buttonElem.attr('disabled', true);
     }
   }
   
   $(document).ready(function () {
-    sendPageButton = $("#SendPageButton");
+    buttonElem = $("#SendPageButton");
     amntElem = $("#SendAmount");
     nameElem = $("#SendDestName");
     $("#t-send input").on('keydown', function (e) {
-      if (e.which == 13 && !sendPageButton.attr('disabled') && !$(this).widget) {
-        sendPageButton.click();
+      if (e.which == 13 && !buttonElem.attr('disabled') && !$(this).widget) {
+        buttonElem.click();
       }
     });
     amntElem.on('input', onFieldsUpdated);
@@ -83,7 +83,7 @@ var SendPage = new (function () {
       rpc.send(ncc.masterKey, ncc.accountID, address, String(amount), currency, ncc.accountID, SendPage.onSendResponse);
     }
     
-    sendPageButton.text("Sending...");
+    buttonElem.text("Sending...");
     ncc.misc.forms.disable('#t-send');
   };
   
@@ -119,7 +119,7 @@ var SendPage = new (function () {
       $("#SpacerRow").show();
     }
     
-    sendPageButton.text("Send Money");
+    buttonElem.text("Send Money");
     ncc.misc.forms.enable('#t-send');
     destElem.cleanup();
   }
