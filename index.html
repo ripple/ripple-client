@@ -482,28 +482,23 @@
               <table>
                 <tr>
                   <td class="span2">Sell Currency:</td>
-                  <td class="span4"><input id="TradePageSellCurr" class="span2" /></td>
+                  <td class="span4"><select id="PlaceOrderOutCurrency" class="span2" /></td>
                 </tr>
                 <tr>
                   <td class="span2">Buy Currency:</td>
-                  <td class="span4"><input id="TradePageBuyCurr" class="span2" /></td>
+                  <td class="span4"><select id="PlaceOrderInCurrency" class="span2" /></td>
                 </tr>
                 <tr>
                   <td class="span2">Amount to Sell:</td>
-                  <td class="span4"><input id="TradePageAmount" type="text"></td>
+                  <td class="span4"><input id="PlaceOrderAmount" type="text"></td>
                 </tr>
                 <tr>
                   <td class="span2">Price of Each:</td>
-                  <td class="span4"><input id="TradePagePrice" type="text"></td>
+                  <td class="span4"><input id="PlaceOrderPrice" type="text"></td>
                 </tr>
               </table>
-              <div id="TradePageStatus">
-                <div class="info"></div>
-                <div class="error"></div>
-              </div>
-              <div class="bottom-btn">
-                <button id="TradePageButton" class="btn btn-info" onclick="TradePage.placeOrder()">Place Order</button>
-              </div>
+              <span id="PlaceOrderStatus"></span>
+              <div class="bottom-btn"> <button class="btn btn-info" onclick="trade.placeOrder()">Place Order</button></div>
             </fieldset>
             
             <fieldset class="span5">

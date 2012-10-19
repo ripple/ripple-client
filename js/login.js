@@ -44,7 +44,7 @@ loginScreen.finishLogin = function () {
       ncc.processAccounts(res.accounts || []);
       ncc.onLogIn();
       $('#ClientState').html(
-        'Login is ' + ncc.user +
+        'Logged in ' + ncc.user +
         '. <a href="#" onclick="document.location=\'\'">Sign out</a>.'
       );
       if (!noErrors) {
@@ -67,8 +67,8 @@ var depositScreen = {};
 
 depositScreen.onShowTab = function () {
   ncc.on('transaction', function () {
-    $("#t-deposit p").text("Deposit complete.");
-    $("#t-deposit div.heading").text("Success!");
+    $("#t-deposit p").text("Well done!");
+    $("#t-deposit div.heading").text("Deposit complete!");
     ncc.hideTab('deposit')
   });
 };
