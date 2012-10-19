@@ -6,8 +6,10 @@ var TradePage = new (function () {
       
       sellCurrElem, buyCurreElem, // form elements
       amountElem, priceElem,
-      buttonElem;
-  
+      buttonElem,
+      
+      openOrderTable;
+      
   $(document).ready(function () {
     $("#t-trade input").on('keydown', function (e) {
       if (e.which == 13 && !buttonElem.attr('disabled') && !$(this).widget) {
@@ -32,6 +34,7 @@ var TradePage = new (function () {
     amountElem = $('#TradePageAmount').on('input', onFieldsUpdated);
     priceElem = $('#TradePagePrice').on('input', onFieldsUpdated);
     buttonElem = $("#TradePageButton");
+    openOrderTable = $("#OpenOrderTable");
   });  
   
   function onFieldsUpdated() {
@@ -87,6 +90,7 @@ var TradePage = new (function () {
   
   this.onShowTab = function () {
     onFieldsUpdated();
+    rpc.ledger(TradePage.onLedgerResponse);
   };
   
   this.placeOrder = function () {
@@ -104,7 +108,7 @@ var TradePage = new (function () {
     );
   }
   
-  this.onOfferCreateResponse = function (response, noErrors) {
+  this.onOfferCreateResponse = function (res, noErrors) {
     if (noErrors) {
       sellCurrElem.value('USD');
       buyCurreElem.value('XNS');
@@ -112,7 +116,7 @@ var TradePage = new (function () {
       priceElem.val('');
       onFieldsUpdated();
     }
-  }
+  };
   
   this.status = {
     info: function (s) {
@@ -138,7 +142,74 @@ var TradePage = new (function () {
     clear: function () {
       $("#TradePageStatus div").hide();
     }
+  };
+  
+  function createOrderRow(a) {
+    var takerGets = Amount(a.TakerGets),
+        takerPays = Amount(a.TakerPays);
     
+    return ('<tr data-sequence="' + a.Sequence + '">' +
+              '<td>' + '' + '</td>' +
+              '<td>' + takerGets.currency + '/' + takerPays.currency + '</td>' +
+              '<td>' + '' + '</td>' +
+              '<td>' + (takerPays.value / takerGets.value) + '</td>' +
+              '<td>' + takerGets.value + '</td>' +
+              '<td>' +
+                '<button onclick="TradePage.cancelOffer(this.parentElement.parentElement);">' +
+                  'cancel?' +
+                '</button>' +
+              '</td>' +
+            '</tr>');
+             
   }
   
+  // the following methods populate and modify the offer table
+  this.onLedgerResponse = function (res, noErrors) {
+    res = res.result || res;
+    if (noErrors && res.ledger) {
+      var tbody = openOrderTable.empty();
+      _.each(
+        res.ledger.accountState || [],
+        function (a) {
+          if (a.Account == ncc.accountID && a.LedgerEntryType == "Offer") {
+            tbody.append(createOrderRow(a));
+          }
+        }
+      );
+    }
+  };
+  
+  this.appendOffer = function (a) {
+    var tr = openOrderTable.find('tr[data-sequence=' + a.Sequence +']');
+    if (tr.length) {
+      tr.replaceWith(createOrderRow(a));
+    } else {
+      openOrderTable.append(createOrderRow(a));
+    }
+  };
+  
+  this.cancelOffer = function (rowElem) {
+    var row = $(rowElem),
+        button = row.find('button');
+    if (button.text() == 'cancel?') {
+      button.text("cancel!");
+    } else {
+      rpc.offer_cancel(
+        ncc.masterKey,
+        ncc.accountID,
+        row.attr('data-sequence'),
+        function callback(res, noErrors) {
+          if (noErrors) {
+            row.css('opacity', '0.5');
+            button.attr('diabled', true);
+            button.text('canceling');
+          }
+        }
+      );
+    }
+  };
+  
+  this.removeOrderRow = function (seq) {
+    openOrderTable.find('tr[data-sequence=' + seq +']').remove();
+  }
 })();

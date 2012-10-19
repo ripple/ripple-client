@@ -60,7 +60,8 @@ td.name a {
   float: right;
 }
 
-#AddressBookTable td button {
+#AddressBookTable td button,
+#OpenOrderTable td button {
   float: right;
   margin-left: 4px;
 }
