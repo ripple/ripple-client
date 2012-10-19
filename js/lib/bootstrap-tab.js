@@ -43,7 +43,7 @@
         , e
 
       if (!selector) {
-        selector = $this.attr('href').replace(/^#/, '#t-')
+        selector = $this.attr('href')
         selector = selector && selector.replace(/.*(?=#[^\s]*$)/, '') //strip for ie7
       }
 
@@ -129,6 +129,7 @@
   $(function () {
     $('body').on('click.tab.data-api', '[data-toggle="tab"], [data-toggle="pill"]', function (e) {
       $(this).tab('show');
+      return false;
     })
   })
 

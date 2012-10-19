@@ -9,11 +9,9 @@ server.escape = function (str) {
 }
 
 server.handleMsg = function (msg) {
-  var obj = jQuery.parseJSON(msg.data),
-      str = '',
-      msgType = 'transaction' in obj ? obj.type + '-' + obj.transaction.TransactionType : obj.type;
+  var obj = jQuery.parseJSON(msg.data), str = '';
   
-  (obj.error ? ncc.status.error : ncc.status.info)("Got WS message: " + (obj.result || '') + ' ' + msgType, obj);
+  (obj.error ? ncc.status.error : ncc.status.info)("Got WS message: " + obj.result + ' ' + (obj.id || ''), obj);
   
   if (obj) {
     if (obj.type == "account") {
