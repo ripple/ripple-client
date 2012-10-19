@@ -1,3 +1,6 @@
+
+// handle updates from the server
+
 var server = {};
 server.socket = null;
 
@@ -9,28 +12,24 @@ server.escape = function (str) {
 }
 
 server.handleMsg = function (msg) {
-  var obj = jQuery.parseJSON(msg.data), str = '';
+  var obj = jQuery.parseJSON(msg.data),
+      str = '';
   
-  (obj.error ? ncc.status.error : ncc.status.info)("Got WS message: " + obj.result + ' ' + (obj.id || ''), obj);
+  ncc.status("WS message: " + obj.engine_result_message, obj);
+  console.log("WS message: ", msg.data);
   
-  if (obj) {
+  if (obj && obj.engine_result == "tesSUCCESS") {
     if (obj.type == "account") {
-      if (obj.engine_result == "tesSUCCESS") {
-        var tx = _.extend(Object.create(obj), obj.transaction);
-        if (tx.TransactionType) {
-          ncc.trigger('account-' + tx.TransactionType, tx);
-        }
+      var tx = _.extend(Object.create(obj.transaction), obj);
+      ncc.trigger('transaction', tx);
+      if (obj.transaction.TransactionType) {
+        ncc.trigger('transaction-' + obj.transaction.TransactionType, tx)
       }
     } else if (obj.type == "transaction") {
       var amount = ncc.displayAmount(server.escape(obj.transaction.Amount));
-      str = '<div class="transFeedMsg">' +
-              server.escape(obj.transaction.Account) + ' sent ' + amount +
-              'XNS to ' + server.escape(obj.transaction.Destination) +
-            '</div>';
+      str = '<div class="transFeedMsg">' + server.escape(obj.transaction.Account) + ' sent ' + amount + 'NC to ' + server.escape(obj.transaction.Destination) + '</div>';
     } else if (obj.type == "ledgerClosed") {
-      str = '<div class="ledgerFeedMsg">Accepted Ledger <strong>' + server.escape(obj.ledger_closed_index) +
-              '</strong> hash:' + server.escape(obj.ledger_closed) +
-            '</div>';
+      str = '<div class="ledgerFeedMsg">Accepted Ledger <strong>' + server.escape(obj.ledger_closed_index) + '</strong> hash:' + server.escape(obj.ledger_closed) + '</div>';
     } else if (obj.type == "response") {
       if (obj.result == "error") {
         str = '<div class="errorFeedMsg">Error Listening ' + server.escape(obj.error) + '</div>';
@@ -48,34 +47,32 @@ server.handleMsg = function (msg) {
   $('#FeedArea').prepend(str);
 };
 
-server.send = function (obj) {
-  ncc.status.info("Sending WS msg: " + obj.command + ' ' + (obj.id || ''), obj);
-  server.socket.send(JSON.stringify(obj));
-};
-
 server.connect = function () {
   if (!Options.WS_SERVER) return;
   
   try {
     server.socket = new WebSocket("ws://" + Options.WS_SERVER + "/");
-    server.socket.onopen = function () { ncc.status.info("connected to websocket");  }
+    
+    server.socket.onopen = function () { ncc.status("connected to websocket");  }
     server.socket.onmessage = server.handleMsg;
-    server.socket.onclose = function () { ncc.status.error("disconnected from websocket");  }
+    server.socket.onclose = function () { ncc.error("Disconnected from websocket");  }
   } catch (exception) {
-    ncc.status.error('Error: ' + exception);
+    ncc.error('Error: ' + exception);
   }
 }
 
-server.subscribe = function (streamName) {
-  server.send({'command': streamName + '_subscribe'});
+server.subscribe = function (streamName)
+{
+  server.socket.send('{ "command" : "' + streamName + '_subscribe" }');
 }
 
-server.unsubscribe = function (streamName) {
-  server.send({'command': streamName + '_unsubscribe', id: 1});
+server.unsubscribe = function (streamName)
+{
+  server.socket.send('{ "command" : "' + streamName + '_unsubscribe", "id" : 1 }');
 }
 
-server.accountSubscribe = function (accountID) {
-  if (accountID) {
-    server.send({'command': 'account_transaction_subscribe', accounts: [accountID]});
-  }
+server.accountSubscribe = function (accountID)
+{
+  if (accountID)
+    server.socket.send('{ "command" :  "account_transaction_subscribe", "accounts" : ["' + accountID + '"] }');
 }

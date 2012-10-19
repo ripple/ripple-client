@@ -72,7 +72,7 @@ parser.js2coinCode=function(content)
 	syntax = esprima.parse(content, { tolerant: true, loc: false });
 	if(syntax.errors.length) 
 	{
-		ncc.status.error("Parse Error: "+syntax.errors[0]);
+		ncc.error("Parse Error: "+syntax.errors[0]);
 	}else
 	{
 		parser.code=[];
@@ -175,11 +175,11 @@ parser.addNode=function(node)
 				break;
 				
 				default:
-					ncc.status.error("Unknown expression "+node.expression.type);
+					ncc.error("Unknown expression "+node.expression.type);
 			}
 		}break;
 		default:
-			ncc.status.error("Unknown type "+node.type);
+			ncc.error("Unknown type "+node.type);
 	}
 	
 }
@@ -225,7 +225,7 @@ parser.addMathOperation=function(node)
 		break;
 		
 		default:
-			ncc.status.error("Unknown operator "+node.operator);
+			ncc.error("Unknown operator "+node.operator);
 	}
 }
 
@@ -253,7 +253,7 @@ parser.addFunction=function(node)
 		
 	}else
 	{
-		ncc.status.error("Unknown function "+node.callee.name);
+		ncc.error("Unknown function "+node.callee.name);
 	}
 }
 

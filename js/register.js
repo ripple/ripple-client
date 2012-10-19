@@ -5,17 +5,16 @@ registerScreen.onShowTab = function () {};
 registerScreen.onSubmit = function () {
   var form = this,
       user = form.username.value,
-      pass = form.password.value,
-      regErr = $("#RegError");
+      pass = form.password.value;
   
   if (form.password.value != form.password2.value) {
-    regErr("Passwords must match.");
+    ncc.error("Passwords must match.");
     return false;
   }
   
   function save_and_login() {
     blobVault.save();
-    blobVault.login(user, pass, '', loginScreen.finishLogin, _.bind(regErr.text, regErr));
+    blobVault.login(user, pass, '', loginScreen.finishLogin, ncc.error);
   }
   
   if (user && pass) {
@@ -25,8 +24,9 @@ registerScreen.onSubmit = function () {
       save_and_login();
     } else {
       rpc.wallet_propose(function (res, noErrors) {
+        res = res.result || res;
         if (noErrors) {
-          ncc.user = localStorage.user = user;
+          ncc.user = user;
           ncc.masterKey = blobVault.data.master_seed = res.master_seed;
           ncc.accountID = blobVault.data.account_id = res.account_id;
           save_and_login();
@@ -34,7 +34,7 @@ registerScreen.onSubmit = function () {
       });
     }
   } else {
-    regErr.text("Username and password can't be blank.");
+    ncc.error("Username and password can't be blank.");
   }
   return false;
 };

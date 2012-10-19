@@ -1,33 +1,62 @@
-var feed = {};
 
-feed.onShowTab = function () {};
+var feed={};
 
-feed.clear = function () {
-  $('#FeedArea').empty();
-};
+feed.onShowTab = function()
+{
 
-feed.onLedgerClick = function (ele) {
-  if (ele.checked) {
-    server.subscribe("ledger_accounts");
-  } else {
-    server.unsubscribe("ledger_accounts");
-  }
-};
+}
 
-feed.onTransactionsClick = function (ele) {
-  if (ele.checked) {
-    server.subscribe("transaction");
-  } else {
-    server.unsubscribe("transaction");
-  }
-};
+feed.clear=function()
+{
+	$('#FeedArea').empty();
+}
 
-feed.onServerClick = function (ele) {
-  if (ele.checked) {
-    server.subscribe("server");
-  } else {
-    server.unsubscribe("server");
-  }
-};
+feed.onLedgerClick =function(ele)
+{
+	if(ele.checked)
+	{
+		server.subscribe("ledger");
+	}else
+	{
+		server.unsubscribe("ledger");
+	}
+}
 
-feed.addTransaction = function (obj) {};
+feed.onTransactionsClick=function(ele)
+{
+	if(ele.checked)
+	{
+		server.subscribe("transaction");
+	}else
+	{
+		server.unsubscribe("transaction");
+	}
+}
+
+feed.onRippleClick=function(ele)
+{
+	if(ele.checked)
+	{
+		server.subscribe("ripple");
+	}else
+	{
+		server.unsubscribe("ripple");
+	}
+}
+
+feed.onServerClick=function(ele)
+{
+	if(ele.checked)
+	{
+		server.subscribe("server");
+	}else
+	{
+		server.unsubscribe("server");
+	}
+}
+
+
+feed.addTransaction=function(obj)
+{
+	
+}

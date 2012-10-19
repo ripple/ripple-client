@@ -1,6 +1,7 @@
 var orderBookScreen = {};
 
 orderBookScreen.ledgerResponse = function (res, noErrors) {
+  res = res.result || res;
   if (noErrors && res.ledger && res.ledger.accountState) {
     orderBookScreen.addLedger(res.ledger);
   }

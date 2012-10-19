@@ -128,8 +128,8 @@
 
   $(function () {
     $('body').on('click.tab.data-api', '[data-toggle="tab"], [data-toggle="pill"]', function (e) {
-      $(this).tab('show');
-      return false;
+      e.preventDefault()
+      $(this).tab('show')
     })
   })
 

@@ -102,29 +102,12 @@ ul.ui-autocomplete.ui-menu.ui-widget.ui-widget-content {
   border-top-right-radius: 0px;
 }
 
-#MainStatusArea {
-  display: none;
-}
-
-#MainStatusArea p {
+#StatusDiv p, #ErrorDiv p {
   margin-bottom: 0;
-}
-
-#MainStatusArea div {
-  margin: 0 0 -1px 0;
-  border-radius: 0;
-}
-
-#MainStatusArea div.template {
-  display: none;
 }
 
 #ClientState a {
   color: #bbb;
-}
-
-#LoginError {
-  float: left;
 }
 
 .alert-heading {

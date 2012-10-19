@@ -137,7 +137,7 @@ header .status-message .heading {
 /* MAIN ----------------------------------------------------*/
 
 #main {
-  position: relative;
+	position: relative;
 
   background: #fff;
   -webkit-border-radius: 5px;
@@ -151,7 +151,7 @@ header .status-message .heading {
 }
 
 #main .tab-content {
-  min-height: 400px;
+	min-height: 400px;
 }
 
 #main form,
@@ -176,13 +176,13 @@ header .status-message .heading {
 }
 
 #main .stick-bottom{
-  /*position: absolute;
-  left: 0px;
-  bottom: 10px;
-  width: 870px;
-  margin-top: 240px;
-  */
-/*  margin-top:40px;*/
+	/*position: absolute;
+	left: 0px;
+	bottom: 10px;
+	width: 870px;
+	margin-top: 240px;
+	*/
+	margin-top:40px;
 }
 
 /* FOOTER ----------------------------------------------------*/
@@ -200,5 +200,5 @@ footer .right-footer {
 }
 
 footer span {
-  padding-right: 20px;
+	padding-right: 20px;
 }

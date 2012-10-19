@@ -28,7 +28,7 @@ var blobVault = new (function () {
     hash = make_hash(user, pass);
     
     function processBlob(blob) {
-      if (!blob) onFailure("Bad username or password.");
+      if (!blob) onFailure("Unknown username or bad password.");
       else if (!blobVault.loadBlob(blob)) onFailure("Account decryption failed.");
       else onSuccess();
     }

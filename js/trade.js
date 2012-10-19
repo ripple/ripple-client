@@ -151,9 +151,9 @@ var TradePage = new (function () {
     return ('<tr data-sequence="' + a.Sequence + '">' +
               '<td>' + '' + '</td>' +
               '<td>' + takerGets.currency + '/' + takerPays.currency + '</td>' +
+              '<td>' + '' + '</td>' +
               '<td>' + (takerPays.value / takerGets.value) + '</td>' +
               '<td>' + takerGets.value + '</td>' +
-              '<td>' + a.status + '</td>' +
               '<td>' +
                 '<button onclick="TradePage.cancelOffer(this.parentElement.parentElement);">' +
                   'cancel?' +
@@ -165,6 +165,7 @@ var TradePage = new (function () {
   
   // the following methods populate and modify the offer table
   this.onLedgerResponse = function (res, noErrors) {
+    res = res.result || res;
     if (noErrors && res.ledger) {
       var tbody = openOrderTable.empty();
       _.each(

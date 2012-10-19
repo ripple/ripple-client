@@ -9,14 +9,16 @@ rpc.url = "http://" + Options.RPC_SERVER + "/";
 rpc.displayResult = function () {};
 
 rpc.handleResponse = function (req, callback, response) {
-  var res = _.extend(Object.create(response), response.result),
+  var res = response.result,
       err = res.error_message || res.error || res.error_code;
   
   if (err) {
-    ncc.status.error(req.method + ': ' + err, { response: res, request: req });
+   ncc.status(null);
+   ncc.error(err, { response: response, request: req });
     callback(response, false);
   } else {
-    ncc.status.info(
+    ncc.error(null);
+    ncc.status(
       "RPC call to '" + req.method + "' command successful ",
       { response: res, request: req }
     );
@@ -32,8 +34,8 @@ rpc.call = function (req, callback) {
     data: JSON.stringify(req),
     success: _.bind(rpc.handleResponse, rpc, req, callback),
     error: function (response) {
-      ncc.status.info(null);
-      ncc.status.error("RPC server unreacheable");
+      ncc.status(null);
+      ncc.error("RPC server unreacheable");
       callback(response, true);
     },
     dataType: "json"

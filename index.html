@@ -18,9 +18,10 @@
   <link rel="stylesheet" href="css/bootstrap.css">
   <link href="css/bootstrap-responsive.css?1" rel="stylesheet">
   <link href="css/ui-lightness/jquery-ui.css" rel="stylesheet">
-  <link href="css/style.css" rel="stylesheet">
   <link href="css/ncc2.css" rel="stylesheet">
-  <link href="css/password-strength-meter.css" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/password-strength-meter.css">
   <!-- ENDS CSS -->
   
   <!-- GOOGLE FONTS -->
@@ -71,9 +72,7 @@
           <li><a href="#t-ripple" data-toggle="tab">Trust Network</a></li>
           <li><a href="#t-history" data-toggle="tab">History</a></li>
           <li><a href="#t-address" data-toggle="tab">Address Book</a></li>
-          <li class="secondary-tab pull-right">
-            <a id='AdvNavToggle' onclick="ncc.toggleAdvanced(this)">Show Advanced <b class="caret"></b></a>
-          </li>
+          <li class="secondary-tab pull-right"><a onclick="ncc.toggleAdvanced(this)">Show Advanced <b class="caret"></b></a></li>
         </ul>
         
         <ul class="nav nav-tabs subnav" id="AdvancedNav">
@@ -182,9 +181,7 @@
                 </tr>
               </table>
               
-              <div class="bottom-btn">
-                <input id="LoginButton" type="submit" value="Sign in" class="btn btn-large btn-success" />
-              </div>
+              <div class="bottom-btn"> <input type="submit" value="Login" class="btn btn-large btn-success" /></div>
             </form>
             
             <p>
@@ -456,6 +453,7 @@
               <tr>
                 <td><input type="checkbox" onclick="feed.onLedgerClick(this)" /> Ledger</td>
                 <td><input type="checkbox" onclick="feed.onTransactionsClick(this)" /> Transactions</td>
+                <td><input type="checkbox" onclick="feed.onRippleClick(this)" /> Ripple</td>
                 <td><input type="checkbox" onclick="feed.onServerClick(this)" /> Server</td>
                 <td><button class="btn btn-danger" onclick="feed.clear()"> Clear Feed</button></td>
               </tr>
@@ -514,9 +512,9 @@
                 <tr>
                   <th>Date</th>
                   <th>Pair</th>
+                  <th>Type</th>
                   <th>Price</th>
                   <th>Amount</th>
-                  <th>Status</th>
                   <th class="span1">&nbsp;</th>
                 </tr>
                 <tbody id="OpenOrderTable"></tbody>
@@ -615,6 +613,23 @@
       </div>
       <!-- ENDS TAB-CONTENT -->
       
+      <div id="ErrorDiv" class="alert alert-error ncc-alert stick-bottom">
+        <p>
+          <span class="alert-heading">ERROR</span>
+          <button onclick="this.innerText=$('#ErrorDiv pre.json').toggle().is(':visible')?'-':'+';" >+</button>
+        </p>
+        <pre class="json" style='display:none;'></pre>
+      </div>
+      
+      <div id="StatusDiv" class="alert alert-info ncc-alert stick-bottom">
+        <p>
+          <span class="alert-heading">INFO</span>
+          <button onclick="this.innerText=$('#StatusDiv pre.json').toggle().is(':visible')?'-':'+';" >+</button>
+        </p>
+        <pre class="json" style='display:none;'></pre>
+        
+      </div>
+      
     </div>
     <!-- ENDS MAIN -->
     
@@ -633,25 +648,12 @@
         <span class="right-footer">
           <span id="ServerDisplay">...</span> <a onclick="ncc.displayScreen('options')">change</a>
         </span>
-        <span class="right-footer">
-          <a onclick="this.innerText=$('#MainStatusArea').toggle().is(':visible')?'hide debug':'show debug';">show debug</a>
-        </span>
       </div>
     </footer>
     <!-- ENDS FOOTER -->
     
   </div>
   <!-- ENDS WRAPPER -->
-  
-  <div id="MainStatusArea">
-    <div class="template alert ncc-alert stick-bottom">
-      <p>
-        <span class="alert-heading"></span>
-        <button onclick="this.innerText=$(this).parent().siblings('pre.json').toggle().is(':visible')?'-':'+';" >+</button>
-      </p>
-      <pre class="json" style='display:none;'></pre>
-    </div>
-  </div>
   
   <!-- JavaScript at the bottom for fast page loading -->
   
