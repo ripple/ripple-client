@@ -33,6 +33,10 @@ server.handleMsg = function (msg) {
       str = '<div class="ledgerFeedMsg">Accepted Ledger <strong>' + server.escape(obj.ledger_closed_index) +
               '</strong> hash:' + server.escape(obj.ledger_closed) +
             '</div>';
+    } else if (obj.type == "ledgerClosedAccounts") {
+      str = '<div class="ledgerFeedMsg">Accepted Ledger <strong>' + server.escape(obj.ledger_closed_index) +
+              '</strong> hash:' + server.escape(obj.ledger_closed) +
+            '</div>';
     } else if (obj.type == "response") {
       if (obj.result == "error") {
         str = '<div class="errorFeedMsg">Error Listening ' + server.escape(obj.error) + '</div>';
