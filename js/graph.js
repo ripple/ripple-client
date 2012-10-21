@@ -1,8 +1,11 @@
 /*
 arrows on lines so we see direction of trust.
+	annoying since we have to scoot the arrows back so they don't get overwritten by the circle
 drop down that let's you choose the currency to see the trust paths of
 import a blob for annotations.
 if it gets too big allow you to select an account to start from and expand as they click 
+
+make real time
 */
 
 var gRoot=[];
@@ -121,16 +124,6 @@ function onLedger(response, success)
 
 
 
-/*
-Mousing over a layer brings up details of the layer
-Links are:
-    source 
-    target
-    from
-    to
-
-*/
-
 function setUpD3()
 {
     gRoot.first=true;
@@ -138,6 +131,8 @@ function setUpD3()
 
     gRoot.color = d3.scale.category10();
 
+
+    
     gRoot.force = d3.layout.force()
         .charge(-250)
         .linkDistance(100)
@@ -150,6 +145,19 @@ function setUpD3()
 }
 function drawGraph(nodes,links)
 {
+	gRoot.svg.append("svg:defs").selectAll("marker")
+    .data(["arrow"])
+  .enter().append("svg:marker")
+    .attr("id", String)
+    .attr("viewBox", "0 -5 10 10")
+    .attr("refX", 15)
+    .attr("refY", -1.5)
+    .attr("markerWidth", 6)
+    .attr("markerHeight", 6)
+    .attr("orient", "auto")
+  .append("svg:path")
+    .attr("d", "M0,-5L10,0L0,5");
+    
      gRoot.force
           .nodes(nodes)
           .links(links)
@@ -161,23 +169,37 @@ function drawGraph(nodes,links)
     link.enter().append("line")
           .attr("class", "link")
           .on("mouseover", function(d) { overLink(d); })
+          //.attr("marker-end", function(d) { return "url(#arrow)"; })
           .style("stroke-width", function(d) { return Math.min(20,Math.log(d.value)); });
 
     link.append("title")
           .text(function(d) { return d.value; });
    
     link.exit().remove();
+    
+    var path = gRoot.svg.append("svg:g").selectAll("path")
+    .data(gRoot.force.links())
+  .enter().append("svg:path")
+    .attr("class", "link" )
+    .attr("marker-end", function(d) { return "url(#arrow)"; });
    
     var node = gRoot.svg.selectAll("circle.node")
           .data(nodes);
 
-    node.enter().append("circle")
-          .attr("class", "node")
+    node.enter().append("g")
+    	.attr("class", "node")
+    .on("mouseout", outNode)
+    	.on("mouseover", inNode)
+    	
+         .call(gRoot.force.drag);
+    
+    node.append("circle")
           //.attr("r", function(d) { return Math.min(70,5+(Math.log(d.Balance/BALANCE_DISPLAY_DIVISOR)/ Math.LOG10E)); })
-          .attr("r", function(d) { return Math.min(60,5+Math.sqrt(d.Balance/BALANCE_DISPLAY_DIVISOR)/10); })
+          .attr("r", function(d) { return Math.min(50,5+Math.sqrt(d.Balance/BALANCE_DISPLAY_DIVISOR)/10); })
           .style("fill", gRoot.color(1) )
-          .on("mouseover", function(d) { overNode(d); })
-          .call(gRoot.force.drag);
+           .style("stroke", "black")
+          .on("mouseover", function(d) { overNode(d); });
+          
 
     node.append("title")
           .text(function(d) { return d.Account; });
@@ -186,25 +208,28 @@ function drawGraph(nodes,links)
   
    
   
-      gRoot.force.on("tick", function() {
-      
-      /*
-       link.attr("x1", function(d) { return (d.source.x+d.target.x)/2; })
-            .attr("y1", function(d) { return (d.source.y+d.target.y)/2; })
-            .attr("x2", function(d) { return d.target.x; })
-            .attr("y2", function(d) { return d.target.y; });
-           */
-           
-       link.attr("x1", function(d) { return d.source.x; })
-            .attr("y1", function(d) { return d.source.y; })
-            .attr("x2", function(d) { return d.target.x; })
-            .attr("y2", function(d) { return d.target.y; });
-            
-       // console.log(""+link.x1+" "+link.y1+","+link.x2+" "+link.y2);
-       
+      gRoot.force.on("tick", function() 
+      {
+       /*
+       path.attr("d", function(d) {
+    var dx = d.target.x - d.source.x,
+        dy = d.target.y - d.source.y,
+        dr = Math.sqrt(dx * dx + dy * dy);
+    return "M" + d.source.x + "," + d.source.y + "A" + dr + "," + dr + " 0 0,1 " + d.target.x + "," + d.target.y;
+  }); */
+  
+ 
+      	link
+	      .attr("x1", function(d) { return d.source.x; })
+	      .attr("y1", function(d) { return d.source.y; })
+	      .attr("x2", function(d) { return d.target.x; })
+	      .attr("y2", function(d) { return d.target.y; });
+	    
 
-        node.attr("cx", function(d) { return d.x; })
-            .attr("cy", function(d) { return d.y; });
+  node   .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+      
+      //node.attr("cx", function(d) { return d.x; })       .attr("cy", function(d) { return d.y; });
+     
       });
       
      
@@ -224,8 +249,22 @@ addCommas = function (n)
   return whole + fract;
 }
 
+function outNode() {
+  d3.select(this).select("circle").style("fill", gRoot.color(1) );
+}
+
+function inNode(node)
+{
+	d3.select(this).select("circle").style("fill", gRoot.color(2) );
+}
+
 function overNode(node)
 {
+	//node.select("circle").style("fill", gRoot.color(2) );
+	//node.style("fill", gRoot.color(2) );
+	//d3.select(this).select("circle").style("fill", gRoot.color(2) );
+	
+      
     // we can look up all the details since we pulled the whole ledger
     var bal=node.Balance /BALANCE_DISPLAY_DIVISOR;
     bal=addCommas(bal);
