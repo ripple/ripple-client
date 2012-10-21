@@ -1,3 +1,10 @@
+/*
+arrows on lines so we see direction of trust.
+drop down that let's you choose the currency to see the trust paths of
+import a blob for annotations.
+if it gets too big allow you to select an account to start from and expand as they click 
+*/
+
 var gRoot=[];
 
 $(document).ready(function() 
@@ -43,10 +50,29 @@ $(document).ready(function()
         },
         
 */
+function filloutLedgerData(ledger)
+{
+	$('#LedgerInfoHash').text(ledger.hash);
+  $('#LedgerInfoParentHash').text(ledger.parentHash);
+  $('#LedgerInfoNumber').text(ledger.seqNum);
+  
+	var total=ledger.totalCoins /BALANCE_DISPLAY_DIVISOR;
+    total=addCommas(total);
+  $('#LedgerInfoTotalCoins').text(total);
+  $('#LedgerInfoDate').text(ledger.closeTime);
+  
+  
+  stateStr = (ledger.accepted ? 'accepted ' : 'unaccepted ') +
+             (ledger.closed ? 'closed ' : 'open ');
+  
+  $('#LedgerInfoState').text(stateStr);
+}
 function onLedger(response, success)
 {
 	if(response.ledger) 
 	{
+		filloutLedgerData(response.ledger);
+		
 		var nodeMap={};
 		var nodeArray=[];
 		var accounts = response.ledger.accountState;
@@ -84,6 +110,8 @@ function onLedger(response, success)
   			}	
 		}
 		
+		
+		$('#LedgerNumAccounts').text(nodeArray.length);
 		
   
 
@@ -145,7 +173,8 @@ function drawGraph(nodes,links)
 
     node.enter().append("circle")
           .attr("class", "node")
-          .attr("r", function(d) { return Math.min(60,10+Math.log(d.Balance/BALANCE_DISPLAY_DIVISOR)); })
+          //.attr("r", function(d) { return Math.min(70,5+(Math.log(d.Balance/BALANCE_DISPLAY_DIVISOR)/ Math.LOG10E)); })
+          .attr("r", function(d) { return Math.min(60,5+Math.sqrt(d.Balance/BALANCE_DISPLAY_DIVISOR)/10); })
           .style("fill", gRoot.color(1) )
           .on("mouseover", function(d) { overNode(d); })
           .call(gRoot.force.drag);
