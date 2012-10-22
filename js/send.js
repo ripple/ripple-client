@@ -8,7 +8,7 @@ var SendPage = new (function () {
       buttonElem; // button
   
   function onFieldsUpdated() {
-    address = destElem.value();
+    address = destElem.value().replace(/\s/g, '');
     name = blobVault.addressBook.getName(address) || "";
     currency = currElem.value();
     amount = amntElem.val() * (currency == 'XNS' ? BALANCE_DISPLAY_DIVISOR : 1);
@@ -24,7 +24,7 @@ var SendPage = new (function () {
     
     if (ncc.misc.isValidAddress(address) && name != 'you') {
       $("#SpacerRow").hide();
-      if (address == destElem.input.val()) {
+      if (address == destElem.input.val().replace(/\s/g, '')) {
         // address in input box
         $("#SendDestNameRow").show();
         $("#SendDestName").val(name);

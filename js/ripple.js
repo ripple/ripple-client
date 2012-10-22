@@ -9,7 +9,7 @@ var RipplePage = new (function () {
       rippleLinesTable;
   
   function onFieldsUpdated() {
-    address = acctElem.value();
+    address = acctElem.value().replace(/\s/g, '');
     name = blobVault.addressBook.getName(address) || '';
     creditMax = limitElem.val();
     currency = currElem.value();
