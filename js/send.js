@@ -36,6 +36,26 @@ var SendPage = new (function () {
     } else {
       buttonElem.attr('disabled', true);
     }
+    
+    destElem.button.next(".testresult").remove();
+    if (!buttonElem.attr('disabled')) {
+      checkCredit.call(destElem.button, amount, address, currency);
+    }
+  }
+  
+  function checkCredit(amount, addr, curr) {
+    var line = RipplePage.lines[addr + '/' + curr];
+    if ((curr == 'XNS' && Number(ncc.balance.XNS) >= amount)
+     || (line && Number(line.limit_peer) + Number(line.balance) > amount)) {
+       $(this).after($('<span>').addClass('strongPass testresult').html("<span>Ready to send</span>"));
+    } else {
+      if (curr == 'XNS') {
+        $(this).after("<span class='badPass testresult'><span>Insufficient funds</span></span>");
+      } else {
+        $(this).after("<span class='badPass testresult'><span>Not enough credit</span></span>");
+      }
+      buttonElem.attr('disabled', true);
+    }
   }
   
   $(document).ready(function () {

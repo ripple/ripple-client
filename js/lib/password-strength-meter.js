@@ -67,8 +67,7 @@
       if (r.test(this.value)) {
         $(this).after($('<span>').addClass('strongPass testresult').html("<span>" +  good + "</span>"));
       } else {
-        $(this).after("<span class='testresult'><span></span></span>");
-        $(this).next(".testresult").addClass("badPass").find("span").text(bad);
+        $(this).after($('<span>').addClass('testresult badPass').html("<span>" +  bad + "</span>"));
       }
     });
   };
@@ -80,11 +79,10 @@
         try {
           var msg = validator(this.value)
           if (msg) {
-            $(this).after($('<span>').addClass('strongPass testresult').html("<span>" +  msg + "</span>"));
+            $(this).after($('<span>').addClass('testresult strongPass').html("<span>" +  msg + "</span>"));
           }
         } catch (e) {
-          $(this).after("<span class='testresult'><span></span></span>");
-          $(this).next(".testresult").addClass("badPass").find("span").text(e);
+          $(this).after($('<span>').addClass('testresult badPass').html("<span>" +  e + "</span>"));
         }
       }
     });
@@ -92,9 +90,9 @@
   
   $.fn.passStrength = function(options) {
     var defaults = {
-      shortPass: "goodPass",   // optional
-      badPass: "goodPass",       // optional
-      goodPass: "goodPass",     // optional
+      shortPass: "goodPass",    // optional
+      badPass: "goodPass",      // optional
+      goodPass: "strongPass",   // optional
       strongPass: "strongPass", // optional
       baseStyle: "testresult",  // optional
       userid: "",               // required override
