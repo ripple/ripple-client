@@ -1,4 +1,4 @@
-/*  RESULT STYLE  */
+/*  Password Strength Meter  */
 .testresult {
   border-radius: 5px;
   font-weight: bold;
@@ -21,21 +21,21 @@
 }
 
 .shortPass {
-  background: #EDABAB url(../img/password-strength-meter/red.png) no-repeat 7px center;
+  background: #EDABAB url(../img/psm/red.png) no-repeat 7px center;
   border: 1px solid #BC0000;
 }
 
 .badPass { 
-  background: #EDABAB url(../img/password-strength-meter/red.png) no-repeat 7px center;
+  background: #EDABAB url(../img/psm/red.png) no-repeat 7px center;
   border: 1px solid #BC0000;
 }
 
 .goodPass {
-  background: #EDE3AB url(../img/password-strength-meter/yellow.png) no-repeat 7px center;
+  background: #EDE3AB url(../img/psm/yellow.png) no-repeat 7px center;
   border: 1px solid #BC9F00;
 }
 
 .strongPass {
-  background: #CAF2A9 url(../img/password-strength-meter/green.png) no-repeat 7px center; 
+  background: #CAF2A9 url(../img/psm/green.png) no-repeat 7px center; 
   border: 1px solid #73BC00;
 }

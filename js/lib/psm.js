@@ -1,18 +1,17 @@
 /**
- * password_strength_plugin.js
+ * psm.js (formerly password_strength_plugin.js)
  * Copyright (c) 20010 myPocket technologies (www.mypocket-technologies.com)
  
-
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
-
+ 
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
-
+ 
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -20,20 +19,11 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
- * 
+ 
  * @author Darren Mason (djmason9@gmail.com)
  * @date 3/13/2009
- * @projectDescription Password Strength Meter is a jQuery plug-in provide you smart algorithm to detect a password strength. Based on Firas Kassem orginal plugin - http://phiras.wordpress.com/2007/04/08/password-strength-meter-a-jquery-plugin/
+ * @projectDescription Password Strength Meter is a jQuery plug-in provide you smart algorithm to detect a password strength. Based on Firas Kassem orginal plugin - http://phiras.wordpress.com/2007/04/08/psm-a-jquery-plugin/
  * @version 1.0.1
- * 
- * @requires jquery.js (tested with 1.3.2)
- * @param shortPass:  "shortPass",  //optional
- * @param badPass:    "badPass",    //optional
- * @param goodPass:   "goodPass",   //optional
- * @param strongPass: "strongPass", //optional
- * @param baseStyle:  "testresult", //optional
- * @param userid:   "",       //required override
- * @param messageloc: 1       //before == 0 or after == 1
  * 
 */
 
@@ -47,14 +37,11 @@
   
   $.fn.passEqual = function (selectOtherPass) {
     $(this).unbind().on('input', function () {
+      $(this).next(".testresult").remove();
       if (this.value != $(selectOtherPass).val()) {
-        $(this).next(".testresult").remove();
-        $(this).after("<span class='testresult'><span></span></span>");
-        $(this).next(".testresult").addClass("badPass").find("span").text("Passwords don't match.");
+        $(this).after($('<span>').addClass('badPass testresult').html("<span>Passwords don't match.</span>"));
       } else {
-        $(this).next(".testresult").remove();
-        $(this).after("<span class='testresult'><span></span></span>");
-        $(this).next(".testresult").addClass("strongPass").find("span").text("Passwords match.");
+        $(this).after($('<span>').addClass('strongPass testresult').html("<span>Passwords match.</span>"));
       }
     });
   };
@@ -63,7 +50,6 @@
     $(this).unbind().on('input', function () {
       $(this).next(".testresult").remove();
       if (!this.value) return;
-      
       if (r.test(this.value)) {
         $(this).after($('<span>').addClass('strongPass testresult').html("<span>" +  good + "</span>"));
       } else {
@@ -204,14 +190,14 @@ $.fn.checkRepetition = function (pLen, str) {
     var repeated = true;
     
     for (var j = 0; j < pLen && (j+i+pLen) < str.length; j++) {
-      repeated = repeated && (str.charAt(j+i) == str.charAt(j+i+pLen));
+      repeated = repeated && (str.charAt(j + i) == str.charAt(j + i + pLen));
     }
-    if (j<pLen) {
+    if (j < pLen) {
       repeated = false;
     }
     
     if (repeated) {
-      i += pLen-1;
+      i += pLen - 1;
       repeated = false;
     } else {
       res += str.charAt(i);
