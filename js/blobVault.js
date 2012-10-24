@@ -38,7 +38,7 @@ var blobVault = new (function () {
           serverBlob = serverBlob || "";
       
       if (offlineBlob) {
-        if (this.loadBlob(offlineBlob)) {
+        if (blobVault.loadBlob(offlineBlob)) {
           this.save();
           this.pushToServer(serverBlob);
           onSuccess();
