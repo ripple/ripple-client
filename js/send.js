@@ -8,7 +8,7 @@ var SendPage = new (function () {
       buttonElem; // button
   
   function onFieldsUpdated() {
-    address = destElem.value();
+    address = destElem.value().replace(/\s/g, '');
     name = blobVault.addressBook.getName(address) || "";
     currency = currElem.value();
     amount = amntElem.val() * (currency == 'XNS' ? BALANCE_DISPLAY_DIVISOR : 1);
@@ -24,7 +24,7 @@ var SendPage = new (function () {
     
     if (ncc.misc.isValidAddress(address) && name != 'you') {
       $("#SpacerRow").hide();
-      if (address == destElem.input.val()) {
+      if (address == destElem.input.val().replace(/\s/g, '')) {
         // address in input box
         $("#SendDestNameRow").show();
         $("#SendDestName").val(name);
@@ -34,6 +34,26 @@ var SendPage = new (function () {
         $("#AddressDisplay").val(address)
       }
     } else {
+      buttonElem.attr('disabled', true);
+    }
+    
+    destElem.button.next(".testresult").remove();
+    if (!buttonElem.attr('disabled')) {
+      checkCredit.call(destElem.button, amount, address, currency);
+    }
+  }
+  
+  function checkCredit(amount, addr, curr) {
+    var line = RipplePage.lines[addr + '/' + curr];
+    if ((curr == 'XNS' && Number(ncc.balance.XNS) >= amount)
+     || (line && Number(line.limit_peer) + Number(line.balance) > amount)) {
+       $(this).after($('<span>').addClass('strongPass testresult').html("<span>Ready to send</span>"));
+    } else {
+      if (curr == 'XNS') {
+        $(this).after("<span class='badPass testresult'><span>Insufficient funds</span></span>");
+      } else {
+        $(this).after("<span class='badPass testresult'><span>Not enough credit</span></span>");
+      }
       buttonElem.attr('disabled', true);
     }
   }

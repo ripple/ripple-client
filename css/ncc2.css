@@ -123,7 +123,7 @@ ul.ui-autocomplete.ui-menu.ui-widget.ui-widget-content {
   color: #bbb;
 }
 
-#LoginError {
+#LoginError, #t-send tr input, #t-send tr button {
   float: left;
 }
 
