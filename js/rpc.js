@@ -197,3 +197,10 @@ rpc.offer_cancel = function (key, accountID, offerID, callback) {
   request.params = [key, accountID, offerID];
   rpc.call(request, callback);
 };
+
+rpc.tx_history = function (startIndex, callback) {
+  var request = {};
+  request.method = "tx_history";
+  request.params = [startIndex];
+  rpc.call(request, callback);
+};

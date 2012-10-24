@@ -4,16 +4,21 @@ arrows on lines so we see direction of trust.
 drop down that let's you choose the currency to see the trust paths of
 import a blob for annotations.
 if it gets too big allow you to select an account to start from and expand as they click 
+show balance of the trust lines?
 
 make real time
+	Show sends as animation
 */
 
-var gRoot=[];
+var gRoot={};
 
 $(document).ready(function() 
 {
     setUpD3();
     rpc.ledger(onLedger);
+    server.connect();
+    server.socket.onmessage = gRoot.handleMsg;
+    server.subscribe("transaction");
 });
 
 
@@ -127,7 +132,7 @@ function onLedger(response, success)
 function setUpD3()
 {
     gRoot.first=true;
-    var width = 1500, height = 700;
+    var width = 700, height = 700;
 
     gRoot.color = d3.scale.category10();
 
@@ -195,7 +200,7 @@ function drawGraph(nodes,links)
     
     node.append("circle")
           //.attr("r", function(d) { return Math.min(70,5+(Math.log(d.Balance/BALANCE_DISPLAY_DIVISOR)/ Math.LOG10E)); })
-          .attr("r", function(d) { return Math.min(50,5+Math.sqrt(d.Balance/BALANCE_DISPLAY_DIVISOR)/10); })
+          .attr("r", function(d) { return Math.min(40,5+Math.sqrt(d.Balance/BALANCE_DISPLAY_DIVISOR)/10); })
           .style("fill", gRoot.color(1) )
            .style("stroke", "black")
           .on("mouseover", function(d) { overNode(d); });
@@ -276,6 +281,21 @@ function overLink(node)
 {   
     $('#NodeData').html(node.currency+"<br>"+addCommas(node.LowLimit)+" -- "+addCommas(node.HighLimit));
 }
+
+gRoot.handleMsg=function(msg)
+{
+	console.log(msg);
+	
+	var obj = jQuery.parseJSON(msg.data);
+	if (obj) 
+	{
+		if (obj.type == "transaction") 
+	    {
+	    	
+	    }
+	}
+}
+
 
 ////////////////////// 
 // so we don't have to include everything

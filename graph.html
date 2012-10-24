@@ -3,11 +3,12 @@
 
 
 <title>Ripple Trust Graph</title>
-
+<link rel="stylesheet" href="css/bootstrap.css">
  <link href="css/graph.css" rel="stylesheet">
  
 </head>
 <body>
+<div class="container"><br>
 Current Ripple Credit lines
 
 
@@ -16,7 +17,7 @@ Current Ripple Credit lines
 </svg>
 </div>
 <div id="NodeData"></div>
-<table class="infoTable">
+<table class="table table-striped">
 	<tr><td>Number of Accounts:</td><td id="LedgerNumAccounts"></td></tr>
                   <tr><td>Hash:</td><td id="LedgerInfoHash" class="smallFont"></td></tr>
                   <tr><td>Parent Hash:</td><td id="LedgerInfoParentHash" class="smallFont"></td></tr>
@@ -25,6 +26,7 @@ Current Ripple Credit lines
                   <tr><td>Date:</td><td id="LedgerInfoDate"></td></tr>
                   <tr><td>State:</td><td id="LedgerInfoState"></td></tr>
 </table>
+</div>
 
 <script src="js/lib/jquery.js"></script>
   <script src="js/lib/underscore.js"></script>
@@ -34,6 +36,7 @@ Current Ripple Credit lines
   <script src="js/datastore.js"></script>
   <script src="js/misc.js"></script>
   <script src="js/rpc.js"></script>
+  <script src="js/websocket.js"></script>
   <script src="js/graph.js"></script>
 </body>
 </html>
