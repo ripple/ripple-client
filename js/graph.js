@@ -18,7 +18,8 @@ $(document).ready(function()
     rpc.ledger(onLedger);
     server.connect();
     server.socket.onmessage = gRoot.handleMsg;
-    server.subscribe("transaction");
+    server.subscribe("transactions");
+    //server.send({'command': 'transaction_entry', 'hash': "7A852DC7AACBEBBFB05C954785DBB37C5DB6B97DD2E236F0BCEC67C3C6B6CE63", 'ledger_closed':"2DC4E79AF0E137AC56E2D1218AC1DE228612B56A97B958750F0DFD5CAE1E65D7"});
 });
 
 
