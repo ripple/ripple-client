@@ -139,8 +139,8 @@ var SendPage = new (function () {
       $("#SpacerRow").show();
     }
     
-    onFieldsUpdated();
     buttonElem.text("Send Money");
     ncc.misc.forms.enable('#t-send');
+    onFieldsUpdated();
   }
 })();

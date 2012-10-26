@@ -91,15 +91,16 @@ var RipplePage = new (function () {
       blobVault.save();
       blobVault.pushToServer();
       acctElem.promoteEntry(address);
+      
+      acctElem.value('');
+      limitElem.val('');
+      address = '';
+      name = '';
+      creditMax = '';
     }
     
-    acctElem.input.val('');
-    limitElem.val('');
-    address = '';
-    name = '';
-    creditMax = '';
     ncc.misc.forms.enable("#t-ripple");
-    acctElem.cleanup();
+    onFieldsUpdated();
   }
   
   // this will return the accountID of the line that has the most credit left in that currency 
