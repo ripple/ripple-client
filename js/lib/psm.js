@@ -36,12 +36,17 @@
   $.fn.resultStyle = "";
   
   $.fn.passEqual = function (selectOtherPass) {
-    $(this).unbind().on('input', function () {
-      $(this).next(".testresult").remove();
-      if (this.value != $(selectOtherPass).val()) {
-        $(this).after($('<span>').addClass('badPass testresult').html("<span>Passwords don't match.</span>"));
-      } else {
-        $(this).after($('<span>').addClass('strongPass testresult').html("<span>Passwords match.</span>"));
+    var $this = $(this),
+        $other = $(selectOtherPass);
+        
+    $this.add($other).on('input', function () {
+      $this.next(".testresult").remove();
+      if ($this.val()) {
+        if ($this.val() != $other.val()) {
+          $this.after($('<span>').addClass('badPass testresult').html("<span>Passwords don't match.</span>"));
+        } else {
+          $this.after($('<span>').addClass('strongPass testresult').html("<span>Passwords match.</span>"));
+        }
       }
     });
   };
@@ -65,7 +70,10 @@
         try {
           var msg = validator(this.value)
           if (msg) {
-            $(this).after($('<span>').addClass('testresult strongPass').html("<span>" +  msg + "</span>"));
+            $(this).after($('<span>').addClass('testresult strongPass')
+              .html("<span>" +  (msg.constructor == String ? msg : "Valid") + "</span>"));
+          } else {
+            $(this).after($('<span>').addClass('testresult badPass').html("<span>Invalid</span>"));
           }
         } catch (e) {
           $(this).after($('<span>').addClass('testresult badPass').html("<span>" +  e + "</span>"));

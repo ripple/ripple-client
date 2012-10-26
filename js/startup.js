@@ -10,9 +10,7 @@ startUp.start = function () {
   }
   
   server.connect();
-  
-  ncc.status.info("connecting to " + Options.RPC_SERVER);
-  
-  $('#ServerDisplay').text("Connecting to: " + Options.RPC_SERVER);
+  ncc.status.info("connecting to " + Options.WS_SERVER);
+  $('#ServerDisplay').text("Connecting to: " + Options.WS_SERVER);
 }
 

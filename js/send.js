@@ -48,6 +48,7 @@ var SendPage = new (function () {
     if ((curr == 'XNS' && Number(ncc.balance.XNS) >= amount)
      || (line && Number(line.limit_peer) + Number(line.balance) > amount)) {
        $(this).after($('<span>').addClass('strongPass testresult').html("<span>Ready to send</span>"));
+       destElem.input.autocomplete('close');
     } else {
       if (curr == 'XNS') {
         $(this).after("<span class='badPass testresult'><span>Insufficient funds</span></span>");
@@ -129,7 +130,7 @@ var SendPage = new (function () {
       delete currency;
       delete amount;
       
-      destElem.input.val('');
+      destElem.value('');
       $("#SendAmount").val('');
       $("#SendDestName").val('');
       $("#SendDestNameRow").hide();
@@ -138,8 +139,8 @@ var SendPage = new (function () {
       $("#SpacerRow").show();
     }
     
+    onFieldsUpdated();
     buttonElem.text("Send Money");
     ncc.misc.forms.enable('#t-send');
-    destElem.cleanup();
   }
 })();

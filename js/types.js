@@ -54,13 +54,12 @@ var AmountValue = (function () {
       mantissa += repeat_str("0", 16 - mantissa.length);
     }
     
+    this.mantissa = mantissa;
     this.exponent = this.isZero() ? 0 : exp;
     
     if (mantissa.length > 16 || this.exponent > 80 || this.exponent < -96) {
       throw "This number cannot be represented."
     }
-    
-    this.mantissa = mantissa;
   };
   
   AmountValue.prototype.copy = function () {
@@ -200,6 +199,7 @@ var AmountValue = (function () {
   return AmountValue;
 })();
 
+// uncomment to test
 // var a = (new AmountValue("-0.1234567890")).add(1).toString()
 // if (a != "0.876543211") throw "bad"
 // 
@@ -228,5 +228,176 @@ var AmountValue = (function () {
 // if (a.exponent != 3) throw "bad"
 // 
 // console.log("all good")
-// 
-// 
+
+var Base58Utils = (function () {
+  var alphabets = {
+    'ripple':  "rpshnaf39wBUDNEGHJKLM4PQRST7VWXYZ2bcdeCg65jkm8oFqi1tuvAxyz",
+    'bitcoin': "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"
+  };
+  
+  var sha256  = function (bytes) {
+    return sjcl.codec.bytes.fromBits(sjcl.hash.sha256.hash(sjcl.codec.bytes.toBits(bytes)));
+  };
+  
+  var sha256hash = function (bytes) {
+    return sha256(sha256(bytes));
+  };
+  
+  var arraySet = function (count, value) {
+    var a = new Array(count);
+    var i;
+    
+    for (i = 0; i != count; i += 1)
+      a[i] = value;
+      
+    return a;
+  };
+  
+  return {
+    // --> input: big-endian array of bytes. 
+    // <-- string at least as long as input.
+    encode_base: function (input, alphabet) {
+      var alphabet	= alphabets[alphabet || 'ripple'];
+      var bi_base	= new BigInteger(String(alphabet.length));
+      var bi_q	= nbi();
+      var bi_r	= nbi();
+      var bi_value	= new BigInteger(input);
+      var buffer	= [];
+      
+      while (bi_value.compareTo(BigInteger.ZERO) > 0)
+      {
+        bi_value.divRemTo(bi_base, bi_q, bi_r);
+        bi_q.copyTo(bi_value);
+        buffer.push(alphabet[bi_r.intValue()]);
+      }
+      
+      for (var i = 0; i != input.length && !input[i]; i += 1) {
+        buffer.push(alphabet[0]);
+      }
+      
+      return buffer.reverse().join("");
+    },
+    
+    // --> input: String
+    // <-- array of bytes or undefined.
+    decode_base: function (input, alphabet) {
+      var alphabet = alphabets[alphabet || 'ripple'],
+          bi_base = new BigInteger(String(alphabet.length)),
+          bi_value = nbi();
+      
+      var i;
+      while (i != input.length && input[i] === alphabet[0]) {
+        i += 1;
+      }
+      
+      for (i = 0; i != input.length; i += 1) {
+        var v = alphabet.indexOf(input[i]);
+        
+        if (v < 0) {
+          return undefined;
+        }
+        
+        var r = nbi();
+        r.fromInt(v); 
+        bi_value = bi_value.multiply(bi_base).add(r);
+      }
+      
+      // toByteArray:
+      // - Returns leading zeros!
+      // - Returns signed bytes!
+      var bytes =  bi_value.toByteArray().map(function (b) {
+        return b ? (b < 0 ? 256 + b : b) : 0;
+      });
+      
+      var extra = 0;
+      while (extra != bytes.length && !bytes[extra]) {
+        extra += 1;
+      }
+      
+      if (extra) {
+        bytes = bytes.slice(extra);
+      }
+      
+      var zeros = 0;
+      while (zeros !== input.length && input[zeros] === alphabet[0]) {
+        zeros += 1;
+      }
+      
+      return [].concat(arraySet(zeros, 0), bytes);
+    },
+    
+    // --> input: Array
+    // <-- String
+    encode_base_check: function (version, input, alphabet) {
+      var buffer  = [].concat(version, input);
+      var check   = sha256(sha256(buffer)).slice(0, 4);
+      return Base58Utils.encode_base([].concat(buffer, check), alphabet);
+    },
+    
+    // --> input : String
+    // <-- NaN || BigInteger
+    decode_base_check: function (version, input, alphabet) {
+      var buffer = Base58Utils.decode_base(input, alphabet);
+      
+      if (!buffer || buffer[0] !== version || buffer.length < 5) {
+        return NaN;
+      }
+      
+      var computed = sha256hash(buffer.slice(0, -4)).slice(0, 4),
+          checksum = buffer.slice(-4);
+      
+      var i;
+      for (i = 0; i != 4; i += 1)
+        if (computed[i] !== checksum[i])
+          return NaN;
+      
+      return buffer.slice(1, -4);
+    }
+  }
+})();
+
+var RippleAddress = (function () {
+  function append_int(a, i) {
+    return [].concat(a, i >> 24, (i >> 16) & 0xff, (i >> 8) & 0xff, i & 0xff)
+  }
+  
+  function firstHalfOfSHA512(bytes) {
+    return (
+      new jsSHA(sjcl.codec.hex.fromBits(sjcl.codec.bytes.toBits(bytes)), 'HEX')
+    ).getHash('SHA-512', 'HEX').slice(0, 64);
+  }
+    
+  return function (seed) {
+    this.seed = Base58Utils.decode_base_check(33, seed);
+    
+    if (!this.seed) {
+      throw "Invalid seed."
+    }
+    
+    this.getAddress = function (seq) {
+      seq = seq || 0;
+      
+      var private_gen, public_gen, i = 0;
+      do {
+        private_gen = sjcl.bn.fromBits(sjcl.codec.hex.toBits(
+          firstHalfOfSHA512(append_int(this.seed, i))
+        ));
+        i++;
+      } while (private_gen > sjcl.ecc.curves.c256.r);
+      
+      public_gen = sjcl.ecc.curves.c256.G.mult(private_gen);
+      
+      var sec, i = 0;
+      do {
+        sec = sjcl.bn.fromBits(sjcl.codec.hex.toBits(
+          firstHalfOfSHA512(append_int(append_int(public_gen.toBytesCompressed(), seq), i))
+        ));
+        i++;
+      } while (sec > sjcl.ecc.curves.c256.r);
+      
+      var pubKey = sjcl.ecc.curves.c256.G.mult(sec).toJac().add(public_gen).toAffine();
+      return Base58Utils.encode_base_check(0, Crypto.util.sha256ripe160(pubKey.toBytesCompressed()));
+    }
+  };
+})();
+

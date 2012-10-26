@@ -135,15 +135,8 @@ ncc.processAccounts = function (accounts) {
   var balance = new AmountValue(0);
   for (var i = 0; i < accounts.length; i++) {
     balance.add(accounts[i].Balance);
-    ncc.accountID = accounts[i].Account;
     server.accountSubscribe(accounts[i].Account);
     rpc.account_tx(accounts[i].Account, HistoryPage.onHistoryResponse);
-  }
-  
-  if (blobVault.data.account_id != ncc.accountID) {
-    blobVault.data.account_id = ncc.accountID;
-    blobVault.save();
-    blobVault.pushToServer();
   }
   
   ncc.changeBalance('XNS', balance.sub(ncc.balance['XNS']));
@@ -155,7 +148,7 @@ ncc.changeBalance = function (currency, delta) {
   
   var currElem = $('li#' + currency + 'Balance');
   
-  if (ncc.balance[currency].toString() != "0") {
+  if (ncc.balance[currency] != 0) {
     var amount = (currency == 'XNS') ? ncc.displayAmount(ncc.balance[currency])
                                      : String(ncc.balance[currency]);
     
@@ -388,10 +381,13 @@ $(document).ready(function () {
 
 ncc.misc = {};
 
-ncc.misc.isValidAddress = (function () {
-  var r = /^r\w{30,35}$/;
-  return function (a) { return r.test(a); }
-})();
+ncc.misc.isValidAddress = function (addr) {
+  return Boolean(Base58Utils.decode_base_check(0, addr));
+};
+
+ncc.misc.isValidSeed = function (seed) {
+  return Boolean(Base58Utils.decode_base_check(33, seed));
+}
 
 ncc.misc.syntaxHighlight = function syntaxHighlight(json) {
     json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -404,7 +400,7 @@ ncc.misc.syntaxHighlight = function syntaxHighlight(json) {
         return '<span class="' + cls + '">' + match + '</span>';
       }
     );
-}
+};
 
 ncc.misc.forms = (function () {
   function undoClasses() {

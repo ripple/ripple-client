@@ -18,21 +18,14 @@ registerScreen.onSubmit = function () {
     blobVault.login(user, pass, '', loginScreen.finishLogin, _.bind(regErr.text, regErr));
   }
   
-  if (user && pass) {
+  if (user && pass && (!form.pk.value || ncc.misc.isValidSeed(form.pk.value))) {
     blobVault.register(user, pass);
-    if (form.pk.value) {
-      ncc.masterKey = blobVault.data.master_seed = form.pk.value;
-      save_and_login();
-    } else {
-      rpc.wallet_propose(function (res, noErrors) {
-        if (noErrors) {
-          ncc.user = localStorage.user = user;
-          ncc.masterKey = blobVault.data.master_seed = res.master_seed;
-          ncc.accountID = blobVault.data.account_id = res.account_id;
-          save_and_login();
-        }
-      });
-    }
+    ncc.user = localStorage.user = user;
+    var seed = ncc.masterKey = blobVault.data.master_seed = (
+       form.pk.value || Base58Utils.encode_base_check(33, sjcl.codec.bytes.fromBits(sjcl.random.randomWords(4)))
+    );
+    ncc.accountID = blobVault.data.account_id = (new RippleAddress(seed)).getAddress();
+    save_and_login();
   } else {
     regErr.text("Username and password can't be blank.");
   }
@@ -40,12 +33,12 @@ registerScreen.onSubmit = function () {
 };
 
 $(document).ready(function () {
-  var form = $("#registerForm");
-  form.submit(registerScreen.onSubmit);
+  var form = $("#registerForm").on('submit', registerScreen.onSubmit);
+
   form.find("input[name=username]").validateWithRegex(/./, "Good", "Bad");
   form.find("input[name=password]").passStrength({ userid: "#registerForm input[name=username]" });
   form.find("input[name=password2]").passEqual("#registerForm input[name=password]");
-  form.find("input[name=pk]").validateWithRegex(/^$|^s\w{26,28}$/, "Reasonable", "Must starts with 's' and be 27-29 chars long");
+  form.find("input[name=pk]").validateWithFunction(ncc.misc.isValidSeed);
   
   form.find('input').on('input', function () {
     var nonEmpty = function () { return this.name == 'pk' || this.value.length; },

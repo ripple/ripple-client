@@ -55,8 +55,8 @@ server.handleMsg = function (msg) {
 };
 
 server.send = function (obj) {
-  ncc.status.info("Sending WS msg: " + obj.command + ' ' + (obj.id || ''), obj);
   server.socket.send(JSON.stringify(obj));
+  ncc.status.info("Sent WS msg: " + obj.command + ' ' + (obj.id || ''), obj);
 };
 
 server.connect = function () {

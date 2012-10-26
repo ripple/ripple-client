@@ -18,6 +18,10 @@ loginScreen.onShowTab = function () {
 loginScreen.login = function () {
   var that = this,
       loginErr = $("#LoginError");
+  
+  $("#LoginButton").removeClass('btn-success').addClass('btn-info')
+    .val("Logging in...").attr('disabled', true);
+  
   blobVault.login(
     this.username.value,
     this.password.value,
@@ -25,7 +29,11 @@ loginScreen.login = function () {
     function success() {
       ncc.user = localStorage.user = that.username.value;
       ncc.masterKey = blobVault.data.master_seed;
-      ncc.accountID = blobVault.data.account_id;
+      if (ncc.misc.isValidSeed(ncc.masterKey)) {
+        ncc.accountID = (new RippleAddress(ncc.masterKey)).getAddress();
+      } else {
+        ncc.accountID = blobVault.data.account_id;
+      }
       loginScreen.finishLogin();
     },
     function error(e) {
