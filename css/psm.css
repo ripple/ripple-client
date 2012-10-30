@@ -20,22 +20,22 @@
   white-space: nowrap;
 }
 
-.shortPass {
+span.shortPass {
   background: #EDABAB url(../img/psm/red.png) no-repeat 7px center;
   border: 1px solid #BC0000;
 }
 
-.badPass { 
+span.badPass { 
   background: #EDABAB url(../img/psm/red.png) no-repeat 7px center;
   border: 1px solid #BC0000;
 }
 
-.goodPass {
+span.goodPass {
   background: #EDE3AB url(../img/psm/yellow.png) no-repeat 7px center;
   border: 1px solid #BC9F00;
 }
 
-.strongPass {
+span.strongPass {
   background: #CAF2A9 url(../img/psm/green.png) no-repeat 7px center; 
   border: 1px solid #73BC00;
 }
