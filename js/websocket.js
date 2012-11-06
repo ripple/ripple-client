@@ -24,18 +24,15 @@ server.handleMsg = function (msg) {
         }
       }
     } else if (obj.type == "transaction") {
+      console.log(obj);
       var amount = ncc.displayAmount(server.escape(obj.transaction.Amount));
       str = '<div class="transFeedMsg">' +
               server.escape(obj.transaction.Account) + ' sent ' + amount +
               'XNS to ' + server.escape(obj.transaction.Destination) +
             '</div>';
     } else if (obj.type == "ledgerClosed") {
-      str = '<div class="ledgerFeedMsg">Accepted Ledger <strong>' + server.escape(obj.ledger_closed_index) +
-              '</strong> hash:' + server.escape(obj.ledger_closed) +
-            '</div>';
-    } else if (obj.type == "ledgerClosedAccounts") {
-      str = '<div class="ledgerFeedMsg">Accepted Ledger <strong>' + server.escape(obj.ledger_closed_index) +
-              '</strong> hash:' + server.escape(obj.ledger_closed) +
+      str = '<div class="ledgerFeedMsg">Accepted Ledger <strong>' + server.escape(obj.ledger_index) +
+              '</strong> hash:' + server.escape(obj.ledger_hash) +
             '</div>';
     } else if (obj.type == "response") {
       if (obj.result == "error") {
@@ -44,6 +41,8 @@ server.handleMsg = function (msg) {
         str = (obj.id == 1) ? '<div class="stopFeedMsg">Stop Listening</div>' 
                             : '<div class="startFeedMsg">Start Listening</div>';
       }
+    } else if (obj.type == "rpc_response") {
+      rpc.handleResponse(obj);
     } else {
       str = '<div class="unknownFeedMsg">Unknown Msg: ' + server.escape(msg.data) + '</div>';
     }
@@ -73,15 +72,15 @@ server.connect = function () {
 }
 
 server.subscribe = function (streamName) {
-  server.send({'command': streamName + '_subscribe'});
+  server.send({'command': 'subscribe', 'streams': [streamName]});
 }
 
 server.unsubscribe = function (streamName) {
-  server.send({'command': streamName + '_unsubscribe', id: 1});
+  server.send({'command': 'unsubscribe', 'streams': [streamName]});
 }
 
 server.accountSubscribe = function (accountID) {
   if (accountID) {
-    server.send({'command': 'account_transaction_subscribe', accounts: [accountID]});
+    server.send({'command': 'subscribe', 'accounts': [accountID]});
   }
 }

@@ -2,22 +2,24 @@ var registerScreen = {};
 
 registerScreen.onShowTab = function () {};
 
-registerScreen.onSubmit = function () {
+registerScreen.onSubmit = function (e) {
   var form = this,
       user = form.username.value,
       pass = form.password.value,
       regErr = $("#RegError");
-  
+
+  e.preventDefault();
+
   if (form.password.value != form.password2.value) {
     regErr("Passwords must match.");
-    return false;
+    return;
   }
-  
+
   function save_and_login() {
     blobVault.save();
     blobVault.login(user, pass, '', loginScreen.finishLogin, _.bind(regErr.text, regErr));
   }
-  
+
   if (user && pass && (!form.pk.value || ncc.misc.isValidSeed(form.pk.value))) {
     blobVault.register(user, pass);
     ncc.user = localStorage.user = user;
@@ -29,7 +31,6 @@ registerScreen.onSubmit = function () {
   } else {
     regErr.text("Username and password can't be blank.");
   }
-  return false;
 };
 
 $(document).ready(function () {

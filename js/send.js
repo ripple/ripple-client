@@ -98,12 +98,14 @@ var SendPage = new (function () {
   }
   
   this.send = function () {
-    if (currency == 'XNS') {
-      rpc.send(ncc.masterKey, ncc.accountID, address, String(amount), currency, SendPage.onSendResponse);
-    } else {
-      rpc.send(ncc.masterKey, ncc.accountID, address, String(amount), currency, ncc.accountID, SendPage.onSendResponse);
-    }
-    
+    var tx = {};
+    tx.TransactionType = 'Payment';
+    tx.Account = ncc.accountID;
+    tx.Amount = String(amount);
+    tx.Destination = address;
+
+    rpc.send(ncc.masterKey, JSON.stringify(tx), SendPage.onSendResponse);
+
     buttonElem.text("Sending...");
     ncc.misc.forms.disable('#t-send');
   };

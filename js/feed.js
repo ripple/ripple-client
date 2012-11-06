@@ -8,17 +8,17 @@ feed.clear = function () {
 
 feed.onLedgerClick = function (ele) {
   if (ele.checked) {
-    server.subscribe("ledger_accounts");
+    server.subscribe("ledger");
   } else {
-    server.unsubscribe("ledger_accounts");
+    server.unsubscribe("ledger");
   }
 };
 
 feed.onTransactionsClick = function (ele) {
   if (ele.checked) {
-    server.subscribe("transaction");
+    server.subscribe("transactions");
   } else {
-    server.unsubscribe("transaction");
+    server.unsubscribe("transactions");
   }
 };
 

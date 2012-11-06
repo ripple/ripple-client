@@ -1,61 +1,62 @@
 var rpc = {};
 
-rpc.reload = function () {
-  rpc.url = "http://" + Options.RPC_SERVER + "/";
-}
-
-rpc.url = "http://" + Options.RPC_SERVER + "/";
-
 rpc.displayResult = function () {};
 
-rpc.handleResponse = function (req, callback, response) {
-  var res = _.extend(Object.create(response), response.result),
-      err = res.error_message || res.error || res.error_code;
-  
+rpc.unique = -1;
+
+rpc.reqs = [];
+
+rpc.call = function (req, callback) {
+  var ws_rpc = {};
+  ws_rpc.command = 'rpc';
+  ws_rpc.rpc_command = req.method;
+  ws_rpc.params = req.params;
+  ws_rpc.id = ++rpc.unique;
+  server.send(ws_rpc);
+
+  if ("function" === typeof callback) {
+    req.callback = callback;
+  }
+
+  rpc.reqs[rpc.unique] = req;
+};
+
+rpc.handleResponse = function (res) {
+  var err = res.error_message || res.error || res.error_code;
+
+  if ("undefined" === typeof res.id) {
+    ncc.status.error("RPC error: Untargeted response received");
+    return;
+  }
+
+  if ("undefined" === typeof rpc.reqs[res.id]) {
+    ncc.status.error("RPC error: Unexpected response for ID " + res.id);
+    return;
+  }
+
+  var req = rpc.reqs[res.id];
+
   if (err) {
     ncc.status.error(req.method + ': ' + err, { response: res, request: req });
-    callback(response, false);
   } else {
     ncc.status.info(
       "RPC call to '" + req.method + "' command successful ",
       { response: res, request: req }
     );
-    
-    callback(res, true);
+  }
+
+  if ("function" === typeof req.callback) {
+    req.callback(res, !err);
   }
 };
 
-rpc.call = function (req, callback) {
-  $.ajax({
-    type: 'POST',
-    url: rpc.url,
-    data: JSON.stringify(req),
-    success: _.bind(rpc.handleResponse, rpc, req, callback),
-    error: function (response) {
-      ncc.status.info(null);
-      ncc.status.error("RPC server unreacheable");
-      callback(response, true);
-    },
-    dataType: "json"
-  });
-};
+// key tx callback
+rpc.send = function (key, tx, callback) {
+  var request = {
+    method: "submit",
+    params: [key, tx]
+  };
 
-// key paying_account account_id amount [currency] [issuer] [send_max] [send_currency] [send_issuer] callback
-rpc.send = function () {
-  var request = { method: "send" },
-      nArgs = arguments.length,
-      lastArg = arguments[nArgs - 1];
-      
-  var	callback;
-
-  if (lastArg.constructor == Function) {
-    callback = lastArg;
-    request.params = Array.prototype.slice.call(arguments, 0, nArgs - 1);
-  } else {
-    callback = rpc.displayResult;
-    request.params = arguments;
-  }
-  
   rpc.call(request, callback);
 };
 
