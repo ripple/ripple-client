@@ -24,7 +24,6 @@ server.handleMsg = function (msg) {
         }
       }
     } else if (obj.type == "transaction") {
-      console.log(obj);
       var amount = ncc.displayAmount(server.escape(obj.transaction.Amount));
       str = '<div class="transFeedMsg">' +
               server.escape(obj.transaction.Account) + ' sent ' + amount +
