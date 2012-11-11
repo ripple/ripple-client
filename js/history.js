@@ -8,8 +8,8 @@ var HistoryPage = new (function () {
     });
   };
 
-  this.onHistoryResponse = function (res, noError) {
-    if (noError && res) {
+  this.onHistoryResponse = function (res) {
+    if (res) {
       _.each(
         res.transactions || [],
         function (t) {
@@ -36,7 +36,7 @@ var HistoryPage = new (function () {
         fromAcct = t.Account,
         fromName = blobVault.addressBook.getName(fromAcct),
 
-        toAcct = t.Destination,
+        toAcct = t.TransactionType == 'CreditSet' ? t.LimitAmount.issuer : t.Destination,
         toName = blobVault.addressBook.getName(toAcct),
         
         

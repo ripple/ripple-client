@@ -6,28 +6,40 @@ feed.clear = function () {
   $('#FeedArea').empty();
 };
 
+feed.displayLedgerEvents = false;
+feed.displayServerEvents = false;
+
 feed.onLedgerClick = function (ele) {
-  if (ele.checked) {
-    server.subscribe("ledger");
-  } else {
-    server.unsubscribe("ledger");
-  }
+  feed.displayLedgerEvents = !!ele.checked;
+};
+
+feed.onLedgerClose = function (hash, index) {
+  if (!feed.displayLedgerEvents) return;
+
+  str = '<div class="ledgerFeedMsg">Accepted Ledger <strong>' + ncc.escape(index) +
+    '</strong> hash:' + ncc.escape(hash) + '</div>';
+
+  $('#FeedArea').prepend(str);
 };
 
 feed.onTransactionsClick = function (ele) {
   if (ele.checked) {
-    server.subscribe("transactions");
+    remote.request_subscribe('transactions').request();
   } else {
-    server.unsubscribe("transactions");
+    remote.request_unsubscribe('transactions').request();
   }
 };
 
 feed.onServerClick = function (ele) {
   if (ele.checked) {
-    server.subscribe("server");
+    //server.subscribe("server");
   } else {
-    server.unsubscribe("server");
+    //server.unsubscribe("server");
   }
 };
 
 feed.addTransaction = function (obj) {};
+
+feed.setup = function (remote) {
+  remote.on('ledger_closed', feed.onLedgerClose);
+};

@@ -98,51 +98,55 @@ var SendPage = new (function () {
   }
   
   this.send = function () {
-    var tx = {};
-    tx.TransactionType = 'Payment';
-    tx.Account = ncc.accountID;
-    tx.Amount = String(amount);
-    tx.Destination = address;
 
-    rpc.send(ncc.masterKey, JSON.stringify(tx), SendPage.onSendResponse);
+    var tx = remote.transaction();
+    tx.payment(ncc.accountID, address, String(amount));
+    tx.set_flags('CreateAccount');
+    tx.on('success', SendPage.onSendResponse);
+    tx.on('error', SendPage.onSendError);
+    tx.submit();
 
     buttonElem.text("Sending...");
     ncc.misc.forms.disable('#t-send');
   };
   
-  this.onSendResponse = function (res, noErrors) {
-    if (noErrors) {
-      var toAccount = res.dstAccountID,
-          curr = res.dstISO;
-      
-      name = nameElem.val() || name;
-      if (name) {
-        blobVault.addressBook.setEntry(name, toAccount);
-      }
-      
-      blobVault.updateRecentSends(toAccount);
-      blobVault.save();
-      blobVault.pushToServer();
-      
-      destElem.promoteEntry(toAccount);
-      
-      // clean up
-      delete address;
-      delete name;
-      delete currency;
-      delete amount;
-      
-      destElem.value('');
-      $("#SendAmount").val('');
-      $("#SendDestName").val('');
-      $("#SendDestNameRow").hide();
-      $("#AddressDisplay").val('');
-      $("#AddressDisplayRow").hide();
-      $("#SpacerRow").show();
+  this.onSendResponse = function (res) {
+    var toAccount = res.dstAccountID,
+    curr = res.dstISO;
+    
+    name = nameElem.val() || name;
+    if (name) {
+      blobVault.addressBook.setEntry(name, toAccount);
     }
+    
+    blobVault.updateRecentSends(toAccount);
+    blobVault.save();
+    blobVault.pushToServer();
+    
+    destElem.promoteEntry(toAccount);
+    
+    // clean up
+    delete address;
+    delete name;
+    delete currency;
+    delete amount;
+    
+    destElem.value('');
+    $("#SendAmount").val('');
+    $("#SendDestName").val('');
+    $("#SendDestNameRow").hide();
+    $("#AddressDisplay").val('');
+    $("#AddressDisplayRow").hide();
+    $("#SpacerRow").show();
     
     buttonElem.text("Send Money");
     ncc.misc.forms.enable('#t-send');
     onFieldsUpdated();
   }
+
+  this.onSendError = function () {
+    buttonElem.text("Send Money");
+    ncc.misc.forms.enable('#t-send');
+    onFieldsUpdated();
+  };
 })();

@@ -11,17 +11,21 @@ make real time
 */
 
 var gRoot={};
+var remote;
 
-$(document).ready(function() 
-{
-    setUpD3();
-    rpc.ledger(onLedger);
-    server.connect();
-    server.socket.onmessage = gRoot.handleMsg;
-    //server.subscribe("transactions");
-    //server.send({'command': 'transaction_entry', 'hash': "7A852DC7AACBEBBFB05C954785DBB37C5DB6B97DD2E236F0BCEC67C3C6B6CE63", 'ledger_closed':"2DC4E79AF0E137AC56E2D1218AC1DE228612B56A97B958750F0DFD5CAE1E65D7"});
+$(document).ready(function() {
+  setUpD3();
+  remote = new ripple.Remote(Options.server.trusted,
+                             Options.server.websocket_ip,
+                             Options.server.websocket_port,
+                             true);
+  remote.connect();
+  remote.on('connected', function () {
+    remote.request_ledger(["lastclosed", "full"])
+      .on('success', onLedger)
+      .request();
+  });
 });
-
 
 /*
 {
@@ -78,7 +82,7 @@ function filloutLedgerData(ledger)
 }
 function onLedger(response, success)
 {
-	if(response.ledger) 
+	if(response.ledger)
 	{
 		filloutLedgerData(response.ledger);
 		
@@ -285,8 +289,6 @@ function overLink(node)
 
 gRoot.handleMsg=function(msg)
 {
-	console.log(msg);
-	
 	var obj = jQuery.parseJSON(msg.data);
 	if (obj) 
 	{

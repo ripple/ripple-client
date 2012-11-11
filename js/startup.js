@@ -1,16 +1,26 @@
 var startUp = {};
 
 startUp.start = function () {
-  if (!Options.WS_SERVER.indexOf("127.0.0.1") || !Options.WS_SERVER.indexOf("localhost")) {
+  if (!Options.server.websocket_ip.indexOf("127.0.0.1") ||
+      !Options.server.websocket_ip.indexOf("localhost")) {
     ncc.admin = true;
   } else {
     ncc.admin = false;
     ncc.displayScreen('welcome');
     ncc.displayScreen('send');
   }
-  
-  server.connect();
-  ncc.status.info("connecting to " + Options.WS_SERVER);
-  $('#ServerDisplay').text("Connecting to: " + Options.WS_SERVER);
+
+  window.remote = new ripple.Remote(Options.server.trusted,
+                                    Options.server.websocket_ip,
+                                    Options.server.websocket_port,
+                                    true);
+  remote.connect();
+
+  feed.setup(remote);
+
+  var hostinfo = Options.server.websocket_ip + ":" +
+    Options.server.websocket_port;
+  ncc.status.info("connecting to " + hostinfo);
+  $('#ServerDisplay').text("Connecting to: " + hostinfo);
 }
 

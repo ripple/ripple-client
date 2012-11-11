@@ -5,11 +5,11 @@ var unlScreen = {
 unlScreen.addUNLNode = function () {
   addr = $.trim($("#NewUNLNodeKey").val());
   note = $.trim($("#NewUNLNodeNote").val());
-  rpc.unl_add(addr, note);
+  remote.request_unl_add(addr, note).request();
 };
 
-unlScreen.unlResponse = function (res, noErrors) {
-  if (noErrors && res.unl) {
+unlScreen.unlResponse = function (res) {
+  if (res.unl) {
     $('#UNLTable').empty();
     unlScreen.unl = res.unl;
     for(var i = 0; i < unlScreen.unl.length; i++) {
@@ -22,6 +22,6 @@ unlScreen.unlResponse = function (res, noErrors) {
 
 unlScreen.remove = function (index) {
   if (index < unlScreen.unl.length) {
-    rpc.unl_delete(unlScreen.unl[index].publicKey);
+    remote.request_unl_delete(unlScreen.unl[index].publicKey).request();
   }
 };

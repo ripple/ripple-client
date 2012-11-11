@@ -67,8 +67,8 @@ var RipplePage = new (function () {
     RipplePage.renderLines();
   };
   
-  this.getLinesResponse = function (res, noErrors) {
-    if (noErrors && res.lines && res.lines.length) {
+  this.getLinesResponse = function (res) {
+    if (res.lines && res.lines.length) {
       RipplePage.lines = _.object(
         _.map(
           res.lines,
@@ -81,28 +81,36 @@ var RipplePage = new (function () {
   };
   
   this.submitForm = function () {
-    rpc.ripple_line_set(ncc.masterKey, ncc.accountID, address, creditMax, currency, RipplePage.setLineResponse);
+    var amount = creditMax + "/" + currency + "/" + address;
+    remote.transaction()
+      .ripple_line_set(ncc.accountID, amount)
+      .on("success", RipplePage.setLineResponse)
+      .submit()
+    ;
     ncc.misc.forms.disable("#t-ripple");
   }
-  
-  this.setLineResponse = function (res, noErrors) {
-    if (noErrors) {
-      blobVault.updateRecentSends(address);
-      blobVault.save();
-      blobVault.pushToServer();
-      acctElem.promoteEntry(address);
-      
-      acctElem.value('');
-      limitElem.val('');
-      address = '';
-      name = '';
-      creditMax = '';
-    }
-    
+
+  this.setLineResponse = function (res) {
+    blobVault.updateRecentSends(address);
+    blobVault.save();
+    blobVault.pushToServer();
+    acctElem.promoteEntry(address);
+
+    acctElem.value('');
+    limitElem.val('');
+    address = '';
+    name = '';
+    creditMax = '';
+
     ncc.misc.forms.enable("#t-ripple");
     onFieldsUpdated();
-  }
-  
+  };
+
+  this.setLineError = function (res) {
+    ncc.misc.forms.enable("#t-ripple");
+    onFieldsUpdated();
+  };
+
   // this will return the accountID of the line that has the most credit left in that currency 
   this.findBestRouteIn = function (currency) {
     var bestAccount = null,

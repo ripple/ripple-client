@@ -124,21 +124,30 @@ ncc.displayTab = function (s) {
   $('.nav.nav-tabs:visible a[href="#' + s + '"]').show();
 }
 
+// escape a string from the server so it is safe to stick in jquery's .html()
+ncc.escape = function (str) {
+  if (str && str.replace)
+    return str.replace(/&/g, '&amp;').replace(/>/g, '&gt;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
+  return str;
+}
+
 ncc.hideTab = function (s) {
   $('.nav.nav-tabs:visible a[href="#' + s + '"]').hide();
 }
 
 ncc.processAccounts = function (accounts) {
   ncc.accounts = accounts;
-  
+
   // figure total balance
   var balance = new AmountValue(0);
   for (var i = 0; i < accounts.length; i++) {
+    remote.set_account_seq(accounts[i].Account, accounts[i].Sequence);
     balance.add(accounts[i].Balance);
-    server.accountSubscribe(accounts[i].Account);
-    rpc.account_tx(accounts[i].Account, HistoryPage.onHistoryResponse);
+    remote.request_account_tx(accounts[i].Account, "0", "999999")
+      .on('success', HistoryPage.onHistoryResponse)
+      .request();
   }
-  
+
   ncc.changeBalance('XNS', balance.sub(ncc.balance['XNS']));
 }
 
@@ -205,11 +214,13 @@ ncc.addCommas = function (n) {
 ///////////////////////////
 
 ncc.infoTabShown = function () {
-  rpc.server_info(ncc.infoResponse);
+  remote.request_server_info()
+    .on('success', ncc.infoResponse)
+    .request();
 }
 
-ncc.infoResponse = function (res, noErrors) {
-  if (noErrors && res.info) {
+ncc.infoResponse = function (res) {
+  if (res.info) {
     $('#InfoServerState').text( res.info.serverState );
     $('#InfoPublicKey').text( res.info.validationPKey );
   }
@@ -220,11 +231,11 @@ ncc.infoResponse = function (res, noErrors) {
 ncc.addPeer = function () {
   ip = $.trim($("#NewPeerIP").val());
   port = $.trim($("#NewPeerPort").val());
-  rpc.connect(ip,port);
+  remote.request_connect(ip, port).request();
 }
 
-ncc.peersResponse = function (res, noErrors) {
-  if (noErrors && res.peers) {
+ncc.peersResponse = function (res) {
+  if (res.peers) {
     $('#PeerTable').empty();
     var peers = res.peers;
     for (var i = 0; i < peers.length; i++) {
@@ -304,12 +315,28 @@ $(document).ready(function () {
   $("#t-send").on("show", SendPage.onShowTab);
   $("#t-login").on("show", loginScreen.onShowTab);
   $("#t-ripple").on("show", RipplePage.onShowTab );
-  $("#t-ledger").on("show", function () { rpc.ledger(ledgerScreen.ledgerResponse); });
-  $("#t-orderbook").on("show", function () { rpc.ledger(orderBookScreen.ledgerResponse); });
+  $("#t-ledger").on("show", function () {
+    remote.request_ledger(["lastclosed", "full"])
+      .on('success', ledgerScreen.ledgerResponse)
+      .request();
+  });
+  $("#t-orderbook").on("show", function () {
+    remote.request_ledger(["lastclosed", "full"])
+      .on('success', orderBookScreen.ledgerResponse)
+      .request();
+  });
   $("#t-history").on("show", HistoryPage.onShowTab);
   $("#t-address").on("show", AddressBookPage.onShowTab);
-  $("#t-unl").on("show", function () { rpc.unl_list(unlScreen.unlResponse); });
-  $("#t-peers").on("show", function () { rpc.peers(ncc.peersResponse); });
+  $("#t-unl").on("show", function () {
+    remote.request_unl_list()
+      .on('success', unlScreen.unlResponse)
+      .request();
+  });
+  $("#t-peers").on("show", function () {
+    remote.request_peers()
+      .on('success', ncc.peersResponse)
+      .request();
+  });
   $("#t-info").on("show", ncc.infoTabShown);
   $("#t-feed").on("show", feed.onShowTab);
   $("#t-trade").on("show", TradePage.onShowTab);

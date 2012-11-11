@@ -90,22 +90,23 @@ var TradePage = new (function () {
   
   this.onShowTab = function () {
     onFieldsUpdated();
-    rpc.ledger(TradePage.onLedgerResponse);
+
+    remote.request_ledger(["lastclosed", "full"])
+      .on('success', TradePage.onLedgerResponse)
+      .request();
   };
   
   this.placeOrder = function () {
-    rpc.offer_create(
-      ncc.masterKey,
-      ncc.accountID,
-      String(outAmount),
-      sellCurr,
-      outIssuer,
-      String(inAmount),
-      buyCurr,
-      inIssuer,
-      '0',
-      TradePage.onOfferCreateResponse
-    );
+    var takerPays = "" + inAmount + "/" + buyCurr + "/" + inIssuer;
+    var takerGets = "" + outAmount + "/" + sellCurr + "/" + outIssuer;
+    remote.transaction()
+      .offer_create(ncc.accountID,
+                    takerPays,
+                    takerGets,
+                    '0')
+      .on('success', TradePage.onOfferCreateResponse)
+      .submit()
+    ;
   }
   
   this.onOfferCreateResponse = function (res, noErrors) {
@@ -164,8 +165,8 @@ var TradePage = new (function () {
   }
   
   // the following methods populate and modify the offer table
-  this.onLedgerResponse = function (res, noErrors) {
-    if (noErrors && res.ledger) {
+  this.onLedgerResponse = function (res) {
+    if (res.ledger) {
       var tbody = openOrderTable.empty();
       _.each(
         res.ledger.accountState || [],
@@ -193,18 +194,14 @@ var TradePage = new (function () {
     if (button.text() == 'cancel?') {
       button.text("cancel!");
     } else {
-      rpc.offer_cancel(
-        ncc.masterKey,
-        ncc.accountID,
-        row.attr('data-sequence'),
-        function callback(res, noErrors) {
-          if (noErrors) {
-            row.css('opacity', '0.5');
-            button.attr('diabled', true);
-            button.text('canceling');
-          }
-        }
-      );
+      remote.transaction()
+        .offer_cancel(ncc.accountID, row.attr('data-sequence'))
+        .on('success', 
+            function callback(res) {
+              row.css('opacity', '0.5');
+              button.attr('diabled', true);
+              button.text('canceling');
+            });
     }
   };
   

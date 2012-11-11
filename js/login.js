@@ -18,10 +18,10 @@ loginScreen.onShowTab = function () {
 loginScreen.login = function () {
   var that = this,
       loginErr = $("#LoginError");
-  
+
   $("#LoginButton").removeClass('btn-success').addClass('btn-info')
     .val("Logging in...").attr('disabled', true);
-  
+
   blobVault.login(
     this.username.value,
     this.password.value,
@@ -39,7 +39,7 @@ loginScreen.login = function () {
     function error(e) {
       $("#LoginButton").removeClass('btn-success').addClass('btn-danger')
                        .val(e).attr('disabled', true);
-                       
+
       setTimeout(function () {
         $("#LoginButton").addClass('btn-success').removeClass('btn-danger')
                          .val("Login").attr('disabled', false);
@@ -57,26 +57,26 @@ loginScreen.finishLogin = function () {
   $('#InfoBackupBlob').val(blobVault.blob);
   $('#RecvAddress').text(ncc.accountID);
   $('#RecvAddress2').text(ncc.accountID);
-  
+
   ncc.onLogIn();
-  
-  server.accountSubscribe(ncc.accountID);
-  rpc.ripple_lines_get(ncc.accountID, RipplePage.getLinesResponse);
-  rpc.wallet_accounts(
-    ncc.masterKey,
-    function (res, noErrors) {
-      if (noErrors) {
-        ncc.processAccounts(res.accounts);
-        if (window.location.hash == '#t-deposit') {
-          ncc.displayScreen('send');
-        }
-      } else {
-        ncc.displayTab("deposit");
-        ncc.displayScreen("deposit");
+
+  remote.set_secret(ncc.accountID, ncc.masterKey);
+  remote.request_subscribe().accounts(ncc.accountID).request();
+  remote.request_ripple_lines_get(ncc.accountID).on('success', RipplePage.getLinesResponse).request();
+  remote.request_wallet_accounts(ncc.masterKey)
+    .on('success', function (res) {
+      ncc.processAccounts(res.accounts);
+      if (window.location.hash == '#t-deposit') {
+        ncc.displayScreen('send');
       }
       ncc.navigateToHash();
-    }
-  );
+    })
+    .on('error', function () {
+      ncc.displayTab("deposit");
+      ncc.displayScreen("deposit");
+      ncc.navigateToHash();
+    })
+    .request();
 };
 
 loginScreen.logout = function () {
