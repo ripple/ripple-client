@@ -49,7 +49,7 @@
         
         <ul class="nav nav-tabs topNav" id="TopNav">
           <li class="secondary-tab pull-right"><a href="#options" data-toggle="tab">Options</a></li>
-          <li class="secondary-tab pull-right"><a onclick="loginScreen.logout()">Logout</a></li>
+          <li class="secondary-tab pull-right"><a id="LogoutLink">Logout</a></li>
         </ul>
         
         <ul class="nav nav-tabs topNav" id="UnlogTopNav">
@@ -148,8 +148,8 @@
             </table>
             
             <div class="bottom-btn">
-              <button class="btn btn-large btn-success" onclick="OptionsPage.save()">Save options</button> 
-              <button class="btn btn-large btn-danger" onclick="OptionsPage.cancel()">Cancel</button>
+              <button id="OptionsPageSave" class="btn btn-large btn-success">Save options</button> 
+              <button id="OptionsPageCancel" class="btn btn-large btn-danger">Cancel</button>
             </div>
           </div>
         </section>
@@ -268,7 +268,7 @@
               </table>
               
               <div class="bottom-btn">
-                <button id="SendPageButton" disabled class="btn btn-large btn-success" onclick="SendPage.send()">
+                <button id="SendPageButton" disabled class="btn btn-large btn-success">
                   Send Money
                 </button>
               </div>
@@ -315,7 +315,7 @@
                   </table>
                 </p>
                 <div class="bottom-btn">
-                  <button id="AddCreditLineButton" class="btn btn-info" onclick="RipplePage.submitForm()">
+                  <button id="AddCreditLineButton" class="btn btn-info">
                     Grant Trust
                   </button>
                 </div>
@@ -451,10 +451,10 @@
              
             <table class="spaceTable">
               <tr>
-                <td><input type="checkbox" onclick="feed.onLedgerClick(this)" /> Ledger</td>
-                <td><input type="checkbox" onclick="feed.onTransactionsClick(this)" /> Transactions</td>
-                <td><input type="checkbox" onclick="feed.onServerClick(this)" /> Server</td>
-                <td><button class="btn btn-danger" onclick="feed.clear()"> Clear Feed</button></td>
+                <td><input id="FeedLedgerCheckbox" type="checkbox" /> Ledger</td>
+                <td><input id="FeedTransactionsCheckbox" type="checkbox" /> Transactions</td>
+                <td><input id="FeedServerCheckbox" type="checkbox" /> Server</td>
+                <td><button id="FeedClearButton" class="btn btn-danger"> Clear Feed</button></td>
               </tr>
             </table>
             <div id="FeedArea"></div>
@@ -501,7 +501,7 @@
                 <div class="error"></div>
               </div>
               <div class="bottom-btn">
-                <button id="TradePageButton" class="btn btn-info" onclick="TradePage.placeOrder()">Place Order</button>
+                <button id="TradePageButton" class="btn btn-info">Place Order</button>
               </div>
             </fieldset>
             
@@ -663,6 +663,7 @@
   <!-- scripts concatenated and minified via build script -->
   <script src="deps/js/jquery.js"></script>
   <script src="deps/js/jquery-ui.js"></script>
+  <script src="deps/js/jquery.combobox.js"></script>
   <script src="deps/js/bootstrap-tab.js"></script>
   <script src="deps/js/json.js"></script>
   <script src="deps/js/jsbn.js"></script>
@@ -672,34 +673,10 @@
   <script src="deps/js/psm.js"></script>
   <script src="deps/js/underscore.js"></script>
   <script src="deps/js/ripple.js"></script>
-  
+
   <script src="config.js"></script>
-  
-  <script src="js/combobox.js"></script>
-  
-  <script src="js/login.js"></script>
-  <script src="js/register.js"></script>
-  <script src="js/address.js"></script>
-  <script src="js/ripple.js"></script>
-  <script src="js/options.js"></script>
-  <script src="js/ledger.js"></script>
-  <script src="js/unl.js"></script>
-  <script src="js/feed.js"></script>
-  <script src="js/history.js"></script>
-  <script src="js/trade.js"></script>
-  <script src="js/send.js"></script>
-  <script src="js/orderbook.js"></script>
-  
-  <script src="js/types.js"></script>
-  <script src="js/datastore.js"></script>
-  <script src="js/misc.js"></script>
-  <script src="js/ncc.js"></script>
-  <script src="js/blobVault.js"></script>
-  <script src="js/startup.js"></script>
-  <script src="js/esprima.js"></script>
-  <script src="js/parser.js"></script>
-  
-  
+
+  <script src="build/ripple-client-0.1.0-debug.js"></script>
   <!-- end scripts -->
 </body>
 </html>

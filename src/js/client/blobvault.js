@@ -230,3 +230,5 @@ var blobVault = (function () {
 
   return blobVault;
 })();
+
+module.exports = blobVault;

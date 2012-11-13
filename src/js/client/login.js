@@ -1,8 +1,16 @@
+var RippleAddress = require('./types').RippleAddress;
+
+var RipplePage = require('./ripple').RipplePage;
+
 var welcomeScreen = {};
 welcomeScreen.onShowTab = function () {};
 welcomeScreen.walletProposeResponse = function () {};
 
 var loginScreen = {};
+
+loginScreen.init = function () {
+  $("#loginForm").submit(loginScreen.login);
+};
 
 loginScreen.onShowTab = function () {
   setTimeout(function () {
@@ -97,6 +105,7 @@ depositScreen.onShowTab = function () {
   });
 };
 
-$(document).ready(function () {
-  $("#loginForm").submit(loginScreen.login);
-});
+
+exports.LoginScreen = loginScreen;
+exports.WelcomeScreen = welcomeScreen;
+exports.DepositScreen = depositScreen;

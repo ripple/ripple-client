@@ -1,3 +1,5 @@
+var feed = require('./feed').FeedPage;
+
 var startUp = {};
 
 startUp.start = function () {
@@ -16,7 +18,7 @@ startUp.start = function () {
                                     true);
   remote.connect();
 
-  feed.setup(remote);
+  feed.init(remote);
 
   var hostinfo = Options.server.websocket_ip + ":" +
     Options.server.websocket_port;
@@ -24,3 +26,4 @@ startUp.start = function () {
   $('#ServerDisplay').text("Connecting to: " + hostinfo);
 }
 
+module.exports = startUp;

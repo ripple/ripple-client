@@ -1,5 +1,32 @@
 var orderBookScreen = {};
 
+orderBookScreen.init = function () {
+  var buyCurr = 'USD',
+      sellCurr = 'XNS';
+  
+  $("#OrderBookBuyCurrency").combobox({
+    data: ncc.allCurrencyOptions,
+    selected: buyCurr,
+    onselect: function () {
+      buyCurr = this.value;
+      if (buyCurr != sellCurr) {
+        orderBookScreen.updateRowsShown();
+      }
+    }
+  });
+  
+  $("#OrderBookSellCurrency").combobox({
+    data: ncc.allCurrencyOptions,
+    selected: sellCurr,
+    onselect: function () {
+      sellCurr = this.value;
+      if (buyCurr != sellCurr) {
+        orderBookScreen.updateRowsShown();
+      }
+    }
+  });
+};
+
 orderBookScreen.ledgerResponse = function (res, noErrors) {
   if (noErrors && res.ledger && res.ledger.accountState) {
     orderBookScreen.addLedger(res.ledger);
@@ -94,30 +121,3 @@ orderBookScreen.Offer = function (offerJSON) {
   
   this.price = this.TakerPaysValue / this.TakerGetsValue;
 };
-
-$(document).ready(function () {
-  var buyCurr = 'USD',
-      sellCurr = 'XNS';
-  
-  $("#OrderBookBuyCurrency").combobox({
-    data: ncc.allCurrencyOptions,
-    selected: buyCurr,
-    onselect: function () {
-      buyCurr = this.value;
-      if (buyCurr != sellCurr) {
-        orderBookScreen.updateRowsShown();
-      }
-    }
-  });
-  
-  $("#OrderBookSellCurrency").combobox({
-    data: ncc.allCurrencyOptions,
-    selected: sellCurr,
-    onselect: function () {
-      sellCurr = this.value;
-      if (buyCurr != sellCurr) {
-        orderBookScreen.updateRowsShown();
-      }
-    }
-  });
-});

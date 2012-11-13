@@ -106,7 +106,4 @@ var AddressBookPage = (function () {
   return AddressBookPage;
 })();
 
-
-$(document).ready(function () {
-  // ...
-});
+exports.AddressBookPage = AddressBookPage;

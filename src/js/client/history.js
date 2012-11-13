@@ -116,3 +116,4 @@ var HistoryPage = (function () {
   return HistoryPage;
 })();
 
+exports.HistoryPage = HistoryPage;

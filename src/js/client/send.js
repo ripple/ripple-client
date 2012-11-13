@@ -1,3 +1,5 @@
+var RipplePage = require('./ripple').RipplePage;
+
 var SendPage = (function () {
   var address, name, currency, amount, // private variables
       
@@ -8,6 +10,20 @@ var SendPage = (function () {
       buttonElem; // button
 
   var SendPage = {};
+
+  SendPage.init = function () {
+    $('#SendPageButton').click(SendPage.send);
+
+    buttonElem = $("#SendPageButton");
+    amntElem = $("#SendAmount");
+    nameElem = $("#SendDestName");
+    $("#t-send input").on('keydown', function (e) {
+      if (e.which == 13 && !buttonElem.attr('disabled') && !$(this).widget) {
+        buttonElem.click();
+      }
+    });
+    amntElem.on('input', onFieldsUpdated);
+  };
   
   function onFieldsUpdated() {
     address = destElem.value().replace(/\s/g, '');
@@ -60,19 +76,7 @@ var SendPage = (function () {
       buttonElem.attr('disabled', true);
     }
   }
-  
-  $(document).ready(function () {
-    buttonElem = $("#SendPageButton");
-    amntElem = $("#SendAmount");
-    nameElem = $("#SendDestName");
-    $("#t-send input").on('keydown', function (e) {
-      if (e.which == 13 && !buttonElem.attr('disabled') && !$(this).widget) {
-        buttonElem.click();
-      }
-    });
-    amntElem.on('input', onFieldsUpdated);
-  });
-  
+
   SendPage.onShowTab = function () {
     var destinationOptions = _.extend(blobVault.getRecentSends(), blobVault.addressBook.getEntries());
     
@@ -154,3 +158,5 @@ var SendPage = (function () {
 
   return SendPage;
 })();
+
+exports.SendPage = SendPage;

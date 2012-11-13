@@ -1,5 +1,13 @@
 var feed = {};
 
+feed.init = function (remote) {
+  remote.on('ledger_closed', feed.onLedgerClose);
+  $('#FeedLedgerCheckbox').change(feed.onLedgerClick);
+  $('#FeedTransactionsCheckbox').change(feed.onTransactionsClick);
+  $('#FeedServerCheckbox').change(feed.onServerClick);
+  $('#FeedClearButton').click(feed.clear);
+};
+
 feed.onShowTab = function () {};
 
 feed.clear = function () {
@@ -40,6 +48,4 @@ feed.onServerClick = function (ele) {
 
 feed.addTransaction = function (obj) {};
 
-feed.setup = function (remote) {
-  remote.on('ledger_closed', feed.onLedgerClose);
-};
+exports.FeedPage = feed;

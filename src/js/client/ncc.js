@@ -15,6 +15,23 @@ much later:
   multiple accounts
 */
 
+var types = require('./types'),
+    AmountValue = types.AmountValue;
+
+var Base58Utils = require('./base58');
+
+var SendPage = require('./send').SendPage,
+    loginScreen = require('./login').LoginScreen,
+    RipplePage = require('./ripple').RipplePage,
+    HistoryPage = require('./history').HistoryPage,
+    AddressBookPage = require('./address').AddressBookPage,
+    feed = require('./feed').FeedPage,
+    TradePage = require('./trade').TradePage,
+    OptionsPage = require('./options').OptionsPage,
+    welcomeScreen = require('./login').WelcomeScreen,
+    depositScreen = require('./login').DepositScreen,
+    startUp = require('./startup');
+
 var ncc = $('body');
 
 ncc.currentView = '#StartScreen';
@@ -25,7 +42,6 @@ ncc.balance = {'XNS' : new AmountValue(0)};
 ncc.loggedIn = false;
 ncc.advancedMode = false;
 ncc.admin = false;
-ncc.dataStore = dataStoreOptions[DATA_STORE];
 
 ncc.currencyOptions = {
   "USD" : "USD - US Dollar",
@@ -65,6 +81,112 @@ ncc.on('account-OfferCreate', function (e, tx) {
 ncc.on('account-OfferCancel', function (e, tx) {
   TradePage.removeOrderRow(tx.OfferSequence);
 });
+
+ncc.init = function () {
+  $("#t-send").on("show", SendPage.onShowTab);
+  $("#t-login").on("show", loginScreen.onShowTab);
+  $("#t-ripple").on("show", RipplePage.onShowTab );
+  $("#t-ledger").on("show", function () {
+    remote.request_ledger(["lastclosed", "full"])
+      .on('success', ledgerScreen.ledgerResponse)
+      .request();
+  });
+  $("#t-orderbook").on("show", function () {
+    remote.request_ledger(["lastclosed", "full"])
+      .on('success', orderBookScreen.ledgerResponse)
+      .request();
+  });
+  $("#t-history").on("show", HistoryPage.onShowTab);
+  $("#t-address").on("show", AddressBookPage.onShowTab);
+  $("#t-unl").on("show", function () {
+    remote.request_unl_list()
+      .on('success', unlScreen.unlResponse)
+      .request();
+  });
+  $("#t-peers").on("show", function () {
+    remote.request_peers()
+      .on('success', ncc.peersResponse)
+      .request();
+  });
+  $("#t-info").on("show", ncc.infoTabShown);
+  $("#t-feed").on("show", feed.onShowTab);
+  $("#t-trade").on("show", TradePage.onShowTab);
+  $("#t-options").on("show", OptionsPage.onShowTab); 
+  $("#t-welcome").on("show", welcomeScreen.onShowTab);
+  $("#t-deposit").on("show", depositScreen.onShowTab);
+  
+  ncc.onLogOut();
+  $('#AdvancedNav').hide();
+  $('#UnlogAdvancedNav').hide();
+  
+  // unactives main navigation
+  
+  $('#UnlogAdvancedNav li a').click(function () {
+    $('#UnlogTopNav li').removeClass('active');
+  });
+  $('#TopNav li a').click(function () {
+    $('#MainNav li').removeClass('active');
+    $('#AdvancedNav li').removeClass('active');
+  });
+  $('#AdvancedNav li a').click(function () {
+    $('#MainNav li').removeClass('active');
+    $('#TopNav li').removeClass('active');
+  });
+  $('#MainNav li a').click(function () {
+    $('#AdvancedNav li').removeClass('active');
+    $('#TopNav li').removeClass('active');
+  });
+
+  $('#LogoutLink').click(loginScreen.logout);
+  
+  startUp.start();
+
+  loginScreen.init();
+  RipplePage.init();
+  OptionsPage.init();
+  SendPage.init();
+  TradePage.init();
+  
+  /* custom select boxes */
+  
+  if (!$.browser.opera) {
+     
+    // for large select 
+     
+    $('select.select').each(function () {
+      var title = $(this).attr('title');
+      if ($('option:selected', this).val() !== '') {
+        title = $('option:selected',this).text();
+      }
+      $(this)
+        .css({'z-index':10,'opacity':0,'-khtml-appearance':'none'})
+        .after('<span class="select">' + title + '</span>')
+        .change(function () {
+          val = $('option:selected',this).text();
+          $(this).next().text(val);
+        });
+    });
+    
+    // for small select
+    
+    $('select.select-small').each(function () {
+      var title = $(this).attr('title');
+      if ($('option:selected', this).val() !== '') {
+        title = $('option:selected',this).text();
+      }
+      $(this)
+        .css({'z-index':10,'opacity':0,'-khtml-appearance':'none'})
+        .after('<span class="select-small">' + title + '</span>')
+        .change(function () {
+          val = $('option:selected',this).text();
+          $(this).next().text(val);
+        });
+    });
+  }
+
+  ncc.navigateToHash();
+  $("#GetStarted:visible").focus();
+};
 
 ncc.serverDown = function () {
   ncc.status.error('No response from server. Please check if it is running.');
@@ -311,101 +433,6 @@ ncc.onLogOut = function () {
   $('#UnlogTopNav a[href="#welcome"]').tab('show');
 }
 
-$(document).ready(function () {
-  $("#t-send").on("show", SendPage.onShowTab);
-  $("#t-login").on("show", loginScreen.onShowTab);
-  $("#t-ripple").on("show", RipplePage.onShowTab );
-  $("#t-ledger").on("show", function () {
-    remote.request_ledger(["lastclosed", "full"])
-      .on('success', ledgerScreen.ledgerResponse)
-      .request();
-  });
-  $("#t-orderbook").on("show", function () {
-    remote.request_ledger(["lastclosed", "full"])
-      .on('success', orderBookScreen.ledgerResponse)
-      .request();
-  });
-  $("#t-history").on("show", HistoryPage.onShowTab);
-  $("#t-address").on("show", AddressBookPage.onShowTab);
-  $("#t-unl").on("show", function () {
-    remote.request_unl_list()
-      .on('success', unlScreen.unlResponse)
-      .request();
-  });
-  $("#t-peers").on("show", function () {
-    remote.request_peers()
-      .on('success', ncc.peersResponse)
-      .request();
-  });
-  $("#t-info").on("show", ncc.infoTabShown);
-  $("#t-feed").on("show", feed.onShowTab);
-  $("#t-trade").on("show", TradePage.onShowTab);
-  $("#t-options").on("show", OptionsPage.onShowTab); 
-  $("#t-welcome").on("show", welcomeScreen.onShowTab);
-  $("#t-deposit").on("show", depositScreen.onShowTab);
-  
-  ncc.onLogOut();
-  $('#AdvancedNav').hide();
-  $('#UnlogAdvancedNav').hide();
-  
-  // unactives main navigation
-  
-  $('#UnlogAdvancedNav li a').click(function () {
-    $('#UnlogTopNav li').removeClass('active');
-  });
-  $('#TopNav li a').click(function () {
-    $('#MainNav li').removeClass('active');
-    $('#AdvancedNav li').removeClass('active');
-  });
-  $('#AdvancedNav li a').click(function () {
-    $('#MainNav li').removeClass('active');
-    $('#TopNav li').removeClass('active');
-  });
-  $('#MainNav li a').click(function () {
-    $('#AdvancedNav li').removeClass('active');
-    $('#TopNav li').removeClass('active');
-  });
-  
-  startUp.start();
-  
-  /* custom select boxes */
-  
-  if (!$.browser.opera) {
-     
-    // for large select 
-     
-    $('select.select').each(function () {
-      var title = $(this).attr('title');
-      if ($('option:selected', this).val() !== '') {
-        title = $('option:selected',this).text();
-      }
-      $(this)
-        .css({'z-index':10,'opacity':0,'-khtml-appearance':'none'})
-        .after('<span class="select">' + title + '</span>')
-        .change(function () {
-          val = $('option:selected',this).text();
-          $(this).next().text(val);
-        });
-    });
-    
-    // for small select
-    
-    $('select.select-small').each(function () {
-      var title = $(this).attr('title');
-      if ($('option:selected', this).val() !== '') {
-        title = $('option:selected',this).text();
-      }
-      $(this)
-        .css({'z-index':10,'opacity':0,'-khtml-appearance':'none'})
-        .after('<span class="select-small">' + title + '</span>')
-        .change(function () {
-          val = $('option:selected',this).text();
-          $(this).next().text(val);
-        });
-    });
-  }
-});
-
 ncc.misc = {};
 
 ncc.misc.isValidAddress = function (addr) {
@@ -499,7 +526,4 @@ window.onhashchange = function () {
   $('.nav.nav-tabs:visible a[href="' + window.location.hash + '"]').click();
 };
 
-$(document).ready(function () {
-  ncc.navigateToHash();
-  $("#GetStarted:visible").focus();
-});
+module.exports = ncc;

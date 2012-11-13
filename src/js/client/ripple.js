@@ -1,3 +1,6 @@
+var RippleAddress = require('./types').RippleAddress,
+    AmountValue = require('./types').AmountValue;
+
 var RipplePage = (function () {
   var address, name, creditMax, currency,
       
@@ -9,24 +12,10 @@ var RipplePage = (function () {
       rippleLinesTable;
 
   var RipplePage = {};
-  
-  function onFieldsUpdated() {
-    address = acctElem.value().replace(/\s/g, '');
-    name = blobVault.addressBook.getName(address) || '';
-    creditMax = limitElem.val();
-    currency = currElem.value();
-    
-    try { // checks that the value is representable and >= 0
-      assert((new AmountValue(creditMax)).sign != "-");
-    } catch (e) {
-      creditMax = "bad";
-    }
-    
-    var allgud = ncc.misc.isValidAddress(address) && creditMax != 'bad' && currency;
-    buttonElem.attr('disabled', !allgud);
-  }
-  
-  $(document).ready(function () {
+
+  RipplePage.init = function () {
+    $('#AddCreditLineButton').click(RipplePage.submitForm);
+
     limitElem = $("#NewCreditMax"),
     buttonElem = $("#AddCreditLineButton");
     rippleLinesTable = $('#RippleTable');
@@ -35,7 +24,25 @@ var RipplePage = (function () {
         buttonElem.click();
       }
     });
-  });
+  };
+  
+  function onFieldsUpdated() {
+    address = acctElem.value().replace(/\s/g, '');
+    name = blobVault.addressBook.getName(address) || '';
+    creditMax = limitElem.val();
+    currency = currElem.value();
+    
+    try { // checks that the value is representable and >= 0
+      var sign = (new AmountValue(creditMax)).sign;
+      if (sign === "-") {
+        throw new Error("Negative values not allowed!");
+      }
+    } catch (e) {
+      creditMax = "bad";
+    }
+    var allgud = ncc.misc.isValidAddress(address) && creditMax != 'bad' && currency;
+    buttonElem.attr('disabled', !allgud);
+  }
   
   RipplePage.lines = {};
   
@@ -180,3 +187,4 @@ var RipplePage = (function () {
   return RipplePage;
 })();
 
+exports.RipplePage = RipplePage;

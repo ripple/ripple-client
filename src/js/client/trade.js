@@ -12,7 +12,7 @@ var TradePage = (function () {
 
   var TradePage = {};
       
-  $(document).ready(function () {
+  TradePage.init = function () {
     $("#t-trade input").on('keydown', function (e) {
       if (e.which == 13 && !buttonElem.attr('disabled') && !$(this).widget) {
         buttonElem.click();
@@ -37,7 +37,9 @@ var TradePage = (function () {
     priceElem = $('#TradePagePrice').on('input', onFieldsUpdated);
     buttonElem = $("#TradePageButton");
     openOrderTable = $("#OpenOrderTable");
-  });
+
+    $('#TradePageButton').click(TradePage.placeOrder);
+  };
   
   function onFieldsUpdated() {
     sellCurr = sellCurrElem.value();
@@ -214,3 +216,5 @@ var TradePage = (function () {
 
   return TradePage;
 })();
+
+exports.TradePage = TradePage;
