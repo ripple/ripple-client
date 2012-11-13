@@ -7,6 +7,8 @@ ledgerScreen.ledgerResponse = function (res, noErrors) {
 };
 
 ledgerScreen.addLedger = function (ledger) {
+  var i;
+
   $('#LedgerInfoHash').text(ledger.hash);
   $('#LedgerInfoParentHash').text(ledger.parentHash);
   $('#LedgerInfoNumber').text(ledger.seqNum);
@@ -22,13 +24,13 @@ ledgerScreen.addLedger = function (ledger) {
   
   var accounts = ledger.accountState;
   $('#LedgerTable').empty();
-  for (var i = 0; i < accounts.length; i++) {
+  for (i = 0; i < accounts.length; i++) {
     var row = ledgerScreen.makeRow(accounts[i],i);
     $('#LedgerTable').append(row);
   }
   
   $('#TransactionTable').empty();
-  for(var i = 0; i < ledger.transactions.length; i++) {
+  for(i = 0; i < ledger.transactions.length; i++) {
     var tx = ledger.transactions[i],
         amount = ncc.displayAmount(tx.Amount),
         fee = ncc.addCommas( (tx.Fee / BALANCE_DISPLAY_DIVISOR).toFixed(4) );
@@ -44,13 +46,13 @@ ledgerScreen.addLedger = function (ledger) {
       '</tr>'
     );
   }
-}
+};
 
 ledgerScreen.makeRow = function (account, i)
 {
   if (account.LedgerEntryType == "AccountRoot") {
-    var balance = ncc.displayAmount(account.Balance);
-    return '<tr><td>' + i + '</td><td>' + account.Account + '</td><td>' + balance + '</td><td>' + account.Sequence + '</td></tr>';
+    var accountBalance = ncc.displayAmount(account.Balance);
+    return '<tr><td>' + i + '</td><td>' + account.Account + '</td><td>' + accountBalance + '</td><td>' + account.Sequence + '</td></tr>';
   }
   
   if (account.LedgerEntryType == "DirectoryRoot") {
@@ -70,9 +72,9 @@ ledgerScreen.makeRow = function (account, i)
   }
   
   if (account.LedgerEntryType == "RippleState") {
-    var balance = account.Balance.value,
-        currency = account.Balance.currency;
-    return '<tr><td>' + i + '</td><td>RippleState</td><td>' + balance + '</td><td>' + currency + '</td></tr>';
+    var currency = account.Balance.currency,
+        rsBalance = account.Balance.value;
+    return '<tr><td>' + i + '</td><td>RippleState</td><td>' + rsBalance + '</td><td>' + currency + '</td></tr>';
   }
   
   if (account.LedgerEntryType == "Offer") {
@@ -94,4 +96,4 @@ ledgerScreen.makeRow = function (account, i)
     return '<tr><td>' + i + '</td><td>Offer</td><td>' + str + '</td><td>' + account.Sequence + '</td></tr>';
   }
   return '<tr><td>' + i + '</td><td>????</td><td></td><td></td></tr>';
-}
+};

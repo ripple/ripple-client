@@ -56,7 +56,7 @@ ncc.on('account-Payment', function (e, tx) {
 
 ncc.on('account-CreditSet', function (e, tx) {
   RipplePage.onCreditSet(tx);
-})
+});
 
 ncc.on('account-OfferCreate', function (e, tx) {
   TradePage.appendOffer(tx);
@@ -68,7 +68,7 @@ ncc.on('account-OfferCancel', function (e, tx) {
 
 ncc.serverDown = function () {
   ncc.status.error('No response from server. Please check if it is running.');
-}
+};
 
 ncc.checkError = function (response) {
   var ret = response.result.error_message || response.result.error,
@@ -79,7 +79,7 @@ ncc.checkError = function (response) {
   return ret;
 };
 
-ncc.status = new (function () {
+ncc.status = (function () {
   var container = $('#MainStatusArea'),
       prot = false;
   
@@ -118,22 +118,22 @@ ncc.status = new (function () {
 
 ncc.displayScreen = function (s) {
   document.location.hash = '#' + s;
-}
+};
 
 ncc.displayTab = function (s) {
   $('.nav.nav-tabs:visible a[href="#' + s + '"]').show();
-}
+};
 
 // escape a string from the server so it is safe to stick in jquery's .html()
 ncc.escape = function (str) {
   if (str && str.replace)
     return str.replace(/&/g, '&amp;').replace(/>/g, '&gt;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
   return str;
-}
+};
 
 ncc.hideTab = function (s) {
   $('.nav.nav-tabs:visible a[href="#' + s + '"]').hide();
-}
+};
 
 ncc.processAccounts = function (accounts) {
   ncc.accounts = accounts;
@@ -157,7 +157,7 @@ ncc.changeBalance = function (currency, delta) {
   
   var currElem = $('li#' + currency + 'Balance');
   
-  if (ncc.balance[currency] != 0) {
+  if (ncc.balance[currency].compareTo(0)) {
     var amount = (currency == 'XNS') ? ncc.displayAmount(ncc.balance[currency])
                                      : String(ncc.balance[currency]);
     
@@ -201,10 +201,10 @@ ncc.displayAmount = function (amount) {
 }
 
 ncc.addCommas = function (n) {
-  if (!/^[+-]?\d+(.\d*)?$/.test(n)) throw "Invalid number format.";
+  if (!/^[+\-]?\d+(.\d*)?$/.test(n)) throw "Invalid number format.";
   
   var s = n.toString(),
-      m = s.match(/^([+-]?\d+?)((\d{3})*)(\.\d*)?$/),
+      m = s.match(/^([+\-]?\d+?)((\d{3})*)(\.\d*)?$/),
       whole = [m[1]].concat(m[2].match(/\d{3}/g) || []),
       fract = m[4] || "";
   
@@ -376,7 +376,7 @@ $(document).ready(function () {
      
     $('select.select').each(function () {
       var title = $(this).attr('title');
-      if ($('option:selected', this).val() != '') {
+      if ($('option:selected', this).val() !== '') {
         title = $('option:selected',this).text();
       }
       $(this)
@@ -392,7 +392,7 @@ $(document).ready(function () {
     
     $('select.select-small').each(function () {
       var title = $(this).attr('title');
-      if ($('option:selected', this).val() != '') {
+      if ($('option:selected', this).val() !== '') {
         title = $('option:selected',this).text();
       }
       $(this)
@@ -403,7 +403,7 @@ $(document).ready(function () {
           $(this).next().text(val);
         });
     });
-  };
+  }
 });
 
 ncc.misc = {};
@@ -457,8 +457,9 @@ ncc.misc.forms = (function () {
 })();
 
 ncc.misc.isValidAmount = function (amount, currency) {
+  // XXX Use big integer
   if (currency == 'XNS') {
-    return (amount % 1 == 0) && (amount > 0) && (amount < 100000000000000000);
+    return ((amount % 1) === 0) && (amount > 0) && (amount < 100000000000000000);
   } else {
     try {
       var a = new AmountValue(amount);
@@ -478,8 +479,8 @@ ncc.navigateToHash = function () {
       tab.click();
     } else {
       // tab is not immediately visible
-      var advNav = $("#AdvancedNav.nav.nav-tabs"),
-          tab = advNav.find('a[href="' + h + '"]');
+      var advNav = $("#AdvancedNav.nav.nav-tabs");
+      tab = advNav.find('a[href="' + h + '"]');
       if (ncc.loggedIn && advNav.not(':visible') && tab.length) {
         // tab is in the advanced menu
         $("#AdvNavToggle").click();

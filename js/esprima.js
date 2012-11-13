@@ -192,9 +192,9 @@ parseStatement: true, parseSourceElement: true */
         }
     }
 
-    function sliceSource(from, to) {
+    var sliceSource = function (from, to) {
         return source.slice(from, to);
-    }
+    };
 
     if (typeof 'esprima'[0] === 'undefined') {
         sliceSource = function sliceArraySource(from, to) {

@@ -1,14 +1,16 @@
-var HistoryPage = new (function () {
+var HistoryPage = (function () {
   var hist = {};
+
+  var HistoryPage = {};
   
-  this.onShowTab = function () {
+  HistoryPage.onShowTab = function () {
     $('#HistoryTable').empty();
     _.each(hist, function (t, hash) {
       HistoryPage.renderTransaction(t);
     });
   };
 
-  this.onHistoryResponse = function (res) {
+  HistoryPage.onHistoryResponse = function (res) {
     if (res) {
       _.each(
         res.transactions || [],
@@ -19,16 +21,17 @@ var HistoryPage = new (function () {
     }
   };
   
-  this.addTransaction = function (t, adjust) {
+  HistoryPage.addTransaction = function (t, adjust) {
     hist[t.hash] = t;
     HistoryPage.renderTransaction(t, adjust);
   };
   
-  this.renderTransaction = function (t, adjust) {
+  HistoryPage.renderTransaction = function (t, adjust) {
+    var amount;
     if (t.TransactionType == 'CreditSet') {
-      var amount = ncc.displayAmount(t.LimitAmount.value);
+      amount = ncc.displayAmount(t.LimitAmount.value);
     } else {
-      var amount = ncc.displayAmount(t.Amount);
+      amount = ncc.displayAmount(t.Amount);
     }
     
     var oldEntry = $('#' + t.hash),
@@ -82,9 +85,9 @@ var HistoryPage = new (function () {
         }
       }
     }
-  }
+  };
 
-  this.editName = function (cellElem) {
+  HistoryPage.editName = function (cellElem) {
     var cell = $(cellElem).parent(),
         content = cell.find('span'),
         saveButton = cell.find('button.save'),
@@ -99,7 +102,7 @@ var HistoryPage = new (function () {
     input.select();
   };
   
-  this.saveName = function (cellElem) {
+  HistoryPage.saveName = function (cellElem) {
     var cell = $(cellElem).parent(),
         addr = cell.attr('data-acct'),
         newName = cell.find('input').val();
@@ -109,5 +112,7 @@ var HistoryPage = new (function () {
     
     HistoryPage.onShowTab();
   };
+
+  return HistoryPage;
 })();
 

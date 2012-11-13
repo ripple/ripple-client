@@ -12,7 +12,7 @@ loginScreen.onShowTab = function () {
     } else {
       $("#loginForm input[name=username]").focus();
     }
-  }, 1)
+  }, 1);
 };
 
 loginScreen.login = function () {
@@ -93,7 +93,7 @@ depositScreen.onShowTab = function () {
   ncc.on('account-Payment', function () {
     $("#t-deposit p").text("Initial deposit received.");
     $("#t-deposit div.heading").text("Success!");
-    ncc.hideTab('deposit')
+    ncc.hideTab('deposit');
   });
 };
 

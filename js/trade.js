@@ -1,4 +1,4 @@
-var TradePage = new (function () {
+var TradePage = (function () {
   var sellCurr, buyCurr,    // private vars
       outAmount, outIssuer,
       inAmount, inIssuer,
@@ -9,6 +9,8 @@ var TradePage = new (function () {
       buttonElem,
       
       openOrderTable;
+
+  var TradePage = {};
       
   $(document).ready(function () {
     $("#t-trade input").on('keydown', function (e) {
@@ -35,7 +37,7 @@ var TradePage = new (function () {
     priceElem = $('#TradePagePrice').on('input', onFieldsUpdated);
     buttonElem = $("#TradePageButton");
     openOrderTable = $("#OpenOrderTable");
-  });  
+  });
   
   function onFieldsUpdated() {
     sellCurr = sellCurrElem.value();
@@ -51,20 +53,21 @@ var TradePage = new (function () {
       return;
     }
     
-    outIssuer;
+    var outIssuer;
     if (sellCurr == 'XNS') {
       outIssuer = '';
       outAmount *= BALANCE_DISPLAY_DIVISOR;
     } else {
       outIssuer = ncc.accountID;
     }
-    
+
+    var inRoute;
     if (buyCurr == 'XNS') { 
       inAmount *= BALANCE_DISPLAY_DIVISOR;
-      var inRoute = { 'max': inAmount + 10, 'accountID': '' };
+      inRoute = { 'max': inAmount + 10, 'accountID': '' };
     } else {
       // need to discover the inIssuer
-      var inRoute = RipplePage.findBestRouteIn(buyCurr);
+      inRoute = RipplePage.findBestRouteIn(buyCurr);
     }
     
     inIssuer = inRoute.accountID;
@@ -88,7 +91,7 @@ var TradePage = new (function () {
     }
   }
   
-  this.onShowTab = function () {
+  TradePage.onShowTab = function () {
     onFieldsUpdated();
 
     remote.request_ledger(["lastclosed", "full"])
@@ -96,7 +99,7 @@ var TradePage = new (function () {
       .request();
   };
   
-  this.placeOrder = function () {
+  TradePage.placeOrder = function () {
     var takerPays = "" + inAmount + "/" + buyCurr + "/" + inIssuer;
     var takerGets = "" + outAmount + "/" + sellCurr + "/" + outIssuer;
     remote.transaction()
@@ -109,7 +112,7 @@ var TradePage = new (function () {
     ;
   }
   
-  this.onOfferCreateResponse = function (res, noErrors) {
+  TradePage.onOfferCreateResponse = function (res, noErrors) {
     if (noErrors) {
       sellCurrElem.value('USD');
       buyCurreElem.value('XNS');
@@ -119,7 +122,7 @@ var TradePage = new (function () {
     }
   };
   
-  this.status = {
+  TradePage.status = {
     info: function (s) {
       if (s) {
         $("#TradePageStatus div.info").show().text(s);
@@ -165,7 +168,7 @@ var TradePage = new (function () {
   }
   
   // the following methods populate and modify the offer table
-  this.onLedgerResponse = function (res) {
+  TradePage.onLedgerResponse = function (res) {
     if (res.ledger) {
       var tbody = openOrderTable.empty();
       _.each(
@@ -179,7 +182,7 @@ var TradePage = new (function () {
     }
   };
   
-  this.appendOffer = function (a) {
+  TradePage.appendOffer = function (a) {
     var tr = openOrderTable.find('tr[data-sequence=' + a.Sequence +']');
     if (tr.length) {
       tr.replaceWith(createOrderRow(a));
@@ -188,7 +191,7 @@ var TradePage = new (function () {
     }
   };
   
-  this.cancelOffer = function (rowElem) {
+  TradePage.cancelOffer = function (rowElem) {
     var row = $(rowElem),
         button = row.find('button');
     if (button.text() == 'cancel?') {
@@ -205,7 +208,9 @@ var TradePage = new (function () {
     }
   };
   
-  this.removeOrderRow = function (seq) {
+  TradePage.removeOrderRow = function (seq) {
     openOrderTable.find('tr[data-sequence=' + seq +']').remove();
-  }
+  };
+
+  return TradePage;
 })();

@@ -1,7 +1,9 @@
-var blobVault = new (function () {
+var blobVault = (function () {
   var user = '',
       pass = '',
       hash = '';
+
+  var blobVault = {};
   
   if (!localStorage.blobs) { localStorage.blobs = '{}'; }
   var blobs = JSON.parse(localStorage.blobs);
@@ -18,11 +20,11 @@ var blobVault = new (function () {
     return blob_modified(b1) > blob_modified(b2) ? b1 : b2;
   }
   
-  this.blob = '';
-  this.data = {};
-  this.meta = {};
+  blobVault.blob = '';
+  blobVault.data = {};
+  blobVault.meta = {};
   
-  this.login = function (username, password, offlineBlob, onSuccess, onFailure) {
+  blobVault.login = function (username, password, offlineBlob, onSuccess, onFailure) {
     user = username;
     pass = password;
     hash = make_hash(user, pass);
@@ -34,8 +36,8 @@ var blobVault = new (function () {
     }
     
     function processServerBlob(serverBlob) {
-      var localBlob = blobs[hash] || "",
-          serverBlob = serverBlob || "";
+      var localBlob = blobs[hash] || "";
+      serverBlob = serverBlob || "";
       
       if (offlineBlob) {
         if (blobVault.loadBlob(offlineBlob)) {
@@ -66,7 +68,9 @@ var blobVault = new (function () {
           console.log("overwriting local blob");
           blobVault.write_blob(serverBlob);
         } else {
-          blobVault.loadBlob(localBlob) && blobVault.pushToServer(serverBlob);
+          if (blobVault.loadBlob(localBlob)) {
+            blobVault.pushToServer(serverBlob);
+          }
         }
       } else {
         console.log("local is primary");
@@ -95,7 +99,7 @@ var blobVault = new (function () {
       });
   };
   
-  this.loadBlob = function (blob) {
+  blobVault.loadBlob = function (blob) {
     var b = atob(blob);
     try {
       this.data = JSON.parse(sjcl.decrypt(user + pass, b));
@@ -109,9 +113,9 @@ var blobVault = new (function () {
     } catch (e) {
       return false;
     }
-  }
+  };
   
-  this.register = function (username, password) {
+  blobVault.register = function (username, password) {
     user = username;
     pass = password;
     hash = make_hash(user, pass);
@@ -121,7 +125,7 @@ var blobVault = new (function () {
     };
   };
   
-  this.save = function () {
+  blobVault.save = function () {
     var plaintext = JSON.stringify(this.data),
         adata, ct, key;
     
@@ -131,10 +135,10 @@ var blobVault = new (function () {
     this.write_blob(btoa(ct));
   };
   
-  this.write_blob = function (blob) {
+  blobVault.write_blob = function (blob) {
     this.blob = blobs[hash] = blob;
     localStorage.blobs = JSON.stringify(blobs);
-  }
+  };
   
   function pbkdfParams(blob) {
     var b = JSON.parse(atob(blob));
@@ -165,27 +169,27 @@ var blobVault = new (function () {
       new_pub: sjcl.codec.base64.fromBits(pub.toBits()),
       sig: sjcl.codec.base64.fromBits(sig),
       blob: newBlob
-    }
+    };
   }
   
-  this.pushToServer = function (oldBlob) {
+  blobVault.pushToServer = function (oldBlob) {
     var data = oldBlob ? authBlobUpdate(user + pass, oldBlob, this.blob)
                        : { blob: this.blob };
     
     $.post('http://' + Options.BLOBVAULT_SERVER + '/' + hash, data);
-  }
+  };
   
-  this.logout = function () {
-    delete user;
-    delete pass;
-    delete hash;
+  blobVault.logout = function () {
+    user = '';
+    pass = '';
+    hash = '';
     this.blob = '';
     this.data = {};
     this.meta = {};
   };
   
   // accessors for blobVault.data
-  this.getRecentSends = function () {
+  blobVault.getRecentSends = function () {
     return _.object(
       blobVault.data.recent_sends,
       _.map(
@@ -195,7 +199,7 @@ var blobVault = new (function () {
     );
   };
   
-  this.updateRecentSends = function (addr) {
+  blobVault.updateRecentSends = function (addr) {
     if (addr) {
       blobVault.data.recent_sends = _.without(blobVault.data.recent_sends, addr);
       blobVault.data.recent_sends.unshift(addr);
@@ -203,7 +207,7 @@ var blobVault = new (function () {
     }
   };
   
-  this.addressBook = (function () {
+  blobVault.addressBook = (function () {
     return {
       getEntries : function () {
         return blobVault.data.address_to_name;
@@ -224,4 +228,5 @@ var blobVault = new (function () {
     };
   })();
 
+  return blobVault;
 })();

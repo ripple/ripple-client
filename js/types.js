@@ -36,14 +36,14 @@ var AmountValue = (function () {
       return;
     }
     
-    var m = s.match(/^[-+]?0*([0-9]*)(\.([0-9]*?)0*)?$/);
+    var mnum = s.match(/^[\-+]?0*([0-9]*)(\.([0-9]*?)0*)?$/);
     
-    if (!s || !m) throw "Invalid value for AmountNumber."
+    if (!s || !mnum) throw "Invalid value for AmountNumber.";
     
     this.sign = (s[0] == '+' || s[0] == '-') ? s[0] : '+';
     
-    var whole = m[1] || "",
-        decim = m[3] || "",
+    var whole = mnum[1] || "",
+        decim = mnum[3] || "",
         digits = (whole + decim),
         m = digits.match(/^(0*)([0-9]+?)0*$/),
         leadZeros = m ? m[1] : "",
@@ -72,7 +72,7 @@ var AmountValue = (function () {
   
   AmountValue.prototype.toString = function () {
     var sign = this.sign == '-' ? '-' : '';
-    if (this.exponent == 0) {
+    if (this.exponent === 0) {
       return sign + this.mantissa;
     } else if (this.exponent > 0) {
       return sign + this.mantissa + repeat_str("0", this.exponent);
@@ -80,8 +80,9 @@ var AmountValue = (function () {
       var point = this.mantissa.length + this.exponent,
           whole = this.mantissa.slice(0, point < 0 ? 0 : point) || "0",
           decim = point < 0 ? repeat_str("0", -point) + this.mantissa
-                            : this.mantissa.slice(point, this.mantissa.length),
-          decim = decim.replace(/0*$/, '');
+                            : this.mantissa.slice(point,
+                                                  this.mantissa.length);
+      decim = decim.replace(/0*$/, '');
       return sign + whole + (decim ? "." + decim : "");
     }
   };
@@ -91,6 +92,10 @@ var AmountValue = (function () {
   };
   
   AmountValue.prototype.compareTo = function (other) {
+    if (!(other instanceof AmountValue)) {
+      other = new AmountValue(other);
+    }
+
     if (this.sign != other.sign) {
       return this.sign == '-' ? -1 : 1;
     }
@@ -111,19 +116,20 @@ var AmountValue = (function () {
   };
   
   AmountValue.prototype.div = function (other) {
+    var n;
     if (!isNaN(other) && (other.constructor == String || other.constructor == Number)) {
       return this.div(new AmountValue(String(other)));
     } else if (other && other.constructor == AmountValue) {
       if (other.isZero()) {
-        throw "Cannon divide by zero."
+        throw "Cannon divide by zero.";
       } else if (other.mantissa == '1000000000000000') {
-        var n = this.copy();
+        n = this.copy();
         n.exponent -= (other.exponent + 15);
       } else {
-        throw "Dividing by this number not implemented."
+        throw "Dividing by this number not implemented.";
       }
     } else {
-      throw "divide method takes a numeric String, Number, or AmountValue."
+      throw "divide method takes a numeric String, Number, or AmountValue.";
     }
     return n;
   };
@@ -256,8 +262,8 @@ var Base58Utils = (function () {
   return {
     // --> input: big-endian array of bytes. 
     // <-- string at least as long as input.
-    encode_base: function (input, alphabet) {
-      var alphabet	= alphabets[alphabet || 'ripple'];
+    encode_base: function (input, alphabetName) {
+      var alphabet	= alphabets[alphabetName || 'ripple'];
       var bi_base	= new BigInteger(String(alphabet.length));
       var bi_q	= nbi();
       var bi_r	= nbi();
@@ -280,8 +286,8 @@ var Base58Utils = (function () {
     
     // --> input: String
     // <-- array of bytes or undefined.
-    decode_base: function (input, alphabet) {
-      var alphabet = alphabets[alphabet || 'ripple'],
+    decode_base: function (input, alphabetName) {
+      var alphabet = alphabets[alphabetName || 'ripple'],
           bi_base = new BigInteger(String(alphabet.length)),
           bi_value = nbi();
       
@@ -387,7 +393,8 @@ var RippleAddress = (function () {
       
       public_gen = sjcl.ecc.curves.c256.G.mult(private_gen);
       
-      var sec, i = 0;
+      var sec;
+      i = 0;
       do {
         sec = sjcl.bn.fromBits(sjcl.codec.hex.toBits(
           firstHalfOfSHA512(append_int(append_int(public_gen.toBytesCompressed(), seq), i))

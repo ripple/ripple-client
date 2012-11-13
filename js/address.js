@@ -1,4 +1,4 @@
-var AddressBookPage = new (function () {
+var AddressBookPage = (function () {
   var AddressBookTable = $("#AddressBookTable"),
       
       makeRow = function (name, addr) {
@@ -20,8 +20,10 @@ var AddressBookPage = new (function () {
                     '<button class="add" onclick="AddressBookPage.newRow()">add</button>' +
                   '</td>' +
                 '</tr>');
+
+  var AddressBookPage = {};
   
-  this.onShowTab = function () {
+  AddressBookPage.onShowTab = function () {
     AddressBookTable.html('');
     
     _.each(
@@ -34,14 +36,14 @@ var AddressBookPage = new (function () {
     AddressBookTable.append(addRow);
   };
   
-  this.newRow = function () {
+  AddressBookPage.newRow = function () {
     var row = $(makeRow('', ''));
     AddressBookTable.find('tr:last').before(row);
     this.editRow(row);
     row.find('input:first').focus();
   };
   
-  this.editRow = function (rowElem) {
+  AddressBookPage.editRow = function (rowElem) {
     var row = $(rowElem),
         editButton = row.find('button.edit'),
         saveButton = row.find('button.save'),
@@ -63,13 +65,14 @@ var AddressBookPage = new (function () {
         case 27: // esc key
           $("td.name input").val(row.attr('data-name'));
           $("td.addr input").val(row.attr('data-addr'));
+          break;
         case 13: // enter key
           saveButton.click();
       }
     });
-  }
+  };
   
-  this.saveRow = function (rowElem) {
+  AddressBookPage.saveRow = function (rowElem) {
     var row = $(rowElem),
         oldName = unescape(row.attr('data-name')),
         newName = row.find('td.name input').val(),
@@ -93,12 +96,14 @@ var AddressBookPage = new (function () {
     blobVault.save();
     
     return false;
-  }
+  };
   
-  this.deleteRow = function (rowElem) {
+  AddressBookPage.deleteRow = function (rowElem) {
     $(rowElem).find("td.name input").val("");
     this.saveRow(rowElem);
-  }
+  };
+
+  return AddressBookPage;
 })();
 
 

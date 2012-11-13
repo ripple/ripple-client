@@ -8,12 +8,13 @@ orderBookScreen.ledgerResponse = function (res, noErrors) {
 
 orderBookScreen.addLedger = function(ledger) {
   var accounts = ledger.accountState,
-      offers = [];
+      offers = [],
+      i;
   
   $('#SellingTable').empty();
   $('#BuyingTable').empty();
   
-  for(var i = 0; i < accounts.length; i++) {
+  for(i = 0; i < accounts.length; i++) {
     if (accounts[i].LedgerEntryType == "Offer") {
       offers.push(new orderBookScreen.Offer(accounts[i]));
     }
@@ -21,11 +22,11 @@ orderBookScreen.addLedger = function(ledger) {
   
   offers.sort(function (x, y) { return y.price - x.price; });
   
-  for (var i=0; i < offers.length; i++) {
+  for (i=0; i < offers.length; i++) {
     var rows = orderBookScreen.makeRows(offers[i]);
     $('#SellingTable').append(rows[0]);
     $('#BuyingTable').prepend(rows[1]);
-  };
+  }
   
   orderBookScreen.updateRowsShown();
 };

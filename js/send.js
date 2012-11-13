@@ -1,4 +1,4 @@
-var SendPage = new (function () {
+var SendPage = (function () {
   var address, name, currency, amount, // private variables
       
       amntElem, // amount
@@ -6,6 +6,8 @@ var SendPage = new (function () {
       destElem, // destination
       nameElem, // (optional) name
       buttonElem; // button
+
+  var SendPage = {};
   
   function onFieldsUpdated() {
     address = destElem.value().replace(/\s/g, '');
@@ -71,7 +73,7 @@ var SendPage = new (function () {
     amntElem.on('input', onFieldsUpdated);
   });
   
-  this.onShowTab = function () {
+  SendPage.onShowTab = function () {
     var destinationOptions = _.extend(blobVault.getRecentSends(), blobVault.addressBook.getEntries());
     
     if (!destElem) {
@@ -97,7 +99,7 @@ var SendPage = new (function () {
     destElem.updateData(destinationOptions)
   }
   
-  this.send = function () {
+  SendPage.send = function () {
 
     var tx = remote.transaction();
     tx.payment(ncc.accountID, address, String(amount));
@@ -110,7 +112,7 @@ var SendPage = new (function () {
     ncc.misc.forms.disable('#t-send');
   };
   
-  this.onSendResponse = function (res) {
+  SendPage.onSendResponse = function (res) {
     var toAccount = res.dstAccountID,
     curr = res.dstISO;
     
@@ -126,10 +128,10 @@ var SendPage = new (function () {
     destElem.promoteEntry(toAccount);
     
     // clean up
-    delete address;
-    delete name;
-    delete currency;
-    delete amount;
+    address = null;
+    name = null;
+    currency = null;
+    amount = null;
     
     destElem.value('');
     $("#SendAmount").val('');
@@ -144,9 +146,11 @@ var SendPage = new (function () {
     onFieldsUpdated();
   }
 
-  this.onSendError = function () {
+  SendPage.onSendError = function () {
     buttonElem.text("Send Money");
     ncc.misc.forms.enable('#t-send');
     onFieldsUpdated();
   };
+
+  return SendPage;
 })();

@@ -14,7 +14,7 @@ $.widget("ui.combobox", {
         select, input;
     
     if (this.element[0].nodeName == "SELECT") {
-      select = this.element.hide()
+      select = this.element.hide();
       input = $("<input>").insertAfter(select);
     } else {
       input = this.element;
