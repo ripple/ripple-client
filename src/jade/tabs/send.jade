@@ -1,0 +1,14 @@
+section#t-send.single.content
+  p.literal You can send money or credits to anyone with a Ripple account.
+  hr
+  form
+    label(for='send_amount') Amount
+    input#send_amount(name='send_amount', type='number')
+    select#send_amount_currency(name='send_amount_currency')
+      option XRP
+    label(for='send_destination') Destination
+    input#send_destination(name='send_destination', type='text')
+    label(for='send_nickname') Nickname for this user
+    input#send_nickname(name='send_nickname', type='text', placeholder='Optional')
+    div.submitsection
+      button.btn.btn-success(type='submit') Send

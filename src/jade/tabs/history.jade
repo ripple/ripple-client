@@ -1,0 +1,14 @@
+section.panel.content(ng-controller="HistoryCtrl")
+  table.table
+    thead
+      tr
+        th Date
+        th Source / Destination
+        th Amount
+        th Balance
+    tbody
+      tr(ng-repeat="entry in log")
+        td.date {{entry.date}}
+        td {{entry.party}}
+        td {{entry.amount}}
+        td {{entry.balance}}

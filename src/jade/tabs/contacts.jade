@@ -1,0 +1,17 @@
+section.panel.content(ng-controller="ContactsCtrl")
+  table.table
+    thead
+      tr
+        th Name
+        th.account Account
+        th.command
+        th.action
+          a(href='#') add
+    tbody
+      tr(ng-repeat="entry in addressbook")
+        td {{entry.name}}
+        td {{entry.address}}
+        td.command
+          button.send.btn.btn-success.btn-small Send ...
+        td.action
+          a(href='#') edit

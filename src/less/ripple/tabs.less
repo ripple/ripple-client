@@ -1,0 +1,121 @@
+#main #t-register form, #main #t-login form {
+  margin-top: 25px;
+  margin-bottom: 25px;
+
+  #register_username {
+    width: 355px;
+  }
+  .horiz {
+    > div {
+      float: left;
+      margin-right: 20px;
+    }
+
+    &:after {
+      .virtualel;
+      clear: both;
+    }
+  }
+
+  .btn {
+    margin: 12px 12px 12px 0;
+    float: left;
+  }
+
+  .storageinfo strong {
+    color: #000;
+  }
+
+  .storageinfo a {
+    font-size: 0.7em;
+  }
+
+  .submitsection {
+    .makeRow();
+    button {
+      .makeColumn(3);
+    }
+    p {
+      .makeColumn(6);
+      font-size: 20px;
+      float: left;
+      padding-left: 10px;
+      padding-top: 10px;
+      margin: 0;
+    }
+  }
+
+  .throw {
+    clear: both;
+  }
+}
+
+#main #t-login form .submitsection p {
+  font-size: 13px;
+}
+
+html.t-my-ripple header nav ul > li.active#nav-account > a:after {
+  border-bottom-color: #fff;
+}
+
+#t-contacts {
+  table {
+    .table-striped;
+
+    tr {
+      position: relative;
+    }
+
+    .send {
+      margin-right: 10px;
+    }
+
+    .command, .action {
+    }
+
+    .action {
+      text-align: center;
+    }
+  }
+}
+
+#t-history {
+  td.date {
+    //font-size: 0.9em;
+  }
+}
+
+#t-send {
+  input, select{
+    vertical-align: bottom;
+  }
+
+  #send_amount_currency {
+    margin-left: 10px;
+    width: auto;
+  }
+  #send_destination {
+    .input-xxlarge;
+  }
+  #send_nickname {
+    .input-xlarge;
+  }
+  .submitsection {
+    .makeRow();
+    button {
+      .makeColumn(3);
+    }
+  }
+}
+
+#t-receive {
+  .address {
+    font-size: 30px;
+    margin: 0;
+    padding: 20px @pmSingleMargin;
+    margin-bottom: 20px;
+  }
+  .btn {
+    .input-medium;
+  }
+}

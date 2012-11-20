@@ -8,7 +8,9 @@
   },
   "devDependencies": {
     "buster": "~0.6.2",
-    "webpack": "~0.7.17"
+    "webpack": "~0.7.17",
+    "grunt-webpack": "~0.4.0",
+    "grunt-recess": "~0.1.3"
   },
   "scripts": {
   },

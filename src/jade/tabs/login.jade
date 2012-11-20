@@ -1,0 +1,24 @@
+section.single.modal.content
+  h1 Open Wallet
+  p.literal Enter the username and password that was used to encrypt your wallet below.
+  form
+    label(for='login_username') Username
+    input#register_username(name='register_username', type='text')
+    label(for='login_password') Password
+    input#register_password(name='register_password', type='password')
+    label.storageinfo
+      | Fetch your wallet from:
+      strong  Payward Inc. 
+      a(href='#') change
+    p.literal.hint
+      | Your information will be stored with Payward, lorem ipsum et dolor sit amet.
+    div.submitsection
+      button.btn.btn-info(type='submit') Go
+      p.literal
+        | You are responsible for safeguarding your login information.<br>
+        | Ripple can not recover your username or password.<br>
+        strong Write down your master key. 
+        a(href='#') Learn how
+    p.literal
+      | New to Ripple? 
+      a(href='#register') Create a wallet

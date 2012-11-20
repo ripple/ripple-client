@@ -1,0 +1,39 @@
+/**
+ * Useful helper to create virtual elements like a:after and a:before
+ */
+.virtualel {
+  content: "";
+  display: block;
+}
+
+
+.transition-multi(@elements) {
+  -webkit-transition: @elements;
+  -moz-transition: @elements;
+  transition: @elements;
+}
+
+@-webkit-keyframes fadebg {
+      0% { }
+      100% { background-color: transparent }
+}
+@-ms-keyframes fadebg {
+      0% { }
+      100% { background-color: transparent }
+}
+@-moz-keyframes fadebg {
+      0% { }
+      100% { background-color: transparent }
+}
+@keyframes fadebg {
+      0% { }
+      100% { background-color: transparent }
+}
+
+.animation(@tween:fadebg, @duration:1s, @fillmode:forwards) {
+  -webkit-animation: @tween @duration 1;
+  -moz-animation: @tween @duration 1;
+  -ms-animation: @tween @duration 1;
+  animation: @tween @duration 1;
+  -webkit-animation-fill-mode: @fillmode;
+}

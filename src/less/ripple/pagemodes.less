@@ -1,0 +1,29 @@
+@pmSingleMargin: 60px;
+@pmPanelMargin: 40px;
+
+html.pm-single {
+  header nav {
+    display: none;
+  }
+
+  header {
+  }
+
+  #status {
+    display: none;
+  }
+}
+
+.single {
+  padding: 20px 0;
+  > p, > div, > form, > hr {
+    margin-left: @pmSingleMargin;
+    margin-right: @pmSingleMargin;
+  }
+}
+
+.panel {
+  > table td:first-child, > table th:first-child {
+    padding-left: @pmPanelMargin;
+  }
+}

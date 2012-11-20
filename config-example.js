@@ -10,7 +10,8 @@ var Options = _.defaults(
     server: {
       "trusted" : true,
       "websocket_ip" : "127.0.0.1",
-      "websocket_port" : 5006
+      "websocket_port" : 5006,
+      "websocket_ssl" : false
     },
     BLOBVAULT_SERVER : "localhost:51235",
 

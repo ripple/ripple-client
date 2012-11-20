@@ -5,27 +5,22 @@
 <!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
 <!-- Consider adding a manifest.appcache: h5bp.com/d/Offline -->
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<html ng-app>
 <head>
   <meta charset="utf-8">
-  
+
   <title>Ripple: Open Source Payments</title>
   <meta name="description" content="">
-  
+
   <!-- Mobile viewport optimized: h5bp.com/viewport -->
   <meta name="viewport" content="width=device-width">
-  
+
   <!-- CSS -->
-  <link rel="stylesheet" href="css/bootstrap.css">
-  <link href="css/bootstrap-responsive.css?1" rel="stylesheet">
-  <link href="css/ui-lightness/jquery-ui.css" rel="stylesheet">
-  <link href="css/style.css" rel="stylesheet">
-  <link href="css/ncc2.css" rel="stylesheet">
-  <link href="css/psm.css" rel="stylesheet">
+  <link href="deps/css/ui-lightness/jquery-ui.css" rel="stylesheet">
+  <link href="fonts/stylesheet.css" rel="stylesheet">
+  <link href="build/css/ripple-desktop.css" rel="stylesheet">
   <!-- ENDS CSS -->
-  
-  <!-- GOOGLE FONTS -->
-  <link href='http://fonts.googleapis.com/css?family=Arvo:400,700' rel='stylesheet' type='text/css'>
-  
+
   <!-- All JavaScript at the bottom, except this Modernizr build.
      Modernizr enables HTML5 elements & feature detects for optimal performance.
      Create your own custom Modernizr build: www.modernizr.com/download/ -->
@@ -34,36 +29,44 @@
 </head>
 
 <body>
-  
+
   <!-- WRAPPER -->
-  <div class="wrapper">
-    
+  <div id="wrapper">
+
     <!-- HEADER -->
-    <header class="cf">
-      
+    <header>
+
+      <!-- LOGO -->
+      <div id="logo">
+        <a href="."><img src="img/logo.png" alt="" /></a>
+      </div>
+
       <!-- NAV -->
-      <nav class="cf">
-        <div id="logo" class="cf">
-          <a href="index.html"><img src="img/logo.png" alt="" /></a>
-        </div>
-        
+      <nav>
+        <ul>
+          <li id="nav-account"><a href="#account">Account</a></li>
+          <li id="nav-send"><a href="#send">Send</a></li>
+          <li id="nav-receive"><a href="#receive">Receive</a></li>
+          <li id="nav-advanced"><a href="#advanced">Advanced</a></li>
+        </ul>
+        <!--
         <ul class="nav nav-tabs topNav" id="TopNav">
           <li class="secondary-tab pull-right"><a href="#options" data-toggle="tab">Options</a></li>
           <li class="secondary-tab pull-right"><a id="LogoutLink">Logout</a></li>
         </ul>
-        
+
         <ul class="nav nav-tabs topNav" id="UnlogTopNav">
           <li class="secondary-tab pull-right"><a href="#options" data-toggle="tab">Options</a></li>
           <li class="secondary-tab pull-right"><a href="#register" data-toggle="tab">Register</a></li>
           <li class="secondary-tab pull-right"><a href="#login" data-toggle="tab">Login</a></li>
           <li class="secondary-tab pull-right"><a href="#welcome" data-toggle="tab">Welcome</a></li>
         </ul>
-        
+
         <ul class="nav nav-tabs mainNav" id="UnlogMainNav">
           <li><span  class="log-message">You are not logged in.</span></li>
           <li class="secondary-tab pull-right"><a onclick="ncc.toggleAdvanced(this)">Show Advanced <b class="caret"></b></a></li>
         </ul>
-        
+
         <ul class="nav nav-tabs mainNav" id="MainNav">
           <li><a href="#deposit" data-toggle="tab" style="display:none">Welcome!</a></li>
           <li><a href="#send" data-toggle="tab">Send Money</a></li>
@@ -75,7 +78,7 @@
             <a id='AdvNavToggle' onclick="ncc.toggleAdvanced(this)">Show Advanced <b class="caret"></b></a>
           </li>
         </ul>
-        
+
         <ul class="nav nav-tabs subnav" id="AdvancedNav">
           <li><a href="#feed" data-toggle="tab">Feed</a></li>
           <li><a href="#ledger" data-toggle="tab">Ledger</a></li>
@@ -85,7 +88,7 @@
           <li><a href="#orderbook" data-toggle="tab">Order Book</a></li>
           <li><a href="#trade" data-toggle="tab">Trade</a></li>
         </ul>
-        
+
         <ul class="nav nav-tabs subnav" id="UnlogAdvancedNav">
           <li><a href="#feed" data-toggle="tab">Feed</a></li>
           <li><a href="#ledger" data-toggle="tab">Ledger</a></li>
@@ -93,562 +96,433 @@
           <li><a href="#peers" data-toggle="tab">Peers</a></li>
           <li><a href="#info"  data-toggle="tab">Info</a></li>
           <li><a href="#orderbook" data-toggle="tab">Order Book</a></li>
-        </ul>
+        </ul>-->
       </nav>
       <!-- ENDS NAV -->
-      
+
       <!-- STATUS -->
-      <ul class="status-message">
-        <li id="ClientState" class="heading">Status Message</li>
-      </ul>
+      <div id="status">
+        <div class="user">Carl Sagan 要闻 웹문서 תוצאות</div>
+        <div class="balance primary">100,000,000,000<span>XRP</span></div>
+        <div class="balance secondary">1,000,000<span>USD</span></div>
+      </div>
       <!-- ENDS STATUS -->
-      
+
     </header>
     <!-- ENDS HEADER -->
-    
+
     <!-- MAIN -->
     <div role="main" id="main">
-      
-      <!-- TAB-CONTENT -->
-      <div class="tab-content">
-      
-        <!-- WELCOME SECTION -->
-        <section class="tab-pane active" id="t-welcome">
-          <div class="heading">Welcome</div>
-          <div class="page-content">
-            <p>Ripple is an open source P2P payment system.</p>
-            <p>
-              Ripple lets you easily, cheaply, and safely send money over the Internet to anyone, anywhere in the world.
-              Because Ripple is P2P software, no individual, corporation, or government controls Ripple.
-            </p>
-            <p>
-              Anyone can create a Ripple account. Ripple accounts can not be shutdown by any corporation or government.
-              The Ripple network operates through the combined efforts of the copies of the Ripple software that are 
-              running all over the world.
-            </p>
-            <div class="bottom-btn">
-              <button id="GetStarted" class="btn btn-large btn-success" onclick="ncc.displayScreen('login')">
-                Login and claim your coins
-              </button>
-            </div>
+      <!-- WELCOME SECTION -->
+      <section class="single" id="t-welcome">
+        <div class="heading">Welcome</div>
+        <div class="page-content">
+          <p>Ripple is an open source P2P payment system.</p>
+          <p>
+            Ripple lets you easily, cheaply, and safely send money over the Internet to anyone, anywhere in the world.
+            Because Ripple is P2P software, no individual, corporation, or government controls Ripple.
+          </p>
+          <p>
+            Anyone can create a Ripple account. Ripple accounts can not be shutdown by any corporation or government.
+            The Ripple network operates through the combined efforts of the copies of the Ripple software that are
+            running all over the world.
+          </p>
+          <div class="bottom-btn">
+            <button id="GetStarted" class="btn btn-large btn-success" onclick="ncc.displayScreen('login')">
+              Login and claim your coins
+            </button>
           </div>
-        </section>
-        <!-- ENDS WELCOME SECTION -->
-        
-        <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
-        
-        <!-- OPTIONS SECTION -->
-        <section class="tab-pane" id="t-options">
-          <div class="heading">Options</div>
-          <div class="page-content">
-            
-            <table>
-              <tr><td class="span3">WebSocket server:port</td><td><input id="WSServerOption" type="text"></td></tr>
-              <tr><td class="span3">BlobVault server:port</td><td><input id="BlobVaultServerOption" type="text"></td></tr>
-            </table>
-            
-            <div class="bottom-btn">
-              <button id="OptionsPageSave" class="btn btn-large btn-success">Save options</button> 
-              <button id="OptionsPageCancel" class="btn btn-large btn-danger">Cancel</button>
-            </div>
-          </div>
-        </section>
-        <!-- ENDS OPTIONS SECTION -->
-        
-        <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
-        
-        <!-- LOGIN SECTION -->
-        <section class="tab-pane" id="t-login">
-          <div class="heading">Login</div>
-          <div class="page-content">
-            <form id="loginForm">
-              <table>
-                <tr><td class="span2">Username</td><td valign='middle'>
-                  <input name="username" type="text" class="span4">
-                </td></tr>
-                <tr>
-                  <td class="span2">Password</td>
-                  <td valign='middle'><input name="password" type="password" class="span4"></td>
-                </tr>
-                <tr id="recoverRow"><td>
-                  <a href="#" onclick="$('#blobRow').show();$('#recoverRow').hide();">Recover wallet</a>
-                </td></tr>
-                <tr id="blobRow" style="display:none">
-                  <td class="span2">Blob</td>
-                  <td valign='middle'><input name="blob" type="text" class="span4" placeholder="(optional)"></td>
-                </tr>
-              </table>
-              
-              <div class="bottom-btn">
-                <input id="LoginButton" type="submit" value="Sign in" class="btn btn-large btn-success" />
-              </div>
+        </div>
+      </section>
+      <!-- ENDS WELCOME SECTION -->
+
+      <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+      <!-- ACCOUNT SECTION -->
+      <section id="t-account">
+        <nav>
+          <ul>
+            <li class="active"><a href="#my-ripple">My Ripple</a></li>
+            <li><a href="#history">History</a></li>
+            <li><a href="#contacts">Contacts</a></li>
+            <li><a href="#exchange">Exchange</a></li>
+            <li><a href="#rates">Rates</a></li>
+            <li><a href="#trust">Trust</a></li>
+          </ul>
+        </nav>
+        <section class="panel content" id="t-my-ripple">
+          <div class="total" style="display:none">
+            <div class="swatch"></div>
+            <div class="balance">15,532.33</div>
+            <form class="config form-inline">
+              <label for="">Total value in</label>
+              <select>
+                <option>USD</option>
+              </select>
             </form>
-            
-            <p>
-              If you don't have an account, you can <a onclick="ncc.displayScreen('register')">register</a>.
-            </p>
+          </div>
+          <div class="currency-summary positive">
+            <div class="balancebox">
+            <div class="label">Ripple Credits</div>
+            <div class="balance">40,000.00</div>
+            </div>
           </div>
         </section>
-        <!-- ENDS LOGIN SECTION -->
-        
-        <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
-        
-        <!-- REGISTER SECTION -->
-        <section class="tab-pane" id="t-register">
-          <div class="heading">Register</div>
-          <div class="page-content">
-            <form id="registerForm">
-              <table>
-                <tr>
-                  <td class="span2">Username</td>
-                  <td valign='middle'><input name="username" type="text" class="span4" style="float:left;" /></td>
+      </section>
+      <!-- ENDS ACCOUNT SECTION -->
+
+      <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+      <!-- OPTIONS SECTION -->
+      <section class="tab-pane" id="t-options">
+        <div class="heading">Options</div>
+        <div class="page-content">
+
+          <table>
+            <tr><td class="span3">WebSocket server:port</td><td><input id="WSServerOption" type="text"></td></tr>
+            <tr><td class="span3">BlobVault server:port</td><td><input id="BlobVaultServerOption" type="text"></td></tr>
+          </table>
+
+          <div class="bottom-btn">
+            <button id="OptionsPageSave" class="btn btn-large btn-success">Save options</button>
+            <button id="OptionsPageCancel" class="btn btn-large btn-danger">Cancel</button>
+          </div>
+        </div>
+      </section>
+      <!-- ENDS OPTIONS SECTION -->
+
+      <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+      <!-- DEPOSIT SECTION -->
+      <section class="tab-pane" id="t-deposit">
+        <div class="heading">Getting started...</div>
+        <div class="page-content">
+          <p>Please deposit funds to account with id: <span id="RecvAddress2">none</span></p>
+        </div>
+      </section>
+      <!-- ENDS DEPOSIT SECTION -->
+
+      <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+      <!-- RIPPLE SECTION -->
+      <section class="tab-pane" id="t-ripple">
+        <div class="heading">Trust Network</div>
+        <div class="page-content">
+          <div class="row">
+            <fieldset class="span6">
+              <legend>Grant Trust</legend>
+              Granting trust enables you to hold other people's IOUs.
+              When you grant an account trust you are allowed to hold that many of the account's IOUs.
+              <p>
+                <table>
+                  <tr>
+                    <td class="span2">Account:</td>
+                    <td class="span5"><input id="NewCreditAccount" class="span3"></td>
                   </tr>
-                <tr>
-                  <td class="span2">Password</td>
-                  <td valign='middle'><input name="password" type="password" class="span4" style="float:left;"></td>
-                </tr>
-                <tr>
-                  <td class="span2">Repeat password</td>
-                  <td valign='middle'><input name="password2" type="password" class="span4" style="float:left;"></td>
-                </tr>
-                <tr>
-                  <td class="span2">Private key</td>
-                  <td valign='middle'>
-                    <input name="pk" type="text" placeholder="(optional)" style="float:left;" class="span4">
-                  </td>
-                </tr>
-              </table>
-              
+                  <tr>
+                    <td class="span2">Currency:</td>
+                    <td><div><input id="NewCreditCurrency" class="span2" /></div></td>
+                  </tr>
+                  <tr>
+                    <td class="span2">Limit:</td>
+                    <td><input id="NewCreditMax" type="text" class="span2"></td>
+                  </tr>
+                </table>
+              </p>
               <div class="bottom-btn">
-                <input type="submit" value="Register &amp; Login" class="btn btn-large btn-success" disabled />
-              </div>
-            </form>
-          </div>
-        </section>
-        <!-- ENDS REGISTER SECTION -->
-        
-        <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
-        
-        <!-- DEPOSIT SECTION -->
-        <section class="tab-pane" id="t-deposit">
-          <div class="heading">Getting started...</div>
-          <div class="page-content">
-            <p>Please deposit funds to account with id: <span id="RecvAddress2">none</span></p>
-          </div>
-        </section>
-        <!-- ENDS DEPOSIT SECTION -->
-        
-        <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
-        
-        <!-- SEND SECTION -->
-        <section class="tab-pane" id="t-send">
-          <div class="heading">Send Money</div>
-           <div class="page-content">
-              <table>
-                <tr>
-                  <td class="span2">Amount:</td>
-                  <td class="span2"><input id="SendAmount" type="text"></td>
-                  <td class="span4"><input id="SendCurrency" /></td>
-                </tr>
-                <tr>
-                  <td class="span2">Destination:</td>
-                  <td colspan=2><input id="SendDest" class="span3"></td>
-                </tr>
-                <tr id="SendDestNameRow" style="display:none">
-                  <td class="span2">Name this address:</td>
-                  <td colspan=2><input id="SendDestName" type="text" class="span3" placeholder="(optional)" /></td>
-                </tr>
-                <tr id="AddressDisplayRow" style="display:none">
-                  <td class="span2">Address:</td>
-                  <td colspan=2><input id="AddressDisplay" type="text" class="span3" readonly></td>
-                </tr>
-                <tr id="SpacerRow">
-                  <td colspan=3>&nbsp;</td>
-                </tr>
-              </table>
-              
-              <div class="bottom-btn">
-                <button id="SendPageButton" disabled class="btn btn-large btn-success">
-                  Send Money
+                <button id="AddCreditLineButton" class="btn btn-info">
+                  Grant Trust
                 </button>
               </div>
-           </div>
-        </section>
-        <!-- ENDS SEND SECTION -->
-        
-        <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
-        
-        <!-- RECEIVE SECTION -->
-        <section class="tab-pane" id="t-receive">
-          <div class="heading">Receive Money</div>
-           <div class="page-content">
-            <div>Your address: <span id="RecvAddress">none</span></div>
+            </fieldset>
           </div>
-        </section>
-        <!-- ENDS RECEIVE SECTION -->
-        
-        <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
-        
-        <!-- RIPPLE SECTION -->
-        <section class="tab-pane" id="t-ripple">
-          <div class="heading">Trust Network</div>
-          <div class="page-content">
-            <div class="row">
-              <fieldset class="span6">
-                <legend>Grant Trust</legend>
-                Granting trust enables you to hold other people's IOUs.
-                When you grant an account trust you are allowed to hold that many of the account's IOUs.
-                <p>
-                  <table>
-                    <tr>
-                      <td class="span2">Account:</td>
-                      <td class="span5"><input id="NewCreditAccount" class="span3"></td>
-                    </tr>
-                    <tr>
-                      <td class="span2">Currency:</td>
-                      <td><div><input id="NewCreditCurrency" class="span2" /></div></td>
-                    </tr>
-                    <tr>
-                      <td class="span2">Limit:</td>
-                      <td><input id="NewCreditMax" type="text" class="span2"></td>
-                    </tr>
-                  </table>
-                </p>
-                <div class="bottom-btn">
-                  <button id="AddCreditLineButton" class="btn btn-info">
-                    Grant Trust
-                  </button>
-                </div>
-              </fieldset>
-            </div>
-            <div class="row">
-              <fieldset class="span5">
-                <legend>Trust Levels</legend>
-                <table class="table table-striped">
-                  <tr><th>They Granted</th><th>Balance</th><th>You Granted</th><th>Account</th><th></th><th></th></tr>
-                  <tbody id="RippleTable"></tbody>
-                </table>
-              </fieldset>
-            </div> 
-          </div>
-        </section>
-        <!-- ENDS RIPPLE SECTION -->
-        
-        <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
-        
-        <!-- HISTORY SECTION -->
-        <section  class="tab-pane" id="t-history">
-          <div class="heading">History</div>
-            <div class="page-content">
+          <div class="row">
+            <fieldset class="span5">
+              <legend>Trust Levels</legend>
               <table class="table table-striped">
-                <tr>
-                  <th>Ledger</th>
-                  <th>Type</th>
-                  <th class='addr span4'>Source</th>
-                  <th class='addr span4'>Destination</th>
-                  <th>Amount</th>
-                  <th>Status</th>
-                </tr>
-                <tbody id="HistoryTable"></tbody>
+                <tr><th>They Granted</th><th>Balance</th><th>You Granted</th><th>Account</th><th></th><th></th></tr>
+                <tbody id="RippleTable"></tbody>
               </table>
-           </div>
-        </section>
-        <!-- ENDS HISTORY SECTION -->
-        
-        <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
-        
-        <!-- ADDRESS SECTION -->
-        <section  class="tab-pane" id="t-address">
-          <div class="heading">Address Book</div>
-          <div class="page-content">
+            </fieldset>
+          </div>
+        </div>
+      </section>
+      <!-- ENDS RIPPLE SECTION -->
+
+      <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+      <!-- HISTORY SECTION -->
+      <!-- ENDS HISTORY SECTION -->
+
+      <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+      <!-- CONTACTS SECTION -->
+      <!-- ENDS CONTACTS SECTION -->
+
+      <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+      <!-- UNL SECTION -->
+      <section  class="tab-pane" id="t-unl">
+        <div class="heading">Unique Node List</div>
+        <div class="page-content">
+          <div class="row">
+            <fieldset class="span5">
+              <legend>Add Node</legend>
+
+              <table>
+                <tr><td class="span2">Domain or Key:</td><td><input id="NewUNLNodeKey" type="text" class="span4"></td></tr>
+                <tr><td class="span2">Optional Note:</td><td><input id="NewUNLNodeNote" type="text"></td></tr>
+              </table>
+
+              <div class="bottom-btn"> <button class="btn btn-info" onclick="ncc.addUNLNode()">Add Node</button></div>
+            </fieldset>
+          </div>
+          <div class="row">
+            <fieldset class="span5">
+              <legend>Unique Node List</legend>
+              <table class="table table-striped"><tr><th>#</th><th>Hanko</th><th>Comment</th><th></th></tr><tbody id="UNLTable"></tbody></table>
+            </fieldset>
+          </div>
+        </div>
+      </section>
+      <!-- ENDS UNL SECTION -->
+
+      <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+      <!-- PEERS SECTION -->
+      <section class="tab-pane" id="t-peers">
+        <div class="heading">Peers</div>
+        <div class="page-content">
+          <div class="row">
+            <fieldset class="span5">
+              <legend>Add New Peer</legend>
+              If you are having connectivity issues you can manually add a peer below.
+              <table>
+                <tr><td class="span2">IP:</td><td><input id="NewPeerIP" type="text" class="span2"></td></tr>
+                <tr><td class="span2">Port:</td><td><input id="NewPeerPort" type="text" class="span2" value="51235"></td></tr>
+              </table>
+              <div class="bottom-btn"> <button class="btn btn-info" onclick="ncc.addPeer()">Add New Peer</button></div>
+            </fieldset>
+          </div>
+          <div class="row">
+            <fieldset class="span5">
+              <legend>Peers</legend>
+              <table class="table table-striped"><tr><th>#</th><th>IP</th><th>Port</th><th>Version</th></tr><tbody id="PeerTable"></tbody></table>
+            </fieldset>
+          </div>
+        </div>
+      </section>
+      <!-- ENDS PEERS SECTION -->
+
+      <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+      <!-- INFO SECTION -->
+      <section  class="tab-pane" id="t-info">
+        <div class="heading">Info</div>
+        <div class="page-content">
+          Master Key: <span id="InfoMasterKey">...</span>
+          <p>Server State: <span id="InfoServerState">...</span></p>
+          <p>Validating Public Key: <span id="InfoPublicKey">...</span></p>
+          <p>Account backup: <input id="InfoBackupBlob" type="text" readonly onclick="this.select()" value=""></p>
+        </div>
+      </section>
+      <!-- ENDS INFO SECTION -->
+
+      <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+      <!-- FEED SECTION -->
+      <section  class="tab-pane" id="t-feed">
+        <div class="heading">Feed</div>
+        <div class="page-content">
+
+          <table class="spaceTable">
+            <tr>
+              <td><input id="FeedLedgerCheckbox" type="checkbox" /> Ledger</td>
+              <td><input id="FeedTransactionsCheckbox" type="checkbox" /> Transactions</td>
+              <td><input id="FeedServerCheckbox" type="checkbox" /> Server</td>
+              <td><button id="FeedClearButton" class="btn btn-danger"> Clear Feed</button></td>
+            </tr>
+          </table>
+          <div id="FeedArea"></div>
+        </div>
+      </section>
+      <!-- ENDS FEED SECTION -->
+
+      <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+      <!-- TRADE SECTION -->
+      <section  class="tab-pane" id="t-trade">
+        <div class="heading">Trade</div>
+        <div class="page-content">
+          <p>Ripple automatically converts if you need to send from one type of currency to another.</p>
+          <p>These trading features are not needed by ordinary users.</p>
+
+          <fieldset class="span6">
+            <legend>Ticker</legend>
+            <table class="table table-striped"><tr><th>Pair</th><th>Bid</th><th>Ask</th><th>Spread</th><th></th></tr><tbody id="TickerTable"></tbody></table>
+          </fieldset>
+
+          <fieldset class="span5">
+            <legend>Place Order</legend>
+            <table>
+              <tr>
+                <td class="span2">Sell Currency:</td>
+                <td class="span4"><input id="TradePageSellCurr" class="span2" /></td>
+              </tr>
+              <tr>
+                <td class="span2">Buy Currency:</td>
+                <td class="span4"><input id="TradePageBuyCurr" class="span2" /></td>
+              </tr>
+              <tr>
+                <td class="span2">Amount to Sell:</td>
+                <td class="span4"><input id="TradePageAmount" type="text"></td>
+              </tr>
+              <tr>
+                <td class="span2">Price of Each:</td>
+                <td class="span4"><input id="TradePagePrice" type="text"></td>
+              </tr>
+            </table>
+            <div id="TradePageStatus">
+              <div class="info"></div>
+              <div class="error"></div>
+            </div>
+            <div class="bottom-btn">
+              <button id="TradePageButton" class="btn btn-info">Place Order</button>
+            </div>
+          </fieldset>
+
+          <fieldset class="span5">
+            <legend>Open Orders</legend>
             <table class="table table-striped">
               <tr>
-                <th class='span4'>Account</th>
-                <th>Name</th>
-                <th class="span2">&nbsp;</th>
+                <th>Date</th>
+                <th>Pair</th>
+                <th>Price</th>
+                <th>Amount</th>
+                <th>Ledger state</th>
+                <th class="span1">&nbsp;</th>
               </tr>
-              <tbody id="AddressBookTable"></tbody>
+              <tbody id="OpenOrderTable"></tbody>
             </table>
-          </div>
-        </section>
-        <!-- ENDS ADDRESS SECTION -->
-        
-        <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
-        
-        <!-- UNL SECTION -->
-        <section  class="tab-pane" id="t-unl">
-          <div class="heading">Unique Node List</div>
-          <div class="page-content">
-            <div class="row">
-              <fieldset class="span5">
-                <legend>Add Node</legend>
-                
-                <table>
-                  <tr><td class="span2">Domain or Key:</td><td><input id="NewUNLNodeKey" type="text" class="span4"></td></tr>
-                  <tr><td class="span2">Optional Note:</td><td><input id="NewUNLNodeNote" type="text"></td></tr>
-                </table>
-                
-                <div class="bottom-btn"> <button class="btn btn-info" onclick="ncc.addUNLNode()">Add Node</button></div>
-              </fieldset>
-            </div>
-            <div class="row">
-              <fieldset class="span5">
-                <legend>Unique Node List</legend>
-                <table class="table table-striped"><tr><th>#</th><th>Hanko</th><th>Comment</th><th></th></tr><tbody id="UNLTable"></tbody></table>
-              </fieldset>
-            </div>
-          </div>
-        </section>
-        <!-- ENDS UNL SECTION -->
-        
-        <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
-        
-        <!-- PEERS SECTION -->
-        <section  class="tab-pane" id="t-peers">
-          <div class="heading">Peers</div>
-          <div class="page-content">
-            <div class="row">
-              <fieldset class="span5">
-                <legend>Add New Peer</legend>
-                If you are having connectivity issues you can manually add a peer below.
-                <table>
-                  <tr><td class="span2">IP:</td><td><input id="NewPeerIP" type="text" class="span2"></td></tr>
-                  <tr><td class="span2">Port:</td><td><input id="NewPeerPort" type="text" class="span2" value="51235"></td></tr>
-                </table>
-                <div class="bottom-btn"> <button class="btn btn-info" onclick="ncc.addPeer()">Add New Peer</button></div>
-              </fieldset>
-            </div>
-            <div class="row">
-              <fieldset class="span5">
-                <legend>Peers</legend>
-                <table class="table table-striped"><tr><th>#</th><th>IP</th><th>Port</th><th>Version</th></tr><tbody id="PeerTable"></tbody></table>
-              </fieldset>
-            </div>
-          </div>
-        </section>
-        <!-- ENDS PEERS SECTION -->
-        
-        <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
-        
-        <!-- INFO SECTION -->
-        <section  class="tab-pane" id="t-info">
-          <div class="heading">Info</div>
-          <div class="page-content">
-            Master Key: <span id="InfoMasterKey">...</span>
-            <p>Server State: <span id="InfoServerState">...</span></p>
-            <p>Validating Public Key: <span id="InfoPublicKey">...</span></p>
-            <p>Account backup: <input id="InfoBackupBlob" type="text" readonly onclick="this.select()" value=""></p>
-          </div>
-        </section>
-        <!-- ENDS INFO SECTION -->
-        
-        <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
-        
-        <!-- FEED SECTION -->
-        <section  class="tab-pane" id="t-feed">
-          <div class="heading">Feed</div>
-            <div class="page-content">
-             
-            <table class="spaceTable">
-              <tr>
-                <td><input id="FeedLedgerCheckbox" type="checkbox" /> Ledger</td>
-                <td><input id="FeedTransactionsCheckbox" type="checkbox" /> Transactions</td>
-                <td><input id="FeedServerCheckbox" type="checkbox" /> Server</td>
-                <td><button id="FeedClearButton" class="btn btn-danger"> Clear Feed</button></td>
-              </tr>
-            </table>
-            <div id="FeedArea"></div>
-          </div>
-        </section>
-        <!-- ENDS FEED SECTION -->
-        
-        <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
-        
-        <!-- TRADE SECTION -->
-        <section  class="tab-pane" id="t-trade">
-          <div class="heading">Trade</div>
-          <div class="page-content">
-            <p>Ripple automatically converts if you need to send from one type of currency to another.</p>
-            <p>These trading features are not needed by ordinary users.</p>
-            
-            <fieldset class="span6">
-              <legend>Ticker</legend>
-              <table class="table table-striped"><tr><th>Pair</th><th>Bid</th><th>Ask</th><th>Spread</th><th></th></tr><tbody id="TickerTable"></tbody></table>
-            </fieldset>
-              
+          </fieldset>
+        </div>
+      </section>
+      <!-- ENDS TRADE SECTION -->
+
+      <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+      <!-- LEDGER -->
+      <section class="tab-pane" id="t-ledger">
+        <div class="heading">Ledger</div>
+        <div class="page-content">
+          <div class="row">
             <fieldset class="span5">
-              <legend>Place Order</legend>
-              <table>
-                <tr>
-                  <td class="span2">Sell Currency:</td>
-                  <td class="span4"><input id="TradePageSellCurr" class="span2" /></td>
-                </tr>
-                <tr>
-                  <td class="span2">Buy Currency:</td>
-                  <td class="span4"><input id="TradePageBuyCurr" class="span2" /></td>
-                </tr>
-                <tr>
-                  <td class="span2">Amount to Sell:</td>
-                  <td class="span4"><input id="TradePageAmount" type="text"></td>
-                </tr>
-                <tr>
-                  <td class="span2">Price of Each:</td>
-                  <td class="span4"><input id="TradePagePrice" type="text"></td>
-                </tr>
+              <legend>Ledger</legend>
+              <table class="infoTable">
+                <tr><td>Hash:</td><td id="LedgerInfoHash" class="smallFont"></td></tr>
+                <tr><td>Parent Hash:</td><td id="LedgerInfoParentHash" class="smallFont"></td></tr>
+                <tr><td>Ledger Number:</td><td id="LedgerInfoNumber"></td></tr>
+                <tr><td>Total Coins:</td><td id="LedgerInfoTotalCoins"></td></tr>
+                <tr><td>Date:</td><td id="LedgerInfoDate"></td></tr>
+                <tr><td>State:</td><td id="LedgerInfoState"></td></tr>
               </table>
-              <div id="TradePageStatus">
-                <div class="info"></div>
-                <div class="error"></div>
-              </div>
-              <div class="bottom-btn">
-                <button id="TradePageButton" class="btn btn-info">Place Order</button>
-              </div>
-            </fieldset>
-            
-            <fieldset class="span5">
-              <legend>Open Orders</legend>
               <table class="table table-striped">
                 <tr>
-                  <th>Date</th>
-                  <th>Pair</th>
-                  <th>Price</th>
-                  <th>Amount</th>
-                  <th>Ledger state</th>
-                  <th class="span1">&nbsp;</th>
+                  <th>#</th>
+                  <th>Account ID</th>
+                  <th>Balance</th>
+                  <th>Seq #</th>
                 </tr>
-                <tbody id="OpenOrderTable"></tbody>
+                <tbody id="LedgerTable"></tbody>
               </table>
             </fieldset>
           </div>
-        </section>
-        <!-- ENDS TRADE SECTION -->
-        
-        <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
-        
-        <!-- LEDGER -->
-        <section class="tab-pane" id="t-ledger">
-          <div class="heading">Ledger</div>
-          <div class="page-content">
-            <div class="row">
-              <fieldset class="span5">
-                <legend>Ledger</legend>
-                <table class="infoTable">
-                  <tr><td>Hash:</td><td id="LedgerInfoHash" class="smallFont"></td></tr>
-                  <tr><td>Parent Hash:</td><td id="LedgerInfoParentHash" class="smallFont"></td></tr>
-                  <tr><td>Ledger Number:</td><td id="LedgerInfoNumber"></td></tr>
-                  <tr><td>Total Coins:</td><td id="LedgerInfoTotalCoins"></td></tr>
-                  <tr><td>Date:</td><td id="LedgerInfoDate"></td></tr>
-                  <tr><td>State:</td><td id="LedgerInfoState"></td></tr>
-                </table>
-                <table class="table table-striped">
-                  <tr>
-                    <th>#</th>
-                    <th>Account ID</th>
-                    <th>Balance</th>
-                    <th>Seq #</th>
-                  </tr>
-                  <tbody id="LedgerTable"></tbody>
-                </table>
-              </fieldset>
-            </div>
-            <div class="row">
-              <fieldset class="span5">
-                <legend>Transactions</legend>
-                <table class="table table-striped">
-                  <tr><th>#</th><th>From ID</th><th>To ID</th><th>Amount</th><th>Fee</th><th>Type</th></tr>
-                  <tbody id="TransactionTable"></tbody>
-                </table>
-              </fieldset>
-            </div>
+          <div class="row">
+            <fieldset class="span5">
+              <legend>Transactions</legend>
+              <table class="table table-striped">
+                <tr><th>#</th><th>From ID</th><th>To ID</th><th>Amount</th><th>Fee</th><th>Type</th></tr>
+                <tbody id="TransactionTable"></tbody>
+              </table>
+            </fieldset>
           </div>
-        </section>
-        <!-- ENDS LEDGER SECTION -->
-        
-        <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
-        
-        <!-- ORDERBOOK -->
-        <section class="tab-pane" id="t-orderbook">
-          <div class="heading">Order Book</div>
-          <div class="page-content">
-            <div class="row">
-            
-              <fieldset class="span8">
-                <table>
-                  <tr>
-                    <td class="span4"><select id="OrderBookBuyCurrency" class="span2" /></td>
-                    <td class="span1">for</td>
-                    <td class="span4"><select id="OrderBookSellCurrency" class="span2" /></td>
-                  </tr>
-                </table>
-                <p>Show only direct issuers <input type="checkbox" id="OrderBookOnlyDirect" /></p>
-              </fieldset>
-              
-              <fieldset class="span5">
-                <legend id="OrderBookAsksLegend">Selling X/Y (asks)</legend>
-                <table class="table table-striped">
-                  <tr>
-                    <th>Price</th>
-                    <th>Amount</th>
-                    <th>Sum</th>
-                    <th>Issuer In</th>
-                    <th>Issuer Out</th>
-                  </tr>
-                  <tbody id="SellingTable"></tbody>
-                </table>
-              </fieldset>
-            </div>
-            <div class="row">
-              <fieldset class="span5">
-                <legend id="OrderBookBidsLegend">Buying X/Y (bids)</legend>
-                <table class="table table-striped">
-                  <tr>
-                    <th>Unit Price</th>
-                    <th>Amount</th>
-                    <th>Sum</th>
-                    <th>Issuer In</th>
-                    <th>Issuer Out</th>
-                  </tr>
-                  <tbody id="BuyingTable"></tbody>
-                </table>
-              </fieldset>
-            </div>
-            
+        </div>
+      </section>
+      <!-- ENDS LEDGER SECTION -->
+
+      <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+      <!-- ORDERBOOK -->
+      <section class="tab-pane" id="t-orderbook">
+        <div class="heading">Order Book</div>
+        <div class="page-content">
+          <div class="row">
+
+            <fieldset class="span8">
+              <table>
+                <tr>
+                  <td class="span4"><select id="OrderBookBuyCurrency" class="span2" /></td>
+                  <td class="span1">for</td>
+                  <td class="span4"><select id="OrderBookSellCurrency" class="span2" /></td>
+                </tr>
+              </table>
+              <p>Show only direct issuers <input type="checkbox" id="OrderBookOnlyDirect" /></p>
+            </fieldset>
+
+            <fieldset class="span5">
+              <legend id="OrderBookAsksLegend">Selling X/Y (asks)</legend>
+              <table class="table table-striped">
+                <tr>
+                  <th>Price</th>
+                  <th>Amount</th>
+                  <th>Sum</th>
+                  <th>Issuer In</th>
+                  <th>Issuer Out</th>
+                </tr>
+                <tbody id="SellingTable"></tbody>
+              </table>
+            </fieldset>
           </div>
-        </section>
-        <!-- ENDS ORDERBOOK SECTION -->
-      
-      </div>
-      <!-- ENDS TAB-CONTENT -->
-      
+          <div class="row">
+            <fieldset class="span5">
+              <legend id="OrderBookBidsLegend">Buying X/Y (bids)</legend>
+              <table class="table table-striped">
+                <tr>
+                  <th>Unit Price</th>
+                  <th>Amount</th>
+                  <th>Sum</th>
+                  <th>Issuer In</th>
+                  <th>Issuer Out</th>
+                </tr>
+                <tbody id="BuyingTable"></tbody>
+              </table>
+            </fieldset>
+          </div>
+
+        </div>
+      </section>
+      <!-- ENDS ORDERBOOK SECTION -->
+
     </div>
     <!-- ENDS MAIN -->
-    
+
     <!-- FOOTER -->
-    <footer class="cf">
-      <div>
-        <span>
-          <a href="http://ripple.com/help" target="_blank">Help</a>
-        </span>
-        <span class="right-footer">
-          email us for coins to use.
-        </span>
-        <span class="right-footer">
-          <a href="http://lesswrong.com" target="_blank">Think</a> about things.
-        </span>
-        <span class="right-footer">
-          <span id="ServerDisplay">...</span> <a onclick="ncc.displayScreen('options')">change</a>
-        </span>
-        <span class="right-footer">
-          <a onclick="this.innerText=$('#MainStatusArea').toggle().is(':visible')?'hide debug':'show debug';">show debug</a>
-        </span>
-      </div>
+    <footer>
+      <span class="left">
+        email us for coins to use.
+      </span>
+      <span class="left">
+        <a href="http://lesswrong.com" target="_blank">Think</a> about things.
+      </span>
+      <span class="right">
+        <a onclick="this.innerText=$('#MainStatusArea').toggle().is(':visible')?'hide debug':'show debug';">show debug</a>
+      </span>
     </footer>
     <!-- ENDS FOOTER -->
-    
   </div>
   <!-- ENDS WRAPPER -->
-  
-  <div id="MainStatusArea">
+
+  <div id="console">
     <div class="template alert ncc-alert stick-bottom">
       <p>
         <span class="alert-heading"></span>
@@ -657,26 +531,13 @@
       <pre class="json" style='display:none;'></pre>
     </div>
   </div>
-  
+
   <!-- JavaScript at the bottom for fast page loading -->
-  
+
   <!-- scripts concatenated and minified via build script -->
-  <script src="deps/js/jquery.js"></script>
-  <script src="deps/js/jquery-ui.js"></script>
-  <script src="deps/js/jquery.combobox.js"></script>
-  <script src="deps/js/bootstrap-tab.js"></script>
-  <script src="deps/js/json.js"></script>
-  <script src="deps/js/jsbn.js"></script>
-  <script src="deps/js/crypto.js"></script>
-  <script src="deps/js/sha.js"></script>
-  <script src="deps/js/sjcl.js"></script>
-  <script src="deps/js/psm.js"></script>
-  <script src="deps/js/underscore.js"></script>
-  <script src="deps/js/ripple.js"></script>
-
+  <script src="build/dist/deps-debug.js"></script>
   <script src="config.js"></script>
-
-  <script src="build/ripple-client-0.1.0-debug.js"></script>
+  <script src="build/js/ripple-client-desktop-debug.js"></script>
   <!-- end scripts -->
 </body>
 </html>
