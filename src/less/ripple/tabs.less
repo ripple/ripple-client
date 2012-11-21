@@ -80,8 +80,100 @@ html.t-my-ripple header nav ul > li.active#nav-account > a:after {
 }
 
 #t-history {
+  ul {
+    .clearfix;
+    list-style-type: none;
+    font: 18px 'OpenSansRegular';
+    border-bottom: 1px solid #333;
+    margin-bottom: 0;
+    padding-bottom: 12px;
+    margin-top: 12px;
+
+    li {
+      float: left;
+      display: block;
+
+      > a {
+        display: block;
+        position: relative;
+        color: #333;
+        line-height: 30px;
+        padding-left: 8px;
+        margin-left: -8px;
+        padding-right: 16px;
+        margin-right: 30px;
+        .transition-duration(0.2s);
+
+        /* Alternative: No hanging swatch
+        margin-left: 6px;
+        margin-right: 16px;
+        /**/
+
+        &:hover {
+          text-decoration: none;
+        }
+
+        &:after {
+          .virtualel;
+          height: 100%;
+          width: 6px;
+          position: absolute;
+          top: 0;
+          left: -6px;
+        }
+      }
+    }
+  }
+
+  ul li.all > a.active,
+  ul li.all > a:hover,
+  ul li.all > a:after {
+    background-color: #ddd;
+  }
+
+  ul li.received > a.active,
+  ul li.received > a:hover,
+  ul li.received > a:after,
+  tr.received {
+    background-color: #e4efd9;
+  }
+
+  ul li.sent > a.active,
+  ul li.sent > a:hover,
+  ul li.sent > a:after,
+  tr.sent {
+    background-color: #ecdfde;
+  }
+
+  ul li.other > a.active,
+  ul li.other > a:hover,
+  ul li.other > a:after,
+  tr.other {
+    background-color: #fbf8e4;
+  }
+
+  table th {
+    padding-top: 10px;
+  }
+
   td.date {
     //font-size: 0.9em;
+  }
+
+  table .date {
+    width: 22%;
+  }
+
+  table .counterparty {
+    width: 43%;
+  }
+
+  table .amount {
+    width: 18%;
+  }
+
+  table .balance {
+    width: 15%;
   }
 }
 

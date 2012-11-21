@@ -1,14 +1,25 @@
 section.panel.content(ng-controller="HistoryCtrl")
+  ul
+    li.all: a(ng-click='type = {}', ng-class="!type.type && 'active'") All Activity
+    li.received: a(ng-click='type = {type: "received"}', ng-class="type.type == 'received' && 'active'") Received
+    li.sent: a(ng-click='type = {type: "sent"}', ng-class="type.type == 'sent' && 'active'") Sent
+    li.other: a(ng-click='type = {type: "other"}', ng-class="type.type == 'other' && 'active'") Other
   table.table
     thead
       tr
-        th Date
-        th Source / Destination
-        th Amount
-        th Balance
+        th.date Date
+        th.counterparty Source / Destination
+        th.amount Amount
+        th.balance Balance
     tbody
-      tr(ng-repeat="entry in log")
+      tr(ng-repeat="entry in log | filter:type", class="{{entry.type}}")
         td.date {{entry.date}}
-        td {{entry.party}}
-        td {{entry.amount}}
-        td {{entry.balance}}
+        td.counterparty {{entry.counterparty}}
+        td.amount {{entry.amount}}
+        td.balance {{entry.balance}}
+      tr(ng-show="!(log | filter:type).length")
+        td(colspan="4")
+          span.literal(ng-show="log.length")
+            | Sorry, no transactions match your current filter.
+          span.literal(ng-show="!log.length")
+            | You don't have any transactions yet! Go out and get money!

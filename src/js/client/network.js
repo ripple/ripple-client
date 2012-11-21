@@ -15,10 +15,30 @@ var Network = function ()
 
 Network.prototype.init = function ()
 {
-  this.remote = new ripple.Remote(Options.server.trusted,
-                                    Options.server.websocket_ip,
-                                    Options.server.websocket_port,
-                                    true);
+  this.remote = new ripple.Remote(Options.server,
+                                  true);
+  this.remote.connect();
+};
+
+/**
+ * Setup listeners for identity state.
+ *
+ * This function causes the network object to start listening to
+ * changes in the identity state and automatically subscribe to
+ * accounts accordingly.
+ */
+Network.prototype.listenId = function (id)
+{
+  var self = this;
+
+  id.on('accountload', function (e) {
+    self.remote.set_secret(e.account, e.secret);
+    self.remote.request_subscribe().accounts(e.account).request();
+    self.remote.request_subscribe().rtaccounts(e.account).request();
+    self.remote.request_ripple_lines_get(e.account).on('success', function () {
+      console.log(arguments);
+    }).request();
+  });
 };
 
 exports.Network = Network;

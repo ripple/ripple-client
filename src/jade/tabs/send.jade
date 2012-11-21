@@ -1,14 +1,17 @@
-section#t-send.single.content
+section#t-send.single.content(ng-controller='SendCtrl')
   p.literal You can send money or credits to anyone with a Ripple account.
   hr
-  form
+  form(name="sendform")
     label(for='send_amount') Amount
-    input#send_amount(name='send_amount', type='number')
+    input#send_amount(name='send_amount', type='number', step='any', ng-model='amount', ng-pattern='/^[0-9.]+$/', required)
     select#send_amount_currency(name='send_amount_currency')
       option XRP
+    div.error(ng-show='sendform.send_amount.$error.required') Please enter an amount.
+    div.error(ng-show='sendform.send_amount.$error.pattern') Not a valid amount.
     label(for='send_destination') Destination
-    input#send_destination(name='send_destination', type='text')
+    input#send_destination(name='send_destination', type='text', ng-model='recipient', required)
+    div.error(ng-show='sendform.send_destination.$error.required') Please enter a recipient.
     label(for='send_nickname') Nickname for this user
     input#send_nickname(name='send_nickname', type='text', placeholder='Optional')
     div.submitsection
-      button.btn.btn-success(type='submit') Send
+      button.btn.btn-success(type='submit', ng-click='send()', ng-disabled='sendform.$invalid') Send
