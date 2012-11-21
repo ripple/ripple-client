@@ -40,7 +40,7 @@ Network.prototype.listenId = function (id)
 
   id.on('accountload', function (e) {
     self.remote.set_secret(e.account, e.secret);
-    self.remote.request_subscribe().rtaccounts(e.account).request();
+    self.remote.request_subscribe().rt_accounts(e.account).request();
     self.remote.request_ripple_lines_get(e.account).on('success', function () {
       console.log(arguments);
     }).request();
