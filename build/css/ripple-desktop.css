@@ -3507,6 +3507,9 @@ footer > span.right {
   -webkit-border-radius: 10px;
      -moz-border-radius: 10px;
           border-radius: 10px;
+  -webkit-transition-duration: 0.2s;
+     -moz-transition-duration: 0.2s;
+          transition-duration: 0.2s;
   -webkit-background-clip: padding-box;
      -moz-background-clip: padding;
           background-clip: padding-box;
@@ -3526,6 +3529,11 @@ footer > span.right {
 
 .btn-wide {
   width: 190px;
+}
+
+.btn:disabled {
+  background: #ccc;
+  border-color: #ccc;
 }
 
 select,
@@ -3583,6 +3591,17 @@ select {
   height: 33px;
   padding: 4px;
   font-size: 16px;
+}
+
+form .error {
+  height: 23px;
+  margin-top: -23px;
+  font-size: 13px;
+  color: #DC4D38;
+}
+
+form.ng-pristine .error {
+  display: none;
 }
 
 body {
@@ -3770,6 +3789,107 @@ html.t-my-ripple header nav ul > li.active#nav-account > a:after {
 
 #t-contacts table .action {
   text-align: center;
+}
+
+#t-history ul {
+  padding-bottom: 12px;
+  margin-top: 12px;
+  margin-bottom: 0;
+  font: 18px 'OpenSansRegular';
+  list-style-type: none;
+  border-bottom: 1px solid #333;
+  *zoom: 1;
+}
+
+#t-history ul:before,
+#t-history ul:after {
+  display: table;
+  line-height: 0;
+  content: "";
+}
+
+#t-history ul:after {
+  clear: both;
+}
+
+#t-history ul li {
+  display: block;
+  float: left;
+}
+
+#t-history ul li > a {
+  position: relative;
+  display: block;
+  padding-right: 16px;
+  padding-left: 8px;
+  margin-right: 30px;
+  margin-left: -8px;
+  line-height: 30px;
+  color: #333;
+  -webkit-transition-duration: 0.2s;
+     -moz-transition-duration: 0.2s;
+          transition-duration: 0.2s;
+}
+
+#t-history ul li > a:hover {
+  text-decoration: none;
+}
+
+#t-history ul li > a:after {
+  position: absolute;
+  top: 0;
+  left: -6px;
+  display: block;
+  width: 6px;
+  height: 100%;
+  content: "";
+}
+
+#t-history ul li.all > a.active,
+#t-history ul li.all > a:hover,
+#t-history ul li.all > a:after {
+  background-color: #ddd;
+}
+
+#t-history ul li.received > a.active,
+#t-history ul li.received > a:hover,
+#t-history ul li.received > a:after,
+#t-history tr.received {
+  background-color: #e4efd9;
+}
+
+#t-history ul li.sent > a.active,
+#t-history ul li.sent > a:hover,
+#t-history ul li.sent > a:after,
+#t-history tr.sent {
+  background-color: #ecdfde;
+}
+
+#t-history ul li.other > a.active,
+#t-history ul li.other > a:hover,
+#t-history ul li.other > a:after,
+#t-history tr.other {
+  background-color: #fbf8e4;
+}
+
+#t-history table th {
+  padding-top: 10px;
+}
+
+#t-history table .date {
+  width: 22%;
+}
+
+#t-history table .counterparty {
+  width: 43%;
+}
+
+#t-history table .amount {
+  width: 18%;
+}
+
+#t-history table .balance {
+  width: 15%;
 }
 
 #t-send input,
