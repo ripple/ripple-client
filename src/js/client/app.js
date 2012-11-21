@@ -14,24 +14,39 @@ var App = function ()
   this.$compile = null;
 };
 
-App.prototype.setNetwork = function (net) {
+App.prototype.setNetwork = function (net)
+{
   this.net = net;
 };
 
-App.prototype.setId = function (id) {
+App.prototype.setId = function (id)
+{
   this.id = id;
 };
 
-App.prototype.setTabManager = function (tabs) {
+App.prototype.setTabManager = function (tabs)
+{
   this.tabs = tabs;
 };
 
 /**
  * Set the AngularJS refs.
  */
-App.prototype.setAngular = function (scope, compile) {
+App.prototype.setAngular = function (scope, compile)
+{
   this.$scope = scope;
   this.$compile = compile;
+};
+
+App.prototype.startup = function ()
+{
+  var self = this;
+  this.net.on('connect', function () {
+    self.id.init();
+    self.tabs.init();
+  });
+  this.net.listenId(this.id);
+  this.net.init();
 };
 
 /**

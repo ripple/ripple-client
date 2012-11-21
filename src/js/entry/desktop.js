@@ -17,10 +17,7 @@ angular.injector(['ng']).invoke(function($rootScope, $compile) {
   app.setAngular(scope, $compile);
 
   jQuery(function () {
-    net.listenId(id);
-    id.init();
-    net.init();
-    tabs.init();
+    app.startup();
     window.onhashchange = tabs.handleHashChange.bind(tabs);
   });
 });
