@@ -17,16 +17,19 @@ var App = function ()
 App.prototype.setNetwork = function (net)
 {
   this.net = net;
+  net.setApp(this);
 };
 
 App.prototype.setId = function (id)
 {
   this.id = id;
+  id.setApp(this);
 };
 
 App.prototype.setTabManager = function (tabs)
 {
   this.tabs = tabs;
+  tabs.setApp(this);
 };
 
 /**

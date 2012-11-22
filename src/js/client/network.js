@@ -27,6 +27,11 @@ Network.prototype.init = function ()
   this.remote.connect();
 };
 
+Network.prototype.setApp = function (app)
+{
+  this.app = app;
+};
+
 /**
  * Setup listeners for identity state.
  *
@@ -40,9 +45,15 @@ Network.prototype.listenId = function (id)
 
   id.on('accountload', function (e) {
     self.remote.set_secret(e.account, e.secret);
-    self.remote.request_subscribe().rt_accounts(e.account).request();
-    self.remote.request_ripple_lines_get(e.account).on('success', function () {
-      console.log(arguments);
+    self.remote.request_subscribe().accounts(e.account).request();
+    self.remote.request_ripple_lines_get(e.account)
+      .on('success', function (data) {
+        // XXX This is just temporary, we should aim for something cleaner
+        var $scope = self.app.$scope;
+        $scope.$apply(function () {
+          $scope.lines = data.lines;
+          console.log('Lines updated:', $scope.lines);
+        });
     }).request();
   });
 };

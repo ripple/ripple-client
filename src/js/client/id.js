@@ -32,6 +32,11 @@ Id.prototype.init = function ()
   });
 };
 
+Id.prototype.setApp = function (app)
+{
+  this.app = app;
+};
+
 Id.prototype.setAccount = function (accId, accKey)
 {
   if (this.account !== null) {

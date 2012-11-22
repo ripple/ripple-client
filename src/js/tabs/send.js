@@ -23,7 +23,6 @@ SendTab.prototype.angular = function (module)
   module.controller('SendCtrl', function ($scope) {
     $scope.send = function () {
       var tx = app.net.remote.transaction();
-      console.log($scope.amount);
       tx.payment(app.id.account, $scope.recipient, ""+$scope.amount);
       tx.set_flags('CreateAccount');
       tx.on('success', function () {});

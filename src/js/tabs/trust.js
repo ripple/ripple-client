@@ -1,6 +1,6 @@
 var util = require('util');
 var Tab = require('../client/tabmanager').Tab;
-var id = require('../client/id').Id.singleton;
+var app = require('../client/app').App.singleton;
 
 var TrustTab = function ()
 {
@@ -16,6 +16,37 @@ TrustTab.prototype.parent = 'account';
 TrustTab.prototype.generateHtml = function ()
 {
   return require('../../jade/tabs/trust.jade')();
+};
+
+TrustTab.prototype.angular = function (module)
+{
+  var self = this;
+
+  module.controller('TrustCtrl', function ($scope) {
+    $scope.currencies = [
+      {name: 'USD'}
+    ];
+    $scope.currency = $scope.currencies[0];
+
+
+    $scope.show_form = function ()
+    {
+      $scope.addform_visible = true;
+    };
+
+    $scope.grant = function ()
+    {
+      console.log($scope.amount, $scope.currency,
+                  $scope.counterparty);
+
+      var amount = $scope.amount + '/' + $scope.currency.name + '/' + $scope.counterparty;
+      var tx = self.app.net.remote.transaction();
+      tx
+        .ripple_line_set(self.app.id.account, amount)
+        .submit()
+      ;
+    };
+  });
 };
 
 TrustTab.prototype.onAfterRender = function ()

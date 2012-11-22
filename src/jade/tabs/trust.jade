@@ -1,15 +1,28 @@
-section.panel.content
+section.panel.content(ng-controller="TrustCtrl")
   table.table
     thead
       tr
         th Account/Name
         th Currency
         th Trust level
-        th
+        th.action
+          a(ng-click='show_form()') add
     tbody
-      tr
-        td rwcQbuaLBUgS9ySP1v9x2WfyBWC9xBARRV
-        td XRP
-        td
+      tr(ng-show='addform_visible')
+        td(colspan=4)
+          form
+            label(for='trust_amount') Amount
+            input#trust_amount(name='trust_amount', type='number', step='any', ng-model='amount', ng-pattern='/^[0-9.]+$/', required)
+            select#trust_amount_currency(name='trust_amount_currency', ng-model='currency', ng-options='c.name for c in currencies')
+              option USD
+            label(for='trust_counterparty') User
+            input#trust_counterparty(name='trust_counterparty', type='text', ng-model='counterparty', required)
+            div.submitsection
+              button.btn.btn-info(type='submit', ng-click='grant()', ng-disabled='sendform.$invalid') Grant Trust
+
+      tr(ng-repeat='line in lines')
+        td {{line.account}}
+        td {{line.currency}}
+        td {{line.limit_peer}} --- {{line.balance}} --- {{line.limit}}
         td
           a(href='#') edit

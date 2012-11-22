@@ -6,7 +6,6 @@ var util = require('util'),
 
 var TabManager = function ()
 {
-  this.app = App.singleton;
   this.slots = {};
   this.lastSeenHash = null;
 };
@@ -25,6 +24,11 @@ TabManager.prototype.init = function ()
   } else {
     this.gotoTab("register");
   }
+};
+
+TabManager.prototype.setApp = function (app)
+{
+  this.app = app;
 };
 
 TabManager.pageModes = ['default', 'single'];
@@ -300,7 +304,6 @@ Tab.prototype.show = function ()
 {
   this.emit('beforeshow');
   if (this.showOneChild()) return;
-  console.log(this.slot);
   this.hideSiblings();
   this.tm.setPageMode(this.pageMode);
 

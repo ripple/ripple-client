@@ -15,6 +15,7 @@ window.rippleclient = app;
 angular.injector(['ng']).invoke(function($rootScope, $compile) {
   var scope = $rootScope.$new();
   app.setAngular(scope, $compile);
+  $('#main').data('$scope', scope);
 
   jQuery(function () {
     app.startup();
