@@ -32,7 +32,8 @@ Model.prototype.listenId = function (id)
   id.on('accountload', this.handleAccountLoad.bind(this));
 };
 
-Model.prototype.handleAccountLoad = function (e) {
+Model.prototype.handleAccountLoad = function (e)
+{
   var remote = this.app.net.remote;
   remote.request_ripple_lines_get(e.account)
     .on('success', this.handleRippleLines.bind(this)).request();
@@ -40,7 +41,8 @@ Model.prototype.handleAccountLoad = function (e) {
     .on('success', this.handleAccounts.bind(this)).request();
 };
 
-Model.prototype.handleRippleLines = function (data) {
+Model.prototype.handleRippleLines = function (data)
+{
   // XXX This is just temporary, we should aim for something cleaner
   var $scope = this.app.$scope;
   $scope.$apply(function () {
@@ -49,11 +51,52 @@ Model.prototype.handleRippleLines = function (data) {
   });
 };
 
-Model.prototype.handleAccounts = function (data) {
+Model.prototype.handleAccounts = function (data)
+{
+  var self = this;
+  var remote = this.app.net.remote;
   var $scope = this.app.$scope;
   $scope.$apply(function () {
     $scope.balance = data.accounts[0];
-    console.log(data);
+
+    remote.request_account_tx(data.accounts[0].Account, "0", "999999")
+      .on('success', self.handleAccountTx.bind(self, data.accounts[0].Account)).request();
+  });
+};
+
+Model.prototype.handleAccountTx = function (account, data)
+{
+  var $scope = this.app.$scope;
+  $scope.$apply(function () {
+    var transactions = data.transactions.map(function (e) {
+      var historyEntry = {};
+      historyEntry.fee = e.Fee;
+      switch (e.TransactionType) {
+      case 'Payment':
+        historyEntry.type = e.Account === account ?
+          'sent' :
+          'received';
+        historyEntry.counterparty = e.Account === account ?
+          e.Destination :
+          e.Account;
+        historyEntry.amount = e.Amount;
+        historyEntry.currency = "XRP";
+        break;
+      case 'TrustSet':
+        historyEntry.type = 'other';
+        historyEntry.counterparty = e.Account === account ?
+          e.LimitAmount.issuer :
+          e.Account;
+        return null;
+      default:
+        console.log('Unknown transaction type: "'+e.TransactionType+'"', e);
+        return null;
+      }
+      return historyEntry;
+    });
+    $scope.history = transactions.filter(function (e) {
+      return e !== null;
+    });
   });
 };
 
