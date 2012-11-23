@@ -20,7 +20,9 @@ ReceiveTab.prototype.generateHtml = function ()
 ReceiveTab.prototype.onAfterRender = function ()
 {
   var self = this;
-  this.el.find('.btn').click(function () {
+  this.el.find('.btn').click(function (e) {
+    e.preventDefault();
+
     var address = self.el.find('.address').text();
 
     // Trigger highlight animation
