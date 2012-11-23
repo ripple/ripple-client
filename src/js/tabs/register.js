@@ -26,7 +26,7 @@ RegisterTab.prototype.onAfterRender = function ()
 
     self.tm.gotoTab('my-ripple');
 
-    this.app.id.register();
+    self.app.id.register();
   });
 };
 
