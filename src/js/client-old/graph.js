@@ -299,7 +299,7 @@ gRoot.handleMsg=function(msg)
   var obj = jQuery.parseJSON(msg.data);
   if (obj)
   {
-	  if (obj.type == "transaction")
+    if (obj.type == "transaction")
       {
 
       }
