@@ -3,11 +3,12 @@ section#t-send.single.content(ng-controller='SendCtrl')
   hr
   form(name="sendform")
     label(for='send_amount') Amount
-    input#send_amount(name='send_amount', type='number', step='any', ng-model='amount', ng-pattern='/^[0-9.]+$/', required)
-    select#send_amount_currency(name='send_amount_currency')
-      option XRP
-    div.error(ng-show='sendform.send_amount.$error.required') Please enter an amount.
-    div.error(ng-show='sendform.send_amount.$error.pattern') Not a valid amount.
+    .amount
+      input#send_amount(name='send_amount', type='number', step='any', ng-model='amount', ng-pattern='/^[0-9.]+$/', required)
+      select.currency#send_amount_currency(name='send_amount_currency')
+        option XRP
+    .error(ng-show='sendform.send_amount.$error.required') Please enter an amount.
+    .error(ng-show='sendform.send_amount.$error.pattern') Not a valid amount.
     label(for='send_destination') Destination
     input#send_destination(name='send_destination', type='text', ng-model='recipient', required)
     div.error(ng-show='sendform.send_destination.$error.required') Please enter a recipient.
