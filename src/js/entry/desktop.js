@@ -2,6 +2,9 @@ var App = require('../client/app').App;
 var TabManager = require('../client/tabmanager').TabManager;
 var Id = require('../client/id').Id;
 var Network = require('../client/network').Network;
+var Angular = require('../client/angular').Angular;
+
+Angular.load();
 
 var app = App.singleton;
 var net = new Network();
