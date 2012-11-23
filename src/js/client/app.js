@@ -32,6 +32,12 @@ App.prototype.setTabManager = function (tabs)
   tabs.setApp(this);
 };
 
+App.prototype.setModel = function (model)
+{
+  this.model = model;
+  model.setApp(this);
+};
+
 /**
  * Set the AngularJS refs.
  */
@@ -48,6 +54,7 @@ App.prototype.startup = function ()
     self.id.init();
     self.tabs.init();
   });
+  this.model.listenId(this.id);
   this.net.listenId(this.id);
   this.net.init();
 };

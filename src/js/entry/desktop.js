@@ -2,18 +2,22 @@ var App = require('../client/app').App;
 var TabManager = require('../client/tabmanager').TabManager;
 var Id = require('../client/id').Id;
 var Network = require('../client/network').Network;
+var Model = require('../client/model').Model;
 var Angular = require('../client/angular').Angular;
 
 Angular.load();
 
-var app = App.singleton;
-var net = new Network();
-var id = new Id();
-var tabs = new TabManager();
+// Load framework
+var app    = App.singleton;
+var net    = new Network();
+var id     = new Id();
+var tabs   = new TabManager();
+var model  = new Model();
 app.setNetwork(net);
 app.setTabManager(tabs);
 app.setId(id);
-window.rippleclient = app;
+app.setModel(model);
+var rippleclient = window.rippleclient = app;
 
 angular.injector(['ng']).invoke(function($rootScope, $compile) {
   var scope = $rootScope.$new();
