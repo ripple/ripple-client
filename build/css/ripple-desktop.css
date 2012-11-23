@@ -3600,6 +3600,16 @@ form .error {
   color: #DC4D38;
 }
 
+form .amount input,
+form .amount select {
+  vertical-align: bottom;
+}
+
+form .amount .currency {
+  width: auto;
+  margin-left: 10px;
+}
+
 form.ng-pristine .error {
   display: none;
 }
@@ -3890,16 +3900,6 @@ html.t-my-ripple header nav ul > li.active#nav-account > a:after {
 
 #t-history table .balance {
   width: 15%;
-}
-
-#t-send input,
-#t-send select {
-  vertical-align: bottom;
-}
-
-#t-send #send_amount_currency {
-  width: auto;
-  margin-left: 10px;
 }
 
 #t-send #send_destination {
