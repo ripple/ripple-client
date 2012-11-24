@@ -15,4 +15,9 @@ MyAccountTab.prototype.generateHtml = function ()
   return require('../../jade/tabs/my-ripple.jade')();
 };
 
+MyAccountTab.prototype.angular = function ()
+{
+
+};
+
 module.exports = MyAccountTab;
