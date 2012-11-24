@@ -230,7 +230,7 @@ Tab.prototype.defaultChild = null;
  *
  * List any controllers the tab uses here.
  */
-Tab.prototype.angularDeps = [];
+Tab.prototype.angularDeps = ['directives', 'filters'];
 
 Tab.prototype.setTabManager = function (tm)
 {
@@ -274,7 +274,7 @@ Tab.prototype.render = function (slot, callback)
       // The injector is what will actually instantiate our new module
       var $injector = angular.injector(['ng', this.slot]);
 
-      $injector.invoke(function ($compile) {
+      $injector.invoke(function ($rootScope, $compile) {
         $scope.$apply(function () {
           self.el = $compile(html)($scope);
           self.el.attr('id', 't-'+self.slot);
