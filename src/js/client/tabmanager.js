@@ -255,7 +255,8 @@ Tab.prototype.render = function (slot, callback)
       parentEl = this.tm.getElBySlot(this.parent);
     }
     if (!parentEl) {
-      throw new Error('Loaded tab without parent tab present!');
+      throw new Error('Loaded tab without parent tab "'+this.parent+'" '
+                      + 'present!');
     }
 
     var html = this.generateHtml();
