@@ -15,6 +15,7 @@ util.inherits(Model, events.EventEmitter);
 
 Model.prototype.init = function ()
 {
+  this.app.$scope.balance = "0";
 };
 
 Model.prototype.setApp = function (app)
@@ -57,7 +58,7 @@ Model.prototype.handleAccounts = function (data)
   var remote = this.app.net.remote;
   var $scope = this.app.$scope;
   $scope.$apply(function () {
-    $scope.balance = data.accounts[0];
+    $scope.balance = data.accounts[0].Balance;
 
     remote.request_account_tx(data.accounts[0].Account, "0", "999999")
       .on('success', self.handleAccountTx.bind(self, data.accounts[0].Account)).request();
@@ -68,6 +69,10 @@ Model.prototype.handleAccountTx = function (account, data)
 {
   var $scope = this.app.$scope;
   $scope.$apply(function () {
+    if (!data.transactions) {
+      $scope.history = [];
+      return;
+    }
     var transactions = data.transactions.map(function (e) {
       var historyEntry = {};
       historyEntry.fee = e.Fee;

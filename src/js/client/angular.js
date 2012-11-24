@@ -20,6 +20,7 @@ var Angular = function ()
 Angular.load = function ()
 {
   require('../angular/directives');
+  require('../angular/filters');
 };
 
 exports.Angular = Angular;

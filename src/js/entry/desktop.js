@@ -19,14 +19,20 @@ app.setId(id);
 app.setModel(model);
 var rippleclient = window.rippleclient = app;
 
-angular.injector(['ng']).invoke(function($rootScope, $compile) {
+angular.injector(['ng', 'filters']).invoke(['$rootScope', '$compile', function($rootScope, $compile) {
   var scope = $rootScope.$new();
   app.setAngular(scope, $compile);
+  model.init();
   $('#main').data('$scope', scope);
+
+  // Activate #status panel
+  scope.$apply(function () {
+    $compile('#status')(scope);
+  });
 
   jQuery(function () {
     app.startup();
     window.onhashchange = tabs.handleHashChange.bind(tabs);
   });
-});
+}]);
 
