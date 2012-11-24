@@ -18,6 +18,8 @@ ContactsTab.prototype.generateHtml = function ()
   return require('../../jade/tabs/contacts.jade')();
 };
 
+ContactsTab.prototype.angularDeps = ['directives'];
+
 ContactsTab.prototype.angular = function (module) {
   module.controller('ContactsCtrl', function ($scope)
   {

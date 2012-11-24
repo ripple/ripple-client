@@ -7,3 +7,14 @@ module.directive('ngEnter', function() {
     });
   };
 });
+
+module.directive('inlineEdit', function () {
+  var previewTemplate = '<span ng-hide="isEditMode" ng-dblclick="isEditMode = true">{{model}}</span>';
+  var editTemplate = '<input ng-show="isEditMode" ng-dblclick="isEditMode = false" ng-model="model" />';
+
+  return {
+    restrict: 'E',
+    scope: { model: '=' },
+    template: previewTemplate + editTemplate
+  };
+});
