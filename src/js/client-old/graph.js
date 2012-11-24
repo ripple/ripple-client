@@ -39,6 +39,8 @@ gRoot.connected =function()
 	var command = '{"command":"ledger", "params" : [ "lastclosed" , "full" ] }';
 	server.socket.send(command);
 	
+	command= '{"command":"subscribe", "streams" : [ "transactions" ]}';
+	server.socket.send(command);
 }
 
 gRoot.handleMsg=function(msg)
@@ -51,6 +53,9 @@ gRoot.handleMsg=function(msg)
 		if (obj.result.ledger)
 		{
 			onLedger(obj.result.ledger);
+		}else if(obj.transaction)
+		{
+			onTransaction(obj);
 		}
 	}
 };
@@ -158,6 +163,18 @@ function onLedger(ledger)
 
 
       drawGraph(nodeArray,lines);
+}
+
+/*
+{"engine_result":"tesSUCCESS","engine_result_code":0,"engine_result_message":"The transaction was applied.","ledger_hash":"F80AEA14B5232AE428E476594091E647BC5736469544BB49A7245DACFCCAF70D","ledger_index":6,
+"meta":{"AffectedNodes":[{"ModifiedNode":{"FinalFields":{"Account":"rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh","Balance":"99999998999999000","Flags":0,"Sequence":2},"LedgerEntryType":"AccountRoot","LedgerIndex":"2B6AC232AA4C4BE41BF49D2459FA4A0347E1B543A4C92FCEE0821C0201E2E9A8","PreviousFields":{"Balance":"100000000000000000","Sequence":1}}},{"CreatedNode":{"LedgerEntryType":"AccountRoot","LedgerIndex":"63EC32A6B58DDE6534A25672A4C3754C05C2063B920B5EA544CDB49C6E3B2F26"}}],"TransactionResult":"tesSUCCESS"},
+"status":"closed",
+"transaction":{"Account":"rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh","Amount":"1000","Destination":"rwcQbuaLBUgS9ySP1v9x2WfyBWC9xBARRV","Fee":"1000000000","Flags":65536,"Sequence":1,"SigningPubKey":"0330E7FC9D56BB25D6893BA3F317AE5BCF33B3291BD63DB32654A313222F7FD020","TransactionType":"Payment","TxnSignature":"304502210082F39089B56B07E3737AD5211F337C304209BD0E6FD806927E66E332FE4E31DF022027207F78ED1F188489AB9DB29E8EB37F628DC76069A473AD1FCE750A504C8D2E","hash":"3F329C8A0916DDEF13C613FB26AE443DD8FE6E5424371F90493BCFCE9E4151E4"},
+"type":"transaction"}
+ */
+function onTransaction(obj)
+{
+
 }
 
 
