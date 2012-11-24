@@ -1,6 +1,6 @@
-var util = require('util');
-var Tab = require('../client/tabmanager').Tab;
-var id = require('../client/id').Id.singleton;
+var util      = require('util');
+var Tab       = require('../client/tabmanager').Tab;
+var id        = require('../client/id').Id.singleton;
 
 var ContactsTab = function ()
 {
@@ -24,24 +24,43 @@ ContactsTab.prototype.angular = function (module) {
   module.controller('ContactsCtrl', function ($scope)
   {
     $scope.addressbook = [{
-      name: 'Bob',
-      address: 'rwcQbuaLBUgS9ySP1v9x2WfyBWC9xBARRV'
-    },{
-      name: 'Bob',
-      address: 'rwcQbuaLBUgS9ySP1v9x2WfyBWC9xBARRV'
-    },{
-      name: 'Bob',
-      address: 'rwcQbuaLBUgS9ySP1v9x2WfyBWC9xBARRV'
-    },{
-      name: 'Bob',
-      address: 'rwcQbuaLBUgS9ySP1v9x2WfyBWC9xBARRV'
-    },{
-      name: 'Bob',
-      address: 'rwcQbuaLBUgS9ySP1v9x2WfyBWC9xBARRV'
-    },{
-      name: 'Bob',
-      address: 'rwcQbuaLBUgS9ySP1v9x2WfyBWC9xBARRV'
+        name: 'Bob',
+        address: 'rwcQbuaLBUgS9ySP1v9x2WfyBWC9xBARRV'
+      },{
+        name: 'Bob',
+        address: 'rwcQbuaLBUgS9ySP1v9x2WfyBWC9xBARRV'
+      },{
+        name: 'Bob',
+        address: 'rwcQbuaLBUgS9ySP1v9x2WfyBWC9xBARRV'
+      },{
+        name: 'Bob',
+        address: 'rwcQbuaLBUgS9ySP1v9x2WfyBWC9xBARRV'
+      },{
+        name: 'Bob',
+        address: 'rwcQbuaLBUgS9ySP1v9x2WfyBWC9xBARRV'
+      },{
+        name: 'Bob',
+        address: 'rwcQbuaLBUgS9ySP1v9x2WfyBWC9xBARRV'
     }];
+
+    $scope.show_form = function ()
+    {
+      $scope.addform_visible = true;
+    };
+
+    $scope.isEditMode = false;
+
+    $scope.add = function ()
+    {
+      $scope.addressbook.push({
+        name: $scope.name,
+        address: $scope.address
+      });
+    };
+
+    $scope.remove = function (index) {
+      $scope.addressbook.splice(index,1);
+    }
   });
 };
 

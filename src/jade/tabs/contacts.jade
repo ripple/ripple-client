@@ -4,14 +4,29 @@ section.panel.content(ng-controller="ContactsCtrl")
       tr
         th Name
         th.account Account
+        th.delete
         th.command
         th.action
-          a(href='#') add
+          a(ng-click='show_form()') add
     tbody
+      tr(ng-show='addform_visible')
+        td(colspan=5)
+          form(name="addForm")
+            label(for='Name') Name
+            .name
+              input#name(name='name', type='text', step='any', ng-model='name', required)
+            label(for='Address') Address
+            .address
+              input#address(name='address', type='text', step='any', ng-model='address', address, required)
+            .error(ng-show='addForm.address.$error.address') Not a valid address.
+            div.submitsection
+              button.btn.btn-info(type='submit', ng-click='add()', ng-disabled='addForm.$invalid') Add contact
       tr(ng-repeat="entry in addressbook")
         td: inline-edit(model='entry.name')
-        td {{entry.address}}
+        td: inline-edit(model='entry.address')
+        td.delete
+          button.delete.btn.btn-danger.btn-small(ng-show='isEditMode', ng-click='remove($index)') Delete
         td.command
           button.send.btn.btn-success.btn-small Send ...
         td.action
-          a(href='#') edit
+          a(ng-click='isEditMode = true') edit
