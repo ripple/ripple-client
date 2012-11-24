@@ -18,18 +18,42 @@ server.socket = null;
 $(document).ready(function()
 {
 	setUpD3();
+	var str = "ws://" + Options.server.websocket_ip + ":";
 	
-	server.socket = new WebSocket("ws://" + Options.server.websocket_ip + ":"+ Options.server.websocket_ip+ "/");
-	server.socket.onopen = function () { console.log("connected to websocket"); }
+	str += Options.server.websocket_port;
+	str += "/";
+	
+	server.socket = new WebSocket(str);
+	server.socket.onopen = function () { gRoot.connected(); }
 	server.socket.onmessage = gRoot.handleMsg;
 	server.socket.onclose = function () { console.log("disconnected from websocket"); } 
-	
-	//server.socket.send(JSON.stringify(obj));
-	
 	
 	//server.subscribe("transactions");
 	//server.send({'command': 'transaction_entry', 'hash': "7A852DC7AACBEBBFB05C954785DBB37C5DB6B97DD2E236F0BCEC67C3C6B6CE63", 'ledger_closed':"2DC4E79AF0E137AC56E2D1218AC1DE228612B56A97B958750F0DFD5CAE1E65D7"});
 }); 
+
+gRoot.connected =function()
+{
+	console.log("connected to websocket");
+	
+	var command = '{"command":"ledger", "params" : [ "lastclosed" , "full" ] }';
+	server.socket.send(command);
+	
+}
+
+gRoot.handleMsg=function(msg)
+{
+	//console.log("gRoot.handleMsg");
+	console.log(msg);
+	var obj = jQuery.parseJSON(msg.data);
+	if (obj && obj.result)
+	{
+		if (obj.result.ledger)
+		{
+			onLedger(obj.result.ledger);
+		}
+	}
+};
 
 
 /*
@@ -85,16 +109,15 @@ function filloutLedgerData(ledger)
 
   $('#LedgerInfoState').text(stateStr);
 }
-function onLedger(response, success)
+function onLedger(ledger)
 {
-  if(response.ledger)
-  {
+  
     var i, account;
-    filloutLedgerData(response.ledger);
+    filloutLedgerData(ledger);
 
     var nodeMap={};
     var nodeArray=[];
-    var accounts = response.ledger.accountState;
+    var accounts = ledger.accountState;
     for (i = 0; i < accounts.length; i++)
     {
       account=accounts[i];
@@ -135,7 +158,6 @@ function onLedger(response, success)
 
 
       drawGraph(nodeArray,lines);
-  }
 }
 
 
@@ -293,18 +315,7 @@ function overLink(node)
     $('#NodeData').html(node.currency+"<br>"+addCommas(node.LowLimit)+" -- "+addCommas(node.HighLimit));
 }
 
-gRoot.handleMsg=function(msg)
-{
-	console.log(msg);
-  var obj = jQuery.parseJSON(msg.data);
-  if (obj)
-  {
-    if (obj.type == "transaction")
-      {
 
-      }
-  }
-};
 
 
 //////////////////////
