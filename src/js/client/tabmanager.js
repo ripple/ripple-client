@@ -190,6 +190,10 @@ TabManager.tabs["receive"] = function (callback) {
   callback(require('../tabs/receive'));
 };
 
+TabManager.tabs["advanced"] = function (callback) {
+  callback(require('../tabs/advanced'));
+};
+
 var Tab = function (config)
 {
   events.EventEmitter.call(this);
@@ -356,7 +360,7 @@ Tab.prototype.hideSiblings = function ()
 };
 
 /**
- * Make sure container always have at least one child activated.
+ * Make sure container always has at least one child activated.
  *
  * Without this function we might get an empty container showing
  * without any content if the container is accessed without a specific
