@@ -43,12 +43,12 @@ ContactsTab.prototype.angular = function (module) {
         address: 'rwcQbuaLBUgS9ySP1v9x2WfyBWC9xBARRV'
     }];
 
-    $scope.show_form = function ()
-    {
-      $scope.addform_visible = true;
-    };
+    $scope.addressbookmaster = angular.copy($scope.addressbook);
 
-    $scope.isEditMode = false;
+    $scope.toggle_form = function ()
+    {
+      $scope.addform_visible = !$scope.addform_visible;
+    }
 
     $scope.add = function ()
     {
@@ -56,10 +56,35 @@ ContactsTab.prototype.angular = function (module) {
         name: $scope.name,
         address: $scope.address
       });
-    };
+    }
+
+    $scope.edit = function (index)
+    {
+      $scope.addressbook[index].isEditMode = true;
+    }
+
+    $scope.update = function (index)
+    {
+      $scope.addressbookmaster[index] = {
+        name: $scope.addressbook[index].name,
+        address: $scope.addressbook[index].address
+      };
+
+      $scope.addressbook[index].isEditMode = false;
+    }
 
     $scope.remove = function (index) {
       $scope.addressbook.splice(index,1);
+    }
+
+    $scope.cancel = function (index)
+    {
+      $scope.addressbook[index] = {
+        name: $scope.addressbookmaster[index].name,
+        address: $scope.addressbookmaster[index].address
+      };
+
+      $scope.addressbook[index].isEditMode = false;
     }
   });
 };
