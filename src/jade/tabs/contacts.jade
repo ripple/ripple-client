@@ -4,10 +4,12 @@ section.panel.content(ng-controller="ContactsCtrl")
       tr
         th Name
         th.account Account
-        th.delete
+        th.save
         th.command
         th.action
-          a(ng-click='show_form()') add
+          a.btn.btn-success.sign(ng-click='toggle_form()')
+            span(ng-hide='addform_visible') +
+            span(ng-show='addform_visible') -
     tbody
       tr(ng-show='addform_visible')
         td(colspan=5)
@@ -22,11 +24,13 @@ section.panel.content(ng-controller="ContactsCtrl")
             div.submitsection
               button.btn.btn-info(type='submit', ng-click='add()', ng-disabled='addForm.$invalid') Add contact
       tr(ng-repeat="entry in addressbook")
-        td: inline-edit(model='entry.name')
-        td: inline-edit(model='entry.address')
-        td.delete
-          button.delete.btn.btn-danger.btn-small(ng-show='isEditMode', ng-click='remove($index)') Delete
+        td: inline-edit(model='entry.name', mode='entry.isEditMode')
+        td: inline-edit(model='entry.address', mode='entry.isEditMode')
+        td.save
+          button.save.btn.btn-success.btn-small(ng-show='entry.isEditMode', ng-click='update($index)') Save
         td.command
-          button.send.btn.btn-success.btn-small Send ...
+          button.delete.btn.btn-danger.btn-small(ng-show='entry.isEditMode', ng-click='remove($index)') Delete
+          button.send.btn.btn-success.btn-small(ng-hide='entry.isEditMode') Send
         td.action
-          a(ng-click='isEditMode = true') edit
+          a(ng-click='edit($index)', ng-hide='entry.isEditMode') edit
+          a(ng-click='cancel($index)', ng-show='entry.isEditMode') cancel

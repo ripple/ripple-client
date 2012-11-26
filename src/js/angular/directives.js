@@ -12,14 +12,14 @@ module.directive('ngEnter', function() {
  * Inline edit
  */
 module.directive('inlineEdit', function () {
-  var previewTemplate = '<span ng-hide="isEditMode">{{model}}</span>';
-  var editTemplate = '<input ng-show="isEditMode" ng-model="model" />';
+  var previewTemplate = '<span ng-hide="mode">{{model}}</span>';
+  var editTemplate = '<input ng-show="mode" ng-model="model" />';
 
   return {
     restrict: 'E',
     scope: {
       model: '=',
-      isEditMode: '@'
+      mode: '='
     },
     template: previewTemplate + editTemplate
   };
