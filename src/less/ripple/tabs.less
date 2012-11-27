@@ -220,10 +220,15 @@ html.t-my-ripple header nav ul > li.active#nav-account > a:after {
 
 #t-receive {
   .address {
-    font-size: 30px;
     margin: 0;
     padding: 20px @pmSingleMargin;
     margin-bottom: 20px;
+    > input {
+      font-size: 30px;
+      border: 0;
+      background-color: transparent;
+      width: @gridRowWidth - @pmSingleMargin * 2;
+    }
   }
   .btn {
     .input-medium;

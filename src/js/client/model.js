@@ -40,6 +40,9 @@ Model.prototype.handleAccountLoad = function (e)
     .on('success', this.handleRippleLines.bind(this)).request();
   remote.request_wallet_accounts(e.secret)
     .on('success', this.handleAccounts.bind(this)).request();
+
+  var $scope = this.app.$scope;
+  $scope.address = e.account;
 };
 
 Model.prototype.handleRippleLines = function (data)

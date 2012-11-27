@@ -12,6 +12,8 @@ util.inherits(ReceiveTab, Tab);
 
 ReceiveTab.prototype.parent = 'main';
 
+ReceiveTab.prototype.angular = function (module) {};
+
 ReceiveTab.prototype.generateHtml = function ()
 {
   return require('../../jade/tabs/receive.jade')();
@@ -25,6 +27,20 @@ ReceiveTab.prototype.onAfterRender = function ()
 
     var address = self.el.find('.address').text();
 
+    highlightAnimation();
+
+    // TODO: Actually copy (using Flash)
+  });
+
+  this.el.find('.select').click(function (e) {
+    e.preventDefault();
+
+    highlightAnimation();
+
+    self.el.find('.address input').select();
+  });
+
+  function highlightAnimation() {
     // Trigger highlight animation
     self.el.find('.address')
       .stop()
@@ -32,8 +48,8 @@ ReceiveTab.prototype.onAfterRender = function ()
       .effect('highlight', {
         color: "#8BC56A",
         easing: jQuery.easing.easeOutSine()
-    }, 800);
-  });
+      }, 800);
+  }
 };
 
 module.exports = ReceiveTab;
