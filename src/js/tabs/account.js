@@ -8,4 +8,6 @@ var AccountTab = function ()
 
 util.inherits(AccountTab, Tab);
 
+AccountTab.prototype.defaultChild = 'my-ripple';
+
 module.exports = AccountTab;
