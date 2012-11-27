@@ -1,1 +1,28 @@
-/ TODO
+section#t-orderbook.tab-pane.panel.content
+  div.heading Order Book
+  table
+    tr
+      td:select#OrderBookBuyCurrency
+      td for
+      td:select#OrderBookSellCurrency
+  p Show only direct issuers <input type="checkbox" id="OrderBookOnlyDirect" />
+            
+
+  p#OrderBookAsksLegend Selling X/Y (asks)
+  table.table.table-striped
+    tr
+      th Price
+      th Amount
+      th Sum
+      th Issuer In
+      th Issuer Out
+      
+  p#OrderBookBidsLegend Buying X/Y (bids)
+  table.table.table-striped
+    tr
+      th Unit Price
+      th Amount
+      th Sum
+      th Issuer In
+      th Issuer Out
+      

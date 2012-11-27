@@ -1,1 +1,12 @@
-/ TODO
+section.panel.content
+  div.heading Feed
+  table.spaceTable
+    tr
+      td Ledger 
+        input#FeedLedgerCheckbox(type="checkbox")
+      td Transactions 
+        input#FeedTransactionsCheckbox(type="checkbox") 
+      td Server 
+        input#FeedServerCheckbox(type="checkbox") 
+      td: button#FeedClearButton.btn.btn-danger Clear Feed
+  div#FeedArea

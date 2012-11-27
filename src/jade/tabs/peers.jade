@@ -1,12 +1,17 @@
-section#t-peers.tab-pane
-  div.heading Peers
-    div.page-content
-      div.row 
-        fieldset.span5
-          legend Add New Peer
-          | If you are having connectivity issues you can manually add a peer below.
-          table
-            tr
-              td.span2 IP:
-              td:input#NewPeerIP.span2
- 
+section.panel.content(ng-controller="PeerCtrl")
+  form(name="addForm")
+    label(for='unl_hanko') Domain or Hanko:
+    .unl_key
+      input#unl_key(name='unl_key', type='text', step='any', ng-model='unl_key', required)
+    label(for='unl_note') Comment (Optional):
+    .unl_note
+      input#unl_note(name='unl_note', type='text', step='any', ng-model='unl_note', unl_note, required)
+    div.submitsection
+      button.btn.btn-info(type='submit', ng-click='add()', ng-disabled='addForm.$invalid') Add Peer
+  table.table.table-striped
+    tr
+      th #
+      th IP
+      th Port
+      th Version
+       
