@@ -201,9 +201,7 @@ TabManager.tabs["trade"] = function (callback) {
 TabManager.tabs["order-book"] = function (callback) {
   callback(require('../tabs/order-book'));
 };
-TabManager.tabs["ledger"] = function (callback) {
-  callback(require('../tabs/ledger'));
-};
+
 TabManager.tabs["feed"] = function (callback) {
   callback(require('../tabs/feed'));
 };

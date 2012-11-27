@@ -261,104 +261,11 @@
       <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
 
       <!-- TRADE SECTION -->
-      <section  class="tab-pane" id="t-trade">
-        <div class="heading">Trade</div>
-        <div class="page-content">
-          <p>Ripple automatically converts if you need to send from one type of currency to another.</p>
-          <p>These trading features are not needed by ordinary users.</p>
-
-          <fieldset class="span6">
-            <legend>Ticker</legend>
-            <table class="table table-striped"><tr><th>Pair</th><th>Bid</th><th>Ask</th><th>Spread</th><th></th></tr><tbody id="TickerTable"></tbody></table>
-          </fieldset>
-
-          <fieldset class="span5">
-            <legend>Place Order</legend>
-            <table>
-              <tr>
-                <td class="span2">Sell Currency:</td>
-                <td class="span4"><input id="TradePageSellCurr" class="span2" /></td>
-              </tr>
-              <tr>
-                <td class="span2">Buy Currency:</td>
-                <td class="span4"><input id="TradePageBuyCurr" class="span2" /></td>
-              </tr>
-              <tr>
-                <td class="span2">Amount to Sell:</td>
-                <td class="span4"><input id="TradePageAmount" type="text"></td>
-              </tr>
-              <tr>
-                <td class="span2">Price of Each:</td>
-                <td class="span4"><input id="TradePagePrice" type="text"></td>
-              </tr>
-            </table>
-            <div id="TradePageStatus">
-              <div class="info"></div>
-              <div class="error"></div>
-            </div>
-            <div class="bottom-btn">
-              <button id="TradePageButton" class="btn btn-info">Place Order</button>
-            </div>
-          </fieldset>
-
-          <fieldset class="span5">
-            <legend>Open Orders</legend>
-            <table class="table table-striped">
-              <tr>
-                <th>Date</th>
-                <th>Pair</th>
-                <th>Price</th>
-                <th>Amount</th>
-                <th>Ledger state</th>
-                <th class="span1">&nbsp;</th>
-              </tr>
-              <tbody id="OpenOrderTable"></tbody>
-            </table>
-          </fieldset>
-        </div>
-      </section>
+      
       <!-- ENDS TRADE SECTION -->
 
       <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
 
-      <!-- LEDGER -->
-      <section class="tab-pane" id="t-ledger">
-        <div class="heading">Ledger</div>
-        <div class="page-content">
-          <div class="row">
-            <fieldset class="span5">
-              <legend>Ledger</legend>
-              <table class="infoTable">
-                <tr><td>Hash:</td><td id="LedgerInfoHash" class="smallFont"></td></tr>
-                <tr><td>Parent Hash:</td><td id="LedgerInfoParentHash" class="smallFont"></td></tr>
-                <tr><td>Ledger Number:</td><td id="LedgerInfoNumber"></td></tr>
-                <tr><td>Total Coins:</td><td id="LedgerInfoTotalCoins"></td></tr>
-                <tr><td>Date:</td><td id="LedgerInfoDate"></td></tr>
-                <tr><td>State:</td><td id="LedgerInfoState"></td></tr>
-              </table>
-              <table class="table table-striped">
-                <tr>
-                  <th>#</th>
-                  <th>Account ID</th>
-                  <th>Balance</th>
-                  <th>Seq #</th>
-                </tr>
-                <tbody id="LedgerTable"></tbody>
-              </table>
-            </fieldset>
-          </div>
-          <div class="row">
-            <fieldset class="span5">
-              <legend>Transactions</legend>
-              <table class="table table-striped">
-                <tr><th>#</th><th>From ID</th><th>To ID</th><th>Amount</th><th>Fee</th><th>Type</th></tr>
-                <tbody id="TransactionTable"></tbody>
-              </table>
-            </fieldset>
-          </div>
-        </div>
-      </section>
-      <!-- ENDS LEDGER SECTION -->
 
       <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
 

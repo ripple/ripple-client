@@ -1,1 +1,41 @@
-/ TODO
+section.panel.content(ng-controller="TradeCtrl")
+  p.literal Ripple automatically converts if you need to send from one type of currency to another.
+  p.literal These trading features are not needed by ordinary users.
+  table.table
+    thead
+      tr
+        th Pair
+        th Bid
+        th Ask
+        th Spread
+    tbody
+  form.mode-form(name="orderform", ng-show='mode=="form"')
+    p.literal Place Order
+    hr
+    label(for='sell_currency') Sell Currency:
+    select.currency#sell_currency(name='sell_currency', ng-model='currency')
+      option USD
+    label(for='buy_currency') Buy Currency:
+    select.currency#sell_currency(name='buy_currency', ng-model='currency')
+      option XRP
+    label(for='order_amount') Amount To Sell:
+      input#order_amount(name='order_amount', type='number', step='any', ng-model='amount', ng-pattern='/^[0-9.]+$/', required)
+    label(for='order_price') Price of Each:
+      input#order_price(name='order_price', type='number', step='any', ng-model='amount', ng-pattern='/^[0-9.]+$/', required)
+  div.submitsection
+    button.btn.btn-success.submit(type='submit', ng-click='send()', ng-disabled='orderform.$invalid') Place Order  
+    
+    
+  p.literal Open Orders
+  table.table
+    thead
+      tr
+        th Date
+        th Pair
+        th Price
+        th Amount
+        th &nbsp;
+    tbody
+           
+          
+          

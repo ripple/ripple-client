@@ -14,9 +14,12 @@ TradeTab.prototype.generateHtml = function ()
   return require('../../jade/tabs/trade.jade')();
 };
 
-TradeTab.prototype.angular = function ()
+TradeTab.prototype.angular = function (module) 
 {
-
+  module.controller('TradeCtrl', function ($scope)
+  {
+  });
 };
+
 
 module.exports = TradeTab;
