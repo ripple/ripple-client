@@ -31,6 +31,7 @@ SendTab.prototype.angular = function (module)
 
       $scope.amount_feedback = amount.to_human();
       $scope.currency_feedback = amount._currency.to_json();
+      $scope.recipient_extra = "(not in address book)";
 
       $scope.confirm_wait = true;
       $timeout(function () {
