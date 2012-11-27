@@ -194,6 +194,28 @@ TabManager.tabs["advanced"] = function (callback) {
   callback(require('../tabs/advanced'));
 };
 
+TabManager.tabs["trade"] = function (callback) {
+  callback(require('../tabs/trade'));
+};
+
+TabManager.tabs["order-book"] = function (callback) {
+  callback(require('../tabs/order-book'));
+};
+TabManager.tabs["ledger"] = function (callback) {
+  callback(require('../tabs/ledger'));
+};
+TabManager.tabs["feed"] = function (callback) {
+  callback(require('../tabs/feed'));
+};
+TabManager.tabs["peers"] = function (callback) {
+  callback(require('../tabs/peers'));
+};
+TabManager.tabs["unl"] = function (callback) {
+  callback(require('../tabs/unl'));
+};
+
+
+
 var Tab = function (config)
 {
   events.EventEmitter.call(this);
