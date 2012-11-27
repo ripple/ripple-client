@@ -16,12 +16,6 @@ AdvancedTab.prototype.generateHtml = function ()
   return require('../../jade/tabs/advanced.jade')();
 };
 
-
-AdvancedTab.prototype.angular = function ()
-{
-
-};
-
 module.exports = AdvancedTab;
 
 
