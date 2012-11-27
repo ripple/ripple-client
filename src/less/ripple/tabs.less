@@ -186,8 +186,34 @@ html.t-my-ripple header nav ul > li.active#nav-account > a:after {
   }
   .submitsection {
     .makeRow();
-    button {
+    button.back {
+      .makeColumn(1.5);
+    }
+    button.submit {
       .makeColumn(3);
+    }
+  }
+
+  .mode-confirm {
+    .amount_feedback, .dest_feedback {
+      font-size: 26px;
+      margin: 0;
+      padding: 20px @pmSingleMargin;
+      background-color: #f4f4f4;
+
+      .address {
+        font-size: 18px;
+        color: #999;
+        margin-top: 0.5em;
+      }
+    }
+
+    .amount_feedback {
+      font: 34px 'OpenSansLight';
+
+      .currency {
+        font-size: 20px;
+      }
     }
   }
 }
