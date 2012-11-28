@@ -15,7 +15,9 @@ section.panel.content(ng-controller="HistoryCtrl")
       tr(ng-repeat="entry in history | filter:type", class="{{entry.type}}")
         td.date {{entry.date}}
         td.counterparty {{entry.counterparty}}
-        td.amount {{entry.currency}} {{entry.amount}}
+        td.amount
+          .currency {{entry.currency}}
+          | {{entry.amount | rpamount}}
         td.balance {{entry.balance}}
       tr(ng-show="!(history | filter:type).length")
         td(colspan="4")
