@@ -132,15 +132,18 @@ header nav ul {
   width: 89px;
 }
 
+@statusWidth: 350px;
+
 #status {
   position: absolute;
   top: 18px;
   right: 0;
-  width: 350px;
+  width: @statusWidth;
   height: 85px;
   background-color: #fff;
   .rounded(10px);
   .drop-shadow(0, 0, 12px, 0.20);
+  z-index: 10;
 
   .user {
     margin: 2px 20px 0;
@@ -161,7 +164,6 @@ header nav ul {
 
     &.primary {
       float: left;
-      padding-left: 20px;
     }
 
     &.secondary {

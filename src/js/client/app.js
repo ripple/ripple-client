@@ -38,6 +38,12 @@ App.prototype.setModel = function (model)
   model.setApp(this);
 };
 
+App.prototype.setStatusManager = function (sm)
+{
+  this.sm = sm;
+  sm.setApp(this);
+};
+
 /**
  * Set the AngularJS refs.
  */
@@ -57,6 +63,7 @@ App.prototype.startup = function ()
   this.model.listenId(this.id);
   this.net.listenId(this.id);
   this.net.init();
+  this.sm.init();
 };
 
 /**
