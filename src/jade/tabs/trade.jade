@@ -1,56 +1,64 @@
 section.panel.content(ng-controller="TradeCtrl")
-  p.literal Ripple automatically converts when you send from one currency to another.
-  table.table
-    thead
-      tr
-        th Pair
-        th Bid
-        th Ask
-        th Spread
-    tbody
-  form.mode-form(name="orderform")
-    p.literal Place Order
-    hr
-    label(for='sell_currency') Sell Currency: 
-      select.currency#sell_currency(name='sell_currency', ng-model='currency')
-        option USD
-    label(for='buy_currency') Buy Currency: 
-      select.currency#sell_currency(name='buy_currency', ng-model='currency')
-        option XRP
-    label(for='order_amount') Amount To Sell: 
-      input#order_amount(name='order_amount', type='number', step='any', ng-model='order_amount', ng-pattern='/^[0-9.]+$/', required)
-    label(for='order_price') Price of Each: 
-      input#order_price(name='order_price', type='number', step='any', ng-model='order_price', ng-pattern='/^[0-9.]+$/', required)
-    div.submitsection
-      button.btn.btn-success.submit(type='submit', ng-click='placeOrder()', ng-disabled='orderform.$invalid') Place Order  
-    
-    
-  p.literal Open Orders
-  table.table
-    thead
-      tr
-        th Date
-        th Pair
-        th Price
-        th Amount
-        th &nbsp;
-    tbody
+  div(ng-show='mode=="trade"')
+    p.literal Ripple automatically converts when you send from one currency to another.
+    table.table
+      thead
+        tr
+          th Pair
+          th Bid
+          th Ask
+          th Spread
+      tbody
+    form.mode-form(name="orderform")
+      p.literal Place Order
+      hr
+      label(for='sell_currency') Sell Currency: 
+        select.currency#sell_currency(name='sell_currency', ng-model='sell_currency')
+          option USD
+      label(for='buy_currency') Buy Currency: 
+        select.currency#sell_currency(name='buy_currency', ng-model='buy_currency')
+          option XRP
+      label(for='order_amount') Amount To Sell: 
+        input#order_amount(name='order_amount', type='number', step='any', ng-model='order_amount', ng-pattern='/^[0-9.]+$/', required)
+      .error(ng-show='orderform.order_amount.$error.required') Please enter an amount.
+      .error(ng-show='orderform.order_amount.$error.pattern') Not a valid amount.
+      label(for='order_price') Price of Each: 
+        input#order_price(name='order_price', type='number', step='any', ng-model='order_price', ng-pattern='/^[0-9.]+$/', required)
+      .error(ng-show='orderform.order_price.$error.required') Please enter a price.
+      .error(ng-show='orderform.order_price.$error.pattern') Not a valid price.
+      div.submitsection
+        button.btn.btn-success.submit(type='submit', ng-click='placeOrder()', ng-disabled='orderform.$invalid') Place Order  
+      
+      
+    p.literal Open Orders
+    table.table
+      thead
+        tr
+          th Date
+          th Pair
+          th Price
+          th Amount
+          th &nbsp;
+      tbody
   group.mode-confirm(ng-show='mode=="confirm"')
     p.literal You are about to place an offer selling
     p.amount_feedback
-      span.value {{amount_feedback}} 
-      span.currency {{currency_feedback}}
+      span.value {{sell_amount_feedback}} 
+      span.currency {{sell_currency_feedback}}
     p.literal for 
     div.dest_feedback
-      .recipient {{recipient}}
-      .extra {{recipient_extra}}
+      span.value {{buy_amount_feedback}} 
+      span.currency {{buy_currency_feedback}}
     p.literal Are you sure?
     div
       p.submitsection
-        button.btn.back(ng-click='mode="form"') &laquo; Back
-        button.btn.btn-success.submit(type='submit', ng-click='send_confirmed()', ng-disabled='confirm_wait') Confirm
+        button.btn.back(ng-click='mode="trade"') &laquo; Back
+        button.btn.btn-success.submit(type='submit', ng-click='order_confirmed()', ng-disabled='confirm_wait') Confirm
   group.mode-sending(ng-show='mode=="sending"')
-    p.literal Sending offer to Ripple network...
-           
+    p.throbber.literal Sending offer to Ripple network...
+  group.mode-error(ng-show='mode=="error"')
+    p.literal Sorry, an error occurred while submitting your transaction. Make sure you are connected to the Internet and try again later.
+    p.literal Before trying again, please ensure that the transaction has not been executed already.
+    p: button.btn(ng-click='reset()') &laquo; Back         
           
           
