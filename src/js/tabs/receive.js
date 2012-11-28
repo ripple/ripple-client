@@ -35,8 +35,6 @@ ReceiveTab.prototype.onAfterRender = function ()
   this.el.find('.select').click(function (e) {
     e.preventDefault();
 
-    highlightAnimation();
-
     self.el.find('.address input').select();
   });
 
