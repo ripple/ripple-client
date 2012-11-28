@@ -143,8 +143,8 @@ html.t-my-ripple header nav ul > li.active#nav-account > a:after {
     font: 18px 'OpenSansRegular';
     border-bottom: 1px solid #333;
     margin-bottom: 0;
-    padding-bottom: 12px;
-    margin-top: 12px;
+    padding-bottom: 10px;
+    margin-top: 20px;
 
     li {
       float: left;
@@ -156,14 +156,15 @@ html.t-my-ripple header nav ul > li.active#nav-account > a:after {
         color: #333;
         line-height: 30px;
         padding-left: 8px;
-        margin-left: -8px;
         padding-right: 16px;
-        margin-right: 30px;
         .transition-duration(0.2s);
 
-        /* Alternative: No hanging swatch
         margin-left: 6px;
         margin-right: 16px;
+
+        /* Alternative Hanging indent
+        margin-left: -8px;
+        margin-right: 30px;
         /**/
 
         &:hover {
@@ -227,6 +228,13 @@ html.t-my-ripple header nav ul > li.active#nav-account > a:after {
 
   table .amount {
     width: 18%;
+  }
+
+  table td.amount {
+    text-align: right;
+    .currency {
+      float: left;
+    }
   }
 
   table .balance {

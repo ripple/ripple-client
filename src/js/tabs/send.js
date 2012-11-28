@@ -25,6 +25,7 @@ SendTab.prototype.angular = function (module)
       $scope.recipient = '';
       $scope.amount = '';
       $scope.currency = 'XRP';
+      if ($scope.sendform) $scope.sendform.$setPristine(true);
     };
     $scope.send = function () {
       var amount = ripple.Amount.from_human(""+$scope.amount+" "+$scope.currency);
@@ -48,9 +49,17 @@ SendTab.prototype.angular = function (module)
       var tx = app.net.remote.transaction();
       tx.payment(app.id.account, $scope.recipient, amount.to_json());
       tx.set_flags('CreateAccount');
-      tx.on('success', function () {});
-      tx.on('error', function () {});
+      tx.on('success', function () {
+        $scope.reset();
+        $scope.$digest();
+      });
+      tx.on('error', function () {
+        $scope.mode = "error";
+        $scope.$digest();
+      });
       tx.submit();
+
+      $scope.mode = "sending";
     };
 
     $scope.reset();

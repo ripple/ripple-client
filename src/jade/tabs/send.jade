@@ -31,4 +31,9 @@ section#t-send.single.content(ng-controller='SendCtrl')
         button.btn.back(ng-click='mode="form"') &laquo; Back
         button.btn.btn-success.submit(type='submit', ng-click='send_confirmed()', ng-disabled='confirm_wait') Confirm
   group.mode-sending(ng-show='mode=="sending"')
-    p.literal Sending transaction to Ripple network
+    p.throbber.literal Sending transaction to Ripple network
+    hr
+  group.mode-error(ng-show='mode=="error"')
+    p.literal Sorry, an error occurred while submitting your transaction. Make sure you are connected to the Internet and try again later.
+    p.literal Before trying again, please ensure that the transaction has not been executed already.
+    p: button.btn(ng-click='reset()') &laquo; Back
