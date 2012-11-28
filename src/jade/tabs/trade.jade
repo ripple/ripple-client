@@ -1,6 +1,5 @@
 section.panel.content(ng-controller="TradeCtrl")
-  p.literal Ripple automatically converts if you need to send from one type of currency to another.
-  p.literal These trading features are not needed by ordinary users.
+  p.literal Ripple automatically converts when you send from one currency to another.
   table.table
     thead
       tr
@@ -9,21 +8,21 @@ section.panel.content(ng-controller="TradeCtrl")
         th Ask
         th Spread
     tbody
-  form.mode-form(name="orderform", ng-show='mode=="form"')
+  form.mode-form(name="orderform")
     p.literal Place Order
     hr
-    label(for='sell_currency') Sell Currency:
-    select.currency#sell_currency(name='sell_currency', ng-model='currency')
-      option USD
-    label(for='buy_currency') Buy Currency:
-    select.currency#sell_currency(name='buy_currency', ng-model='currency')
-      option XRP
-    label(for='order_amount') Amount To Sell:
-      input#order_amount(name='order_amount', type='number', step='any', ng-model='amount', ng-pattern='/^[0-9.]+$/', required)
-    label(for='order_price') Price of Each:
-      input#order_price(name='order_price', type='number', step='any', ng-model='amount', ng-pattern='/^[0-9.]+$/', required)
-  div.submitsection
-    button.btn.btn-success.submit(type='submit', ng-click='send()', ng-disabled='orderform.$invalid') Place Order  
+    label(for='sell_currency') Sell Currency: 
+      select.currency#sell_currency(name='sell_currency', ng-model='currency')
+        option USD
+    label(for='buy_currency') Buy Currency: 
+      select.currency#sell_currency(name='buy_currency', ng-model='currency')
+        option XRP
+    label(for='order_amount') Amount To Sell: 
+      input#order_amount(name='order_amount', type='number', step='any', ng-model='order_amount', ng-pattern='/^[0-9.]+$/', required)
+    label(for='order_price') Price of Each: 
+      input#order_price(name='order_price', type='number', step='any', ng-model='order_price', ng-pattern='/^[0-9.]+$/', required)
+    div.submitsection
+      button.btn.btn-success.submit(type='submit', ng-click='placeOrder()', ng-disabled='orderform.$invalid') Place Order  
     
     
   p.literal Open Orders
@@ -36,6 +35,22 @@ section.panel.content(ng-controller="TradeCtrl")
         th Amount
         th &nbsp;
     tbody
+  group.mode-confirm(ng-show='mode=="confirm"')
+    p.literal You are about to place an offer selling
+    p.amount_feedback
+      span.value {{amount_feedback}} 
+      span.currency {{currency_feedback}}
+    p.literal for 
+    div.dest_feedback
+      .recipient {{recipient}}
+      .extra {{recipient_extra}}
+    p.literal Are you sure?
+    div
+      p.submitsection
+        button.btn.back(ng-click='mode="form"') &laquo; Back
+        button.btn.btn-success.submit(type='submit', ng-click='send_confirmed()', ng-disabled='confirm_wait') Confirm
+  group.mode-sending(ng-show='mode=="sending"')
+    p.literal Sending offer to Ripple network...
            
           
           
