@@ -42,3 +42,8 @@ exports.getAjaxErrorHandler = function (callback, context)
     callback(new Error(message));
   };
 };
+
+exports.scrollToTop = function ()
+{
+  $("html, body").animate({ scrollTop: 0 }, "fast");
+};

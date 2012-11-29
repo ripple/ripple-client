@@ -1,40 +1,49 @@
-.notification {
-  width: @statusWidth - 16px;
-  .rounded(5px);
+@notifyMargin: 3px;
+
+#notification {
   position: absolute;
   top: 55px;
-  right: 3px;
-  padding: 15px 5px 5px;
-  z-index: 5;
-  text-align: center;
-  .transition-duration(0.2s);
-  line-height: 20px;
+  right: @notifyMargin;
+  width: @statusWidth - 10px - 2*@notifyMargin;
 
-  .number {
-    font-size: 18px;
-  }
+  .notification {
+    position: absolute;
+    .rounded(5px);
+    top: 0;
+    right: 0;
+    width: 100%;
+    padding: 15px 5px 5px;
+    z-index: 5;
+    text-align: center;
+    .transition-duration(0.2s);
+    line-height: 20px;
 
-  .currency {
-    font-size: 12px;
-  }
+    .number {
+      font-size: 18px;
+    }
 
-  &.active {
-    top: 95px;
-  }
+    .currency {
+      font-size: 12px;
+    }
 
-  &.type-success {
-    background-color: #8DC86A;
-  }
+    &.active {
+      top: 40px;
+    }
 
-  &.type-info {
-    background-color: #7898CA;
-  }
+    &.type-success {
+      background-color: #8DC86A;
+    }
 
-  &.type-warning {
-    background-color: #F1CE42;
-  }
+    &.type-info {
+      background-color: #7898CA;
+    }
 
-  &.type-error {
-    background-color: #DC4D38;
+    &.type-warning {
+      background-color: #F1CE42;
+    }
+
+    &.type-error {
+      background-color: #DC4D38;
+    }
   }
 }

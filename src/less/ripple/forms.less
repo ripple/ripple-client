@@ -50,9 +50,30 @@ form {
   }
 }
 
-// Don't show errors unless
-form.ng-pristine {
-  .error {
-    display: none;
+// Undo default Bootstrap invalid style for Angular-managed forms
+input.ng-invalid:focus:required:invalid,
+textarea.ng-invalid:focus:required:invalid,
+select.ng-invalid:focus:required:invalid {
+  border-color: #999;
+  .box-shadow(~"inset 0 1px 1px rgba(0,0,0,.075), 0 0 10px rgba(0,0,0,.2)");
+}
+
+// Only mark field invalid that have been edited
+input.ng-invalid.ng-dirty {
+  border-color: darken(#ee5f5b, 10%);
+
+  &:focus {
+    @shadow: 0 0 6px lighten(#ee5f5b, 20%);
+    .box-shadow(@shadow);
   }
+}
+
+// De-emphasize submit button if form invalid
+//
+// This is better than just disabling the button because this way we can handle
+// a click on the button. If the user tries to submit, we can detect this and
+// then show them *why* the form is not yet valid.
+form.ng-invalid .btn-success {
+  background: #ccc;
+  border-color: #ccc;
 }
