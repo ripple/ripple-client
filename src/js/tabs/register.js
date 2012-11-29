@@ -4,8 +4,6 @@ var Tab = require('../client/tabmanager').Tab;
 var RegisterTab = function ()
 {
   Tab.call(this);
-
-  this.on('afterrender', this.onAfterRender.bind(this));
 };
 
 util.inherits(RegisterTab, Tab);
@@ -18,16 +16,21 @@ RegisterTab.prototype.generateHtml = function ()
   return require('../../jade/tabs/register.jade')();
 };
 
-RegisterTab.prototype.onAfterRender = function ()
-{
-  var self = this;
-  this.el.find('form').submit(function (e) {
-    e.preventDefault();
+RegisterTab.prototype.angularDeps = ['directives'];
 
-    self.tm.gotoTab('my-ripple');
+RegisterTab.prototype.angular = function (module) {
+  var app = this.app;
+  var tm = this.tm;
 
-    self.app.id.register();
-  });
+  module.controller('RegisterCtrl', function ($scope)
+  {
+    $scope.submitForm = function()
+    {
+      app.id.register($scope.username, $scope.password1, function(){
+        tm.gotoTab('my-ripple');
+      });
+    }
+  })
 };
 
 module.exports = RegisterTab;

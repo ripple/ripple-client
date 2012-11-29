@@ -32,10 +32,22 @@ BlobObj.get = function(backend, user, pass, callback)
   });
 };
 
+BlobObj.set = function(backend, hash, data, callback)
+{
+  // TODO code duplication. see BlobObj.get
+  if ("string" === typeof backend) {
+    backend = BlobObj.backends[backend];
+  }
+
+  // TODO callback
+  backend.set(hash, data, callback);
+};
+
 BlobObj.decrypt = function (priv, ciphertext)
 {
   var blob = new BlobObj();
   blob.data = JSON.parse(sjcl.decrypt(priv, ciphertext));
+  // TODO unescape is deprecated
   blob.meta = JSON.parse(unescape(JSON.parse(ciphertext).adata));
   return blob;
 };
@@ -50,9 +62,13 @@ var VaultBlobBackend = {
       .error(webutil.getAjaxErrorHandler(callback, "BlobVault GET"));
   },
 
-  set: function (key, value)
+  set: function (key, value, callback)
   {
-    $.post('http://' + Options.BLOBVAULT_SERVER + '/' + key, value);
+    $.post('http://' + Options.BLOBVAULT_SERVER + '/' + key, { blob: value })
+      .success(function (data) {
+        callback(null, data);
+      })
+      .error(webutil.getAjaxErrorHandler(callback, "BlobVault SET"));
   }
 };
 

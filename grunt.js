@@ -59,7 +59,10 @@ module.exports = function(grunt) {
               "deps/js/underscore.js",
               "deps/js/angular.js",
               "deps/js/store.js",
-              "deps/js/ripple.js"],
+              "deps/js/ripple.js",
+              "deps/js/jsbn.js",
+              "deps/js/sha.js",
+              "deps/js/crypto.js"],
         dest: 'build/dist/deps-debug.js'
       }
     },
@@ -74,7 +77,10 @@ module.exports = function(grunt) {
               "deps/js/underscore.js",
               "deps/js/angular.js",
               "deps/js/store.js",
-              "deps/js/ripple.js"],
+              "deps/js/ripple.js",
+              "deps/js/jsbn.js",
+              "deps/js/sha.js",
+              "deps/js/crypto.js"],
         dest: 'build/dist/deps.js'
       }
     },
