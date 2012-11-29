@@ -28,6 +28,10 @@ SendTab.prototype.angular = function (module)
       if ($scope.sendform) $scope.sendform.$setPristine(true);
     };
     $scope.send = function () {
+      if ($scope.sendform.$invalid) {
+        // TODO: If form is not valid, force all errors to appear, then return.
+        return;
+      }
       var amount = ripple.Amount.from_human(""+$scope.amount+" "+$scope.currency);
 
       $scope.amount_feedback = amount.to_human();
