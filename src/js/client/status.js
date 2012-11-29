@@ -29,6 +29,10 @@ StatusManager.prototype.init = function ()
     self.el.appendTo('header');
   });
 
+  app.id.on('userchange', function (e) {
+    $scope.username = e.username;
+  });
+
   // A notification might have been queued already before the app was fully
   // initialized. If so, we display it now.
   if (this.queue.length) this._tick();

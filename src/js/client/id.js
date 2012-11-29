@@ -33,6 +33,12 @@ Id.prototype.setApp = function (app)
   this.app = app;
 };
 
+Id.prototype.setUsername = function (username)
+{
+  this.username = username;
+  this.emit('userchange', {username: username});
+};
+
 Id.prototype.setAccount = function (accId, accKey)
 {
   if (this.account !== null) {
@@ -71,6 +77,7 @@ Id.prototype.register = function (username, password, callback)
 
   // Add user to blob
   blob.set('vault',hash,btoa(ct),function(){
+    self.setUsername(username);
     self.setAccount(self.data.account_id, self.data.master_seed);
     store.set('ripple_known', true);
     callback();
@@ -83,6 +90,7 @@ Id.prototype.login = function (username,password,callback)
 
   blob.get('vault', username, password, function (err, blob) {
     if (blob.data.account_id) {
+      self.setUsername(username);
       self.setAccount(blob.data.account_id, blob.data.master_seed);
       callback(true);
     } else {
