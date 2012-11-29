@@ -22,6 +22,11 @@ app.setModel(model);
 app.setStatusManager(sm);
 var rippleclient = window.rippleclient = app;
 
+// Some backwards compatibility
+if (!Options.blobvault) {
+  Options.blobvault = Options.BLOBVAULT_SERVER;
+}
+
 angular.injector(['ng', 'filters']).invoke(['$rootScope', '$compile', function($rootScope, $compile) {
   var scope = $rootScope.$new();
   app.setAngular(scope, $compile);

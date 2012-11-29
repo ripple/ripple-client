@@ -55,7 +55,7 @@ BlobObj.decrypt = function (priv, ciphertext)
 var VaultBlobBackend = {
   get: function (key, callback)
   {
-    $.get('http://' + Options.BLOBVAULT_SERVER + '/' + key)
+    $.get('http://' + Options.blobvault + '/' + key)
       .success(function (data) {
         callback(null, data);
       })
@@ -64,7 +64,7 @@ var VaultBlobBackend = {
 
   set: function (key, value, callback)
   {
-    $.post('http://' + Options.BLOBVAULT_SERVER + '/' + key, { blob: value })
+    $.post('http://' + Options.blobvault + '/' + key, { blob: value })
       .success(function (data) {
         callback(null, data);
       })

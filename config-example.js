@@ -1,23 +1,20 @@
-var BALANCE_DISPLAY_DIVISOR = 1000000,
+/**
+ * Ripple Client Configuration
+ *
+ * Copy this file to config.js and edit to suit your preferences.
+ */
+var Options = {
+  server: {
+    "trusted" : true,
+    "websocket_ip" : "127.0.0.1",
+    "websocket_port" : 5006,
+    "websocket_ssl" : false
+  },
+  blobvault : "54.243.129.146:80"
+};
 
-    NUM_RECENT_ADDRESSES = 10;
-
-var Options = _.defaults(
-  JSON.parse(localStorage.opts || "{}"),
-  {
-    server: {
-      "trusted" : true,
-      "websocket_ip" : "127.0.0.1",
-      "websocket_port" : 5006,
-      "websocket_ssl" : false
-    },
-    BLOBVAULT_SERVER : "localhost:51235",
-
-    save : function () {
-      var o = _.clone(this);
-      delete o.save;
-      localStorage.opts = JSON.stringify(o);
-    }
-  }
-);
+// Load client-side overrides
+if (store.enabled) {
+  $.extend(true, Options, JSON.parse(store.get('ripple_settings') || "{}"));
+}
 
