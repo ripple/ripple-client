@@ -36,7 +36,6 @@ module.directive('address', function () {
       if (!ctrl) return;
 
       var validator = function(value) {
-        console.log('a');
         var UInt160 = new ripple.UInt160();
 
         if (UInt160.parse_json(value)._value) {
