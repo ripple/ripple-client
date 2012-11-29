@@ -1,12 +1,11 @@
-section.panel.content
-  div.heading Feed
+section.panel.content(ng-controller="FeedCtrl")
   table.spaceTable
     tr
       td Ledger 
-        input#FeedLedgerCheckbox(type="checkbox")
+        input#FeedLedgerCheckbox(type="checkbox", ng-click='toggle_feed_ledger()', ng-model="ledgerCheck")
       td Transactions 
-        input#FeedTransactionsCheckbox(type="checkbox") 
+        input#FeedTransactionsCheckbox(type="checkbox", ng-click='toggle_feed_transactions()') 
       td Server 
-        input#FeedServerCheckbox(type="checkbox") 
-      td: button#FeedClearButton.btn.btn-danger Clear Feed
+        input#FeedServerCheckbox(type="checkbox", ng-click='toggle_feed_server()') 
+      td: button.btn.btn-danger(ng-click='clear_feed()') Clear Feed
   div#FeedArea
