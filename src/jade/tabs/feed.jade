@@ -8,4 +8,17 @@ section.panel.content(ng-controller="FeedCtrl")
       td Server 
         input#FeedServerCheckbox(type="checkbox", ng-click='toggle_feed_server()') 
       td: button.btn.btn-danger(ng-click='clear_feed()') Clear Feed
-  div#FeedArea
+  table.table
+    thead
+      tr
+        th.date Date
+        th.type Type
+        th.msg Message
+    tbody
+      tr(ng-repeat="entry in feed", class="{{entry.type}}")
+        td.date {{entry.date}}
+        td.type {{entry.type}}
+        td.msg  {{entry.msg}}
+      tr(ng-show="!feed.length")
+        td(colspan="3")
+          span.literal Nothing in feed yet. So hungry.
