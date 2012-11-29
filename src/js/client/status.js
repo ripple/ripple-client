@@ -32,6 +32,11 @@ StatusManager.prototype.init = function ()
   // A notification might have been queued already before the app was fully
   // initialized. If so, we display it now.
   if (this.queue.length) this._tick();
+
+  self.notifyEl = $('<div>').attr('id', 'notification').insertAfter(this.el);
+  $(window).scroll(function () {
+    self.notifyEl.css('top', Math.max(55, $(window).scrollTop()-47)+'px');
+  });
 };
 
 StatusManager.prototype.setApp = function (app)
@@ -83,7 +88,7 @@ StatusManager.prototype._tick = function ()
     el.addClass('type-'+next.type);
     el.addClass('notification');
     el.html(next.message);
-    el.insertAfter(this.el);
+    el.appendTo(this.notifyEl);
     setTimeout(function () {
       el.addClass('active');
     }, 0);
