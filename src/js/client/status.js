@@ -115,7 +115,7 @@ StatusManager.prototype.setupNetworkNotices = function ()
   var app = this.app;
   var remote = this.app.net.remote;
 
-  remote.on('account', function (msg) {
+  remote.on('net_account', function (msg) {
     var tx = rewriter.processTxn(msg.transaction, msg.meta, app.id.account);
     var $scope = app.$scope.$new();
     $scope.tx = tx;

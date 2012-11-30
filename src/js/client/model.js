@@ -42,7 +42,7 @@ Model.prototype.handleAccountLoad = function (e)
   remote.request_wallet_accounts(e.secret)
     .on('success', this.handleAccounts.bind(this)).request();
 
-  remote.on('account', this.handleAccountEvent.bind(this));
+  remote.on('net_account', this.handleAccountEvent.bind(this));
 
   var $scope = this.app.$scope;
   $scope.address = e.account;
