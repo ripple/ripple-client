@@ -28,11 +28,10 @@ TrustTab.prototype.angular = function (module)
     ];
     $scope.currency = $scope.currencies[0];
 
-
-    $scope.show_form = function ()
+    $scope.toggle_form = function ()
     {
-      $scope.addform_visible = true;
-    };
+      $scope.addform_visible = !$scope.addform_visible;
+    }
 
     $scope.grant = function ()
     {

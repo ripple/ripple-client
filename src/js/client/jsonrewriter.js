@@ -44,8 +44,7 @@ var JsonRewriter = module.exports = {
         tx.LimitAmount.issuer :
         tx.Account;
 
-      // XXX: Disabled for now
-      return null;
+      break;
     default:
       console.log('Unknown transaction type: "'+tx.TransactionType+'"', tx);
       return null;

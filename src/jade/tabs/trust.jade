@@ -6,7 +6,8 @@ section.panel.content(ng-controller="TrustCtrl")
         th Currency
         th Trust level
         th.action
-          a(ng-click='show_form()') add
+          a(ng-click='toggle_form()', ng-hide='addform_visible') add
+          a(ng-click='toggle_form()', ng-show='addform_visible') hide
     tbody
       tr(ng-show='addform_visible')
         td(colspan=4)
