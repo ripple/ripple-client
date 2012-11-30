@@ -234,26 +234,31 @@ html.t-my-ripple header nav ul > li.active#nav-account > a:after {
   }
 
   table .date {
-    width: 22%;
+    width: 20%;
   }
 
   table .counterparty {
-    width: 43%;
+    width: 40%;
   }
 
   table .amount {
     width: 18%;
   }
 
-  table td.amount {
+  table td.amount, table td.balance {
     text-align: right;
     .currency {
-      float: left;
+      float: right;
+      padding-left: 5px;
+      //color: #999;
+      opacity: 0.5;
+      font-weight: bold;
+      font-family: mono;
     }
   }
 
   table .balance {
-    width: 15%;
+    width: 19%;
   }
 }
 

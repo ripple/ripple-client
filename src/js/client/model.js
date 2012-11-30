@@ -1,5 +1,6 @@
 var util = require('util'),
-    events = require('events');
+    events = require('events'),
+    rewriter = require('./jsonrewriter');
 
 /**
  * Class listening to Ripple network state and updating models.
@@ -41,6 +42,8 @@ Model.prototype.handleAccountLoad = function (e)
   remote.request_wallet_accounts(e.secret)
     .on('success', this.handleAccounts.bind(this)).request();
 
+  remote.on('account', this.handleAccountEvent.bind(this));
+
   var $scope = this.app.$scope;
   $scope.address = e.account;
 };
@@ -70,42 +73,38 @@ Model.prototype.handleAccounts = function (data)
 
 Model.prototype.handleAccountTx = function (account, data)
 {
+  var self = this;
+
   var $scope = this.app.$scope;
   $scope.$apply(function () {
-    if (!data.transactions) {
-      $scope.history = [];
-      return;
+    $scope.history = [];
+    if (data.transactions) {
+      var transactions = data.transactions.forEach(function (e) {
+        self._processTxn(e.tx, e.meta);
+      });
     }
-    var transactions = data.transactions.map(function (e) {
-      var historyEntry = {};
-      historyEntry.fee = e.Fee;
-      switch (e.TransactionType) {
-      case 'Payment':
-        historyEntry.type = e.Account === account ?
-          'sent' :
-          'received';
-        historyEntry.counterparty = e.Account === account ?
-          e.Destination :
-          e.Account;
-        historyEntry.amount = e.Amount;
-        historyEntry.currency = "XRP";
-        break;
-      case 'TrustSet':
-        historyEntry.type = 'other';
-        historyEntry.counterparty = e.Account === account ?
-          e.LimitAmount.issuer :
-          e.Account;
-        return null;
-      default:
-        console.log('Unknown transaction type: "'+e.TransactionType+'"', e);
-        return null;
-      }
-      return historyEntry;
-    });
-    $scope.history = transactions.filter(function (e) {
-      return e !== null;
-    });
   });
+};
+
+Model.prototype.handleAccountEvent = function (e)
+{
+  this._processTxn(e.transaction, e.meta);
+  var $scope = this.app.$scope;
+  $scope.$digest();
+};
+
+/**
+ * Process a transaction and add it to the history table.
+ */
+Model.prototype._processTxn = function (tx, meta)
+{
+  var $scope = this.app.$scope;
+
+  var account = this.app.id.account;
+
+  var historyEntry = rewriter.processTxn(tx, meta, account);
+
+  $scope.history.unshift(historyEntry);
 };
 
 exports.Model = Model;
