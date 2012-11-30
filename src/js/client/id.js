@@ -20,6 +20,12 @@ util.inherits(Id, events.EventEmitter);
 
 Id.prototype.init = function ()
 {
+  // Initializing sjcl.random doesn't really belong here, but there is no other
+  // good place for it yet.
+  for (var i = 0; i < 8; i++) {
+    sjcl.random.addEntropy(Math.random(), 32, "Math.random()");
+  }
+
   if (Options.persistent_auth && !!store.get('ripple_auth')) {
     var auth = store.get('ripple_auth');
 
