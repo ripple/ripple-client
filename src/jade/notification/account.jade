@@ -1,0 +1,6 @@
+case tx.type
+  when "sent"
+    .type-info
+      | You sent Bob 
+      span.number {{tx.amount | rpamount}}
+      span.currency  XRP

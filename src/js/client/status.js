@@ -1,4 +1,5 @@
-var webutil = require('./webutil');
+var webutil = require('./webutil'),
+    rewriter = require('./jsonrewriter');
 
 /**
  * Manages the notifications appearing in the top right status box.
@@ -41,6 +42,8 @@ StatusManager.prototype.init = function ()
   $(window).scroll(function () {
     self.notifyEl.css('top', Math.max(55, $(window).scrollTop()-47)+'px');
   });
+
+  this.setupNetworkNotices();
 };
 
 StatusManager.prototype.setApp = function (app)
@@ -88,10 +91,8 @@ StatusManager.prototype._tick = function ()
     // Show next status message
     var next = this.queue.shift();
 
-    var el = $("<div>");
-    el.addClass('type-'+next.type);
+    var el = $(next.message);
     el.addClass('notification');
-    el.html(next.message);
     el.appendTo(this.notifyEl);
     setTimeout(function () {
       el.addClass('active');
@@ -102,6 +103,33 @@ StatusManager.prototype._tick = function ()
     this.tickUpcoming = true;
     setTimeout(this._tick.bind(this), this.tickInterval);
   }
+};
+
+StatusManager.tplAccount = require('../../jade/notification/account.jade');
+
+/**
+ * Listens to and graphically displays some network-related notifications.
+ */
+StatusManager.prototype.setupNetworkNotices = function ()
+{
+  var app = this.app;
+  var remote = this.app.net.remote;
+
+  remote.on('account', function (msg) {
+    var tx = rewriter.processTxn(msg.transaction, msg.meta, app.id.account);
+    var $scope = app.$scope.$new();
+    $scope.tx = tx;
+
+    var html = StatusManager.tplAccount($scope);
+
+    if (html.length) {
+      app.sm.create(app.$compile(html)($scope)).queue();
+    }
+
+    if ("undefined" !== typeof tx.balance) {
+      app.$scope.balance = tx.balance;
+    }
+  });
 };
 
 

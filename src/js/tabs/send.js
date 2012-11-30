@@ -56,7 +56,6 @@ SendTab.prototype.angular = function (module)
       tx.on('success', function () {
         $scope.reset();
         $scope.$digest();
-        app.sm.create('You sent Bob <span class="number">3,500</span><span class="currency">XRP</span>', "info").queue();
       });
       tx.on('error', function () {
         $scope.mode = "error";

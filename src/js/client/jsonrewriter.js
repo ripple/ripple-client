@@ -22,6 +22,11 @@ var JsonRewriter = module.exports = {
     var obj = {};
     obj.fee = tx.Fee;
     obj.date = (tx.date + 0x386D4380) * 1000;
+
+    if (accountData) {
+      obj.balance = accountData.Balance;
+    }
+
     switch (tx.TransactionType) {
     case 'Payment':
       obj.type = tx.Account === account ?
@@ -32,7 +37,6 @@ var JsonRewriter = module.exports = {
         tx.Account;
       obj.amount = tx.Amount;
       obj.currency = "XRP";
-      obj.balance = accountData.Balance;
       break;
     case 'TrustSet':
       obj.type = 'other';
