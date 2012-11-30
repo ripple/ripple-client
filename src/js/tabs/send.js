@@ -25,6 +25,7 @@ SendTab.prototype.angular = function (module)
       $scope.recipient = '';
       $scope.amount = '';
       $scope.currency = 'XRP';
+      $scope.nickname = '';
       if ($scope.sendform) $scope.sendform.$setPristine(true);
     };
     $scope.send = function () {

@@ -13,7 +13,7 @@ section#t-send.single.content(ng-controller='SendCtrl')
     input#send_destination(name='send_destination', type='text', ng-model='recipient', required)
     div.error(ng-show='sendform.send_destination.$error.required && !sendform.send_destination.$pristine') Please enter a recipient.
     label(for='send_nickname') Nickname for this user
-    input#send_nickname(name='send_nickname', type='text', placeholder='Optional')
+    input#send_nickname(name='send_nickname', type='text', placeholder='Optional', ng-model='nickname')
     div.submitsection
       button.btn.btn-success.submit(type='submit') Send
   group.mode-confirm(ng-show='mode=="confirm"')
