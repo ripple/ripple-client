@@ -12,15 +12,19 @@ var TabManager = function ()
 
 TabManager.prototype.init = function ()
 {
-  if (this.app.id.isReturning()) {
-    console.log("returning user");
+  if (this.app.id.isLoggedIn()) {
+    console.log("client: logged in");
     try {
       if (location.hash.length < 2) throw "nohash";
 
       this.handleHashChange();
     } catch (e) {
-      this.gotoTab("login");
+      this.gotoTab("my-ripple");
     }
+  } else if (this.app.id.isReturning()) {
+    console.log("client: returning user");
+
+    this.gotoTab("login");
   } else {
     this.gotoTab("register");
   }

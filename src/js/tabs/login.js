@@ -28,7 +28,8 @@ LoginTab.prototype.angular = function (module) {
 
     $scope.submitForm = function()
     {
-      app.id.login($scope.username, $scope.password, function(success){
+      app.id.login($scope.username, $scope.password, function(err, success) {
+        // XXX: Handle err
         if (success) {
           tm.gotoTab('my-ripple');
         } else {

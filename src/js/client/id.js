@@ -13,19 +13,20 @@ var Id = function ()
 {
   events.EventEmitter.call(this);
 
-  this.online = true;
   this.account = null;
-
-  if (!store || !store.enabled) {
-    console.warn("No persistence available!");
-    this.online = false;
-    // XXX This case isn't really handled yet
-  }
+  this.loginStatus = false;
 };
 util.inherits(Id, events.EventEmitter);
 
 Id.prototype.init = function ()
 {
+  if (Options.persistent_auth && !!store.get('ripple_auth')) {
+    var auth = store.get('ripple_auth');
+
+    this.login(auth.username, auth.password);
+    console.log("Login status set");
+    this.loginStatus = true;
+  }
 };
 
 Id.prototype.setApp = function (app)
@@ -53,9 +54,24 @@ Id.prototype.isReturning = function ()
   return !!store.get('ripple_known');
 };
 
+Id.prototype.isLoggedIn = function ()
+{
+  console.log("Login status checked");
+  return this.loginStatus;
+};
+
+Id.prototype.storeLogin = function (username, password)
+{
+  if (Options.persistent_auth) {
+    store.set('ripple_auth', {username: username, password: password});
+  }
+}
+
 Id.prototype.register = function (username, password, callback)
 {
   var self = this;
+
+  if ("function" !== typeof callback) callback = $.noop;
 
   self.data = {
     master_seed: Base58Utils.encode_base_check(33, sjcl.codec.bytes.fromBits(sjcl.random.randomWords(4)))
@@ -79,6 +95,8 @@ Id.prototype.register = function (username, password, callback)
   blob.set('vault',hash,btoa(ct),function(){
     self.setUsername(username);
     self.setAccount(self.data.account_id, self.data.master_seed);
+    self.storeLogin(username, password);
+    self.loginStatus = true;
     store.set('ripple_known', true);
     callback();
   });
@@ -88,17 +106,26 @@ Id.prototype.login = function (username,password,callback)
 {
   var self = this;
 
+  if ("function" !== typeof callback) callback = $.noop;
+
   blob.get('vault', username, password, function (err, blob) {
+    if (err) {
+      callback(err);
+      return;
+    }
     if (blob.data.account_id) {
       self.setUsername(username);
       self.setAccount(blob.data.account_id, blob.data.master_seed);
-      callback(true);
-    } else {
-      callback();
+      self.storeLogin(username, password);
+      self.loginStatus = true;
+      console.log("Login status set");
+      store.set('ripple_known', true);
     }
-  })
+    if ("function" === typeof callback) {
+      callback(null, !!blob.data.account_id);
+    }
+  });
 
-  store.set('ripple_known', true);
 };
 
 module.exports.Id = Id;
