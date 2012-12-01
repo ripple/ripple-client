@@ -46,6 +46,8 @@ var JsonRewriter = module.exports = {
       obj.counterparty = tx.Account === account ?
         tx.LimitAmount.issuer :
         tx.Account;
+      obj.amount=tx.LimitAmount.value;
+      obj.currency = tx.LimitAmount.currency;
 
       break;
     default:
