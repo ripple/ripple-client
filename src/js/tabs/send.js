@@ -16,10 +16,19 @@ SendTab.prototype.generateHtml = function ()
   return require('../../jade/tabs/send.jade')();
 };
 
+SendTab.prototype.angularDeps = ['directives'];
+
 SendTab.prototype.angular = function (module)
 {
   var app = this.app;
   module.controller('SendCtrl', ['$scope', '$timeout', function ($scope, $timeout) {
+
+    $scope.query_dest = function (match) {
+      return ['Alice','Antony','Bob','Charlie','Chandra'].filter(function (v) {
+        return v.toLowerCase().match(match.toLowerCase());
+      });
+    };
+
     $scope.reset = function () {
       $scope.mode = "form";
       $scope.recipient = '';
@@ -28,6 +37,7 @@ SendTab.prototype.angular = function (module)
       $scope.nickname = '';
       if ($scope.sendform) $scope.sendform.$setPristine(true);
     };
+
     $scope.send = function () {
       if ($scope.sendform.$invalid) {
         // TODO: If form is not valid, force all errors to appear, then return.
