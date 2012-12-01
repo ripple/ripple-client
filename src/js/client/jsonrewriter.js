@@ -48,6 +48,29 @@ var JsonRewriter = module.exports = {
         tx.Account;
       obj.amount=tx.LimitAmount.value;
       obj.currency = tx.LimitAmount.currency;
+      // actually this is just the balance of one line so it isn't what we want.
+      // We can't actually do this
+      if(meta.AffectedNodes)
+      {
+        for(var n=0; n<meta.AffectedNodes.length; n++)
+        {
+          if(meta.AffectedNodes[n].ModifiedNode)
+          {
+            if(meta.AffectedNodes[n].ModifiedNode.LedgerEntryType === "RippleState")
+            {
+              obj.balance=meta.AffectedNodes[n].ModifiedNode.FinalFields.Balance.value;
+              break;
+            }
+          }else if(meta.AffectedNodes[n].CreatedNode)
+          {
+            if(meta.AffectedNodes[n].CreatedNode.LedgerEntryType === "RippleState")
+            {
+              obj.balance=meta.AffectedNodes[n].CreatedNode.NewFields.Balance.value;
+              break;
+            }
+          }
+        }
+      }
 
       break;
     default:
