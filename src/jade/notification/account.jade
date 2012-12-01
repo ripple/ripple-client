@@ -3,9 +3,9 @@ case tx.type
     .type-info
       | You sent Bob 
       span.number {{tx.amount | rpamount}}
-      span.currency  XRP
+      span.currency  {{tx.currency}}
   when "received"
     .type-success
       | Bob sent you 
       span.number {{tx.amount | rpamount}}
-      span.currency  XRP
+      span.currency  {{tx.currency}}
