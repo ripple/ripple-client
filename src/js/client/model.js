@@ -16,28 +16,12 @@ util.inherits(Model, events.EventEmitter);
 
 Model.prototype.init = function ()
 {
-  this.app.$scope.balance = "0";
-  
-  this.app.$scope.currencies = [
-    {name: 'US Dollars', value: 'USD'},
-    {name: 'Euros', value: 'EUR'},
-    {name: 'Bitcoins', value: 'BTC'},
-    {name: 'Russian Rubles', value: 'RUB'},
-    {name: 'Japanese Yen', value: 'YEN'},
-    {name: 'Mexican Pesos', value: 'MXN'},
-    {name: 'Swiss Franks', value: 'CHF'}
-    ];
-  
-  this.app.$scope.currenciesAll = [
-    {name: 'Ripple Credits', value: 'XRP'},
-    {name: 'US Dollars', value: 'USD'},
-    {name: 'Euros', value: 'EUR'},
-    {name: 'Bitcoins', value: 'BTC'},
-    {name: 'Russian Rubles', value: 'RUB'},
-    {name: 'Japanese Yen', value: 'YEN'},
-    {name: 'Mexican Pesos', value: 'MXN'},
-    {name: 'Swiss Franks', value: 'CHF'}
-    ];
+  var $scope = this.app.$scope;
+
+  $scope.balance = "0";
+
+  $scope.currenciesAll = require('../data/currencies');
+  $scope.currencies = $scope.currenciesAll.slice(1);
 };
 
 Model.prototype.setApp = function (app)
