@@ -22,6 +22,9 @@ Model.prototype.init = function ()
     {name: 'US Dollars', value: 'USD'},
     {name: 'Euros', value: 'EUR'},
     {name: 'Bitcoins', value: 'BTC'},
+    {name: 'Russian Rubles', value: 'RUB'},
+    {name: 'Japanese Yen', value: 'YEN'},
+    {name: 'Mexican Pesos', value: 'MXN'},
     {name: 'Swiss Franks', value: 'CHF'}
     ];
   
@@ -30,6 +33,9 @@ Model.prototype.init = function ()
     {name: 'US Dollars', value: 'USD'},
     {name: 'Euros', value: 'EUR'},
     {name: 'Bitcoins', value: 'BTC'},
+    {name: 'Russian Rubles', value: 'RUB'},
+    {name: 'Japanese Yen', value: 'YEN'},
+    {name: 'Mexican Pesos', value: 'MXN'},
     {name: 'Swiss Franks', value: 'CHF'}
     ];
 };
@@ -192,7 +198,7 @@ Model.prototype._updateLines= function(meta,account)
             obj.limit_peer=meta.AffectedNodes[n].CreatedNode.NewFields.HighLimit.value;
           }else return;  
           
-          $scope.lines[obj.account]=obj;
+          $scope.lines[obj.account+obj.currency]=obj;
         }
       }
     }

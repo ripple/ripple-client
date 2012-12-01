@@ -1,19 +1,15 @@
 section.panel.content(ng-controller="OrderbookCtrl")
-  select(ng-model='nexus', ng-change='changeNexus()') 
-  Chosen Nexus 
+  input#send_destination(name='send_destination', type='text', ng-model='nexus', required, rp-combobox="query_dest", ng-change='changeNexus()')
+  Nexus 
   table
     tr
       td
-        select(ng-model='buy_currency', ng-change='changePair()')
-          option USD
-          option EUR
+        select(ng-model='buy_currency', ng-change='changePair()', ng-options='c.name for c in currencies')
       td for
       td
-        select(ng-model='sell_currency', ng-change='changePair()')
-          option USD
-          option EUR
+        select(ng-model='sell_currency', ng-change='changePair()', ng-options='c.name for c in currencies')
 
-  p Selling {{buy_currency}}/{{sell_currency}} (asks)
+  p Selling {{buy_currency.value}}/{{sell_currency.value}} (asks)
   table.table.table-striped
     tr
       th Price
@@ -22,7 +18,7 @@ section.panel.content(ng-controller="OrderbookCtrl")
       th Issuer In
       th Issuer Out
       
-  p Buying {{buy_currency}}/{{sell_currency}} (bids)
+  p Buying {{buy_currency.value}}/{{sell_currency.value}} (bids)
   table.table.table-striped
     tr
       th Unit Price

@@ -20,6 +20,12 @@ OrderBookTab.prototype.angular = function(module)
 {
   module.controller('OrderbookCtrl', function ($scope)
   {    
+    $scope.query_dest = function (match) {
+      return ['Alice','Antony','Bob','Charlie','Chandra'].filter(function (v) {
+        return v.toLowerCase().match(match.toLowerCase());
+      });
+    };
+    
     $scope.changeNexus = function () 
     {
       
