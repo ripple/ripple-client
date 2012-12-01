@@ -8,6 +8,7 @@ var JsonRewriter = module.exports = {
   processTxn: function (tx, meta, account) {
     var accountData = {};
 
+    var forUs=false;
     meta.AffectedNodes.forEach(function (n) {
       var node;
       if (n.CreatedNode) node = n.CreatedNode.NewFields;
@@ -16,8 +17,10 @@ var JsonRewriter = module.exports = {
 
       if (node.Account === account) {
         accountData = node;
+        forUs=true;
       }
     });
+    if(!forUs) return null; // we could be listening to other accounts besides our own
 
     var obj = {};
     obj.fee = tx.Fee;

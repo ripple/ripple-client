@@ -14,7 +14,7 @@ TradeTab.prototype.generateHtml = function ()
   return require('../../jade/tabs/trade.jade')();
 };
 
-TradeTab.prototype.angular = function (module) 
+TradeTab.prototype.angular = function(module) 
 {
   module.controller('TradeCtrl', function ($scope)
   {
@@ -36,7 +36,17 @@ TradeTab.prototype.angular = function (module)
       $scope.mode = "confirm";
     };
     
-    $scope.order_confirmed = function () {
+    $scope.changePair =function()
+    {
+      //console.log("here");
+      if($scope.buy_currency && $scope.sell_currency)
+      { // TODO: need to fetch the ticker
+        
+      }
+    }
+    
+    $scope.order_confirmed = function () 
+    {
      /* var amount = ripple.Amount.from_human(""+$scope.amount);
 
       var tx = app.net.remote.transaction();

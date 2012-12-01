@@ -17,6 +17,21 @@ util.inherits(Model, events.EventEmitter);
 Model.prototype.init = function ()
 {
   this.app.$scope.balance = "0";
+  
+  this.app.$scope.currencies = [
+    {name: 'US Dollars', value: 'USD'},
+    {name: 'Euros', value: 'EUR'},
+    {name: 'Bitcoins', value: 'BTC'},
+    {name: 'Swiss Franks', value: 'CHF'}
+    ];
+  
+  this.app.$scope.currenciesAll = [
+    {name: 'Ripple Credits', value: 'XRP'},
+    {name: 'US Dollars', value: 'USD'},
+    {name: 'Euros', value: 'EUR'},
+    {name: 'Bitcoins', value: 'BTC'},
+    {name: 'Swiss Franks', value: 'CHF'}
+    ];
 };
 
 Model.prototype.setApp = function (app)
@@ -50,11 +65,15 @@ Model.prototype.handleAccountLoad = function (e)
 
 Model.prototype.handleRippleLines = function (data)
 {
-  // XXX This is just temporary, we should aim for something cleaner
   var $scope = this.app.$scope;
-  $scope.$apply(function () {
-    $scope.lines = data.lines;
-    console.log('Lines updated:', $scope.lines);
+  $scope.$apply(function () 
+  {
+    $scope.lines={};
+    for(var n=0; n<data.lines.length; n++)
+    {
+      $scope.lines[data.lines.account] = data.lines;
+    }
+    //console.log('Lines updated:', $scope.lines);
   });
 };
 
@@ -105,6 +124,45 @@ Model.prototype._processTxn = function (tx, meta)
   var historyEntry = rewriter.processTxn(tx, meta, account);
 
   $scope.history.unshift(historyEntry);
+  
+  if(tx.TransactionType === "TrustSet" ) this._updateLines(meta,account);
 };
+
+/*
+account: "rHMq44aXmd9wEYHK84VyiZyx8SP6VbpzNV"
+balance: "0"
+currency: "USD"
+limit: "2000"
+limit_peer: "0"
+quality_in: 0
+quality_out: 0
+ */
+Model.prototype._updateLines= function(meta,account)
+{
+  console.log(meta);
+  var $scope = this.app.$scope;
+  
+  if(meta.AffectedNodes)
+  {
+    for(var n=0; n<meta.AffectedNodes.length; n++)
+    {
+      if(meta.AffectedNodes[n].ModifiedNode)
+      {
+        if(meta.AffectedNodes[n].ModifiedNode.LedgerEntryType === "RippleState")
+        {
+          
+        }
+      }else if(meta.AffectedNodes[n].CreatedNode)
+      {
+        if(meta.AffectedNodes[n].CreatedNode.LedgerEntryType === "RippleState")
+        {
+          var obj = {};
+          obj.account="hello";
+          $scope.lines[obj.account]=obj;
+        }
+      }
+    }
+  }
+}
 
 exports.Model = Model;

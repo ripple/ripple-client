@@ -1,13 +1,19 @@
-section#t-orderbook.tab-pane.panel.content
+section.panel.content(ng-controller="OrderbookCtrl")
+  select(ng-model='nexus', ng-change='changeNexus()') 
+  Chosen Nexus 
   table
     tr
-      td: select#OrderBookBuyCurrency
+      td
+        select(ng-model='buy_currency', ng-change='changePair()')
+          option USD
+          option EUR
       td for
-      td: select#OrderBookSellCurrency
-  p Show only direct issuers <input type="checkbox" id="OrderBookOnlyDirect" />
-            
+      td
+        select(ng-model='sell_currency', ng-change='changePair()')
+          option USD
+          option EUR
 
-  p#OrderBookAsksLegend Selling X/Y (asks)
+  p Selling {{buy_currency}}/{{sell_currency}} (asks)
   table.table.table-striped
     tr
       th Price
@@ -16,7 +22,7 @@ section#t-orderbook.tab-pane.panel.content
       th Issuer In
       th Issuer Out
       
-  p#OrderBookBidsLegend Buying X/Y (bids)
+  p Buying {{buy_currency}}/{{sell_currency}} (bids)
   table.table.table-striped
     tr
       th Unit Price

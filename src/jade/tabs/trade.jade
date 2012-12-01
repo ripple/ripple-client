@@ -13,10 +13,11 @@ section.panel.content(ng-controller="TradeCtrl")
       p.literal Place Order
       hr
       label(for='sell_currency') Sell Currency: 
-        select.currency#sell_currency(name='sell_currency', ng-model='sell_currency')
+        select.currency#sell_currency(name='sell_currency', ng-model='sell_currency', ng-change='changePair()')
           option USD
+          option EUR
       label(for='buy_currency') Buy Currency: 
-        select.currency#sell_currency(name='buy_currency', ng-model='buy_currency')
+        select.currency#sell_currency(name='buy_currency', ng-model='buy_currency', ng-change='changePair()')
           option XRP
       label(for='order_amount') Amount To Sell: 
         input#order_amount(name='order_amount', type='number', step='any', ng-model='order_amount', ng-pattern='/^[0-9.]+$/', required)

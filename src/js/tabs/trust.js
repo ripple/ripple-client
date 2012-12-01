@@ -23,9 +23,7 @@ TrustTab.prototype.angular = function (module)
   var self = this;
 
   module.controller('TrustCtrl', function ($scope) {
-    $scope.currencies = [
-      {name: 'USD'}
-    ];
+    
     $scope.currency = $scope.currencies[0];
 
     $scope.toggle_form = function ()
