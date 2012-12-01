@@ -7,9 +7,14 @@
     z-index: 20;
   }
 
+  &.active input {
+    border-color: #999;
+    .border-radius(5px, 0, 0, 5px);
+  }
+
   ul.completions {
     position: absolute;
-    top: 36px;
+    top: 41px;
     left: 0;
     right: 0;
     padding: 10px;
@@ -19,17 +24,54 @@
     border-top: 1px solid #ccc;
     background-color: #fff;
     .border-radius(0, 5px, 5px, 0);
-    overflow: hidden;
+    overflow: auto;
+    max-height: 300px;
     z-index: 30;
+    .user-select(none);
 
     li {
       width: auto;
       padding: 5px;
       .rounded(5px);
+      cursor: default;
     }
 
     li:hover {
       background-color: #ddd;
     }
+  }
+
+  .select {
+    position: absolute;
+    top: 1px;
+    right: 1px;
+    height: 40px;
+    width: 40px;
+    z-index: 25;
+    .bw-gradient(#eee, 230, 245);
+    .border-radius(4px, 4px, 0, 0);
+    border-left: 1px solid #ccc;
+    cursor: default;
+    .transition-duration(0.2s);
+
+    &:hover {
+      .bw-gradient(#f9f9f9, 233, 248);
+    }
+
+    &:after {
+      .virtualel;
+      position: absolute;
+      top: 50%;
+      right: 50%;
+      margin: -2px -3px 0 0;
+      border-top: 5px solid black;
+      border-left: solid 4px transparent;
+      border-right: solid 4px transparent;
+    }
+  }
+
+  &.active .select {
+    .border-radius(4px, 0, 0, 0);
+    .bw-gradient(#eee, 245, 230);
   }
 }

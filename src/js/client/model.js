@@ -20,8 +20,8 @@ Model.prototype.init = function ()
 
   $scope.balance = "0";
 
-  $scope.currenciesAll = require('../data/currencies');
-  $scope.currencies = $scope.currenciesAll.slice(1);
+  $scope.currencies_all = require('../data/currencies');
+  $scope.currencies = $scope.currencies_all.slice(1);
 };
 
 Model.prototype.setApp = function (app)

@@ -47,3 +47,21 @@ exports.scrollToTop = function ()
 {
   $("html, body").animate({ scrollTop: 0 }, "fast");
 };
+
+/**
+ * Creates a combobox query function out of a select options array.
+ *
+ * @param options {array} An array of select options like {name: '', value: ''}.
+ */
+exports.queryFromOptions = function (options)
+{
+  return function (match) {
+    return options.map(function (entry) {
+      return entry.name;
+    }).filter(function (name) {
+      return "string" === typeof match
+        ? name.toLowerCase().match(match.toLowerCase())
+        : true;
+    });
+  };
+};

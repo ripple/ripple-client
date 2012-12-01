@@ -140,6 +140,21 @@ module.directive('rpCombobox', [function () {
       var cplEl = $('<ul class="completions"></ul>').hide();
       el.parent().append(cplEl);
 
+      // Explicit select button
+      if (attrs.rpComboboxSelect) {
+        var selectEl = $('<div>').appendTo(el.parent());
+        selectEl.addClass('select');
+        selectEl.click(function () {
+          setCompletions(scope.$eval(attrs.rpCombobox)());
+          if (cplEl.is(':visible')) {
+            setVisible(false);
+          } else {
+            setCompletions(scope.$eval(attrs.rpCombobox)());
+            setVisible(true);
+          }
+        });
+      }
+
       // Listen for keyup events to enable binding
       el.keyup(function() {
         var match = ngModel.$viewValue;
@@ -153,13 +168,7 @@ module.directive('rpCombobox', [function () {
           return;
         }
 
-        cplEl.empty();
-        completions.forEach(function (val) {
-          val = val.replace(re, '<u>$1</u>');
-          var completion = $('<li>'+val+'</li>');
-          el.parent().find('.completions').append(completion);
-        });
-        el.parent().addClass('active');
+        setCompletions(completions, re);
         setVisible(!!cplEl.children().length);
       });
 
@@ -172,7 +181,17 @@ module.directive('rpCombobox', [function () {
       });
 
       function setVisible(to) {
+        el.parent()[to ? 'addClass' : 'removeClass']('active');
         cplEl[to ? 'fadeIn' : 'fadeOut']('fast');
+      }
+
+      function setCompletions(completions, re) {
+        cplEl.empty();
+        completions.forEach(function (val) {
+          if (re) val = val.replace(re, '<u>$1</u>');
+          var completion = $('<li>'+val+'</li>');
+          el.parent().find('.completions').append(completion);
+        });
       }
 
       cplEl.on('click', 'li', function () {
@@ -180,6 +199,7 @@ module.directive('rpCombobox', [function () {
         scope.$apply(function () {
           el.val(val);
           ngModel.$setViewValue(val);
+          setVisible(false);
         });
       });
     }

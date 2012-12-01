@@ -1,6 +1,7 @@
-var util = require('util');
-var Tab = require('../client/tabmanager').Tab;
-var Amount = ripple.Amount;
+var util = require('util'),
+    webutil = require('../client/webutil'),
+    Tab = require('../client/tabmanager').Tab,
+    Amount = ripple.Amount;
 
 var SendTab = function ()
 {
@@ -23,11 +24,13 @@ SendTab.prototype.angular = function (module)
   var app = this.app;
   module.controller('SendCtrl', ['$scope', '$timeout', function ($scope, $timeout) {
 
-    $scope.query_dest = function (match) {
+    $scope.recipient_query = function (match) {
       return ['Alice','Antony','Bob','Charlie','Chandra'].filter(function (v) {
         return v.toLowerCase().match(match.toLowerCase());
       });
     };
+
+    $scope.currency_query = webutil.queryFromOptions($scope.currencies_all);
 
     $scope.reset = function () {
       $scope.mode = "form";
