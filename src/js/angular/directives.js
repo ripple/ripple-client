@@ -122,3 +122,66 @@ module.directive('passValidate', function() {
     }
   };
 });
+
+/**
+ * Combobox input element.
+ *
+ * Adds a autocomplete-like dropdown to an input element.
+ *
+ * @param {string} rpCombobox Pass a function that takes a string and returns
+ *   the matching autocompletions.
+ */
+module.directive('rpCombobox', [function () {
+  return {
+    restrict: 'A',
+    require: '?ngModel',
+    link: function (scope, el, attrs, ngModel) {
+      el.wrap('<div class="rp-combobox">');
+      var cplEl = $('<ul class="completions"></ul>').hide();
+      el.parent().append(cplEl);
+
+      // Listen for keyup events to enable binding
+      el.keyup(function() {
+        var match = ngModel.$viewValue;
+        var re = new RegExp('('+match+')', 'i');
+
+        var completions = match.length ? scope.$eval(attrs.rpCombobox)(match) : [];
+
+        // By fading out without updating the completions we get a smoother effect
+        if (!completions.length) {
+          setVisible(false);
+          return;
+        }
+
+        cplEl.empty();
+        completions.forEach(function (val) {
+          val = val.replace(re, '<u>$1</u>');
+          var completion = $('<li>'+val+'</li>');
+          el.parent().find('.completions').append(completion);
+        });
+        el.parent().addClass('active');
+        setVisible(!!cplEl.children().length);
+      });
+
+      el.focus(function() {
+        setVisible(!!cplEl.children().length);
+      });
+
+      el.blur(function() {
+        setVisible(false);
+      });
+
+      function setVisible(to) {
+        cplEl[to ? 'fadeIn' : 'fadeOut']('fast');
+      }
+
+      cplEl.on('click', 'li', function () {
+        var val = $(this).text();
+        scope.$apply(function () {
+          el.val(val);
+          ngModel.$setViewValue(val);
+        });
+      });
+    }
+  };
+}]);
