@@ -36,7 +36,7 @@ TrustTab.prototype.angular = function (module)
       console.log($scope.amount, $scope.currency,
                   $scope.counterparty);
 
-      var amount = $scope.amount + '/' + $scope.currency.name + '/' + $scope.counterparty;
+      var amount = $scope.amount + '/' + $scope.currency.value + '/' + $scope.counterparty;
       var tx = self.app.net.remote.transaction();
       tx
         .ripple_line_set(self.app.id.account, amount)

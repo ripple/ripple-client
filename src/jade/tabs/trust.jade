@@ -26,7 +26,7 @@ section.panel.content(ng-controller="TrustCtrl")
             div.submitsection
               button.btn.btn-info(type='submit', ng-click='grant()', ng-disabled='sendform.$invalid') Grant Trust
 
-      tr(ng-repeat='line in lines')
+      tr(ng-repeat='(key, line) in lines')
         td {{line.account}}
         td {{line.currency}}
         td {{line.limit_peer}} --- {{line.balance}} --- {{line.limit}}
