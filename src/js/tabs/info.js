@@ -4,7 +4,6 @@ var Tab = require('../client/tabmanager').Tab;
 var InfoTab = function ()
 {
   Tab.call(this);
-  
 };
 
 util.inherits(InfoTab, Tab);
@@ -14,8 +13,5 @@ InfoTab.prototype.generateHtml = function ()
 {
   return require('../../jade/tabs/info.jade')();
 };
-
-
-
 
 module.exports = InfoTab;

@@ -1,6 +1,8 @@
 var util = require('util');
+var webutil = require('../client/webutil');
 var Tab = require('../client/tabmanager').Tab;
 var app = require('../client/app').App.singleton;
+var Amount = ripple.Amount;
 
 var TrustTab = function ()
 {
@@ -24,7 +26,9 @@ TrustTab.prototype.angular = function (module)
 
   module.controller('TrustCtrl', function ($scope) {
     
-    $scope.currency = $scope.currencies[0];
+    $scope.currency_query = webutil.queryFromOptions($scope.currencies);
+    
+    $scope.currency = 'USD';
 
     $scope.toggle_form = function ()
     {

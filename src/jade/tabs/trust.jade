@@ -15,7 +15,7 @@ section.panel.content(ng-controller="TrustCtrl")
             label(for='trust_amount') Amount
             .amount
               input#trust_amount(name='trust_amount', type='number', step='any', ng-model='amount', ng-pattern='/^[0-9.]+$/', required)
-              select.currency#trust_amount_currency(name='trust_amount_currency', ng-model='currency', ng-options='c.name for c in currencies')
+              input.currency#trust_amount_currency(name='trust_amount_currency', type='text', ng-model='currency', rp-combobox="currency_query", rp-combobox-select)
             label(for='trust_counterparty') User
             input#trust_counterparty(name='trust_counterparty', type='text', ng-model='counterparty', required)
             div.submitsection

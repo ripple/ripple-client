@@ -12,10 +12,10 @@ section.panel.content(ng-controller="TradeCtrl")
     form.mode-form(name="orderform")
       p.literal Place Order
       hr
-      label(for='sell_currency') Sell Currency: 
-        select.currency#sell_currency(name='sell_currency', ng-model='sell_currency', ng-change='changePair()', ng-options='c.name for c in currenciesAll')
-      label(for='buy_currency') Buy Currency: 
-        select.currency#sell_currency(name='buy_currency', ng-model='buy_currency', ng-change='changePair()', ng-options='c.name for c in currenciesAll')
+      label(for='sell_currency') Sell Currency:
+        input.currency#sell_currency(name='sell_currency', type='text', ng-model='sell_currency', ng-change='changePair()', rp-combobox="currency_query", rp-combobox-select)
+      label(for='buy_currency') Buy Currency:
+        input.currency#buy_currency(name='buy_currency', type='text', ng-model='buy_currency', ng-change='changePair()', rp-combobox="currency_query", rp-combobox-select)
       label(for='order_amount') Amount To Sell: 
         input#order_amount(name='order_amount', type='number', step='any', ng-model='order_amount', ng-pattern='/^[0-9.]+$/', required)
       .error(ng-show='orderform.order_amount.$error.required') Please enter an amount.

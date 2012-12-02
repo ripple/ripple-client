@@ -1,4 +1,5 @@
 var util = require('util');
+var webutil = require('../client/webutil');
 var Tab = require('../client/tabmanager').Tab;
 
 var OrderBookTab = function ()
@@ -20,6 +21,8 @@ OrderBookTab.prototype.angular = function(module)
 {
   module.controller('OrderbookCtrl', function ($scope)
   {    
+    $scope.currency_query = webutil.queryFromOptions($scope.currencies_all);
+    
     $scope.query_dest = function (match) {
       return ['Alice','Antony','Bob','Charlie','Chandra'].filter(function (v) {
         return v.toLowerCase().match(match.toLowerCase());

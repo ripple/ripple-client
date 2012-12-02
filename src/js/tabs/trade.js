@@ -1,5 +1,7 @@
 var util = require('util');
+var webutil = require('../client/webutil');
 var Tab = require('../client/tabmanager').Tab;
+var Amount = ripple.Amount;
 
 var TradeTab = function ()
 {
@@ -18,6 +20,8 @@ TradeTab.prototype.angular = function(module)
 {
   module.controller('TradeCtrl', function ($scope)
   {
+    $scope.currency_query = webutil.queryFromOptions($scope.currencies_all);
+    
     $scope.reset = function () {
       $scope.mode = "trade";
       $scope.order_amount = '';

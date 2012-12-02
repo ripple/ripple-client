@@ -4,10 +4,10 @@ section.panel.content(ng-controller="OrderbookCtrl")
   table
     tr
       td
-        select(ng-model='buy_currency', ng-change='changePair()', ng-options='c.name for c in currencies')
+        input.currency#buy_currency(name='buy_currency', type='text', ng-model='buy_currency', ng-change='changePair()', rp-combobox="currency_query", rp-combobox-select)
       td for
       td
-        select(ng-model='sell_currency', ng-change='changePair()', ng-options='c.name for c in currencies')
+        input.currency#sell_currency(name='sell_currency', type='text', ng-model='sell_currency', ng-change='changePair()', rp-combobox="currency_query", rp-combobox-select)
 
   p Selling {{buy_currency.value}}/{{sell_currency.value}} (asks)
   table.table.table-striped

@@ -1,0 +1,20 @@
+section.panel.content
+ p.literal <strong>Your information is encrypted and stored on Payward Inc. servers.</strong>
+ p.literal This is your Ripple account information. <strong>PRINT THIS PAGE</strong> and keep it somewhere safe.
+ div.infoBox
+  table
+    tr
+      td Username:
+      td Password:
+    tr 
+      td {{username}}
+      td *****
+    tr: td(colspan="2") Master Key: 
+      a.smallText(href="http://ripple.com/help/key", target="_blank") What is this? 
+    tr: td(colspan="2") {{id.account}}
+    tr: td(colspan="2") Wallet: 
+      a.smallText(href="http://ripple.com/help/wallet", target="_blank") What is this? 
+    tr: td(colspan="2") {{id.account}}
+    
+  p.literal IMPORTANT! There is no way to recover your username and password.   
+    a(href="http://ripple.com/help/password", target="_blank") Read why
