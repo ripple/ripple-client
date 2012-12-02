@@ -129,63 +129,27 @@ quality_out: 0
  */
 Model.prototype._updateLines= function(meta,account)
 {
-  console.log(meta);
   var $scope = this.app.$scope;
-  
-  if(meta.AffectedNodes)
-  {
-    for(var n=0; n<meta.AffectedNodes.length; n++)
-    {
-      if(meta.AffectedNodes[n].ModifiedNode)
-      {
-        if(meta.AffectedNodes[n].ModifiedNode.LedgerEntryType === "RippleState")
-        {
-          var fields=meta.AffectedNodes[n].ModifiedNode.FinalFields;
-          var peer_account,index;
-          var currency=fields.Balance.currency;
-          
-          
-          if(fields.HighLimit.issuer===account)
-          {
-            peer_account=fields.LowLimit.issuer;
-            index=peer_account+currency;
-            $scope.lines[index].limit=fields.HighLimit.value;
-            $scope.lines[index].limit_peer=fields.LowLimit.value;
-            $scope.lines[index].balance=fields.Balance.value;
-              
-          }else if(fields.LowLimit.issuer===account)
-          {
-            peer_account=fields.HighLimit.issuer;
-            index=peer_account+currency;
-            $scope.lines[index].limit=fields.LowLimit.value;
-            $scope.lines[index].limit_peer=fields.HighLimit.value;
-            $scope.lines[index].balance=fields.Balance.value; 
-          }
-        }
-      }else if(meta.AffectedNodes[n].CreatedNode)
-      {
-        if(meta.AffectedNodes[n].CreatedNode.LedgerEntryType === "RippleState")
-        {
-          var obj = {};
-          
-          obj.balance=meta.AffectedNodes[n].CreatedNode.NewFields.Balance.value;
-          obj.currency=meta.AffectedNodes[n].CreatedNode.NewFields.Balance.currency;
-          if(meta.AffectedNodes[n].CreatedNode.NewFields.HighLimit.issuer===account)
-          {
-            obj.account=meta.AffectedNodes[n].CreatedNode.NewFields.LowLimit.issuer;
-            obj.limit=meta.AffectedNodes[n].CreatedNode.NewFields.HighLimit.value;
-            obj.limit_peer=meta.AffectedNodes[n].CreatedNode.NewFields.LowLimit.value;
-          }else if(meta.AffectedNodes[n].CreatedNode.NewFields.LowLimit.issuer===account)
-          {
-            obj.account=meta.AffectedNodes[n].CreatedNode.NewFields.HighLimit.issuer;
-            obj.limit=meta.AffectedNodes[n].CreatedNode.NewFields.LowLimit.value;
-            obj.limit_peer=meta.AffectedNodes[n].CreatedNode.NewFields.HighLimit.value;
-          }else return;  
-          
-          $scope.lines[obj.account+obj.currency]=obj;
-        }
-      }
+
+  var nodes = rewriter.filterAnodes(meta.AffectedNodes, "RippleState");
+  for (var i=0, l=nodes.length; i<l; i++) {
+    var fields = rewriter.getAnodeResult(nodes[i]),
+        index = peer_account+currency,
+        currency = fields.Balance.currency,
+        peer_account;
+
+    if (!$scope.lines[index]) $scope.lines[index] = {};
+
+    if (fields.HighLimit.issuer===account) {
+      peer_account = fields.LowLimit.issuer;
+      $scope.lines[index].limit = fields.HighLimit.value;
+      $scope.lines[index].limit_peer = fields.LowLimit.value;
+    } else if (fields.LowLimit.issuer===account) {
+      peer_account = fields.HighLimit.issuer;
+      $scope.lines[index].limit = fields.LowLimit.value;
+      $scope.lines[index].limit_peer = fields.HighLimit.value;
     }
+    $scope.lines[index].balance = fields.Balance.value;
   }
 }
 

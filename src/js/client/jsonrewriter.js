@@ -3,6 +3,34 @@
  */
 var JsonRewriter = module.exports = {
   /**
+   * Filter affected nodes by type.
+   *
+   * If affectedNodes is not a valid set of nodes, returns an empty array.
+   */
+  filterAnodes: function (affectedNodes, type) {
+    if (!affectedNodes) return [];
+
+    return affectedNodes.filter(function (an) {
+      an = an.CreatedNode ? an.CreatedNode :
+           an.ModifiedNode ? an.ModifiedNode :
+           {};
+
+      return an.LedgerEntryType === type;
+    });
+  },
+  /**
+   * Returns resulting (new or modified) fields from an affected node.
+   */
+  getAnodeResult: function (an) {
+    an = an.CreatedNode ? an.CreatedNode :
+         an.ModifiedNode ? an.ModifiedNode :
+         {};
+
+    var fields = $.extend({}, an.NewFields, an.FinalFields);
+
+    return fields;
+  },
+  /**
    * Convert transactions into a more useful (for our purposes) format.
    */
   processTxn: function (tx, meta, account) {
@@ -50,26 +78,10 @@ var JsonRewriter = module.exports = {
       obj.currency = tx.LimitAmount.currency;
       // actually this is just the balance of one line so it isn't what we want.
       // We can't actually do this
-      if(meta.AffectedNodes)
-      {
-        for(var n=0; n<meta.AffectedNodes.length; n++)
-        {
-          if(meta.AffectedNodes[n].ModifiedNode)
-          {
-            if(meta.AffectedNodes[n].ModifiedNode.LedgerEntryType === "RippleState")
-            {
-              obj.balance=meta.AffectedNodes[n].ModifiedNode.FinalFields.Balance.value;
-              break;
-            }
-          }else if(meta.AffectedNodes[n].CreatedNode)
-          {
-            if(meta.AffectedNodes[n].CreatedNode.LedgerEntryType === "RippleState")
-            {
-              obj.balance=meta.AffectedNodes[n].CreatedNode.NewFields.Balance.value;
-              break;
-            }
-          }
-        }
+      var nodes = this.filterAnodes(meta.AffectedNodes, "RippleState");
+      for(var n=0, l = nodes.length; n<l; n++) {
+        var node = this.getAnodeResult(nodes[n]);
+        obj.balance= node.Balance.value;
       }
 
       break;
