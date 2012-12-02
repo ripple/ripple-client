@@ -134,22 +134,25 @@ Model.prototype._updateLines= function(meta,account)
   var nodes = rewriter.filterAnodes(meta.AffectedNodes, "RippleState");
   for (var i=0, l=nodes.length; i<l; i++) {
     var fields = rewriter.getAnodeResult(nodes[i]),
-        index = peer_account+currency,
         currency = fields.Balance.currency,
-        peer_account;
+        peer_account, index;
 
-    if (!$scope.lines[index]) $scope.lines[index] = {};
+    var line = {};
 
     if (fields.HighLimit.issuer===account) {
       peer_account = fields.LowLimit.issuer;
-      $scope.lines[index].limit = fields.HighLimit.value;
-      $scope.lines[index].limit_peer = fields.LowLimit.value;
+      line.limit = fields.HighLimit.value;
+      line.limit_peer = fields.LowLimit.value;
     } else if (fields.LowLimit.issuer===account) {
       peer_account = fields.HighLimit.issuer;
-      $scope.lines[index].limit = fields.LowLimit.value;
-      $scope.lines[index].limit_peer = fields.HighLimit.value;
+      line.limit = fields.LowLimit.value;
+      line.limit_peer = fields.HighLimit.value;
     }
-    $scope.lines[index].balance = fields.Balance.value;
+    line.balance = fields.Balance.value;
+
+    index = peer_account+currency;
+
+    $scope.lines[index] = $.extend($scope.lines[index], line);
   }
 }
 
