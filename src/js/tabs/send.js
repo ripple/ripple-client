@@ -46,7 +46,9 @@ SendTab.prototype.angular = function (module)
         // TODO: If form is not valid, force all errors to appear, then return.
         return;
       }
-      var amount = ripple.Amount.from_human(""+$scope.amount+" "+$scope.currency);
+
+      var currency = $scope.currency.slice(0, 3).toUpperCase();
+      var amount = ripple.Amount.from_human(""+$scope.amount+" "+currency);
 
       $scope.amount_feedback = amount.to_human();
       $scope.currency_feedback = amount._currency.to_json();
@@ -62,7 +64,8 @@ SendTab.prototype.angular = function (module)
     };
 
     $scope.send_confirmed = function () {
-      var amount = ripple.Amount.from_human(""+$scope.amount);
+      var currency = $scope.currency.slice(0, 3).toUpperCase();
+      var amount = ripple.Amount.from_human(""+$scope.amount+" "+currency);
 
       var tx = app.net.remote.transaction();
       tx.payment(app.id.account, $scope.recipient, amount.to_json());
