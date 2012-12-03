@@ -100,9 +100,9 @@ ContactsTab.prototype.angular = function (module) {
      */
     $scope.update = function (index)
     {
-      $scope.addressbook[index].duplicateName = false;
-      $scope.addressbook[index].duplicateAddress = false;
-      $scope.addressbook[index].invalidAddress = false;
+      delete $scope.addressbook[index].duplicateName;
+      delete $scope.addressbook[index].duplicateAddress;
+      delete $scope.addressbook[index].invalidAddress;
 
       var UInt160 = new ripple.UInt160();
 
