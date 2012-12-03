@@ -113,8 +113,10 @@ Model.prototype._processTxn = function (tx, meta)
 
   var historyEntry = rewriter.processTxn(tx, meta, account);
 
-  $scope.history.unshift(historyEntry);
-  
+  if (historyEntry) {
+    $scope.history.unshift(historyEntry);
+  }
+
   if(tx.TransactionType === "TrustSet" ) this._updateLines(meta,account);
 };
 
