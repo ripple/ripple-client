@@ -156,6 +156,23 @@ module.directive('passValidate', function() {
 });
 
 /**
+ * Animate element creation
+ */
+module.directive('animate', function() {
+  return {
+    restrict: 'A',
+    link: function(scope, elm, attrs) {
+      elm = jQuery(elm);
+      elm.hide();
+      elm.fadeIn(600);
+      elm.css('background-color', '#E2F5E4');
+      elm.animate({
+        'background-color': '#fff'
+      }, {duration: 600})
+    }
+  };
+})
+/**
  * Combobox input element.
  *
  * Adds a autocomplete-like dropdown to an input element.

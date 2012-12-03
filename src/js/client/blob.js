@@ -32,15 +32,21 @@ BlobObj.get = function(backend, user, pass, callback)
   });
 };
 
-BlobObj.set = function(backend, hash, data, callback)
+BlobObj.set = function(backend, username, password, bl, callback)
 {
   // TODO code duplication. see BlobObj.get
   if ("string" === typeof backend) {
     backend = BlobObj.backends[backend];
   }
 
-  // TODO callback
-  backend.set(hash, data, callback);
+  var hash = sjcl.codec.hex.fromBits(sjcl.hash.sha256.hash(username + password));
+  var ct = sjcl.encrypt(username + password, JSON.stringify(bl.data), {
+    iter: 1000,
+    adata: JSON.stringify(bl.meta),
+    ks: 256
+  });
+
+  backend.set(hash, btoa(ct), callback);
 };
 
 BlobObj.decrypt = function (priv, ciphertext)
@@ -56,19 +62,19 @@ var VaultBlobBackend = {
   get: function (key, callback)
   {
     $.get('http://' + Options.blobvault + '/' + key)
-      .success(function (data) {
-        callback(null, data);
-      })
-      .error(webutil.getAjaxErrorHandler(callback, "BlobVault GET"));
+        .success(function (data) {
+          callback(null, data);
+        })
+        .error(webutil.getAjaxErrorHandler(callback, "BlobVault GET"));
   },
 
   set: function (key, value, callback)
   {
     $.post('http://' + Options.blobvault + '/' + key, { blob: value })
-      .success(function (data) {
-        callback(null, data);
-      })
-      .error(webutil.getAjaxErrorHandler(callback, "BlobVault SET"));
+        .success(function (data) {
+          callback(null, data);
+        })
+        .error(webutil.getAjaxErrorHandler(callback, "BlobVault SET"));
   }
 };
 

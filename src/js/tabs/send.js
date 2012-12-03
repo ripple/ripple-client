@@ -66,6 +66,7 @@ SendTab.prototype.angular = function (module)
     $scope.send_confirmed = function () {
       var currency = $scope.currency.slice(0, 3).toUpperCase();
       var amount = ripple.Amount.from_human(""+$scope.amount+" "+currency);
+      amount.set_issuer($scope.recipient);
 
       var tx = app.net.remote.transaction();
       tx.payment(app.id.account, $scope.recipient, amount.to_json());

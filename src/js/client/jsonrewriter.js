@@ -60,21 +60,22 @@ var JsonRewriter = module.exports = {
 
     switch (tx.TransactionType) {
     case 'Payment':
+      var amount = ripple.Amount.from_json(tx.Amount);
       obj.type = tx.Account === account ?
         'sent' :
         'received';
       obj.counterparty = tx.Account === account ?
         tx.Destination :
         tx.Account;
-      obj.amount = tx.Amount;
-      obj.currency = "XRP";
+      obj.amount = amount;
+      obj.currency = amount.currency().to_json();
       break;
     case 'TrustSet':
       obj.type = 'other';
       obj.counterparty = tx.Account === account ?
         tx.LimitAmount.issuer :
         tx.Account;
-      obj.amount=tx.LimitAmount.value;
+      obj.amount = tx.LimitAmount.value;
       obj.currency = tx.LimitAmount.currency;
       // actually this is just the balance of one line so it isn't what we want.
       // We can't actually do this
