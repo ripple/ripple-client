@@ -56,12 +56,19 @@ Model.prototype.handleAccountLoad = function (e)
 Model.prototype.handleRippleLines = function (data)
 {
   var $scope = this.app.$scope;
-  $scope.$apply(function () 
+  $scope.$apply(function ()
   {
     $scope.lines={};
-    for(var n=0; n<data.lines.length; n++)
+    for (var n=0, l=data.lines.length; n<l; n++)
     {
-      $scope.lines[data.lines[n].account+data.lines[n].currency] = data.lines[n];
+      var line = data.lines[n];
+
+      // XXX: Not sure this is correct, the server should send standard amount
+      //      json that I can feed to Amount.from_json.
+      line.limit = ripple.Amount.from_json({value: line.limit, currency: line.currency});
+      line.limit_peer = ripple.Amount.from_json({value: line.limit_peer, currency: line.currency});
+
+      $scope.lines[line.account+line.currency] = line;
     }
     console.log('Lines updated:', $scope.lines);
   });
@@ -111,13 +118,14 @@ Model.prototype._processTxn = function (tx, meta)
 
   var account = this.app.id.account;
 
-  var historyEntry = rewriter.processTxn(tx, meta, account);
+  var processedTxn = rewriter.processTxn(tx, meta, account);
 
-  if (historyEntry) {
-    $scope.history.unshift(historyEntry);
+  if (processedTxn) {
+    $scope.history.unshift(processedTxn);
+
+    // If the transaction had an effect on our Ripple lines
+    if (processedTxn.rippleState) this._updateLines(processedTxn);
   }
-
-  if(tx.TransactionType === "TrustSet" ) this._updateLines(meta,account);
 };
 
 /*
@@ -129,33 +137,25 @@ limit_peer: "0"
 quality_in: 0
 quality_out: 0
  */
-Model.prototype._updateLines= function(meta,account)
+Model.prototype._updateLines = function(txn)
 {
   var $scope = this.app.$scope;
 
-  var nodes = rewriter.filterAnodes(meta.AffectedNodes, "RippleState");
-  for (var i=0, l=nodes.length; i<l; i++) {
-    var fields = rewriter.getAnodeResult(nodes[i]),
-        currency = fields.Balance.currency,
-        peer_account, index;
+  var index = txn.counterparty + txn.currency,
+      line = {};
 
-    var line = {};
+  line.currency = txn.currency;
 
-    if (fields.HighLimit.issuer===account) {
-      peer_account = fields.LowLimit.issuer;
-      line.limit = fields.HighLimit.value;
-      line.limit_peer = fields.LowLimit.value;
-    } else if (fields.LowLimit.issuer===account) {
-      peer_account = fields.HighLimit.issuer;
-      line.limit = fields.LowLimit.value;
-      line.limit_peer = fields.HighLimit.value;
-    } else return;
-    line.balance = fields.Balance.value;
+  if (line.currency === "INR") console.log("TXN", txn);
 
-    index = peer_account+currency;
+  if (txn.tx_type === "Payment") {
+    line.balance = txn.balance;
+  } else if (txn.tx_type === "TrustSet") {
+    line.limit = txn.trust_out;
+    line.limit_peer = txn.trust_in;
+  } else return;
 
-    $scope.lines[index] = $.extend($scope.lines[index], line);
-  }
+  $scope.lines[index] = $.extend($scope.lines[index], line);
 }
 
 exports.Model = Model;
