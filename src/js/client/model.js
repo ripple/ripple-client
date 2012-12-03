@@ -149,6 +149,7 @@ Model.prototype._updateLines= function(meta,account)
       line.limit_peer = fields.HighLimit.value;
     } else return;
     line.balance = fields.Balance.value;
+    line.currency=currency;
 
     index = peer_account+currency;
 

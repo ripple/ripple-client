@@ -67,6 +67,11 @@ module.directive('issuer', function () {
       if (!ctrl) return;
 
       var validator = function(value) {
+        if(!value){
+          ctrl.$setValidity('issuer', false);
+          return;
+        }
+        
         var shortValue = value.slice(0, 3).toUpperCase();
          
         if ( (shortValue==="XRP") || webutil.findIssuer(scope.lines,shortValue)) 

@@ -57,7 +57,7 @@ TradeTab.prototype.angular = function(module)
       if(!buyIssuer) return;
       
       var sellStr=""+$scope.amount+"/"+sell_currency+"/"+app.id.account;
-      var buyStr=""+($scope.amount*$scope.price)+"/"+buy_currency+"/"+app.id.account;
+      var buyStr=""+($scope.amount*$scope.price)+"/"+buy_currency+"/"+buyIssuer;
       
       var tx = app.net.remote.transaction();
       tx.offer_create(app.id.account, buyStr, sellStr);

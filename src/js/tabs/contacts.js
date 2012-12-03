@@ -34,7 +34,7 @@ ContactsTab.prototype.angular = function (module) {
     {
       $scope.addressbook = app.id.getContacts();
       $scope.addressbookmaster = angular.copy($scope.addressbook);
-      $scope.$digest();
+      //$scope.$digest();
     }
 
     // Update contacts when user enters this tab
