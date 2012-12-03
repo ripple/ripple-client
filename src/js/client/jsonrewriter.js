@@ -96,19 +96,19 @@ var JsonRewriter = module.exports = {
    * a counterparty and a flag whether it is incoming or outgoing.
    */
   processTxn: function (tx, meta, account) {
-    var accountData, rippleData;
+    var obj = {};
 
     var forUs = false;
     meta.AffectedNodes.forEach(function (n) {
       var node = JsonRewriter.processAnode(n);
 
       if (node.entryType === "AccountRoot" && node.fields.Account === account) {
-        accountData = node.fields;
+        obj.accountRoot = node.fields;
         forUs = true;
       } else if (node.entryType === "RippleState" &&
                  (node.fields.HighLimit.issuer === account ||
                   node.fields.LowLimit.issuer === account)) {
-        rippleData = node.fields;
+        obj.rippleState = node.fields;
         forUs = true;
       }
     });
@@ -117,20 +117,25 @@ var JsonRewriter = module.exports = {
     // process such transactions, so we return null to signal that.
     if (!forUs) return null;
 
-    var obj = {};
+    obj.tx_type = tx.TransactionType;
     obj.fee = tx.Fee;
     obj.date = (tx.date + 0x386D4380) * 1000;
 
-    if (accountData) {
-      obj.balance = ripple.Amount.from_json(accountData.Balance);
-    } else if (rippleData) {
-      if (rippleData.HighLimit.issuer === account) {
-        obj.balance = ripple.Amount.from_json(rippleData.Balance).negate(true);
-      } else {
-        obj.balance = ripple.Amount.from_json(rippleData.Balance);
-      }
+    if (obj.accountRoot) {
+      obj.balance = ripple.Amount.from_json(obj.accountRoot.Balance);
     }
 
+    if (obj.rippleState) {
+      if (obj.rippleState.HighLimit.issuer === account) {
+        obj.balance = ripple.Amount.from_json(obj.rippleState.Balance).negate(true);
+        obj.trust_in = ripple.Amount.from_json(obj.rippleState.LowLimit);
+        obj.trust_out = ripple.Amount.from_json(obj.rippleState.HighLimit);
+      } else {
+        obj.balance = ripple.Amount.from_json(obj.rippleState.Balance);
+        obj.trust_in = ripple.Amount.from_json(obj.rippleState.HighLimit);
+        obj.trust_out = ripple.Amount.from_json(obj.rippleState.LowLimit);
+      }
+    }
 
     switch (tx.TransactionType) {
     case 'Payment':
@@ -144,6 +149,7 @@ var JsonRewriter = module.exports = {
       obj.amount = amount;
       obj.currency = amount.currency().to_json();
       break;
+
     case 'TrustSet':
       obj.type = 'other';
       obj.counterparty = tx.Account === account ?
@@ -151,15 +157,8 @@ var JsonRewriter = module.exports = {
         tx.Account;
       obj.amount = tx.LimitAmount.value;
       obj.currency = tx.LimitAmount.currency;
-      // actually this is just the balance of one line so it isn't what we want.
-      // We can't actually do this
-      var nodes = this.filterAnodes(meta.AffectedNodes, "RippleState");
-      for(var n=0, l = nodes.length; n<l; n++) {
-        var node = this.getAnodeResult(nodes[n]);
-        obj.balance= node.Balance.value;
-      }
-
       break;
+
     default:
       console.log('Unknown transaction type: "'+tx.TransactionType+'"', tx);
       return null;
