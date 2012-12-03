@@ -24,12 +24,14 @@ section.panel.content(ng-controller="ContactsCtrl")
             .error(ng-show='addForm.address.$error.address') Not a valid address.
             .error(ng-show='addForm.address.$error.unique') You already have a contact with the same address.
             div.submitsection
-              button.btn.btn-info(type='submit', ng-click='add()', ng-disabled='addForm.$invalid') Add contact
-      tr(ng-repeat="entry in addressbook", animate)
+              button.btn.btn-info(type='submit', ng-click='create()', ng-disabled='addForm.$invalid') Add contact
+      tr(ng-repeat="entry in addressbook", animate, ng-class="{editMode: entry.duplicateName}")
         td
           inline-edit(model='entry.name', mode='entry.isEditMode', unique)
-          .error(ng-show='editForm.name.$error.unique') You already have a contact with the same name.
-        td: inline-edit(model='entry.address', mode='entry.isEditMode')
+          .error(ng-show='entry.duplicateName') You already have a contact with the same name.
+        td
+          inline-edit(model='entry.address', mode='entry.isEditMode')
+          .error(ng-show='entry.duplicateAddress') You already have this address.
         td.save
           button.save.btn.btn-success.btn-small(ng-show='entry.isEditMode', ng-click='update($index)') Save
         td.command
