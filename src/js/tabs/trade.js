@@ -18,6 +18,7 @@ TradeTab.prototype.generateHtml = function ()
 
 TradeTab.prototype.angular = function(module) 
 {
+  var app = this.app;
   module.controller('TradeCtrl', function ($scope)
   {
     $scope.currency_query = webutil.queryFromOptions($scope.currencies_all);
@@ -29,13 +30,11 @@ TradeTab.prototype.angular = function(module)
     };
     
     $scope.placeOrder = function () {
-      var buy_amount = ripple.Amount.from_human(""+$scope.order_amount+" "+$scope.buy_currency);
-      var sell_amount = ripple.Amount.from_human(""+$scope.order_amount+" "+$scope.sell_currency);
       
-      $scope.sell_amount_feedback = sell_amount.to_human();
-      $scope.sell_currency_feedback = sell_amount._currency.to_json();
-      $scope.buy_amount_feedback = buy_amount.to_human();
-      $scope.buy_currency_feedback = buy_amount._currency.to_json();
+      $scope.sell_amount_feedback = ""+$scope.amount;
+      $scope.sell_currency_feedback = $scope.sell_currency;
+      $scope.buy_amount_feedback = $scope.amount*$scope.price;
+      $scope.buy_currency_feedback = $scope.buy_currency;
       
       $scope.mode = "confirm";
     };
@@ -51,12 +50,18 @@ TradeTab.prototype.angular = function(module)
     
     $scope.order_confirmed = function () 
     {
-     /* var amount = ripple.Amount.from_human(""+$scope.amount);
-
+      
+      var sell_currency = $scope.sell_currency.slice(0, 3).toUpperCase();
+      var buy_currency = $scope.buy_currency.slice(0, 3).toUpperCase();
+      var buyIssuer=webutil.findIssuer($scope.lines,buy_currency);
+      if(!buyIssuer) return;
+      
+      var sellStr=""+$scope.amount+"/"+sell_currency+"/"+app.id.account;
+      var buyStr=""+($scope.amount*$scope.price)+"/"+buy_currency+"/"+app.id.account;
+      
       var tx = app.net.remote.transaction();
-      tx.payment(app.id.account, $scope.recipient, amount.to_json());
-      */
-      //.offer_create("root", "500", "100/USD/root")
+      tx.offer_create(app.id.account, buyStr, sellStr);
+      
       tx.on('success', function () {
         $scope.reset();
         $scope.$digest();
@@ -75,6 +80,8 @@ TradeTab.prototype.angular = function(module)
     
   });
 };
+
+
 
 
 module.exports = TradeTab;

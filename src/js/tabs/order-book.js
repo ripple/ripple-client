@@ -31,6 +31,9 @@ OrderBookTab.prototype.angular = function(module)
     
     $scope.changeNexus = function () 
     {
+      // need to stop listening to the previous nexus
+      // need to start listening to this guy
+      // need to ask for his current state
       
     };
     

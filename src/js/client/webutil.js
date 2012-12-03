@@ -48,6 +48,27 @@ exports.scrollToTop = function ()
   $("html, body").animate({ scrollTop: 0 }, "fast");
 };
 
+exports.findIssuer= function(lines, currency)
+{
+  var maxIssuer=null;
+  var maxLimit=0;
+  for(var n in lines)
+  {
+    if(lines.hasOwnProperty(n))
+    {
+      if(lines[n].currency==currency)
+      {
+        if(lines[n].limit>maxLimit)
+        {
+          maxLimit=lines[n].limit;
+          maxIssuer=lines[n].account;
+        }  
+      }
+    }
+  }  
+  return(maxIssuer);
+}
+
 /**
  * Creates a combobox query function out of a select options array.
  *

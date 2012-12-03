@@ -1,3 +1,5 @@
+var webutil = require('../client/webutil');
+
 var module = angular.module('directives', []);
 
 module.directive('ngEnter', function() {
@@ -51,6 +53,36 @@ module.directive('address', function () {
       ctrl.$parsers.unshift(validator);
 
       attr.$observe('address', function() {
+        validator(ctrl.$viewValue);
+      });
+    }
+  };
+});
+
+module.directive('issuer', function () {
+  return {
+    restrict: 'A',
+    require: '?ngModel',
+    link: function (scope, elm, attr, ctrl) {
+      if (!ctrl) return;
+
+      var validator = function(value) {
+        var shortValue = value.slice(0, 3).toUpperCase();
+         
+        if ( (shortValue==="XRP") || webutil.findIssuer(scope.lines,shortValue)) 
+        {
+          ctrl.$setValidity('issuer', true);
+          return value;
+        } else {
+          ctrl.$setValidity('issuer', false);
+          return;
+        }
+      }
+
+      ctrl.$formatters.push(validator);
+      ctrl.$parsers.unshift(validator);
+
+      attr.$observe('issuer', function() {
         validator(ctrl.$viewValue);
       });
     }
