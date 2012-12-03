@@ -27,7 +27,7 @@ section.panel.content(ng-controller="ContactsCtrl")
               button.btn.btn-info(type='submit', ng-click='create()', ng-disabled='addForm.$invalid') Add contact
       tr(ng-repeat="entry in addressbook", animate, ng-class="{editMode: entry.duplicateName}")
         td
-          inline-edit(model='entry.name', mode='entry.isEditMode', unique)
+          inline-edit(model='entry.name', mode='entry.isEditMode')
           .error(ng-show='entry.duplicateName') You already have a contact with the same name.
         td
           inline-edit(model='entry.address', mode='entry.isEditMode')

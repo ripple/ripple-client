@@ -1,8 +1,8 @@
 var blob = require('./blob').BlobObj,
     events = require('events'),
     util = require('util'),
-    Base58Utils = require('../client/base58'),
-    RippleAddress = require('../client/types').RippleAddress;
+    Base58Utils = require('./base58'),
+    RippleAddress = require('./types').RippleAddress;
 
 /**
  * Identity manager
@@ -95,17 +95,16 @@ Id.prototype.register = function (username, password, callback)
     }
   }
 
-  data.account_id = (new RippleAddress(data.master_seed)).getAddress();
+  data.data.account_id = (new RippleAddress(data.data.master_seed)).getAddress();
 
   // Add user to blob
   blob.set('vault',username,password,data,function(){
     self.data = data;
     self.setUsername(username);
     self.setPassword(password);
-    self.setAccount(data.account_id, data.master_seed);
+    self.setAccount(data.data.account_id, data.data.master_seed);
     self.storeLogin(username, password);
     self.loginStatus = true;
-    console.log('blobupdate fired');
     self.emit('blobupdate');
     store.set('ripple_known', true);
     callback();
@@ -134,8 +133,6 @@ Id.prototype.login = function (username,password,callback)
       self.storeLogin(username, password);
       self.loginStatus = true;
       console.log("Login status set");
-      console.log(self.data);
-      console.log('blobupdate fired');
       self.emit('blobupdate');
       store.set('ripple_known', true);
     }
@@ -162,27 +159,27 @@ Id.prototype.setContacts = function (contacts)
 
 Id.prototype.getContacts = function (callback)
 {
-  return this.data.data.contacts;
+  return this.data.data.contacts ? this.data.data.contacts : [];
 
   /*return callback([{
-    name: 'Bob',
-    address: 'rwcQbuaLBUgS9ySP1v9x2WfyBWC9xBARRV'
-  },{
-    name: 'John',
-    address: 'rwcQbuaLBUgS9ySP1v9x2WfyBWC9xBARRA'
-  },{
-    name: 'James',
-    address: 'rwcQbuaLBUgS9ySP1v9x2WfyBWC9xBARRG'
-  },{
-    name: 'Stuart',
-    address: 'rwcQbuaLBUgS9ySP1v9x2WfyBWC9xBARRD'
-  },{
-    name: 'Gugo',
-    address: 'rwcQbuaLBUgS9ySP1v9x2WfyBWC9xBARRE'
-  },{
-    name: 'Gago',
-    address: 'rwcQbuaLBUgS9ySP1v9x2WfyBWC9xBARRF'
-  }])*/
+   name: 'Bob',
+   address: 'rwcQbuaLBUgS9ySP1v9x2WfyBWC9xBARRV'
+   },{
+   name: 'John',
+   address: 'rwcQbuaLBUgS9ySP1v9x2WfyBWC9xBARRA'
+   },{
+   name: 'James',
+   address: 'rwcQbuaLBUgS9ySP1v9x2WfyBWC9xBARRG'
+   },{
+   name: 'Stuart',
+   address: 'rwcQbuaLBUgS9ySP1v9x2WfyBWC9xBARRD'
+   },{
+   name: 'Gugo',
+   address: 'rwcQbuaLBUgS9ySP1v9x2WfyBWC9xBARRE'
+   },{
+   name: 'Gago',
+   address: 'rwcQbuaLBUgS9ySP1v9x2WfyBWC9xBARRF'
+   }])*/
 }
 
 module.exports.Id = Id;
