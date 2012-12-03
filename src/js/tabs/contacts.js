@@ -1,4 +1,5 @@
 var util      = require('util');
+var webutil   = require('../client/webutil');
 var Tab       = require('../client/tabmanager').Tab;
 var id        = require('../client/id').Id.singleton;
 
@@ -71,6 +72,9 @@ ContactsTab.prototype.angular = function (module) {
       // Update master
       $scope.addressbookmaster.unshift(contact);
 
+      // Hide the form
+      $scope.toggle_form();
+
       // Update blob
       app.id.setContacts($scope.addressbookmaster);
 
@@ -98,8 +102,12 @@ ContactsTab.prototype.angular = function (module) {
     {
       $scope.addressbook[index].duplicateName = false;
       $scope.addressbook[index].duplicateAddress = false;
+      $scope.addressbook[index].invalidAddress = false;
 
-      // TODO use "unique" directive
+      var UInt160 = new ripple.UInt160();
+
+      // TODO use "unique" and "address" directives
+      // Validation
       for (var i = 0; i < $scope.addressbookmaster.length; i++) {
         if (i!=index && $scope.addressbookmaster[i].name == $scope.addressbook[index].name) {
           $scope.addressbook[index].duplicateName = true;
@@ -107,7 +115,10 @@ ContactsTab.prototype.angular = function (module) {
         if (i!=index && $scope.addressbookmaster[i].address == $scope.addressbook[index].address) {
           $scope.addressbook[index].duplicateAddress = true;
         }
-        if ($scope.addressbook[index].duplicateName || $scope.addressbook[index].duplicateAddress) {
+        else if(!UInt160.parse_json($scope.addressbook[index].address)._value) {
+          $scope.addressbook[index].invalidAddress = true;
+        }
+        if ($scope.addressbook[index].duplicateName || $scope.addressbook[index].duplicateAddress || $scope.addressbook[index].invalidAddress) {
           return;
         }
       }
