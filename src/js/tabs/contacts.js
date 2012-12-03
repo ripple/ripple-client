@@ -34,7 +34,6 @@ ContactsTab.prototype.angular = function (module) {
     {
       $scope.addressbook = app.id.getContacts();
       $scope.addressbookmaster = angular.copy($scope.addressbook);
-      $scope.$digest();
     }
 
     // Update contacts when user enters this tab
@@ -45,6 +44,7 @@ ContactsTab.prototype.angular = function (module) {
     // Update contacts when blob is updated
     app.id.on('blobupdate', function (e) {
       $scope.updateData();
+      $scope.$digest();
     })
 
     /**
@@ -164,7 +164,7 @@ ContactsTab.prototype.angular = function (module) {
         var validator = function(value) {
           var duplicates = $.grep($scope.addressbook, function(e){ return e[elm[0].name] == value; })
 
-          if (duplicates.length === 0) {
+          if (typeof duplicates != 'undefined' && duplicates.length === 0) {
             ctrl.$setValidity('unique', true);
             return value;
           } else {
