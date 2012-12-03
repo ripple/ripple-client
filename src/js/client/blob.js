@@ -32,6 +32,15 @@ BlobObj.get = function(backend, user, pass, callback)
   });
 };
 
+BlobObj.enc = function(username,password,bl)
+{
+  return btoa(sjcl.encrypt(username + password, JSON.stringify(bl.data), {
+    iter: 1000,
+    adata: JSON.stringify(bl.meta),
+    ks: 256
+  }));
+}
+
 BlobObj.set = function(backend, username, password, bl, callback)
 {
   // TODO code duplication. see BlobObj.get
@@ -40,13 +49,8 @@ BlobObj.set = function(backend, username, password, bl, callback)
   }
 
   var hash = sjcl.codec.hex.fromBits(sjcl.hash.sha256.hash(username + password));
-  var ct = sjcl.encrypt(username + password, JSON.stringify(bl.data), {
-    iter: 1000,
-    adata: JSON.stringify(bl.meta),
-    ks: 256
-  });
 
-  backend.set(hash, btoa(ct), callback);
+  backend.set(hash, this.enc(username,password,bl), callback);
 };
 
 BlobObj.decrypt = function (priv, ciphertext)
