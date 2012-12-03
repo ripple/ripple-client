@@ -162,13 +162,9 @@ ContactsTab.prototype.angular = function (module) {
         if (!ctrl) return;
 
         var validator = function(value) {
-          var duplicate;
+          var duplicates = $.grep($scope.addressbook, function(e){ return e[elm[0].name] == value; })
 
-          for(var i=0; i<$scope.addressbook.length; i++) {
-            if ($scope.addressbook[i] == value) duplicate=true;
-          }
-
-          if (!duplicate) {
+          if (typeof duplicates == 'undefined' || duplicates.length === 0) {
             ctrl.$setValidity('unique', true);
             return value;
           } else {
