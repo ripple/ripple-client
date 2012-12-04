@@ -238,9 +238,7 @@ module.directive('rpCombobox', [function () {
 
           var curEl = cplEl.find('li.cursor');
           if (curEl.length === 1) {
-            el.val(curEl.text());
-            setVisible(false);
-            preventNextKeyup = true;
+            selectCompletion(curEl);
           }
         }
       });
@@ -297,13 +295,17 @@ module.directive('rpCombobox', [function () {
         opts.eq(keyCursor).addClass('cursor');
       }
 
-      cplEl.on('click', 'li', function () {
-        var val = $(this).text();
+      function selectCompletion(el) {
+        var val = $(el).text();
         scope.$apply(function () {
           el.val(val);
           ngModel.$setViewValue(val);
           setVisible(false);
         });
+      };
+
+      cplEl.on('click', 'li', function () {
+        selectCompletion(el);
       });
     }
   };
