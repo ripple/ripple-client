@@ -33,7 +33,16 @@ TrustTab.prototype.angular = function (module)
     $scope.toggle_form = function ()
     {
       $scope.addform_visible = !$scope.addform_visible;
-    }
+    };
+
+    $scope.edit_line = function ()
+    {
+      var line = this.line;
+      $scope.addform_visible = true;
+      $scope.currency = line.currency;
+      $scope.counterparty = line.account;
+      $scope.amount = +line.limit.to_text();
+    };
 
     $scope.grant = function ()
     {
