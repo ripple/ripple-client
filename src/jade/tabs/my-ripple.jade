@@ -18,11 +18,16 @@ section#t-my-ripple.panel.content
     tbody
       tr(ng-repeat="entry in events", ng-class="entry.type")
         td.date {{entry.date | rpfromnow}}
-        td.desc(ng-show="entry.type == 'sent'") You sent Bob
+        td.desc(ng-show="entry.type == 'sent'") You sent 
+          span.address {{entry.counterparty}}
           strong  {{entry.amount | rpamount}} {{entry.currency}}
-        td.desc(ng-show="entry.type == 'received'") Bob sent you
+        td.desc(ng-show="entry.type == 'received'")
+          span.address {{entry.counterparty}}
+          |  sent you
           strong  {{entry.amount | rpamount}} {{entry.currency}}
-        td.desc(ng-show="entry.type == 'trusted'") Bob now trusts you for
+        td.desc(ng-show="entry.type == 'trusted'")
+          span.address {{entry.counterparty}}
+          |  now trusts you for
           strong  {{entry.trust_out | rpamount}} {{entry.currency}}
-        td.desc(ng-show="entry.type == 'trusting'") You now trust Bob for
+        td.desc(ng-show="entry.type == 'trusting'") You now trust {{entry.counterparty}} for
           strong  {{entry.trust_in | rpamount}} {{entry.currency}}
