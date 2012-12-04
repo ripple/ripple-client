@@ -1,4 +1,48 @@
+@statusWidth: 350px;
 @notifyMargin: 3px;
+
+#status {
+  position: absolute;
+  top: 18px;
+  right: 0;
+  width: @statusWidth;
+  height: 85px;
+  background-color: #fff;
+  .rounded(10px);
+  .drop-shadow(0, 0, 12px, 0.20);
+  z-index: 10;
+
+  .user {
+    margin: 2px 20px 0;
+    border-bottom: 1px solid #b1b1b1;
+    line-height: 40px;
+  }
+
+  .balance {
+    font: 17px 'OpenSansLight';
+    color: #333;
+    line-height: 22px;
+    margin-top: 5px;
+
+    > span {
+      margin-left: 3px;
+      font-size: 11px;
+    }
+
+    &.primary {
+      float: left;
+    }
+
+    &.secondary {
+      float: right;
+      border-left: 1px solid #b1b1b1;
+      padding-left: 4px;
+      padding-right: 20px;
+      width: 125px;
+      background-color: #fff;
+    }
+  }
+}
 
 #notification {
   position: absolute;

@@ -194,7 +194,7 @@ Model.prototype._updateRippleBalance = function(currency, new_account, new_balan
     // XXX: Do proper BigInteger addition through ripple.Amount
     balance.total += +amount.to_text();
   }
-  console.log(currency, balance.total);
+
   balance.total = ripple.Amount.from_human(""+balance.total+" "+currency);
 };
 
