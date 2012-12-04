@@ -23,3 +23,14 @@ module.filter('rpamount', function () {
     return out;
   };
 });
+
+/**
+ * Angular filter for Moment.js.
+ *
+ * Displays a timestamp as "x minutes ago".
+ */
+module.filter('rpfromnow', function () {
+  return function (input) {
+    return moment(input).fromNow();
+  };
+});

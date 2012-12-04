@@ -17,7 +17,7 @@ section#t-my-ripple.panel.content
         th.desc Event
     tbody
       tr(ng-repeat="entry in events", ng-class="entry.type")
-        td.date {{entry.date | date}}
+        td.date {{entry.date | rpfromnow}}
         td.desc(ng-show="entry.type == 'sent'") You sent Bob
           strong  {{entry.amount | rpamount}} {{entry.currency}}
         td.desc(ng-show="entry.type == 'received'") Bob sent you

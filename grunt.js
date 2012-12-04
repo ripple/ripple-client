@@ -62,7 +62,8 @@ module.exports = function(grunt) {
               "deps/js/ripple.js",
               "deps/js/jsbn.js",
               "deps/js/sha.js",
-              "deps/js/crypto.js"],
+              "deps/js/crypto.js",
+              "deps/js/moment.js"],
         dest: 'build/dist/deps-debug.js'
       }
     },
@@ -80,7 +81,8 @@ module.exports = function(grunt) {
               "deps/js/ripple.js",
               "deps/js/jsbn.js",
               "deps/js/sha.js",
-              "deps/js/crypto.js"],
+              "deps/js/crypto.js",
+              "deps/js/moment.js"],
         dest: 'build/dist/deps.js'
       }
     },
