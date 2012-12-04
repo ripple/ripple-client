@@ -10,3 +10,19 @@ section#t-my-ripple.panel.content
     .balancebox
       .label Ripple Credits
       .balance {{balance | rpamount}}
+  table.table.events
+    thead
+      tr
+        th.date Date
+        th.desc Event
+    tbody
+      tr(ng-repeat="entry in events", ng-class="entry.type")
+        td.date {{entry.date | date}}
+        td.desc(ng-show="entry.type == 'sent'") You sent Bob
+          strong  {{entry.amount | rpamount}} {{entry.currency}}
+        td.desc(ng-show="entry.type == 'received'") Bob sent you
+          strong  {{entry.amount | rpamount}} {{entry.currency}}
+        td.desc(ng-show="entry.type == 'trusted'") Bob now trusts you for
+          strong  {{entry.trust_out | rpamount}} {{entry.currency}}
+        td.desc(ng-show="entry.type == 'trusting'") You now trust Bob for
+          strong  {{entry.trust_in | rpamount}} {{entry.currency}}

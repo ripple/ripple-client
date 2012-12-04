@@ -157,7 +157,7 @@ var JsonRewriter = module.exports = {
       obj.counterparty = tx.Account === account ?
         tx.LimitAmount.issuer :
         tx.Account;
-      obj.amount = tx.LimitAmount.value;
+      obj.amount = ripple.Amount.from_json(tx.LimitAmount);
       obj.currency = tx.LimitAmount.currency;
       break;
 

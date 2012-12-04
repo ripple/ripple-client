@@ -94,6 +94,7 @@ Model.prototype.handleAccountTx = function (account, data)
 
   var $scope = this.app.$scope;
   $scope.$apply(function () {
+    $scope.events = [];
     $scope.history = [];
     if (data.transactions) {
       var transactions = data.transactions.forEach(function (e) {
@@ -122,6 +123,10 @@ Model.prototype._processTxn = function (tx, meta)
   var processedTxn = rewriter.processTxn(tx, meta, account);
 
   if (processedTxn) {
+    // Add to recent notifications
+    $scope.events.unshift(processedTxn);
+
+    // Add to payments history
     if (processedTxn.tx_type === "Payment") {
       $scope.history.unshift(processedTxn);
     }
