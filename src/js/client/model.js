@@ -21,6 +21,7 @@ Model.prototype.init = function ()
   $scope.balance = "0";
 
   $scope.lines = [];
+  $scope.offers = [];
   $scope.events = [];
   $scope.history = [];
   $scope.balances = {};
@@ -51,6 +52,8 @@ Model.prototype.handleAccountLoad = function (e)
     .on('success', this.handleRippleLines.bind(this)).request();
   remote.request_wallet_accounts(e.secret)
     .on('success', this.handleAccounts.bind(this)).request();
+  
+  //TOMORROW remote.request_account_offers(e.account).on('success', this.handleOffers.bind(this)).request();
 
   remote.on('net_account', this.handleAccountEvent.bind(this));
 
@@ -80,6 +83,17 @@ Model.prototype.handleRippleLines = function (data)
       self._updateRippleBalance(line.currency, line.account, line.balance);
     }
     console.log('Lines updated:', $scope.lines);
+  });
+};
+
+Model.prototype.handleOffers = function (data)
+{
+  var self = this;
+  var $scope = this.app.$scope;
+
+  $scope.$apply(function ()
+  {
+    console.log('offers updated:', data);
   });
 };
 

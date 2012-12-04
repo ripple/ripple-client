@@ -29,16 +29,29 @@ section.panel.content(ng-controller="TradeCtrl")
         button.btn.btn-success.submit(type='submit', ng-click='placeOrder()', ng-disabled='orderform.$invalid') Place Order  
       
       
-    p.literal Open Orders
+    //p.literal Open Orders
     table.table
       thead
         tr
           th Date
+          th Type
           th Pair
           th Price
           th Amount
           th &nbsp;
       tbody
+      tr(ng-repeat="entry in orders", class="{{entry.type}}")
+        td.date {{entry.date}}
+        td.type {{entry.type}}
+        td.pair {{entry.pair}}
+        td.price {{entry.price}}
+        td.amount {{entry.amount}}
+        td.cancel 
+          a(ng-click='cancelOrder()') cancel
+      tr(ng-show="!orders.length")
+        td(colspan="6")
+          span.literal You haven't placed any orders.
+            
   group.mode-confirm(ng-show='mode=="confirm"')
     p.literal You are about to place an offer selling
     p.amount_feedback
