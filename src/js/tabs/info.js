@@ -25,7 +25,7 @@ InfoTab.prototype.angular = function (module) {
     $scope.updateData = function ()
     {
       $scope.username = app.id.username;
-      $scope.password = Array(app.id.password.length+1).join("*");
+      $scope.password = Array(app.id.password.length+1).join("•");
       $scope.master = app.id.data.data.master_seed;
       $scope.wallet = blob.enc(app.id.username,app.id.password,app.id.data);
     }

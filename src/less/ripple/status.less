@@ -67,7 +67,19 @@
   .toggle-secondary {
     position: absolute;
     top: 38px;
-    right: 21px;
+    right: 0;
+    height: 50px;
+    width: 40px;
+
+    // Dropdown arrow
+    &:after {
+      .virtualel;
+      position: absolute;
+      top: 19px;
+      right: 21px;
+      border: 5px solid transparent;
+      border-top: 4px solid #333;
+    }
   }
 
   &.expand {
