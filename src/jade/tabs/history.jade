@@ -20,7 +20,7 @@ section.panel.content(ng-controller="HistoryCtrl")
           | {{entry.amount | rpamount}}
         td.balance
           .currency {{entry.currency}}
-          | {{entry.balance | rpamount}}
+          | {{entry.balance | rpamount:{signed: true} }}
       tr(ng-show="!(history | filter:type).length")
         td(colspan="4")
           span.literal(ng-show="history.length")
