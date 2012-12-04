@@ -302,7 +302,7 @@ module.directive('rpCombobox', [function () {
           ngModel.$setViewValue(val);
           setVisible(false);
         });
-      };
+      }
 
       cplEl.on('click', 'li', function () {
         selectCompletion(el);
