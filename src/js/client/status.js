@@ -116,20 +116,19 @@ StatusManager.prototype.setupNetworkNotices = function ()
   var remote = this.app.net.remote;
 
   remote.on('net_account', function (msg) {
-    //console.log(msg);
     var tx = rewriter.processTxn(msg.transaction, msg.meta, app.id.account);
     if(tx)
     {
       var $scope = app.$scope.$new();
       $scope.tx = tx;
-  
+
       var html = StatusManager.tplAccount($scope);
-  
+
       if (html.length) {
         app.sm.create(app.$compile(html)($scope)).queue();
       }
-  
-      if ("undefined" !== typeof tx.balance) {
+
+      if ("undefined" !== typeof tx.balance && "XRP" === tx.currency) {
         app.$scope.balance = tx.balance;
       }
     }

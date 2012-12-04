@@ -67,6 +67,7 @@ Model.prototype.handleRippleLines = function (data)
       //      json that I can feed to Amount.from_json.
       line.limit = ripple.Amount.from_json({value: line.limit, currency: line.currency});
       line.limit_peer = ripple.Amount.from_json({value: line.limit_peer, currency: line.currency});
+      line.balance = ripple.Amount.from_json({value: line.balance, currency: line.currency});
 
       $scope.lines[line.account+line.currency] = line;
     }
@@ -121,7 +122,9 @@ Model.prototype._processTxn = function (tx, meta)
   var processedTxn = rewriter.processTxn(tx, meta, account);
 
   if (processedTxn) {
-    $scope.history.unshift(processedTxn);
+    if (processedTxn.tx_type === "Payment") {
+      $scope.history.unshift(processedTxn);
+    }
 
     // If the transaction had an effect on our Ripple lines
     if (processedTxn.rippleState) this._updateLines(processedTxn);
@@ -145,8 +148,6 @@ Model.prototype._updateLines = function(txn)
       line = {};
 
   line.currency = txn.currency;
-
-  if (line.currency === "INR") console.log("TXN", txn);
 
   if (txn.tx_type === "Payment") {
     line.balance = txn.balance;

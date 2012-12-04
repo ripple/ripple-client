@@ -3,7 +3,6 @@ section.panel.content(ng-controller="HistoryCtrl")
     li.all: a(ng-click='type = {}', ng-class="!type.type && 'active'") All Activity
     li.received: a(ng-click='type = {type: "received"}', ng-class="type.type == 'received' && 'active'") Received
     li.sent: a(ng-click='type = {type: "sent"}', ng-class="type.type == 'sent' && 'active'") Sent
-    li.other: a(ng-click='type = {type: "other"}', ng-class="type.type == 'other' && 'active'") Other
   table.table
     thead
       tr

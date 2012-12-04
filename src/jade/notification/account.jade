@@ -9,3 +9,13 @@ case tx.type
       | Bob sent you 
       span.number {{tx.amount | rpamount}}
       span.currency  {{tx.currency}}
+  when "trusted"
+    .type-success
+      | Bob now trusts you for 
+      span.number {{tx.trust_in | rpamount}}
+      span.currency  {{tx.currency}}
+  when "trusting"
+    .type-success
+      | You now trust Bob
+      span.number {{tx.trust_out | rpamount}}
+      span.currency  {{tx.currency}}

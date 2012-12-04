@@ -151,7 +151,9 @@ var JsonRewriter = module.exports = {
       break;
 
     case 'TrustSet':
-      obj.type = 'other';
+      obj.type = tx.Account === account ?
+        'trusted' :
+        'trusting';
       obj.counterparty = tx.Account === account ?
         tx.LimitAmount.issuer :
         tx.Account;
