@@ -181,8 +181,8 @@ Model.prototype._updateLines = function(txn)
 
     this._updateRippleBalance(txn.currency, txn.counterparty, txn.balance);
   } else if (txn.tx_type === "TrustSet") {
-    line.limit = txn.trust_out;
-    line.limit_peer = txn.trust_in;
+    line.limit = txn.limit;
+    line.limit_peer = txn.limit_peer;
   } else return;
 
   $scope.lines[index] = $.extend($scope.lines[index], line);

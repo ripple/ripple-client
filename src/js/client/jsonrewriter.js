@@ -128,12 +128,12 @@ var JsonRewriter = module.exports = {
     if (obj.rippleState) {
       if (obj.rippleState.HighLimit.issuer === account) {
         obj.balance = ripple.Amount.from_json(obj.rippleState.Balance).negate(true);
-        obj.trust_in = ripple.Amount.from_json(obj.rippleState.LowLimit);
-        obj.trust_out = ripple.Amount.from_json(obj.rippleState.HighLimit);
+        obj.limit = ripple.Amount.from_json(obj.rippleState.HighLimit);
+        obj.limit_peer = ripple.Amount.from_json(obj.rippleState.LowLimit);
       } else {
         obj.balance = ripple.Amount.from_json(obj.rippleState.Balance);
-        obj.trust_in = ripple.Amount.from_json(obj.rippleState.HighLimit);
-        obj.trust_out = ripple.Amount.from_json(obj.rippleState.LowLimit);
+        obj.limit = ripple.Amount.from_json(obj.rippleState.LowLimit);
+        obj.limit_peer = ripple.Amount.from_json(obj.rippleState.HighLimit);
       }
     }
 
