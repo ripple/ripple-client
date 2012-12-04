@@ -46,9 +46,12 @@ TrustTab.prototype.angular = function (module)
 
     $scope.grant = function ()
     {
+      var currency = $scope.currency.slice(0, 3).toUpperCase();
       var amount = $scope.amount + '/' +
-            $scope.currency + '/' +
+            currency + '/' +
             $scope.counterparty;
+      
+      //console.log(amount);
 
       var tx = self.app.net.remote.transaction();
       tx
