@@ -59,6 +59,39 @@ module.directive('address', function () {
   };
 });
 
+/**
+ * Address validator
+ */
+// TODO code duplication. see 'address' directive
+module.directive('account', function () {
+  return {
+    restrict: 'A',
+    require: '?ngModel',
+    link: function (scope, elm, attr, ctrl) {
+      if (!ctrl) return;
+
+      var validator = function(value) {
+        var UInt160 = new ripple.UInt160();
+
+        if (UInt160.parse_json(value)._value || scope.getContact(value)) {
+          ctrl.$setValidity('account', true);
+          return value;
+        } else {
+          ctrl.$setValidity('account', false);
+          return;
+        }
+      }
+
+      ctrl.$formatters.push(validator);
+      ctrl.$parsers.unshift(validator);
+
+      attr.$observe('account', function() {
+        validator(ctrl.$viewValue);
+      });
+    }
+  };
+});
+
 module.directive('issuer', function () {
   return {
     restrict: 'A',
