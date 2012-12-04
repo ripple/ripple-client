@@ -4,7 +4,8 @@
     .balance.primary
       | {{balance | rpamount}}
       span XRP
-    ul.secondary: li.balance(ng-repeat="(currency, balance) in balances")
-      | {{balance.total | rpamount}}
-      span {{currency}}
+    ul.secondary
+      li.balance(ng-repeat="(currency, balance) in balances", ng-class="{negative: balance.total.is_negative()}")
+        | {{balance.total | rpamount}}
+        span {{currency}}
     a.toggle-secondary(ng-click="toggle_secondary()") +
