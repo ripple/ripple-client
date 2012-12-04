@@ -68,6 +68,9 @@ ContactsTab.prototype.angular = function (module) {
         justAdded: true
       };
 
+      // Enable the animation
+      $scope.enable_highlight = true;
+
       // Add an element
       $scope.addressbook.unshift(contact);
 
