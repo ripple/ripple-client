@@ -190,6 +190,8 @@ module.directive('rpCombobox', [function () {
     restrict: 'A',
     require: '?ngModel',
     link: function (scope, el, attrs, ngModel) {
+      var keyCursor = -1;
+
       el.wrap('<div class="rp-combobox">');
       var cplEl = $('<ul class="completions"></ul>').hide();
       el.parent().append(cplEl);
@@ -198,19 +200,70 @@ module.directive('rpCombobox', [function () {
       if (attrs.rpComboboxSelect) {
         var selectEl = $('<div>').appendTo(el.parent());
         selectEl.addClass('select');
+        selectEl.mousedown(function (e) {
+          e.preventDefault();
+        });
         selectEl.click(function () {
           setCompletions(scope.$eval(attrs.rpCombobox)());
           if (cplEl.is(':visible')) {
-            setVisible(false);
+            el.blur();
           } else {
             setCompletions(scope.$eval(attrs.rpCombobox)());
-            setVisible(true);
+            el.focus();
           }
         });
       }
 
       // Listen for keyup events to enable binding
-      el.keyup(function() {
+      el.keyup(function(e) {
+        if (e.which >= 37 && e.which <= 40) return;
+        if (e.which === 13) return;
+
+        updateCompletions();
+      });
+
+      el.keydown(function (e) {
+        if (e.which === 38 || e.which === 40) {
+          if (!cplEl.children().length) {
+            updateCompletions();
+          }
+          e.preventDefault();
+
+          if (e.which === 38) keyCursor--;
+          else keyCursor++;
+
+          updateKeyCursor();
+        } else if (e.which === 13) {
+          e.preventDefault();
+
+          var curEl = cplEl.find('li.cursor');
+          if (curEl.length === 1) {
+            el.val(curEl.text());
+            setVisible(false);
+            preventNextKeyup = true;
+          }
+        }
+      });
+
+      el.focus(function() {
+        keyCursor = -1;
+        setVisible(!!cplEl.children().length);
+      });
+
+      el.blur(function() {
+        setVisible(false);
+      });
+
+      cplEl.mousedown(function (e) {
+        e.preventDefault();
+      });
+
+      function setVisible(to) {
+        el.parent()[to ? 'addClass' : 'removeClass']('active');
+        cplEl[to ? 'fadeIn' : 'fadeOut']('fast');
+      }
+
+      function updateCompletions() {
         var match = ngModel.$viewValue;
         var re = new RegExp('('+match+')', 'i');
 
@@ -224,28 +277,24 @@ module.directive('rpCombobox', [function () {
 
         setCompletions(completions, re);
         setVisible(!!cplEl.children().length);
-      });
-
-      el.focus(function() {
-        setVisible(!!cplEl.children().length);
-      });
-
-      el.blur(function() {
-        setVisible(false);
-      });
-
-      function setVisible(to) {
-        el.parent()[to ? 'addClass' : 'removeClass']('active');
-        cplEl[to ? 'fadeIn' : 'fadeOut']('fast');
       }
 
       function setCompletions(completions, re) {
         cplEl.empty();
+        keyCursor = -1;
         completions.forEach(function (val) {
           if (re) val = val.replace(re, '<u>$1</u>');
           var completion = $('<li>'+val+'</li>');
           el.parent().find('.completions').append(completion);
         });
+      }
+
+      function updateKeyCursor() {
+        var opts = cplEl.find('li');
+        keyCursor = Math.max(keyCursor, 0);
+        keyCursor = Math.min(keyCursor, opts.length - 1);
+        opts.removeClass('cursor');
+        opts.eq(keyCursor).addClass('cursor');
       }
 
       cplEl.on('click', 'li', function () {
