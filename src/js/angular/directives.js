@@ -295,8 +295,8 @@ module.directive('rpCombobox', [function () {
         opts.eq(keyCursor).addClass('cursor');
       }
 
-      function selectCompletion(el) {
-        var val = $(el).text();
+      function selectCompletion(liEl) {
+        var val = $(liEl).text();
         scope.$apply(function () {
           el.val(val);
           ngModel.$setViewValue(val);
@@ -305,7 +305,7 @@ module.directive('rpCombobox', [function () {
       }
 
       cplEl.on('click', 'li', function () {
-        selectCompletion(el);
+        selectCompletion(this);
       });
     }
   };
