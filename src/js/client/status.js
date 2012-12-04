@@ -25,6 +25,10 @@ StatusManager.prototype.init = function ()
 
   // Activate #status panel
   $scope.$apply(function () {
+    $scope.toggle_secondary = function () {
+      $scope.show_secondary = !$scope.show_secondary;
+    };
+
     var template = require('../../jade/client/status.jade')();
     self.el = app.$compile(template)($scope);
     self.el.appendTo('header');

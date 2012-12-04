@@ -21,25 +21,88 @@
   .balance {
     font: 17px 'OpenSansLight';
     color: #333;
-    line-height: 22px;
-    margin-top: 5px;
+    line-height: 24px;
 
-    > span {
+    span {
       margin-left: 3px;
       font-size: 11px;
     }
 
     &.primary {
       float: left;
+      margin-top: 7px;
     }
+  }
 
-    &.secondary {
-      float: right;
-      border-left: 1px solid #b1b1b1;
+  ul.secondary {
+    position: absolute;
+    top: 44px;
+    right: 0;
+    list-style-type: none;
+    margin: 0;
+    padding: 0 20px 0 0;
+    margin-top: 5px;
+    background-color: #fff;
+    width: 145px;
+    .border-radius(0, 10px, 10px, 0);
+
+    li {
+      text-align: right;
       padding-left: 4px;
       padding-right: 20px;
-      width: 125px;
-      background-color: #fff;
+      display: none;
+    }
+
+    // When not expanded we only show the first secondary currency.
+    li:first-child {
+      border-left: 1px solid #b1b1b1;
+      display: block;
+    }
+  }
+
+  .toggle-secondary {
+    position: absolute;
+    top: 38px;
+    right: 21px;
+  }
+
+  &.expand {
+    // Removing the bottom right corner when the secondary currencies are
+    // expanded provides a smoother transition between the box shadows.
+    .border-radius(10px, 0, 10px, 10px);
+
+    // Inside rounded corner
+    ul.secondary::before {
+      .virtualel;
+      position: absolute;
+      top: 26px;
+      left: -30px;
+      width: 20px;
+      height: 20px;
+      position: absolute;
+      border: 10px solid #fff;
+      .rounded(20px);
+      clip: rect(10px, 30px, 20px, 20px);
+      z-index: 20;
+    }
+
+    // Show all secondary currencies
+    ul.secondary li {
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    // Shadow for expanded secondary currencies
+    ul.secondary:after {
+      position: absolute;
+      top: 36px;
+      right: 0;
+      bottom: 0;
+      width: 165px;
+      .virtualel;
+      .border-radius(0, 10px, 10px, 0);
+      .drop-shadow(0, 0, 12px, 0.20);
+      clip: rect(0, 500px, 500000px, -50px);
     }
   }
 }

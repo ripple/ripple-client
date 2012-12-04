@@ -1,9 +1,10 @@
-#status
+#status(ng-class="{expand: show_secondary}")
   .user
     div {{username}}&nbsp;
     .balance.primary
       | {{balance | rpamount}}
       span XRP
-    .balance.secondary(ng-repeat="(currency, balance) in balances")
+    ul.secondary: li.balance(ng-repeat="(currency, balance) in balances")
       | {{balance.total | rpamount}}
       span {{currency}}
+    a.toggle-secondary(ng-click="toggle_secondary()") +
