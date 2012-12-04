@@ -52,7 +52,7 @@ Model.prototype.handleAccountLoad = function (e)
     .on('success', this.handleRippleLines.bind(this)).request();
   remote.request_wallet_accounts(e.secret)
     .on('success', this.handleAccounts.bind(this)).request();
-  
+
   //TOMORROW remote.request_account_offers(e.account).on('success', this.handleOffers.bind(this)).request();
 
   remote.on('net_account', this.handleAccountEvent.bind(this));
@@ -118,7 +118,7 @@ Model.prototype.handleAccountTx = function (account, data)
   $scope.$apply(function () {
     if (data.transactions) {
       var transactions = data.transactions.forEach(function (e) {
-        self._processTxn(e.tx, e.meta);
+        self._processTxn(e.tx, e.meta, true);
       });
     }
   });
@@ -134,7 +134,7 @@ Model.prototype.handleAccountEvent = function (e)
 /**
  * Process a transaction and add it to the history table.
  */
-Model.prototype._processTxn = function (tx, meta)
+Model.prototype._processTxn = function (tx, meta, is_historic)
 {
   var $scope = this.app.$scope;
 
@@ -152,7 +152,9 @@ Model.prototype._processTxn = function (tx, meta)
     }
 
     // If the transaction had an effect on our Ripple lines
-    if (processedTxn.rippleState) this._updateLines(processedTxn);
+    if (processedTxn.rippleState && !is_historic) {
+      this._updateLines(processedTxn);
+    }
   }
 };
 
