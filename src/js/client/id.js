@@ -182,4 +182,17 @@ Id.prototype.getContacts = function (callback)
    }])*/
 }
 
+Id.prototype.getContactNames = function ()
+{
+  var names = [];
+
+  if (this.data.data.contacts) {
+    for (var i=0; i<this.data.data.contacts.length; i++) {
+      names.push(this.data.data.contacts[i].name);
+    }
+  }
+
+  return names;
+}
+
 module.exports.Id = Id;

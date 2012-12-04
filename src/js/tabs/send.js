@@ -22,13 +22,26 @@ SendTab.prototype.angularDeps = ['directives'];
 SendTab.prototype.angular = function (module)
 {
   var app = this.app;
+
   module.controller('SendCtrl', ['$scope', '$timeout', function ($scope, $timeout) {
 
-    $scope.recipient_query = function (match) {
-      return ['Alice','Antony','Bob','Charlie','Chandra'].filter(function (v) {
-        return v.toLowerCase().match(match.toLowerCase());
-      });
-    };
+    if (app.id.data) {
+      $scope.recipient_query = function (match) {
+        return app.id.getContactNames().filter(function (v) {
+          return v.toLowerCase().match(match.toLowerCase());
+        });
+      };
+    }
+
+    // TODO code duplication
+    app.id.on('blobupdate', function (e) {
+      $scope.recipient_query = function (match) {
+        return app.id.getContactNames().filter(function (v) {
+          return v.toLowerCase().match(match.toLowerCase());
+        });
+      };
+      $scope.$digest();
+    })
 
     $scope.currency_query = webutil.queryFromOptions($scope.currencies_all);
 
@@ -52,7 +65,6 @@ SendTab.prototype.angular = function (module)
 
       $scope.amount_feedback = amount.to_human();
       $scope.currency_feedback = amount._currency.to_json();
-      $scope.recipient_extra = "(not in address book)";
 
       $scope.confirm_wait = true;
       $timeout(function () {
