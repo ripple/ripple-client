@@ -18,17 +18,21 @@ FeedTab.prototype.generateHtml = function ()
 
 FeedTab.prototype.onAfterRender = function ()
 {
+  
   var app = this.app;
-  app.net.remote.on("net_transaction", this.handleMsg.bind(this) );
-  app.net.remote.on("net_ledger", this.handleMsg.bind(this) );
-  app.net.remote.on("net_server", this.handleMsg.bind(this) );
+  //app.net.remote.on("net_transaction", this.handleMsg.bind(this) );
+ // app.net.remote.on("ledger_close", this.handleMsg.bind(this) );
+//  app.net.remote.on("net_server", this.handleMsg.bind(this) );
 };
 
 FeedTab.prototype.angular = function (module)
 {
   var app = this.app;
+  
   module.controller('FeedCtrl', function ($scope)
   { 
+    $scope.feed=[];
+    
     $scope.toggle_feed_transactions = function () 
     {
       console.log($scope.transCheck);
@@ -44,6 +48,7 @@ FeedTab.prototype.angular = function (module)
     };
     $scope.clear_feed = function () 
     {
+      $scope.feed=[];
     }; 
   });
 };
@@ -51,15 +56,16 @@ FeedTab.prototype.angular = function (module)
 FeedTab.prototype.handleMsg = function(message)
 {
   console.log(message);
-  if(message.type=="net_transaction" && $scope.transCheck)
+  message.date="hello";
+  if(message.type=="transaction" && $scope.transCheck)
   {
-    
-  }else if(message.type=="net_ledger" && $scope.ledgerCheck)
+    $scope.feed.unshift(message);
+  }else if(message.type=="ledgerClose" && $scope.ledgerCheck)
   {
-    
+    $scope.feed.unshift(message);
   }else if(message.type=="net_server" && $scope.serverCheck)
   {
-    
+    $scope.feed.unshift(message);
   }
 }
 
