@@ -55,6 +55,7 @@ TrustTab.prototype.angular = function (module)
         .ripple_line_set(self.app.id.account, amount)
         .submit()
       ;
+      $scope.addform_visible = false;
     };
   });
 };

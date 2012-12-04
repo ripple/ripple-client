@@ -35,7 +35,7 @@ ContactsTab.prototype.angular = function (module) {
     {
       $scope.addressbook = app.id.getContacts();
       $scope.addressbookmaster = angular.copy($scope.addressbook);
-    }
+    };
 
     // Update contacts when user enters this tab
     if (app.id.data) {
@@ -46,7 +46,7 @@ ContactsTab.prototype.angular = function (module) {
     app.id.on('blobupdate', function (e) {
       $scope.updateData();
       $scope.$digest();
-    })
+    });
 
     /**
      * Toggle "add contact" form
@@ -54,7 +54,7 @@ ContactsTab.prototype.angular = function (module) {
     $scope.toggle_form = function ()
     {
       $scope.addform_visible = !$scope.addform_visible;
-    }
+    };
 
     /**
      * Create contact
@@ -86,7 +86,7 @@ ContactsTab.prototype.angular = function (module) {
       // Clear form
       $scope.name = '';
       $scope.address = '';
-    }
+    };
 
     /**
      * Switch to edit mode
@@ -96,7 +96,7 @@ ContactsTab.prototype.angular = function (module) {
     $scope.edit = function (index)
     {
       $scope.addressbook[index].isEditMode = true;
-    }
+    };
 
     /**
      * Update contact
@@ -135,7 +135,7 @@ ContactsTab.prototype.angular = function (module) {
 
       // Update blob
       app.id.setContacts($scope.addressbookmaster);
-    }
+    };
 
     /**
      * Remove contact
@@ -150,7 +150,7 @@ ContactsTab.prototype.angular = function (module) {
 
       // Update blob
       app.id.setContacts($scope.addressbookmaster);
-    }
+    };
 
     /**
      * Cancel contact edit
@@ -164,8 +164,8 @@ ContactsTab.prototype.angular = function (module) {
         address: $scope.addressbookmaster[index].address,
         isEditMode: false
       };
-    }
-  })
+    };
+  });
 
   /**
    * Contact name and address uniqueness validator
@@ -178,7 +178,7 @@ ContactsTab.prototype.angular = function (module) {
         if (!ctrl) return;
 
         var validator = function(value) {
-          var duplicates = $.grep($scope.addressbook, function(e){ return e[elm[0].name] == value; })
+          var duplicates = $.grep($scope.addressbook, function(e){ return e[elm[0].name] == value; });
 
           if (typeof duplicates == 'undefined' || duplicates.length === 0) {
             ctrl.$setValidity('unique', true);
@@ -187,7 +187,7 @@ ContactsTab.prototype.angular = function (module) {
             ctrl.$setValidity('unique', false);
             return;
           }
-        }
+        };
 
         ctrl.$formatters.push(validator);
         ctrl.$parsers.unshift(validator);
@@ -197,7 +197,7 @@ ContactsTab.prototype.angular = function (module) {
         });
       }
     };
-  })
+  });
 };
 
 ContactsTab.prototype.onAfterRender = function ()

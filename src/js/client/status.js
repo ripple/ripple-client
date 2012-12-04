@@ -31,7 +31,6 @@ StatusManager.prototype.init = function ()
 
     $scope.$watch('balances', function () {
       $scope.balance_count = Object.keys($scope.balances).length;
-      console.log("balances changed");
     }, true);
 
     var template = require('../../jade/client/status.jade')();
