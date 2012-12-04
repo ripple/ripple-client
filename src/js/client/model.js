@@ -20,6 +20,11 @@ Model.prototype.init = function ()
 
   $scope.balance = "0";
 
+  $scope.lines = [];
+  $scope.events = [];
+  $scope.history = [];
+  $scope.balances = {};
+
   $scope.currencies_all = require('../data/currencies');
   $scope.currencies = $scope.currencies_all.slice(1);
 };
@@ -55,7 +60,9 @@ Model.prototype.handleAccountLoad = function (e)
 
 Model.prototype.handleRippleLines = function (data)
 {
+  var self = this;
   var $scope = this.app.$scope;
+
   $scope.$apply(function ()
   {
     $scope.lines={};
@@ -70,6 +77,7 @@ Model.prototype.handleRippleLines = function (data)
       line.balance = ripple.Amount.from_json({value: line.balance, currency: line.currency});
 
       $scope.lines[line.account+line.currency] = line;
+      self._updateRippleBalance(line.currency, line.account, line.balance);
     }
     console.log('Lines updated:', $scope.lines);
   });
@@ -94,8 +102,6 @@ Model.prototype.handleAccountTx = function (account, data)
 
   var $scope = this.app.$scope;
   $scope.$apply(function () {
-    $scope.events = [];
-    $scope.history = [];
     if (data.transactions) {
       var transactions = data.transactions.forEach(function (e) {
         self._processTxn(e.tx, e.meta);
@@ -156,6 +162,8 @@ Model.prototype._updateLines = function(txn)
 
   if (txn.tx_type === "Payment") {
     line.balance = txn.balance;
+
+    this._updateRippleBalance(txn.currency, txn.counterparty, txn.balance);
   } else if (txn.tx_type === "TrustSet") {
     line.limit = txn.trust_out;
     line.limit_peer = txn.trust_in;
@@ -163,5 +171,31 @@ Model.prototype._updateLines = function(txn)
 
   $scope.lines[index] = $.extend($scope.lines[index], line);
 }
+
+Model.prototype._updateRippleBalance = function(currency, new_account, new_balance)
+{
+  var $scope = this.app.$scope;
+
+  // Ensure the balances entry exists first
+  if (!$scope.balances[currency]) {
+    $scope.balances[currency] = {components: {}};
+  }
+
+  var balance = $scope.balances[currency];
+
+  if (new_account) {
+    balance.components[new_account] = new_balance;
+  }
+
+  balance.total = 0;
+  for (var counterparty in balance.components) {
+    var amount = balance.components[counterparty];
+
+    // XXX: Do proper BigInteger addition through ripple.Amount
+    balance.total += +amount.to_text();
+  }
+  console.log(currency, balance.total);
+  balance.total = ripple.Amount.from_human(""+balance.total+" "+currency);
+};
 
 exports.Model = Model;

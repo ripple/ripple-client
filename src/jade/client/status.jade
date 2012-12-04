@@ -4,6 +4,6 @@
     .balance.primary
       | {{balance | rpamount}}
       span XRP
-    .balance.secondary
-      | 1,000,000
-      span USD
+    .balance.secondary(ng-repeat="(currency, balance) in balances")
+      | {{balance.total | rpamount}}
+      span {{currency}}
