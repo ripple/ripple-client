@@ -63,7 +63,9 @@ ContactsTab.prototype.angular = function (module) {
     {
       var contact = {
         name: $scope.name,
-        address: $scope.address
+        address: $scope.address,
+        // Used for animation
+        justAdded: true
       };
 
       // Add an element
