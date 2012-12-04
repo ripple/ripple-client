@@ -65,7 +65,9 @@ BlobObj.decrypt = function (priv, ciphertext)
 var VaultBlobBackend = {
   get: function (key, callback)
   {
-    $.get(Options.blobvault + '/' + key)
+    var url = Options.blobvault;
+    if (url.indexOf("://") === -1) url = "http://" + url;
+    $.get(url + '/' + key)
         .success(function (data) {
           callback(null, data);
         })
