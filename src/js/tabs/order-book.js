@@ -5,6 +5,7 @@ var Tab = require('../client/tabmanager').Tab;
 var OrderBookTab = function ()
 {
   Tab.call(this);
+  this.on('afterrender', this.onAfterRender.bind(this));
 };
 
 util.inherits(OrderBookTab, Tab);
@@ -13,6 +14,12 @@ OrderBookTab.prototype.parent = 'advanced';
 OrderBookTab.prototype.generateHtml = function ()
 {
   return require('../../jade/tabs/order-book.jade')();
+};
+
+OrderBookTab.prototype.onAfterRender = function ()
+{
+  var app = this.app;
+  app.net.remote.on("net_transaction", this.handleMsg.bind(this) );
 };
 
 //OrderBookTab.prototype.angular
@@ -34,6 +41,7 @@ OrderBookTab.prototype.angular = function(module)
       // need to stop listening to the previous nexus
       // need to start listening to this guy
       // need to ask for his current state
+      
       
     };
     

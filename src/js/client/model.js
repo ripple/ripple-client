@@ -48,12 +48,12 @@ Model.prototype.listenId = function (id)
 Model.prototype.handleAccountLoad = function (e)
 {
   var remote = this.app.net.remote;
-  remote.request_ripple_lines_get(e.account)
+  remote.request_account_lines(e.account)
     .on('success', this.handleRippleLines.bind(this)).request();
   remote.request_wallet_accounts(e.secret)
     .on('success', this.handleAccounts.bind(this)).request();
-  
-  //TOMORROW remote.request_account_offers(e.account).on('success', this.handleOffers.bind(this)).request();
+  remote.request_account_offers(e.account)
+    .on('success', this.handleOffers.bind(this)).request();
 
   remote.on('net_account', this.handleAccountEvent.bind(this));
 

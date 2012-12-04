@@ -56,7 +56,9 @@ FeedTab.prototype.angular = function (module)
 FeedTab.prototype.handleMsg = function(message)
 {
   console.log(message);
-  message.date="hello";
+  var today = new Date();
+  message.date=today.getHours()+ ":"+ today.getMinutes()+" " + today.getDate() + "/" +(today.getMonth()+1);
+ 
   if(message.type=="transaction" && $scope.transCheck)
   {
     $scope.feed.unshift(message);
