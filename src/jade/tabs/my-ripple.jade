@@ -29,5 +29,7 @@ section#t-my-ripple.panel.content
           span.address {{entry.counterparty}}
           |  now trusts you for
           strong  {{entry.trust_out | rpamount}} {{entry.currency}}
-        td.desc(ng-show="entry.type == 'trusting'") You now trust {{entry.counterparty}} for
+        td.desc(ng-show="entry.type == 'trusting'") You now trust 
+          span.address {{entry.counterparty}}
+          |  for 
           strong  {{entry.trust_in | rpamount}} {{entry.currency}}
