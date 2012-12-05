@@ -20,7 +20,7 @@ TrustTab.prototype.generateHtml = function ()
   return require('../../jade/tabs/trust.jade')();
 };
 
-TrustTab.prototype.angularDeps = ['fields', 'filters'];
+TrustTab.prototype.angularDeps = ['charts', 'fields', 'filters'];
 
 TrustTab.prototype.angular = function (module)
 {
