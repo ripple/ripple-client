@@ -13,7 +13,7 @@ section.panel.content(ng-controller="HistoryCtrl")
     tbody
       tr(ng-repeat="entry in history | filter:type", class="{{entry.type}}")
         td.date {{entry.date | date}}
-        td.counterparty {{entry.counterparty}}
+        td.counterparty {{entry.counterparty | rpnickname}}
         td.amount
           .currency {{entry.currency}}
           | {{entry.amount | rpamount}}
