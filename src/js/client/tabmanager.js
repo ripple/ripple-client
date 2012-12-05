@@ -306,7 +306,7 @@ Tab.prototype.render = function (slot, callback)
         }
 
         // Retry rendering now
-        if (this.tm.getElBySlot(this.parent)) {
+        if (self.tm.getElBySlot(self.parent)) {
           self.render(self.slot, callback);
         } else {
           callback(new Error("Unable to instantiate parent tab '"+this.parent+"' "
