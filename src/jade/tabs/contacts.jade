@@ -20,9 +20,9 @@ section.panel.content(ng-controller="ContactsCtrl")
             .error(ng-show='addForm.name.$error.unique') You already have a contact with the same name.
             label(for='Address') Address
             .address
-              input#address(name='address', type='text', step='any', ng-model='address', address, unique, required)
-            .error(ng-show='addForm.address.$error.address') Not a valid address.
-            .error(ng-show='addForm.address.$error.unique') You already have a contact with the same address.
+              input#address(name='address', type='text', step='any', ng-model='address', rp-address, rp-unique, required)
+            .error(ng-show='addForm.address.$error.rpAddress') Not a valid address.
+            .error(ng-show='addForm.address.$error.rpUnique') You already have a contact with the same address.
             div.submitsection
               button.btn.btn-info(type='submit', ng-click='create()', ng-disabled='addForm.$invalid') Add contact
       tr(ng-repeat="entry in addressbook", ng-class="{editMode: entry.duplicateName || entry.duplicateAddress || entry.invalidAddress}", rp-animate="enable_highlight")

@@ -15,8 +15,8 @@ section.panel.content(ng-controller="TradeCtrl")
       label(for='sell_currency') Sell Currency:
       input.currency#sell_currency(name='sell_currency', type='text', ng-model='sell_currency', ng-change='changePair()', rp-combobox="currency_query", rp-combobox-select)
       label(for='buy_currency') Buy Currency:
-      input.currency#buy_currency(name='buy_currency', type='text', issuer, ng-model='buy_currency', ng-change='changePair()', rp-combobox="currency_query", rp-combobox-select)
-      .error(ng-show='orderform.buy_currency.$error.issuer') You aren't able to accept this currency (add trust)
+      input.currency#buy_currency(name='buy_currency', type='text', rp-issuer, ng-model='buy_currency', ng-change='changePair()', rp-combobox="currency_query", rp-combobox-select)
+      .error(ng-show='orderform.buy_currency.$error.rpIssuer') You aren't able to accept this currency (add trust)
       label(for='order_amount') Amount To Sell: 
         input(name='amount', type='number', step='any', ng-model='amount', ng-pattern='/^[0-9.]+$/', required)
       .error(ng-show='orderform.amount.$error.required') Please enter an amount.
