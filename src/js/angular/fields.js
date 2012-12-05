@@ -22,6 +22,7 @@ module.directive('rpCombobox', [function () {
       var keyCursor = -1;
 
       el.wrap('<div class="rp-combobox">');
+      el.attr('autocomplete', 'off');
       var cplEl = $('<ul class="completions"></ul>').hide();
       el.parent().append(cplEl);
 
