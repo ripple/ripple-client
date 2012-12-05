@@ -422,3 +422,144 @@ html.t-overview header nav ul > li.active#nav-account > a:after {
     font-size: 20px;
   }
 }
+
+#t-trade {
+  .action-window {
+    margin: 15px 15px 25px 30px;
+    padding: 0;
+    border-radius: 5px;
+    border: 1px solid #CCCCCC;
+
+    .info {
+      padding: 0 25px 8px;
+      border-bottom: 1px solid #CCCCCC;
+      margin: 10px 0 30px;
+
+      li {
+        display: inline-block;
+        width: 140px;
+        font-size: 12px;
+
+        .label {
+          color: #7A7A7A;
+          margin: 0 5px 0 0;
+        }
+        .value {
+          font-weight: bold;
+        }
+        .icon {
+          margin: 0 0 0 3px;
+        }
+        .up {
+          color: green;
+        }
+        .down {
+          color: red;
+        }
+      }
+    }
+
+    .mode-form {
+      margin: 10px 30px;
+
+      .currencies {
+        height: 100px;
+
+        label {
+          display: inline-block;
+        }
+
+        .currency-field {
+          display: inline-block;
+          width: 300px;
+
+          label {
+            line-height: 30px;
+            width: 50px;
+          }
+          .error {
+            width: 300px;
+            margin: 0 0 0 50px;
+          }
+          input {
+            margin: 0;
+          }
+        }
+        .sell {
+          float: left;
+        }
+      }
+      .order-values {
+        overflow: hidden;
+
+        .value-field {
+          width: 202px;
+          float: left;
+
+          input {
+            width: 180px;
+          }
+        }
+        .sign {
+          width: 30px;
+          text-align: center;
+          margin: 40px 0 0 0;
+          float: left;
+        }
+      }
+      .message {
+        color: green;
+      }
+      .submitsection {
+        margin: 20px 0 30px 0;
+      }
+    }
+
+    .mode-confirm {
+      text-align: center;
+
+      .amount_feedback {
+        font-size: 20px;
+
+        .value {
+          margin: 0 5px 0 0;
+        }
+      }
+
+      .dest_feedback {
+        font-size: 20px;
+
+        .value {
+          margin: 0 5px 0 0;
+        }
+      }
+
+      .submitsection {
+        button {
+          margin: 0 5px;
+        }
+      }
+    }
+  }
+
+  .open-orders-title {
+    font-size: 20px;
+    margin: 0;
+    padding: 0 0 10px 50px;
+    text-align: left;
+  }
+  .open-orders {
+    margin: 0 0 30px;
+
+    th {
+      border: 0;
+      text-align: center;
+      font-weight: bold;
+      font-size: 14px;
+    }
+    td {
+      text-align: center;
+      font-size: 14px;
+    }
+  }
+}
