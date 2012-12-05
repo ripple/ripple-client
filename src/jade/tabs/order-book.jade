@@ -1,29 +1,34 @@
 section.panel.content(ng-controller="OrderbookCtrl")
-  input#send_destination(name='send_destination', type='text', ng-model='nexus', required, rp-combobox="query_dest", ng-change='changeNexus()')
-  Nexus 
-  table
-    tr
-      td
+  p.literal Watch orders for a currency pair.
+  hr
+  form(name="offerbookSelectForm")
+    .currency-config
+      .buy
+        label Buy Currency
         input.currency#buy_currency(name='buy_currency', type='text', ng-model='buy_currency', ng-change='changePair()', rp-combobox="currency_query", rp-combobox-select)
-      td for
-      td
+      //.issuer
+      //  label Issuing Nexus
+      //  input#send_destination(name='send_destination', type='text', ng-model='nexus', required, rp-combobox="query_dest", ng-change='changeNexus()')
+      .sell
+        label Sell Currency
         input.currency#sell_currency(name='sell_currency', type='text', ng-model='sell_currency', ng-change='changePair()', rp-combobox="currency_query", rp-combobox-select)
-
-  p Selling {{buy_currency.value}}/{{sell_currency.value}} (asks)
-  table.table.table-striped
-    tr
-      th Price
-      th Amount
-      th Sum
-      th Issuer In
-      th Issuer Out
-      
-  p Buying {{buy_currency.value}}/{{sell_currency.value}} (bids)
-  table.table.table-striped
-    tr
-      th Unit Price
-      th Amount
-      th Sum
-      th Issuer In
-      th Issuer Out
-      
+  group(ng-show='buy_currency_code && sell_currency_code')
+    table.table.table-striped
+      thead: tr
+        th Unit Price
+        th Amount
+        th Sum
+      tbody
+        tr(ng-repeat='order in asks')
+          td {{order.i.num/order.o.num}}
+          td {{order.o.amount | rpamount:{precision: 6} }}
+          td {{order.sum}}
+        tr(ng-show='!asks.length')
+          td(colspan="3") There are currently no asks for this pair
+        tr.sep: td(colspan="3")
+        tr(ng-repeat='order in bids')
+          td {{order.i.num/order.o.num}}
+          td {{order.o.amount | rpamount:{precision: 6} }}
+          td {{order.sum}}
+        tr(ng-show='!bids.length')
+          td(colspan="5") There are currently no bids for this pair
