@@ -260,7 +260,12 @@ Tab.prototype.defaultChild = null;
  *
  * List any controllers the tab uses here.
  */
-Tab.prototype.angularDeps = ['directives', 'filters'];
+Tab.prototype.angularDeps = [
+  // Directives
+  'charts', 'effects', 'events', 'fields', 'directives', 'validators',
+  // Filters
+  'filters'
+];
 
 Tab.prototype.setTabManager = function (tm)
 {

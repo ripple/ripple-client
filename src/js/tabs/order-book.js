@@ -22,8 +22,6 @@ OrderBookTab.prototype.onAfterRender = function ()
   app.net.remote.on("net_transaction", this.handleMsg.bind(this) );
 };
 
-OrderBookTab.prototype.angularDeps = ['fields']
-
 OrderBookTab.prototype.angular = function(module)
 {
   module.controller('OrderbookCtrl', function ($scope)

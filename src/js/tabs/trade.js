@@ -16,8 +16,6 @@ TradeTab.prototype.generateHtml = function ()
   return require('../../jade/tabs/trade.jade')();
 };
 
-TradeTab.prototype.angularDeps = ['fields', 'validators'];
-
 TradeTab.prototype.angular = function(module)
 {
   var app = this.app;
