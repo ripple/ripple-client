@@ -17,8 +17,6 @@ SendTab.prototype.generateHtml = function ()
   return require('../../jade/tabs/send.jade')();
 };
 
-SendTab.prototype.angularDeps = ['fields'];
-
 SendTab.prototype.angular = function (module)
 {
   var app = this.app;
@@ -60,7 +58,12 @@ SendTab.prototype.angular = function (module)
       $scope.amount = '';
       $scope.currency = 'XRP';
       $scope.nickname = '';
-      if ($scope.sendform) $scope.sendform.$setPristine(true);
+      if ($scope.sendForm) $scope.sendForm.$setPristine(true);
+    };
+
+    $scope.reset_goto = function (tabName) {
+      $scope.reset();
+      app.tabs.gotoTab(tabName);
     };
 
     /**
@@ -103,8 +106,8 @@ SendTab.prototype.angular = function (module)
       tx.payment(app.id.account, $scope.recipient, amount.to_json());
       tx.build_path(true);
       tx.set_flags('CreateAccount');
-      tx.on('success', function () {
-        $scope.sent();
+      tx.on('success', function (res) {
+        $scope.sent(this.hash);
         $scope.$digest();
       });
       tx.on('error', function () {
@@ -119,9 +122,29 @@ SendTab.prototype.angular = function (module)
     /**
      * N5. Sent page
      */
-    $scope.sent = function () {
+    $scope.sent = function (hash) {
       $scope.mode = "sent";
-    }
+      $scope.tx_result = "pending";
+      app.net.remote.on('net_account', handleAccountEvent);
+
+      function handleAccountEvent(e) {
+        if (e.transaction.hash === hash) {
+          $scope.engine_result = e.engine_result;
+          switch (e.engine_result.slice(0, 3)) {
+          case 'tes':
+            $scope.tx_result = "cleared";
+            break;
+          case 'tem':
+            $scope.tx_result = "malformed";
+            break;
+          default:
+            console.warn("Unhandled engine status encountered!");
+          }
+          $scope.$digest();
+          app.net.remote.removeListener('net_account', handleAccountEvent);
+        }
+      }
+    };
 
     $scope.showSaveAddressForm = function () {
       $('#saveAddressForm').slideDown();
@@ -142,11 +165,44 @@ SendTab.prototype.angular = function (module)
       app.id.addContact(contact, function(){
         $scope.contact = contact;
         $scope.addressSaved = true;
+
+        $scope.$digest();
       })
     }
 
     $scope.reset();
   }]);
+
+  /**
+   * Contact name and address uniqueness validator
+   */
+    // TODO move to global directives
+  module.directive('unique', function() {
+    return {
+      restrict: 'A',
+      require: '?ngModel',
+      link: function ($scope, elm, attr, ctrl) {
+        if (!ctrl) return;
+
+        var validator = function(value) {
+          if (!app.id.getContact(value)) {
+            ctrl.$setValidity('unique', true);
+            return value;
+          } else {
+            ctrl.$setValidity('unique', false);
+            return;
+          }
+        };
+
+        ctrl.$formatters.push(validator);
+        ctrl.$parsers.unshift(validator);
+
+        attr.$observe('unique', function() {
+          validator(ctrl.$viewValue);
+        });
+      }
+    };
+  });
 };
 
 module.exports = SendTab;

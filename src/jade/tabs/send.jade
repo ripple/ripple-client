@@ -52,8 +52,13 @@ section#t-send.single.content(ng-controller='SendCtrl')
   //- N5. Sent page
 
   group.mode-sent(ng-show='mode=="sent"')
-    h1 Your transaction has been submitted.
-    p Your account balance will update once the payment has cleared.
+    group.pending(ng-show='tx_result=="pending"')
+      h1 Your transaction has been submitted.
+      p Your account balance will update once the payment has cleared.
+    group.result-success(ng-show='tx_result=="cleared"')
+      h1 Transaction cleared!
+    group.result-error(ng-show='tx_result=="error"')
+      h1 Transaction failed!
     hr
     div.text-success(ng-show='addressSaved') Contact saved!
     div(ng-hide='contact', class="actionLink")
@@ -61,7 +66,8 @@ section#t-send.single.content(ng-controller='SendCtrl')
       form(name="saveAddressForm", id="saveAddressForm", ng-submit='saveAddress()')
         div.address {{recipient}}
         label(for='save_address_name') Name this user
-        input#contact_name(name='save_address_name', type="text", step='any', ng-model='saveAddressName', required)
+        input#contact_name(name='save_address_name', type="text", step='any', ng-model='saveAddressName', unique, required)
+        .error(ng-show='saveAddressForm.save_address_name.$error.unique') You already have a contact with the same name.
         div
           button.btn.btn-success(type='submit', ng-disabled='addressSaving')
             span(ng-show='addressSaving') Saving...
@@ -71,5 +77,5 @@ section#t-send.single.content(ng-controller='SendCtrl')
     div(class="actionLink")
       a(ng-click="reset()") Send another payment
     div(class="actionLink")
-      a(href="#overview") Back to Overview
+      a(ng-click="reset_goto('overview')") Back to overview
     hr

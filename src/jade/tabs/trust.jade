@@ -24,6 +24,8 @@ section.panel.content(ng-controller="TrustCtrl")
       tr(ng-repeat='(key, line) in lines')
         td {{line.account}}
         td {{line.currency}}
-        td {{line.limit_peer | rpamount}} --- {{line.balance | rpamount:{signed: true} }} --- {{line.limit | rpamount}}
+        td
+          //{{line.limit_peer | rpamount}} --- {{line.balance | rpamount:{signed: true} }} --- {{line.limit | rpamount}}
+          rp-trust-line(rp-line-data='line')
         td
           a(ng-click="edit_line()") edit

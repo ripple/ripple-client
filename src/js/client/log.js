@@ -4,5 +4,5 @@
  * Includes some logic to try and log a stack in various browsers.
  */
 exports.exception = function (exception) {
-  console.log(e.getStack());
+  console.log("function" === typeof exception.getStack ? exception.getStack() : exception.stack);
 }

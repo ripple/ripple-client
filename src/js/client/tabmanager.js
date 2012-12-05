@@ -19,6 +19,8 @@ TabManager.prototype.init = function ()
 
       this.handleHashChange();
     } catch (e) {
+      console.warn("tabs: error loading "+location.hash+":");
+      log.exception(e);
       this.gotoTab("overview");
     }
   } else if (this.app.id.isReturning()) {
@@ -77,24 +79,35 @@ TabManager.prototype.showTabInSlot = function (tabName, slotName, callback)
     tab.show();
 
     if ("function" === typeof callback) {
-      callback(tab);
+      callback(null, tab);
     }
   } else if ("function" === typeof TabManager.tabs[tabName]) {
-    var tabLoader = TabManager.tabs[tabName];
-    tabLoader(function (TabClass) {
-      var tab = new TabClass();
-      tab.setTabManager(self);
-      tab.render(slotName, function () {
-        tab.show();
+    this.renderTabInSlot(tabName, slotName, function (err, tab) {
+      if (err) {
+        callback(err);
+        return;
+      }
+      tab.show();
 
-        if ("function" === typeof callback) {
-          callback(tab);
-        }
-      });
+      if ("function" === typeof callback) {
+        callback(null, tab);
+      }
     });
   } else {
     throw new Error("Unknown tab '"+tabName+"'.");
   }
+};
+
+TabManager.prototype.renderTabInSlot = function (tabName, slotName, callback)
+{
+  var self = this;
+  var tabLoader = TabManager.tabs[tabName];
+  tabLoader(function (TabClass) {
+    var tab = new TabClass();
+    tab.tabName = tabName;
+    tab.setTabManager(self);
+    tab.render(slotName, callback);
+  });
 };
 
 TabManager.prototype.hideSlot = function (slotName)
@@ -260,7 +273,12 @@ Tab.prototype.defaultChild = null;
  *
  * List any controllers the tab uses here.
  */
-Tab.prototype.angularDeps = ['directives', 'filters'];
+Tab.prototype.angularDeps = [
+  // Directives
+  'charts', 'effects', 'events', 'fields', 'directives', 'validators',
+  // Filters
+  'filters'
+];
 
 Tab.prototype.setTabManager = function (tm)
 {
@@ -285,8 +303,23 @@ Tab.prototype.render = function (slot, callback)
       parentEl = this.tm.getElBySlot(this.parent);
     }
     if (!parentEl) {
-      throw new Error('Loaded tab without parent tab "'+this.parent+'" '
-                      + 'present!');
+      // Our parent isn't loaded yet - this case is a bit awkward, but we will
+      // try to load it and then switch to ourselves again.
+      self.tm.renderTabInSlot(this.parent, this.parent, function (err) {
+        if (err) {
+          callback(err);
+          return;
+        }
+
+        // Retry rendering now
+        if (self.tm.getElBySlot(self.parent)) {
+          self.render(self.slot, callback);
+        } else {
+          callback(new Error("Unable to instantiate parent tab '"+this.parent+"' "
+                             + "for tab '"+self.slot+"'"));
+        }
+      });
+      return;
     }
 
     var html = this.generateHtml();
@@ -311,7 +344,7 @@ Tab.prototype.render = function (slot, callback)
           self.el.appendTo(parentEl);
           self.emit('afterrender');
           self.tm.slots[slot] = self;
-          callback();
+          callback(null, self);
         });
       });
       return;
@@ -323,7 +356,7 @@ Tab.prototype.render = function (slot, callback)
   }
   this.emit('afterrender');
   this.tm.slots[slot] = this;
-  callback();
+  callback(null, this);
 };
 
 Tab.prototype.getEl = function ()

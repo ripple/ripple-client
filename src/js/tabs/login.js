@@ -16,8 +16,6 @@ LoginTab.prototype.generateHtml = function ()
   return require('../../jade/tabs/login.jade')();
 };
 
-LoginTab.prototype.angularDeps = ['directives'];
-
 LoginTab.prototype.angular = function (module) {
   var tm = this.tm;
   var app = this.app;

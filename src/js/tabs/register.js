@@ -16,8 +16,6 @@ RegisterTab.prototype.generateHtml = function ()
   return require('../../jade/tabs/register.jade')();
 };
 
-RegisterTab.prototype.angularDeps = ['validators'];
-
 RegisterTab.prototype.angular = function (module) {
   var app = this.app;
   var tm = this.tm;

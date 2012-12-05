@@ -24,8 +24,10 @@ html.pm-single {
 }
 
 .panel {
-  > table td:first-child, > table th:first-child {
-    padding-left: @pmPanelMargin;
+  > table, group > table {
+    td:first-child, th:first-child {
+      padding-left: @pmPanelMargin;
+    }
   }
   > p, > div, > form, > hr,
   group > p, group > div, group > form, group > hr {

@@ -19,8 +19,6 @@ ContactsTab.prototype.generateHtml = function ()
   return require('../../jade/tabs/contacts.jade')();
 };
 
-ContactsTab.prototype.angularDeps = ['directives', 'effects'];
-
 ContactsTab.prototype.angular = function (module) {
   var app = this.app;
 

@@ -19,6 +19,7 @@ var Angular = function ()
  */
 Angular.load = function ()
 {
+  require('../angular/charts');
   require('../angular/fields');
   require('../angular/effects');
   require('../angular/validators');

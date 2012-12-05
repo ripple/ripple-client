@@ -309,12 +309,19 @@ html.t-overview header nav ul > li.active#nav-account > a:after {
 
   .mode-sent {
     h1 {
-      margin: 10px 60px;
+      padding: 10px 60px;
       font-size: 30px;
       border-bottom: none;
       text-align: left;
       font-weight: bold;
       font: 34px 'OpenSansLight';
+      .transition-duration(0.2s);
+    }
+    .result-success h1 {
+      background-color: #8DC86A;
+    }
+    .result-error h1 {
+      background-color: #DC4D38;
     }
     .address {
       font-size: 25px;
@@ -413,5 +420,26 @@ html.t-overview header nav ul > li.active#nav-account > a:after {
   }
   .value {
     font-size: 20px;
+  }
+}
+
+#t-order-book {
+  .currency-config {
+    .clearfix;
+    > div {
+      float: left;
+      margin-right: 10px;
+    }
+  }
+
+  form {
+    margin-bottom: 0;
+  }
+
+  table {
+    tr.sep td {
+      height: 5px;
+      padding: 0;
+    }
   }
 }
