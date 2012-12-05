@@ -52,8 +52,13 @@ section#t-send.single.content(ng-controller='SendCtrl')
   //- N5. Sent page
 
   group.mode-sent(ng-show='mode=="sent"')
-    h1 Your transaction has been submitted.
-    p Your account balance will update once the payment has cleared.
+    group.pending(ng-show='tx_result=="pending"')
+      h1 Your transaction has been submitted.
+      p Your account balance will update once the payment has cleared.
+    group.result-success(ng-show='tx_result=="cleared"')
+      h1 Transaction cleared!
+    group.result-error(ng-show='tx_result=="error"')
+      h1 Transaction failed!
     hr
     div.text-success(ng-show='addressSaved') Contact saved!
     div(ng-hide='contact', class="actionLink")
@@ -72,5 +77,5 @@ section#t-send.single.content(ng-controller='SendCtrl')
     div(class="actionLink")
       a(ng-click="reset()") Send another payment
     div(class="actionLink")
-      a(href="#overview") Back to Overview
+      a(ng-click="reset_goto('overview')") Back to overview
     hr

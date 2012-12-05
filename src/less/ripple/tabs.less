@@ -309,12 +309,19 @@ html.t-overview header nav ul > li.active#nav-account > a:after {
 
   .mode-sent {
     h1 {
-      margin: 10px 60px;
+      padding: 10px 60px;
       font-size: 30px;
       border-bottom: none;
       text-align: left;
       font-weight: bold;
       font: 34px 'OpenSansLight';
+      .transition-duration(0.2s);
+    }
+    .result-success h1 {
+      background-color: #8DC86A;
+    }
+    .result-error h1 {
+      background-color: #DC4D38;
     }
     .address {
       font-size: 25px;
