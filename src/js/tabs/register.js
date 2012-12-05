@@ -27,7 +27,7 @@ RegisterTab.prototype.angular = function (module) {
     $scope.submitForm = function()
     {
       app.id.register($scope.username, $scope.password1, function(){
-        tm.gotoTab('my-ripple');
+        tm.gotoTab('overview');
       });
     }
   })
