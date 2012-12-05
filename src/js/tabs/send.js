@@ -17,7 +17,7 @@ SendTab.prototype.generateHtml = function ()
   return require('../../jade/tabs/send.jade')();
 };
 
-SendTab.prototype.angularDeps = ['directives'];
+SendTab.prototype.angularDeps = ['fields'];
 
 SendTab.prototype.angular = function (module)
 {

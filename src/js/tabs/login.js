@@ -31,7 +31,7 @@ LoginTab.prototype.angular = function (module) {
       app.id.login($scope.username, $scope.password, function(err, success) {
         // XXX: Handle err
         if (success) {
-          tm.gotoTab('my-ripple');
+          tm.gotoTab('overview');
         } else {
           $scope.error = 'Username and/or password is wrong';
           $scope.$digest();

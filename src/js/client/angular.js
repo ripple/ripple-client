@@ -7,7 +7,7 @@
  */
 var Angular = function ()
 {
-  
+
 };
 
 /**
@@ -19,6 +19,10 @@ var Angular = function ()
  */
 Angular.load = function ()
 {
+  require('../angular/fields');
+  require('../angular/effects');
+  require('../angular/validators');
+  require('../angular/events');
   require('../angular/directives');
   require('../angular/filters');
 };

@@ -19,7 +19,7 @@ TabManager.prototype.init = function ()
 
       this.handleHashChange();
     } catch (e) {
-      this.gotoTab("my-ripple");
+      this.gotoTab("overview");
     }
   } else if (this.app.id.isReturning()) {
     console.log("client: returning user");
@@ -162,8 +162,8 @@ TabManager.tabs["account"] = function (callback) {
   callback(require('../tabs/account'));
 };
 
-TabManager.tabs["my-ripple"] = function (callback) {
-  callback(require('../tabs/my-ripple'));
+TabManager.tabs["overview"] = function (callback) {
+  callback(require('../tabs/overview'));
 };
 
 TabManager.tabs["history"] = function (callback) {
@@ -393,7 +393,7 @@ Tab.prototype.hideSiblings = function ()
  * child being referenced.
  *
  * For example, somebody might open #account, instead of linking to
- * one of the subsections like #my-ripple.
+ * one of the subsections like #overview.
  *
  * In this case we want to show the defaultSection or, if none is
  * specified, the first child section.

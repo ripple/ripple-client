@@ -22,7 +22,7 @@ OrderBookTab.prototype.onAfterRender = function ()
   app.net.remote.on("net_transaction", this.handleMsg.bind(this) );
 };
 
-//OrderBookTab.prototype.angular
+OrderBookTab.prototype.angularDeps = ['fields']
 
 OrderBookTab.prototype.angular = function(module)
 {
