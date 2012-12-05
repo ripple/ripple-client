@@ -82,26 +82,32 @@ TabManager.prototype.showTabInSlot = function (tabName, slotName, callback)
       callback(null, tab);
     }
   } else if ("function" === typeof TabManager.tabs[tabName]) {
-    var tabLoader = TabManager.tabs[tabName];
-    tabLoader(function (TabClass) {
-      var tab = new TabClass();
-      tab.tabName = tabName;
-      tab.setTabManager(self);
-      tab.render(slotName, function (err) {
-        if (err) {
-          callback(err);
-          return;
-        }
-        tab.show();
+    this.renderTabInSlot(tabName, slotName, function (err, tab) {
+      if (err) {
+        callback(err);
+        return;
+      }
+      tab.show();
 
-        if ("function" === typeof callback) {
-          callback(null, tab);
-        }
-      });
+      if ("function" === typeof callback) {
+        callback(null, tab);
+      }
     });
   } else {
     throw new Error("Unknown tab '"+tabName+"'.");
   }
+};
+
+TabManager.prototype.renderTabInSlot = function (tabName, slotName, callback)
+{
+  var self = this;
+  var tabLoader = TabManager.tabs[tabName];
+  tabLoader(function (TabClass) {
+    var tab = new TabClass();
+    tab.tabName = tabName;
+    tab.setTabManager(self);
+    tab.render(slotName, callback);
+  });
 };
 
 TabManager.prototype.hideSlot = function (slotName)
@@ -299,7 +305,7 @@ Tab.prototype.render = function (slot, callback)
     if (!parentEl) {
       // Our parent isn't loaded yet - this case is a bit awkward, but we will
       // try to load it and then switch to ourselves again.
-      self.tm.showTab(this.parent, function (err) {
+      self.tm.renderTabInSlot(this.parent, this.parent, function (err) {
         if (err) {
           callback(err);
           return;
@@ -338,7 +344,7 @@ Tab.prototype.render = function (slot, callback)
           self.el.appendTo(parentEl);
           self.emit('afterrender');
           self.tm.slots[slot] = self;
-          callback();
+          callback(null, self);
         });
       });
       return;
@@ -350,7 +356,7 @@ Tab.prototype.render = function (slot, callback)
   }
   this.emit('afterrender');
   this.tm.slots[slot] = this;
-  callback();
+  callback(null, this);
 };
 
 Tab.prototype.getEl = function ()
