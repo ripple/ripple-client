@@ -25,7 +25,7 @@ section.panel.content(ng-controller="ContactsCtrl")
             .error(ng-show='addForm.address.$error.unique') You already have a contact with the same address.
             div.submitsection
               button.btn.btn-info(type='submit', ng-click='create()', ng-disabled='addForm.$invalid') Add contact
-      tr(ng-repeat="entry in addressbook", animate, ng-class="{editMode: entry.duplicateName || entry.duplicateAddress || entry.invalidAddress}")
+      tr(ng-repeat="entry in addressbook", ng-class="{editMode: entry.duplicateName || entry.duplicateAddress || entry.invalidAddress}", rp-animate="enable_highlight")
         td
           inline-edit(model='entry.name', mode='entry.isEditMode')
           .error(ng-show='entry.duplicateName') You already have a contact with the same name.

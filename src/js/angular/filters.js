@@ -34,3 +34,18 @@ module.filter('rpfromnow', function () {
     return moment(input).fromNow();
   };
 });
+
+/**
+ * Show contact name or short address
+ */
+module.filter('rpnickname', function () {
+  return function (address) {
+    var nickname = rippleclient.id.getContact(address);
+
+    if (!nickname) {
+      nickname =  "" + address.substring(0,7) + "&hellip;";
+    }
+
+    return nickname;
+  };
+});

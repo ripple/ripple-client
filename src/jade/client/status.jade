@@ -1,4 +1,4 @@
-#status(ng-class="{expand: show_secondary}")
+#status(ng-class="{expand: show_secondary && balance_count >= 2}")
   .user
     div {{username}}&nbsp;
     .balance.primary
@@ -8,4 +8,4 @@
       li.balance(ng-repeat="(currency, balance) in balances", ng-class="{negative: balance.total.is_negative()}")
         | {{balance.total | rpamount}}
         span {{currency}}
-    a.toggle-secondary(ng-click="toggle_secondary()")
+    a.toggle-secondary(ng-click="toggle_secondary()", ng-show="balance_count >= 2")

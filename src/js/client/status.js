@@ -29,6 +29,10 @@ StatusManager.prototype.init = function ()
       $scope.show_secondary = !$scope.show_secondary;
     };
 
+    $scope.$watch('balances', function () {
+      $scope.balance_count = Object.keys($scope.balances).length;
+    }, true);
+
     var template = require('../../jade/client/status.jade')();
     self.el = app.$compile(template)($scope);
     self.el.appendTo('header');

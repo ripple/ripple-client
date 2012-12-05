@@ -59,6 +59,39 @@ module.directive('address', function () {
   };
 });
 
+/**
+ * Address validator
+ */
+// TODO code duplication. see 'address' directive
+module.directive('account', function () {
+  return {
+    restrict: 'A',
+    require: '?ngModel',
+    link: function (scope, elm, attr, ctrl) {
+      if (!ctrl) return;
+
+      var validator = function(value) {
+        var UInt160 = new ripple.UInt160();
+
+        if (UInt160.parse_json(value)._value || scope.getContact(value)) {
+          ctrl.$setValidity('account', true);
+          return value;
+        } else {
+          ctrl.$setValidity('account', false);
+          return;
+        }
+      }
+
+      ctrl.$formatters.push(validator);
+      ctrl.$parsers.unshift(validator);
+
+      attr.$observe('account', function() {
+        validator(ctrl.$viewValue);
+      });
+    }
+  };
+});
+
 module.directive('issuer', function () {
   return {
     restrict: 'A',
@@ -163,20 +196,22 @@ module.directive('passValidate', function() {
 /**
  * Animate element creation
  */
-module.directive('animate', function() {
+module.directive('rpAnimate', function() {
   return {
     restrict: 'A',
     link: function(scope, elm, attrs) {
+      if (attrs.rpAnimate !== "rp-animate" && !scope.$eval(attrs.rpAnimate)) return;
       elm = jQuery(elm);
       elm.hide();
       elm.fadeIn(600);
       elm.css('background-color', '#E2F5E4');
       elm.animate({
         'background-color': '#fff'
-      }, {duration: 600})
+      }, {duration: 600});
     }
   };
-})
+});
+
 /**
  * Combobox input element.
  *

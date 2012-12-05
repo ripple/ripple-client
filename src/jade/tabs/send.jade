@@ -1,18 +1,25 @@
 section#t-send.single.content(ng-controller='SendCtrl')
-  form.mode-form(name="sendform", ng-show='mode=="form"', ng-submit='send()')
+
+  //- N1. Send form
+
+  form.mode-form(name="sendForm", ng-show='mode=="form"', ng-submit='send()')
     p.literal You can send money or credits to anyone with a Ripple account.
     hr
     label(for='send_amount') Amount
     .amount
       input.value#send_amount(name='send_amount', type='number', step='any', ng-model='amount', ng-pattern='/^[0-9.]+$/', required)
       input.currency#send_amount_currency(name='send_amount_currency', type='text', ng-model='currency', rp-combobox="currency_query", rp-combobox-select)
-    .error(ng-show='sendform.send_amount.$error.required && !sendform.send_amount.$pristine') Please enter an amount.
-    .error(ng-show='sendform.send_amount.$error.pattern && !sendform.send_amount.$pristine') Not a valid amount.
+    .error(ng-show='sendForm.send_amount.$error.required && !sendForm.send_amount.$pristine') Please enter an amount.
+    .error(ng-show='sendForm.send_amount.$error.pattern && !sendForm.send_amount.$pristine') Not a valid amount.
     label(for='send_destination') Destination
-    input#send_destination(name='send_destination', type='text', placeholder='Start typing a name from your address book or paste a Ripple address', ng-model='recipient', required, rp-combobox="recipient_query")
-    div.error(ng-show='sendform.send_destination.$error.required && !sendform.send_destination.$pristine') Please enter a recipient.
+    input#send_destination(name='send_destination', type='text', placeholder='Start typing a name from your address book or paste a Ripple address', ng-model='recipient', account, required, rp-combobox="recipient_query")
+    div.error(ng-show='sendForm.send_destination.$error.required && !sendForm.send_destination.$pristine') Please enter a recipient.
+    div.error(ng-show='sendForm.send_destination.$error.account && !sendForm.send_destination.$pristine') Recipient should be either name from your contact list or ripple address.
     div.submitsection
-      button.btn.btn-success.submit(type='submit') Send
+      button.btn.btn-success.submit(type='submit', ng-disabled='sendForm.$invalid') Send
+
+  //- N2. Confirmation page
+
   group.mode-confirm(ng-show='mode=="confirm"')
     p.literal You are about to send
     p.amount_feedback
@@ -20,18 +27,49 @@ section#t-send.single.content(ng-controller='SendCtrl')
       span.currency {{currency_feedback}}
     p.literal to the Ripple user
     div.dest_feedback
-      .recipient {{recipient}}
+      .recipient {{recipient_name}}
       .extra(ng-show="recipient_extra") {{recipient_extra}}
     p.literal Are you sure?
     div
       p.submitsection
         button.btn.back(ng-click='mode="form"') &laquo; Back
         button.btn.btn-success.submit(type='submit', ng-click='send_confirmed()', ng-disabled='confirm_wait') Confirm
+
+  //- N3. Waiting for transaction result page
+
   group.mode-sending(ng-show='mode=="sending"')
     p.throbber.literal Sending transaction to Ripple network
     hr
     p: button.btn(ng-click='reset()') Stop waiting
+
+  //- N4. Error page
+
   group.mode-error(ng-show='mode=="error"')
     p.literal Sorry, an error occurred while submitting your transaction. Make sure you are connected to the Internet and try again later.
     p.literal Before trying again, please ensure that the transaction has not been executed already.
     p: button.btn(ng-click='reset()') &laquo; Back
+
+  //- N5. Sent page
+
+  group.mode-sent(ng-show='mode=="sent"')
+    h1 Your transaction has been submitted.
+    p Your account balance will update once the payment has cleared.
+    hr
+    div.text-success(ng-show='addressSaved') Contact saved!
+    div(ng-hide='contact', class="actionLink")
+      a(href="", ng-click='showSaveAddressForm()') Add this address to contacts
+      form(name="saveAddressForm", id="saveAddressForm", ng-submit='saveAddress()')
+        div.address {{recipient}}
+        label(for='save_address_name') Name this user
+        input#contact_name(name='save_address_name', type="text", step='any', ng-model='saveAddressName', required)
+        div
+          button.btn.btn-success(type='submit', ng-disabled='addressSaving')
+            span(ng-show='addressSaving') Saving...
+            span(ng-hide='addressSaving') Save
+          a(href="", ng-click='hideSaveAddressForm()') Cancel
+        hr
+    div(class="actionLink")
+      a(ng-click="reset()") Send another payment
+    div(class="actionLink")
+      a(href="#my-ripple") My account
+    hr
