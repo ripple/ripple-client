@@ -170,6 +170,7 @@ ContactsTab.prototype.angular = function (module) {
   /**
    * Contact name and address uniqueness validator
    */
+  // TODO move to global directives
   module.directive('unique', function() {
     return {
       restrict: 'A',
