@@ -19,6 +19,8 @@ TabManager.prototype.init = function ()
 
       this.handleHashChange();
     } catch (e) {
+      console.warn("tabs: error loading "+location.hash+":");
+      log.exception(e);
       this.gotoTab("overview");
     }
   } else if (this.app.id.isReturning()) {
@@ -77,18 +79,23 @@ TabManager.prototype.showTabInSlot = function (tabName, slotName, callback)
     tab.show();
 
     if ("function" === typeof callback) {
-      callback(tab);
+      callback(null, tab);
     }
   } else if ("function" === typeof TabManager.tabs[tabName]) {
     var tabLoader = TabManager.tabs[tabName];
     tabLoader(function (TabClass) {
       var tab = new TabClass();
+      tab.tabName = tabName;
       tab.setTabManager(self);
-      tab.render(slotName, function () {
+      tab.render(slotName, function (err) {
+        if (err) {
+          callback(err);
+          return;
+        }
         tab.show();
 
         if ("function" === typeof callback) {
-          callback(tab);
+          callback(null, tab);
         }
       });
     });
@@ -290,8 +297,23 @@ Tab.prototype.render = function (slot, callback)
       parentEl = this.tm.getElBySlot(this.parent);
     }
     if (!parentEl) {
-      throw new Error('Loaded tab without parent tab "'+this.parent+'" '
-                      + 'present!');
+      // Our parent isn't loaded yet - this case is a bit awkward, but we will
+      // try to load it and then switch to ourselves again.
+      self.tm.showTab(this.parent, function (err) {
+        if (err) {
+          callback(err);
+          return;
+        }
+
+        // Retry rendering now
+        if (this.tm.getElBySlot(this.parent)) {
+          self.render(self.slot, callback);
+        } else {
+          callback(new Error("Unable to instantiate parent tab '"+this.parent+"' "
+                             + "for tab '"+self.slot+"'"));
+        }
+      });
+      return;
     }
 
     var html = this.generateHtml();
