@@ -146,7 +146,7 @@ Id.prototype.login = function (username,password,callback)
  * Update contacts
  * @param contacts
  */
-Id.prototype.setContacts = function (contacts)
+Id.prototype.setContacts = function (contacts,callback)
 {
   var self = this;
   this.data.data.contacts = contacts;
@@ -154,7 +154,19 @@ Id.prototype.setContacts = function (contacts)
   // Update blob
   blob.set('vault',this.username,this.password,this.data,function(){
     self.emit('blobupdate');
+
+    if ("function" === typeof callback) {
+      callback();
+    }
   });
+}
+
+Id.prototype.addContact = function (contact,callback)
+{
+  var contacts = this.getContacts();
+  // TODO sorting?
+  contacts.unshift(contact);
+  this.setContacts(contacts,callback);
 }
 
 Id.prototype.getContacts = function (callback)
@@ -193,6 +205,17 @@ Id.prototype.getContactNames = function ()
   }
 
   return names;
+}
+
+Id.prototype.getContact = function (value)
+{
+  for (i=0;i<this.data.data.contacts.length;i++) {
+    if (this.data.data.contacts[i].name == value || this.data.data.contacts[i].address == value) {
+      return this.data.data.contacts[i];
+    }
+  }
+
+  return false;
 }
 
 module.exports.Id = Id;
