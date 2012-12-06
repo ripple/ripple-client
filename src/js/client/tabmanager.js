@@ -110,6 +110,26 @@ TabManager.prototype.renderTabInSlot = function (tabName, slotName, callback)
   });
 };
 
+/**
+ * Sends a message to the tab object in a given slot.
+ *
+ * If the tab is not rendered yet, the message will be queued until it is.
+ *
+ * A "message" is simply an event with msg_type being the event name and message
+ * is the event object passed to the listener.
+ */
+TabManager.prototype.message = function (slotName, msg_type, message)
+{
+  if ("undefined" !== typeof this.slots[slotName]) {
+    var tab = this.slots[slotName];
+    tab.emit(msg_type, message);
+  } else {
+    this.once('render:'+slotName, function (e) {
+      e.tab.emit(msg_type, message);
+    });
+  }
+};
+
 TabManager.prototype.hideSlot = function (slotName)
 {
   if ("undefined" !== typeof this.slots[slotName]) {
@@ -342,10 +362,8 @@ Tab.prototype.render = function (slot, callback)
           self.el = $compile(html)($scope);
           self.el.attr('id', 't-'+self.slot);
           self.el.appendTo(parentEl);
-          self.emit('afterrender');
-          self.tm.slots[slot] = self;
         });
-        callback(null, self);
+        success();
       });
       return;
     } else {
@@ -354,9 +372,16 @@ Tab.prototype.render = function (slot, callback)
       this.el.appendTo(parentEl);
     }
   }
-  this.emit('afterrender');
-  this.tm.slots[slot] = this;
-  callback(null, this);
+
+  success();
+
+  function success()
+  {
+    self.emit('afterrender');
+    self.tm.slots[slot] = self;
+    self.tm.emit('render:'+self.slot);
+    callback(null, self);
+  }
 };
 
 Tab.prototype.getEl = function ()
