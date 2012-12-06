@@ -19,18 +19,42 @@ FeedTab.prototype.generateHtml = function ()
 FeedTab.prototype.onAfterRender = function ()
 {
   
-  var app = this.app;
-  //app.net.remote.on("net_transaction", this.handleMsg.bind(this) );
- // app.net.remote.on("ledger_close", this.handleMsg.bind(this) );
-//  app.net.remote.on("net_server", this.handleMsg.bind(this) );
+  
 };
 
 FeedTab.prototype.angular = function (module)
 {
   var app = this.app;
+  var self=this;
   
   module.controller('FeedCtrl', function ($scope)
   { 
+    app.net.remote.on("net_transaction", handleMsg);
+    app.net.remote.on("ledger_closed", handleMsg );
+    app.net.remote.on("net_server", handleMsg );
+    
+    function handleMsg(message)
+    {
+      //console.log(message);
+      var today = new Date();
+      message.date=today.getHours()+ ":"+ today.getMinutes()+ ":"+ today.getSeconds();
+     
+      if(message.type=="transaction" && $scope.transCheck)
+      {
+        message.msg=message.transaction.TransactionType;
+        $scope.feed.unshift(message);
+        $scope.$digest();
+      }else if(message.type=="ledgerClosed" && $scope.ledgerCheck)
+      {
+        $scope.feed.unshift(message);
+        $scope.$digest();
+      }else if(message.type=="net_server" && $scope.serverCheck)
+      {
+        $scope.feed.unshift(message);
+        $scope.$digest();
+      }
+    }
+    
     $scope.feed=[];
     
     $scope.toggle_feed_transactions = function () 
@@ -52,24 +76,6 @@ FeedTab.prototype.angular = function (module)
     }; 
   });
 };
-
-FeedTab.prototype.handleMsg = function(message)
-{
-  console.log(message);
-  var today = new Date();
-  message.date=today.getHours()+ ":"+ today.getMinutes()+" " + today.getDate() + "/" +(today.getMonth()+1);
- 
-  if(message.type=="transaction" && $scope.transCheck)
-  {
-    $scope.feed.unshift(message);
-  }else if(message.type=="ledgerClose" && $scope.ledgerCheck)
-  {
-    $scope.feed.unshift(message);
-  }else if(message.type=="net_server" && $scope.serverCheck)
-  {
-    $scope.feed.unshift(message);
-  }
-}
 
 
 
