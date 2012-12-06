@@ -182,6 +182,10 @@ SendTab.prototype.angular = function (module)
     }
 
     $scope.reset();
+
+    if ("undefined" !== typeof app.id.sendTo) {
+      $scope.recipient = app.id.sendTo;
+    }
   }]);
 
   /**

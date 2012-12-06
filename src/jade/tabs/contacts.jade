@@ -37,7 +37,7 @@ section.panel.content(ng-controller="ContactsCtrl")
           button.save.btn.btn-success.btn-small(ng-show='entry.isEditMode', ng-click='update($index)') Save
         td.command
           button.delete.btn.btn-danger.btn-small(ng-show='entry.isEditMode', ng-click='remove($index)') Delete
-          button.send.btn.btn-success.btn-small(ng-hide='entry.isEditMode') Send
+          button.send.btn.btn-success.btn-small(ng-hide='entry.isEditMode', ng-click='send($index)') Send
         td.action
           a(ng-click='edit($index)', ng-hide='entry.isEditMode') edit
           a(ng-click='cancel($index)', ng-show='entry.isEditMode') cancel

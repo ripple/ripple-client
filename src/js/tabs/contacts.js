@@ -6,8 +6,6 @@ var id        = require('../client/id').Id.singleton;
 var ContactsTab = function ()
 {
   Tab.call(this);
-
-  this.on('afterrender', this.onAfterRender.bind(this));
 };
 
 util.inherits(ContactsTab, Tab);
@@ -21,6 +19,7 @@ ContactsTab.prototype.generateHtml = function ()
 
 ContactsTab.prototype.angular = function (module) {
   var app = this.app;
+  var tm = this.tm;
 
   module.controller('ContactsCtrl', function ($scope)
   {
@@ -163,6 +162,13 @@ ContactsTab.prototype.angular = function (module) {
         isEditMode: false
       };
     };
+
+    $scope.send = function (index)
+    {
+      app.id.sendTo = $scope.addressbookmaster[index].address;
+
+      document.location = '#send';
+    }
   });
 
   /**
@@ -195,14 +201,6 @@ ContactsTab.prototype.angular = function (module) {
         });
       }
     };
-  });
-};
-
-ContactsTab.prototype.onAfterRender = function ()
-{
-  var self = this;
-  this.el.find('button.send').click(function () {
-    self.tm.gotoTab('send');
   });
 };
 
