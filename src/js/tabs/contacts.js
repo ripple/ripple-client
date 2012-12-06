@@ -23,27 +23,16 @@ ContactsTab.prototype.angular = function (module) {
 
   module.controller('ContactsCtrl', function ($scope)
   {
-    $scope.addressbookmaster = [];
-    $scope.addressbook = [];
+    // TODO need some refactoring to directly use $scope.userBlob
+
     $scope.name = '';
     $scope.address = '';
 
     $scope.updateData = function ()
     {
-      $scope.addressbook = app.id.getContacts();
+      $scope.addressbook = app.$scope.userBlob.data.contacts;
       $scope.addressbookmaster = angular.copy($scope.addressbook);
     };
-
-    // Update contacts when user enters this tab
-    if (app.id.data) {
-      $scope.updateData();
-    }
-
-    // Update contacts when blob is updated
-    app.id.on('blobupdate', function (e) {
-      $scope.updateData();
-      $scope.$digest();
-    });
 
     /**
      * Toggle "add contact" form
@@ -78,7 +67,7 @@ ContactsTab.prototype.angular = function (module) {
       $scope.toggle_form();
 
       // Update blob
-      app.id.setContacts($scope.addressbookmaster);
+      $scope.userBlob.data.contacts = $scope.addressbookmaster;
 
       // Clear form
       $scope.name = '';
@@ -131,7 +120,7 @@ ContactsTab.prototype.angular = function (module) {
       $scope.addressbookmaster[index] = $scope.addressbook[index];
 
       // Update blob
-      app.id.setContacts($scope.addressbookmaster);
+      $scope.userBlob.data.contacts = $scope.addressbookmaster;
     };
 
     /**
@@ -146,7 +135,7 @@ ContactsTab.prototype.angular = function (module) {
       $scope.addressbookmaster.splice(index,1);
 
       // Update blob
-      app.id.setContacts($scope.addressbookmaster);
+      $scope.userBlob.data.contacts = $scope.addressbookmaster;
     };
 
     /**

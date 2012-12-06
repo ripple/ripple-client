@@ -4,6 +4,8 @@ var blob = require('./blob').BlobObj,
     Base58Utils = require('./base58'),
     RippleAddress = require('./types').RippleAddress;
 
+/* Bob: rwcQbuaLBUgS9ySP1v9x2WfyBWC9xBARRV */
+
 /**
  * Identity manager
  *
@@ -13,18 +15,23 @@ var Id = function ()
 {
   events.EventEmitter.call(this);
 
-  this.data = {
-    data: [],
-    meta: []
-  }
   this.account = null;
   this.loginStatus = false;
 };
 
 util.inherits(Id, events.EventEmitter);
 
+Id.defaultBlob = {
+  data: {
+    contacts: []
+  },
+  meta: []
+};
+
 Id.prototype.init = function ()
 {
+  var self = this;
+
   // Initializing sjcl.random doesn't really belong here, but there is no other
   // good place for it yet.
   for (var i = 0; i < 8; i++) {
@@ -38,6 +45,17 @@ Id.prototype.init = function ()
     console.log("Login status set");
     this.loginStatus = true;
   }
+
+  this.app.$scope.userBlob = Id.defaultBlob;
+
+  this.app.$scope.$watch('userBlob',function(){
+    self.emit('blobupdate');
+    if (self.username && self.password) {
+      blob.set('vault',self.username,self.password,self.app.$scope.userBlob,function(){
+        self.emit('blobsave');
+      });
+    }
+  },true);
 };
 
 Id.prototype.setApp = function (app)
@@ -127,7 +145,7 @@ Id.prototype.login = function (username,password,callback)
       return;
     }
     if (blob.data.account_id) {
-      self.data = {
+      self.app.$scope.userBlob = {
         data: blob.data,
         meta: blob.meta
       };
@@ -152,83 +170,5 @@ Id.prototype.logout = function ()
   this.loginStatus = false;
   this.app.tabs.gotoTab('login');
 };
-
-/**
- * Update contacts
- * @param contacts
- */
-Id.prototype.setContacts = function (contacts,callback)
-{
-  var self = this;
-  this.data.data.contacts = contacts;
-
-  // Update blob
-  blob.set('vault',this.username,this.password,this.data,function(){
-    self.emit('blobupdate');
-
-    if ("function" === typeof callback) {
-      callback();
-    }
-  });
-}
-
-Id.prototype.addContact = function (contact,callback)
-{
-  var contacts = this.getContacts();
-  // TODO sorting?
-  contacts.unshift(contact);
-  this.setContacts(contacts,callback);
-}
-
-Id.prototype.getContacts = function (callback)
-{
-  return this.data.data.contacts ? this.data.data.contacts : [];
-
-  /*return callback([{
-   name: 'Bob',
-   address: 'rwcQbuaLBUgS9ySP1v9x2WfyBWC9xBARRV'
-   },{
-   name: 'John',
-   address: 'rwcQbuaLBUgS9ySP1v9x2WfyBWC9xBARRA'
-   },{
-   name: 'James',
-   address: 'rwcQbuaLBUgS9ySP1v9x2WfyBWC9xBARRG'
-   },{
-   name: 'Stuart',
-   address: 'rwcQbuaLBUgS9ySP1v9x2WfyBWC9xBARRD'
-   },{
-   name: 'Gugo',
-   address: 'rwcQbuaLBUgS9ySP1v9x2WfyBWC9xBARRE'
-   },{
-   name: 'Gago',
-   address: 'rwcQbuaLBUgS9ySP1v9x2WfyBWC9xBARRF'
-   }])*/
-}
-
-Id.prototype.getContactNames = function ()
-{
-  var names = [];
-
-  if (this.data.data.contacts) {
-    for (var i=0; i<this.data.data.contacts.length; i++) {
-      names.push(this.data.data.contacts[i].name);
-    }
-  }
-
-  return names;
-}
-
-Id.prototype.getContact = function (value)
-{
-  var contacts = this.getContacts();
-
-  for (i=0;i<contacts.length;i++) {
-    if (contacts[i].name == value || contacts[i].address == value) {
-      return contacts[i];
-    }
-  }
-
-  return false;
-}
 
 module.exports.Id = Id;

@@ -69,6 +69,17 @@ exports.findIssuer= function(lines, currency)
   return(maxIssuer);
 }
 
+exports.getContact = function (contacts,value)
+{
+  for (i=0;i<contacts.length;i++) {
+    if (contacts[i].name == value || contacts[i].address == value) {
+      return contacts[i];
+    }
+  }
+
+  return false;
+}
+
 /**
  * Creates a combobox query function out of a select options array.
  *

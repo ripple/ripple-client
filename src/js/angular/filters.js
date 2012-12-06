@@ -1,5 +1,6 @@
-var module = angular.module('filters', []);
-var Amount = ripple.Amount;
+var module = angular.module('filters', []),
+    webutil = require('../client/webutil'),
+    Amount = ripple.Amount;
 
 /**
  * Format a ripple.Amount.
@@ -40,7 +41,7 @@ module.filter('rpfromnow', function () {
  */
 module.filter('rpnickname', function () {
   return function (address) {
-    var nickname = rippleclient.id.getContact(address);
+    var nickname = webutil.getContact(rippleclient.$scope.userBlob.data.contacts,address);
 
     if (!nickname) {
       nickname =  "" + address.substring(0,7) + "&hellip;";
