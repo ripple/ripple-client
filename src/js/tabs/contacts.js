@@ -154,10 +154,14 @@ ContactsTab.prototype.angular = function (module) {
 
     $scope.send = function (index)
     {
-      app.id.sendTo = $scope.addressbookmaster[index].address;
+      app.tabs.message('send', 'prefill', {
+        recipient: $scope.addressbookmaster[index].address
+      });
 
-      document.location = '#send';
-    }
+      setTimeout(function () {
+        app.tabs.gotoTab('send');
+      }, 10);
+    };
   });
 
   /**

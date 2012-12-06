@@ -19,7 +19,10 @@ SendTab.prototype.generateHtml = function ()
 
 SendTab.prototype.angular = function (module)
 {
-  var app = this.app;
+  var self = this,
+      app = this.app,
+      tm = this.tm;
+
   module.controller('SendCtrl', ['$scope', '$timeout', function ($scope, $timeout) {
 
     /**
@@ -168,9 +171,9 @@ SendTab.prototype.angular = function (module)
 
     $scope.reset();
 
-    if ("undefined" !== typeof app.id.sendTo) {
-      $scope.recipient = app.id.sendTo;
-    }
+    self.on('prefill', function (data) {
+      $.extend($scope, data);
+    });
   }]);
 
   var tm = this.tm;

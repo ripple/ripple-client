@@ -6,9 +6,12 @@ var util = require('util'),
 
 var TabManager = function ()
 {
+  events.EventEmitter.call(this);
+
   this.slots = {};
   this.lastSeenHash = null;
 };
+util.inherits(TabManager, events.EventEmitter);
 
 TabManager.prototype.init = function ()
 {
