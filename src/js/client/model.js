@@ -18,6 +18,16 @@ Model.prototype.init = function ()
 {
   var $scope = this.app.$scope;
 
+  this.reset();
+
+  $scope.currencies_all = require('../data/currencies');
+  $scope.currencies = $scope.currencies_all.slice(1);
+};
+
+Model.prototype.reset = function ()
+{
+  var $scope = this.app.$scope;
+
   $scope.balance = "0";
 
   $scope.lines = [];
@@ -25,10 +35,7 @@ Model.prototype.init = function ()
   $scope.events = [];
   $scope.history = [];
   $scope.balances = {};
-
-  $scope.currencies_all = require('../data/currencies');
-  $scope.currencies = $scope.currencies_all.slice(1);
-};
+}
 
 Model.prototype.setApp = function (app)
 {
@@ -47,18 +54,24 @@ Model.prototype.listenId = function (id)
 
 Model.prototype.handleAccountLoad = function (e)
 {
+  var $scope = this.app.$scope;
   var remote = this.app.net.remote;
+
+  this.reset();
+
   remote.request_account_lines(e.account)
-    .on('success', this.handleRippleLines.bind(this)).request();
+    .on('success', this.handleRippleLines.bind(this))
+    .on('error', this.handleRippleLinesError.bind(this)).request();
   remote.request_wallet_accounts(e.secret)
-    .on('success', this.handleAccounts.bind(this)).request();
+    .on('success', this.handleAccounts.bind(this))
+    .on('error', this.handleAccountsError.bind(this)).request();
   remote.request_account_offers(e.account)
-    .on('success', this.handleOffers.bind(this)).request();
+    .on('success', this.handleOffers.bind(this))
+    .on('error', this.handleOffersError.bind(this)).request();
 
   remote.on('net_account', this.handleAccountEvent.bind(this));
-
-  var $scope = this.app.$scope;
   $scope.address = e.account;
+  $scope.$digest();
 };
 
 Model.prototype.handleRippleLines = function (data)
@@ -86,6 +99,10 @@ Model.prototype.handleRippleLines = function (data)
   });
 };
 
+Model.prototype.handleRippleLinesError = function (data)
+{
+}
+
 Model.prototype.handleOffers = function (data)
 {
   var self = this;
@@ -96,6 +113,10 @@ Model.prototype.handleOffers = function (data)
     console.log('offers updated:', data);
   });
 };
+
+Model.prototype.handleOffersError = function (data)
+{
+}
 
 Model.prototype.handleAccounts = function (data)
 {
@@ -109,6 +130,10 @@ Model.prototype.handleAccounts = function (data)
       .on('success', self.handleAccountTx.bind(self, data.accounts[0].Account)).request();
   });
 };
+
+Model.prototype.handleAccountsError = function (data)
+{
+}
 
 Model.prototype.handleAccountTx = function (account, data)
 {

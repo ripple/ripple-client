@@ -40,6 +40,7 @@ StatusManager.prototype.init = function ()
 
   app.id.on('userchange', function (e) {
     $scope.username = e.username;
+    $scope.$digest();
   });
 
   // A notification might have been queued already before the app was fully

@@ -103,6 +103,7 @@ Id.prototype.register = function (username, password, callback)
 
   // Add user to blob
   blob.set('vault',username,password,data,function(){
+    console.log('confirm');
     self.data = data;
     self.setUsername(username);
     self.setPassword(password);
