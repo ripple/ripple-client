@@ -81,7 +81,7 @@ OrderBookTab.prototype.angular = function(module)
      */
     function fillSum(array) {
       var sum = 0;
-      for (var i = 0, l = $scope.asks.length; i<l; i++) {
+      for (var i = 0, l = array.length; i<l; i++) {
         sum += array[i].o.num;
         array[i].sum = sum;
       }
