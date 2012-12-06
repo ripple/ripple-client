@@ -16,8 +16,6 @@ RegisterTab.prototype.generateHtml = function ()
   return require('../../jade/tabs/register.jade')();
 };
 
-RegisterTab.prototype.angularDeps = ['directives'];
-
 RegisterTab.prototype.angular = function (module) {
   var app = this.app;
   var tm = this.tm;
@@ -27,7 +25,7 @@ RegisterTab.prototype.angular = function (module) {
     $scope.submitForm = function()
     {
       app.id.register($scope.username, $scope.password1, function(){
-        tm.gotoTab('my-ripple');
+        tm.gotoTab('overview');
       });
     }
   })

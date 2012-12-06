@@ -16,8 +16,6 @@ LoginTab.prototype.generateHtml = function ()
   return require('../../jade/tabs/login.jade')();
 };
 
-LoginTab.prototype.angularDeps = ['directives'];
-
 LoginTab.prototype.angular = function (module) {
   var tm = this.tm;
   var app = this.app;
@@ -31,7 +29,7 @@ LoginTab.prototype.angular = function (module) {
       app.id.login($scope.username, $scope.password, function(err, success) {
         // XXX: Handle err
         if (success) {
-          tm.gotoTab('my-ripple');
+          tm.gotoTab('overview');
         } else {
           $scope.error = 'Username and/or password is wrong';
           $scope.$digest();

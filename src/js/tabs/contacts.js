@@ -19,8 +19,6 @@ ContactsTab.prototype.generateHtml = function ()
   return require('../../jade/tabs/contacts.jade')();
 };
 
-ContactsTab.prototype.angularDeps = ['directives'];
-
 ContactsTab.prototype.angular = function (module) {
   var app = this.app;
 
@@ -170,8 +168,7 @@ ContactsTab.prototype.angular = function (module) {
   /**
    * Contact name and address uniqueness validator
    */
-  // TODO move to global directives
-  module.directive('unique', function() {
+  module.directive('rpUnique', function() {
     return {
       restrict: 'A',
       require: '?ngModel',
@@ -182,10 +179,10 @@ ContactsTab.prototype.angular = function (module) {
           var duplicates = $.grep($scope.addressbook, function(e){ return e[elm[0].name] == value; });
 
           if (typeof duplicates == 'undefined' || duplicates.length === 0) {
-            ctrl.$setValidity('unique', true);
+            ctrl.$setValidity('rpUnique', true);
             return value;
           } else {
-            ctrl.$setValidity('unique', false);
+            ctrl.$setValidity('rpUnique', false);
             return;
           }
         };
@@ -193,7 +190,7 @@ ContactsTab.prototype.angular = function (module) {
         ctrl.$formatters.push(validator);
         ctrl.$parsers.unshift(validator);
 
-        attr.$observe('unique', function() {
+        attr.$observe('rpUnique', function() {
           validator(ctrl.$viewValue);
         });
       }

@@ -69,7 +69,7 @@
   font-size: 13px;
 }
 
-#t-my-ripple {
+#t-overview {
   table.events {
     .date {
       width: 25%;
@@ -88,7 +88,7 @@
   }
 }
 
-html.t-my-ripple header nav ul > li.active#nav-account > a:after {
+html.t-overview header nav ul > li.active#nav-account > a:after {
   border-bottom-color: #fff;
 }
 
@@ -119,7 +119,7 @@ html.t-my-ripple header nav ul > li.active#nav-account > a:after {
   }
 }
 
-#t-my-ripple {
+#t-overview {
   .total {
     margin-top: 25px;
     padding-bottom: 25px;
@@ -309,12 +309,19 @@ html.t-my-ripple header nav ul > li.active#nav-account > a:after {
 
   .mode-sent {
     h1 {
-      margin: 10px 60px;
+      padding: 10px 60px;
       font-size: 30px;
       border-bottom: none;
       text-align: left;
       font-weight: bold;
       font: 34px 'OpenSansLight';
+      .transition-duration(0.2s);
+    }
+    .result-success h1 {
+      background-color: #8DC86A;
+    }
+    .result-error h1 {
+      background-color: #DC4D38;
     }
     .address {
       font-size: 25px;
@@ -413,5 +420,166 @@ html.t-my-ripple header nav ul > li.active#nav-account > a:after {
   }
   .value {
     font-size: 20px;
+  }
+}
+
+#t-trade {
+  .action-window {
+    margin: 15px 15px 25px 30px;
+    padding: 0;
+    border-radius: 5px;
+    border: 1px solid #CCCCCC;
+
+    .info {
+      padding: 0 25px 8px;
+      border-bottom: 1px solid #CCCCCC;
+      margin: 10px 0 30px;
+
+      li {
+        display: inline-block;
+        width: 140px;
+        font-size: 12px;
+
+        .label {
+          color: #7A7A7A;
+          margin: 0 5px 0 0;
+        }
+        .value {
+          font-weight: bold;
+        }
+        .icon {
+          margin: 0 0 0 3px;
+        }
+        .up {
+          color: green;
+        }
+        .down {
+          color: red;
+        }
+      }
+    }
+
+    .mode-form {
+      margin: 10px 30px;
+
+      .currencies {
+        height: 100px;
+
+        label {
+          display: inline-block;
+        }
+
+        .currency-field {
+          display: inline-block;
+          width: 300px;
+
+          label {
+            line-height: 30px;
+            width: 50px;
+          }
+          .error {
+            width: 300px;
+            margin: 0 0 0 50px;
+          }
+          input {
+            margin: 0;
+          }
+        }
+        .sell {
+          float: left;
+        }
+      }
+      .order-values {
+        overflow: hidden;
+
+        .value-field {
+          width: 202px;
+          float: left;
+
+          input {
+            width: 180px;
+          }
+        }
+        .sign {
+          width: 30px;
+          text-align: center;
+          margin: 40px 0 0 0;
+          float: left;
+        }
+      }
+      .message {
+        color: green;
+      }
+      .submitsection {
+        margin: 20px 0 30px 0;
+      }
+    }
+
+    .mode-confirm {
+      text-align: center;
+
+      .amount_feedback {
+        font-size: 20px;
+
+        .value {
+          margin: 0 5px 0 0;
+        }
+      }
+
+      .dest_feedback {
+        font-size: 20px;
+
+        .value {
+          margin: 0 5px 0 0;
+        }
+      }
+
+      .submitsection {
+        button {
+          margin: 0 5px;
+        }
+      }
+    }
+  }
+
+  .open-orders-title {
+    font-size: 20px;
+    margin: 0;
+    padding: 0 0 10px 50px;
+    text-align: left;
+  }
+  .open-orders {
+    margin: 0 0 30px;
+
+    th {
+      border: 0;
+      text-align: center;
+      font-weight: bold;
+      font-size: 14px;
+    }
+    td {
+      text-align: center;
+      font-size: 14px;
+    }
+  }
+}
+#t-order-book {
+  .currency-config {
+    .clearfix;
+    > div {
+      float: left;
+      margin-right: 10px;
+    }
+  }
+
+  form {
+    margin-bottom: 0;
+  }
+
+  table {
+    tr.sep td {
+      height: 5px;
+      padding: 0;
+    }
   }
 }
