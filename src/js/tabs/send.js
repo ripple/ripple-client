@@ -107,6 +107,7 @@ SendTab.prototype.angular = function (module)
       tx.build_path(true);
       tx.set_flags('CreateAccount');
       tx.on('success', function (res) {
+        setEngineStatus(res, false);
         $scope.sent(this.hash);
         $scope.$digest();
       });
@@ -124,27 +125,37 @@ SendTab.prototype.angular = function (module)
      */
     $scope.sent = function (hash) {
       $scope.mode = "sent";
-      $scope.tx_result = "pending";
       app.net.remote.on('net_account', handleAccountEvent);
 
       function handleAccountEvent(e) {
         if (e.transaction.hash === hash) {
-          $scope.engine_result = e.engine_result;
-          switch (e.engine_result.slice(0, 3)) {
-          case 'tes':
-            $scope.tx_result = "cleared";
-            break;
-          case 'tem':
-            $scope.tx_result = "malformed";
-            break;
-          default:
-            console.warn("Unhandled engine status encountered!");
-          }
+          setEngineStatus(e, true);
           $scope.$digest();
           app.net.remote.removeListener('net_account', handleAccountEvent);
         }
       }
     };
+
+    function setEngineStatus(res, accepted) {
+      $scope.engine_result = res.engine_result;
+      $scope.engine_result_message = res.engine_result_message;
+      switch (res.engine_result.slice(0, 3)) {
+      case 'tes':
+        $scope.tx_result = accepted ? "cleared" : "pending";
+        break;
+      case 'tem':
+        $scope.tx_result = "malformed";
+        break;
+      case 'ter':
+        $scope.tx_result = "failed";
+        break;
+      case 'tep':
+        $scope.tx_result = "partial";
+        break;
+      default:
+        console.warn("Unhandled engine status encountered!");
+      }
+    }
 
     $scope.showSaveAddressForm = function () {
       $('#saveAddressForm').slideDown();
