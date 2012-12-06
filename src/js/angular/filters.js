@@ -46,6 +46,6 @@ module.filter('rpnickname', function () {
       nickname =  "" + address.substring(0,7) + "&hellip;";
     }
 
-    return nickname;
+    return nickname.name;
   };
 });

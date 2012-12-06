@@ -22,6 +22,8 @@ TradeTab.prototype.angular = function(module)
 
   module.controller('TradeCtrl', function ($scope)
   {
+    $scope.mode = "confirm";
+
     $scope.orders = [];
 
     $scope.currency_query = webutil.queryFromOptions($scope.currencies_all);
@@ -37,6 +39,8 @@ TradeTab.prototype.angular = function(module)
       $scope.sell_currency_feedback = $scope.sell_currency;
       $scope.buy_amount_feedback = $scope.amount*$scope.price;
       $scope.buy_currency_feedback = $scope.buy_currency;
+
+      $scope.order = $scope.value;
 
       $scope.mode = "confirm";
     };
@@ -54,7 +58,10 @@ TradeTab.prototype.angular = function(module)
     {
       var sell_currency = $scope.sell_currency.slice(0, 3).toUpperCase();
       var buy_currency = $scope.buy_currency.slice(0, 3).toUpperCase();
-      var buyIssuer=webutil.findIssuer($scope.lines,buy_currency);
+      var buyIssuer = webutil.findIssuer($scope.lines,buy_currency);
+      console.log($scope.lines);
+      console.log(buy_currency);
+      console.log(buyIssuer);
       if(!buyIssuer) return;
 
       var sellStr=""+$scope.amount+"/"+sell_currency+"/"+app.id.account;

@@ -13,6 +13,10 @@ var Id = function ()
 {
   events.EventEmitter.call(this);
 
+  this.data = {
+    data: [],
+    meta: []
+  }
   this.account = null;
   this.loginStatus = false;
 };
@@ -209,9 +213,11 @@ Id.prototype.getContactNames = function ()
 
 Id.prototype.getContact = function (value)
 {
-  for (i=0;i<this.data.data.contacts.length;i++) {
-    if (this.data.data.contacts[i].name == value || this.data.data.contacts[i].address == value) {
-      return this.data.data.contacts[i];
+  var contacts = this.getContacts();
+
+  for (i=0;i<contacts.length;i++) {
+    if (contacts[i].name == value || contacts[i].address == value) {
+      return contacts[i];
     }
   }
 
