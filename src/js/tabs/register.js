@@ -22,11 +22,23 @@ RegisterTab.prototype.angular = function (module) {
 
   module.controller('RegisterCtrl', function ($scope)
   {
+    $scope.mode = 'form';
+
     $scope.submitForm = function()
     {
-      app.id.register($scope.username, $scope.password1, function(){
-        tm.gotoTab('overview');
+      app.id.register($scope.username, $scope.password1, function(key){
+        $scope.username = $scope.username;
+        $scope.password = Array($scope.password1.length+1).join("*");
+        $scope.key = key;
+
+        $scope.mode = 'welcome';
+        $scope.$digest();
       });
+    }
+
+    $scope.showPassword = function()
+    {
+      $scope.password = $scope.password1;
     }
   })
 };

@@ -103,7 +103,6 @@ Id.prototype.register = function (username, password, callback)
 
   // Add user to blob
   blob.set('vault',username,password,data,function(){
-    console.log('confirm');
     self.data = data;
     self.setUsername(username);
     self.setPassword(password);
@@ -112,7 +111,7 @@ Id.prototype.register = function (username, password, callback)
     self.loginStatus = true;
     self.emit('blobupdate');
     store.set('ripple_known', true);
-    callback();
+    callback(data.data.master_seed);
   });
 };
 
