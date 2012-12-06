@@ -12,9 +12,9 @@ section#t-send.single.content(ng-controller='SendCtrl')
     .error(ng-show='sendForm.send_amount.$error.required && !sendForm.send_amount.$pristine') Please enter an amount.
     .error(ng-show='sendForm.send_amount.$error.pattern && !sendForm.send_amount.$pristine') Not a valid amount.
     label(for='send_destination') Destination
-    input#send_destination(name='send_destination', type='text', placeholder='Start typing a name from your address book or paste a Ripple address', ng-model='recipient', account, required, rp-combobox="recipient_query")
+    input#send_destination(name='send_destination', type='text', placeholder='Start typing a name from your address book or paste a Ripple address', ng-model='recipient', rp-destination, required, rp-combobox="recipient_query")
     div.error(ng-show='sendForm.send_destination.$error.required && !sendForm.send_destination.$pristine') Please enter a recipient.
-    div.error(ng-show='sendForm.send_destination.$error.account && !sendForm.send_destination.$pristine') Recipient should be either name from your contact list or ripple address.
+    div.error(ng-show='sendForm.send_destination.$error.rpDestination && !sendForm.send_destination.$pristine') Recipient should be either name from your contact list or ripple address.
     div.submitsection
       button.btn.btn-success.submit(type='submit', ng-disabled='sendForm.$invalid') Send
 
