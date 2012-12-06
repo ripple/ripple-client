@@ -20,35 +20,20 @@ SendTab.prototype.generateHtml = function ()
 SendTab.prototype.angular = function (module)
 {
   var app = this.app;
-  var tm = this.tm;
-
   module.controller('SendCtrl', ['$scope', '$timeout', function ($scope, $timeout) {
 
-    $scope.getContact = function (name) {}
-
-    if (app.id.data) {
-      $scope.getContact = function (name) {
-        return app.id.getContact(name);
-      }
-      $scope.recipient_query = function (match) {
-        return app.id.getContactNames().filter(function (v) {
-          return v.toLowerCase().match(match.toLowerCase());
-        });
-      };
-    }
-
-    // TODO code duplication
-    app.id.on('blobupdate', function (e) {
-      $scope.getContact = function (name) {
-        return app.id.getContact(name);
-      }
-      $scope.recipient_query = function (match) {
-        return app.id.getContactNames().filter(function (v) {
-          return v.toLowerCase().match(match.toLowerCase());
-        });
-      };
-      $scope.$digest();
-    })
+    /**
+     * Used for rpDestination validator
+     *
+     * @param destionation
+     */
+    $scope.recipient_query = function (match) {
+      return $scope.userBlob.data.contacts.map(function (contact) {
+        return contact.name;
+      }).filter(function (v) {
+        return v.toLowerCase().match(match.toLowerCase());
+      });
+    };
 
     $scope.currency_query = webutil.queryFromOptions($scope.currencies_all);
 
@@ -78,7 +63,7 @@ SendTab.prototype.angular = function (module)
 
       $scope.recipient_name = $scope.recipient;
 
-      if ($scope.contact = app.id.getContact($scope.recipient)) {
+      if ($scope.contact = webutil.getContact($scope.userBlob.data.contacts,$scope.recipient)) {
         $scope.recipient_name = $scope.contact.name;
         $scope.recipient_extra = $scope.contact.address;
 
@@ -140,20 +125,20 @@ SendTab.prototype.angular = function (module)
       $scope.engine_result = res.engine_result;
       $scope.engine_result_message = res.engine_result_message;
       switch (res.engine_result.slice(0, 3)) {
-      case 'tes':
-        $scope.tx_result = accepted ? "cleared" : "pending";
-        break;
-      case 'tem':
-        $scope.tx_result = "malformed";
-        break;
-      case 'ter':
-        $scope.tx_result = "failed";
-        break;
-      case 'tep':
-        $scope.tx_result = "partial";
-        break;
-      default:
-        console.warn("Unhandled engine status encountered!");
+        case 'tes':
+          $scope.tx_result = accepted ? "cleared" : "pending";
+          break;
+        case 'tem':
+          $scope.tx_result = "malformed";
+          break;
+        case 'ter':
+          $scope.tx_result = "failed";
+          break;
+        case 'tep':
+          $scope.tx_result = "partial";
+          break;
+        default:
+          console.warn("Unhandled engine status encountered!");
       }
     }
 
@@ -173,12 +158,12 @@ SendTab.prototype.angular = function (module)
         'address': $scope.recipient
       }
 
-      app.id.addContact(contact, function(){
+      app.id.once('blobsave', function(){
         $scope.contact = contact;
         $scope.addressSaved = true;
-
-        $scope.$digest();
       })
+
+      app.$scope.userBlob.data.contacts.unshift(contact);
     }
 
     $scope.reset();
@@ -187,6 +172,8 @@ SendTab.prototype.angular = function (module)
       $scope.recipient = app.id.sendTo;
     }
   }]);
+
+  var tm = this.tm;
 
   /**
    * Contact name and address uniqueness validator
@@ -200,7 +187,7 @@ SendTab.prototype.angular = function (module)
         if (!ctrl) return;
 
         var validator = function(value) {
-          if (!app.id.getContact(value)) {
+          if (!webutil.getContact($scope.userBlob.data.contacts,value)) {
             ctrl.$setValidity('unique', true);
             return value;
           } else {

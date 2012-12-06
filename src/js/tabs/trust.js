@@ -7,8 +7,6 @@ var Amount = ripple.Amount;
 var TrustTab = function ()
 {
   Tab.call(this);
-
-  this.on('afterrender', this.onAfterRender.bind(this));
 };
 
 util.inherits(TrustTab, Tab);
@@ -23,9 +21,23 @@ TrustTab.prototype.generateHtml = function ()
 TrustTab.prototype.angular = function (module)
 {
   var self = this;
+  var app = this.app;
 
-  module.controller('TrustCtrl', function ($scope) {
-    
+  module.controller('TrustCtrl', function ($scope)
+  {
+    /**
+     * Used for rpDestination validator
+     *
+     * @param destionation
+     */
+    $scope.recipient_query = function (match) {
+      return $scope.userBlob.data.contacts.map(function (contact) {
+        return contact.name;
+      }).filter(function (v) {
+        return v.toLowerCase().match(match.toLowerCase());
+      });
+    };
+
     $scope.currency_query = webutil.queryFromOptions($scope.currencies);
     
     $scope.currency = 'USD';
@@ -46,26 +58,28 @@ TrustTab.prototype.angular = function (module)
 
     $scope.grant = function ()
     {
+      var counterparty = webutil.getContact(app.$scope.userBlob.data.contacts,$scope.counterparty).address;
+
       var currency = $scope.currency.slice(0, 3).toUpperCase();
       var amount = $scope.amount + '/' +
             currency + '/' +
-            $scope.counterparty;
-      
-      //console.log(amount);
+          counterparty;
 
-      var tx = self.app.net.remote.transaction();
+      var tx = app.net.remote.transaction();
       tx
-        .ripple_line_set(self.app.id.account, amount)
+        .ripple_line_set(app.id.account, amount)
+        .on('error', function(){
+          $scope.remoteError = true;
+          $scope.$digest();
+        })
+        .on('success', function(){
+          $scope.addform_visible = false;
+          $scope.$digest();
+        })
         .submit()
       ;
-      $scope.addform_visible = false;
     };
   });
-};
-
-TrustTab.prototype.onAfterRender = function ()
-{
-
 };
 
 module.exports = TrustTab;
