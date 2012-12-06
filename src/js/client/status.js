@@ -53,6 +53,20 @@ StatusManager.prototype.init = function ()
     $scope.$digest();
   });
 
+  app.net.on('connected', function (e) {
+    console.log('connected');
+    $scope.connected = true;
+    self.notifyEl.find('.type-offline').remove();
+    $scope.$digest();
+  });
+
+  app.net.on('disconnected', function (e) {
+    console.log('disconnected');
+    $scope.connected = false;
+    self.notifyEl.append('<div class="notification active type-offline">OFFLINE</div>');
+    $scope.$digest();
+  });
+
   // A notification might have been queued already before the app was fully
   // initialized. If so, we display it now.
   if (this.queue.length) this._tick();

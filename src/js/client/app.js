@@ -56,14 +56,20 @@ App.prototype.setAngular = function (scope, compile)
 App.prototype.startup = function ()
 {
   var self = this;
-  this.net.on('connect', function () {
-    self.id.init();
-    self.tabs.init();
-  });
+  this.net.on('connected', handleFirstConnection);
   this.model.listenId(this.id);
   this.net.listenId(this.id);
   this.net.init();
   this.sm.init();
+
+  // XXX: The app also needs to handle updating its data when the connection is
+  //      lost and later re-established. (... or will the Ripple lib do that for us?)
+  function handleFirstConnection() {
+    self.net.removeListener('connected', handleFirstConnection);
+
+    self.id.init();
+    self.tabs.init();
+  }
 };
 
 /**
