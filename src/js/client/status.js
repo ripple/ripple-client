@@ -33,6 +33,16 @@ StatusManager.prototype.init = function ()
       $scope.balance_count = Object.keys($scope.balances).length;
     }, true);
 
+    $scope.logout = function () {
+      // logout() assumes that we are outside of an Angular $apply(), so we need
+      // to make sure that's actually the case otherwise we may get a
+      // "Error: $apply already in progress"
+      // XXX: Find out if there is a recommended/better way of doing this.
+      setTimeout(function () {
+        app.id.logout();
+      }, 10);
+    };
+
     var template = require('../../jade/client/status.jade')();
     self.el = app.$compile(template)($scope);
     self.el.appendTo('header');

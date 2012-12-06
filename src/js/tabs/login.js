@@ -17,12 +17,24 @@ LoginTab.prototype.generateHtml = function ()
 };
 
 LoginTab.prototype.angular = function (module) {
+  var self = this;
   var tm = this.tm;
   var app = this.app;
 
   module.controller('LoginCtrl', function ($scope)
   {
     $scope.error = '';
+    self.on('beforeshow', handleShow);
+
+    function handleShow()
+    {
+      $scope.username = '';
+      $scope.password = '';
+      $scope.loginForm.$setPristine(true);
+      $scope.$digest();
+
+      self.el.find('#login_username').focus();
+    }
 
     $scope.submitForm = function()
     {

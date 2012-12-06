@@ -147,6 +147,13 @@ Id.prototype.login = function (username,password,callback)
   });
 };
 
+Id.prototype.logout = function ()
+{
+  store.remove('ripple_auth');
+  this.loginStatus = false;
+  this.app.tabs.gotoTab('login');
+};
+
 /**
  * Update contacts
  * @param contacts

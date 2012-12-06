@@ -326,7 +326,7 @@ Tab.prototype.render = function (slot, callback)
 
     if (this.angular) {
       // Generate a new scope below the container's scope
-      var $scope = angular.element(parentEl).scope().$new();
+      var $scope = self.$scope = angular.element(parentEl).scope().$new();
 
       // We'll represent our tab as a module
       var module = angular.module(this.slot, this.angularDeps);
@@ -344,8 +344,8 @@ Tab.prototype.render = function (slot, callback)
           self.el.appendTo(parentEl);
           self.emit('afterrender');
           self.tm.slots[slot] = self;
-          callback(null, self);
         });
+        callback(null, self);
       });
       return;
     } else {
