@@ -54,18 +54,23 @@ StatusManager.prototype.init = function ()
   });
 
   app.net.on('connected', function (e) {
-    console.log('connected');
-    $scope.connected = true;
-    self.notifyEl.find('.type-offline').remove();
+    setConnectionStatus(true);
     $scope.$digest();
   });
 
   app.net.on('disconnected', function (e) {
-    console.log('disconnected');
-    $scope.connected = false;
-    self.notifyEl.append('<div class="notification active type-offline">OFFLINE</div>');
+    setConnectionStatus(false);
     $scope.$digest();
   });
+
+  function setConnectionStatus(connected) {
+    $scope.connected = !!connected;
+    if (connected) {
+      self.notifyEl.find('.type-offline').remove();
+    } else {
+      self.notifyEl.append('<div class="notification active type-offline">OFFLINE</div>');
+    }
+  }
 
   // A notification might have been queued already before the app was fully
   // initialized. If so, we display it now.
@@ -75,6 +80,9 @@ StatusManager.prototype.init = function ()
   $(window).scroll(function () {
     self.notifyEl.css('top', Math.max(55, $(window).scrollTop()-47)+'px');
   });
+
+  // Default to disconnected
+  setConnectionStatus(false);
 
   this.setupNetworkNotices();
 };
