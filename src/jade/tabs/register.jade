@@ -4,7 +4,7 @@ section.single.modal.content(ng-controller="RegisterCtrl")
     p.literal Ripple an open-source P2P payment system.
     form(name='registerForm', rp-pass="{ notMatch: 'password1 == password2' }", ng-submit='submitForm()')
       label(for='register_username') Create Username
-      input#register_username(name='register_username', ng-model="username", type='text')
+      input#register_username(name='register_username', ng-model="username", type='text', required)
       .horiz
         div
           label(for='register_password') Password
@@ -44,6 +44,6 @@ section.single.modal.content(ng-controller="RegisterCtrl")
         span.var Master Key:
         | {{key}}
     .action
-      a.btn.btn-primary.btn-big(href='#overview') Continue
+      a.btn.btn-primary.btn-big(href='#overview', ng-click='reset()') Continue
       span IMPORTANT! There is no mechanism to recover your username and password.
         a(href="http://ripple.com/help/password", target="_blank") Read why

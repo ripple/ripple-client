@@ -22,17 +22,34 @@ RegisterTab.prototype.angular = function (module) {
 
   module.controller('RegisterCtrl', function ($scope)
   {
-    $scope.mode = 'form';
+    $scope.reset = function()
+    {
+      $scope.username = '';
+      $scope.password = '';
+      $scope.password1 = '';
+      $scope.password2 = '';
+      $scope.key = '';
+      $scope.mode = 'form';
+    }
 
     $scope.submitForm = function()
     {
-      app.id.register($scope.username, $scope.password1, function(key){
-        $scope.username = $scope.username;
-        $scope.password = Array($scope.password1.length+1).join("*");
-        $scope.key = key;
+      app.id.login($scope.username, $scope.password1, function(error,success){
+        if (error) {
+          app.id.register($scope.username, $scope.password1, function(key){
+            $scope.username = $scope.username;
+            $scope.password = Array($scope.password1.length+1).join("*");
+            $scope.key = key;
 
-        $scope.mode = 'welcome';
-        $scope.$digest();
+            $scope.mode = 'welcome';
+            $scope.$digest();
+          });
+        }
+        if (success) {
+          $scope.mode = 'form';
+
+          tm.gotoTab('overview');
+        }
       });
     }
 
@@ -40,6 +57,8 @@ RegisterTab.prototype.angular = function (module) {
     {
       $scope.password = $scope.password1;
     }
+
+    $scope.reset();
   })
 };
 
