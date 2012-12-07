@@ -33,23 +33,25 @@ section.panel.content(ng-controller="TradeCtrl")
         .currency-field
           label(for='buy_currency') Buy
           input.currency#buy_currency(name='buy_currency', type='text', rp-issuer, ng-model='buy_currency', ng-change='changePair()', rp-combobox="currency_query", rp-combobox-select)
-          .error(ng-show='orderForm.buy_currency.$error.rpIssuer') You aren't able to accept this currency (add trust)
+          .error(ng-show='orderForm.buy_currency.$error.rpIssuer && !orderForm.buy_currency.$pristine') You aren't able to accept this currency (add trust)
       .order-values
         .value-field
           label(for='order_amount') Amount To Sell
-          input#order_amount(name='amount', type='number', step='any', ng-model='amount', ng-pattern='/^[0-9.]+$/')
+          input#order_amount(name='amount', type='number', step='any', ng-model='amount', ng-pattern='/^[0-9.]+$/', required)
           .error(ng-show='orderForm.amount.$error.pattern') Not a valid amount.
+          .error(ng-show='orderForm.amount.$error.required && !orderForm.amount.$pristine') Required
         .sign x
         .value-field
           label(for='order_price') Price of Each
-          input#order_price(name='price', type='number', step='any', ng-model='price', ng-pattern='/^[0-9.]+$/')
+          input#order_price(name='price', type='number', step='any', ng-model='price', ng-pattern='/^[0-9.]+$/', required)
           .error(ng-show='orderForm.price.$error.pattern') Not a valid price.
+          .error(ng-show='orderForm.price.$error.required && !orderForm.price.$pristine') Required
         .sign =
         .value-field
-          label(for='order_value') Order Value (XRP)
-          input#order_value(name='value', type='number', step='any', ng-model='value', ng-pattern='/^[0-9.]+$/')
+          label(for='order_value') Order Value ({{buy_currency | rptruncate:3}})
+          input#order_value(name='value', type='number', step='any', ng-model='value', ng-pattern='/^[0-9.]+$/', required)
           .error(ng-show='orderForm.value.$error.pattern') Not a valid value.
-      div.message You are wanting to sell {{amount}} {{sell_currency}} for {{value}} XRP (priced {{price}} each)
+      div.message(ng-show='orderForm.$valid') You are wanting to sell {{amount}} {{sell_currency | rptruncate:3}} for {{value}} {{buy_currency | rptruncate:3}} ({{price}} {{sell_currency | rptruncate:3}}/{{buy_currency | rptruncate:3}})
       div.submitsection
         button.btn.btn-success.submit(type='submit', ng-disabled='orderForm.$invalid') Place Order
 
