@@ -25,6 +25,16 @@ SendTab.prototype.angular = function (module)
 
   module.controller('SendCtrl', ['$scope', '$timeout', function ($scope, $timeout) {
 
+    $scope.$watch('recipient', function(){
+      if ($scope.contact = webutil.getContact($scope.userBlob.data.contacts,$scope.recipient)) {
+        $scope.recipient_name = $scope.contact.name;
+        $scope.recipient_address = $scope.contact.address;
+      } else {
+        $scope.recipient_name = '';
+        $scope.recipient_address = $scope.recipient;
+      }
+    }, true);
+
     /**
      * Used for rpDestination validator
      *
@@ -43,6 +53,8 @@ SendTab.prototype.angular = function (module)
     $scope.reset = function () {
       $scope.mode = "form";
       $scope.recipient = '';
+      $scope.recipient_name = '';
+      $scope.recipient_address = '';
       $scope.amount = '';
       $scope.currency = 'XRP';
       $scope.nickname = '';
@@ -64,15 +76,6 @@ SendTab.prototype.angular = function (module)
       $scope.amount_feedback = amount.to_human();
       $scope.currency_feedback = amount._currency.to_json();
 
-      $scope.recipient_name = $scope.recipient;
-
-      if ($scope.contact = webutil.getContact($scope.userBlob.data.contacts,$scope.recipient)) {
-        $scope.recipient_name = $scope.contact.name;
-        $scope.recipient_extra = $scope.contact.address;
-
-        $scope.recipient = $scope.contact.address;
-      }
-
       $scope.confirm_wait = true;
       $timeout(function () {
         $scope.confirm_wait = false;
@@ -88,10 +91,10 @@ SendTab.prototype.angular = function (module)
     $scope.send_confirmed = function () {
       var currency = $scope.currency.slice(0, 3).toUpperCase();
       var amount = ripple.Amount.from_human(""+$scope.amount+" "+currency);
-      amount.set_issuer($scope.recipient);
+      amount.set_issuer($scope.recipient_address);
 
       var tx = app.net.remote.transaction();
-      tx.payment(app.id.account, $scope.recipient, amount.to_json());
+      tx.payment(app.id.account, $scope.recipient_address, amount.to_json());
       tx.build_path(true);
       tx.set_flags('CreateAccount');
       tx.on('success', function (res) {
@@ -158,7 +161,7 @@ SendTab.prototype.angular = function (module)
 
       var contact = {
         'name': $scope.saveAddressName,
-        'address': $scope.recipient
+        'address': $scope.recipient_address
       }
 
       app.id.once('blobsave', function(){
@@ -172,6 +175,7 @@ SendTab.prototype.angular = function (module)
     $scope.reset();
 
     self.on('prefill', function (data) {
+      $scope.reset();
       $.extend($scope, data);
     });
   }]);

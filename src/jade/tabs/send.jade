@@ -12,7 +12,8 @@ section#t-send.single.content(ng-controller='SendCtrl')
     .error(ng-show='sendForm.send_amount.$error.required && !sendForm.send_amount.$pristine') Please enter an amount.
     .error(ng-show='sendForm.send_amount.$error.pattern && !sendForm.send_amount.$pristine') Not a valid amount.
     label(for='send_destination') Destination
-    input#send_destination(name='send_destination', type='text', placeholder='Start typing a name from your address book or paste a Ripple address', ng-model='recipient', rp-destination, required, rp-combobox="recipient_query")
+    input#send_destination(name='send_destination', type='text', placeholder='Contact name or Ripple address', ng-model='recipient', rp-destination, required, rp-combobox="recipient_query")
+    div.success(ng-show='recipient != recipient_address && recipient_name') {{recipient_address}}
     div.error(ng-show='sendForm.send_destination.$error.required && !sendForm.send_destination.$pristine') Please enter a recipient.
     div.error(ng-show='sendForm.send_destination.$error.rpDestination && !sendForm.send_destination.$pristine') Recipient should be either name from your contact list or ripple address.
     div.submitsection
@@ -27,8 +28,9 @@ section#t-send.single.content(ng-controller='SendCtrl')
       span.currency {{currency_feedback}}
     p.literal to the Ripple user
     div.dest_feedback
-      .recipient {{recipient_name}}
-      .extra(ng-show="recipient_extra") {{recipient_extra}}
+      .recipient(ng-show='recipient_name') {{recipient_name}}
+      .recipient(ng-hide='recipient_name') {{recipient_address}}
+      .extra(ng-show="recipient != recipient_address || recipient_name") {{recipient_address}}
     p.literal Are you sure?
     div
       p.submitsection
@@ -76,7 +78,7 @@ section#t-send.single.content(ng-controller='SendCtrl')
     div(ng-hide='contact', class="actionLink")
       a(href="", ng-click='showSaveAddressForm()') Add this address to contacts
       form(name="saveAddressForm", id="saveAddressForm", ng-submit='saveAddress()')
-        div.address {{recipient}}
+        div.address {{recipient_address}}
         label(for='save_address_name') Name this user
         input#contact_name(name='save_address_name', type="text", step='any', ng-model='saveAddressName', unique, required)
         .error(ng-show='saveAddressForm.save_address_name.$error.unique') You already have a contact with the same name.
