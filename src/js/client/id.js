@@ -17,6 +17,8 @@ var Id = function ()
 
   this.account = null;
   this.loginStatus = false;
+
+  this.blobBackends = ['vault', 'local'];
 };
 
 util.inherits(Id, events.EventEmitter);
@@ -42,7 +44,6 @@ Id.prototype.init = function ()
     var auth = store.get('ripple_auth');
 
     this.login(auth.username, auth.password);
-    console.log("Login status set");
     this.loginStatus = true;
   }
 
@@ -52,7 +53,9 @@ Id.prototype.init = function ()
   this.app.$scope.$watch('userBlob',function(){
     self.emit('blobupdate');
     if (self.username && self.password) {
-      blob.set('vault',self.username,self.password,self.app.$scope.userBlob,function(){
+      blob.set(self.blobBackends,
+               self.username, self.password,
+               self.app.$scope.userBlob,function(){
         self.emit('blobsave');
       });
     }
@@ -95,7 +98,6 @@ Id.prototype.isReturning = function ()
 
 Id.prototype.isLoggedIn = function ()
 {
-  console.log("Login status checked");
   return this.loginStatus;
 };
 
@@ -125,7 +127,7 @@ Id.prototype.register = function (username, password, callback)
   data.data.account_id = (new RippleAddress(data.data.master_seed)).getAddress();
 
   // Add user to blob
-  blob.set('vault',username,password,data,function(){
+  blob.set(self.blobBackends, username, password, data, function () {
     self.data = data;
     self.setUsername(username);
     self.setPassword(password);
@@ -144,8 +146,9 @@ Id.prototype.login = function (username,password,callback)
 
   if ("function" !== typeof callback) callback = $.noop;
 
-  blob.get('vault', username, password, function (err, blob) {
+  blob.get(self.blobBackends, username, password, function (err, blob) {
     if (err) {
+      console.warn('login failed');
       callback(err);
       return;
     }
@@ -159,7 +162,6 @@ Id.prototype.login = function (username,password,callback)
       self.setAccount(blob.data.account_id, blob.data.master_seed);
       self.storeLogin(username, password);
       self.loginStatus = true;
-      console.log("Login status set");
       self.emit('blobupdate');
       store.set('ripple_known', true);
     }

@@ -1,4 +1,5 @@
-var webutil = require("./webutil");
+var webutil = require("./webutil"),
+    log = require("./log");
 
 var BlobObj = function ()
 {
@@ -6,30 +7,60 @@ var BlobObj = function ()
   this.meta = {};
 };
 
+function processBackendsParam(backends)
+{
+  if (!Array.isArray(backends)) {
+    backends = [backends];
+  }
+
+  backends = backends.map(function (backend) {
+    if ("string" === typeof backend) {
+      return BlobObj.backends[backend];
+    } else {
+      return backend;
+    }
+  });
+
+  return backends;
+}
+
 /**
  * Attempts to retrieve the blob from the specified backend.
  */
-BlobObj.get = function(backend, user, pass, callback)
+BlobObj.get = function(backends, user, pass, callback)
 {
-  if ("string" === typeof backend) {
-    backend = BlobObj.backends[backend];
+  backends = processBackendsParam(backends);
+
+  var backend = backends.shift();
+  var key = sjcl.codec.hex.fromBits(sjcl.hash.sha256.hash(user + pass));
+  try {
+    backend.get(key, function (err, data) {
+      if (err) {
+        console.warn("Backend failed: ", backend);
+        log.exception(err);
+      }
+
+      var blob;
+      if (data && !err) {
+        blob = BlobObj.decrypt(user+pass, atob(data));
+        callback(null, blob);
+      } else tryNext();
+    });
+  } catch (e) {
+    console.warn("Backend failed: ", backend);
+    log.exception(e);
+    tryNext();
   }
 
-  var key = sjcl.codec.hex.fromBits(sjcl.hash.sha256.hash(user + pass));
-  backend.get(key, function (err, data) {
-    if (err) {
-      callback(err);
-      return;
-    }
-
-    var blob;
-    if (data) {
-      blob = BlobObj.decrypt(user+pass, atob(data));
+  function tryNext() {
+    console.log(backends.length);
+    // Do we have more backends to try?
+    if (backends.length) {
+      BlobObj.get(backends, user, pass, callback);
     } else {
-      blob = new BlobObj();
+      callback(new Error("Unable to load blob, all backends failed."));
     }
-    callback(null, blob);
-  });
+  }
 };
 
 BlobObj.enc = function(username,password,bl)
@@ -41,16 +72,16 @@ BlobObj.enc = function(username,password,bl)
   }));
 }
 
-BlobObj.set = function(backend, username, password, bl, callback)
+BlobObj.set = function(backends, username, password, bl, callback)
 {
-  // TODO code duplication. see BlobObj.get
-  if ("string" === typeof backend) {
-    backend = BlobObj.backends[backend];
-  }
+  backends = processBackendsParam(backends);
 
   var hash = sjcl.codec.hex.fromBits(sjcl.hash.sha256.hash(username + password));
+  var encData = BlobObj.enc(username, password, bl);
 
-  backend.set(hash, this.enc(username,password,bl), callback);
+  backends.forEach(function (backend) {
+    backend.set(hash, encData, callback);
+  });
 };
 
 BlobObj.decrypt = function (priv, ciphertext)
@@ -85,7 +116,17 @@ var VaultBlobBackend = {
 };
 
 var LocalBlobBackend = {
-  // stub
+  get: function (key, callback)
+  {
+    var blob = store.get('ripple_blob_'+key);
+    callback(null, blob);
+  },
+
+  set: function (key, value, callback)
+  {
+    store.set('ripple_blob_'+key, value);
+    callback();
+  }
 };
 
 BlobObj.backends = {
