@@ -48,11 +48,6 @@ StatusManager.prototype.init = function ()
     self.el.appendTo('header');
   });
 
-  app.id.on('userchange', function (e) {
-    $scope.username = e.username;
-    $scope.$digest();
-  });
-
   app.net.on('connected', function (e) {
     setConnectionStatus(true);
     $scope.$digest();

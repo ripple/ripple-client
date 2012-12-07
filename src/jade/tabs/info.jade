@@ -8,21 +8,21 @@ section.panel.content(ng-controller="InfoCtrl")
         td Password:
       tr
         td
-          span.value {{username}}
+          span.value {{userCredentials.username}}
         td
-          span.value {{password}}
+          span.value {{userCredentials.password | rpmask}}
       tr.section
         td(colspan="2") Master Key:
           a.smallText(href="http://ripple.com/help/key", target="_blank") What is this?
       tr
         td(colspan="2")
-          span.value {{master}}
+          span.value {{userCredentials.master_seed}}
       tr.section
         td(colspan="2") Wallet:
           a.smallText(href="http://ripple.com/help/wallet", target="_blank") What is this?
       tr
         td(colspan="2")
-          .wallet {{wallet}}
+          .wallet {{enc}}
 
   p.literal IMPORTANT! There is no way to recover your username and password.
     a(href="http://ripple.com/help/password", target="_blank") Read why

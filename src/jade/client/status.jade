@@ -1,6 +1,6 @@
 #status(ng-class="{expand: show_secondary && balance_count >= 2}")
   .user
-    div {{username}}&nbsp;
+    div {{userCredentials.username}}&nbsp;
       a.logout(ng-click='logout()') logout
     .balance.primary
       | {{balance | rpamount}}

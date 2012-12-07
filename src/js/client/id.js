@@ -47,6 +47,7 @@ Id.prototype.init = function ()
   }
 
   this.app.$scope.userBlob = Id.defaultBlob;
+  this.app.$scope.userCredentials = {};
 
   this.app.$scope.$watch('userBlob',function(){
     self.emit('blobupdate');
@@ -66,12 +67,14 @@ Id.prototype.setApp = function (app)
 Id.prototype.setUsername = function (username)
 {
   this.username = username;
+  this.app.$scope.userCredentials.username = username;
   this.emit('userchange', {username: username});
 };
 
 Id.prototype.setPassword = function (password)
 {
   this.password = password;
+  this.app.$scope.userCredentials.password = password;
 };
 
 Id.prototype.setAccount = function (accId, accKey)
@@ -80,6 +83,8 @@ Id.prototype.setAccount = function (accId, accKey)
     this.emit('accountunload', {account: this.account});
   }
   this.account = accId;
+  this.app.$scope.userCredentials.account = accId;
+  this.app.$scope.userCredentials.master_seed = accKey;
   this.emit('accountload', {account: this.account, secret: accKey});
 };
 

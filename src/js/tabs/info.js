@@ -22,27 +22,13 @@ InfoTab.prototype.angular = function (module) {
 
   module.controller('InfoCtrl', function ($scope)
   {
-    $scope.updateData = function ()
+    $scope.$watch('userBlob', updateEnc, true);
+
+    function updateEnc()
     {
-      $scope.username = app.id.username;
-      $scope.password = Array(app.id.password.length+1).join("•");
-      $scope.master = app.id.data.data.master_seed;
-      $scope.wallet = blob.enc(app.id.username,app.id.password,app.id.data);
+      $scope.enc = blob.enc(app.id.username, app.id.password, $scope.userBlob);
     }
-
-    // Update info when user enters this tab
-    if (app.id.data) {
-      $scope.updateData();
-    }
-
-    // Update info when blob is updated
-    app.id.on('blobupdate', function (e) {
-      $scope.updateData();
-      $scope.$digest();
-    })
-
-
-  })
+  });
 };
 
 module.exports = InfoTab;
