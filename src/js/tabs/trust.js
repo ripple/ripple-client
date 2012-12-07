@@ -58,7 +58,11 @@ TrustTab.prototype.angular = function (module)
 
     $scope.grant = function ()
     {
-      var counterparty = webutil.getContact(app.$scope.userBlob.data.contacts,$scope.counterparty).address;
+      var counterparty = webutil.getContact($scope.userBlob.data.contacts,$scope.counterparty).address;
+
+      if (!counterparty) {
+        counterparty = $scope.counterparty;
+      }
 
       var currency = $scope.currency.slice(0, 3).toUpperCase();
       var amount = $scope.amount + '/' +
