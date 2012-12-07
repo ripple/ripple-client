@@ -18,8 +18,9 @@ section.panel.content(ng-controller="TrustCtrl")
               input.value#trust_amount(name='trust_amount', type='number', step='any', ng-model='amount', ng-pattern='/^[0-9.]+$/', required)
               input.currency#trust_amount_currency(name='trust_amount_currency', type='text', ng-model='currency', rp-combobox="currency_query", rp-combobox-select)
             label(for='trust_counterparty') User
-            input#trust_counterparty(name='trust_counterparty', type='text', ng-model='counterparty', rp-combobox="recipient_query", rp-destination, required)
+            input#trust_counterparty(name='trust_counterparty', type='text', ng-model='counterparty', rp-combobox="recipient_query", rp-destination, rp-not-me, required)
             .error(ng-show='trustForm.trust_counterparty.$error.rpDestination') User should be either name from your contact list or ripple address.
+            .error(ng-show='trustForm.trust_counterparty.$error.rpNotMe') You've entered your address.
             .error(ng-show='remoteError') You have to be funded to grant a trust.
             div.submitsection
               button.btn.btn-info(type='submit', ng-disabled='trustForm.$invalid') Grant Trust
