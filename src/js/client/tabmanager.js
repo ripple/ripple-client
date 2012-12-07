@@ -129,6 +129,7 @@ TabManager.prototype.message = function (slotName, msg_type, message)
   } else {
     this.once('render:'+slotName, function (e) {
       e.tab.emit(msg_type, message);
+      e.tab.$scope.$digest();
     });
   }
 };
@@ -382,7 +383,7 @@ Tab.prototype.render = function (slot, callback)
   {
     self.emit('afterrender');
     self.tm.slots[slot] = self;
-    self.tm.emit('render:'+self.slot);
+    self.tm.emit('render:'+slot, {tab: self});
     callback(null, self);
   }
 };

@@ -211,3 +211,54 @@ module.directive('rpPass', function() {
     }
   };
 });
+
+
+/**
+ * Field uniqueness validator.
+ *
+ * @param {array=} rpUnique Array of strings which are disallowed values.
+ * @param {string=} rpUniqueField If set, rpUnique will be interpreted as an
+ *   array of objects and we compare the value with the field named
+ *   rpUniqueField inside of those objects.
+ * @param {string=} rpUniqueOrig You can set this to the original value to
+ *   ensure this value is always allowed.
+ *
+ * @example
+ *   <input ng-model="name" ng-unique="addressbook" ng-unique-field="name">
+ */
+module.directive('rpUnique', function() {
+  return {
+    restrict: 'A',
+    require: '?ngModel',
+    link: function ($scope, elm, attr, ctrl) {
+      if (!ctrl) return;
+
+      var validator = function(value) {
+        var array = $scope.$eval(attr.rpUnique);
+
+        if (attr.rpUniqueOrig && value === $scope.$eval(attr.rpUniqueOrig)) {
+          // Original value is always allowed
+          ctrl.$setValidity('rpUnique', true);
+        } else if (attr.rpUniqueField) {
+          for (var i = 0, l = array.length; i < l; i++) {
+            if (array[i][attr.rpUniqueField] === value) {
+              ctrl.$setValidity('rpUnique', false);
+              return undefined;
+            }
+          }
+          ctrl.$setValidity('rpUnique', true);
+        } else {
+          ctrl.$setValidity('rpUnique', array.indexOf(value) === -1);
+        }
+        return value;
+      };
+
+      ctrl.$formatters.push(validator);
+      ctrl.$parsers.unshift(validator);
+
+      attr.$observe('required', function() {
+        validator(ctrl.$viewValue);
+      });
+    }
+  };
+});
