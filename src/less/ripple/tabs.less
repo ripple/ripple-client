@@ -146,19 +146,42 @@ html.t-overview header nav ul > li.active#nav-account > a:after {
   table {
     .table-striped;
 
-    tr {
-      position: relative;
+    input.name {
+      .input-xlarge;
     }
 
-    .editMode {
+    input.address {
+      .input-xxlarge;
+    }
+
+    tr {
+      position: relative;
+
+      > .name {
+        width: 30%;
+      }
+      > .account {
+        width: 20%;
+      }
+      > .command {
+        text-align: right;
+
+        .btn {
+          margin-right: 10px;
+        }
+      }
+    }
+
+    td input.inline {
+      width: 100%;
+    }
+
+    .editing {
       td {
         vertical-align: top;
       }
     }
 
-    .send {
-      margin-right: 10px;
-    }
 
     .command, .action {
     }

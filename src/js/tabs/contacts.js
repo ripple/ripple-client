@@ -23,16 +23,8 @@ ContactsTab.prototype.angular = function (module) {
 
   module.controller('ContactsCtrl', function ($scope)
   {
-    // TODO need some refactoring to directly use $scope.userBlob
-
     $scope.name = '';
     $scope.address = '';
-
-    $scope.updateData = function ()
-    {
-      $scope.addressbook = app.$scope.userBlob.data.contacts;
-      $scope.addressbookmaster = angular.copy($scope.addressbook);
-    };
 
     /**
      * Toggle "add contact" form
@@ -58,21 +50,19 @@ ContactsTab.prototype.angular = function (module) {
       $scope.enable_highlight = true;
 
       // Add an element
-      $scope.addressbook.unshift(contact);
-
-      // Update master
-      $scope.addressbookmaster.unshift(contact);
+      $scope.userBlob.data.contacts.unshift(contact);
 
       // Hide the form
       $scope.toggle_form();
-
-      // Update blob
-      $scope.userBlob.data.contacts = $scope.addressbookmaster;
 
       // Clear form
       $scope.name = '';
       $scope.address = '';
     };
+  });
+
+  module.controller('ContactRowCtrl', function ($scope) {
+    $scope.editing = false;
 
     /**
      * Switch to edit mode
@@ -81,7 +71,9 @@ ContactsTab.prototype.angular = function (module) {
      */
     $scope.edit = function (index)
     {
-      $scope.addressbook[index].isEditMode = true;
+      $scope.editing = true;
+      $scope.editname = $scope.entry.name;
+      $scope.editaddress = $scope.entry.address;
     };
 
     /**
@@ -91,10 +83,7 @@ ContactsTab.prototype.angular = function (module) {
      */
     $scope.update = function (index)
     {
-      delete $scope.addressbook[index].duplicateName;
-      delete $scope.addressbook[index].duplicateAddress;
-      delete $scope.addressbook[index].invalidAddress;
-
+      /*
       var UInt160 = new ripple.UInt160();
 
       // TODO use "unique" and "address" directives
@@ -112,15 +101,12 @@ ContactsTab.prototype.angular = function (module) {
         if ($scope.addressbook[index].duplicateName || $scope.addressbook[index].duplicateAddress || $scope.addressbook[index].invalidAddress) {
           return;
         }
-      }
-
-      $scope.addressbook[index].isEditMode = false;
-
-      // Update master
-      $scope.addressbookmaster[index] = $scope.addressbook[index];
+      }*/
 
       // Update blob
-      $scope.userBlob.data.contacts = $scope.addressbookmaster;
+      $scope.entry.name = $scope.editname;
+      $scope.entry.address = $scope.editaddress;
+      $scope.editing = false;
     };
 
     /**
@@ -129,13 +115,8 @@ ContactsTab.prototype.angular = function (module) {
      * @param index
      */
     $scope.remove = function (index) {
-      $scope.addressbook.splice(index,1);
-
-      // Update master
-      $scope.addressbookmaster.splice(index,1);
-
       // Update blob
-      $scope.userBlob.data.contacts = $scope.addressbookmaster;
+      $scope.userBlob.data.contacts.splice(index,1);
     };
 
     /**
@@ -145,54 +126,18 @@ ContactsTab.prototype.angular = function (module) {
      */
     $scope.cancel = function (index)
     {
-      $scope.addressbook[index] = {
-        name: $scope.addressbookmaster[index].name,
-        address: $scope.addressbookmaster[index].address,
-        isEditMode: false
-      };
+      $scope.editing = false;
     };
 
     $scope.send = function (index)
     {
       app.tabs.message('send', 'prefill', {
-        recipient: $scope.addressbookmaster[index].address
+        recipient: $scope.entry.address
       });
 
       setTimeout(function () {
         app.tabs.gotoTab('send');
       }, 10);
-    };
-  });
-
-  /**
-   * Contact name and address uniqueness validator
-   */
-  module.directive('rpUnique', function() {
-    return {
-      restrict: 'A',
-      require: '?ngModel',
-      link: function ($scope, elm, attr, ctrl) {
-        if (!ctrl) return;
-
-        var validator = function(value) {
-          var duplicates = $.grep($scope.addressbook, function(e){ return e[elm[0].name] == value; });
-
-          if (typeof duplicates == 'undefined' || duplicates.length === 0) {
-            ctrl.$setValidity('rpUnique', true);
-            return value;
-          } else {
-            ctrl.$setValidity('rpUnique', false);
-            return;
-          }
-        };
-
-        ctrl.$formatters.push(validator);
-        ctrl.$parsers.unshift(validator);
-
-        attr.$observe('rpUnique', function() {
-          validator(ctrl.$viewValue);
-        });
-      }
     };
   });
 };

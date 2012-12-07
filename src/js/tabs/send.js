@@ -176,8 +176,6 @@ SendTab.prototype.angular = function (module)
     });
   }]);
 
-  var tm = this.tm;
-
   /**
    * Contact name and address uniqueness validator
    */
