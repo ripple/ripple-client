@@ -139,7 +139,7 @@ ContactsTab.prototype.angular = function (module) {
     $scope.send = function (index)
     {
       app.tabs.message('send', 'prefill', {
-        recipient: $scope.entry.address
+        recipient: $scope.entry.name
       });
 
       setTimeout(function () {
