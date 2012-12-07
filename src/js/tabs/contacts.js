@@ -23,8 +23,14 @@ ContactsTab.prototype.angular = function (module) {
 
   module.controller('ContactsCtrl', function ($scope)
   {
-    $scope.name = '';
-    $scope.address = '';
+    $scope.reset_form = function ()
+    {
+      $scope.name = '';
+      $scope.address = '';
+      if ($scope.addForm) $scope.addForm.$setPristine();
+    };
+
+    $scope.reset_form();
 
     /**
      * Toggle "add contact" form
@@ -32,6 +38,7 @@ ContactsTab.prototype.angular = function (module) {
     $scope.toggle_form = function ()
     {
       $scope.addform_visible = !$scope.addform_visible;
+      $scope.reset_form();
     };
 
     /**
