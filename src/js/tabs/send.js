@@ -6,6 +6,8 @@ var util = require('util'),
 var SendTab = function ()
 {
   Tab.call(this);
+
+  this.on('retrigger', this.handleRetrigger.bind(this));
 };
 
 util.inherits(SendTab, Tab);
@@ -206,6 +208,14 @@ SendTab.prototype.angular = function (module)
       }
     };
   });
+};
+
+SendTab.prototype.handleRetrigger = function () {
+  var $scope = $('#t-send').data('$scope');
+  if ($scope && $scope.mode !== 'form') {
+    $scope.reset();
+    $scope.$digest();
+  }
 };
 
 module.exports = SendTab;

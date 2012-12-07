@@ -15,6 +15,22 @@ util.inherits(TabManager, events.EventEmitter);
 
 TabManager.prototype.init = function ()
 {
+  var self = this;
+
+  // Detect and handle retrigger events
+  $(document).on('click', 'a', function () {
+    var href = $(this).attr('href');
+    if (href && href.length >= 2 && href[0] === '#') {
+      href = href.slice(1);
+      if ("undefined" !== typeof self.slots[href]) {
+        var slot = self.slots[href];
+        if (self.slots[href].el.is(':visible')) {
+          slot.emit('retrigger');
+        }
+      }
+    }
+  });
+
   if (this.app.id.isLoggedIn()) {
     console.log("client: logged in");
     try {
