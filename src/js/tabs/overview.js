@@ -17,7 +17,6 @@ OverviewTab.prototype.generateHtml = function ()
 
 OverviewTab.prototype.angular = function ()
 {
-
 };
 
 module.exports = OverviewTab;

@@ -1,4 +1,8 @@
 section.panel.content
+  .div#welcome(ng-hide='balance')
+    p Welcome to Ripple,
+    p You currently dont have any credits. To get started with ripple have another ripple user send money to this account.
+    p.account_id {{userBlob.data.account_id}}
   .total(style='display: none;')
     .swatch
       .balance 15,532.33
@@ -10,6 +14,8 @@ section.panel.content
     .balancebox
       .label Ripple Credits
       .balance {{balance | rpamount}}
+
+  h3 Notifications
   table.table.events
     thead
       tr
