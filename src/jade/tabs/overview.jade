@@ -26,16 +26,20 @@ section.panel.content
         td.date {{entry.date | rpfromnow}}
         td.desc(ng-show="entry.type == 'sent'") You sent 
           span.address {{entry.counterparty | rpcontactname}}
-          strong  {{entry.amount | rpamount}} {{entry.currency}}
+          strong  {{entry.amount | rpamount}} {{entry.amount | rpcurrency}}
         td.desc(ng-show="entry.type == 'received'")
           span.address {{entry.counterparty | rpcontactname}}
           |  sent you
-          strong  {{entry.amount | rpamount}} {{entry.currency}}
+          strong  {{entry.amount | rpamount}} {{entry.amount | rpcurrency}}
         td.desc(ng-show="entry.type == 'trusted'")
           span.address {{entry.counterparty | rpcontactname}}
           |  now trusts you for
-          strong  {{entry.limit_peer | rpamount}} {{entry.currency}}
+          strong  {{entry.limit_peer | rpamount}} {{entry.limit_peer | rpcurrency}}
         td.desc(ng-show="entry.type == 'trusting'") You now trust 
           span.address {{entry.counterparty | rpcontactname}}
           |  for 
-          strong  {{entry.limit | rpamount}} {{entry.currency}}
+          strong  {{entry.limit | rpamount}} {{entry.limit | rpcurrency}}
+        td.desc(ng-show="entry.type == 'offernew'") You created an offer accepting 
+          strong {{entry.pays | rpamount}} {{entry.pays | rpcurrency}}
+          |  for 
+          strong {{entry.gets | rpamount}} {{entry.gets | rpcurrency}}

@@ -162,6 +162,12 @@ var JsonRewriter = module.exports = {
       obj.currency = tx.LimitAmount.currency;
       break;
 
+    case 'OfferCreate':
+      obj.type = 'offernew';
+      obj.pays = ripple.Amount.from_json(tx.TakerPays);
+      obj.gets = ripple.Amount.from_json(tx.TakerGets);
+      break;
+
     default:
       console.log('Unknown transaction type: "'+tx.TransactionType+'"', tx);
       return null;

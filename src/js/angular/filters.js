@@ -26,6 +26,18 @@ module.filter('rpamount', function () {
 });
 
 /**
+ * Get the currency from an Amount.
+ */
+module.filter('rpcurrency', function () {
+  return function (input) {
+    if (!input) return "";
+
+    var amount = Amount.from_json(input);
+    return amount.currency().to_json();
+  };
+});
+
+/**
  * Angular filter for Moment.js.
  *
  * Displays a timestamp as "x minutes ago".
