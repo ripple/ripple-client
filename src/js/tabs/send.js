@@ -97,7 +97,9 @@ SendTab.prototype.angular = function (module)
 
       var tx = app.net.remote.transaction();
       tx.payment(app.id.account, $scope.recipient_address, amount.to_json());
-      tx.build_path(true);
+      if (currency !== 'XRP') {
+        tx.build_path(true);
+      }
       tx.set_flags('CreateAccount');
       tx.on('success', function (res) {
         setEngineStatus(res, false);
