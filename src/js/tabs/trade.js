@@ -86,11 +86,15 @@ TradeTab.prototype.angular = function(module)
     };
 
     $scope.update_value = function () {
-      $scope.value = +$scope.amount * $scope.price;
+      if ($scope.price) {
+        $scope.value = +$scope.amount * $scope.price;
+      }
     };
 
     $scope.update_amount = function () {
-      $scope.amount = +$scope.value / $scope.price;
+      if ($scope.price) {
+        $scope.amount = +$scope.value / $scope.price;
+      }
     };
 
     $scope.reset();
