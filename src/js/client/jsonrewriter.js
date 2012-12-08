@@ -123,6 +123,7 @@ var JsonRewriter = module.exports = {
 
     if (obj.accountRoot) {
       obj.balance = ripple.Amount.from_json(obj.accountRoot.Balance);
+      obj.xrp_balance = obj.balance;
     }
 
     if (obj.rippleState) {

@@ -163,10 +163,6 @@ StatusManager.prototype.setupNetworkNotices = function ()
       if (html.length) {
         app.sm.create(app.$compile(html)($scope)).queue();
       }
-
-      if ("undefined" !== typeof tx.balance && "XRP" === tx.currency) {
-        app.$scope.balance = tx.balance;
-      }
     }
   });
 };
