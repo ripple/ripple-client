@@ -129,7 +129,7 @@
   }
 
   h3 {
-    margin: 10px 0 0 40px; 
+    margin-top: 15px;
   }
 
   table.events {
@@ -157,6 +157,7 @@ html.t-overview header nav ul > li.active#nav-account > a:after {
 #t-contacts {
   table {
     .table-striped;
+    table-layout:fixed;
 
     input.name {
       .input-xlarge;
@@ -169,13 +170,18 @@ html.t-overview header nav ul > li.active#nav-account > a:after {
     tr {
       position: relative;
 
+      th, td, input.inline {
+        .box-sizing(content-box);
+      }
+
       > .name {
-        width: 30%;
+        width: 27%;
       }
       > .account {
-        width: 20%;
+        width: 40%;
       }
       > .command {
+        width: 33%;
         text-align: right;
 
         .btn {
@@ -185,7 +191,17 @@ html.t-overview header nav ul > li.active#nav-account > a:after {
     }
 
     td input.inline {
-      width: 100%;
+      width: 95%;
+      padding: 4px;
+      margin: 0 0 0 -4px;
+      background-color: #f8f8f8;
+      border: 0;
+      border-bottom: 1px solid #aaa;
+      height: 20px;
+    }
+
+    tr:nth-child(odd) td input.inline {
+      background-color: #f1f1f1;
     }
 
     .editing {
