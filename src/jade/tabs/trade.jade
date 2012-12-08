@@ -37,19 +37,19 @@ section.panel.content(ng-controller="TradeCtrl")
       .order-values
         .value-field
           label(for='order_amount') Amount To Sell
-          input#order_amount(name='amount', type='number', step='any', ng-model='amount', ng-pattern='/^[0-9.]+$/', required)
+          input#order_amount(name='amount', type='number', step='any', ng-model='amount', ng-pattern='/^[0-9.]+$/', ng-change='update_value()', required)
           .error(ng-show='orderForm.amount.$error.pattern') Not a valid amount.
           .error(ng-show='orderForm.amount.$error.required && !orderForm.amount.$pristine') Required
         .sign x
         .value-field
           label(for='order_price') Price of Each
-          input#order_price(name='price', type='number', step='any', ng-model='price', ng-pattern='/^[0-9.]+$/', required)
+          input#order_price(name='price', type='number', step='any', ng-model='price', ng-pattern='/^[0-9.]+$/', ng-change='update_value()', required)
           .error(ng-show='orderForm.price.$error.pattern') Not a valid price.
           .error(ng-show='orderForm.price.$error.required && !orderForm.price.$pristine') Required
         .sign =
         .value-field
           label(for='order_value') Order Value ({{buy_currency | rptruncate:3}})
-          input#order_value(name='value', type='number', step='any', ng-model='value', ng-pattern='/^[0-9.]+$/', required)
+          input#order_value(name='value', type='number', step='any', ng-model='value', ng-pattern='/^[0-9.]+$/', ng-change='update_amount()', required)
           .error(ng-show='orderForm.value.$error.pattern') Not a valid value.
       div.message(ng-show='orderForm.$valid') You are wanting to sell {{amount}} {{sell_currency | rptruncate:3}} for {{value}} {{buy_currency | rptruncate:3}} ({{price}} {{sell_currency | rptruncate:3}}/{{buy_currency | rptruncate:3}})
       div.submitsection
@@ -66,9 +66,6 @@ section.panel.content(ng-controller="TradeCtrl")
         .dest_feedback
           span.value {{buy_amount_feedback}}
           span.currency {{buy_currency_feedback}}
-        .value_feedback
-          span.value {{buy_amount_feedback}}
-          span.currency XRP
         p.literal Are you sure?
         div
           p.submitsection
