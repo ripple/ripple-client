@@ -25,17 +25,17 @@ section.panel.content
       tr(ng-repeat="entry in events", ng-class="entry.type")
         td.date {{entry.date | rpfromnow}}
         td.desc(ng-show="entry.type == 'sent'") You sent 
-          span.address {{entry.counterparty | rpnickname}}
+          span.address {{entry.counterparty | rpcontactname}}
           strong  {{entry.amount | rpamount}} {{entry.currency}}
         td.desc(ng-show="entry.type == 'received'")
-          span.address {{entry.counterparty | rpnickname}}
+          span.address {{entry.counterparty | rpcontactname}}
           |  sent you
           strong  {{entry.amount | rpamount}} {{entry.currency}}
         td.desc(ng-show="entry.type == 'trusted'")
-          span.address {{entry.counterparty | rpnickname}}
+          span.address {{entry.counterparty | rpcontactname}}
           |  now trusts you for
           strong  {{entry.limit_peer | rpamount}} {{entry.currency}}
         td.desc(ng-show="entry.type == 'trusting'") You now trust 
-          span.address {{entry.counterparty | rpnickname}}
+          span.address {{entry.counterparty | rpcontactname}}
           |  for 
           strong  {{entry.limit | rpamount}} {{entry.currency}}

@@ -1,21 +1,21 @@
 case tx.type
   when "sent"
     .type-info
-      | You sent {{tx.counterparty | rpnickname}} 
+      | You sent {{tx.counterparty | rpcontactname}} 
       span.number {{tx.amount | rpamount}}
       span.currency  {{tx.currency}}
   when "received"
     .type-success
-      | {{tx.counterparty | rpnickname}} sent you 
+      | {{tx.counterparty | rpcontactname}} sent you 
       span.number {{tx.amount | rpamount}}
       span.currency  {{tx.currency}}
   when "trusted"
     .type-success
-      | {{tx.counterparty | rpnickname}} now trusts you for 
+      | {{tx.counterparty | rpcontactname}} now trusts you for 
       span.number {{tx.limit_peer | rpamount}}
       span.currency  {{tx.currency}}
   when "trusting"
     .type-success
-      | You now trust {{tx.counterparty | rpnickname}} for 
+      | You now trust {{tx.counterparty | rpcontactname}} for 
       span.number {{tx.limit | rpamount}}
       span.currency  {{tx.currency}}

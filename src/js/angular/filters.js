@@ -39,15 +39,17 @@ module.filter('rpfromnow', function () {
 /**
  * Show contact name or short address
  */
-module.filter('rpnickname', function () {
+module.filter('rpcontactname', function () {
   return function (address) {
-    var nickname = webutil.getContact(rippleclient.$scope.userBlob.data.contacts,address);
+    address = address ? ""+address : "";
 
-    if (!nickname) {
-      nickname =  "" + address.substring(0,7) + "&hellip;";
+    var name = webutil.getContact(rippleclient.$scope.userBlob.data.contacts,address);
+
+    if (!name) {
+      name =  "" + address.substring(0,7) + "&hellip;";
     }
 
-    return nickname.name;
+    return name.name;
   };
 });
 
