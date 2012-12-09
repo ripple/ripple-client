@@ -147,71 +147,36 @@ module.directive('rpIssuer', function () {
 });
 
 /**
- * Password and repeat validator
+ * Verify a form is the same as another.
+ *
+ * For example you could use this as a password repeat validator.
+ *
+ * @example
+ *   <input name=password type=password>
+ *   <input name=password2 type=password rp-same-as=password>
  */
-module.directive('rpPass', function() {
-  var noop = function() {};
-
-  var nullFormCtrl = {
-    isNull: true,
-    $addControl: noop,
-    $removeControl: noop,
-    $setValidity: noop,
-    $setDirty: noop
-  };
-
+module.directive('rpSameAs', [function() {
   return {
-    restrict: 'A',
-    require: '^form', // Looks on parent also
+    require: 'ngModel',
+    link: function(scope, el, attr, ctrl) {
+      var pwdWidget = el.inheritedData('$formController')[attr.rpSameAs];
 
-    link: function(scope, element, attrs, parentFormCtrl) {
-      var modelCtrl = { $name: attrs.name || attrs.mwName },
-          nameExp = attrs.nameExp,
-          validateExpr = attrs.passValidate;
-
-      var $error = this.$error = {}; // keep invalid keys here
-
-      parentFormCtrl = parentFormCtrl || nullFormCtrl ;
-
-      validateExpr = scope.$eval(validateExpr);
-
-      if ( ! validateExpr) {
-        return;
-      }
-
-      if (angular.isFunction(validateExpr)) {
-        validateExpr = { validator: validateExpr };
-      }
-
-      // TODO Is necessary?
-      parentFormCtrl.$addControl(modelCtrl);
-
-      element.bind('$destroy', function() {
-        parentFormCtrl.$removeControl(modelCtrl);
+      ctrl.$parsers.unshift(function(value) {
+        console.log(value, pwdWidget.$viewValue);
+        if (value === pwdWidget.$viewValue) {
+          ctrl.$setValidity('rpSameAs', true);
+          return value;
+        }
+        ctrl.$setValidity('rpSameAs', false);
       });
 
-      if ( nameExp ) {
-        scope.$watch( nameExp, function( newValue ) {
-          modelCtrl.$name = newValue;
-        });
-      }
-
-      scope.xxxform = parentFormCtrl;
-      // Register watches
-      angular.forEach(validateExpr, function(validExp, validationErrorKey) {
-        // Check for change in "boolean" value (true or false)
-        scope.$watch( '(' + validExp + ') && true', function(newIsValid, oldIsValid) {
-          if ( ($error[validationErrorKey] || false) === newIsValid) {
-            $error[validationErrorKey] = ! newIsValid;
-
-            parentFormCtrl.$setValidity(validationErrorKey, newIsValid, modelCtrl);
-          }
-        });
+      pwdWidget.$parsers.unshift(function(value) {
+        ctrl.$setValidity('rpSameAs', value === ctrl.$viewValue);
+        return value;
       });
     }
   };
-});
-
+}]);
 
 /**
  * Field uniqueness validator.

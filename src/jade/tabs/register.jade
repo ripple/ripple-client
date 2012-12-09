@@ -1,34 +1,44 @@
 section.single.modal.content(ng-controller="RegisterCtrl")
-  div(ng-show='mode=="form"')
+  group.mode-form(ng-show='mode=="form"')
     h1 Create a Ripple Wallet
     p.literal Ripple an open-source P2P payment system.
-    form(name='registerForm', rp-pass="{ notMatch: 'password1 == password2' }", ng-submit='submitForm()')
+    form(name='registerForm', ng-submit='submitForm()')
       label(for='register_username') Create Username
-      input#register_username(name='register_username', ng-model="username", type='text', required)
+      input#register_username(
+        name='register_username', type='text'
+        ng-model="username"
+        required)
       .horiz
         div
           label(for='register_password') Password
-          input#register_password(name='register_password1', ng-model="password1", type='password', required)
+          input#register_password(
+            name='register_password1', type='password'
+            ng-model="password1"
+            required)
         div
           label(for='register_password2') Password Again
-          input#register_password2(name='register_password2', ng-model="password2", type='password', required)
-      div.errorBox(ng-show="registerForm.$invalid && password1 && password2")
+          input#register_password2(
+            name='register_password2'
+            type='password'
+            ng-model="password2"
+            required, rp-same-as="register_password1")
+      div.errorBox(ng-show="registerForm.register_password2.$error.rpSameAs && registerForm.register_password2.$dirty")
         p.text-error Passwords do not match
       label.storageinfo
-        | Store your wallet with:
-        strong Payward Inc.
+        | Store your wallet with:&nbsp;
+        strong Payward, Inc.&nbsp;
         a(href='#') change
       p.literal.hint
-        | Your information will be stored with Payward, lorem ipsum et dolor sit amet.
+        | Your information will be stored encrypted on servers provided by Payward.
       div.submitsection
         button.btn.btn-info(type='submit') Create
         p.literal
           | IMPORTANT: There is no mechanism to
           | recover your username and password.
       p.literal.throw
-        | Have a wallet already?
+        | Have a wallet already?&nbsp;
         a(href='#login') Open wallet
-  .welcome(ng-show='mode=="welcome"')
+  group.mode-welcome(ng-show='mode=="welcome"')
     h1 Welcome To Ripple
     h2 Your information has been saved by Payward
     p.literal This is your Ripple account information, <a href="" onClick="javascript:window.print()"><strong>PRINT THIS PAGE</strong></a> and keep it somewhere safe.

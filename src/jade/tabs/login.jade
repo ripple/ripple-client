@@ -8,17 +8,17 @@ section.single.modal.content(ng-controller="LoginCtrl")
     label(for='login_password') Password
     input#register_password(name='login_password', type='password', ng-model='password', required)
     label.storageinfo
-      | Fetch your wallet from:
-      strong  Payward Inc. 
+      | Fetch your wallet from:&nbsp;
+      strong Payward Inc.&nbsp;
       a(href='#') change
     p.literal.hint
-      | Your information will be stored with Payward, lorem ipsum et dolor sit amet.
+      | Your information will be loaded from Payward and decrypted locally with your password.
     div.submitsection
       button.btn.btn-info(type='submit') Go
       p.literal
         | You are responsible for safeguarding your login information.<br>
         | Ripple can not recover your username or password.<br>
-        strong Write down your master key. 
+        strong Write down your master key.&nbsp;
         a(href='#') Learn how
     p.literal
       | New to Ripple? 
