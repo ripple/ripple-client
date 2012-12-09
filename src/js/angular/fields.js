@@ -57,8 +57,10 @@ module.directive('rpCombobox', [function () {
           updateKeyCursor();
         } else if (e.which === 13) { // ENTER
           var curEl = cplEl.find('li.cursor');
-          if (curEl.length === 1 && cplEl.is(':visible')) {
+          if (cplEl.is(':visible')) {
             e.preventDefault();
+          }
+          if (curEl.length === 1) {
             selectCompletion(curEl);
           }
         } else if (e.which === 27) { // ESC
@@ -76,7 +78,7 @@ module.directive('rpCombobox', [function () {
 
       el.focus(function() {
         keyCursor = -1;
-        setVisible(!!cplEl.children().length);
+        triggerCompletions();
       });
 
       el.blur(function() {
@@ -106,7 +108,7 @@ module.directive('rpCombobox', [function () {
         }
 
         setCompletions(completions, re);
-        setVisible(!!cplEl.children().length);
+        triggerCompletions();
       }
 
       function setCompletions(completions, re) {
@@ -117,6 +119,16 @@ module.directive('rpCombobox', [function () {
           var completion = $('<li>'+val+'</li>');
           el.parent().find('.completions').append(completion);
         });
+      }
+
+      function triggerCompletions() {
+        var cplEls = cplEl.children();
+        var visible = !!cplEls.length;
+        if (cplEls.length === 1 &&
+            cplEls.eq(0).text() === el.val()) {
+          visible = false;
+        }
+        setVisible(visible);
       }
 
       function updateKeyCursor() {
