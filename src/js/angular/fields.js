@@ -45,7 +45,7 @@ module.directive('rpCombobox', [function () {
       }
 
       el.keydown(function (e) {
-        if (e.which === 38 || e.which === 40) {
+        if (e.which === 38 || e.which === 40) { // UP/DOWN
           if (!cplEl.children().length) {
             updateCompletions();
           }
@@ -55,19 +55,21 @@ module.directive('rpCombobox', [function () {
           else keyCursor++;
 
           updateKeyCursor();
-        } else if (e.which === 13) {
+        } else if (e.which === 13) { // ENTER
           var curEl = cplEl.find('li.cursor');
           if (curEl.length === 1 && cplEl.is(':visible')) {
             e.preventDefault();
             selectCompletion(curEl);
           }
+        } else if (e.which === 27) { // ESC
+          setVisible(false);
         }
       });
 
       // Listen for keyup events to enable binding
       el.keyup(function(e) {
         if (e.which >= 37 && e.which <= 40) return;
-        if (e.which === 13) return;
+        if (e.which === 13 || e.which === 27) return;
 
         updateCompletions();
       });
