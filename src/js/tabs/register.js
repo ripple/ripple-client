@@ -30,8 +30,6 @@ RegisterTab.prototype.angular = function (module) {
       $scope.password2 = '';
       $scope.key = '';
       $scope.mode = 'form';
-
-      $scope.registerForm.$setPristine();
     }
 
     $scope.submitForm = function()
