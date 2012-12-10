@@ -99,6 +99,7 @@ var JsonRewriter = module.exports = {
     var obj = {};
 
     var forUs = false;
+    obj.offers = null;
     meta.AffectedNodes.forEach(function (n) {
       var node = JsonRewriter.processAnode(n);
 
@@ -109,6 +110,18 @@ var JsonRewriter = module.exports = {
                  (node.fields.HighLimit.issuer === account ||
                   node.fields.LowLimit.issuer === account)) {
         obj.rippleState = node.fields;
+        forUs = true;
+      } else if (node.entryType === "Offer") {
+        // XXX: TODO: Handle offer deletion
+        if (!obj.offers) obj.offers = [];
+
+        var seq = +node.fields.Sequence;
+        obj.offers[seq] = $.extend({}, obj.offers[seq], {
+          seq: seq,
+          gets: ripple.Amount.from_json(node.fields.TakerGets),
+          pays: ripple.Amount.from_json(node.fields.TakerPays)
+        });
+
         forUs = true;
       }
     });

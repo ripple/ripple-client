@@ -98,9 +98,9 @@ section.panel.content(ng-controller="TradeCtrl")
         th Amount
         th Action
     tbody
-      tr(ng-repeat="entry in orders", class="{{entry.type}}")
+      tr(ng-repeat="entry in offers", class="{{entry.type}}")
         td.date {{entry.date}}
-        td.pair {{entry.pair}}
+        td.pair {{entry.seq}}
         td.price {{entry.price}}
         td.amount {{entry.amount}}
         td.cancel

@@ -55,7 +55,7 @@ TradeTab.prototype.angular = function(module)
       }
     };
 
-    $scope.order_confirmed = function () 
+    $scope.order_confirmed = function ()
     {
       var sell_currency = $scope.sell_currency.slice(0, 3).toUpperCase();
       var buy_currency = $scope.buy_currency.slice(0, 3).toUpperCase();

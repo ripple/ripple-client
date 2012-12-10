@@ -31,7 +31,7 @@ Model.prototype.reset = function ()
   $scope.balance = "0";
 
   $scope.lines = [];
-  $scope.offers = [];
+  $scope.offers = {};
   $scope.events = [];
   $scope.history = [];
   $scope.balances = {};
@@ -95,7 +95,7 @@ Model.prototype.handleRippleLines = function (data)
       $scope.lines[line.account+line.currency] = line;
       self._updateRippleBalance(line.currency, line.account, line.balance);
     }
-    console.log('Lines updated:', $scope.lines);
+    console.log('lines updated:', $scope.lines);
   });
 };
 
@@ -110,7 +110,16 @@ Model.prototype.handleOffers = function (data)
 
   $scope.$apply(function ()
   {
-    console.log('offers updated:', data);
+    data.offers.forEach(function (offerData) {
+      var offer = {
+        seq: +offerData.seq,
+        gets: ripple.Amount.from_json(offerData.taker_gets),
+        pays: ripple.Amount.from_json(offerData.taker_pays)
+      };
+
+      $scope.offers[""+offer.seq] = offer;
+    });
+    console.log('offers updated:', $scope.offers);
   });
 };
 
@@ -161,6 +170,7 @@ Model.prototype.handleAccountEvent = function (e)
  */
 Model.prototype._processTxn = function (tx, meta, is_historic)
 {
+  var self = this;
   var $scope = this.app.$scope;
 
   var account = this.app.id.account;
@@ -184,6 +194,13 @@ Model.prototype._processTxn = function (tx, meta, is_historic)
     // Update Ripple lines
     if (processedTxn.rippleState && !is_historic) {
       this._updateLines(processedTxn);
+    }
+
+    // Update my offers
+    if (processedTxn.offers && !is_historic) {
+      processedTxn.offers.forEach(function (offer) {
+        self._updateOffers(offer);
+      });
     }
   }
 };
@@ -242,6 +259,13 @@ Model.prototype._updateRippleBalance = function(currency, new_account, new_balan
   }
 
   balance.total = ripple.Amount.from_human(""+balance.total+" "+currency);
+};
+
+Model.prototype._updateOffers = function (offer)
+{
+  var $scope = this.app.$scope;
+
+  $scope.offers[""+offer.seq] = offer;
 };
 
 exports.Model = Model;
