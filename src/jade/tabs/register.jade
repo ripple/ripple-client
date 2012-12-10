@@ -24,20 +24,28 @@ section.single.modal.content(ng-controller="RegisterCtrl")
             required, rp-same-as="register_password1")
       div.errorBox(ng-show="registerForm.register_password2.$error.rpSameAs && registerForm.register_password2.$dirty")
         p.text-error Passwords do not match
-      label.storageinfo
-        | Store your wallet with:&nbsp;
-        strong Payward, Inc.&nbsp;
-        a(href='#') change
-      p.literal.hint
-        | Your information will be stored encrypted on servers provided by Payward.
+      a(ng-click="showMasterKeyInput=true", ng-hide="showMasterKeyInput") have a master key of your old account?
+      div(ng-show="showMasterKeyInput")
+        label(for='register_masterkey') Master Key
+        input#register_masterkey(name='register_masterkey', type='text', ng-model="masterkey")
       div.submitsection
-        button.btn.btn-info(type='submit') Create
-        p.literal
-          | IMPORTANT: There is no mechanism to
-          | recover your username and password.
+        button.btn.btn-info(type='submit', ng-disabled='registerForm.$invalid') Create
+        .storeinfo
+          | Store your wallet with:&nbsp;
+          strong Payward, Inc.&nbsp;
+          a(href='#') change
+          div
+            Your information will be stored encrypted on servers provided by Payward.
       p.literal.throw
         | Have a wallet already?&nbsp;
         a(href='#login') Open wallet
+
+  group.mode-masterkeyerror(ng-show='mode=="masterkeyerror"')
+    h1 Master key error
+    h2 There is an account with your username and password, but given master key is not connected to it. If you decide to continue registration your new master key will be used for current username and password.
+    button.btn.btn-primary(ng-click='mode=form') Back
+    button.btn(ng-click='register()') Overwrite current key
+
   group.mode-welcome(ng-show='mode=="welcome"')
     h1 Welcome To Ripple
     h2 Your information has been saved by Payward

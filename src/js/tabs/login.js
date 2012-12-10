@@ -23,6 +23,7 @@ LoginTab.prototype.angular = function (module) {
 
   module.controller('LoginCtrl', function ($scope)
   {
+    // TODO login with wallet
     $scope.error = '';
     self.on('beforeshow', handleShow);
 
@@ -41,6 +42,7 @@ LoginTab.prototype.angular = function (module) {
       app.id.login($scope.username, $scope.password, function(err, success) {
         // XXX: Handle err
         if (success) {
+          console.log('success');
           tm.gotoTab('overview');
         } else {
           $scope.error = 'Username and/or password is wrong';

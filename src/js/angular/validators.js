@@ -41,6 +41,38 @@ module.directive('rpAddress', function () {
 });
 
 /**
+ * Master key validator
+ */
+module.directive('rpMasterKey', function () {
+  return {
+    restrict: 'A',
+    require: '?ngModel',
+    link: function (scope, elm, attr, ctrl) {
+      if (!ctrl) return;
+
+      var validator = function(value) {
+        var Amount = new ripple.Amount();
+
+        if (Amount.parse_json(value)._value) {
+          ctrl.$setValidity('rpAddress', true);
+          return value;
+        } else {
+          ctrl.$setValidity('rpAddress', false);
+          return;
+        }
+      };
+
+      ctrl.$formatters.push(validator);
+      ctrl.$parsers.unshift(validator);
+
+      attr.$observe('rpAddress', function() {
+        validator(ctrl.$viewValue);
+      });
+    }
+  };
+});
+
+/**
  * Address or contact validator
  *
  * Allows a valid address or a contact in our addressbook.
@@ -162,7 +194,6 @@ module.directive('rpSameAs', [function() {
       var pwdWidget = el.inheritedData('$formController')[attr.rpSameAs];
 
       ctrl.$parsers.unshift(function(value) {
-        console.log(value, pwdWidget.$viewValue);
         if (value === pwdWidget.$viewValue) {
           ctrl.$setValidity('rpSameAs', true);
           return value;

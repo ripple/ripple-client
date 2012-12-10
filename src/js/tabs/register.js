@@ -32,26 +32,57 @@ RegisterTab.prototype.angular = function (module) {
       $scope.mode = 'form';
     }
 
+    $scope.register = function()
+    {
+      app.id.register($scope.username, $scope.password1, function(key){
+        $scope.password = Array($scope.password1.length+1).join("*");
+        $scope.key = key;
+
+        $scope.mode = 'welcome';
+        $scope.$digest();
+      }, $scope.masterkey);
+    }
+
+    /**
+     * Registration cases
+     *
+     * -- CASE --                                                            -- ACTION --
+     * 1. username or/and password is/are missing ----------------------------- show error
+     * 2. passwords do not match ---------------------------------------------- show error
+     * 3. username and password passed the validation
+     *    3.1 master key is not present
+     *        3.1.1 account exists -------------------------------------------- login
+     *        3.1.2 account doesn't exist ------------------------------------- register and generate master key
+     *    3.3 master key is present
+     *        3.3.1 account exists, and it uses the same master key ----------- login
+     *        3.3.2 account exists, and it uses another master key
+     *              3.3.2.1 master key is valid ------------------------------- ASK! TODO
+     *              3.3.2.2 master key is invalid ----------------------------- show error
+     *        3.3.3 account doesn't exist ------------------------------------- register with given master key
+     */
+
     $scope.submitForm = function()
     {
       app.id.login($scope.username, $scope.password1, function(error,success){
         if (error) {
-          app.id.register($scope.username, $scope.password1, function(key){
-            $scope.username = $scope.username;
-            $scope.password = Array($scope.password1.length+1).join("*");
-            $scope.key = key;
-
-            $scope.mode = 'welcome';
-            $scope.$digest();
-          });
+          $scope.register();
         }
         if (success) {
-          $scope.mode = 'form';
-          $scope.reset();
-
-          tm.gotoTab('overview');
+          if ($scope.masterkey) {
+            $scope.mode = 'masterkeyerror';
+          } else {
+            goToOverview();
+          }
         }
       });
+    }
+
+    $scope.goToOverview = function()
+    {
+      $scope.mode = 'form';
+      $scope.reset();
+
+      tm.gotoTab('overview');
     }
 
     $scope.showPassword = function()

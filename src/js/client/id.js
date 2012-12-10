@@ -141,26 +141,32 @@ Id.prototype.storeLogin = function (username, password)
   }
 }
 
-Id.prototype.register = function (username, password, callback)
+Id.prototype.register = function (username, password, callback, masterkey)
 {
   var self = this;
 
+  // If master key is not present, generate one
+  masterkey = !!masterkey
+      ? masterkey
+      : Base58Utils.encode_base_check(33, sjcl.codec.bytes.fromBits(sjcl.random.randomWords(4)));
+
+  // Callback is optional
   if ("function" !== typeof callback) callback = $.noop;
 
+  // Blob data
   username = Id.normalizeUsername(username);
   password = Id.normalizePassword(password);
 
   var data = {
     data: {
-      master_seed: Base58Utils.encode_base_check(33, sjcl.codec.bytes.fromBits(sjcl.random.randomWords(4)))
+      master_seed: masterkey,
+      account_id: (new RippleAddress(masterkey)).getAddress()
     },
     meta: {
       created: (new Date()).toJSON(),
       modified: (new Date()).toJSON()
     }
   };
-
-  data.data.account_id = (new RippleAddress(data.data.master_seed)).getAddress();
 
   // Add user to blob
   blob.set(self.blobBackends, username, password, data, function () {
@@ -180,14 +186,19 @@ Id.prototype.login = function (username,password,callback)
 {
   var self = this;
 
+  // Callback is optional
   if ("function" !== typeof callback) callback = $.noop;
 
   username = Id.normalizeUsername(username);
   password = Id.normalizePassword(password);
 
   blob.get(self.blobBackends, username, password, function (err, blob) {
-    if (err) {
+    if (err ||
+        "object" !== typeof blob.data ||
+        "string" !== typeof blob.data.account_id ||
+        "string" !== typeof blob.data.master_seed) {
       console.warn('login failed');
+      // TODO handle
       callback(err);
       return;
     }
@@ -195,22 +206,19 @@ Id.prototype.login = function (username,password,callback)
     // Ensure certain properties exist
     $.extend(true, blob, Id.minimumBlob);
 
-    if (blob.data.account_id) {
-      self.app.$scope.userBlob = {
-        data: blob.data,
-        meta: blob.meta
-      };
-      self.setUsername(username);
-      self.setPassword(password);
-      self.setAccount(blob.data.account_id, blob.data.master_seed);
-      self.storeLogin(username, password);
-      self.loginStatus = true;
-      self.emit('blobupdate');
-      store.set('ripple_known', true);
-    }
-    if ("function" === typeof callback) {
-      callback(null, !!blob.data.account_id);
-    }
+    self.app.$scope.userBlob = {
+      data: blob.data,
+      meta: blob.meta
+    };
+    self.setUsername(username);
+    self.setPassword(password);
+    self.setAccount(blob.data.account_id, blob.data.master_seed);
+    self.storeLogin(username, password);
+    self.loginStatus = true;
+    self.emit('blobupdate');
+    store.set('ripple_known', true);
+
+    callback(null, !!blob.data.account_id);
   });
 };
 
