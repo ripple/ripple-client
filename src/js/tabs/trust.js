@@ -28,8 +28,6 @@ TrustTab.prototype.angular = function (module)
     $scope.reset = function () {
       $scope.mode = 'main';
       $scope.currency = 'USD';
-
-      $scope.$digest();
     };
 
     $scope.toggle_form = function ()
