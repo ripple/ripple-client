@@ -55,13 +55,13 @@ module.filter('rpcontactname', function () {
   return function (address) {
     address = address ? ""+address : "";
 
-    var name = webutil.getContact(rippleclient.$scope.userBlob.data.contacts,address);
+    var contact = webutil.getContact(rippleclient.$scope.userBlob.data.contacts,address);
 
-    if (!name) {
-      name =  "" + address.substring(0,7) + "&hellip;";
+    if (!contact) {
+      return "" + address.substring(0,7) + "…";
     }
 
-    return name.name;
+    return contact.name;
   };
 });
 
