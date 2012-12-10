@@ -40,6 +40,29 @@ Id.minimumBlob = {
 // default values here in the future.
 Id.defaultBlob = Id.minimumBlob;
 
+/**
+ * Reduce username to standardized form.
+ *
+ * Strips whitespace at beginning and end, case insensitive.
+ */
+Id.normalizeUsername = function (username) {
+  username = ""+username;
+  username = username.trim();
+  username = username.toLowerCase();
+  return username;
+};
+
+/**
+ * Reduce password to standardized form.
+ *
+ * Strips whitespace at beginning and end.
+ */
+Id.normalizePassword = function (password) {
+  password = ""+password;
+  password = password.trim();
+  return password;
+};
+
 Id.prototype.init = function ()
 {
   var self = this;
@@ -124,6 +147,9 @@ Id.prototype.register = function (username, password, callback)
 
   if ("function" !== typeof callback) callback = $.noop;
 
+  username = Id.normalizeUsername(username);
+  password = Id.normalizePassword(password);
+
   var data = {
     data: {
       master_seed: Base58Utils.encode_base_check(33, sjcl.codec.bytes.fromBits(sjcl.random.randomWords(4)))
@@ -132,7 +158,7 @@ Id.prototype.register = function (username, password, callback)
       created: (new Date()).toJSON(),
       modified: (new Date()).toJSON()
     }
-  }
+  };
 
   data.data.account_id = (new RippleAddress(data.data.master_seed)).getAddress();
 
@@ -155,6 +181,9 @@ Id.prototype.login = function (username,password,callback)
   var self = this;
 
   if ("function" !== typeof callback) callback = $.noop;
+
+  username = Id.normalizeUsername(username);
+  password = Id.normalizePassword(password);
 
   blob.get(self.blobBackends, username, password, function (err, blob) {
     if (err) {
