@@ -25,18 +25,18 @@ section.panel.content
       tr(ng-repeat="entry in events", ng-class="entry.type", ng-switch on="entry.type")
         td.date {{entry.date | rpfromnow}}
         td.desc(ng-switch-when="sent") You sent 
-          span.address {{entry.counterparty | rpcontactname}}
+          span.address(title="{{entry.counterparty}}") {{entry.counterparty | rpcontactname}}
           strong  {{entry.amount | rpamount}} {{entry.amount | rpcurrency}}
         td.desc(ng-switch-when="received")
-          span.address {{entry.counterparty | rpcontactname}}
+          span.address(title="{{entry.counterparty}}") {{entry.counterparty | rpcontactname}}
           |  sent you
           strong  {{entry.amount | rpamount}} {{entry.amount | rpcurrency}}
         td.desc(ng-switch-when="trusted")
-          span.address {{entry.counterparty | rpcontactname}}
+          span.address(title="{{entry.counterparty}}") {{entry.counterparty | rpcontactname}}
           |  now trusts you for
           strong  {{entry.limit_peer | rpamount}} {{entry.limit_peer | rpcurrency}}
         td.desc(ng-switch-when="trusting") You now trust 
-          span.address {{entry.counterparty | rpcontactname}}
+          span.address(title="{{entry.counterparty}}") {{entry.counterparty | rpcontactname}}
           |  for 
           strong  {{entry.limit | rpamount}} {{entry.limit | rpcurrency}}
         td.desc(ng-switch-when="offernew") You created an offer accepting 
