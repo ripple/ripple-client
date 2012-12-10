@@ -11,10 +11,6 @@ var module = angular.module('charts', []);
  */
 module.directive('rpTrustLine', function() {
   function redraw(ctx, data) {
-    var trust_l = -data.limit_peer.to_text();
-    var trust_r = +data.limit.to_text();
-    var balance = +data.balance.to_text();
-
     // Axis distance to left and right edges
     var axisMargin = 10;
     // Tick length away from axis
@@ -32,13 +28,24 @@ module.directive('rpTrustLine', function() {
     var axisLen    = width - axisMargin * 2;
     var axisY      = Math.floor(height/2);
 
+    // Clear canvas
+    ctx.clearRect(0, 0, width, height);
+
+    // Parse input data
+    var trust_l, trust_r, balance;
+    try {
+      trust_l = -data.limit_peer.to_text();
+      trust_r = +data.limit.to_text();
+      balance = +data.balance.to_text();
+    } catch (e) {
+      // In case of invalid input data we simply skip drawing the chart.
+      return;
+    }
+
     // Calculate minimum and maximum logical point
     var min        = Math.min(balance, trust_l);
     var max        = Math.max(balance, trust_r);
     var scale      = axisLen / (max - min);
-
-    // Clear canvas
-    ctx.clearRect(0, 0, width, height);
 
     ctx.lineWidth = 2;
     ctx.strokeStyle = '#333';

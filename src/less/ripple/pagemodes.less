@@ -16,8 +16,8 @@ html.pm-single {
 
 .single {
   padding: 20px 0;
-  > p, > div, > form, > hr,
-  group > p, group > div, group > form, group > hr {
+  > h1, > p, > div, > form, > hr,
+  group > h1, group > p, group > div, group > form, group > hr {
     margin-left: @pmSingleMargin;
     margin-right: @pmSingleMargin;
   }
@@ -25,12 +25,12 @@ html.pm-single {
 
 .panel {
   > table, group > table {
-    td:first-child, th:first-child {
+    caption, td:first-child, th:first-child {
       padding-left: @pmPanelMargin;
     }
   }
-  > p, > div, > form, > hr,
-  group > p, group > div, group > form, group > hr {
+  > p, > div, > form, > hr, > h3,
+  group > p, group > div, group > form, group > hr, group > h3 {
     padding-left: @pmPanelMargin;
   }
 }

@@ -18,6 +18,7 @@ TradeTab.prototype.generateHtml = function ()
 
 TradeTab.prototype.angular = function(module)
 {
+  var self = this;
   var app = this.app;
 
   module.controller('TradeCtrl', function ($scope)
@@ -58,17 +59,18 @@ TradeTab.prototype.angular = function(module)
     {
       var sell_currency = $scope.sell_currency.slice(0, 3).toUpperCase();
       var buy_currency = $scope.buy_currency.slice(0, 3).toUpperCase();
-      var buyIssuer = webutil.findIssuer($scope.lines,buy_currency);
-      console.log($scope.lines);
-      console.log(buy_currency);
-      console.log(buyIssuer);
-      if(!buyIssuer) return;
+      var buy_issuer = webutil.findIssuer($scope.lines,buy_currency);
 
-      var sellStr=""+$scope.amount+"/"+sell_currency+"/"+app.id.account;
-      var buyStr=""+($scope.amount*$scope.price)+"/"+buy_currency+"/"+buyIssuer;
+      if (!buy_issuer) return;
+
+      var sell_amount = ripple.Amount.from_human(""+$scope.amount+" "+sell_currency);
+      //sell_amount.set_issuer();
+
+      var buy_amount = ripple.Amount.from_human(""+$scope.value+" "+buy_currency);
+      buy_amount.set_issuer(buy_issuer);
 
       var tx = app.net.remote.transaction();
-      tx.offer_create(app.id.account, buyStr, sellStr);
+      tx.offer_create(app.id.account, buy_amount, sell_amount);
 
       tx.on('success', function () {
         $scope.reset();
@@ -81,6 +83,18 @@ TradeTab.prototype.angular = function(module)
       tx.submit();
 
       $scope.mode = "sending";
+    };
+
+    $scope.update_value = function () {
+      if ($scope.price) {
+        $scope.value = +$scope.amount * $scope.price;
+      }
+    };
+
+    $scope.update_amount = function () {
+      if ($scope.price) {
+        $scope.amount = +$scope.value / $scope.price;
+      }
     };
 
     $scope.reset();

@@ -123,6 +123,7 @@ var JsonRewriter = module.exports = {
 
     if (obj.accountRoot) {
       obj.balance = ripple.Amount.from_json(obj.accountRoot.Balance);
+      obj.xrp_balance = obj.balance;
     }
 
     if (obj.rippleState) {
@@ -159,6 +160,12 @@ var JsonRewriter = module.exports = {
         tx.Account;
       obj.amount = ripple.Amount.from_json(tx.LimitAmount);
       obj.currency = tx.LimitAmount.currency;
+      break;
+
+    case 'OfferCreate':
+      obj.type = 'offernew';
+      obj.pays = ripple.Amount.from_json(tx.TakerPays);
+      obj.gets = ripple.Amount.from_json(tx.TakerGets);
       break;
 
     default:

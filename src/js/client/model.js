@@ -176,7 +176,12 @@ Model.prototype._processTxn = function (tx, meta, is_historic)
       $scope.history.unshift(processedTxn);
     }
 
-    // If the transaction had an effect on our Ripple lines
+    // Update XRP balance
+    if (processedTxn.xrp_balance && !is_historic) {
+      $scope.balance = processedTxn.xrp_balance;
+    }
+
+    // Update Ripple lines
     if (processedTxn.rippleState && !is_historic) {
       this._updateLines(processedTxn);
     }

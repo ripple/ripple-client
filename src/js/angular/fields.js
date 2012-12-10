@@ -44,16 +44,8 @@ module.directive('rpCombobox', [function () {
         });
       }
 
-      // Listen for keyup events to enable binding
-      el.keyup(function(e) {
-        if (e.which >= 37 && e.which <= 40) return;
-        if (e.which === 13) return;
-
-        updateCompletions();
-      });
-
       el.keydown(function (e) {
-        if (e.which === 38 || e.which === 40) {
+        if (e.which === 38 || e.which === 40) { // UP/DOWN
           if (!cplEl.children().length) {
             updateCompletions();
           }
@@ -63,19 +55,30 @@ module.directive('rpCombobox', [function () {
           else keyCursor++;
 
           updateKeyCursor();
-        } else if (e.which === 13) {
-          e.preventDefault();
-
+        } else if (e.which === 13) { // ENTER
           var curEl = cplEl.find('li.cursor');
+          if (cplEl.is(':visible')) {
+            e.preventDefault();
+          }
           if (curEl.length === 1) {
             selectCompletion(curEl);
           }
+        } else if (e.which === 27) { // ESC
+          setVisible(false);
         }
+      });
+
+      // Listen for keyup events to enable binding
+      el.keyup(function(e) {
+        if (e.which >= 37 && e.which <= 40) return;
+        if (e.which === 13 || e.which === 27) return;
+
+        updateCompletions();
       });
 
       el.focus(function() {
         keyCursor = -1;
-        setVisible(!!cplEl.children().length);
+        triggerCompletions();
       });
 
       el.blur(function() {
@@ -105,7 +108,7 @@ module.directive('rpCombobox', [function () {
         }
 
         setCompletions(completions, re);
-        setVisible(!!cplEl.children().length);
+        triggerCompletions();
       }
 
       function setCompletions(completions, re) {
@@ -116,6 +119,16 @@ module.directive('rpCombobox', [function () {
           var completion = $('<li>'+val+'</li>');
           el.parent().find('.completions').append(completion);
         });
+      }
+
+      function triggerCompletions() {
+        var cplEls = cplEl.children();
+        var visible = !!cplEls.length;
+        if (cplEls.length === 1 &&
+            cplEls.eq(0).text() === el.val()) {
+          visible = false;
+        }
+        setVisible(visible);
       }
 
       function updateKeyCursor() {

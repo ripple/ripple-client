@@ -15,27 +15,33 @@ section.panel.content
       .label Ripple Credits
       .balance {{balance | rpamount}}
 
-  h3 Notifications
   table.table.events
+    caption Notifications
     thead
       tr
         th.date Date
         th.desc Event
     tbody
-      tr(ng-repeat="entry in events", ng-class="entry.type")
+      tr(ng-repeat="entry in events", ng-class="entry.type", ng-switch on="entry.type")
         td.date {{entry.date | rpfromnow}}
-        td.desc(ng-show="entry.type == 'sent'") You sent 
-          span.address {{entry.counterparty | rpnickname}}
-          strong  {{entry.amount | rpamount}} {{entry.currency}}
-        td.desc(ng-show="entry.type == 'received'")
-          span.address {{entry.counterparty | rpnickname}}
+        td.desc(ng-switch-when="sent") You sent 
+          span.address {{entry.counterparty | rpcontactname}}
+          strong  {{entry.amount | rpamount}} {{entry.amount | rpcurrency}}
+        td.desc(ng-switch-when="received")
+          span.address {{entry.counterparty | rpcontactname}}
           |  sent you
-          strong  {{entry.amount | rpamount}} {{entry.currency}}
-        td.desc(ng-show="entry.type == 'trusted'")
-          span.address {{entry.counterparty | rpnickname}}
+          strong  {{entry.amount | rpamount}} {{entry.amount | rpcurrency}}
+        td.desc(ng-switch-when="trusted")
+          span.address {{entry.counterparty | rpcontactname}}
           |  now trusts you for
-          strong  {{entry.limit_peer | rpamount}} {{entry.currency}}
-        td.desc(ng-show="entry.type == 'trusting'") You now trust 
-          span.address {{entry.counterparty | rpnickname}}
+          strong  {{entry.limit_peer | rpamount}} {{entry.limit_peer | rpcurrency}}
+        td.desc(ng-switch-when="trusting") You now trust 
+          span.address {{entry.counterparty | rpcontactname}}
           |  for 
-          strong  {{entry.limit | rpamount}} {{entry.currency}}
+          strong  {{entry.limit | rpamount}} {{entry.limit | rpcurrency}}
+        td.desc(ng-switch-when="offernew") You created an offer accepting 
+          strong {{entry.pays | rpamount}} {{entry.pays | rpcurrency}}
+          |  for 
+          strong {{entry.gets | rpamount}} {{entry.gets | rpcurrency}}
+        td.desc(ng-switch-default)
+          Something happened

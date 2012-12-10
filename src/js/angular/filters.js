@@ -26,6 +26,18 @@ module.filter('rpamount', function () {
 });
 
 /**
+ * Get the currency from an Amount.
+ */
+module.filter('rpcurrency', function () {
+  return function (input) {
+    if (!input) return "";
+
+    var amount = Amount.from_json(input);
+    return amount.currency().to_json();
+  };
+});
+
+/**
  * Angular filter for Moment.js.
  *
  * Displays a timestamp as "x minutes ago".
@@ -39,15 +51,17 @@ module.filter('rpfromnow', function () {
 /**
  * Show contact name or short address
  */
-module.filter('rpnickname', function () {
+module.filter('rpcontactname', function () {
   return function (address) {
-    var nickname = webutil.getContact(rippleclient.$scope.userBlob.data.contacts,address);
+    address = address ? ""+address : "";
 
-    if (!nickname) {
-      nickname =  "" + address.substring(0,7) + "&hellip;";
+    var name = webutil.getContact(rippleclient.$scope.userBlob.data.contacts,address);
+
+    if (!name) {
+      name =  "" + address.substring(0,7) + "&hellip;";
     }
 
-    return nickname.name;
+    return name.name;
   };
 });
 
@@ -60,5 +74,16 @@ module.filter('rpmask', function () {
   return function (pass) {
     pass = ""+pass;
     return Array(pass.length+1).join("•");
+  };
+});
+
+/**
+ * Crops a string to len characters
+ *
+ * The number of the bullets will correspond to the length of the string.
+ */
+module.filter('rptruncate', function () {
+  return function (str, len) {
+    return str ? str.slice(0, len) : '';
   };
 });

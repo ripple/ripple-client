@@ -23,12 +23,22 @@ var Id = function ()
 
 util.inherits(Id, events.EventEmitter);
 
-Id.defaultBlob = {
+// This object defines the minimum structure of the blob.
+//
+// This is used to ensure that the blob we get from the server has at least
+// these fields and that they are of the right types.
+Id.minimumBlob = {
   data: {
     contacts: []
   },
   meta: []
 };
+
+// The default blob is the blob that a new user gets.
+//
+// Right now this is equal to the minimum blob, but we may define certain
+// default values here in the future.
+Id.defaultBlob = Id.minimumBlob;
 
 Id.prototype.init = function ()
 {
@@ -152,6 +162,10 @@ Id.prototype.login = function (username,password,callback)
       callback(err);
       return;
     }
+
+    // Ensure certain properties exist
+    $.extend(true, blob, Id.minimumBlob);
+
     if (blob.data.account_id) {
       self.app.$scope.userBlob = {
         data: blob.data,

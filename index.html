@@ -16,7 +16,6 @@
   <meta name="viewport" content="width=device-width">
 
   <!-- CSS -->
-  <link href="deps/css/ui-lightness/jquery-ui.css" rel="stylesheet">
   <link href="fonts/stylesheet.css" rel="stylesheet">
   <link href="build/css/ripple-desktop.css" rel="stylesheet">
   <!-- ENDS CSS -->
@@ -57,31 +56,6 @@
 
     <!-- MAIN -->
     <div role="main" id="main">
-      <!-- WELCOME SECTION -->
-      <section class="single" id="t-welcome">
-        <div class="heading">Welcome</div>
-        <div class="page-content">
-          <p>Ripple is an open source P2P payment system.</p>
-          <p>
-            Ripple lets you easily, cheaply, and safely send money over the Internet to anyone, anywhere in the world.
-            Because Ripple is P2P software, no individual, corporation, or government controls Ripple.
-          </p>
-          <p>
-            Anyone can create a Ripple account. Ripple accounts can not be shutdown by any corporation or government.
-            The Ripple network operates through the combined efforts of the copies of the Ripple software that are
-            running all over the world.
-          </p>
-          <div class="bottom-btn">
-            <button id="GetStarted" class="btn btn-large btn-success" onclick="ncc.displayScreen('login')">
-              Login and claim your coins
-            </button>
-          </div>
-        </div>
-      </section>
-      <!-- ENDS WELCOME SECTION -->
-
-      <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
-
       <!-- ACCOUNT SECTION -->
       <section id="t-account">
         <nav>
@@ -98,26 +72,6 @@
       </section>
       <!-- ENDS ACCOUNT SECTION -->
 
-      <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
-
-      <!-- OPTIONS SECTION -->
-      <section class="tab-pane" id="t-options">
-        <div class="heading">Options</div>
-        <div class="page-content">
-
-          <table>
-            <tr><td class="span3">WebSocket server:port</td><td><input id="WSServerOption" type="text"></td></tr>
-            <tr><td class="span3">BlobVault server:port</td><td><input id="BlobVaultServerOption" type="text"></td></tr>
-          </table>
-
-          <div class="bottom-btn">
-            <button id="OptionsPageSave" class="btn btn-large btn-success">Save options</button>
-            <button id="OptionsPageCancel" class="btn btn-large btn-danger">Cancel</button>
-          </div>
-        </div>
-      </section>
-      <!-- ENDS OPTIONS SECTION -->
-
     </div>
     <!-- ENDS MAIN -->
 
@@ -128,9 +82,6 @@
       </span>
       <span class="left">
         <a href="http://lesswrong.com" target="_blank">Think</a> about things.
-      </span>
-      <span class="right">
-        <a onclick="this.innerText=$('#MainStatusArea').toggle().is(':visible')?'hide debug':'show debug';">show debug</a>
       </span>
     </footer>
     <!-- ENDS FOOTER -->
