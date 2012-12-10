@@ -65,6 +65,20 @@ module.filter('rpcontactname', function () {
   };
 });
 
+module.filter('rpcontactnamefull', function () {
+  return function (address) {
+    address = address ? ""+address : "";
+
+    var contact = webutil.getContact(rippleclient.$scope.userBlob.data.contacts,address);
+
+    if (!contact) {
+      return "" + address;
+    }
+
+    return contact.name;
+  };
+});
+
 /**
  * Masks a string like so: •••••.
  *
