@@ -25,14 +25,14 @@ section.panel.content(ng-controller="TradeCtrl")
 
     //- 1. Order form
 
-    form.mode-form(name='orderForm', ng-submit='placeOrder()', ng-show='mode=="trade"')
+    form.mode-form(name='orderForm', ng-submit='place_order()', ng-show='mode=="trade"')
       .currencies
         .currency-field.sell
           label(for='sell_currency') Sell
-          input.currency#sell_currency(name='sell_currency', type='text', ng-model='sell_currency', ng-change='changePair()', rp-combobox="currency_query", rp-combobox-select)
+          input.currency#sell_currency(name='sell_currency', type='text', ng-model='sell_currency', ng-change='change_pair()', rp-combobox="currency_query", rp-combobox-select)
         .currency-field
           label(for='buy_currency') Buy
-          input.currency#buy_currency(name='buy_currency', type='text', rp-issuer, ng-model='buy_currency', ng-change='changePair()', rp-combobox="currency_query", rp-combobox-select)
+          input.currency#buy_currency(name='buy_currency', type='text', rp-issuer, ng-model='buy_currency', ng-change='change_pair()', rp-combobox="currency_query", rp-combobox-select)
           .error(ng-show='orderForm.buy_currency.$error.rpIssuer && !orderForm.buy_currency.$pristine') You aren't able to accept this currency (add trust)
       .order-values
         .value-field
@@ -92,19 +92,19 @@ section.panel.content(ng-controller="TradeCtrl")
   table.open-orders
     thead
       tr
-        th Date
-        th Pair
-        th Price
-        th Amount
-        th Action
+        th.pair Pair
+        th.price Price
+        th.amount Amount
+        th.action Action
     tbody
       tr(ng-repeat="entry in offers", class="{{entry.type}}")
-        td.date {{entry.date}}
-        td.pair {{entry.seq}}
-        td.price {{entry.price}}
-        td.amount {{entry.amount}}
-        td.cancel
-          a(ng-click='cancelOrder()') cancel
-      tr(ng-show="!orders.length")
+        td.pair {{entry.gets | rpcurrency}}/{{entry.pays | rpcurrency}}
+        td.price.rpamount {{entry.pays.divide(entry.gets) | rpamount:10}}
+          span.currency {{entry.gets | rpcurrency}}
+        td.amount.rpamount {{entry.pays | rpamount}}
+          span.currency {{entry.pays | rpcurrency}}
+        td.action
+          button.btn.btn-danger.btn-small(ng-click='cancel_order()') Cancel
+      tr(ng-show="!offers")
         td(colspan="5")
-          span.literal You haven't placed any orders.
+          p.literal You haven't placed any orders.

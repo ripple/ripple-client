@@ -35,7 +35,7 @@ TradeTab.prototype.angular = function(module)
       $scope.order_price = '';
     };
 
-    $scope.placeOrder = function () {
+    $scope.place_order = function () {
       $scope.sell_amount_feedback = ""+$scope.amount;
       $scope.sell_currency_feedback = $scope.sell_currency;
       $scope.buy_amount_feedback = $scope.amount*$scope.price;
@@ -46,7 +46,20 @@ TradeTab.prototype.angular = function(module)
       $scope.mode = "confirm";
     };
 
-    $scope.changePair =function()
+    $scope.cancel_order = function ()
+    {
+      var tx = app.net.remote.transaction();
+      tx.offer_cancel(app.id.account, this.entry.seq);
+      tx.on('success', function () {
+      });
+      tx.on('error', function () {
+        $scope.mode = "error";
+        $scope.$digest();
+      });
+      tx.submit();
+    };
+
+    $scope.change_pair = function ()
     {
       //console.log("here");
       if($scope.buy_currency && $scope.sell_currency)

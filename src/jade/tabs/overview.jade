@@ -43,5 +43,9 @@ section.panel.content
           strong {{entry.pays | rpamount}} {{entry.pays | rpcurrency}}
           |  for 
           strong {{entry.gets | rpamount}} {{entry.gets | rpcurrency}}
+        td.desc(ng-switch-when="offercancel") You canceled an offer accepting 
+          strong {{entry.pays | rpamount}} {{entry.pays | rpcurrency}}
+          |  for 
+          strong {{entry.gets | rpamount}} {{entry.gets | rpcurrency}}
         td.desc(ng-switch-default)
-          Something happened
+          | Something happened

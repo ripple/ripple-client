@@ -122,6 +122,10 @@ var JsonRewriter = module.exports = {
           pays: ripple.Amount.from_json(node.fields.TakerPays)
         });
 
+        if (node.diffType === "DeletedNode") {
+          obj.offers[seq].deleted = true;
+        }
+
         forUs = true;
       }
     });
@@ -179,6 +183,18 @@ var JsonRewriter = module.exports = {
       obj.type = 'offernew';
       obj.pays = ripple.Amount.from_json(tx.TakerPays);
       obj.gets = ripple.Amount.from_json(tx.TakerGets);
+      break;
+
+    case 'OfferCancel':
+      obj.type = 'offercancel';
+      // An OfferCancel will only ever affect one order and will delete it.
+      var offer;
+      // The reason we use forEach is because offers is a sparse array.
+      obj.offers.forEach(function (o) {
+        offer = o;
+      });
+      obj.pays = offer.pays;
+      obj.gets = offer.gets;
       break;
 
     default:

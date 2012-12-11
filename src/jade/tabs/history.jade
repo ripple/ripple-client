@@ -15,10 +15,10 @@ section.panel.content(ng-controller="HistoryCtrl")
         td.date {{entry.date | date}}
         td.counterparty
           span {{entry.counterparty | rpcontactnamefull}}
-        td.amount
+        td.amount.rpamount
           .currency {{entry.currency}}
           | {{entry.amount | rpamount}}
-        td.balance
+        td.balance.rpamount
           .currency {{entry.currency}}
           | {{entry.balance | rpamount:{signed: true} }}
       tr(ng-show="!(history | filter:type).length")

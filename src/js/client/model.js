@@ -265,7 +265,11 @@ Model.prototype._updateOffers = function (offer)
 {
   var $scope = this.app.$scope;
 
-  $scope.offers[""+offer.seq] = offer;
+  if (!offer.deleted) {
+    $scope.offers[""+offer.seq] = offer;
+  } else {
+    delete $scope.offers[""+offer.seq];
+  }
 };
 
 exports.Model = Model;

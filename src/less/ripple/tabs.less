@@ -485,18 +485,6 @@ html.t-overview header nav ul > li.active#nav-account > a:after {
     width: 18%;
   }
 
-  table td.amount, table td.balance {
-    text-align: right;
-    .currency {
-      float: right;
-      padding-left: 5px;
-      //color: #999;
-      opacity: 0.5;
-      font-weight: bold;
-      font-family: mono;
-    }
-  }
-
   table .balance {
     width: 19%;
   }
@@ -767,18 +755,26 @@ html.t-overview header nav ul > li.active#nav-account > a:after {
     padding: 0 0 10px 50px;
     text-align: left;
   }
-  .open-orders {
-    margin: 0 0 30px;
 
-    th {
-      border: 0;
-      text-align: center;
-      font-weight: bold;
-      font-size: 14px;
-    }
+  table.open-orders {
+    margin: 0 0 30px;
     td {
-      text-align: center;
-      font-size: 14px;
+      padding-right: 10px;
+    }
+    td.pair {
+
+    }
+    td.price {
+      width: 18%;
+    }
+    td.amount {
+      width: 18%;
+    }
+    td.action {
+      width: 14%;
+      text-align: right;
+      padding-top: 0;
+      padding-bottom: 0;
     }
   }
 }
