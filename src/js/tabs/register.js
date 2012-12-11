@@ -36,6 +36,7 @@ RegisterTab.prototype.angular = function (module) {
     $scope.register = function()
     {
       app.id.register($scope.username, $scope.password1, function(key){
+        console.log('register');
         $scope.password = Array($scope.password1.length+1).join("*");
         $scope.key = key;
 
@@ -65,11 +66,11 @@ RegisterTab.prototype.angular = function (module) {
     $scope.submitForm = function()
     {
       app.id.login($scope.username, $scope.password1, function(error,success){
-        if (error) {
+        if (!success) {
           $scope.register();
         }
         if (success) {
-          if ($scope.masterkey != app.$scope.userCredentials.master_seed) {
+          if ($scope.masterkey && $scope.masterkey != app.$scope.userCredentials.master_seed) {
             $scope.mode = 'masterkeyerror';
             $scope.$digest();
           } else {

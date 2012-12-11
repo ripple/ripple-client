@@ -160,7 +160,8 @@ Id.prototype.register = function (username, password, callback, masterkey)
   var data = {
     data: {
       master_seed: masterkey,
-      account_id: (new RippleAddress(masterkey)).getAddress()
+      account_id: (new RippleAddress(masterkey)).getAddress(),
+      contacts: []
     },
     meta: {
       created: (new Date()).toJSON(),
@@ -170,7 +171,6 @@ Id.prototype.register = function (username, password, callback, masterkey)
 
   // Add user to blob
   blob.set(self.blobBackends, username, password, data, function () {
-    self.data = data;
     self.setUsername(username);
     self.setPassword(password);
     self.setAccount(data.data.account_id, data.data.master_seed);
@@ -198,8 +198,9 @@ Id.prototype.login = function (username,password,callback)
         "string" !== typeof blob.data.account_id ||
         "string" !== typeof blob.data.master_seed) {
       console.warn('login failed');
+
       // TODO handle
-      callback(err);
+      callback('err');
       return;
     }
 
