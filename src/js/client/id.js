@@ -228,6 +228,12 @@ Id.prototype.logout = function ()
   store.remove('ripple_auth');
   this.loginStatus = false;
   this.app.tabs.gotoTab('login');
+
+  self.username = '';
+  self.password = '';
+
+  this.app.$scope.userBlob = Id.defaultBlob;
+  this.app.$scope.userCredentials = {};
 };
 
 module.exports.Id = Id;
