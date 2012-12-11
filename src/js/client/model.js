@@ -170,6 +170,7 @@ Model.prototype.handleAccountEvent = function (e)
  */
 Model.prototype._processTxn = function (tx, meta, is_historic)
 {
+  console.log('transaction');
   var self = this;
   var $scope = this.app.$scope;
 
@@ -184,6 +185,7 @@ Model.prototype._processTxn = function (tx, meta, is_historic)
     // Add to payments history
     if (processedTxn.tx_type === "Payment") {
       $scope.history.unshift(processedTxn);
+      console.log('transaction payment');
     }
 
     // Update XRP balance
