@@ -173,6 +173,8 @@ Id.prototype.register = function (username, password, callback, masterkey)
 
   // Add user to blob
   blob.set(self.blobBackends, username.toLowerCase(), password, data, function () {
+
+    self.app.$scope.userBlob = data;
     self.setUsername(username);
     self.setPassword(password);
     self.setAccount(data.data.account_id, data.data.master_seed);
