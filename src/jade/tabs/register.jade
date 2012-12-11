@@ -25,7 +25,9 @@ section.single.modal.content(ng-controller="RegisterCtrl")
             required, rp-same-as="register_password1")
       a(ng-click="showMasterKeyInput=true", ng-hide="showMasterKeyInput") have a master key of your old account?
       div(ng-show="showMasterKeyInput")
-        label(for='register_masterkey') Master Key
+        label(for='register_masterkey')
+          | Master Key&nbsp;
+          a(ng-click="showMasterKeyInput=false;") (hide)
         input#register_masterkey(name='register_masterkey', type='text', ng-model="masterkey", rp-master-key)
         .errorBox(ng-show="registerForm.register_masterkey.$error.rpMasterKey")
           p.text-error Master key is invalid
