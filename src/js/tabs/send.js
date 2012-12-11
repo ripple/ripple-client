@@ -65,7 +65,10 @@ SendTab.prototype.angular = function (module)
 
     $scope.reset_goto = function (tabName) {
       $scope.reset();
-      app.tabs.gotoTab(tabName);
+
+      // TODO do something clever instead of document.location
+      // because goToTab does $scope.$digest() which we don't need
+      document.location = '#' + tabName;
     };
 
     /**
