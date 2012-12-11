@@ -44,7 +44,7 @@ section.single.modal.content(ng-controller="RegisterCtrl")
   group.mode-masterkeyerror(ng-show='mode=="masterkeyerror"')
     h1 Master key error
     h2 There is an account with your username and password, but given master key is not connected to it. If you decide to continue registration your new master key will be used for current username and password.
-    button.btn.btn-primary(ng-click='mode="form"') Back
+    button.btn.btn-info(ng-click='mode="form"') Back
     button.btn(ng-click='register()') Overwrite current key
 
   group.mode-welcome(ng-show='mode=="welcome"')
@@ -58,11 +58,11 @@ section.single.modal.content(ng-controller="RegisterCtrl")
       span.password
         span.var Password:
         | {{password}}
-        button.btn.btn-primary.btn-small(ng-click='showPassword()') Show Password
+        button.btn.btn-info.btn-small(ng-click='showPassword()') Show Password
       span.key
         span.var Master Key:
         | {{key}}
     .action
-      a.btn.btn-primary.btn-big(href='#overview', ng-click='reset()') Continue
+      a.btn.btn-info.btn-big(href='#overview', ng-click='reset()') Continue
       span IMPORTANT! There is no mechanism to recover your username and password.
         a(href="http://ripple.com/help/password", target="_blank") Read why

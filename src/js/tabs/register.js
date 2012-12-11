@@ -31,6 +31,7 @@ RegisterTab.prototype.angular = function (module) {
       $scope.master = '';
       $scope.key = '';
       $scope.mode = 'form';
+      $scope.showMasterKeyInput = false;
     }
 
     $scope.register = function()
