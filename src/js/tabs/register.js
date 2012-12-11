@@ -28,6 +28,7 @@ RegisterTab.prototype.angular = function (module) {
       $scope.password = '';
       $scope.password1 = '';
       $scope.password2 = '';
+      $scope.master = '';
       $scope.key = '';
       $scope.mode = 'form';
     }
@@ -68,10 +69,11 @@ RegisterTab.prototype.angular = function (module) {
           $scope.register();
         }
         if (success) {
-          if ($scope.masterkey) {
+          if ($scope.masterkey != app.$scope.userCredentials.master_seed) {
             $scope.mode = 'masterkeyerror';
+            $scope.$digest();
           } else {
-            goToOverview();
+            $scope.goToOverview();
           }
         }
       });

@@ -15,6 +15,7 @@ section.single.modal.content(ng-controller="RegisterCtrl")
             name='register_password1', type='password'
             ng-model="password1"
             required)
+          p.text-error(ng-show="registerForm.register_password2.$error.rpSameAs && registerForm.register_password2.$dirty") Passwords do not match
         div
           label(for='register_password2') Password Again
           input#register_password2(
@@ -22,12 +23,12 @@ section.single.modal.content(ng-controller="RegisterCtrl")
             type='password'
             ng-model="password2"
             required, rp-same-as="register_password1")
-      div.errorBox(ng-show="registerForm.register_password2.$error.rpSameAs && registerForm.register_password2.$dirty")
-        p.text-error Passwords do not match
       a(ng-click="showMasterKeyInput=true", ng-hide="showMasterKeyInput") have a master key of your old account?
       div(ng-show="showMasterKeyInput")
         label(for='register_masterkey') Master Key
-        input#register_masterkey(name='register_masterkey', type='text', ng-model="masterkey")
+        input#register_masterkey(name='register_masterkey', type='text', ng-model="masterkey", rp-master-key)
+        .errorBox(ng-show="registerForm.register_masterkey.$error.rpMasterKey")
+          p.text-error Master key is invalid
       div.submitsection
         button.btn.btn-info(type='submit', ng-disabled='registerForm.$invalid') Create
         .storeinfo
@@ -43,7 +44,7 @@ section.single.modal.content(ng-controller="RegisterCtrl")
   group.mode-masterkeyerror(ng-show='mode=="masterkeyerror"')
     h1 Master key error
     h2 There is an account with your username and password, but given master key is not connected to it. If you decide to continue registration your new master key will be used for current username and password.
-    button.btn.btn-primary(ng-click='mode=form') Back
+    button.btn.btn-primary(ng-click='mode="form"') Back
     button.btn(ng-click='register()') Overwrite current key
 
   group.mode-welcome(ng-show='mode=="welcome"')

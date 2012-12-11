@@ -51,13 +51,11 @@ module.directive('rpMasterKey', function () {
       if (!ctrl) return;
 
       var validator = function(value) {
-        var Amount = new ripple.Amount();
-
-        if (Amount.parse_json(value)._value) {
-          ctrl.$setValidity('rpAddress', true);
+        if (!value || ripple.Seed.is_valid(""+value)) {
+          ctrl.$setValidity('rpMasterKey', true);
           return value;
         } else {
-          ctrl.$setValidity('rpAddress', false);
+          ctrl.$setValidity('rpMasterKey', false);
           return;
         }
       };
@@ -65,7 +63,7 @@ module.directive('rpMasterKey', function () {
       ctrl.$formatters.push(validator);
       ctrl.$parsers.unshift(validator);
 
-      attr.$observe('rpAddress', function() {
+      attr.$observe('rpMasterKey', function() {
         validator(ctrl.$viewValue);
       });
     }
