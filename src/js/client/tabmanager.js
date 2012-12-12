@@ -193,6 +193,14 @@ TabManager.prototype.getElBySlot = function (slotName) {
   }
 };
 
+TabManager.prototype.resetAll = function () {
+  $.each(this.slots, function (slotName, tab) {
+    if (tab instanceof Tab) {
+      tab.emit('reset');
+    }
+  });
+};
+
 //
 // TAB DEFINITIONS
 //
