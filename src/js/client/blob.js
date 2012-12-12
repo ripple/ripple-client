@@ -32,11 +32,12 @@ BlobObj.get = function(backends, user, pass, callback)
   backends = processBackendsParam(backends);
 
   var backend = backends.shift();
+  console.log('backend', backend);
   var key = sjcl.codec.hex.fromBits(sjcl.hash.sha256.hash(user + pass));
   try {
     backend.get(key, function (err, data) {
       if (err) {
-        console.warn("Backend failed: ", backend);
+        console.warn("Backend failed: ", err);
         log.exception(err);
       }
 
@@ -47,7 +48,7 @@ BlobObj.get = function(backends, user, pass, callback)
       } else tryNext();
     });
   } catch (e) {
-    console.warn("Backend failed: ", backend);
+    console.warn("Backend failed: ", e);
     log.exception(e);
     tryNext();
   }
@@ -118,6 +119,7 @@ var VaultBlobBackend = {
 var LocalBlobBackend = {
   get: function (key, callback)
   {
+    console.log('local get','ripple_blob_' + key);
     var blob = store.get('ripple_blob_'+key);
     callback(null, blob);
   },

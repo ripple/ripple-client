@@ -22,6 +22,11 @@ RegisterTab.prototype.angular = function (module) {
 
   module.controller('RegisterCtrl', function ($scope)
   {
+    $scope.backendChange = function()
+    {
+      app.id.blobBackends = $scope.blobBackendCollection.something.value.split(',');
+    }
+
     $scope.reset = function()
     {
       $scope.username = '';
@@ -37,7 +42,6 @@ RegisterTab.prototype.angular = function (module) {
     $scope.register = function()
     {
       app.id.register($scope.username, $scope.password1, function(key){
-        console.log('register');
         $scope.password = Array($scope.password1.length+1).join("*");
         $scope.key = key;
 

@@ -35,8 +35,11 @@ section.single.modal.content(ng-controller="RegisterCtrl")
         button.btn.btn-info(type='submit', ng-disabled='registerForm.$invalid') Create
         .storeinfo
           | Store your wallet with:&nbsp;
-          strong Payward, Inc.&nbsp;
-          a(href='#') change
+          span(ng-hide="storeChange")
+            strong {{blobBackendCollection.something.name}}&nbsp;
+            a(ng-click="storeChange=true") change
+          span(ng-show="storeChange", class="storeChange")
+            select(ng-model="blobBackendCollection.something", ng-options="b.name for b in blobBackendCollections", ng-change="backendChange()")
           div
             Your information will be stored encrypted on servers provided by Payward.
       p.literal.throw

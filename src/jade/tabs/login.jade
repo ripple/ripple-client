@@ -9,8 +9,12 @@ section.single.modal.content(ng-controller="LoginCtrl")
     input#register_password(name='login_password', type='password', ng-model='password', required)
     label.storageinfo
       | Fetch your wallet from:&nbsp;
-      strong Payward Inc.&nbsp;
-      a(href='#') change
+      span(ng-hide="storeChange")
+        strong {{blobBackendCollection.something.name}}&nbsp;
+        a(ng-click="storeChange=true") change
+      span(ng-show="storeChange")
+        select(ng-model="blobBackendCollection.something", ng-options="b.name for b in blobBackendCollections", ng-change="backendChange()")
+        a(ng-click="storeChange=false") ok
     p.literal.hint
       | Your information will be loaded from Payward and decrypted locally with your password.
     div.submitsection

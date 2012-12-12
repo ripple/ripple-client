@@ -71,7 +71,10 @@ Model.prototype.handleAccountLoad = function (e)
 
   remote.on('net_account', this.handleAccountEvent.bind(this));
   $scope.address = e.account;
-  $scope.$digest();
+
+  if(!$scope.$$phase) {
+    $scope.$digest();
+  }
 };
 
 Model.prototype.handleRippleLines = function (data)

@@ -82,6 +82,13 @@ Id.prototype.init = function ()
     this.loginStatus = true;
   }
 
+  this.app.$scope.blobBackendCollections = [
+    {name: 'Payward', 'value':'vault'},
+    {name: 'Payward, (Local copy)', 'value':'vault,local'},
+    {name: 'Local', 'value':'local'}
+  ];
+  this.app.$scope.blobBackendCollection = {something: this.app.$scope.blobBackendCollections[1]};
+
   this.app.$scope.userBlob = Id.defaultBlob;
   this.app.$scope.userCredentials = {};
 
@@ -173,7 +180,6 @@ Id.prototype.register = function (username, password, callback, masterkey)
 
   // Add user to blob
   blob.set(self.blobBackends, username.toLowerCase(), password, data, function () {
-
     self.app.$scope.userBlob = data;
     self.setUsername(username);
     self.setPassword(password);

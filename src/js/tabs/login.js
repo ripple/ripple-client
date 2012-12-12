@@ -23,7 +23,11 @@ LoginTab.prototype.angular = function (module) {
 
   module.controller('LoginCtrl', function ($scope)
   {
-    // TODO login with wallet
+    $scope.backendChange = function()
+    {
+      app.id.blobBackends = $scope.blobBackendCollection.something.value.split(',');
+    }
+
     $scope.error = '';
     self.on('beforeshow', handleShow);
 
@@ -46,7 +50,9 @@ LoginTab.prototype.angular = function (module) {
           tm.gotoTab('overview');
         } else {
           $scope.error = 'Username and/or password is wrong';
-          $scope.$digest();
+          if(!$scope.$$phase) {
+            $scope.$digest();
+          }
         }
       });
     }
