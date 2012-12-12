@@ -66,8 +66,12 @@ section.panel.content(ng-controller="TrustCtrl")
   //- N4. Error page
 
   group.mode-error(ng-show='mode=="error"')
-    p.literal Sorry, an error occurred while granting. Make sure you are connected to the Internet and try again later.
-    p: button.btn(ng-click='reset()') &laquo; Back
+    div(ng-show="errorMessage")
+      p.literal {{errorMessage}}
+      p: a.btn(href="#overview") Back to overview
+    div(ng-hide="errorMessage")
+      p.literal Sorry, an error occurred while granting. Make sure you are connected to the Internet and try again later.
+      p: button.btn(ng-click='reset()') &laquo; Back
 
   //- N5. Granted page
 
