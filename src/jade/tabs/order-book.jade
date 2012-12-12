@@ -13,22 +13,35 @@ section.panel.content(ng-controller="OrderbookCtrl")
         label Sell Currency
         input.currency#sell_currency(name='sell_currency', type='text', ng-model='sell_currency', ng-change='changePair()', rp-combobox="currency_query", rp-combobox-select)
   group(ng-show='buy_currency_code && sell_currency_code')
-    table.table.table-striped
-      thead: tr
-        th Unit Price
-        th Amount
-        th Sum
-      tbody
-        tr(ng-repeat='order in asks')
-          td {{order.i.num/order.o.num}}
-          td {{order.o.amount | rpamount:{precision: 6} }}
-          td {{order.sum}}
-        tr(ng-show='!asks.length')
-          td(colspan="3") There are currently no asks for this pair
-        tr.sep: td(colspan="3")
-        tr(ng-repeat='order in bids')
-          td {{order.i.num/order.o.num}}
-          td {{order.o.amount | rpamount:{precision: 6} }}
-          td {{order.sum}}
-        tr(ng-show='!bids.length')
-          td(colspan="5") There are currently no bids for this pair
+    div(style="width:40%; float: left;")
+      table.table.table-striped
+        thead: tr
+          th.sum Sum
+          th.amount Amount
+          th.price Bid
+        tbody
+          tr(ng-repeat='order in bids')
+            td.sum.rpamount {{order.sum}}
+              span.currency {{order.o.amount | rpcurrency}}
+            td.amount.rpamount {{order.o.amount | rpamount:{precision: 6} }}
+              span.currency {{order.o.amount | rpcurrency}}
+            td.price.rpamount {{order.i.num/order.o.num}}
+              span.currency {{order.i.amount | rpcurrency}}
+          tr(ng-show='!bids.length')
+            td(colspan="5") There are currently no bids for this pair
+    div(style="width:40%; float: left")
+      table.table.table-striped
+        thead: tr
+          th.price Ask
+          th.amount Amount
+          th.sum Sum
+        tbody
+          tr(ng-repeat='order in asks')
+            td.price.rpamount {{order.i.amount.divide(order.o.amount) | rpamount}}
+              span.currency {{order.i.amount | rpcurrency}}
+            td.amount.rpamount {{order.o.amount | rpamount:{precision: 6} }}
+              span.currency {{order.o.amount | rpcurrency}}
+            td.sum.rpamount {{order.sum}}
+              span.currency {{order.o.amount | rpcurrency}}
+          tr(ng-show='!asks.length')
+            td(colspan="3") There are currently no asks for this pair

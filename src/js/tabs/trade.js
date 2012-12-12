@@ -71,16 +71,19 @@ TradeTab.prototype.angular = function(module)
     $scope.order_confirmed = function ()
     {
       var sell_currency = $scope.sell_currency.slice(0, 3).toUpperCase();
+      var sell_issuer = webutil.findIssuer($scope.lines, sell_currency);
       var buy_currency = $scope.buy_currency.slice(0, 3).toUpperCase();
-      var buy_issuer = webutil.findIssuer($scope.lines,buy_currency);
+      var buy_issuer = webutil.findIssuer($scope.lines, buy_currency);
 
-      if (!buy_issuer) return;
+      // XXX: Needs to show an error
+      if (!sell_issuer && sell_currency !== "XRP") return;
+      if (!buy_issuer && buy_currency !== "XRP") return;
 
       var sell_amount = ripple.Amount.from_human(""+$scope.amount+" "+sell_currency);
-      //sell_amount.set_issuer();
+      if (sell_issuer) sell_amount.set_issuer(sell_issuer);
 
       var buy_amount = ripple.Amount.from_human(""+$scope.value+" "+buy_currency);
-      buy_amount.set_issuer(buy_issuer);
+      if (buy_issuer) buy_amount.set_issuer(buy_issuer);
 
       var tx = app.net.remote.transaction();
       tx.offer_create(app.id.account, buy_amount, sell_amount);
