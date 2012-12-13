@@ -1,7 +1,8 @@
 section.panel.content
   .div#welcome(ng-hide='balance')
-    p Welcome to Ripple,
-    p You currently dont have any credits. To get started with ripple have another ripple user send money to this account.
+    p.title Welcome to Ripple.
+    p You currently don't have any credits. To get started with ripple have another ripple user send money to this account.
+    p.title This is your account address:
     p.account_id {{userBlob.data.account_id}}
   .total(style='display: none;')
     .swatch
