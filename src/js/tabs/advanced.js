@@ -8,7 +8,7 @@ var AdvancedTab = function ()
 
 util.inherits(AdvancedTab, Tab);
 AdvancedTab.prototype.parent = 'main';
-AdvancedTab.prototype.defaultChild = 'trade';
+AdvancedTab.prototype.defaultChild = 'trust';
 
 
 AdvancedTab.prototype.generateHtml = function ()

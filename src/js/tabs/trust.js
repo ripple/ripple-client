@@ -11,7 +11,7 @@ var TrustTab = function ()
 
 util.inherits(TrustTab, Tab);
 
-TrustTab.prototype.parent = 'account';
+TrustTab.prototype.parent = 'advanced';
 
 TrustTab.prototype.generateHtml = function ()
 {
