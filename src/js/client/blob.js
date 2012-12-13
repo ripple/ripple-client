@@ -32,7 +32,7 @@ BlobObj.get = function(backends, user, pass, callback)
   backends = processBackendsParam(backends);
 
   var backend = backends.shift();
-  console.log('backend', backend);
+
   var key = sjcl.codec.hex.fromBits(sjcl.hash.sha256.hash(user + pass));
   try {
     backend.get(key, function (err, data) {
