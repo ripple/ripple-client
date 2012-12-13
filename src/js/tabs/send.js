@@ -103,7 +103,6 @@ SendTab.prototype.angular = function (module)
       if (currency !== 'XRP') {
         tx.build_path(true);
       }
-      tx.set_flags('CreateAccount');
       tx.on('success', function (res) {
         setEngineStatus(res, false);
         $scope.sent(this.hash);
