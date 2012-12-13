@@ -33,11 +33,20 @@ select {
 }
 
 form {
-  .error {
+  .error,
+  err {
     color: #DC4D38;
     font-size: 13px;
     margin-top: -23px;
     height: 23px;
+  }
+  .fieldRow {
+    err {
+      display: none;
+    }
+    err:nth-of-type(1) {
+      display: block;
+    }
   }
   .success {
     color: green;
