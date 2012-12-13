@@ -31,7 +31,7 @@ section.single.modal.content(ng-controller="RegisterCtrl")
         input#register_masterkey(name='register_masterkey', type='text', ng-model="masterkey", rp-master-key)
         .errorBox(ng-show="registerForm.register_masterkey.$error.rpMasterKey")
           p.text-error Master key is invalid
-      div.submitsection
+      .submitsection
         button.btn.btn-info(type='submit', ng-disabled='registerForm.$invalid') Create
         .storeinfo
           | Store your wallet with:&nbsp;

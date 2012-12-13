@@ -1,5 +1,5 @@
 section.panel.content(ng-controller="TradeCtrl")
-  div.action-window
+  .action-window
     ul.info
       li
         span.label Pair =
@@ -51,8 +51,8 @@ section.panel.content(ng-controller="TradeCtrl")
           label(for='order_value') Order Value ({{buy_currency | rptruncate:3}})
           input#order_value(name='value', type='number', step='any', ng-model='value', ng-pattern='/^[0-9.]+$/', ng-change='update_amount()', required)
           .error(ng-show='orderForm.value.$error.pattern') Not a valid value.
-      div.message(ng-show='orderForm.$valid') You are wanting to sell {{amount}} {{sell_currency | rptruncate:3}} for {{value}} {{buy_currency | rptruncate:3}} ({{price}} {{sell_currency | rptruncate:3}}/{{buy_currency | rptruncate:3}})
-      div.submitsection
+      .message(ng-show='orderForm.$valid') You are wanting to sell {{amount}} {{sell_currency | rptruncate:3}} for {{value}} {{buy_currency | rptruncate:3}} ({{price}} {{sell_currency | rptruncate:3}}/{{buy_currency | rptruncate:3}})
+      .submitsection
         button.btn.btn-success.submit(type='submit', ng-disabled='orderForm.$invalid') Place Order
 
     //- 2. Confirmation

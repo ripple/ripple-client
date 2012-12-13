@@ -19,7 +19,7 @@ section.panel.content(ng-controller="ContactsCtrl")
             input.address#contact_address(name='address', type='text', step='any', ng-model='address', rp-address, rp-unique='userBlob.data.contacts', rp-unique-field='address', required)
             .error(ng-show='addForm.address.$error.rpAddress') Not a valid address.
             .error(ng-show='addForm.address.$error.rpUnique') You already have a contact with the same address.
-            div.submitsection
+            .submitsection
               button.btn.btn-info(type='submit', ng-click='create()', ng-disabled='addForm.$invalid') Add contact
       tr(ng-repeat="entry in userBlob.data.contacts", ng-class="{editing: editing}", ng-controller="ContactRowCtrl", rp-animate="enable_highlight")
         td.name

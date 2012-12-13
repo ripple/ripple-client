@@ -9,7 +9,7 @@ section.panel.content(ng-controller="UNLCtrl")
         label(for='unl_note') Comment (Optional):
         .unl_note
           input#unl_note(name='unl_note', type='text', step='any', ng-model='unl_note', unl_note, required)
-        div.submitsection
+        .submitsection
           button.btn.btn-info(type='submit', ng-click='add()', ng-disabled='addForm.$invalid') Add Node
       table.table
         thead

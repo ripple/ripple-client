@@ -46,7 +46,7 @@ section.panel.content(ng-controller="TrustCtrl")
       span.value {{amount_feedback}}
       span.currency {{currency_feedback}}
     p.literal to the Ripple user
-    div.dest_feedback
+    .dest_feedback
       .counterparty(ng-show='counterparty_name') {{counterparty_name}}
       .counterparty(ng-hide='counterparty_name') {{counterparty_address}}
       .extra(ng-show="counterparty != counterparty_address || counterparty_name") {{counterparty_address}}
@@ -92,11 +92,11 @@ section.panel.content(ng-controller="TrustCtrl")
         span(ng-switch-when="terNO_LINE") You have no trust line in this currency.
         span(ng-switch-default) Trust grunting failed to clear, reason: {{engine_result_message}}
     hr
-    div.text-success(ng-show='addressSaved') Address saved!
+    .text-success(ng-show='addressSaved') Address saved!
     div(ng-hide='contact', class="actionLink")
       a(href="", ng-click='showSaveAddressForm()') Add this address to contacts
       form(name="saveAddressForm", id="saveAddressForm", ng-submit='saveAddress()')
-        div.address {{counterparty_address}}
+        .address {{counterparty_address}}
         label(for='save_address_name') Name this user
         input#contact_name(name='save_address_name', type="text", step='any', ng-model='saveAddressName', unique, required)
         .error(ng-show='saveAddressForm.save_address_name.$error.unique') You already have a contact with the same name.
