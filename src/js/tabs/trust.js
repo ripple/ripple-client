@@ -35,6 +35,11 @@ TrustTab.prototype.angular = function (module)
       }
     };
 
+    $scope.$watch('balance', function(){
+      $scope.reset();
+      console.log('balance', app.$scope.balance);
+    }, true);
+
     self.on('reset', $scope.reset);
 
     $scope.toggle_form = function ()
@@ -81,17 +86,17 @@ TrustTab.prototype.angular = function (module)
 
       var tx = app.net.remote.transaction();
       tx
-        .ripple_line_set(app.id.account, amount)
-        .on('success', function(res){
-          setEngineStatus(res, false);
-          $scope.granted(this.hash);
-          $scope.$digest();
-        })
-        .on('error', function(){
-          $scope.mode = "error";
-          $scope.$digest();
-        })
-        .submit()
+          .ripple_line_set(app.id.account, amount)
+          .on('success', function(res){
+            setEngineStatus(res, false);
+            $scope.granted(this.hash);
+            $scope.$digest();
+          })
+          .on('error', function(){
+            $scope.mode = "error";
+            $scope.$digest();
+          })
+          .submit()
       ;
 
       $scope.mode = "granting";
@@ -173,8 +178,8 @@ TrustTab.prototype.angular = function (module)
       return $scope.userBlob.data.contacts.map(function (contact) {
         return contact.name;
       }).filter(function (v) {
-        return v.toLowerCase().match(match.toLowerCase());
-      });
+            return v.toLowerCase().match(match.toLowerCase());
+          });
     };
 
     $scope.currency_query = webutil.queryFromOptions($scope.currencies);
