@@ -25,7 +25,7 @@ section.panel.content(ng-controller="TrustCtrl")
             .success(ng-show='counterparty != counterparty_address && counterparty_name') {{counterparty_address}}
             .error(ng-show='trustForm.trust_counterparty.$error.rpDestination') User should be either name from your contact list or ripple address.
             .error(ng-show='trustForm.trust_counterparty.$error.rpNotMe') You've entered your address.
-            .error(ng-show='remoteError') You have to be funded to grant a trust.
+            .error(ng-show='remoteError') You can only grant trust if you have funds in your account.
             .submitsection
               button.btn.btn-info(type='submit', ng-disabled='trustForm.$invalid') Grant Trust
 
