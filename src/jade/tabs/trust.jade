@@ -30,7 +30,7 @@ section.panel.content(ng-controller="TrustCtrl")
               button.btn.btn-info(type='submit', ng-disabled='trustForm.$invalid') Grant Trust
 
       tr(ng-repeat='(key, line) in lines')
-        td {{line.account}}
+        td {{line.account | rpcontactnamefull}}
         td {{line.currency}}
         td
           //{{line.limit_peer | rpamount}} --- {{line.balance | rpamount:{signed: true} }} --- {{line.limit | rpamount}}
