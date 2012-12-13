@@ -14,7 +14,7 @@ module.filter('rpamount', function () {
     } else if ("object" !== typeof opts) {
       opts = {};
     }
-    if (!opts.precision) opts.precision = 16;
+    if (!opts.precision) opts.precision = 15;
 
     if (!input) return "n/a";
 
@@ -34,6 +34,18 @@ module.filter('rpcurrency', function () {
 
     var amount = Amount.from_json(input);
     return amount.currency().to_json();
+  };
+});
+
+/**
+ * Calculate a ratio of two Amounts.
+ */
+module.filter('rpamountratio', function () {
+  return function (numerator, denominator) {
+    if (!(numerator instanceof ripple.Amount)) return Amount.NaN();
+    if (!(denominator instanceof ripple.Amount)) return Amount.NaN();
+
+    return numerator.ratio_human(denominator);
   };
 });
 

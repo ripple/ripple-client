@@ -35,11 +35,11 @@ section.panel.content
         td.desc(ng-switch-when="trusted")
           span.address(title="{{entry.counterparty}}") {{entry.counterparty | rpcontactname}}
           |  now trusts you for
-          strong  {{entry.limit_peer | rpamount}} {{entry.limit_peer | rpcurrency}}
+          strong  {{entry.amount | rpamount}} {{entry.amount | rpcurrency}}
         td.desc(ng-switch-when="trusting") You now trust 
           span.address(title="{{entry.counterparty}}") {{entry.counterparty | rpcontactname}}
           |  for 
-          strong  {{entry.limit | rpamount}} {{entry.limit | rpcurrency}}
+          strong  {{entry.amount | rpamount}} {{entry.amount | rpcurrency}}
         td.desc(ng-switch-when="offernew") You created an offer accepting 
           strong {{entry.pays | rpamount}} {{entry.pays | rpcurrency}}
           |  for 

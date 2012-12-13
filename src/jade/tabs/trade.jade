@@ -99,7 +99,7 @@ section.panel.content(ng-controller="TradeCtrl")
     tbody
       tr(ng-repeat="entry in offers", class="{{entry.type}}")
         td.pair {{entry.gets | rpcurrency}}/{{entry.pays | rpcurrency}}
-        td.price.rpamount {{entry.pays.divide(entry.gets) | rpamount:10}}
+        td.price.rpamount {{entry.pays | rpamountratio:entry.gets | rpamount}}
           span.currency {{entry.gets | rpcurrency}}
         td.amount.rpamount {{entry.pays | rpamount}}
           span.currency {{entry.pays | rpcurrency}}

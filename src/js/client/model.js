@@ -22,6 +22,9 @@ Model.prototype.init = function ()
 
   $scope.currencies_all = require('../data/currencies');
   $scope.currencies = $scope.currencies_all.slice(1);
+
+  this.app.id.on('accountload', this.handleAccountLoad.bind(this));
+  this.app.net.remote.on('net_account', this.handleAccountEvent.bind(this));
 };
 
 Model.prototype.reset = function ()
@@ -49,7 +52,6 @@ Model.prototype.setApp = function (app)
  */
 Model.prototype.listenId = function (id)
 {
-  id.on('accountload', this.handleAccountLoad.bind(this));
 };
 
 Model.prototype.handleAccountLoad = function (e)
@@ -69,7 +71,6 @@ Model.prototype.handleAccountLoad = function (e)
     .on('success', this.handleOffers.bind(this))
     .on('error', this.handleOffersError.bind(this)).request();
 
-  remote.on('net_account', this.handleAccountEvent.bind(this));
   $scope.address = e.account;
 
   if(!$scope.$$phase) {
@@ -173,7 +174,6 @@ Model.prototype.handleAccountEvent = function (e)
  */
 Model.prototype._processTxn = function (tx, meta, is_historic)
 {
-  console.log('transaction');
   var self = this;
   var $scope = this.app.$scope;
 
@@ -188,7 +188,6 @@ Model.prototype._processTxn = function (tx, meta, is_historic)
     // Add to payments history
     if (processedTxn.tx_type === "Payment") {
       $scope.history.unshift(processedTxn);
-      console.log('transaction payment');
     }
 
     // Update XRP balance
