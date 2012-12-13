@@ -59,18 +59,21 @@ OrderBookTab.prototype.angular = function(module)
       });
 
       $scope.bids.sort(function (a, b) {
-        return (a.o.num/a.i.num) - (b.o.num/b.i.num);
+        return (b.o.num/b.i.num) - (a.o.num/a.i.num);
       });
 
-      fillSum($scope.asks);
-      fillSum($scope.bids);
+      fillSum($scope.asks, 'o');
+      fillSum($scope.bids, 'i');
     }
 
     function rewriteAmount(amountJson) {
       var amount = ripple.Amount.from_json(amountJson);
       return {
         amount: amount,
-        num: +amount.to_text(),
+        // Pretty dirty hack, but to_text for native values gives 1m * value...
+        // In the future we will likely remove this field altogether (and use
+        // Amount class math instead), so it's ok.
+        num: +amount.to_human({group_sep: false}),
         currency: amount.currency().to_json(),
         issuer: amount.issuer().to_json()
       };

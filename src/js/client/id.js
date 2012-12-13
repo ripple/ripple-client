@@ -237,6 +237,7 @@ Id.prototype.logout = function ()
 {
   store.remove('ripple_auth');
   this.loginStatus = false;
+  this.app.tabs.resetAll();
   this.app.tabs.gotoTab('login');
 
   this.setUsername('');

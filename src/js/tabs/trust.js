@@ -37,6 +37,8 @@ TrustTab.prototype.angular = function (module)
       }
     };
 
+    self.on('reset', $scope.reset);
+
     $scope.toggle_form = function ()
     {
       $scope.addform_visible = !$scope.addform_visible;
