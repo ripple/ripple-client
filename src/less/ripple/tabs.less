@@ -127,7 +127,11 @@
     margin: 0 30px 0 0;
 
     .account_id {
-      font-size: 30px;
+      font: 30px "Helvetica Neue", Helvetica, Arial, sans-serif;
+      margin-top: 0;
+    }
+    .title {
+      font-weight: bold;
     }
   }
 
@@ -216,6 +220,7 @@ html.t-overview header nav ul > li.active#nav-account > a:after {
       .transition-duration(0.2s);
     }
     .result-success h1 {
+      margin: 20px 0 0 0;
       background-color: #8DC86A;
     }
     .result-error h1, .result-malformed h1, .result-failed h1 {
@@ -598,6 +603,10 @@ html.t-overview header nav ul > li.active#nav-account > a:after {
       width: @gridRowWidth - @pmSingleMargin * 2;
       cursor: text;
     }
+  }
+  .address {
+    font-family: 'OpenSansLight';
+    font-weight: bold;
   }
   .btn {
     .input-medium;

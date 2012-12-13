@@ -25,8 +25,6 @@ TrustTab.prototype.angular = function (module)
 
   module.controller('TrustCtrl', ['$scope', '$timeout', function ($scope, $timeout)
   {
-    self.on('reset', $scope.reset);
-
     $scope.reset = function () {
       $scope.mode = 'main';
       $scope.currency = 'USD';
@@ -36,6 +34,8 @@ TrustTab.prototype.angular = function (module)
         $scope.errorMessage = 'You have to funded to grant a trust';
       }
     };
+
+    self.on('reset', $scope.reset);
 
     $scope.toggle_form = function ()
     {
