@@ -108,31 +108,10 @@ OrderBookTab.prototype.angular = function(module)
       updateOfferList();
     }, true);
 
+    $scope.buy_currency = $scope.currencies_all[0].name;
+    $scope.sell_currency = $scope.currencies_all[1].name;
+
     $scope.currency_query = webutil.queryFromOptions($scope.currencies_all);
-
-    $scope.query_dest = function (match) {
-      return ['Alice','Antony','Bob','Charlie','Chandra'].filter(function (v) {
-        return v.toLowerCase().match(match.toLowerCase());
-      });
-    };
-
-    $scope.changeNexus = function () 
-    {
-      // need to stop listening to the previous nexus
-      // need to start listening to this guy
-      // need to ask for his current state
-      
-      
-    };
-
-    $scope.changePair =function()
-    {
-      //console.log("here");
-      if($scope.buy_currency && $scope.sell_currency)
-      { // TODO: need to fetch the ticker
-        
-      }
-    }
   });
 };
 
