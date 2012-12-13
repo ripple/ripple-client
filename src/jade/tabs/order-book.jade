@@ -5,13 +5,19 @@ section.panel.content(ng-controller="OrderbookCtrl")
     .currency-config
       .buy
         label Buy Currency
-        input.currency#buy_currency(name='buy_currency', type='text', ng-model='buy_currency', ng-change='changePair()', rp-combobox="currency_query", rp-combobox-select)
+        input.currency#buy_currency(
+          name='buy_currency', type='text'
+          rp-combobox="currency_query", rp-combobox-select
+          ng-model='buy_currency', ng-change='changePair()')
       //.issuer
       //  label Issuing Nexus
       //  input#send_destination(name='send_destination', type='text', ng-model='nexus', required, rp-combobox="query_dest", ng-change='changeNexus()')
       .sell
         label Sell Currency
-        input.currency#sell_currency(name='sell_currency', type='text', ng-model='sell_currency', ng-change='changePair()', rp-combobox="currency_query", rp-combobox-select)
+        input.currency#sell_currency(
+          name='sell_currency', type='text'
+          rp-combobox="currency_query", rp-combobox-select
+          ng-model='sell_currency', ng-change='changePair()')
   group(ng-show='buy_currency_code && sell_currency_code')
     div(style="width:40%; float: left;")
       table.table.table-striped

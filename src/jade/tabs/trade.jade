@@ -29,29 +29,45 @@ section.panel.content(ng-controller="TradeCtrl")
       .currencies
         .currency-field.sell
           label(for='sell_currency') Sell
-          input.currency#sell_currency(name='sell_currency', type='text', ng-model='sell_currency', ng-change='change_pair()', rp-combobox="currency_query", rp-combobox-select)
-        .currency-field
+          input.currency#sell_currency(
+            name='sell_currency', type='text'
+            rp-combobox="currency_query", rp-combobox-select
+            ng-model='order.sell_currency', ng-change='change_pair()')
+        .currency-field.buy
           label(for='buy_currency') Buy
-          input.currency#buy_currency(name='buy_currency', type='text', rp-issuer, ng-model='buy_currency', ng-change='change_pair()', rp-combobox="currency_query", rp-combobox-select)
-          .error(ng-show='orderForm.buy_currency.$error.rpIssuer && !orderForm.buy_currency.$pristine') You aren't able to accept this currency (add trust)
+          input.currency#buy_currency(
+            name='buy_currency', type='text'
+            rp-combobox="currency_query", rp-combobox-select
+            ng-model='order.buy_currency', ng-change='change_pair()'
+            rp-issuer)
+          .error(ng-show='orderForm.buy_currency.$error.rpIssuer && !orderForm.buy_currency.$pristine') You are unable to accept this currency (add trust)
       .order-values
         .value-field
           label(for='order_amount') Amount To Sell
-          input#order_amount(name='amount', type='number', step='any', ng-model='amount', ng-pattern='/^[0-9.]+$/', ng-change='update_value()', required)
+          input#order_amount(
+            name='amount', type='number', step='any'
+            ng-model='order.sell', ng-change='calc_buy()'
+            ng-pattern='/^[0-9.]+$/', required)
           .error(ng-show='orderForm.amount.$error.pattern') Not a valid amount.
           .error(ng-show='orderForm.amount.$error.required && !orderForm.amount.$pristine') Required
         .sign x
         .value-field
           label(for='order_price') Price of Each
-          input#order_price(name='price', type='number', step='any', ng-model='price', ng-pattern='/^[0-9.]+$/', ng-change='update_value()', required)
+          input#order_price(
+            name='price', type='number', step='any'
+            ng-model='order.price', ng-change='calc_buy()'
+            ng-pattern='/^[0-9.]+$/', required)
           .error(ng-show='orderForm.price.$error.pattern') Not a valid price.
           .error(ng-show='orderForm.price.$error.required && !orderForm.price.$pristine') Required
         .sign =
         .value-field
-          label(for='order_value') Order Value ({{buy_currency | rptruncate:3}})
-          input#order_value(name='value', type='number', step='any', ng-model='value', ng-pattern='/^[0-9.]+$/', ng-change='update_amount()', required)
+          label(for='order_value') Order Value ({{order.buy_amount | rpcurrency}})
+          input#order_value(
+            name='value', type='number', step='any'
+            ng-model='order.buy', ng-change='calc_sell()'
+            ng-pattern='/^[0-9.]+$/', required)
           .error(ng-show='orderForm.value.$error.pattern') Not a valid value.
-      .message(ng-show='orderForm.$valid') You are wanting to sell {{amount}} {{sell_currency | rptruncate:3}} for {{value}} {{buy_currency | rptruncate:3}} ({{price}} {{sell_currency | rptruncate:3}}/{{buy_currency | rptruncate:3}})
+      .message(ng-show='orderForm.$valid') You are wanting to sell {{order.sell_amount | rpamount}} {{order.sell_amount | rpcurrency}} for {{order.buy_amount | rpamount}} {{order.buy_amount | rpcurrency}} ({{order.price_amount | rpamount}} {{order.sell_amount | rpcurrency}}/{{order.buy_amount | rpcurrency}})
       .submitsection
         button.btn.btn-success.submit(type='submit', ng-disabled='orderForm.$invalid') Place Order
 
@@ -60,12 +76,12 @@ section.panel.content(ng-controller="TradeCtrl")
     form.mode-confirm(ng-show='mode=="confirm"', ng-submit="order_confirmed()")
       p.literal You are about to place an offer selling
         .amount_feedback
-          span.value {{sell_amount_feedback}}
-          span.currency {{sell_currency_feedback}}
+          span.value {{order.sell_amount | rpamount}}
+          span.currency {{order.sell_amount | rpcurrency}}
         p.literal for
         .dest_feedback
-          span.value {{buy_amount_feedback}}
-          span.currency {{buy_currency_feedback}}
+          span.value {{order.buy_amount | rpamount}}
+          span.currency {{order.buy_amount | rpcurrency}}
         p.literal Are you sure?
         div
           p.submitsection
