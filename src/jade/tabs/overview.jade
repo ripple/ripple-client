@@ -15,6 +15,9 @@ section.panel.content
     .balancebox
       .label Ripple Credits
       .balance {{balance | rpamount}}
+    .balancebox(ng-repeat="entry in balances")
+      .label {{entry.total | rpcurrency}}
+      .balance {{entry.total | rpamount}}
 
   table.table.events
     caption Notifications

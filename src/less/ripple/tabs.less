@@ -373,15 +373,18 @@ html.t-overview header nav ul > li.active#nav-account > a:after {
   }
 
   .currency-summary {
+    overflow: hidden;
+
     .balancebox {
-      width: 245px;
+      width: 240px;
+      float: left;
+      margin: 0 10px 0 0;
+      overflow: hidden;
     }
 
     .label {
       margin-top: 15px;
       font: 20px 'OpenSansRegular';
-      border: 1px solid #c9c9c9;
-      border-bottom: 0;
       color: #333;
       padding: 2px 5px;
     }
@@ -389,7 +392,7 @@ html.t-overview header nav ul > li.active#nav-account > a:after {
     .balance {
       text-align: center;
       font: 36px 'OpenSansLight';
-      border: 1px solid #f7f7f7;
+      border: 1px solid #eee;
       border-top: 0;
       color: #666;
       padding: 20px;
