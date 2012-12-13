@@ -57,7 +57,6 @@ App.prototype.startup = function ()
 {
   var self = this;
   this.net.on('connected', handleFirstConnection);
-  this.model.listenId(this.id);
   this.net.listenId(this.id);
   this.net.init();
   this.sm.init();
