@@ -38,6 +38,18 @@ module.filter('rpcurrency', function () {
 });
 
 /**
+ * Calculate a ratio of two Amounts.
+ */
+module.filter('rpamountratio', function () {
+  return function (numerator, denominator) {
+    if (!(numerator instanceof ripple.Amount)) return Amount.NaN();
+    if (!(denominator instanceof ripple.Amount)) return Amount.NaN();
+
+    return numerator.ratio_human(denominator);
+  };
+});
+
+/**
  * Angular filter for Moment.js.
  *
  * Displays a timestamp as "x minutes ago".
