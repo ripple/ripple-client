@@ -14,7 +14,7 @@ module.filter('rpamount', function () {
     } else if ("object" !== typeof opts) {
       opts = {};
     }
-    if (!opts.precision) opts.precision = 0;
+    if (!opts.precision) opts.precision = 15;
 
     if (!input) return "n/a";
 
