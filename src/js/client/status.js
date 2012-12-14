@@ -87,9 +87,9 @@ StatusManager.prototype.setApp = function (app)
   this.app = app;
 };
 
-StatusManager.prototype.create = function (message, type)
+StatusManager.prototype.create = function (message)
 {
-  return new StatusMessage(this, message, type);
+  return new StatusMessage(this, message);
 };
 
 /**
@@ -153,8 +153,7 @@ StatusManager.prototype.setupNetworkNotices = function ()
 
   remote.on('net_account', function (msg) {
     var tx = rewriter.processTxn(msg.transaction, msg.meta, app.id.account);
-    if(tx)
-    {
+    if (tx) {
       var $scope = app.$scope.$new();
       $scope.tx = tx;
 
@@ -163,26 +162,22 @@ StatusManager.prototype.setupNetworkNotices = function ()
       if (html.length) {
         app.sm.create(app.$compile(html)($scope)).queue();
       }
+
+      $scope.$digest();
     }
   });
 };
 
 
-var StatusMessage = function (sm, message, type)
+var StatusMessage = function (sm, message)
 {
   this.sm = sm;
   this.message = message || "";
-  this.type = type || "info";
 };
 
 StatusMessage.prototype.setMessage = function (message)
 {
   this.message = message;
-};
-
-StatusMessage.prototype.setType = function (type)
-{
-  this.type = type;
 };
 
 StatusMessage.prototype.queue = function ()
