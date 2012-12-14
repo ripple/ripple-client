@@ -18,7 +18,7 @@ section.panel.content(ng-controller="OrderbookCtrl")
           name='sell_currency', type='text'
           rp-combobox="currency_query", rp-combobox-select
           ng-model='sell_currency', ng-change='changePair()')
-  group(ng-show='buy_currency_code && sell_currency_code')
+  group.list(ng-show='buy_currency_code && sell_currency_code')
     div(style="width:40%; float: left;")
       table.table.table-striped
         thead: tr
