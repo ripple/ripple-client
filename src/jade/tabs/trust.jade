@@ -5,9 +5,9 @@ section.panel.content(ng-controller="TrustCtrl")
   table.table(ng-show='mode=="main"')
     thead
       tr
-        th Account/Name
-        th Currency
-        th Trust level
+        th.account Account/Name
+        th.currency Currency
+        th.trust Trust level
         th.action
           a.btn.btn-success.sign(ng-click='toggle_form()')
             span(ng-hide='addform_visible') +
@@ -30,12 +30,12 @@ section.panel.content(ng-controller="TrustCtrl")
               button.btn.btn-info(type='submit', ng-disabled='trustForm.$invalid') Grant Trust
 
       tr(ng-repeat='(key, line) in lines')
-        td {{line.account | rpcontactnamefull}}
-        td {{line.currency}}
-        td
+        td.account {{line.account | rpcontactnamefull}}
+        td.currency {{line.currency}}
+        td.trust
           //{{line.limit_peer | rpamount}} --- {{line.balance | rpamount:{signed: true} }} --- {{line.limit | rpamount}}
           rp-trust-line(rp-line-data='line')
-        td
+        td.action
           a(ng-click="edit_line()") edit
 
   //- N2. Confirmation page
