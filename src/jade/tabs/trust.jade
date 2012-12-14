@@ -90,6 +90,7 @@ section.panel.content(ng-controller="TrustCtrl")
       h1 Granting failed!
       p(ng-switch on="engine_result")
         span(ng-switch-when="terNO_LINE") You have no trust line in this currency.
+        span(ng-switch-when="terNO_DST") You can't grant trust to an account before it has been funded.
         span(ng-switch-default) Trust grunting failed to clear, reason: {{engine_result_message}}
     hr
     .text-success(ng-show='addressSaved') Address saved!
