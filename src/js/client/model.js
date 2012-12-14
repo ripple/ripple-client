@@ -155,7 +155,7 @@ Model.prototype.handleAccountTx = function (account, data)
   var $scope = this.app.$scope;
   $scope.$apply(function () {
     if (data.transactions) {
-      var transactions = data.transactions.forEach(function (e) {
+      data.transactions.forEach(function (e) {
         self._processTxn(e.tx, e.meta, true);
       });
     }
