@@ -38,8 +38,8 @@ OrderBookTab.prototype.angular = function(module)
       $scope.asks = [];
       $scope.bids = [];
 
-      var buyCurrency  = $scope.buy_currency_code;
-      var sellCurrency = $scope.sell_currency_code;
+      var buyCurrency  = $scope.currency_pair.slice(0,3);
+      var sellCurrency = $scope.currency_pair.slice(4,7);
 
       offers.forEach(function (node) {
         var gets = rewriteAmount(node.TakerGets);
@@ -101,15 +101,14 @@ OrderBookTab.prototype.angular = function(module)
         "---";
     }, true);
 
-    $scope.$watch('buy_currency_code', function () {
-      updateOfferList();
-    }, true);
-    $scope.$watch('sell_currency_code', function () {
+    $scope.$watch('currency_pair', function () {
       updateOfferList();
     }, true);
 
-    $scope.buy_currency = $scope.currencies_all[0].name;
-    $scope.sell_currency = $scope.currencies_all[1].name;
+    var pairs = require('../data/pairs');
+    $scope.pairs_query = webutil.queryFromOptions(pairs);
+
+    $scope.currency_pair = pairs[0].name;
 
     $scope.currency_query = webutil.queryFromOptions($scope.currencies_all);
   });

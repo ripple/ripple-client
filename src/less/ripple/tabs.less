@@ -838,6 +838,7 @@ html.t-overview header nav ul > li.active#nav-account > a:after {
     }
   }
 }
+
 #t-order-book {
   .currency-config {
     .clearfix;
@@ -856,7 +857,22 @@ html.t-overview header nav ul > li.active#nav-account > a:after {
     margin-bottom: 0;
   }
 
+  table.bids, table.asks {
+    float: left;
+    width: 50%;
+  }
+  table.asks {
+    border-left: 5px solid #fff;
+
+    .price {
+      padding-left: 10px;
+    }
+  }
+
   table {
+    th {
+      text-align: right;
+    }
     tr.sep td {
       height: 5px;
       padding: 0;
