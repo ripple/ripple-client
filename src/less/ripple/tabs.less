@@ -190,6 +190,35 @@ html.t-overview header nav ul > li.active#nav-account > a:after {
     width: 392px;
   }
 
+  table {
+    position: relative;
+    table-layout: fixed;
+
+    th, td {
+      .box-sizing(content-box);
+    }
+    .account {
+      width: 45%;
+    }
+    .currency {
+      width: 15%;
+    }
+    .trust {
+      width: 32%;
+    }
+    .action {
+      width: 8%;
+      text-align: center;
+    }
+    td.trust {
+      padding: 0;
+
+      rp-trust-line {
+        margin: 0 -50px;
+      }
+    }
+  }
+
   .mode-confirm {
     .amount_feedback, .dest_feedback {
       font-size: 26px;
