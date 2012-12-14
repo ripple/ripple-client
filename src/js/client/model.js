@@ -220,16 +220,18 @@ quality_out: 0
  */
 Model.prototype._updateLines = function(txn)
 {
+  console.log('update lines', txn);
   var $scope = this.app.$scope;
 
   var index = txn.counterparty + txn.currency,
       line = {};
 
   line.currency = txn.currency;
+  line.account = txn.counterparty;
+
+  line.balance = ripple.Amount.from_json({value: line.balance, currency: line.currency});
 
   if (txn.tx_type === "Payment") {
-    line.balance = txn.balance;
-
     this._updateRippleBalance(txn.currency, txn.counterparty, txn.balance);
   } else if (txn.tx_type === "TrustSet") {
     line.limit = txn.limit;
