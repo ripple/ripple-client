@@ -23,6 +23,8 @@ section.single.modal.content(ng-controller="RegisterCtrl")
             type='password'
             ng-model="password2"
             required, rp-same-as="register_password1")
+        div(class="strength {{strength}}")
+          {{strength}}
       a(ng-click="showMasterKeyInput=true", ng-hide="showMasterKeyInput") have a master key of your old account?
       div(ng-show="showMasterKeyInput")
         label(for='register_masterkey')
