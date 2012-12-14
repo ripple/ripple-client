@@ -21,17 +21,15 @@ OrderBookTab.prototype.angular = function(module)
 
   module.controller('OrderbookCtrl', function ($scope)
   {
-    app.net.remote.request_ledger("ledger_closed", "full")
-      .on('success', handleLedger)
-      .request();
-
     var offers = [];
     function handleLedger(e)
     {
-      offers = e.ledger.accountState.filter(function (node) {
-        return node.LedgerEntryType === "Offer";
+      $scope.$apply(function () {
+        offers = e.ledger.accountState.filter(function (node) {
+          return node.LedgerEntryType === "Offer";
+        });
+        updateOfferList();
       });
-      updateOfferList();
     }
 
     function updateOfferList() {
@@ -111,6 +109,10 @@ OrderBookTab.prototype.angular = function(module)
     $scope.currency_pair = pairs[0].name;
 
     $scope.currency_query = webutil.queryFromOptions($scope.currencies_all);
+
+    app.net.remote.request_ledger("ledger_closed", "full")
+      .on('success', handleLedger)
+      .request();
   });
 };
 
