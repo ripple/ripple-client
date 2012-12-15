@@ -809,17 +809,24 @@ html.t-overview header nav ul > li.active#nav-account > a:after {
     }
   }
 
-  .open-orders-title {
-    font-size: 20px;
-    margin: 0;
-    padding: 0 0 10px 50px;
-    text-align: left;
-  }
-
   table.open-orders {
     margin: 0 0 30px;
-    td {
+    th, td {
       padding-right: 10px;
+    }
+    th.price, th.amount {
+      text-align: right;
+
+      &:after {
+        color: #fff;
+        content: "XXX";
+        font-family: @currencyFont;
+        font-size: 14px;
+        padding-left: 5px;
+      }
+    }
+    th.action {
+      color: #fff;
     }
     td.pair {
 
