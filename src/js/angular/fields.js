@@ -95,11 +95,14 @@ module.directive('rpCombobox', [function () {
       }
 
       function updateCompletions() {
-        var match = ngModel.$viewValue;
-        if (!match) return;
-        var re = new RegExp('('+match+')', 'i');
+        var match = ngModel.$viewValue,
+            completions = [];
 
-        var completions = match.length ? scope.$eval(attrs.rpCombobox)(match) : [];
+        if ("string" === typeof match && match.length) {
+          var re = new RegExp('('+match+')', 'i');
+
+          completions = scope.$eval(attrs.rpCombobox)(match);
+        }
 
         // By fading out without updating the completions we get a smoother effect
         if (!completions.length) {

@@ -23,12 +23,14 @@ section#t-send.single.content(ng-controller='SendCtrl')
       placeholder='Contact name or Ripple address'
       ng-model='recipient'
       rp-destination, required)
-    .success(ng-show='recipient != recipient_address && recipient_name') {{recipient_address}}
-    .errorGroup(rp-field='send_destination')
-      .error(rp-validator='required')
+    .errorGroup(rp-errors='send_destination')
+      .success(rp-error-valid ng-show='recipient != recipient_address')
+        | {{recipient_address}}
+      .error(rp-error-on='required')
         | Please enter a recipient.
-      .error(rp-validator='rpDestination')
-        | Recipient should be either name from your contact list or ripple address.
+      .error(rp-error-on='rpDestination')
+        | Recipient should be either a name from your contact list or Ripple
+        | address.
     .submitsection
       button.btn.btn-success.submit(type='submit', ng-disabled='sendForm.$invalid') Send
 
