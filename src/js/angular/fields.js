@@ -96,10 +96,10 @@ module.directive('rpCombobox', [function () {
 
       function updateCompletions() {
         var match = ngModel.$viewValue,
-            completions = [];
+            completions = [], re = null;
 
         if ("string" === typeof match && match.length) {
-          var re = new RegExp('('+match+')', 'i');
+          re = new RegExp('('+match+')', 'i');
 
           completions = scope.$eval(attrs.rpCombobox)(match);
         }
