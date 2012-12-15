@@ -37,6 +37,27 @@ SendTab.prototype.angular = function (module)
       }
     }, true);
 
+    $scope.$watch('amount', function () {
+      $scope.update_amount();
+    }, true);
+
+    $scope.$watch('currency', function () {
+      $scope.update_amount();
+    }, true);
+
+    $scope.update_amount = function () {
+      var currency = $scope.currency ?
+            $scope.currency.slice(0, 3).toUpperCase() : "XRP";
+      var issuer = webutil.findIssuer($scope.lines, currency);
+      var formatted = "" + $scope.amount + " " + currency.slice(0, 3);
+
+      // XXX: Needs to show an error
+      if (!issuer && currency !== "XRP") return;
+      $scope.amount_feedback = ripple.Amount.from_human(formatted);
+
+      if (issuer) $scope.order.sell_amount.set_issuer(issuer);
+    };
+
     /**
      * Used for rpDestination validator
      *
@@ -75,11 +96,7 @@ SendTab.prototype.angular = function (module)
      * N2. Confirmation page
      */
     $scope.send = function () {
-      var currency = $scope.currency.slice(0, 3).toUpperCase();
-      var amount = ripple.Amount.from_human(""+$scope.amount+" "+currency);
-
-      $scope.amount_feedback = amount.to_human();
-      $scope.currency_feedback = amount._currency.to_json();
+      var amount = $scope.amount_feedback;
 
       $scope.confirm_wait = true;
       $timeout(function () {
