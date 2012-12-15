@@ -3,7 +3,7 @@
     div {{userCredentials.username}}&nbsp;
       a.logout(ng-click='logout()') logout
     .balance.primary
-      | {{balance | rpamount}}
+      | {{balance | rpamount:0}}
       span XRP
     ul.secondary
       li.balance(ng-repeat="(currency, balance) in balances", ng-class="{negative: balance.total.is_negative()}")
