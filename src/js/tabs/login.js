@@ -44,18 +44,23 @@ LoginTab.prototype.angular = function (module) {
     $scope.submitForm = function()
     {
       app.id.login($scope.username, $scope.password, function(err, success) {
+        $scope.ajax_loading = false;
         // XXX: Handle err
         if (success) {
           console.log('success');
           tm.gotoTab('overview');
         } else {
-          $scope.error = 'Username and/or password is wrong';
-          if(!$scope.$$phase) {
-            $scope.$digest();
-          }
+          $scope.error = 'Username and/or password is wrong.';
+        }
+
+        if(!$scope.$$phase) {
+          $scope.$digest();
         }
       });
-    }
+
+      $scope.ajax_loading = true;
+      $scope.error = '';
+    };
   })
 };
 

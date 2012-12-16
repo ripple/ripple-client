@@ -7,7 +7,7 @@ section.single.modal.content(ng-controller="LoginCtrl")
     p.text-error(ng-show='error') {{error}}
     label(for='login_password') Password
     input#register_password(name='login_password', type='password', ng-model='password', required)
-    label.storageinfo
+    label.storageinfo(ng-class="{throbber: ajax_loading}")
       | Fetch your wallet from:&nbsp;
       span(ng-hide="storeChange")
         strong {{blobBackendCollection.something.name}}&nbsp;
