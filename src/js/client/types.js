@@ -264,7 +264,7 @@ var RippleAddress = (function () {
           firstHalfOfSHA512(append_int(this.seed, i))
         ));
         i++;
-      } while (private_gen > sjcl.ecc.curves.c256.r);
+      } while (!sjcl.ecc.curves.c256.r.greaterEquals(private_gen));
       
       public_gen = sjcl.ecc.curves.c256.G.mult(private_gen);
       
@@ -275,7 +275,7 @@ var RippleAddress = (function () {
           firstHalfOfSHA512(append_int(append_int(public_gen.toBytesCompressed(), seq), i))
         ));
         i++;
-      } while (sec > sjcl.ecc.curves.c256.r);
+      } while (!sjcl.ecc.curves.c256.r.greaterEquals(sec));
       
       var pubKey = sjcl.ecc.curves.c256.G.mult(sec).toJac().add(public_gen).toAffine();
       return Base58Utils.encode_base_check(0, Crypto.util.sha256ripe160(pubKey.toBytesCompressed()));
