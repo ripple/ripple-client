@@ -5,6 +5,7 @@ var Network = require('../client/network').Network;
 var Model = require('../client/model').Model;
 var StatusManager = require('../client/status').StatusManager;
 var Angular = require('../client/angular').Angular;
+var types = require('../client/types');
 
 Angular.load();
 
@@ -21,6 +22,8 @@ app.setId(id);
 app.setModel(model);
 app.setStatusManager(sm);
 var rippleclient = window.rippleclient = app;
+
+app.types = types;
 
 // Some backwards compatibility
 if (!Options.blobvault) {
