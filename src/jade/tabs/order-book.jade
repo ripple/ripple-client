@@ -20,7 +20,8 @@ section.panel.content(ng-controller="OrderbookCtrl")
             span.currency {{order.o.amount | rpcurrency}}
           td.amount.rpamount {{order.o.amount | rpamount:{precision: 6} }}
             span.currency {{order.o.amount | rpcurrency}}
-          td.price.rpamount {{order.i.num/order.o.num}}
+          td.price.rpamount
+            | {{order.i.amount | rpamountratio:order.o.amount | rpamount:{precision: 6, min_precision: 6} }}
             span.currency {{order.i.amount | rpcurrency}}
         tr(ng-show='!bids.length')
           td(colspan="5") There are currently no bids for this pair
@@ -31,7 +32,8 @@ section.panel.content(ng-controller="OrderbookCtrl")
         th.sum Sum
       tbody
         tr(ng-repeat='order in asks')
-          td.price.rpamount {{order.i.amount.divide(order.o.amount) | rpamount}}
+          td.price.rpamount
+            | {{order.i.amount | rpamountratio:order.o.amount | rpamount:{precision: 6, min_precision: 6} }}
             span.currency {{order.i.amount | rpcurrency}}
           td.amount.rpamount {{order.o.amount | rpamount:{precision: 6} }}
             span.currency {{order.o.amount | rpcurrency}}
