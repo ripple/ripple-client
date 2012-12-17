@@ -41,7 +41,8 @@ section.panel.content(ng-controller="TradeCtrl")
               rp-combobox="currency_query", rp-combobox-select
               ng-model='order.buy_currency', ng-change='change_pair()'
               rp-issuer)
-            .error(ng-show='orderForm.buy_currency.$error.rpIssuer && !orderForm.buy_currency.$pristine') You are unable to accept this currency (add trust)
+            .errorGroup(rp-errors='buy_currency')
+              .error(rp-error-on='rpIssuer') You are unable to accept this currency (add trust)
         .order-values
           .value-field
             label(for='order_amount') Amount To Sell
