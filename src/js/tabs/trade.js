@@ -24,9 +24,7 @@ TradeTab.prototype.angular = function(module)
   module.controller('TradeCtrl', function ($scope)
   {
     $scope.mode = "confirm";
-
     $scope.orders = [];
-
     $scope.currency_query = webutil.queryFromOptions($scope.currencies_all);
 
     $scope.reset = function () {
@@ -72,8 +70,9 @@ TradeTab.prototype.angular = function(module)
       var tx = app.net.remote.transaction();
       tx.offer_create(app.id.account, $scope.order.buy_amount, $scope.order.sell_amount);
 
-      tx.on('success', function () {
-        $scope.reset();
+      tx.on('success', function (res) {
+        setEngineStatus(res, false);
+        $scope.done(this.hash);
         $scope.$digest();
       });
       tx.on('error', function () {
@@ -84,6 +83,41 @@ TradeTab.prototype.angular = function(module)
 
       $scope.mode = "sending";
     };
+
+    $scope.done = function (hash)
+    {
+      console.log('done');
+      $scope.mode = "done";
+      app.net.remote.on('net_account', handleAccountEvent);
+
+      function handleAccountEvent(e) {
+        console.log('got event');
+        if (e.transaction.hash === hash) {
+          console.log('into hash');
+          setEngineStatus(e, true);
+          $scope.$digest();
+          app.net.remote.removeListener('net_account', handleAccountEvent);
+        }
+      }
+    }
+
+    function setEngineStatus(res, accepted) {
+      $scope.engine_result = res.engine_result;
+      $scope.engine_result_message = res.engine_result_message;
+      switch (res.engine_result.slice(0, 3)) {
+        case 'tes':
+          $scope.tx_result = accepted ? "cleared" : "pending";
+          break;
+        case 'tem':
+          $scope.tx_result = "malformed";
+          break;
+        case 'ter':
+          $scope.tx_result = "failed";
+          break;
+        case 'tep':
+          console.warn("Unhandled engine status encountered!");
+      }
+    }
 
     $scope.$watch('order.sell', function (amount_str) {
       $scope.update_sell();

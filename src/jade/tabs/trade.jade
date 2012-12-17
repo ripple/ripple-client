@@ -24,6 +24,7 @@ section.panel.content(ng-controller="TradeCtrl")
           span.icon.down
 
     //- 1. Order form
+
     ng-switch(on="mode")
       form.mode-form(name='orderForm', ng-submit='place_order()', ng-switch-when='trade')
         .currencies
@@ -100,9 +101,27 @@ section.panel.content(ng-controller="TradeCtrl")
         p.literal Before trying again, please ensure that the transaction has not been executed already.
         p: button.btn(ng-click='reset()') &laquo; Back
 
-      //- 5. Sent
+      //- 5. Done
 
-      .mode-sent(ng-switch-when='sent') Sent!
+      .mode-done(ng-switch-when='done')
+        group.pending(ng-show='tx_result=="pending"')
+          h1 Your trade request has been submitted.
+        group.result-success(ng-show='tx_result=="cleared"')
+          h1 Request has been accepted!
+        group.result-error(ng-show='tx_result=="error"')
+          h1 Request has been denied!
+          p We were unable to submit the request. Please try again later.
+        group.result-malformed(ng-show='tx_result=="malformed"')
+          h1 Request is malformed!
+          p Your request is invalid, reason: {{engine_result}} - {{engine_result_message}}
+        group.result-failed(ng-show='tx_result=="failed"')
+          h1 Trade failed!
+          p(ng-switch on="engine_result")
+            span(ng-switch-when="terUNFUNDED") Your account had insufficient balance in specified currency.
+            span(ng-switch-default) Trade failed, reason: {{engine_result_message}}
+        hr
+        div(class="actionLink")
+          a(href="#trade", ng-click="reset()") Back to the form
 
   table.table.table-striped.open-orders
     caption Open Orders
