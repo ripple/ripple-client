@@ -105,11 +105,6 @@ module.directive('rpDestination', function () {
   };
 });
 
-/**
- * Destination validator
- *
- * Allows a valid address or a contact in our addressbook.
- */
 module.directive('rpNotMe', function () {
   return {
     restrict: 'A',

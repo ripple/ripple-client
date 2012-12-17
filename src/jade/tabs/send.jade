@@ -36,6 +36,8 @@ section#t-send.single.content(ng-controller='SendCtrl')
       .error(rp-error-on='rpDestination')
         | Recipient should be either a name from your contact list or Ripple
         | address.
+      .error(rp-validator='rpXrpToMe')
+        | You can't send XRP to yourself
     .submitsection
       button.btn.btn-success.submit(type='submit', ng-disabled='sendForm.$invalid') Send
 

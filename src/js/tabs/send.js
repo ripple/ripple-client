@@ -25,7 +25,9 @@ SendTab.prototype.angular = function (module)
       app = this.app,
       tm = this.tm;
 
-  module.controller('SendCtrl', ['$scope', '$timeout', function ($scope, $timeout) {
+  module.controller('SendCtrl', ['$scope', '$timeout', function ($scope, $timeout)
+  {
+    $scope.xrp = $scope.currencies_all[0];
 
     $scope.$watch('recipient', function(){
       if ($scope.contact = webutil.getContact($scope.userBlob.data.contacts,$scope.recipient)) {
@@ -79,7 +81,7 @@ SendTab.prototype.angular = function (module)
       $scope.recipient_name = '';
       $scope.recipient_address = '';
       $scope.amount = '';
-      $scope.currency = 'XRP';
+      $scope.currency = $scope.xrp.name;
       $scope.nickname = '';
       if ($scope.sendForm) $scope.sendForm.$setPristine(true);
     };
@@ -206,7 +208,7 @@ SendTab.prototype.angular = function (module)
   /**
    * Contact name and address uniqueness validator
    */
-    // TODO move to global directives
+  // TODO move to global directives
   module.directive('unique', function() {
     return {
       restrict: 'A',
@@ -233,7 +235,42 @@ SendTab.prototype.angular = function (module)
       }
     };
   });
-};
+
+  /**
+   * Don't allow the user to send XRP to himself
+   */
+  module.directive('rpXrpToMe', function () {
+    return {
+      restrict: 'A',
+      require: '?ngModel',
+      link: function (scope, elm, attr, ctrl) {
+        console.log(elm.inheritedData('$formController'));
+        var xrpWidget = elm.inheritedData('$formController')[attr.rpXrpToMe];
+
+        ctrl.$parsers.unshift(function(value) {
+          var contact = webutil.getContact(scope.userBlob.data.contacts,value);
+
+          if (value) {
+            if ((contact && contact.address == scope.userBlob.data.account_id) || scope.userBlob.data.account_id == value) {
+              if (scope.currency == xrpWidget.$viewValue) {
+                ctrl.$setValidity('rpXrpToMe', false);
+                return;
+              }
+            }
+          }
+
+          ctrl.$setValidity('rpXrpToMe', true);
+          return value;
+        });
+
+        xrpWidget.$parsers.unshift(function(value) {
+          ctrl.$setValidity('rpXrpToMe', value === ctrl.$viewValue);
+          return value;
+        });
+      }
+    };
+  });
+}
 
 SendTab.prototype.handleRetrigger = function () {
   var $scope = $('#t-send').data('$scope');
