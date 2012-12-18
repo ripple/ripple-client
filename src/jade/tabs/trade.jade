@@ -7,21 +7,19 @@ section.panel.content(ng-controller="TradeCtrl")
       li
         span.label Bid =
         span.value.up
-          | 104.30
-          span.icon.up
+          | {{bid_price | rpamount}}
       li
         span.label Ask =
-        span.value 104.26
+        span.value
+          | {{ask_price | rpamount}}
       li
         span.label Spread =
         span.value.down
           | .04
-          span.icon.down
       li
         span.label Last price =
-        span.value.down
+        span.value
           | .04
-          span.icon.down
 
     //- 1. Order form
 

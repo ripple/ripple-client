@@ -16,12 +16,14 @@ TradeTab.prototype.generateHtml = function ()
   return require('../../jade/tabs/trade.jade')();
 };
 
+TradeTab.prototype.angularDeps = Tab.prototype.angularDeps.concat(['ledger']);
+
 TradeTab.prototype.angular = function(module)
 {
   var self = this;
   var app = this.app;
 
-  module.controller('TradeCtrl', function ($scope)
+  module.controller('TradeCtrl', ['rpLedger', '$scope', function (ledger, $scope)
   {
     $scope.mode = "confirm";
     $scope.orders = [];
@@ -134,10 +136,12 @@ TradeTab.prototype.angular = function(module)
     $scope.$watch('order.buy_currency', function (amount_str) {
       $scope.update_buy();
       $scope.update_price();
+      updateTicker();
     }, true);
 
     $scope.$watch('order.sell_currency', function (amount_str) {
       $scope.update_sell();
+      updateTicker();
     }, true);
 
     $scope.update_sell = function () {
@@ -196,8 +200,32 @@ TradeTab.prototype.angular = function(module)
       }
     };
 
+    function updateTicker() {
+      $scope.bid_price = ripple.Amount.NaN();
+      $scope.ask_price = ripple.Amount.NaN();
+
+      var buyCurrency = $scope.order.buy_currency ?
+            $scope.order.buy_currency.slice(0, 3).toUpperCase() : "XRP";
+      var sellCurrency = $scope.order.sell_currency ?
+            $scope.order.sell_currency.slice(0, 3).toUpperCase() : "XRP";
+
+      var orders = ledger.getOrders(buyCurrency, sellCurrency);
+
+      var bestBid = orders.bids[0];
+      if (bestBid) $scope.bid_price = bestBid.i.amount.ratio_human(bestBid.o.amount);
+
+      var bestAsk = orders.asks[0];
+      if (bestAsk) $scope.ask_price = bestAsk.o.amount.ratio_human(bestAsk.i.amount);
+    }
+
+    $scope.ledger = ledger;
+
+    $scope.$watch('ledger.offers', function (offers) {
+      updateTicker();
+    }, true);
+
     $scope.reset();
-  });
+  }]);
 };
 
 

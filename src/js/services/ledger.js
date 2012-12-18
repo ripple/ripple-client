@@ -8,19 +8,89 @@
  * else) to come up with something better.
  */
 
-var module = angular.module('ledger', []);
+var module = angular.module('ledger', ['network', 'transactions']);
 
-module.factory('rpLedger', ['$q', '$rootScope', function($q, $rootScope) {
+module.factory('rpLedger', ['$q', '$rootScope', 'rpNetwork', 'rpTransactions',
+                            function($q, $rootScope, net, transactions)
+{
   var offerPromise = $q.defer();
+  var tickerPromise = $q.defer();
 
   var ledger = {
     offers: offerPromise.promise,
-    scope: $rootScope
+    tickers: tickerPromise.promise,
+    getOrders: getOrders
   };
 
-  rippleclient.net.remote.request_ledger("ledger_closed", "full")
+  function getOrders(buyCurrency, sellCurrency) {
+    var obj = {
+      asks: [],
+      bids: []
+    };
+
+    if (!Array.isArray(ledger.offers)) return obj;
+
+    ledger.offers.forEach(function (node) {
+      var gets = rewriteAmount(node.TakerGets);
+      var pays = rewriteAmount(node.TakerPays);
+
+      if (buyCurrency === gets.currency && sellCurrency === pays.currency) {
+        obj.asks.push({i: gets, o: pays});
+      }
+
+      if (buyCurrency === pays.currency && sellCurrency === gets.currency) {
+        obj.bids.push({i: pays, o: gets});
+      }
+    });
+
+    obj.asks.sort(function (a, b) {
+      return (a.i.num/a.o.num) - (b.i.num/b.o.num);
+    });
+
+    obj.bids.sort(function (a, b) {
+      return (b.o.num/b.i.num) - (a.o.num/a.i.num);
+    });
+
+    fillSum(obj.asks, 'o');
+    fillSum(obj.bids, 'i');
+
+    return obj;
+  }
+
+  function rewriteAmount(amountJson) {
+    var amount = ripple.Amount.from_json(amountJson);
+    return {
+      amount: amount,
+      // Pretty dirty hack, but to_text for native values gives 1m * value...
+      // In the future we will likely remove this field altogether (and use
+      // Amount class math instead), so it's ok.
+      num: +amount.to_human({group_sep: false}),
+      currency: amount.currency().to_json(),
+      issuer: amount.issuer().to_json()
+    };
+  }
+
+  /**
+   * Fill out the sum field in the bid or ask orders array.
+   */
+  function fillSum(array) {
+    var sum = 0;
+    for (var i = 0, l = array.length; i<l; i++) {
+      sum += array[i].o.num;
+      array[i].sum = sum;
+    }
+  }
+
+  net.remote.request_ledger("ledger_closed", "full")
     .on('success', handleLedger)
     .request();
+
+  transactions.addListener(handleTransaction);
+
+  function handleTransaction(msg)
+  {
+    // XXX: Update the ledger state using this transaction's metadata
+  }
 
   function handleLedger(e)
   {
