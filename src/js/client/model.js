@@ -80,21 +80,23 @@ Model.prototype.handleAccountLoad = function (e)
 
 Model.prototype.handleRippleLines = function (data)
 {
-  var self = this;
-  var $scope = this.app.$scope;
+  var self = this,
+      app = this.app,
+      $scope = app.$scope;
 
-  $scope.$apply(function ()
-  {
-    $scope.lines={};
-    for (var n=0, l=data.lines.length; n<l; n++)
-    {
+  $scope.$apply(function () {
+    $scope.lines = {};
+
+    for (var n=0, l=data.lines.length; n<l; n++) {
       var line = data.lines[n];
 
-      // XXX: Not sure this is correct, the server should send standard amount
-      //      json that I can feed to Amount.from_json.
-      line.limit = ripple.Amount.from_json({value: line.limit, currency: line.currency});
-      line.limit_peer = ripple.Amount.from_json({value: line.limit_peer, currency: line.currency});
-      line.balance = ripple.Amount.from_json({value: line.balance, currency: line.currency});
+      // XXX: This reinterpretation of the server response should be in the
+      //      library upstream.
+      line = $.extend({}, line, {
+        limit: ripple.Amount.from_json({value: line.limit, currency: line.currency, issuer: line.account}),
+        limit_peer: ripple.Amount.from_json({value: line.limit_peer, currency: line.currency, issuer: app.id.account}),
+        balance: ripple.Amount.from_json({value: line.balance, currency: line.currency, issuer: app.id.account})
+      });
 
       $scope.lines[line.account+line.currency] = line;
       self._updateRippleBalance(line.currency, line.account, line.balance);
