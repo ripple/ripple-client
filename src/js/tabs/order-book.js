@@ -15,26 +15,21 @@ OrderBookTab.prototype.generateHtml = function ()
   return require('../../jade/tabs/order-book.jade')();
 };
 
+OrderBookTab.prototype.angularDeps = Tab.prototype.angularDeps.concat(['ledger']);
+
 OrderBookTab.prototype.angular = function(module)
 {
   var app = this.app;
 
-  module.controller('OrderbookCtrl', function ($scope)
+  module.controller('OrderbookCtrl', ['rpLedger', '$scope', '$rootScope',
+                                      function (ledger, $scope, $rootScope)
   {
-    var offers = [];
-    function handleLedger(e)
-    {
-      $scope.$apply(function () {
-        offers = e.ledger.accountState.filter(function (node) {
-          return node.LedgerEntryType === "Offer";
-        });
-        updateOfferList();
-      });
-    }
 
-    function updateOfferList() {
+    function updateOfferList(offers) {
       $scope.asks = [];
       $scope.bids = [];
+
+      if (!Array.isArray(offers)) return;
 
       var buyCurrency  = $scope.currency_pair.slice(0,3);
       var sellCurrency = $scope.currency_pair.slice(4,7);
@@ -100,7 +95,9 @@ OrderBookTab.prototype.angular = function(module)
     }, true);
 
     $scope.$watch('currency_pair', function () {
-      updateOfferList();
+      if (Array.isArray($scope.ledger.offers)) {
+        updateOfferList($scope.ledger.offers);
+      }
     }, true);
 
     var pairs = require('../data/pairs');
@@ -110,10 +107,16 @@ OrderBookTab.prototype.angular = function(module)
 
     $scope.currency_query = webutil.queryFromOptions($scope.currencies_all);
 
-    app.net.remote.request_ledger("ledger_closed", "full")
-      .on('success', handleLedger)
-      .request();
-  });
+    $scope.ledger = ledger;
+
+    console.log('LEDGER', ledger.offers);
+
+    $scope.$watch('ledger.offers', function (offers) {
+      console.log("OFFERUPDATE", ledger.offers);
+      updateOfferList(ledger.offers);
+    }, true);
+    console.log("scope", $scope, ledger.scope, $rootScope, $scope.$id, $scope.$root.$id, ledger.scope.$id);
+  }]);
 };
 
 module.exports = OrderBookTab;
