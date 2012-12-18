@@ -47,10 +47,11 @@ App.prototype.setStatusManager = function (sm)
 /**
  * Set the AngularJS refs.
  */
-App.prototype.setAngular = function (scope, compile)
+App.prototype.setAngular = function (scope, compile, injector)
 {
   this.$scope = scope;
   this.$compile = compile;
+  this.$injector = injector;
 };
 
 App.prototype.startup = function ()
