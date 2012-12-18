@@ -143,14 +143,11 @@ TradeTab.prototype.angular = function(module)
     $scope.update_sell = function () {
       var sell_currency = $scope.order.sell_currency ?
             $scope.order.sell_currency.slice(0, 3).toUpperCase() : "XRP";
-      var sell_issuer = webutil.findIssuer($scope.lines, sell_currency);
       var formatted = "" + $scope.order.sell + " " + sell_currency.slice(0, 3);
 
-      // XXX: Needs to show an error
-      if (!sell_issuer && sell_currency !== "XRP") return;
       $scope.order.sell_amount = ripple.Amount.from_human(formatted);
 
-      if (sell_issuer) $scope.order.sell_amount.set_issuer(sell_issuer);
+      if (sell_currency !== 'XRP') $scope.order.sell_amount.set_issuer(app.id.account);
     };
 
     $scope.update_price = function () {
