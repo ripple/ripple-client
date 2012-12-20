@@ -86,6 +86,8 @@ SendTab.prototype.angular = function (module)
       if ($scope.sendForm) $scope.sendForm.$setPristine(true);
     };
 
+    self.on('reset', $scope.reset);
+
     $scope.reset_goto = function (tabName) {
       $scope.reset();
 
