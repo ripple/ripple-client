@@ -26,6 +26,9 @@ Angular.load = function ()
   require('../angular/events');
   require('../angular/directives');
   require('../angular/filters');
+  require('../services/network');
+  require('../services/transactions');
+  require('../services/ledger');
 };
 
 exports.Angular = Angular;

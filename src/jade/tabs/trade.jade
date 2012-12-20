@@ -7,21 +7,19 @@ section.panel.content(ng-controller="TradeCtrl")
       li
         span.label Bid =
         span.value.up
-          | 104.30
-          span.icon.up
+          | {{bid_price | rpamount}}
       li
         span.label Ask =
-        span.value 104.26
+        span.value
+          | {{ask_price | rpamount}}
       li
         span.label Spread =
         span.value.down
           | .04
-          span.icon.down
       li
         span.label Last price =
-        span.value.down
+        span.value
           | .04
-          span.icon.down
 
     //- 1. Order form
 
@@ -41,7 +39,8 @@ section.panel.content(ng-controller="TradeCtrl")
               rp-combobox="currency_query", rp-combobox-select
               ng-model='order.buy_currency', ng-change='change_pair()'
               rp-issuer)
-            .error(ng-show='orderForm.buy_currency.$error.rpIssuer && !orderForm.buy_currency.$pristine') You are unable to accept this currency (add trust)
+            .errorGroup(rp-errors='buy_currency')
+              .error(rp-error-on='rpIssuer') You are unable to accept this currency (add trust)
         .order-values
           .value-field
             label(for='order_amount') Amount To Sell

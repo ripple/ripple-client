@@ -30,9 +30,10 @@ if (!Options.blobvault) {
   Options.blobvault = Options.BLOBVAULT_SERVER;
 }
 
-angular.injector(['ng', 'filters']).invoke(['$rootScope', '$compile', function($rootScope, $compile) {
+var injector = angular.injector(['ng', 'filters']);
+injector.invoke(['$rootScope', '$compile', function($rootScope, $compile) {
   var scope = $rootScope.$new();
-  app.setAngular(scope, $compile);
+  app.setAngular(scope, $compile, injector);
   model.init();
   $('#main').data('$scope', scope);
 
@@ -41,4 +42,3 @@ angular.injector(['ng', 'filters']).invoke(['$rootScope', '$compile', function($
     window.onhashchange = tabs.handleHashChange.bind(tabs);
   });
 }]);
-

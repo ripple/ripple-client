@@ -374,7 +374,8 @@ Tab.prototype.render = function (slot, callback)
 
     if (this.angular) {
       // Generate a new scope below the container's scope
-      var $scope = self.$scope = angular.element(parentEl).scope().$new();
+      var $scope = self.$scope = angular.element(parentEl).scope().$new(),
+          $injector = self.app.$injector;
 
       // We'll represent our tab as a module
       var module = angular.module(this.slot, this.angularDeps);
@@ -382,17 +383,17 @@ Tab.prototype.render = function (slot, callback)
       // The tab can define it's own controllers, filters, etc.
       this.angular(module);
 
-      // The injector is what will actually instantiate our new module
-      var $injector = angular.injector(['ng', this.slot]);
+      $injector.load([this.slot]);
 
-      $injector.invoke(function ($rootScope, $compile) {
+      // The injector is what will actually instantiate our new module
+      $injector.invoke(['$rootScope', '$compile', function ($rootScope, $compile) {
         $scope.$apply(function () {
           self.el = $compile(html)($scope);
           self.el.attr('id', 't-'+self.slot);
           self.el.appendTo(parentEl);
         });
         success();
-      });
+      }]);
       return;
     } else {
       this.el = $(html);

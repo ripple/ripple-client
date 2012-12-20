@@ -19,6 +19,8 @@ module.filter('rpamount', function () {
     if (!input) return "n/a";
 
     var amount = Amount.from_json(input);
+
+    if (!amount.is_valid()) return "n/a";
     var out = amount.to_human(opts);
 
     return out;

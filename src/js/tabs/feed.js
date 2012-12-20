@@ -22,17 +22,19 @@ FeedTab.prototype.onAfterRender = function ()
   
 };
 
+FeedTab.prototype.angularDeps = Tab.prototype.angularDeps.concat(['transactions']);
+
 FeedTab.prototype.angular = function (module)
 {
   var app = this.app;
   var self=this;
   
-  module.controller('FeedCtrl', function ($scope)
-  { 
-    app.net.remote.on("net_transaction", handleMsg);
-    app.net.remote.on("ledger_closed", handleMsg );
-    app.net.remote.on("net_server", handleMsg );
-    
+  module.controller('FeedCtrl', ['$scope', 'rpTransactions',
+                                 function ($scope, transactions)
+  {
+    app.net.remote.on("ledger_closed", handleMsg);
+    app.net.remote.on("net_server", handleMsg);
+
     function handleMsg(message)
     {
       //console.log(message);
@@ -57,24 +59,26 @@ FeedTab.prototype.angular = function (module)
     
     $scope.feed=[];
     
-    $scope.toggle_feed_transactions = function () 
+    $scope.toggle_feed_transactions = function ()
     {
       console.log($scope.transCheck);
-      if($scope.transCheck)
-        app.net.remote.request_subscribe("transactions").request();
-      else app.net.remote.request_unsubscribe("transactions").request();
+      if($scope.transCheck) {
+        transactions.addListener(handleMsg);
+      } else {
+        transactions.removeListener(handleMsg);
+      }
     };
-    $scope.toggle_feed_server = function () 
+    $scope.toggle_feed_server = function ()
     {
       if($scope.serverCheck)
         app.net.remote.request_subscribe("server").request();
       else app.net.remote.request_unsubscribe("server").request();
     };
-    $scope.clear_feed = function () 
+    $scope.clear_feed = function ()
     {
       $scope.feed=[];
-    }; 
-  });
+    };
+  }]);
 };
 
 

@@ -79,20 +79,21 @@ var RP_ERRORS = 'rp-errors';
 module.directive('rpErrors', [function () {
   return {
     restrict: 'EA',
-    compile: function (element, attr, linker) {
+    compile: function (el, attr, linker) {
       var fieldName = attr.rpErrors || attr.on,
           errs = {};
 
-      element.data(RP_ERRORS, errs);
+      el.data(RP_ERRORS, errs);
       return function (scope, el) {
-        var formController = element.inheritedData('$formController'),
-            formName = formController.$name,
+        var formController = el.inheritedData('$formController');
+        var formName = formController.$name,
             selectedTransclude,
             selectedElement,
             selectedScope;
 
-        scope.$watch(formName+'.'+fieldName+'.$error', function ($error) {
-          var field = formController[fieldName];
+        function updateErrorTransclude() {
+          var field = formController[fieldName],
+              $error = field.$error;
 
           if (selectedElement) {
             selectedScope.$destroy();
@@ -128,10 +129,13 @@ module.directive('rpErrors', [function () {
             selectedScope = scope.$new();
             selectedTransclude(selectedScope, function(errElement) {
               selectedElement = errElement;
-              element.append(errElement);
+              el.append(errElement);
             });
           }
-        }, true);
+        }
+
+        scope.$watch(formName+'.'+fieldName+'.$error', updateErrorTransclude, true);
+        scope.$watch(formName+'.'+fieldName+'.$pristine', updateErrorTransclude);
       };
     }
   };
