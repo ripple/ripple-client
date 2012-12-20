@@ -203,19 +203,26 @@ TradeTab.prototype.angular = function(module)
     function updateTicker() {
       $scope.bid_price = ripple.Amount.NaN();
       $scope.ask_price = ripple.Amount.NaN();
+      $scope.spread = ripple.Amount.NaN();
 
       var buyCurrency = $scope.order.buy_currency ?
             $scope.order.buy_currency.slice(0, 3).toUpperCase() : "XRP";
       var sellCurrency = $scope.order.sell_currency ?
             $scope.order.sell_currency.slice(0, 3).toUpperCase() : "XRP";
 
+      $scope.ticker_pair = buyCurrency + '/' + sellCurrency;
+
       var orders = ledger.getOrders(buyCurrency, sellCurrency);
 
       var bestBid = orders.bids[0];
-      if (bestBid) $scope.bid_price = bestBid.i.amount.ratio_human(bestBid.o.amount);
+      if (bestBid) $scope.bid_price = bestBid.o.amount.ratio_human(bestBid.i.amount);
 
       var bestAsk = orders.asks[0];
       if (bestAsk) $scope.ask_price = bestAsk.o.amount.ratio_human(bestAsk.i.amount);
+
+      if ($scope.bid_price.is_valid() && $scope.ask_price.is_valid()) {
+        $scope.spread = $scope.ask_price.add($scope.bid_price.negate());
+      }
     }
 
     $scope.ledger = ledger;

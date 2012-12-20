@@ -3,19 +3,19 @@ section.panel.content(ng-controller="TradeCtrl")
     ul.info
       li
         span.label Pair =
-        span.value XRP/USD
+        span.value {{ticker_pair}}
       li
         span.label Bid =
         span.value.up
-          | {{bid_price | rpamount}}
+          | {{bid_price | rpamount:6}}
       li
         span.label Ask =
         span.value
-          | {{ask_price | rpamount}}
+          | {{ask_price | rpamount:6}}
       li
         span.label Spread =
         span.value.down
-          | .04
+          | {{spread | rpamount:6}}
       li
         span.label Last price =
         span.value
@@ -134,9 +134,9 @@ section.panel.content(ng-controller="TradeCtrl")
       tr(ng-repeat="entry in offers", class="{{entry.type}}")
         td.pair {{entry.gets | rpcurrency}}/{{entry.pays | rpcurrency}}
         td.price.rpamount {{entry.pays | rpamountratio:entry.gets | rpamount}}
-          span.currency {{entry.gets | rpcurrency}}
-        td.amount.rpamount {{entry.pays | rpamount}}
           span.currency {{entry.pays | rpcurrency}}
+        td.amount.rpamount {{entry.gets | rpamount}}
+          span.currency {{entry.gets | rpcurrency}}
         td.action
           button.btn.btn-danger.btn-small(ng-click='cancel_order()') Cancel
       tr(ng-show="!offers")
