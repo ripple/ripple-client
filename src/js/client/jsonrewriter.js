@@ -190,11 +190,19 @@ var JsonRewriter = module.exports = {
       // An OfferCancel will only ever affect one order and will delete it.
       var offer;
       // The reason we use forEach is because offers is a sparse array.
+
+      // TODO this is a temporary check
+      if (!$.isArray(obj.offers)) {
+        break;
+      }
+
       obj.offers.forEach(function (o) {
         offer = o;
       });
+
       obj.pays = offer.pays;
       obj.gets = offer.gets;
+
       break;
 
     default:
