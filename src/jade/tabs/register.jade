@@ -3,21 +3,21 @@ section.single.modal.content(ng-controller="RegisterCtrl")
     h1 Create a Ripple Wallet
     p.literal Ripple an open-source P2P payment system.
     form(name='registerForm', ng-submit='submitForm()')
-      label(for='register_username') Create Username
+      label(for='register_username') Create Wallet name
       input#register_username(
         name='register_username', type='text'
         ng-model="username"
         required)
       .horiz
         div
-          label(for='register_password') Password
+          label(for='register_password') Pass phrase
           input#register_password(
             name='register_password1', type='password'
             ng-model="password1"
             required)
           p.text-error(ng-show="registerForm.register_password2.$error.rpSameAs && registerForm.register_password2.$dirty") Passwords do not match
         div
-          label(for='register_password2') Password Again
+          label(for='register_password2') Pass phrase Again
           input#register_password2(
             name='register_password2'
             type='password'
@@ -25,7 +25,7 @@ section.single.modal.content(ng-controller="RegisterCtrl")
             required, rp-same-as="register_password1")
         div(class="strength {{strength}}")
           {{strength}}
-      a(ng-click="showMasterKeyInput=true", ng-hide="showMasterKeyInput") have a master key of your old account?
+      a(ng-click="showMasterKeyInput=true", ng-hide="showMasterKeyInput") use existing master key?
       div(ng-show="showMasterKeyInput")
         label(for='register_masterkey')
           | Master Key&nbsp;
@@ -50,7 +50,7 @@ section.single.modal.content(ng-controller="RegisterCtrl")
 
   group.mode-masterkeyerror(ng-show='mode=="masterkeyerror"')
     h1 Master key error
-    h2 There is an account with your username and password, but given master key is not connected to it. If you decide to continue registration your new master key will be used for current username and password.
+    h2 There is a wallet with your wallet name and pass phrase, but the given master key is not connected to it. If you decide to continue registration your new master key will be used for current wallet name and pass phrase.
     button.btn.btn-info(ng-click='mode="form"') Back
     button.btn(ng-click='register()') Overwrite current key
 
@@ -60,16 +60,16 @@ section.single.modal.content(ng-controller="RegisterCtrl")
     p.literal This is your Ripple account information, <a href="" onClick="javascript:window.print()"><strong>PRINT THIS PAGE</strong></a> and keep it somewhere safe.
     .info
       span.username
-        span.var Username:
+        span.var Wallet name:
         | {{username}}
       span.password
-        span.var Password:
+        span.var Pass phrase:
         | {{password}}
-        button.btn.btn-info.btn-small(ng-click='showPassword()') Show Password
+        button.btn.btn-info.btn-small(ng-click='showPassword()') Show Pass phrase
       span.key
         span.var Master Key:
         | {{key}}
     .action
       a.btn.btn-info.btn-big(href='#overview', ng-click='reset()') Continue
-      span IMPORTANT! There is no mechanism to recover your username and password.
+      span IMPORTANT! There is no mechanism to recover your wallet name or pass phrase.
         a(href="http://ripple.com/help/password", target="_blank") Read why

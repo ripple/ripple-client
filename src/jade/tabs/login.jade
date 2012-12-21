@@ -1,8 +1,8 @@
 section.single.modal.content(ng-controller="LoginCtrl")
   h1 Open Wallet
-  p.literal Enter the username and password that was used to encrypt your wallet below.
+  p.literal Enter the wallet name and pass phrase that was used to encrypt your wallet below.
   form(name='loginForm', ng-submit='submitForm()')
-    label(for='login_username') Username
+    label(for='login_username') Wallet name
     input#register_username(name='login_username', type='text', ng-model='username', required)
     p.text-error(ng-show='error') {{error}}
     label(for='login_password') Password
