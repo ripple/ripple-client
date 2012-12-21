@@ -39,26 +39,6 @@ RegisterTab.prototype.angular = function (module) {
       $scope.showMasterKeyInput = false;
     }
 
-    $scope.$watch('password1', function() {
-      if (angular.isDefined($scope.password1)) {
-        if ($scope.password1.length > 0) {
-          $scope.strength = 'weak';
-        }
-
-        if ($scope.password1.length > 5) {
-          $scope.strength = 'medium';
-        }
-
-        var regex = /(?:[A-Za-z].*?\d|\d.*?[A-Za-z])/; 
-
-        if (!!$scope.password1.match(regex) && $scope.password1.length > 8) {
-          $scope.strength = 'strong';
-        }
-      } else {
-        $scope.strength = '';
-      }
-    });
-
     $scope.register = function()
     {
       app.id.register($scope.username, $scope.password1, function(key){
@@ -99,6 +79,7 @@ RegisterTab.prototype.angular = function (module) {
             $scope.mode = 'masterkeyerror';
             $scope.$digest();
           } else {
+            $scope.reset();
             $scope.goToOverview();
           }
         }
