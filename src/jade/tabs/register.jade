@@ -5,8 +5,8 @@ section.single.modal.content(ng-controller="RegisterCtrl")
     form(name='registerForm', ng-submit='submitForm()')
       label(for='register_username') Create Wallet name
       input#register_username(
-        name='register_username', type='text'
-        ng-model="username"
+        name='register_username', type='text', placeholder="case sensitive",
+        ng-model="username",
         required)
       .horiz
         div
@@ -14,7 +14,7 @@ section.single.modal.content(ng-controller="RegisterCtrl")
           input#register_password(
             name='register_password1', type='password'
             ng-model="password1"
-            required)
+            rp-strong-password, required)
           p.text-error(ng-show="registerForm.register_password2.$error.rpSameAs && registerForm.register_password2.$dirty") Passwords do not match
         div
           label(for='register_password2') Pass phrase Again

@@ -46,6 +46,10 @@ Network.prototype.listenId = function (id)
     self.remote.set_secret(e.account, e.secret);
     self.remote.request_subscribe().accounts(e.account).request();
   });
+
+  id.on('accountunload', function (account) {
+    self.remote.request_unsubscribe().accounts(account).request();
+  });
 };
 
 Network.prototype.handleConnect = function ()
