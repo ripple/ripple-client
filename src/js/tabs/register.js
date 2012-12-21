@@ -25,7 +25,7 @@ RegisterTab.prototype.angular = function (module) {
     $scope.backendChange = function()
     {
       app.id.blobBackends = $scope.blobBackendCollection.something.value.split(',');
-    }
+    };
 
     $scope.reset = function()
     {
@@ -37,7 +37,9 @@ RegisterTab.prototype.angular = function (module) {
       $scope.key = '';
       $scope.mode = 'form';
       $scope.showMasterKeyInput = false;
-    }
+
+      if ($scope.registerForm) $scope.registerForm.$setPristine(true);
+    };
 
     $scope.register = function()
     {
@@ -48,7 +50,7 @@ RegisterTab.prototype.angular = function (module) {
         $scope.mode = 'welcome';
         $scope.$digest();
       }, $scope.masterkey);
-    }
+    };
 
     /**
      * Registration cases
@@ -63,7 +65,7 @@ RegisterTab.prototype.angular = function (module) {
      *    3.3 master key is present
      *        3.3.1 account exists, and it uses the same master key ----------- login
      *        3.3.2 account exists, and it uses another master key
-     *              3.3.2.1 master key is valid ------------------------------- ASK! TODO
+     *              3.3.2.1 master key is valid ------------------------------- tell him about the situation, and let him decide what to do
      *              3.3.2.2 master key is invalid ----------------------------- show error
      *        3.3.3 account doesn't exist ------------------------------------- register with given master key
      */

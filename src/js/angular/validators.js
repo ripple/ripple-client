@@ -268,7 +268,7 @@ module.directive('rpStrongPassword', function () {
 
         if (!password) {
           scope.strength = '';
-          return true;
+          return password;
         }
 
         // password < 4
@@ -363,11 +363,11 @@ module.directive('rpStrongPassword', function () {
 
         if (score < 68) {
           scope.strength = 'medium';
-          return true;
+          return password;
         }
 
         scope.strength = 'strong';
-        return true;
+        return password;
       };
 
       ctrl.$formatters.push(validator);
