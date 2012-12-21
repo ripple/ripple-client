@@ -4,8 +4,8 @@ section.panel.content(ng-controller="InfoCtrl")
   .infoBox
     table
       tr.section
-        td Username:
-        td Password:
+        td Wallet name:
+        td Pass phrase:
       tr
         td
           span.value {{userCredentials.username}}
@@ -24,5 +24,5 @@ section.panel.content(ng-controller="InfoCtrl")
         td(colspan="2")
           .wallet {{enc}}
 
-  p.literal IMPORTANT! There is no way to recover your username and password. 
+  p.literal IMPORTANT! There is no way to recover your wallet name or pass phrase. 
     a.smallText(href="http://ripple.com/help/password", target="_blank") Read why
