@@ -230,6 +230,8 @@ Id.prototype.login = function (username,password,callback)
 
 Id.prototype.logout = function ()
 {
+  this.emit('accountunload', this.account);
+
   store.remove('ripple_auth');
   this.loginStatus = false;
   this.app.tabs.resetAll();
