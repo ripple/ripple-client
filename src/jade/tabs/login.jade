@@ -3,7 +3,7 @@ section.single.modal.content(ng-controller="LoginCtrl")
   p.literal Enter the username and password that was used to encrypt your wallet below.
   form(name='loginForm', ng-submit='submitForm()')
     label(for='login_username') Username
-    input#register_username(name='login_username', type='text', ng-model='username', required)
+    input#register_username(name='login_username', type='text', placeholder="case sensitive", ng-model='username', required)
     p.text-error(ng-show='error') {{error}}
     label(for='login_password') Password
     input#register_password(name='login_password', type='password', ng-model='password', required)

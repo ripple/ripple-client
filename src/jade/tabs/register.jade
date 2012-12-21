@@ -5,8 +5,8 @@ section.single.modal.content(ng-controller="RegisterCtrl")
     form(name='registerForm', ng-submit='submitForm()')
       label(for='register_username') Create Username
       input#register_username(
-        name='register_username', type='text'
-        ng-model="username"
+        name='register_username', type='text', placeholder="case sensitive",
+        ng-model="username",
         required)
       .horiz
         div
