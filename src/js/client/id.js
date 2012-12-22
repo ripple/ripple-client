@@ -46,6 +46,9 @@ Id.defaultBlob = Id.minimumBlob;
 Id.normalizeUsername = function (username) {
   username = ""+username;
   username = username.trim();
+  //we should display username with same capitalization as how they enter it in open wallet
+  // toLowerCase used in all blob requests
+  // username = username.toLowerCase();
   return username;
 };
 
@@ -91,7 +94,7 @@ Id.prototype.init = function ()
     self.emit('blobupdate');
     if (self.username && self.password) {
       blob.set(self.blobBackends,
-               self.username, self.password,
+               self.username.toLowerCase(), self.password,
                self.app.$scope.userBlob,function(){
         self.emit('blobsave');
       });
@@ -174,7 +177,7 @@ Id.prototype.register = function (username, password, callback, masterkey)
   };
 
   // Add user to blob
-  blob.set(self.blobBackends, username, password, data, function () {
+  blob.set(self.blobBackends, username.toLowerCase(), password, data, function () {
     self.app.$scope.userBlob = data;
     self.setUsername(username);
     self.setPassword(password);
@@ -197,7 +200,7 @@ Id.prototype.login = function (username,password,callback)
   username = Id.normalizeUsername(username);
   password = Id.normalizePassword(password);
 
-  blob.get(self.blobBackends, username, password, function (err, blob) {
+  blob.get(self.blobBackends, username.toLowerCase(), password, function (err, blob) {
     if (err ||
         "object" !== typeof blob.data ||
         "string" !== typeof blob.data.account_id ||

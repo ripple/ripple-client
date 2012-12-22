@@ -5,9 +5,7 @@ section.single.modal.content(ng-controller="RegisterCtrl")
     form(name='registerForm', ng-submit='submitForm()')
       label(for='register_username') Create Wallet name
       input#register_username(
-        name='register_username', type='text', placeholder="case sensitive",
-        ng-model="username",
-        required)
+        name='register_username', type='text', ng-model="username", required)
       .horiz
         div
           label(for='register_password') Pass phrase
@@ -67,7 +65,7 @@ section.single.modal.content(ng-controller="RegisterCtrl")
         | {{password}}
         button.btn.btn-info.btn-small(ng-click='showPassword()') Show Pass phrase
       span.key
-        span.var Master Key:
+        span.var Master Key (keep secret):
         | {{key}}
     .action
       a.btn.btn-info.btn-big(href='#overview', ng-click='reset()') Continue
