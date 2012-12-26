@@ -267,6 +267,10 @@ TabManager.tabs["order-book"] = function (callback) {
   callback(require('../tabs/order-book'));
 };
 
+TabManager.tabs["options"] = function (callback) {
+    callback(require('../tabs/options'));
+};
+
 TabManager.tabs["feed"] = function (callback) {
   callback(require('../tabs/feed'));
 };
