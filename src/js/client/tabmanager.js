@@ -172,7 +172,15 @@ TabManager.prototype.handleHashChange = function () {
 
   this.lastSeenHash = location.hash;
 
-  this.showTab(location.hash.slice(1));
+  var tab = location.hash.slice(1);
+
+  // Guests can see only login and register tabs
+  if ('login' != tab && 'register' != tab && !this.app.id.account) {
+      this.gotoTab('login');
+      return;
+  }
+
+  this.showTab(tab);
 };
 
 TabManager.prototype.getSlotByEl = function (el) {
