@@ -245,6 +245,9 @@ Id.prototype.logout = function ()
 
   this.app.$scope.userBlob = Id.defaultBlob;
   this.app.$scope.userCredentials = {};
+
+  // problem?
+  location.reload();
 };
 
 module.exports.Id = Id;
