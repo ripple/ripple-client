@@ -93,7 +93,7 @@ section.panel.content(ng-controller="TrustCtrl")
         span(ng-switch-when="terNO_DST") You can't grant trust to an account before it has been funded.
         span(ng-switch-default) Trust grunting failed to clear, reason: {{engine_result_message}}
     hr
-    .text-success(ng-show='addressSaved') Address saved!
+    .text-success(ng-show='addressSaved', class="actionLink") Address saved!
     div(ng-hide='contact', class="actionLink")
       a(href="", ng-click='showSaveAddressForm()') Add this address to contacts
       form(name="saveAddressForm", id="saveAddressForm", ng-submit='saveAddress()')

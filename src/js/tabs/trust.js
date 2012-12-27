@@ -35,10 +35,10 @@ TrustTab.prototype.angular = function (module)
       }
     };
 
-    $scope.$watch('balance', function(){
-      $scope.reset();
-      console.log('balance', app.$scope.balance);
-    }, true);
+//    $scope.$watch('balance', function(){
+//      $scope.reset();
+//      console.log('balance', app.$scope.balance);
+//    }, true);
 
     self.on('reset', $scope.reset);
 
