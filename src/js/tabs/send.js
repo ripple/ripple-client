@@ -83,8 +83,17 @@ SendTab.prototype.angular = function (module)
       $scope.amount = '';
       $scope.currency = $scope.xrp.name;
       $scope.nickname = '';
+      $scope.resetAddressForm();
       if ($scope.sendForm) $scope.sendForm.$setPristine(true);
     };
+
+    $scope.resetAddressForm = function() {
+      $('#saveAddressForm').hide();
+      $scope.addressSaved = false;
+      $scope.saveAddressName = '';
+      $scope.addressSaving = false;
+      if ($scope.saveAddressForm) $scope.saveAddressForm.$setPristine(true);
+    }
 
     self.on('reset', $scope.reset);
 
