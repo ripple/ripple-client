@@ -36,7 +36,7 @@ section.panel.content(ng-controller="ContactsCtrl")
         td.account(ng-hide='editing')
           {{entry.address}}
         td.command
-          button.save.btn.btn-success.btn-small(ng-show='editing', ng-click='update($index)') Save
+          button.save.btn.btn-success.btn-small(ng-show='editing', ng-disabled="inlineAddress.editaddress.$error.rpUnique", ng-disabled="inlineName.editname.$error.rpUnique", ng-disabled="inlineAddress.editaddress.$error.rpAddress", ng-click='update($index)') Save
           button.delete.btn.btn-danger.btn-small(ng-show='editing', ng-click='remove($index)') Delete
           button.send.btn.btn-success.btn-small(ng-hide='editing', ng-click='send($index)') Send
           button.edit.btn.btn-info.btn-small(ng-click='edit($index)', ng-hide='editing') Edit
