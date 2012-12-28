@@ -3,10 +3,10 @@ section.single.modal.content(ng-controller="LoginCtrl")
   p.literal Enter the wallet name and pass phrase that was used to encrypt your wallet below.
   form(name='loginForm', ng-submit='submitForm()')
     label(for='login_username') Wallet name
-    input#register_username(name='login_username', type='text', ng-model='username', required)
+    input#login_username(name='login_username', type='text', ng-model='username', required)
     p.text-error(ng-show='error') {{error}}
     label(for='login_password') Pass phrase
-    input#register_password(name='login_password', type='password', ng-model='password', required)
+    input#login_password(name='login_password', type='password', ng-model='password', required)
     label.storageinfo(ng-class="{throbber: ajax_loading}")
       | Fetch your wallet from:&nbsp;
       span(ng-hide="storeChange")

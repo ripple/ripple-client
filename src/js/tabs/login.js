@@ -4,6 +4,8 @@ var Tab = require('../client/tabmanager').Tab;
 var LoginTab = function ()
 {
   Tab.call(this);
+
+  this.on('afterrender', this.onAfterRender.bind(this));
 };
 
 util.inherits(LoginTab, Tab);
@@ -37,8 +39,6 @@ LoginTab.prototype.angular = function (module) {
       $scope.password = '';
       $scope.loginForm.$setPristine(true);
       $scope.$digest();
-
-      self.el.find('#login_username').focus();
     }
 
     $scope.submitForm = function()
@@ -62,6 +62,13 @@ LoginTab.prototype.angular = function (module) {
       $scope.error = '';
     };
   })
+};
+
+LoginTab.prototype.onAfterRender = function ()
+{
+  setTimeout(function() {
+    $("#login_username").focus();
+  }, 1);
 };
 
 module.exports = LoginTab;
