@@ -101,10 +101,10 @@ section#t-send.single.content(ng-controller='SendCtrl')
         span(ng-switch-default) Your transaction failed to clear, reason: {{engine_result_message}}
     .actions
       hr
-      .text-success(ng-show="addressSaved", class="actionLink") Contact saved!
-      div(ng-hide='contact', class="actionLink")
-        a(href="", ng-click='showSaveAddressForm()') Add this address to contacts
-        form(name="saveAddressForm", id="saveAddressForm", ng-submit='saveAddress()')
+      .text-success(ng-show='addressSaved', class="actionLink") Contact saved!
+      .save-address-form(ng-hide='contact', class="actionLink")
+        a(href="", ng-click='show_save_address_form = true') Add this address to contacts
+        form(name="saveAddressForm", ng-class="{ show: show_save_address_form }", ng-submit='saveAddress()')
           .address {{recipient_address}}
           label(for='save_address_name') Name this user
           input#contact_name(
@@ -115,7 +115,7 @@ section#t-send.single.content(ng-controller='SendCtrl')
             button.btn.btn-success(type='submit', ng-disabled='addressSaving')
               span(ng-show='addressSaving') Saving...
               span(ng-hide='addressSaving') Save
-            a(href="", ng-click='hideSaveAddressForm()') Cancel
+            a(href="", ng-click='show_save_address_form = false') Cancel
           hr
       div(class="actionLink")
         a(ng-click="reset()") Send another payment

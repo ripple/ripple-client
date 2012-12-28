@@ -136,14 +136,6 @@ TrustTab.prototype.angular = function (module)
       }
     }
 
-    $scope.showSaveAddressForm = function () {
-      $('#saveAddressForm').slideDown();
-    }
-
-    $scope.hideSaveAddressForm = function () {
-      $('#saveAddressForm').slideUp();
-    }
-
     $scope.saveAddress = function () {
       $scope.addressSaving = true;
 

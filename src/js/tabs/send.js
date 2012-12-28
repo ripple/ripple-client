@@ -88,12 +88,12 @@ SendTab.prototype.angular = function (module)
     };
 
     $scope.resetAddressForm = function() {
-      $('#saveAddressForm').hide();
+      $scope.show_save_address_form = false;
       $scope.addressSaved = false;
       $scope.saveAddressName = '';
       $scope.addressSaving = false;
       if ($scope.saveAddressForm) $scope.saveAddressForm.$setPristine(true);
-    }
+    };
 
     self.on('reset', $scope.reset);
 
@@ -182,14 +182,6 @@ SendTab.prototype.angular = function (module)
         default:
           console.warn("Unhandled engine status encountered!");
       }
-    }
-
-    $scope.showSaveAddressForm = function () {
-      $('#saveAddressForm').slideDown();
-    }
-
-    $scope.hideSaveAddressForm = function () {
-      $('#saveAddressForm').slideUp();
     }
 
     $scope.saveAddress = function () {

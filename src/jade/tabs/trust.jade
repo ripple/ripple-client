@@ -95,18 +95,20 @@ section.panel.content(ng-controller="TrustCtrl")
     .actions
       hr
       .text-success(ng-show='addressSaved', class="actionLink") Address saved!
-      div(ng-hide='contact', class="actionLink")
-        a(href="", ng-click='showSaveAddressForm()') Add this address to contacts
-        form(name="saveAddressForm", id="saveAddressForm", ng-submit='saveAddress()')
+      .save-address-form(ng-hide='contact', class="actionLink")
+        a(href="", ng-click='show_save_address_form = true') Add this address to contacts
+        form(name="saveAddressForm", ng-class="{ show: show_save_address_form }", ng-submit='saveAddress()')
           .address {{counterparty_address}}
           label(for='save_address_name') Name this user
-          input#contact_name(name='save_address_name', type="text", step='any', ng-model='saveAddressName', unique, required)
+          input#contact_name(
+            name='save_address_name', type="text"
+            ng-model='saveAddressName', unique, required)
           .error(ng-show='saveAddressForm.save_address_name.$error.unique') You already have a contact with the same name.
           div
             button.btn.btn-success(type='submit', ng-disabled='addressSaving')
               span(ng-show='addressSaving') Saving...
               span(ng-hide='addressSaving') Save
-            a(href="", ng-click='hideSaveAddressForm()') Cancel
+            a(href="", ng-click='show_save_address_form = false') Cancel
           hr
       div(class="actionLink")
         a(href="#trust", ng-click="reset()") Back to trust page
