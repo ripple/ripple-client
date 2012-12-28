@@ -247,6 +247,7 @@ Id.prototype.logout = function ()
   this.app.$scope.userCredentials = {};
 
   // problem?
+  // removes last 6 lines
   location.reload();
 };
 
