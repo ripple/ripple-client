@@ -90,26 +90,6 @@ ContactsTab.prototype.angular = function (module) {
      */
     $scope.update = function (index)
     {
-      /*
-      var UInt160 = new ripple.UInt160();
-
-      // TODO use "unique" and "address" directives
-      // Validation
-      for (var i = 0; i < $scope.addressbookmaster.length; i++) {
-        if (i!=index && $scope.addressbookmaster[i].name == $scope.addressbook[index].name) {
-          $scope.addressbook[index].duplicateName = true;
-        }
-        if (i!=index && $scope.addressbookmaster[i].address == $scope.addressbook[index].address) {
-          $scope.addressbook[index].duplicateAddress = true;
-        }
-        else if(!UInt160.parse_json($scope.addressbook[index].address)._value) {
-          $scope.addressbook[index].invalidAddress = true;
-        }
-        if ($scope.addressbook[index].duplicateName || $scope.addressbook[index].duplicateAddress || $scope.addressbook[index].invalidAddress) {
-          return;
-        }
-      }*/
-
       // Update blob
       $scope.entry.name = $scope.editname;
       $scope.entry.address = $scope.editaddress;

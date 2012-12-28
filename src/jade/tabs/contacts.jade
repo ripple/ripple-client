@@ -41,3 +41,4 @@ section.panel.content(ng-controller="ContactsCtrl")
           button.send.btn.btn-success.btn-small(ng-hide='editing', ng-click='send($index)') Send
           button.edit.btn.btn-info.btn-small(ng-click='edit($index)', ng-hide='editing') Edit
           button.cancel.btn.btn-info.btn-small(ng-click='cancel($index)', ng-show='editing') Cancel
+  div(ng-hide="userBlob.data.contacts.length") You don't have any contacts yet. Click on "+" button in the top right corner to add a new contact.
