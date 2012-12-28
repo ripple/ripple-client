@@ -11,7 +11,7 @@ section.panel.content(ng-controller="TrustCtrl")
         th.action
           a.btn.btn-success.sign(ng-click='toggle_form()')
             span(ng-hide='addform_visible') +
-            span(ng-show='addform_visible') –
+            span(ng-show='addform_visible') −
     tbody
       tr(ng-show='addform_visible')
         td(colspan=4)
@@ -27,7 +27,7 @@ section.panel.content(ng-controller="TrustCtrl")
             .error(ng-show='trustForm.trust_counterparty.$error.rpNotMe') You've entered your address.
             .error(ng-show='remoteError') You can only grant trust if you have funds in your account.
             .submitsection
-              button.btn.btn-info(type='submit', ng-disabled='trustForm.$invalid') Grant Trust
+              button.btn.btn-info.submit(type='submit', ng-disabled='trustForm.$invalid') Grant Trust
 
       tr(ng-repeat='(key, line) in lines')
         td.account {{line.account | rpcontactnamefull}}
@@ -92,21 +92,22 @@ section.panel.content(ng-controller="TrustCtrl")
         span(ng-switch-when="terNO_LINE") You have no trust line in this currency.
         span(ng-switch-when="terNO_DST") You can't grant trust to an account before it has been funded.
         span(ng-switch-default) Trust grunting failed to clear, reason: {{engine_result_message}}
-    hr
-    .text-success(ng-show='addressSaved', class="actionLink") Address saved!
-    div(ng-hide='contact', class="actionLink")
-      a(href="", ng-click='showSaveAddressForm()') Add this address to contacts
-      form(name="saveAddressForm", id="saveAddressForm", ng-submit='saveAddress()')
-        .address {{counterparty_address}}
-        label(for='save_address_name') Name this user
-        input#contact_name(name='save_address_name', type="text", step='any', ng-model='saveAddressName', unique, required)
-        .error(ng-show='saveAddressForm.save_address_name.$error.unique') You already have a contact with the same name.
-        div
-          button.btn.btn-success(type='submit', ng-disabled='addressSaving')
-            span(ng-show='addressSaving') Saving...
-            span(ng-hide='addressSaving') Save
-          a(href="", ng-click='hideSaveAddressForm()') Cancel
-        hr
-    div(class="actionLink")
-      a(href="#trust", ng-click="reset()") Back to trust page
-    hr
+    .actions
+      hr
+      .text-success(ng-show='addressSaved', class="actionLink") Address saved!
+      div(ng-hide='contact', class="actionLink")
+        a(href="", ng-click='showSaveAddressForm()') Add this address to contacts
+        form(name="saveAddressForm", id="saveAddressForm", ng-submit='saveAddress()')
+          .address {{counterparty_address}}
+          label(for='save_address_name') Name this user
+          input#contact_name(name='save_address_name', type="text", step='any', ng-model='saveAddressName', unique, required)
+          .error(ng-show='saveAddressForm.save_address_name.$error.unique') You already have a contact with the same name.
+          div
+            button.btn.btn-success(type='submit', ng-disabled='addressSaving')
+              span(ng-show='addressSaving') Saving...
+              span(ng-hide='addressSaving') Save
+            a(href="", ng-click='hideSaveAddressForm()') Cancel
+          hr
+      div(class="actionLink")
+        a(href="#trust", ng-click="reset()") Back to trust page
+      hr

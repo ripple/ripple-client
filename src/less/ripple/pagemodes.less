@@ -1,5 +1,6 @@
 @pmSingleMargin: 60px;
-@pmPanelMargin: 40px;
+@pmPanelLeftMargin: 40px;
+@pmPanelRightMargin: 10px;
 
 html.pm-single {
   header nav {
@@ -32,11 +33,14 @@ html.pm-single {
 .panel {
   > table, group > table {
     caption, td:first-child, th:first-child {
-      padding-left: @pmPanelMargin;
+      padding-left: @pmPanelLeftMargin;
+    }
+    td:last-child, th:last-child {
+      padding-right: @pmPanelRightMargin;
     }
   }
   > p, > div, > form, > hr, > h3,
   group > p, group > div, group > form, group > hr, group > h3 {
-    padding-left: @pmPanelMargin;
+    padding-left: @pmPanelLeftMargin;
   }
 }

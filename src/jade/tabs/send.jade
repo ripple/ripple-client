@@ -99,25 +99,26 @@ section#t-send.single.content(ng-controller='SendCtrl')
       p(ng-switch on="engine_result")
         span(ng-switch-when="terNO_LINE") You have no trust line in this currency.
         span(ng-switch-default) Your transaction failed to clear, reason: {{engine_result_message}}
-    hr
-    .text-success(ng-show='addressSaved') Contact saved!
-    div(ng-hide='contact', class="actionLink")
-      a(href="", ng-click='showSaveAddressForm()') Add this address to contacts
-      form(name="saveAddressForm", id="saveAddressForm", ng-submit='saveAddress()')
-        .address {{recipient_address}}
-        label(for='save_address_name') Name this user
-        input#contact_name(
-          name='save_address_name', type="text"
-          ng-model='saveAddressName', unique, required)
-        .error(ng-show='saveAddressForm.save_address_name.$error.unique') You already have a contact with the same name.
-        div
-          button.btn.btn-success(type='submit', ng-disabled='addressSaving')
-            span(ng-show='addressSaving') Saving...
-            span(ng-hide='addressSaving') Save
-          a(href="", ng-click='hideSaveAddressForm()') Cancel
-        hr
-    div(class="actionLink")
-      a(ng-click="reset()") Send another payment
-    div(class="actionLink")
-      a(ng-click="reset_goto('overview')") Back to overview
-    hr
+    .actions
+      hr
+      .text-success(ng-show="addressSaved", class="actionLink") Contact saved!
+      div(ng-hide='contact', class="actionLink")
+        a(href="", ng-click='showSaveAddressForm()') Add this address to contacts
+        form(name="saveAddressForm", id="saveAddressForm", ng-submit='saveAddress()')
+          .address {{recipient_address}}
+          label(for='save_address_name') Name this user
+          input#contact_name(
+            name='save_address_name', type="text"
+            ng-model='saveAddressName', unique, required)
+          .error(ng-show='saveAddressForm.save_address_name.$error.unique') You already have a contact with the same name.
+          div
+            button.btn.btn-success(type='submit', ng-disabled='addressSaving')
+              span(ng-show='addressSaving') Saving...
+              span(ng-hide='addressSaving') Save
+            a(href="", ng-click='hideSaveAddressForm()') Cancel
+          hr
+      div(class="actionLink")
+        a(ng-click="reset()") Send another payment
+      div(class="actionLink")
+        a(ng-click="reset_goto('overview')") Back to overview
+      hr
