@@ -31,14 +31,16 @@ TrustTab.prototype.angular = function (module)
 
       if (app.$scope.balance == '0') {
         $scope.mode = 'error';
-        $scope.errorMessage = 'You have to funded to grant trust';
+        $scope.errorMessage = 'You have to be funded before you can grant a trust';
       }
     };
 
-//    $scope.$watch('balance', function(){
-//      $scope.reset();
-//      console.log('balance', app.$scope.balance);
-//    }, true);
+    $scope.$watch('balance', function(){
+      if ('error' == $scope.mode && '0' !== app.$scope.balance) {
+        $scope.mode = 'main';
+        $scope.errorMessage = '';
+      }
+    }, true);
 
     self.on('reset', $scope.reset);
 
