@@ -57,7 +57,7 @@ SendTab.prototype.angular = function (module)
       if (!issuer && currency !== "XRP") return;
       $scope.amount_feedback = ripple.Amount.from_human(formatted);
 
-      if (issuer) $scope.order.sell_amount.set_issuer(issuer);
+      if (issuer) $scope.amount_feedback.set_issuer(issuer);
     };
 
     /**
