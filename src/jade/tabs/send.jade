@@ -81,25 +81,25 @@ section#t-send.single.content(ng-controller='SendCtrl')
 
   group.mode-sent(ng-show='mode=="sent"')
     group.pending(ng-show='tx_result=="pending"')
-      h1 Your transaction has been submitted.
+      h2 Your transaction has been submitted.
       p Your account balance will update once the payment has cleared.
     group.result-success(ng-show='tx_result=="cleared"')
-      h1 Transaction cleared!
+      h2 Transaction cleared!
     group.result-partial(ng-show='tx_result=="partial"')
-      h1 Transaction partially valid!
+      h2 Transaction partially valid!
       p Your transaction could only be partially applied.
     group.result-error(ng-show='tx_result=="error"')
-      h1 Transaction could not be submitted!
+      h2 Transaction could not be submitted!
       p We were unable to submit the transaction to the server. Please try again later.
     group.result-malformed(ng-show='tx_result=="malformed"')
-      h1 Transaction malformed!
+      h2 Transaction malformed!
       p Your transaction is invalid, reason: {{engine_result}} - {{engine_result_message}}
     group.result-failed(ng-show='tx_result=="failed"')
-      h1 Transaction failed!
+      h2 Transaction failed!
       p(ng-switch on="engine_result")
         span(ng-switch-when="terNO_LINE") You have no trust line in this currency.
         span(ng-switch-default) Your transaction failed to clear, reason: {{engine_result_message}}
-    .actions
+    group.actions
       hr
       .text-success(ng-show='addressSaved', class="actionLink") Contact saved!
       .save-address-form(ng-hide='contact', class="actionLink")

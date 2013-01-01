@@ -234,7 +234,8 @@ html.t-overview header nav ul > li.active#nav-account > a:after {
     .amount_feedback, .dest_feedback {
       font-size: 26px;
       margin: 0;
-      padding: 20px @pmSingleMargin;
+      padding-top: 20px;
+      padding-bottom: 20px;
       background-color: #f4f4f4;
 
       .extra {
@@ -265,9 +266,10 @@ html.t-overview header nav ul > li.active#nav-account > a:after {
   }
 
   .mode-granted {
-    h1 {
+    h2 {
       margin: 20px 0 0 0;
-      padding: 10px 60px;
+      padding-top: 10px;
+      padding-bottom: 10px;
       font-size: 30px;
       border-bottom: none;
       text-align: left;
@@ -275,10 +277,10 @@ html.t-overview header nav ul > li.active#nav-account > a:after {
       font: 34px 'OpenSansLight';
       .transition-duration(0.2s);
     }
-    .result-success h1 {
+    .result-success h2 {
       background-color: #8DC86A;
     }
-    .result-error h1, .result-malformed h1, .result-failed h1 {
+    .result-error h2, .result-malformed h2, .result-failed h2 {
       background-color: #DC4D38;
     }
     .address {
@@ -291,31 +293,9 @@ html.t-overview header nav ul > li.active#nav-account > a:after {
       font-size: 16px;
     }
     .actionLink {
-      margin: 20px 60px;
+      margin-top: 20px;
+      margin-bottom: 20px;
       font-size: 16px;
-    }
-  }
-
-  .mode-confirm {
-    .amount_feedback, .dest_feedback {
-      font-size: 26px;
-      margin: 0;
-      padding: 20px @pmSingleMargin;
-      background-color: #f4f4f4;
-
-      .extra {
-        font-size: 18px;
-        color: #999;
-        margin-top: 0.5em;
-      }
-    }
-
-    .amount_feedback {
-      font: 34px 'OpenSansLight';
-
-      .currency {
-        font-size: 20px;
-      }
     }
   }
 
@@ -559,8 +539,9 @@ html.t-overview header nav ul > li.active#nav-account > a:after {
   }
 
   .mode-sent {
-    h1 {
-      padding: 10px 60px;
+    h2 {
+      padding-top: 10px;
+      padding-bottom: 10px;
       font-size: 30px;
       border-bottom: none;
       text-align: left;
@@ -568,10 +549,10 @@ html.t-overview header nav ul > li.active#nav-account > a:after {
       font: 34px 'OpenSansLight';
       .transition-duration(0.2s);
     }
-    .result-success h1 {
+    .result-success h2 {
       background-color: #8DC86A;
     }
-    .result-error h1, .result-malformed h1, .result-failed h1 {
+    .result-error h2, .result-malformed h2, .result-failed h2 {
       background-color: #DC4D38;
     }
     .address {
@@ -584,7 +565,8 @@ html.t-overview header nav ul > li.active#nav-account > a:after {
       font-size: 16px;
     }
     .actionLink {
-      margin: 20px 60px;
+      margin-top: 20px;
+      margin-bottom: 20px;
       font-size: 16px;
     }
   }

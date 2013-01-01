@@ -40,7 +40,7 @@ section.panel.content(ng-controller="TrustCtrl")
 
   //- N2. Confirmation page
 
-  group.mode-confirm(ng-show='mode=="confirm"')
+  group.mode-confirm.wide(ng-show='mode=="confirm"')
     p.literal You are about to trust
     p.amount_feedback
       span.value {{amount_feedback}}&nbsp;
@@ -75,24 +75,24 @@ section.panel.content(ng-controller="TrustCtrl")
 
   //- N5. Granted page
 
-  group.mode-granted(ng-show='mode=="granted"')
+  group.mode-granted.wide(ng-show='mode=="granted"')
     group.pending(ng-show='tx_result=="pending"')
-      h1 Your grant request has been submitted.
+      h2 Your grant request has been submitted.
     group.result-success(ng-show='tx_result=="cleared"')
-      h1 Trust is granted!
+      h2 Trust is granted!
     group.result-error(ng-show='tx_result=="error"')
-      h1 Trust could not be granted!
+      h2 Trust could not be granted!
       p We were unable to submit the request. Please try again later.
     group.result-malformed(ng-show='tx_result=="malformed"')
-      h1 Grant is malformed!
+      h2 Grant is malformed!
       p Your request is invalid, reason: {{engine_result}} - {{engine_result_message}}
     group.result-failed(ng-show='tx_result=="failed"')
-      h1 Granting failed!
+      h2 Granting failed!
       p(ng-switch on="engine_result")
         span(ng-switch-when="terNO_LINE") You have no trust line in this currency.
         span(ng-switch-when="terNO_DST") You can't grant trust to an account before it has been funded.
         span(ng-switch-default) Trust grunting failed to clear, reason: {{engine_result_message}}
-    .actions
+    group.actions
       hr
       .text-success(ng-show='addressSaved', class="actionLink") Address saved!
       .save-address-form(ng-hide='contact', class="actionLink")
