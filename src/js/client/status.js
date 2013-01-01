@@ -21,7 +21,7 @@ StatusManager.prototype.init = function ()
   var self = this;
   var app = this.app;
 
-  var $scope = this.scope = app.$scope.$new();
+  var $scope = this.$scope = app.$scope.$new();
 
   // Activate #status panel
   $scope.$apply(function () {
@@ -100,7 +100,9 @@ StatusManager.prototype.create = function (message)
 StatusManager.prototype.enqueue = function (smObj)
 {
   this.queue.push(smObj);
-  if (this.el && !this.tickUpcoming) this._tick();
+  if (this.el && !this.tickUpcoming) {
+    setTimeout(this._tick.bind(this), 10);
+  }
 };
 
 /**
@@ -124,6 +126,11 @@ StatusManager.prototype._tick = function ()
 
   this.tickUpcoming = false;
   if (this.queue.length) {
+    // Ensure secondary currencies pulldown is closed
+    this.$scope.$apply(function() {
+      self.$scope.show_secondary = false;
+    });
+
     // Show next status message
     var next = this.queue.shift();
 
