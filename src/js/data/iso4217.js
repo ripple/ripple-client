@@ -1,4 +1,8 @@
 module.exports = {
+  // Ripple Credits
+  "XRP":[0, 0],
+
+  // Official ISO-4217
   "AFN":[971, 2],
   "EUR":[978, 2],
   "ALL":[8, 2],

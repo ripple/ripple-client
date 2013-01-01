@@ -2,6 +2,8 @@ var module = angular.module('filters', []),
     webutil = require('../client/webutil'),
     Amount = ripple.Amount;
 
+var iso4217 = require('../data/iso4217');
+
 /**
  * Format a ripple.Amount.
  */
@@ -14,13 +16,20 @@ module.filter('rpamount', function () {
     } else if ("object" !== typeof opts) {
       opts = {};
     }
-    if ("number" !== typeof opts.precision) opts.precision = 15;
 
     if (!input) return "n/a";
 
     var amount = Amount.from_json(input);
-
     if (!amount.is_valid()) return "n/a";
+
+    var currency = amount.currency().to_json();
+    if ("number" !== typeof opts.precision) {
+      // If no precision is given, we'll default to the currency's default
+      // precision.
+      opts.precision = ("undefined" !== typeof iso4217[currency]) ?
+        iso4217[currency][1] : 2;
+    }
+
     var out = amount.to_human(opts);
 
     return out;
