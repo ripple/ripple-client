@@ -86,7 +86,7 @@ module.directive('rpDestination', function () {
       var validator = function(value) {
         var UInt160 = new ripple.UInt160();
 
-        if (UInt160.parse_json(value)._value || webutil.getContact(scope.userBlob.data.contacts,value)) {
+        if (UInt160.is_valid(value) || webutil.getContact(scope.userBlob.data.contacts,value)) {
           ctrl.$setValidity('rpDestination', true);
           return value;
         } else {

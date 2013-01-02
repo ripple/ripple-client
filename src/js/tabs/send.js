@@ -59,8 +59,6 @@ SendTab.prototype.angular = function (module)
       $scope.amount_feedback = ripple.Amount.from_human(formatted);
 
       if (issuer) $scope.amount_feedback.set_issuer(issuer);
-
-      console.log('feedback',$scope.amount_feedback);
     };
 
     /**

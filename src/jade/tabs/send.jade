@@ -10,7 +10,7 @@ section#t-send.single.content(ng-controller='SendCtrl')
       input.value#send_amount(
         name='send_amount', type='number', step='any'
         ng-model='amount'
-        ng-pattern='/^[0-9.]+$/', required)
+        ng-pattern='/^[0-9.]+$/', required, ng-maxlength='20')
       input.currency#send_amount_currency(
         name='send_amount_currency', type='text'
         rp-combobox="currency_query", rp-combobox-select
@@ -21,6 +21,8 @@ section#t-send.single.content(ng-controller='SendCtrl')
       .error(rp-error-on='required')
         | Please enter an amount.
       .error(rp-error-on='pattern')
+        | Not a valid amount.
+      .error(rp-error-on='maxlength')
         | Not a valid amount.
     label(for='send_destination') Destination
     input#send_destination(
