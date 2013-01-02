@@ -159,6 +159,8 @@ StatusManager.prototype.setupNetworkNotices = function ()
   var remote = this.app.net.remote;
 
   remote.on('net_account', function (msg) {
+    if (msg.engine_result !== 'tesSUCCESS') return;
+
     var tx = rewriter.processTxn(msg.transaction, msg.meta, app.id.account);
     if (tx) {
       var $scope = app.$scope.$new();
