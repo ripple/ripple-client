@@ -97,6 +97,9 @@ section#t-send.single.content(ng-controller='SendCtrl')
     group.result-malformed(ng-show='tx_result=="noDest"')
       h2 Destination does not exist!
       p Too little XRP sent to create it.
+    group.result-error(ng-show='tx_result=="noPath"')
+      h2 No Path
+      p Unable to find a ripple path.
     group.result-failed(ng-show='tx_result=="failed"')
       h2 Transaction failed!
       p(ng-switch on="engine_result")

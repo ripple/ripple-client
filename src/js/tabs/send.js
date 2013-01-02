@@ -141,8 +141,13 @@ SendTab.prototype.angular = function (module)
         $scope.sent(this.hash);
         $scope.$digest();
       });
-      tx.on('error', function () {
+      tx.on('error', function (res) {
         $scope.mode = "error";
+
+        if (res['remote']['error'] == 'noPath') {
+          $scope.mode = "sent";
+          $scope.tx_result = "noPath";
+        }
         $scope.$digest();
       });
       tx.submit();
