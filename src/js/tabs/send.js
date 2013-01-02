@@ -37,6 +37,8 @@ SendTab.prototype.angular = function (module)
         $scope.recipient_name = '';
         $scope.recipient_address = $scope.recipient;
       }
+
+      $scope.update_amount();
     }, true);
 
     $scope.$watch('amount', function () {
@@ -50,14 +52,15 @@ SendTab.prototype.angular = function (module)
     $scope.update_amount = function () {
       var currency = $scope.currency ?
             $scope.currency.slice(0, 3).toUpperCase() : "XRP";
-      var issuer = webutil.findIssuer($scope.lines, currency);
+      var issuer = $scope.recipient_address;
       var formatted = "" + $scope.amount + " " + currency.slice(0, 3);
 
-      // XXX: Needs to show an error
       if (!issuer && currency !== "XRP") return;
       $scope.amount_feedback = ripple.Amount.from_human(formatted);
 
       if (issuer) $scope.amount_feedback.set_issuer(issuer);
+
+      console.log('feedback',$scope.amount_feedback);
     };
 
     /**
