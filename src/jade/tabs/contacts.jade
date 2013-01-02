@@ -38,7 +38,7 @@ section.panel.content(ng-controller="ContactsCtrl")
         td.command
           button.save.btn.btn-success.btn-small(ng-show='editing', ng-disabled="inlineAddress.editaddress.$error.rpUnique", ng-disabled="inlineName.editname.$error.rpUnique", ng-disabled="inlineAddress.editaddress.$error.rpAddress", ng-click='update($index)') Save
           button.delete.btn.btn-danger.btn-small(ng-show='editing', ng-click='remove($index)') Delete
+          button.edit.btn.btn-small(ng-click='edit($index)', ng-hide='editing')
           button.send.btn.btn-success.btn-small(ng-hide='editing', ng-click='send($index)') Send
-          button.edit.btn.btn-info.btn-small(ng-click='edit($index)', ng-hide='editing') Edit
           button.cancel.btn.btn-info.btn-small(ng-click='cancel($index)', ng-show='editing') Cancel
   div(ng-hide="userBlob.data.contacts.length") You don't have any contacts yet. Click on "+" button in the top right corner to add a new contact.

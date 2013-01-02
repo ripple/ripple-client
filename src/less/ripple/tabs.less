@@ -337,6 +337,10 @@ html.t-overview header nav ul > li.active#nav-account > a:after {
         .btn {
           margin-left: 10px;
         }
+        .send {
+          padding-left: 35px;
+          padding-right: 35px;
+        }
       }
     }
 
@@ -358,6 +362,15 @@ html.t-overview header nav ul > li.active#nav-account > a:after {
 
     .action {
       text-align: center;
+    }
+
+    .btn.edit {
+      background: url(/img/sprite.png) -1px 24px;
+      display: none;
+    }
+
+    tr:hover .btn.edit {
+      display: inline;
     }
   }
 }
