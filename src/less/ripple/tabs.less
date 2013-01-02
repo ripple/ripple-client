@@ -575,7 +575,7 @@ html.t-overview header nav ul > li.active#nav-account > a:after {
       margin: 0 0 30px;
     }
     p {
-      margin: 0 60px 40px;
+      margin: 0 0 40px;
       font-size: 16px;
     }
     .actionLink {
@@ -604,6 +604,17 @@ html.t-overview header nav ul > li.active#nav-account > a:after {
 
       .currency {
         font-size: 20px;
+      }
+    }
+
+    .submitsection {
+      .makeRow();
+      button.back {
+        .makeColumn(1.5);
+        padding-left: 5px;
+      }
+      button.submit {
+        .makeColumn(3);
       }
     }
   }

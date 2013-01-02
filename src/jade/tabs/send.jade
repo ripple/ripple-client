@@ -94,6 +94,9 @@ section#t-send.single.content(ng-controller='SendCtrl')
     group.result-malformed(ng-show='tx_result=="malformed"')
       h2 Transaction malformed!
       p Your transaction is invalid, reason: {{engine_result}} - {{engine_result_message}}
+    group.result-malformed(ng-show='tx_result=="noDest"')
+      h2 Destination does not exist!
+      p Too little XRP sent to create it.
     group.result-failed(ng-show='tx_result=="failed"')
       h2 Transaction failed!
       p(ng-switch on="engine_result")
