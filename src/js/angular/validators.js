@@ -19,9 +19,9 @@ module.directive('rpAddress', function () {
       if (!ctrl) return;
 
       var validator = function(value) {
-        var UInt160 = new ripple.UInt160();
+        var address = ripple.UInt160.from_json(value);
 
-        if (UInt160.parse_json(value)._value) {
+        if (address.is_valid()) {
           ctrl.$setValidity('rpAddress', true);
           return value;
         } else {
@@ -84,9 +84,9 @@ module.directive('rpDestination', function () {
       if (!ctrl) return;
 
       var validator = function(value) {
-        var UInt160 = new ripple.UInt160();
+        var address = ripple.UInt160.from_json(value);
 
-        if (UInt160.is_valid(value) || webutil.getContact(scope.userBlob.data.contacts,value)) {
+        if (address.is_valid() || webutil.getContact(scope.userBlob.data.contacts,value)) {
           ctrl.$setValidity('rpDestination', true);
           return value;
         } else {
