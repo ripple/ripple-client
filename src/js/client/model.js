@@ -185,10 +185,13 @@ Model.prototype._processTxn = function (tx, meta, is_historic)
 
   if (processedTxn) {
     // Add to recent notifications
-    $scope.events.unshift(processedTxn);
+    if (processedTxn.tx_result === "tesSUCCESS") {
+      $scope.events.unshift(processedTxn);
+    }
 
     // Add to payments history
-    if (processedTxn.tx_type === "Payment") {
+    if (processedTxn.tx_type === "Payment" &&
+        processedTxn.tx_result === "tesSUCCESS") {
       $scope.history.unshift(processedTxn);
     }
 

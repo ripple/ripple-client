@@ -135,6 +135,7 @@ var JsonRewriter = module.exports = {
     if (!forUs) return null;
 
     obj.tx_type = tx.TransactionType;
+    obj.tx_result = meta.TransactionResult;
     obj.fee = tx.Fee;
     obj.date = (tx.date + 0x386D4380) * 1000;
 
