@@ -7,13 +7,13 @@
  * [1] http://en.wikipedia.org/wiki/Currency_pair#The_Majors
  */
 module.exports = [
-  {name: 'XRP/USD'},
-  {name: 'XRP/EUR'},
-  {name: 'XRP/JPY'},
-  {name: 'XRP/GBP'},
-  {name: 'XRP/AUD'},
-  {name: 'XRP/CHF'},
-  {name: 'XRP/CAD'},
+  {name: 'USD/XRP'},
+  {name: 'EUR/XRP'},
+  {name: 'JPY/XRP'},
+  {name: 'GBP/XRP'},
+  {name: 'AUD/XRP'},
+  {name: 'CHF/XRP'},
+  {name: 'CAD/XRP'},
   {name: 'EUR/USD'},
   {name: 'USD/JPY'},
   {name: 'GBP/USD'},
