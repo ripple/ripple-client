@@ -85,7 +85,7 @@ section.panel.content(ng-controller="TradeCtrl")
           p.literal Are you sure?
           div
             p.submitsection
-              button.btn.back(ng-click='mode="trade"') &laquo; Back
+              button.btn.back(type='button', ng-click='back()') &laquo; Back
               button.btn.btn-success.submit(type='submit', ng-disabled='confirm_wait') Confirm
 
       //- 3. Sending

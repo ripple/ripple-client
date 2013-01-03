@@ -41,6 +41,10 @@ TradeTab.prototype.angular = function(module)
       };
     };
 
+    $scope.back = function () {
+      $scope.mode = "trade";
+    };
+
     $scope.place_order = function () {
       $scope.mode = "confirm";
     };
