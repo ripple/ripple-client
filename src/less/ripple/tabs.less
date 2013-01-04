@@ -754,6 +754,15 @@ html.t-overview header nav ul > li.active#nav-account > a:after {
     .mode-form {
       margin: 10px 30px;
 
+      .order-type {
+        float: left;
+        margin-right: 20px;
+
+        .btn {
+          line-height: 14px;
+        }
+      }
+
       .currencies {
         margin-bottom: @formFieldBottomMargin + 10px;
 
@@ -783,11 +792,17 @@ html.t-overview header nav ul > li.active#nav-account > a:after {
       }
       .order-values {
         .value-field {
-          width: 202px;
+          width: 212px;
           float: left;
 
           input {
-            width: 180px;
+            width: 140px;
+          }
+          .add-on {
+            width: 50px;
+            padding-left: 0;
+            padding-right: 0;
+            text-align: center;
           }
         }
         .sign {
@@ -802,6 +817,7 @@ html.t-overview header nav ul > li.active#nav-account > a:after {
         color: green;
       }
       .submitsection {
+        clear: both;
         margin: 20px 0 30px 0;
       }
     }

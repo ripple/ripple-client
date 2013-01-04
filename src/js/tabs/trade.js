@@ -27,17 +27,21 @@ TradeTab.prototype.angular = function(module)
   {
     $scope.mode = "confirm";
     $scope.orders = [];
-    $scope.currency_query = webutil.queryFromOptions($scope.currencies_all);
+
+    var pairs = require('../data/pairs');
+    $scope.pairs_query = webutil.queryFromOptions(pairs);
 
     $scope.reset = function () {
       if ($scope.orderForm) $scope.orderForm.$setPristine();
       $scope.mode = "trade";
       $scope.order = {
-        sell: '',
+        type: 'buy',
+        first: '',
         price: '',
-        buy: '',
-        sell_currency: $scope.currencies_all[0].name,
-        buy_currency: ''
+        second: '',
+        currency_pair: pairs[0].name,
+        first_currency: pairs[0].name.slice(0, 3),
+        second_currency: pairs[0].name.slice(4, 7)
       };
     };
 
@@ -47,6 +51,13 @@ TradeTab.prototype.angular = function(module)
 
     $scope.place_order = function () {
       $scope.mode = "confirm";
+      if ($scope.order.type === 'buy') {
+        $scope.order.sell_amount = $scope.order.second_amount;
+        $scope.order.buy_amount = $scope.order.first_amount;
+      } else {
+        $scope.order.sell_amount = $scope.order.first_amount;
+        $scope.order.buy_amount = $scope.order.second_amount;
+      }
     };
 
     $scope.cancel_order = function ()
@@ -62,15 +73,6 @@ TradeTab.prototype.angular = function(module)
       tx.submit();
 
       this.cancelled = true;
-    };
-
-    $scope.change_pair = function ()
-    {
-      //console.log("here");
-      if($scope.order.buy_currency && $scope.order.sell_currency)
-      { // TODO: need to fetch the ticker
-
-      }
     };
 
     $scope.order_confirmed = function ()
@@ -127,82 +129,80 @@ TradeTab.prototype.angular = function(module)
       }
     }
 
-    $scope.$watch('order.sell', function (amount_str) {
-      $scope.update_sell();
+    $scope.$watch('order.currency_pair', function (pair) {
+      $scope.order.first_currency = pair.slice(0, 3);
+      $scope.order.second_currency = pair.slice(4, 7);
+
+      if ($scope.order.type === "buy") {
+        $scope.order.sell_currency = $scope.order.second_currency;
+        $scope.order.buy_currency = $scope.order.first_currency;
+      } else {
+        $scope.order.sell_currency = $scope.order.first_currency;
+        $scope.order.buy_currency = $scope.order.second_currency;
+      }
+
+      updateTicker();
+     }, true);
+
+    $scope.$watch('order.first', function (amount_str) {
+      $scope.update_first();
      }, true);
 
     $scope.$watch('order.price', function (amount_str) {
       $scope.update_price();
     }, true);
 
-    $scope.$watch('order.buy', function (amount_str) {
-      $scope.update_buy();
+    $scope.$watch('order.second', function (amount_str) {
+      $scope.update_second();
     }, true);
 
-    $scope.$watch('order.buy_currency', function (amount_str) {
-      $scope.update_buy();
-      $scope.update_price();
-      updateTicker();
-    }, true);
+    $scope.update_first = function () {
+      var first_currency = $scope.order.first_currency || "XRP";
+      var formatted = "" + $scope.order.first + " " + first_currency;
 
-    $scope.$watch('order.sell_currency', function (amount_str) {
-      $scope.update_sell();
-      updateTicker();
-    }, true);
+      $scope.order.first_amount = ripple.Amount.from_human(formatted);
 
-    $scope.update_sell = function () {
-      var sell_currency = $scope.order.sell_currency ?
-            $scope.order.sell_currency.slice(0, 3).toUpperCase() : "XRP";
-      var formatted = "" + $scope.order.sell + " " + sell_currency.slice(0, 3);
-
-      $scope.order.sell_amount = ripple.Amount.from_human(formatted);
-
-      if (sell_currency !== 'XRP') $scope.order.sell_amount.set_issuer(app.id.account);
+      if (first_currency !== 'XRP') $scope.order.first_amount.set_issuer(app.id.account);
     };
 
     $scope.update_price = function () {
-      var buy_currency = $scope.order.buy_currency ?
-            $scope.order.buy_currency.slice(0, 3).toUpperCase() : "XRP";
-      var buy_issuer = webutil.findIssuer($scope.lines, buy_currency);
-      var formatted = "" + $scope.order.price + " " + buy_currency;
+      var second_currency = $scope.order.second_currency || "XRP";
+      var formatted = "" + $scope.order.price + " " + second_currency;
 
-      if (!buy_issuer && buy_currency !== "XRP") return;
       $scope.order.price_amount = ripple.Amount.from_human(formatted);
 
-      if (buy_issuer) $scope.order.price_amount.set_issuer(buy_issuer);
+      if (second_currency !== 'XRP') $scope.order.first_amount.set_issuer(app.id.account);
     };
 
-    $scope.update_buy = function () {
-      var buy_currency = $scope.order.buy_currency ?
-            $scope.order.buy_currency.slice(0, 3).toUpperCase() : "XRP";
-      var buy_issuer = webutil.findIssuer($scope.lines, buy_currency);
-      var formatted = "" + $scope.order.buy + " " + buy_currency;
+    $scope.update_second = function () {
+      var second_currency = $scope.order.second_currency ?
+            $scope.order.second_currency.slice(0, 3).toUpperCase() : "XRP";
+      var formatted = "" + $scope.order.second + " " + second_currency;
 
-      if (!buy_issuer && buy_currency !== "XRP") return;
-      $scope.order.buy_amount = ripple.Amount.from_human(formatted);
+      $scope.order.second_amount = ripple.Amount.from_human(formatted);
 
-      if (buy_issuer) $scope.order.buy_amount.set_issuer(buy_issuer);
+      if (second_currency !== 'XRP') $scope.order.first_amount.set_issuer(app.id.account);
     };
 
-    $scope.calc_buy = function () {
-      $scope.update_sell();
+    $scope.calc_second = function () {
+      $scope.update_first();
       $scope.update_price();
       if ($scope.order.price_amount && $scope.order.price_amount.is_valid() &&
-          $scope.order.sell_amount  && $scope.order.sell_amount.is_valid()) {
-        $scope.order.buy_amount =
-          $scope.order.price_amount.product_human($scope.order.sell_amount);
-        $scope.order.buy = +$scope.order.buy_amount.to_human({group_sep: false});
+          $scope.order.first_amount && $scope.order.first_amount.is_valid()) {
+        $scope.order.second_amount =
+          $scope.order.price_amount.product_human($scope.order.first_amount);
+        $scope.order.second = +$scope.order.second_amount.to_human({group_sep: false});
       }
     };
 
-    $scope.calc_sell = function () {
-      $scope.update_buy();
+    $scope.calc_first = function () {
+      $scope.update_second();
       $scope.update_price();
-      if ($scope.order.price_amount && $scope.order.price_amount.is_valid() &&
-          $scope.order.buy_amount   && $scope.order.buy_amount.is_valid()) {
-        $scope.order.sell_amount =
-          $scope.order.buy_amount.ratio_human($scope.order.price_amount);
-        $scope.order.sell = +$scope.order.sell_amount.to_human({group_sep: false});
+      if ($scope.order.price_amount  && $scope.order.price_amount.is_valid() &&
+          $scope.order.second_amount && $scope.order.second_amount.is_valid()) {
+        $scope.order.first_amount =
+          $scope.order.second_amount.ratio_human($scope.order.price_amount);
+        $scope.order.first = +$scope.order.first_amount.to_human({group_sep: false});
       }
     };
 
@@ -211,14 +211,14 @@ TradeTab.prototype.angular = function(module)
       $scope.ask_price = ripple.Amount.NaN();
       $scope.spread = ripple.Amount.NaN();
 
-      var buyCurrency = $scope.order.buy_currency ?
-            $scope.order.buy_currency.slice(0, 3).toUpperCase() : "XRP";
-      var sellCurrency = $scope.order.sell_currency ?
-            $scope.order.sell_currency.slice(0, 3).toUpperCase() : "XRP";
+      var secondCurrency = $scope.order.second_currency ?
+            $scope.order.second_currency.slice(0, 3).toUpperCase() : "XRP";
+      var firstCurrency = $scope.order.first_currency ?
+            $scope.order.first_currency.slice(0, 3).toUpperCase() : "XRP";
 
-      $scope.ticker_pair = buyCurrency + '/' + sellCurrency;
+      $scope.ticker_pair = secondCurrency + '/' + firstCurrency;
 
-      var orders = ledger.getOrders(buyCurrency, sellCurrency);
+      var orders = ledger.getOrders(secondCurrency, firstCurrency);
 
       var bestBid = orders.bids[0];
       if (bestBid) $scope.bid_price = bestBid.o.amount.ratio_human(bestBid.i.amount);
