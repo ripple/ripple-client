@@ -186,7 +186,7 @@ SendTab.prototype.angular = function (module)
           $scope.tx_result = "partial";
           break;
         case 'tec':
-          $scope.tx_result = "noDest";
+          $scope.tx_result = "claim";
           break;
         default:
           console.warn("Unhandled engine status encountered!");

@@ -92,33 +92,48 @@ section#t-send.single.content(ng-controller='SendCtrl')
       p Your transaction could only be partially applied.
     group.result-error(ng-show='tx_result=="error"')
       h2 Transaction could not be submitted!
-      p We were unable to submit the transaction to the server. Please try again later.
+      p We were unable to submit the transaction to the server.
+        | Please try again later.
     group.result-malformed(ng-show='tx_result=="malformed"')
       h2 Transaction malformed!
-      p Your transaction is invalid, reason: {{engine_result}} - {{engine_result_message}}
-    group.result-malformed(ng-show='tx_result=="noDest"')
-      h2 Destination does not exist!
-      p Too little XRP sent to create it.
+      p Your transaction is invalid, reason:
+        | {{engine_result}} - {{engine_result_message}}
+    group.result-malformed(ng-show='tx_result=="claim"')
+      h2 Transaction failed!
+      p(ng-switch on="engine_result")
+        span(ng-switch-when="tecNO_DST")
+          | The destination account does not exist.
+        span(ng-switch-when="tecNO_DST_INSUF_XRP")
+          | The destination account does not exist. Too little XRP sent to
+          | create it.
+        span(ng-switch-default)
+          | Error: {{engine_result_message}}
     group.result-error(ng-show='tx_result=="noPath"')
       h2 No Path
       p Unable to find a ripple path.
     group.result-failed(ng-show='tx_result=="failed"')
       h2 Transaction failed!
       p(ng-switch on="engine_result")
-        span(ng-switch-when="terNO_LINE") You have no trust line in this currency.
-        span(ng-switch-default) Your transaction failed to clear, reason: {{engine_result_message}}
+        span(ng-switch-when="terNO_LINE")
+          | You have no trust line in this currency.
+        span(ng-switch-default)
+          | Your transaction failed to clear, reason: {{engine_result_message}}
     group.actions
       hr
       .text-success(ng-show='addressSaved', class="actionLink") Contact saved!
       .save-address-form(ng-hide='contact', class="actionLink")
-        a(href="", ng-click='show_save_address_form = true') Add this address to contacts
-        form(name="saveAddressForm", ng-class="{ show: show_save_address_form }", ng-submit='saveAddress()')
+        a(href="", ng-click='show_save_address_form = true')
+          | Add this address to contacts
+        form(name="saveAddressForm"
+             ng-class="{ show: show_save_address_form }"
+             ng-submit='saveAddress()')
           .address {{recipient_address}}
           label(for='save_address_name') Name this user
           input#contact_name(
             name='save_address_name', type="text"
             ng-model='saveAddressName', unique, required)
-          .error(ng-show='saveAddressForm.save_address_name.$error.unique') You already have a contact with the same name.
+          .error(ng-show='saveAddressForm.save_address_name.$error.unique')
+            | You already have a contact with the same name.
           div
             button.btn.btn-success(type='submit', ng-disabled='addressSaving')
               span(ng-show='addressSaving') Saving...
