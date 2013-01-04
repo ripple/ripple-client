@@ -60,6 +60,8 @@ TradeTab.prototype.angular = function(module)
         $scope.$digest();
       });
       tx.submit();
+
+      this.cancelled = true;
     };
 
     $scope.change_pair = function ()

@@ -131,7 +131,7 @@ section.panel.content(ng-controller="TradeCtrl")
         th.amount Amount
         th.action Action
     tbody
-      tr(ng-repeat="entry in offers", class="{{entry.type}}")
+      tr(ng-repeat="entry in offers", class="{{entry.type}}", ng-class="{cancelled: cancelled}")
         td.pair {{entry.gets | rpcurrency}}/{{entry.pays | rpcurrency}}
         td.price.rpamount {{entry.pays | rpamountratio:entry.gets | rpamount}}
           span.currency {{entry.pays | rpcurrency}}

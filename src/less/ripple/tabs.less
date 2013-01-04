@@ -861,6 +861,19 @@ html.t-overview header nav ul > li.active#nav-account > a:after {
       padding-top: 0;
       padding-bottom: 0;
     }
+
+    tr.cancelled {
+      opacity: 0.3;
+
+      .action {
+        background-image: url(../../img/throbber.gif);
+        background-repeat: no-repeat;
+        background-position: 90% 50%;
+      }
+      .action button {
+        display: none;
+      }
+    }
   }
 }
 
