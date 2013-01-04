@@ -19,13 +19,13 @@ var Angular = function ()
  */
 Angular.load = function ()
 {
-  require('../angular/charts');
-  require('../angular/fields');
-  require('../angular/effects');
-  require('../angular/validators');
-  require('../angular/events');
-  require('../angular/directives');
-  require('../angular/filters');
+  require('../directives/charts');
+  require('../directives/fields');
+  require('../directives/effects');
+  require('../directives/validators');
+  require('../directives/events');
+  require('../directives/directives');
+  require('../filters/filters');
   require('../services/network');
   require('../services/transactions');
   require('../services/ledger');
