@@ -1,4 +1,4 @@
-section.single.modal.content(ng-controller="RegisterCtrl")
+section.single.content(ng-controller="RegisterCtrl")
   group.mode-form(ng-show='mode=="form"')
     h1 Create a Ripple Wallet
     p.literal Ripple an open-source P2P payment system.
@@ -54,20 +54,34 @@ section.single.modal.content(ng-controller="RegisterCtrl")
 
   group.mode-welcome(ng-show='mode=="welcome"')
     h1 Welcome To Ripple
-    h2 Your information has been saved by Payward
-    p.literal This is your Ripple account information, <a href="" onClick="javascript:window.print()"><strong>PRINT THIS PAGE</strong></a> and keep it somewhere safe.
-    .info
+    p.important Important:
+    p The Secret key below gives access to your money in the unlikely case that you lose your wallet name or passphrase.
+      | In that case your contacts will be lost, but with this Secret Key alone anyone can retrieve your money. So please
+      | store it somewhere PRIVATE AND SAFE. Read more about keys and wallet safety in&nbsp;
+      a(href="#") Security
+    .credentials
       span.username
-        span.var Wallet name:
-        | {{username}}
+        | Wallet name:
+        span.value {{username}}
       span.password
-        span.var Pass phrase:
-        | {{password}}
-        button.btn.btn-info.btn-small(ng-click='showPassword()') Show Pass phrase
-      span.key
-        span.var Master Key (keep secret):
-        | {{key}}
+        | Pass phrase:
+        span.value {{password}}
+        rp-confirm(
+          action-text="Are you in safe place where no person, or camera can see your screen?"
+          action-button-text="Yes, show me"
+          action-function="showPassword()"
+          cancel-button-text="no")
+            a Show
+    .secret
+      p Secret key:
+      p.key {{key}}
+      p
+        rp-confirm(
+          action-text="Are you in safe place where no person, or camera can see your screen?"
+          action-button-text="Yes, show me"
+          action-function="showSecret()"
+          cancel-button-text="no")
+            button.btn.btn-info.btn-small Show secret key
+    p.important Have you saved your Secret Key some where safe?
     .action
-      a.btn.btn-info.btn-big(href='#overview', ng-click='reset()') Continue
-      span IMPORTANT! There is no mechanism to recover your wallet name or pass phrase.
-        a(href="http://ripple.com/help/password", target="_blank") Read why
+      a.btn.btn-info.btn-big(href='#overview', ng-click='reset()') Yes, I saved my secret key

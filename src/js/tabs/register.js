@@ -48,8 +48,9 @@ RegisterTab.prototype.angular = function (module) {
     $scope.register = function()
     {
       app.id.register($scope.username, $scope.password1, function(key){
-        $scope.password = Array($scope.password1.length+1).join("*");
-        $scope.key = key;
+        $scope.password = new Array($scope.password1.length+1).join("*");
+        $scope.keyOpen = key;
+        $scope.key = $scope.keyOpen[0] + new Array($scope.keyOpen.length).join("*");
 
         $scope.mode = 'welcome';
         $scope.$digest();
@@ -90,7 +91,7 @@ RegisterTab.prototype.angular = function (module) {
           }
         }
       });
-    }
+    };
 
     $scope.goToOverview = function()
     {
@@ -98,12 +99,17 @@ RegisterTab.prototype.angular = function (module) {
       $scope.reset();
 
       tm.gotoTab('overview');
-    }
+    };
 
     $scope.showPassword = function()
     {
       $scope.password = $scope.password1;
-    }
+    };
+
+    $scope.showSecret = function()
+    {
+      $scope.key = $scope.keyOpen;
+    };
 
     $scope.reset();
   })

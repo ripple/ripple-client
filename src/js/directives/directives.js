@@ -4,7 +4,7 @@
  * Miscellaneous directives go in this file.
  */
 
-var module = angular.module('directives', []);
+var module = angular.module('directives', ['popup']);
 
 /**
  * Inline edit
@@ -207,3 +207,19 @@ module.directive('rpErrorValid', [function () {
   };
 }]);
 
+module.directive('rpConfirm', ['rpPopup', function (popup) {
+  return {
+    restrict: 'E',
+    link: function postLink(scope, element, attrs) {
+      // Could have custom or bootstrap modal options here
+      var popupOptions = {};
+      element.find('a,button').click(function()
+      {
+        popup.confirm(attrs["title"], attrs["actionText"],
+            attrs["actionButtonText"], attrs["actionFunction"],
+            attrs["cancelButtonText"], attrs["cancelFunction"],
+            scope, popupOptions);
+      });
+    }
+  };
+}]);

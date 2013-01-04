@@ -29,6 +29,7 @@ Angular.load = function ()
   require('../services/network');
   require('../services/transactions');
   require('../services/ledger');
+  require('../services/popup');
 };
 
 exports.Angular = Angular;

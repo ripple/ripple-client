@@ -85,38 +85,48 @@
 
 #t-register {
   .mode-welcome {
-    .info {
-      border-radius: 5px;
-      border: 1px solid #bebebe;
-      padding: 20px 30px 40px;
-      overflow: hidden;
-      font-size: 30px;
-      margin: 0 60px;
+    display: block;
+    margin: 0 30px;
 
-      .username {
-        float: left;
-        width: 370px;
-        height: 100px;
-      }
-      .password {
-        float: left;
-        width: 370px;
-        height: 100px;
+    h1 {
+      margin: 0 30px;
+    }
 
-        button {
-          display: block;
-          margin: 10px 0 0 0;
-        }
+    .important {
+      font-size: 16px;
+    }
+
+    .credentials {
+      display: inline-block;
+      background-color: #F5F5F5;
+      margin: 0 @pmSingleMargin;
+      padding: 10px;
+      font-size: 12px;
+
+      .value {
+        font-size: 18px;
       }
-      .key {
-        clear: both;
+      span {
+        margin: 0 5px 0 0;
       }
-      .var {
-        display: block;
-        line-height: 50px;
-        font: 16px 'OpenSansLight';
+      a {
+        margin: 0 0 0 5px;
       }
     }
+
+    .secret {
+      margin: 0 30px;
+      padding: 0 30px;
+      border-radius: 10px;
+      border: 1px solid #f2f2f2;
+      font: 15px 'OpenSansLight';
+
+      .key {
+        margin: 0 5px;
+        font-size: 25px;
+      }
+    }
+
     .action {
       margin-top: 20px;
 
