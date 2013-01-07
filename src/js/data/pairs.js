@@ -7,6 +7,9 @@
  * [1] http://en.wikipedia.org/wiki/Currency_pair#The_Majors
  */
 module.exports = [
+  {name: 'BTC/USD'},
+  {name: 'BTC/EUR'},
+  {name: 'BTC/XRP'},
   {name: 'USD/XRP'},
   {name: 'EUR/XRP'},
   {name: 'JPY/XRP'},
@@ -18,6 +21,5 @@ module.exports = [
   {name: 'USD/JPY'},
   {name: 'GBP/USD'},
   {name: 'AUD/USD'},
-  {name: 'USD/CHF'},
-  {name: 'USD/CAD'}
+  {name: 'USD/CHF'}
 ];
