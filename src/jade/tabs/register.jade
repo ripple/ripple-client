@@ -61,7 +61,7 @@ section.single.content(ng-controller="RegisterCtrl")
   group.mode-welcome(ng-show='mode=="welcome"')
     h1 Welcome To Ripple
     p.important Important:
-    p The Secret key below gives access to your money in the unlikely case that you lose your wallet name or passphrase.
+    p.hint The Secret key below gives access to your money in the unlikely case that you lose your wallet name or passphrase.
       | In that case your contacts will be lost, but with this Secret Key alone anyone can retrieve your money. So please
       | store it somewhere PRIVATE AND SAFE. Read more about keys and wallet safety in&nbsp;
       a(href="#") Security
@@ -79,7 +79,7 @@ section.single.content(ng-controller="RegisterCtrl")
           cancel-button-text="no")
             a Show
     .secret
-      p Secret key:
+      p.important Secret key:
       p.key {{key}}
       p
         rp-confirm(

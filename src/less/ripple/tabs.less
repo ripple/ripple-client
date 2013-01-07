@@ -93,21 +93,25 @@
     }
 
     .important {
-      font-size: 16px;
+      font: 16px 'OpenSansLight';
     }
 
     .credentials {
       display: inline-block;
       background-color: #F5F5F5;
       margin: 0 @pmSingleMargin;
-      padding: 10px;
+      padding: 10px 30px;
       font-size: 12px;
 
       .value {
         font-size: 18px;
       }
       span {
-        margin: 0 5px 0 0;
+        margin: 0 10px 0 0;
+
+        span {
+          margin: 0 10px;
+        }
       }
       a {
         margin: 0 0 0 5px;
@@ -119,7 +123,6 @@
       padding: 0 30px;
       border-radius: 10px;
       border: 1px solid #f2f2f2;
-      font: 15px 'OpenSansLight';
 
       .key {
         margin: 0 5px;
@@ -146,10 +149,10 @@
   }
 
   .hint {
-    font-size: 12px;
+    color: #666;
   }
 
-  .important {
+  .hint.important {
     color: red;
   }
 }
