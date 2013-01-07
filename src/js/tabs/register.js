@@ -101,16 +101,6 @@ RegisterTab.prototype.angular = function (module) {
       tm.gotoTab('overview');
     };
 
-    $scope.showPassword = function()
-    {
-      $scope.password = $scope.password1;
-    };
-
-    $scope.showSecret = function()
-    {
-      $scope.key = $scope.keyOpen;
-    };
-
     $scope.reset();
   })
 };
