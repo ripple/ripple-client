@@ -30,7 +30,7 @@ section.single.content(ng-controller="RegisterCtrl")
             required, rp-same-as="register_password1")
         div(class="strength {{strength}}")
           {{strength}}
-      a(ng-click="showMasterKeyInput=true", ng-hide="showMasterKeyInput") Need to use your Secret Key?
+      a(ng-click="showMasterKeyInput=true", ng-hide="showMasterKeyInput") Need to use your Secret Account Key?
       div(ng-show="showMasterKeyInput")
         label(for='register_masterkey')
           | Master Key&nbsp;
@@ -61,8 +61,8 @@ section.single.content(ng-controller="RegisterCtrl")
   group.mode-welcome(ng-show='mode=="welcome"')
     h1 Welcome To Ripple
     p.important Important:
-    p.hint The Secret key below gives access to your money in the unlikely case that you lose your wallet name or passphrase.
-      | In that case your contacts will be lost, but with this Secret Key alone anyone can retrieve your money. So please
+    p.hint The Secret Account Key below gives access to your money in the unlikely case that you lose your wallet name or passphrase.
+      | In that case your contacts will be lost, but with this Secret Account Key alone anyone can retrieve your money. So please
       | store it somewhere PRIVATE AND SAFE. Read more about keys and wallet safety in&nbsp;
       a(href="#") Security
     .credentials
@@ -82,7 +82,7 @@ section.single.content(ng-controller="RegisterCtrl")
             a Show
         a(ng-click="showPassword=false", ng-show="showPassword==true") Hide
     .secret
-      p.important Secret key:
+      p.important Secret Account key:
       p.key(ng-show="showSecret==true") {{keyOpen}}
       p.key(ng-hide="showSecret==true") {{key}}
       p(ng-hide="showSecret==true")
@@ -91,9 +91,9 @@ section.single.content(ng-controller="RegisterCtrl")
           action-button-text="Yes, show me"
           action-function="showSecret=true"
           cancel-button-text="no")
-            button.btn.btn-info.btn-small Show secret key
+            button.btn.btn-info.btn-small Show secret account key
       p(ng-show="showSecret==true")
-        button.btn.btn-info.btn-small(ng-click="showSecret=false") Hide secret key
-    p.important Have you saved your Secret Key some where safe?
+        button.btn.btn-info.btn-small(ng-click="showSecret=false") Hide secret account key
+    p.important Have you saved your Secret Account Key some where safe?
     .action
-      a.btn.btn-info.btn-big(href='#overview', ng-click='reset()') Yes, I saved my secret key
+      a.btn.btn-info.btn-big(href='#overview', ng-click='reset()') Yes, I saved my secret account key
