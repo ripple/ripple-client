@@ -3,7 +3,7 @@ section#t-send.single.content(ng-controller='SendCtrl')
   //- N1. Send form
 
   form.mode-form(name="sendForm", ng-show='mode=="form"', ng-submit='send()')
-    p.literal You can send money or credits to anyone with a Ripple account.
+    p.literal Send money to anyone with a ripple account.
     hr
     label(for='send_amount') Amount
     .amount
@@ -24,7 +24,7 @@ section#t-send.single.content(ng-controller='SendCtrl')
         | Not a valid amount.
       .error(rp-error-on='maxlength')
         | Not a valid amount.
-    label(for='send_destination') Destination
+    label(for='send_destination') Recipient
     input#send_destination(
       name='send_destination', type='text', rp-combobox="recipient_query"
       placeholder='Contact name or Ripple address'

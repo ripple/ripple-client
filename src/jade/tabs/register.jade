@@ -1,21 +1,28 @@
 section.single.content(ng-controller="RegisterCtrl")
   group.mode-form(ng-show='mode=="form"')
     h1 Create a Ripple Wallet
-    p.literal Ripple an open-source P2P payment system.
+    p.literal ripple is an open source p2p payment network — a fast, easy way to send any kind of money to
+      | anyone in the world.
+    p.literal.hint
+      | Your Wallet is only as safe as your Wallet Name and Passphrase, used to encrypt your Wallet data.
+      | Choose a Passphrase you can easily remember but others cannot guess. Hint: Mix letters, numbers, and symbols.
+    p.literal.hint.important
+      | Only you have this Wallet Name and Passphrase and are responsible for their safekeeping. ripple cannot
+      | recover them if you forget them!
     form(name='registerForm', ng-submit='submitForm()')
-      label(for='register_username') Create Wallet name
+      label(for='register_username') Create Wallet Name
       input#register_username(
         name='register_username', type='text', ng-model="username", required)
       .horiz
         div
-          label(for='register_password') Pass phrase
+          label(for='register_password') Create Wallet Passphrase
           input#register_password(
             name='register_password1', type='password'
             ng-model="password1"
             rp-strong-password, required)
           p.text-error(ng-show="registerForm.register_password2.$error.rpSameAs && registerForm.register_password2.$dirty") Passwords do not match
         div
-          label(for='register_password2') Pass phrase Again
+          label(for='register_password2') Re-Enter Passphrase
           input#register_password2(
             name='register_password2'
             type='password'
@@ -23,7 +30,7 @@ section.single.content(ng-controller="RegisterCtrl")
             required, rp-same-as="register_password1")
         div(class="strength {{strength}}")
           {{strength}}
-      a(ng-click="showMasterKeyInput=true", ng-hide="showMasterKeyInput") use existing master key?
+      a(ng-click="showMasterKeyInput=true", ng-hide="showMasterKeyInput") Need to use your Secret Key?
       div(ng-show="showMasterKeyInput")
         label(for='register_masterkey')
           | Master Key&nbsp;
@@ -40,8 +47,7 @@ section.single.content(ng-controller="RegisterCtrl")
             a(ng-click="storeChange=true") change
           span(ng-show="storeChange", class="storeChange")
             select(ng-model="blobBackendCollection.something", ng-options="b.name for b in blobBackendCollections", ng-change="backendChange()")
-          div
-            Your information will be stored encrypted on servers provided by Payward.
+          div Your information will be stored encrypted on servers provided by Payward.
       p.literal.throw
         | Have a wallet already?&nbsp;
         a(href='#login') Open wallet

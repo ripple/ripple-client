@@ -82,8 +82,8 @@ Id.prototype.init = function ()
 
   this.app.$scope.blobBackendCollections = [
     {name: 'Payward', 'value':'vault'},
-    {name: 'Payward, (Local copy)', 'value':'vault,local'},
-    {name: 'Local', 'value':'local'}
+    {name: 'Payward, Local Browser', 'value':'vault,local'},
+    {name: 'Local Browser', 'value':'local'}
   ];
   this.app.$scope.blobBackendCollection = {something: this.app.$scope.blobBackendCollections[1]};
 

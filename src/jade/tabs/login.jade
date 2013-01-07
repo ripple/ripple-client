@@ -1,11 +1,11 @@
 section.single.content(ng-controller="LoginCtrl")
   h1 Open Wallet
-  p.literal Enter the wallet name and pass phrase that was used to encrypt your wallet below.
+  p.literal Enter the Name and Passphrase used to encrypt your Wallet below.
   form(name='loginForm', ng-submit='submitForm()')
     label(for='login_username') Wallet name
     input#login_username(name='login_username', type='text', ng-model='username', required)
     p.text-error(ng-show='error') {{error}}
-    label(for='login_password') Pass phrase
+    label(for='login_password') Passphrase
     input#login_password(name='login_password', type='password', ng-model='password', required)
     label.storageinfo(ng-class="{throbber: ajax_loading}")
       | Fetch your wallet from:&nbsp;
@@ -16,14 +16,17 @@ section.single.content(ng-controller="LoginCtrl")
         select(ng-model="blobBackendCollection.something", ng-options="b.name for b in blobBackendCollections", ng-change="backendChange()")
         a(ng-click="storeChange=false") ok
     p.literal.hint
-      | Your information will be loaded from Payward and decrypted locally with your pass phrase.
+      | Your information will be loaded from Payward and decrypted locally with your Passphrase.
     .submitsection
       button.btn.btn-info(type='submit') Go
       p.literal
-        | You are responsible for safeguarding your login information.<br>
-        | Ripple can not recover your wallet name or pass phrase.<br>
+        | Please remember that you are responsible for your login information.
+        | ripple cannot recover your Wallet Name or Passphrase if you forget them!
+        br
         strong Write down your master key.&nbsp;
         a(href='#') Learn how
     p.literal
       | New to Ripple? 
       a(href='#register') Create a wallet
+      br
+      a(href='#register') Need to use your Secret Key?
