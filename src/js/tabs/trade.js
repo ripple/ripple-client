@@ -171,7 +171,7 @@ TradeTab.prototype.angular = function(module)
 
       $scope.order.price_amount = ripple.Amount.from_human(formatted);
 
-      if (second_currency !== 'XRP') $scope.order.first_amount.set_issuer(app.id.account);
+      if (second_currency !== 'XRP') $scope.order.price_amount.set_issuer(app.id.account);
     };
 
     $scope.update_second = function () {
@@ -181,7 +181,7 @@ TradeTab.prototype.angular = function(module)
 
       $scope.order.second_amount = ripple.Amount.from_human(formatted);
 
-      if (second_currency !== 'XRP') $scope.order.first_amount.set_issuer(app.id.account);
+      if (second_currency !== 'XRP') $scope.order.second_amount.set_issuer(app.id.account);
     };
 
     $scope.calc_second = function () {

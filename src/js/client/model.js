@@ -22,6 +22,7 @@ Model.prototype.init = function ()
 
   $scope.currencies_all = require('../data/currencies');
   $scope.currencies = $scope.currencies_all.slice(1);
+  $scope.pairs = require('../data/pairs');
 
   this.app.id.on('accountload', this.handleAccountLoad.bind(this));
   this.app.net.remote.on('net_account', this.handleAccountEvent.bind(this));
@@ -123,7 +124,7 @@ Model.prototype.handleOffers = function (data)
         pays: ripple.Amount.from_json(offerData.taker_pays)
       };
 
-      $scope.offers[""+offer.seq] = offer;
+      self._updateOffer(offer);
     });
     console.log('offers updated:', $scope.offers);
   });
@@ -208,7 +209,7 @@ Model.prototype._processTxn = function (tx, meta, is_historic)
     // Update my offers
     if (processedTxn.offers && !is_historic) {
       processedTxn.offers.forEach(function (offer) {
-        self._updateOffers(offer);
+        self._updateOffer(offer);
       });
     }
   }
@@ -272,9 +273,39 @@ Model.prototype._updateRippleBalance = function(currency, new_account, new_balan
   balance.total = ripple.Amount.from_human(""+balance.total+" "+currency);
 };
 
-Model.prototype._updateOffers = function (offer)
+Model.prototype._updateOffer = function (offer)
 {
   var $scope = this.app.$scope;
+
+  var reverseOrder = null;
+  var pairs = $scope.pairs;
+  for (var i = 0, l = pairs.length; i < l; i++) {
+    var pair = pairs[i].name;
+    if (pair.slice(0,3) == offer.gets.currency().to_json() &&
+        pair.slice(4,7) == offer.pays.currency().to_json()) {
+      reverseOrder = false;
+      break;
+    } else if (pair.slice(0,3) == offer.pays.currency().to_json() &&
+               pair.slice(4,7) == offer.gets.currency().to_json())  {
+      reverseOrder = true;
+      break;
+    }
+  }
+
+  // TODO: Sensible default for undefined pairs
+  if (reverseOrder === null) {
+    reverseOrder = false;
+  }
+
+  if (reverseOrder) {
+    offer.type = 'buy';
+    offer.first = offer.pays;
+    offer.second = offer.gets;
+  } else {
+    offer.type = 'sell';
+    offer.first = offer.gets;
+    offer.second = offer.pays;
+  }
 
   if (!offer.deleted) {
     $scope.offers[""+offer.seq] = offer;
@@ -284,3 +315,4 @@ Model.prototype._updateOffers = function (offer)
 };
 
 exports.Model = Model;
+
