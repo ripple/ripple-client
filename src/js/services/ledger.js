@@ -77,10 +77,14 @@ module.factory('rpLedger', ['$q', '$rootScope', 'rpNetwork', 'rpTransactions',
   /**
    * Fill out the sum field in the bid or ask orders array.
    */
-  function fillSum(array) {
-    var sum = 0;
+  function fillSum(array, field) {
+    var sum = null;
     for (var i = 0, l = array.length; i<l; i++) {
-      sum += array[i].o.num;
+      if (sum === null) {
+        sum = array[i][field].amount;
+      } else {
+        sum = sum.add(array[i][field].amount);
+      }
       array[i].sum = sum;
     }
   }
