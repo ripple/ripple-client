@@ -235,8 +235,6 @@ Model.prototype._updateLines = function(txn)
   line.currency = txn.currency;
   line.account = txn.counterparty;
 
-  line.balance = ripple.Amount.from_json({value: line.balance, currency: line.currency});
-
   if (txn.tx_type === "Payment") {
     this._updateRippleBalance(txn.currency, txn.counterparty, txn.balance);
   } else if (txn.tx_type === "TrustSet") {
