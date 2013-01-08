@@ -221,10 +221,10 @@ TradeTab.prototype.angular = function(module)
       var orders = ledger.getOrders(secondCurrency, firstCurrency);
 
       var bestBid = orders.bids[0];
-      if (bestBid) $scope.bid_price = bestBid.o.amount.ratio_human(bestBid.i.amount);
+      if (bestBid) $scope.bid_price = bestBid.i.amount.ratio_human(bestBid.o.amount);
 
       var bestAsk = orders.asks[0];
-      if (bestAsk) $scope.ask_price = bestAsk.o.amount.ratio_human(bestAsk.i.amount);
+      if (bestAsk) $scope.ask_price = bestAsk.i.amount.ratio_human(bestAsk.o.amount);
 
       if ($scope.bid_price.is_valid() && $scope.ask_price.is_valid()) {
         $scope.spread = $scope.ask_price.add($scope.bid_price.negate());

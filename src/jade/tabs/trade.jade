@@ -7,15 +7,15 @@ section.panel.content(ng-controller="TradeCtrl")
       li
         span.label Bid =
         span.value.up
-          | {{bid_price | rpamount:6}}
+          | {{bid_price | rpamount:{precision: 5, min_precision: 5} }}
       li
         span.label Ask =
         span.value
-          | {{ask_price | rpamount:6}}
+          | {{ask_price | rpamount:{precision: 5, min_precision: 5} }}
       li
         span.label Spread =
         span.value.down
-          | {{spread | rpamount:6}}
+          | {{spread | rpamount:{precision: 5, min_precision: 5} }}
       li
         span.label Last price =
         span.value
@@ -149,7 +149,7 @@ section.panel.content(ng-controller="TradeCtrl")
       tr(ng-repeat="entry in offers", class="{{entry.type}}", ng-class="{cancelled: cancelled}")
         td.type {{entry.type | rpucfirst}}
         td.pair {{entry.first | rpcurrency}}/{{entry.second | rpcurrency}}
-        td.price.rpamount {{entry.second | rpamountratio:entry.first | rpamount}}
+        td.price.rpamount {{entry.second | rpamountratio:entry.first | rpamount:{precision: 5, min_precision: 5} }}
           span.currency {{entry.second | rpcurrency}}
         td.amount.rpamount {{entry.first | rpamount}}
           span.currency {{entry.first | rpcurrency}}

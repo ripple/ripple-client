@@ -21,7 +21,7 @@ section.panel.content(ng-controller="OrderbookCtrl")
           td.amount.rpamount {{order.o.amount | rpamount:{precision: 6} }}
             span.currency {{order.o.amount | rpcurrency}}
           td.price.rpamount
-            | {{order.i.amount | rpamountratio:order.o.amount | rpamount:{precision: 6, min_precision: 6} }}
+            | {{order.i.amount | rpamountratio:order.o.amount | rpamount:{precision: 5, min_precision: 5} }}
             span.currency {{order.i.amount | rpcurrency}}
         tr(ng-show='!bids.length')
           td(colspan="5") There are currently no bids for this pair
@@ -33,9 +33,9 @@ section.panel.content(ng-controller="OrderbookCtrl")
       tbody
         tr(ng-repeat='order in asks')
           td.price.rpamount
-            | {{order.i.amount | rpamountratio:order.o.amount | rpamount:{precision: 6, min_precision: 6} }}
+            | {{order.i.amount | rpamountratio:order.o.amount | rpamount:{precision: 5, min_precision: 5} }}
             span.currency {{order.i.amount | rpcurrency}}
-          td.amount.rpamount {{order.o.amount | rpamount:{precision: 6} }}
+          td.amount.rpamount {{order.o.amount | rpamount:{precision: 5} }}
             span.currency {{order.o.amount | rpcurrency}}
           td.sum.rpamount {{order.sum}}
             span.currency {{order.o.amount | rpcurrency}}
