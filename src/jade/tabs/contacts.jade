@@ -13,26 +13,54 @@ section.panel.content(ng-controller="ContactsCtrl")
         td(colspan=5)
           form(name="addForm")
             label(for='Name') Name
-            input.name#contact_address(name='name', type='text', step='any', ng-model='name', rp-unique='userBlob.data.contacts', rp-unique-field='name', required)
-            .error(ng-show='addForm.name.$error.rpUnique') You already have a contact with the same name.
+            input.name#contact_address(
+              name='name', type='text', step='any'
+              ng-model='name'
+              rp-unique='userBlob.data.contacts'
+              rp-unique-field='name'
+              required)
+            .errorGroup(rp-errors='name')
+              .error(rp-error-on='rpUnique')
+                | You already have a contact with the same name.
             label(for='Address') Address
-            input.address#contact_address(name='address', type='text', step='any', ng-model='address', rp-address, rp-unique='userBlob.data.contacts', rp-unique-field='address', required)
-            .error(ng-show='addForm.address.$error.rpAddress') Not a valid address.
-            .error(ng-show='addForm.address.$error.rpUnique') You already have a contact with the same address.
+            input.address#contact_address(
+              name='address', type='text', step='any'
+              ng-model='address'
+              rp-address
+              rp-unique='userBlob.data.contacts'
+              rp-unique-field='address'
+              required)
+            .errorGroup(rp-errors='address')
+              .error(rp-error-on='rpAddress') Not a valid address.
+              .error(rp-error-on='rpUnique')
+                | You already have a contact with the same address.
             .submitsection
               button.btn.btn-info.submit(type='submit', ng-click='create()', ng-disabled='addForm.$invalid') Add contact
       tr(ng-repeat="entry in userBlob.data.contacts", ng-class="{editing: editing}", ng-controller="ContactRowCtrl", rp-animate="enable_highlight")
         td.name
           div(ng-show='editing')
             ng-form(name='inlineName')
-              input(name='editname', type="text", ng-model='editname', class="inline", rp-unique='userBlob.data.contacts', rp-unique-field='name', rp-unique-orig='entry.name')
-              .error(ng-show='inlineName.editname.$error.rpUnique') You already have a contact with the same name.
+              input(name='editname', type="text", class="inline"
+                ng-model='editname'
+                rp-unique='userBlob.data.contacts'
+                rp-unique-field='name'
+                rp-unique-orig='entry.name')
+              .errorGroup(rp-errors='editname')
+                .error(rp-error-on='rpUnique')
+                  | You already have a contact with the same name.
           span(ng-hide='editing') {{entry.name}}
         td.account(ng-show='editing')
           ng-form(name='inlineAddress')
-            input(name='editaddress', type="text", ng-model='editaddress', class="inline", rp-unique='userBlob.data.contacts', rp-unique-field='address', rp-unique-orig='entry.address', rp-address)
-            .error(ng-show='inlineAddress.editaddress.$error.rpUnique') You already have this address.
-            .error(ng-show='inlineAddress.editaddress.$error.rpAddress') Not a valid address.
+            input(
+              name='editaddress', type="text", class="inline"
+              ng-model='editaddress'
+              rp-unique='userBlob.data.contacts'
+              rp-unique-field='address'
+              rp-unique-orig='entry.address'
+              rp-address)
+            .errorGroup(rp-errors='editaddress')
+              .error(rp-error-on='rpUnique') You already have this address.
+              .error(rp-error-on='rpAddress') Not a valid address.
         td.account(ng-hide='editing')
           {{entry.address}}
         td.command

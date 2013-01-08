@@ -222,7 +222,6 @@ html.t-overview header nav ul > li.active#nav-account > a:after {
   }
   #trust_counterparty {
     width: 392px;
-    margin-bottom: 35px;
   }
 
   table {
@@ -249,6 +248,15 @@ html.t-overview header nav ul > li.active#nav-account > a:after {
       rp-trust-line {
         margin: 0 -50px;
       }
+    }
+  }
+
+  form {
+    input {
+      margin-bottom: 35px;
+    }
+    .error {
+      margin-top: -30px;
     }
   }
 
@@ -563,14 +571,21 @@ html.t-overview header nav ul > li.active#nav-account > a:after {
   }
   #send_amount_currency {
     width: 210px;
-    margin-bottom: 35px;
   }
   #send_destination {
     width: 392px;
-    margin-bottom: 35px;
   }
   #send_nickname {
     .input-xlarge;
+  }
+
+  .mode-form {
+    input {
+      margin-bottom: 35px;
+    }
+    .error {
+      margin-top: -30px;
+    }
   }
 
   .mode-sent {
@@ -776,27 +791,12 @@ html.t-overview header nav ul > li.active#nav-account > a:after {
           display: inline-block;
         }
 
-        .currency-field {
-          display: inline-block;
-          width: 300px;
-
-          label {
-            line-height: 30px;
-            width: 50px;
-          }
-          .error {
-            width: 300px;
-            margin: 0 0 0 50px;
-          }
-          input {
-            margin: 0;
-          }
-        }
         .sell {
           float: left;
         }
       }
       .order-values {
+        .clearfix;
         .value-field {
           width: 212px;
           float: left;
@@ -817,10 +817,19 @@ html.t-overview header nav ul > li.active#nav-account > a:after {
           margin: 40px 0 0 0;
           float: left;
         }
+        .error {
+          margin-bottom: 0;
+          height: 0;
+          overflow: visible;
+        }
       }
       .message {
         clear: both;
         color: green;
+        position: relative;
+        top: -20px;
+        height: 0;
+        overflow: visible;
       }
       .submitsection {
         clear: both;
