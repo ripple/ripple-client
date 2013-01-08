@@ -55,7 +55,7 @@ module.factory('rpLedger', ['$q', '$rootScope', 'rpNetwork', 'rpTransactions',
       return bRatio.compareTo(aRatio);
     });
 
-    fillSum(obj.asks, 'o');
+    fillSum(obj.asks, 'i');
     fillSum(obj.bids, 'i');
 
     return obj;
