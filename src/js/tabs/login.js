@@ -48,7 +48,7 @@ LoginTab.prototype.angular = function (module) {
         // XXX: Handle err
         if (success) {
           console.log('success');
-          tm.gotoTab('overview');
+          tm.gotoTab('balance');
         } else {
           $scope.error = 'Username and/or password is wrong.';
         }

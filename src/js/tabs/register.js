@@ -87,18 +87,18 @@ RegisterTab.prototype.angular = function (module) {
             $scope.$digest();
           } else {
             $scope.reset();
-            $scope.goToOverview();
+            $scope.goToBalance();
           }
         }
       });
     };
 
-    $scope.goToOverview = function()
+    $scope.goToBalance = function()
     {
       $scope.mode = 'form';
       $scope.reset();
 
-      tm.gotoTab('overview');
+      tm.gotoTab('balance');
     };
 
     $scope.reset();

@@ -78,7 +78,7 @@ section.panel.content(ng-controller="TrustCtrl")
   group.mode-error(ng-show='mode=="error"')
     div(ng-show="errorMessage")
       p.literal {{errorMessage}}
-      p: a.btn(href="#overview") Back to overview
+      p: a.btn(href="#balance") Back to balance
     div(ng-hide="errorMessage")
       p.literal Sorry, an error occurred while granting. Make sure you are connected to the Internet and try again later.
       p: button.btn(ng-click='reset()') &laquo; Back

@@ -40,7 +40,7 @@ TabManager.prototype.init = function ()
     } catch (e) {
       console.warn("tabs: error loading "+location.hash+":");
       log.exception(e);
-      this.gotoTab("overview");
+      this.gotoTab("balance");
     }
   } else if (this.app.id.isReturning()) {
     console.log("client: returning user");
@@ -231,8 +231,8 @@ TabManager.tabs["account"] = function (callback) {
   callback(require('../tabs/account'));
 };
 
-TabManager.tabs["overview"] = function (callback) {
-  callback(require('../tabs/overview'));
+TabManager.tabs["balance"] = function (callback) {
+  callback(require('../tabs/balance'));
 };
 
 TabManager.tabs["history"] = function (callback) {
@@ -492,7 +492,7 @@ Tab.prototype.hideSiblings = function ()
  * child being referenced.
  *
  * For example, somebody might open #account, instead of linking to
- * one of the subsections like #overview.
+ * one of the subsections like #balance.
  *
  * In this case we want to show the defaultSection or, if none is
  * specified, the first child section.

@@ -8,6 +8,6 @@ var AccountTab = function ()
 
 util.inherits(AccountTab, Tab);
 
-AccountTab.prototype.defaultChild = 'overview';
+AccountTab.prototype.defaultChild = 'balance';
 
 module.exports = AccountTab;
