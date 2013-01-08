@@ -17,12 +17,12 @@ section.panel.content(ng-controller="OrderbookCtrl")
       tbody
         tr(ng-repeat='order in bids')
           td.sum.rpamount {{order.sum}}
-            span.currency {{order.o.amount | rpcurrency}}
+            span.currency {{order.i.amount | rpcurrency}}
           td.amount.rpamount {{order.o.amount | rpamount:{precision: 6} }}
-            span.currency {{order.o.amount | rpcurrency}}
+            span.currency {{order.i.amount | rpcurrency}}
           td.price.rpamount
             | {{order.o.amount | rpamountratio:order.i.amount | rpamount:{precision: 5, min_precision: 5} }}
-            span.currency {{order.i.amount | rpcurrency}}
+            span.currency {{order.o.amount | rpcurrency}}
         tr(ng-show='!bids.length')
           td(colspan="5") There are currently no bids for this pair
     table.asks.table.table-striped
@@ -34,10 +34,10 @@ section.panel.content(ng-controller="OrderbookCtrl")
         tr(ng-repeat='order in asks')
           td.price.rpamount
             | {{order.o.amount | rpamountratio:order.i.amount | rpamount:{precision: 5, min_precision: 5} }}
-            span.currency {{order.i.amount | rpcurrency}}
+            span.currency {{order.o.amount | rpcurrency}}
           td.amount.rpamount {{order.o.amount | rpamount:{precision: 5} }}
-            span.currency {{order.o.amount | rpcurrency}}
+            span.currency {{order.i.amount | rpcurrency}}
           td.sum.rpamount {{order.sum}}
-            span.currency {{order.o.amount | rpcurrency}}
+            span.currency {{order.i.amount | rpcurrency}}
         tr(ng-show='!asks.length')
           td(colspan="3") There are currently no asks for this pair

@@ -44,11 +44,15 @@ module.factory('rpLedger', ['$q', '$rootScope', 'rpNetwork', 'rpTransactions',
     });
 
     obj.asks.sort(function (a, b) {
-      return (a.o.num/a.i.num) - (b.o.num/b.i.num);
+      var aRatio = a.o.amount.ratio_human(a.i.amount);
+      var bRatio = b.o.amount.ratio_human(b.i.amount);
+      return aRatio.compareTo(bRatio);
     });
 
     obj.bids.sort(function (a, b) {
-      return (a.o.num/b.i.num) - (b.o.num/a.i.num);
+      var aRatio = a.o.amount.ratio_human(a.i.amount);
+      var bRatio = b.o.amount.ratio_human(b.i.amount);
+      return bRatio.compareTo(aRatio);
     });
 
     fillSum(obj.asks, 'o');

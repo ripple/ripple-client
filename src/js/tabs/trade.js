@@ -214,7 +214,6 @@ TradeTab.prototype.angular = function(module)
       var second_currency = $scope.order.second_currency || "XRP";
 
       var orders = ledger.getOrders(first_currency, second_currency);
-      console.log(orders);
 
       var bestBid = orders.bids[0];
       if (bestBid) $scope.bid_price = bestBid.o.amount.ratio_human(bestBid.i.amount);
