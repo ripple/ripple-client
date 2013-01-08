@@ -11,7 +11,7 @@ var ExchangeTab = function ()
 
 util.inherits(ExchangeTab, Tab);
 
-ExchangeTab.prototype.parent = 'account';
+ExchangeTab.prototype.parent = 'wallet';
 
 ExchangeTab.prototype.generateHtml = function ()
 {

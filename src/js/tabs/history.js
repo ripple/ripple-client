@@ -11,7 +11,7 @@ var HistoryTab = function ()
 
 util.inherits(HistoryTab, Tab);
 
-HistoryTab.prototype.parent = 'account';
+HistoryTab.prototype.parent = 'wallet';
 
 HistoryTab.prototype.generateHtml = function ()
 {

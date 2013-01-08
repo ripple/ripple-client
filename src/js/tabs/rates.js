@@ -11,7 +11,7 @@ var RatesTab = function ()
 
 util.inherits(RatesTab, Tab);
 
-RatesTab.prototype.parent = 'account';
+RatesTab.prototype.parent = 'wallet';
 
 RatesTab.prototype.generateHtml = function ()
 {

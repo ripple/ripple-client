@@ -10,7 +10,7 @@ var InfoTab = function ()
 
 util.inherits(InfoTab, Tab);
 
-InfoTab.prototype.parent = 'account';
+InfoTab.prototype.parent = 'wallet';
 
 InfoTab.prototype.generateHtml = function ()
 {

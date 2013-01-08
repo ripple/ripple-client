@@ -10,7 +10,7 @@ var ContactsTab = function ()
 
 util.inherits(ContactsTab, Tab);
 
-ContactsTab.prototype.parent = 'account';
+ContactsTab.prototype.parent = 'wallet';
 
 ContactsTab.prototype.generateHtml = function ()
 {

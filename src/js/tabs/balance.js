@@ -8,7 +8,7 @@ var BalanceTab = function ()
 
 util.inherits(BalanceTab, Tab);
 
-BalanceTab.prototype.parent = 'account';
+BalanceTab.prototype.parent = 'wallet';
 
 BalanceTab.prototype.generateHtml = function ()
 {

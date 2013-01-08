@@ -227,8 +227,8 @@ TabManager.tabs["login"] = function (callback) {
   callback(require('../tabs/login'));
 };
 
-TabManager.tabs["account"] = function (callback) {
-  callback(require('../tabs/account'));
+TabManager.tabs["wallet"] = function (callback) {
+  callback(require('../tabs/wallet'));
 };
 
 TabManager.tabs["balance"] = function (callback) {
