@@ -112,7 +112,7 @@ section.panel.content(ng-controller="TradeCtrl")
       .mode-error(ng-switch-when='error')
         p.literal Sorry, an error occurred while submitting your transaction. Make sure you are connected to the Internet and try again later.
         p.literal Before trying again, please ensure that the transaction has not been executed already.
-        p: button.btn(ng-click='reset()') &laquo; Back
+        p: button.btn(ng-click='reset(true)') &laquo; Back
 
       //- 5. Done
 
@@ -134,7 +134,7 @@ section.panel.content(ng-controller="TradeCtrl")
             span(ng-switch-default) Trade failed, reason: {{engine_result_message}}
         hr
         div(class="actionLink")
-          a(href="#trade", ng-click="reset()") Back to the form
+          a(href="#trade", ng-click="reset(true)") Back to the form
 
   table.table.table-striped.open-orders
     caption Open Orders

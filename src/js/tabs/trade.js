@@ -31,7 +31,8 @@ TradeTab.prototype.angular = function(module)
     var pairs = require('../data/pairs');
     $scope.pairs_query = webutil.queryFromOptions(pairs);
 
-    $scope.reset = function () {
+    $scope.reset = function (keepPair) {
+      var pair = keepPair ? $scope.order.currency_pair : pairs[0].name;
       if ($scope.orderForm) $scope.orderForm.$setPristine();
       $scope.mode = "trade";
       $scope.order = {
@@ -39,9 +40,9 @@ TradeTab.prototype.angular = function(module)
         first: '',
         price: '',
         second: '',
-        currency_pair: pairs[0].name,
-        first_currency: pairs[0].name.slice(0, 3),
-        second_currency: pairs[0].name.slice(4, 7)
+        currency_pair: pair,
+        first_currency: pair.slice(0, 3),
+        second_currency: pair.slice(4, 7)
       };
     };
 
