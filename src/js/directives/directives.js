@@ -223,3 +223,54 @@ module.directive('rpConfirm', ['rpPopup', function (popup) {
     }
   };
 }]);
+
+/*
+ * Adds download functionality to an element.
+ */
+module.directive('rpDownload', [function () {
+  return {
+    restrict: 'A',
+    scope: {
+      data: '=rpDownload',
+      filename: '@rpDownloadFilename'
+    },
+    compile: function (element, attr, linker) {
+      return function (scope, element, attr) {
+        var trigger = element.find('[rp-download-trigger]');
+        if (!trigger.length) trigger = element;
+
+        element.css('position', 'relative');
+
+        setTimeout(function () {
+          var width = trigger.innerWidth();
+          var height = trigger.innerHeight();
+          var offsetTrigger = trigger.offset();
+          var offsetElement = element.offset();
+          var topOffset = offsetTrigger.top - offsetElement.top;
+          var leftOffset = offsetTrigger.left - offsetElement.left;
+          var dl = Downloadify.create(element[0], {
+            filename: function () {
+              return scope.filename;
+            },
+            data: function () {
+              return scope.data;
+            },
+            transparent: true,
+            swf: 'swf/downloadify.swf',
+            downloadImage: 'img/transparent_l.gif',
+            width: width,
+            height: height,
+            append: true
+          });
+
+          var id = dl.flashContainer.id;
+          $('#'+id).css({
+            position: 'absolute',
+            top: topOffset + 'px',
+            left: leftOffset + 'px'
+          });
+        }, 0);
+      };
+    }
+  };
+}]);

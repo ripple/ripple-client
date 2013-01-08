@@ -21,8 +21,17 @@ section.panel.content(ng-controller="InfoCtrl")
         td(colspan="2") Wallet:
           a.smallText(href="http://ripple.com/help/wallet", target="_blank") What is this?
       tr
-        td(colspan="2")
-          .wallet {{enc}}
-
-  p.literal IMPORTANT! There is no way to recover your wallet name or pass phrase. 
+        td.wallet(colspan="2")
+          span.value
+            span(ng-bind='userBlob.data.contacts.length')
+            |  contacts,&nbsp;
+            span(ng-bind='enc.length | rpfilesize')
+            | &ensp;
+          p.literal(
+            rp-download='enc'
+            rp-download-filename='ripple-wallet.json')
+            | You can&nbsp;
+            a(rp-download-trigger) backup your wallet to a file
+            | .
+  p.literal IMPORTANT! There is no way to recover your wallet name or pass phrase.&nbsp;
     a.smallText(href="http://ripple.com/help/password", target="_blank") Read why
