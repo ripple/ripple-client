@@ -44,11 +44,11 @@ module.factory('rpLedger', ['$q', '$rootScope', 'rpNetwork', 'rpTransactions',
     });
 
     obj.asks.sort(function (a, b) {
-      return (a.i.num/a.o.num) - (b.i.num/b.o.num);
+      return (a.o.num/a.i.num) - (b.o.num/b.i.num);
     });
 
     obj.bids.sort(function (a, b) {
-      return (b.o.num/b.i.num) - (a.o.num/a.i.num);
+      return (a.o.num/b.i.num) - (b.o.num/a.i.num);
     });
 
     fillSum(obj.asks, 'o');

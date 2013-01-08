@@ -175,8 +175,7 @@ TradeTab.prototype.angular = function(module)
     };
 
     $scope.update_second = function () {
-      var second_currency = $scope.order.second_currency ?
-            $scope.order.second_currency.slice(0, 3).toUpperCase() : "XRP";
+      var second_currency = $scope.order.second_currency || "XRP";
       var formatted = "" + $scope.order.second + " " + second_currency;
 
       $scope.order.second_amount = ripple.Amount.from_human(formatted);
@@ -211,20 +210,17 @@ TradeTab.prototype.angular = function(module)
       $scope.ask_price = ripple.Amount.NaN();
       $scope.spread = ripple.Amount.NaN();
 
-      var secondCurrency = $scope.order.second_currency ?
-            $scope.order.second_currency.slice(0, 3).toUpperCase() : "XRP";
-      var firstCurrency = $scope.order.first_currency ?
-            $scope.order.first_currency.slice(0, 3).toUpperCase() : "XRP";
+      var first_currency = $scope.order.first_currency || "XRP";
+      var second_currency = $scope.order.second_currency || "XRP";
 
-      $scope.ticker_pair = secondCurrency + '/' + firstCurrency;
-
-      var orders = ledger.getOrders(secondCurrency, firstCurrency);
+      var orders = ledger.getOrders(first_currency, second_currency);
+      console.log(orders);
 
       var bestBid = orders.bids[0];
-      if (bestBid) $scope.bid_price = bestBid.i.amount.ratio_human(bestBid.o.amount);
+      if (bestBid) $scope.bid_price = bestBid.o.amount.ratio_human(bestBid.i.amount);
 
       var bestAsk = orders.asks[0];
-      if (bestAsk) $scope.ask_price = bestAsk.i.amount.ratio_human(bestAsk.o.amount);
+      if (bestAsk) $scope.ask_price = bestAsk.o.amount.ratio_human(bestAsk.i.amount);
 
       if ($scope.bid_price.is_valid() && $scope.ask_price.is_valid()) {
         $scope.spread = $scope.ask_price.add($scope.bid_price.negate());

@@ -6,7 +6,7 @@ section.panel.content(ng-controller="TradeCtrl")
         span.value {{order.currency_pair}}
       li
         span.label Bid =
-        span.value.up
+        span.value
           | {{bid_price | rpamount:{precision: 5, min_precision: 5} }}
       li
         span.label Ask =
@@ -14,7 +14,7 @@ section.panel.content(ng-controller="TradeCtrl")
           | {{ask_price | rpamount:{precision: 5, min_precision: 5} }}
       li
         span.label Spread =
-        span.value.down
+        span.value
           | {{spread | rpamount:{precision: 5, min_precision: 5} }}
       li
         span.label Last price =
