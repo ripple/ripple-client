@@ -125,6 +125,9 @@ TradeTab.prototype.angular = function(module)
         case 'ter':
           $scope.tx_result = "failed";
           break;
+        case 'tec':
+          $scope.tx_result = "claim";
+          break;
         case 'tep':
           console.warn("Unhandled engine status encountered!");
       }

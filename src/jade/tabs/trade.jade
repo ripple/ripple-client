@@ -127,6 +127,13 @@ section.panel.content(ng-controller="TradeCtrl")
         group.result-malformed(ng-show='tx_result=="malformed"')
           h1 Request is malformed!
           p Your request is invalid, reason: {{engine_result}} - {{engine_result_message}}
+        group.result-malformed(ng-show='tx_result=="claim"')
+          h2 Transaction failed!
+          p(ng-switch on="engine_result")
+            span(ng-switch-when="tecUNFUNDED")
+              | You do not have enough XRP to create this order.
+            span(ng-switch-default)
+              | Error: {{engine_result_message}}
         group.result-failed(ng-show='tx_result=="failed"')
           h1 Trade failed!
           p(ng-switch on="engine_result")
