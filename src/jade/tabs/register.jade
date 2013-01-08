@@ -33,11 +33,11 @@ section.single.content(ng-controller="RegisterCtrl")
       a(ng-click="showMasterKeyInput=true", ng-hide="showMasterKeyInput") Need to use your Secret Account Key?
       div(ng-show="showMasterKeyInput")
         label(for='register_masterkey')
-          | Master Key&nbsp;
+          | Secret Account Key&nbsp;
           a(ng-click="showMasterKeyInput=false;") (hide)
         input#register_masterkey(name='register_masterkey', type='text', ng-model="masterkey", rp-master-key)
         .errorBox(ng-show="registerForm.register_masterkey.$error.rpMasterKey")
-          p.text-error Master key is invalid
+          p.text-error Secret Account Key is invalid
       .submitsection
         button.btn.btn-info(type='submit', ng-disabled='registerForm.$invalid') Create
         .storeinfo
@@ -53,8 +53,8 @@ section.single.content(ng-controller="RegisterCtrl")
         a(href='#login') Open wallet
 
   group.mode-masterkeyerror(ng-show='mode=="masterkeyerror"')
-    h1 Master key error
-    h2 There is a wallet with your wallet name and pass phrase, but the given master key is not connected to it. If you decide to continue registration your new master key will be used for current wallet name and pass phrase.
+    h1 Secret Account Key error
+    h2 There is a wallet with your wallet name and pass phrase, but the given Secret Account Key is not connected to it. If you decide to continue registration your new Secret Account Key will be used for current wallet name and pass phrase.
     button.btn.btn-info(ng-click='mode="form"') Back
     button.btn(ng-click='register()') Overwrite current key
 

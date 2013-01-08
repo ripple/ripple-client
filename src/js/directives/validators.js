@@ -41,7 +41,7 @@ module.directive('rpAddress', function () {
 });
 
 /**
- * Master key validator
+ * Secret Account Key validator
  */
 module.directive('rpMasterKey', function () {
   return {

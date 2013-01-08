@@ -152,7 +152,7 @@ Id.prototype.register = function (username, password, callback, masterkey)
 {
   var self = this;
 
-  // If master key is not present, generate one
+  // If Secret Account Key is not present, generate one
   masterkey = !!masterkey
       ? masterkey
       : Base58Utils.encode_base_check(33, sjcl.codec.bytes.fromBits(sjcl.random.randomWords(4)));
