@@ -121,13 +121,16 @@ var LocalBlobBackend = {
   {
     console.log('local get','ripple_blob_' + key);
     var blob = store.get('ripple_blob_'+key);
-    callback(null, blob);
+    // We use a timeout to simulate this function being asynchronous
+    setTimeout(function () {
+      callback(null, blob);
+    }, 0);
   },
 
   set: function (key, value, callback)
   {
     store.set('ripple_blob_'+key, value);
-    callback();
+    setTimeout(callback, 0);
   }
 };
 
