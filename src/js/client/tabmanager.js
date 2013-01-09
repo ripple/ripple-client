@@ -288,8 +288,8 @@ TabManager.tabs["peers"] = function (callback) {
 TabManager.tabs["unl"] = function (callback) {
   callback(require('../tabs/unl'));
 };
-TabManager.tabs["info"] = function (callback) {
-  callback(require('../tabs/info'));
+TabManager.tabs["security"] = function (callback) {
+  callback(require('../tabs/security'));
 };
 
 

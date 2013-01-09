@@ -3,24 +3,24 @@ var util = require('util');
 var Tab  = require('../client/tabmanager').Tab;
 var id   = require('../client/id').Id.singleton;
 
-var InfoTab = function ()
+var SecurityTab = function ()
 {
   Tab.call(this);
 };
 
-util.inherits(InfoTab, Tab);
+util.inherits(SecurityTab, Tab);
 
-InfoTab.prototype.parent = 'wallet';
+SecurityTab.prototype.parent = 'wallet';
 
-InfoTab.prototype.generateHtml = function ()
+SecurityTab.prototype.generateHtml = function ()
 {
-  return require('../../jade/tabs/info.jade')();
+  return require('../../jade/tabs/security.jade')();
 };
 
-InfoTab.prototype.angular = function (module) {
+SecurityTab.prototype.angular = function (module) {
   var app = this.app;
 
-  module.controller('InfoCtrl', function ($scope)
+  module.controller('SecurityCtrl', function ($scope)
   {
     $scope.$watch('userBlob', updateEnc, true);
 
@@ -31,4 +31,4 @@ InfoTab.prototype.angular = function (module) {
   });
 };
 
-module.exports = InfoTab;
+module.exports = SecurityTab;
