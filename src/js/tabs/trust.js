@@ -136,6 +136,10 @@ TrustTab.prototype.angular = function (module)
         case 'tep':
           console.warn("Unhandled engine status encountered!");
       }
+
+      if (res.engine_result == 'tecINSUF_RESERVE_LINE') {
+        $scope.tx_result = "failed";
+      }
     }
 
     $scope.saveAddress = function () {
