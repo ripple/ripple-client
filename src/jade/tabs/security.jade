@@ -13,13 +13,13 @@ section.panel.content(ng-controller="SecurityCtrl")
           span.value {{userCredentials.password | rpmask}}
       tr.section
         td(colspan="2") Secret Account Key:
-          a.smallText(href="http://ripple.com/help/key", target="_blank") What is this?
+          a.smallText(href="http://ripple.com/help/#accounts", target="_blank") What is this?
       tr
         td(colspan="2")
           span.value {{userCredentials.master_seed}}
       tr.section
         td(colspan="2") Wallet:
-          a.smallText(href="http://ripple.com/help/wallet", target="_blank") What is this?
+          a.smallText(href="http://ripple.com/help/#wallet", target="_blank") What is this?
       tr
         td.wallet(colspan="2")
           span.value
@@ -34,4 +34,4 @@ section.panel.content(ng-controller="SecurityCtrl")
             a(rp-download-trigger) backup your wallet to a file
             | .
   p.literal IMPORTANT! There is no way to recover your wallet name or pass phrase.&nbsp;
-    a.smallText(href="http://ripple.com/help/password", target="_blank") Read why
+    a.smallText(href="http://ripple.com/help/#storage", target="_blank") Read why
