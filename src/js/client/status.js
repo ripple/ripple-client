@@ -1,4 +1,4 @@
-var webutil = require('./webutil'),
+var webutil = require('../util/web'),
     rewriter = require('../util/jsonrewriter');
 
 /**

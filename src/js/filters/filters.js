@@ -1,5 +1,5 @@
 var module = angular.module('filters', []),
-    webutil = require('../client/webutil'),
+    webutil = require('../util/web'),
     Amount = ripple.Amount;
 
 var iso4217 = require('../data/iso4217');

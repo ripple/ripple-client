@@ -1,4 +1,4 @@
-var webutil = require("./webutil"),
+var webutil = require("../util/web"),
     log = require("./log");
 
 var BlobObj = function ()

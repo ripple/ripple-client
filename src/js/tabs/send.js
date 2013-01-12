@@ -1,5 +1,5 @@
 var util = require('util'),
-    webutil = require('../client/webutil'),
+    webutil = require('../util/web'),
     Tab = require('../client/tabmanager').Tab,
     Amount = ripple.Amount;
 

@@ -4,7 +4,7 @@
  * Form validation directives go into this file.
  */
 
-var webutil = require('../client/webutil');
+var webutil = require('../util/web');
 
 var module = angular.module('validators', []);
 

@@ -1,6 +1,6 @@
 var util = require('util'),
     events = require('events'),
-    webutil = require('./webutil'),
+    webutil = require('../util/web'),
     log = require('./log'),
     App = require('./app').App;
 
