@@ -12,10 +12,10 @@ case tx.type
   when "trusted"
     .type-success
       span(title="{{tx.counterparty}}") {{tx.counterparty | rpcontactname}} now trusts you for&nbsp;
-      span.number {{tx.limit_peer | rpamount}}&nbsp;
+      span.number {{tx.amount | rpamount}}&nbsp;
       span.currency {{tx.currency}}
   when "trusting"
     .type-success
       span(title="{{tx.counterparty}}") You now trust {{tx.counterparty | rpcontactname}} for&nbsp;
-      span.number {{tx.limit | rpamount}}&nbsp;
+      span.number {{tx.amount | rpamount}}&nbsp;
       span.currency {{tx.currency}}

@@ -106,11 +106,31 @@ var JsonRewriter = module.exports = {
       if (node.entryType === "AccountRoot" && node.fields.Account === account) {
         obj.accountRoot = node.fields;
         forUs = true;
-      } else if (node.entryType === "RippleState" &&
-                 (node.fields.HighLimit.issuer === account ||
-                  node.fields.LowLimit.issuer === account)) {
-        obj.rippleState = node.fields;
+      } else if (node.entryType === "RippleState") {
+
+        var line = {};
+        if (node.fields.HighLimit.issuer === account) {
+          line.balance = ripple.Amount.from_json(node.fields.Balance).negate(true);
+          line.limit = ripple.Amount.from_json(node.fields.HighLimit);
+          line.limit_peer = ripple.Amount.from_json(node.fields.LowLimit);
+          line.counterparty = node.fields.LowLimit.issuer;
+        } else if (node.fields.LowLimit.issuer === account) {
+          line.balance = ripple.Amount.from_json(node.fields.Balance);
+          line.limit = ripple.Amount.from_json(node.fields.LowLimit);
+          line.limit_peer = ripple.Amount.from_json(node.fields.HighLimit);
+          line.counterparty = node.fields.HighLimit.issuer;
+        } else return;
+
+        line.currency = node.fields.HighLimit.currency;
+
         forUs = true;
+
+        if (node.diffType === "DeletedNode") {
+          line.deleted = true;
+        }
+
+        if (!obj.lines) obj.lines = [];
+        obj.lines.push(line);
       } else if (node.entryType === "Offer") {
         // XXX: TODO: Handle offer deletion
         if (!obj.offers) obj.offers = [];
@@ -142,18 +162,6 @@ var JsonRewriter = module.exports = {
     if (obj.accountRoot) {
       obj.balance = ripple.Amount.from_json(obj.accountRoot.Balance);
       obj.xrp_balance = obj.balance;
-    }
-
-    if (obj.rippleState) {
-      if (obj.rippleState.HighLimit.issuer === account) {
-        obj.balance = ripple.Amount.from_json(obj.rippleState.Balance).negate(true);
-        obj.limit = ripple.Amount.from_json(obj.rippleState.HighLimit);
-        obj.limit_peer = ripple.Amount.from_json(obj.rippleState.LowLimit);
-      } else {
-        obj.balance = ripple.Amount.from_json(obj.rippleState.Balance);
-        obj.limit = ripple.Amount.from_json(obj.rippleState.LowLimit);
-        obj.limit_peer = ripple.Amount.from_json(obj.rippleState.HighLimit);
-      }
     }
 
     switch (tx.TransactionType) {

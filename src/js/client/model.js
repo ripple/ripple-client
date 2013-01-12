@@ -202,7 +202,7 @@ Model.prototype._processTxn = function (tx, meta, is_historic)
     }
 
     // Update Ripple lines
-    if (processedTxn.rippleState && !is_historic) {
+    if (processedTxn.lines && !is_historic) {
       this._updateLines(processedTxn);
     }
 
@@ -226,24 +226,42 @@ quality_out: 0
  */
 Model.prototype._updateLines = function(txn)
 {
-  console.log('update lines', txn);
-  var $scope = this.app.$scope;
+  if (!$.isArray(txn.lines)) return;
 
-  var index = txn.counterparty + txn.currency,
-      line = {};
+  var self = this,
+      $scope = this.app.$scope;
 
-  line.currency = txn.currency;
-  line.account = txn.counterparty;
+  $.each(txn.lines, function () {
+    var txline = this,
+        line = {},
+        index = txline.counterparty + txline.currency;
 
-  if (txn.tx_type === "Payment") {
-    this._updateRippleBalance(txn.currency, txn.counterparty, txn.balance);
-  } else if (txn.tx_type === "TrustSet") {
-    line.limit = txn.limit;
-    line.limit_peer = txn.limit_peer;
-  } else return;
+    line.currency = txline.currency;
+    line.account = txline.counterparty;
 
-  $scope.lines[index] = $.extend($scope.lines[index], line);
-}
+    if (txline.balance) {
+      line.balance = txline.balance;
+      self._updateRippleBalance(txline.currency,
+                                txline.counterparty,
+                                txline.balance);
+    }
+
+    if (txline.deleted) {
+      delete $scope.lines[index];
+      return;
+    }
+
+    if (txline.limit) {
+      line.limit = txline.limit;
+    }
+
+    if (txline.limit_peer) {
+      line.limit_peer = txline.limit_peer;
+    }
+
+    $scope.lines[index] = $.extend($scope.lines[index], line);
+  });
+};
 
 Model.prototype._updateRippleBalance = function(currency, new_account, new_balance)
 {
