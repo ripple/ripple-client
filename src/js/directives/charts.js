@@ -59,7 +59,7 @@ module.directive('rpTrustLine', function() {
     } else {
       ctx.beginPath();
       ctx.rect(f(balance), axisY, f(0)-f(balance), barWidth);
-      ctx.fillStyle = 'red';
+      ctx.fillStyle = balance === 0 ? 'black' : 'red';
       ctx.fill();
     }
 
