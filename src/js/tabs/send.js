@@ -66,12 +66,18 @@ SendTab.prototype.angular = function (module)
      *
      * @param destionation
      */
-    $scope.recipient_query = function (match) {
-      return $scope.userBlob.data.contacts.map(function (contact) {
+    $scope.recipient_query = function (match, re) {
+      var opts = $scope.userBlob.data.contacts.map(function (contact) {
         return contact.name;
-      }).filter(function (v) {
-        return v.toLowerCase().match(match.toLowerCase());
       });
+
+      if (re instanceof RegExp) {
+        return opts.filter(function (name) {
+          return "string" === typeof name
+            ? name.match(re)
+            : false;
+        });
+      } else return opts;
     };
 
     $scope.currency_query = webutil.queryFromOptions($scope.currencies_all);

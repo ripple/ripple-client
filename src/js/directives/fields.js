@@ -4,6 +4,8 @@
  * Angular-powered input components go into this file.
  */
 
+var webutil = require('../util/web');
+
 var module = angular.module('fields', []);
 
 /**
@@ -99,9 +101,10 @@ module.directive('rpCombobox', [function () {
             completions = [], re = null;
 
         if ("string" === typeof match && match.length) {
-          re = new RegExp('('+match+')', 'i');
+          var escaped = webutil.escapeRegExp(match);
+          re = new RegExp('('+escaped+')', 'i');
 
-          completions = scope.$eval(attrs.rpCombobox)(match);
+          completions = scope.$eval(attrs.rpCombobox)(match, re);
         }
 
         // By fading out without updating the completions we get a smoother effect

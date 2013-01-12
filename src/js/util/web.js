@@ -76,7 +76,7 @@ exports.getContact = function (contacts,value)
   }
 
   return false;
-}
+};
 
 /**
  * Creates a combobox query function out of a select options array.
@@ -85,13 +85,27 @@ exports.getContact = function (contacts,value)
  */
 exports.queryFromOptions = function (options)
 {
-  return function (match) {
-    return options.map(function (entry) {
+  return function (match, re) {
+    var opts = options.map(function (entry) {
       return entry.name;
-    }).filter(function (name) {
-      return "string" === typeof match
-        ? name.toLowerCase().match(match.toLowerCase())
-        : true;
     });
+
+    if (re instanceof RegExp) {
+      return opts.filter(function (name) {
+        return "string" === typeof name
+          ? name.match(re)
+          : false;
+      });
+    } else return opts;
   };
+};
+
+/**
+ * Escapes a string for use as a literal inside of a regular expression.
+ *
+ * From: http://stackoverflow.com/questions/3446170
+ */
+exports.escapeRegExp = function (str)
+{
+  return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
 };

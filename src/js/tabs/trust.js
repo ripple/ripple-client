@@ -148,15 +148,15 @@ TrustTab.prototype.angular = function (module)
       var contact = {
         'name': $scope.saveAddressName,
         'address': $scope.counterparty_address
-      }
+      };
 
       app.id.once('blobsave', function(){
         $scope.contact = contact;
         $scope.addressSaved = true;
-      })
+      });
 
       app.$scope.userBlob.data.contacts.unshift(contact);
-    }
+    };
 
     $scope.edit_line = function ()
     {
@@ -172,12 +172,16 @@ TrustTab.prototype.angular = function (module)
      *
      * @param destionation
      */
-    $scope.counterparty_query = function (match) {
-      return $scope.userBlob.data.contacts.map(function (contact) {
+    $scope.counterparty_query = function (match, re) {
+      var opts = $scope.userBlob.data.contacts.map(function (contact) {
         return contact.name;
-      }).filter(function (v) {
-            return v.toLowerCase().match(match.toLowerCase());
-          });
+      });
+
+      if (re instanceof RegExp) {
+        return opts.filter(function (v) {
+          return v.toLowerCase().match(match.toLowerCase());
+        });
+      } else return opts;
     };
 
     $scope.currency_query = webutil.queryFromOptions($scope.currencies);
