@@ -1,6 +1,6 @@
 var util = require('util'),
     events = require('events'),
-    rewriter = require('./jsonrewriter');
+    rewriter = require('../util/jsonrewriter');
 
 /**
  * Class listening to Ripple network state and updating models.

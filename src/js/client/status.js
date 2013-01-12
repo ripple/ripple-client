@@ -1,5 +1,5 @@
 var webutil = require('./webutil'),
-    rewriter = require('./jsonrewriter');
+    rewriter = require('../util/jsonrewriter');
 
 /**
  * Manages the notifications appearing in the top right status box.
