@@ -28,6 +28,9 @@ TrustTab.prototype.angular = function (module)
     $scope.reset = function () {
       $scope.mode = 'main';
       $scope.currency = 'USD';
+      $scope.addform_visible = false;
+      $scope.amount = '';
+      $scope.counterparty = '';
 
       if (app.$scope.balance == '0') {
         $scope.mode = 'error';
@@ -49,8 +52,9 @@ TrustTab.prototype.angular = function (module)
       $scope.addform_visible = !$scope.addform_visible;
     };
 
-    $scope.$watch('counterparty', function(){
-      if ($scope.contact = webutil.getContact($scope.userBlob.data.contacts,$scope.counterparty)) {
+    $scope.$watch('counterparty', function() {
+      $scope.contact = webutil.getContact($scope.userBlob.data.contacts,$scope.counterparty);
+      if ($scope.contact) {
         $scope.counterparty_name = $scope.contact.name;
         $scope.counterparty_address = $scope.contact.address;
       } else {
