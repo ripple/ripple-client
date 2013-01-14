@@ -30,7 +30,7 @@ if (!Options.blobvault) {
   Options.blobvault = Options.BLOBVAULT_SERVER;
 }
 
-var injector = angular.injector(['ng', 'filters']);
+var injector = angular.injector(['ng', 'filters', 'directives']);
 injector.invoke(['$rootScope', '$compile', function($rootScope, $compile) {
   var scope = $rootScope.$new();
   app.setAngular(scope, $compile, injector);

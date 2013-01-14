@@ -2,7 +2,7 @@
   .user
     div {{userCredentials.username}}&nbsp;
       a.logout(ng-click='logout()') logout
-    .balance.primary
+    .balance.primary(rp-tooltip="{{balance | rpamount:10}}")
       | {{balance | rpamount:0}}
       span XRP
     ul.secondary

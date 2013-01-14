@@ -14,10 +14,12 @@ section.panel.content
   .currency-summary.positive
     .balancebox
       .label Ripple Credits
-      .balance {{balance | rpamount}}
+      .balance
+        span(rp-tooltip="{{balance | rpamount:10}}") {{balance | rpamount}}
     .balancebox(ng-repeat="entry in balances", ng-hide="entry.total.is_zero()")
       .label {{entry.total | rpcurrency}}
-      .balance {{entry.total | rpamount}}
+      .balance
+        span(rp-tooltip="{{entry.total | rpamount:10}}") {{entry.total | rpamount}}
 
   table.table.events
     caption Notifications

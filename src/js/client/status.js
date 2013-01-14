@@ -185,7 +185,6 @@ StatusManager.prototype.setupNetworkNotices = function ()
   });
 };
 
-
 var StatusMessage = function (sm, message)
 {
   this.sm = sm;
