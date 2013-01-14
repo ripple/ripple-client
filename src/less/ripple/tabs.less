@@ -296,23 +296,6 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
   }
 
   .mode-granted {
-    h2 {
-      margin: 20px 0 0 0;
-      padding-top: 10px;
-      padding-bottom: 10px;
-      font-size: 30px;
-      border-bottom: none;
-      text-align: left;
-      font-weight: bold;
-      font: 34px 'OpenSansLight';
-      .transition-duration(0.2s);
-    }
-    .result-success h2 {
-      background-color: #8DC86A;
-    }
-    .result-error h2, .result-malformed h2, .result-failed h2 {
-      background-color: #DC4D38;
-    }
     .address {
       font-size: 25px;
       font: 34px 'OpenSansLight';
@@ -589,22 +572,6 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
   }
 
   .mode-sent {
-    h2 {
-      padding-top: 10px;
-      padding-bottom: 10px;
-      font-size: 30px;
-      border-bottom: none;
-      text-align: left;
-      font-weight: bold;
-      font: 34px 'OpenSansLight';
-      .transition-duration(0.2s);
-    }
-    .result-success h2 {
-      background-color: #8DC86A;
-    }
-    .result-error h2, .result-malformed h2, .result-failed h2 {
-      background-color: #DC4D38;
-    }
     .address {
       font-size: 25px;
       font: 34px 'OpenSansLight';
@@ -737,135 +704,188 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
 }
 
 #t-trade {
-  .action-window {
-    margin: 15px 15px 25px 30px;
+  ul.inline {
     padding: 0;
-    border-radius: 5px;
-    border: 1px solid #CCCCCC;
+    margin: 0;
 
-    .info {
-      padding: 0 25px 8px;
-      border-bottom: 1px solid #CCCCCC;
-      margin: 10px 0 30px;
+    .label {
+      color: #7A7A7A;
+    }
+    .value {
+      font-weight: bold;
+    }
 
-      li {
-        display: inline-block;
-        width: 140px;
-        font-size: 12px;
+    li {
+      display: inline-block;
+      font-size: 12px;
 
-        .label {
-          color: #7A7A7A;
-          margin: 0 5px 0 0;
-        }
-        .value {
-          font-weight: bold;
-        }
-        .icon {
-          margin: 0 0 0 3px;
-        }
-        .up {
-          color: green;
-        }
-        .down {
-          color: red;
-        }
+      .icon {
+        margin: 0 0 0 3px;
+      }
+      .up {
+        color: green;
+      }
+      .down {
+        color: red;
       }
     }
 
-    .mode-form {
-      margin: 10px 30px;
+    &.issuers {
+      .label {
+        width: 120px;
+      }
+      .value {
+        margin-right: 30px;
+      }
+    }
 
-      .order-type {
+    &.market li {
+      width: 170px;
+    }
+  }
+
+  .settings {
+    .clearfix;
+    background-color: #FAFAFA;
+    .border-radius(10px, 0, 0, 0);
+    padding-top: 14px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid #CCCCCC;
+
+    .currency-config {
+      float: left;
+      padding-top: 0;
+      margin-right: 30px;
+
+      .currency {
+        width: 130px;
+      }
+
+      input {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  .ticker {
+    background-color: #EEE;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #CCCCCC;
+    margin: 0 0 30px;
+  }
+
+  .order-type {
+    .clearfix;
+    margin-bottom: -1px;
+
+    .btn-group {
+      margin-right: 30px;
+    }
+
+    p.literal {
+      margin: 0;
+      line-height: 48px;
+    }
+
+    &.open {
+      .btn-group > .btn:first-child {
+        .border-radius(0, 0, 0, 4px);
+      }
+      .btn-group > .btn:last-child {
+        .border-radius(4px, 0, 0, 0 );
+      }
+    }
+  }
+
+  .trade-widget {
+    > form, > div, > group {
+      background-color: #f9f9f9;
+      border-top: 1px solid #999;
+      border-bottom: 1px solid #999;
+    }
+  }
+
+  .mode-form {
+    padding-top: 30px;
+
+    // Cool animation that our users will never get to see. :’(
+/*
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    .transition-duration(0.5s);
+
+    &.visible {
+      opacity: 1;
+      max-height: 220px;
+    }
+*/
+
+    .order-values {
+      .clearfix;
+      clear: both;
+      .value-field {
+        width: 222px;
         float: left;
-        margin-right: 20px;
 
-        .btn {
-          line-height: 14px;
+        input {
+          width: 150px;
         }
-      }
-
-      .currencies {
-        margin-bottom: @formFieldBottomMargin + 10px;
-
-        label {
-          display: inline-block;
-        }
-
-        .sell {
-          float: left;
-        }
-      }
-      .order-values {
-        .clearfix;
-        .value-field {
-          width: 212px;
-          float: left;
-
-          input {
-            width: 140px;
-          }
-          .add-on {
-            width: 50px;
-            padding-left: 0;
-            padding-right: 0;
-            text-align: center;
-          }
-        }
-        .sign {
-          width: 30px;
+        .add-on {
+          width: 50px;
+          padding-left: 0;
+          padding-right: 0;
           text-align: center;
-          margin: 40px 0 0 0;
-          float: left;
-        }
-        .error {
-          margin-bottom: 0;
-          height: 0;
-          overflow: visible;
         }
       }
-      .message {
-        clear: both;
-        color: green;
-        position: relative;
-        top: -20px;
+      .sign {
+        width: 30px;
+        text-align: center;
+        margin: 40px 0 0 0;
+        float: left;
+      }
+      .error {
+        margin-bottom: 0;
         height: 0;
         overflow: visible;
       }
-      .submitsection {
-        clear: both;
-        margin: 20px 0 30px 0;
-      }
+    }
+    .message {
+      clear: both;
+      color: green;
+      position: relative;
+      top: -20px;
+      height: 0;
+      overflow: visible;
+    }
+    .submitsection {
+      clear: both;
+      margin: 10px 0 35px 0;
+    }
+  }
+
+  .mode-confirm {
+    text-align: center;
+
+    .amount_feedback {
+      font-size: 20px;
     }
 
-    .mode-confirm {
-      text-align: center;
-
-      .amount_feedback {
-        font-size: 20px;
-
-        .value {
-          margin: 0 5px 0 0;
-        }
-      }
-
-      .dest_feedback {
-        font-size: 20px;
-
-        .value {
-          margin: 0 5px 0 0;
-        }
-      }
-
-      .submitsection {
-        button {
-          margin: 0 5px;
-        }
-      }
+    .dest_feedback {
+      font-size: 20px;
     }
 
-    .mode-done {
-      margin: 10px;
+    .submitsection {
+      button {
+        margin: 0 5px;
+      }
     }
+  }
+
+  .mode-done {
+    padding-top: 30px;
+    padding-bottom: 30px;
   }
 
   table.open-orders {
@@ -919,6 +939,10 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
       }
     }
   }
+}
+
+html.t-trade header nav ul > li.active#nav-advanced > a:after {
+  border-bottom-color: #fafafa;
 }
 
 #t-order-book {

@@ -87,17 +87,17 @@ section.panel.content(ng-controller="TrustCtrl")
 
   group.mode-granted.wide(ng-show='mode=="granted"')
     group.pending(ng-show='tx_result=="pending"')
-      h2 Your grant request has been submitted.
+      h2.tx-status Your grant request has been submitted.
     group.result-success(ng-show='tx_result=="cleared"')
-      h2 Trust is granted!
+      h2.tx-status Trust is granted!
     group.result-error(ng-show='tx_result=="error"')
-      h2 Trust could not be granted!
+      h2.tx-status Trust could not be granted!
       p We were unable to submit the request. Please try again later.
     group.result-malformed(ng-show='tx_result=="malformed"')
-      h2 Grant is malformed!
+      h2.tx-status Grant is malformed!
       p Your request is invalid, reason: {{engine_result}} - {{engine_result_message}}
     group.result-failed(ng-show='tx_result=="failed"')
-      h2 Granting failed!
+      h2.tx-status Granting failed!
       p(ng-switch on="engine_result")
         span(ng-switch-when="terNO_LINE") You have no trust line in this currency.
         span(ng-switch-when="tecINSUF_RESERVE_LINE") Insufficient reserve to add trust line.
