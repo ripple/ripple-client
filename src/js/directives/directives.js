@@ -274,3 +274,15 @@ module.directive('rpDownload', [function () {
     }
   };
 }]);
+
+/**
+ * Tooltips
+ */
+module.directive('rpTooltip', [function () {
+  return function (scope, element, attr) {
+    attr.$observe('rpTooltip', function(value) {
+      $(element).tooltip('destroy');
+      $(element).tooltip({'title':value});
+    });
+  }
+}]);
