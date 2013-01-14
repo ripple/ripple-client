@@ -152,14 +152,23 @@ section.panel.content(ng-controller="TradeCtrl")
       div(class="actionLink")
         a(href="#trade", ng-click="reset(true)") Back to the form
 
-  table.table.table-striped.open-orders
-    caption Open Orders
+  ul.filter-tabs
+    li.my: a(
+      ng-click="order.listing = 'my'"
+      ng-class="{active: order.listing == 'my'}")
+        | My Orders
+    li.orderbook: a(
+      ng-click="order.listing = 'orderbook'"
+      ng-class="{active: order.listing == 'orderbook'}")
+        | Order book
+
+  table.table.table-striped.open-orders(ng-show="order.listing == 'my'")
     thead
       tr
         th.type Type
         th.pair Pair
-        th.price Price
-        th.amount Amount
+        th.price.rpamount Price
+        th.amount.rpamount Amount
         th.action Action
     tbody
       tr(ng-repeat="entry in offers", class="{{entry.type}}", ng-class="{cancelled: cancelled}")
@@ -174,3 +183,37 @@ section.panel.content(ng-controller="TradeCtrl")
       tr(ng-show="!offers")
         td(colspan="5")
           p.literal You haven't placed any orders.
+
+  group.orderbook(ng-show="order.listing == 'orderbook'")
+    table.bids.table.table-striped
+      thead: tr
+        th.sum.rpamount Sum
+        th.amount.rpamount Amount
+        th.price.rpamount Bid
+      tbody
+        tr(ng-repeat='order in bids')
+          td.sum.rpamount {{order.sum | rpamount:{precision: 5} }}
+            span.currency {{order.i.amount | rpcurrency}}
+          td.amount.rpamount {{order.i.amount | rpamount:{precision: 5} }}
+            span.currency {{order.i.amount | rpcurrency}}
+          td.price.rpamount
+            | {{order.o.amount | rpamountratio:order.i.amount | rpamount:{precision: 5, min_precision: 5} }}
+            span.currency {{order.o.amount | rpcurrency}}
+        tr(ng-show='!bids.length')
+          td(colspan="5") There are currently no bids for this pair
+    table.asks.table.table-striped
+      thead: tr
+        th.price.rpamount Ask
+        th.amount.rpamount Amount
+        th.sum.rpamount Sum
+      tbody
+        tr(ng-repeat='order in asks')
+          td.price.rpamount
+            | {{order.o.amount | rpamountratio:order.i.amount | rpamount:{precision: 5, min_precision: 5} }}
+            span.currency {{order.o.amount | rpcurrency}}
+          td.amount.rpamount {{order.i.amount | rpamount:{precision: 5} }}
+            span.currency {{order.i.amount | rpcurrency}}
+          td.sum.rpamount {{order.sum | rpamount:{precision: 5} }}
+            span.currency {{order.i.amount | rpcurrency}}
+        tr(ng-show='!asks.length')
+          td(colspan="3") There are currently no asks for this pair

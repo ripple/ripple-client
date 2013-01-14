@@ -42,7 +42,8 @@ TradeTab.prototype.angular = function(module)
         second: '',
         currency_pair: pair,
         first_currency: pair.slice(0, 3),
-        second_currency: pair.slice(4, 7)
+        second_currency: pair.slice(4, 7),
+        listing: 'my'
       };
     };
 
@@ -228,6 +229,9 @@ TradeTab.prototype.angular = function(module)
       if ($scope.bid_price.is_valid() && $scope.ask_price.is_valid()) {
         $scope.spread = $scope.ask_price.add($scope.bid_price.negate());
       }
+
+      $scope.bids = orders.bids;
+      $scope.asks = orders.asks;
     }
 
     $scope.ledger = ledger;

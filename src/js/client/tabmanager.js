@@ -271,10 +271,6 @@ TabManager.tabs["trade"] = function (callback) {
   callback(require('../tabs/trade'));
 };
 
-TabManager.tabs["order-book"] = function (callback) {
-  callback(require('../tabs/order-book'));
-};
-
 TabManager.tabs["options"] = function (callback) {
     callback(require('../tabs/options'));
 };

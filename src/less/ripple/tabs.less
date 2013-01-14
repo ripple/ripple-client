@@ -449,52 +449,6 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
 }
 
 #t-history {
-  ul {
-    .clearfix;
-    list-style-type: none;
-    font: 18px 'OpenSansRegular';
-    border-bottom: 1px solid #333;
-    margin-bottom: 0;
-    padding-bottom: 10px;
-    margin-top: 20px;
-
-    li {
-      float: left;
-      display: block;
-
-      > a {
-        display: block;
-        position: relative;
-        color: #333;
-        line-height: 30px;
-        padding-left: 8px;
-        padding-right: 16px;
-        .transition-duration(0.2s);
-
-        margin-left: 6px;
-        margin-right: 16px;
-
-        /* Alternative Hanging indent
-        margin-left: -8px;
-        margin-right: 30px;
-        /**/
-
-        &:hover {
-          text-decoration: none;
-        }
-
-        &:after {
-          .virtualel;
-          height: 100%;
-          width: 6px;
-          position: absolute;
-          top: 0;
-          left: -6px;
-        }
-      }
-    }
-  }
-
   ul li.all > a.active,
   ul li.all > a:hover,
   ul li.all > a:after {
@@ -888,21 +842,22 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
     padding-bottom: 30px;
   }
 
+  ul li.my {
+    > a.active,  > a:hover,> a:after {
+      background-color: #e4efd9;
+    }
+  }
+
+  ul li.orderbook {
+    > a.active,  > a:hover,> a:after {
+    background-color: #ecdfde;
+    }
+  }
+
   table.open-orders {
     margin: 0 0 30px;
     th, td {
       padding-right: 10px;
-    }
-    th.price, th.amount {
-      text-align: right;
-
-      &:after {
-        color: #fff;
-        content: "XXX";
-        font-family: @currencyFont;
-        font-size: 14px;
-        padding-left: 5px;
-      }
     }
     th.action {
       color: #fff;
@@ -939,56 +894,46 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
       }
     }
   }
+
+  .orderbook {
+    .clearfix;
+
+    table.bids, table.asks {
+      float: left;
+      width: 50%;
+
+      td {
+      }
+    }
+    table.asks {
+      position: relative;
+      &:after {
+        .virtualel;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 5px;
+        height: 100%;
+        background-color: #fff;
+      }
+
+      .price {
+        padding-left: 10px;
+      }
+    }
+
+    table {
+      th {
+        text-align: right;
+      }
+      tr.sep td {
+        height: 5px;
+        padding: 0;
+      }
+    }
+  }
 }
 
 html.t-trade header nav ul > li.active#nav-advanced > a:after {
   border-bottom-color: #fafafa;
-}
-
-#t-order-book {
-  .currency-config {
-    .clearfix;
-    > div {
-      float: left;
-      margin-right: 10px;
-    }
-  }
-
-  .list {
-    .clearfix;
-  }
-
-  form {
-    margin-bottom: 0;
-  }
-
-  table.bids, table.asks {
-    float: left;
-    width: 50%;
-  }
-  table.asks {
-    border-left: 5px solid #fff;
-
-    .price {
-      padding-left: 10px;
-    }
-  }
-
-  table {
-    th {
-      text-align: right;
-    }
-    tr.sep td {
-      height: 5px;
-      padding: 0;
-    }
-
-    td.price {
-      width: 33%;
-    }
-
-    td.amount {
-      width: 33%;
-    }
-  }
 }
