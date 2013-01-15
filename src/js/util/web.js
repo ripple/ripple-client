@@ -17,15 +17,11 @@ exports.getDestTagFromAddress = function (addr)
   var index=addr.indexOf("?");
   if(index>=0)
   {
-    console.log(index);
     addr=addr.slice(index,addr.length);
-    console.log(addr);
     index=addr.indexOf("d=");
     if(index>=0)
     {
-      console.log(index);
       addr=addr.slice(index+2,addr.length);
-      console.log(addr);
       index=addr.indexOf("&");
       if(index>0) return( addr.slice(0,index) );
       else return(addr);

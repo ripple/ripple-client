@@ -134,9 +134,7 @@ SendTab.prototype.angular = function (module)
       var currency = $scope.currency.slice(0, 3).toUpperCase();
       var amount = ripple.Amount.from_human(""+$scope.amount+" "+currency);
       var addr=webutil.stripRippleAddress($scope.recipient_address);
-      console.log("add: "+$scope.recipient_address);
-      console.log("plain: "+$scope.recipient);
-      console.log("name: "+$scope.recipient_name);
+      
       
       amount.set_issuer(addr);
 
