@@ -133,10 +133,16 @@ SendTab.prototype.angular = function (module)
     $scope.send_confirmed = function () {
       var currency = $scope.currency.slice(0, 3).toUpperCase();
       var amount = ripple.Amount.from_human(""+$scope.amount+" "+currency);
-      amount.set_issuer($scope.recipient_address);
+      var addr=webutil.stripRippleAddress($scope.recipient_address);
+      console.log("add: "+$scope.recipient_address);
+      console.log("plain: "+$scope.recipient);
+      console.log("name: "+$scope.recipient_name);
+      
+      amount.set_issuer(addr);
 
       var tx = app.net.remote.transaction();
-      tx.payment(app.id.account, $scope.recipient_address, amount.to_json());
+      tx.destination_tag( webutil.getDestTagFromAddress($scope.recipient) );
+      tx.payment(app.id.account, addr, amount.to_json());
       if (currency !== 'XRP') {
         tx.build_path(true);
       }

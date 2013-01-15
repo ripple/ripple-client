@@ -1,3 +1,39 @@
+// returns the raw address after removing any parameters 
+exports.stripRippleAddress = function (addr)
+{
+  if(typeof(addr)=='string')
+  {
+    var index=addr.indexOf("?");
+    if(index>=0)
+    {
+      return(addr.slice(0,index));
+    }
+  }
+  return(addr);
+}
+//returns the destination tag of an address if there is one 
+exports.getDestTagFromAddress = function (addr)
+{
+  var index=addr.indexOf("?");
+  if(index>=0)
+  {
+    console.log(index);
+    addr=addr.slice(index,addr.length);
+    console.log(addr);
+    index=addr.indexOf("d=");
+    if(index>=0)
+    {
+      console.log(index);
+      addr=addr.slice(index+2,addr.length);
+      console.log(addr);
+      index=addr.indexOf("&");
+      if(index>0) return( addr.slice(0,index) );
+      else return(addr);
+    }
+  }
+  return(undefined);
+}
+
 exports.removeClassPrefix = function (el, group)
 {
   var $el = $(el);

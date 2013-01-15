@@ -84,9 +84,10 @@ module.directive('rpDestination', function () {
       if (!ctrl) return;
 
       var validator = function(value) {
-        var address = ripple.UInt160.from_json(value);
+        var strippedValue=webutil.stripRippleAddress(value);
+        var address = ripple.UInt160.from_json(strippedValue);
 
-        if (address.is_valid() || webutil.getContact(scope.userBlob.data.contacts,value)) {
+        if (address.is_valid() || webutil.getContact(scope.userBlob.data.contacts,strippedValue)) {
           ctrl.$setValidity('rpDestination', true);
           return value;
         } else {
