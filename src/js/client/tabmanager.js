@@ -49,6 +49,10 @@ TabManager.prototype.init = function ()
   } else {
     this.gotoTab("register");
   }
+
+  // Enable screen
+  $('#wrapper').show();
+  $('#appLoading').hide();
 };
 
 TabManager.prototype.setApp = function (app)
