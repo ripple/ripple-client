@@ -28,7 +28,8 @@ LoginTab.prototype.angular = function (module) {
     $scope.backendChange = function()
     {
       app.id.blobBackends = $scope.blobBackendCollection.something.value.split(',');
-    }
+      store.set('blobBackends', app.id.blobBackends);
+    };
 
     $scope.error = '';
     self.on('beforeshow', handleShow);

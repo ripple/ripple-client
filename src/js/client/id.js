@@ -16,7 +16,9 @@ var Id = function ()
   this.account = null;
   this.loginStatus = false;
 
-  this.blobBackends = ['vault', 'local'];
+  this.blobBackends = store.get('blobBackends')
+      ? store.get('blobBackends')
+      : ['vault', 'local'];
 };
 
 util.inherits(Id, events.EventEmitter);
@@ -85,7 +87,12 @@ Id.prototype.init = function ()
     {name: 'Payward, Local Browser', 'value':'vault,local'},
     {name: 'Local Browser', 'value':'local'}
   ];
-  this.app.$scope.blobBackendCollection = {something: this.app.$scope.blobBackendCollections[1]};
+
+  var blobBackend = store.get('blobBackends')
+      ? $.grep(this.app.$scope.blobBackendCollections, function(e){ return e.value == store.get('blobBackends'); })[0]
+      : this.app.$scope.blobBackendCollections[1];
+
+  this.app.$scope.blobBackendCollection = {something: blobBackend};
 
   this.app.$scope.userBlob = Id.defaultBlob;
   this.app.$scope.userCredentials = {};
