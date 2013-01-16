@@ -30,12 +30,13 @@ SendTab.prototype.angular = function (module)
     $scope.xrp = $scope.currencies_all[0];
 
     $scope.$watch('recipient', function(){
-      if ($scope.contact = webutil.getContact($scope.userBlob.data.contacts,$scope.recipient)) {
+      var addr=webutil.stripRippleAddress($scope.recipient);
+      if ($scope.contact = webutil.getContact($scope.userBlob.data.contacts,addr)) {
         $scope.recipient_name = $scope.contact.name;
         $scope.recipient_address = $scope.contact.address;
       } else {
         $scope.recipient_name = '';
-        $scope.recipient_address = $scope.recipient;
+        $scope.recipient_address = addr;
       }
 
       $scope.update_amount();
@@ -133,7 +134,10 @@ SendTab.prototype.angular = function (module)
     $scope.send_confirmed = function () {
       var currency = $scope.currency.slice(0, 3).toUpperCase();
       var amount = ripple.Amount.from_human(""+$scope.amount+" "+currency);
-      var addr=webutil.stripRippleAddress($scope.recipient_address);
+      console.log($scope.recipient);
+      console.log($scope.recipient_address);
+      console.log($scope.recipient_name);
+      var addr=$scope.recipient_address;
       
       
       amount.set_issuer(addr);
