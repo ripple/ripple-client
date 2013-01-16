@@ -39,27 +39,32 @@ BlobObj.get = function(backends, user, pass, callback)
       if (err) {
         console.warn("Backend failed: ", err);
         log.exception(err);
+        callback(backend.name, new Error(err));
+
+        tryNext();
+        return;
       }
 
-      var blob;
-      if (data && !err) {
-        blob = BlobObj.decrypt(user+pass, atob(data));
-        callback(null, blob);
-      } else tryNext();
+      if (data) {
+        var blob = BlobObj.decrypt(user+pass, atob(data));
+        callback(backend.name, null, blob);
+      }
+      else {
+        callback(backend.name, Error('Wallet not found (Username / Password is wrong)'));
+        tryNext();
+      }
     });
   } catch (e) {
     console.warn("Backend failed: ", e);
+    callback(new Error(backend.name, "Something went wrong."));
     log.exception(e);
     tryNext();
   }
 
   function tryNext() {
-    console.log(backends.length);
     // Do we have more backends to try?
     if (backends.length) {
       BlobObj.get(backends, user, pass, callback);
-    } else {
-      callback(new Error("Unable to load blob, all backends failed."));
     }
   }
 };
@@ -95,19 +100,24 @@ BlobObj.decrypt = function (priv, ciphertext)
 };
 
 var VaultBlobBackend = {
-  get: function (key, callback)
-  {
+  name: "Payward",
+
+  get: function (key, callback) {
     var url = Options.blobvault;
+
     if (url.indexOf("://") === -1) url = "http://" + url;
-    $.get(url + '/' + key)
-        .success(function (data) {
-          callback(null, data);
-        })
-        .error(webutil.getAjaxErrorHandler(callback, "BlobVault GET"));
+
+    $.ajax({
+      url: url + '/' + key,
+      timeout: 8000
+    })
+    .success(function (data) {
+      callback(null, data);
+    })
+    .error(webutil.getAjaxErrorHandler(callback, "BlobVault GET"));
   },
 
-  set: function (key, value, callback)
-  {
+  set: function (key, value, callback) {
     $.post('http://' + Options.blobvault + '/' + key, { blob: value })
         .success(function (data) {
           callback(null, data);
@@ -117,6 +127,8 @@ var VaultBlobBackend = {
 };
 
 var LocalBlobBackend = {
+  name: "Local browser",
+
   get: function (key, callback)
   {
     console.log('local get','ripple_blob_' + key);

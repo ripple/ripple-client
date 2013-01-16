@@ -78,7 +78,7 @@ RegisterTab.prototype.angular = function (module) {
 
     $scope.submitForm = function()
     {
-      app.id.login($scope.username, $scope.password1, function(error,success){
+      app.id.login($scope.username, $scope.password1, function(backendName,error,success){
         if (!success) {
           $scope.register();
         }

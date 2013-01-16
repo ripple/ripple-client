@@ -44,14 +44,14 @@ LoginTab.prototype.angular = function (module) {
 
     $scope.submitForm = function()
     {
-      app.id.login($scope.username, $scope.password, function(err, success) {
+      $scope.backendMessages = [];
+
+      app.id.login($scope.username, $scope.password, function(backendName, err, success) {
         $scope.ajax_loading = false;
-        // XXX: Handle err
         if (success) {
-          console.log('success');
           tm.gotoTab('balance');
         } else {
-          $scope.error = 'Username and/or password is wrong.';
+          $scope.backendMessages.push({'backend':backendName, 'message':err.message});
         }
 
         if(!$scope.$$phase) {
@@ -61,6 +61,7 @@ LoginTab.prototype.angular = function (module) {
 
       $scope.ajax_loading = true;
       $scope.error = '';
+      $scope.status = 'Fetching wallet...';
     };
   })
 };

@@ -207,15 +207,9 @@ Id.prototype.login = function (username,password,callback)
   username = Id.normalizeUsername(username);
   password = Id.normalizePassword(password);
 
-  blob.get(self.blobBackends, username.toLowerCase(), password, function (err, blob) {
-    if (err ||
-        "object" !== typeof blob.data ||
-        "string" !== typeof blob.data.account_id ||
-        "string" !== typeof blob.data.master_seed) {
-      console.warn('login failed');
-
-      // TODO handle
-      callback('err');
+  blob.get(self.blobBackends, username.toLowerCase(), password, function (backendName, err, blob) {
+    if (err) {
+      callback(backendName,err);
       return;
     }
 
@@ -234,27 +228,26 @@ Id.prototype.login = function (username,password,callback)
     self.emit('blobupdate');
     store.set('ripple_known', true);
 
-    callback(null, !!blob.data.account_id);
+    callback(backendName, null, !!blob.data.account_id);
   });
 };
 
 Id.prototype.logout = function ()
 {
-  this.emit('accountunload', this.account);
+//  this.emit('accountunload', this.account);
 
   store.remove('ripple_auth');
-  this.loginStatus = false;
-  this.app.tabs.resetAll();
-  this.app.tabs.gotoTab('login');
+//  this.loginStatus = false;
+//  this.app.tabs.resetAll();
+//  this.app.tabs.gotoTab('login');
+//
+//  this.setUsername('');
+//  this.setPassword('');
 
-  this.setUsername('');
-  this.setPassword('');
-
-  this.app.$scope.userBlob = Id.defaultBlob;
-  this.app.$scope.userCredentials = {};
+//  this.app.$scope.userBlob = Id.defaultBlob;
+//  this.app.$scope.userCredentials = {};
 
   // problem?
-  // removes last 6 lines
   location.reload();
 };
 
