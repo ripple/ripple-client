@@ -34,7 +34,7 @@ Model.prototype.reset = function ()
 
   $scope.balance = "0";
 
-  $scope.lines = [];
+  $scope.lines = {};
   $scope.offers = {};
   $scope.events = [];
   $scope.history = [];
