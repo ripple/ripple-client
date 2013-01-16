@@ -141,6 +141,7 @@ SendTab.prototype.angular = function (module)
       var tx = app.net.remote.transaction();
       tx.destination_tag( webutil.getDestTagFromAddress($scope.recipient) );
       tx.payment(app.id.account, addr, amount.to_json());
+      tx.send_max(amount.product_human(ripple.Amount.from_json("1.1"));
       if (currency !== 'XRP') {
         tx.build_path(true);
       }
