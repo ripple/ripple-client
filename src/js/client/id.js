@@ -1,8 +1,8 @@
 var blob = require('./blob').BlobObj,
     events = require('events'),
     util = require('util'),
-    Base58Utils = require('./base58'),
-    RippleAddress = require('./types').RippleAddress;
+    Base58Utils = require('../util/base58'),
+    RippleAddress = require('../util/types').RippleAddress;
 
 /**
  * Identity manager

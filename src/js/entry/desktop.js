@@ -5,7 +5,7 @@ var Network = require('../client/network').Network;
 var Model = require('../client/model').Model;
 var StatusManager = require('../client/status').StatusManager;
 var Angular = require('../client/angular').Angular;
-var types = require('../client/types');
+var types = require('../util/types');
 
 Angular.load();
 
