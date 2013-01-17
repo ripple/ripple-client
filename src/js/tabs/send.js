@@ -146,7 +146,9 @@ SendTab.prototype.angular = function (module)
       tx.destination_tag( webutil.getDestTagFromAddress($scope.recipient) );
       tx.payment(app.id.account, addr, amount.to_json());
       if (currency !== 'XRP') {
-        tx.send_max(amount.product_human(ripple.Amount.from_json("1.1")));
+        var sendMax = amount.product_human(ripple.Amount.from_json("1.1"));
+        sendMax.set_issuer(app.id.account);
+        tx.send_max(sendMax);
         tx.build_path(true);
       }
       tx.on('success', function (res) {
