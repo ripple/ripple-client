@@ -32,6 +32,11 @@ if (!Options.blobvault) {
 
 var injector = angular.injector(['ng', 'filters', 'directives']);
 injector.invoke(['$rootScope', '$compile', function($rootScope, $compile) {
+  // Helper for detecting empty object enumerations
+  $rootScope.isEmpty = function (obj) {
+    return angular.equals({},obj);
+  };
+
   var scope = $rootScope.$new();
   app.setAngular(scope, $compile, injector);
   model.init();

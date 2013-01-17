@@ -162,27 +162,27 @@ section.panel.content(ng-controller="TradeCtrl")
       ng-class="{active: order.listing == 'orderbook'}")
         | Order book
 
-  table.table.table-striped.open-orders(ng-show="order.listing == 'my'")
-    thead
-      tr
-        th.type Type
-        th.pair Pair
-        th.price.rpamount Price
-        th.amount.rpamount Amount
-        th.action Action
-    tbody
-      tr(ng-repeat="entry in offers", class="{{entry.type}}", ng-class="{cancelled: cancelled}")
-        td.type {{entry.type | rpucfirst}}
-        td.pair {{entry.first | rpcurrency}}/{{entry.second | rpcurrency}}
-        td.price.rpamount {{entry.second | rpamountratio:entry.first | rpamount:{precision: 5, min_precision: 5} }}
-          span.currency {{entry.second | rpcurrency}}
-        td.amount.rpamount {{entry.first | rpamount}}
-          span.currency {{entry.first | rpcurrency}}
-        td.action
-          button.btn.btn-danger.btn-small(ng-click='cancel_order()') Cancel
-      tr(ng-show="!offers")
-        td(colspan="5")
-          p.literal You haven't placed any orders.
+    table.table.table-striped.open-orders(ng-show="order.listing == 'my'")
+      thead
+        tr
+          th.type Type
+          th.pair Pair
+          th.price.rpamount Price
+          th.amount.rpamount Amount
+          th.action Action
+      tbody
+        tr(ng-repeat="entry in offers", class="{{entry.type}}", ng-class="{cancelled: cancelled}")
+          td.type {{entry.type | rpucfirst}}
+          td.pair {{entry.first | rpcurrency}}/{{entry.second | rpcurrency}}
+          td.price.rpamount {{entry.second | rpamountratio:entry.first | rpamount:{precision: 5, min_precision: 5} }}
+            span.currency {{entry.second | rpcurrency}}
+          td.amount.rpamount {{entry.first | rpamount}}
+            span.currency {{entry.first | rpcurrency}}
+          td.action
+            button.btn.btn-danger.btn-small(ng-click='cancel_order()') Cancel
+        tr(ng-show="isEmpty(offers)")
+          td(colspan="5")
+            p.literal You haven&#39;t placed any orders.
 
   group.orderbook(ng-show="order.listing == 'orderbook'")
     table.bids.table.table-striped
