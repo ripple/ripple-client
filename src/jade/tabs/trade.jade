@@ -142,12 +142,12 @@ section.panel.content(ng-controller="TradeCtrl")
       form.mode-confirm(ng-switch-when='confirm', ng-submit="order_confirmed()")
         p.literal You are about to place an offer {{order.type}}ing
           .amount_feedback
-            span.value {{order.sell_amount | rpamount}}
-            span.currency  {{order.sell_amount | rpcurrency}}
+            span.value {{order.first_amount | rpamount}}
+            span.currency  {{order.first_amount | rpcurrency}}
           p.literal for
           .dest_feedback
-            span.value {{order.buy_amount | rpamount}}
-            span.currency  {{order.buy_amount | rpcurrency}}
+            span.value {{order.second_amount | rpamount}}
+            span.currency  {{order.second_amount | rpcurrency}}
           p.literal Are you sure?
           div
             p.submitsection
