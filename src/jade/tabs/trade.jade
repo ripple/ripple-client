@@ -182,14 +182,13 @@ section.panel.content(ng-controller="TradeCtrl")
         group.result-malformed(ng-show='tx_result=="claim"')
           h2.tx-status Transaction failed!
           p(ng-switch on="engine_result")
-            span(ng-switch-when="tecUNFUNDED")
-              | You do not have enough XRP to create this order.
+            span(ng-switch-when="tecUNFUNDED_ORDER")
+              | You do not have enough {{order.sell_currency}} to create this order.
             span(ng-switch-default)
               | Error: {{engine_result_message}}
         group.result-failed(ng-show='tx_result=="failed"')
           h2.tx-status Trade failed!
           p(ng-switch on="engine_result")
-            span(ng-switch-when="terUNFUNDED") Your account had insufficient balance in specified currency.
             span(ng-switch-default) Trade failed, reason: {{engine_result_message}}
         hr
         div(class="actionLink")
