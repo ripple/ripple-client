@@ -217,7 +217,7 @@ TabManager.prototype.normalizeUrlParams = function(urlParams) {
     currency = urlParams.amnt.slice(-3);
 
     if (parseFloat(amount) == amount && /^[a-zA-Z]+$/.test(currency)) {
-      urlParams.amount = amount;
+      urlParams.amount = parseFloat(amount);
       urlParams.currency = currency.toUpperCase();
     }
 

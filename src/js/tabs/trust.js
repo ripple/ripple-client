@@ -25,6 +25,10 @@ TrustTab.prototype.angular = function (module)
 
   module.controller('TrustCtrl', ['$scope', '$timeout', function ($scope, $timeout)
   {
+    $scope.$watch('urlParams', function(){
+      $scope.reset();
+    }, true);
+
     $scope.reset = function () {
       $scope.mode = 'main';
       $scope.currency = 'USD';
@@ -35,6 +39,25 @@ TrustTab.prototype.angular = function (module)
       if (app.$scope.balance == '0') {
         $scope.mode = 'error';
         $scope.errorMessage = 'You have to be funded before you can grant a trust';
+      }
+
+      // Url params
+      if ($scope.urlParams.to) {
+        $scope.addform_visible = true;
+        $scope.counterparty = $scope.urlParams.to;
+      }
+      if ($scope.urlParams.amount) {
+        $scope.addform_visible = true;
+        $scope.amount = $scope.urlParams.amount;
+      }
+      if ($scope.urlParams.currency) {
+        $scope.addform_visible = true;
+        $scope.currency = $scope.urlParams.currency;
+      }
+
+      // If all the form fields are filled, go to confirmation page
+      if ($scope.urlParams.to && $scope.urlParams.amount && $scope.urlParams.currency) {
+        $scope.grant();
       }
     };
 
