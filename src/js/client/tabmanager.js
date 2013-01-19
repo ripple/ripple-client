@@ -176,7 +176,8 @@ TabManager.prototype.handleHashChange = function () {
 
   this.lastSeenHash = location.hash;
 
-  var tab = location.hash.slice(1);
+  var params = location.hash.slice(1).split("&");
+  var tab = params[0];
 
   // Guests can see only login and register tabs
   if ('login' != tab && 'register' != tab && !this.app.id.account && !(Options.persistent_auth && !!store.get('ripple_auth'))) {
