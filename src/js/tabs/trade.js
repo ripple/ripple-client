@@ -119,7 +119,7 @@ TradeTab.prototype.angular = function(module)
           app.net.remote.removeListener('net_account', handleAccountEvent);
         }
       }
-    }
+    };
 
     function setEngineStatus(res, accepted) {
       $scope.engine_result = res.engine_result;
@@ -254,8 +254,11 @@ TradeTab.prototype.angular = function(module)
 
       var first_currency = $scope.order.first_currency || "XRP";
       var second_currency = $scope.order.second_currency || "XRP";
+      var first_issuer = $scope.order.first_issuer;
+      var second_issuer = $scope.order.second_issuer;
 
-      var orders = ledger.getOrders(first_currency, second_currency);
+      var orders = ledger.getOrders(first_currency, second_currency,
+                                    first_issuer, second_issuer);
 
       var bestBid = orders.bids[0];
       if (bestBid) $scope.bid_price = bestBid.o.amount.ratio_human(bestBid.i.amount);

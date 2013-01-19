@@ -22,7 +22,24 @@ module.factory('rpLedger', ['$q', '$rootScope', 'rpNetwork', 'rpTransactions',
     getOrders: getOrders
   };
 
-  function getOrders(buyCurrency, sellCurrency) {
+  function filterOrder(buyCurrency, sellCurrency, buyIssuer, sellIssuer,
+                       pays, gets) {
+    if (buyCurrency !== gets.currency || sellCurrency !== pays.currency) {
+      return false;
+    }
+
+    if (buyCurrency !== 'XRP' && buyIssuer && gets.issuer !== buyIssuer) {
+      return false;
+    }
+
+    if (sellCurrency !== 'XRP' && sellIssuer && pays.issuer !== sellIssuer) {
+      return false;
+    }
+
+    return true;
+  }
+
+  function getOrders(buyCurrency, sellCurrency, buyIssuer, sellIssuer) {
     var obj = {
       asks: [],
       bids: []
@@ -34,11 +51,14 @@ module.factory('rpLedger', ['$q', '$rootScope', 'rpNetwork', 'rpTransactions',
       var gets = rewriteAmount(node.TakerGets);
       var pays = rewriteAmount(node.TakerPays);
 
-      if (buyCurrency === gets.currency && sellCurrency === pays.currency) {
+      if (filterOrder(buyCurrency, sellCurrency, buyIssuer, sellIssuer, gets, pays)) {
         obj.asks.push({i: gets, o: pays});
+
+        // A bid can't also be an ask
+        return;
       }
 
-      if (buyCurrency === pays.currency && sellCurrency === gets.currency) {
+      if (filterOrder(buyCurrency, sellCurrency, buyIssuer, sellIssuer, pays, gets)) {
         obj.bids.push({i: pays, o: gets});
       }
     });
