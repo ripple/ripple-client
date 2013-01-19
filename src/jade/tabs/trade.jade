@@ -7,160 +7,203 @@ section.panel.content(ng-controller="TradeCtrl")
         ng-model='order.currency_pair')
     ul.issuers.inline(ng-show='order.first_currency != "XRP"')
       li.label Base currency
-      li.value {{order.first_currency}}/bitstamp.net
-      li: a change issuer
+      li.value {{order.first_currency}}&ensp;
+        span(rp-pretty-issuer="order.first_issuer") ???
+      li: a(
+        ng-show='show_issuer_form != "first"'
+        ng-click='show_issuer_form = "first"')
+        | change issuer
+      li: a(
+        ng-show='show_issuer_form == "first"'
+        ng-click='show_issuer_form = false')
+        | hide form
     ul.issuers.inline(ng-show='order.first_currency == "XRP"')
       li.label Base currency
       li.value XRP
     ul.issuers.inline(ng-show='order.second_currency != "XRP"')
       li.label Counter currency
-      li.value {{order.second_currency}}/example.com
-      li: a change issuer
+      li.value {{order.second_currency}}&ensp;
+        span(rp-pretty-issuer="order.second_issuer") ???
+      li: a(
+        ng-show='show_issuer_form != "second"'
+        ng-click='show_issuer_form = "second"')
+        | change issuer
+      li: a(
+        ng-show='show_issuer_form == "second"'
+        ng-click='show_issuer_form = false')
+        | hide form
     ul.issuers.inline(ng-show='order.second_currency == "XRP"')
       li.label Counter currency
       li.value XRP
+  form.issuer.first-issuer(name='first_issuer_form', ng-show='show_issuer_form == "first"')
+    label(for='first_issuer') Base currency issuer
+    input#first_issuer(
+      name='first_issuer', type='text'
+      ng-model='order.first_issuer'
+      rp-address)
+    .errorGroup(rp-errors='first_issuer')
+      .error(rp-error-on='rpAddress') Not a valid ripple address
+    p.submitsection
+      button.btn.btn-success.submit(
+        type='submit', ng-click='show_issuer_form = false') Confirm
+  form.issuer.second-issuer(name='second_issuer_form', ng-show='show_issuer_form == "second"')
+    label(for='first_issuer') Counter currency issuer
+    input#second_issuer(
+      name='second_issuer', type='text'
+      ng-model='order.second_issuer'
+      rp-address)
+    .errorGroup(rp-errors='second_issuer')
+      .error(rp-error-on='rpAddress') Not a valid ripple address
+    p.submitsection
+      button.btn.btn-success.submit(
+        type='submit', ng-click='show_issuer_form = false') Confirm
 
-  .ticker: ul.market.inline
-    li
-      span.label Bid =&nbsp;
-      span.value
-        | {{bid_price | rpamount:{precision: 5, min_precision: 5} }}
-    li
-      span.label Ask =&nbsp;
-      span.value
-        | {{ask_price | rpamount:{precision: 5, min_precision: 5} }}
-    li
-      span.label Spread =&nbsp;
-      span.value
-        | {{spread | rpamount:{precision: 5, min_precision: 5} }}
-    li
-      span.label Last price =&nbsp;
-      span.value
-        | n/a
+  group(rp-if="order.valid_settings")
 
-  //- 1. Order form
-  .order-type(ng-class="{open: order.type}")
-    .btn-group
-      button.btn(
-        type="button"
-        ng-class="{'btn-info': order.type == 'buy' }"
-        ng-click="order.type = 'buy'") Buy {{order.first_currency}}
-      button.btn(
-        type="button"
-        ng-class="{'btn-info': order.type == 'sell' }"
-        ng-click="order.type = 'sell'") Sell {{order.first_currency}}
-  group.trade-widget(ng-switch="mode")
-    form.mode-form(name='orderForm', ng-submit='place_order()', ng-switch-when='trade', ng-class="{visible: order.type}")
-      .order-values
-        .value-field
-          label(for='order_amount', ng-show="order.type == 'sell'") Amount To Sell
-          label(for='order_amount', ng-show="order.type == 'buy'") Amount To Buy
-          .input-append
-            input#order_amount(
-              name='amount', type='number', step='any'
-              ng-model='order.first', ng-change='calc_second()'
-              ng-pattern='/^[0-9.]+$/', required)
-            .add-on {{order.first_currency}}
-          .error(ng-show='orderForm.amount.$error.pattern') Not a valid amount.
-          .error(ng-show='orderForm.amount.$error.required && !orderForm.amount.$pristine') Required
-        .sign x
-        .value-field
-          label(for='order_price') Price of Each
-          .input-append
-            input#order_price(
-              name='price', type='number', step='any'
-              ng-model='order.price', ng-change='calc_second()'
-              ng-pattern='/^[0-9.]+$/', required)
-            .add-on {{order.second_currency}}
-          .error(ng-show='orderForm.price.$error.pattern') Not a valid price.
-          .error(ng-show='orderForm.price.$error.required && !orderForm.price.$pristine') Required
-        .sign =
-        .value-field
-          label(for='order_value') Order Value
-          .input-append
-            input#order_value(
-              name='value', type='number', step='any'
-              ng-model='order.second', ng-change='calc_first()'
-              ng-pattern='/^[0-9.]+$/', required)
-            .add-on {{order.second_currency}}
-          .error(ng-show='orderForm.value.$error.pattern') Not a valid value.
-      .message(ng-show='orderForm.$valid')
-        | You are wanting to {{order.type}}
-        | {{order.first_amount | rpamount}} {{order.first_amount | rpcurrency}}
-        | for
-        | {{order.second_amount | rpamount}} {{order.second_amount | rpcurrency}}
-        | ({{order.price_amount | rpamount}} {{order.second_amount | rpcurrency}}
-        |  per {{order.first_amount | rpcurrency}})
-      .submitsection
-        button.btn.btn-success.submit(type='submit', ng-disabled='orderForm.$invalid') Place Order
+    .ticker: ul.market.inline
+      li
+        span.label Bid =&nbsp;
+        span.value
+          | {{bid_price | rpamount:{precision: 5, min_precision: 5} }}
+      li
+        span.label Ask =&nbsp;
+        span.value
+          | {{ask_price | rpamount:{precision: 5, min_precision: 5} }}
+      li
+        span.label Spread =&nbsp;
+        span.value
+          | {{spread | rpamount:{precision: 5, min_precision: 5} }}
+      li
+        span.label Last price =&nbsp;
+        span.value
+          | n/a
 
-    //- 2. Confirmation
+    //- 1. Order form
+    .order-type(ng-class="{open: order.type}")
+      .btn-group
+        button.btn(
+          type="button"
+          ng-class="{'btn-info': order.type == 'buy' }"
+          ng-click="order.type = 'buy'") Buy {{order.first_currency}}
+        button.btn(
+          type="button"
+          ng-class="{'btn-info': order.type == 'sell' }"
+          ng-click="order.type = 'sell'") Sell {{order.first_currency}}
+    group.trade-widget(ng-switch="mode")
+      form.mode-form(name='orderForm', ng-submit='place_order()', ng-switch-when='trade', ng-class="{visible: order.type}")
+        .order-values
+          .value-field
+            label(for='order_amount', ng-show="order.type == 'sell'") Amount To Sell
+            label(for='order_amount', ng-show="order.type == 'buy'") Amount To Buy
+            .input-append
+              input#order_amount(
+                name='amount', type='number', step='any'
+                ng-model='order.first', ng-change='calc_second()'
+                ng-pattern='/^[0-9.]+$/', required)
+              .add-on {{order.first_currency}}
+            .errorGroup(rp-errors='amount')
+              .error(rp-error-on='pattern') Not a valid amount.
+              .error(rp-error-on='required') Required
+          .sign x
+          .value-field
+            label(for='order_price') Price of Each
+            .input-append
+              input#order_price(
+                name='price', type='number', step='any'
+                ng-model='order.price', ng-change='calc_second()'
+                ng-pattern='/^[0-9.]+$/', required)
+              .add-on {{order.second_currency}}
+            .errorGroup(rp-errors='price')
+              .error(rp-error-on='pattern') Not a valid price.
+              .error(rp-error-on='required') Required
+          .sign =
+          .value-field
+            label(for='order_value') Order Value
+            .input-append
+              input#order_value(
+                name='value', type='number', step='any'
+                ng-model='order.second', ng-change='calc_first()'
+                ng-pattern='/^[0-9.]+$/', required)
+              .add-on {{order.second_currency}}
+            .errorGroup(rp-errors='value')
+              .error(rp-error-on='pattern') Not a valid value.
+        .message(ng-show='orderForm.$valid')
+          | You are wanting to {{order.type}}
+          | {{order.first_amount | rpamount}} {{order.first_amount | rpcurrency}}
+          | for
+          | {{order.second_amount | rpamount}} {{order.second_amount | rpcurrency}}
+          | ({{order.price_amount | rpamount}} {{order.second_amount | rpcurrency}}
+          |  per {{order.first_amount | rpcurrency}})
+        .submitsection
+          button.btn.btn-success.submit(type='submit', ng-disabled='orderForm.$invalid') Place Order
 
-    form.mode-confirm(ng-switch-when='confirm', ng-submit="order_confirmed()")
-      p.literal You are about to place an offer {{order.type}}ing
-        .amount_feedback
-          span.value {{order.sell_amount | rpamount}}
-          span.currency  {{order.sell_amount | rpcurrency}}
-        p.literal for
-        .dest_feedback
-          span.value {{order.buy_amount | rpamount}}
-          span.currency  {{order.buy_amount | rpcurrency}}
-        p.literal Are you sure?
-        div
-          p.submitsection
-            button.btn.back(type='button', ng-click='back()') &laquo; Back
-            button.btn.btn-success.submit(type='submit', ng-disabled='confirm_wait') Confirm
+      //- 2. Confirmation
 
-    //- 3. Sending
+      form.mode-confirm(ng-switch-when='confirm', ng-submit="order_confirmed()")
+        p.literal You are about to place an offer {{order.type}}ing
+          .amount_feedback
+            span.value {{order.sell_amount | rpamount}}
+            span.currency  {{order.sell_amount | rpcurrency}}
+          p.literal for
+          .dest_feedback
+            span.value {{order.buy_amount | rpamount}}
+            span.currency  {{order.buy_amount | rpcurrency}}
+          p.literal Are you sure?
+          div
+            p.submitsection
+              button.btn.back(type='button', ng-click='back()') &laquo; Back
+              button.btn.btn-success.submit(type='submit', ng-disabled='confirm_wait') Confirm
 
-    group.mode-sending(ng-switch-when='sending')
-      p.throbber.literal Sending offer to Ripple network...
+      //- 3. Sending
 
-    //- 4. Error
+      group.mode-sending(ng-switch-when='sending')
+        p.throbber.literal Sending offer to Ripple network...
 
-    group.mode-error(ng-switch-when='error')
-      p.literal Sorry, an error occurred while submitting your transaction. Make sure you are connected to the Internet and try again later.
-      p.literal Before trying again, please ensure that the transaction has not been executed already.
-      p: button.btn(ng-click='reset(true)') &laquo; Back
+      //- 4. Error
 
-    //- 5. Done
+      group.mode-error(ng-switch-when='error')
+        p.literal Sorry, an error occurred while submitting your transaction. Make sure you are connected to the Internet and try again later.
+        p.literal Before trying again, please ensure that the transaction has not been executed already.
+        p: button.btn(ng-click='reset(true)') &laquo; Back
 
-    group.mode-done(ng-switch-when='done')
-      group.pending(ng-show='tx_result=="pending"')
-        h2.tx-status Your trade request has been submitted.
-      group.result-success(ng-show='tx_result=="cleared"')
-        h2.tx-status Request has been accepted!
-      group.result-error(ng-show='tx_result=="error"')
-        h2.tx-status Request has been denied!
-        p We were unable to submit the request. Please try again later.
-      group.result-malformed(ng-show='tx_result=="malformed"')
-        h2.tx-status Request is malformed!
-        p Your request is invalid, reason: {{engine_result}} - {{engine_result_message}}
-      group.result-malformed(ng-show='tx_result=="claim"')
-        h2.tx-status Transaction failed!
-        p(ng-switch on="engine_result")
-          span(ng-switch-when="tecUNFUNDED")
-            | You do not have enough XRP to create this order.
-          span(ng-switch-default)
-            | Error: {{engine_result_message}}
-      group.result-failed(ng-show='tx_result=="failed"')
-        h2.tx-status Trade failed!
-        p(ng-switch on="engine_result")
-          span(ng-switch-when="terUNFUNDED") Your account had insufficient balance in specified currency.
-          span(ng-switch-default) Trade failed, reason: {{engine_result_message}}
-      hr
-      div(class="actionLink")
-        a(href="#trade", ng-click="reset(true)") Back to the form
+      //- 5. Done
 
-  ul.filter-tabs
-    li.my: a(
-      ng-click="order.listing = 'my'"
-      ng-class="{active: order.listing == 'my'}")
-        | My Orders
-    li.orderbook: a(
-      ng-click="order.listing = 'orderbook'"
-      ng-class="{active: order.listing == 'orderbook'}")
-        | Order book
+      group.mode-done(ng-switch-when='done')
+        group.pending(ng-show='tx_result=="pending"')
+          h2.tx-status Your trade request has been submitted.
+        group.result-success(ng-show='tx_result=="cleared"')
+          h2.tx-status Request has been accepted!
+        group.result-error(ng-show='tx_result=="error"')
+          h2.tx-status Request has been denied!
+          p We were unable to submit the request. Please try again later.
+        group.result-malformed(ng-show='tx_result=="malformed"')
+          h2.tx-status Request is malformed!
+          p Your request is invalid, reason: {{engine_result}} - {{engine_result_message}}
+        group.result-malformed(ng-show='tx_result=="claim"')
+          h2.tx-status Transaction failed!
+          p(ng-switch on="engine_result")
+            span(ng-switch-when="tecUNFUNDED")
+              | You do not have enough XRP to create this order.
+            span(ng-switch-default)
+              | Error: {{engine_result_message}}
+        group.result-failed(ng-show='tx_result=="failed"')
+          h2.tx-status Trade failed!
+          p(ng-switch on="engine_result")
+            span(ng-switch-when="terUNFUNDED") Your account had insufficient balance in specified currency.
+            span(ng-switch-default) Trade failed, reason: {{engine_result_message}}
+        hr
+        div(class="actionLink")
+          a(href="#trade", ng-click="reset(true)") Back to the form
+
+    ul.filter-tabs
+      li.my: a(
+        ng-click="order.listing = 'my'"
+        ng-class="{active: order.listing == 'my'}")
+          | My Orders
+      li.orderbook: a(
+        ng-click="order.listing = 'orderbook'"
+        ng-class="{active: order.listing == 'orderbook'}")
+          | Order book
 
     table.table.table-striped.open-orders(ng-show="order.listing == 'my'")
       thead
@@ -184,36 +227,36 @@ section.panel.content(ng-controller="TradeCtrl")
           td(colspan="5")
             p.literal You haven&#39;t placed any orders.
 
-  group.orderbook(ng-show="order.listing == 'orderbook'")
-    table.bids.table.table-striped
-      thead: tr
-        th.sum.rpamount Sum
-        th.amount.rpamount Amount
-        th.price.rpamount Bid
-      tbody
-        tr(ng-repeat='order in bids')
-          td.sum.rpamount {{order.sum | rpamount:{precision: 5} }}
-            span.currency {{order.i.amount | rpcurrency}}
-          td.amount.rpamount {{order.i.amount | rpamount:{precision: 5} }}
-            span.currency {{order.i.amount | rpcurrency}}
-          td.price.rpamount
-            | {{order.o.amount | rpamountratio:order.i.amount | rpamount:{precision: 5, min_precision: 5} }}
-            span.currency {{order.o.amount | rpcurrency}}
-        tr(ng-show='!bids.length')
-          td(colspan="5") There are currently no bids for this pair
-    table.asks.table.table-striped
-      thead: tr
-        th.price.rpamount Ask
-        th.amount.rpamount Amount
-        th.sum.rpamount Sum
-      tbody
-        tr(ng-repeat='order in asks')
-          td.price.rpamount
-            | {{order.o.amount | rpamountratio:order.i.amount | rpamount:{precision: 5, min_precision: 5} }}
-            span.currency {{order.o.amount | rpcurrency}}
-          td.amount.rpamount {{order.i.amount | rpamount:{precision: 5} }}
-            span.currency {{order.i.amount | rpcurrency}}
-          td.sum.rpamount {{order.sum | rpamount:{precision: 5} }}
-            span.currency {{order.i.amount | rpcurrency}}
-        tr(ng-show='!asks.length')
-          td(colspan="3") There are currently no asks for this pair
+    group.orderbook(ng-show="order.listing == 'orderbook'")
+      table.bids.table.table-striped
+        thead: tr
+          th.sum.rpamount Sum
+          th.amount.rpamount Amount
+          th.price.rpamount Bid
+        tbody
+          tr(ng-repeat='order in bids')
+            td.sum.rpamount {{order.sum | rpamount:{precision: 5} }}
+              span.currency {{order.i.amount | rpcurrency}}
+            td.amount.rpamount {{order.i.amount | rpamount:{precision: 5} }}
+              span.currency {{order.i.amount | rpcurrency}}
+            td.price.rpamount
+              | {{order.o.amount | rpamountratio:order.i.amount | rpamount:{precision: 5, min_precision: 5} }}
+              span.currency {{order.o.amount | rpcurrency}}
+          tr(ng-show='!bids.length')
+            td(colspan="5") There are currently no bids for this pair.
+      table.asks.table.table-striped
+        thead: tr
+          th.price.rpamount Ask
+          th.amount.rpamount Amount
+          th.sum.rpamount Sum
+        tbody
+          tr(ng-repeat='order in asks')
+            td.price.rpamount
+              | {{order.o.amount | rpamountratio:order.i.amount | rpamount:{precision: 5, min_precision: 5} }}
+              span.currency {{order.o.amount | rpcurrency}}
+            td.amount.rpamount {{order.i.amount | rpamount:{precision: 5} }}
+              span.currency {{order.i.amount | rpcurrency}}
+            td.sum.rpamount {{order.sum | rpamount:{precision: 5} }}
+              span.currency {{order.i.amount | rpcurrency}}
+          tr(ng-show='!asks.length')
+            td(colspan="3") There are currently no asks for this pair.

@@ -336,7 +336,13 @@ Tab.prototype.defaultChild = null;
  */
 Tab.prototype.angularDeps = [
   // Directives
-  'charts', 'effects', 'events', 'fields', 'directives', 'validators',
+  'charts',
+  'effects',
+  'events',
+  'fields',
+  'formatters',
+  'directives',
+  'validators',
   // Filters
   'filters'
 ];

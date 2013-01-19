@@ -219,6 +219,10 @@ var JsonRewriter = module.exports = {
 
       break;
 
+    case 'AccountSet':
+      // Ignored for now
+      return null;
+
     default:
       console.log('Unknown transaction type: "'+tx.TransactionType+'"', tx);
       return null;

@@ -24,12 +24,15 @@ Angular.load = function ()
   require('../directives/effects');
   require('../directives/validators');
   require('../directives/events');
+  require('../directives/formatters');
   require('../directives/directives');
   require('../filters/filters');
   require('../services/network');
   require('../services/transactions');
   require('../services/ledger');
   require('../services/popup');
+  require('../services/rippletxt');
+  require('../services/domainalias');
 };
 
 exports.Angular = Angular;

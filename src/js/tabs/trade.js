@@ -43,8 +43,16 @@ TradeTab.prototype.angular = function(module)
         currency_pair: pair,
         first_currency: pair.slice(0, 3),
         second_currency: pair.slice(4, 7),
-        listing: 'my'
+        first_issuer: app.id.account,
+        second_issuer: app.id.account,
+        listing: 'my',
+
+        // This variable is true if both the pair and the issuers are set to
+        // valid values. It is used to enable or disable all the functionality
+        // on the page.
+        valid_settings: false
       };
+      console.log($scope.order);
     };
 
     $scope.back = function () {
@@ -135,18 +143,7 @@ TradeTab.prototype.angular = function(module)
     }
 
     $scope.$watch('order.currency_pair', function (pair) {
-      $scope.order.first_currency = pair.slice(0, 3);
-      $scope.order.second_currency = pair.slice(4, 7);
-
-      if ($scope.order.type === "buy") {
-        $scope.order.sell_currency = $scope.order.second_currency;
-        $scope.order.buy_currency = $scope.order.first_currency;
-      } else {
-        $scope.order.sell_currency = $scope.order.first_currency;
-        $scope.order.buy_currency = $scope.order.second_currency;
-      }
-
-      updateTicker();
+      updateSettings();
      }, true);
 
     $scope.$watch('order.first', function (amount_str) {
@@ -210,6 +207,45 @@ TradeTab.prototype.angular = function(module)
       }
     };
 
+    // This functions is called whenever the settings, specifically the pair and
+    // the issuer(s) have been modified. It checks the new configuration and
+    // sets $scope.valid_settings.
+    function updateSettings() {
+      var pair = $scope.order.currency_pair;
+      if ("string" !== typeof pair ||
+          !pair.match(/^[a-z]{3}\/[a-z]{3}$/i)) {
+        $scope.order.first_currency = 'XRP';
+        $scope.order.second_currency = 'XRP';
+        $scope.order.valid_settings = false;
+        return;
+      }
+      var first_currency = $scope.order.first_currency = pair.slice(0, 3);
+      var second_currency = $scope.order.second_currency = pair.slice(4, 7);
+
+      var first_issuer = ripple.UInt160.from_json($scope.order.first_issuer);
+      var second_issuer = ripple.UInt160.from_json($scope.order.second_issuer);
+      if ((first_currency !== 'XRP' && !first_issuer.is_valid()) ||
+          (second_currency !== 'XRP' && !second_issuer.is_valid())) {
+        $scope.order.valid_settings = false;
+        return;
+      }
+
+      if ($scope.order.type === "buy") {
+        $scope.order.sell_currency = $scope.order.second_currency;
+        $scope.order.buy_currency = $scope.order.first_currency;
+        $scope.order.sell_issuer = $scope.order.second_issuer;
+        $scope.order.buy_issuer = $scope.order.first_issuer;
+      } else {
+        $scope.order.sell_currency = $scope.order.first_currency;
+        $scope.order.buy_currency = $scope.order.second_currency;
+        $scope.order.sell_issuer = $scope.order.first_issuer;
+        $scope.order.buy_issuer = $scope.order.second_issuer;
+      }
+      $scope.order.valid_settings = true;
+
+      updateTicker();
+    }
+
     function updateTicker() {
       $scope.bid_price = ripple.Amount.NaN();
       $scope.ask_price = ripple.Amount.NaN();
@@ -239,6 +275,26 @@ TradeTab.prototype.angular = function(module)
     $scope.$watch('ledger.offers', function (offers) {
       updateTicker();
     }, true);
+
+    $scope.$watch('order.first_issuer', function (issuer) {
+      updateSettings();
+    });
+
+    $scope.$watch('order.second_issuer', function (issuer) {
+      updateSettings();
+    });
+
+    // We want to use the user's account ID as the default issuer (for now!)
+    // But it might not be available when the application loads, so we add this
+    // handler.
+    $scope.$watch('address', function (address) {
+      if (!$scope.order.first_issuer) {
+        $scope.order.first_issuer = address;
+      }
+      if (!$scope.order.second_issuer) {
+        $scope.order.second_issuer = address;
+      }
+    });
 
     $scope.reset();
   }]);
