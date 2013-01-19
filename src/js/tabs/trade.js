@@ -144,11 +144,12 @@ TradeTab.prototype.angular = function(module)
 
     $scope.$watch('order.currency_pair', function (pair) {
       updateSettings();
+      resetIssuers(true);
      }, true);
 
     $scope.$watch('order.first', function (amount_str) {
       $scope.update_first();
-     }, true);
+    }, true);
 
     $scope.$watch('order.price', function (amount_str) {
       $scope.update_price();
@@ -270,6 +271,82 @@ TradeTab.prototype.angular = function(module)
       $scope.asks = orders.asks;
     }
 
+    function guessIssuer(currency) {
+      var guess;
+
+      // First guess: An explicit issuer preference setting in the user's blob
+      try {
+        guess = $scope.userBlob.data.preferred_issuer[currency];
+        if (guess) return guess;
+      } catch (e) {}
+
+      // Second guess: The user's highest trust line in this currency
+      try {
+        guess = $scope.balances[currency].highest;
+        if (guess) return guess;
+      } catch (e) {}
+
+      // We found nothing
+      return null;
+    }
+
+    function resetIssuers(force) {
+      var guess;
+
+      if (force) {
+        $scope.order.first_issuer = null;
+        $scope.order.second_issuer = null;
+      }
+
+      if (!$scope.order.first_issuer &&
+          $scope.order.first_currency &&
+          $scope.order.first_currency !== 'XRP' &&
+          (guess = guessIssuer($scope.order.first_currency))) {
+        $scope.order.first_issuer = guess;
+      }
+
+      if (!$scope.order.second_issuer &&
+          $scope.order.second_currency &&
+          $scope.order.second_currency !== 'XRP' &&
+          (guess = guessIssuer($scope.order.second_currency))) {
+        $scope.order.second_issuer = guess;
+      }
+    }
+
+    $scope.edit_first_issuer = function () {
+      $scope.show_issuer_form = 'first';
+      $scope.order.first_issuer_edit = $scope.order.first_issuer;
+    };
+
+    $scope.edit_second_issuer = function () {
+      $scope.show_issuer_form = 'second';
+      $scope.order.second_issuer_edit = $scope.order.second_issuer;
+    };
+
+    $scope.save_first_issuer = function () {
+      $scope.order.first_issuer = $scope.order.first_issuer_edit;
+      $scope.show_issuer_form = false;
+
+      // Persist issuer setting
+      if ($scope.order.valid_settings &&
+          $scope.order.first_currency !== 'XRP') {
+        $scope.userBlob.data.preferred_issuer[$scope.order.first_currency] =
+          $scope.order.first_issuer;
+      }
+    };
+
+    $scope.save_second_issuer = function () {
+      $scope.order.second_issuer = $scope.order.second_issuer_edit;
+      $scope.show_issuer_form = false;
+
+      // Persist issuer setting
+      if ($scope.order.valid_settings &&
+          $scope.order.second_currency !== 'XRP') {
+        $scope.userBlob.data.preferred_issuer[$scope.order.second_currency] =
+          $scope.order.second_issuer;
+      }
+    };
+
     $scope.ledger = ledger;
 
     $scope.$watch('ledger.offers', function (offers) {
@@ -284,17 +361,9 @@ TradeTab.prototype.angular = function(module)
       updateSettings();
     });
 
-    // We want to use the user's account ID as the default issuer (for now!)
-    // But it might not be available when the application loads, so we add this
-    // handler.
-    $scope.$watch('address', function (address) {
-      if (!$scope.order.first_issuer) {
-        $scope.order.first_issuer = address;
-      }
-      if (!$scope.order.second_issuer) {
-        $scope.order.second_issuer = address;
-      }
-    });
+    $scope.$watch('balances', function () {
+      resetIssuers(false);
+    }, true);
 
     $scope.reset();
   }]);

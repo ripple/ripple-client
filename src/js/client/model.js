@@ -269,7 +269,7 @@ Model.prototype._updateRippleBalance = function(currency, new_account, new_balan
 
   // Ensure the balances entry exists first
   if (!$scope.balances[currency]) {
-    $scope.balances[currency] = {components: {}};
+    $scope.balances[currency] = {components: {}, highest: null, total: null};
   }
 
   var balance = $scope.balances[currency];
@@ -278,15 +278,15 @@ Model.prototype._updateRippleBalance = function(currency, new_account, new_balan
     balance.components[new_account] = new_balance;
   }
 
-  balance.total = 0;
+  balance.total = null; balance.highest = null;
   for (var counterparty in balance.components) {
     var amount = balance.components[counterparty];
 
-    // XXX: Do proper BigInteger addition through ripple.Amount
-    balance.total += +amount.to_text();
+    balance.total = balance.total ? balance.total.add(amount) : amount;
+    if (!balance.highest || balance.highest.compareTo(amount) === -1) {
+      balance.highest = counterparty;
+    }
   }
-
-  balance.total = ripple.Amount.from_human(""+balance.total+" "+currency);
 };
 
 Model.prototype._updateOffer = function (offer)

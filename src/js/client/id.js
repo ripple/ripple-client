@@ -29,7 +29,8 @@ util.inherits(Id, events.EventEmitter);
 // these fields and that they are of the right types.
 Id.minimumBlob = {
   data: {
-    contacts: []
+    contacts: [],
+    preferred_issuer: {}
   },
   meta: []
 };
