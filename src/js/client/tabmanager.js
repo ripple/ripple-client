@@ -188,7 +188,7 @@ TabManager.prototype.handleHashChange = function () {
     });
   }
 
-  this.app.$scope.urlParams = urlParams;
+  this.app.$scope.urlParams = this.normalizeUrlParams(urlParams);
 
   if(!this.app.$scope.$$phase) {
     this.app.$scope.$digest();
@@ -201,6 +201,32 @@ TabManager.prototype.handleHashChange = function () {
   }
 
   this.showTab(tab);
+};
+
+/**
+ * Normalizes url parameters.
+ *
+ * Currently this function is used to separate amount from currency
+ * {'amnt': '100usd'} will become {'amount': '100', 'currency': 'usd'}
+ *
+ * @param urlParams
+ * @return normalized urlParams
+ */
+TabManager.prototype.normalizeUrlParams = function(urlParams) {
+  if (urlParams.amnt) {
+    amount = urlParams.amnt.slice(0,-3);
+    currency = urlParams.amnt.slice(-3);
+
+    if (parseFloat(amount) == amount && /^[a-zA-Z]+$/.test(currency)) {
+      urlParams.amount = amount;
+      urlParams.currency = currency.toUpperCase();
+    }
+  }
+
+  // We don't need amnt anymore
+  delete urlParams.amnt;
+
+  return urlParams;
 };
 
 TabManager.prototype.getSlotByEl = function (el) {
