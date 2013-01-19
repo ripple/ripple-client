@@ -147,7 +147,7 @@ TabManager.prototype.message = function (slotName, msg_type, message)
     var tab = this.slots[slotName];
     tab.emit(msg_type, message);
   } else {
-    this.once('render:'+slotName, function (e) {
+    this.on('render:'+slotName, function (e) {
       e.tab.emit(msg_type, message);
       e.tab.$scope.$digest();
     });
@@ -178,6 +178,21 @@ TabManager.prototype.handleHashChange = function () {
 
   var params = location.hash.slice(1).split("&");
   var tab = params[0];
+
+  var urlParams = {};
+
+  if (params.slice(1)) {
+    $.each(params.slice(1), function(index,p){
+      var keyValue = p.split("=");
+      urlParams[keyValue[0]] = keyValue[1];
+    });
+  }
+
+  this.app.$scope.urlParams = urlParams;
+
+  if(!this.app.$scope.$$phase) {
+    this.app.$scope.$digest();
+  }
 
   // Guests can see only login and register tabs
   if ('login' != tab && 'register' != tab && !this.app.id.account && !(Options.persistent_auth && !!store.get('ripple_auth'))) {
