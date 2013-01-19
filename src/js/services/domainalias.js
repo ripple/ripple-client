@@ -18,6 +18,32 @@ module.factory('rpDomainAlias', ['$q', '$rootScope', 'rpNetwork', 'rpRippleTxt',
 {
   var aliases = {};
 
+  /**
+   * Validates a domain against an object parsed from ripple.txt data.
+   *
+   * @private
+   */
+  function validateDomain(domain, address, data) {
+    // Validate domain
+    if (!data.domain ||
+        data.domain.length !== 1 ||
+        data.domain[0] !== domain) {
+      return false;
+    }
+
+    // Validate address
+    if (!data.addresses) {
+      return false;
+    }
+    for (var i = 0, l = data.addresses.length; i < l; i++) {
+      if (data.addresses[i] === address) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
   function getAliasForAddress(address) {
     if (aliases[address]) {
       return aliases[address];
@@ -36,12 +62,8 @@ module.factory('rpDomainAlias', ['$q', '$rootScope', 'rpNetwork', 'rpRippleTxt',
                 result(txtData);
               }
               function result(data) {
-                if (data.domain && data.domain.length === 1 &&
-                    data.domain[0] === domain) {
-                  aliasPromise.resolve(domain);
-                } else {
-                  aliasPromise.resolve(false);
-                }
+                var valid = validateDomain(domain, address, data);
+                aliasPromise.resolve(valid ? domain : false);
               }
             });
           }
