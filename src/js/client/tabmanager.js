@@ -206,13 +206,12 @@ TabManager.prototype.handleHashChange = function () {
 /**
  * Normalizes url parameters.
  *
- * Currently this function is used to separate amount from currency
- * {'amnt': '100usd'} will become {'amount': '100', 'currency': 'usd'}
- *
  * @param urlParams
  * @return normalized urlParams
  */
 TabManager.prototype.normalizeUrlParams = function(urlParams) {
+
+  // Normalize amount
   if (urlParams.amnt) {
     amount = urlParams.amnt.slice(0,-3);
     currency = urlParams.amnt.slice(-3);
@@ -221,10 +220,18 @@ TabManager.prototype.normalizeUrlParams = function(urlParams) {
       urlParams.amount = amount;
       urlParams.currency = currency.toUpperCase();
     }
+
+    // We don't need amnt anymore
+    delete urlParams.amnt;
   }
 
-  // We don't need amnt anymore
-  delete urlParams.amnt;
+  // Normalize ripple address
+  if (urlParams.to) {
+    var address = ripple.UInt160.from_json(urlParams.to);
+    if (!address.is_valid()) {
+      delete urlParams.to;
+    }
+  }
 
   return urlParams;
 };
