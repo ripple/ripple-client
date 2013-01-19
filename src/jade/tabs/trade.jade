@@ -79,7 +79,7 @@ section.panel.content(ng-controller="TradeCtrl")
           | n/a
 
     //- 1. Order form
-    .order-type(ng-class="{open: order.type}")
+    .order-type(ng-class="{open: order.type}", ng-show="mode == 'trade'")
       .btn-group
         button.btn(
           type="button"
