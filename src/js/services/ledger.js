@@ -51,14 +51,14 @@ module.factory('rpLedger', ['$q', '$rootScope', 'rpNetwork', 'rpTransactions',
       var gets = rewriteAmount(node.TakerGets);
       var pays = rewriteAmount(node.TakerPays);
 
-      if (filterOrder(buyCurrency, sellCurrency, buyIssuer, sellIssuer, gets, pays)) {
+      if (filterOrder(buyCurrency, sellCurrency, buyIssuer, sellIssuer, pays, gets)) {
         obj.asks.push({i: gets, o: pays});
 
         // A bid can't also be an ask
         return;
       }
 
-      if (filterOrder(buyCurrency, sellCurrency, buyIssuer, sellIssuer, pays, gets)) {
+      if (filterOrder(buyCurrency, sellCurrency, buyIssuer, sellIssuer, gets, pays)) {
         obj.bids.push({i: pays, o: gets});
       }
     });
