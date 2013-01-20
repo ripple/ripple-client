@@ -23,7 +23,8 @@ module.factory('rpDomainAlias', ['$q', '$rootScope', 'rpNetwork', 'rpRippleTxt',
    *
    * @private
    */
-  function validateDomain(domain, address, data) {
+  function validateDomain(domain, address, data)
+  {
     // Validate domain
     if (!data.domain ||
         data.domain.length !== 1 ||
@@ -32,11 +33,11 @@ module.factory('rpDomainAlias', ['$q', '$rootScope', 'rpNetwork', 'rpRippleTxt',
     }
 
     // Validate address
-    if (!data.addresses) {
+    if (!data.accounts) {
       return false;
     }
-    for (var i = 0, l = data.addresses.length; i < l; i++) {
-      if (data.addresses[i] === address) {
+    for (var i = 0, l = data.accounts.length; i < l; i++) {
+      if (data.accounts[i] === address) {
         return true;
       }
     }
