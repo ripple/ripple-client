@@ -176,19 +176,25 @@ TabManager.prototype.handleHashChange = function () {
 
   this.lastSeenHash = location.hash;
 
-  var params = location.hash.slice(1).split("&");
-  var tab = params[0];
+  var req = location.hash.slice(1).split("?");
+  var tab = req[0];
 
   var urlParams = {};
 
-  if (params.slice(1)) {
-    $.each(params.slice(1), function(index,p){
-      var keyValue = p.split("=");
-      urlParams[keyValue[0]] = keyValue[1];
-    });
+  if (req[1]) {
+    var params = req[1].split("&");
+
+    if (params) {
+      $.each(params, function(index,p){
+        var keyValue = p.split("=");
+        urlParams[keyValue[0]] = keyValue[1];
+      });
+
+      urlParams = this.normalizeUrlParams(urlParams);
+    }
   }
 
-  this.app.$scope.urlParams = this.normalizeUrlParams(urlParams);
+  this.app.$scope.urlParams = urlParams;
 
   if(!this.app.$scope.$$phase) {
     this.app.$scope.$digest();
