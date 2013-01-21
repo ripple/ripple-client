@@ -99,7 +99,7 @@ module.exports = function(grunt) {
     watch: {
       scripts: {
         files: ['<config:lint.files>', 'src/jade/**/*.jade'],
-        tasks: 'lint webpack:desktop_debug'
+        tasks: 'lint webpack:desktop webpack:desktop_debug'
       },
       styles: {
         files: 'src/less/**/*.less',
