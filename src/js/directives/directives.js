@@ -241,7 +241,7 @@ module.directive('rpDownload', [function () {
 
         element.css('position', 'relative');
 
-        setTimeout(function () {
+        setImmediate(function () {
           var width = trigger.innerWidth();
           var height = trigger.innerHeight();
           var offsetTrigger = trigger.offset();
@@ -269,7 +269,7 @@ module.directive('rpDownload', [function () {
             top: topOffset + 'px',
             left: leftOffset + 'px'
           });
-        }, 0);
+        });
       };
     }
   };

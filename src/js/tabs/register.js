@@ -108,9 +108,9 @@ RegisterTab.prototype.angular = function (module) {
 
 RegisterTab.prototype.onAfterRender = function ()
 {
-  setTimeout(function() {
+  setImmediate(function() {
     $("#register_username").focus();
-  }, 1);
+  });
 };
 
 module.exports = RegisterTab;

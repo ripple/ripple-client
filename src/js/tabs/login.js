@@ -68,9 +68,9 @@ LoginTab.prototype.angular = function (module) {
 
 LoginTab.prototype.onAfterRender = function ()
 {
-  setTimeout(function() {
+  setImmediate(function() {
     $("#login_username").focus();
-  }, 1);
+  });
 };
 
 module.exports = LoginTab;

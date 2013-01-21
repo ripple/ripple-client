@@ -46,9 +46,9 @@ StatusManager.prototype.init = function ()
       // to make sure that's actually the case otherwise we may get a
       // "Error: $apply already in progress"
       // XXX: Find out if there is a recommended/better way of doing this.
-      setTimeout(function () {
+      setImmediate(function () {
         app.id.logout();
-      }, 10);
+      });
     };
 
     var template = require('../../jade/client/status.jade')();
@@ -109,7 +109,7 @@ StatusManager.prototype.enqueue = function (smObj)
 {
   this.queue.push(smObj);
   if (this.el && !this.tickUpcoming) {
-    setTimeout(this._tick.bind(this), 10);
+    setImmediate(this._tick.bind(this));
   }
 };
 
@@ -145,9 +145,9 @@ StatusManager.prototype._tick = function ()
     var el = $(next.message);
     el.addClass('notification');
     el.appendTo(this.notifyEl);
-    setTimeout(function () {
+    setImmediate(function () {
       el.addClass('active');
-    }, 0);
+    });
 
     this.prevEl = el;
 

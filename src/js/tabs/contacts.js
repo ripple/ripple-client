@@ -139,9 +139,9 @@ ContactsTab.prototype.angular = function (module) {
         recipient: $scope.entry.name
       });
 
-      setTimeout(function () {
+      setImmediate(function () {
         app.tabs.gotoTab('send');
-      }, 10);
+      });
     };
   });
 };
