@@ -76,13 +76,6 @@ Id.prototype.init = function ()
     sjcl.random.addEntropy(Math.random(), 32, "Math.random()");
   }
 
-  if (Options.persistent_auth && !!store.get('ripple_auth')) {
-    var auth = store.get('ripple_auth');
-
-    this.login(auth.username, auth.password);
-    this.loginStatus = true;
-  }
-
   this.app.$scope.blobBackendCollections = [
     {name: 'Payward', 'value':'vault'},
     {name: 'Payward, Local Browser', 'value':'vault,local'},
@@ -108,6 +101,13 @@ Id.prototype.init = function ()
       });
     }
   },true);
+
+  if (Options.persistent_auth && !!store.get('ripple_auth')) {
+    var auth = store.get('ripple_auth');
+
+    this.login(auth.username, auth.password);
+    this.loginStatus = true;
+  }
 };
 
 Id.prototype.setApp = function (app)
