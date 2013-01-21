@@ -36,23 +36,25 @@ BlobObj.get = function(backends, user, pass, callback)
   var key = sjcl.codec.hex.fromBits(sjcl.hash.sha256.hash(user + pass));
   try {
     backend.get(key, function (err, data) {
-      if (err) {
-        console.warn("Backend failed: ", err);
-        log.exception(err);
-        callback(backend.name, new Error(err));
+      setImmediate(function () {
+        if (err) {
+          console.warn("Backend failed: ", err);
+          log.exception(err);
+          callback(backend.name, new Error(err));
 
-        tryNext();
-        return;
-      }
+          tryNext();
+          return;
+        }
 
-      if (data) {
-        var blob = BlobObj.decrypt(user+pass, atob(data));
-        callback(backend.name, null, blob);
-      }
-      else {
-        callback(backend.name, Error('Wallet not found (Username / Password is wrong)'));
-        tryNext();
-      }
+        if (data) {
+          var blob = BlobObj.decrypt(user+pass, atob(data));
+          callback(backend.name, null, blob);
+        }
+        else {
+          callback(backend.name, Error('Wallet not found (Username / Password is wrong)'));
+          tryNext();
+        }
+      });
     });
   } catch (e) {
     console.warn("Backend failed: ", e);
@@ -134,15 +136,13 @@ var LocalBlobBackend = {
     console.log('local get','ripple_blob_' + key);
     var blob = store.get('ripple_blob_'+key);
     // We use a timeout to simulate this function being asynchronous
-    setImmediate(function () {
-      callback(null, blob);
-    });
+    callback(null, blob);
   },
 
   set: function (key, value, callback)
   {
     store.set('ripple_blob_'+key, value);
-    setImmediate(callback);
+    callback();
   }
 };
 
