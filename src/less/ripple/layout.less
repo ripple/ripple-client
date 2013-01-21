@@ -6,8 +6,11 @@ html {
 }
 
 body {
-  background: #F9F9F9 url("../../img/bg_tile.png");
+  background: #ededed;
   font-family: sans-serif;
+}
+body.loaded {
+  background: #F9F9F9 url("../../img/bg_tile.png");
 }
 
 body:before, body:after {
@@ -36,6 +39,10 @@ body:after {
   display: none;
 }
 
+body.loaded #wrapper {
+  display: block;
+}
+
 #appLoading {
   margin: 200px 0 0 0;
   text-align: center;
@@ -45,6 +52,10 @@ body:after {
   p{
     margin: 50px 0 0 0;
   }
+}
+
+body.loaded #appLoading {
+  display: none;
 }
 
 #logo {

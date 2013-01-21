@@ -51,8 +51,7 @@ TabManager.prototype.init = function ()
   }
 
   // Enable screen
-  $('#wrapper').show();
-  $('#appLoading').hide();
+  $('body').addClass('loaded');
 };
 
 TabManager.prototype.setApp = function (app)
