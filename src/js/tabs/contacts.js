@@ -30,6 +30,23 @@ ContactsTab.prototype.angular = function (module) {
       if ($scope.addForm) $scope.addForm.$setPristine();
     };
 
+    $scope.$watch('urlParams', function(){
+      $scope.fill_url_params();
+    }, true);
+
+    $scope.fill_url_params = function ()
+    {
+      if ($scope.urlParams.name) {
+        $scope.addform_visible = true;
+        $scope.name = $scope.urlParams.name;
+      }
+      if ($scope.urlParams.to) {
+        $scope.addform_visible = true;
+        $scope.address = $scope.urlParams.to;
+      }
+    };
+
+    $scope.fill_url_params();
     $scope.reset_form();
 
     /**

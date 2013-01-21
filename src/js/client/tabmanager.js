@@ -169,7 +169,7 @@ TabManager.prototype.getContainer = function ()
 TabManager.prototype.getAllTabEls = function ()
 {
   return $('section');
-}
+};
 
 TabManager.prototype.handleHashChange = function () {
   if (location.hash == this.lastSeenHash) return;
@@ -178,6 +178,9 @@ TabManager.prototype.handleHashChange = function () {
 
   var req = location.hash.slice(1).split("?");
   var tab = req[0];
+
+  // Special case for contact URI. (temporary)
+  tab = (tab == 'contact') ? 'contacts' : tab;
 
   var urlParams = {};
 
