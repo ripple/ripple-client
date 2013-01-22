@@ -175,13 +175,13 @@ SendTab.prototype.angular = function (module)
      */
     $scope.sent = function (hash) {
       $scope.mode = "sent";
-      app.net.remote.on('net_account', handleAccountEvent);
+      app.net.remote.on('account', handleAccountEvent);
 
       function handleAccountEvent(e) {
         if (e.transaction.hash === hash) {
           setEngineStatus(e, true);
           $scope.$digest();
-          app.net.remote.removeListener('net_account', handleAccountEvent);
+          app.net.remote.removeListener('account', handleAccountEvent);
         }
       }
     };

@@ -25,7 +25,7 @@ Model.prototype.init = function ()
   $scope.pairs = require('../data/pairs');
 
   this.app.id.on('accountload', this.handleAccountLoad.bind(this));
-  this.app.net.remote.on('net_account', this.handleAccountEvent.bind(this));
+  this.app.net.remote.on('account', this.handleAccountEvent.bind(this));
 };
 
 Model.prototype.reset = function ()

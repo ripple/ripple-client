@@ -166,7 +166,7 @@ StatusManager.prototype.setupNetworkNotices = function ()
   var app = this.app;
   var remote = this.app.net.remote;
 
-  remote.on('net_account', function (msg) {
+  remote.on('account', function (msg) {
     if (msg.engine_result !== 'tesSUCCESS') return;
 
     var tx = rewriter.processTxn(msg.transaction, msg.meta, app.id.account);
