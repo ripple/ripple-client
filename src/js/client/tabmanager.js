@@ -31,24 +31,8 @@ TabManager.prototype.init = function ()
     }
   });
 
-  if (this.app.id.isLoggedIn()) {
-    console.log("client: logged in");
-    try {
-      if (location.hash.length < 2) throw "nohash";
-
-      this.handleHashChange();
-    } catch (e) {
-      console.warn("tabs: error loading "+location.hash+":");
-      log.exception(e);
-      this.gotoTab("balance");
-    }
-  } else if (this.app.id.isReturning()) {
-    console.log("client: returning user");
-
-    this.gotoTab("login");
-  } else {
-    this.gotoTab("register");
-  }
+  // Decide what tab to show
+  this.handleHashChange();
 
   // Enable screen
   $('body').addClass('loaded');
@@ -171,17 +155,14 @@ TabManager.prototype.getAllTabEls = function ()
 };
 
 TabManager.prototype.handleHashChange = function () {
-  if (location.hash == this.lastSeenHash) return;
-
-  this.lastSeenHash = location.hash;
-
+  // req[0] is tab name, req[1] is parameters line (everything after '?' sign)
   var req = location.hash.slice(1).split("?");
   var tab = req[0];
 
   // Special case for contact URI. (temporary)
   tab = (tab == 'contact') ? 'contacts' : tab;
 
-  var urlParams = {};
+  var urlParams = {'tab': tab};
 
   if (req[1]) {
     var params = req[1].split("&");
@@ -198,14 +179,34 @@ TabManager.prototype.handleHashChange = function () {
 
   this.app.$scope.urlParams = urlParams;
 
-  if(!this.app.$scope.$$phase) {
-    this.app.$scope.$digest();
+  // User
+  if (this.app.id.isLoggedIn()) {
+    if (!tab) {
+      this.app.$scope.urlParams.tab = 'balance';
+      this.gotoTab("balance");
+    }
+  }
+  // Guest
+  else {
+    console.log(urlParams.amount);
+    if ('trust' == tab && urlParams.to && urlParams.amount) {
+      this.showTab('login');
+      return;
+    }
+    else if ('login' != tab && 'register' != tab && !this.app.id.account && !(Options.persistent_auth && !!store.get('ripple_auth'))) {
+      if (this.app.id.isReturning()) {
+        this.app.$scope.urlParams.tab = 'login';
+        this.gotoTab("login");
+      } else {
+        this.app.$scope.urlParams.tab = 'register';
+        this.gotoTab("register");
+      }
+      return;
+    }
   }
 
-  // Guests can see only login and register tabs
-  if ('login' != tab && 'register' != tab && !this.app.id.account && !(Options.persistent_auth && !!store.get('ripple_auth'))) {
-      this.gotoTab('login');
-      return;
+  if(!this.app.$scope.$$phase) {
+    this.app.$scope.$digest();
   }
 
   this.showTab(tab);
@@ -221,16 +222,10 @@ TabManager.prototype.normalizeUrlParams = function(urlParams) {
 
   // Normalize amount
   if (urlParams.amnt) {
-    amount = urlParams.amnt.slice(0,-3);
-    currency = urlParams.amnt.slice(-3);
-
-    if (parseFloat(amount) == amount && /^[a-zA-Z]+$/.test(currency)) {
-      urlParams.amount = parseFloat(amount);
-      urlParams.currency = currency.toUpperCase();
+    var amount = ripple.Amount.from_human(urlParams.amnt);
+    if (amount.is_valid()) {
+      urlParams.amount = amount;
     }
-
-    // We don't need amnt anymore
-    delete urlParams.amnt;
   }
 
   // Normalize ripple address
