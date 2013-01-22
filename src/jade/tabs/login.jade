@@ -43,8 +43,8 @@ section.single.content(ng-controller="LoginCtrl")
       p.literal This is a note from the reciever. it can say something.
       p.label you will trust
       .amount
-        span.number {{amount | rpamount}}
-        span.currency {{urlParams.currency}}
+        span.number {{urlParams.amount | rpamount}}
+        span.currency {{urlParams.amount | rpcurrency}}
       p.label To ripple address
       .address rDn39JUBBE7EvwebUBjeiuBVcbjh
     form(name='loginForm', ng-submit='submitForm()')
@@ -67,7 +67,7 @@ section.single.content(ng-controller="LoginCtrl")
           select(ng-model="blobBackendCollection.something", ng-options="b.name for b in blobBackendCollections", ng-change="backendChange()")
           a(ng-click="storeChange=false") ok
       .submitsection
-        button.btn.btn-info(type='submit') Go
+        button.btn.btn-info(type='submit') Open wallet
       p.literal.hint
         | You can confirm this transaction on the next page.
       p.literal

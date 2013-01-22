@@ -48,15 +48,12 @@ TrustTab.prototype.angular = function (module)
       }
       if ($scope.urlParams.amount) {
         $scope.addform_visible = true;
-        $scope.amount = $scope.urlParams.amount;
-      }
-      if ($scope.urlParams.currency) {
-        $scope.addform_visible = true;
-        $scope.currency = $scope.urlParams.currency;
+        $scope.amount = $scope.urlParams.amount.to_number();
+        $scope.currency = $scope.urlParams.amount.currency().to_json();
       }
 
       // If all the form fields are filled, go to confirmation page
-      if ($scope.urlParams.to && $scope.urlParams.amount && $scope.urlParams.currency) {
+      if ($scope.urlParams.to && $scope.urlParams.amount) {
         $scope.grant();
       }
     };
@@ -91,11 +88,10 @@ TrustTab.prototype.angular = function (module)
      */
     $scope.grant = function ()
     {
-      var currency = $scope.currency.slice(0, 3).toUpperCase();
-      var amount = ripple.Amount.from_human(""+$scope.amount+" "+currency);
+      var amount = ripple.Amount.from_human("" + $scope.amount + " " + $scope.currency.slice(0, 3).toUpperCase());
 
       $scope.amount_feedback = amount.to_human();
-      $scope.currency_feedback = amount._currency.to_json();
+      $scope.currency_feedback = amount.currency().to_json();
 
       $scope.confirm_wait = true;
       $timeout(function () {

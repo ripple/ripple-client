@@ -67,10 +67,6 @@ LoginTab.prototype.angular = function (module) {
       $scope.error = '';
       $scope.status = 'Fetching wallet...';
     };
-
-    if ($scope.urlParams.amount) {
-      $scope.amount = ripple.Amount.from_human(""+$scope.urlParams.amount+" "+$scope.urlParams.currency);
-    }
   })
 };
 
