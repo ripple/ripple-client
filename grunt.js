@@ -41,65 +41,65 @@ module.exports = function(grunt) {
     webpack: {
       desktop: {
         src: "src/js/entry/desktop.js",
-        dest: "build/dist/js/<%= pkg.name %>-desktop-<%= pkg.version %>-min.js"
+        dest: "build/dist/<%= pkg.name %>-desktop.js",
+        minimize: true
       },
       desktop_debug: {
         src: "src/js/entry/desktop.js",
-        dest: "build/js/<%= pkg.name %>-desktop-debug.js",
+        dest: "build/dist/<%= pkg.name %>-desktop-debug.js",
         debug: true
       }
     },
     concat: {
       deps: {
         src: ["deps/js/jquery.js",
-              "deps/js/jquery-ui.js",
-              "deps/js/jquery.combobox.js",
+              "deps/js/swfobject.js",
+              "deps/js/jquery.easing.js",
               "deps/js/json.js",
               "deps/js/setImmediate.js",
               "deps/js/psm.js",
-              "deps/js/sjcl.js",
-              "deps/js/sjcl-secp256k1.js",
-              "deps/js/sjcl-ripemd160.js",
               "deps/js/underscore.js",
-              "deps/js/swfobject.js",
               "deps/js/downloadify.js",
               "deps/js/angular.js",
               "deps/js/store.js",
               "deps/js/ripple.js",
+              "deps/js/ripple-sjcl.js",
+              "deps/js/sjcl-secp256k1.js",
+              "deps/js/sjcl-ripemd160.js",
+              "deps/js/sjcl-extramath.js",
               "deps/js/moment.js",
               "deps/js/bootstrap-modal.js",
               "deps/js/bootstrap-tooltip.js"],
-        dest: 'build/dist/deps-debug.js'
+        dest: 'build/dist/deps-debug.js',
+        separator: ';'
+      },
+      deps_ie: {
+        src: ["compat/ie/base64/base64.js",
+              "compat/ie/ws/web_socket.js",
+              "compat/ie/ws/config.js",
+              "compat/ie/xdr/xdr.js"],
+        dest: 'build/dist/deps_ie-debug.js'
       }
     },
     min: {
       // JavaScript dependencies
       deps: {
-        src: ["deps/js/jquery.js",
-              "deps/js/jquery-ui.js",
-              "deps/js/jquery.combobox.js",
-              "deps/js/json.js",
-              "deps/js/setImmediate.js",
-              "deps/js/psm.js",
-              "deps/js/sjcl.js",
-              "deps/js/sjcl-secp256k1.js",
-              "deps/js/sjcl-ripemd160.js",
-              "deps/js/underscore.js",
-              "deps/js/swfobject.js",
-              "deps/js/downloadify.js",
-              "deps/js/angular.js",
-              "deps/js/store.js",
-              "deps/js/ripple.js",
-              "deps/js/moment.js",
-              "deps/js/bootstrap-modal.js",
-              "deps/js/bootstrap-tooltip.js"],
+        src: ["build/dist/deps-debug.js"],
         dest: 'build/dist/deps.js'
+      },
+      deps_ie: {
+        src: ["build/dist/deps_ie-debug.js"],
+        dest: 'build/dist/deps_ie.js'
       }
     },
     watch: {
       scripts: {
         files: ['<config:lint.files>', 'src/jade/**/*.jade'],
         tasks: 'lint webpack:desktop webpack:desktop_debug'
+      },
+      deps: {
+        files: ['<config:concat.deps.src>'],
+        tasks: 'concat:deps min:deps'
       },
       styles: {
         files: 'src/less/**/*.less',
@@ -109,6 +109,7 @@ module.exports = function(grunt) {
   });
 
   // Tasks
-  grunt.registerTask('default', 'lint webpack recess');
+  grunt.registerTask('default', 'lint webpack recess concat:deps min:deps ' +
+                     'concat:deps_ie min:deps_ie');
   grunt.registerTask('deps', 'concat:deps min:deps');
 };

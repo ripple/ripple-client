@@ -94,40 +94,19 @@
   <!-- ENDS WRAPPER -->
 
   <div id="appLoading">
-    <img src="img/logo_l.png" alt="Ripple" title="Ripple" />
-    <p>Loading ...</p>
+    <img src="img/loading.png" width="32" height="32" alt="" title="" />
+    Loading...
   </div>
 
   <!-- JavaScript at the bottom for fast page loading -->
 
   <!-- scripts concatenated and minified via build script -->
-  <script src="compat/ie/base64/base64.js"></script>
-  <script src="deps/js/jquery.js"></script>
-  <script src="compat/ie/xdr/xdr.js"></script>
-  <script src="deps/js/jquery-ui.js"></script>
-  <script src="deps/js/jquery.combobox.js"></script>
-  <script src="deps/js/json.js"></script>
-  <script src="deps/js/setImmediate.js"></script>
-  <script src="deps/js/psm.js"></script>
-  <script src="deps/js/sjcl.js"></script>
-  <script src="deps/js/sjcl-secp256k1.js"></script>
-  <script src="deps/js/sjcl-ripemd160.js"></script>
-  <script src="deps/js/sjcl-extramath.js"></script>
-  <script src="deps/js/underscore.js"></script>
-  <script src="deps/js/swfobject.js"></script>
-  <script src="compat/ie/ws/web_socket.js"></script>
-  <script type="text/javascript">
-    WEB_SOCKET_SWF_LOCATION = "compat/ie/ws/WebSocketMain.swf";
-  </script>
-  <script src="deps/js/downloadify.js"></script>
-  <script src="deps/js/angular.js"></script>
-  <script src="deps/js/store.js"></script>
-  <script src="deps/js/ripple.js"></script>
-  <script src="deps/js/moment.js"></script>
-  <script src="deps/js/bootstrap-modal.js"></script>
-  <script src="deps/js/bootstrap-tooltip.js"></script>
+  <script src="build/dist/deps-debug.js"></script>
+  <!--[if IE]>
+  <script src="build/dist/deps_ie-debug.js"></script>
+  -->
   <script src="config.js"></script>
-  <script src="build/dist/js/ripple-client-desktop-0.1.0-min.js"></script>
+  <script src="build/dist/ripple-client-desktop-debug.js"></script>
   <!-- end scripts -->
 </body>
 </html>
