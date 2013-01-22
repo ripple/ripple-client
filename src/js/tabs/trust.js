@@ -35,6 +35,7 @@ TrustTab.prototype.angular = function (module)
       $scope.addform_visible = false;
       $scope.amount = '';
       $scope.counterparty = '';
+      $scope.saveAddressName = '';
 
       if (app.$scope.balance == '0') {
         $scope.mode = 'error';
@@ -50,6 +51,9 @@ TrustTab.prototype.angular = function (module)
         $scope.addform_visible = true;
         $scope.amount = $scope.urlParams.amount.to_number();
         $scope.currency = $scope.urlParams.amount.currency().to_json();
+      }
+      if ($scope.urlParams.name) {
+        $scope.saveAddressName = $scope.urlParams.name;
       }
 
       // If all the form fields are filled, go to confirmation page
