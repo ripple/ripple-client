@@ -17,8 +17,9 @@ HistoryTab.prototype.generateHtml = function ()
 };
 
 HistoryTab.prototype.angular = function (module) {
-  module.controller('HistoryCtrl', function ($scope) {
-  });
+  module.controller('HistoryCtrl', ['$scope',
+                                    function ($scope) {
+  }]);
 };
 
 module.exports = HistoryTab;

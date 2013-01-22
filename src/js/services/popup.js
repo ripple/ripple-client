@@ -6,7 +6,8 @@
 
 var module = angular.module('popup', []);
 
-module.factory('rpPopup', function ($http, $compile)
+module.factory('rpPopup', ['$http', '$compile',
+                           function ($http, $compile)
 {
   var popupService = {};
 
@@ -84,4 +85,4 @@ module.factory('rpPopup', function ($http, $compile)
   };
 
   return popupService;
-});
+}]);

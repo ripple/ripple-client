@@ -20,7 +20,7 @@ SecurityTab.prototype.generateHtml = function ()
 SecurityTab.prototype.angular = function (module) {
   var app = this.app;
 
-  module.controller('SecurityCtrl', function ($scope)
+  module.controller('SecurityCtrl', ['$scope', function ($scope)
   {
     $scope.$watch('userBlob', updateEnc, true);
 
@@ -28,7 +28,7 @@ SecurityTab.prototype.angular = function (module) {
     {
       $scope.enc = blob.enc(app.id.username, app.id.password, $scope.userBlob);
     }
-  });
+  }]);
 };
 
 module.exports = SecurityTab;

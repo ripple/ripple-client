@@ -21,7 +21,7 @@ ContactsTab.prototype.angular = function (module) {
   var app = this.app;
   var tm = this.tm;
 
-  module.controller('ContactsCtrl', function ($scope)
+  module.controller('ContactsCtrl', ['$scope', function ($scope)
   {
     $scope.reset_form = function ()
     {
@@ -83,9 +83,9 @@ ContactsTab.prototype.angular = function (module) {
       $scope.name = '';
       $scope.address = '';
     };
-  });
+  }]);
 
-  module.controller('ContactRowCtrl', function ($scope) {
+  module.controller('ContactRowCtrl', ['$scope', function ($scope) {
     $scope.editing = false;
 
     /**
@@ -143,7 +143,7 @@ ContactsTab.prototype.angular = function (module) {
         app.tabs.gotoTab('send');
       });
     };
-  });
+  }]);
 };
 
 module.exports = ContactsTab;
