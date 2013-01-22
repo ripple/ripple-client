@@ -49,7 +49,11 @@ LoginTab.prototype.angular = function (module) {
       app.id.login($scope.username, $scope.password, function(backendName, err, success) {
         $scope.ajax_loading = false;
         if (success) {
-          tm.gotoTab('balance');
+          if ('login' !== $scope.urlParams.tab) {
+            tm.handleHashChange();
+          } else {
+            tm.gotoTab('balance');
+          }
         } else {
           $scope.backendMessages.push({'backend':backendName, 'message':err.message});
         }
@@ -63,6 +67,10 @@ LoginTab.prototype.angular = function (module) {
       $scope.error = '';
       $scope.status = 'Fetching wallet...';
     };
+
+    if ($scope.urlParams.amount) {
+      $scope.amount = ripple.Amount.from_human(""+$scope.urlParams.amount+" "+$scope.urlParams.currency);
+    }
   })
 };
 

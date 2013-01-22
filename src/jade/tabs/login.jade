@@ -1,38 +1,75 @@
 section.single.content(ng-controller="LoginCtrl")
-  h1 Open Wallet
-  p.literal Enter the Name and Passphrase used to encrypt your Wallet below.
-  form(name='loginForm', ng-submit='submitForm()')
-    label(for='login_username') Wallet name
-    input#login_username(name='login_username', type='text', ng-model='username', required)
-    p.text-status(ng-show='status')
-      span {{status}}
-      br
-      span(ng-repeat="message in backendMessages")
-        b {{message.backend}} &nbsp;
-        span {{message.message}}
+  div(ng-show="'login' == urlParams.tab")
+    h1 Open Wallet
+    p.literal Enter the Name and Passphrase used to encrypt your Wallet below.
+    form(name='loginForm', ng-submit='submitForm()')
+      label(for='login_username') Wallet name
+      input#login_username(name='login_username', type='text', ng-model='username', required)
+      p.text-status(ng-show='status')
+        span {{status}}
         br
-    label(for='login_password') Passphrase
-    input#login_password(name='login_password', type='password', ng-model='password', required)
-    label.storageinfo(ng-class="{throbber: ajax_loading}")
-      | Fetch your wallet from:&nbsp;
-      span(ng-hide="storeChange")
-        strong {{blobBackendCollection.something.name}}&nbsp;
-        a(ng-click="storeChange=true") change
-      span(ng-show="storeChange")
-        select(ng-model="blobBackendCollection.something", ng-options="b.name for b in blobBackendCollections", ng-change="backendChange()")
-        a(ng-click="storeChange=false") ok
-    p.literal.hint
-      | Your information will be loaded from Payward and decrypted locally with your Passphrase.
-    .submitsection
-      button.btn.btn-info(type='submit') Go
+        span(ng-repeat="message in backendMessages")
+          b {{message.backend}} &nbsp;
+          span {{message.message}}
+          br
+      label(for='login_password') Passphrase
+      input#login_password(name='login_password', type='password', ng-model='password', required)
+      label.storageinfo(ng-class="{throbber: ajax_loading}")
+        | Fetch your wallet from:&nbsp;
+        span(ng-hide="storeChange")
+          strong {{blobBackendCollection.something.name}}&nbsp;
+          a(ng-click="storeChange=true") change
+        span(ng-show="storeChange")
+          select(ng-model="blobBackendCollection.something", ng-options="b.name for b in blobBackendCollections", ng-change="backendChange()")
+          a(ng-click="storeChange=false") ok
+      p.literal.hint
+        | Your information will be loaded from Payward and decrypted locally with your Passphrase.
+      .submitsection
+        button.btn.btn-info(type='submit') Go
+        p.literal
+          | Please remember that you are responsible for your login information.
+          | ripple cannot recover your Wallet Name or Passphrase if you forget them!
+          br
+          strong Write down your Secret Account Key.&nbsp;
+          a(href='#') Learn how
       p.literal
-        | Please remember that you are responsible for your login information.
-        | ripple cannot recover your Wallet Name or Passphrase if you forget them!
+        | New to Ripple?&nbsp;
+        a(href='#register') Create a wallet
         br
-        strong Write down your Secret Account Key.&nbsp;
-        a(href='#') Learn how
-    p.literal
-      | New to Ripple? 
-      a(href='#register') Create a wallet
-      br
-      a(href='#register') Need to use your Secret Account Key?
+        a(href='#register') Need to use your Secret Account Key?
+  .action-login(ng-hide="'login' == urlParams.tab")
+    h1(ng-show="'trust' == urlParams.tab") Grant Trust
+    .info
+      p.literal This is a note from the reciever. it can say something.
+      p.label you will trust
+      .amount
+        span.number {{amount | rpamount}}
+        span.currency {{urlParams.currency}}
+      p.label To ripple address
+      .address rDn39JUBBE7EvwebUBjeiuBVcbjh
+    form(name='loginForm', ng-submit='submitForm()')
+      label(for='login_username') Wallet name
+      input#login_username(name='login_username', type='text', ng-model='username', required)
+      p.text-status(ng-show='status')
+        span {{status}}
+        br
+        span(ng-repeat="message in backendMessages")
+          b {{message.backend}} &nbsp;
+          span {{message.message}}
+          br
+      label(for='login_password') Passphrase
+      input#login_password(name='login_password', type='password', ng-model='password', required)
+      label.storageinfo(ng-class="{throbber: ajax_loading}")
+        span(ng-hide="storeChange")
+          strong {{blobBackendCollection.something.name}}&nbsp;
+          a(ng-click="storeChange=true") change
+        span(ng-show="storeChange")
+          select(ng-model="blobBackendCollection.something", ng-options="b.name for b in blobBackendCollections", ng-change="backendChange()")
+          a(ng-click="storeChange=false") ok
+      .submitsection
+        button.btn.btn-info(type='submit') Go
+      p.literal.hint
+        | You can confirm this transaction on the next page.
+      p.literal
+        | New to Ripple?&nbsp;
+        a(href='#register') Create a wallet

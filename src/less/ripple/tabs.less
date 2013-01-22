@@ -164,6 +164,63 @@
   font-size: 13px;
 }
 
+#t-login {
+  .action-login {
+    overflow: hidden;
+
+    h1 {
+      text-align: left;
+    }
+
+    .info {
+      width: 380px;
+      height: 400px;
+      padding-bottom: 30px;
+      float: left;
+      border-right: 1px solid #ccc;
+      font-family: 'OpenSansLight';
+
+      .literal {
+        margin: 5px 0 40px;
+        font-size: 20px;
+      }
+
+      .label {
+        font-size: 18px;
+      }
+
+      .amount,
+      .address {
+        margin-left: -@pmSingleMargin;
+        background-color: #f4f4f4;
+        margin-bottom: 30px;
+      }
+
+      .amount {
+        padding: 30px 25px 25px @pmSingleMargin;
+        .number {
+          font-size: 50px;
+        }
+        .currency {
+          padding: 0 0 0 5px;
+          font-size: 20px;
+        }
+      }
+
+      .address {
+        padding: 25px 25px 25px @pmSingleMargin;
+        font: 22px 'OpenSansRegular';
+        color: #838383;
+      }
+    }
+    form {
+      margin: 0;
+      width: 400px;
+      float: right;
+    }
+  }
+}
+
 #t-balance {
   #welcome {
     font: 18px 'OpenSansLight';
