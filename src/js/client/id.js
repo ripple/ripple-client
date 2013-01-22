@@ -235,21 +235,13 @@ Id.prototype.login = function (username,password,callback)
 
 Id.prototype.logout = function ()
 {
-//  this.emit('accountunload', this.account);
-
   store.remove('ripple_auth');
-//  this.loginStatus = false;
-//  this.app.tabs.resetAll();
-//  this.app.tabs.gotoTab('login');
-//
-//  this.setUsername('');
-//  this.setPassword('');
-
-//  this.app.$scope.userBlob = Id.defaultBlob;
-//  this.app.$scope.userCredentials = {};
 
   // problem?
-  location.reload();
+  // reload will not work, as some pages are also available for guests.
+  // Logout will show the same page instead of showing login page.
+  // This line redirects user to root (login) page
+  location.href = location.protocol + '//' + location.hostname + location.pathname;
 };
 
 module.exports.Id = Id;
