@@ -24,7 +24,7 @@ RegisterTab.prototype.angular = function (module) {
   var app = this.app;
   var tm = this.tm;
 
-  module.controller('RegisterCtrl', function ($scope)
+  module.controller('RegisterCtrl', ['$scope', function ($scope)
   {
     $scope.backendChange = function()
     {
@@ -103,7 +103,7 @@ RegisterTab.prototype.angular = function (module) {
     };
 
     $scope.reset();
-  })
+  }]);
 };
 
 RegisterTab.prototype.onAfterRender = function ()

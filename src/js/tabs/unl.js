@@ -16,14 +16,14 @@ UNLTab.prototype.generateHtml = function ()
 
 UNLTab.prototype.angular = function (module) 
 {
-  module.controller('UNLCtrl', function ($scope)
+  module.controller('UNLCtrl', ['$scope', function ($scope)
   {
     $scope.addressbookmaster = angular.copy($scope.addressbook);
 
     $scope.toggle_form = function ()
     {
       $scope.addform_visible = !$scope.addform_visible;
-    }
+    };
 
     $scope.add = function ()
     {
@@ -31,12 +31,12 @@ UNLTab.prototype.angular = function (module)
         name: $scope.name,
         address: $scope.address
       });
-    }
+    };
 
     $scope.edit = function (index)
     {
       $scope.addressbook[index].isEditMode = true;
-    }
+    };
 
     $scope.update = function (index)
     {
@@ -46,11 +46,11 @@ UNLTab.prototype.angular = function (module)
       };
 
       $scope.addressbook[index].isEditMode = false;
-    }
+    };
 
     $scope.remove = function (index) {
       $scope.addressbook.splice(index,1);
-    }
+    };
 
     $scope.cancel = function (index)
     {
@@ -60,8 +60,8 @@ UNLTab.prototype.angular = function (module)
       };
 
       $scope.addressbook[index].isEditMode = false;
-    }
-  });
+    };
+  }]);
 };
 
 module.exports = UNLTab;

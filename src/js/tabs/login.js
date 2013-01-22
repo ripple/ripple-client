@@ -23,7 +23,7 @@ LoginTab.prototype.angular = function (module) {
   var tm = this.tm;
   var app = this.app;
 
-  module.controller('LoginCtrl', function ($scope)
+  module.controller('LoginCtrl', ['$scope', function ($scope)
   {
     $scope.backendChange = function()
     {
@@ -67,7 +67,7 @@ LoginTab.prototype.angular = function (module) {
       $scope.error = '';
       $scope.status = 'Fetching wallet...';
     };
-  })
+  }])
 };
 
 LoginTab.prototype.onAfterRender = function ()
