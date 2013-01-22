@@ -52,7 +52,6 @@ TradeTab.prototype.angular = function(module)
         // on the page.
         valid_settings: false
       };
-      console.log($scope.order);
     };
 
     $scope.back = function () {
@@ -285,7 +284,7 @@ TradeTab.prototype.angular = function(module)
 
       // Second guess: The user's highest trust line in this currency
       try {
-        guess = $scope.balances[currency].highest;
+        guess = $scope.balances[currency].highest_issuer;
         if (guess) return guess;
       } catch (e) {}
 

@@ -284,7 +284,8 @@ Model.prototype._updateRippleBalance = function(currency, new_account, new_balan
 
     balance.total = balance.total ? balance.total.add(amount) : amount;
     if (!balance.highest || balance.highest.compareTo(amount) === -1) {
-      balance.highest = counterparty;
+      balance.highest = amount;
+      balance.highest_issuer = counterparty;
     }
   }
 };
