@@ -52,6 +52,8 @@ TradeTab.prototype.angular = function(module)
         // on the page.
         valid_settings: false
       };
+
+      updateSettings();
     };
 
     $scope.back = function () {
