@@ -44,6 +44,10 @@ ContactsTab.prototype.angular = function (module) {
         $scope.addform_visible = true;
         $scope.address = $scope.urlParams.to;
       }
+
+      if(!$scope.$$phase) {
+        $scope.$digest();
+      }
     };
 
     $scope.fill_url_params();

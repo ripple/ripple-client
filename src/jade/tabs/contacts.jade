@@ -13,7 +13,7 @@ section.panel.content(ng-controller="ContactsCtrl")
         td(colspan=5)
           form(name="addForm")
             label(for='Name') Name
-            input.name#contact_address(
+            input.name#contact_name(
               name='name', type='text', step='any'
               ng-model='name'
               rp-unique='userBlob.data.contacts'
