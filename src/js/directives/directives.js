@@ -284,5 +284,21 @@ module.directive('rpTooltip', [function () {
       $(element).tooltip('destroy');
       $(element).tooltip({'title':value});
     });
-  }
+  };
+}]);
+
+module.directive('rpAutofill', ['$parse', function ($parse) {
+  return {
+    restrict: 'A',
+    require: '?ngModel',
+    link: function ($scope, element, attr, ctrl) {
+      if (!ctrl) return;
+
+      $scope.$watch(attr.rpAutofill, function (value) {
+        element.val(value);
+        ctrl.$setViewValue(value);
+        $scope.$eval(attr.rpAutofillOn);
+      }, true);
+    }
+  };
 }]);

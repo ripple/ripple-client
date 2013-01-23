@@ -25,32 +25,13 @@ ContactsTab.prototype.angular = function (module) {
   {
     $scope.reset_form = function ()
     {
-      $scope.name = '';
-      $scope.address = '';
+      $scope.contact = {
+        name: '',
+        address: ''
+      };
       if ($scope.addForm) $scope.addForm.$setPristine();
     };
 
-    $scope.$watch('urlParams', function(){
-      $scope.fill_url_params();
-    }, true);
-
-    $scope.fill_url_params = function ()
-    {
-      if ($scope.urlParams.name) {
-        $scope.addform_visible = true;
-        $scope.name = $scope.urlParams.name;
-      }
-      if ($scope.urlParams.to) {
-        $scope.addform_visible = true;
-        $scope.address = $scope.urlParams.to;
-      }
-
-      if(!$scope.$$phase) {
-        $scope.$digest();
-      }
-    };
-
-    $scope.fill_url_params();
     $scope.reset_form();
 
     /**
@@ -68,8 +49,8 @@ ContactsTab.prototype.angular = function (module) {
     $scope.create = function ()
     {
       var contact = {
-        name: $scope.name,
-        address: $scope.address,
+        name: $scope.contact.name,
+        address: $scope.contact.address,
         // Used for animation
         justAdded: true
       };
@@ -84,8 +65,7 @@ ContactsTab.prototype.angular = function (module) {
       $scope.toggle_form();
 
       // Clear form
-      $scope.name = '';
-      $scope.address = '';
+      $scope.reset_form();
     };
   }]);
 

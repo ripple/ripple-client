@@ -15,9 +15,10 @@ section.panel.content(ng-controller="ContactsCtrl")
             label(for='Name') Name
             input.name#contact_name(
               name='name', type='text', step='any'
-              ng-model='name'
+              ng-model='contact.name'
               rp-unique='userBlob.data.contacts'
               rp-unique-field='name'
+              rp-autofill='urlParams.name', rp-autofill-on='addform_visible = true'
               required)
             .errorGroup(rp-errors='name')
               .error(rp-error-on='rpUnique')
@@ -25,10 +26,11 @@ section.panel.content(ng-controller="ContactsCtrl")
             label(for='Address') Address
             input.address#contact_address(
               name='address', type='text', step='any'
-              ng-model='address'
+              ng-model='contact.address'
               rp-address
               rp-unique='userBlob.data.contacts'
               rp-unique-field='address'
+              rp-autofill='urlParams.to', rp-autofill-on='addform_visible = true'
               required)
             .errorGroup(rp-errors='address')
               .error(rp-error-on='required') Please enter address.

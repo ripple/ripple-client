@@ -226,21 +226,21 @@ module.directive('rpUnique', function() {
       if (!ctrl) return;
 
       var validator = function(value) {
-        var array = $scope.$eval(attr.rpUnique);
+        var pool = $scope.$eval(attr.rpUnique) || [];
 
         if (attr.rpUniqueOrig && value === $scope.$eval(attr.rpUniqueOrig)) {
           // Original value is always allowed
           ctrl.$setValidity('rpUnique', true);
         } else if (attr.rpUniqueField) {
-          for (var i = 0, l = array.length; i < l; i++) {
-            if (array[i][attr.rpUniqueField] === value) {
+          for (var i = 0, l = pool.length; i < l; i++) {
+            if (pool[i][attr.rpUniqueField] === value) {
               ctrl.$setValidity('rpUnique', false);
               return;
             }
           }
           ctrl.$setValidity('rpUnique', true);
         } else {
-          ctrl.$setValidity('rpUnique', array.indexOf(value) === -1);
+          ctrl.$setValidity('rpUnique', pool.indexOf(value) === -1);
         }
         return value;
       };
@@ -248,9 +248,9 @@ module.directive('rpUnique', function() {
       ctrl.$formatters.push(validator);
       ctrl.$parsers.unshift(validator);
 
-      attr.$observe('required', function() {
+      $scope.$watch(attr.rpUnique, function () {
         validator(ctrl.$viewValue);
-      });
+      }, true);
     }
   };
 });
