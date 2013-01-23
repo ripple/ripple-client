@@ -38,15 +38,24 @@ section.single.content(ng-controller="LoginCtrl")
         br
         a(href='#register') Need to use your Secret Account Key?
   .action-login(ng-hide="'login' == urlParams.tab")
-    h1(ng-show="'trust' == urlParams.tab") Grant Trust
-    .info
-      p.literal {{urlParams.msg}}
-      p.label you will trust
-      .amount
-        span.number {{urlParams.amount | rpamount}}
-        span.currency {{urlParams.amount | rpcurrency}}
-      p.label To ripple address
-      .address rDn39JUBBE7EvwebUBjeiuBVcbjh
+    div(ng-show="'trust' == urlParams.tab")
+      h1 Grant Trust
+      .info
+        p.literal {{urlParams.msg}}
+        p.label you will trust
+        .amount
+          span.number {{urlParams.amount | rpamount}}
+          span.currency {{urlParams.amount | rpcurrency}}
+        p.label To ripple address
+        .address {{urlParams.to}}
+    div(ng-show="'contacts' == urlParams.tab")
+      h1 Add contact
+      .info
+        p.literal {{urlParams.msg}}
+        p.label you will add the user
+        .address {{urlParams.to}}
+        p.label To your ripple contacts
+
     form(name='loginForm', ng-submit='submitForm()')
       label(for='login_username') Wallet name
       input#login_username(name='login_username', type='text', ng-model='username', required)

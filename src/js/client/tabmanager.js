@@ -188,8 +188,9 @@ TabManager.prototype.handleHashChange = function () {
   }
   // Guest
   else {
-    console.log(urlParams.amount);
-    if ('trust' == tab && urlParams.to && urlParams.amount) {
+    // TODO better solution?
+    if (('trust' == tab && urlParams.to && urlParams.amount)
+        || ('contacts' == tab && urlParams.to && urlParams.name)) {
       this.showTab('login');
       return;
     }
