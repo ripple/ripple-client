@@ -19,15 +19,17 @@ module.directive('rpAddress', function () {
       if (!ctrl) return;
 
       var validator = function(value) {
-        var address = ripple.UInt160.from_json(value);
+        if (value) {
+          var address = ripple.UInt160.from_json(value);
 
-        if (address.is_valid()) {
-          ctrl.$setValidity('rpAddress', true);
-          return value;
-        } else {
-          ctrl.$setValidity('rpAddress', false);
-          return;
+          if (!address.is_valid()) {
+            ctrl.$setValidity('rpAddress', false);
+            return;
+          }
         }
+
+        ctrl.$setValidity('rpAddress', true);
+        return value;
       };
 
       ctrl.$formatters.push(validator);
@@ -233,7 +235,7 @@ module.directive('rpUnique', function() {
           for (var i = 0, l = array.length; i < l; i++) {
             if (array[i][attr.rpUniqueField] === value) {
               ctrl.$setValidity('rpUnique', false);
-              return undefined;
+              return;
             }
           }
           ctrl.$setValidity('rpUnique', true);
