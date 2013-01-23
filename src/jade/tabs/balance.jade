@@ -1,7 +1,7 @@
 section.panel.content
   .div#welcome(ng-hide='balance')
     p.title Welcome to Ripple.
-    p You currently don't have any credits. To get started with ripple have another ripple user send money to this wallet.
+    p You currently don't have any ripples. To get started with ripple have another ripple user send money to this wallet.
     p.title This is your wallet address:
     p.account_id {{userBlob.data.account_id}}
   .total(style='display: none;')
@@ -13,7 +13,7 @@ section.panel.content
         option USD
   .currency-summary.positive
     .balancebox
-      .label Ripple Credits
+      .label Ripples
       .balance
         span(rp-tooltip="{{balance | rpamount:10}}") {{balance | rpamount}}
     .balancebox(ng-repeat="entry in balances", ng-hide="entry.total.is_zero()")
