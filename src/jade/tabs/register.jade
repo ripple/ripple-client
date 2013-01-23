@@ -74,7 +74,7 @@ section.single.content(ng-controller="RegisterCtrl")
         span.value(ng-show="showPassword==true") {{password1}}
         span.value(ng-hide="showPassword==true") {{password}}
         rp-confirm(
-          action-text="Are you in safe place where no person, or camera can see your screen?"
+          action-text="Are you in a safe place where no person or camera can see your screen?"
           action-button-text="Yes, show me"
           action-function="showPassword=true"
           cancel-button-text="no"
@@ -87,13 +87,13 @@ section.single.content(ng-controller="RegisterCtrl")
       p.key(ng-hide="showSecret==true") {{key}}
       p(ng-hide="showSecret==true")
         rp-confirm(
-          action-text="Are you in safe place where no person, or camera can see your screen?"
+          action-text="Are you in a safe place where no person or camera can see your screen?"
           action-button-text="Yes, show me"
           action-function="showSecret=true"
           cancel-button-text="no")
             button.btn.btn-info.btn-small Show secret account key
       p(ng-show="showSecret==true")
         button.btn.btn-info.btn-small(ng-click="showSecret=false") Hide secret account key
-    p.important Have you saved your Secret Account Key some where safe?
+    p.important Have you saved your Secret Account Key somewhere safe?
     .action
       a.btn.btn-info.btn-big(href='#balance', ng-click='reset()') Yes, I saved my secret account key
