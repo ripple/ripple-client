@@ -121,6 +121,7 @@ module.directive('rpCombobox', [function () {
         cplEl.empty();
         keyCursor = -1;
         completions.forEach(function (val) {
+          val = escape(val);
           if (re) val = val.replace(re, '<u>$1</u>');
           var completion = $('<li>'+val+'</li>');
           el.parent().find('.completions').append(completion);
@@ -152,6 +153,10 @@ module.directive('rpCombobox', [function () {
           ngModel.$setViewValue(val);
           setVisible(false);
         });
+      }
+
+      function escape(str) {
+        return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;');
       }
 
       cplEl.on('click', 'li', function () {
