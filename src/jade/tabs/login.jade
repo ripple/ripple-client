@@ -40,7 +40,7 @@ section.single.content(ng-controller="LoginCtrl")
   .action-login(ng-hide="'login' == urlParams.tab")
     h1(ng-show="'trust' == urlParams.tab") Grant Trust
     .info
-      p.literal This is a note from the reciever. it can say something.
+      p.literal {{urlParams.msg}}
       p.label you will trust
       .amount
         span.number {{urlParams.amount | rpamount}}
