@@ -42,21 +42,7 @@ TrustTab.prototype.angular = function (module)
         $scope.errorMessage = 'You have to be funded before you can grant a trust';
       }
 
-      // Url params
-      if ($scope.urlParams.to) {
-        $scope.addform_visible = true;
-        $scope.counterparty = $scope.urlParams.to;
-      }
-      if ($scope.urlParams.amount) {
-        $scope.addform_visible = true;
-        $scope.amount = $scope.urlParams.amount.to_number();
-        $scope.currency = $scope.urlParams.amount.currency().to_json();
-      }
-      if ($scope.urlParams.name) {
-        $scope.saveAddressName = $scope.urlParams.name;
-      }
-
-      // If all the form fields are filled, go to confirmation page
+      // If all the form fields are prefilled, go to confirmation page
       if ($scope.urlParams.to && $scope.urlParams.amount) {
         $scope.grant();
       }
@@ -92,16 +78,18 @@ TrustTab.prototype.angular = function (module)
      */
     $scope.grant = function ()
     {
-      var amount = ripple.Amount.from_human("" + $scope.amount + " " + $scope.currency.slice(0, 3).toUpperCase());
+      $scope.$watch('amount',function(){
+        var amount = ripple.Amount.from_human("" + $scope.amount + " " + $scope.currency.slice(0, 3).toUpperCase());
 
-      $scope.amount_feedback = amount.to_human();
-      $scope.currency_feedback = amount.currency().to_json();
+        $scope.amount_feedback = amount.to_human();
+        $scope.currency_feedback = amount.currency().to_json();
 
-      $scope.confirm_wait = true;
-      $timeout(function () {
-        $scope.confirm_wait = false;
-        $scope.$digest();
-      }, 1000);
+        $scope.confirm_wait = true;
+        $timeout(function () {
+          $scope.confirm_wait = false;
+          $scope.$digest();
+        }, 1000);
+      });
 
       $scope.mode = "confirm";
     };

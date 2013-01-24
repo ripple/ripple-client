@@ -19,13 +19,16 @@ section.panel.content(ng-controller="TrustCtrl")
             label(for='trust_amount') Amount
             .amount
               input.value#trust_amount(name='trust_amount', type='number', step='any', ng-model='amount'
-                ng-pattern='/^[0-9.]+$/', required)
+                ng-pattern='/^[0-9.]+$/', required
+                rp-autofill='urlParams.amount.to_number()', rp-autofill-on='addform_visible = true')
               input.currency-field#trust_amount_currency(name='trust_amount_currency', type='text'
-                ng-model='currency', rp-combobox="currency_query", rp-combobox-select)
+                ng-model='currency', rp-combobox="currency_query", rp-combobox-select
+                rp-autofill='urlParams.amount.currency().to_json()', rp-autofill-on='addform_visible = true')
             label(for='trust_counterparty') User
             input#trust_counterparty(name='trust_counterparty', type='text', ng-model='counterparty'
               rp-combobox="counterparty_query", placeholder='Contact name or Ripple address',
-              rp-destination, rp-not-me, required)
+              rp-destination, rp-not-me, required
+              rp-autofill='urlParams.to', rp-autofill-on='addform_visible = true')
             .error(ng-show='remoteError') You can only grant trust if you have funds in your account.
             .errorGroup(rp-errors='trust_counterparty')
               .success(rp-error-valid ng-show='counterparty != counterparty_address && counterparty_name')
@@ -112,7 +115,8 @@ section.panel.content(ng-controller="TrustCtrl")
           label(for='save_address_name') Name this user
           input#contact_name(
             name='save_address_name', type="text"
-            ng-model='saveAddressName', unique, required)
+            ng-model='saveAddressName', unique, required
+            rp-autofill='urlParams.name'))
           .error(ng-show='saveAddressForm.save_address_name.$error.unique') You already have a contact with the same name.
           div
             button.btn.btn-success(type='submit', ng-disabled='addressSaving')
