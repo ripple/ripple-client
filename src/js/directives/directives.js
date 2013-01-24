@@ -295,9 +295,11 @@ module.directive('rpAutofill', ['$parse', function ($parse) {
       if (!ctrl) return;
 
       $scope.$watch(attr.rpAutofill, function (value) {
-        element.val(value);
-        ctrl.$setViewValue(value);
-        $scope.$eval(attr.rpAutofillOn);
+        if (value) {
+          element.val(value);
+          ctrl.$setViewValue(value);
+          $scope.$eval(attr.rpAutofillOn);
+        }
       }, true);
     }
   };
