@@ -116,7 +116,7 @@ section.panel.content(ng-controller="TrustCtrl")
           input#contact_name(
             name='save_address_name', type="text"
             ng-model='saveAddressName', unique, required
-            rp-autofill='urlParams.name'))
+            rp-autofill='urlParams.name')
           .error(ng-show='saveAddressForm.save_address_name.$error.unique') You already have a contact with the same name.
           div
             button.btn.btn-success(type='submit', ng-disabled='addressSaving')
