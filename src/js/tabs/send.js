@@ -93,6 +93,11 @@ SendTab.prototype.angular = function (module)
       $scope.nickname = '';
       $scope.resetAddressForm();
       if ($scope.sendForm) $scope.sendForm.$setPristine(true);
+
+      // Focus on first input
+      setImmediate(function() {
+        $('#sendForm').find('input:first').focus();
+      });
     };
 
     $scope.resetAddressForm = function() {

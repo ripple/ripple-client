@@ -60,6 +60,11 @@ TrustTab.prototype.angular = function (module)
     $scope.toggle_form = function ()
     {
       $scope.addform_visible = !$scope.addform_visible;
+
+      // Focus on first input
+      setImmediate(function() {
+        $('#trustForm').find('input:first').focus();
+      });
     };
 
     $scope.$watch('counterparty', function() {

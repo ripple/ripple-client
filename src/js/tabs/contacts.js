@@ -41,6 +41,11 @@ ContactsTab.prototype.angular = function (module) {
     {
       $scope.addform_visible = !$scope.addform_visible;
       $scope.reset_form();
+
+      // Focus on first input
+      setImmediate(function() {
+        $('#addForm').find('input:first').focus();
+      });
     };
 
     /**

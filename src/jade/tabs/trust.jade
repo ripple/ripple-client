@@ -15,7 +15,7 @@ section.panel.content(ng-controller="TrustCtrl")
     tbody
       tr(ng-show='addform_visible')
         td(colspan=4)
-          form(name='trustForm', ng-submit='grant()')
+          form(name='trustForm', id='trustForm', ng-submit='grant()')
             label(for='trust_amount') Amount
             .amount
               input.value#trust_amount(name='trust_amount', type='number', step='any', ng-model='amount'
