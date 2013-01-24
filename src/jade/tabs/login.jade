@@ -41,7 +41,7 @@ section.single.content(ng-controller="LoginCtrl")
     div(ng-show="'send' == urlParams.tab")
       h1 Transaction summary
       .info
-        p.literal {{urlParams.msg}}
+        p.literal {{urlParams.label}}
         p.label you will send
         .amount
           span.number {{urlParams.amount | rpamount}}
@@ -51,7 +51,7 @@ section.single.content(ng-controller="LoginCtrl")
     div(ng-show="'trust' == urlParams.tab")
       h1 Grant Trust
       .info
-        p.literal {{urlParams.msg}}
+        p.literal {{urlParams.label}}
         p.label you will trust
         .amount
           span.number {{urlParams.amount | rpamount}}
@@ -61,7 +61,7 @@ section.single.content(ng-controller="LoginCtrl")
     div(ng-show="'contacts' == urlParams.tab")
       h1 Add contact
       .info
-        p.literal {{urlParams.msg}}
+        p.literal {{urlParams.label}}
         p.label you will add the user
         .address {{urlParams.to}}
         p.label To your ripple contacts
