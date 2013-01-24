@@ -134,9 +134,6 @@ SendTab.prototype.angular = function (module)
     $scope.send_confirmed = function () {
       var currency = $scope.currency.slice(0, 3).toUpperCase();
       var amount = ripple.Amount.from_human(""+$scope.amount+" "+currency);
-      console.log($scope.recipient);
-      console.log($scope.recipient_address);
-      console.log($scope.recipient_name);
       var addr=$scope.recipient_address;
       
       
@@ -228,6 +225,12 @@ SendTab.prototype.angular = function (module)
 
     $scope.reset();
 
+    // If all the form fields are prefilled, go to confirmation page
+    if ($scope.urlParams.to && $scope.urlParams.amount) {
+      $scope.send();
+    }
+
+    // TODO I think we should handle urlParams autofill and prefill event in similar way
     self.on('prefill', function (data) {
       $scope.reset();
       $.extend($scope, data);

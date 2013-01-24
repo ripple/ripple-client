@@ -190,7 +190,8 @@ TabManager.prototype.handleHashChange = function () {
   else {
     // TODO better solution?
     if (('trust' == tab && urlParams.to && urlParams.amount)
-        || ('contacts' == tab && urlParams.to && urlParams.name)) {
+        || ('contacts' == tab && urlParams.to && urlParams.name)
+        || ('send' == tab && urlParams.to && urlParams.amount)) {
       this.showTab('login');
       return;
     }

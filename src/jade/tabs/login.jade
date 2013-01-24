@@ -38,6 +38,16 @@ section.single.content(ng-controller="LoginCtrl")
         br
         a(href='#register') Need to use your Secret Account Key?
   .action-login(ng-hide="'login' == urlParams.tab")
+    div(ng-show="'send' == urlParams.tab")
+      h1 Transaction summary
+      .info
+        p.literal {{urlParams.msg}}
+        p.label you will send
+        .amount
+          span.number {{urlParams.amount | rpamount}}
+          span.currency {{urlParams.amount | rpcurrency}}
+        p.label To the ripple Address
+        .address {{urlParams.to}}
     div(ng-show="'trust' == urlParams.tab")
       h1 Grant Trust
       .info
