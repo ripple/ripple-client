@@ -211,3 +211,47 @@ body {
 .panel .throbber {
   margin-left: @pmPanelLeftMargin;
 }
+
+// Tooltip
+.tooltip-inner {
+  min-width: 60px;
+  max-width: 330px;
+  padding: 3px 8px;
+  border: 1px solid #c3c3c3;
+  color: #333;
+  padding: 10px 15px;
+  font-size: 12px;
+  text-align: center;
+  text-decoration: none;
+  background-color: #fff;
+  .border-radius(@baseBorderRadius);
+  box-shadow: 2px 1px 10px #b5b5b5;
+}
+.tooltip {
+  &.top .tooltip-arrow {
+    display: none;
+  }
+
+  &.top:after {
+    left: 50%;
+    bottom: -4px;
+    margin-left: -20px;
+    border-top: 10px solid #fff;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    content: "";
+    display: inline-block;
+    position: absolute;
+  }
+  &.top:before {
+    left: 50%;
+    bottom: -5px;
+    margin-left: -20px;
+    border-top: 10px solid #c3c3c3;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    content: "";
+    display: inline-block;
+    position: absolute;
+  }
+}
