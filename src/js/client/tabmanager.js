@@ -184,6 +184,7 @@ TabManager.prototype.handleHashChange = function () {
     if (!tab) {
       this.app.$scope.urlParams.tab = 'balance';
       this.gotoTab("balance");
+      return;
     }
   }
   // Guest
