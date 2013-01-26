@@ -1,42 +1,47 @@
 section.single.content(ng-controller="LoginCtrl")
-  div(ng-show="'login' == urlParams.tab")
+  .normal-login(ng-show="'login' == urlParams.tab")
     h1 Open Wallet
     p.literal Enter the Name and Passphrase used to encrypt your Wallet below.
     form(name='loginForm', ng-submit='submitForm()')
-      label(for='login_username') Wallet name
-      input#login_username(name='login_username', type='text', ng-model='username', required)
-      p.text-status(ng-show='status')
+      .inputs
+        label(for='login_username') Wallet name
+        input#login_username(name='login_username', type='text', ng-model='username', required)
+        label(for='login_password') Passphrase
+        input#login_password(name='login_password', type='password', ng-model='password', required)
+      .reminder(ng-show="!hiddenReminder")
+        .title
+          | Reminder:
+          span.close(ng-click="hiddenReminder=true") ×
+        .content
+          p
+            | You are responsible for your login information.
+            br
+            | ripple
+            strong  cannot&nbsp;
+            | recover your Wallet Name or Passphrase if you forget them!
+          p
+            | Write down your Security Key.&nbsp
+            a(href="#") Learn how
+      .text-status(ng-show='status')
         span {{status}}
         br
-        span(ng-repeat="message in backendMessages")
+        .backend(ng-repeat="message in backendMessages")
           b {{message.backend}} &nbsp;
           span {{message.message}}
-          br
-      label(for='login_password') Passphrase
-      input#login_password(name='login_password', type='password', ng-model='password', required)
-      label.storageinfo(ng-class="{throbber: ajax_loading}")
-        | Fetch your wallet from:&nbsp;
-        span(ng-hide="storeChange")
-          strong {{blobBackendCollection.something.name}}&nbsp;
-          a(ng-click="storeChange=true") change
-        span(ng-show="storeChange")
-          select(ng-model="blobBackendCollection.something", ng-options="b.name for b in blobBackendCollections", ng-change="backendChange()")
-          a(ng-click="storeChange=false") ok
-      p.literal.hint
-        | Your information will be loaded from Payward and decrypted locally with your Passphrase.
       .submitsection
-        button.btn.btn-info(type='submit') Go
-        p.literal
-          | Please remember that you are responsible for your login information.
-          | ripple cannot recover your Wallet Name or Passphrase if you forget them!
+        button.btn.btn-info(type='submit') Open Wallet
+        label.storageinfo(ng-class="{throbber: ajax_loading}")
+          span.fetch Fetch wallet from
           br
-          strong Write down your Secret Account Key.&nbsp;
-          a(href='#') Learn how
+          span(ng-hide="storeChange")
+            strong {{blobBackendCollection.something.name}}
+            a(ng-click="storeChange=true") change
+          span(ng-show="storeChange")
+            select(ng-model="blobBackendCollection.something", ng-options="b.name for b in blobBackendCollections", ng-change="backendChange()")
+            a(ng-click="storeChange=false") ok
       p.literal
         | New to Ripple?&nbsp;
         a(href='#register') Create a wallet
-        br
-        a(href='#register') Need to use your Secret Account Key?
   .action-login(ng-hide="'login' == urlParams.tab")
     div(ng-show="'send' == urlParams.tab")
       h1 Transaction summary
