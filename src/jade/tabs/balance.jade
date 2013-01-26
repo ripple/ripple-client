@@ -17,7 +17,7 @@ section.panel.content
       .balance
         span(rp-tooltip="{{balance | rpamount:10}}") {{balance | rpamount}}
     .balancebox(ng-repeat="entry in balances", ng-hide="entry.total.is_zero()")
-      .label {{entry.total | rpcurrency}}
+      .label {{entry.total | rpcurrencyfull}}
       .balance
         span(rp-tooltip="{{entry.total | rpamount:10}}") {{entry.total | rpamount}}
 
