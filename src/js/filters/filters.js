@@ -49,6 +49,24 @@ module.filter('rpcurrency', function () {
 });
 
 /**
+ * Get the full currency name from an Amount.
+ */
+module.filter('rpcurrencyfull', function () {
+  return function (input) {
+    if (!input) return "";
+
+    var amount = Amount.from_json(input);
+    var currency = $.grep(rippleclient.$scope.currencies, function(e){ return e.value == amount.currency().to_json(); })[0];
+
+    if (currency) {
+      return currency.name;
+    } else {
+      return amount.currency().to_json();
+    }
+  };
+});
+
+/**
  * Calculate a ratio of two Amounts.
  */
 module.filter('rpamountratio', function () {
