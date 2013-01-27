@@ -23,7 +23,8 @@ LoginTab.prototype.angular = function (module) {
   var tm = this.tm;
   var app = this.app;
 
-  module.controller('LoginCtrl', ['$scope', function ($scope)
+  module.controller('LoginCtrl', ['$scope', '$element',
+                                  function ($scope, $element)
   {
     $scope.backendChange = function()
     {
@@ -46,28 +47,36 @@ LoginTab.prototype.angular = function (module) {
     {
       $scope.backendMessages = [];
 
-      app.id.login($scope.username, $scope.password, function(backendName, err, success) {
-        $scope.ajax_loading = false;
-        if (success) {
-          if ('login' !== $scope.urlParams.tab) {
-            tm.handleHashChange();
-          } else {
-            tm.gotoTab('balance');
-          }
-        } else {
-          $scope.backendMessages.push({'backend':backendName, 'message':err.message});
-        }
+      // Issue #36: Password managers may change the form values without
+      // triggering the events Angular.js listens for. So we simply force
+      // an update of Angular's model when the form is submitted.
+      var username = $element.find('input[name="login_username"]').val();
+      var password = $element.find('input[name="login_password"]').val();
+      $scope.loginForm.login_username.$setViewValue(username);
+      $scope.loginForm.login_password.$setViewValue(password);
 
-        if(!$scope.$$phase) {
+      setImmediate(function () {
+        app.id.login($scope.username, $scope.password, function(backendName, err, success) {
+          $scope.ajax_loading = false;
+          if (success) {
+            if ('login' !== $scope.urlParams.tab) {
+              tm.handleHashChange();
+            } else {
+              tm.gotoTab('balance');
+            }
+          } else {
+            $scope.backendMessages.push({'backend':backendName, 'message':err.message});
+          }
+
           $scope.$digest();
-        }
+        });
       });
 
       $scope.ajax_loading = true;
       $scope.error = '';
       $scope.status = 'Fetching wallet...';
     };
-  }])
+  }]);
 };
 
 LoginTab.prototype.onAfterRender = function ()
