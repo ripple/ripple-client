@@ -1,17 +1,12 @@
 section.panel.content
   .div#welcome(ng-hide='balance')
     p.title Welcome to Ripple.
-    p You currently don't have any ripples. To get started with ripple have another ripple user send money to this wallet.
-    p.title This is your wallet address:
-    p.account_id {{userBlob.data.account_id}}
-  .total(style='display: none;')
-    .swatch
-      .balance 15,532.33
-      form.config.form-inline
-      label(for='') Total value in
-      select
-        option USD
-  .currency-summary.positive
+    p You currently don't have any ripples. To get started with ripple you can:
+    .actions
+      span.bitcoin
+      a.receive(href="#receive")
+      span.nexus
+  .currency-summary.positive(ng-show='balance')
     .balancebox
       .label Ripples
       .balance

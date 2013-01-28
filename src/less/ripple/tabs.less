@@ -300,14 +300,35 @@
 #t-balance {
   #welcome {
     font: 18px 'OpenSansLight';
-    margin: 0 30px 0 0;
+    margin: 30px 0 0 30px;
 
     .account_id {
       font: 30px "Helvetica Neue", Helvetica, Arial, sans-serif;
       margin-top: 0;
     }
     .title {
-      font-weight: bold;
+      font: 18px 'OpenSansBold';
+    }
+
+    .actions {
+      margin: 0 0 50px;
+
+      a,span {
+        display: inline-block;
+        width: 190px;
+        height: 266px;
+        background-image: url(../../img/sprite_k.png);
+        margin: 0 50px 0 0;
+      }
+      .bitcoin {
+        background-position: -2px -263px;
+      }
+      .receive {
+        background-position: -2px -535px;
+      }
+      .nexus {
+        background-position: -2px -807px;
+      }
     }
   }
 
