@@ -634,6 +634,24 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
     background-color: #fbf8e4;
   }
 
+  table tr .add {
+    display: none;
+  }
+  table tr:hover .add {
+    display: inline-block;
+  }
+
+  table .sent td, table .received td {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    line-height: 40px;
+
+    .btn {
+      margin: -3px 0 0 10px;
+      line-height: normal;
+    }
+  }
+
   table th {
     padding-top: 10px;
   }
