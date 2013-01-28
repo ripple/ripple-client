@@ -1,5 +1,5 @@
 section.single.content(ng-controller="RegisterCtrl")
-  group.mode-form(ng-show='mode=="form"')
+  .mode-form(ng-show='mode=="form"')
     h1 Create a Ripple Wallet
     p.literal ripple is an open source p2p payment network — a fast, easy way to send any kind of money to
       | anyone in the world.
@@ -30,7 +30,6 @@ section.single.content(ng-controller="RegisterCtrl")
             required, rp-same-as="register_password1")
         div(class="strength {{strength}}")
           {{strength}}
-      a(ng-click="showMasterKeyInput=true", ng-hide="showMasterKeyInput") Need to use your Secret Account Key?
       div(ng-show="showMasterKeyInput")
         label(for='register_masterkey')
           | Secret Account Key&nbsp;
@@ -39,18 +38,22 @@ section.single.content(ng-controller="RegisterCtrl")
         .errorBox(ng-show="registerForm.register_masterkey.$error.rpMasterKey")
           p.text-error Secret Account Key is invalid
       .submitsection
-        button.btn.btn-info(type='submit', ng-disabled='registerForm.$invalid') Create
+        button.btn.btn-info(type='submit', ng-disabled='registerForm.$invalid') Create Wallet
         .storeinfo
           | Store your wallet with:&nbsp;
+          br
           span(ng-hide="storeChange")
             strong {{blobBackendCollection.something.name}}&nbsp;
             a(ng-click="storeChange=true") change
           span(ng-show="storeChange", class="storeChange")
             select(ng-model="blobBackendCollection.something", ng-options="b.name for b in blobBackendCollections", ng-change="backendChange()")
-          div Your information will be stored encrypted on servers provided by Payward.
       p.literal.throw
         | Have a wallet already?&nbsp;
         a(href='#login') Open wallet
+        br
+        span(ng-hide="showMasterKeyInput")
+          | Need to use your Secret Key?&nbsp;
+          a(ng-click="showMasterKeyInput=true") Use Key
 
   group.mode-masterkeyerror(ng-show='mode=="masterkeyerror"')
     h1 Secret Account Key error
