@@ -511,6 +511,14 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
           padding-right: 35px;
         }
       }
+
+      // For the row-add animation to show up, the cells' background must be
+      // transparent.
+      &.rp-animate {
+        td, th {
+          background-color: transparent !important;
+        }
+      }
     }
 
     td input.inline {

@@ -18,9 +18,15 @@ module.directive('rpAnimate', function() {
       elm.hide();
       elm.fadeIn(600);
       elm.css('background-color', '#E2F5E4');
+      elm.addClass('rp-animate-during rp-animate');
       elm.animate({
         'background-color': '#fff'
-      }, {duration: 600});
+      }, {
+        duration: 600,
+        complete: function () {
+          elm.removeClass('rp-animate-during').addClass('rp-animate-after');
+        }
+      });
     }
   };
 });
