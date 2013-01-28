@@ -60,7 +60,7 @@ body.loaded #appLoading {
 
 #logo {
   position: absolute;
-  top: 27px;
+  top: 15px;
   left: 10px;
 
   img {
@@ -76,12 +76,12 @@ header {
 
 header nav {
   position: absolute;
-  top: 92px;
+  top: 78px;
   left: 0;
 }
 
 header nav ul {
-  font: 18px 'OpenSansRegular';
+  font: 12px 'OpenSansRegular';
   padding-left: 10px;
   list-style: none;
 
@@ -96,9 +96,15 @@ header nav ul {
     > a {
       color: #666;
       display: block;
-      height: 35px;
+      height: 55px;
       cursor: pointer;
       .transition-duration(0.2s);
+      background-image: url(../../img/sprite_k.png);
+
+      span {
+        padding: 35px 0 0 0;
+        display: block;
+      }
 
       &:hover {
         color: #333;
@@ -108,6 +114,10 @@ header nav ul {
 
     &.active {
       font-family: 'OpenSansBold';
+
+      span {
+        display: none;
+      }
 
       > a {
         color: #333;
@@ -139,20 +149,49 @@ header nav ul {
   }
 }
 
+
+
 #nav-wallet {
-  width: 75px;
+  a {
+    background-position: -165px -175px;
+  }
+  width: 70px;
 }
 
 #nav-send {
-  width: 46px;
+  a {
+    background-position: -45px -175px;
+  }
+  width: 70px;
 }
 
 #nav-receive {
-  width: 72px;
+  a {
+    background-position: -107px -175px;
+  }
+  width: 70px;
 }
 
 #nav-advanced {
-  width: 89px;
+  a {
+    background-position: 8px -175px;
+  }
+  width: 70px;
+}
+#nav-wallet.active a {
+  background-position: -165px -102px;
+}
+
+#nav-send.active a {
+  background-position: -45px -102px;
+}
+
+#nav-receive.active a {
+  background-position: -107px -102px;
+}
+
+#nav-advanced.active a {
+  background-position: 8px -102px;
 }
 
 #main {
