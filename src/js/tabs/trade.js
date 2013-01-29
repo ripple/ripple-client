@@ -33,6 +33,8 @@ TradeTab.prototype.angular = function(module)
 
     $scope.reset = function (keepPair) {
       var pair = keepPair ? $scope.order.currency_pair : pairs[0].name;
+      var fIssuer= keepPair ? $scope.order.first_issuer : app.id.account;
+      var sIssuer= keepPair ? $scope.order.second_issuer : app.id.account;
       if ($scope.orderForm) $scope.orderForm.$setPristine();
       $scope.mode = "trade";
       $scope.order = {
@@ -43,8 +45,8 @@ TradeTab.prototype.angular = function(module)
         currency_pair: pair,
         first_currency: pair.slice(0, 3),
         second_currency: pair.slice(4, 7),
-        first_issuer: app.id.account,
-        second_issuer: app.id.account,
+        first_issuer: fIssuer,
+        second_issuer: sIssuer,
         listing: 'my',
 
         // This variable is true if both the pair and the issuers are set to
@@ -55,6 +57,8 @@ TradeTab.prototype.angular = function(module)
 
       updateSettings();
     };
+    
+   
 
     $scope.back = function () {
       $scope.mode = "trade";
@@ -213,6 +217,8 @@ TradeTab.prototype.angular = function(module)
     // the issuer(s) have been modified. It checks the new configuration and
     // sets $scope.valid_settings.
     function updateSettings() {
+      console.log("updateSettings");
+      
       var pair = $scope.order.currency_pair;
       if ("string" !== typeof pair ||
           !pair.match(/^[a-z]{3}\/[a-z]{3}$/i)) {
@@ -277,7 +283,7 @@ TradeTab.prototype.angular = function(module)
 
     function guessIssuer(currency) {
       var guess;
-
+      
       // First guess: An explicit issuer preference setting in the user's blob
       try {
         guess = $scope.userBlob.data.preferred_issuer[currency];
@@ -296,7 +302,7 @@ TradeTab.prototype.angular = function(module)
 
     function resetIssuers(force) {
       var guess;
-
+      
       if (force) {
         $scope.order.first_issuer = null;
         $scope.order.second_issuer = null;
