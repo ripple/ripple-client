@@ -316,7 +316,7 @@
       a,span {
         display: inline-block;
         width: 190px;
-        height: 266px;
+        height: 270px;
         background-image: url(../../img/sprite_k.png);
         margin: 0 50px 0 0;
       }
@@ -497,10 +497,21 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
         width: 27%;
       }
       > .account {
+<<<<<<< HEAD
         width: 39%;
       }
       > .command {
         width: 34%;
+=======
+        width: 50%;
+
+        input.inline {
+          width: 280px;
+        }
+      }
+      > .command {
+        width: 23%;
+>>>>>>> 8483623... Contacts page redesign. #146
         text-align: right;
 
         .btn {
@@ -537,7 +548,6 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
       }
     }
 
-
     .command, .action {
     }
 
@@ -545,9 +555,28 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
       text-align: center;
     }
 
+    .btn.save, .btn.edit, .btn.delete {
+      -webkit-box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+      -moz-box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+      box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+    }
+
     .btn.edit {
-      background: url(../../img/sprite_k.png) -1px 24px;
+      background: url(../../img/sprite_k.png) -2px -13px;
       display: none;
+    }
+    .btn.editing {
+      background: #e4e4e4 url(../../img/sprite_k.png) -2px -13px;
+      -webkit-box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.1);
+      -moz-box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.1);
+      box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.1);
+    }
+    .btn.save {
+      background: url(../../img/sprite_k.png) -163px -12px;
+      margin: 0 5px 0 0;
+    }
+    .btn.delete {
+      background: url(../../img/sprite_k.png) -131px -12px;
     }
 
     tr:hover .btn.edit {
