@@ -96,10 +96,14 @@ ContactsTab.prototype.angular = function (module) {
      */
     $scope.update = function (index)
     {
-      // Update blob
-      $scope.entry.name = $scope.editname;
-      $scope.entry.address = $scope.editaddress;
-      $scope.editing = false;
+      if (!$scope.inlineAddress.editaddress.$error.rpUnique
+          && !$scope.inlineAddress.editaddress.$error.rpAddress
+          && !$scope.inlineName.editname.$error.rpUnique) {
+        // Update blob
+        $scope.entry.name = $scope.editname;
+        $scope.entry.address = $scope.editaddress;
+        $scope.editing = false;
+      }
     };
 
     /**

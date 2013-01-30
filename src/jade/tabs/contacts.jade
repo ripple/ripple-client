@@ -46,7 +46,8 @@ section.panel.content(ng-controller="ContactsCtrl")
                 ng-model='editname'
                 rp-unique='userBlob.data.contacts'
                 rp-unique-field='name'
-                rp-unique-orig='entry.name')
+                rp-unique-orig='entry.name'
+                ng-enter="update($index)")
               .errorGroup(rp-errors='editname')
                 .error(rp-error-on='rpUnique')
                   | You already have a contact with the same name.
@@ -59,7 +60,8 @@ section.panel.content(ng-controller="ContactsCtrl")
               rp-unique='userBlob.data.contacts'
               rp-unique-field='address'
               rp-unique-orig='entry.address'
-              rp-address)
+              rp-address
+              ng-enter="update($index)")
             button.save.btn.btn-small(ng-disabled="inlineAddress.editaddress.$error.rpUnique", ng-disabled="inlineName.editname.$error.rpUnique", ng-disabled="inlineAddress.editaddress.$error.rpAddress", ng-click='update($index)')
             rp-confirm(
               action-text="Are you sure you want to delete this contact?"
