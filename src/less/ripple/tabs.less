@@ -844,30 +844,69 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
 }
 
 #t-security {
-  td{
-    padding: 10px 5px 0;
+  padding: 15px;
+
+  .notices {
+    list-style-type: none;
+    margin: 10px 0 0 0;
   }
-  .section td {
-    padding: 25px 5px 0;
-    font: 16px 'OpenSansRegular';
+  .important {
+    font-size: 20px;
+    line-height: 25px;
   }
-  .smallText {
-    font-size: 0.8em;
-    margin: 0 0 0 5px;
+  .title {
+    display: inline-block;
+    width: 100%;
+    margin: 20px 0 0;
+
+    .icon {
+      display: inline-block;
+      background: url(../../img/sprite_k.png);
+      width: 40px;
+      height: 40px;
+      float: left;
+    }
+    .icon.wallet {
+      background-position:  -80px 0;
+    }
+    .icon.money {
+      background-position:  -34px 0;
+    }
+    .name {
+      margin: 0 20px 0 10px;
+      line-height: 40px;
+      float: left;
+    }
+    .more {
+      line-height: 40px;
+      float: left;
+    }
+  }
+  .description {
+    margin: 5px 0 5px 68px;
+    font-size: 13px;
   }
   .infoBox {
     width: 680px;
     margin: auto;
     border-radius: 5px;
     border: 1px solid #bebebe;
-    padding: 0 20px 20px;
+    padding: 20px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+
+    .part {
+      margin: 0 50px 0 0;
+    }
   }
-  div {
-    word-wrap: break-word;
-    width: 680px;
+  .show-keys {
+    margin: 20px 0 0 40px;
+    padding-left: 40px;
+    padding-right: 40px;
   }
   .value {
     font-size: 20px;
+    margin: 0 10px;
   }
 }
 

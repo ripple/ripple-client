@@ -1,37 +1,64 @@
 section.panel.content(ng-controller="SecurityCtrl")
-  p.literal <strong>Your information is encrypted and stored on Payward Inc. servers.</strong>
-  p.literal This is your Ripple wallet information. <a href="" onClick="javascript:window.print()"><strong>PRINT THIS PAGE</strong></a> and keep it somewhere safe.
-  .infoBox
-    table
-      tr.section
-        td Wallet name:
-        td Pass phrase:
-      tr
-        td
-          span.value {{userCredentials.username}}
-        td
-          span.value {{userCredentials.password | rpmask}}
-      tr.section
-        td(colspan="2") Secret Account Key:
-          a.smallText(href="http://ripple.com/help/#accounts", target="_blank") What is this?
-      tr
-        td(colspan="2")
-          span.value {{userCredentials.master_seed}}
-      tr.section
-        td(colspan="2") Wallet:
-          a.smallText(href="http://ripple.com/help/#wallet", target="_blank") What is this?
-      tr
-        td.wallet(colspan="2")
-          span.value
-            span(ng-bind='userBlob.data.contacts.length')
-            |  contacts,&nbsp;
-            span(ng-bind='enc.length | rpfilesize')
-            | &ensp;
-          p.literal(
-            rp-download='enc'
-            rp-download-filename='ripple-wallet.json')
-            | You can&nbsp;
-            a(rp-download-trigger) backup your wallet to a file
-            | .
-  p.literal IMPORTANT! There is no way to recover your wallet name or pass phrase.&nbsp;
-    a.smallText(href="http://ripple.com/help/#storage", target="_blank") Read why
+  p.important Your money and wallet are protected digitally through encryption algorithms that can be unlocked&nbsp;
+    b only with your personal keys
+  ul.notices
+    li – No one else has them, so don't lose them!
+    li – Never share them!
+  .title
+    span.icon.wallet
+    span.name Wallet Key
+    span.more
+      span {{userBlob.data.contacts.length}} contacts,&nbsp;
+        span {{enc.length | rpfilesize}} &ensp;
+      span(rp-download='enc',rp-download-filename='ripple-wallet.json')
+        | You can&nbsp;
+        a(rp-download-trigger) backup your wallet to a file
+        | .
+  ul.description(ng-hide="showKeys")
+    li This is the key you use every time you use ripple.
+    li You created it when you chose your Wallet Name and Passphrase.
+    li It protects Your money + Your contacts and history.
+    li
+      b Never forget it, never share it.
+  .infoBox(ng-show="showKeys")
+    span.part
+      span.label Wallet name:
+      span.value {{userCredentials.username}}
+    span.part
+      span.label Pass Phrase:
+      span.value(ng-show="passUnmask") {{userCredentials.password}}
+      span.value(ng-hide="passUnmask") {{userCredentials.password | rpmask}}
+      rp-confirm(
+        action-text="Are you in a safe place, where no person, or camera can see your screen?"
+        action-button-text="Yes, show me"
+        action-function="passUnmask=true"
+        cancel-button-text="No"
+        ng-hide="passUnmask")
+          a(ng-hide="passUnmask") Show
+      a(ng-click="passUnmask=false", ng-show="passUnmask") Hide
+  .hint(ng-show="showKeys") This gives access to your wallet. DO NOT SHARE THIS WITH ANYONE. Keep it safe. Keep it private.
+
+  .title
+    span.icon.money
+    span.name Secret Key
+    span.more
+  ul.description(ng-hide="showKeys")
+    li This key is for emergency use only. You did not choose it. The network created it. You don't have to memorize it.
+    li The Secret Key accesses Your money, which is already contained inside your wallet.
+    li But if you ever lose your wallet, you can recover just Your money with this key.
+    li
+      b Store it somewhere safe, never share it.
+  .infoBox(ng-show="showKeys")
+    span.value(ng-show="SecretKeyUnmask") {{userCredentials.master_seed}}
+    span.value(ng-hide="SecretKeyUnmask") {{userCredentials.master_seed | rpmask}}
+    rp-confirm(
+      action-text="Are you in a safe place, where no person, or camera can see your screen?"
+      action-button-text="Yes, show me"
+      action-function="SecretKeyUnmask=true"
+      cancel-button-text="No"
+      ng-hide="SecretKeyUnmask")
+        a(ng-hide="SecretKeyUnmask") Show
+    a(ng-click="SecretKeyUnmask=false", ng-show="SecretKeyUnmask") Hide
+  .hint(ng-show="showKeys") This gives access to your money. DO NOT SHARE THIS WITH ANYONE. Keep it safe. Keep it private.
+
+  button.btn.btn-info.show-keys(ng-click="showKeys=true", ng-hide="showKeys") Show my keys
