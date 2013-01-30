@@ -216,8 +216,8 @@ module.directive('rpConfirm', ['rpPopup', function (popup) {
       element.find('a,button').click(function()
       {
         popup.confirm(attrs["title"], attrs["actionText"],
-            attrs["actionButtonText"], attrs["actionFunction"],
-            attrs["cancelButtonText"], attrs["cancelFunction"],
+            attrs["actionButtonText"], attrs["actionFunction"], attrs["actionButtonCss"],
+            attrs["cancelButtonText"], attrs["cancelFunction"], attrs["cancelButtonCss"],
             scope, popupOptions);
       });
     }

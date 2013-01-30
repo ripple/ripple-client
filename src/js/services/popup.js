@@ -28,10 +28,12 @@ module.factory('rpPopup', ['$http', '$compile',
     popup.modal(options);
   };
 
-  popupService.confirm = function(title, actionText, actionButtonText, actionFunction, cancelButtonText, cancelFunction, scope, options) {
+  popupService.confirm = function(title, actionText, actionButtonText, actionFunction, actionButtonCss, cancelButtonText, cancelFunction, cancelButtonCss, scope, options) {
     actionText = (actionText) ? actionText : "Are you sure?";
     actionButtonText = (actionButtonText) ? actionButtonText : "Ok";
+    actionButtonCss = (actionButtonCss) ? actionButtonCss : "btn btn-info";
     cancelButtonText = (cancelButtonText) ? cancelButtonText : "Cancel";
+    cancelButtonCss = (cancelButtonCss) ? cancelButtonCss : "";
 
     var popup = popupService.getPopup(true);
     var confirmHTML = "";
@@ -44,17 +46,17 @@ module.factory('rpPopup', ['$http', '$compile',
         +    "<p class=\"actions\">";
 
     if (actionFunction) {
-      confirmHTML += "<button class=\"btn btn-info btn-cancel\" ng-click=\""+actionFunction+"\">"+actionButtonText+"</button>";
+      confirmHTML += "<button class=\"" + actionButtonCss + "\" ng-click=\""+actionFunction+"\">"+actionButtonText+"</button>";
     }
     else {
-      confirmHTML += "<button class=\"btn btn-info btn-cancel\">"+actionButtonText+"</button>";
+      confirmHTML += "<button class=\"" + actionButtonCss + " btn-cancel\">"+actionButtonText+"</button>";
     }
 
     if (cancelFunction) {
-      confirmHTML += "<a class=\"btn-cancel\" ng-click=\""+cancelFunction+"\">"+cancelButtonText+"</a>";
+      confirmHTML += "<a class=\"" + cancelButtonCss + "\" ng-click=\""+cancelFunction+"\">"+cancelButtonText+"</a>";
     }
     else {
-      confirmHTML += "<a class=\"btn-cancel\">"+cancelButtonText+"</a>";
+      confirmHTML += "<a class=\"" + cancelButtonCss + " btn-cancel\">"+cancelButtonText+"</a>";
     }
 
     confirmHTML += "</p></div>";
