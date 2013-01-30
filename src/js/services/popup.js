@@ -46,14 +46,14 @@ module.factory('rpPopup', ['$http', '$compile',
         +    "<p class=\"actions\">";
 
     if (actionFunction) {
-      confirmHTML += "<button class=\"" + actionButtonCss + "\" ng-click=\""+actionFunction+"\">"+actionButtonText+"</button>";
+      confirmHTML += "<button class=\"" + actionButtonCss + " btn-cancel\" ng-click=\""+actionFunction+"\">"+actionButtonText+"</button>";
     }
     else {
       confirmHTML += "<button class=\"" + actionButtonCss + " btn-cancel\">"+actionButtonText+"</button>";
     }
 
     if (cancelFunction) {
-      confirmHTML += "<a class=\"" + cancelButtonCss + "\" ng-click=\""+cancelFunction+"\">"+cancelButtonText+"</a>";
+      confirmHTML += "<a class=\"" + cancelButtonCss + " btn-cancel\" ng-click=\""+cancelFunction+"\">"+cancelButtonText+"</a>";
     }
     else {
       confirmHTML += "<a class=\"" + cancelButtonCss + " btn-cancel\">"+cancelButtonText+"</a>";
