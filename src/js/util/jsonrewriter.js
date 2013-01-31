@@ -175,7 +175,7 @@ var JsonRewriter = module.exports = {
         tx.Account;
       obj.amount = amount;
       obj.currency = amount.currency().to_json();
-      if (!amount.is_native() && obj.lines.length >= 1) {
+      if (!amount.is_native() && obj.lines && obj.lines.length >= 1) {
         // TODO: Handle the case where more than one trust line of ours was
         //       changed in the course of a payment.
         obj.balance = obj.lines[0].balance;
