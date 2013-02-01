@@ -26,6 +26,14 @@ exports.getDestTagFromAddress = function (addr)
       if(index>0) return( addr.slice(0,index) );
       else return(addr);
     }
+    index=addr.indexOf("d=");
+    if(index>=0)
+    {
+      addr=addr.slice(index+2,addr.length);
+      index=addr.indexOf("&");
+      if(index>0) return( addr.slice(0,index) );
+      else return(addr);
+    }
   }
   return(undefined);
 }
