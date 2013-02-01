@@ -18,10 +18,10 @@ exports.getDestTagFromAddress = function (addr)
   if(index>=0)
   {
     addr=addr.slice(index,addr.length);
-    index=addr.indexOf("d=");
+    index=addr.indexOf("dt=");
     if(index>=0)
     {
-      addr=addr.slice(index+2,addr.length);
+      addr=addr.slice(index+3,addr.length);
       index=addr.indexOf("&");
       if(index>0) return( addr.slice(0,index) );
       else return(addr);
