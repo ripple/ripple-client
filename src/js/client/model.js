@@ -65,9 +65,12 @@ Model.prototype.handleAccountLoad = function (e)
   remote.request_account_lines(e.account)
     .on('success', this.handleRippleLines.bind(this))
     .on('error', this.handleRippleLinesError.bind(this)).request();
-  remote.request_wallet_accounts(e.secret)
-    .on('success', this.handleAccounts.bind(this))
-    .on('error', this.handleAccountsError.bind(this)).request();
+  remote.request_account_info(e.account)
+    .on('success', this.handleAccountInfo.bind(this))
+    .on('error', this.handleAccountInfoError.bind(this)).request();
+  remote.request_account_tx(e.account, 0, 9999999)
+    .on('success', this.handleAccountTx.bind(this))
+    .on('error', this.handleAccountTxError.bind(this)).request();
   remote.request_account_offers(e.account)
     .on('success', this.handleOffers.bind(this))
     .on('error', this.handleOffersError.bind(this)).request();
@@ -134,24 +137,21 @@ Model.prototype.handleOffersError = function (data)
 {
 }
 
-Model.prototype.handleAccounts = function (data)
+Model.prototype.handleAccountInfo = function (data)
 {
   var self = this;
   var remote = this.app.net.remote;
   var $scope = this.app.$scope;
   $scope.$apply(function () {
-    $scope.balance = data.accounts[0].Balance;
-
-    remote.request_account_tx(data.accounts[0].Account, "0", "999999")
-      .on('success', self.handleAccountTx.bind(self, data.accounts[0].Account)).request();
+    $scope.balance = data.account_data.Balance;
   });
 };
 
-Model.prototype.handleAccountsError = function (data)
+Model.prototype.handleAccountInfoError = function (data)
 {
 }
 
-Model.prototype.handleAccountTx = function (account, data)
+Model.prototype.handleAccountTx = function (data)
 {
   var self = this;
 
@@ -163,6 +163,11 @@ Model.prototype.handleAccountTx = function (account, data)
       });
     }
   });
+};
+
+Model.prototype.handleAccountTxError = function (data)
+{
+
 };
 
 Model.prototype.handleAccountEvent = function (e)
