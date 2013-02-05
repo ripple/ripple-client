@@ -60,7 +60,7 @@ section#t-send.single.content(ng-controller='SendCtrl')
         | {{recipient_address}}
     p.literal They will receive
     p.amount_feedback
-      span.value {{amount_feedback | rpamount}}&nbsp;
+      span.value {{amount_feedback | rpamount:10}}&nbsp;
       span.currency {{amount_feedback | rpcurrency}}
     group(ng-show='sendmax_feedback')
       p.literal You will pay at most
