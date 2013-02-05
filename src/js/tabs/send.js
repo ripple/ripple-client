@@ -91,6 +91,7 @@ SendTab.prototype.angular = function (module)
       $scope.amount = '';
       $scope.currency = $scope.xrp.name;
       $scope.nickname = '';
+      $scope.error_type = '';
       $scope.resetAddressForm();
       if ($scope.sendForm) $scope.sendForm.$setPristine(true);
 
@@ -119,11 +120,56 @@ SendTab.prototype.angular = function (module)
     };
 
     /**
-     * N2. Confirmation page
+     * N2. Waiting for path page
      */
     $scope.send = function () {
       var amount = $scope.amount_feedback;
+      $scope.sendmax_feedback = null;
 
+      $scope.mode = "wait_path";
+
+      app.net.remote.request_account_info($scope.recipient_address)
+      // XXX Handle error response
+        .on('success', function (data) {
+          if (amount.is_native()) {
+            // XXX If account doesn't exist, show extra information.
+
+            $scope.$apply($scope.send_prepared);
+          } else {
+            if (!data.account_data || !data.account_data.Account) {
+              $scope.mode = "error";
+              $scope.error_type = "noDest";
+              return;
+            }
+
+            app.net.remote.request_ripple_path_find(app.id.account,
+                                                    $scope.recipient_address,
+                                                    amount)
+            // XXX Handle error response
+              .on('success', function (data) {
+                $scope.$apply(function () {
+                  if (!data.alternatives || !data.alternatives.length) {
+                    $scope.mode = "error";
+                    $scope.error_type = "noPath";
+                  } else {
+                    var base_amount = ripple.Amount.from_json(data.alternatives[0].source_amount);
+                    $scope.sendmax_feedback =
+                      base_amount.product_human(ripple.Amount.from_json('1.01'));
+                    $scope.send_prepared();
+                  }
+                });
+              })
+              .request();
+
+          }
+        })
+        .request();
+    };
+
+    /**
+     * N3. Confirmation page
+     */
+    $scope.send_prepared = function () {
       $scope.confirm_wait = true;
       $timeout(function () {
         $scope.confirm_wait = false;
@@ -134,23 +180,20 @@ SendTab.prototype.angular = function (module)
     };
 
     /**
-     * N3. Waiting for transaction result page
+     * N4. Waiting for transaction result page
      */
     $scope.send_confirmed = function () {
       var currency = $scope.currency.slice(0, 3).toUpperCase();
       var amount = ripple.Amount.from_human(""+$scope.amount+" "+currency);
-      var addr=$scope.recipient_address;
-      
-      
+      var addr = $scope.recipient_address;
+
       amount.set_issuer(addr);
 
       var tx = app.net.remote.transaction();
-      tx.destination_tag( webutil.getDestTagFromAddress($scope.recipient) );
+      tx.destination_tag(webutil.getDestTagFromAddress($scope.recipient));
       tx.payment(app.id.account, addr, amount.to_json());
-      if (currency !== 'XRP') {
-        var sendMax = amount.product_human(ripple.Amount.from_json("1.1"));
-        sendMax.set_issuer(app.id.account);
-        tx.send_max(sendMax);
+      if (!amount.is_native()) {
+        tx.send_max($scope.sendmax_feedback);
         tx.build_path(true);
       }
       tx.on('success', function (res) {
@@ -162,7 +205,7 @@ SendTab.prototype.angular = function (module)
         $scope.mode = "error";
 
         if (res['remote']['error'] == 'noPath') {
-          $scope.mode = "sent";
+          $scope.mode = "status";
           $scope.tx_result = "noPath";
         }
         $scope.$digest();
@@ -173,10 +216,10 @@ SendTab.prototype.angular = function (module)
     };
 
     /**
-     * N5. Sent page
+     * N6. Sent page
      */
     $scope.sent = function (hash) {
-      $scope.mode = "sent";
+      $scope.mode = "status";
       app.net.remote.on('account', handleAccountEvent);
 
       function handleAccountEvent(e) {

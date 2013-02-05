@@ -452,6 +452,9 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
     h2 {
       .border-radius(10px, 0, 0, 0);
     }
+    .pending h2 {
+      background-color: #fdfdfd;
+    }
     .address {
       font-size: 25px;
       font: 34px 'OpenSansLight';
@@ -739,7 +742,7 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
     }
   }
 
-  .mode-sent {
+  .mode-status {
     .address {
       font-size: 25px;
       font: 34px 'OpenSansLight';
@@ -757,10 +760,11 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
   }
 
   .mode-confirm {
-    .amount_feedback, .dest_feedback {
+    .amount_feedback, .dest_feedback, .sendmax_feedback {
       font-size: 26px;
       margin: 0;
-      padding: 20px @pmSingleMargin;
+      padding-left: @pmSingleMargin;
+      padding-right: @pmSingleMargin;
       background-color: #f4f4f4;
 
       .extra {
@@ -770,8 +774,15 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
       }
     }
 
-    .amount_feedback {
+    .dest_feedback {
+      padding-top: 20px;
+      padding-bottom: 20px;
+    }
+
+    .amount_feedback, .sendmax_feedback {
       font: 34px 'OpenSansLight';
+      padding-top: 10px;
+      padding-bottom: 10px;
 
       .currency {
         font-size: 20px;

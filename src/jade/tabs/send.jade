@@ -5,6 +5,21 @@ section#t-send.single.content(ng-controller='SendCtrl')
   form.mode-form(name="sendForm", id="sendForm", ng-show='mode=="form"', ng-submit='send()')
     p.literal Send money to anyone with a ripple account.
     hr
+    label(for='send_destination') Recipient
+    input#send_destination(
+      name='send_destination', type='text', rp-combobox="recipient_query"
+      placeholder='Contact name or Ripple address'
+      ng-model='recipient'
+      rp-destination, required
+      rp-autofill='urlParams.to')
+    .errorGroup(rp-errors='send_destination')
+      .success(rp-error-valid ng-show='recipient != recipient_address')
+        | {{recipient_address}}
+      .error(rp-error-on='required')
+        | Please enter a recipient.
+      .error(rp-error-on='rpDestination')
+        | Recipient should be either a name from your contact list or Ripple
+        | address.
     label(for='send_amount') Amount
     .amount
       input.value#send_amount(
@@ -26,37 +41,32 @@ section#t-send.single.content(ng-controller='SendCtrl')
         | Not a valid amount.
       .error(rp-error-on='maxlength')
         | Not a valid amount.
-    label(for='send_destination') Recipient
-    input#send_destination(
-      name='send_destination', type='text', rp-combobox="recipient_query"
-      placeholder='Contact name or Ripple address'
-      ng-model='recipient'
-      rp-destination, required
-      rp-autofill='urlParams.to')
-    .errorGroup(rp-errors='send_destination')
-      .success(rp-error-valid ng-show='recipient != recipient_address')
-        | {{recipient_address}}
-      .error(rp-error-on='required')
-        | Please enter a recipient.
-      .error(rp-error-on='rpDestination')
-        | Recipient should be either a name from your contact list or Ripple
-        | address.
     .submitsection
       button.btn.btn-success.submit(type='submit', ng-disabled='sendForm.$invalid') Send
 
-  //- N2. Confirmation page
+  //- N2. Waiting for path
+
+  group.mode-wait-path(ng-show='mode=="wait-path"')
+    p.throbber.literal Ripple is calculating a path for your payment.
+
+  //- N3. Confirmation page
 
   group.mode-confirm(ng-show='mode=="confirm"')
-    p.literal You are about to send
-    p.amount_feedback
-      span.value {{amount_feedback | rpamount}}&nbsp;
-      span.currency {{amount_feedback | rpcurrency}}
-    p.literal to the Ripple user
+    p.literal You are sending money to
     .dest_feedback
       .recipient(ng-show='recipient_name') {{recipient_name}}
       .recipient(ng-hide='recipient_name') {{recipient_address}}
       .extra(ng-show="recipient != recipient_address || recipient_name")
         | {{recipient_address}}
+    p.literal They will receive
+    p.amount_feedback
+      span.value {{amount_feedback | rpamount}}&nbsp;
+      span.currency {{amount_feedback | rpcurrency}}
+    group(ng-show='sendmax_feedback')
+      p.literal You will pay at most
+      p.sendmax_feedback
+        span.value {{sendmax_feedback | rpamount}}&nbsp;
+        span.currency {{sendmax_feedback | rpcurrency}}
     p.literal Are you sure?
     div
       p.submitsection
@@ -66,25 +76,33 @@ section#t-send.single.content(ng-controller='SendCtrl')
           ng-click='send_confirmed()'
           ng-disabled='confirm_wait') Confirm
 
-  //- N3. Waiting for transaction result page
+  //- N4. Waiting for transaction result page
 
   group.mode-sending(ng-show='mode=="sending"')
     p.throbber.literal Sending transaction to Ripple network
     hr
     p: button.btn(ng-click='reset()') Stop waiting
 
-  //- N4. Error page
+  //- N5. Error page
 
   group.mode-error(ng-show='mode=="error"')
-    p.literal Sorry, an error occurred while submitting your transaction.
-      | Make sure you are connected to the Internet and try again later.
-    p.literal Before trying again, please ensure that the transaction has
-      | not been executed already.
-    p: button.btn(ng-click='reset()') &laquo; Back
+    group(ng-switch on="error_type")
+      group.result-error(ng-switch-when='noDest')
+        h2.tx-status Destination does not exist
+        p The wallet you&39;re trying to send to does not exist.
+      group.result-error(ng-switch-when='noPath')
+        h2.tx-status No Path
+        p Ripple was unable to find a path between you and the destination account.
+      group(ng-switch-default)
+        p.literal Sorry, an error occurred while submitting your transaction.
+          | Make sure you are connected to the Internet and try again later.
+        p.literal Before trying again, please ensure that the transaction has
+          | not been executed already.
+    p: button.btn(ng-click='mode="form"') &laquo; Back
 
-  //- N5. Sent page
+  //- N6. Sent page
 
-  group.mode-sent(ng-show='mode=="sent"')
+  group.mode-status(ng-show='mode=="status"')
     group.pending(ng-show='tx_result=="pending"')
       h2.tx-status Your transaction has been submitted.
       p Your account balance will update once the payment has cleared.
@@ -111,9 +129,6 @@ section#t-send.single.content(ng-controller='SendCtrl')
           | create it.
         span(ng-switch-default)
           | Error: {{engine_result_message}}
-    group.result-error(ng-show='tx_result=="noPath"')
-      h2.tx-status No Path
-      p Unable to find a ripple path.
     group.result-failed(ng-show='tx_result=="failed"')
       h2.tx-status Transaction failed!
       p(ng-switch on="engine_result")
