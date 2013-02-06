@@ -29,9 +29,11 @@
   .balance {
     font: 17px 'OpenSansLight';
     color: #333;
-    line-height: 24px;
 
-    span {
+    .amount.low {
+      color: #e1bb3b;
+    }
+    .currency {
       margin-left: 3px;
       font-size: 11px;
     }
@@ -39,6 +41,25 @@
     &.primary {
       float: left;
       margin-top: 7px;
+    }
+
+    .icon.low {
+      display: inline-block;
+      margin: 0 0 0 5px;
+      background-position: -200px -12px;
+      width: 20px;
+      height: 25px;
+      float: right;
+    }
+
+    .popover-title:before {
+      display: inline-block;
+      margin: 0 10px 0 0;
+      background: url('../../img/sprite_j.png') -200px -15px;
+      width: 20px;
+      height: 25px;
+      float: left;
+      content: '';
     }
   }
 

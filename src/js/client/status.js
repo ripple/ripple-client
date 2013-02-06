@@ -1,5 +1,6 @@
 var webutil = require('../util/web'),
-    rewriter = require('../util/jsonrewriter');
+    rewriter = require('../util/jsonrewriter'),
+    Amount = ripple.Amount;
 
 /**
  * Manages the notifications appearing in the top right status box.
@@ -23,6 +24,10 @@ StatusManager.prototype.init = function ()
 
   var $scope = this.$scope = app.$scope.$new();
 
+  // Minimum reserve
+  // TODO move somewhere else and add some logic
+  $scope.reserve = 200;
+
   // Activate #status panel
   $scope.$apply(function () {
     $scope.toggle_secondary = function () {
@@ -39,6 +44,19 @@ StatusManager.prototype.init = function ()
       });
 
       $scope.balance_count = Object.keys($scope.balances).length;
+
+
+    }, true);
+
+    // Low balance indicator
+    app.$scope.$watch('balance', function(){
+      var reserve = Amount.from_human($scope.reserve * 2);
+      var balance = Amount.from_human($scope.balance);
+      $scope.lowBalance = balance.divide(reserve).to_human() <= 1;
+
+      if(!$scope.$$phase) {
+        $scope.$digest();
+      }
     }, true);
 
     $scope.logout = function () {
