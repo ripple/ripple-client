@@ -82,6 +82,9 @@ BlobObj.enc = function(username,password,bl)
 
 BlobObj.set = function(backends, username, password, bl, callback)
 {
+  // Callback is optional
+  if ("function" !== typeof callback) callback = $.noop;
+
   backends = processBackendsParam(backends);
 
   var hash = sjcl.codec.hex.fromBits(sjcl.hash.sha256.hash(username + password));

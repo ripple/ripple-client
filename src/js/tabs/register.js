@@ -86,9 +86,6 @@ RegisterTab.prototype.angular = function (module) {
           if ($scope.masterkey && $scope.masterkey != app.$scope.userCredentials.master_seed) {
             $scope.mode = 'masterkeyerror';
             $scope.$digest();
-          } else {
-            $scope.reset();
-            $scope.goToBalance();
           }
         }
       });
