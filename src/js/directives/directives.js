@@ -287,6 +287,21 @@ module.directive('rpTooltip', [function () {
   };
 }]);
 
+/**
+ * Popovers
+ */
+module.directive('rpPopover', [function () {
+  return function (scope, element, attr) {
+    console.log(attr);
+    $(element).popover({
+      html: true,
+      placement: attr.rpPopoverPlacement,
+      title: attr.rpPopoverTitle
+      // TODO also use rpPopoverContent attribute (there's a bug with this)
+    });
+  };
+}]);
+
 module.directive('rpAutofill', ['$parse', function ($parse) {
   return {
     restrict: 'A',
