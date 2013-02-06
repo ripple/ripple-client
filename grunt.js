@@ -66,7 +66,8 @@ module.exports = function(grunt) {
               "deps/js/ripple-sjcl.js",
               "deps/js/moment.js",
               "deps/js/bootstrap-modal.js",
-              "deps/js/bootstrap-tooltip.js"],
+              "deps/js/bootstrap-tooltip.js",
+              "deps/js/bootstrap-popover.js"],
         dest: 'build/dist/deps-debug.js',
         separator: ';'
       },
