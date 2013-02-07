@@ -292,7 +292,6 @@ module.directive('rpTooltip', [function () {
  */
 module.directive('rpPopover', [function () {
   return function (scope, element, attr) {
-    console.log(attr);
     $(element).popover({
       html: true,
       placement: attr.rpPopoverPlacement,
