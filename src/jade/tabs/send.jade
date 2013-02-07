@@ -26,7 +26,9 @@ section#t-send.single.content(ng-controller='SendCtrl')
         name='send_amount', type='number', step='any'
         ng-model='amount'
         ng-pattern='/^[0-9.]+$/', required, ng-maxlength='20'
-        rp-autofill='urlParams.amount.to_number()')
+        rp-autofill='urlParams.amount.to_number()'
+        rp-max-amount='{{balance - reserve}}'
+        rp-max-amount-currency='{{currency}}')
       input.currency#send_amount_currency(
         name='send_amount_currency', type='text'
         rp-combobox="currency_query", rp-combobox-select
@@ -41,6 +43,8 @@ section#t-send.single.content(ng-controller='SendCtrl')
         | Not a valid amount.
       .error(rp-error-on='maxlength')
         | Not a valid amount.
+      .error(rp-error-on='rpMaxAmount')
+        | This transaction exceeds your balance, you can send a max of ({{maxSpend | rpamount:0}} XRP)
     .submitsection
       button.btn.btn-success.submit(type='submit', ng-disabled='sendForm.$invalid') Send
 

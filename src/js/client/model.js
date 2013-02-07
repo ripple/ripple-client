@@ -1,6 +1,7 @@
 var util = require('util'),
     events = require('events'),
-    rewriter = require('../util/jsonrewriter');
+    rewriter = require('../util/jsonrewriter'),
+    Amount = ripple.Amount;
 
 /**
  * Class listening to Ripple network state and updating models.
@@ -33,6 +34,8 @@ Model.prototype.reset = function ()
   var $scope = this.app.$scope;
 
   $scope.balance = "0";
+  $scope.reserve = "200";
+  $scope.maxSpend = "0";
 
   $scope.lines = {};
   $scope.offers = {};
@@ -144,6 +147,12 @@ Model.prototype.handleAccountInfo = function (data)
   var $scope = this.app.$scope;
   $scope.$apply(function () {
     $scope.balance = data.account_data.Balance;
+
+    var bal = Amount.from_json($scope.balance);
+    var reserve = Amount.from_human($scope.reserve);
+
+    // Maximum amount user can spend
+    $scope.maxSpend = bal.subtract(reserve);
   });
 };
 

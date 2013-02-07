@@ -24,10 +24,6 @@ StatusManager.prototype.init = function ()
 
   var $scope = this.$scope = app.$scope.$new();
 
-  // Minimum reserve
-  // TODO move somewhere else and add some logic
-  $scope.reserve = 200;
-
   // Activate #status panel
   $scope.$apply(function () {
     $scope.toggle_secondary = function () {
