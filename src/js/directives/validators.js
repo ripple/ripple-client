@@ -4,7 +4,8 @@
  * Form validation directives go into this file.
  */
 
-var webutil = require('../util/web');
+var webutil = require('../util/web'),
+    Amount = ripple.Amount;
 
 var module = angular.module('validators', []);
 
@@ -377,6 +378,53 @@ module.directive('rpStrongPassword', function () {
       ctrl.$parsers.unshift(validator);
 
       attr.$observe('rpStrongPassword', function() {
+        validator(ctrl.$viewValue);
+      });
+    }
+  };
+});
+
+/**
+ * Maximum amount of money user can send
+ */
+module.directive('rpMaxAmount', function () {
+  return {
+    restrict: 'A',
+    require: '?ngModel',
+    link: function (scope, elm, attr, ctrl) {
+      if (!ctrl) return;
+
+      var validator = function(value) {
+        var input = Amount.from_human(elm[0].value);
+
+        var currency = attr.rpMaxAmountCurrency ? attr.rpMaxAmountCurrency.slice(0, 3).toUpperCase() : 'XRP';
+
+        // Check for XRP only
+        if (currency != 'XRP') {
+          ctrl.$setValidity('rpMaxAmount', true);
+          return value;
+        }
+
+        if (elm[0].value
+            && scope.maxSpend
+            && scope.maxSpend.to_number() > 1
+            && scope.maxSpend.divide(input).to_number() >= 1) {
+          ctrl.$setValidity('rpMaxAmount', true);
+          return value;
+        } else {
+          ctrl.$setValidity('rpMaxAmount', false);
+          return value;
+        }
+      };
+
+      ctrl.$formatters.push(validator);
+      ctrl.$parsers.unshift(validator);
+
+      attr.$observe('rpMaxAmount', function() {
+        validator(ctrl.$viewValue);
+      });
+
+      attr.$observe('rpMaxAmountCurrency', function() {
         validator(ctrl.$viewValue);
       });
     }
