@@ -27,7 +27,7 @@ section#t-send.single.content(ng-controller='SendCtrl')
         ng-model='amount'
         ng-pattern='/^[0-9.]+$/', required, ng-maxlength='20'
         rp-autofill='urlParams.amount.to_number()'
-        rp-max-amount='{{balance - reserve}}'
+        rp-max-amount
         rp-max-amount-currency='{{currency}}')
       input.currency#send_amount_currency(
         name='send_amount_currency', type='text'
