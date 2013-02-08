@@ -405,7 +405,7 @@ module.directive('rpMaxAmount', function () {
           return value;
         }
 
-        if (elm[0].value
+        if (input.is_valid()
             && scope.maxSpend
             && scope.maxSpend.to_number() > 1
             && scope.maxSpend.divide(input).to_number() >= 1) {
