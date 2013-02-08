@@ -26,7 +26,11 @@ SecurityTab.prototype.angular = function (module) {
 
     function updateEnc()
     {
-      $scope.enc = blob.enc(app.id.username, app.id.password, $scope.userBlob);
+      if ("string" === typeof app.id.username &&
+          "string" === typeof app.id.password &&
+          $scope.userBlob) {
+        $scope.enc = blob.enc(app.id.username, app.id.password, $scope.userBlob);
+      }
     }
   }]);
 };

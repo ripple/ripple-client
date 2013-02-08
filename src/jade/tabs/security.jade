@@ -10,7 +10,7 @@ section.panel.content(ng-controller="SecurityCtrl")
     span.more
       span {{userBlob.data.contacts.length}} contacts,&nbsp;
         span {{enc.length | rpfilesize}} &ensp;
-      span(rp-download='enc',rp-download-filename='ripple-wallet.json')
+      span(rp-download='enc',rp-download-filename='ripple-wallet.txt')
         | You can&nbsp;
         a(rp-download-trigger) backup your wallet to a file
         | .
