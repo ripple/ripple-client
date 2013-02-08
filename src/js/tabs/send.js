@@ -202,13 +202,16 @@ SendTab.prototype.angular = function (module)
         $scope.$digest();
       });
       tx.on('error', function (res) {
-        $scope.mode = "error";
+        setImmediate(function () {
+          $scope.mode = "error";
 
-        if (res['remote']['error'] == 'noPath') {
-          $scope.mode = "status";
-          $scope.tx_result = "noPath";
-        }
-        $scope.$digest();
+          if (res.error === 'remoteError' &&
+              res.remote.error === 'noPath') {
+            $scope.mode = "status";
+            $scope.tx_result = "noPath";
+          }
+          $scope.$digest();
+        });
       });
       tx.submit();
 
