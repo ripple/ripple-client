@@ -26,7 +26,7 @@ section#t-send.single.content(ng-controller='SendCtrl')
         name='send_amount', type='number', step='any'
         ng-model='amount'
         ng-pattern='/^[0-9.]+$/', required, ng-maxlength='20'
-        rp-autofill='urlParams.amount.to_number()'
+        rp-autofill='urlParams.amount.to_human({group_sep:false})'
         rp-max-amount
         rp-max-amount-currency='{{currency}}')
       input.currency#send_amount_currency(

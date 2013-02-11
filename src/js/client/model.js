@@ -33,7 +33,7 @@ Model.prototype.reset = function ()
 {
   var $scope = this.app.$scope;
 
-  $scope.balance = 0;
+  $scope.balance = "0";
   $scope.reserve = 200;
   $scope.maxSpend = 0;
 

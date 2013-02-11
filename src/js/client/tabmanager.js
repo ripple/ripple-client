@@ -225,7 +225,7 @@ TabManager.prototype.normalizeUrlParams = function(urlParams) {
 
   // Normalize amount
   if (urlParams.amnt) {
-    var amount = ripple.Amount.from_json(urlParams.amnt);
+    var amount = ripple.Amount.from_human(urlParams.amnt);
     if (amount.is_valid()) {
       urlParams.amount = amount;
     }

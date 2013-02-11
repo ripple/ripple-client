@@ -31,6 +31,7 @@ SendTab.prototype.angular = function (module)
 
     $scope.$watch('recipient', function(){
       var addr=webutil.stripRippleAddress($scope.recipient);
+
       if ($scope.contact = webutil.getContact($scope.userBlob.data.contacts,addr)) {
         $scope.recipient_name = $scope.contact.name;
         $scope.recipient_address = $scope.contact.address;
@@ -283,7 +284,9 @@ SendTab.prototype.angular = function (module)
 
     // If all the form fields are prefilled, go to confirmation page
     if ($scope.urlParams.to && $scope.urlParams.amount) {
-      $scope.send();
+      setImmediate(function() {
+        $scope.send();
+      });
     }
 
     // TODO I think we should handle urlParams autofill and prefill event in similar way
