@@ -129,19 +129,24 @@ SendTab.prototype.angular = function (module)
       $scope.mode = "wait_path";
 
       app.net.remote.request_account_info($scope.recipient_address)
-      // XXX Handle error response
+        .on('error', function (data) {
+          $scope.$apply(function () {
+            $scope.mode = "error";
+            if (data.error === "remoteError" &&
+                data.remote.error === "actNotFound") {
+              if (amount.is_native()) {
+                // XXX Show info about creating accounts, reserve reqs etc.
+                $scope.send_prepared();
+              } else {
+                $scope.error_type = "noDest";
+              }
+            }
+          });
+        })
         .on('success', function (data) {
           if (amount.is_native()) {
-            // XXX If account doesn't exist, show extra information.
-
             $scope.$apply($scope.send_prepared);
           } else {
-            if (!data.account_data || !data.account_data.Account) {
-              $scope.mode = "error";
-              $scope.error_type = "noDest";
-              return;
-            }
-
             app.net.remote.request_ripple_path_find(app.id.account,
                                                     $scope.recipient_address,
                                                     amount)
