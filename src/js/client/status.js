@@ -47,8 +47,13 @@ StatusManager.prototype.init = function ()
     // Low balance indicator
     app.$scope.$watch('balance', function(){
       var reserve = Amount.from_human($scope.reserve * 2);
-      var balance = Amount.from_human($scope.balance);
-      $scope.lowBalance = balance.divide(reserve).to_human() <= 1;
+      var balance = app.$scope.balance;
+
+      if (parseFloat(balance) == balance) {
+        balance = Amount.from_json(app.$scope.balance);
+      }
+
+      $scope.lowBalance = balance.ratio_human(reserve).to_human() <= 1;
 
       if(!$scope.$$phase) {
         $scope.$digest();
