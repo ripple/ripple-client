@@ -96,11 +96,25 @@ SendTab.prototype.angular = function (module)
       $scope.resetAddressForm();
       if ($scope.sendForm) $scope.sendForm.$setPristine(true);
 
+      // No funds
+      if (app.$scope.balance == '0') {
+        $scope.mode = 'localError';
+        $scope.error_type = 'noFunds';
+      }
+
       // Focus on first input
       setImmediate(function() {
         $('#sendForm').find('input:first').focus();
       });
     };
+
+    // Show send form if account has been funded while the user is seeing error page
+    $scope.$watch('balance', function(){
+      if ('localError' == $scope.mode && '0' !== app.$scope.balance) {
+        $scope.mode = 'sendForm';
+        $scope.errorMessage = '';
+      }
+    }, true);
 
     $scope.resetAddressForm = function() {
       $scope.show_save_address_form = false;

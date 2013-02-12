@@ -89,6 +89,11 @@ section#t-send.single.content(ng-controller='SendCtrl')
 
   //- N5. Error page
 
+  group.mode-local-error(ng-show='mode=="localError"')
+    group.result-error
+      p.literal You have to be funded before you can send money
+      p: a.btn(href="#balance") Back to balance
+
   group.mode-error(ng-show='mode=="error"')
     group(ng-switch on="error_type")
       group.result-error(ng-switch-when='noDest')
