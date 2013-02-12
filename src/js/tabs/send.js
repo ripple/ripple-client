@@ -111,7 +111,7 @@ SendTab.prototype.angular = function (module)
     // Show send form if account has been funded while the user is seeing error page
     $scope.$watch('balance', function(){
       if ('localError' == $scope.mode && '0' !== app.$scope.balance) {
-        $scope.mode = 'sendForm';
+        $scope.mode = 'form';
         $scope.errorMessage = '';
       }
     }, true);
