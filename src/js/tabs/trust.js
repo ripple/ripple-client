@@ -153,12 +153,11 @@ TrustTab.prototype.angular = function (module)
         case 'ter':
           $scope.tx_result = "failed";
           break;
+        case 'tec':
+          $scope.tx_result = "failed";
+          break;
         case 'tep':
           console.warn("Unhandled engine status encountered!");
-      }
-
-      if (res.engine_result == 'tecINSUF_RESERVE_LINE') {
-        $scope.tx_result = "failed";
       }
     }
 
