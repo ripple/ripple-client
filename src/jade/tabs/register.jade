@@ -57,9 +57,11 @@ section.single.content(ng-controller="RegisterCtrl")
 
   group.mode-masterkeyerror(ng-show='mode=="masterkeyerror"')
     h1 Secret Account Key error
-    h2 There is a wallet with your wallet name and pass phrase, but the given Secret Account Key is not connected to it. If you decide to continue registration your new Secret Account Key will be used for current wallet name and pass phrase.
-    button.btn.btn-info(ng-click='mode="form"') Back
-    button.btn(ng-click='register()') Overwrite current key
+    p.literal There is a wallet with your wallet name and pass phrase, but the given Secret Account Key is not connected to it. If you decide to continue registration your new Secret Account Key will be used for current wallet name and pass phrase.
+    p
+      button.btn.btn-info(ng-click='mode="form"') Back
+      | &nbsp;
+      button.btn(ng-click='register()') Overwrite current key
 
   group.mode-welcome(ng-show='mode=="welcome"')
     h1 Welcome To ripple
