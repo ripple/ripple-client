@@ -41,15 +41,6 @@ Network.prototype.setApp = function (app)
 Network.prototype.listenId = function (id)
 {
   var self = this;
-
-  id.on('accountload', function (e) {
-    self.remote.set_secret(e.account, e.secret);
-    self.remote.request_subscribe().accounts(e.account).request();
-  });
-
-  id.on('accountunload', function (account) {
-    self.remote.request_unsubscribe().accounts(account).request();
-  });
 };
 
 Network.prototype.handleConnect = function ()

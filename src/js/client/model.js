@@ -26,7 +26,7 @@ Model.prototype.init = function ()
   $scope.pairs = require('../data/pairs');
 
   this.app.id.on('accountload', this.handleAccountLoad.bind(this));
-  this.app.net.remote.on('account', this.handleAccountEvent.bind(this));
+  this.app.id.on('accountunload', this.handleAccountUnload.bind(this));
 };
 
 Model.prototype.reset = function ()
@@ -65,6 +65,8 @@ Model.prototype.handleAccountLoad = function (e)
 
   this.reset();
 
+  remote.set_secret(e.account, e.secret);
+
   remote.request_account_lines(e.account)
     .on('success', this.handleRippleLines.bind(this))
     .on('error', this.handleRippleLinesError.bind(this)).request();
@@ -78,11 +80,21 @@ Model.prototype.handleAccountLoad = function (e)
     .on('success', this.handleOffers.bind(this))
     .on('error', this.handleOffersError.bind(this)).request();
 
+  var account = remote.account(e.account);
+  account.on('transaction', this.handleAccountEvent.bind(this));
+
   $scope.address = e.account;
 
   if(!$scope.$$phase) {
     $scope.$digest();
   }
+};
+
+Model.prototype.handleAccountUnload = function (e)
+{
+  var remote = this.app.net.remote;
+  var account = remote.account(e.account);
+  account.removeListener('transaction', this.handleAccountEvent.bind(this));
 };
 
 Model.prototype.handleRippleLines = function (data)
