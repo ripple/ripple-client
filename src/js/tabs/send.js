@@ -192,11 +192,20 @@ SendTab.prototype.angular = function (module)
       var currency = $scope.currency.slice(0, 3).toUpperCase();
       var amount = ripple.Amount.from_human(""+$scope.amount+" "+currency);
       var addr = $scope.recipient_address;
+      var dt = $scope.urlParams.dt ? $scope.urlParams.dt : webutil.getDestTagFromAddress($scope.recipient);
 
       amount.set_issuer(addr);
 
       var tx = app.net.remote.transaction();
-      tx.destination_tag(webutil.getDestTagFromAddress($scope.recipient));
+
+      // Destination tag
+      tx.destination_tag(dt);
+
+      // Source tag
+      if ($scope.urlParams.st) {
+        tx.source_tag($scope.urlParams.st);
+      }
+
       tx.payment(app.id.account, addr, amount.to_json());
       if (!amount.is_native()) {
         tx.send_max($scope.sendmax_feedback);
