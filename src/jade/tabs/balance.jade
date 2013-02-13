@@ -1,16 +1,16 @@
 section.panel.content
-  .div#welcome(ng-hide='balance')
+  .div#welcome(ng-hide='account.Balance')
     p.title Welcome to Ripple.
     p You currently don't have any ripples (XRP). To get started you can:
     .actions
       span.bitcoin
       a.receive(href="#receive")
       span.nexus
-  .currency-summary.positive(ng-show='balance')
+  .currency-summary.positive(ng-show='account.Balance')
     .balancebox
       .label Ripples
       .balance
-        span(rp-tooltip="{{balance | rpamount:10}}") {{balance | rpamount}}
+        span(rp-tooltip="{{account.Balance | rpamount:10}}") {{account.Balance | rpamount}}
     .balancebox(ng-repeat="entry in balances", ng-hide="entry.total.is_zero()")
       .label {{entry.total | rpcurrencyfull}}
       .balance

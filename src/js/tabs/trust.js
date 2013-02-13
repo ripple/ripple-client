@@ -37,7 +37,7 @@ TrustTab.prototype.angular = function (module)
       $scope.counterparty = '';
       $scope.saveAddressName = '';
 
-      if (app.$scope.balance == '0') {
+      if (app.$scope.account.Balance == '0') {
         $scope.mode = 'error';
         $scope.errorMessage = 'You have to be funded before you can grant a trust';
       }
@@ -48,8 +48,8 @@ TrustTab.prototype.angular = function (module)
       }
     };
 
-    $scope.$watch('balance', function(){
-      if ('error' == $scope.mode && '0' !== app.$scope.balance) {
+    $scope.$watch('account.Balance', function(){
+      if ('error' == $scope.mode && '0' !== app.$scope.account.Balance) {
         $scope.mode = 'main';
         $scope.errorMessage = '';
       }

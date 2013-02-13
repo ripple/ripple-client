@@ -33,10 +33,7 @@ Model.prototype.reset = function ()
 {
   var $scope = this.app.$scope;
 
-  $scope.balance = "0";
-  $scope.reserve = 200;
-  $scope.maxSpend = 0;
-
+  $scope.account = {};
   $scope.lines = {};
   $scope.offers = {};
   $scope.events = [];
@@ -70,9 +67,6 @@ Model.prototype.handleAccountLoad = function (e)
   remote.request_account_lines(e.account)
     .on('success', this.handleRippleLines.bind(this))
     .on('error', this.handleRippleLinesError.bind(this)).request();
-  remote.request_account_info(e.account)
-    .on('success', this.handleAccountInfo.bind(this))
-    .on('error', this.handleAccountInfoError.bind(this)).request();
   remote.request_account_tx(e.account, 0, 9999999)
     .on('success', this.handleAccountTx.bind(this))
     .on('error', this.handleAccountTxError.bind(this)).request();
@@ -82,6 +76,14 @@ Model.prototype.handleAccountLoad = function (e)
 
   var account = remote.account(e.account);
   account.on('transaction', this.handleAccountEvent.bind(this));
+  account.on('entry', this.handleAccountEntry.bind(this));
+
+  account.entry(function (err, entry) {
+    if (err) {
+      // XXX: Our account does not exist, we should do something with that
+      //      knowledge.
+    }
+  });
 
   $scope.address = e.account;
 
@@ -152,25 +154,27 @@ Model.prototype.handleOffersError = function (data)
 {
 }
 
-Model.prototype.handleAccountInfo = function (data)
+Model.prototype.handleAccountEntry = function (data)
 {
   var self = this;
   var remote = this.app.net.remote;
   var $scope = this.app.$scope;
   $scope.$apply(function () {
-    $scope.balance = data.account_data.Balance;
+    $scope.account = data;
 
-    var bal = Amount.from_json($scope.balance);
-    var reserve = Amount.from_human($scope.reserve);
+    // As per json wire format convention, real ledger entries are CamelCase,
+    // e.g. OwnerCount, additional convenience fields are lower case, e.g.
+    // reserve, max_spend.
+    var reserve_base = Amount.from_json(""+remote._reserve_base),
+        reserve_inc  = Amount.from_json(""+remote._reserve_inc),
+        owner_count  = $scope.account.OwnerCount;
+    $scope.account.reserve = reserve_base.add(reserve_inc.product_human(owner_count));
 
     // Maximum amount user can spend
-    $scope.maxSpend = bal.subtract(reserve);
+    var bal = Amount.from_json(data.Balance);
+    $scope.account.max_spend = bal.subtract($scope.account.reserve);
   });
 };
-
-Model.prototype.handleAccountInfoError = function (data)
-{
-}
 
 Model.prototype.handleAccountTx = function (data)
 {
@@ -220,11 +224,6 @@ Model.prototype._processTxn = function (tx, meta, is_historic)
     if (processedTxn.tx_type === "Payment" &&
         processedTxn.tx_result === "tesSUCCESS") {
       $scope.history.unshift(processedTxn);
-    }
-
-    // Update XRP balance
-    if (processedTxn.xrp_balance && !is_historic) {
-      $scope.balance = processedTxn.xrp_balance;
     }
 
     // Update Ripple lines

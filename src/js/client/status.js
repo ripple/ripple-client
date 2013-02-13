@@ -46,17 +46,13 @@ StatusManager.prototype.init = function ()
 
     // Low balance indicator
     app.$scope.$watch('balance', function(){
-      var reserve = Amount.from_human($scope.reserve * 2);
-      var balance = app.$scope.balance;
+      var reserve = Amount.from_human(app.$scope.account.reserve * 2);
+      var balance = Amount.from_json(app.$scope.account.Balance);
 
-      if (parseFloat(balance) == balance) {
-        balance = Amount.from_json(app.$scope.balance);
-      }
-
-      $scope.lowBalance = balance.ratio_human(reserve).to_human() <= 1;
-
-      if(!$scope.$$phase) {
-        $scope.$digest();
+      if (balance.is_valid()) {
+        $scope.lowBalance = balance.compareTo(reserve) <= 0;
+      } else {
+        $scope.lowBalance = false;
       }
     }, true);
 

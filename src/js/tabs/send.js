@@ -97,7 +97,7 @@ SendTab.prototype.angular = function (module)
       if ($scope.sendForm) $scope.sendForm.$setPristine(true);
 
       // No funds
-      if (app.$scope.balance == '0') {
+      if (app.$scope.account.Balance == '0') {
         $scope.mode = 'localError';
         $scope.error_type = 'noFunds';
       }
@@ -109,8 +109,8 @@ SendTab.prototype.angular = function (module)
     };
 
     // Show send form if account has been funded while the user is seeing error page
-    $scope.$watch('balance', function(){
-      if ('localError' == $scope.mode && '0' !== app.$scope.balance) {
+    $scope.$watch('account.Balance', function(){
+      if ('localError' == $scope.mode && '0' !== app.$scope.account.Balance) {
         $scope.mode = 'form';
         $scope.errorMessage = '';
       }

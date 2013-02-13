@@ -406,9 +406,9 @@ module.directive('rpMaxAmount', function () {
         }
 
         if (input.is_valid()
-            && scope.maxSpend
-            && scope.maxSpend.to_number() > 1
-            && scope.maxSpend.divide(input).to_number() >= 1) {
+            && scope.account.max_spend
+            && scope.account.max_spend.to_number() > 1
+            && scope.account.max_spend.compareTo(input) >= 0) {
           ctrl.$setValidity('rpMaxAmount', true);
           return value;
         } else {
