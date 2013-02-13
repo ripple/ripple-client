@@ -140,6 +140,7 @@ SendTab.prototype.angular = function (module)
     $scope.send = function () {
       var amount = $scope.amount_feedback;
       $scope.sendmax_feedback = null;
+      $scope.prepared_paths = null;
 
       $scope.mode = "wait_path";
 
@@ -175,6 +176,9 @@ SendTab.prototype.angular = function (module)
                     var base_amount = ripple.Amount.from_json(data.alternatives[0].source_amount);
                     $scope.sendmax_feedback =
                       base_amount.product_human(ripple.Amount.from_json('1.01'));
+                    $scope.prepared_paths = data.alternatives[0].paths_computed
+                      ? data.alternatives[0].paths_computed
+                      : data.alternatives[0].paths_canonical;
                     $scope.send_prepared();
                   }
                 });
@@ -223,7 +227,11 @@ SendTab.prototype.angular = function (module)
       tx.payment(app.id.account, addr, amount.to_json());
       if (!amount.is_native()) {
         tx.send_max($scope.sendmax_feedback);
-        tx.build_path(true);
+        if ($scope.prepared_paths) {
+          tx.paths($scope.prepared_paths);
+        } else {
+          tx.build_path(true);
+        }
       }
       tx.on('success', function (res) {
         setEngineStatus(res, false);
