@@ -111,14 +111,11 @@ section.panel.content(ng-controller="TradeCtrl")
               input#order_price(
                 name='price', type='number', step='any'
                 ng-model='order.price', ng-change='calc_second()'
-                ng-pattern='/^[0-9.]+$/', required
-                rp-max-amount
-                rp-max-amount-currency='{{currency}}')
+                ng-pattern='/^[0-9.]+$/', required)
               .add-on {{order.second_currency}}
             .errorGroup(rp-errors='price')
               .error(rp-error-on='pattern') Not a valid price.
               .error(rp-error-on='required') Required
-              .error(rp-error-on='rpMaxAmount')
                 | You need more XRP for this transaction
           .sign =
           .value-field
