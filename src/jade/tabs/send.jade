@@ -8,6 +8,8 @@ section#t-send.single.content(ng-controller='SendCtrl')
 
   //- Account is funded
 
+  //- 1. Send form
+
   form.mode-form(name="sendForm", id="sendForm", ng-show='mode=="form" && account.Balance', ng-submit='send()')
     p.literal Send money to anyone with a ripple account.
     hr
