@@ -58,12 +58,12 @@ section.single.content(ng-controller="LoginCtrl")
       h1 Grant Trust
       .info
         p.literal {{urlParams.label}}
-        p.label(ng-show="urlParams.amount") you will trust
-        p.label(ng-hide="urlParams.amount") you will trust ripple address
+        p.label you will trust
         .amount(ng-show="urlParams.amount")
           span.number {{urlParams.amount | rpamount}}
           span.currency {{urlParams.amount | rpcurrency}}
-        p.label(ng-show="urlParams.amount") To ripple address
+        p.label(ng-hide="urlParams.name") To ripple address
+        p.label(ng-show="urlParams.name") To <b>{{urlParams.name}}</b> with a ripple address
         .address {{urlParams.to}}
     div(ng-show="'contacts' == urlParams.tab")
       h1 Add contact
