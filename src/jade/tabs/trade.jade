@@ -78,8 +78,12 @@ section.panel.content(ng-controller="TradeCtrl")
         span.value
           | n/a
 
+    //- Show message if account has not been funded yet.
+    .unfunded(ng-hide="account.Balance")
+      p.literal You have to be funded before you can trade
+
     //- 1. Order form
-    .order-type(ng-class="{open: order.type}", ng-show="mode == 'trade'")
+    .order-type(ng-class="{open: order.type}", ng-show="mode == 'trade' && account.Balance")
       .btn-group
         button.btn(
           type="button"
@@ -89,7 +93,7 @@ section.panel.content(ng-controller="TradeCtrl")
           type="button"
           ng-class="{'btn-info': order.type == 'sell' }"
           ng-click="order.type = 'sell'") Sell {{order.first_currency}}
-    group.trade-widget(ng-switch="mode")
+    group.trade-widget(ng-switch="mode", ng-show="account.Balance")
       form.mode-form(name='orderForm', ng-submit='place_order()', ng-switch-when='trade', ng-class="{visible: order.type}")
         .order-values
           .value-field
@@ -196,7 +200,7 @@ section.panel.content(ng-controller="TradeCtrl")
           a(href="#trade", ng-click="reset(true)") Enter another offer
 
     ul.filter-tabs
-      li.my: a(
+      li.my(ng-show="account.Balance"): a(
         ng-click="order.listing = 'my'"
         ng-class="{active: order.listing == 'my'}")
           | My Orders
