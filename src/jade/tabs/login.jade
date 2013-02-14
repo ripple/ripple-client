@@ -47,21 +47,23 @@ section.single.content(ng-controller="LoginCtrl")
       h1 Transaction summary
       .info
         p.literal {{urlParams.label}}
-        p.label you will send
-        .amount
+        p.label(ng-show="urlParams.amount") you will send
+        p.label(ng-hide="urlParams.amount") you will send money to the ripple address
+        .amount(ng-show="urlParams.amount")
           span.number {{urlParams.amount | rpamount}}
           span.currency {{urlParams.amount | rpcurrency}}
-        p.label To the ripple Address
+        p.label(ng-show="urlParams.amount") To the ripple address
         .address {{urlParams.to}}
     div(ng-show="'trust' == urlParams.tab")
       h1 Grant Trust
       .info
         p.literal {{urlParams.label}}
-        p.label you will trust
-        .amount
+        p.label(ng-show="urlParams.amount") you will trust
+        p.label(ng-hide="urlParams.amount") you will trust ripple address
+        .amount(ng-show="urlParams.amount")
           span.number {{urlParams.amount | rpamount}}
           span.currency {{urlParams.amount | rpcurrency}}
-        p.label To ripple address
+        p.label(ng-show="urlParams.amount") To ripple address
         .address {{urlParams.to}}
     div(ng-show="'contacts' == urlParams.tab")
       h1 Add contact
