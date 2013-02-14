@@ -45,14 +45,16 @@ StatusManager.prototype.init = function ()
     }, true);
 
     // Low balance indicator
-    app.$scope.$watch('balance', function(){
-      var reserve = Amount.from_human(app.$scope.account.reserve * 2);
-      var balance = Amount.from_json(app.$scope.account.Balance);
+    app.$scope.$watch('account', function(){
+      if (app.$scope.account.reserve) {
+        var reserve = app.$scope.account.reserve.product_human(2);
+        var balance = Amount.from_json(app.$scope.account.Balance);
 
-      if (balance.is_valid()) {
-        $scope.lowBalance = balance.compareTo(reserve) <= 0;
-      } else {
-        $scope.lowBalance = false;
+        if (balance.is_valid()) {
+          $scope.lowBalance = balance.compareTo(reserve) <= 0;
+        } else {
+          $scope.lowBalance = false;
+        }
       }
     }, true);
 

@@ -9,7 +9,7 @@
         rp-popover
         rp-popover-placement="bottom"
         rp-popover-title='Low ripple balance'
-        data-content="Your current balance is low. You must keep a minimum of <strong>{{reserve}} XRP</strong> to use all the features of ripple")
+        data-content="Your current balance is low. You must keep a minimum of <strong>{{account.reserve | rpamount:0}} XRP</strong> to use all the features of ripple")
     ul.secondary
       li.balance(ng-repeat="(index, balance) in orderedBalances", ng-class="{negative: balance.total.is_negative()}")
         | {{balance.total | rpamount}}
