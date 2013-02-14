@@ -58,12 +58,12 @@ section#t-send.single.content(ng-controller='SendCtrl')
 
   //- N2. Waiting for path
 
-  group.mode-wait-path(ng-show='mode=="wait_path"')
+  group.mode-wait-path(ng-show='mode=="wait_path" && account.Balance')
     p.throbber.literal Ripple is calculating a path for your payment.
 
   //- N3. Confirmation page
 
-  group.mode-confirm(ng-show='mode=="confirm"')
+  group.mode-confirm(ng-show='mode=="confirm" && account.Balance')
     p.literal You are sending money to
     .dest_feedback
       .recipient(ng-show='recipient_name') {{recipient_name}}
@@ -90,13 +90,13 @@ section#t-send.single.content(ng-controller='SendCtrl')
 
   //- N4. Waiting for transaction result page
 
-  group.mode-sending(ng-show='mode=="sending"')
+  group.mode-sending(ng-show='mode=="sending" && account.Balance')
     p.throbber.literal Sending transaction to Ripple network
     hr
     p: button.btn(ng-click='reset()') Stop waiting
 
   //- N5. Error page
-  group.mode-error(ng-show='mode=="error"')
+  group.mode-error(ng-show='mode=="error" && account.Balance')
     group(ng-switch on="error_type")
       group.result-error(ng-switch-when='noDest')
         h2.tx-status Destination does not exist
@@ -113,7 +113,7 @@ section#t-send.single.content(ng-controller='SendCtrl')
 
   //- N6. Sent page
 
-  group.mode-status(ng-show='mode=="status"')
+  group.mode-status(ng-show='mode=="status" && account.Balance')
     group.pending(ng-show='tx_result=="pending"')
       h2.tx-status Your transaction has been submitted.
       p Your account balance will update once the payment has cleared.

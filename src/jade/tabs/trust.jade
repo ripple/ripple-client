@@ -60,7 +60,7 @@ section.panel.content(ng-controller="TrustCtrl")
 
   //- N2. Confirmation page
 
-  group.mode-confirm.wide(ng-show='mode=="confirm"')
+  group.mode-confirm.wide(ng-show='mode=="confirm" && account.Balance')
     p.literal You are about to trust
     p.amount_feedback
       span.value {{amount_feedback}}&nbsp;
@@ -78,14 +78,14 @@ section.panel.content(ng-controller="TrustCtrl")
 
   //- N3. Waiting for transaction result page
 
-  group.mode-granting(ng-show='mode=="granting"')
+  group.mode-granting(ng-show='mode=="granting" && account.Balance')
     p.throbber.literal Granting is in progress
     hr
     p: button.btn(ng-click='reset()') Stop waiting
 
   //- N4. Error page
 
-  group.mode-error(ng-show='mode=="error"')
+  group.mode-error(ng-show='mode=="error" && account.Balance')
     div(ng-show="errorMessage")
       p.literal {{errorMessage}}
       p: a.btn(href="#balance") Back to balance
@@ -95,7 +95,7 @@ section.panel.content(ng-controller="TrustCtrl")
 
   //- N5. Granted page
 
-  group.mode-granted.wide(ng-show='mode=="granted"')
+  group.mode-granted.wide(ng-show='mode=="granted" && account.Balance')
     group.pending(ng-show='tx_result=="pending"')
       h2.tx-status Your grant request has been submitted.
     group.result-success(ng-show='tx_result=="cleared"')
