@@ -1,8 +1,14 @@
 section#t-send.single.content(ng-controller='SendCtrl')
 
-  //- N1. Send form
+  //- Account is unfunded
 
-  form.mode-form(name="sendForm", id="sendForm", ng-show='mode=="form"', ng-submit='send()')
+  .unfunded(ng-hide='account.Balance')
+    p.literal You have to be funded before you can send money
+    p: a.btn(href="#balance") Back to balance
+
+  //- Account is funded
+
+  form.mode-form(name="sendForm", id="sendForm", ng-show='mode=="form" && account.Balance', ng-submit='send()')
     p.literal Send money to anyone with a ripple account.
     hr
     label(for='send_destination') Recipient
@@ -88,12 +94,6 @@ section#t-send.single.content(ng-controller='SendCtrl')
     p: button.btn(ng-click='reset()') Stop waiting
 
   //- N5. Error page
-
-  group.mode-local-error(ng-show='mode=="localError"')
-    group.result-error
-      p.literal You have to be funded before you can send money
-      p: a.btn(href="#balance") Back to balance
-
   group.mode-error(ng-show='mode=="error"')
     group(ng-switch on="error_type")
       group.result-error(ng-switch-when='noDest')
