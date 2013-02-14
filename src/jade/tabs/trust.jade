@@ -111,7 +111,7 @@ section.panel.content(ng-controller="TrustCtrl")
       p(ng-switch on="engine_result")
         span(ng-switch-when="terNO_LINE") You have no trust line in this currency.
         span(ng-switch-when="tecINSUF_RESERVE_LINE") Insufficient reserve to add trust line.
-        span(ng-switch-when="tecNO_LINE_INSUF_RESERVE") You must have at least {{reserve}} XRP to add a trust line.&nbsp;
+        span(ng-switch-when="tecNO_LINE_INSUF_RESERVE") You must have at least {{account.reserve | rpamount:0}} XRP to add a trust line.&nbsp;
           a(href="http://ripple.com/help/#reserve") Read more.
         span(ng-switch-default) Trust grunting failed to clear, reason: {{engine_result_message}}
     group.actions
