@@ -43,10 +43,10 @@ section.panel.content(ng-controller="TrustCtrl")
                 | {{counterparty_address}}
               .error(rp-error-on='required')
                 | Please enter a User.
-              .error(rp-error-on='rpDestination')
-                | User should be either a name from your contact list or Ripple address.
               .error(rp-error-on='rpNotMe')
                 | You've entered your address.
+              .error(rp-error-on='rpDestination')
+                | User should be either a name from your contact list or Ripple address.
             .submitsection
               button.btn.btn-info.submit(type='submit', ng-disabled='trustForm.$invalid') Grant Trust
 
