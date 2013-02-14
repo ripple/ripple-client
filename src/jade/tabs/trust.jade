@@ -26,9 +26,10 @@ section.panel.content(ng-controller="TrustCtrl")
           form(name='trustForm', id='trustForm', ng-submit='grant()')
             label(for='trust_amount') Amount
             .amount
+              //- TODO I don't like the idea of dividing amount to get what I need
               input.value#trust_amount(name='trust_amount', type='number', step='any', ng-model='amount'
                 ng-pattern='/^[0-9.]+$/', required
-                rp-autofill='urlParams.amount.to_number()', rp-autofill-on='addform_visible = true')
+                rp-autofill='urlParams.amount.to_number()/1000000', rp-autofill-on='addform_visible = true')
               input.currency-field#trust_amount_currency(name='trust_amount_currency', type='text'
                 ng-model='currency', rp-combobox="currency_query", rp-combobox-select
                 rp-autofill='urlParams.amount.currency().to_json()', rp-autofill-on='addform_visible = true')
