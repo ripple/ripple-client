@@ -33,12 +33,14 @@ TradeTab.prototype.angular = function(module)
 
     $scope.reset = function (keepPair) {
       var pair = keepPair ? $scope.order.currency_pair : pairs[0].name;
-      var fIssuer= keepPair ? $scope.order.first_issuer : app.id.account;
-      var sIssuer= keepPair ? $scope.order.second_issuer : app.id.account;
+      var fIssuer = keepPair ? $scope.order.first_issuer : app.id.account;
+      var sIssuer = keepPair ? $scope.order.second_issuer : app.id.account;
+      var type = keepPair ? $scope.order.type : 'buy';
+
       if ($scope.orderForm) $scope.orderForm.$setPristine();
       $scope.mode = "trade";
       $scope.order = {
-        type: 'buy',
+        type: type,
         first: '',
         price: '',
         second: '',
