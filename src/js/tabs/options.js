@@ -15,13 +15,9 @@ OptionsTab.prototype.generateHtml = function ()
   return require('../../jade/tabs/options.jade')();
 };
 
-OptionsTab.prototype.angularDeps = Tab.prototype.angularDeps.concat(['ledger']);
-
 OptionsTab.prototype.angular = function(module)
 {
-  var app = this.app;
-
-  module.controller('OptionsCtrl', ['rpLedger', '$scope', '$rootScope', function (ledger, $scope, $rootScope)
+  module.controller('OptionsCtrl', ['$scope', '$rootScope', function ($scope, $rootScope)
   {
     $scope.socketIp = Options.server.websocket_ip + ":" + Options.server.websocket_port;
     $scope.socketSsl = Options.server.websocket_ssl;
