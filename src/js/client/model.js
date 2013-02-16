@@ -167,7 +167,7 @@ Model.prototype.handleAccountEntry = function (data)
     // reserve, max_spend.
     var reserve_base = Amount.from_json(""+remote._reserve_base),
         reserve_inc  = Amount.from_json(""+remote._reserve_inc),
-        owner_count  = $scope.account.OwnerCount;
+        owner_count  = $scope.account.OwnerCount || "0";
     $scope.account.reserve = reserve_base.add(reserve_inc.product_human(owner_count));
 
     // Maximum amount user can spend
