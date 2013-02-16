@@ -8,7 +8,10 @@ section.panel.content(ng-controller="TradeCtrl")
     ul.issuers.inline(ng-show='order.first_currency != "XRP"')
       li.label Base currency
       li.value {{order.first_currency}}&ensp;
-        span(rp-pretty-issuer="order.first_issuer") ???
+        span(
+          rp-pretty-issuer="order.first_issuer"
+          rp-pretty-issuer-contacts="userBlob.data.contacts"
+          ) ???
       li: a(
         ng-show='show_issuer_form != "first"'
         ng-click='edit_first_issuer()')
@@ -23,7 +26,10 @@ section.panel.content(ng-controller="TradeCtrl")
     ul.issuers.inline(ng-show='order.second_currency != "XRP"')
       li.label Counter currency
       li.value {{order.second_currency}}&ensp;
-        span(rp-pretty-issuer="order.second_issuer") ???
+        span(
+          rp-pretty-issuer="order.second_issuer"
+          rp-pretty-issuer-contacts="userBlob.data.contacts"
+          ) ???
       li: a(
         ng-show='show_issuer_form != "second"'
         ng-click='edit_second_issuer()')

@@ -143,11 +143,13 @@ exports.resolveContact = function (contacts, value)
  */
 exports.unresolveContact = function (contacts, value)
 {
-  for (var i = 0, l = contacts.length; i < l; i++) {
-    if (contacts[i].address === value) {
-      return contacts[i].name;
+  try {
+    for (var i = 0, l = contacts.length; i < l; i++) {
+      if (contacts[i].address === value) {
+        return contacts[i].name;
+      }
     }
-  }
+  } catch (e) {}
 
   return value;
 };

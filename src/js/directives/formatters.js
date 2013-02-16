@@ -6,6 +6,8 @@
  * better to use a directive.
  */
 
+var webutil = require('../util/web');
+
 var module = angular.module('formatters', ['domainalias']);
 
 module.directive('rpPrettyIssuer', ['rpDomainAlias',
@@ -13,9 +15,10 @@ module.directive('rpPrettyIssuer', ['rpDomainAlias',
   return {
     restrict: 'EA',
     scope: {
-      issuer: '=rpPrettyIssuer'
+      issuer: '=rpPrettyIssuer',
+      contacts: '=rpPrettyIssuerContacts'
     },
-    template: '{{alias || issuer}}',
+    template: '{{alias || name || issuer}}',
     compile: function (element, attr, linker) {
       return function (scope, element, attr) {
         function update() {
@@ -23,11 +26,15 @@ module.directive('rpPrettyIssuer', ['rpDomainAlias',
             scope.alias = '???';
             return;
           }
-          scope.alias = scope.issuer;
           scope.alias = aliasService.getAliasForAddress(scope.issuer);
+
+          if (scope.contacts) {
+            scope.name = webutil.unresolveContact(scope.contacts, scope.issuer);
+          }
         }
 
         scope.$watch('issuer', update);
+        scope.$watch('contacts', update, true);
         update();
       };
     }
