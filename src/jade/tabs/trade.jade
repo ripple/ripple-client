@@ -36,24 +36,30 @@ section.panel.content(ng-controller="TradeCtrl")
       li.label Counter currency
       li.value XRP
   form.issuer.first-issuer(name='first_issuer_form', ng-show='show_issuer_form == "first"')
-    label(for='first_issuer') Base currency issuer
+    label(for='first_issuer')
+      | Base currency issuer
+      | ({{order.first_currency}})
     input#first_issuer(
-      name='first_issuer', type='text'
+      name='first_issuer', type='text', rp-combobox="issuer_query"
+      placeholder='Contact name or Ripple address'
       ng-model='order.first_issuer_edit'
-      rp-address)
+      rp-destination)
     .errorGroup(rp-errors='first_issuer')
-      .error(rp-error-on='rpAddress') Not a valid ripple address
+      .error(rp-error-on='rpDestination') Not a valid ripple address or contact
     p.submitsection
       button.btn.btn-success.submit(
         type='submit', ng-click='save_first_issuer()') Confirm
   form.issuer.second-issuer(name='second_issuer_form', ng-show='show_issuer_form == "second"')
-    label(for='first_issuer') Counter currency issuer
+    label(for='second_issuer')
+      | Counter currency issuer
+      | ({{order.second_currency}})
     input#second_issuer(
-      name='second_issuer', type='text'
+      name='second_issuer', type='text', rp-combobox="issuer_query"
+      placeholder='Contact name or Ripple address'
       ng-model='order.second_issuer_edit'
-      rp-address)
+      rp-destination)
     .errorGroup(rp-errors='second_issuer')
-      .error(rp-error-on='rpAddress') Not a valid ripple address
+      .error(rp-error-on='rpDestination') Not a valid ripple address or contact
     p.submitsection
       button.btn.btn-success.submit(
         type='submit', ng-click='save_second_issuer()') Confirm

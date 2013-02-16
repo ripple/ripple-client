@@ -63,25 +63,9 @@ SendTab.prototype.angular = function (module)
       if (issuer) $scope.amount_feedback.set_issuer(issuer);
     };
 
-    /**
-     * Used for rpDestination validator
-     *
-     * @param destionation
-     */
-    $scope.recipient_query = function (match, re) {
-      var opts = $scope.userBlob.data.contacts.map(function (contact) {
-        return contact.name;
-      });
-
-      if (re instanceof RegExp) {
-        return opts.filter(function (name) {
-          return "string" === typeof name
-            ? name.match(re)
-            : false;
-        });
-      } else return opts;
-    };
-
+    $scope.$watch('userBlob.data.contacts', function (contacts) {
+      $scope.recipient_query = webutil.queryFromOptions(contacts);
+    }, true);
     $scope.currency_query = webutil.queryFromOptions($scope.currencies_all);
 
     $scope.reset = function () {

@@ -106,7 +106,7 @@ exports.findIssuer= function(lines, currency)
 
 exports.getContact = function (contacts,value)
 {
-  for (i=0;i<contacts.length;i++) {
+  for (var i=0;i<contacts.length;i++) {
     if (contacts[i].name == value || contacts[i].address == value) {
       return contacts[i];
     }
@@ -114,6 +114,44 @@ exports.getContact = function (contacts,value)
 
   return false;
 };
+
+/**
+ * Return the address of a contact.
+ *
+ * Pass in an address or a contact name and get an address back.
+ */
+exports.resolveContact = function (contacts, value)
+{
+  for (var i = 0, l = contacts.length; i < l; i++) {
+    if (contacts[i].name === value) {
+      return contacts[i].address;
+    }
+  }
+
+  if (ripple.UInt160.is_valid(value)) {
+    return ripple.UInt160.json_rewrite(value);
+  }
+
+  return '';
+};
+
+/**
+ * Given an address, return the contact name.
+ *
+ * If a contact is not found with the given address, simply return the address
+ * again.
+ */
+exports.unresolveContact = function (contacts, value)
+{
+  for (var i = 0, l = contacts.length; i < l; i++) {
+    if (contacts[i].address === value) {
+      return contacts[i].name;
+    }
+  }
+
+  return value;
+};
+
 
 /**
  * Creates a combobox query function out of a select options array.

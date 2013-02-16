@@ -31,6 +31,10 @@ TradeTab.prototype.angular = function(module)
     var pairs = require('../data/pairs');
     $scope.pairs_query = webutil.queryFromOptions(pairs);
 
+    $scope.$watch('userBlob.data.contacts', function (contacts) {
+      $scope.issuer_query = webutil.queryFromOptions(contacts);
+    }, true);
+
     $scope.reset = function (keepPair) {
       var pair = keepPair ? $scope.order.currency_pair : pairs[0].name;
       var fIssuer = keepPair ? $scope.order.first_issuer : app.id.account;
@@ -309,7 +313,7 @@ TradeTab.prototype.angular = function(module)
 
     function resetIssuers(force) {
       var guess;
-      
+
       if (force) {
         $scope.order.first_issuer = null;
         $scope.order.second_issuer = null;
@@ -332,16 +336,16 @@ TradeTab.prototype.angular = function(module)
 
     $scope.edit_first_issuer = function () {
       $scope.show_issuer_form = 'first';
-      $scope.order.first_issuer_edit = $scope.order.first_issuer;
+      $scope.order.first_issuer_edit = webutil.unresolveContact($scope.userBlob.data.contacts, $scope.order.first_issuer);
     };
 
     $scope.edit_second_issuer = function () {
       $scope.show_issuer_form = 'second';
-      $scope.order.second_issuer_edit = $scope.order.second_issuer;
+      $scope.order.second_issuer_edit = webutil.unresolveContact($scope.userBlob.data.contacts, $scope.order.second_issuer);
     };
 
     $scope.save_first_issuer = function () {
-      $scope.order.first_issuer = $scope.order.first_issuer_edit;
+      $scope.order.first_issuer = webutil.resolveContact($scope.userBlob.data.contacts, $scope.order.first_issuer_edit);
       $scope.show_issuer_form = false;
 
       // Persist issuer setting
@@ -353,7 +357,7 @@ TradeTab.prototype.angular = function(module)
     };
 
     $scope.save_second_issuer = function () {
-      $scope.order.second_issuer = $scope.order.second_issuer_edit;
+      $scope.order.second_issuer = webutil.resolveContact($scope.userBlob.data.contacts, $scope.order.second_issuer_edit);
       $scope.show_issuer_form = false;
 
       // Persist issuer setting
