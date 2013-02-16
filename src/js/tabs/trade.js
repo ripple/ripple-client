@@ -348,6 +348,8 @@ TradeTab.prototype.angular = function(module)
       $scope.order.first_issuer = webutil.resolveContact($scope.userBlob.data.contacts, $scope.order.first_issuer_edit);
       $scope.show_issuer_form = false;
 
+      updateSettings();
+
       // Persist issuer setting
       if ($scope.order.valid_settings &&
           $scope.order.first_currency !== 'XRP') {
@@ -359,6 +361,8 @@ TradeTab.prototype.angular = function(module)
     $scope.save_second_issuer = function () {
       $scope.order.second_issuer = webutil.resolveContact($scope.userBlob.data.contacts, $scope.order.second_issuer_edit);
       $scope.show_issuer_form = false;
+
+      updateSettings();
 
       // Persist issuer setting
       if ($scope.order.valid_settings &&
