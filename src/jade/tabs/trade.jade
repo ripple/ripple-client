@@ -146,10 +146,10 @@ section.panel.content(ng-controller="TradeCtrl")
               .error(rp-error-on='pattern') Not a valid value.
         .message(ng-show='orderForm.$valid')
           | You are wanting to {{order.type}}
-          | {{order.first_amount | rpamount}} {{order.first_amount | rpcurrency}}
+          | {{order.first_amount | rpamount:{precision: 10} }} {{order.first_amount | rpcurrency}}
           | for
-          | {{order.second_amount | rpamount}} {{order.second_amount | rpcurrency}}
-          | ({{order.price_amount | rpamount}} {{order.second_amount | rpcurrency}}
+          | {{order.second_amount | rpamount:{precision: 10} }} {{order.second_amount | rpcurrency}}
+          | ({{order.price_amount | rpamount:{precision: 10} }} {{order.second_amount | rpcurrency}}
           |  per {{order.first_amount | rpcurrency}})
         .submitsection
           button.btn.btn-success.submit(type='submit', ng-disabled='orderForm.$invalid') Place Order
