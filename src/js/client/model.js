@@ -183,7 +183,7 @@ Model.prototype.handleAccountTx = function (data)
   var $scope = this.app.$scope;
   $scope.$apply(function () {
     if (data.transactions) {
-      data.transactions.forEach(function (e) {
+      data.transactions.reverse().forEach(function (e) {
         self._processTxn(e.tx, e.meta, true);
       });
     }
