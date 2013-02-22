@@ -148,6 +148,7 @@ var JsonRewriter = module.exports = {
     obj.tx_result = meta.TransactionResult;
     obj.fee = tx.Fee;
     obj.date = (tx.date + 0x386D4380) * 1000;
+    obj.hash = tx.hash;
 
     if (obj.accountRoot) {
       obj.balance = ripple.Amount.from_json(obj.accountRoot.Balance);

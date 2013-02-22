@@ -23,7 +23,12 @@ section.panel.content
         th.date Date
         th.desc Event
     tbody
-      tr(ng-repeat="entry in events", ng-class="entry.type", ng-switch on="entry.type")
+      tr(
+        ng-repeat="entry in events"
+        ng-class="entry.type"
+        ng-switch on="entry.type"
+        data-hash="{{entry.hash}}"
+        )
         td.date {{entry.date | rpfromnow}}
         td.desc(ng-switch-when="sent") You sent 
           span.address(title="{{entry.counterparty}}") {{entry.counterparty | rpcontactname}}
