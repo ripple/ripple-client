@@ -98,14 +98,12 @@ var JsonRewriter = module.exports = {
   processTxn: function (tx, meta, account) {
     var obj = {};
 
-    var forUs = false;
     obj.offers = null;
     meta.AffectedNodes.forEach(function (n) {
       var node = JsonRewriter.processAnode(n);
 
       if (node.entryType === "AccountRoot" && node.fields.Account === account) {
         obj.accountRoot = node.fields;
-        forUs = true;
       } else if (node.entryType === "RippleState") {
 
         var line = {};
@@ -122,8 +120,6 @@ var JsonRewriter = module.exports = {
         } else return;
 
         line.currency = node.fields.HighLimit.currency;
-
-        forUs = true;
 
         if (node.diffType === "DeletedNode") {
           line.deleted = true;
@@ -145,14 +141,8 @@ var JsonRewriter = module.exports = {
         if (node.diffType === "DeletedNode") {
           obj.offers[seq].deleted = true;
         }
-
-        forUs = true;
       }
     });
-
-    // This function may get transactions that don't affect us, but we can't
-    // process such transactions, so we return null to signal that.
-    if (!forUs) return null;
 
     obj.tx_type = tx.TransactionType;
     obj.tx_result = meta.TransactionResult;
@@ -167,12 +157,16 @@ var JsonRewriter = module.exports = {
     switch (tx.TransactionType) {
     case 'Payment':
       var amount = ripple.Amount.from_json(tx.Amount);
-      obj.type = tx.Account === account ?
-        'sent' :
-        'received';
-      obj.counterparty = tx.Account === account ?
-        tx.Destination :
-        tx.Account;
+      if (tx.Account === account) {
+        obj.type = 'sent';
+        obj.counterparty = tx.Destination;
+      } else if (tx.Destination === account) {
+        obj.type = 'received';
+        obj.counterparty = tx.Account;
+      } else {
+        obj.type = 'ignore';
+      }
+
       obj.amount = amount;
       obj.currency = amount.currency().to_json();
       if (!amount.is_native() && obj.lines && obj.lines.length >= 1) {
@@ -183,24 +177,32 @@ var JsonRewriter = module.exports = {
       break;
 
     case 'TrustSet':
-      obj.type = tx.Account === account ?
-        'trusting' :
-        'trusted';
-      obj.counterparty = tx.Account === account ?
-        tx.LimitAmount.issuer :
-        tx.Account;
+      if (tx.Account === account) {
+        obj.type = 'trusting';
+        obj.counterparty = tx.LimitAmount.issuer;
+      } else if (tx.Destination === account) {
+        obj.type = 'trusted';
+        obj.counterparty = tx.Account;
+      } else {
+        obj.type = 'ignore';
+      }
       obj.amount = ripple.Amount.from_json(tx.LimitAmount);
       obj.currency = tx.LimitAmount.currency;
       break;
 
     case 'OfferCreate':
-      obj.type = 'offernew';
+      obj.type = tx.Account !== account ?
+        'offernew' :
+        'ignore';
       obj.pays = ripple.Amount.from_json(tx.TakerPays);
       obj.gets = ripple.Amount.from_json(tx.TakerGets);
       break;
 
     case 'OfferCancel':
-      obj.type = 'offercancel';
+      obj.type = tx.Account !== account ?
+        'offercancel' :
+        'ignore';
+
       // An OfferCancel will only ever affect one order and will delete it.
       var offer;
       // The reason we use forEach is because offers is a sparse array.

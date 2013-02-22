@@ -216,13 +216,15 @@ Model.prototype._processTxn = function (tx, meta, is_historic)
 
   if (processedTxn) {
     // Add to recent notifications
-    if (processedTxn.tx_result === "tesSUCCESS") {
+    if (processedTxn.tx_result === "tesSUCCESS" &&
+        processedTxn.type !== 'ignore') {
       $scope.events.unshift(processedTxn);
     }
 
     // Add to payments history
     if (processedTxn.tx_type === "Payment" &&
-        processedTxn.tx_result === "tesSUCCESS") {
+        processedTxn.tx_result === "tesSUCCESS" &&
+        processedTxn.type !== 'ignore') {
       $scope.history.unshift(processedTxn);
     }
 

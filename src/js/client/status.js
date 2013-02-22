@@ -187,7 +187,7 @@ StatusManager.prototype.setupNetworkNotices = function ()
     if (msg.engine_result !== 'tesSUCCESS') return;
 
     var tx = rewriter.processTxn(msg.transaction, msg.meta, app.id.account);
-    if (tx) {
+    if (tx && tx.type !== 'ignore') {
       var $scope = app.$scope.$new();
       $scope.tx = tx;
 
