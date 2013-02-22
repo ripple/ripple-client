@@ -26,6 +26,7 @@ Angular.load = function ()
   require('../directives/events');
   require('../directives/formatters');
   require('../directives/directives');
+  require('../directives/datalinks');
   require('../filters/filters');
   require('../services/network');
   require('../services/transactions');

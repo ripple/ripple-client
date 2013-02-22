@@ -397,6 +397,7 @@ Tab.prototype.angularDeps = [
   'formatters',
   'directives',
   'validators',
+  'datalinks',
   // Filters
   'filters'
 ];

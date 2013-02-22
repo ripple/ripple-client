@@ -27,7 +27,7 @@ section.panel.content
         ng-repeat="entry in events"
         ng-class="entry.type"
         ng-switch on="entry.type"
-        data-hash="{{entry.hash}}"
+        rp-link-tx="entry.hash"
         )
         td.date {{entry.date | rpfromnow}}
         td.desc(ng-switch-when="sent") You sent 

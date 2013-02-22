@@ -344,6 +344,14 @@
       width: 75%;
     }
 
+    tr {
+      cursor: pointer;
+
+      &:hover {
+        opacity: 0.9;
+      }
+    }
+
     tr.trusted, tr.received {
       background-color: #e4efd9;
     }
@@ -689,6 +697,14 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
   ul li.other > a:after,
   tr.other {
     background-color: #fbf8e4;
+  }
+
+  table tr {
+    cursor: pointer;
+
+    &:hover {
+      opacity: 0.9;
+    }
   }
 
   table tr .add {

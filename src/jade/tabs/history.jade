@@ -11,7 +11,7 @@ section.panel.content(ng-controller="HistoryCtrl")
         th.amount Amount
         th.balance Balance
     tbody
-      tr(ng-repeat="entry in history | filter:type", class="{{entry.type}}", data-hash="{{entry.hash}}")
+      tr(ng-repeat="entry in history | filter:type", class="{{entry.type}}", rp-link-tx="entry.hash")
         td.date {{entry.date | date}}
         td.counterparty
           span {{entry.counterparty | rpcontactnamefull}}
