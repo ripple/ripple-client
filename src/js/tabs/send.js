@@ -99,11 +99,15 @@ SendTab.prototype.angular = function (module)
       app.net.remote.request_ripple_path_find(app.id.account,
                                               $scope.send.recipient_address,
                                               $scope.send.amount_feedback)
-      // XXX Handle error response
+        .on('error', function (e) {
+          $scope.$apply(function () {
+            $scope.path_status = "error";
+          });
+        })
         .on('success', function (data) {
           $scope.$apply(function () {
             if (!data.alternatives || !data.alternatives.length) {
-              $scope.send.path_status = "error";
+              $scope.send.path_status = "no-path";
             } else {
               $scope.send.path_status = "done";
               $scope.send.alternatives = _.map(data.alternatives, function (raw) {
