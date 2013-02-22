@@ -46,6 +46,11 @@ body {
 
   p.literal {
     font: 16px 'OpenSansRegular';
+
+    strong {
+      font-family: 'OpenSansBold';
+      font-weight: normal;
+    }
   }
 
   p.hint {
@@ -64,14 +69,15 @@ body {
     padding-left: 24px + 10px;
   }
 
-  table {
+  .table {
     width: 100%;
     border-spacing: 0;
 
     caption {
       text-align: left;
       font: 20px 'OpenSansLight';
-      padding: 10px 0;
+      padding-top: 10px;
+      padding-bottom: 10px;
       border-bottom: 1px solid #eee;
     }
 
@@ -202,14 +208,6 @@ body {
       }
     }
   }
-}
-
-.single .throbber {
-  margin-left: @pmSingleMargin;
-}
-
-.panel .throbber {
-  margin-left: @pmPanelLeftMargin;
 }
 
 // Tooltip
