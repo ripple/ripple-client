@@ -6,12 +6,14 @@ var iso4217 = require('../data/iso4217');
 
 /**
  * Format a ripple.Amount.
+ *
+ * If the parameter is a number, the number is treated the relative 
  */
 module.filter('rpamount', function () {
   return function (input, opts) {
     if ("number" === typeof opts) {
       opts = {
-        precision: opts
+        rel_min_precision: opts
       };
     } else if ("object" !== typeof opts) {
       opts = {};
@@ -22,12 +24,21 @@ module.filter('rpamount', function () {
     var amount = Amount.from_json(input);
     if (!amount.is_valid()) return "n/a";
 
-    var currency = amount.currency().to_json();
+    // Currency default precision
+    var currency = iso4217[amount.currency().to_json()];
+    var cdp = ("undefined" !== typeof currency) ? currency[1] : 2;
+
+    // Certain formatting options are relative to the currency default precision
+    if ("number" === typeof opts.rel_precision) {
+      opts.precision = cdp + opts.rel_precision;
+    }
+    if ("number" === typeof opts.rel_min_precision) {
+      opts.min_precision = cdp + opts.rel_min_precision;
+    }
+
+    // If no precision is given, we'll default to max precision.
     if ("number" !== typeof opts.precision) {
-      // If no precision is given, we'll default to the currency's default
-      // precision.
-      opts.precision = ("undefined" !== typeof iso4217[currency]) ?
-        iso4217[currency][1] : 2;
+      opts.precision = 16;
     }
 
     var out = amount.to_human(opts);

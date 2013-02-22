@@ -10,11 +10,11 @@ section.panel.content
     .balancebox
       .label Ripples
       .balance
-        span(rp-tooltip="{{account.Balance | rpamount:10}}") {{account.Balance | rpamount}}
+        span(rp-tooltip="{{account.Balance | rpamount}}") {{account.Balance | rpamount:{rel_precision: 0} }}
     .balancebox(ng-repeat="entry in balances", ng-hide="entry.total.is_zero()")
       .label {{entry.total | rpcurrencyfull}}
       .balance
-        span(rp-tooltip="{{entry.total | rpamount:10}}") {{entry.total | rpamount}}
+        span(rp-tooltip="{{entry.total | rpamount}}") {{entry.total | rpamount:{rel_precision: 0} }}
 
   table.table.events
     caption Notifications

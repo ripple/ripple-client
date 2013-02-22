@@ -2,16 +2,16 @@
   .user
     div {{userCredentials.username}}&nbsp;
       a.logout(ng-click='logout()') logout
-    .balance.primary(rp-tooltip="{{account.Balance | rpamount:10}}")
-      span.amount(ng-class="{low: lowBalance}") {{account.Balance | rpamount:0}}
+    .balance.primary(rp-tooltip="{{account.Balance | rpamount}}")
+      span.amount(ng-class="{low: lowBalance}") {{account.Balance | rpamount:{rel_precision: 0} }}
       span.currency XRP
       a.icon.low(ng-show="lowBalance"
         rp-popover
         rp-popover-placement="bottom"
         rp-popover-title='Low ripple balance'
-        data-content="Your current balance is low. You must keep a minimum of <strong>{{account.reserve | rpamount:0}} XRP</strong> to use all the features of ripple")
+        data-content="Your current balance is low. You must keep a minimum of <strong>{{account.reserve | rpamount}} XRP</strong> to use all the features of ripple")
     ul.secondary
       li.balance(ng-repeat="(index, balance) in orderedBalances", ng-class="{negative: balance.total.is_negative()}")
-        | {{balance.total | rpamount}}
+        | {{balance.total | rpamount:{rel_precision: 0} }}
         span.currency {{balance.total.currency().to_human()}}
     a.toggle-secondary(ng-click="toggle_secondary()", ng-show="balance_count >= 2")
