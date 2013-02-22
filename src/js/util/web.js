@@ -162,18 +162,27 @@ exports.unresolveContact = function (contacts, value)
  */
 exports.queryFromOptions = function (options)
 {
-  return function (match, re) {
-    var opts = options.map(function (entry) {
-      return entry.name;
-    });
+  var opts = options.map(function (entry) {
+    return entry.name;
+  });
+  return exports.queryFromArray(opts);
+};
 
+/**
+ * Creates a combobox query function out of a plain array of strings.
+ *
+ * @param options {array} An array of options, e.g. ['First choice', '2nd']
+ */
+exports.queryFromArray = function (options)
+{
+  return function (match, re) {
     if (re instanceof RegExp) {
-      return opts.filter(function (name) {
+      return options.filter(function (name) {
         return "string" === typeof name
           ? name.match(re)
           : false;
       });
-    } else return opts;
+    } else return options;
   };
 };
 

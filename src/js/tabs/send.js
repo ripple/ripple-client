@@ -29,52 +29,138 @@ SendTab.prototype.angular = function (module)
   {
     $scope.xrp = $scope.currencies_all[0];
 
-    $scope.$watch('recipient', function(){
-      var addr=webutil.stripRippleAddress($scope.recipient);
+    $scope.$watch('send.recipient', function(){
+      var addr = webutil.stripRippleAddress($scope.send.recipient);
 
-      if ($scope.contact = webutil.getContact($scope.userBlob.data.contacts,addr)) {
-        $scope.recipient_name = $scope.contact.name;
-        $scope.recipient_address = $scope.contact.address;
+      $scope.contact = webutil.getContact($scope.userBlob.data.contacts,addr);
+      if ($scope.contact) {
+        $scope.send.recipient_name = $scope.contact.name;
+        $scope.send.recipient_address = $scope.contact.address;
       } else {
-        $scope.recipient_name = '';
-        $scope.recipient_address = addr;
+        $scope.send.recipient_name = '';
+        $scope.send.recipient_address = addr;
       }
 
-      $scope.update_amount();
+      $scope.update_send();
     }, true);
 
-    $scope.$watch('amount', function () {
-      $scope.update_amount();
+    $scope.$watch('send.amount', function () {
+      $scope.update_send();
     }, true);
 
-    $scope.$watch('currency', function () {
-      $scope.update_amount();
+    $scope.$watch('send.currency', function () {
+      $scope.update_send();
     }, true);
 
-    $scope.update_amount = function () {
-      var currency = $scope.currency ?
-            $scope.currency.slice(0, 3).toUpperCase() : "XRP";
-      var issuer = $scope.recipient_address;
-      var formatted = "" + $scope.amount + " " + currency.slice(0, 3);
+    var pathUpdateTimeout;
+    $scope.update_send = function () {
+      var currency = $scope.send.currency ?
+            $scope.send.currency.slice(0, 3).toUpperCase() : "XRP";
+      var recipient = $scope.send.recipient_address;
+      var formatted = "" + $scope.send.amount + " " + currency.slice(0, 3);
 
-      if (!issuer && currency !== "XRP") return;
-      $scope.amount_feedback = ripple.Amount.from_human(formatted);
+      if (recipient || currency === "XRP") {
+        $scope.send.amount_feedback = Amount.from_human(formatted);
 
-      if (issuer) $scope.amount_feedback.set_issuer(issuer);
+        if (recipient) $scope.send.amount_feedback.set_issuer(recipient);
+      } else {
+        $scope.send.amount_feedback = new Amount(); // = NaN
+      }
+
+      var modified = $scope.send.recipient_prev !== recipient ||
+        !$scope.send.amount_prev.is_valid() ||
+        !$scope.send.amount_feedback.is_valid() ||
+        !$scope.send.amount_feedback.equals($scope.send.amount_prev);
+
+      if (!modified) return;
+
+      $scope.send.recipient_prev = recipient;
+      $scope.send.amount_prev = $scope.send.amount_feedback;
+
+      if (recipient && $scope.send.amount_feedback.is_valid()) {
+        $scope.send.path_status = 'pending';
+
+        $scope.send.path_sets = null;
+
+        if ($scope.send.amount_feedback.is_native()) {
+          $scope.send.path_status = 'native';
+        } else {
+          if (pathUpdateTimeout) clearTimeout(pathUpdateTimeout);
+          pathUpdateTimeout = setTimeout($scope.update_paths, 500);
+        }
+      } else {
+        $scope.send.path_status = 'waiting';
+      }
+    };
+
+    $scope.update_paths = function () {
+      var recipient = $scope.send.recipient_address;
+
+      app.net.remote.request_ripple_path_find(app.id.account,
+                                              $scope.send.recipient_address,
+                                              $scope.send.amount_feedback)
+      // XXX Handle error response
+        .on('success', function (data) {
+          $scope.$apply(function () {
+            if (!data.alternatives || !data.alternatives.length) {
+              $scope.send.path_status = "error";
+            } else {
+              $scope.send.path_status = "done";
+              $scope.send.alternatives = _.map(data.alternatives, function (raw) {
+                var alt = {};
+                alt.amount = Amount.from_json(raw.source_amount);
+                alt.send_max = alt.amount.product_human(Amount.from_json('1.01'));
+                alt.paths = raw.paths_computed
+                  ? raw.paths_computed
+                  : raw.paths_canonical;
+
+                return alt;
+              });
+              $scope.send.alt = $scope.send.alternatives[0];
+            }
+          });
+        })
+        .request();
     };
 
     $scope.$watch('userBlob.data.contacts', function (contacts) {
       $scope.recipient_query = webutil.queryFromOptions(contacts);
     }, true);
     $scope.currency_query = webutil.queryFromOptions($scope.currencies_all);
+    $scope.$watch('lines', function (lines) {
+      var currencies = _.uniq(_.map(_.keys(lines), function (line) {
+        return line.slice(-3);
+      }));
+
+      // XXX Not the fastest way of doing it...
+      currencies = _.map(currencies, function (currency) {
+        _.each($scope.currencies_all, function (entry) {
+          if (currency === entry.value) {
+            currency = entry.name;
+            return false;
+          }
+        });
+        return currency;
+      });
+      $scope.source_currency_query = webutil.queryFromArray(currencies);
+    }, true);
 
     $scope.reset = function () {
       $scope.mode = "form";
-      $scope.recipient = '';
-      $scope.recipient_name = '';
-      $scope.recipient_address = '';
-      $scope.amount = '';
-      $scope.currency = $scope.xrp.name;
+
+      // XXX Most of these variables should be properties of $scope.send.
+      //     The Angular devs recommend that models be objects due to the way
+      //     scope inheritance works.
+      $scope.send = {
+        recipient: '',
+        recipient_name: '',
+        recipient_address: '',
+        recipient_prev: '',
+        amount: '',
+        amount_prev: new Amount(),
+        currency: $scope.xrp.name,
+        path_status: 'waiting'
+      };
       $scope.nickname = '';
       $scope.error_type = '';
       $scope.resetAddressForm();
@@ -107,14 +193,14 @@ SendTab.prototype.angular = function (module)
     /**
      * N2. Waiting for path page
      */
-    $scope.send = function () {
-      var amount = $scope.amount_feedback;
+    $scope.calculate_send = function () {
+      var amount = $scope.send.amount_feedback;
       $scope.sendmax_feedback = null;
       $scope.prepared_paths = null;
 
       $scope.mode = "wait_path";
 
-      app.net.remote.request_account_info($scope.recipient_address)
+      app.net.remote.request_account_info($scope.send.recipient_address)
         .on('error', function (data) {
           $scope.$apply(function () {
             $scope.mode = "error";
@@ -130,11 +216,11 @@ SendTab.prototype.angular = function (module)
           });
         })
         .on('success', function (data) {
-          if (amount.is_native()) {
+          if (amount.is_native() && !$scope.send.source_currency) {
             $scope.$apply($scope.send_prepared);
           } else {
             app.net.remote.request_ripple_path_find(app.id.account,
-                                                    $scope.recipient_address,
+                                                    $scope.send.recipient_address,
                                                     amount)
             // XXX Handle error response
               .on('success', function (data) {
@@ -143,9 +229,9 @@ SendTab.prototype.angular = function (module)
                     $scope.mode = "error";
                     $scope.error_type = "noPath";
                   } else {
-                    var base_amount = ripple.Amount.from_json(data.alternatives[0].source_amount);
+                    var base_amount = Amount.from_json(data.alternatives[0].source_amount);
                     $scope.sendmax_feedback =
-                      base_amount.product_human(ripple.Amount.from_json('1.01'));
+                      base_amount.product_human(Amount.from_json('1.01'));
                     $scope.prepared_paths = data.alternatives[0].paths_computed
                       ? data.alternatives[0].paths_computed
                       : data.alternatives[0].paths_canonical;
@@ -177,10 +263,10 @@ SendTab.prototype.angular = function (module)
      * N4. Waiting for transaction result page
      */
     $scope.send_confirmed = function () {
-      var currency = $scope.currency.slice(0, 3).toUpperCase();
-      var amount = ripple.Amount.from_human(""+$scope.amount+" "+currency);
-      var addr = $scope.recipient_address;
-      var dt = $scope.urlParams.dt ? $scope.urlParams.dt : webutil.getDestTagFromAddress($scope.recipient);
+      var currency = $scope.send.currency.slice(0, 3).toUpperCase();
+      var amount = Amount.from_human(""+$scope.send.amount+" "+currency);
+      var addr = $scope.send.recipient_address;
+      var dt = $scope.urlParams.dt ? $scope.urlParams.dt : webutil.getDestTagFromAddress($scope.send.recipient);
 
       amount.set_issuer(addr);
 
@@ -196,9 +282,9 @@ SendTab.prototype.angular = function (module)
 
       tx.payment(app.id.account, addr, amount.to_json());
       if (!amount.is_native()) {
-        tx.send_max($scope.sendmax_feedback);
-        if ($scope.prepared_paths) {
-          tx.paths($scope.prepared_paths);
+        if ($scope.send.alt) {
+          tx.send_max($scope.send.alt.send_max);
+          tx.paths($scope.send.alt.paths);
         } else {
           tx.build_path(true);
         }
@@ -270,7 +356,7 @@ SendTab.prototype.angular = function (module)
 
       var contact = {
         'name': $scope.saveAddressName,
-        'address': $scope.recipient_address
+        'address': $scope.send.recipient_address
       }
 
       app.id.once('blobsave', function(){
@@ -286,7 +372,7 @@ SendTab.prototype.angular = function (module)
     // If all the form fields are prefilled, go to confirmation page
     if ($scope.urlParams.to && $scope.urlParams.amount) {
       setImmediate(function() {
-        $scope.send();
+        $scope.calculate_send();
       });
     }
 
@@ -344,7 +430,7 @@ SendTab.prototype.angular = function (module)
 
           if (value) {
             if ((contact && contact.address == scope.userBlob.data.account_id) || scope.userBlob.data.account_id == value) {
-              if (scope.currency == xrpWidget.$viewValue) {
+              if (scope.send.currency == xrpWidget.$viewValue) {
                 ctrl.$setValidity('rpXrpToMe', false);
                 return;
               }
