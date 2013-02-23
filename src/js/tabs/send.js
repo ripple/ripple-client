@@ -384,7 +384,7 @@ SendTab.prototype.angular = function (module)
     // TODO I think we should handle urlParams autofill and prefill event in similar way
     self.on('prefill', function (data) {
       $scope.reset();
-      $.extend($scope, data);
+      $.extend($scope.send, data);
     });
   }]);
 
