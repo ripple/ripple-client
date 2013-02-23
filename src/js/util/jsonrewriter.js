@@ -127,8 +127,7 @@ var JsonRewriter = module.exports = {
 
         if (!obj.lines) obj.lines = [];
         obj.lines.push(line);
-      } else if (node.entryType === "Offer") {
-        // XXX: TODO: Handle offer deletion
+      } else if (node.entryType === "Offer" && node.fields.Account === account) {
         if (!obj.offers) obj.offers = [];
 
         var seq = +node.fields.Sequence;
