@@ -81,6 +81,7 @@ SendTab.prototype.angular = function (module)
         $scope.send.path_status = 'pending';
 
         $scope.send.path_sets = null;
+        $scope.send.alt = null;
 
         if ($scope.send.amount_feedback.is_native()) {
           $scope.send.path_status = 'native';
