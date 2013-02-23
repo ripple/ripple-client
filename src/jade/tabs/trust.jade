@@ -24,15 +24,6 @@ section.panel.content(ng-controller="TrustCtrl")
       tr(ng-show='addform_visible')
         td(colspan=4)
           form(name='trustForm', id='trustForm', ng-submit='grant()')
-            label(for='trust_amount') Amount
-            .amount
-              //- TODO I don't like the idea of dividing amount to get what I need
-              input.value#trust_amount(name='trust_amount', type='number', step='any', ng-model='amount'
-                ng-pattern='/^[0-9.]+$/', required
-                rp-autofill='urlParams.amount.to_number()/1000000', rp-autofill-on='addform_visible = true')
-              input.currency-field#trust_amount_currency(name='trust_amount_currency', type='text'
-                ng-model='currency', rp-combobox="currency_query", rp-combobox-select
-                rp-autofill='urlParams.amount.currency().to_json()', rp-autofill-on='addform_visible = true')
             label(for='trust_counterparty') User
             input#trust_counterparty(name='trust_counterparty', type='text', ng-model='counterparty'
               rp-combobox="counterparty_query", placeholder='Contact name or Ripple address',
@@ -47,6 +38,15 @@ section.panel.content(ng-controller="TrustCtrl")
                 | You've entered your address.
               .error(rp-error-on='rpDestination')
                 | User should be either a name from your contact list or Ripple address.
+            label(for='trust_amount') Amount
+            .amount
+              //- TODO I don't like the idea of dividing amount to get what I need
+              input.value#trust_amount(name='trust_amount', type='number', step='any', ng-model='amount'
+                ng-pattern='/^[0-9.]+$/', required
+                rp-autofill='urlParams.amount.to_number()/1000000', rp-autofill-on='addform_visible = true')
+              input.currency-field#trust_amount_currency(name='trust_amount_currency', type='text'
+                ng-model='currency', rp-combobox="currency_query", rp-combobox-select
+                rp-autofill='urlParams.amount.currency().to_json()', rp-autofill-on='addform_visible = true')
             .submitsection
               button.btn.btn-info.submit(type='submit', ng-disabled='trustForm.$invalid') Grant Trust
 
