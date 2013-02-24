@@ -16,6 +16,7 @@ module.factory('rpLedger', ['$q', '$rootScope', 'rpNetwork', 'rpTransactions',
 
   var offerPromise = $q.defer();
   var tickerPromise = $q.defer();
+  var requested = false;
 
   var ledger = {
     offers: offerPromise.promise,
@@ -114,13 +115,21 @@ module.factory('rpLedger', ['$q', '$rootScope', 'rpNetwork', 'rpTransactions',
     doRequest();
   }
 
+  net.on('connected', function(){
+    doRequest();
+  });
+
   function doRequest()
   {
+    if (requested) return;
+
     net.remote.request_ledger("ledger_closed", "full")
         .on('success', handleLedger)
         .request();
 
     transactions.addListener(handleTransaction);
+
+    requested = true;
   }
 
   function handleTransaction(msg)
