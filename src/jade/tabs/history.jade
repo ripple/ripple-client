@@ -20,7 +20,7 @@ section.panel.content(ng-controller="HistoryCtrl", ng-show="connected")
         td.date {{entry.date | date}}
         td.counterparty
           span {{entry.counterparty | rpcontactnamefull}}
-          a.add(ng-hide="entry.counterparty | rponlycontactname", href="#contact?to={{entry.counterparty}}", class="btn sign small") +
+          a.add(ng-hide="entry.counterparty | rponlycontactname", href="#contact?to={{entry.counterparty}}", class="btn sign small", rp-no-propagate) +
         td.amount.rpamount
           span(rp-tooltip="{{entry.amount | rpamount:{precision: 10} }} {{entry.currency}}")
             | {{entry.amount | rpamount}}
