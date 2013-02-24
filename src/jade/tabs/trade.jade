@@ -1,4 +1,9 @@
-section.panel.content(ng-controller="TradeCtrl")
+section.panel.content(ng-controller="TradeCtrl", ng-hide="connected")
+  .disconnected
+    p.literal You have to be online to see this screen
+    p: a.btn(href="#balance") Back to balance
+
+section.panel.content(ng-controller="TradeCtrl", ng-show="connected")
   .settings
     .currency-config
       input.currency#currency_pair(

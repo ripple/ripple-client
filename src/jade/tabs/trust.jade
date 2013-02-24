@@ -1,4 +1,9 @@
-section.panel.content(ng-controller="TrustCtrl")
+section.panel.content(ng-controller="TrustCtrl", ng-hide="connected")
+  .disconnected
+    p.literal You have to be online to see this screen
+    p: a.btn(href="#balance") Back to balance
+
+section.panel.content(ng-controller="TrustCtrl", ng-show="connected")
 
   //- Account is unfunded
 

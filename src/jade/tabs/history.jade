@@ -1,4 +1,9 @@
-section.panel.content(ng-controller="HistoryCtrl")
+section.panel.content(ng-controller="HistoryCtrl", ng-hide="connected")
+  .disconnected
+    p.literal You have to be online to see this screen
+    p: a.btn(href="#balance") Back to balance
+
+section.panel.content(ng-controller="HistoryCtrl", ng-show="connected")
   ul.filter-tabs
     li.all: a(ng-click='type = {}', ng-class="!type.type && 'active'") All Activity
     li.received: a(ng-click='type = {type: "received"}', ng-class="type.type == 'received' && 'active'") Received
