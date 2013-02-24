@@ -33,9 +33,6 @@ TabManager.prototype.init = function ()
 
   // Decide what tab to show
   this.handleHashChange();
-
-  // Enable screen
-  $('body').addClass('loaded');
 };
 
 TabManager.prototype.setApp = function (app)

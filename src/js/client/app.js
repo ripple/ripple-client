@@ -61,14 +61,16 @@ App.prototype.startup = function ()
   this.net.listenId(this.id);
   this.net.init();
   this.sm.init();
+  this.id.init();
+  this.tabs.init();
+
+  // Enable screen
+  $('body').addClass('loaded');
 
   // XXX: The app also needs to handle updating its data when the connection is
   //      lost and later re-established. (... or will the Ripple lib do that for us?)
   function handleFirstConnection() {
     self.net.removeListener('connected', handleFirstConnection);
-
-    self.id.init();
-    self.tabs.init();
   }
 };
 

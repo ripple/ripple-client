@@ -17,6 +17,7 @@ util.inherits(Model, events.EventEmitter);
 
 Model.prototype.init = function ()
 {
+  var self = this;
   var $scope = this.app.$scope;
 
   this.reset();
@@ -25,7 +26,20 @@ Model.prototype.init = function ()
   $scope.currencies = $scope.currencies_all.slice(1);
   $scope.pairs = require('../data/pairs');
 
-  this.app.id.on('accountload', this.handleAccountLoad.bind(this));
+  this.app.id.on('accountload', function(account){
+    // Server is connected
+    if (self.app.net.connected) {
+      self.handleAccountLoad(account);
+    }
+
+    // Server is not connected yet. Handle account load after server response
+    self.app.net.on('connected', function(){
+      if (!$scope.account.length || $scope.account.length < 1) {
+        self.handleAccountLoad(account);
+      }
+    });
+  });
+
   this.app.id.on('accountunload', this.handleAccountUnload.bind(this));
 };
 

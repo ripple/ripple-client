@@ -18,6 +18,8 @@ var Network = function ()
   this.remote = new ripple.Remote(Options.server, true);
   this.remote.on('connected', this.handleConnect.bind(this));
   this.remote.on('disconnected', this.handleDisconnect.bind(this));
+
+  this.connected = false;
 };
 util.inherits(Network, events.EventEmitter);
 
@@ -43,14 +45,16 @@ Network.prototype.listenId = function (id)
   var self = this;
 };
 
-Network.prototype.handleConnect = function ()
+Network.prototype.handleConnect = function (e)
 {
   this.emit('connected');
+  this.connected = true;
 };
 
 Network.prototype.handleDisconnect = function (e)
 {
   this.emit('disconnected');
+  this.connected = false;
 };
 
 exports.Network = Network;
