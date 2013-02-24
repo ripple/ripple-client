@@ -13,6 +13,7 @@ var module = angular.module('ledger', ['network', 'transactions']);
 module.factory('rpLedger', ['$q', '$rootScope', 'rpNetwork', 'rpTransactions',
                             function($q, $rootScope, net, transactions)
 {
+
   var offerPromise = $q.defer();
   var tickerPromise = $q.defer();
 
@@ -109,11 +110,18 @@ module.factory('rpLedger', ['$q', '$rootScope', 'rpNetwork', 'rpTransactions',
     }
   }
 
-  net.remote.request_ledger("ledger_closed", "full")
-    .on('success', handleLedger)
-    .request();
+  if(net.connected) {
+    doRequest();
+  }
 
-  transactions.addListener(handleTransaction);
+  function doRequest()
+  {
+    net.remote.request_ledger("ledger_closed", "full")
+        .on('success', handleLedger)
+        .request();
+
+    transactions.addListener(handleTransaction);
+  }
 
   function handleTransaction(msg)
   {

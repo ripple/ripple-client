@@ -28,7 +28,7 @@ Model.prototype.init = function ()
 
   this.app.id.on('accountload', function(account){
     // Server is connected
-    if (self.app.net.connected) {
+    if ($scope.connected) {
       self.handleAccountLoad(account);
     }
 
