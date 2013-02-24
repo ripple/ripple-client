@@ -253,7 +253,7 @@ section.panel.content(ng-controller="TradeCtrl", ng-show="connected")
         thead: tr
           th.sum.rpamount Sum
           th.amount.rpamount Amount
-          th.price.rpamount Bid
+          th.price.rpamount Bid Price
         tbody
           tr(ng-repeat='order in bids')
             td.sum.rpamount {{order.sum | rpamount:{precision: 5} }}
@@ -267,7 +267,7 @@ section.panel.content(ng-controller="TradeCtrl", ng-show="connected")
             td(colspan="5") There are currently no bids for this pair.
       table.asks.table.table-striped
         thead: tr
-          th.price.rpamount Ask
+          th.price.rpamount Ask Price
           th.amount.rpamount Amount
           th.sum.rpamount Sum
         tbody
