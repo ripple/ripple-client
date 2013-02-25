@@ -123,7 +123,11 @@ var VaultBlobBackend = {
   },
 
   set: function (key, value, callback) {
-    $.post('http://' + Options.blobvault + '/' + key, { blob: value })
+    var url = Options.blobvault;
+
+    if (url.indexOf("://") === -1) url = "http://" + url;
+
+    $.post(url + '/' + key, { blob: value })
         .success(function (data) {
           callback(null, data);
         })
