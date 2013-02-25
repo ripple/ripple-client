@@ -13,7 +13,7 @@ var Options = {
 //    "websocket_port" : 5006,
 //    "websocket_ssl" : false
   },
-  blobvault : "54.243.129.146:80",
+  blobvault : "https://blobvault.payward.com",
 
   // If set, login will persist across sessions (page reload). This is mostly
   // intended for developers, be careful about using this in a real setting.
