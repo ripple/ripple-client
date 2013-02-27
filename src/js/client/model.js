@@ -183,6 +183,7 @@ Model.prototype.handleAccountEntry = function (data)
         reserve_inc  = Amount.from_json(""+remote._reserve_inc),
         owner_count  = $scope.account.OwnerCount || "0";
     $scope.account.reserve = reserve_base.add(reserve_inc.product_human(owner_count));
+    $scope.account.reserve_to_add_trust = reserve_base.add(reserve_inc.product_human(owner_count+1));
 
     // Maximum amount user can spend
     var bal = Amount.from_json(data.Balance);
