@@ -9,7 +9,7 @@ section.panel.content(ng-controller="TradeCtrl", ng-show="connected")
       input.currency#currency_pair(
         name='currency_pair', type='text'
         rp-combobox="pairs_query", rp-combobox-select
-        ng-model='order.currency_pair')
+        ng-model='currency_pair_selector')
     ul.issuers.inline(ng-show='order.first_currency != "XRP"')
       li.label Base currency
       li.value {{order.first_currency}}&ensp;
