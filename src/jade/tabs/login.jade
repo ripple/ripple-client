@@ -12,7 +12,7 @@ section.single.content(ng-controller="LoginCtrl")
       .reminder(ng-show="!hiddenReminder")
         .title
           | Reminder:
-          span.close(ng-click="hiddenReminder=true") ?
+          span.close(ng-click="hiddenReminder=true") &times;
         .content
           p
             | You are responsible for your login information.
