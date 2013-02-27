@@ -50,8 +50,21 @@ LoginTab.prototype.angular = function (module) {
       // Issue #36: Password managers may change the form values without
       // triggering the events Angular.js listens for. So we simply force
       // an update of Angular's model when the form is submitted.
-      var username = $element.find('input[name="login_username"]').val();
-      var password = $element.find('input[name="login_password"]').val();
+      var username;
+      var password;
+
+      $.each($element.find('input[name="login_username"]'), function(index,field){
+        if ($(field).val()) {
+          username = $(field).val();
+        }
+      });
+
+      $.each($element.find('input[name="login_password"]'), function(index,field){
+        if ($(field).val()) {
+          password = $(field).val();
+        }
+      });
+
       $scope.loginForm.login_username.$setViewValue(username);
       $scope.loginForm.login_password.$setViewValue(password);
 
