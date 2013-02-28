@@ -165,7 +165,7 @@ TradeTab.prototype.angular = function(module)
       });
       $scope.currency_pair_selector = store.get('trade_currency_pair');
     } else {
-      $scope.currency_pair_selector = $scope.order.currency_pair;
+      $scope.currency_pair_selector = pairs[0].name;
     }
 
     $scope.$watch('currency_pair_selector', function (pair) {
