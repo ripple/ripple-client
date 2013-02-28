@@ -395,7 +395,7 @@ module.directive('rpMaxAmount', function () {
       if (!ctrl) return;
 
       var validator = function(value) {
-        var input = Amount.from_human(elm[0].value);
+        var input = Amount.from_human(Number(elm[0].value));
 
         var currency = attr.rpMaxAmountCurrency ? attr.rpMaxAmountCurrency.slice(0, 3).toUpperCase() : 'XRP';
 
