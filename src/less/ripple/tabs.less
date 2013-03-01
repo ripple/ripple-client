@@ -1243,11 +1243,17 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
   .orderbook {
     .clearfix;
 
-    table.bids, table.asks {
+    table {
       float: left;
       width: 50%;
 
-      td {
+      th {
+        text-align: right;
+        line-height: 1.2;
+        .currency {
+          color: #aaa;
+          font-size: 0.9em;
+        }
       }
     }
     table.asks {
@@ -1264,16 +1270,6 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
 
       .price {
         padding-left: 10px;
-      }
-    }
-
-    table {
-      th {
-        text-align: right;
-      }
-      tr.sep td {
-        height: 5px;
-        padding: 0;
       }
     }
   }

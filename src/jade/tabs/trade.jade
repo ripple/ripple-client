@@ -251,33 +251,33 @@ section.panel.content(ng-controller="TradeCtrl", ng-show="connected")
     group.orderbook(ng-show="order.listing == 'orderbook'")
       table.bids.table.table-striped
         thead: tr
-          th.sum.rpamount Sum
-          th.amount.rpamount Amount
-          th.price.rpamount Bid Price
+          th.sum Sum
+            .currency {{bids[0].i.amount | rpcurrency}}
+          th.amount Amount
+            .currency {{bids[0].i.amount | rpcurrency}}
+          th.price Bid Price
+            .currency {{bids[0].o.amount | rpcurrency}}
         tbody
           tr(ng-repeat='order in bids')
             td.sum.rpamount {{order.sum | rpamount:{precision: 5} }}
-              span.currency {{order.i.amount | rpcurrency}}
             td.amount.rpamount {{order.i.amount | rpamount:{precision: 5} }}
-              span.currency {{order.i.amount | rpcurrency}}
             td.price.rpamount
               | {{order.o.amount | rpamountratio:order.i.amount | rpamount:{precision: 5, min_precision: 5} }}
-              span.currency {{order.o.amount | rpcurrency}}
           tr(ng-show='!bids.length')
             td(colspan="5") There are currently no bids for this pair.
       table.asks.table.table-striped
         thead: tr
-          th.price.rpamount Ask Price
-          th.amount.rpamount Amount
-          th.sum.rpamount Sum
+          th.price Ask Price
+            .currency {{asks[0].o.amount | rpcurrency}}
+          th.amount Amount
+            .currency {{asks[0].i.amount | rpcurrency}}
+          th.sum Sum
+            .currency {{asks[0].i.amount | rpcurrency}}
         tbody
           tr(ng-repeat='order in asks')
             td.price.rpamount
               | {{order.o.amount | rpamountratio:order.i.amount | rpamount:{precision: 5, min_precision: 5} }}
-              span.currency {{order.o.amount | rpcurrency}}
             td.amount.rpamount {{order.i.amount | rpamount:{precision: 5} }}
-              span.currency {{order.i.amount | rpcurrency}}
             td.sum.rpamount {{order.sum | rpamount:{precision: 5} }}
-              span.currency {{order.i.amount | rpcurrency}}
           tr(ng-show='!asks.length')
             td(colspan="3") There are currently no asks for this pair.
