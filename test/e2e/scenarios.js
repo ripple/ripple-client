@@ -5,12 +5,13 @@
 describe('ripple client', function() {
 
   beforeEach(function() {
-    browser().navigateTo('../../index_debug.html');
+    var base = window.__rp_client_base || '/base';
+    browser().navigateTo(base + '/index_debug.html');
   });
 
 
   it('should automatically redirect to /balance when location hash/fragment is empty', function() {
-    expect(browser().location().url()).toBe("/balance");
+    expect(browser().location().url()).toBe("/register");
   });
 
   describe('login', function() {
