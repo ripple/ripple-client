@@ -22,9 +22,16 @@ LoginTab.prototype.angular = function (module) {
   var self = this;
   var app = this.app;
 
-  module.controller('LoginCtrl', ['$scope', '$element', '$routeParams', '$location',
-                                  function ($scope, $element, $routeParams, $location)
+  module.controller('LoginCtrl', ['$scope', '$element', '$routeParams',
+                                  '$location', 'rpId',
+                                  function ($scope, $element, $routeParams,
+                                            $location, $id)
   {
+    if ($id.loginStatus) {
+      $location.path('/balance');
+      return;
+    }
+
     $scope.backendChange = function()
     {
       app.id.blobBackends = $scope.blobBackendCollection.something.value.split(',');

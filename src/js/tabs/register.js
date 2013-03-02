@@ -23,9 +23,14 @@ RegisterTab.prototype.generateHtml = function ()
 RegisterTab.prototype.angular = function (module) {
   var app = this.app;
 
-  module.controller('RegisterCtrl', ['$scope', '$location',
-                                     function ($scope, $location)
+  module.controller('RegisterCtrl', ['$scope', '$location', 'rpId',
+                                     function ($scope, $location, $id)
   {
+    if ($id.loginStatus) {
+      $location.path('/balance');
+      return;
+    }
+
     $scope.backendChange = function()
     {
       app.id.blobBackends = $scope.blobBackendCollection.something.value.split(',');
