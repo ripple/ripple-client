@@ -90,7 +90,7 @@ module.directive('rpDestination', function () {
         var strippedValue=webutil.stripRippleAddress(value);
         var address = ripple.UInt160.from_json(strippedValue);
 
-        if (address.is_valid() || webutil.getContact(scope.userBlob.data.contacts,strippedValue)) {
+        if (address.is_valid() || (scope.userBlob && webutil.getContact(scope.userBlob.data.contacts,strippedValue))) {
           ctrl.$setValidity('rpDestination', true);
           return value;
         } else {

@@ -1,6 +1,6 @@
 section.single.content(ng-controller="LoginCtrl")
 
-  .normal-login(ng-show="'login' == urlParams.tab")
+  .normal-login(ng-hide="$routeParams.tab")
     h1 Open Wallet
     p.literal Enter the Name and Passphrase used to encrypt your Wallet below.
     form(name='loginForm', ng-submit='submitForm()')
@@ -44,35 +44,35 @@ section.single.content(ng-controller="LoginCtrl")
         | New to ripple?&nbsp;
         a(href='#register') Create a wallet
 
-  .action-login(ng-hide="'login' == urlParams.tab")
-    div(ng-show="'send' == urlParams.tab")
+  .action-login(ng-show="$routeParams.tab")
+    div(ng-show="'send' == $routeParams.tab")
       h1 Transaction summary
       .info
-        p.literal {{urlParams.label}}
-        p.label(ng-show="urlParams.amount") you will send
-        p.label(ng-hide="urlParams.amount") you will send money to the ripple address
-        .amount(ng-show="urlParams.amount")
-          span.number {{urlParams.amount | rpamount}}
-          span.currency {{urlParams.amount | rpcurrency}}
-        p.label(ng-show="urlParams.amount") To the ripple address
-        .address {{urlParams.to}}
-    div(ng-show="'trust' == urlParams.tab")
+        p.literal {{$routeParams.label}}
+        p.label(ng-show="$routeParams.amount") you will send
+        p.label(ng-hide="$routeParams.amount") you will send money to the ripple address
+        .amount(ng-show="$routeParams.amount")
+          span.number {{$routeParams.amount | rpamount}}
+          span.currency {{$routeParams.amount | rpcurrency}}
+        p.label(ng-show="$routeParams.amount") To the ripple address
+        .address {{$routeParams.to}}
+    div(ng-show="'trust' == $routeParams.tab")
       h1 Grant Trust
       .info
-        p.literal {{urlParams.label}}
+        p.literal {{$routeParams.label}}
         p.label you will trust
-        .amount(ng-show="urlParams.amount")
-          span.number {{urlParams.amount | rpamount}}
-          span.currency {{urlParams.amount | rpcurrency}}
-        p.label(ng-hide="urlParams.name") To ripple address
-        p.label(ng-show="urlParams.name") To <b>{{urlParams.name}}</b> with a ripple address
-        .address {{urlParams.to}}
-    div(ng-show="'contacts' == urlParams.tab")
+        .amount(ng-show="$routeParams.amount")
+          span.number {{$routeParams.amount | rpamount}}
+          span.currency {{$routeParams.amount | rpcurrency}}
+        p.label(ng-hide="$routeParams.name") To ripple address
+        p.label(ng-show="$routeParams.name") To <b>{{$routeParams.name}}</b> with a ripple address
+        .address {{$routeParams.to}}
+    div(ng-show="'contacts' == $routeParams.tab")
       h1 Add contact
       .info
-        p.literal {{urlParams.label}}
+        p.literal {{$routeParams.label}}
         p.label you will add the user
-        .address {{urlParams.to}}
+        .address {{$routeParams.to}}
         p.label To your ripple contacts
 
     form(name='loginForm', ng-submit='submitForm()')
@@ -100,4 +100,4 @@ section.single.content(ng-controller="LoginCtrl")
         | You can confirm this transaction on the next page.
       p.literal
         | New to ripple?&nbsp;
-        a(href='#register') Create a wallet
+        a(href='#/register') Create a wallet

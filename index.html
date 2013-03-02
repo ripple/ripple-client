@@ -5,7 +5,7 @@
 <!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
 <!-- Consider adding a manifest.appcache: h5bp.com/d/Offline -->
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
-<html>
+<html ng-app="rp" ng-class="[$route.current.$route.tabClass, $route.current.$route.pageMode]">
 <head>
   <meta charset="utf-8">
 
@@ -29,7 +29,7 @@
 </head>
 
 <body>
-  
+
   <!-- WRAPPER -->
   <div id="wrapper">
     <!-- HEADER -->
@@ -43,10 +43,10 @@
       <!-- NAV -->
       <nav>
         <ul>
-          <li id="nav-wallet"><a href="#wallet"><span>Wallet</span></a></li>
-          <li id="nav-send"><a href="#send"><span>Send</span></a></li>
-          <li id="nav-receive"><a href="#receive"><span>Receive</span></a></li>
-          <li id="nav-advanced"><a href="#advanced"><span>Advanced</span></a></li>
+          <li id="nav-wallet" ng-class="{active: $route.current.$route.mainMenu == 'wallet'}"><a href="#/balance"><span>Wallet</span></a></li>
+          <li id="nav-send" ng-class="{active: $route.current.$route.mainMenu == 'send'}"><a href="#/send"><span>Send</span></a></li>
+          <li id="nav-receive" ng-class="{active: $route.current.$route.mainMenu == 'receive'}"><a href="#/receive"><span>Receive</span></a></li>
+          <li id="nav-advanced" ng-class="{active: $route.current.$route.mainMenu == 'advanced'}"><a href="#/trust"><span>Advanced</span></a></li>
         </ul>
       </nav>
       <!-- ENDS NAV -->
@@ -55,22 +55,7 @@
     <!-- ENDS HEADER -->
 
     <!-- MAIN -->
-    <div role="main" id="main">
-      <!-- WALLET SECTION -->
-      <section id="t-wallet">
-        <nav>
-          <ul>
-            <li class="active"><a href="#balance">Balance</a></li>
-            <li><a href="#history">History</a></li>
-            <li><a href="#contacts">Contacts</a></li>
-            <li><a href="#security">Security</a></li>
-          </ul>
-        </nav>
-
-        <!-- Sub-tabs will be inserted here -->
-      </section>
-      <!-- ENDS WALLET SECTION -->
-
+    <div role="main" class="main" id="{{$route.current.$route.tabClass}}" ng-view>
     </div>
     <!-- ENDS MAIN -->
 

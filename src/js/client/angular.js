@@ -28,6 +28,7 @@ Angular.load = function ()
   require('../directives/directives');
   require('../directives/datalinks');
   require('../filters/filters');
+  require('../services/id');
   require('../services/network');
   require('../services/transactions');
   require('../services/ledger');
@@ -35,5 +36,68 @@ Angular.load = function ()
   require('../services/rippletxt');
   require('../services/domainalias');
 };
+
+
+var app = angular.module('rp', [
+  'ng',
+  // Directives
+  'id',
+  'charts',
+  'effects',
+  'events',
+  'fields',
+  'formatters',
+  'directives',
+  'validators',
+  'datalinks',
+  // Filters
+  'filters'
+]);
+
+var tabs = require('./tabdefs');
+
+var capp = require('./app').App.singleton;
+
+app.config(['$routeProvider', '$injector', function ($routeProvider, $injector) {
+  _.each(tabs, function (tabLoader, tabName) {
+    tabLoader(function (Tab) {
+      var tab = new Tab();
+
+      if (tab.angular) {
+        var module = angular.module(tabName, tab.angularDeps);
+        tab.angular(module);
+        $injector.load([tabName]);
+      }
+      if ("function" === typeof tab.generateHtml) {
+        $routeProvider.when('/'+tabName, {
+          tabName: tabName,
+          tabClass: 't-'+tabName,
+          pageMode: 'pm-'+tab.pageMode,
+          mainMenu: tab.mainMenu,
+          template: tab.generateHtml()
+        });
+      }
+    });
+  });
+  $routeProvider.otherwise({redirectTo: '/balance'});
+}]);
+
+app.run(['$rootScope', '$injector', '$compile', '$route', '$routeParams',
+         function ($rootScope, $injector, $compile, $route, $routeParams) {
+  // Helper for detecting empty object enumerations
+  $rootScope.isEmpty = function (obj) {
+    return angular.equals({},obj);
+  };
+
+  var scope = $rootScope;
+  $rootScope.$route = $route;
+  $rootScope.$routeParams = $routeParams;
+  capp.setAngular(scope, $compile, $injector);
+  capp.model.init();
+  $('#main').data('$scope', scope);
+
+  capp.startup();
+}]);
+
 
 exports.Angular = Angular;

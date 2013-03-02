@@ -1,6 +1,6 @@
 var blob = require('../client/blob').BlobObj;
 var util = require('util');
-var Tab  = require('../client/tabmanager').Tab;
+var Tab  = require('../client/tab').Tab;
 var id   = require('../client/id').Id.singleton;
 
 var SecurityTab = function ()
@@ -10,7 +10,7 @@ var SecurityTab = function ()
 
 util.inherits(SecurityTab, Tab);
 
-SecurityTab.prototype.parent = 'wallet';
+SecurityTab.prototype.mainMenu = 'wallet';
 
 SecurityTab.prototype.generateHtml = function ()
 {
@@ -20,8 +20,11 @@ SecurityTab.prototype.generateHtml = function ()
 SecurityTab.prototype.angular = function (module) {
   var app = this.app;
 
-  module.controller('SecurityCtrl', ['$scope', function ($scope)
+  module.controller('SecurityCtrl', ['$scope', 'rpId',
+                                     function ($scope, $id)
   {
+    if (!$id.loginStatus) return $id.goId();
+
     $scope.$watch('userBlob', updateEnc, true);
 
     function updateEnc()

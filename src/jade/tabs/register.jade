@@ -49,7 +49,7 @@ section.single.content(ng-controller="RegisterCtrl")
             select(ng-model="blobBackendCollection.something", ng-options="b.name for b in blobBackendCollections", ng-change="backendChange()")
       p.literal.throw
         | Have a wallet already?&nbsp;
-        a(href='#login') Open wallet
+        a(href='#/login') Open wallet
         br
         span(ng-hide="showMasterKeyInput")
           | Need to use your Secret Key?&nbsp;

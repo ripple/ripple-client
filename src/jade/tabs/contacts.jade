@@ -1,3 +1,4 @@
+include ../menu/wallet.jade
 section.panel.content(ng-controller="ContactsCtrl")
   table.table
     thead
@@ -18,7 +19,7 @@ section.panel.content(ng-controller="ContactsCtrl")
               ng-model='contact.name'
               rp-unique='userBlob.data.contacts'
               rp-unique-field='name'
-              rp-autofill='urlParams.name', rp-autofill-on='addform_visible = true'
+              rp-autofill='$routeParams.name', rp-autofill-on='addform_visible = true'
               required)
             .errorGroup(rp-errors='name')
               .error(rp-error-on='rpUnique')
@@ -30,7 +31,7 @@ section.panel.content(ng-controller="ContactsCtrl")
               rp-address
               rp-unique='userBlob.data.contacts'
               rp-unique-field='address'
-              rp-autofill='urlParams.to', rp-autofill-on='addform_visible = true'
+              rp-autofill='$routeParams.to', rp-autofill-on='addform_visible = true'
               required)
             .errorGroup(rp-errors='address')
               .error(rp-error-on='required') Please enter address.

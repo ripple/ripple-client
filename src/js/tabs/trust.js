@@ -1,6 +1,6 @@
 var util = require('util');
 var webutil = require('../util/web');
-var Tab = require('../client/tabmanager').Tab;
+var Tab = require('../client/tab').Tab;
 var app = require('../client/app').App.singleton;
 var Amount = ripple.Amount;
 
@@ -11,7 +11,7 @@ var TrustTab = function ()
 
 util.inherits(TrustTab, Tab);
 
-TrustTab.prototype.parent = 'advanced';
+TrustTab.prototype.mainMenu = 'advanced';
 
 TrustTab.prototype.generateHtml = function ()
 {
@@ -23,11 +23,10 @@ TrustTab.prototype.angular = function (module)
   var self = this;
   var app = this.app;
 
-  module.controller('TrustCtrl', ['$scope', '$timeout', function ($scope, $timeout)
+  module.controller('TrustCtrl', ['$scope', '$timeout', '$routeParams', 'rpId',
+                                  function ($scope, $timeout, $routeParams, $id)
   {
-    $scope.$watch('urlParams', function(){
-      $scope.reset();
-    }, true);
+    if (!$id.loginStatus) return $id.goId();
 
     $scope.reset = function () {
       $scope.mode = 'main';
@@ -38,7 +37,7 @@ TrustTab.prototype.angular = function (module)
       $scope.saveAddressName = '';
 
       // If all the form fields are prefilled, go to confirmation page
-      if ($scope.urlParams.to && $scope.urlParams.amount) {
+      if ($routeParams.to && $routeParams.amnt) {
         $scope.grant();
       }
     };

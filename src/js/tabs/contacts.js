@@ -1,6 +1,6 @@
 var util      = require('util');
 var webutil   = require('../util/web');
-var Tab       = require('../client/tabmanager').Tab;
+var Tab       = require('../client/tab').Tab;
 var id        = require('../client/id').Id.singleton;
 
 var ContactsTab = function ()
@@ -10,7 +10,7 @@ var ContactsTab = function ()
 
 util.inherits(ContactsTab, Tab);
 
-ContactsTab.prototype.parent = 'wallet';
+ContactsTab.prototype.mainMenu = 'wallet';
 
 ContactsTab.prototype.generateHtml = function ()
 {
@@ -19,10 +19,12 @@ ContactsTab.prototype.generateHtml = function ()
 
 ContactsTab.prototype.angular = function (module) {
   var app = this.app;
-  var tm = this.tm;
 
-  module.controller('ContactsCtrl', ['$scope', function ($scope)
+  module.controller('ContactsCtrl', ['$scope', 'rpId',
+                                     function ($scope, $id)
   {
+    if (!$id.loginStatus) return $id.goId();
+
     $scope.reset_form = function ()
     {
       $scope.contact = {
@@ -74,7 +76,8 @@ ContactsTab.prototype.angular = function (module) {
     };
   }]);
 
-  module.controller('ContactRowCtrl', ['$scope', function ($scope) {
+  module.controller('ContactRowCtrl', ['$scope', '$location',
+                                     function ($scope, $location) {
     $scope.editing = false;
 
     /**
@@ -128,13 +131,8 @@ ContactsTab.prototype.angular = function (module) {
 
     $scope.send = function (index)
     {
-      app.tabs.message('send', 'prefill', {
-        recipient: $scope.entry.name
-      });
-
-      setImmediate(function () {
-        app.tabs.gotoTab('send');
-      });
+      $location.path('/send');
+      $location.search({to: $scope.entry.name});
     };
   }]);
 };

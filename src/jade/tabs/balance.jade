@@ -1,4 +1,5 @@
-section.panel.content
+include ../menu/wallet.jade
+section.panel.content(ng-controller="BalanceCtrl")
   .div#welcome(ng-hide='account.Balance')
     p.title Welcome to Ripple.
     p You currently don't have any ripples (XRP). To get started you can:

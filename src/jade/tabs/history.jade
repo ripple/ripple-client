@@ -1,37 +1,38 @@
-section.panel.content(ng-controller="HistoryCtrl", ng-hide="connected")
-  .disconnected
-    p.literal You have to be online to see this screen
-    p: a.btn(href="#balance") Back to balance
-
-section.panel.content(ng-controller="HistoryCtrl", ng-show="connected")
-  ul.filter-tabs
-    li.all: a(ng-click='type = {}', ng-class="!type.type && 'active'") All Activity
-    li.received: a(ng-click='type = {type: "received"}', ng-class="type.type == 'received' && 'active'") Received
-    li.sent: a(ng-click='type = {type: "sent"}', ng-class="type.type == 'sent' && 'active'") Sent
-  table.table
-    thead
-      tr
-        th.date Date
-        th.counterparty Source / Destination
-        th.amount Amount
-        th.balance Balance
-    tbody
-      tr(ng-repeat="entry in history | filter:type", class="{{entry.type}}", rp-link-tx="entry.hash")
-        td.date {{entry.date | date}}
-        td.counterparty
-          span {{entry.counterparty | rpcontactnamefull}}
-          a.add(ng-hide="entry.counterparty | rponlycontactname", href="#contact?to={{entry.counterparty}}", class="btn sign small", rp-no-propagate) +
-        td.amount.rpamount
-          span(rp-tooltip="{{entry.amount | rpamount:{precision: 10} }} {{entry.currency}}")
-            | {{entry.amount | rpamount}}
-            .currency {{entry.currency}}
-        td.balance.rpamount
-          span(rp-tooltip="{{entry.balance | rpamount:{signed: true, precision: 10} }} {{entry.currency}}")
-            | {{entry.balance | rpamount:{signed: true} }}
-            .currency {{entry.currency}}
-      tr(ng-show="!(history | filter:type).length")
-        td(colspan="4")
-          span.literal(ng-show="history.length")
-            | Sorry, no transactions match your current filter.
-          span.literal(ng-show="!history.length")
+include ../menu/wallet.jade
+section.panel.content(ng-controller="HistoryCtrl")
+  group(ng-hide="connected")
+    .disconnected
+      p.literal You have to be online to see this screen
+      p: a.btn(href="#balance") Back to balance
+  group(ng-show="connected")
+    ul.filter-tabs
+      li.all: a(ng-click='type = {}', ng-class="!type.type && 'active'") All Activity
+      li.received: a(ng-click='type = {type: "received"}', ng-class="type.type == 'received' && 'active'") Received
+      li.sent: a(ng-click='type = {type: "sent"}', ng-class="type.type == 'sent' && 'active'") Sent
+    table.table
+      thead
+        tr
+          th.date Date
+          th.counterparty Source / Destination
+          th.amount Amount
+          th.balance Balance
+      tbody
+        tr(ng-repeat="entry in history | filter:type", class="{{entry.type}}", rp-link-tx="entry.hash")
+          td.date {{entry.date | date}}
+          td.counterparty
+            span {{entry.counterparty | rpcontactnamefull}}
+            a.add(ng-hide="entry.counterparty | rponlycontactname", href="#contact?to={{entry.counterparty}}", class="btn sign small", rp-no-propagate) +
+          td.amount.rpamount
+            span(rp-tooltip="{{entry.amount | rpamount:{precision: 10} }} {{entry.currency}}")
+              | {{entry.amount | rpamount}}
+              .currency {{entry.currency}}
+          td.balance.rpamount
+            span(rp-tooltip="{{entry.balance | rpamount:{signed: true, precision: 10} }} {{entry.currency}}")
+              | {{entry.balance | rpamount:{signed: true} }}
+              .currency {{entry.currency}}
+        tr(ng-show="!(history | filter:type).length")
+          td(colspan="4")
+            span.literal(ng-show="history.length")
+              | Sorry, no transactions match your current filter.
+            span.literal(ng-show="!history.length")
             | You don't have any transactions yet!

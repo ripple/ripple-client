@@ -1,5 +1,5 @@
 var util = require('util');
-var Tab = require('../client/tabmanager').Tab;
+var Tab = require('../client/tab').Tab;
 
 var ReceiveTab = function ()
 {
@@ -10,9 +10,15 @@ var ReceiveTab = function ()
 
 util.inherits(ReceiveTab, Tab);
 
-ReceiveTab.prototype.parent = 'main';
+ReceiveTab.prototype.mainMenu = 'receive';
 
-ReceiveTab.prototype.angular = function (module) {};
+ReceiveTab.prototype.angular = function (module) {
+  module.controller('ReceiveCtrl', ['$scope', 'rpId',
+                                     function ($scope, $id)
+  {
+    if (!$id.loginStatus) return $id.goId();
+  }]);
+};
 
 ReceiveTab.prototype.generateHtml = function ()
 {

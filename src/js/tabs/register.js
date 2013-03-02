@@ -1,5 +1,5 @@
 var util = require('util');
-var Tab = require('../client/tabmanager').Tab;
+var Tab = require('../client/tab').Tab;
 
 var RegisterTab = function ()
 {
@@ -22,9 +22,9 @@ RegisterTab.prototype.generateHtml = function ()
 
 RegisterTab.prototype.angular = function (module) {
   var app = this.app;
-  var tm = this.tm;
 
-  module.controller('RegisterCtrl', ['$scope', function ($scope)
+  module.controller('RegisterCtrl', ['$scope', '$location',
+                                     function ($scope, $location)
   {
     $scope.backendChange = function()
     {
@@ -87,7 +87,7 @@ RegisterTab.prototype.angular = function (module) {
             $scope.mode = 'masterkeyerror';
             $scope.$digest();
           } else {
-            tm.gotoTab('balance');
+            $location.path('/balance');
           }
         }
       });
@@ -98,7 +98,7 @@ RegisterTab.prototype.angular = function (module) {
       $scope.mode = 'form';
       $scope.reset();
 
-      tm.gotoTab('balance');
+      $location.path('/balance');
     };
 
     $scope.reset();

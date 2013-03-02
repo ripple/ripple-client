@@ -4,7 +4,7 @@ section#t-send.single.content(ng-controller='SendCtrl')
 
   .unfunded(ng-hide='account.Balance')
     p.literal You have to be funded before you can send money
-    p: a.btn(href="#balance") Back to balance
+    p: a.btn(href="#/balance") Back to balance
 
   //- Account is funded
 
@@ -19,7 +19,7 @@ section#t-send.single.content(ng-controller='SendCtrl')
       placeholder='Contact name or Ripple address'
       ng-model='send.recipient'
       rp-destination, required
-      rp-autofill='urlParams.to')
+      rp-autofill='$routeParams.to')
     .errorGroup(rp-errors='send_destination')
       .success(rp-error-valid ng-show='send.recipient != send.recipient_address')
         | {{send.recipient_address}}
@@ -34,14 +34,14 @@ section#t-send.single.content(ng-controller='SendCtrl')
         name='send_amount', type='number', step='any'
         ng-model='send.amount'
         ng-pattern='/^[0-9.]+$/', required, ng-maxlength='20'
-        rp-autofill='urlParams.amount.to_human({group_sep:false})'
+        rp-autofill='$routeParams.amount.to_human({group_sep:false})'
         rp-max-amount
         rp-max-amount-currency='{{send.currency}}')
       input.currency#send_amount_currency(
         name='send_amount_currency', type='text'
         rp-combobox="currency_query", rp-combobox-select
         ng-model='send.currency'
-        rp-autofill='urlParams.amount.currency().to_json()')
+        rp-autofill='$routeParams.amount.currency().to_json()')
     .errorGroup(rp-errors='send_amount')
       //.success(rp-error-valid)
       //  | {{amount_feedback | rpamount}} {{amount_feedback | rpcurrency}}
@@ -192,7 +192,7 @@ section#t-send.single.content(ng-controller='SendCtrl')
           input#contact_name(
             name='save_address_name', type="text"
             ng-model='saveAddressName', unique, required
-            rp-autofill='urlParams.name')
+            rp-autofill='$routeParams.name')
           .error(ng-show='saveAddressForm.save_address_name.$error.unique')
             | You already have a contact with the same name.
           div

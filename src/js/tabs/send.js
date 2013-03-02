@@ -1,6 +1,6 @@
 var util = require('util'),
     webutil = require('../util/web'),
-    Tab = require('../client/tabmanager').Tab,
+    Tab = require('../client/tab').Tab,
     Amount = ripple.Amount;
 
 var SendTab = function ()
@@ -12,7 +12,7 @@ var SendTab = function ()
 
 util.inherits(SendTab, Tab);
 
-SendTab.prototype.parent = 'main';
+SendTab.prototype.mainMenu = 'send';
 
 SendTab.prototype.generateHtml = function ()
 {
@@ -22,11 +22,13 @@ SendTab.prototype.generateHtml = function ()
 SendTab.prototype.angular = function (module)
 {
   var self = this,
-      app = this.app,
-      tm = this.tm;
+      app = this.app;
 
-  module.controller('SendCtrl', ['$scope', '$timeout', function ($scope, $timeout)
+  module.controller('SendCtrl', ['$scope', '$timeout', '$routeParams', 'rpId',
+                                 function ($scope, $timeout, $routeParams, $id)
   {
+    if (!$id.loginStatus) return $id.goId();
+
     $scope.xrp = $scope.currencies_all[0];
 
     $scope.$watch('send.recipient', function(){
@@ -271,7 +273,7 @@ SendTab.prototype.angular = function (module)
       var currency = $scope.send.currency.slice(0, 3).toUpperCase();
       var amount = Amount.from_human(""+$scope.send.amount+" "+currency);
       var addr = $scope.send.recipient_address;
-      var dt = $scope.urlParams.dt ? $scope.urlParams.dt : webutil.getDestTagFromAddress($scope.send.recipient);
+      var dt = $routeParams.dt ? $routeParams.dt : webutil.getDestTagFromAddress($scope.send.recipient);
 
       amount.set_issuer(addr);
 
@@ -281,8 +283,8 @@ SendTab.prototype.angular = function (module)
       tx.destination_tag(dt);
 
       // Source tag
-      if ($scope.urlParams.st) {
-        tx.source_tag($scope.urlParams.st);
+      if ($routeParams.st) {
+        tx.source_tag($routeParams.st);
       }
 
       tx.payment(app.id.account, addr, amount.to_json());
@@ -375,17 +377,11 @@ SendTab.prototype.angular = function (module)
     $scope.reset();
 
     // If all the form fields are prefilled, go to confirmation page
-    if ($scope.urlParams.to && $scope.urlParams.amount) {
+    if ($routeParams.to && $routeParams.amount) {
       setImmediate(function() {
         $scope.calculate_send();
       });
     }
-
-    // TODO I think we should handle urlParams autofill and prefill event in similar way
-    self.on('prefill', function (data) {
-      $scope.reset();
-      $.extend($scope.send, data);
-    });
   }]);
 
   /**

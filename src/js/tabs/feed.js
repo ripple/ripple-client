@@ -1,5 +1,5 @@
 var util = require('util');
-var Tab = require('../client/tabmanager').Tab;
+var Tab = require('../client/tab').Tab;
 
 var FeedTab = function ()
 {

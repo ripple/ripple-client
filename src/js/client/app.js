@@ -9,7 +9,6 @@ var App = function ()
 {
   this.net = null;
   this.id = null;
-  this.tabs = null;
   this.$scope = null;
   this.$compile = null;
 };
@@ -24,12 +23,6 @@ App.prototype.setId = function (id)
 {
   this.id = id;
   id.setApp(this);
-};
-
-App.prototype.setTabManager = function (tabs)
-{
-  this.tabs = tabs;
-  tabs.setApp(this);
 };
 
 App.prototype.setModel = function (model)
@@ -62,7 +55,6 @@ App.prototype.startup = function ()
   this.net.init();
   this.sm.init();
   this.id.init();
-  this.tabs.init();
 
   // Enable screen
   $('body').addClass('loaded');

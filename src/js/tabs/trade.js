@@ -1,6 +1,6 @@
 var util = require('util');
 var webutil = require('../util/web');
-var Tab = require('../client/tabmanager').Tab;
+var Tab = require('../client/tab').Tab;
 var Amount = ripple.Amount;
 
 var TradeTab = function ()
@@ -9,7 +9,8 @@ var TradeTab = function ()
 };
 
 util.inherits(TradeTab, Tab);
-TradeTab.prototype.parent = 'advanced';
+
+TradeTab.prototype.mainMenu = 'advanced';
 
 TradeTab.prototype.generateHtml = function ()
 {
@@ -23,7 +24,8 @@ TradeTab.prototype.angular = function(module)
   var self = this;
   var app = this.app;
 
-  module.controller('TradeCtrl', ['rpLedger', '$scope', function (ledger, $scope)
+  module.controller('TradeCtrl', ['rpLedger', '$scope', 'rpId',
+                                  function (ledger, $scope, $id)
   {
     $scope.mode = "confirm";
     $scope.orders = [];

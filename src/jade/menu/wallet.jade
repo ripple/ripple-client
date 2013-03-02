@@ -1,0 +1,9 @@
+nav: ul
+  li(ng-class="{active: $route.current.$route.tabName == 'balance'}")
+    a(href="#/balance") Balance
+  li(ng-class="{active: $route.current.$route.tabName == 'history'}")
+    a(href="#/history") History
+  li(ng-class="{active: $route.current.$route.tabName == 'contacts'}")
+    a(href="#/contacts") Contacts
+  li(ng-class="{active: $route.current.$route.tabName == 'security'}")
+    a(href="#/security") Security

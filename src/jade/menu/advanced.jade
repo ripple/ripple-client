@@ -1,0 +1,7 @@
+nav: ul
+  li(ng-class="{active: $route.current.$route.tabName == 'trust'}")
+    a(href="#/trust") Trust
+  li(ng-class="{active: $route.current.$route.tabName == 'trade'}")
+    a(href="#/trade") Trade
+  li(ng-class="{active: $route.current.$route.tabName == 'options'}")
+    a(href="#/options") Options

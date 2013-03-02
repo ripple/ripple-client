@@ -122,7 +122,7 @@ header nav ul {
       }
 
       > a {
-        opacity: 0.85;
+        opacity: 1;
         color: #333;
       }
 
@@ -170,7 +170,7 @@ header nav ul {
   background-position: 8px -102px;
 }
 
-#main {
+#wrapper > .main {
   padding-bottom: 20px;
   clear: both;
   position: relative;
@@ -179,17 +179,6 @@ header nav ul {
   .rounded(10px);
   .box-shadow(0 0 10px rgba(0,0,0,0.15));
   min-height: 500px;
-}
-
-@sideNavWidth: @gridColumnWidth * 3 + @gridGutterWidth * 2 - 70px;
-
-#main section {
-  display: none;
-  .border-radius(0, 20px, 0, 0);
-
-  &.active {
-    display: block;
-  }
 
   nav {
     position: absolute;
@@ -300,10 +289,20 @@ header nav ul {
       z-index: 100;
       background: #f9f9f9 url('../../img/subnav_shadow.png') repeat-y right top;
     }
-  }
 
-  > .panel {
-    margin-left: @sideNavWidth - 15px;
+    + .panel {
+      margin-left: @sideNavWidth - 15px;
+    }
+  }
+}
+
+@sideNavWidth: @gridColumnWidth * 3 + @gridGutterWidth * 2 - 70px;
+
+#wrapper > .main section {
+  .border-radius(0, 20px, 0, 0);
+
+  &.active {
+    display: block;
   }
 }
 

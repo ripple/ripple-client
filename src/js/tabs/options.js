@@ -1,6 +1,6 @@
 var util = require('util');
 var webutil = require('../util/web');
-var Tab = require('../client/tabmanager').Tab;
+var Tab = require('../client/tab').Tab;
 
 var OptionsTab = function ()
 {
@@ -8,7 +8,8 @@ var OptionsTab = function ()
 };
 
 util.inherits(OptionsTab, Tab);
-OptionsTab.prototype.parent = 'advanced';
+
+OptionsTab.prototype.mainMenu = 'advanced';
 
 OptionsTab.prototype.generateHtml = function ()
 {
@@ -17,8 +18,11 @@ OptionsTab.prototype.generateHtml = function ()
 
 OptionsTab.prototype.angular = function(module)
 {
-  module.controller('OptionsCtrl', ['$scope', '$rootScope', function ($scope, $rootScope)
+  module.controller('OptionsCtrl', ['$scope', '$rootScope', 'rpId',
+                                    function ($scope, $rootScope, $id)
   {
+    if (!$id.loginStatus) return $id.goId();
+
     $scope.socketIp = Options.server.websocket_ip + ":" + Options.server.websocket_port;
     $scope.socketSsl = Options.server.websocket_ssl;
     $scope.blobIp = Options.blobvault;

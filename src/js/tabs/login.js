@@ -1,5 +1,5 @@
 var util = require('util');
-var Tab = require('../client/tabmanager').Tab;
+var Tab = require('../client/tab').Tab;
 
 var LoginTab = function ()
 {
@@ -20,11 +20,10 @@ LoginTab.prototype.generateHtml = function ()
 
 LoginTab.prototype.angular = function (module) {
   var self = this;
-  var tm = this.tm;
   var app = this.app;
 
-  module.controller('LoginCtrl', ['$scope', '$element',
-                                  function ($scope, $element)
+  module.controller('LoginCtrl', ['$scope', '$element', '$routeParams', '$location',
+                                  function ($scope, $element, $routeParams, $location)
   {
     $scope.backendChange = function()
     {
@@ -72,10 +71,10 @@ LoginTab.prototype.angular = function (module) {
         app.id.login($scope.username, $scope.password, function(backendName, err, success) {
           $scope.ajax_loading = false;
           if (success) {
-            if ('login' !== $scope.urlParams.tab) {
-              tm.handleHashChange();
+            if ($routeParams.tab) {
+              $location.path('/'+$routeParams.tab);
             } else {
-              tm.gotoTab('balance');
+              $location.path('/balance');
             }
           } else {
             $scope.backendMessages.push({'backend':backendName, 'message':err.message});

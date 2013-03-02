@@ -1,5 +1,5 @@
 var util = require('util');
-var Tab = require('../client/tabmanager').Tab;
+var Tab = require('../client/tab').Tab;
 var id = require('../client/id').Id.singleton;
 
 var HistoryTab = function ()
@@ -9,7 +9,7 @@ var HistoryTab = function ()
 
 util.inherits(HistoryTab, Tab);
 
-HistoryTab.prototype.parent = 'wallet';
+HistoryTab.prototype.mainMenu = 'wallet';
 
 HistoryTab.prototype.generateHtml = function ()
 {
@@ -17,8 +17,10 @@ HistoryTab.prototype.generateHtml = function ()
 };
 
 HistoryTab.prototype.angular = function (module) {
-  module.controller('HistoryCtrl', ['$scope',
-                                    function ($scope) {
+  module.controller('HistoryCtrl', ['$scope', 'rpId',
+                                     function ($scope, $id)
+  {
+    if (!$id.loginStatus) return $id.goId();
   }]);
 };
 
