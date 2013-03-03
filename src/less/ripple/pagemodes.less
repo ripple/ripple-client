@@ -34,7 +34,7 @@ html.pm-single {
     margin-right: @right;
   }
 
-  > h2, > p, > div, > form {
+  > h2, > p, > div, > form, > dl {
     padding-left: @left;
     padding-right: @right;
   }
@@ -94,4 +94,55 @@ html.pm-single {
 }
 .modal-backdrop {
   opacity: 0.8 !important;
+}
+
+/* A common class for all data-driven pages */
+.ddpage {
+  font-size: 13px;
+
+  p.type {
+    background-color: #F8FBF2;
+    font-size: 18px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    color: #999;
+
+    strong {
+      font-weight: normal;
+      font-family: "OpenSansRegular";
+      padding-left: 10px;
+      color: #000;
+    }
+  }
+
+  dl.details {
+    .clearfix;
+    dt {
+      font-family: "OpenSansRegular";
+      color: #888;
+      clear: left;
+	    float: left;
+      width: 130px;
+      margin: 0;
+      padding: 8px 0;
+    }
+    dd {
+      float: left;
+      margin: 0;
+      padding: 8px 0;
+      color: #000;
+    }
+
+    &.half {
+      float: left;
+      width: 400px;
+      &:first-child {
+        padding-right: 20px;
+      }
+      &:last-child {
+        padding-left: 0;
+        padding-right: 0;
+      }
+    }
+  }
 }

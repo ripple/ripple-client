@@ -6,16 +6,18 @@
 
 var module = angular.module('datalinks', []);
 
-module.directive('rpLinkTx', [function () {
+module.directive('rpLinkTx', ['$location', function ($location) {
   return {
     restrict: 'A',
     link: function ($scope, element, attr) {
       var url;
       $scope.$watch(attr.rpLinkTx, function (hash) {
-        url = "https://ripple.com/graph?tx_id="+hash;
+        url = "/tx?id="+hash;
       });
       element.click(function () {
-        if (url) window.open(url, '_blank');
+        $scope.$apply(function () {
+          if (url) $location.url(url);
+        });
       });
     }
   };

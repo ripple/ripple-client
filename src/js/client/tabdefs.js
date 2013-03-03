@@ -58,3 +58,8 @@ exports["unl"] = function (callback) {
 exports["security"] = function (callback) {
   callback(require('../tabs/security'));
 };
+
+exports["tx"] = function (callback) {
+  callback(require('../tabs/tx'));
+};
+

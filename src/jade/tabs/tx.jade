@@ -1,0 +1,47 @@
+section.single.ddpage.content(ng-controller="TxCtrl", ng-switch on="state")
+  group(ng-switch-when="loading")
+    p.literal.throbber Loading transaction details...
+  group(ng-switch-when="error")
+    p.literal An error occurred while loading the transaction details.
+  group(ng-switch-when="loaded")
+    p.literal Transaction # {{transaction.hash}}
+    hr
+    p.literal.type Transaction type:
+      strong {{transaction.TransactionType}}
+    group(ng-switch on="transaction.TransactionType")
+      group(ng-switch-when="Payment")
+        group.clearfix
+          dl.details.half
+            dt Address sent from:
+            dd {{transaction.Account}}
+            dt Amount sent:
+            dd TODO
+            dt Currency sent:
+            // XXX Bad way of doing it...
+            dd {{transaction.SendMax | rpcurrencyfull}}
+          dl.details.half
+            dt Address sent to:
+            dd {{transaction.Destination}}
+            dt Amount received:
+            dd {{transaction.Amount | rpamount}} {{transaction.Amount | rpcurrency}}
+            dt Currency received:
+            dd {{transaction.Amount | rpcurrencyfull}}
+        hr
+        dl.details
+          dt Network fee paid:
+          dd {{transaction.Fee | rpamount}} XRP
+          dt Conversion rate:
+          dd TODO
+        hr
+        dl.details
+          dt Ledger number:
+          dd TODO
+    group(ng-switch-default)
+        group.clearfix
+          dl.details.half
+            dt Address sent from:
+            dd {{transaction.Account}}
+          dl.details.half
+        hr
+        p.literal Sorry, we don&#39;t have a info page layout for this
+          | transaction type yet.
