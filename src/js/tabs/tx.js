@@ -31,6 +31,8 @@ TxTab.prototype.angular = function (module)
       request.on('success', function (res) {
         $scope.$apply(function () {
           $scope.state = 'loaded';
+          // XXX This is for the upcoming tx RPC call format change.
+          var tx = res.tx ? res.tx : res;
           _.extend($scope.transaction, res);
           console.log(res);
         });

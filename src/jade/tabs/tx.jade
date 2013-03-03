@@ -36,12 +36,12 @@ section.single.ddpage.content(ng-controller="TxCtrl", ng-switch on="state")
         dl.details
           dt Ledger number:
           dd TODO
-    group(ng-switch-default)
-        group.clearfix
-          dl.details.half
-            dt Address sent from:
-            dd {{transaction.Account}}
-          dl.details.half
-        hr
-        p.literal Sorry, we don&#39;t have a info page layout for this
-          | transaction type yet.
+      group(ng-switch-default)
+          group.clearfix
+            dl.details.half
+              dt Address sent from:
+              dd {{transaction.Account}}
+            dl.details.half
+          hr
+          p.literal Sorry, we don&#39;t have a info page layout for this
+            | transaction type yet.
