@@ -1,9 +1,12 @@
 module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-recess');
   grunt.loadNpmTasks('grunt-webpack');
+  grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
 
   grunt.initConfig({
-    pkg: '<json:package.json>',
+    pkg: grunt.file.readJSON('package.json'),
     meta: {
       banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - ' +
         '<%= grunt.template.today("yyyy-mm-dd") %>\n' +
@@ -11,10 +14,8 @@ module.exports = function(grunt) {
         '* Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>;' +
         ' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %> */'
     },
-    lint: {
-      files: ['src/js/**/*.js']
-    },
     jshint: {
+      all: ['src/js/**/*.js'],
       options: {
         "validthis": true,
         "laxcomma" : true,
@@ -39,14 +40,27 @@ module.exports = function(grunt) {
       }
     },
     webpack: {
+      options: {
+        module: {
+          loaders: [
+            { test: /\.jade$/, loader: "jade-loader" }
+          ]
+        }
+      },
       desktop: {
-        src: "src/js/entry/desktop.js",
-        dest: "build/dist/<%= pkg.name %>-desktop.js",
+        entry: "./src/js/entry/desktop.js",
+        output: {
+          path: "build/dist/",
+          filename: "<%= pkg.name %>-desktop.js"
+        },
         minimize: true
       },
       desktop_debug: {
-        src: "src/js/entry/desktop.js",
-        dest: "build/dist/<%= pkg.name %>-desktop-debug.js",
+        entry: "./src/js/entry/desktop.js",
+        output: {
+          path: "build/dist/",
+          filename: "<%= pkg.name %>-desktop-debug.js"
+        },
         debug: true
       }
     },
@@ -79,15 +93,17 @@ module.exports = function(grunt) {
         dest: 'build/dist/deps_ie-debug.js'
       }
     },
-    min: {
+    uglify: {
       // JavaScript dependencies
       deps: {
-        src: ["build/dist/deps-debug.js"],
-        dest: 'build/dist/deps.js'
+        files: {
+          'build/dist/deps.js': ["build/dist/deps-debug.js"]
+        }
       },
       deps_ie: {
-        src: ["build/dist/deps_ie-debug.js"],
-        dest: 'build/dist/deps_ie.js'
+        files: {
+          'build/dist/deps_ie.js': ["build/dist/deps_ie-debug.js"]
+        }
       }
     },
     watch: {
@@ -107,7 +123,8 @@ module.exports = function(grunt) {
   });
 
   // Tasks
-  grunt.registerTask('default', 'lint webpack recess concat:deps min:deps ' +
-                     'concat:deps_ie min:deps_ie');
+  grunt.registerTask('default', ['jshint:all', 'webpack', 'recess',
+                                 'concat:deps', 'uglify:deps',
+                                 'concat:deps_ie', 'uglify:deps_ie']);
   grunt.registerTask('deps', 'concat:deps min:deps');
 };
