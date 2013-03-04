@@ -110,7 +110,7 @@ module.exports = function(grunt) {
     watch: {
       scripts: {
         files: ['<%= jshint.all %>', 'src/jade/**/*.jade'],
-        tasks: ['jshint', 'webpack:desktop', 'webpack:desktop_debug']
+        tasks: ['jshint', 'webpack:desktop_debug', 'webpack:desktop']
       },
       deps: {
         files: ['<%= concat.deps.src %>'],
