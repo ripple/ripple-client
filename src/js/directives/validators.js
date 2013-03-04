@@ -395,7 +395,7 @@ module.directive('rpMaxAmount', function () {
       if (!ctrl) return;
 
       var validator = function(value) {
-        var input = Amount.from_human(Number(elm[0].value));
+        var input = Amount.from_human(+value);
 
         var currency = attr.rpMaxAmountCurrency ? attr.rpMaxAmountCurrency.slice(0, 3).toUpperCase() : 'XRP';
 
@@ -419,6 +419,10 @@ module.directive('rpMaxAmount', function () {
 
       ctrl.$formatters.push(validator);
       ctrl.$parsers.unshift(validator);
+
+      scope.$watch('account.max_spend', function () {
+        validator(ctrl.$viewValue);
+      }, true);
 
       attr.$observe('rpMaxAmount', function() {
         validator(ctrl.$viewValue);
