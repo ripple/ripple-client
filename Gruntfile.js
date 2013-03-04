@@ -113,7 +113,7 @@ module.exports = function(grunt) {
         tasks: ['jshint', 'webpack:desktop', 'webpack:desktop_debug']
       },
       deps: {
-        files: ['<config:concat.deps.src>'],
+        files: ['<%= concat.deps.src %>'],
         tasks: ['concat:deps', 'uglify:deps']
       },
       styles: {
