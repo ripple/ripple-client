@@ -375,13 +375,6 @@ SendTab.prototype.angular = function (module)
     }
 
     $scope.reset();
-
-    // If all the form fields are prefilled, go to confirmation page
-    if ($routeParams.to && $routeParams.amount) {
-      setImmediate(function() {
-        $scope.calculate_send();
-      });
-    }
   }]);
 
   /**
