@@ -110,11 +110,11 @@ module.exports = function(grunt) {
     watch: {
       scripts: {
         files: ['<config:lint.files>', 'src/jade/**/*.jade'],
-        tasks: 'lint webpack:desktop webpack:desktop_debug'
+        tasks: ['jshint', 'webpack:desktop', 'webpack:desktop_debug']
       },
       deps: {
         files: ['<config:concat.deps.src>'],
-        tasks: 'concat:deps min:deps'
+        tasks: ['concat:deps', 'uglify:deps']
       },
       styles: {
         files: 'src/less/**/*.less',
@@ -127,5 +127,5 @@ module.exports = function(grunt) {
   grunt.registerTask('default', ['jshint:all', 'webpack', 'recess',
                                  'concat:deps', 'uglify:deps',
                                  'concat:deps_ie', 'uglify:deps_ie']);
-  grunt.registerTask('deps', 'concat:deps min:deps');
+  grunt.registerTask('deps', ['concat:deps', 'min:deps']);
 };
