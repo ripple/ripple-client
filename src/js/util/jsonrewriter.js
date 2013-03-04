@@ -199,7 +199,7 @@ var JsonRewriter = module.exports = {
       break;
 
     case 'OfferCancel':
-      obj.type = tx.Account !== account ?
+      obj.type = tx.Account === account ?
         'offercancel' :
         'ignore';
 
@@ -212,9 +212,7 @@ var JsonRewriter = module.exports = {
         break;
       }
 
-      obj.offers.forEach(function (o) {
-        offer = o;
-      });
+      offer = obj.offers[tx.OfferSequence];
 
       obj.pays = offer.pays;
       obj.gets = offer.gets;
