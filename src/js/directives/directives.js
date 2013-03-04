@@ -323,6 +323,22 @@ module.directive('rpAutofill', ['$parse', function ($parse) {
 
       $scope.$watch(attr.rpAutofill, function (value) {
         if (value) {
+          // Normalize amount
+          if (attr.rpAutofillAmount || attr.rpAutofillCurrency) {
+            // 1 XRP will be interpreted as 1 XRP, not 1 base unit
+            if (value === (""+parseInt(value, 10))) {
+              value = value + '.0';
+            }
+
+            var amount = ripple.Amount.from_json(value);
+            if (!amount.is_valid()) return;
+            if (attr.rpAutofillAmount) {
+              value = +amount.to_human({group_sep: false});
+            } else {
+              value = amount.currency().to_json();
+            }
+          }
+
           element.val(value);
           ctrl.$setViewValue(value);
           $scope.$eval(attr.rpAutofillOn);

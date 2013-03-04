@@ -32,7 +32,8 @@ section.panel.content(ng-controller="TrustCtrl")
               input#trust_counterparty(name='trust_counterparty', type='text', ng-model='counterparty'
                 rp-combobox="counterparty_query", placeholder='Contact name or Ripple address',
                 rp-destination, rp-not-me, required
-                rp-autofill='$routeParams.to', rp-autofill-on='addform_visible = true')
+                rp-autofill='$routeParams.to'
+                rp-autofill-on='addform_visible = true')
               .errorGroup(rp-errors='trust_counterparty')
                 .success(rp-error-valid ng-show='counterparty != counterparty_address && counterparty_name')
                   | {{counterparty_address}}
@@ -44,13 +45,16 @@ section.panel.content(ng-controller="TrustCtrl")
                   | User should be either a name from your contact list or Ripple address.
               label(for='trust_amount') Amount
               .amount
-                //- TODO I don't like the idea of dividing amount to get what I need
                 input.value#trust_amount(name='trust_amount', type='number', step='any', ng-model='amount'
                   ng-pattern='/^[0-9.]+$/', required
-                  rp-autofill='$routeParams.amount.to_number()/1000000', rp-autofill-on='addform_visible = true')
+                  rp-autofill='$routeParams.amount'
+                  rp-autofill-amount
+                  rp-autofill-on='addform_visible = true')
                 input.currency-field#trust_amount_currency(name='trust_amount_currency', type='text'
                   ng-model='currency', rp-combobox="currency_query", rp-combobox-select
-                  rp-autofill='$routeParams.amount.currency().to_json()', rp-autofill-on='addform_visible = true')
+                  rp-autofill='$routeParams.amount'
+                  rp-autofill-currency
+                  rp-autofill-on='addform_visible = true')
               .submitsection
                 button.btn.btn-info.submit(type='submit', ng-disabled='trustForm.$invalid') Grant Trust
 
