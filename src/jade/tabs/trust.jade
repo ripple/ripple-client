@@ -19,6 +19,7 @@ section.panel.content(ng-controller="TrustCtrl")
         tr
           th.account Name/Address
           th.currency Currency
+          th.balance Balance
           th.trust Trust Limit
           th.action
             a.btn.btn-success.sign(ng-click='toggle_form()')
@@ -61,6 +62,7 @@ section.panel.content(ng-controller="TrustCtrl")
         tr(ng-repeat='(key, line) in lines')
           td.account {{line.account | rpcontactnamefull}}
           td.currency {{line.currency}}
+          td.balance {{line.balance | rpamount}}
           td.trust
             //{{line.limit_peer | rpamount}} --- {{line.balance | rpamount:{signed: true} }} --- {{line.limit | rpamount}}
             rp-trust-line(rp-line-data='line')
