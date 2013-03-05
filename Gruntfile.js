@@ -61,7 +61,9 @@ module.exports = function(grunt) {
         output: {
           filename: "<%= pkg.name %>-desktop.js"
         },
-        minimize: true
+        optimize: {
+          minimize: true
+        }
       },
       desktop_debug: {
         output: {
@@ -117,6 +119,11 @@ module.exports = function(grunt) {
       scripts: {
         files: ['src/js/**/*.js', 'src/jade/**/*.jade'],
         tasks: ['webpack:desktop_debug', 'webpack:desktop'],
+        options: { nospawn: true }
+      },
+      scripts_debug: {
+        files: ['src/js/**/*.js', 'src/jade/**/*.jade'],
+        tasks: ['webpack:desktop_debug'],
         options: { nospawn: true }
       },
       deps: {
