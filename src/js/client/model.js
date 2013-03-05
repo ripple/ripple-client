@@ -22,7 +22,17 @@ Model.prototype.init = function ()
 
   this.reset();
 
-  $scope.currencies_all = require('../data/currencies');
+  // Personalized default currency set
+  if (!store.get('currencies_all')) {
+    store.set('currencies_all',require('../data/currencies'));
+  }
+
+  $scope.currencies_all = store.get('currencies_all');
+
+  $scope.$watch('currencies_all', function(){
+    store.set('currencies_all',$scope.currencies_all);
+  }, true);
+
   $scope.currencies = $scope.currencies_all.slice(1);
   $scope.pairs = require('../data/pairs');
 
