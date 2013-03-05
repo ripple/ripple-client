@@ -29,6 +29,15 @@ Model.prototype.init = function ()
 
   $scope.currencies_all = store.get('currencies_all');
 
+  function compare(a, b) {
+    if (a.order < b.order) return 1;
+    if (a.order > b.order) return -1;
+    return 0;
+  }
+
+  // sort currencies by order
+  $scope.currencies_all.sort(compare);
+
   $scope.$watch('currencies_all', function(){
     store.set('currencies_all',$scope.currencies_all);
   }, true);

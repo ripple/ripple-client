@@ -300,12 +300,12 @@ SendTab.prototype.angular = function (module)
         setEngineStatus(res, false);
         $scope.sent(this.hash);
 
-        // Remember currency and increase usage
+        // Remember currency and increase order
         var found;
 
         for (var i = 0; i < $scope.currencies_all.length; i++) {
           if ($scope.currencies_all[i].value.toLowerCase() == $scope.send.amount_feedback.currency().to_human().toLowerCase()) {
-            $scope.currencies_all[i].usage = $scope.currencies_all[i].usage ? $scope.currencies_all[i].usage + 1 : 1;
+            $scope.currencies_all[i].order++;
             found = true;
             break;
           }
@@ -315,7 +315,7 @@ SendTab.prototype.angular = function (module)
           $scope.currencies_all.push({
             "name": $scope.send.amount_feedback.currency().to_human().toUpperCase(),
             "value": $scope.send.amount_feedback.currency().to_human().toUpperCase(),
-            "usage": 1
+            "order": 1
           });
         }
 
