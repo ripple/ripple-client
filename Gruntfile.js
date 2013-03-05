@@ -1,7 +1,7 @@
+var path = require("path");
 module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-recess');
   grunt.loadNpmTasks('grunt-webpack');
-  grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-watch');
@@ -15,22 +15,6 @@ module.exports = function(grunt) {
         '* Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>;' +
         ' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %> */'
     },
-    jshint: {
-      all: ['src/js/**/*.js'],
-      options: {
-        "validthis": true,
-        "laxcomma" : true,
-        "laxbreak" : true,
-        "browser"  : true,
-        "eqnull"   : true,
-        "debug"    : true,
-        "devel"    : true,
-        "boss"     : true,
-        "expr"     : true,
-        "asi"      : true,
-        "sub"      : true
-      }
-    },
     recess: {
       dist: {
         src: ['src/less/ripple/desktop.less'],
@@ -42,27 +26,51 @@ module.exports = function(grunt) {
     },
     webpack: {
       options: {
+        entry: "./src/js/entry/desktop.js",
         module: {
           loaders: [
             { test: /\.jade$/, loader: "jade-loader" }
+          ],
+          preLoaders: [
+            {
+              test: /\.js$/,
+              include: pathToRegExp(path.join(__dirname, 'src', 'js')),
+              loader: "jshint-loader"
+            }
           ]
+        },
+        output: {
+          path: "build/dist/"
+        },
+        cache: true,
+        jshint: {
+          "validthis": true,
+          "laxcomma" : true,
+          "laxbreak" : true,
+          "browser"  : true,
+          "eqnull"   : true,
+          "debug"    : true,
+          "devel"    : true,
+          "boss"     : true,
+          "expr"     : true,
+          "asi"      : true,
+          "sub"      : true
         }
       },
       desktop: {
-        entry: "./src/js/entry/desktop.js",
         output: {
-          path: "build/dist/",
           filename: "<%= pkg.name %>-desktop.js"
         },
-        minimize: true
+        optimize: {
+          minimize: true
+        }
       },
       desktop_debug: {
-        entry: "./src/js/entry/desktop.js",
         output: {
-          path: "build/dist/",
           filename: "<%= pkg.name %>-desktop-debug.js"
         },
-        debug: true
+        debug: true,
+        devtool: 'eval'
       }
     },
     concat: {
@@ -109,8 +117,14 @@ module.exports = function(grunt) {
     },
     watch: {
       scripts: {
-        files: ['<%= jshint.all %>', 'src/jade/**/*.jade'],
-        tasks: ['jshint', 'webpack:desktop_debug', 'webpack:desktop']
+        files: ['src/js/**/*.js', 'src/jade/**/*.jade'],
+        tasks: ['webpack:desktop_debug', 'webpack:desktop'],
+        options: { nospawn: true }
+      },
+      scripts_debug: {
+        files: ['src/js/**/*.js', 'src/jade/**/*.jade'],
+        tasks: ['webpack:desktop_debug'],
+        options: { nospawn: true }
       },
       deps: {
         files: ['<%= concat.deps.src %>'],
@@ -124,8 +138,11 @@ module.exports = function(grunt) {
   });
 
   // Tasks
-  grunt.registerTask('default', ['jshint:all', 'webpack', 'recess',
+  grunt.registerTask('default', ['webpack', 'recess',
                                  'concat:deps', 'uglify:deps',
                                  'concat:deps_ie', 'uglify:deps_ie']);
   grunt.registerTask('deps', ['concat:deps', 'min:deps']);
 };
+// Helpers
+function escapeRegExpString(str) { return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&"); }
+function pathToRegExp(p) { return new RegExp("^" + escapeRegExpString(p)); }
