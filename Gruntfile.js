@@ -116,14 +116,14 @@ module.exports = function(grunt) {
       }
     },
     watch: {
-      scripts: {
-        files: ['src/js/**/*.js', 'src/jade/**/*.jade'],
-        tasks: ['webpack:desktop_debug', 'webpack:desktop'],
-        options: { nospawn: true }
-      },
       scripts_debug: {
         files: ['src/js/**/*.js', 'src/jade/**/*.jade'],
         tasks: ['webpack:desktop_debug'],
+        options: { nospawn: true }
+      },
+      scripts: {
+        files: ['src/js/**/*.js', 'src/jade/**/*.jade'],
+        tasks: ['webpack:desktop_debug', 'webpack:desktop'],
         options: { nospawn: true }
       },
       deps: {
