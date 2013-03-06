@@ -12,6 +12,9 @@ util.inherits(ContactsTab, Tab);
 
 ContactsTab.prototype.mainMenu = 'wallet';
 
+// /contact is the way it appears in Ripple URIs
+ContactsTab.prototype.aliases = ['contact'];
+
 ContactsTab.prototype.generateHtml = function ()
 {
   return require('../../jade/tabs/contacts.jade')();

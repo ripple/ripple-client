@@ -69,16 +69,22 @@ app.config(['$routeProvider', '$injector', function ($routeProvider, $injector) 
         $injector.load([tabName]);
       }
       if ("function" === typeof tab.generateHtml) {
-        $routeProvider.when('/'+tabName, {
+        var config = {
           tabName: tabName,
           tabClass: 't-'+tabName,
           pageMode: 'pm-'+tab.pageMode,
           mainMenu: tab.mainMenu,
           template: tab.generateHtml()
+        };
+        $routeProvider.when('/'+tabName, config);
+
+        _.each(tab.aliases, function (alias) {
+          $routeProvider.when('/'+alias, config);
         });
       }
     });
   });
+
   $routeProvider.otherwise({redirectTo: '/balance'});
 }]);
 

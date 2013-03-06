@@ -35,4 +35,9 @@ Tab.prototype.angularDeps = [
   'filters'
 ];
 
+/**
+ * Other routes this tab should handle.
+ */
+Tab.prototype.aliases = [];
+
 exports.Tab = Tab;
