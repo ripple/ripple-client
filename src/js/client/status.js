@@ -103,8 +103,6 @@ StatusManager.prototype.init = function ()
 
   // Default to disconnected
   setConnectionStatus(false);
-
-  this.setupNetworkNotices();
 };
 
 StatusManager.prototype.setApp = function (app)
@@ -176,30 +174,27 @@ StatusManager.prototype._tick = function ()
 StatusManager.tplAccount = require('../../jade/notification/account.jade');
 
 /**
- * Listens to and graphically displays some network-related notifications.
+ * Graphically display a network-related notifications.
+ *
+ * This function does no filtering - we assume that any transaction that makes
+ * it here is ready to be rendered by the notification area.
+ *
+ * @param {Object} tx Transaction info, returned from JsonRewriter#processTxn
  */
-StatusManager.prototype.setupNetworkNotices = function ()
+StatusManager.prototype.showTxNotification = function (tx)
 {
   var app = this.app;
-  var remote = this.app.net.remote;
 
-  remote.on('account', function (msg) {
-    if (msg.engine_result !== 'tesSUCCESS') return;
+  var $scope = app.$scope.$new();
+  $scope.tx = tx;
 
-    var tx = rewriter.processTxn(msg.transaction, msg.meta, app.id.account);
-    if (tx && tx.type !== 'ignore') {
-      var $scope = app.$scope.$new();
-      $scope.tx = tx;
+  var html = StatusManager.tplAccount($scope);
 
-      var html = StatusManager.tplAccount($scope);
+  if (html.length) {
+    app.sm.create(app.$compile(html)($scope)).queue();
+  }
 
-      if (html.length) {
-        app.sm.create(app.$compile(html)($scope)).queue();
-      }
-
-      $scope.$digest();
-    }
-  });
+  $scope.$digest();
 };
 
 var StatusMessage = function (sm, message)

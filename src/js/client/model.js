@@ -255,6 +255,13 @@ Model.prototype._processTxn = function (tx, meta, is_historic)
   var processedTxn = rewriter.processTxn(tx, meta, account);
 
   if (processedTxn) {
+    // Show status notification
+    if (processedTxn.tx_result === "tesSUCCESS" &&
+        processedTxn.type !== 'ignore' &&
+        !is_historic) {
+      this.app.sm.showTxNotification(processedTxn);
+    }
+
     // Add to recent notifications
     if (processedTxn.tx_result === "tesSUCCESS" &&
         processedTxn.type !== 'ignore') {
