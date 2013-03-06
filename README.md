@@ -2,7 +2,6 @@
 
 This is a general purpose Ripple client in JavaScript.
 
-
 ## Directory structure
 
 * `build/` Compiled files
@@ -11,3 +10,7 @@ This is a general purpose Ripple client in JavaScript.
 * `src/js/entry` Entry points for the various client versions
 * `src/js/util` Various static, stateless utility functions
 * `tools/` Tools used in the build process
+
+## More information
+
+* https://ripple.com/wiki/Ripple_Client
