@@ -107,9 +107,14 @@ Model.prototype.handleAccountLoad = function (e)
     .on('success', this.handleOffers.bind(this))
     .on('error', this.handleOffersError.bind(this)).request();
 
+  // We need a reference to these functions after they're bound, so we can
+  // unregister them if the account is unloaded.
+  this.handleAccountEvent = this.handleAccountEvent.bind(this);
+  this.handleAccountEntry = this.handleAccountEntry.bind(this);
+
   var account = remote.account(e.account);
-  account.on('transaction', this.handleAccountEvent.bind(this));
-  account.on('entry', this.handleAccountEntry.bind(this));
+  account.on('transaction', this.handleAccountEvent);
+  account.on('entry', this.handleAccountEntry);
 
   account.entry(function (err, entry) {
     if (err) {
@@ -129,7 +134,8 @@ Model.prototype.handleAccountUnload = function (e)
 {
   var remote = this.app.net.remote;
   var account = remote.account(e.account);
-  account.removeListener('transaction', this.handleAccountEvent.bind(this));
+  account.removeListener('transaction', this.handleAccountEvent);
+  account.removeListener('entry', this.handleAccountEntry);
 };
 
 Model.prototype.handleRippleLines = function (data)

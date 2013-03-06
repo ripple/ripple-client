@@ -116,13 +116,13 @@ TrustTab.prototype.angular = function (module)
      */
     $scope.granted = function (hash) {
       $scope.mode = "granted";
-      app.net.remote.on('account', handleAccountEvent);
+      app.net.remote.on('transaction', handleAccountEvent);
 
       function handleAccountEvent(e) {
         if (e.transaction.hash === hash) {
           setEngineStatus(e, true);
           $scope.$digest();
-          app.net.remote.removeListener('account', handleAccountEvent);
+          app.net.remote.removeListener('transaction', handleAccountEvent);
         }
       }
     };

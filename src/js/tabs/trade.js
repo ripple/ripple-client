@@ -124,17 +124,14 @@ TradeTab.prototype.angular = function(module)
 
     $scope.done = function (hash)
     {
-      console.log('done');
       $scope.mode = "done";
-      app.net.remote.on('account', handleAccountEvent);
+      app.net.remote.on('transaction', handleAccountEvent);
 
       function handleAccountEvent(e) {
-        console.log('got event');
         if (e.transaction.hash === hash) {
-          console.log('into hash');
           setEngineStatus(e, true);
           $scope.$digest();
-          app.net.remote.removeListener('account', handleAccountEvent);
+          app.net.remote.removeListener('transaction', handleAccountEvent);
         }
       }
     };

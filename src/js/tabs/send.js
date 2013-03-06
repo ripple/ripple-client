@@ -343,13 +343,13 @@ SendTab.prototype.angular = function (module)
      */
     $scope.sent = function (hash) {
       $scope.mode = "status";
-      app.net.remote.on('account', handleAccountEvent);
+      app.net.remote.on('transaction', handleAccountEvent);
 
       function handleAccountEvent(e) {
         if (e.transaction.hash === hash) {
           setEngineStatus(e, true);
           $scope.$digest();
-          app.net.remote.removeListener('account', handleAccountEvent);
+          app.net.remote.removeListener('transaction', handleAccountEvent);
         }
       }
     };
