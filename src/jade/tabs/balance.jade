@@ -34,22 +34,22 @@ section.panel.content(ng-controller="BalanceCtrl")
         td.desc(ng-switch-when="sent") You sent&nbsp;
           span.address(title="{{entry.counterparty}}") {{entry.counterparty | rpcontactname}}
           strong  {{entry.amount | rpamount}} {{entry.amount | rpcurrency}}
-          a.add(ng-hide="entry.counterparty | rponlycontactname", href="#contact?to={{entry.counterparty}}", class="btn sign small", rp-no-propagate) +
+          a.add(ng-hide="entry.counterparty | rponlycontactname", href="#/contact?to={{entry.counterparty}}", class="btn sign small", rp-no-propagate) +
         td.desc(ng-switch-when="received")
           span.address(title="{{entry.counterparty}}") {{entry.counterparty | rpcontactname}}
           |  sent you
           strong  {{entry.amount | rpamount}} {{entry.amount | rpcurrency}}
-          a.add(ng-hide="entry.counterparty | rponlycontactname", href="#contact?to={{entry.counterparty}}", class="btn sign small", rp-no-propagate) +
+          a.add(ng-hide="entry.counterparty | rponlycontactname", href="#/contact?to={{entry.counterparty}}", class="btn sign small", rp-no-propagate) +
         td.desc(ng-switch-when="trusted")
           span.address(title="{{entry.counterparty}}") {{entry.counterparty | rpcontactname}}
           |  now trusts you for
           strong  {{entry.amount | rpamount}} {{entry.amount | rpcurrency}}
-          a.add(ng-hide="entry.counterparty | rponlycontactname", href="#contact?to={{entry.counterparty}}", class="btn sign small", rp-no-propagate) +
+          a.add(ng-hide="entry.counterparty | rponlycontactname", href="#/contact?to={{entry.counterparty}}", class="btn sign small", rp-no-propagate) +
         td.desc(ng-switch-when="trusting") You now trust&nbsp;
           span.address(title="{{entry.counterparty}}") {{entry.counterparty | rpcontactname}}
           |  for&nbsp;
           strong  {{entry.amount | rpamount}} {{entry.amount | rpcurrency}}
-          a.add(ng-hide="entry.counterparty | rponlycontactname", href="#contact?to={{entry.counterparty}}", class="btn sign small", rp-no-propagate) +
+          a.add(ng-hide="entry.counterparty | rponlycontactname", href="#/contact?to={{entry.counterparty}}", class="btn sign small", rp-no-propagate) +
         td.desc(ng-switch-when="offernew") You created an offer accepting&nbsp;
           strong {{entry.pays | rpamount}} {{entry.pays | rpcurrency}}
           |  for&nbsp;
