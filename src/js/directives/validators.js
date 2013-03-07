@@ -5,6 +5,7 @@
  */
 
 var webutil = require('../util/web'),
+    Base58Utils = require('../util/base58'),
     Amount = ripple.Amount;
 
 var module = angular.module('validators', []);
@@ -54,13 +55,13 @@ module.directive('rpMasterKey', function () {
       if (!ctrl) return;
 
       var validator = function(value) {
-        if (!value || ripple.Seed.is_valid(""+value)) {
-          ctrl.$setValidity('rpMasterKey', true);
-          return value;
-        } else {
+        if (value && !Base58Utils.decode_base_check(33, value)) {
           ctrl.$setValidity('rpMasterKey', false);
           return;
         }
+
+        ctrl.$setValidity('rpMasterKey', true);
+        return value;
       };
 
       ctrl.$formatters.push(validator);
