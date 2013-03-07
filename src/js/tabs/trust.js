@@ -99,6 +99,26 @@ TrustTab.prototype.angular = function (module)
           .on('success', function(res){
             setEngineStatus(res, false);
             $scope.granted(this.hash);
+
+            // Remember currency and increase order
+            var found;
+
+            for (var i = 0; i < $scope.currencies_all.length; i++) {
+              if ($scope.currencies_all[i].value.toLowerCase() == currency.toLowerCase()) {
+                $scope.currencies_all[i].order++;
+                found = true;
+                break;
+              }
+            }
+
+            if (!found) {
+              $scope.currencies_all.push({
+                "name": currency,
+                "value": currency,
+                "order": 1
+              });
+            }
+
             $scope.$digest();
           })
           .on('error', function(){
