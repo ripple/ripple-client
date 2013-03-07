@@ -4,10 +4,13 @@ section.panel.content(ng-controller="OptionsCtrl")
   hr
   form(name="optionsForm")
     div
-      label(for="socketIp") Web Socket IP:port
+      label(for="socketIp") Web Socket IP, port
       input.socketIp(
         name='socketIp', id="socketIp", type='text'
         ng-model='socketIp')
+      input.socketPort(
+        name='socketPort', id="socketPort", type='text'
+        ng-model='socketPort')
       div.helperInput
         input(type="checkbox", name="socketSsl", id="socketSsl", ng-model='socketSsl')
         label(for="socketSsl") Web Socket ssl
@@ -16,3 +19,8 @@ section.panel.content(ng-controller="OptionsCtrl")
       input.blobIp(
         name='blobIp', id="blobIp", type='text'
         ng-model='blobIp')
+    div
+      p.submitsection
+        button.btn.btn-success.submit(
+          type='submit'
+          ng-click='save()') Save
