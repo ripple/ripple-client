@@ -16,8 +16,8 @@ var Id = function ()
   this.account = null;
   this.loginStatus = false;
 
-  this.blobBackends = store.get('blobBackends')
-      ? store.get('blobBackends')
+  this.blobBackends = store.get('ripple_blobBackends')
+      ? store.get('ripple_blobBackends')
       : ['vault', 'local'];
 };
 
@@ -82,8 +82,8 @@ Id.prototype.init = function ()
     {name: 'Local Browser', 'value':'local'}
   ];
 
-  var blobBackend = store.get('blobBackends')
-      ? $.grep(this.app.$scope.blobBackendCollections, function(e){ return e.value == store.get('blobBackends'); })[0]
+  var blobBackend = store.get('ripple_blobBackends')
+      ? $.grep(this.app.$scope.blobBackendCollections, function(e){ return e.value == store.get('ripple_blobBackends'); })[0]
       : this.app.$scope.blobBackendCollections[1];
 
   this.app.$scope.blobBackendCollection = {something: blobBackend};

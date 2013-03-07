@@ -34,7 +34,7 @@ RegisterTab.prototype.angular = function (module) {
     $scope.backendChange = function()
     {
       app.id.blobBackends = $scope.blobBackendCollection.something.value.split(',');
-      store.set('blobBackends', app.id.blobBackends);
+      store.set('ripple_blobBackends', app.id.blobBackends);
     };
 
     $scope.reset = function()

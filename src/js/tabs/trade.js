@@ -158,18 +158,18 @@ TradeTab.prototype.angular = function(module)
     }
 
     // Last selected pair
-    if (store.get('trade_currency_pair')) {
+    if (store.get('ripple_trade_currency_pair')) {
       setImmediate(function(){
-        $scope.order.currency_pair = store.get('trade_currency_pair');
+        $scope.order.currency_pair = store.get('ripple_trade_currency_pair');
       });
-      $scope.currency_pair_selector = store.get('trade_currency_pair');
+      $scope.currency_pair_selector = store.get('ripple_trade_currency_pair');
     } else {
       $scope.currency_pair_selector = pairs[0].name;
     }
 
     $scope.$watch('currency_pair_selector', function (pair) {
       $scope.order.currency_pair = pair;
-      store.set('trade_currency_pair', pair);
+      store.set('ripple_trade_currency_pair', pair);
     });
 
     $scope.$watch('order.currency_pair', function (pair) {

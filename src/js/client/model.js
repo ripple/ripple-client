@@ -23,11 +23,11 @@ Model.prototype.init = function ()
   this.reset();
 
   // Personalized default currency set
-  if (!store.get('currencies_all')) {
-    store.set('currencies_all',require('../data/currencies'));
+  if (!store.get('ripple_currencies_all')) {
+    store.set('ripple_currencies_all',require('../data/currencies'));
   }
 
-  $scope.currencies_all = store.get('currencies_all');
+  $scope.currencies_all = store.get('ripple_currencies_all');
 
   function compare(a, b) {
     if (a.order < b.order) return 1;
@@ -39,7 +39,7 @@ Model.prototype.init = function ()
   $scope.currencies_all.sort(compare);
 
   $scope.$watch('currencies_all', function(){
-    store.set('currencies_all',$scope.currencies_all);
+    store.set('ripple_currencies_all',$scope.currencies_all);
   }, true);
 
   $scope.currencies = $scope.currencies_all.slice(1);
