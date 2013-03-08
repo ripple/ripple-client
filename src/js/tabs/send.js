@@ -29,6 +29,7 @@ SendTab.prototype.angular = function (module)
   {
     if (!$id.loginStatus) return $id.goId();
 
+    // TODO it doesn't have to be the first after reordering
     $scope.xrp = $scope.currencies_all[0];
 
     $scope.$watch('send.recipient', function(){

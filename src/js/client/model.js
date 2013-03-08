@@ -29,21 +29,33 @@ Model.prototype.init = function ()
 
   $scope.currencies_all = store.get('ripple_currencies_all');
 
+  // Personalized default pair set
+  if (!store.get('ripple_pairs_all')) {
+    store.set('ripple_pairs_all',require('../data/pairs'));
+  }
+
+  $scope.pairs_all = store.get('ripple_pairs_all');
+
   function compare(a, b) {
     if (a.order < b.order) return 1;
     if (a.order > b.order) return -1;
     return 0;
   }
 
-  // sort currencies by order
+  // sort currencies and pairs by order
   $scope.currencies_all.sort(compare);
+  $scope.pairs_all.sort(compare);
 
   $scope.$watch('currencies_all', function(){
     store.set('ripple_currencies_all',$scope.currencies_all);
   }, true);
 
+  $scope.$watch('pairs_all', function(){
+    store.set('ripple_pairs_all',$scope.pairs_all);
+  }, true);
+
   $scope.currencies = $scope.currencies_all.slice(1);
-  $scope.pairs = require('../data/pairs');
+  $scope.pairs = $scope.pairs_all.slice(1);
 
   this.app.id.on('accountload', function(account){
     // Server is connected

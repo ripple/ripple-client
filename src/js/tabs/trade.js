@@ -33,7 +33,7 @@ TradeTab.prototype.angular = function(module)
     $scope.asum = [];
     $scope.bsum = [];
 
-    var pairs = require('../data/pairs');
+    var pairs = $scope.pairs_all;
     $scope.pairs_query = webutil.queryFromOptions(pairs);
 
     $scope.$watch('userBlob.data.contacts', function (contacts) {
@@ -115,6 +115,25 @@ TradeTab.prototype.angular = function(module)
       tx.on('success', function (res) {
         setEngineStatus(res, false);
         $scope.done(this.hash);
+
+        // Remember pair and increase order
+        var found;
+
+        for (var i = 0; i < $scope.pairs_all.length; i++) {
+          if ($scope.pairs_all[i].name == $scope.order.currency_pair) {
+            $scope.pairs_all[i].order++;
+            found = true;
+            break;
+          }
+        }
+
+        if (!found) {
+          $scope.pairs_all.push({
+            "name": $scope.order.currency_pair,
+            "order": 1
+          });
+        }
+
         $scope.$digest();
       });
       tx.on('error', function () {
