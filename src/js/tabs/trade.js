@@ -111,6 +111,25 @@ TradeTab.prototype.angular = function(module)
       tx.on('success', function (res) {
         setEngineStatus(res, false);
         $scope.done(this.hash);
+
+        // Remember pair and increase order
+        var found;
+
+        for (var i = 0; i < $scope.pairs_all.length; i++) {
+          if ($scope.pairs_all[i].name.toLowerCase() == $scope.order.currency_pair.to_human().toLowerCase()) {
+            $scope.pairs_all[i].order++;
+            found = true;
+            break;
+          }
+        }
+
+        if (!found) {
+          $scope.pairs_all.push({
+            "name": $scope.order.amount_feedback.currency_pair.to_human().toUpperCase(),
+            "order": 1
+          });
+        }
+
         $scope.$digest();
       });
       tx.on('error', function () {
