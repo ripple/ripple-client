@@ -30,7 +30,7 @@ TradeTab.prototype.angular = function(module)
     $scope.mode = "confirm";
     $scope.orders = [];
 
-    var pairs = require('../data/pairs');
+    var pairs = $scope.pairs_all;
     $scope.pairs_query = webutil.queryFromOptions(pairs);
 
     $scope.$watch('userBlob.data.contacts', function (contacts) {
@@ -116,7 +116,7 @@ TradeTab.prototype.angular = function(module)
         var found;
 
         for (var i = 0; i < $scope.pairs_all.length; i++) {
-          if ($scope.pairs_all[i].name.toLowerCase() == $scope.order.currency_pair.to_human().toLowerCase()) {
+          if ($scope.pairs_all[i].name == $scope.order.currency_pair) {
             $scope.pairs_all[i].order++;
             found = true;
             break;
@@ -125,7 +125,7 @@ TradeTab.prototype.angular = function(module)
 
         if (!found) {
           $scope.pairs_all.push({
-            "name": $scope.order.amount_feedback.currency_pair.to_human().toUpperCase(),
+            "name": $scope.order.amount_feedback.currency_pair,
             "order": 1
           });
         }
