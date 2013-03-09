@@ -125,7 +125,7 @@ TradeTab.prototype.angular = function(module)
 
         if (!found) {
           $scope.pairs_all.push({
-            "name": $scope.order.amount_feedback.currency_pair,
+            "name": $scope.order.currency_pair,
             "order": 1
           });
         }
