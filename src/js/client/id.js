@@ -30,7 +30,8 @@ util.inherits(Id, events.EventEmitter);
 Id.minimumBlob = {
   data: {
     contacts: [],
-    preferred_issuer: {}
+    preferred_issuer: {},
+    preferred_second_issuer: {}
   },
   meta: []
 };

@@ -355,7 +355,7 @@ Model.prototype._updateRippleBalance = function(currency, new_account, new_balan
 
   // Ensure the balances entry exists first
   if (!$scope.balances[currency]) {
-    $scope.balances[currency] = {components: {}, highest: null, total: null};
+    $scope.balances[currency] = {components: {}, total: null};
   }
 
   var balance = $scope.balances[currency];
@@ -364,15 +364,15 @@ Model.prototype._updateRippleBalance = function(currency, new_account, new_balan
     balance.components[new_account] = new_balance;
   }
 
-  balance.total = null; balance.highest = null;
+  $(balance.components).sort(function(a,b){
+    debugger
+    return a.compareTo(b);
+  });
+
+  balance.total = null;
   for (var counterparty in balance.components) {
     var amount = balance.components[counterparty];
-
     balance.total = balance.total ? balance.total.add(amount) : amount;
-    if (!balance.highest || balance.highest.compareTo(amount) === -1) {
-      balance.highest = amount;
-      balance.highest_issuer = counterparty;
-    }
   }
 };
 
