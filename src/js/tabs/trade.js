@@ -415,11 +415,10 @@ TradeTab.prototype.angular = function(module)
       if ($scope.order.valid_settings &&
           $scope.order.second_currency !== 'XRP') {
 
-        if ($scope.order.first_issuer == $scope.order.second_issuer) {
+        if ($scope.order.first_currency == $scope.order.second_currency) {
           $scope.userBlob.data.preferred_second_issuer[$scope.order.second_currency] =
             $scope.order.second_issuer;
         } else {
-          preferred_second_issuer
           $scope.userBlob.data.preferred_issuer[$scope.order.second_currency] =
             $scope.order.second_issuer;
         }
