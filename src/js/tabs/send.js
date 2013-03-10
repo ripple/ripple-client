@@ -29,8 +29,11 @@ SendTab.prototype.angular = function (module)
   {
     if (!$id.loginStatus) return $id.goId();
 
-    // TODO it doesn't have to be the first after reordering
-    $scope.xrp = $scope.currencies_all[0];
+    for (var currency in $scope.currencies_all) {
+      if (currency.value == 'XRP') {
+        $scope.xrp = currency;
+      } 
+    }
 
     $scope.$watch('send.recipient', function(){
       var addr = webutil.stripRippleAddress($scope.send.recipient);
