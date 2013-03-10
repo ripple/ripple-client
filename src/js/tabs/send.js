@@ -19,12 +19,6 @@ SendTab.prototype.generateHtml = function ()
   return require('../../jade/tabs/send.jade')();
 };
 
-function queryArrayByAttr(array, atr, val) {
-  return $.grep(array, function(e){
-    return (e[atr] == val);
-  });
-};
-
 SendTab.prototype.angular = function (module)
 {
   var self = this,
@@ -35,7 +29,7 @@ SendTab.prototype.angular = function (module)
   {
     if (!$id.loginStatus) return $id.goId();
 
-    $scope.xrp = queryArrayByAttr($scope.currencies_all, "value", "XRP");
+    $scope.xrp = _.where($scope.currencies_all, {value: "XRP"});
 
     $scope.$watch('send.recipient', function(){
       var addr = webutil.stripRippleAddress($scope.send.recipient);
