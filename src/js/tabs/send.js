@@ -19,7 +19,7 @@ SendTab.prototype.generateHtml = function ()
   return require('../../jade/tabs/send.jade')();
 };
 
-function queryListByAttr(array, atr, val) {
+function queryArrayByAttr(array, atr, val) {
   return $.grep(array, function(e){
     return (e[atr] == val);
   });
