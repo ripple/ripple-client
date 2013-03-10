@@ -29,11 +29,7 @@ SendTab.prototype.angular = function (module)
   {
     if (!$id.loginStatus) return $id.goId();
 
-    for (var currency in $scope.currencies_all) {
-      if (currency.value == 'XRP') {
-        $scope.xrp = currency;
-      } 
-    }
+    $scope.xrp = _.where($scope.currencies_all, {value: "XRP"})[0];
 
     $scope.$watch('send.recipient', function(){
       var addr = webutil.stripRippleAddress($scope.send.recipient);
