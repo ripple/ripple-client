@@ -28,6 +28,12 @@ section#t-send.single.content(ng-controller='SendCtrl')
       .error(rp-error-on='rpDestination')
         | Recipient should be either a name from your contact list or Ripple
         | address.
+    span(ng-show='$routeParams.st')
+      label(for='send_st') Source tag
+      input#dt(name='st', type='text', ng-model='send.st', rp-autofill='$routeParams.st')
+    span(ng-show='$routeParams.dt')
+      label(for='send_dt') Destination tag
+      input#dt(name='dt', type='text', ng-model='send.dt', rp-autofill='$routeParams.dt')
     label(for='send_amount') Recipient will receive
     .amount
       input.value#send_amount(

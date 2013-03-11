@@ -273,7 +273,7 @@ SendTab.prototype.angular = function (module)
       var currency = $scope.send.currency.slice(0, 3).toUpperCase();
       var amount = Amount.from_human(""+$scope.send.amount+" "+currency);
       var addr = $scope.send.recipient_address;
-      var dt = $routeParams.dt ? $routeParams.dt : webutil.getDestTagFromAddress($scope.send.recipient);
+      var dt = $scope.send.dt ? $scope.send.dt : webutil.getDestTagFromAddress($scope.send.recipient);
 
       amount.set_issuer(addr);
 
@@ -283,8 +283,8 @@ SendTab.prototype.angular = function (module)
       tx.destination_tag(dt);
 
       // Source tag
-      if ($routeParams.st) {
-        tx.source_tag($routeParams.st);
+      if ($scope.send.st) {
+        tx.source_tag($scope.send.st);
       }
 
       tx.payment(app.id.account, addr, amount.to_json());
