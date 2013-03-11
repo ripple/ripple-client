@@ -37,6 +37,15 @@ section.panel.content(ng-controller="ContactsCtrl")
               .error(rp-error-on='required') Please enter address.
               .error(rp-error-on='rpAddress') Not a valid address.
               .error(rp-error-on='rpUnique') You already have a contact with the same address.
+            label(for='dt') Destination tag
+            input.name#contact_dt(
+              name='dt', type='text', step='any', placeholder="Leave blank if not applicable"
+              ng-model='contact.dt'
+              rp-stdt
+              rp-autofill='$routeParams.dt')
+            .errorGroup(rp-errors='dt')
+              .error(rp-error-on='rpStdt')
+                | Invalid destination tag
             .submitsection
               button.btn.btn-info.submit(type='submit', ng-click='create()', ng-disabled='addForm.$invalid') Add contact
       tr(ng-repeat="entry in userBlob.data.contacts", ng-class="{editing: editing}", ng-controller="ContactRowCtrl", rp-animate="enable_highlight")
@@ -76,6 +85,15 @@ section.panel.content(ng-controller="ContactsCtrl")
             .errorGroup(rp-errors='editaddress')
               .error(rp-error-on='rpUnique') You already have this address.
               .error(rp-error-on='rpAddress') Not a valid address.
+            label(for="contact_dt")
+              | Destination tag
+            input.dt#contact_dt(
+              name='dt', type='text', step='any', class="inline", placeholder="Leave blank if not applicable"
+              ng-model='editdt'
+              rp-stdt
+              rp-autofill='$routeParams.dt')
+            .errorGroup(rp-errors='dt')
+              .error(rp-error-on='rpStdt') Invalid destination tag.
         td.account(ng-hide='editing')
           {{entry.address}}
         td.command
