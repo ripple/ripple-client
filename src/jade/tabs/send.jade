@@ -30,10 +30,26 @@ section#t-send.single.content(ng-controller='SendCtrl')
         | address.
     span(ng-show='$routeParams.st')
       label(for='send_st') Source tag
-      input#dt(name='st', type='text', ng-model='send.st', rp-autofill='$routeParams.st')
+      input#send_st(
+        name='send_st', type='text'
+        ng-model='send.st'
+        rp-stdt
+        rp-autofill='$routeParams.st')
+      .errorGroup(rp-errors='send_st')
+        .error(rp-error-on='rpStdt')
+          | Invalid source tag
+        .error(rp-error-on='required')
+          | req
     span(ng-show='$routeParams.dt')
       label(for='send_dt') Destination tag
-      input#dt(name='dt', type='text', ng-model='send.dt', rp-autofill='$routeParams.dt')
+      input#send_dt(
+        name='send_dt', type='text'
+        ng-model='send.dt'
+        rp-stdt
+        rp-autofill='$routeParams.dt')
+      .errorGroup(rp-errors='send_dt')
+        .error(rp-error-on='rpStdt')
+          | Invalid destination tag
     label(for='send_amount') Recipient will receive
     .amount
       input.value#send_amount(
