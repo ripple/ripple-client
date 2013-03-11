@@ -36,7 +36,7 @@ StatusManager.prototype.init = function ()
         $scope.orderedBalances.push(balance);
       });
       $scope.orderedBalances.sort(function(a,b){
-        return parseFloat(b.total.to_text()) - parseFloat(a.total.to_text());
+        return parseFloat(Math.abs(b.total.to_text())) - parseFloat(Math.abs(a.total.to_text()));
       });
 
       $scope.balance_count = Object.keys($scope.balances).length;
