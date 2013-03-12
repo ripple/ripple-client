@@ -32,8 +32,7 @@ ContactsTab.prototype.angular = function (module) {
       {
         $scope.contact = {
           name: '',
-          address: '',
-          dt: ''
+          address: ''
         };
         if ($scope.addForm) $scope.addForm.$setPristine();
       };
@@ -61,11 +60,12 @@ ContactsTab.prototype.angular = function (module) {
       {
         var contact = {
           name: $scope.contact.name,
-          address: $scope.contact.address,
-          dt: $scope.contact.dt,
-          // Used for animation
-          justAdded: true
+          address: $scope.contact.address
         };
+
+        if ($scope.contact.dt) {
+          contact.dt = $scope.contact.dt;
+        }
 
         // Enable the animation
         $scope.enable_highlight = true;
@@ -108,10 +108,15 @@ ContactsTab.prototype.angular = function (module) {
         if (!$scope.inlineAddress.editaddress.$error.rpUnique
             && !$scope.inlineAddress.editaddress.$error.rpAddress
             && !$scope.inlineName.editname.$error.rpUnique) {
+
           // Update blob
           $scope.entry.name = $scope.editname;
           $scope.entry.address = $scope.editaddress;
-          $scope.entry.dt = $scope.editdt;
+
+          if ($scope.editdt) {
+            $scope.entry.dt = $scope.editdt;
+          }
+
           $scope.editing = false;
         }
       };
