@@ -93,7 +93,7 @@ module.directive('rpErrors', [function () {
 
         function updateErrorTransclude() {
           var field = formController[fieldName],
-              $error = field.$error;
+              $error = field && field.$error;
 
           if (selectedElement) {
             selectedScope.$destroy();
@@ -108,7 +108,7 @@ module.directive('rpErrors', [function () {
           selectedTransclude = false;
           $.each(errs, function (validator, transclude) {
             if (validator.length <= 1) return;
-            if ($error[validator.slice(1)]) {
+            if ($error && $error[validator.slice(1)]) {
               selectedTransclude = transclude;
               return false;
             }
