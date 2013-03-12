@@ -82,10 +82,38 @@ module.filter('rpcurrencyfull', function () {
  */
 module.filter('rpamountratio', function () {
   return function (numerator, denominator) {
-    if (!(numerator instanceof ripple.Amount)) return Amount.NaN();
-    if (!(denominator instanceof ripple.Amount)) return Amount.NaN();
+    try {
+      return Amount.from_json(numerator).ratio_human(denominator);
+    } catch (err) {
+      return Amount.NaN();
+    }
+  };
+});
 
-    return numerator.ratio_human(denominator);
+/**
+ * Calculate the sum of two Amounts.
+ */
+module.filter('rpamountadd', function () {
+  return function (a, b) {
+    try {
+      b = Amount.from_json(b);
+      if (b.is_zero()) return a;
+      return Amount.from_json(a).add(b);
+    } catch (err) {
+      return Amount.NaN();
+    }
+  };
+});
+/**
+ * Calculate the difference of two Amounts.
+ */
+module.filter('rpamountsubtract', function () {
+  return function (a, b) {
+    try {
+      return Amount.from_json(a).subtract(b);
+    } catch (err) {
+      return Amount.NaN();
+    }
   };
 });
 

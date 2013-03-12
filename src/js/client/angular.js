@@ -30,6 +30,7 @@ Angular.load = function ()
   require('../filters/filters');
   require('../services/id');
   require('../services/network');
+  require('../services/books');
   require('../services/transactions');
   require('../services/ledger');
   require('../services/popup');
