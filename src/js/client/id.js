@@ -101,12 +101,18 @@ Id.prototype.init = function ()
         self.emit('blobsave');
       });
     }
+  },true);
 
+  self.on('blobupdate', function(){
     // Account address
     if (!self.app.$scope.address && self.app.$scope.userBlob.data.account_id) {
       self.app.$scope.address = self.app.$scope.userBlob.data.account_id;
     }
-  },true);
+
+    if(!self.app.$scope.$$phase) {
+      self.app.$scope.$digest();
+    }
+  });
 
   if (Options.persistent_auth && !!store.get('ripple_auth')) {
     var auth = store.get('ripple_auth');
