@@ -93,12 +93,18 @@ Id.prototype.init = function ()
 
   this.app.$scope.$watch('userBlob',function(){
     self.emit('blobupdate');
+
     if (self.username && self.password) {
       blob.set(self.blobBackends,
                self.username.toLowerCase(), self.password,
                self.app.$scope.userBlob,function(){
         self.emit('blobsave');
       });
+    }
+
+    // Account address
+    if (!self.app.$scope.address && self.app.$scope.userBlob.data.account_id) {
+      self.app.$scope.address = self.app.$scope.userBlob.data.account_id;
     }
   },true);
 

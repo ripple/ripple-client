@@ -123,8 +123,6 @@ Model.prototype.handleAccountLoad = function (e)
     }
   });
 
-  $scope.address = e.account;
-
   if(!$scope.$$phase) {
     $scope.$digest();
   }
