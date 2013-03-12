@@ -168,6 +168,11 @@ TrustTab.prototype.angular = function (module)
       }
     }
 
+    // Focus on input when save address form opens
+    $scope.$watch('show_save_address_form', function() {
+      $('#contact_name').focus();
+    }, true);
+
     $scope.saveAddress = function () {
       $scope.addressSaving = true;
 
