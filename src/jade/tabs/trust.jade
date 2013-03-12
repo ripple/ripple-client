@@ -62,7 +62,8 @@ section.panel.content(ng-controller="TrustCtrl")
         tr(ng-repeat='(key, line) in lines')
           td.account {{line.account | rpcontactnamefull}}
           td.currency {{line.currency}}
-          td.balance {{line.balance | rpamount}}
+          td.balance: span(rp-tooltip="{{line.balance | rpamount }}")
+            | {{line.balance | rpamount:{rel_precision: 0} }}
           td.trust
             //{{line.limit_peer | rpamount}} --- {{line.balance | rpamount:{signed: true} }} --- {{line.limit | rpamount}}
             rp-trust-line(rp-line-data='line')
