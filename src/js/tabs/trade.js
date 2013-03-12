@@ -27,6 +27,8 @@ TradeTab.prototype.angular = function(module)
   module.controller('TradeCtrl', ['rpBooks', '$scope', 'rpId',
                                   function (books, $scope, $id)
   {
+    if (!$id.loginStatus) return $id.goId();
+
     $scope.mode = "confirm";
     $scope.asum = [];
     $scope.bsum = [];
