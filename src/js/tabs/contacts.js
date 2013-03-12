@@ -138,8 +138,14 @@ ContactsTab.prototype.angular = function (module) {
 
       $scope.send = function (index)
       {
+        var search = {to: $scope.entry.name};
+
+        if ($scope.entry.dt) {
+          search.dt = $scope.entry.dt;
+        }
+
         $location.path('/send');
-        $location.search({to: $scope.entry.name});
+        $location.search(search);
       };
     }]);
 };
