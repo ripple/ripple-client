@@ -123,6 +123,8 @@ section#t-send.single.content(ng-controller='SendCtrl')
       .recipient(ng-hide='send.recipient_name') {{send.recipient_address}}
       .extra(ng-show="send.recipient != send.recipient_address || send.recipient_name")
         | {{send.recipient_address}}
+      .dt(ng-show="send.dt")
+        | Destination tag: {{send.dt}}
     p.literal They will receive
     p.amount_feedback
       span.value {{send.amount_feedback | rpamount}}&nbsp;
