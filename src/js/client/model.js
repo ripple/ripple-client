@@ -29,21 +29,33 @@ Model.prototype.init = function ()
 
   $scope.currencies_all = store.get('ripple_currencies_all');
 
+  // Personalized default pair set
+  if (!store.get('ripple_pairs_all')) {
+    store.set('ripple_pairs_all',require('../data/pairs'));
+  }
+
+  $scope.pairs_all = store.get('ripple_pairs_all');
+
   function compare(a, b) {
     if (a.order < b.order) return 1;
     if (a.order > b.order) return -1;
     return 0;
   }
 
-  // sort currencies by order
+  // sort currencies and pairs by order
   $scope.currencies_all.sort(compare);
+  $scope.pairs_all.sort(compare);
 
   $scope.$watch('currencies_all', function(){
     store.set('ripple_currencies_all',$scope.currencies_all);
   }, true);
 
+  $scope.$watch('pairs_all', function(){
+    store.set('ripple_pairs_all',$scope.pairs_all);
+  }, true);
+
   $scope.currencies = $scope.currencies_all.slice(1);
-  $scope.pairs = require('../data/pairs');
+  $scope.pairs = $scope.pairs_all.slice(1);
 
   this.app.id.on('accountload', function(account){
     // Server is connected
@@ -341,7 +353,7 @@ Model.prototype._updateRippleBalance = function(currency, new_account, new_balan
 
   // Ensure the balances entry exists first
   if (!$scope.balances[currency]) {
-    $scope.balances[currency] = {components: {}, highest: null, total: null};
+    $scope.balances[currency] = {components: {}, total: null};
   }
 
   var balance = $scope.balances[currency];
@@ -350,15 +362,15 @@ Model.prototype._updateRippleBalance = function(currency, new_account, new_balan
     balance.components[new_account] = new_balance;
   }
 
-  balance.total = null; balance.highest = null;
+  $(balance.components).sort(function(a,b){
+    debugger
+    return a.compareTo(b);
+  });
+
+  balance.total = null;
   for (var counterparty in balance.components) {
     var amount = balance.components[counterparty];
-
     balance.total = balance.total ? balance.total.add(amount) : amount;
-    if (!balance.highest || balance.highest.compareTo(amount) === -1) {
-      balance.highest = amount;
-      balance.highest_issuer = counterparty;
-    }
   }
 };
 

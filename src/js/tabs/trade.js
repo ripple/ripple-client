@@ -33,7 +33,7 @@ TradeTab.prototype.angular = function(module)
     $scope.asum = [];
     $scope.bsum = [];
 
-    var pairs = require('../data/pairs');
+    var pairs = $scope.pairs_all;
     $scope.pairs_query = webutil.queryFromOptions(pairs);
 
     $scope.$watch('userBlob.data.contacts', function (contacts) {
@@ -115,6 +115,25 @@ TradeTab.prototype.angular = function(module)
       tx.on('success', function (res) {
         setEngineStatus(res, false);
         $scope.done(this.hash);
+
+        // Remember pair and increase order
+        var found;
+
+        for (var i = 0; i < $scope.pairs_all.length; i++) {
+          if ($scope.pairs_all[i].name == $scope.order.currency_pair) {
+            $scope.pairs_all[i].order++;
+            found = true;
+            break;
+          }
+        }
+
+        if (!found) {
+          $scope.pairs_all.push({
+            "name": $scope.order.currency_pair,
+            "order": 1
+          });
+        }
+
         $scope.$digest();
       });
       tx.on('error', function () {
@@ -316,19 +335,26 @@ TradeTab.prototype.angular = function(module)
       $scope.asks = orders.asks;
     }
 
-    function guessIssuer(currency) {
+    function guessIssuer(currency, exclude_issuer) {
       var guess;
 
       // First guess: An explicit issuer preference setting in the user's blob
       try {
         guess = $scope.userBlob.data.preferred_issuer[currency];
+        if (guess && guess == exclude_issuer) {
+          guess = $scope.userBlob.data.preferred_second_issuer[currency];
+        }
         if (guess) return guess;
       } catch (e) {}
 
       // Second guess: The user's highest trust line in this currency
       try {
-        guess = $scope.balances[currency].highest_issuer;
-        if (guess) return guess;
+        var issuers = $scope.balances[currency].components;
+        for (var counterparty in issuers) {
+          if (counterparty != exclude) {
+            return counterparty;
+          }
+        }
       } catch (e) {}
 
       // We found nothing
@@ -356,6 +382,13 @@ TradeTab.prototype.angular = function(module)
           (guess = guessIssuer($scope.order.second_currency))) {
         $scope.order.second_issuer = guess;
       }
+
+      // If the same currency, exclude first issuer for second issuer guess
+			if ($scope.order.first_currency == $scope.order.second_currency &&
+          $scope.order.first_issuer == $scope.order.second_issuer &&
+          (guess = guessIssuer($scope.order.first_currency, $scope.order.first_issuer))) {
+        $scope.order.second_issuer = guess;        
+			}
     }
 
     $scope.edit_first_issuer = function () {
@@ -391,8 +424,14 @@ TradeTab.prototype.angular = function(module)
       // Persist issuer setting
       if ($scope.order.valid_settings &&
           $scope.order.second_currency !== 'XRP') {
-        $scope.userBlob.data.preferred_issuer[$scope.order.second_currency] =
-          $scope.order.second_issuer;
+
+        if ($scope.order.first_currency == $scope.order.second_currency) {
+          $scope.userBlob.data.preferred_second_issuer[$scope.order.second_currency] =
+            $scope.order.second_issuer;
+        } else {
+          $scope.userBlob.data.preferred_issuer[$scope.order.second_currency] =
+            $scope.order.second_issuer;
+        }
       }
     };
 
