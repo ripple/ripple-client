@@ -301,38 +301,8 @@ TradeTab.prototype.angular = function(module)
       if (order.prev_settings !== key) {
         loadOffers();
 
-        updateTicker();
-
         order.prev_settings = key;
       }
-    }
-
-    function updateTicker() {
-      return;
-      $scope.bid_price = ripple.Amount.NaN();
-      $scope.ask_price = ripple.Amount.NaN();
-      $scope.spread = ripple.Amount.NaN();
-
-      var first_currency = $scope.order.first_currency || "XRP";
-      var second_currency = $scope.order.second_currency || "XRP";
-      var first_issuer = $scope.order.first_issuer;
-      var second_issuer = $scope.order.second_issuer;
-
-      var orders = books.get(first_currency, second_currency,
-                             first_issuer, second_issuer);
-
-      var bestBid = orders.bids[0];
-      if (bestBid) $scope.bid_price = bestBid.o.amount.ratio_human(bestBid.i.amount);
-
-      var bestAsk = orders.asks[0];
-      if (bestAsk) $scope.ask_price = bestAsk.o.amount.ratio_human(bestAsk.i.amount);
-
-      if ($scope.bid_price.is_valid() && $scope.ask_price.is_valid()) {
-        $scope.spread = $scope.ask_price.add($scope.bid_price.negate());
-      }
-
-      $scope.bids = orders.bids;
-      $scope.asks = orders.asks;
     }
 
     function guessIssuer(currency, exclude_issuer) {
@@ -387,7 +357,7 @@ TradeTab.prototype.angular = function(module)
 			if ($scope.order.first_currency == $scope.order.second_currency &&
           $scope.order.first_issuer == $scope.order.second_issuer &&
           (guess = guessIssuer($scope.order.first_currency, $scope.order.first_issuer))) {
-        $scope.order.second_issuer = guess;        
+        $scope.order.second_issuer = guess;
 			}
     }
 
