@@ -259,7 +259,7 @@ section.panel.content(ng-controller="TradeCtrl")
             th.price Bid Price
               .currency {{book.bids[0].TakerGets | rpcurrency}}
           tbody
-            tr(ng-repeat='order in book.bids', ng-controller="BookBidRowCtrl")
+            tr(ng-repeat='order in book.bids')
               td.sum.rpamount {{bsum[$index] | rpamount:{rel_precision: 2} }}
               td.amount.rpamount {{order.TakerPays | rpamount:{rel_precision: 2} }}
               td.price.rpamount
@@ -275,7 +275,7 @@ section.panel.content(ng-controller="TradeCtrl")
             th.sum Sum
               .currency {{book.asks[0].TakerGets | rpcurrency}}
           tbody
-            tr(ng-repeat='order in book.asks', ng-controller="BookAskRowCtrl")
+            tr(ng-repeat='order in book.asks')
               td.price.rpamount
                 | {{order.TakerPays | rpamountratio:order.TakerGets | rpamount:{rel_precision: 2, rel_min_precision: 2} }}
               td.amount.rpamount {{order.TakerGets | rpamount:{rel_precision: 2} }}
