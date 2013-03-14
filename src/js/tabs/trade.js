@@ -182,8 +182,8 @@ TradeTab.prototype.angular = function(module)
 
     $scope.$watch('order.currency_pair', function (pair) {
       store.set('ripple_trade_currency_pair', pair);
-      resetIssuers(true);
       updateSettings();
+      resetIssuers(true);
      }, true);
 
     $scope.$watch('order.first', function (amount_str) {
@@ -354,11 +354,11 @@ TradeTab.prototype.angular = function(module)
       }
 
       // If the same currency, exclude first issuer for second issuer guess
-			if ($scope.order.first_currency == $scope.order.second_currency &&
+      if ($scope.order.first_currency == $scope.order.second_currency &&
           $scope.order.first_issuer == $scope.order.second_issuer &&
           (guess = guessIssuer($scope.order.first_currency, $scope.order.first_issuer))) {
         $scope.order.second_issuer = guess;
-			}
+      }
     }
 
     $scope.edit_first_issuer = function () {
