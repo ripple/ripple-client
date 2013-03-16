@@ -29,9 +29,9 @@ section.single.content(ng-controller="LoginCtrl")
         .backend(ng-repeat="message in backendMessages")
           b {{message.backend}} &nbsp;
           span {{message.message}}
-      .submitsection
+      .submitsection(ng-class="{throbber: ajax_loading}")
         button.btn.btn-info(type='submit') Open Wallet
-        label.storageinfo(ng-class="{throbber: ajax_loading}")
+        label.storageinfo
           span.fetch Fetch wallet from
           br
           span(ng-hide="storeChange")
