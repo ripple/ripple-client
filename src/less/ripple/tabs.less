@@ -550,8 +550,8 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
         }
       }
 
-      // For the row-add animation to show up, the cells' background must be
-      // transparent.
+    // For the row-add animation to show up, the cells' background must be
+    // transparent.
       &.rp-animate {
         td, th {
           background-color: transparent !important;
@@ -745,7 +745,7 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
   }
 
   td.date {
-    //font-size: 0.9em;
+  //font-size: 0.9em;
   }
 
   table .date {
@@ -821,6 +821,67 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
       }
       th, td {
         padding-right: 20px;
+      }
+    }
+
+    .currency_sets {
+      .label {
+        margin: 10px 0;
+        font-size: 18px;
+        color: #656565;
+      }
+      ul {
+        display: inline-block;
+        width: 100%;
+        list-style-type: none;
+        margin: 0;
+        padding: 20px;
+        border: 1px solid #d9d9d9;
+        .rounded(10px);
+
+        font-family: 'OpenSansLight';
+      }
+      li {
+        float: left;
+        width: 270px;
+        height: 120px;
+        text-align: center;
+        position: relative;
+        border-right: 1px solid #ccc;
+
+        &:nth-of-type(n+4) {
+          margin: 25px 0;
+
+          &:after {
+            .virtualel;
+            position: absolute;
+            top: -25px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            border-top: 1px solid #ccc;
+          }
+        }
+
+        &:nth-child(3n+3) {
+          border-right: none;
+        }
+      }
+      .amnt {
+        font-size: 30px;
+        padding: 0 8px 0 0;
+      }
+      .currency {
+        font-size: 20px;
+        color: #ccc;
+      }
+      .rate {
+        margin: 5px 0 0 0;
+        font-size: 12px;
+        color: #ccc;
+      }
+      .btn-success {
+        width: 230px;
       }
     }
   }
@@ -1122,18 +1183,18 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
   .mode-form {
     padding-top: 30px;
 
-    // Cool animation that our users will never get to see. :’(
-/*
-    max-height: 0;
-    opacity: 0;
-    overflow: hidden;
-    .transition-duration(0.5s);
+  // Cool animation that our users will never get to see. :’(
+  /*
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      .transition-duration(0.5s);
 
-    &.visible {
-      opacity: 1;
-      max-height: 220px;
-    }
-*/
+      &.visible {
+        opacity: 1;
+        max-height: 220px;
+      }
+  */
 
     .order-values {
       .clearfix;
@@ -1210,7 +1271,7 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
 
   ul li.orderbook {
     > a.active,  > a:hover,> a:after {
-    background-color: #ecdfde;
+      background-color: #ecdfde;
     }
   }
 
