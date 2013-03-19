@@ -47,16 +47,16 @@ Network.prototype.listenId = function (id)
 
 Network.prototype.handleConnect = function (e)
 {
-  this.emit('connected');
-  this.app.$scope.connected = true;
   this.connected = true;
+  this.app.$scope.connected = true;
+  this.emit('connected');
 };
 
 Network.prototype.handleDisconnect = function (e)
 {
-  this.emit('disconnected');
-  this.app.$scope.connected = false;
   this.connected = false;
+  this.app.$scope.connected = false;
+  this.emit('disconnected');
 };
 
 exports.Network = Network;

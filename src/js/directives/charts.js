@@ -9,7 +9,7 @@ var module = angular.module('charts', []);
 /**
  * Trust line graph. (Similar to small box plot.)
  */
-module.directive('rpTrustLine', function() {
+module.directive('rpTrustLine', ['$filter', function($filter) {
   function redraw(ctx, data) {
     // Axis distance to left and right edges
     var axisMargin = 55;
@@ -34,9 +34,9 @@ module.directive('rpTrustLine', function() {
     // Parse input data
     var trust_l, trust_r, balance;
     try {
-      trust_l = -data.limit_peer.to_text();
-      trust_r = +data.limit.to_text();
-      balance = +data.balance.to_text();
+      trust_l = -data.limit_peer.to_number();
+      trust_r = data.limit.to_number();
+      balance = data.balance.to_number();
     } catch (e) {
       // In case of invalid input data we simply skip drawing the chart.
       return;
@@ -79,12 +79,14 @@ module.directive('rpTrustLine', function() {
     ctx.stroke();
 
     // Draw labels
+    var rpamount = $filter('rpamount');
+    var fmt = {rel_precision: 0};
     ctx.font = "11px sans-serif";
     ctx.textAlign = 'center';
-    ctx.fillText(""+balance, f(balance), axisY+highText);
+    ctx.fillText(rpamount(data.balance, fmt), f(balance), axisY+highText);
     ctx.fillStyle = '#333';
-    ctx.fillText(""+trust_l, f(trust_l), axisY+lowText);
-    ctx.fillText(""+trust_r, f(trust_r), axisY+lowText);
+    ctx.fillText("-"+rpamount(data.limit_peer, fmt), f(trust_l), axisY+lowText);
+    ctx.fillText(rpamount(data.limit, fmt), f(trust_r), axisY+lowText);
 
     // Convert a value to a pixel position
     function f(val)
@@ -112,4 +114,4 @@ module.directive('rpTrustLine', function() {
       }, true);
     }
   };
-});
+}]);
