@@ -1,12 +1,17 @@
 section#t-send.single.content(ng-controller='SendCtrl')
 
+  //- Disconnected
+
+  group(ng-hide='connected')
+    .disconnected
+      p.literal You have to be online to see this screen
+      p: a.btn(href="#balance") Back to balance
+
   //- Account is unfunded
 
-  .unfunded(ng-hide='account.Balance')
+  .unfunded(ng-hide='account.Balance || !connected')
     p.literal You have to be funded before you can send money
     p: a.btn(href="#/balance") Back to balance
-
-  //- Account is funded
 
   //- 1. Send form
 
