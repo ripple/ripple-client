@@ -83,16 +83,21 @@ RegisterTab.prototype.angular = function (module) {
 
     $scope.submitForm = function()
     {
+      var regInProgress;
+
       app.id.login($scope.username, $scope.password1, function(backendName,error,success){
-        if (!success) {
-          $scope.register();
-        }
-        if (success) {
-          if ($scope.masterkey && $scope.masterkey != app.$scope.userCredentials.master_seed) {
-            $scope.mode = 'masterkeyerror';
-            $scope.$digest();
-          } else {
-            $location.path('/balance');
+        if (!regInProgress) {
+          if (!success) {
+            regInProgress = true;
+            $scope.register();
+          }
+          if (success) {
+            if ($scope.masterkey && $scope.masterkey != app.$scope.userCredentials.master_seed) {
+              $scope.mode = 'masterkeyerror';
+              $scope.$digest();
+            } else {
+              $location.path('/balance');
+            }
           }
         }
       });
