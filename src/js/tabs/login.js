@@ -87,7 +87,7 @@ LoginTab.prototype.angular = function (module) {
             $scope.backendMessages.push({'backend':backendName, 'message':err.message});
           }
 
-          $scope.$digest();
+          $scope.$apply();
         });
       });
 
