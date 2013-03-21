@@ -26,7 +26,7 @@ module.filter('rpamount', function () {
 
     // Currency default precision
     var currency = iso4217[amount.currency().to_json()];
-    var cdp = ("undefined" !== typeof currency) ? currency[1] : 2;
+    var cdp = ("undefined" !== typeof currency) ? currency[1] : 4;
 
     // Certain formatting options are relative to the currency default precision
     if ("number" === typeof opts.rel_precision) {
