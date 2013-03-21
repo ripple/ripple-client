@@ -54,6 +54,10 @@ section.panel.content(ng-controller="BalanceCtrl")
           strong {{entry.pays | rpamount}} {{entry.pays | rpcurrency}}
           |  for&nbsp;
           strong {{entry.gets | rpamount}} {{entry.gets | rpcurrency}}
+        td.desc(ng-switch-when="offerfilled") You sold&nbsp;
+          strong {{entry.pays | rpamount}} {{entry.pays | rpcurrency}}
+          |  for&nbsp;
+          strong {{entry.gets | rpamount}} {{entry.gets | rpcurrency}}
         td.desc(ng-switch-when="offercancel") You canceled an offer accepting&nbsp;
           strong {{entry.pays | rpamount}} {{entry.pays | rpcurrency}}
           |  for&nbsp;

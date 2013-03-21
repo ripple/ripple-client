@@ -193,7 +193,7 @@ var JsonRewriter = module.exports = {
     case 'OfferCreate':
       obj.type = tx.Account === account ?
         'offernew' :
-        'ignore';
+        'offerfilled';
       obj.pays = ripple.Amount.from_json(tx.TakerPays);
       obj.gets = ripple.Amount.from_json(tx.TakerGets);
       break;
