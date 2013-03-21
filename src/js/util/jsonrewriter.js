@@ -194,7 +194,9 @@ var JsonRewriter = module.exports = {
       if (tx.Account === account) {
         obj.type = 'offernew';
       } else if (obj.accountRoot) {
-        obj.type = 'offerfilled';
+        // TODO quick solution. I don't like this line
+        offer = obj.offers[obj.offers.length-1];
+        obj.type = offer.deleted ? 'offerfunded' : 'offerpartiallyfunded';
       } else {
         obj.type = 'ignore';
       }
