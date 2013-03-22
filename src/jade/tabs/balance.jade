@@ -61,7 +61,7 @@ section.panel.content(ng-controller="BalanceCtrl")
         td.desc(ng-switch-when="offerpartiallyfunded") You sold&nbsp;
           strong {{entry.pays | rpamount}} {{entry.pays | rpcurrency}}
           |  for&nbsp;
-          strong {{entry.gets | rpamount}} {{entry.gets | rpcurrency}}. This order has been partially funded.
+          strong {{entry.gets | rpamount}} {{entry.gets | rpcurrency}}. This order has {{entry.offer.pays | rpamount}} {{entry.offer.pays | rpcurrency}} remaining.
         td.desc(ng-switch-when="offercancel") You canceled an offer accepting&nbsp;
           strong {{entry.pays | rpamount}} {{entry.pays | rpcurrency}}
           |  for&nbsp;
