@@ -55,9 +55,9 @@ section.panel.content(ng-controller="BalanceCtrl")
           |  for&nbsp;
           strong {{entry.gets | rpamount}} {{entry.gets | rpcurrency}}
         td.desc(ng-switch-when="offerfunded") You sold&nbsp;
-          strong {{entry.pays | rpamount}} {{entry.pays | rpcurrency}}
+          strong {{entry.offer.pays | rpamount}} {{entry.offer.pays | rpcurrency}}
           |  for&nbsp;
-          strong {{entry.gets | rpamount}} {{entry.gets | rpcurrency}}. This order has been funded.
+          strong {{entry.offer.gets | rpamount}} {{entry.offer.gets | rpcurrency}}. This order has been funded.
         td.desc(ng-switch-when="offerpartiallyfunded") You sold&nbsp;
           strong {{entry.pays | rpamount}} {{entry.pays | rpcurrency}}
           |  for&nbsp;

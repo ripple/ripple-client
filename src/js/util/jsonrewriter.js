@@ -130,11 +130,20 @@ var JsonRewriter = module.exports = {
       } else if (node.entryType === "Offer" && node.fields.Account === account) {
         if (!obj.offers) obj.offers = [];
 
+        var gets = node.fields.TakerGets;
+        var pays = node.fields.TakerPays;
+
         var seq = +node.fields.Sequence;
+
+        if (node.diffType === "DeletedNode") {
+          gets = node.fieldsPrev.TakerGets;
+          pays = node.fieldsPrev.TakerPays;
+        }
+
         obj.offers[seq] = $.extend({}, obj.offers[seq], {
           seq: seq,
-          gets: ripple.Amount.from_json(node.fields.TakerGets),
-          pays: ripple.Amount.from_json(node.fields.TakerPays)
+          gets: ripple.Amount.from_json(gets),
+          pays: ripple.Amount.from_json(pays)
         });
 
         if (node.diffType === "DeletedNode") {
@@ -191,19 +200,25 @@ var JsonRewriter = module.exports = {
       break;
 
     case 'OfferCreate':
+
+      obj.pays = ripple.Amount.from_json(tx.TakerPays);
+      obj.gets = ripple.Amount.from_json(tx.TakerGets);
+
       if (tx.Account === account) {
         obj.type = 'offernew';
       } else if (obj.accountRoot) {
         // TODO quick solution. I don't like this line
         offer = obj.offers[obj.offers.length-1];
         obj.offer = offer;
-        obj.type = offer.deleted ? 'offerfunded' : 'offerpartiallyfunded';
+        if (offer.deleted) {
+          obj.type = 'offerfunded';
+        } else {
+          obj.type = 'offerpartiallyfunded';
+        }
       } else {
         obj.type = 'ignore';
       }
 
-      obj.pays = ripple.Amount.from_json(tx.TakerPays);
-      obj.gets = ripple.Amount.from_json(tx.TakerGets);
       break;
 
     case 'OfferCancel':
