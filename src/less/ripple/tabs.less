@@ -710,29 +710,36 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
   ul li.received > a.active,
   ul li.received > a:hover,
   ul li.received > a:after,
-  tr.received {
+  tr.received td {
     background-color: #e4efd9;
   }
 
   ul li.sent > a.active,
   ul li.sent > a:hover,
   ul li.sent > a:after,
-  tr.sent {
+  tr.sent td {
     background-color: #ecdfde;
   }
 
   ul li.other > a.active,
   ul li.other > a:hover,
   ul li.other > a:after,
-  tr.other {
+  tr.other td {
     background-color: #fbf8e4;
   }
 
   table tr {
-    cursor: pointer;
+    td {
+      cursor: pointer;
+    }
 
     &:hover {
-      opacity: 0.9;
+      &.received td{
+        background-color: #e8f3dd;
+      }
+      &.sent td{
+        background-color: #f0e3e2;
+      }
     }
   }
 
@@ -743,7 +750,8 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
     display: inline-block;
   }
 
-  table .sent td, table .received td {
+  table .sent td,
+  table .received td {
     padding-top: 5px;
     padding-bottom: 5px;
     line-height: 40px;
@@ -756,10 +764,6 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
 
   table th {
     padding-top: 10px;
-  }
-
-  td.date {
-  //font-size: 0.9em;
   }
 
   table .date {
@@ -776,7 +780,7 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
   }
 
   table .balance {
-    width: 19%;
+    width: 22%;
     text-align: right;
   }
 }
