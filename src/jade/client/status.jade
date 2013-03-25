@@ -2,13 +2,14 @@
   .user
     div {{userCredentials.username}}&nbsp;
       a.logout(ng-click='logout()') logout
-    .balance.primary(ng-show="account.Balance", rp-tooltip="{{account.Balance | rpamount}}")
-      span.amount(ng-class="{low: lowBalance}") {{account.Balance | rpamount:{rel_precision: 0} }}
+    .balance.primary(ng-show="account.Balance")
+      span.amount(ng-class="{low: lowBalance}", rp-tooltip="{{account.Balance | rpamount}}") {{account.Balance | rpamount:{rel_precision: 0} }}
       span.currency XRP
       a.icon.low(ng-show="lowBalance"
         rp-popover
         rp-popover-placement="bottom"
         rp-popover-title='Low ripple balance'
+        rp-popover-trigger="hover"
         data-content="Your current balance is low. You must keep a minimum of <strong>{{account.reserve | rpamount}} XRP</strong> to use all the features of ripple")
     ul.secondary
       li.balance(ng-repeat="(index, balance) in orderedBalances", ng-class="{negative: balance.total.is_negative()}")

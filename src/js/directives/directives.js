@@ -305,10 +305,14 @@ module.directive('rpTooltip', [function () {
  */
 module.directive('rpPopover', [function () {
   return function (scope, element, attr) {
+    if (!attr.rpPopoverTrigger)
+      attr.rpPopoverTrigger = 'click';
+
     $(element).popover({
       html: true,
       placement: attr.rpPopoverPlacement,
-      title: attr.rpPopoverTitle
+      title: attr.rpPopoverTitle,
+      trigger: attr.rpPopoverTrigger
       // TODO also use rpPopoverContent attribute (there's a bug with this)
     });
   };
