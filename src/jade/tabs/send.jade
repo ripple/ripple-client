@@ -91,7 +91,7 @@ section#t-send.single.content(ng-controller='SendCtrl')
           p
             span.amnt {{alt.amount | rpamount}}
             span.currency {{alt.amount | rpcurrency}}
-          button.btn.btn-success(type="submit", ng-click="send()") Send {{send.amount_feedback | rpcurrency}}
+          button.btn.btn-success(type="submit", ng-disabled='sendForm.$invalid', ng-click="send.alt = alt") Send {{alt.amount | rpcurrency}}
     .submitsection(ng-show="send.path_status == 'native'")
       button.btn.btn-success.submit(type='submit', ng-disabled='sendForm.$invalid') Send
 
