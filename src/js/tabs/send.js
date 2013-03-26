@@ -38,6 +38,10 @@ SendTab.prototype.angular = function (module)
       if ($scope.contact) {
         $scope.send.recipient_name = $scope.contact.name;
         $scope.send.recipient_address = $scope.contact.address;
+
+        if ($scope.contact.dt) {
+          $scope.send.dt = $scope.contact.dt;
+        }
       } else {
         $scope.send.recipient_name = '';
         $scope.send.recipient_address = addr;

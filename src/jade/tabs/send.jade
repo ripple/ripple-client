@@ -43,7 +43,7 @@ section#t-send.single.content(ng-controller='SendCtrl')
       .errorGroup(rp-errors='send_st')
         .error(rp-error-on='rpStdt')
           | Invalid source tag
-    span(ng-show='$routeParams.dt')
+    span(ng-show='$routeParams.dt || send.dt')
       label(for='send_dt') Destination tag
       input#send_dt(
         name='send_dt', type='text'

@@ -145,10 +145,6 @@ ContactsTab.prototype.angular = function (module) {
       {
         var search = {to: $scope.entry.name};
 
-        if ($scope.entry.dt) {
-          search.dt = $scope.entry.dt;
-        }
-
         $location.path('/send');
         $location.search(search);
       };
