@@ -232,13 +232,27 @@ section.panel.content(ng-controller="TradeCtrl")
           tr
             th.type Type
             th.pair Pair
-            th.price.rpamount Price
-            th.amount.rpamount Amount
+            th.price Price
+            th.amount Amount
             th.action Action
         tbody
           tr(ng-repeat="entry in offers", class="{{entry.type}}", ng-class="{cancelled: cancelled}")
             td.type {{entry.type | rpucfirst}}
-            td.pair {{entry.first | rpcurrency}}/{{entry.second | rpcurrency}}
+            td.pair
+              .first {{entry.first | rpcurrency}}
+                span.issuer(ng-show="entry.first.issuer().to_json()") &nbsp;(
+                  span(
+                    rp-pretty-issuer="entry.first.issuer().to_json()"
+                    rp-pretty-issuer-contacts="userBlob.data.contacts"
+                  ) ???
+                  | )
+              .second {{entry.second | rpcurrency}}
+                span.issuer(ng-show="entry.second.issuer().to_json()") &nbsp;(
+                  span(
+                    rp-pretty-issuer="entry.second.issuer().to_json()"
+                    rp-pretty-issuer-contacts="userBlob.data.contacts"
+                  ) ???
+                  | )
             td.price.rpamount {{entry.second | rpamountratio:entry.first | rpamount:{precision: 5, min_precision: 5} }}
               span.currency {{entry.second | rpcurrency}}
             td.amount.rpamount {{entry.first | rpamount}}
