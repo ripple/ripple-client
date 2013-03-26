@@ -27,14 +27,18 @@ Model.prototype.init = function ()
     store.set('ripple_currencies_all',require('../data/currencies'));
   }
 
-  $scope.currencies_all = store.get('ripple_currencies_all');
+  $scope.currencies_all = store.get('ripple_currencies_all')
+    ? store.get('ripple_currencies_all')
+    : require('../data/currencies');
 
   // Personalized default pair set
   if (!store.get('ripple_pairs_all')) {
     store.set('ripple_pairs_all',require('../data/pairs'));
   }
 
-  $scope.pairs_all = store.get('ripple_pairs_all');
+  $scope.pairs_all = store.get('ripple_pairs_all')
+    ? store.get('ripple_pairs_all')
+    : require('../data/pairs');
 
   function compare(a, b) {
     if (a.order < b.order) return 1;
