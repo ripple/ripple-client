@@ -364,11 +364,20 @@ TradeTab.prototype.angular = function(module)
     $scope.edit_first_issuer = function () {
       $scope.show_issuer_form = 'first';
       $scope.order.first_issuer_edit = webutil.unresolveContact($scope.userBlob.data.contacts, $scope.order.first_issuer);
+
+      setImmediate(function () {
+        $('#first_issuer').select();
+      });
+
     };
 
     $scope.edit_second_issuer = function () {
       $scope.show_issuer_form = 'second';
       $scope.order.second_issuer_edit = webutil.unresolveContact($scope.userBlob.data.contacts, $scope.order.second_issuer);
+
+      setImmediate(function () {
+        $('#second_issuer').select();
+      });
     };
 
     $scope.save_first_issuer = function () {
