@@ -76,6 +76,10 @@ section.panel.content(ng-controller="TradeCtrl")
         button.btn.btn-success.submit(
           type='submit', ng-click='save_second_issuer()') Confirm
 
+    group(ng-hide="order.valid_settings")
+      .message
+        | You must select an issuer to trade currencies. Click the “change issuer”, link above and enter your trusted gateway address or nickname.
+
     group(rp-if="order.valid_settings")
 
       .ticker: ul.market.inline
