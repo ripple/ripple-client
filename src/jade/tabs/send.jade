@@ -59,7 +59,7 @@ section#t-send.single.content(ng-controller='SendCtrl')
         name='send_amount', type='number', step='any'
         ng-model='send.amount'
         ng-pattern='/^[0-9.]+$/', required, ng-maxlength='20'
-        rp-autofill='$routeParams.amount'
+        rp-autofill='$routeParams.amnt'
         rp-autofill-amount
         rp-max-amount
         rp-max-amount-currency='{{send.currency}}')
