@@ -417,11 +417,10 @@ TradeTab.prototype.angular = function(module)
     function filterRedundantPrices(data) {
       var price;
       var prices = [];
-      var rpamountratio = $filter('rpamountratio');
       var rpamount = $filter('rpamount');
 
       return _.compact(_.map(data, function(d){
-        price = rpamount(rpamountratio(d.TakerPays, d.TakerGets), {rel_precision: 4, rel_min_precision: 2} );
+        price = rpamount(Amount.from_json(d.TakerPays).ratio_human(d.TakerGets), {rel_precision: 4, rel_min_precision: 2} );
         if (_.contains(prices, price)) d = false;
         else prices.push(price);
 
@@ -459,7 +458,7 @@ TradeTab.prototype.angular = function(module)
     }, true);
 
     $scope.$watch('book.asks', function (asks) {
-      $scope.book.asks = filterRedundantPrices(asks);
+      $scope.book.asks_f = filterRedundantPrices(asks);
       $scope.asum = [];
 
       if (!asks) return;
@@ -473,7 +472,7 @@ TradeTab.prototype.angular = function(module)
     }, true);
 
     $scope.$watch('book.bids', function (bids) {
-      $scope.book.bids = filterRedundantPrices(bids);
+      //$scope.book.bids = filterRedundantPrices(bids);
       $scope.bsum = [];
 
       if (!bids) return;
