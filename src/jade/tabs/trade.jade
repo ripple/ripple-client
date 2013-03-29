@@ -272,7 +272,7 @@ section.panel.content(ng-controller="TradeCtrl")
           thead: tr
             th.sum Sum
               .currency {{book.bids[0].TakerPays | rpcurrency}}
-            th.amount Amount
+            th.amount Size
               .currency {{book.bids[0].TakerPays | rpcurrency}}
             th.price Bid Price
               .currency {{book.bids[0].TakerGets | rpcurrency}}
@@ -288,7 +288,7 @@ section.panel.content(ng-controller="TradeCtrl")
           thead: tr
             th.price Ask Price
               .currency {{book.asks[0].TakerPays | rpcurrency}}
-            th.amount Amount
+            th.amount Size
               .currency {{book.asks[0].TakerGets | rpcurrency}}
             th.sum Sum
               .currency {{book.asks[0].TakerGets | rpcurrency}}
