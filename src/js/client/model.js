@@ -116,7 +116,7 @@ Model.prototype.handleAccountLoad = function (e)
   remote.request_account_lines(e.account)
     .on('success', this.handleRippleLines.bind(this))
     .on('error', this.handleRippleLinesError.bind(this)).request();
-  remote.request_account_tx(e.account, 0, 9999999)
+  remote.request_account_tx(e.account, 0, 9999999, true, 200)
     .on('success', this.handleAccountTx.bind(this))
     .on('error', this.handleAccountTxError.bind(this)).request();
   remote.request_account_offers(e.account)
