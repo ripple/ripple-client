@@ -16,28 +16,38 @@ module.factory('rpBooks', ['rpNetwork', '$q', '$rootScope', '$filter',
                            taker);
   }
 
-   function filterRedundantPrices(data, combine) {
+   function filterRedundantPrices(data, action, combine) {
       var price;
       var lastprice;
       var current;
       var rpamount = $filter('rpamount');
+      var numerator;
+      var demoninator;
+
+      if (action=='bidsa')
+        return data;
 
       data = _.compact(_.map(data, function(d, i){
-        price = rpamount(Amount.from_json(d.TakerPays).ratio_human(d.TakerGets), {rel_precision: 4, rel_min_precision: 2} );
+        numerator = (action == 'asks') ? d.TakerPays : d.TakerGets;
+        denominator = (action == 'asks') ? d.TakerGets : d.TakerPays;
+        price = rpamount(Amount.from_json(numerator).ratio_human(denominator), {rel_precision: 4, rel_min_precision: 2} );
+
         if (lastprice == price) {
           if (combine) {
-            data[current].TakerPays = Amount.from_json(data[current].TakerPays).add(d.TakerPays).to_number();
-            data[current].TakerGets = Amount.from_json(data[current].TakerGets).add(d.TakerGets).to_json();
+            if (action == 'asks') {
+              data[current].TakerPays = Amount.from_json(data[current].TakerPays).add(d.TakerPays).to_number();
+              data[current].TakerGets = Amount.from_json(data[current].TakerGets).add(d.TakerGets).to_json();
+            } else {
+              data[current].TakerPays = Amount.from_json(data[current].TakerPays).add(d.TakerPays).to_json();
+              data[current].TakerGets = Amount.from_json(data[current].TakerGets).add(d.TakerGets).to_number();
+            }
           }
           d = false;
-        } else {
-          current = i;
-        }
+        } else current = i;
         lastprice = price;
 
         return d;
       }));
-      filtered = true;
 
       return data;
     }
@@ -49,12 +59,12 @@ module.factory('rpBooks', ['rpNetwork', '$q', '$rootScope', '$filter',
       var bids = loadBook(second, first, taker);
 
       var model = {
-        asks: filterRedundantPrices(asks.offersSync(), false),
-        bids: bids.offersSync()
+        asks: filterRedundantPrices(asks.offersSync(), 'asks', false),
+        bids: filterRedundantPrices(bids.offersSync(), 'bids', false)
       };
 
       function handleAskModel(offers) {
-        model.asks = filterRedundantPrices(offers, true);
+        model.asks = filterRedundantPrices(offers, 'asks', true);
         $scope.$digest();
       }
       function handleAskTrade(gets, pays) {
@@ -65,7 +75,7 @@ module.factory('rpBooks', ['rpNetwork', '$q', '$rootScope', '$filter',
       asks.on('trade', handleAskTrade);
 
       function handleBidModel(offers) {
-        model.bids = offers;
+        model.bids = filterRedundantPrices(offers, 'bids', true);
         $scope.$digest();
       }
       function handleBidTrade(gets, pays) {

@@ -457,7 +457,6 @@ TradeTab.prototype.angular = function(module)
     }, true);
 
     $scope.$watch('book.bids', function (bids) {
-      //$scope.book.bids = filterRedundantPrices(bids);
       $scope.bsum = [];
 
       if (!bids) return;
