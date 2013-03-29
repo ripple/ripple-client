@@ -5,15 +5,39 @@
  */
 
 var module = angular.module('books', ['network']);
+var Amount = ripple.Amount;
 
-module.factory('rpBooks', ['rpNetwork', '$q', '$rootScope',
-                           function (net, $q, $scope)
+module.factory('rpBooks', ['rpNetwork', '$q', '$rootScope', '$filter',
+                           function (net, $q, $scope, $filter)
 {
   function loadBook(gets, pays, taker) {
     return net.remote.book(gets.currency, gets.issuer,
                            pays.currency, pays.issuer,
                            taker);
   }
+
+   function filterRedundantPrices(data) {
+      var price;
+      var lastprice;
+      var current;
+      var rpamount = $filter('rpamount');
+
+      data = _.compact(_.map(data, function(d, i){
+        price = rpamount(Amount.from_json(d.TakerPays).ratio_human(d.TakerGets), {rel_precision: 4, rel_min_precision: 2} );
+        if (lastprice == price) {
+          data[current].TakerPays = Amount.from_json(data[current].TakerPays).add(d.TakerPays).to_number();
+          data[current].TakerGets = Amount.from_json(data[current].TakerGets).add(d.TakerGets).to_json();
+          d = false;
+        } else {
+          current = i;
+        }
+        lastprice = price;
+
+        return d;
+      }));
+
+      return data;
+    }
 
   return {
     get: function (first, second, taker)
@@ -27,7 +51,7 @@ module.factory('rpBooks', ['rpNetwork', '$q', '$rootScope',
       };
 
       function handleAskModel(offers) {
-        model.asks = offers;
+        model.asks = filterRedundantPrices(offers);
         $scope.$digest();
       }
       function handleAskTrade(gets, pays) {

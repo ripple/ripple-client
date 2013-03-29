@@ -293,9 +293,9 @@ section.panel.content(ng-controller="TradeCtrl")
             th.sum Sum
               .currency {{book.asks[0].TakerGets | rpcurrency}}
           tbody
-            tr(ng-repeat='order in book.asks_f')
+            tr(ng-repeat='order in book.asks')
               td.price.rpamount
-                | {{ order.TakerPays }} : {{order.TakerPays | rpamountratio:order.TakerGets | rpamount:{rel_precision: 4, rel_min_precision: 2} }}
+                | {{order.TakerPays | rpamountratio:order.TakerGets | rpamount:{rel_precision: 4, rel_min_precision: 2} }}
               td.amount.rpamount {{order.TakerGets | rpamount:{rel_precision: 4} }}
               td.sum.rpamount {{asum[$index] | rpamount:{rel_precision: 4} }}
             tr(ng-show='!book.asks.length')

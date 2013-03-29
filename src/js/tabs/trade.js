@@ -24,8 +24,8 @@ TradeTab.prototype.angular = function(module)
   var self = this;
   var app = this.app;
 
-  module.controller('TradeCtrl', ['rpBooks', '$scope', 'rpId', '$filter',
-                                  function (books, $scope, $id,  $filter)
+  module.controller('TradeCtrl', ['rpBooks', '$scope', 'rpId',
+                                  function (books, $scope, $id)
   {
     if (!$id.loginStatus) return $id.goId();
 
@@ -414,20 +414,6 @@ TradeTab.prototype.angular = function(module)
       }
     };
 
-    function filterRedundantPrices(data) {
-      var price;
-      var prices = [];
-      var rpamount = $filter('rpamount');
-
-      return _.compact(_.map(data, function(d){
-        price = rpamount(Amount.from_json(d.TakerPays).ratio_human(d.TakerGets), {rel_precision: 4, rel_min_precision: 2} );
-        if (_.contains(prices, price)) d = false;
-        else prices.push(price);
-
-        return d;
-      }));
-    }
-
     function loadOffers() {
       // Make sure we unsubscribe from any previously loaded orderbook
       if ($scope.book &&
@@ -458,7 +444,6 @@ TradeTab.prototype.angular = function(module)
     }, true);
 
     $scope.$watch('book.asks', function (asks) {
-      $scope.book.asks_f = filterRedundantPrices(asks);
       $scope.asum = [];
 
       if (!asks) return;
