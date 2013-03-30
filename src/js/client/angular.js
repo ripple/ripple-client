@@ -89,12 +89,16 @@ app.config(['$routeProvider', '$injector', function ($routeProvider, $injector) 
   $routeProvider.otherwise({redirectTo: '/balance'});
 }]);
 
-app.run(['$rootScope', '$injector', '$compile', '$route', '$routeParams',
-         function ($rootScope, $injector, $compile, $route, $routeParams) {
+app.run(['$rootScope', '$injector', '$compile', '$route', '$routeParams', '$location',
+         function ($rootScope, $injector, $compile, $route, $routeParams, $location) {
   // Helper for detecting empty object enumerations
   $rootScope.isEmpty = function (obj) {
     return angular.equals({},obj);
   };
+
+  // if url has a + or %2b then replace with %20 and redirect
+  if (_.isArray($location.$$absUrl.match(/%2B|\+/gi))) 
+    window.location = $location.$$absUrl.replace(/%2B|\+/gi, '%20');
 
   var scope = $rootScope;
   $rootScope.$route = $route;
@@ -105,6 +109,5 @@ app.run(['$rootScope', '$injector', '$compile', '$route', '$routeParams',
 
   capp.startup();
 }]);
-
 
 exports.Angular = Angular;
