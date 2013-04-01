@@ -20,7 +20,12 @@ section.panel.content(ng-controller="BalanceCtrl")
   table.table.events
     caption Activity
     thead
-      tr
+      //- Loading screen
+      tr(ng-hide="transactions")
+        td(colspan=2) Loading...
+
+      //- Entries
+      tr(ng-show="transactions")
         th.date Date
         th.desc Event
     tbody
