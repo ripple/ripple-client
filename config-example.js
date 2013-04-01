@@ -20,7 +20,7 @@ var Options = {
   persistent_auth : false,
 
   // Number of transactions each page has in balance tab notifications
-  transactions_per_page: 10
+  transactions_per_page: 50
 };
 
 // Load client-side overrides
