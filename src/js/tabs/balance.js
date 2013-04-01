@@ -1,5 +1,6 @@
-var util = require('util');
-var Tab = require('../client/tab').Tab;
+var util = require('util'),
+    Tab = require('../client/tab').Tab,
+    rewriter = require('../util/jsonrewriter');
 
 var BalanceTab = function ()
 {
@@ -17,10 +18,51 @@ BalanceTab.prototype.generateHtml = function ()
 
 BalanceTab.prototype.angular = function (module)
 {
+  var self = this;
+  var app = this.app;
+
   module.controller('BalanceCtrl', ['$scope', 'rpId',
                                      function ($scope, $id)
   {
+    var remote = app.net.remote;
+
     if (!$id.loginStatus) return $id.goId();
+
+    $scope.transactions = [];
+    $scope.current_page = 1;
+
+    $scope.$watch('events', function(){
+      if ($scope.transactions.length === 0) {
+        $scope.transactions = $scope.events;
+      }
+    }, true);
+
+    $scope.$watch('history_count', function(){
+      $scope.pages_count = Math.ceil($scope.history_count / Options.transactions_per_page);
+    }, true);
+
+    $scope.goToPage = function(page) {
+      var account = app.id.account;
+      var offset = (page - 1) * Options.transactions_per_page;
+
+      $scope.current_page = page;
+
+      remote.request_account_tx(account, 0, 9999999, true, Options.transactions_per_page, offset)
+        .on('success', function(data) {
+            $scope.transactions = [];
+            $scope.$apply(function () {
+              if (data.transactions) {
+                data.transactions.forEach(function (e) {
+                  var tx = rewriter.processTxn(e.tx, e.meta, account);
+                  if (tx.type !== 'ignore') {
+                    $scope.transactions.push(tx);
+                  }
+                });
+              }
+            });
+        })
+        .on('error', function(err){console.log(err);}).request();
+    }
   }]);
 };
 

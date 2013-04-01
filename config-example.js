@@ -17,7 +17,10 @@ var Options = {
 
   // If set, login will persist across sessions (page reload). This is mostly
   // intended for developers, be careful about using this in a real setting.
-  persistent_auth : false
+  persistent_auth : false,
+
+  // Number of transactions each page has in balance tab notifications
+  transactions_per_page: 10
 };
 
 // Load client-side overrides

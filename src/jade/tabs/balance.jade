@@ -25,7 +25,7 @@ section.panel.content(ng-controller="BalanceCtrl")
         th.desc Event
     tbody
       tr(
-        ng-repeat="entry in events"
+        ng-repeat="entry in transactions"
         ng-class="entry.type"
         ng-switch on="entry.type"
         rp-link-tx="entry.hash"
@@ -70,3 +70,10 @@ section.panel.content(ng-controller="BalanceCtrl")
           strong {{entry.gets | rpamount}} {{entry.gets | rpcurrency}}
         td.desc(ng-switch-default)
           | Something happened
+    tfoot
+      tr
+        td(colspan=2, class="pagination")
+          ul
+            li(ng-repeat="i in [1,pages_count] | rprange",ng-class="{active: current_page==i}")
+              a(ng-click="goToPage(i)", ng-hide="current_page==i") {{i}}
+              span(ng-show="current_page==i") {{i}}

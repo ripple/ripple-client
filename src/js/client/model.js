@@ -13,6 +13,7 @@ var Model = function ()
 {
   events.EventEmitter.call(this);
 };
+
 util.inherits(Model, events.EventEmitter);
 
 Model.prototype.init = function ()
@@ -88,7 +89,7 @@ Model.prototype.reset = function ()
   $scope.events = [];
   $scope.history = [];
   $scope.balances = {};
-}
+};
 
 Model.prototype.setApp = function (app)
 {
@@ -113,12 +114,17 @@ Model.prototype.handleAccountLoad = function (e)
 
   remote.set_secret(e.account, e.secret);
 
+  // Ripple credit lines
   remote.request_account_lines(e.account)
     .on('success', this.handleRippleLines.bind(this))
     .on('error', this.handleRippleLinesError.bind(this)).request();
-  remote.request_account_tx(e.account, 0, 9999999, true, 200)
+
+  // Transactions
+  remote.request_account_tx(e.account, 0, 9999999, true, Options.transactions_per_page)
     .on('success', this.handleAccountTx.bind(this))
     .on('error', this.handleAccountTxError.bind(this)).request();
+
+  // Outstanding offers
   remote.request_account_offers(e.account)
     .on('success', this.handleOffers.bind(this))
     .on('error', this.handleOffersError.bind(this)).request();
@@ -129,6 +135,7 @@ Model.prototype.handleAccountLoad = function (e)
   this.handleAccountEntry = this.handleAccountEntry.bind(this);
 
   var account = remote.account(e.account);
+
   account.on('transaction', this.handleAccountEvent);
   account.on('entry', this.handleAccountEntry);
 
@@ -236,6 +243,9 @@ Model.prototype.handleAccountTx = function (data)
 
   var $scope = this.app.$scope;
   $scope.$apply(function () {
+
+    $scope.history_count = data.count;
+
     if (data.transactions) {
       data.transactions.reverse().forEach(function (e) {
         self._processTxn(e.tx, e.meta, true);

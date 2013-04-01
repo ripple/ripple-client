@@ -38,7 +38,8 @@ OptionsTab.prototype.angular = function(module)
           "websocket_ssl" : $scope.socketSsl
         },
         blobvault : $scope.blobIp,
-        persistent_auth : Options.persistent_auth
+        persistent_auth : Options.persistent_auth,
+        transactions_per_page: Options.transactions_per_page
       }));
 
       // Reload
