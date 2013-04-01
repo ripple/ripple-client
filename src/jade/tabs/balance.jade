@@ -70,10 +70,14 @@ section.panel.content(ng-controller="BalanceCtrl")
           strong {{entry.gets | rpamount}} {{entry.gets | rpcurrency}}
         td.desc(ng-switch-default)
           | Something happened
-    tfoot
+    tfoot(ng-show="pages_count")
       tr
         td(colspan=2, class="pagination")
           ul
+            li(ng-class="{disabled: !prev_page}")
+              a(ng-click="goToPage(prev_page)") &laquo;
             li(ng-repeat="i in [1,pages_count] | rprange",ng-class="{active: current_page==i}")
               a(ng-click="goToPage(i)", ng-hide="current_page==i") {{i}}
               span(ng-show="current_page==i") {{i}}
+            li(ng-class="{disabled: !next_page}")
+              a(ng-click="goToPage(next_page)") &raquo;

@@ -31,6 +31,7 @@ BalanceTab.prototype.angular = function (module)
     $scope.transactions = [];
     $scope.current_page = 1;
 
+    // First page transactions
     $scope.$watch('events', function(){
       if ($scope.transactions.length === 0) {
         $scope.transactions = $scope.events;
@@ -38,12 +39,25 @@ BalanceTab.prototype.angular = function (module)
     }, true);
 
     $scope.$watch('history_count', function(){
+      // Pages count
       $scope.pages_count = Math.ceil($scope.history_count / Options.transactions_per_page);
+
+      // Next page number
+      if (!$scope.next_page && $scope.pages_count > 1) {
+        $scope.next_page = 2;
+      }
     }, true);
 
     $scope.goToPage = function(page) {
+      // Click on disabled links
+      if (!page) return;
+
       var account = app.id.account;
       var offset = (page - 1) * Options.transactions_per_page;
+
+      // Next, prev page numbers
+      $scope.prev_page = page > 1 ? page-1 : 0;
+      $scope.next_page = page < $scope.pages_count ? page+1 : 0;
 
       $scope.current_page = page;
 
