@@ -26,7 +26,7 @@ section.panel.content(ng-controller="BalanceCtrl")
         .balance
           span(rp-tooltip="{{entry.total | rpamount}}") {{entry.total | rpamount:{rel_precision: 0} }}
 
-    table.table.events
+    table.table.events(ng-show="account.Balance")
       caption Activity
       thead
         //- Loading screen
