@@ -1,9 +1,8 @@
 include ../menu/advanced.jade
 section.panel.content(ng-controller="TrustCtrl")
-  group(ng-hide="connected")
-    .disconnected
-      p.literal You have to be online to see this screen
-      p: a.btn(href="#balance") Back to balance
+  group.disconnected(ng-hide="connected")
+    p.literal You have to be online to see this screen
+    p: a.btn(href="#balance") Back to balance
   group(ng-show="connected")
     //- Account is unfunded
     .unfunded(ng-hide='account.Balance')

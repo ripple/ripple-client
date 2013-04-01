@@ -1,8 +1,7 @@
 include ../menu/wallet.jade
 section.panel.content(ng-controller="BalanceCtrl")
-  group(ng-hide="connected")
-    .disconnected
-      p.literal You have to be online to see this screen
+  group.disconnected(ng-hide="connected")
+    p.literal You have to be online to see this screen
   group(ng-show="connected")
     .div#welcome(ng-hide='account.Balance')
       p.title Welcome to Ripple.

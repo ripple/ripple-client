@@ -1,9 +1,8 @@
 include ../menu/wallet.jade
 section.panel.content(ng-controller="HistoryCtrl")
-  group(ng-hide="connected")
-    .disconnected
-      p.literal You have to be online to see this screen
-      p: a.btn(href="#balance") Back to balance
+  group.disconnected(ng-hide="connected")
+    p.literal You have to be online to see this screen
+    p: a.btn(href="#balance") Back to balance
   group(ng-show="connected")
     ul.filter-tabs
       li.all: a(ng-click='type = {}', ng-class="!type.type && 'active'") All Activity
