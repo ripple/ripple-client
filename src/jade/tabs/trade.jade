@@ -1,7 +1,13 @@
 include ../menu/advanced.jade
 section.panel.content(ng-controller="TradeCtrl")
+
+  //- Disconnected
+
   group.disconnected(ng-hide="connected")
     p.literal You have to be online to see this screen
+
+  //- Connected
+
   group(ng-show="connected")
     .settings
       .currency-config
