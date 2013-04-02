@@ -34,6 +34,7 @@ section.panel.content(ng-controller="HistoryCtrl")
             span(rp-tooltip="{{entry.balance | rpamount:{signed: true, precision: 10} }} {{entry.currency}}")
               | {{entry.balance | rpamount:{signed: true} }}
               .currency {{entry.currency}}
+      tfoot
         tr(ng-show="!(history | filter:type).length")
           td(colspan="4")
             span.literal(ng-show="history.length")
