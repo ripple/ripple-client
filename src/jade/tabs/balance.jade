@@ -37,7 +37,7 @@ section.panel.content(ng-controller="BalanceCtrl")
         tr(ng-show="transactions")
           th.date Date
           th.desc Event
-      tbody
+      tbody(ng-class="{passive: loading}")
         tr(
           ng-repeat="entry in transactions"
           ng-class="entry.type"
@@ -95,3 +95,7 @@ section.panel.content(ng-controller="BalanceCtrl")
                 span(ng-show="current_page==i") {{i}}
               li(ng-class="{disabled: !next_page}")
                 a(ng-click="goToPage(next_page)") &raquo;
+            span.spinner(
+              ng-show="loading"
+              rp-spinner="4",
+              )

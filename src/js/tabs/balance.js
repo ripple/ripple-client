@@ -61,6 +61,9 @@ BalanceTab.prototype.angular = function (module)
 
       $scope.current_page = page;
 
+      // Loading mode
+      $scope.loading = true;
+
       remote.request_account_tx(account, 0, 9999999, true, Options.transactions_per_page, offset)
         .on('success', function(data) {
             $scope.transactions = [];
@@ -72,6 +75,9 @@ BalanceTab.prototype.angular = function (module)
                     $scope.transactions.push(tx);
                   }
                 });
+
+                // Loading mode
+                $scope.loading = false;
               }
             });
         })

@@ -349,8 +349,14 @@
       margin: 0 0 10px;
     }
 
-    tbody td{
-      cursor: pointer;
+    tbody {
+      &.passive {
+        opacity: 0.5;
+      }
+
+      td{
+        cursor: pointer;
+      }
     }
 
     tr {
@@ -401,6 +407,16 @@
 
     tr:hover .btn.add {
       display: inline-block;
+    }
+
+    .spinner {
+      float: right;
+      margin: 30px 20px 0 0;
+
+      .spinnerInner {
+        left: 0 !important;
+        top: 0 !important;
+      }
     }
 
     .pagination ul {
