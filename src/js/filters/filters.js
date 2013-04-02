@@ -264,11 +264,11 @@ module.filter('rprange', function() {
     switch (input.length) {
       case 1:
         lowBound = 0;
-        highBound = parseInt(input[0]) - 1;
+        highBound = parseInt(input[0], 10) - 1;
         break;
       case 2:
-        lowBound = parseInt(input[0]);
-        highBound = parseInt(input[1]);
+        lowBound = parseInt(input[0], 10);
+        highBound = parseInt(input[1], 10);
         break;
       default:
         return input;
