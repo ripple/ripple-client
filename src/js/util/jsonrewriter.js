@@ -235,10 +235,15 @@ var JsonRewriter = module.exports = {
         break;
       }
 
-      offer = obj.offers[tx.OfferSequence];
+      // for OfferCancel, iterate AffectedNodes until the offer node is found
+      _.each(meta.AffectedNodes, function(n){
+        if (n.hasOwnProperty('DeletedNode'))
+          if (n.DeletedNode.LedgerEntryType === 'Offer')
+            offer = n.DeletedNode.FinalFields;
+      });
 
-      obj.pays = offer.pays;
-      obj.gets = offer.gets;
+      obj.pays = offer.TakerPays;
+      obj.gets = offer.TakerGets;
 
       break;
 
