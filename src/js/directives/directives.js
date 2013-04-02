@@ -389,3 +389,20 @@ module.directive('rpNoPropagate', [function () {
     }
   };
 }]);
+
+/**
+ * Spinner
+ */
+module.directive('rpSpinner', [function () {
+  return function (scope, element, attr) {
+    attr.$observe('rpSpinner', function(value) {
+      new Spinner({
+        lines: 9, // The number of lines to draw
+        length: 3, // The length of each line
+        width: 2, // The line thickness
+        radius: value, // The radius of the inner circle
+        className: 'spinnerInner'
+      }).spin(element[0]);
+    });
+  };
+}]);
