@@ -255,8 +255,6 @@ TradeTab.prototype.angular = function(module)
     // the issuer(s) have been modified. It checks the new configuration and
     // sets $scope.valid_settings.
     function updateSettings() {
-      console.log("updateSettings");
-
       var order = $scope.order;
 
       var pair = order.currency_pair;
