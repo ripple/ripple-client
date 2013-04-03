@@ -87,9 +87,9 @@ section#t-send.single.content(ng-controller='SendCtrl')
       ul
         li(ng-repeat="alt in send.alternatives")
           p
-            span.amnt {{alt.amount | rpamount}}
-            span.currency {{alt.amount | rpcurrency}}
-          button.btn.btn-success(type="submit", ng-disabled='sendForm.$invalid', ng-click="send.alt = alt") Send {{alt.amount | rpcurrency}}
+            span.amnt {{alt.amount | rpamount:{rel_precision: 4, rel_min_precision: 2} }}
+            span.currency {{alt.amount | rpcurrency }}
+          button.btn.btn-success(type="submit", ng-disabled='sendForm.$invalid', ng-click="send.alt = alt") Send {{ alt.amount | rpcurrency }}
     .submitsection(ng-show="send.path_status == 'native'")
       button.btn.btn-success.submit(type='submit', ng-disabled='sendForm.$invalid') Send
 
