@@ -134,7 +134,7 @@ section.panel.content(ng-controller="TrustCtrl")
         hr
         .text-success(ng-show='addressSaved', class="actionLink") Address saved!
         .save-address-form(ng-hide='contact', class="actionLink")
-          a(href="", ng-click='show_save_address_form = true') Add this address to contacts
+          a(href="", ng-click='show_save_address_form()') Add this address to contacts
           form(name="saveAddressForm", ng-class="{ show: show_save_address_form }", ng-submit='saveAddress()')
             .address {{counterparty_address}}
             label(for='save_address_name') Name this user
