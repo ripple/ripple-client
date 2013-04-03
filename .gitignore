@@ -1,10 +1,7 @@
-
 js/.DS_Store
-
+npm-debug.log
 .DS_Store
-
 node_modules
 build/
-
 config.js
 analytics.js
