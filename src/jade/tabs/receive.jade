@@ -3,6 +3,7 @@ section.single.content(ng-controller="ReceiveCtrl")
   hr
   .address
     span#receive-address(ng-bind="address")
+  .qr#qr-code
   p.literal(ng-show="!copy_supported")
     | Tip:&nbsp;
     a.select(rp-select-el="receive-address") Select

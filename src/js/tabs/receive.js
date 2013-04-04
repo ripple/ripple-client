@@ -17,6 +17,13 @@ ReceiveTab.prototype.angular = function (module) {
                                      function ($scope, $id)
   {
     if (!$id.loginStatus) return $id.goId();
+
+     // watch the address function and detect when it changes so we can inject the qr
+    $scope.$watch('address', function(){
+      if ($scope.address !== undefined)
+      // use jquery qr code library to inject qr code into div
+        $('#qr-code').qrcode('https://ripple.com//contact?to=' + $scope.address);
+    }, true);
   }]);
 };
 
