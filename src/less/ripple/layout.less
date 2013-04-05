@@ -43,7 +43,7 @@ body.loaded #wrapper {
   display: block;
 }
 
-#appLoading {
+#appLoading, #noWebSockets {
   margin: 200px 0 0 0;
   text-align: center;
   font: 18px 'OpenSansLight';
@@ -51,6 +51,20 @@ body.loaded #wrapper {
 
   p{
     margin: 50px 0 0 0;
+  }
+}
+
+.websockets #noWebSockets, .no-websockets #appLoading {
+  display: none;
+}
+
+.no-websockets #noWebSockets {
+  display: block;
+
+  p {
+    line-height: 1.8em;
+    margin-left: 25%;
+    margin-right: 25%;
   }
 }
 
