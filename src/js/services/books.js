@@ -25,6 +25,13 @@ function(net, $q, $scope, $filter) {
     var demoninator;
 
     data = _.compact(_.map(data, function(d, i) {
+      // prefer taker_pays_funded & taker_gets_funded
+      if (d.hasOwnProperty('taker_gets_funded'))
+      {
+        d.TakerPays = d.taker_pays_funded;
+        d.TakerGets = d.taker_gets_funded;
+      }
+
       var numerator = (action == 'asks') ? d.TakerPays : d.TakerGets;
       var denominator = (action == 'asks') ? d.TakerGets : d.TakerPays;
       var price = rpamount(Amount.from_json(numerator).ratio_human(denominator), {
