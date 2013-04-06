@@ -33,7 +33,7 @@ section.panel.content(ng-controller="TrustCtrl")
         tr(ng-show='addform_visible')
           td(colspan=4)
             form(name='trustForm', id='trustForm', ng-submit='grant()')
-              label(for='trust_counterparty') User
+              label(for='trust_counterparty') {{ edituser }}
               input#trust_counterparty(name='trust_counterparty', type='text', ng-model='counterparty'
                 rp-combobox="counterparty_query", placeholder='Contact name or Ripple address',
                 rp-destination, rp-not-me, required

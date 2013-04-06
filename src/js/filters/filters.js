@@ -7,7 +7,7 @@ var iso4217 = require('../data/iso4217');
 /**
  * Format a ripple.Amount.
  *
- * If the parameter is a number, the number is treated the relative 
+ * If the parameter is a number, the number is treated the relative
  */
 module.filter('rpamount', function () {
   return function (input, opts) {
@@ -148,8 +148,8 @@ module.filter('rpcontactname', function () {
 module.filter('rpcontactnamefull', function () {
   return function (address) {
     address = address ? ""+address : "";
-
     var contact = webutil.getContact(rippleclient.$scope.userBlob.data.contacts,address);
+    console.log(contact);
 
     if (!contact) {
       return "" + address;

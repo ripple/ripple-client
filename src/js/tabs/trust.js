@@ -23,8 +23,8 @@ TrustTab.prototype.angular = function (module)
   var self = this;
   var app = this.app;
 
-  module.controller('TrustCtrl', ['$scope', '$timeout', '$routeParams', 'rpId',
-                                  function ($scope, $timeout, $routeParams, $id)
+  module.controller('TrustCtrl', ['$scope', '$timeout', '$routeParams', 'rpId', '$filter',
+                                  function ($scope, $timeout, $routeParams, $id, $filter)
   {
     if (!$id.loginStatus) return $id.goId();
 
@@ -192,6 +192,9 @@ TrustTab.prototype.angular = function (module)
     $scope.edit_line = function ()
     {
       var line = this.line;
+      var filterAddress = $filter('rpcontactnamefull');
+      var contact = filterAddress(line.account);
+      $scope.edituser = (contact) ? contact : 'User';
       $scope.addform_visible = true;
       $scope.currency = line.currency;
       $scope.counterparty = line.account;
