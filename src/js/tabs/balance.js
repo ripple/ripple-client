@@ -71,7 +71,7 @@ BalanceTab.prototype.angular = function (module)
               if (data.transactions) {
                 data.transactions.forEach(function (e) {
                   var tx = rewriter.processTxn(e.tx, e.meta, account);
-                  if (tx.type !== 'ignore') {
+                  if (tx) {
                     $scope.transactions.push(tx);
                   }
                 });
