@@ -15,7 +15,8 @@ section.single.ddpage.content(ng-controller="TxCtrl", ng-switch on="state")
             dt Address sent from:
             dd {{transaction.Account}}
             dt Amount sent:
-            dd TODO
+            dd.ng-show(transaction.SendMax) {{transaction.SendMax | rpamount}} {{transaction.SendMax | rpcurrency}}
+            dd.ng-hide(transaction.SendMax) {{transaction.Amount | rpamount}} {{transaction.Amount | rpcurrency}}
             dt Currency sent:
             // XXX Bad way of doing it...
             dd {{transaction.SendMax | rpcurrencyfull}}
@@ -35,7 +36,7 @@ section.single.ddpage.content(ng-controller="TxCtrl", ng-switch on="state")
         hr
         dl.details
           dt Ledger number:
-          dd TODO
+          dd {{transaction.inLedger}}
       group(ng-switch-default)
           group.clearfix
             dl.details.half
