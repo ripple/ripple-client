@@ -188,7 +188,7 @@ Model.prototype.handleRippleLines = function (data)
 
 Model.prototype.handleRippleLinesError = function (data)
 {
-}
+};
 
 Model.prototype.handleOffers = function (data)
 {
@@ -212,7 +212,7 @@ Model.prototype.handleOffers = function (data)
 
 Model.prototype.handleOffersError = function (data)
 {
-}
+};
 
 Model.prototype.handleAccountEntry = function (data)
 {
@@ -279,35 +279,44 @@ Model.prototype._processTxn = function (tx, meta, is_historic)
   var processedTxn = rewriter.processTxn(tx, meta, account);
 
   if (processedTxn) {
+    var transaction = processedTxn.transaction;
+
     // Show status notification
     if (processedTxn.tx_result === "tesSUCCESS" &&
-        processedTxn.type !== 'ignore' &&
         !is_historic) {
-      this.app.sm.showTxNotification(processedTxn);
+      this.app.sm.showTxNotification(transaction);
     }
 
     // Add to recent notifications
-    if (processedTxn.tx_result === "tesSUCCESS" &&
-        processedTxn.type !== 'ignore') {
+    if (processedTxn.tx_result === "tesSUCCESS") {
       $scope.events.unshift(processedTxn);
     }
 
     // Add to payments history
     if (processedTxn.tx_type === "Payment" &&
         processedTxn.tx_result === "tesSUCCESS" &&
-        processedTxn.type !== 'ignore') {
+        processedTxn.transaction) {
+      // TODO urish currencyneri balance chka
       $scope.history.unshift(processedTxn);
     }
 
     // Update Ripple lines
-    if (processedTxn.lines && !is_historic) {
-      this._updateLines(processedTxn);
+    if (processedTxn.effects && !is_historic) {
+      self._updateLines(processedTxn.effects);
     }
 
     // Update my offers
-    if (processedTxn.offers && !is_historic) {
-      processedTxn.offers.forEach(function (offer) {
-        self._updateOffer(offer);
+    if (processedTxn.effects && !is_historic) {
+      processedTxn.effects.forEach(function (effect) {
+        if (_.contains([
+          'offer_created',
+          'offer_funded',
+          'offer_partially_funded',
+          'offer_cancelled',
+          'offer_bought'], effect.type))
+        {
+          self._updateOffer(effect);
+        }
       });
     }
   }
@@ -322,42 +331,102 @@ limit_peer: "0"
 quality_in: 0
 quality_out: 0
  */
-Model.prototype._updateLines = function(txn)
+Model.prototype._updateOffer = function (offer)
 {
-  if (!$.isArray(txn.lines)) return;
+  var $scope = this.app.$scope;
+
+  var reverseOrder = null;
+  var pairs = $scope.pairs;
+  for (var i = 0, l = pairs.length; i < l; i++) {
+    var pair = pairs[i].name;
+    if (pair.slice(0,3) == offer.gets.currency().to_json() &&
+        pair.slice(4,7) == offer.pays.currency().to_json()) {
+      reverseOrder = false;
+      break;
+    } else if (pair.slice(0,3) == offer.pays.currency().to_json() &&
+        pair.slice(4,7) == offer.gets.currency().to_json())  {
+      reverseOrder = true;
+      break;
+    }
+  }
+
+  // TODO: Sensible default for undefined pairs
+  if (reverseOrder === null) {
+    reverseOrder = false;
+  }
+
+  if (reverseOrder) {
+    offer.type = 'buy';
+    offer.first = offer.pays;
+    offer.second = offer.gets;
+  } else {
+    offer.type = 'sell';
+    offer.first = offer.gets;
+    offer.second = offer.pays;
+  }
+
+  if (!offer.deleted) {
+    $scope.offers[""+offer.seq] = offer;
+  } else {
+    delete $scope.offers[""+offer.seq];
+  }
+};
+
+/*
+ account: "rHMq44aXmd9wEYHK84VyiZyx8SP6VbpzNV"
+ balance: "0"
+ currency: "USD"
+ limit: "2000"
+ limit_peer: "0"
+ quality_in: 0
+ quality_out: 0
+ */
+Model.prototype._updateLines = function(effects)
+{
+  if (!$.isArray(effects)) return;
 
   var self = this,
       $scope = this.app.$scope;
 
-  $.each(txn.lines, function () {
-    var txline = this,
-        line = {},
-        index = txline.counterparty + txline.currency;
+  $.each(effects, function () {
+    if (_.contains([
+      'trust_create_local',
+      'trust_create_remote',
+      'trust_change_local',
+      'trust_change_remote',
+      'trust_change_balance'], this.type))
+    {
+      var effect = this,
+          line = {},
+          index = effect.counterparty + effect.currency;
 
-    line.currency = txline.currency;
-    line.account = txline.counterparty;
+      line.currency = effect.currency;
+      line.account = effect.counterparty;
 
-    if (txline.balance) {
-      line.balance = txline.balance;
-      self._updateRippleBalance(txline.currency,
-                                txline.counterparty,
-                                txline.balance);
+      if (effect.balance) {
+        line.balance = effect.balance;
+        self._updateRippleBalance(effect.currency,
+            effect.counterparty,
+            effect.balance);
+      }
+
+      if (effect.deleted) {
+        delete $scope.lines[index];
+        return;
+      }
+
+      if (effect.limit) {
+        line.limit = effect.limit;
+      }
+
+      if (effect.limit_peer) {
+        line.limit_peer = effect.limit_peer;
+      }
+
+      console.log('line',line);
+
+      $scope.lines[index] = $.extend($scope.lines[index], line);
     }
-
-    if (txline.deleted) {
-      delete $scope.lines[index];
-      return;
-    }
-
-    if (txline.limit) {
-      line.limit = txline.limit;
-    }
-
-    if (txline.limit_peer) {
-      line.limit_peer = txline.limit_peer;
-    }
-
-    $scope.lines[index] = $.extend($scope.lines[index], line);
   });
 };
 
@@ -385,47 +454,6 @@ Model.prototype._updateRippleBalance = function(currency, new_account, new_balan
   for (var counterparty in balance.components) {
     var amount = balance.components[counterparty];
     balance.total = balance.total ? balance.total.add(amount) : amount;
-  }
-};
-
-Model.prototype._updateOffer = function (offer)
-{
-  var $scope = this.app.$scope;
-
-  var reverseOrder = null;
-  var pairs = $scope.pairs;
-  for (var i = 0, l = pairs.length; i < l; i++) {
-    var pair = pairs[i].name;
-    if (pair.slice(0,3) == offer.gets.currency().to_json() &&
-        pair.slice(4,7) == offer.pays.currency().to_json()) {
-      reverseOrder = false;
-      break;
-    } else if (pair.slice(0,3) == offer.pays.currency().to_json() &&
-               pair.slice(4,7) == offer.gets.currency().to_json())  {
-      reverseOrder = true;
-      break;
-    }
-  }
-
-  // TODO: Sensible default for undefined pairs
-  if (reverseOrder === null) {
-    reverseOrder = false;
-  }
-
-  if (reverseOrder) {
-    offer.type = 'buy';
-    offer.first = offer.pays;
-    offer.second = offer.gets;
-  } else {
-    offer.type = 'sell';
-    offer.first = offer.gets;
-    offer.second = offer.pays;
-  }
-
-  if (!offer.deleted) {
-    $scope.offers[""+offer.seq] = offer;
-  } else {
-    delete $scope.offers[""+offer.seq];
   }
 };
 
