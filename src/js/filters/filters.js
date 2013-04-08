@@ -149,7 +149,6 @@ module.filter('rpcontactnamefull', function () {
   return function (address) {
     address = address ? ""+address : "";
     var contact = webutil.getContact(rippleclient.$scope.userBlob.data.contacts,address);
-    console.log(contact);
 
     if (!contact) {
       return "" + address;
