@@ -73,6 +73,10 @@ BlobObj.get = function(backends, user, pass, callback)
 
 BlobObj.enc = function(username,password,bl)
 {
+  // filter out contacts before they are encrypted
+  if (typeof(bl.data.contacts) === 'object')
+    bl.data.contacts = angular.fromJson(angular.toJson(bl.data.contacts));
+
   return btoa(sjcl.encrypt(username + password, JSON.stringify(bl.data), {
     iter: 1000,
     adata: JSON.stringify(bl.meta),
