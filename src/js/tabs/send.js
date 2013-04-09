@@ -268,7 +268,6 @@ SendTab.prototype.angular = function (module)
      * N3. Confirmation page
      */
     $scope.send_prepared = function () {
-      console.log($scope.send.alt);
       $scope.send.indirect = ($scope.send.alt.paths.length > 1);
       $scope.confirm_wait = true;
       $timeout(function () {
