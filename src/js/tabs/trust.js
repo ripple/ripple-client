@@ -7,6 +7,7 @@ var Amount = ripple.Amount;
 var TrustTab = function ()
 {
   Tab.call(this);
+
 };
 
 util.inherits(TrustTab, Tab);
@@ -27,7 +28,7 @@ TrustTab.prototype.angular = function (module)
                                   function ($scope, $timeout, $routeParams, $id, $filter)
   {
     if (!$id.loginStatus) return $id.goId();
-
+    $scope.validation_pattern = /^0*(([1-9][0-9]*.?[0-9]*)|(.0*[1-9][0-9]*))$/; //Don't allow zero for new trust lines.
     $scope.reset = function () {
       $scope.mode = 'main';
       $scope.currency = 'USD';
@@ -195,6 +196,7 @@ TrustTab.prototype.angular = function (module)
       var filterAddress = $filter('rpcontactnamefull');
       var contact = filterAddress(line.account);
       $scope.edituser = (contact) ? contact : 'User';
+      $scope.validation_pattern = contact ? /^[0-9.]+$/ : /^0*(([1-9][0-9]*.?[0-9]*)|(.0*[1-9][0-9]*))$/;
       $scope.addform_visible = true;
       $scope.currency = line.currency;
       $scope.counterparty = line.account;
