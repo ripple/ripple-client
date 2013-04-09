@@ -50,7 +50,6 @@ section.panel.content(ng-controller="TrustCtrl")
                   | User should be either a name from your contact list or Ripple address.
               label(for='trust_amount') Amount
               .amount
-                //How do I make this conditional? TODO
                 input.value#trust_amount(name='trust_amount', type='number', step='any', ng-model='amount'
                   ng-pattern='validation_pattern', required
                   rp-autofill='$routeParams.amount'
