@@ -48,6 +48,9 @@ section.panel.content(ng-controller="TrustCtrl")
                   | You've entered your address.
                 .error(rp-error-on='rpDestination')
                   | User should be either a name from your contact list or Ripple address.
+                .error(ng-show='error_account_reserve')
+                  | Account does not meet the minimum XRP reserve. &nbsp;
+                  a(href="https://ripple.com/wiki/Account_Creation", target="_blank") More information
               label(for='trust_amount') Amount
               .amount
                 input.value#trust_amount(name='trust_amount', type='number', step='any', ng-model='amount'
@@ -61,7 +64,8 @@ section.panel.content(ng-controller="TrustCtrl")
                   rp-autofill-currency
                   rp-autofill-on='addform_visible = true')
               .submitsection
-                button.btn.btn-info.submit(type='submit', ng-disabled='trustForm.$invalid') Grant Trust
+                button.btn.btn-info.submit(type='submit', ng-disabled='trustForm.$invalid', ng-hide="verifying") Grant Trust
+                p.literal.throbber(ng-show="verifying") Verifying address
 
         tr(ng-repeat='(key, line) in lines')
           td.account {{line.account | rpcontactnamefull}}

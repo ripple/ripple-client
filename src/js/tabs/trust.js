@@ -71,20 +71,36 @@ TrustTab.prototype.angular = function (module)
      */
     $scope.grant = function ()
     {
-      $scope.$watch('amount',function(){
-        var amount = ripple.Amount.from_human("" + $scope.amount + " " + $scope.currency.slice(0, 3).toUpperCase());
+      // set variable to show throbber
+      $scope.verifying = true;
+      $scope.error_account_reserve = false;
+      // test if account is valid
+      app.net.remote.request_account_info($scope.counterparty_address)
+        .on('error', function (m){
+          $scope.$apply(function(){
+            $scope.verifying = false;
+            $scope.error_account_reserve = true;
+          });
+        })
+        // if account is valid then just to confirm page
+        .on('success', function (m){
+          $scope.$apply(function(){
+            // hide throbber
+            $scope.verifying = false;
+            var amount = ripple.Amount.from_human("" + $scope.amount + " " + $scope.currency.slice(0, 3).toUpperCase());
 
-        $scope.amount_feedback = amount.to_human();
-        $scope.currency_feedback = amount.currency().to_json();
+            $scope.amount_feedback = amount.to_human();
+            $scope.currency_feedback = amount.currency().to_json();
 
-        $scope.confirm_wait = true;
-        $timeout(function () {
-          $scope.confirm_wait = false;
-          $scope.$digest();
-        }, 1000);
-      });
+            $scope.confirm_wait = true;
+            $timeout(function () {
+                $scope.confirm_wait = false;
+                $scope.$digest();
+              }, 1000);
 
-      $scope.mode = "confirm";
+            $scope.mode = "confirm";
+          });
+        }).request();
     };
 
     /**
