@@ -101,7 +101,7 @@ section#t-send.single.content(ng-controller='SendCtrl')
   //- N3. Confirmation page
 
   group.mode-confirm(ng-show='mode=="confirm" && account.Balance')
-    p.literal You are sending money to
+    p.literal You are sending {{send.alt.amount | rpcurrency}} to
     .dest_feedback
       .recipient(ng-show='send.recipient_name') {{send.recipient_name}}
       .recipient(ng-hide='send.recipient_name') {{send.recipient_address}}
@@ -113,11 +113,12 @@ section#t-send.single.content(ng-controller='SendCtrl')
     p.amount_feedback
       span.value {{send.amount_feedback | rpamount}}&nbsp;
       span.currency {{send.amount_feedback | rpcurrency}}
-    group(ng-show='send.alt')
+    group(ng-show='send.indirect')
       p.literal You will pay at most
       p.sendmax_feedback
-        span.value {{send.alt.send_max | rpamount}}&nbsp;
-        span.currency {{send.alt.send_max | rpcurrency}}
+        span.value {{send.alt.amount | rpamount}}&nbsp;
+        span.currency {{send.alt.amount | rpcurrency}} &nbsp;
+        span &plusmn; 1%
     p.literal Are you sure?
     div
       p.submitsection
