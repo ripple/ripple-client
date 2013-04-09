@@ -101,7 +101,7 @@ section#t-send.single.content(ng-controller='SendCtrl')
   //- N3. Confirmation page
 
   group.mode-confirm(ng-show='mode=="confirm" && account.Balance')
-    p.literal You are sending {{send.alt.amount | rpcurrency}} to
+    p.literal You are sending {{ (send.alt.amount || send.currency) | rpcurrency}} to
     .dest_feedback
       .recipient(ng-show='send.recipient_name') {{send.recipient_name}}
       .recipient(ng-hide='send.recipient_name') {{send.recipient_address}}

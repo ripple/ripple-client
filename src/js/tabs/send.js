@@ -273,6 +273,7 @@ SendTab.prototype.angular = function (module)
       $scope.send.indirect  = ($scope.send.path_status != 'native')
                             ? ($scope.send.alt.paths.length > 1)
                             : false;
+
       $scope.confirm_wait = true;
       $timeout(function () {
         $scope.confirm_wait = false;
