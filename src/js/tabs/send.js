@@ -303,7 +303,6 @@ SendTab.prototype.angular = function (module)
      * N3. Confirmation page
      */
     $scope.send_prepared = function () {
-      console.log($scope.send);
       // check if paths are available, if not then it is a direct send
       $scope.send.indirect  = ($scope.send.path_status != 'native')
                             ? ($scope.send.alt.paths.length > 1)

@@ -3,7 +3,7 @@
     div {{userCredentials.username}}&nbsp;
       a.logout(ng-click='logout()') logout
     .balance.primary(ng-show="account.Balance")
-      span.amount(ng-class="{low: lowBalance}", rp-tooltip="{{account.Balance | rpamount}}") {{account.Balance | rpamount:{rel_precision: 0} }}
+      span.amount(ng-class="{low: lowBalance}", rp-tooltip="{{account.Balance | rpamount}}  (reserve: {{ account_reserve | rpamount }} XRP)") {{account.Balance | rpamount:{rel_precision: 0} }}
       span.currency XRP
       a.icon.low(ng-show="lowBalance"
         rp-popover

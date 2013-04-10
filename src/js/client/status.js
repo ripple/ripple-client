@@ -48,6 +48,7 @@ StatusManager.prototype.init = function ()
     app.$scope.$watch('account', function(){
       if (app.$scope.account.reserve) {
         var reserve = app.$scope.account.reserve.product_human(2);
+        app.$scope.account_reserve = reserve;
         var balance = Amount.from_json(app.$scope.account.Balance);
 
         if (balance.is_valid()) {

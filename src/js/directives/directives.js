@@ -242,11 +242,9 @@ module.directive('rpDownload', [function () {
         if ("download" in document.createElement("a")) {
           scope.$watch('data', function (data) {
             trigger.attr('href', "data:text/plain," + data);
-            console.log(data);
           });
           scope.$watch('filename', function (filename) {
             trigger.attr('download', filename);
-            console.log(filename);
           });
         } else if (swfobject.hasFlashPlayerVersion("10.0.0")) {
           element.css('position', 'relative');
