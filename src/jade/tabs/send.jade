@@ -81,6 +81,8 @@ section#t-send.single.content(ng-controller='SendCtrl')
     p.literal(ng-show="send.path_status == 'waiting'") Please enter the transaction details.
     p.literal.throbber(ng-show="send.path_status == 'pending'") Calculating paths
     p.literal(ng-show="send.path_status == 'no-path'") No path found!
+    p.literal(ng-show="send.path_status == 'insufficient-xrp'") Destination account is unfunded; send at least 200 XRP to initialize it.&nbsp;
+     a(href="https://ripple.com/wiki/Reserves", target="_blank") More information
     p.literal(ng-show="send.path_status == 'error'") Error while calculating path
     .currency_sets(rp-if="send.path_status == 'done'")
       .label You can send

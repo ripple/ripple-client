@@ -30,6 +30,7 @@ SendTab.prototype.angular = function (module)
     if (!$id.loginStatus) return $id.goId();
 
     $scope.xrp = _.where($scope.currencies_all, {value: "XRP"})[0];
+    $scope.xrp_memory = {};
 
     $scope.$watch('send.recipient', function(){
       var addr = webutil.stripRippleAddress($scope.send.recipient);
@@ -98,6 +99,7 @@ SendTab.prototype.angular = function (module)
 
         if ($scope.send.amount_feedback.is_native()) {
           $scope.send.path_status = 'native';
+          $scope.check_xrp_sufficiency();
         } else {
           if (pathUpdateTimeout) clearTimeout(pathUpdateTimeout);
           pathUpdateTimeout = setTimeout($scope.update_paths, 500);
@@ -107,9 +109,42 @@ SendTab.prototype.angular = function (module)
       }
     };
 
+    $scope.check_xrp_sufficiency = function () {
+      var recipient = $scope.send.recipient_address;
+      //do some remote request to find out the balance, if it's not stored in memory already.
+      if ($scope.xrp_memory.hasOwnProperty(recipient)) {
+        setError();
+      } else {
+        app.net.remote.request_account_info($scope.send.recipient_address)
+          .on('error', function (e) {
+            if (e.remote.error == "actNotFound") {
+              $scope.xrp_memory[recipient] = 0;
+            }
+            setError();
+          })
+          .on('success', function (data) {
+            $scope.xrp_memory[recipient] = parseFloat(data.account_data.Balance);
+            setError();
+          })
+          .request();
+      }
+      function setError() {
+        var total = $scope.send.amount_feedback._value + $scope.xrp_memory[recipient];
+        
+        if (total < 2000000000 ) { 
+          if($scope.$$phase) {
+            $scope.send.path_status = "insufficient-xrp";
+          } else {
+            $scope.$apply(function(){
+                $scope.send.path_status = "insufficient-xrp";
+            });
+          }
+        }
+      }
+    };
+
     $scope.update_paths = function () {
       var recipient = $scope.send.recipient_address;
-
       app.net.remote.request_ripple_path_find(app.id.account,
                                               $scope.send.recipient_address,
                                               $scope.send.amount_feedback)
