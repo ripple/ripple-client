@@ -18,7 +18,7 @@ section.panel.content(ng-controller="BalanceCtrl")
         span.nexus
     .currency-summary.positive(ng-show='account.Balance')
       .balancebox
-        .label Ripples
+        .label XRP - Ripple
         .balance
           span(rp-tooltip="{{account.Balance | rpamount}}") {{account.Balance | rpamount:{rel_precision: 0} }}
       .balancebox(ng-repeat="entry in balances", ng-hide="entry.total.is_zero()")
