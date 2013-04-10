@@ -20,7 +20,7 @@ section.panel.content(ng-controller="BalanceCtrl")
       .balancebox
         .label XRP - Ripple
         .balance
-          span(rp-tooltip="{{account.Balance | rpamount}}") {{account.Balance | rpamount:{rel_precision: 0} }}
+          span(rp-tooltip="{{account.Balance | rpamount}}  (reserve: {{ account_reserve | rpamount }} XRP)") {{account.Balance | rpamount:{rel_precision: 0} }}
       .balancebox(ng-repeat="entry in balances", ng-hide="entry.total.is_zero()")
         .label {{entry.total | rpcurrencyfull}}
         .balance
