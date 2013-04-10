@@ -9,7 +9,7 @@ var module = angular.module('directives', ['popup']);
 /**
  * Inline edit
  */
-module.directive('inlineEdit', function () {
+module.directive('inlineEdit', function() {
   var previewTemplate = '<span ng-hide="mode">{{model}}</span>';
   var editTemplate = '<input ng-show="mode" ng-model="model" />';
 
@@ -28,19 +28,19 @@ module.directive('inlineEdit', function () {
  * Originally created by @tigbro, for the @jquery-mobile-angular-adapter
  * https://github.com/tigbro/jquery-mobile-angular-adapter
  */
-module.directive('rpIf', [function () {
+module.directive('rpIf', [function() {
   return {
     transclude: 'element',
     priority: 1000,
     terminal: true,
     restrict: 'A',
-    compile: function (element, attr, linker) {
-      return function (scope, iterStartElement, attr) {
+    compile: function(element, attr, linker) {
+      return function(scope, iterStartElement, attr) {
         iterStartElement[0].doNotMove = true;
         var expression = attr.rpIf;
         var lastElement;
         var lastScope;
-        scope.$watch(expression, function (newValue) {
+        scope.$watch(expression, function(newValue) {
           if (lastElement) {
             lastElement.remove();
             lastElement = null;
@@ -51,7 +51,7 @@ module.directive('rpIf', [function () {
           }
           if (newValue) {
             lastScope = scope.$new();
-            linker(lastScope, function (clone) {
+            linker(lastScope, function(clone) {
               lastElement = clone;
               iterStartElement.after(clone);
             });
@@ -76,24 +76,24 @@ module.directive('rpIf', [function () {
  *   </div>
  */
 var RP_ERRORS = 'rp-errors';
-module.directive('rpErrors', [function () {
+module.directive('rpErrors', [function() {
   return {
     restrict: 'EA',
-    compile: function (el, attr, linker) {
+    compile: function(el, attr, linker) {
       var fieldName = attr.rpErrors || attr.on,
-          errs = {};
+        errs = {};
 
       el.data(RP_ERRORS, errs);
-      return function (scope, el) {
+      return function(scope, el) {
         var formController = el.inheritedData('$formController');
         var formName = formController.$name,
-            selectedTransclude,
-            selectedElement,
-            selectedScope;
+          selectedTransclude,
+          selectedElement,
+          selectedScope;
 
         function updateErrorTransclude() {
           var field = formController[fieldName],
-              $error = field && field.$error;
+            $error = field && field.$error;
 
           if (selectedElement) {
             selectedScope.$destroy();
@@ -106,7 +106,7 @@ module.directive('rpErrors', [function () {
 
           // Find any error messages defined for current errors
           selectedTransclude = false;
-          $.each(errs, function (validator, transclude) {
+          $.each(errs, function(validator, transclude) {
             if (validator.length <= 1) return;
             if ($error && $error[validator.slice(1)]) {
               selectedTransclude = transclude;
@@ -134,8 +134,8 @@ module.directive('rpErrors', [function () {
           }
         }
 
-        scope.$watch(formName+'.'+fieldName+'.$error', updateErrorTransclude, true);
-        scope.$watch(formName+'.'+fieldName+'.$pristine', updateErrorTransclude);
+        scope.$watch(formName + '.' + fieldName + '.$error', updateErrorTransclude, true);
+        scope.$watch(formName + '.' + fieldName + '.$pristine', updateErrorTransclude);
       };
     }
   };
@@ -152,11 +152,11 @@ module.directive('rpErrors', [function () {
  *     <div rp-error-on=required>This field is required.</div>
  *   </div>
  */
-module.directive('rpErrorOn', [function () {
+module.directive('rpErrorOn', [function() {
   return {
     transclude: 'element',
     priority: 500,
-    compile: function (element, attrs, transclude) {
+    compile: function(element, attrs, transclude) {
       var errs = element.inheritedData(RP_ERRORS);
       if (!errs) return;
       errs['!' + attrs.rpErrorOn] = transclude;
@@ -177,11 +177,11 @@ module.directive('rpErrorOn', [function () {
  *     <div rp-error-unknown>Invalid value.</div>
  *   </div>
  */
-module.directive('rpErrorUnknown', [function () {
+module.directive('rpErrorUnknown', [function() {
   return {
     transclude: 'element',
     priority: 500,
-    compile: function (element, attrs, transclude) {
+    compile: function(element, attrs, transclude) {
       var errs = element.inheritedData(RP_ERRORS);
       if (!errs) return;
       errs['?'] = transclude;
@@ -195,11 +195,11 @@ module.directive('rpErrorUnknown', [function () {
  * Use this directive within a rp-errors block to show a message if the field is
  * valid.
  */
-module.directive('rpErrorValid', [function () {
+module.directive('rpErrorValid', [function() {
   return {
     transclude: 'element',
     priority: 500,
-    compile: function (element, attrs, transclude) {
+    compile: function(element, attrs, transclude) {
       var errs = element.inheritedData(RP_ERRORS);
       if (!errs) return;
       errs['+'] = transclude;
@@ -207,18 +207,17 @@ module.directive('rpErrorValid', [function () {
   };
 }]);
 
-module.directive('rpConfirm', ['rpPopup', function (popup) {
+module.directive('rpConfirm', ['rpPopup', function(popup) {
   return {
     restrict: 'E',
     link: function postLink(scope, element, attrs) {
       // Could have custom or bootstrap modal options here
       var popupOptions = {};
-      element.find('a,button').click(function()
-      {
+      element.find('a,button').click(function() {
         popup.confirm(attrs["title"], attrs["actionText"],
-            attrs["actionButtonText"], attrs["actionFunction"], attrs["actionButtonCss"],
-            attrs["cancelButtonText"], attrs["cancelFunction"], attrs["cancelButtonCss"],
-            scope, popupOptions);
+        attrs["actionButtonText"], attrs["actionFunction"], attrs["actionButtonCss"],
+        attrs["cancelButtonText"], attrs["cancelFunction"], attrs["cancelButtonCss"],
+        scope, popupOptions);
       });
     }
   };
@@ -227,29 +226,29 @@ module.directive('rpConfirm', ['rpPopup', function (popup) {
 /*
  * Adds download functionality to an element.
  */
-module.directive('rpDownload', [function () {
+module.directive('rpDownload', [function() {
   return {
     restrict: 'A',
     scope: {
       data: '=rpDownload',
       filename: '@rpDownloadFilename'
     },
-    compile: function (element, attr, linker) {
-      return function (scope, element, attr) {
+    compile: function(element, attr, linker) {
+      return function(scope, element, attr) {
         var trigger = element.find('[rp-download-trigger]');
         if (!trigger.length) trigger = element;
 
         if ("download" in document.createElement("a")) {
-          scope.$watch('data', function (data) {
+          scope.$watch('data', function(data) {
             trigger.attr('href', "data:text/plain," + data);
           });
-          scope.$watch('filename', function (filename) {
+          scope.$watch('filename', function(filename) {
             trigger.attr('download', filename);
           });
         } else if (swfobject.hasFlashPlayerVersion("10.0.0")) {
           element.css('position', 'relative');
 
-          setImmediate(function () {
+          setImmediate(function() {
             var width = trigger.innerWidth();
             var height = trigger.innerHeight();
             var offsetTrigger = trigger.offset();
@@ -257,10 +256,10 @@ module.directive('rpDownload', [function () {
             var topOffset = offsetTrigger.top - offsetElement.top;
             var leftOffset = offsetTrigger.left - offsetElement.left;
             var dl = Downloadify.create(element[0], {
-              filename: function () {
+              filename: function() {
                 return scope.filename;
               },
-              data: function () {
+              data: function() {
                 return scope.data;
               },
               transparent: true,
@@ -272,7 +271,7 @@ module.directive('rpDownload', [function () {
             });
 
             var id = dl.flashContainer.id;
-            $('#'+id).css({
+            $('#' + id).css({
               position: 'absolute',
               top: topOffset + 'px',
               left: leftOffset + 'px'
@@ -289,11 +288,13 @@ module.directive('rpDownload', [function () {
 /**
  * Tooltips
  */
-module.directive('rpTooltip', [function () {
-  return function (scope, element, attr) {
+module.directive('rpTooltip', [function() {
+  return function(scope, element, attr) {
     attr.$observe('rpTooltip', function(value) {
       $(element).tooltip('destroy');
-      $(element).tooltip({'title':value});
+      $(element).tooltip({
+        'title': value
+      });
     });
   };
 }]);
@@ -301,10 +302,9 @@ module.directive('rpTooltip', [function () {
 /**
  * Popovers
  */
-module.directive('rpPopover', [function () {
-  return function (scope, element, attr) {
-    if (!attr.rpPopoverTrigger)
-      attr.rpPopoverTrigger = 'click';
+module.directive('rpPopover', [function() {
+  return function(scope, element, attr) {
+    if (!attr.rpPopoverTrigger) attr.rpPopoverTrigger = 'click';
 
     $(element).popover({
       html: true,
@@ -316,26 +316,28 @@ module.directive('rpPopover', [function () {
   };
 }]);
 
-module.directive('rpAutofill', ['$parse', function ($parse) {
+module.directive('rpAutofill', ['$parse', function($parse) {
   return {
     restrict: 'A',
     require: '?ngModel',
-    link: function ($scope, element, attr, ctrl) {
+    link: function($scope, element, attr, ctrl) {
       if (!ctrl) return;
 
-      $scope.$watch(attr.rpAutofill, function (value) {
+      $scope.$watch(attr.rpAutofill, function(value) {
         if (value) {
           // Normalize amount
           if (attr.rpAutofillAmount || attr.rpAutofillCurrency) {
             // 1 XRP will be interpreted as 1 XRP, not 1 base unit
-            if (value === (""+parseInt(value, 10))) {
+            if (value === ("" + parseInt(value, 10))) {
               value = value + '.0';
             }
 
             var amount = ripple.Amount.from_json(value);
             if (!amount.is_valid()) return;
             if (attr.rpAutofillAmount) {
-              value = +amount.to_human({group_sep: false});
+              value = +amount.to_human({
+                group_sep: false
+              });
             } else {
               value = amount.currency().to_json();
             }
@@ -350,14 +352,14 @@ module.directive('rpAutofill', ['$parse', function ($parse) {
   };
 }]);
 
-module.directive('rpSelectEl', [function () {
+module.directive('rpSelectEl', [function() {
   return {
     restrict: 'A',
     scope: {
       target: '@rpSelectEl'
     },
-    link: function ($scope, element, attr) {
-      element.click(function () {
+    link: function($scope, element, attr) {
+      element.click(function() {
         var doc = document;
         var text = doc.getElementById($scope.target);
 
@@ -377,11 +379,11 @@ module.directive('rpSelectEl', [function () {
   };
 }]);
 
-module.directive('rpNoPropagate', [function () {
+module.directive('rpNoPropagate', [function() {
   return {
     restrict: 'A',
-    link: function ($scope, element, attr) {
-      element.click(function (e) {
+    link: function($scope, element, attr) {
+      element.click(function(e) {
         e.stopPropagation();
       });
     }
@@ -391,8 +393,8 @@ module.directive('rpNoPropagate', [function () {
 /**
  * Spinner
  */
-module.directive('rpSpinner', [function () {
-  return function (scope, element, attr) {
+module.directive('rpSpinner', [function() {
+  return function(scope, element, attr) {
     attr.$observe('rpSpinner', function(value) {
       new Spinner({
         lines: 9, // The number of lines to draw
@@ -404,3 +406,124 @@ module.directive('rpSpinner', [function () {
     });
   };
 }]);
+
+
+// Version 0.2.0
+// AngularJS simple file upload directive
+// this directive uses an iframe as a target
+// to enable the uploading of files without
+// losing focus in the ng-app.
+//
+// <div ng-app="app">
+//   <div ng-controller="mainCtrl">
+//    <form action="/uploads" ng-upload="results()">
+//      <input type="file" name="avatar"></input>
+//      <input type="submit" value="Upload"></input>
+//    </form>
+//  </div>
+// </div>
+//
+//  angular.module('app', ['ngUpload'])
+//    .controller('mainCtrl', function($scope) {
+//      $scope.results = function(content) {
+//        console.log(content);
+//      }
+//  });
+//
+//
+module.directive('ngUpload', function() {
+  return {
+    restrict: 'A',
+    link: function(scope, element, attrs) {
+
+      // Options (just 1 for now)
+      // Each option should be prefixed with 'upload-Options-' or 'uploadOptions'
+      // {
+      //    // specify whether to enable the submit button when uploading forms
+      //    enableControls: bool
+      // }
+      var options = {};
+      options.enableControls = attrs['uploadOptionsEnableControls'];
+
+      // get scope function to execute on successful form upload
+      if (attrs['ngUpload']) {
+
+        element.attr("target", "upload_iframe");
+        element.attr("method", "post");
+
+        // Append a timestamp field to the url to prevent browser caching results
+        element.attr("action", element.attr("action") + "?_t=" + new Date().getTime());
+
+        element.attr("enctype", "multipart/form-data");
+        element.attr("encoding", "multipart/form-data");
+
+        // Retrieve the callback function
+        var fn = attrs['ngUpload'].split('(')[0];
+        var callbackFn = scope.$eval(fn);
+        if (callbackFn == null || callbackFn == undefined || !angular.isFunction(callbackFn)) {
+          var message = "The expression on the ngUpload directive does not point to a valid function.";
+          // console.error(message);
+          throw message + "\n";
+        }
+
+        // Helper function to create new iframe for each form submission
+        var addNewDisposableIframe = function(submitControl) {
+          // create a new iframe
+          var iframe = $("<iframe id='upload_iframe' name='upload_iframe' border='0' width='0' height='0' style='width: 0px; height: 0px; border: none; display: none' />");
+
+          // attach function to load event of the iframe
+          iframe.bind('load', function() {
+
+            // get content - requires jQuery
+            var content = iframe.contents().find('body').text();
+
+            // execute the upload response function in the active scope
+            scope.$apply(function() {
+              callbackFn(content, content !== "" /* upload completed */ );
+            });
+
+            // remove iframe
+            if (content != "") // Fixes a bug in Google Chrome that dispose the iframe before content is ready.
+            setTimeout(function() {
+              iframe.remove();
+            }, 250);
+
+            //if (options.enableControls == null || !(options.enableControls.length >= 0))
+            submitControl.attr('disabled', null);
+            submitControl.attr('title', 'Click to start upload.');
+          });
+
+          // add the new iframe to application
+          element.parent().append(iframe);
+        };
+
+        // 1) get the upload submit control(s) on the form (submitters must be decorated with the 'ng-upload-submit' class)
+        // 2) attach a handler to the controls' click event
+        $('.upload-submit', element).click(
+
+        function() {
+
+          addNewDisposableIframe($(this) /* pass the submit control */ );
+
+          scope.$apply(function() {
+            callbackFn("Please wait...", false /* upload not completed */ );
+          });
+
+          //console.log(angular.toJson(options));
+
+          var enabled = true;
+          if (options.enableControls === null || options.enableControls === undefined || options.enableControls.length >= 0) {
+            // disable the submit control on click
+            $(this).attr('disabled', 'disabled');
+            enabled = false;
+          }
+
+          $(this).attr('title', (enabled ? '[ENABLED]: ' : '[DISABLED]: ') + 'Uploading, please wait...');
+
+          // submit the form
+          $(element).submit();
+        }).attr('title', 'Click to start upload.');
+      } else console.log("No callback function found on the ngUpload directive.");
+    }
+  };
+});
