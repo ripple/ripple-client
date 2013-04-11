@@ -460,7 +460,7 @@ module.directive('ngUpload', function() {
         // Retrieve the callback function
         var fn = attrs['ngUpload'].split('(')[0];
         var callbackFn = scope.$eval(fn);
-        if (callbackFn == null || callbackFn == undefined || !angular.isFunction(callbackFn)) {
+        if (callbackFn === null || callbackFn === undefined || !angular.isFunction(callbackFn)) {
           var message = "The expression on the ngUpload directive does not point to a valid function.";
           // console.error(message);
           throw message + "\n";
@@ -483,7 +483,7 @@ module.directive('ngUpload', function() {
             });
 
             // remove iframe
-            if (content != "") // Fixes a bug in Google Chrome that dispose the iframe before content is ready.
+            if (content !== "") // Fixes a bug in Google Chrome that dispose the iframe before content is ready.
             setTimeout(function() {
               iframe.remove();
             }, 250);
