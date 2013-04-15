@@ -31,10 +31,41 @@ BalanceTab.prototype.angular = function (module)
     $scope.transactions = [];
     $scope.current_page = 1;
 
+    // filter effect types
+    // Show only offer_funded, offer_partially_funded, offer_canceled, offer_bought side effects
+    var filterEffects = function (events) {
+      var transactions = [];
+
+      $.each(events,function(){
+        var event = this;
+        var effects = [];
+
+        if (event.effects) {
+          $.each(event.effects, function(){
+            var effect = this;
+            if (effect.type == 'offer_funded'
+                || effect.type == 'offer_partially_funded'
+                || effect.type == 'offer_canceled'
+                || effect.type == 'offer_bought') {
+              effects.push(effect);
+            }
+          });
+
+          event.effects = effects;
+        }
+
+        if (effects.length || event.transaction) {
+          transactions.push(event);
+        }
+      });
+
+      return transactions;
+    };
+
     // First page transactions
     $scope.$watch('events', function(){
       if ($scope.transactions.length === 0) {
-        $scope.transactions = $scope.events;
+        $scope.transactions = filterEffects($scope.events);
       }
     }, true);
 
@@ -69,12 +100,16 @@ BalanceTab.prototype.angular = function (module)
             $scope.transactions = [];
             $scope.$apply(function () {
               if (data.transactions) {
+                var transactions = [];
+
                 data.transactions.forEach(function (e) {
                   var tx = rewriter.processTxn(e.tx, e.meta, account);
                   if (tx) {
-                    $scope.transactions.push(tx);
+                    transactions.push(tx);
                   }
                 });
+
+                $scope.transactions = filterEffects(transactions);
 
                 // Loading mode
                 $scope.loading = false;
