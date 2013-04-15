@@ -295,7 +295,7 @@ var JsonRewriter = module.exports = {
 
     // Balance after the transaction
     if (obj.accountRoot && obj.transaction && "undefined" === typeof obj.transaction.balance) {
-//      obj.transaction.balance = ripple.Amount.from_json(obj.accountRoot.Balance);
+      obj.transaction.balance = ripple.Amount.from_json(obj.accountRoot.Balance);
     }
 
     if (!$.isEmptyObject(obj)) {
