@@ -94,168 +94,218 @@ var JsonRewriter = module.exports = {
    *
    * For example, rather than having a sender and receiver, the transaction has
    * a counterparty and a flag whether it is incoming or outgoing.
+   *
+   * processTxn returns main purpose of transaction and side effects.
+   *
+   * Main purpose
+   *  - Payment (sent/received)
+   *  - TrustSet (trusting/trusted)
+   *  - OfferCreate (offernew)
+   *
+   * Side effects
+   *  - balance_change
+   *  - Trust (trust_create_local, trust_create_remote, trust_change_local, trust_change_remote, trust_change_balance)
+   *  - Offer (offer_created, offer_funded, offer_partially_funded, offer_cancelled, offer_bought)
    */
   processTxn: function (tx, meta, account) {
     var obj = {};
 
-    obj.offers = null;
+    // Main transaction
+    if (tx.Account === account
+        || (tx.Destination && tx.Destination === account)
+        || (tx.LimitAmount && tx.LimitAmount.issuer === account)) {
+      obj.transaction = {};
+
+      switch (tx.TransactionType) {
+        case 'Payment':
+          var amount = ripple.Amount.from_json(tx.Amount);
+
+          obj.transaction.type = tx.Account === account ? 'sent' : 'received';
+          obj.transaction.counterparty = tx.Account === account ? tx.Destination : tx.Account;
+          obj.transaction.amount = amount;
+          obj.transaction.currency = amount.currency().to_json();
+          break;
+
+        case 'TrustSet':
+          obj.transaction.type = tx.Account === account ? 'trusting' : 'trusted';
+          obj.transaction.counterparty = tx.Account === account ? tx.LimitAmount.issuer : tx.Account;
+          obj.transaction.amount = ripple.Amount.from_json(tx.LimitAmount);
+          obj.transaction.currency = tx.LimitAmount.currency;
+          break;
+
+        case 'OfferCreate':
+          obj.transaction.type = 'offernew';
+          obj.transaction.pays = ripple.Amount.from_json(tx.TakerPays);
+          obj.transaction.gets = ripple.Amount.from_json(tx.TakerGets);
+          break;
+
+        case 'OfferCancel':
+          // Handled in side effects
+          break;
+
+        case 'AccountSet':
+          // Ignored for now
+          break;
+
+        default:
+          console.log('Unknown transaction type: "'+tx.TransactionType+'"', tx);
+      }
+    }
+
+    // Side effects
     meta.AffectedNodes.forEach(function (n) {
       var node = JsonRewriter.processAnode(n);
+      var effect = {};
 
+      // AccountRoot - Current account node
       if (node.entryType === "AccountRoot" && node.fields.Account === account) {
         obj.accountRoot = node.fields;
-      } else if (node.entryType === "RippleState") {
 
-        var line = {};
-        if (node.fields.HighLimit.issuer === account) {
-          line.balance = ripple.Amount.from_json(node.fields.Balance).negate(true);
-          line.limit = ripple.Amount.from_json(node.fields.HighLimit);
-          line.limit_peer = ripple.Amount.from_json(node.fields.LowLimit);
-          line.counterparty = node.fields.LowLimit.issuer;
-        } else if (node.fields.LowLimit.issuer === account) {
-          line.balance = ripple.Amount.from_json(node.fields.Balance);
-          line.limit = ripple.Amount.from_json(node.fields.LowLimit);
-          line.limit_peer = ripple.Amount.from_json(node.fields.HighLimit);
-          line.counterparty = node.fields.HighLimit.issuer;
-        } else return;
+        // Updated Balance
+        if (node.fieldsPrev.Balance) {
+          effect.type = "balance_change";
+          effect.amount = ripple.Amount.from_json(node.fields.Balance).subtract(node.fieldsPrev.Balance);
+        }
+      }
 
-        line.currency = node.fields.HighLimit.currency;
+      // RippleState - Ripple Lines
+      if (node.entryType === "RippleState"
+          && (node.fields.HighLimit.issuer === account || node.fields.LowLimit.issuer === account)) {
 
-        if (node.diffType === "DeletedNode") {
-          line.deleted = true;
+        var high = node.fields.HighLimit;
+        var low = node.fields.LowLimit;
+
+        // New trust line
+        if (node.diffType === "CreatedNode") {
+          effect.limit = ripple.Amount.from_json(high.value > 0 ? high : low);
+          effect.limit_peer = ripple.Amount.from_json(high.value > 0 ? low : high);
+
+          if ((high.value > 0 && high.issuer === account)
+              || (low.value > 0 && low.issuer === account)) {
+            effect.type = "trust_create_local";
+          } else {
+            effect.type = "trust_create_remote";
+          }
         }
 
-        if (!obj.lines) obj.lines = [];
-        obj.lines.push(line);
-      } else if (node.entryType === "Offer" && node.fields.Account === account) {
-        if (!obj.offers) obj.offers = [];
+        // Modified trust line
+        else if (node.diffType === "ModifiedNode" || node.diffType === "DeletedNode") {
+          var highPrev = node.fieldsPrev.HighLimit;
+          var lowPrev = node.fieldsPrev.LowLimit;
 
-        var gets = node.fields.TakerGets;
-        var pays = node.fields.TakerPays;
+          // Trust Balance change
+          if (node.fieldsPrev.Balance) {
+            effect.type = "trust_change_balance";
+            effect.change = ripple.Amount.from_json(node.fieldsPrev.Balance).subtract(node.fields.Balance);
 
-        var seq = +node.fields.Sequence;
+            if (obj.transaction) {
+              obj.transaction.balance = high.issuer === account
+                ? ripple.Amount.from_json(node.fields.Balance).negate(true)
+                : ripple.Amount.from_json(node.fields.Balance);
+            }
+          }
 
-        if (node.diffType === "DeletedNode") {
-          gets = node.fieldsPrev.TakerGets;
-          pays = node.fieldsPrev.TakerPays;
+          // Trust Limit change
+          else if (highPrev || lowPrev) {
+            if (high.issuer === account) {
+              effect.balance = ripple.Amount.from_json(node.fields.Balance).negate(true);
+              effect.limit = ripple.Amount.from_json(high);
+              effect.limit_peer = ripple.Amount.from_json(low);
+            } else {
+              effect.balance = ripple.Amount.from_json(node.fields.Balance);
+              effect.limit = ripple.Amount.from_json(low);
+              effect.limit_peer = ripple.Amount.from_json(high);
+            }
+
+            if (highPrev) {
+              effect.prevLimit = ripple.Amount.from_json(highPrev);
+              effect.type = high.issuer === account ? "trust_change_local" : "trust_change_remote";
+            }
+            else if (lowPrev) {
+              effect.prevLimit = ripple.Amount.from_json(lowPrev);
+              effect.type = high.issuer === account ? "trust_change_remote" : "trust_change_local";
+            }
+          }
         }
 
-        obj.offers[seq] = $.extend({}, obj.offers[seq], {
-          seq: seq,
-          gets: ripple.Amount.from_json(gets),
-          pays: ripple.Amount.from_json(pays)
-        });
-
-        if (node.diffType === "DeletedNode") {
-          obj.offers[seq].deleted = true;
+        if (!$.isEmptyObject(effect)) {
+          effect.counterparty = high.issuer === account ? low.issuer : high.issuer;
+          effect.currency = high.currency;
+          effect.balance = ripple.Amount.from_json(node.fields.Balance);
         }
+      }
+
+      // Offer
+      else if (node.entryType === "Offer") {
+
+        // Current account offer
+        if (node.fields.Account === account) {
+
+          // New offer
+          if (node.diffType === "CreatedNode") {
+            effect.type = 'offer_created';
+            effect.gets = ripple.Amount.from_json(node.fields.TakerPays);
+            effect.pays = ripple.Amount.from_json(node.fields.TakerGets);
+          }
+
+          else if (node.diffType === "DeletedNode") {
+            // Funded offer
+            if (node.fieldsPrev.TakerPays) {
+              effect.type = 'offer_funded';
+              effect.gets = ripple.Amount.from_json(node.fieldsPrev.TakerPays);
+              effect.pays = ripple.Amount.from_json(node.fieldsPrev.TakerGets);
+            }
+
+            // Canceled offer
+            else {
+              effect.type = 'offer_canceled';
+              effect.gets = ripple.Amount.from_json(node.fields.TakerPays);
+              effect.pays = ripple.Amount.from_json(node.fields.TakerGets);
+            }
+          }
+
+          // Partially funded offer
+          else {
+            effect.type = 'offer_partially_funded';
+            effect.gets = ripple.Amount.from_json(node.fieldsPrev.TakerPays).subtract(node.fields.TakerPays);
+            effect.pays = ripple.Amount.from_json(node.fieldsPrev.TakerGets).subtract(node.fields.TakerGets);
+            effect.remaining = ripple.Amount.from_json(node.fields.TakerGets);
+          }
+
+          effect.seq = +node.fields.Sequence;
+        }
+
+        // Another account offer. We care about it only if our transaction changed the offer amount (we bought currency)
+        else if(tx.Account === account) {
+          effect.gets = ripple.Amount.from_json(node.fieldsPrev.TakerGets).subtract(node.fields.TakerGets);
+          effect.pays = ripple.Amount.from_json(node.fieldsPrev.TakerPays).subtract(node.fields.TakerPays);
+          effect.type = 'offer_bought';
+        }
+      }
+
+      if (!$.isEmptyObject(effect)) {
+        if (node.diffType === "DeletedNode") {
+          effect.deleted = true;
+        }
+
+        if (!obj.effects) obj.effects = [];
+        obj.effects.push(effect);
       }
     });
 
-    obj.tx_type = tx.TransactionType;
-    obj.tx_result = meta.TransactionResult;
-    obj.fee = tx.Fee;
-    obj.date = (tx.date + 0x386D4380) * 1000;
-    obj.hash = tx.hash;
-
-    if (obj.accountRoot) {
-      obj.balance = ripple.Amount.from_json(obj.accountRoot.Balance);
-      obj.xrp_balance = obj.balance;
+    // Balance after the transaction
+    if (obj.accountRoot && obj.transaction && "undefined" === typeof obj.transaction.balance) {
+      obj.transaction.balance = ripple.Amount.from_json(obj.accountRoot.Balance);
     }
 
-    switch (tx.TransactionType) {
-    case 'Payment':
-      var amount = ripple.Amount.from_json(tx.Amount);
-      if (tx.Account === account) {
-        obj.type = 'sent';
-        obj.counterparty = tx.Destination;
-      } else if (tx.Destination === account) {
-        obj.type = 'received';
-        obj.counterparty = tx.Account;
-      } else {
-        obj.type = 'ignore';
-      }
+    if (!$.isEmptyObject(obj)) {
+      obj.tx_type = tx.TransactionType;
+      obj.tx_result = meta.TransactionResult;
+      obj.fee = tx.Fee;
+      obj.date = (tx.date + 0x386D4380) * 1000;
+      obj.hash = tx.hash;
 
-      obj.amount = amount;
-      obj.currency = amount.currency().to_json();
-      if (!amount.is_native() && obj.lines && obj.lines.length >= 1) {
-        // TODO: Handle the case where more than one trust line of ours was
-        //       changed in the course of a payment.
-        obj.balance = obj.lines[0].balance;
-      }
-      break;
-
-    case 'TrustSet':
-      if (tx.Account === account) {
-        obj.type = 'trusting';
-        obj.counterparty = tx.LimitAmount.issuer;
-      } else if (tx.Destination === account) {
-        obj.type = 'trusted';
-        obj.counterparty = tx.Account;
-      } else {
-        obj.type = 'ignore';
-      }
-      obj.amount = ripple.Amount.from_json(tx.LimitAmount);
-      obj.currency = tx.LimitAmount.currency;
-      break;
-
-    case 'OfferCreate':
-
-      obj.pays = ripple.Amount.from_json(tx.TakerPays);
-      obj.gets = ripple.Amount.from_json(tx.TakerGets);
-
-      if (tx.Account === account) {
-        obj.type = 'offernew';
-      } else if (obj.accountRoot) {
-        // TODO quick solution. I don't like this line
-        offer = obj.offers[obj.offers.length-1];
-        obj.offer = offer;
-        if (offer.deleted) {
-          obj.type = 'offerfunded';
-        } else {
-          obj.type = 'offerpartiallyfunded';
-        }
-      } else {
-        obj.type = 'ignore';
-      }
-
-      break;
-
-    case 'OfferCancel':
-      obj.type = tx.Account === account ?
-        'offercancel' :
-        'ignore';
-
-      // An OfferCancel will only ever affect one order and will delete it.
-      var offer;
-      // The reason we use forEach is because offers is a sparse array.
-
-      // TODO this is a temporary check
-      if (!$.isArray(obj.offers)) {
-        break;
-      }
-
-      // for OfferCancel, iterate AffectedNodes until the offer node is found
-      _.each(meta.AffectedNodes, function(n){
-        if (n.hasOwnProperty('DeletedNode'))
-          if (n.DeletedNode.LedgerEntryType === 'Offer')
-            offer = n.DeletedNode.FinalFields;
-      });
-
-      obj.pays = offer.TakerPays;
-      obj.gets = offer.TakerGets;
-
-      break;
-
-    case 'AccountSet':
-      // Ignored for now
-      return null;
-
-    default:
-      console.log('Unknown transaction type: "'+tx.TransactionType+'"', tx);
-      return null;
+      return obj;
     }
-
-    return obj;
   }
 };

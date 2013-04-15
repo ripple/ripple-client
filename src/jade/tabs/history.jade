@@ -10,9 +10,9 @@ section.panel.content(ng-controller="HistoryCtrl")
 
   group(ng-show="connected")
     ul.filter-tabs
-      li.all: a(ng-click='type = {}', ng-class="!type.type && 'active'") All Activity
-      li.received: a(ng-click='type = {type: "received"}', ng-class="type.type == 'received' && 'active'") Received
-      li.sent: a(ng-click='type = {type: "sent"}', ng-class="type.type == 'sent' && 'active'") Sent
+      li.all: a(ng-click='type = {}', ng-class="!type.transaction.type && 'active'") All Activity
+      li.received: a(ng-click='type = {transaction.type: "received"}', ng-class="type.transaction.type == 'received' && 'active'") Received
+      li.sent: a(ng-click='type = {transaction.type: "sent"}', ng-class="type.transaction.type == 'sent' && 'active'") Sent
     table.table
       thead
         tr
@@ -21,19 +21,19 @@ section.panel.content(ng-controller="HistoryCtrl")
           th.amount Amount
           th.balance Balance
       tbody
-        tr(ng-repeat="entry in history | filter:type", class="{{entry.type}}", rp-link-tx="entry.hash")
+        tr(ng-repeat="entry in history | filter:type", class="{{entry.transaction.type}}", rp-link-tx="entry.hash")
           td.date {{entry.date | date}}
           td.counterparty
-            span {{entry.counterparty | rpcontactnamefull}}
-            a.add(ng-hide="entry.counterparty | rponlycontactname", href="#/contact?to={{entry.counterparty}}", class="btn sign small", rp-no-propagate) +
+            span {{entry.transaction.counterparty | rpcontactnamefull}}
+            a.add(ng-hide="entry.transaction.counterparty | rponlycontactname", href="#/contact?to={{entry.transaction.counterparty}}", class="btn sign small", rp-no-propagate) +
           td.amount.rpamount
-            span(rp-tooltip="{{entry.amount | rpamount:{precision: 10} }} {{entry.currency}}")
-              | {{entry.amount | rpamount}}
-              .currency {{entry.currency}}
+            span(rp-tooltip="{{entry.transaction.amount | rpamount:{precision: 10} }} {{entry.transaction.currency}}")
+              | {{entry.transaction.amount | rpamount}}
+              .currency {{entry.transaction.currency}}
           td.balance.rpamount
-            span(rp-tooltip="{{entry.balance | rpamount:{signed: true, precision: 10} }} {{entry.currency}}")
-              | {{entry.balance | rpamount:{signed: true} }}
-              .currency {{entry.currency}}
+            span(rp-tooltip="{{entry.transaction.balance | rpamount:{signed: true, precision: 10} }} {{entry.transaction.currency}}")
+              | {{entry.transaction.balance | rpamount:{signed: true} }}
+              .currency {{entry.transaction.currency}}
       tfoot
         tr(ng-show="!(history | filter:type).length")
           td(colspan="4")
