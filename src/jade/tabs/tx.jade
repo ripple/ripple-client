@@ -15,11 +15,10 @@ section.single.ddpage.content(ng-controller="TxCtrl", ng-switch on="state")
             dt Address sent from:
             dd {{transaction.Account}}
             dt Amount sent:
-            dd.ng-show(transaction.SendMax) {{transaction.SendMax | rpamount}} {{transaction.SendMax | rpcurrency}}
-            dd.ng-hide(transaction.SendMax) {{transaction.Amount | rpamount}} {{transaction.Amount | rpcurrency}}
+            dd {{amountSent | rpamount}} {{amountSent | rpcurrency}}
             dt Currency sent:
             // XXX Bad way of doing it...
-            dd {{transaction.SendMax | rpcurrencyfull}}
+            dd {{amountSent | rpcurrencyfull}}
           dl.details.half
             dt Address sent to:
             dd {{transaction.Destination}}

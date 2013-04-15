@@ -23,6 +23,8 @@ TxTab.prototype.angular = function (module)
       hash: $routeParams.id
     };
 
+
+
     function loadTx() {
       // XXX: Dirty, dirty. But it's going to change soon anyway.
       var request = net.remote.request_ledger_hash();
@@ -34,7 +36,107 @@ TxTab.prototype.angular = function (module)
           // XXX This is for the upcoming tx RPC call format change.
           var tx = res.tx ? res.tx : res;
           _.extend($scope.transaction, res);
-          console.log(res);
+          console.log("TRANSACTION!", tx);
+
+          if (tx.TransactionType == "Payment") {
+            var sender = tx.Account;
+            var affectedNode;
+            var difference;
+            var cur;
+
+            if (tx.Amount.currency) {
+              //It's not XRP
+
+
+              /* Find the metadata node with entry type == "RippleState" 
+              and either HighLimit.issuer == [sender's account] or 
+              LowLimit.issuer == [sender's account] and 
+              Balance.currency == [currency of SendMax || Amount]
+              */
+              
+              if (tx.meta.AffectedNodes) {
+                for (var i=0; i<tx.meta.AffectedNodes.length; i++) {
+                  affectedNode = tx.meta.AffectedNodes[i];
+                  if (affectedNode.ModifiedNode && affectedNode.ModifiedNode.LedgerEntryType == "RippleState" && 
+                    (affectedNode.ModifiedNode.FinalFields.HighLimit.issuer == sender ||
+                      affectedNode.ModifiedNode.FinalFields.LowLimit.issuer == sender) &&
+                    affectedNode.ModifiedNode.FinalFields.Balance.currency == tx.SendMax.currency
+                    ) {
+                    break;
+                  } else {
+                    affectedNode = null;
+                  }
+                }
+              }
+
+              /*Calculate the difference before/after. If
+              HighLimit.issuer == [sender's account] negate it.
+              */
+
+              if (affectedNode) {
+                difference = affectedNode.ModifiedNode.PreviousFields.Balance.value - affectedNode.ModifiedNode.FinalFields.Balance.value;
+                if (affectedNode.ModifiedNode.FinalFields.HighLimit.issuer == sender) {
+                  difference *= -1;
+                }
+                cur = affectedNode.ModifiedNode.FinalFields.Balance.currency;
+                //That's your amount sent
+                //Compose the two?
+              }
+
+              /*In step 1 I think you technically also have to compare the other issuer 
+              (the one that isn't the sender's account). But I think the issuer of SendMax 
+              can be set to 0, meaning "any issuer" so you'd have to check for that as well.
+              For now, maybe ignore that technicality and implement the algorithm as I stated
+              it above. It'll work 99.999999% of the time.*/
+
+
+            } else {
+              //It's XRP
+
+              /* Find the metadata node with entry type == "AccountRoot" 
+              and field Account == [sender's account].*/
+
+              if (tx.meta.AffectedNodes) {
+                for (var i=0; i<tx.meta.AffectedNodes.length; i++) {
+                  affectedNode = tx.meta.AffectedNodes[i];
+                  if (affectedNode.ModifiedNode && affectedNode.ModifiedNode.LedgerEntryType == "AccountRoot" && 
+                    affectedNode.ModifiedNode.FinalFields.Account == sender) {
+                    break;
+                  } else {
+                    affectedNode = null;
+                  }
+                }
+              }
+              console.log("AN:", affectedNode);
+
+              /* Calculate the difference minus the fee: 
+              PreviousFields.Balance - FinalFields.Balance - Fee*/
+
+              if (affectedNode) {
+                difference = affectedNode.ModifiedNode.PreviousFields.Balance - affectedNode.ModifiedNode.FinalFields.Balance - tx.Fee;
+                cur = "XRP";
+                //That's your amount sent
+                //Compose the two?
+                //That's your amount sent
+              }
+
+              
+            }
+            console.log("CURRENCY!", cur);
+            console.log("DIFFERENCE!", difference);
+            var amountSent;
+            if (cur == "XRP") {
+              amountSent = difference;
+            } else {
+              amountSent = {value:""+difference, currency:cur};
+            }
+
+            $scope.amountSent = amountSent;
+
+            console.log("AMOUNT SENT!", $scope.amountSent);
+            console.log("AMOUNT!", $scope.transaction.Amount);
+            console.log(res);
+          }
         });
       });
       request.on('error', function (res) {
