@@ -228,6 +228,7 @@ Model.prototype.handleAccountEntry = function (data)
     var reserve_base = Amount.from_json(""+remote._reserve_base),
         reserve_inc  = Amount.from_json(""+remote._reserve_inc),
         owner_count  = $scope.account.OwnerCount || "0";
+    $scope.account.reserve_base = reserve_base;
     $scope.account.reserve = reserve_base.add(reserve_inc.product_human(owner_count));
     $scope.account.reserve_to_add_trust = reserve_base.add(reserve_inc.product_human(owner_count+1));
 

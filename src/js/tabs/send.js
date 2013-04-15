@@ -129,14 +129,16 @@ SendTab.prototype.angular = function (module)
           .request();
       }
       function setError() {
-        var total = $scope.send.amount_feedback._value + $scope.xrp_memory[recipient];
-        
-        if (total < 2000000000 ) { 
+        var total = parseInt(($scope.send.amount_feedback._value + $scope.xrp_memory[recipient]).toString())/10; //Why /10 ?
+        var reserve_base = parseInt($scope.account.reserve_base._value.toString()); //There's got to be a better way...
+        if (total < reserve_base) {
           if($scope.$$phase) {
             $scope.send.path_status = "insufficient-xrp";
+            $scope.xrp_deficiency = reserve_base - $scope.xrp_memory[recipient];
           } else {
             $scope.$apply(function(){
                 $scope.send.path_status = "insufficient-xrp";
+                $scope.xrp_deficiency = reserve_base - $scope.xrp_memory[recipient];
             });
           }
         }
