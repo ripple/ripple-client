@@ -17,7 +17,6 @@ section.single.ddpage.content(ng-controller="TxCtrl", ng-switch on="state")
             dt Amount sent:
             dd {{amountSent | rpamount}} {{amountSent | rpcurrency}}
             dt Currency sent:
-            // XXX Bad way of doing it...
             dd {{amountSent | rpcurrencyfull}}
           dl.details.half
             dt Address sent to:
@@ -43,5 +42,5 @@ section.single.ddpage.content(ng-controller="TxCtrl", ng-switch on="state")
               dd {{transaction.Account}}
             dl.details.half
           hr
-          p.literal Sorry, we don&#39;t have a info page layout for this
+          p.literal Sorry, we don&#39;t have an info page layout for this
             | transaction type yet.
