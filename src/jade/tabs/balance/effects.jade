@@ -1,0 +1,41 @@
+ul.effects(ng-show="entry.effects")
+  li(ng-repeat="effect in entry.effects", ng-switch on="effect.type")
+    span(ng-switch-when="offer_funded") – You sold&nbsp;
+      strong {{effect.pays | rpamount}} {{effect.pays | rpcurrency}}
+      |  for&nbsp;
+      strong {{effect.gets | rpamount}} {{effect.gets | rpcurrency}}.
+      |  This order has been funded.
+    span(ng-switch-when="offer_partially_funded") – You sold&nbsp;
+      strong {{effect.pays | rpamount}} {{effect.pays | rpcurrency}}
+      |  for&nbsp;
+      strong {{effect.gets | rpamount}} {{effect.gets | rpcurrency}}.
+      |  This order has {{effect.remaining | rpamount}} {{effect.remaining | rpcurrency}} remaining.
+    span(ng-switch-when="offer_canceled") – You canceled an offer accepting&nbsp;
+      strong {{effect.gets | rpamount}} {{effect.gets | rpcurrency}}
+      |  for&nbsp;
+      strong {{effect.pays | rpamount}} {{effect.pays | rpcurrency}}
+    span(ng-switch-when="offer_created") – You created an offer accepting&nbsp;
+      strong {{effect.gets | rpamount}} {{effect.gets | rpcurrency}}
+      |  for&nbsp;
+      strong {{effect.pays | rpamount}} {{effect.pays | rpcurrency}}
+    span(ng-switch-when="offer_bought") – You bought&nbsp;
+      strong {{effect.gets | rpamount}} {{effect.gets | rpcurrency}}
+      |  for&nbsp;
+      strong {{effect.pays | rpamount}} {{effect.pays | rpcurrency}}.
+
+    span(ng-switch-when="trust_create_local") – You now trust {{effect.counterparty | rpcontactname}}
+      |  for {{effect.limit | rpamount}} {{effect.limit | rpcurrency}}
+    span(ng-switch-when="trust_create_remote") – {{effect.counterparty | rpcontactname}} is trusting you
+      |  for {{effect.limit | rpamount}} {{effect.limit | rpcurrency}}
+    span(ng-switch-when="trust_change_local") – You have changed {{effect.limit | rpcurrency}} trust for
+      |  {{effect.counterparty | rpcontactname}}
+      |  from {{effect.prevLimit | rpamount}} to {{effect.limit | rpamount}}
+    span(ng-switch-when="trust_change_remote") – {{effect.counterparty | rpcontactname}}
+      |  changed the {{effect.limit | rpcurrency}} trust
+      |  from {{effect.prevLimit | rpamount}} to {{effect.limit | rpamount}}
+    span(ng-switch-when="trust_change_balance") – Trust balance between you and
+      |  {{effect.counterparty | rpcontactname}} has been changed by
+      |  {{effect.change | rpamount}} {{effect.change | rpcurrency}}
+
+    span(ng-switch-when="balance_change") – Your balance has been changed by
+      |  {{effect.amount | rpamount}} {{effect.amount | rpcurrency}}

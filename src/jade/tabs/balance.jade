@@ -40,50 +40,42 @@ section.panel.content(ng-controller="BalanceCtrl")
       tbody(ng-class="{passive: loading}")
         tr(
           ng-repeat="entry in transactions"
-          ng-class="entry.type"
-          ng-switch on="entry.type"
+          ng-class="entry.transaction.type"
           rp-link-tx="entry.hash"
           )
           td.date {{entry.date | rpfromnow}}
-          td.desc(ng-switch-when="sent") You sent&nbsp;
-            span.address(title="{{entry.counterparty}}") {{entry.counterparty | rpcontactname}}
-            strong  {{entry.amount | rpamount}} {{entry.amount | rpcurrency}}
-            a.add(ng-hide="entry.counterparty | rponlycontactname", href="#/contact?to={{entry.counterparty}}", class="btn sign small", rp-no-propagate) +
-          td.desc(ng-switch-when="received")
-            span.address(title="{{entry.counterparty}}") {{entry.counterparty | rpcontactname}}
-            |  sent you
-            strong  {{entry.amount | rpamount}} {{entry.amount | rpcurrency}}
-            a.add(ng-hide="entry.counterparty | rponlycontactname", href="#/contact?to={{entry.counterparty}}", class="btn sign small", rp-no-propagate) +
-          td.desc(ng-switch-when="trusted")
-            span.address(title="{{entry.counterparty}}") {{entry.counterparty | rpcontactname}}
-            |  now trusts you for
-            strong  {{entry.amount | rpamount}} {{entry.amount | rpcurrency}}
-            a.add(ng-hide="entry.counterparty | rponlycontactname", href="#/contact?to={{entry.counterparty}}", class="btn sign small", rp-no-propagate) +
-          td.desc(ng-switch-when="trusting") You now trust&nbsp;
-            span.address(title="{{entry.counterparty}}") {{entry.counterparty | rpcontactname}}
-            |  for&nbsp;
-            strong {{entry.amount | rpamount}} {{entry.amount | rpcurrency}}
-            a.add(ng-hide="entry.counterparty | rponlycontactname", href="#/contact?to={{entry.counterparty}}", class="btn sign small", rp-no-propagate) +
-          td.desc(ng-switch-when="offernew") You created an offer accepting&nbsp;
-            strong {{entry.pays | rpamount}} {{entry.pays | rpcurrency}}
-            |  for&nbsp;
-            strong {{entry.gets | rpamount}} {{entry.gets | rpcurrency}}
-          td.desc(ng-switch-when="offerfunded") You sold&nbsp;
-            strong {{entry.offer.pays | rpamount}} {{entry.offer.pays | rpcurrency}}
-            |  for&nbsp;
-            strong {{entry.offer.gets | rpamount}} {{entry.offer.gets | rpcurrency}}.
-            span.note This order has been funded.
-          td.desc(ng-switch-when="offerpartiallyfunded") You sold&nbsp;
-            strong {{entry.pays | rpamount}} {{entry.pays | rpcurrency}}
-            |  for&nbsp;
-            strong {{entry.gets | rpamount}} {{entry.gets | rpcurrency}}.
-            span.note This order has {{entry.offer.pays | rpamount}} {{entry.offer.pays | rpcurrency}} remaining.
-          td.desc(ng-switch-when="offercancel") You canceled an offer accepting&nbsp;
-            strong {{entry.pays | rpamount}} {{entry.pays | rpcurrency}}
-            |  for&nbsp;
-            strong {{entry.gets | rpamount}} {{entry.gets | rpcurrency}}
-          td.desc(ng-switch-default)
-            | Something happened
+          td.desc(ng-switch on="entry.transaction.type")
+            .transaction(ng-switch-when="sent") You sent&nbsp;
+              span.address(title="{{entry.transaction.counterparty}}") {{entry.transaction.counterparty | rpcontactname}}
+              strong  {{entry.transaction.amount | rpamount}} {{entry.transaction.amount | rpcurrency}}
+              a.add(ng-hide="entry.transaction.counterparty | rponlycontactname", href="#/contact?to={{entry.transaction.counterparty}}", class="btn sign small", rp-no-propagate) +
+              include balance/effects
+            .transaction(ng-switch-when="received")
+              span.address(title="{{entry.transaction.counterparty}}") {{entry.transaction.counterparty | rpcontactname}}
+              |  sent you
+              strong  {{entry.transaction.amount | rpamount}} {{entry.transaction.amount | rpcurrency}}
+              a.add(ng-hide="entry.transaction.counterparty | rponlycontactname", href="#/contact?to={{entry.transaction.counterparty}}", class="btn sign small", rp-no-propagate) +
+              include balance/effects
+            .transaction(ng-switch-when="trusted")
+              span.address(title="{{entry.transaction.counterparty}}") {{entry.transaction.counterparty | rpcontactname}}
+              |  now trusts you for
+              strong  {{entry.transaction.amount | rpamount}} {{entry.transaction.amount | rpcurrency}}
+              a.add(ng-hide="entry.transaction.counterparty | rponlycontactname", href="#/contact?to={{entry.transaction.counterparty}}", class="btn sign small", rp-no-propagate) +
+              include balance/effects
+            .transaction(ng-switch-when="trusting") You now trust&nbsp;
+              span.address(title="{{entry.transaction.counterparty}}") {{entry.transaction.counterparty | rpcontactname}}
+              |  for&nbsp;
+              strong {{entry.transaction.amount | rpamount}} {{entry.transaction.amount | rpcurrency}}
+              a.add(ng-hide="entry.transaction.counterparty | rponlycontactname", href="#/contact?to={{entry.transaction.counterparty}}", class="btn sign small", rp-no-propagate) +
+              include balance/effects
+            .transaction(ng-switch-when="offernew") You created an offer accepting&nbsp;
+              strong {{entry.transaction.pays | rpamount}} {{entry.transaction.pays | rpcurrency}}
+              |  for&nbsp;
+              strong {{entry.transaction.gets | rpamount}} {{entry.transaction.gets | rpcurrency}}
+              include balance/effects
+            .transaction(ng-switch-default)
+              include balance/effects
+
       tfoot(ng-show="pages_count")
         tr
           td(colspan=2, class="pagination")
