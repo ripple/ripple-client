@@ -193,24 +193,38 @@ var JsonRewriter = module.exports = {
           var highPrev = node.fieldsPrev.HighLimit;
           var lowPrev = node.fieldsPrev.LowLimit;
 
-          // Trust Limit change
-          if (highPrev) {
-            effect.type = highPrev.issuer === account ? "trust_change_local" : "trust_change_remote";
-            effect.limit = ripple.Amount.from_json(high);
-            effect.limit_peer = ripple.Amount.from_json(low);
-            effect.prevLimit = ripple.Amount.from_json(highPrev);
-          }
-          else if (lowPrev) {
-            effect.type = lowPrev.issuer === account ? "trust_change_local" : "trust_change_remote";
-            effect.limit = ripple.Amount.from_json(low);
-            effect.limit_peer = ripple.Amount.from_json(high);
-            effect.prevLimit = ripple.Amount.from_json(lowPrev);
-          }
-
           // Trust Balance change
-          else if (node.fieldsPrev.Balance) {
+          if (node.fieldsPrev.Balance) {
             effect.type = "trust_change_balance";
             effect.change = ripple.Amount.from_json(node.fieldsPrev.Balance).subtract(node.fields.Balance);
+
+            if (obj.transaction) {
+              obj.transaction.balance = high.issuer === account
+                ? ripple.Amount.from_json(node.fields.Balance).negate(true)
+                : ripple.Amount.from_json(node.fields.Balance);
+            }
+          }
+
+          // Trust Limit change
+          else if (highPrev || lowPrev) {
+            if (high.issuer === account) {
+              effect.balance = ripple.Amount.from_json(node.fields.Balance).negate(true);
+              effect.limit = ripple.Amount.from_json(high);
+              effect.limit_peer = ripple.Amount.from_json(low);
+            } else {
+              effect.balance = ripple.Amount.from_json(node.fields.Balance);
+              effect.limit = ripple.Amount.from_json(low);
+              effect.limit_peer = ripple.Amount.from_json(high);
+            }
+
+            if (highPrev) {
+              effect.prevLimit = ripple.Amount.from_json(highPrev);
+              effect.type = high.issuer === account ? "trust_change_local" : "trust_change_remote";
+            }
+            else if (lowPrev) {
+              effect.prevLimit = ripple.Amount.from_json(lowPrev);
+              effect.type = high.issuer === account ? "trust_change_remote" : "trust_change_local";
+            }
           }
         }
 
@@ -280,8 +294,8 @@ var JsonRewriter = module.exports = {
     });
 
     // Balance after the transaction
-    if (obj.accountRoot && obj.transaction) {
-      obj.transaction.balance = ripple.Amount.from_json(obj.accountRoot.Balance);
+    if (obj.accountRoot && obj.transaction && "undefined" === typeof obj.transaction.balance) {
+//      obj.transaction.balance = ripple.Amount.from_json(obj.accountRoot.Balance);
     }
 
     if (!$.isEmptyObject(obj)) {
