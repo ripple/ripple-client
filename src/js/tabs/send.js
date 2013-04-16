@@ -117,30 +117,27 @@ SendTab.prototype.angular = function (module)
       } else {
         app.net.remote.request_account_info($scope.send.recipient_address)
           .on('error', function (e) {
-            if (e.remote.error == "actNotFound") {
-              $scope.xrp_memory[recipient] = 0;
-            }
-            setError();
+            $scope.$apply(function () {
+              if (e.remote.error == "actNotFound") {
+                $scope.xrp_memory[recipient] = "0";
+              }
+              setError();
+            });
           })
           .on('success', function (data) {
-            $scope.xrp_memory[recipient] = parseFloat(data.account_data.Balance);
-            setError();
+            $scope.$apply(function () {
+              $scope.xrp_memory[recipient] = data.account_data.Balance;
+              setError();
+            });
           })
           .request();
       }
       function setError() {
-        var total = parseInt(($scope.send.amount_feedback._value + $scope.xrp_memory[recipient]).toString())/10; //Why /10 ?
-        var reserve_base = parseInt($scope.account.reserve_base._value.toString()); //There's got to be a better way...
-        if (total < reserve_base) {
-          if($scope.$$phase) {
-            $scope.send.path_status = "insufficient-xrp";
-            $scope.xrp_deficiency = reserve_base - $scope.xrp_memory[recipient];
-          } else {
-            $scope.$apply(function(){
-                $scope.send.path_status = "insufficient-xrp";
-                $scope.xrp_deficiency = reserve_base - $scope.xrp_memory[recipient];
-            });
-          }
+        var total = $scope.send.amount_feedback.add($scope.xrp_memory[recipient]);
+        var reserve_base = $scope.account.reserve_base;
+        if (total.compareTo(reserve_base) < 0) {
+          $scope.send.path_status = "insufficient-xrp";
+          $scope.xrp_deficiency = reserve_base.subtract($scope.xrp_memory[recipient]);
         }
       }
     };
