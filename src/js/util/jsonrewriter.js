@@ -276,7 +276,7 @@ var JsonRewriter = module.exports = {
         }
 
         // Another account offer. We care about it only if our transaction changed the offer amount (we bought currency)
-        else if(tx.Account === account) {
+        else if(tx.Account === account && !$.isEmptyObject(node.fieldsPrev) /* Offer is unfunded if node.fieldsPrev is empty */) {
           effect.gets = ripple.Amount.from_json(node.fieldsPrev.TakerGets).subtract(node.fields.TakerGets);
           effect.pays = ripple.Amount.from_json(node.fieldsPrev.TakerPays).subtract(node.fields.TakerPays);
           effect.type = 'offer_bought';
