@@ -308,8 +308,8 @@ module.directive('rpStrongPassword', function () {
           return password;
         }
 
-        // password < 4
-        if (password.length < 4 ) {
+        // password < 6
+        if (password.length < 6 ) {
           ctrl.$setValidity('rpStrongPassword', false);
           scope.strength = 'weak';
           return;
