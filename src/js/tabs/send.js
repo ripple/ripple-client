@@ -24,8 +24,8 @@ SendTab.prototype.angular = function (module)
   var self = this,
       app = this.app;
 
-  module.controller('SendCtrl', ['$scope', '$timeout', '$routeParams', 'rpId',
-                                 function ($scope, $timeout, $routeParams, $id)
+  module.controller('SendCtrl', ['$scope', '$timeout', '$routeParams', 'rpId', 'rpNetwork',
+                                 function ($scope, $timeout, $routeParams, $id, $network)
   {
     if (!$id.loginStatus) return $id.goId();
 
@@ -115,7 +115,7 @@ SendTab.prototype.angular = function (module)
       if ($scope.xrp_memory.hasOwnProperty(recipient)) {
         setError();
       } else {
-        app.net.remote.request_account_info($scope.send.recipient_address)
+        $network.remote.request_account_info($scope.send.recipient_address)
           .on('error', function (e) {
             $scope.$apply(function () {
               if (e.remote.error == "actNotFound") {
@@ -144,7 +144,7 @@ SendTab.prototype.angular = function (module)
 
     $scope.update_paths = function () {
       var recipient = $scope.send.recipient_address;
-      app.net.remote.request_ripple_path_find(app.id.account,
+      $network.remote.request_ripple_path_find(app.id.account,
                                               $scope.send.recipient_address,
                                               $scope.send.amount_feedback)
         .on('error', function (e) {
@@ -252,7 +252,7 @@ SendTab.prototype.angular = function (module)
 
       $scope.mode = "wait_path";
 
-      app.net.remote.request_account_info($scope.send.recipient_address)
+      $network.remote.request_account_info($scope.send.recipient_address)
         .on('error', function (data) {
           $scope.$apply(function () {
             $scope.mode = "error";
@@ -271,7 +271,7 @@ SendTab.prototype.angular = function (module)
           if (amount.is_native() && !$scope.send.source_currency) {
             $scope.$apply($scope.send_prepared);
           } else {
-            app.net.remote.request_ripple_path_find(app.id.account,
+            $network.remote.request_ripple_path_find(app.id.account,
                                                     $scope.send.recipient_address,
                                                     amount)
             // XXX Handle error response
@@ -327,7 +327,7 @@ SendTab.prototype.angular = function (module)
 
       amount.set_issuer(addr);
 
-      var tx = app.net.remote.transaction();
+      var tx = $network.remote.transaction();
 
       // Destination tag
       tx.destination_tag(dt);
@@ -393,13 +393,13 @@ SendTab.prototype.angular = function (module)
      */
     $scope.sent = function (hash) {
       $scope.mode = "status";
-      app.net.remote.on('transaction', handleAccountEvent);
+      $network.remote.on('transaction', handleAccountEvent);
 
       function handleAccountEvent(e) {
         if (e.transaction.hash === hash) {
           setEngineStatus(e, true);
           $scope.$digest();
-          app.net.remote.removeListener('transaction', handleAccountEvent);
+          $network.remote.removeListener('transaction', handleAccountEvent);
         }
       }
     };

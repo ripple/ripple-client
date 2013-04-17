@@ -24,8 +24,8 @@ TradeTab.prototype.angular = function(module)
   var self = this;
   var app = this.app;
 
-  module.controller('TradeCtrl', ['rpBooks', '$scope', 'rpId',
-                                  function (books, $scope, $id)
+  module.controller('TradeCtrl', ['rpBooks', '$scope', 'rpId', 'rpNetwork',
+                                  function (books, $scope, $id, $network)
   {
     if (!$id.loginStatus) return $id.goId();
 
@@ -94,7 +94,7 @@ TradeTab.prototype.angular = function(module)
 
     $scope.cancel_order = function ()
     {
-      var tx = app.net.remote.transaction();
+      var tx = $network.remote.transaction();
       tx.offer_cancel(app.id.account, this.entry.seq);
       tx.on('success', function () {
       });
@@ -109,7 +109,7 @@ TradeTab.prototype.angular = function(module)
 
     $scope.order_confirmed = function ()
     {
-      var tx = app.net.remote.transaction();
+      var tx = $network.remote.transaction();
       tx.offer_create(app.id.account, $scope.order.buy_amount, $scope.order.sell_amount);
 
       tx.on('success', function (res) {
@@ -148,13 +148,13 @@ TradeTab.prototype.angular = function(module)
     $scope.done = function (hash)
     {
       $scope.mode = "done";
-      app.net.remote.on('transaction', handleAccountEvent);
+      $network.remote.on('transaction', handleAccountEvent);
 
       function handleAccountEvent(e) {
         if (e.transaction.hash === hash) {
           setEngineStatus(e, true);
           $scope.$digest();
-          app.net.remote.removeListener('transaction', handleAccountEvent);
+          $network.remote.removeListener('transaction', handleAccountEvent);
         }
       }
     };

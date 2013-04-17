@@ -24,8 +24,8 @@ TrustTab.prototype.angular = function (module)
   var self = this;
   var app = this.app;
 
-  module.controller('TrustCtrl', ['$scope', '$timeout', '$routeParams', 'rpId', '$filter',
-                                  function ($scope, $timeout, $routeParams, $id, $filter)
+  module.controller('TrustCtrl', ['$scope', '$timeout', '$routeParams', 'rpId', '$filter', 'rpNetwork',
+                                  function ($scope, $timeout, $routeParams, $id, $filter, $network)
   {
     if (!$id.loginStatus) return $id.goId();
     $scope.validation_pattern = /^0*(([1-9][0-9]*.?[0-9]*)|(.0*[1-9][0-9]*))$/; //Don't allow zero for new trust lines.
@@ -75,7 +75,7 @@ TrustTab.prototype.angular = function (module)
       $scope.verifying = true;
       $scope.error_account_reserve = false;
       // test if account is valid
-      app.net.remote.request_account_info($scope.counterparty_address)
+      $network.remote.request_account_info($scope.counterparty_address)
         .on('error', function (m){
           $scope.$apply(function(){
             $scope.verifying = false;
@@ -110,7 +110,7 @@ TrustTab.prototype.angular = function (module)
       var currency = $scope.currency.slice(0, 3).toUpperCase();
       var amount = $scope.amount + '/' + currency + '/' + $scope.counterparty_address;
 
-      var tx = app.net.remote.transaction();
+      var tx = $network.remote.transaction();
       tx
           .ripple_line_set(app.id.account, amount)
           .on('success', function(res){
@@ -153,13 +153,13 @@ TrustTab.prototype.angular = function (module)
      */
     $scope.granted = function (hash) {
       $scope.mode = "granted";
-      app.net.remote.on('transaction', handleAccountEvent);
+      $network.remote.on('transaction', handleAccountEvent);
 
       function handleAccountEvent(e) {
         if (e.transaction.hash === hash) {
           setEngineStatus(e, true);
           $scope.$digest();
-          app.net.remote.removeListener('transaction', handleAccountEvent);
+          $network.remote.removeListener('transaction', handleAccountEvent);
         }
       }
     };

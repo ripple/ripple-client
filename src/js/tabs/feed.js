@@ -29,11 +29,11 @@ FeedTab.prototype.angular = function (module)
   var app = this.app;
   var self=this;
   
-  module.controller('FeedCtrl', ['$scope', 'rpTransactions',
-                                 function ($scope, transactions)
+  module.controller('FeedCtrl', ['$scope', 'rpTransactions', 'rpNetwork',
+                                 function ($scope, transactions, $network)
   {
-    app.net.remote.on("ledger_closed", handleMsg);
-    app.net.remote.on("net_server", handleMsg);
+    $network.remote.on("ledger_closed", handleMsg);
+    $network.remote.on("net_server", handleMsg);
 
     function handleMsg(message)
     {
@@ -71,8 +71,8 @@ FeedTab.prototype.angular = function (module)
     $scope.toggle_feed_server = function ()
     {
       if($scope.serverCheck)
-        app.net.remote.request_subscribe("server").request();
-      else app.net.remote.request_unsubscribe("server").request();
+        $network.remote.request_subscribe("server").request();
+      else $network.remote.request_unsubscribe("server").request();
     };
     $scope.clear_feed = function ()
     {

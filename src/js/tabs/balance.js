@@ -21,11 +21,9 @@ BalanceTab.prototype.angular = function (module)
   var self = this;
   var app = this.app;
 
-  module.controller('BalanceCtrl', ['$scope', 'rpId',
-                                     function ($scope, $id)
+  module.controller('BalanceCtrl', ['$scope', 'rpId', 'rpNetwork',
+                                     function ($scope, $id, $network)
   {
-    var remote = app.net.remote;
-
     if (!$id.loginStatus) return $id.goId();
 
     $scope.transactions = [];
@@ -95,7 +93,7 @@ BalanceTab.prototype.angular = function (module)
       // Loading mode
       $scope.loading = true;
 
-      remote.request_account_tx(account, 0, 9999999, true, Options.transactions_per_page, offset)
+      $network.remote.request_account_tx(account, 0, 9999999, true, Options.transactions_per_page, offset)
         .on('success', function(data) {
             $scope.transactions = [];
             $scope.$apply(function () {
