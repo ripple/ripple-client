@@ -112,7 +112,7 @@ TrustTab.prototype.angular = function (module)
 
       var tx = $network.remote.transaction();
       tx
-          .ripple_line_set(app.id.account, amount)
+          .ripple_line_set($id.account, amount)
           .on('success', function(res){
             setEngineStatus(res, false);
             $scope.granted(this.hash);
@@ -198,7 +198,7 @@ TrustTab.prototype.angular = function (module)
         'address': $scope.counterparty_address
       };
 
-      app.id.once('blobsave', function(){
+      $id.once('blobsave', function(){
         $scope.contact = contact;
         $scope.addressSaved = true;
       });

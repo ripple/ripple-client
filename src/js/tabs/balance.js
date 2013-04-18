@@ -81,7 +81,7 @@ BalanceTab.prototype.angular = function (module)
       // Click on disabled links
       if (!page) return;
 
-      var account = app.id.account;
+      var account = $id.account;
       var offset = (page - 1) * Options.transactions_per_page;
 
       // Next, prev page numbers
