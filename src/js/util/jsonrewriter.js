@@ -197,22 +197,14 @@ var JsonRewriter = module.exports = {
           if (node.fieldsPrev.Balance) {
             effect.type = "trust_change_balance";
             effect.change = ripple.Amount.from_json(node.fieldsPrev.Balance).subtract(node.fields.Balance);
-
-            if (obj.transaction) {
-              obj.transaction.balance = high.issuer === account
-                ? ripple.Amount.from_json(node.fields.Balance).negate(true)
-                : ripple.Amount.from_json(node.fields.Balance);
-            }
           }
 
           // Trust Limit change
           else if (highPrev || lowPrev) {
             if (high.issuer === account) {
-              effect.balance = ripple.Amount.from_json(node.fields.Balance).negate(true);
               effect.limit = ripple.Amount.from_json(high);
               effect.limit_peer = ripple.Amount.from_json(low);
             } else {
-              effect.balance = ripple.Amount.from_json(node.fields.Balance);
               effect.limit = ripple.Amount.from_json(low);
               effect.limit_peer = ripple.Amount.from_json(high);
             }
@@ -231,7 +223,13 @@ var JsonRewriter = module.exports = {
         if (!$.isEmptyObject(effect)) {
           effect.counterparty = high.issuer === account ? low.issuer : high.issuer;
           effect.currency = high.currency;
-          effect.balance = ripple.Amount.from_json(node.fields.Balance);
+          effect.balance = high.issuer === account
+            ? ripple.Amount.from_json(node.fields.Balance).negate(true)
+            : ripple.Amount.from_json(node.fields.Balance);
+
+          if (obj.transaction && effect.type == "trust_change_balance") {
+            obj.transaction.balance = effect.balance;
+          }
         }
       }
 
@@ -258,7 +256,7 @@ var JsonRewriter = module.exports = {
 
             // Canceled offer
             else {
-              effect.type = 'offer_canceled';
+              effect.type = 'offer_cancelled';
               effect.gets = ripple.Amount.from_json(node.fields.TakerPays);
               effect.pays = ripple.Amount.from_json(node.fields.TakerGets);
             }

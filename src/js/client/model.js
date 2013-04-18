@@ -424,8 +424,6 @@ Model.prototype._updateLines = function(effects)
         line.limit_peer = effect.limit_peer;
       }
 
-      console.log('line',line);
-
       $scope.lines[index] = $.extend($scope.lines[index], line);
     }
   });
