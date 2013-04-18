@@ -30,7 +30,7 @@ BalanceTab.prototype.angular = function (module)
     $scope.current_page = 1;
 
     // filter effect types
-    // Show only offer_funded, offer_partially_funded, offer_canceled, offer_bought side effects
+    // Show only offer_funded, offer_partially_funded, offer_cancelled, offer_bought side effects
     var filterEffects = function (events) {
       var transactions = [];
 
@@ -43,7 +43,7 @@ BalanceTab.prototype.angular = function (module)
             var effect = this;
             if (effect.type == 'offer_funded'
                 || effect.type == 'offer_partially_funded'
-                || effect.type == 'offer_canceled'
+                || effect.type == 'offer_cancelled'
                 || effect.type == 'offer_bought') {
               effects.push(effect);
             }

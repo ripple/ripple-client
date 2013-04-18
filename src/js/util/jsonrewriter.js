@@ -258,7 +258,7 @@ var JsonRewriter = module.exports = {
 
             // Canceled offer
             else {
-              effect.type = 'offer_canceled';
+              effect.type = 'offer_cancelled';
               effect.gets = ripple.Amount.from_json(node.fields.TakerPays);
               effect.pays = ripple.Amount.from_json(node.fields.TakerGets);
             }
