@@ -92,7 +92,7 @@ RegisterTab.prototype.angular = function (module) {
             $scope.register();
           }
           if (success) {
-            if ($scope.masterkey && $scope.masterkey != app.$scope.userCredentials.master_seed) {
+            if ($scope.masterkey && $scope.masterkey != $scope.userCredentials.master_seed) {
               $scope.mode = 'masterkeyerror';
               $scope.$digest();
             } else {

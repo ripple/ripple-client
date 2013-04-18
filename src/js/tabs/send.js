@@ -441,7 +441,7 @@ SendTab.prototype.angular = function (module)
         $scope.addressSaved = true;
       });
 
-      app.$scope.userBlob.data.contacts.unshift(contact);
+      $scope.userBlob.data.contacts.unshift(contact);
     };
 
     $scope.reset();

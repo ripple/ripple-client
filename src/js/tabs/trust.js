@@ -1,7 +1,6 @@
 var util = require('util');
 var webutil = require('../util/web');
 var Tab = require('../client/tab').Tab;
-var app = require('../client/app').App.singleton;
 var Amount = ripple.Amount;
 
 var TrustTab = function ()
@@ -22,7 +21,6 @@ TrustTab.prototype.generateHtml = function ()
 TrustTab.prototype.angular = function (module)
 {
   var self = this;
-  var app = this.app;
 
   module.controller('TrustCtrl', ['$scope', '$timeout', '$routeParams', 'rpId', '$filter', 'rpNetwork',
                                   function ($scope, $timeout, $routeParams, $id, $filter, $network)
@@ -203,7 +201,7 @@ TrustTab.prototype.angular = function (module)
         $scope.addressSaved = true;
       });
 
-      app.$scope.userBlob.data.contacts.unshift(contact);
+      $scope.userBlob.data.contacts.unshift(contact);
     };
 
     $scope.edit_line = function ()
