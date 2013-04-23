@@ -114,29 +114,29 @@ var JsonRewriter = module.exports = {
     if (tx.Account === account
         || (tx.Destination && tx.Destination === account)
         || (tx.LimitAmount && tx.LimitAmount.issuer === account)) {
-      obj.transaction = {};
+      var transaction = {};
 
       switch (tx.TransactionType) {
         case 'Payment':
           var amount = ripple.Amount.from_json(tx.Amount);
 
-          obj.transaction.type = tx.Account === account ? 'sent' : 'received';
-          obj.transaction.counterparty = tx.Account === account ? tx.Destination : tx.Account;
-          obj.transaction.amount = amount;
-          obj.transaction.currency = amount.currency().to_json();
+          transaction.type = tx.Account === account ? 'sent' : 'received';
+          transaction.counterparty = tx.Account === account ? tx.Destination : tx.Account;
+          transaction.amount = amount;
+          transaction.currency = amount.currency().to_json();
           break;
 
         case 'TrustSet':
-          obj.transaction.type = tx.Account === account ? 'trusting' : 'trusted';
-          obj.transaction.counterparty = tx.Account === account ? tx.LimitAmount.issuer : tx.Account;
-          obj.transaction.amount = ripple.Amount.from_json(tx.LimitAmount);
-          obj.transaction.currency = tx.LimitAmount.currency;
+          transaction.type = tx.Account === account ? 'trusting' : 'trusted';
+          transaction.counterparty = tx.Account === account ? tx.LimitAmount.issuer : tx.Account;
+          transaction.amount = ripple.Amount.from_json(tx.LimitAmount);
+          transaction.currency = tx.LimitAmount.currency;
           break;
 
         case 'OfferCreate':
-          obj.transaction.type = 'offernew';
-          obj.transaction.pays = ripple.Amount.from_json(tx.TakerPays);
-          obj.transaction.gets = ripple.Amount.from_json(tx.TakerGets);
+          transaction.type = 'offernew';
+          transaction.pays = ripple.Amount.from_json(tx.TakerPays);
+          transaction.gets = ripple.Amount.from_json(tx.TakerGets);
           break;
 
         case 'OfferCancel':
@@ -149,6 +149,10 @@ var JsonRewriter = module.exports = {
 
         default:
           console.log('Unknown transaction type: "'+tx.TransactionType+'"', tx);
+      }
+
+      if (!$.isEmptyObject(transaction)) {
+        obj.transaction = transaction;
       }
     }
 

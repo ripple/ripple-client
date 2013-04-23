@@ -323,22 +323,19 @@ Model.prototype._processTxn = function (tx, meta, is_historic)
           'offer_cancelled',
           'offer_bought'], effect.type))
         {
-          self._updateOffer(effect);
+          var offer = {
+            seq: +effect.seq,
+            gets: effect.gets,
+            pays: effect.pays,
+            deleted: effect.deleted
+          };
+          self._updateOffer(offer);
         }
       });
     }
   }
 };
 
-/*
-account: "rHMq44aXmd9wEYHK84VyiZyx8SP6VbpzNV"
-balance: "0"
-currency: "USD"
-limit: "2000"
-limit_peer: "0"
-quality_in: 0
-quality_out: 0
- */
 Model.prototype._updateOffer = function (offer)
 {
   var $scope = this.app.$scope;
