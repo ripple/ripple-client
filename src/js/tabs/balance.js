@@ -93,7 +93,14 @@ BalanceTab.prototype.angular = function (module)
       // Loading mode
       $scope.loading = true;
 
-      $network.remote.request_account_tx(account, 0, 9999999, true, Options.transactions_per_page, offset)
+      $network.remote.request_account_tx({
+        'account': account,
+        'ledger_index_min': 0,
+        'ledger_index_max': 9999999,
+        'descending': true,
+        'offset': offset,
+        'limit': Options.transactions_per_page
+      })
         .on('success', function(data) {
             $scope.transactions = [];
             $scope.$apply(function () {

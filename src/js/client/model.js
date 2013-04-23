@@ -120,7 +120,14 @@ Model.prototype.handleAccountLoad = function (e)
     .on('error', this.handleRippleLinesError.bind(this)).request();
 
   // Transactions
-  remote.request_account_tx(e.account, 0, 9999999, true, Options.transactions_per_page)
+  remote.request_account_tx({
+    'account': e.account,
+    'ledger_index_min': 0,
+    'ledger_index_max': 9999999,
+    'descending': true,
+    'limit': Options.transactions_per_page,
+    'count': true
+  })
     .on('success', this.handleAccountTx.bind(this))
     .on('error', this.handleAccountTxError.bind(this)).request();
 
