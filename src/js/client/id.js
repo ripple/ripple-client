@@ -147,6 +147,7 @@ Id.prototype.setAccount = function (accId, accKey)
     this.emit('accountunload', {account: this.account});
   }
   this.account = accId;
+  this.app.account = accId;
   this.app.$scope.userCredentials.account = accId;
   this.app.$scope.userCredentials.master_seed = accKey;
   this.emit('accountload', {account: this.account, secret: accKey});
