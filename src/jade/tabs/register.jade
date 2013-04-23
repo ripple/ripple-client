@@ -30,6 +30,7 @@ section.single.content(ng-controller="RegisterCtrl")
             required, rp-same-as="register_password1")
         div(class="strength {{strength}}")
           {{strength}}
+      p.hint.important(ng-show="strength=='weak'") Your password is weak. Please mix letters, numbers and symbols in your password.
       div(ng-show="showMasterKeyInput")
         label(for='register_masterkey')
           | Secret Account Key&nbsp;
