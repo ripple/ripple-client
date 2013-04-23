@@ -144,7 +144,7 @@ SendTab.prototype.angular = function (module)
 
     $scope.update_paths = function () {
       var recipient = $scope.send.recipient_address;
-      $network.remote.request_ripple_path_find(app.id.account,
+      $network.remote.request_ripple_path_find($id.account,
                                               $scope.send.recipient_address,
                                               $scope.send.amount_feedback)
         .on('error', function (e) {
@@ -271,7 +271,7 @@ SendTab.prototype.angular = function (module)
           if (amount.is_native() && !$scope.send.source_currency) {
             $scope.$apply($scope.send_prepared);
           } else {
-            $network.remote.request_ripple_path_find(app.id.account,
+            $network.remote.request_ripple_path_find($id.account,
                                                     $scope.send.recipient_address,
                                                     amount)
             // XXX Handle error response
@@ -337,7 +337,7 @@ SendTab.prototype.angular = function (module)
         tx.source_tag($scope.send.st);
       }
 
-      tx.payment(app.id.account, addr, amount.to_json());
+      tx.payment($id.account, addr, amount.to_json());
       if (!amount.is_native()) {
         if ($scope.send.alt) {
           tx.send_max($scope.send.alt.send_max);
@@ -434,15 +434,15 @@ SendTab.prototype.angular = function (module)
       var contact = {
         'name': $scope.saveAddressName,
         'address': $scope.send.recipient_address
-      }
+      };
 
-      app.id.once('blobsave', function(){
+      $id.once('blobsave', function(){
         $scope.contact = contact;
         $scope.addressSaved = true;
-      })
+      });
 
-      app.$scope.userBlob.data.contacts.unshift(contact);
-    }
+      $scope.userBlob.data.contacts.unshift(contact);
+    };
 
     $scope.reset();
   }]);
