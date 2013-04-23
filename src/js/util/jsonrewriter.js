@@ -239,35 +239,26 @@ var JsonRewriter = module.exports = {
         // Current account offer
         if (node.fields.Account === account) {
 
-          // New offer
-          if (node.diffType === "CreatedNode") {
-            effect.type = 'offer_created';
-            effect.gets = ripple.Amount.from_json(node.fields.TakerPays);
-            effect.pays = ripple.Amount.from_json(node.fields.TakerGets);
-          }
-
-          else if (node.diffType === "DeletedNode") {
-            // Funded offer
-            if (node.fieldsPrev.TakerPays) {
-              effect.type = 'offer_funded';
-              effect.gets = ripple.Amount.from_json(node.fieldsPrev.TakerPays);
-              effect.pays = ripple.Amount.from_json(node.fieldsPrev.TakerGets);
-            }
-
-            // Canceled offer
-            else {
-              effect.type = 'offer_cancelled';
-              effect.gets = ripple.Amount.from_json(node.fields.TakerPays);
-              effect.pays = ripple.Amount.from_json(node.fields.TakerGets);
-            }
-          }
-
           // Partially funded offer
-          else {
+          if (node.diffType === "ModifiedNode") {
             effect.type = 'offer_partially_funded';
             effect.gets = ripple.Amount.from_json(node.fieldsPrev.TakerPays).subtract(node.fields.TakerPays);
             effect.pays = ripple.Amount.from_json(node.fieldsPrev.TakerGets).subtract(node.fields.TakerGets);
             effect.remaining = ripple.Amount.from_json(node.fields.TakerGets);
+          }
+          else {
+            // New / Funded / Cancelled offer
+            effect.type = node.diffType === "CreatedNode"
+              ? 'offer_created'
+              : node.fieldsPrev.TakerPays
+                ? 'offer_funded'
+                : 'offer_cancelled';
+
+            // Only funded offers have "fieldsPrev". For new and cancelled offers we use "fields"
+            var fieldSet = effect.type === 'offer_funded' ? node.fieldsPrev : node.fields;
+
+            effect.gets = ripple.Amount.from_json(fieldSet.TakerPays);
+            effect.pays = ripple.Amount.from_json(fieldSet.TakerGets);
           }
 
           effect.seq = +node.fields.Sequence;
