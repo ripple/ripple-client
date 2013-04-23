@@ -467,3 +467,31 @@ module.directive('rpMaxAmount', function () {
     }
   };
 });
+
+/**
+ * Amount validator
+ */
+module.directive('rpAmount', function () {
+  return {
+    restrict: 'A',
+    require: '?ngModel',
+    link: function (scope, elm, attr, ctrl) {
+      if (!ctrl) return;
+
+      var validator = function(value) {
+        if (value) {
+          ctrl.$setValidity('rpAmount', ripple.Amount.from_json(value).is_valid());
+        }
+
+        return value;
+      };
+
+      ctrl.$formatters.push(validator);
+      ctrl.$parsers.unshift(validator);
+
+      attr.$observe('rpAmount', function() {
+        validator(ctrl.$viewValue);
+      });
+    }
+  };
+});

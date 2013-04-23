@@ -43,8 +43,8 @@ TradeTab.prototype.angular = function(module)
     $scope.reset = function (keepPair) {
       var pair = keepPair ? $scope.order.currency_pair :
             store.get('ripple_trade_currency_pair') || pairs[0].name;
-      var fIssuer = keepPair ? $scope.order.first_issuer : app.id.account;
-      var sIssuer = keepPair ? $scope.order.second_issuer : app.id.account;
+      var fIssuer = keepPair ? $scope.order.first_issuer : $id.account;
+      var sIssuer = keepPair ? $scope.order.second_issuer : $id.account;
       var type = keepPair ? $scope.order.type : 'buy';
 
       if ($scope.orderForm) $scope.orderForm.$setPristine();
@@ -95,7 +95,7 @@ TradeTab.prototype.angular = function(module)
     $scope.cancel_order = function ()
     {
       var tx = $network.remote.transaction();
-      tx.offer_cancel(app.id.account, this.entry.seq);
+      tx.offer_cancel($id.account, this.entry.seq);
       tx.on('success', function () {
       });
       tx.on('error', function () {
@@ -110,7 +110,7 @@ TradeTab.prototype.angular = function(module)
     $scope.order_confirmed = function ()
     {
       var tx = $network.remote.transaction();
-      tx.offer_create(app.id.account, $scope.order.buy_amount, $scope.order.sell_amount);
+      tx.offer_create($id.account, $scope.order.buy_amount, $scope.order.sell_amount);
 
       tx.on('success', function (res) {
         setEngineStatus(res, false);

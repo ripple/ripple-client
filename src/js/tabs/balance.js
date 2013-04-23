@@ -30,7 +30,7 @@ BalanceTab.prototype.angular = function (module)
     $scope.current_page = 1;
 
     // filter effect types
-    // Show only offer_funded, offer_partially_funded, offer_canceled, offer_bought side effects
+    // Show only offer_funded, offer_partially_funded, offer_cancelled, offer_bought side effects
     var filterEffects = function (events) {
       var transactions = [];
 
@@ -43,7 +43,7 @@ BalanceTab.prototype.angular = function (module)
             var effect = this;
             if (effect.type == 'offer_funded'
                 || effect.type == 'offer_partially_funded'
-                || effect.type == 'offer_canceled'
+                || effect.type == 'offer_cancelled'
                 || effect.type == 'offer_bought') {
               effects.push(effect);
             }
@@ -81,7 +81,7 @@ BalanceTab.prototype.angular = function (module)
       // Click on disabled links
       if (!page) return;
 
-      var account = app.id.account;
+      var account = $id.account;
       var offset = (page - 1) * Options.transactions_per_page;
 
       // Next, prev page numbers
@@ -93,7 +93,14 @@ BalanceTab.prototype.angular = function (module)
       // Loading mode
       $scope.loading = true;
 
-      $network.remote.request_account_tx(account, 0, 9999999, true, Options.transactions_per_page, offset)
+      $network.remote.request_account_tx({
+        'account': account,
+        'ledger_index_min': 0,
+        'ledger_index_max': 9999999,
+        'descending': true,
+        'offset': offset,
+        'limit': Options.transactions_per_page
+      })
         .on('success', function(data) {
             $scope.transactions = [];
             $scope.$apply(function () {

@@ -120,7 +120,14 @@ Model.prototype.handleAccountLoad = function (e)
     .on('error', this.handleRippleLinesError.bind(this)).request();
 
   // Transactions
-  remote.request_account_tx(e.account, 0, 9999999, true, Options.transactions_per_page)
+  remote.request_account_tx({
+    'account': e.account,
+    'ledger_index_min': 0,
+    'ledger_index_max': 9999999,
+    'descending': true,
+    'limit': Options.transactions_per_page,
+    'count': true
+  })
     .on('success', this.handleAccountTx.bind(this))
     .on('error', this.handleAccountTxError.bind(this)).request();
 
@@ -316,22 +323,19 @@ Model.prototype._processTxn = function (tx, meta, is_historic)
           'offer_cancelled',
           'offer_bought'], effect.type))
         {
-          self._updateOffer(effect);
+          var offer = {
+            seq: +effect.seq,
+            gets: effect.gets,
+            pays: effect.pays,
+            deleted: effect.deleted
+          };
+          self._updateOffer(offer);
         }
       });
     }
   }
 };
 
-/*
-account: "rHMq44aXmd9wEYHK84VyiZyx8SP6VbpzNV"
-balance: "0"
-currency: "USD"
-limit: "2000"
-limit_peer: "0"
-quality_in: 0
-quality_out: 0
- */
 Model.prototype._updateOffer = function (offer)
 {
   var $scope = this.app.$scope;
@@ -423,8 +427,6 @@ Model.prototype._updateLines = function(effects)
       if (effect.limit_peer) {
         line.limit_peer = effect.limit_peer;
       }
-
-      console.log('line',line);
 
       $scope.lines[index] = $.extend($scope.lines[index], line);
     }
