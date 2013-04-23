@@ -40,6 +40,7 @@ TxTab.prototype.angular = function (module)
             var affectedNode;
             var difference;
             var cur;
+            var i;
 
             if (tx.Amount.currency) {//It's not XRP
               /* Find the metadata node with entry type == "RippleState" 
@@ -48,7 +49,7 @@ TxTab.prototype.angular = function (module)
               Balance.currency == [currency of SendMax || Amount]
               */
               if (tx.meta.AffectedNodes) {
-                for (var i=0; i<tx.meta.AffectedNodes.length; i++) {
+                for (i=0; i<tx.meta.AffectedNodes.length; i++) {
                   affectedNode = tx.meta.AffectedNodes[i];
                   if (affectedNode.ModifiedNode && affectedNode.ModifiedNode.LedgerEntryType == "RippleState" && 
                     (affectedNode.ModifiedNode.FinalFields.HighLimit.issuer == sender ||
@@ -74,7 +75,7 @@ TxTab.prototype.angular = function (module)
             } else { //It's XRP
               // Find the metadata node with entry type == "AccountRoot" and Account == [sender's account].
               if (tx.meta.AffectedNodes) {
-                for (var i=0; i<tx.meta.AffectedNodes.length; i++) {
+                for (i=0; i<tx.meta.AffectedNodes.length; i++) {
                   affectedNode = tx.meta.AffectedNodes[i];
                   if (affectedNode.ModifiedNode && affectedNode.ModifiedNode.LedgerEntryType == "AccountRoot" && 
                     affectedNode.ModifiedNode.FinalFields.Account == sender) {
