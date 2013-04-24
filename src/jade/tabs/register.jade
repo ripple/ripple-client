@@ -39,7 +39,7 @@ section.single.content(ng-controller="RegisterCtrl")
         .errorBox(ng-show="registerForm.register_masterkey.$error.rpMasterKey")
           p.text-error Secret Account Key is invalid
       .submitsection
-        button.btn.btn-info(type='submit', ng-disabled='registerForm.$invalid') Create Wallet
+        button.btn.btn-info(type='submit', ng-disabled='registerForm.$invalid || disableSubmit') Create Wallet
         .storeinfo
           | Store your wallet with:&nbsp;
           br

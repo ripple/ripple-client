@@ -83,6 +83,9 @@ RegisterTab.prototype.angular = function (module) {
 
     $scope.submitForm = function()
     {
+      // Disable submit button
+      $scope.disableSubmit = true;
+
       var regInProgress;
 
       $id.login($scope.username, $scope.password1, function(backendName,error,success){
