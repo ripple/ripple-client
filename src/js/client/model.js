@@ -291,6 +291,7 @@ Model.prototype._processTxn = function (tx, meta, is_historic)
 
     // Show status notification
     if (processedTxn.tx_result === "tesSUCCESS" &&
+        transaction &&
         !is_historic) {
       this.app.sm.showTxNotification(transaction);
     }
