@@ -246,8 +246,8 @@ var JsonRewriter = module.exports = {
           // Partially funded offer
           if (node.diffType === "ModifiedNode") {
             effect.type = 'offer_partially_funded';
-            effect.gets = ripple.Amount.from_json(node.fieldsPrev.TakerPays).subtract(node.fields.TakerPays);
-            effect.pays = ripple.Amount.from_json(node.fieldsPrev.TakerGets).subtract(node.fields.TakerGets);
+            effect.gets = ripple.Amount.from_json(node.fieldsPrev.TakerGets).subtract(node.fields.TakerGets);
+            effect.pays = ripple.Amount.from_json(node.fieldsPrev.TakerPays).subtract(node.fields.TakerPays);
             effect.remaining = ripple.Amount.from_json(node.fields.TakerGets);
           }
           else {
@@ -261,8 +261,8 @@ var JsonRewriter = module.exports = {
             // Only funded offers have "fieldsPrev". For new and cancelled offers we use "fields"
             var fieldSet = effect.type === 'offer_funded' ? node.fieldsPrev : node.fields;
 
-            effect.gets = ripple.Amount.from_json(fieldSet.TakerPays);
-            effect.pays = ripple.Amount.from_json(fieldSet.TakerGets);
+            effect.gets = ripple.Amount.from_json(fieldSet.TakerGets);
+            effect.pays = ripple.Amount.from_json(fieldSet.TakerPays);
           }
 
           effect.seq = +node.fields.Sequence;
