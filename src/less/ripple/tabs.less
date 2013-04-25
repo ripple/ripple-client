@@ -1390,9 +1390,19 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
   .orderbook {
     .clearfix;
 
-    table {
+    .title {
+      display: block;
+      font: 16px 'OpenSansBold';
+      padding: 0 0 5px 0;
+    }
+
+    & > div {
       float: left;
-      width: 50%;
+      width: 370px;
+    }
+
+    table {
+      border: 1px solid #ededed;
 
       th {
         text-align: right;
@@ -1403,22 +1413,14 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
           font-size: 0.9em;
         }
       }
-    }
-    table.asks {
-      position: relative;
-      &:after {
-        .virtualel;
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 5px;
-        height: 100%;
-        background-color: #fff;
-      }
 
-      .price {
-        padding-left: 10px;
+      th, td{
+        padding: 15px 10px;
       }
+    }
+
+    .bids {
+      margin: 0 10px 0 0;
     }
   }
 }
