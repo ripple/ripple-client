@@ -65,7 +65,7 @@ section#t-send.single.content(ng-controller='SendCtrl')
         name='send_amount_currency', type='text'
         rp-combobox="currency_query", rp-combobox-select
         ng-model='send.currency'
-        rp-autofill='$routeParams.amount'
+        rp-autofill='$routeParams.amnt'
         rp-autofill-currency)
     .errorGroup(rp-errors='send_amount')
       //.success(rp-error-valid)
