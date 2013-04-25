@@ -54,7 +54,7 @@ section#t-send.single.content(ng-controller='SendCtrl')
     label(for='send_amount') Recipient will receive
     .amount
       input.value#send_amount(
-        name='send_amount', type='number', step='any'
+        name='send_amount', type='number', min='0', step='any'
         ng-model='send.amount'
         ng-pattern='/^[0-9.]+$/', required, ng-maxlength='20'
         rp-autofill='$routeParams.amnt'
