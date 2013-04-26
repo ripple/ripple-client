@@ -41,6 +41,7 @@ RegisterTab.prototype.angular = function (module) {
     {
       $scope.username = '';
       $scope.password = '';
+      $scope.passwordSet = {};
       $scope.password1 = '';
       $scope.password2 = '';
       $scope.master = '';
