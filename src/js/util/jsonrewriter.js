@@ -114,29 +114,29 @@ var JsonRewriter = module.exports = {
     if (tx.Account === account
         || (tx.Destination && tx.Destination === account)
         || (tx.LimitAmount && tx.LimitAmount.issuer === account)) {
-      obj.transaction = {};
+      var transaction = {};
 
       switch (tx.TransactionType) {
         case 'Payment':
           var amount = ripple.Amount.from_json(tx.Amount);
 
-          obj.transaction.type = tx.Account === account ? 'sent' : 'received';
-          obj.transaction.counterparty = tx.Account === account ? tx.Destination : tx.Account;
-          obj.transaction.amount = amount;
-          obj.transaction.currency = amount.currency().to_json();
+          transaction.type = tx.Account === account ? 'sent' : 'received';
+          transaction.counterparty = tx.Account === account ? tx.Destination : tx.Account;
+          transaction.amount = amount;
+          transaction.currency = amount.currency().to_json();
           break;
 
         case 'TrustSet':
-          obj.transaction.type = tx.Account === account ? 'trusting' : 'trusted';
-          obj.transaction.counterparty = tx.Account === account ? tx.LimitAmount.issuer : tx.Account;
-          obj.transaction.amount = ripple.Amount.from_json(tx.LimitAmount);
-          obj.transaction.currency = tx.LimitAmount.currency;
+          transaction.type = tx.Account === account ? 'trusting' : 'trusted';
+          transaction.counterparty = tx.Account === account ? tx.LimitAmount.issuer : tx.Account;
+          transaction.amount = ripple.Amount.from_json(tx.LimitAmount);
+          transaction.currency = tx.LimitAmount.currency;
           break;
 
         case 'OfferCreate':
-          obj.transaction.type = 'offernew';
-          obj.transaction.pays = ripple.Amount.from_json(tx.TakerPays);
-          obj.transaction.gets = ripple.Amount.from_json(tx.TakerGets);
+          transaction.type = 'offernew';
+          transaction.pays = ripple.Amount.from_json(tx.TakerPays);
+          transaction.gets = ripple.Amount.from_json(tx.TakerGets);
           break;
 
         case 'OfferCancel':
@@ -149,6 +149,10 @@ var JsonRewriter = module.exports = {
 
         default:
           console.log('Unknown transaction type: "'+tx.TransactionType+'"', tx);
+      }
+
+      if (!$.isEmptyObject(transaction)) {
+        obj.transaction = transaction;
       }
     }
 
@@ -239,35 +243,26 @@ var JsonRewriter = module.exports = {
         // Current account offer
         if (node.fields.Account === account) {
 
-          // New offer
-          if (node.diffType === "CreatedNode") {
-            effect.type = 'offer_created';
-            effect.gets = ripple.Amount.from_json(node.fields.TakerPays);
-            effect.pays = ripple.Amount.from_json(node.fields.TakerGets);
-          }
-
-          else if (node.diffType === "DeletedNode") {
-            // Funded offer
-            if (node.fieldsPrev.TakerPays) {
-              effect.type = 'offer_funded';
-              effect.gets = ripple.Amount.from_json(node.fieldsPrev.TakerPays);
-              effect.pays = ripple.Amount.from_json(node.fieldsPrev.TakerGets);
-            }
-
-            // Canceled offer
-            else {
-              effect.type = 'offer_cancelled';
-              effect.gets = ripple.Amount.from_json(node.fields.TakerPays);
-              effect.pays = ripple.Amount.from_json(node.fields.TakerGets);
-            }
-          }
-
           // Partially funded offer
-          else {
+          if (node.diffType === "ModifiedNode") {
             effect.type = 'offer_partially_funded';
             effect.gets = ripple.Amount.from_json(node.fieldsPrev.TakerPays).subtract(node.fields.TakerPays);
             effect.pays = ripple.Amount.from_json(node.fieldsPrev.TakerGets).subtract(node.fields.TakerGets);
             effect.remaining = ripple.Amount.from_json(node.fields.TakerGets);
+          }
+          else {
+            // New / Funded / Cancelled offer
+            effect.type = node.diffType === "CreatedNode"
+              ? 'offer_created'
+              : node.fieldsPrev.TakerPays
+                ? 'offer_funded'
+                : 'offer_cancelled';
+
+            // Only funded offers have "fieldsPrev". For new and cancelled offers we use "fields"
+            var fieldSet = effect.type === 'offer_funded' ? node.fieldsPrev : node.fields;
+
+            effect.gets = ripple.Amount.from_json(fieldSet.TakerPays);
+            effect.pays = ripple.Amount.from_json(fieldSet.TakerGets);
           }
 
           effect.seq = +node.fields.Sequence;

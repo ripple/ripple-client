@@ -129,10 +129,10 @@ section.panel.content(ng-controller="TradeCtrl")
                 input#order_amount(
                   name='amount', type='number', step='any'
                   ng-model='order.first', ng-change='calc_second()'
-                  ng-pattern='/^[0-9.]+$/', required)
+                  rp-amount, required)
                 .add-on {{order.first_currency}}
               .errorGroup(rp-errors='amount')
-                .error(rp-error-on='pattern') Not a valid amount.
+                .error(rp-error-on='rpAmount') Not a valid amount.
                 .error(rp-error-on='required') Required
             .sign x
             .value-field
@@ -141,10 +141,10 @@ section.panel.content(ng-controller="TradeCtrl")
                 input#order_price(
                   name='price', type='number', step='any'
                   ng-model='order.price', ng-change='calc_second()'
-                  ng-pattern='/^[0-9.]+$/', required)
+                  rp-amount, required)
                 .add-on {{order.second_currency}}
               .errorGroup(rp-errors='price')
-                .error(rp-error-on='pattern') Not a valid price.
+                .error(rp-error-on='rpAmount') Not a valid price.
                 .error(rp-error-on='required') Required
                   | You need more XRP for this transaction
             .sign =
@@ -154,10 +154,10 @@ section.panel.content(ng-controller="TradeCtrl")
                 input#order_value(
                   name='value', type='number', step='any'
                   ng-model='order.second', ng-change='calc_first()'
-                  ng-pattern='/^[0-9.]+$/', required)
+                  rp-amount, required)
                 .add-on {{order.second_currency}}
               .errorGroup(rp-errors='value')
-                .error(rp-error-on='pattern') Not a valid value.
+                .error(rp-error-on='rpAmount') Not a valid value.
           .message(ng-show='orderForm.$valid')
             | You are wanting to {{order.type}}
             | {{order.first_amount | rpamount:{precision: 10} }} {{order.first_amount | rpcurrency}}
