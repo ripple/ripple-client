@@ -24,6 +24,7 @@ module.exports = [
   {value: 'DKK', name: 'DKK - Danish Krone', order: 0},
   {value: 'NOK', name: 'NOK - Norwegian Krone', order: 0},
   {value: 'SEK', name: 'SEK - Swedish Krona', order: 0},
+  {value: 'CZK', name: 'CZK - Czech Koruna', order: 0},
   {value: 'PLN', name: 'PLN - Polish Zloty', order: 0},
   {value: 'AUD', name: 'AUD - Australian Dollar', order: 0},
   {value: 'MXN', name: 'MXN - Mexican Peso', order: 0},
