@@ -57,7 +57,7 @@ section#t-send.single.content(ng-controller='SendCtrl')
         name='send_amount', type='number', min='0', step='any'
         ng-model='send.amount'
         ng-pattern='/^[0-9.]+$/', required, ng-maxlength='20'
-        rp-autofill='$routeParams.amnt'
+        rp-autofill='$routeParams.amount'
         rp-autofill-amount
         rp-max-amount
         rp-max-amount-currency='{{send.currency}}')
@@ -65,7 +65,7 @@ section#t-send.single.content(ng-controller='SendCtrl')
         name='send_amount_currency', type='text'
         rp-combobox="currency_query", rp-combobox-select
         ng-model='send.currency'
-        rp-autofill='$routeParams.amnt'
+        rp-autofill='$routeParams.amount'
         rp-autofill-currency)
     .errorGroup(rp-errors='send_amount')
       //.success(rp-error-valid)
