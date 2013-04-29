@@ -454,15 +454,18 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
 
   table {
     position: relative;
+    table-layout: fixed;
 
     th, td {
       .box-sizing(content-box);
     }
     .account {
-      width: 45%;
+      width: 35%;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     .currency {
-      width: 15%;
+      width: 10%;
     }
     .trust {
       width: 32%;
