@@ -240,14 +240,15 @@ var JsonRewriter = module.exports = {
       // Offer
       else if (node.entryType === "Offer") {
 
+        // For new and cancelled offers we use "fields"
+        var fieldSet = node.fields;
+
         // Current account offer
         if (node.fields.Account === account) {
 
           // Partially funded offer
           if (node.diffType === "ModifiedNode") {
             effect.type = 'offer_partially_funded';
-            effect.gets = ripple.Amount.from_json(node.fieldsPrev.TakerGets).subtract(node.fields.TakerGets);
-            effect.pays = ripple.Amount.from_json(node.fieldsPrev.TakerPays).subtract(node.fields.TakerPays);
             effect.remaining = ripple.Amount.from_json(node.fields.TakerGets);
           }
           else {
@@ -258,11 +259,9 @@ var JsonRewriter = module.exports = {
                 ? 'offer_funded'
                 : 'offer_cancelled';
 
-            // Only funded offers have "fieldsPrev". For new and cancelled offers we use "fields"
-            var fieldSet = effect.type === 'offer_funded' ? node.fieldsPrev : node.fields;
-
-            effect.gets = ripple.Amount.from_json(fieldSet.TakerGets);
-            effect.pays = ripple.Amount.from_json(fieldSet.TakerPays);
+            // For funded offers we use "fieldsPrev".
+            if (effect.type === 'offer_funded')
+              fieldSet = node.fieldsPrev;
           }
 
           effect.seq = +node.fields.Sequence;
@@ -270,9 +269,17 @@ var JsonRewriter = module.exports = {
 
         // Another account offer. We care about it only if our transaction changed the offer amount (we bought currency)
         else if(tx.Account === account && !$.isEmptyObject(node.fieldsPrev) /* Offer is unfunded if node.fieldsPrev is empty */) {
-          effect.gets = ripple.Amount.from_json(node.fieldsPrev.TakerGets).subtract(node.fields.TakerGets);
-          effect.pays = ripple.Amount.from_json(node.fieldsPrev.TakerPays).subtract(node.fields.TakerPays);
           effect.type = 'offer_bought';
+        }
+
+        if (effect.type) {
+          effect.gets = ripple.Amount.from_json(fieldSet.TakerGets);
+          effect.pays = ripple.Amount.from_json(fieldSet.TakerPays);
+
+          if ('offer_partially_funded' === effect.type || 'offer_bought' === effect.type) {
+            effect.got = ripple.Amount.from_json(node.fieldsPrev.TakerGets).subtract(node.fields.TakerGets);
+            effect.paid = ripple.Amount.from_json(node.fieldsPrev.TakerPays).subtract(node.fields.TakerPays);
+          }
         }
       }
 

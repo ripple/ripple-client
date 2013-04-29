@@ -311,29 +311,24 @@ Model.prototype._processTxn = function (tx, meta, is_historic)
     if (processedTxn.effects && !is_historic) {
       // Iterate on each effect to find offers
       processedTxn.effects.forEach(function (effect) {
-        // Only current account's offers are interesting
-        if (processedTxn.accountRoot.Account === account) {
-          // Only these types are offers
-          if (_.contains([
-            'offer_created',
-            'offer_funded',
-            'offer_partially_funded',
-            'offer_cancelled',
-            'offer_bought'], effect.type))
-          {
-            var offer = {
-              seq: +effect.seq,
-              gets: effect.gets,
-              pays: effect.pays,
-              deleted: effect.deleted
-            };
+        // Only these types are offers
+        if (_.contains([
+          'offer_created',
+          'offer_funded',
+          'offer_partially_funded',
+          'offer_cancelled'], effect.type))
+        {
+          var offer = {
+            seq: +effect.seq,
+            gets: effect.gets,
+            pays: effect.pays,
+            deleted: effect.deleted
+          };
 
-            self._updateOffer(offer);
-          }
+          self._updateOffer(offer);
         }
       });
     }
-
   }
 };
 
