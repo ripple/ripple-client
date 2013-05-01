@@ -127,7 +127,7 @@ section.panel.content(ng-controller="TradeCtrl")
               label(for='order_amount', ng-show="order.type == 'buy'") Amount To Buy
               .input-append
                 input#order_amount(
-                  name='amount', type='number', step='any'
+                  name='amount', type='number', min='0', step='any'
                   ng-model='order.first', ng-change='calc_second()'
                   rp-amount, required)
                 .add-on {{order.first_currency}}
@@ -139,7 +139,7 @@ section.panel.content(ng-controller="TradeCtrl")
               label(for='order_price') Price of Each
               .input-append
                 input#order_price(
-                  name='price', type='number', step='any'
+                  name='price', type='number', min='0', step='any'
                   ng-model='order.price', ng-change='calc_second()'
                   rp-amount, required)
                 .add-on {{order.second_currency}}
