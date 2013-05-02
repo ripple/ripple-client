@@ -140,7 +140,11 @@ var JsonRewriter = module.exports = {
           break;
 
         case 'OfferCancel':
-          // Handled in side effects
+          transaction.type = 'offercancel';
+
+          // These will be filled by the metadata rewriter
+          obj.pays = null;
+          obj.gets = null;
           break;
 
         case 'AccountSet':
@@ -231,7 +235,7 @@ var JsonRewriter = module.exports = {
             ? ripple.Amount.from_json(node.fields.Balance).negate(true)
             : ripple.Amount.from_json(node.fields.Balance);
 
-          if (obj.transaction && effect.type == "trust_change_balance") {
+          if (obj.transaction && obj.transaction.type == "trust_change_balance") {
             obj.transaction.balance = effect.balance;
           }
         }
@@ -262,6 +266,20 @@ var JsonRewriter = module.exports = {
             // For funded offers we use "fieldsPrev".
             if (effect.type === 'offer_funded')
               fieldSet = node.fieldsPrev;
+
+            // We don't count cancelling an offer as a side effect if it's
+            // already the primary effect of the transaction.
+            if (effect.type === 'offer_cancelled' &&
+                obj.transaction &&
+                obj.transaction.type === "offercancel") {
+
+              // Fill in remaining information about offer
+              obj.transaction.gets = fieldSet.TakerGets;
+              obj.transaction.pays = fieldSet.TakerPays;
+
+              // And skip adding the side effect
+              return;
+            }
           }
 
           effect.seq = +node.fields.Sequence;
@@ -306,6 +324,6 @@ var JsonRewriter = module.exports = {
       obj.hash = tx.hash;
 
       return obj;
-    }
+    } else return null;
   }
 };
