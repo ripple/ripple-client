@@ -276,9 +276,6 @@ var JsonRewriter = module.exports = {
               // Fill in remaining information about offer
               obj.transaction.gets = fieldSet.TakerGets;
               obj.transaction.pays = fieldSet.TakerPays;
-
-              // And skip adding the side effect
-              return;
             }
           }
 
