@@ -97,7 +97,7 @@ app.run(['$rootScope', '$injector', '$compile', '$route', '$routeParams', '$loca
   };
 
   // if url has a + or %2b then replace with %20 and redirect
-  if (_.isArray($location.$$absUrl.match(/%2B|\+/gi))) 
+  if (_.isArray($location.$$absUrl.match(/%2B|\+/gi)))
     window.location = $location.$$absUrl.replace(/%2B|\+/gi, '%20');
 
   var scope = $rootScope;
@@ -106,6 +106,13 @@ app.run(['$rootScope', '$injector', '$compile', '$route', '$routeParams', '$loca
   capp.setAngular(scope, $compile, $injector);
   capp.model.init();
   $('#main').data('$scope', scope);
+
+  // If using the old "amnt" parameter rename it "amount"
+  var amnt = $location.search().amnt;
+  if (amnt) {
+    $location.search("amnt", null);
+    $location.search("amount", amnt);
+  }
 
   capp.startup();
 }]);

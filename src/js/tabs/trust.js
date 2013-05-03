@@ -36,7 +36,7 @@ TrustTab.prototype.angular = function (module)
       $scope.saveAddressName = '';
 
       // If all the form fields are prefilled, go to confirmation page
-      if ($routeParams.to && $routeParams.amnt) {
+      if ($routeParams.to && $routeParams.amount) {
         $scope.grant();
       }
     };

@@ -441,32 +441,21 @@ TradeTab.prototype.angular = function(module)
       resetIssuers(false);
     }, true);
 
-    $scope.$watch('book.asks', function (asks) {
-      $scope.asum = [];
+    function calculateSum(key,val,offers) {
+      $scope[val] = [];
 
-      if (!asks) return;
-
-      var sum;
-      for (var i = 0, l = asks.length; i < l; i++) {
-        if (sum) sum = sum.add(asks[i].TakerGets);
-        else sum = Amount.from_json(asks[i].TakerGets);
-        $scope.asum[i] = sum;
-      }
-    }, true);
-
-    $scope.$watch('book.bids', function (bids) {
-      $scope.bsum = [];
-
-      if (!bids) return;
+      if (!offers) return;
 
       var sum;
-      for (var i = 0, l = bids.length; i < l; i++) {
-        if (sum) sum = sum.add(bids[i].TakerPays);
-        else sum = Amount.from_json(bids[i].TakerPays);
-        $scope.bsum[i] = sum;
+      for (var i = 0, l = offers.length; i < l; i++) {
+        sum = sum ? sum.add(offers[i][key]) : Amount.from_json(offers[i][key]);
+        $scope[val][i] = sum;
       }
-    }, true);
+    }
 
+    $scope.$watch('book.asks', calculateSum.bind({},'TakerGets','asum'), true);
+    $scope.$watch('book.bids', calculateSum.bind({},'TakerPays','bsum'), true);
+    
     $scope.reset();
   }]);
 };

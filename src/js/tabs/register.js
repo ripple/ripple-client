@@ -33,7 +33,7 @@ RegisterTab.prototype.angular = function (module) {
 
     $scope.backendChange = function()
     {
-      $id.blobBackends = $scope.blobBackendCollection.something.value.split(',');
+      app.id.blobBackends = $scope.blobBackendCollection.something.value.split(',');
       store.set('ripple_blobBackends', $id.blobBackends);
     };
 
@@ -41,6 +41,7 @@ RegisterTab.prototype.angular = function (module) {
     {
       $scope.username = '';
       $scope.password = '';
+      $scope.passwordSet = {};
       $scope.password1 = '';
       $scope.password2 = '';
       $scope.master = '';
@@ -53,7 +54,7 @@ RegisterTab.prototype.angular = function (module) {
 
     $scope.register = function()
     {
-      $id.register($scope.username, $scope.password1, function(key){
+      app.id.register($scope.username, $scope.password1, function(key){
         $scope.password = new Array($scope.password1.length+1).join("*");
         $scope.keyOpen = key;
         $scope.key = $scope.keyOpen[0] + new Array($scope.keyOpen.length).join("*");
@@ -88,7 +89,7 @@ RegisterTab.prototype.angular = function (module) {
 
       var regInProgress;
 
-      $id.login($scope.username, $scope.password1, function(backendName,error,success){
+      app.id.login($scope.username, $scope.password1, function(backendName,error,success){
         if (!regInProgress) {
           if (!success) {
             regInProgress = true;

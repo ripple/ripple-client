@@ -62,7 +62,7 @@ BalanceTab.prototype.angular = function (module)
 
     // First page transactions
     $scope.$watch('events', function(){
-      if ($scope.transactions.length === 0) {
+      if (1 === $scope.current_page) {
         $scope.transactions = filterEffects($scope.events);
       }
     }, true);
@@ -102,24 +102,24 @@ BalanceTab.prototype.angular = function (module)
         'limit': Options.transactions_per_page
       })
         .on('success', function(data) {
-            $scope.transactions = [];
-            $scope.$apply(function () {
-              if (data.transactions) {
-                var transactions = [];
+          $scope.transactions = [];
+          $scope.$apply(function () {
+            if (data.transactions) {
+              var transactions = [];
 
-                data.transactions.forEach(function (e) {
-                  var tx = rewriter.processTxn(e.tx, e.meta, account);
-                  if (tx) {
-                    transactions.push(tx);
-                  }
-                });
+              data.transactions.forEach(function (e) {
+                var tx = rewriter.processTxn(e.tx, e.meta, account);
+                if (tx) {
+                  transactions.push(tx);
+                }
+              });
 
-                $scope.transactions = filterEffects(transactions);
+              $scope.transactions = filterEffects(transactions);
 
-                // Loading mode
-                $scope.loading = false;
-              }
-            });
+              // Loading mode
+              $scope.loading = false;
+            }
+          });
         })
         .on('error', function(err){console.log(err);}).request();
     }

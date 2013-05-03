@@ -140,7 +140,11 @@ var JsonRewriter = module.exports = {
           break;
 
         case 'OfferCancel':
-          // Handled in side effects
+          transaction.type = 'offercancel';
+
+          // These will be filled by the metadata rewriter
+          obj.pays = null;
+          obj.gets = null;
           break;
 
         case 'AccountSet':
@@ -231,7 +235,7 @@ var JsonRewriter = module.exports = {
             ? ripple.Amount.from_json(node.fields.Balance).negate(true)
             : ripple.Amount.from_json(node.fields.Balance);
 
-          if (obj.transaction && effect.type == "trust_change_balance") {
+          if (obj.transaction && obj.transaction.type == "trust_change_balance") {
             obj.transaction.balance = effect.balance;
           }
         }
@@ -240,14 +244,15 @@ var JsonRewriter = module.exports = {
       // Offer
       else if (node.entryType === "Offer") {
 
+        // For new and cancelled offers we use "fields"
+        var fieldSet = node.fields;
+
         // Current account offer
         if (node.fields.Account === account) {
 
           // Partially funded offer
           if (node.diffType === "ModifiedNode") {
             effect.type = 'offer_partially_funded';
-            effect.gets = ripple.Amount.from_json(node.fieldsPrev.TakerPays).subtract(node.fields.TakerPays);
-            effect.pays = ripple.Amount.from_json(node.fieldsPrev.TakerGets).subtract(node.fields.TakerGets);
             effect.remaining = ripple.Amount.from_json(node.fields.TakerGets);
           }
           else {
@@ -258,11 +263,23 @@ var JsonRewriter = module.exports = {
                 ? 'offer_funded'
                 : 'offer_cancelled';
 
-            // Only funded offers have "fieldsPrev". For new and cancelled offers we use "fields"
-            var fieldSet = effect.type === 'offer_funded' ? node.fieldsPrev : node.fields;
+            // For funded offers we use "fieldsPrev".
+            if (effect.type === 'offer_funded')
+              fieldSet = node.fieldsPrev;
 
-            effect.gets = ripple.Amount.from_json(fieldSet.TakerPays);
-            effect.pays = ripple.Amount.from_json(fieldSet.TakerGets);
+            // We don't count cancelling an offer as a side effect if it's
+            // already the primary effect of the transaction.
+            if (effect.type === 'offer_cancelled' &&
+                obj.transaction &&
+                obj.transaction.type === "offercancel") {
+
+              // Fill in remaining information about offer
+              obj.transaction.gets = fieldSet.TakerGets;
+              obj.transaction.pays = fieldSet.TakerPays;
+
+              // And skip adding the side effect
+              return;
+            }
           }
 
           effect.seq = +node.fields.Sequence;
@@ -270,9 +287,17 @@ var JsonRewriter = module.exports = {
 
         // Another account offer. We care about it only if our transaction changed the offer amount (we bought currency)
         else if(tx.Account === account && !$.isEmptyObject(node.fieldsPrev) /* Offer is unfunded if node.fieldsPrev is empty */) {
-          effect.gets = ripple.Amount.from_json(node.fieldsPrev.TakerGets).subtract(node.fields.TakerGets);
-          effect.pays = ripple.Amount.from_json(node.fieldsPrev.TakerPays).subtract(node.fields.TakerPays);
           effect.type = 'offer_bought';
+        }
+
+        if (effect.type) {
+          effect.gets = ripple.Amount.from_json(fieldSet.TakerGets);
+          effect.pays = ripple.Amount.from_json(fieldSet.TakerPays);
+
+          if ('offer_partially_funded' === effect.type || 'offer_bought' === effect.type) {
+            effect.got = ripple.Amount.from_json(node.fieldsPrev.TakerGets).subtract(node.fields.TakerGets);
+            effect.paid = ripple.Amount.from_json(node.fieldsPrev.TakerPays).subtract(node.fields.TakerPays);
+          }
         }
       }
 
@@ -299,6 +324,6 @@ var JsonRewriter = module.exports = {
       obj.hash = tx.hash;
 
       return obj;
-    }
+    } else return null;
   }
 };

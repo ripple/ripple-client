@@ -34,7 +34,7 @@ LoginTab.prototype.angular = function (module) {
 
     $scope.backendChange = function()
     {
-      $id.blobBackends = $scope.blobBackendCollection.something.value.split(',');
+      app.id.blobBackends = $scope.blobBackendCollection.something.value.split(',');
       store.set('ripple_blobBackends', $id.blobBackends);
     };
 
@@ -75,7 +75,7 @@ LoginTab.prototype.angular = function (module) {
       $scope.loginForm.login_password.$setViewValue(password);
 
       setImmediate(function () {
-        $id.login($scope.username, $scope.password, function(backendName, err, success) {
+        app.id.login($scope.username, $scope.password, function(backendName, err, success) {
           $scope.ajax_loading = false;
           if (success) {
             if ($routeParams.tab) {

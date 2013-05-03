@@ -28,7 +28,7 @@ module.factory('rpId', ['$location', '$route', '$routeParams',
   Id.prototype.goId = function () {
     if (!this.isLoggedIn()) {
       if (_.size($routeParams)) {
-        var tab = $route.current.$route.tabName;
+        var tab = $route.current.tabName;
         $location.search('tab', tab);
       }
       if (this.isReturning()) {

@@ -42,11 +42,11 @@ function(net, $q, $scope, $filter) {
       if (lastprice == price) {
         if (combine) {
           if (action == 'asks') {
-            data[current].TakerPays = Amount.from_json(data[current].TakerPays).add(d.TakerPays).to_number();
+            data[current].TakerPays = Amount.from_json(data[current].TakerPays).add(d.TakerPays).to_json();
             data[current].TakerGets = Amount.from_json(data[current].TakerGets).add(d.TakerGets).to_json();
           } else {
             data[current].TakerPays = Amount.from_json(data[current].TakerPays).add(d.TakerPays).to_json();
-            data[current].TakerGets = Amount.from_json(data[current].TakerGets).add(d.TakerGets).to_number();
+            data[current].TakerGets = Amount.from_json(data[current].TakerGets).add(d.TakerGets).to_json();
           }
         }
         d = false;

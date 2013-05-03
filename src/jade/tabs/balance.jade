@@ -73,6 +73,11 @@ section.panel.content(ng-controller="BalanceCtrl")
               |  for&nbsp;
               strong {{entry.transaction.gets | rpamount}} {{entry.transaction.gets | rpcurrency}}
               include balance/effects
+            .transaction(ng-switch-when="offercancel") You cancelled an offer accepting&nbsp;
+              strong {{entry.transaction.pays | rpamount}} {{entry.transaction.pays | rpcurrency}}
+              |  for&nbsp;
+              strong {{entry.transaction.gets | rpamount}} {{entry.transaction.gets | rpcurrency}}
+              include balance/effects
             .transaction(ng-switch-default)
               include balance/effects
 
