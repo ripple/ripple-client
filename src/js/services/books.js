@@ -23,8 +23,9 @@ function(net, $q, $scope, $filter) {
     var rpamount = $filter('rpamount');
     var numerator;
     var demoninator;
+    var newData = jQuery.extend(true, {}, data);
 
-    data = _.compact(_.map(data, function(d, i) {
+    newData = _.compact(_.map(newData, function(d, i) {
       // prefer taker_pays_funded & taker_gets_funded
       if (d.hasOwnProperty('taker_gets_funded'))
       {
@@ -42,11 +43,11 @@ function(net, $q, $scope, $filter) {
       if (lastprice == price) {
         if (combine) {
           if (action == 'asks') {
-            data[current].TakerPays = Amount.from_json(data[current].TakerPays).add(d.TakerPays).to_json();
-            data[current].TakerGets = Amount.from_json(data[current].TakerGets).add(d.TakerGets).to_json();
+            newData[current].TakerPays = Amount.from_json(newData[current].TakerPays).add(d.TakerPays).to_json();
+            newData[current].TakerGets = Amount.from_json(newData[current].TakerGets).add(d.TakerGets).to_json();
           } else {
-            data[current].TakerPays = Amount.from_json(data[current].TakerPays).add(d.TakerPays).to_json();
-            data[current].TakerGets = Amount.from_json(data[current].TakerGets).add(d.TakerGets).to_json();
+            newData[current].TakerPays = Amount.from_json(newData[current].TakerPays).add(d.TakerPays).to_json();
+            newData[current].TakerGets = Amount.from_json(newData[current].TakerGets).add(d.TakerGets).to_json();
           }
         }
         d = false;
@@ -56,7 +57,7 @@ function(net, $q, $scope, $filter) {
       return d;
     }));
 
-    return data;
+    return newData;
   }
 
   return {
