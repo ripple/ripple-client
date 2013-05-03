@@ -19,15 +19,15 @@ section.single.content(ng-controller="RegisterCtrl")
           input#register_password(
             name='register_password1', type='password'
             ng-model="password1"
-            rp-strong-password, required)
-          p.text-error(ng-show="registerForm.register_password2.$error.rpSameAs && registerForm.register_password2.$dirty") Passwords do not match
+            rp-strong-password, required, rp-same-in-set="passwordSet")
+          p.text-error(ng-show="registerForm.register_password1.$error.rpSameInSet && registerForm.register_password2.$dirty") Passwords do not match
         div
           label(for='register_password2') Re-Enter Passphrase
           input#register_password2(
             name='register_password2'
             type='password'
             ng-model="password2"
-            required, rp-same-as="register_password1")
+            required, rp-same-in-set="passwordSet")
         div(class="strength {{strength}}")
           {{strength}}
       p.hint.important(ng-show="strength=='weak'") Your password is weak. Please mix letters, numbers and symbols in your password.

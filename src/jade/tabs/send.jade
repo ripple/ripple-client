@@ -54,10 +54,10 @@ section#t-send.single.content(ng-controller='SendCtrl')
     label(for='send_amount') Recipient will receive
     .amount
       input.value#send_amount(
-        name='send_amount', type='number', step='any'
+        name='send_amount', type='number', min='0', step='any'
         ng-model='send.amount'
         ng-pattern='/^[0-9.]+$/', required, ng-maxlength='20'
-        rp-autofill='$routeParams.amnt'
+        rp-autofill='$routeParams.amount'
         rp-autofill-amount
         rp-max-amount
         rp-max-amount-currency='{{send.currency}}')
@@ -170,16 +170,18 @@ section#t-send.single.content(ng-controller='SendCtrl')
         | Please try again later.
     group.result-malformed(ng-show='tx_result=="malformed"')
       h2.tx-status Transaction malformed!
-      p Your transaction is invalid, reason:
-        | {{engine_result}} - {{engine_result_message}}
+      p(ng-switch on="engine_result")
+        span(ng-switch-when="temDST_TAG_NEEDED")
+          | Destionation account requires destination tag to be specified when making payments.
+        span(ng-switch-default)
+          | Your transaction is invalid, reason: {{engine_result}} - {{engine_result_message}}
     group.result-malformed(ng-show='tx_result=="claim"')
       h2.tx-status Transaction failed!
       p(ng-switch on="engine_result")
         span(ng-switch-when="tecNO_DST")
           | The destination account does not exist.
         span(ng-switch-when="tecNO_DST_INSUF_XRP")
-          | The destination account does not exist. Too little XRP sent to
-          | create it.
+          | The destination account does not exist. Too little XRP sent to create it.
         span(ng-switch-default)
           | Error: {{engine_result_message}}
     group.result-failed(ng-show='tx_result=="failed"')

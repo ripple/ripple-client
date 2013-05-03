@@ -127,7 +127,7 @@ section.panel.content(ng-controller="TradeCtrl")
               label(for='order_amount', ng-show="order.type == 'buy'") Amount To Buy
               .input-append
                 input#order_amount(
-                  name='amount', type='number', step='any'
+                  name='amount', type='number', min='0', step='any'
                   ng-model='order.first', ng-change='calc_second()'
                   rp-amount, required)
                 .add-on {{order.first_currency}}
@@ -139,7 +139,7 @@ section.panel.content(ng-controller="TradeCtrl")
               label(for='order_price') Price of Each
               .input-append
                 input#order_price(
-                  name='price', type='number', step='any'
+                  name='price', type='number', min='0', step='any'
                   ng-model='order.price', ng-change='calc_second()'
                   rp-amount, required)
                 .add-on {{order.second_currency}}
@@ -271,36 +271,42 @@ section.panel.content(ng-controller="TradeCtrl")
             td(colspan="5")
               p.literal You haven&#39;t placed any orders.
 
-      group.orderbook(ng-show="order.listing == 'orderbook'")
-        table.bids.table.table-striped
-          thead: tr
-            th.sum Sum
-              .currency {{book.bids[0].TakerPays | rpcurrency}}
-            th.amount Size
-              .currency {{book.bids[0].TakerPays | rpcurrency}}
-            th.price Bid Price
-              .currency {{book.bids[0].TakerGets | rpcurrency}}
-          tbody
-            tr(ng-repeat='order in book.bids')
-              td.sum.rpamount {{bsum[$index] | rpamount:{rel_precision: 4} }}
-              td.amount.rpamount {{order.TakerPays | rpamount:{rel_precision: 4} }}
-              td.price.rpamount
-                | {{order.TakerGets | rpamountratio:order.TakerPays | rpamount:{rel_precision: 4, rel_min_precision: 2} }}
-            tr(ng-show='!book.bids.length')
-              td(colspan="5") There are currently no bids for this pair.
-        table.asks.table.table-striped
-          thead: tr
-            th.price Ask Price
-              .currency {{book.asks[0].TakerPays | rpcurrency}}
-            th.amount Size
-              .currency {{book.asks[0].TakerGets | rpcurrency}}
-            th.sum Sum
-              .currency {{book.asks[0].TakerGets | rpcurrency}}
-          tbody
-            tr(ng-repeat='order in book.asks')
-              td.price.rpamount
-                | {{order.TakerPays | rpamountratio:order.TakerGets | rpamount:{rel_precision: 4, rel_min_precision: 2} }}
-              td.amount.rpamount {{order.TakerGets | rpamount:{rel_precision: 4} }}
-              td.sum.rpamount {{asum[$index] | rpamount:{rel_precision: 4} }}
-            tr(ng-show='!book.asks.length')
-              td(colspan="3") There are currently no asks for this pair.
+      .orderbook(ng-show="order.listing == 'orderbook'")
+        div.bids
+          span.title Bids
+          table.table.table-striped
+            thead
+              tr
+                th.sum Sum
+                  .currency {{book.bids[0].TakerPays | rpcurrency}}
+                th.amount Size
+                  .currency {{book.bids[0].TakerPays | rpcurrency}}
+                th.price Bid Price
+                  .currency {{book.bids[0].TakerGets | rpcurrency}}
+            tbody
+              tr(ng-repeat='order in book.bids')
+                td.sum.rpamount {{bsum[$index] | rpamount:{rel_precision: 4} }}
+                td.amount.rpamount {{order.TakerPays | rpamount:{rel_precision: 4} }}
+                td.price.rpamount
+                  | {{order.TakerGets | rpamountratio:order.TakerPays | rpamount:{rel_precision: 4, rel_min_precision: 2} }}
+              tr(ng-show='!book.bids.length')
+                td(colspan="5") There are currently no bids for this pair.
+        div.asks
+          span.title Asks
+          table.table.table-striped
+            thead
+              tr
+                th.price Ask Price
+                  .currency {{book.asks[0].TakerPays | rpcurrency}}
+                th.amount Size
+                  .currency {{book.asks[0].TakerGets | rpcurrency}}
+                th.sum Sum
+                  .currency {{book.asks[0].TakerGets | rpcurrency}}
+            tbody
+              tr(ng-repeat='order in book.asks')
+                td.price.rpamount
+                  | {{order.TakerPays | rpamountratio:order.TakerGets | rpamount:{rel_precision: 4, rel_min_precision: 2} }}
+                td.amount.rpamount {{order.TakerGets | rpamount:{rel_precision: 4} }}
+                td.sum.rpamount {{asum[$index] | rpamount:{rel_precision: 4} }}
+              tr(ng-show='!book.asks.length')
+                td(colspan="3") There are currently no asks for this pair.

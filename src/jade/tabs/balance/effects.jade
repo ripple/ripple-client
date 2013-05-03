@@ -1,27 +1,27 @@
 ul.effects(ng-show="entry.effects")
   li(ng-repeat="effect in entry.effects", ng-switch on="effect.type")
     span(ng-switch-when="offer_funded") – You sold&nbsp;
-      strong {{effect.pays | rpamount}} {{effect.pays | rpcurrency}}
-      |  for&nbsp;
-      strong {{effect.gets | rpamount}} {{effect.gets | rpcurrency}}.
-      |  This order has been funded.
-    span(ng-switch-when="offer_partially_funded") – You sold&nbsp;
-      strong {{effect.pays | rpamount}} {{effect.pays | rpcurrency}}
-      |  for&nbsp;
-      strong {{effect.gets | rpamount}} {{effect.gets | rpcurrency}}.
-      |  This order has {{effect.remaining | rpamount}} {{effect.remaining | rpcurrency}} remaining.
-    span(ng-switch-when="offer_cancelled") – You cancelled an offer accepting&nbsp;
-      strong {{effect.gets | rpamount}} {{effect.gets | rpcurrency}}
-      |  for&nbsp;
-      strong {{effect.pays | rpamount}} {{effect.pays | rpcurrency}}
-    span(ng-switch-when="offer_created") – You created an offer accepting&nbsp;
-      strong {{effect.gets | rpamount}} {{effect.gets | rpcurrency}}
-      |  for&nbsp;
-      strong {{effect.pays | rpamount}} {{effect.pays | rpcurrency}}
-    span(ng-switch-when="offer_bought") – You bought&nbsp;
       strong {{effect.gets | rpamount}} {{effect.gets | rpcurrency}}
       |  for&nbsp;
       strong {{effect.pays | rpamount}} {{effect.pays | rpcurrency}}.
+      |  This order has been funded.
+    span(ng-switch-when="offer_partially_funded") – You sold&nbsp;
+      strong {{effect.got | rpamount}} {{effect.got | rpcurrency}}
+      |  for&nbsp;
+      strong {{effect.paid | rpamount}} {{effect.paid | rpcurrency}}.
+      |  This order has {{effect.remaining | rpamount}} {{effect.remaining | rpcurrency}} remaining.
+    span(ng-switch-when="offer_cancelled") – You cancelled an offer accepting&nbsp;
+      strong {{effect.pays | rpamount}} {{effect.pays | rpcurrency}}
+      |  for&nbsp;
+      strong {{effect.gets | rpamount}} {{effect.gets | rpcurrency}}
+    span(ng-switch-when="offer_created") – You created an offer accepting&nbsp;
+      strong {{effect.pays | rpamount}} {{effect.pays | rpcurrency}}
+      |  for&nbsp;
+      strong {{effect.pays | rpamount}} {{effect.gets | rpcurrency}}
+    span(ng-switch-when="offer_bought") – You bought&nbsp;
+      strong {{effect.got | rpamount}} {{effect.got | rpcurrency}}
+      |  for&nbsp;
+      strong {{effect.paid | rpamount}} {{effect.paid | rpcurrency}}.
 
     span(ng-switch-when="trust_create_local") – You now trust {{effect.counterparty | rpcontactname}}
       |  for {{effect.limit | rpamount}} {{effect.limit | rpcurrency}}

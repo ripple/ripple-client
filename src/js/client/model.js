@@ -3,6 +3,8 @@ var util = require('util'),
     rewriter = require('../util/jsonrewriter'),
     Amount = ripple.Amount;
 
+var $scope;
+
 /**
  * Class listening to Ripple network state and updating models.
  *
@@ -19,7 +21,7 @@ util.inherits(Model, events.EventEmitter);
 Model.prototype.init = function ()
 {
   var self = this;
-  var $scope = this.app.$scope;
+  $scope = this.app.$scope;
 
   this.reset();
 
@@ -81,8 +83,6 @@ Model.prototype.init = function ()
 
 Model.prototype.reset = function ()
 {
-  var $scope = this.app.$scope;
-
   $scope.account = {};
   $scope.lines = {};
   $scope.offers = {};
@@ -107,7 +107,6 @@ Model.prototype.listenId = function (id)
 
 Model.prototype.handleAccountLoad = function (e)
 {
-  var $scope = this.app.$scope;
   var remote = this.app.net.remote;
 
   this.reset();
@@ -200,7 +199,6 @@ Model.prototype.handleRippleLinesError = function (data)
 Model.prototype.handleOffers = function (data)
 {
   var self = this;
-  var $scope = this.app.$scope;
 
   $scope.$apply(function ()
   {
@@ -225,7 +223,6 @@ Model.prototype.handleAccountEntry = function (data)
 {
   var self = this;
   var remote = this.app.net.remote;
-  var $scope = this.app.$scope;
   $scope.$apply(function () {
     $scope.account = data;
 
@@ -249,7 +246,6 @@ Model.prototype.handleAccountTx = function (data)
 {
   var self = this;
 
-  var $scope = this.app.$scope;
   $scope.$apply(function () {
 
     $scope.history_count = data.count;
@@ -270,7 +266,6 @@ Model.prototype.handleAccountTxError = function (data)
 Model.prototype.handleAccountEvent = function (e)
 {
   this._processTxn(e.transaction, e.meta);
-  var $scope = this.app.$scope;
   $scope.$digest();
 };
 
@@ -280,7 +275,6 @@ Model.prototype.handleAccountEvent = function (e)
 Model.prototype._processTxn = function (tx, meta, is_historic)
 {
   var self = this;
-  var $scope = this.app.$scope;
 
   var account = this.app.account;
 
@@ -291,6 +285,7 @@ Model.prototype._processTxn = function (tx, meta, is_historic)
 
     // Show status notification
     if (processedTxn.tx_result === "tesSUCCESS" &&
+        transaction &&
         !is_historic) {
       this.app.sm.showTxNotification(transaction);
     }
@@ -304,7 +299,6 @@ Model.prototype._processTxn = function (tx, meta, is_historic)
     if (processedTxn.tx_type === "Payment" &&
         processedTxn.tx_result === "tesSUCCESS" &&
         processedTxn.transaction) {
-      // TODO urish currencyneri balance chka
       $scope.history.unshift(processedTxn);
     }
 
@@ -315,13 +309,14 @@ Model.prototype._processTxn = function (tx, meta, is_historic)
 
     // Update my offers
     if (processedTxn.effects && !is_historic) {
+      // Iterate on each effect to find offers
       processedTxn.effects.forEach(function (effect) {
+        // Only these types are offers
         if (_.contains([
           'offer_created',
           'offer_funded',
           'offer_partially_funded',
-          'offer_cancelled',
-          'offer_bought'], effect.type))
+          'offer_cancelled'], effect.type))
         {
           var offer = {
             seq: +effect.seq,
@@ -329,6 +324,7 @@ Model.prototype._processTxn = function (tx, meta, is_historic)
             pays: effect.pays,
             deleted: effect.deleted
           };
+
           self._updateOffer(offer);
         }
       });
@@ -338,8 +334,6 @@ Model.prototype._processTxn = function (tx, meta, is_historic)
 
 Model.prototype._updateOffer = function (offer)
 {
-  var $scope = this.app.$scope;
-
   var reverseOrder = null;
   var pairs = $scope.pairs;
   for (var i = 0, l = pairs.length; i < l; i++) {
@@ -435,8 +429,6 @@ Model.prototype._updateLines = function(effects)
 
 Model.prototype._updateRippleBalance = function(currency, new_account, new_balance)
 {
-  var $scope = this.app.$scope;
-
   // Ensure the balances entry exists first
   if (!$scope.balances[currency]) {
     $scope.balances[currency] = {components: {}, total: null};

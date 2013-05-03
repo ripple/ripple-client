@@ -436,7 +436,7 @@ SendTab.prototype.angular = function (module)
         'address': $scope.send.recipient_address
       };
 
-      $id.once('blobsave', function(){
+      app.id.once('blobsave', function(){
         $scope.contact = contact;
         $scope.addressSaved = true;
       });
