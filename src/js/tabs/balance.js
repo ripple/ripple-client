@@ -19,7 +19,6 @@ BalanceTab.prototype.generateHtml = function ()
 BalanceTab.prototype.angular = function (module)
 {
   var self = this;
-  var app = this.app;
 
   module.controller('BalanceCtrl', ['$scope', 'rpId', 'rpNetwork',
                                      function ($scope, $id, $network)

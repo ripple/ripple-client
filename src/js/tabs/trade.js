@@ -22,7 +22,6 @@ TradeTab.prototype.angularDeps = Tab.prototype.angularDeps.concat(['books']);
 TradeTab.prototype.angular = function(module)
 {
   var self = this;
-  var app = this.app;
 
   module.controller('TradeCtrl', ['rpBooks', '$scope', 'rpId', 'rpNetwork',
                                   function (books, $scope, $id, $network)
@@ -97,10 +96,13 @@ TradeTab.prototype.angular = function(module)
       var tx = $network.remote.transaction();
       tx.offer_cancel($id.account, this.entry.seq);
       tx.on('success', function () {
+        $scope.$apply(function () {
+        });
       });
       tx.on('error', function () {
-        $scope.mode = "error";
-        $scope.$digest();
+        $scope.$apply(function () {
+          $scope.mode = "error";
+        });
       });
       tx.submit();
 
@@ -113,32 +115,35 @@ TradeTab.prototype.angular = function(module)
       tx.offer_create($id.account, $scope.order.buy_amount, $scope.order.sell_amount);
 
       tx.on('success', function (res) {
-        setEngineStatus(res, false);
-        $scope.done(this.hash);
+        $scope.$apply(function () {
+          setEngineStatus(res, false);
+          $scope.done(this.hash);
 
-        // Remember pair and increase order
-        var found;
+          // Remember pair and increase order
+          var found;
 
-        for (var i = 0; i < $scope.pairs_all.length; i++) {
-          if ($scope.pairs_all[i].name == $scope.order.currency_pair) {
-            $scope.pairs_all[i].order++;
-            found = true;
-            break;
+          for (var i = 0; i < $scope.pairs_all.length; i++) {
+            if ($scope.pairs_all[i].name == $scope.order.currency_pair) {
+              $scope.pairs_all[i].order++;
+              found = true;
+              break;
+            }
           }
-        }
 
-        if (!found) {
-          $scope.pairs_all.push({
-            "name": $scope.order.currency_pair,
-            "order": 1
-          });
-        }
-
-        $scope.$digest();
+          if (!found) {
+            $scope.pairs_all.push({
+              "name": $scope.order.currency_pair,
+              "order": 1
+            });
+          }
+        });
       });
       tx.on('error', function () {
-        $scope.mode = "error";
-        $scope.$digest();
+        setImmediate(function () {
+          $scope.$apply(function () {
+            $scope.mode = "error";
+          });
+        });
       });
       tx.submit();
 
@@ -151,11 +156,12 @@ TradeTab.prototype.angular = function(module)
       $network.remote.on('transaction', handleAccountEvent);
 
       function handleAccountEvent(e) {
-        if (e.transaction.hash === hash) {
-          setEngineStatus(e, true);
-          $scope.$digest();
-          $network.remote.removeListener('transaction', handleAccountEvent);
-        }
+        $scope.$apply(function () {
+          if (e.transaction.hash === hash) {
+            setEngineStatus(e, true);
+            $network.remote.removeListener('transaction', handleAccountEvent);
+          }
+        });
       }
     };
 

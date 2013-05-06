@@ -1,4 +1,4 @@
-#status(ng-class="{expand: show_secondary && balance_count >= 2}", ng-show="userCredentials.username")
+#status(ng-controller="StatusCtrl", ng-class="{expand: show_secondary && balance_count >= 2}", ng-show="userCredentials.username")
   .user
     div {{userCredentials.username}}&nbsp;
       a.logout(ng-click='logout()') logout

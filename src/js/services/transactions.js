@@ -10,7 +10,8 @@
 
 var module = angular.module('transactions', ['network']);
 
-module.factory('rpTransactions', ['rpNetwork', function(net) {
+module.factory('rpTransactions', ['$rootScope', 'rpNetwork',
+                                  function($scope, net) {
   var listeners = [],
       subscribed = false;
 
@@ -21,8 +22,10 @@ module.factory('rpTransactions', ['rpNetwork', function(net) {
   }
 
   function handleTransaction(msg) {
-    listeners.forEach(function (fn) {
-      fn(msg);
+    $scope.$apply(function () {
+      listeners.forEach(function (fn) {
+        fn(msg);
+      });
     });
   }
 

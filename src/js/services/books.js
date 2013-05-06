@@ -71,25 +71,29 @@ function(net, $q, $scope, $filter) {
       };
 
       function handleAskModel(offers) {
-        model.asks = filterRedundantPrices(offers, 'asks', true);
-        $scope.$digest();
+        $scope.$apply(function () {
+          model.asks = filterRedundantPrices(offers, 'asks', true);
+        });
       }
 
       function handleAskTrade(gets, pays) {
-        model.last_price = gets.ratio_human(pays);
-        $scope.$digest();
+        $scope.$apply(function () {
+          model.last_price = gets.ratio_human(pays);
+        });
       }
       asks.on('model', handleAskModel);
       asks.on('trade', handleAskTrade);
 
       function handleBidModel(offers) {
-        model.bids = filterRedundantPrices(offers, 'bids', true);
-        $scope.$digest();
+        $scope.$apply(function () {
+          model.bids = filterRedundantPrices(offers, 'bids', true);
+        });
       }
 
       function handleBidTrade(gets, pays) {
-        model.last_price = pays.ratio_human(gets);
-        $scope.$digest();
+        $scope.$apply(function () {
+          model.last_price = pays.ratio_human(gets);
+        });
       }
       bids.on('model', handleBidModel);
       bids.on('trade', handleBidTrade);

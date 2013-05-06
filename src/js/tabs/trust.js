@@ -41,8 +41,6 @@ TrustTab.prototype.angular = function (module)
       }
     };
 
-    self.on('reset', $scope.reset);
-
     $scope.toggle_form = function ()
     {
       $scope.addform_visible = !$scope.addform_visible;
@@ -74,12 +72,6 @@ TrustTab.prototype.angular = function (module)
       $scope.error_account_reserve = false;
       // test if account is valid
       $network.remote.request_account_info($scope.counterparty_address)
-        .on('error', function (m){
-          $scope.$apply(function(){
-            $scope.verifying = false;
-            $scope.error_account_reserve = true;
-          });
-        })
         // if account is valid then just to confirm page
         .on('success', function (m){
           $scope.$apply(function(){
@@ -92,13 +84,21 @@ TrustTab.prototype.angular = function (module)
 
             $scope.confirm_wait = true;
             $timeout(function () {
-                $scope.confirm_wait = false;
-                $scope.$digest();
-              }, 1000);
+              $scope.confirm_wait = false;
+            }, 1000, true);
 
             $scope.mode = "confirm";
           });
-        }).request();
+        })
+        .on('error', function (m){
+          setImmediate(function () {
+            $scope.$apply(function(){
+              $scope.verifying = false;
+              $scope.error_account_reserve = true;
+            });
+          });
+        })
+        .request();
     };
 
     /**
@@ -112,33 +112,36 @@ TrustTab.prototype.angular = function (module)
       tx
           .ripple_line_set($id.account, amount)
           .on('success', function(res){
-            setEngineStatus(res, false);
-            $scope.granted(this.hash);
+            $scope.$apply(function () {
+              setEngineStatus(res, false);
+              $scope.granted(this.hash);
 
-            // Remember currency and increase order
-            var found;
+              // Remember currency and increase order
+              var found;
 
-            for (var i = 0; i < $scope.currencies_all.length; i++) {
-              if ($scope.currencies_all[i].value.toLowerCase() == currency.toLowerCase()) {
-                $scope.currencies_all[i].order++;
-                found = true;
-                break;
+              for (var i = 0; i < $scope.currencies_all.length; i++) {
+                if ($scope.currencies_all[i].value.toLowerCase() == currency.toLowerCase()) {
+                  $scope.currencies_all[i].order++;
+                  found = true;
+                  break;
+                }
               }
-            }
 
-            if (!found) {
-              $scope.currencies_all.push({
-                "name": currency,
-                "value": currency,
-                "order": 1
-              });
-            }
-
-            $scope.$digest();
+              if (!found) {
+                $scope.currencies_all.push({
+                  "name": currency,
+                  "value": currency,
+                  "order": 1
+                });
+              }
+            });
           })
           .on('error', function(){
-            $scope.mode = "error";
-            $scope.$digest();
+            setImmediate(function () {
+              $scope.$apply(function () {
+                $scope.mode = "error";
+              });
+            });
           })
           .submit()
       ;
@@ -154,11 +157,12 @@ TrustTab.prototype.angular = function (module)
       $network.remote.on('transaction', handleAccountEvent);
 
       function handleAccountEvent(e) {
-        if (e.transaction.hash === hash) {
-          setEngineStatus(e, true);
-          $scope.$digest();
-          $network.remote.removeListener('transaction', handleAccountEvent);
-        }
+        $scope.$apply(function () {
+          if (e.transaction.hash === hash) {
+            setEngineStatus(e, true);
+            $network.remote.removeListener('transaction', handleAccountEvent);
+          }
+        });
       }
     };
 
@@ -196,7 +200,8 @@ TrustTab.prototype.angular = function (module)
         'address': $scope.counterparty_address
       };
 
-      $id.once('blobsave', function(){
+      var removeListener = $scope.$on('$blobSave', function () {
+        removeListener();
         $scope.contact = contact;
         $scope.addressSaved = true;
       });

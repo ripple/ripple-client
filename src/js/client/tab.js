@@ -1,16 +1,10 @@
 var util = require('util'),
-    events = require('events'),
     webutil = require('../util/web'),
-    log = require('./log'),
-    App = require('./app').App;
+    log = require('../util/log');
 
 var Tab = function (config)
 {
-  events.EventEmitter.call(this);
-
-  this.app = App.singleton;
 };
-util.inherits(Tab, events.EventEmitter);
 
 Tab.prototype.pageMode = 'default';
 

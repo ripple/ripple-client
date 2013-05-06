@@ -62,12 +62,12 @@ module.filter('rpcurrency', function () {
 /**
  * Get the full currency name from an Amount.
  */
-module.filter('rpcurrencyfull', function () {
+module.filter('rpcurrencyfull', ['$rootScope', function ($scope) {
   return function (input) {
     if (!input) return "";
 
     var amount = Amount.from_json(input);
-    var currency = $.grep(rippleclient.$scope.currencies, function(e){ return e.value == amount.currency().to_json(); })[0];
+    var currency = $.grep($scope.currencies, function(e){ return e.value == amount.currency().to_json(); })[0];
 
     if (currency) {
       return currency.name;
@@ -75,7 +75,7 @@ module.filter('rpcurrencyfull', function () {
       return amount.currency().to_json();
     }
   };
-});
+}]);
 
 /**
  * Calculate a ratio of two Amounts.
@@ -131,11 +131,11 @@ module.filter('rpfromnow', function () {
 /**
  * Show contact name or short address
  */
-module.filter('rpcontactname', function () {
+module.filter('rpcontactname', ['$rootScope', function ($scope) {
   return function (address) {
     address = address ? ""+address : "";
 
-    var contact = webutil.getContact(rippleclient.$scope.userBlob.data.contacts,address);
+    var contact = webutil.getContact($scope.userBlob.data.contacts, address);
 
     if (!contact) {
       return "" + address.substring(0,7) + "…";
@@ -143,12 +143,12 @@ module.filter('rpcontactname', function () {
 
     return contact.name;
   };
-});
+}]);
 
-module.filter('rpcontactnamefull', function () {
+module.filter('rpcontactnamefull', ['$rootScope', function ($scope) {
   return function (address) {
     address = address ? ""+address : "";
-    var contact = webutil.getContact(rippleclient.$scope.userBlob.data.contacts,address);
+    var contact = webutil.getContact($scope.userBlob.data.contacts, address);
 
     if (!contact) {
       return "" + address;
@@ -156,19 +156,19 @@ module.filter('rpcontactnamefull', function () {
 
     return contact.name;
   };
-});
+}]);
 
-module.filter('rponlycontactname', function () {
+module.filter('rponlycontactname', ['$rootScope', function ($scope) {
   return function (address) {
     address = address ? ""+address : "";
 
-    var contact = webutil.getContact(rippleclient.$scope.userBlob.data.contacts,address);
+    var contact = webutil.getContact($scope.userBlob.data.contacts, address);
 
     if (contact) {
       return contact.name;
     }
   };
-});
+}]);
 
 /**
  * Masks a string like so: •••••.

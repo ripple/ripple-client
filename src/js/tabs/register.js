@@ -4,8 +4,6 @@ var Tab = require('../client/tab').Tab;
 var RegisterTab = function ()
 {
   Tab.call(this);
-
-  this.on('afterrender', this.onAfterRender.bind(this));
 };
 
 util.inherits(RegisterTab, Tab);
@@ -21,8 +19,6 @@ RegisterTab.prototype.generateHtml = function ()
 };
 
 RegisterTab.prototype.angular = function (module) {
-  var app = this.app;
-
   module.controller('RegisterCtrl', ['$scope', '$location', 'rpId',
                                      function ($scope, $location, $id)
   {
@@ -33,7 +29,7 @@ RegisterTab.prototype.angular = function (module) {
 
     $scope.backendChange = function()
     {
-      app.id.blobBackends = $scope.blobBackendCollection.something.value.split(',');
+      $id.blobBackends = $scope.blobBackendCollection.something.value.split(',');
       store.set('ripple_blobBackends', $id.blobBackends);
     };
 
@@ -54,13 +50,12 @@ RegisterTab.prototype.angular = function (module) {
 
     $scope.register = function()
     {
-      app.id.register($scope.username, $scope.password1, function(key){
+      $id.register($scope.username, $scope.password1, function(key){
         $scope.password = new Array($scope.password1.length+1).join("*");
         $scope.keyOpen = key;
         $scope.key = $scope.keyOpen[0] + new Array($scope.keyOpen.length).join("*");
 
         $scope.mode = 'welcome';
-        $scope.$digest();
       }, $scope.masterkey);
     };
 
@@ -89,7 +84,7 @@ RegisterTab.prototype.angular = function (module) {
 
       var regInProgress;
 
-      app.id.login($scope.username, $scope.password1, function(backendName,error,success){
+      $id.login($scope.username, $scope.password1, function(backendName,error,success){
         if (!regInProgress) {
           if (!success) {
             regInProgress = true;
@@ -98,7 +93,6 @@ RegisterTab.prototype.angular = function (module) {
           if (success) {
             if ($scope.masterkey && $scope.masterkey != $scope.userCredentials.master_seed) {
               $scope.mode = 'masterkeyerror';
-              $scope.$digest();
             } else {
               $location.path('/balance');
             }
@@ -117,13 +111,6 @@ RegisterTab.prototype.angular = function (module) {
 
     $scope.reset();
   }]);
-};
-
-RegisterTab.prototype.onAfterRender = function ()
-{
-  setImmediate(function() {
-    $("#register_username").focus();
-  });
 };
 
 module.exports = RegisterTab;

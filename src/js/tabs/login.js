@@ -4,8 +4,6 @@ var Tab = require('../client/tab').Tab;
 var LoginTab = function ()
 {
   Tab.call(this);
-
-  this.on('afterrender', this.onAfterRender.bind(this));
 };
 
 util.inherits(LoginTab, Tab);
@@ -20,7 +18,6 @@ LoginTab.prototype.generateHtml = function ()
 
 LoginTab.prototype.angular = function (module) {
   var self = this;
-  var app = this.app;
 
   module.controller('LoginCtrl', ['$scope', '$element', '$routeParams',
                                   '$location', 'rpId',
@@ -34,20 +31,14 @@ LoginTab.prototype.angular = function (module) {
 
     $scope.backendChange = function()
     {
-      app.id.blobBackends = $scope.blobBackendCollection.something.value.split(',');
+      $id.blobBackends = $scope.blobBackendCollection.something.value.split(',');
       store.set('ripple_blobBackends', $id.blobBackends);
     };
 
     $scope.error = '';
-    self.on('beforeshow', handleShow);
-
-    function handleShow()
-    {
-      $scope.username = '';
-      $scope.password = '';
-      $scope.loginForm.$setPristine(true);
-      $scope.$digest();
-    }
+    $scope.username = '';
+    $scope.password = '';
+    $scope.loginForm && $scope.loginForm.$setPristine(true);
 
     $scope.submitForm = function()
     {
@@ -75,7 +66,7 @@ LoginTab.prototype.angular = function (module) {
       $scope.loginForm.login_password.$setViewValue(password);
 
       setImmediate(function () {
-        app.id.login($scope.username, $scope.password, function(backendName, err, success) {
+        $id.login($scope.username, $scope.password, function(backendName, err, success) {
           $scope.ajax_loading = false;
           if (success) {
             if ($routeParams.tab) {
@@ -86,8 +77,6 @@ LoginTab.prototype.angular = function (module) {
           } else {
             $scope.backendMessages.push({'backend':backendName, 'message':err.message});
           }
-
-          $scope.$apply();
         });
       });
 
@@ -96,13 +85,6 @@ LoginTab.prototype.angular = function (module) {
       $scope.status = 'Fetching wallet...';
     };
   }]);
-};
-
-LoginTab.prototype.onAfterRender = function ()
-{
-  setImmediate(function() {
-    $("#login_username").focus();
-  });
 };
 
 module.exports = LoginTab;
