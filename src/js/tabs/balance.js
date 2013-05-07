@@ -40,7 +40,9 @@ BalanceTab.prototype.angular = function (module)
             var effect = this;
             if (effect.type == 'offer_funded'
                 || effect.type == 'offer_partially_funded'
-                || effect.type == 'offer_bought') {
+                || effect.type == 'offer_bought'
+                || (effect.type === 'offer_canceled' &&
+                    event.transaction.type !== 'offercancel')) {
               effects.push(effect);
             }
           });
