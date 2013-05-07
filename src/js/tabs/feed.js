@@ -18,8 +18,6 @@ FeedTab.prototype.angularDeps = Tab.prototype.angularDeps.concat(['transactions'
 
 FeedTab.prototype.angular = function (module)
 {
-  var self=this;
-
   module.controller('FeedCtrl', ['$scope', 'rpTransactions', 'rpNetwork',
                                  function ($scope, transactions, $network)
   {

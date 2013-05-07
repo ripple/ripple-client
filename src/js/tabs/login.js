@@ -17,8 +17,6 @@ LoginTab.prototype.generateHtml = function ()
 };
 
 LoginTab.prototype.angular = function (module) {
-  var self = this;
-
   module.controller('LoginCtrl', ['$scope', '$element', '$routeParams',
                                   '$location', 'rpId',
                                   function ($scope, $element, $routeParams,

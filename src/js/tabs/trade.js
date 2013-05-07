@@ -21,8 +21,6 @@ TradeTab.prototype.angularDeps = Tab.prototype.angularDeps.concat(['books']);
 
 TradeTab.prototype.angular = function(module)
 {
-  var self = this;
-
   module.controller('TradeCtrl', ['rpBooks', '$scope', 'rpId', 'rpNetwork',
                                   function (books, $scope, $id, $network)
   {

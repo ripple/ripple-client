@@ -20,8 +20,6 @@ TrustTab.prototype.generateHtml = function ()
 
 TrustTab.prototype.angular = function (module)
 {
-  var self = this;
-
   module.controller('TrustCtrl', ['$scope', '$timeout', '$routeParams', 'rpId', '$filter', 'rpNetwork',
                                   function ($scope, $timeout, $routeParams, $id, $filter, $network)
   {

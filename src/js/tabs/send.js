@@ -19,8 +19,6 @@ SendTab.prototype.generateHtml = function ()
 
 SendTab.prototype.angular = function (module)
 {
-  var self = this;
-
   module.controller('SendCtrl', ['$scope', '$timeout', '$routeParams', 'rpId', 'rpNetwork',
                                  function ($scope, $timeout, $routeParams, $id, $network)
   {
