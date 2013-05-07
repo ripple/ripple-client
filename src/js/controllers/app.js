@@ -46,6 +46,23 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
 
     remote.set_secret(data.account, data.secret);
 
+    var accountObj = remote.account(data.account);
+
+    // We need a reference to these functions after they're bound, so we can
+    // unregister them if the account is unloaded.
+    myHandleAccountEvent = handleAccountEvent;
+    myHandleAccountEntry = handleAccountEntry;
+
+    accountObj.on('transaction', myHandleAccountEvent);
+    accountObj.on('entry', myHandleAccountEntry);
+
+    accountObj.entry(function (err, entry) {
+      if (err) {
+        // XXX: Our account does not exist, we should do something with that
+        //      knowledge.
+      }
+    });
+
     // Ripple credit lines
     remote.request_account_lines(data.account)
       .on('success', handleRippleLines)
@@ -67,23 +84,6 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
     remote.request_account_offers(data.account)
       .on('success', handleOffers)
       .on('error', handleOffersError).request();
-
-    // We need a reference to these functions after they're bound, so we can
-    // unregister them if the account is unloaded.
-    myHandleAccountEvent = handleAccountEvent;
-    myHandleAccountEntry = handleAccountEntry;
-
-    var accountObj = remote.account(data.account);
-
-    accountObj.on('transaction', myHandleAccountEvent);
-    accountObj.on('entry', myHandleAccountEntry);
-
-    accountObj.entry(function (err, entry) {
-      if (err) {
-        // XXX: Our account does not exist, we should do something with that
-        //      knowledge.
-      }
-    });
   }
 
   function handleAccountUnload(e, data)
