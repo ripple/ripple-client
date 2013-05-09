@@ -29,13 +29,24 @@ function(net, $q, $scope, $filter) {
       // prefer taker_pays_funded & taker_gets_funded
       if (d.hasOwnProperty('taker_gets_funded'))
       {
-        d.TakerPays = d.taker_pays_funded;
         d.TakerGets = d.taker_gets_funded;
+        d.TakerPays = d.taker_pays_funded;
       }
 
-      var numerator = (action == 'asks') ? d.TakerPays : d.TakerGets;
-      var denominator = (action == 'asks') ? d.TakerGets : d.TakerPays;
-      var price = rpamount(Amount.from_json(numerator).ratio_human(denominator), {
+      d.TakerGets = Amount.from_json(d.TakerGets);
+      d.TakerPays = Amount.from_json(d.TakerPays);
+
+      var book_price    = Amount.from_quality(d.BookDirectory, "1", "1");
+
+      // Adjust for drops: The result would be a million times too large.
+      if (d.TakerPays.is_native())
+        book_price  = book_price.divide(Amount.from_json("1000000"));
+
+      // Adjust for drops: The result would be a million times too small.
+      if (d.TakerGets.is_native())
+        book_price  = book_price.multiply(Amount.from_json("1000000"));
+
+      var price = rpamount(book_price, {
         rel_precision: 4,
         rel_min_precision: 2
       });
