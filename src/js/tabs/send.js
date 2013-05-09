@@ -93,12 +93,14 @@ SendTab.prototype.angular = function (module)
         $scope.send.alt = null;
 
         if ($scope.send.amount_feedback.is_native()) {
-          $scope.send.path_status = 'native';
+          $scope.send.type = 'native';
           $scope.check_xrp_sufficiency();
         } else {
-          if (pathUpdateTimeout) clearTimeout(pathUpdateTimeout);
-          pathUpdateTimeout = setTimeout($scope.update_paths, 500);
+          $scope.send.type = 'nonnative';
         }
+
+        if (pathUpdateTimeout) clearTimeout(pathUpdateTimeout);
+        pathUpdateTimeout = setTimeout($scope.update_paths, 500);
       } else {
         $scope.send.path_status = 'waiting';
       }
@@ -163,7 +165,7 @@ SendTab.prototype.angular = function (module)
 
                 return alt;
               });
-              $scope.send.alt = $scope.send.alternatives[0];
+//              $scope.send.alt = $scope.send.alternatives[0];
             }
           });
         })
@@ -296,9 +298,8 @@ SendTab.prototype.angular = function (module)
      */
     $scope.send_prepared = function () {
       // check if paths are available, if not then it is a direct send
-      $scope.send.indirect  = ($scope.send.path_status != 'native')
-                            ? ($scope.send.alt.paths.length > 1)
-                            : false;
+      if ($scope.send.alt)
+        $scope.send.indirect = $scope.send.alt.paths.length;
 
       $scope.confirm_wait = true;
       $timeout(function () {
@@ -330,11 +331,11 @@ SendTab.prototype.angular = function (module)
       }
 
       tx.payment($id.account, addr, amount.to_json());
-      if (!amount.is_native()) {
-        if ($scope.send.alt) {
-          tx.send_max($scope.send.alt.send_max);
-          tx.paths($scope.send.alt.paths);
-        } else {
+      if ($scope.send.alt) {
+        tx.send_max($scope.send.alt.send_max);
+        tx.paths($scope.send.alt.paths);
+      } else {
+        if (!amount.is_native()) {
           tx.build_path(true);
         }
       }

@@ -78,6 +78,8 @@ section#t-send.single.content(ng-controller='SendCtrl')
         | Not a valid amount.
       .error(rp-error-on='rpMaxAmount')
         | This transaction exceeds your balance, you can send a max. of {{account.max_spend | rpamount:{rel_precision: 0} }} XRP
+    .submitsection(ng-show="send.type == 'native'")
+      button.btn.btn-success.submit(type='submit', ng-disabled='sendForm.$invalid') Send XRP
     p.literal(ng-show="send.path_status == 'waiting'") Please enter the transaction details.
     p.literal.throbber(ng-show="send.path_status == 'pending'") Calculating paths
     p.literal(ng-show="send.path_status == 'no-path'") No path found!
@@ -92,8 +94,6 @@ section#t-send.single.content(ng-controller='SendCtrl')
             span.amnt {{alt.amount | rpamount:{rel_precision: 4, rel_min_precision: 2} }}
             span.currency {{alt.amount | rpcurrency }}
           button.btn.btn-success(type="submit", ng-disabled='sendForm.$invalid', ng-click="send.alt = alt") Send {{ alt.amount | rpcurrency }}
-    .submitsection(ng-show="send.path_status == 'native'")
-      button.btn.btn-success.submit(type='submit', ng-disabled='sendForm.$invalid') Send
 
   //- N2. Waiting for path
 
