@@ -221,6 +221,11 @@ SendTab.prototype.angular = function (module)
       });
     };
 
+    $scope.cancelConfirm = function () {
+      $scope.mode = "form";
+      $scope.send.alt = null;
+    };
+
     $scope.resetAddressForm = function() {
       $scope.show_save_address_form = false;
       $scope.addressSaved = false;
@@ -298,8 +303,7 @@ SendTab.prototype.angular = function (module)
      */
     $scope.send_prepared = function () {
       // check if paths are available, if not then it is a direct send
-      if ($scope.send.alt)
-        $scope.send.indirect = $scope.send.alt.paths.length;
+      $scope.send.indirect = $scope.send.alt ? $scope.send.alt.paths.length : false;
 
       $scope.confirm_wait = true;
       $timeout(function () {
