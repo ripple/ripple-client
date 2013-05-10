@@ -90,7 +90,6 @@ TxTab.prototype.angular = function (module)
               if (affectedNode) {
                 difference = affectedNode.ModifiedNode.PreviousFields.Balance - affectedNode.ModifiedNode.FinalFields.Balance - tx.Fee;
               }
-              
             }
             var amountSent;
             if (cur) {
@@ -112,10 +111,9 @@ TxTab.prototype.angular = function (module)
     }
 
     if (net.connected) loadTx();
-    else net.on('connected', function () {
-      $scope.$apply(function () {
-        loadTx();
-      });
+    else var removeListener = $scope.$on('$netConnected', function () {
+      removeListener();
+      loadTx();
     });
   }]);
 };

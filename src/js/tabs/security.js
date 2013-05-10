@@ -1,7 +1,5 @@
-var blob = require('../client/blob').BlobObj;
 var util = require('util');
 var Tab  = require('../client/tab').Tab;
-var id   = require('../client/id').Id.singleton;
 
 var SecurityTab = function ()
 {
@@ -18,10 +16,8 @@ SecurityTab.prototype.generateHtml = function ()
 };
 
 SecurityTab.prototype.angular = function (module) {
-  var app = this.app;
-
-  module.controller('SecurityCtrl', ['$scope', 'rpId',
-                                     function ($scope, $id)
+  module.controller('SecurityCtrl', ['$scope', 'rpId', 'rpBlob',
+                                     function ($scope, $id, $blob)
   {
     if (!$id.loginStatus) return $id.goId();
 
@@ -32,7 +28,7 @@ SecurityTab.prototype.angular = function (module) {
       if ("string" === typeof $id.username &&
           "string" === typeof $id.password &&
           $scope.userBlob) {
-        $scope.enc = blob.enc($id.username, $id.password, $scope.userBlob);
+        $scope.enc = $blob.enc($id.username, $id.password, $scope.userBlob);
       }
     }
   }]);
