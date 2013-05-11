@@ -18,9 +18,6 @@ BalanceTab.prototype.generateHtml = function ()
 
 BalanceTab.prototype.angular = function (module)
 {
-  var self = this;
-  var app = this.app;
-
   module.controller('BalanceCtrl', ['$scope', 'rpId', 'rpNetwork',
                                      function ($scope, $id, $network)
   {
@@ -43,7 +40,9 @@ BalanceTab.prototype.angular = function (module)
             var effect = this;
             if (effect.type == 'offer_funded'
                 || effect.type == 'offer_partially_funded'
-                || effect.type == 'offer_bought') {
+                || effect.type == 'offer_bought'
+                || (effect.type === 'offer_canceled' &&
+                    event.transaction.type !== 'offercancel')) {
               effects.push(effect);
             }
           });

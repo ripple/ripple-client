@@ -1,7 +1,6 @@
 var util      = require('util');
 var webutil   = require('../util/web');
 var Tab       = require('../client/tab').Tab;
-var id        = require('../client/id').Id.singleton;
 
 var ContactsTab = function ()
 {
@@ -21,8 +20,6 @@ ContactsTab.prototype.generateHtml = function ()
 };
 
 ContactsTab.prototype.angular = function (module) {
-  var app = this.app;
-
   module.controller('ContactsCtrl', ['$scope', 'rpId',
     function ($scope, $id)
     {

@@ -185,6 +185,7 @@ body {
         padding-left: 8px;
         padding-right: 16px;
         .transition-duration(0.2s);
+        cursor: pointer;
 
         margin-left: 6px;
         margin-right: 16px;
@@ -272,5 +273,14 @@ body {
       font-weight: normal;
       font-family: OpenSansBold;
     }
+  }
+}
+
+// Pagination
+.pagination li {
+  cursor: pointer;
+
+  & > .active {
+    cursor: default;
   }
 }

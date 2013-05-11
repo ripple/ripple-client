@@ -1,6 +1,5 @@
 var util = require('util');
 var Tab = require('../client/tab').Tab;
-var id = require('../client/id').Id.singleton;
 
 var HistoryTab = function ()
 {

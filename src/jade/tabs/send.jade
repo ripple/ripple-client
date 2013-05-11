@@ -78,6 +78,8 @@ section#t-send.single.content(ng-controller='SendCtrl')
         | Not a valid amount.
       .error(rp-error-on='rpMaxAmount')
         | This transaction exceeds your balance, you can send a max. of {{account.max_spend | rpamount:{rel_precision: 0} }} XRP
+    .submitsection(ng-show="send.type == 'native'")
+      button.btn.btn-success.submit(type='submit', ng-disabled='sendForm.$invalid') Send XRP
     p.literal(ng-show="send.path_status == 'waiting'") Please enter the transaction details.
     p.literal.throbber(ng-show="send.path_status == 'pending'") Calculating paths
     p.literal(ng-show="send.path_status == 'no-path'") No path found!
@@ -92,8 +94,6 @@ section#t-send.single.content(ng-controller='SendCtrl')
             span.amnt {{alt.amount | rpamount:{rel_precision: 4, rel_min_precision: 2} }}
             span.currency {{alt.amount | rpcurrency }}
           button.btn.btn-success(type="submit", ng-disabled='sendForm.$invalid', ng-click="send.alt = alt") Send {{ alt.amount | rpcurrency }}
-    .submitsection(ng-show="send.path_status == 'native'")
-      button.btn.btn-success.submit(type='submit', ng-disabled='sendForm.$invalid') Send
 
   //- N2. Waiting for path
 
@@ -124,7 +124,7 @@ section#t-send.single.content(ng-controller='SendCtrl')
     p.literal Are you sure?
     div
       p.submitsection
-        button.btn.back(ng-click='mode="form"') &laquo; Back
+        button.btn.back(ng-click='cancelConfirm()') &laquo; Back
         button.btn.btn-success.submit(
           type='submit'
           ng-click='send_confirmed()'
@@ -151,7 +151,7 @@ section#t-send.single.content(ng-controller='SendCtrl')
           | Make sure you are connected to the Internet and try again later.
         p.literal Before trying again, please ensure that the transaction has
           | not been executed already.
-    p: button.btn(ng-click='mode="form"') &laquo; Back
+    p: button.btn(ng-click='cancelConfirm()') &laquo; Back
 
   //- N6. Sent page
 

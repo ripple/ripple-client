@@ -23,18 +23,30 @@ function(net, $q, $scope, $filter) {
     var rpamount = $filter('rpamount');
     var numerator;
     var demoninator;
+    var newData = jQuery.extend(true, {}, data);
 
-    data = _.compact(_.map(data, function(d, i) {
+    newData = _.compact(_.map(newData, function(d, i) {
       // prefer taker_pays_funded & taker_gets_funded
       if (d.hasOwnProperty('taker_gets_funded'))
       {
-        d.TakerPays = d.taker_pays_funded;
         d.TakerGets = d.taker_gets_funded;
+        d.TakerPays = d.taker_pays_funded;
       }
 
-      var numerator = (action == 'asks') ? d.TakerPays : d.TakerGets;
-      var denominator = (action == 'asks') ? d.TakerGets : d.TakerPays;
-      var price = rpamount(Amount.from_json(numerator).ratio_human(denominator), {
+      d.TakerGets = Amount.from_json(d.TakerGets);
+      d.TakerPays = Amount.from_json(d.TakerPays);
+
+      var book_price    = Amount.from_quality(d.BookDirectory, "1", "1");
+
+      // Adjust for drops: The result would be a million times too large.
+      if (d.TakerPays.is_native())
+        book_price  = book_price.divide(Amount.from_json("1000000"));
+
+      // Adjust for drops: The result would be a million times too small.
+      if (d.TakerGets.is_native())
+        book_price  = book_price.multiply(Amount.from_json("1000000"));
+
+      var price = rpamount(book_price, {
         rel_precision: 4,
         rel_min_precision: 2
       });
@@ -42,11 +54,11 @@ function(net, $q, $scope, $filter) {
       if (lastprice == price) {
         if (combine) {
           if (action == 'asks') {
-            data[current].TakerPays = Amount.from_json(data[current].TakerPays).add(d.TakerPays).to_json();
-            data[current].TakerGets = Amount.from_json(data[current].TakerGets).add(d.TakerGets).to_json();
+            newData[current].TakerPays = Amount.from_json(newData[current].TakerPays).add(d.TakerPays).to_json();
+            newData[current].TakerGets = Amount.from_json(newData[current].TakerGets).add(d.TakerGets).to_json();
           } else {
-            data[current].TakerPays = Amount.from_json(data[current].TakerPays).add(d.TakerPays).to_json();
-            data[current].TakerGets = Amount.from_json(data[current].TakerGets).add(d.TakerGets).to_json();
+            newData[current].TakerPays = Amount.from_json(newData[current].TakerPays).add(d.TakerPays).to_json();
+            newData[current].TakerGets = Amount.from_json(newData[current].TakerGets).add(d.TakerGets).to_json();
           }
         }
         d = false;
@@ -56,7 +68,7 @@ function(net, $q, $scope, $filter) {
       return d;
     }));
 
-    return data;
+    return newData;
   }
 
   return {
@@ -70,25 +82,29 @@ function(net, $q, $scope, $filter) {
       };
 
       function handleAskModel(offers) {
-        model.asks = filterRedundantPrices(offers, 'asks', true);
-        $scope.$digest();
+        $scope.$apply(function () {
+          model.asks = filterRedundantPrices(offers, 'asks', true);
+        });
       }
 
       function handleAskTrade(gets, pays) {
-        model.last_price = gets.ratio_human(pays);
-        $scope.$digest();
+        $scope.$apply(function () {
+          model.last_price = gets.ratio_human(pays);
+        });
       }
       asks.on('model', handleAskModel);
       asks.on('trade', handleAskTrade);
 
       function handleBidModel(offers) {
-        model.bids = filterRedundantPrices(offers, 'bids', true);
-        $scope.$digest();
+        $scope.$apply(function () {
+          model.bids = filterRedundantPrices(offers, 'bids', true);
+        });
       }
 
       function handleBidTrade(gets, pays) {
-        model.last_price = pays.ratio_human(gets);
-        $scope.$digest();
+        $scope.$apply(function () {
+          model.last_price = pays.ratio_human(gets);
+        });
       }
       bids.on('model', handleBidModel);
       bids.on('trade', handleBidTrade);
