@@ -51,13 +51,14 @@ SendTab.prototype.angular = function (module)
     }, true);
 
     $scope.$watch('send.currency', function () {
+      $scope.send.currency_code = $scope.send.currency ?
+        $scope.send.currency.slice(0, 3).toUpperCase() : "XRP";
       $scope.update_send();
     }, true);
 
     var pathUpdateTimeout;
     $scope.update_send = function () {
-      var currency = $scope.send.currency ?
-            $scope.send.currency.slice(0, 3).toUpperCase() : "XRP";
+      var currency = $scope.send.currency_code;
       var recipient = $scope.send.recipient_address;
       var formatted = "" + $scope.send.amount + " " + currency.slice(0, 3);
 
@@ -107,6 +108,8 @@ SendTab.prototype.angular = function (module)
     };
 
     $scope.check_xrp_sufficiency = function () {
+      $scope.send.fund_status = "none";
+
       var recipient = $scope.send.recipient_address;
       //do some remote request to find out the balance, if it's not stored in memory already.
       if ($scope.xrp_memory.hasOwnProperty(recipient)) {
@@ -133,7 +136,7 @@ SendTab.prototype.angular = function (module)
         var total = $scope.send.amount_feedback.add($scope.xrp_memory[recipient]);
         var reserve_base = $scope.account.reserve_base;
         if (total.compareTo(reserve_base) < 0) {
-          $scope.send.path_status = "insufficient-xrp";
+          $scope.send.fund_status = "insufficient-xrp";
           $scope.xrp_deficiency = reserve_base.subtract($scope.xrp_memory[recipient]);
         }
       }
@@ -208,7 +211,9 @@ SendTab.prototype.angular = function (module)
         amount: '',
         amount_prev: new Amount(),
         currency: $scope.xrp.name,
-        path_status: 'waiting'
+        currency_code: "XRP",
+        path_status: 'waiting',
+        fund_status: 'none'
       };
       $scope.nickname = '';
       $scope.error_type = '';
