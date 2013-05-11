@@ -112,7 +112,7 @@ TrustTab.prototype.angular = function (module)
           .on('success', function(res){
             $scope.$apply(function () {
               setEngineStatus(res, false);
-              $scope.granted(this.hash);
+              $scope.granted(tx.hash);
 
               // Remember currency and increase order
               var found;
