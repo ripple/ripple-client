@@ -32,6 +32,7 @@ TrustTab.prototype.angular = function (module)
       $scope.amount = '';
       $scope.counterparty = '';
       $scope.saveAddressName = '';
+      $scope.error_account_reserve = false;
 
       // If all the form fields are prefilled, go to confirmation page
       if ($routeParams.to && $routeParams.amount) {
@@ -50,6 +51,7 @@ TrustTab.prototype.angular = function (module)
     };
 
     $scope.$watch('counterparty', function() {
+      $scope.error_account_reserve = false;
       $scope.contact = webutil.getContact($scope.userBlob.data.contacts,$scope.counterparty);
       if ($scope.contact) {
         $scope.counterparty_name = $scope.contact.name;
