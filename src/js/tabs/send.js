@@ -32,6 +32,9 @@ SendTab.prototype.angular = function (module)
 
       $scope.contact = webutil.getContact($scope.userBlob.data.contacts,addr);
       if ($scope.contact) {
+        if ($scope.send.recipient === $scope.contact.address) {
+          $scope.send.recipient = $scope.contact.name;
+        }
         $scope.send.recipient_name = $scope.contact.name;
         $scope.send.recipient_address = $scope.contact.address;
 
