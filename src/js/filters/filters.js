@@ -21,6 +21,10 @@ module.filter('rpamount', function () {
 
     if (!input) return "n/a";
 
+    if (opts.xrp_human && input === ("" + parseInt(input, 10))) {
+      input = input + ".0";
+    }
+
     var amount = Amount.from_json(input);
     if (!amount.is_valid()) return "n/a";
 
