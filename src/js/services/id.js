@@ -74,6 +74,8 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', 'rp
 
   Id.prototype.init = function ()
   {
+    var self = this;
+
     // Initializing sjcl.random doesn't really belong here, but there is no other
     // good place for it yet.
     for (var i = 0; i < 8; i++) {

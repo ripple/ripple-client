@@ -288,7 +288,7 @@ section.panel.content(ng-controller="TradeCtrl")
                 td.sum.rpamount {{bsum[$index] | rpamount:{rel_precision: 4} }}
                 td.amount.rpamount {{order.TakerPays | rpamount:{rel_precision: 4} }}
                 td.price.rpamount
-                  | {{order.TakerGets | rpamountratio:order.TakerPays | rpamount:{rel_precision: 4, rel_min_precision: 2} }}
+                  | {{order.price | rpamount:{rel_precision: 4, rel_min_precision: 2} }}
               tr(ng-show='!book.bids.length')
                 td(colspan="5") There are currently no bids for this pair.
         div.asks
@@ -305,7 +305,7 @@ section.panel.content(ng-controller="TradeCtrl")
             tbody
               tr(ng-repeat='order in book.asks')
                 td.price.rpamount
-                  | {{order.TakerPays | rpamountratio:order.TakerGets | rpamount:{rel_precision: 4, rel_min_precision: 2} }}
+                  | {{order.price | rpamount:{rel_precision: 4, rel_min_precision: 2} }}
                 td.amount.rpamount {{order.TakerGets | rpamount:{rel_precision: 4} }}
                 td.sum.rpamount {{asum[$index] | rpamount:{rel_precision: 4} }}
               tr(ng-show='!book.asks.length')

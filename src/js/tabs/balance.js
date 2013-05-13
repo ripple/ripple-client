@@ -32,7 +32,7 @@ BalanceTab.prototype.angular = function (module)
       var transactions = [];
 
       $.each(events,function(){
-        var event = this;
+        var event = jQuery.extend(true, {}, this);
         var effects = [];
 
         if (event.effects) {

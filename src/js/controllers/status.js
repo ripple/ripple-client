@@ -23,9 +23,10 @@ module.controller('StatusCtrl', ['$scope', '$element', '$compile', 'rpId',
   };
 
   $scope.$watch('balances', function () {
-    $scope.orderedBalances = [];
-    $.each($scope.balances,function(index,balance){
-      $scope.orderedBalances.push(balance);
+    $scope.orderedBalances = _.filter($scope.balances, function (balance) {
+      // XXX Maybe we should show zero balances if there is outgoing trust in
+      //     that currency.
+      return !balance.total.is_zero();
     });
     $scope.orderedBalances.sort(function(a,b){
       return parseFloat(Math.abs(b.total.to_text())) - parseFloat(Math.abs(a.total.to_text()));

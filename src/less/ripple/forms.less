@@ -38,19 +38,25 @@ select {
 }
 
 form {
+  .errorGroup {
+    position: relative;
+    z-index: 1;
+    height: 0;
+    overflow: visible;
+    top: -25px;
+    left: 0;
+  }
+
   .error,
   err {
     color: #DC4D38;
     font-size: 13px;
-    margin: -20px 0 10px;
     height: 23px;
   }
 
   .success {
     color: green;
     font-size: 13px;
-    margin: -30px 0 10px;
-    height: 23px;
   }
 
   .amount input, .amount select {

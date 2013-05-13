@@ -40,17 +40,18 @@ section.panel.content(ng-controller="TrustCtrl")
                 rp-autofill='$routeParams.to'
                 rp-autofill-on='addform_visible = true')
               .errorGroup(rp-errors='trust_counterparty')
-                .success(rp-error-valid ng-show='counterparty != counterparty_address && counterparty_name')
-                  | {{counterparty_address}}
+                div(rp-error-valid)
+                  .success(ng-show='counterparty != counterparty_address && counterparty_name && !error_account_reserve')
+                    | {{counterparty_address}}
+                  .error(ng-show='error_account_reserve')
+                    | Account does not meet the minimum XRP reserve.&nbsp;
+                    a(href="https://ripple.com/wiki/Account_Creation", target="_blank") More information
                 .error(rp-error-on='required')
                   | Please enter a User.
                 .error(rp-error-on='rpNotMe')
                   | You've entered your address.
                 .error(rp-error-on='rpDestination')
                   | User should be either a name from your contact list or Ripple address.
-                .error(ng-show='error_account_reserve')
-                  | Account does not meet the minimum XRP reserve. &nbsp;
-                  a(href="https://ripple.com/wiki/Account_Creation", target="_blank") More information
               label(for='trust_amount') Amount
               .amount
                 input.value#trust_amount(name='trust_amount', type='number', step='any', ng-model='amount'

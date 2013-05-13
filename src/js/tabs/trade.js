@@ -115,7 +115,7 @@ TradeTab.prototype.angular = function(module)
       tx.on('success', function (res) {
         $scope.$apply(function () {
           setEngineStatus(res, false);
-          $scope.done(this.hash);
+          $scope.done(tx.hash);
 
           // Remember pair and increase order
           var found;

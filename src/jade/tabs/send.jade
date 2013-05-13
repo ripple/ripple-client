@@ -80,14 +80,16 @@ section#t-send.single.content(ng-controller='SendCtrl')
         | This transaction exceeds your balance, you can send a max. of {{account.max_spend | rpamount:{rel_precision: 0} }} XRP
     .submitsection(ng-show="send.type == 'native'")
       button.btn.btn-success.submit(type='submit', ng-disabled='sendForm.$invalid') Send XRP
+    p.literal(ng-show="send.fund_status == 'insufficient-xrp'") Destination account is unfunded; send at least {{xrp_deficiency | rpamount}} XRP to initialize it.&nbsp;
+      a(href="https://ripple.com/wiki/Reserves", target="_blank") More information
     p.literal(ng-show="send.path_status == 'waiting'") Please enter the transaction details.
-    p.literal.throbber(ng-show="send.path_status == 'pending'") Calculating paths
-    p.literal(ng-show="send.path_status == 'no-path'") No path found!
-    p.literal(ng-show="send.path_status == 'insufficient-xrp'") Destination account is unfunded; send at least {{xrp_deficiency | rpamount}} XRP to initialize it.&nbsp;
-     a(href="https://ripple.com/wiki/Reserves", target="_blank") More information
+    p.literal.throbber(ng-show="send.path_status == 'pending' && send.currency_code != 'XRP'") Calculating paths
+    p.literal.throbber(ng-show="send.path_status == 'pending' && send.currency_code == 'XRP'") Calculating alternatives
+    p.literal(ng-show="send.path_status == 'no-path' && send.currency_code != 'XRP'") No path found!
     p.literal(ng-show="send.path_status == 'error'") Error while calculating path
     .currency_sets(rp-if="send.path_status == 'done'")
-      .label You can send
+      .label(ng-show="send.currency_code != 'XRP'") You can send
+      .label(ng-show="send.currency_code == 'XRP'") Or you can send
       ul
         li(ng-repeat="alt in send.alternatives")
           p
@@ -171,10 +173,13 @@ section#t-send.single.content(ng-controller='SendCtrl')
     group.result-malformed(ng-show='tx_result=="malformed"')
       h2.tx-status Transaction malformed!
       p(ng-switch on="engine_result")
-        span(ng-switch-when="temDST_TAG_NEEDED")
-          | Destionation account requires destination tag to be specified when making payments.
         span(ng-switch-default)
           | Your transaction is invalid, reason: {{engine_result}} - {{engine_result_message}}
+    group.result-malformed(ng-show='tx_result=="failure"')
+      h2.tx-status Transaction malformed!
+      p(ng-switch on="engine_result")
+        span(ng-switch-when="tefDST_TAG_NEEDED")
+          | Destionation account requires destination tag to be specified when making payments.
     group.result-malformed(ng-show='tx_result=="claim"')
       h2.tx-status Transaction failed!
       p(ng-switch on="engine_result")
