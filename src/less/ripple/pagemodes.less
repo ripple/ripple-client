@@ -123,6 +123,11 @@ html.pm-single {
 .ddpage {
   font-size: 13px;
 
+  p.hash {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
   p.type {
     background-color: #F8FBF2;
     font-size: 18px;
@@ -160,10 +165,9 @@ html.pm-single {
       float: left;
       width: 400px;
       &:first-child {
-        padding-right: 20px;
+        padding-right: 0;
       }
       &:last-child {
-        padding-left: 0;
         padding-right: 0;
       }
     }

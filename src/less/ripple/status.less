@@ -23,6 +23,8 @@
     right: 0;
     width: auto;
     .rounded(0);
+    .drop-shadow(0, 0, 0, 0);
+    border-bottom: 1px solid #ddd;
   }
 
   .user {
@@ -171,6 +173,10 @@
   top: 55px;
   right: @notifyMargin;
   width: @statusWidth - 10px - 2*@notifyMargin;
+
+  @media (max-width: 979px) {
+    top: 37px !important;
+  }
 
   .notification {
     position: absolute;

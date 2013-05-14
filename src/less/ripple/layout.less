@@ -169,6 +169,15 @@ header nav ul {
       &#nav-wallet > a:after {
         border-bottom: solid 10px #f9f9f9;
       }
+
+      @media (max-width: 767px) {
+        > a:before {
+          border-bottom-color: #999;
+        }
+        > a:after {
+          display: none;
+        }
+      }
     }
   }
 }
@@ -201,6 +210,12 @@ header nav ul {
   .box-shadow(0 0 10px rgba(0,0,0,0.15));
   min-height: 500px;
 
+  @media (max-width: 767px) {
+    .rounded(0px);
+    border-left: 0;
+    border-right: 0;
+  }
+
   nav {
     position: absolute;
     top: 0;
@@ -216,7 +231,7 @@ header nav ul {
       background-color: #eee;
       margin: 0;
       line-height: 60px;
-      padding-left: 75px;
+      padding-left: 75px + @pmPanelLeftMarginPhone;
       cursor: pointer;
       .user-select(none);
     }
@@ -225,7 +240,7 @@ header nav ul {
       .virtualel;
       position: absolute;
       top: 0px;
-      left: 0px;
+      left: @pmPanelLeftMarginPhone;
       width: 60px;
       height: 60px;
       background: #333 url("../../img/nav-icon-white.svg") center center no-repeat;
@@ -238,7 +253,7 @@ header nav ul {
 
     @media (max-width: 767px) {
       position: relative;
-      margin-top: 10px;
+      z-index: 25;
 
       h2 {
         display: block;
@@ -330,6 +345,13 @@ header nav ul {
       }
     }
 
+    @media (max-width: 767px) {
+      > li.active {
+        width: @sideNavWidth - 1;
+        border-right: 1px solid #cacaca;
+        padding-right: 0;
+      }
+    }
   }
 
   nav {
@@ -382,7 +404,7 @@ header nav ul {
       position: absolute;
       left: 0;
       backface-visibility: hidden;
-      .translate3d(-100%, 0px, 0px);
+      .translate3d(-@sideNavWidth, 0px, 0px);
       .transition(0.5s);
     }
     &.off-canvas-nav-expand nav > ul {

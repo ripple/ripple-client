@@ -338,13 +338,13 @@
   table.events {
     .date {
       width: 25%;
+      white-space: nowrap;
     }
     .desc {
       width: 75%;
     }
     .note {
       display: block;
-      line-height: 12px;
       font-size: 12px;
       margin: 0 0 10px;
     }
@@ -394,9 +394,8 @@
     }
 
     tr td {
-      padding-top: 5px;
-      padding-bottom: 5px;
-      line-height: 40px;
+      padding-top: 15px;
+      padding-bottom: 15px;
     }
 
     tr .btn.add {
@@ -450,6 +449,12 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
   }
   #trust_counterparty {
     width: 392px;
+  }
+
+  @media (max-width: 480px) {
+    #trust_counterparty {
+      width: 250px;
+    }
   }
 
   table {
@@ -523,6 +528,9 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
       }
       button.submit {
         .makeColumn(3);
+        @media (max-width: 480px) {
+          .makeColumn(2.5);
+        }
       }
     }
   }
@@ -559,6 +567,7 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
 #t-contacts {
   table {
     .table-striped;
+    table-layout: fixed;
 
     input.name {
       .input-xlarge;
@@ -579,7 +588,8 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
         width: 27%;
       }
       > .account {
-        width: 50%;
+        overflow: hidden;
+        text-overflow: ellipsis;
 
         input.inline {
           width: 280px;
@@ -589,20 +599,27 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
           margin: 20px 0 10px 0;
         }
       }
+      &.editing > .account {
+        overflow: visible;
+      }
       > .command {
-        width: 23%;
+        width: 28%;
         text-align: right;
+        white-space: nowrap;
 
-        .btn {
-          margin-left: 10px;
-
-          &:first-child {
-            margin-left: 0;
-          }
-        }
         .send {
+          margin-left: 10px;
           padding-left: 35px;
           padding-right: 35px;
+        }
+
+        @media (max-width: 767px) {
+          width: 33%;
+
+          .send {
+            padding-left: 10px;
+            padding-right: 10px;
+          }
         }
       }
 
@@ -810,6 +827,7 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
 
   table .date {
     width: 20%;
+    white-space: nowrap;
   }
 
   table .counterparty {
@@ -840,6 +858,12 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
   }
   #send_nickname {
     .input-xlarge;
+  }
+
+  @media (max-width: 480px) {
+    #send_destination {
+      width: 250px;
+    }
   }
 
   .mode-form {
@@ -972,8 +996,6 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
     .amount_feedback, .dest_feedback, .sendmax_feedback {
       font-size: 26px;
       margin: 0;
-      padding-left: @pmSingleMargin;
-      padding-right: @pmSingleMargin;
       background-color: #f4f4f4;
 
       .extra {
@@ -1010,6 +1032,9 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
       }
       button.submit {
         .makeColumn(3);
+        @media (max-width: 480px) {
+          .makeColumn(2.5);
+        }
       }
     }
   }
@@ -1047,9 +1072,12 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
 
 #t-receive {
   .address {
+    overflow: hidden;
+    text-overflow: ellipsis;
     font-family: 'OpenSansRegular';
     margin: 0;
-    padding: 20px @pmSingleMargin;
+    padding-top: 20px;
+    padding-bottom: 20px;
     span {
       font-size: 30px;
       background-color: transparent;
@@ -1066,8 +1094,6 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
 }
 
 #t-security {
-  padding: 15px;
-
   .notices {
     list-style-type: none;
     margin: 10px 0 0 0;
