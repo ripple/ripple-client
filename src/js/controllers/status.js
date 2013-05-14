@@ -39,9 +39,10 @@ module.controller('StatusCtrl', ['$scope', '$element', '$compile', 'rpId',
 
   // Username
   $scope.$watch('userCredentials', function(){
+    var username = $scope.userCredentials.username;
     $scope.shortUsername = null;
-    if($scope.userCredentials.username.length > 25) {
-      $scope.shortUsername = $scope.userCredentials.username.substring(0,24)+"...";
+    if(username && username.length > 25) {
+      $scope.shortUsername = username.substring(0,24)+"...";
     }
   }, true);
 
