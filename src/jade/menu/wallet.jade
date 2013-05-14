@@ -1,9 +1,11 @@
-nav: ul
-  li(ng-class="{active: $route.current.tabName == 'balance'}")
-    a(href="#/balance") Balance
-  li(ng-class="{active: $route.current.tabName == 'history'}")
-    a(href="#/history") History
-  li(ng-class="{active: $route.current.tabName == 'contacts'}")
-    a(href="#/contacts") Contacts
-  li(ng-class="{active: $route.current.tabName == 'security'}")
-    a(href="#/security") Security
+nav(rp-off-canvas-menu)
+  h2(ng-bind="$route.current.tabName | rpucfirst")
+  ul
+    li(ng-class="{active: $route.current.tabName == 'balance'}")
+      a(href="#/balance") Balance
+    li(ng-class="{active: $route.current.tabName == 'history'}")
+      a(href="#/history") History
+    li(ng-class="{active: $route.current.tabName == 'contacts'}")
+      a(href="#/contacts") Contacts
+    li(ng-class="{active: $route.current.tabName == 'security'}")
+      a(href="#/security") Security

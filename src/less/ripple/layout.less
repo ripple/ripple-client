@@ -206,6 +206,44 @@ header nav ul {
     top: 0;
     left: 0;
     height: 100%;
+
+    h2 {
+      display: none;
+      font-size: 1.8em;
+      font-family: 'OpenSansBold', sans-serif;
+      font-weight: normal;
+      color: #333;
+      background-color: #eee;
+      margin: 0;
+      line-height: 60px;
+      padding-left: 75px;
+      cursor: pointer;
+      .user-select(none);
+    }
+
+    h2:before {
+      .virtualel;
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      width: 60px;
+      height: 60px;
+      background: #333 url("../../img/nav-icon-white.svg") center center no-repeat;
+      opacity: 0.7;
+    }
+
+    h2:hover:before {
+      opacity: 1;
+    }
+
+    @media (max-width: 767px) {
+      position: relative;
+      margin-top: 10px;
+
+      h2 {
+        display: block;
+      }
+    }
   }
 
   nav > ul {
@@ -246,6 +284,10 @@ header nav ul {
         &:focus {
           outline: none;
         }
+
+        @media (max-width: 767px) {
+          background-image: none !important;
+        }
       }
 
       &.no-anim > a {
@@ -279,6 +321,10 @@ header nav ul {
             border-top: 1px solid #cacaca;
             border-bottom: 1px solid #cacaca;
             background: url('../../img/subnav_active.png') no-repeat;
+
+            @media (max-width: 767px) {
+              display: none;
+            }
           }
         }
       }
@@ -298,6 +344,10 @@ header nav ul {
       width: 40px;
       .border-radius(0, 0, 8px, 8px);
       background-color: #f9f9f9;
+
+      @media (max-width: 767px) {
+        display: none;
+      }
     }
     &:after {
       .virtualel;
@@ -309,10 +359,40 @@ header nav ul {
       border-right: 1px solid #cacaca;
       z-index: 100;
       background: #f9f9f9 url('../../img/subnav_shadow.png') repeat-y right top;
+
+      @media (max-width: 767px) {
+        display: none;
+      }
     }
 
     + .panel {
       margin-left: @sideNavWidth - 15px;
+
+      @media (max-width: 767px) {
+        margin-left: 0;
+      }
+    }
+  }
+
+  @media (max-width: 767px) {
+    nav {
+      overflow: visible;
+    }
+    nav > ul {
+      position: absolute;
+      left: 0;
+      backface-visibility: hidden;
+      .translate3d(-100%, 0px, 0px);
+      .transition(0.5s);
+    }
+    &.off-canvas-nav-expand nav > ul {
+      .translate3d(0px, 0px, 0px);
+    }
+    section {
+      .transition(0.5s);
+    }
+    &.off-canvas-nav-expand section {
+      .translate3d(@sideNavWidth, 0px, 0px);
     }
   }
 }

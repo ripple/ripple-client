@@ -96,6 +96,11 @@ app.run(['$rootScope', '$injector', '$compile', '$route', '$routeParams', '$loca
   if (_.isArray($location.$$absUrl.match(/%2B|\+/gi)))
     window.location = $location.$$absUrl.replace(/%2B|\+/gi, '%20');
 
+  // Close off-canvas menu on page change
+  $rootScope.$on('$routeChangeStart', function () {
+    $('.off-canvas-nav-expand').removeClass('off-canvas-nav-expand');
+  });
+
   var scope = $rootScope;
   $rootScope.$route = $route;
   $rootScope.$routeParams = $routeParams;
