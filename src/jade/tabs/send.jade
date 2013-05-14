@@ -173,10 +173,13 @@ section#t-send.single.content(ng-controller='SendCtrl')
     group.result-malformed(ng-show='tx_result=="malformed"')
       h2.tx-status Transaction malformed!
       p(ng-switch on="engine_result")
-        span(ng-switch-when="temDST_TAG_NEEDED")
-          | Destionation account requires destination tag to be specified when making payments.
         span(ng-switch-default)
           | Your transaction is invalid, reason: {{engine_result}} - {{engine_result_message}}
+    group.result-malformed(ng-show='tx_result=="failure"')
+      h2.tx-status Transaction malformed!
+      p(ng-switch on="engine_result")
+        span(ng-switch-when="tefDST_TAG_NEEDED")
+          | Destionation account requires destination tag to be specified when making payments.
     group.result-malformed(ng-show='tx_result=="claim"')
       h2.tx-status Transaction failed!
       p(ng-switch on="engine_result")

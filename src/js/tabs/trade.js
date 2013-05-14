@@ -445,21 +445,6 @@ TradeTab.prototype.angular = function(module)
       resetIssuers(false);
     }, true);
 
-    function calculateSum(key,val,offers) {
-      $scope[val] = [];
-
-      if (!offers) return;
-
-      var sum;
-      for (var i = 0, l = offers.length; i < l; i++) {
-        sum = sum ? sum.add(offers[i][key]) : Amount.from_json(offers[i][key]);
-        $scope[val][i] = sum;
-      }
-    }
-
-    $scope.$watch('book.asks', calculateSum.bind({},'TakerGets','asum'), true);
-    $scope.$watch('book.bids', calculateSum.bind({},'TakerPays','bsum'), true);
-    
     $scope.reset();
   }]);
 };

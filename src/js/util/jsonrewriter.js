@@ -141,10 +141,6 @@ var JsonRewriter = module.exports = {
 
         case 'OfferCancel':
           transaction.type = 'offercancel';
-
-          // These will be filled by the metadata rewriter
-          obj.pays = null;
-          obj.gets = null;
           break;
 
         case 'AccountSet':
@@ -313,14 +309,20 @@ var JsonRewriter = module.exports = {
       obj.transaction.balance = ripple.Amount.from_json(obj.accountRoot.Balance);
     }
 
-    if (!$.isEmptyObject(obj)) {
-      obj.tx_type = tx.TransactionType;
-      obj.tx_result = meta.TransactionResult;
-      obj.fee = tx.Fee;
-      obj.date = (tx.date + 0x386D4380) * 1000;
-      obj.hash = tx.hash;
+    if ($.isEmptyObject(obj))
+      return;
 
-      return obj;
-    } else return null;
+    // If the transaction didn't wind up cancelling an offer
+    if (tx.TransactionType === 'OfferCancel' && (!obj.transaction.gets || !obj.transaction.pays)) {
+      return;
+    }
+
+    obj.tx_type = tx.TransactionType;
+    obj.tx_result = meta.TransactionResult;
+    obj.fee = tx.Fee;
+    obj.date = (tx.date + 0x386D4380) * 1000;
+    obj.hash = tx.hash;
+
+    return obj;
   }
 };
