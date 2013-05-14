@@ -37,6 +37,14 @@ module.controller('StatusCtrl', ['$scope', '$element', '$compile', 'rpId',
 
   }, true);
 
+  // Username
+  $scope.$watch('userCredentials', function(){
+    $scope.shortUsername = null;
+    if($scope.userCredentials.username.length > 25) {
+      $scope.shortUsername = $scope.userCredentials.username.substring(0,24)+"...";
+    }
+  }, true);
+
   // Low balance indicator
   $scope.$watch('account', function(){
     if ($scope.account.reserve) {
