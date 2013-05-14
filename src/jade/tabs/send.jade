@@ -179,7 +179,7 @@ section#t-send.single.content(ng-controller='SendCtrl')
       h2.tx-status Transaction malformed!
       p(ng-switch on="engine_result")
         span(ng-switch-when="tefDST_TAG_NEEDED")
-          | Destionation account requires destination tag to be specified when making payments.
+          | Destination account requires destination tag to be specified when making payments.
     group.result-malformed(ng-show='tx_result=="claim"')
       h2.tx-status Transaction failed!
       p(ng-switch on="engine_result")
