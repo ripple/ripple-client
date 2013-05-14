@@ -1,8 +1,16 @@
+// Desktop
 @pmSingleMargin: 60px;
 @pmPanelLeftMargin: 40px;
 @pmPanelRightMargin: 10px;
 @pmPanelLeftMarginWide: @pmSingleMargin;
 @pmPanelRightMarginWide: @pmSingleMargin - 15px;
+
+// Phone
+@pmSingleMarginPhone: 20px;
+@pmPanelLeftMarginPhone: 20px;
+@pmPanelRightMarginPhone: 20px;
+@pmPanelLeftMarginWidePhone: @pmSingleMarginPhone;
+@pmPanelRightMarginWidePhone: @pmSingleMarginPhone;
 
 html.pm-single {
   header nav {
@@ -61,6 +69,21 @@ html.pm-single {
 // So we define a wider margin, that can be triggered for sub-pages.
 .panel .wide, .panel .wide group {
   .page-mode-margins(@pmPanelLeftMarginWide, @pmPanelRightMarginWide);
+}
+
+// On small screens we use smaller margins
+@media (max-width: 767px) {
+  .single, .single group {
+    .page-mode-margins(@pmSingleMarginPhone, @pmSingleMarginPhone);
+  }
+
+  .panel, .panel group {
+    .page-mode-margins(@pmPanelLeftMarginPhone, @pmPanelRightMarginPhone);
+  }
+
+  .panel .wide, .panel .wide group {
+    .page-mode-margins(@pmPanelLeftMarginWidePhone, @pmPanelRightMarginWidePhone);
+  }
 }
 
 .modal {
