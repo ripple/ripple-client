@@ -8,6 +8,10 @@ html {
 body {
   background: #ededed;
   font-family: sans-serif;
+
+  @media (max-width: 767px) {
+    padding: 0;
+  }
 }
 body.loaded {
   background: #F9F9F9 url("../../img/bg_tile.png");
@@ -104,6 +108,11 @@ header nav ul {
     padding-right: 30px;
     text-align: center;
     z-index: 1;
+
+    @media (max-width: 767px) {
+      padding-left: 5px;
+      padding-right: 5px;
+    }
 
     > a {
       opacity: 0.6;
