@@ -79,6 +79,12 @@ function(net, $q, $scope, $filter) {
       return d;
     }));
 
+    var key = action === "asks" ? "TakerGets" : "TakerPays";
+    _.each(newData, function (order, i) {
+      if (i) order.sum = newData[i-1].sum.add(order[key]);
+      else order.sum = order[key];
+    });
+
     return newData;
   }
 
