@@ -22,6 +22,7 @@ section.panel.content(ng-controller="ContactsCtrl")
               rp-autofill='$routeParams.name', rp-autofill-on='addform_visible = true'
               required)
             .errorGroup(rp-errors='name')
+              .error(rp-error-on='required') Please enter a name.
               .error(rp-error-on='rpUnique')
                 | You already have a contact with the same name.
             label(for='Address') Address
@@ -34,7 +35,7 @@ section.panel.content(ng-controller="ContactsCtrl")
               rp-autofill='$routeParams.to', rp-autofill-on='addform_visible = true'
               required)
             .errorGroup(rp-errors='address')
-              .error(rp-error-on='required') Please enter address.
+              .error(rp-error-on='required') Please enter an address.
               .error(rp-error-on='rpAddress') Not a valid address.
               .error(rp-error-on='rpUnique') You already have a contact with the same address.
             label(for='dt') Destination tag

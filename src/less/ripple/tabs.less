@@ -390,7 +390,7 @@
     }
 
     tr.offercancel {
-      background-color: #F2DEDE;
+      background-color: #eee;
     }
 
     tr td {
@@ -483,8 +483,12 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
   }
 
   form {
-    .error {
-      margin-top: 0;
+    .amount {
+      .clearfix;
+      > * {
+        display: block;
+        float: left;
+      }
     }
   }
 
@@ -842,8 +846,8 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
     input {
       margin-bottom: 35px;
     }
-    .error {
-      margin-top: -30px;
+    .errorGroup {
+      top: -30px;
     }
 
     .submitsection {

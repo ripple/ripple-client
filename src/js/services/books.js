@@ -29,31 +29,32 @@ function(net, $q, $scope, $filter) {
       // prefer taker_pays_funded & taker_gets_funded
       if (d.hasOwnProperty('taker_gets_funded'))
       {
-        d.TakerGets = d.taker_gets_funded;
-        d.TakerPays = d.taker_pays_funded;
+        d.TakerGets = Amount.from_json(d.taker_gets_funded);
+        d.TakerPays = Amount.from_json(d.taker_pays_funded);
       }
 
       d.TakerGets = Amount.from_json(d.TakerGets);
       d.TakerPays = Amount.from_json(d.TakerPays);
 
-      var book_price    = Amount.from_quality(d.BookDirectory, "1", "1");
+      d.price = Amount.from_quality(d.BookDirectory, "1", "1");
+      if (action !== "asks") d.price = Amount.from_json("1/1/1").divide(d.price);
 
       // Adjust for drops: The result would be a million times too large.
-      if (d.TakerPays.is_native())
-        book_price  = book_price.divide(Amount.from_json("1000000"));
+      if (d[action === "asks" ? "TakerPays" : "TakerGets"].is_native())
+        d.price  = d.price.divide(Amount.from_json("1000000"));
 
       // Adjust for drops: The result would be a million times too small.
-      if (d.TakerGets.is_native())
-        book_price  = book_price.multiply(Amount.from_json("1000000"));
+      if (d[action === "asks" ? "TakerGets" : "TakerPays"].is_native())
+        d.price  = d.price.multiply(Amount.from_json("1000000"));
 
-      var price = rpamount(book_price, {
+      var price = rpamount(d.price, {
         rel_precision: 4,
         rel_min_precision: 2
       });
 
-      if (lastprice == price) {
+      if (lastprice === price) {
         if (combine) {
-          if (action == 'asks') {
+          if (action === 'asks') {
             newData[current].TakerPays = Amount.from_json(newData[current].TakerPays).add(d.TakerPays).to_json();
             newData[current].TakerGets = Amount.from_json(newData[current].TakerGets).add(d.TakerGets).to_json();
           } else {

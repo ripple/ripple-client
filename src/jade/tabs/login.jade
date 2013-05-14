@@ -52,7 +52,7 @@ section.single.content(ng-controller="LoginCtrl")
         p.label(ng-show="$routeParams.amount") you will send
         p.label(ng-hide="$routeParams.amount") you will send money to the ripple address
         .amount(ng-show="$routeParams.amount")
-          span.number {{$routeParams.amount | rpamount}}
+          span.number {{$routeParams.amount | rpamount:{xrp_human: true} }}
           span.currency {{$routeParams.amount | rpcurrency}}
         p.label(ng-show="$routeParams.amount") To the ripple address
         .address {{$routeParams.to}}
@@ -62,7 +62,7 @@ section.single.content(ng-controller="LoginCtrl")
         p.literal {{$routeParams.label}}
         p.label you will trust
         .amount(ng-show="$routeParams.amount")
-          span.number {{$routeParams.amount | rpamount}}
+          span.number {{$routeParams.amount | rpamount:{xrp_human: true} }}
           span.currency {{$routeParams.amount | rpcurrency}}
         p.label(ng-hide="$routeParams.name") To ripple address
         p.label(ng-show="$routeParams.name") To <b>{{$routeParams.name}}</b> with a ripple address

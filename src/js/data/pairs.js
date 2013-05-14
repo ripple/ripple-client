@@ -15,6 +15,7 @@ module.exports = [
   {name: 'AUD/XRP', order: 0},
   {name: 'CHF/XRP', order: 0},
   {name: 'CAD/XRP', order: 0},
+  {name: 'CNY/XRP', order: 0},
   {name: 'BTC/USD', order: 0},
   {name: 'BTC/EUR', order: 0},
   {name: 'EUR/USD', order: 0},
