@@ -67,7 +67,7 @@ html.pm-single {
 // The default margin for .panel pages is pretty slim (25px).
 //
 // So we define a wider margin, that can be triggered for sub-pages.
-.panel .wide, .panel .wide group {
+.panel.wide, .panel group.wide {
   .page-mode-margins(@pmPanelLeftMarginWide, @pmPanelRightMarginWide);
 }
 
@@ -81,7 +81,7 @@ html.pm-single {
     .page-mode-margins(@pmPanelLeftMarginPhone, @pmPanelRightMarginPhone);
   }
 
-  .panel .wide, .panel .wide group {
+  .panel.wide, .panel group.wide {
     .page-mode-margins(@pmPanelLeftMarginWidePhone, @pmPanelRightMarginWidePhone);
   }
 }
