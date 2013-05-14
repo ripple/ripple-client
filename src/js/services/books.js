@@ -28,7 +28,7 @@ function(net, $q, $scope, $filter) {
     var newData = jQuery.extend(true, {}, data);
 
     var rowCount = 0;
-    newData = _.compact(_.map(newData, function(d, i) {
+    newData = _.values(_.compact(_.map(newData, function(d, i) {
       // This check is redundant, but saves the CPU some work
       if (rowCount > max_rows) return false;
 
@@ -77,12 +77,13 @@ function(net, $q, $scope, $filter) {
       if (rowCount > max_rows) return false;
 
       return d;
-    }));
+    })));
 
     var key = action === "asks" ? "TakerGets" : "TakerPays";
+    var sum;
     _.each(newData, function (order, i) {
-      if (i) order.sum = newData[i-1].sum.add(order[key]);
-      else order.sum = order[key];
+      if (sum) sum = order.sum = sum.add(order[key]);
+      else sum = order.sum = order[key];
     });
 
     return newData;
