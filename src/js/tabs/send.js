@@ -65,6 +65,9 @@ SendTab.prototype.angular = function (module)
       var recipient = $scope.send.recipient_address;
       var formatted = "" + $scope.send.amount + " " + currency.slice(0, 3);
 
+      // Trying to send XRP to self
+      $scope.send.self = recipient == $scope.address && $scope.send.amount;
+
       // if formatted or money to send is 0 then don't calculate paths or offer to send
       if (parseFloat(formatted) === 0)
       {

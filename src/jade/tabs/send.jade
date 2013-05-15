@@ -70,16 +70,15 @@ section#t-send.single.content(ng-controller='SendCtrl')
         rp-autofill='$routeParams.amount'
         rp-autofill-currency)
     .errorGroup(rp-errors='send_amount')
-      //.success(rp-error-valid)
-      //  | {{amount_feedback | rpamount}} {{amount_feedback | rpcurrency}}
       .error(rp-error-on='required')
         | Please enter an amount.
       .error(rp-error-on='rpAmount')
         | Not a valid amount.
       .error(rp-error-on='rpMaxAmount')
         | This transaction exceeds your balance, you can send a max. of {{account.max_spend | rpamount:{rel_precision: 0} }} XRP
+      .error(ng-show="send.type == 'native' && send.self") What's the point of sending XRP to yourself?
     .submitsection(ng-show="send.type == 'native'")
-      button.btn.btn-success.submit(type='submit', ng-disabled='sendForm.$invalid') Send XRP
+      button.btn.btn-success.submit(type='submit', ng-disabled='sendForm.$invalid || send.self') Send XRP
     p.literal(ng-show="send.fund_status == 'insufficient-xrp'") Destination account is unfunded; send at least {{xrp_deficiency | rpamount}} XRP to initialize it.&nbsp;
       a(href="https://ripple.com/wiki/Reserves", target="_blank") More information
     p.literal(ng-show="send.path_status == 'waiting'") Please enter the transaction details.
