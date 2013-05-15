@@ -55,13 +55,14 @@ section#t-send.single.content(ng-controller='SendCtrl')
     label(for='send_amount') Recipient will receive
     .amount
       input.value#send_amount(
-        name='send_amount', type='number', min='0', step='any'
+        name='send_amount', type='text'
         ng-model='send.amount'
-        ng-pattern='/^[0-9.]+$/', required, ng-maxlength='20'
+        required
         rp-autofill='$routeParams.amount'
         rp-autofill-amount
         rp-max-amount
-        rp-max-amount-currency='{{send.currency}}')
+        rp-max-amount-currency='{{send.currency}}'
+        rp-positive-amount)
       input.currency#send_amount_currency(
         name='send_amount_currency', type='text'
         rp-combobox="currency_query", rp-combobox-select
@@ -73,9 +74,7 @@ section#t-send.single.content(ng-controller='SendCtrl')
       //  | {{amount_feedback | rpamount}} {{amount_feedback | rpcurrency}}
       .error(rp-error-on='required')
         | Please enter an amount.
-      .error(rp-error-on='pattern')
-        | Not a valid amount.
-      .error(rp-error-on='maxlength')
+      .error(rp-error-on='rpAmount')
         | Not a valid amount.
       .error(rp-error-on='rpMaxAmount')
         | This transaction exceeds your balance, you can send a max. of {{account.max_spend | rpamount:{rel_precision: 0} }} XRP
