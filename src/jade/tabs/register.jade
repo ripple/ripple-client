@@ -12,7 +12,8 @@ section.single.content(ng-controller="RegisterCtrl")
     form(name='registerForm', ng-submit='submitForm()')
       label(for='register_username') Create Wallet Name
       input#register_username(
-        name='register_username', type='text', ng-model="username", required)
+        name='register_username', type='text', ng-model="username", required
+        rp-focus)
       .horiz
         div
           label(for='register_password') Create Wallet Passphrase
@@ -35,7 +36,7 @@ section.single.content(ng-controller="RegisterCtrl")
         label(for='register_masterkey')
           | Secret Account Key&nbsp;
           a(ng-click="showMasterKeyInput=false;") (hide)
-        input#register_masterkey(name='register_masterkey', type='text', ng-model="masterkey", rp-master-key)
+        input#register_masterkey(name='register_masterkey', type='text', ng-model="masterkey", rp-master-key, rp-focus)
         .errorBox(ng-show="registerForm.register_masterkey.$error.rpMasterKey")
           p.text-error Secret Account Key is invalid
       .submitsection

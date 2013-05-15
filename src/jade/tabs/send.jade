@@ -22,7 +22,8 @@ section#t-send.single.content(ng-controller='SendCtrl')
       placeholder='Contact name or Ripple address'
       ng-model='send.recipient'
       rp-destination, required
-      rp-autofill='$routeParams.to')
+      rp-autofill='$routeParams.to'
+      rp-focus)
     .errorGroup(rp-errors='send_destination')
       .success(rp-error-valid ng-show='send.recipient != send.recipient_address')
         | {{send.recipient_address}}

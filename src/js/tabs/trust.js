@@ -43,11 +43,6 @@ TrustTab.prototype.angular = function (module)
     $scope.toggle_form = function ()
     {
       $scope.addform_visible = !$scope.addform_visible;
-
-      // Focus on first input
-      setImmediate(function() {
-        $('#trustForm').find('input:first').focus();
-      });
     };
 
     $scope.$watch('counterparty', function() {
@@ -186,11 +181,6 @@ TrustTab.prototype.angular = function (module)
           console.warn("Unhandled engine status encountered!");
       }
     }
-
-    // Focus on input when save address form opens
-    $scope.show_save_address_form = function(){
-      $('#contact_name').focus();
-    };
 
     $scope.saveAddress = function () {
       $scope.addressSaving = true;

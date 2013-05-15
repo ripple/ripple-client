@@ -222,11 +222,6 @@ SendTab.prototype.angular = function (module)
       $scope.error_type = '';
       $scope.resetAddressForm();
       if ($scope.sendForm) $scope.sendForm.$setPristine(true);
-
-      // Focus on first input
-      setImmediate(function() {
-        $('#sendForm').find('input:first').focus();
-      });
     };
 
     $scope.cancelConfirm = function () {

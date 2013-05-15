@@ -20,7 +20,8 @@ section.panel.content(ng-controller="ContactsCtrl")
               rp-unique='userBlob.data.contacts'
               rp-unique-field='name'
               rp-autofill='$routeParams.name', rp-autofill-on='addform_visible = true'
-              required)
+              required
+              rp-focus)
             .errorGroup(rp-errors='name')
               .error(rp-error-on='required') Please enter a name.
               .error(rp-error-on='rpUnique')
