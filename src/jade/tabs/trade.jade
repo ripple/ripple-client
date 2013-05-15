@@ -127,9 +127,9 @@ section.panel.content(ng-controller="TradeCtrl")
               label(for='order_amount', ng-show="order.type == 'buy'") Amount To Buy
               .input-append
                 input#order_amount(
-                  name='amount', type='number', min='0', step='any'
+                  name='amount'
                   ng-model='order.first', ng-change='calc_second()'
-                  rp-amount, required)
+                  rp-positive-amount, required)
                 .add-on {{order.first_currency}}
               .errorGroup(rp-errors='amount')
                 .error(rp-error-on='rpAmount') Not a valid amount.
@@ -139,9 +139,9 @@ section.panel.content(ng-controller="TradeCtrl")
               label(for='order_price') Price of Each
               .input-append
                 input#order_price(
-                  name='price', type='number', min='0', step='any'
+                  name='price'
                   ng-model='order.price', ng-change='calc_second()'
-                  rp-amount, required)
+                  rp-positive-amount, required)
                 .add-on {{order.second_currency}}
               .errorGroup(rp-errors='price')
                 .error(rp-error-on='rpAmount') Not a valid price.
@@ -152,9 +152,9 @@ section.panel.content(ng-controller="TradeCtrl")
               label(for='order_value') Order Value
               .input-append
                 input#order_value(
-                  name='value', type='number', step='any'
+                  name='value'
                   ng-model='order.second', ng-change='calc_first()'
-                  rp-amount, required)
+                  rp-positive-amount, required)
                 .add-on {{order.second_currency}}
               .errorGroup(rp-errors='value')
                 .error(rp-error-on='rpAmount') Not a valid value.
