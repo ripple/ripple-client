@@ -65,6 +65,9 @@ SendTab.prototype.angular = function (module)
       var recipient = $scope.send.recipient_address;
       var formatted = "" + $scope.send.amount + " " + currency.slice(0, 3);
 
+      // Trying to send XRP to self
+      $scope.send.self = recipient == $scope.address && $scope.send.amount;
+
       // if formatted or money to send is 0 then don't calculate paths or offer to send
       if (parseFloat(formatted) === 0)
       {
@@ -222,11 +225,6 @@ SendTab.prototype.angular = function (module)
       $scope.error_type = '';
       $scope.resetAddressForm();
       if ($scope.sendForm) $scope.sendForm.$setPristine(true);
-
-      // Focus on first input
-      setImmediate(function() {
-        $('#sendForm').find('input:first').focus();
-      });
     };
 
     $scope.cancelConfirm = function () {

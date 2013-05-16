@@ -486,7 +486,7 @@ module.directive('rpMaxAmount', function () {
 /**
  * Amount validator
  */
-module.directive('rpAmount', function () {
+module.directive('rpPositiveAmount', function () {
   return {
     restrict: 'A',
     require: '?ngModel',
@@ -494,9 +494,9 @@ module.directive('rpAmount', function () {
       if (!ctrl) return;
 
       var validator = function(value) {
-        if (value) {
-          ctrl.$setValidity('rpAmount', ripple.Amount.from_json(value).is_valid());
-        }
+        var amount = ripple.Amount.from_json(value);
+
+        ctrl.$setValidity('rpAmount', amount.is_valid() && amount.to_json() > 0);
 
         return value;
       };

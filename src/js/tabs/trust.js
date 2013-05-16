@@ -29,6 +29,7 @@ TrustTab.prototype.angular = function (module)
       $scope.mode = 'main';
       $scope.currency = 'USD';
       $scope.addform_visible = false;
+      $scope.edituser = '';
       $scope.amount = '';
       $scope.counterparty = '';
       $scope.saveAddressName = '';
@@ -40,14 +41,11 @@ TrustTab.prototype.angular = function (module)
       }
     };
 
-    $scope.toggle_form = function ()
-    {
-      $scope.addform_visible = !$scope.addform_visible;
-
-      // Focus on first input
-      setImmediate(function() {
-        $('#trustForm').find('input:first').focus();
-      });
+    $scope.toggle_form = function () {
+      if($scope.addform_visible)
+        $scope.reset();
+      else
+        $scope.addform_visible = true;
     };
 
     $scope.$watch('counterparty', function() {
@@ -187,11 +185,6 @@ TrustTab.prototype.angular = function (module)
       }
     }
 
-    // Focus on input when save address form opens
-    $scope.show_save_address_form = function(){
-      $('#contact_name').focus();
-    };
-
     $scope.saveAddress = function () {
       $scope.addressSaving = true;
 
@@ -216,10 +209,15 @@ TrustTab.prototype.angular = function (module)
       var contact = filterAddress(line.account);
       $scope.edituser = (contact) ? contact : 'User';
       $scope.validation_pattern = contact ? /^[0-9.]+$/ : /^0*(([1-9][0-9]*.?[0-9]*)|(.0*[1-9][0-9]*))$/;
-      $scope.addform_visible = true;
       $scope.currency = line.currency;
       $scope.counterparty = line.account;
       $scope.amount = +line.limit.to_text();
+
+      // Close/open form. Triggers focus on input.
+      $scope.addform_visible = false;
+      $timeout(function(){
+        $scope.addform_visible = true;
+      })
     };
 
     /**
