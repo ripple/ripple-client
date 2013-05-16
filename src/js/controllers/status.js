@@ -32,9 +32,16 @@ module.controller('StatusCtrl', ['$scope', '$element', '$compile', 'rpId',
       return parseFloat(Math.abs(b.total.to_text())) - parseFloat(Math.abs(a.total.to_text()));
     });
 
-    $scope.balance_count = Object.keys($scope.balances).length;
+    $scope.balance_count = $scope.orderedBalances.length;
+  }, true);
 
-
+  // Username
+  $scope.$watch('userCredentials', function(){
+    var username = $scope.userCredentials.username;
+    $scope.shortUsername = null;
+    if(username && username.length > 25) {
+      $scope.shortUsername = username.substring(0,24)+"...";
+    }
   }, true);
 
   // Low balance indicator

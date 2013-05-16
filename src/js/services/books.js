@@ -7,8 +7,8 @@
 var module = angular.module('books', ['network']);
 var Amount = ripple.Amount;
 
-module.factory('rpBooks', ['rpNetwork', '$q', '$rootScope', '$filter',
 
+module.factory('rpBooks', ['rpNetwork', '$q', '$rootScope', '$filter',
 function(net, $q, $scope, $filter) {
   function loadBook(gets, pays, taker) {
     return net.remote.book(gets.currency, gets.issuer,
@@ -17,6 +17,8 @@ function(net, $q, $scope, $filter) {
   }
 
   function filterRedundantPrices(data, action, combine) {
+    var max_rows = Options.orderbook_max_rows || 100;
+
     var price;
     var lastprice;
     var current;
@@ -25,7 +27,11 @@ function(net, $q, $scope, $filter) {
     var demoninator;
     var newData = jQuery.extend(true, {}, data);
 
-    newData = _.compact(_.map(newData, function(d, i) {
+    var rowCount = 0;
+    newData = _.values(_.compact(_.map(newData, function(d, i) {
+      // This check is redundant, but saves the CPU some work
+      if (rowCount > max_rows) return false;
+
       // prefer taker_pays_funded & taker_gets_funded
       if (d.hasOwnProperty('taker_gets_funded'))
       {
@@ -66,8 +72,19 @@ function(net, $q, $scope, $filter) {
       } else current = i;
       lastprice = price;
 
+      if (d) rowCount++;
+
+      if (rowCount > max_rows) return false;
+
       return d;
-    }));
+    })));
+
+    var key = action === "asks" ? "TakerGets" : "TakerPays";
+    var sum;
+    _.each(newData, function (order, i) {
+      if (sum) sum = order.sum = sum.add(order[key]);
+      else sum = order.sum = order[key];
+    });
 
     return newData;
   }

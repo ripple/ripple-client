@@ -2,15 +2,24 @@ include ../menu/advanced.jade
 section.panel.content(ng-controller="OptionsCtrl")
   p.literal Options
   hr
-  form(name="optionsForm")
+  form(name="optionsForm", ng-submit="save()")
     div
       label(for="socketIp") Web Socket IP, port
       input.socketIp(
         name='socketIp', id="socketIp", type='text'
-        ng-model='socketIp')
+        ng-model='socketIp'
+        rp-hostname)
       input.socketPort(
         name='socketPort', id="socketPort", type='text'
-        ng-model='socketPort')
+        ng-model='socketPort'
+        rp-port-number)
+      .errorGroup
+        div(rp-errors='socketIp')
+          .error(rp-error-on='rpHostname')
+            | Socket ip or hostname is invalid.
+        div(rp-errors='socketPort')
+          .error(rp-error-on='rpPortNumber')
+            | Port number is invalid.
       div.helperInput
         input(type="checkbox", name="socketSsl", id="socketSsl", ng-model='socketSsl')
         label(for="socketSsl") Web Socket ssl
@@ -23,4 +32,4 @@ section.panel.content(ng-controller="OptionsCtrl")
       p.submitsection
         button.btn.btn-success.submit(
           type='submit'
-          ng-click='save()') Save
+          ng-disabled='optionsForm.$invalid') Save

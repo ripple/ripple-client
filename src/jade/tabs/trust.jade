@@ -38,7 +38,8 @@ section.panel.content(ng-controller="TrustCtrl")
                 rp-combobox="counterparty_query", placeholder='Contact name or Ripple address',
                 rp-destination, rp-not-me, required
                 rp-autofill='$routeParams.to'
-                rp-autofill-on='addform_visible = true')
+                rp-autofill-on='addform_visible = true'
+                rp-focus)
               .errorGroup(rp-errors='trust_counterparty')
                 div(rp-error-valid)
                   .success(ng-show='counterparty != counterparty_address && counterparty_name && !error_account_reserve')
@@ -146,7 +147,8 @@ section.panel.content(ng-controller="TrustCtrl")
             input#contact_name(
               name='save_address_name', type="text"
               ng-model='saveAddressName', unique, required
-              rp-autofill='$routeParams.name')
+              rp-autofill='$routeParams.name'
+              rp-focus)
             .error(ng-show='saveAddressForm.save_address_name.$error.unique') You already have a contact with the same name.
             div
               button.btn.btn-success(type='submit', ng-disabled='addressSaving')
