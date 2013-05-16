@@ -64,6 +64,18 @@ module.filter('rpcurrency', function () {
 });
 
 /**
+ * Get the currency issuer.
+ */
+module.filter('rpissuer', function () {
+  return function (input) {
+    if (!input) return "";
+
+    var amount = Amount.from_json(input);
+    return amount.issuer().to_json();
+  };
+});
+
+/**
  * Get the full currency name from an Amount.
  */
 module.filter('rpcurrencyfull', ['$rootScope', function ($scope) {

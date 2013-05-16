@@ -291,10 +291,15 @@ module.directive('rpDownload', [function() {
 module.directive('rpTooltip', [function() {
   return function(scope, element, attr) {
     attr.$observe('rpTooltip', function(value) {
+      // Title
+      var options = {'title': value};
+
+      // Placement
+      if (attr.rpTooltipPlacement)
+        options.placement = attr.rpTooltipPlacement;
+
       $(element).tooltip('destroy');
-      $(element).tooltip({
-        'title': value
-      });
+      $(element).tooltip(options);
     });
   };
 }]);
@@ -527,3 +532,18 @@ module.directive('ngUpload', function() {
     }
   };
 });
+
+
+/**
+ * Focus element on render
+ */
+module.directive('rpFocus', ['$timeout', function($timeout) {
+  return function($scope, element) {
+    $timeout(function(){
+      $scope.$watch(function () {return element.is(':visible')}, function(newValue) {
+        if (newValue === true)
+          element.focus();
+      })
+    })
+  }
+}]);

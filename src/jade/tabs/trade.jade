@@ -127,9 +127,9 @@ section.panel.content(ng-controller="TradeCtrl")
               label(for='order_amount', ng-show="order.type == 'buy'") Amount To Buy
               .input-append
                 input#order_amount(
-                  name='amount', type='number', min='0', step='any'
+                  name='amount', type='text'
                   ng-model='order.first', ng-change='calc_second()'
-                  rp-amount, required)
+                  rp-positive-amount, required)
                 .add-on {{order.first_currency}}
               .errorGroup(rp-errors='amount')
                 .error(rp-error-on='rpAmount') Not a valid amount.
@@ -139,9 +139,9 @@ section.panel.content(ng-controller="TradeCtrl")
               label(for='order_price') Price of Each
               .input-append
                 input#order_price(
-                  name='price', type='number', min='0', step='any'
+                  name='price', type='text'
                   ng-model='order.price', ng-change='calc_second()'
-                  rp-amount, required)
+                  rp-positive-amount, required)
                 .add-on {{order.second_currency}}
               .errorGroup(rp-errors='price')
                 .error(rp-error-on='rpAmount') Not a valid price.
@@ -152,9 +152,9 @@ section.panel.content(ng-controller="TradeCtrl")
               label(for='order_value') Order Value
               .input-append
                 input#order_value(
-                  name='value', type='number', step='any'
+                  name='value', type='text'
                   ng-model='order.second', ng-change='calc_first()'
-                  rp-amount, required)
+                  rp-positive-amount, required)
                 .add-on {{order.second_currency}}
               .errorGroup(rp-errors='value')
                 .error(rp-error-on='rpAmount') Not a valid value.
@@ -285,7 +285,7 @@ section.panel.content(ng-controller="TradeCtrl")
                   .currency {{book.bids[0].TakerGets | rpcurrency}}
             tbody
               tr(ng-repeat='order in book.bids')
-                td.sum.rpamount {{bsum[$index] | rpamount:{rel_precision: 4} }}
+                td.sum.rpamount {{order.sum | rpamount:{rel_precision: 4} }}
                 td.amount.rpamount {{order.TakerPays | rpamount:{rel_precision: 4} }}
                 td.price.rpamount
                   | {{order.price | rpamount:{rel_precision: 4, rel_min_precision: 2} }}
@@ -307,6 +307,6 @@ section.panel.content(ng-controller="TradeCtrl")
                 td.price.rpamount
                   | {{order.price | rpamount:{rel_precision: 4, rel_min_precision: 2} }}
                 td.amount.rpamount {{order.TakerGets | rpamount:{rel_precision: 4} }}
-                td.sum.rpamount {{asum[$index] | rpamount:{rel_precision: 4} }}
+                td.sum.rpamount {{order.sum | rpamount:{rel_precision: 4} }}
               tr(ng-show='!book.asks.length')
                 td(colspan="3") There are currently no asks for this pair.

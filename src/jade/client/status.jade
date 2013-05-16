@@ -1,6 +1,8 @@
 #status(ng-controller="StatusCtrl", ng-class="{expand: show_secondary && balance_count >= 2}", ng-show="userCredentials.username")
   .user
-    div {{userCredentials.username}}&nbsp;
+    div
+      span.username(ng-show="shortUsername", rp-tooltip="{{userCredentials.username}}", rp-tooltip-placement="bottom") {{shortUsername}}
+      span.username(ng-hide="shortUsername") {{userCredentials.username}}
       a.logout(ng-click='logout()') logout
     .balance.primary(ng-show="account.Balance")
       span.amount(ng-class="{low: lowBalance}", rp-tooltip="{{account.Balance | rpamount}}  (reserve: {{ account_reserve | rpamount }} XRP)") {{account.Balance | rpamount:{rel_precision: 0} }}
