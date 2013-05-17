@@ -21,8 +21,6 @@ OptionsTab.prototype.angular = function(module)
   module.controller('OptionsCtrl', ['$scope', '$rootScope', 'rpId',
                                     function ($scope, $rootScope, $id)
   {
-    if (!$id.loginStatus) return $id.goId();
-
     $scope.socketIp = Options.server.websocket_ip;
     $scope.socketPort = Options.server.websocket_port;
     $scope.socketSsl = Options.server.websocket_ssl;
