@@ -18,3 +18,5 @@
         | {{balance.total | rpamount:{rel_precision: 0} }}
         span.currency {{balance.total.currency().to_human()}}
     a.toggle-secondary(ng-click="toggle_secondary()", ng-show="balance_count >= 2")
+a#status-anon(ng-hide="userCredentials.username", href="#/options")
+  span Options

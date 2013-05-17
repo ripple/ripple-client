@@ -10,9 +10,9 @@ section.panel.content(ng-controller="HistoryCtrl")
 
   group(ng-show="connected")
     ul.filter-tabs
-      li.all: a(ng-click='type = {}', ng-class="!type.transaction.type && 'active'") All Activity
-      li.received: a(ng-click='type = {transaction.type: "received"}', ng-class="type.transaction.type == 'received' && 'active'") Received
-      li.sent: a(ng-click='type = {transaction.type: "sent"}', ng-class="type.transaction.type == 'sent' && 'active'") Sent
+      li.all: a(ng-click='type = {}', ng-class="!type['transaction.type'] && 'active'") All Activity
+      li.received: a(ng-click='type = {transaction.type: "received"}', ng-class="type['transaction.type'] == 'received' && 'active'") Received
+      li.sent: a(ng-click='type = {transaction.type: "sent"}', ng-class="type['transaction.type'] == 'sent' && 'active'") Sent
     table.table
       thead
         tr
