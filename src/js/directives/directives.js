@@ -533,7 +533,6 @@ module.directive('ngUpload', function() {
   };
 });
 
-
 /**
  * Focus element on render
  */
@@ -547,3 +546,14 @@ module.directive('rpFocus', ['$timeout', function($timeout) {
     })
   }
 }]);
+
+module.directive('rpOffCanvasMenu', function() {
+  return {
+    restrict: 'A',
+    link: function(scope, element, attrs) {
+      element.find('h2').click(function () {
+        element.parent().toggleClass('off-canvas-nav-expand');
+      });
+    }
+  };
+});

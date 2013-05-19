@@ -67,7 +67,15 @@ app.config(['$routeProvider', '$injector', function ($routeProvider, $injector) 
           mainMenu: tab.mainMenu,
           template: tab.generateHtml()
         };
+
         $routeProvider.when('/'+tabName, config);
+
+        if (tab.extraRoutes) {
+          _.each(tab.extraRoutes, function(route) {
+            $.extend({}, config, route.config);
+            $routeProvider.when(route.name, config);
+          });
+        }
 
         _.each(tab.aliases, function (alias) {
           $routeProvider.when('/'+alias, config);

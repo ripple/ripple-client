@@ -12,6 +12,21 @@
   .drop-shadow(0, 0, 12px, 0.20);
   z-index: 10;
 
+  @media (min-width: 768px) and (max-width: 979px) {
+    .border-radius(0, 10px, 10px, 0);
+    top: 0;
+  }
+
+  @media (max-width: 767px) {
+    position: relative;
+    top: 0;
+    right: 0;
+    width: auto;
+    .rounded(0);
+    .drop-shadow(0, 0, 0, 0);
+    border-bottom: 1px solid #ddd;
+  }
+
   .user {
     margin: 2px 20px 0;
     border-bottom: 1px solid #b1b1b1;
@@ -159,6 +174,10 @@
   right: @notifyMargin;
   width: @statusWidth - 10px - 2*@notifyMargin;
 
+  @media (max-width: 979px) {
+    top: 37px !important;
+  }
+
   .notification {
     position: absolute;
     .rounded(5px);
@@ -204,5 +223,17 @@
       color: #fff;
       background-color: #000;
     }
+  }
+}
+
+#status-anon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 24px;
+  height: 24px;
+  background-image: url('../../img/options.png');
+  span {
+    display: none;
   }
 }

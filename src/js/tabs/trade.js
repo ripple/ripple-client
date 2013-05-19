@@ -19,10 +19,14 @@ TradeTab.prototype.generateHtml = function ()
 
 TradeTab.prototype.angularDeps = Tab.prototype.angularDeps.concat(['books']);
 
+TradeTab.prototype.extraRoutes = [ 
+  { name: '/trade/:first/:second' }
+];
+
 TradeTab.prototype.angular = function(module)
 {
-  module.controller('TradeCtrl', ['rpBooks', '$scope', 'rpId', 'rpNetwork',
-                                  function (books, $scope, $id, $network)
+  module.controller('TradeCtrl', ['rpBooks', '$scope', 'rpId', 'rpNetwork', '$routeParams', '$location',
+                                  function (books, $scope, $id, $network, $routeParams, $location)
   {
     if (!$id.loginStatus) return $id.goId();
 
@@ -445,7 +449,57 @@ TradeTab.prototype.angular = function(module)
       resetIssuers(false);
     }, true);
 
+    function calculateSum(key,val,offers) {
+      $scope[val] = [];
+
+      if (!offers) return;
+
+      var sum;
+      for (var i = 0, l = offers.length; i < l; i++) {
+        sum = sum ? sum.add(offers[i][key]) : Amount.from_json(offers[i][key]);
+        $scope[val][i] = sum;
+      }
+    }
+
+    $scope.$watch('book.asks', calculateSum.bind({},'TakerGets','asum'), true);
+    $scope.$watch('book.bids', calculateSum.bind({},'TakerPays','bsum'), true);
+    
     $scope.reset();
+
+    if ($routeParams.first && $routeParams.second) {
+      var firstIssuer    = $routeParams.first.match(/:(.+)$/);
+      var firstCurrency  = $routeParams.first.match(/^(\w{3})/);
+      var secondIssuer   = $routeParams.second.match(/:(.+)$/);
+      var secondCurrency = $routeParams.second.match(/^(\w{3})/);
+
+      if (firstIssuer) {
+        if (ripple.UInt160.is_valid(firstIssuer[1])) {
+          $scope.order.first_issuer = firstIssuer[1];
+        } else {
+          $location.path('/trade');
+        }
+      }
+
+      if (secondIssuer) {
+        if (ripple.UInt160.is_valid(secondIssuer[1])) {
+          $scope.order.second_issuer = secondIssuer[1];
+        } else {
+          $location.path('/trade');
+        }
+      }
+
+      if (firstCurrency && secondCurrency) {
+        firstCurrency = firstCurrency[1], secondCurrency = secondCurrency[1];
+        if (firstCurrency !== secondCurrency) {
+          $scope.order.currency_pair = firstCurrency + '/' + secondCurrency;
+        } else {
+          $location.path('/trade');
+        }
+      }
+
+      updateSettings();
+    }
+
   }]);
 };
 
