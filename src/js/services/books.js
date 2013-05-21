@@ -61,11 +61,11 @@ function(net, $q, $scope, $filter) {
       if (lastprice === price) {
         if (combine) {
           if (action === 'asks') {
-            newData[current].TakerPays = Amount.from_json(newData[current].TakerPays).add(d.TakerPays).to_json();
-            newData[current].TakerGets = Amount.from_json(newData[current].TakerGets).add(d.TakerGets).to_json();
+            newData[current].TakerPays = Amount.from_json(newData[current].TakerPays).add(d.TakerPays);
+            newData[current].TakerGets = Amount.from_json(newData[current].TakerGets).add(d.TakerGets);
           } else {
-            newData[current].TakerPays = Amount.from_json(newData[current].TakerPays).add(d.TakerPays).to_json();
-            newData[current].TakerGets = Amount.from_json(newData[current].TakerGets).add(d.TakerGets).to_json();
+            newData[current].TakerPays = Amount.from_json(newData[current].TakerPays).add(d.TakerPays);
+            newData[current].TakerGets = Amount.from_json(newData[current].TakerGets).add(d.TakerGets);
           }
         }
         d = false;
