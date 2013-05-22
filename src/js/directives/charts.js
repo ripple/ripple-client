@@ -85,8 +85,16 @@ module.directive('rpTrustLine', ['$filter', function($filter) {
     ctx.textAlign = 'center';
     ctx.fillText(rpamount(data.balance, fmt), f(balance), axisY+highText);
     ctx.fillStyle = '#333';
-    ctx.fillText("-"+rpamount(data.limit_peer, fmt), f(trust_l), axisY+lowText);
-    ctx.fillText(rpamount(data.limit, fmt), f(trust_r), axisY+lowText);
+
+    var lAmount = "-"+rpamount(data.limit_peer, fmt);
+
+    if (trust_l === trust_r && 0 === trust_l) {
+      lAmount = "0 / 0";
+    } else {
+      ctx.fillText(rpamount(data.limit, fmt), f(trust_r), axisY+lowText);
+    }
+
+    ctx.fillText(lAmount, f(trust_l), axisY+lowText);
 
     // Convert a value to a pixel position
     function f(val)
