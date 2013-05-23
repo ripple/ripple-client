@@ -416,9 +416,9 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
       handleAccountLoad(e, data);
     }
 
-    // Server is not connected yet. Handle account load after server response
+    // Server is not connected yet. Handle account load after server response.
     $scope.$on('$netConnected', function(){
-      if (!$scope.account.length || $scope.account.length < 1) {
+      if (!$scope.account) {
         handleAccountLoad(e, data);
       }
     });
