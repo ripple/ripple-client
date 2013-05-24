@@ -71,8 +71,7 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
     // Transactions
     remote.request_account_tx({
       'account': data.account,
-      'ledger_index_min': 0,
-      'ledger_index_max': 9999999,
+      'ledger_index_min': -1,
       'descending': true,
       'limit': Options.transactions_per_page,
       'count': true
