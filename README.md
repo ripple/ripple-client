@@ -11,6 +11,10 @@ This is a general purpose Ripple client in JavaScript.
 * `src/js/util` Various static, stateless utility functions
 * `tools/` Tools used in the build process
 
+## Bug tracker
+
+Have a bug or a feature request? [Please open a new issue](https://github.com/rippleFoundation/ripple-client/issues).
+
 ## More information
 
 * https://ripple.com/wiki/Ripple_Client
