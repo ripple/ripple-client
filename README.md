@@ -19,8 +19,9 @@ Have a bug or a feature request? [Please open a new issue](https://github.com/ri
 
 Keep track of development and community news.
 
-* Follow [@Ripple on Twitter](http://twitter.com/ripple).
 * Read and subscribe to the [The Official Ripple Blog](https://ripple.com/blog/).
+* Follow [@Ripple on Twitter](http://twitter.com/ripple).
+* Subscribe to [@Ripple on Reddit](http://www.reddit.com/r/Ripple)
 * Have a question that's not a feature request or bug report? Send a message to [info@ripple.com](mailto:info@ripple.com)
 * Chat with ripplers in IRC. On the `irc.freenode.net` server, in the `#ripple` channel.
 
