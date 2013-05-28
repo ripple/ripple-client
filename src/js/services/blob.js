@@ -58,12 +58,29 @@ module.factory('rpBlob', ['$rootScope', function ($scope)
             }
 
             if (data) {
-              var blob = BlobObj.decrypt(user+pass, atob(data));
-              callback(backend.name, null, blob);
+              try {
+                // Try new-style key
+                var key = ""+user.length+'|'+user+pass;
+                var blob = BlobObj.decrypt(key, atob(data));
+                callback(backend.name, null, blob);
+                return;
+              } catch (e1) {
+                try {
+                  // Try old style key
+                  key = user+pass;
+                  blob = BlobObj.decrypt(key, atob(data));
+                  callback(backend.name, null, blob);
+                  return;
+                } catch (e2) {
+                  // Unable to decrypt blob
+                  var msg = 'Unable to decrypt blob (Username / Password is wrong';
+                  callback(backend.name, new Error(msg), blob);
+                }
+              }
             } else if (backends.length) {
               tryNext();
             } else {
-              callback(backend.name, Error('Wallet not found (Username / Password is wrong)'));
+              callback(backend.name, new Error('Wallet not found (Username / Password is wrong)'));
             }
           });
         });
@@ -89,7 +106,8 @@ module.factory('rpBlob', ['$rootScope', function ($scope)
     if (typeof(bl.data.contacts) === 'object')
       bl.data.contacts = angular.fromJson(angular.toJson(bl.data.contacts));
 
-    return btoa(sjcl.encrypt(username + password, JSON.stringify(bl.data), {
+    var key = ""+username.length+'|'+username+password;
+    return btoa(sjcl.encrypt(key, JSON.stringify(bl.data), {
       iter: 1000,
       adata: JSON.stringify(bl.meta),
       ks: 256
