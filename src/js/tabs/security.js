@@ -28,7 +28,7 @@ SecurityTab.prototype.angular = function (module) {
       if ("string" === typeof $id.username &&
           "string" === typeof $id.password &&
           $scope.userBlob) {
-        $scope.enc = $blob.enc($id.username, $id.password, $scope.userBlob);
+        $scope.enc = $blob.enc($id.username.toLowerCase(), $id.password, $scope.userBlob);
       }
     }
   }]);
