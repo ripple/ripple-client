@@ -44,6 +44,7 @@ RegisterTab.prototype.angular = function (module) {
       $scope.key = '';
       $scope.mode = 'form';
       $scope.showMasterKeyInput = false;
+      $scope.submitLoading = false;
 
       if ($scope.registerForm) $scope.registerForm.$setPristine(true);
     };
@@ -94,6 +95,7 @@ RegisterTab.prototype.angular = function (module) {
             $scope.register();
           } else {
             $id.login($scope.username, $scope.password1, function (error) {
+              $scope.submitLoading = false;
               if (error) {
                 // There is a conflicting wallet, but we can't login to it
                 $scope.mode = 'loginerror';
