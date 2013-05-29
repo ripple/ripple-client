@@ -120,8 +120,9 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', 'rp
     if (Options.persistent_auth && !!store.get('ripple_auth')) {
       var auth = store.get('ripple_auth');
 
-      this.login(auth.username, auth.password);
-      this.loginStatus = true;
+      this.login(auth.username, auth.password, function (err, success) {
+        if (!err && success) self.loginStatus = true;
+      });
     }
   };
 
@@ -208,7 +209,23 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', 'rp
     });
   };
 
-  Id.prototype.login = function (username,password,callback)
+  Id.prototype.exists = function (username, password, callback)
+  {
+    var self = this;
+
+    username = Id.normalizeUsername(username);
+    password = Id.normalizePassword(password);
+
+    $blob.get(self.blobBackends, username.toLowerCase(), password, function (err, data) {
+      if (!err && data) {
+        callback(null, true);
+      } else {
+        callback(null, false);
+      }
+    });
+  };
+
+  Id.prototype.login = function (username, password, callback)
   {
     var self = this;
 
@@ -218,9 +235,17 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', 'rp
     username = Id.normalizeUsername(username);
     password = Id.normalizePassword(password);
 
-    $blob.get(self.blobBackends, username.toLowerCase(), password, function (backendName, err, blob) {
+    $blob.get(self.blobBackends, username.toLowerCase(), password, function (err, data) {
       if (err) {
-        callback(backendName,err);
+        callback(err);
+        return;
+      }
+
+      var blob = $blob.decrypt(username.toLowerCase(), password, data);
+      if (!blob) {
+        // Unable to decrypt blob
+        var msg = 'Unable to decrypt blob (Username / Password is wrong';
+        callback(new Error(msg));
         return;
       }
 
@@ -239,7 +264,13 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', 'rp
       $scope.$broadcast('$blobUpdate');
       store.set('ripple_known', true);
 
-      callback(backendName, null, !!blob.data.account_id);
+      if (blob.data.account_id) {
+        // Success
+        callback(null);
+      } else {
+        // Invalid blob
+        callback(new Error("Blob format unrecognized!"));
+      }
     });
   };
 

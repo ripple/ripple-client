@@ -49,53 +49,39 @@ module.factory('rpBlob', ['$rootScope', function ($scope)
         setImmediate(function () {
           $scope.$apply(function () {
             if (err) {
-              console.warn("Backend failed: ", err);
-              log.exception(err);
-              callback(backend.name, new Error(err));
-
-              tryNext();
+              handleError(err, backend);
               return;
             }
 
             if (data) {
-              try {
-                // Try new-style key
-                var key = ""+user.length+'|'+user+pass;
-                var blob = BlobObj.decrypt(key, atob(data));
-                callback(backend.name, null, blob);
-                return;
-              } catch (e1) {
-                try {
-                  // Try old style key
-                  key = user+pass;
-                  blob = BlobObj.decrypt(key, atob(data));
-                  callback(backend.name, null, blob);
-                  return;
-                } catch (e2) {
-                  // Unable to decrypt blob
-                  var msg = 'Unable to decrypt blob (Username / Password is wrong';
-                  callback(backend.name, new Error(msg), blob);
-                }
-              }
-            } else if (backends.length) {
-              tryNext();
+              callback(null, data);
             } else {
-              callback(backend.name, new Error('Wallet not found (Username / Password is wrong)'));
+              handleError('Wallet not found (Username / Password is wrong)', backend);
             }
           });
         });
       });
-    } catch (e) {
-      console.warn("Backend failed: ", e);
-      callback(new Error(backend.name, "Something went wrong."));
-      log.exception(e);
-      tryNext();
+    } catch (err) {
+      handleError(err, backend);
     }
 
-    function tryNext() {
+    function handleError(err, backend) {
+      console.warn("Backend failed:", backend.name, err.toString());
+      if ("string" === typeof err) {
+        err = new BlobError(err, backend.name);
+      } else if (!(err instanceof BlobError)) {
+        err = new BlobError(err.message, backend.name);
+      }
+      $scope.$broadcast('$blobError', err);
+      tryNext(err);
+    }
+
+    function tryNext(err) {
       // Do we have more backends to try?
       if (backends.length) {
         BlobObj.get(backends, user, pass, callback);
+      } else {
+        callback(err);
       }
     }
   };
@@ -129,13 +115,33 @@ module.factory('rpBlob', ['$rootScope', function ($scope)
     });
   };
 
-  BlobObj.decrypt = function (priv, ciphertext)
+  BlobObj.decrypt = function (user, pass, data)
   {
-    var blob = new BlobObj();
-    blob.data = JSON.parse(sjcl.decrypt(priv, ciphertext));
-    // TODO unescape is deprecated
-    blob.meta = JSON.parse(unescape(JSON.parse(ciphertext).adata));
-    return blob;
+    function decrypt(priv, ciphertext)
+    {
+      var blob = new BlobObj();
+      blob.data = JSON.parse(sjcl.decrypt(priv, ciphertext));
+      // TODO unescape is deprecated
+      blob.meta = JSON.parse(unescape(JSON.parse(ciphertext).adata));
+      return blob;
+    }
+
+    var key;
+    try {
+      // Try new-style key
+      key = ""+user.length+'|'+user+pass;
+      return decrypt(key, atob(data));
+    } catch (e) {
+      console.log("Blob decryption failed with new-style key:", e.toString());
+      try {
+        // Try old style key
+        key = user+pass;
+        return decrypt(key, atob(data));
+      } catch (e) {
+        console.log("Blob decryption failed with old-style key:", e.toString());
+        return false;
+      }
+    }
   };
 
   var VaultBlobBackend = {
@@ -191,6 +197,16 @@ module.factory('rpBlob', ['$rootScope', function ($scope)
     vault: VaultBlobBackend,
     local: LocalBlobBackend
   };
+
+  function BlobError(message, backend) {
+    this.name = "BlobError";
+    this.message = message || "";
+    this.backend = backend || "generic";
+  }
+
+  BlobError.prototype = Error.prototype;
+
+  BlobObj.BlobError = BlobError;
 
   return BlobObj;
 }]);
