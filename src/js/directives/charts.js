@@ -86,7 +86,10 @@ module.directive('rpTrustLine', ['$filter', function($filter) {
     ctx.fillText(rpamount(data.balance, fmt), f(balance), axisY+highText);
     ctx.fillStyle = '#333';
 
-    var lAmount = "-"+rpamount(data.limit_peer, fmt);
+    var lAmount = rpamount(data.limit_peer, fmt);
+
+    if (0 !== trust_l)
+      lAmount = "-"+lAmount;
 
     if (trust_l === trust_r && 0 === trust_l) {
       lAmount = "0 / 0";
