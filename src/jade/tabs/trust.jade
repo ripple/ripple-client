@@ -92,7 +92,10 @@ section.panel.content(ng-controller="TrustCtrl")
         .counterparty(ng-show='counterparty_name') {{counterparty_name}}
         .counterparty(ng-hide='counterparty_name') {{counterparty_address}}
         .extra(ng-show="counterparty != counterparty_address || counterparty_name") {{counterparty_address}}
-      p.literal Are you sure?
+      p.literal.trust-notice By pressing CONFIRM you are extending trust to another Ripple user.
+        | This action carries the risk of potential loss up to the amount of the trust
+        | line. Make sure you understand these consequences, and that
+        | all the issuers are trustworthy. 
       div
         p.submitsection
           button.btn.back(ng-click='mode="main"') &laquo; Back
