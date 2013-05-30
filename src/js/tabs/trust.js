@@ -86,6 +86,33 @@ TrustTab.prototype.angular = function (module)
             }, 1000, true);
 
             $scope.mode = "confirm";
+
+            /**
+             * Warning messages
+             *
+             * - firstIssuer
+             * - sameIssuer
+             * - multipleIssuers
+             */
+            var currency = amount.currency().to_json();
+            var balance = $scope.balances[currency];
+            $scope.currencyWarning = false;
+
+            // New trust on a currency
+            if (!balance) {
+              $scope.currencyWarning = 'firstIssuer';
+            }
+            else {
+              // Trust limit change
+              for (var counterparty in balance.components) {
+                if (counterparty === $scope.counterparty_address)
+                  $scope.currencyWarning = 'sameIssuer';
+              }
+
+              // Multiple trusts on a same currency
+              if (!$scope.currencyWarning)
+                $scope.currencyWarning = 'multipleIssuers';
+            }
           });
         })
         .on('error', function (m){
