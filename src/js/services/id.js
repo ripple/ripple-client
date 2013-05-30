@@ -120,8 +120,16 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', 'rp
     if (Options.persistent_auth && !!store.get('ripple_auth')) {
       var auth = store.get('ripple_auth');
 
-      this.login(auth.username, auth.password, function (err, success) {
-        if (!err && success) self.loginStatus = true;
+      // XXX This is technically not correct, since we don't know yet whether
+      //     the login will succeed. But we need to set it now, because the page
+      //     controller will likely query it long before we get a response from
+      //     the login system.
+      //
+      //     Probably not a big deal as persistent_auth is only used by
+      //     developers.
+      self.loginStatus = true;
+      this.login(auth.username, auth.password, function (err) {
+        // XXX If there was a login error, we're now in a broken state.
       });
     }
   };
