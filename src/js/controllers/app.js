@@ -151,7 +151,7 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
       // reserve, max_spend.
       var reserve_base = Amount.from_json(""+remote._reserve_base),
           reserve_inc  = Amount.from_json(""+remote._reserve_inc),
-          owner_count  = $scope.account.OwnerCount || "0";
+          owner_count  = $scope.account.OwnerCount || 0;
       $scope.account.reserve_base = reserve_base;
       $scope.account.reserve = reserve_base.add(reserve_inc.product_human(owner_count));
       $scope.account.reserve_to_add_trust = reserve_base.add(reserve_inc.product_human(owner_count+1));
