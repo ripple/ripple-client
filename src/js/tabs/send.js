@@ -47,6 +47,7 @@ SendTab.prototype.angular = function (module)
       }
 
       $scope.update_send();
+      $scope.update_trust_limit();
     }, true);
 
     $scope.$watch('send.amount', function () {
@@ -54,9 +55,9 @@ SendTab.prototype.angular = function (module)
     }, true);
 
     $scope.$watch('send.currency', function () {
-      $scope.send.currency_code = $scope.send.currency ?
-        $scope.send.currency.slice(0, 3).toUpperCase() : "XRP";
+      $scope.send.currency_code = $scope.send.currency ? $scope.send.currency.slice(0, 3).toUpperCase() : "XRP";
       $scope.update_send();
+      $scope.update_trust_limit();
     }, true);
 
     var pathUpdateTimeout;
@@ -113,11 +114,24 @@ SendTab.prototype.angular = function (module)
       }
     };
 
+    // Trust limit. Show notice about the trust in currency user's trying to send.
+    $scope.update_trust_limit = function () {
+      $scope.send.trust_limit = 0;
+      if ($scope.send.recipient_address && $scope.send.currency_code) {
+        _.each($scope.lines, function (line) {
+          if (line.account === $scope.send.recipient_address && line.currency == $scope.send.currency_code) {
+            $scope.send.trust_limit = line.limit_peer;
+          }
+        });
+      }
+    };
+
+    // Check for XRP sufficiency
     $scope.check_xrp_sufficiency = function () {
       $scope.send.fund_status = "none";
 
       var recipient = $scope.send.recipient_address;
-      //do some remote request to find out the balance, if it's not stored in memory already.
+      // do some remote request to find out the balance, if it's not stored in memory already.
       if ($scope.xrp_memory.hasOwnProperty(recipient)) {
         setError();
       } else {

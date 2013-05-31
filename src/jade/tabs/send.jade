@@ -77,6 +77,7 @@ section#t-send.single.content(ng-controller='SendCtrl')
       .error(rp-error-on='rpMaxAmount')
         | This transaction exceeds your balance, you can send a max. of {{account.max_spend | rpamount:{rel_precision: 0} }} XRP
       .error(ng-show="send.type == 'native' && send.self") What's the point of sending XRP to yourself?
+      .notice(ng-show="send.trust_limit") {{send.recipient | rpcontactname}} trusts you for {{send.trust_limit | rpamount}} {{send.trust_limit | rpcurrency}}.
     .submitsection(ng-show="send.type == 'native'")
       button.btn.btn-success.submit(type='submit', ng-disabled='sendForm.$invalid || send.self') Send XRP
     p.literal(ng-show="send.fund_status == 'insufficient-xrp'") Destination account is unfunded; send at least {{xrp_deficiency | rpamount}} XRP to initialize it.&nbsp;
