@@ -132,13 +132,13 @@ module.factory('rpBlob', ['$rootScope', function ($scope)
       key = ""+user.length+'|'+user+pass;
       return decrypt(key, atob(data));
     } catch (e1) {
-      console.log("Blob decryption failed with new-style key:", e.toString());
+      console.log("Blob decryption failed with new-style key:", e1.toString());
       try {
         // Try old style key
         key = user+pass;
         return decrypt(key, atob(data));
       } catch (e2) {
-        console.log("Blob decryption failed with old-style key:", e.toString());
+        console.log("Blob decryption failed with old-style key:", e2.toString());
         return false;
       }
     }
