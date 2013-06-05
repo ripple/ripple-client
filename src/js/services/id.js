@@ -256,9 +256,9 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', 'rp
         callback(new Error(msg));
         return;
       } else if (blob.old && !self.allowOldBlob) {
-        var err = new Error('Old blob format detected');
-        err.name = "OldBlobError";
-        callback(err);
+        var oldBlobErr = new Error('Old blob format detected');
+        oldBlobErr.name = "OldBlobError";
+        callback(oldBlobErr);
         return;
       }
 
