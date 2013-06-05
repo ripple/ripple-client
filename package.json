@@ -1,6 +1,6 @@
 {
   "name": "ripple-client",
-  "version": "0.1.0",
+  "version": "0.2.23",
   "description": "Client for the Ripple payment network",
   "dependencies": {
     "async": "~0.1.22",

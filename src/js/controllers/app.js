@@ -71,8 +71,7 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
     // Transactions
     remote.request_account_tx({
       'account': data.account,
-      'ledger_index_min': 0,
-      'ledger_index_max': 9999999,
+      'ledger_index_min': -1,
       'descending': true,
       'limit': Options.transactions_per_page,
       'count': true
@@ -152,10 +151,11 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
       // reserve, max_spend.
       var reserve_base = Amount.from_json(""+remote._reserve_base),
           reserve_inc  = Amount.from_json(""+remote._reserve_inc),
-          owner_count  = $scope.account.OwnerCount || "0";
+          owner_count  = $scope.account.OwnerCount || 0;
       $scope.account.reserve_base = reserve_base;
       $scope.account.reserve = reserve_base.add(reserve_inc.product_human(owner_count));
       $scope.account.reserve_to_add_trust = reserve_base.add(reserve_inc.product_human(owner_count+1));
+      $scope.account.reserve_low_balance = $scope.account.reserve.product_human(2);
 
       // Maximum amount user can spend
       var bal = Amount.from_json(data.Balance);
@@ -415,9 +415,9 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
       handleAccountLoad(e, data);
     }
 
-    // Server is not connected yet. Handle account load after server response
+    // Server is not connected yet. Handle account load after server response.
     $scope.$on('$netConnected', function(){
-      if (!$scope.account.length || $scope.account.length < 1) {
+      if (!$scope.account) {
         handleAccountLoad(e, data);
       }
     });

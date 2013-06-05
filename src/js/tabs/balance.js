@@ -93,8 +93,7 @@ BalanceTab.prototype.angular = function (module)
 
       $network.remote.request_account_tx({
         'account': account,
-        'ledger_index_min': 0,
-        'ledger_index_max': 9999999,
+        'ledger_index_min': -1,
         'descending': true,
         'offset': offset,
         'limit': Options.transactions_per_page

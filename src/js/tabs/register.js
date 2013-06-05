@@ -44,6 +44,7 @@ RegisterTab.prototype.angular = function (module) {
       $scope.key = '';
       $scope.mode = 'form';
       $scope.showMasterKeyInput = false;
+      $scope.submitLoading = false;
 
       if ($scope.registerForm) $scope.registerForm.$setPristine(true);
     };
@@ -67,11 +68,14 @@ RegisterTab.prototype.angular = function (module) {
      * 2. passwords do not match ---------------------------------------------- show error
      * 3. username and password passed the validation
      *    3.1 master key is not present
-     *        3.1.1 account exists -------------------------------------------- login
+     *        3.1.1 account exists
+     *              3.1.1.1 and we can login ---------------------------------- login
+     *              3.1.1.2 and we can't login -------------------------------- show error
      *        3.1.2 account doesn't exist ------------------------------------- register and generate master key
      *    3.3 master key is present
-     *        3.3.1 account exists, and it uses the same master key ----------- login
-     *        3.3.2 account exists, and it uses another master key
+     *        3.3.1 account exists, but we can't login ------------------------ show error
+     *        3.3.2 account exists and it uses the same master key =----------- login
+     *        3.3.3 account exists, and it uses another master key
      *              3.3.2.1 master key is valid ------------------------------- tell him about the situation, and let him decide what to do
      *              3.3.2.2 master key is invalid ----------------------------- show error
      *        3.3.3 account doesn't exist ------------------------------------- register with given master key
@@ -84,18 +88,24 @@ RegisterTab.prototype.angular = function (module) {
 
       var regInProgress;
 
-      $id.login($scope.username, $scope.password1, function(backendName,error,success){
+      $id.exists($scope.username, $scope.password1, function (error, exists) {
         if (!regInProgress) {
-          if (!success) {
+          if (!exists) {
             regInProgress = true;
             $scope.register();
-          }
-          if (success) {
-            if ($scope.masterkey && $scope.masterkey != $scope.userCredentials.master_seed) {
-              $scope.mode = 'masterkeyerror';
-            } else {
-              $location.path('/balance');
-            }
+          } else {
+            $id.login($scope.username, $scope.password1, function (error) {
+              $scope.submitLoading = false;
+              if (error) {
+                // There is a conflicting wallet, but we can't login to it
+                $scope.mode = 'loginerror';
+              } else if ($scope.masterkey &&
+                         $scope.masterkey != $scope.userCredentials.master_seed) {
+                $scope.mode = 'masterkeyerror';
+              } else {
+                $location.path('/balance');
+              }
+            });
           }
         }
       });

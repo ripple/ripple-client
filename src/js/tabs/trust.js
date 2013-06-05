@@ -29,6 +29,7 @@ TrustTab.prototype.angular = function (module)
       $scope.mode = 'main';
       $scope.currency = 'USD';
       $scope.addform_visible = false;
+      $scope.editform_visible = false;
       $scope.edituser = '';
       $scope.amount = '';
       $scope.counterparty = '';
@@ -42,11 +43,20 @@ TrustTab.prototype.angular = function (module)
     };
 
     $scope.toggle_form = function () {
-      if($scope.addform_visible)
+      if($scope.addform_visible || $scope.editform_visible)
         $scope.reset();
       else
         $scope.addform_visible = true;
     };
+
+    // User should not be able to even try to make a trust if the reserve is insufficient
+    $scope.$watch('account', function() {
+      $scope.can_add_trust = false;
+      if ($scope.account.Balance && $scope.account.reserve_to_add_trust) {
+        if ($scope.account.reserve_to_add_trust.subtract($scope.account.Balance).is_negative())
+          $scope.can_add_trust = true;
+      }
+    }, true);
 
     $scope.$watch('counterparty', function() {
       $scope.error_account_reserve = false;
@@ -86,6 +96,33 @@ TrustTab.prototype.angular = function (module)
             }, 1000, true);
 
             $scope.mode = "confirm";
+
+            /**
+             * Warning messages
+             *
+             * - firstIssuer
+             * - sameIssuer
+             * - multipleIssuers
+             */
+            var currency = amount.currency().to_json();
+            var balance = $scope.balances[currency];
+            $scope.currencyWarning = false;
+
+            // New trust on a currency
+            if (!balance) {
+              $scope.currencyWarning = 'firstIssuer';
+            }
+            else {
+              // Trust limit change
+              for (var counterparty in balance.components) {
+                if (counterparty === $scope.counterparty_address)
+                  $scope.currencyWarning = 'sameIssuer';
+              }
+
+              // Multiple trusts on a same currency
+              if (!$scope.currencyWarning)
+                $scope.currencyWarning = 'multipleIssuers';
+            }
           });
         })
         .on('error', function (m){
@@ -215,8 +252,9 @@ TrustTab.prototype.angular = function (module)
 
       // Close/open form. Triggers focus on input.
       $scope.addform_visible = false;
+      $scope.editform_visible = false;
       $timeout(function(){
-        $scope.addform_visible = true;
+        $scope.editform_visible = true;
       })
     };
 

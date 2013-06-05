@@ -9,7 +9,7 @@ ul.effects(ng-show="entry.effects")
       strong {{effect.got | rpamount}} {{effect.got | rpcurrency}}
       |  for&nbsp;
       strong {{effect.paid | rpamount}} {{effect.paid | rpcurrency}}.
-      |  This order has {{effect.remaining | rpamount}} {{effect.remaining | rpcurrency}} remaining.
+      span(ng-hide="effect.deleted")  This order has {{effect.remaining | rpamount}} {{effect.remaining | rpcurrency}} remaining.
     span(ng-switch-when="offer_cancelled") – You cancelled an offer accepting&nbsp;
       strong {{effect.pays | rpamount}} {{effect.pays | rpcurrency}}
       |  for&nbsp;

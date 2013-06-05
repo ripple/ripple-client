@@ -246,10 +246,16 @@ var JsonRewriter = module.exports = {
         // Current account offer
         if (node.fields.Account === account) {
 
-          // Partially funded offer
-          if (node.diffType === "ModifiedNode") {
+          // Partially funded offer [and deleted.. no more funds]
+          /* Offer has been partially funded and deleted (because of the luck of funds)
+             if the node is deleted and the TakerGets/TakerPays field has been changed */
+          if (node.diffType === "ModifiedNode" ||
+            (node.diffType === "DeletedNode"
+              && node.fieldsPrev.TakerGets
+              && !ripple.Amount.from_json(node.fieldsFinal.TakerGets).is_zero())) {
             effect.type = 'offer_partially_funded';
-            effect.remaining = ripple.Amount.from_json(node.fields.TakerGets);
+            if (node.diffType !== "DeletedNode")
+              effect.remaining = ripple.Amount.from_json(node.fields.TakerGets);
           }
           else {
             // New / Funded / Cancelled offer

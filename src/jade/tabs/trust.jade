@@ -27,10 +27,10 @@ section.panel.content(ng-controller="TrustCtrl")
           th.trust Trust Limit
           th.action
             a.btn.btn-success.sign(ng-click='toggle_form()')
-              span(ng-hide='addform_visible') +
-              span(ng-show='addform_visible') −
+              span(ng-hide='addform_visible || editform_visible') +
+              span(ng-show='addform_visible || editform_visible') −
       tbody
-        tr(ng-show='addform_visible')
+        tr(ng-show='(addform_visible && can_add_trust) || editform_visible')
           td(colspan=4)
             form(name='trustForm', id='trustForm', ng-submit='grant()')
               label(for='trust_counterparty') {{ edituser }}
@@ -68,6 +68,8 @@ section.panel.content(ng-controller="TrustCtrl")
               .submitsection
                 button.btn.btn-info.submit(type='submit', ng-disabled='trustForm.$invalid', ng-hide="verifying") Grant Trust
                 p.literal.throbber(ng-show="verifying") Verifying address
+        tr(ng-show='addform_visible && !can_add_trust')
+          td(colspan=4) You must have at least {{account.reserve_to_add_trust | rpamount:0}} XRP to add a trust line.&nbsp;
 
         tr(ng-repeat='(key, line) in lines')
           td.account {{line.account | rpcontactnamefull}}
@@ -92,7 +94,17 @@ section.panel.content(ng-controller="TrustCtrl")
         .counterparty(ng-show='counterparty_name') {{counterparty_name}}
         .counterparty(ng-hide='counterparty_name') {{counterparty_address}}
         .extra(ng-show="counterparty != counterparty_address || counterparty_name") {{counterparty_address}}
-      p.literal Are you sure?
+      p.literal.trust-notice(ng-show="currencyWarning == 'firstIssuer'")
+        | By pressing CONFIRM you are extending trust to another Ripple user.
+        | This action carries the risk of potential loss up to the amount of the trust
+        | line. Make sure you understand these consequences, and that
+        | all the issuers are trustworthy.
+      p.literal.trust-notice(ng-show="currencyWarning == 'multipleIssuers'")
+        | By pressing CONFIRM you are extending trust to&nbsp;
+        strong multiple issuers&nbsp;
+        | for the same currency which may result in your account balances changing without
+        | your direct action. Make sure you understand these consequences, and that
+        | all your issuers are trustworthy.
       div
         p.submitsection
           button.btn.back(ng-click='mode="main"') &laquo; Back
@@ -140,7 +152,7 @@ section.panel.content(ng-controller="TrustCtrl")
         hr
         .text-success(ng-show='addressSaved', class="actionLink") Address saved!
         .save-address-form(ng-hide='contact', class="actionLink")
-          a(href="", ng-click='show_save_address_form()') Add this address to contacts
+          a(href="", ng-click='show_save_address_form = true', ng-hide="show_save_address_form") Add this address to contacts
           form(name="saveAddressForm", ng-class="{ show: show_save_address_form }", ng-submit='saveAddress()')
             .address {{counterparty_address}}
             label(for='save_address_name') Name this user
@@ -156,6 +168,6 @@ section.panel.content(ng-controller="TrustCtrl")
                 span(ng-hide='addressSaving') Save
               a(href="", ng-click='show_save_address_form = false') Cancel
           hr
-      div(class="actionLink")
-        a(href="#trust", ng-click="reset()") Back to trust page
-      hr
+        div(class="actionLink")
+          a(href="#trust", ng-click="reset()") Back to trust page
+        hr

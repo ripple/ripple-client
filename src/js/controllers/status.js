@@ -47,12 +47,10 @@ module.controller('StatusCtrl', ['$scope', '$element', '$compile', 'rpId',
   // Low balance indicator
   $scope.$watch('account', function(){
     if ($scope.account.reserve) {
-      var reserve = $scope.account.reserve.product_human(2);
-      $scope.account_reserve = reserve;
       var balance = Amount.from_json($scope.account.Balance);
 
       if (balance.is_valid()) {
-        $scope.lowBalance = balance.compareTo(reserve) <= 0;
+        $scope.lowBalance = balance.compareTo($scope.account.reserve_low_balance) <= 0;
       } else {
         $scope.lowBalance = false;
       }

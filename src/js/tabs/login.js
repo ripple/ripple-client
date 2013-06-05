@@ -18,9 +18,9 @@ LoginTab.prototype.generateHtml = function ()
 
 LoginTab.prototype.angular = function (module) {
   module.controller('LoginCtrl', ['$scope', '$element', '$routeParams',
-                                  '$location', 'rpId',
+                                  '$location', 'rpId', '$rootScope',
                                   function ($scope, $element, $routeParams,
-                                            $location, $id)
+                                            $location, $id, $rootScope)
   {
     if ($id.loginStatus) {
       $location.path('/balance');
@@ -63,17 +63,29 @@ LoginTab.prototype.angular = function (module) {
       $scope.loginForm.login_username.$setViewValue(username);
       $scope.loginForm.login_password.$setViewValue(password);
 
+      $rootScope.$on("$blobError", function (e, err) {
+        console.log("BLOB ERROR", arguments);
+        $scope.backendMessages.push({'backend': err.backend, 'message': err.message});
+      });
+
       setImmediate(function () {
-        $id.login($scope.username, $scope.password, function(backendName, err, success) {
+        $id.login($scope.username, $scope.password, function (err) {
           $scope.ajax_loading = false;
-          if (success) {
-            if ($routeParams.tab) {
-              $location.path('/'+$routeParams.tab);
-            } else {
-              $location.path('/balance');
+
+          if (err) {
+            $scope.status = 'Login failed:';
+
+            if (err.name !== "BlobError") {
+              $scope.backendMessages.push({'backend': "ID", 'message': err.message});
             }
+            return;
+          }
+
+          $scope.status = '';
+          if ($routeParams.tab) {
+            $location.path('/'+$routeParams.tab);
           } else {
-            $scope.backendMessages.push({'backend':backendName, 'message':err.message});
+            $location.path('/balance');
           }
         });
       });
