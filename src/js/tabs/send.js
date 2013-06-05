@@ -25,7 +25,7 @@ SendTab.prototype.angular = function (module)
     if (!$id.loginStatus) return $id.goId();
 
     $scope.xrp = _.where($scope.currencies_all, {value: "XRP"})[0];
-    $scope.xrp_memory = {};
+    $scope.account_memory = {};
 
     $scope.$watch('send.recipient', function(){
       var addr = webutil.stripRippleAddress($scope.send.recipient);
@@ -102,7 +102,7 @@ SendTab.prototype.angular = function (module)
 
         if ($scope.send.amount_feedback.is_native()) {
           $scope.send.type = 'native';
-          $scope.check_xrp_sufficiency();
+          $scope.check_destination();
         } else {
           $scope.send.type = 'nonnative';
         }
@@ -126,39 +126,45 @@ SendTab.prototype.angular = function (module)
       }
     };
 
-    // Check for XRP sufficiency
-    $scope.check_xrp_sufficiency = function () {
+    // Check destionation for XRP sufficiency and flags
+    $scope.check_destination = function () {
       $scope.send.fund_status = "none";
 
       var recipient = $scope.send.recipient_address;
-      // do some remote request to find out the balance, if it's not stored in memory already.
-      if ($scope.xrp_memory.hasOwnProperty(recipient)) {
+      // do some remote request to find out account info, if it's not stored in memory already.
+      if ($scope.account_memory.hasOwnProperty(recipient)) {
         setError();
       } else {
         $network.remote.request_account_info($scope.send.recipient_address)
           .on('error', function (e) {
             $scope.$apply(function () {
               if (e.remote.error == "actNotFound") {
-                $scope.xrp_memory[recipient] = "0";
+                $scope.account_memory[recipient] = {};
               }
               setError();
             });
           })
           .on('success', function (data) {
             $scope.$apply(function () {
-              $scope.xrp_memory[recipient] = data.account_data.Balance;
+              $scope.account_memory[recipient] = {
+                'balance': data.account_data.Balance,
+                'disallowXrp': data.account_data.Flags & ripple.Remote.flags.account_root.DisallowXRP
+              };
               setError();
             });
           })
           .request();
       }
+
       function setError() {
-        var total = $scope.send.amount_feedback.add($scope.xrp_memory[recipient]);
+        var total = $scope.send.amount_feedback.add($scope.account_memory[recipient].balance);
         var reserve_base = $scope.account.reserve_base;
         if (total.compareTo(reserve_base) < 0) {
           $scope.send.fund_status = "insufficient-xrp";
-          $scope.xrp_deficiency = reserve_base.subtract($scope.xrp_memory[recipient]);
+          $scope.xrp_deficiency = reserve_base.subtract($scope.account_memory[recipient].balance);
         }
+
+        $scope.disallowXrp = $scope.account_memory[recipient] ? $scope.account_memory[recipient].disallowXrp : false;
       }
     };
 

@@ -79,7 +79,14 @@ section#t-send.single.content(ng-controller='SendCtrl')
       .error(ng-show="send.type == 'native' && send.self") What's the point of sending XRP to yourself?
       .notice(ng-show="send.trust_limit") {{send.recipient | rpcontactname}} trusts you for {{send.trust_limit | rpamount}} {{send.trust_limit | rpcurrency}}.
     .submitsection(ng-show="send.type == 'native'")
-      button.btn.btn-success.submit(type='submit', ng-disabled='sendForm.$invalid || send.self') Send XRP
+      button.btn.btn-success.submit(type='submit', ng-hide="disallowXrp", ng-disabled='sendForm.$invalid || send.self') Send XRP
+      rp-confirm(
+        action-text="Recipient does not allow XRP payments. Are you sure you want to send XRP anyway?"
+        action-button-text="Send"
+        action-function="send_prepared()"
+        cancel-button-text="Cancel"
+        ng-show="disallowXrp")
+          button.btn.btn-success.submit(type='submit', ng-disabled='sendForm.$invalid || send.self') Send XRP
     p.literal(ng-show="send.fund_status == 'insufficient-xrp'") Destination account is unfunded; send at least {{xrp_deficiency | rpamount}} XRP to initialize it.&nbsp;
       a(href="https://ripple.com/wiki/Reserves", target="_blank") More information
     p.literal(ng-show="send.path_status == 'waiting'") Please enter the transaction details.
