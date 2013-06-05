@@ -1128,8 +1128,7 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
     line-height: 25px;
   }
   .title {
-    display: inline-block;
-    width: 100%;
+    .clearfix;
     margin: 20px 0 0;
 
     .icon {
@@ -1160,8 +1159,7 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
     font-size: 13px;
   }
   .infoBox {
-    width: 680px;
-    margin: auto;
+    .clearfix;
     border-radius: 5px;
     border: 1px solid #bebebe;
     padding: 20px;
@@ -1169,17 +1167,23 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
     margin-bottom: 5px;
 
     .part {
+      float: left;
       margin: 0 50px 0 0;
+
+      .label {
+        white-space: nowrap;
+      }
+
+      .value {
+        font-size: 20px;
+        margin: 0 10px;
+      }
     }
   }
   .show-keys {
     margin: 20px 0 0 40px;
     padding-left: 40px;
     padding-right: 40px;
-  }
-  .value {
-    font-size: 20px;
-    margin: 0 10px;
   }
 }
 

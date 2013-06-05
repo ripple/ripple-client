@@ -6,11 +6,12 @@ section.panel.wide.content(ng-controller="SecurityCtrl")
     li – No one else has them, so don't lose them!
     li – Never share them!
   .title
-    span.icon.wallet
-    span.name Wallet Key
-    span.more
+    .icon.wallet
+    .name Wallet Key
+    .more
       span {{userBlob.data.contacts.length}} contacts,&nbsp;
         span {{enc.length | rpfilesize}} &ensp;
+    .more
       span(rp-download='enc',rp-download-filename='ripple-wallet.txt')
         | You can&nbsp;
         a(rp-download-trigger) backup your wallet to a file
@@ -21,45 +22,47 @@ section.panel.wide.content(ng-controller="SecurityCtrl")
     li It protects Your money + Your contacts and history.
     li
       b Never forget it, never share it.
-  .infoBox(ng-show="showKeys")
-    span.part
-      span.label Wallet name:
-      span.value {{userCredentials.username}}
-    span.part
-      span.label Pass Phrase:
-      span.value(ng-show="passUnmask") {{userCredentials.password}}
-      span.value(ng-hide="passUnmask") {{userCredentials.password | rpmask}}
-      rp-confirm(
-        action-text="Are you in a safe place, where no person, or camera can see your screen?"
-        action-button-text="Yes, show me"
-        action-function="passUnmask=true"
-        cancel-button-text="No"
-        ng-hide="passUnmask")
-          a(ng-hide="passUnmask") Show
-      a(ng-click="passUnmask=false", ng-show="passUnmask") Hide
+  div
+    .infoBox(ng-show="showKeys")
+      .part
+        span.label Wallet name:
+        span.value {{userCredentials.username}}
+      .part
+        span.label Pass Phrase:
+        span.value(ng-show="passUnmask") {{userCredentials.password}}
+        span.value(ng-hide="passUnmask") {{userCredentials.password | rpmask}}
+        rp-confirm(
+          action-text="Are you in a safe place, where no person, or camera can see your screen?"
+          action-button-text="Yes, show me"
+          action-function="passUnmask=true"
+          cancel-button-text="No"
+          ng-hide="passUnmask")
+            a(ng-hide="passUnmask") Show
+        a(ng-click="passUnmask=false", ng-show="passUnmask") Hide
   .hint(ng-show="showKeys") This gives access to your wallet. DO NOT SHARE THIS WITH ANYONE. Keep it safe. Keep it private.
 
   .title
-    span.icon.money
-    span.name Secret Key
-    span.more
+    .icon.money
+    .name Secret Key
   ul.description(ng-hide="showKeys")
     li This key is for emergency use only. You did not choose it. The network created it. You don't have to memorize it.
     li The Secret Key accesses Your money, which is already contained inside your wallet.
     li But if you ever lose your wallet, you can recover just your money with this key.
     li
       b Store it somewhere safe, never share it.
-  .infoBox(ng-show="showKeys")
-    span.value(ng-show="SecretKeyUnmask") {{userCredentials.master_seed}}
-    span.value(ng-hide="SecretKeyUnmask") {{userCredentials.master_seed | rpmask}}
-    rp-confirm(
-      action-text="Are you in a safe place, where no person, or camera can see your screen?"
-      action-button-text="Yes, show me"
-      action-function="SecretKeyUnmask=true"
-      cancel-button-text="No"
-      ng-hide="SecretKeyUnmask")
-        a(ng-hide="SecretKeyUnmask") Show
-    a(ng-click="SecretKeyUnmask=false", ng-show="SecretKeyUnmask") Hide
+  div
+    .infoBox(ng-show="showKeys")
+      .part
+        span.value(ng-show="SecretKeyUnmask") {{userCredentials.master_seed}}
+        span.value(ng-hide="SecretKeyUnmask") {{userCredentials.master_seed | rpmask}}
+      rp-confirm(
+        action-text="Are you in a safe place, where no person, or camera can see your screen?"
+        action-button-text="Yes, show me"
+        action-function="SecretKeyUnmask=true"
+        cancel-button-text="No"
+        ng-hide="SecretKeyUnmask")
+          a(ng-hide="SecretKeyUnmask") Show
+      a(ng-click="SecretKeyUnmask=false", ng-show="SecretKeyUnmask") Hide
   .hint(ng-show="showKeys") This gives access to your money. DO NOT SHARE THIS WITH ANYONE. Keep it safe. Keep it private.
 
   button.btn.btn-info.show-keys(ng-click="showKeys=true", ng-hide="showKeys") Show my keys
