@@ -19,8 +19,10 @@ LoginTab.prototype.generateHtml = function ()
 LoginTab.prototype.angular = function (module) {
   module.controller('LoginCtrl', ['$scope', '$element', '$routeParams',
                                   '$location', 'rpId', '$rootScope',
+                                  'rpPopup',
                                   function ($scope, $element, $routeParams,
-                                            $location, $id, $rootScope)
+                                            $location, $id, $rootScope,
+                                            popup)
   {
     if ($id.loginStatus) {
       $location.path('/balance');
@@ -69,15 +71,28 @@ LoginTab.prototype.angular = function (module) {
       });
 
       setImmediate(function () {
-        $id.login($scope.username, $scope.password, function (err) {
+        $id.login($scope.username, $scope.password, function (err, blob) {
           $scope.ajax_loading = false;
 
           if (err) {
             $scope.status = 'Login failed:';
 
+            if (err.name === "OldBlobError") {
+              popup.confirm("Wallet Upgrade", "Ripple is upgrading the wallet encryption format. After the upgrade, only Ripple clients 0.2.24 or higher can access your wallet.<br><br>If you use other clients, please make sure they are upgraded to the current version.",
+                            "OK", "migrateConfirm()", null,
+                            "Abort login", null, null,
+                            $scope, {});
+
+              $scope.migrateConfirm = function () {
+                $id.allowOldBlob = true;
+                $scope.submitForm();
+              };
+            }
+
             if (err.name !== "BlobError") {
               $scope.backendMessages.push({'backend': "ID", 'message': err.message});
             }
+
             return;
           }
 
