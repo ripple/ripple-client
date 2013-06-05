@@ -213,11 +213,13 @@ module.directive('rpConfirm', ['rpPopup', function(popup) {
     link: function postLink(scope, element, attrs) {
       // Could have custom or bootstrap modal options here
       var popupOptions = {};
-      element.find('a,button').click(function() {
+      element.find('a,button').click(function(e) {
+        e.preventDefault();
+
         popup.confirm(attrs["title"], attrs["actionText"],
-        attrs["actionButtonText"], attrs["actionFunction"], attrs["actionButtonCss"],
-        attrs["cancelButtonText"], attrs["cancelFunction"], attrs["cancelButtonCss"],
-        scope, popupOptions);
+          attrs["actionButtonText"], attrs["actionFunction"], attrs["actionButtonCss"],
+          attrs["cancelButtonText"], attrs["cancelFunction"], attrs["cancelButtonCss"],
+          scope, popupOptions);
       });
     }
   };
