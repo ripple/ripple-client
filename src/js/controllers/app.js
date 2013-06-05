@@ -417,7 +417,7 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
 
     // Server is not connected yet. Handle account load after server response.
     $scope.$on('$netConnected', function(){
-      if (!$scope.account) {
+      if ($.isEmptyObject($scope.account)) {
         handleAccountLoad(e, data);
       }
     });
