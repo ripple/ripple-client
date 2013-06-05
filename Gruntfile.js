@@ -1,10 +1,68 @@
-var path = require("path");
+var path = require("path"),
+    fs = require("fs");
 module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-recess');
   grunt.loadNpmTasks('grunt-webpack');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-watch');
+
+  // Ripple client dependencies
+  var deps = ["deps/js/jquery.js",
+              "deps/js/swfobject.js",
+              "deps/js/jquery.easing.js",
+              "deps/js/json.js",
+              "deps/js/setImmediate.js",
+              "deps/js/psm.js",
+              "deps/js/underscore.js",
+              "deps/js/downloadify.js",
+              "deps/js/angular.js",
+              "deps/js/store.js",
+              "deps/js/ripple.js",
+              "deps/js/ripple-sjcl.js",
+              "deps/js/moment.js",
+              "deps/js/bootstrap-modal.js",
+              "deps/js/bootstrap-tooltip.js",
+              "deps/js/bootstrap-popover.js",
+              "deps/js/jquery.qrcode.min.js",
+              "deps/js/spin.js"];
+
+  var deps_ie = ["compat/ie/base64/base64.js",
+                 "compat/ie/ws/web_socket.js",
+                 "compat/ie/ws/config.js",
+                 "compat/ie/xdr/xdr.js"];
+
+  /**
+   * Returns true if the source is newer than the destination.
+   */
+  var isNewer = function (src,dest) {
+    if (!fs.existsSync(dest)) {
+      return true;
+    }
+    var fromstat = fs.statSync(src);
+    var tostat = fs.statSync(dest);
+    return fromstat.mtime > tostat.mtime;
+  };
+
+  /**
+   * Where there are many files that compile to one, this returns true
+   * if any of the input files are newer than the output.
+   */
+  var manyToOne = function (dest, src) {
+    var compile = true;
+    if (fs.existsSync(dest)) {
+      var from = grunt.file.expand(src);
+      var tostat = fs.statSync(dest);
+      compile = false;
+      for (var i = from.length - 1; i >= 0; i--) {
+        if (fs.statSync(from[i]).mtime > tostat.mtime) {
+          compile = true;
+          break;
+        }
+      }
+    }
+    return [{dest:dest, src:compile?src:[]}];
+  };
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
@@ -75,45 +133,42 @@ module.exports = function(grunt) {
     },
     concat: {
       deps: {
-        src: ["deps/js/jquery.js",
-              "deps/js/swfobject.js",
-              "deps/js/jquery.easing.js",
-              "deps/js/json.js",
-              "deps/js/setImmediate.js",
-              "deps/js/psm.js",
-              "deps/js/underscore.js",
-              "deps/js/downloadify.js",
-              "deps/js/angular.js",
-              "deps/js/store.js",
-              "deps/js/ripple.js",
-              "deps/js/ripple-sjcl.js",
-              "deps/js/moment.js",
-              "deps/js/bootstrap-modal.js",
-              "deps/js/bootstrap-tooltip.js",
-              "deps/js/bootstrap-popover.js",
-              "deps/js/jquery.qrcode.min.js",
-              "deps/js/spin.js"],
-        dest: 'build/dist/deps-debug.js',
+        src: deps,
+        cwd: 'build/',
+        dest: 'build/dist/deps.js',
         separator: ';'
       },
       deps_ie: {
-        src: ["compat/ie/base64/base64.js",
-              "compat/ie/ws/web_socket.js",
-              "compat/ie/ws/config.js",
-              "compat/ie/xdr/xdr.js"],
+        src: deps_ie,
+        cwd: 'build/',
+        dest: 'build/dist/deps_ie.js'
+      },
+      deps_debug: {
+        src: deps,
+        dest: 'build/dist/deps-debug.js',
+        separator: ';'
+      },
+      deps_ie_debug: {
+        src: deps_ie,
         dest: 'build/dist/deps_ie-debug.js'
       }
     },
     uglify: {
       // JavaScript dependencies
       deps: {
-        files: {
-          'build/dist/deps.js': ["build/dist/deps-debug.js"]
+        expand: true,
+        src: deps,
+        dest: "build/",
+        filter: function (from) {
+          return isNewer(from, "build/"+from);
         }
       },
       deps_ie: {
-        files: {
-          'build/dist/deps_ie.js': ["build/dist/deps_ie-debug.js"]
+        expand: true,
+        src: deps_ie,
+        dest: "build/",
+        filter: function (from) {
+          return isNewer(from, "build/"+from);
         }
       }
     },
@@ -130,7 +185,7 @@ module.exports = function(grunt) {
       },
       deps: {
         files: ['<%= concat.deps.src %>'],
-        tasks: ['concat:deps', 'uglify:deps']
+        tasks: ['concat:deps_debug', 'uglify:deps', 'concat:deps']
       },
       styles: {
         files: 'src/less/**/*.less',
@@ -141,8 +196,10 @@ module.exports = function(grunt) {
 
   // Tasks
   grunt.registerTask('default', ['webpack', 'recess',
-                                 'concat:deps', 'uglify:deps',
-                                 'concat:deps_ie', 'uglify:deps_ie']);
+                                 'uglify:deps',
+                                 'concat:deps','concat:deps_debug',
+                                 'uglify:deps_ie',
+                                 'concat:deps_ie', 'concat:deps_ie_debug']);
   grunt.registerTask('deps', ['concat:deps', 'min:deps']);
 };
 // Helpers
