@@ -39,9 +39,17 @@ LoginTab.prototype.angular = function (module) {
     $scope.username = '';
     $scope.password = '';
     $scope.loginForm && $scope.loginForm.$setPristine(true);
+    $scope.backendMessages = [];
+
+    $rootScope.$on("$blobError", function (e, err) {
+      console.log("BLOB ERROR", arguments);
+      $scope.backendMessages.push({'backend': err.backend, 'message': err.message});
+    });
 
     $scope.submitForm = function()
     {
+      if ($scope.ajax_loading) return;
+
       $scope.backendMessages = [];
 
       // Issue #36: Password managers may change the form values without
@@ -64,11 +72,6 @@ LoginTab.prototype.angular = function (module) {
 
       $scope.loginForm.login_username.$setViewValue(username);
       $scope.loginForm.login_password.$setViewValue(password);
-
-      $rootScope.$on("$blobError", function (e, err) {
-        console.log("BLOB ERROR", arguments);
-        $scope.backendMessages.push({'backend': err.backend, 'message': err.message});
-      });
 
       setImmediate(function () {
         $id.login($scope.username, $scope.password, function (err, blob) {
