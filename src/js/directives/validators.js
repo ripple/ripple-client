@@ -498,7 +498,7 @@ module.directive('rpPositiveAmount', function () {
 
         ctrl.$setValidity('rpAmount', amount.is_valid() && amount.to_json() > 0);
 
-        return value;
+        return amount.to_json();
       };
 
       ctrl.$formatters.push(validator);
