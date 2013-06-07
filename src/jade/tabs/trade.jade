@@ -148,7 +148,6 @@ section.panel.content(ng-controller="TradeCtrl")
                 .add-on {{order.second_currency}}
               .errorGroup(rp-errors='price')
                 .error(rp-error-on='required') Required
-                  | You need more XRP for this transaction
                 .error(rp-error-on='rpAmount') Not a valid price.
                 .error(rp-error-on='rpXrpLimit') There is a limit of 100 billion XRPs
             .sign =
