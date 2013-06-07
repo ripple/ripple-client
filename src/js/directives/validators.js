@@ -494,16 +494,19 @@ module.directive('rpPositiveAmount', function () {
       if (!ctrl) return;
 
       var validator = function(value) {
-        var amount = ripple.Amount.from_json(value);
+        ctrl.$setValidity('rpAmount', false);
 
         // check for valid and positive amount
-        ctrl.$setValidity('rpAmount', amount.is_valid() && amount.to_json() > 0);
+        var parsedValue = parseFloat(value);
+        if (parsedValue == value && parsedValue > 0) {
+          ctrl.$setValidity('rpAmount', true);
 
-        // XRP limit is 100 bln
-        if (attr.currency && attr.currency.toLowerCase() === 'xrp')
-          ctrl.$setValidity('rpXrpLimit', amount.is_valid() && amount.to_json() < 100000000000);
+          // XRP limit is 100 bln
+          if (attr.currency && attr.currency.toLowerCase() === 'xrp')
+            ctrl.$setValidity('rpXrpLimit', parsedValue < 100000000000);
 
-        return value < 1 ? amount.to_json() / 1000000 : amount.to_json();
+          return parsedValue;
+        }
       };
 
       ctrl.$formatters.push(validator);
