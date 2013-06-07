@@ -116,6 +116,10 @@ TradeTab.prototype.angular = function(module)
       var tx = $network.remote.transaction();
       tx.offer_create($id.account, $scope.order.buy_amount, $scope.order.sell_amount);
 
+      // Sets a tfSell flag. This is the only way to distinguish sell offers from buys.
+      if ($scope.order.type == 'sell')
+        tx.set_flags('Sell');
+
       tx.on('success', function (res) {
         $scope.$apply(function () {
           setEngineStatus(res, false);
