@@ -161,6 +161,7 @@ section.panel.content(ng-controller="TradeCtrl")
                   required)
                 .add-on {{order.second_currency}}
               .errorGroup(rp-errors='value')
+                .error(rp-error-on='required') Required
                 .error(rp-error-on='rpAmount') Not a valid value.
                 .error(rp-error-on='rpXrpLimit') There is a limit of 100 billion XRPs
           .message(ng-show='orderForm.$valid')
