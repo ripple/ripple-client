@@ -152,6 +152,9 @@ var JsonRewriter = module.exports = {
       }
 
       if (!$.isEmptyObject(transaction)) {
+        if (tx.Flags)
+          transaction.flags = tx.Flags;
+
         obj.transaction = transaction;
       }
     }
