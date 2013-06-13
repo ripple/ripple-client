@@ -176,7 +176,7 @@ var JsonRewriter = module.exports = {
           if(tx.Account === account && tx.Fee) {
             feeEff = {
               type: "fee",
-              amount: ripple.Amount.from_json(tx.Fee),
+              amount: ripple.Amount.from_json(tx.Fee).negate(),
               balance: balance
             };
           }
@@ -184,7 +184,7 @@ var JsonRewriter = module.exports = {
           // Updated Balance
           if (tx.Fee != node.fieldsPrev.Balance - node.fields.Balance) {
             if (feeEff)
-              balance = balance.add(feeEff.amount);
+              balance = balance.subtract(feeEff.amount);
 
             effect.type = "balance_change";
             effect.amount = balance.subtract(node.fieldsPrev.Balance);
@@ -224,7 +224,11 @@ var JsonRewriter = module.exports = {
           // Trust Balance change
           if (node.fieldsPrev.Balance) {
             effect.type = "trust_change_balance";
-            effect.amount = ripple.Amount.from_json(node.fieldsPrev.Balance).subtract(node.fields.Balance);
+
+            effect.amount = high.issuer === account
+              ? effect.amount = ripple.Amount.from_json(node.fieldsPrev.Balance).subtract(node.fields.Balance)
+              : effect.amount = ripple.Amount.from_json(node.fields.Balance).subtract(node.fieldsPrev.Balance);
+
             obj.balance_changer = effect.balance_changer = true;
           }
 

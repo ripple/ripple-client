@@ -783,14 +783,14 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
   ul li.received > a:hover,
   ul li.received > a:after,
   tr.received td {
-    background-color: #e4efd9;
+    background-color: #eaf5df;
   }
 
   ul li.sent > a.active,
   ul li.sent > a:hover,
   ul li.sent > a:after,
   tr.sent td {
-    background-color: #ecdfde;
+    background-color: #f6e9e8;
   }
 
   ul li.other > a.active,
@@ -803,6 +803,7 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
   table {
     tbody td {
       cursor: pointer;
+      border-top: 1px solid #adadad;
     }
 
     tr:hover {
@@ -824,9 +825,8 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
 
   table .sent td,
   table .received td {
-    padding-top: 5px;
-    padding-bottom: 5px;
-    line-height: 40px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 
     .btn {
       margin: -3px 0 0 10px;
@@ -843,18 +843,37 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
     white-space: nowrap;
   }
 
-  table .counterparty {
-    width: 44%;
-  }
+  .details {
+    margin-top: 10px;
+    margin-bottom: 10px;
 
-  table .amount {
-    width: 14%;
-    text-align: right;
-  }
+    .effects {
+      border-top: 1px solid #cdcdcd;
+      border-bottom: 1px solid #cdcdcd;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      margin-bottom: 10px;
 
-  table .balance {
-    width: 22%;
-    text-align: right;
+      .effect {
+        .amount {
+          float: right;
+          width: 100px;
+        }
+        .balance {
+          float: right;
+          width: 150px;
+        }
+      }
+    }
+
+    .links {
+      .txLink {
+        float: left;
+      }
+      .addLink {
+        float: right;
+      }
+    }
   }
 }
 

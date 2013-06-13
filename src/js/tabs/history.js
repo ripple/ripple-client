@@ -20,6 +20,19 @@ HistoryTab.prototype.angular = function (module) {
                                      function ($scope, $id)
   {
     if (!$id.loginStatus) return $id.goId();
+
+    $scope.history = [];
+    $scope.details = [];
+
+    $scope.$watch('events',function(){
+      $scope.events.forEach(function(event){
+        console.log('event',event);
+
+        if (event.balance_changer)
+          $scope.history.push(event);
+
+      });
+    },true);
   }]);
 };
 
