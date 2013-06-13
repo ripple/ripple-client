@@ -162,6 +162,7 @@ var JsonRewriter = module.exports = {
     // Side effects
     meta.AffectedNodes.forEach(function (n) {
       var node = JsonRewriter.processAnode(n);
+      var feeEff;
       var effect = {};
 
       // AccountRoot - Current account node
@@ -169,21 +170,29 @@ var JsonRewriter = module.exports = {
         obj.accountRoot = node.fields;
 
         if (node.fieldsPrev.Balance) {
+          var balance = ripple.Amount.from_json(node.fields.Balance);
+
           // Fee
-          if (tx.Fee == node.fieldsPrev.Balance - node.fields.Balance) {
-            effect.type = "fee";
-            effect.amount = ripple.Amount.from_json(tx.Fee);
+          if(tx.Account === account && tx.Fee) {
+            feeEff = {
+              type: "fee",
+              amount: ripple.Amount.from_json(tx.Fee),
+              balance: balance
+            };
           }
+
           // Updated Balance
-          else {
+          if (tx.Fee != node.fieldsPrev.Balance - node.fields.Balance) {
+            if (feeEff)
+              balance = balance.add(feeEff.amount);
+
             effect.type = "balance_change";
-            effect.amount = ripple.Amount.from_json(node.fields.Balance).subtract(node.fieldsPrev.Balance);
+            effect.amount = balance.subtract(node.fieldsPrev.Balance);
+            effect.balance = balance;
 
             // balance_changer is set to true if the transaction / effect has changed one of the account balances
             obj.balance_changer = effect.balance_changer = true;
           }
-
-          effect.balance = node.fields.Balance;
         }
       }
 
@@ -215,7 +224,7 @@ var JsonRewriter = module.exports = {
           // Trust Balance change
           if (node.fieldsPrev.Balance) {
             effect.type = "trust_change_balance";
-            effect.change = ripple.Amount.from_json(node.fieldsPrev.Balance).subtract(node.fields.Balance);
+            effect.amount = ripple.Amount.from_json(node.fieldsPrev.Balance).subtract(node.fields.Balance);
             obj.balance_changer = effect.balance_changer = true;
           }
 
@@ -324,6 +333,12 @@ var JsonRewriter = module.exports = {
 
         if (!obj.effects) obj.effects = [];
         obj.effects.push(effect);
+      }
+
+      // Fee effect
+      if (feeEff) {
+        if (!obj.effects) obj.effects = [];
+        obj.effects.push(feeEff);
       }
     });
 
