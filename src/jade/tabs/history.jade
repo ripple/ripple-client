@@ -13,6 +13,11 @@ section.panel.content(ng-controller="HistoryCtrl")
       li.all: a(ng-click='type = {}', ng-class="!type['transaction.type'] && 'active'") All Activity
       li.received: a(ng-click='type = {transaction.type: "received"}', ng-class="type['transaction.type'] == 'received' && 'active'") Received
       li.sent: a(ng-click='type = {transaction.type: "sent"}', ng-class="type['transaction.type'] == 'sent' && 'active'") Sent
+    .currency-filter
+      label(ng-repeat="(currency,checked) in filters.currencies")
+        span {{currency}}
+        input(type="checkbox", name="currency-filter", ng-model="filters.currencies[currency].checked")
+
     table.table
       thead
         tr
