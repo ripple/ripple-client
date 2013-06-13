@@ -179,6 +179,9 @@ var JsonRewriter = module.exports = {
             effect.type = "balance_change";
             effect.amount = ripple.Amount.from_json(node.fields.Balance).subtract(node.fieldsPrev.Balance);
             effect.balance = node.fields.Balance;
+
+            // balance_changer is set to true if the transaction / effect has changed one of the account balances
+            obj.balance_changer = effect.balance_changer = true;
           }
         }
       }
@@ -212,6 +215,7 @@ var JsonRewriter = module.exports = {
           if (node.fieldsPrev.Balance) {
             effect.type = "trust_change_balance";
             effect.change = ripple.Amount.from_json(node.fieldsPrev.Balance).subtract(node.fields.Balance);
+            obj.balance_changer = effect.balance_changer = true;
           }
 
           // Trust Limit change
@@ -265,6 +269,7 @@ var JsonRewriter = module.exports = {
               && node.fieldsPrev.TakerGets
               && !ripple.Amount.from_json(node.fieldsFinal.TakerGets).is_zero())) {
             effect.type = 'offer_partially_funded';
+
             if (node.diffType !== "DeletedNode")
               effect.remaining = ripple.Amount.from_json(node.fields.TakerGets);
           }
