@@ -178,11 +178,12 @@ var JsonRewriter = module.exports = {
           else {
             effect.type = "balance_change";
             effect.amount = ripple.Amount.from_json(node.fields.Balance).subtract(node.fieldsPrev.Balance);
-            effect.balance = node.fields.Balance;
 
             // balance_changer is set to true if the transaction / effect has changed one of the account balances
             obj.balance_changer = effect.balance_changer = true;
           }
+
+          effect.balance = node.fields.Balance;
         }
       }
 
