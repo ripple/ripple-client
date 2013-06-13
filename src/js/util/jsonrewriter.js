@@ -172,6 +172,7 @@ var JsonRewriter = module.exports = {
         if (node.fieldsPrev.Balance) {
           effect.type = "balance_change";
           effect.amount = ripple.Amount.from_json(node.fields.Balance).subtract(node.fieldsPrev.Balance);
+          effect.balance = node.fields.Balance;
         }
       }
 
