@@ -110,6 +110,9 @@ var JsonRewriter = module.exports = {
   processTxn: function (tx, meta, account) {
     var obj = {};
 
+    // Currency balances that have been affected by the transaction
+    var affected_currencies = [];
+
     // Main transaction
     if (tx.Account === account
         || (tx.Destination && tx.Destination === account)
@@ -181,7 +184,7 @@ var JsonRewriter = module.exports = {
             };
           }
 
-          // Updated Balance
+          // Updated XRP Balance
           if (tx.Fee != node.fieldsPrev.Balance - node.fields.Balance) {
             if (feeEff)
               balance = balance.subtract(feeEff.amount);
@@ -192,6 +195,7 @@ var JsonRewriter = module.exports = {
 
             // balance_changer is set to true if the transaction / effect has changed one of the account balances
             obj.balance_changer = effect.balance_changer = true;
+            affected_currencies.push('XRP');
           }
         }
       }
@@ -230,6 +234,7 @@ var JsonRewriter = module.exports = {
               : effect.amount = ripple.Amount.from_json(node.fields.Balance).subtract(node.fieldsPrev.Balance);
 
             obj.balance_changer = effect.balance_changer = true;
+            affected_currencies.push(high.currency.toUpperCase());
           }
 
           // Trust Limit change
@@ -364,6 +369,7 @@ var JsonRewriter = module.exports = {
     obj.fee = tx.Fee;
     obj.date = (tx.date + 0x386D4380) * 1000;
     obj.hash = tx.hash;
+    obj.affected_currencies = affected_currencies ? affected_currencies : [];
 
     return obj;
   }
