@@ -168,11 +168,18 @@ var JsonRewriter = module.exports = {
       if (node.entryType === "AccountRoot" && node.fields.Account === account) {
         obj.accountRoot = node.fields;
 
-        // Updated Balance
         if (node.fieldsPrev.Balance) {
-          effect.type = "balance_change";
-          effect.amount = ripple.Amount.from_json(node.fields.Balance).subtract(node.fieldsPrev.Balance);
-          effect.balance = node.fields.Balance;
+          // Fee
+          if (tx.Fee == node.fieldsPrev.Balance - node.fields.Balance) {
+            effect.type = "fee";
+            effect.amount = ripple.Amount.from_json(tx.Fee);
+          }
+          // Updated Balance
+          else {
+            effect.type = "balance_change";
+            effect.amount = ripple.Amount.from_json(node.fields.Balance).subtract(node.fieldsPrev.Balance);
+            effect.balance = node.fields.Balance;
+          }
         }
       }
 
