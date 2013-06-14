@@ -31,10 +31,12 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
     $scope.offers = {};
     $scope.events = [];
     $scope.balances = {};
+    $scope.loadState = [];
   }
 
   var myHandleAccountEvent;
   var myHandleAccountEntry;
+
   function handleAccountLoad(e, data)
   {
     var remote = $net.remote;
@@ -57,8 +59,7 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
 
     accountObj.entry(function (err, entry) {
       if (err) {
-        // XXX: Our account does not exist, we should do something with that
-        //      knowledge.
+        $scope.loadState['account'] = true;
       }
     });
 
@@ -112,11 +113,16 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
         updateRippleBalance(line.currency, line.account, line.balance);
       }
       console.log('lines updated:', $scope.lines);
+
+      $scope.loadState['lines'] = true;
     });
   }
 
   function handleRippleLinesError(data)
   {
+    $scope.$apply(function () {
+      $scope.loadState['lines'] = true;
+    });
   }
 
   function handleOffers(data)
@@ -132,11 +138,16 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
         updateOffer(offer);
       });
       console.log('offers updated:', $scope.offers);
+
+      $scope.loadState['offers'] = true;
     });
   }
 
   function handleOffersError(data)
   {
+    $scope.$apply(function () {
+      $scope.loadState['offers'] = true;
+    });
   }
 
   function handleAccountEntry(data)
@@ -159,6 +170,8 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
       // Maximum amount user can spend
       var bal = Amount.from_json(data.Balance);
       $scope.account.max_spend = bal.subtract($scope.account.reserve);
+
+      $scope.loadState['account'] = true;
     });
   }
 
@@ -172,11 +185,15 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
           processTxn(e.tx, e.meta, true);
         });
       }
+
+      $scope.loadState['transactions'] = true;
     });
   }
   function handleAccountTxError(data)
   {
-
+    $scope.$apply(function () {
+      $scope.loadState['transactions'] = true;
+    });
   }
 
   function handleAccountEvent(e)

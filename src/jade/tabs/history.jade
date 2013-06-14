@@ -6,9 +6,12 @@ section.panel.content(ng-controller="HistoryCtrl")
   group.disconnected(ng-hide="connected")
     p.literal You have to be online to see this screen
 
+  group.disconnected(ng-hide="!connected || loadState.transactions")
+    p.literal Loading history...
+
   //- Connected
 
-  group(ng-show="connected")
+  group(ng-show="connected && loadState.transactions")
     ul.filter-tabs
       li.all: a(ng-click='type = {}', ng-class="!type['transaction.type'] && 'active'") All Activity
       li.received: a(ng-click='type = {transaction.type: "received"}', ng-class="type['transaction.type'] == 'received' && 'active'") Received
@@ -74,4 +77,4 @@ section.panel.content(ng-controller="HistoryCtrl")
             span.literal(ng-show="history.length")
               | Sorry, no transactions match your current filter.
             span.literal(ng-show="!history.length")
-            | You don't have any transactions yet!
+              | You don't have any transactions yet!

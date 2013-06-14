@@ -6,9 +6,12 @@ section.panel.content(ng-controller="BalanceCtrl")
   group.disconnected(ng-hide="connected")
     p.literal You have to be online to see this screen
 
+  group.disconnected(ng-hide="!connected || loadState.account")
+    p.literal Loading...
+
   //- Connected
 
-  group(ng-show="connected")
+  group(ng-show="connected && loadState.account")
     .div#welcome(ng-hide='account.Balance')
       p.title Welcome to Ripple.
       p You currently don&#39;t have any ripples (XRP). To get started you can:
@@ -30,11 +33,11 @@ section.panel.content(ng-controller="BalanceCtrl")
       caption Activity
       thead
         //- Loading screen
-        tr(ng-hide="transactions")
-          td(colspan=2) Loading...
+        tr(ng-hide="loadState.transactions")
+          td(colspan=2) Loading activity...
 
         //- Entries
-        tr(ng-show="transactions")
+        tr(ng-show="loadState.transactions")
           th.date Date
           th.desc Event
       tbody(ng-class="{passive: loading}")

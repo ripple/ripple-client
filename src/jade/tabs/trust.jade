@@ -6,9 +6,12 @@ section.panel.content(ng-controller="TrustCtrl")
   group.disconnected(ng-hide="connected")
     p.literal You have to be online to see this screen
 
+  group.disconnected(ng-hide="!connected || loadState.lines")
+    p.literal Loading...
+
   //- Connected
 
-  group(ng-show="connected")
+  group(ng-show="connected && loadState.lines")
     //- Account is unfunded
     .unfunded(ng-hide='account.Balance')
       p.literal You have to be funded before you can grant a trust
