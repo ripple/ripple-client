@@ -9,10 +9,11 @@
  * Important: XRP must be the first entry in this list.
  */
 module.exports = [
-  {value: 'XRP', name: 'XRP - Ripples', order: 4},
-  {value: 'USD', name: 'USD - US Dollar', order: 3},
-  {value: 'EUR', name: 'EUR - Euro', order: 2},
-  {value: 'BTC', name: 'BTC - Bitcoin', order: 1},
+  {value: 'XRP', name: 'XRP - Ripples', order: 5},
+  {value: 'USD', name: 'USD - US Dollar', order: 4},
+  {value: 'EUR', name: 'EUR - Euro', order: 3},
+  {value: 'BTC', name: 'BTC - Bitcoin', order: 2},
+  {value: 'LTC', name: 'LTC - Litecoin', order: 1},
   {value: 'JPY', name: 'JPY - Japanese Yen', order: 0},
   {value: 'CNY', name: 'CNY - Chinese Yuan', order: 0},
   {value: 'INR', name: 'INR - Indian Rupee', order: 0},
