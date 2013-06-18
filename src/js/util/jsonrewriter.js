@@ -229,9 +229,18 @@ var JsonRewriter = module.exports = {
           if (node.fieldsPrev.Balance) {
             effect.type = "trust_change_balance";
 
+            var issuer =  node.fields.Balance.value > 0 || node.fieldsPrev.Balance.value > 0
+              ? high.issuer : low.issuer;
+
             effect.amount = high.issuer === account
-              ? effect.amount = ripple.Amount.from_json(node.fieldsPrev.Balance).subtract(node.fields.Balance)
-              : effect.amount = ripple.Amount.from_json(node.fields.Balance).subtract(node.fieldsPrev.Balance);
+              ? effect.amount = ripple.Amount.from_json(
+                  node.fieldsPrev.Balance.value
+                      + "/" + node.fieldsPrev.Balance.currency
+                      + "/" + issuer).subtract(node.fields.Balance)
+              : effect.amount = ripple.Amount.from_json(
+                  node.fields.Balance.value
+                      + "/" + node.fields.Balance.currency
+                      + "/" + issuer).subtract(node.fieldsPrev.Balance);
 
             obj.balance_changer = effect.balance_changer = true;
             affected_currencies.push(high.currency.toUpperCase());
