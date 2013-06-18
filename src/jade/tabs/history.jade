@@ -51,6 +51,8 @@ section.panel.content(ng-controller="HistoryCtrl")
                       strong Final balance
                     span.amount
                       strong Amount
+                    span.issuer
+                      strong Issuer
                 .effect(ng-repeat="effect in entry.effects")
                   div
                     span(ng-switch on="effect.type")
@@ -63,8 +65,12 @@ section.panel.content(ng-controller="HistoryCtrl")
                     span.balance
                       | {{effect.balance | rpamount}} {{effect.balance | rpcurrency}}
                     span.amount
-                      span(rp-tooltip="{{effect.amount | rpamount:{precision: 10} }} {{effect.currency}}")
                       | {{effect.amount | rpamount}} {{effect.amount | rpcurrency}}
+                    span.issuer(
+                      rp-pretty-issuer="effect.amount.issuer().to_json()"
+                      rp-pretty-issuer-contacts="userBlob.data.contacts"
+                      rp-pretty-issuer-default="-"
+                    )
               .links
                 a.txLink(rp-link-tx="entry.hash") Transaction details
                 a.addLink(ng-hide="entry.transaction.counterparty | rponlycontactname", href="#/contact?to={{entry.transaction.counterparty}}", rp-no-propagate)
