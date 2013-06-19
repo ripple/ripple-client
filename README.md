@@ -13,7 +13,7 @@ This is a general purpose Ripple client in JavaScript.
 
 ## Bug tracker
 
-Have a bug or a feature request? [Please open a new issue](https://github.com/rippleFoundation/ripple-client/issues). Before opening any issue, please search for existing issues and read the [Issue Guidelines](https://github.com/necolas/issue-guidelines), written by [Nicolas Gallagher](https://github.com/necolas/).
+Have a bug or a feature request? [Please open a new issue](https://github.com/rippleFoundation/ripple-client/issues). Before opening any issue, please search for existing issues and read the [Issue Guidelines](https://github.com/rippleFoundation/ripple-client/blob/develop/CONTRIBUTING.md), written by [Nicolas Gallagher](https://github.com/necolas/).
 
 ## Community
 
