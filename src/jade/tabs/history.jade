@@ -16,7 +16,11 @@ section.panel.content(ng-controller="HistoryCtrl")
       li.all: a(ng-click='type = {}', ng-class="!type['transaction.type'] && 'active'") All Activity
       li.received: a(ng-click='type = {transaction.type: "received"}', ng-class="type['transaction.type'] == 'received' && 'active'") Received
       li.sent: a(ng-click='type = {transaction.type: "sent"}', ng-class="type['transaction.type'] == 'sent' && 'active'") Sent
-    .currency-filter
+    .balance-changer-filter
+      label
+        span Show only balance changers
+        input(type="checkbox", name="balance-changer-filter", ng-model="filters.balance_changer")
+    .currency-filter(ng-show="filters.balance_changer")
       label(ng-repeat="(currency,checked) in filters.currencies")
         span {{currency}}
         input(type="checkbox", name="currency-filter", ng-model="filters.currencies[currency].checked")
@@ -36,15 +40,39 @@ section.panel.content(ng-controller="HistoryCtrl")
               span(ng-switch-when="sent") You sent&nbsp;
                 span.address(title="{{entry.transaction.counterparty}}") {{entry.transaction.counterparty | rpcontactname}}
                 strong  {{entry.transaction.amount | rpamount}} {{entry.transaction.amount | rpcurrency}}
+                include history/effects
               span(ng-switch-when="received")
                 span.address(title="{{entry.transaction.counterparty}}") {{entry.transaction.counterparty | rpcontactname}}
                 |  sent you
                 strong  {{entry.transaction.amount | rpamount}} {{entry.transaction.amount | rpcurrency}}
+                include history/effects
+              span(ng-switch-when="trusted")
+                span.address(title="{{entry.transaction.counterparty}}") {{entry.transaction.counterparty | rpcontactname}}
+                |  now trusts you for
+                strong  {{entry.transaction.amount | rpamount}} {{entry.transaction.amount | rpcurrency}}
+                include history/effects
+              span(ng-switch-when="trusting") You now trust&nbsp;
+                span.address(title="{{entry.transaction.counterparty}}") {{entry.transaction.counterparty | rpcontactname}}
+                |  for&nbsp;
+                strong {{entry.transaction.amount | rpamount}} {{entry.transaction.amount | rpcurrency}}
+                include history/effects
               span(ng-switch-when="offernew")
                 | You created an offer accepting&nbsp;
                 strong {{entry.transaction.pays | rpamount}} {{entry.transaction.pays | rpcurrency}}
                 |  for&nbsp;
                 strong {{entry.transaction.gets | rpamount}} {{entry.transaction.gets | rpcurrency}}
+              span(ng-switch-when="offernew") You created an offer accepting&nbsp;
+                strong {{entry.transaction.pays | rpamount}} {{entry.transaction.pays | rpcurrency}}
+                |  for&nbsp;
+                strong {{entry.transaction.gets | rpamount}} {{entry.transaction.gets | rpcurrency}}
+                include history/effects
+              span(ng-switch-when="offercancel") You cancelled an offer accepting&nbsp;
+                strong {{entry.transaction.pays | rpamount}} {{entry.transaction.pays | rpcurrency}}
+                |  for&nbsp;
+                strong {{entry.transaction.gets | rpamount}} {{entry.transaction.gets | rpcurrency}}
+                include history/effects
+              span(ng-switch-default)
+                include history/effects
 
             .details(ng-show="details[entry.hash]")
               .effects

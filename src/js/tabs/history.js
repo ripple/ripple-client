@@ -33,13 +33,19 @@ HistoryTab.prototype.angular = function (module) {
     // Filters
     $scope.filters = {
       'currencies': {},
-      'types': []
+      'types': [],
+      'balance_changer': false
     };
 
     // All the currencies that we have
     $scope.$watch('balances', function(){
       updateCurrencies();
     });
+
+    // Balance changer filter has been changed
+    $scope.$watch('filters.balance_changer', function(){
+      updateHistory();
+    }, true);
 
     // Currency filter has been changed
     $scope.$watch('filters.currencies', function(){
@@ -59,13 +65,36 @@ HistoryTab.prototype.angular = function (module) {
       $scope.history = [];
       var currencies = _.map($scope.filters.currencies,function(obj,key){return obj.checked ? key : false});
       $scope.events.forEach(function(event){
-        if (event.balance_changer) {
-          // Update currencies
-          historyCurrencies = _.union(historyCurrencies, event.affected_currencies);
-          // Push events to history collection
-          if (_.intersection(currencies,event.affected_currencies).length > 0)
-            $scope.history.push(event);
+        // Update currencies
+        historyCurrencies = _.union(historyCurrencies, event.affected_currencies);
+
+        var effects = [];
+
+        if (event.effects) {
+          $.each(event.effects, function(){
+            var effect = this;
+            if (effect.type == 'offer_funded'
+                || effect.type == 'offer_partially_funded'
+                || effect.type == 'offer_bought'
+                || (effect.type === 'offer_canceled' &&
+                event.transaction.type !== 'offercancel')) {
+              effects.push(effect);
+            }
+          });
+
+          event.showEffects = effects;
         }
+
+        // Balance changer filter
+        if ($scope.filters.balance_changer && !event.balance_changer)
+          return;
+
+        // Currency filter
+        if ($scope.filters.balance_changer && !_.intersection(currencies,event.affected_currencies).length > 0)
+          return;
+
+        // Push events to history collection
+        $scope.history.push(event);
       });
     };
 
