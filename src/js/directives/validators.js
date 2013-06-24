@@ -5,7 +5,7 @@
  */
 
 var webutil = require('../util/web'),
-    Base58Utils = require('../util/base58'),
+    Base = ripple.Base,
     Amount = ripple.Amount;
 
 var module = angular.module('validators', []);
@@ -21,7 +21,7 @@ module.directive('rpMasterKey', function () {
       if (!ctrl) return;
 
       var validator = function(value) {
-        if (value && !Base58Utils.decode_base_check(33, value)) {
+        if (value && !Base.decode_check(33, value)) {
           ctrl.$setValidity('rpMasterKey', false);
           return;
         }
@@ -59,7 +59,7 @@ module.directive('rpDest', function () {
       if (!ctrl) return;
 
       var validator = function(value) {
-        var strippedValue=webutil.stripRippleAddress(value);
+        var strippedValue = webutil.stripRippleAddress(value);
         var address = ripple.UInt160.from_json(strippedValue);
 
         if (attr.rpDestAddress && address.is_valid()) {
@@ -69,6 +69,11 @@ module.directive('rpDest', function () {
 
         if (attr.rpDestContact && scope.userBlob &&
             webutil.getContact(scope.userBlob.data.contacts,strippedValue)) {
+          ctrl.$setValidity('rpDest', true);
+          return value;
+        }
+
+        if (attr.rpDestBitcoin && !isNaN(Base.decode_check([0, 5], strippedValue, 'bitcoin'))) {
           ctrl.$setValidity('rpDest', true);
           return value;
         }
