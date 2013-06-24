@@ -21,7 +21,7 @@ section#t-send.single.content(ng-controller='SendCtrl')
       name='send_destination', type='text', rp-combobox="recipient_query"
       placeholder='Contact name or Ripple address'
       ng-model='send.recipient'
-      rp-destination, required
+      rp-dest, rp-dest-address, rp-dest-contact, required
       rp-autofill='$routeParams.to'
       rp-focus)
     .errorGroup(rp-errors='send_destination')
@@ -29,7 +29,7 @@ section#t-send.single.content(ng-controller='SendCtrl')
         | {{send.recipient_address}}
       .error(rp-error-on='required')
         | Please enter a recipient.
-      .error(rp-error-on='rpDestination')
+      .error(rp-error-on='rpDest')
         | Recipient should be either a name from your contact list or Ripple
         | address.
     span(ng-show='$routeParams.st')
