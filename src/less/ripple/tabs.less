@@ -977,8 +977,7 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
         color: #656565;
       }
       ul {
-        display: inline-block;
-        width: 100%;
+        .clearfix;
         list-style-type: none;
         margin: 0;
         padding: 20px;
@@ -1060,6 +1059,10 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
         font-size: 18px;
         color: #999;
         margin-top: 0.5em;
+
+        @media (max-width: 380px) {
+          font-size: 14px;
+        }
       }
       .dt {
         font-size: 15px;
@@ -1070,6 +1073,8 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
     .dest_feedback {
       padding-top: 20px;
       padding-bottom: 20px;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .amount_feedback, .sendmax_feedback {
@@ -1091,7 +1096,7 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
       button.submit {
         .makeColumn(3);
         @media (max-width: 480px) {
-          .makeColumn(2.5);
+          .makeColumn(2);
         }
       }
     }
