@@ -20,7 +20,14 @@ var Options = {
   persistent_auth : false,
 
   // Number of transactions each page has in balance tab notifications
-  transactions_per_page: 50
+  transactions_per_page: 50,
+
+  // Configure bridges
+  bridge: {
+    out: {
+//    "bitcoin": "localhost:3000"
+    }
+  }
 };
 
 // Load client-side overrides
