@@ -1,7 +1,8 @@
 var util = require('util'),
     webutil = require('../util/web'),
     Tab = require('../client/tab').Tab,
-    Amount = ripple.Amount;
+    Amount = ripple.Amount,
+    Base = ripple.Base;
 
 var SendTab = function ()
 {
@@ -64,10 +65,17 @@ SendTab.prototype.angular = function (module)
     $scope.update_send = function () {
       var currency = $scope.send.currency_code;
       var recipient = $scope.send.recipient_address;
-      var formatted = "" + $scope.send.amount + " " + currency.slice(0, 3);
 
       // Trying to send XRP to self
-      $scope.send.self = recipient == $scope.address && $scope.send.amount;
+      $scope.send.self = recipient === $scope.address && $scope.send.amount;
+
+      // Trying to send to a Bitcoin address
+      $scope.send.bitcoin = !isNaN(Base.decode_check([0, 5], recipient, 'bitcoin'));
+
+      // If target is Bitcoin address, force currency = "BTC"
+      if ($scope.send.bitcoin) currency = "BTC";
+
+      var formatted = "" + $scope.send.amount + " " + currency.slice(0, 3);
 
       // if formatted or money to send is 0 then don't calculate paths or offer to send
       if (parseFloat(formatted) === 0)
@@ -169,36 +177,101 @@ SendTab.prototype.angular = function (module)
     };
 
     $scope.update_paths = function () {
-      var recipient = $scope.send.recipient_address;
-      $network.remote.request_ripple_path_find($id.account,
-                                              $scope.send.recipient_address,
-                                              $scope.send.amount_feedback)
-        .on('error', function (e) {
-          $scope.$apply(function () {
-            $scope.path_status = "error";
-          });
-        })
-        .on('success', function (data) {
-          $scope.$apply(function () {
-            if (!data.alternatives || !data.alternatives.length) {
-              $scope.send.path_status = "no-path";
-            } else {
-              $scope.send.path_status = "done";
-              $scope.send.alternatives = _.map(data.alternatives, function (raw) {
-                var alt = {};
-                alt.amount = Amount.from_json(raw.source_amount);
-                alt.send_max = alt.amount.product_human(Amount.from_json('1.01'));
-                alt.paths = raw.paths_computed
-                  ? raw.paths_computed
-                  : raw.paths_canonical;
-
-                return alt;
+      $scope.$apply(function () {
+        var recipient = $scope.send.recipient_address;
+        console.log($scope.send.amount_feedback.to_json());
+        if (!$scope.send.bitcoin) {
+          // Path find
+          $network.remote.request_ripple_path_find($id.account,
+                                                   $scope.send.recipient_address,
+                                                   $scope.send.amount_feedback)
+            .on('error', function (e) {
+              $scope.$apply(function () {
+                $scope.path_status = "error";
               });
-//              $scope.send.alt = $scope.send.alternatives[0];
-            }
-          });
-        })
-        .request();
+            })
+            .on('success', function (data) {
+              $scope.$apply(function () {
+                $scope.handle_paths(data);
+              });
+            })
+            .request();
+        } else {
+          // Bitcoin outbound bridge path find
+          try {
+            // Get a quote
+            $.ajax({
+              url: Options.bridge.out.bitcoin,
+              dataType: 'json',
+              data: {
+                type: "quote",
+                amount: $scope.send.amount_feedback.to_text()+"/BTC"
+              },
+              error: function () {
+                setImmediate(function () {
+                  $scope.$apply(function () {
+                    $scope.send.path_status = "error";
+                  });
+                });
+              },
+              success: function (data) {
+                $scope.$apply(function () {
+                  if (!data || !data.quote || !Array.isArray(data.quote.send) ||
+                      !data.quote.send.length || !data.quote.address) {
+                    $scope.send.path_status = "error";
+                    return;
+                  }
+
+                  var amount = Amount.from_json(data.quote.send[0]);
+
+                  // XXX XRP quote not supported yet
+                  if (amount.is_native()) {
+                    $scope.send.path_status = "error";
+                    return;
+                  }
+
+                  // We have a quote, now calculate a path
+                  $network.remote.request_ripple_path_find($id.account,
+                                                           data.quote.address,
+                                                           amount)
+                    .on('error', function (e) {
+                      $scope.$apply(function () {
+                        $scope.path_status = "error";
+                      });
+                    })
+                    .on('success', function (data) {
+                      $scope.$apply(function () {
+                        $scope.handle_paths(data);
+                      });
+                    })
+                    .request();
+                });
+              }
+            });
+          } catch (e) {
+            $scope.send.path_status = "error";
+          }
+        }
+      });
+    };
+
+    $scope.handle_paths = function (data) {
+      if (!data.alternatives || !data.alternatives.length) {
+        $scope.send.path_status = "no-path";
+      } else {
+        $scope.send.path_status = "done";
+        $scope.send.alternatives = _.map(data.alternatives, function (raw) {
+          var alt = {};
+          alt.amount = Amount.from_json(raw.source_amount);
+          alt.send_max = alt.amount.product_human(Amount.from_json('1.01'));
+          alt.paths = raw.paths_computed
+            ? raw.paths_computed
+            : raw.paths_canonical;
+
+          return alt;
+        });
+        //              $scope.send.alt = $scope.send.alternatives[0];
+      }
     };
 
     $scope.$watch('userBlob.data.contacts', function (contacts) {

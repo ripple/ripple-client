@@ -53,7 +53,7 @@ section#t-send.single.content(ng-controller='SendCtrl')
         .error(rp-error-on='rpStdt')
           | Invalid destination tag
     label(for='send_amount') Recipient will receive
-    .amount
+    .amount(ng-show="!send.bitcoin")
       input.value#send_amount(
         name='send_amount', type='text'
         ng-model='send.amount'
@@ -69,6 +69,17 @@ section#t-send.single.content(ng-controller='SendCtrl')
         ng-model='send.currency'
         rp-autofill='$routeParams.amount'
         rp-autofill-currency)
+    .input-append(ng-show="send.bitcoin")
+      input.value#send_bitcoin_amount(
+        name='send_bitcoin_amount', type='text'
+        ng-model='send.amount'
+        required
+        rp-autofill='$routeParams.amount'
+        rp-autofill-amount
+        rp-max-amount
+        rp-max-amount-currency='{{send.currency}}'
+        rp-positive-amount)
+      span.add-on BTC
     .errorGroup(rp-errors='send_amount')
       .error(rp-error-on='required')
         | Please enter an amount.

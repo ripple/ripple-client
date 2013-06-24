@@ -10,7 +10,16 @@ var express = require('express'),
 
 var app = express();
 
+app.options('/out', function (req, res) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  res.end();
+});
+
 app.get('/out', function(req, res){
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+
   var type = req.query.type;
   var amount = Amount.from_json(req.query.amount);
 
@@ -26,11 +35,13 @@ app.get('/out', function(req, res){
     throw new Error("Currency must be BTC.");
   }
 
+  amount.set_issuer("rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B");
+
   res.json({
     "type": "ripple.bridge.out.bitcoin.quote.1",
     "quote": {
-      "send:" : ["5000"],
-      "address": "rf6deaquytYRCnXDD4ZBFAiJ7GiNCod93c",
+      "send" : [amount.to_json()],
+      "address": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
       "bitcoin_amount": amount.to_text(),
       "destination_tag": 15,
       "expires": Math.floor(new Date().getTime()/1000) + 15 * 60
