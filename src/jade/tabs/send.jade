@@ -100,8 +100,8 @@ section#t-send.single.content(ng-controller='SendCtrl')
     p.literal(ng-show="send.path_status == 'no-path' && send.currency_code != 'XRP'") No path found!
     p.literal(ng-show="send.path_status == 'error'") Error while calculating path
     .currency_sets(rp-if="send.path_status == 'done'")
-      .label(ng-show="send.currency_code != 'XRP'") You can send
-      .label(ng-show="send.currency_code == 'XRP'") Or you can send
+      .label(ng-show="send.currency_code != 'XRP' || send.bitcoin") You can send
+      .label(ng-show="send.currency_code == 'XRP' && !send.bitcoin") Or you can send
       ul
         li(ng-repeat="alt in send.alternatives")
           p
