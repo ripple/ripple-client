@@ -379,6 +379,7 @@ var JsonRewriter = module.exports = {
     obj.date = (tx.date + 0x386D4380) * 1000;
     obj.hash = tx.hash;
     obj.affected_currencies = affected_currencies ? affected_currencies : [];
+    obj.ledger_index = tx.ledger_index;
 
     return obj;
   }
