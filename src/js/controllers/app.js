@@ -30,6 +30,7 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
     $scope.lines = {};
     $scope.offers = {};
     $scope.events = [];
+    $scope.history = [];
     $scope.balances = {};
     $scope.loadState = [];
   }
@@ -224,6 +225,9 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
       if (processedTxn.tx_result === "tesSUCCESS") {
         $scope.events.unshift(processedTxn);
       }
+
+      // Add to history
+      $scope.history.unshift(processedTxn);
 
       // Update Ripple lines
       if (processedTxn.effects && !is_historic) {
