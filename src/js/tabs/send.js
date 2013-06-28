@@ -230,6 +230,8 @@ SendTab.prototype.angular = function (module)
                     return;
                   }
 
+                  $scope.send.bitcoin_quote = data.quote;
+
                   // We have a quote, now calculate a path
                   $network.remote.request_ripple_path_find($id.account,
                                                            data.quote.address,
@@ -424,16 +426,32 @@ SendTab.prototype.angular = function (module)
       amount.set_issuer(addr);
 
       var tx = $network.remote.transaction();
-
-      // Destination tag
-      tx.destination_tag(dt);
-
       // Source tag
       if ($scope.send.st) {
         tx.source_tag($scope.send.st);
       }
 
-      tx.payment($id.account, addr, amount.to_json());
+      if (!$scope.send.bitcoin) {
+        // Destination tag
+        tx.destination_tag(dt);
+
+        tx.payment($id.account, addr, amount.to_json());
+      } else {
+        if ("number" === typeof $scope.send.bitcoin_quote.destination_tag) {
+          tx.destination_tag($scope.send.bitcoin_quote.destination_tag);
+        }
+
+        var encodedAddr = Base.decode(addr, 'bitcoin');
+        encodedAddr = sjcl.codec.bytes.toBits(encodedAddr);
+        encodedAddr = sjcl.codec.hex.fromBits(encodedAddr).toUpperCase();
+        while (encodedAddr.length < 64) encodedAddr += "0";
+        tx.tx_json.InvoiceID = encodedAddr;
+
+        tx.payment($id.account,
+                   $scope.send.bitcoin_quote.address,
+                   $scope.send.bitcoin_quote.send[0]);
+      }
+
       if ($scope.send.alt) {
         tx.send_max($scope.send.alt.send_max);
         tx.paths($scope.send.alt.paths);
