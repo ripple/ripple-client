@@ -35,7 +35,7 @@ ul.effects(ng-show="entry.effects")
       |  from {{effect.prevLimit | rpamount}} to {{effect.limit | rpamount}}
     span(ng-switch-when="trust_change_balance") – Trust balance between you and
       |  {{effect.counterparty | rpcontactname}} has been changed by
-      |  {{effect.change | rpamount}} {{effect.change | rpcurrency}}
+      |  {{effect.amount | rpamount}} {{effect.amount | rpcurrency}}
 
     span(ng-switch-when="balance_change") – Your balance has been changed by
       |  {{effect.amount | rpamount}} {{effect.amount | rpcurrency}}

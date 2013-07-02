@@ -23,7 +23,7 @@ module.directive('rpPrettyIssuer', ['rpDomainAlias',
       return function (scope, element, attr) {
         function update() {
           if (!scope.issuer) {
-            scope.alias = '???';
+            scope.alias = attr.rpPrettyIssuerDefault ? attr.rpPrettyIssuerDefault : '???';
             return;
           }
           scope.alias = aliasService.getAliasForAddress(scope.issuer);

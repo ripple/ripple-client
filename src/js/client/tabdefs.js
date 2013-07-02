@@ -18,6 +18,10 @@ exports["contacts"] = function (callback) {
   callback(require('../tabs/contacts'));
 };
 
+exports["invite"] = function (callback) {
+  callback(require('../tabs/invite'));
+};
+
 exports["exchange"] = function (callback) {
   callback(require('../tabs/exchange'));
 };

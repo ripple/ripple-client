@@ -6,9 +6,12 @@ section.panel.content(ng-controller="TradeCtrl")
   group.disconnected(ng-hide="connected")
     p.literal You have to be online to see this screen
 
+  group.disconnected(ng-hide="!connected || loadState.offers")
+    p.literal Loading order book...
+
   //- Connected
 
-  group(ng-show="connected")
+  group(ng-show="connected && loadState.offers")
     .settings
       .currency-config
         input.currency#currency_pair(
@@ -59,9 +62,9 @@ section.panel.content(ng-controller="TradeCtrl")
         name='first_issuer', type='text', rp-combobox="issuer_query"
         placeholder='Contact name or Ripple address'
         ng-model='order.first_issuer_edit'
-        rp-destination)
+        rp-dest, rp-dest-address, rp-dest-contact)
       .errorGroup(rp-errors='first_issuer')
-        .error(rp-error-on='rpDestination') Not a valid ripple address or contact
+        .error(rp-error-on='rpDest') Not a valid Ripple address or contact
       p.submitsection
         button.btn.btn-success.submit(
           type='submit', ng-click='save_first_issuer()') Confirm
@@ -73,9 +76,9 @@ section.panel.content(ng-controller="TradeCtrl")
         name='second_issuer', type='text', rp-combobox="issuer_query"
         placeholder='Contact name or Ripple address'
         ng-model='order.second_issuer_edit'
-        rp-destination)
+        rp-dest, rp-dest-address, rp-dest-contact)
       .errorGroup(rp-errors='second_issuer')
-        .error(rp-error-on='rpDestination') Not a valid ripple address or contact
+        .error(rp-error-on='rpDest') Not a valid ripple address or contact
       p.submitsection
         button.btn.btn-success.submit(
           type='submit', ng-click='save_second_issuer()') Confirm

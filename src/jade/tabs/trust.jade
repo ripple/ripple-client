@@ -6,9 +6,12 @@ section.panel.content(ng-controller="TrustCtrl")
   group.disconnected(ng-hide="connected")
     p.literal You have to be online to see this screen
 
+  group.disconnected(ng-hide="!connected || loadState.lines")
+    p.literal Loading...
+
   //- Connected
 
-  group(ng-show="connected")
+  group(ng-show="connected && loadState.lines")
     //- Account is unfunded
     .unfunded(ng-hide='account.Balance')
       p.literal You have to be funded before you can grant a trust
@@ -36,7 +39,7 @@ section.panel.content(ng-controller="TrustCtrl")
               label(for='trust_counterparty') {{ edituser }}
               input#trust_counterparty(name='trust_counterparty', type='text', ng-model='counterparty'
                 rp-combobox="counterparty_query", placeholder='Contact name or Ripple address',
-                rp-destination, rp-not-me, required
+                rp-dest, rp-dest-address, rp-dest-contact, rp-not-me, required
                 rp-autofill='$routeParams.to'
                 rp-autofill-on='addform_visible = true'
                 rp-focus)
@@ -51,7 +54,7 @@ section.panel.content(ng-controller="TrustCtrl")
                   | Please enter a User.
                 .error(rp-error-on='rpNotMe')
                   | You've entered your address.
-                .error(rp-error-on='rpDestination')
+                .error(rp-error-on='rpDest')
                   | User should be either a name from your contact list or Ripple address.
               label(for='trust_amount') Amount
               .amount

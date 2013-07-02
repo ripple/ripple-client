@@ -94,27 +94,39 @@ header nav {
   position: absolute;
   top: 78px;
   left: 0;
+  width: 100%;
 }
 
 header nav ul {
   font: 12px 'OpenSansRegular';
-  padding-left: 10px;
   list-style: none;
+  width: 100%;
+  padding: 0 0 0 10px;
+
+  @media (max-width: 767px) {
+    padding: 0;
+  }
 
   > li {
     position: relative;
     float: left;
+    width: 70px;
+    height: 55px;
     padding-left: 30px;
     padding-right: 30px;
     text-align: center;
     z-index: 1;
 
     @media (max-width: 767px) {
-      padding-left: 5px;
-      padding-right: 5px;
+      width: 24%;
+      padding: 0;
     }
 
     > a {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      margin-left: -35px;
       opacity: 0.6;
       width: 70px;
       color: #000;

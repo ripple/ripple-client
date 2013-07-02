@@ -5,44 +5,10 @@
  */
 
 var webutil = require('../util/web'),
-    Base58Utils = require('../util/base58'),
+    Base = ripple.Base,
     Amount = ripple.Amount;
 
 var module = angular.module('validators', []);
-
-/**
- * Address validator
- */
-module.directive('rpAddress', function () {
-  return {
-    restrict: 'A',
-    require: '?ngModel',
-    link: function (scope, elm, attr, ctrl) {
-      if (!ctrl) return;
-
-      var validator = function(value) {
-        if (value) {
-          var address = ripple.UInt160.from_json(value);
-
-          if (!address.is_valid()) {
-            ctrl.$setValidity('rpAddress', false);
-            return;
-          }
-        }
-
-        ctrl.$setValidity('rpAddress', true);
-        return value;
-      };
-
-      ctrl.$formatters.push(validator);
-      ctrl.$parsers.unshift(validator);
-
-      attr.$observe('rpAddress', function() {
-        validator(ctrl.$viewValue);
-      });
-    }
-  };
-});
 
 /**
  * Secret Account Key validator
@@ -55,7 +21,7 @@ module.directive('rpMasterKey', function () {
       if (!ctrl) return;
 
       var validator = function(value) {
-        if (value && !Base58Utils.decode_base_check(33, value)) {
+        if (value && !Base.decode_check(33, value)) {
           ctrl.$setValidity('rpMasterKey', false);
           return;
         }
@@ -75,12 +41,17 @@ module.directive('rpMasterKey', function () {
 });
 
 /**
- * Address or contact validator
+ * Validate a payment destination.
  *
- * Allows a valid address or a contact in our addressbook.
+ * You can set this validator and one or more of the type attributes:
+ *
+ * - rp-dest-address - If set, allows Ripple addresses as destinations.
+ * - rp-dest-contact - If set, allows address book contacts.
+ *
+ * If the input can be validly interpreted as one of these types, the validation
+ * will succeed.
  */
-// TODO merge rpDestination, rpAddress and rpNotMe.
-module.directive('rpDestination', function () {
+module.directive('rpDest', function () {
   return {
     restrict: 'A',
     require: '?ngModel',
@@ -88,22 +59,33 @@ module.directive('rpDestination', function () {
       if (!ctrl) return;
 
       var validator = function(value) {
-        var strippedValue=webutil.stripRippleAddress(value);
+        var strippedValue = webutil.stripRippleAddress(value);
         var address = ripple.UInt160.from_json(strippedValue);
 
-        if (address.is_valid() || (scope.userBlob && webutil.getContact(scope.userBlob.data.contacts,strippedValue))) {
-          ctrl.$setValidity('rpDestination', true);
+        if (attr.rpDestAddress && address.is_valid()) {
+          ctrl.$setValidity('rpDest', true);
           return value;
-        } else {
-          ctrl.$setValidity('rpDestination', false);
-          return;
         }
+
+        if (attr.rpDestContact && scope.userBlob &&
+            webutil.getContact(scope.userBlob.data.contacts,strippedValue)) {
+          ctrl.$setValidity('rpDest', true);
+          return value;
+        }
+
+        if (attr.rpDestBitcoin && !isNaN(Base.decode_check([0, 5], strippedValue, 'bitcoin'))) {
+          ctrl.$setValidity('rpDest', true);
+          return value;
+        }
+
+        ctrl.$setValidity('rpDest', false);
+        return;
       };
 
       ctrl.$formatters.push(validator);
       ctrl.$parsers.unshift(validator);
 
-      attr.$observe('rpDestination', function() {
+      attr.$observe('rpDest', function() {
         validator(ctrl.$viewValue);
       });
     }

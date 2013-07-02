@@ -4,7 +4,11 @@
       span.username(ng-show="shortUsername", rp-tooltip="{{userCredentials.username}}", rp-tooltip-placement="bottom") {{shortUsername}}
       span.username(ng-hide="shortUsername") {{userCredentials.username}}
       a.logout(ng-click='logout()') logout
-    .balance.primary(ng-show="account.Balance")
+    .balance.primary(ng-show="!loadState.account")
+      | Loading your balance...
+    .balance.primary(ng-show="loadState.account && !account.Balance")
+      | Unfunded account
+    .balance.primary(ng-show="loadState.account && account.Balance")
       span.amount(ng-class="{low: lowBalance}", rp-tooltip="{{account.Balance | rpamount}}  (reserve: {{ account.reserve | rpamount }} XRP)") {{account.Balance | rpamount:{rel_precision: 0} }}
       span.currency XRP
       a.icon.low(ng-show="lowBalance"

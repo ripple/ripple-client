@@ -30,14 +30,14 @@ section.panel.content(ng-controller="ContactsCtrl")
             input.address#contact_address(
               name='address', type='text', step='any'
               ng-model='contact.address'
-              rp-address
+              rp-dest, rp-dest-address
               rp-unique='userBlob.data.contacts'
               rp-unique-field='address'
               rp-autofill='$routeParams.to', rp-autofill-on='addform_visible = true'
               required)
             .errorGroup(rp-errors='address')
               .error(rp-error-on='required') Please enter an address.
-              .error(rp-error-on='rpAddress') Not a valid address.
+              .error(rp-error-on='rpDest') Not a valid address.
               .error(rp-error-on='rpUnique') You already have a contact with the same address.
             label(for='dt') Destination tag
             input.name#contact_dt(
@@ -72,7 +72,7 @@ section.panel.content(ng-controller="ContactsCtrl")
               rp-unique='userBlob.data.contacts'
               rp-unique-field='address'
               rp-unique-orig='entry.address'
-              rp-address
+              rp-dest, rp-dest-address
               ng-enter="update($index)")
             button.save.btn.btn-small(ng-disabled="inlineAddress.editaddress.$error.rpUnique", ng-disabled="inlineName.editname.$error.rpUnique", ng-disabled="inlineAddress.editaddress.$error.rpAddress", ng-click='update($index)')
             rp-confirm(
@@ -86,7 +86,7 @@ section.panel.content(ng-controller="ContactsCtrl")
                 button.delete.btn.btn-small
             .errorGroup(rp-errors='editaddress')
               .error(rp-error-on='rpUnique') You already have this address.
-              .error(rp-error-on='rpAddress') Not a valid address.
+              .error(rp-error-on='rpDest') Not a valid address.
             label(for="contact_dt")
               | Destination tag
             input.dt#contact_dt(

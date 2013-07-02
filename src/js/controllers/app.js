@@ -30,12 +30,13 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
     $scope.lines = {};
     $scope.offers = {};
     $scope.events = [];
-    $scope.history = [];
     $scope.balances = {};
+    $scope.loadState = [];
   }
 
   var myHandleAccountEvent;
   var myHandleAccountEntry;
+
   function handleAccountLoad(e, data)
   {
     var remote = $net.remote;
@@ -58,8 +59,7 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
 
     accountObj.entry(function (err, entry) {
       if (err) {
-        // XXX: Our account does not exist, we should do something with that
-        //      knowledge.
+        $scope.loadState['account'] = true;
       }
     });
 
@@ -113,11 +113,16 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
         updateRippleBalance(line.currency, line.account, line.balance);
       }
       console.log('lines updated:', $scope.lines);
+
+      $scope.loadState['lines'] = true;
     });
   }
 
   function handleRippleLinesError(data)
   {
+    $scope.$apply(function () {
+      $scope.loadState['lines'] = true;
+    });
   }
 
   function handleOffers(data)
@@ -133,11 +138,16 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
         updateOffer(offer);
       });
       console.log('offers updated:', $scope.offers);
+
+      $scope.loadState['offers'] = true;
     });
   }
 
   function handleOffersError(data)
   {
+    $scope.$apply(function () {
+      $scope.loadState['offers'] = true;
+    });
   }
 
   function handleAccountEntry(data)
@@ -160,6 +170,8 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
       // Maximum amount user can spend
       var bal = Amount.from_json(data.Balance);
       $scope.account.max_spend = bal.subtract($scope.account.reserve);
+
+      $scope.loadState['account'] = true;
     });
   }
 
@@ -173,11 +185,15 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
           processTxn(e.tx, e.meta, true);
         });
       }
+
+      $scope.loadState['transactions'] = true;
     });
   }
   function handleAccountTxError(data)
   {
-
+    $scope.$apply(function () {
+      $scope.loadState['transactions'] = true;
+    });
   }
 
   function handleAccountEvent(e)
@@ -209,13 +225,6 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
         $scope.events.unshift(processedTxn);
       }
 
-      // Add to payments history
-      if (processedTxn.tx_type === "Payment" &&
-          processedTxn.tx_result === "tesSUCCESS" &&
-          processedTxn.transaction) {
-        $scope.history.unshift(processedTxn);
-      }
-
       // Update Ripple lines
       if (processedTxn.effects && !is_historic) {
         updateLines(processedTxn.effects);
@@ -236,7 +245,8 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
               seq: +effect.seq,
               gets: effect.gets,
               pays: effect.pays,
-              deleted: effect.deleted
+              deleted: effect.deleted,
+              flags: processedTxn.transaction.flags
             };
 
             updateOffer(offer);
@@ -248,34 +258,14 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
 
   function updateOffer(offer)
   {
-    var reverseOrder = null;
-    var pairs = $scope.pairs;
-    for (var i = 0, l = pairs.length; i < l; i++) {
-      var pair = pairs[i].name;
-      if (pair.slice(0,3) == offer.gets.currency().to_json() &&
-          pair.slice(4,7) == offer.pays.currency().to_json()) {
-        reverseOrder = false;
-        break;
-      } else if (pair.slice(0,3) == offer.pays.currency().to_json() &&
-                 pair.slice(4,7) == offer.gets.currency().to_json())  {
-        reverseOrder = true;
-        break;
-      }
-    }
-
-    // TODO: Sensible default for undefined pairs
-    if (reverseOrder === null) {
-      reverseOrder = false;
-    }
-
-    if (reverseOrder) {
-      offer.type = 'buy';
-      offer.first = offer.pays;
-      offer.second = offer.gets;
-    } else {
+    if (offer.flags && offer.flags === ripple.Transaction.flags.OfferCreate.Sell) {
       offer.type = 'sell';
       offer.first = offer.gets;
       offer.second = offer.pays;
+    } else {
+      offer.type = 'buy';
+      offer.first = offer.pays;
+      offer.second = offer.gets;
     }
 
     if (!offer.deleted) {
@@ -284,6 +274,7 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
       delete $scope.offers[""+offer.seq];
     }
   }
+
   function updateLines(effects)
   {
     if (!$.isArray(effects)) return;
