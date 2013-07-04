@@ -242,26 +242,29 @@ HistoryTab.prototype.angular = function (module) {
 
     // Update the currency list
     var updateCurrencies = function (){
-      var currencies = _.union(
-        _.map($scope.balances,function(obj,key){return key.toUpperCase()}),
-        historyCurrencies
-      );
+      if (!$.isEmptyObject($scope.balances)) {
+        var currencies = _.union(
+          ['XRP'],
+          _.map($scope.balances,function(obj,key){return key.toUpperCase()}),
+          historyCurrencies
+        );
 
-      var objCurrencies = {};
+        var objCurrencies = {};
 
-      var firstProcess = $.isEmptyObject($scope.filters.currencies);
+        var firstProcess = $.isEmptyObject($scope.filters.currencies);
 
-      $scope.filters.currencies_is_active = false;
+        $scope.filters.currencies_is_active = false;
 
-      _.each(currencies, function(currency){
-        var checked = ($scope.filters.currencies[currency] && $scope.filters.currencies[currency].checked) || firstProcess;
-        objCurrencies[currency] = {'checked':checked};
+        _.each(currencies, function(currency){
+          var checked = ($scope.filters.currencies[currency] && $scope.filters.currencies[currency].checked) || firstProcess;
+          objCurrencies[currency] = {'checked':checked};
 
-        if (!checked)
-          $scope.filters.currencies_is_active = true;
-      });
+          if (!checked)
+            $scope.filters.currencies_is_active = true;
+        });
 
-      $scope.filters.currencies = objCurrencies;
+        $scope.filters.currencies = objCurrencies;
+      }
     };
 
     $scope.loadMore = function () {
