@@ -180,7 +180,6 @@ module.directive('rpDatepicker', [function() {
       attr.$observe('rpDatepicker', function() {
         var dp = $(element).datepicker();
         dp.on('changeDate', function(e) {
-          console.log('change');
           scope.$apply(function () {
             ngModel.$setViewValue(e.date.getMonth() ? e.date : new Date(e.date));
           });

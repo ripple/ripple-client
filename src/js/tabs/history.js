@@ -1,5 +1,6 @@
-var util = require('util');
-var Tab = require('../client/tab').Tab;
+var util = require('util'),
+    Tab = require('../client/tab').Tab,
+    rewriter = require('../util/jsonrewriter');
 
 var HistoryTab = function ()
 {
@@ -16,44 +17,143 @@ HistoryTab.prototype.generateHtml = function ()
 };
 
 HistoryTab.prototype.angular = function (module) {
-  module.controller('HistoryCtrl', ['$scope', 'rpId',
-                                     function ($scope, $id)
+  module.controller('HistoryCtrl', ['$scope', 'rpId', 'rpNetwork',
+                                     function ($scope, $id, $network)
   {
     if (!$id.loginStatus) return $id.goId();
 
     // History collection
-    $scope.history = [];
+    $scope.historyShow = [];
+
+    // History states
+    $scope.$watch('loadState.transactions',function(){
+      $scope.historyState = !$scope.loadState.transactions ? 'loading' : 'ready';
+    });
 
     // Open/close states of individual history items
     $scope.details = [];
 
+    //$scope.typeUsage = [];
+    //$scope.currencyUsage = [];
+
     // Currencies from history
     var historyCurrencies = [];
 
+    $scope.types = [
+      {
+        'name': 'sent',
+        'types': ['sent'],
+        'checked':true
+      }, {
+        'name': 'received',
+        'types': ['received'],
+        'checked':true
+      }, {
+        'name': 'trusts',
+        'types': ['trusting','trusted'],
+        'checked':true
+      }, {
+        'name': 'offers',
+        'types': ['offernew','offercancel'],
+        'checked':true
+      }
+    ];
+
     // Filters
     $scope.filters = {
+      'currencies_is_active': false, // we do the currency filter only if this is true, which happens when at least one currency is off
       'currencies': {},
-      'types': [],
-      'balance_changer': false
+      'types': ['sent','received','trusting','trusted','offernew','offercancel']
     };
 
-    // All the currencies that we have
+    var getDateRangeHistory = function(dateMin,dateMax,callback)
+    {
+      var completed = false;
+      var history = [];
+
+      var getTx = function(offset){
+        $network.remote.request_account_tx({
+          'account': $id.account,
+          'ledger_index_min': -1,
+          'descending': true,
+          'offset': offset,
+          'limit': 200
+        })
+        .on('success', function(data) {
+          if (data.transactions.length) {
+            for(var i=0;i<data.transactions.length;i++) {
+              var date = (data.transactions[i].tx.date + 0x386D4380) * 1000;
+
+              if(date < dateMin.getTime()) {
+                completed = true;
+                break;
+              }
+
+              if(date > dateMax.getTime())
+                continue;
+
+              // Push
+              var tx = rewriter.processTxn(data.transactions[i].tx, data.transactions[i].meta, $id.account);
+              if (tx) history.push(tx);
+            }
+
+            if (completed)
+              callback(history);
+            else
+              getTx(offset+100);
+          } else {
+            callback(history);
+          }
+        }).request();
+      };
+
+      getTx(0);
+    };
+
+    // DateRange filter form
+    $scope.submitDateRangeForm = function() {
+      $scope.dateMaxView.setDate($scope.dateMaxView.getDate() + 1); // Including last date
+      changeDateRange($scope.dateMinView,$scope.dateMaxView);
+    };
+
+    var changeDateRange = function(dateMin,dateMax) {
+      $scope.history = [];
+      $scope.historyState = 'loading';
+
+      getDateRangeHistory(dateMin,dateMax,function(history){
+        $scope.$apply(function () {
+          $scope.history = history;
+          $scope.historyState = 'ready';
+        })
+      })
+    };
+
+    // All the currencies
     $scope.$watch('balances', function(){
       updateCurrencies();
     });
 
-    // Balance changer filter has been changed
-    $scope.$watch('filters.balance_changer', function(){
+    // Types filter has been changed
+    $scope.$watch('types', function(){
+      var arr = [];
+      for (var i=0;i<$scope.types.length;i++)
+        if ($scope.types[i].checked)
+          arr = arr.concat($scope.types[i].types);
+      $scope.filters.types = arr;
+    }, true);
+
+    $scope.$watch('filters.types', function(){
       updateHistory();
     }, true);
 
     // Currency filter has been changed
     $scope.$watch('filters.currencies', function(){
+      updateCurrencies();
       updateHistory();
     }, true);
 
     // New transactions
-    $scope.$watch('events',function(){
+    $scope.$watch('history',function(){
       updateHistory();
 
       // Update currencies
@@ -62,40 +162,82 @@ HistoryTab.prototype.angular = function (module) {
 
     // Updates the history collection
     var updateHistory = function (){
-      $scope.history = [];
-      var currencies = _.map($scope.filters.currencies,function(obj,key){return obj.checked ? key : false});
-      $scope.events.forEach(function(event){
-        // Update currencies
-        historyCurrencies = _.union(historyCurrencies, event.affected_currencies);
 
-        var effects = [];
+      //$scope.typeUsage = [];
+      //$scope.currencyUsage = [];
+      $scope.historyShow = [];
 
-        if (event.effects) {
-          $.each(event.effects, function(){
-            var effect = this;
-            if (effect.type == 'offer_funded'
-                || effect.type == 'offer_partially_funded'
-                || effect.type == 'offer_bought'
-                || (effect.type === 'offer_canceled' &&
-                event.transaction.type !== 'offercancel')) {
-              effects.push(effect);
-            }
-          });
+      if ($scope.history.length) {
+        var dateMin, dateMax;
 
-          event.showEffects = effects;
+        $scope.minLedger = 0;
+
+        var currencies = _.map($scope.filters.currencies,function(obj,key){return obj.checked ? key : false});
+        $scope.history.forEach(function(event)
+        {
+          // Calculate dateMin/dateMax. Used in date filter view
+          if (!$scope.dateMinView) {
+            if (!dateMin || dateMin > event.date)
+              dateMin = event.date;
+
+            if (!dateMax || dateMax < event.date)
+              dateMax = event.date;
+          }
+
+          // Update currencies
+          historyCurrencies = _.union(historyCurrencies, event.affected_currencies); // TODO put in one large array, then union outside of foreach
+
+          // Calculate min ledger. Used in "load more"
+          if (!$scope.minLedger || $scope.minLedger > event.ledger_index)
+            $scope.minLedger = event.ledger_index;
+
+          // Type filter
+          if(event.transaction && !_.contains($scope.filters.types,event.transaction.type))
+            return;
+
+          // Some events don't have transactions.. this is a temporary fix for filtering offers
+          else if(!event.transaction && !_.contains($scope.filters.types,'offernew'))
+            return;
+
+          // Currency filter
+          if ($scope.filters.currencies_is_active && !_.intersection(currencies,event.affected_currencies).length > 0)
+            return;
+
+          var effects = [];
+
+          if (event.effects) {
+            $.each(event.effects, function(){
+              var effect = this;
+              if (effect.type == 'offer_funded'
+                  || effect.type == 'offer_partially_funded'
+                  || effect.type == 'offer_bought'
+                  || (effect.type === 'offer_canceled' &&
+                  event.transaction.type !== 'offercancel')) {
+                effects.push(effect);
+              }
+            });
+
+            event.showEffects = effects;
+          }
+
+          // Push events to history collection
+          $scope.historyShow.push(event);
+
+          // Type and currency usages
+          // TODO offers/trusts
+          //if (event.transaction)
+          //  $scope.typeUsage[event.transaction.type] = $scope.typeUsage[event.transaction.type] ? $scope.typeUsage[event.transaction.type]+1 : 1;
+
+          //event.affected_currencies.forEach(function(currency){
+          //  $scope.currencyUsage[currency] = $scope.currencyUsage[currency]? $scope.currencyUsage[currency]+1 : 1;
+          //});
+        });
+
+        if ($scope.historyShow.length && !$scope.dateMinView) {
+          $scope.dateMinView = new Date(dateMin);
+          $scope.dateMaxView = new Date(dateMax);
         }
-
-        // Balance changer filter
-        if ($scope.filters.balance_changer && !event.balance_changer)
-          return;
-
-        // Currency filter
-        if ($scope.filters.balance_changer && !_.intersection(currencies,event.affected_currencies).length > 0)
-          return;
-
-        // Push events to history collection
-        $scope.history.push(event);
-      });
+      }
     };
 
     // Update the currency list
@@ -109,12 +251,61 @@ HistoryTab.prototype.angular = function (module) {
 
       var firstProcess = $.isEmptyObject($scope.filters.currencies);
 
+      $scope.filters.currencies_is_active = false;
+
       _.each(currencies, function(currency){
-        objCurrencies[currency] = {'checked':($scope.filters.currencies[currency] && $scope.filters.currencies[currency].checked) || firstProcess};
+        var checked = ($scope.filters.currencies[currency] && $scope.filters.currencies[currency].checked) || firstProcess;
+        objCurrencies[currency] = {'checked':checked};
+
+        if (!checked)
+          $scope.filters.currencies_is_active = true;
       });
 
       $scope.filters.currencies = objCurrencies;
     };
+
+    $scope.loadMore = function () {
+      var dateMin;
+
+      $scope.historyState = 'loading';
+
+      $network.remote.request_account_tx({
+        'account': $id.account,
+        'ledger_index_max': $scope.minLedger,
+        'descending': true,
+        'offset': 0,
+        'limit': 100 // TODO why 100?
+      })
+      .on('success', function(data) {
+        $scope.$apply(function () {
+          if (data.transactions) {
+            var transactions = [];
+
+            data.transactions.forEach(function (e) {
+              var tx = rewriter.processTxn(e.tx, e.meta, $id.account);
+              if (tx) {
+                transactions.push(tx);
+
+                // Min date
+                if (!dateMin || tx.date < dateMin)
+                  dateMin = tx.date;
+              }
+            });
+
+            var newHistory = _.uniq($scope.history.concat(transactions),true,function(ev){return ev.hash});
+
+            if ($scope.history.length === newHistory.length)
+              $scope.historyState = 'full';
+            else
+              $scope.historyState = 'ready';
+
+            $scope.history = newHistory;
+
+            $scope.dateMinView = new Date(dateMin);
+          }
+        });
+      }).request();
+    }
   }]);
 };
 
