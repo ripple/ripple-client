@@ -157,7 +157,8 @@ HistoryTab.prototype.angular = function (module) {
       updateHistory();
 
       // Update currencies
-      updateCurrencies();
+      if ($scope.history.length)
+        updateCurrencies();
     },true);
 
     // Updates the history collection
