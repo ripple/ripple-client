@@ -22,6 +22,8 @@ HistoryTab.prototype.angular = function (module) {
   {
     if (!$id.loginStatus) return $id.goId();
 
+    var oldHist;
+
     // History collection
     $scope.historyShow = [];
 
@@ -154,11 +156,15 @@ HistoryTab.prototype.angular = function (module) {
 
     // New transactions
     $scope.$watch('history',function(){
-      updateHistory();
+      if (oldHist!=$scope.history) {
+        updateHistory();
 
-      // Update currencies
-      if ($scope.history.length)
-        updateCurrencies();
+        // Update currencies
+        if ($scope.history.length)
+          updateCurrencies();
+
+        oldHist = $scope.history;
+      }
     },true);
 
     // Updates the history collection
