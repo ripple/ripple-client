@@ -58,6 +58,10 @@ HistoryTab.prototype.angular = function (module) {
         'name': 'offers',
         'types': ['offernew','offercancel'],
         'checked':true
+      }, {
+        'name': 'other',
+        'types': ['accountset'],
+        'checked':true
       }
     ];
 

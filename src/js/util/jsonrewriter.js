@@ -147,7 +147,7 @@ var JsonRewriter = module.exports = {
           break;
 
         case 'AccountSet':
-          // Ignored for now
+          transaction.type = 'accountset';
           break;
 
         default:

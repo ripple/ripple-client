@@ -69,6 +69,7 @@ section.panel.content(ng-controller="HistoryCtrl")
               i.icon-download-alt.icon-rotate-90(ng-show="entry.transaction.type=='trusted'")
               i.icon-download-alt.icon-rotate-270(ng-show="entry.transaction.type=='trusting'")
               i.icon-exchange(ng-show="!entry.transaction.type || entry.transaction.type=='offernew' || entry.transaction.type=='offercancel'")
+              i.icon-cogs(ng-show="entry.transaction.type=='accountset'")
             .dt {{entry.date | date:'EEE, MMM d, h:mm a'}}
             .desc(ng-switch on="entry.transaction.type")
               span(ng-switch-when="sent") You sent&nbsp;
@@ -99,6 +100,8 @@ section.panel.content(ng-controller="HistoryCtrl")
                 strong {{entry.transaction.pays | rpamount}} {{entry.transaction.pays | rpcurrency}}
                 |  for&nbsp;
                 strong {{entry.transaction.gets | rpamount}} {{entry.transaction.gets | rpcurrency}}
+                include history/effects
+              span(ng-switch-when="accountset") Account details have been changed
                 include history/effects
               span(ng-switch-default)
                 include history/effects
