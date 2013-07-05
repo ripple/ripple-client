@@ -213,6 +213,7 @@ HistoryTab.prototype.angular = function (module) {
           var effects = [];
 
           if (event.effects) {
+            // Show effects
             $.each(event.effects, function(){
               var effect = this;
               if (effect.type == 'offer_funded'
@@ -225,7 +226,22 @@ HistoryTab.prototype.angular = function (module) {
             });
 
             event.showEffects = effects;
+
+            effects = [];
+
+            // Balance changer effects
+            $.each(event.effects, function(){
+              var effect = this;
+              if (effect.type == 'fee'
+                  || effect.type == 'balance_change'
+                  || effect.type == 'trust_change_balance') {
+                effects.push(effect);
+              }
+            });
+
+            event.balanceEffects = effects;
           }
+
 
           // Push events to history collection
           $scope.historyShow.push(event);
