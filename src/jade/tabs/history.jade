@@ -62,16 +62,16 @@ section.panel.content(ng-controller="HistoryCtrl")
             ng-class="{open: details[entry.hash]}"
             ng-class-odd="'odd'")
           .info
-            .type
-            .i
+            span.type &nbsp;
+            span.i
               i.icon-arrow-down(ng-show="entry.transaction.type=='received'")
               i.icon-arrow-up(ng-show="entry.transaction.type=='sent'")
               i.icon-download-alt.icon-rotate-90(ng-show="entry.transaction.type=='trusted'")
               i.icon-download-alt.icon-rotate-270(ng-show="entry.transaction.type=='trusting'")
               i.icon-exchange(ng-show="!entry.transaction.type || entry.transaction.type=='offernew' || entry.transaction.type=='offercancel'")
               i.icon-cogs(ng-show="entry.transaction.type=='accountset'")
-            .dt {{entry.date | date:'EEE, MMM d, h:mm a'}}
-            .desc(ng-switch on="entry.transaction.type")
+            span.dt {{entry.date | date:'EEE, MMM d, h:mm a'}}
+            span.desc(ng-switch on="entry.transaction.type")
               span(ng-switch-when="sent") You sent&nbsp;
                 span.address(title="{{entry.transaction.counterparty}}") {{entry.transaction.counterparty | rpcontactname}}
                 strong  {{entry.transaction.amount | rpamount}} {{entry.transaction.amount | rpcurrency}}
@@ -108,34 +108,25 @@ section.panel.content(ng-controller="HistoryCtrl")
 
           .details(ng-show="details[entry.hash]")
             .effects(ng-show="entry.balanceEffects")
-              .effect
-                div
-                  span
-                    strong Balance changes
-                  span.balance
-                    strong Final balance
-                  span.amount
-                    strong Amount
-                  span.issuer
-                    strong Issuer
+              .title Balance changes
+              .effect.header
+                span.description Description
+                span.issuer Issuer
+                span.amount Amount
+                span.balance Final balance
               .effect(ng-repeat="effect in entry.balanceEffects")
-                span(ng-switch on="effect.type")
-                  span(ng-switch-when="balance_change")
-                    | XRP balance change
-                  span(ng-switch-when="trust_change_balance")
-                    | {{effect.currency}} balance change
-                  span(ng-switch-when="fee")
-                    | Fee
-                span.balance
-                  | {{effect.balance | rpamount }} {{effect.balance | rpcurrency}}
-                span.amount
-                  | {{effect.amount | rpamount }} {{effect.amount | rpcurrency}}
+                span.description(ng-show="effect.type == 'balance_change'", data-label="Description") XRP balance change
+                span.description(ng-show="effect.type == 'trust_change_balance'", data-label="Description") {{effect.currency}} balance change
+                span.description(ng-show="effect.type == 'fee'", data-label="Description") Fee
                 // TODO do request when details are opened
                 span.issuer(
                   rp-pretty-issuer="effect.amount.issuer().to_json()"
                   rp-pretty-issuer-contacts="userBlob.data.contacts"
                   rp-pretty-issuer-default="-"
+                  data-label="Issuer"
                 )
+                span.amount(data-label="Amount") {{effect.amount | rpamount }} {{effect.amount | rpcurrency}}
+                span.balance(data-label="Final balance") {{effect.balance | rpamount }} {{effect.balance | rpcurrency}}
             .links
               a.txLink(rp-link-tx="entry.hash") Transaction details
               a.addLink(href="#/contact?to={{entry.transaction.counterparty}}", rp-no-propagate
