@@ -54,7 +54,7 @@ section.panel.content(ng-controller="HistoryCtrl")
         .i
         .dt Date
         .desc Description
-      .message(ng-hide="historyShow")
+      .message(ng-hide="historyState=='loading' || historyShow")
         | Sorry, no transactions match your current filter.
       ul
         li(ng-repeat="entry in historyShow", class="{{entry.transaction.type}}"
