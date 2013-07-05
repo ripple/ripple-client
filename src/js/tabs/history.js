@@ -22,7 +22,8 @@ HistoryTab.prototype.angular = function (module) {
   {
     if (!$id.loginStatus) return $id.goId();
 
-    var oldHist;
+    // Latest transaction
+    var latest;
 
     // History collection
     $scope.historyShow = [];
@@ -160,15 +161,18 @@ HistoryTab.prototype.angular = function (module) {
 
     // New transactions
     $scope.$watch('history',function(){
-      if (oldHist!=$scope.history) {
-        updateHistory();
+      // TODO This function has a double call on a history change. Don't know why
+      // This is a temporoary fix.
+      if (latest && $scope.history[0] && latest.hash == $scope.history[0].hash)
+        return;
 
-        // Update currencies
-        if ($scope.history.length)
-          updateCurrencies();
+      updateHistory();
 
-        oldHist = $scope.history;
-      }
+      // Update currencies
+      if ($scope.history.length)
+        updateCurrencies();
+
+      latest = $.extend(true, {}, $scope.history[0]);
     },true);
 
     // Updates the history collection
