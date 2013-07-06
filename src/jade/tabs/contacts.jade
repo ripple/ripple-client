@@ -30,7 +30,7 @@ section.panel.content(ng-controller="ContactsCtrl")
             input.address#contact_address(
               name='address', type='text', step='any'
               ng-model='contact.address'
-              rp-dest, rp-dest-address
+              rp-dest, rp-dest-address, rp-dest-bitcoin
               rp-unique='userBlob.data.contacts'
               rp-unique-field='address'
               rp-autofill='$routeParams.to', rp-autofill-on='addform_visible = true'
@@ -72,7 +72,7 @@ section.panel.content(ng-controller="ContactsCtrl")
               rp-unique='userBlob.data.contacts'
               rp-unique-field='address'
               rp-unique-orig='entry.address'
-              rp-dest, rp-dest-address
+              rp-dest, rp-dest-address, rp-dest-bitcoin
               ng-enter="update($index)")
             button.save.btn.btn-small(ng-disabled="inlineAddress.editaddress.$error.rpUnique", ng-disabled="inlineName.editname.$error.rpUnique", ng-disabled="inlineAddress.editaddress.$error.rpAddress", ng-click='update($index)')
             rp-confirm(
