@@ -30,8 +30,7 @@ section#t-send.single.content(ng-controller='SendCtrl')
       .error(rp-error-on='required')
         | Please enter a recipient.
       .error(rp-error-on='rpDest')
-        | Recipient should be either a name from your contact list or Ripple
-        | address.
+        | Recipient should be either a name from your contact list or Ripple/Bitcoin address.
     span(ng-show='$routeParams.st')
       label(for='send_st') Source tag
       input#send_st(
