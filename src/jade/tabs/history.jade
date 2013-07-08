@@ -106,7 +106,7 @@ section.panel.content(ng-controller="HistoryCtrl")
               span(ng-switch-default)
                 include history/effects
 
-          .details(ng-show="details[entry.hash]")
+          .details(rp-if="details[entry.hash]")
             .effects(ng-show="entry.balanceEffects")
               .title Balance changes
               .effect.header
@@ -118,7 +118,6 @@ section.panel.content(ng-controller="HistoryCtrl")
                 span.description(ng-show="effect.type == 'balance_change'", data-label="Description") XRP balance change
                 span.description(ng-show="effect.type == 'trust_change_balance'", data-label="Description") {{effect.currency}} balance change
                 span.description(ng-show="effect.type == 'fee'", data-label="Description") Fee
-                // TODO do request when details are opened
                 span.issuer(
                   rp-pretty-issuer="effect.amount.issuer().to_json()"
                   rp-pretty-issuer-contacts="userBlob.data.contacts"
