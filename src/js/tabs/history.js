@@ -42,36 +42,44 @@ HistoryTab.prototype.angular = function (module) {
     // Currencies from history
     var historyCurrencies = [];
 
-    $scope.types = [
-      {
-        'name': 'sent',
-        'types': ['sent'],
-        'checked':true
-      }, {
-        'name': 'received',
-        'types': ['received'],
-        'checked':true
-      }, {
-        'name': 'trusts',
-        'types': ['trusting','trusted'],
-        'checked':true
-      }, {
-        'name': 'offers',
-        'types': ['offernew','offercancel'],
-        'checked':true
-      }, {
-        'name': 'other',
-        'types': ['accountset'],
-        'checked':true
-      }
-    ];
+    if (store.get('ripple_history_types')) {
+      $scope.types = store.get('ripple_history_types');
+    } else {
+      $scope.types = [
+        {
+          'name': 'sent',
+          'types': ['sent'],
+          'checked':true
+        }, {
+          'name': 'received',
+          'types': ['received'],
+          'checked':true
+        }, {
+          'name': 'trusts',
+          'types': ['trusting','trusted'],
+          'checked':true
+        }, {
+          'name': 'offers',
+          'types': ['offernew','offercancel'],
+          'checked':true
+        }, {
+          'name': 'other',
+          'types': ['accountset'],
+          'checked':true
+        }
+      ];
+    }
 
     // Filters
-    $scope.filters = {
-      'currencies_is_active': false, // we do the currency filter only if this is true, which happens when at least one currency is off
-      'currencies': {},
-      'types': ['sent','received','trusting','trusted','offernew','offercancel']
-    };
+    if (store.get('ripple_history_filters')) {
+      $scope.filters = store.get('ripple_history_filters');
+    } else {
+      $scope.filters = {
+        'currencies_is_active': false, // we do the currency filter only if this is true, which happens when at least one currency is off
+        'currencies': {},
+        'types': ['sent','received','trusting','trusted','offernew','offercancel']
+      };
+    }
 
     var getDateRangeHistory = function(dateMin,dateMax,callback)
     {
@@ -147,6 +155,12 @@ HistoryTab.prototype.angular = function (module) {
         if ($scope.types[i].checked)
           arr = arr.concat($scope.types[i].types);
       $scope.filters.types = arr;
+
+      store.set('ripple_history_types', $scope.types);
+    }, true);
+
+    $scope.$watch('filters', function(){
+      store.set('ripple_history_filters', $scope.filters);
     }, true);
 
     $scope.$watch('filters.types', function(){
