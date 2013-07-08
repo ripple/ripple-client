@@ -60,13 +60,8 @@ function(net, $q, $scope, $filter) {
 
       if (lastprice === price) {
         if (combine) {
-          if (action === 'asks') {
-            newData[current].TakerPays = Amount.from_json(newData[current].TakerPays).add(d.TakerPays);
-            newData[current].TakerGets = Amount.from_json(newData[current].TakerGets).add(d.TakerGets);
-          } else {
-            newData[current].TakerPays = Amount.from_json(newData[current].TakerPays).add(d.TakerPays);
-            newData[current].TakerGets = Amount.from_json(newData[current].TakerGets).add(d.TakerGets);
-          }
+          newData[current].TakerPays = Amount.from_json(newData[current].TakerPays).add(d.TakerPays);
+          newData[current].TakerGets = Amount.from_json(newData[current].TakerGets).add(d.TakerGets);
         }
         d = false;
       } else current = i;
@@ -95,8 +90,8 @@ function(net, $q, $scope, $filter) {
       var bids = loadBook(second, first, taker);
 
       var model = {
-        asks: filterRedundantPrices(asks.offersSync(), 'asks', false),
-        bids: filterRedundantPrices(bids.offersSync(), 'bids', false)
+        asks: filterRedundantPrices(asks.offersSync(), 'asks', true),
+        bids: filterRedundantPrices(bids.offersSync(), 'bids', true)
       };
 
       function handleAskModel(offers) {
