@@ -97,7 +97,8 @@ section.panel.content(ng-controller="ContactsCtrl")
             .errorGroup(rp-errors='dt')
               .error(rp-error-on='rpStdt') Invalid destination tag.
         td.account(ng-hide='editing')
-          {{entry.address}}
+          b {{entry.address | rpaddressorigin}}:
+          |  {{entry.address}}
         td.command
           button.edit.btn.btn-small(ng-click='edit($index)', ng-hide='editing')
           button.editing.btn.btn-small(ng-click='cancel($index)', ng-show='editing')
