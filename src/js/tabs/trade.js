@@ -31,8 +31,6 @@ TradeTab.prototype.angular = function(module)
     if (!$id.loginStatus) return $id.goId();
 
     $scope.mode = "confirm";
-    $scope.asum = [];
-    $scope.bsum = [];
 
     var pairs = $scope.pairs_all;
     $scope.pairs_query = webutil.queryFromOptions(pairs);
@@ -431,7 +429,6 @@ TradeTab.prototype.angular = function(module)
         $scope.book.unsubscribe();
       }
 
-      $scope.asum = [];
       $scope.book = books.get({
         currency: $scope.order.first_currency,
         issuer: $scope.order.first_issuer
@@ -453,21 +450,6 @@ TradeTab.prototype.angular = function(module)
       resetIssuers(false);
     }, true);
 
-    function calculateSum(key,val,offers) {
-      $scope[val] = [];
-
-      if (!offers) return;
-
-      var sum;
-      for (var i = 0, l = offers.length; i < l; i++) {
-        sum = sum ? sum.add(offers[i][key]) : Amount.from_json(offers[i][key]);
-        $scope[val][i] = sum;
-      }
-    }
-
-    $scope.$watch('book.asks', calculateSum.bind({},'TakerGets','asum'), true);
-    $scope.$watch('book.bids', calculateSum.bind({},'TakerPays','bsum'), true);
-    
     $scope.reset();
 
     if ($routeParams.first && $routeParams.second) {
