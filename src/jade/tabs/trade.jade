@@ -87,7 +87,7 @@ section.panel.content(ng-controller="TradeCtrl")
       .message
         | You must select an issuer to trade currencies. Click the “change issuer”, link above and enter your trusted gateway address or nickname.
 
-    group(rp-if="order.valid_settings")
+    group(ng-if="order.valid_settings")
 
       .ticker: ul.market.inline
         li

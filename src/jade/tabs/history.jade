@@ -106,7 +106,7 @@ section.panel.content(ng-controller="HistoryCtrl")
               span(ng-switch-default)
                 include history/effects
 
-          .details(rp-if="details[entry.hash]")
+          .details(ng-if="details[entry.hash]")
             .effects(ng-show="entry.balanceEffects")
               .title Balance changes
               .effect.header
