@@ -21,6 +21,9 @@
       li.balance(ng-repeat="(index, balance) in orderedBalances", ng-class="{negative: balance.total.is_negative()}")
         | {{balance.total | rpamount:{rel_precision: 0} }}
         span.currency {{balance.total.currency().to_human()}}
+        span.blance(ng-repeat="(key,value) in balance.components")
+           |{{key | rpcontactnamefull}}|{{value | rpamount:{rel_precision: 0} }}
+
     a.toggle-secondary(ng-click="toggle_secondary()", ng-show="balance_count >= 2")
 a#status-anon(ng-hide="userCredentials.username", href="#/options")
   span Options
