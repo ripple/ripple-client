@@ -441,7 +441,7 @@ TradeTab.prototype.angular = function(module)
 
     var rpamountFilter = $filter('rpamount');
 
-    $scope.$watch('book', function () {
+    $scope.$watchCollection('book', function () {
       if (!jQuery.isEmptyObject($scope.book)) {
         $scope.bookFormatted = jQuery.extend(true, {}, $scope.book);
 
@@ -461,7 +461,7 @@ TradeTab.prototype.angular = function(module)
           });
         }
       }
-    }, true);
+    });
 
     $scope.$watch('order.first_issuer', function () {
       updateSettings();
@@ -513,5 +513,7 @@ TradeTab.prototype.angular = function(module)
 
   }]);
 };
+
+
 
 module.exports = TradeTab;
