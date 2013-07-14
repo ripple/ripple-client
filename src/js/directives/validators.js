@@ -479,6 +479,11 @@ module.directive('rpPositiveAmount', function () {
       var validator = function(value) {
         ctrl.$setValidity('rpAmount', false);
 
+        // replace commas with dots
+        if(value && value.toString().indexOf(",") != -1) {
+          value = value.split(",").join(".");
+        }
+
         // check for valid and positive amount
         var parsedValue = parseFloat(value);
         if (parsedValue == value && parsedValue > 0) {
