@@ -229,7 +229,7 @@ HistoryTab.prototype.angular = function (module) {
             return;
 
           // Currency filter
-          if ($scope.filters.currencies_is_active && !_.intersection(currencies,event.affected_currencies).length > 0)
+          if ($scope.filters.currencies_is_active && _.intersection(currencies,event.affected_currencies).length <= 0)
             return;
 
           var effects = [];
