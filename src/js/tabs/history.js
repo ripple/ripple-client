@@ -115,7 +115,7 @@ HistoryTab.prototype.angular = function (module) {
             if (completed)
               callback(history);
             else
-              getTx(offset+100);
+              getTx(offset+200);
           } else {
             callback(history);
           }
