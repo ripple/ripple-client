@@ -59,7 +59,7 @@ BalanceTab.prototype.angular = function (module)
     };
 
     // First page transactions
-    $scope.$watch('events', function(){
+    $scope.$watchCollection('events', function(){
       if (1 === $scope.current_page) {
         $scope.transactions = filterEffects($scope.events);
       }
