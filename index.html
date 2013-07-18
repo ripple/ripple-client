@@ -17,7 +17,7 @@
 
   <!-- CSS -->
   <link href="fonts/stylesheet.css" rel="stylesheet">
-  <link href="build/css/ripple-desktop.css" rel="stylesheet">
+  <link href="build/dist/ripple-desktop.css" rel="stylesheet">
   <!-- ENDS CSS -->
 
   <!-- All JavaScript at the bottom, except this Modernizr build.
@@ -66,7 +66,7 @@
         <a href="http://ripple.com/terms" target="_blank">Terms of Service</a>.
       </span>
       <span class="left">
-        Version: 0.2.27
+        Version: <!-- @echo VERSION --><!-- @ifdef MODE_DEBUG !>-debug<!-- @endif --><!-- @exclude -->-unprocessed<!-- @endexclude -->
       </span>
       <span class="right">
        <a href="https://github.com/rippleFoundation/ripple-client/issues?state=open" target="_blank">Bug reports</a>
@@ -89,16 +89,31 @@
     </p>
   </div>
 
-  <!-- JavaScript at the bottom for fast page loading -->
-
-  <!-- scripts concatenated and minified via build script -->
+  <!-- JAVASCRIPT -->
+  <!-- @ifdef MODE_RELEASE !>
   <script src="build/dist/deps.js"></script>
   <!--[if IE]>
   <script src="compat/ie/ws/ws-config.js"></script>
   <script src="build/dist/deps_ie.js"></script>
-  -->
+  <![endif]-->
+  <!-- @endif -->
+
+  <!-- @ifdef MODE_DEBUG -->
+  <script src="build/dist/deps-debug.js"></script>
+  <!--[if IE]>
+  <script src="compat/ie/ws/ws-config.js"></script>
+  <script src="build/dist/deps_ie-debug.js"></script>
+  <![endif]-->
+  <!-- @endif -->
+
   <script src="config.js"></script>
-  <script src="build/dist/ripple-client-desktop.js?v=0.2.27"></script>
-  <!-- end scripts -->
+
+  <!-- @ifdef MODE_RELEASE !>
+  <script src="build/dist/ripple-client-desktop.js?v=0.2.25"></script>
+  <!-- @endif -->
+  <!-- @ifdef MODE_DEBUG -->
+  <script src="build/dist/ripple-client-desktop-debug.js"></script>
+  <!-- @endif -->
+  <!-- ENDS JAVASCRIPT -->
 </body>
 </html>
