@@ -33,20 +33,26 @@ section.panel.content(ng-controller="HistoryCtrl")
           span.label {{currency}}
           //span.count {{currencyUsage[currency] || 0}}
           input(type="checkbox", name="currency-filter", ng-model="obj.checked")
-      .date-filter
-        span Load history for specific date range
-        form(ng-submit="submitDateRangeForm()")
-          label.input-append.date
-            span From
-            input(type="text", rp-datepicker, ng-model="dateMinView", readonly)
-            span.add-on
-              i.icon-calendar
-          label.input-append.date
-            span To
-            input(type="text", rp-datepicker, ng-model="dateMaxView", readonly)
-            span.add-on
-              i.icon-calendar
-          button.btn.submit(type='submit') Load
+      div
+        .date-filter
+          span Load history for specific date range
+          form(ng-submit="submitDateRangeForm()")
+            label.input-append.date
+              span From
+              input(type="text", rp-datepicker, ng-model="dateMinView", readonly)
+              span.add-on
+                i.icon-calendar
+            label.input-append.date
+              span To
+              input(type="text", rp-datepicker, ng-model="dateMaxView", readonly)
+              span.add-on
+                i.icon-calendar
+            button.btn.submit(type='submit') Filter
+        .amount-filter
+          span Minimum amount filter
+          form(ng-submit="submitMinimumAmountForm()")
+            input(type="text", ng-model="filters.minimumAmount")
+            button.btn.submit(type='submit') Filter
 
     .transactions
       .head

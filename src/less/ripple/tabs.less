@@ -1087,9 +1087,10 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
     }
   }
 
+
   .date-filter {
-    display: block;
-    clear: both;
+    float: left;
+    margin: 0 40px 0 0;
 
     & > span {
       display: block;
@@ -1122,6 +1123,36 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
           padding: 7px;
           height: 16px;
         }
+      }
+
+      button {
+        padding: 6px;
+        font-size: 13px;
+        width: 50px;
+        font-weight: normal;
+      }
+    }
+  }
+
+  .amount-filter {
+    float: left;
+
+    & > span {
+      display: block;
+      font-size: 14px;
+      padding: 10px 0;
+    }
+
+    form {
+      display: block;
+      clear: both;
+
+      input {
+        width: 120px;
+        float: left;
+        padding: 5px;
+        margin: 0 10px 0 0;
+        font-size: 14px;
       }
 
       button {

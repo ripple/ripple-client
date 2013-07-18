@@ -77,7 +77,8 @@ HistoryTab.prototype.angular = function (module) {
       $scope.filters = {
         'currencies_is_active': false, // we do the currency filter only if this is true, which happens when at least one currency is off
         'currencies': {},
-        'types': ['sent','received','trusting','trusted','offernew','offercancel']
+        'types': ['sent','received','trusting','trusted','offernew','offercancel'],
+        'minimumAmount': 0.000001
       };
     }
 
@@ -129,6 +130,10 @@ HistoryTab.prototype.angular = function (module) {
     $scope.submitDateRangeForm = function() {
       $scope.dateMaxView.setDate($scope.dateMaxView.getDate() + 1); // Including last date
       changeDateRange($scope.dateMinView,$scope.dateMaxView);
+    };
+
+    $scope.submitMinimumAmountForm = function() {
+      updateHistory();
     };
 
     var changeDateRange = function(dateMin,dateMax) {
@@ -251,6 +256,9 @@ HistoryTab.prototype.angular = function (module) {
 
             effects = [];
 
+            var amount, maxAmount;
+            var minimumAmount = $scope.filters.minimumAmount;
+
             // Balance changer effects
             $.each(event.effects, function(){
               var effect = this;
@@ -258,8 +266,22 @@ HistoryTab.prototype.angular = function (module) {
                   || effect.type == 'balance_change'
                   || effect.type == 'trust_change_balance') {
                 effects.push(effect);
+
+                // Minimum amount filter
+                if (effect.type == 'balance_change' || effect.type == 'trust_change_balance') {
+                  amount = effect.amount.abs().is_native()
+                    ? effect.amount.abs().to_number() / 1000000
+                    : effect.amount.abs().to_number();
+
+                  if (!maxAmount || amount > maxAmount)
+                    maxAmount = amount;
+                }
               }
             });
+
+            // Minimum amount filter
+            if (maxAmount && minimumAmount > maxAmount)
+              return;
 
             event.balanceEffects = effects;
           }
