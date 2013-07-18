@@ -174,7 +174,7 @@ HistoryTab.prototype.angular = function (module) {
     }, true);
 
     // New transactions
-    $scope.$watch('history',function(){
+    $scope.$watchCollection('history',function(){
       // TODO This function has a double call on a history change. Don't know why
       // This is a temporoary fix.
       if (latest && $scope.history[0] && latest.hash == $scope.history[0].hash)
