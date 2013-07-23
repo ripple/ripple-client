@@ -47,6 +47,7 @@ module.directive('rpMasterKey', function () {
  *
  * - rp-dest-address - If set, allows Ripple addresses as destinations.
  * - rp-dest-contact - If set, allows address book contacts.
+ * - rp-dest-bitcoin - If set, allows Bitcoin addresses as destionations.
  *
  * If the input can be validly interpreted as one of these types, the validation
  * will succeed.
@@ -477,6 +478,11 @@ module.directive('rpPositiveAmount', function () {
 
       var validator = function(value) {
         ctrl.$setValidity('rpAmount', false);
+
+        // replace commas with dots
+        if(value && value.toString().indexOf(",") != -1) {
+          value = value.split(",").join(".");
+        }
 
         // check for valid and positive amount
         var parsedValue = parseFloat(value);

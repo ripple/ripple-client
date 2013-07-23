@@ -30,8 +30,7 @@ section#t-send.single.content(ng-controller='SendCtrl')
       .error(rp-error-on='required')
         | Please enter a recipient.
       .error(rp-error-on='rpDest')
-        | Recipient should be either a name from your contact list or Ripple
-        | address.
+        | Recipient should be either a name from your contact list or Ripple/Bitcoin address.
     span(ng-show='$routeParams.st')
       label(for='send_st') Source tag
       input#send_st(
@@ -99,7 +98,7 @@ section#t-send.single.content(ng-controller='SendCtrl')
     p.literal.throbber(ng-show="send.path_status == 'pending' && send.currency_code == 'XRP'") Calculating alternatives
     p.literal(ng-show="send.path_status == 'no-path' && send.currency_code != 'XRP'") No path found!
     p.literal(ng-show="send.path_status == 'error'") Error while calculating path
-    .currency_sets(rp-if="send.path_status == 'done'")
+    .currency_sets(ng-if="send.path_status == 'done'")
       .label(ng-show="send.currency_code != 'XRP' || send.bitcoin") You can send
       .label(ng-show="send.currency_code == 'XRP' && !send.bitcoin") Or you can send
       ul

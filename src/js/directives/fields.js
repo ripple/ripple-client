@@ -168,3 +168,27 @@ module.directive('rpCombobox', [function () {
     }
   };
 }]);
+
+/**
+ * Datepicker
+ */
+module.directive('rpDatepicker', [function() {
+  return {
+    restrict: 'A',
+    require: '?ngModel',
+    link: function(scope, element, attr, ngModel) {
+      attr.$observe('rpDatepicker', function() {
+        var dp = $(element).datepicker();
+        dp.on('changeDate', function(e) {
+          scope.$apply(function () {
+            ngModel.$setViewValue(e.date.getMonth() ? e.date : new Date(e.date));
+          });
+        });
+        scope.$watch(attr.ngModel,function(){
+          dp.datepicker('setValue',ngModel.$viewValue)
+            .datepicker('update');
+        });
+      });
+    }
+  };
+}]);

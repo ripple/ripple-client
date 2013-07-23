@@ -30,7 +30,7 @@ section.panel.content(ng-controller="ContactsCtrl")
             input.address#contact_address(
               name='address', type='text', step='any'
               ng-model='contact.address'
-              rp-dest, rp-dest-address
+              rp-dest, rp-dest-address, rp-dest-bitcoin
               rp-unique='userBlob.data.contacts'
               rp-unique-field='address'
               rp-autofill='$routeParams.to', rp-autofill-on='addform_visible = true'
@@ -72,9 +72,13 @@ section.panel.content(ng-controller="ContactsCtrl")
               rp-unique='userBlob.data.contacts'
               rp-unique-field='address'
               rp-unique-orig='entry.address'
-              rp-dest, rp-dest-address
+              rp-dest, rp-dest-address, rp-dest-bitcoin
               ng-enter="update($index)")
-            button.save.btn.btn-small(ng-disabled="inlineAddress.editaddress.$error.rpUnique", ng-disabled="inlineName.editname.$error.rpUnique", ng-disabled="inlineAddress.editaddress.$error.rpAddress", ng-click='update($index)')
+            button.save.btn.btn-small(
+              ng-disabled="inlineAddress.editaddress.$error.rpUnique"
+              ng-disabled="inlineName.editname.$error.rpUnique"
+              ng-disabled="inlineAddress.editaddress.$error.rpDest"
+              ng-click='update($index)')
             rp-confirm(
               action-text="Are you sure you want to delete this contact?"
               action-button-text="Delete"
@@ -97,7 +101,8 @@ section.panel.content(ng-controller="ContactsCtrl")
             .errorGroup(rp-errors='dt')
               .error(rp-error-on='rpStdt') Invalid destination tag.
         td.account(ng-hide='editing')
-          {{entry.address}}
+          b {{entry.address | rpaddressorigin}}:
+          |  {{entry.address}}
         td.command
           button.edit.btn.btn-small(ng-click='edit($index)', ng-hide='editing')
           button.editing.btn.btn-small(ng-click='cancel($index)', ng-show='editing')

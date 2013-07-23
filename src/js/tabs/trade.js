@@ -25,14 +25,13 @@ TradeTab.prototype.extraRoutes = [
 
 TradeTab.prototype.angular = function(module)
 {
-  module.controller('TradeCtrl', ['rpBooks', '$scope', 'rpId', 'rpNetwork', '$routeParams', '$location',
-                                  function (books, $scope, $id, $network, $routeParams, $location)
+  module.controller('TradeCtrl', ['rpBooks', '$scope', 'rpId', 'rpNetwork', '$routeParams', '$location', '$filter',
+                                  function (books, $scope, $id, $network, $routeParams, $location, $filter)
   {
     if (!$id.loginStatus) return $id.goId();
 
     $scope.mode = "confirm";
-    $scope.asum = [];
-    $scope.bsum = [];
+    $scope.bookFormatted = {};
 
     var pairs = $scope.pairs_all;
     $scope.pairs_query = webutil.queryFromOptions(pairs);
@@ -431,7 +430,6 @@ TradeTab.prototype.angular = function(module)
         $scope.book.unsubscribe();
       }
 
-      $scope.asum = [];
       $scope.book = books.get({
         currency: $scope.order.first_currency,
         issuer: $scope.order.first_issuer
@@ -441,11 +439,35 @@ TradeTab.prototype.angular = function(module)
       }, $scope.address);
     }
 
-    $scope.$watch('order.first_issuer', function (issuer) {
+    var rpamountFilter = $filter('rpamount');
+
+    $scope.$watchCollection('book', function () {
+      if (!jQuery.isEmptyObject($scope.book)) {
+        $scope.bookFormatted = jQuery.extend(true, {}, $scope.book);
+
+        if ($scope.book.bids) {
+          $scope.bookFormatted.bids.forEach(function(order){
+            order.sum = rpamountFilter(order.sum,{'rel_precision': 4});
+            order.TakerPays = rpamountFilter(order.TakerPays,{'rel_precision': 4});
+            order.price = rpamountFilter(order.price,{'rel_precision': 4, 'rel_min_precision': 2});
+          });
+        }
+
+        if ($scope.book.asks) {
+          $scope.bookFormatted.asks.forEach(function(order){
+            order.sum = rpamountFilter(order.sum,{'rel_precision': 4});
+            order.TakerGets = rpamountFilter(order.TakerGets,{'rel_precision': 4});
+            order.price = rpamountFilter(order.price,{'rel_precision': 4, 'rel_min_precision': 2});
+          });
+        }
+      }
+    });
+
+    $scope.$watch('order.first_issuer', function () {
       updateSettings();
     });
 
-    $scope.$watch('order.second_issuer', function (issuer) {
+    $scope.$watch('order.second_issuer', function () {
       updateSettings();
     });
 
@@ -453,21 +475,6 @@ TradeTab.prototype.angular = function(module)
       resetIssuers(false);
     }, true);
 
-    function calculateSum(key,val,offers) {
-      $scope[val] = [];
-
-      if (!offers) return;
-
-      var sum;
-      for (var i = 0, l = offers.length; i < l; i++) {
-        sum = sum ? sum.add(offers[i][key]) : Amount.from_json(offers[i][key]);
-        $scope[val][i] = sum;
-      }
-    }
-
-    $scope.$watch('book.asks', calculateSum.bind({},'TakerGets','asum'), true);
-    $scope.$watch('book.bids', calculateSum.bind({},'TakerPays','bsum'), true);
-    
     $scope.reset();
 
     if ($routeParams.first && $routeParams.second) {
@@ -506,5 +513,7 @@ TradeTab.prototype.angular = function(module)
 
   }]);
 };
+
+
 
 module.exports = TradeTab;

@@ -316,7 +316,7 @@
         display: inline-block;
         width: 190px;
         height: 270px;
-        background-image: url(../../img/sprite_j.png);
+        background-image: url(../../img/sprite_l.png);
         margin: 0 50px 0 0;
       }
       .bitcoin {
@@ -674,11 +674,11 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
     }
 
     .btn.edit {
-      background: url(../../img/sprite_j.png) -2px -13px;
+      background: url(../../img/sprite_l.png) -2px -13px;
       display: none;
     }
     .btn.editing {
-      background: #e4e4e4 url(../../img/sprite_j.png) -2px -13px;
+      background: #e4e4e4 url(../../img/sprite_l.png) -2px -13px;
       -webkit-box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.1);
       -moz-box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.1);
       box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.1);
@@ -686,11 +686,11 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
       height: 30px;
     }
     .btn.save {
-      background: url(../../img/sprite_j.png) -163px -12px;
+      background: url(../../img/sprite_l.png) -163px -12px;
       margin: 0 5px 0 0;
     }
     .btn.delete {
-      background: url(../../img/sprite_j.png) -131px -12px;
+      background: url(../../img/sprite_l.png) -131px -12px;
     }
 
     tr:hover .btn.edit {
@@ -773,131 +773,393 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
 }
 
 #t-history {
-  ul li.all > a.active,
-  ul li.all > a:hover,
-  ul li.all > a:after {
-    background-color: #ddd;
-  }
+  .transactions {
+    margin: 20px 0 0 0;
 
-  ul li.received > a.active,
-  ul li.received > a:hover,
-  ul li.received > a:after,
-  tr.received td {
-    background-color: #eaf5df;
-  }
+    .head {
+      display: inline-block;
+      width: 100%;
+      border-bottom: 1px solid #d7d7d7;
 
-  ul li.sent > a.active,
-  ul li.sent > a:hover,
-  ul li.sent > a:after,
-  tr.sent td {
-    background-color: #f6e9e8;
-  }
-
-  ul li.other > a.active,
-  ul li.other > a:hover,
-  ul li.other > a:after,
-  tr.other td {
-    background-color: #fbf8e4;
-  }
-
-  table {
-    tbody td {
-      cursor: pointer;
-      border-top: 1px solid #adadad;
-    }
-
-    tr:hover {
-      &.received td{
-        background-color: #e8f3dd;
+      div{
+        float: left;
+        padding: 10px 0;
+        text-align: left;
       }
-      &.sent td{
-        background-color: #f0e3e2;
+
+      .dt {
+        margin: 0 0 0 38px;
+        width: 170px;
       }
     }
-  }
 
-  table tr .add {
-    display: none;
-  }
-  table tr:hover .add {
-    display: inline-block;
-  }
+    .message {
+      background-color: #f2f2f2;
+      padding: 10px;
+    }
 
-  table .sent td,
-  table .received td {
-    padding-top: 10px;
-    padding-bottom: 10px;
+    & > ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
 
-    .btn {
-      margin: -3px 0 0 10px;
-      line-height: normal;
+      & > li {
+        padding: 0 15px;
+        margin: 5px 0;
+        cursor: pointer;
+        background: #f5f5f5;
+
+        &.open {
+
+        }
+
+        &.odd{
+          background: #f5f5f5;
+        }
+
+        .info {
+          display: inline-block;
+          width: 100%;
+
+          & > span {
+            display: inline-block;
+            line-height: 22px;
+            padding: 9px 0;
+            vertical-align: top;
+          }
+        }
+
+        .type {
+          width: 8px;
+          display: block;
+          margin: 0 0 0 -15px;
+          background: #f5c30d;
+        }
+        &.sent .type {
+          background: #d20019;
+        }
+        &.received .type {
+          background: #8bbe37;
+        }
+        &.trusted .type,
+        &.trusting .type {
+          background: #2999e7;
+        }
+        &.trusting .type {
+          background: #2999e7;
+        }
+        &.accountset .type {
+          background: #d7d7d7;
+        }
+
+        .i {
+          width: 30px;
+          display: inline-block;
+          text-align: center;
+        }
+
+        .dt {
+          width: 170px;
+        }
+
+        .desc {
+
+        }
+
+        .details {
+          padding: 10px 0;
+
+          .effects {
+            border-top: 1px solid #cdcdcd;
+            border-bottom: 1px solid #cdcdcd;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+
+            & > .title {
+              display: block;
+              margin: 0 0 10px;
+            }
+
+            .effect {
+              &.header {
+                font-weight: bold;
+              }
+              & > span {
+                display: inline-block;
+              }
+
+              .description {
+                width: 25%;
+              }
+              .issuer {
+                width: 35%;
+              }
+              .amount {
+                width: 20%;
+                text-align: right;
+              }
+              .balance {
+                width: 20%;
+                text-align: right;
+              }
+            }
+
+            @media (max-width: 1023px) {
+              .effect {
+                padding: 10px 0;
+                border-top: 1px solid #e8e8e8;
+
+                &.header {
+                  display: none;
+                }
+
+                span {
+                  display: block;
+                  width: auto !important;
+                  text-align: left !important;
+                }
+                span:before {
+                  display: inline-block;
+                  width: 150px;
+                  font-weight: bold;
+                  content:" "attr(data-label);
+                }
+              }
+            }
+
+            @media (max-width: 600px) {
+              .effect {
+                span:before {
+                  display: block;
+                  font-weight: bold;
+                  content:" "attr(data-label);
+                }
+              }
+            }
+          }
+
+          .links {
+            display: inline-block;
+            width: 100%;
+
+            .txLink {
+              float: left;
+            }
+            .addLink {
+              float: right;
+            }
+
+            @media (max-width: 600px) {
+              a {
+                display: block;
+                float: none !important;
+                background: #e9e9e9;
+                padding: 10px;
+                margin: 5px 0;
+              }
+            }
+          }
+        }
+      }
+
+      .add {
+        display: none;
+      }
+
+      .effects {
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
+      }
+    }
+
+    .foot {
+      margin: 10px 0 0 0;
+      clear: both;
+      padding: 0;
+      background: #f2f2f2;
+
+      a,div {
+        display: block;
+        padding: 15px 40px;
+        text-align: center;
+        color: #6c6c6c;
+      }
+
+      a {
+        text-decoration: none;
+        color: #000;
+
+        &:hover {
+          background: #f4f4f4;
+        }
+      }
     }
   }
 
-  table th {
-    padding-top: 10px;
+  .filters {
+    & > div {
+      display: inline-block;
+      width: 100%;
+    }
   }
 
-  table .date {
-    width: 20%;
-    white-space: nowrap;
-  }
+  .type-filter {
+    margin: 20px 0 0 0;
 
-  .currency-filter {
+    i {
+      margin: 0 10px 0 0;
+    }
+
     label {
-      font: inherit;
       float: left;
-      width: 45px;
-      padding: 5px 10px;
-      margin: 0 5px 0 0;
+      background: #f2f2f2;
+      width: 150px;
+      margin: 0 10px 10px 0;
+      padding: 8px 12px;
+      color: #333;
+      cursor: pointer;
+      text-transform: capitalize;
 
-      &:hover {
-        background: #f0f0f0;
+      .count {
+        float: right;
+        margin: -8px -15px;
+        background: #f2f2f2;
+        padding: 8px 12px;
+      }
+
+      &.active {
+        background: #00AAEC;
+        color: #fff;
+
+        .count {
+          float: right;
+          margin: -8px -15px;
+          background: #009ddc;
+          padding: 8px 12px;
+        }
       }
 
       input {
-        padding: 2px 5px;
-        float: left;
-      }
-      span {
-        float: right;
+        display: none;
       }
     }
   }
 
-  .details {
-    margin-top: 10px;
-    margin-bottom: 10px;
-
-    .effects {
-      border-top: 1px solid #cdcdcd;
-      border-bottom: 1px solid #cdcdcd;
-      padding-top: 10px;
-      padding-bottom: 10px;
-      margin-bottom: 10px;
-
-      .effect {
-        .issuer {
-          float: right;
-          width: 200px;
-        }
-        .amount {
-          float: right;
-          width: 150px;
-        }
-        .balance {
-          float: right;
-          width: 150px;
-        }
-      }
+  .currency-filter {
+    i {
+      margin: 0 10px 0 0;
     }
 
-    .links {
-      .txLink {
-        float: left;
-      }
-      .addLink {
+    label {
+      float: left;
+      background: #f2f2f2;
+      width: 80px;
+      margin: 0 5px 5px 0;
+      padding: 5px 7px;
+      color: #333;
+      cursor: pointer;
+      font-size: 14px;
+
+      .count {
         float: right;
+        margin: -5px -7px;
+        background: #f2f2f2;
+        padding: 5px 7px;
+      }
+
+      &.active {
+        background: #00AAEC;
+        color: #fff;
+
+        .count {
+          float: right;
+          margin: -5px -7px;
+          background: #009ddc;
+          padding: 5px 7px;
+        }
+      }
+
+      input {
+        display: none;
+      }
+    }
+  }
+
+
+  .date-filter {
+    float: left;
+    margin: 0 40px 0 0;
+
+    & > span {
+      display: block;
+      font-size: 14px;
+      padding: 10px 0;
+    }
+
+    form {
+      display: block;
+      clear: both;
+
+      .input-append {
+        float: left;
+        font-size: 14px;
+        margin: 0 10px 0 0;
+
+        span {
+          padding: 5px 5px 0 0;
+          float: left;
+        }
+
+        input {
+          width: 120px;
+          float: left;
+          padding: 5px;
+          font-size: 14px;
+        }
+
+        .add-on {
+          padding: 7px;
+          height: 16px;
+        }
+      }
+
+      button {
+        padding: 6px;
+        font-size: 13px;
+        width: 50px;
+        font-weight: normal;
+      }
+    }
+  }
+
+  .amount-filter {
+    float: left;
+
+    & > span {
+      display: block;
+      font-size: 14px;
+      padding: 10px 0;
+    }
+
+    form {
+      display: block;
+      clear: both;
+
+      input {
+        width: 120px;
+        float: left;
+        padding: 5px;
+        margin: 0 10px 0 0;
+        font-size: 14px;
+      }
+
+      button {
+        padding: 6px;
+        font-size: 13px;
+        width: 50px;
+        font-weight: normal;
       }
     }
   }
@@ -1183,7 +1445,7 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
 
     .icon {
       display: inline-block;
-      background: url(../../img/sprite_j.png);
+      background: url(../../img/sprite_l.png);
       width: 40px;
       height: 40px;
       float: left;
