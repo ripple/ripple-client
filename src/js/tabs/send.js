@@ -344,62 +344,6 @@ SendTab.prototype.angular = function (module)
     };
 
     /**
-     * N2. Waiting for path page
-     */
-    $scope.calculate_send = function () {
-      var amount = $scope.send.amount_feedback;
-      $scope.sendmax_feedback = null;
-      $scope.prepared_paths = null;
-
-      $scope.mode = "wait_path";
-
-      $network.remote.request_account_info($scope.send.recipient_address)
-        .on('error', function (data) {
-          $scope.$apply(function () {
-            $scope.mode = "error";
-            if (data.error === "remoteError" &&
-                data.remote.error === "actNotFound") {
-              if (amount.is_native()) {
-                // XXX Show info about creating accounts, reserve reqs etc.
-                $scope.send_prepared();
-              } else {
-                $scope.error_type = "noDest";
-              }
-            }
-          });
-        })
-        .on('success', function (data) {
-          if (amount.is_native() && !$scope.send.source_currency) {
-            $scope.$apply($scope.send_prepared);
-          } else {
-            $network.remote.request_ripple_path_find($id.account,
-                                                    $scope.send.recipient_address,
-                                                    amount)
-            // XXX Handle error response
-              .on('success', function (data) {
-                $scope.$apply(function () {
-                  if (!data.alternatives || !data.alternatives.length) {
-                    $scope.mode = "error";
-                    $scope.error_type = "noPath";
-                  } else {
-                    var base_amount = Amount.from_json(data.alternatives[0].source_amount);
-                    $scope.sendmax_feedback =
-                      base_amount.product_human(Amount.from_json('1.01'));
-                    $scope.prepared_paths = data.alternatives[0].paths_computed
-                      ? data.alternatives[0].paths_computed
-                      : data.alternatives[0].paths_canonical;
-                    $scope.send_prepared();
-                  }
-                });
-              })
-              .request();
-
-          }
-        })
-        .request();
-    };
-
-    /**
      * N3. Confirmation page
      */
     $scope.send_prepared = function () {
