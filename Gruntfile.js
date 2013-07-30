@@ -174,22 +174,26 @@ module.exports = function(grunt) {
       }
     },
     watch: {
+       livereload: {
+        options: {
+            livereload: true
+        },
+        files: ['build/css/**/*.css'],
+        tasks: []
+       },
+        
       scripts_debug: {
         files: ['src/js/**/*.js', 'src/jade/**/*.jade'],
         tasks: ['webpack:desktop_debug'],
-        options: { nospawn: true }
-      },
-      scripts: {
-        files: ['src/js/**/*.js', 'src/jade/**/*.jade'],
-        tasks: ['webpack:desktop_debug', 'webpack:desktop'],
-        options: { nospawn: true }
+        options: { nospawn: true, livereload: true }
       },
       deps: {
         files: ['<%= concat.deps.src %>'],
-        tasks: ['concat:deps_debug', 'uglify:deps', 'concat:deps']
+        tasks: ['concat:deps_debug']
       },
       styles: {
         files: 'src/less/**/*.less',
+        options: {livereload:true},
         tasks: 'recess'
       }
     }
