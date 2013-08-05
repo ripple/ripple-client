@@ -1,18 +1,14 @@
 'use strict';
+var expect = chai.expect;
 
-/* jasmine specs for controllers go here */
-
-/*
-describe('MyCtrl1', function(){
-  var myCtrl1;
+describe('Ridiculous Example Test', function(){
+  var test;
 
   beforeEach(function(){
-    myCtrl1 = new MyCtrl1();
+    test = true;
   });
 
-
-  it('should ....', function() {
-    //spec body
+  it('should be true', function() {
+    expect(test).to.be.true;
   });
 });
-*/

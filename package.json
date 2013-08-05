@@ -31,6 +31,8 @@
     "karma-jasmine": "0.0.3",
     "karma-requirejs": "0.0.3",
     "karma-coffee-preprocessor": "0.0.3",
-    "karma-phantomjs-launcher": "0.0.3"
+    "karma-phantomjs-launcher": "0.0.3",
+    "karma-mocha": "0.0.4",
+    "karma-ng-scenario": "0.0.2"
   }
 }
