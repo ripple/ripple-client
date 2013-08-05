@@ -20,5 +20,17 @@
     "type": "git",
     "url": "git://github.com/rippleFoundation/ripple-client.git"
   },
-  "readmeFilename": "README"
+  "readmeFilename": "README",
+  "devDependencies": {
+    "karma-chai": "git+https://github.com/xdissent/karma-chai.git",
+    "karma": "0.9.6",
+    "karma-script-launcher": "0.0.2",
+    "karma-chrome-launcher": "0.0.2",
+    "karma-firefox-launcher": "0.0.3",
+    "karma-html2js-preprocessor": "0.0.2",
+    "karma-jasmine": "0.0.3",
+    "karma-requirejs": "0.0.3",
+    "karma-coffee-preprocessor": "0.0.3",
+    "karma-phantomjs-launcher": "0.0.3"
+  }
 }
