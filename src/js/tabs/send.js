@@ -13,6 +13,8 @@ util.inherits(SendTab, Tab);
 
 SendTab.prototype.mainMenu = 'send';
 
+SendTab.prototype.angularDeps = Tab.prototype.angularDeps.concat(['federation']);
+
 SendTab.prototype.generateHtml = function ()
 {
   return require('../../jade/tabs/send.jade')();
@@ -20,8 +22,10 @@ SendTab.prototype.generateHtml = function ()
 
 SendTab.prototype.angular = function (module)
 {
-  module.controller('SendCtrl', ['$scope', '$timeout', '$routeParams', 'rpId', 'rpNetwork',
-                                 function ($scope, $timeout, $routeParams, $id, $network)
+  module.controller('SendCtrl', ['$scope', '$timeout', '$routeParams', 'rpId',
+                                 'rpNetwork', 'rpFederation',
+                                 function ($scope, $timeout, $routeParams, $id,
+                                           $network, $federation)
   {
     if (!$id.loginStatus) return $id.goId();
 
@@ -63,19 +67,23 @@ SendTab.prototype.angular = function (module)
 
     var pathUpdateTimeout;
     $scope.update_send = function () {
-      var currency = $scope.send.currency_code;
-      var recipient = $scope.send.recipient_address;
+      var send = $scope.send;
+      var currency = send.currency_code;
+      var recipient = send.recipient_address;
 
       // Trying to send XRP to self
-      $scope.send.self = recipient === $scope.address && $scope.send.amount;
+      send.self = recipient === $scope.address && $scope.send.amount;
 
       // Trying to send to a Bitcoin address
-      $scope.send.bitcoin = !isNaN(Base.decode_check([0, 5], recipient, 'bitcoin'));
+      send.bitcoin = !isNaN(Base.decode_check([0, 5], recipient, 'bitcoin'));
+
+      // Trying to send to an email/federation address
+      send.email = ("string" === typeof recipient) && ~recipient.indexOf('@');
 
       // If target is Bitcoin address, force currency = "BTC"
-      if ($scope.send.bitcoin) currency = "BTC";
+      if (send.bitcoin) currency = "BTC";
 
-      var formatted = "" + $scope.send.amount + " " + currency.slice(0, 3);
+      var formatted = "" + send.amount + " " + currency.slice(0, 3);
 
       // if formatted or money to send is 0 then don't calculate paths or offer to send
       if (parseFloat(formatted) === 0)
@@ -85,40 +93,40 @@ SendTab.prototype.angular = function (module)
       }
 
       if (recipient || currency === "XRP") {
-        $scope.send.amount_feedback = Amount.from_human(formatted);
+        send.amount_feedback = Amount.from_human(formatted);
 
-        if (recipient) $scope.send.amount_feedback.set_issuer(recipient);
+        if (recipient) send.amount_feedback.set_issuer(recipient);
       } else {
-        $scope.send.amount_feedback = new Amount(); // = NaN
+        send.amount_feedback = new Amount(); // = NaN
       }
 
-      var modified = $scope.send.recipient_prev !== recipient ||
-        !$scope.send.amount_prev.is_valid() ||
-        !$scope.send.amount_feedback.is_valid() ||
-        !$scope.send.amount_feedback.equals($scope.send.amount_prev);
+      var modified = send.recipient_prev !== recipient ||
+        !send.amount_prev.is_valid() ||
+        !send.amount_feedback.is_valid() ||
+        !send.amount_feedback.equals(send.amount_prev);
 
       if (!modified) return;
 
-      $scope.send.recipient_prev = recipient;
-      $scope.send.amount_prev = $scope.send.amount_feedback;
+      send.recipient_prev = recipient;
+      send.amount_prev = send.amount_feedback;
 
-      if (recipient && $scope.send.amount_feedback.is_valid()) {
-        $scope.send.path_status = 'pending';
+      if (recipient && send.amount_feedback.is_valid()) {
+        send.path_status = 'pending';
 
-        $scope.send.path_sets = null;
-        $scope.send.alt = null;
+        send.path_sets = null;
+        send.alt = null;
 
-        if ($scope.send.amount_feedback.is_native()) {
-          $scope.send.type = 'native';
+        if (send.amount_feedback.is_native()) {
+          send.type = 'native';
           $scope.check_destination();
         } else {
-          $scope.send.type = 'nonnative';
+          send.type = 'nonnative';
         }
 
         if (pathUpdateTimeout) clearTimeout(pathUpdateTimeout);
         pathUpdateTimeout = setTimeout($scope.update_paths, 500);
       } else {
-        $scope.send.path_status = 'waiting';
+        send.path_status = 'waiting';
       }
     };
 
@@ -178,25 +186,10 @@ SendTab.prototype.angular = function (module)
 
     $scope.update_paths = function () {
       $scope.$apply(function () {
+        $scope.send.path_status = 'pending';
+
         var recipient = $scope.send.recipient_address;
-        console.log($scope.send.amount_feedback.to_json());
-        if (!$scope.send.bitcoin) {
-          // Path find
-          $network.remote.request_ripple_path_find($id.account,
-                                                   $scope.send.recipient_address,
-                                                   $scope.send.amount_feedback)
-            .on('error', function (e) {
-              $scope.$apply(function () {
-                $scope.path_status = "error";
-              });
-            })
-            .on('success', function (data) {
-              $scope.$apply(function () {
-                $scope.handle_paths(data);
-              });
-            })
-            .request();
-        } else {
+        if ($scope.send.bitcoin) {
           // Bitcoin outbound bridge path find
           try {
             // Get a quote
@@ -233,26 +226,59 @@ SendTab.prototype.angular = function (module)
                   $scope.send.bitcoin_quote = data.quote;
 
                   // We have a quote, now calculate a path
-                  $network.remote.request_ripple_path_find($id.account,
-                                                           data.quote.address,
-                                                           amount)
-                    .on('error', function (e) {
-                      $scope.$apply(function () {
-                        $scope.path_status = "error";
-                      });
-                    })
-                    .on('success', function (data) {
-                      $scope.$apply(function () {
-                        $scope.handle_paths(data);
-                      });
-                    })
-                    .request();
+                  request_path(data.quote.address, amount);
                 });
               }
             });
           } catch (e) {
             $scope.send.path_status = "error";
           }
+        } else if ($scope.send.email) {
+          if ("undefined" === typeof window.idio) window.idio = 0;
+          var id = window.idio++;
+          $federation.check_email(recipient)
+            .then(function (result) {
+              $scope.send.recipient_name = recipient;
+              $scope.send.recipient_address = result.destination_address;
+              request_path(result.destination_address,
+                           $scope.send.amount_feedback);
+            }, function (error) {
+              console.log('fed error', error);
+            })
+          ;
+        } else {
+          request_path($scope.send.recipient_address,
+                       $scope.send.amount_feedback);
+        }
+        function request_path(recipient, amount) {
+          $scope.send.path_status = 'pending';
+
+          if (amount.is_zero()) return;
+
+          // Start path find
+          var pf = $network.remote.path_find($id.account,
+                                             recipient,
+                                             amount);
+
+          pf.on('update', function (upd) {
+            $scope.$apply(function () {
+              if (!upd.alternatives || !upd.alternatives.length) {
+                $scope.send.path_status = "no-path";
+              } else {
+                $scope.send.path_status = "done";
+                $scope.send.alternatives = _.map(upd.alternatives, function (raw) {
+                  var alt = {};
+                  alt.amount = Amount.from_json(raw.source_amount);
+                  alt.send_max = alt.amount.product_human(Amount.from_json('1.01'));
+                  alt.paths = raw.paths_computed
+                    ? raw.paths_computed
+                    : raw.paths_canonical;
+
+                  return alt;
+                });
+              }
+            });
+          });
         }
       });
     };
