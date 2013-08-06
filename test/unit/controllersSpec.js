@@ -49,6 +49,7 @@ describe.only('AppCtrl', function(){
     // We'll instantiate our app controller with our dependencies
     var ctrl = controller_injector("AppCtrl", dependencies);
     
+    // We have access to all the inner functions
     expect(ctrl.reset).to.be.a.function;
     
     // This variable means the app controller has run
