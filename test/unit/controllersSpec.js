@@ -27,7 +27,7 @@ describe.only('AppCtrl', function(){
     $exceptionHandlerProvider.mode('log');
   });
 
-  it('should (again) test stuff, but (again) well ...', function(done) {
+  it('should be testable', function(done) {
     var dependencies = {
       $rootScope: scope,
       $element: null,
@@ -47,12 +47,12 @@ describe.only('AppCtrl', function(){
     expect(scope.account).to.equal(undefined);
     
     // We'll instantiate our app controller with our dependencies
-    var status = controller_injector("AppCtrl", dependencies);
+    var ctrl = controller_injector("AppCtrl", dependencies);
+    
+    expect(ctrl.reset).to.be.a.function;
     
     // This variable means the app controller has run
-    scope.$watch("app_loaded", function() {
-      done();
-    });
+    scope.$watch("app_loaded", function() { done(); });
     // This will run a digest cycle
     scope.$digest();
   });

@@ -434,4 +434,25 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
   $net.listenId($id);
   $net.init();
   $id.init();
+  
+  // Testing hooks
+  
+  this.reset                  =  reset;
+  this.handleAccountLoad      =  handleAccountLoad;
+  this.handleAccountUnload    =  handleAccountUnload;
+  this.handleRippleLines      =  handleRippleLines;
+  this.handleRippleLinesError =  handleRippleLinesError;
+  this.handleOffers           =  handleOffers;
+  this.handleOffersError      =  handleOffersError;
+  this.handleAccountEntry     =  handleAccountEntry;
+  this.handleAccountTx        =  handleAccountTx;
+  this.handleAccountTxError   =  handleAccountTxError;
+  this.handleAccountEvent     =  handleAccountEvent;
+  this.processTxn             =  processTxn;
+  this.updateOffer            =  updateOffer;
+  this.updateLines            =  updateLines;
+  this.updateRippleBalance    =  updateRippleBalance;
+  this.compare                =  compare;
+  this.handleFirstConnection  =  handleFirstConnection;
+  
 }]);
