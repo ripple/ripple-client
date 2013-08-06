@@ -26,7 +26,7 @@
   <script src="deps/js/modernizr-2.5.3.min.js"></script>
 </head>
 
-<body>
+<body ng-class="{loaded: app_loaded}">
 
   <!-- WRAPPER -->
   <div id="wrapper" class="container">
@@ -50,7 +50,8 @@
         </ul>
       </nav>
       <!-- ENDS NAV -->
-
+      
+      <div rp-jade-replace="client/status.jade" scope="root"></div>
     </header>
     <!-- ENDS HEADER -->
 

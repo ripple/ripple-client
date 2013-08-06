@@ -387,22 +387,25 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
   $scope.currencies = $scope.currencies_all.slice(1);
   $scope.pairs = $scope.pairs_all.slice(1);
 
+  $scope.app_loaded = true
   // Enable screen
-  $('body').addClass('loaded');
+  // $('body').addClass('loaded');
 
+  // Moved this to the run block
   // Nav links same page click fix
-  $('nav a').click(function(){
-    if (location.hash == this.hash) {
-      location.href="#/";
-      location.href=this.href;
-    }
-  });
+  // $('nav a').click(function(){
+  //   if (location.hash == this.hash) {
+  //     location.href="#/";
+  //     location.href=this.href;
+  //   }
+  // });
 
+  // Moved this to a directive
   // Add status box to DOM
-  var template = require('../../jade/client/status.jade')();
-  $compile(template)($scope, function (el, $scope) {
-    el.appendTo('header');
-  });
+  // var template = require('../../jade/client/status.jade')();
+  // $compile(template)($scope, function (el, $scope) {
+  //   el.appendTo('header');
+  // });
 
   $scope.$on('$idAccountLoad', function (e, data) {
     // Server is connected
