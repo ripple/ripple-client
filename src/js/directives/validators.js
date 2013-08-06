@@ -47,6 +47,7 @@ module.directive('rpMasterKey', function () {
  *
  * - rp-dest-address - If set, allows Ripple addresses as destinations.
  * - rp-dest-contact - If set, allows address book contacts.
+ * - rp-dest-bitcoin - If set, allows Bitcoin addresses as destionations.
  *
  * If the input can be validly interpreted as one of these types, the validation
  * will succeed.

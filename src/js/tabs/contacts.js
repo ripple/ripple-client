@@ -98,7 +98,7 @@ ContactsTab.prototype.angular = function (module) {
       $scope.update = function (index)
       {
         if (!$scope.inlineAddress.editaddress.$error.rpUnique
-            && !$scope.inlineAddress.editaddress.$error.rpAddress
+            && !$scope.inlineAddress.editaddress.$error.rpDest
             && !$scope.inlineName.editname.$error.rpUnique) {
 
           // Update blob

@@ -87,7 +87,7 @@ section.panel.content(ng-controller="TradeCtrl")
       .message
         | You must select an issuer to trade currencies. Click the “change issuer”, link above and enter your trusted gateway address or nickname.
 
-    group(rp-if="order.valid_settings")
+    group(ng-if="order.valid_settings")
 
       .ticker: ul.market.inline
         li
@@ -293,11 +293,10 @@ section.panel.content(ng-controller="TradeCtrl")
                 th.price Bid Price
                   .currency {{book.bids[0].TakerGets | rpcurrency}}
             tbody
-              tr(ng-repeat='order in book.bids')
-                td.sum.rpamount {{order.sum | rpamount:{rel_precision: 4} }}
-                td.amount.rpamount {{order.TakerPays | rpamount:{rel_precision: 4} }}
-                td.price.rpamount
-                  | {{order.price | rpamount:{rel_precision: 4, rel_min_precision: 2} }}
+              tr(ng-repeat='order in bookFormatted.bids')
+                td.sum.rpamount {{order.sum}}
+                td.amount.rpamount {{order.TakerPays}}
+                td.price.rpamount {{order.price}}
               tr(ng-show='!book.bids.length')
                 td(colspan="5") There are currently no bids for this pair.
         div.asks
@@ -312,10 +311,9 @@ section.panel.content(ng-controller="TradeCtrl")
                 th.sum Sum
                   .currency {{book.asks[0].TakerGets | rpcurrency}}
             tbody
-              tr(ng-repeat='order in book.asks')
-                td.price.rpamount
-                  | {{order.price | rpamount:{rel_precision: 4, rel_min_precision: 2} }}
-                td.amount.rpamount {{order.TakerGets | rpamount:{rel_precision: 4} }}
-                td.sum.rpamount {{order.sum | rpamount:{rel_precision: 4} }}
+              tr(ng-repeat='order in bookFormatted.asks')
+                td.price.rpamount {{order.price}}
+                td.amount.rpamount {{order.TakerGets}}
+                td.sum.rpamount {{order.sum}}
               tr(ng-show='!book.asks.length')
                 td(colspan="3") There are currently no asks for this pair.

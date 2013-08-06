@@ -7,7 +7,7 @@ var Options = {
   server: {
     "trusted" : true,
     "websocket_ip" : "s1.ripple.com",
-    "websocket_port" : 51233,
+    "websocket_port" : 443,
     "websocket_ssl" : true
 //    "websocket_ip" : "127.0.0.1",
 //    "websocket_port" : 5006,

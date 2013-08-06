@@ -1,6 +1,7 @@
 var module = angular.module('filters', []),
     webutil = require('../util/web'),
-    Amount = ripple.Amount;
+    Amount = ripple.Amount,
+    Base = ripple.Base;
 
 var iso4217 = require('../data/iso4217');
 
@@ -292,5 +293,11 @@ module.filter('rprange', function() {
     for (var i = lowBound; i <= highBound; i++)
       result.push(i);
     return result;
+  };
+});
+
+module.filter('rpaddressorigin', function() {
+  return function(recipient) {
+    return !isNaN(Base.decode_check([0, 5], recipient, 'bitcoin')) ? 'bitcoin' : 'ripple';
   };
 });

@@ -24,6 +24,7 @@ module.exports = function(grunt) {
               "deps/js/bootstrap-modal.js",
               "deps/js/bootstrap-tooltip.js",
               "deps/js/bootstrap-popover.js",
+              "deps/js/bootstrap-datepicker.js",
               "deps/js/jquery.qrcode.min.js",
               "deps/js/spin.js"];
 
