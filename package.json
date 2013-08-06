@@ -28,7 +28,7 @@
   "scripts": {},
   "repository": {
     "type": "git",
-    "url": "git://github.com/rippleFoundation/ripple-client.git"
+    "url": "git://github.com/ripple/ripple-client.git"
   },
   "readmeFilename": "README",
   "devDependencies": {
