@@ -270,6 +270,15 @@ module.exports = function(grunt) {
         files: 'src/less/**/*.less',
         options: {livereload:true},
         tasks: 'recess'
+      },
+      index: {
+        files: ['index.html'],
+        options: {livereload:true},
+        tasks: ['preprocess']
+      },
+      config: {
+        files: ['config.js'],
+        options: {livereload:true}
       }
     }
   });
