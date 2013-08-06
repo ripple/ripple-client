@@ -8,10 +8,10 @@ var Options = {
     "trusted" : true,
     "websocket_ip" : "s1.ripple.com",
     "websocket_port" : 443,
-    "websocket_ssl" : true
-//    "websocket_ip" : "127.0.0.1",
-//    "websocket_port" : 5006,
-//    "websocket_ssl" : false
+    "websocket_ssl" : true /**/
+/*    "websocket_ip" : "127.0.0.1",
+    "websocket_port" : 5006,
+    "websocket_ssl" : false /**/
   },
   blobvault : "https://blobvault.payward.com",
 
@@ -26,6 +26,7 @@ var Options = {
   bridge: {
     out: {
 //    "bitcoin": "localhost:3000"
+//    "bitcoin": "https://www.bitstamp.net/ripple/bridge/out/bitcoin/"
     }
   }
 };

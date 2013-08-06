@@ -3,7 +3,7 @@ section#t-send.single.content(ng-controller='SendCtrl')
   //- Disconnected
 
   group.disconnected(ng-hide='connected')
-    p.literal You have to be online to see this screen
+    p.literal(rp-l10n="err-you-must-be-online-to-see-this-screen") You have to be online to see this screen
 
   //- Account is unfunded
 
@@ -21,7 +21,8 @@ section#t-send.single.content(ng-controller='SendCtrl')
       name='send_destination', type='text', rp-combobox="recipient_query"
       placeholder='Contact name or Ripple address'
       ng-model='send.recipient'
-      rp-dest, rp-dest-address, rp-dest-contact, rp-dest-bitcoin, required
+      rp-dest, rp-dest-address, rp-dest-contact, rp-dest-bitcoin, rp-dest-email
+      required
       rp-autofill='$routeParams.to'
       rp-focus)
     .errorGroup(rp-errors='send_destination')

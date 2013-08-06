@@ -46,6 +46,11 @@ module.filter('rpamount', function () {
       opts.precision = 16;
     }
 
+    // But we will cut off after five significant decimals
+    if ("number" !== typeof opts.max_sig_digits) {
+      opts.max_sig_digits = 5;
+    }
+
     var out = amount.to_human(opts);
 
     return out;

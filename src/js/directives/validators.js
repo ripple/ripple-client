@@ -47,12 +47,14 @@ module.directive('rpMasterKey', function () {
  *
  * - rp-dest-address - If set, allows Ripple addresses as destinations.
  * - rp-dest-contact - If set, allows address book contacts.
- * - rp-dest-bitcoin - If set, allows Bitcoin addresses as destionations.
+ * - rp-dest-bitcoin - If set, allows Bitcoin addresses as destinations.
+ * - rp-dest-email   - If set, allows federation/email addresses.
  *
  * If the input can be validly interpreted as one of these types, the validation
  * will succeed.
  */
 module.directive('rpDest', function () {
+  var emailRegex = /^\S+@\S+\.\S+$/;
   return {
     restrict: 'A',
     require: '?ngModel',
@@ -63,18 +65,29 @@ module.directive('rpDest', function () {
         var strippedValue = webutil.stripRippleAddress(value);
         var address = ripple.UInt160.from_json(strippedValue);
 
+        ctrl.rpDestType = null;
+
         if (attr.rpDestAddress && address.is_valid()) {
+          ctrl.rpDestType = "address";
           ctrl.$setValidity('rpDest', true);
           return value;
         }
 
         if (attr.rpDestContact && scope.userBlob &&
             webutil.getContact(scope.userBlob.data.contacts,strippedValue)) {
+          ctrl.rpDestType = "contact";
           ctrl.$setValidity('rpDest', true);
           return value;
         }
 
         if (attr.rpDestBitcoin && !isNaN(Base.decode_check([0, 5], strippedValue, 'bitcoin'))) {
+          ctrl.rpDestType = "bitcoin";
+          ctrl.$setValidity('rpDest', true);
+          return value;
+        }
+
+        if (attr.rpDestEmail && emailRegex.test(strippedValue)) {
+          ctrl.rpDestType = "email";
           ctrl.$setValidity('rpDest', true);
           return value;
         }
