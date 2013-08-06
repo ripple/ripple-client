@@ -250,14 +250,13 @@ module.exports = function(grunt) {
       }
     },
     watch: {
-       livereload: {
+      livereload: {
         options: {
-            livereload: true
+          livereload: true
         },
         files: ['build/css/**/*.css'],
         tasks: []
-       },
-        
+      },
       scripts_debug: {
         files: ['src/js/**/*.js', 'src/jade/**/*.jade'],
         tasks: ['webpack:desktop_debug'],
