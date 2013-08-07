@@ -337,7 +337,6 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
     }
 
     $(balance.components).sort(function(a,b){
-      debugger
       return a.compareTo(b);
     });
 
