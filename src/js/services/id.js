@@ -295,7 +295,8 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', 'rp
     // reload will not work, as some pages are also available for guests.
     // Logout will show the same page instead of showing login page.
     // This line redirects user to root (login) page
-    location.href = location.protocol + '//' + location.hostname + location.pathname;
+    var port = location.port.length > 0 ? ":" + location.port : "";
+    location.href = location.protocol + '//' + location.hostname  + port + location.pathname;
   };
 
   /**
