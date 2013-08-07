@@ -36,7 +36,7 @@ section.single.content(ng-controller="RegisterCtrl")
         label(for='register_masterkey')
           | Secret Account Key&nbsp;
           a(ng-click="showMasterKeyInput=false;") (hide)
-        input#register_masterkey(name='register_masterkey', type='text', ng-model="masterkey", rp-master-key, rp-focus)
+        input#register_masterkey(name='register_masterkey', type='text', autocomplete='off', ng-model="masterkey", rp-master-key, rp-focus)
         .errorBox(ng-show="registerForm.register_masterkey.$error.rpMasterKey")
           p.text-error Secret Account Key is invalid
       .submitsection
