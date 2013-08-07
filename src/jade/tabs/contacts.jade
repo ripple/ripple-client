@@ -37,8 +37,8 @@ section.panel.content(ng-controller="ContactsCtrl")
               required)
             .errorGroup(rp-errors='address')
               .error(rp-error-on='required') Please enter an address.
-              .error(rp-error-on='rpDest') Not a valid address.
               .error(rp-error-on='rpUnique') You already have a contact with the same address.
+              .error(rp-error-on='rpDest') Not a valid address.
             label(for='dt') Destination tag
             input.name#contact_dt(
               name='dt', type='text', step='any', placeholder="Leave blank if not applicable"
