@@ -113,6 +113,23 @@ LoginTab.prototype.angular = function (module) {
       $scope.status = 'Fetching wallet...';
     };
   }]);
+
+  /**
+   * Focus on username input only if it's empty. Otherwise focus on password field
+   * This directive will not be used anywhere else, that's why it's here.
+   */
+  module.directive('rpFocusOnEmpty', ['$timeout', function($timeout) {
+    return function($scope, element) {
+      $timeout(function(){
+        $scope.$watch(function () {return element.is(':visible')}, function(newValue) {
+          if (newValue === true && !element.val())
+            element.focus();
+        })
+      }, 200)
+    }
+  }]);
 };
+
+
 
 module.exports = LoginTab;
