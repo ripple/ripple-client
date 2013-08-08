@@ -312,6 +312,8 @@ TradeTab.prototype.angular = function(module)
 
         order.prev_settings = key;
       }
+
+      updateCanBuySell();
     }
 
     function guessIssuer(currency, exclude_issuer) {
@@ -463,6 +465,10 @@ TradeTab.prototype.angular = function(module)
       }
     });
 
+    $scope.$watch('order.type', function () {
+      updateCanBuySell();
+    });
+
     $scope.$watch('order.first_issuer', function () {
       updateSettings();
     });
@@ -472,8 +478,19 @@ TradeTab.prototype.angular = function(module)
     });
 
     $scope.$watch('balances', function () {
+      updateCanBuySell();
       resetIssuers(false);
     }, true);
+
+    // Can sell/buy
+    var updateCanBuySell = function () {
+      var canBuy = $scope.order.second_currency.toUpperCase() == 'XRP' ||
+        ($scope.balances[$scope.order.second_currency] && $scope.balances[$scope.order.second_currency].total.is_positive());
+      var canSell = $scope.order.first_currency.toUpperCase() == 'XRP' ||
+        ($scope.balances[$scope.order.first_currency] && $scope.balances[$scope.order.first_currency].total.is_positive());
+
+      $scope.order.showWidget = $scope.order.type == 'sell' ? canSell : canBuy;
+    };
 
     $scope.reset();
 
@@ -513,7 +530,5 @@ TradeTab.prototype.angular = function(module)
 
   }]);
 };
-
-
 
 module.exports = TradeTab;

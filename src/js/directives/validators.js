@@ -572,3 +572,27 @@ module.directive('rpHostname', function () {
   };
 });
 
+/**
+ * Used for currency selectors
+ */
+module.directive('rpNotXrp', function () {
+  return {
+    restrict: 'A',
+    require: '?ngModel',
+    link: function (scope, elm, attr, ctrl) {
+      if (!ctrl) return;
+
+      var validator = function(value) {
+        ctrl.$setValidity('rpNotXrp', !value || value.toLowerCase() !== 'xrp');
+        return value;
+      };
+
+      ctrl.$formatters.push(validator);
+      ctrl.$parsers.unshift(validator);
+
+      attr.$observe('rpNotXrp', function() {
+        validator(ctrl.$viewValue);
+      });
+    }
+  };
+});
