@@ -583,7 +583,7 @@ module.directive('rpNotXrp', function () {
       if (!ctrl) return;
 
       var validator = function(value) {
-        ctrl.$setValidity('rpNotXrp', value.toLowerCase() !== 'xrp');
+        ctrl.$setValidity('rpNotXrp', !value || value.toLowerCase() !== 'xrp');
         return value;
       };
 
