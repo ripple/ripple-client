@@ -265,8 +265,9 @@ SendTab.prototype.angular = function (module)
               if (!upd.alternatives || !upd.alternatives.length) {
                 $scope.send.path_status = "no-path";
               } else {
+                var currentKey;
                 $scope.send.path_status = "done";
-                $scope.send.alternatives = _.map(upd.alternatives, function (raw) {
+                $scope.send.alternatives = _.map(upd.alternatives, function (raw,key) {
                   var alt = {};
                   alt.amount = Amount.from_json(raw.source_amount);
                   alt.send_max = alt.amount.product_human(Amount.from_json('1.01'));
@@ -274,8 +275,19 @@ SendTab.prototype.angular = function (module)
                     ? raw.paths_computed
                     : raw.paths_canonical;
 
+                  // Selected currency should be the first option
+                  if (raw.source_amount.currency) {
+                    if (raw.source_amount.currency == $scope.send.currency_code)
+                      currentKey = key;
+                  } else if ($scope.send.currency_code == 'XRP') {
+                    currentKey = key;
+                  }
+
                   return alt;
                 });
+
+                if (currentKey)
+                  $scope.send.alternatives.splice(0, 0, $scope.send.alternatives.splice(currentKey, 1)[0]);
               }
             });
           });
