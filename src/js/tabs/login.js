@@ -19,10 +19,10 @@ LoginTab.prototype.generateHtml = function ()
 LoginTab.prototype.angular = function (module) {
   module.controller('LoginCtrl', ['$scope', '$element', '$routeParams',
                                   '$location', 'rpId', '$rootScope',
-                                  'rpPopup',
+                                  'rpPopup', '$timeout',
                                   function ($scope, $element, $routeParams,
                                             $location, $id, $rootScope,
-                                            popup)
+                                            popup, $timeout)
   {
     if ($id.loginStatus) {
       $location.path('/balance');
@@ -40,6 +40,14 @@ LoginTab.prototype.angular = function (module) {
     $scope.password = '';
     $scope.loginForm && $scope.loginForm.$setPristine(true);
     $scope.backendMessages = [];
+
+    // Autofill fix
+    $timeout(function(){
+      $scope.$apply(function () {
+        $scope.username = $element.find('input[name="login_username"]').val();
+        $scope.password = $element.find('input[name="login_password"]').val();
+      })
+    }, 1000);
 
     $rootScope.$on("$blobError", function (e, err) {
       console.log("BLOB ERROR", arguments);
