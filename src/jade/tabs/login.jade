@@ -31,7 +31,7 @@ section.single.content(ng-controller="LoginCtrl")
           b {{message.backend}} &nbsp;
           span {{message.message}}
       .submitsection(ng-class="{throbber: ajax_loading}")
-        button.btn.btn-info(type='submit') Open Wallet
+        button.btn.btn-info(type='submit', ng-disabled="loginForm.$invalid") Open Wallet
         label.storageinfo
           span.fetch Fetch wallet from
           br
