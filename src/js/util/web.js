@@ -162,8 +162,14 @@ exports.unresolveContact = function (contacts, value)
  */
 exports.queryFromOptions = function (options)
 {
-  var opts = options.map(function (entry) {
-    return entry.name;
+  var opts = _.map(options, function (entry) {
+    if ("string" === typeof entry) {
+      return entry;
+    } else if ("object" === typeof entry) {
+      return entry.name;
+    } else {
+      return null;
+    }
   });
   return exports.queryFromArray(opts);
 };
