@@ -224,6 +224,13 @@ module.exports = function(grunt) {
     copy: {
       web: {
         files: [
+          {expand: true, src: ['build/dist/*.js'], dest: 'build/bundle/web'},
+          {expand: true, src: ['build/dist/*.css'], dest: 'build/bundle/web'},
+          {expand: true, src: ['build/dist/*.html'], dest: 'build/bundle/web', flatten: true},
+          {expand: true, src: ['fonts/*'], dest: 'build/bundle/web'},
+          {expand: true, src: ['img/*'], dest: 'build/bundle/web'},
+          {expand: true, src: ['deps/js/modernizr*.js'], dest: 'build/bundle/web'},
+          {src: 'config-example.js', dest: 'build/bundle/web/config-example.js'}
         ]
       },
       nw_linux: {
@@ -234,7 +241,8 @@ module.exports = function(grunt) {
           {expand: true, src: ['fonts/*'], dest: 'build/bundle/nw-linux'},
           {expand: true, src: ['img/*'], dest: 'build/bundle/nw-linux'},
           {expand: true, src: ['deps/js/modernizr*.js'], dest: 'build/bundle/nw-linux'},
-          {src: 'res/nw/package_linux.json', dest: 'build/bundle/nw-linux/package.json'}
+          {src: 'res/nw/package_linux.json', dest: 'build/bundle/nw-linux/package.json'},
+          {src: 'config-example.js', dest: 'build/bundle/nw-linux/config-example.js'}
         ]
       },
       nw_linux_debug: {
@@ -245,7 +253,8 @@ module.exports = function(grunt) {
           {expand: true, src: ['fonts/*'], dest: 'build/bundle/nw-linux-debug'},
           {expand: true, src: ['img/*'], dest: 'build/bundle/nw-linux-debug'},
           {expand: true, src: ['deps/js/modernizr*.js'], dest: 'build/bundle/nw-linux-debug'},
-          {src: 'res/nw/package_linux_debug.json', dest: 'build/bundle/nw-linux-debug/package.json'}
+          {src: 'res/nw/package_linux_debug.json', dest: 'build/bundle/nw-linux-debug/package.json'},
+          {src: 'config-example.js', dest: 'build/bundle/nw-linux-debug/config-example.js'}
         ]
       }
     },
@@ -292,7 +301,7 @@ module.exports = function(grunt) {
                                  'uglify:deps_ie',
                                  'concat:deps_ie', 'concat:deps_ie_debug']);
   grunt.registerTask('deps', ['concat:deps', 'min:deps']);
-  grunt.registerTask('dist', [//'default',
+  grunt.registerTask('dist', ['default',
                               'copy:web', 'copy:nw_linux', 'copy:nw_linux_debug']);
 };
 // Helpers
