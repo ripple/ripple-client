@@ -1,11 +1,16 @@
 var path = require("path"),
     fs = require("fs");
+
+var BannerPlugin = require("webpack/lib/BannerPlugin");
+
 module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-recess');
   grunt.loadNpmTasks('grunt-webpack');
+  grunt.loadNpmTasks('grunt-preprocess');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-copy');
 
   // Ripple client dependencies
   var deps = ["deps/js/jquery.js",
@@ -65,19 +70,35 @@ module.exports = function(grunt) {
     return [{dest:dest, src:compile?src:[]}];
   };
 
+  grunt.registerTask("version", "Describes current git commit", function (prop) {
+    var done = this.async();
+
+    grunt.log.write("Version: ");
+
+    grunt.util.spawn({
+      cmd : "git",
+      args : [ "describe", "--tags", "--always", "--dirty" ]
+    }, function (err, result) {
+      if (err) {
+        grunt.log.error(err);
+        return done(false);
+      }
+
+      grunt.config(prop || "meta.version", result.stdout);
+
+      grunt.log.writeln(result.stdout.green);
+
+      done(result);
+    });
+  });
+
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-    meta: {
-      banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - ' +
-        '<%= grunt.template.today("yyyy-mm-dd") %>\n' +
-        '<%= pkg.homepage ? "* " + pkg.homepage + "\n" : "" %>' +
-        '* Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>;' +
-        ' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %> */'
-    },
+    meta: {},
     recess: {
       dist: {
         src: ['src/less/ripple/desktop.less'],
-        dest: 'build/css/ripple-desktop.css',
+        dest: 'build/dist/ripple-desktop.css',
         options: {
           compile: true
         }
@@ -114,7 +135,10 @@ module.exports = function(grunt) {
           "expr"     : true,
           "asi"      : true,
           "sub"      : true
-        }
+        },
+        plugins: [
+          new BannerPlugin("Ripple Client v<%= meta.version %>\nCopyright (c) <%= grunt.template.today('yyyy') %> <%= pkg.author.name %>\nLicensed under the <%= pkg.license %> license.")
+        ]
       },
       desktop: {
         output: {
@@ -173,15 +197,75 @@ module.exports = function(grunt) {
         }
       }
     },
-    watch: {
-       livereload: {
+    preprocess: {
+      web: {
+        src: 'index.html',
+        dest: 'build/dist/index.html',
         options: {
-            livereload: true
+          context: {
+            MODE_RELEASE: true,
+            TARGET_WEB: true,
+            VERSION: "<%= meta.version %>"
+          }
+        }
+      },
+      web_debug: {
+        src: 'index.html',
+        dest: 'build/dist/index_debug.html',
+        options: {
+          context: {
+            MODE_DEBUG: true,
+            TARGET_WEB: true,
+            VERSION: "<%= meta.version %>"
+          }
+        }
+      }
+    },
+    copy: {
+      web: {
+        files: [
+          {expand: true, src: ['build/dist/*.js'], dest: 'build/bundle/web'},
+          {expand: true, src: ['build/dist/*.css'], dest: 'build/bundle/web'},
+          {expand: true, src: ['build/dist/*.html'], dest: 'build/bundle/web', flatten: true},
+          {expand: true, src: ['fonts/*'], dest: 'build/bundle/web'},
+          {expand: true, src: ['img/*'], dest: 'build/bundle/web'},
+          {expand: true, src: ['deps/js/modernizr*.js'], dest: 'build/bundle/web'},
+          {src: 'config-example.js', dest: 'build/bundle/web/config-example.js'}
+        ]
+      },
+      nw_linux: {
+        files: [
+          {expand: true, src: ['build/dist/*.js'], dest: 'build/bundle/nw-linux'},
+          {expand: true, src: ['build/dist/*.css'], dest: 'build/bundle/nw-linux'},
+          {expand: true, src: ['build/dist/*.html'], dest: 'build/bundle/nw-linux', flatten: true},
+          {expand: true, src: ['fonts/*'], dest: 'build/bundle/nw-linux'},
+          {expand: true, src: ['img/*'], dest: 'build/bundle/nw-linux'},
+          {expand: true, src: ['deps/js/modernizr*.js'], dest: 'build/bundle/nw-linux'},
+          {src: 'res/nw/package_linux.json', dest: 'build/bundle/nw-linux/package.json'},
+          {src: 'config-example.js', dest: 'build/bundle/nw-linux/config-example.js'}
+        ]
+      },
+      nw_linux_debug: {
+        files: [
+          {expand: true, src: ['build/dist/*.js'], dest: 'build/bundle/nw-linux-debug'},
+          {expand: true, src: ['build/dist/*.css'], dest: 'build/bundle/nw-linux-debug'},
+          {expand: true, src: ['build/dist/*.html'], dest: 'build/bundle/nw-linux-debug', flatten: true},
+          {expand: true, src: ['fonts/*'], dest: 'build/bundle/nw-linux-debug'},
+          {expand: true, src: ['img/*'], dest: 'build/bundle/nw-linux-debug'},
+          {expand: true, src: ['deps/js/modernizr*.js'], dest: 'build/bundle/nw-linux-debug'},
+          {src: 'res/nw/package_linux_debug.json', dest: 'build/bundle/nw-linux-debug/package.json'},
+          {src: 'config-example.js', dest: 'build/bundle/nw-linux-debug/config-example.js'}
+        ]
+      }
+    },
+    watch: {
+      livereload: {
+        options: {
+          livereload: true
         },
         files: ['build/css/**/*.css'],
         tasks: []
-       },
-        
+      },
       scripts_debug: {
         files: ['src/js/**/*.js', 'src/jade/**/*.jade'],
         tasks: ['webpack:desktop_debug'],
@@ -195,17 +279,30 @@ module.exports = function(grunt) {
         files: 'src/less/**/*.less',
         options: {livereload:true},
         tasks: 'recess'
+      },
+      index: {
+        files: ['index.html'],
+        options: {livereload:true},
+        tasks: ['preprocess']
+      },
+      config: {
+        files: ['config.js'],
+        options: {livereload:true}
       }
     }
   });
 
   // Tasks
-  grunt.registerTask('default', ['webpack', 'recess',
+  grunt.registerTask('default', ['version',
+                                 'preprocess',
+                                 'webpack', 'recess',
                                  'uglify:deps',
                                  'concat:deps','concat:deps_debug',
                                  'uglify:deps_ie',
                                  'concat:deps_ie', 'concat:deps_ie_debug']);
   grunt.registerTask('deps', ['concat:deps', 'min:deps']);
+  grunt.registerTask('dist', ['default',
+                              'copy:web', 'copy:nw_linux', 'copy:nw_linux_debug']);
 };
 // Helpers
 function escapeRegExpString(str) { return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&"); }

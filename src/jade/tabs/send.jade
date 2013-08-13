@@ -3,7 +3,7 @@ section#t-send.single.content(ng-controller='SendCtrl')
   //- Disconnected
 
   group.disconnected(ng-hide='connected')
-    p.literal You have to be online to see this screen
+    p.literal(rp-l10n="err-you-must-be-online-to-see-this-screen") You have to be online to see this screen
 
   //- Account is unfunded
 
@@ -21,7 +21,8 @@ section#t-send.single.content(ng-controller='SendCtrl')
       name='send_destination', type='text', rp-combobox="recipient_query"
       placeholder='Contact name or Ripple address'
       ng-model='send.recipient'
-      rp-dest, rp-dest-address, rp-dest-contact, rp-dest-bitcoin, required
+      rp-dest, rp-dest-address, rp-dest-contact, rp-dest-bitcoin, rp-dest-email
+      required
       rp-autofill='$routeParams.to'
       rp-focus)
     .errorGroup(rp-errors='send_destination')
@@ -31,6 +32,8 @@ section#t-send.single.content(ng-controller='SendCtrl')
         | Please enter a recipient.
       .error(rp-error-on='rpDest')
         | Recipient should be either a name from your contact list or Ripple/Bitcoin address.
+      .error(rp-error-on='federation')
+        | This email address is not Ripple-enabled.
     span(ng-show='$routeParams.st')
       label(for='send_st') Source tag
       input#send_st(
@@ -52,7 +55,7 @@ section#t-send.single.content(ng-controller='SendCtrl')
         .error(rp-error-on='rpStdt')
           | Invalid destination tag
     label(for='send_amount') Recipient will receive
-    .amount(ng-show="!send.bitcoin")
+    .amount(ng-hide="send.currency_force")
       input.value#send_amount(
         name='send_amount', type='text'
         ng-model='send.amount'
@@ -64,13 +67,13 @@ section#t-send.single.content(ng-controller='SendCtrl')
         rp-positive-amount)
       input.currency#send_amount_currency(
         name='send_amount_currency', type='text'
-        rp-combobox="currency_query", rp-combobox-select
+        rp-combobox="{{send.currency_choices}}", rp-combobox-select
         ng-model='send.currency'
         rp-autofill='$routeParams.amount'
         rp-autofill-currency)
-    .input-append(ng-show="send.bitcoin")
-      input.value#send_bitcoin_amount(
-        name='send_bitcoin_amount', type='text'
+    .input-append(ng-show="send.currency_force")
+      input.value#send_force_amount(
+        name='send_force_amount', type='text'
         ng-model='send.amount'
         required
         rp-autofill='$routeParams.amount'
@@ -78,7 +81,7 @@ section#t-send.single.content(ng-controller='SendCtrl')
         rp-max-amount
         rp-max-amount-currency='{{send.currency}}'
         rp-positive-amount)
-      span.add-on BTC
+      span.add-on(ng-bind="send.currency_force")
     .errorGroup(rp-errors='send_amount')
       .error(rp-error-on='required')
         | Please enter an amount.
@@ -86,14 +89,16 @@ section#t-send.single.content(ng-controller='SendCtrl')
         | Not a valid amount.
       .error(rp-error-on='rpMaxAmount')
         | This transaction exceeds your balance, you can send a max. of {{account.max_spend | rpamount:{rel_precision: 0} }} XRP
-      .error(ng-show="send.type == 'native' && send.self") What's the point of sending XRP to yourself?
       .error(ng-show="disallowXrp") Recipient does not allow XRP payments. Are you sure you want to send XRP anyway?
       .notice(ng-show="send.trust_limit") {{send.recipient | rpcontactname}} trusts you for {{send.trust_limit | rpamount}} {{send.trust_limit | rpcurrency}}.
-    .submitsection(ng-show="send.type == 'native'")
+    .submitsection(ng-show="send.currency_code == 'XRP'")
       button.btn.btn-success.submit(type='submit', ng-disabled='sendForm.$invalid || send.self') Send XRP
-    p.literal(ng-show="send.fund_status == 'insufficient-xrp'") Destination account is unfunded; send at least {{xrp_deficiency | rpamount}} XRP to initialize it.&nbsp;
+    p.literal(ng-show="send.fund_status == 'insufficient-xrp'") Destination account is unfunded; send at least {{send.xrp_deficiency | rpamount}} XRP to initialize it.&nbsp;
       a(href="https://ripple.com/wiki/Reserves", target="_blank") More information
     p.literal(ng-show="send.path_status == 'waiting'") Please enter the transaction details.
+    p.literal.throbber(ng-show="send.path_status == 'checking'") Checking
+    p.literal.throbber(ng-show="send.path_status == 'fed-check'") Analyzing address
+    p.literal.throbber(ng-show="send.path_status == 'bridge-quote'") Retrieving Ripple address
     p.literal.throbber(ng-show="send.path_status == 'pending' && send.currency_code != 'XRP'") Calculating paths
     p.literal.throbber(ng-show="send.path_status == 'pending' && send.currency_code == 'XRP'") Calculating alternatives
     p.literal(ng-show="send.path_status == 'no-path' && send.currency_code != 'XRP'") No path found!

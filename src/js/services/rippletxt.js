@@ -30,7 +30,7 @@ module.factory('rpRippleTxt', ['$q', '$rootScope',
       var next = function (xhr, status) {
         if (!urls.length) {
           txts[domain] = {};
-          txtPromise.resolve({});
+          txtPromise.reject(new Error("No ripple.txt found"));
           return;
         }
         var url = urls.pop();

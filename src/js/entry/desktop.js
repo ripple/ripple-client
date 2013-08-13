@@ -20,6 +20,7 @@ require('../services/transactions');
 require('../services/ledger');
 require('../services/popup');
 require('../services/rippletxt');
+require('../services/federation');
 require('../services/domainalias');
 
 var app = angular.module('rp', [

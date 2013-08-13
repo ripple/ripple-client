@@ -1,7 +1,12 @@
 {
   "name": "ripple-client",
-  "version": "0.2.27",
+  "version": "0.2.30",
   "description": "Client for the Ripple payment network",
+  "author": {
+    "name": "OpenCoin, Inc.",
+    "email": "info@ripple.com",
+    "url": "https://ripple.com/"
+  },
   "dependencies": {
     "async": "~0.2.9",
     "extend": "~1.1.3",
@@ -13,8 +18,13 @@
     "grunt-contrib-watch": "~0.4.4",
     "jade-loader": "~0.5.1",
     "jshint-loader": "~0.5.0",
-    "webpack": "~0.10.0-beta24"
+    "webpack": "~0.10.0-beta24",
+    "grunt-contrib-copy": "~0.4.1",
+    "grunt-preprocess": "https://github.com/justmoon/grunt-preprocess/tarball/defhidden",
+    "jade": "~0.34.1",
+    "jsdom": "~0.8.2"
   },
+  "license": "ISC",
   "scripts": {},
   "repository": {
     "type": "git",

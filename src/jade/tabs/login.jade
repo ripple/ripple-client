@@ -6,9 +6,10 @@ section.single.content(ng-controller="LoginCtrl")
     form(name='loginForm', ng-submit='submitForm()')
       .inputs
         label(for='login_username') Wallet name
-        input#login_username(name='login_username', type='text', ng-model='username', required, rp-focus)
+        input#login_username(name='login_username', type='text', ng-model='username', required, rp-focus-on-empty
+          rp-autofill='$routeParams.username')
         label(for='login_password') Passphrase
-        input#login_password(name='login_password', type='password', ng-model='password', required)
+        input#login_password(name='login_password', type='password', ng-model='password', required, rp-focus)
       .reminder(ng-show="!hiddenReminder")
         .title
           | Reminder:
@@ -30,7 +31,7 @@ section.single.content(ng-controller="LoginCtrl")
           b {{message.backend}} &nbsp;
           span {{message.message}}
       .submitsection(ng-class="{throbber: ajax_loading}")
-        button.btn.btn-info(type='submit') Open Wallet
+        button.btn.btn-info(type='submit', ng-disabled="loginForm.$invalid") Open Wallet
         label.storageinfo
           span.fetch Fetch wallet from
           br
@@ -77,7 +78,8 @@ section.single.content(ng-controller="LoginCtrl")
 
     form(name='loginForm', ng-submit='submitForm()')
       label(for='login_username') Wallet name
-      input#login_username(name='login_username', type='text', ng-model='username', required)
+      input#login_username(name='login_username', type='text', ng-model='username', required
+        rp-autofill='$routeParams.username')
       p.text-status(ng-show='status')
         span {{status}}
         br
