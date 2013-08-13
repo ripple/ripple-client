@@ -182,7 +182,7 @@ HistoryTab.prototype.angular = function (module) {
     $scope.$watchCollection('history',function(){
       // TODO This function has a double call on a history change. Don't know why
       // This is a temporoary fix.
-      if (latest && $scope.history[0] && latest.hash == $scope.history[0].hash)
+      if (latest && $scope.history[$scope.history.length-1] && latest.hash == $scope.history[$scope.history.length-1].hash)
         return;
 
       updateHistory();
@@ -191,7 +191,7 @@ HistoryTab.prototype.angular = function (module) {
       if ($scope.history.length)
         updateCurrencies();
 
-      latest = $.extend(true, {}, $scope.history[0]);
+      latest = $.extend(true, {}, $scope.history[$scope.history.length-1]);
     },true);
 
     // Updates the history collection
