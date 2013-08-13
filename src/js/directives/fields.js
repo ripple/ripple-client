@@ -36,11 +36,15 @@ module.directive('rpCombobox', [function () {
           e.preventDefault();
         });
         selectEl.click(function () {
-          setCompletions(scope.$eval(attrs.rpCombobox)());
+          var complFn = scope.$eval(attrs.rpCombobox);
+          if ("function" !== typeof complFn) {
+            complFn = webutil.queryFromOptions(complFn);
+          }
+          setCompletions(complFn());
           if (cplEl.is(':visible')) {
             el.blur();
           } else {
-            setCompletions(scope.$eval(attrs.rpCombobox)());
+            setCompletions(complFn());
             el.focus();
           }
         });
@@ -101,13 +105,19 @@ module.directive('rpCombobox', [function () {
 
       function updateCompletions() {
         var match = ngModel.$viewValue,
-            completions = [], re = null;
+            completions = [], re = null,
+            complFn;
+
+        complFn = scope.$eval(attrs.rpCombobox);
+
+        if ("function" !== typeof complFn) {
+          complFn = webutil.queryFromOptions(complFn);
+        }
 
         if ("string" === typeof match && match.length) {
           var escaped = webutil.escapeRegExp(match);
           re = new RegExp('('+escaped+')', 'i');
-
-          completions = scope.$eval(attrs.rpCombobox)(match, re);
+          completions = complFn(match, re);
         }
 
         // By fading out without updating the completions we get a smoother effect
