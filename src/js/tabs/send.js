@@ -282,11 +282,16 @@ SendTab.prototype.angular = function (module)
       var amount = send.amount_feedback = Amount.from_human(formatted);
 
       $scope.reset_paths();
+      send.path_status = 'waiting';
 
       if (pathUpdateTimeout) clearTimeout(pathUpdateTimeout);
       if (send.bitcoin) {
+        if (!send.amount_feedback.is_valid())
+          return;
+
         // Dummy issuer
         send.amount_feedback.set_issuer(1);
+        send.path_status = 'pending';
         pathUpdateTimeout = setTimeout($scope.update_quote, 500);
       } else {
         if (!ripple.UInt160.is_valid(recipient) || !ripple.Amount.is_valid(amount)) {
@@ -369,7 +374,6 @@ SendTab.prototype.angular = function (module)
       if (!$scope.need_paths_update()) return;
 
       send.alternatives = [];
-      send.path_status = 'waiting';
     };
 
     /**

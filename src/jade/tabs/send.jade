@@ -103,7 +103,7 @@ section#t-send.single.content(ng-controller='SendCtrl')
     p.literal.throbber(ng-show="send.path_status == 'pending' && send.currency_code == 'XRP'") Calculating alternatives
     p.literal(ng-show="send.path_status == 'no-path' && send.currency_code != 'XRP'") No path found!
     p.literal(ng-show="send.path_status == 'error'") Error while calculating path
-    .currency_sets(ng-if="send.path_status == 'done'")
+    .currency_sets(ng-if="send.path_status == 'done' && !sendForm.$invalid")
       .label(ng-show="send.currency_code != 'XRP' || send.bitcoin") You can send
       .label(ng-show="send.currency_code == 'XRP' && !send.bitcoin") Or you can send
       ul
