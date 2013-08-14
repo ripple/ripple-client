@@ -178,12 +178,12 @@ section.panel.content(ng-controller="TradeCtrl")
             .submitsection
               button.btn.btn-success.submit(type='submit', ng-disabled='orderForm.$invalid') Place Order
           div(ng-hide="order.showWidget")
-            p.literal Your balance is not enough to do an offer.
+            p.literal Your balance is not enough to create an order.
 
         //- 2. Confirmation
 
         form.mode-confirm(ng-switch-when='confirm', ng-submit="order_confirmed()")
-          p.literal You are about to place an offer {{order.type}}ing
+          p.literal You are about to create an order to {{order.type}}
             .amount_feedback
               span.value {{order.first_amount | rpamount}}
               span.currency  {{order.first_amount | rpcurrency}}
@@ -200,7 +200,7 @@ section.panel.content(ng-controller="TradeCtrl")
         //- 3. Sending
 
         group.mode-sending(ng-switch-when='sending')
-          p.throbber.literal Sending offer to Ripple network...
+          p.throbber.literal Sending order to Ripple network...
 
         //- 4. Error
 
@@ -235,7 +235,7 @@ section.panel.content(ng-controller="TradeCtrl")
               span(ng-switch-default) Trade failed, reason: {{engine_result_message}}
           hr
           div(class="actionLink")
-            a(href="#trade", ng-click="reset(true)") Enter another offer
+            a(href="#trade", ng-click="reset(true)") Submit another order
 
       ul.filter-tabs
         li.my(ng-show="account.Balance"): a(
