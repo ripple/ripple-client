@@ -96,7 +96,7 @@ header {
 
 header nav {
   position: absolute;
-  top: 78px;
+  top: 73px;
   left: 0;
   width: 100%;
 
@@ -119,7 +119,7 @@ header nav ul {
     position: relative;
     float: left;
     width: 70px;
-    height: 55px;
+    height: 60px;
     padding-left: 30px;
     padding-right: 30px;
     text-align: center;
@@ -139,7 +139,7 @@ header nav ul {
       width: 70px;
       color: #000;
       display: block;
-      height: 55px;
+      height: 60px;
       cursor: pointer;
       .transition-duration(0.2s);
       background-image: url(../../img/sprite_l.png);
@@ -158,10 +158,6 @@ header nav ul {
     &.active {
       font-family: 'OpenSansBold';
 
-      span {
-        display: none;
-      }
-
       > a {
         opacity: 1;
         color: #333;
@@ -178,16 +174,13 @@ header nav ul {
         margin-left: -18px;
         border-left: solid 18px transparent;
         border-right: solid 18px transparent;
-        border-bottom: solid 11px #cacaca;
+        border-bottom: solid 7px #cacaca;
       }
       > a:after {
         margin-left: -16px;
         border-left: solid 16px transparent;
         border-right: solid 16px transparent;
-        border-bottom: solid 10px #fff;
-      }
-      &#nav-wallet > a:after {
-        border-bottom: solid 10px #f9f9f9;
+        border-bottom: solid 6px #fff;
       }
 
       @media (max-width: 767px) {
@@ -202,18 +195,16 @@ header nav ul {
   }
 }
 
-
-
 #nav-wallet a {
-  background-position: -165px -102px;
+  background-position: -167px -102px;
 }
 
 #nav-send a {
-  background-position: -45px -102px;
+  background-position: -47px -102px;
 }
 
 #nav-receive a {
-  background-position: -107px -102px;
+  background-position: -108px -102px;
 }
 
 #nav-advanced a {
