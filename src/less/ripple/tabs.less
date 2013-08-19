@@ -747,12 +747,24 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
     }
 
     .balance {
+      height: 50px;
       text-align: center;
       font: 36px 'OpenSansLight';
       border: 1px solid #eee;
       border-top: 0;
       color: #666;
       padding: 20px;
+
+      &.xrp {
+        height: 70px;
+        padding: 20px 0 0 0;
+      }
+
+      .secondary {
+        display: block;
+        margin: -5px 0 0 0;
+        font-size: 12px;
+      }
     }
 
     &.positive .label {
