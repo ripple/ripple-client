@@ -70,6 +70,16 @@ TradeTab.prototype.angular = function(module)
       updateSettings();
     };
 
+    $scope.setListing = function(listing){
+      $scope.order.listing = listing;
+      $scope.order.userSetListing = true;
+    };
+
+    $scope.$watch('offers',function(){
+      if (!$scope.order.userSetListing)
+        $scope.order.listing = $.isEmptyObject($scope.offers) ? 'orderbook' : 'my';
+    }, true);
+
     $scope.back = function () {
       $scope.mode = "trade";
     };

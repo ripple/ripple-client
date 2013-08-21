@@ -239,11 +239,11 @@ section.panel.content(ng-controller="TradeCtrl")
 
       ul.filter-tabs
         li.my(ng-show="account.Balance"): a(
-          ng-click="order.listing = 'my'"
+          ng-click="setListing('my')"
           ng-class="{active: order.listing == 'my'}")
             | My Orders
         li.orderbook: a(
-          ng-click="order.listing = 'orderbook'"
+          ng-click="setListing('orderbook')"
           ng-class="{active: order.listing == 'orderbook'}")
             | Order book
 
