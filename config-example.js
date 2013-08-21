@@ -6,6 +6,7 @@
 var Options = {
   server: {
     "trusted" : true,
+    "trace" : true,
     "websocket_ip" : "s1.ripple.com",
     "websocket_port" : 443,
     "websocket_ssl" : true /**/
