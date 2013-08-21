@@ -59,7 +59,7 @@ TradeTab.prototype.angular = function(module)
         second_currency: pair.slice(4, 7),
         first_issuer: fIssuer,
         second_issuer: sIssuer,
-        listing: 'orderbook',
+        listing: $scope.order ? $scope.order.listing : 'my',
 
         // This variable is true if both the pair and the issuers are set to
         // valid values. It is used to enable or disable all the functionality
@@ -69,13 +69,6 @@ TradeTab.prototype.angular = function(module)
 
       updateSettings();
     };
-
-    // Show "My Orders" if account has been funded
-    $scope.$watch('account.Balance', function(){
-      if ($scope.account.Balance) {
-        $scope.order.listing = 'my';
-      }
-    }, true);
 
     $scope.back = function () {
       $scope.mode = "trade";
