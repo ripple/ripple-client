@@ -100,18 +100,18 @@ section#t-send.single.content(ng-controller='SendCtrl')
       .error(ng-show="disallowXrp") Recipient does not allow XRP payments. Are you sure you want to send XRP anyway?
       .notice(ng-show="send.trust_limit") {{send.recipient | rpcontactname}} trusts you for {{send.trust_limit | rpamount}} {{send.trust_limit | rpcurrency}}.
     .submitsection(ng-show="send.currency_code == 'XRP'")
-      button.btn.btn-success.submit(type='submit', ng-disabled='sendForm.$invalid || send.self') Send XRP
+      button.btn.btn-success.submit(type='submit', ng-disabled='sendForm.$invalid || send.self || !send.recipient_resolved') Send XRP
     p.literal(ng-show="send.fund_status == 'insufficient-xrp'") Destination account is unfunded; send at least {{send.xrp_deficiency | rpamount}} XRP to initialize it.&nbsp;
       a(href="https://ripple.com/wiki/Reserves", target="_blank") More information
     p.literal(ng-show="send.path_status == 'waiting'") Please enter the transaction details.
     p.literal.throbber(ng-show="send.path_status == 'checking'") Checking
     p.literal.throbber(ng-show="send.path_status == 'fed-check'") Analyzing address
-    p.literal.throbber(ng-show="send.path_status == 'bridge-quote'") Retrieving Ripple address
+    p.literal.throbber(ng-show="send.path_status == 'bridge-quote'") Requesting quote
     p.literal.throbber(ng-show="send.path_status == 'pending' && send.currency_code != 'XRP'") Calculating paths
     p.literal.throbber(ng-show="send.path_status == 'pending' && send.currency_code == 'XRP'") Calculating alternatives
     p.literal(ng-show="send.path_status == 'no-path' && send.currency_code != 'XRP'") No path found!
     p.literal(ng-show="send.path_status == 'error'") Error while calculating path
-    .currency_sets(ng-if="send.path_status == 'done' && !sendForm.$invalid")
+    .currency_sets(ng-if="send.path_status == 'done'")
       .label(ng-show="send.currency_code != 'XRP' || send.bitcoin") You can send
       .label(ng-show="send.currency_code == 'XRP' && !send.bitcoin") Or you can send
       ul

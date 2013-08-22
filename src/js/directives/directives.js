@@ -50,8 +50,11 @@ module.directive('rpErrors', [function() {
           selectedScope;
 
         function updateErrorTransclude() {
-          var field = formController[fieldName],
-            $error = field && field.$error;
+          var field = formController[fieldName];
+
+          if (!field) return;
+
+          var $error = field && field.$error;
 
           if (selectedElement) {
             selectedScope.$destroy();
