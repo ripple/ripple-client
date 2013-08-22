@@ -133,13 +133,17 @@ section.panel.content(ng-controller="TradeCtrl")
                   input#order_amount(
                     name='amount', type='text'
                     ng-model='order.first', ng-change='calc_second()'
-                    rp-positive-amount, currency="{{order.first_currency}}"
+                    rp-amount
+                    rp-amount-positive
+                    rp-amount-xrp-limit
+                    rp-amount-xrp-limit-currency="{{order.first_currency}}"
                     required)
                   .add-on {{order.first_currency}}
                 .errorGroup(rp-errors='amount')
                   .error(rp-error-on='required') Required
                   .error(rp-error-on='rpAmount') Not a valid amount.
-                  .error(rp-error-on='rpXrpLimit') There is a limit of 100 billion XRPs
+                  .error(rp-error-on='rpAmountPositive') Must be greater than zero
+                  .error(rp-error-on='rpAmountXrpLimit') There is a limit of 100 billion XRPs
               .sign x
               .value-field
                 label(for='order_price') Price of Each
@@ -147,13 +151,17 @@ section.panel.content(ng-controller="TradeCtrl")
                   input#order_price(
                     name='price', type='text'
                     ng-model='order.price', ng-change='calc_second()'
-                    rp-positive-amount, currency="{{order.second_currency}}"
+                    rp-amount
+                    rp-amount-positive
+                    rp-amount-xrp-limit
+                    rp-amount-xrp-limit-currency="{{order.second_currency}}"
                     required)
                   .add-on {{order.second_currency}}
                 .errorGroup(rp-errors='price')
                   .error(rp-error-on='required') Required
-                  .error(rp-error-on='rpAmount') Not a valid price.
-                  .error(rp-error-on='rpXrpLimit') There is a limit of 100 billion XRPs
+                  .error(rp-error-on='rpAmount') Not a valid amount.
+                  .error(rp-error-on='rpAmountPositive') Must be greater than zero
+                  .error(rp-error-on='rpAmountXrpLimit') There is a limit of 100 billion XRPs
               .sign =
               .value-field
                 label(for='order_value') Order Value
@@ -161,13 +169,17 @@ section.panel.content(ng-controller="TradeCtrl")
                   input#order_value(
                     name='value', type='text'
                     ng-model='order.second', ng-change='calc_first()'
-                    rp-positive-amount, currency="{{order.second_currency}}"
+                    rp-amount
+                    rp-amount-positive
+                    rp-amount-xrp-limit
+                    rp-amount-xrp-limit-currency="{{order.second_currency}}"
                     required)
                   .add-on {{order.second_currency}}
                 .errorGroup(rp-errors='value')
                   .error(rp-error-on='required') Required
-                  .error(rp-error-on='rpAmount') Not a valid value.
-                  .error(rp-error-on='rpXrpLimit') There is a limit of 100 billion XRPs
+                  .error(rp-error-on='rpAmount') Not a valid amount.
+                  .error(rp-error-on='rpAmountPositive') Must be greater than zero
+                  .error(rp-error-on='rpAmountXrpLimit') There is a limit of 100 billion XRPs
             .message(ng-show='orderForm.$valid')
               | You are wanting to {{order.type}}
               | {{order.first_amount | rpamount:{precision: 10} }} {{order.first_amount | rpcurrency}}

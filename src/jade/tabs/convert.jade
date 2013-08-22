@@ -22,7 +22,8 @@ section.panel.content(ng-controller="ConvertCtrl")
       required
       rp-autofill='$routeParams.amount'
       rp-autofill-amount
-      rp-positive-amount)
+      rp-amount
+      rp-amount-positive)
       input.currency#amount_currency(
       name='amount_currency', type='text'
       rp-combobox="currency_query", rp-combobox-select
@@ -34,6 +35,8 @@ section.panel.content(ng-controller="ConvertCtrl")
         | Please enter an amount.
       .error(rp-error-on='rpAmount')
         | Not a valid amount.
+      .error(rp-error-on='rpAmountPositive')
+        | Please enter an amount greater than zero.
     p.literal(ng-show="convert.path_status == 'waiting'") Please enter the conversion details.
     p.literal.throbber(ng-show="convert.path_status == 'pending'") Calculating...
     p.literal(ng-show="convert.path_status == 'no-path' && convert.currency_code != 'XRP'") No path found!

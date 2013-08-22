@@ -55,7 +55,7 @@ section#t-send.single.content(ng-controller='SendCtrl')
         .error(rp-error-on='rpStdt')
           | Invalid destination tag
     label(for='send_amount') Recipient will receive
-    .amount(ng-hide="send.currency_force")
+    .amount(ng-if="!send.currency_force")
       input.value#send_amount(
         name='send_amount', type='text'
         ng-model='send.amount'
@@ -64,29 +64,37 @@ section#t-send.single.content(ng-controller='SendCtrl')
         rp-autofill-amount
         rp-max-amount
         rp-max-amount-currency='{{send.currency}}'
-        rp-positive-amount)
+        rp-amount
+        rp-amount-positive
+        rp-amount-xrp-limit
+        rp-amount-xrp-limit-currency='{{send.currency}}')
       input.currency#send_amount_currency(
         name='send_amount_currency', type='text'
         rp-combobox="{{send.currency_choices}}", rp-combobox-select
         ng-model='send.currency'
         rp-autofill='$routeParams.amount'
         rp-autofill-currency)
-    .input-append(ng-show="send.currency_force")
-      input.value#send_force_amount(
-        name='send_force_amount', type='text'
+    .input-append(ng-if="send.currency_force")
+      input.value#send_amount(
+        name='send_amount', type='text'
         ng-model='send.amount'
         required
         rp-autofill='$routeParams.amount'
         rp-autofill-amount
         rp-max-amount
         rp-max-amount-currency='{{send.currency}}'
-        rp-positive-amount)
+        rp-amount
+        rp-amount-positive
+        rp-amount-xrp-limit
+        rp-amount-xrp-limit-currency='{{send.currency}}')
       span.add-on(ng-bind="send.currency_force")
     .errorGroup(rp-errors='send_amount')
       .error(rp-error-on='required')
         | Please enter an amount.
       .error(rp-error-on='rpAmount')
         | Not a valid amount.
+      .error(rp-error-on='rpAmountPositive')
+        | Amount must be greater than zero.
       .error(rp-error-on='rpMaxAmount')
         | This transaction exceeds your balance, you can send a max. of {{account.max_spend | rpamount:{rel_precision: 0} }} XRP
       .error(ng-show="disallowXrp") Recipient does not allow XRP payments. Are you sure you want to send XRP anyway?
