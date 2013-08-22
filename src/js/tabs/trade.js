@@ -99,13 +99,15 @@ TradeTab.prototype.angular = function(module)
     {
       var tx = $network.remote.transaction();
       tx.offer_cancel($id.account, this.entry.seq);
-      tx.on('success', function () {
+      tx.on('proposed', function () {
         $scope.$apply(function () {
         });
       });
       tx.on('error', function () {
-        $scope.$apply(function () {
-          $scope.mode = "error";
+        setImmediate(function () {
+          $scope.$apply(function () {
+            $scope.mode = "error";
+          });
         });
       });
       tx.submit();
@@ -122,7 +124,7 @@ TradeTab.prototype.angular = function(module)
       if ($scope.order.type == 'sell')
         tx.set_flags('Sell');
 
-      tx.on('success', function (res) {
+      tx.on('proposed', function (res) {
         $scope.$apply(function () {
           setEngineStatus(res, false);
           $scope.done(tx.hash);

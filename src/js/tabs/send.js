@@ -595,7 +595,7 @@ SendTab.prototype.angular = function (module)
           tx.build_path(true);
         }
       }
-      tx.on('success', function (res) {
+      tx.on('proposed', function (res) {
         $scope.$apply(function () {
           setEngineStatus(res, false);
           $scope.sent(tx.hash);

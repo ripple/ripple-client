@@ -176,7 +176,7 @@ ConvertTab.prototype.angular = function (module)
         tx.send_max($scope.convert.alt.send_max);
         tx.paths($scope.convert.alt.paths);
 
-        tx.on('success', function (res) {
+        tx.on('proposed', function (res) {
           $scope.$apply(function () {
             setEngineStatus(res, false);
             $scope.converted(tx.hash);
