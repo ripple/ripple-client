@@ -54,7 +54,7 @@ module.directive('rpMasterKey', function () {
  * will succeed.
  */
 module.directive('rpDest', function () {
-  var emailRegex = /^\S+@\S+\.\S+$/;
+  var emailRegex = /^\S+@\S+\.[^\s.]+$/;
   return {
     restrict: 'A',
     require: '?ngModel',
