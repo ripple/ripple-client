@@ -300,7 +300,9 @@ module.exports = function(grunt) {
                                  'concat:deps','concat:deps_debug',
                                  'uglify:deps_ie',
                                  'concat:deps_ie', 'concat:deps_ie_debug']);
-  grunt.registerTask('deps', ['concat:deps', 'min:deps']);
+  grunt.registerTask('deps', ['uglify:deps', 'uglify:deps_ie',
+                              'concat:deps', 'concat:deps_ie',
+                              'concat:deps_debug', 'concat:deps_ie_debug']);
   grunt.registerTask('dist', ['default',
                               'copy:web', 'copy:nw_linux', 'copy:nw_linux_debug']);
 };

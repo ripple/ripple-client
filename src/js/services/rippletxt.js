@@ -44,7 +44,13 @@ module.factory('rpRippleTxt', ['$q', '$rootScope',
               txtPromise.resolve(sections);
             });
           },
-          error: next
+          error: function (xhr, status) {
+            setImmediate(function () {
+              $scope.$apply(function () {
+                next(xhr, status);
+              });
+            });
+          }
         });
       };
       next();

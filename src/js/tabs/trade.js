@@ -59,7 +59,7 @@ TradeTab.prototype.angular = function(module)
         second_currency: pair.slice(4, 7),
         first_issuer: fIssuer,
         second_issuer: sIssuer,
-        listing: 'orderbook',
+        listing: $scope.order ? $scope.order.listing : 'my',
 
         // This variable is true if both the pair and the issuers are set to
         // valid values. It is used to enable or disable all the functionality
@@ -70,11 +70,14 @@ TradeTab.prototype.angular = function(module)
       updateSettings();
     };
 
-    // Show "My Orders" if account has been funded
-    $scope.$watch('account.Balance', function(){
-      if ($scope.account.Balance) {
-        $scope.order.listing = 'my';
-      }
+    $scope.setListing = function(listing){
+      $scope.order.listing = listing;
+      $scope.order.userSetListing = true;
+    };
+
+    $scope.$watch('offers',function(){
+      if (!$scope.order.userSetListing)
+        $scope.order.listing = $.isEmptyObject($scope.offers) ? 'orderbook' : 'my';
     }, true);
 
     $scope.back = function () {
@@ -96,13 +99,15 @@ TradeTab.prototype.angular = function(module)
     {
       var tx = $network.remote.transaction();
       tx.offer_cancel($id.account, this.entry.seq);
-      tx.on('success', function () {
+      tx.on('proposed', function () {
         $scope.$apply(function () {
         });
       });
       tx.on('error', function () {
-        $scope.$apply(function () {
-          $scope.mode = "error";
+        setImmediate(function () {
+          $scope.$apply(function () {
+            $scope.mode = "error";
+          });
         });
       });
       tx.submit();
@@ -119,7 +124,7 @@ TradeTab.prototype.angular = function(module)
       if ($scope.order.type == 'sell')
         tx.set_flags('Sell');
 
-      tx.on('success', function (res) {
+      tx.on('proposed', function (res) {
         $scope.$apply(function () {
           setEngineStatus(res, false);
           $scope.done(tx.hash);

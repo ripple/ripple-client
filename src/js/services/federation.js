@@ -25,20 +25,23 @@ module.factory('rpFederation', ['$q', '$rootScope', 'rpRippleTxt',
 
     if (txtPromise) {
       if ("function" === typeof txtPromise.then) {
-        txtPromise.then(processTxt);
+        txtPromise.then(processTxt, handleNoTxt);
       } else {
         processTxt(txtPromise);
       }
     } else {
+      handleNoTxt();
+    }
+
+    return federationPromise.promise;
+
+    function handleNoTxt() {
       federationPromise.reject({
         result: "error",
         error: "noRippleTxt",
         error_message: "Ripple.txt not available for the requested domain."
       });
     }
-
-    return federationPromise.promise;
-
     function processTxt(txt) {
       if (txt.federation_url) {
         $.ajax({

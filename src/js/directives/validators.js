@@ -482,7 +482,16 @@ module.directive('rpMaxAmount', function () {
 /**
  * Amount validator
  */
-module.directive('rpPositiveAmount', function () {
+function parseAmount(value) {
+  // replace commas with dots
+  if (value && value.toString().indexOf(",") != -1) {
+    value = value.split(",").join(".");
+  }
+
+  return parseFloat(value);
+}
+
+module.directive('rpAmount', function () {
   return {
     restrict: 'A',
     require: '?ngModel',
@@ -490,28 +499,71 @@ module.directive('rpPositiveAmount', function () {
       if (!ctrl) return;
 
       var validator = function(value) {
-        ctrl.$setValidity('rpAmount', false);
+        var parsedValue = parseAmount(value);
 
-        // replace commas with dots
-        if(value && value.toString().indexOf(",") != -1) {
-          value = value.split(",").join(".");
-        }
+        // check for valid amount
+        ctrl.$setValidity('rpAmount', parsedValue == value);
 
-        // check for valid and positive amount
-        var parsedValue = parseFloat(value);
-        if (parsedValue == value && parsedValue > 0) {
-          ctrl.$setValidity('rpAmount', true);
-
-          // XRP limit is 100 bln
-          if (attr.currency && attr.currency.toLowerCase() === 'xrp')
-            ctrl.$setValidity('rpXrpLimit', parsedValue < 100000000000);
-
-          return parsedValue;
-        }
+        return parsedValue;
       };
 
       ctrl.$formatters.push(validator);
       ctrl.$parsers.unshift(validator);
+    }
+  };
+});
+
+module.directive('rpAmountPositive', function () {
+  return {
+    restrict: 'A',
+    require: '?ngModel',
+    link: function (scope, elm, attr, ctrl) {
+      if (!ctrl) return;
+
+      var validator = function(value) {
+        var parsedValue = parseAmount(value);
+
+        // check for positive amount
+        ctrl.$setValidity('rpAmountPositive', parsedValue > 0);
+
+        return parsedValue;
+      };
+
+      ctrl.$formatters.push(validator);
+      ctrl.$parsers.unshift(validator);
+    }
+  };
+});
+
+module.directive('rpAmountXrpLimit', function () {
+  return {
+    restrict: 'A',
+    require: '?ngModel',
+    link: function (scope, elm, attr, ctrl) {
+      if (!ctrl) return;
+
+      var validator = function(value) {
+        var parsedValue = parseAmount(value);
+
+        var currency = attr.rpAmountXrpLimitCurrency;
+
+        // If XRP, ensure amount is less than 100 billion
+        if (currency &&
+            currency.toLowerCase() === 'xrp') {
+          ctrl.$setValidity('rpAmountXrpLimit', parsedValue <= 100000000000);
+        } else {
+          ctrl.$setValidity('rpAmountXrpLimit', true);
+        }
+
+        return parsedValue;
+      };
+
+      ctrl.$formatters.push(validator);
+      ctrl.$parsers.unshift(validator);
+
+      attr.$observe('rpAmountXrpLimitCurrency', function() {
+        validator(ctrl.$viewValue);
+      });
     }
   };
 });
