@@ -57,7 +57,7 @@ ConvertTab.prototype.angular = function (module)
           convert.alt = null;
 
           if (pathUpdateTimeout) clearTimeout(pathUpdateTimeout);
-          pathUpdateTimeout = setTimeout($scope.update_paths, 500);
+          pathUpdateTimeout = $timeout($scope.update_paths, 500);
         } else {
           convert.path_status = 'waiting';
         }
