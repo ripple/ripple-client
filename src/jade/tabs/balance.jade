@@ -82,6 +82,7 @@ section.panel.content(ng-controller="BalanceCtrl")
               |  for&nbsp;
               strong {{entry.transaction.gets | rpamount}} {{entry.transaction.gets | rpcurrency}}
               include balance/effects
+            .transaction(ng-switch-when="accountset") Account details have been changed
             .transaction(ng-switch-default)
               include balance/effects
 
