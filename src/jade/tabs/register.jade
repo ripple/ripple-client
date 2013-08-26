@@ -97,6 +97,8 @@ section.single.content(ng-controller="RegisterCtrl")
             a Show
         a(ng-click="showPassword=false", ng-show="showPassword==true") Hide
     .secret
+      p.important Ripple Address
+      p.key {{address}}
       p.important Secret Account key:
       p.key(ng-show="showSecret==true") {{keyOpen}}
       p.key(ng-hide="showSecret==true") {{key}}
