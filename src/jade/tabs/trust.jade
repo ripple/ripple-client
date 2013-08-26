@@ -59,7 +59,7 @@ section.panel.content(ng-controller="TrustCtrl")
               label(for='trust_amount') Amount
               .amount
                 input.value#trust_amount(name='trust_amount', type='number', step='any', ng-model='amount'
-                  ng-pattern='validation_pattern', required
+                  ng-pattern='validation_pattern'
                   rp-autofill='$routeParams.amount'
                   rp-autofill-amount
                   rp-autofill-on='addform_visible = true'
