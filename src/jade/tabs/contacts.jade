@@ -15,7 +15,7 @@ section.panel.content(ng-controller="ContactsCtrl")
           form(name="addForm", id="addForm")
             label(for='Name') Name
             input.name#contact_name(
-              name='name', type='text', step='any'
+              name='name', type='text', step='any', maxlength="70"
               ng-model='contact.name'
               rp-unique='userBlob.data.contacts'
               rp-unique-field='name'
@@ -54,7 +54,7 @@ section.panel.content(ng-controller="ContactsCtrl")
         td.name
           div(ng-show='editing')
             ng-form(name='inlineName')
-              input(name='editname', type="text", class="inline"
+              input(name='editname', type="text", class="inline", maxlength="70"
                 ng-model='editname'
                 rp-unique='userBlob.data.contacts'
                 rp-unique-field='name'
