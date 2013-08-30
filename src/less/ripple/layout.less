@@ -1,6 +1,3 @@
-// Some extra vars
-@siteWidth: (@gridColumns * @gridColumnWidth) + (@gridGutterWidth * (@gridColumns - 1));
-
 html {
     overflow-y: scroll;
 }
@@ -77,7 +74,7 @@ body.loaded #appLoading {
 #logo {
   position: absolute;
   top: 15px;
-  left: 10px;
+  left: @grid-gutter-width / 2;
 
   img {
     width: 228px;
@@ -96,9 +93,11 @@ header {
 
 header nav {
   position: absolute;
-  top: 73px;
+  top: 85px;
   left: 0;
   width: 100%;
+  padding-left: @grid-gutter-width / 2;
+  padding-right: @grid-gutter-width / 2;
 
   @media (max-width: 980px) {
     top: 110px;
@@ -118,7 +117,7 @@ header nav ul {
   > li {
     position: relative;
     float: left;
-    width: 70px;
+    width: 130px;
     height: 60px;
     padding-left: 30px;
     padding-right: 30px;
@@ -283,9 +282,9 @@ header nav ul {
       > a {
         position: relative;
         display: block;
-        height: 23px;
+        height: 60px;
         color: #979797;
-        padding: 18px 0 18px 35px;
+        padding: 20px 0 20px 35px;
         border-bottom: 1px solid #cacaca;
         border-top: 1px solid #cacaca;
         border-right: 1px solid #cacaca;
@@ -303,7 +302,6 @@ header nav ul {
           border-bottom: 1px solid #e5e5e5;
           border-top: 1px solid #e5e5e5;
           z-index: 15;
-          background-image: url('../../img/subnav_shadow.png');
           background-position: 139px 0;
         }
 
@@ -326,6 +324,12 @@ header nav ul {
         .border-radius(0, 0, 0, 10px);
       }
 
+      &:first-child.active > a {
+        &:after {
+          height: 61px;
+        }
+      }
+
       &.active {
         width: @sideNavWidth - 18px - 18px + 35px - 18px + 1px;
         > a {
@@ -340,10 +344,10 @@ header nav ul {
           &:after {
             .virtualel;
             position: absolute;
-            bottom: -1px;
+            top: -1px;
             right: -18px;
             width: 18px;
-            height: 59px;
+            height: 60px;
             border-top: 1px solid #cacaca;
             border-bottom: 1px solid #cacaca;
             background: url('../../img/subnav_active.png') no-repeat;
@@ -374,7 +378,7 @@ header nav ul {
       top: 0;
       left: 0;
       height: 100%;
-      width: 40px;
+      width: 42px;
       .border-radius(0, 0, 8px, 8px);
       background-color: #f9f9f9;
 
@@ -387,7 +391,7 @@ header nav ul {
       position: relative;
       top: 0;
       left: 40px;
-      width: @sideNavWidth - 40px - 1px;
+      width: @sideNavWidth - 40px + 1px;
       height: 100%;
       border-right: 1px solid #cacaca;
       z-index: 100;
@@ -398,8 +402,8 @@ header nav ul {
       }
     }
 
-    + .panel {
-      margin-left: @sideNavWidth - 15px;
+    + section {
+      margin-left: @sideNavWidth + 15px;
 
       @media (max-width: 767px) {
         margin-left: 0;
@@ -430,11 +434,9 @@ header nav ul {
   }
 }
 
-@sideNavWidth: @gridColumnWidth * 3 + @gridGutterWidth * 2 - 70px;
+@sideNavWidth: 150px;
 
 #wrapper > .main section {
-  .border-radius(0, 20px, 0, 0);
-
   &.active {
     display: block;
   }

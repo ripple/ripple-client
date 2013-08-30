@@ -1,5 +1,5 @@
 include ../menu/wallet.jade
-section.panel.content(ng-controller="ConvertCtrl")
+section.content(ng-controller="ConvertCtrl")
 
   //- Disconnected
 
@@ -74,7 +74,7 @@ section.panel.content(ng-controller="ConvertCtrl")
     p.literal Are you sure?
     div
       p.submitsection
-        button.btn.back(ng-click='cancelConfirm()') &laquo; Back
+        button.btn.btn-default.back(ng-click='cancelConfirm()') &laquo; Back
         button.btn.btn-success.submit(
         type='submit'
         ng-click='convert_confirmed()'
@@ -85,7 +85,7 @@ section.panel.content(ng-controller="ConvertCtrl")
   group.mode-sending(ng-show='mode=="sending" && account.Balance')
     p.throbber.literal Sending transaction to Ripple network
     hr
-    p: button.btn(ng-click='reset()') Stop waiting
+    p: button.btn.btn-default(ng-click='reset()') Stop waiting
 
   //- N5. Error page
   group.mode-error(ng-show='mode=="error" && account.Balance')
@@ -98,7 +98,7 @@ section.panel.content(ng-controller="ConvertCtrl")
           | Make sure you are connected to the Internet and try again later.
         p.literal Before trying again, please ensure that the transaction has
           | not been executed already.
-    p: button.btn(ng-click='cancelConfirm()') &laquo; Back
+    p: button.btn.btn-default(ng-click='cancelConfirm()') &laquo; Back
 
   //- N6. Confirmed page
 

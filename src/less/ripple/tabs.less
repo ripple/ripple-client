@@ -579,14 +579,14 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
     table-layout: fixed;
 
     input.name {
-      .input-xlarge;
+      .input-lg;
     }
 
     input.address {
-      .input-xxlarge;
+      .input-lg;
 
       @media (max-width: 480px) {
-        .input-xlarge;
+        .input-lg;
       }
     }
 
@@ -742,7 +742,7 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
       overflow: hidden;
     }
 
-    .label {
+    .lbl {
       margin-top: 15px;
       font: 20px 'OpenSansRegular';
       color: #333;
@@ -750,7 +750,7 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
     }
 
     .balance {
-      height: 50px;
+      height: 90px;
       text-align: center;
       font: 36px 'OpenSansLight';
       border: 1px solid #eee;
@@ -759,7 +759,7 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
       padding: 20px;
 
       &.xrp {
-        height: 70px;
+        height: 90px;
         padding: 20px 0 0 0;
       }
 
@@ -770,7 +770,7 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
       }
     }
 
-    &.positive .label {
+    &.positive .lbl {
       background-color: #72CE9B;
     }
   }
@@ -1192,7 +1192,7 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
     width: 392px;
   }
   #send_nickname {
-    .input-xlarge;
+    .input-lg;
   }
 
   @media (max-width: 480px) {
@@ -1423,7 +1423,7 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
     span {
       font-size: 30px;
       background-color: transparent;
-      width: @gridRowWidth - @pmSingleMargin * 2;
+      width: 40px - @pmSingleMargin * 2;
       line-height: 1.2;
     }
   }
@@ -1431,7 +1431,7 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
     margin-bottom: 20px;
   }
   .btn {
-    .input-medium;
+    .input-lg;
   }
 
   @media (max-width: 767px) {

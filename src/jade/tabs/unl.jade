@@ -1,4 +1,4 @@
-section.panel.content(ng-controller="UNLCtrl")
+section.content(ng-controller="UNLCtrl")
   p.literal Your UNL should contain nodes you believe won't collude to cheat 
   table.table
     tr: td
@@ -28,10 +28,10 @@ section.panel.content(ng-controller="UNLCtrl")
             td: inline-edit(model='entry.name', mode='entry.isEditMode')
             td: inline-edit(model='entry.address', mode='entry.isEditMode')
             td.save
-              button.save.btn.btn-success.btn-small(ng-show='entry.isEditMode', ng-click='update($index)') Save
+              button.save.btn.btn-success.btn-sm(ng-show='entry.isEditMode', ng-click='update($index)') Save
             td.command
-              button.delete.btn.btn-danger.btn-small(ng-show='entry.isEditMode', ng-click='remove($index)') Delete
-              button.send.btn.btn-success.btn-small(ng-hide='entry.isEditMode') Send
+              button.delete.btn.btn-danger.btn-sm(ng-show='entry.isEditMode', ng-click='remove($index)') Delete
+              button.send.btn.btn-success.btn-sm(ng-hide='entry.isEditMode') Send
             td.action
               a(ng-click='edit($index)', ng-hide='entry.isEditMode') edit
               a(ng-click='cancel($index)', ng-show='entry.isEditMode') cancel

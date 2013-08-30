@@ -1,5 +1,5 @@
 include ../menu/advanced.jade
-section.panel.content(ng-controller="TradeCtrl")
+section.content(ng-controller="TradeCtrl")
 
   //- Disconnected
 
@@ -114,11 +114,11 @@ section.panel.content(ng-controller="TradeCtrl")
       //- 1. Order form
       .order-type(ng-class="{open: order.type}", ng-show="mode == 'trade' && account.Balance")
         .btn-group
-          button.btn(
+          button.btn.btn-default(
             type="button"
             ng-class="{'btn-info': order.type == 'buy' }"
             ng-click="order.type = 'buy'") Buy {{order.first_currency}}
-          button.btn(
+          button.btn.btn-default(
             type="button"
             ng-class="{'btn-info': order.type == 'sell' }"
             ng-click="order.type = 'sell'") Sell {{order.first_currency}}
@@ -129,7 +129,7 @@ section.panel.content(ng-controller="TradeCtrl")
               .value-field
                 label(for='order_amount', ng-show="order.type == 'sell'") Amount To Sell
                 label(for='order_amount', ng-show="order.type == 'buy'") Amount To Buy
-                .input-append
+                .input-group
                   input#order_amount(
                     name='amount', type='text'
                     ng-model='order.first', ng-change='calc_second()'
@@ -147,7 +147,7 @@ section.panel.content(ng-controller="TradeCtrl")
               .sign x
               .value-field
                 label(for='order_price') Price of Each
-                .input-append
+                .input-group
                   input#order_price(
                     name='price', type='text'
                     ng-model='order.price', ng-change='calc_second()'
@@ -165,7 +165,7 @@ section.panel.content(ng-controller="TradeCtrl")
               .sign =
               .value-field
                 label(for='order_value') Order Value
-                .input-append
+                .input-group
                   input#order_value(
                     name='value', type='text'
                     ng-model='order.second', ng-change='calc_first()'
@@ -206,7 +206,7 @@ section.panel.content(ng-controller="TradeCtrl")
             p.literal Are you sure?
             div
               p.submitsection
-                button.btn.back(type='button', ng-click='back()') &laquo; Back
+                button.btn.btn-default.back(type='button', ng-click='back()') &laquo; Back
                 button.btn.btn-success.submit(type='submit', ng-disabled='confirm_wait') Confirm
 
         //- 3. Sending
@@ -219,7 +219,7 @@ section.panel.content(ng-controller="TradeCtrl")
         group.mode-error(ng-switch-when='error')
           p.literal Sorry, an error occurred while submitting your transaction. Make sure you are connected to the Internet and try again later.
           p.literal Before trying again, please ensure that the transaction has not been executed already.
-          p: button.btn(ng-click='reset(true)') &laquo; Back
+          p: button.btn.btn-default(ng-click='reset(true)') &laquo; Back
 
         //- 5. Done
 
@@ -290,7 +290,7 @@ section.panel.content(ng-controller="TradeCtrl")
             td.amount.rpamount {{entry.first | rpamount}}
               span.currency {{entry.first | rpcurrency}}
             td.action
-              button.btn.btn-danger.btn-small(ng-click='cancel_order()') Cancel
+              button.btn.btn-danger.btn-sm(ng-click='cancel_order()') Cancel
           tr(ng-show="isEmpty(offers)")
             td(colspan="5")
               p.literal You haven&#39;t placed any orders.

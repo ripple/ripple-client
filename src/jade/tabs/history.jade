@@ -1,5 +1,5 @@
 include ../menu/wallet.jade
-section.panel.content(ng-controller="HistoryCtrl")
+section.content(ng-controller="HistoryCtrl")
 
   //- Disconnected
 
@@ -13,7 +13,7 @@ section.panel.content(ng-controller="HistoryCtrl")
 
   .unfunded(ng-show='loadState.account && !account.Balance')
     p.literal Your account history is empty
-    p: a.btn(href="#/balance") Back to balance
+    p: a.btn.btn-default(href="#/balance") Back to balance
 
   //- Connected
 
@@ -37,22 +37,22 @@ section.panel.content(ng-controller="HistoryCtrl")
         .date-filter
           span Load history for specific date range
           form(ng-submit="submitDateRangeForm()")
-            label.input-append.date
+            label.input-group.date
               span From
               input(type="text", rp-datepicker, ng-model="dateMinView", readonly)
               span.add-on
                 i.icon-calendar
-            label.input-append.date
+            label.input-group.date
               span To
               input(type="text", rp-datepicker, ng-model="dateMaxView", readonly)
               span.add-on
                 i.icon-calendar
-            button.btn.submit(type='submit') Filter
+            button.btn.btn-default.submit(type='submit') Filter
         .amount-filter
           span Minimum amount filter
           form(ng-submit="submitMinimumAmountForm()")
             input(type="text", ng-model="filters.minimumAmount")
-            button.btn.submit(type='submit') Filter
+            button.btn.btn-default.submit(type='submit') Filter
 
     .transactions
       .head

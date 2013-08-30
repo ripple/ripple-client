@@ -65,7 +65,7 @@ section.single.content(ng-controller="RegisterCtrl")
     p
       button.btn.btn-info(ng-click='mode="form"') Back
       | &nbsp;
-      button.btn(ng-click='register()') Overwrite current key
+      button.btn.btn-default(ng-click='register()') Overwrite current key
 
   group.mode-masterkeyerror(ng-show='mode=="loginerror"')
     h1 Existing account error
@@ -108,9 +108,9 @@ section.single.content(ng-controller="RegisterCtrl")
           action-button-text="Yes, show me"
           action-function="showSecret=true"
           cancel-button-text="no")
-            button.btn.btn-info.btn-small Show secret account key
+            button.btn.btn-info.btn-sm Show secret account key
       p(ng-show="showSecret==true")
-        button.btn.btn-info.btn-small(ng-click="showSecret=false") Hide secret account key
+        button.btn.btn-info.btn-sm(ng-click="showSecret=false") Hide secret account key
     p.important Have you saved your Secret Account Key somewhere safe?
     .action
       a.btn.btn-info.btn-big(href='#balance', ng-click='reset()') Yes, I saved my secret account key

@@ -4,7 +4,7 @@
 #status {
   position: absolute;
   top: 18px;
-  right: 0;
+  right: @grid-gutter-width / 2;
   width: @statusWidth;
   height: 81px;
   background-color: #fff;
@@ -171,8 +171,8 @@
 #notification {
   position: absolute;
   top: 55px;
-  right: @notifyMargin;
-  width: @statusWidth - 10px - 2*@notifyMargin;
+  right: @grid-gutter-width/2;
+  width: @statusWidth;
 
   @media (max-width: 979px) {
     top: 37px !important;

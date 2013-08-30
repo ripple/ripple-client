@@ -1,5 +1,5 @@
 include ../menu/wallet.jade
-section.panel.content(ng-controller="ContactsCtrl")
+section.content(ng-controller="ContactsCtrl")
   table.table
     thead
       tr
@@ -74,7 +74,7 @@ section.panel.content(ng-controller="ContactsCtrl")
               rp-unique-orig='entry.address'
               rp-dest, rp-dest-address, rp-dest-bitcoin
               ng-enter="update($index)")
-            button.save.btn.btn-small(
+            button.save.btn.btn-default.btn-sm(
               ng-disabled="inlineAddress.editaddress.$error.rpUnique"
               ng-disabled="inlineName.editname.$error.rpUnique"
               ng-disabled="inlineAddress.editaddress.$error.rpDest"
@@ -82,12 +82,12 @@ section.panel.content(ng-controller="ContactsCtrl")
             rp-confirm(
               action-text="Are you sure you want to delete this contact?"
               action-button-text="Delete"
-              action-button-css="btn btn-danger"
+              action-button-css="btn btn-default btn-danger"
               action-function="remove($index)"
-              cancel-button-css="btn"
+              cancel-button-css="btn btn-default"
               cancel-button-text="Cancel"
               ng-hide="showPassword==true")
-                button.delete.btn.btn-small
+                button.delete.btn.btn-default.btn-sm
             .errorGroup(rp-errors='editaddress')
               .error(rp-error-on='rpUnique') You already have this address.
               .error(rp-error-on='rpDest') Not a valid address.
@@ -104,7 +104,7 @@ section.panel.content(ng-controller="ContactsCtrl")
           b {{entry.address | rpaddressorigin}}:
           |  {{entry.address}}
         td.command
-          button.edit.btn.btn-small(ng-click='edit($index)', ng-hide='editing')
-          button.editing.btn.btn-small(ng-click='cancel($index)', ng-show='editing')
-          button.send.btn.btn-success.btn-small(ng-click='send($index)') Send
+          button.edit.btn.btn-default.btn-sm(ng-click='edit($index)', ng-hide='editing')
+          button.editing.btn.btn-default.btn-sm(ng-click='cancel($index)', ng-show='editing')
+          button.send.btn.btn-success.btn-sm(ng-click='send($index)') Send
   div(ng-hide="userBlob.data.contacts.length") You don't have any contacts yet. Click on "+" button in the top right corner to add a new contact.

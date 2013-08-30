@@ -1,5 +1,5 @@
 include ../menu/advanced.jade
-section.panel.content(ng-controller="TrustCtrl")
+section.content(ng-controller="TrustCtrl")
 
   //- Disconnected
 
@@ -15,7 +15,7 @@ section.panel.content(ng-controller="TrustCtrl")
     //- Account is unfunded
     .unfunded(ng-hide='account.Balance')
       p.literal You have to be funded before you can grant a trust
-      p: a.btn(href="#balance") Back to balance
+      p: a.btn.btn-default(href="#balance") Back to balance
 
     //- Account is funded
 
@@ -122,7 +122,7 @@ section.panel.content(ng-controller="TrustCtrl")
         | all your issuers are trustworthy.
       div
         p.submitsection
-          button.btn.back(ng-click='mode="main"') &laquo; Back
+          button.btn.btn-default.back(ng-click='mode="main"') &laquo; Back
           button.btn.btn-success.submit(type='submit', ng-click='grant_confirmed()', ng-disabled='confirm_wait') Confirm
 
     //- N3. Waiting for transaction result page
@@ -130,17 +130,17 @@ section.panel.content(ng-controller="TrustCtrl")
     group.mode-granting(ng-show='mode=="granting" && account.Balance')
       p.throbber.literal Granting is in progress
       hr
-      p: button.btn(ng-click='reset()') Stop waiting
+      p: button.btn.btn-default(ng-click='reset()') Stop waiting
 
     //- N4. Error page
 
     group.mode-error(ng-show='mode=="error" && account.Balance')
       div(ng-show="errorMessage")
         p.literal {{errorMessage}}
-        p: a.btn(href="#balance") Back to balance
+        p: a.btn.btn-default(href="#balance") Back to balance
       div(ng-hide="errorMessage")
         p.literal Sorry, an error occurred while granting. Make sure you are connected to the Internet and try again later.
-        p: button.btn(ng-click='reset()') &laquo; Back
+        p: button.btn.btn-default(ng-click='reset()') &laquo; Back
 
     //- N5. Granted page
 
