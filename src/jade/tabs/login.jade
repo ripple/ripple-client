@@ -60,7 +60,7 @@ section.single.content(ng-controller="LoginCtrl")
     div(ng-show="'trust' == $routeParams.tab")
       h1 Grant Trust
       .info
-        p.literal {{$routeParams.label}}
+        p.label {{$routeParams.label}}
         p.label you will trust
         .amount(ng-show="$routeParams.amount")
           span.number {{$routeParams.amount | rpamount:{xrp_human: true} }}
