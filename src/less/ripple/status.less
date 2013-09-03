@@ -4,13 +4,13 @@
 #status {
   position: absolute;
   top: 18px;
-  right: @grid-gutter-width / 2;
+  right: 0px;
   width: @statusWidth;
   height: 81px;
   background-color: #fff;
-  .rounded(10px);
-  .drop-shadow(0, 0, 12px, 0.20);
-  z-index: 10;
+  .rounded(5px);
+  border: 1px solid #ccc;
+  z-index: 20;
 
   @media (min-width: 768px) and (max-width: 979px) {
     .border-radius(0, 10px, 10px, 0);
@@ -130,7 +130,7 @@
   &.expand {
     // Removing the bottom right corner when the secondary currencies are
     // expanded provides a smoother transition between the box shadows.
-    .border-radius(10px, 0, 10px, 10px);
+    .border-radius(5px, 0, 5px, 5px);
 
     // Inside rounded corner
     ul.secondary::before {
@@ -142,7 +142,7 @@
       height: 20px;
       position: absolute;
       border: 10px solid #fff;
-      .rounded(20px);
+      .rounded(5px);
       clip: rect(10px, 30px, 20px, 20px);
       z-index: 20;
     }
