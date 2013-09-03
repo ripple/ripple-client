@@ -1,5 +1,5 @@
 include ../menu/wallet.jade
-section.col-xs-12.col-sm-10.content(ng-controller="BalanceCtrl")
+section.col-xs-12.col-md-10.content(ng-controller="BalanceCtrl")
 
   //- Disconnected
 
@@ -18,72 +18,94 @@ section.col-xs-12.col-sm-10.content(ng-controller="BalanceCtrl")
       .actions
         a.receive(href="#receive")
         a.nexus(href="http://www.xrpga.org/ripple-giveaways.html", target="_blank")
-    .currency-summary.positive(ng-show='account.Balance')
-      .balancebox
+
+    .row.currency-summary.positive(ng-show='account.Balance')
+      .col-xs-6.col-md-4.col-lg-3.balancebox
         .lbl XRP - Ripple
         .balance.xrp
           span(rp-tooltip="{{account.Balance | rpamount}}") {{account.Balance | rpamount:{rel_precision: 2} }}
           span(class="secondary") (reserve: {{ account.reserve | rpamount }} XRP)
-      .balancebox(ng-repeat="entry in balances", ng-hide="entry.total.is_zero()")
+      .col-xs-6.col-md-4.col-lg-3.balancebox(ng-repeat="entry in balances", ng-hide="entry.total.is_zero()")
         .lbl {{entry.total | rpcurrencyfull}}
         .balance
           span(rp-tooltip="{{entry.total | rpamount}}") {{entry.total | rpamount:{rel_precision: 0} }}
 
-    table.table.events(ng-show="account.Balance")
-      caption Activity
-      thead
-        //- Loading screen
-        tr(ng-show="tx_load_status == 'loading' && transactions.length")
-          td(colspan=2) Loading activity...
+    .row
+      table.table.events(ng-show="account.Balance")
+        caption Activity
+        thead
+          //- Loading screen
+          tr(ng-hide="loadState.transactions")
+            td(colspan=2) Loading activity...
 
-        //- Entries
-        tr(ng-show="transactions.length")
-          th.date Date
-          th.desc Event
-      tbody(ng-class="{passive: loading}")
-        tr(
-          ng-repeat="entry in transactions"
-          ng-class="entry.transaction.type"
-          rp-link-tx="entry.hash"
-          )
-          td.date {{entry.date | rpfromnow}}
-          td.desc(ng-switch on="entry.transaction.type")
-            .transaction(ng-switch-when="sent") You sent&nbsp;
-              span.address(title="{{entry.transaction.counterparty}}") {{entry.transaction.counterparty | rpcontactname}}
-              strong  {{entry.transaction.amount | rpamount}} {{entry.transaction.amount | rpcurrency}}
-              a.add(ng-hide="entry.transaction.counterparty | rponlycontactname", href="#/contact?to={{entry.transaction.counterparty}}", class="btn btn-default sign small", rp-no-propagate) +
-              include balance/effects
-            .transaction(ng-switch-when="received")
-              span.address(title="{{entry.transaction.counterparty}}") {{entry.transaction.counterparty | rpcontactname}}
-              |  sent you
-              strong  {{entry.transaction.amount | rpamount}} {{entry.transaction.amount | rpcurrency}}
-              a.add(ng-hide="entry.transaction.counterparty | rponlycontactname", href="#/contact?to={{entry.transaction.counterparty}}", class="btn btn-default sign small", rp-no-propagate) +
-              include balance/effects
-            .transaction(ng-switch-when="trusted")
-              span.address(title="{{entry.transaction.counterparty}}") {{entry.transaction.counterparty | rpcontactname}}
-              |  now trusts you for
-              strong  {{entry.transaction.amount | rpamount}} {{entry.transaction.amount | rpcurrency}}
-              a.add(ng-hide="entry.transaction.counterparty | rponlycontactname", href="#/contact?to={{entry.transaction.counterparty}}", class="btn btn-default sign small", rp-no-propagate) +
-              include balance/effects
-            .transaction(ng-switch-when="trusting") You now trust&nbsp;
-              span.address(title="{{entry.transaction.counterparty}}") {{entry.transaction.counterparty | rpcontactname}}
-              |  for&nbsp;
-              strong {{entry.transaction.amount | rpamount}} {{entry.transaction.amount | rpcurrency}}
-              a.add(ng-hide="entry.transaction.counterparty | rponlycontactname", href="#/contact?to={{entry.transaction.counterparty}}", class="btn btn-default sign small", rp-no-propagate) +
-              include balance/effects
-            .transaction(ng-switch-when="offernew") You created an offer accepting&nbsp;
-              strong {{entry.transaction.pays | rpamount}} {{entry.transaction.pays | rpcurrency}}
-              |  for&nbsp;
-              strong {{entry.transaction.gets | rpamount}} {{entry.transaction.gets | rpcurrency}}
-              include balance/effects
-            .transaction(ng-switch-when="offercancel") You cancelled an offer accepting&nbsp;
-              strong {{entry.transaction.pays | rpamount}} {{entry.transaction.pays | rpcurrency}}
-              |  for&nbsp;
-              strong {{entry.transaction.gets | rpamount}} {{entry.transaction.gets | rpcurrency}}
-              include balance/effects
-            .transaction(ng-switch-when="accountset") Account details have been changed
-            .transaction(ng-switch-default)
-              include balance/effects
+          //- Entries
+          tr(ng-show="loadState.transactions")
+            th.date Date
+            th.desc Event
+        tbody(ng-class="{passive: loading}")
+          tr(
+            ng-repeat="entry in transactions"
+            ng-class="entry.transaction.type"
+            rp-link-tx="entry.hash"
+            )
+            td.date {{entry.date | rpfromnow}}
+            td.desc(ng-switch on="entry.transaction.type")
+              .transaction(ng-switch-when="sent") You sent&nbsp;
+                span.address(title="{{entry.transaction.counterparty}}") {{entry.transaction.counterparty | rpcontactname}}
+                strong.nowrap  {{entry.transaction.amount | rpamount}} {{entry.transaction.amount | rpcurrency}}
+                a.add(ng-hide="entry.transaction.counterparty | rponlycontactname"
+                  href="#/contact?to={{entry.transaction.counterparty}}"
+                  class="btn btn-default btn-sm", rp-no-propagate, title="Add to contacts") +&nbsp;
+                  span.hidden-xs Add to contacts
+                  span.visible-xs
+                    i.icon-user
+                include balance/effects
+              .transaction(ng-switch-when="received")
+                span.address(title="{{entry.transaction.counterparty}}") {{entry.transaction.counterparty | rpcontactname}}
+                |  sent you
+                strong.nowrap  {{entry.transaction.amount | rpamount}} {{entry.transaction.amount | rpcurrency}}
+                a.add(ng-hide="entry.transaction.counterparty | rponlycontactname"
+                  href="#/contact?to={{entry.transaction.counterparty}}"
+                  class="btn btn-default btn-sm", rp-no-propagate, title="Add to contacts") +&nbsp;
+                  span.hidden-xs Add to contacts
+                  span.visible-xs
+                    i.icon-user
+                include balance/effects
+              .transaction(ng-switch-when="trusted")
+                span.address(title="{{entry.transaction.counterparty}}") {{entry.transaction.counterparty | rpcontactname}}
+                |  now trusts you for
+                strong.nowrap  {{entry.transaction.amount | rpamount}} {{entry.transaction.amount | rpcurrency}}
+                a.add(ng-hide="entry.transaction.counterparty | rponlycontactname"
+                  href="#/contact?to={{entry.transaction.counterparty}}"
+                  class="btn btn-default btn-sm", rp-no-propagate, title="Add to contacts") +&nbsp;
+                  span.hidden-xs Add to contacts
+                  span.visible-xs
+                    i.icon-user
+                include balance/effects
+              .transaction(ng-switch-when="trusting") You now trust&nbsp;
+                span.address(title="{{entry.transaction.counterparty}}") {{entry.transaction.counterparty | rpcontactname}}
+                |  for
+                strong.nowrap  {{entry.transaction.amount | rpamount}} {{entry.transaction.amount | rpcurrency}}
+                a.add(ng-hide="entry.transaction.counterparty | rponlycontactname"
+                  href="#/contact?to={{entry.transaction.counterparty}}"
+                  class="btn btn-default btn-sm", rp-no-propagate, title="Add to contacts") +&nbsp;
+                  span.hidden-xs Add to contacts
+                  span.visible-xs
+                    i.icon-user
+                include balance/effects
+              .transaction(ng-switch-when="offernew") You created an offer accepting&nbsp;
+                strong.nowrap {{entry.transaction.pays | rpamount}} {{entry.transaction.pays | rpcurrency}}
+                |  for&nbsp;
+                strong.nowrap {{entry.transaction.gets | rpamount}} {{entry.transaction.gets | rpcurrency}}
+                include balance/effects
+              .transaction(ng-switch-when="offercancel") You cancelled an offer accepting&nbsp;
+                strong.nowrap {{entry.transaction.pays | rpamount}} {{entry.transaction.pays | rpcurrency}}
+                |  for&nbsp;
+                strong.nowrap {{entry.transaction.gets | rpamount}} {{entry.transaction.gets | rpcurrency}}
+                include balance/effects
+              .transaction(ng-switch-when="accountset") Account details have been changed
+              .transaction(ng-switch-default)
+                include balance/effects
 
       tfoot
         tr

@@ -302,25 +302,22 @@
 #t-balance {
   #welcome {
     font: 18px 'OpenSansLight';
-    margin: 30px 0 0 30px;
+    margin: 10px 25px;
+    text-align: center;
 
-    .account_id {
-      font: 30px "Helvetica Neue", Helvetica, Arial, sans-serif;
-      margin-top: 0;
-    }
     .title {
       font: 18px 'OpenSansBold';
     }
 
     .actions {
-      margin: 0 0 50px;
+      margin: 40px 0 0 0;
 
       a,span {
         display: inline-block;
         width: 190px;
         height: 270px;
         background-image: url(../../img/sprite_l.png);
-        margin: 0 50px 0 0;
+        margin: 0 25px;
       }
       .bitcoin {
         background-position: -2px -263px;
@@ -334,22 +331,60 @@
     }
   }
 
-  h3 {
-    margin-top: 15px;
+  .currency-summary {
+    overflow: hidden;
+    margin-bottom: 10px;
+    padding: 0 @grid-gutter-width / 3;
+
+    .balancebox {
+      padding: 0 @grid-gutter-width / 6;
+      overflow: hidden;
+    }
+
+    .lbl {
+      font: 20px 'OpenSansRegular';
+      color: #333;
+      padding: 2px 5px;
+    }
+
+    .balance {
+      height: 90px;
+      text-align: center;
+      font: 36px 'OpenSansLight';
+      border: 1px solid #eee;
+      border-top: 0;
+      color: #666;
+      padding: 20px;
+      margin-bottom: 15px;
+
+      &.xrp {
+        height: 90px;
+        padding: 20px 0 0 0;
+      }
+
+      .secondary {
+        display: block;
+        margin: -5px 0 0 0;
+        font-size: 12px;
+      }
+    }
+
+    &.positive .lbl {
+      background-color: #72CE9B;
+    }
   }
 
   table.events {
+    caption {
+      padding: 0 0 0 @grid-gutter-width/2;
+    }
+
     .date {
       width: 25%;
       white-space: nowrap;
     }
     .desc {
       width: 75%;
-    }
-    .note {
-      display: block;
-      font-size: 12px;
-      margin: 0 0 10px;
     }
 
     tbody {
@@ -365,6 +400,52 @@
     tr {
       &:hover {
         opacity: 0.9;
+      }
+
+      th:first-child, td:first-child {
+        padding-left: @grid-gutter-width/2;
+      }
+      th:last-child, td:last-child {
+        padding-right: @grid-gutter-width/2;
+
+        @media (max-width: @screen-xs-max) {
+          padding-right: 60px;
+        }
+      }
+
+      td {
+        position: relative;
+        padding-top: 12px;
+        padding-bottom: 12px;
+      }
+
+      .btn.add {
+        position: absolute;
+        top: 50%;
+        margin-top: -14px;
+        right: 10px;
+        line-height: normal;
+
+        .hidden-xs {
+          @media (max-width: @screen-xs-max) {
+            display: none !important;
+          }
+        }
+        .hidden-xs {
+          @media (min-width: @screen-xs-max) {
+            display: inline !important;
+          }
+        }
+        .visible-xs {
+          @media (max-width: @screen-xs-max) {
+            display: inline !important;
+          }
+        }
+        .visible-xs {
+          @media (min-width: @screen-xs-max) {
+            display: none !important;
+          }
+        }
       }
     }
 
@@ -396,21 +477,6 @@
       background-color: #eee;
     }
 
-    tr td {
-      padding-top: 12px;
-      padding-bottom: 12px;
-    }
-
-    tr .btn.add {
-      display: none;
-      margin: -8px 0 -4px 10px;
-      line-height: normal;
-    }
-
-    tr:hover .btn.add {
-      display: inline-block;
-    }
-
     .effects {
       margin: 0;
       padding: 0;
@@ -424,7 +490,7 @@
 
     .spinner {
       float: right;
-      margin: 30px 20px 0 0;
+      margin: 35px 20px 0 0;
 
       .spinnerInner {
         left: 0 !important;
@@ -698,80 +764,6 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
 
     tr:hover .btn.edit {
       display: inline;
-    }
-  }
-}
-
-#t-balance {
-  .total {
-    margin-top: 25px;
-    padding-bottom: 25px;
-    border-bottom: 1px solid #f2f2f2;
-
-    .swatch {
-      float: left;
-      width: 10px;
-      height: 35px;
-      background-color: #BDE4C0;
-      margin-right: 8px;
-    }
-    .balance {
-      float: left;
-      font: 36px 'OpenSansLight';
-      line-height: 35px;
-    }
-
-    .config {
-      float: left;
-      padding: 3px 0 0 25px;
-      margin: 0;
-    }
-
-    .clearfix();
-  }
-
-  .currency-summary {
-    overflow: hidden;
-    margin-top: 20px;
-    margin-bottom: 10px;
-
-    .balancebox {
-      width: 240px;
-      float: left;
-      margin: 0 10px 0 0;
-      overflow: hidden;
-    }
-
-    .lbl {
-      margin-top: 15px;
-      font: 20px 'OpenSansRegular';
-      color: #333;
-      padding: 2px 5px;
-    }
-
-    .balance {
-      height: 90px;
-      text-align: center;
-      font: 36px 'OpenSansLight';
-      border: 1px solid #eee;
-      border-top: 0;
-      color: #666;
-      padding: 20px;
-
-      &.xrp {
-        height: 90px;
-        padding: 20px 0 0 0;
-      }
-
-      .secondary {
-        display: block;
-        margin: -5px 0 0 0;
-        font-size: 12px;
-      }
-    }
-
-    &.positive .lbl {
-      background-color: #72CE9B;
     }
   }
 }

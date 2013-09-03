@@ -11,6 +11,7 @@ nav + .content {
 }
 
 .content {
+  padding-top: @grid-gutter-width/2;
   .rounded(5px);
   background: #fff;
   min-height: 500px;
@@ -45,10 +46,6 @@ nav + .content {
 
   group {
     display: block;
-
-    &.disconnected {
-      margin: 18px 0 0 0;
-    }
   }
 
   p {
@@ -100,7 +97,7 @@ nav + .content {
       font: 16px 'OpenSansRegular';
       font-weight: normal;
       padding: 10px 5px;
-      border-bottom: 2px solid #cbcbcb;
+      border-bottom: 1px solid #cbcbcb;
       text-align: left;
     }
 
