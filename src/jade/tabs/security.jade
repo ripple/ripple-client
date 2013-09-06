@@ -37,8 +37,8 @@ section.col-xs-12.col-md-10.wide.content(ng-controller="SecurityCtrl")
           action-function="passUnmask=true"
           cancel-button-text="No"
           ng-hide="passUnmask")
-            a(ng-hide="passUnmask") Show
-        a(ng-click="passUnmask=false", ng-show="passUnmask") Hide
+            a(href="", ng-hide="passUnmask") Show
+        a(href="", ng-click="passUnmask=false", ng-show="passUnmask") Hide
   .hint(ng-show="showKeys") This gives access to your wallet. DO NOT SHARE THIS WITH ANYONE. Keep it safe. Keep it private.
 
   .title
@@ -61,8 +61,8 @@ section.col-xs-12.col-md-10.wide.content(ng-controller="SecurityCtrl")
         action-function="SecretKeyUnmask=true"
         cancel-button-text="No"
         ng-hide="SecretKeyUnmask")
-          a(ng-hide="SecretKeyUnmask") Show
-      a(ng-click="SecretKeyUnmask=false", ng-show="SecretKeyUnmask") Hide
+          a(href="", ng-hide="SecretKeyUnmask") Show
+      a(href="", ng-click="SecretKeyUnmask=false", ng-show="SecretKeyUnmask") Hide
   .hint(ng-show="showKeys") This gives access to your money. DO NOT SHARE THIS WITH ANYONE. Keep it safe. Keep it private.
 
   button.btn.btn-info.show-keys(ng-click="showKeys=true", ng-hide="showKeys") Show my keys
