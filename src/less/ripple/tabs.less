@@ -640,130 +640,25 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
 }
 
 #t-contacts {
-  table {
-    .table-striped;
-    table-layout: fixed;
+  .head {
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+    line-height: 30px;
+  }
 
-    input.name {
-      .input-lg;
-    }
+  .addForm {
+    background: #f7f7f7;
+    padding: 15px 0;
+    margin-top: -10px;
+    margin-bottom: 10px;
+  }
 
-    input.address {
-      .input-lg;
+  .contact {
+    padding: 10px 0;
 
-      @media (max-width: 480px) {
-        .input-lg;
-      }
-    }
-
-    tr {
-      position: relative;
-
-      th, td, input.inline {
-        .box-sizing(content-box);
-      }
-
-      > .name {
-        width: 27%;
-      }
-      > .account {
-        overflow: hidden;
-        text-overflow: ellipsis;
-
-        input.inline {
-          width: 280px;
-        }
-
-        label {
-          margin: 20px 0 10px 0;
-        }
-      }
-      &.editing > .account {
-        overflow: visible;
-      }
-      > .command {
-        width: 28%;
-        text-align: right;
-        white-space: nowrap;
-
-        .send {
-          margin-left: 10px;
-          padding-left: 35px;
-          padding-right: 35px;
-        }
-
-        @media (max-width: 767px) {
-          width: 33%;
-
-          .send {
-            padding-left: 10px;
-            padding-right: 10px;
-          }
-        }
-      }
-
-    // For the row-add animation to show up, the cells' background must be
-    // transparent.
-      &.rp-animate {
-        td, th {
-          background-color: transparent !important;
-        }
-      }
-    }
-
-    td input.inline {
-      width: 90%;
-      margin: 0 15px 0 -11px;
-      font-size: 14px;
-    }
-
-    .editing {
-      td {
-        vertical-align: top;
-      }
-    }
-
-    .command, .action {
-    }
-
-    .action {
-      text-align: center;
-    }
-
-    .btn:disabled {
-      background-color: #eeeeee !important;
-    }
-
-    .btn.save, .btn.edit, .btn.delete {
-      -webkit-box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
-      -moz-box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
-      box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
-
-      height: 30px;
-    }
-
-    .btn.edit {
-      background: url(../../img/sprite_l.png) -2px -13px;
-      display: none;
-    }
-    .btn.editing {
-      background: #e4e4e4 url(../../img/sprite_l.png) -2px -13px;
-      -webkit-box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.1);
-      -moz-box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.1);
-      box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.1);
-
-      height: 30px;
-    }
-    .btn.save {
-      background: url(../../img/sprite_l.png) -163px -12px;
-      margin: 0 5px 0 0;
-    }
-    .btn.delete {
-      background: url(../../img/sprite_l.png) -131px -12px;
-    }
-
-    tr:hover .btn.edit {
-      display: inline;
+    &.editing {
+      background: #f7f7f7;
     }
   }
 }

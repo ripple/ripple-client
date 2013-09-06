@@ -1,110 +1,120 @@
 include ../menu/wallet.jade
 section.col-xs-12.col-md-10.content(ng-controller="ContactsCtrl")
-  table.table
-    thead
-      tr
-        th.name Name
-        th.account Address
-        th.command
-          a.btn.btn-success.sign(ng-click='toggle_form()')
-            span(ng-hide='addform_visible') +
-            span(ng-show='addform_visible') −
-    tbody
-      tr(ng-show='addform_visible')
-        td(colspan=3)
-          form(name="addForm", id="addForm")
-            label(for='Name') Name
-            input.name#contact_name(
-              name='name', type='text', step='any', maxlength="70"
-              ng-model='contact.name'
-              rp-unique='userBlob.data.contacts'
-              rp-unique-field='name'
-              rp-autofill='$routeParams.name', rp-autofill-on='addform_visible = true'
-              required
-              rp-focus)
-            .errorGroup(rp-errors='name')
-              .error(rp-error-on='required') Please enter a name.
-              .error(rp-error-on='rpUnique')
-                | You already have a contact with the same name.
-            label(for='Address') Address
-            input.address#contact_address(
-              name='address', type='text', step='any'
-              ng-model='contact.address'
-              rp-dest, rp-dest-address, rp-dest-bitcoin
-              rp-unique='userBlob.data.contacts'
-              rp-unique-field='address'
-              rp-autofill='$routeParams.to', rp-autofill-on='addform_visible = true'
-              required)
-            .errorGroup(rp-errors='address')
-              .error(rp-error-on='required') Please enter an address.
-              .error(rp-error-on='rpUnique') You already have a contact with the same address.
-              .error(rp-error-on='rpDest') Not a valid address.
-            label(for='dt') Destination tag
-            input.name#contact_dt(
-              name='dt', type='text', step='any', placeholder="Leave blank if not applicable"
-              ng-model='contact.dt'
-              rp-stdt
-              rp-autofill='$routeParams.dt')
-            .errorGroup(rp-errors='dt')
-              .error(rp-error-on='rpStdt')
-                | Invalid destination tag
-            .submitsection
-              button.btn.btn-info.submit(type='submit', ng-click='create()', ng-disabled='addForm.$invalid') Add contact
-      tr(ng-repeat="entry in userBlob.data.contacts", ng-class="{editing: editing}", ng-controller="ContactRowCtrl", rp-animate="enable_highlight")
-        td.name
-          div(ng-show='editing')
-            ng-form(name='inlineName')
-              input(name='editname', type="text", class="inline", maxlength="70"
-                ng-model='editname'
-                rp-unique='userBlob.data.contacts'
-                rp-unique-field='name'
-                rp-unique-orig='entry.name'
-                ng-enter="update($index)")
-              .errorGroup(rp-errors='editname')
-                .error(rp-error-on='rpUnique')
-                  | You already have a contact with the same name.
-          span(ng-hide='editing') {{entry.name}}
-        td.account(ng-show='editing')
-          ng-form(name='inlineAddress')
-            input(
-              name='editaddress', type="text", class="inline"
-              ng-model='editaddress'
-              rp-unique='userBlob.data.contacts'
-              rp-unique-field='address'
-              rp-unique-orig='entry.address'
-              rp-dest, rp-dest-address, rp-dest-bitcoin
-              ng-enter="update($index)")
-            button.save.btn.btn-default.btn-sm(
-              ng-disabled="inlineAddress.editaddress.$error.rpUnique"
-              ng-disabled="inlineName.editname.$error.rpUnique"
-              ng-disabled="inlineAddress.editaddress.$error.rpDest"
-              ng-click='update($index)')
-            rp-confirm(
-              action-text="Are you sure you want to delete this contact?"
-              action-button-text="Delete"
-              action-button-css="btn btn-default btn-danger"
-              action-function="remove($index)"
-              cancel-button-css="btn btn-default"
-              cancel-button-text="Cancel"
-              ng-hide="showPassword==true")
-                button.delete.btn.btn-default.btn-sm
-            .errorGroup(rp-errors='editaddress')
-              .error(rp-error-on='rpUnique') You already have this address.
-              .error(rp-error-on='rpDest') Not a valid address.
-            label(for="contact_dt")
-              | Destination tag
-            input.dt#contact_dt(
+  .row.head.hidden-xs
+    .col-xs-3 Name
+    .col-xs-6 Address
+    .col-xs-3.text-right
+      a.btn.btn-success.sign(ng-click='toggle_form()')
+        span(ng-hide='addform_visible') + Add contact
+        span(ng-show='addform_visible') − Add contact
+  .row.head.visible-xs
+    .col-xs-12
+      a.btn.btn-success.btn-block.sign(ng-click='toggle_form()')
+        span(ng-hide='addform_visible') + Add contact
+        span(ng-show='addform_visible') − Add contact
+  .row.addForm(ng-show='addform_visible')
+    .col-xs-12.col-sm-5
+      form(name="addForm", id="addForm")
+        .formGroup
+          label(for='Name') Name
+          input.form-control.input-lg.name#name(name='name', type='text', step='any', maxlength="70"
+            ng-model='contact.name'
+            rp-unique='userBlob.data.contacts'
+            rp-unique-field='name'
+            rp-autofill='$routeParams.name', rp-autofill-on='addform_visible = true'
+            required
+            rp-focus)
+          .errorGroup(rp-errors='name')
+            .error(rp-error-on='required') Please enter a name.
+            .error(rp-error-on='rpUnique')
+              | You already have a contact with the same name.
+        .formGroup
+          label(for='Address') Address
+          input.form-control.input-lg.address#address(
+            name='address', type='text', step='any'
+            ng-model='contact.address'
+            rp-dest, rp-dest-address, rp-dest-bitcoin
+            rp-unique='userBlob.data.contacts'
+            rp-unique-field='address'
+            rp-autofill='$routeParams.to', rp-autofill-on='addform_visible = true'
+            required)
+          .errorGroup(rp-errors='address')
+            .error(rp-error-on='required') Please enter an address.
+            .error(rp-error-on='rpUnique') You already have a contact with the same address.
+            .error(rp-error-on='rpDest') Not a valid address.
+        .formGroup
+          label(for='dt') Destination tag
+          input.form-control.input-lg.dt#dt(
+            name='dt', type='text', step='any', placeholder="Leave blank if not applicable"
+            ng-model='contact.dt'
+            rp-stdt
+            rp-autofill='$routeParams.dt')
+          .errorGroup(rp-errors='dt')
+            .error(rp-error-on='rpStdt')
+              | Invalid destination tag
+        .submitsection
+          // TODO ng-click, ng-submit
+          button.btn.btn-lg.btn-success.submit(type='submit', ng-click='create()', ng-disabled='addForm.$invalid') Add contact
+  .row.contact(ng-repeat="entry in userBlob.data.contacts", ng-class="{editing: editing}", ng-controller="ContactRowCtrl", rp-animate="enable_highlight")
+    .col-xs-12.col-sm-3
+      div(ng-show='editing')
+        ng-form(name='inlineName')
+          input.form-control(name='editname', type="text", class="inline", maxlength="70"
+            ng-model='editname'
+            rp-unique='userBlob.data.contacts'
+            rp-unique-field='name'
+            rp-unique-orig='entry.name'
+            ng-enter="update($index)")
+          .errorGroup(rp-errors='editname')
+            .error(rp-error-on='rpUnique')
+              | You already have a contact with the same name.
+      span(ng-hide='editing') {{entry.name}}
+    .col-xs-12.col-sm-6
+      div(ng-show='editing')
+        ng-form(name='inlineAddress')
+          input.form-control(
+            name='editaddress', type="text", class="inline"
+            ng-model='editaddress'
+            rp-unique='userBlob.data.contacts'
+            rp-unique-field='address'
+            rp-unique-orig='entry.address'
+            rp-dest, rp-dest-address, rp-dest-bitcoin
+            ng-enter="update($index)")
+          .errorGroup(rp-errors='editaddress')
+            .error(rp-error-on='rpUnique') You already have this address.
+            .error(rp-error-on='rpDest') Not a valid address.
+          .form-group
+            label(for="contact_dt") Destination tag
+            input.form-control.dt#contact_dt(
               name='dt', type='text', step='any', class="inline", placeholder="Leave blank if not applicable"
               ng-model='editdt'
               rp-stdt
-              rp-autofill='$routeParams.dt')
+              rp-autofill='$routeParams.dt'
+              ng-enter="update($index)")
             .errorGroup(rp-errors='dt')
               .error(rp-error-on='rpStdt') Invalid destination tag.
-        td.account(ng-hide='editing')
-          b {{entry.address | rpaddressorigin}}:
-          |  {{entry.address}}
-        td.command
-          button.edit.btn.btn-default.btn-sm(ng-click='edit($index)', ng-hide='editing')
-          button.editing.btn.btn-default.btn-sm(ng-click='cancel($index)', ng-show='editing')
-          button.send.btn.btn-success.btn-sm(ng-click='send($index)') Send
+          rp-confirm(
+            action-text="Are you sure you want to delete this contact?"
+            action-button-text="Delete"
+            action-button-css="btn btn-default btn-danger"
+            action-function="remove($index)"
+            cancel-button-css="btn btn-default"
+            cancel-button-text="Cancel"
+            ng-hide="showPassword==true")
+              button.delete.btn.btn-danger.btn-sm Delete
+          | &nbsp;
+          button.save.btn.btn-success.btn-sm(
+            ng-disabled="inlineAddress.editaddress.$error.rpUnique"
+            ng-disabled="inlineName.editname.$error.rpUnique"
+            ng-disabled="inlineAddress.editaddress.$error.rpDest"
+            ng-click='update($index)') Save
+      div(ng-hide='editing')
+        b {{entry.address | rpaddressorigin}}:
+        |  {{entry.address}}
+    .col-xs-12.col-sm-3.text-right
+      button.edit.btn.btn-default.btn-sm(ng-click='edit($index)', ng-hide='editing') Edit
+      | &nbsp;
+      button.editing.btn.btn-default.btn-sm(ng-click='cancel($index)', ng-show='editing') Cancel
+      | &nbsp;
+      button.send.btn.btn-primary.btn-sm(ng-click='send($index)') Send
   div(ng-hide="userBlob.data.contacts.length") You don't have any contacts yet. Click on "+" button in the top right corner to add a new contact.
