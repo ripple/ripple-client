@@ -20,39 +20,44 @@ section.col-xs-12.col-md-10.content(ng-controller="HistoryCtrl")
   group(ng-show="connected && loadState.transactions && account.Balance")
     .filters
       .type-filter
-        label(ng-repeat="(index,obj) in types", ng-class="{active: obj.checked}")
+        label.col-xs-12.col-sm-3.col-lg-2(ng-repeat="(index,obj) in types", ng-class="{active: obj.checked}")
           i.icon-plus(ng-show="obj.checked")
           i.icon-minus(ng-hide="obj.checked")
-          span.label {{obj.name}}
+          span.name {{obj.name}}
           //span.count {{typeUsage[obj.name] || 0}}
           input(type="checkbox", name="type-filter", ng-model="obj.checked")
       .currency-filter
         label(ng-repeat="(currency,obj) in filters.currencies", ng-class="{active: obj.checked}")
           i.icon-plus(ng-show="obj.checked")
           i.icon-minus(ng-hide="obj.checked")
-          span.label {{currency}}
+          span.name {{currency}}
           //span.count {{currencyUsage[currency] || 0}}
           input(type="checkbox", name="currency-filter", ng-model="obj.checked")
-      div
-        .date-filter
+      div.row.date-amount-filters
+        .date-filter.col-xs-12.col-md-8
           span Load history for specific date range
-          form(ng-submit="submitDateRangeForm()")
-            label.input-group.date
-              span From
-              input(type="text", rp-datepicker, ng-model="dateMinView", readonly)
-              span.add-on
-                i.icon-calendar
-            label.input-group.date
-              span To
-              input(type="text", rp-datepicker, ng-model="dateMaxView", readonly)
-              span.add-on
-                i.icon-calendar
-            button.btn.btn-default.submit(type='submit') Filter
-        .amount-filter
+          form.row.form-inline(ng-submit="submitDateRangeForm()")
+            label.form-group.date.col-xs-12.col-sm-5
+              .input-group
+                .input-group-addon
+                  i.icon-calendar
+                  |  From
+                input.form-control(type="text", rp-datepicker, ng-model="dateMinView", readonly)
+            label.form-group.date.col-xs-12.col-sm-5
+              .input-group
+                .input-group-addon
+                  i.icon-calendar
+                  |  To
+                input.form-control(type="text", rp-datepicker, ng-model="dateMaxView", readonly)
+            label.form-group.date.col-xs-12.col-sm-2
+              button.btn.btn-block.btn-success.submit(type='submit') Filter
+        .amount-filter.col-sm-12.col-md-4
           span Minimum amount filter
-          form(ng-submit="submitMinimumAmountForm()")
-            input(type="text", ng-model="filters.minimumAmount")
-            button.btn.btn-default.submit(type='submit') Filter
+          form.row.form-group(ng-submit="submitMinimumAmountForm()")
+            .col-xs-8
+              input.form-control(type="text", ng-model="filters.minimumAmount")
+            .col-xs-4
+              button.btn.btn-block.btn-success.submit(type='submit') Filter
 
     .transactions
       .head

@@ -780,6 +780,113 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
 }
 
 #t-history {
+  .filters {
+    & > div {
+      display: inline-block;
+      width: 100%;
+    }
+  }
+
+  .type-filter {
+    i {
+      margin: 0 10px 0 0;
+    }
+
+    label {
+      background: #f2f2f2;
+      margin: 0 10px 10px 0;
+      padding: 8px 12px;
+      color: #333;
+      cursor: pointer;
+      text-transform: capitalize;
+      color: #000;
+
+      .count {
+        float: right;
+        margin: -8px -15px;
+        background: #f2f2f2;
+        padding: 8px 12px;
+      }
+
+      &.active {
+        background: #00AAEC;
+        color: #fff;
+
+        .count {
+          float: right;
+          margin: -8px -15px;
+          background: #009ddc;
+          padding: 8px 12px;
+        }
+      }
+
+      input {
+        display: none;
+      }
+    }
+  }
+
+  .currency-filter {
+    i {
+      margin: 0 10px 0 0;
+    }
+
+    label {
+      float: left;
+      background: #f2f2f2;
+      width: 80px;
+      margin: 0 5px 5px 0;
+      padding: 5px 7px;
+      color: #333;
+      cursor: pointer;
+      font-size: 14px;
+
+      .count {
+        float: right;
+        margin: -5px -7px;
+        background: #f2f2f2;
+        padding: 5px 7px;
+      }
+
+      &.active {
+        background: #00AAEC;
+        color: #fff;
+
+        .count {
+          float: right;
+          margin: -5px -7px;
+          background: #009ddc;
+          padding: 5px 7px;
+        }
+      }
+
+      input {
+        display: none;
+      }
+    }
+  }
+
+  .date-amount-filters {
+    & > div {
+      & > span {
+        display: block;
+        font-size: 14px;
+        padding: 10px 0;
+      }
+
+      & > .row {
+        margin-left: -@grid-gutter-width / 4;
+        margin-right: -@grid-gutter-width / 4;
+      }
+
+      [class*="col-"] {
+        padding-left: @grid-gutter-width / 4;
+        padding-right: @grid-gutter-width / 4;
+      }
+
+    }
+  }
+
   .transactions {
     margin: 20px 0 0 0;
 
@@ -1001,172 +1108,6 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
         &:hover {
           background: #f4f4f4;
         }
-      }
-    }
-  }
-
-  .filters {
-    & > div {
-      display: inline-block;
-      width: 100%;
-    }
-  }
-
-  .type-filter {
-    margin: 20px 0 0 0;
-
-    i {
-      margin: 0 10px 0 0;
-    }
-
-    label {
-      float: left;
-      background: #f2f2f2;
-      width: 150px;
-      margin: 0 10px 10px 0;
-      padding: 8px 12px;
-      color: #333;
-      cursor: pointer;
-      text-transform: capitalize;
-
-      .count {
-        float: right;
-        margin: -8px -15px;
-        background: #f2f2f2;
-        padding: 8px 12px;
-      }
-
-      &.active {
-        background: #00AAEC;
-        color: #fff;
-
-        .count {
-          float: right;
-          margin: -8px -15px;
-          background: #009ddc;
-          padding: 8px 12px;
-        }
-      }
-
-      input {
-        display: none;
-      }
-    }
-  }
-
-  .currency-filter {
-    i {
-      margin: 0 10px 0 0;
-    }
-
-    label {
-      float: left;
-      background: #f2f2f2;
-      width: 80px;
-      margin: 0 5px 5px 0;
-      padding: 5px 7px;
-      color: #333;
-      cursor: pointer;
-      font-size: 14px;
-
-      .count {
-        float: right;
-        margin: -5px -7px;
-        background: #f2f2f2;
-        padding: 5px 7px;
-      }
-
-      &.active {
-        background: #00AAEC;
-        color: #fff;
-
-        .count {
-          float: right;
-          margin: -5px -7px;
-          background: #009ddc;
-          padding: 5px 7px;
-        }
-      }
-
-      input {
-        display: none;
-      }
-    }
-  }
-
-
-  .date-filter {
-    float: left;
-    margin: 0 40px 0 0;
-
-    & > span {
-      display: block;
-      font-size: 14px;
-      padding: 10px 0;
-    }
-
-    form {
-      display: block;
-      clear: both;
-
-      .input-append {
-        float: left;
-        font-size: 14px;
-        margin: 0 10px 0 0;
-
-        span {
-          padding: 5px 5px 0 0;
-          float: left;
-        }
-
-        input {
-          width: 120px;
-          float: left;
-          padding: 5px;
-          font-size: 14px;
-        }
-
-        .add-on {
-          padding: 7px;
-          height: 16px;
-        }
-      }
-
-      button {
-        padding: 6px;
-        font-size: 13px;
-        width: 50px;
-        font-weight: normal;
-      }
-    }
-  }
-
-  .amount-filter {
-    float: left;
-
-    & > span {
-      display: block;
-      font-size: 14px;
-      padding: 10px 0;
-    }
-
-    form {
-      display: block;
-      clear: both;
-
-      input {
-        width: 120px;
-        float: left;
-        padding: 5px;
-        margin: 0 10px 0 0;
-        font-size: 14px;
-      }
-
-      button {
-        padding: 6px;
-        font-size: 13px;
-        width: 50px;
-        font-weight: normal;
       }
     }
   }
