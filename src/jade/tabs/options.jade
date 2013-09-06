@@ -1,33 +1,42 @@
 include ../menu/advanced.jade
 section.col-xs-12.col-md-10.content(ng-controller="OptionsCtrl")
-  p.literal Options
-  hr
+  .row
+    .col-xs-12 Options
+  .row
+    hr
   form(name="optionsForm", ng-submit="save()")
-    div
-      label(for="socketIp") Web Socket IP, port
-      input.socketIp(
-        name='socketIp', id="socketIp", type='text'
-        ng-model='socketIp'
-        rp-hostname)
-      input.socketPort(
-        name='socketPort', id="socketPort", type='text'
-        ng-model='socketPort'
-        rp-port-number)
-      .errorGroup
-        div(rp-errors='socketIp')
-          .error(rp-error-on='rpHostname')
-            | Socket ip or hostname is invalid.
-        div(rp-errors='socketPort')
-          .error(rp-error-on='rpPortNumber')
-            | Port number is invalid.
-      div.helperInput
-        input(type="checkbox", name="socketSsl", id="socketSsl", ng-model='socketSsl')
-        label(for="socketSsl") Web Socket ssl
-    div
-      label(for="blobIp") Blob vault URL
-      input.blobIp(
-        name='blobIp', id="blobIp", type='text'
-        ng-model='blobIp')
+    .row
+      .col-xs-12
+        label(for="socketIp") Web Socket IP, port
+    .row
+      .col-xs-8.col-sm-5.col-md-3
+        input.form-control.socketIp(
+          name='socketIp', id="socketIp", type='text'
+          ng-model='socketIp'
+          rp-hostname)
+        .errorGroup
+          div(rp-errors='socketIp')
+            .error(rp-error-on='rpHostname')
+              | Socket ip or hostname is invalid.
+          div(rp-errors='socketPort')
+            .error(rp-error-on='rpPortNumber')
+              | Port number is invalid.
+      .col-xs-4.col-sm-3.col-md-2
+        input.form-control.socketPort(
+          name='socketPort', id="socketPort", type='text'
+          ng-model='socketPort'
+          rp-port-number)
+    .row
+      .col-xs-12
+        div.helperInput
+          input(type="checkbox", name="socketSsl", id="socketSsl", ng-model='socketSsl')
+          label(for="socketSsl") Web Socket ssl
+    .row
+      .col-xs-12.col-sm-8.col-md-5
+        label(for="blobIp") Blob vault URL
+        input.form-control.blobIp(
+          name='blobIp', id="blobIp", type='text'
+          ng-model='blobIp')
     div
       p.submitsection
         button.btn.btn-success.submit(
