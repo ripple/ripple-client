@@ -15,7 +15,7 @@ section.col-xs-12.col-md-10.content(ng-controller="ContactsCtrl")
   .row.addForm(ng-show='addform_visible')
     .col-xs-12.col-sm-5
       form(name="addForm", id="addForm")
-        .formGroup
+        .form-group
           label(for='Name') Name
           input.form-control.input-lg.name#name(name='name', type='text', step='any', maxlength="70"
             ng-model='contact.name'
@@ -28,7 +28,7 @@ section.col-xs-12.col-md-10.content(ng-controller="ContactsCtrl")
             .error(rp-error-on='required') Please enter a name.
             .error(rp-error-on='rpUnique')
               | You already have a contact with the same name.
-        .formGroup
+        .form-group
           label(for='Address') Address
           input.form-control.input-lg.address#address(
             name='address', type='text', step='any'
@@ -42,7 +42,7 @@ section.col-xs-12.col-md-10.content(ng-controller="ContactsCtrl")
             .error(rp-error-on='required') Please enter an address.
             .error(rp-error-on='rpUnique') You already have a contact with the same address.
             .error(rp-error-on='rpDest') Not a valid address.
-        .formGroup
+        .form-group
           label(for='dt') Destination tag
           input.form-control.input-lg.dt#dt(
             name='dt', type='text', step='any', placeholder="Leave blank if not applicable"
