@@ -1,0 +1,7 @@
+.form-group
+  label(for='login_username') Wallet name
+  input.form-control#login_username(name='login_username', type='text', ng-model='username', required,
+  rp-focus-on-empty, rp-autofill='$routeParams.username')
+.form-group
+  label(for='login_password') Passphrase
+  input.form-control#login_password(name='login_password', type='password', ng-model='password', required, rp-focus)

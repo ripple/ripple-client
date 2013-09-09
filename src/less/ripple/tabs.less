@@ -1,18 +1,4 @@
 #t-register form, #t-login form {
-  margin-top: 25px;
-  margin-bottom: 25px;
-
-  #login_username,
-  #login_password {
-    width: 300px;
-  }
-  #register_username,
-  #register_password,
-  #register_password2,
-  #register_masterkey {
-    width: 280px;
-  }
-
   .strength {
     margin: 38px 0 0 0;
 
@@ -27,29 +13,9 @@
     }
   }
 
-  .text-status {
-    margin: -20px 0 0 0;
-  }
   .text-error {
     color: #b94a48;
     margin: -20px 0 0 0;
-  }
-
-  .horiz {
-    > div {
-      float: left;
-      margin-right: 20px;
-    }
-
-    &:after {
-      .virtualel;
-      clear: both;
-    }
-  }
-
-  .btn {
-    margin: 12px 12px 12px 0;
-    float: left;
   }
 
   .storageinfo strong {
@@ -63,45 +29,10 @@
   .storeChange {
     display: block;
   }
-
-  .submitsection {
-    .makeRow();
-    button {
-      .makeColumn(3);
-    }
-    p {
-      .makeColumn(6);
-      font-size: 20px;
-      float: left;
-      padding-left: 10px;
-      padding-top: 10px;
-      margin: 0;
-    }
-  }
-
-  .throw {
-    clear: both;
-  }
 }
 
 #t-register {
-  .mode-form {
-    margin: 0 50px;
-
-    h1 {
-      margin-left: -50px;
-      margin-right: -50px;
-    }
-  }
-
   .mode-welcome {
-    display: block;
-    margin: 0 30px;
-
-    h1 {
-      margin: 0 30px;
-    }
-
     .important {
       font: 16px 'OpenSansLight';
     }
@@ -139,19 +70,6 @@
         font-size: 25px;
       }
     }
-
-    .action {
-      margin-top: 20px;
-
-      a.btn {
-        display: inline-block;
-        margin: 0 20px 0 0;
-      }
-      span {
-        display: inline-block;
-        width: 600px;
-      }
-    }
   }
 
   .storeinfo {
@@ -167,27 +85,30 @@
   }
 }
 
-#t-login form .submitsection p {
-  font-size: 13px;
-}
-
 #t-login {
+  .row {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  .fetch {
+    display: block;
+    font-size: 12px;
+    line-height: 22px;
+  }
+
+  .text-status {
+    .backend {
+      font-size: 12px;
+      span {
+        color: red;
+      }
+    }
+  }
+
   .normal-login {
-    margin: 0 50px;
-
-    h1 {
-      margin-left: -50px;
-      margin-right: -50px;
-    }
-
-    .inputs {
-      float: left;
-      width: 350px;
-    }
     .reminder {
-      float: left;
-      width: 350px;
-      margin: 30px 0 0 0;
+      margin-top: 30px;
       border: 1px solid #c3c3c3;
       border-radius: 5px;
       box-shadow: 4px 4px 6px #b5b5b5;
@@ -197,7 +118,7 @@
         border-bottom: 1px solid #c3c3c3;
         font-size: 14px;
       }
-      .content {
+      .text {
         padding: 0 20px;
         font-size: 12px;
 
@@ -209,58 +130,30 @@
         color: #ccc;
       }
     }
-    .text-status {
-      clear: both;
-
-      .backend {
-        font-size: 12px;
-        span {
-          color: red;
-        }
-      }
-    }
-    .submitsection {
-      display: inline-block;
-      width: 100%;
-      padding: 0 0 0 20px;
-      margin: 20px 0 0 -40px;
-      background-position: left center;
-
-      .fetch {
-        font-size: 12px;
-      }
-      .storageinfo {
-        margin: 10px 0 0 0;
-
-        span a {
-          margin: 0 0 0 10px;
-        }
-      }
-    }
   }
 
   .action-login {
-    overflow: hidden;
-
-    h1 {
-      text-align: left;
-    }
-
     .info {
-      width: 380px;
-      min-height: 400px;
-      padding-bottom: 30px;
-      float: left;
+      font-family: OpenSansLight;
       border-right: 1px solid #ccc;
-      font-family: 'OpenSansLight';
+
+      @media (max-width: @screen-xs-max) {
+        border-right: none;
+      }
 
       .literal {
-        margin: 5px 0 40px;
         font-size: 20px;
       }
 
-      .label {
-        padding: 0 10px 0 0;
+      p {
+        padding-left: @grid-gutter-width/2;
+        padding-right: @grid-gutter-width/2;
+
+        @media (max-width: @screen-sm-max) and (min-width: @screen-xs-max) {
+          padding-left: 0;
+          padding-right: 0;
+        }
+
         word-break: break-all;
         font-size: 18px;
         color: #000;
@@ -268,13 +161,27 @@
 
       .amount,
       .address {
-        margin-left: -@pmSingleMargin;
+        margin-left: -@grid-gutter-width/2;
         background-color: #f4f4f4;
         margin-bottom: 30px;
+
+        padding-left: @grid-gutter-width;
+        padding-right: @grid-gutter-width;
+
+        @media (max-width: @screen-xs-max) {
+          margin-right: -@grid-gutter-width/2;
+        }
+
+        @media (max-width: @screen-sm-max) and (min-width: @screen-xs-max) {
+          padding-left: @grid-gutter-width/2;
+          padding-right: @grid-gutter-width/2;
+        }
       }
 
       .amount {
-        padding: 30px 25px 25px @pmSingleMargin;
+        padding-top: 30px;
+        padding-bottom: 25px;
+
         .number {
           font-weight: bold;
           font-size: 30px;
@@ -286,15 +193,11 @@
       }
 
       .address {
-        padding: 25px 25px 25px @pmSingleMargin;
+        padding-top: 25px;
+        padding-bottom: 25px;
         font: 18px 'OpenSansRegular';
         color: #838383;
       }
-    }
-    form {
-      margin: 0;
-      width: 400px;
-      float: right;
     }
   }
 }
@@ -586,20 +489,6 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
 
       .currency {
         font-size: 20px;
-      }
-    }
-
-    .submitsection {
-      .makeRow();
-      button.back {
-        .makeColumn(1.5);
-        padding-left: 5px;
-      }
-      button.submit {
-        .makeColumn(3);
-        @media (max-width: 480px) {
-          .makeColumn(2.5);
-        }
       }
     }
   }
@@ -1032,10 +921,6 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
       top: -30px;
     }
 
-    .submitsection {
-      margin-bottom: 30px;
-    }
-
     .send_alternatives {
       margin-bottom: 35px;
       th {
@@ -1184,20 +1069,6 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
 
       .currency {
         font-size: 20px;
-      }
-    }
-
-    .submitsection {
-      .makeRow();
-      button.back {
-        .makeColumn(1.5);
-        padding-left: 5px;
-      }
-      button.submit {
-        .makeColumn(3);
-        @media (max-width: 480px) {
-          .makeColumn(2);
-        }
       }
     }
   }
@@ -1514,10 +1385,6 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
       height: 0;
       overflow: visible;
     }
-    .submitsection {
-      clear: both;
-      margin: 10px 0 35px 0;
-    }
   }
 
   .mode-confirm {
@@ -1529,12 +1396,6 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
 
     .dest_feedback {
       font-size: 20px;
-    }
-
-    .submitsection {
-      button {
-        margin: 0 5px;
-      }
     }
   }
 
@@ -1736,20 +1597,6 @@ html.t-trade header nav ul > li.active#nav-advanced > a:after {
 
       .currency {
         font-size: 20px;
-      }
-    }
-
-    .submitsection {
-      .makeRow();
-      button.back {
-        .makeColumn(1.5);
-        padding-left: 5px;
-      }
-      button.submit {
-        .makeColumn(3);
-        @media (max-width: 480px) {
-          .makeColumn(2.5);
-        }
       }
     }
   }
