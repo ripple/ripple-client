@@ -5,35 +5,6 @@
  * Copyright 2013 Opencoin, Inc.
  */
 
-//@icon-font-path: "../../../fonts/";
-
-.makeRow() {
-  margin-left: 20px * -1;
-  .clearfix();
-}
-.makeColumn(@columns: 1, @offset: 0) {
-  float: left;
-  margin-left: (60px * @offset) + (20px * (@offset - 1)) + (20px * 2);
-  width: (60px * @columns) + (20px * (@columns - 1));
-}
-.border-radius(@topright, @bottomright, @bottomleft: 0, @topleft: 0) {
-  -webkit-border-top-right-radius: @topright;
-  -webkit-border-bottom-right-radius: @bottomright;
-  -webkit-border-bottom-left-radius: @bottomleft;
-  -webkit-border-top-left-radius: @topleft;
-  -moz-border-radius-topright: @topright;
-  -moz-border-radius-bottomright: @bottomright;
-  -moz-border-radius-bottomleft: @bottomleft;
-  -moz-border-radius-topleft: @topleft;
-  border-top-right-radius: @topright;
-  border-bottom-right-radius: @bottomright;
-  border-bottom-left-radius: @bottomleft;
-  border-top-left-radius: @topleft;
-  -moz-background-clip: padding; -webkit-background-clip: padding-box; background-clip: padding-box;
-}
-
-  // Core variables and mixins
-
 // Core variables and mixins
 @import "../bootstrap/variables.less";
 @import "../bootstrap/mixins.less";
@@ -91,6 +62,7 @@
 @import "../fontawesome/font-awesome.less";
 
 // Ripple Styles
+@import "variables.less";
 @import "utils.less";
 @import "layout.less";
 @import "buttons.less";
@@ -102,4 +74,3 @@
 @import "tabs.less";
 @import "browser-chrome.less";
 @import "browser-firefox.less";
-
