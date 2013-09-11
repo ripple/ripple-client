@@ -33,11 +33,11 @@ section.panel.content(ng-controller="BalanceCtrl")
       caption Activity
       thead
         //- Loading screen
-        tr(ng-hide="loadState.transactions")
+        tr(ng-show="tx_load_status == 'loading' && transactions.length")
           td(colspan=2) Loading activity...
 
         //- Entries
-        tr(ng-show="loadState.transactions")
+        tr(ng-show="transactions.length")
           th.date Date
           th.desc Event
       tbody(ng-class="{passive: loading}")
@@ -85,18 +85,10 @@ section.panel.content(ng-controller="BalanceCtrl")
             .transaction(ng-switch-default)
               include balance/effects
 
-      tfoot(ng-show="pages_count")
+      tfoot
         tr
-          td(colspan=2, class="pagination")
-            ul
-              li(ng-class="{disabled: !prev_page}")
-                a(ng-click="goToPage(prev_page)") &laquo;
-              li(ng-repeat="i in [1,pages_count] | rprange",ng-class="{active: current_page==i}")
-                a(ng-click="goToPage(i)", ng-hide="current_page==i") {{i}}
-                span(ng-show="current_page==i") {{i}}
-              li(ng-class="{disabled: !next_page}")
-                a(ng-click="goToPage(next_page)") &raquo;
-            span.spinner(
-              ng-show="loading"
-              rp-spinner="4",
-              )
+          td(colspan=2)
+            a(ng-click="loadMore()", ng-show="!tx_load_status && has_more") Load more
+            span(ng-show="tx_load_status == 'loading'") Loading...
+            span(ng-show="tx_load_status == 'error'") Error
+            span(ng-show="!transaction.length && !tx_load_status") No past transactions found
