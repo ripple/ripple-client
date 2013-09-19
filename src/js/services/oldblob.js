@@ -1,7 +1,7 @@
 /**
- * BLOB
+ * OLD BLOB
  *
- * The blob service manages the user's private information.
+ * The old blob service that used to manage the user's private information.
  */
 
 var webutil = require("../util/web"),
@@ -9,7 +9,7 @@ var webutil = require("../util/web"),
 
 var module = angular.module('blob', []);
 
-module.factory('rpBlob', ['$rootScope', function ($scope)
+module.factory('rpOldBlob', ['$rootScope', function ($scope)
 {
   var BlobObj = function ()
   {
