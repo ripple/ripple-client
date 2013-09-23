@@ -8,10 +8,12 @@ var util = require('util'),
     Base58Utils = require('../util/base58'),
     RippleAddress = require('../util/types').RippleAddress;
 
-var module = angular.module('id', ['blob']);
+var module = angular.module('id', ['authflow', 'blob', 'oldblob']);
 
-module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', 'rpOldBlob',
-                        function($scope, $location, $route, $routeParams, $oldblob)
+module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
+                        'rpAuthFlow', 'rpBlob', 'rpOldBlob',
+                        function($scope, $location, $route, $routeParams,
+                                 $authflow, $blob, $oldblob)
 {
   /**
    * Identity manager
@@ -242,6 +244,13 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', 'rp
 
     username = Id.normalizeUsername(username);
     password = Id.normalizePassword(password);
+
+    $authflow.exists(username, password, function (err) {
+      if (err) {
+        console.error(err.stack);
+        return;
+      }
+    });
 
     $oldblob.get(self.blobBackends, username.toLowerCase(), password, function (err, data) {
       if (err) {
