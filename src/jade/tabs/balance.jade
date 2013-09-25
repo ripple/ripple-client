@@ -88,7 +88,7 @@ section.panel.content(ng-controller="BalanceCtrl")
       tfoot
         tr
           td(colspan=2)
-            a(ng-click="loadMore()", ng-show="!tx_load_status && has_more") Load more
-            span(ng-show="tx_load_status == 'loading'") Loading...
-            span(ng-show="tx_load_status == 'error'") Error
-            span(ng-show="!transaction.length && !tx_load_status") No past transactions found
+            a(href="", ng-click="loadMore()", ng-show="!tx_load_status && has_more") Load more
+            span(ng-show="tx_load_status == 'loading'")  Loading...
+            span(ng-show="tx_load_status == 'error'")  Error
+            span(ng-show="!transactions.length && !tx_load_status")  No past transactions found
