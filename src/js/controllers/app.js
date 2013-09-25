@@ -73,9 +73,7 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
     remote.request_account_tx({
       'account': data.account,
       'ledger_index_min': -1,
-      'descending': true,
-      'limit': Options.transactions_per_page,
-      'count': true
+      'limit': Options.transactions_per_page
     })
       .on('success', handleAccountTx)
       .on('error', handleAccountTxError).request();
@@ -180,6 +178,7 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
   {
     $scope.$apply(function () {
       $scope.history_count = data.count;
+      $scope.tx_marker = data.marker;
 
       if (data.transactions) {
         data.transactions.reverse().forEach(function (e) {

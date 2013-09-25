@@ -87,14 +87,14 @@ HistoryTab.prototype.angular = function (module) {
       var completed = false;
       var history = [];
 
-      var getTx = function(offset){
-        $network.remote.request_account_tx({
-          'account': $id.account,
-          'ledger_index_min': -1,
-          'descending': true,
-          'offset': offset,
-          'limit': 200
-        })
+      var params = {
+        'account': $id.account,
+        'ledger_index_min': -1,
+        'limit': 200
+      };
+
+      var getTx = function(){
+        $network.remote.request_account_tx(params)
         .on('success', function(data) {
           if (data.transactions.length) {
             for(var i=0;i<data.transactions.length;i++) {
@@ -113,10 +113,13 @@ HistoryTab.prototype.angular = function (module) {
               if (tx) history.push(tx);
             }
 
+            params.marker = {'ledger':data.transactions[i-1].tx.inLedger,'seq':0};
+            $scope.tx_marker = params.marker;
+
             if (completed)
               callback(history);
             else
-              getTx(offset+200);
+              getTx();
           } else {
             callback(history);
           }
@@ -339,15 +342,24 @@ HistoryTab.prototype.angular = function (module) {
 
       $scope.historyState = 'loading';
 
-      $network.remote.request_account_tx({
+      var limit = 100; // TODO why 100?
+
+      var params = {
         'account': $id.account,
-        'ledger_index_max': $scope.minLedger,
-        'descending': true,
-        'offset': 0,
-        'limit': 100 // TODO why 100?
-      })
+        'ledger_index_min': -1,
+        'limit': limit,
+        'marker': $scope.tx_marker
+      };
+
+      $network.remote.request_account_tx(params)
       .on('success', function(data) {
         $scope.$apply(function () {
+          if (data.transactions.length < limit) {
+
+          }
+
+          $scope.tx_marker = data.marker;
+
           if (data.transactions) {
             var transactions = [];
 
@@ -362,7 +374,7 @@ HistoryTab.prototype.angular = function (module) {
               }
             });
 
-            var newHistory = _.uniq($scope.history.concat(transactions),true,function(ev){return ev.hash});
+            var newHistory = _.uniq($scope.history.concat(transactions),false,function(ev){return ev.hash});
 
             if ($scope.history.length === newHistory.length)
               $scope.historyState = 'full';
