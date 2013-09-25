@@ -4,6 +4,12 @@
  * Copy this file to config.js and edit to suit your preferences.
  */
 var Options = {
+  // Local domain
+  //
+  // Which domain should ripple-client consider native?
+  domain: "broteas.ripple.com",
+
+  // Rippled to connect
   server: {
     trace :         true,
     trusted:        true,
@@ -28,9 +34,11 @@ var Options = {
 
   // Configure bridges
   bridge: {
+    // Outbound bridges
     out: {
-//    "bitcoin": "localhost:3000"
-//    "bitcoin": "https://www.bitstamp.net/ripple/bridge/out/bitcoin/"
+      // Bitcoin outbound bridge
+//    'bitcoin': 'localhost:3000'
+//    'bitcoin': 'https://www.bitstamp.net/ripple/bridge/out/bitcoin/'
     }
   },
 

@@ -9,16 +9,45 @@ var webutil = require("../util/web"),
 
 var module = angular.module('authflow', ['authinfo', 'kdf']);
 
-module.factory('rpAuthFlow', ['$rootScope', 'rpAuthInfo', 'rpKdf', function
-                              ($scope, $authinfo, $kdf)
+module.factory('rpAuthFlow', ['$rootScope', 'rpAuthInfo', 'rpKdf', 'rpBlob',
+                              function ($scope, $authinfo, $kdf, $blob)
 {
   var AuthFlow = {};
 
   AuthFlow.exists = function (username, password, callback) {
+    AuthFlow.getLoginKeys(username, password, function (err, keys) {
+      if (err) {
+        callback(err);
+        return;
+      }
+
+      $blob.get(keys.id, callback);
+    });
+  };
+
+  AuthFlow.login = function (username, password, callback) {
+    AuthFlow.getLoginKeys(username, password, function (err, keys) {
+      if (err) {
+        callback(err);
+        return;
+      }
+
+      $blob.init(keys.id, keys.crypt, function (err, blob) {
+
+      });
+    });
+  };
+
+  function keyHash(key, token) {
+    var hmac = new sjcl.misc.hmac(key, sjcl.hash.sha512);
+    return sjcl.codec.hex.fromBits(sjcl.bitArray.bitSlice(hmac.encrypt(token), 0, 512));
+  }
+
+  AuthFlow.getLoginKeys = function (username, password, callback) {
     getAuthInfo();
 
     function getAuthInfo() {
-      $authinfo.get(username, deriveLoginKey);
+      $authinfo.get(Options.domain, username, deriveLoginKey);
     }
 
     function deriveLoginKey(err, authInfo) {
@@ -33,10 +62,14 @@ module.factory('rpAuthFlow', ['$rootScope', 'rpAuthInfo', 'rpKdf', function
             return;
           }
 
-          console.log(key);
+          callback(null, {
+            id: keyHash(key, "id"),
+            crypt: keyHash(key, "crypt"),
+            info: authInfo
+          });
         });
-      } catch (err) {
-        callback(err);
+      } catch (cerr) {
+        callback(cerr);
       }
     }
   };

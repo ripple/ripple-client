@@ -226,11 +226,17 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
     username = Id.normalizeUsername(username);
     password = Id.normalizePassword(password);
 
-    $oldblob.get(self.blobBackends, username.toLowerCase(), password, function (err, data) {
+    $authflow.exists(username.toLowerCase(), password, function (err, data) {
       if (!err && data) {
         callback(null, true);
       } else {
-        callback(null, false);
+        $oldblob.get(self.blobBackends, username.toLowerCase(), password, function (err, data) {
+          if (!err && data) {
+            callback(null, true);
+          } else {
+            callback(null, false);
+          }
+        });
       }
     });
   };
