@@ -99,7 +99,14 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
     meta: {},
     recess: {
-      dist: {
+      web: {
+        src: ['src/less/ripple/web.less'],
+        dest: 'build/dist/ripple-web.css',
+        options: {
+          compile: true
+        }
+      },
+      desktop: {
         src: ['src/less/ripple/desktop.less'],
         dest: 'build/dist/ripple-desktop.css',
         options: {
@@ -222,6 +229,28 @@ module.exports = function(grunt) {
             VERSION: "<%= meta.version %>"
           }
         }
+      },
+      desktop: {
+        src: 'index.html',
+        dest: 'build/dist/index_desktop.html',
+        options: {
+          context: {
+            MODE_RELEASE: true,
+            TARGET_DESKTOP: true,
+            VERSION: "<%= meta.version %>"
+          }
+        }
+      },
+      desktop_debug: {
+        src: 'index.html',
+        dest: 'build/dist/index_desktop_debug.html',
+        options: {
+          context: {
+            MODE_DEBUG: true,
+            TARGET_DESKTOP: true,
+            VERSION: "<%= meta.version %>"
+          }
+        }
       }
     },
     copy: {
@@ -241,11 +270,11 @@ module.exports = function(grunt) {
         files: [
           {expand: true, src: ['build/dist/*.js'], dest: 'build/bundle/nw-linux'},
           {expand: true, src: ['build/dist/*.css'], dest: 'build/bundle/nw-linux'},
-          {expand: true, src: ['build/dist/*.html'], dest: 'build/bundle/nw-linux', flatten: true},
           {expand: true, src: ['fonts/*'], dest: 'build/bundle/nw-linux'},
           {expand: true, src: ['img/*'], dest: 'build/bundle/nw-linux'},
           {expand: true, src: ['deps/js/modernizr*.js'], dest: 'build/bundle/nw-linux'},
           {expand: true, src: ['deps/js/mixpanel.js'], dest: 'build/bundle/nw-linux'},
+          {src: 'build/dist/index_desktop.html', dest: 'build/bundle/nw-linux/index.html'},
           {src: 'res/nw/package_linux.json', dest: 'build/bundle/nw-linux/package.json'},
           {src: 'config-example.js', dest: 'build/bundle/nw-linux/config-example.js'}
         ]
@@ -254,11 +283,11 @@ module.exports = function(grunt) {
         files: [
           {expand: true, src: ['build/dist/*.js'], dest: 'build/bundle/nw-linux-debug'},
           {expand: true, src: ['build/dist/*.css'], dest: 'build/bundle/nw-linux-debug'},
-          {expand: true, src: ['build/dist/*.html'], dest: 'build/bundle/nw-linux-debug', flatten: true},
           {expand: true, src: ['fonts/*'], dest: 'build/bundle/nw-linux-debug'},
           {expand: true, src: ['img/*'], dest: 'build/bundle/nw-linux-debug'},
           {expand: true, src: ['deps/js/modernizr*.js'], dest: 'build/bundle/nw-linux-debug'},
           {expand: true, src: ['deps/js/mixpanel.js'], dest: 'build/bundle/nw-linux-debug'},
+          {src: 'build/dist/index_desktop_debug.html', dest: 'build/bundle/nw-linux-debug/index.html'},
           {src: 'res/nw/package_linux_debug.json', dest: 'build/bundle/nw-linux-debug/package.json'},
           {src: 'config-example.js', dest: 'build/bundle/nw-linux-debug/config-example.js'}
         ]
