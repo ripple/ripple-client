@@ -13,7 +13,7 @@ require('../directives/directives');
 require('../directives/datalinks');
 require('../filters/filters');
 require('../services/id');
-require('../services/blob');
+require('../services/oldblob');
 require('../services/network');
 require('../services/books');
 require('../services/transactions');

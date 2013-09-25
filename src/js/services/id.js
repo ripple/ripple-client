@@ -10,8 +10,8 @@ var util = require('util'),
 
 var module = angular.module('id', ['blob']);
 
-module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', 'rpBlob',
-                        function($scope, $location, $route, $routeParams, $blob)
+module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', 'rpOldBlob',
+                        function($scope, $location, $route, $routeParams, $oldblob)
 {
   /**
    * Identity manager
@@ -102,7 +102,7 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', 'rp
       $scope.$broadcast('$blobUpdate');
 
       if (self.username && self.password) {
-        $blob.set(self.blobBackends,
+        $oldblob.set(self.blobBackends,
                   self.username.toLowerCase(), self.password,
                   $scope.userBlob,function(){
                     $scope.$broadcast('$blobSave');
@@ -204,7 +204,7 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', 'rp
     };
 
     // Add user to blob
-    $blob.set(self.blobBackends, username.toLowerCase(), password, data, function () {
+    $oldblob.set(self.blobBackends, username.toLowerCase(), password, data, function () {
       $scope.userBlob = data;
       self.setUsername(username);
       self.setPassword(password);
@@ -224,7 +224,7 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', 'rp
     username = Id.normalizeUsername(username);
     password = Id.normalizePassword(password);
 
-    $blob.get(self.blobBackends, username.toLowerCase(), password, function (err, data) {
+    $oldblob.get(self.blobBackends, username.toLowerCase(), password, function (err, data) {
       if (!err && data) {
         callback(null, true);
       } else {
@@ -243,13 +243,13 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', 'rp
     username = Id.normalizeUsername(username);
     password = Id.normalizePassword(password);
 
-    $blob.get(self.blobBackends, username.toLowerCase(), password, function (err, data) {
+    $oldblob.get(self.blobBackends, username.toLowerCase(), password, function (err, data) {
       if (err) {
         callback(err);
         return;
       }
 
-      var blob = $blob.decrypt(username.toLowerCase(), password, data);
+      var blob = $oldblob.decrypt(username.toLowerCase(), password, data);
       if (!blob) {
         // Unable to decrypt blob
         var msg = 'Unable to decrypt blob (Username / Password is wrong)';
@@ -295,7 +295,8 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', 'rp
     // reload will not work, as some pages are also available for guests.
     // Logout will show the same page instead of showing login page.
     // This line redirects user to root (login) page
-    location.href = location.protocol + '//' + location.hostname + location.pathname;
+    var port = location.port.length > 0 ? ":" + location.port : "";
+    location.href = location.protocol + '//' + location.hostname  + port + location.pathname;
   };
 
   /**

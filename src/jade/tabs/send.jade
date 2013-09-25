@@ -55,39 +55,25 @@ section#t-send.single.content(ng-controller='SendCtrl')
         .error(rp-error-on='rpStdt')
           | Invalid destination tag
     label(for='send_amount') Recipient will receive
-    .amount(ng-if="!send.currency_force")
+    .amount(ng-class="{'input-append': send.currency_force}")
       input.value#send_amount(
         name='send_amount', type='text'
         ng-model='send.amount'
         required
         rp-autofill='$routeParams.amount'
         rp-autofill-amount
-        rp-max-amount
-        rp-max-amount-currency='{{send.currency}}'
         rp-amount
         rp-amount-positive
         rp-amount-xrp-limit
         rp-amount-xrp-limit-currency='{{send.currency}}')
-      input.currency#send_amount_currency(
-        name='send_amount_currency', type='text'
-        rp-combobox="{{send.currency_choices}}", rp-combobox-select
-        ng-model='send.currency'
-        rp-autofill='$routeParams.amount'
-        rp-autofill-currency)
-    .input-append(ng-if="send.currency_force")
-      input.value#send_amount(
-        name='send_amount', type='text'
-        ng-model='send.amount'
-        required
-        rp-autofill='$routeParams.amount'
-        rp-autofill-amount
-        rp-max-amount
-        rp-max-amount-currency='{{send.currency}}'
-        rp-amount
-        rp-amount-positive
-        rp-amount-xrp-limit
-        rp-amount-xrp-limit-currency='{{send.currency}}')
-      span.add-on(ng-bind="send.currency_force")
+      span(ng-if="!send.currency_force")
+        input.currency#send_amount_currency(
+          name='send_amount_currency', type='text'
+          rp-combobox="{{send.currency_choices}}", rp-combobox-select
+          ng-model='send.currency'
+          rp-autofill='$routeParams.amount'
+          rp-autofill-currency)
+      span.add-on(ng-if="send.currency_force", ng-bind="send.currency_force")
     .errorGroup(rp-errors='send_amount')
       .error(rp-error-on='required')
         | Please enter an amount.
@@ -95,12 +81,12 @@ section#t-send.single.content(ng-controller='SendCtrl')
         | Not a valid amount.
       .error(rp-error-on='rpAmountPositive')
         | Amount must be greater than zero.
-      .error(rp-error-on='rpMaxAmount')
+      .error(ng-show="send.sender_insufficient_xrp && sendForm.send_amount.$valid")
         | This transaction exceeds your balance, you can send a max. of {{account.max_spend | rpamount:{rel_precision: 0} }} XRP
       .error(ng-show="disallowXrp") Recipient does not allow XRP payments. Are you sure you want to send XRP anyway?
       .notice(ng-show="send.trust_limit") {{send.recipient | rpcontactname}} trusts you for {{send.trust_limit | rpamount}} {{send.trust_limit | rpcurrency}}.
     .submitsection(ng-show="send.currency_code == 'XRP'")
-      button.btn.btn-success.submit(type='submit', ng-disabled='sendForm.$invalid || send.self || !send.recipient_resolved') Send XRP
+      button.btn.btn-success.submit(type='submit', ng-disabled='sendForm.$invalid || send.self || !send.recipient_resolved || send.sender_insufficient_xrp') Send XRP
     p.literal(ng-show="send.fund_status == 'insufficient-xrp'") Destination account is unfunded; send at least {{send.xrp_deficiency | rpamount}} XRP to initialize it.&nbsp;
       a(href="https://ripple.com/wiki/Reserves", target="_blank") More information
     p.literal(ng-show="send.path_status == 'waiting'") Please enter the transaction details.

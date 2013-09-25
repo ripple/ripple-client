@@ -24,6 +24,21 @@ TrustTab.prototype.angular = function (module)
                                   function ($scope, $timeout, $routeParams, $id, $filter, $network)
   {
     if (!$id.loginStatus) return $id.goId();
+
+    // Trust line sorting
+    $scope.sorting = {
+      predicate: 'balance',
+      reverse: true,
+      sort: function(line){
+        return $scope.sorting.predicate == 'currency' ? line.currency : line.balance.to_number();
+      }
+    };
+
+    // orderBy filter works with arrays
+    $scope.$watch('lines', function(lines){
+      $scope.linesArray = _.toArray(lines);
+    }, true);
+
     $scope.validation_pattern = /^0*(([1-9][0-9]*.?[0-9]*)|(.0*[1-9][0-9]*))$/; //Don't allow zero for new trust lines.
     $scope.reset = function () {
       $scope.mode = 'main';
@@ -145,40 +160,40 @@ TrustTab.prototype.angular = function (module)
 
       var tx = $network.remote.transaction();
       tx
-          .ripple_line_set($id.account, amount)
-          .on('success', function(res){
-            $scope.$apply(function () {
-              setEngineStatus(res, false);
-              $scope.granted(tx.hash);
+        .ripple_line_set($id.account, amount)
+        .on('success', function(res){
+          $scope.$apply(function () {
+            setEngineStatus(res, false);
+            $scope.granted(tx.hash);
 
-              // Remember currency and increase order
-              var found;
+            // Remember currency and increase order
+            var found;
 
-              for (var i = 0; i < $scope.currencies_all.length; i++) {
-                if ($scope.currencies_all[i].value.toLowerCase() == currency.toLowerCase()) {
-                  $scope.currencies_all[i].order++;
-                  found = true;
-                  break;
-                }
+            for (var i = 0; i < $scope.currencies_all.length; i++) {
+              if ($scope.currencies_all[i].value.toLowerCase() == currency.toLowerCase()) {
+                $scope.currencies_all[i].order++;
+                found = true;
+                break;
               }
+            }
 
-              if (!found) {
-                $scope.currencies_all.push({
-                  "name": currency,
-                  "value": currency,
-                  "order": 1
-                });
-              }
-            });
-          })
-          .on('error', function(){
-            setImmediate(function () {
-              $scope.$apply(function () {
-                $scope.mode = "error";
+            if (!found) {
+              $scope.currencies_all.push({
+                "name": currency,
+                "value": currency,
+                "order": 1
               });
+            }
+          });
+        })
+        .on('error', function(){
+          setImmediate(function () {
+            $scope.$apply(function () {
+              $scope.mode = "error";
             });
-          })
-          .submit()
+          });
+        })
+        .submit()
       ;
 
       $scope.mode = "granting";
@@ -204,6 +219,7 @@ TrustTab.prototype.angular = function (module)
     function setEngineStatus(res, accepted) {
       $scope.engine_result = res.engine_result;
       $scope.engine_result_message = res.engine_result_message;
+
       switch (res.engine_result.slice(0, 3)) {
         case 'tes':
           $scope.tx_result = accepted ? "cleared" : "pending";

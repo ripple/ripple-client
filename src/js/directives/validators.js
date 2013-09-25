@@ -54,7 +54,7 @@ module.directive('rpMasterKey', function () {
  * will succeed.
  */
 module.directive('rpDest', function () {
-  var emailRegex = /^\S+@\S+\.\S+$/;
+  var emailRegex = /^\S+@\S+\.[^\s.]+$/;
   return {
     restrict: 'A',
     require: '?ngModel',
@@ -428,56 +428,6 @@ module.directive('rpStrongPassword', function () {
   };
 });
 
-/**
- * Maximum amount of money user can send
- */
-module.directive('rpMaxAmount', function () {
-  return {
-    restrict: 'A',
-    require: '?ngModel',
-    link: function (scope, elm, attr, ctrl) {
-      if (!ctrl) return;
-
-      var validator = function(value) {
-        var input = Amount.from_human(+value);
-
-        var currency = attr.rpMaxAmountCurrency ? attr.rpMaxAmountCurrency.slice(0, 3).toUpperCase() : 'XRP';
-
-        // Check for XRP only
-        if (currency != 'XRP') {
-          ctrl.$setValidity('rpMaxAmount', true);
-          return value;
-        }
-
-        if (input.is_valid()
-            && scope.account.max_spend
-            && scope.account.max_spend.to_number() > 1
-            && scope.account.max_spend.compareTo(input) >= 0) {
-          ctrl.$setValidity('rpMaxAmount', true);
-          return value;
-        } else {
-          ctrl.$setValidity('rpMaxAmount', false);
-          return value;
-        }
-      };
-
-      ctrl.$formatters.push(validator);
-      ctrl.$parsers.unshift(validator);
-
-      scope.$watch('account.max_spend', function () {
-        validator(ctrl.$viewValue);
-      }, true);
-
-      attr.$observe('rpMaxAmount', function() {
-        validator(ctrl.$viewValue);
-      });
-
-      attr.$observe('rpMaxAmountCurrency', function() {
-        validator(ctrl.$viewValue);
-      });
-    }
-  };
-});
 
 /**
  * Amount validator

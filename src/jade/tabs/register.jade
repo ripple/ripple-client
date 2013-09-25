@@ -1,7 +1,7 @@
 section.single.content(ng-controller="RegisterCtrl")
   .mode-form(ng-show='mode=="form"')
     h1 Create a ripple Wallet
-    p.literal Ripple is an open source p2p payment network — a fast, easy way to send any kind of money to
+    p.literal Ripple is a global open payments system — a fast, easy way to send any kind of money to
       | anyone in the world.
     p.literal.hint
       | Your Wallet is only as safe as your Wallet Name and Passphrase, used to encrypt your Wallet data.
@@ -97,6 +97,8 @@ section.single.content(ng-controller="RegisterCtrl")
             a Show
         a(ng-click="showPassword=false", ng-show="showPassword==true") Hide
     .secret
+      p.important Ripple Address
+      p.key {{address}}
       p.important Secret Account key:
       p.key(ng-show="showSecret==true") {{keyOpen}}
       p.key(ng-hide="showSecret==true") {{key}}

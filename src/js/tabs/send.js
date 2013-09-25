@@ -64,14 +64,10 @@ SendTab.prototype.angular = function (module)
     }, true);
 
     var destUpdateTimeout;
-    $scope.update_destination = function () {
+
+    // Reset everything that depends on the destination
+    $scope.reset_destination_deps = function() {
       var send = $scope.send;
-      var recipient = send.recipient_address;
-
-      if (recipient === send.last_recipient) return;
-      send.last_recipient = recipient;
-
-      // Reset
       send.self = false;
       send.bitcoin = false;
       send.email = false;
@@ -82,6 +78,18 @@ SendTab.prototype.angular = function (module)
 
       // Now starting to work on resolving the recipient
       send.recipient_resolved = false;
+
+      $scope.reset_currency_deps();
+    };
+
+    $scope.update_destination = function () {
+      var send = $scope.send;
+      var recipient = send.recipient_address;
+
+      if (recipient === send.last_recipient) return;
+      send.last_recipient = recipient;
+
+      $scope.reset_destination_deps();
 
       // Trying to send XRP to self
       send.self = recipient === $scope.address && $scope.send.amount;
@@ -212,6 +220,7 @@ SendTab.prototype.angular = function (module)
       }
     };
 
+
     /**
      * Update any constraints on what currencies the user can select.
      *
@@ -271,12 +280,23 @@ SendTab.prototype.angular = function (module)
       $scope.update_currency();
     };
 
+
+    // Reset anything that depends on the currency 
+    $scope.reset_currency_deps = function () {
+      
+      // XXX Reset
+
+
+
+      $scope.reset_amount_deps();
+    };
+
     $scope.update_currency = function () {
       var send = $scope.send;
       var recipient = send.recipient_actual || send.recipient_address;
       var currency = send.currency;
 
-      // XXX Reset
+      $scope.reset_currency_deps();
 
       if (!ripple.UInt160.is_valid(recipient)) {
         return;
@@ -290,6 +310,14 @@ SendTab.prototype.angular = function (module)
     };
 
     var pathUpdateTimeout;
+
+    $scope.reset_amount_deps = function () {
+      var send = $scope.send;
+      send.sender_insufficient_xrp = false;
+
+      $scope.reset_paths();
+    };
+
     $scope.update_amount = function () {
       var send = $scope.send;
       var recipient = send.recipient_actual || send.recipient_address;
@@ -298,7 +326,7 @@ SendTab.prototype.angular = function (module)
 
       var amount = send.amount_feedback = Amount.from_human(formatted);
 
-      $scope.reset_paths();
+      $scope.reset_amount_deps();
       send.path_status = 'waiting';
 
       // If there is a timeout in progress, we want to cancel it, since the
@@ -330,6 +358,17 @@ SendTab.prototype.angular = function (module)
         // If we don't have recipient info yet, then don't search for paths
         if (!send.recipient_info) {
           return;
+        }
+
+        // Cannot make XRP payment if the sender does not have enough XRP
+        if (send.amount_feedback.is_native()
+            && $scope.account.max_spend
+            && $scope.account.max_spend.to_number() > 1
+            && $scope.account.max_spend.compareTo(send.amount_feedback) < 0) {
+
+          send.sender_insufficient_xrp = true;          
+        } else {
+          send.sender_insufficient_xrp = false;
         }
 
         var total = send.amount_feedback.add(send.recipient_info.Balance);
@@ -422,6 +461,7 @@ SendTab.prototype.angular = function (module)
       var amount = send.amount_actual || send.amount_feedback;
 
       var modified = send.last_am_recipient !== recipient ||
+        !send.last_amount ||
         !send.last_amount.is_valid() ||
         !amount.is_valid() ||
         !amount.equals(send.last_amount);
@@ -532,6 +572,10 @@ SendTab.prototype.angular = function (module)
       $scope.source_currency_query = webutil.queryFromArray(currencies);
     }, true);
 
+    $scope.$watch('account.max_spend', function () {
+      $scope.update_amount();
+    }, true);
+
     $scope.reset = function () {
       $scope.mode = "form";
 
@@ -549,7 +593,8 @@ SendTab.prototype.angular = function (module)
         currency_choices: $scope.currencies_all,
         currency_code: "XRP",
         path_status: 'waiting',
-        fund_status: 'none'
+        fund_status: 'none',
+        sender_insufficient_xrp: false
       };
       $scope.nickname = '';
       $scope.error_type = '';
