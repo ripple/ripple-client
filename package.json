@@ -1,6 +1,6 @@
 {
   "name": "ripple-client",
-  "version": "0.2.32",
+  "version": "0.2.33",
   "description": "Client for the Ripple payment network",
   "author": {
     "name": "OpenCoin, Inc.",
