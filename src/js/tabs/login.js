@@ -54,15 +54,7 @@ LoginTab.prototype.angular = function (module) {
       $scope.backendMessages.push({'backend': err.backend, 'message': err.message});
     });
 
-    $scope.submitForm = function()
-    {
-      if ($scope.ajax_loading) return;
-
-      $scope.backendMessages = [];
-
-      // Issue #36: Password managers may change the form values without
-      // triggering the events Angular.js listens for. So we simply force
-      // an update of Angular's model when the form is submitted.
+    var updateFormFields = function(){
       var username;
       var password;
 
@@ -80,6 +72,32 @@ LoginTab.prototype.angular = function (module) {
 
       $scope.loginForm.login_username.$setViewValue(username);
       $scope.loginForm.login_password.$setViewValue(password);
+    };
+
+    // Issues #1024, #1060
+    $scope.$watch('username',function(){
+      $timeout(function(){
+        $scope.$apply(function () {
+         updateFormFields();
+        })
+      }, 50);
+    });
+
+    // Ok, now try to remove this line and then go write "a" for wallet name, and "a" for passphrase.
+    // "Open wallet" is still disabled hah? no worries, just enter anything else and it will be activated.
+    // Probably this is an AngularJS issue. Had no time to check it yet.
+    $scope.$watch('password');
+
+    $scope.submitForm = function()
+    {
+      if ($scope.ajax_loading) return;
+
+      $scope.backendMessages = [];
+
+      // Issue #36: Password managers may change the form values without
+      // triggering the events Angular.js listens for. So we simply force
+      // an update of Angular's model when the form is submitted.
+      updateFormFields();
 
       setImmediate(function () {
         $id.login($scope.username, $scope.password, function (err, blob) {
