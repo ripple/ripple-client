@@ -53,7 +53,13 @@ TrustTab.prototype.angular = function (module)
 
       // If all the form fields are prefilled, go to confirmation page
       if ($routeParams.to && $routeParams.amount) {
-        $scope.grant();
+        // At this stage "counterparty_address" may be empty. Wait for it...
+        var watcher = $scope.$watch('counterparty_address', function(address){
+          if (address) {
+            $scope.grant();
+            watcher();
+          }
+        })
       }
     };
 
