@@ -657,7 +657,7 @@ SendTab.prototype.angular = function (module)
 
       if (!$scope.send.bitcoin) {
         // Destination tag
-        tx.destination_tag(dt);
+        tx.destination_tag(+dt);
 
         tx.payment($id.account, addr, amount.to_json());
       } else {
