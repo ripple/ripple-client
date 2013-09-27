@@ -161,7 +161,7 @@ TrustTab.prototype.angular = function (module)
       var tx = $network.remote.transaction();
       tx
         .ripple_line_set($id.account, amount)
-        .on('success', function(res){
+        .on('proposed', function(res){
           $scope.$apply(function () {
             setEngineStatus(res, false);
             $scope.granted(tx.hash);
