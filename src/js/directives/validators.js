@@ -428,19 +428,6 @@ module.directive('rpStrongPassword', function () {
   };
 });
 
-
-/**
- * Amount validator
- */
-function parseAmount(value) {
-  // replace commas with dots
-  if (value && value.toString().indexOf(",") != -1) {
-    value = value.split(",").join(".");
-  }
-
-  return parseFloat(value);
-}
-
 module.directive('rpAmount', function () {
   return {
     restrict: 'A',
@@ -449,7 +436,11 @@ module.directive('rpAmount', function () {
       if (!ctrl) return;
 
       var validator = function(value) {
-        var parsedValue = parseAmount(value);
+        if (value && value.toString().indexOf(",") != -1) {
+          value = value.split(",").join("");
+        }
+
+        var parsedValue = parseFloat(value);
 
         // check for valid amount
         ctrl.$setValidity('rpAmount', parsedValue == value);
@@ -470,13 +461,12 @@ module.directive('rpAmountPositive', function () {
     link: function (scope, elm, attr, ctrl) {
       if (!ctrl) return;
 
+      // We don't use parseAmount here, assuming that you also use rpAmount validator
       var validator = function(value) {
-        var parsedValue = parseAmount(value);
-
         // check for positive amount
-        ctrl.$setValidity('rpAmountPositive', parsedValue > 0);
+        ctrl.$setValidity('rpAmountPositive', value > 0);
 
-        return parsedValue;
+        return value;
       };
 
       ctrl.$formatters.push(validator);
@@ -492,20 +482,19 @@ module.directive('rpAmountXrpLimit', function () {
     link: function (scope, elm, attr, ctrl) {
       if (!ctrl) return;
 
+      // We don't use parseAmount here, assuming that you also use rpAmount validator
       var validator = function(value) {
-        var parsedValue = parseAmount(value);
-
         var currency = attr.rpAmountXrpLimitCurrency;
 
         // If XRP, ensure amount is less than 100 billion
         if (currency &&
             currency.toLowerCase() === 'xrp') {
-          ctrl.$setValidity('rpAmountXrpLimit', parsedValue <= 100000000000);
+          ctrl.$setValidity('rpAmountXrpLimit', value <= 100000000000);
         } else {
           ctrl.$setValidity('rpAmountXrpLimit', true);
         }
 
-        return parsedValue;
+        return value;
       };
 
       ctrl.$formatters.push(validator);
