@@ -161,8 +161,7 @@ section#t-send.single.content(ng-controller='SendCtrl')
       group(ng-switch-default)
         p.literal Sorry, an error occurred while submitting your transaction.
           | Make sure you are connected to the Internet and try again later.
-        p.literal Before trying again, please ensure that the transaction has
-          | not been executed already.
+        p.literal Please ensure you don't send your payment more than once.
     p: button.btn(ng-click='cancelConfirm()') &laquo; Back
 
   //- N6. Sent page
