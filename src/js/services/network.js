@@ -6,8 +6,6 @@
  * It encapsulates a ripple.Remote instance.
  */
 
-var util = require('util');
-
 var module = angular.module('network', []);
 
 module.factory('rpNetwork', ['$rootScope', function($scope)
