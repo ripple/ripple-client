@@ -61,7 +61,7 @@ section.panel.content(ng-controller="ConvertCtrl")
     p.literal You are converting
     p.amount_feedback
       span.value {{convert.alt.amount | rpamount}}&nbsp;
-      span.currency {{convert.currency | rpcurrency}}
+      span.currency {{convert.alt.amount | rpcurrency}}
     p.literal to
     p.amount_feedback
       span.value {{convert.amount_feedback | rpamount}}&nbsp;
