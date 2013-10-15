@@ -149,7 +149,7 @@ module.directive('rpNotMe', function () {
         var contact = webutil.getContact(scope.userBlob.data.contacts,value);
 
         if (value) {
-          if ((contact && contact.address == scope.userBlob.data.account_id) || scope.userBlob.data.account_id == value) {
+          if ((contact && contact.address === scope.userBlob.data.account_id) || scope.userBlob.data.account_id === value) {
             ctrl.$setValidity('rpNotMe', false);
             return;
           }
@@ -240,7 +240,7 @@ module.directive('rpSameInSet', [function() {
 
       scope.$watch(
           function() {
-            return _.size(set) == 1;
+            return _.size(set) === 1;
           },
           function(value){
             ctrl.$setValidity('rpSameInSet', value);
@@ -327,7 +327,7 @@ module.directive('rpStrongPassword', function () {
         }
 
         // password == user name
-        if (password.toLowerCase() == username.toLowerCase()) {
+        if (password.toLowerCase() === username.toLowerCase()) {
           ctrl.$setValidity('rpStrongPassword', false);
           scope.strength = 'weak';
           return;
@@ -339,7 +339,7 @@ module.directive('rpStrongPassword', function () {
             var repeated = true;
 
             for (var j = 0; j < pLen && (j+i+pLen) < str.length; j++) {
-              repeated = repeated && (str.charAt(j+i) == str.charAt(j+i+pLen));
+              repeated = repeated && (str.charAt(j+i) === str.charAt(j+i+pLen));
             }
             if (j<pLen) {
               repeated = false;
@@ -443,7 +443,7 @@ module.directive('rpAmount', function () {
         var parsedValue = parseFloat(value);
 
         // check for valid amount
-        ctrl.$setValidity('rpAmount', parsedValue == value);
+        ctrl.$setValidity('rpAmount', parsedValue === value);
 
         return parsedValue;
       };
@@ -518,7 +518,7 @@ module.directive('rpPortNumber', function () {
       if (!ctrl) return;
 
       var validator = function(value) {
-        ctrl.$setValidity('rpPortNumber', (parseInt(value,10) == value && value >= 1 && value <= 65535));
+        ctrl.$setValidity('rpPortNumber', (parseInt(value,10) === value && value >= 1 && value <= 65535));
         return value;
       };
 

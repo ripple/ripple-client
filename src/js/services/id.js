@@ -89,7 +89,7 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', 'rp
     ];
 
     var blobBackend = store.get('ripple_blobBackends')
-          ? $.grep($scope.blobBackendCollections, function(e){ return e.value == store.get('ripple_blobBackends'); })[0]
+          ? $.grep($scope.blobBackendCollections, function(e){ return e.value === store.get('ripple_blobBackends'); })[0]
         : $scope.blobBackendCollections[1];
 
     $scope.blobBackendCollection = {something: blobBackend};

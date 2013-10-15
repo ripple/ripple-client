@@ -30,7 +30,7 @@ TrustTab.prototype.angular = function (module)
       predicate: 'balance',
       reverse: true,
       sort: function(line){
-        return $scope.sorting.predicate == 'currency' ? line.currency : line.balance.to_number();
+        return $scope.sorting.predicate === 'currency' ? line.currency : line.balance.to_number();
       }
     };
 
@@ -53,7 +53,7 @@ TrustTab.prototype.angular = function (module)
 
       // If all the form fields are prefilled, go to confirmation page
       if ($routeParams.to && $routeParams.amount) {
-        // At this stage "counterparty_address" may be empty. Wait for it...
+        // At this stage 'counterparty_address' may be empty. Wait for it...
         var watcher = $scope.$watch('counterparty_address', function(address){
           if (address) {
             $scope.grant();
@@ -106,7 +106,7 @@ TrustTab.prototype.angular = function (module)
           $scope.$apply(function(){
             // hide throbber
             $scope.verifying = false;
-            var amount = ripple.Amount.from_human("" + $scope.amount + " " + $scope.currency.slice(0, 3).toUpperCase());
+            var amount = ripple.Amount.from_human('' + $scope.amount + ' ' + $scope.currency.slice(0, 3).toUpperCase());
 
             $scope.amount_feedback = amount.to_human();
             $scope.currency_feedback = amount.currency().to_json();
@@ -116,7 +116,7 @@ TrustTab.prototype.angular = function (module)
               $scope.confirm_wait = false;
             }, 1000, true);
 
-            $scope.mode = "confirm";
+            $scope.mode = 'confirm';
 
             /**
              * Warning messages
@@ -176,7 +176,7 @@ TrustTab.prototype.angular = function (module)
             var found;
 
             for (var i = 0; i < $scope.currencies_all.length; i++) {
-              if ($scope.currencies_all[i].value.toLowerCase() == currency.toLowerCase()) {
+              if ($scope.currencies_all[i].value.toLowerCase() === currency.toLowerCase()) {
                 $scope.currencies_all[i].order++;
                 found = true;
                 break;
@@ -185,9 +185,9 @@ TrustTab.prototype.angular = function (module)
 
             if (!found) {
               $scope.currencies_all.push({
-                "name": currency,
-                "value": currency,
-                "order": 1
+                'name': currency,
+                'value': currency,
+                'order': 1
               });
             }
           });
@@ -195,21 +195,21 @@ TrustTab.prototype.angular = function (module)
         .on('error', function(){
           setImmediate(function () {
             $scope.$apply(function () {
-              $scope.mode = "error";
+              $scope.mode = 'error';
             });
           });
         })
         .submit()
       ;
 
-      $scope.mode = "granting";
+      $scope.mode = 'granting';
     };
 
     /**
      * N5. Granted page
      */
     $scope.granted = function (hash) {
-      $scope.mode = "granted";
+      $scope.mode = 'granted';
       $network.remote.on('transaction', handleAccountEvent);
 
       function handleAccountEvent(e) {
@@ -228,19 +228,19 @@ TrustTab.prototype.angular = function (module)
 
       switch (res.engine_result.slice(0, 3)) {
         case 'tes':
-          $scope.tx_result = accepted ? "cleared" : "pending";
+          $scope.tx_result = accepted ? 'cleared' : 'pending';
           break;
         case 'tem':
-          $scope.tx_result = "malformed";
+          $scope.tx_result = 'malformed';
           break;
         case 'ter':
-          $scope.tx_result = "failed";
+          $scope.tx_result = 'failed';
           break;
         case 'tec':
-          $scope.tx_result = "failed";
+          $scope.tx_result = 'failed';
           break;
         case 'tep':
-          console.warn("Unhandled engine status encountered!");
+          console.warn('Unhandled engine status encountered!');
       }
     }
 

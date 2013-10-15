@@ -163,7 +163,7 @@ SendTab.prototype.angular = function (module)
           send.recipient_resolved = true;
 
           if (e) {
-            if (e.remote.error == "actNotFound") {
+            if (e.remote.error === "actNotFound") {
               send.recipient_info = {
                 'exists': false,
                 'Balance': "0"
@@ -508,9 +508,9 @@ SendTab.prototype.angular = function (module)
 
               // Selected currency should be the first option
               if (raw.source_amount.currency) {
-                if (raw.source_amount.currency == $scope.send.currency_code)
+                if (raw.source_amount.currency === $scope.send.currency_code)
                   currentKey = key;
-              } else if ($scope.send.currency_code == 'XRP') {
+              } else if ($scope.send.currency_code === 'XRP') {
                 currentKey = key;
               }
 
@@ -693,7 +693,7 @@ SendTab.prototype.angular = function (module)
           var found;
 
           for (var i = 0; i < $scope.currencies_all.length; i++) {
-            if ($scope.currencies_all[i].value.toLowerCase() == $scope.send.amount_feedback.currency().to_human().toLowerCase()) {
+            if ($scope.currencies_all[i].value.toLowerCase() === $scope.send.amount_feedback.currency().to_human().toLowerCase()) {
               $scope.currencies_all[i].order++;
               found = true;
               break;
@@ -837,8 +837,8 @@ SendTab.prototype.angular = function (module)
           var contact = webutil.getContact(scope.userBlob.data.contacts,value);
 
           if (value) {
-            if ((contact && contact.address == scope.userBlob.data.account_id) || scope.userBlob.data.account_id == value) {
-              if (scope.send.currency == xrpWidget.$viewValue) {
+            if ((contact && contact.address === scope.userBlob.data.account_id) || scope.userBlob.data.account_id === value) {
+              if (scope.send.currency === xrpWidget.$viewValue) {
                 ctrl.$setValidity('rpXrpToMe', false);
                 return;
               }

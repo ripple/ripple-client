@@ -185,7 +185,7 @@ ConvertTab.prototype.angular = function (module)
             var found;
 
             for (var i = 0; i < $scope.currencies_all.length; i++) {
-              if ($scope.currencies_all[i].value.toLowerCase() == $scope.convert.amount_feedback.currency().to_human().toLowerCase()) {
+              if ($scope.currencies_all[i].value.toLowerCase() === $scope.convert.amount_feedback.currency().to_human().toLowerCase()) {
                 $scope.currencies_all[i].order++;
                 found = true;
                 break;
@@ -311,8 +311,8 @@ ConvertTab.prototype.angular = function (module)
           var contact = webutil.getContact(scope.userBlob.data.contacts,value);
 
           if (value) {
-            if ((contact && contact.address == scope.userBlob.data.account_id) || scope.userBlob.data.account_id == value) {
-              if (scope.convert.currency == xrpWidget.$viewValue) {
+            if ((contact && contact.address === scope.userBlob.data.account_id) || scope.userBlob.data.account_id === value) {
+              if (scope.convert.currency === xrpWidget.$viewValue) {
                 ctrl.$setValidity('rpXrpToMe', false);
                 return;
               }

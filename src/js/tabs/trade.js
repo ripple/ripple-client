@@ -121,7 +121,7 @@ TradeTab.prototype.angular = function(module)
       tx.offer_create($id.account, $scope.order.buy_amount, $scope.order.sell_amount);
 
       // Sets a tfSell flag. This is the only way to distinguish sell offers from buys.
-      if ($scope.order.type == 'sell')
+      if ($scope.order.type === 'sell')
         tx.set_flags('Sell');
 
       tx.on('proposed', function (res) {
@@ -133,7 +133,7 @@ TradeTab.prototype.angular = function(module)
           var found;
 
           for (var i = 0; i < $scope.pairs_all.length; i++) {
-            if ($scope.pairs_all[i].name == $scope.order.currency_pair) {
+            if ($scope.pairs_all[i].name === $scope.order.currency_pair) {
               $scope.pairs_all[i].order++;
               found = true;
               break;
@@ -327,7 +327,7 @@ TradeTab.prototype.angular = function(module)
       // First guess: An explicit issuer preference setting in the user's blob
       try {
         guess = $scope.userBlob.data.preferred_issuer[currency];
-        if (guess && guess == exclude_issuer) {
+        if (guess && guess === exclude_issuer) {
           guess = $scope.userBlob.data.preferred_second_issuer[currency];
         }
         if (guess) return guess;
@@ -370,8 +370,8 @@ TradeTab.prototype.angular = function(module)
       }
 
       // If the same currency, exclude first issuer for second issuer guess
-      if ($scope.order.first_currency == $scope.order.second_currency &&
-          $scope.order.first_issuer == $scope.order.second_issuer &&
+      if ($scope.order.first_currency === $scope.order.second_currency &&
+          $scope.order.first_issuer === $scope.order.second_issuer &&
           (guess = guessIssuer($scope.order.first_currency, $scope.order.first_issuer))) {
         $scope.order.second_issuer = guess;
       }
@@ -420,7 +420,7 @@ TradeTab.prototype.angular = function(module)
       if ($scope.order.valid_settings &&
           $scope.order.second_currency !== 'XRP') {
 
-        if ($scope.order.first_currency == $scope.order.second_currency) {
+        if ($scope.order.first_currency === $scope.order.second_currency) {
           $scope.userBlob.data.preferred_second_issuer[$scope.order.second_currency] =
             $scope.order.second_issuer;
         } else {
@@ -489,12 +489,12 @@ TradeTab.prototype.angular = function(module)
 
     // Can sell/buy
     var updateCanBuySell = function () {
-      var canBuy = $scope.order.second_currency.toUpperCase() == 'XRP' ||
+      var canBuy = $scope.order.second_currency.toUpperCase() === 'XRP' ||
         ($scope.balances[$scope.order.second_currency] && $scope.balances[$scope.order.second_currency].total.is_positive());
-      var canSell = $scope.order.first_currency.toUpperCase() == 'XRP' ||
+      var canSell = $scope.order.first_currency.toUpperCase() === 'XRP' ||
         ($scope.balances[$scope.order.first_currency] && $scope.balances[$scope.order.first_currency].total.is_positive());
 
-      $scope.order.showWidget = $scope.order.type == 'sell' ? canSell : canBuy;
+      $scope.order.showWidget = $scope.order.type === 'sell' ? canSell : canBuy;
     };
 
     $scope.reset();

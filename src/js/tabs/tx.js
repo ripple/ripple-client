@@ -35,7 +35,7 @@ TxTab.prototype.angular = function (module)
           var tx = res.tx ? res.tx : res;
           _.extend($scope.transaction, res);
 
-          if (tx.TransactionType == "Payment") {
+          if (tx.TransactionType === "Payment") {
             var sender = tx.Account;
             var affectedNode;
             var difference;
@@ -51,10 +51,10 @@ TxTab.prototype.angular = function (module)
               if (tx.meta.AffectedNodes) {
                 for (i=0; i<tx.meta.AffectedNodes.length; i++) {
                   affectedNode = tx.meta.AffectedNodes[i];
-                  if (affectedNode.ModifiedNode && affectedNode.ModifiedNode.LedgerEntryType == "RippleState" && 
-                    (affectedNode.ModifiedNode.FinalFields.HighLimit.issuer == sender ||
-                      affectedNode.ModifiedNode.FinalFields.LowLimit.issuer == sender) &&
-                    affectedNode.ModifiedNode.FinalFields.Balance.currency == tx.SendMax.currency
+                  if (affectedNode.ModifiedNode && affectedNode.ModifiedNode.LedgerEntryType === "RippleState" && 
+                    (affectedNode.ModifiedNode.FinalFields.HighLimit.issuer === sender ||
+                      affectedNode.ModifiedNode.FinalFields.LowLimit.issuer === sender) &&
+                    affectedNode.ModifiedNode.FinalFields.Balance.currency === tx.SendMax.currency
                     ) {
                     break;
                   } else {
@@ -66,7 +66,7 @@ TxTab.prototype.angular = function (module)
               // Calculate the difference before/after. If HighLimit.issuer == [sender's account] negate it.
               if (affectedNode) {
                 difference = affectedNode.ModifiedNode.PreviousFields.Balance.value - affectedNode.ModifiedNode.FinalFields.Balance.value;
-                if (affectedNode.ModifiedNode.FinalFields.HighLimit.issuer == sender) {
+                if (affectedNode.ModifiedNode.FinalFields.HighLimit.issuer === sender) {
                   difference *= -1;
                 }
                 cur = affectedNode.ModifiedNode.FinalFields.Balance.currency;
@@ -77,8 +77,8 @@ TxTab.prototype.angular = function (module)
               if (tx.meta.AffectedNodes) {
                 for (i=0; i<tx.meta.AffectedNodes.length; i++) {
                   affectedNode = tx.meta.AffectedNodes[i];
-                  if (affectedNode.ModifiedNode && affectedNode.ModifiedNode.LedgerEntryType == "AccountRoot" && 
-                    affectedNode.ModifiedNode.FinalFields.Account == sender) {
+                  if (affectedNode.ModifiedNode && affectedNode.ModifiedNode.LedgerEntryType === "AccountRoot" && 
+                    affectedNode.ModifiedNode.FinalFields.Account === sender) {
                     break;
                   } else {
                     affectedNode = null;

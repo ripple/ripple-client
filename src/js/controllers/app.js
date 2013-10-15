@@ -391,7 +391,7 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
 
   // Nav links same page click fix
   $('nav a').click(function(){
-    if (location.hash == this.hash) {
+    if (location.hash === this.hash) {
       location.href="#/";
       location.href=this.href;
     }
