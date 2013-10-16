@@ -67,6 +67,8 @@ module.factory('rpZipzap', ['$rootScope', function($scope)
       'data': this.params.data,
       'dataType' : 'json',
       'success': function(data){
+        data = data ? data : {};
+
         callback(data);
         console.log('request response',data);
       },

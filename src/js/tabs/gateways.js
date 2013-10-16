@@ -35,7 +35,9 @@ GatewaysTab.prototype.angular = function (module)
         $zipzap.getAccount($scope.address);
         $zipzap.request(function(response){
           $scope.$apply(function () {
-            $rootScope.zipzap = response ? response : null;
+            if (response.AcctStatus === 'Active') {
+              $rootScope.zipzap = response ? response : null;
+            }
             $scope.loading = false;
           })
         });
