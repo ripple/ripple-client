@@ -45,10 +45,13 @@ GatewaysTab.prototype.angular = function (module)
     });
 
     $scope.signup = function() {
+      $scope.signupProgress = 'loading';
+
       // Create zipzap account, fund the ripple wallet
       $zipzap.register($id.account,$scope.form);
       $zipzap.request(function(response){
         $scope.$apply(function () {
+          $scope.signupProgress = false;
           if (response.ZipZapAcctNum) {
             $rootScope.zipzap = response;
             $scope.mode = 'details';

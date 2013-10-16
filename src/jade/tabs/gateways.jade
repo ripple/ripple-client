@@ -124,7 +124,9 @@ section.panel.content(ng-controller="GatewaysCtrl")
         .error(rp-error-on='maxlength')
           | Please enter last 4 digits of your social security number.
       div
-        button.btn.btn-success(type="submit", ng-disabled="signupForm.$invalid") Signup
+        button.btn.btn-success(type="submit", ng-disabled="signupForm.$invalid || signupProgress")
+          span(ng-hide="signupProgress") Signup
+          span(ng-show="signupProgress") Loading...
     div
       button.btn(ng-click="mode='list'") Back to the List
   div(ng-show="mode=='locations'")
