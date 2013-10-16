@@ -2,9 +2,85 @@ include ../menu/wallet.jade
 section.panel.content(ng-controller="GatewaysCtrl")
   p.literal Gateways
   hr
-  ul.gateways-list
+  ul.gateways-list(ng-show="mode=='list'")
     li
       img(src="img/gateways/zipzap.png")
-      span.info
-        | ID:
-        span.id  999 999 999
+      span(ng-show="loading") Loading...
+      span(ng-hide="loading")
+        span(ng-show="zipzap")
+          button.btn(ng-click="mode='details'") Details
+        span(ng-hide="zipzap")
+          button.btn(ng-click="mode='signup'") Sign Up
+  div(ng-show="mode=='details'")
+    div ZipZap account details
+    dl
+      dt ZipZap account number
+      dd {{zipzap.ZipZapAcctNum}}
+      dt First name
+      dd {{zipzap.FirstName}}
+      dt Last name
+      dd {{zipzap.LastName}}
+      dt Address
+      dd {{zipzap.Address}}
+      dt City
+      dd {{zipzap.City}}
+      dt State
+      dd {{zipzap.State}}
+      dt PostalCode
+      dd {{zipzap.PostalCode}}
+      dt CountryCode
+      dd {{zipzap.Country}}
+      dt Phone
+      dd {{zipzap.Phone}}
+      dt DateOfBirth
+      dd {{zipzap.DateOfBirth}}
+      dt Email
+      dd {{zipzap.Email}}
+    div
+      button.btn(ng-click="mode='locations'") List of Locations
+      button.btn(ng-click="mode='list'") Back to the List
+  div(ng-show="mode=='signup'")
+    div ZipZap account creation
+    center
+      .text-error(ng-show="error") {{error.message}}: {{error.verboseMessage}}
+    form#signupForm(name='signupForm', ng-submit="signup()")
+      label(for='firstname') First name
+      input#firstname(name='firstname', type='text', ng-model='form.firstname')
+      label(for='lastname') Last name
+      input#lastname(name='lastname', type='text', ng-model='form.lastname')
+      label(for='address') Address
+      input#address(name='address', type='text', ng-model='form.address')
+      label(for='city') City
+      input#city(name='city', type='text', ng-model='form.city')
+      label(for='state') State
+      input#state(name='state', type='text', ng-model='form.state')
+      label(for='zipcode') Zip code
+      input#zipcode(name='zipcode', type='text', ng-model='form.zipcode')
+      label(for='countrycode') Country code (ex. "US")
+      input#countrycode(name='countrycode', type='text', ng-model='form.countrycode')
+      label(for='phone') Phone (Only Numbers)
+      input#phone(name='phone', type='text', ng-model='form.phone')
+      label(for='dob') Date of birth (YYYY-MM-DD)
+      input#dob(name='dob', type='text', ng-model='form.dob')
+      label(for='email') Email
+      input#email(name='email', type='text', ng-model='form.email')
+      label(for='ssn') Last 4 digits of your SSN
+      input#ssn(name='ssn', type='text', ng-model='form.ssn')
+      div
+        button.btn.btn-success(type="submit", ng-disabled="signupForm.$invalid") Signup
+    div
+      button.btn(ng-click="mode='list'") Back to the List
+  div(ng-show="mode=='locations'")
+    div Locate a payment center
+    form(ng-submit="locate()")
+      input(type="text", name="query", ng-model="query", placeholder="Please enter your City and State or Postal Code")
+      button.btn.btn-success(type="submit", ng-disabled="locateStatus")
+        span(ng-hide="locateStatus") Search!
+        span(ng-show="locateStatus") Loading...
+    ul.results
+      li(ng-repeat="location in locations.PayCenters")
+        div {{location.PayCenterName}}
+        div Address: {{location.Address}}, {{location.City}}, {{location.State}}, {{location.PostalCode}}
+        div Phone: {{location.Phone}}
+    div
+      button.btn(ng-click="mode='list'") Back to the gateways List
