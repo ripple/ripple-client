@@ -84,6 +84,30 @@ GatewaysTab.prototype.angular = function (module)
       })
     }
   }]);
+
+  module.directive('rpDob', function () {
+    return {
+      restrict: 'A',
+      require: '?ngModel',
+      link: function (scope, elm, attr, ctrl) {
+        if (!ctrl) return;
+
+        var pattern = /^([0-9]{4})-([0-9]{2})-([0-9]{2})$/;
+
+        var validator = function(value) {
+          ctrl.$setValidity('rpDob', pattern.test(value));
+          return value;
+        };
+
+        ctrl.$formatters.push(validator);
+        ctrl.$parsers.unshift(validator);
+
+        attr.$observe('rpDob', function() {
+          validator(ctrl.$viewValue);
+        });
+      }
+    };
+  });
 };
 
 module.exports = GatewaysTab;

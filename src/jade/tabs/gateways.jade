@@ -41,31 +41,88 @@ section.panel.content(ng-controller="GatewaysCtrl")
       button.btn(ng-click="mode='list'") Back to the List
   div(ng-show="mode=='signup'")
     div ZipZap account creation
+    //- TODO Handle server side validation errors
     center
       .text-error(ng-show="error") {{error.message}}: {{error.verboseMessage}}
     form#signupForm(name='signupForm', ng-submit="signup()")
       label(for='firstname') First name
-      input#firstname(name='firstname', type='text', ng-model='form.firstname')
+      input#firstname(name='firstname', type='text', ng-model='form.firstname'
+        required)
+      .errorGroup(rp-errors='firstname')
+        .error(rp-error-on='required')
+          | Please enter your first name.
       label(for='lastname') Last name
-      input#lastname(name='lastname', type='text', ng-model='form.lastname')
+      input#lastname(name='lastname', type='text', ng-model='form.lastname'
+        required)
+      .errorGroup(rp-errors='lastname')
+        .error(rp-error-on='required')
+          | Please enter your last name.
       label(for='address') Address
-      input#address(name='address', type='text', ng-model='form.address')
+      input#address(name='address', type='text', ng-model='form.address'
+        required)
+      .errorGroup(rp-errors='address')
+        .error(rp-error-on='required')
+          | Please enter your address.
       label(for='city') City
-      input#city(name='city', type='text', ng-model='form.city')
+      input#city(name='city', type='text', ng-model='form.city'
+        required)
+      .errorGroup(rp-errors='city')
+        .error(rp-error-on='required')
+          | Please enter your city.
       label(for='state') State
-      input#state(name='state', type='text', ng-model='form.state')
+      input#state(name='state', type='text', ng-model='form.state'
+        required)
+      .errorGroup(rp-errors='state')
+        .error(rp-error-on='required')
+          | Please enter your state.
       label(for='zipcode') Zip code
-      input#zipcode(name='zipcode', type='text', ng-model='form.zipcode')
+      input#zipcode(name='zipcode', type='text', ng-model='form.zipcode'
+        required)
+      .errorGroup(rp-errors='zipcode')
+        .error(rp-error-on='required')
+          | Please enter your zipcode.
       label(for='countrycode') Country code (ex. "US")
-      input#countrycode(name='countrycode', type='text', ng-model='form.countrycode')
+      input#countrycode(name='countrycode', type='text', ng-model='form.countrycode'
+        required, ng-minlength="2", ng-maxlength="2")
+      .errorGroup(rp-errors='countrycode')
+        .error(rp-error-on='required')
+          | Please enter your country code.
+        .error(rp-error-on='minlength')
+          | Country code should be exactly 2 characters.
+        .error(rp-error-on='maxlength')
+          | Country code should be exactly 2 characters.
       label(for='phone') Phone (Only Numbers)
-      input#phone(name='phone', type='text', ng-model='form.phone')
+      input#phone(name='phone', type='text', ng-model='form.phone'
+        required)
+      .errorGroup(rp-errors='phone')
+        .error(rp-error-on='required')
+          | Please enter your phone number.
       label(for='dob') Date of birth (YYYY-MM-DD)
-      input#dob(name='dob', type='text', ng-model='form.dob')
+      input#dob(name='dob', type='text', ng-model='form.dob'
+        required, rp-dob)
+      .errorGroup(rp-errors='dob')
+        .error(rp-error-on='required')
+          | Please enter your date of birth.
+        .error(rp-error-on='required')
+          | The date of birth must be in YYYY-MM-DD format.
       label(for='email') Email
-      input#email(name='email', type='text', ng-model='form.email')
+      input#email(name='email', type='text', ng-model='form.email'
+        required, rp-email)
+      .errorGroup(rp-errors='email')
+        .error(rp-error-on='required')
+          | Please enter your email address.
+        .error(rp-error-on='rpEmail')
+          | Please use a valid email format.
       label(for='ssn') Last 4 digits of your SSN
-      input#ssn(name='ssn', type='text', ng-model='form.ssn')
+      input#ssn(name='ssn', type='number', ng-model='form.ssn'
+        required, ng-minlength="4", ng-maxlength="4")
+      .errorGroup(rp-errors='ssn')
+        .error(rp-error-on='required')
+          | Please enter last 4 digits of your social security number.
+        .error(rp-error-on='minlength')
+          | Please enter last 4 digits of your social security number.
+        .error(rp-error-on='maxlength')
+          | Please enter last 4 digits of your social security number.
       div
         button.btn.btn-success(type="submit", ng-disabled="signupForm.$invalid") Signup
     div
