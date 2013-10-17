@@ -131,9 +131,9 @@ section.panel.content(ng-controller="GatewaysCtrl")
       button.btn(ng-click="mode='list'") Back to the List
   div(ng-show="mode=='locations'")
     div Locate a payment center
-    form(ng-submit="locate()")
-      input(type="text", name="query", ng-model="query", placeholder="Please enter your City and State or Postal Code")
-      button.btn.btn-success(type="submit", ng-disabled="locateStatus")
+    form(name="locateForm", ng-submit="locate()")
+      input(type="text", name="query", ng-model="query", placeholder="Please enter your City and State or Postal Code", required)
+      button.btn.btn-success(type="submit", ng-disabled="locateStatus || locateForm.$invalid")
         span(ng-hide="locateStatus") Search!
         span(ng-show="locateStatus") Loading...
     ul.results
