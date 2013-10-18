@@ -6,12 +6,12 @@
       a.logout(ng-click='logout()') logout
     .balance.primary(ng-show="!loadState.account")
       | Loading your balance...
-    .balance.primary(ng-show="loadState.account && !account.Balance")
+    .balance.primary(ng-show="loadState.account && !account.LedgerEntryType")
       | Unfunded account
-    .balance.primary(ng-show="loadState.account && account.Balance")
+    .balance.primary(ng-show="loadState.account && account.LedgerEntryType")
       span.amount {{account.Balance | rpamount:{precision: 0} }}
       span.currency XRP
-    i.fa.fa-question-circle(ng-show="loadState.account && account.Balance"
+    i.fa.fa-question-circle(ng-show="loadState.account && account.LedgerEntryType"
       rp-popover
       rp-popover-placement="bottom"
       rp-popover-title='XRP Balance'
