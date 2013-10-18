@@ -23,7 +23,6 @@ GatewaysTab.prototype.angular = function (module)
   {
     if (!$id.loginStatus) return $id.goId();
 
-    $scope.mode = 'list';
     $scope.form = {};
 
     // TODO request results should be stored in blob
@@ -44,6 +43,8 @@ GatewaysTab.prototype.angular = function (module)
       }
     });
 
+    // TODO ability to edit account details
+
     $scope.signup = function() {
       $scope.signupProgress = 'loading';
 
@@ -54,7 +55,8 @@ GatewaysTab.prototype.angular = function (module)
           $scope.signupProgress = false;
           if (response.ZipZapAcctNum) {
             $rootScope.zipzap = response;
-            $scope.mode = 'details';
+            $scope.displaySignupForm = false;
+            $scope.details = true;
           } else {
             if (response && response.Message) {
               $scope.error = {
@@ -83,6 +85,9 @@ GatewaysTab.prototype.angular = function (module)
         $scope.$apply(function () {
           $scope.locations = response;
           $scope.locateStatus = false;
+
+          if (!response.PayCenters || (response.PayCenters && !response.PayCenters.length))
+            $scope.locateStatus = 'notfound';
         });
       })
     }
