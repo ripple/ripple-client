@@ -443,7 +443,7 @@ module.directive('rpAmount', function () {
         var parsedValue = parseFloat(value);
 
         // check for valid amount
-        ctrl.$setValidity('rpAmount', parsedValue === value);
+        ctrl.$setValidity('rpAmount', parsedValue == value);
 
         return parsedValue;
       };
@@ -518,7 +518,7 @@ module.directive('rpPortNumber', function () {
       if (!ctrl) return;
 
       var validator = function(value) {
-        ctrl.$setValidity('rpPortNumber', (parseInt(value,10) === value && value >= 1 && value <= 65535));
+        ctrl.$setValidity('rpPortNumber', (parseInt(value,10) == value && value >= 1 && value <= 65535));
         return value;
       };
 
