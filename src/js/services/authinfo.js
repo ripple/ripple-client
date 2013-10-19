@@ -32,21 +32,21 @@ module.factory('rpAuthInfo', ['$rootScope', 'rpRippleTxt', function ($scope, $tx
     }
 
     function handleNoTxt() {
-      callback(new Error("Unable to load ripple.txt"));
+      callback(new Error("Unable to load ripple.txt of authentication provider"));
     }
 
     function processTxt(txt) {
       if (txt.authinfo_url) {
         $.ajax({
-          url: txt.federation_url[0],
+          url: txt.authinfo_url,
           dataType: "json",
           data: {
             domain: domain,
-            user: user
+            user: username
           },
           error: function () {
             $scope.$apply(function() {
-              callback(new Error("Authinfo server unreachable"));
+              callback(new Error("Authentication info server unreachable"));
             });
           },
           success: function (data) {

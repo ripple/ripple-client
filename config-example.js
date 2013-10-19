@@ -7,7 +7,7 @@ var Options = {
   // Local domain
   //
   // Which domain should ripple-client consider native?
-  domain: "broteas.ripple.com",
+  domain: "ripple.com",
 
   // Rippled to connect
   server: {
@@ -23,6 +23,10 @@ var Options = {
     connection_offset: 0
   },
 
+  // DEPRECATED: Blobvault server (old blob protocol)
+  //
+  // The blobvault URL for the new login protocol is set via authinfo. You can
+  // still use this setting for the fallback feature.
   blobvault : 'https://blobvault.payward.com',
 
   // If set, login will persist across sessions (page reload). This is mostly

@@ -103,6 +103,8 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
       // XXX Maybe the blob service should handle this stuff?
       $scope.$broadcast('$blobUpdate');
 
+      // XXX What's the equivalent in the new login API?
+      /*
       if (self.username && self.password) {
         $oldblob.set(self.blobBackends,
                   self.username.toLowerCase(), self.password,
@@ -110,6 +112,7 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
                     $scope.$broadcast('$blobSave');
                   });
       }
+      */
     },true);
 
     $scope.$on('$blobUpdate', function(){
@@ -193,7 +196,7 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
     username = Id.normalizeUsername(username);
     password = Id.normalizePassword(password);
 
-    var data = {
+    var blob = {
       data: {
         master_seed: masterkey,
         account_id: (new RippleAddress(masterkey)).getAddress(),
@@ -205,17 +208,21 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
       }
     };
 
-    // Add user to blob
-    $oldblob.set(self.blobBackends, username.toLowerCase(), password, data, function () {
-      $scope.userBlob = data;
+    $authflow.register(username.toLowerCase(), password, blob, function (err) {
+      if (err) {
+        // XXX Handle error
+        console.log("Registration failed:", (err && err.stack) ? err.stack : err);
+        return;
+      }
+      $scope.userBlob = blob;
       self.setUsername(username);
       self.setPassword(password);
-      self.setAccount(data.data.account_id, data.data.master_seed);
+      self.setAccount(blob.data.account_id, blob.data.master_seed);
       self.storeLogin(username, password);
       self.loginStatus = true;
       $scope.$broadcast('$blobUpdate');
       store.set('ripple_known', true);
-      callback(data.data.master_seed);
+      callback(blob.data.master_seed);
     });
   };
 
@@ -251,32 +258,45 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
     username = Id.normalizeUsername(username);
     password = Id.normalizePassword(password);
 
-    $authflow.exists(username, password, function (err) {
-      if (err) {
-        console.error(err.stack);
-        return;
-      }
-    });
+    $authflow.login(username, password, function (err, blob) {
+      if (err && Options.blobvault) {
+        console.log("Blob login failed, trying old blob protocol");
 
-    $oldblob.get(self.blobBackends, username.toLowerCase(), password, function (err, data) {
-      if (err) {
+        $oldblob.get(self.blobBackends, username.toLowerCase(), password, function (oerr, data) {
+          if (oerr) {
+            // Old blob failed - since this was just the fallback report the
+            // original error
+            console.log("Old backend reported:", oerr);
+            callback(err);
+            return;
+          }
+
+          var blob = $oldblob.decrypt(username.toLowerCase(), password, data);
+          if (!blob) {
+            // Unable to decrypt blob
+            var msg = 'Unable to decrypt blob (Username / Password is wrong)';
+            callback(new Error(msg));
+            return;
+          } else if (blob.old && !self.allowOldBlob) {
+            var oldBlobErr = new Error('Old blob format detected');
+            oldBlobErr.name = "OldBlobError";
+            callback(oldBlobErr);
+            return;
+          }
+
+          processBlob(blob);
+        });
+        return;
+      } else if (err) {
+        // New login protocol failed and no fallback configured
         callback(err);
         return;
       }
 
-      var blob = $oldblob.decrypt(username.toLowerCase(), password, data);
-      if (!blob) {
-        // Unable to decrypt blob
-        var msg = 'Unable to decrypt blob (Username / Password is wrong)';
-        callback(new Error(msg));
-        return;
-      } else if (blob.old && !self.allowOldBlob) {
-        var oldBlobErr = new Error('Old blob format detected');
-        oldBlobErr.name = "OldBlobError";
-        callback(oldBlobErr);
-        return;
-      }
+      processBlob(blob);
+    });
 
+    function processBlob(blob) {
       // Ensure certain properties exist
       $.extend(true, blob, Id.minimumBlob);
 
@@ -299,7 +319,7 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
         // Invalid blob
         callback(new Error("Blob format unrecognized!"));
       }
-    });
+    }
   };
 
   Id.prototype.logout = function ()
