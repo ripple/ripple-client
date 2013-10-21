@@ -14,35 +14,38 @@ section.col-xs-12.col-md-10.content(ng-controller="ConvertCtrl")
   form.mode-form(name="convertForm", id="convertForm", ng-show='mode=="form" && account.Balance', ng-submit='convert_prepared()')
     p.literal Convert one currency into another.
     hr
-    label(for='amount') Receive
-    .amount
-      input.value#amount(
-      name='amount', type='text'
-      ng-model='convert.amount'
-      required
-      rp-autofill='$routeParams.amount'
-      rp-autofill-amount
-      rp-amount
-      rp-amount-positive)
-      input.currency#amount_currency(
-      name='amount_currency', type='text'
-      rp-combobox="currency_query", rp-combobox-select
-      ng-model='convert.currency'
-      rp-autofill='$routeParams.amount'
-      rp-autofill-currency)
-    .errorGroup(rp-errors='amount')
-      .error(rp-error-on='required')
-        | Please enter an amount.
-      .error(rp-error-on='rpAmount')
-        | Not a valid amount.
-      .error(rp-error-on='rpAmountPositive')
-        | Please enter an amount greater than zero.
-    p.literal(ng-show="convert.path_status == 'waiting'") Please enter the conversion details.
-    p.literal.throbber(ng-show="convert.path_status == 'pending'") Calculating...
-    p.literal(ng-show="convert.path_status == 'no-path' && convert.currency_code != 'XRP'") No path found!
-    p.literal(ng-show="convert.path_status == 'error'") Error while calculating path
+    .form-group
+      label(for='amount') Receive
+      .row.amount
+        .col-md-4
+          input.value.form-control#amount(
+          name='amount', type='text'
+          ng-model='convert.amount'
+          required
+          rp-autofill='$routeParams.amount'
+          rp-autofill-amount
+          rp-amount
+          rp-amount-positive)
+        .col-md-3
+          input.currency.form-control#amount_currency(
+          name='amount_currency', type='text'
+          rp-combobox="currency_query", rp-combobox-select
+          ng-model='convert.currency'
+          rp-autofill='$routeParams.amount'
+          rp-autofill-currency)
+      .errorGroup(rp-errors='amount')
+        .error(rp-error-on='required')
+          | Please enter an amount.
+        .error(rp-error-on='rpAmount')
+          | Not a valid amount.
+        .error(rp-error-on='rpAmountPositive')
+          | Please enter an amount greater than zero.
+      p.literal(ng-show="convert.path_status == 'waiting'") Please enter the conversion details.
+      p.literal.throbber(ng-show="convert.path_status == 'pending'") Calculating...
+      p.literal(ng-show="convert.path_status == 'no-path' && convert.currency_code != 'XRP'") No path found!
+      p.literal(ng-show="convert.path_status == 'error'") Error while calculating path
     .currency_sets(ng-if="convert.path_status == 'done'")
-      .label Convert
+      | Convert
       ul
         li(ng-repeat="alt in convert.alternatives")
           p
@@ -67,18 +70,19 @@ section.col-xs-12.col-md-10.content(ng-controller="ConvertCtrl")
       span.value {{convert.amount_feedback | rpamount}}&nbsp;
       span.currency {{convert.amount_feedback | rpcurrency}}
     p.literal You will pay at most
-    p.convertmax_feedback
+    p.amount_feedback
       span.value {{convert.alt.amount | rpamount}}&nbsp;
       span.currency {{convert.alt.amount | rpcurrency}} &nbsp;
       span &plusmn; 1%
     p.literal Are you sure?
-    div
-      p.submitsection
-        button.btn.btn-default.back(ng-click='cancelConfirm()') &laquo; Back
-        button.btn.btn-success.submit(
-        type='submit'
-        ng-click='convert_confirmed()'
-        ng-disabled='confirm_wait') Confirm
+    .row
+      .col-xs-12.col-sm-6.col-md-2
+        button.btn.btn-block.btn-default.back(ng-click='cancelConfirm()') &laquo; Back
+      .col-xs-12.col-sm-6.col-md-2
+        button.btn.btn-block.btn-success.submit(
+          type='submit'
+          ng-click='convert_confirmed()'
+          ng-disabled='confirm_wait') Confirm
 
   //- N4. Waiting for transaction result page
 
@@ -144,7 +148,7 @@ section.col-xs-12.col-md-10.content(ng-controller="ConvertCtrl")
     group.actions
       hr
       div(class="actionLink")
-        a(ng-click="reset()") Do another conversion
+        a(href="", ng-click="reset()") Do another conversion
       div(class="actionLink")
-        a(ng-click="reset_goto('balance')") Back to balance
+        a(href="", ng-click="reset_goto('balance')") Back to balance
       hr
