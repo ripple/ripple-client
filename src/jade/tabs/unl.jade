@@ -33,6 +33,6 @@ section.content(ng-controller="UNLCtrl")
               button.delete.btn.btn-danger.btn-sm(ng-show='entry.isEditMode', ng-click='remove($index)') Delete
               button.send.btn.btn-success.btn-sm(ng-hide='entry.isEditMode') Send
             td.action
-              a(ng-click='edit($index)', ng-hide='entry.isEditMode') edit
-              a(ng-click='cancel($index)', ng-show='entry.isEditMode') cancel
+              a(href="", ng-click='edit($index)', ng-hide='entry.isEditMode') edit
+              a(href="", ng-click='cancel($index)', ng-show='entry.isEditMode') cancel
           

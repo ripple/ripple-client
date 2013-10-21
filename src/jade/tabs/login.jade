@@ -44,10 +44,10 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
                   span.fetch Fetch wallet from
                   span(ng-hide="storeChange")
                     strong {{blobBackendCollection.something.name}}&nbsp;
-                    a(ng-click="storeChange=true") change
+                    a(href="", ng-click="storeChange=true") change
                   span(ng-show="storeChange")
                     select(ng-model="blobBackendCollection.something", ng-options="b.name for b in blobBackendCollections", ng-change="backendChange()")
-                    a(ng-click="storeChange=false") ok
+                    a(href="", ng-click="storeChange=false") ok
         .row
           .col-xs-12
             p.literal
@@ -90,10 +90,10 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
         label.storageinfo
           span(ng-hide="storeChange")
             strong {{blobBackendCollection.something.name}}&nbsp;
-            a(ng-click="storeChange=true") change
+            a(href="", ng-click="storeChange=true") change
           span(ng-show="storeChange")
             select(ng-model="blobBackendCollection.something", ng-options="b.name for b in blobBackendCollections", ng-change="backendChange()")
-            a(ng-click="storeChange=false") ok
+            a(href="", ng-click="storeChange=false") ok
         .row
           .col-xs-12.text-status(ng-show='status')
             span {{status}}

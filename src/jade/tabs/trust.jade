@@ -95,7 +95,7 @@ section.col-xs-12.col-md-10.content(ng-controller="TrustCtrl")
           td.trust
             rp-trust-line(rp-line-data='line')
           td.action
-            a(ng-click="edit_line()") edit
+            a(href="", ng-click="edit_line()") edit
 
     //- N2. Confirmation page
 
@@ -108,7 +108,7 @@ section.col-xs-12.col-md-10.content(ng-controller="TrustCtrl")
       .dest_feedback
         .counterparty(ng-show='counterparty_name') {{counterparty_name}}
         .counterparty(ng-hide='counterparty_name') {{counterparty_address}}
-        .extra(ng-show="counterparty != counterparty_address || counterparty_name") {{counterparty_address}}
+        .extra(href="", ng-show="counterparty != counterparty_address || counterparty_name") {{counterparty_address}}
       p.literal.trust-notice(ng-show="currencyWarning == 'firstIssuer'")
         | By pressing CONFIRM you are extending trust to another Ripple user.
         | This action carries the risk of potential loss up to the amount of the trust

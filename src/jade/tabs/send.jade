@@ -123,7 +123,7 @@ section#t-send.single.content(ng-controller='SendCtrl')
     .dest_feedback
       .recipient(ng-show='send.recipient_name') {{send.recipient_name}}
       .recipient(ng-hide='send.recipient_name') {{send.recipient_address}}
-      .extra(ng-show="send.recipient != send.recipient_address || send.recipient_name")
+      .extra(href="", ng-show="send.recipient != send.recipient_address || send.recipient_name")
         | {{send.recipient_address}}
       .dt(ng-show="send.dt")
         | Destination tag: {{send.dt}}
@@ -233,7 +233,7 @@ section#t-send.single.content(ng-controller='SendCtrl')
             a(href="", ng-click='show_save_address_form = false') Cancel
           hr
       div(class="actionLink")
-        a(ng-click="reset()") Send another payment
+        a(href="", ng-click="reset()") Send another payment
       div(class="actionLink")
-        a(ng-click="reset_goto('balance')") Back to balance
+        a(href="", ng-click="reset_goto('balance')") Back to balance
       hr

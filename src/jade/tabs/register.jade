@@ -35,7 +35,7 @@ section.single.content(ng-controller="RegisterCtrl")
       div(ng-show="showMasterKeyInput")
         label(for='register_masterkey')
           | Secret Account Key&nbsp;
-          a(ng-click="showMasterKeyInput=false;") (hide)
+          a(href="", ng-click="showMasterKeyInput=false;") (hide)
         input#register_masterkey(name='register_masterkey', type='text', autocomplete='off', ng-model="masterkey", rp-master-key, rp-focus)
         .errorBox(ng-show="registerForm.register_masterkey.$error.rpMasterKey")
           p.text-error Secret Account Key is invalid
@@ -48,7 +48,7 @@ section.single.content(ng-controller="RegisterCtrl")
           br
           span(ng-hide="storeChange")
             strong {{blobBackendCollection.something.name}}&nbsp;
-            a(ng-click="storeChange=true") change
+            a(href="", ng-click="storeChange=true") change
           span(ng-show="storeChange", class="storeChange")
             select(ng-model="blobBackendCollection.something", ng-options="b.name for b in blobBackendCollections", ng-change="backendChange()")
       p.literal.throw
@@ -57,7 +57,7 @@ section.single.content(ng-controller="RegisterCtrl")
         br
         span(ng-hide="showMasterKeyInput")
           | Need to use your Secret Key?&nbsp;
-          a(ng-click="showMasterKeyInput=true") Use Key
+          a(href="", ng-click="showMasterKeyInput=true") Use Key
 
   group.mode-masterkeyerror(ng-show='mode=="masterkeyerror"')
     h1 Secret Account Key error
@@ -95,7 +95,7 @@ section.single.content(ng-controller="RegisterCtrl")
           cancel-button-text="no"
           ng-hide="showPassword==true")
             a Show
-        a(ng-click="showPassword=false", ng-show="showPassword==true") Hide
+        a(href="", ng-click="showPassword=false", ng-show="showPassword==true") Hide
     .secret
       p.important Ripple Address
       p.key {{address}}
