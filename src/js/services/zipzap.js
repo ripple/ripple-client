@@ -8,7 +8,7 @@ module.factory('rpZipzap', ['$rootScope', function($scope)
 {
   var Zipzap = function ()
   {
-    this.baseUrl = 'zipzap/request.php';
+    this.baseUrl = Options.zipzap.requester;
     this.params = {
       data: {}
     };

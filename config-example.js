@@ -29,6 +29,10 @@ var Options = {
 //    "bitcoin": "localhost:3000"
 //    "bitcoin": "https://www.bitstamp.net/ripple/bridge/out/bitcoin/"
     }
+  },
+
+  zipzap: {
+    "requester": "zipzap/request.php"
   }
 };
 
