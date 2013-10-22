@@ -28,11 +28,12 @@ module.exports = function(grunt)
         block.nodes.forEach(function (node) {
           node.attrs && node.attrs.forEach(function (attr) {
             if (attr.name === "rp-l10n") {
+              var text = '"'+escapeString(node.block.nodes[0].val)+'"';
               messages.push({
                 file: filename,
                 line: node.line,
-                msgid: attr.val,
-                msgstr: '"'+escapeString(node.block.nodes[0].val)+'"'
+                msgid: ("string" === typeof attr.val) ? attr.val : text,
+                msgstr: text
               });
             }
           });
@@ -112,8 +113,9 @@ module.exports = function(grunt)
             hasCollisions = true;
             grunt.log.error();
             grunt.log.error("Two messages with the same ID, but different strings:");
-            grunt.log.error(": "+msg.file+":"+msg.line);
             grunt.log.error(": "+otherMsg.file+":"+otherMsg.line);
+            grunt.log.error(": "+msg.file+":"+msg.line);
+            grunt.log.error(": both have ID '"+msg.msgid+"'");
           }
         } else {
           msgIndex[msg.msgid] = msg;
