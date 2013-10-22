@@ -8,7 +8,7 @@ section#t-send.single.content(ng-controller='SendCtrl')
   //- Account is unfunded
 
   .unfunded(ng-hide='account.Balance || !connected')
-    p.literal You have to be funded before you can send money
+    p.literal(rp-l10n="err-you-must-be-funded-before-you-can-send-money") You have to be funded before you can send money
     p: a.btn(href="#/balance") Back to balance
 
   //- 1. Send form
