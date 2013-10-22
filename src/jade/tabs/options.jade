@@ -37,8 +37,7 @@ section.col-xs-12.col-md-10.content(ng-controller="OptionsCtrl")
         input.form-control.blobIp(
           name='blobIp', id="blobIp", type='text'
           ng-model='blobIp')
-    div
-      p.submitsection
-        button.btn.btn-success.submit(
-          type='submit'
-          ng-disabled='optionsForm.$invalid') Save
+    .row
+      .col-xs-12.col-sm-8.col-md-3.col-lg-2
+        p.submitsection
+          button.btn.btn-block.btn-success.submit(type='submit', ng-disabled='optionsForm.$invalid') Save
