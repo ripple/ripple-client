@@ -893,36 +893,12 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
 }
 
 #t-send {
-  .value {
-    width: 150px;
-    margin-bottom: 35px;
-  }
-  #send_amount_currency {
-    width: 210px;
-  }
-  #send_destination {
-    width: 392px;
-  }
-  #send_nickname {
-    .input-lg;
-  }
-
-  @media (max-width: 480px) {
-    #send_destination {
-      width: 250px;
-    }
+  .rp-combobox {
+    display: block;
   }
 
   .mode-form {
-    input {
-      margin-bottom: 35px;
-    }
-    .errorGroup {
-      top: -30px;
-    }
-
     .send_alternatives {
-      margin-bottom: 35px;
       th {
         text-align: left;
         p {
@@ -955,6 +931,10 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
       }
     }
 
+    .remote {
+      margin: 20px 0 0 0;
+    }
+
     .currency_sets {
       .label {
         margin: 10px 0;
@@ -962,57 +942,38 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
         color: #656565;
       }
       ul {
-        .clearfix;
         list-style-type: none;
         margin: 0;
-        padding: 20px;
-        border: 1px solid #d9d9d9;
-        .rounded(5px);
-
+        padding: 0;
         font-family: 'OpenSansLight';
       }
       li {
-        float: left;
-        min-width: 270px;
-        height: 120px;
         text-align: center;
-        position: relative;
-        border-right: 1px solid #ccc;
+        padding: 5px 0 0 0;
 
-        &:nth-of-type(n+4) {
-          margin: 25px 0;
+        .margin {
+          margin: 0 10px 0 0;
+        }
 
-          &:after {
-            .virtualel;
-            position: absolute;
-            top: -25px;
-            left: 0;
-            width: 100%;
-            height: 1px;
-            border-top: 1px solid #ccc;
+        .am {
+          padding: 20px 0;
+          border: 1px solid #ddd;
+          border-bottom: none;
+          .border-radius(5px,0,0,5px);
+
+          .amnt {
+            font-size: 30px;
+            padding: 0 8px 0 0;
+          }
+          .currency {
+            font-size: 20px;
+            color: #ccc;
           }
         }
-
-        &:nth-child(3n+3) {
-          border-right: none;
+        .btn {
+          .border-radius(0,5px,5px,0);
+          margin: 0;
         }
-      }
-      .amnt {
-        font-size: 30px;
-        padding: 0 8px 0 0;
-      }
-      .currency {
-        font-size: 20px;
-        padding-right: 12px;
-        color: #ccc;
-      }
-      .rate {
-        margin: 5px 0 0 0;
-        font-size: 12px;
-        color: #ccc;
-      }
-      .btn-success {
-        width: 230px;
       }
     }
   }
@@ -1523,40 +1484,16 @@ html.t-trade header nav ul > li.active#nav-advanced > a:after {
       color: #656565;
     }
     ul {
-      .clearfix;
       list-style-type: none;
       margin: 0;
-      padding: 20px;
       border: 1px solid #d9d9d9;
-      .rounded(5px);
 
       font-family: 'OpenSansLight';
     }
     li {
-      float: left;
-      min-width: 270px;
-      height: 120px;
+      .rounded(5px);
       text-align: center;
-      position: relative;
-      border-right: 1px solid #ccc;
-
-      &:nth-of-type(n+4) {
-        margin: 25px 0;
-
-        &:after {
-          .virtualel;
-          position: absolute;
-          top: -25px;
-          left: 0;
-          width: 100%;
-          height: 1px;
-          border-top: 1px solid #ccc;
-        }
-      }
-
-      &:nth-child(3n+3) {
-        border-right: none;
-      }
+      border: 1px solid #ccc;
     }
     .amnt {
       font-size: 30px;
