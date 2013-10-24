@@ -4,6 +4,7 @@ var path = require("path"),
 var BannerPlugin = require("webpack/lib/BannerPlugin");
 
 module.exports = function(grunt) {
+  grunt.loadTasks('scripts/grunt');
   grunt.loadNpmTasks('grunt-recess');
   grunt.loadNpmTasks('grunt-webpack');
   grunt.loadNpmTasks('grunt-preprocess');
@@ -255,6 +256,15 @@ module.exports = function(grunt) {
           {expand: true, src: ['deps/js/modernizr*.js'], dest: 'build/bundle/nw-linux-debug'},
           {src: 'res/nw/package_linux_debug.json', dest: 'build/bundle/nw-linux-debug/package.json'},
           {src: 'config-example.js', dest: 'build/bundle/nw-linux-debug/config-example.js'}
+        ]
+      }
+    },
+    l10n: {
+      templates: {
+        options: {
+        },
+        files: [
+          { src: ['src/jade/**/*.jade'], dest: 'l10n/templates/messages.pot' }
         ]
       }
     },
