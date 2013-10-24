@@ -4,12 +4,12 @@ section.col-xs-12.col-md-10.content(ng-controller="ContactsCtrl")
     .col-xs-3 Name
     .col-xs-6 Address
     .col-xs-3.text-right
-      a.btn.btn-success.sign(ng-click='toggle_form()')
+      a.btn.btn-success.btn-sm.sign(ng-click='toggle_form()')
         span(ng-hide='addform_visible') + Add contact
         span(ng-show='addform_visible') − Add contact
   .row.head.visible-xs
     .col-xs-12
-      a.btn.btn-success.btn-block.sign(ng-click='toggle_form()')
+      a.btn.btn-success.btn-block.btn-sm.sign(ng-click='toggle_form()')
         span(ng-hide='addform_visible') + Add contact
         span(ng-show='addform_visible') − Add contact
   .row.addForm(ng-show='addform_visible')
@@ -52,7 +52,7 @@ section.col-xs-12.col-md-10.content(ng-controller="ContactsCtrl")
           .errorGroup(rp-errors='dt')
             .error(rp-error-on='rpStdt')
               | Invalid destination tag
-        .submitsection
+        div
           // TODO ng-click, ng-submit
           button.btn.btn-lg.btn-success.submit(type='submit', ng-click='create()', ng-disabled='addForm.$invalid') Add contact
   .row.contact(ng-repeat="entry in userBlob.data.contacts", ng-class="{editing: editing}", ng-controller="ContactRowCtrl", rp-animate="enable_highlight")

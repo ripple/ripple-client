@@ -1,4 +1,6 @@
-#t-register form, #t-login form {
+// TODO all _ or all -
+
+#t-register, #t-login {
   .strength {
     margin: 38px 0 0 0;
 
@@ -38,42 +40,52 @@
     }
 
     .credentials {
-      display: inline-block;
       background-color: #F5F5F5;
-      margin: 0 @pmSingleMargin;
       padding: 10px 30px;
-      font-size: 12px;
+    }
 
-      .value {
-        font-size: 18px;
-      }
-      span {
-        margin: 0 10px 0 0;
+    @media (min-width: @screen-sm-max) {
+      .credentials {
+        font-size: 12px;
 
+        .value {
+          font-size: 18px;
+        }
         span {
-          margin: 0 10px;
+          margin: 0 10px 0 0;
+
+          span {
+            margin: 0 10px;
+          }
         }
       }
-      a {
-        margin: 0 0 0 5px;
+
+      .secret {
+        margin: 0 -30px 20px;
+        padding: 20px 30px;
+        border-radius: 10px;
+        border: 1px solid #f2f2f2;
+
+        .key {
+          margin: 0 5px 10px 0;
+          font-size: 25px;
+        }
       }
     }
 
-    .secret {
-      margin: 0 30px;
-      padding: 0 30px;
-      border-radius: 10px;
-      border: 1px solid #f2f2f2;
+    @media (max-width: @screen-sm-max) {
+      .credentials {
+        padding: 10px;
 
-      .key {
-        margin: 0 5px;
-        font-size: 25px;
+        & > span {
+          display: block;
+        }
+      }
+
+      .secret {
+        margin: 30px 0;
       }
     }
-  }
-
-  .storeinfo {
-    margin: 15px 0 0 0;
   }
 
   .hint {
@@ -301,10 +313,6 @@
     }
 
     tr {
-      &:hover {
-        opacity: 0.9;
-      }
-
       th:first-child, td:first-child {
         padding-left: @grid-gutter-width/2;
       }
@@ -413,60 +421,30 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
 }
 
 #t-trust {
-  .value {
-    width: 150px;
-  }
-  .currency-field {
-    width: 210px;
-  }
-  #trust_counterparty {
-    width: 392px;
+  .head {
+    font: 16px 'OpenSansRegular';
+    line-height: 30px;
+    margin-bottom: 14px;
   }
 
-  @media (max-width: 480px) {
-    #trust_counterparty {
-      width: 250px;
+  .line {
+    border-top: 1px solid #dddddd;
+
+    div {
+      height: 50px;
+      line-height: 50px;
+    }
+
+    .actions {
+      text-align: right;
     }
   }
-
-  table {
-    position: relative;
-    table-layout: fixed;
-
-    th, td {
-      .box-sizing(content-box);
-    }
-    .account {
-      width: 35%;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .currency {
-      width: 10%;
-    }
-    .trust {
-      width: 32%;
-    }
-    .action {
-      text-align: center;
-    }
-    td.trust {
-      padding: 0;
-
-      rp-trust-line {
-        margin: 0 -50px;
-      }
-    }
+  rp-trust-line {
+    margin: 0 -15px;
   }
 
-  form {
-    .amount {
-      .clearfix;
-      > * {
-        display: block;
-        float: left;
-      }
-    }
+  #trustForm {
+    margin-bottom: 20px;
   }
 
   .mode-confirm {
@@ -516,11 +494,6 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
     }
   }
 
-  .actions {
-    padding: 0;
-    margin: 60px 0 0 0;
-  }
-
   .trust-notice {
     color: red;
     font-size: 14px;
@@ -553,6 +526,9 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
 }
 
 #t-options {
+  form .row {
+    margin-bottom: 10px;
+  }
   .errorGroup {
     height: auto;
   }
@@ -934,48 +910,6 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
     .remote {
       margin: 20px 0 0 0;
     }
-
-    .currency_sets {
-      .label {
-        margin: 10px 0;
-        font-size: 18px;
-        color: #656565;
-      }
-      ul {
-        list-style-type: none;
-        margin: 0;
-        padding: 0;
-        font-family: 'OpenSansLight';
-      }
-      li {
-        text-align: center;
-        padding: 5px 0 0 0;
-
-        .margin {
-          margin: 0 10px 0 0;
-        }
-
-        .am {
-          padding: 20px 0;
-          border: 1px solid #ddd;
-          border-bottom: none;
-          .border-radius(5px,0,0,5px);
-
-          .amnt {
-            font-size: 30px;
-            padding: 0 8px 0 0;
-          }
-          .currency {
-            font-size: 20px;
-            color: #ccc;
-          }
-        }
-        .btn {
-          .border-radius(0,5px,5px,0);
-          margin: 0;
-        }
-      }
-    }
   }
 
   .mode-status {
@@ -1036,6 +970,48 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
 
   .actions {
     margin: 60px 0 0 0;
+  }
+}
+
+.currency_sets {
+  .label {
+    margin: 10px 0;
+    font-size: 18px;
+    color: #656565;
+  }
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    font-family: 'OpenSansLight';
+  }
+  li {
+    text-align: center;
+    padding: 5px 0 0 0;
+
+    .margin {
+      margin: 0 10px 0 0;
+    }
+
+    .am {
+      padding: 20px 0;
+      border: 1px solid #ddd;
+      border-bottom: none;
+      .border-radius(5px,0,0,5px);
+
+      .amnt {
+        font-size: 30px;
+        padding: 0 8px 0 0;
+      }
+      .currency {
+        font-size: 20px;
+        color: #ccc;
+      }
+    }
+    .btn {
+      .border-radius(0,5px,5px,0);
+      margin: 0;
+    }
   }
 }
 
@@ -1170,12 +1146,29 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
 }
 
 #t-trade {
+  @bg: #fafafa;
+
+  .btn-group {
+    margin-bottom: -1px;
+
+    .btn {
+      width: 120px;
+    }
+    .btn:first-child {
+      .border-radius(0, 0, 0, 4px);
+    }
+    .btn:last-child {
+      .border-radius(4px, 0, 0, 0);
+    }
+  }
+
   ul.inline {
-    padding: 0;
     margin: 0;
+    padding: 0;
 
     .label {
       color: #7A7A7A;
+      text-align: left;
     }
     .value {
       font-weight: bold;
@@ -1204,48 +1197,25 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
         margin-right: 30px;
       }
     }
+  }
 
-    &.market li {
-      width: 170px;
-    }
+  .issuer {
+    padding: 15px;
+    border: 1px solid darken(@bg, 10%);
+    border-top: none;
+    border-bottom: none;
+    background: @bg;
   }
 
   .settings {
-    .clearfix;
-    background-color: #FAFAFA;
-    .border-radius(10px, 0, 0, 0);
-    padding-top: 14px;
-    padding-bottom: 14px;
-    border-bottom: 1px solid #CCCCCC;
-
-    .currency-config {
-      float: left;
-      padding-top: 0;
-      margin-right: 30px;
-
-      .currency {
-        width: 130px;
-      }
-
-      input {
-        margin-bottom: 0;
-      }
-    }
+    padding: 15px;
+    border: 1px solid darken(@bg, 10%);
+    border-bottom: none;
+    .border-radius(5px, 0, 0, 5px);
+    background-color: @bg;
   }
 
-  form.issuer {
-    .clearfix;
-    padding-top: 20px;
-    padding-bottom: 10px;
-    margin-bottom: 0;
-    border-bottom: 1px solid #ccc;
-
-    input {
-      width: 400px;
-    }
-  }
-
-  .message {
+  group > .message {
     padding: 20px 0 0 40px;
     line-height: 25px;
     font-size: 16px;
@@ -1253,83 +1223,39 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
   }
 
   .ticker {
-    background-color: #EEE;
-    padding-top: 8px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid #CCCCCC;
     margin: 0 0 30px;
+    padding: 5px 15px;
+    border: 1px solid darken(@bg, 10%);
+    border-top: none;
+    .border-radius(0, 5px, 5px, 0);
+    background-color: darken(@bg, 3%);
+    list-style-type: none;
+
+    .value {
+      font-weight: bold;
+    }
   }
 
   .order-type {
-    .clearfix;
-    margin-bottom: -1px;
-
-    .btn-group {
-      margin-right: 30px;
-    }
-
     p.literal {
       margin: 0;
       line-height: 48px;
     }
-
-    &.open {
-      .btn-group > .btn:first-child {
-        .border-radius(0, 0, 0, 4px);
-      }
-      .btn-group > .btn:last-child {
-        .border-radius(4px, 0, 0, 0 );
-      }
-    }
   }
 
   .trade-widget {
-    > form, > div, > group {
-      background-color: #f9f9f9;
-      border-top: 1px solid #999;
-      border-bottom: 1px solid #999;
-    }
+    padding: 15px;
+    margin: 0 0 30px;
+    border: 1px solid darken(@bg, 10%);
+    .border-radius(5px, 5px, 5px, 0);
+    background: @bg;
   }
 
   .mode-form {
-    padding-top: 30px;
-
-  // Cool animation that our users will never get to see. :’(
-  /*
-      max-height: 0;
-      opacity: 0;
-      overflow: hidden;
-      .transition-duration(0.5s);
-
-      &.visible {
-        opacity: 1;
-        max-height: 220px;
-      }
-  */
-
     .order-values {
-      .clearfix;
-      clear: both;
-      .value-field {
-        width: 222px;
-        min-height: 102px;
-        float: left;
-
-        input {
-          width: 150px;
-        }
-        .add-on {
-          width: 50px;
-          padding-left: 0;
-          padding-right: 0;
-          text-align: center;
-        }
-      }
       .sign {
-        width: 30px;
         text-align: center;
         margin: 40px 0 0 0;
-        float: left;
       }
       .error {
         margin-bottom: 0;
@@ -1338,13 +1264,9 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
       }
     }
     .message {
-      clear: both;
       color: green;
-      position: relative;
-      top: -25px;
-      padding: 0;
-      height: 0;
-      overflow: visible;
+      height: 40px;
+      line-height: 40px;
     }
   }
 
@@ -1360,59 +1282,40 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
     }
   }
 
-  .mode-done {
-    padding-top: 30px;
-    padding-bottom: 30px;
-  }
+  .listings {
+    padding: 15px;
+    border: 1px solid darken(@bg, 10%);
+    .border-radius(5px, 5px, 5px, 0);
+    background: @bg;
 
-  ul li.my {
-    > a.active,  > a:hover,> a:after {
-      background-color: #e4efd9;
-    }
-  }
+    .my {
+      .head {
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+      .row {
+        padding: 10px 0;
 
-  ul li.orderbook {
-    > a.active,  > a:hover,> a:after {
-      background-color: #ecdfde;
-    }
-  }
+        &:nth-child(even) {
+          background-color: darken(@bg, 3%);
+        }
 
-  table.open-orders {
-    margin: 0 0 30px;
-    th, td {
-      padding-right: 10px;
-    }
-    th.action {
-      color: #fff;
-    }
-    td.type {
-      width: 13%;
-    }
-    td.pair {
+        & > div:last-child {
+          text-align: right;
+        }
 
-    }
-    td.price {
-      width: 18%;
-    }
-    td.amount {
-      width: 18%;
-    }
-    td.action {
-      width: 14%;
-      text-align: right;
-      padding-top: 0;
-      padding-bottom: 0;
+        @media (max-width: @screen-xs-max) {
+          div:before {
+            display: inline-block;
+            width: 100px;
+            font-weight: bold;
+            content:" "attr(data-label);
+          }
+        }
+      }
     }
 
-    th.price, th.amount {
-      text-align: right;
-    }
-
-    .issuer {
-      color: #9b9b9b;
-    }
-
-    tr.cancelled {
+    .cancelled {
       opacity: 0.3;
 
       .action {
@@ -1427,39 +1330,47 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
   }
 
   .orderbook {
-    .clearfix;
-
     .title {
-      display: block;
-      font: 16px 'OpenSansBold';
-      padding: 0 0 5px 0;
+      margin-bottom: 10px;
+      font: bold 15px 'OpenSansRegular';
+      text-transform: uppercase;
+      color: green;
+      text-align: right;
+    }
+    .head {
+      font: 15px 'OpenSansRegular';
+      margin-bottom: 10px;
+
+      .currency {
+        color: #d9d9d9;
+      }
     }
 
-    & > div {
-      float: left;
-      width: 370px;
+    @media (min-width: @screen-xs-max) {
+      .bids {
+        border-right: 3px solid darken(@bg, 20%);
+      }
+      .asks {
+        border-left: 3px solid darken(@bg, 20%);
+      }
     }
 
-    table {
-      border: 1px solid #ededed;
+    @media (max-width: @screen-xs-max) {
+      .asks {
+        border-top: 6px solid #ccc;
+        padding-top: 10px;
+      }
+    }
 
-      th {
+    .bids, .asks {
+      .row {
+        padding: 10px 0;
         text-align: right;
-        line-height: 1.2;
-        height: 35px;
-        .currency {
-          color: #aaa;
-          font-size: 0.9em;
+
+        &:nth-child(odd) {
+          background-color: darken(@bg, 3%);
         }
       }
-
-      th, td{
-        padding: 8px 10px;
-      }
-    }
-
-    .bids {
-      margin: 0 10px 0 0;
     }
   }
 }
@@ -1474,43 +1385,6 @@ html.t-trade header nav ul > li.active#nav-advanced > a:after {
 
     .big-icon {
       font-size: 70px;
-    }
-  }
-
-  .currency_sets {
-    .label {
-      margin: 10px 0;
-      font-size: 18px;
-      color: #656565;
-    }
-    ul {
-      list-style-type: none;
-      margin: 0;
-      border: 1px solid #d9d9d9;
-
-      font-family: 'OpenSansLight';
-    }
-    li {
-      .rounded(5px);
-      text-align: center;
-      border: 1px solid #ccc;
-    }
-    .amnt {
-      font-size: 30px;
-      padding: 0 8px 0 0;
-    }
-    .currency {
-      font-size: 20px;
-      padding-right: 12px;
-      color: #ccc;
-    }
-    .rate {
-      margin: 5px 0 0 0;
-      font-size: 12px;
-      color: #ccc;
-    }
-    .btn-success {
-      width: 230px;
     }
   }
 

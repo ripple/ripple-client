@@ -12,7 +12,7 @@ var module = angular.module('charts', []);
 module.directive('rpTrustLine', ['$filter', function($filter) {
   function redraw(ctx, data) {
     // Axis distance to left and right edges
-    var axisMargin = 55;
+    var axisMargin = 30;
     // Tick length away from axis
     var tickLen    = 5;
     // Thickness of bars
@@ -111,7 +111,7 @@ module.directive('rpTrustLine', ['$filter', function($filter) {
 
   return {
     restrict: 'E',
-    template: '<canvas width="320" height="50">',
+    template: '<canvas width="200" height="50">',
     scope: {
       data: '=rpLineData'
     },

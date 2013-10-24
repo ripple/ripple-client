@@ -14,7 +14,7 @@ section.col-xs-12.col-md-10.wide.content(ng-controller="SecurityCtrl")
     .more
       span(rp-download='enc',rp-download-filename='ripple-wallet.txt')
         | You can&nbsp;
-        a(rp-download-trigger) backup your wallet to a file
+        a(href="", rp-download-trigger) backup your wallet to a file
         | .
   ul.description(ng-hide="showKeys")
     li This is the key you use every time you use ripple.
