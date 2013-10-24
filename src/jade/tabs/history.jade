@@ -39,12 +39,12 @@ section.panel.content(ng-controller="HistoryCtrl")
           form(ng-submit="submitDateRangeForm()")
             label.input-append.date
               span From
-              input(type="text", rp-datepicker, ng-model="dateMinView", readonly)
+              input(type="text", rp-datepicker, ignore-invalid-update='1',  ng-model="dateMinView", readonly)
               span.add-on
                 i.icon-calendar
             label.input-append.date
               span To
-              input(type="text", rp-datepicker, ng-model="dateMaxView", readonly)
+              input(type="text", rp-datepicker, ignore-invalid-update='1',  ng-model="dateMaxView", readonly)
               span.add-on
                 i.icon-calendar
             button.btn.submit(type='submit') Filter
