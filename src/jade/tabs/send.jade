@@ -18,66 +18,86 @@ section.col-xs-12.content(ng-controller='SendCtrl')
     ng-submit='send_prepared()')
     p.literal Send money to anyone with a ripple account.
     hr
-    .form-group
-      label(for='send_destination') Recipient
-      input.form-control#send_destination(
-        name='send_destination', type='text', rp-combobox="recipient_query"
-        placeholder='Contact name or Ripple address'
-        ng-model='send.recipient'
-        rp-dest, rp-dest-address, rp-dest-contact, rp-dest-bitcoin, rp-dest-email
-        required
-        rp-autofill='$routeParams.to'
-        rp-focus)
-      .errorGroup(rp-errors='send_destination')
-        .success(rp-error-valid ng-show='send.recipient != send.recipient_address')
-          | {{send.recipient_address}}
-        .error(rp-error-on='required')
-          | Please enter a recipient.
-        .error(rp-error-on='rpDest')
-          | Recipient should be either a name from your contact list or Ripple/Bitcoin address.
-        .error(rp-error-on='federation')
-          | This email address is not Ripple-enabled.
-    .form-group(ng-show='$routeParams.st')
-      label(for='send_st') Source tag
-      input.form-control#send_st(
-        name='send_st', type='text'
-        ng-model='send.st'
-        rp-stdt
-        rp-autofill='$routeParams.st')
-      .errorGroup(rp-errors='send_st')
-        .error(rp-error-on='rpStdt')
-          | Invalid source tag
-    .form-group(ng-show='$routeParams.dt || send.dt')
-      label(for='send_dt') Destination tag
-      input.form-control#send_dt(
-        name='send_dt', type='text'
-        ng-model='send.dt'
-        rp-stdt
-        rp-autofill='$routeParams.dt')
-      .errorGroup(rp-errors='send_dt')
-        .error(rp-error-on='rpStdt')
-          | Invalid destination tag
+    .row.form-group
+      .col-xs-12.col-sm-6.col-md-5
+        label(for='send_destination') Recipient
+        input.form-control#send_destination(
+          name='send_destination', type='text', rp-combobox="recipient_query"
+          placeholder='Contact name or Ripple address'
+          ng-model='send.recipient'
+          rp-dest, rp-dest-address, rp-dest-contact, rp-dest-bitcoin, rp-dest-email
+          required
+          rp-autofill='$routeParams.to'
+          rp-focus)
+        .errorGroup(rp-errors='send_destination')
+          .success(rp-error-valid ng-show='send.recipient != send.recipient_address')
+            | {{send.recipient_address}}
+          .error(rp-error-on='required')
+            | Please enter a recipient.
+          .error(rp-error-on='rpDest')
+            | Recipient should be either a name from your contact list or Ripple/Bitcoin address.
+          .error(rp-error-on='federation')
+            | This email address is not Ripple-enabled.
+    .row.form-group(ng-show='$routeParams.st')
+      .col-xs-12.col-sm-6.col-md-5
+        label(for='send_st') Source tag
+        input.form-control#send_st(
+          name='send_st', type='text'
+          ng-model='send.st'
+          rp-stdt
+          rp-autofill='$routeParams.st')
+        .errorGroup(rp-errors='send_st')
+          .error(rp-error-on='rpStdt')
+            | Invalid source tag
+    .row.form-group(ng-show='$routeParams.dt || send.dt')
+      .col-xs-12.col-sm-6.col-md-5
+        label(for='send_dt') Destination tag
+        input.form-control#send_dt(
+          name='send_dt', type='text'
+          ng-model='send.dt'
+          rp-stdt
+          rp-autofill='$routeParams.dt')
+        .errorGroup(rp-errors='send_dt')
+          .error(rp-error-on='rpStdt')
+            | Invalid destination tag
     .form-group
       label(for='send_amount') Recipient will receive
-      .amount(ng-class="{'input-append': send.currency_force}")
-        input.form-control.value#send_amount(
+      .row.amount(ng-if="!send.currency_force")
+        .col-xs-12.col-sm-6.col-md-2
+          input.form-control#send_amount(
           name='send_amount', type='text'
           ng-model='send.amount'
           required
           rp-autofill='$routeParams.amount'
           rp-autofill-amount
+          rp-max-amount
+          rp-max-amount-currency='{{send.currency}}'
           rp-amount
           rp-amount-positive
           rp-amount-xrp-limit
           rp-amount-xrp-limit-currency='{{send.currency}}')
-        span(ng-if="!send.currency_force")
+        .col-xs-12.col-sm-6.col-md-3
           input.form-control.currency#send_amount_currency(
-            name='send_amount_currency', type='text'
-            rp-combobox="{{send.currency_choices}}", rp-combobox-select
-            ng-model='send.currency'
-            rp-autofill='$routeParams.amount'
-            rp-autofill-currency)
-        span.add-on(ng-if="send.currency_force", ng-bind="send.currency_force")
+          name='send_amount_currency', type='text'
+          rp-combobox="{{send.currency_choices}}", rp-combobox-select
+          ng-model='send.currency'
+          rp-autofill='$routeParams.amount'
+          rp-autofill-currency)
+      .row(ng-if="send.currency_force")
+        .col-xs-12.col-sm-6.col-md-3.input-group
+          input.form-control#send_amount(
+          name='send_amount', type='text'
+          ng-model='send.amount'
+          required
+          rp-autofill='$routeParams.amount'
+          rp-autofill-amount
+          rp-max-amount
+          rp-max-amount-currency='{{send.currency}}'
+          rp-amount
+          rp-amount-positive
+          rp-amount-xrp-limit
+          rp-amount-xrp-limit-currency='{{send.currency}}')
+          span.input-group-addon(ng-bind="send.currency_force")
       .errorGroup(rp-errors='send_amount')
         .error(rp-error-on='required')
           | Please enter an amount.
@@ -85,7 +105,7 @@ section.col-xs-12.content(ng-controller='SendCtrl')
           | Not a valid amount.
         .error(rp-error-on='rpAmountPositive')
           | Amount must be greater than zero.
-        .error(ng-show="send.sender_insufficient_xrp && sendForm.send_amount.$valid")
+        .error(rp-error-on='rpMaxAmount')
           | This transaction exceeds your balance, you can send a max. of {{account.max_spend | rpamount:{rel_precision: 0} }} XRP
         .error(ng-show="disallowXrp") Recipient does not allow XRP payments. Are you sure you want to send XRP anyway?
         .notice(ng-show="send.trust_limit") {{send.recipient | rpcontactname}} trusts you for {{send.trust_limit | rpamount}} {{send.trust_limit | rpcurrency}}.
