@@ -44,14 +44,15 @@ section.col-xs-12.col-md-10.content(ng-controller="ConvertCtrl")
       p.literal.throbber(ng-show="convert.path_status == 'pending'") Calculating...
       p.literal(ng-show="convert.path_status == 'no-path' && convert.currency_code != 'XRP'") No path found!
       p.literal(ng-show="convert.path_status == 'error'") Error while calculating path
-    .currency_sets(ng-if="convert.path_status == 'done'")
-      | Convert
-      ul
-        li(ng-repeat="alt in convert.alternatives")
-          p
-            span.amnt {{alt.amount | rpamount:{rel_precision: 4, rel_min_precision: 2} }}
-            span.currency {{alt.amount | rpcurrency }}
-          button.btn.btn-success(type="submit", ng-disabled='convertForm.$invalid', ng-click="convert.alt = alt") Convert {{ alt.amount | rpcurrency }}
+
+    .currency_sets(ng-if="convert.path_status == 'done'") Convert
+      ul.row
+        li.col-xs-12.col-sm-6.col-md-4(ng-repeat="alt in convert.alternatives")
+          .margin
+            .am
+              span.amnt {{alt.amount | rpamount:{rel_precision: 4, rel_min_precision: 2} }}
+              span.currency {{alt.amount | rpcurrency }}
+            button.btn.btn-block.btn-success(type="submit", ng-disabled='convertForm.$invalid', ng-click="convert.alt = alt") Convert {{ alt.amount | rpcurrency }}
 
   //- N2. Waiting for path
 
