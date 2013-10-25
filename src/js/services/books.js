@@ -30,7 +30,6 @@ function(net, $q, $scope, $filter) {
     var rowCount = 0;
     newData = _.values(_.compact(_.map(newData, function(d, i) {
 
-      console.log(d);
       // This check is redundant, but saves the CPU some work
       if (rowCount > max_rows) return false;
 
@@ -45,8 +44,6 @@ function(net, $q, $scope, $filter) {
       d.TakerPays = Amount.from_json(d.TakerPays);
 
       d.price = Amount.from_quality(d.BookDirectory, "1", "1");
-
-//      console.log('d.price', d.price.currency().to_human());
 
       if (action !== "asks") d.price = Amount.from_json("1/1/1").divide(d.price);
 
