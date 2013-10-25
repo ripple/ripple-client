@@ -307,9 +307,9 @@ section.col-xs-12.col-md-10.content(ng-controller="TradeCtrl")
               .col-xs-4.price Bid Price
                 .currency {{book.bids[0].TakerGets | rpcurrency}}
             .row(ng-repeat='order in bookFormatted.bids')
-              .col-xs-4.rpamount.sum {{order.sum}}
-              .col-xs-4.rpamount.size {{order.TakerPays}}
-              .col-xs-4.rpamount.price {{order.price}}
+              .col-xs-4.rpamount.sum(rp-bind-color-amount="order.sum")
+              .col-xs-4.rpamount.size(rp-bind-color-amount="order.TakerPays")
+              .col-xs-4.rpamount.price(rp-bind-color-amount="order.price")
             div(ng-show='!book.bids.length') There are currently no bids for this pair.
           .asks.col-xs-12.col-sm-6
             .title Asks
@@ -321,7 +321,7 @@ section.col-xs-12.col-md-10.content(ng-controller="TradeCtrl")
               .col-xs-4.sum Sum
                 .currency {{book.asks[0].TakerGets | rpcurrency}}
             .row(ng-repeat='order in bookFormatted.asks')
-              .col-xs-4.rpamount.price {{order.price}}
-              .col-xs-4.rpamount.size {{order.TakerGets}}
-              .col-xs-4.rpamount.sum {{order.sum}}
+              .col-xs-4.rpamount.price(rp-bind-color-amount="order.price")
+              .col-xs-4.rpamount.size(rp-bind-color-amount="order.TakerGets")
+              .col-xs-4.rpamount.sum(rp-bind-color-amount="order.sum")
             div(ng-show='!book.asks.length') There are currently no asks for this pair.

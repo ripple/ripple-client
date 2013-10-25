@@ -453,25 +453,17 @@ TradeTab.prototype.angular = function(module)
 
         if ($scope.book.bids) {
           $scope.bookFormatted.bids.forEach(function(order){
-//            console.log('sum',order.sum.currency().to_human());
-//            console.log('TakerPays',order.TakerPays.currency().to_human());
-//            console.log('price',order.price.currency().to_human());
-
-            order.sum = rpamountFilter(order.sum,{'rel_precision': 5, 'rel_min_precision': 5});
-            order.TakerPays = rpamountFilter(order.TakerPays,{'rel_precision': 5, 'rel_min_precision': 5});
-            order.price = rpamountFilter(order.price,{'rel_precision': 5, 'rel_min_precision': 5});
+            order.sum = rpamountFilter(order.sum,{'precision':5,'max_sig_digits':20});
+            order.TakerPays = rpamountFilter(order.TakerPays,{'precision':5,'min_precision':5,'max_sig_digits':20});
+            order.price = rpamountFilter(order.price,{'precision':5,'min_precision':5,'max_sig_digits':20});
           });
         }
 
         if ($scope.book.asks) {
           $scope.bookFormatted.asks.forEach(function(order){
-//            console.log('sum',order.sum.currency().to_human());
-//            console.log('TakerGets',order.TakerGets.currency().to_human());
-//            console.log('price',order.price.currency().to_human());
-
-            order.sum = rpamountFilter(order.sum,{'rel_precision': 5, 'rel_min_precision': 5});
-            order.TakerGets = rpamountFilter(order.TakerGets,{'rel_precision': 5, 'rel_min_precision': 5});
-            order.price = rpamountFilter(order.price,{'rel_precision': 5, 'rel_min_precision': 5});
+            order.sum = rpamountFilter(order.sum,{'precision':5,'min_precision':5,'max_sig_digits':20});
+            order.TakerGets = rpamountFilter(order.TakerGets,{'precision':5,'min_precision':5,'max_sig_digits':20});
+            order.price = rpamountFilter(order.price,{'precision':5,'min_precision':5,'max_sig_digits':20});
           });
         }
       }
