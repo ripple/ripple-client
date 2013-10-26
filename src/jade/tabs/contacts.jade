@@ -115,9 +115,11 @@ section.col-xs-12.col-md-10.content(ng-controller="ContactsCtrl")
         b {{entry.address | rpaddressorigin}}:
         |  {{entry.address}}
     .col-xs-12.col-sm-3.text-right
-      button.edit.btn.btn-default.btn-sm(ng-click='edit($index)', ng-hide='editing') Edit
-      | &nbsp;
-      button.editing.btn.btn-default.btn-sm(ng-click='cancel($index)', ng-show='editing') Cancel
-      | &nbsp;
-      button.send.btn.btn-primary.btn-sm(ng-click='send($index)') Send
+      .row
+        .col-xs-6(ng-hide='editing')
+          button.edit.btn.btn-block.btn-default.btn-sm(ng-click='edit($index)') Edit
+        .col-xs-6(ng-show='editing')
+          button.editing.btn-block.btn.btn-default.btn-sm(ng-click='cancel($index)') Cancel
+        .col-xs-6
+          button.send.btn.btn-block.btn-primary.btn-sm(ng-click='send($index)') Send
   div(ng-hide="userBlob.data.contacts.length") You don't have any contacts yet. Click on "+" button in the top right corner to add a new contact.
