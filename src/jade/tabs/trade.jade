@@ -292,7 +292,7 @@ section.col-xs-12.col-md-10.content(ng-controller="TradeCtrl")
             .col-sm-3.amount.rpamount(data-label="Amount") {{entry.first | rpamount}}
               span.currency  {{entry.first | rpcurrency}}
             .col-sm-2.action
-              button.btn.btn-danger.btn-sm(ng-click='cancel_order()') Cancel
+              a.danger(href="",ng-click='cancel_order()') Cancel
           div(ng-show="isEmpty(offers)")
               p.literal You haven&#39;t placed any orders.
 
