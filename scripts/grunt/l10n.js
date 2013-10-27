@@ -28,16 +28,8 @@ module.exports = function(grunt)
       {
         block.nodes.forEach(function (node) {
           node.attrs && node.attrs.forEach(function (attr) {
+            var text = parseText(node);
             if (attr.name === "rp-l10n") {
-              var textPieces = [];
-
-              node.block.nodes.forEach(function (node) {
-                if ("string" === typeof node.val) {
-                  textPieces.push(node.val);
-                }
-              });
-
-              var text = escapeString(textPieces.join(' '));
               messages.push({
                 file: filename,
                 line: node.line,
@@ -51,6 +43,32 @@ module.exports = function(grunt)
 
           node.block && processBlock(node.block);
         });
+      }
+
+      function parseText(node)
+      {
+        var textPieces = [], counter = 1;
+
+        node.block.nodes.forEach(function (node) {
+          var nodeText = '';
+          if (node.name) {
+            var incText = '', alias = String(counter++), content = '';
+            node.attrs && node.attrs.forEach(function (attr) {
+              if (attr.name === "rp-l10n-inc") {
+                content = ":"+parseText(node);
+              }
+            });
+            nodeText += "{{";
+            nodeText += alias;
+            nodeText += content;
+            nodeText += "}}";
+            textPieces.push(nodeText);
+          } else if ("string" === typeof node.val) {
+            textPieces.push(node.val);
+          }
+        });
+
+        return escapeString(textPieces.join(' '));
       }
 
       return messages;
@@ -130,7 +148,7 @@ module.exports = function(grunt)
             hasCollisions = true;
             grunt.log.error();
             grunt.log.error("Two messages with the same ID, but different strings:");
-            grunt.log.error(": "+otherMsg.file+":"+otherMsg.line);
+            grunt.log.error(": "+poItem.file+":"+poItem.line);
             grunt.log.error(": "+msg.file+":"+msg.line);
             grunt.log.error(": both have ID '"+msg.msgid+"'");
           } else {
@@ -175,6 +193,6 @@ module.exports = function(grunt)
     // +   improved by: Oskar Larsson Högfeldt (http://oskar-lh.name/)
     // *     example 1: addslashes("kevin's birthday");
     // *     returns 1: 'kevin\'s birthday'
-    return (str + '').replace(/[\\"']/g, '\\$&').replace(/\u0000/g, '\\0');
+    return (str + '').replace(/[\\"]/g, '\\$&').replace(/\u0000/g, '\\0');
   }
 };

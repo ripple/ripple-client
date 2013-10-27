@@ -1,46 +1,46 @@
 section.single.ddpage.content(ng-controller="TxCtrl", ng-switch on="state")
   group(ng-switch-when="loading")
-    p.literal.throbber Loading transaction details...
+    p.literal.throbber(rp-l10n) Loading transaction details...
   group(ng-switch-when="error")
-    p.literal An error occurred while loading the transaction details.
+    p.literal(rp-l10n) An error occurred while loading the transaction details.
   group(ng-switch-when="loaded")
-    p.literal.hash Transaction # {{transaction.hash}}
+    p.literal.hash(rp-l10n) Transaction # {{transaction.hash}}
     hr
-    p.literal.type Transaction type:
+    p.literal.type(rp-l10n) Transaction type:
       strong {{transaction.TransactionType}}
     group(ng-switch on="transaction.TransactionType")
       group(ng-switch-when="Payment")
         group.clearfix
           dl.details.half
-            dt Address sent from:
+            dt(rp-l10n) Address sent from:
             dd {{transaction.Account}}
-            dt Amount sent:
+            dt(rp-l10n) Amount sent:
             dd {{amountSent | rpamount}} {{amountSent | rpcurrency}}
-            dt Currency sent:
+            dt(rp-l10n) Currency sent:
             dd {{amountSent | rpcurrencyfull}}
           dl.details.half
-            dt Address sent to:
+            dt(rp-l10n) Address sent to:
             dd {{transaction.Destination}}
-            dt Amount received:
+            dt(rp-l10n) Amount received:
             dd {{transaction.Amount | rpamount}} {{transaction.Amount | rpcurrency}}
-            dt Currency received:
+            dt(rp-l10n) Currency received:
             dd {{transaction.Amount | rpcurrencyfull}}
         hr
         dl.details
-          dt Network fee paid:
+          dt(rp-l10n) Network fee paid:
           dd {{transaction.Fee | rpamount}} XRP
-          dt Conversion rate:
+          dt(rp-l10n) Conversion rate:
           dd TODO
         hr
         dl.details
-          dt Ledger number:
+          dt(rp-l10n) Ledger number:
           dd {{transaction.inLedger}}
       group(ng-switch-default)
           group.clearfix
             dl.details.half
-              dt Address sent from:
+              dt(rp-l10n) Address sent from:
               dd {{transaction.Account}}
             dl.details.half
           hr
-          p.literal Sorry, we don&#39;t have an info page layout for this
+          p.literal(rp-l10n) Sorry, we don&#39;t have an info page layout for this
             | transaction type yet.

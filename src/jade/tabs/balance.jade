@@ -4,23 +4,23 @@ section.panel.content(ng-controller="BalanceCtrl")
   //- Disconnected
 
   group.disconnected(ng-hide="connected")
-    p.literal You have to be online to see this screen
+    p.literal(rp-l10n) You have to be online to see this screen
 
   group.disconnected(ng-hide="!connected || loadState.account")
-    p.literal Loading...
+    p.literal(rp-l10n) Loading...
 
   //- Connected
 
   group(ng-show="connected && loadState.account")
     .div#welcome(ng-hide='account.Balance')
-      p.title Welcome to Ripple.
-      p You currently don&#39;t have any ripples (XRP). To get started you can:
+      p.title(rp-l10n) Welcome to Ripple.
+      p(rp-l10n) You currently don&#39;t have any ripples (XRP). To get started you can:
       .actions
         a.receive(href="#receive")
         a.nexus(href="http://www.xrpga.org/ripple-giveaways.html", target="_blank")
     .currency-summary.positive(ng-show='account.Balance')
       .balancebox
-        .label XRP - Ripple
+        .label(rp-l10n) XRP - Ripple
         .balance.xrp
           span(rp-tooltip="{{account.Balance | rpamount}}") {{account.Balance | rpamount:{rel_precision: 2} }}
           span(class="secondary") (reserve: {{ account.reserve | rpamount }} XRP)
@@ -30,16 +30,16 @@ section.panel.content(ng-controller="BalanceCtrl")
           span(rp-tooltip="{{entry.total | rpamount}}") {{entry.total | rpamount:{rel_precision: 0} }}
 
     table.table.events(ng-show="account.Balance")
-      caption Activity
+      caption(rp-l10n) Activity
       thead
         //- Loading screen
         tr(ng-show="tx_load_status == 'loading' && transactions.length")
-          td(colspan=2) Loading activity...
+          td(colspan=2, rp-l10n) Loading activity...
 
         //- Entries
         tr(ng-show="transactions.length")
-          th.date Date
-          th.desc Event
+          th.date(rp-l10n) Date
+          th.desc(rp-l10n) Event
       tbody(ng-class="{passive: loading}")
         tr(
           ng-repeat="entry in transactions"
@@ -81,14 +81,14 @@ section.panel.content(ng-controller="BalanceCtrl")
               |  for&nbsp;
               strong {{entry.transaction.gets | rpamount}} {{entry.transaction.gets | rpcurrency}}
               include balance/effects
-            .transaction(ng-switch-when="accountset") Account details have been changed
+            .transaction(ng-switch-when="accountset", rp-l10n) Account details have been changed
             .transaction(ng-switch-default)
               include balance/effects
 
       tfoot
         tr
           td(colspan=2)
-            a(href="", ng-click="loadMore()", ng-show="!tx_load_status && has_more") Load more
-            span(ng-show="tx_load_status == 'loading'")  Loading...
-            span(ng-show="tx_load_status == 'error'")  Error
-            span(ng-show="!transactions.length && !tx_load_status")  No past transactions found
+            a(href="", ng-click="loadMore()", ng-show="!tx_load_status && has_more", rp-l10n) Load more
+            span(ng-show="tx_load_status == 'loading'", rp-l10n)  Loading...
+            span(ng-show="tx_load_status == 'error'", rp-l10n)  Error
+            span(ng-show="!transactions.length && !tx_load_status", rp-l10n)  No past transactions found

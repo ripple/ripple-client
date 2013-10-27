@@ -1,29 +1,29 @@
 section.single.content(ng-controller="LoginCtrl")
 
   .normal-login(ng-hide="$routeParams.tab")
-    h1 Open Wallet
-    p.literal Enter the Name and Passphrase used to encrypt your Wallet below.
+    h1(rp-l10n) Open Wallet
+    p.literal(rp-l10n) Enter the Name and Passphrase used to encrypt your Wallet below.
     form(name='loginForm', ng-submit='submitForm()')
       .inputs
-        label(for='login_username') Wallet name
+        label(for='login_username', rp-l10n) Wallet name
         input#login_username(name='login_username', type='text', ng-model='username', required, rp-focus-on-empty
           rp-autofill='$routeParams.username')
-        label(for='login_password') Passphrase
+        label(for='login_password', rp-l10n) Passphrase
         input#login_password(name='login_password', type='password', ng-model='password', required, rp-focus)
       .reminder(ng-show="!hiddenReminder")
-        .title
+        .title(rp-l10n)
           | Reminder:
           span.close(ng-click="hiddenReminder=true") &times;
         .content
-          p
+          p(rp-l10n)
             | You are responsible for your login information.
             br
-            | ripple
+            | Ripple
             strong  cannot&nbsp;
             | recover your Wallet Name or Passphrase if you forget them!
-          p
+          p(rp-l10n)
             | Write down your Security Key.&nbsp
-            a(href="https://ripple.com/blog/security-tip-1-dont-share-your-secret-key/", target="_blank") Read more
+            a(href="https://ripple.com/blog/security-tip-1-dont-share-your-secret-key/", target="_blank", rp-l10n) Read more
       .text-status(ng-show='status')
         span {{status}}
         br
@@ -31,53 +31,53 @@ section.single.content(ng-controller="LoginCtrl")
           b {{message.backend}} &nbsp;
           span {{message.message}}
       .submitsection(ng-class="{throbber: ajax_loading}")
-        button.btn.btn-info(type='submit', ng-disabled="loginForm.$invalid") Open Wallet
+        button.btn.btn-info(type='submit', ng-disabled="loginForm.$invalid", rp-l10n) Open Wallet
         label.storageinfo
-          span.fetch Fetch wallet from
+          span.fetch(rp-l10n) Fetch wallet from
           br
           span(ng-hide="storeChange")
             strong {{blobBackendCollection.something.name}}
-            a(ng-click="storeChange=true") change
+            a(ng-click="storeChange=true", rp-l10n) change
           span(ng-show="storeChange")
             select(ng-model="blobBackendCollection.something", ng-options="b.name for b in blobBackendCollections", ng-change="backendChange()")
-            a(ng-click="storeChange=false") ok
-      p.literal
+            a(ng-click="storeChange=false", rp-l10n) ok
+      p.literal(rp-l10n)
         | New to ripple?&nbsp;
-        a(href='#register') Create a wallet
+        a(href='#register', rp-l10n) Create a wallet
 
   .action-login(ng-show="$routeParams.tab")
     div(ng-show="'send' == $routeParams.tab")
-      h1 Transaction summary
+      h1(rp-l10n) Transaction summary
       .info
         p.literal {{$routeParams.label}}
-        p.label(ng-show="$routeParams.amount") you will send
-        p.label(ng-hide="$routeParams.amount") you will send money to the ripple address
+        p.label(ng-show="$routeParams.amount", rp-l10n) you will send
+        p.label(ng-hide="$routeParams.amount", rp-l10n) you will send money to the ripple address
         .amount(ng-show="$routeParams.amount")
           span.number {{$routeParams.amount | rpamount:{xrp_human: true} }}
           span.currency {{$routeParams.amount | rpcurrency}}
-        p.label(ng-show="$routeParams.amount") To the ripple address
+        p.label(ng-show="$routeParams.amount", rp-l10n) To the ripple address
         .address {{$routeParams.to}}
     div(ng-show="'trust' == $routeParams.tab")
-      h1 Grant Trust
+      h1(rp-l10n) Grant Trust
       .info
         p.label {{$routeParams.label}}
-        p.label you will trust
+        p.label(rp-l10n) you will trust
         .amount(ng-show="$routeParams.amount")
           span.number {{$routeParams.amount | rpamount:{xrp_human: true} }}
           span.currency {{$routeParams.amount | rpcurrency}}
-        p.label(ng-hide="$routeParams.name") To ripple address
-        p.label(ng-show="$routeParams.name") To <b>{{$routeParams.name}}</b> with a ripple address
+        p.label(ng-hide="$routeParams.name", rp-l10n) To ripple address
+        p.label(ng-show="$routeParams.name", rp-l10n) To <b>{{$routeParams.name}}</b> with a ripple address
         .address {{$routeParams.to}}
     div(ng-show="'contacts' == $routeParams.tab")
-      h1 Add contact
+      h1(rp-l10n) Add contact
       .info
         p.literal {{$routeParams.label}}
-        p.label you will add the user
+        p.label(rp-l10n) you will add the user
         .address {{$routeParams.to}}
-        p.label To your ripple contacts
+        p.label(rp-l10n) To your ripple contacts
 
     form(name='loginForm', ng-submit='submitForm()')
-      label(for='login_username') Wallet name
+      label(for='login_username', rp-l10n) Wallet name
       input#login_username(name='login_username', type='text', ng-model='username', required
         rp-autofill='$routeParams.username')
       p.text-status(ng-show='status')
@@ -87,19 +87,19 @@ section.single.content(ng-controller="LoginCtrl")
           b {{message.backend}} &nbsp;
           span {{message.message}}
           br
-      label(for='login_password') Passphrase
+      label(for='login_password', rp-l10n) Passphrase
       input#login_password(name='login_password', type='password', ng-model='password', required)
       label.storageinfo(ng-class="{throbber: ajax_loading}")
         span(ng-hide="storeChange")
           strong {{blobBackendCollection.something.name}}&nbsp;
-          a(ng-click="storeChange=true") change
+          a(ng-click="storeChange=true", rp-l10n) change
         span(ng-show="storeChange")
           select(ng-model="blobBackendCollection.something", ng-options="b.name for b in blobBackendCollections", ng-change="backendChange()")
-          a(ng-click="storeChange=false") ok
+          a(ng-click="storeChange=false", rp-l10n) ok
       .submitsection
-        button.btn.btn-info(type='submit') Open wallet
-      p.literal.hint
+        button.btn.btn-info(type='submit', rp-l10n) Open wallet
+      p.literal.hint(rp-l10n)
         | You can confirm this transaction on the next page.
-      p.literal
+      p.literal(rp-l10n)
         | New to ripple?&nbsp;
-        a(href='#/register') Create a wallet
+        a(href='#/register', rp-l10n) Create a wallet

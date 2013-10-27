@@ -1,29 +1,29 @@
 include ../menu/advanced.jade
 section.panel.content(ng-controller="OptionsCtrl")
-  p.literal Options
+  p.literal(rp-l10n) Options
   hr
   form(name="optionsForm", ng-submit="save()")
     div(ng-repeat="(index, server) in servers")
-      label(for="host") Web Socket IP, port, secure
+      label(for="host", rp-l10n) Web Socket IP, port, secure
       input.host(name='host', type='text', ng-model='server.host', rp-hostname)
       input.port(name='port', type='text', ng-model='server.port', rp-port-number)
       button.btn.btn-default.btn-small.delete(type="button", ng-click="servers.splice($index,1)") Remove
       .errorGroup
         div(rp-errors='socketIp')
-          .error(rp-error-on='rpHostname')
+          .error(rp-error-on='rpHostname', rp-l10n)
             | Socket ip or hostname is invalid.
         div(rp-errors='socketPort')
-          .error(rp-error-on='rpPortNumber')
+          .error(rp-error-on='rpPortNumber', rp-l10n)
             | Port number is invalid.
       div.helperInput
         input(type="checkbox", name="secure", ng-model='server.secure')
-        label(for="secure") Web Socket ssl
+        label(for="secure", rp-l10n) Web Socket ssl
     div
       button.btn.btn-default(type="button", ng-click="servers.push({})") Add new server
       br
       br
     div
-      label(for="blobIp") Blob vault URL
+      label(for="blobIp", rp-l10n) Blob vault URL
       input.blobIp(name='blobIp', id="blobIp", type='text', ng-model='blobIp')
     div
       p.submitsection
