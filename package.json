@@ -20,7 +20,7 @@
     "jshint-loader": "~0.5.0",
     "webpack": "~0.10.0-beta24",
     "grunt-contrib-copy": "~0.4.1",
-    "grunt-preprocess": "https://github.com/justmoon/grunt-preprocess/tarball/defhidden",
+    "grunt-preprocess": "~3.0.1",
     "jade": "~0.35.0",
     "jsdom": "~0.8.2",
     "node-po": "~0.1.2"
