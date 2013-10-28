@@ -1331,15 +1331,20 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
         display: none;
       }
     }
+
+    .emptyMessage {
+      margin: 10px 0;
+    }
   }
 
   .orderbook {
     .title {
-      margin-bottom: 10px;
+      margin: 0 -15px 15px -15px;
       font: bold 15px 'OpenSansRegular';
       text-transform: uppercase;
-      color: green;
-      text-align: right;
+      background: darken(@bg, 3%);
+      padding: 10px;
+      text-align: center;
     }
     .head {
       font: 15px 'OpenSansRegular';

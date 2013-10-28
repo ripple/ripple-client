@@ -264,12 +264,13 @@ section.col-xs-12.col-md-10.content(ng-controller="TradeCtrl")
 
       .listings
         .my(ng-show="order.listing == 'my'")
-          .row.head.hidden-xs
-            .col-sm-1.type Type
-            .col-sm-3.pair Pair
-            .col-sm-3.price Price
-            .col-sm-3.amount Amount
-            .col-sm-2.action Action
+          div(ng-hide="isEmpty(offers)")
+            .row.head.hidden-xs
+              .col-sm-1.type Type
+              .col-sm-3.pair Pair
+              .col-sm-3.price Price
+              .col-sm-3.amount Amount
+              .col-sm-2.action Action
           .row(ng-repeat="entry in offers", ng-class="{cancelled: cancelled}")
             .col-sm-1.type(data-label="Type") {{entry.type | rpucfirst}}
             .col-sm-3.pair(data-label="Pair")
@@ -293,9 +294,11 @@ section.col-xs-12.col-md-10.content(ng-controller="TradeCtrl")
               span.currency  {{entry.first | rpcurrency}}
             .col-sm-2.action
               a.danger(href="",ng-click='cancel_order()') Cancel
-          div(ng-show="isEmpty(offers)")
-              p.literal You haven&#39;t placed any orders.
+          .emptyMessage(ng-show="isEmpty(offers)")
+            p.literal You haven&#39;t placed any orders.
 
+        // - TODO hide one column (size/sum) to show bids/ask in the same line for mobile phones.
+        // - TODO highlight changes
         .row.orderbook(ng-show="order.listing == 'orderbook'")
           .bids.col-xs-12.col-sm-6
             .title Bids
