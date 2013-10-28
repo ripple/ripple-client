@@ -310,8 +310,8 @@ HistoryTab.prototype.angular = function (module) {
         });
 
         if ($scope.historyShow.length && !$scope.dateMinView) {
-          $scope.dateMinView = new Date(dateMin);
-          $scope.dateMaxView = new Date(dateMax);
+          setValidDateOnScopeOrNullify('dateMinView', dateMin);
+          setValidDateOnScopeOrNullify('dateMaxView', dateMax);
         }
       }
     };
@@ -342,6 +342,14 @@ HistoryTab.prototype.angular = function (module) {
         $scope.filters.currencies = objCurrencies;
       }
     };
+
+    var setValidDateOnScopeOrNullify = function(key, value) {
+      if (isNaN(value) || value == null) {
+        $scope[key] = null;
+      } else {
+        $scope[key] = new Date(value);
+      }
+    }
 
     $scope.loadMore = function () {
       var dateMin;
@@ -384,7 +392,7 @@ HistoryTab.prototype.angular = function (module) {
 
             $scope.historyState = ($scope.history.length === newHistory.length) ? 'full' : 'ready';
             $scope.history = newHistory;
-            $scope.dateMinView = new Date(dateMin);
+            setValidDateOnScopeOrNullify('dateMinView', dateMin);
           }
         });
       }).request();
