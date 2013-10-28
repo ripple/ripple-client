@@ -175,15 +175,16 @@ section.single.content(ng-controller='SendCtrl')
         span.value {{send.alt.amount | rpamount}}&nbsp;
         span.currency {{send.alt.amount | rpcurrency}} &nbsp;
         span &plusmn; 1%
-    p.literal Are you sure?
-    .row
-      .col-xs-6.col-sm-4.col-md-3.col-lg-2
-        button.btn.btn-block.btn-default.back(ng-click='cancelConfirm()') &laquo; Back
-      .col-xs-6.col-sm-4.col-md-3.col-lg-2
-        button.btn.btn-block.btn-success.submit(
-          type='submit'
-          ng-click='send_confirmed()'
-          ng-disabled='confirm_wait') Confirm
+    .call-to-action
+      p.literal Are you sure?
+      .row.buttons-row
+        .col-xs-6.col-sm-4.col-md-3.col-lg-2
+          button.btn.btn-block.btn-default.back(ng-click='cancelConfirm()') &laquo; Back
+        .col-xs-6.col-sm-4.col-md-3.col-lg-2
+          button.btn.btn-block.btn-success.submit(
+            type='submit'
+            ng-click='send_confirmed()'
+            ng-disabled='confirm_wait') Confirm
 
   //- N4. Waiting for transaction result page
 
