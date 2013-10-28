@@ -1,65 +1,13 @@
-@btnInfoBackground:                 #33aaec;
-@btnInfoBackgroundHighlight:        #2c93c7;
-
 .btn {
-  padding: 13px;
-  font: 15px 'OpenSansBold';
-  font-weight: normal;
-  letter-spacing: 0;
-  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.15);
-  .rounded(5px);
-  .transition-multi(background);
-  .transition-duration(0.2s);
+  font-family: 'OpenSansLight';
 }
 
-.btn-small {
-  padding: 4px 13px;
-}
-.btn-info {
-  border: 1px solid #336;
-}
-
-.btn-success {
-  border: 1px solid #488148;
-}
-.btn-danger {
-  border: 1px solid #922823;
-}
-
-.btn-wide {
-  width: 190px;
+.btn.btn-lg.btn-submit {
+  font-size: 16px;
+  line-height: 24px;
 }
 
 .btn:disabled {
   background: #ccc;
-  border-color: #ccc;
-}
-
-.btn.sign {
-  padding: 2px 10px;
-  font: 20px Arial;
-  font-weight: bold;
-  line-height: 25px;
-}
-.btn.sign.small {
-  padding: 2px 7px;
-  font: 20px Arial;
-  line-height: 25px;
-}
-
-// TODO move to separate file
-.icon {
-  background: url('../../img/sprite_l.png')
-}
-.icon.up {
-  display: inline-block;
-  width: 10px;
-  height: 10px;
-  background-position: 13px -3px;
-}
-.icon.down {
-  display: inline-block;
-  width: 10px;
-  height: 10px;
-  background-position: -4px -3px;
+  border-color: darken(#ccc,10);
 }

@@ -12,13 +12,12 @@
 	left: 0;
 	padding: 4px;
 	margin-top: 1px;
-	.border-radius(4px);
 	&:before {
 		content: '';
 		display: inline-block;
 		border-left:   7px solid transparent;
 		border-right:  7px solid transparent;
-		border-bottom: 7px solid #ccc;
+		border-bottom: 7px solid #f7f7f7;
 		border-bottom-color: rgba(0,0,0,.2);
 		position: absolute;
 		top: -7px;
@@ -29,7 +28,7 @@
 		display: inline-block;
 		border-left:   6px solid transparent;
 		border-right:  6px solid transparent;
-		border-bottom: 6px solid @white;
+		border-bottom: 6px solid #fff;
 		position: absolute;
 		top: -6px;
 		left: 7px;
@@ -46,45 +45,41 @@
 		text-align: center;
 		width: 20px;
 		height: 20px;
-		.border-radius(4px);
 	}
 	td {
 		&.day:hover {
-			background: @grayLighter;
+			background: #f7f7f7;
 			cursor: pointer;
 		}
 		&.day.disabled {
-			color: @grayLighter;
+			color: #ccc;
 		}
 		&.old,
 		&.new {
-			color: @grayLight;
+			color: #ccc;
 		}
 		&.active,
 		&.active:hover {
-			.buttonBackground(@btnPrimaryBackground, spin(@btnPrimaryBackground, 20));
-			color: #fff;
-			text-shadow: 0 -1px 0 rgba(0,0,0,.25);
+			color: #000;
+			font-weight: bold;
 		}
 		span {
 			display: block;
-			width: 47px;
+			width: 30%;
 			height: 54px;
 			line-height: 54px;
 			float: left;
 			margin: 2px;
 			cursor: pointer;
-			.border-radius(4px);
 			&:hover {
-				background: @grayLighter;
+				background: #f7f7f7;
 			}
 			&.active {
-				.buttonBackground(@btnPrimaryBackground, spin(@btnPrimaryBackground, 20));
-				color: #fff;
-				text-shadow: 0 -1px 0 rgba(0,0,0,.25);
+              color: #000;
+              font-weight: bold;
 			}
 			&.old {
-				color: @grayLight;
+				color: #ccc;
 			}
 		}
 	}
@@ -95,14 +90,14 @@
 		}
 		&.next,
 		&.prev {
-			font-size: @baseFontSize * 1.5;
+			font-size: 15px;
 		}
 	}
 	
 	thead tr:first-child th {
 		cursor: pointer;
 		&:hover{
-			background: @grayLighter;
+			background: #f7f7f7;
 		}
 	}
 	/*.dow {

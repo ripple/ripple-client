@@ -30,7 +30,6 @@ TradeTab.prototype.angular = function(module)
   {
     if (!$id.loginStatus) return $id.goId();
 
-    $scope.mode = "confirm";
     $scope.bookFormatted = {};
 
     var pairs = $scope.pairs_all;
@@ -456,17 +455,17 @@ TradeTab.prototype.angular = function(module)
 
         if ($scope.book.bids) {
           $scope.bookFormatted.bids.forEach(function(order){
-            order.sum = rpamountFilter(order.sum,{'rel_precision': 4});
-            order.TakerPays = rpamountFilter(order.TakerPays,{'rel_precision': 4});
-            order.price = rpamountFilter(order.price,{'rel_precision': 4, 'rel_min_precision': 2});
+            order.sum = rpamountFilter(order.sum,{'precision':5,'max_sig_digits':20});
+            order.TakerPays = rpamountFilter(order.TakerPays,{'precision':5,'min_precision':5,'max_sig_digits':20});
+            order.price = rpamountFilter(order.price,{'precision':5,'min_precision':5,'max_sig_digits':20});
           });
         }
 
         if ($scope.book.asks) {
           $scope.bookFormatted.asks.forEach(function(order){
-            order.sum = rpamountFilter(order.sum,{'rel_precision': 4});
-            order.TakerGets = rpamountFilter(order.TakerGets,{'rel_precision': 4});
-            order.price = rpamountFilter(order.price,{'rel_precision': 4, 'rel_min_precision': 2});
+            order.sum = rpamountFilter(order.sum,{'precision':5,'min_precision':5,'max_sig_digits':20});
+            order.TakerGets = rpamountFilter(order.TakerGets,{'precision':5,'min_precision':5,'max_sig_digits':20});
+            order.price = rpamountFilter(order.price,{'precision':5,'min_precision':5,'max_sig_digits':20});
           });
         }
       }

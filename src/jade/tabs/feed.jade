@@ -1,4 +1,4 @@
-section.panel.content(ng-controller="FeedCtrl")
+section.content(ng-controller="FeedCtrl")
   table.spaceTable
     tr
       td Ledger 
@@ -7,7 +7,7 @@ section.panel.content(ng-controller="FeedCtrl")
         input#FeedTransactionsCheckbox(type="checkbox", ng-click='toggle_feed_transactions()', ng-model="transCheck") 
       td Server 
         input#FeedServerCheckbox(type="checkbox", ng-click='toggle_feed_server()', ng-model="serverCheck") 
-      td: button.btn.btn-danger.btn-small(ng-click='clear_feed()') Clear Feed
+      td: button.btn.btn-danger.btn-sm(ng-click='clear_feed()') Clear Feed
   table.table
     thead
       tr

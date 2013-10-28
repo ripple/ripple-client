@@ -22,18 +22,6 @@ exports["convert"] = function (callback) {
   callback(require('../tabs/convert'));
 };
 
-exports["invite"] = function (callback) {
-  callback(require('../tabs/invite'));
-};
-
-exports["exchange"] = function (callback) {
-  callback(require('../tabs/exchange'));
-};
-
-exports["rates"] = function (callback) {
-  callback(require('../tabs/rates'));
-};
-
 exports["trust"] = function (callback) {
   callback(require('../tabs/trust'));
 };
@@ -57,12 +45,7 @@ exports["options"] = function (callback) {
 exports["feed"] = function (callback) {
   callback(require('../tabs/feed'));
 };
-exports["peers"] = function (callback) {
-  callback(require('../tabs/peers'));
-};
-exports["unl"] = function (callback) {
-  callback(require('../tabs/unl'));
-};
+
 exports["security"] = function (callback) {
   callback(require('../tabs/security'));
 };

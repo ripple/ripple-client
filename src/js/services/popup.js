@@ -16,7 +16,7 @@ module.factory('rpPopup', ['$http', '$compile',
   {
     if (!popupService.popupElement && create)
     {
-      popupService.popupElement = $( '<div class="modal hide"></div>' );
+      popupService.popupElement = $( '<div class="modal fade"></div>' );
       popupService.popupElement.appendTo( 'BODY' );
     }
 
@@ -36,7 +36,7 @@ module.factory('rpPopup', ['$http', '$compile',
     cancelButtonCss = (cancelButtonCss) ? cancelButtonCss : "";
 
     var popup = popupService.getPopup(true);
-    var confirmHTML = "";
+    var confirmHTML = '<div class="modal-dialog"><div class="modal-content">';
 
     if (title) {
       confirmHTML += "<div class=\"modal-header\"><h1>"+title+"</h1></div>";
@@ -59,7 +59,7 @@ module.factory('rpPopup', ['$http', '$compile',
       confirmHTML += "<a class=\"" + cancelButtonCss + " btn-cancel\">"+cancelButtonText+"</a>";
     }
 
-    confirmHTML += "</p></div>";
+    confirmHTML += "</p></div></div></div>";
 
     popup.html(confirmHTML);
 

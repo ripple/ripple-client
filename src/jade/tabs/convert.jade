@@ -1,150 +1,155 @@
 include ../menu/wallet.jade
-section.panel.content(ng-controller="ConvertCtrl")
+section.col-xs-12.col-md-10.content(ng-controller="ConvertCtrl")
 
   //- Disconnected
 
   group.disconnected(ng-hide="connected")
-    p.literal(rp-l10n) You have to be online to see this screen
+    p.literal You have to be online to see this screen
 
   group.disconnected(ng-hide="!connected || loadState.account")
-    p.literal(rp-l10n) Loading...
+    p.literal Loading...
 
   //- Connected
 
   form.mode-form(name="convertForm", id="convertForm", ng-show='mode=="form" && account.Balance', ng-submit='convert_prepared()')
-    p.literal(rp-l10n) Convert one currency into another.
+    p.literal Convert one currency into another.
     hr
-    label(for='amount', rp-l10n) Receive
-    .amount
-      input.value#amount(
-      name='amount', type='text'
-      ng-model='convert.amount'
-      required
-      rp-autofill='$routeParams.amount'
-      rp-autofill-amount
-      rp-amount
-      rp-amount-positive)
-      input.currency#amount_currency(
-      name='amount_currency', type='text'
-      rp-combobox="currency_query", rp-combobox-select
-      ng-model='convert.currency'
-      rp-autofill='$routeParams.amount'
-      rp-autofill-currency)
-    .errorGroup(rp-errors='amount')
-      .error(rp-error-on='required', rp-l10n)
-        | Please enter an amount.
-      .error(rp-error-on='rpAmount', rp-l10n)
-        | Not a valid amount.
-      .error(rp-error-on='rpAmountPositive', rp-l10n)
-        | Please enter an amount greater than zero.
-    p.literal(ng-show="convert.path_status == 'waiting'", rp-l10n) Please enter the conversion details.
-    p.literal.throbber(ng-show="convert.path_status == 'pending'", rp-l10n) Calculating...
-    p.literal(ng-show="convert.path_status == 'no-path' && convert.currency_code != 'XRP'", rp-l10n) No path found!
-    p.literal(ng-show="convert.path_status == 'error'") Error while calculating path
-    .currency_sets(ng-if="convert.path_status == 'done'")
-      .label(rp-l10n) Convert
-      ul
-        li(ng-repeat="alt in convert.alternatives")
-          p
-            span.amnt {{alt.amount | rpamount:{rel_precision: 4, rel_min_precision: 2} }}
-            span.currency {{alt.amount | rpcurrency }}
-          button.btn.btn-success(type="submit", ng-disabled='convertForm.$invalid', ng-click="convert.alt = alt", rp-l10n) Convert {{ alt.amount | rpcurrency }}
+    .form-group
+      label(for='amount') Receive
+      .row.amount
+        .col-md-4
+          input.value.form-control#amount(
+          name='amount', type='text'
+          ng-model='convert.amount'
+          required
+          rp-autofill='$routeParams.amount'
+          rp-autofill-amount
+          rp-amount
+          rp-amount-positive)
+        .col-md-3
+          input.currency.form-control#amount_currency(
+          name='amount_currency', type='text'
+          rp-combobox="currency_query", rp-combobox-select
+          ng-model='convert.currency'
+          rp-autofill='$routeParams.amount'
+          rp-autofill-currency)
+      .errorGroup(rp-errors='amount')
+        .error(rp-error-on='required')
+          | Please enter an amount.
+        .error(rp-error-on='rpAmount')
+          | Not a valid amount.
+        .error(rp-error-on='rpAmountPositive')
+          | Please enter an amount greater than zero.
+      p.literal(ng-show="convert.path_status == 'waiting'") Please enter the conversion details.
+      p.literal.throbber(ng-show="convert.path_status == 'pending'") Calculating...
+      p.literal(ng-show="convert.path_status == 'no-path' && convert.currency_code != 'XRP'") No path found!
+      p.literal(ng-show="convert.path_status == 'error'") Error while calculating path
+
+    .currency_sets(ng-if="convert.path_status == 'done'") Convert
+      ul.row
+        li.col-xs-12.col-sm-6.col-md-4(ng-repeat="alt in convert.alternatives")
+          .margin
+            .am
+              span.amnt {{alt.amount | rpamount:{rel_precision: 4, rel_min_precision: 2} }}
+              span.currency {{alt.amount | rpcurrency }}
+            button.btn.btn-block.btn-success(type="submit", ng-disabled='convertForm.$invalid', ng-click="convert.alt = alt") Convert {{ alt.amount | rpcurrency }}
 
   //- N2. Waiting for path
 
   group.mode-wait-path(ng-show='mode=="wait_path" && account.Balance')
-    p.throbber.literal(rp-l10n) Ripple is calculating a path for your conversion.
+    p.throbber.literal Ripple is calculating a path for your conversion.
 
   //- N3. Confirmation page
 
-  group.mode-confirm(ng-show='mode=="confirm" && account.Balance', rp-l10n)
-    p.literal(rp-l10n-inc) You are converting
+  group.mode-confirm(ng-show='mode=="confirm" && account.Balance')
+    p.literal You are converting
     p.amount_feedback
       span.value {{convert.alt.amount | rpamount}}&nbsp;
       span.currency {{convert.alt.amount | rpcurrency}}
-    p.literal(rp-l10n-inc) to
+    p.literal to
     p.amount_feedback
       span.value {{convert.amount_feedback | rpamount}}&nbsp;
       span.currency {{convert.amount_feedback | rpcurrency}}
-    p.literal(rp-l10n-inc) You will pay at most
-    p.convertmax_feedback
+    p.literal You will pay at most
+    p.amount_feedback
       span.value {{convert.alt.amount | rpamount}}&nbsp;
       span.currency {{convert.alt.amount | rpcurrency}} &nbsp;
       span &plusmn; 1%
-    p.literal(rp-l10n-inc) Are you sure?
-    div
-      p.submitsection
-        button.btn.back(ng-click='cancelConfirm()', rp-l10n) &laquo; Back
-        button.btn.btn-success.submit(
-        type='submit'
-        ng-click='convert_confirmed()'
-        ng-disabled='confirm_wait', rp-l10n) Confirm
+    p.literal Are you sure?
+    .row
+      .col-xs-12.col-sm-6.col-md-2
+        button.btn.btn-block.btn-default.back(ng-click='cancelConfirm()') &laquo; Back
+      .col-xs-12.col-sm-6.col-md-2
+        button.btn.btn-block.btn-success.submit(
+          type='submit'
+          ng-click='convert_confirmed()'
+          ng-disabled='confirm_wait') Confirm
 
   //- N4. Waiting for transaction result page
 
   group.mode-sending(ng-show='mode=="sending" && account.Balance')
-    p.throbber.literal(rp-l10n) Sending transaction to Ripple network
+    p.throbber.literal Sending transaction to Ripple network
     hr
-    p: button.btn(ng-click='reset()', rp-l10n) Stop waiting
+    p: button.btn.btn-default(ng-click='reset()') Stop waiting
 
   //- N5. Error page
   group.mode-error(ng-show='mode=="error" && account.Balance')
     group(ng-switch on="error_type")
       group.result-error(ng-switch-when='noPath')
-        h2.tx-status(rp-l10n) No Path
-        p(rp-l10n) Ripple was unable to find a path between you and the destination account.
+        h2.tx-status No Path
+        p Ripple was unable to find a path between you and the destination account.
       group(ng-switch-default)
-        p.literal(rp-l10n) Sorry, an error occurred while submitting your transaction.
+        p.literal Sorry, an error occurred while submitting your transaction.
           | Make sure you are connected to the Internet and try again later.
-        p.literal(rp-l10n) Before trying again, please ensure that the transaction has
+        p.literal Before trying again, please ensure that the transaction has
           | not been executed already.
-    p: button.btn(ng-click='cancelConfirm()', rp-l10n) &laquo; Back
+    p: button.btn.btn-default(ng-click='cancelConfirm()') &laquo; Back
 
   //- N6. Confirmed page
 
   group.mode-status(ng-show='mode=="status" && account.Balance')
     group.pending(ng-show='tx_result=="pending"')
-      h2.tx-status(rp-l10n) Your transaction has been submitted.
-      p(rp-l10n) Your account balance will update once the payment has cleared.
+      h2.tx-status Your transaction has been submitted.
+      p Your account balance will update once the payment has cleared.
     group.result-success(ng-show='tx_result=="cleared"')
-      h2.tx-status(rp-l10n) Transaction cleared!
+      h2.tx-status Transaction cleared!
     group.result-partial(ng-show='tx_result=="partial"')
-      h2.tx-status(rp-l10n) Transaction partially valid!
-      p(rp-l10n) Your transaction could only be partially applied.
+      h2.tx-status Transaction partially valid!
+      p Your transaction could only be partially applied.
     group.result-error(ng-show='tx_result=="error"')
-      h2.tx-status(rp-l10n) Transaction could not be submitted!
-      p(rp-l10n) We were unable to submit the transaction to the server.
+      h2.tx-status Transaction could not be submitted!
+      p We were unable to submit the transaction to the server.
         | Please try again later.
     group.result-malformed(ng-show='tx_result=="malformed"')
-      h2.tx-status(rp-l10n) Transaction malformed!
+      h2.tx-status Transaction malformed!
       p(ng-switch on="engine_result")
-        span(ng-switch-default, rp-l10n)
+        span(ng-switch-default)
           | Your transaction is invalid, reason: {{engine_result}} - {{engine_result_message}}
     group.result-malformed(ng-show='tx_result=="failure"')
-      h2.tx-status(rp-l10n) Transaction malformed!
+      h2.tx-status Transaction malformed!
       p(ng-switch on="engine_result")
-        span(ng-switch-when="tefDST_TAG_NEEDED", rp-l10n)
+        span(ng-switch-when="tefDST_TAG_NEEDED")
           | Destination account requires destination tag to be specified when making payments.
     group.result-malformed(ng-show='tx_result=="claim"')
-      h2.tx-status(rp-l10n) Transaction failed!
+      h2.tx-status Transaction failed!
       p(ng-switch on="engine_result")
-        span(ng-switch-when="tecNO_DST", rp-l10n)
+        span(ng-switch-when="tecNO_DST")
           | The destination account does not exist.
-        span(ng-switch-when="tecNO_DST_INSUF_XRP", rp-l10n)
-          | The destination account does not exist and too little XRP sent to create it.
-        span(ng-switch-default, rp-l10n)
+        span(ng-switch-when="tecNO_DST_INSUF_XRP")
+          | The destination account does not exist. Too little XRP sent to create it.
+        span(ng-switch-default)
           | Error: {{engine_result_message}}
     group.result-failed(ng-show='tx_result=="failed"')
-      h2.tx-status(rp-l10n) Transaction failed!
+      h2.tx-status Transaction failed!
       p(ng-switch on="engine_result")
-        span(ng-switch-when="terNO_LINE", rp-l10n)
+        span(ng-switch-when="terNO_LINE")
           | You have no trust line in this currency.
-        span(ng-switch-default, rp-l10n)
+        span(ng-switch-default)
           | Your transaction failed to clear, reason: {{engine_result_message}}
     group.actions
       hr
       div(class="actionLink")
-        a(ng-click="reset()", rp-l10n) Do another conversion
+        a(href="", ng-click="reset()") Do another conversion
       div(class="actionLink")
-        a(ng-click="reset_goto('balance')", rp-l10n) Back to balance
+        a(href="", ng-click="reset_goto('balance')") Back to balance
       hr

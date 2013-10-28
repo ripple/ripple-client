@@ -1,18 +1,6 @@
-#t-register form, #t-login form {
-  margin-top: 25px;
-  margin-bottom: 25px;
+// TODO all _ or all -
 
-  #login_username,
-  #login_password {
-    width: 300px;
-  }
-  #register_username,
-  #register_password,
-  #register_password2,
-  #register_masterkey {
-    width: 280px;
-  }
-
+#t-register, #t-login {
   .strength {
     margin: 38px 0 0 0;
 
@@ -27,29 +15,9 @@
     }
   }
 
-  .text-status {
-    margin: -20px 0 0 0;
-  }
   .text-error {
     color: #b94a48;
     margin: -20px 0 0 0;
-  }
-
-  .horiz {
-    > div {
-      float: left;
-      margin-right: 20px;
-    }
-
-    &:after {
-      .virtualel;
-      clear: both;
-    }
-  }
-
-  .btn {
-    margin: 12px 12px 12px 0;
-    float: left;
   }
 
   .storageinfo strong {
@@ -63,99 +31,61 @@
   .storeChange {
     display: block;
   }
-
-  .submitsection {
-    .makeRow();
-    button {
-      .makeColumn(3);
-    }
-    p {
-      .makeColumn(6);
-      font-size: 20px;
-      float: left;
-      padding-left: 10px;
-      padding-top: 10px;
-      margin: 0;
-    }
-  }
-
-  .throw {
-    clear: both;
-  }
 }
 
 #t-register {
-  .mode-form {
-    margin: 0 50px;
-
-    h1 {
-      margin-left: -50px;
-      margin-right: -50px;
-    }
-  }
-
   .mode-welcome {
-    display: block;
-    margin: 0 30px;
-
-    h1 {
-      margin: 0 30px;
-    }
-
     .important {
       font: 16px 'OpenSansLight';
     }
 
     .credentials {
-      display: inline-block;
       background-color: #F5F5F5;
-      margin: 0 @pmSingleMargin;
       padding: 10px 30px;
-      font-size: 12px;
+    }
 
-      .value {
-        font-size: 18px;
-      }
-      span {
-        margin: 0 10px 0 0;
+    @media (min-width: @screen-sm-max) {
+      .credentials {
+        font-size: 12px;
 
+        .value {
+          font-size: 18px;
+        }
         span {
-          margin: 0 10px;
+          margin: 0 10px 0 0;
+
+          span {
+            margin: 0 10px;
+          }
         }
       }
-      a {
-        margin: 0 0 0 5px;
+
+      .secret {
+        margin: 0 -30px 20px;
+        padding: 20px 30px;
+        border-radius: 10px;
+        border: 1px solid #f2f2f2;
+
+        .key {
+          margin: 0 5px 10px 0;
+          font-size: 25px;
+        }
       }
     }
 
-    .secret {
-      margin: 0 30px;
-      padding: 0 30px;
-      border-radius: 10px;
-      border: 1px solid #f2f2f2;
+    @media (max-width: @screen-sm-max) {
+      .credentials {
+        padding: 10px;
 
-      .key {
-        margin: 0 5px;
-        font-size: 25px;
+        & > span {
+          display: block;
+        }
+      }
+
+      .secret {
+        margin: 30px 0;
       }
     }
-
-    .action {
-      margin-top: 20px;
-
-      a.btn {
-        display: inline-block;
-        margin: 0 20px 0 0;
-      }
-      span {
-        display: inline-block;
-        width: 600px;
-      }
-    }
-  }
-
-  .storeinfo {
-    margin: 15px 0 0 0;
   }
 
   .hint {
@@ -167,27 +97,30 @@
   }
 }
 
-#t-login form .submitsection p {
-  font-size: 13px;
-}
-
 #t-login {
+  .row {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  .fetch {
+    display: block;
+    font-size: 12px;
+    line-height: 22px;
+  }
+
+  .text-status {
+    .backend {
+      font-size: 12px;
+      span {
+        color: red;
+      }
+    }
+  }
+
   .normal-login {
-    margin: 0 50px;
-
-    h1 {
-      margin-left: -50px;
-      margin-right: -50px;
-    }
-
-    .inputs {
-      float: left;
-      width: 350px;
-    }
     .reminder {
-      float: left;
-      width: 350px;
-      margin: 30px 0 0 0;
+      margin-top: 30px;
       border: 1px solid #c3c3c3;
       border-radius: 5px;
       box-shadow: 4px 4px 6px #b5b5b5;
@@ -197,7 +130,7 @@
         border-bottom: 1px solid #c3c3c3;
         font-size: 14px;
       }
-      .content {
+      .text {
         padding: 0 20px;
         font-size: 12px;
 
@@ -209,58 +142,30 @@
         color: #ccc;
       }
     }
-    .text-status {
-      clear: both;
-
-      .backend {
-        font-size: 12px;
-        span {
-          color: red;
-        }
-      }
-    }
-    .submitsection {
-      display: inline-block;
-      width: 100%;
-      padding: 0 0 0 20px;
-      margin: 20px 0 0 -40px;
-      background-position: left center;
-
-      .fetch {
-        font-size: 12px;
-      }
-      .storageinfo {
-        margin: 10px 0 0 0;
-
-        span a {
-          margin: 0 0 0 10px;
-        }
-      }
-    }
   }
 
   .action-login {
-    overflow: hidden;
-
-    h1 {
-      text-align: left;
-    }
-
     .info {
-      width: 380px;
-      min-height: 400px;
-      padding-bottom: 30px;
-      float: left;
+      font-family: OpenSansLight;
       border-right: 1px solid #ccc;
-      font-family: 'OpenSansLight';
+
+      @media (max-width: @screen-xs-max) {
+        border-right: none;
+      }
 
       .literal {
-        margin: 5px 0 40px;
         font-size: 20px;
       }
 
-      .label {
-        padding: 0 10px 0 0;
+      p {
+        padding-left: @grid-gutter-width/2;
+        padding-right: @grid-gutter-width/2;
+
+        @media (max-width: @screen-sm-max) and (min-width: @screen-xs-max) {
+          padding-left: 0;
+          padding-right: 0;
+        }
+
         word-break: break-all;
         font-size: 18px;
         color: #000;
@@ -268,13 +173,27 @@
 
       .amount,
       .address {
-        margin-left: -@pmSingleMargin;
+        margin-left: -@grid-gutter-width/2;
         background-color: #f4f4f4;
         margin-bottom: 30px;
+
+        padding-left: @grid-gutter-width;
+        padding-right: @grid-gutter-width;
+
+        @media (max-width: @screen-xs-max) {
+          margin-right: -@grid-gutter-width/2;
+        }
+
+        @media (max-width: @screen-sm-max) and (min-width: @screen-xs-max) {
+          padding-left: @grid-gutter-width/2;
+          padding-right: @grid-gutter-width/2;
+        }
       }
 
       .amount {
-        padding: 30px 25px 25px @pmSingleMargin;
+        padding-top: 30px;
+        padding-bottom: 25px;
+
         .number {
           font-weight: bold;
           font-size: 30px;
@@ -286,15 +205,11 @@
       }
 
       .address {
-        padding: 25px 25px 25px @pmSingleMargin;
+        padding-top: 25px;
+        padding-bottom: 25px;
         font: 18px 'OpenSansRegular';
         color: #838383;
       }
-    }
-    form {
-      margin: 0;
-      width: 400px;
-      float: right;
     }
   }
 }
@@ -302,25 +217,22 @@
 #t-balance {
   #welcome {
     font: 18px 'OpenSansLight';
-    margin: 30px 0 0 30px;
+    margin: 10px 25px;
+    text-align: center;
 
-    .account_id {
-      font: 30px "Helvetica Neue", Helvetica, Arial, sans-serif;
-      margin-top: 0;
-    }
     .title {
       font: 18px 'OpenSansBold';
     }
 
     .actions {
-      margin: 0 0 50px;
+      margin: 40px 0 0 0;
 
       a,span {
         display: inline-block;
         width: 190px;
         height: 270px;
         background-image: url(../../img/sprite_l.png);
-        margin: 0 50px 0 0;
+        margin: 0 25px;
       }
       .bitcoin {
         background-position: -2px -263px;
@@ -334,22 +246,60 @@
     }
   }
 
-  h3 {
-    margin-top: 15px;
+  .currency-summary {
+    overflow: hidden;
+    margin-bottom: 10px;
+    padding: 0 @grid-gutter-width / 3;
+
+    .balancebox {
+      padding: 0 @grid-gutter-width / 6;
+      overflow: hidden;
+    }
+
+    .lbl {
+      font: 20px 'OpenSansRegular';
+      color: #333;
+      padding: 2px 5px;
+    }
+
+    .balance {
+      height: 90px;
+      text-align: center;
+      font: 36px 'OpenSansLight';
+      border: 1px solid #eee;
+      border-top: 0;
+      color: #666;
+      padding: 20px;
+      margin-bottom: 15px;
+
+      &.xrp {
+        height: 90px;
+        padding: 20px 0 0 0;
+      }
+
+      .secondary {
+        display: block;
+        margin: -5px 0 0 0;
+        font-size: 12px;
+      }
+    }
+
+    &.positive .lbl {
+      background-color: #72CE9B;
+    }
   }
 
   table.events {
+    caption {
+      padding: 0 0 0 @grid-gutter-width/2;
+    }
+
     .date {
       width: 25%;
       white-space: nowrap;
     }
     .desc {
       width: 75%;
-    }
-    .note {
-      display: block;
-      font-size: 12px;
-      margin: 0 0 10px;
     }
 
     tbody {
@@ -363,8 +313,50 @@
     }
 
     tr {
-      &:hover {
-        opacity: 0.9;
+      th:first-child, td:first-child {
+        padding-left: @grid-gutter-width/2;
+      }
+      th:last-child, td:last-child {
+        padding-right: @grid-gutter-width/2;
+
+        @media (max-width: @screen-xs-max) {
+          padding-right: 60px;
+        }
+      }
+
+      td {
+        position: relative;
+        padding-top: 12px;
+        padding-bottom: 12px;
+      }
+
+      .btn.add {
+        position: absolute;
+        top: 50%;
+        margin-top: -14px;
+        right: 10px;
+        line-height: normal;
+
+        .hidden-xs {
+          @media (max-width: @screen-xs-max) {
+            display: none !important;
+          }
+        }
+        .hidden-xs {
+          @media (min-width: @screen-xs-max) {
+            display: inline !important;
+          }
+        }
+        .visible-xs {
+          @media (max-width: @screen-xs-max) {
+            display: inline !important;
+          }
+        }
+        .visible-xs {
+          @media (min-width: @screen-xs-max) {
+            display: none !important;
+          }
+        }
       }
     }
 
@@ -396,21 +388,6 @@
       background-color: #eee;
     }
 
-    tr td {
-      padding-top: 12px;
-      padding-bottom: 12px;
-    }
-
-    tr .btn.add {
-      display: none;
-      margin: -8px 0 -4px 10px;
-      line-height: normal;
-    }
-
-    tr:hover .btn.add {
-      display: inline-block;
-    }
-
     .effects {
       margin: 0;
       padding: 0;
@@ -424,7 +401,7 @@
 
     .spinner {
       float: right;
-      margin: 30px 20px 0 0;
+      margin: 35px 20px 0 0;
 
       .spinnerInner {
         left: 0 !important;
@@ -444,60 +421,30 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
 }
 
 #t-trust {
-  .value {
-    width: 150px;
-  }
-  .currency-field {
-    width: 210px;
-  }
-  #trust_counterparty {
-    width: 392px;
+  .head {
+    font: 16px 'OpenSansRegular';
+    line-height: 30px;
+    margin-bottom: 14px;
   }
 
-  @media (max-width: 480px) {
-    #trust_counterparty {
-      width: 250px;
+  .line {
+    border-top: 1px solid #dddddd;
+
+    div {
+      height: 50px;
+      line-height: 50px;
+    }
+
+    .actions {
+      text-align: right;
     }
   }
-
-  table {
-    position: relative;
-    table-layout: fixed;
-
-    th, td {
-      .box-sizing(content-box);
-    }
-    .account {
-      width: 35%;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .currency {
-      width: 10%;
-    }
-    .trust {
-      width: 32%;
-    }
-    .action {
-      text-align: center;
-    }
-    td.trust {
-      padding: 0;
-
-      rp-trust-line {
-        margin: 0 -50px;
-      }
-    }
+  rp-trust-line {
+    margin: 0 -15px;
   }
 
-  form {
-    .amount {
-      .clearfix;
-      > * {
-        display: block;
-        float: left;
-      }
-    }
+  #trustForm {
+    margin-bottom: 20px;
   }
 
   .mode-confirm {
@@ -520,20 +467,6 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
 
       .currency {
         font-size: 20px;
-      }
-    }
-
-    .submitsection {
-      .makeRow();
-      button.back {
-        .makeColumn(1.5);
-        padding-left: 5px;
-      }
-      button.submit {
-        .makeColumn(3);
-        @media (max-width: 480px) {
-          .makeColumn(2.5);
-        }
       }
     }
   }
@@ -561,11 +494,6 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
     }
   }
 
-  .actions {
-    padding: 0;
-    margin: 60px 0 0 0;
-  }
-
   .trust-notice {
     color: red;
     font-size: 14px;
@@ -574,216 +502,36 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
 }
 
 #t-contacts {
-  table {
-    .table-striped;
-    table-layout: fixed;
-
-    input.name {
-      .input-xlarge;
-    }
-
-    input.address {
-      .input-xxlarge;
-
-      @media (max-width: 480px) {
-        .input-xlarge;
-      }
-    }
-
-    tr {
-      position: relative;
-
-      th, td, input.inline {
-        .box-sizing(content-box);
-      }
-
-      > .name {
-        width: 27%;
-      }
-      > .account {
-        overflow: hidden;
-        text-overflow: ellipsis;
-
-        input.inline {
-          width: 280px;
-        }
-
-        label {
-          margin: 20px 0 10px 0;
-        }
-      }
-      &.editing > .account {
-        overflow: visible;
-      }
-      > .command {
-        width: 28%;
-        text-align: right;
-        white-space: nowrap;
-
-        .send {
-          margin-left: 10px;
-          padding-left: 35px;
-          padding-right: 35px;
-        }
-
-        @media (max-width: 767px) {
-          width: 33%;
-
-          .send {
-            padding-left: 10px;
-            padding-right: 10px;
-          }
-        }
-      }
-
-    // For the row-add animation to show up, the cells' background must be
-    // transparent.
-      &.rp-animate {
-        td, th {
-          background-color: transparent !important;
-        }
-      }
-    }
-
-    td input.inline {
-      width: 90%;
-      margin: 0 15px 0 -11px;
-      font-size: 14px;
-    }
-
-    .editing {
-      td {
-        vertical-align: top;
-      }
-    }
-
-    .command, .action {
-    }
-
-    .action {
-      text-align: center;
-    }
-
-    .btn:disabled {
-      background-color: #eeeeee !important;
-    }
-
-    .btn.save, .btn.edit, .btn.delete {
-      -webkit-box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
-      -moz-box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
-      box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
-
-      height: 30px;
-    }
-
-    .btn.edit {
-      background: url(../../img/sprite_l.png) -2px -13px;
-      display: none;
-    }
-    .btn.editing {
-      background: #e4e4e4 url(../../img/sprite_l.png) -2px -13px;
-      -webkit-box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.1);
-      -moz-box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.1);
-      box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.1);
-
-      height: 30px;
-    }
-    .btn.save {
-      background: url(../../img/sprite_l.png) -163px -12px;
-      margin: 0 5px 0 0;
-    }
-    .btn.delete {
-      background: url(../../img/sprite_l.png) -131px -12px;
-    }
-
-    tr:hover .btn.edit {
-      display: inline;
-    }
-  }
-}
-
-#t-balance {
-  .total {
-    margin-top: 25px;
-    padding-bottom: 25px;
-    border-bottom: 1px solid #f2f2f2;
-
-    .swatch {
-      float: left;
-      width: 10px;
-      height: 35px;
-      background-color: #BDE4C0;
-      margin-right: 8px;
-    }
-    .balance {
-      float: left;
-      font: 36px 'OpenSansLight';
-      line-height: 35px;
-    }
-
-    .config {
-      float: left;
-      padding: 3px 0 0 25px;
-      margin: 0;
-    }
-
-    .clearfix();
-  }
-
-  .currency-summary {
-    overflow: hidden;
-    margin-top: 20px;
+  .head {
     margin-bottom: 10px;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+    line-height: 30px;
+  }
 
-    .balancebox {
-      width: 240px;
-      float: left;
-      margin: 0 10px 0 0;
-      overflow: hidden;
+  .addForm {
+    background: #f7f7f7;
+    padding: 15px 0;
+    margin-top: -10px;
+    margin-bottom: 10px;
+  }
+
+  .contact {
+    padding: 10px 0;
+
+    &.editing {
+      background: #f7f7f7;
     }
+  }
 
-    .label {
-      margin-top: 15px;
-      font: 20px 'OpenSansRegular';
-      color: #333;
-      padding: 2px 5px;
-    }
-
-    .balance {
-      height: 50px;
-      text-align: center;
-      font: 36px 'OpenSansLight';
-      border: 1px solid #eee;
-      border-top: 0;
-      color: #666;
-      padding: 20px;
-
-      &.xrp {
-        height: 70px;
-        padding: 20px 0 0 0;
-      }
-
-      .secondary {
-        display: block;
-        margin: -5px 0 0 0;
-        font-size: 12px;
-      }
-    }
-
-    &.positive .label {
-      background-color: #72CE9B;
-    }
+  .danger {
+    line-height: 42px;
   }
 }
 
 #t-options {
-  background: #000;
-  .port {
-    margin: 0 0 25px 10px;
-    width: 60px;
-  }
-  .delete {
-    margin: 0 0 25px 10px;
+  form .row {
+    margin-bottom: 10px;
   }
   .errorGroup {
     height: auto;
@@ -791,6 +539,113 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
 }
 
 #t-history {
+  .filters {
+    & > div {
+      display: inline-block;
+      width: 100%;
+    }
+  }
+
+  .type-filter {
+    i {
+      margin: 0 10px 0 0;
+    }
+
+    label {
+      background: #f2f2f2;
+      margin: 0 10px 10px 0;
+      padding: 8px 12px;
+      color: #333;
+      cursor: pointer;
+      text-transform: capitalize;
+      color: #000;
+
+      .count {
+        float: right;
+        margin: -8px -15px;
+        background: #f2f2f2;
+        padding: 8px 12px;
+      }
+
+      &.active {
+        background: #00AAEC;
+        color: #fff;
+
+        .count {
+          float: right;
+          margin: -8px -15px;
+          background: #009ddc;
+          padding: 8px 12px;
+        }
+      }
+
+      input {
+        display: none;
+      }
+    }
+  }
+
+  .currency-filter {
+    i {
+      margin: 0 10px 0 0;
+    }
+
+    label {
+      float: left;
+      background: #f2f2f2;
+      width: 80px;
+      margin: 0 5px 5px 0;
+      padding: 5px 7px;
+      color: #333;
+      cursor: pointer;
+      font-size: 14px;
+
+      .count {
+        float: right;
+        margin: -5px -7px;
+        background: #f2f2f2;
+        padding: 5px 7px;
+      }
+
+      &.active {
+        background: #00AAEC;
+        color: #fff;
+
+        .count {
+          float: right;
+          margin: -5px -7px;
+          background: #009ddc;
+          padding: 5px 7px;
+        }
+      }
+
+      input {
+        display: none;
+      }
+    }
+  }
+
+  .date-amount-filters {
+    & > div {
+      & > span {
+        display: block;
+        font-size: 14px;
+        padding: 10px 0;
+      }
+
+      & > .row {
+        margin-left: -@grid-gutter-width / 4;
+        margin-right: -@grid-gutter-width / 4;
+      }
+
+      [class*="col-"] {
+        padding-left: @grid-gutter-width / 4;
+        padding-right: @grid-gutter-width / 4;
+      }
+
+    }
+  }
+
   .transactions {
     margin: 20px 0 0 0;
 
@@ -1015,209 +870,15 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
       }
     }
   }
-
-  .filters {
-    & > div {
-      display: inline-block;
-      width: 100%;
-    }
-  }
-
-  .type-filter {
-    margin: 20px 0 0 0;
-
-    i {
-      margin: 0 10px 0 0;
-    }
-
-    label {
-      float: left;
-      background: #f2f2f2;
-      width: 150px;
-      margin: 0 10px 10px 0;
-      padding: 8px 12px;
-      color: #333;
-      cursor: pointer;
-      text-transform: capitalize;
-
-      .count {
-        float: right;
-        margin: -8px -15px;
-        background: #f2f2f2;
-        padding: 8px 12px;
-      }
-
-      &.active {
-        background: #00AAEC;
-        color: #fff;
-
-        .count {
-          float: right;
-          margin: -8px -15px;
-          background: #009ddc;
-          padding: 8px 12px;
-        }
-      }
-
-      input {
-        display: none;
-      }
-    }
-  }
-
-  .currency-filter {
-    i {
-      margin: 0 10px 0 0;
-    }
-
-    label {
-      float: left;
-      background: #f2f2f2;
-      width: 80px;
-      margin: 0 5px 5px 0;
-      padding: 5px 7px;
-      color: #333;
-      cursor: pointer;
-      font-size: 14px;
-
-      .count {
-        float: right;
-        margin: -5px -7px;
-        background: #f2f2f2;
-        padding: 5px 7px;
-      }
-
-      &.active {
-        background: #00AAEC;
-        color: #fff;
-
-        .count {
-          float: right;
-          margin: -5px -7px;
-          background: #009ddc;
-          padding: 5px 7px;
-        }
-      }
-
-      input {
-        display: none;
-      }
-    }
-  }
-
-
-  .date-filter {
-    float: left;
-    margin: 0 40px 0 0;
-
-    & > span {
-      display: block;
-      font-size: 14px;
-      padding: 10px 0;
-    }
-
-    form {
-      display: block;
-      clear: both;
-
-      .input-append {
-        float: left;
-        font-size: 14px;
-        margin: 0 10px 0 0;
-
-        span {
-          padding: 5px 5px 0 0;
-          float: left;
-        }
-
-        input {
-          width: 120px;
-          float: left;
-          padding: 5px;
-          font-size: 14px;
-        }
-
-        .add-on {
-          padding: 7px;
-          height: 16px;
-        }
-      }
-
-      button {
-        padding: 6px;
-        font-size: 13px;
-        width: 50px;
-        font-weight: normal;
-      }
-    }
-  }
-
-  .amount-filter {
-    float: left;
-
-    & > span {
-      display: block;
-      font-size: 14px;
-      padding: 10px 0;
-    }
-
-    form {
-      display: block;
-      clear: both;
-
-      input {
-        width: 120px;
-        float: left;
-        padding: 5px;
-        margin: 0 10px 0 0;
-        font-size: 14px;
-      }
-
-      button {
-        padding: 6px;
-        font-size: 13px;
-        width: 50px;
-        font-weight: normal;
-      }
-    }
-  }
 }
 
 #t-send {
-  .value {
-    width: 150px;
-    margin-bottom: 35px;
-  }
-  #send_amount_currency {
-    width: 210px;
-  }
-  #send_destination {
-    width: 392px;
-  }
-  #send_nickname {
-    .input-xlarge;
-  }
-
-  @media (max-width: 480px) {
-    #send_destination {
-      width: 250px;
-    }
+  .rp-combobox {
+    display: block;
   }
 
   .mode-form {
-    input {
-      margin-bottom: 35px;
-    }
-    .errorGroup {
-      top: -30px;
-    }
-
-    .submitsection {
-      margin-bottom: 30px;
-    }
-
     .send_alternatives {
-      margin-bottom: 35px;
       th {
         text-align: left;
         p {
@@ -1250,65 +911,8 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
       }
     }
 
-    .currency_sets {
-      .label {
-        margin: 10px 0;
-        font-size: 18px;
-        color: #656565;
-      }
-      ul {
-        .clearfix;
-        list-style-type: none;
-        margin: 0;
-        padding: 20px;
-        border: 1px solid #d9d9d9;
-        .rounded(10px);
-
-        font-family: 'OpenSansLight';
-      }
-      li {
-        float: left;
-        min-width: 270px;
-        height: 120px;
-        text-align: center;
-        position: relative;
-        border-right: 1px solid #ccc;
-
-        &:nth-of-type(n+4) {
-          margin: 25px 0;
-
-          &:after {
-            .virtualel;
-            position: absolute;
-            top: -25px;
-            left: 0;
-            width: 100%;
-            height: 1px;
-            border-top: 1px solid #ccc;
-          }
-        }
-
-        &:nth-child(3n+3) {
-          border-right: none;
-        }
-      }
-      .amnt {
-        font-size: 30px;
-        padding: 0 8px 0 0;
-      }
-      .currency {
-        font-size: 20px;
-        padding-right: 12px;
-        color: #ccc;
-      }
-      .rate {
-        margin: 5px 0 0 0;
-        font-size: 12px;
-        color: #ccc;
-      }
-      .btn-success {
-        width: 230px;
-      }
+    .remote {
+      margin: 20px 0 0 0;
     }
   }
 
@@ -1351,39 +955,65 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
     }
 
     .dest_feedback {
-      padding-top: 20px;
-      padding-bottom: 20px;
+      padding: 20px;
       overflow: hidden;
       text-overflow: ellipsis;
     }
 
     .amount_feedback, .sendmax_feedback {
       font: 34px 'OpenSansLight';
-      padding-top: 10px;
-      padding-bottom: 10px;
+      padding: 10px 20px;
 
       .currency {
         font-size: 20px;
-      }
-    }
-
-    .submitsection {
-      .makeRow();
-      button.back {
-        .makeColumn(1.5);
-        padding-left: 5px;
-      }
-      button.submit {
-        .makeColumn(3);
-        @media (max-width: 480px) {
-          .makeColumn(2);
-        }
       }
     }
   }
 
   .actions {
     margin: 60px 0 0 0;
+  }
+}
+
+.currency_sets {
+  .label {
+    margin: 10px 0;
+    font-size: 18px;
+    color: #656565;
+  }
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    font-family: 'OpenSansLight';
+  }
+  li {
+    text-align: center;
+    padding: 5px 0 0 0;
+
+    .margin {
+      margin: 0 10px 0 0;
+    }
+
+    .am {
+      padding: 20px 0;
+      border: 1px solid #ddd;
+      border-bottom: none;
+      .border-radius(5px,0,0,5px);
+
+      .amnt {
+        font-size: 30px;
+        padding: 0 8px 0 0;
+      }
+      .currency {
+        font-size: 20px;
+        color: #ccc;
+      }
+    }
+    .btn {
+      .border-radius(0,5px,5px,0);
+      margin: 0;
+    }
   }
 }
 
@@ -1426,7 +1056,7 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
     span {
       font-size: 30px;
       background-color: transparent;
-      width: @gridRowWidth - @pmSingleMargin * 2;
+      width: 40px - @pmSingleMargin * 2;
       line-height: 1.2;
     }
   }
@@ -1434,7 +1064,7 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
     margin-bottom: 20px;
   }
   .btn {
-    .input-medium;
+    .input-lg;
   }
 
   @media (max-width: 767px) {
@@ -1514,18 +1144,33 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
   }
   .show-keys {
     margin: 20px 0 0 40px;
-    padding-left: 40px;
-    padding-right: 40px;
   }
 }
 
 #t-trade {
+  @bg: #fafafa;
+
+  .btn-group {
+    margin-bottom: -1px;
+
+    .btn {
+      width: 120px;
+    }
+    .btn:first-child {
+      .border-radius(0, 0, 0, 4px);
+    }
+    .btn:last-child {
+      .border-radius(4px, 0, 0, 0);
+    }
+  }
+
   ul.inline {
-    padding: 0;
     margin: 0;
+    padding: 0;
 
     .label {
       color: #7A7A7A;
+      text-align: left;
     }
     .value {
       font-weight: bold;
@@ -1554,48 +1199,25 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
         margin-right: 30px;
       }
     }
+  }
 
-    &.market li {
-      width: 170px;
-    }
+  .issuer {
+    padding: 15px;
+    border: 1px solid darken(@bg, 10%);
+    border-top: none;
+    border-bottom: none;
+    background: @bg;
   }
 
   .settings {
-    .clearfix;
-    background-color: #FAFAFA;
-    .border-radius(10px, 0, 0, 0);
-    padding-top: 14px;
-    padding-bottom: 14px;
-    border-bottom: 1px solid #CCCCCC;
-
-    .currency-config {
-      float: left;
-      padding-top: 0;
-      margin-right: 30px;
-
-      .currency {
-        width: 130px;
-      }
-
-      input {
-        margin-bottom: 0;
-      }
-    }
+    padding: 15px;
+    border: 1px solid darken(@bg, 10%);
+    border-bottom: none;
+    .border-radius(5px, 0, 0, 5px);
+    background-color: @bg;
   }
 
-  form.issuer {
-    .clearfix;
-    padding-top: 20px;
-    padding-bottom: 10px;
-    margin-bottom: 0;
-    border-bottom: 1px solid #ccc;
-
-    input {
-      width: 400px;
-    }
-  }
-
-  .message {
+  group > .message {
     padding: 20px 0 0 40px;
     line-height: 25px;
     font-size: 16px;
@@ -1603,83 +1225,39 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
   }
 
   .ticker {
-    background-color: #EEE;
-    padding-top: 8px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid #CCCCCC;
     margin: 0 0 30px;
+    padding: 5px 15px;
+    border: 1px solid darken(@bg, 10%);
+    border-top: none;
+    .border-radius(0, 5px, 5px, 0);
+    background-color: darken(@bg, 3%);
+    list-style-type: none;
+
+    .value {
+      font-weight: bold;
+    }
   }
 
   .order-type {
-    .clearfix;
-    margin-bottom: -1px;
-
-    .btn-group {
-      margin-right: 30px;
-    }
-
     p.literal {
       margin: 0;
       line-height: 48px;
     }
-
-    &.open {
-      .btn-group > .btn:first-child {
-        .border-radius(0, 0, 0, 4px);
-      }
-      .btn-group > .btn:last-child {
-        .border-radius(4px, 0, 0, 0 );
-      }
-    }
   }
 
   .trade-widget {
-    > form, > div, > group {
-      background-color: #f9f9f9;
-      border-top: 1px solid #999;
-      border-bottom: 1px solid #999;
-    }
+    padding: 15px;
+    margin: 0 0 30px;
+    border: 1px solid darken(@bg, 10%);
+    .border-radius(5px, 5px, 5px, 0);
+    background: @bg;
   }
 
   .mode-form {
-    padding-top: 30px;
-
-  // Cool animation that our users will never get to see. :’(
-  /*
-      max-height: 0;
-      opacity: 0;
-      overflow: hidden;
-      .transition-duration(0.5s);
-
-      &.visible {
-        opacity: 1;
-        max-height: 220px;
-      }
-  */
-
     .order-values {
-      .clearfix;
-      clear: both;
-      .value-field {
-        width: 222px;
-        min-height: 102px;
-        float: left;
-
-        input {
-          width: 150px;
-        }
-        .add-on {
-          width: 50px;
-          padding-left: 0;
-          padding-right: 0;
-          text-align: center;
-        }
-      }
       .sign {
-        width: 30px;
         text-align: center;
         margin: 40px 0 0 0;
-        float: left;
       }
       .error {
         margin-bottom: 0;
@@ -1688,17 +1266,9 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
       }
     }
     .message {
-      clear: both;
       color: green;
-      position: relative;
-      top: -25px;
-      padding: 0;
-      height: 0;
-      overflow: visible;
-    }
-    .submitsection {
-      clear: both;
-      margin: 10px 0 35px 0;
+      height: 40px;
+      line-height: 40px;
     }
   }
 
@@ -1712,67 +1282,42 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
     .dest_feedback {
       font-size: 20px;
     }
+  }
 
-    .submitsection {
-      button {
-        margin: 0 5px;
+  .listings {
+    padding: 15px;
+    border: 1px solid darken(@bg, 10%);
+    .border-radius(5px, 5px, 5px, 0);
+    background: @bg;
+
+    .my {
+      .head {
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+      .row {
+        padding: 10px 0;
+
+        &:nth-child(even) {
+          background-color: darken(@bg, 3%);
+        }
+
+        & > div:last-child {
+          text-align: right;
+        }
+
+        @media (max-width: @screen-xs-max) {
+          div:before {
+            display: inline-block;
+            width: 100px;
+            font-weight: bold;
+            content:" "attr(data-label);
+          }
+        }
       }
     }
-  }
 
-  .mode-done {
-    padding-top: 30px;
-    padding-bottom: 30px;
-  }
-
-  ul li.my {
-    > a.active,  > a:hover,> a:after {
-      background-color: #e4efd9;
-    }
-  }
-
-  ul li.orderbook {
-    > a.active,  > a:hover,> a:after {
-      background-color: #ecdfde;
-    }
-  }
-
-  table.open-orders {
-    margin: 0 0 30px;
-    th, td {
-      padding-right: 10px;
-    }
-    th.action {
-      color: #fff;
-    }
-    td.type {
-      width: 13%;
-    }
-    td.pair {
-
-    }
-    td.price {
-      width: 18%;
-    }
-    td.amount {
-      width: 18%;
-    }
-    td.action {
-      width: 14%;
-      text-align: right;
-      padding-top: 0;
-      padding-bottom: 0;
-    }
-
-    th.price, th.amount {
-      text-align: right;
-    }
-
-    .issuer {
-      color: #9b9b9b;
-    }
-
-    tr.cancelled {
+    .cancelled {
       opacity: 0.3;
 
       .action {
@@ -1784,42 +1329,55 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
         display: none;
       }
     }
+
+    .emptyMessage {
+      margin: 10px 0;
+    }
   }
 
   .orderbook {
-    .clearfix;
-
     .title {
-      display: block;
-      font: 16px 'OpenSansBold';
-      padding: 0 0 5px 0;
+      margin: 0 -15px 15px -15px;
+      font: bold 15px 'OpenSansRegular';
+      text-transform: uppercase;
+      background: darken(@bg, 3%);
+      padding: 10px;
+      text-align: center;
+    }
+    .head {
+      font: 15px 'OpenSansRegular';
+      margin-bottom: 10px;
+
+      .currency {
+        color: #B6B6B6;
+      }
     }
 
-    & > div {
-      float: left;
-      width: 370px;
+    @media (min-width: @screen-xs-max) {
+      .bids {
+        border-right: 3px solid darken(@bg, 20%);
+      }
+      .asks {
+        border-left: 3px solid darken(@bg, 20%);
+      }
     }
 
-    table {
-      border: 1px solid #ededed;
+    @media (max-width: @screen-xs-max) {
+      .asks {
+        border-top: 6px solid #ccc;
+        padding-top: 10px;
+      }
+    }
 
-      th {
+    .bids, .asks {
+      .row {
+        padding: 5px 0;
         text-align: right;
-        line-height: 1.2;
-        height: 35px;
-        .currency {
-          color: #aaa;
-          font-size: 0.9em;
+
+        &:nth-child(odd) {
+          background-color: darken(@bg, 3%);
         }
       }
-
-      th, td{
-        padding: 8px 10px;
-      }
-    }
-
-    .bids {
-      margin: 0 10px 0 0;
     }
   }
 }
@@ -1837,101 +1395,21 @@ html.t-trade header nav ul > li.active#nav-advanced > a:after {
     }
   }
 
-  .currency_sets {
-    .label {
-      margin: 10px 0;
-      font-size: 18px;
-      color: #656565;
-    }
-    ul {
-      .clearfix;
-      list-style-type: none;
-      margin: 0;
-      padding: 20px;
-      border: 1px solid #d9d9d9;
-      .rounded(10px);
-
-      font-family: 'OpenSansLight';
-    }
-    li {
-      float: left;
-      min-width: 270px;
-      height: 120px;
-      text-align: center;
-      position: relative;
-      border-right: 1px solid #ccc;
-
-      &:nth-of-type(n+4) {
-        margin: 25px 0;
-
-        &:after {
-          .virtualel;
-          position: absolute;
-          top: -25px;
-          left: 0;
-          width: 100%;
-          height: 1px;
-          border-top: 1px solid #ccc;
-        }
-      }
-
-      &:nth-child(3n+3) {
-        border-right: none;
-      }
-    }
-    .amnt {
-      font-size: 30px;
-      padding: 0 8px 0 0;
-    }
-    .currency {
-      font-size: 20px;
-      padding-right: 12px;
-      color: #ccc;
-    }
-    .rate {
-      margin: 5px 0 0 0;
-      font-size: 12px;
-      color: #ccc;
-    }
-    .btn-success {
-      width: 230px;
-    }
-  }
-
   .mode-confirm {
     .amount_feedback {
-      font-size: 26px;
-      margin: 0;
-      padding-top: 20px;
-      padding-bottom: 20px;
-      background-color: #f4f4f4;
+      font: 34px 'OpenSansLight';
+      margin: 0 0 10px 0;
+      padding: 20px;
+      background: #f3f3f3;
 
       .extra {
         font-size: 18px;
         color: #999;
         margin-top: 0.5em;
       }
-    }
-
-    .amount_feedback {
-      font: 34px 'OpenSansLight';
 
       .currency {
         font-size: 20px;
-      }
-    }
-
-    .submitsection {
-      .makeRow();
-      button.back {
-        .makeColumn(1.5);
-        padding-left: 5px;
-      }
-      button.submit {
-        .makeColumn(3);
-        @media (max-width: 480px) {
-          .makeColumn(2.5);
-        }
       }
     }
   }

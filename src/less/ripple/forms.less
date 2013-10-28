@@ -1,40 +1,40 @@
-@formFieldBottomMargin: 25px;
+// Common form controls
+//
+// Shared size and type resets for form controls. Apply `.form-control` to any
+// of the following form controls:
+//
+// select
+// textarea
+// input[type="text"]
+// input[type="password"]
+// input[type="datetime"]
+// input[type="datetime-local"]
+// input[type="date"]
+// input[type="month"]
+// input[type="time"]
+// input[type="week"]
+// input[type="number"]
+// input[type="email"]
+// input[type="url"]
+// input[type="search"]
+// input[type="tel"]
+// input[type="color"]
 
-select,
-textarea,
-input[type="text"],
-input[type="password"],
-input[type="datetime"],
-input[type="datetime-local"],
-input[type="date"],
-input[type="month"],
-input[type="time"],
-input[type="week"],
-input[type="number"],
-input[type="email"],
-input[type="url"],
-input[type="search"],
-input[type="tel"],
-input[type="color"],
-.uneditable-input {
-  padding: 10px;
-  margin-bottom: @formFieldBottomMargin;
-  font-size: 16px;
+.call-to-action {
+  margin-top: 20px;
+}
 
-  &:focus {
-    border-color: #999;
-    .box-shadow(~"inset 0 1px 1px rgba(0,0,0,.075), 0 0 10px rgba(0,0,0,.2)");
+.form-control {
+  font-size: @font-size-medium;
+  .form-control-focus(#999);
+  margin-bottom: 20px;
+}
+
+.btn {
+  .spinner .spinnerInner {
+    left: -22px;
+    top: -12px;
   }
-}
-
-.input-append .add-on, .input-prepend .add-on {
-  padding: 10px;
-}
-
-select {
-  height: 33px;
-  padding: 4px;
-  font-size: 16px;
 }
 
 form {
@@ -43,8 +43,12 @@ form {
     z-index: 1;
     height: 0;
     overflow: visible;
-    top: -25px;
+    top: -20px;
     left: 0;
+  }
+  .input-group + .errorGroup {
+    position: inherit;
+    height: auto;
   }
 
   .error,
@@ -71,17 +75,7 @@ form {
     margin-right: 10px;
   }
 
-  .amount.input-append .value {
-    margin-right: 0;
-  }
-
-  .amount .currency {
-    width: auto;
-  }
-
   .helperInput {
-    margin: -20px 0 15px 0;
-
     input {
       display: inline;
       margin: 0 5px 0 0;
@@ -97,9 +91,9 @@ form {
 input.ng-invalid:focus:required:invalid,
 textarea.ng-invalid:focus:required:invalid,
 select.ng-invalid:focus:required:invalid {
-  color: #999;
-  border-color: #999;
-  .box-shadow(~"inset 0 1px 1px rgba(0,0,0,.075), 0 0 10px rgba(0,0,0,.2)");
+  //  color: #999;
+  //  border-color: #999;
+  //  .box-shadow(~"inset 0 1px 1px rgba(0,0,0,.075), 0 0 10px rgba(0,0,0,.2)");
 }
 
 // Only mark field invalid that have been edited
@@ -121,8 +115,4 @@ input.ng-invalid.ng-dirty {
 form.ng-invalid .btn-success {
   background: #ccc;
   border-color: #ccc;
-}
-
-button.submit {
-  width: 220px;
 }
