@@ -14,9 +14,17 @@ nav + .content {
   padding-top: @grid-gutter-width/2;
   padding-bottom: @grid-gutter-width/2;
   .rounded(5px);
-  background: #fff;
   min-height: 500px;
   z-index: 10;
+
+  &.single {
+    margin-left: 15px;
+    margin-right: 15px;
+
+    @media (min-width: @screen-sm-max) {
+      margin: 20px 50px;
+    }
+  }
 
   h1 {
     font: 35px 'OpenSansLight';
