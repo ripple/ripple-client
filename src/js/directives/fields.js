@@ -194,9 +194,19 @@ module.directive('rpDatepicker', [function() {
             ngModel.$setViewValue(e.date.getMonth() ? e.date : new Date(e.date));
           });
         });
-        scope.$watch(attr.ngModel,function(){
-          dp.datepicker('setValue',ngModel.$viewValue)
-            .datepicker('update');
+        scope.$watch(attr.ngModel,function() {
+          var update = ngModel.$viewValue;
+
+          function falsy(v) {return v == '0' || v == 'false'; }
+
+          if (!falsy(attr.ignoreInvalidUpdate) &&
+               (update == null ||
+                 (update instanceof Date && isNaN(update.getYear())) )) {
+              return;
+            } else {
+              dp.datepicker('setValue', update)
+                .datepicker('update');
+            }
         });
       });
     }

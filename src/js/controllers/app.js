@@ -180,6 +180,7 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
   {
     $scope.$apply(function () {
       $scope.history_count = data.count;
+      $scope.tx_marker = data.marker;
 
       if (data.transactions) {
         data.transactions.reverse().forEach(function (e) {

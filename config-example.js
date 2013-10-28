@@ -5,15 +5,19 @@
  */
 var Options = {
   server: {
-    "trusted" : true,
-    "websocket_ip" : "s1.ripple.com",
-    "websocket_port" : 443,
-    "websocket_ssl" : true /**/
-/*    "websocket_ip" : "127.0.0.1",
-    "websocket_port" : 5006,
-    "websocket_ssl" : false /**/
+    trace :         true,
+    trusted:        true,
+    local_signing:  true,
+
+    servers: [
+      { host: 's_west.ripple.com', port: 443, secure: true },
+      { host: 's_east.ripple.com', port: 443, secure: true }
+    ],
+
+    connection_offset: 0
   },
-  blobvault : "https://blobvault.payward.com",
+
+  blobvault : 'https://blobvault.payward.com',
 
   // If set, login will persist across sessions (page reload). This is mostly
   // intended for developers, be careful about using this in a real setting.
@@ -25,14 +29,14 @@ var Options = {
   // Configure bridges
   bridge: {
     out: {
-//    "bitcoin": "localhost:3000"
-//    "bitcoin": "https://www.bitstamp.net/ripple/bridge/out/bitcoin/"
+//    'bitcoin': 'localhost:3000'
+//    'bitcoin': 'https://www.bitstamp.net/ripple/bridge/out/bitcoin/'
     }
   }
 };
 
 // Load client-side overrides
 if (store.enabled) {
-  $.extend(true, Options, JSON.parse(store.get('ripple_settings') || "{}"));
+  $.extend(true, Options, JSON.parse(store.get('ripple_settings') || '{}'));
 }
 

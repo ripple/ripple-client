@@ -5,3 +5,4 @@ node_modules
 build/
 config.js
 analytics.js
+l10n/templates

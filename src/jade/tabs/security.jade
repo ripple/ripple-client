@@ -1,34 +1,34 @@
 include ../menu/wallet.jade
 section.panel.wide.content(ng-controller="SecurityCtrl")
-  p.important Your money and wallet are protected digitally through encryption algorithms that can be unlocked&nbsp;
-    b only with your personal keys
+  p.important(rp-l10n) Your money and wallet are protected digitally through encryption algorithms that can be unlocked&nbsp;
+    b(rp-l10n-inc) only with your personal keys
   ul.notices
-    li – No one else has them, so don't lose them!
-    li – Never share them!
+    li(rp-l10n) – No one else has them, so don't lose them!
+    li(rp-l10n) – Never share them!
   .title
     .icon.wallet
-    .name Wallet Key
+    .name(rp-l10n) Wallet Key
     .more
-      span {{userBlob.data.contacts.length}} contacts,&nbsp;
+      span(rp-l10n) {{userBlob.data.contacts.length}} contacts,&nbsp;
         span {{enc.length | rpfilesize}} &ensp;
     .more
-      span(rp-download='enc',rp-download-filename='ripple-wallet.txt')
+      span(rp-download='enc',rp-download-filename='ripple-wallet.txt', rp-l10n)
         | You can&nbsp;
         a(rp-download-trigger) backup your wallet to a file
         | .
   ul.description(ng-hide="showKeys")
-    li This is the key you use every time you use ripple.
-    li You created it when you chose your Wallet Name and Passphrase.
-    li It protects Your money + Your contacts and history.
+    li(rp-l10n) This is the key you use every time you use ripple.
+    li(rp-l10n) You created it when you chose your Wallet Name and Passphrase.
+    li(rp-l10n) It protects your money, your contacts and account history.
     li
-      b Never forget it, never share it.
+      b(rp-l10n) Never forget it, never share it.
   div
     .infoBox(ng-show="showKeys")
       .part
-        span.label Wallet name:
+        span.label(rp-l10n) Wallet name:
         span.value {{userCredentials.username}}
       .part
-        span.label Pass Phrase:
+        span.label(rp-l10n) Pass Phrase:
         span.value(ng-show="passUnmask") {{userCredentials.password}}
         span.value(ng-hide="passUnmask") {{userCredentials.password | rpmask}}
         rp-confirm(
@@ -37,19 +37,19 @@ section.panel.wide.content(ng-controller="SecurityCtrl")
           action-function="passUnmask=true"
           cancel-button-text="No"
           ng-hide="passUnmask")
-            a(ng-hide="passUnmask") Show
-        a(ng-click="passUnmask=false", ng-show="passUnmask") Hide
-  .hint(ng-show="showKeys") This gives access to your wallet. DO NOT SHARE THIS WITH ANYONE. Keep it safe. Keep it private.
+            a(ng-hide="passUnmask", rp-l10n) Show
+        a(ng-click="passUnmask=false", ng-show="passUnmask", rp-l10n) Hide
+  .hint(ng-show="showKeys", rp-l10n) This gives access to your wallet. DO NOT SHARE THIS WITH ANYONE. Keep it safe. Keep it private.
 
   .title
     .icon.money
-    .name Secret Key
+    .name(rp-l10n) Secret Key
   ul.description(ng-hide="showKeys")
-    li This key is for emergency use only. You did not choose it. The network created it. You don't have to memorize it.
-    li The Secret Key accesses Your money, which is already contained inside your wallet.
-    li But if you ever lose your wallet, you can recover just your money with this key.
+    li(rp-l10n) This key is for emergency use only. You did not choose it. The network created it. You don't have to memorize it.
+    li(rp-l10n) The Secret Key accesses Your money, which is already contained inside your wallet.
+    li(rp-l10n) But if you ever lose your wallet, you can recover just your money with this key.
     li
-      b Store it somewhere safe, never share it.
+      b(rp-l10n) Store it somewhere safe, never share it.
   div
     .infoBox(ng-show="showKeys")
       .part
@@ -63,6 +63,6 @@ section.panel.wide.content(ng-controller="SecurityCtrl")
         ng-hide="SecretKeyUnmask")
           a(ng-hide="SecretKeyUnmask") Show
       a(ng-click="SecretKeyUnmask=false", ng-show="SecretKeyUnmask") Hide
-  .hint(ng-show="showKeys") This gives access to your money. DO NOT SHARE THIS WITH ANYONE. Keep it safe. Keep it private.
+  .hint(ng-show="showKeys", rp-l10n) This gives access to your money. DO NOT SHARE THIS WITH ANYONE. Keep it safe. Keep it private.
 
-  button.btn.btn-info.show-keys(ng-click="showKeys=true", ng-hide="showKeys") Show my keys
+  button.btn.btn-info.show-keys(ng-click="showKeys=true", ng-hide="showKeys", rp-l10n) Show my keys

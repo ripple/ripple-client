@@ -87,14 +87,14 @@ HistoryTab.prototype.angular = function (module) {
       var completed = false;
       var history = [];
 
-      var getTx = function(offset){
-        $network.remote.request_account_tx({
-          'account': $id.account,
-          'ledger_index_min': -1,
-          'descending': true,
-          'offset': offset,
-          'limit': 200
-        })
+      var params = {
+        'account': $id.account,
+        'ledger_index_min': -1,
+        'limit': 200
+      };
+
+      var getTx = function(){
+        $network.remote.request_account_tx(params)
         .on('success', function(data) {
           if (data.transactions.length) {
             for(var i=0;i<data.transactions.length;i++) {
@@ -113,10 +113,13 @@ HistoryTab.prototype.angular = function (module) {
               if (tx) history.push(tx);
             }
 
+            params.marker = {'ledger':data.transactions[i-1].tx.inLedger,'seq':0};
+            $scope.tx_marker = params.marker;
+
             if (completed)
               callback(history);
             else
-              getTx(offset+200);
+              getTx();
           } else {
             callback(history);
           }
@@ -182,7 +185,7 @@ HistoryTab.prototype.angular = function (module) {
     $scope.$watchCollection('history',function(){
       // TODO This function has a double call on a history change. Don't know why
       // This is a temporoary fix.
-      if (latest && $scope.history[$scope.history.length-1] && latest.hash == $scope.history[$scope.history.length-1].hash)
+      if (latest && $scope.history[$scope.history.length-1] && latest.hash === $scope.history[$scope.history.length-1].hash)
         return;
 
       updateHistory();
@@ -226,11 +229,11 @@ HistoryTab.prototype.angular = function (module) {
             $scope.minLedger = event.ledger_index;
 
           // Type filter
-          if(event.transaction && !_.contains($scope.filters.types,event.transaction.type))
+          if (event.transaction && !_.contains($scope.filters.types,event.transaction.type))
             return;
 
           // Some events don't have transactions.. this is a temporary fix for filtering offers
-          else if(!event.transaction && !_.contains($scope.filters.types,'offernew'))
+          else if (!event.transaction && !_.contains($scope.filters.types,'offernew'))
             return;
 
           // Currency filter
@@ -243,18 +246,22 @@ HistoryTab.prototype.angular = function (module) {
             // Show effects
             $.each(event.effects, function(){
               var effect = this;
-              if (effect.type == 'offer_funded'
-                  || effect.type == 'offer_partially_funded'
-                  || effect.type == 'offer_bought'
-                  || (effect.type === 'offer_canceled' &&
-                  event.transaction.type !== 'offercancel')) {
-                effects.push(effect);
+              switch (effect.type) {
+                case 'offer_funded':
+                case 'offer_partially_funded':
+                case 'offer_bought':
+                case 'offer_canceled':
+                  if (effect.type === 'offer_canceled' && event.transaction.type === 'offerCancel') {
+                    return;
+                  }
+                  effects.push(effect);
+                  break;
               }
             });
 
             event.showEffects = effects;
 
-            effects = [];
+            effects = [ ];
 
             var amount, maxAmount;
             var minimumAmount = $scope.filters.minimumAmount;
@@ -262,20 +269,22 @@ HistoryTab.prototype.angular = function (module) {
             // Balance changer effects
             $.each(event.effects, function(){
               var effect = this;
-              if (effect.type == 'fee'
-                  || effect.type == 'balance_change'
-                  || effect.type == 'trust_change_balance') {
-                effects.push(effect);
+              switch (effect.type) {
+                case 'fee':
+                case 'balance_change':
+                case 'trust_change_balance':
+                  effects.push(effect);
 
-                // Minimum amount filter
-                if (effect.type == 'balance_change' || effect.type == 'trust_change_balance') {
-                  amount = effect.amount.abs().is_native()
-                    ? effect.amount.abs().to_number() / 1000000
-                    : effect.amount.abs().to_number();
+                  // Minimum amount filter
+                  if (effect.type === 'balance_change' || effect.type === 'trust_change_balance') {
+                    amount = effect.amount.abs().is_native()
+                      ? effect.amount.abs().to_number() / 1000000
+                      : effect.amount.abs().to_number();
 
-                  if (!maxAmount || amount > maxAmount)
-                    maxAmount = amount;
-                }
+                    if (!maxAmount || amount > maxAmount)
+                      maxAmount = amount;
+                    }
+                  break;
               }
             });
 
@@ -301,8 +310,8 @@ HistoryTab.prototype.angular = function (module) {
         });
 
         if ($scope.historyShow.length && !$scope.dateMinView) {
-          $scope.dateMinView = new Date(dateMin);
-          $scope.dateMaxView = new Date(dateMax);
+          setValidDateOnScopeOrNullify('dateMinView', dateMin);
+          setValidDateOnScopeOrNullify('dateMaxView', dateMax);
         }
       }
     };
@@ -334,20 +343,37 @@ HistoryTab.prototype.angular = function (module) {
       }
     };
 
+    var setValidDateOnScopeOrNullify = function(key, value) {
+      if (isNaN(value) || value == null) {
+        $scope[key] = null;
+      } else {
+        $scope[key] = new Date(value);
+      }
+    }
+
     $scope.loadMore = function () {
       var dateMin;
 
       $scope.historyState = 'loading';
 
-      $network.remote.request_account_tx({
-        'account': $id.account,
-        'ledger_index_max': $scope.minLedger,
-        'descending': true,
-        'offset': 0,
-        'limit': 100 // TODO why 100?
-      })
+      var limit = 100; // TODO why 100?
+
+      var params = {
+        account: $id.account,
+        ledger_index_min: -1,
+        limit: limit,
+        marker: $scope.tx_marker
+      };
+
+      $network.remote.request_account_tx(params)
       .on('success', function(data) {
         $scope.$apply(function () {
+          if (data.transactions.length < limit) {
+
+          }
+
+          $scope.tx_marker = data.marker;
+
           if (data.transactions) {
             var transactions = [];
 
@@ -362,16 +388,11 @@ HistoryTab.prototype.angular = function (module) {
               }
             });
 
-            var newHistory = _.uniq($scope.history.concat(transactions),true,function(ev){return ev.hash});
+            var newHistory = _.uniq($scope.history.concat(transactions),false,function(ev){return ev.hash});
 
-            if ($scope.history.length === newHistory.length)
-              $scope.historyState = 'full';
-            else
-              $scope.historyState = 'ready';
-
+            $scope.historyState = ($scope.history.length === newHistory.length) ? 'full' : 'ready';
             $scope.history = newHistory;
-
-            $scope.dateMinView = new Date(dateMin);
+            setValidDateOnScopeOrNullify('dateMinView', dateMin);
           }
         });
       }).request();

@@ -54,7 +54,7 @@ module.directive('rpMasterKey', function () {
  * will succeed.
  */
 module.directive('rpDest', function () {
-  var emailRegex = /^\S+@\S+\.\S+$/;
+  var emailRegex = /^\S+@\S+\.[^\s.]+$/;
   return {
     restrict: 'A',
     require: '?ngModel',
@@ -149,7 +149,7 @@ module.directive('rpNotMe', function () {
         var contact = webutil.getContact(scope.userBlob.data.contacts,value);
 
         if (value) {
-          if ((contact && contact.address == scope.userBlob.data.account_id) || scope.userBlob.data.account_id == value) {
+          if ((contact && contact.address === scope.userBlob.data.account_id) || scope.userBlob.data.account_id === value) {
             ctrl.$setValidity('rpNotMe', false);
             return;
           }
@@ -240,7 +240,7 @@ module.directive('rpSameInSet', [function() {
 
       scope.$watch(
           function() {
-            return _.size(set) == 1;
+            return _.size(set) === 1;
           },
           function(value){
             ctrl.$setValidity('rpSameInSet', value);
@@ -327,7 +327,7 @@ module.directive('rpStrongPassword', function () {
         }
 
         // password == user name
-        if (password.toLowerCase() == username.toLowerCase()) {
+        if (password.toLowerCase() === username.toLowerCase()) {
           ctrl.$setValidity('rpStrongPassword', false);
           scope.strength = 'weak';
           return;
@@ -339,7 +339,7 @@ module.directive('rpStrongPassword', function () {
             var repeated = true;
 
             for (var j = 0; j < pLen && (j+i+pLen) < str.length; j++) {
-              repeated = repeated && (str.charAt(j+i) == str.charAt(j+i+pLen));
+              repeated = repeated && (str.charAt(j+i) === str.charAt(j+i+pLen));
             }
             if (j<pLen) {
               repeated = false;
@@ -428,10 +428,7 @@ module.directive('rpStrongPassword', function () {
   };
 });
 
-/**
- * Maximum amount of money user can send
- */
-module.directive('rpMaxAmount', function () {
+module.directive('rpAmount', function () {
   return {
     restrict: 'A',
     require: '?ngModel',
@@ -439,79 +436,73 @@ module.directive('rpMaxAmount', function () {
       if (!ctrl) return;
 
       var validator = function(value) {
-        var input = Amount.from_human(+value);
-
-        var currency = attr.rpMaxAmountCurrency ? attr.rpMaxAmountCurrency.slice(0, 3).toUpperCase() : 'XRP';
-
-        // Check for XRP only
-        if (currency != 'XRP') {
-          ctrl.$setValidity('rpMaxAmount', true);
-          return value;
+        if (value && value.toString().indexOf(",") != -1) {
+          value = value.split(",").join("");
         }
 
-        if (input.is_valid()
-            && scope.account.max_spend
-            && scope.account.max_spend.to_number() > 1
-            && scope.account.max_spend.compareTo(input) >= 0) {
-          ctrl.$setValidity('rpMaxAmount', true);
-          return value;
-        } else {
-          ctrl.$setValidity('rpMaxAmount', false);
-          return value;
-        }
+        var parsedValue = parseFloat(value);
+
+        // check for valid amount
+        ctrl.$setValidity('rpAmount', parsedValue == value);
+
+        return parsedValue;
       };
 
       ctrl.$formatters.push(validator);
       ctrl.$parsers.unshift(validator);
-
-      scope.$watch('account.max_spend', function () {
-        validator(ctrl.$viewValue);
-      }, true);
-
-      attr.$observe('rpMaxAmount', function() {
-        validator(ctrl.$viewValue);
-      });
-
-      attr.$observe('rpMaxAmountCurrency', function() {
-        validator(ctrl.$viewValue);
-      });
     }
   };
 });
 
-/**
- * Amount validator
- */
-module.directive('rpPositiveAmount', function () {
+module.directive('rpAmountPositive', function () {
   return {
     restrict: 'A',
     require: '?ngModel',
     link: function (scope, elm, attr, ctrl) {
       if (!ctrl) return;
 
+      // We don't use parseAmount here, assuming that you also use rpAmount validator
       var validator = function(value) {
-        ctrl.$setValidity('rpAmount', false);
+        // check for positive amount
+        ctrl.$setValidity('rpAmountPositive', value > 0);
 
-        // replace commas with dots
-        if(value && value.toString().indexOf(",") != -1) {
-          value = value.split(",").join(".");
-        }
-
-        // check for valid and positive amount
-        var parsedValue = parseFloat(value);
-        if (parsedValue == value && parsedValue > 0) {
-          ctrl.$setValidity('rpAmount', true);
-
-          // XRP limit is 100 bln
-          if (attr.currency && attr.currency.toLowerCase() === 'xrp')
-            ctrl.$setValidity('rpXrpLimit', parsedValue < 100000000000);
-
-          return parsedValue;
-        }
+        return value;
       };
 
       ctrl.$formatters.push(validator);
       ctrl.$parsers.unshift(validator);
+    }
+  };
+});
+
+module.directive('rpAmountXrpLimit', function () {
+  return {
+    restrict: 'A',
+    require: '?ngModel',
+    link: function (scope, elm, attr, ctrl) {
+      if (!ctrl) return;
+
+      // We don't use parseAmount here, assuming that you also use rpAmount validator
+      var validator = function(value) {
+        var currency = attr.rpAmountXrpLimitCurrency;
+
+        // If XRP, ensure amount is less than 100 billion
+        if (currency &&
+            currency.toLowerCase() === 'xrp') {
+          ctrl.$setValidity('rpAmountXrpLimit', value <= 100000000000);
+        } else {
+          ctrl.$setValidity('rpAmountXrpLimit', true);
+        }
+
+        return value;
+      };
+
+      ctrl.$formatters.push(validator);
+      ctrl.$parsers.unshift(validator);
+
+      attr.$observe('rpAmountXrpLimitCurrency', function() {
+        validator(ctrl.$viewValue);
+      });
     }
   };
 });
@@ -553,7 +544,8 @@ module.directive('rpHostname', function () {
       if (!ctrl) return;
 
       function validate(str) {
-        var test = /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$|^(([a-zA-Z]|[a-zA-Z][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z]|[A-Za-z][A-Za-z0-9\-]*[A-Za-z0-9])$|^\s*((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:)))(%.+)?\s*$/.test(str);
+        var test = /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$|^(([a-zA-Z]|[a-zA-Z][a-zA-Z0-9\-_]*[a-zA-Z0-9])\.)*([A-Za-z]|[A-Za-z][A-Za-z0-9\-]*[A-Za-z0-9])$|^\s*((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:)))(%.+)?\s*$/.test(str);
+        //var test = /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$|^(([a-zA-Z]|[a-zA-Z][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z]|[A-Za-z][A-Za-z0-9\-]*[A-Za-z0-9])$|^\s*((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:)))(%.+)?\s*$/.test(str);
         return test;
       }
 

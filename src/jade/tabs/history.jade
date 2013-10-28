@@ -4,16 +4,16 @@ section.panel.content(ng-controller="HistoryCtrl")
   //- Disconnected
 
   group.disconnected(ng-hide="connected")
-    p.literal You have to be online to see this screen
+    p.literal(rp-l10n) You have to be online to see this screen
 
   group.disconnected(ng-hide="!connected || loadState.transactions")
-    p.literal Loading history...
+    p.literal(rp-l10n) Loading history...
 
   //- Account is unfunded
 
   .unfunded(ng-show='loadState.account && !account.Balance')
-    p.literal Your account history is empty
-    p: a.btn(href="#/balance") Back to balance
+    p.literal(rp-l10n) Your account history is empty
+    p: a.btn(href="#/balance", rp-l10n) Back to balance
 
   //- Connected
 
@@ -38,29 +38,29 @@ section.panel.content(ng-controller="HistoryCtrl")
           span Load history for specific date range
           form(ng-submit="submitDateRangeForm()")
             label.input-append.date
-              span From
-              input(type="text", rp-datepicker, ng-model="dateMinView", readonly)
+              span(rp-l10n) From
+              input(type="text", rp-datepicker, ignore-invalid-update='1',  ng-model="dateMinView", readonly)
               span.add-on
                 i.icon-calendar
             label.input-append.date
-              span To
-              input(type="text", rp-datepicker, ng-model="dateMaxView", readonly)
+              span(rp-l10n) To
+              input(type="text", rp-datepicker, ignore-invalid-update='1',  ng-model="dateMaxView", readonly)
               span.add-on
                 i.icon-calendar
-            button.btn.submit(type='submit') Filter
+            button.btn.submit(type='submit', rp-l10n) Filter
         .amount-filter
-          span Minimum amount filter
+          span(rp-l10n) Minimum amount filter
           form(ng-submit="submitMinimumAmountForm()")
             input(type="text", ng-model="filters.minimumAmount")
-            button.btn.submit(type='submit') Filter
+            button.btn.submit(type='submit', rp-l10n) Filter
 
     .transactions
       .head
         .type
         .i
-        .dt Date
-        .desc Description
-      .message(ng-hide="historyState=='loading' || historyShow")
+        .dt(rp-l10n) Date
+        .desc(rp-l10n) Description
+      .message(ng-hide="historyState=='loading' || historyShow", rp-l10n)
         | Sorry, no transactions match your current filter.
       ul
         li(ng-repeat="entry in historyShow", class="{{entry.transaction.type}}"
@@ -78,11 +78,11 @@ section.panel.content(ng-controller="HistoryCtrl")
               i.icon-cogs(ng-show="entry.transaction.type=='accountset'")
             span.dt {{entry.date | date:'EEE, MMM d, h:mm a'}}
             span.desc(ng-switch on="entry.transaction.type")
-              span(ng-switch-when="sent") You sent&nbsp;
+              span(ng-switch-when="sent", rp-l10n) You sent&nbsp;
                 span.address(title="{{entry.transaction.counterparty}}") {{entry.transaction.counterparty | rpcontactname}}
                 strong  {{entry.transaction.amount | rpamount}} {{entry.transaction.amount | rpcurrency}}
                 include history/effects
-              span(ng-switch-when="received")
+              span(ng-switch-when="received", rp-l10n)
                 span.address(title="{{entry.transaction.counterparty}}") {{entry.transaction.counterparty | rpcontactname}}
                 |  sent you
                 strong  {{entry.transaction.amount | rpamount}} {{entry.transaction.amount | rpcurrency}}
@@ -92,38 +92,38 @@ section.panel.content(ng-controller="HistoryCtrl")
                 |  now trusts you for
                 strong  {{entry.transaction.amount | rpamount}} {{entry.transaction.amount | rpcurrency}}
                 include history/effects
-              span(ng-switch-when="trusting") You now trust&nbsp;
+              span(ng-switch-when="trusting", rp-l10n) You now trust&nbsp;
                 span.address(title="{{entry.transaction.counterparty}}") {{entry.transaction.counterparty | rpcontactname}}
                 |  for&nbsp;
                 strong {{entry.transaction.amount | rpamount}} {{entry.transaction.amount | rpcurrency}}
                 include history/effects
-              span(ng-switch-when="offernew") You created an offer accepting&nbsp;
+              span(ng-switch-when="offernew", rp-l10n) You created an offer accepting&nbsp;
                 strong {{entry.transaction.pays | rpamount}} {{entry.transaction.pays | rpcurrency}}
                 |  for&nbsp;
                 strong {{entry.transaction.gets | rpamount}} {{entry.transaction.gets | rpcurrency}}
                 include history/effects
-              span(ng-switch-when="offercancel") You cancelled an offer accepting&nbsp;
+              span(ng-switch-when="offercancel", rp-l10n) You cancelled an offer accepting&nbsp;
                 strong {{entry.transaction.pays | rpamount}} {{entry.transaction.pays | rpcurrency}}
                 |  for&nbsp;
                 strong {{entry.transaction.gets | rpamount}} {{entry.transaction.gets | rpcurrency}}
                 include history/effects
-              span(ng-switch-when="accountset") Account details have been changed
+              span(ng-switch-when="accountset", rp-l10n) Account details have been changed
                 include history/effects
               span(ng-switch-default)
                 include history/effects
 
           .details(ng-if="details[entry.hash]")
             .effects(ng-show="entry.balanceEffects")
-              .title Balance changes
+              .title(rp-l10n) Balance changes
               .effect.header
-                span.description Description
-                span.issuer Issuer
-                span.amount Amount
-                span.balance Final balance
+                span.description(rp-l10n) Description
+                span.issuer(rp-l10n) Issuer
+                span.amount(rp-l10n) Amount
+                span.balance(rp-l10n) Final balance
               .effect(ng-repeat="effect in entry.balanceEffects")
-                span.description(ng-show="effect.type == 'balance_change'", data-label="Description") XRP balance change
-                span.description(ng-show="effect.type == 'trust_change_balance'", data-label="Description") {{effect.currency}} balance change
-                span.description(ng-show="effect.type == 'fee'", data-label="Description") Fee
+                span.description(ng-show="effect.type == 'balance_change'", data-label="Description", rp-l10n) XRP balance change
+                span.description(ng-show="effect.type == 'trust_change_balance'", data-label="Description", rp-l10n) {{effect.currency}} balance change
+                span.description(ng-show="effect.type == 'fee'", data-label="Description", rp-l10n) Fee
                 span.issuer(
                   rp-pretty-issuer="effect.amount.issuer().to_json()"
                   rp-pretty-issuer-contacts="userBlob.data.contacts"
@@ -133,17 +133,17 @@ section.panel.content(ng-controller="HistoryCtrl")
                 span.amount(data-label="Amount") {{effect.amount | rpamount }} {{effect.amount | rpcurrency}}
                 span.balance(data-label="Final balance") {{effect.balance | rpamount }} {{effect.balance | rpcurrency}}
             .links
-              a.txLink(rp-link-tx="entry.hash") Transaction details
+              a.txLink(rp-link-tx="entry.hash", rp-l10n) Transaction details
               a.addLink(href="#/contact?to={{entry.transaction.counterparty}}", rp-no-propagate
-                ng-show="entry.transaction.counterparty && !(entry.transaction.counterparty | rponlycontactname)")
+                ng-show="entry.transaction.counterparty && !(entry.transaction.counterparty | rponlycontactname)", rp-l10n)
                 | Add
                 strong  {{entry.transaction.counterparty | rpcontactname}}
                 |  to contact list
       .foot
-        div(ng-show="historyState=='loading'")
+        div(ng-show="historyState=='loading'", rp-l10n)
           | Loading...
-        a.loadmore(ng-show="historyState=='ready'", href="", ng-click="loadMore()") Load more
-        div(ng-show="historyState=='full'")
+        a.loadmore(ng-show="historyState=='ready'", href="", ng-click="loadMore()", rp-l10n) Load more
+        div(ng-show="historyState=='full'", rp-l10n)
           | No more transactions left
 
 // TODO filter calendar: High/low limits.

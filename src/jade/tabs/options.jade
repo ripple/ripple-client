@@ -1,35 +1,30 @@
 include ../menu/advanced.jade
 section.panel.content(ng-controller="OptionsCtrl")
-  p.literal Options
+  p.literal(rp-l10n) Options
   hr
   form(name="optionsForm", ng-submit="save()")
-    div
-      label(for="socketIp") Web Socket IP, port
-      input.socketIp(
-        name='socketIp', id="socketIp", type='text'
-        ng-model='socketIp'
-        rp-hostname)
-      input.socketPort(
-        name='socketPort', id="socketPort", type='text'
-        ng-model='socketPort'
-        rp-port-number)
+    div(ng-repeat="(index, server) in servers")
+      label(for="host", rp-l10n) Web Socket IP, port, secure
+      input.host(name='host', type='text', ng-model='server.host', rp-hostname)
+      input.port(name='port', type='text', ng-model='server.port', rp-port-number)
+      button.btn.btn-default.btn-small.delete(type="button", ng-click="servers.splice($index,1)") Remove
       .errorGroup
         div(rp-errors='socketIp')
-          .error(rp-error-on='rpHostname')
+          .error(rp-error-on='rpHostname', rp-l10n)
             | Socket ip or hostname is invalid.
         div(rp-errors='socketPort')
-          .error(rp-error-on='rpPortNumber')
+          .error(rp-error-on='rpPortNumber', rp-l10n)
             | Port number is invalid.
       div.helperInput
-        input(type="checkbox", name="socketSsl", id="socketSsl", ng-model='socketSsl')
-        label(for="socketSsl") Web Socket ssl
+        input(type="checkbox", name="secure", ng-model='server.secure')
+        label(for="secure", rp-l10n) Web Socket ssl
     div
-      label(for="blobIp") Blob vault URL
-      input.blobIp(
-        name='blobIp', id="blobIp", type='text'
-        ng-model='blobIp')
+      button.btn.btn-default(type="button", ng-click="servers.push({})") Add new server
+      br
+      br
+    div
+      label(for="blobIp", rp-l10n) Blob vault URL
+      input.blobIp(name='blobIp', id="blobIp", type='text', ng-model='blobIp')
     div
       p.submitsection
-        button.btn.btn-success.submit(
-          type='submit'
-          ng-disabled='optionsForm.$invalid') Save
+        button.btn.btn-success.submit(type='submit', ng-disabled='optionsForm.$invalid') Save

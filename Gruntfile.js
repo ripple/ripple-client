@@ -4,6 +4,7 @@ var path = require("path"),
 var BannerPlugin = require("webpack/lib/BannerPlugin");
 
 module.exports = function(grunt) {
+  grunt.loadTasks('scripts/grunt');
   grunt.loadNpmTasks('grunt-recess');
   grunt.loadNpmTasks('grunt-webpack');
   grunt.loadNpmTasks('grunt-preprocess');
@@ -258,6 +259,15 @@ module.exports = function(grunt) {
         ]
       }
     },
+    l10n: {
+      templates: {
+        options: {
+        },
+        files: [
+          { src: ['src/jade/**/*.jade'], dest: 'l10n/templates/messages.pot' }
+        ]
+      }
+    },
     watch: {
       livereload: {
         options: {
@@ -300,7 +310,9 @@ module.exports = function(grunt) {
                                  'concat:deps','concat:deps_debug',
                                  'uglify:deps_ie',
                                  'concat:deps_ie', 'concat:deps_ie_debug']);
-  grunt.registerTask('deps', ['concat:deps', 'min:deps']);
+  grunt.registerTask('deps', ['uglify:deps', 'uglify:deps_ie',
+                              'concat:deps', 'concat:deps_ie',
+                              'concat:deps_debug', 'concat:deps_ie_debug']);
   grunt.registerTask('dist', ['default',
                               'copy:web', 'copy:nw_linux', 'copy:nw_linux_debug']);
 };

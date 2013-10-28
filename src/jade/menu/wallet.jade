@@ -2,12 +2,12 @@ nav(rp-off-canvas-menu)
   h2(ng-bind="$route.current.tabName | rpucfirst")
   ul
     li(ng-class="{active: $route.current.tabName == 'balance'}")
-      a(href="#/balance") Balance
+      a(href="#/balance", rp-l10n) Balance
     li(ng-class="{active: $route.current.tabName == 'history'}")
-      a(href="#/history") History
+      a(href="#/history", rp-l10n) History
     li(ng-class="{active: $route.current.tabName == 'contacts'}")
-      a(href="#/contacts") Contacts
+      a(href="#/contacts", rp-l10n) Contacts
     li(ng-class="{active: $route.current.tabName == 'convert'}")
-      a(href="#/convert") Convert
+      a(href="#/convert", rp-l10n) Convert
     li(ng-class="{active: $route.current.tabName == 'security'}")
-      a(href="#/security") Security
+      a(href="#/security", rp-l10n) Security

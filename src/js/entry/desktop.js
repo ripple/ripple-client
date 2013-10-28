@@ -15,7 +15,7 @@ require('../directives/jade');
 require('../filters/filters');
 require('../services/globalwrappers');
 require('../services/id');
-require('../services/blob');
+require('../services/oldblob');
 require('../services/network');
 require('../services/books');
 require('../services/transactions');

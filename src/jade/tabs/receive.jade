@@ -1,13 +1,13 @@
 section.single.content(ng-controller="ReceiveCtrl")
-  p.literal This is your public address. Give this address to other users so they can send you money.
+  p.literal(rp-l10n) This is your public address. Give this address to other users so they can send you money.
   hr
   .address
     .box
       span#receive-address(ng-bind="address")
-  p.literal(ng-show="!copy_supported")
+  p.literal(ng-show="!copy_supported", rp-l10n)
     | Tip:&nbsp;
-    a.select(rp-select-el="receive-address") Select
+    a.select(rp-select-el="receive-address", rp-l10n-inc) Select
     |  and copy using Ctrl+C.
   form(ng-show="copy_supported")
-    button.btn.btn-success Copy Address
+    button.btn.btn-success(rp-l10n) Copy Address
   .qr#qr-code
