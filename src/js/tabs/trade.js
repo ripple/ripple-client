@@ -103,10 +103,11 @@ TradeTab.prototype.angular = function(module)
         $scope.$apply(function () {
         });
       });
-      tx.on('error', function () {
+      tx.on('error', function (err) {
         setImmediate(function () {
           $scope.$apply(function () {
-            $scope.mode = "error";
+            $scope.mode = "done";
+            setEngineStatus(err, false);
           });
         });
       });
@@ -148,10 +149,11 @@ TradeTab.prototype.angular = function(module)
           }
         });
       });
-      tx.on('error', function () {
+      tx.on('error', function (err) {
         setImmediate(function () {
           $scope.$apply(function () {
-            $scope.mode = "error";
+            $scope.mode = "done";
+            setEngineStatus(err, false);
           });
         });
       });

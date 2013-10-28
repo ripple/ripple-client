@@ -214,14 +214,7 @@ section.panel.content(ng-controller="TradeCtrl")
         group.mode-sending(ng-switch-when='sending')
           p.throbber.literal(rp-l10n) Sending order to Ripple network...
 
-        //- 4. Error
-
-        group.mode-error(ng-switch-when='error')
-          p.literal(rp-l10n) Sorry, an error occurred while submitting your transaction. Make sure you are connected to the Internet and try again later.
-          p.literal(rp-l10n) Before trying again, please ensure that the transaction has not been executed already.
-          p: button.btn(ng-click='reset(true)', rp-l10n) &laquo; Back
-
-        //- 5. Done
+        //- 4. Done
 
         group.mode-done(ng-switch-when='done')
           group.pending(ng-show='tx_result=="pending"')
