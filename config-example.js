@@ -14,7 +14,7 @@ var Options = {
       { host: 's_east.ripple.com', port: 443, secure: true }
     ],
 
-    connection_offset: 1
+    connection_offset: 0
   },
 
   blobvault : 'https://blobvault.payward.com',
