@@ -387,9 +387,7 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
   $scope.currencies = $scope.currencies_all.slice(1);
   $scope.pairs = $scope.pairs_all.slice(1);
 
-  $scope.app_loaded = true
-  // Enable screen
-  // $('body').addClass('loaded');
+  $scope.app_loaded = true;
 
   // Moved this to the run block
   // Nav links same page click fix
@@ -398,13 +396,6 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
   //     location.href="#/";
   //     location.href=this.href;
   //   }
-  // });
-
-  // Moved this to a directive
-  // Add status box to DOM
-  // var template = require('../../jade/client/status.jade')();
-  // $compile(template)($scope, function (el, $scope) {
-  //   el.appendTo('header');
   // });
 
   $scope.$on('$idAccountLoad', function (e, data) {
@@ -434,9 +425,9 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
   $net.listenId($id);
   $net.init();
   $id.init();
-  
+
   // Testing hooks
-  
+
   this.reset                  =  reset;
   this.handleAccountLoad      =  handleAccountLoad;
   this.handleAccountUnload    =  handleAccountUnload;
@@ -454,5 +445,4 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
   this.updateRippleBalance    =  updateRippleBalance;
   this.compare                =  compare;
   this.handleFirstConnection  =  handleFirstConnection;
-  
 }]);
