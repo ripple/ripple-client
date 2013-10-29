@@ -11,7 +11,9 @@ require('../directives/events');
 require('../directives/formatters');
 require('../directives/directives');
 require('../directives/datalinks');
+require('../directives/jade');
 require('../filters/filters');
+require('../services/globalwrappers');
 require('../services/id');
 require('../services/oldblob');
 require('../services/network');
@@ -116,6 +118,17 @@ app.run(['$rootScope', '$injector', '$compile', '$route', '$routeParams', '$loca
     $location.search("amnt", null);
     $location.search("amount", amnt);
   }
+
+  // Once the app controller has been instantiated
+  // XXX ST: I think this should be an event instead of a watch
+  scope.$watch("app_loaded", function on_app_loaded(oldval, newval) {
+    $('nav a').click(function() { 
+      if (location.hash == this.hash) {
+        location.href="#/";
+        location.href=this.href;
+      }
+    });
+  });
 }]);
 
 // Some backwards compatibility

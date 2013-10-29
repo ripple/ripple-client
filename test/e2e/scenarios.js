@@ -5,7 +5,7 @@
 describe('ripple client', function() {
 
   beforeEach(function() {
-    var base = window.__rp_client_base || '/base';
+    var base = window.__rp_client_base || '';
     browser().navigateTo(base + '/index_debug.html');
   });
 
