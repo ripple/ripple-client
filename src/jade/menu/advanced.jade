@@ -1,6 +1,6 @@
 nav.col-xs-12.col-md-2
   h2(ng-bind="$route.current.tabName | rpucfirst")
-  ul
+  ul.nav.nav-pills.nav-stacked
     li(ng-class="{active: $route.current.tabName == 'trust'}")
       a(href="#/trust", rp-l10n) Trust
     li(ng-class="{active: $route.current.tabName == 'trade'}")
