@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "async": "~0.2.9",
-    "extend": "~1.1.3",
+    "extend": "~1.2.1",
     "grunt": "~0.4.1",
     "grunt-webpack": "~0.10.5",
     "grunt-recess": "~0.3.3",
@@ -34,16 +34,16 @@
   "readmeFilename": "README",
   "devDependencies": {
     "karma-chai": "git+https://github.com/xdissent/karma-chai.git",
-    "karma": "0.9.6",
-    "karma-script-launcher": "0.0.2",
-    "karma-chrome-launcher": "0.0.2",
-    "karma-firefox-launcher": "0.0.3",
-    "karma-html2js-preprocessor": "0.0.2",
-    "karma-jasmine": "0.0.3",
-    "karma-requirejs": "0.0.3",
-    "karma-coffee-preprocessor": "0.0.3",
-    "karma-phantomjs-launcher": "0.0.3",
-    "karma-mocha": "0.0.4",
-    "karma-ng-scenario": "0.0.2"
+    "karma": "~0.10.4",
+    "karma-script-launcher": "~0.1.0",
+    "karma-chrome-launcher": "~0.1.0",
+    "karma-firefox-launcher": "~0.1.0",
+    "karma-html2js-preprocessor": "~0.1.0",
+    "karma-jasmine": "~0.1.3",
+    "karma-requirejs": "~0.1.0",
+    "karma-coffee-preprocessor": "~0.1.0",
+    "karma-phantomjs-launcher": "~0.1.0",
+    "karma-mocha": "~0.1.0",
+    "karma-ng-scenario": "~0.1.0"
   }
 }
