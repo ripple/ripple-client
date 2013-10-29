@@ -223,7 +223,7 @@ header nav ul {
   }
 
   nav {
-    padding-top: 15px;
+    padding: 0;
 
     h2 {
       display: none;
@@ -252,6 +252,109 @@ header nav ul {
 
     h2:hover:before {
       opacity: 1;
+    }
+
+    @media (max-width: 767px) {
+      position: relative;
+      z-index: 25;
+
+      h2 {
+        display: block;
+      }
+    }
+  }
+
+  nav > ul {
+    font: 16px 'OpenSansRegular';
+    padding: 0;
+    margin: 0;
+    list-style: none;
+
+    > li {
+      > a {
+        position: relative;
+        display: block;
+        height: 60px;
+        color: #979797;
+        padding: 20px 0 20px 35px;
+        border-bottom: 1px solid #cacaca;
+        border-top: 1px solid #cacaca;
+        margin-top: -1px;
+        z-index: 10;
+        background: #f7f7f7;
+        .transition-duration(0.2s);
+
+        &:hover {
+          background-color: #fff;
+          text-decoration: none;
+        }
+
+        &:focus {
+          outline: none;
+        }
+      }
+
+      &.no-anim > a {
+        .transition-duration(0);
+      }
+
+      &:first-child > a {
+        border-top: 0 !important;
+        margin-top: 0;
+        .border-radius(0, 0, 0, 10px);
+      }
+
+      &.active {
+        > a {
+          position: relative;
+          color: #333;
+          background-color: #fff;
+          border-bottom: 1px solid #cacaca;
+          border-top: 1px solid #cacaca;
+          border-right: 0;
+          z-index: 25;
+        }
+      }
+    }
+
+    @media (max-width: 767px) {
+      > li.active {
+        width: @sideNavWidth - 1;
+        border-right: 1px solid #cacaca;
+        padding-right: 0;
+      }
+    }
+  }
+
+  nav {
+    &:before {
+      .virtualel;
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 42px;
+      .border-radius(0, 0, 8px, 8px);
+      background-color: #f9f9f9;
+
+      @media (max-width: 767px) {
+        display: none;
+      }
+    }
+    &:after {
+      .virtualel;
+      position: relative;
+      top: 0;
+      left: 40px;
+      width: @sideNavWidth - 40px + 1px;
+      height: 100%;
+      border-right: 1px solid #cacaca;
+      z-index: 100;
+      background: #f9f9f9 url('../../img/subnav_shadow.png') repeat-y right top;
+
+      @media (max-width: 767px) {
+        display: none;
+      }
     }
   }
 }
