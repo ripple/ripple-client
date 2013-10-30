@@ -146,6 +146,12 @@ section.col-xs-12.col-md-10.content(ng-controller="ConvertCtrl")
           | You have no trust line in this currency.
         span(ng-switch-default)
           | Your transaction failed to clear, reason: {{engine_result_message}}
+    group.result-failed(ng-show='tx_result=="local"')
+      h2.tx-status Transaction failed!
+      p(ng-switch on="engine_result")
+        span(ng-switch-when="telINSUF_FEE_P")
+          | The particular server you sent the transaction to was too busy to forward or process
+          | your transaction at the fee you included in it.
     group.actions
       hr
       div(class="actionLink")

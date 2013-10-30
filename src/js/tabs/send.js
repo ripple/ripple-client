@@ -766,6 +766,9 @@ SendTab.prototype.angular = function (module)
         case 'tef':
           $scope.tx_result = "failure";
           break;
+        case 'tel':
+          $scope.tx_result = "local";
+          break;
         default:
           console.warn("Unhandled engine status encountered!");
       }

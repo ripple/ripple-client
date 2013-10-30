@@ -192,8 +192,12 @@ TradeTab.prototype.angular = function(module)
         case 'tec':
           $scope.tx_result = "claim";
           break;
+        case 'tel':
+          $scope.tx_result = "local";
+          break;
         case 'tep':
           console.warn("Unhandled engine status encountered!");
+          break;
       }
     }
 

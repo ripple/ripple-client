@@ -246,6 +246,12 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
             h2.tx-status Trade failed!
             p(ng-switch on="engine_result")
               span(ng-switch-default) Trade failed, reason: {{engine_result_message}}
+          group.result-failed(ng-show='tx_result=="local"')
+            h2.tx-status Transaction failed!
+            p(ng-switch on="engine_result")
+              span(ng-switch-when="telINSUF_FEE_P")
+                | The particular server you sent the transaction to was too busy to forward or process
+                | your transaction at the fee you included in it.
           hr
           div(class="actionLink")
             a(href="#trade", ng-click="reset(true)") Submit another order

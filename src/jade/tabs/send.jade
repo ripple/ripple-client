@@ -240,6 +240,12 @@ section.single.content(ng-controller='SendCtrl')
       p(ng-switch on="engine_result")
         span(ng-switch-when="tefDST_TAG_NEEDED")
           | Destination account requires destination tag to be specified when making payments.
+    group.result-failed(ng-show='tx_result=="local"')
+      h2.tx-status Transaction failed!
+      p(ng-switch on="engine_result")
+        span(ng-switch-when="telINSUF_FEE_P")
+          | The particular server you sent the transaction to was too busy to forward or process
+          | your transaction at the fee you included in it.
     group.result-malformed(ng-show='tx_result=="claim"')
       h2.tx-status Transaction failed!
       p(ng-switch on="engine_result")
