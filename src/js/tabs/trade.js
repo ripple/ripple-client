@@ -10,7 +10,7 @@ var TradeTab = function ()
 
 util.inherits(TradeTab, Tab);
 
-TradeTab.prototype.mainMenu = 'advanced';
+TradeTab.prototype.mainMenu = 'trade';
 
 TradeTab.prototype.generateHtml = function ()
 {
