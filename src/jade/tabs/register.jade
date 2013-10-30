@@ -37,7 +37,7 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
         .row
           .col-xs-12
             p.text-error(ng-show="registerForm.register_password1.$error.rpSameInSet && registerForm.register_password2.$dirty") Passwords do not match
-            p.text-error(ng-show="strength=='weak'") Your password is weak. Please mix letters, numbers and symbols in your password.
+            p.text-error(ng-show="strength=='weak'") Your password is weak. It is not a mix of letters, numbers and symbols or it is the same as your wallet name.
         .row(ng-show="showMasterKeyInput")
           .col-sm-5.col-lg-4.form-group
             label(for='register_masterkey') Secret Account Key&nbsp;
