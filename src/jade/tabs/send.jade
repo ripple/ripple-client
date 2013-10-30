@@ -38,28 +38,6 @@ section.single.content(ng-controller='SendCtrl')
             | Recipient should be either a name from your contact list or Ripple/Bitcoin address.
           .error(rp-error-on='federation')
             | This email address is not Ripple-enabled.
-    .row.form-group(ng-show='$routeParams.st')
-      .col-xs-12.col-sm-6.col-md-5
-        label(for='send_st') Source tag
-        input.form-control#send_st(
-          name='send_st', type='text'
-          ng-model='send.st'
-          rp-stdt
-          rp-autofill='$routeParams.st')
-        .errorGroup(rp-errors='send_st')
-          .error(rp-error-on='rpStdt')
-            | Invalid source tag
-    .row.form-group(ng-show='$routeParams.dt || send.dt')
-      .col-xs-12.col-sm-6.col-md-5
-        label(for='send_dt') Destination tag
-        input.form-control#send_dt(
-          name='send_dt', type='text'
-          ng-model='send.dt'
-          rp-stdt
-          rp-autofill='$routeParams.dt')
-        .errorGroup(rp-errors='send_dt')
-          .error(rp-error-on='rpStdt')
-            | Invalid destination tag
     .form-group
       label(for='send_amount') Recipient will receive
       .row.amount(ng-if="!send.currency_force")
@@ -109,6 +87,33 @@ section.single.content(ng-controller='SendCtrl')
           | This transaction exceeds your balance, you can send a max. of {{account.max_spend | rpamount:{rel_precision: 0} }} XRP
         .error(ng-show="disallowXrp") Recipient does not allow XRP payments. Are you sure you want to send XRP anyway?
         .notice(ng-show="send.trust_limit") {{send.recipient | rpcontactname}} trusts you for {{send.trust_limit | rpamount}} {{send.trust_limit | rpcurrency}}.
+      .row.form-group(ng-show='$routeParams.dt || send.dt || send.showDt')
+        .col-xs-12.col-sm-6.col-md-5
+          label(for='send_dt') Destination tag
+          input.form-control#send_dt(
+          name='send_dt', type='text'
+          ng-model='send.dt'
+          rp-stdt
+          rp-autofill='$routeParams.dt')
+          .errorGroup(rp-errors='send_dt')
+            .error(rp-error-on='rpStdt')
+              | Invalid destination tag
+      .row.form-group(ng-show='$routeParams.st || send.st|| send.showSt')
+        .col-xs-12.col-sm-6.col-md-5
+          label(for='send_st') Source tag
+          input.form-control#send_st(
+          name='send_st', type='text'
+          ng-model='send.st'
+          rp-stdt
+          rp-autofill='$routeParams.st')
+          .errorGroup(rp-errors='send_st')
+            .error(rp-error-on='rpStdt')
+              | Invalid source tag
+    ul.tagsLinks
+      li
+        a(href="", ng-click="send.showDt = true", ng-hide="send.showDt") Add Destination tag
+      li
+        a(href="", ng-click="send.showSt = true", ng-hide="send.showSt") Add Source tag
     .row
       .col-xs-12.col-sm-6.col-md-5(ng-show="send.currency_code == 'XRP'")
         button.btn.btn-block.btn-success.submit(type='submit', ng-disabled='sendForm.$invalid || send.self || !send.recipient_resolved') Send XRP
