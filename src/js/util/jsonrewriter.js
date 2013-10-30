@@ -147,6 +147,10 @@ var JsonRewriter = module.exports = {
           break;
 
         case 'AccountSet':
+          // Ignore empty accountset transactions. (Used to sync sequence numbers)
+          if (meta.AffectedNodes.length === 1 && _.size(meta.AffectedNodes[0].ModifiedNode.PreviousFields) === 2)
+            break;
+
           transaction.type = 'accountset';
           break;
 
