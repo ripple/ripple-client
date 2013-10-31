@@ -128,6 +128,11 @@ SendTab.prototype.angular = function (module)
             send.recipient_name = recipient;
             send.recipient_address = result.destination_address || result.service_address;
 
+            if (typeof result.tag == 'number') {
+              send.showDt = true;
+              send.dt = result.tag;
+            }
+
             $scope.check_destination();
           }, function (error) {
             // Check if this request is still current, exit if not
