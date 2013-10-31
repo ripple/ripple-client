@@ -18,8 +18,8 @@ module.factory('rpFederation', ['$q', '$rootScope', 'rpRippleTxt',
     var federationPromise = $q.defer();
 
     var tmp = email.split('@');
-    var user = tmp[0];
-    var domain = tmp[1];
+    var domain = tmp.pop();
+    var user = tmp.join('@');
 
     var txtPromise = $txt.get(domain);
 
@@ -48,7 +48,11 @@ module.factory('rpFederation', ['$q', '$rootScope', 'rpRippleTxt',
           url: txt.federation_url[0],
           dataType: "json",
           data: {
+            type: 'federation',
             domain: domain,
+            destination: user,
+            // DEPRECATED "destination" is a more neutral name for this field
+            //   than "user"
             user: user
           },
           error: function () {
@@ -65,7 +69,8 @@ module.factory('rpFederation', ['$q', '$rootScope', 'rpRippleTxt',
               if ("object" === typeof data &&
                   "object" === typeof data.federation_json &&
                   data.federation_json.type === "federation_record" &&
-                  data.federation_json.user === user &&
+                  (data.federation_json.user === user ||
+                   data.federation_json.destination === user) &&
                   data.federation_json.domain === domain) {
                 federationPromise.resolve(data.federation_json);
               } else if ("string" === typeof data.error) {

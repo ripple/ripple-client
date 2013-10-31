@@ -63,6 +63,10 @@ SendTab.prototype.angular = function (module)
       $scope.update_amount();
     }, true);
 
+    $scope.$watch('send.extra_fields', function () {
+      $scope.update_amount();
+    }, true);
+
     var destUpdateTimeout;
 
     // Reset everything that depends on the destination
@@ -70,8 +74,10 @@ SendTab.prototype.angular = function (module)
       var send = $scope.send;
       send.self = false;
       send.bitcoin = false;
-      send.email = false;
+      send.quote_url = false;
+      send.federation = false;
       send.fund_status = "none";
+      send.extra_fields = [];
 
       // Reset federation address validity status
       $scope.sendForm.send_destination.$setValidity("federation", true);
@@ -98,10 +104,10 @@ SendTab.prototype.angular = function (module)
       send.bitcoin = !isNaN(Base.decode_check([0, 5], recipient, 'bitcoin'));
 
       // Trying to send to an email/federation address
-      send.email = ("string" === typeof recipient) && ~recipient.indexOf('@');
+      send.federation = ("string" === typeof recipient) && ~recipient.indexOf('@');
 
       // Do we need to perform a remote lookup?
-      var isRemote = send.email;
+      var isRemote = send.federation;
 
       if (destUpdateTimeout) $timeout.cancel(destUpdateTimeout);
       destUpdateTimeout = $timeout($scope.update_destination_remote, 500);
@@ -115,9 +121,12 @@ SendTab.prototype.angular = function (module)
       $scope.sendForm.send_destination.$setValidity("federation", true);
 
       if (send.bitcoin) {
+        send.quote_url = Options.bridge.out.bitcoin;
+        send.quote_destination = recipient;
+
         // Destination is not known yet, skip ahead
         $scope.update_currency_constraints();
-      } else if (send.email) {
+      } else if (send.federation) {
         send.path_status = "fed-check";
         $federation.check_email(recipient)
           .then(function (result) {
@@ -125,10 +134,28 @@ SendTab.prototype.angular = function (module)
             var now_recipient = send.recipient_actual || send.recipient_address;
             if (recipient !== now_recipient) return;
 
-            send.recipient_name = recipient;
-            send.recipient_address = result.destination_address;
+            send.federation = result;
 
-            $scope.check_destination();
+            if (result.extra_fields) {
+              send.extra_fields = result.extra_fields;
+            }
+
+            if (result.destination_address) {
+              send.recipient_name = recipient;
+              send.recipient_address = result.destination_address;
+              $scope.check_destination();
+            } else if (result.quote_url) {
+              // Federation destination requires us to request a quote
+              send.quote_url = result.quote_url;
+              send.quote_destination = result.destination;
+              send.path_status = "waiting";
+              $scope.update_currency_constraints();
+            } else {
+              // Invalid federation result
+              send.path_status = "waiting";
+              $scope.sendForm.send_destination.$setValidity("federation", false);
+              // XXX Show specific error message
+            }
           }, function (error) {
             // Check if this request is still current, exit if not
             var now_recipient = send.recipient_actual || send.recipient_address;
@@ -237,12 +264,28 @@ SendTab.prototype.angular = function (module)
       send.currency_choices = $scope.currencies_all;
       send.currency_force = false;
 
+      // Apply Bitcoin currency restrictions
       if (send.bitcoin) {
         // Force BTC
         send.currency_choices = ["BTC"];
         send.currency_force = "BTC";
         send.currency = "BTC";
         return;
+      }
+
+      // Apply federation currency restrictions
+      if (send.federation &&
+          $.isArray(send.federation.currencies) &&
+          send.federation.currencies.length >= 1 &&
+          "object" === typeof send.federation.currencies[0] &&
+          "string" === typeof send.federation.currencies[0].currency) {
+        // XXX Do some validation on this
+        send.currency_choices = [];
+        $.each(send.federation.currencies, function () {
+          send.currency_choices.push(this.currency);
+        });
+        send.currency_force = send.currency_choices[0];
+        send.currency = send.currency_choices[0];
       }
 
       if (!send.recipient_info) return;
@@ -283,10 +326,7 @@ SendTab.prototype.angular = function (module)
 
     // Reset anything that depends on the currency 
     $scope.reset_currency_deps = function () {
-      
       // XXX Reset
-
-
 
       $scope.reset_amount_deps();
     };
@@ -314,6 +354,7 @@ SendTab.prototype.angular = function (module)
     $scope.reset_amount_deps = function () {
       var send = $scope.send;
       send.sender_insufficient_xrp = false;
+      send.quote = false;
 
       $scope.reset_paths();
     };
@@ -337,7 +378,7 @@ SendTab.prototype.angular = function (module)
       // in calculating paths.
       if ($scope.sendForm.$invalid) return;
 
-      if (send.bitcoin) {
+      if (send.quote_url) {
         if (!send.amount_feedback.is_valid())
           return;
 
@@ -366,7 +407,7 @@ SendTab.prototype.angular = function (module)
             && $scope.account.max_spend.to_number() > 1
             && $scope.account.max_spend.compareTo(send.amount_feedback) < 0) {
 
-          send.sender_insufficient_xrp = true;          
+          send.sender_insufficient_xrp = true;
         } else {
           send.sender_insufficient_xrp = false;
         }
@@ -397,36 +438,57 @@ SendTab.prototype.angular = function (module)
      */
     $scope.update_quote = function () {
       var send = $scope.send;
+      var recipient = send.recipient_actual || send.recipient_address;
 
-      // Bitcoin outbound bridge path find
+      $scope.reset_paths();
+
       try {
         // Get a quote
         send.path_status = "bridge-quote";
+
+        var data = {
+          type: "quote",
+          amount: send.amount_feedback.to_text()+"/"+send.amount_feedback.currency().to_json(),
+          destination: send.quote_destination
+        };
+
+        if ($.isArray(send.extra_fields)) {
+          $.each(send.extra_fields, function () {
+            data[this.name] = this.value;
+          });
+        }
+
         $.ajax({
-          url: Options.bridge.out.bitcoin,
+          url: send.quote_url,
           dataType: 'json',
-          data: {
-            type: "quote",
-            amount: send.amount_feedback.to_text()+"/BTC"
-          },
+          data: data,
           error: function () {
             setImmediate(function () {
               $scope.$apply(function () {
-                $scope.send.path_status = "error";
+                $scope.send.path_status = "error-quote";
               });
             });
           },
           success: function (data) {
             $scope.$apply(function () {
-              if (!data || !data.quote || !Array.isArray(data.quote.send) ||
+              // Check if this request is still current, exit if not
+              var now_recipient = send.recipient_actual || send.recipient_address;
+              if (recipient !== now_recipient) return;
+
+              var now_amount = send.amount_feedback;
+              if (!now_amount.equals(send.amount_feedback)) return;
+
+              if (!data || !data.quote ||
+                  !(data.result === "success" || data.status === "success") ||
+                  !Array.isArray(data.quote.send) ||
                   !data.quote.send.length || !data.quote.address) {
-                $scope.send.path_status = "error";
+                $scope.send.path_status = "error-quote";
                 return;
               }
 
               var amount = Amount.from_json(data.quote.send[0]);
 
-              send.bitcoin_quote = data.quote;
+              send.quote = data.quote;
 
               // We have a quote, now calculate a path
               send.recipient_actual = data.quote.address;
@@ -437,8 +499,8 @@ SendTab.prototype.angular = function (module)
           }
         });
       } catch (e) {
-        console.exception(e);
-        $scope.send.path_status = "error";
+        console.error(e.stack ? e.stack : e);
+        $scope.send.path_status = "error-quote";
       }
     };
 
@@ -493,6 +555,13 @@ SendTab.prototype.angular = function (module)
 
       pf.on('update', function (upd) {
         $scope.$apply(function () {
+          // Check if this request is still current, exit if not
+          var now_recipient = send.recipient_actual || send.recipient_address;
+          if (recipient !== now_recipient) return;
+
+          var now_amount = send.amount_feedback;
+          if (!now_amount.equals(send.amount_feedback)) return;
+
           if (!upd.alternatives || !upd.alternatives.length) {
             $scope.send.path_status = "no-path";
           } else {
@@ -655,25 +724,31 @@ SendTab.prototype.angular = function (module)
         tx.source_tag($scope.send.st);
       }
 
-      if (!$scope.send.bitcoin) {
+      if ($scope.send.quote) {
+        if ("number" === typeof $scope.send.quote.destination_tag) {
+          tx.destination_tag($scope.send.quote.destination_tag);
+        }
+
+        if ("string" === typeof $scope.send.quote.invoice_id) {
+          tx.tx_json.InvoiceID = $scope.send.quote.invoice_id.toUpperCase();
+        }
+
+        if ($scope.send.bitcoin) {
+          var encodedAddr = Base.decode(addr, 'bitcoin');
+          encodedAddr = sjcl.codec.bytes.toBits(encodedAddr);
+          encodedAddr = sjcl.codec.hex.fromBits(encodedAddr).toUpperCase();
+          while (encodedAddr.length < 64) encodedAddr += "0";
+          tx.tx_json.InvoiceID = encodedAddr;
+        }
+
+        tx.payment($id.account,
+                   $scope.send.quote.address,
+                   $scope.send.quote.send[0]);
+      } else {
         // Destination tag
         tx.destination_tag(dt ? +dt : undefined); // 'cause +dt is NaN when dt is undefined
 
         tx.payment($id.account, addr, amount.to_json());
-      } else {
-        if ("number" === typeof $scope.send.bitcoin_quote.destination_tag) {
-          tx.destination_tag($scope.send.bitcoin_quote.destination_tag);
-        }
-
-        var encodedAddr = Base.decode(addr, 'bitcoin');
-        encodedAddr = sjcl.codec.bytes.toBits(encodedAddr);
-        encodedAddr = sjcl.codec.hex.fromBits(encodedAddr).toUpperCase();
-        while (encodedAddr.length < 64) encodedAddr += "0";
-        tx.tx_json.InvoiceID = encodedAddr;
-
-        tx.payment($id.account,
-                   $scope.send.bitcoin_quote.address,
-                   $scope.send.bitcoin_quote.send[0]);
       }
 
       if ($scope.send.alt) {

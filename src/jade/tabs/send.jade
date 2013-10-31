@@ -38,6 +38,14 @@ section.single.content(ng-controller='SendCtrl')
             | Recipient should be either a name from your contact list or Ripple/Bitcoin address.
           .error(rp-error-on='federation')
             | This email address is not Ripple-enabled.
+    .row.form-group(ng-repeat='field in send.extra_fields')
+      .col-xs-12.col-sm-6.col-md-5
+        label(ng-bind="field.label")
+        p.field-hint(ng-show="field.hint", ng-bind="field.hint")
+        input.form-control(
+          type='text'
+          ng-model='field.value'
+          ng-required='{{field.required}}')
     .form-group
       label(for='send_amount') Recipient will receive
       .row.amount(ng-if="!send.currency_force")
@@ -62,7 +70,7 @@ section.single.content(ng-controller='SendCtrl')
           rp-autofill='$routeParams.amount'
           rp-autofill-currency)
       .row(ng-if="send.currency_force")
-        .col-xs-12.col-sm-6.col-md-3.input-group
+        .col-xs-12.col-sm-6.col-md-3.input-group.currency_force
           input.form-control#send_amount(
           name='send_amount', type='text'
           ng-model='send.amount'
@@ -91,10 +99,10 @@ section.single.content(ng-controller='SendCtrl')
         .col-xs-12.col-sm-6.col-md-5
           label(for='send_dt') Destination tag
           input.form-control#send_dt(
-          name='send_dt', type='text'
-          ng-model='send.dt'
-          rp-stdt
-          rp-autofill='$routeParams.dt')
+            name='send_dt', type='text'
+            ng-model='send.dt'
+            rp-stdt
+            rp-autofill='$routeParams.dt')
           .errorGroup(rp-errors='send_dt')
             .error(rp-error-on='rpStdt')
               | Invalid destination tag
@@ -102,10 +110,10 @@ section.single.content(ng-controller='SendCtrl')
         .col-xs-12.col-sm-6.col-md-5
           label(for='send_st') Source tag
           input.form-control#send_st(
-          name='send_st', type='text'
-          ng-model='send.st'
-          rp-stdt
-          rp-autofill='$routeParams.st')
+            name='send_st', type='text'
+            ng-model='send.st'
+            rp-stdt
+            rp-autofill='$routeParams.st')
           .errorGroup(rp-errors='send_st')
             .error(rp-error-on='rpStdt')
               | Invalid source tag
@@ -138,6 +146,7 @@ section.single.content(ng-controller='SendCtrl')
         span.spinner(rp-spinner="4")
         | Calculating alternatives
       p.literal(ng-show="send.path_status == 'no-path' && send.currency_code != 'XRP'") No path found!
+      p.literal(ng-show="send.path_status == 'error-quote'") Error while retrieving quote for outbound payment
       p.literal(ng-show="send.path_status == 'error'") Error while calculating path
 
       //- Alternatives
