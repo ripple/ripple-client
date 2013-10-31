@@ -47,6 +47,20 @@ TradeTab.prototype.angular = function(module)
       var type = keepPair ? $scope.order.type : 'buy';
 
       if ($scope.orderForm) $scope.orderForm.$setPristine();
+
+      // listing
+      var listing;
+
+      if ($scope.order) {
+        listing = $scope.order.listing;
+      }
+      else if(store.get('ripple_trade_listing')) {
+        listing = store.get('ripple_trade_listing');
+      }
+      else {
+        listing = 'my';
+      }
+
       $scope.mode = "trade";
       $scope.order = {
         type: type,
@@ -58,7 +72,7 @@ TradeTab.prototype.angular = function(module)
         second_currency: pair.slice(4, 7),
         first_issuer: fIssuer,
         second_issuer: sIssuer,
-        listing: $scope.order ? $scope.order.listing : 'my',
+        listing: listing,
 
         // This variable is true if both the pair and the issuers are set to
         // valid values. It is used to enable or disable all the functionality
@@ -71,13 +85,9 @@ TradeTab.prototype.angular = function(module)
 
     $scope.setListing = function(listing){
       $scope.order.listing = listing;
-      $scope.order.userSetListing = true;
-    };
 
-    $scope.$watch('offers',function(){
-      if (!$scope.order.userSetListing)
-        $scope.order.listing = $.isEmptyObject($scope.offers) ? 'orderbook' : 'my';
-    }, true);
+      store.set('ripple_trade_listing', listing);
+    };
 
     $scope.back = function () {
       $scope.mode = "trade";
