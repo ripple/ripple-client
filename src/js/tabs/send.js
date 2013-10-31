@@ -126,7 +126,7 @@ SendTab.prototype.angular = function (module)
             if (recipient !== now_recipient) return;
 
             send.recipient_name = recipient;
-            send.recipient_address = result.destination_address;
+            send.recipient_address = result.destination_address || result.service_address;
 
             $scope.check_destination();
           }, function (error) {
