@@ -69,6 +69,15 @@ nav + .content {
       font-family: 'OpenSansBold';
       font-weight: normal;
     }
+
+    .spinner {
+      padding-right: 25px;
+
+      .spinnerInner {
+        left: -8px;
+        top: -20px;
+      }
+    }
   }
 
   p.hint {
@@ -221,49 +230,17 @@ nav + .content {
 }
 
 // Tooltip
-.tooltip-inner {
-  min-width: 60px;
-  max-width: 330px;
-  padding: 3px 8px;
-  border: 1px solid #c3c3c3;
-  color: #333;
-  padding: 10px 15px;
-  font-size: 12px;
-  text-align: center;
-  text-decoration: none;
-  background-color: #fff;
-  .border-radius(4px);
-  box-shadow: 2px 1px 10px #b5b5b5;
-}
 .tooltip {
   opacity: 1 !important;
 
-  &.top .tooltip-arrow {
-    display: none;
+  .tooltip-inner {
+    background: #fff;
+    border: 1px solid #CECECE;
+    .border-radius(3px,3px,3px,3px);
+    color: #666;
+    padding: 10px 15px;
   }
 
-  &.top:after {
-    left: 50%;
-    bottom: -4px;
-    margin-left: -20px;
-    border-top: 10px solid #fff;
-    border-left: 20px solid transparent;
-    border-right: 20px solid transparent;
-    content: "";
-    display: inline-block;
-    position: absolute;
-  }
-  &.top:before {
-    left: 50%;
-    bottom: -5px;
-    margin-left: -20px;
-    border-top: 10px solid #c3c3c3;
-    border-left: 20px solid transparent;
-    border-right: 20px solid transparent;
-    content: "";
-    display: inline-block;
-    position: absolute;
-  }
 }
 
 // Popover
