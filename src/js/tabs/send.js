@@ -141,8 +141,15 @@ SendTab.prototype.angular = function (module)
             }
 
             if (result.destination_address) {
+              // Federation record specifies destination
               send.recipient_name = recipient;
               send.recipient_address = result.destination_address;
+
+              if (typeof result.dt == 'number') {
+                send.showDt = true;
+                send.dt = result.dt;
+              }
+
               $scope.check_destination();
             } else if (result.quote_url) {
               // Federation destination requires us to request a quote
