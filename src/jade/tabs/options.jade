@@ -8,7 +8,7 @@ section.col-xs-12.col-md-10.content(ng-controller="OptionsCtrl")
     div(ng-repeat="(index, server) in servers")
       .row
         .col-xs-12
-          label Web Socket IP, port, secure
+          label WebSocket hostname, port, secure
       .row
         .col-xs-6.col-sm-5.col-md-3
           input.form-control.host(name='host', type='text', ng-model='server.host', rp-hostname)
@@ -25,7 +25,7 @@ section.col-xs-12.col-md-10.content(ng-controller="OptionsCtrl")
         .col-xs-12
           div.helperInput
             input(type="checkbox", name="secure", ng-model='server.secure')
-            label(for="secure") Web Socket ssl
+            label(for="secure") Use secure WebSocket
     .row
       .col-xs-12.col-sm-5.col-md-4
         button.btn.btn-block.btn-default(type="button", ng-click="servers.push({})") Add new server
