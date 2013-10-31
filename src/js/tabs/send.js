@@ -324,7 +324,7 @@ SendTab.prototype.angular = function (module)
     };
 
 
-    // Reset anything that depends on the currency 
+    // Reset anything that depends on the currency
     $scope.reset_currency_deps = function () {
       // XXX Reset
 
