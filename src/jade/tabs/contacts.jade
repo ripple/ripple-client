@@ -4,17 +4,13 @@ section.col-xs-12.col-md-10.content(ng-controller="ContactsCtrl")
     .col-xs-3 Name
     .col-xs-6 Address
     .col-xs-3.text-right
-      a.btn.btn-success.btn-sm.sign(ng-click='toggle_form()')
-        span(ng-hide='addform_visible') + Add contact
-        span(ng-show='addform_visible') − Add contact
+      a.btn.btn-success.btn-sm.sign(ng-click='toggle_form()', ng-disabled='addform_visible') Add contact
   .row.head.visible-xs
     .col-xs-12
-      a.btn.btn-success.btn-block.btn-sm.sign(ng-click='toggle_form()')
-        span(ng-hide='addform_visible') + Add contact
-        span(ng-show='addform_visible') − Add contact
+      a.btn.btn-success.btn-block.btn-sm.sign(ng-click='toggle_form()', ng-disabled='addform_visible') Add contact
   .row.addForm(ng-show='addform_visible')
     .col-xs-12.col-sm-5
-      form(name="addForm", id="addForm")
+      form(name="addForm", id="addForm", ng-submit="create()")
         .form-group
           label(for='Name') Name
           input.form-control.input-lg.name#name(name='name', type='text', step='any', maxlength="70"
@@ -52,9 +48,12 @@ section.col-xs-12.col-md-10.content(ng-controller="ContactsCtrl")
           .errorGroup(rp-errors='dt')
             .error(rp-error-on='rpStdt')
               | Invalid destination tag
-        div
+        .row
           // TODO ng-click, ng-submit
-          button.btn.btn-lg.btn-success.submit(type='submit', ng-click='create()', ng-disabled='addForm.$invalid') Add contact
+          .col-xs-12.col-sm-4
+            button.btn.btn-default.btn-block(type='button', ng-click='addform_visible = false') Cancel
+          .col-xs-12.col-sm-8
+            button.btn.btn-success.btn-block.submit(type='submit', ng-disabled='addForm.$invalid') Add contact
   .row.contact(ng-repeat="entry in userBlob.data.contacts", ng-class="{editing: editing}", ng-controller="ContactRowCtrl", rp-animate="enable_highlight")
     .col-xs-12.col-sm-3
       div(ng-show='editing')
