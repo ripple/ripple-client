@@ -559,8 +559,8 @@ SendTab.prototype.angular = function (module)
           var now_recipient = send.recipient_actual || send.recipient_address;
           if (recipient !== now_recipient) return;
 
-          var now_amount = send.amount_feedback;
-          if (!now_amount.equals(send.amount_feedback)) return;
+          var now_amount = send.amount_actual || send.amount_feedback;
+          if (!now_amount.equals(amount)) return;
 
           if (!upd.alternatives || !upd.alternatives.length) {
             $scope.send.path_status = "no-path";
