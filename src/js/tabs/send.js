@@ -126,7 +126,12 @@ SendTab.prototype.angular = function (module)
             if (recipient !== now_recipient) return;
 
             send.recipient_name = recipient;
-            send.recipient_address = result.destination_address;
+            send.recipient_address = result.destination_address || result.service_address;
+
+            if (typeof result.tag == 'number') {
+              send.showDt = true;
+              send.dt = result.tag;
+            }
 
             $scope.check_destination();
           }, function (error) {
@@ -281,9 +286,9 @@ SendTab.prototype.angular = function (module)
     };
 
 
-    // Reset anything that depends on the currency 
+    // Reset anything that depends on the currency
     $scope.reset_currency_deps = function () {
-      
+
       // XXX Reset
 
 
@@ -366,7 +371,7 @@ SendTab.prototype.angular = function (module)
             && $scope.account.max_spend.to_number() > 1
             && $scope.account.max_spend.compareTo(send.amount_feedback) < 0) {
 
-          send.sender_insufficient_xrp = true;          
+          send.sender_insufficient_xrp = true;
         } else {
           send.sender_insufficient_xrp = false;
         }
