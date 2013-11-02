@@ -8,7 +8,7 @@ var module = angular.module('jade', []);
 /**
  * Jade Replace
  */
-module.directive('rpJadeReplace', function($rootScope, $compile) {
+module.directive('rpJadeReplace', ['$rootScope', '$compile', function($rootScope, $compile) {
   return {
     restrict: 'A',
     scope: false,
@@ -20,4 +20,4 @@ module.directive('rpJadeReplace', function($rootScope, $compile) {
       });
     }
   };
-});
+}]);
