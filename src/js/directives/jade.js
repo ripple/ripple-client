@@ -3,7 +3,7 @@
  *
  */
 
-var module = angular.module('directives');
+var module = angular.module('jade', []);
 
 /**
  * Jade Replace

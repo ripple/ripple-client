@@ -41,6 +41,7 @@ var app = angular.module('rp', [
   'directives',
   'validators',
   'datalinks',
+  'jade',
   // Filters
   'filters'
 ]);
