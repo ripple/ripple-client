@@ -751,7 +751,7 @@ SendTab.prototype.angular = function (module)
         var dt;
         if ($scope.send.dt) {
           dt = $scope.send.dt;
-        } else if (send.federation_record.dt) {
+        } else if (send.federation_record && send.federation_record.dt) {
           dt = send.federation_record.dt;
         } else {
           dt = webutil.getDestTagFromAddress($scope.send.recipient);
