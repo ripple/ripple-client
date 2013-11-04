@@ -93,7 +93,7 @@ TxTab.prototype.angular = function (module)
             }
             var amountSent;
             if (cur) {
-              amountSent = {value:""+difference, currency:cur};
+              amountSent = {value: String(difference), currency:cur};
             } else {
               amountSent = difference;
             }
