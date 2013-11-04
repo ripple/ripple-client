@@ -134,7 +134,7 @@ SendTab.prototype.angular = function (module)
             var now_recipient = send.recipient_actual || send.recipient_address;
             if (recipient !== now_recipient) return;
 
-            send.federation = result;
+            send.federation_record = result;
 
             if (result.extra_fields) {
               send.extra_fields = result.extra_fields;
@@ -144,11 +144,6 @@ SendTab.prototype.angular = function (module)
               // Federation record specifies destination
               send.recipient_name = recipient;
               send.recipient_address = result.destination_address;
-
-              if (typeof result.dt == 'number') {
-                send.showDt = true;
-                send.dt = result.dt;
-              }
 
               $scope.check_destination();
             } else if (result.quote_url) {
@@ -281,14 +276,14 @@ SendTab.prototype.angular = function (module)
       }
 
       // Apply federation currency restrictions
-      if (send.federation &&
-          $.isArray(send.federation.currencies) &&
-          send.federation.currencies.length >= 1 &&
-          "object" === typeof send.federation.currencies[0] &&
-          "string" === typeof send.federation.currencies[0].currency) {
+      if (send.federation_record &&
+          $.isArray(send.federation_record.currencies) &&
+          send.federation_record.currencies.length >= 1 &&
+          "object" === typeof send.federation_record.currencies[0] &&
+          "string" === typeof send.federation_record.currencies[0].currency) {
         // XXX Do some validation on this
         send.currency_choices = [];
-        $.each(send.federation.currencies, function () {
+        $.each(send.federation_record.currencies, function () {
           send.currency_choices.push(this.currency);
         });
         send.currency_force = send.currency_choices[0];
@@ -718,10 +713,10 @@ SendTab.prototype.angular = function (module)
      * N4. Waiting for transaction result page
      */
     $scope.send_confirmed = function () {
+      var send = $scope.send;
       var currency = $scope.send.currency.slice(0, 3).toUpperCase();
       var amount = Amount.from_human(""+$scope.send.amount+" "+currency);
       var addr = $scope.send.recipient_address;
-      var dt = $scope.send.dt ? $scope.send.dt : webutil.getDestTagFromAddress($scope.send.recipient);
 
       amount.set_issuer(addr);
 
@@ -753,6 +748,15 @@ SendTab.prototype.angular = function (module)
                    $scope.send.quote.send[0]);
       } else {
         // Destination tag
+        var dt;
+        if ($scope.send.dt) {
+          dt = $scope.send.dt;
+        } else if (send.federation_record.dt) {
+          dt = send.federation_record.dt;
+        } else {
+          dt = webutil.getDestTagFromAddress($scope.send.recipient);
+        }
+
         tx.destination_tag(dt ? +dt : undefined); // 'cause +dt is NaN when dt is undefined
 
         tx.payment($id.account, addr, amount.to_json());
