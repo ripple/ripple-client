@@ -252,6 +252,10 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
               span(ng-switch-when="telINSUF_FEE_P")
                 | The particular server you sent the transaction to was too busy to forward or process
                 | your transaction at the fee you included in it.
+          group.result-failed(ng-show='tx_result=="unknown"')
+            h2.tx-status {{engine_result}}
+            p(ng-switch on="engine_result")
+              span(ng-switch-default) {{engine_result_message}}
           hr
           div(class="actionLink")
             a(href="#trade", ng-click="reset(true)") Submit another order
