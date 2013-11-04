@@ -205,7 +205,7 @@ TradeTab.prototype.angular = function(module)
         case 'tel':
           $scope.tx_result = "local";
           break;
-        case 'tep':
+        //case 'tep':
         default:
           $scope.tx_result = "unknown";
           console.warn("Unhandled engine status encountered:"+res.engine_result);
