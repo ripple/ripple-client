@@ -291,18 +291,21 @@ TradeTab.prototype.angular = function(module)
       var order = $scope.order;
 
       var pair = order.currency_pair;
-      if ("string" !== typeof pair ||
-          !pair.match(/^[a-z]{3}\/[a-z]{3}$/i)) {
+
+      // Invalid currency pair
+      if ("string" !== typeof pair || !pair.match(/^[a-z]{3}\/[a-z]{3}$/i)) {
         order.first_currency = 'XRP';
         order.second_currency = 'XRP';
         order.valid_settings = false;
         return;
       }
+
       var first_currency = order.first_currency = pair.slice(0, 3);
       var second_currency = order.second_currency = pair.slice(4, 7);
-
       var first_issuer = ripple.UInt160.from_json(order.first_issuer);
       var second_issuer = ripple.UInt160.from_json(order.second_issuer);
+
+      // Invalid issuers
       if ((first_currency !== 'XRP' && !first_issuer.is_valid()) ||
           (second_currency !== 'XRP' && !second_issuer.is_valid())) {
         order.valid_settings = false;
@@ -314,7 +317,8 @@ TradeTab.prototype.angular = function(module)
         order.buy_currency = order.first_currency;
         order.sell_issuer = order.second_issuer;
         order.buy_issuer = order.first_issuer;
-      } else {
+      }
+      else {
         order.sell_currency = order.first_currency;
         order.buy_currency = order.second_currency;
         order.sell_issuer = order.first_issuer;
@@ -322,18 +326,24 @@ TradeTab.prototype.angular = function(module)
       }
       order.valid_settings = true;
 
+      // Remember selection
       var key = "" +
-            order.first_currency +
-            (order.first_currency === 'XRP' ? "" : "/" +order.first_issuer) +
-            ":" +
-            order.second_currency +
-            (order.second_currency === 'XRP' ? "" : "/" +order.second_issuer);
+        order.first_currency +
+        (order.first_currency === 'XRP' ? "" : "/" +order.first_issuer) +
+        ":" +
+        order.second_currency +
+        (order.second_currency === 'XRP' ? "" : "/" +order.second_issuer);
 
       if (order.prev_settings !== key) {
         loadOffers();
 
         order.prev_settings = key;
       }
+
+      // Update buy/sell
+      $scope.update_first();
+      $scope.update_price();
+      $scope.update_second();
 
       updateCanBuySell();
     }
