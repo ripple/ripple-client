@@ -12,6 +12,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-contrib-connect');
+  grunt.loadNpmTasks('grunt-concurrent');
 
   // Ripple client dependencies
   var deps = ["deps/js/jquery.js",
@@ -299,6 +301,29 @@ module.exports = function(grunt) {
         files: ['config.js'],
         options: {livereload:true}
       }
+    },
+    connect: {
+      dev: {
+        options: {
+          hostname: 'localhost',
+          port: 8005,
+          base: '.',
+          open: false,
+          keepalive: true,
+          middleware: function(connect, options) {
+            return [
+              connect['static'](options.base)
+            ]
+          }
+        }
+      }
+    },
+    concurrent: {
+        options: {
+            logConcurrentOutput: true
+        },
+
+        serve: ['watch', 'connect:dev']
     }
   });
 
@@ -315,6 +340,7 @@ module.exports = function(grunt) {
                               'concat:deps_debug', 'concat:deps_ie_debug']);
   grunt.registerTask('dist', ['default',
                               'copy:web', 'copy:nw_linux', 'copy:nw_linux_debug']);
+  grunt.registerTask('serve', ['concurrent:serve']);
 };
 // Helpers
 function escapeRegExpString(str) { return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&"); }
