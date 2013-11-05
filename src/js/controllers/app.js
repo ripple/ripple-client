@@ -133,7 +133,8 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
         var offer = {
           seq: +offerData.seq,
           gets: ripple.Amount.from_json(offerData.taker_gets),
-          pays: ripple.Amount.from_json(offerData.taker_pays)
+          pays: ripple.Amount.from_json(offerData.taker_pays),
+          flags: offerData.flags
         };
 
         updateOffer(offer);
@@ -263,7 +264,7 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
 
   function updateOffer(offer)
   {
-    if (offer.flags && offer.flags === ripple.Transaction.flags.OfferCreate.Sell) {
+    if (offer.flags && offer.flags === ripple.Remote.flags.offer.Sell) {
       offer.type = 'sell';
       offer.first = offer.gets;
       offer.second = offer.pays;

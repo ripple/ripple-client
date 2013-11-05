@@ -9,7 +9,7 @@
     .balance.primary(ng-show="loadState.account && !account.Balance")
       | Unfunded account
     .balance.primary(ng-show="loadState.account && account.Balance")
-      span.amount(ng-class="{low: lowBalance}", rp-tooltip="{{account.Balance | rpamount}}  (reserve: {{ account.reserve | rpamount }} XRP)") {{account.Balance | rpamount:{rel_precision: 0} }}
+      span.amount(ng-class="{low: lowBalance}", rp-tooltip="{{account.Balance | rpamount:{precision: 2, max_sig_digits: 20} }} (reserve: {{ account.reserve | rpamount }} XRP)") {{account.Balance | rpamount:{precision: 0} }}
       span.currency XRP
       a.icon.low(ng-show="lowBalance"
         rp-popover
