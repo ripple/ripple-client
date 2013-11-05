@@ -27,6 +27,12 @@ describe('StatusCtrl', function(){
     run(scope,done);
   });
 
+  it('should be set up with sinon', function (done) {
+    assert.isNotNull(sinon);
+    assert.isFunction(sinon.spy);
+    run(scope,done);
+  });
+
   describe('public functions on $scope', function () {
 
     it('should toggle the secondary', function (done) {
