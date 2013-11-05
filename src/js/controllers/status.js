@@ -167,4 +167,9 @@ module.controller('StatusCtrl', ['$scope', '$element', '$compile', 'rpId',
       setTimeout(tick, tickInterval);
     }
   }
+
+  // Testing Hooks
+  this.setConnectionStatus = setConnectionStatus;
+  this.enqueue             = enqueue;
+  this.tick                = tick;
 }]);
