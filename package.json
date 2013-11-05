@@ -33,7 +33,7 @@
   },
   "readmeFilename": "README",
   "devDependencies": {
-    "karma": "~0.10.4",,
+    "karma": "~0.10.4",
     "karma-sinon-chai": "~0.1.1",
     "karma-script-launcher": "~0.1.0",
     "karma-chrome-launcher": "~0.1.0",
