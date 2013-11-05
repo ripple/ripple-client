@@ -1,6 +1,6 @@
 module.exports = function(config) {
   config.set({
-    frameworks: ['mocha', 'chai'],
+    frameworks: ['mocha', 'sinon-chai'],
     basePath: '../',
 
     files: [
