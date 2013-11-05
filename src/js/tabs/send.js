@@ -202,7 +202,9 @@ SendTab.prototype.angular = function (module)
               // XXX Actual error
             }
           } else {
+            // Flags
             $scope.disallowXrp = data.account_data.Flags & ripple.Remote.flags.account_root.DisallowXRP;
+            $scope.destTagRequired = data.account_data.Flags & ripple.Remote.flags.account_root.RequireDestTag;
 
             send.recipient_info = {
               'exists': true,
