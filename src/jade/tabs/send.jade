@@ -9,7 +9,7 @@ section.single.content(ng-controller='SendCtrl')
 
   .unfunded(ng-hide='account.Balance || !connected')
     p.literal(rp-l10n="err-you-must-be-funded-before-you-can-send-money") You have to be funded before you can send money
-    p: a.btn(href="#/balance") Back to balance
+    p: a.btn.btn-default(href="#/balance") Back to balance
 
   //- 1. Send form
 
@@ -224,7 +224,7 @@ section.single.content(ng-controller='SendCtrl')
         p.literal Sorry, an error occurred while submitting your transaction.
           | Make sure you are connected to the Internet and try again later.
         p.literal Please ensure you don't send your payment more than once.
-    p: button.btn(ng-click='cancelConfirm()') &laquo; Back
+    p: button.btn.btn-default(ng-click='cancelConfirm()') &laquo; Back
 
   //- N6. Sent page
 
