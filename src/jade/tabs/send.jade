@@ -107,8 +107,11 @@ section.single.content(ng-controller='SendCtrl')
           .errorGroup(rp-errors='send_dt')
             .error(rp-error-on='rpStdt')
               | Invalid destination tag
+            .error(rp-error-on='required')
+              | Destination cannot be blank.
           div(ng-show="destTagRequired")
-            | Recipient requires a destination tag to be specified for the transaction.
+            | Recipient requires a destination tag to be specified for the transaction. If you don't know the
+            |  destination tag, please contact them before doing a transaction.
       .row.form-group(ng-show='$routeParams.st || send.st || send.showSt')
         .col-xs-12.col-sm-6.col-md-5
           label(for='send_st') Source tag
