@@ -148,7 +148,9 @@ section.single.content(ng-controller='SendCtrl')
       p.literal(ng-show="send.path_status == 'pending' && send.currency_code == 'XRP'")
         span.spinner(rp-spinner="4")
         | Calculating alternatives
-      p.literal(ng-show="send.path_status == 'no-path' && send.currency_code != 'XRP'") No path found!
+      p.literal(ng-show="send.path_status == 'no-path' && send.currency_code != 'XRP'")
+        | Sorry! Cannot send {{send.amount}} {{send.currency}} to {{send.recipient}}. Please make sure your account has enough funds,
+        |  and the recipient accepts the currency you're sending. If it still doesn't work, try again later.
       p.literal(ng-show="send.path_status == 'error-quote'") Error while retrieving quote for outbound payment
       p.literal(ng-show="send.path_status == 'error'") Error while calculating path
 
