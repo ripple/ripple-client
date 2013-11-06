@@ -3,7 +3,9 @@ node_js:
   - "0.10"
 before_install:
   - npm install -g grunt-cli
-script: grunt
+script: 
+  - grunt
+  - npm test
 notifications:
   email:
     false
