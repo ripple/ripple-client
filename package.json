@@ -27,7 +27,7 @@
   },
   "license": "ISC",
   "scripts": {
-    "test": "./node_modules/.bin/karma start test/karma.conf.js --single-run"
+    "test": "./node_modules/.bin/karma start test/karma.conf.js --single-run --browsers Firefox"
   },
   "repository": {
     "type": "git",
