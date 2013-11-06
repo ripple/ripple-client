@@ -40,7 +40,7 @@ describe('StatusCtrl', function(){
     });
 
     it('should be disconnected by default', function (done) {
-      assert.isFalse(scope.connected);
+      assert.isUndefined(scope.connected);
       done();
     });
 
