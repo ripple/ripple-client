@@ -22,21 +22,41 @@ describe('StatusCtrl', function(){
     ctrl = controller_injector("StatusCtrl", dependencies);
   }));
 
-  it('should initialize properly', function (done) {
-    assert.isNotNull(ctrl);
-    run(scope,done);
-  });
+  describe('initializing the controller', function () {
+    it('should initialize properly', function (done) {
+      assert.isNotNull(ctrl);
+      run(scope,done);
+    });
 
-  it('should be set up with sinon', function (done) {
-    assert.isNotNull(sinon);
-    assert.isFunction(sinon.spy);
-    run(scope,done);
+    it('should set up the scope with defaults', function (done) {
+      run(scope,done);
+      assert.isUndefined(scope.show_secondary);
+    })
+
+    it('should be set up with sinon', function (done) {
+      assert.isNotNull(sinon);
+      assert.isFunction(sinon.spy);
+      run(scope,done);
+    });
+
+    it('should be disconnected by default', function (done) {
+      assert.isFalse(scope.connected);
+      done();
+    });
+
   });
 
   describe('public functions on $scope', function () {
 
     it('should toggle the secondary', function (done) {
       assert.isFunction(scope.toggle_secondary);
+
+      scope.toggle_secondary();
+      expect(scope.show_secondary).to.be.true;
+
+      scope.toggle_secondary();
+      expect(scope.show_secondary).to.be.false;
+
       run(scope,done);
     });
 
