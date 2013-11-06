@@ -17,7 +17,7 @@ Follow the build status and tests at http://travis-ci.org/ripple/ripple-client
 
 ## Testing Locally
 
-Run the above command to run the tests once.
+Run the following command to run the tests once.
 
     ./node_modules/.bin/karma start test/karma.conf.js --single-run
 
