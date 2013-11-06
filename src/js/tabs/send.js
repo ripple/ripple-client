@@ -912,41 +912,6 @@ SendTab.prototype.angular = function (module)
       }
     };
   });
-
-  /**
-   * Don't allow the user to send XRP to himself
-   */
-  module.directive('rpXrpToMe', function () {
-    return {
-      restrict: 'A',
-      require: '?ngModel',
-      link: function (scope, elm, attr, ctrl) {
-        console.log(elm.inheritedData('$formController'));
-        var xrpWidget = elm.inheritedData('$formController')[attr.rpXrpToMe];
-
-        ctrl.$parsers.unshift(function(value) {
-          var contact = webutil.getContact(scope.userBlob.data.contacts,value);
-
-          if (value) {
-            if ((contact && contact.address === scope.userBlob.data.account_id) || scope.userBlob.data.account_id === value) {
-              if (scope.send.currency === xrpWidget.$viewValue) {
-                ctrl.$setValidity('rpXrpToMe', false);
-                return;
-              }
-            }
-          }
-
-          ctrl.$setValidity('rpXrpToMe', true);
-          return value;
-        });
-
-        xrpWidget.$parsers.unshift(function(value) {
-          ctrl.$setValidity('rpXrpToMe', value === ctrl.$viewValue);
-          return value;
-        });
-      }
-    };
-  });
-}
+};
 
 module.exports = SendTab;
