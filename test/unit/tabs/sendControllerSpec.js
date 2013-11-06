@@ -6,10 +6,11 @@ function run(scope,done) {
 }
 
 describe('SendCtrl', function(){
-  var rootScope, scope, controller_injector, dependencies, ctrl, sendForm;
+  var rootScope, scope, controller_injector, dependencies, ctrl, sendForm, network;
 
   beforeEach(module("rp"));
-  beforeEach(inject(function($rootScope, $controller, $q) {
+  beforeEach(inject(function($rootScope, $controller, $q, rpNetwork) {
+    network = rpNetwork;
     rootScope = rootScope;
     scope = $rootScope.$new();
     scope.currencies_all = [{ name: 'XRP - Ripples', value: 'XRP'}];
@@ -28,6 +29,7 @@ describe('SendCtrl', function(){
     dependencies = {
       $scope: scope,
       $element: null,
+      $network: network,
       rpId: { loginStatus: true }
     }
 
@@ -223,13 +225,23 @@ describe('SendCtrl', function(){
     done();
   })
 
-  it('should handle sent', function (done) {
-    assert.isFunction(scope.sent);
-    assert.equal(scope.mode, 'form');
-    scope.sent();
-    assert.equal(scope.mode, 'status');
+  describe('handling sent transactions', function () {
+    it('should update the mode to status', function (done) {
+      assert.isFunction(scope.sent);
+      assert.equal(scope.mode, 'form');
+      scope.sent();
+      assert.equal(scope.mode, 'status');
+      done();
+    })
 
-    done();
+    it('should listen for transactions on the network', function (done) {
+      var remoteListenerSpy = sinon.spy(network.remote, 'on');
+      scope.sent();
+      assert(remoteListenerSpy.calledWith('transaction'));
+      done();
+    })
+
+    // TODO: Test the internal callback function handleAccountEvent
+    //       that is set with the event listener 'on' function
   })
-
 });
