@@ -26,7 +26,9 @@
     "node-po": "~0.1.2"
   },
   "license": "ISC",
-  "scripts": {},
+  "scripts": {
+    "test": "./node_modules/.bin/karma start test/karma.conf.js --single-run"
+  },
   "repository": {
     "type": "git",
     "url": "git://github.com/ripple/ripple-client.git"
