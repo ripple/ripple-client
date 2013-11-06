@@ -171,6 +171,10 @@ describe('SendCtrl', function(){
 
     it('should handle sent', function (done) {
       assert.isFunction(scope.sent);
+      assert.equal(scope.mode, 'form');
+      scope.sent();
+      assert.equal(scope.mode, 'status');
+
       done();
     })
   });
