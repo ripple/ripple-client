@@ -240,6 +240,9 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
             p(ng-switch on="engine_result")
               span(ng-switch-when="tecUNFUNDED_ORDER")
                 | You do not have enough {{order.sell_currency}} to create this order.
+              span(ng-switch-when="tecINSUF_RESERVE_OFFER")
+                | You must have at least {{account.reserve_to_add_trust | rpamount}} XRP to submit an order.&nbsp;
+                a(href="https://ripple.com/wiki/Reserves", target="_blank") More information.
               span(ng-switch-default)
                 | Error: {{engine_result_message}}
           group.result-failed(ng-show='tx_result=="failed"')
