@@ -115,7 +115,9 @@ module.controller('StatusCtrl', ['$scope', '$element', '$compile', 'rpId',
   });
 
   // Default to disconnected
-  setConnectionStatus(false);
+  setTimeout(function() {
+    setConnectionStatus($scope.connected);
+  }, 1000 * 3);
 
   /**
    * Add the status message to the queue.
