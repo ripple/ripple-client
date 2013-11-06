@@ -36,6 +36,80 @@ describe('SendCtrl', function(){
       assert.isFalse(scope.addressSaving);
 
       done();
+    });
+
+    it('should reset destination dependencies', function (done) {
+      assert.isFunction(scope.reset_destination_deps);
+      done();
+    });
+
+    it('should update the destination', function (done) {
+      assert.isFunction(scope.update_destination);
+      done();
+    });
+
+    it('should update the destination remote', function (done) {
+      assert.isFunction(scope.update_destination_remote);
+      done();
+    });
+
+    it('should check the destination', function (done) {
+      assert.isFunction(scope.check_destination);
+      done();
+    })
+
+    it('should handle paths', function (done) {
+      assert.isFunction(scope.handle_paths);
+      done();      
+    });
+
+    it('should update paths', function (done) {
+      assert.isFunction(scope.update_paths);
+      done();      
+    });
+
+    it('should update the currency constraints', function (done) {
+      assert.isFunction(scope.update_currency_constraints);
+      done();
+    });
+
+    it('should reset the currency dependencies', function (done) {
+      assert.isFunction(scope.reset_currency_deps);
+      var mock = sinon.mock(scope);
+      mock.expects('reset_amount_deps').once();
+      scope.reset_currency_deps();
+      mock.verify();
+      done();
+    });
+
+    it('should update the currency', function (done) {
+      assert.isFunction(scope.update_currency);
+      done();
+    });
+
+    it('should reset the amount dependencies', function (done) {
+      assert.isFunction(scope.reset_amount_deps);
+      done();
+    });
+
+    it('should update the amount', function (done) {
+      assert.isFunction(scope.update_amount);
+      done();
+    });
+
+    it('should update the quote', function (done) {
+      assert.isFunction(scope.update_quote);
+      done();
+    });
+
+    it('should rest the paths', function (done) {
+      assert.isFunction(scope.reset_paths);
+      done();
+    });
+
+    it('should determine if the paths need updating', function (done) {
+      assert.isFunction(scope.need_paths_update);
+      done();
     })
 
     it('should cancel the form', function (done) {
