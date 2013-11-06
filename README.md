@@ -15,6 +15,16 @@ This is a general purpose Ripple client in JavaScript.
 
 Follow the build status and tests at http://travis-ci.org/ripple/ripple-client
 
+## Testing Locally
+
+Run the above command to run the tests once.
+
+    ./node_modules/.bin/karma start test/karma.conf.js --single-run
+
+Or run Karma in the background and listen to changes in /test
+
+    ./node_modules/.bin/karma start test/karma.conf.js
+
 ## Bug tracker
 
 Have a bug or a feature request? [Please open a new issue](https://github.com/rippleFoundation/ripple-client/issues). Before opening any issue, please search for existing issues and read the [Issue Guidelines](https://github.com/rippleFoundation/ripple-client/blob/develop/CONTRIBUTING.md), written by [Nicolas Gallagher](https://github.com/necolas/).
