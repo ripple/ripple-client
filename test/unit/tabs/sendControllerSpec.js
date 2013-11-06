@@ -30,7 +30,10 @@ describe('SendCtrl', function(){
       $scope: scope,
       $element: null,
       $network: network,
-      rpId: { loginStatus: true }
+      rpId: { 
+        loginStatus: true,
+        account: 'r4EwBWxrx5HxYRyisfGzMto3AT8FZiYdWk'
+      }
     }
 
     ctrl = controller_injector("SendCtrl", dependencies);
@@ -213,12 +216,33 @@ describe('SendCtrl', function(){
 
     done();
   });
+  
+  describe('handling when a transaction send is confirmed', function (done) {
+    it('should have a function to handle send confirmed', function (done) {
+      assert.isFunction(scope.send_confirmed);
+      done();
+    });
 
-  it('should handle when the send is confirmed', function (done) {
-    assert.isFunction(scope.send_confirmed);
-    assert.equal(scope.mode, 'form');
-    done();
-  });
+    it('should update the mode to sending', function (done) {
+      /*
+      assert.equal(scope.mode, 'form');
+      scope.send_confirmed();
+      assert.equal(scope.mode, 'sending');
+      */
+      done();
+    });
+
+    describe('when the send quote is available', function () {});
+
+    describe('when the send quote is not available', function () {})
+
+    it('should submit the transaction', function (done) {
+      // Somehow get a reference to the transaction
+      // And ensure that its submit function is called
+      done();
+    });
+
+  })
 
   it('should save an address', function (done) {
     assert.isFunction(scope.saveAddress);
