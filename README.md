@@ -11,6 +11,10 @@ This is a general purpose Ripple client in JavaScript.
 * `src/js/util` Various static, stateless utility functions
 * `tools/` Tools used in the build process
 
+## Travis CI
+
+Follow the build status and tests at http://travis-ci.org/ripple/ripple-client
+
 ## Bug tracker
 
 Have a bug or a feature request? [Please open a new issue](https://github.com/rippleFoundation/ripple-client/issues). Before opening any issue, please search for existing issues and read the [Issue Guidelines](https://github.com/rippleFoundation/ripple-client/blob/develop/CONTRIBUTING.md), written by [Nicolas Gallagher](https://github.com/necolas/).
