@@ -1222,7 +1222,7 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
     }
   }
 
-  .issuer {
+  .issuer, .message-select-issuer {
     padding: 15px;
     border: 1px solid darken(@bg, 10%);
     border-top: none;
@@ -1238,11 +1238,14 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
     background-color: @bg;
   }
 
-  group > .message {
-    padding: 20px 0 0 40px;
+  .message-select-issuer {
     line-height: 25px;
     font-size: 16px;
     font-family: 'OpenSansRegular';
+    text-align: center;
+
+    border-bottom: 1px solid darken(@bg, 10%);
+    .border-radius(0, 5px, 5px, 0);
   }
 
   .ticker {

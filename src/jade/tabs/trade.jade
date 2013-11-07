@@ -68,7 +68,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
           .errorGroup(rp-errors='first_issuer')
             .error(rp-error-on='rpDest') Not a valid Ripple address or contact
         .col-xs-12.col-sm-4.col-md-2
-          button.btn.btn-block.btn-success.submit(type='submit', ng-click='save_first_issuer()') Confirm
+          button.btn.btn-block.btn-success.submit(type='submit', ng-click='save_first_issuer()', ng-disabled="first_issuer_form.$invalid") Confirm
 
     form.issuer.second-issuer(name='second_issuer_form', ng-show='show_issuer_form == "second"')
       label(for='second_issuer') Counter currency issuer ({{order.second_currency}})
@@ -80,11 +80,10 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
       .errorGroup(rp-errors='second_issuer')
         .error(rp-error-on='rpDest') Not a valid ripple address or contact
       div
-        button.btn.btn-success.submit(type='submit', ng-click='save_second_issuer()') Confirm
+        button.btn.btn-success.submit(type='submit', ng-click='save_second_issuer()', ng-disabled="second_issuer_form.$invalid") Confirm
 
-    group(ng-hide="order.valid_settings")
-      .message
-        | You must select an issuer to trade currencies. Click the “change issuer”, link above and enter your trusted gateway address or nickname.
+    .message-select-issuer(ng-hide="order.valid_settings")
+      | You must select an issuer to trade currencies. Click the “change issuer”, link above and enter your trusted gateway address or nickname.
 
     group(ng-if="order.valid_settings")
       ul.ticker
