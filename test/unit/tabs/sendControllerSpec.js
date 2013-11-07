@@ -6,12 +6,14 @@ function run(scope,done) {
 }
 
 describe('SendCtrl', function(){
-  var rootScope, scope, controller_injector, dependencies, ctrl, sendForm, network;
+  var rootScope, scope, controller_injector, dependencies, ctrl, 
+      sendForm, network, timeout;
 
   beforeEach(module("rp"));
-  beforeEach(inject(function($rootScope, $controller, $q, rpNetwork) {
+  beforeEach(inject(function($rootScope, $controller, $q, $timeout, rpNetwork) {
     network = rpNetwork;
     rootScope = rootScope;
+    timeout = $timeout;
     scope = $rootScope.$new();
     scope.currencies_all = [{ name: 'XRP - Ripples', value: 'XRP'}];
     controller_injector = $controller;
@@ -207,14 +209,35 @@ describe('SendCtrl', function(){
     done();
   });
 
-  it('should handle when the send is prepared', function (done) {
-    assert.isFunction(scope.send_prepared);
-    scope.mode = null
-    scope.send_prepared();
-    assert.isTrue(scope.confirm_wait);
-    assert.equal(scope.mode, 'confirm');
+  describe("handling when the send is prepared", function () {
+    it('should have a function to do so', function (done) {
+      assert.isFunction(scope.send_prepared);
+      done();
+    });
 
-    done();
+    it('should set confirm wait to true', function (done) {
+      scope.send_prepared();
+      assert.isTrue(scope.confirm_wait);
+      done();
+    });
+
+    it("should set the mode to 'confirm'", function (done) {
+      assert.notEqual(scope.mode, 'confirm');
+      scope.send_prepared();
+      assert.equal(scope.mode, 'confirm');
+      done();
+    })
+
+    it('should set confirm_wait to false after a timeout', function (done) {
+      scope.send_prepared();
+      assert.isTrue(scope.confirm_wait);
+      var spy = sinon.spy(timeout);
+      // For some reason timeout.flush() works but then raises an exception
+      try { timeout.flush() } 
+      catch (e) {}
+      assert.isFalse(scope.confirm_wait);
+      done();
+    });
   });
   
   describe('handling when a transaction send is confirmed', function (done) {
