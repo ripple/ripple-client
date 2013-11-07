@@ -320,7 +320,25 @@ describe('SendCtrl', function(){
       done();
     })
 
-    // TODO: Test the internal callback function handleAccountEvent
-    //       that is set with the event listener 'on' function
+    describe('handling a transaction event', function () {
+      it.skip('should apply the scope', function (done) {
+        scope.sent();
+        var applySpy = sinon.spy(scope, '$apply');
+        var data = {
+          transaction: {
+            hash: 'testhash'
+          }
+        }
+
+        console.log(network.remote);
+
+        var stub = sinon.stub(network.remote, 'transaction');
+        // Figure out how to stub out and trigger a transaction
+        network.remote.emit('transaction', data);
+
+        assert(applySpy.notCalled);
+        done(); 
+      })
+    })
   })
 });
