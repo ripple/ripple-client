@@ -9,6 +9,10 @@ section.col-xs-12.col-md-10.content(ng-controller="ConvertCtrl")
   group.disconnected(ng-hide="!connected || loadState.account")
     p.literal Loading...
 
+  .unfunded(ng-hide='account.Balance || !connected')
+    p.literal(rp-l10n="err-you-must-be-funded-before-you-can-send-money") You have to be funded before you can convert money
+    p: a.btn.btn-default(href="#/balance") Back to balance
+
   //- Connected
 
   form.mode-form(name="convertForm", id="convertForm", ng-show='mode=="form" && account.Balance', ng-submit='convert_prepared()')
