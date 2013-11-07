@@ -29,11 +29,12 @@ section.col-xs-12.col-md-10.content(ng-controller="TrustCtrl")
         a(href="", ng-click="sorting.predicate = 'balance'; sorting.reverse=!sorting.reverse") Balance
       .col-sm-3 Trust Limit
       .col-sm-2.actions
-        a.btn.btn-success.btn-sm.btn-block.sign(ng-click='toggle_form()', ng-disabled='addform_visible || editform_visible') Add trust
+        a.btn.btn-success.btn-sm.btn-block.sign(ng-click='toggle_form()',
+          ng-disabled='addform_visible || editform_visible') Add trust
     .row
       .col-xs-12.col-sm-6
         form.row-padding-small(name='trustForm', id='trustForm', ng-submit='grant()',
-          ng-show='mode=="main" && ((addform_visible && can_add_trust) || editform_visible)')
+          ng-show='mode=="main" && ((addform_visible && can_add_trust)|| editform_visible)')
           .row
             .col-xs-12.form-group
               label(for='trust_counterparty', ng-show="edituser") {{ edituser }}
@@ -85,14 +86,15 @@ section.col-xs-12.col-md-10.content(ng-controller="TrustCtrl")
                   | Currency field is required
           .row
             .col-xs-12.col-sm-4
-              button.btn.btn-block.btn-default(ng-click='toggle_form()') Cancel
+              button.btn.btn-block.btn-default(type="button", ng-click='toggle_form()') Cancel
             .col-xs-12.col-sm-8
               button.btn.btn-block.btn-primary.submit(type='submit', ng-disabled='trustForm.$invalid || verifying') Grant Trust
           .row
             .col-xs-12
-              p.literal.throbber(ng-show="verifying") Verifying address 
-              div(ng-show='addform_visible && !can_add_trust')
-                | You must have at least {{account.reserve_to_add_trust | rpamount:0}} XRP to add a trust line.&nbsp;
+              p.literal.throbber(ng-show="verifying") Verifying address
+      .col-xs-12(ng-show='addform_visible && !can_add_trust')
+        | You must have at least {{account.reserve_to_add_trust | rpamount:0}} XRP to add a new trust line.&nbsp;
+        a(href="https://ripple.com/wiki/Reserves", target="_blank") More information
 
     //- N2. Confirmation page
 
