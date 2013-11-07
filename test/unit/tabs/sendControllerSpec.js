@@ -224,11 +224,6 @@ describe('SendCtrl', function(){
     });
 
     it('should update the mode to sending', function (done) {
-      /*
-      assert.equal(scope.mode, 'form');
-      scope.send_confirmed();
-      assert.equal(scope.mode, 'sending');
-      */
       done();
     });
 
@@ -237,17 +232,71 @@ describe('SendCtrl', function(){
     describe('when the send quote is not available', function () {})
 
     it('should submit the transaction', function (done) {
-      // Somehow get a reference to the transaction
-      // And ensure that its submit function is called
       done();
     });
 
   })
 
-  it('should save an address', function (done) {
-    assert.isFunction(scope.saveAddress);
-    done();
-  })
+  describe('saving an address', function () {
+    beforeEach(function () {
+      scope.userBlob = {
+        data: {
+          contacts: []
+        }
+      };
+    });
+
+    it('should have a function to do so', function (done) {
+      assert.isFunction(scope.saveAddress);
+      done();
+    });
+
+    it("should set the addressSaving property to true", function (done) {
+      assert.isFalse(scope.addressSaving);
+      scope.saveAddress();
+      assert.isTrue(scope.addressSaving);
+      done();
+    })
+
+    it("should listen for blobSave event", function (done) {
+      var onBlobSaveSpy = sinon.spy(scope, '$on');
+      scope.saveAddress();
+      assert(onBlobSaveSpy.withArgs('$blobSave').calledOnce);
+      done();
+    });
+
+    it("should add the contact to the blob's contacts", function (done) {
+      assert(scope.userBlob.data.contacts.length == 0);
+      scope.saveAddress();
+      assert(scope.userBlob.data.contacts.length == 1);
+      done();
+    });
+
+    describe('handling a blobSave event', function () {
+      it('should set addressSaved to true', function (done) {
+        assert.isFalse(scope.addressSaved);
+        scope.saveAddress();
+        scope.$emit('$blobSave');
+        assert.isTrue(scope.addressSaved);
+        done();
+      });
+
+      it('should not set addressSaved without calling saveAddress', function (done) {
+        assert.isFalse(scope.addressSaved);
+        scope.$emit('$blobSave');
+        assert.isFalse(scope.addressSaved);
+        done(); 
+      })
+
+      it("should set the contact as the scope's contact", function (done) {
+        assert.isUndefined(scope.contact);
+        scope.saveAddress();
+        scope.$emit('$blobSave');
+        assert.isObject(scope.contact);
+        done();
+      })
+    })
+  });
 
   describe('handling sent transactions', function () {
     it('should update the mode to status', function (done) {
