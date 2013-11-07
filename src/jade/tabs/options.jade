@@ -5,7 +5,7 @@ section.col-xs-12.col-md-10.content(ng-controller="OptionsCtrl")
   .row
     hr
   form.row-padding-small(name="optionsForm", ng-submit="save()")
-    div(ng-repeat="(index, server) in servers")
+    div(ng-repeat="(index, server) in servers track by $index")
       .row
         .col-xs-12
           label WebSocket hostname, port, secure
