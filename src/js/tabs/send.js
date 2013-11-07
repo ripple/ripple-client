@@ -94,6 +94,14 @@ SendTab.prototype.angular = function (module)
       $scope.reset_currency_deps();
     };
 
+    $scope.check_dt_visibility = function () {
+      var send = $scope.send;
+
+      send.show_dt_field = $routeParams.dt
+        || send.dt
+        || send.recipient_info.dest_tag_required;
+    };
+
     $scope.update_destination = function () {
       var send = $scope.send;
       var recipient = send.recipient_address;
@@ -113,6 +121,9 @@ SendTab.prototype.angular = function (module)
 
       // Trying to send to an email/federation address
       send.federation = ("string" === typeof recipient) && ~recipient.indexOf('@');
+
+      // Check destination tag visibility
+      $scope.check_dt_visibility();
 
       if (destUpdateTimeout) $timeout.cancel(destUpdateTimeout);
       destUpdateTimeout = $timeout($scope.update_destination_remote, 500);
@@ -217,6 +228,9 @@ SendTab.prototype.angular = function (module)
               'disallow_xrp': data.account_data.Flags & ripple.Remote.flags.account_root.DisallowXRP,
               'dest_tag_required': data.account_data.Flags & ripple.Remote.flags.account_root.RequireDestTag
             };
+
+            // Check destination tag visibility
+            $scope.check_dt_visibility();
 
             if (!$scope.account || !$scope.account.reserve_base) return;
 
@@ -656,6 +670,7 @@ SendTab.prototype.angular = function (module)
         recipient_name: '',
         recipient_address: '',
         recipient_prev: '',
+        recipient_info: {},
         amount: '',
         amount_prev: new Amount(),
         currency: $scope.xrp.name,
