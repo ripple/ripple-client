@@ -29,70 +29,70 @@ section.col-xs-12.col-md-10.content(ng-controller="TrustCtrl")
         a(href="", ng-click="sorting.predicate = 'balance'; sorting.reverse=!sorting.reverse") Balance
       .col-sm-3 Trust Limit
       .col-sm-2.actions
-        a.btn.btn-success.btn-block.btn-sm.sign(ng-click='toggle_form()')
-          span(ng-hide='addform_visible || editform_visible') + Add trust
-          span(ng-show='addform_visible || editform_visible') − Add trust
-    form.row-padding-small(name='trustForm', id='trustForm', ng-submit='grant()',
-      ng-show='mode=="main" && ((addform_visible && can_add_trust) || editform_visible)')
-      .row
-        .col-md-6.form-group
-          label(for='trust_counterparty', ng-show="edituser") {{ edituser }}
-          input.form-control#trust_counterparty(name='trust_counterparty', type='text', ng-model='counterparty'
-            rp-combobox="counterparty_query", placeholder='Contact name or Ripple address',
-            rp-dest, rp-dest-address, rp-dest-contact, rp-not-me, required
-            rp-autofill='$routeParams.to'
-            rp-autofill-on='addform_visible = true'
-            rp-focus)
-          .errorGroup(rp-errors='trust_counterparty')
-            div(rp-error-valid)
-              .success(ng-show='counterparty != counterparty_address && counterparty_name && !error_account_reserve')
-                | {{counterparty_address}}
-              .error(ng-show='error_account_reserve')
-                | Account does not meet the minimum XRP reserve.&nbsp;
-                a(href="https://ripple.com/wiki/Account_Creation", target="_blank") More information
-            .error(rp-error-on='required')
-              | Please enter a User.
-            .error(rp-error-on='rpNotMe')
-              | You've entered your address.
-            .error(rp-error-on='rpDest')
-              | User should be either a name from your contact list or Ripple address.
-      .row
-        .col-md-6.form-group
-          label(for='trust_amount') Amount
+        a.btn.btn-success.btn-sm.btn-block.sign(ng-click='toggle_form()', ng-disabled='addform_visible || editform_visible') Add trust
+    .row
+      .col-xs-12.col-sm-6
+        form.row-padding-small(name='trustForm', id='trustForm', ng-submit='grant()',
+          ng-show='mode=="main" && ((addform_visible && can_add_trust) || editform_visible)')
           .row
-            .col-md-5
-              input.form-control.value#trust_amount(name='trust_amount', type='number', step='any', ng-model='amount'
-                ng-pattern='validation_pattern'
-                rp-autofill='$routeParams.amount'
-                rp-autofill-amount
+            .col-xs-12.form-group
+              label(for='trust_counterparty', ng-show="edituser") {{ edituser }}
+              input.form-control#trust_counterparty(name='trust_counterparty', type='text', ng-model='counterparty'
+                rp-combobox="counterparty_query", placeholder='Contact name or Ripple address',
+                rp-dest, rp-dest-address, rp-dest-contact, rp-not-me, required
+                rp-autofill='$routeParams.to'
                 rp-autofill-on='addform_visible = true'
-                required)
-            .col-md-7
-              input.form-control.currency-field#trust_amount_currency(name='trust_amount_currency', type='text'
-                ng-model='currency', rp-combobox="currency_query", rp-combobox-select
-                rp-autofill='$routeParams.amount'
-                rp-autofill-currency
-                rp-autofill-on='addform_visible = true'
-                rp-not-xrp
-                required)
-          .errorGroup(rp-errors='trust_amount')
-            .error(rp-error-on='required')
-              | Amount field is required
-          .errorGroup(rp-errors='trust_amount_currency')
-            .error(rp-error-on='rpNotXrp')
-              | XRP can be sent without extending trust. If you really want to trust in XRP, please use XRR currency code.
-            .error(rp-error-on='required')
-              | Currency field is required
-      .row
-        .col-xs-6.col-md-3.col-lg-2
-          button.btn.btn-block.btn-primary.submit(type='submit', ng-disabled='trustForm.$invalid || verifying') Grant Trust
-        .col-xs-6.col-md-3.col-lg-2
-          button.btn.btn-block.btn-default(ng-click='toggle_form()') Cancel
-      .row
-        .col-xs-12
-          p.literal.throbber(ng-show="verifying") Verifying address
-          div(ng-show='addform_visible && !can_add_trust')
-            | You must have at least {{account.reserve_to_add_trust | rpamount:0}} XRP to add a trust line.&nbsp;
+                rp-focus)
+              .errorGroup(rp-errors='trust_counterparty')
+                div(rp-error-valid)
+                  .success(ng-show='counterparty != counterparty_address && counterparty_name && !error_account_reserve')
+                    | {{counterparty_address}}
+                  .error(ng-show='error_account_reserve')
+                    | Account does not meet the minimum XRP reserve.&nbsp;
+                    a(href="https://ripple.com/wiki/Account_Creation", target="_blank") More information
+                .error(rp-error-on='required')
+                  | Please enter a User.
+                .error(rp-error-on='rpNotMe')
+                  | You've entered your address.
+                .error(rp-error-on='rpDest')
+                  | User should be either a name from your contact list or Ripple address.
+          .row
+            .col-xs-12.form-group
+              label(for='trust_amount') Amount
+              .row
+                .col-md-5
+                  input.form-control.value#trust_amount(name='trust_amount', type='number', step='any', ng-model='amount'
+                    ng-pattern='validation_pattern'
+                    rp-autofill='$routeParams.amount'
+                    rp-autofill-amount
+                    rp-autofill-on='addform_visible = true'
+                    required)
+                .col-md-7
+                  input.form-control.currency-field#trust_amount_currency(name='trust_amount_currency', type='text'
+                    ng-model='currency', rp-combobox="currency_query", rp-combobox-select
+                    rp-autofill='$routeParams.amount'
+                    rp-autofill-currency
+                    rp-autofill-on='addform_visible = true'
+                    rp-not-xrp
+                    required)
+              .errorGroup(rp-errors='trust_amount')
+                .error(rp-error-on='required')
+                  | Amount field is required
+              .errorGroup(rp-errors='trust_amount_currency')
+                .error(rp-error-on='rpNotXrp')
+                  | XRP can be sent without extending trust. If you really want to trust in XRP, please use XRR currency code.
+                .error(rp-error-on='required')
+                  | Currency field is required
+          .row
+            .col-xs-12.col-sm-4
+              button.btn.btn-block.btn-default(ng-click='toggle_form()') Cancel
+            .col-xs-12.col-sm-8
+              button.btn.btn-block.btn-primary.submit(type='submit', ng-disabled='trustForm.$invalid || verifying') Grant Trust
+          .row
+            .col-xs-12
+              p.literal.throbber(ng-show="verifying") Verifying address 
+              div(ng-show='addform_visible && !can_add_trust')
+                | You must have at least {{account.reserve_to_add_trust | rpamount:0}} XRP to add a trust line.&nbsp;
 
     //- N2. Confirmation page
 
