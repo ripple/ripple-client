@@ -19,45 +19,64 @@ section.col-xs-12.col-md-10.content(ng-controller="HistoryCtrl")
 
   group(ng-show="connected && loadState.transactions && account.Balance")
     .filters
-      .type-filter
-        label.col-xs-12.col-sm-3.col-lg-2(ng-repeat="(index,obj) in types", ng-class="{active: obj.checked}")
-          i.icon-plus(ng-show="obj.checked")
-          i.icon-minus(ng-hide="obj.checked")
-          span.name {{obj.name}}
-          //span.count {{typeUsage[obj.name] || 0}}
-          input(type="checkbox", name="type-filter", ng-model="obj.checked")
-      .currency-filter
-        label(ng-repeat="(currency,obj) in filters.currencies", ng-class="{active: obj.checked}")
-          i.icon-plus(ng-show="obj.checked")
-          i.icon-minus(ng-hide="obj.checked")
-          span.name {{currency}}
-          //span.count {{currencyUsage[currency] || 0}}
-          input(type="checkbox", name="currency-filter", ng-model="obj.checked")
-      div.row.date-amount-filters
-        .date-filter.col-xs-12.col-md-8
-          span Load history for specific date range
-          form.row.form-inline(ng-submit="submitDateRangeForm()")
-            label.form-group.date.col-xs-12.col-sm-5
-              .input-group
-                .input-group-addon
-                  i.icon-calendar
-                  |  From
-                input.form-control(type="text", rp-datepicker, ng-model="dateMinView", readonly)
-            label.form-group.date.col-xs-12.col-sm-5
-              .input-group
-                .input-group-addon
-                  i.icon-calendar
-                  |  To
-                input.form-control(type="text", rp-datepicker, ng-model="dateMaxView", readonly)
-            label.form-group.date.col-xs-12.col-sm-2
-              button.btn.btn-block.btn-success.submit(type='submit') Filter
-        .amount-filter.col-sm-12.col-md-4
-          span Minimum amount filter
-          form.row.form-group(ng-submit="submitMinimumAmountForm()")
-            .col-xs-8
-              input.form-control(type="text", ng-model="filters.minimumAmount")
-            .col-xs-4
-              button.btn.btn-block.btn-success.submit(type='submit') Filter
+      ul.row
+        li.col-xs-12.col-sm-6.col-md-3 Transaction type:
+          strong &nbsp;
+          a(href="", ng-click="filter='type'", ng-hide="filter=='type'") Change
+          a(href="", ng-click="filter=false", ng-show="filter=='type'") Hide
+        li.col-xs-12.col-sm-6.col-md-3 Currency:
+          strong &nbsp;
+          a(href="", ng-click="filter='currency'", ng-hide="filter=='currency'") Change
+          a(href="", ng-click="filter=false", ng-show="filter=='currency'") Hide
+        li.col-xs-12.col-sm-6.col-md-2 Date:
+          strong &nbsp;
+          a(href="", ng-click="filter='date'", ng-hide="filter=='date'") Change
+          a(href="", ng-click="filter=false", ng-show="filter=='date'") Hide
+        li.col-xs-12.col-sm-6.col-md-4 Minimum Amount:
+          strong  {{filters.minimumAmount}}&nbsp;
+          a(href="", ng-click="filter='minimum-amount'", ng-hide="filter=='minimum-amount'") Change
+          a(href="", ng-click="filter=false", ng-show="filter=='minimum-amount'") Hide
+
+      .row.filter.type-filter(ng-show="filter=='type'")
+        .col-xs-12.col-sm-3.col-lg-2(ng-repeat="(index,obj) in types")
+          label(ng-class="{active: obj.checked}")
+            i.icon-plus(ng-show="obj.checked")
+            i.icon-minus(ng-hide="obj.checked")
+            span.name {{obj.name}}
+            //span.count {{typeUsage[obj.name] || 0}}
+            input(type="checkbox", name="type-filter", ng-model="obj.checked")
+      .row.filter.currency-filter(ng-show="filter=='currency'")
+        .col-xs-12.col-sm-3.col-lg-2(ng-repeat="(currency,obj) in filters.currencies")
+          label(ng-class="{active: obj.checked}")
+            i.icon-plus(ng-show="obj.checked")
+            i.icon-minus(ng-hide="obj.checked")
+            span.name {{currency}}
+            //span.count {{currencyUsage[currency] || 0}}
+            input(type="checkbox", name="currency-filter", ng-model="obj.checked")
+      .row.filter.date-filter(ng-show="filter=='date'")
+        .col-xs-12 Load history for specific date range
+        form.form-inline(ng-submit="submitDateRangeForm()")
+          label.form-group.date.col-xs-12.col-sm-5
+            .input-group
+              .input-group-addon
+                i.icon-calendar
+                |  From
+              input.form-control(type="text", rp-datepicker, ng-model="dateMinView", readonly)
+          label.form-group.date.col-xs-12.col-sm-5
+            .input-group
+              .input-group-addon
+                i.icon-calendar
+                |  To
+              input.form-control(type="text", rp-datepicker, ng-model="dateMaxView", readonly)
+          label.form-group.date.col-xs-12.col-sm-2
+            button.btn.btn-block.btn-success.submit(type='submit') Filter
+      .row.filter.amount-filter(ng-show="filter=='minimum-amount'")
+        .col-xs-12 Minimum amount filter
+        form.form-group(ng-submit="submitMinimumAmountForm()")
+          .col-xs-8
+            input.form-control(type="text", ng-model="filters.minimumAmount")
+          .col-xs-4
+            button.btn.btn-block.btn-success.submit(type='submit') Filter
 
     .transactions
       .head
@@ -79,7 +98,7 @@ section.col-xs-12.col-md-10.content(ng-controller="HistoryCtrl")
               i.icon-arrow-up(ng-show="entry.transaction.type=='sent'")
               i.icon-download-alt.icon-rotate-90(ng-show="entry.transaction.type=='trusted'")
               i.icon-download-alt.icon-rotate-270(ng-show="entry.transaction.type=='trusting'")
-              i.icon-exchange(ng-show="!entry.transaction.type || entry.transaction.type=='offernew' || entry.transaction.type=='offercancel'")
+              i.icon-exChange(ng-show="!entry.transaction.type || entry.transaction.type=='offernew' || entry.transaction.type=='offercancel'")
               i.icon-cogs(ng-show="entry.transaction.type=='accountset'")
             span.dt {{entry.date | date:'EEE, MMM d, h:mm a'}}
             span.desc(ng-switch on="entry.transaction.type")
@@ -112,22 +131,22 @@ section.col-xs-12.col-md-10.content(ng-controller="HistoryCtrl")
                 |  for&nbsp;
                 strong {{entry.transaction.gets | rpamount}} {{entry.transaction.gets | rpcurrency}}
                 include history/effects
-              span(ng-switch-when="accountset") Account details have been changed
+              span(ng-switch-when="accountset") Account details have been Changed
                 include history/effects
               span(ng-switch-default)
                 include history/effects
 
           .details(ng-if="details[entry.hash]")
             .effects(ng-show="entry.balanceEffects")
-              .title Balance changes
+              .title Balance Changes
               .effect.header
                 span.description Description
                 span.issuer Issuer
                 span.amount Amount
                 span.balance Final balance
               .effect(ng-repeat="effect in entry.balanceEffects")
-                span.description(ng-show="effect.type == 'balance_change'", data-label="Description") XRP balance change
-                span.description(ng-show="effect.type == 'trust_change_balance'", data-label="Description") {{effect.currency}} balance change
+                span.description(ng-show="effect.type == 'balance_Change'", data-label="Description") XRP balance Change
+                span.description(ng-show="effect.type == 'trust_Change_balance'", data-label="Description") {{effect.currency}} balance Change
                 span.description(ng-show="effect.type == 'fee'", data-label="Description") Fee
                 span.issuer(
                   rp-pretty-issuer="effect.amount.issuer().to_json()"
@@ -153,7 +172,7 @@ section.col-xs-12.col-md-10.content(ng-controller="HistoryCtrl")
 
 // TODO filter calendar: High/low limits.
 // TODO filter calendar: High limit calculation after the low limit
-// TODO we loose history after tab change
+// TODO we loose history after tab Change
 // TODO problem when manually editing date filter input field
 // TODO currency filter to work with also trust type
 // TODO optimization.. double (triple on load more) update history

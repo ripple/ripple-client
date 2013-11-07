@@ -451,8 +451,8 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
     .amount_feedback, .dest_feedback {
       font-size: 26px;
       margin: 0;
-      padding-top: 20px;
-      padding-bottom: 20px;
+      padding: 20px;
+      margin: 0 0 20px;
       background-color: #f4f4f4;
 
       .extra {
@@ -539,21 +539,38 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
 }
 
 #t-history {
+  @bg: #fafafa;
+
   .filters {
-    & > div {
-      display: inline-block;
-      width: 100%;
+    padding: 15px;
+    margin: 0;
+    border: 1px solid darken(@bg, 10%);
+    .border-radius(5px,5px,5px,5px);
+    background-color: @bg;
+
+    & > ul {
+      list-style-type: none;
+      padding: 0;
+      margin-bottom: 0;
+    }
+
+    .filter {
+      margin-top: 30px;
     }
   }
 
   .type-filter {
+    .filter {
+      margin: 30px 0 0 0;
+    }
+
     i {
       margin: 0 10px 0 0;
     }
 
     label {
+      width: 100%;
       background: #f2f2f2;
-      margin: 0 10px 10px 0;
       padding: 8px 12px;
       color: #333;
       cursor: pointer;
@@ -593,7 +610,7 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
     label {
       float: left;
       background: #f2f2f2;
-      width: 80px;
+      width: 100%;
       margin: 0 5px 5px 0;
       padding: 5px 7px;
       color: #333;
@@ -680,14 +697,14 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
         padding: 0 15px;
         margin: 5px 0;
         cursor: pointer;
-        background: #f5f5f5;
+        background: @bg;
 
         &.open {
 
         }
 
         &.odd{
-          background: #f5f5f5;
+          background: @bg;
         }
 
         .info {
