@@ -8,7 +8,7 @@ section.col-xs-12.col-md-10.content(ng-controller="ContactsCtrl")
   .row.head.visible-xs
     .col-xs-12
       a.btn.btn-success.btn-block.btn-sm.sign(ng-click='toggle_form()', ng-disabled='addform_visible') Add contact
-  .row.addForm(ng-show='addform_visible')
+  .row.row-padding-small.addForm(ng-show='addform_visible')
     .col-xs-12.col-sm-5
       form(name="addForm", id="addForm", ng-submit="create()")
         .form-group
@@ -54,7 +54,7 @@ section.col-xs-12.col-md-10.content(ng-controller="ContactsCtrl")
             button.btn.btn-default.btn-block(type='button', ng-click='addform_visible = false') Cancel
           .col-xs-12.col-sm-8
             button.btn.btn-success.btn-block.submit(type='submit', ng-disabled='addForm.$invalid') Add contact
-  .row.contact(ng-repeat="entry in userBlob.data.contacts", ng-class="{editing: editing}", ng-controller="ContactRowCtrl", rp-animate="enable_highlight")
+  .row.row-padding-small.contact(ng-repeat="entry in userBlob.data.contacts", ng-class="{editing: editing}", ng-controller="ContactRowCtrl", rp-animate="enable_highlight")
     .col-xs-12.col-sm-3
       div(ng-show='editing')
         ng-form(name='inlineName')

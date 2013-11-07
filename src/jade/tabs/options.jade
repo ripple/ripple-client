@@ -4,7 +4,7 @@ section.col-xs-12.col-md-10.content(ng-controller="OptionsCtrl")
     .col-xs-12 Options
   .row
     hr
-  form(name="optionsForm", ng-submit="save()")
+  form.row-padding-small(name="optionsForm", ng-submit="save()")
     div(ng-repeat="(index, server) in servers")
       .row
         .col-xs-12

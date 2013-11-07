@@ -13,7 +13,7 @@ section.single.content(ng-controller='SendCtrl')
 
   //- 1. Send form
 
-  form.mode-form(name="sendForm", id="sendForm", role="form"
+  form.row-padding-small.mode-form(name="sendForm", id="sendForm", role="form"
     ng-show='mode=="form" && account.Balance'
     ng-submit='send_prepared()')
     p.literal Send money to anyone with a ripple account.
@@ -156,10 +156,11 @@ section.single.content(ng-controller='SendCtrl')
       p.literal(ng-show="send.path_status == 'error'") Error while calculating path
 
       //- Alternatives
-      .currency_sets(ng-if="send.path_status == 'done'")
-        p.literal(ng-show="send.currency_code != 'XRP' || send.bitcoin") You can send
-        p.literal(ng-show="send.currency_code == 'XRP' && !send.bitcoin") Or you can send
-        ul.row
+      .currency_sets.row.row-padding-small(ng-if="send.path_status == 'done'")
+        .col-xs-12
+          p.literal(ng-show="send.currency_code != 'XRP' || send.bitcoin") You can send
+          p.literal(ng-show="send.currency_code == 'XRP' && !send.bitcoin") Or you can send
+        ul
           li.col-xs-12.col-sm-6.col-md-4.col-lg-3(ng-repeat="alt in send.alternatives")
             .margin
               .am

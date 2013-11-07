@@ -387,3 +387,20 @@ footer {
     text-align: right;
   }
 }
+
+.row-padding-small {
+  &.row {
+    padding-left: (@grid-gutter-width / 3);
+    padding-right: (@grid-gutter-width / 3);
+  }
+
+  .row {
+    padding-left: (@grid-gutter-width / 3);
+    padding-right: (@grid-gutter-width / 3);
+  }
+
+  [class*='col-'] {
+    padding-left:  (@grid-gutter-width / 6);
+    padding-right: (@grid-gutter-width / 6);
+  }
+}
