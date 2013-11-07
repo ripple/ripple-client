@@ -273,27 +273,33 @@ describe('SendCtrl', function(){
     });
 
     describe('handling a blobSave event', function () {
-      it('should set addressSaved to true', function (done) {
-        assert.isFalse(scope.addressSaved);
-        scope.saveAddress();
-        scope.$emit('$blobSave');
-        assert.isTrue(scope.addressSaved);
-        done();
-      });
+      describe('having called saveAddress', function () {
+        beforeEach(function () {
+          scope.saveAddress();
+        });
 
-      it('should not set addressSaved without calling saveAddress', function (done) {
-        assert.isFalse(scope.addressSaved);
-        scope.$emit('$blobSave');
-        assert.isFalse(scope.addressSaved);
-        done(); 
+        it('should set addressSaved to true', function (done) {
+          assert.isFalse(scope.addressSaved);
+          scope.$emit('$blobSave');
+          assert.isTrue(scope.addressSaved);
+          done();
+        });
+
+        it("should set the contact as the scope's contact", function (done) {
+          assert.isUndefined(scope.contact);
+          scope.$emit('$blobSave');
+          assert.isObject(scope.contact);
+          done();
+        });
       })
 
-      it("should set the contact as the scope's contact", function (done) {
-        assert.isUndefined(scope.contact);
-        scope.saveAddress();
-        scope.$emit('$blobSave');
-        assert.isObject(scope.contact);
-        done();
+      describe('without having called saveAddress', function () {
+        it('should not set addressSaved', function (done) {
+          assert.isFalse(scope.addressSaved);
+          scope.$emit('$blobSave');
+          assert.isFalse(scope.addressSaved);
+          done(); 
+        });
       })
     })
   });
