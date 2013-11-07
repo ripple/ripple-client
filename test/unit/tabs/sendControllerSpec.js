@@ -231,8 +231,7 @@ describe('SendCtrl', function(){
     it('should set confirm_wait to false after a timeout', function (done) {
       scope.send_prepared();
       assert.isTrue(scope.confirm_wait);
-      var spy = sinon.spy(timeout);
-      // For some reason timeout.flush() works but then raises an exception
+      // For some reason $timeout.flush() works but then raises an exception
       try { timeout.flush() } 
       catch (e) {}
       assert.isFalse(scope.confirm_wait);
