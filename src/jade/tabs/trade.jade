@@ -313,7 +313,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
         .row.orderbook(ng-show="order.listing == 'orderbook'")
           .bids.col-xs-12.col-sm-6
             .title Bids
-            .row.head
+            .row.head(ng-show="bookFormatted.bids.length")
               .col-xs-4.sum Sum
                 .currency {{book.bids[0].TakerPays | rpcurrency}}
               .col-xs-4.size Size
@@ -324,10 +324,10 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
               .col-xs-4.rpamount.sum(rp-bind-color-amount="order.sum")
               .col-xs-4.rpamount.size(rp-bind-color-amount="order.TakerPays")
               .col-xs-4.rpamount.price(rp-bind-color-amount="order.price")
-            div(ng-show='!book.bids.length') There are currently no bids for this pair.
+            .message(ng-show='!book.bids.length') There are currently no bids for this pair.
           .asks.col-xs-12.col-sm-6
             .title Asks
-            .row.head
+            .row.head(ng-show="bookFormatted.asks.length")
               .col-xs-4.price Ask Price
                 .currency {{book.asks[0].TakerPays | rpcurrency}}
               .col-xs-4.size Size
@@ -338,4 +338,4 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
               .col-xs-4.rpamount.price(rp-bind-color-amount="order.price")
               .col-xs-4.rpamount.size(rp-bind-color-amount="order.TakerGets")
               .col-xs-4.rpamount.sum(rp-bind-color-amount="order.sum")
-            div(ng-show='!book.asks.length') There are currently no asks for this pair.
+            .message(ng-show='!book.asks.length') There are currently no asks for this pair.
