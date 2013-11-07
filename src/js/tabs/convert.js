@@ -281,13 +281,9 @@ ConvertTab.prototype.angular = function (module)
         if (!ctrl) return;
 
         var validator = function(value) {
-          if (!webutil.getContact($scope.userBlob.data.contacts,value)) {
-            ctrl.$setValidity('unique', true);
-            return value;
-          } else {
-            ctrl.$setValidity('unique', false);
-            return;
-          }
+          var unique = !webutil.getContact($scope.userBlob.data.contacts,value);
+          ctrl.$setValidity('unique', unique);
+          if (unique) return value;
         };
 
         ctrl.$formatters.push(validator);

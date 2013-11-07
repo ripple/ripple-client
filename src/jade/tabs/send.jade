@@ -93,9 +93,9 @@ section.single.content(ng-controller='SendCtrl')
           | Amount must be greater than zero.
         .error(rp-error-on='rpMaxAmount')
           | This transaction exceeds your balance, you can send a max. of {{account.max_spend | rpamount:{rel_precision: 0} }} XRP
-        .error(ng-show="disallowXrp && send.currency_code=='XRP'") Recipient does not allow XRP payments. Are you sure you want to send XRP anyway?
+        .error(ng-show="send.recipient_info.disallow_xrp && send.currency_code=='XRP'") Recipient does not allow XRP payments. Are you sure you want to send XRP anyway?
         .notice(ng-show="send.trust_limit") {{send.recipient | rpcontactname}} trusts you for {{send.trust_limit | rpamount}} {{send.trust_limit | rpcurrency}}.
-      .row.form-group(ng-show='$routeParams.dt || send.dt || send.showDt || destTagRequired')
+      .row.form-group(ng-show='$routeParams.dt || send.dt || send.showDt || recipient_info.dest_tag_required')
         .col-xs-12.col-sm-6.col-md-5
           label(for='send_dt') Destination tag
           input.form-control#send_dt(
@@ -103,13 +103,13 @@ section.single.content(ng-controller='SendCtrl')
             ng-model='send.dt'
             rp-stdt
             rp-autofill='$routeParams.dt'
-            ng-required="destTagRequired")
+            ng-required="recipient_info.dest_tag_required")
           .errorGroup(rp-errors='send_dt')
             .error(rp-error-on='rpStdt')
               | Invalid destination tag
             .error(rp-error-on='required')
               | Destination cannot be blank.
-          div(ng-show="destTagRequired")
+          div(ng-show="recipient_info.dest_tag_required")
             | Recipient requires a destination tag to be specified for the transaction. If you don't know the
             |  destination tag, please contact them before doing a transaction.
       .row.form-group(ng-show='$routeParams.st || send.st || send.showSt')
@@ -125,7 +125,7 @@ section.single.content(ng-controller='SendCtrl')
               | Invalid source tag
     ul.tagsLinks
       li
-        a(href="", ng-click="send.showDt = true", ng-hide="send.showDt || send.dt || destTagRequired") Add Destination tag
+        a(href="", ng-click="send.showDt = true", ng-hide="send.showDt || send.dt || recipient_info.dest_tag_required") Add Destination tag
       //li
         a(href="", ng-click="send.showSt = true", ng-hide="send.showSt") Add Source tag
     .row

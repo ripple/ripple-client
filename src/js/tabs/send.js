@@ -29,13 +29,18 @@ SendTab.prototype.angular = function (module)
   {
     if (!$id.loginStatus) return $id.goId();
 
+    // XRP currency object.
+    // {name: "XRP - Ripples", order: 146, value: "XRP"}
     $scope.xrp = _.where($scope.currencies_all, {value: "XRP"})[0];
-    $scope.account_memory = {};
 
     $scope.$watch('send.recipient', function(){
-      var addr = webutil.stripRippleAddress($scope.send.recipient);
+      // raw address without any parameters
+      var address = webutil.stripRippleAddress($scope.send.recipient);
 
-      $scope.contact = webutil.getContact($scope.userBlob.data.contacts,addr);
+      $scope.contact = webutil.getContact($scope.userBlob.data.contacts,address);
+
+      // Sets
+      // send.recipient, send.recipient_name, send.recipient_address, send.dt.
       if ($scope.contact) {
         if ($scope.send.recipient === $scope.contact.address) {
           $scope.send.recipient = $scope.contact.name;
@@ -46,9 +51,10 @@ SendTab.prototype.angular = function (module)
         if ($scope.contact.dt) {
           $scope.send.dt = $scope.contact.dt;
         }
-      } else {
+      }
+      else {
         $scope.send.recipient_name = '';
-        $scope.send.recipient_address = addr;
+        $scope.send.recipient_address = address;
       }
 
       $scope.update_destination();
@@ -93,21 +99,20 @@ SendTab.prototype.angular = function (module)
       var recipient = send.recipient_address;
 
       if (recipient === send.last_recipient) return;
+
       send.last_recipient = recipient;
 
       $scope.reset_destination_deps();
 
-      // Trying to send XRP to self
-      send.self = recipient === $scope.address && $scope.send.amount;
+      // Trying to send XRP to self.
+      // This is used to disable 'Send XRP' button
+      send.self = recipient === $scope.address;
 
       // Trying to send to a Bitcoin address
       send.bitcoin = !isNaN(Base.decode_check([0, 5], recipient, 'bitcoin'));
 
       // Trying to send to an email/federation address
       send.federation = ("string" === typeof recipient) && ~recipient.indexOf('@');
-
-      // Do we need to perform a remote lookup?
-      var isRemote = send.federation;
 
       if (destUpdateTimeout) $timeout.cancel(destUpdateTimeout);
       destUpdateTimeout = $timeout($scope.update_destination_remote, 500);
@@ -126,7 +131,8 @@ SendTab.prototype.angular = function (module)
 
         // Destination is not known yet, skip ahead
         $scope.update_currency_constraints();
-      } else if (send.federation) {
+      }
+      else if (send.federation) {
         send.path_status = "fed-check";
         $federation.check_email(recipient)
           .then(function (result) {
@@ -158,7 +164,7 @@ SendTab.prototype.angular = function (module)
               $scope.sendForm.send_destination.$setValidity("federation", false);
               // XXX Show specific error message
             }
-          }, function (error) {
+          }, function () {
             // Check if this request is still current, exit if not
             var now_recipient = send.recipient_actual || send.recipient_address;
             if (recipient !== now_recipient) return;
@@ -167,12 +173,13 @@ SendTab.prototype.angular = function (module)
             $scope.sendForm.send_destination.$setValidity("federation", false);
           })
         ;
-      } else {
+      }
+      else {
         $scope.check_destination();
       }
     };
 
-    // Check destionation for XRP sufficiency and flags
+    // Check destination for XRP sufficiency and flags
     $scope.check_destination = function () {
       var send = $scope.send;
       var recipient = send.recipient_actual || send.recipient_address;
@@ -202,14 +209,13 @@ SendTab.prototype.angular = function (module)
               // XXX Actual error
             }
           } else {
-            // Flags
-            $scope.disallowXrp = data.account_data.Flags & ripple.Remote.flags.account_root.DisallowXRP;
-            $scope.destTagRequired = data.account_data.Flags & ripple.Remote.flags.account_root.RequireDestTag;
-
             send.recipient_info = {
               'exists': true,
               'Balance': data.account_data.Balance,
-              'disallow_xrp': $scope.disallowXrp
+
+              // Flags
+              'disallow_xrp': data.account_data.Flags & ripple.Remote.flags.account_root.DisallowXRP,
+              'dest_tag_required': data.account_data.Flags & ripple.Remote.flags.account_root.RequireDestTag
             };
 
             if (!$scope.account || !$scope.account.reserve_base) return;
@@ -227,6 +233,9 @@ SendTab.prototype.angular = function (module)
             //
             //     We need either a account_lines RPC call with a max_lines
             //     setting or a dedicated account_accepted_currencies command.
+            //
+            // UPDATE: Check this out. Currently it's not released.
+            // https://github.com/ripple/rippled/commit/bf1843be9e352aa39207ea98b40709f66f8da1be
             /*
             account.lines(function (e, data) {
               $scope.$apply(function () {
@@ -246,23 +255,18 @@ SendTab.prototype.angular = function (module)
           }
         });
       });
-
-      function setError() {
-      }
     };
-
 
     /**
      * Update any constraints on what currencies the user can select.
      *
-     * In many modes, the user is restricted in terms of what they can send. For
-     * example, when sending to a Bitcoin address, they can only send BTC.
+     * In many modes, the user is restricted in terms of what they can send.
+     * For example, when sending to a Bitcoin address, they can only send BTC.
      *
      * This function checks those conditions and updates the UI.
      */
     $scope.update_currency_constraints = function () {
       var send = $scope.send;
-      var recipient = send.recipient_actual || send.recipient_address;
 
       // Reset constraints
       send.currency_choices = $scope.currencies_all;
@@ -326,7 +330,6 @@ SendTab.prototype.angular = function (module)
 
       $scope.update_currency();
     };
-
 
     // Reset anything that depends on the currency
     $scope.reset_currency_deps = function () {
@@ -406,15 +409,10 @@ SendTab.prototype.angular = function (module)
         }
 
         // Cannot make XRP payment if the sender does not have enough XRP
-        if (send.amount_feedback.is_native()
-            && $scope.account.max_spend
-            && $scope.account.max_spend.to_number() > 1
-            && $scope.account.max_spend.compareTo(send.amount_feedback) < 0) {
-
-          send.sender_insufficient_xrp = true;
-        } else {
-          send.sender_insufficient_xrp = false;
-        }
+        send.sender_insufficient_xrp = send.amount_feedback.is_native()
+          && $scope.account.max_spend
+          && $scope.account.max_spend.to_number() > 1
+          && $scope.account.max_spend.compareTo(send.amount_feedback) < 0;
 
         var total = send.amount_feedback.add(send.recipient_info.Balance);
         var reserve_base = $scope.account.reserve_base;
@@ -523,22 +521,19 @@ SendTab.prototype.angular = function (module)
     $scope.need_paths_update = function () {
       var send = $scope.send;
       var recipient = send.recipient_actual || send.recipient_address;
-      var currency = send.currency;
       var amount = send.amount_actual || send.amount_feedback;
 
-      var modified = send.last_am_recipient !== recipient ||
+      // modified
+      return send.last_am_recipient !== recipient ||
         !send.last_amount ||
         !send.last_amount.is_valid() ||
         !amount.is_valid() ||
         !amount.equals(send.last_amount);
-
-      return modified;
     };
 
     $scope.update_paths = function () {
       var send = $scope.send;
       var recipient = send.recipient_actual || send.recipient_address;
-      var currency = send.currency;
       var amount = send.amount_actual || send.amount_feedback;
 
       if (!$scope.need_paths_update()) return;
@@ -596,7 +591,7 @@ SendTab.prototype.angular = function (module)
         });
       });
 
-      pf.on('error', function (err) {
+      pf.on('error', function () {
         setImmediate(function () {
           $scope.$apply(function () {
             send.path_status = "error";
@@ -627,6 +622,7 @@ SendTab.prototype.angular = function (module)
     $scope.$watch('userBlob.data.contacts', function (contacts) {
       $scope.recipient_query = webutil.queryFromOptions(contacts);
     }, true);
+
     $scope.$watch('lines', function (lines) {
       var currencies = _.uniq(_.map(_.keys(lines), function (line) {
         return line.slice(-3);
@@ -718,9 +714,9 @@ SendTab.prototype.angular = function (module)
       var send = $scope.send;
       var currency = $scope.send.currency.slice(0, 3).toUpperCase();
       var amount = Amount.from_human(""+$scope.send.amount+" "+currency);
-      var addr = $scope.send.recipient_address;
+      var addrress = $scope.send.recipient_address;
 
-      amount.set_issuer(addr);
+      amount.set_issuer(addrress);
 
       var tx = $network.remote.transaction();
       // Source tag
@@ -738,7 +734,7 @@ SendTab.prototype.angular = function (module)
         }
 
         if ($scope.send.bitcoin) {
-          var encodedAddr = Base.decode(addr, 'bitcoin');
+          var encodedAddr = Base.decode(addrress, 'bitcoin');
           encodedAddr = sjcl.codec.bytes.toBits(encodedAddr);
           encodedAddr = sjcl.codec.hex.fromBits(encodedAddr).toUpperCase();
           while (encodedAddr.length < 64) encodedAddr += "0";
@@ -761,7 +757,7 @@ SendTab.prototype.angular = function (module)
 
         tx.destination_tag(dt ? +dt : undefined); // 'cause +dt is NaN when dt is undefined
 
-        tx.payment($id.account, addr, amount.to_json());
+        tx.payment($id.account, addrress, amount.to_json());
       }
 
       if ($scope.send.alt) {
@@ -894,13 +890,9 @@ SendTab.prototype.angular = function (module)
         if (!ctrl) return;
 
         var validator = function(value) {
-          if (!webutil.getContact($scope.userBlob.data.contacts,value)) {
-            ctrl.$setValidity('unique', true);
-            return value;
-          } else {
-            ctrl.$setValidity('unique', false);
-            return;
-          }
+          var unique = !webutil.getContact($scope.userBlob.data.contacts,value);
+          ctrl.$setValidity('unique', unique);
+          if (unique) return value;
         };
 
         ctrl.$formatters.push(validator);
