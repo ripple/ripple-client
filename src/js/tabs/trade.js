@@ -48,9 +48,8 @@ TradeTab.prototype.angular = function(module)
 
       if ($scope.orderForm) $scope.orderForm.$setPristine();
 
-      // listing
+      // Decide what listing to show
       var listing;
-
       if ($scope.order) {
         listing = $scope.order.listing;
       }
@@ -58,7 +57,9 @@ TradeTab.prototype.angular = function(module)
         listing = store.get('ripple_trade_listing');
       }
       else {
-        listing = 'my';
+        $scope.$watch('account',function(account){
+          $scope.order.listing = account.Balance ? 'my' : 'orderbook';
+        });
       }
 
       $scope.mode = "trade";

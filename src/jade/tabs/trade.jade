@@ -265,7 +265,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
       .btn-group
         button.btn.btn-default(
           type="button"
-          ng-show="account.Balance"
+          ng-disabled="!account.Balance"
           ng-class="{'btn-info': order.listing == 'my'}"
           ng-click="setListing('my')") My Orders
         button.btn.btn-default(
