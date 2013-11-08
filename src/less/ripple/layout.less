@@ -104,7 +104,8 @@ header nav ul {
     text-align: center;
 
     > a {
-      opacity: 0.6;
+      opacity: 0.4;
+      width: 60px;
       height: 60px;
       color: #000;
       display: block;
@@ -129,26 +130,6 @@ header nav ul {
         opacity: 1;
         color: #333;
       }
-
-      > a:before, > a:after {
-        .virtualel;
-        width: 0;
-        position: absolute;
-        bottom: -1px;
-        left: 50%;
-      }
-      > a:before {
-        margin-left: -18px;
-        border-left: solid 18px transparent;
-        border-right: solid 18px transparent;
-        border-bottom: solid 7px #cacaca;
-      }
-      > a:after {
-        margin-left: -16px;
-        border-left: solid 16px transparent;
-        border-right: solid 16px transparent;
-        border-bottom: solid 6px #fff;
-      }
     }
   }
 }
@@ -171,6 +152,34 @@ header nav ul {
 
 #nav-advanced a {
   background-position: 2px -102px;
+}
+
+// Pixel ratio: 2
+@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min-device-pixel-ratio: 2) {
+  header nav ul li a{
+    background-image: url('../../img/sprite_2x.png');
+    background-size: 300px 60px;
+  }
+
+  #nav-wallet a {
+    background-position: 0px -10px;
+  }
+
+  #nav-send a {
+    background-position: -60px -10px;
+  }
+
+  #nav-receive a {
+    background-position: -120px -10px;
+  }
+
+  #nav-trade a {
+    background-position: -180px -10px;
+  }
+
+  #nav-advanced a {
+    background-position: -240px -10px;
+  }
 }
 
 #wrapper > .main {
