@@ -109,7 +109,7 @@ describe('SendCtrl', function(){
         done();        
       });
 
-      it.skip('should check destination tag visibility', function (done) {
+      it('should check destination tag visibility', function (done) {
         spy = sinon.spy(scope, 'check_dt_visibility');
         scope.update_destination();
         assert(spy.called);
@@ -117,8 +117,6 @@ describe('SendCtrl', function(){
       });
     });
   })
-
-
 
   describe('updating the destination remote', function (done) {
     it('should have a function to do so', function (done) {
@@ -400,11 +398,9 @@ describe('SendCtrl', function(){
       });
 
       it('should set the engine status with the response', function (done) {
-        // before this test is usable setEngineStatus needs to be exposed
-
-        // spy = sinon.spy(scope, 'setEngineStatus');        
+        spy = sinon.spy(scope, 'setEngineStatus');        
         scope.onTransactionProposed(res, transaction);
-        // assert(spy.calledWith(res, false).once);
+        assert(spy.called);
         done();
       });
     });
@@ -445,10 +441,6 @@ describe('SendCtrl', function(){
       assert(spy.called);
       done();
     });
-
-    it('should listen for a "propsed" event', function (done) {
-      done();
-    })
   })
 
   describe('saving an address', function () {
@@ -535,22 +527,26 @@ describe('SendCtrl', function(){
     })
 
     describe('handling a transaction event', function () {
-      it.skip('should apply the scope', function (done) {
-        scope.sent();
-        var applySpy = sinon.spy(scope, '$apply');
+      it('should stop listening for transactions', function (done) {
+        var hash = 'testhash';
+        scope.sent(hash);
+        spy = sinon.spy(network.remote, 'removeListener');
         var data = {
           transaction: {
-            hash: 'testhash'
+            hash: hash
           }
         }
 
-        var stub = sinon.stub(network.remote, 'transaction');
-        // Figure out how to stub out and trigger a transaction
-        network.remote.emit('transaction', data);
+        var setEngineStatus = scope.setEngineStatus;
+        scope.setEngineStatus = function () {};
 
-        assert(applySpy.not);
+        //var stub = sinon.stub(network.remote, 'transaction');
+        network.remote.emit('transaction', data);
+        assert(spy.called);
+        scope.setEngineStatus = setEngineStatus;
         done(); 
       })
+
     })
   })
 });
