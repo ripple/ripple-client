@@ -28,6 +28,10 @@ describe('SendCtrl', function(){
       $setValidity: function(){}
     };
 
+    scope.saveAddressForm = {
+      $setPristine: function () {}
+    }
+
     scope.check_dt_visibility = function () {};
 
     dependencies = {
@@ -256,19 +260,46 @@ describe('SendCtrl', function(){
     done();
   });
 
-  it('should reset the address form', function (done) {
-    assert.isFunction(scope.resetAddressForm);
-    scope.show_save_address_form = true
-    scope.addressSaved = true;
-    scope.saveAddressName = null;
-    scope.addressSaving = true;
+  describe('resetting the address form', function () {
+    it('should have a function to do so', function (done) {
+      assert.isFunction(scope.resetAddressForm);
+      done();
+    });
 
-    scope.resetAddressForm();
-    assert.isFalse(scope.show_save_address_form);
-    assert.isFalse(scope.addressSaved);
-    assert.equal(scope.saveAddressName, '');
-    assert.isFalse(scope.addressSaving);
-    done();
+    it('should falsify show_save_address_form field', function (done) {
+      scope.show_save_address_form = true
+      scope.resetAddressForm();
+      assert.isFalse(scope.show_save_address_form);
+      done();
+    });
+
+    it('should falsify the addressSaved field', function (done) {
+      scope.addressSaved = true;
+      scope.resetAddressForm();
+      assert.isFalse(scope.addressSaved);
+      done();
+    });
+
+    it('should falsify the addressSaving field', function (done) {
+      scope.saveAddressName = null;
+      scope.resetAddressForm();
+      assert.equal(scope.saveAddressName, '');
+      done();
+    });
+
+    it('should empty the saveAddressName field', function (done) {
+      scope.addressSaving = true;
+      scope.resetAddressForm();
+      assert.isFalse(scope.addressSaving);
+      done();
+    });
+
+    it('should set the form to pristine state', function (done) {
+      spy = sinon.spy(scope.saveAddressForm, '$setPristine');
+      scope.resetAddressForm();
+      assert(spy.calledOnce);
+      done();
+    });
   });
 
   describe('performing reset goto', function () {
