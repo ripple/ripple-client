@@ -85,61 +85,29 @@ body.loaded #appLoading {
 header {
   .clearfix();
   height: 145px;
-
-  @media (max-width: 980px) {
-    height: 183px;
-  }
 }
 
 header nav {
   position: absolute;
+  width: 100%;
   top: 85px;
   left: 0;
-  width: 100%;
-  padding-left: @grid-gutter-width / 2;
-  padding-right: @grid-gutter-width / 2;
-
-  @media (max-width: 980px) {
-    top: 110px;
-  }
+  padding-left: 30px;
 }
 
 header nav ul {
   font: 12px 'OpenSansRegular';
   list-style: none;
-  width: 100%;
-  padding: 0 0 0 10px;
-
-  @media (max-width: 767px) {
-    padding: 0;
-  }
 
   > li {
     position: relative;
-    float: left;
-    width: 130px;
-    height: 60px;
-    padding-left: 30px;
-    padding-right: 30px;
     text-align: center;
-    z-index: 1;
-
-    @media (max-width: 767px) {
-      width: 24%;
-      padding: 0;
-    }
 
     > a {
-      position: absolute;
-      top: 0;
-      left: 50%;
-      margin-left: -35px;
       opacity: 0.6;
-      width: 70px;
+      height: 60px;
       color: #000;
       display: block;
-      height: 60px;
-      cursor: pointer;
       .transition-duration(0.2s);
       background-image: url(../../img/sprite.png);
 
@@ -181,37 +149,28 @@ header nav ul {
         border-right: solid 16px transparent;
         border-bottom: solid 6px #fff;
       }
-
-      @media (max-width: 767px) {
-        > a:before {
-          border-bottom-color: #999;
-        }
-        > a:after {
-          display: none;
-        }
-      }
     }
   }
 }
 
 #nav-wallet a {
-  background-position: -167px -102px;
+  background-position: -172px -102px;
 }
 
 #nav-send a {
-  background-position: -47px -102px;
+  background-position: -52px -102px;
 }
 
 #nav-receive a {
-  background-position: -108px -102px;
+  background-position: -113px -102px;
 }
 
 #nav-trade a {
-  background-position: 70px -102px;
+  background-position: 65px -102px;
 }
 
 #nav-advanced a {
-  background-position: 7px -102px;
+  background-position: 2px -102px;
 }
 
 #wrapper > .main {

@@ -11,6 +11,7 @@ section.col-xs-12.col-md-10.content(ng-controller="OptionsCtrl")
           label WebSocket hostname, port, secure
       .row
         .col-xs-6.col-sm-5.col-md-3
+          //- TODO unique names for inputs
           input.form-control.host(name='host', type='text', ng-model='server.host', rp-hostname)
           .errorGroup
             div(rp-errors='host')
@@ -20,15 +21,15 @@ section.col-xs-12.col-md-10.content(ng-controller="OptionsCtrl")
         .col-xs-3.col-sm-3.col-md-2
           input.form-control.socketPort(name='port', type='text', ng-model='server.port', rp-port-number)
         .col-xs-3.col-sm-3.col-md-2
-          button.btn.btn-default.btn-small.delete(type="button", ng-click="servers.splice($index,1)") Remove
+          a(href="", ng-click="servers.splice($index,1)") Remove
       .row
         .col-xs-12
           div.helperInput
             input(type="checkbox", name="secure", ng-model='server.secure')
             label(for="secure") Use secure WebSocket
     .row
-      .col-xs-12.col-sm-5.col-md-4
-        button.btn.btn-block.btn-default(type="button", ng-click="servers.push({})") Add new server
+      .col-xs-12.col-sm-8.col-md-3.col-lg-2
+        button.btn.btn-block.btn-primary(type="button", ng-click="servers.push({})") Add new server
     .row
       .col-xs-12.col-sm-8.col-md-5
         label(for="blobIp") Blob vault URL

@@ -1,6 +1,6 @@
 include ../menu/wallet.jade
 section.col-xs-12.col-md-10.content(ng-controller="ContactsCtrl")
-  .row.head.hidden-xs
+  .row.row-padding-small.head.hidden-xs
     .col-xs-3 Name
     .col-xs-6 Address
     .col-xs-3.text-right
@@ -54,7 +54,8 @@ section.col-xs-12.col-md-10.content(ng-controller="ContactsCtrl")
             button.btn.btn-default.btn-block(type='button', ng-click='addform_visible = false') Cancel
           .col-xs-12.col-sm-8
             button.btn.btn-success.btn-block.submit(type='submit', ng-disabled='addForm.$invalid') Add contact
-  .row.row-padding-small.contact(ng-repeat="entry in userBlob.data.contacts", ng-class="{editing: editing}", ng-controller="ContactRowCtrl", rp-animate="enable_highlight")
+  .row.row-padding-small.contact(ng-repeat="entry in userBlob.data.contacts"
+    ng-class="{editing: editing}", ng-controller="ContactRowCtrl")
     .col-xs-12.col-sm-3
       div(ng-show='editing')
         ng-form(name='inlineName')
@@ -85,7 +86,8 @@ section.col-xs-12.col-md-10.content(ng-controller="ContactsCtrl")
           .form-group
             label(for="contact_dt") Destination tag
             input.form-control.dt#contact_dt(
-              name='dt', type='text', step='any', class="inline", placeholder="Leave blank if not applicable"
+              name='dt', type='text', step='any', class="inline"
+              placeholder="Leave blank if not applicable"
               ng-model='editdt'
               rp-stdt
               rp-autofill='$routeParams.dt'

@@ -234,9 +234,8 @@
     }
 
     .lbl {
-      font: 20px 'OpenSansRegular';
-      color: #333;
-      padding: 2px 5px;
+      padding: 5px 10px;
+      font: normal 16px OpenSansLight;
     }
 
     .balance {
@@ -262,7 +261,8 @@
     }
 
     &.positive .lbl {
-      background-color: #72CE9B;
+      background-color: #5cb85c;
+      color: #fff;
     }
   }
 
@@ -405,7 +405,7 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
   }
 
   .line {
-    border-top: 1px solid #dddddd;
+    border-top: 1px solid #F0F0F0;
 
     & > div {
       height: 50px;
@@ -554,11 +554,12 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
     label {
       width: 100%;
       background: #f2f2f2;
-      padding: 8px 12px;
-      color: #333;
+      padding: 6px 10px;
       cursor: pointer;
       text-transform: capitalize;
-      color: #000;
+      color: #777;
+      font-size: 14px;
+      border: 1px solid darken(#f2f2f2,5%);
 
       .count {
         float: right;
@@ -568,7 +569,8 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
       }
 
       &.active {
-        background: #00AAEC;
+        background: #428bca;
+        border: 1px solid #428bca;
         color: #fff;
 
         .count {
@@ -576,46 +578,6 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
           margin: -8px -15px;
           background: #009ddc;
           padding: 8px 12px;
-        }
-      }
-
-      input {
-        display: none;
-      }
-    }
-  }
-
-  .currency-filter {
-    i {
-      margin: 0 10px 0 0;
-    }
-
-    label {
-      float: left;
-      background: #f2f2f2;
-      width: 100%;
-      margin: 0 5px 5px 0;
-      padding: 5px 7px;
-      color: #333;
-      cursor: pointer;
-      font-size: 14px;
-
-      .count {
-        float: right;
-        margin: -5px -7px;
-        background: #f2f2f2;
-        padding: 5px 7px;
-      }
-
-      &.active {
-        background: #00AAEC;
-        color: #fff;
-
-        .count {
-          float: right;
-          margin: -5px -7px;
-          background: #009ddc;
-          padding: 5px 7px;
         }
       }
 
@@ -1053,6 +1015,7 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
     overflow: hidden;
     text-overflow: ellipsis;
     font-family: 'OpenSansRegular';
+    margin: 0 0 10px;
     .box {
       border: 1px solid #d9d9d9;
       padding: 6px;

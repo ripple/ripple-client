@@ -45,7 +45,7 @@ section.col-xs-12.col-md-10.content(ng-controller="HistoryCtrl")
             span.name {{obj.name}}
             //span.count {{typeUsage[obj.name] || 0}}
             input(type="checkbox", name="type-filter", ng-model="obj.checked")
-      .row.filter.currency-filter(ng-show="filter=='currency'")
+      .row.filter.type-filter(ng-show="filter=='currency'")
         .col-xs-12.col-sm-3.col-lg-2(ng-repeat="(currency,obj) in filters.currencies")
           label(ng-class="{active: obj.checked}")
             i.icon-plus(ng-show="obj.checked")
