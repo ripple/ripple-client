@@ -7,7 +7,7 @@ function run(scope,done) {
 
 describe('SendCtrl', function(){
   var rootScope, scope, controller_injector, dependencies, ctrl, 
-      sendForm, network, timeout, spy, mock;
+      sendForm, network, timeout, spy, mock, res, transaction;
 
   beforeEach(module("rp"));
   beforeEach(inject(function($rootScope, $controller, $q, $timeout, rpNetwork) {
@@ -27,6 +27,8 @@ describe('SendCtrl', function(){
       $setPristine: function(){},
       $setValidity: function(){}
     };
+
+    scope.$apply = function(func){func()};
 
     scope.saveAddressForm = {
       $setPristine: function () {}
@@ -107,7 +109,7 @@ describe('SendCtrl', function(){
         done();        
       });
 
-      it.skip('should check destination tag visibility', function (done) {
+      it('should check destination tag visibility', function (done) {
         spy = sinon.spy(scope, 'check_dt_visibility');
         scope.update_destination();
         assert(spy.called);
@@ -115,8 +117,6 @@ describe('SendCtrl', function(){
       });
     });
   })
-
-
 
   describe('updating the destination remote', function (done) {
     it('should have a function to do so', function (done) {
@@ -365,40 +365,68 @@ describe('SendCtrl', function(){
   describe('handling when a transaction send is confirmed', function (done) {
     beforeEach(function () {
       scope.send.recipient_address = 'r4EwBWxrx5HxYRyisfGzMto3AT8FZiYdWk';
-      scope.tx = { on: function () {} };
     });
 
     describe("handling a 'propose' event from ripple-lib", function (done) {
       beforeEach(function () {
-        var transaction = network.remote.transaction();
+        scope.send = {
+          amount_feedback: {
+            currency: function () {
+              function to_human () {
+                return 'somestring';
+              }
+              return { to_human: to_human }
+            }
+          }
+        }
+
+        transaction = {
+          hash: 'E64165A4ED2BF36E5922B11C4E192DF068E2ADC21836087DE5E0B1FDDCC9D82F'
+        }
+
+        res = {
+          engine_result: 'arbitrary_engine_result',
+          engine_result_message: 'arbitrary_engine_result_message'
+        }
       });
 
-      it('should define a function to do so', function (done) {
-        assert.isFunction(scope.onTransactionProposed);
+      it('should call send with the transaction hash', function (done) {
+        spy = sinon.spy(scope, 'sent');
+        scope.onTransactionProposed(res, transaction);
+        assert(spy.calledWith(transaction.hash));
         done();
       });
 
-      // This needs some work to get the test to be useful
-      // Stub the transaction so that the hash is valid
-      it.skip('should call apply', function (done) {
-        spy = sinon.spy(scope, '$apply');
-        var transaction = network.remote.transaction();
-        assert.isObject(transaction);
-        assert.isString(transaction.hash);
-        scope.onTransactionProposed({}, transaction);
+      it('should set the engine status with the response', function (done) {
+        spy = sinon.spy(scope, 'setEngineStatus');        
+        scope.onTransactionProposed(res, transaction);
+        assert(spy.called);
         done();
       });
     });
 
-    describe("handling an 'error' event from ripple-lib", function (done) {
-      it('should define a function to do so', function (done) {
-        assert.isFunction(scope.onTransactionError);
-        done();
+    describe("handling errors from the server", function () {
+
+      describe("a no path error", function (done) {
+        it('should set the mode to status', function (done) {
+          var res = { error: 'remoteError', remote: { error: 'noPath' }};
+          scope.onTransactionError(res, null);          
+          setTimeout(function (){
+            assert.equal(scope.mode, "status");
+            done();
+          }, 10);
+        });
       });
 
-      it('should call apply', function (done) {
-        spy = sinon.spy(scope, '$apply');
-        done();
+      describe("any other error", function (done) {
+        it('should set the mode to error', function (done) {
+          var res = { error: null };
+          scope.onTransactionError(res, null);          
+          setTimeout(function (){
+            assert.equal(scope.mode, "error");
+            done();
+          }, 10)
+        });
       });
     });
 
@@ -413,10 +441,6 @@ describe('SendCtrl', function(){
       assert(spy.called);
       done();
     });
-
-    it('should listen for a "propsed" event', function (done) {
-      done();
-    })
   })
 
   describe('saving an address', function () {
@@ -486,6 +510,111 @@ describe('SendCtrl', function(){
     })
   });
 
+  describe('setting engine status', function () {
+    beforeEach(function () {
+      res = {
+        engine_result: 'arbitrary_engine_result',
+        engine_result_message: 'arbitrary_engine_result_message'
+      }
+    });
+
+    describe("when the response code is 'tes'", function() {
+      beforeEach(function () {
+        res.engine_result = 'tes';
+      })
+
+      describe('when the transaction is accepted', function () {
+        it("should set the transaction result to cleared", function (done) {
+          var accepted = true;
+          scope.setEngineStatus(res, accepted);
+          assert.equal(scope.tx_result, 'cleared');
+          done();
+        });
+      });
+
+      describe('when the transaction not accepted', function () {
+        it("should set the transaction result to pending", function (done) {
+          var accepted = false;
+          scope.setEngineStatus(res, accepted);
+          assert.equal(scope.tx_result, 'pending');
+          done();
+        });
+      });
+    });
+
+    describe("when the response code is 'tem'", function() {
+      beforeEach(function () {
+        res.engine_result = 'tem';
+      })
+
+      it("should set the transaction result to malformed", function (done) {
+        scope.setEngineStatus(res, true);
+        assert.equal(scope.tx_result, 'malformed');
+        done();
+      });
+    });
+
+    describe("when the response code is 'ter'", function() {
+      beforeEach(function () {
+        res.engine_result = 'ter';
+      })
+
+      it("should set the transaction result to failed", function (done) {
+        scope.setEngineStatus(res, true);
+        assert.equal(scope.tx_result, 'failed');
+        done();
+      });
+    });
+
+    describe("when the response code is 'tep'", function() {
+      beforeEach(function () {
+        res.engine_result = 'tep';
+      })
+
+      it("should set the transaction result to partial", function (done) {
+        scope.setEngineStatus(res, true);
+        assert.equal(scope.tx_result, 'partial');
+        done();
+      });
+    });
+
+    describe("when the response code is 'tec'", function() {
+      beforeEach(function () {
+        res.engine_result = 'tec';
+      })
+
+      it("should set the transaction result to claim", function (done) {
+        scope.setEngineStatus(res, true);
+        assert.equal(scope.tx_result, 'claim');
+        done();
+      });
+    });
+
+    describe("when the response code is 'tef'", function() {
+      beforeEach(function () {
+        res.engine_result = 'tef';
+      })
+
+      it("should set the transaction result to failure", function (done) {
+        scope.setEngineStatus(res, true);
+        assert.equal(scope.tx_result, 'failure');
+        done();
+      });
+    });
+
+    describe("when the response code is 'tel'", function() {
+      beforeEach(function () {
+        res.engine_result = 'tel';
+      })
+
+      it("should set the transaction result to local", function (done) {
+        scope.setEngineStatus(res, true);
+        assert.equal(scope.tx_result, 'local');
+        done();
+      });
+    });
+  });
+
   describe('handling sent transactions', function () {
     it('should update the mode to status', function (done) {
       assert.isFunction(scope.sent);
@@ -503,22 +632,26 @@ describe('SendCtrl', function(){
     })
 
     describe('handling a transaction event', function () {
-      it.skip('should apply the scope', function (done) {
-        scope.sent();
-        var applySpy = sinon.spy(scope, '$apply');
+      it('should stop listening for transactions', function (done) {
+        var hash = 'testhash';
+        scope.sent(hash);
+        spy = sinon.spy(network.remote, 'removeListener');
         var data = {
           transaction: {
-            hash: 'testhash'
+            hash: hash
           }
         }
 
-        var stub = sinon.stub(network.remote, 'transaction');
-        // Figure out how to stub out and trigger a transaction
-        network.remote.emit('transaction', data);
+        var setEngineStatus = scope.setEngineStatus;
+        scope.setEngineStatus = function () {};
 
-        assert(applySpy.notCalled);
+        //var stub = sinon.stub(network.remote, 'transaction');
+        network.remote.emit('transaction', data);
+        assert(spy.called);
+        scope.setEngineStatus = setEngineStatus;
         done(); 
       })
+
     })
   })
 });
