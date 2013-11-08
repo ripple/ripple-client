@@ -725,6 +725,47 @@ SendTab.prototype.angular = function (module)
     /**
      * N4. Waiting for transaction result page
      */
+
+    $scope.onTransactionProposed = function (res, tx) {
+      $scope.$apply(function () {
+        setEngineStatus(res, false);
+        $scope.sent(tx.hash);
+
+        // Remember currency and increase order
+        var found;
+
+        for (var i = 0; i < $scope.currencies_all.length; i++) {
+          if ($scope.currencies_all[i].value.toLowerCase() === $scope.send.amount_feedback.currency().to_human().toLowerCase()) {
+            $scope.currencies_all[i].order++;
+            found = true;
+            break;
+          }
+        }
+
+        if (!found) {
+          $scope.currencies_all.push({
+            "name": $scope.send.amount_feedback.currency().to_human().toUpperCase(),
+            "value": $scope.send.amount_feedback.currency().to_human().toUpperCase(),
+            "order": 1
+          });
+        }
+      });
+    };
+
+    $scope.onTransactionError = function (res, tx) {
+      setImmediate(function () {
+        $scope.$apply(function () {
+          $scope.mode = "error";
+
+          if (res.error === 'remoteError' &&
+              res.remote.error === 'noPath') {
+            $scope.mode = "status";
+            $scope.tx_result = "noPath";
+          }
+        });
+      });
+    };
+
     $scope.send_confirmed = function () {
       var send = $scope.send;
       var currency = $scope.send.currency.slice(0, 3).toUpperCase();
@@ -783,44 +824,15 @@ SendTab.prototype.angular = function (module)
           tx.build_path(true);
         }
       }
+
       tx.on('proposed', function (res) {
-        $scope.$apply(function () {
-          setEngineStatus(res, false);
-          $scope.sent(tx.hash);
-
-          // Remember currency and increase order
-          var found;
-
-          for (var i = 0; i < $scope.currencies_all.length; i++) {
-            if ($scope.currencies_all[i].value.toLowerCase() === $scope.send.amount_feedback.currency().to_human().toLowerCase()) {
-              $scope.currencies_all[i].order++;
-              found = true;
-              break;
-            }
-          }
-
-          if (!found) {
-            $scope.currencies_all.push({
-              "name": $scope.send.amount_feedback.currency().to_human().toUpperCase(),
-              "value": $scope.send.amount_feedback.currency().to_human().toUpperCase(),
-              "order": 1
-            });
-          }
-        });
+        $scope.onTransactionProposed(res, tx);
       });
+
       tx.on('error', function (res) {
-        setImmediate(function () {
-          $scope.$apply(function () {
-            $scope.mode = "error";
-
-            if (res.error === 'remoteError' &&
-                res.remote.error === 'noPath') {
-              $scope.mode = "status";
-              $scope.tx_result = "noPath";
-            }
-          });
-        });
+        $scope.onTransactionError(res, tx);
       });
+
       tx.submit();
 
       $scope.mode = "sending";
