@@ -271,8 +271,28 @@ describe('SendCtrl', function(){
     done();
   });
 
+  describe('performing reset goto', function () {
+    it('should have a function to do so', function (done) {
+      assert.isFunction(scope.reset_goto);
+      done();
+    });
+
+    it('should reset the scope', function (done) {
+      spy = sinon.spy(scope, 'reset');
+      scope.reset_goto();
+      assert(spy.calledOnce);
+      done();
+    });
+
+    it('should navigate the page to the tabname provide', function (done) {
+      var tabName = 'someAwesomeTab';
+      scope.reset_goto(tabName);
+      assert.equal(document.location.hash, '#' + tabName);
+      done();
+    });
+  })
+
   it('should perform a reset goto', function (done) {
-    assert.isFunction(scope.reset_goto);
     var mock = sinon.mock(scope);
     mock.expects('reset').once();
 
