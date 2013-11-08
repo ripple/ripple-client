@@ -8,23 +8,8 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
           p.literal Enter the Name and Passphrase used to encrypt your Wallet below.
       form(name='loginForm', ng-submit='submitForm()')
         .row
-          .col-xs-12.col-sm-6.col-lg-4
+          .col-xs-12.col-sm-6.col-md-5
             include login/form
-          .col-xs-12.col-sm-6.col-lg-8
-            .panel.panel-warning(ng-show="!hiddenReminder")
-              .panel-heading
-                .panel-title Reminder
-              .panel-body
-                div You are responsible for your login information.
-                div
-                  br
-                  | Ripple
-                  strong  cannot
-                  |  recover your Wallet Name or Passphrase if you forget them!
-                div
-                  br
-                  | Write down your Security Key.&nbsp
-                  a(href="https://ripple.com/blog/how-to-protect-your-account/", target="_blank") Read more
         .row
           .col-xs-12
             .text-status(ng-show='status')
@@ -35,7 +20,7 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
                 span {{message.message}}
           .col-xs-12
             .row
-              .col-xs-12.col-sm-6.col-md-5.col-lg-4
+              .col-xs-12.col-sm-6.col-md-5
                 button.btn.btn-lg.btn-submit.btn-block.btn-primary(type='submit', ng-disabled="loginForm.$invalid || ajax_loading")
                   span.spinner(ng-show="ajax_loading", rp-spinner="4")
                   | Open Wallet
