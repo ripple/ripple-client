@@ -510,6 +510,111 @@ describe('SendCtrl', function(){
     })
   });
 
+  describe('setting engine status', function () {
+    beforeEach(function () {
+      res = {
+        engine_result: 'arbitrary_engine_result',
+        engine_result_message: 'arbitrary_engine_result_message'
+      }
+    });
+
+    describe("when the response code is 'tes'", function() {
+      beforeEach(function () {
+        res.engine_result = 'tes';
+      })
+
+      describe('when the transaction is accepted', function () {
+        it("should set the transaction result to cleared", function (done) {
+          var accepted = true;
+          scope.setEngineStatus(res, accepted);
+          assert.equal(scope.tx_result, 'cleared');
+          done();
+        });
+      });
+
+      describe('when the transaction not accepted', function () {
+        it("should set the transaction result to pending", function (done) {
+          var accepted = false;
+          scope.setEngineStatus(res, accepted);
+          assert.equal(scope.tx_result, 'pending');
+          done();
+        });
+      });
+    });
+
+    describe("when the response code is 'tem'", function() {
+      beforeEach(function () {
+        res.engine_result = 'tem';
+      })
+
+      it("should set the transaction result to malformed", function (done) {
+        scope.setEngineStatus(res, true);
+        assert.equal(scope.tx_result, 'malformed');
+        done();
+      });
+    });
+
+    describe("when the response code is 'ter'", function() {
+      beforeEach(function () {
+        res.engine_result = 'ter';
+      })
+
+      it("should set the transaction result to failed", function (done) {
+        scope.setEngineStatus(res, true);
+        assert.equal(scope.tx_result, 'failed');
+        done();
+      });
+    });
+
+    describe("when the response code is 'tep'", function() {
+      beforeEach(function () {
+        res.engine_result = 'tep';
+      })
+
+      it("should set the transaction result to partial", function (done) {
+        scope.setEngineStatus(res, true);
+        assert.equal(scope.tx_result, 'partial');
+        done();
+      });
+    });
+
+    describe("when the response code is 'tec'", function() {
+      beforeEach(function () {
+        res.engine_result = 'tec';
+      })
+
+      it("should set the transaction result to claim", function (done) {
+        scope.setEngineStatus(res, true);
+        assert.equal(scope.tx_result, 'claim');
+        done();
+      });
+    });
+
+    describe("when the response code is 'tef'", function() {
+      beforeEach(function () {
+        res.engine_result = 'tef';
+      })
+
+      it("should set the transaction result to failure", function (done) {
+        scope.setEngineStatus(res, true);
+        assert.equal(scope.tx_result, 'failure');
+        done();
+      });
+    });
+
+    describe("when the response code is 'tel'", function() {
+      beforeEach(function () {
+        res.engine_result = 'tel';
+      })
+
+      it("should set the transaction result to local", function (done) {
+        scope.setEngineStatus(res, true);
+        assert.equal(scope.tx_result, 'local');
+        done();
+      });
+    });
+  });
+
   describe('handling sent transactions', function () {
     it('should update the mode to status', function (done) {
       assert.isFunction(scope.sent);
