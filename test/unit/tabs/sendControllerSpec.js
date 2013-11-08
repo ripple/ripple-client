@@ -197,9 +197,32 @@ describe('SendCtrl', function(){
     done();
   });
 
-  it('should reset the amount dependencies', function (done) {
-    assert.isFunction(scope.reset_amount_deps);
-    done();
+  describe('resetting the amount dependencies', function (done) {
+    it('should have a function to do so', function (done) {
+      assert.isFunction(scope.reset_amount_deps);
+      done();
+    });
+
+    it('should set the quote to false', function (done) {
+      scope.send.quote = true;
+      scope.reset_amount_deps();
+      assert.isFalse(scope.send.quote);
+      done();
+    });
+
+    it('should falsify the sender insufficient xrp flag', function (done) {
+      scope.send.sender_insufficient_xrp = true;
+      scope.reset_amount_deps();
+      assert.isFalse(scope.send.sender_insufficient_xrp);
+      done();
+    });
+
+    it('should reset the paths', function (done) {
+      spy = sinon.spy(scope, 'reset_paths');
+      scope.reset_amount_deps();
+      assert(spy.calledOnce);
+      done();
+    });
   });
 
   it('should update the amount', function (done) {
