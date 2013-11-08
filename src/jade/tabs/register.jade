@@ -9,7 +9,8 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
         | Choose a Passphrase you can easily remember but others cannot guess. Hint: Mix letters, numbers, and symbols.
       p.literal.hint.important
         | Only you have this Wallet Name and Passphrase and are responsible for their safekeeping. Ripple cannot
-        | recover them if you forget them!
+        | recover them if you forget them!&nbsp;
+        a(href="https://ripple.com/blog/how-to-protect-your-account/", target="_blank") Read more
 
       form(name='registerForm', ng-submit='submitForm()')
         .row
