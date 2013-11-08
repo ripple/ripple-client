@@ -730,7 +730,7 @@ SendTab.prototype.angular = function (module)
 
     $scope.onTransactionProposed = function (res, tx) {
       $scope.$apply(function () {
-        setEngineStatus(res, false);
+        $scope.setEngineStatus(res, false);
         $scope.sent(tx.hash);
 
         // Remember currency and increase order
@@ -850,14 +850,14 @@ SendTab.prototype.angular = function (module)
       function handleAccountEvent(e) {
         $scope.$apply(function () {
           if (e.transaction.hash === hash) {
-            setEngineStatus(e, true);
+            $scope.setEngineStatus(e, true);
             $network.remote.removeListener('transaction', handleAccountEvent);
           }
         });
       }
     };
 
-    function setEngineStatus(res, accepted) {
+    $scope.setEngineStatus = function(res, accepted) {
       $scope.engine_result = res.engine_result;
       $scope.engine_result_message = res.engine_result_message;
       switch (res.engine_result.slice(0, 3)) {
