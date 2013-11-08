@@ -212,6 +212,7 @@ SendTab.prototype.angular = function (module)
           if (e) {
             if (e.remote.error === "actNotFound") {
               send.recipient_info = {
+                'loaded': true,
                 'exists': false,
                 'Balance': "0"
               };
@@ -221,6 +222,7 @@ SendTab.prototype.angular = function (module)
             }
           } else {
             send.recipient_info = {
+              'loaded': true,
               'exists': true,
               'Balance': data.account_data.Balance,
 
@@ -310,7 +312,7 @@ SendTab.prototype.angular = function (module)
         send.currency = send.currency_choices[0];
       }
 
-      if (!send.recipient_info) return;
+      if (!send.recipient_info.loaded) return;
 
       if (send.recipient_info.exists && send.recipient_lines) {
         // XXX This clause is not in use
