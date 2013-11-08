@@ -7,7 +7,7 @@ function run(scope,done) {
 
 describe('SendCtrl', function(){
   var rootScope, scope, controller_injector, dependencies, ctrl, 
-      sendForm, network, timeout;
+      sendForm, network, timeout, spy, mock;
 
   beforeEach(module("rp"));
   beforeEach(inject(function($rootScope, $controller, $q, $timeout, rpNetwork) {
@@ -27,6 +27,8 @@ describe('SendCtrl', function(){
       $setPristine: function(){},
       $setValidity: function(){}
     };
+
+    scope.check_dt_visibility = function () {};
 
     dependencies = {
       $scope: scope,
@@ -59,10 +61,58 @@ describe('SendCtrl', function(){
     done();
   });
 
-  it('should update the destination', function (done) {
-    assert.isFunction(scope.update_destination);
-    done();
-  });
+  describe('updating the destination', function (done) {
+    beforeEach(function () {
+      scope.send.recipient_address = 'r4EwBWxrx5HxYRyisfGzMto3AT8FZiYdWk';
+    })
+
+    it('should have a function to do so', function (done) {
+      assert.isFunction(scope.update_destination);
+      done();
+    });
+
+    describe('when the recipient is the same as last time', function (done) {
+      beforeEach(function () {
+        scope.send.last_recipient = scope.send.recipient_address;
+      });
+
+      it('should not reset destination dependencies', function (done) {
+        spy = sinon.spy(scope, 'reset_destination_deps');
+        scope.update_destination();
+        assert(spy.notCalled);
+        done();
+      });
+
+      it('should not check destination tag visibility', function (done) {
+        spy = sinon.spy(scope, 'check_dt_visibility');
+        scope.update_destination();
+        assert(spy.notCalled);
+        done();
+      });
+    });
+
+    describe('when the recipient is new', function (done) {
+      beforeEach(function () {
+        scope.send.last_recipient = null;
+      });
+
+      it('should reset destination dependencies', function (done) {
+        spy = sinon.spy(scope, 'reset_destination_deps');
+        scope.update_destination();
+        assert(spy.called);
+        done();        
+      });
+
+      it.skip('should check destination tag visibility', function (done) {
+        spy = sinon.spy(scope, 'check_dt_visibility');
+        scope.update_destination();
+        assert(spy.called);
+        done();
+      });
+    });
+  })
+
+
 
   describe('updating the destination remote', function (done) {
     it('should have a function to do so', function (done) {
@@ -136,10 +186,9 @@ describe('SendCtrl', function(){
 
   it('should reset the currency dependencies', function (done) {
     assert.isFunction(scope.reset_currency_deps);
-    var mock = sinon.mock(scope);
-    mock.expects('reset_amount_deps').once();
+    var spy = sinon.spy(scope, 'reset_amount_deps');
     scope.reset_currency_deps();
-    mock.verify();
+    assert(spy.calledOnce);
     done();
   });
 
@@ -240,23 +289,60 @@ describe('SendCtrl', function(){
   });
   
   describe('handling when a transaction send is confirmed', function (done) {
+    beforeEach(function () {
+      scope.send.recipient_address = 'r4EwBWxrx5HxYRyisfGzMto3AT8FZiYdWk';
+      scope.tx = { on: function () {} };
+    });
+
+    describe("handling a 'propose' event from ripple-lib", function (done) {
+      beforeEach(function () {
+        var transaction = network.remote.transaction();
+      });
+
+      it('should define a function to do so', function (done) {
+        assert.isFunction(scope.onTransactionProposed);
+        done();
+      });
+
+      // This needs some work to get the test to be useful
+      // Stub the transaction so that the hash is valid
+      it.skip('should call apply', function (done) {
+        spy = sinon.spy(scope, '$apply');
+        var transaction = network.remote.transaction();
+        assert.isObject(transaction);
+        assert.isString(transaction.hash);
+        scope.onTransactionProposed({}, transaction);
+        done();
+      });
+    });
+
+    describe("handling an 'error' event from ripple-lib", function (done) {
+      it('should define a function to do so', function (done) {
+        assert.isFunction(scope.onTransactionError);
+        done();
+      });
+
+      it('should call apply', function (done) {
+        spy = sinon.spy(scope, '$apply');
+        done();
+      });
+    });
+
     it('should have a function to handle send confirmed', function (done) {
       assert.isFunction(scope.send_confirmed);
       done();
     });
 
-    it('should update the mode to sending', function (done) {
+    it('should create a transaction', function (done) {
+      spy = sinon.spy(network.remote, 'transaction');
+      scope.send_confirmed();
+      assert(spy.called);
       done();
     });
 
-    describe('when the send quote is available', function () {});
-
-    describe('when the send quote is not available', function () {})
-
-    it('should submit the transaction', function (done) {
+    it('should listen for a "propsed" event', function (done) {
       done();
-    });
-
+    })
   })
 
   describe('saving an address', function () {
@@ -351,8 +437,6 @@ describe('SendCtrl', function(){
             hash: 'testhash'
           }
         }
-
-        console.log(network.remote);
 
         var stub = sinon.stub(network.remote, 'transaction');
         // Figure out how to stub out and trigger a transaction
