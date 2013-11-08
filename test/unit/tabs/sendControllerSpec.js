@@ -7,7 +7,7 @@ function run(scope,done) {
 
 describe('SendCtrl', function(){
   var rootScope, scope, controller_injector, dependencies, ctrl, 
-      sendForm, network, timeout, spy, mock;
+      sendForm, network, timeout, spy, mock, res, transaction;
 
   beforeEach(module("rp"));
   beforeEach(inject(function($rootScope, $controller, $q, $timeout, rpNetwork) {
@@ -27,6 +27,8 @@ describe('SendCtrl', function(){
       $setPristine: function(){},
       $setValidity: function(){}
     };
+
+    scope.$apply = function(func){func()};
 
     scope.saveAddressForm = {
       $setPristine: function () {}
@@ -365,40 +367,70 @@ describe('SendCtrl', function(){
   describe('handling when a transaction send is confirmed', function (done) {
     beforeEach(function () {
       scope.send.recipient_address = 'r4EwBWxrx5HxYRyisfGzMto3AT8FZiYdWk';
-      scope.tx = { on: function () {} };
     });
 
     describe("handling a 'propose' event from ripple-lib", function (done) {
       beforeEach(function () {
-        var transaction = network.remote.transaction();
+        scope.send = {
+          amount_feedback: {
+            currency: function () {
+              function to_human () {
+                return 'somestring';
+              }
+              return { to_human: to_human }
+            }
+          }
+        }
+
+        transaction = {
+          hash: 'E64165A4ED2BF36E5922B11C4E192DF068E2ADC21836087DE5E0B1FDDCC9D82F'
+        }
+
+        res = {
+          engine_result: 'arbitrary_engine_result',
+          engine_result_message: 'arbitrary_engine_result_message'
+        }
       });
 
-      it('should define a function to do so', function (done) {
-        assert.isFunction(scope.onTransactionProposed);
+      it('should call send with the transaction hash', function (done) {
+        spy = sinon.spy(scope, 'sent');
+        scope.onTransactionProposed(res, transaction);
+        assert(spy.calledWith(transaction.hash));
         done();
       });
 
-      // This needs some work to get the test to be useful
-      // Stub the transaction so that the hash is valid
-      it.skip('should call apply', function (done) {
-        spy = sinon.spy(scope, '$apply');
-        var transaction = network.remote.transaction();
-        assert.isObject(transaction);
-        assert.isString(transaction.hash);
-        scope.onTransactionProposed({}, transaction);
+      it('should set the engine status with the response', function (done) {
+        // before this test is usable setEngineStatus needs to be exposed
+
+        // spy = sinon.spy(scope, 'setEngineStatus');        
+        scope.onTransactionProposed(res, transaction);
+        // assert(spy.calledWith(res, false).once);
         done();
       });
     });
 
-    describe("handling an 'error' event from ripple-lib", function (done) {
-      it('should define a function to do so', function (done) {
-        assert.isFunction(scope.onTransactionError);
-        done();
+    describe("handling errors from the server", function () {
+
+      describe("a no path error", function (done) {
+        it('should set the mode to status', function (done) {
+          var res = { error: 'remoteError', remote: { error: 'noPath' }};
+          scope.onTransactionError(res, null);          
+          setTimeout(function (){
+            assert.equal(scope.mode, "status");
+            done();
+          }, 10);
+        });
       });
 
-      it('should call apply', function (done) {
-        spy = sinon.spy(scope, '$apply');
-        done();
+      describe("any other error", function (done) {
+        it('should set the mode to error', function (done) {
+          var res = { error: null };
+          scope.onTransactionError(res, null);          
+          setTimeout(function (){
+            assert.equal(scope.mode, "error");
+            done();
+          }, 10)
+        });
       });
     });
 
@@ -516,7 +548,7 @@ describe('SendCtrl', function(){
         // Figure out how to stub out and trigger a transaction
         network.remote.emit('transaction', data);
 
-        assert(applySpy.notCalled);
+        assert(applySpy.not);
         done(); 
       })
     })
