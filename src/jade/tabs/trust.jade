@@ -91,10 +91,12 @@ section.col-xs-12.col-md-10.content(ng-controller="TrustCtrl")
               button.btn.btn-block.btn-primary.submit(type='submit', ng-disabled='trustForm.$invalid || verifying') Grant Trust
           .row
             .col-xs-12
-              p.literal.throbber(ng-show="verifying") Verifying address
+              p.literal.throbber.verifying(ng-show="verifying") Verifying address
       .col-xs-12(ng-show='addform_visible && !can_add_trust')
-        | You must have at least {{account.reserve_to_add_trust | rpamount:0}} XRP to add a new trust line.&nbsp;
-        a(href="https://ripple.com/wiki/Reserves", target="_blank") More information
+        .alert.alert-warning You must have at least
+          strong  {{account.reserve_to_add_trust | rpamount:0}} XRP
+          |  to add a new trust line.&nbsp;
+          a(href="https://ripple.com/wiki/Reserves", target="_blank") More information
 
     //- N2. Confirmation page
 
@@ -177,14 +179,14 @@ section.col-xs-12.col-md-10.content(ng-controller="TrustCtrl")
           form(name="saveAddressForm", ng-class="{ show: show_save_address_form }", ng-submit='saveAddress()')
             .address {{counterparty_address}}
             label(for='save_address_name') Name this user
-            input#contact_name(
+            input.form-control#contact_name(
             name='save_address_name', type="text"
             ng-model='saveAddressName', unique, required
             rp-autofill='$routeParams.name'
             rp-focus)
             .error(ng-show='saveAddressForm.save_address_name.$error.unique') You already have a contact with the same name.
             div
-              button.btn.btn-success(type='submit', ng-disabled='addressSaving')
+              button.btn.btn-success(type='submit', ng-disabled='addressSaving || saveAddressForm.$invalid')
                 span(ng-show='addressSaving') Saving...
                 span(ng-hide='addressSaving') Save
               a(href="", ng-click='show_save_address_form = false') Cancel
