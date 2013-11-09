@@ -5,13 +5,12 @@ section.col-xs-12.col-md-10.content(ng-controller="OptionsCtrl")
   .row
     hr
   form.row-padding-small(name="optionsForm", ng-submit="save()")
-    div(ng-repeat="(index, server) in servers track by $index")
+    div(ng-repeat="(index, server) in servers track by $index", ng-form name="subForm")
       .row
         .col-xs-12
           label WebSocket hostname, port, secure
       .row
         .col-xs-6.col-sm-5.col-md-3
-          //- TODO unique names for inputs
           input.form-control.host(name='host', type='text', ng-model='server.host', rp-hostname)
           .errorGroup
             div(rp-errors='host')
