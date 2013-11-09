@@ -7,7 +7,7 @@ function run(scope,done) {
 
 describe('SendCtrl', function(){
   var rootScope, scope, controller_injector, dependencies, ctrl, 
-      sendForm, network, timeout, spy, mock, res, transaction;
+      sendForm, network, timeout, spy, stub, mock, res, transaction, data;
 
   beforeEach(module("rp"));
   beforeEach(inject(function($rootScope, $controller, $q, $timeout, rpNetwork) {
@@ -632,23 +632,32 @@ describe('SendCtrl', function(){
     })
 
     describe('handling a transaction event', function () {
-      it('should stop listening for transactions', function (done) {
+      beforeEach(function () {
         var hash = 'testhash';
         scope.sent(hash);
-        spy = sinon.spy(network.remote, 'removeListener');
-        var data = {
+        data = {
           transaction: {
             hash: hash
           }
         }
 
-        var setEngineStatus = scope.setEngineStatus;
-        scope.setEngineStatus = function () {};
+        stub = sinon.stub(scope, 'setEngineStatus');
+      });
 
-        //var stub = sinon.stub(network.remote, 'transaction');
+      afterEach(function () {
+        scope.setEngineStatus.restore();
+      })
+
+      it('should set the engine status', function (done) {
+        network.remote.emit('transaction', data);
+        assert(stub.called);
+        done();
+      });
+
+      it('should stop listening for transactions', function (done) {
+        spy = sinon.spy(network.remote, 'removeListener');
         network.remote.emit('transaction', data);
         assert(spy.called);
-        scope.setEngineStatus = setEngineStatus;
         done(); 
       })
 
