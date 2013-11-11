@@ -58,7 +58,7 @@ section.col-xs-12.col-md-10.content(ng-controller="BalanceCtrl")
                   class="btn btn-default btn-sm", rp-no-propagate, title="Add to contacts") +&nbsp;
                   span.hidden-xs Add to contacts
                   span.visible-xs
-                    i.icon-user
+                    i.fa.fa-user
                 include balance/effects
               .transaction(ng-switch-when="received")
                 span.address(title="{{entry.transaction.counterparty}}") {{entry.transaction.counterparty | rpcontactname}}
@@ -69,7 +69,7 @@ section.col-xs-12.col-md-10.content(ng-controller="BalanceCtrl")
                   class="btn btn-default btn-sm", rp-no-propagate, title="Add to contacts") +&nbsp;
                   span.hidden-xs Add to contacts
                   span.visible-xs
-                    i.icon-user
+                    i.fa.fa-user
                 include balance/effects
               .transaction(ng-switch-when="trusted")
                 span.address(title="{{entry.transaction.counterparty}}") {{entry.transaction.counterparty | rpcontactname}}
@@ -80,7 +80,7 @@ section.col-xs-12.col-md-10.content(ng-controller="BalanceCtrl")
                   class="btn btn-default btn-sm", rp-no-propagate, title="Add to contacts") +&nbsp;
                   span.hidden-xs Add to contacts
                   span.visible-xs
-                    i.icon-user
+                    i.fa.fa-user
                 include balance/effects
               .transaction(ng-switch-when="trusting") You now trust&nbsp;
                 span.address(title="{{entry.transaction.counterparty}}") {{entry.transaction.counterparty | rpcontactname}}
@@ -91,7 +91,7 @@ section.col-xs-12.col-md-10.content(ng-controller="BalanceCtrl")
                   class="btn btn-default btn-sm", rp-no-propagate, title="Add to contacts") +&nbsp;
                   span.hidden-xs Add to contacts
                   span.visible-xs
-                    i.icon-user
+                    i.fa.fa-user
                 include balance/effects
               .transaction(ng-switch-when="offernew") You created an offer accepting&nbsp;
                 strong.nowrap {{entry.transaction.pays | rpamount}} {{entry.transaction.pays | rpcurrency}}
