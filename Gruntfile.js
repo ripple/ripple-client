@@ -275,11 +275,9 @@ module.exports = function(grunt) {
     },
     watch: {
       livereload: {
-        options: {
-          livereload: true
-        },
         files: ['build/css/**/*.css'],
-        tasks: []
+        tasks: [],
+        options: { livereload: true }
       },
       scripts_debug: {
         files: ['src/js/**/*.js', 'src/jade/**/*.jade'],
@@ -288,21 +286,22 @@ module.exports = function(grunt) {
       },
       deps: {
         files: ['<%= concat.deps.src %>'],
-        tasks: ['concat:deps_debug']
+        tasks: ['concat:deps_debug'],
+        options: { livereload: true }
       },
       styles: {
         files: 'src/less/**/*.less',
-        options: {livereload:true},
-        tasks: 'recess'
+        tasks: 'recess',
+        options: { livereload:true }
       },
       index: {
         files: ['index.html'],
-        options: {livereload:true},
-        tasks: ['preprocess']
+        tasks: ['preprocess'],
+        options: { livereload:true }
       },
       config: {
         files: ['config.js'],
-        options: {livereload:true}
+        options: { livereload:true }
       }
     },
     connect: {
