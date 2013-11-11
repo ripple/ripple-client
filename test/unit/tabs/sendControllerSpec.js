@@ -199,9 +199,9 @@ describe('SendCtrl', function(){
     describe('when recipient info is not loaded', function () {
       it('should not update the currency', function (done) {
         stub = sinon.stub(scope, 'update_currency');
-        scope.send.recipient_info.loaded = null;
+        scope.send.recipient_info.loaded = false;
         scope.update_currency_constraints();
-        assert(spy.notCalled);
+        assert(spy.called);
         done();
       });
     });
