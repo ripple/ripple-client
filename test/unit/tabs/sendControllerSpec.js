@@ -183,9 +183,28 @@ describe('SendCtrl', function(){
     done();      
   });
 
-  it('should update the currency constraints', function (done) {
-    assert.isFunction(scope.update_currency_constraints);
-    done();
+  describe('updating currency constraints', function () {
+    it('should have a function to do so', function (done) {
+      assert.isFunction(scope.update_currency_constraints);
+      done();
+    });
+
+    it('should update the currency', function (done) {
+      stub = sinon.stub(scope, 'update_currency');
+      scope.update_currency_constraints();
+      assert(spy.called);
+      done();
+    });
+
+    describe('when recipient info is not loaded', function () {
+      it('should not update the currency', function (done) {
+        stub = sinon.stub(scope, 'update_currency');
+        scope.send.recipient_info.loaded = null;
+        scope.update_currency_constraints();
+        assert(spy.notCalled);
+        done();
+      });
+    });
   });
 
   it('should reset the currency dependencies', function (done) {
@@ -238,6 +257,144 @@ describe('SendCtrl', function(){
     assert.isFunction(scope.update_quote);
     done();
   });
+
+  describe('resetting paths', function (done) {
+    it('should have a function to do so', function (done) {
+      assert.isFunction(scope.reset_paths);
+      done();
+    });
+
+    it('should check if it needs a path update', function (done) {
+      spy = sinon.stub(scope, 'need_paths_update');
+      scope.reset_paths();
+      assert(spy.called);
+      done();
+    });
+
+    describe("when it needs a path update", function () {
+      beforeEach(function () {
+        scope.send.alternatives = null;
+      });
+      it('should set the send alternatives to an empty array', function (done) {
+        spy = sinon.stub(scope, 'need_paths_update').returns(true);
+        scope.reset_paths();
+        assert(Array.isArray(scope.send.alternatives));
+        assert.equal(scope.send.alternatives.length, 0);
+        done();
+      });
+    });
+
+    describe("when it doesn't need a path update", function () {
+      beforeEach(function () {
+        scope.send.alternatives = null;
+      });
+      it('should not set the send alternatives', function (done) {
+        spy = sinon.stub(scope, 'need_paths_update').returns(false);
+        assert.equal(scope.send.alternatives, null);
+        done();
+      });
+    });
+  });
+
+  describe("checking that paths need updating", function () {
+    describe("when the recipient is the last recipient", function() {
+      beforeEach(function () {
+        scope.send.recipient_actual = 'steven';
+        scope.send.last_am_recipient = 'steven';
+      });
+
+      describe('and there is no last amount', function () {
+        beforeEach(function () {
+          scope.send.last_amount = null;
+        });
+
+        it('should return true', function (done) {
+          assert(scope.need_paths_update());
+          done();
+        });
+      });
+
+      describe('and there is a last amount', function () {
+        beforeEach(function () {
+          scope.send.last_amount = { is_valid: function () {} };
+        });
+
+        describe('when the last amount is not valid', function () {
+          beforeEach(function () {
+            sinon.stub(scope.send.last_amount, 'is_valid').returns(false);  
+          });    
+
+          it('should return true', function (done) {
+            assert(scope.need_paths_update());
+            done();
+          });    
+        });
+
+        describe('when the last amount is valid', function () {
+          beforeEach(function () {
+            sinon.stub(scope.send.last_amount, 'is_valid').returns(true);  
+            scope.send.amount_actual = {
+              is_valid: function () {},
+              equals: function () {}
+            }
+          });
+
+          describe("when the amount is not valid", function (done) {
+            beforeEach(function () {
+              sinon.stub(scope.send.amount_actual, 'is_valid').returns(false);  
+            });
+
+            it('should return true', function (done) {
+              assert(scope.need_paths_update());
+              done();
+            });  
+          })
+
+          describe("when the amount is valid", function () {
+            beforeEach(function () {
+              sinon.stub(scope.send.amount_actual, 'is_valid').returns(true);
+            });
+
+            describe('and the amount equals the last amount', function () {
+              it('should return true', function (done) {
+                sinon.stub(scope.send.amount_actual, 'equals').returns(true)
+                assert(!scope.need_paths_update());
+                done();
+              });  
+            });
+
+            describe('and the amount does not equal the last amount', function () {
+              it('should return false', function (done) {
+                sinon.stub(scope.send.amount_actual, 'equals').returns(false)
+                assert(scope.need_paths_update());
+                done();
+              });  
+            });
+          })
+        });
+      });
+    });
+
+    describe("when the recipient is not the last recipient", function() {
+      beforeEach(function () {
+        scope.send.recipient_actual = 'steven';
+        scope.send.last_am_recipient = 'jay';
+      });
+
+      it('should return true', function (done) {
+        assert(scope.need_paths_update());
+        done();
+      });
+    });
+    /*
+      return send.last_am_recipient !== recipient ||
+        !send.last_amount ||
+        !send.last_amount.is_valid() ||
+        !amount.is_valid() ||
+        !amount.equals(send.last_amount);
+    };
+    */
+  })
 
   it('should rest the paths', function (done) {
     assert.isFunction(scope.reset_paths);
