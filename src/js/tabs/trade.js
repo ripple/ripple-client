@@ -104,7 +104,7 @@ TradeTab.prototype.angular = function(module)
         $scope.order.buy_amount = $scope.order.second_amount;
       }
 
-      $rpTracker.track('Trade order confirmation');
+      $rpTracker.track('Trade order confirmation page');
     };
 
     $scope.cancel_order = function ()
