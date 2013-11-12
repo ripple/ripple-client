@@ -30,8 +30,6 @@ TradeTab.prototype.angular = function(module)
   {
     if (!$id.loginStatus) return $id.goId();
 
-    $rpTracker.track('Trade page');
-
     $scope.bookFormatted = {};
 
     var pairs = $scope.pairs_all;
@@ -105,6 +103,8 @@ TradeTab.prototype.angular = function(module)
         $scope.order.sell_amount = $scope.order.first_amount;
         $scope.order.buy_amount = $scope.order.second_amount;
       }
+
+      $rpTracker.track('Trade order confirmation');
     };
 
     $scope.cancel_order = function ()
@@ -172,6 +172,8 @@ TradeTab.prototype.angular = function(module)
       tx.submit();
 
       $scope.mode = "sending";
+
+      $rpTracker.track('Trade order confirmed');
     };
 
     $scope.done = function (hash)
@@ -198,21 +200,29 @@ TradeTab.prototype.angular = function(module)
           break;
         case 'tem':
           $scope.tx_result = "malformed";
+          $rpTracker.track('Trade order failed',{'message':res.engine_result_message});
           break;
         case 'ter':
           $scope.tx_result = "failed";
+          $rpTracker.track('Trade order failed',{'message':res.engine_result_message});
           break;
         case 'tec':
           $scope.tx_result = "claim";
+          $rpTracker.track('Trade order failed',{'message':res.engine_result_message});
           break;
         case 'tel':
           $scope.tx_result = "local";
+          $rpTracker.track('Trade order failed',{'message':res.engine_result_message});
           break;
         //case 'tep':
         default:
           $scope.tx_result = "unknown";
           console.warn("Unhandled engine status encountered:"+res.engine_result);
           break;
+      }
+
+      if (accepted) {
+        $rpTracker.track('Trade order successful');
       }
     }
 
@@ -562,6 +572,8 @@ TradeTab.prototype.angular = function(module)
 
       updateSettings();
     }
+
+    $rpTracker.track('Trade page');
 
   }]);
 };
