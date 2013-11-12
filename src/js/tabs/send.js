@@ -509,7 +509,6 @@ SendTab.prototype.angular = function (module)
 
         var now_amount = send.amount_feedback;
         if (!now_amount.equals(send.amount_feedback)) return;
-        console.log('got past the equals');
 
         function validateResponseData(data) {
           !data || !data.quote ||
@@ -520,11 +519,8 @@ SendTab.prototype.angular = function (module)
         
         if (validateResponseData(data)) {
           $scope.send.path_status = "error-quote";
-          console.log('the data is invalid');
           return;
         }
-
-        console.log('the data was valid');
 
         var amount = Amount.from_json(data.quote.send[0]);
 
@@ -532,8 +528,7 @@ SendTab.prototype.angular = function (module)
 
         // We have a quote, now calculate a path
         send.recipient_actual = data.quote.address;
-        send.amount_actual = amount;
-        console.log("about to update paths");
+        send.amount_actual = amount;      
         $scope.update_paths();
       });
     }
