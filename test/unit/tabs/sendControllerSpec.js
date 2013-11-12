@@ -248,9 +248,37 @@ describe('SendCtrl', function(){
     });
   });
 
-  it('should update the amount', function (done) {
-    assert.isFunction(scope.update_amount);
-    done();
+  describe('updating the amount to send', function () {
+    it('should have a function to do so', function (done) {
+      assert.isFunction(scope.update_amount);
+      done();
+    });
+
+    it('should reset the amount dependencies', function (done) {
+      spy = sinon.spy(scope, 'reset_amount_deps');
+      scope.update_amount();
+      assert(spy.called);
+      done();
+    });
+
+    describe('when the form is invalid', function () {
+      beforeEach(function () {
+        scope.sendForm.$invalid = true;
+      });
+
+      it('should set the path status to "waiting"', function (done) {
+        scope.send.path_status = null;
+        scope.update_amount();
+        assert.equal(scope.send.path_status, 'waiting');
+        done();
+      });
+    });
+
+    describe('when the form is valid', function () {
+      beforeEach(function () {
+        scope.sendForm.$invalid = false;
+      });
+    });
   });
 
   it('should update the quote', function (done) {
