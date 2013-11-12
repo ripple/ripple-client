@@ -21,8 +21,6 @@ OptionsTab.prototype.angular = function(module)
   module.controller('OptionsCtrl', ['$scope', '$rootScope', 'rpId', 'rpTracker',
                                     function ($scope, $rootScope, $id, $rpTracker)
   {
-    $rpTracker.track('Options page');
-
     $scope.servers = Options.server.servers;
     $scope.mixpanel = Options.mixpanel;
     $scope.blobIp = Options.blobvault;
@@ -39,9 +37,13 @@ OptionsTab.prototype.angular = function(module)
         mixpanel : $scope.mixpanel
       }));
 
+      $rpTracker.track('Options updated');
+
       // Reload
       location.reload();
-    }
+    };
+
+    $rpTracker.track('Options page');
   }]);
 };
 
