@@ -19,13 +19,15 @@ RegisterTab.prototype.generateHtml = function ()
 };
 
 RegisterTab.prototype.angular = function (module) {
-  module.controller('RegisterCtrl', ['$scope', '$location', 'rpId',
-                                     function ($scope, $location, $id)
+  module.controller('RegisterCtrl', ['$scope', '$location', 'rpId', 'rpTracker',
+                                     function ($scope, $location, $id, $rpTracker)
   {
     if ($id.loginStatus) {
       $location.path('/balance');
       return;
     }
+
+    $rpTracker.track('Register page');
 
     $scope.backendChange = function()
     {

@@ -18,10 +18,12 @@ BalanceTab.prototype.generateHtml = function ()
 
 BalanceTab.prototype.angular = function (module)
 {
-  module.controller('BalanceCtrl', ['$scope', 'rpId', 'rpNetwork',
-                                     function ($scope, $id, $network)
+  module.controller('BalanceCtrl', ['$scope', 'rpId', 'rpNetwork', 'rpTracker',
+                                     function ($scope, $id, $network, $rpTracker)
   {
     if (!$id.loginStatus) return $id.goId();
+
+    $rpTracker.track('Balance page');
 
     $scope.transactions = [];
     $scope.current_page = 1;

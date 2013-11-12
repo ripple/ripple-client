@@ -16,10 +16,12 @@ SecurityTab.prototype.generateHtml = function ()
 };
 
 SecurityTab.prototype.angular = function (module) {
-  module.controller('SecurityCtrl', ['$scope', 'rpId', 'rpOldBlob',
-                                     function ($scope, $id, $blob)
+  module.controller('SecurityCtrl', ['$scope', 'rpId', 'rpOldBlob', 'rpTracker',
+                                     function ($scope, $id, $blob, $rpTracker)
   {
     if (!$id.loginStatus) return $id.goId();
+
+    $rpTracker.track('Security page');
 
     $scope.$watch('userBlob', updateEnc, true);
 

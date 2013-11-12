@@ -32,6 +32,12 @@ var Options = {
 //    'bitcoin': 'localhost:3000'
 //    'bitcoin': 'https://www.bitstamp.net/ripple/bridge/out/bitcoin/'
     }
+  },
+
+  mixpanel: {
+    "token": '',
+    // Don't track events by default
+    "track": false
   }
 };
 

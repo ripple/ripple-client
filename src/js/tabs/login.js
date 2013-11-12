@@ -19,15 +19,17 @@ LoginTab.prototype.generateHtml = function ()
 LoginTab.prototype.angular = function (module) {
   module.controller('LoginCtrl', ['$scope', '$element', '$routeParams',
                                   '$location', 'rpId', '$rootScope',
-                                  'rpPopup', '$timeout',
+                                  'rpPopup', '$timeout', 'rpTracker',
                                   function ($scope, $element, $routeParams,
                                             $location, $id, $rootScope,
-                                            popup, $timeout)
+                                            popup, $timeout, $rpTracker)
   {
     if ($id.loginStatus) {
       $location.path('/balance');
       return;
     }
+
+    $rpTracker.track('Login page');
 
     $scope.backendChange = function()
     {

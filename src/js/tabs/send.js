@@ -23,11 +23,13 @@ SendTab.prototype.generateHtml = function ()
 SendTab.prototype.angular = function (module)
 {
   module.controller('SendCtrl', ['$scope', '$timeout', '$routeParams', 'rpId',
-                                 'rpNetwork', 'rpFederation',
+                                 'rpNetwork', 'rpFederation', 'rpTracker',
                                  function ($scope, $timeout, $routeParams, $id,
-                                           $network, $federation)
+                                           $network, $federation, $rpTracker)
   {
     if (!$id.loginStatus) return $id.goId();
+
+    $rpTracker.track('Send page');
 
     // XRP currency object.
     // {name: "XRP - Ripples", order: 146, value: "XRP"}

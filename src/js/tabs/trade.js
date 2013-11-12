@@ -25,10 +25,12 @@ TradeTab.prototype.extraRoutes = [
 
 TradeTab.prototype.angular = function(module)
 {
-  module.controller('TradeCtrl', ['rpBooks', '$scope', 'rpId', 'rpNetwork', '$routeParams', '$location', '$filter',
-                                  function (books, $scope, $id, $network, $routeParams, $location, $filter)
+  module.controller('TradeCtrl', ['rpBooks', '$scope', 'rpId', 'rpNetwork', '$routeParams', '$location', '$filter', 'rpTracker',
+                                  function (books, $scope, $id, $network, $routeParams, $location, $filter, $rpTracker)
   {
     if (!$id.loginStatus) return $id.goId();
+
+    $rpTracker.track('Trade page');
 
     $scope.bookFormatted = {};
 

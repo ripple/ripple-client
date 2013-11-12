@@ -20,10 +20,12 @@ TrustTab.prototype.generateHtml = function ()
 
 TrustTab.prototype.angular = function (module)
 {
-  module.controller('TrustCtrl', ['$scope', '$timeout', '$routeParams', 'rpId', '$filter', 'rpNetwork',
-                                  function ($scope, $timeout, $routeParams, $id, $filter, $network)
+  module.controller('TrustCtrl', ['$scope', '$timeout', '$routeParams', 'rpId', '$filter', 'rpNetwork', 'rpTracker',
+                                  function ($scope, $timeout, $routeParams, $id, $filter, $network, $rpTracker)
   {
     if (!$id.loginStatus) return $id.goId();
+
+    $rpTracker.track('Trust page');
 
     // Trust line sorting
     $scope.sorting = {

@@ -15,6 +15,7 @@ require('../directives/jade');
 require('../filters/filters');
 require('../services/globalwrappers');
 require('../services/id');
+require('../services/tracker');
 require('../services/oldblob');
 require('../services/network');
 require('../services/books');
@@ -32,6 +33,7 @@ var app = angular.module('rp', [
   'status',
   // Services
   'id',
+  'tracker',
   // Directives
   'charts',
   'effects',

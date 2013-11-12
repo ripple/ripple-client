@@ -20,58 +20,60 @@ ContactsTab.prototype.generateHtml = function ()
 };
 
 ContactsTab.prototype.angular = function (module) {
-  module.controller('ContactsCtrl', ['$scope', 'rpId',
-    function ($scope, $id)
+  module.controller('ContactsCtrl', ['$scope', 'rpId', 'rpTracker',
+    function ($scope, $id, $rpTracker)
+  {
+    if (!$id.loginStatus) return $id.goId();
+
+    $rpTracker.track('Contacts page');
+
+    $scope.reset_form = function ()
     {
-      if (!$id.loginStatus) return $id.goId();
-
-      $scope.reset_form = function ()
-      {
-        $scope.contact = {
-          name: '',
-          address: ''
-        };
-        if ($scope.addForm) $scope.addForm.$setPristine();
+      $scope.contact = {
+        name: '',
+        address: ''
       };
+      if ($scope.addForm) $scope.addForm.$setPristine();
+    };
 
+    $scope.reset_form();
+
+    /**
+     * Toggle "add contact" form
+     */
+    $scope.toggle_form = function ()
+    {
+      $scope.addform_visible = !$scope.addform_visible;
       $scope.reset_form();
+    };
 
-      /**
-       * Toggle "add contact" form
-       */
-      $scope.toggle_form = function ()
-      {
-        $scope.addform_visible = !$scope.addform_visible;
-        $scope.reset_form();
+    /**
+     * Create contact
+     */
+    $scope.create = function ()
+    {
+      var contact = {
+        name: $scope.contact.name,
+        address: $scope.contact.address
       };
 
-      /**
-       * Create contact
-       */
-      $scope.create = function ()
-      {
-        var contact = {
-          name: $scope.contact.name,
-          address: $scope.contact.address
-        };
+      if ($scope.contact.dt) {
+        contact.dt = $scope.contact.dt;
+      }
 
-        if ($scope.contact.dt) {
-          contact.dt = $scope.contact.dt;
-        }
+      // Enable the animation
+      $scope.enable_highlight = true;
 
-        // Enable the animation
-        $scope.enable_highlight = true;
+      // Add an element
+      $scope.userBlob.data.contacts.unshift(contact);
 
-        // Add an element
-        $scope.userBlob.data.contacts.unshift(contact);
+      // Hide the form
+      $scope.toggle_form();
 
-        // Hide the form
-        $scope.toggle_form();
-
-        // Clear form
-        $scope.reset_form();
-      };
-    }]);
+      // Clear form
+      $scope.reset_form();
+    };
+  }]);
 
   module.controller('ContactRowCtrl', ['$scope', '$location',
     function ($scope, $location) {

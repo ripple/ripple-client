@@ -20,10 +20,12 @@ ConvertTab.prototype.generateHtml = function ()
 
 ConvertTab.prototype.angular = function (module)
 {
-  module.controller('ConvertCtrl', ['$scope', '$timeout', '$routeParams', 'rpId', 'rpNetwork',
-    function ($scope, $timeout, $routeParams, $id, $network)
+  module.controller('ConvertCtrl', ['$scope', '$timeout', '$routeParams', 'rpId', 'rpNetwork', 'rpTracker',
+    function ($scope, $timeout, $routeParams, $id, $network, $rpTracker)
     {
       if (!$id.loginStatus) return $id.goId();
+
+      $rpTracker.track('Convert page');
 
       $scope.xrp = _.where($scope.currencies_all, {value: "XRP"})[0];
 

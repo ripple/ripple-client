@@ -17,10 +17,12 @@ HistoryTab.prototype.generateHtml = function ()
 };
 
 HistoryTab.prototype.angular = function (module) {
-  module.controller('HistoryCtrl', ['$scope', 'rpId', 'rpNetwork',
-                                     function ($scope, $id, $network)
+  module.controller('HistoryCtrl', ['$scope', 'rpId', 'rpNetwork', 'rpTracker',
+                                     function ($scope, $id, $network, $rpTracker)
   {
     if (!$id.loginStatus) return $id.goId();
+
+    $rpTracker.track('History page');
 
     // Latest transaction
     var latest;
