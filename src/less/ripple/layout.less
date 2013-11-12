@@ -76,9 +76,17 @@ body.loaded #appLoading {
   top: 15px;
   left: @grid-gutter-width / 2;
 
-  img {
+  a {
+    display: block;
     width: 228px;
     height: 55px;
+    background: url('../../img/logo.png');
+
+    // Pixel ratio: 2
+    @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min-device-pixel-ratio: 2) {
+      background: url('../../img/logo_l.png');
+      background-size: 228px 55px;
+    }
   }
 }
 
