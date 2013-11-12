@@ -725,7 +725,7 @@ SendTab.prototype.angular = function (module)
 
       $scope.mode = "confirm";
 
-      $rpTracker.track('Send prepared', {
+      $rpTracker.track('Send confirmation page', {
         'currency': $scope.send.currency_code
       });
     };
@@ -835,11 +835,6 @@ SendTab.prototype.angular = function (module)
 
       tx.on('proposed', function (res) {
         $scope.onTransactionProposed(res, tx);
-
-        $rpTracker.track('Send transaction proposed', {
-          'currency': $scope.send.currency_code,
-          'message': res.engine_result_message
-        });
       });
 
       tx.on('error', function (res) {
@@ -886,26 +881,56 @@ SendTab.prototype.angular = function (module)
           break;
         case 'tem':
           $scope.tx_result = "malformed";
+          $rpTracker.track('Send failed', {
+            'currency': $scope.send.currency_code,
+            'message': res.engine_result_message
+          });
           break;
         case 'ter':
           $scope.tx_result = "failed";
+          $rpTracker.track('Send failed', {
+            'currency': $scope.send.currency_code,
+            'message': res.engine_result_message
+          });
           break;
         case 'tep':
           $scope.tx_result = "partial";
+          $rpTracker.track('Send failed', {
+            'currency': $scope.send.currency_code,
+            'message': res.engine_result_message
+          });
           break;
         case 'tec':
           $scope.tx_result = "claim";
+          $rpTracker.track('Send failed', {
+            'currency': $scope.send.currency_code,
+            'message': res.engine_result_message
+          });
           break;
         case 'tef':
           $scope.tx_result = "failure";
+          $rpTracker.track('Send failed', {
+            'currency': $scope.send.currency_code,
+            'message': res.engine_result_message
+          });
           break;
         case 'tel':
           $scope.tx_result = "local";
+          $rpTracker.track('Send failed', {
+            'currency': $scope.send.currency_code,
+            'message': res.engine_result_message
+          });
           break;
         default:
           console.warn("Unhandled engine status encountered!");
       }
-    }
+
+      if (accepted) {
+        $rpTracker.track('Send successfull', {
+          'currency': $scope.send.currency_code
+        });
+      }
+    };
 
     $scope.saveAddress = function () {
       $scope.addressSaving = true;
