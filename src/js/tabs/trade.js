@@ -494,7 +494,7 @@ TradeTab.prototype.angular = function(module)
 
         if ($scope.book.bids) {
           $scope.bookFormatted.bids.forEach(function(order){
-            order.sum = rpamountFilter(order.sum,{'precision':5,'max_sig_digits':20});
+            order.sum = rpamountFilter(order.sum,{'precision':5,'min_precision':5,'max_sig_digits':20});
             order.TakerPays = rpamountFilter(order.TakerPays,{'precision':5,'min_precision':5,'max_sig_digits':20});
             order.price = rpamountFilter(order.price,{'precision':5,'min_precision':5,'max_sig_digits':20});
           });
