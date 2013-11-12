@@ -72,6 +72,8 @@ ContactsTab.prototype.angular = function (module) {
 
       // Clear form
       $scope.reset_form();
+
+      $rpTracker.track('Contact added');
     };
   }]);
 

@@ -724,6 +724,10 @@ SendTab.prototype.angular = function (module)
       }, 1000, true);
 
       $scope.mode = "confirm";
+
+      $rpTracker.track('Send prepared', {
+        'currency': $scope.send.currency_code
+      });
     };
 
     /**
@@ -831,15 +835,29 @@ SendTab.prototype.angular = function (module)
 
       tx.on('proposed', function (res) {
         $scope.onTransactionProposed(res, tx);
+
+        $rpTracker.track('Send transaction proposed', {
+          'currency': $scope.send.currency_code,
+          'message': res.engine_result_message
+        });
       });
 
       tx.on('error', function (res) {
         $scope.onTransactionError(res, tx);
+
+        $rpTracker.track('Send transaction error', {
+          'currency': $scope.send.currency_code,
+          'message': res.engine_result_message
+        });
       });
 
       tx.submit();
 
       $scope.mode = "sending";
+
+      $rpTracker.track('Send confirmed', {
+        'currency': $scope.send.currency_code
+      });
     };
 
     /**

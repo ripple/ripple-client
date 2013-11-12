@@ -157,6 +157,10 @@ TrustTab.prototype.angular = function (module)
           });
         })
         .request();
+
+      $rpTracker.track('Trust prepared', {
+        'currency': $scope.currency.slice(0, 3).toUpperCase()
+      });
     };
 
     /**
@@ -193,18 +197,31 @@ TrustTab.prototype.angular = function (module)
               });
             }
           });
+
+          $rpTracker.track('Trust proposed', {
+            'currency': $scope.currency.slice(0, 3).toUpperCase()
+          });
         })
-        .on('error', function(){
+        .on('error', function(res){
           setImmediate(function () {
             $scope.$apply(function () {
               $scope.mode = 'error';
             });
+          });
+
+          $rpTracker.track('Trust failed', {
+            'currency': $scope.currency.slice(0, 3).toUpperCase(),
+            'message': res
           });
         })
         .submit()
       ;
 
       $scope.mode = 'granting';
+
+      $rpTracker.track('Trust confirmed', {
+        'currency': $scope.currency.slice(0, 3).toUpperCase()
+      });
     };
 
     /**
