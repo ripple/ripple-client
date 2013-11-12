@@ -29,8 +29,6 @@ LoginTab.prototype.angular = function (module) {
       return;
     }
 
-    $rpTracker.track('Login page');
-
     $scope.backendChange = function()
     {
       $id.blobBackends = $scope.blobBackendCollection.something.value.split(',');
@@ -124,8 +122,15 @@ LoginTab.prototype.angular = function (module) {
               $scope.backendMessages.push({'backend': "ID", 'message': err.message});
             }
 
+            $rpTracker.track('Login failed', {
+              'message': err.message,
+              'blob': $scope.blobBackendCollection.something.name
+            });
+
             return;
           }
+
+          $rpTracker.track('Login successfull');
 
           $scope.status = '';
           if ($routeParams.tab) {
@@ -140,6 +145,8 @@ LoginTab.prototype.angular = function (module) {
       $scope.error = '';
       $scope.status = 'Fetching wallet...';
     };
+
+    $rpTracker.track('Login page');
   }]);
 
   /**
