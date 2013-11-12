@@ -158,7 +158,7 @@ TrustTab.prototype.angular = function (module)
         })
         .request();
 
-      $rpTracker.track('Trust prepared', {
+      $rpTracker.track('Trust confirmation page', {
         'currency': $scope.currency.slice(0, 3).toUpperCase()
       });
     };
@@ -196,10 +196,6 @@ TrustTab.prototype.angular = function (module)
                 'order': 1
               });
             }
-          });
-
-          $rpTracker.track('Trust proposed', {
-            'currency': $scope.currency.slice(0, 3).toUpperCase()
           });
         })
         .on('error', function(res){
@@ -251,18 +247,36 @@ TrustTab.prototype.angular = function (module)
           break;
         case 'tem':
           $scope.tx_result = 'malformed';
+          $rpTracker.track('Trust failed', {
+            'currency': $scope.currency.slice(0, 3).toUpperCase()
+          });
           break;
         case 'ter':
           $scope.tx_result = 'failed';
+          $rpTracker.track('Trust failed', {
+            'currency': $scope.currency.slice(0, 3).toUpperCase()
+          });
           break;
         case 'tec':
           $scope.tx_result = 'failed';
+          $rpTracker.track('Trust failed', {
+            'currency': $scope.currency.slice(0, 3).toUpperCase()
+          });
           break;
         case 'tel':
           $scope.tx_result = "local";
+          $rpTracker.track('Trust failed', {
+            'currency': $scope.currency.slice(0, 3).toUpperCase()
+          });
           break;
         case 'tep':
           console.warn('Unhandled engine status encountered!');
+      }
+
+      if (accepted) {
+        $rpTracker.track('Trust successful', {
+          'currency': $scope.currency.slice(0, 3).toUpperCase()
+        });
       }
     }
 
