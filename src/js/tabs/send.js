@@ -569,6 +569,8 @@ SendTab.prototype.angular = function (module)
                                          recipient,
                                          amount);
 
+      send.pathfind = pf;
+
       pf.on('update', function (upd) {
         $scope.$apply(function () {
           // Check if this request is still current, exit if not
@@ -692,6 +694,10 @@ SendTab.prototype.angular = function (module)
     $scope.cancelConfirm = function () {
       $scope.mode = "form";
       $scope.send.alt = null;
+
+      // Force pathfinding reset
+      $scope.send.last_am_recipient = null;
+      $scope.update_paths();
     };
 
     $scope.resetAddressForm = function() {
@@ -721,6 +727,16 @@ SendTab.prototype.angular = function (module)
       $timeout(function () {
         $scope.confirm_wait = false;
       }, 1000, true);
+
+      // Stop the pathfind - once we're on the confirmation page, we'll freeze
+      // the last state we had so the user doesn't get surprises when
+      // submitting.
+      // XXX ST: The confirmation page should warn you somehow once it becomes
+      //         outdated.
+      if ($scope.send.pathfind) {
+        $scope.send.pathfind.close();
+        delete $scope.send.pathfind;
+      }
 
       $scope.mode = "confirm";
 
@@ -932,6 +948,14 @@ SendTab.prototype.angular = function (module)
 
       $scope.userBlob.data.contacts.unshift(contact);
     };
+
+    $scope.$on("$destroy", function () {
+      // Stop pathfinding if the user leaves the tab
+      if ($scope.send.pathfind) {
+        $scope.send.pathfind.close();
+        delete $scope.send.pathfind;
+      }
+    });
 
     $scope.reset();
 
