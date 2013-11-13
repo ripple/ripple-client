@@ -741,7 +741,7 @@ SendTab.prototype.angular = function (module)
       $scope.mode = "confirm";
 
       $rpTracker.track('Send confirmation page', {
-        'currency': $scope.send.currency_code
+        'Currency': $scope.send.currency_code
       });
     };
 
@@ -868,7 +868,7 @@ SendTab.prototype.angular = function (module)
         $scope.onTransactionError(res, tx);
 
         $rpTracker.track('Send transaction error', {
-          'currency': $scope.send.currency_code,
+          'Currency': $scope.send.currency_code,
           'message': res.engine_result_message
         });
       });
@@ -878,7 +878,7 @@ SendTab.prototype.angular = function (module)
       $scope.mode = "sending";
 
       $rpTracker.track('Send confirmed', {
-        'currency': $scope.send.currency_code
+        'Currency': $scope.send.currency_code
       });
     };
 

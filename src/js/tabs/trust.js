@@ -157,7 +157,7 @@ TrustTab.prototype.angular = function (module)
         .request();
 
       $rpTracker.track('Trust confirmation page', {
-        'currency': $scope.currency.slice(0, 3).toUpperCase()
+        'Currency': $scope.currency.slice(0, 3).toUpperCase()
       });
     };
 
@@ -204,7 +204,7 @@ TrustTab.prototype.angular = function (module)
           });
 
           $rpTracker.track('Trust failed', {
-            'currency': $scope.currency.slice(0, 3).toUpperCase(),
+            'Currency': $scope.currency.slice(0, 3).toUpperCase(),
             'message': res
           });
         })
@@ -214,7 +214,7 @@ TrustTab.prototype.angular = function (module)
       $scope.mode = 'granting';
 
       $rpTracker.track('Trust confirmed', {
-        'currency': $scope.currency.slice(0, 3).toUpperCase()
+        'Currency': $scope.currency.slice(0, 3).toUpperCase()
       });
     };
 
@@ -246,25 +246,25 @@ TrustTab.prototype.angular = function (module)
         case 'tem':
           $scope.tx_result = 'malformed';
           $rpTracker.track('Trust failed', {
-            'currency': $scope.currency.slice(0, 3).toUpperCase()
+            'Currency': $scope.currency.slice(0, 3).toUpperCase()
           });
           break;
         case 'ter':
           $scope.tx_result = 'failed';
           $rpTracker.track('Trust failed', {
-            'currency': $scope.currency.slice(0, 3).toUpperCase()
+            'Currency': $scope.currency.slice(0, 3).toUpperCase()
           });
           break;
         case 'tec':
           $scope.tx_result = 'failed';
           $rpTracker.track('Trust failed', {
-            'currency': $scope.currency.slice(0, 3).toUpperCase()
+            'Currency': $scope.currency.slice(0, 3).toUpperCase()
           });
           break;
         case 'tel':
           $scope.tx_result = "local";
           $rpTracker.track('Trust failed', {
-            'currency': $scope.currency.slice(0, 3).toUpperCase()
+            'Currency': $scope.currency.slice(0, 3).toUpperCase()
           });
           break;
         case 'tep':
@@ -273,7 +273,7 @@ TrustTab.prototype.angular = function (module)
 
       if (accepted) {
         $rpTracker.track('Trust successful', {
-          'currency': $scope.currency.slice(0, 3).toUpperCase()
+          'Currency': $scope.currency.slice(0, 3).toUpperCase()
         });
       }
     }

@@ -200,19 +200,19 @@ TradeTab.prototype.angular = function(module)
           break;
         case 'tem':
           $scope.tx_result = "malformed";
-          $rpTracker.track('Trade order failed',{'message':res.engine_result_message});
+          $rpTracker.track('Trade order failed',{'Message':res.engine_result_message});
           break;
         case 'ter':
           $scope.tx_result = "failed";
-          $rpTracker.track('Trade order failed',{'message':res.engine_result_message});
+          $rpTracker.track('Trade order failed',{'Message':res.engine_result_message});
           break;
         case 'tec':
           $scope.tx_result = "claim";
-          $rpTracker.track('Trade order failed',{'message':res.engine_result_message});
+          $rpTracker.track('Trade order failed',{'Message':res.engine_result_message});
           break;
         case 'tel':
           $scope.tx_result = "local";
-          $rpTracker.track('Trade order failed',{'message':res.engine_result_message});
+          $rpTracker.track('Trade order failed',{'Message':res.engine_result_message});
           break;
         //case 'tep':
         default:
