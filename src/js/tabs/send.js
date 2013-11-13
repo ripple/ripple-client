@@ -29,8 +29,6 @@ SendTab.prototype.angular = function (module)
   {
     if (!$id.loginStatus) return $id.goId();
 
-    $rpTracker.track('Send page');
-
     // XRP currency object.
     // {name: "XRP - Ripples", order: 146, value: "XRP"}
     $scope.xrp = _.where($scope.currencies_all, {value: "XRP"})[0];
@@ -950,6 +948,8 @@ SendTab.prototype.angular = function (module)
     };
 
     $scope.reset();
+
+    $rpTracker.track('Page View', {'Page Name': 'Send'});
   }]);
 
   /**

@@ -146,7 +146,7 @@ LoginTab.prototype.angular = function (module) {
       $scope.status = 'Fetching wallet...';
     };
 
-    $rpTracker.track('Login page');
+    $rpTracker.track('Page View', {'Page Name': 'Login'});
   }]);
 
   /**

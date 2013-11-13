@@ -25,8 +25,6 @@ TrustTab.prototype.angular = function (module)
   {
     if (!$id.loginStatus) return $id.goId();
 
-    $rpTracker.track('Trust page');
-
     // Trust line sorting
     $scope.sorting = {
       predicate: 'balance',
@@ -336,6 +334,8 @@ TrustTab.prototype.angular = function (module)
     $scope.currency_query = webutil.queryFromOptions($scope.currencies);
 
     $scope.reset();
+
+    $rpTracker.track('Page View', {'Page Name': 'Trust'});
   }]);
 };
 

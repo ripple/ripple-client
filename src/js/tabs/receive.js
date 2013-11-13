@@ -16,8 +16,6 @@ ReceiveTab.prototype.angular = function (module) {
   {
     if (!$id.loginStatus) return $id.goId();
 
-    $rpTracker.track('Receive page');
-
      // watch the address function and detect when it changes so we can inject the qr
     $scope.$watch('address', function(){
       if ($scope.address !== undefined)
@@ -54,6 +52,8 @@ ReceiveTab.prototype.angular = function (module) {
         }, 800);
     }
     */
+
+    $rpTracker.track('Page View', {'Page Name': 'Receive'});
   }]);
 };
 

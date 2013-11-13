@@ -25,8 +25,6 @@ ConvertTab.prototype.angular = function (module)
     {
       if (!$id.loginStatus) return $id.goId();
 
-      $rpTracker.track('Convert page');
-
       $scope.xrp = _.where($scope.currencies_all, {value: "XRP"})[0];
 
       $scope.$watch('convert.amount', function () {
@@ -269,6 +267,8 @@ ConvertTab.prototype.angular = function (module)
       }
 
       $scope.reset();
+
+      $rpTracker.track('Page View', {'Page Name': 'Convert'});
     }]);
 
   /**

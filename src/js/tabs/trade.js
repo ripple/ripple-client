@@ -573,8 +573,7 @@ TradeTab.prototype.angular = function(module)
       updateSettings();
     }
 
-    $rpTracker.track('Trade page');
-
+    $rpTracker.track('Page View', {'Page Name': 'Trade'});
   }]);
 };
 

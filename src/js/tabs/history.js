@@ -22,8 +22,6 @@ HistoryTab.prototype.angular = function (module) {
   {
     if (!$id.loginStatus) return $id.goId();
 
-    $rpTracker.track('History page');
-
     // Latest transaction
     var latest;
 
@@ -399,6 +397,8 @@ HistoryTab.prototype.angular = function (module) {
         });
       }).request();
     }
+
+    $rpTracker.track('Page View', {'Page Name': 'History'});
   }]);
 };
 

@@ -25,8 +25,6 @@ ContactsTab.prototype.angular = function (module) {
   {
     if (!$id.loginStatus) return $id.goId();
 
-    $rpTracker.track('Contacts page');
-
     $scope.reset_form = function ()
     {
       $scope.contact = {
@@ -75,6 +73,8 @@ ContactsTab.prototype.angular = function (module) {
 
       $rpTracker.track('Contact added');
     };
+
+    $rpTracker.track('Page View', {'Page Name': 'Contacts'});
   }]);
 
   module.controller('ContactRowCtrl', ['$scope', '$location',

@@ -43,7 +43,7 @@ OptionsTab.prototype.angular = function(module)
       location.reload();
     };
 
-    $rpTracker.track('Options page');
+    $rpTracker.track('Page View', {'Page Name': 'Options'});
   }]);
 };
 

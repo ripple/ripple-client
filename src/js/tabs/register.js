@@ -25,9 +25,7 @@ RegisterTab.prototype.angular = function (module) {
     if ($id.loginStatus) {
       $location.path('/balance');
       return;
-    }
-
-    $rpTracker.track('Register page');
+    };
 
     $scope.backendChange = function()
     {
@@ -122,6 +120,8 @@ RegisterTab.prototype.angular = function (module) {
     };
 
     $scope.reset();
+
+    $rpTracker.track('Page View', {'Page Name': 'Register'});
   }]);
 };
 

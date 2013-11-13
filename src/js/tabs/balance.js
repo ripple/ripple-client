@@ -23,8 +23,6 @@ BalanceTab.prototype.angular = function (module)
   {
     if (!$id.loginStatus) return $id.goId();
 
-    $rpTracker.track('Balance page');
-
     $scope.transactions = [];
     $scope.current_page = 1;
 
@@ -130,6 +128,8 @@ BalanceTab.prototype.angular = function (module)
       $scope.reset();
       $scope.loadMore();
     });
+
+    $rpTracker.track('Page View', {'Page Name': 'Balance'});
   }]);
 };
 
