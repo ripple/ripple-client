@@ -6,7 +6,7 @@ var module = angular.module('tracker', []);
 
 module.factory('rpTracker', ['$rootScope', function ($scope) {
   var track = function (event,properties) {
-    if (Options.mixpanel.track) {
+    if (Options.mixpanel && Options.mixpanel.track) {
       mixpanel.track(event,properties);
     }
   };
