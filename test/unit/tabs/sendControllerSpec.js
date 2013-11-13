@@ -563,22 +563,10 @@ describe('SendCtrl', function(){
     });
 
     describe("handling errors from the server", function () {
-
-      describe("a no path error", function (done) {
-        it('should set the mode to status', function (done) {
-          var res = { error: 'remoteError', remote: { error: 'noPath' }};
-          scope.onTransactionError(res, null);          
-          setTimeout(function (){
-            assert.equal(scope.mode, "status");
-            done();
-          }, 10);
-        });
-      });
-
-      describe("any other error", function (done) {
+      describe("any error", function (done) {
         it('should set the mode to error', function (done) {
           var res = { error: null };
-          scope.onTransactionError(res, null);          
+          scope.onTransactionError(res, null);
           setTimeout(function (){
             assert.equal(scope.mode, "error");
             done();
@@ -699,30 +687,6 @@ describe('SendCtrl', function(){
       });
     });
 
-    describe("when the response code is 'tem'", function() {
-      beforeEach(function () {
-        res.engine_result = 'tem';
-      })
-
-      it("should set the transaction result to malformed", function (done) {
-        scope.setEngineStatus(res, true);
-        assert.equal(scope.tx_result, 'malformed');
-        done();
-      });
-    });
-
-    describe("when the response code is 'ter'", function() {
-      beforeEach(function () {
-        res.engine_result = 'ter';
-      })
-
-      it("should set the transaction result to failed", function (done) {
-        scope.setEngineStatus(res, true);
-        assert.equal(scope.tx_result, 'failed');
-        done();
-      });
-    });
-
     describe("when the response code is 'tep'", function() {
       beforeEach(function () {
         res.engine_result = 'tep';
@@ -731,42 +695,6 @@ describe('SendCtrl', function(){
       it("should set the transaction result to partial", function (done) {
         scope.setEngineStatus(res, true);
         assert.equal(scope.tx_result, 'partial');
-        done();
-      });
-    });
-
-    describe("when the response code is 'tec'", function() {
-      beforeEach(function () {
-        res.engine_result = 'tec';
-      })
-
-      it("should set the transaction result to claim", function (done) {
-        scope.setEngineStatus(res, true);
-        assert.equal(scope.tx_result, 'claim');
-        done();
-      });
-    });
-
-    describe("when the response code is 'tef'", function() {
-      beforeEach(function () {
-        res.engine_result = 'tef';
-      })
-
-      it("should set the transaction result to failure", function (done) {
-        scope.setEngineStatus(res, true);
-        assert.equal(scope.tx_result, 'failure');
-        done();
-      });
-    });
-
-    describe("when the response code is 'tel'", function() {
-      beforeEach(function () {
-        res.engine_result = 'tel';
-      })
-
-      it("should set the transaction result to local", function (done) {
-        scope.setEngineStatus(res, true);
-        assert.equal(scope.tx_result, 'local');
         done();
       });
     });
