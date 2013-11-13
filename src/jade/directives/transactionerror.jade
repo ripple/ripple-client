@@ -1,0 +1,49 @@
+.transaction-error(ng-switch on="engine_result | rptruncate:3")
+  group(ng-switch-when='tes')
+    group.pending(ng-hide="accepted")
+      h2.tx-status(rp-l10n) Your transaction has been submitted.
+      p(rp-l10n) Your account balance will update once the transaction has cleared.
+    group.result-success(ng-show="accepted")
+      h2.tx-status(rp-l10n) Transaction cleared!
+  group.result-partial(ng-switch-when='tep')
+    h2.tx-status(rp-l10n) Transaction partially valid!
+    p(rp-l10n) Your transaction could only be partially applied.
+  group.result-malformed(ng-switch-when='tem')
+    h2.tx-status(rp-l10n) Transaction malformed!
+    p(ng-switch on="engine_result")
+      span(ng-switch-default, rp-l10n)
+        | Your transaction is invalid, reason: {{engine_result}} - {{engine_result_message}}
+  group.result-malformed(ng-switch-when='tef')
+    h2.tx-status(rp-l10n) Transaction malformed!
+    p(ng-switch on="engine_result")
+      span(ng-switch-when="tefDST_TAG_NEEDED", rp-l10n)
+        | Destination account requires destination tag to be specified when making payments.
+  group.result-failed(ng-switch-when='tel')
+    h2.tx-status(rp-l10n) Transaction failed!
+    p(ng-switch on="engine_result")
+      span(ng-switch-when="telINSUF_FEE_P", rp-l10n)
+        | The particular server you sent the transaction to was too busy to forward or process
+        | your transaction at the fee you included in it.
+  group.result-malformed(ng-switch-when='tec')
+    h2.tx-status(rp-l10n) Transaction failed!
+    p(ng-switch on="engine_result")
+      span(ng-switch-when="tecNO_DST", rp-l10n)
+        | The destination account does not exist.
+      span(ng-switch-when="tecNO_DST_INSUF_XRP", rp-l10n)
+        | The destination account does not exist. Too little XRP sent to create it.
+      span(ng-switch-default, rp-l10n)
+        | Error: {{engine_result_message}}
+  group.result-failed(ng-switch-when='ter')
+    h2.tx-status(rp-l10n) Transaction failed!
+    p(ng-switch on="engine_result")
+      span(ng-switch-when="terNO_LINE", rp-l10n)
+      | You have no trust line in this currency.
+    span(ng-switch-default, rp-l10n)
+      | Your transaction failed to clear: {{engine_result}} - {{engine_result_message}}
+  group.result-failed(ng-switch-when='tej')
+    h2.tx-status(rp-l10n) Transaction failed!
+    p(ng-switch on="engine_result")
+      span(ng-switch-when="tejLost", rp-l10n)
+      | Ripple client gave up trying to submit this transaction.
+    span(ng-switch-default, rp-l10n)
+      | Your transaction could not be submitted: {{engine_result}} - {{engine_result_message}}

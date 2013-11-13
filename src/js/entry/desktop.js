@@ -12,6 +12,7 @@ require('../directives/formatters');
 require('../directives/directives');
 require('../directives/datalinks');
 require('../directives/jade');
+require('../directives/errors');
 require('../filters/filters');
 require('../services/globalwrappers');
 require('../services/id');
@@ -44,6 +45,7 @@ var app = angular.module('rp', [
   'validators',
   'datalinks',
   'jade',
+  'errors',
   // Filters
   'filters'
 ]);

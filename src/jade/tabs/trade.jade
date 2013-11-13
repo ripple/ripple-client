@@ -261,7 +261,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
             p(ng-switch on="engine_result")
               span(ng-switch-default) {{engine_result_message}}
           hr
-          div(class="actionLink")
+          .actionLink
             a(href="#trade", ng-click="reset(true)") Submit another order
 
       .btn-group

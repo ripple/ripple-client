@@ -2,7 +2,8 @@ var util = require('util'),
     webutil = require('../util/web'),
     Tab = require('../client/tab').Tab,
     Amount = ripple.Amount,
-    Base = ripple.Base;
+    Base = ripple.Base,
+    RippleError = ripple.RippleError;
 
 var SendTab = function ()
 {
@@ -758,15 +759,23 @@ SendTab.prototype.angular = function (module)
       });
     };
 
+    $scope.onTransactionSuccess = function (res, tx) {
+      $scope.$apply(function () {
+        $scope.setEngineStatus(res, true);
+      });
+    };
+
     $scope.onTransactionError = function (res, tx) {
       setImmediate(function () {
         $scope.$apply(function () {
-          $scope.mode = "error";
-
-          if (res.error === 'remoteError' &&
-              res.remote.error === 'noPath') {
-            $scope.mode = "status";
-            $scope.tx_result = "noPath";
+          if (res.engine_result) {
+            $scope.setEngineStatus(res);
+          } else if (res.error === 'remoteError') {
+            $scope.mode = "error";
+            $scope.error_type = res.remote.error;
+          } else {
+            $scope.mode = "error";
+            $scope.error_type = "unknown";
           }
         });
       });
@@ -831,6 +840,10 @@ SendTab.prototype.angular = function (module)
         }
       }
 
+      tx.on('success', function (res) {
+        $scope.onTransactionSuccess(res, tx);
+      });
+
       tx.on('proposed', function (res) {
         $scope.onTransactionProposed(res, tx);
       });
@@ -854,7 +867,7 @@ SendTab.prototype.angular = function (module)
     };
 
     /**
-     * N6. Sent page
+     * N5. Sent page
      */
     $scope.sent = function (hash) {
       $scope.mode = "status";
@@ -873,60 +886,33 @@ SendTab.prototype.angular = function (module)
     $scope.setEngineStatus = function(res, accepted) {
       $scope.engine_result = res.engine_result;
       $scope.engine_result_message = res.engine_result_message;
+      $scope.engine_status_accepted = !!accepted;
+      $scope.mode = "status";
+      $scope.tx_result = "partial";
       switch (res.engine_result.slice(0, 3)) {
         case 'tes':
+          $scope.mode = "status";
           $scope.tx_result = accepted ? "cleared" : "pending";
-          break;
-        case 'tem':
-          $scope.tx_result = "malformed";
-          $rpTracker.track('Send failed', {
-            'currency': $scope.send.currency_code,
-            'message': res.engine_result_message
-          });
-          break;
-        case 'ter':
-          $scope.tx_result = "failed";
-          $rpTracker.track('Send failed', {
-            'currency': $scope.send.currency_code,
-            'message': res.engine_result_message
-          });
+          if (accepted) {
+            $rpTracker.track('Send successful', {
+              'currency': $scope.send.currency_code
+            });
+          }
           break;
         case 'tep':
+          $scope.mode = "status";
           $scope.tx_result = "partial";
           $rpTracker.track('Send failed', {
             'currency': $scope.send.currency_code,
             'message': res.engine_result_message
           });
           break;
-        case 'tec':
-          $scope.tx_result = "claim";
-          $rpTracker.track('Send failed', {
-            'currency': $scope.send.currency_code,
-            'message': res.engine_result_message
-          });
-          break;
-        case 'tef':
-          $scope.tx_result = "failure";
-          $rpTracker.track('Send failed', {
-            'currency': $scope.send.currency_code,
-            'message': res.engine_result_message
-          });
-          break;
-        case 'tel':
-          $scope.tx_result = "local";
-          $rpTracker.track('Send failed', {
-            'currency': $scope.send.currency_code,
-            'message': res.engine_result_message
-          });
-          break;
         default:
-          console.warn("Unhandled engine status encountered!");
-      }
-
-      if (accepted) {
-        $rpTracker.track('Send successfull', {
-          'currency': $scope.send.currency_code
-        });
+          $rpTracker.track('Send failed', {
+            'currency': $scope.send.currency_code,
+            'message': res.engine_result_message
+          });
+          $scope.mode = "rippleerror";
       }
     };
 
