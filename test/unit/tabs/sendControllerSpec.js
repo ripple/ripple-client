@@ -917,8 +917,75 @@ describe('SendCtrl', function(){
         network.remote.emit('transaction', data);
         assert(spy.called);
         done(); 
-      })
+      });
+    });
 
-    })
-  })
+    describe('reset', function () {
+      it('should set the mode to form', function (done) {
+        scope.mode = null;
+        scope.reset();
+        assert.equal(scope.mode, 'form');
+        done();
+      });
+
+      it('should clear out nickname and error_type', function (done) {
+        scope.nickname = 'raimundo';
+        scope.error_type = 'toomuch';
+        scope.reset();
+        scope.nickname = '';
+        scope.error_type = '';
+        done();
+      });
+
+      it('should reset the send object', function (done) {
+        scope.send = {
+          recipient: 'a',
+          recipient_name: 'b',
+          recipient_address: 'c',
+          recipient_prev: 'd',
+          recipient_info: { key: 'value' },
+          amount: 'e',
+          currency: 'i',
+          currency_choices: 'j',
+          currency_code: "f",
+          path_status: 'g',
+          fund_status: 'h',
+          sender_insufficient_xrp: true
+        };      
+
+        scope.xrp.name = '$scope.xrp.name';
+        scope.reset();
+
+        assert.equal(scope.send.recipient, '');
+        assert.equal(scope.send.recipient_name, '');
+        assert.equal(scope.send.recipient_address, '');
+        assert.equal(scope.send.recipient_prev, '');
+        assert.equal(scope.send.amount, '');  
+        assert.equal(scope.send.currency, '$scope.xrp.name');
+        assert.equal(scope.send.currency_code, 'XRP');
+        assert.equal(scope.send.path_status, 'waiting');
+        assert.equal(scope.send.fund_status, 'none');
+        assert.isFalse(scope.send.sender_insufficient_xrp);
+
+        done();
+      });
+
+      it('should reset the address form', function (done) {
+        spy = sinon.spy(scope, 'resetAddressForm');
+        scope.reset();
+        assert(spy.called);
+        done();
+      });
+
+      describe('when the sendForm is present', function () {
+        it('should set the address form to pristine', function (done) {
+          scope.sendForm = { $setPristine: function () {} };
+          spy = sinon.spy(scope.sendForm, '$setPristine');
+          scope.reset();
+          assert(spy.called);
+          done();
+        });
+      });
+    });
+  });
 });
