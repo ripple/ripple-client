@@ -130,7 +130,7 @@ LoginTab.prototype.angular = function (module) {
             return;
           }
 
-          $rpTracker.track('Login successfull');
+          $rpTracker.track('Login successful');
 
           $scope.status = '';
           if ($routeParams.tab) {
