@@ -74,6 +74,13 @@ SendTab.prototype.angular = function (module)
       $scope.update_amount();
     }, true);
 
+    // When the send form is invalid, path finding won't trigger. So if the form
+    // is changed by one of the update_* handlers and becomes valid during the
+    // next digest, we need to manually trigger another update_amount.
+    $scope.$watch('sendForm.$valid', function () {
+      $scope.update_amount();
+    });
+
     var destUpdateTimeout;
 
     // Reset everything that depends on the destination
@@ -296,6 +303,16 @@ SendTab.prototype.angular = function (module)
         send.currency_force = "BTC";
         send.currency = "BTC";
         return;
+      }
+
+      // Federation response can specific a fixed amount
+      if (send.federation_record &&
+          "undefined" !== typeof send.federation_record.amount) {
+        send.force_amount = Amount.from_json(send.federation_record.amount);
+        send.amount = send.force_amount.to_text();
+        send.currency_choices = [send.force_amount.currency().to_json()];
+        send.currency_force = send.force_amount.currency().to_json();
+        send.currency = send.currency_force;
       }
 
       // Apply federation currency restrictions

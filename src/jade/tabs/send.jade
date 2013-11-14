@@ -75,6 +75,7 @@ section.single.content(ng-controller='SendCtrl')
           name='send_amount', type='text'
           ng-model='send.amount'
           required
+          ng-disabled='!!send.force_amount'
           rp-autofill='$routeParams.amount'
           rp-autofill-amount
           rp-max-amount
