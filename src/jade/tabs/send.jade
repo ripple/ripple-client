@@ -126,7 +126,7 @@ section.single.content(ng-controller='SendCtrl')
               | Invalid source tag
     ul.tagsLinks
       li
-        a(href="", ng-click="send.show_dt_field = true", ng-hide="send.show_dt_field || send.bitcoin") Add Destination tag
+        a(href="", ng-click="send.show_dt_field = true", ng-hide="send.show_dt_field || send.bitcoin || send.federation") Add Destination tag
     .row
       .col-xs-12.col-sm-6.col-md-5(ng-show="send.currency_code == 'XRP'")
         button.btn.btn-block.btn-success.submit(type='submit', ng-disabled='sendForm.$invalid || send.self || !send.recipient_resolved') Send XRP
