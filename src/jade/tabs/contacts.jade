@@ -48,11 +48,10 @@ section.col-xs-12.col-md-10.content(ng-controller="ContactsCtrl")
           .errorGroup(rp-errors='dt')
             .error(rp-error-on='rpStdt')
               | Invalid destination tag
-        .row
-          // TODO ng-click, ng-submit
-          .col-xs-12.col-sm-4
+        .row.row-padding-small
+          .col-xs-6.col-sm-4
             button.btn.btn-default.btn-block(type='button', ng-click='addform_visible = false') Cancel
-          .col-xs-12.col-sm-8
+          .col-xs-6.col-sm-8
             button.btn.btn-success.btn-block.submit(type='submit', ng-disabled='addForm.$invalid') Add contact
   .row.row-padding-small.contact(ng-repeat="entry in userBlob.data.contacts"
     ng-class="{editing: editing}", ng-controller="ContactRowCtrl")
@@ -68,7 +67,7 @@ section.col-xs-12.col-md-10.content(ng-controller="ContactsCtrl")
           .errorGroup(rp-errors='editname')
             .error(rp-error-on='rpUnique')
               | You already have a contact with the same name.
-      span(ng-hide='editing') {{entry.name}}
+      span.name(ng-hide='editing') {{entry.name}}
     .col-xs-12.col-sm-6
       div(ng-show='editing')
         ng-form(name='inlineAddress')
@@ -113,10 +112,10 @@ section.col-xs-12.col-md-10.content(ng-controller="ContactsCtrl")
                 ng-click='update($index)') Save
 
       div(ng-hide='editing')
-        b {{entry.address | rpaddressorigin}}:
+        b.hidden-xs {{entry.address | rpaddressorigin}}:
         |  {{entry.address}}
     .col-xs-12.col-sm-3.text-right
-      .row
+      .row.padding-vertical-xs
         .col-xs-6(ng-hide='editing')
           button.edit.btn.btn-block.btn-default.btn-sm(ng-click='edit($index)') Edit
         .col-xs-6(ng-show='editing')

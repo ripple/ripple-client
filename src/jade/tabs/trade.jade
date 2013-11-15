@@ -205,10 +205,10 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
               span.value {{order.second_amount | rpamount}}
               span.currency  {{order.second_amount | rpcurrency}}
             p.literal Are you sure?
-            .row
-              .col-sm-offset-2.col-sm-4.col-md-offset-3.col-md-3
+            .row.row-padding-small
+              .col-xs-6.col-sm-offset-2.col-sm-4.col-md-offset-3.col-md-3
                 button.btn.btn-block.btn-default.back(type='button', ng-click='back()') &laquo; Back
-              .col-sm-4.col-md-3
+              .col-xs-6.col-sm-4.col-md-3
                 button.btn.btn-block.btn-success.submit(type='submit', ng-disabled='confirm_wait') Confirm
 
         //- 3. Sending
