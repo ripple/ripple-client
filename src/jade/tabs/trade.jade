@@ -267,13 +267,13 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
       .btn-group
         button.btn.btn-default(
           type="button"
+          ng-class="{'btn-info': order.listing == 'orderbook'}"
+          ng-click="setListing('orderbook')") Order book
+        button.btn.btn-default(
+          type="button"
           ng-disabled="!account.Balance"
           ng-class="{'btn-info': order.listing == 'my'}"
           ng-click="setListing('my')") My Orders
-        button.btn.btn-default(
-          type="button"
-          ng-class="{'btn-info': order.listing == 'orderbook'}"
-          ng-click="setListing('orderbook')") Order book
 
       .listings
         .my(ng-show="order.listing == 'my'")

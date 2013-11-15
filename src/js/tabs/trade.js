@@ -57,9 +57,7 @@ TradeTab.prototype.angular = function(module)
         listing = store.get('ripple_trade_listing');
       }
       else {
-        $scope.$watch('account',function(account){
-          $scope.order.listing = account.Balance ? 'my' : 'orderbook';
-        });
+        listing = 'orderbook';
       }
 
       $scope.mode = "trade";
