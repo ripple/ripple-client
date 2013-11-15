@@ -1,41 +1,26 @@
-html {
-    overflow-y: scroll;
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
 }
 
 body {
   background: #ededed;
   font-family: sans-serif;
-
-  @media (max-width: 767px) {
-    padding: 0;
-  }
 }
 body.loaded {
   background: #F9F9F9 url("../../img/bg_tile.png");
-}
-
-body:before, body:after {
-  .virtualel;
-  position: fixed;
-  left: 0;
-  width: 100%;
-  height: 126px;
-  z-index: 1;
-}
-body:before {
-  top: 0;
-  background-image: url('../../img/bg_top.png');
-}
-
-body:after {
-  bottom: 0;
-  background-image: url('../../img/bg_btm.png');
 }
 
 #wrapper {
   position: relative;
   z-index: 2;
   display: none;
+  background: #F9F9F9 url("../../img/bg_tile.png");
+
+  width: 100%;
+  height: 100%;
+  overflow: auto;
 }
 
 body.loaded #wrapper {
@@ -78,21 +63,29 @@ body.loaded #appLoading {
 
   a {
     display: block;
-    width: 228px;
-    height: 55px;
+    width: 218px;
+    height: 52px;
     background: url('../../img/logo.png');
 
     // Pixel ratio: 2
     @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min-device-pixel-ratio: 2) {
-      background: url('../../img/logo_l.png');
-      background-size: 228px 55px;
+      background: url('../../img/logo_2x.png');
+      background-size: 218px 52px;
     }
+  }
+
+  @media (max-width: @screen-sm-max) {
+    display: none;
   }
 }
 
 header {
   .clearfix();
   height: 145px;
+
+  @media (max-width: @screen-sm-max) {
+    height: 100px;
+  }
 }
 
 header nav {
@@ -118,7 +111,6 @@ header nav ul {
       color: #000;
       display: block;
       .transition-duration(0.2s);
-      background-image: url(../../img/sprite.png);
 
       span {
         padding: 35px 0 0 0;
@@ -142,61 +134,38 @@ header nav ul {
   }
 }
 
-#nav-wallet a {
-  background-position: -172px -102px;
-}
+.nav-icon {
+  background-image: url(../../img/sprite_menu.png);
 
-#nav-send a {
-  background-position: -52px -102px;
-}
+  &.nav-icon-wallet {background-position: 0px -10px;}
+  &.nav-icon-send {background-position: -60px -10px;}
+  &.nav-icon-receive {background-position: -120px -10px;}
+  &.nav-icon-trade {background-position: -180px -10px;}
+  &.nav-icon-advanced {background-position: -240px -10px;}
 
-#nav-receive a {
-  background-position: -113px -102px;
-}
-
-#nav-trade a {
-  background-position: 65px -102px;
-}
-
-#nav-advanced a {
-  background-position: 2px -102px;
-}
-
-// Pixel ratio: 2
-@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min-device-pixel-ratio: 2) {
-  header nav ul li a{
-    background-image: url('../../img/sprite_2x.png');
-    background-size: 300px 60px;
-  }
-
-  #nav-wallet a {
-    background-position: 0px -10px;
-  }
-
-  #nav-send a {
-    background-position: -60px -10px;
-  }
-
-  #nav-receive a {
-    background-position: -120px -10px;
-  }
-
-  #nav-trade a {
-    background-position: -180px -10px;
-  }
-
-  #nav-advanced a {
-    background-position: -240px -10px;
+  // Pixel ratio: 2
+  @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min-device-pixel-ratio: 2) {
+    background-image: url('../../img/sprite_menu_2x.png');
+    background-size: 300px 120px;
   }
 }
 
-#wrapper > .main {
+#wrapper .container {
+  position: relative;
+
+  @media (max-width: @screen-sm-max) {
+    .top-nav {
+      display: none;
+    }
+  }
+}
+#wrapper .container > .main {
   background-color: #fff;
   border: 1px solid #ccc;
   .rounded(5px);
   min-height: 500px;
 
-  @media (max-width: 767px) {
+  @media (max-width: @screen-xs-max) {
     .rounded(0px);
     border-left: 0;
     border-right: 0;
@@ -204,6 +173,64 @@ header nav ul {
 
   nav {
     padding: 0;
+
+    @media (max-width: @screen-sm-max) {
+      display: none;
+    }
+
+    & > ul {
+      font: 16px 'OpenSansRegular';
+      padding: 0;
+      margin: 0;
+      list-style: none;
+
+      > li {
+        > a {
+          position: relative;
+          display: block;
+          height: 60px;
+          color: #979797;
+          padding: 20px 0 20px 35px;
+          border-bottom: 1px solid #cacaca;
+          border-top: 1px solid #cacaca;
+          margin-top: -1px;
+          z-index: 10;
+          background: #f7f7f7;
+          .transition-duration(0.2s);
+
+          &:hover {
+            background-color: #fff;
+            text-decoration: none;
+          }
+
+          &:focus {
+            outline: none;
+          }
+        }
+
+        &.no-anim > a {
+          .transition-duration(0);
+        }
+
+        &:first-child > a {
+          border-top: 0 !important;
+          margin-top: 0;
+          .border-radius(0, 0, 0, 10px);
+        }
+
+        &.active {
+          > a {
+            position: relative;
+            color: #333;
+            background-color: #fff;
+            border-bottom: 1px solid #cacaca;
+            border-top: 1px solid #cacaca;
+            border-right: 0;
+            z-index: 25;
+          }
+        }
+      }
+    }
 
     h2 {
       display: none;
@@ -233,115 +260,12 @@ header nav ul {
     h2:hover:before {
       opacity: 1;
     }
-
-    @media (max-width: 767px) {
-      position: relative;
-      z-index: 25;
-
-      h2 {
-        display: block;
-      }
-    }
-  }
-
-  nav > ul {
-    font: 16px 'OpenSansRegular';
-    padding: 0;
-    margin: 0;
-    list-style: none;
-
-    > li {
-      > a {
-        position: relative;
-        display: block;
-        height: 60px;
-        color: #979797;
-        padding: 20px 0 20px 35px;
-        border-bottom: 1px solid #cacaca;
-        border-top: 1px solid #cacaca;
-        margin-top: -1px;
-        z-index: 10;
-        background: #f7f7f7;
-        .transition-duration(0.2s);
-
-        &:hover {
-          background-color: #fff;
-          text-decoration: none;
-        }
-
-        &:focus {
-          outline: none;
-        }
-      }
-
-      &.no-anim > a {
-        .transition-duration(0);
-      }
-
-      &:first-child > a {
-        border-top: 0 !important;
-        margin-top: 0;
-        .border-radius(0, 0, 0, 10px);
-      }
-
-      &.active {
-        > a {
-          position: relative;
-          color: #333;
-          background-color: #fff;
-          border-bottom: 1px solid #cacaca;
-          border-top: 1px solid #cacaca;
-          border-right: 0;
-          z-index: 25;
-        }
-      }
-    }
-
-    @media (max-width: 767px) {
-      > li.active {
-        width: @sideNavWidth - 1;
-        border-right: 1px solid #cacaca;
-        padding-right: 0;
-      }
-    }
-  }
-
-  nav {
-    &:before {
-      .virtualel;
-      position: absolute;
-      top: 0;
-      left: 0;
-      height: 100%;
-      width: 42px;
-      .border-radius(0, 0, 8px, 8px);
-      background-color: #f9f9f9;
-
-      @media (max-width: 767px) {
-        display: none;
-      }
-    }
-    &:after {
-      .virtualel;
-      position: relative;
-      top: 0;
-      left: 40px;
-      width: @sideNavWidth - 40px + 1px;
-      height: 100%;
-      border-right: 1px solid #cacaca;
-      z-index: 100;
-      background: #f9f9f9 url('../../img/subnav_shadow.png') repeat-y right top;
-
-      @media (max-width: 767px) {
-        display: none;
-      }
-    }
   }
 }
 
 @sideNavWidth: 150px;
 
-#wrapper > .main section {
+#wrapper .container > .main section {
   &.active {
     display: block;
   }
@@ -378,5 +302,96 @@ footer {
   [class*='col-'] {
     padding-left:  (@grid-gutter-width / 6);
     padding-right: (@grid-gutter-width / 6);
+  }
+}
+
+.mobile-nav {
+  position: absolute;
+  display: none;
+  top: 0;
+  right: auto;
+  bottom: 0;
+  left: 0;
+  width: 265px;
+  height: auto;
+  overflow: auto;
+  z-index: 1;
+  border-right: 1px solid #d9d9d9;
+  background: #fff;
+  -webkit-overflow-scrolling: touch;
+  -webkit-transition: width 0.3s ease;
+  -moz-transition: width 0.3s ease;
+  -ms-transition: width 0.3s ease;
+  -o-transition: width 0.3s ease;
+  transition: width 0.3s ease;
+
+  .logo {
+    width: 218px;
+    height: 52px;
+    margin: 30px 17px;
+    background: url('../../img/logo.png');
+
+    // Pixel ratio: 2
+    @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min-device-pixel-ratio: 2) {
+      background: url('../../img/logo_2x.png');
+      background-size: 218px 52px;
+    }
+  }
+
+  a {
+    display: block;
+    padding: 12px 0;
+    color: #333;
+    background: #EEEEEE;
+    margin: 3px 0;
+
+    &.sub {
+      padding: 8px 0 8px 70px;
+    }
+    &:hover {
+      background: darken(#EEEEEE,5%);
+      text-decoration: none;
+    }
+    &.active {
+      background: #428bca;
+      color: #fff;
+    }
+
+    &.wallet span,
+    &.send span,
+    &.receive span,
+    &.trade span,
+    &.advanced span {
+      float: left;
+      display: block;
+      width: 60px;
+      height: 40px;
+      margin-top: -10px;
+      background-image: url('../../img/sprite_menu.png');
+
+      // Pixel ratio: 2
+      @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min-device-pixel-ratio: 2) {
+        background-image: url('../../img/sprite_menu_2x.png');
+        background-size: 300px 120px;
+      }
+    }
+
+    &.wallet span {background-position: 0px -10px;}
+    &.send span {background-position: -60px -10px;}
+    &.receive span {background-position: -120px -10px;}
+    &.trade span {background-position: -180px -10px;}
+    &.advanced span {background-position: -240px -10px;}
+
+    &.active {
+      &.wallet span {background-position: 0px -70px;}
+      &.send span {background-position: -60px -70px;}
+      &.receive span {background-position: -120px -70px;}
+      &.trade span {background-position: -180px -70px;}
+      &.advanced span {background-position: -240px -70px;}
+    }
+  }
+
+  ul {
+    list-style-type: none;
   }
 }

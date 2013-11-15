@@ -34,7 +34,8 @@ module.exports = function(grunt) {
               "deps/js/bootstrap-popover.js",
               "deps/js/bootstrap-datepicker.js",
               "deps/js/jquery.qrcode.min.js",
-              "deps/js/spin.js"];
+              "deps/js/spin.js",
+              "deps/js/snap.js"];
 
   var deps_ie = ["compat/ie/base64/base64.js",
                  "compat/ie/ws/web_socket.js",

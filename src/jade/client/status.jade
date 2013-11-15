@@ -1,27 +1,34 @@
-#status(ng-controller="StatusCtrl", ng-class="{expand: show_secondary && balance_count >= 2}", ng-show="userCredentials.username")
-  .user
-    div
-      span.username(ng-show="shortUsername", rp-tooltip="{{userCredentials.username}}", rp-tooltip-placement="bottom") {{shortUsername}}
-      span.username(ng-hide="shortUsername") {{userCredentials.username}}
-      a.logout(ng-click='logout()') logout
-    .balance.primary(ng-show="!loadState.account")
-      | Loading your balance...
-    .balance.primary(ng-show="loadState.account && !account.LedgerEntryType")
-      | Unfunded account
-    .balance.primary(ng-show="loadState.account && account.LedgerEntryType")
-      span.amount {{account.Balance | rpamount:{precision: 0} }}
-      span.currency XRP
-    i.fa.fa-question-circle(ng-show="loadState.account && account.LedgerEntryType"
-      rp-popover
-      rp-popover-placement="bottom"
-      rp-popover-title='XRP Balance'
-      rp-popover-trigger="click"
-      //- TODO Better text
-      data-content='Your current XRP balance is {{account.Balance | rpamount:{precision: 2, max_sig_digits: 20} }}. Account reserve is {{ account.reserve | rpamount }} XRP. <br /><a href="https://ripple.com/wiki/Reserves" target="_blank">More information</a>')
-    ul.secondary
-      li.balance(ng-repeat="(index, balance) in orderedBalances", ng-class="{negative: balance.total.is_negative()}")
-        | {{balance.total | rpamount:{rel_precision: 0} }}
-        span.currency {{balance.total.currency().to_human()}}
-    a.toggle-secondary(ng-click="toggle_secondary()", ng-show="balance_count >= 2")
+#status.row(ng-controller="StatusCtrl", ng-class="{expand: show_secondary && balance_count >= 2}", ng-show="userCredentials.username")
+  .nav-toggle.col-xs-2
+    a.snapper-toggle(href="")
+      .fa.fa-align-justify
+  .user.col-xs-10.col-md-12
+    .row
+      .col-xs-8
+        span.username(ng-show="shortUsername", rp-tooltip="{{userCredentials.username}}", rp-tooltip-placement="bottom") {{shortUsername}}
+        span.username(ng-hide="shortUsername") {{userCredentials.username}}
+      a.col-xs-4.logout(href="", ng-click='logout()') logout
+    .row.balances
+      .col-xs-12(ng-show="!loadState.account")
+        | Loading your balance...
+      .col-xs-6(ng-show="loadState.account")
+        span.balance.primary(ng-show="!account.LedgerEntryType")
+          | Unfunded account
+        span.balance.primary(ng-show="account.LedgerEntryType")
+          span.amount {{account.Balance | rpamount:{precision: 0} }}
+          span.currency XRP
+        i.fa.fa-question-circle(ng-show="account.LedgerEntryType"
+          rp-popover
+          rp-popover-placement="bottom"
+          rp-popover-title='XRP Balance'
+          rp-popover-trigger="click"
+          //- TODO Better text
+          data-content='Your current XRP balance is {{account.Balance | rpamount:{precision: 2, max_sig_digits: 20} }}. Account reserve is {{ account.reserve | rpamount }} XRP. <br /><a href="https://ripple.com/wiki/Reserves" target="_blank">More information</a>')
+      .col-xs-6
+        ul.secondary
+          li.balance(ng-repeat="(index, balance) in orderedBalances", ng-class="{negative: balance.total.is_negative()}")
+            | {{balance.total | rpamount:{rel_precision: 0} }}
+            span.currency {{balance.total.currency().to_human()}}
+        a.toggle-secondary(ng-click="toggle_secondary()", ng-show="balance_count >= 2")
 a#status-anon(ng-hide="userCredentials.username", href="#/options")
   span Options

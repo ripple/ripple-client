@@ -4,7 +4,7 @@
 #status {
   position: absolute;
   top: 18px;
-  right: 0px;
+  right: @grid-gutter-width/2;
   width: @statusWidth;
   height: 81px;
   background-color: #fff;
@@ -12,41 +12,56 @@
   border: 1px solid #ccc;
   z-index: 20;
 
-  @media (min-width: 768px) and (max-width: 979px) {
-    .border-radius(0, 10px, 10px, 0);
-    top: 0;
+  .nav-toggle {
+    display: none;
+    font-size: 30px;
+    text-align: center;
+
+    a {
+      display: block;
+      margin: 20px 0px;
+      cursor: pointer;
+      color: #333;
+    }
   }
 
-  @media (max-width: 767px) {
-    position: relative;
+  @media (max-width: @screen-sm-max) {
     top: 0;
-    right: 0;
-    width: auto;
+    width: 100%;
+    .rounded(0 0 5px 5px);
+    border-top: none;
+
+    .nav-toggle {
+      display: block;
+    }
+  }
+
+  @media (max-width: @screen-xs-max) {
     .rounded(0);
-    .drop-shadow(0, 0, 0, 0);
-    border-bottom: 1px solid #ddd;
+    border-left: none;
+    border-right: none;
   }
 
   .user {
-    margin: 2px 20px 0;
-    border-bottom: 1px solid #b1b1b1;
     line-height: 40px;
 
     .tooltip {
       line-height: 20px;
     }
 
-    .logout {
-      float: right;
-      cursor: pointer;
-    }
-
     .fa-question-circle {
       display: inline-block;
       margin: 12px 0 0 5px;
       cursor: pointer;
-      float: left;
       color: #888;
+    }
+
+    .logout {
+      text-align: right;
+    }
+
+    .balances {
+      border-top: 1px solid #DADADA;
     }
   }
 
@@ -58,39 +73,19 @@
       margin-left: 3px;
       font-size: 11px;
     }
-
-    &.primary {
-      float: left;
-      margin-top: 7px;
-    }
-
-    .popover-title:before {
-      display: inline-block;
-      margin: 0 10px 0 0;
-      background: url('../../img/sprite.png') -200px -15px;
-      width: 20px;
-      height: 25px;
-      float: left;
-      content: '';
-    }
   }
 
   ul.secondary {
-    position: absolute;
-    top: 40px;
-    right: 0;
+    padding: 0;
     list-style-type: none;
-    margin: 0;
-    padding: 0 20px 0 0;
-    margin-top: 9px;
     background-color: #fff;
-    width: 169px;
     .border-radius(0, 10px, 10px, 0);
+    margin: 0 -@grid-gutter-width/2;
 
     li {
       text-align: right;
       padding-left: 4px;
-      padding-right: 20px;
+      padding-right: 35px;
       display: none;
     }
 
@@ -100,27 +95,26 @@
 
     // When not expanded we only show the first secondary currency.
     li:first-child {
-      border-left: 1px solid #b1b1b1;
+      border-left: 1px solid #DADADA;
       display: block;
+      line-height: 36px;
     }
   }
 
   .toggle-secondary {
-    position: absolute;
-    top: 34px;
-    right: 0;
-    height: 50px;
-    width: 40px;
     cursor: pointer;
+    position: absolute;
+    top: 14px;
+    right: 15px;
 
     // Dropdown arrow
     &:after {
       .virtualel;
-      position: absolute;
-      top: 23px;
-      right: 21px;
-      border: 5px solid transparent;
-      border-top: 4px solid #333;
+      display: block;
+      width: 14px;
+      border: 7px solid transparent;
+      border-top: 8px solid #888;
+      content: "";
     }
   }
 
@@ -129,38 +123,17 @@
     // expanded provides a smoother transition between the box shadows.
     .border-radius(5px, 0, 5px, 5px);
 
-    // Inside rounded corner
-    ul.secondary::before {
-      .virtualel;
-      position: absolute;
-      top: 22px;
-      left: -30px;
-      width: 20px;
-      height: 20px;
-      position: absolute;
-      border: 10px solid #fff;
-      .rounded(5px);
-      clip: rect(10px, 30px, 20px, 20px);
-      z-index: 20;
-    }
-
     // Show all secondary currencies
-    ul.secondary li {
-      display: block;
-      margin-bottom: 10px;
-    }
-
-    // Shadow for expanded secondary currencies
-    ul.secondary:after {
-      .virtualel;
-      position: absolute;
-      top: 30px;
-      right: -1px;
-      bottom: 0;
-      width: 170px;
-      .border-radius(0, 5px, 5px, 0);
-      border: 1px solid #ccc;
+    ul.secondary {
       border-top: none;
+      border: 1px solid #d9d9d9;
+      margin: 0 -@grid-gutter-width/2-1 0 -@grid-gutter-width/2;
+
+      li {
+        border: none;
+        display: block;
+        margin-bottom: 10px;
+      }
     }
   }
 }
@@ -171,8 +144,8 @@
   right: 0;
   width: @statusWidth;
 
-  @media (max-width: 979px) {
-    top: 37px !important;
+  @media (max-width: @screen-sm-max) {
+    width: 100%;
   }
 
   .notification {

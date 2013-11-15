@@ -30,65 +30,116 @@
   <script src="deps/js/modernizr-2.5.3.min.js"></script>
 </head>
 
-<body ng-class="{loaded: app_loaded}">
+<body ng-class="{loaded: app_loaded}" rp-snapper>
+  <div class="mobile-nav">
+    <div class="logo"></div>
+    <a href="#/balance" ng-class="{active: $route.current.mainMenu == 'wallet'}" class="wallet">
+      <span class="nav-icon nav-icon-wallet"></span>Wallet
+    </a>
+    <a href="#/balance" ng-class="{active: $route.current.tabName == 'balance'}" class="sub">Balance</a>
+    <a href="#/history" ng-class="{active: $route.current.tabName == 'history'}" class="sub">History</a>
+    <a href="#/contacts" ng-class="{active: $route.current.tabName == 'contacts'}" class="sub">Contacts</a>
+    <a href="#/convert" ng-class="{active: $route.current.tabName == 'convert'}" class="sub">Convert</a>
+    <a href="#/security" ng-class="{active: $route.current.tabName == 'security'}" class="sub">Security</a>
+
+    <a href="#/send" ng-class="{active: $route.current.mainMenu == 'send'}" class="send">
+      <span class="nav-icon nav-icon-send"></span>Send
+    </a>
+
+    <a href="#/receive" ng-class="{active: $route.current.mainMenu == 'receive'}" class="receive">
+      <span class="nav-icon nav-icon-receive"></span>Receive
+    </a>
+
+    <a href="#/trade" ng-class="{active: $route.current.mainMenu == 'trade'}" class="trade">
+      <span class="nav-icon nav-icon-trade"></span>Trade
+    </a>
+
+    <a href="#/trust" ng-class="{active: $route.current.mainMenu == 'advanced'}" class="advanced">
+      <span class="nav-icon nav-icon-advanced"></span>Advanced
+    </a>
+    <a href="#/trust" ng-class="{active: $route.current.tabName == 'trust'}" class="sub">Trust</a>
+    <a href="#/options" ng-class="{active: $route.current.tabName == 'options'}" class="sub">Options</a>
+  </div>
 
   <!-- WRAPPER -->
-  <div id="wrapper" class="container">
-    <!-- HEADER -->
-    <header>
+  <div id="wrapper">
+    <div class="container">
+      <!-- HEADER -->
+      <header>
 
-      <!-- LOGO -->
-      <div id="logo">
-        <a href="#/" title="Ripple"></a>
+        <!-- LOGO -->
+        <div id="logo">
+          <a href="#/" title="Ripple"></a>
+        </div>
+
+        <!-- NAV -->
+        <nav class="row top-nav">
+          <ul class="col-xs-12">
+            <li id="nav-wallet" ng-class="{active: $route.current.mainMenu == 'wallet'}" class="col-xs-2 col-md-1">
+              <a href="#/balance" class="nav-icon nav-icon-wallet">
+                <span>Wallet</span>
+              </a>
+            </li>
+            <li id="nav-send" ng-class="{active: $route.current.mainMenu == 'send'}" class="col-xs-2 col-md-1">
+              <a href="#/send" class="nav-icon nav-icon-send">
+                <span>Send</span>
+              </a>
+            </li>
+            <li id="nav-receive" ng-class="{active: $route.current.mainMenu == 'receive'}" class="col-xs-2 col-md-1">
+              <a href="#/receive" class="nav-icon nav-icon-receive">
+                <span>Receive</span>
+              </a>
+            </li>
+            <li id="nav-trade" ng-class="{active: $route.current.mainMenu == 'trade'}" class="col-xs-2 col-md-1">
+              <a href="#/trade" class="nav-icon nav-icon-trade">
+                <span>Trade</span>
+              </a>
+            </li>
+            <li id="nav-advanced" ng-class="{active: $route.current.mainMenu == 'advanced'}" class="col-xs-2 col-md-1">
+              <a href="#/trust" class="nav-icon nav-icon-advanced">
+                <span>Advanced</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+        <!-- ENDS NAV -->
+
+        <div rp-jade-replace="client/status.jade" scope="root"></div>
+      </header>
+      <!-- ENDS HEADER -->
+
+      <!-- MAIN -->
+      <div role="main" class="main row" id="{{$route.current.tabClass}}" ng-view>
       </div>
+      <!-- ENDS MAIN -->
 
-      <!-- NAV -->
-      <nav class="row">
-        <ul class="col-xs-12">
-          <li id="nav-wallet" ng-class="{active: $route.current.mainMenu == 'wallet'}" class="col-xs-2 col-md-1"><a href="#/balance"><span>Wallet</span></a></li>
-          <li id="nav-send" ng-class="{active: $route.current.mainMenu == 'send'}" class="col-xs-2 col-md-1"><a href="#/send"><span>Send</span></a></li>
-          <li id="nav-receive" ng-class="{active: $route.current.mainMenu == 'receive'}" class="col-xs-2 col-md-1"><a href="#/receive"><span>Receive</span></a></li>
-          <li id="nav-trade" ng-class="{active: $route.current.mainMenu == 'trade'}" class="col-xs-2 col-md-1"><a href="#/trade"><span>Trade</span></a></li>
-          <li id="nav-advanced" ng-class="{active: $route.current.mainMenu == 'advanced'}" class="col-xs-2 col-md-1"><a href="#/trust"><span>Advanced</span></a></li>
-        </ul>
-      </nav>
-      <!-- ENDS NAV -->
-      
-      <div rp-jade-replace="client/status.jade" scope="root"></div>
-    </header>
-    <!-- ENDS HEADER -->
-
-    <!-- MAIN -->
-    <div role="main" class="main row" id="{{$route.current.tabClass}}" ng-view>
+      <!-- FOOTER -->
+      <footer class="row">
+        <span class="col-sm-5">
+          Version: <!-- @echo VERSION --><!-- @ifdef MODE_DEBUG !>-debug<!-- @endif --><!-- @exclude -->[unprocessed]<!-- @endexclude -->
+        </span>
+        <span class="col-sm-7">
+          <a href="http://ripple.com/terms" target="_blank">Terms of Service</a> |
+          <a href="https://support.ripplelabs.com/home" target="_blank">Support</a> |
+          <a href="https://github.com/rippleFoundation/ripple-client/issues?state=open" target="_blank">Bug reports</a>
+        </span>
+      </footer>
+      <!-- ENDS FOOTER -->
     </div>
-    <!-- ENDS MAIN -->
+    <!-- ENDS WRAPPER -->
 
-    <!-- FOOTER -->
-    <footer class="row">
-      <span class="col-sm-5">
-        Version: <!-- @echo VERSION --><!-- @ifdef MODE_DEBUG !>-debug<!-- @endif --><!-- @exclude -->[unprocessed]<!-- @endexclude -->
-      </span>
-      <span class="col-sm-7">
-        <a href="http://ripple.com/terms" target="_blank">Terms of Service</a> |
-        <a href="https://support.ripplelabs.com/home" target="_blank">Support</a> |
-        <a href="https://github.com/rippleFoundation/ripple-client/issues?state=open" target="_blank">Bug reports</a>
-      </span>
-    </footer>
-    <!-- ENDS FOOTER -->
-  </div>
-  <!-- ENDS WRAPPER -->
+    <div id="appLoading">
+      <img src="img/loading.png" width="32" height="32" alt="" title="" />
+      Loading...
+    </div>
 
-  <div id="appLoading">
-    <img src="img/loading.png" width="32" height="32" alt="" title="" />
-    Loading...
-  </div>
-
-  <div id="noWebSockets">
-    <p>
-      We apologize, but the Ripple Client needs WebSockets in order to function.
-      Please refer to this page and download a browser that supports WebSockets. Thank you! <br />
-      <a href="http://caniuse.com/websockets">http://caniuse.com/websockets</a>
-    </p>
+    <div id="noWebSockets">
+      <p>
+        We apologize, but the Ripple Client needs WebSockets in order to function.
+        Please refer to this page and download a browser that supports WebSockets. Thank you! <br />
+        <a href="http://caniuse.com/websockets">http://caniuse.com/websockets</a>
+      </p>
+    </div>
   </div>
 
   <!-- JAVASCRIPT -->

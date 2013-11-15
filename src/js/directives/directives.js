@@ -520,3 +520,39 @@ module.directive('rpOffCanvasMenu', function() {
     }
   };
 });
+
+module.directive('rpSnapper', function() {
+  return function() {
+    var snapper = new Snap({
+      element: document.getElementById('wrapper'),
+      disable: 'right'
+    });
+
+    var checkSize = function(){
+      // screen-sm-max
+      if ($(window).width() > 991) {
+        snapper.disable();
+      } else {
+        $('.mobile-nav').show();
+        snapper.enable();
+      }
+    };
+
+    // Check
+    checkSize();
+
+    // Activate if resized to mobile size
+    $(window).resize(function(){
+      checkSize();
+    });
+
+    // Snapper toggle button
+    $('.snapper-toggle').click(function(){
+      snapper.state().state == 'closed' ? snapper.open('left') : snapper.close()
+    });
+
+    $('.mobile-nav').find('a').click(function(){
+      snapper.close();
+    })
+  }
+});
