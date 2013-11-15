@@ -25,7 +25,7 @@ RegisterTab.prototype.angular = function (module) {
     if ($id.loginStatus) {
       $location.path('/balance');
       return;
-    };
+    }
 
     $scope.backendChange = function()
     {
@@ -115,6 +115,14 @@ RegisterTab.prototype.angular = function (module) {
     {
       $scope.mode = 'form';
       $scope.reset();
+
+      $rpTracker.track('Sign Up', {
+        'Used key': !!$scope.masterkey,
+        'Password strength': $scope.strength,
+        'Blob': $scope.blobBackendCollection.something.name,
+        'Showed secret key': $scope.showSecret,
+        'Showed password': $scope.showPassword
+      });
 
       $location.path('/balance');
     };

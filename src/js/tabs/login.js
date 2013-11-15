@@ -122,15 +122,19 @@ LoginTab.prototype.angular = function (module) {
               $scope.backendMessages.push({'backend': "ID", 'message': err.message});
             }
 
-            $rpTracker.track('Login failed', {
-              'message': err.message,
-              'blob': $scope.blobBackendCollection.something.name
+            $rpTracker.track('Login', {
+              'Status': 'error',
+              'Message': err.message,
+              'Blob': $scope.blobBackendCollection.something.name
             });
 
             return;
           }
 
-          $rpTracker.track('Login successful');
+          $rpTracker.track('Login', {
+            'Status': 'success',
+            'Blob': $scope.blobBackendCollection.something.name
+          });
 
           $scope.status = '';
           if ($routeParams.tab) {

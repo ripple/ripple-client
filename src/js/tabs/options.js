@@ -37,8 +37,6 @@ OptionsTab.prototype.angular = function(module)
         mixpanel : $scope.mixpanel
       }));
 
-      $rpTracker.track('Options updated');
-
       // Reload
       location.reload();
     };

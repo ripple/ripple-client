@@ -588,6 +588,14 @@ SendTab.prototype.angular = function (module)
 
       send.pathfind = pf;
 
+      $rpTracker.track('Send pathfind', {
+        'Status': 'success',
+        'Currency': $scope.send.currency_code,
+        'Address Type': $scope.send.bitcoin ? 'bitcoin' :
+            $scope.send.federation ? 'federation' : 'ripple',
+        'Destination Tag': !!$scope.send.dt
+      });
+
       pf.on('update', function (upd) {
         $scope.$apply(function () {
           // Check if this request is still current, exit if not
@@ -627,12 +635,21 @@ SendTab.prototype.angular = function (module)
         });
       });
 
-      pf.on('error', function () {
+      pf.on('error', function (res) {
         setImmediate(function () {
           $scope.$apply(function () {
             send.path_status = "error";
           });
         });
+
+        $rpTracker.track('Send pathfind', {
+          'Status': 'error',
+          'Message': res,
+          'Currency': $scope.send.currency_code,
+          'Address Type': $scope.send.bitcoin ? 'bitcoin' :
+            $scope.send.federation ? 'federation' : 'ripple',
+          'Destination Tag': !!$scope.send.dt
+        })
       });
     };
 
@@ -758,8 +775,11 @@ SendTab.prototype.angular = function (module)
       $scope.mode = "confirm";
 
       $rpTracker.track('Send confirmation page', {
-        'Currency': $scope.send.currency_code
-      });
+        'Currency': $scope.send.currency_code,
+        'Address Type': $scope.send.bitcoin ? 'bitcoin' :
+            $scope.send.federation ? 'federation' : 'ripple',
+        'Destination Tag': !!$scope.send.dt
+      })
     };
 
     /**
@@ -875,6 +895,14 @@ SendTab.prototype.angular = function (module)
 
       tx.on('success', function (res) {
         $scope.onTransactionSuccess(res, tx);
+
+        $rpTracker.track('Send result', {
+          'Status': 'success',
+          'Currency': $scope.send.currency_code,
+          'Address Type': $scope.send.bitcoin ? 'bitcoin' :
+              $scope.send.federation ? 'federation' : 'ripple',
+          'Destination Tag': !!$scope.send.dt
+        })
       });
 
       tx.on('proposed', function (res) {
@@ -884,19 +912,19 @@ SendTab.prototype.angular = function (module)
       tx.on('error', function (res) {
         $scope.onTransactionError(res, tx);
 
-        $rpTracker.track('Send transaction error', {
+        $rpTracker.track('Send result', {
+          'Status': 'error',
+          'Message': res,
           'Currency': $scope.send.currency_code,
-          'message': res.engine_result_message
-        });
+          'Address Type': $scope.send.bitcoin ? 'bitcoin' :
+              $scope.send.federation ? 'federation' : 'ripple',
+          'Destination Tag': !!$scope.send.dt
+        })
       });
 
       tx.submit();
 
       $scope.mode = "sending";
-
-      $rpTracker.track('Send confirmed', {
-        'Currency': $scope.send.currency_code
-      });
     };
 
     /**
@@ -926,25 +954,12 @@ SendTab.prototype.angular = function (module)
         case 'tes':
           $scope.mode = "status";
           $scope.tx_result = accepted ? "cleared" : "pending";
-          if (accepted) {
-            $rpTracker.track('Send successful', {
-              'currency': $scope.send.currency_code
-            });
-          }
           break;
         case 'tep':
           $scope.mode = "status";
           $scope.tx_result = "partial";
-          $rpTracker.track('Send failed', {
-            'currency': $scope.send.currency_code,
-            'message': res.engine_result_message
-          });
           break;
         default:
-          $rpTracker.track('Send failed', {
-            'currency': $scope.send.currency_code,
-            'message': res.engine_result_message
-          });
           $scope.mode = "rippleerror";
       }
     };

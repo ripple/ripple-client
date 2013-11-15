@@ -104,15 +104,18 @@ TradeTab.prototype.angular = function(module)
         $scope.order.buy_amount = $scope.order.second_amount;
       }
 
-      $rpTracker.track('Trade order confirmation page');
+      $rpTracker.track('Trade order confirmation page', {
+        'Currency pair': $scope.order.currency_pair
+      });
     };
 
     $scope.cancel_order = function ()
     {
       var tx = $network.remote.transaction();
       tx.offer_cancel($id.account, this.entry.seq);
-      tx.on('proposed', function () {
-        $scope.$apply(function () {
+      tx.on('success', function(){
+        $rpTracker.track('Trade order cancellation', {
+          'Status': 'success'
         });
       });
       tx.on('error', function (err) {
@@ -121,6 +124,11 @@ TradeTab.prototype.angular = function(module)
             $scope.mode = "done";
             setEngineStatus(err, false);
           });
+        });
+
+        $rpTracker.track('Trade order cancellation', {
+          'Status': 'error',
+          'Message': err
         });
       });
       tx.submit();
@@ -161,6 +169,12 @@ TradeTab.prototype.angular = function(module)
           }
         });
       });
+      tx.on('success', function(){
+        $rpTracker.track('Trade order result', {
+          'Status': 'success',
+          'Currency pair': $scope.order.currency_pair
+        });
+      });
       tx.on('error', function (err) {
         setImmediate(function () {
           $scope.$apply(function () {
@@ -168,12 +182,16 @@ TradeTab.prototype.angular = function(module)
             setEngineStatus(err, false);
           });
         });
+
+        $rpTracker.track('Trade order result', {
+          'Status': 'error',
+          'Message': err,
+          'Currency pair': $scope.order.currency_pair
+        });
       });
       tx.submit();
 
       $scope.mode = "sending";
-
-      $rpTracker.track('Trade order confirmed');
     };
 
     $scope.done = function (hash)
@@ -200,29 +218,21 @@ TradeTab.prototype.angular = function(module)
           break;
         case 'tem':
           $scope.tx_result = "malformed";
-          $rpTracker.track('Trade order failed',{'Message':res.engine_result_message});
           break;
         case 'ter':
           $scope.tx_result = "failed";
-          $rpTracker.track('Trade order failed',{'Message':res.engine_result_message});
           break;
         case 'tec':
           $scope.tx_result = "claim";
-          $rpTracker.track('Trade order failed',{'Message':res.engine_result_message});
           break;
         case 'tel':
           $scope.tx_result = "local";
-          $rpTracker.track('Trade order failed',{'Message':res.engine_result_message});
           break;
         //case 'tep':
         default:
           $scope.tx_result = "unknown";
           console.warn("Unhandled engine status encountered:"+res.engine_result);
           break;
-      }
-
-      if (accepted) {
-        $rpTracker.track('Trade order successful');
       }
     }
 

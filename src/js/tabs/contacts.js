@@ -70,8 +70,6 @@ ContactsTab.prototype.angular = function (module) {
 
       // Clear form
       $scope.reset_form();
-
-      $rpTracker.track('Contact added');
     };
 
     $rpTracker.track('Page View', {'Page Name': 'Contacts'});
