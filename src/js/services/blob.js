@@ -17,10 +17,6 @@ module.factory('rpBlob', ['$rootScope', function ($scope)
     this.meta = {};
   };
 
-  BlobObj.exists = function (id, callback)
-  {
-  };
-
   /**
    * Attempts to retrieve the blob.
    */
@@ -49,7 +45,7 @@ module.factory('rpBlob', ['$rootScope', function ($scope)
   };
 
   /**
-   * Attempts to retrieve the blob.
+   * Attempts to retrieve and decrypt the blob.
    */
   BlobObj.init = function(url, id, crypt, callback)
   {
@@ -77,7 +73,7 @@ module.factory('rpBlob', ['$rootScope', function ($scope)
       dataType: 'json',
       data: {
         blob_id: id,
-        data: BlobObj.enc(crypt, blob),
+        data: BlobObj.encrypt(crypt, blob),
         address: account,
         signature: "",
         pubkey: "",
@@ -99,10 +95,11 @@ module.factory('rpBlob', ['$rootScope', function ($scope)
       .error(webutil.getAjaxErrorHandler(callback, "BlobVault POST /blob/create"));
   };
 
-  BlobObj.enc = function(key, bl)
+  BlobObj.encrypt = function(key, bl)
   {
     // Filter Angular metadata before encryption
-    if (typeof(bl.data.contacts) === 'object')
+    if ('object' === typeof bl.data &&
+        'object' === typeof bl.data.contacts)
       bl.data.contacts = angular.fromJson(angular.toJson(bl.data.contacts));
 
     key = sjcl.codec.hex.toBits(key);

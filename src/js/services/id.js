@@ -235,15 +235,21 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
 
     $authflow.exists(username.toLowerCase(), password, function (err, data) {
       if (!err && data) {
+        // Blob found, new auth method
         callback(null, true);
-      } else {
+      } else if (Options.blobvault) {
         $oldblob.get(self.blobBackends, username.toLowerCase(), password, function (err, data) {
           if (!err && data) {
+            // Blob found, old auth method
             callback(null, true);
           } else {
+            // No blob found, neither method
             callback(null, false);
           }
         });
+      } else {
+        // No blob found with new method, old method disabled
+        callback(null, false);
       }
     });
   };

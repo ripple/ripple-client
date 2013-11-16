@@ -101,8 +101,10 @@ module.factory('rpAuthFlow', ['$rootScope', 'rpAuthInfo', 'rpKdf', 'rpBlob',
       });
     }
 
-    function setBlob(err, authInfo, keys) {
-      $blob.create(authInfo.blobvault, keys.id, keys.crypt, blob, function (err) {
+    function setBlob(authInfo, keys) {
+      $blob.create(authInfo.blobvault, keys.id, keys.crypt,
+                   blob.data.account_id, blob.data.master_seed, blob,
+                   function (err) {
         if (err) {
           callback(err);
           return;
