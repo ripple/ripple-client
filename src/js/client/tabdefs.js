@@ -42,10 +42,6 @@ exports["options"] = function (callback) {
     callback(require('../tabs/options'));
 };
 
-exports["feed"] = function (callback) {
-  callback(require('../tabs/feed'));
-};
-
 exports["security"] = function (callback) {
   callback(require('../tabs/security'));
 };
