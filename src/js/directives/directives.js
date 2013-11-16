@@ -531,6 +531,7 @@ module.directive('rpSnapper', function() {
     var checkSize = function(){
       // screen-sm-max
       if ($(window).width() > 991) {
+        snapper.close()
         snapper.disable();
       } else {
         $('.mobile-nav').show();
