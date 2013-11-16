@@ -283,8 +283,20 @@ footer {
     color: #aaa;
   }
 
-  span:last-child {
+  div:last-child {
     text-align: right;
+  }
+
+  @media (max-width: @screen-xs-max) {
+    padding: 10px 0;
+
+    div {
+      margin: 5px 0;
+    }
+
+    div:last-child {
+      text-align: left;
+    }
   }
 }
 
