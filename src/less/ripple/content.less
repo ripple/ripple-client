@@ -1,13 +1,25 @@
 @currencyFont: Consolas, "Bitstream Vera Sans Mono", "Andale Mono", Monaco, "DejaVu Sans Mono", "Lucida Console", monospace;
 
+// Temporary
+@media (max-width: @screen-xs-max) {
+  .t-login, .t-register {
+    header {
+      display: none;
+    }
+  }
+}
+
 body {
   color: #333;
 }
 
 nav + .content {
-  -webkit-box-shadow:  -3px 0px 5px 0px rgba(0, 0, 0, 0.1);
-  box-shadow:  -3px 0px 5px 0px rgba(0, 0, 0, 0.1);
   .border-radius(5px,5px,0,0);
+
+  @media (min-width: @screen-sm-max) {
+    -webkit-box-shadow:  -3px 0px 5px 0px rgba(0, 0, 0, 0.1);
+    box-shadow:  -3px 0px 5px 0px rgba(0, 0, 0, 0.1);
+  }
 }
 
 .content {
@@ -16,6 +28,11 @@ nav + .content {
   .rounded(5px);
   min-height: 500px;
   z-index: 10;
+
+  @media (max-width: @screen-xs-max) {
+    .rounded(0);
+    min-height: auto;
+  }
 
   &.single {
     margin-left: 15px;
@@ -94,60 +111,6 @@ nav + .content {
     background-image: url(../../img/throbber.gif);
     background-repeat: no-repeat;
     padding-left: 24px + 10px;
-  }
-
-  .table {
-    width: 100%;
-    border-spacing: 0;
-
-    caption {
-      text-align: left;
-      font: 20px 'OpenSansLight';
-      padding-top: 10px;
-      padding-bottom: 10px;
-      border-bottom: 1px solid #eee;
-    }
-
-    th {
-      font: 16px 'OpenSansRegular';
-      font-weight: normal;
-      padding: 10px 5px;
-      border-bottom: 1px solid #cbcbcb;
-      text-align: left;
-    }
-
-    td {
-      padding: 15px 5px;
-      vertical-align: middle;
-    }
-
-    // A class for formatting columns with currency amounts
-    th.rpamount {
-      text-align: right;
-
-      &:after {
-        color: #fff;
-        content: "XXX";
-        font-family: @currencyFont;
-        font-size: 14px;
-        padding-left: 5px;
-      }
-    }
-    td.rpamount {
-      text-align: right;
-
-      .currency {
-        display: inline-block;
-        padding-left: 5px;
-        //color: #999;
-        opacity: 0.5;
-        font-family: @currencyFont;
-      }
-
-      // Dealing with large values:
-      white-space: nowrap;
-      text-overflow: ellipsis;
-    }
   }
 
   span.address {
