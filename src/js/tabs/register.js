@@ -45,6 +45,7 @@ RegisterTab.prototype.angular = function (module) {
       $scope.mode = 'form';
       $scope.showMasterKeyInput = false;
       $scope.submitLoading = false;
+      $scope.track = true;
 
       if ($scope.registerForm) $scope.registerForm.$setPristine(true);
     };
@@ -92,6 +93,11 @@ RegisterTab.prototype.angular = function (module) {
         if (!regInProgress) {
           if (!exists) {
             regInProgress = true;
+
+            Options.mixpanel = $scope.track;
+
+            store.set('ripple_settings', JSON.stringify(Options));
+
             $scope.register();
           } else {
             $id.login($scope.username, $scope.password1, function (error) {

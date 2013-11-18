@@ -46,6 +46,9 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
             input.form-control#register_masterkey(name='register_masterkey', type='text', autocomplete='off', ng-model="masterkey", rp-master-key, rp-focus)
             .errorBox(ng-show="registerForm.register_masterkey.$error.rpMasterKey")
               p.text-error Secret Account Key is invalid
+        label(for='track')
+          input.track#track(name='track', type='checkbox', ng-model="track")
+          | Help Ripple Labs make a better product through sending anonymous client usage data.
         .row
           .col-sm-5.col-lg-4
             button.btn.btn-block.btn-success(type='submit', ng-disabled='registerForm.$invalid || submitLoading')
