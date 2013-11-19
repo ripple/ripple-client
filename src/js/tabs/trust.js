@@ -192,6 +192,11 @@ TrustTab.prototype.angular = function (module)
             }
           });
         })
+        .on('success', function(res){
+          $scope.$apply(function () {
+            setEngineStatus(res, true);
+          });
+        })
         .on('error', function(res){
           setImmediate(function () {
             $scope.$apply(function () {
