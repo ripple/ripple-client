@@ -38,6 +38,34 @@ section.single.content(ng-controller='SendCtrl')
             | Recipient should be either a name from your contact list or Ripple/Bitcoin address.
           .error(rp-error-on='federation')
             | This email address is not Ripple-enabled.
+    .row.form-group(ng-show='send.show_dt_field')
+      .col-xs-12.col-sm-6.col-md-5
+        label(for='send_dt') Destination tag
+        input.form-control#send_dt(
+        name='send_dt', type='text'
+        ng-model='send.dt'
+        rp-stdt
+        rp-autofill='$routeParams.dt'
+        ng-required="send.recipient_info.dest_tag_required")
+        .errorGroup(rp-errors='send_dt')
+          .error(rp-error-on='rpStdt')
+            | Invalid destination tag
+          .error(rp-error-on='required')
+            | Destination cannot be blank.
+        div(ng-show="send.recipient_info.dest_tag_required")
+          | Recipient requires a destination tag to be specified for the transaction. If you don't know the
+          |  destination tag, please contact them before doing a transaction.
+    .row.form-group(ng-show='$routeParams.st || send.st')
+      .col-xs-12.col-sm-6.col-md-5
+        label(for='send_st') Source tag
+        input.form-control#send_st(
+        name='send_st', type='text'
+        ng-model='send.st'
+        rp-stdt
+        rp-autofill='$routeParams.st')
+        .errorGroup(rp-errors='send_st')
+          .error(rp-error-on='rpStdt')
+            | Invalid source tag
     .row.form-group(ng-repeat='field in send.extra_fields')
       .col-xs-12.col-sm-6.col-md-5
         label(ng-bind="field.label")
@@ -96,34 +124,6 @@ section.single.content(ng-controller='SendCtrl')
           | This transaction exceeds your balance, you can send a max. of {{account.max_spend | rpamount:{rel_precision: 0} }} XRP
         .error(ng-show="send.recipient_info.disallow_xrp && send.currency_code=='XRP'") Recipient does not allow XRP payments. Are you sure you want to send XRP anyway?
         .notice(ng-show="send.trust_limit") {{send.recipient | rpcontactname}} trusts you for {{send.trust_limit | rpamount}} {{send.trust_limit | rpcurrency}}.
-      .row.form-group(ng-show='send.show_dt_field')
-        .col-xs-12.col-sm-6.col-md-5
-          label(for='send_dt') Destination tag
-          input.form-control#send_dt(
-            name='send_dt', type='text'
-            ng-model='send.dt'
-            rp-stdt
-            rp-autofill='$routeParams.dt'
-            ng-required="send.recipient_info.dest_tag_required")
-          .errorGroup(rp-errors='send_dt')
-            .error(rp-error-on='rpStdt')
-              | Invalid destination tag
-            .error(rp-error-on='required')
-              | Destination cannot be blank.
-          div(ng-show="send.recipient_info.dest_tag_required")
-            | Recipient requires a destination tag to be specified for the transaction. If you don't know the
-            |  destination tag, please contact them before doing a transaction.
-      .row.form-group(ng-show='$routeParams.st || send.st')
-        .col-xs-12.col-sm-6.col-md-5
-          label(for='send_st') Source tag
-          input.form-control#send_st(
-            name='send_st', type='text'
-            ng-model='send.st'
-            rp-stdt
-            rp-autofill='$routeParams.st')
-          .errorGroup(rp-errors='send_st')
-            .error(rp-error-on='rpStdt')
-              | Invalid source tag
     ul.tagsLinks
       li
         a(href="", ng-click="send.show_dt_field = true", ng-hide="send.show_dt_field || send.bitcoin || send.federation") Add Destination tag
