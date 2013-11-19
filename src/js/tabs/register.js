@@ -94,7 +94,7 @@ RegisterTab.prototype.angular = function (module) {
           if (!exists) {
             regInProgress = true;
 
-            Options.mixpanel = $scope.track;
+            Options.mixpanel.track = $scope.track;
 
             store.set('ripple_settings', JSON.stringify(Options));
 
