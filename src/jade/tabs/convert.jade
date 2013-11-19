@@ -46,7 +46,8 @@ section.col-xs-12.col-md-10.content(ng-controller="ConvertCtrl")
           | Please enter an amount greater than zero.
       p.literal(ng-show="convert.path_status == 'waiting'") Please enter the conversion details.
       p.literal.throbber(ng-show="convert.path_status == 'pending'") Calculating...
-      p.literal(ng-show="convert.path_status == 'no-path' && convert.currency_code != 'XRP'") No path found!
+      p.literal(ng-show="convert.path_status == 'no-path' && convert.currency_code != 'XRP'")
+        | Sorry! Cannot convert {{convert.amount}} {{convert.currency}}. Please make sure your account has enough funds.
       p.literal(ng-show="convert.path_status == 'error'") Error while calculating path
 
     .currency_sets.row.row-padding-small(ng-if="convert.path_status == 'done'")
