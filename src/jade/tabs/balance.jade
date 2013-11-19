@@ -71,6 +71,11 @@ section.col-xs-12.col-md-10.content(ng-controller="BalanceCtrl")
                   span.visible-xs
                     i.fa.fa-user
                 include balance/effects
+              .transaction(ng-switch-when="convert") You requested to convert
+                strong.nowrap  {{entry.transaction.spent | rpamount}} {{entry.transaction.spent | rpcurrency}}
+                |  to
+                strong.nowrap  {{entry.transaction.amount | rpamount}} {{entry.transaction.amount | rpcurrency}}
+                include balance/effects
               .transaction(ng-switch-when="trusted")
                 span.address(title="{{entry.transaction.counterparty}}") {{entry.transaction.counterparty | rpcontactname}}
                 |  now trusts you for

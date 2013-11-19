@@ -38,13 +38,13 @@ section.col-xs-12.col-md-10.content(ng-controller="HistoryCtrl")
           a(href="", ng-click="filter=false", ng-show="filter=='minimum-amount'") Hide
 
       .row.filter.type-filter(ng-show="filter=='type'")
-        .col-xs-12.col-sm-3.col-lg-2(ng-repeat="(index,obj) in types")
-          label(ng-class="{active: obj.checked}")
-            i.fa.fa-plus(ng-show="obj.checked")
-            i.fa.fa-minus(ng-hide="obj.checked")
-            span.name {{obj.name}}
-            //span.count {{typeUsage[obj.name] || 0}}
-            input(type="checkbox", name="type-filter", ng-model="obj.checked")
+        .col-xs-12.col-sm-3.col-lg-2(ng-repeat="name in orderedTypes")
+          label(ng-class="{active: types[name].checked}")
+            i.fa.fa-plus(ng-show="types[name].checked")
+            i.fa.fa-minus(ng-hide="types[name].checked")
+            span.name {{name}}
+            //span.count {{typeUsage[name] || 0}}
+            input(type="checkbox", name="type-filter", ng-model="types[name].checked")
       .row.filter.type-filter(ng-show="filter=='currency'")
         .col-xs-12.col-sm-3.col-lg-2(ng-repeat="(currency,obj) in filters.currencies")
           label(ng-class="{active: obj.checked}")
@@ -98,7 +98,7 @@ section.col-xs-12.col-md-10.content(ng-controller="HistoryCtrl")
               i.fa.fa-arrow-up(ng-show="entry.transaction.type=='sent'")
               i.fa.fa-download-alt.fa.fa-rotate-90(ng-show="entry.transaction.type=='trusted'")
               i.fa.fa-download-alt.fa.fa-rotate-270(ng-show="entry.transaction.type=='trusting'")
-              i.fa.fa-exChange(ng-show="!entry.transaction.type || entry.transaction.type=='offernew' || entry.transaction.type=='offercancel'")
+              i.fa.fa-exChange(ng-show="!entry.transaction.type || entry.transaction.type=='offernew' || entry.transaction.type=='offercancel' || entry.transaction.type=='convert'")
               i.fa.fa-cogs(ng-show="entry.transaction.type=='accountset'")
             span.dt {{entry.date | date:'EEE, MMM d, h:mm a'}}
             span.desc(ng-switch on="entry.transaction.type")
@@ -109,6 +109,11 @@ section.col-xs-12.col-md-10.content(ng-controller="HistoryCtrl")
               span(ng-switch-when="received")
                 span.address(title="{{entry.transaction.counterparty}}") {{entry.transaction.counterparty | rpcontactname}}
                 |  sent you
+                strong  {{entry.transaction.amount | rpamount}} {{entry.transaction.amount | rpcurrency}}
+                include history/effects
+              span(ng-switch-when="convert") You requested to convert
+                strong  {{entry.transaction.spent | rpamount}} {{entry.transaction.spent | rpcurrency}}
+                |  to
                 strong  {{entry.transaction.amount | rpamount}} {{entry.transaction.amount | rpcurrency}}
                 include history/effects
               span(ng-switch-when="trusted")
