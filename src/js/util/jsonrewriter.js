@@ -327,6 +327,10 @@ var JsonRewriter = module.exports = {
               obj.transaction.gets = fieldSet.TakerGets;
               obj.transaction.pays = fieldSet.TakerPays;
             }
+
+            // Flags
+            if (node.fields.Flags)
+              effect.flags = node.fields.Flags;
           }
 
           effect.seq = +node.fields.Sequence;

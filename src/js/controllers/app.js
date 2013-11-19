@@ -252,7 +252,7 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
               gets: effect.gets,
               pays: effect.pays,
               deleted: effect.deleted,
-              flags: processedTxn.transaction.flags
+              flags: effect.flags
             };
 
             updateOffer(offer);
