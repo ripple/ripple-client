@@ -412,9 +412,11 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
   .line {
     border-top: 1px solid #F0F0F0;
 
-    & > div {
-      height: 50px;
-      line-height: 50px;
+    @media (min-width: @screen-xs-max) {
+      & > div {
+        height: 50px;
+        line-height: 50px;
+      }
     }
 
     .actions {
