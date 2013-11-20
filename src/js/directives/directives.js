@@ -281,6 +281,14 @@ module.directive('rpPopover', [function() {
       trigger: attr.rpPopoverTrigger
       // TODO also use rpPopoverContent attribute (there's a bug with this)
     });
+
+    $('html').click(function() {
+      $(element).popover('hide');
+    });
+
+    $(element).click(function(event){
+      event.stopPropagation();
+    });
   };
 }]);
 
