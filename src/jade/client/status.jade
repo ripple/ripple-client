@@ -12,12 +12,12 @@
       .col-xs-12(ng-show="!loadState.account")
         | Loading your balance...
       .col-xs-6(ng-show="loadState.account")
-        span.balance.primary(ng-show="!account.LedgerEntryType")
+        span.balance.primary(ng-show="!account.Account")
           | Unfunded account
-        span.balance.primary(ng-show="account.LedgerEntryType")
+        span.balance.primary(ng-show="account.Account")
           span.amount {{account.Balance | rpamount:{precision: 0} }}
           span.currency XRP
-        i.fa.fa-question-circle(ng-show="account.LedgerEntryType"
+        i.fa.fa-question-circle(ng-show="account.Account"
           rp-popover
           rp-popover-placement="bottom"
           rp-popover-title='XRP Balance'
