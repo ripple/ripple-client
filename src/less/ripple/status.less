@@ -144,10 +144,6 @@
   right: 0;
   width: @statusWidth;
 
-  @media (max-width: @screen-sm-max) {
-    width: 100%;
-  }
-
   .notification {
     position: absolute;
     .rounded(5px);
@@ -157,8 +153,8 @@
     padding: 15px 5px 5px;
     z-index: 5;
     text-align: center;
-    .transition-duration(0.2s);
     line-height: 20px;
+    .transition-duration(0.2s);
 
     .number {
       font-size: 18px;
@@ -192,6 +188,40 @@
       font-weight: bold;
       color: #fff;
       background-color: #000;
+    }
+  }
+
+  @media (max-width: @screen-sm-max) {
+    position: fixed;
+    top: 0;
+    width: 90%;
+    z-index: 100;
+    margin-top: 5%;
+    margin-right: 5%;
+    margin-left: 5%;
+
+    .notification {
+      top: -200px;
+      padding: 20px;
+      padding-left: 10%;
+      padding-right: 10%;
+      font-size: 20px;
+      font-family: OpenSansRegular;
+      line-height: 30px;
+      opacity: 0;
+
+      .number {
+        font-size: 20px;
+      }
+
+      .currency {
+        font-size: 20px;
+      }
+
+      &.active {
+        top: 0;
+        opacity: 0.9;
+      }
     }
   }
 }
