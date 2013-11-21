@@ -43,6 +43,6 @@ var Options = {
 
 // Load client-side overrides
 if (store.enabled) {
-  $.extend(true, Options, JSON.parse(store.get('ripple_settings') || '{}'));
+  $.extend(Options, JSON.parse(store.get('ripple_settings') || '{}'));
 }
 

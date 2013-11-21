@@ -6,7 +6,7 @@ section.col-xs-12.col-md-10.content(ng-controller="OptionsCtrl")
     hr
   form.row-padding-small(name="optionsForm", ng-submit="save()")
     h3 Ripple Servers
-    div(ng-repeat="(index, server) in servers track by $index", ng-form name="subForm")
+    div(ng-repeat="(index, server) in options.server.servers track by $index", ng-form name="subForm")
       .row
         .col-xs-12
           label WebSocket hostname, port, secure
@@ -21,7 +21,7 @@ section.col-xs-12.col-md-10.content(ng-controller="OptionsCtrl")
         .col-xs-3.col-sm-3.col-md-2
           input.form-control.socketPort(name='port', type='text', ng-model='server.port', rp-port-number)
         .col-xs-3.col-sm-3.col-md-2
-          a(href="", ng-click="servers.splice($index,1)") Remove
+          a(href="", ng-click="options.server.servers.splice($index,1)") Remove
       .row
         .col-xs-12
           div.helperInput
@@ -29,7 +29,7 @@ section.col-xs-12.col-md-10.content(ng-controller="OptionsCtrl")
             label(for="secure") Use secure WebSocket
     .row
       .col-xs-12.col-sm-8.col-md-3.col-lg-2
-        button.btn.btn-block.btn-primary(type="button", ng-click="servers.push({})") Add new server
+        button.btn.btn-block.btn-primary(type="button", ng-click="options.server.servers.push({})") Add new server
 
     h3 Blob Vault
     .row
