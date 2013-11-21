@@ -644,7 +644,7 @@ SendTab.prototype.angular = function (module)
 
         $rpTracker.track('Send pathfind', {
           'Status': 'error',
-          'Message': res,
+          'Message': res.engine_result,
           'Currency': $scope.send.currency_code,
           'Address Type': $scope.send.bitcoin ? 'bitcoin' :
             $scope.send.federation ? 'federation' : 'ripple',
@@ -914,7 +914,7 @@ SendTab.prototype.angular = function (module)
 
         $rpTracker.track('Send result', {
           'Status': 'error',
-          'Message': res,
+          'Message': res.engine_result,
           'Currency': $scope.send.currency_code,
           'Address Type': $scope.send.bitcoin ? 'bitcoin' :
               $scope.send.federation ? 'federation' : 'ripple',

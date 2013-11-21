@@ -126,7 +126,7 @@ TradeTab.prototype.angular = function(module)
 
         $rpTracker.track('Trade order cancellation', {
           'Status': 'error',
-          'Message': err
+          'Message': err.engine_result
         });
       });
       tx.submit();
@@ -183,7 +183,7 @@ TradeTab.prototype.angular = function(module)
 
         $rpTracker.track('Trade order result', {
           'Status': 'error',
-          'Message': err,
+          'Message': err.engine_result,
           'Currency pair': $scope.order.currency_pair
         });
       });
