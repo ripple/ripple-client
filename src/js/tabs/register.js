@@ -126,8 +126,8 @@ RegisterTab.prototype.angular = function (module) {
         'Used key': !!$scope.masterkey,
         'Password strength': $scope.strength,
         'Blob': $scope.blobBackendCollection.something.name,
-        'Showed secret key': $scope.showSecret,
-        'Showed password': $scope.showPassword
+        'Showed secret key': !!$scope.showSecret,
+        'Showed password': !!$scope.showPassword
       });
 
       $location.path('/balance');
