@@ -167,7 +167,9 @@ TradeTab.prototype.angular = function(module)
           }
         });
       });
-      tx.on('success', function(){
+      tx.on('success', function(res){
+        setEngineStatus(res, true);
+
         $rpTracker.track('Trade order result', {
           'Status': 'success',
           'Currency pair': $scope.order.currency_pair

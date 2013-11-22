@@ -201,6 +201,9 @@ ConvertTab.prototype.angular = function (module)
             }
           });
         });
+        tx.on('success',function(res){
+          setEngineStatus(res, true);
+        });
         tx.on('error', function (res) {
           setImmediate(function () {
             $scope.$apply(function () {
