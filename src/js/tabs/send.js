@@ -382,10 +382,6 @@ SendTab.prototype.angular = function (module)
       if (!ripple.UInt160.is_valid(recipient)) {
         return;
       }
-      // Recipient + currency
-      var recu = recipient.length + "|" + recipient + currency;
-      if (send.last_recu === recu) return;
-      send.last_recu = recu;
 
       $scope.update_amount();
     };
