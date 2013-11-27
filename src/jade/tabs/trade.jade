@@ -189,11 +189,11 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
 
             //- 2. Confirmation
             form.mode-confirm(ng-switch-when='confirm', ng-submit="order_confirmed(type)")
-              p.literal You are about to create an order to {{type}}
+              p.title.literal You are about to create an order to {{type}}
                 .amount_feedback
                   span.value {{order[type].first_amount | rpamount}}
                   span.currency  {{order[type].first_amount | rpcurrency}}
-                p.literal for
+                .literal for
                 .dest_feedback
                   span.value {{order[type].second_amount | rpamount}}
                   span.currency  {{order[type].second_amount | rpcurrency}}
