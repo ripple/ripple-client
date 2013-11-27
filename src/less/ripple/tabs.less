@@ -1230,11 +1230,27 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
   }
 
   .trade-widget {
+    min-height: 430px;
     padding: 15px;
     margin: 0 0 30px;
     border: 1px solid darken(@bg, 10%);
-    .border-radius(5px, 5px, 5px, 0);
+    .border-radius(5px,5px,5px,5px);
     background: @bg;
+
+    .head {
+      margin: -15px -15px 15px -15px;
+      padding: 10px 15px;
+      .border-radius(5px, 0, 0, 5px);
+      background-color: darken(@bg, 3%);
+      font: 18px 'OpenSansRegular';
+    }
+
+    .input-group {
+      margin: 0 0 20px;
+    }
+    .errorGroup {
+      position: relative;
+    }
   }
 
   .mode-form {
@@ -1249,10 +1265,9 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
         overflow: visible;
       }
 
-      .input-group-addon {
+      div.input-group-addon {
         color: #fff;
         background-color: #ccc;
-        font-family: OpenSansLight;
       }
     }
     .message {
@@ -1307,7 +1322,7 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
       }
     }
 
-    .cancelled {
+    .cancelling {
       opacity: 0.3;
 
       .action {
