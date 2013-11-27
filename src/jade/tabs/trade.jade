@@ -157,7 +157,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                         .error(rp-error-on='rpAmountXrpLimit') There is a limit of 100 billion XRPs
                   .col-xs-12
                     .value-field
-                      label Order Value
+                      label Order Value (max)
                       .input-group
                         input.form-control(name='value', type='text'
                         ng-model='order[type].second', ng-change='calc_first(type)'
@@ -302,29 +302,39 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
         .row.orderbook(ng-show="order.listing == 'orderbook'")
           .bids.col-xs-12.col-sm-6
             .title Bids
-            .row.head(ng-show="bookFormatted.bids.length")
+            .row.head(ng-show="book.bids.length")
               .col-xs-4.sum Sum
-                .currency {{book.bids[0].TakerPays | rpcurrency}}
+                .currency {{book.bids[0].showTakerPays | rpcurrency}}
               .col-xs-4.size Size
-                .currency {{book.bids[0].TakerPays | rpcurrency}}
+                .currency {{book.bids[0].showTakerPays | rpcurrency}}
               .col-xs-4.price Bid Price
-                .currency {{book.bids[0].TakerGets | rpcurrency}}
-            .row(ng-repeat='order in bookFormatted.bids')
-              .col-xs-4.rpamount.sum(rp-bind-color-amount="order.sum")
-              .col-xs-4.rpamount.size(rp-bind-color-amount="order.TakerPays")
-              .col-xs-4.rpamount.price(rp-bind-color-amount="order.price")
+                .currency {{book.bids[0].showTakerGets | rpcurrency}}
+            .row(ng-repeat='order in book.bids')
+              .col-xs-4.rpamount.sum
+                a(href="", title="Sell {{order.showSum}} {{book.bids[0].showTakerPays | rpcurrency}}"
+                  ng-click="fill_widget('sell',order,true)")
+                  span(rp-bind-color-amount="order.showSum")
+              .col-xs-4.rpamount.size(rp-bind-color-amount="order.showTakerPays")
+              .col-xs-4.rpamount.price
+                a(href="", ng-click="fill_widget('sell',order)")
+                  span(rp-bind-color-amount="order.showPrice")
             .message(ng-show='!book.bids.length') There are currently no bids for this pair.
           .asks.col-xs-12.col-sm-6
             .title Asks
-            .row.head(ng-show="bookFormatted.asks.length")
+            .row.head(ng-show="book.asks.length")
               .col-xs-4.price Ask Price
-                .currency {{book.asks[0].TakerPays | rpcurrency}}
+                .currency {{book.asks[0].showTakerPays | rpcurrency}}
               .col-xs-4.size Size
-                .currency {{book.asks[0].TakerGets | rpcurrency}}
+                .currency {{book.asks[0].showTakerGets | rpcurrency}}
               .col-xs-4.sum Sum
-                .currency {{book.asks[0].TakerGets | rpcurrency}}
-            .row(ng-repeat='order in bookFormatted.asks')
-              .col-xs-4.rpamount.price(rp-bind-color-amount="order.price")
-              .col-xs-4.rpamount.size(rp-bind-color-amount="order.TakerGets")
-              .col-xs-4.rpamount.sum(rp-bind-color-amount="order.sum")
+                .currency {{book.asks[0].showTakerGets | rpcurrency}}
+            .row(ng-repeat='order in book.asks')
+              .col-xs-4.rpamount.price
+                a(href="", ng-click="fill_widget('buy',order)")
+                  span(rp-bind-color-amount="order.showPrice")
+              .col-xs-4.rpamount.size(rp-bind-color-amount="order.showTakerGets")
+              .col-xs-4.rpamount.sum
+                a(href="", title="Buy {{order.showSum}} {{book.asks[0].showTakerGets | rpcurrency}}"
+                  ng-click="fill_widget('buy',order,true)")
+                  span(rp-bind-color-amount="order.showSum")
             .message(ng-show='!book.asks.length') There are currently no asks for this pair.

@@ -30,7 +30,6 @@ TradeTab.prototype.angular = function(module)
   {
     if (!$id.loginStatus) return $id.goId();
 
-    $scope.bookFormatted = {};
     $scope.pairs_query = webutil.queryFromOptions($scope.pairs_all);
 
     var widget = {
@@ -105,6 +104,24 @@ TradeTab.prototype.angular = function(module)
       $scope.order.listing = listing;
 
       store.set('ripple_trade_listing', listing);
+    };
+
+    /**
+     * Fill buy/sell widget when clicking on orderbook orders (sum or price)
+     *
+     * @param type (buy/sell)
+     * @param order (order)
+     * @param sum fill sum or not
+     */
+    $scope.fill_widget = function (type, order, sum) {
+      $scope.reset_widget(type);
+
+      $scope.order[type].price = order.price.to_human().replace(',','');
+      
+      if (sum) {
+        $scope.order[type].first = order.sum.to_human().replace(',','');
+        $scope.calc_second(type);
+      }
     };
 
     /**
@@ -520,16 +537,14 @@ TradeTab.prototype.angular = function(module)
 
     $scope.$watchCollection('book', function () {
       if (!jQuery.isEmptyObject($scope.book)) {
-        $scope.bookFormatted = jQuery.extend(true, {}, $scope.book);
-
         ['asks','bids'].forEach(function(type){
           if ($scope.book[type]) {
-            $scope.bookFormatted[type].forEach(function(order){
-              order.sum = rpamountFilter(order.sum,OrderbookFilterOpts);
-              order.price = rpamountFilter(order.price,OrderbookFilterOpts);
+            $scope.book[type].forEach(function(order){
+              order.showSum = rpamountFilter(order.sum,OrderbookFilterOpts);
+              order.showPrice = rpamountFilter(order.price,OrderbookFilterOpts);
 
               var showValue = type === 'bids' ? 'TakerPays' : 'TakerGets';
-              order[showValue] = rpamountFilter(order[showValue],OrderbookFilterOpts);
+              order['show' + showValue] = rpamountFilter(order[showValue],OrderbookFilterOpts);
             });
           }
         });
