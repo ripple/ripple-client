@@ -105,9 +105,11 @@ SendTab.prototype.angular = function (module)
     $scope.check_dt_visibility = function () {
       var send = $scope.send;
 
-      send.show_dt_field = $routeParams.dt
+      send.show_dt_field = ($routeParams.dt
         || send.dt
-        || send.recipient_info.dest_tag_required;
+        || send.recipient_info.dest_tag_required)
+          && !send.bitcoin
+          && !send.federation;
     };
 
     $scope.update_destination = function () {
