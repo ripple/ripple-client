@@ -144,7 +144,8 @@ SendTab.prototype.angular = function (module)
       var recipient = send.recipient_address;
 
       // Reset federation address validity status
-      $scope.sendForm.send_destination.$setValidity("federation", true);
+      if ($scope.sendForm && $scope.sendForm.send_destination)
+        $scope.sendForm.send_destination.$setValidity("federation", true);
 
       if (send.bitcoin) {
         send.quote_url = Options.bridge.out.bitcoin;
