@@ -27,7 +27,7 @@ Or run Karma in the background and listen to changes in /test
 
 ## Bug tracker
 
-Have a bug or a feature request? [Please open a new issue](https://github.com/rippleFoundation/ripple-client/issues). Before opening any issue, please search for existing issues and read the [Issue Guidelines](https://github.com/rippleFoundation/ripple-client/blob/develop/CONTRIBUTING.md), written by [Nicolas Gallagher](https://github.com/necolas/).
+Have a bug or a feature request? [Please create a new issue](https://ripplelabs.atlassian.net/browse/WC). Before opening any issue, please search for [existing issues](https://ripplelabs.atlassian.net/browse/WC-1193?jql=project%20%3D%20WC) and read the [Issue Guidelines](https://github.com/rippleFoundation/ripple-client/blob/develop/CONTRIBUTING.md), written by [Nicolas Gallagher](https://github.com/necolas/).
 
 ## Community
 
