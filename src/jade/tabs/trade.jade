@@ -185,7 +185,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                       span.capitalize {{type}}
                       |  {{order.first_currency}}
               div(ng-hide="order[type].showWidget")
-                p.literal Your balance is not enough to create an order.
+                p.literal You do not have sufficient funds to create an order.
 
             //- 2. Confirmation
             form.mode-confirm(ng-switch-when='confirm', ng-submit="order_confirmed(type)")
