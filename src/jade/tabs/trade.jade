@@ -304,11 +304,11 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
             .title Bids
             .row.head(ng-show="book.bids.length")
               .col-xs-4.sum Sum
-                .currency {{book.bids[0].showTakerPays | rpcurrency}}
+                .currency {{book.bids[0].TakerPays | rpcurrency}}
               .col-xs-4.size Size
-                .currency {{book.bids[0].showTakerPays | rpcurrency}}
+                .currency {{book.bids[0].TakerPays | rpcurrency}}
               .col-xs-4.price Bid Price
-                .currency {{book.bids[0].showTakerGets | rpcurrency}}
+                .currency {{book.bids[0].TakerGets | rpcurrency}}
             .row(ng-repeat='order in book.bids')
               .col-xs-4.rpamount.sum
                 a(href="", title="Sell {{order.showSum}} {{book.bids[0].showTakerPays | rpcurrency}}"
@@ -323,11 +323,11 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
             .title Asks
             .row.head(ng-show="book.asks.length")
               .col-xs-4.price Ask Price
-                .currency {{book.asks[0].showTakerPays | rpcurrency}}
+                .currency {{book.asks[0].TakerPays | rpcurrency}}
               .col-xs-4.size Size
-                .currency {{book.asks[0].showTakerGets | rpcurrency}}
+                .currency {{book.asks[0].TakerGets | rpcurrency}}
               .col-xs-4.sum Sum
-                .currency {{book.asks[0].showTakerGets | rpcurrency}}
+                .currency {{book.asks[0].TakerGets | rpcurrency}}
             .row(ng-repeat='order in book.asks')
               .col-xs-4.rpamount.price
                 a(href="", ng-click="fill_widget('buy',order)")
