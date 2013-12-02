@@ -568,6 +568,7 @@ SendTab.prototype.angular = function (module)
       var send = $scope.send;
       var recipient = send.recipient_actual || send.recipient_address;
       var amount = send.amount_actual || send.amount_feedback;
+      var tracked;
 
       if (!$scope.need_paths_update()) return;
 
@@ -586,14 +587,6 @@ SendTab.prototype.angular = function (module)
                                          amount);
 
       send.pathfind = pf;
-
-      $rpTracker.track('Send pathfind', {
-        'Status': 'success',
-        'Currency': $scope.send.currency_code,
-        'Address Type': $scope.send.bitcoin ? 'bitcoin' :
-            $scope.send.federation ? 'federation' : 'ripple',
-        'Destination Tag': !!$scope.send.dt
-      });
 
       pf.on('update', function (upd) {
         $scope.$apply(function () {
@@ -630,6 +623,19 @@ SendTab.prototype.angular = function (module)
 
             if (currentKey)
               $scope.send.alternatives.splice(0, 0, $scope.send.alternatives.splice(currentKey, 1)[0]);
+          }
+
+          if (!tracked) {
+            $rpTracker.track('Send pathfind', {
+              'Status': 'success',
+              'Currency': $scope.send.currency_code,
+              'Address Type': $scope.send.bitcoin ? 'bitcoin' :
+                  $scope.send.federation ? 'federation' : 'ripple',
+              'Destination Tag': !!$scope.send.dt,
+              'Paths': upd.alternatives.length
+            });
+
+            tracked = true;
           }
         });
       });
