@@ -7,7 +7,7 @@
  * [1] http://en.wikipedia.org/wiki/Currency_pair#The_Majors
  */
 module.exports = [
-  {name: 'XRP/BTC', order: 1},
+  {name: 'BTC/XRP', order: 1},
   {name: 'XRP/USD', order: 1},
   {name: 'XRP/EUR', order: 1},
   {name: 'XRP/JPY', order: 0},
