@@ -47,9 +47,10 @@ section.col-xs-12.col-md-10.content(ng-controller="ConvertCtrl")
       p.literal(ng-show="convert.path_status == 'waiting'") Please enter the conversion details.
       p.literal.throbber(ng-show="convert.path_status == 'pending'") Calculating...
       p.literal(ng-show="convert.path_status == 'no-path' && convert.currency_code != 'XRP'")
+        //- TODO how high trust?
         | Sorry! Cannot convert {{convert.amount}} {{convert.currency}}. Please make sure your account has enough funds, and a&nbsp;
         a(href="https://support.ripplelabs.com/hc/en-us/articles/200916587-how-to-set-a-trust-line-ripple", target="_blank") trust line
-        |  to a USD gateway.
+        |  to a {{convert.currency}} gateway.
       p.literal(ng-show="convert.path_status == 'error'") Error while calculating path
 
     .currency_sets.row.row-padding-small(ng-if="convert.path_status == 'done'")
