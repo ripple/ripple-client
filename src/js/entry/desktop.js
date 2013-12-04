@@ -26,6 +26,7 @@ require('../services/popup');
 require('../services/rippletxt');
 require('../services/federation');
 require('../services/domainalias');
+require('../services/zipzap');
 
 var app = angular.module('rp', [
   'ng',
@@ -47,7 +48,8 @@ var app = angular.module('rp', [
   'jade',
   'errors',
   // Filters
-  'filters'
+  'filters',
+  'zipzap'
 ]);
 
 // Global reference for debugging only (!)

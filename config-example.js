@@ -29,8 +29,8 @@ var Options = {
   // Configure bridges
   bridge: {
     out: {
-//    'bitcoin': 'localhost:3000'
-//    'bitcoin': 'https://www.bitstamp.net/ripple/bridge/out/bitcoin/'
+//    "bitcoin": "localhost:3000"
+//    "bitcoin": "https://www.bitstamp.net/ripple/bridge/out/bitcoin/"
     }
   },
 
@@ -38,11 +38,15 @@ var Options = {
     "token": '',
     // Don't track events by default
     "track": false
+  },
+
+  zipzap: {
+    "requester": "zipzap/request.php"
   }
 };
 
 // Load client-side overrides
 if (store.enabled) {
-  $.extend(Options, JSON.parse(store.get('ripple_settings') || '{}'));
+  $.extend(true, Options, JSON.parse(store.get('ripple_settings') || "{}"));
 }
 

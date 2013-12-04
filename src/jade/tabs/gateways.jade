@@ -1,0 +1,148 @@
+include ../menu/wallet.jade
+section.panel.content(ng-controller="GatewaysCtrl")
+  p.literal Gateways
+  hr
+  ul.gateways-list
+    li
+      img.logo(src="img/gateways/zipzap.png")
+      .description ZipZap, Inc. is a cash payment network, enabling users to use cash to fill up the ripple balance. Users can complete transactions conveniently and easily at one of ZipZap’s Payment Center locations.
+      .actions
+        span(ng-show="loading") Loading...
+        span(ng-hide="!zipzap || loading") ID: {{zipzap.ZipZapAcctNum}}
+
+        div(ng-show="!loading")
+          span(ng-show="zipzap")
+            button.btn.btn-small(ng-click="details=!details")
+              span(ng-hide="details") Show
+              span(ng-show="details") Hide
+              |  Details
+          span(ng-hide="zipzap")
+            button.btn(ng-click="displaySignupForm=!displaySignupForm") Sign Up
+
+      .details(ng-show="details")
+        ul.account
+          li ZipZap account number:
+            strong  {{zipzap.ZipZapAcctNum}}
+          li First name:
+            strong  {{zipzap.FirstName}}
+          li Last name:
+            strong  {{zipzap.LastName}}
+          li Address:
+            strong  {{zipzap.Address}}
+          li City:
+            strong  {{zipzap.City}}
+          li State:
+            strong  {{zipzap.State}}
+          li Postal code:
+            strong  {{zipzap.PostalCode}}
+          li Country code:
+            strong  {{zipzap.Country}}
+          li Phone:
+            strong  {{zipzap.Phone}}
+          li Date of birth:
+            strong  {{zipzap.DateOfBirth}}
+          li Email:
+            strong  {{zipzap.Email}}
+        div.locator
+          div.locateTxt Present the ZipZap account number to the cashier on any payment center. ZipZap will confirm with you that your payment has been received and that your transaction is complete.
+          div.locateTxt Locate a payment center
+          form(name="locateForm", ng-submit="locate()")
+            input(type="text", name="query", ng-model="query", placeholder="Please enter your City and State or Postal Code", required)
+            button.btn.btn-success(type="submit", ng-disabled="locateStatus=='loading' || locateForm.$invalid")
+              span(ng-hide="locateStatus=='loading'") Search!
+              span(ng-show="locateStatus=='loading'") Loading...
+          ul
+            li(ng-repeat="location in locations.PayCenters")
+              .name {{location.PayCenterName}}
+              a(href="http://maps.google.com/maps?q={{location.Address}}, {{location.City}}, {{location.State}}, {{location.PostalCode}}", target="_blank") show on map
+              div Address: {{location.Address}}, {{location.City}}, {{location.State}}, {{location.PostalCode}}.
+              div Phone: {{location.Phone}}
+            div(ng-show="locateStatus=='notfound'")
+              | Sorry, there are no payment centers for your query.
+
+      div.signup(ng-show="displaySignupForm")
+        //- TODO Handle server side validation errors
+        .text-error(ng-show="error") {{error.message}}: {{error.verboseMessage}}
+        form#signupForm(name='signupForm', ng-submit="signup()")
+          label(for='firstname') First name
+          input#firstname(name='firstname', type='text', ng-model='form.firstname'
+            required)
+          .errorGroup(rp-errors='firstname')
+            .error(rp-error-on='required')
+              | Please enter your first name.
+          label(for='lastname') Last name
+          input#lastname(name='lastname', type='text', ng-model='form.lastname'
+            required)
+          .errorGroup(rp-errors='lastname')
+            .error(rp-error-on='required')
+              | Please enter your last name.
+          label(for='address') Address
+          input#address(name='address', type='text', ng-model='form.address'
+            required)
+          .errorGroup(rp-errors='address')
+            .error(rp-error-on='required')
+              | Please enter your address.
+          label(for='city') City
+          input#city(name='city', type='text', ng-model='form.city'
+            required)
+          .errorGroup(rp-errors='city')
+            .error(rp-error-on='required')
+              | Please enter your city.
+          label(for='state') State
+          input#state(name='state', type='text', ng-model='form.state'
+            required)
+          .errorGroup(rp-errors='state')
+            .error(rp-error-on='required')
+              | Please enter your state.
+          label(for='zipcode') Zip code
+          input#zipcode(name='zipcode', type='text', ng-model='form.zipcode'
+            required)
+          .errorGroup(rp-errors='zipcode')
+            .error(rp-error-on='required')
+              | Please enter your zipcode.
+          label(for='countrycode') Country code (ex. "US")
+          input#countrycode(name='countrycode', type='text', ng-model='form.countrycode'
+            required, ng-minlength="2", ng-maxlength="2")
+          .errorGroup(rp-errors='countrycode')
+            .error(rp-error-on='required')
+              | Please enter your country code.
+            .error(rp-error-on='minlength')
+              | Country code should be exactly 2 characters.
+            .error(rp-error-on='maxlength')
+              | Country code should be exactly 2 characters.
+          label(for='phone') Phone (Only Numbers)
+          input#phone(name='phone', type='text', ng-model='form.phone'
+            required)
+          .errorGroup(rp-errors='phone')
+            .error(rp-error-on='required')
+              | Please enter your phone number.
+          label(for='dob') Date of birth (YYYY-MM-DD)
+          input#dob(name='dob', type='text', ng-model='form.dob'
+            required, rp-dob)
+          .errorGroup(rp-errors='dob')
+            .error(rp-error-on='required')
+              | Please enter your date of birth.
+            .error(rp-error-on='required')
+              | The date of birth must be in YYYY-MM-DD format.
+          label(for='email') Email
+          input#email(name='email', type='text', ng-model='form.email'
+            required, rp-email)
+          .errorGroup(rp-errors='email')
+            .error(rp-error-on='required')
+              | Please enter your email address.
+            .error(rp-error-on='rpEmail')
+              | Please use a valid email format.
+          label(for='ssn') Last 4 digits of your SSN
+          input#ssn(name='ssn', type='number', ng-model='form.ssn'
+            required, ng-minlength="4", ng-maxlength="4")
+          .errorGroup(rp-errors='ssn')
+            .error(rp-error-on='required')
+              | Please enter last 4 digits of your social security number.
+            .error(rp-error-on='minlength')
+              | Please enter last 4 digits of your social security number.
+            .error(rp-error-on='maxlength')
+              | Please enter last 4 digits of your social security number.
+          div
+            button.btn.btn-success(type="submit", ng-disabled="signupForm.$invalid || signupProgress")
+              span(ng-hide="signupProgress") Signup
+              span(ng-show="signupProgress") Loading...
