@@ -3,7 +3,7 @@
   "version": "0.2.40",
   "description": "Client for the Ripple payment network",
   "author": {
-    "name": "OpenCoin, Inc.",
+    "name": "Ripple Labs, Inc.",
     "email": "info@ripple.com",
     "url": "https://ripple.com/"
   },
