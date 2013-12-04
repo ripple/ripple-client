@@ -1,30 +1,30 @@
 # Basic use
 
-To make a string in one of the Jade templates translatable, simply add the `rp-l10n` attribute:
+To make a string in one of the Jade templates translatable, simply add the `l10n` attribute:
 
-  p(rp-l10n) I can be translated!
+  p(l10n) I can be translated!
 
 # Ambiguous strings
 
 Sometimes the same string translates in two different ways depending on the context.
 
-  button(rp-l10n) Clear
+  button(l10n) Clear
   select
-    option(rp-l10n) Clear
-    option(rp-l10n) Opaque
+    option(l10n) Clear
+    option(l10n) Opaque
 
 You can deal with this by explicitly assigning a unique ID to one or both of the conflicting instances, like so:
 
-  button(rp-l10n) Clear
+  button(l10n) Clear
   select
-    option(rp-l10n="Clear (transparent)") Clear
-    option(rp-l10n) Opaque
+    option(l10n="Clear (transparent)") Clear
+    option(l10n) Opaque
 
 # Dealing with subtags
 
 Often when translating Jade templates you will run into situations where text is splintered across subtags, like so:
 
-  p(rp-l10n)
+  p(l10n)
     | Send money to
     strong(ng-bind="otherGuy") ???
 
@@ -36,9 +36,9 @@ This makes it easy for the translators to move the element to a different positi
 
 However, sometimes the subtag itself contains text that is important for comprehension:
 
-  p(rp-l10n)
+  p(l10n)
     | This is a
-    strong(rp-l10n) great
+    strong(l10n) great
     | example.
 
 Would become:
@@ -49,11 +49,11 @@ Would become:
 
   msgid "great"
 
-Here the context for the inner text snippet is lost. In a case like this we recommend using `rp-l10n-inc` to mark the subtag for inclusion in the parent's translation:
+Here the context for the inner text snippet is lost. In a case like this we recommend using `l10n-inc` to mark the subtag for inclusion in the parent's translation:
 
-  p(rp-l10n)
+  p(l10n)
     | This is a
-    strong(rp-l10n-inc) great
+    strong(l10n-inc) great
     | example.
 
 Will become:

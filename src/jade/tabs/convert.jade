@@ -10,7 +10,7 @@ section.col-xs-12.col-md-10.content(ng-controller="ConvertCtrl")
     p.literal Loading...
 
   .unfunded(ng-hide='account.Balance || !connected')
-    p.literal(rp-l10n="err-you-must-be-funded-before-you-can-convert-money") You have to be funded before you can convert money
+    p.literal(l10n="err-you-must-be-funded-before-you-can-convert-money") You have to be funded before you can convert money
     p: a.btn.btn-default(href="#/balance") Back to balance
 
   //- Connected

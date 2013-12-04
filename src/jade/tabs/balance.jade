@@ -4,24 +4,24 @@ section.col-xs-12.col-md-10.content(ng-controller="BalanceCtrl")
   //- Disconnected
 
   group.disconnected(ng-hide="connected")
-    p.literal(rp-l10n) You have to be online to see this screen
+    p.literal(l10n) You have to be online to see this screen
 
   group.disconnected(ng-hide="!connected || loadState.account")
-    p.literal(rp-l10n) Loading...
+    p.literal(l10n) Loading...
 
   //- Connected
 
   group(ng-show="connected && loadState.account")
     .div#welcome(ng-hide='account.Balance')
-      p.title(rp-l10n) Welcome to Ripple.
-      p(rp-l10n) You currently don&#39;t have any ripples (XRP). To get started you can:
+      p.title(l10n) Welcome to Ripple.
+      p(l10n) You currently don&#39;t have any ripples (XRP). To get started you can:
       .actions
         a.receive(href="#receive")
         a.nexus(href="http://www.xrpga.org/ripple-giveaways.html", target="_blank")
 
     .row.row-padding-small.currency-summary.positive(ng-show='account.Balance')
       .col-xs-6.col-md-4.col-lg-3.balancebox
-        .lbl(rp-l10n) XRP - Ripple
+        .lbl(l10n) XRP - Ripple
         .balance.xrp
           span(rp-tooltip="{{account.Balance | rpamount}}") {{account.Balance | rpamount:{rel_precision: 2} }}
           span(class="secondary") (reserve: {{ account.reserve | rpamount }} XRP)
@@ -32,16 +32,16 @@ section.col-xs-12.col-md-10.content(ng-controller="BalanceCtrl")
 
     .row
       table.table.events(ng-show="account.Balance")
-        caption(rp-l10n) Activity
+        caption(l10n) Activity
         thead
           //- Loading screen
           tr(ng-hide="loadState.transactions")
-            td(colspan=2, rp-l10n) Loading activity...
+            td(colspan=2, l10n) Loading activity...
 
           //- Entries
           tr(ng-show="loadState.transactions")
-            th.date(rp-l10n) Date
-            th.desc(rp-l10n) Event
+            th.date(l10n) Date
+            th.desc(l10n) Event
         tbody(ng-class="{passive: loading}")
           tr(
             ng-repeat="entry in transactions"

@@ -29,7 +29,7 @@ module.exports = function(grunt)
         block.nodes.forEach(function (node) {
           node.attrs && node.attrs.forEach(function (attr) {
             var text = parseText(node);
-            if (attr.name === "rp-l10n") {
+            if (attr.name === "l10n") {
               messages.push({
                 file: filename,
                 line: node.line,
@@ -54,7 +54,7 @@ module.exports = function(grunt)
           if (node.name) {
             var incText = '', alias = String(counter++), content = '';
             node.attrs && node.attrs.forEach(function (attr) {
-              if (attr.name === "rp-l10n-inc") {
+              if (attr.name === "l10n-inc") {
                 content = ":"+parseText(node);
               }
             });
