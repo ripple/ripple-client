@@ -168,6 +168,8 @@ SendTab.prototype.angular = function (module)
               send.extra_fields = result.extra_fields;
             }
 
+            send.dt = ("number" === typeof result.dt) ? result.dt : undefined;
+
             if (result.destination_address) {
               // Federation record specifies destination
               send.recipient_name = recipient;
@@ -878,8 +880,6 @@ SendTab.prototype.angular = function (module)
         var dt;
         if ($scope.send.dt) {
           dt = $scope.send.dt;
-        } else if (send.federation_record && send.federation_record.dt) {
-          dt = send.federation_record.dt;
         } else {
           dt = webutil.getDestTagFromAddress($scope.send.recipient);
         }
