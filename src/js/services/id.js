@@ -198,7 +198,7 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
       }
     };
 
-    $authflow.register(username.toLowerCase(), password, blob, function (err) {
+    $authflow.register(username.toLowerCase(), password, blob, function (err, blob) {
       if (err) {
         // XXX Handle error
         console.log("Registration failed:", (err && err.stack) ? err.stack : err);
@@ -295,10 +295,7 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
       // Ensure certain properties exist
       $.extend(true, blob, Id.minimumBlob);
 
-      $scope.userBlob = {
-        data: blob.data,
-        meta: blob.meta
-      };
+      $scope.userBlob = blob;
       self.setUsername(username);
       self.setPassword(password);
       self.setAccount(blob.data.account_id, blob.data.master_seed);

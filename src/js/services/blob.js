@@ -17,6 +17,24 @@ module.factory('rpBlob', ['$rootScope', function ($scope)
     this.meta = {};
   };
 
+  // Blob operations
+  // You can APPEND new operations, otherwise DO NOT change this array.
+  BlobObj.ops = {
+    // Special
+    "noop": 0,
+
+    // Simple fields
+    "set": 16,
+    "delete": 17,
+
+    // Array fields
+    "push": 32,
+    "pop": 33,
+    "shift": 34,
+    "unshift": 35,
+    "filter": 36
+  };
+
   /**
    * Attempts to retrieve the blob.
    */
@@ -85,7 +103,10 @@ module.factory('rpBlob', ['$rootScope', function ($scope)
         setImmediate(function () {
           $scope.$apply(function () {
             if (data.result === "success") {
-              callback(null, data);
+              var blobObj = new BlobObj();
+              blobObj.data = blob.data;
+              blobObj.meta = blob.meta;
+              callback(null, blobObj, data);
             } else {
               callback(new Error("Could not create blob"));
             }
@@ -140,6 +161,112 @@ module.factory('rpBlob', ['$rootScope', function ($scope)
       console.log(e.stack);
       return false;
     }
+  };
+
+  /**
+   * Set a field on an object using dot notation.
+   *
+   * This will recursively follow a path through an object to set a field on it.
+   *
+   * E.g. addValueToObj({}, "answers.universe_and_everything", 42)
+   *       => {
+   *            answers: {
+   *              universe_and_everything: 42
+   *            }
+   *          }
+   */
+  function addValueToObj(obj, path, val) {
+    // Separate each step in the "path"
+    path = path.split(".");
+
+    // Loop through each part of the path adding to obj
+    for (var i = 0, tmp = obj; i < path.length - 1; i++) {
+      tmp = tmp[path[i]] = ("undefined" === typeof tmp[path[i]]) ? {} : tmp[path[i]];
+    }
+    tmp[path[i]] = val;             // at the end of the chain add the value in
+
+    return obj;
+  }
+
+  BlobObj.prototype.applyUpdate = function (op, params) {
+    // XXX Convert from numeric op code to string
+    if ("number" === typeof op) {
+      throw new Error("Not implemented");
+    }
+    if ("string" !== typeof op) {
+      throw new Error("Blob update op code must be a number or a valid op id string");
+    }
+    switch (op) {
+    case "set":
+      addValueToObj(this.data, params[0], params[1]);
+      break;
+    case "unshift":
+      if ("undefined" === typeof this.data[params[0]]) {
+        this.data[params[0]] = [];
+      } else if (!Array.isArray(this.data[params[0]])) {
+        throw new Error("Operator 'unshift' must be applied to an array.");
+      }
+      this.data[params[0]].unshift(params[1]);
+      break;
+    case "filter":
+      if (!Array.isArray(this.data[params[0]])) {
+        throw new Error("Operator 'unshift' must be applied to an array.");
+      }
+      this.data[params[0]].filter(function (entry) {
+        return entry[params[1]] !== entry[params[2]];
+      });
+      break;
+    default:
+      throw new Error("Unsupported op "+op);
+    }
+  };
+
+  BlobObj.prototype.postUpdate = function (op, params) {
+    if ("string" === typeof op) {
+      op = BlobObj.ops[op];
+    }
+    if ("number" !== typeof op) {
+      throw new Error("Blob update op code must be a number or a valid op id string");
+    }
+    if (op < 0 || op > 255) {
+      throw new Error("Blob update op code out of bounds");
+    }
+
+    params.unshift(op);
+
+    console.log(JSON.stringify(params));
+  };
+
+  BlobObj.prototype.set = function (key, value) {
+    this.applyUpdate('set', [key, value]);
+    this.postUpdate('set', [key, value]);
+  };
+
+  /**
+   * Prepend an entry to an array.
+   *
+   * This method adds an entry to the beginning of an array.
+   */
+  BlobObj.prototype.unshift = function (key, value) {
+    if (!Array.isArray(this.data[key])) {
+      throw new Error("Tried to prepend (unshift) data to a non-array");
+    }
+    this.applyUpdate('unshift', [key, value]);
+    this.postUpdate('unshift', [key, value]);
+  };
+
+  /**
+   * Filter the row(s) from an array.
+   *
+   * This method will remove any entries from the array stored under `key` where
+   * the field with the name `field` equals `value`.
+   */
+  BlobObj.prototype.filter = function (key, field, value) {
+    if (!Array.isArray(this.data[key])) {
+      throw new Error("Tried to filter data from a non-array");
+    }
+    this.applyUpdate('filter', [key, field, value]);
+    this.postUpdate('filter', [key, field, value]);
   };
 
   function BlobError(message, backend) {

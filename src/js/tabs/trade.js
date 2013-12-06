@@ -490,14 +490,14 @@ TradeTab.prototype.angular = function(module)
         // Persist issuer setting
         if ($scope.order.valid_settings && $scope.order[prefix + '_currency'] !== 'XRP') {
           if (prefix === 'first') {
-            $scope.userBlob.data.preferred_issuer[$scope.order['first_currency']] = $scope.order['first_issuer'];
+            $scope.userBlob.set("preferred_issuer."+$scope.order['first_currency'], $scope.order['first_issuer']);
           } else {
             if ($scope.order.first_currency === $scope.order.second_currency) {
-              $scope.userBlob.data.preferred_second_issuer[$scope.order.second_currency] =
-                  $scope.order.second_issuer;
+              $scope.userBlob.set("preferred_second_issuer."+$scope.order.second_currency,
+                                  $scope.order.second_issuer);
             } else {
-              $scope.userBlob.data.preferred_issuer[$scope.order.second_currency] =
-                  $scope.order.second_issuer;
+              $scope.userBlob.set("preferred_issuer."+$scope.order.second_currency,
+                                  $scope.order.second_issuer);
             }
           }
         }

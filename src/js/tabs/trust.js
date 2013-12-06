@@ -274,7 +274,7 @@ TrustTab.prototype.angular = function (module)
         $scope.addressSaved = true;
       });
 
-      $scope.userBlob.data.contacts.unshift(contact);
+      $scope.userBlob.unshift("contacts", contact);
     };
 
     $scope.edit_line = function ()

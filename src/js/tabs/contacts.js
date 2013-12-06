@@ -64,7 +64,7 @@ ContactsTab.prototype.angular = function (module) {
       $scope.enable_highlight = true;
 
       // Add an element
-      $scope.userBlob.data.contacts.unshift(contact);
+      $scope.userBlob.unshift("contacts", contact);
 
       // Hide the form
       $scope.toggle_form();
