@@ -282,24 +282,23 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
             // Unable to decrypt blob
             var msg = 'Unable to decrypt blob (Username / Password is wrong)';
             callback(new Error(msg));
-            return;
           } else if (blob.old && !self.allowOldBlob) {
             var oldBlobErr = new Error('Old blob format detected');
             oldBlobErr.name = "OldBlobError";
             callback(oldBlobErr);
-            return;
+          } else {
+            var migrateErr = new Error('Your account uses the old blob format,'
+                                       + ' please migrate your account.');
+            migrateErr.name = "NeedsMigrationError";
+            callback(migrateErr);
           }
-
-          processBlob(blob);
         });
-        return;
       } else if (err) {
         // New login protocol failed and no fallback configured
         callback(err);
-        return;
+      } else {
+        processBlob(blob);
       }
-
-      processBlob(blob);
     });
 
     function processBlob(blob) {
