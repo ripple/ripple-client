@@ -54,13 +54,6 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
             button.btn.btn-block.btn-success(type='submit', ng-disabled='registerForm.$invalid || submitLoading')
               span(ng-show="submitLoading", l10n) Loading...
               span(ng-hide="submitLoading", l10n) Create Wallet
-          .col-sm-5.col-lg-4.storeinfo(l10n) Store your Wallet with:&#32;
-            br
-            span(ng-hide="storeChange")
-              strong {{blobBackendCollection.something.name}}&#32;
-              a(href="", ng-click="storeChange=true", l10n) change
-            span(ng-show="storeChange", class="storeChange")
-              select(ng-model="blobBackendCollection.something", ng-options="b.name for b in blobBackendCollections", ng-change="backendChange()")
         .row
           .col-xs-12.literal.throw
             span(l10n) Already have a Wallet?&#32;

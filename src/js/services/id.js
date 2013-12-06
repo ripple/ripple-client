@@ -24,10 +24,6 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
   {
     this.account = null;
     this.loginStatus = false;
-
-    this.blobBackends = store.get('ripple_blobBackends')
-      ? store.get('ripple_blobBackends')
-      : ['vault', 'local'];
   };
 
   // This object defines the minimum structure of the blob.
@@ -90,12 +86,6 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
       {name: 'Local Browser', 'value':'local'}
     ];
 
-    var blobBackend = store.get('ripple_blobBackends')
-          ? $.grep($scope.blobBackendCollections, function(e){ return e.value == store.get('ripple_blobBackends'); })[0]
-        : $scope.blobBackendCollections[1];
-
-    $scope.blobBackendCollection = {something: blobBackend};
-
     $scope.userBlob = Id.defaultBlob;
     $scope.userCredentials = {};
 
@@ -106,7 +96,7 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
       // XXX What's the equivalent in the new login API?
       /*
       if (self.username && self.password) {
-        $oldblob.set(self.blobBackends,
+        $oldblob.set(...,
                   self.username.toLowerCase(), self.password,
                   $scope.userBlob,function(){
                     $scope.$broadcast('$blobSave');
@@ -238,7 +228,7 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
         // Blob found, new auth method
         callback(null, true);
       } else if (Options.blobvault) {
-        $oldblob.get(self.blobBackends, username.toLowerCase(), password, function (err, data) {
+        $oldblob.get(['vault', 'local'], username.toLowerCase(), password, function (err, data) {
           if (!err && data) {
             // Blob found, old auth method
             callback(null, true);
@@ -268,7 +258,7 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
       if (err && Options.blobvault) {
         console.log("Blob login failed, trying old blob protocol");
 
-        $oldblob.get(self.blobBackends, username.toLowerCase(), password, function (oerr, data) {
+        $oldblob.get(['vault', 'local'], username.toLowerCase(), password, function (oerr, data) {
           if (oerr) {
             // Old blob failed - since this was just the fallback report the
             // original error

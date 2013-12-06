@@ -28,14 +28,6 @@ RegisterTab.prototype.angular = function (module) {
       return;
     }
 
-    $scope.backendChange = function()
-    {
-      $id.blobBackends = $scope.blobBackendCollection.something.value.split(',');
-      if (!store.disabled) {
-        store.set('ripple_blobBackends', $id.blobBackends);
-      }
-    };
-
     $scope.reset = function()
     {
       $scope.username = '';
@@ -155,7 +147,6 @@ RegisterTab.prototype.angular = function (module) {
       $rpTracker.track('Sign Up', {
         'Used key': !!$scope.masterkey,
         'Password strength': $scope.strength,
-        'Blob': $scope.blobBackendCollection.something.name,
         'Showed secret key': !!$scope.showSecret,
         'Showed password': !!$scope.showPassword
       });
