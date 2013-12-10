@@ -543,27 +543,8 @@ SendTab.prototype.angular = function (module)
 
     $scope.reset_paths = function () {
       var send = $scope.send;
-      if (!$scope.need_paths_update()) return;
 
       send.alternatives = [];
-    };
-
-    /**
-     * Determine if we need to update the paths.
-     *
-     * Checks if the parameters for the path find have changed.
-     */
-    $scope.need_paths_update = function () {
-      var send = $scope.send;
-      var recipient = send.recipient_actual || send.recipient_address;
-      var amount = send.amount_actual || send.amount_feedback;
-
-      // modified
-      return send.last_am_recipient !== recipient ||
-        !send.last_amount ||
-        !send.last_amount.is_valid() ||
-        !amount.is_valid() ||
-        !amount.equals(send.last_amount);
     };
 
     $scope.update_paths = function () {
@@ -571,8 +552,6 @@ SendTab.prototype.angular = function (module)
       var recipient = send.recipient_actual || send.recipient_address;
       var amount = send.amount_actual || send.amount_feedback;
       var tracked;
-
-      if (!$scope.need_paths_update()) return;
 
       $scope.reset_paths();
 
@@ -582,6 +561,13 @@ SendTab.prototype.angular = function (module)
       send.last_amount = send.amount_feedback;
 
       send.path_status = 'pending';
+
+      // Determine if we need to update the paths.
+      if (send.pathfind &&
+          send.pathfind.src_account === $id.account &&
+          send.pathfind.dst_account === recipient &&
+          send.pathfind.dst_amount.equals(amount))
+        return;
 
       // Start path find
       var pf = $network.remote.path_find($id.account,
