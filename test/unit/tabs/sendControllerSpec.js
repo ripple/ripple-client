@@ -248,9 +248,37 @@ describe('SendCtrl', function(){
     });
   });
 
-  it('should update the amount', function (done) {
-    assert.isFunction(scope.update_amount);
-    done();
+  describe('updating the amount to send', function () {
+    it('should have a function to do so', function (done) {
+      assert.isFunction(scope.update_amount);
+      done();
+    });
+
+    it('should reset the amount dependencies', function (done) {
+      spy = sinon.spy(scope, 'reset_amount_deps');
+      scope.update_amount();
+      assert(spy.called);
+      done();
+    });
+
+    describe('when the form is invalid', function () {
+      beforeEach(function () {
+        scope.sendForm.$invalid = true;
+      });
+
+      it('should set the path status to "waiting"', function (done) {
+        scope.send.path_status = null;
+        scope.update_amount();
+        assert.equal(scope.send.path_status, 'waiting');
+        done();
+      });
+    });
+
+    describe('when the form is valid', function () {
+      beforeEach(function () {
+        scope.sendForm.$invalid = false;
+      });
+    });
   });
 
   it('should update the quote', function (done) {
@@ -295,6 +323,79 @@ describe('SendCtrl', function(){
       });
     });
   });
+
+  describe('updating the quote', function () {
+    beforeEach(function () {
+      scope.send.amount_feedback = {
+        to_text: function () {},
+        currency: function () {
+          return { to_json: function () {} }
+        },
+        equals: function () {}
+      }
+    })
+
+    it('should reset paths', function (done) {
+      spy = sinon.spy(scope, 'reset_paths');
+      try {
+        scope.update_quote();
+      } catch (e) {}
+      assert(spy.called);
+      done();
+    });
+
+    describe('when the service is unavailable', function () {
+      it('should handle an error with the quote service', function (done) {
+        stub = sinon.stub($, 'ajax').throws();
+        scope.update_quote();
+        assert.equal(scope.send.path_status, "error-quote");
+        done();
+      })
+    });
+
+    describe('handling a success response from the service', function () {
+      beforeEach(function () {
+        data = {
+          quote: {
+            send: [10],
+            address: 'address'
+          },
+          result: 'success',
+          status: 'success'
+        }
+      });
+
+      describe('with valid data returned', function () {
+        it('should update the paths', function (done) {
+          spy = sinon.spy(scope, 'update_paths');
+          sinon.stub(scope.send.amount_feedback, 'equals').returns(true);
+          scope.on_update_quote_success(data);
+          assert(spy.called);
+          done();
+        })
+      });
+
+      describe('with invalid data returned', function () {
+        it('should not update the paths', function (done) {
+          spy = sinon.spy(scope, 'update_paths');
+          sinon.stub(scope.send.amount_feedback, 'equals').returns(false);
+          scope.on_update_quote_success();
+          assert(spy.notCalled);
+          done();
+        })
+      })
+    });
+
+    describe('handling an error response from the service', function () {
+      it('should set the path status to "error-quote"', function (done) {
+        scope.on_update_quote_error();
+        setTimeout(function () {
+          assert.equal(scope.send.path_status,"error-quote");
+          done();
+        },50);
+      })
+    });
+  })
 
   describe("checking that paths need updating", function () {
     describe("when the recipient is the last recipient", function() {
@@ -744,8 +845,75 @@ describe('SendCtrl', function(){
         network.remote.emit('transaction', data);
         assert(spy.called);
         done(); 
-      })
+      });
+    });
 
-    })
-  })
+    describe('reset', function () {
+      it('should set the mode to form', function (done) {
+        scope.mode = null;
+        scope.reset();
+        assert.equal(scope.mode, 'form');
+        done();
+      });
+
+      it('should clear out nickname and error_type', function (done) {
+        scope.nickname = 'raimundo';
+        scope.error_type = 'toomuch';
+        scope.reset();
+        scope.nickname = '';
+        scope.error_type = '';
+        done();
+      });
+
+      it('should reset the send object', function (done) {
+        scope.send = {
+          recipient: 'a',
+          recipient_name: 'b',
+          recipient_address: 'c',
+          recipient_prev: 'd',
+          recipient_info: { key: 'value' },
+          amount: 'e',
+          currency: 'i',
+          currency_choices: 'j',
+          currency_code: "f",
+          path_status: 'g',
+          fund_status: 'h',
+          sender_insufficient_xrp: true
+        };      
+
+        scope.xrp.name = '$scope.xrp.name';
+        scope.reset();
+
+        assert.equal(scope.send.recipient, '');
+        assert.equal(scope.send.recipient_name, '');
+        assert.equal(scope.send.recipient_address, '');
+        assert.equal(scope.send.recipient_prev, '');
+        assert.equal(scope.send.amount, '');  
+        assert.equal(scope.send.currency, '$scope.xrp.name');
+        assert.equal(scope.send.currency_code, 'XRP');
+        assert.equal(scope.send.path_status, 'waiting');
+        assert.equal(scope.send.fund_status, 'none');
+        assert.isFalse(scope.send.sender_insufficient_xrp);
+
+        done();
+      });
+
+      it('should reset the address form', function (done) {
+        spy = sinon.spy(scope, 'resetAddressForm');
+        scope.reset();
+        assert(spy.called);
+        done();
+      });
+
+      describe('when the sendForm is present', function () {
+        it('should set the address form to pristine', function (done) {
+          scope.sendForm = { $setPristine: function () {} };
+          spy = sinon.spy(scope.sendForm, '$setPristine');
+          scope.reset();
+          assert(spy.called);
+          done();
+        });
+      });
+    });
+  });
 });

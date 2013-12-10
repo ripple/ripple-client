@@ -475,7 +475,6 @@ SendTab.prototype.angular = function (module)
      */
     $scope.update_quote = function () {
       var send = $scope.send;
-      var recipient = send.recipient_actual || send.recipient_address;
 
       $scope.reset_paths();
 
@@ -499,47 +498,59 @@ SendTab.prototype.angular = function (module)
           url: send.quote_url,
           dataType: 'json',
           data: data,
-          error: function () {
-            setImmediate(function () {
-              $scope.$apply(function () {
-                $scope.send.path_status = "error-quote";
-              });
-            });
-          },
-          success: function (data) {
-            $scope.$apply(function () {
-              // Check if this request is still current, exit if not
-              var now_recipient = send.recipient_actual || send.recipient_address;
-              if (recipient !== now_recipient) return;
-
-              var now_amount = send.amount_feedback;
-              if (!now_amount.equals(send.amount_feedback)) return;
-
-              if (!data || !data.quote ||
-                  !(data.result === "success" || data.status === "success") ||
-                  !Array.isArray(data.quote.send) ||
-                  !data.quote.send.length || !data.quote.address) {
-                $scope.send.path_status = "error-quote";
-                return;
-              }
-
-              var amount = Amount.from_json(data.quote.send[0]);
-
-              send.quote = data.quote;
-
-              // We have a quote, now calculate a path
-              send.recipient_actual = data.quote.address;
-              send.amount_actual = amount;
-
-              $scope.update_paths();
-            });
-          }
+          error: $scope.on_update_quote_error,
+          success: $scope.on_update_quote_success
         });
+
       } catch (e) {
         console.error(e.stack ? e.stack : e);
         $scope.send.path_status = "error-quote";
       }
     };
+
+    $scope.on_update_quote_error = function () {
+      setImmediate(function () {
+        $scope.$apply(function () {
+          $scope.send.path_status = "error-quote";
+        });
+      });
+    }
+
+    $scope.on_update_quote_success = function (data) {
+      var send = $scope.send;
+      var recipient = send.recipient_actual || send.recipient_address;
+
+      $scope.$apply(function () {
+
+        // Check if this request is still current, exit if not
+        var now_recipient = send.recipient_actual || send.recipient_address;
+        if (recipient !== now_recipient) return;
+
+        var now_amount = send.amount_feedback;
+        if (!now_amount.equals(send.amount_feedback)) return;
+
+        function validateResponseData(data) {
+          !data || !data.quote ||
+            !(data.result === "success" || data.status === "success") ||
+            !Array.isArray(data.quote.send) ||
+            !data.quote.send.length || !data.quote.address
+        }
+        
+        if (validateResponseData(data)) {
+          $scope.send.path_status = "error-quote";
+          return;
+        }
+
+        var amount = Amount.from_json(data.quote.send[0]);
+
+        send.quote = data.quote;
+
+        // We have a quote, now calculate a path
+        send.recipient_actual = data.quote.address;
+        send.amount_actual = amount;      
+        $scope.update_paths();
+      });
+    }
 
     $scope.reset_paths = function () {
       var send = $scope.send;
