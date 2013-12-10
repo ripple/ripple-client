@@ -66,14 +66,22 @@ section.single.content(ng-controller='SendCtrl')
         .errorGroup(rp-errors='send_st')
           .error(rp-error-on='rpStdt')
             | Invalid source tag
-    .row.form-group(ng-repeat='field in send.extra_fields')
-      .col-xs-12.col-sm-6.col-md-5
+    .row.form-group(ng-repeat='field in send.extra_fields', ng-switch='field.type')
+      .col-xs-12.col-sm-6.col-md-5(ng-switch-when="text")
         label(ng-bind="field.label")
         p.field-hint(ng-show="field.hint", ng-bind="field.hint")
         input.form-control(
           type='text'
           ng-model='field.value'
           ng-required='{{field.required}}')
+      .col-xs-12.col-sm-6.col-md-5(ng-switch-when="select")
+        label(ng-bind="field.label")
+        p.field-hint(ng-show="field.hint", ng-bind="field.hint")
+        select.form-control(
+          type='text'
+          ng-model='field.value'
+          ng-required='{{field.required}}')
+          option(ng-repeat='option in field.options', ng-bind='option.label', value='{{option.value}}', ng-selected='option.selected', ng-disabled='option.disabled')
     .form-group
       label(for='send_amount') Recipient will receive
       .row.amount(ng-if="!send.currency_force")
