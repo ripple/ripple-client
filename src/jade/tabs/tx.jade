@@ -12,35 +12,54 @@ section.single.ddpage.content(ng-controller="TxCtrl", ng-switch on="state")
       group(ng-switch-when="Payment")
         group.clearfix
           dl.details.half
-            dt(l10n) Address sent from:
+            dt
+              span(l10n) Address sent from
+              span :
             dd {{transaction.Account}}
-            dt(l10n) Amount sent:
+            dt
+              span(l10n) Amount sent
+              span :
             dd {{amountSent | rpamount}} {{amountSent | rpcurrency}}
-            dt(l10n) Currency sent:
+            dt
+              span(l10n) Currency sent
+              span :
             dd {{amountSent | rpcurrencyfull}}
           dl.details.half
-            dt(l10n) Address sent to:
+            dt
+              span(l10n) Address sent to
+              span :
             dd {{transaction.Destination}}
-            dt(l10n) Amount received:
+            dt
+              span(l10n) Amount received
+              span :
             dd {{transaction.Amount | rpamount}} {{transaction.Amount | rpcurrency}}
-            dt(l10n) Currency received:
+            dt
+              span(l10n) Currency received
+              span :
             dd {{transaction.Amount | rpcurrencyfull}}
         hr
         dl.details
-          dt(l10n) Network fee paid:
+          dt
+            span(l10n) Network fee paid
+            span :
           dd {{transaction.Fee | rpamount}} XRP
-          dt(l10n) Conversion rate:
+          dt
+            span(l10n) Conversion rate
+            span :
           dd TODO
         hr
         dl.details
-          dt(l10n) Ledger number:
+          dt
+            span(l10n) Ledger number
+            span :
           dd {{transaction.inLedger}}
       group(ng-switch-default)
           group.clearfix
             dl.details.half
-              dt(l10n) Address sent from:
+              dt(l10n) Address sent from
+                span :
               dd {{transaction.Account}}
             dl.details.half
           hr
-          p.literal(l10n) Sorry, we don&#39;t have an info page layout for this
-            | transaction type yet.
+          p.literal(l10n="Sorry, we don't have an info page layout for this transaction type yet.")
+            | Sorry, we don&#39;t have an info page layout for this transaction type yet.

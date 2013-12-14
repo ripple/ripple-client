@@ -1,26 +1,26 @@
 ul.effects(ng-show="entry.effects")
   li(ng-repeat="effect in entry.showEffects", ng-switch on="effect.type")
-    span(ng-switch-when="offer_funded", l10n) You sold&nbsp;
+    span(ng-switch-when="offer_funded", l10n) You sold&#32;
       strong {{effect.gets | rpamount}} {{effect.gets | rpcurrency}}
-      |  for&nbsp;
+      |  for&#32;
       strong {{effect.pays | rpamount}} {{effect.pays | rpcurrency}}.
       |  This order has been funded.
-    span(ng-switch-when="offer_partially_funded", l10n) You sold&nbsp;
+    span(ng-switch-when="offer_partially_funded", l10n) You sold&#32;
       strong {{effect.got | rpamount}} {{effect.got | rpcurrency}}
-      |  for&nbsp;
+      |  for&#32;
       strong {{effect.paid | rpamount}} {{effect.paid | rpcurrency}}.
-      span(ng-hide="effect.deleted")  This order has {{effect.remaining | rpamount}} {{effect.remaining | rpcurrency}} remaining.
-    span(ng-switch-when="offer_cancelled", l10n) You cancelled an offer accepting&nbsp;
+      span(ng-hide="effect.deleted", l10n)  This order has {{effect.remaining | rpamount}} {{effect.remaining | rpcurrency}} remaining.
+    span(ng-switch-when="offer_cancelled", l10n) You cancelled an offer accepting&#32;
       strong {{effect.pays | rpamount}} {{effect.pays | rpcurrency}}
-      |  for&nbsp;
+      |  for&#32;
       strong {{effect.gets | rpamount}} {{effect.gets | rpcurrency}}
-    span(ng-switch-when="offer_created", l10n) You created an offer accepting&nbsp;
+    span(ng-switch-when="offer_created", l10n) You created an offer accepting&#32;
       strong {{effect.pays | rpamount}} {{effect.pays | rpcurrency}}
-      |  for&nbsp;
+      |  for&#32;
       strong {{effect.pays | rpamount}} {{effect.gets | rpcurrency}}
-    span(ng-switch-when="offer_bought", l10n) You bought&nbsp;
+    span(ng-switch-when="offer_bought", l10n) You bought&#32;
       strong {{effect.got | rpamount}} {{effect.got | rpcurrency}}
-      |  for&nbsp;
+      |  for&#32;
       strong {{effect.paid | rpamount}} {{effect.paid | rpcurrency}}.
 
     span(ng-switch-when="trust_create_local", l10n) You now trust {{effect.counterparty | rpcontactname}}

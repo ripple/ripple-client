@@ -34,10 +34,9 @@ function(net, $q, $scope, $filter) {
       if (rowCount > max_rows) return false;
 
       // prefer taker_pays_funded & taker_gets_funded
-      if (d.hasOwnProperty('taker_gets_funded'))
-      {
-        d.TakerGets = Amount.from_json(d.taker_gets_funded);
-        d.TakerPays = Amount.from_json(d.taker_pays_funded);
+      if (d.hasOwnProperty('taker_gets_funded')) {
+        d.TakerGets = d.taker_gets_funded;
+        d.TakerPays = d.taker_pays_funded;
       }
 
       d.TakerGets = Amount.from_json(d.TakerGets);

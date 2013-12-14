@@ -422,6 +422,17 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
 
   $scope.$on('$idAccountUnload', handleAccountUnload);
 
+  $scope.changeLanguage = function (code) {
+    store.set('ripple_language',code);
+
+    // problem?
+    // reload will not work, as some pages are also available for guests.
+    // Logout will show the same page instead of showing login page.
+    // This line redirects user to root (login) page
+    var port = location.port.length > 0 ? ":" + location.port : "";
+    location.href = location.protocol + '//' + location.hostname  + port + location.pathname;
+  };
+
   // XXX: The app also needs to handle updating its data when the connection is
   //      lost and later re-established. (... or will the Ripple lib do that for us?)
   var removeFirstConnectionListener =

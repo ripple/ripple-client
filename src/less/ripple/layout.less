@@ -300,6 +300,18 @@ footer {
       text-align: left;
     }
   }
+
+  .right-links {
+    a {
+      border-right: 1px solid #ccc;
+      padding-right: 5px;
+      margin-right: 5px;
+    }
+
+    a:last-child {
+      border-right: none;
+    }
+  }
 }
 
 .row-padding-small {
@@ -378,11 +390,11 @@ footer {
       color: #fff;
     }
 
-    &.wallet span,
-    &.send span,
-    &.receive span,
-    &.trade span,
-    &.advanced span {
+    &.wallet .nav-icon,
+    &.send .nav-icon,
+    &.receive .nav-icon,
+    &.trade .nav-icon,
+    &.advanced .nav-icon {
       float: left;
       display: block;
       width: 60px;
@@ -397,18 +409,18 @@ footer {
       }
     }
 
-    &.wallet span {background-position: 0px -10px;}
-    &.send span {background-position: -60px -10px;}
-    &.receive span {background-position: -120px -10px;}
-    &.trade span {background-position: -180px -10px;}
-    &.advanced span {background-position: -240px -10px;}
+    &.wallet .nav-icon {background-position: 0px -10px;}
+    &.send .nav-icon {background-position: -60px -10px;}
+    &.receive .nav-icon {background-position: -120px -10px;}
+    &.trade .nav-icon {background-position: -180px -10px;}
+    &.advanced .nav-icon {background-position: -240px -10px;}
 
     &.active {
-      &.wallet span {background-position: 0px -70px;}
-      &.send span {background-position: -60px -70px;}
-      &.receive span {background-position: -120px -70px;}
-      &.trade span {background-position: -180px -70px;}
-      &.advanced span {background-position: -240px -70px;}
+      &.wallet .nav-icon {background-position: 0px -70px;}
+      &.send .nav-icon {background-position: -60px -70px;}
+      &.receive .nav-icon {background-position: -120px -70px;}
+      &.trade .nav-icon {background-position: -180px -70px;}
+      &.advanced .nav-icon {background-position: -240px -70px;}
     }
   }
 

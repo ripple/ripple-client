@@ -47,6 +47,7 @@ TrustTab.prototype.angular = function (module)
       $scope.editform_visible = false;
       $scope.edituser = '';
       $scope.amount = '';
+      $scope.allowrippling = false;
       $scope.counterparty = '';
       $scope.saveAddressName = '';
       $scope.error_account_reserve = false;
@@ -165,8 +166,11 @@ TrustTab.prototype.angular = function (module)
       var amount = $scope.amount + '/' + currency + '/' + $scope.counterparty_address;
 
       var tx = $network.remote.transaction();
+
+      // Flags
       tx
-        .ripple_line_set($id.account, amount)
+        .rippleLineSet($id.account, amount)
+        .setFlags($scope.allowrippling ? 'NoRipple' : 'ClearNoRipple')
         .on('proposed', function(res){
           $scope.$apply(function () {
             setEngineStatus(res, false);

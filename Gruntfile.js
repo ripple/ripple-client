@@ -14,6 +14,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-concurrent');
+  grunt.loadNpmTasks('grunt-jade-l10n-extractor');
 
   // Ripple client dependencies
   var deps = ["deps/js/jquery.js",
@@ -119,9 +120,6 @@ module.exports = function(grunt) {
       options: {
         entry: "./src/js/entry/desktop.js",
         module: {
-          loaders: [
-            { test: /\.jade$/, loader: "jade-loader" }
-          ],
           preLoaders: [
             {
               test: /\.js$/,
@@ -152,6 +150,11 @@ module.exports = function(grunt) {
         ]
       },
       desktop: {
+        module: {
+          loaders: [
+            { test: /\.jade$/, loader: "jade-l10n-loader" }
+          ]
+        },
         output: {
           filename: "<%= pkg.name %>-desktop.js"
         },
@@ -160,11 +163,29 @@ module.exports = function(grunt) {
         }
       },
       desktop_debug: {
+        module: {
+          loaders: [
+            { test: /\.jade$/, loader: "jade-l10n-loader" }
+          ]
+        },
         output: {
           filename: "<%= pkg.name %>-desktop-debug.js"
         },
         debug: true,
         devtool: 'eval'
+      },
+      chinese: {
+        module: {
+          loaders: [
+            { test: /\.jade$/, loader: "jade-l10n-loader?languageFile=./l10n/cn/messages.po" }
+          ]
+        },
+        output: {
+          filename: "<%= pkg.name %>-desktop-cn.js"
+        },
+        optimize: {
+          minimize: true
+        }
       }
     },
     concat: {
@@ -294,7 +315,7 @@ module.exports = function(grunt) {
         ]
       }
     },
-    l10n: {
+    jade_l10n_extractor: {
       templates: {
         options: {
         },
@@ -311,7 +332,7 @@ module.exports = function(grunt) {
       },
       scripts_debug: {
         files: ['src/js/**/*.js', 'src/jade/**/*.jade'],
-        tasks: ['webpack:desktop_debug'],
+        tasks: ['webpack'],
         options: { nospawn: true, livereload: true }
       },
       deps: {

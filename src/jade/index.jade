@@ -1,0 +1,75 @@
+.mobile-nav(rp-snapper)
+  .logo
+  a.wallet(href="#/balance", ng-class="{active: $route.current.mainMenu == 'wallet'}")
+    span.nav-icon.nav-icon-wallet
+    span(l10n) Wallet
+  a.sub(href="#/balance", ng-class="{active: $route.current.mainMenu == 'balance'}", l10n) Balance
+  a.sub(href="#/history", ng-class="{active: $route.current.mainMenu == 'history'}", l10n) History
+  a.sub(href="#/contacts", ng-class="{active: $route.current.mainMenu == 'contacts'}", l10n) Contacts
+  a.sub(href="#/convert", ng-class="{active: $route.current.mainMenu == 'convert'}", l10n) Convert
+  a.sub(href="#/security", ng-class="{active: $route.current.mainMenu == 'security'}", l10n) Security
+
+  a.send(href="#/send", ng-class="{active: $route.current.mainMenu == 'send'}")
+    span.nav-icon.nav-icon-send
+    span(l10n) Send
+
+  a.receive(href="#/receive", ng-class="{active: $route.current.mainMenu == 'receive'}")
+    span.nav-icon.nav-icon-receive
+    span(l10n) Receive
+
+  a.send(href="#/trade", ng-class="{active: $route.current.mainMenu == 'trade'}")
+    span.nav-icon.nav-icon-trade
+    span(l10n) Trade
+
+  a.advanced(href="#/trust", ng-class="{active: $route.current.mainMenu == 'advanced'}")
+    span.nav-icon.nav-icon-advanced
+    span(l10n) Advanced
+
+  a.sub(href="#/trust", ng-class="{active: $route.current.mainMenu == 'trust'}", l10n) Trust
+  a.sub(href="#/options", ng-class="{active: $route.current.mainMenu == 'options'}", l10n) Options
+
+// Wrapper
+div#wrapper
+  .container
+    // Header
+    header
+      // Logo
+      div#logo
+        a(href="#/", title="Ripple")
+
+      // Nav
+      nav.row.top-nav
+        ul.col-xs-12
+          li#nav-wallet.col-xs-2.col-md-1(ng-class="{active: $route.current.mainMenu == 'wallet'}")
+            a.nav-icon.nav-icon-wallet(href="#/balance")
+              span(l10n) Wallet
+          li#nav-send.col-xs-2.col-md-1(ng-class="{active: $route.current.mainMenu == 'send'}")
+            a.nav-icon.nav-icon-send(href="#/send")
+              span(l10n) Send
+          li#nav-receive.col-xs-2.col-md-1(ng-class="{active: $route.current.mainMenu == 'receive'}")
+            a.nav-icon.nav-icon-receive(href="#/receive")
+              span(l10n) Receive
+          li#nav-trade.col-xs-2.col-md-1(ng-class="{active: $route.current.mainMenu == 'trade'}")
+            a.nav-icon.nav-icon-trade(href="#/trade")
+              span(l10n) Trade
+          li#nav-advanced.col-xs-2.col-md-1(ng-class="{active: $route.current.mainMenu == 'advanced'}")
+            a.nav-icon.nav-icon-advanced(href="#/trust")
+              span(l10n) Advanced
+
+      div(scope="root", rp-jade-replace="client/status.jade")
+
+    // Main
+    .row.main(role="main") !{template}
+
+    // Footer
+    footer.row
+      .col-xs-12.col-sm-5
+        a(href="https://ripple.com/wiki/index.php?title=Ripple_Client_Release_Notes")
+          | Version: <!-- @echo VERSION --><!-- @ifdef MODE_DEBUG !>-debug<!-- @endif --><!-- @exclude -->[unprocessed]<!-- @endexclude -->
+
+      .col-xs-12.col-sm-7.right-links
+        a(href="http://ripple.com/terms", target="_blank", l10n) Terms of Service
+        a(href="https://support.ripplelabs.com", target="_blank", l10n) Support
+        a(href="https://ripplelabs.atlassian.net/browse/WC", target="_blank", l10n) Bug reports
+        a(href="", ng-click="changeLanguage()") English
+        a(href="", ng-click="changeLanguage('cn')") Chinese

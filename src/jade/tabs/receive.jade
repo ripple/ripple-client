@@ -5,7 +5,7 @@ section.single.content(ng-controller="ReceiveCtrl")
     .box
       span#receive-address(ng-bind="address")
   p.literal(ng-show="!copy_supported", l10n)
-    | Tip:&nbsp;
+    | Tip:&#32;
     a.select(rp-select-el="receive-address", l10n-inc) Select
     |  and copy using Ctrl+C.
   form(ng-show="copy_supported")

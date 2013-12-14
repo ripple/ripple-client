@@ -1,11 +1,11 @@
 section.col-xs-12.content(ng-controller="LoginCtrl")
 
   .row.normal-login(ng-hide="$routeParams.tab")
-    h1 Open Wallet
+    h1(l10n) Open Wallet
     .col-sm-10.col-sm-offset-1
       .row
         .col-xs-12
-          p.literal Enter the Name and Passphrase used to encrypt your Wallet below.
+          p.literal(l10n) Enter the Name and Passphrase used to encrypt your Wallet below.
       form(name='loginForm', ng-submit='submitForm()')
         .row
           .col-xs-12.col-sm-6.col-md-5
@@ -16,83 +16,81 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
               span {{status}}
               br
               .backend(ng-repeat="message in backendMessages")
-                b {{message.backend}} &nbsp;
+                b {{message.backend}} &#32;
                 span {{message.message}}
           .col-xs-12
             .row
               .col-xs-12.col-sm-6.col-md-5
                 button.btn.btn-lg.btn-submit.btn-block.btn-primary(type='submit', ng-disabled="loginForm.$invalid || ajax_loading")
                   span.spinner(ng-show="ajax_loading", rp-spinner="4")
-                  | Open Wallet
+                  span(l10n) Open Wallet
               .col-xs-12.col-sm-5.col-md-4
                 .storageinfo
-                  span.fetch Fetch wallet from
+                  span.fetch(l10n) Fetch wallet from
                   span(ng-hide="storeChange")
-                    strong {{blobBackendCollection.something.name}}&nbsp;
-                    a(href="", ng-click="storeChange=true") change
+                    strong {{blobBackendCollection.something.name}}&#32;
+                    a(href="", ng-click="storeChange=true", l10n) change
                   span(ng-show="storeChange")
                     select(ng-model="blobBackendCollection.something", ng-options="b.name for b in blobBackendCollections", ng-change="backendChange()")
-                    a(href="", ng-click="storeChange=false") ok
+                    a(href="", ng-click="storeChange=false", l10n) ok
         .row
           .col-xs-12
             p.literal
-              | New to ripple?&nbsp;
-              a(href='#register') Create a wallet
+              span(l10n) New to ripple?&#32;
+              a(href='#register', l10n) Create a wallet
 
   .row.action-login(ng-show="$routeParams.tab")
-    h1(ng-show="'send' == $routeParams.tab") Transaction summary
-    h1(ng-show="'trust' == $routeParams.tab") Grant Trust
-    h1(ng-show="'contacts' == $routeParams.tab") Add contact
+    h1(ng-show="'send' == $routeParams.tab", l10n) Transaction summary
+    h1(ng-show="'trust' == $routeParams.tab", l10n) Grant Trust
+    h1(ng-show="'contacts' == $routeParams.tab", l10n) Add contact
 
     .col-xs-12.col-sm-6.col-md-6
       div.info(ng-show="'send' == $routeParams.tab")
         p.literal {{$routeParams.label}}
-        p(ng-show="$routeParams.amount") you will send
-        p(ng-hide="$routeParams.amount") you will send money to the ripple address
+        p(ng-show="$routeParams.amount", l10n) you will send
+        p(ng-hide="$routeParams.amount", l10n) you will send money to the ripple address
         .amount(ng-show="$routeParams.amount")
           span.number {{$routeParams.amount | rpamount:{xrp_human: true} }}
           span.currency {{$routeParams.amount | rpcurrency}}
-        p(ng-show="$routeParams.amount") To the ripple address
+        p(ng-show="$routeParams.amount", l10n) To the ripple address
         .address {{$routeParams.to}}
       div.info(ng-show="'trust' == $routeParams.tab")
         p.literal {{$routeParams.label}}
-        p you will trust
+        p(l10n) you will trust
         .amount(ng-show="$routeParams.amount")
           span.number {{$routeParams.amount | rpamount:{xrp_human: true} }}
           span.currency {{$routeParams.amount | rpcurrency}}
-        p(ng-hide="$routeParams.name") To ripple address
-        p(ng-show="$routeParams.name") To <b>{{$routeParams.name}}</b> with a ripple address
+        p(ng-hide="$routeParams.name", l10n) To ripple address
+        p(ng-show="$routeParams.name", l10n) To <b>{{$routeParams.name}}</b> with a ripple address
         .address {{$routeParams.to}}
       div.info(ng-show="'contacts' == $routeParams.tab")
         p.literal {{$routeParams.label}}
-        p you will add the user
-        .address {{$routeParams.to}}
-        p To your ripple contacts
+        span
+          p(l10n) you will add the user
+          .address {{$routeParams.to}}
+          p(l10n) To your ripple contacts
 
     .col-xs-12.col-sm-6.col-md-5.col-lg-4.col-lg-offset-1
       form(name='loginForm', ng-submit='submitForm()')
         include login/form
         label.storageinfo
           span(ng-hide="storeChange")
-            strong {{blobBackendCollection.something.name}}&nbsp;
-            a(href="", ng-click="storeChange=true") change
+            strong {{blobBackendCollection.something.name}}&#32;
+            a(href="", ng-click="storeChange=true", l10n) change
           span(ng-show="storeChange")
             select(ng-model="blobBackendCollection.something", ng-options="b.name for b in blobBackendCollections", ng-change="backendChange()")
-            a(href="", ng-click="storeChange=false") ok
+            a(href="", ng-click="storeChange=false", l10n) ok
         .row
           .col-xs-12.text-status(ng-show='status')
             span {{status}}
             br
             .backend(ng-repeat="message in backendMessages")
-              b {{message.backend}} &nbsp;
+              b {{message.backend}} &#32;
               span {{message.message}}
         .row
           .col-xs-12
             button.btn.btn-lg.btn-submit.btn-block.btn-primary(type='submit', ng-disabled="loginForm.$invalid || ajax_loading")
-              span.spinner(ng-show="ajax_loading", rp-spinner="4")
-              | Open Wallet
-        p.literal.hint
-          | You can confirm this transaction on the next page.
-        p.literal
-          | New to ripple?&nbsp;
+              span.spinner(ng-show="ajax_loading", rp-spinner="4", l10n) Open Wallet
+        p.literal.hint(l10n) You can confirm this transaction on the next page.
+        p.literal(l10n) New to ripple?&#32;
           a(href='#/register') Create a wallet

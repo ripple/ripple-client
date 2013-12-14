@@ -37,13 +37,13 @@
     h2.tx-status(l10n) Transaction failed!
     p(ng-switch on="engine_result")
       span(ng-switch-when="terNO_LINE", l10n)
-      | You have no trust line in this currency.
+        | You have no trust line in this currency.
     span(ng-switch-default, l10n)
       | Your transaction failed to clear: {{engine_result}} - {{engine_result_message}}
   group.result-failed(ng-switch-when='tej')
     h2.tx-status(l10n) Transaction failed!
     p(ng-switch on="engine_result")
       span(ng-switch-when="tejLost", l10n)
-      | Ripple client gave up trying to submit this transaction.
+        | Ripple client gave up trying to submit this transaction.
     span(ng-switch-default, l10n)
       | Your transaction could not be submitted: {{engine_result}} - {{engine_result_message}}
