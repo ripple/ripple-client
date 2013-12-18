@@ -3,13 +3,17 @@ ul.effects(ng-show="entry.effects")
     span(ng-switch-when="offer_funded", l10n) You sold&#32;
       strong {{effect.gets | rpamount}} {{effect.gets | rpcurrency}}
       |  for&#32;
-      strong {{effect.pays | rpamount}} {{effect.pays | rpcurrency}}.
-      |  This order has been funded.
+      strong {{effect.pays | rpamount}} {{effect.pays | rpcurrency}}
+      | . This order has been funded.
     span(ng-switch-when="offer_partially_funded", l10n) You sold&#32;
-      strong {{effect.got | rpamount}} {{effect.got | rpcurrency}}
-      |  for&#32;
-      strong {{effect.paid | rpamount}} {{effect.paid | rpcurrency}}.
-      span(ng-hide="effect.deleted", l10n)  This order has {{effect.remaining | rpamount}} {{effect.remaining | rpcurrency}} remaining.
+      span(l10n) You sold&#32;
+        strong {{effect.got | rpamount}} {{effect.got | rpcurrency}}
+        |  for&#32;
+        strong {{effect.paid | rpamount}} {{effect.paid | rpcurrency}}
+        | .
+      span(ng-hide="effect.deleted", l10n)  This order has
+        span  {{effect.remaining | rpamount}} {{effect.remaining | rpcurrency}}
+        |  remaining.
     span(ng-switch-when="offer_cancelled", l10n) You cancelled an offer accepting&#32;
       strong {{effect.pays | rpamount}} {{effect.pays | rpcurrency}}
       |  for&#32;
@@ -21,21 +25,47 @@ ul.effects(ng-show="entry.effects")
     span(ng-switch-when="offer_bought", l10n) You bought&#32;
       strong {{effect.got | rpamount}} {{effect.got | rpcurrency}}
       |  for&#32;
-      strong {{effect.paid | rpamount}} {{effect.paid | rpcurrency}}.
+      strong {{effect.paid | rpamount}} {{effect.paid | rpcurrency}}
+      | .
 
-    span(ng-switch-when="trust_create_local", l10n) You now trust {{effect.counterparty | rpcontactname}}
-      |  for {{effect.limit | rpamount}} {{effect.limit | rpcurrency}}
-    span(ng-switch-when="trust_create_remote", l10n) {{effect.counterparty | rpcontactname}} is trusting you
-      |  for {{effect.limit | rpamount}} {{effect.limit | rpcurrency}}
-    span(ng-switch-when="trust_change_local", l10n) You have changed {{effect.limit | rpcurrency}} trust for
-      |  {{effect.counterparty | rpcontactname}}
-      |  from {{effect.prevLimit | rpamount}} to {{effect.limit | rpamount}}
-    span(ng-switch-when="trust_change_remote", l10n) {{effect.counterparty | rpcontactname}}
-      |  changed the {{effect.limit | rpcurrency}} trust
-      |  from {{effect.prevLimit | rpamount}} to {{effect.limit | rpamount}}
-    span(ng-switch-when="trust_change_balance", l10n) Trust balance between you and
-      |  {{effect.counterparty | rpcontactname}} has been changed by
-      |  {{effect.amount | rpamount}} {{effect.amount | rpcurrency}}
+    span(ng-switch-when="trust_create_local", l10n) You now trust
+      span  {{effect.counterparty | rpcontactname}}
+      |  for
+      span  {{effect.limit | rpamount}} {{effect.limit | rpcurrency}}
+      | .
+    span(ng-switch-when="trust_create_remote", l10n)
+      span {{effect.counterparty | rpcontactname}}
+      |  is trusting you
+      |  for
+      span  {{effect.limit | rpamount}} {{effect.limit | rpcurrency}}
+      | .
+    span(ng-switch-when="trust_change_local", l10n)
+      | You have changed
+      span  {{effect.limit | rpcurrency}}
+      |  trust for
+      span  {{effect.counterparty | rpcontactname}}
+      |  from
+      span  {{effect.prevLimit | rpamount}}
+      |  to
+      span  {{effect.limit | rpamount}}
+      | .
+    span(ng-switch-when="trust_change_remote", l10n)
+      span {{effect.counterparty | rpcontactname}}
+      |  changed the
+      span  {{effect.limit | rpcurrency}}
+      |  trust
+      |  from
+      span  {{effect.prevLimit | rpamount}}
+      |  to
+      span  {{effect.limit | rpamount}}
+      | .
+    span(ng-switch-when="trust_change_balance", l10n)
+      | Trust balance between you and
+      span  {{effect.counterparty | rpcontactname}}
+      |  has been changed by
+      span  {{effect.amount | rpamount}} {{effect.amount | rpcurrency}}
+      | .
 
     span(ng-switch-when="balance_change", l10n) Your balance has been changed by
-      |  {{effect.amount | rpamount}} {{effect.amount | rpcurrency}}
+      span  {{effect.amount | rpamount}} {{effect.amount | rpcurrency}}
+      | .

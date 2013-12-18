@@ -39,7 +39,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
             li.value XRP
           ul.issuers.inline(ng-show='order.second_currency != "XRP"')
             li.label(l10n) Counter currency
-            li.value(l10n) {{order.second_currency}}&ensp;
+            li.value {{order.second_currency}}&ensp;
               span(
                 rp-pretty-issuer="order.second_issuer"
                 rp-pretty-issuer-contacts="userBlob.data.contacts"
@@ -187,10 +187,11 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                         .error(rp-error-on='rpAmountXrpLimit', l10n) There is a limit of 100 billion XRPs
                 .message
                   p(ng-show='tradeForm.$valid', l10n) You are wanting to {{type}}
-                    | {{order[type].first_amount | rpamount:{precision: 10} }} {{order[type].first_amount | rpcurrency}}
-                    | for
-                    | {{order[type].second_amount | rpamount:{precision: 10} }} {{order[type].second_amount | rpcurrency}}
-                    | ({{order[type].price_amount | rpamount:{precision: 10} }} {{order[type].second_amount | rpcurrency}}
+                    span  {{order[type].first_amount | rpamount:{precision: 10} }} {{order[type].first_amount | rpcurrency}}
+                    |  for
+                    span  {{order[type].second_amount | rpamount:{precision: 10} }} {{order[type].second_amount | rpcurrency}}
+                    |  (
+                    span {{order[type].price_amount | rpamount:{precision: 10} }} {{order[type].second_amount | rpcurrency}}
                     |  per {{order[type].first_amount | rpcurrency}})
                 .row
                   .col-xs-6
@@ -258,7 +259,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                 p(ng-switch on="order[type].engine_result")
                   span(ng-switch-when="telINSUF_FEE_P", l10n)
                     | The particular server you sent the transaction to was too busy to forward or process
-                    | your transaction at the fee you included in it.
+                    |  your transaction at the fee you included in it.
               group.result-failed(ng-show='order[type].tx_result=="unknown"')
                 h2.tx-status {{order[type].engine_result}}
                 p(ng-switch on="order[type].engine_result")

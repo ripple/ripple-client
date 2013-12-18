@@ -105,9 +105,9 @@ section.col-xs-12.col-md-10.content(ng-controller="ConvertCtrl")
         p(l10n) Ripple was unable to find a path between you and the destination account.
       group(ng-switch-default)
         p.literal(l10n) Sorry, an error occurred while submitting your transaction.
-          | Make sure you are connected to the Internet and try again later.
+          |  Make sure you are connected to the Internet and try again later.
         p.literal(l10n) Before trying again, please ensure that the transaction has
-          | not been executed already.
+          |  not been executed already.
     p: button.btn.btn-default(ng-click='cancelConfirm()', l10n) &laquo; Back
 
   //- N6. Confirmed page
@@ -156,7 +156,7 @@ section.col-xs-12.col-md-10.content(ng-controller="ConvertCtrl")
       p(ng-switch on="engine_result")
         span(ng-switch-when="telINSUF_FEE_P", l10n)
           | The particular server you sent the transaction to was too busy to forward or process
-          | your transaction at the fee you included in it.
+          |  your transaction at the fee you included in it.
     group.actions
       hr
       div(class="actionLink")

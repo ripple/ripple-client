@@ -125,15 +125,15 @@ section.col-xs-12.col-md-10.content(ng-controller="TrustCtrl")
         .extra(ng-show="counterparty != counterparty_address || counterparty_name") {{counterparty_address}}
       p.literal.trust-notice(ng-show="currencyWarning == 'firstIssuer'", l10n)
         | By pressing CONFIRM you are extending trust to another Ripple user.
-        | This action carries the risk of potential loss up to the amount of the trust
-        | line. Make sure you understand these consequences, and that
-        | all the issuers are trustworthy.
+        |  This action carries the risk of potential loss up to the amount of the trust
+        |  line. Make sure you understand these consequences, and that
+        |  all the issuers are trustworthy.
       p.literal.trust-notice(ng-show="currencyWarning == 'multipleIssuers'", l10n)
         | By pressing CONFIRM you are extending trust to&#32;
         strong multiple issuers&#32;
         | for the same currency which may result in your account balances changing without
-        | your direct action. Make sure you understand these consequences, and that
-        | all your issuers are trustworthy.
+        |  your direct action. Make sure you understand these consequences, and that
+        |  all your issuers are trustworthy.
       .row
         .col-xs-6.col-md-3.col-lg-2
           button.btn.btn-block.btn-default.back(ng-click='mode="main"', l10n) &laquo; Back
@@ -156,7 +156,7 @@ section.col-xs-12.col-md-10.content(ng-controller="TrustCtrl")
         p: a.btn.btn-default(href="#balance", l10n) Back to balance
       div(ng-hide="errorMessage")
         p.literal(l10n) Sorry, an error occurred while granting. Make sure you
-          | are connected to the Internet and try again later.
+          |  are connected to the Internet and try again later.
         p: button.btn.btn-default(ng-click='reset()', l10n) &laquo; Back
 
     //- N5. Granted page
@@ -178,16 +178,16 @@ section.col-xs-12.col-md-10.content(ng-controller="TrustCtrl")
           span(ng-switch-when="terNO_LINE", l10n) You have no trust line in this currency.
           span(ng-switch-when="tecINSUF_RESERVE_LINE", l10n) Insufficient reserve to add trust line.
           span(ng-switch-when="tecNO_LINE_INSUF_RESERVE", l10n) You must have at
-            | least {{account.reserve_to_add_trust | rpamount:0}} XRP to add a trust line.&#32;
+            |  least {{account.reserve_to_add_trust | rpamount:0}} XRP to add a trust line.&#32;
             a(href="http://ripple.com/help/#reserve", l10n) Read more.
           span(ng-switch-default, l10n) Trust granting failed to clear,
-            | reason: {{engine_result_message}}
+            |  reason: {{engine_result_message}}
       group.result-failed(ng-show='tx_result=="local"')
         h2.tx-status(l10n) Transaction failed!
         p(ng-switch on="engine_result")
           span(ng-switch-when="telINSUF_FEE_P", l10n)
             | The particular server you sent the transaction to was too busy to forward or process
-            | your transaction at the fee you included in it.
+            |  your transaction at the fee you included in it.
       group.actions
         hr
         .text-success(ng-show='addressSaved', class="actionLink", l10n) Address saved!

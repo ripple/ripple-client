@@ -7,7 +7,7 @@ section.single.ddpage.content(ng-controller="TxCtrl", ng-switch on="state")
     p.literal.hash(l10n) Transaction # {{transaction.hash}}
     hr
     p.literal.type(l10n) Transaction type:
-      strong {{transaction.TransactionType}}
+      strong  {{transaction.TransactionType}}
     group(ng-switch on="transaction.TransactionType")
       group(ng-switch-when="Payment")
         group.clearfix
@@ -56,8 +56,7 @@ section.single.ddpage.content(ng-controller="TxCtrl", ng-switch on="state")
       group(ng-switch-default)
           group.clearfix
             dl.details.half
-              dt(l10n) Address sent from
-                span :
+              dt(l10n) Address sent from:
               dd {{transaction.Account}}
             dl.details.half
           hr

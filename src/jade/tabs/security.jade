@@ -1,7 +1,8 @@
 include ../menu/wallet.jade
 section.col-xs-12.col-md-10.wide.content(ng-controller="SecurityCtrl")
-  p.important(l10n) Your money and wallet are protected digitally through encryption algorithms that can be unlocked&#32;
-    b only with your personal keys
+  p.important(l10n) Your money and wallet are protected digitally through
+    |  encryption algorithms that can be unlocked&#32;
+    b(l10n-inc) only with your personal keys
   ul.notices
     li
       span –
@@ -17,7 +18,7 @@ section.col-xs-12.col-md-10.wide.content(ng-controller="SecurityCtrl")
         span {{enc.length | rpfilesize}} &ensp;
     .more
       span(rp-download='enc',rp-download-filename='ripple-wallet.txt', l10n) You can&#32;
-        a(href="", rp-download-trigger) backup your wallet to a file.
+        a(href="", rp-download-trigger, l10n-inc) backup your wallet to a file.
   ul.description(ng-hide="showKeys")
     li(l10n) This is the key you use every time you use ripple.
     li(l10n) You created it when you chose your Wallet Name and Passphrase.

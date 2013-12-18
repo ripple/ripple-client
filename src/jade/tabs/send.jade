@@ -30,7 +30,7 @@ section.single.content(ng-controller='SendCtrl')
           rp-autofill='$routeParams.to'
           rp-focus)
         .errorGroup(rp-errors='send_destination')
-          .success(rp-error-valid ng-show='send.recipient != send.recipient_address', l10n)
+          .success(rp-error-valid ng-show='send.recipient != send.recipient_address')
             | {{send.recipient_address}}
           .error(rp-error-on='required', l10n)
             | Please enter a recipient.
@@ -309,7 +309,7 @@ section.single.content(ng-controller='SendCtrl')
       p(ng-switch on="engine_result")
         span(ng-switch-when="telINSUF_FEE_P", l10n)
           | The particular server you sent the transaction to was too busy to forward or process
-          | your transaction at the fee you included in it.
+          |  your transaction at the fee you included in it.
     group.result-malformed(ng-show='tx_result=="claim"')
       h2.tx-status(l10n) Transaction failed!
       p(ng-switch on="engine_result")
