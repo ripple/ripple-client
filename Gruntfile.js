@@ -186,6 +186,19 @@ module.exports = function(grunt) {
         optimize: {
           minimize: true
         }
+      },
+      italian: {
+        module: {
+          loaders: [
+            { test: /\.jade$/, loader: "jade-l10n-loader?languageFile=./l10n/it/messages.po" }
+          ]
+        },
+        output: {
+          filename: "<%= pkg.name %>-desktop-it.js"
+        },
+        optimize: {
+          minimize: true
+        }
       }
     },
     concat: {
