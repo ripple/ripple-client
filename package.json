@@ -23,8 +23,8 @@
     "grunt-preprocess": "~3.0.1",
     "jade": "~0.35.0",
     "jsdom": "~0.8.2",
-    "jade-l10n": "~0.0.3",
-    "jade-l10n-loader": "~0.0.1"
+    "jade-l10n": "0.1.x",
+    "jade-l10n-loader": "0.0.x"
   },
   "license": "ISC",
   "scripts": {
