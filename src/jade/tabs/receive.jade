@@ -7,7 +7,7 @@ section.single.content(ng-controller="ReceiveCtrl")
   p.literal(ng-show="!copy_supported", l10n)
     | Tip:&#32;
     a.select(rp-select-el="receive-address", l10n-inc) Select
-    |  and copy using Ctrl+C.
+    |  and copy using Ctrl+C (Win), Command+C (OSX).
   form(ng-show="copy_supported")
     button.btn.btn-success(l10n) Copy Address
   .qr#qr-code
