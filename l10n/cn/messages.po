@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Ripple Client\n"
-"PO-Revision-Date: 2013-12-16 08:20+0000\n"
+"PO-Revision-Date: 2013-12-19 19:50+0000\n"
 "Last-Translator: hyh <yuhao@ripple.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/ripple-client/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -35,7 +35,7 @@ msgstr "未激活的账户"
 msgid "Options"
 msgstr "选项"
 
-#: src/jade/directives/transactionerror.jade:4 src/jade/tabs/convert.jade:103
+#: src/jade/directives/transactionerror.jade:4 src/jade/tabs/convert.jade:104
 #: src/jade/tabs/send.jade:223
 msgid "Your transaction has been submitted."
 msgstr "交易信息已经提交。"
@@ -44,36 +44,36 @@ msgstr "交易信息已经提交。"
 msgid "Your account balance will update once the transaction has cleared."
 msgstr "您的账户余额会在交易完成后更新。"
 
-#: src/jade/directives/transactionerror.jade:7 src/jade/tabs/convert.jade:106
+#: src/jade/directives/transactionerror.jade:7 src/jade/tabs/convert.jade:107
 #: src/jade/tabs/send.jade:226
 msgid "Transaction cleared!"
 msgstr "交易完成！"
 
-#: src/jade/directives/transactionerror.jade:9 src/jade/tabs/convert.jade:108
+#: src/jade/directives/transactionerror.jade:9 src/jade/tabs/convert.jade:109
 #: src/jade/tabs/send.jade:228
 msgid "Transaction partially valid!"
 msgstr "交易仅部分有效！"
 
-#: src/jade/directives/transactionerror.jade:10 src/jade/tabs/convert.jade:109
+#: src/jade/directives/transactionerror.jade:10 src/jade/tabs/convert.jade:110
 #: src/jade/tabs/send.jade:229
 msgid "Your transaction could only be partially applied."
-msgstr "你的交易只能部分被实现"
+msgstr "你的转账只能部分实现"
 
 #: src/jade/directives/transactionerror.jade:12
-#: src/jade/directives/transactionerror.jade:17 src/jade/tabs/convert.jade:115
-#: src/jade/tabs/convert.jade:120 src/jade/tabs/send.jade:235
+#: src/jade/directives/transactionerror.jade:17 src/jade/tabs/convert.jade:116
+#: src/jade/tabs/convert.jade:121 src/jade/tabs/send.jade:235
 #: src/jade/tabs/send.jade:240
 msgid "Transaction malformed!"
 msgstr "无效的交易！"
 
-#: src/jade/directives/transactionerror.jade:14 src/jade/tabs/convert.jade:117
+#: src/jade/directives/transactionerror.jade:14 src/jade/tabs/convert.jade:118
 #: src/jade/tabs/send.jade:237
 msgid ""
 "Your transaction is invalid, reason: {{engine_result}} - "
 "{{engine_result_message}}"
 msgstr "您的交易无效，因为：{{engine_result}} - {{engine_result_message}}"
 
-#: src/jade/directives/transactionerror.jade:19 src/jade/tabs/convert.jade:122
+#: src/jade/directives/transactionerror.jade:19 src/jade/tabs/convert.jade:123
 #: src/jade/tabs/send.jade:242
 msgid ""
 "Destination account requires destination tag to be specified when making "
@@ -83,39 +83,37 @@ msgstr "对方账户要求在支付时输入终端标签以区分款项。"
 #: src/jade/directives/transactionerror.jade:22
 #: src/jade/directives/transactionerror.jade:28
 #: src/jade/directives/transactionerror.jade:37
-#: src/jade/directives/transactionerror.jade:44 src/jade/tabs/convert.jade:125
-#: src/jade/tabs/convert.jade:134 src/jade/tabs/convert.jade:141
+#: src/jade/directives/transactionerror.jade:44 src/jade/tabs/convert.jade:126
+#: src/jade/tabs/convert.jade:135 src/jade/tabs/convert.jade:142
 #: src/jade/tabs/send.jade:245 src/jade/tabs/send.jade:251
-#: src/jade/tabs/send.jade:260 src/jade/tabs/trade.jade:194
-#: src/jade/tabs/trade.jade:208 src/jade/tabs/trust.jade:160
+#: src/jade/tabs/send.jade:260 src/jade/tabs/trade.jade:202
+#: src/jade/tabs/trade.jade:216 src/jade/tabs/trust.jade:160
 msgid "Transaction failed!"
 msgstr "交易失败！"
 
-#: src/jade/directives/transactionerror.jade:24 src/jade/tabs/convert.jade:143
-#: src/jade/tabs/send.jade:247 src/jade/tabs/trade.jade:210
-#: src/jade/tabs/trust.jade:162
+#: src/jade/directives/transactionerror.jade:24
 msgid ""
 "The particular server you sent the transaction to was too busy to forward or"
-" process your transaction at the fee you included in it."
-msgstr "该交易提交到的服务器太忙了，不能处理或者转发你提交的交易。"
+" processyour transaction at the fee you included in it."
+msgstr "服务器太忙了，不能处理或者转发你提交的交易。"
 
-#: src/jade/directives/transactionerror.jade:30 src/jade/tabs/convert.jade:127
+#: src/jade/directives/transactionerror.jade:30 src/jade/tabs/convert.jade:128
 #: src/jade/tabs/send.jade:253
 msgid "The destination account does not exist."
 msgstr "对方地址不存在。"
 
-#: src/jade/directives/transactionerror.jade:32 src/jade/tabs/convert.jade:129
+#: src/jade/directives/transactionerror.jade:32 src/jade/tabs/convert.jade:130
 #: src/jade/tabs/send.jade:255
 msgid ""
 "The destination account does not exist. Too little XRP sent to create it."
 msgstr "目标账户不存在。发送的XRP数量未达到激活账户的条件。"
 
-#: src/jade/directives/transactionerror.jade:34 src/jade/tabs/convert.jade:131
+#: src/jade/directives/transactionerror.jade:34 src/jade/tabs/convert.jade:132
 #: src/jade/tabs/send.jade:257
 msgid "Error: {{engine_result_message}}"
 msgstr "错误: {{engine_result_message}}"
 
-#: src/jade/directives/transactionerror.jade:39 src/jade/tabs/convert.jade:136
+#: src/jade/directives/transactionerror.jade:39 src/jade/tabs/convert.jade:137
 #: src/jade/tabs/send.jade:262 src/jade/tabs/trust.jade:152
 msgid "You have no trust line in this currency."
 msgstr "你没有这种货币的信任线。"
@@ -190,7 +188,7 @@ msgstr "使用条款"
 
 #: src/jade/index.jade:72
 msgid "Support"
-msgstr "客服"
+msgstr "帮助中心"
 
 #: src/jade/index.jade:73
 msgid "Bug reports"
@@ -202,17 +200,17 @@ msgstr "网关"
 
 #: src/jade/notification/account.jade:3
 msgid "You sent {{1}} {{2}} {{3}}"
-msgstr "你发出了&#32; {{1}} {{2}} {{3}}"
+msgstr "你发出了 {{1}} {{2}} {{3}}"
 
-#: src/jade/notification/account.jade:9
+#: src/jade/notification/account.jade:11
 msgid "{{tx.counterparty | rpcontactname}} sent you"
-msgstr "{{tx.counterparty | rpcontactname}} 发送给你&#32;"
+msgstr "{{tx.counterparty | rpcontactname}} 发给你"
 
-#: src/jade/notification/account.jade:14
+#: src/jade/notification/account.jade:18
 msgid "{{tx.counterparty | rpcontactname}} now trusts you for"
 msgstr "{{tx.counterparty | rpcontactname}} 对你设置了信任，额度为&#32;"
 
-#: src/jade/notification/account.jade:19
+#: src/jade/notification/account.jade:25
 msgid "You now trust {{tx.counterparty | rpcontactname}} for"
 msgstr "你信任了{{tx.counterparty | rpcontactname}} ，额度为&#32;"
 
@@ -239,10 +237,6 @@ msgstr "欢迎来到 Ripple."
 msgid ""
 "You currently don&#39;t have any ripples (XRP). To get started you can:"
 msgstr "目前你没有任何 XRP. 要开始使用你可以："
-
-#: src/jade/tabs/balance.jade:24
-msgid "XRP - Ripple"
-msgstr "XRP - Ripple"
 
 #: src/jade/tabs/balance.jade:35
 msgid "Activity"
@@ -274,7 +268,7 @@ msgid "{{entry.transaction.counterparty | rpcontactname}} sent you"
 msgstr "{{entry.transaction.counterparty | rpcontactname}} 给你发了"
 
 #: src/jade/tabs/balance.jade:68 src/jade/tabs/history.jade:112
-msgid "You requested to convert {{1}}  to {{2}}"
+msgid "You requested to convert {{1}} to {{2}}"
 msgstr "你请求把 {{1}} 兑换成 {{2}}"
 
 #: src/jade/tabs/balance.jade:76
@@ -285,15 +279,15 @@ msgstr "{{entry.transaction.counterparty | rpcontactname}} 对你设置了"
 msgid "You now trust {{1}} {{2}}"
 msgstr "你现在对 {{1}} 设置了 {{2}} 的信任额度"
 
-#: src/jade/tabs/balance.jade:97 src/jade/tabs/balance/effects.jade:17
-#: src/jade/tabs/history.jade:130 src/jade/tabs/history/effects.jade:17
-msgid "You created an offer accepting {{1}}  for&#32; {{2}}"
+#: src/jade/tabs/balance.jade:97 src/jade/tabs/balance/effects.jade:21
+#: src/jade/tabs/history.jade:130 src/jade/tabs/history/effects.jade:21
+msgid "You created an offer accepting {{1}} for {{2}}"
 msgstr "你建立了用 {{2}} 买入 {{1}} 的挂单 "
 
-#: src/jade/tabs/balance.jade:105 src/jade/tabs/balance/effects.jade:13
-#: src/jade/tabs/history.jade:136 src/jade/tabs/history/effects.jade:13
-msgid "You cancelled an offer accepting {{1}}  for&#32; {{2}}"
-msgstr "您取消了以 {{2}} 的价格承兑 {{1}} 的挂单"
+#: src/jade/tabs/balance.jade:105 src/jade/tabs/balance/effects.jade:17
+#: src/jade/tabs/history.jade:136 src/jade/tabs/history/effects.jade:17
+msgid "You cancelled an offer accepting {{1}} for {{2}}"
+msgstr "您取消了以 {{2}} 的价格购入 {{1}} 的挂单"
 
 #: src/jade/tabs/balance.jade:112
 msgid "Account details have been changed"
@@ -312,60 +306,44 @@ msgid "No past transactions found"
 msgstr "没有找到历史转账和交易记录"
 
 #: src/jade/tabs/balance/effects.jade:3 src/jade/tabs/history/effects.jade:3
-msgid "You sold {{1}}  for&#32; {{2}}  This order has been funded."
-msgstr "- 你卖出了&#32; {{1}}，得到了&nbsp; {{2}} 这个挂单已经全部成交了。 "
+msgid "You sold {{1}} for {{2}}. This order has been funded."
+msgstr "- 你卖出了 {{1}}，得到了 {{2}}。这个挂单已经全部成交了。 "
 
-#: src/jade/tabs/balance/effects.jade:8 src/jade/tabs/history/effects.jade:8
-msgid "You sold {{1}}  for&#32; {{2}} {{3}}"
-msgstr "- 你卖出了&#32; {{1}}，得到了&nbsp; {{2}} {{3}}"
+#: src/jade/tabs/balance/effects.jade:9 src/jade/tabs/history/effects.jade:9
+msgid "You sold {{1}} for {{2}}."
+msgstr "你卖出了 {{1}}，得到 {{2}}。"
 
-#: src/jade/tabs/balance/effects.jade:12 src/jade/tabs/history/effects.jade:12
-msgid ""
-"This order has {{effect.remaining | rpamount}} {{effect.remaining | "
-"rpcurrency}} remaining."
-msgstr "订单还剩余 {{effect.remaining | rpamount}} {{effect.remaining | rpcurrency}} 。"
+#: src/jade/tabs/balance/effects.jade:14 src/jade/tabs/history/effects.jade:14
+msgid "This order has {{1}} remaining."
+msgstr "这个挂单还剩 {{1}}。"
 
-#: src/jade/tabs/balance/effects.jade:21 src/jade/tabs/history/effects.jade:21
-msgid "You bought {{1}}  for&#32; {{2}}"
-msgstr "-- 你以 {{2}} 买到了 {{1}}"
+#: src/jade/tabs/balance/effects.jade:25 src/jade/tabs/history/effects.jade:25
+msgid "You bought {{1}} for {{2}}."
+msgstr "你以 {{2}} 买到了 {{1}}。"
 
-#: src/jade/tabs/balance/effects.jade:26 src/jade/tabs/history/effects.jade:26
-msgid ""
-"You now trust {{effect.counterparty | rpcontactname}}  for {{effect.limit | "
-"rpamount}} {{effect.limit | rpcurrency}}"
-msgstr "-- 你已经对 {{effect.counterparty | rpcontactname}} 设置了 {{effect.limit | rpamount}} {{effect.limit | rpcurrency}} 的信任额度"
-
-#: src/jade/tabs/balance/effects.jade:28 src/jade/tabs/history/effects.jade:28
-msgid ""
-"{{effect.counterparty | rpcontactname}} is trusting you  for {{effect.limit "
-"| rpamount}} {{effect.limit | rpcurrency}}"
-msgstr "{{effect.counterparty | rpcontactname}} 对你设置了 {{effect.limit | rpamount}} {{effect.limit | rpcurrency}} 的信任额度"
-
-#: src/jade/tabs/balance/effects.jade:30 src/jade/tabs/history/effects.jade:30
-msgid ""
-"You have changed {{effect.limit | rpcurrency}} trust for  "
-"{{effect.counterparty | rpcontactname}}  from {{effect.prevLimit | "
-"rpamount}} to {{effect.limit | rpamount}}"
-msgstr "你把对 {{effect.counterparty | rpcontactname}} 的 {{effect.limit | rpcurrency}} 信任额度由 {{effect.prevLimit | rpamount}} 改成了 {{effect.limit | rpamount}}"
-
-#: src/jade/tabs/balance/effects.jade:33 src/jade/tabs/history/effects.jade:33
-msgid ""
-"{{effect.counterparty | rpcontactname}}  changed the {{effect.limit | "
-"rpcurrency}} trust  from {{effect.prevLimit | rpamount}} to {{effect.limit |"
-" rpamount}}"
-msgstr "{{effect.counterparty | rpcontactname}} 把 {{effect.limit | rpcurrency}} 的信任额度从 {{effect.prevLimit | rpamount}} 改成了 {{effect.limit | rpamount}}"
+#: src/jade/tabs/balance/effects.jade:31 src/jade/tabs/history/effects.jade:31
+msgid "You now trust {{1}} for {{2}}."
+msgstr "你现在对 {{1}} 设置了 {{2}} 的信任额度。"
 
 #: src/jade/tabs/balance/effects.jade:36 src/jade/tabs/history/effects.jade:36
-msgid ""
-"Trust balance between you and  {{effect.counterparty | rpcontactname}} has "
-"been changed by  {{effect.amount | rpamount}} {{effect.amount | rpcurrency}}"
-msgstr "– 你和 {{effect.counterparty | rpcontactname}} 之间的信任余额变化了 {{effect.amount | rpamount}} {{effect.amount | rpcurrency}}"
+msgid "{{1}} is trusting you for {{2}}."
+msgstr "{{1}} 对你设置了 {{2}} 的信任额度。"
 
-#: src/jade/tabs/balance/effects.jade:40 src/jade/tabs/history/effects.jade:40
-msgid ""
-"Your balance has been changed by  {{effect.amount | rpamount}} "
-"{{effect.amount | rpcurrency}}"
-msgstr "-- 你的余额变化了 {{effect.amount | rpamount}} {{effect.amount | rpcurrency}}"
+#: src/jade/tabs/balance/effects.jade:42 src/jade/tabs/history/effects.jade:42
+msgid "You have changed {{1}} trust for {{2}} from {{3}} to {{4}}."
+msgstr "你已把对 {{2}} 的 {{1}} 信任额度从 {{3}} 调整到了 {{4}}。"
+
+#: src/jade/tabs/balance/effects.jade:52 src/jade/tabs/history/effects.jade:52
+msgid "{{1}} changed the {{2}} trust from {{3}} to {{4}}."
+msgstr "{{1}} 把对你关于 {{2}} 的信任额度从 {{3}} 调整到了 {{4}}。"
+
+#: src/jade/tabs/balance/effects.jade:62 src/jade/tabs/history/effects.jade:62
+msgid "Trust balance between you and {{1}} has been changed by {{2}}."
+msgstr "你和 {{1}} 之间的信任线余额变化了 {{2}}。"
+
+#: src/jade/tabs/balance/effects.jade:69 src/jade/tabs/history/effects.jade:69
+msgid "Your balance has been changed by {{1}}."
+msgstr "你的余额变化了 {{1}}。"
 
 #: src/jade/tabs/contacts.jade:4 src/jade/tabs/contacts.jade:15
 msgid "Name"
@@ -413,7 +391,7 @@ msgstr "无效的终端标签"
 
 #: src/jade/tabs/contacts.jade:35 src/jade/tabs/contacts.jade:73
 #: src/jade/tabs/send.jade:211 src/jade/tabs/send.jade:282
-#: src/jade/tabs/trade.jade:251 src/jade/tabs/trust.jade:76
+#: src/jade/tabs/trade.jade:259 src/jade/tabs/trust.jade:76
 msgid "Cancel"
 msgstr "取消"
 
@@ -441,15 +419,15 @@ msgstr "编辑"
 
 #: src/jade/tabs/contacts.jade:76
 msgid ""
-"You don't have any contacts yet. Click on \"Add contact\" button in the top "
+"You don't have any contacts yet.Click on \"Add contact\" button in the top "
 "right corner to add a new contact."
 msgstr "您目前还没有任何联系人。请点击 “添加联系人” 按钮来增加一个新的联系人。"
 
 #: src/jade/tabs/convert.jade:13 src/jade/tabs/gateways.jade:13
 msgid "You have to be funded before you can convert money"
-msgstr "在兑换之前必须激活钱包"
+msgstr "在兑换之前必须先激活钱包"
 
-#: src/jade/tabs/convert.jade:14 src/jade/tabs/convert.jade:151
+#: src/jade/tabs/convert.jade:14 src/jade/tabs/convert.jade:152
 #: src/jade/tabs/gateways.jade:14 src/jade/tabs/send.jade:12
 #: src/jade/tabs/send.jade:216 src/jade/tabs/send.jade:287
 #: src/jade/tabs/trust.jade:18 src/jade/tabs/trust.jade:130
@@ -465,8 +443,8 @@ msgid "Please enter an amount."
 msgstr "请输入金额。"
 
 #: src/jade/tabs/convert.jade:30 src/jade/tabs/send.jade:71
-#: src/jade/tabs/trade.jade:112 src/jade/tabs/trade.jade:125
-#: src/jade/tabs/trade.jade:138
+#: src/jade/tabs/trade.jade:114 src/jade/tabs/trade.jade:127
+#: src/jade/tabs/trade.jade:140
 msgid "Not a valid amount."
 msgstr "金额无效。"
 
@@ -485,13 +463,13 @@ msgstr "计算中... "
 #: src/jade/tabs/convert.jade:36
 msgid ""
 "Sorry! Cannot convert {{convert.amount}} {{convert.currency}}. Please make "
-"sure your account has enough funds, and a {{1}}  to a {{convert.currency}} "
+"sure your account has enough funds, and a {{1}} to a {{convert.currency}} "
 "gateway."
-msgstr "抱谦,不能把 {{convert.amount}}兑换成 {{convert.currency}}。请确保你账户内有足够的余额且有一个&#32; {{1}}的 {{convert.currency}}网关。"
+msgstr "不好意思，不能把 {{convert.amount}}兑换成 {{convert.currency}}。请确保你账户内有足够的余额且有一个到 {{convert.currency}} 网关的 {{1}} 。"
 
 #: src/jade/tabs/convert.jade:40 src/jade/tabs/send.jade:112
 msgid "Error while calculating path"
-msgstr "计算路径错误"
+msgstr "计算路径时遇到了错误"
 
 #: src/jade/tabs/convert.jade:49
 msgid "Convert {{ alt.amount | rpcurrency }}"
@@ -502,83 +480,80 @@ msgid "Ripple is calculating a path for your conversion."
 msgstr "Ripple 正在为您计算兑换路径。"
 
 #: src/jade/tabs/convert.jade:59
-msgid "You are converting"
-msgstr "您将兑换"
+msgid ""
+"{{1:You are converting}}{{2}}{{3:to}}{{4}}{{5:You will pay at "
+"most}}{{6}}{{7:Are you sure?}}"
+msgstr "{{1:你将把}} {{2}}{{3:兑换成}}{{4}}{{5:你最多将花费}}{{6}}{{7:你确定吗？}}"
 
-#: src/jade/tabs/convert.jade:63
-msgid "to"
-msgstr "到"
-
-#: src/jade/tabs/convert.jade:67 src/jade/tabs/send.jade:152
-msgid "You will pay at most"
-msgstr "您最多需要支付"
-
-#: src/jade/tabs/convert.jade:72 src/jade/tabs/send.jade:158
-msgid "Are you sure?"
-msgstr "确定吗？"
-
-#: src/jade/tabs/convert.jade:75 src/jade/tabs/convert.jade:97
+#: src/jade/tabs/convert.jade:76 src/jade/tabs/convert.jade:98
 #: src/jade/tabs/send.jade:161 src/jade/tabs/send.jade:190
-#: src/jade/tabs/trade.jade:170 src/jade/tabs/trust.jade:114
+#: src/jade/tabs/trade.jade:178 src/jade/tabs/trust.jade:114
 #: src/jade/tabs/trust.jade:134
 msgid "&laquo; Back"
 msgstr "&laquo; 返回"
 
-#: src/jade/tabs/convert.jade:77 src/jade/tabs/send.jade:164
+#: src/jade/tabs/convert.jade:78 src/jade/tabs/send.jade:164
 #: src/jade/tabs/trade.jade:50 src/jade/tabs/trade.jade:60
-#: src/jade/tabs/trade.jade:172 src/jade/tabs/trust.jade:116
+#: src/jade/tabs/trade.jade:180 src/jade/tabs/trust.jade:116
 msgid "Confirm"
 msgstr "确定"
 
-#: src/jade/tabs/convert.jade:82 src/jade/tabs/send.jade:170
+#: src/jade/tabs/convert.jade:83 src/jade/tabs/send.jade:170
 msgid "Sending transaction to Ripple network"
 msgstr "正在把交易提交到 Ripple 网络"
 
-#: src/jade/tabs/convert.jade:84 src/jade/tabs/send.jade:172
+#: src/jade/tabs/convert.jade:85 src/jade/tabs/send.jade:172
 #: src/jade/tabs/trust.jade:123
 msgid "Stop waiting"
 msgstr "取消等待"
 
-#: src/jade/tabs/convert.jade:90 src/jade/tabs/send.jade:181
+#: src/jade/tabs/convert.jade:91 src/jade/tabs/send.jade:181
 msgid "No Path"
 msgstr "没有路径"
 
-#: src/jade/tabs/convert.jade:91 src/jade/tabs/send.jade:182
+#: src/jade/tabs/convert.jade:92 src/jade/tabs/send.jade:182
 msgid ""
 "Ripple was unable to find a path between you and the destination account."
 msgstr "Ripple 找不到你和目标账户之间的路径"
 
-#: src/jade/tabs/convert.jade:93 src/jade/tabs/send.jade:187
+#: src/jade/tabs/convert.jade:94
 msgid ""
 "Sorry, an error occurred while submitting your transaction. Make sure you "
 "are connected to the Internet and try again later."
 msgstr "不好意思，提交交易的时候出错了。请确定连上了网络并稍后再试。"
 
-#: src/jade/tabs/convert.jade:95
+#: src/jade/tabs/convert.jade:96
 msgid ""
 "Before trying again, please ensure that the transaction has not been "
 "executed already."
 msgstr "再次尝试之前，请确保该交易未被执行。"
 
-#: src/jade/tabs/convert.jade:104 src/jade/tabs/send.jade:224
+#: src/jade/tabs/convert.jade:105 src/jade/tabs/send.jade:224
 msgid "Your account balance will update once the payment has cleared."
 msgstr "您的账户余额会在支付完成后即时更新。"
 
-#: src/jade/tabs/convert.jade:111 src/jade/tabs/send.jade:231
+#: src/jade/tabs/convert.jade:112 src/jade/tabs/send.jade:231
 msgid "Transaction could not be submitted!"
 msgstr "不能提交该交易！"
 
-#: src/jade/tabs/convert.jade:112 src/jade/tabs/send.jade:232
+#: src/jade/tabs/convert.jade:113 src/jade/tabs/send.jade:232
 msgid ""
-"We were unable to submit the transaction to the server. Please try again "
+"We were unable to submit the transaction to the server.Please try again "
 "later."
-msgstr "暂时未能将交易提交到服务器。请稍后再试。"
+msgstr "抱歉！暂时未能将交易提交到服务器。请稍后再试。"
 
-#: src/jade/tabs/convert.jade:138 src/jade/tabs/send.jade:264
+#: src/jade/tabs/convert.jade:139 src/jade/tabs/send.jade:264
 msgid "Your transaction failed to clear, reason: {{engine_result_message}}"
 msgstr "转账未被网络通过，原因：{{engine_result_message}}"
 
-#: src/jade/tabs/convert.jade:149
+#: src/jade/tabs/convert.jade:144 src/jade/tabs/send.jade:247
+#: src/jade/tabs/trade.jade:218 src/jade/tabs/trust.jade:162
+msgid ""
+"The particular server you sent the transaction to was too busy to forward or"
+" process your transaction at the fee you included in it."
+msgstr "该交易提交到的服务器太忙了，不能处理或者转发你提交的交易。"
+
+#: src/jade/tabs/convert.jade:150
 msgid "Do another conversion"
 msgstr "进行另一个兑换"
 
@@ -590,7 +565,7 @@ msgid ""
 msgstr "ZipZap, Inc. is a cash payment network, enabling users to use cash to fill up the ripple balance. Users can complete transactions conveniently and easily at one of ZipZap’s Payment Center locations."
 
 #: src/jade/tabs/gateways.jade:32 src/jade/tabs/register.jade:95
-#: src/jade/tabs/security.jade:37 src/jade/tabs/security.jade:56
+#: src/jade/tabs/security.jade:38 src/jade/tabs/security.jade:57
 msgid "Show"
 msgstr "显示"
 
@@ -644,7 +619,7 @@ msgid "Your account history is empty"
 msgstr "您的账户暂无历史记录"
 
 #: src/jade/tabs/history.jade:23
-msgid "Transaction type: {{1}} {{2}} {{3}}"
+msgid "Transaction type:{{1}}{{2}}{{3}}"
 msgstr "交易种类：{{1}} {{2}} {{3}}"
 
 #: src/jade/tabs/history.jade:25 src/jade/tabs/history.jade:29
@@ -654,21 +629,21 @@ msgstr "变更"
 
 #: src/jade/tabs/history.jade:26 src/jade/tabs/history.jade:30
 #: src/jade/tabs/history.jade:34 src/jade/tabs/history.jade:38
-#: src/jade/tabs/register.jade:96 src/jade/tabs/security.jade:38
-#: src/jade/tabs/security.jade:57
+#: src/jade/tabs/register.jade:96 src/jade/tabs/security.jade:39
+#: src/jade/tabs/security.jade:58
 msgid "Hide"
 msgstr "隐藏"
 
 #: src/jade/tabs/history.jade:27
-msgid "Currency: {{1}} {{2}} {{3}}"
+msgid "Currency:{{1}}{{2}}{{3}}"
 msgstr "币种：{{1}} {{2}} {{3}}"
 
 #: src/jade/tabs/history.jade:31
-msgid "Date: {{1}} {{2}} {{3}}"
+msgid "Date:{{1}}{{2}}{{3}}"
 msgstr "日期: {{1}} {{2}} {{3}}"
 
 #: src/jade/tabs/history.jade:35
-msgid "Minimum Amount: {{1}} {{2}} {{3}}"
+msgid "Minimum Amount: {{1}}{{2}}{{3}}"
 msgstr "最低金额：{{1}} {{2}} {{3}}"
 
 #: src/jade/tabs/history.jade:57
@@ -700,16 +675,16 @@ msgid "Sorry, no transactions match your current filter."
 msgstr "对不起，没有匹配的交易记录。"
 
 #: src/jade/tabs/history.jade:106
-msgid "{{1}}  sent you {{2}}"
+msgid "{{1}} sent you {{2}}"
 msgstr "{{1}} 给你发了 {{2}}"
 
 #: src/jade/tabs/history.jade:118
-msgid "{{1}}  now trusts you for {{2}}"
+msgid "{{1}} now trusts you for {{2}}"
 msgstr "{{1}} 对你设置了 {{2}} 的信任额度"
 
 #: src/jade/tabs/history.jade:124
-msgid "You now trust {{1}}  for&#32; {{2}}"
-msgstr "你信任了&#32; {{1}}，金额为&#32; {{2}}"
+msgid "You now trust {{1}} for {{2}}"
+msgstr "你现在对 {{1}} 设置了 {{2}} 的信任额度"
 
 #: src/jade/tabs/history.jade:141
 msgid "Account details have been Changed"
@@ -723,7 +698,7 @@ msgstr "余额变化"
 msgid "Issuer"
 msgstr "发行人"
 
-#: src/jade/tabs/history.jade:152 src/jade/tabs/trade.jade:232
+#: src/jade/tabs/history.jade:152 src/jade/tabs/trade.jade:240
 #: src/jade/tabs/trust.jade:54
 msgid "Amount"
 msgstr "金额"
@@ -749,12 +724,16 @@ msgid "Transaction details"
 msgstr "交易详情"
 
 #: src/jade/tabs/history.jade:164
-msgid "Add {{1}}  to contact list"
+msgid "Add {{1}} to contact list"
 msgstr "把 {{1}} 加为联系人"
 
 #: src/jade/tabs/history.jade:172
 msgid "No more transactions left"
 msgstr "没有余下的交易了"
+
+#: src/jade/tabs/history/effects.jade:8
+msgid "You sold {{1}} {{2}}"
+msgstr "你卖出了 {{1}} {{2}}"
 
 #: src/jade/tabs/login.jade:4 src/jade/tabs/login.jade:26
 #: src/jade/tabs/login.jade:93
@@ -763,7 +742,7 @@ msgstr "打开钱包"
 
 #: src/jade/tabs/login.jade:8
 msgid "Enter the Name and Passphrase used to encrypt your Wallet below."
-msgstr "请在下方输入你的用户名和密码，用户名和密码将被用于加密钱包。"
+msgstr "请在下方输入用于加密钱包的用户名和密码。"
 
 #: src/jade/tabs/login.jade:29
 msgid "Fetch wallet from"
@@ -772,7 +751,7 @@ msgstr "从这里提取钱包: "
 #: src/jade/tabs/login.jade:32 src/jade/tabs/login.jade:79
 #: src/jade/tabs/register.jade:52
 msgid "change"
-msgstr "变更"
+msgstr "更改"
 
 #: src/jade/tabs/login.jade:35 src/jade/tabs/login.jade:82
 msgid "ok"
@@ -796,11 +775,11 @@ msgstr "设置信任额度"
 
 #: src/jade/tabs/login.jade:50
 msgid "you will send"
-msgstr "您将会发送"
+msgstr "你将发送"
 
 #: src/jade/tabs/login.jade:51
 msgid "you will send money to the ripple address"
-msgstr "您将会付钱到这个ripple地址"
+msgstr "您将转账到这个ripple地址"
 
 #: src/jade/tabs/login.jade:55
 msgid "To the ripple address"
@@ -895,8 +874,8 @@ msgid ""
 msgstr "这是你的公开地址。将此地址告诉其它用户，他们就可以给你付款。"
 
 #: src/jade/tabs/receive.jade:7
-msgid "Tip: {{1:Select}}  and copy using Ctrl+C."
-msgstr "提示：&#32; {{1:选中}} 并用 Ctrl+C （苹果电脑上是 Command+C）复制。"
+msgid "Tip: {{1:Select}} and copy using Ctrl+C (Win), Command+C (OSX)."
+msgstr "提示：{{1:选中}} 并用 Ctrl+C (Windows)（苹果电脑上是 Command+C）复制。"
 
 #: src/jade/tabs/receive.jade:12
 msgid "Copy Address"
@@ -964,8 +943,8 @@ msgid "Create Wallet"
 msgstr "创建钱包"
 
 #: src/jade/tabs/register.jade:48
-msgid "Store your Wallet with: {{1}} {{2}} {{3}}"
-msgstr "用 &#32; {{1}} {{2}} {{3}} 保存钱包"
+msgid "Store your Wallet with: {{1}}{{2}}{{3}}"
+msgstr "用 {{1}} {{2}} {{3}} 保存钱包"
 
 #: src/jade/tabs/register.jade:57
 msgid "Already have a Wallet?"
@@ -1021,18 +1000,18 @@ msgstr "重要信息："
 #: src/jade/tabs/register.jade:84
 msgid ""
 "The Secret Account Key below gives access to your money in the unlikely case"
-" that you lose your wallet name or passphrase. In that case your contacts "
+" that you lose your wallet name or passphrase.In that case your contacts "
 "will be lost, but with this Secret Account Key alone anyone can retrieve "
-"your money. So please store it somewhere PRIVATE AND SAFE. Read more about "
+"your money. So pleasestore it somewhere PRIVATE AND SAFE. Read more about "
 "keys and wallet safety in {{1}}"
 msgstr "在丢失了钱包的用户名和密码这种小概率事件下，账户密钥还是让你能拿到你账户里的钱。在那种情况下钱包里的联系人列表将丢失。但任何人仅凭账户密钥就可以拿到你的钱，所以一定要保存在安全和私密的地方。在 {{1}} 阅读更多关于密钥和钱包安全的话题。"
 
 #: src/jade/tabs/register.jade:89
-msgid "Wallet name: {{1}}"
+msgid "Wallet name:{{1}}"
 msgstr "钱包名：{{1}}"
 
 #: src/jade/tabs/register.jade:91
-msgid "Pass phrase: {{1}} {{2}} {{3}} {{4}}"
+msgid "Pass phrase:{{1}}{{2}}{{3}}{{4}}"
 msgstr "密码：{{1}} {{2}} {{3}} {{4}}"
 
 #: src/jade/tabs/register.jade:98
@@ -1062,98 +1041,98 @@ msgstr "嗯，我把密钥保存好了"
 #: src/jade/tabs/security.jade:3
 msgid ""
 "Your money and wallet are protected digitally through encryption algorithms "
-"that can be unlocked {{1}}"
-msgstr "你的钱和钱包是用加密算法保护的，{{1}} 解密。"
+"that can be unlocked {{1:only with your personal keys}}"
+msgstr "你的钱和钱包是用加密算法保护的，{{1: 只能由你的个人密钥}} 解密。"
 
-#: src/jade/tabs/security.jade:8
+#: src/jade/tabs/security.jade:9
 msgid "No one else has them, so don't lose them!"
 msgstr "没有人替你保存它，千万别搞丢了！"
 
-#: src/jade/tabs/security.jade:11
+#: src/jade/tabs/security.jade:12
 msgid "Never share them!"
 msgstr "千万不要告诉别人！"
 
-#: src/jade/tabs/security.jade:14
+#: src/jade/tabs/security.jade:15
 msgid "Wallet Key"
 msgstr "钱包密钥"
 
-#: src/jade/tabs/security.jade:16
+#: src/jade/tabs/security.jade:17
 msgid "{{userBlob.data.contacts.length}} contacts, {{1}}"
 msgstr "{{userBlob.data.contacts.length}} 个联系人，&#32; {{1}}"
 
-#: src/jade/tabs/security.jade:19
-msgid "You can {{1}}"
-msgstr "你可以&#32; {{1}} 。"
-
-#: src/jade/tabs/security.jade:22
-msgid "This is the key you use every time you use ripple."
-msgstr "这是你使用ripple账号的密码"
+#: src/jade/tabs/security.jade:20
+msgid "You can {{1:backup your wallet to a file.}}"
+msgstr "你可以 {{1: 把钱包被分到一个文件里。}}"
 
 #: src/jade/tabs/security.jade:23
+msgid "This is the key you use every time you use ripple."
+msgstr "这是你每次使用 ripple 时用到的密钥"
+
+#: src/jade/tabs/security.jade:24
 msgid "You created it when you chose your Wallet Name and Passphrase."
 msgstr "在你选择钱包名和密码的时候你就建立了它。"
 
-#: src/jade/tabs/security.jade:24
+#: src/jade/tabs/security.jade:25
 msgid "It protects Your money + Your contacts and history."
 msgstr "这保护了你的钱，通讯录和账户历史。"
 
-#: src/jade/tabs/security.jade:26
+#: src/jade/tabs/security.jade:27
 msgid "Never forget it, never share it."
 msgstr "千万不要忘记，也不要告诉别人。"
 
-#: src/jade/tabs/security.jade:30
+#: src/jade/tabs/security.jade:31
 msgid "Wallet name:"
 msgstr "钱包名"
 
-#: src/jade/tabs/security.jade:33
+#: src/jade/tabs/security.jade:34
 msgid "Pass Phrase:"
 msgstr "密码："
 
-#: src/jade/tabs/security.jade:39
+#: src/jade/tabs/security.jade:40
 msgid ""
 "This gives access to your wallet. DO NOT SHARE THIS WITH ANYONE. Keep it "
 "safe. Keep it private."
 msgstr "拿到这个就能进入你的钱包。不要告诉任何人。放在私密和安全的地方。"
 
-#: src/jade/tabs/security.jade:43
+#: src/jade/tabs/security.jade:44
 msgid "Secret Key"
 msgstr "密钥"
 
-#: src/jade/tabs/security.jade:45
+#: src/jade/tabs/security.jade:46
 msgid ""
 "This key is for emergency use only. You did not choose it. The network "
 "created it. You don't have to memorize it."
 msgstr "密钥是在紧急情况下使用的。它并不是出自你的选择，而是由网络创建的。你并不需要记住它。 "
 
-#: src/jade/tabs/security.jade:46
+#: src/jade/tabs/security.jade:47
 msgid ""
 "The Secret Key accesses Your money, which is already contained inside your "
 "wallet."
 msgstr "钱包包含密钥，密钥能拿到你账户里的钱。"
 
-#: src/jade/tabs/security.jade:47
+#: src/jade/tabs/security.jade:48
 msgid ""
 "But if you ever lose your wallet, you can recover just your money with this "
 "key."
 msgstr "如果你搞丢了钱包，可以用这个密钥来找回里面的钱。"
 
-#: src/jade/tabs/security.jade:49
+#: src/jade/tabs/security.jade:50
 msgid "Store it somewhere safe, never share it."
 msgstr "把它储存在安全的地方，千万不要与人分享。"
 
-#: src/jade/tabs/security.jade:58
+#: src/jade/tabs/security.jade:59
 msgid ""
 "This gives access to your money. DO NOT SHARE THIS WITH ANYONE. Keep it "
 "safe. Keep it private."
 msgstr "拿到这个就能拿到你的钱。不要告诉任何人。放在私密和安全的地方。"
 
-#: src/jade/tabs/security.jade:60
+#: src/jade/tabs/security.jade:61
 msgid "Show my keys"
 msgstr "显示我的密钥"
 
 #: src/jade/tabs/send.jade:11
 msgid "You have to be funded before you can send money"
-msgstr "在可以转账之前，必须激活钱包"
+msgstr "在转账之前，必须先激活钱包"
 
 #: src/jade/tabs/send.jade:17
 msgid "Send money."
@@ -1162,10 +1141,6 @@ msgstr "转账。"
 #: src/jade/tabs/send.jade:21
 msgid "Recipient"
 msgstr "接收方"
-
-#: src/jade/tabs/send.jade:24
-msgid "{{send.recipient_address}}"
-msgstr "{{send.recipient_address}}"
 
 #: src/jade/tabs/send.jade:26
 msgid "Please enter a recipient."
@@ -1188,7 +1163,7 @@ msgstr "地址栏不能留空。"
 #: src/jade/tabs/send.jade:39
 msgid ""
 "Recipient requires a destination tag to be specified for the transaction. If"
-" you don't know the  destination tag, please contact them before doing a "
+" you don't know the destination tag, please contact them before doing a "
 "transaction."
 msgstr "接收方要求转账时必须加入终端标签。如果你不知道终端标签，请先联系他们。"
 
@@ -1210,7 +1185,7 @@ msgstr "金额必须大于零。"
 
 #: src/jade/tabs/send.jade:73
 msgid ""
-"This transaction exceeds your balance, you can send  a max. of "
+"This transaction exceeds your balance, you can send a max. of "
 "{{account.max_spend | rpamount:{rel_precision: 0} }} XRP"
 msgstr "余额不足，你最多可以发送 {{account.max_spend | rpamount:{rel_precision: 0} }} XRP"
 
@@ -1222,7 +1197,7 @@ msgstr "对方不接受 XRP 付款。你确定要给他发送 XRP吗？"
 
 #: src/jade/tabs/send.jade:78
 msgid ""
-"{{send.recipient | rpcontactname}} trusts you for {{send.trust_limit | "
+"{{send.recipient | rpcontactname}}trusts you for {{send.trust_limit | "
 "rpamount}} {{send.trust_limit | rpcurrency}}."
 msgstr "{{send.recipient | rpcontactname}} 对你有 {{send.trust_limit | rpamount}} {{send.trust_limit | rpcurrency}}. 的信任额度"
 
@@ -1236,8 +1211,8 @@ msgstr "发送 XRP"
 
 #: src/jade/tabs/send.jade:90
 msgid ""
-"Destination account is unfunded; send at least  {{send.xrp_deficiency | "
-"rpamount}} XRP to fund it. {{1}}"
+"Destination account is unfunded; send at least {{send.xrp_deficiency | "
+"rpamount}} XRP to fund it.{{1}}"
 msgstr "目标账户未激活；给它发至少 {{send.xrp_deficiency | rpamount}} XRP 来激活它。{{1}}"
 
 #: src/jade/tabs/send.jade:93 src/jade/tabs/trust.jade:46
@@ -1250,15 +1225,15 @@ msgstr "检查中"
 
 #: src/jade/tabs/send.jade:98
 msgid "Analyzing address"
-msgstr "分析地址"
+msgstr "正在分析地址"
 
 #: src/jade/tabs/send.jade:100
 msgid "Requesting quote"
-msgstr "请求报价"
+msgstr "正在请求报价"
 
 #: src/jade/tabs/send.jade:102
 msgid "Calculating paths"
-msgstr "计算路径"
+msgstr "正在计算路径"
 
 #: src/jade/tabs/send.jade:104
 msgid "Calculating alternatives"
@@ -1266,9 +1241,9 @@ msgstr "正在计算其它路径"
 
 #: src/jade/tabs/send.jade:105
 msgid ""
-"Sorry! Cannot send {{send.amount}} {{send.currency}} to  {{send.recipient}}."
-" Please make sure your account has enough funds,  and the recipient accepts "
-"the currency you're sending. If it still  doesn't work, try again later."
+"Sorry! Cannot send {{send.amount}} {{send.currency}} to {{send.recipient}}. "
+"Please make sure your account has enough funds, and the recipient accepts "
+"the currency you're sending. If it still doesn't work, try again later."
 msgstr "抱歉，不能把 {{send.amount}} {{send.currency}} 发到 {{send.recipient}}。请确保你账户有足够的余额，且接收方愿意接收你发送的币种。如果还是不行，请稍后再试。"
 
 #: src/jade/tabs/send.jade:110
@@ -1281,7 +1256,7 @@ msgstr "你可以发送"
 
 #: src/jade/tabs/send.jade:119
 msgid "Or you can send"
-msgstr "或者也可以发送"
+msgstr "或者发送"
 
 #: src/jade/tabs/send.jade:127
 msgid "Send {{ alt.amount | rpcurrency }}"
@@ -1304,6 +1279,14 @@ msgstr "终端标签: {{send.dt}}"
 msgid "They will receive"
 msgstr "对方将收到"
 
+#: src/jade/tabs/send.jade:152
+msgid "You will pay at most"
+msgstr "您最多需要支付"
+
+#: src/jade/tabs/send.jade:158
+msgid "Are you sure?"
+msgstr "确定吗？"
+
 #: src/jade/tabs/send.jade:178
 msgid "Destination does not exist"
 msgstr "此地址不存在。"
@@ -1319,6 +1302,12 @@ msgstr "无效的交易"
 #: src/jade/tabs/send.jade:185
 msgid "The transaction was rejected by the server due to a client issue."
 msgstr "由于客户端的问题，这笔交易被拒绝了。"
+
+#: src/jade/tabs/send.jade:187
+msgid ""
+"Sorry, an error occurred while submitting your transaction.Make sure you are"
+" connected to the Internet and try again later."
+msgstr "不好意思，提交交易的时候出错了。请确定连上了网络并稍后再试。"
 
 #: src/jade/tabs/send.jade:189
 msgid "Please ensure you don't send your payment more than once."
@@ -1345,7 +1334,7 @@ msgstr "正在保存..."
 
 #: src/jade/tabs/send.jade:214 src/jade/tabs/send.jade:285
 msgid "Send another payment"
-msgstr "执行另外一个支付"
+msgstr "执行另外一个转账"
 
 #: src/jade/tabs/trade.jade:9
 msgid "Loading order book..."
@@ -1367,17 +1356,13 @@ msgstr "取消"
 msgid "Counter currency"
 msgstr "对手货币"
 
-#: src/jade/tabs/trade.jade:32
-msgid "{{order.second_currency}}&ensp; {{1}}"
-msgstr "{{order.second_currency}}&ensp; {{1}}"
-
 #: src/jade/tabs/trade.jade:43
 msgid "Base currency issuer ({{order.first_currency}})"
 msgstr "基础货币发行人 ({{order.first_currency}})"
 
 #: src/jade/tabs/trade.jade:48
 msgid "Not a valid Ripple address or contact"
-msgstr "不是一个有效的Ripple地址或联系人"
+msgstr "不是一个有效的 Ripple 地址或联系人"
 
 #: src/jade/tabs/trade.jade:53
 msgid "Counter currency issuer ({{order.second_currency}})"
@@ -1385,13 +1370,13 @@ msgstr "对手货币发行人 ({{order.second_currency}})"
 
 #: src/jade/tabs/trade.jade:58
 msgid "Not a valid ripple address or contact"
-msgstr "不是一个有效的Ripple地址或联系人"
+msgstr "不是一个有效的 Ripple 地址或联系人"
 
 #: src/jade/tabs/trade.jade:62
 msgid ""
-"You must select an issuer to trade currencies.  Click the “change issuer”, "
-"link above and enter your trusted  gateway address or nickname."
-msgstr "请在交易前选定将要交易的货币的发行方。点击上面的“变更发行方”链接，然后输入你信任的发行方地址或其联系人昵称。"
+"You must select an issuer to trade currencies. Click the “change issuer”, "
+"link above and enter your trusted gateway address or nickname."
+msgstr "请在交易前选定将要交易的货币的发行方。点击上面的“变更发行方”链接，然后输入你已经信任了的发行方。"
 
 #: src/jade/tabs/trade.jade:71
 msgid "Bid"
@@ -1411,172 +1396,190 @@ msgstr "最新成交价"
 
 #: src/jade/tabs/trade.jade:93
 msgid "You have to be funded before you can trade"
-msgstr "在交易之前必须激活"
+msgstr "在交易之前必须先激活钱包"
 
-#: src/jade/tabs/trade.jade:106
-msgid "Amount To {{type}}"
-msgstr "{{type}}量"
+#: src/jade/tabs/trade.jade:100
+msgid "Buy {{order.first_currency}}"
+msgstr "买入 {{order.first_currency}}"
 
-#: src/jade/tabs/trade.jade:111 src/jade/tabs/trade.jade:124
-#: src/jade/tabs/trade.jade:137
-msgid "Required"
-msgstr "必填"
+#: src/jade/tabs/trade.jade:101
+msgid "Sell {{order.first_currency}}"
+msgstr "卖出 {{order.first_currency}}"
+
+#: src/jade/tabs/trade.jade:107
+msgid "Amount To buy"
+msgstr "买入量"
+
+#: src/jade/tabs/trade.jade:108
+msgid "Amount To sell"
+msgstr "卖出量"
 
 #: src/jade/tabs/trade.jade:113 src/jade/tabs/trade.jade:126
 #: src/jade/tabs/trade.jade:139
+msgid "Required"
+msgstr "必填"
+
+#: src/jade/tabs/trade.jade:115 src/jade/tabs/trade.jade:128
+#: src/jade/tabs/trade.jade:141
 msgid "Must be greater than zero"
 msgstr "必须大于零"
 
-#: src/jade/tabs/trade.jade:115 src/jade/tabs/trade.jade:128
-#: src/jade/tabs/trade.jade:140
+#: src/jade/tabs/trade.jade:117 src/jade/tabs/trade.jade:130
+#: src/jade/tabs/trade.jade:142
 msgid "There is a limit of 100 billion XRPs"
 msgstr "XRP 的总量是一千亿"
 
-#: src/jade/tabs/trade.jade:119
+#: src/jade/tabs/trade.jade:121
 msgid "Price of Each"
 msgstr "单价"
 
-#: src/jade/tabs/trade.jade:132
+#: src/jade/tabs/trade.jade:134
 msgid "Order Value (max)"
 msgstr "本单（最多）价值"
 
-#: src/jade/tabs/trade.jade:142
+#: src/jade/tabs/trade.jade:144
 msgid ""
-"You are wanting to {{type}} {{order[type].first_amount | "
-"rpamount:{precision: 10} }} {{order[type].first_amount | rpcurrency}} for "
-"{{order[type].second_amount | rpamount:{precision: 10} }} "
-"{{order[type].second_amount | rpcurrency}} ({{order[type].price_amount | "
-"rpamount:{precision: 10} }} {{order[type].second_amount | rpcurrency}}  per "
+"You are wanting to {{1: buy}} {{2: sell}} {{3}} for {{4}} ({{5}} per "
 "{{order[type].first_amount | rpcurrency}})"
-msgstr "你想 {{type}} {{order[type].first_amount | rpamount:{precision: 10} }} {{order[type].first_amount | rpcurrency}} 出价为 {{order[type].second_amount | rpamount:{precision: 10} }} {{order[type].second_amount | rpcurrency}} ({{order[type].price_amount | rpamount:{precision: 10} }} {{order[type].second_amount | rpcurrency}} per {{order[type].first_amount | rpcurrency}})"
+msgstr "你想 {{1: 买入}} {{2: 卖出}} {{3}}，得到 {{4}} ，（{{order[type].first_amount | rpcurrency}} 的单价为 {{5}}）"
 
-#: src/jade/tabs/trade.jade:154
+#: src/jade/tabs/trade.jade:156
+msgid "Buy"
+msgstr "买入"
+
+#: src/jade/tabs/trade.jade:157
+msgid "Sell"
+msgstr "卖出"
+
+#: src/jade/tabs/trade.jade:160
 msgid "You do not have sufficient funds to create an order."
 msgstr "该币种余额不足，无法创建订单。"
 
-#: src/jade/tabs/trade.jade:159
-msgid "You are about to create an order to {{type}} {{1}} {{2}} {{3}} {{4}}"
-msgstr "即将提交 {{type}} {{1}} {{2}} {{3}} {{4}} 的挂单"
+#: src/jade/tabs/trade.jade:165
+msgid ""
+"You are about to create an order to {{1: buy}} {{2: "
+"sell}}{{3}}{{4:for}}{{5}}{{6:Are you sure?}}"
+msgstr "你将挂单 {{1: 买入}} {{2: 卖出}} {{3}} {{4:得到}} {{5}} {{6:你确定吗？}} "
 
-#: src/jade/tabs/trade.jade:177
+#: src/jade/tabs/trade.jade:185
 msgid "Sending order to Ripple network..."
 msgstr "正在把挂单提交到 Ripple 网络..."
 
-#: src/jade/tabs/trade.jade:183
+#: src/jade/tabs/trade.jade:191
 msgid "Your order has been submitted."
 msgstr "您的挂单已提交。"
 
-#: src/jade/tabs/trade.jade:185
+#: src/jade/tabs/trade.jade:193
 msgid "Your order is now active!"
 msgstr "挂单成功！"
 
-#: src/jade/tabs/trade.jade:187
+#: src/jade/tabs/trade.jade:195
 msgid "Request has been denied!"
 msgstr "请求被拒绝！"
 
-#: src/jade/tabs/trade.jade:188 src/jade/tabs/trust.jade:145
+#: src/jade/tabs/trade.jade:196 src/jade/tabs/trust.jade:145
 msgid "We were unable to submit the request. Please try again later."
 msgstr "抱歉！暂时未能将请求提交到服务器。请稍后再试。"
 
-#: src/jade/tabs/trade.jade:190
+#: src/jade/tabs/trade.jade:198
 msgid "Request is malformed!"
 msgstr "请求无效！"
 
-#: src/jade/tabs/trade.jade:191
+#: src/jade/tabs/trade.jade:199
 msgid ""
-"Your request is invalid, reason: {{order[type].engine_result}}  - "
+"Your request is invalid, reason: {{order[type].engine_result}} - "
 "{{order[type].engine_result_message}}"
 msgstr "您的请求无效，因为: {{order[type].engine_result}} - {{order[type].engine_result_message}}"
 
-#: src/jade/tabs/trade.jade:196
+#: src/jade/tabs/trade.jade:204
 msgid ""
 "You do not have enough {{type == 'buy' ? order.second_currency : "
 "order.first_currency}} to create this order."
 msgstr "你没有足够的 {{type == 'buy' ? order.second_currency : order.first_currency}} 用来创建订单"
 
-#: src/jade/tabs/trade.jade:198
+#: src/jade/tabs/trade.jade:206
 msgid ""
 "You must have at least {{account.reserve_to_add_trust | rpamount}} XRP to "
 "submit an order. {{1}}"
 msgstr "你必须至少有 {{account.reserve_to_add_trust | rpamount:0}} XRP 才能再提交一个挂单。&#32; {{1}}"
 
-#: src/jade/tabs/trade.jade:200
+#: src/jade/tabs/trade.jade:208
 msgid "More information."
 msgstr "更多信息."
 
-#: src/jade/tabs/trade.jade:201
+#: src/jade/tabs/trade.jade:209
 msgid "Error: {{order[type].engine_result_message}}"
 msgstr "错误: {{order[type].engine_result_message}}"
 
-#: src/jade/tabs/trade.jade:204
+#: src/jade/tabs/trade.jade:212
 msgid "Trade failed!"
 msgstr "交易失败！"
 
-#: src/jade/tabs/trade.jade:206
+#: src/jade/tabs/trade.jade:214
 msgid "Trade failed, reason: {{order[type].engine_result_message}}"
 msgstr "交易失败，原因是: {{order[type].engine_result_message}}"
 
-#: src/jade/tabs/trade.jade:219
+#: src/jade/tabs/trade.jade:227
 msgid "Submit another order"
 msgstr "继续下单"
 
-#: src/jade/tabs/trade.jade:222
+#: src/jade/tabs/trade.jade:230
 msgid "Order book"
 msgstr "挂单列表"
 
-#: src/jade/tabs/trade.jade:223
+#: src/jade/tabs/trade.jade:231
 msgid "My Orders"
 msgstr "我的挂单"
 
-#: src/jade/tabs/trade.jade:229
+#: src/jade/tabs/trade.jade:237
 msgid "Type"
 msgstr "类型"
 
-#: src/jade/tabs/trade.jade:230
+#: src/jade/tabs/trade.jade:238
 msgid "Pair"
 msgstr "组合"
 
-#: src/jade/tabs/trade.jade:231
+#: src/jade/tabs/trade.jade:239
 msgid "Price"
 msgstr "价格"
 
-#: src/jade/tabs/trade.jade:233
+#: src/jade/tabs/trade.jade:241
 msgid "Action"
 msgstr "动作"
 
-#: src/jade/tabs/trade.jade:253
+#: src/jade/tabs/trade.jade:261
 msgid "You haven't placed any orders."
 msgstr "你没有任何挂单。"
 
-#: src/jade/tabs/trade.jade:259
+#: src/jade/tabs/trade.jade:267
 msgid "Bids"
-msgstr "卖单"
+msgstr "买单出价"
 
-#: src/jade/tabs/trade.jade:261 src/jade/tabs/trade.jade:283
-msgid "Sum {{1}}"
+#: src/jade/tabs/trade.jade:269 src/jade/tabs/trade.jade:291
+msgid "Sum{{1}}"
 msgstr "总和 {{1}}"
 
-#: src/jade/tabs/trade.jade:263 src/jade/tabs/trade.jade:281
-msgid "Size {{1}}"
+#: src/jade/tabs/trade.jade:271 src/jade/tabs/trade.jade:289
+msgid "Size{{1}}"
 msgstr "数量 {{1}}"
 
-#: src/jade/tabs/trade.jade:265
-msgid "Bid Price {{1}}"
-msgstr "卖价{{1}}"
+#: src/jade/tabs/trade.jade:273
+msgid "Bid Price{{1}}"
+msgstr "买入价 {{1}}"
 
-#: src/jade/tabs/trade.jade:275
+#: src/jade/tabs/trade.jade:283
 msgid "There are currently no bids for this pair."
 msgstr "目前该货币组合没有卖单"
 
-#: src/jade/tabs/trade.jade:277
+#: src/jade/tabs/trade.jade:285
 msgid "Asks"
-msgstr "买单"
+msgstr "卖单出价"
 
-#: src/jade/tabs/trade.jade:279
-msgid "Ask Price {{1}}"
-msgstr "买价{{1}}"
+#: src/jade/tabs/trade.jade:287
+msgid "Ask Price{{1}}"
+msgstr "卖出价 {{1}}"
 
-#: src/jade/tabs/trade.jade:293
+#: src/jade/tabs/trade.jade:301
 msgid "There are currently no asks for this pair."
 msgstr "目前该货币组合没有买单"
 
@@ -1610,12 +1613,11 @@ msgstr "请指定一个用户"
 
 #: src/jade/tabs/trust.jade:49
 msgid "You've entered your address."
-msgstr "您已输入您的地址。"
+msgstr "你输入的是你自己的地址。"
 
 #: src/jade/tabs/trust.jade:50
-msgid ""
-"User should be either a name  from your contact list or Ripple address."
-msgstr "用户名处须为您的联系人姓名或Ripple钱包地址。"
+msgid "User should be either a name from your contact list or Ripple address."
+msgstr "用户需要是你联系人列表中的名字或者一个有效的 Ripple 地址"
 
 #: src/jade/tabs/trust.jade:61
 msgid "Amount field is required"
@@ -1623,9 +1625,9 @@ msgstr "金额为必填项"
 
 #: src/jade/tabs/trust.jade:63
 msgid ""
-"XRP can be sent without extending trust. If you really want  to trust in "
-"XRP, please use XRR currency code."
-msgstr "XRP 不需要设置信任就可发送。如果你非要设置 XRP 的信任额度，请使用货币代码 XRR."
+"XRP can be sent without extending trust. If you really want to trust in XRP,"
+" please use XRR currency code."
+msgstr "发送 XRP 并不需要设置信任额度。如果真的想设置对 XRP 的信任，请尝试使用货币代码 XRR."
 
 #: src/jade/tabs/trust.jade:66
 msgid "Currency field is required"
@@ -1640,12 +1642,12 @@ msgid "Verifying address"
 msgstr "正在验证地址"
 
 #: src/jade/tabs/trust.jade:83
-msgid "You must have at least {{1}}  to add a new trust line. {{2}}"
-msgstr "你必须至少有 {{1}} XRP 才能再加一条信任线。&#32; {{2}}"
+msgid "You must have at least {{1}} to add a new trust line. {{2}}"
+msgstr "你必须至少有 {{1}} 才能再加一条信任线。{{2}}"
 
 #: src/jade/tabs/trust.jade:92
 msgid "You are about to trust"
-msgstr "你即将要信任"
+msgstr "你即将信任"
 
 #: src/jade/tabs/trust.jade:96
 msgid "to the Ripple user"
@@ -1657,15 +1659,15 @@ msgid ""
 "action carries the risk of potential loss up to the amount of the trust "
 "line. Make sure you understand these consequences, and that all the issuers "
 "are trustworthy."
-msgstr "点击确认后，你将有对另一 Ripple 用户的信任额度。这一行动是有风险的，有可能导致你损失高达与信任额度相等的金额。请确定你理解可能的后果，并确保有关的发行人可信。"
+msgstr "点击确认后，你将对另一 Ripple 用户设置信任额度。这一行动是有风险的，有可能导致你损失高达与信任额度相等的金额。请确定你理解可能的后果，并确保有关的发行人可信。"
 
 #: src/jade/tabs/trust.jade:106
 msgid ""
-"By pressing CONFIRM you are extending trust to {{1}} for the same currency "
+"By pressing CONFIRM you are extending trust to {{1}}for the same currency "
 "which may result in your account balances changing without your direct "
 "action. Make sure you understand these consequences, and that all your "
 "issuers are trustworthy."
-msgstr "点击确认后，你将有关于同种货币对&#32; {{1}}的信任额度。这一行动有可能导致你的余额在你未进行任何操作的情况下被转换。请确定你理解可能的后果，并确保有关的发行人可信。"
+msgstr "点击确认后，你将有关于同种货币对 {{1}} 的信任额度。这一行动有可能导致你的余额在你未进行任何操作的情况下被转换。请确定你理解可能的后果，并确保有关的发行人可信。"
 
 #: src/jade/tabs/trust.jade:121
 msgid "Granting is in progress"
@@ -1735,7 +1737,7 @@ msgstr "编辑"
 
 #: src/jade/tabs/tx.jade:3
 msgid "Loading transaction details..."
-msgstr "正在加载交易详情："
+msgstr "正在加载交易详情..."
 
 #: src/jade/tabs/tx.jade:5
 msgid "An error occurred while loading the transaction details."
@@ -1786,10 +1788,10 @@ msgid "Ledger number"
 msgstr "账本号"
 
 #: src/jade/tabs/tx.jade:59
-msgid "Address sent from {{1}}"
-msgstr "发自地址 {{1}}"
+msgid "Address sent from:"
+msgstr "发自地址："
 
-#: src/jade/tabs/tx.jade:64
+#: src/jade/tabs/tx.jade:63
 msgid ""
 "Sorry, we don't have an info page layout for this transaction type yet."
 msgstr "不好意思，这类转账的信息页面还没有准备好。"
