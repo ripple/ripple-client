@@ -240,6 +240,7 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
 
       // Update Ripple lines
       if (processedTxn.effects && !is_historic) {
+        console.log('update linesssss');
         updateLines(processedTxn.effects);
       }
 
@@ -298,7 +299,8 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
         'trust_create_remote',
         'trust_change_local',
         'trust_change_remote',
-        'trust_change_balance'], this.type))
+        'trust_change_balance',
+        'trust_change_no_ripple'], this.type))
       {
         var effect = this,
             line = {},
@@ -306,6 +308,8 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
 
         line.currency = effect.currency;
         line.account = effect.counterparty;
+        line.flags = effect.flags;
+        line.no_ripple = effect.noRipple;
 
         if (effect.balance) {
           line.balance = effect.balance;

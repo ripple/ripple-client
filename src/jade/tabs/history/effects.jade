@@ -65,6 +65,9 @@ ul.effects(ng-show="entry.effects")
       |  has been changed by
       span  {{effect.amount | rpamount}} {{effect.amount | rpcurrency}}
       | .
+    span(ng-switch-when="trust_change_no_ripple")
+      span(ng-show="effect.noRipple") You disabled rippling for this trust line.
+      span(ng-hide="effect.noRipple") You enabled rippling for this trust line.
 
     span(ng-switch-when="balance_change", l10n) Your balance has been changed by
       span  {{effect.amount | rpamount}} {{effect.amount | rpcurrency}}
