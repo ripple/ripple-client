@@ -1,5 +1,7 @@
 <?php
-// !!! Server timezone should be set to GMT
+
+// Timezone should be set to GMT
+date_default_timezone_set('GMT');
 
 header('Content-Type: application/json');
 

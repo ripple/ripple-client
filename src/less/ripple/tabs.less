@@ -1450,84 +1450,41 @@ html.t-trade header nav ul > li.active#nav-advanced > a:after {
   }
 }
 
-// This is temporary.. much better css is coming soon, with the responsive client
 #t-gateways {
   .gateways-list {
     list-style-type: none;
+    padding: 0;
+  }
+  .actions {
+    text-align: right;
+  }
+  .details {
+    margin-top: 40px;
+  }
+  .locateTxt {
+    margin-bottom: 15px;
+  }
+  .account {
+    list-style-type: none;
+    padding: 0;
+  }
+  .locations {
+    list-style-type: none;
+    padding: 0;
 
-    & > li {
-      padding: 0 0 20px;
-      border-bottom: 1px solid #d9d9d9;
-      overflow: hidden;
-    }
+    li {
+      margin-bottom: 15px;
 
-    .logo {
-      float: left;
-    }
-    .description {
-      float: left;
-      width: 600px;
-      margin: 0 0 0 30px;
-    }
-    .actions {
-      float: right;
-      width: 150px;
-      text-align: center;
-    }
-    .details {
-      clear: both;
-      padding: 20px 0 0 0;
-
-      .account {
-        width: 38%;
-        float: left;
-        line-height: 25px;
-        padding: 0;
-        list-style-type: none;
-        border-right: 1px solid #d9d9d9;
-
-        dt, dd {
-          display: inline;
-        }
-      }
-      .locator {
-        width: 60%;
-        float: right;
-
-        input {
-          float: left;
-        }
-
-        button {
-          float: left;
-          padding: 10px;
-          margin: 0 0 0 10px;
-        }
-
-        .locateTxt {
-          margin: 0 0 10px;
-        }
-
-        ul {
-          clear: both;
-          margin: 0 0 20px;
-          padding: 0;
-          list-style-type: none;
-
-          li {
-            margin: 0 0 15px 0;
-
-            .name {
-              font-weight: bold;
-            }
-          }
-        }
+      .name {
+        font-weight: bold;
       }
     }
-
-    .signup {
-      clear: both;
-      padding: 20px 0 0 0;
-    }
+  }
+  .signup {
+    margin-top: 40px;
+  }
+  .text-error {
+    margin: 10px 0;
+    color: red;
   }
 }
