@@ -104,8 +104,10 @@ var JsonRewriter = module.exports = {
    *
    * Side effects
    *  - balance_change
-   *  - Trust (trust_create_local, trust_create_remote, trust_change_local, trust_change_remote, trust_change_balance)
-   *  - Offer (offer_created, offer_funded, offer_partially_funded, offer_cancelled, offer_bought)
+   *  - Trust (trust_create_local, trust_create_remote, trust_change_local,
+   *          trust_change_remote, trust_change_balance, trust_change_no_ripple)
+   *  - Offer (offer_created, offer_funded, offer_partially_funded,
+   *          offer_cancelled, offer_bought)
    */
   processTxn: function (tx, meta, account) {
     var obj = {};
@@ -281,6 +283,28 @@ var JsonRewriter = module.exports = {
               effect.prevLimit = ripple.Amount.from_json(lowPrev);
               effect.type = high.issuer === account ? "trust_change_remote" : "trust_change_local";
             }
+          }
+
+          // Trust flag change (effect gets this type only if nothing else but flags has been changed)
+          else if (node.fieldsPrev.Flags) {
+            var which = high.issuer === account ? 'HighNoRipple' : 'LowNoRipple';
+
+            // Account set a noRipple flag
+            if (node.fields.Flags & ripple.Remote.flags.state[which] &&
+              !(node.fieldsPrev.Flags & ripple.Remote.flags.state[which])) {
+              effect.noRipple = true;
+              effect.type = "trust_change_no_ripple";
+            }
+
+            // Account removed the noRipple flag
+            else if (node.fieldsPrev.Flags & ripple.Remote.flags.state[which] &&
+              !(node.fields.Flags & ripple.Remote.flags.state[which])) {
+              effect.noRipple = false;
+              effect.type = "trust_change_no_ripple";
+            }
+
+            if (effect.type)
+              effect.flags = node.fields.Flags;
           }
         }
 
