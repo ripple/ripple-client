@@ -48,7 +48,7 @@ BalanceTab.prototype.angular = function (module)
           }
         });
 
-        event.effects = effects;
+        event.showEffects = effects;
       }
 
       if (effects.length || event.transaction) {

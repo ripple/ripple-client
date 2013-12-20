@@ -5,7 +5,7 @@ ul.effects(ng-show="entry.effects")
       |  for&#32;
       strong {{effect.pays | rpamount}} {{effect.pays | rpcurrency}}
       | . This order has been funded.
-    span(ng-switch-when="offer_partially_funded", l10n) You sold&#32;
+    span(ng-switch-when="offer_partially_funded")
       span(l10n) You sold&#32;
         strong {{effect.got | rpamount}} {{effect.got | rpcurrency}}
         |  for&#32;
@@ -65,9 +65,6 @@ ul.effects(ng-show="entry.effects")
       |  has been changed by
       span  {{effect.amount | rpamount}} {{effect.amount | rpcurrency}}
       | .
-    span(ng-switch-when="trust_change_no_ripple")
-      span(ng-show="effect.noRipple", l10n) You disabled rippling for this trust line.
-      span(ng-hide="effect.noRipple", l10n) You enabled rippling for this trust line.
 
     span(ng-switch-when="balance_change", l10n) Your balance has been changed by
       span  {{effect.amount | rpamount}} {{effect.amount | rpcurrency}}
