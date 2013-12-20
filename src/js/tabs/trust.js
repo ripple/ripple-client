@@ -170,7 +170,7 @@ TrustTab.prototype.angular = function (module)
       // Flags
       tx
         .rippleLineSet($id.account, amount)
-        .setFlags($scope.allowrippling ? 'NoRipple' : 'ClearNoRipple')
+        .setFlags($scope.allowrippling ? 'ClearNoRipple' : 'NoRipple')
         .on('proposed', function(res){
           $scope.$apply(function () {
             setEngineStatus(res, false);
@@ -283,6 +283,8 @@ TrustTab.prototype.angular = function (module)
       $scope.currency = line.currency;
       $scope.counterparty = line.account;
       $scope.amount = +line.limit.to_text();
+      console.log('line',line);
+      $scope.allowrippling = !line.no_ripple;
 
       // Close/open form. Triggers focus on input.
       $scope.addform_visible = false;
