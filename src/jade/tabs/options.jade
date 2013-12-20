@@ -37,12 +37,12 @@ section.col-xs-12.col-md-10.content(ng-controller="OptionsCtrl")
         label(for="blobIp", l10n) Blob vault URL
         input.form-control.blobIp(
           name='blobIp', id="blobIp", type='text'
-          ng-model='blobIp')
+          ng-model='options.blobvault')
 
     h3(l10n) Anonymous statistics
     label
-      input.tracking(name='track', type='checkbox', ng-model='options.mixpanel.track', l10n)
-        |  Help Ripple Labs make a better product through sending anonymous client usage data.
+      input.tracking(name='track', type='checkbox', ng-model='options.mixpanel.track')
+      span(l10n) Help Ripple Labs make a better product through sending anonymous client usage data.
 
     .row
       .col-xs-12.col-sm-8.col-md-3.col-lg-2
