@@ -34,12 +34,7 @@ section.col-xs-12.col-md-10.content(ng-controller="BalanceCtrl")
       table.table.events(ng-show="account.Balance")
         caption(l10n) Activity
         thead
-          //- Loading screen
-          tr(ng-hide="loadState.transactions")
-            td(colspan=2, l10n) Loading activity...
-
-          //- Entries
-          tr(ng-show="loadState.transactions")
+          tr
             th.date(l10n) Date
             th.desc(l10n) Event
         tbody(ng-class="{passive: loading}")

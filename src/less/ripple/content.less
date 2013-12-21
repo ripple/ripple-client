@@ -85,6 +85,10 @@ nav + .content {
     .spinner {
       padding-right: 25px;
 
+      & > span {
+        padding-left: 25px;
+      }
+
       .spinnerInner {
         left: -8px;
         top: -20px;
@@ -119,16 +123,15 @@ nav + .content {
   h2.tx-status {
     font: 34px 'OpenSansRegular';
     font-weight: normal;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding: 10px 0;
     .transition-duration(0.2s);
-    margin-left: -15px;
-    margin-right: -15px;
   }
 
   .result-success h2.tx-status {
     background-color: #8DC86A;
     padding: 15px;
+    color: #000;
+    .border-radius(5px,5px,5px,5px);
   }
   .result-error h2.tx-status,
   .result-malformed h2.tx-status,
@@ -139,7 +142,8 @@ nav + .content {
   // Tabs
   ul.filter-tabs {
     .clearfix;
-    list-style-type: none;
+    list-style-type: none;left: 8px;
+    top: 11px;
     font: 18px 'OpenSansRegular';
     margin-bottom: 15px;
     padding-bottom: 10px;

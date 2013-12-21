@@ -97,9 +97,6 @@ module.controller('StatusCtrl', ['$scope', '$element', '$compile', 'rpId',
   if (queue.length) tick();
 
   var notifyEl = $('<div>').attr('id', 'notification').insertAfter(el);
-  $(window).scroll(function () {
-    notifyEl.css('top', Math.max(55, $(window).scrollTop()-47)+'px');
-  });
 
   // Default to disconnected
   setTimeout(function() {

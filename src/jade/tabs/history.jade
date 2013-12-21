@@ -90,13 +90,13 @@ section.col-xs-12.col-md-10.content(ng-controller="HistoryCtrl")
             ng-class="{open: details[entry.hash]}"
             ng-class-odd="'odd'")
           .info
-            span.type &#32;
+            span.type &nbsp;
             span.i
               i.fa.fa-arrow-down(ng-show="entry.transaction.type=='received'")
               i.fa.fa-arrow-up(ng-show="entry.transaction.type=='sent'")
-              i.fa.fa-download-alt.fa.fa-rotate-90(ng-show="entry.transaction.type=='trusted'")
-              i.fa.fa-download-alt.fa.fa-rotate-270(ng-show="entry.transaction.type=='trusting'")
-              i.fa.fa-exChange(ng-show="!entry.transaction.type || entry.transaction.type=='offernew' || entry.transaction.type=='offercancel' || entry.transaction.type=='convert'")
+              i.fa.fa-download.fa-rotate-90(ng-show="entry.transaction.type=='trusted'")
+              i.fa.fa-download.fa-rotate-270(ng-show="entry.transaction.type=='trusting'")
+              i.fa.fa-exchange(ng-show="!entry.transaction.type || entry.transaction.type=='offernew' || entry.transaction.type=='offercancel' || entry.transaction.type=='convert'")
               i.fa.fa-cogs(ng-show="entry.transaction.type=='accountset'")
             span.dt {{entry.date | date:'EEE, MMM d, h:mm a'}}
             span.desc(ng-switch on="entry.transaction.type")

@@ -273,7 +273,9 @@
 
   table.events {
     caption {
-      padding: 0 0 0 @grid-gutter-width/2;
+      padding: 0 0 10px @grid-gutter-width/2;
+      text-align: left;
+      font: 16px 'OpenSansRegular';
     }
 
     .date {
@@ -477,11 +479,8 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
   }
 
   .mode-granted {
-    h2 {
-      .border-radius(10px, 0, 0, 0);
-    }
     .pending h2 {
-      background-color: #fdfdfd;
+      margin: 0;
     }
     .address {
       font-size: 25px;
@@ -548,6 +547,9 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
   }
   .errorGroup {
     height: auto;
+  }
+  .tracking {
+    margin: 0 10px 0 0;
   }
 }
 

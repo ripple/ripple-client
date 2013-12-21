@@ -10,7 +10,7 @@
   background-color: #fff;
   .rounded(5px);
   border: 1px solid #ccc;
-  z-index: 20;
+  z-index: 100;
 
   .nav-toggle {
     display: none;
@@ -146,11 +146,11 @@
 
   .notification {
     position: absolute;
-    .rounded(5px);
+    .rounded(0 0 5px 5px);
     top: 0;
     right: 0;
     width: 100%;
-    padding: 15px 5px 5px;
+    padding: 18px 5px 8px;
     z-index: 50;
     text-align: center;
     line-height: 20px;
@@ -209,6 +209,7 @@
       font-family: OpenSansRegular;
       line-height: 30px;
       opacity: 0;
+      .rounded(5px);
 
       .number {
         font-size: 20px;
