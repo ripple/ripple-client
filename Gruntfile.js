@@ -345,7 +345,7 @@ module.exports = function(grunt) {
       },
       scripts_debug: {
         files: ['src/js/**/*.js', 'src/jade/**/*.jade'],
-        tasks: ['webpack'],
+        tasks: ['webpack:desktop_debug'],
         options: { nospawn: true, livereload: true }
       },
       deps: {
