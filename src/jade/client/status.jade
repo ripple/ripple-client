@@ -13,7 +13,7 @@
       .col-xs-6(ng-show="loadState.account")
         span.balance.primary(ng-show="!account.Account", l10n) Unfunded account
         span.balance.primary(ng-show="account.Account")
-          span.amount {{account.Balance | rpamount:{precision: 0} }}
+          span.amount {{account.Balance | rpamount:{precision: 2} }}
           span.currency XRP
         i.fa.fa-question-circle(ng-show="account.Account"
           rp-popover
