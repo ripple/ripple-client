@@ -1,5 +1,5 @@
 include ../menu/wallet.jade
-section.col-xs-12.col-md-10.content(ng-controller="GatewaysCtrl")
+section.col-xs-12.col-md-10.content(ng-controller="CashinCtrl")
 
   //- Disconnected
 
@@ -16,13 +16,13 @@ section.col-xs-12.col-md-10.content(ng-controller="GatewaysCtrl")
   //- Connected
 
   div(ng-show='account.Balance')
-    p.literal(l10n) Gateways
+    p.literal(l10n) Cash In
     hr
-    ul.gateways-list
+    ul.cashin-list
       li
         .row
           .col-md-3
-            img.logo(src="img/gateways/zipzap.png")
+            img.logo(src="img/cashin/zipzap.png")
           .col-md-6
             .description(l10n) ZipZap, Inc. is a cash payment network, enabling users to use cash to fill up the ripple balance. Users can complete transactions conveniently and easily at one of ZipZap’s Payment Center locations.
           .col-md-3

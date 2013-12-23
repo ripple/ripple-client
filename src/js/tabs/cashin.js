@@ -2,23 +2,23 @@ var util = require('util'),
     Tab = require('../client/tab').Tab,
     rewriter = require('../util/jsonrewriter');
 
-var GatewaysTab = function ()
+var CashinTab = function ()
 {
   Tab.call(this);
 };
 
-util.inherits(GatewaysTab, Tab);
+util.inherits(CashinTab, Tab);
 
-GatewaysTab.prototype.mainMenu = 'wallet';
+CashinTab.prototype.mainMenu = 'wallet';
 
-GatewaysTab.prototype.generateHtml = function ()
+CashinTab.prototype.generateHtml = function ()
 {
-  return require('../../jade/tabs/gateways.jade')();
+  return require('../../jade/tabs/cashin.jade')();
 };
 
-GatewaysTab.prototype.angular = function (module)
+CashinTab.prototype.angular = function (module)
 {
-  module.controller('GatewaysCtrl', ['$scope', '$rootScope', 'rpId', 'rpNetwork', 'rpZipzap',
+  module.controller('CashinCtrl', ['$scope', '$rootScope', 'rpId', 'rpNetwork', 'rpZipzap',
   function ($scope, $rootScope, $id, $network, $zipzap)
   {
     if (!$id.loginStatus) return $id.goId();
@@ -118,4 +118,4 @@ GatewaysTab.prototype.angular = function (module)
   });
 };
 
-module.exports = GatewaysTab;
+module.exports = CashinTab;

@@ -22,8 +22,8 @@ exports["convert"] = function (callback) {
   callback(require('../tabs/convert'));
 };
 
-exports["gateways"] = function (callback) {
-  callback(require('../tabs/gateways'));
+exports["cashin"] = function (callback) {
+  callback(require('../tabs/cashin'));
 };
 
 exports["trust"] = function (callback) {
