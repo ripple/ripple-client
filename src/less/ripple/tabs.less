@@ -1456,9 +1456,30 @@ html.t-trade header nav ul > li.active#nav-advanced > a:after {
   .cashin-list {
     list-style-type: none;
     padding: 0;
-  }
-  .actions {
-    text-align: right;
+
+    .logo {
+      width: 100%;
+      max-width: 200px;
+    }
+
+    .actions {
+      text-align: right;
+    }
+
+    @media (max-width: @screen-xs-max) {
+      .front {
+        text-align: center;
+
+        .actions {
+          text-align: center;
+        }
+      }
+
+      [class*="col-"] {
+        margin-top: 15px;
+        margin-bottom: 15px;
+      }
+    }
   }
   .details {
     margin-top: 40px;
