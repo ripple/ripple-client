@@ -24,7 +24,9 @@ section.col-xs-12.col-md-10.content(ng-controller="CashinCtrl")
           .col-sm-3
             img.logo(src="img/cashin/zipzap.png")
           .col-sm-6
-            .description(l10n) ZipZap, Inc. is a cash payment network, enabling users to use cash to fill up the ripple balance. Users can complete transactions conveniently and easily at one of ZipZap’s Payment Center locations.
+            .description(l10n) ZipZap, Inc. is a cash payment network that you
+              |  can use to fund your Ripple account. Simply deposit U.S.
+              |  dollars at one of ZipZap's payment centers.
           .col-sm-3
             .actions
               span(ng-show="loading", l10n) Loading...
@@ -65,9 +67,11 @@ section.col-xs-12.col-md-10.content(ng-controller="CashinCtrl")
               li Email:
                 strong  {{zipzap.Email}}
           .col-md-8.locator
-            div.locateTxt(l10n) Present the ZipZap account number to the cashier
-              |  on any payment center. ZipZap will confirm with you that your
-              |  payment has been received and that your transaction is complete.
+            div.locateTxt(l10n) Go to any payment center and present cash and
+              |  your 9 digit ZipZap account number. Wait approximately 1 hour,
+              |  and your deposited USD will show in the Ripple client as
+              |  balances on the SnapSwap gateway. For support, please visit&#32;
+              a(href="http://support.zipzapinc.com", target="_blank") http://support.zipzapinc.com.
             div.locateTxt(l10n) Locate a payment center
             .row.row-padding-small
               form(name="locateForm", ng-submit="locate()")
