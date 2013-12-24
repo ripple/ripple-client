@@ -240,7 +240,6 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
 
       // Update Ripple lines
       if (processedTxn.effects && !is_historic) {
-        console.log('update linesssss');
         updateLines(processedTxn.effects);
       }
 
