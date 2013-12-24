@@ -892,7 +892,8 @@ SendTab.prototype.angular = function (module)
           'Currency': $scope.send.currency_code,
           'Address Type': $scope.send.bitcoin ? 'bitcoin' :
               $scope.send.federation ? 'federation' : 'ripple',
-          'Destination Tag': !!$scope.send.dt
+          'Destination Tag': !!$scope.send.dt,
+          'Time': (+new Date() - +$scope.confirmedTime) / 1000
         })
       });
 
@@ -909,13 +910,16 @@ SendTab.prototype.angular = function (module)
           'Currency': $scope.send.currency_code,
           'Address Type': $scope.send.bitcoin ? 'bitcoin' :
               $scope.send.federation ? 'federation' : 'ripple',
-          'Destination Tag': !!$scope.send.dt
+          'Destination Tag': !!$scope.send.dt,
+          'Time': (+new Date() - +$scope.confirmedTime) / 1000
         })
       });
 
       tx.submit();
 
       $scope.mode = "sending";
+
+      $scope.confirmedTime = new Date();
     };
 
     /**
