@@ -406,8 +406,6 @@ HistoryTab.prototype.angular = function (module) {
         });
       }).request();
     }
-
-    $rpTracker.track('Page View', {'Page Name': 'History'});
   }]);
 };
 

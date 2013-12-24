@@ -981,8 +981,6 @@ SendTab.prototype.angular = function (module)
     });
 
     $scope.reset();
-
-    $rpTracker.track('Page View', {'Page Name': 'Send'});
   }]);
 
   /**

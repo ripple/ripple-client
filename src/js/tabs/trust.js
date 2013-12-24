@@ -314,8 +314,6 @@ TrustTab.prototype.angular = function (module)
     $scope.currency_query = webutil.queryFromOptions($scope.currencies);
 
     $scope.reset();
-
-    $rpTracker.track('Page View', {'Page Name': 'Trust'});
   }]);
 };
 

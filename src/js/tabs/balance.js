@@ -130,8 +130,6 @@ BalanceTab.prototype.angular = function (module)
       $scope.reset();
       $scope.loadMore();
     });
-
-    $rpTracker.track('Page View', {'Page Name': 'Balance'});
   }]);
 };
 

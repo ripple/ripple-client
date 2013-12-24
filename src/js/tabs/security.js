@@ -31,8 +31,6 @@ SecurityTab.prototype.angular = function (module) {
         $scope.enc = $blob.enc($id.username.toLowerCase(), $id.password, $scope.userBlob);
       }
     }
-
-    $rpTracker.track('Page View', {'Page Name': 'Security'});
   }]);
 };
 

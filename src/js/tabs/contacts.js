@@ -71,8 +71,6 @@ ContactsTab.prototype.angular = function (module) {
       // Clear form
       $scope.reset_form();
     };
-
-    $rpTracker.track('Page View', {'Page Name': 'Contacts'});
   }]);
 
   module.controller('ContactRowCtrl', ['$scope', '$location',

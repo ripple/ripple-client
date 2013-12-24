@@ -52,8 +52,6 @@ ReceiveTab.prototype.angular = function (module) {
         }, 800);
     }
     */
-
-    $rpTracker.track('Page View', {'Page Name': 'Receive'});
   }]);
 };
 
