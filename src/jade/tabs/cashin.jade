@@ -24,9 +24,12 @@ section.col-xs-12.col-md-10.content(ng-controller="CashinCtrl")
           .col-sm-3
             img.logo(src="img/cashin/zipzap.png")
           .col-sm-6
-            .description(l10n) ZipZap, Inc. is a cash payment network that you
-              |  can use to fund your Ripple account. Simply deposit U.S.
-              |  dollars at one of ZipZap's payment centers.
+            .description(l10n) To fund your Ripple account, simply deposit cash
+              |  at one of ZipZap's U.S. payment locations. The dollars will show
+              |  up in your account within an hour. ZipZap charges $3.95 per
+              |  deposit, plus 3.5% of the total deposit. For more information
+              |  and to search for a ZipZap cash-in location, visit&#32;
+              a(href="https://www.zipzapinc.com", target="_blank") https://www.zipzapinc.com.
           .col-sm-3
             .actions
               span(ng-show="loading", l10n) Loading...
@@ -67,11 +70,32 @@ section.col-xs-12.col-md-10.content(ng-controller="CashinCtrl")
               li Email:
                 strong  {{zipzap.Email}}
           .col-md-8.locator
-            div.locateTxt(l10n) Go to any payment center and present cash and
-              |  your 9 digit ZipZap account number. Wait approximately 1 hour,
-              |  and your deposited USD will show in the Ripple client as
-              |  balances on the SnapSwap gateway. For support, please visit&#32;
-              a(href="http://support.zipzapinc.com", target="_blank") http://support.zipzapinc.com.
+            div.locateTxt
+              span(l10n) Follow these steps to deposit cash into your Ripple account.
+              ul
+                li(l10n) Your balances will be held by the SnapSwap gateway, so you'll
+                  |  need to trust SnapSwap before depositing cash. If you don't
+                  |  trust SnapSwap's Ripple address, ZipZap cannot deposit your cash.
+                  ul
+                    li
+                      a(href="http://local.ripple.com/#/trust?to=rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q", l10n)
+                        | Trust the SnapSwap gateway.
+                    li(l10n) In the amount field, fill in the max amount of dollars
+                      |  you'll want to deposit.
+                    li(l10n) Click "Grant trust" and then "Confirm".
+                    li
+                      a(href="https://ripple.com/client/#/trust", l10n) Verify on the trust page
+                      |  that your successfully trusted SnapSwap.
+                li(l10n) Go to any ZipZap payment center and deposit cash using the
+                  |  9 digit ZipZap account number displayed on this page. Let the
+                  |  clerk know that you are making a bill payment through Softgate
+                  |  and the that the biller name is ZipZap. There is a 3.5%
+                  |  transaction fee plus an a $3.95 flat fee. You can deposit up
+                  |  to $500 per transaction.
+                li(l10n) Wait approximately 1 hour, and your deposited USD will be
+                  |  in your Ripple wallet.
+                li(l10n) For support, please visit&#32;
+                  a(href="http://support.zipzapinc.com", traget="_blank") http://support.zipzapinc.com
             div.locateTxt(l10n) Locate a payment center
             .row.row-padding-small
               form(name="locateForm", ng-submit="locate()")
