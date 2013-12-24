@@ -8,6 +8,8 @@ var TxTab = function ()
 
 util.inherits(TxTab, Tab);
 
+TxTab.prototype.tabName = 'tx';
+
 TxTab.prototype.generateHtml = function ()
 {
   return require('../../jade/tabs/tx.jade')();

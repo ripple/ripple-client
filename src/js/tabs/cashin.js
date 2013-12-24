@@ -9,6 +9,7 @@ var CashinTab = function ()
 
 util.inherits(CashinTab, Tab);
 
+CashinTab.prototype.tabName = 'cashin';
 CashinTab.prototype.mainMenu = 'wallet';
 
 CashinTab.prototype.generateHtml = function ()

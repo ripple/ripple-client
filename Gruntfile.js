@@ -26,6 +26,7 @@ module.exports = function(grunt) {
               "deps/js/underscore.js",
               "deps/js/downloadify.js",
               "deps/js/angular.js",
+              "deps/js/angular-route.js",
               "deps/js/store.js",
               "deps/js/ripple.js",
               "deps/js/ripple-sjcl.js",

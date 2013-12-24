@@ -9,6 +9,7 @@ var BalanceTab = function ()
 
 util.inherits(BalanceTab, Tab);
 
+BalanceTab.prototype.tabName = 'balance';
 BalanceTab.prototype.mainMenu = 'wallet';
 
 BalanceTab.prototype.generateHtml = function ()

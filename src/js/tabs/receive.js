@@ -8,6 +8,7 @@ var ReceiveTab = function ()
 
 util.inherits(ReceiveTab, Tab);
 
+ReceiveTab.prototype.tabName = 'receive';
 ReceiveTab.prototype.mainMenu = 'receive';
 
 ReceiveTab.prototype.angular = function (module) {

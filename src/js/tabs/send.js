@@ -12,6 +12,7 @@ var SendTab = function ()
 
 util.inherits(SendTab, Tab);
 
+SendTab.prototype.tabName = 'send';
 SendTab.prototype.mainMenu = 'send';
 
 SendTab.prototype.angularDeps = Tab.prototype.angularDeps.concat(['federation']);

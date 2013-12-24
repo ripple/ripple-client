@@ -8,6 +8,7 @@ var RegisterTab = function ()
 
 util.inherits(RegisterTab, Tab);
 
+RegisterTab.prototype.tabName = 'register';
 RegisterTab.prototype.pageMode = 'single';
 RegisterTab.prototype.parent = 'main';
 

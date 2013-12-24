@@ -28,8 +28,10 @@ require('../services/federation');
 require('../services/domainalias');
 require('../services/zipzap');
 
-var app = angular.module('rp', [
+// Angular module dependencies
+var appDependencies = [
   'ng',
+  'ngRoute',
   // Controllers
   'app',
   'status',
@@ -50,50 +52,73 @@ var app = angular.module('rp', [
   // Filters
   'filters',
   'zipzap'
-]);
+];
+
+// Load tabs
+var tabdefs = [
+  require('../tabs/register'),
+  require('../tabs/login'),
+  require('../tabs/balance'),
+  require('../tabs/history'),
+  require('../tabs/contacts'),
+  require('../tabs/convert'),
+  require('../tabs/cashin'),
+  require('../tabs/trust'),
+  require('../tabs/send'),
+  require('../tabs/receive'),
+  require('../tabs/trade'),
+  require('../tabs/options'),
+  require('../tabs/security'),
+  require('../tabs/tx')
+];
+
+// Prepare tab modules
+var tabs = tabdefs.map(function (Tab) {
+  var tab = new Tab();
+
+  if (tab.angular) {
+    var module = angular.module(tab.tabName, tab.angularDeps);
+    tab.angular(module);
+    appDependencies.push(tab.tabName);
+  }
+
+  return tab;
+});
+
+var app = angular.module('rp', appDependencies);
 
 // Global reference for debugging only (!)
 var rippleclient = window.rippleclient = {};
 rippleclient.app = app;
 rippleclient.types = types;
 
-var tabs = require('../client/tabdefs');
-
 app.config(['$routeProvider', '$injector', function ($routeProvider, $injector) {
-  _.each(tabs, function (tabLoader, tabName) {
-    tabLoader(function (Tab) {
-      var tab = new Tab();
+  // Set up routing for tabs
+  _.each(tabs, function (tab) {
+    if ("function" === typeof tab.generateHtml) {
+      var template = require('../../jade/index.jade')({template:tab.generateHtml()});
 
-      if (tab.angular) {
-        var module = angular.module(tabName, tab.angularDeps);
-        tab.angular(module);
-        $injector.load([tabName]);
-      }
-      if ("function" === typeof tab.generateHtml) {
-        var template = require('../../jade/index.jade')({template:tab.generateHtml()});
+      var config = {
+        tabName: tab.tabName,
+        tabClass: 't-'+tab.tabName,
+        pageMode: 'pm-'+tab.pageMode,
+        mainMenu: tab.mainMenu,
+        template: template
+      };
 
-        var config = {
-          tabName: tabName,
-          tabClass: 't-'+tabName,
-          pageMode: 'pm-'+tab.pageMode,
-          mainMenu: tab.mainMenu,
-          template: template
-        };
+      $routeProvider.when('/'+tab.tabName, config);
 
-        $routeProvider.when('/'+tabName, config);
-
-        if (tab.extraRoutes) {
-          _.each(tab.extraRoutes, function(route) {
-            $.extend({}, config, route.config);
-            $routeProvider.when(route.name, config);
-          });
-        }
-
-        _.each(tab.aliases, function (alias) {
-          $routeProvider.when('/'+alias, config);
+      if (tab.extraRoutes) {
+        _.each(tab.extraRoutes, function(route) {
+          $.extend({}, config, route.config);
+          $routeProvider.when(route.name, config);
         });
       }
-    });
+
+      _.each(tab.aliases, function (alias) {
+        $routeProvider.when('/'+alias, config);
+      });
+    }
   });
 
   $routeProvider.otherwise({redirectTo: '/balance'});

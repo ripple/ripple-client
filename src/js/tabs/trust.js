@@ -11,6 +11,7 @@ var TrustTab = function ()
 
 util.inherits(TrustTab, Tab);
 
+TrustTab.prototype.tabName = 'trust';
 TrustTab.prototype.mainMenu = 'advanced';
 
 TrustTab.prototype.generateHtml = function ()

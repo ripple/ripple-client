@@ -11,6 +11,7 @@ var ConvertTab = function ()
 
 util.inherits(ConvertTab, Tab);
 
+ConvertTab.prototype.tabName = 'convert';
 ConvertTab.prototype.mainMenu = 'wallet';
 
 ConvertTab.prototype.generateHtml = function ()

@@ -9,6 +9,7 @@ var OptionsTab = function ()
 
 util.inherits(OptionsTab, Tab);
 
+OptionsTab.prototype.tabName = 'options';
 OptionsTab.prototype.mainMenu = 'advanced';
 
 OptionsTab.prototype.generateHtml = function ()

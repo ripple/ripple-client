@@ -8,6 +8,7 @@ var LoginTab = function ()
 
 util.inherits(LoginTab, Tab);
 
+LoginTab.prototype.tabName = 'login';
 LoginTab.prototype.pageMode = 'single';
 LoginTab.prototype.parent = 'main';
 
@@ -46,7 +47,7 @@ LoginTab.prototype.angular = function (module) {
       $scope.$apply(function () {
         $scope.username = $element.find('input[name="login_username"]').val();
         $scope.password = $element.find('input[name="login_password"]').val();
-      })
+      });
     }, 1000);
 
     $rootScope.$on("$blobError", function (e, err) {
