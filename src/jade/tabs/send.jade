@@ -146,16 +146,16 @@ section.single.content(ng-controller='SendCtrl')
         |  {{send.xrp_deficiency | rpamount}} XRP to fund it.
         a(href="https://ripple.com/wiki/Reserves", target="_blank", l10n)
           | More information
-      p.literal(ng-show="send.path_status == 'checking'")
-        span.spinner(rp-spinner="4"): span(l10n) Checking
-      p.literal(ng-show="send.path_status == 'fed-check'")
-        span.spinner(rp-spinner="4"): span(l10n) Analyzing address
-      p.literal(ng-show="send.path_status == 'bridge-quote'")
-        span.spinner(rp-spinner="4"): span(l10n) Requesting quote
-      p.literal(ng-show="send.path_status == 'pending' && send.currency_code != 'XRP'")
-        span.spinner(rp-spinner="4"): span(l10n) Calculating paths
-      p.literal(ng-show="send.path_status == 'pending' && send.currency_code == 'XRP'")
-        span.spinner(rp-spinner="4"): span(l10n) Calculating alternatives
+      p.literal(ng-show="send.path_status == 'checking'", rp-spinner="4", l10n)
+        | Checking
+      p.literal(ng-show="send.path_status == 'fed-check'", rp-spinner="4", l10n)
+        | Analyzing address
+      p.literal(ng-show="send.path_status == 'bridge-quote'", rp-spinner="4", l10n)
+        | Requesting quote
+      p.literal(ng-show="send.path_status == 'pending' && send.currency_code != 'XRP'", rp-spinner="4", l10n)
+        | Calculating paths
+      p.literal(ng-show="send.path_status == 'pending' && send.currency_code == 'XRP'", rp-spinner="4", l10n)
+        | Calculating alternatives
       p.literal(ng-show="send.path_status == 'no-path' && send.currency_code != 'XRP'", l10n)
         | Sorry! Cannot send {{send.amount}} {{send.currency}} to
         |  {{send.recipient}}. Please make sure your account has enough funds,
@@ -185,9 +185,8 @@ section.single.content(ng-controller='SendCtrl')
   //- N2. Waiting for path
 
   group.mode-wait-path(ng-show='mode=="wait_path" && account.Balance')
-    p.literal
-      span.spinner(rp-spinner="4", l10n)
-        | Ripple is calculating a path for your payment.
+    p.literal(rp-spinner="4", l10n)
+      | Ripple is calculating a path for your payment.
 
   //- N3. Confirmation page
 
@@ -224,8 +223,7 @@ section.single.content(ng-controller='SendCtrl')
   //- N4. Waiting for transaction result page
 
   group.mode-sending(ng-show='mode=="sending" && account.Balance')
-    p.literal
-      span.spinner(rp-spinner="4", l10n) Sending transaction to Ripple network
+    p.literal(rp-spinner="4", l10n) Sending transaction to Ripple network
     hr
     p: button.btn.btn-default(ng-click='reset()', l10n) Stop waiting
 

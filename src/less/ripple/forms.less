@@ -31,9 +31,13 @@
 }
 
 .btn {
-  .spinner .spinnerInner {
-    left: -22px;
-    top: -12px;
+  &.spinner {
+    position: relative;
+    .spinnerInner {
+      position: absolute !important;
+      left: 23px !important;
+      top: 22px !important;
+    }
   }
 }
 

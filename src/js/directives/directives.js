@@ -370,16 +370,29 @@ module.directive('rpNoPropagate', [function() {
  * Spinner
  */
 module.directive('rpSpinner', [function() {
-  return function(scope, element, attr) {
-    attr.$observe('rpSpinner', function(value) {
-      new Spinner({
-        lines: 9, // The number of lines to draw
-        length: 3, // The length of each line
-        width: 2, // The line thickness
-        radius: value, // The radius of the inner circle
-        className: 'spinnerInner'
-      }).spin(element[0]);
-    });
+  return {
+    restrict: 'A',
+    link: function(scope, element, attr) {
+      var spinner = null;
+      attr.$observe('rpSpinner', function(value) {
+        element.removeClass('spinner');
+        if (spinner) {
+          spinner.stop();
+          spinner = null;
+        }
+
+        if (value > 0) {
+          element.addClass('spinner');
+          spinner = new Spinner({
+            lines: 9, // The number of lines to draw
+            length: 3, // The length of each line
+            width: 2, // The line thickness
+            radius: value, // The radius of the inner circle
+            className: 'spinnerInner'
+          }).spin(element[0]);
+        }
+      });
+    }
   };
 }]);
 
