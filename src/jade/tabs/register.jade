@@ -68,7 +68,7 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
             br
             span(ng-hide="showMasterKeyInput", l10n)
               | Need to use your Secret Key?&#32;
-              a(href="", ng-click="showMasterKeyInput=true") Use Key
+              a(href="", ng-click="showMasterKeyInput=true", l10n) Use Key
 
   .row.mode-masterkeyerror(ng-show='mode=="masterkeyerror"')
     .col-xs-12.col-md-10.col-md-offset-1

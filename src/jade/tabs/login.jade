@@ -91,4 +91,4 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
             button.btn.btn-lg.btn-submit.btn-block.btn-primary(type='submit', ng-disabled="loginForm.$invalid || ajax_loading", rp-spinner="{{ajax_loading ? 4 : null}}") Open Wallet
         p.literal.hint(l10n) You can confirm this transaction on the next page.
         p.literal(l10n) New to ripple?&#32;
-          a(href='#/register') Create a wallet
+          a(href='#/register', l10n-inc) Create a wallet
