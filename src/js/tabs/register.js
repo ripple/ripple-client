@@ -95,7 +95,10 @@ RegisterTab.prototype.angular = function (module) {
           if (!exists) {
             regInProgress = true;
 
-            Options.mixpanel.track = $scope.track;
+            if (Options.mixpanel) {
+              // XXX You should never modify the Options object!!
+              Options.mixpanel.track = $scope.track;
+            }
 
             store.set('ripple_settings', JSON.stringify(Options));
 
