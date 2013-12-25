@@ -7,3 +7,5 @@ config.js
 analytics.js
 l10n/templates
 zipzap/config.php
+deps/js/angular/
+deps/js/angular-route/
