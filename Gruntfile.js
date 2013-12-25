@@ -17,27 +17,27 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-jade-l10n-extractor');
 
   // Ripple client dependencies
-  var deps = ["deps/js/jquery.js",
+  var deps = ["deps/js/jquery/jquery.min.js",
               "deps/js/swfobject.js",
               "deps/js/jquery.easing.js",
               "deps/js/json.js",
               "deps/js/setImmediate.js",
               "deps/js/psm.js",
-              "deps/js/underscore.js",
+              "deps/js/underscore/underscore-min.js",
               "deps/js/downloadify.js",
               "deps/js/angular/angular.min.js",
               "deps/js/angular-route/angular-route.min.js",
-              "deps/js/store.js",
+              "deps/js/store.js/store.min.js",
               "deps/js/ripple.js",
               "deps/js/ripple-sjcl.js",
-              "deps/js/moment.js",
+              "deps/js/moment/min/moment.min.js",
               "deps/js/bootstrap-modal.js",
               "deps/js/bootstrap-tooltip.js",
               "deps/js/bootstrap-popover.js",
               "deps/js/bootstrap-datepicker.js",
               "deps/js/jquery.qrcode.min.js",
-              "deps/js/spin.js",
-              "deps/js/snap.js"];
+              "deps/js/spin.js/dist/spin.min.js",
+              "deps/js/snapjs/snap.min.js"];
 
   var deps_ie = ["compat/ie/base64/base64.js",
                  "compat/ie/ws/web_socket.js",
