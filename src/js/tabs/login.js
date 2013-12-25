@@ -59,20 +59,17 @@ LoginTab.prototype.angular = function (module) {
       var username;
       var password;
 
-      $.each($element.find('input[name="login_username"]'), function(index,field){
-        if ($(field).val()) {
-          username = $(field).val();
-        }
-      });
+      // There are multiple login forms due to the Ripple URI login feature.
+      // But only one of them should be visible and that's the one we want.
+      username = $element.find('input[name="login_username"]:visible').eq(0).val();
+      password = $element.find('input[name="login_password"]:visible').eq(0).val();
 
-      $.each($element.find('input[name="login_password"]'), function(index,field){
-        if ($(field).val()) {
-          password = $(field).val();
-        }
-      });
-
-      $scope.loginForm.login_username.$setViewValue(username);
-      $scope.loginForm.login_password.$setViewValue(password);
+      if ("string" === typeof username) {
+        $scope.loginForm.login_username.$setViewValue(username);
+      }
+      if ("string" === typeof password) {
+        $scope.loginForm.login_password.$setViewValue(password);
+      }
     };
 
     // Issues #1024, #1060

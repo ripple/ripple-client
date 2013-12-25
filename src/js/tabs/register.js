@@ -20,8 +20,8 @@ RegisterTab.prototype.generateHtml = function ()
 };
 
 RegisterTab.prototype.angular = function (module) {
-  module.controller('RegisterCtrl', ['$scope', '$location', 'rpId', 'rpTracker',
-                                     function ($scope, $location, $id, $rpTracker)
+  module.controller('RegisterCtrl', ['$scope', '$location', '$element', 'rpId', 'rpTracker',
+                                     function ($scope, $location, $element, $id, $rpTracker)
   {
     if ($id.loginStatus) {
       $location.path('/balance');
@@ -62,6 +62,26 @@ RegisterTab.prototype.angular = function (module) {
       }, $scope.masterkey);
     };
 
+    var updateFormFields = function(){
+      var username;
+      var password1;
+      var password2;
+
+      username = $element.find('input[name="register_username"]').eq(0).val();
+      password1 = $element.find('input[name="register_password1"]').eq(0).val();
+      password2 = $element.find('input[name="register_password2"]').eq(0).val();
+
+      if ("string" === typeof username) {
+        $scope.registerForm.register_username.$setViewValue(username);
+      }
+      if ("string" === typeof password1) {
+        $scope.registerForm.register_password1.$setViewValue(password1);
+      }
+      if ("string" === typeof password2) {
+        $scope.registerForm.register_password2.$setViewValue(password2);
+      }
+    };
+
     /**
      * Registration cases
      *
@@ -87,6 +107,8 @@ RegisterTab.prototype.angular = function (module) {
     {
       // Disable submit button
       $scope.submitLoading = true;
+
+      updateFormFields();
 
       var regInProgress;
 
