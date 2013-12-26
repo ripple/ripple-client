@@ -89,8 +89,6 @@ section.single.content(ng-controller='SendCtrl')
           required
           rp-autofill='$routeParams.amount'
           rp-autofill-amount
-          rp-max-amount
-          rp-max-amount-currency='{{send.currency}}'
           rp-amount
           rp-amount-positive
           rp-amount-xrp-limit
@@ -111,8 +109,6 @@ section.single.content(ng-controller='SendCtrl')
           ng-disabled='!!send.force_amount'
           rp-autofill='$routeParams.amount'
           rp-autofill-amount
-          rp-max-amount
-          rp-max-amount-currency='{{send.currency}}'
           rp-amount
           rp-amount-positive
           rp-amount-xrp-limit
@@ -137,7 +133,7 @@ section.single.content(ng-controller='SendCtrl')
     .row
       .col-xs-12.col-sm-6.col-md-5(ng-show="send.currency_code == 'XRP'")
         button.btn.btn-block.btn-success.submit(type='submit'
-        ng-disabled='sendForm.$invalid || send.self || !send.recipient_resolved', l10n)
+          ng-disabled='sendForm.$invalid || send.self || !send.recipient_resolved || account.max_spend.to_number() < send.amount * 1000000', l10n)
           | Send XRP
     .remote
       //- Messages
