@@ -66,14 +66,18 @@
 
   <script src="config.js"></script>
 
-  <script id="client">
+  <script>
     window.name = 'NG_DEFER_BOOTSTRAP!';
     var lang = store.get('ripple_language');
+  </script>
 
-    <!-- @ifdef MODE_DEBUG -->
-//    lang = 'debug';
-    <!-- @endif -->
+  <!-- @ifdef MODE_DEBUG -->
+  <script>
+    lang = 'debug';
+  </script>
+  <!-- @endif -->
 
+  <script id="client">
     var clFile = lang
       ? 'build/dist/ripple-client-desktop-' + lang
       : 'build/dist/ripple-client-desktop';
