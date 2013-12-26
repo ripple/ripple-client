@@ -11,6 +11,13 @@ This is a general purpose Ripple client in JavaScript.
 * `src/js/util` Various static, stateless utility functions
 * `tools/` Tools used in the build process
 
+## Installation
+
+    $ git clone https://github.com/ripple/ripple-client ./ripple-client
+    $ cd ripple-client
+    $ npm install
+    $ bower install
+
 ## Travis CI
 
 Follow the build status and tests at http://travis-ci.org/ripple/ripple-client
