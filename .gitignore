@@ -9,6 +9,7 @@ l10n/templates
 zipzap/config.php
 deps/js/angular/
 deps/js/angular-route/
+deps/js/angular-mocks/
 deps/js/jquery/
 deps/js/moment/
 deps/js/spin.js/
