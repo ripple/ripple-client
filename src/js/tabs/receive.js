@@ -23,36 +23,6 @@ ReceiveTab.prototype.angular = function (module) {
       // use jquery qr code library to inject qr code into div
         $('#qr-code').qrcode('https://ripple.com//contact?to=' + $scope.address);
     }, true);
-
-    // XXX: This used to be in onAfterRender. Refactor and re-enable
-    /*
-    this.el.find('.btn').click(function (e) {
-      e.preventDefault();
-
-      var address = self.el.find('.address').text();
-
-      highlightAnimation();
-
-      // TODO: Actually copy (using Flash)
-    });
-
-    this.el.find('.select').click(function (e) {
-      e.preventDefault();
-
-      self.el.find('.address input').select();
-    });
-
-    function highlightAnimation() {
-      // Trigger highlight animation
-      self.el.find('.address')
-        .stop()
-        .css('background-color', '#fff')
-        .effect('highlight', {
-          color: "#8BC56A",
-          easing: jQuery.easing.easeOutSine()
-        }, 800);
-    }
-    */
   }]);
 };
 

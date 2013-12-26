@@ -19,10 +19,7 @@ module.exports = function(grunt) {
   // Ripple client dependencies
   var deps = ["deps/js/jquery/jquery.min.js",
               "deps/js/swfobject.js",
-              "deps/js/jquery.easing.js",
-              "deps/js/json.js",
               "deps/js/setImmediate.js",
-              "deps/js/psm.js",
               "deps/js/underscore/underscore-min.js",
               "deps/js/downloadify.js",
               "deps/js/angular/angular.min.js",
