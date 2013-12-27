@@ -2,6 +2,8 @@
 
 /* http://docs.angularjs.org/guide/dev_guide.e2e-testing */
 
+// XXX These tests need to be rewritten for Protractor
+
 describe('ripple client', function() {
 
   beforeEach(function() {

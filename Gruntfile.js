@@ -13,7 +13,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-connect');
-  grunt.loadNpmTasks('grunt-concurrent');
+  grunt.loadNpmTasks('grunt-mocha-protractor');
   grunt.loadNpmTasks('grunt-jade-l10n-extractor');
 
   // Ripple client dependencies
@@ -373,7 +373,6 @@ module.exports = function(grunt) {
           port: 8005,
           base: '.',
           open: false,
-          keepalive: true,
           middleware: function(connect, options) {
             return [
               connect['static'](options.base)
@@ -382,12 +381,16 @@ module.exports = function(grunt) {
         }
       }
     },
-    concurrent: {
+    mochaProtractor: {
+      local: {
         options: {
-            logConcurrentOutput: true
+          reporter: 'Spec',
+          browsers: ['Chrome', 'Firefox']
         },
-
-        serve: ['watch', 'connect:dev']
+        files: {
+          src: 'test/e2e/*.js'
+        }
+      }
     }
   });
 
@@ -404,7 +407,8 @@ module.exports = function(grunt) {
                               'concat:deps_debug', 'concat:deps_ie_debug']);
   grunt.registerTask('dist', ['default',
                               'copy:web', 'copy:nw_linux', 'copy:nw_linux_debug']);
-  grunt.registerTask('serve', ['concurrent:serve']);
+  grunt.registerTask('e2e', ['connect:dev', 'mochaProtractor:local']);
+  grunt.registerTask('serve', ['connect:dev', 'watch']);
 };
 // Helpers
 function escapeRegExpString(str) { return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&"); }
