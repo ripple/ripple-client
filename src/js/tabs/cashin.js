@@ -27,20 +27,32 @@ CashinTab.prototype.angular = function (module)
     $scope.form = {};
 
     // TODO request results should be stored in blob
-    $scope.$watch('address',function(){
-      if (!$rootScope.zipzap && $scope.address) {
-        $scope.loading = true;
+    $scope.$watch('address',function(address){
+      if (!$rootScope.zipzap && address) {
+        var account = $network.remote.account(address);
 
         // Get ZipZap account
-        $zipzap.getAccount($scope.address);
+        $zipzap.getAccount(address);
         $zipzap.request(function(response){
+          if (response.AcctStatus === 'Active') {
+            account.line('USD','rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q',function(err,line){
+              $scope.$apply(function () {
+                $scope.mode = line && line.limit > 0 ? 'details' : 'step2';
+                $scope.zipzap = response;
+                $scope.loading = false;
+              })
+            });
+          }
+          else {
+            $scope.mode = 'step1';
+          }
+
           $scope.$apply(function () {
-            if (response.AcctStatus === 'Active') {
-              $rootScope.zipzap = response ? response : null;
-            }
-            $scope.loading = false;
+            if ($scope.mode) $scope.loading = false;
           })
         });
+
+        $scope.loading = true;
       }
     });
 
@@ -55,9 +67,7 @@ CashinTab.prototype.angular = function (module)
         $scope.$apply(function () {
           $scope.signupProgress = false;
           if (response.ZipZapAcctNum) {
-            $rootScope.zipzap = response;
-            $scope.displaySignupForm = false;
-            $scope.details = true;
+            $scope.mode = 'details';
           } else {
             if (response && response.Message) {
               $scope.error = {

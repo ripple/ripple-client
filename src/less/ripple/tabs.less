@@ -1493,8 +1493,54 @@ html.t-trade header nav ul > li.active#nav-advanced > a:after {
       }
     }
   }
-  .signup {
+  .step {
     margin-top: 40px;
+    background: #FAFAFA;
+    padding: 20px;
+    border: 1px solid darken(#FAFAFA,10%);
+    .border-radius(5px,5px,5px,5px);
+
+    @media (max-width: @screen-sm-max) {
+      .border-radius(0);
+      border-left: none;
+      border-right: none;
+    }
+
+    .head {
+      padding: 0 0 15px;
+
+      & > span {
+        font-weight: bold;
+      }
+    }
+  }
+  .signup {
+    .control-label {
+      text-align: left;
+    }
+    .form-control {
+      height: auto;
+      padding: 6px 10px;
+    }
+  }
+  .zipzapId {
+    background: #FAFAFA;
+    padding: 20px;
+    border: 1px solid darken(#FAFAFA,10%);
+    .border-radius(5px,5px,5px,5px);
+    font: 20px OpenSansLight;
+    text-align: center;
+    margin-bottom: 20px;
+
+    @media (max-width: @screen-sm-max) {
+      .border-radius(0);
+      border-left: none;
+      border-right: none;
+    }
+
+    span {
+      font: 20px OpenSansBold;
+    }
   }
   .text-error {
     margin: 10px 0;

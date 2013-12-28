@@ -21,34 +21,157 @@ section.col-xs-12.col-md-10.content(ng-controller="CashinCtrl")
     ul.cashin-list
       li
         .row.front
-          .col-sm-3
+          .col-sm-2.col-sm-offset-1
             img.logo(src="img/cashin/zipzap.png")
-          .col-sm-6
+          .col-sm-5
             .description(l10n) To fund your Ripple account, simply deposit cash
               |  at one of ZipZap's U.S. payment locations. The dollars will show
               |  up in your account within an hour. ZipZap charges $3.95 per
               |  deposit, plus 3.5% of the total deposit. For more information
               |  and to search for a ZipZap cash-in location, visit&#32;
               a(href="https://www.zipzapinc.com", target="_blank") https://www.zipzapinc.com.
-          .col-sm-3
+          .col-sm-2
             .actions
               span(ng-show="loading", l10n) Loading...
-              span(ng-hide="!zipzap || loading") ID: {{zipzap.ZipZapAcctNum}}
-
-              div(ng-show="!loading")
-                span(ng-show="zipzap")
-                  button.btn.btn-small.btn-default(ng-click="details=!details")
-                    span(ng-hide="details", l10n) Show Details
-                    span(ng-show="details", l10n) Hide Details
-                span(ng-hide="zipzap")
+              div(ng-hide="loading")
+                span(ng-show="mode == 'step1'")
                   button.btn.btn-success.btn-block(ng-click="displaySignupForm=true",
-                    ng-disabled="displaySignupForm", l10n) Sign Up
+                  ng-disabled="displaySignupForm", l10n) Sign Up
 
-        .row.details(ng-show="details")
-          .col-md-4
+        .row(ng-show="displaySignupForm")
+          .col-md-10.col-md-offset-1.step
+            .head(l10n): span To deposit cash using ZipZap please complete the following form (Step 1 of 2).
+            form.signup.form-horizontal#signupForm(name='signupForm', ng-submit="signup()")
+              .form-group
+                label.control-label.col-sm-4(for='firstname', l10n) First name
+                .col-sm-8
+                  input.form-control#firstname(name='firstname', type='text',
+                    ng-model='form.firstname', required)
+                  .errorGroup(rp-errors='firstname')
+                    .error(rp-error-on='required', l10n)
+                      | Please enter your first name.
+              .form-group
+                label.control-label.col-sm-4(for='lastname', l10n) Last name
+                .col-sm-8
+                  input.form-control#lastname(name='lastname', type='text',
+                    ng-model='form.lastname', required)
+                  .errorGroup(rp-errors='lastname')
+                    .error(rp-error-on='required', l10n)
+                      | Please enter your last name.
+              .form-group
+                label.control-label.col-sm-4(for='address', l10n) Address
+                .col-sm-8
+                  input.form-control#address(name='address', type='text', ng-model='form.address'
+                  required)
+                  .errorGroup(rp-errors='address')
+                    .error(rp-error-on='required', l10n)
+                      | Please enter your address.
+              .form-group
+                label.control-label.col-sm-4(for='city', l10n) City
+                .col-sm-8
+                  input.form-control#city(name='city', type='text', ng-model='form.city'
+                  required)
+                  .errorGroup(rp-errors='city')
+                    .error(rp-error-on='required', l10n)
+                      | Please enter your city.
+              .form-group
+                label.control-label.col-sm-4(for='state', l10n) State
+                .col-sm-8
+                  input.form-control#state(name='state', type='text', ng-model='form.state'
+                  required)
+                  .errorGroup(rp-errors='state')
+                    .error(rp-error-on='required', l10n)
+                      | Please enter your state.
+              .form-group
+                label.control-label.col-sm-4(for='zipcode', l10n) Zip code
+                .col-sm-8
+                  input.form-control#zipcode(name='zipcode', type='text', ng-model='form.zipcode'
+                  required)
+                  .errorGroup(rp-errors='zipcode')
+                    .error(rp-error-on='required', l10n)
+                      | Please enter your zipcode.
+              .form-group
+                label.control-label.col-sm-4(for='countrycode', l10n) Country code (ex. "US")
+                .col-sm-8
+                  input.form-control#countrycode(name='countrycode', type='text', ng-model='form.countrycode'
+                  required, ng-minlength="2", ng-maxlength="2")
+                  .errorGroup(rp-errors='countrycode')
+                    .error(rp-error-on='required', l10n)
+                      | Please enter your country code.
+                    .error(rp-error-on='minlength', l10n)
+                      | Country code should be exactly 2 characters.
+                    .error(rp-error-on='maxlength', l10n)
+                      | Country code should be exactly 2 characters.
+              .form-group
+                label.control-label.col-sm-4(for='phone', l10n) Phone (Only Numbers)
+                .col-sm-8
+                  input.form-control#phone(name='phone', type='text', ng-model='form.phone'
+                  required)
+                  .errorGroup(rp-errors='phone')
+                    .error(rp-error-on='required', l10n)
+                      | Please enter your phone number.
+              .form-group
+                label.control-label.col-sm-4(for='dob', l10n) Date of birth (YYYY-MM-DD)
+                .col-sm-8
+                  input.form-control#dob(name='dob', type='text', ng-model='form.dob'
+                  required, rp-dob)
+                  .errorGroup(rp-errors='dob')
+                    .error(rp-error-on='required', l10n)
+                      | Please enter your date of birth.
+                    .error(rp-error-on='required', l10n)
+                      | The date of birth must be in YYYY-MM-DD format.
+              .form-group
+                label.control-label.col-sm-4(for='email', l10n) Email
+                .col-sm-8
+                  input.form-control#email(name='email', type='text', ng-model='form.email'
+                  required, rp-email)
+                  .errorGroup(rp-errors='email')
+                    .error(rp-error-on='required', l10n)
+                      | Please enter your email address.
+                    .error(rp-error-on='rpEmail', l10n)
+                      | Please use a valid email format.
+              .form-group
+                label.control-label.col-sm-4(for='ssn', l10n) Last 4 digits of your SSN
+                .col-sm-8
+                  input.form-control#ssn(name='ssn', type='number', ng-model='form.ssn'
+                  required, ng-minlength="4", ng-maxlength="4")
+                  .errorGroup(rp-errors='ssn')
+                    .error(rp-error-on='required', l10n)
+                      | Please enter last 4 digits of your social security number.
+                    .error(rp-error-on='minlength', l10n)
+                      | Please enter last 4 digits of your social security number.
+                    .error(rp-error-on='maxlength', l10n)
+                      | Please enter last 4 digits of your social security number.
+              .text-error(ng-show="error") {{error.verboseMessage}}
+              .row
+                .col-xs-4
+                  button.btn.btn-default.btn-block(type="button"
+                  ng-click="displaySignupForm=false", l10n) Cancel
+                .col-xs-8
+                  button.btn.btn-success.btn-block(type="submit",
+                  ng-disabled="signupForm.$invalid || signupProgress")
+                    span(ng-hide="signupProgress", l10n) Sign Up
+                    span(ng-show="signupProgress", l10n) Loading...
+
+        .row(ng-show="mode == 'step2'")
+          .col-md-10.col-md-offset-1.step
+            .head(l10n)
+              span(l10n-inc) To deposit cash using ZipZap, create a trustline to SnapSwap, and come back to this page (Step 2 of 2).&#32;
+              a(href="", ng-click=""
+                rp-popover
+                rp-popover-placement="bottom"
+                rp-popover-title='Trust line'
+                rp-popover-trigger="click"
+                data-content="Your cash will be held by the SnapSwap gateway, so you'll need to trust SnapSwap before depositing cash at a ZipZap location. <a href=\"https://ripplelabs.zendesk.com/hc/en-us/articles/200916587-Understanding-trust-lines\", target=\"_blank\">More information about trusting</a>"
+                l10n-inc) Why?
+            a.btn.btn-success.btn-block(href="/#/trust?to=rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q"
+              l10n) Trust SnapSwap
+
+        .row.details(ng-show="mode == 'details'")
+          .col-md-10.col-md-offset-1.zipzapId Zip Zap ID:
+            span {{zipzap.ZipZapAcctNum}}
+          .col-md-3.col-md-offset-1
             ul.account
-              li ZipZap account number:
-                strong  {{zipzap.ZipZapAcctNum}}
               li First name:
                 strong  {{zipzap.FirstName}}
               li Last name:
@@ -69,23 +192,10 @@ section.col-xs-12.col-md-10.content(ng-controller="CashinCtrl")
                 strong  {{zipzap.DateOfBirth}}
               li Email:
                 strong  {{zipzap.Email}}
-          .col-md-8.locator
+          .col-md-7.locator
             div.locateTxt
               span(l10n) Follow these steps to deposit cash into your Ripple account.
               ul
-                li(l10n) Your balances will be held by the SnapSwap gateway, so you'll
-                  |  need to trust SnapSwap before depositing cash. If you don't
-                  |  trust SnapSwap's Ripple address, ZipZap cannot deposit your cash.
-                  ul
-                    li
-                      a(href="http://local.ripple.com/#/trust?to=rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q", l10n)
-                        | Trust the SnapSwap gateway.
-                    li(l10n) In the amount field, fill in the max amount of dollars
-                      |  you'll want to deposit.
-                    li(l10n) Click "Grant trust" and then "Confirm".
-                    li
-                      a(href="https://ripple.com/client/#/trust", l10n) Verify on the trust page
-                      |  that your successfully trusted SnapSwap.
                 li(l10n) Go to any ZipZap payment center and deposit cash using the
                   |  9 digit ZipZap account number displayed on this page. Let the
                   |  clerk know that you are making a bill payment through Softgate
@@ -116,97 +226,3 @@ section.col-xs-12.col-md-10.content(ng-controller="CashinCtrl")
                 div(l10n) Phone: {{location.Phone}}
               div(ng-show="locateStatus=='notfound'", l10n)
                 | Sorry, there are no payment centers for your query.
-
-        .row
-          .col-xs-12.col-md-6
-            .signup(ng-show="displaySignupForm")
-              form#signupForm(name='signupForm', ng-submit="signup()")
-                label(for='firstname', l10n) First name
-                input.form-control#firstname(name='firstname', type='text',
-                  ng-model='form.firstname'
-                  required)
-                .errorGroup(rp-errors='firstname')
-                  .error(rp-error-on='required', l10n)
-                    | Please enter your first name.
-                label(for='lastname', l10n) Last name
-                input.form-control#lastname(name='lastname', type='text', ng-model='form.lastname'
-                  required)
-                .errorGroup(rp-errors='lastname')
-                  .error(rp-error-on='required', l10n)
-                    | Please enter your last name.
-                label(for='address', l10n) Address
-                input.form-control#address(name='address', type='text', ng-model='form.address'
-                  required)
-                .errorGroup(rp-errors='address')
-                  .error(rp-error-on='required', l10n)
-                    | Please enter your address.
-                label(for='city', l10n) City
-                input.form-control#city(name='city', type='text', ng-model='form.city'
-                  required)
-                .errorGroup(rp-errors='city')
-                  .error(rp-error-on='required', l10n)
-                    | Please enter your city.
-                label(for='state', l10n) State
-                input.form-control#state(name='state', type='text', ng-model='form.state'
-                  required)
-                .errorGroup(rp-errors='state')
-                  .error(rp-error-on='required', l10n)
-                    | Please enter your state.
-                label(for='zipcode', l10n) Zip code
-                input.form-control#zipcode(name='zipcode', type='text', ng-model='form.zipcode'
-                  required)
-                .errorGroup(rp-errors='zipcode')
-                  .error(rp-error-on='required', l10n)
-                    | Please enter your zipcode.
-                label(for='countrycode', l10n) Country code (ex. "US")
-                input.form-control#countrycode(name='countrycode', type='text', ng-model='form.countrycode'
-                  required, ng-minlength="2", ng-maxlength="2")
-                .errorGroup(rp-errors='countrycode')
-                  .error(rp-error-on='required', l10n)
-                    | Please enter your country code.
-                  .error(rp-error-on='minlength', l10n)
-                    | Country code should be exactly 2 characters.
-                  .error(rp-error-on='maxlength', l10n)
-                    | Country code should be exactly 2 characters.
-                label(for='phone', l10n) Phone (Only Numbers)
-                input.form-control#phone(name='phone', type='text', ng-model='form.phone'
-                  required)
-                .errorGroup(rp-errors='phone')
-                  .error(rp-error-on='required', l10n)
-                    | Please enter your phone number.
-                label(for='dob', l10n) Date of birth (YYYY-MM-DD)
-                input.form-control#dob(name='dob', type='text', ng-model='form.dob'
-                  required, rp-dob)
-                .errorGroup(rp-errors='dob')
-                  .error(rp-error-on='required', l10n)
-                    | Please enter your date of birth.
-                  .error(rp-error-on='required', l10n)
-                    | The date of birth must be in YYYY-MM-DD format.
-                label(for='email', l10n) Email
-                input.form-control#email(name='email', type='text', ng-model='form.email'
-                  required, rp-email)
-                .errorGroup(rp-errors='email')
-                  .error(rp-error-on='required', l10n)
-                    | Please enter your email address.
-                  .error(rp-error-on='rpEmail', l10n)
-                    | Please use a valid email format.
-                label(for='ssn', l10n) Last 4 digits of your SSN
-                input.form-control#ssn(name='ssn', type='number', ng-model='form.ssn'
-                  required, ng-minlength="4", ng-maxlength="4")
-                .errorGroup(rp-errors='ssn')
-                  .error(rp-error-on='required', l10n)
-                    | Please enter last 4 digits of your social security number.
-                  .error(rp-error-on='minlength', l10n)
-                    | Please enter last 4 digits of your social security number.
-                  .error(rp-error-on='maxlength', l10n)
-                    | Please enter last 4 digits of your social security number.
-                .text-error(ng-show="error") {{error.verboseMessage}}
-                .row.row-padding-small
-                  .col-xs-4
-                    button.btn.btn-default.btn-block(type="button"
-                      ng-click="displaySignupForm=false", l10n) Cancel
-                  .col-xs-8
-                    button.btn.btn-success.btn-block(type="submit",
-                      ng-disabled="signupForm.$invalid || signupProgress")
-                      span(ng-hide="signupProgress", l10n) Sign Up
-                      span(ng-show="signupProgress", l10n) Loading...
