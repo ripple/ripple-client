@@ -66,12 +66,9 @@ CashinTab.prototype.angular = function (module)
       $zipzap.request(function(response){
         $scope.signupProgress = false;
         if (response.ZipZapAcctNum) {
-          $scope.$apply(function () {
-            $scope.displaySignupForm = false;
-          });
-
           account.line('USD','rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q',function(err,line){
             $scope.$apply(function () {
+              $scope.displaySignupForm = false;
               $scope.mode = line && line.limit > 0 ? 'details' : 'step2';
               $scope.zipzap = response;
               $scope.loading = false;
