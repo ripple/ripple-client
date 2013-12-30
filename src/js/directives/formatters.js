@@ -26,8 +26,13 @@ module.directive('rpPrettyIssuer', ['rpDomainAlias',
             scope.alias = attr.rpPrettyIssuerDefault ? attr.rpPrettyIssuerDefault : '???';
             return;
           }
-          scope.alias = aliasService.getAliasForAddress(scope.issuer);
+          var aliasPromise = aliasService.getAliasForAddress(scope.issuer);
+          scope.alias = null;
+          aliasPromise.then(function (result) {
+            scope.alias = result;
+          });
 
+          scope.name = null;
           if (scope.contacts) {
             scope.name = webutil.unresolveContact(scope.contacts, scope.issuer);
           }
