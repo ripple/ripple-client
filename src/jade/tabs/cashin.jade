@@ -24,7 +24,7 @@ section.col-xs-12.col-md-10.content(ng-controller="CashinCtrl")
           .col-sm-2.col-sm-offset-1
             img.logo(src="img/cashin/zipzap.png")
           .col-sm-5
-            .description(l10n) To fund your Ripple account, simply deposit cash
+            .description To fund your Ripple account, simply deposit cash
               |  at one of ZipZap's U.S. payment locations. The dollars will show
               |  up in your account within an hour. ZipZap charges $3.95 per
               |  deposit, plus 3.5% of the total deposit. For more information
@@ -40,7 +40,7 @@ section.col-xs-12.col-md-10.content(ng-controller="CashinCtrl")
 
         .row(ng-show="displaySignupForm")
           .col-md-10.col-md-offset-1.step
-            .head(l10n): span To deposit cash using ZipZap please complete the following form (Step 1 of 2).
+            .head: span(l10n) To deposit cash using ZipZap please complete the following form (Step 1 of 2).
             form.signup.form-horizontal#signupForm(name='signupForm', ng-submit="signup()")
               .form-group
                 label.control-label.col-sm-4(for='firstname', l10n) First name

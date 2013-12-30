@@ -19,8 +19,8 @@ CashinTab.prototype.generateHtml = function ()
 
 CashinTab.prototype.angular = function (module)
 {
-  module.controller('CashinCtrl', ['$scope', '$rootScope', 'rpId', 'rpNetwork', 'rpZipzap',
-  function ($scope, $rootScope, $id, $network, $zipzap)
+  module.controller('CashinCtrl', ['$scope', '$rootScope', 'rpId', 'rpNetwork', 'rpZipzap', 'rpTracker',
+  function ($scope, $rootScope, $id, $network, $zipzap, $rpTracker)
   {
     if (!$id.loginStatus) return $id.goId();
 
@@ -64,26 +64,50 @@ CashinTab.prototype.angular = function (module)
       // Create zipzap account, fund the ripple wallet
       $zipzap.register($id.account,$scope.form);
       $zipzap.request(function(response){
-        $scope.$apply(function () {
-          $scope.signupProgress = false;
-          if (response.ZipZapAcctNum) {
-            $scope.mode = 'details';
-          } else {
+        $scope.signupProgress = false;
+        if (response.ZipZapAcctNum) {
+          $scope.$apply(function () {
+            $scope.displaySignupForm = false;
+          });
+
+          account.line('USD','rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q',function(err,line){
+            $scope.$apply(function () {
+              $scope.mode = line && line.limit > 0 ? 'details' : 'step2';
+              $scope.zipzap = response;
+              $scope.loading = false;
+            })
+          });
+
+          $rpTracker.track('ZipZap register', {
+            'Status': 'success'
+          });
+        } else {
+          $scope.$apply(function () {
             if (response && response.Message) {
               $scope.error = {
                 'code': response.Code,
                 'message': response.Message,
                 'verboseMessage': response.VerboseMessage
-              }
+              };
+
+              $rpTracker.track('ZipZap register', {
+                'Status': 'error',
+                'Message': response.VerboseMessage
+              });
             } else {
               $scope.error = {
                 'code': null,
                 'message': 'Invalid form',
                 'verboseMessage': 'Form is invalid, please make sure entered information is correct'
-              }
+              };
+
+              $rpTracker.track('ZipZap register', {
+                'Status': 'error',
+                'Message': 'Form is invalid'
+              });
             }
-          }
-        })
+          });
+        }
       });
     };
 
@@ -97,8 +121,17 @@ CashinTab.prototype.angular = function (module)
           $scope.locations = response;
           $scope.locateStatus = false;
 
-          if (!response.PayCenters || (response.PayCenters && !response.PayCenters.length))
+          if (!response.PayCenters || (response.PayCenters && !response.PayCenters.length)) {
             $scope.locateStatus = 'notfound';
+
+            $rpTracker.track('ZipZap locate payment center', {
+              'Status': 'success'
+            });
+          } else {
+            $rpTracker.track('ZipZap locate payment center', {
+              'Status': 'notfound'
+            });
+          }
         });
       })
     }
