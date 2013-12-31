@@ -80,7 +80,9 @@ div#wrapper
         rp-popup
           a.last(href="", rp-popup-link, l10n) more...
           div.languageSelector(rp-popup-content)
-            .modal-header Select a language
+            .modal-header
+              button.close(type="button", data-dismiss="modal", aria-hidden="true") &times;
+              .modal-title Select a language
             .modal-body.row.list
               .col-sm-6
                 a(href="#/lang/en") English
