@@ -72,9 +72,9 @@ div#wrapper
         a(href="http://ripple.com/terms", target="_blank", l10n) Terms of Service
         a(href="https://support.ripplelabs.com", target="_blank", l10n) Support
         a(href="https://ripplelabs.atlassian.net/browse/WC", target="_blank", l10n) Bug reports
-        a(href="", ng-click="changeLanguage()") English
-        a(href="", ng-click="changeLanguage('cn')") 中文
-        a(href="", ng-click="changeLanguage('it')") Italiano
+        a(href="#/lang/en") English
+        a(href="#/lang/cn") 中文
+        a(href="#/lang/it") Italiano
 
         // Language selector
         rp-popup
@@ -83,14 +83,14 @@ div#wrapper
             .modal-header Select a language
             .modal-body.row.list
               .col-sm-6
-                a(href="", ng-click="changeLanguage()") English
+                a(href="#/lang/en") English
               .col-sm-6
-                a(href="", ng-click="changeLanguage('cn')") 中文
+                a(href="#/lang/cn") 中文
               .col-sm-6
-                a(href="", ng-click="changeLanguage('nl')") Nederlands
+                a(href="#/lang/nl") Nederlands
               .col-sm-6
-                a(href="", ng-click="changeLanguage('it')") Italiano
+                a(href="#/lang/it") Italiano
               .col-sm-6
-                a(href="", ng-click="changeLanguage('pl')") Polski
+                a(href="#/lang/pl") Polski
               .col-sm-6
-                a(href="", ng-click="changeLanguage('es')") Español
+                a(href="#/lang/es") Español

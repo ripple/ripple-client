@@ -121,6 +121,24 @@ app.config(['$routeProvider', '$injector', function ($routeProvider, $injector) 
     }
   });
 
+  // Language switcher
+  $routeProvider.when('/lang/:language', {
+    redirectTo: function(routeParams, path, search){
+      lang = routeParams.language;
+
+      if (lang == 'en') lang = '';
+
+      store.set('ripple_language',lang ? lang : '');
+
+      // problem?
+      // reload will not work, as some pages are also available for guests.
+      // Logout will show the same page instead of showing login page.
+      // This line redirects user to root (login) page
+      var port = location.port.length > 0 ? ":" + location.port : "";
+      location.href = location.protocol + '//' + location.hostname  + port + location.pathname;
+    }
+  });
+
   $routeProvider.otherwise({redirectTo: '/balance'});
 }]);
 
