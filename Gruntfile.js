@@ -37,10 +37,12 @@ module.exports = function(grunt) {
               "deps/js/spin.js/dist/spin.min.js",
               "deps/js/snapjs/snap.min.js"];
 
-  var deps_ie = ["compat/ie/base64/base64.js",
+  var compat_ie = ["compat/ie/base64/base64.js",
                  "compat/ie/ws/web_socket.js",
                  "compat/ie/ws/config.js",
                  "compat/ie/xdr/xdr.js"];
+
+  var compat_nw = ["compat/nw/setImmediate/setImmediate.js"];
 
   /**
    * Returns true if the source is newer than the destination.
@@ -246,19 +248,28 @@ module.exports = function(grunt) {
         dest: 'build/dist/deps.js',
         separator: ';'
       },
-      deps_ie: {
-        src: deps_ie,
-        cwd: 'build/',
-        dest: 'build/dist/deps_ie.js'
-      },
       deps_debug: {
         src: deps,
         dest: 'build/dist/deps-debug.js',
         separator: ';'
       },
-      deps_ie_debug: {
-        src: deps_ie,
-        dest: 'build/dist/deps_ie-debug.js'
+      compat_ie: {
+        src: compat_ie,
+        cwd: 'build/',
+        dest: 'build/dist/compat_ie.js'
+      },
+      compat_ie_debug: {
+        src: compat_ie,
+        dest: 'build/dist/compat_ie-debug.js'
+      },
+      compat_nw: {
+        src: compat_nw,
+        cwd: 'build/',
+        dest: 'build/dist/compat_nw.js'
+      },
+      compat_nw_debug: {
+        src: compat_nw,
+        dest: 'build/dist/compat_nw-debug.js'
       }
     },
     uglify: {
@@ -271,9 +282,17 @@ module.exports = function(grunt) {
           return isNewer(from, "build/"+from);
         }
       },
-      deps_ie: {
+      compat_ie: {
         expand: true,
-        src: deps_ie,
+        src: compat_ie,
+        dest: "build/",
+        filter: function (from) {
+          return isNewer(from, "build/"+from);
+        }
+      },
+      compat_nw: {
+        expand: true,
+        src: compat_nw,
         dest: "build/",
         filter: function (from) {
           return isNewer(from, "build/"+from);
@@ -286,8 +305,8 @@ module.exports = function(grunt) {
         dest: 'build/dist/index.html',
         options: {
           context: {
-            MODE_RELEASE: true,
-            TARGET_WEB: true,
+            MODE: "release",
+            TARGET: "web",
             VERSION: "<%= meta.version %>"
           }
         }
@@ -297,8 +316,8 @@ module.exports = function(grunt) {
         dest: 'build/dist/index_debug.html',
         options: {
           context: {
-            MODE_DEBUG: true,
-            TARGET_WEB: true,
+            MODE: "debug",
+            TARGET: "web",
             VERSION: "<%= meta.version %>"
           }
         }
@@ -308,8 +327,8 @@ module.exports = function(grunt) {
         dest: 'build/dist/index_desktop.html',
         options: {
           context: {
-            MODE_RELEASE: true,
-            TARGET_DESKTOP: true,
+            MODE: "release",
+            TARGET: "desktop",
             VERSION: "<%= meta.version %>"
           }
         }
@@ -319,8 +338,8 @@ module.exports = function(grunt) {
         dest: 'build/dist/index_desktop_debug.html',
         options: {
           context: {
-            MODE_DEBUG: true,
-            TARGET_DESKTOP: true,
+            MODE: "debug",
+            TARGET: "desktop",
             VERSION: "<%= meta.version %>"
           }
         }
@@ -350,6 +369,19 @@ module.exports = function(grunt) {
           {src: 'build/dist/index_desktop.html', dest: 'build/bundle/nw-desktop/index.html'},
           {src: 'res/nw/package_desktop.json', dest: 'build/bundle/nw-desktop/package.json'},
           {src: 'config-example.js', dest: 'build/bundle/nw-desktop/config.js'}
+        ]
+      },
+      nw_desktop_debug: {
+        files: [
+          {expand: true, src: ['build/dist/*.js'], dest: 'build/bundle/nw-desktop-debug'},
+          {expand: true, src: ['build/dist/*.css'], dest: 'build/bundle/nw-desktop-debug'},
+          {expand: true, src: ['fonts/*'], dest: 'build/bundle/nw-desktop-debug'},
+          {expand: true, src: ['img/**'], dest: 'build/bundle/nw-desktop-debug'},
+          {expand: true, src: ['deps/js/modernizr*.js'], dest: 'build/bundle/nw-desktop-debug'},
+          {expand: true, src: ['deps/js/mixpanel.js'], dest: 'build/bundle/nw-desktop-debug'},
+          {src: 'build/dist/index_desktop_debug.html', dest: 'build/bundle/nw-desktop-debug/index.html'},
+          {src: 'res/nw/package_desktop_debug.json', dest: 'build/bundle/nw-desktop-debug/package.json'},
+          {src: 'config-example.js', dest: 'build/bundle/nw-desktop-debug/config.js'}
         ]
       }
     },
@@ -394,7 +426,7 @@ module.exports = function(grunt) {
       }
     },
     connect: {
-      dev: {
+      debug: {
         options: {
           hostname: 'localhost',
           port: 8005,
@@ -436,21 +468,33 @@ module.exports = function(grunt) {
   });
 
   // Tasks
+  // -----
+
+  // Default - builds the web version of the client
   grunt.registerTask('default', ['version',
                                  'preprocess',
-                                 'webpack', 'recess',
-                                 'uglify:deps',
-                                 'concat:deps','concat:deps_debug',
-                                 'uglify:deps_ie',
-                                 'concat:deps_ie', 'concat:deps_ie_debug']);
-  grunt.registerTask('deps', ['uglify:deps', 'uglify:deps_ie',
-                              'concat:deps', 'concat:deps_ie',
-                              'concat:deps_debug', 'concat:deps_ie_debug']);
+                                 'webpack',
+                                 'recess',
+                                 'deps']);
+
+  // Deps only - only rebuilds the dependencies
+  grunt.registerTask('deps', ['uglify:deps',
+                              'concat:deps','concat:deps_debug',
+                              'uglify:compat_ie',
+                              'concat:compat_ie', 'concat:compat_ie_debug',
+                              'uglify:compat_nw',
+                              'concat:compat_nw', 'concat:compat_nw_debug']);
+
+  // Distribution build - builds absolutely everything
   grunt.registerTask('dist', ['default',
-                              'copy:web', 'copy:nw_desktop',
+                              'copy:web', 'copy:nw_desktop', 'copy:nw_desktop_debug',
                               'nodewebkit:desktop']);
-  grunt.registerTask('e2e', ['connect:dev', 'mochaProtractor:local']);
-  grunt.registerTask('serve', ['connect:dev', 'watch']);
+
+  // End-to-end tests
+  grunt.registerTask('e2e', ['connect:debug', 'mochaProtractor:local']);
+
+  // Start server with auto-recompilation
+  grunt.registerTask('serve', ['connect:debug', 'watch']);
 };
 // Helpers
 function escapeRegExpString(str) { return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&"); }

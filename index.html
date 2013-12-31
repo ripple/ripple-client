@@ -20,7 +20,7 @@
   <link href="build/dist/ripple-web.css" rel="stylesheet">
   <!-- ENDS CSS -->
 
-  <!-- @ifdef TARGET_DESKTOP !>
+  <!-- @if TARGET == 'desktop' !>
   <link href="build/dist/ripple-desktop.css" rel="stylesheet">
   <!-- @endif -->
 
@@ -48,20 +48,27 @@
   </div>
 
   <!-- JAVASCRIPT -->
-  <!-- @ifdef MODE_RELEASE !>
+  <!-- @if MODE == 'release' !>
   <script src="build/dist/deps.js"></script>
   <!--[if IE]>
   <script src="compat/ie/ws/ws-config.js"></script>
-  <script src="build/dist/deps_ie.js"></script>
+  <script src="build/dist/compat_ie.js"></script>
   <![endif]-->
   <!-- @endif -->
 
-  <!-- @ifdef MODE_DEBUG -->
+  <!-- @if MODE == 'debug' -->
   <script src="build/dist/deps-debug.js"></script>
   <!--[if IE]>
   <script src="compat/ie/ws/ws-config.js"></script>
-  <script src="build/dist/deps_ie-debug.js"></script>
+  <script src="build/dist/compat_ie-debug.js"></script>
   <![endif]-->
+  <!-- @endif -->
+
+  <!-- @if TARGET == 'desktop' && MODE == 'release' !>
+  <script src="build/dist/compat_nw.js"></script>
+  <!-- @endif -->
+  <!-- @if TARGET == 'desktop' && MODE == 'debug' !>
+  <script src="build/dist/compat_nw-debug.js"></script>
   <!-- @endif -->
 
   <script src="config.js"></script>
@@ -71,7 +78,7 @@
     var lang = store.get('ripple_language');
   </script>
 
-  <!-- @ifdef MODE_DEBUG -->
+  <!-- @ifdef MODE == 'debug' -->
   <script>
     lang = 'debug';
   </script>
