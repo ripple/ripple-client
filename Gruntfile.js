@@ -3,6 +3,14 @@ var path = require("path"),
 
 var BannerPlugin = require("webpack/lib/BannerPlugin");
 
+var activeLanguages = [
+  {name: 'chinese', nativeName: '中文', code: 'cn'},
+  {name: 'dutch', nativeName: 'Nederlands', code: 'nl'},
+  {name: 'italian', nativeName: 'Italiano', code: 'it'},
+  {name: 'polish', nativeName: 'Polski', code: 'pl'},
+  {name: 'spanish', nativeName: 'Español', code: 'es'}
+];
+
 module.exports = function(grunt) {
   grunt.loadTasks('scripts/grunt');
   grunt.loadNpmTasks('grunt-recess');
@@ -114,130 +122,6 @@ module.exports = function(grunt) {
         dest: 'build/dist/ripple-desktop.css',
         options: {
           compile: true
-        }
-      }
-    },
-    webpack: {
-      options: {
-        entry: "./src/js/entry/desktop.js",
-        module: {
-          preLoaders: [
-            {
-              test: /\.js$/,
-              include: pathToRegExp(path.join(__dirname, 'src', 'js')),
-              loader: "jshint-loader"
-            }
-          ]
-        },
-        output: {
-          path: "build/dist/"
-        },
-        cache: true,
-        jshint: {
-          "validthis": true,
-          "laxcomma" : true,
-          "laxbreak" : true,
-          "browser"  : true,
-          "eqnull"   : true,
-          "debug"    : true,
-          "devel"    : true,
-          "boss"     : true,
-          "expr"     : true,
-          "asi"      : true,
-          "sub"      : true
-        },
-        plugins: [
-          new BannerPlugin("Ripple Client v<%= meta.version %>\nCopyright (c) <%= grunt.template.today('yyyy') %> <%= pkg.author.name %>\nLicensed under the <%= pkg.license %> license.")
-        ]
-      },
-      desktop: {
-        module: {
-          loaders: [
-            { test: /\.jade$/, loader: "jade-l10n-loader" }
-          ]
-        },
-        output: {
-          filename: "<%= pkg.name %>-desktop.js"
-        },
-        optimize: {
-          minimize: true
-        }
-      },
-      desktop_debug: {
-        module: {
-          loaders: [
-            { test: /\.jade$/, loader: "jade-l10n-loader" }
-          ]
-        },
-        output: {
-          filename: "<%= pkg.name %>-desktop-debug.js"
-        },
-        debug: true,
-        devtool: 'eval'
-      },
-      chinese: {
-        module: {
-          loaders: [
-            { test: /\.jade$/, loader: "jade-l10n-loader?languageFile=./l10n/cn/messages.po" }
-          ]
-        },
-        output: {
-          filename: "<%= pkg.name %>-desktop-cn.js"
-        },
-        optimize: {
-          minimize: true
-        }
-      },
-      italian: {
-        module: {
-          loaders: [
-            { test: /\.jade$/, loader: "jade-l10n-loader?languageFile=./l10n/it/messages.po" }
-          ]
-        },
-        output: {
-          filename: "<%= pkg.name %>-desktop-it.js"
-        },
-        optimize: {
-          minimize: true
-        }
-      },
-      dutch: {
-        module: {
-          loaders: [
-            { test: /\.jade$/, loader: "jade-l10n-loader?languageFile=./l10n/nl/messages.po" }
-          ]
-        },
-        output: {
-          filename: "<%= pkg.name %>-desktop-nl.js"
-        },
-        optimize: {
-          minimize: true
-        }
-      },
-      polish: {
-        module: {
-          loaders: [
-            { test: /\.jade$/, loader: "jade-l10n-loader?languageFile=./l10n/pl/messages.po" }
-          ]
-        },
-        output: {
-          filename: "<%= pkg.name %>-desktop-pl.js"
-        },
-        optimize: {
-          minimize: true
-        }
-      },
-      spanish: {
-        module: {
-          loaders: [
-            { test: /\.jade$/, loader: "jade-l10n-loader?languageFile=./l10n/es/messages.po" }
-          ]
-        },
-        output: {
-          filename: "<%= pkg.name %>-desktop-es.js"
-        },
-        optimize: {
-          minimize: true
         }
       }
     },
@@ -467,6 +351,85 @@ module.exports = function(grunt) {
     }
   });
 
+  // Webpack
+  var webpack = {
+    options: {
+      entry: "./src/js/entry/desktop.js",
+      module: {
+        preLoaders: [
+          {
+            test: /\.js$/,
+            include: pathToRegExp(path.join(__dirname, 'src', 'js')),
+            loader: "jshint-loader"
+          }
+        ]
+      },
+      output: {
+        path: "build/dist/"
+      },
+      cache: true,
+      jshint: {
+        "validthis": true,
+        "laxcomma" : true,
+        "laxbreak" : true,
+        "browser"  : true,
+        "eqnull"   : true,
+        "debug"    : true,
+        "devel"    : true,
+        "boss"     : true,
+        "expr"     : true,
+        "asi"      : true,
+        "sub"      : true
+      },
+      plugins: [
+        new BannerPlugin("Ripple Client v<%= meta.version %>\nCopyright (c) <%= grunt.template.today('yyyy') %> <%= pkg.author.name %>\nLicensed under the <%= pkg.license %> license.")
+      ]
+    },
+    desktop: {
+      module: {
+        loaders: [
+          { test: /\.jade$/, loader: "jade-l10n-loader" }
+        ]
+      },
+      output: {
+        filename: "<%= pkg.name %>-desktop.js"
+      },
+      optimize: {
+        minimize: true
+      }
+    },
+    desktop_debug: {
+      module: {
+        loaders: [
+          { test: /\.jade$/, loader: "jade-l10n-loader" }
+        ]
+      },
+      output: {
+        filename: "<%= pkg.name %>-desktop-debug.js"
+      },
+      debug: true,
+      devtool: 'eval'
+    }
+  };
+
+  activeLanguages.forEach(function(language){
+    webpack[language.name] = {
+      module: {
+        loaders: [
+          { test: /\.jade$/, loader: "jade-l10n-loader?languageFile=./l10n/" + language.code + "/messages.po" }
+        ]
+      },
+      output: {
+        filename: "<%= pkg.name %>-desktop-" + language.code + ".js"
+      },
+      optimize: {
+        minimize: true
+      }
+    }
+  });
+
+  grunt.config.set('webpack',webpack);
+
   // Tasks
   // -----
 
@@ -496,6 +459,7 @@ module.exports = function(grunt) {
   // Start server with auto-recompilation
   grunt.registerTask('serve', ['connect:debug', 'watch']);
 };
+
 // Helpers
 function escapeRegExpString(str) { return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&"); }
 function pathToRegExp(p) { return new RegExp("^" + escapeRegExpString(p)); }
