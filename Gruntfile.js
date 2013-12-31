@@ -198,6 +198,45 @@ module.exports = function(grunt) {
         optimize: {
           minimize: true
         }
+      },
+      dutch: {
+        module: {
+          loaders: [
+            { test: /\.jade$/, loader: "jade-l10n-loader?languageFile=./l10n/nl/messages.po" }
+          ]
+        },
+        output: {
+          filename: "<%= pkg.name %>-desktop-nl.js"
+        },
+        optimize: {
+          minimize: true
+        }
+      },
+      polish: {
+        module: {
+          loaders: [
+            { test: /\.jade$/, loader: "jade-l10n-loader?languageFile=./l10n/pl/messages.po" }
+          ]
+        },
+        output: {
+          filename: "<%= pkg.name %>-desktop-pl.js"
+        },
+        optimize: {
+          minimize: true
+        }
+      },
+      spanish: {
+        module: {
+          loaders: [
+            { test: /\.jade$/, loader: "jade-l10n-loader?languageFile=./l10n/es/messages.po" }
+          ]
+        },
+        output: {
+          filename: "<%= pkg.name %>-desktop-es.js"
+        },
+        optimize: {
+          minimize: true
+        }
       }
     },
     concat: {
