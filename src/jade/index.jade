@@ -75,3 +75,22 @@ div#wrapper
         a(href="", ng-click="changeLanguage()") English
         a(href="", ng-click="changeLanguage('cn')") 中文
         a(href="", ng-click="changeLanguage('it')") Italiano
+
+        // Language selector
+        rp-popup
+          a.last(href="", rp-popup-link, l10n) more...
+          div.languageSelector(rp-popup-content)
+            .modal-header Select a language
+            .modal-body.row.list
+              .col-sm-6
+                a(href="", ng-click="changeLanguage()") English
+              .col-sm-6
+                a(href="", ng-click="changeLanguage('cn')") 中文
+              .col-sm-6
+                a(href="", ng-click="changeLanguage('nl')") Nederlands
+              .col-sm-6
+                a(href="", ng-click="changeLanguage('it')") Italiano
+              .col-sm-6
+                a(href="", ng-click="changeLanguage('pl')") Polski
+              .col-sm-6
+                a(href="", ng-click="changeLanguage('es')") Español

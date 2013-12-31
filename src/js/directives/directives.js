@@ -186,6 +186,22 @@ module.directive('rpConfirm', ['rpPopup', function(popup) {
   };
 }]);
 
+module.directive('rpPopup', ['rpPopup', function(popup) {
+  return {
+    restrict: 'E',
+    link: function postLink(scope, element, attrs) {
+      element.find('a[rp-popup-link]').click(function(e) {
+        e.preventDefault();
+
+        popup.blank(
+          new XMLSerializer().serializeToString(element.find('[rp-popup-content]')[0]),
+          scope
+        );
+      });
+    }
+  };
+}]);
+
 /*
  * Adds download functionality to an element.
  */
