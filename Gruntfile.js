@@ -1,15 +1,8 @@
 var path = require("path"),
-    fs = require("fs");
+    fs = require("fs"),
+    languages = require("./l10n/languages.json").active;
 
 var BannerPlugin = require("webpack/lib/BannerPlugin");
-
-var activeLanguages = [
-  {name: 'chinese', nativeName: '中文', code: 'cn'},
-  {name: 'dutch', nativeName: 'Nederlands', code: 'nl'},
-  {name: 'italian', nativeName: 'Italiano', code: 'it'},
-  {name: 'polish', nativeName: 'Polski', code: 'pl'},
-  {name: 'spanish', nativeName: 'Español', code: 'es'}
-];
 
 module.exports = function(grunt) {
   grunt.loadTasks('scripts/grunt');
@@ -388,7 +381,8 @@ module.exports = function(grunt) {
     desktop: {
       module: {
         loaders: [
-          { test: /\.jade$/, loader: "jade-l10n-loader" }
+          { test: /\.jade$/, loader: "jade-l10n-loader" },
+          { test: /\.json$/, loader: "json-loader" }
         ]
       },
       output: {
@@ -401,7 +395,8 @@ module.exports = function(grunt) {
     desktop_debug: {
       module: {
         loaders: [
-          { test: /\.jade$/, loader: "jade-l10n-loader" }
+          { test: /\.jade$/, loader: "jade-l10n-loader" },
+          { test: /\.json$/, loader: "json-loader" }
         ]
       },
       output: {
@@ -412,11 +407,12 @@ module.exports = function(grunt) {
     }
   };
 
-  activeLanguages.forEach(function(language){
+  languages.forEach(function(language){
     webpack[language.name] = {
       module: {
         loaders: [
-          { test: /\.jade$/, loader: "jade-l10n-loader?languageFile=./l10n/" + language.code + "/messages.po" }
+          { test: /\.jade$/, loader: "jade-l10n-loader?languageFile=./l10n/" + language.code + "/messages.po" },
+          { test: /\.json$/, loader: "json-loader" }
         ]
       },
       output: {
