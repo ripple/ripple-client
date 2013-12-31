@@ -1,0 +1,9 @@
+{
+  "main": "index.html",
+  "version": "0.0.1",
+  "name": "ripple-client",
+  "description": "Standalone Ripple Client using Node Webkit",
+  "window": {
+    "toolbar": false
+  }
+}

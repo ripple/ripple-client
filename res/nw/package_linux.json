@@ -1,8 +1,0 @@
-{
-  "main": "index.html",
-  "name": "ripple-client-nw-linux",
-  "description": "Standalone Ripple Client Linux using Node Webkit",
-  "window": {
-    "toolbar": false
-  }
-}
