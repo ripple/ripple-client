@@ -40,7 +40,7 @@ section.col-xs-12.col-md-10.content(ng-controller="CashinCtrl")
 
         .row(ng-show="displaySignupForm")
           .col-md-10.col-md-offset-1.step
-            .head: span(l10n) To deposit cash using ZipZap please complete the following form (Step 1 of 2).
+            .head: span To deposit cash using ZipZap please complete the following form (Step 1 of 2).
             form.signup.form-horizontal#signupForm(name='signupForm', ng-submit="signup()")
               .form-group
                 label.control-label.col-sm-4(for='firstname', l10n) First name
@@ -155,17 +155,15 @@ section.col-xs-12.col-md-10.content(ng-controller="CashinCtrl")
 
         .row(ng-show="mode == 'step2'")
           .col-md-10.col-md-offset-1.step
-            .head(l10n)
-              span(l10n-inc) To deposit cash using ZipZap, create a trustline to SnapSwap, and come back to this page (Step 2 of 2).&#32;
+            .head
+              span To deposit cash using ZipZap, create a trustline to SnapSwap, and come back to this page (Step 2 of 2).&#32;
               a(href="", ng-click=""
                 rp-popover
                 rp-popover-placement="bottom"
                 rp-popover-title='Trust line'
                 rp-popover-trigger="click"
-                data-content="Your cash will be held by the SnapSwap gateway, so you'll need to trust SnapSwap before depositing cash at a ZipZap location. <a href=\"https://ripplelabs.zendesk.com/hc/en-us/articles/200916587-Understanding-trust-lines\", target=\"_blank\">More information about trusting</a>"
-                l10n-inc) Why?
-            a.btn.btn-success.btn-block(href="#/trust?to=rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q"
-              l10n) Trust SnapSwap
+                data-content="Your cash will be held by the SnapSwap gateway, so you'll need to trust SnapSwap before depositing cash at a ZipZap location. <a href=\"https://ripplelabs.zendesk.com/hc/en-us/articles/200916587-Understanding-trust-lines\", target=\"_blank\">More information about trusting</a>") Why?
+            a.btn.btn-success.btn-block(href="#/trust?to=rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q") Trust SnapSwap
 
         .row.details(ng-show="mode == 'details'")
           .col-md-10.col-md-offset-1.zipzapId Zip Zap ID:
@@ -194,19 +192,19 @@ section.col-xs-12.col-md-10.content(ng-controller="CashinCtrl")
                 strong  {{zipzap.Email}}
           .col-md-7.locator
             div.locateTxt
-              span(l10n) Follow these steps to deposit cash into your Ripple account.
+              span Follow these steps to deposit cash into your Ripple account.
               ul
-                li(l10n) Go to any ZipZap payment center and deposit cash using the
+                li Go to any ZipZap payment center and deposit cash using the
                   |  9 digit ZipZap account number displayed on this page. Let the
                   |  clerk know that you are making a bill payment through Softgate
                   |  and the that the biller name is ZipZap. There is a 3.5%
                   |  transaction fee plus an a $3.95 flat fee. You can deposit up
                   |  to $500 per transaction.
-                li(l10n) Wait approximately 1 hour, and your deposited USD will be
+                li Wait approximately 1 hour, and your deposited USD will be
                   |  in your Ripple wallet.
-                li(l10n) For support, please visit&#32;
+                li For support, please visit&#32;
                   a(href="http://support.zipzapinc.com", traget="_blank") http://support.zipzapinc.com
-            div.locateTxt(l10n) Locate a payment center
+            div.locateTxt Locate a payment center
             .row.row-padding-small
               form(name="locateForm", ng-submit="locate()")
                 .col-md-8
@@ -221,8 +219,8 @@ section.col-xs-12.col-md-10.content(ng-controller="CashinCtrl")
               li(ng-repeat="location in locations.PayCenters")
                 .name {{location.PayCenterName}}
                 a(href="http://maps.google.com/maps?q={{location.Address}}, {{location.City}}, {{location.State}}, {{location.PostalCode}}", target="_blank", l10n) show on map
-                div(l10n) Address: {{location.Address}}, {{location.City}},
+                div Address: {{location.Address}}, {{location.City}},
                   |  {{location.State}}, {{location.PostalCode}}.
-                div(l10n) Phone: {{location.Phone}}
-              div(ng-show="locateStatus=='notfound'", l10n)
+                div Phone: {{location.Phone}}
+              div(ng-show="locateStatus=='notfound'")
                 | Sorry, there are no payment centers for your query.
