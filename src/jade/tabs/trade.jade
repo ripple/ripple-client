@@ -128,6 +128,28 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
             .head
               span(ng-show="type == 'buy'", l10n) Buy {{order.first_currency}}
               span(ng-show="type == 'sell'", l10n) Sell {{order.first_currency}}
+              span.available(ng-show="type == 'buy'", l10n)
+                span.amount
+                  span(ng-show="order.second_currency == 'XRP'")
+                    | {{account.Balance | rpamount}} XRP
+                  span(ng-show="order.second_currency != 'XRP'")
+                    | {{lines[order.second_issuer+order.second_currency].balance || "0" | rpamount}}&#32;
+                    span(
+                      rp-pretty-issuer="order.second_issuer"
+                      rp-pretty-issuer-contacts="userBlob.data.contacts")
+                    |  {{order.second_currency}}
+                | available
+              span.available(ng-show="type == 'sell'", l10n)
+                span.amount
+                  span(ng-show="order.first_currency == 'XRP'")
+                    | {{account.Balance | rpamount}} XRP
+                  span(ng-show="order.first_currency != 'XRP'")
+                    | {{lines[order.first_issuer+order.first_currency].balance || "0" | rpamount}}&#32;
+                    span(
+                      rp-pretty-issuer="order.first_issuer"
+                      rp-pretty-issuer-contacts="userBlob.data.contacts")
+                    |  {{order.first_currency}}
+                | available
             div(ng-switch-when='trade')
               form.mode-form(name="tradeForm", ng-submit='place_order(type)', ng-show="order[type].showWidget")
                 .row.order-values

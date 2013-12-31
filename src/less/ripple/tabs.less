@@ -1251,6 +1251,18 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
       .border-radius(5px, 0, 0, 5px);
       background-color: darken(@bg, 3%);
       font: 18px 'OpenSansRegular';
+
+      .available {
+        font-size: 0.8em;
+        color: #999;
+        padding-left: 10px;
+        .amount {
+          font-weight: bold;
+          &:after {
+            content: " ";
+          }
+        }
+      }
     }
 
     .input-group {
