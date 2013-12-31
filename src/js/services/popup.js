@@ -28,6 +28,18 @@ module.factory('rpPopup', ['$http', '$compile',
     popup.modal(options);
   };
 
+  popupService.blank = function(content,scope) {
+    var popup = popupService.getPopup(true);
+
+    var html = '<div class="modal-dialog"><div class="modal-content">';
+    html += content;
+    html += '</div></div>';
+
+    popup.html(html);
+
+    popupService.compileAndRunPopup(popup, scope);
+  };
+
   popupService.confirm = function(title, actionText, actionButtonText, actionFunction, actionButtonCss, cancelButtonText, cancelFunction, cancelButtonCss, scope, options) {
     actionText = (actionText) ? actionText : "Are you sure?";
     actionButtonText = (actionButtonText) ? actionButtonText : "Ok";
