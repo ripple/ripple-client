@@ -60,7 +60,7 @@ div#wrapper
       div(scope="root", rp-jade-replace="client/status.jade")
 
     // Main
-    .row.main(role="main") !{template}
+    .row.main(role="main", id="{{$route.current.tabClass}}", ng-view)
 
     // Footer
     footer.row

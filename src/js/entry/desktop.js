@@ -92,11 +92,14 @@ var rippleclient = window.rippleclient = {};
 rippleclient.app = app;
 rippleclient.types = types;
 
+// Install basic page template
+angular.element('body').prepend(require('../../jade/client/index.jade')());
+
 app.config(['$routeProvider', '$injector', function ($routeProvider, $injector) {
   // Set up routing for tabs
   _.each(tabs, function (tab) {
     if ("function" === typeof tab.generateHtml) {
-      var template = require('../../jade/index.jade')({template:tab.generateHtml()});
+      var template = tab.generateHtml();
 
       var config = {
         tabName: tab.tabName,
