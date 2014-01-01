@@ -19,29 +19,29 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-node-webkit-builder');
 
   // Ripple client dependencies
-  var deps = ["deps/js/jquery/jquery.min.js",
+  var deps = ["deps/js/jquery/jquery.js",
               "deps/js/swfobject.js",
               "deps/js/setImmediate.js",
-              "deps/js/underscore/underscore-min.js",
+              "deps/js/underscore/underscore.js",
               "deps/js/downloadify.js",
-              "deps/js/angular/angular.min.js",
-              "deps/js/angular-route/angular-route.min.js",
-              "deps/js/store.js/store.min.js",
+              "deps/js/angular/angular.js",
+              "deps/js/angular-route/angular-route.js",
+              "deps/js/store.js/store.js",
               "deps/js/ripple.js",
               "deps/js/ripple-sjcl.js",
-              "deps/js/moment/min/moment.min.js",
+              "deps/js/moment/min/moment.js",
               "deps/js/bootstrap-modal.js",
               "deps/js/bootstrap-tooltip.js",
               "deps/js/bootstrap-popover.js",
               "deps/js/bootstrap-datepicker.js",
-              "deps/js/jquery.qrcode.min.js",
-              "deps/js/spin.js/dist/spin.min.js",
-              "deps/js/snapjs/snap.min.js"];
+              "deps/js/jquery.qrcode.js",
+              "deps/js/spin.js/dist/spin.js",
+              "deps/js/snapjs/snap.js"];
 
   var compat_ie = ["compat/ie/base64/base64.js",
-                 "compat/ie/ws/web_socket.js",
-                 "compat/ie/ws/config.js",
-                 "compat/ie/xdr/xdr.js"];
+                   "compat/ie/ws/web_socket.js",
+                   "compat/ie/ws/config.js",
+                   "compat/ie/xdr/xdr.js"];
 
   var compat_nw = ["compat/nw/setImmediate/setImmediate.js"];
 
@@ -75,6 +75,19 @@ module.exports = function(grunt) {
       }
     }
     return [{dest:dest, src:compile?src:[]}];
+  };
+
+  /**
+   * Add a prefix to a filename or array of filenames.
+   */
+  var prefix = function (pre, f) {
+    if (Array.isArray(f)) {
+      return f.map(prefix.bind(this, pre));
+    } else if ("string" === typeof f) {
+      return pre+f;
+    } else {
+      return f;
+    }
   };
 
   grunt.registerTask("version", "Describes current git commit", function (prop) {
@@ -120,8 +133,7 @@ module.exports = function(grunt) {
     },
     concat: {
       deps: {
-        src: deps,
-        cwd: 'build/',
+        src: prefix('build/', deps),
         dest: 'build/dist/deps.js',
         separator: ';'
       },
@@ -131,8 +143,7 @@ module.exports = function(grunt) {
         separator: ';'
       },
       compat_ie: {
-        src: compat_ie,
-        cwd: 'build/',
+        src: prefix('build/', compat_ie),
         dest: 'build/dist/compat_ie.js'
       },
       compat_ie_debug: {
@@ -140,8 +151,7 @@ module.exports = function(grunt) {
         dest: 'build/dist/compat_ie-debug.js'
       },
       compat_nw: {
-        src: compat_nw,
-        cwd: 'build/',
+        src: prefix('build/', compat_nw),
         dest: 'build/dist/compat_nw.js'
       },
       compat_nw_debug: {
