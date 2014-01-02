@@ -24,8 +24,18 @@ body {
   width: 100%;
 }
 
+#version {
+  color: #aaa;
+  text-align: center;
+  margin-top: 0.3em;
+}
+
 body.loaded #wrapper {
   display: block;
+}
+
+body.loaded #version {
+  display: none;
 }
 
 #appLoading, #noWebSockets {

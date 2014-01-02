@@ -151,6 +151,8 @@ app.run(['$rootScope', '$injector', '$compile', '$route', '$routeParams', '$loca
   // Global reference for debugging only (!)
   if ("object" === typeof rippleclient) {
     rippleclient.$scope = $rootScope;
+    rippleclient.version = $rootScope.version =
+      angular.element('#version').text();
   }
 
   // Helper for detecting empty object enumerations
