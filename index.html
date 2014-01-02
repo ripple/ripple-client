@@ -32,13 +32,8 @@
 
 <body ng-class="{loaded: app_loaded}">
 
-  <div id="appLoading">
-    <img src="img/loading.png" width="32" height="32" alt="" title="" />
-    Loading...
-  </div>
-
   <script>
-    function get_browser(){
+    function get_browser (){
       var N=navigator.appName, ua=navigator.userAgent, tem;
       var M=ua.match(/(opera|chrome|safari|firefox|msie)\/?\s*(\.?\d+(\.\d+)*)/i);
       if(M && (tem= ua.match(/version\/([\.\d]+)/i))!= null) M[2]= tem[1];
@@ -46,7 +41,7 @@
       return M[0];
     }
 
-    function get_browser_version(){
+    function get_browser_version (){
       var N=navigator.appName, ua=navigator.userAgent, tem;
       var M=ua.match(/(opera|chrome|safari|firefox|msie)\/?\s*(\.?\d+(\.\d+)*)/i);
       if(M && (tem= ua.match(/version\/([\.\d]+)/i))!= null) M[2]= tem[1];
@@ -55,12 +50,19 @@
     }
   </script>
 
-  <!-- VERSION -->
-  <div id="version">
-    <!-- @echo VERSION --><!-- @ifdef MODE_DEBUG !>-debug<!-- @endif --><!-- @exclude -->[unprocessed]<!-- @endexclude -->
-    <br />
-    Browser: <script>document.write(get_browser() + ' ' + get_browser_version())</script>
+  <div id="appLoading">
+    <img src="img/loading.png" width="32" height="32" alt="" title="" />
+    Loading...
+
+    <div id="browserVersion">
+      Browser: <script>document.write(get_browser() + ' ' + get_browser_version())</script>
+
+      <script>document.getElementById("browserVersion").style.display = "block"</script>
+    </div>
   </div>
+
+  <!-- VERSION -->
+  <div id="version"><!-- @echo VERSION --><!-- @ifdef MODE_DEBUG !>-debug<!-- @endif --><!-- @exclude -->[unprocessed]<!-- @endexclude --></div>
 
   <div id="noWebSockets">
     <p>We apologize, but the Ripple Client needs JavaScript and WebSockets in order to function. <br />

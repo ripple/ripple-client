@@ -24,18 +24,24 @@ body {
   width: 100%;
 }
 
-#version {
+#version, #browserVersion {
+  font-size: 12px;
   color: #aaa;
   text-align: center;
   margin-top: 0.3em;
 }
 
-body.loaded #wrapper {
-  display: block;
+#browserVersion {
+  display: none;
+  margin-top: 20px;
 }
 
 body.loaded #version {
   display: none;
+}
+
+body.loaded #wrapper {
+  display: block;
 }
 
 #appLoading, #noWebSockets {
