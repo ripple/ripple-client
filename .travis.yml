@@ -5,9 +5,7 @@ before_install:
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
   - npm install -g grunt-cli
-  - npm install -g bower
 before_script:
-  - bower install
   - "cp config-example.js config.js"
 script: "grunt && npm test"
 notifications:
