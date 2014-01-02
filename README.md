@@ -12,11 +12,21 @@ This is a general purpose Ripple client in JavaScript.
 * `tools/` Tools used in the build process
 
 ## Installation
+1. Install [node.js and npm](http://nodejs.org/).
 
-    $ git clone https://github.com/ripple/ripple-client ./ripple-client
-    $ cd ripple-client
-    $ npm install
-    $ bower install
+2. Install [Grunt](http://gruntjs.com/).
+
+        $ sudo npm install -g grunt-cli
+    
+3. Install Ripple Client.
+    
+        $ git clone https://github.com/ripple/ripple-client ./ripple-client
+        $ cd ripple-client
+        $ npm install
+
+## Build
+    
+    $ grunt
 
 ## Travis CI
 
