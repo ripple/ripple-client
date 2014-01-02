@@ -25,7 +25,8 @@ This is a general purpose Ripple client in JavaScript.
         $ npm install
 
 ## Build
-    
+Run the following command to build the client.    
+
     $ grunt
 
 ## Travis CI
