@@ -17,6 +17,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-mocha-protractor');
   grunt.loadNpmTasks('grunt-jade-l10n-extractor');
   grunt.loadNpmTasks('grunt-node-webkit-builder');
+  grunt.loadNpmTasks('grunt-bower-task');
 
   // Ripple client dependencies
   var deps = ["deps/js/jquery/jquery.js",
@@ -352,6 +353,13 @@ module.exports = function(grunt) {
           src: 'build/bundle/nw-desktop/**/*'
         }
       }
+    },
+    bower: {
+      install: {
+        options: {
+          targetDir: './deps/js'
+        }
+      }
     }
   });
 
@@ -445,7 +453,8 @@ module.exports = function(grunt) {
                                  'preprocess',
                                  'webpack',
                                  'recess',
-                                 'deps']);
+                                 'deps',
+                                 'bower:install']);
 
   // Deps only - only rebuilds the dependencies
   grunt.registerTask('deps', ['uglify:deps',
