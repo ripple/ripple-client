@@ -12,37 +12,13 @@ section.col-xs-12.col-md-10.wide.content(ng-controller="SecurityCtrl")
       span(l10n) Never share them!
   .title
     .icon.wallet
-    .name(l10n) Wallet Key
+    .name(l10n) Wallet
     .more
       span(l10n) {{userBlob.data.contacts.length}} contacts,&#32;
         span {{enc.length | rpfilesize}} &ensp;
     .more
       span(rp-download='enc',rp-download-filename='ripple-wallet.txt', l10n) You can&#32;
         a(href="", rp-download-trigger, l10n-inc) backup your wallet to a file.
-  ul.description(ng-hide="showKeys")
-    li(l10n) This is the key you use every time you use ripple.
-    li(l10n) You created it when you chose your Wallet Name and Passphrase.
-    li(l10n) It protects Your money + Your contacts and history.
-    li
-      b(l10n) Never forget it, never share it.
-  div
-    .infoBox(ng-show="showKeys")
-      .part
-        span.label(l10n) Wallet name:
-        span.value {{userCredentials.username}}
-      .part
-        span.label(l10n) Pass Phrase:
-        span.value(ng-show="passUnmask") {{userCredentials.password}}
-        span.value(ng-hide="passUnmask") {{userCredentials.password | rpmask}}
-        rp-confirm(
-          action-text="Are you in a safe place, where no person, or camera can see your screen?"
-          action-button-text="Yes, show me"
-          action-function="passUnmask=true"
-          cancel-button-text="No"
-          ng-hide="passUnmask")
-            a(href="", ng-hide="passUnmask", l10n) Show
-        a(href="", ng-click="passUnmask=false", ng-show="passUnmask", l10n) Hide
-  .hint(ng-show="showKeys", l10n) This gives access to your wallet. DO NOT SHARE THIS WITH ANYONE. Keep it safe. Keep it private.
 
   .title
     .icon.money
