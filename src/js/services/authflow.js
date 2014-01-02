@@ -21,6 +21,8 @@ module.factory('rpAuthFlow', ['$rootScope', 'rpAuthInfo', 'rpKdf', 'rpBlob',
       $authinfo.get(Options.domain, username, getBlob);
     }
 
+    // XXX Instead of getting blob we should have some dedicated API endpoint
+    //     to query whether a username exists or not.
     function getBlob(err, authInfo) {
       if (err) {
         callback(err);
@@ -70,8 +72,8 @@ module.factory('rpAuthFlow', ['$rootScope', 'rpAuthInfo', 'rpKdf', 'rpBlob',
           return;
         }
 
-        console.log("Authflow login succeeded", blob);
-        callback(null, blob);
+        console.log("client: authflow: login succeeded", blob);
+        callback(null, blob, keys);
       });
     }
   };
@@ -110,8 +112,35 @@ module.factory('rpAuthFlow', ['$rootScope', 'rpAuthInfo', 'rpKdf', 'rpBlob',
           return;
         }
 
-        console.log("Authflow registration succeeded", blob);
-        callback(null, blobObj);
+        console.log("client: authflow: registration succeeded", blob);
+        callback(null, blobObj, keys);
+      });
+    }
+  };
+
+  AuthFlow.relogin = function (username, keys, callback) {
+    getAuthInfo();
+
+    function getAuthInfo() {
+      $authinfo.get(Options.domain, username, function (err, authInfo) {
+        if (err) {
+          callback(err);
+          return;
+        }
+
+        getBlob(authInfo);
+      });
+    }
+
+    function getBlob(authInfo) {
+      $blob.init(authInfo.blobvault, keys.id, keys.crypt, function (err, blob) {
+        if (err) {
+          callback(err);
+          return;
+        }
+
+        console.log("client: authflow: relogin succeeded", blob);
+        callback(null, blob);
       });
     }
   };
@@ -143,6 +172,9 @@ module.factory('rpAuthFlow', ['$rootScope', 'rpAuthInfo', 'rpKdf', 'rpBlob',
                               callback(err);
                               return;
                             }
+
+                            console.log("client: authflow: login secret is " +
+                                        sjcl.codec.hex.fromBits(key));
 
                             callback(null, {
                               id: keyHash(key, "id"),

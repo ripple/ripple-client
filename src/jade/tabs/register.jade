@@ -63,19 +63,10 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
               | Need to use your Secret Key?&#32;
               a(href="", ng-click="showMasterKeyInput=true", l10n) Use Key
 
-  .row.mode-masterkeyerror(ng-show='mode=="masterkeyerror"')
+  .row.mode-masterkeyerror(ng-show='mode=="alreadyexists"')
     .col-xs-12.col-md-10.col-md-offset-1
-      h1(l10n) Secret Account Key error
-      p.literal(l10n) There is a Wallet with your Wallet username and passphrase, but the given Secret Account Key is not connected to it. If you decide to continue registration your new Secret Account Key will be used for current Wallet name and passphrase.
-      p
-        button.btn.btn-primary(ng-click='mode="form"', l10n) Back
-        | &#32;
-        button.btn.btn-default(ng-click='register()', l10n) Overwrite current key
-
-  .row.mode-masterkeyerror(ng-show='mode=="loginerror"')
-    .col-xs-12.col-md-10.col-md-offset-1
-      h1(l10n) Existing account error
-      p.literal(l10n) There is a Wallet with a similar Wallet name and passphrase, but this wallet could not be decrypted. Try choosing a different wallet name and/or passphrase.
+      h1(l10n) This wallet already exists!
+      p.literal(l10n) There is already a wallet using this username, please choose a different username and try again.
       p
         button.btn.btn-primary(ng-click='mode="form"', l10n) Back
 

@@ -122,18 +122,7 @@ RegisterTab.prototype.angular = function (module) {
 
             $scope.register();
           } else {
-            $id.login($scope.username, $scope.password1, function (error) {
-              $scope.submitLoading = false;
-              if (error) {
-                // There is a conflicting wallet, but we can't login to it
-                $scope.mode = 'loginerror';
-              } else if ($scope.masterkey &&
-                         $scope.masterkey != $scope.userCredentials.master_seed) {
-                $scope.mode = 'masterkeyerror';
-              } else {
-                $location.path('/balance');
-              }
-            });
+            $scope.mode = 'alreadyexists';
           }
         }
       });
