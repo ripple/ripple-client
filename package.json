@@ -26,7 +26,9 @@
     "jade-l10n": "0.1.x",
     "jade-l10n-loader": "0.0.x",
     "grunt-mocha-protractor": "~0.4.0",
-    "json-loader": "~0.5.0"
+    "json-loader": "~0.5.0",
+    "node-po": "~0.1.2",
+    "grunt-jade-l10n-extractor": "~0.1.2"
   },
   "license": "ISC",
   "scripts": {
