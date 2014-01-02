@@ -37,16 +37,37 @@
     Loading...
   </div>
 
+  <script>
+    function get_browser(){
+      var N=navigator.appName, ua=navigator.userAgent, tem;
+      var M=ua.match(/(opera|chrome|safari|firefox|msie)\/?\s*(\.?\d+(\.\d+)*)/i);
+      if(M && (tem= ua.match(/version\/([\.\d]+)/i))!= null) M[2]= tem[1];
+      M=M? [M[1], M[2]]: [N, navigator.appVersion, '-?'];
+      return M[0];
+    }
+
+    function get_browser_version(){
+      var N=navigator.appName, ua=navigator.userAgent, tem;
+      var M=ua.match(/(opera|chrome|safari|firefox|msie)\/?\s*(\.?\d+(\.\d+)*)/i);
+      if(M && (tem= ua.match(/version\/([\.\d]+)/i))!= null) M[2]= tem[1];
+      M=M? [M[1], M[2]]: [N, navigator.appVersion, '-?'];
+      return M[1];
+    }
+  </script>
+
+  <!-- VERSION -->
+  <div id="version">
+    <!-- @echo VERSION --><!-- @ifdef MODE_DEBUG !>-debug<!-- @endif --><!-- @exclude -->[unprocessed]<!-- @endexclude -->
+    <br />
+    Browser: <script>document.write(get_browser() + ' ' + get_browser_version())</script>
+  </div>
+
   <div id="noWebSockets">
-    <p>
-      We apologize, but the Ripple Client needs WebSockets in order to function.
+    <p>We apologize, but the Ripple Client needs JavaScript and WebSockets in order to function. <br />
       Please refer to this page and download a browser that supports WebSockets. Thank you! <br />
       <a href="http://caniuse.com/websockets">http://caniuse.com/websockets</a>
     </p>
   </div>
-
-  <!-- VERSION -->
-  <div id="version"><!-- @echo VERSION --><!-- @ifdef MODE_DEBUG !>-debug<!-- @endif --><!-- @exclude -->[unprocessed]<!-- @endexclude --></div>
 
   <!-- JAVASCRIPT -->
   <!-- @if MODE == 'release' !>
