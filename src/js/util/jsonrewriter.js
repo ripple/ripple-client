@@ -182,7 +182,9 @@ var JsonRewriter = module.exports = {
         transaction.type = 'failed';
       }
 
-      obj.transaction = transaction;
+      if (!$.isEmptyObject(transaction)) {
+        obj.transaction = transaction;
+      }
     }
 
     // Side effects
@@ -435,8 +437,6 @@ var JsonRewriter = module.exports = {
     obj.hash = tx.hash;
     obj.affected_currencies = affected_currencies ? affected_currencies : [];
     obj.ledger_index = tx.ledger_index;
-
-    console.log('ob',obj);
 
     return obj;
   }
