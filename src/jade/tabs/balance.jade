@@ -118,6 +118,8 @@ section.col-xs-12.col-md-10.content(ng-controller="BalanceCtrl")
                 != require("./history/effects.jade")()
               .transaction(ng-switch-when="accountset", l10n)
                 | Account details have been changed
+              .transaction(ng-switch-when="failed", l10n)
+                | Failed transaction
               .transaction(ng-switch-default)
                 != require("./history/effects.jade")()
 

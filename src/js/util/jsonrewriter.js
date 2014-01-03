@@ -120,11 +120,9 @@ var JsonRewriter = module.exports = {
         || (tx.Destination && tx.Destination === account)
         || (tx.LimitAmount && tx.LimitAmount.issuer === account)) {
 
-      var transaction = {
-        tx_result: meta.TransactionResult
-      };
+      var transaction = {};
 
-      if ('tesSUCCESS' === transaction.tx_result) {
+      if ('tesSUCCESS' === meta.TransactionResult) {
         switch (tx.TransactionType) {
           case 'Payment':
             var amount = ripple.Amount.from_json(tx.Amount);
@@ -180,9 +178,11 @@ var JsonRewriter = module.exports = {
         if (tx.Flags) {
           transaction.flags = tx.Flags;
         }
-
-        obj.transaction = transaction;
+      } else {
+        transaction.type = 'failed';
       }
+
+      obj.transaction = transaction;
     }
 
     // Side effects
@@ -429,11 +429,14 @@ var JsonRewriter = module.exports = {
     }
 
     obj.tx_type = tx.TransactionType;
+    obj.tx_result = meta.TransactionResult;
     obj.fee = tx.Fee;
     obj.date = (tx.date + 0x386D4380) * 1000;
     obj.hash = tx.hash;
     obj.affected_currencies = affected_currencies ? affected_currencies : [];
     obj.ledger_index = tx.ledger_index;
+
+    console.log('ob',obj);
 
     return obj;
   }

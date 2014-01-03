@@ -61,7 +61,7 @@ HistoryTab.prototype.angular = function (module) {
         'checked': true
       },
       other: {
-        'types': ['accountset'],
+        'types': ['accountset','failed'],
         'checked': true
       }
     };
