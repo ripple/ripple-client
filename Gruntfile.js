@@ -449,12 +449,12 @@ module.exports = function(grunt) {
   // -----
 
   // Default - builds the web version of the client
-  grunt.registerTask('default', ['version',
+  grunt.registerTask('default', ['bower:install',
+                                 'version',
                                  'preprocess',
                                  'webpack',
                                  'recess',
-                                 'deps',
-                                 'bower:install']);
+                                 'deps']);
 
   // Deps only - only rebuilds the dependencies
   grunt.registerTask('deps', ['uglify:deps',
