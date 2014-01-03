@@ -116,6 +116,19 @@ exports.getContact = function (contacts,value)
 };
 
 /**
+ * Given an address, return the contact name.
+ */
+exports.isContact = function (contacts, address) {
+  try {
+    for (var i = 0, l = contacts.length; i < l; i++) {
+      if (contacts[i].address === address) {
+        return contacts[i].name;
+      }
+    }
+  } catch (e) {}
+};
+
+/**
  * Return the address of a contact.
  *
  * Pass in an address or a contact name and get an address back.
@@ -141,19 +154,10 @@ exports.resolveContact = function (contacts, value)
  * If a contact is not found with the given address, simply return the address
  * again.
  */
-exports.unresolveContact = function (contacts, value)
+exports.unresolveContact = function (contacts, address)
 {
-  try {
-    for (var i = 0, l = contacts.length; i < l; i++) {
-      if (contacts[i].address === value) {
-        return contacts[i].name;
-      }
-    }
-  } catch (e) {}
-
-  return value;
+  return contact = exports.isContact(contacts, address) ? contact : address;
 };
-
 
 /**
  * Creates a combobox query function out of a select options array.
