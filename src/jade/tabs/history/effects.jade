@@ -10,7 +10,8 @@ ul.effects(ng-show="entry.effects")
         strong {{effect.got | rpamount}} {{effect.got | rpcurrency}}
         |  for&#32;
         strong {{effect.paid | rpamount}} {{effect.paid | rpcurrency}}
-        | .
+        | .&#32;
+        span(ng-show="effect.cancelled", l10n-inc) The rest of your order has been cancelled due to lack of funds.
       span(ng-hide="effect.deleted", l10n)  This order has
         span  {{effect.remaining | rpamount}} {{effect.remaining | rpcurrency}}
         |  remaining.

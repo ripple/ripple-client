@@ -104,47 +104,47 @@ section.col-xs-12.col-md-10.content(ng-controller="HistoryCtrl")
                 span(l10n) You sent&#32;
                   span.address(title="{{entry.transaction.counterparty}}") {{entry.transaction.counterparty | rpcontactname}}
                   strong  {{entry.transaction.amount | rpamount}} {{entry.transaction.amount | rpcurrency}}
-                include history/effects
+                != require("./history/effects.jade")()
               span(ng-switch-when="received")
                 span(l10n)
                   span.address(title="{{entry.transaction.counterparty}}") {{entry.transaction.counterparty | rpcontactname}}
                   |  sent you
                   strong  {{entry.transaction.amount | rpamount}} {{entry.transaction.amount | rpcurrency}}
-                include history/effects
+                != require("./history/effects.jade")()
               span(ng-switch-when="convert")
                 span(l10n) You requested to convert
                   strong  {{entry.transaction.spent | rpamount}} {{entry.transaction.spent | rpcurrency}}
                   |  to
                   strong  {{entry.transaction.amount | rpamount}} {{entry.transaction.amount | rpcurrency}}
-                include history/effects
+                != require("./history/effects.jade")()
               span(ng-switch-when="trusted")
                 span(l10n)
                   span.address(title="{{entry.transaction.counterparty}}") {{entry.transaction.counterparty | rpcontactname}}
                   |  now trusts you for
                   strong  {{entry.transaction.amount | rpamount}} {{entry.transaction.amount | rpcurrency}}
-                include history/effects
+                != require("./history/effects.jade")()
               span(ng-switch-when="trusting")
                 span(l10n) You now trust&#32;
                   span.address(title="{{entry.transaction.counterparty}}") {{entry.transaction.counterparty | rpcontactname}}
                   |  for&#32;
                   strong {{entry.transaction.amount | rpamount}} {{entry.transaction.amount | rpcurrency}}
-                include history/effects
+                != require("./history/effects.jade")()
               span(ng-switch-when="offernew")
                 span(l10n) You created an offer accepting&#32;
                   strong {{entry.transaction.pays | rpamount}} {{entry.transaction.pays | rpcurrency}}
                   |  for&#32;
                   strong {{entry.transaction.gets | rpamount}} {{entry.transaction.gets | rpcurrency}}
-                include history/effects
+                != require("./history/effects.jade")()
               span(ng-switch-when="offercancel")
                 span(l10n) You cancelled an offer accepting&#32;
                   strong {{entry.transaction.pays | rpamount}} {{entry.transaction.pays | rpcurrency}}
                   |  for&#32;
                   strong {{entry.transaction.gets | rpamount}} {{entry.transaction.gets | rpcurrency}}
-                include history/effects
+                != require("./history/effects.jade")()
               span(ng-switch-when="accountset", l10n) Account details have been Changed
-                include history/effects
+                != require("./history/effects.jade")()
               span(ng-switch-default)
-                include history/effects
+                != require("./history/effects.jade")()
 
           .details(ng-if="details[entry.hash]")
             .effects(ng-show="entry.balanceEffects")

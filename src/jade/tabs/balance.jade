@@ -55,7 +55,7 @@ section.col-xs-12.col-md-10.content(ng-controller="BalanceCtrl")
                   span.hidden-xs(l10n) Add to contacts
                   span.visible-xs
                     i.fa.fa-user
-                include history/effects
+                != require("./history/effects.jade")()
               .transaction(ng-switch-when="received")
                 span.address(title="{{entry.transaction.counterparty}}", l10n)
                   | {{entry.transaction.counterparty | rpcontactname}} sent you
@@ -66,7 +66,7 @@ section.col-xs-12.col-md-10.content(ng-controller="BalanceCtrl")
                   span.hidden-xs(l10n) Add to contacts
                   span.visible-xs
                     i.fa.fa-user
-                include history/effects
+                != require("./history/effects.jade")()
               .transaction(ng-switch-when="convert")
                 span(l10n) You requested to convert
                   strong.nowrap  {{entry.transaction.spent | rpamount}}
@@ -74,7 +74,7 @@ section.col-xs-12.col-md-10.content(ng-controller="BalanceCtrl")
                   |  to
                   strong.nowrap  {{entry.transaction.amount | rpamount}}
                     | {{entry.transaction.amount | rpcurrency}}
-                include history/effects
+                != require("./history/effects.jade")()
               .transaction(ng-switch-when="trusted")
                 span.address(title="{{entry.transaction.counterparty}}", l10n)
                   | {{entry.transaction.counterparty | rpcontactname}} now trusts you for
@@ -86,7 +86,7 @@ section.col-xs-12.col-md-10.content(ng-controller="BalanceCtrl")
                   span.hidden-xs(l10n) Add to contacts
                   span.visible-xs
                     i.fa.fa-user
-                include history/effects
+                != require("./history/effects.jade")()
               .transaction(ng-switch-when="trusting")
                 span(l10n) You now trust&#32;
                   span.address(title="{{entry.transaction.counterparty}}")
@@ -99,7 +99,7 @@ section.col-xs-12.col-md-10.content(ng-controller="BalanceCtrl")
                   span.hidden-xs(l10n) Add to contacts
                   span.visible-xs
                     i.fa.fa-user
-                include history/effects
+                != require("./history/effects.jade")()
               .transaction(ng-switch-when="offernew")
                 span(l10n) You created an offer accepting&#32;
                   strong.nowrap {{entry.transaction.pays | rpamount}}
@@ -107,7 +107,7 @@ section.col-xs-12.col-md-10.content(ng-controller="BalanceCtrl")
                   |  for&#32;
                   strong.nowrap {{entry.transaction.gets | rpamount}}
                     | {{entry.transaction.gets | rpcurrency}}
-                include history/effects
+                != require("./history/effects.jade")()
               .transaction(ng-switch-when="offercancel")
                 span(l10n) You cancelled an offer accepting&#32;
                   strong.nowrap {{entry.transaction.pays | rpamount}}
@@ -115,11 +115,11 @@ section.col-xs-12.col-md-10.content(ng-controller="BalanceCtrl")
                   |  for&#32;
                   strong.nowrap {{entry.transaction.gets | rpamount}}
                     | {{entry.transaction.gets | rpcurrency}}
-                include history/effects
+                != require("./history/effects.jade")()
               .transaction(ng-switch-when="accountset", l10n)
                 | Account details have been changed
               .transaction(ng-switch-default)
-                include history/effects
+                != require("./history/effects.jade")()
 
         tfoot
           tr
