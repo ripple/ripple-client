@@ -1190,7 +1190,7 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
     }
   }
 
-  .issuer, .message-select-issuer {
+  .issuerSelector, .message-select-issuer {
     padding: 15px;
     border: 1px solid darken(@bg, 10%);
     border-top: none;
@@ -1253,7 +1253,7 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
       font: 18px 'OpenSansRegular';
 
       .available {
-        font-size: 0.8em;
+        font-size: 11px;
         color: #999;
         padding-left: 10px;
         .amount {
@@ -1285,9 +1285,15 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
         overflow: visible;
       }
 
-      div.input-group-addon {
+      .input-group-addon {
         color: #fff;
         background-color: #ccc;
+        padding: 0 10px;
+        min-width: 70px;
+
+        .issuer {
+          font-size: 10px;
+        }
       }
     }
     .message {
@@ -1417,6 +1423,11 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
 
     .message {
       text-align: center;
+    }
+
+    .issuer {
+      font-size: 10px;
+      color: #B6B6B6;
     }
   }
 }
