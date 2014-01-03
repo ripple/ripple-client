@@ -602,6 +602,10 @@ TradeTab.prototype.angular = function(module)
       $scope.issuer_query = webutil.queryFromOptions(contacts);
     }, true);
 
+    $scope.$watch('offers', function (offers){
+      $scope.offersCount = _.size(offers);
+    }, true);
+
     $scope.reset();
 
     /**

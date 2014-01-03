@@ -306,7 +306,9 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
           type="button"
           ng-disabled="!account.Balance"
           ng-class="{'btn-info': order.listing == 'my'}"
-          ng-click="setListing('my')", l10n) My Orders
+          ng-click="setListing('my')", l10n)
+            | My Orders
+            span(ng-show="offers")  ({{offersCount}})
 
       .listings
         .my(ng-show="order.listing == 'my'")
