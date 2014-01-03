@@ -34,7 +34,11 @@ module.directive('rpPrettyIssuer', ['rpDomainAlias',
 
           scope.name = null;
           if (scope.contacts) {
-            scope.name = webutil.unresolveContact(scope.contacts, scope.issuer);
+            scope.name = webutil.isContact(scope.contacts, scope.issuer);
+          }
+
+          if (!scope.name && attr.rpPrettyIssuerOrShort) {
+            scope.name = "" + scope.issuer.substring(0,7) + "…";
           }
         }
 
