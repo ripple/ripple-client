@@ -4,13 +4,18 @@ ul.effects(ng-show="entry.effects")
       strong {{effect.gets | rpamount}} {{effect.gets | rpcurrency}}
       |  for&#32;
       strong {{effect.pays | rpamount}} {{effect.pays | rpcurrency}}
-      | . This order has been funded.
+      | . (
+      span(l10n-inc) price
+      span : {{effect.gets.divide(effect.pays) | rpamount}}).
+      |  This order has been funded.
     span(ng-switch-when="offer_partially_funded")
       span(l10n) You sold&#32;
         strong {{effect.got | rpamount}} {{effect.got | rpcurrency}}
         |  for&#32;
         strong {{effect.paid | rpamount}} {{effect.paid | rpcurrency}}
-        | .&#32;
+        | . (
+        span(l10n-inc) price
+        span : {{effect.got.divide(effect.paid) | rpamount}})
         span(ng-show="effect.cancelled", l10n-inc) The rest of your order has been cancelled due to lack of funds.
       span(ng-hide="effect.deleted", l10n)  This order has
         span  {{effect.remaining | rpamount}} {{effect.remaining | rpcurrency}}
@@ -27,7 +32,9 @@ ul.effects(ng-show="entry.effects")
       strong {{effect.got | rpamount}} {{effect.got | rpcurrency}}
       |  for&#32;
       strong {{effect.paid | rpamount}} {{effect.paid | rpcurrency}}
-      | .
+      | . (
+      span(l10n-inc) price
+      span : {{effect.paid.divide(effect.got) | rpamount}})
 
     span(ng-switch-when="trust_create_local", l10n) You now trust
       span  {{effect.counterparty | rpcontactname}}
