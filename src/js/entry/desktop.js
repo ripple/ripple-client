@@ -22,6 +22,7 @@ require('../services/oldblob');
 require('../services/authflow');
 require('../services/authinfo');
 require('../services/kdf');
+require('../services/keychain');
 require('../services/network');
 require('../services/books');
 require('../services/transactions');

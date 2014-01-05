@@ -46,8 +46,6 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
 
     reset();
 
-    remote.set_secret(data.account, data.secret);
-
     var accountObj = remote.account(data.account);
 
     // We need a reference to these functions after they're bound, so we can

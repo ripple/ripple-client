@@ -122,22 +122,22 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
         //     controller will likely query it long before we get a response from
         //     the login system.
         //
-        //     Probably not a big deal as persistent_auth is only used by
-        //     developers.
+        //     Will work fine as long as any relogin error triggers a logout and
+        //     logouts trigger a full page reload.
         self.loginStatus = true;
-
 
         $authflow.relogin(auth.username, auth.keys, function (err, blob) {
           if (err) {
-            // New login protocol failed and no fallback configured
-            //callback(err);
+            // Failed to relogin, logout
+            console.log("client: id: failed to relogin:", err.toString());
+            self.logout();
           } else {
             // Ensure certain properties exist
             $.extend(true, blob, Id.minimumBlob);
 
             $scope.userBlob = blob;
             self.setUsername(auth.username);
-            self.setAccount(blob.data.account_id, blob.data.master_seed);
+            self.setAccount(blob.data.account_id);
             self.setLoginKeys(auth.keys);
             self.loginStatus = true;
             $scope.$broadcast('$blobUpdate');
@@ -163,15 +163,14 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
     $scope.$broadcast('$idUserChange', {username: username});
   };
 
-  Id.prototype.setAccount = function (accId, accKey)
+  Id.prototype.setAccount = function (accId)
   {
     if (this.account !== null) {
       $scope.$broadcast('$idAccountUnload', {account: accId});
     }
     this.account = accId;
     $scope.userCredentials.account = accId;
-    $scope.userCredentials.master_seed = accKey;
-    $scope.$broadcast('$idAccountLoad', {account: accId, secret: accKey});
+    $scope.$broadcast('$idAccountLoad', {account: accId});
   };
 
   Id.prototype.setLoginKeys = function (keys)
@@ -214,19 +213,19 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
 
     $authflow.register(username.toLowerCase(), password, account, masterkey, function (err, blob, keys) {
       if (err) {
-        // XXX Handle error
-        console.log("Registration failed:", (err && err.stack) ? err.stack : err);
+        console.log("client: id: registration failed:", (err && err.stack) ? err.stack : err);
+        callback(err);
         return;
       }
       $scope.userBlob = blob;
       self.setUsername(username);
-      self.setAccount(blob.data.account_id, blob.data.master_seed);
+      self.setAccount(blob.data.account_id);
       self.setLoginKeys(keys);
       self.storeLoginKeys(username, keys);
       self.loginStatus = true;
       $scope.$broadcast('$blobUpdate');
       store.set('ripple_known', true);
-      callback(blob.data.master_seed);
+      callback(null, masterkey);
     });
   };
 
@@ -296,7 +295,7 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
 
         $scope.userBlob = blob;
         self.setUsername(username);
-        self.setAccount(blob.data.account_id, blob.data.master_seed);
+        self.setAccount(blob.data.account_id);
         self.setLoginKeys(keys);
         self.storeLoginKeys(username, keys);
         self.loginStatus = true;
@@ -324,6 +323,35 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
     // This line redirects user to root (login) page
     var port = location.port.length > 0 ? ":" + location.port : "";
     location.href = location.protocol + '//' + location.hostname  + port + location.pathname;
+  };
+
+  Id.prototype.unlock = function (username, password, callback)
+  {
+    var self = this;
+
+    // Callback is optional
+    if ("function" !== typeof callback) callback = $.noop;
+
+    username = Id.normalizeUsername(username);
+    password = Id.normalizePassword(password);
+
+    $authflow.unlock(username.toLowerCase(), password, function (err, keys) {
+      if (err) {
+        callback(err);
+        return;
+      }
+
+      var secret;
+      try {
+        // XXX There should be a better way to get a reference to the blob obj
+        secret = $scope.userBlob.decryptSecret(keys.unlock);
+      } catch (err2) {
+        callback(err2);
+        return;
+      }
+
+      callback(null, secret);
+    });
   };
 
   /**

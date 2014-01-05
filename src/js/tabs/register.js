@@ -47,7 +47,10 @@ RegisterTab.prototype.angular = function (module) {
 
     $scope.register = function()
     {
-      $id.register($scope.username, $scope.password1, function(key){
+      $id.register($scope.username, $scope.password1, function(err, key){
+        if (err) {
+          // XXX Handle error!
+        }
         $scope.password = new Array($scope.password1.length+1).join("*");
         $scope.keyOpen = key;
         $scope.key = $scope.keyOpen[0] + new Array($scope.keyOpen.length).join("*");

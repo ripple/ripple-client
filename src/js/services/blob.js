@@ -101,12 +101,12 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
     });
   };
 
-  BlobObj.create = function (url, id, crypt, account, secret, callback)
+  BlobObj.create = function (url, id, crypt, unlock, account, secret, callback)
   {
     var blob = new BlobObj(url, id, crypt);
     blob.revision = 0;
     blob.data = {
-      master_seed: secret,
+      encrypted_secret: blob.encryptSecret(unlock, secret),
       account_id: account,
       contacts: [],
       created: (new Date()).toJSON()
@@ -392,6 +392,14 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
     }
     this.applyUpdate('filter', [key, field, value]);
     this.postUpdate('filter', [key, field, value], callback);
+  };
+
+  BlobObj.prototype.decryptSecret = function (secretUnlockKey) {
+    return decrypt(secretUnlockKey, this.data.encrypted_secret);
+  };
+
+  BlobObj.prototype.encryptSecret = function (secretUnlockKey, secret) {
+    return encrypt(secretUnlockKey, secret);
   };
 
   function BlobError(message, backend) {

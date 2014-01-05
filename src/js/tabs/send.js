@@ -15,7 +15,7 @@ util.inherits(SendTab, Tab);
 SendTab.prototype.tabName = 'send';
 SendTab.prototype.mainMenu = 'send';
 
-SendTab.prototype.angularDeps = Tab.prototype.angularDeps.concat(['federation']);
+SendTab.prototype.angularDeps = Tab.prototype.angularDeps.concat(['federation', 'keychain']);
 
 SendTab.prototype.generateHtml = function ()
 {
@@ -26,8 +26,10 @@ SendTab.prototype.angular = function (module)
 {
   module.controller('SendCtrl', ['$scope', '$timeout', '$routeParams', 'rpId',
                                  'rpNetwork', 'rpFederation', 'rpTracker',
+                                 'rpKeychain',
                                  function ($scope, $timeout, $routeParams, $id,
-                                           $network, $federation, $rpTracker)
+                                           $network, $federation, $rpTracker,
+                                           keychain)
   {
     if (!$id.loginStatus) return $id.goId();
 
@@ -761,6 +763,10 @@ SendTab.prototype.angular = function (module)
 
       $scope.mode = "confirm";
 
+      if (keychain.isUnlocked($id.account)) {
+        $scope.send.secret = keychain.getUnlockedSecret($id.account);
+      }
+
       $rpTracker.track('Send confirmation page', {
         'Currency': $scope.send.currency_code,
         'Address Type': $scope.send.bitcoin ? 'bitcoin' :
@@ -827,12 +833,34 @@ SendTab.prototype.angular = function (module)
       var amount = Amount.from_human(""+$scope.send.amount+" "+currency);
       var addrress = $scope.send.recipient_address;
 
+      $scope.mode = "sending";
+
       amount.set_issuer(addrress);
 
       var tx = $network.remote.transaction();
       // Source tag
       if ($scope.send.st) {
         tx.source_tag($scope.send.st);
+      }
+
+      if (send.secret) {
+        tx.secret(send.secret);
+      } else {
+        // Get secret asynchronously
+        keychain.getSecret($id.account, $id.username, send.unlock_password,
+                           function (err, secret) {
+                             if (err) {
+                               console.log("client: send tab: error while " +
+                                           "unlocking wallet: ", err);
+                               $scope.mode = "error";
+                               $scope.error_type = "unlockFailed";
+                               return;
+                             }
+
+                             send.secret = secret;
+                             $scope.send_confirmed();
+                           });
+        return;
       }
 
       if ($scope.send.quote) {
@@ -906,12 +934,10 @@ SendTab.prototype.angular = function (module)
               $scope.send.federation ? 'federation' : 'ripple',
           'Destination Tag': !!$scope.send.dt,
           'Time': (+new Date() - +$scope.confirmedTime) / 1000
-        })
+        });
       });
 
       tx.submit();
-
-      $scope.mode = "sending";
 
       $scope.confirmedTime = new Date();
     };
