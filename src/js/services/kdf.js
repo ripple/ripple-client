@@ -45,7 +45,9 @@ module.factory('rpKdf', [function ()
         iAlpha = new sjcl.bn(String(opts.alpha));
 
     var publicInfo = "PAKDF_1_0_0:"+opts.host.length+":"+opts.host+
-          ":"+username.length+":"+username+":",
+          ":"+username.length+":"+username+
+          ":"+purpose.length+":"+purpose+
+          ":",
         publicSize = Math.ceil(Math.min((7+iModulus.bitLength()) >>> 3, 256)/8),
         publicHash = fdh(publicInfo, publicSize),
         publicHex  = sjcl.codec.hex.fromBits(publicHash),
