@@ -17,7 +17,6 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
     this.id = id;
     this.key = key;
     this.data = {};
-    this.meta = {};
   };
 
   // Blob operations
@@ -90,11 +89,12 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
 
       // Apply patches
       if ($.isArray(data.patches) && data.patches.length) {
+        var successful = true;
         $.each(data.patches, function (i, patch) {
-          blob.applyEncryptedPatch(patch);
+          successful = successful && blob.applyEncryptedPatch(patch);
         });
 
-        blob.consolidate();
+        if (successful) blob.consolidate();
       }
 
       callback(null, blob);
@@ -108,11 +108,8 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
     blob.data = {
       master_seed: secret,
       account_id: account,
-      contacts: []
-    };
-    blob.meta = {
-      created: (new Date()).toJSON(),
-      modified: (new Date()).toJSON()
+      contacts: [],
+      created: (new Date()).toJSON()
     };
 
     $.ajax({
@@ -143,6 +140,53 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
       .error(webutil.getAjaxErrorHandler(callback, "BlobVault POST /blob/create"));
   };
 
+  var cryptConfig = {
+    cipher: "aes",
+    mode: "ccm",
+    // tag length
+    ts: 64,
+    // key size
+    ks: 256,
+    // iterations (key derivation)
+    iter: 1000
+  };
+
+  function encrypt(key, data)
+  {
+    key = sjcl.codec.hex.toBits(key);
+
+    var opts = $.extend({}, cryptConfig);
+
+    var encryptedObj = JSON.parse(sjcl.encrypt(key, data, opts));
+    var version = [sjcl.bitArray.partial(8, 0)];
+    var initVector = sjcl.codec.base64.toBits(encryptedObj.iv);
+    var ciphertext = sjcl.codec.base64.toBits(encryptedObj.ct);
+
+    var encryptedBits = sjcl.bitArray.concat(version, initVector);
+    encryptedBits = sjcl.bitArray.concat(encryptedBits, ciphertext);
+
+    return sjcl.codec.base64.fromBits(encryptedBits);
+  }
+
+  function decrypt(key, data)
+  {
+    key = sjcl.codec.hex.toBits(key);
+    var encryptedBits = sjcl.codec.base64.toBits(data);
+
+    var version = sjcl.bitArray.extract(encryptedBits, 0, 8);
+
+    if (version !== 0) {
+      throw new Error("Unsupported encryption version: "+version);
+    }
+
+    var encrypted = $.extend({}, cryptConfig, {
+      iv: sjcl.codec.base64.fromBits(sjcl.bitArray.bitSlice(encryptedBits, 8, 8+128)),
+      ct: sjcl.codec.base64.fromBits(sjcl.bitArray.bitSlice(encryptedBits, 8+128))
+    });
+
+    return sjcl.decrypt(key, JSON.stringify(encrypted));
+  }
+
   BlobObj.prototype.encrypt = function()
   {
     // Filter Angular metadata before encryption
@@ -152,22 +196,13 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
 
     var key = sjcl.codec.hex.toBits(this.key);
 
-    return btoa(sjcl.encrypt(key, JSON.stringify(this.data), {
-      iter: 1000,
-      adata: JSON.stringify(this.meta),
-      ks: 256
-    }));
+    return encrypt(this.key, JSON.stringify(this.data));
   };
 
   BlobObj.prototype.decrypt = function (data)
   {
     try {
-      var key = sjcl.codec.hex.toBits(this.key);
-      data = atob(data);
-
-      this.data = JSON.parse(sjcl.decrypt(key, data));
-      // TODO unescape is deprecated
-      this.meta = JSON.parse(unescape(JSON.parse(data).adata));
+      this.data = JSON.parse(decrypt(this.key, data));
       return this;
     } catch (e) {
       console.log("client: blob: decryption failed", e.toString());
@@ -179,22 +214,7 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
   BlobObj.prototype.applyEncryptedPatch = function (patch)
   {
     try {
-      var key = sjcl.codec.hex.toBits(this.key);
-      var encryptedBits = sjcl.codec.base64.toBits(patch);
-
-      var encrypted = {
-        iv: sjcl.codec.base64.fromBits(sjcl.bitArray.bitSlice(encryptedBits, 0, 128)),
-        ct: sjcl.codec.base64.fromBits(sjcl.bitArray.bitSlice(encryptedBits, 128)),
-        adata: "",
-        cipher: "aes",
-        ks: 128,
-        ts: 64,
-        mode: "ccm",
-        iter: 1000,
-        v: 1
-      };
-
-      var params = JSON.parse(sjcl.decrypt(key, JSON.stringify(encrypted)));
+      var params = JSON.parse(decrypt(this.key, patch));
       var op = params.shift();
 
       this.applyUpdate(op, params);
@@ -204,6 +224,7 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
       return true;
     } catch (err) {
       console.log("client: blob: failed to apply patch:", err.toString());
+      console.log(err.stack);
       return false;
     }
   };
@@ -288,7 +309,7 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
       break;
     case "filter":
       if (!Array.isArray(this.data[params[0]])) {
-        throw new Error("Operator 'unshift' must be applied to an array.");
+        throw new Error("Operator 'filter' must be applied to an array.");
       }
       this.data[params[0]].filter(function (entry) {
         return entry[params[1]] !== entry[params[2]];
@@ -317,19 +338,13 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
 
     params.unshift(op);
 
-    var key = sjcl.codec.hex.toBits(this.key);
-
-    var encrypted = JSON.parse(sjcl.encrypt(key, JSON.stringify(params)));
-    var iv = sjcl.codec.base64.toBits(encrypted.iv);
-    var ct = sjcl.codec.base64.toBits(encrypted.ct);
-
     $http({
       method: 'POST',
       url: this.url + '/blob/patch',
       responseType: 'json',
       data: {
         blob_id: this.id,
-        patch: sjcl.codec.base64.fromBits(sjcl.bitArray.concat(iv, ct))
+        patch: encrypt(this.key, JSON.stringify(params))
       }
     })
       .success(function(data, status, headers, config) {
