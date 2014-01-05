@@ -161,15 +161,16 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
     var remote = $net.remote;
     $scope.account = data;
 
+    // XXX Shouldn't be using private methods
+    var server = remote._getServer();
+
     // As per json wire format convention, real ledger entries are CamelCase,
     // e.g. OwnerCount, additional convenience fields are lower case, e.g.
     // reserve, max_spend.
-    var reserve_base = Amount.from_json(""+remote._reserve_base),
-        reserve_inc  = Amount.from_json(""+remote._reserve_inc),
-        owner_count  = $scope.account.OwnerCount || 0;
-    $scope.account.reserve_base = reserve_base;
-    $scope.account.reserve = reserve_base.add(reserve_inc.product_human(owner_count));
-    $scope.account.reserve_to_add_trust = reserve_base.add(reserve_inc.product_human(owner_count+1));
+    var ownerCount  = $scope.account.OwnerCount || 0;
+    $scope.account.reserve_base = server.reserve(0);
+    $scope.account.reserve = server.reserve(ownerCount);
+    $scope.account.reserve_to_add_trust = server.reserve(ownerCount+1);
     $scope.account.reserve_low_balance = $scope.account.reserve.product_human(2);
 
     // Maximum amount user can spend
