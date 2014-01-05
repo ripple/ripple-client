@@ -210,19 +210,9 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
     username = Id.normalizeUsername(username);
     password = Id.normalizePassword(password);
 
-    var blob = {
-      data: {
-        master_seed: masterkey,
-        account_id: (new RippleAddress(masterkey)).getAddress(),
-        contacts: []
-      },
-      meta: {
-        created: (new Date()).toJSON(),
-        modified: (new Date()).toJSON()
-      }
-    };
+    var account = (new RippleAddress(masterkey)).getAddress();
 
-    $authflow.register(username.toLowerCase(), password, blob, function (err, blob, keys) {
+    $authflow.register(username.toLowerCase(), password, account, masterkey, function (err, blob, keys) {
       if (err) {
         // XXX Handle error
         console.log("Registration failed:", (err && err.stack) ? err.stack : err);

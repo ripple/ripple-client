@@ -9,10 +9,13 @@ var webutil = require("../util/web"),
 
 var module = angular.module('blob', []);
 
-module.factory('rpBlob', ['$rootScope', function ($scope)
+module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
 {
-  var BlobObj = function ()
+  var BlobObj = function (url, id, key)
   {
+    this.url = url;
+    this.id = id;
+    this.key = key;
     this.data = {};
     this.meta = {};
   };
@@ -35,6 +38,11 @@ module.factory('rpBlob', ['$rootScope', function ($scope)
     "filter": 36
   };
 
+  BlobObj.opsReverseMap = [];
+  $.each(BlobObj.ops, function (name, code) {
+    BlobObj.opsReverseMap[code] = name;
+  });
+
   /**
    * Attempts to retrieve the blob.
    */
@@ -53,7 +61,6 @@ module.factory('rpBlob', ['$rootScope', function ($scope)
             if (data.result === "success") {
               callback(null, data);
             } else {
-              console.log(data);
               callback(new Error("Could not retrieve blob"));
             }
           });
@@ -73,25 +80,48 @@ module.factory('rpBlob', ['$rootScope', function ($scope)
         return;
       }
 
-      var blob = BlobObj.decrypt(crypt, data.blob);
+      var blob = new BlobObj(url, id, crypt);
 
-      if (blob) {
-        callback(null, blob);
-      } else {
+      blob.revision = data.revision;
+
+      if (!blob.decrypt(data.blob)) {
         callback(new Error("Error while decrypting blob"));
       }
+
+      // Apply patches
+      if ($.isArray(data.patches) && data.patches.length) {
+        $.each(data.patches, function (i, patch) {
+          blob.applyEncryptedPatch(patch);
+        });
+
+        blob.consolidate();
+      }
+
+      callback(null, blob);
     });
   };
 
-  BlobObj.create = function (url, id, crypt, account, secret, blob, callback)
+  BlobObj.create = function (url, id, crypt, account, secret, callback)
   {
+    var blob = new BlobObj(url, id, crypt);
+    blob.revision = 0;
+    blob.data = {
+      master_seed: secret,
+      account_id: account,
+      contacts: []
+    };
+    blob.meta = {
+      created: (new Date()).toJSON(),
+      modified: (new Date()).toJSON()
+    };
+
     $.ajax({
       type: "POST",
       url: url + '/blob/create',
       dataType: 'json',
       data: {
         blob_id: id,
-        data: BlobObj.encrypt(crypt, blob),
+        data: blob.encrypt(),
         address: account,
         signature: "",
         pubkey: "",
@@ -103,10 +133,7 @@ module.factory('rpBlob', ['$rootScope', function ($scope)
         setImmediate(function () {
           $scope.$apply(function () {
             if (data.result === "success") {
-              var blobObj = new BlobObj();
-              blobObj.data = blob.data;
-              blobObj.meta = blob.meta;
-              callback(null, blobObj, data);
+              callback(null, blob, data);
             } else {
               callback(new Error("Could not create blob"));
             }
@@ -116,51 +143,102 @@ module.factory('rpBlob', ['$rootScope', function ($scope)
       .error(webutil.getAjaxErrorHandler(callback, "BlobVault POST /blob/create"));
   };
 
-  BlobObj.encrypt = function(key, bl)
+  BlobObj.prototype.encrypt = function()
   {
     // Filter Angular metadata before encryption
-    if ('object' === typeof bl.data &&
-        'object' === typeof bl.data.contacts)
-      bl.data.contacts = angular.fromJson(angular.toJson(bl.data.contacts));
+    if ('object' === typeof this.data &&
+        'object' === typeof this.data.contacts)
+      this.data.contacts = angular.fromJson(angular.toJson(this.data.contacts));
 
-    key = sjcl.codec.hex.toBits(key);
+    var key = sjcl.codec.hex.toBits(this.key);
 
-    return btoa(sjcl.encrypt(key, JSON.stringify(bl.data), {
+    return btoa(sjcl.encrypt(key, JSON.stringify(this.data), {
       iter: 1000,
-      adata: JSON.stringify(bl.meta),
+      adata: JSON.stringify(this.meta),
       ks: 256
     }));
   };
 
-  BlobObj.patch = function(id, auth_secret, diff, callback)
-  {
-    // Callback is optional
-    if ("function" !== typeof callback) callback = $.noop;
-
-    var hash = sjcl.codec.hex.fromBits(sjcl.hash.sha256.hash(username + password));
-    var encData = BlobObj.enc(username, password, bl);
-
-    backends.forEach(function (backend) {
-      backend.set(hash, encData, callback);
-    });
-  };
-
-  BlobObj.decrypt = function (key, data)
+  BlobObj.prototype.decrypt = function (data)
   {
     try {
-      key = sjcl.codec.hex.toBits(key);
+      var key = sjcl.codec.hex.toBits(this.key);
       data = atob(data);
 
-      var blob = new BlobObj();
-      blob.data = JSON.parse(sjcl.decrypt(key, data));
+      this.data = JSON.parse(sjcl.decrypt(key, data));
       // TODO unescape is deprecated
-      blob.meta = JSON.parse(unescape(JSON.parse(data).adata));
-      return blob;
+      this.meta = JSON.parse(unescape(JSON.parse(data).adata));
+      return this;
     } catch (e) {
-      console.log("Blob decryption failed", e.toString());
+      console.log("client: blob: decryption failed", e.toString());
       console.log(e.stack);
       return false;
     }
+  };
+
+  BlobObj.prototype.applyEncryptedPatch = function (patch)
+  {
+    try {
+      var key = sjcl.codec.hex.toBits(this.key);
+      var encryptedBits = sjcl.codec.base64.toBits(patch);
+
+      var encrypted = {
+        iv: sjcl.codec.base64.fromBits(sjcl.bitArray.bitSlice(encryptedBits, 0, 128)),
+        ct: sjcl.codec.base64.fromBits(sjcl.bitArray.bitSlice(encryptedBits, 128)),
+        adata: "",
+        cipher: "aes",
+        ks: 128,
+        ts: 64,
+        mode: "ccm",
+        iter: 1000,
+        v: 1
+      };
+
+      var params = JSON.parse(sjcl.decrypt(key, JSON.stringify(encrypted)));
+      var op = params.shift();
+
+      this.applyUpdate(op, params);
+
+      this.revision++;
+
+      return true;
+    } catch (err) {
+      console.log("client: blob: failed to apply patch:", err.toString());
+      return false;
+    }
+  };
+
+  BlobObj.prototype.consolidate = function (callback) {
+    // Callback is optional
+    if ("function" !== typeof callback) callback = $.noop;
+
+    console.log("client: blob: consolidation at revision", this.revision);
+    var encrypted = this.encrypt();
+
+    $http({
+      method: 'POST',
+      url: this.url + '/blob/consolidate',
+      responseType: 'json',
+      data: {
+        blob_id: this.id,
+        data: encrypted,
+        revision: this.revision
+      }
+    })
+      .success(function(data, status, headers, config) {
+        if (data.result === "success") {
+          callback(null, data);
+        } else {
+          console.log("client: blob: could not consolidate:", data);
+          callback(new Error("Failed to consolidate blob"));
+        }
+      })
+      .error(function(data, status, headers, config) {
+        console.log("client: blob: could not consolidate: "+status+" - "+data);
+
+        // XXX Add better error information to exception
+        callback(new Error("Failed to consolidate blob - XHR error"));
+      });
   };
 
   /**
@@ -191,7 +269,7 @@ module.factory('rpBlob', ['$rootScope', function ($scope)
   BlobObj.prototype.applyUpdate = function (op, params) {
     // XXX Convert from numeric op code to string
     if ("number" === typeof op) {
-      throw new Error("Not implemented");
+      op = BlobObj.opsReverseMap[op];
     }
     if ("string" !== typeof op) {
       throw new Error("Blob update op code must be a number or a valid op id string");
@@ -221,7 +299,10 @@ module.factory('rpBlob', ['$rootScope', function ($scope)
     }
   };
 
-  BlobObj.prototype.postUpdate = function (op, params) {
+  BlobObj.prototype.postUpdate = function (op, params, callback) {
+    // Callback is optional
+    if ("function" !== typeof callback) callback = $.noop;
+
     if ("string" === typeof op) {
       op = BlobObj.ops[op];
     }
@@ -232,14 +313,43 @@ module.factory('rpBlob', ['$rootScope', function ($scope)
       throw new Error("Blob update op code out of bounds");
     }
 
+    console.log("client: blob: submitting update", op, params);
+
     params.unshift(op);
 
-    console.log(JSON.stringify(params));
+    var key = sjcl.codec.hex.toBits(this.key);
+
+    var encrypted = JSON.parse(sjcl.encrypt(key, JSON.stringify(params)));
+    var iv = sjcl.codec.base64.toBits(encrypted.iv);
+    var ct = sjcl.codec.base64.toBits(encrypted.ct);
+
+    $http({
+      method: 'POST',
+      url: this.url + '/blob/patch',
+      responseType: 'json',
+      data: {
+        blob_id: this.id,
+        patch: sjcl.codec.base64.fromBits(sjcl.bitArray.concat(iv, ct))
+      }
+    })
+      .success(function(data, status, headers, config) {
+        if (data.result === "success") {
+          console.log("client: blob: saved patch as revision", data.revision);
+          callback(null, data);
+        } else {
+          console.log("client: blob: could not save patch:", data);
+          callback(new Error("Patch could not be saved - bad result"));
+        }
+      })
+      .error(function(data, status, headers, config) {
+        console.log("client: blob: could not save patch: "+status+" - "+data);
+        callback(new Error("Patch could not be saved - XHR error"));
+      });
   };
 
-  BlobObj.prototype.set = function (key, value) {
+  BlobObj.prototype.set = function (key, value, callback) {
     this.applyUpdate('set', [key, value]);
-    this.postUpdate('set', [key, value]);
+    this.postUpdate('set', [key, value], callback);
   };
 
   /**
@@ -247,12 +357,12 @@ module.factory('rpBlob', ['$rootScope', function ($scope)
    *
    * This method adds an entry to the beginning of an array.
    */
-  BlobObj.prototype.unshift = function (key, value) {
+  BlobObj.prototype.unshift = function (key, value, callback) {
     if (!Array.isArray(this.data[key])) {
       throw new Error("Tried to prepend (unshift) data to a non-array");
     }
     this.applyUpdate('unshift', [key, value]);
-    this.postUpdate('unshift', [key, value]);
+    this.postUpdate('unshift', [key, value], callback);
   };
 
   /**
@@ -261,12 +371,12 @@ module.factory('rpBlob', ['$rootScope', function ($scope)
    * This method will remove any entries from the array stored under `key` where
    * the field with the name `field` equals `value`.
    */
-  BlobObj.prototype.filter = function (key, field, value) {
+  BlobObj.prototype.filter = function (key, field, value, callback) {
     if (!Array.isArray(this.data[key])) {
       throw new Error("Tried to filter data from a non-array");
     }
     this.applyUpdate('filter', [key, field, value]);
-    this.postUpdate('filter', [key, field, value]);
+    this.postUpdate('filter', [key, field, value], callback);
   };
 
   function BlobError(message, backend) {

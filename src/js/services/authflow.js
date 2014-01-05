@@ -78,7 +78,7 @@ module.factory('rpAuthFlow', ['$rootScope', 'rpAuthInfo', 'rpKdf', 'rpBlob',
     }
   };
 
-  AuthFlow.register = function (username, password, blob, callback) {
+  AuthFlow.register = function (username, password, account, secret, callback) {
     getAuthInfo();
 
     function getAuthInfo() {
@@ -105,15 +105,15 @@ module.factory('rpAuthFlow', ['$rootScope', 'rpAuthInfo', 'rpKdf', 'rpBlob',
 
     function setBlob(authInfo, keys) {
       $blob.create(authInfo.blobvault, keys.id, keys.crypt,
-                   blob.data.account_id, blob.data.master_seed, blob,
-                   function (err, blobObj) {
+                   account, secret,
+                   function (err, blob) {
         if (err) {
           callback(err);
           return;
         }
 
         console.log("client: authflow: registration succeeded", blob);
-        callback(null, blobObj, keys);
+        callback(null, blob, keys);
       });
     }
   };
