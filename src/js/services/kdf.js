@@ -34,7 +34,7 @@ function fdh(data, bytelen)
   return output;
 }
 
-module.factory('rpKdf', [function ()
+module.factory('rpKdf', ['$http', function ($http)
 {
   var Kdf = {};
 
@@ -73,15 +73,16 @@ module.factory('rpKdf', [function ()
         iSignreq = iSecret.mulmod(iBlind, iModulus),
         signreq = sjcl.codec.hex.fromBits(iSignreq.toBits());
 
-    $.ajax({
-      type: "POST",
+    $http({
+      method: "POST",
       url: opts.url,
       data: {
         info: publicInfo,
         signreq: signreq
       },
-      dataType: "json",
-      success: function (data) {
+      responseType: 'json'
+    })
+      .success(function (data) {
         if (data.result === "success") {
           var iSignres = new sjcl.bn(String(data.signres));
           var iRandomInv = iRandom.inverseMod(iModulus);
@@ -91,11 +92,10 @@ module.factory('rpKdf', [function ()
         } else {
           // XXX Handle error
         }
-      },
-      error: function () {
+      })
+      .error(function () {
         callback(new Error("Could not query PAKDF server "+opts.host));
-      }
-    });
+      });
   };
 
   return Kdf;
