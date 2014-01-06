@@ -64,6 +64,8 @@ CashinTab.prototype.angular = function (module)
       // Create zipzap account, fund the ripple wallet
       $zipzap.register($id.account,$scope.form);
       $zipzap.request(function(response){
+        var account = $network.remote.account($scope.address);
+
         $scope.signupProgress = false;
         if (response.ZipZapAcctNum) {
           account.line('USD','rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q',function(err,line){
