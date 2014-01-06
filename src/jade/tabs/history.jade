@@ -141,7 +141,8 @@ section.col-xs-12.col-md-10.content(ng-controller="HistoryCtrl")
                   |  for&#32;
                   strong {{entry.transaction.gets | rpamount}} {{entry.transaction.gets | rpcurrency}}
                 != require("./history/effects.jade")()
-              span(ng-switch-when="accountset", l10n) Account details have been Changed
+              span(ng-switch-when="accountset")
+                span(l10n) Account details have been Changed
                 != require("./history/effects.jade")()
               span(ng-switch-when="failed", l10n) Failed transaction
               span(ng-switch-default)
