@@ -30,6 +30,8 @@ section.col-xs-12.col-md-10.content(ng-controller="CashinCtrl")
               |  deposit, plus 3.5% of the total deposit. For more information
               |  and to search for a ZipZap cash-in location, visit&#32;
               a(href="https://www.zipzapinc.com", target="_blank") https://www.zipzapinc.com.
+              |  Your cash will be held by the&#32;
+              a(href="http://snapswap.us") SnapSwap gateway.
           .col-sm-2
             .actions
               span(ng-show="loading", l10n) Loading...
@@ -202,6 +204,8 @@ section.col-xs-12.col-md-10.content(ng-controller="CashinCtrl")
                   |  to $500 per transaction.
                 li Wait approximately 1 hour, and your deposited USD will be
                   |  in your Ripple wallet.
+                li To withdraw this money later, you will need to register for
+                  |  a Ripple gateway and follow the gateway's withdrawal policies.
                 li For support, please visit&#32;
                   a(href="http://support.zipzapinc.com", traget="_blank") http://support.zipzapinc.com
             div.locateTxt Locate a payment center
