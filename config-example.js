@@ -47,6 +47,18 @@ var Options = {
 
 // Load client-side overrides
 if (store.enabled) {
-  $.extend(true, Options, JSON.parse(store.get('ripple_settings') || "{}"));
+  var settings = JSON.parse(store.get('ripple_settings') || "{}");
+
+  if (settings.server && settings.server.servers) {
+    Options.server.servers = settings.server.servers;
+  }
+
+  if (settings.blobvault) {
+    Options.blobvault = settings.blobvault;
+  }
+
+  if (settings.mixpanel) {
+    Options.mixpanel = settings.mixpanel;
+  }
 }
 
