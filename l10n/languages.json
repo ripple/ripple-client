@@ -5,6 +5,7 @@
     {"name": "italian", "nativeName": "Italiano", "code": "it"},
     {"name": "polish", "nativeName": "Polski", "code": "pl"},
     {"name": "spanish", "nativeName": "Español", "code": "es"},
-    {"name": "portuguese", "nativeName": "Português", "code": "pt"}
+    {"name": "portuguese", "nativeName": "Português", "code": "pt"},
+    {"name": "german", "nativeName": "Deutsch", "code": "de"}
   ]
 }
