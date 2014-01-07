@@ -16,8 +16,8 @@ module.factory('rpZipzap', ['$rootScope', function($scope)
 
   Zipzap.prototype.register = function (rpAddress,fields)
   {
+    this.params.action = 'signup';
     this.params.type = 'POST';
-    this.params.URI = '/v1/accounts';
 
     this.params.data = {
       "MerchantCustomerID": rpAddress,
@@ -40,27 +40,22 @@ module.factory('rpZipzap', ['$rootScope', function($scope)
     }
   };
 
-  Zipzap.prototype.getAccount = function (rpAddress)
-  {
-    this.params.type = 'GET';
-    this.params.URI = '/v1/accounts/MerchantCustomerID/' + rpAddress;
-    this.params.rpAddress = rpAddress;
-  };
-
   Zipzap.prototype.locate = function (query)
   {
+    this.params.action = 'locate';
     this.params.type = 'GET';
-    this.params.URI = '/v1/PayCenters?q=' + encodeURIComponent(encodeURIComponent(query));
+    this.params.q = encodeURIComponent(encodeURIComponent(query));
   };
 
   Zipzap.prototype.request = function (callback)
   {
     console.log('request called');
 
-    var url = this.baseUrl + '?uri=' + this.params.URI + '&verb=' + this.params.type;
+    var url = this.baseUrl + '?action=' + this.params.action;
 
-    if (this.params.rpAddress)
-      url += "&rpAddress=" + this.params.rpAddress;
+    if (this.params.q) {
+      url = url + '&q=' + this.params.q;
+    }
 
     $.ajax({
       'type': this.params.type,
