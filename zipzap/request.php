@@ -56,15 +56,16 @@ $response = request($params);
 $responseObj = json_decode($response);
 
 // Account already exists, get and return it.
+
 if ($responseObj->Code && '40901' == $responseObj->Code) {
     $params['verb'] = 'GET';
-    $params['URI'] = '/v1/accounts/MerchantCustomerID/' . $_POST['MerchantCustomerID'];
+    $params['URI'] = '/v1/accounts/MerchantCustomerID/' . $responseObj->Account->MerchantCustomerID;
 
     $account = request($params);
     $accountObj = json_decode($account);
 
-    if ($responseObj->Phone == $accountObj->Phone
-        && $responseObj->Email == $accountObj->Email) {
+    if ($responseObj->Account->Phone == $accountObj->Phone
+        && $responseObj->Account->Email == $accountObj->Email) {
         echo $account;
     } else {
         echo $response;
