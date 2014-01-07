@@ -1,10 +1,10 @@
 <?php
 
-// API Url
-$baseUrl = "https://merchant.api.zipzapinc.com";
-
-// Merchant Access ID
-$accessID = '';
-
-// Merchant Secret
-$secret = '';
+$params = array(
+    // API Url
+    'baseUrl' => '',
+    // Merchant Access ID
+    'accessID' => '',
+    // Merchant Secret
+    'secret' => ''
+);

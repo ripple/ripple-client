@@ -31,33 +31,26 @@ CashinTab.prototype.angular = function (module)
       if (!$rootScope.zipzap && address) {
         var account = $network.remote.account(address);
 
-        // Get ZipZap account
-        $zipzap.getAccount(address);
-        $zipzap.request(function(response){
-          if (response.AcctStatus === 'Active') {
-            account.line('USD','rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q',function(err,line){
-              $scope.$apply(function () {
-                $scope.mode = line && line.limit > 0 ? 'details' : 'step2';
-                $scope.zipzap = response;
-                $scope.loading = false;
-              })
-            });
-          }
-          else {
-            $scope.mode = 'step1';
-          }
-
-          $scope.$apply(function () {
-            if ($scope.mode) $scope.loading = false;
-          })
-        });
-
         $scope.loading = true;
+
+        // Get ZipZap account
+        if ($scope.userBlob.data.zipzap && !$.isEmptyObject($scope.userBlob.data.zipzap)) {
+          account.line('USD','rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q',function(err,line){
+            $scope.$apply(function () {
+              $scope.mode = line && line.limit > 0 ? 'details' : 'step2';
+              $scope.zipzap = $scope.userBlob.data.zipzap;
+              $scope.loading = false;
+            })
+          });
+        }
+        else {
+          $scope.mode = 'step1';
+          $scope.loading = false;
+        }
       }
     });
 
     // TODO ability to edit account details
-
     $scope.signup = function() {
       $scope.signupProgress = 'loading';
 
@@ -68,6 +61,10 @@ CashinTab.prototype.angular = function (module)
 
         $scope.signupProgress = false;
         if (response.ZipZapAcctNum) {
+          // Add ZipZap account to user blob
+          $scope.userBlob.data.zipzap = response;
+
+          // Check trust to SnapSwap
           account.line('USD','rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q',function(err,line){
             $scope.$apply(function () {
               $scope.displaySignupForm = false;
