@@ -31,6 +31,8 @@ CashinTab.prototype.angular = function (module)
       if (!$rootScope.zipzap && address) {
         var account = $network.remote.account(address);
 
+        $scope.loading = true;
+
         // Get ZipZap account
         if ($scope.userBlob.data.zipzap && !$.isEmptyObject($scope.userBlob.data.zipzap)) {
           account.line('USD','rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q',function(err,line){
@@ -43,6 +45,7 @@ CashinTab.prototype.angular = function (module)
         }
         else {
           $scope.mode = 'step1';
+          $scope.loading = false;
         }
       }
     });
