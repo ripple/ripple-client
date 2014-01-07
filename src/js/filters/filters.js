@@ -89,7 +89,7 @@ module.filter('rpcurrencyfull', ['$rootScope', function ($scope) {
     if (!input) return "";
 
     var amount = Amount.from_json(input);
-    var currency = $.grep($scope.currencies, function(e){ return e.value == amount.currency().to_json(); })[0];
+    var currency = $.grep($scope.currencies_all, function(e){ return e.value == amount.currency().to_json(); })[0];
 
     if (currency) {
       return currency.name;

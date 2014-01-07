@@ -576,7 +576,6 @@ module.directive('rpSnapper', ['rpId', function($id) {
 
           // Snapper toggle button
           $('.snapper-toggle').click(function(){
-            console.log('aaa');
             snapper.state().state == 'closed' ? snapper.open('left') : snapper.close()
           });
 

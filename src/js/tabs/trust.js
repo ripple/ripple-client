@@ -312,7 +312,7 @@ TrustTab.prototype.angular = function (module)
       } else return opts;
     };
 
-    $scope.currency_query = webutil.queryFromOptions($scope.currencies);
+    $scope.currency_query = webutil.queryFromOptions($scope.currencies_all);
 
     $scope.reset();
   }]);
