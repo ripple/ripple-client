@@ -361,9 +361,10 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
   }
 
   $scope.currencies_all = require('../data/currencies');
+
   $.extend(true,
     $scope.currencies_all,
-    store.get('ripple_currencies_all') || "{}"
+    store.get('ripple_currencies_all') || {}
   );
 
   // Personalized default pair set
