@@ -20,16 +20,17 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
   };
 
   // Blob operations
-  // You can APPEND new operations, otherwise DO NOT change this array.
+  // Do NOT change the mapping of existing ops
   BlobObj.ops = {
     // Special
     "noop": 0,
 
-    // Simple fields
+    // Simple ops
     "set": 16,
-    "delete": 17,
+    "unset": 17,
+    "extend": 18,
 
-    // Array fields
+    // Meta ops
     "push": 32,
     "pop": 33,
     "shift": 34,
@@ -216,8 +217,9 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
     try {
       var params = JSON.parse(decrypt(this.key, patch));
       var op = params.shift();
+      var path = params.shift();
 
-      this.applyUpdate(op, params);
+      this.applyUpdate(op, path, params);
 
       this.revision++;
 
@@ -262,65 +264,122 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
       });
   };
 
-  /**
-   * Set a field on an object using dot notation.
-   *
-   * This will recursively follow a path through an object to set a field on it.
-   *
-   * E.g. addValueToObj({}, "answers.universe_and_everything", 42)
-   *       => {
-   *            answers: {
-   *              universe_and_everything: 42
-   *            }
-   *          }
-   */
-  function addValueToObj(obj, path, val) {
-    // Separate each step in the "path"
-    path = path.split(".");
+  BlobObj.escapeToken = function (token) {
+    return token.replace(/[~\/]/g, function (key) { return key === "~" ? "~0" : "~1"; });
+  };
+  BlobObj.prototype.escapeToken = BlobObj.escapeToken;
 
-    // Loop through each part of the path adding to obj
-    for (var i = 0, tmp = obj; i < path.length - 1; i++) {
-      tmp = tmp[path[i]] = ("undefined" === typeof tmp[path[i]]) ? {} : tmp[path[i]];
-    }
-    tmp[path[i]] = val;             // at the end of the chain add the value in
+  var unescapeToken = function(str) {
+    return str.replace(/~./g, function(m) {
+      switch (m) {
+      case "~0":
+        return "~";
+      case "~1":
+        return "/";
+      }
+      throw("Invalid tilde escape: " + m);
+    });
+  };
 
-    return obj;
-  }
-
-  BlobObj.prototype.applyUpdate = function (op, params) {
-    // XXX Convert from numeric op code to string
+  BlobObj.prototype.applyUpdate = function (op, path, params) {
+    // Convert from numeric op code to string
     if ("number" === typeof op) {
       op = BlobObj.opsReverseMap[op];
     }
     if ("string" !== typeof op) {
       throw new Error("Blob update op code must be a number or a valid op id string");
     }
+
+    // Separate each step in the "pointer"
+    var pointer = path.split("/");
+
+    var first = pointer.shift();
+    if (first !== "") {
+      throw new Error("Invalid JSON pointer");
+    }
+
+    this._traverse(this.data, pointer, path, op, params);
+  };
+
+  BlobObj.prototype._traverse = function (context, pointer,
+                                          originalPointer, op, params) {
+    var _this = this;
+    var part = unescapeToken(pointer.shift());
+
+    if (Array.isArray(context)) {
+      if (part === '-') {
+        part = context.length;
+      } else if (part % 1 !== 0 && part >= 0) {
+        throw new Error("Invalid pointer, array element segments must be " +
+                        "a positive integer, zero or '-'");
+      }
+    } else if ("object" !== typeof context) {
+      return null;
+    } else if (!context.hasOwnProperty(part)) {
+      // Some opcodes create the path as they're going along
+      if (op === "set") {
+        context[part] = {};
+      } else if (op === "unshift") {
+        context[part] = [];
+      } else {
+        return null;
+      }
+    }
+
+    if (pointer.length !== 0) {
+      return this._traverse(context[part], pointer,
+                            originalPointer, op, params);
+    }
+
     switch (op) {
     case "set":
-      addValueToObj(this.data, params[0], params[1]);
+      context[part] = params[0];
+      break;
+    case "unset":
+      if (Array.isArray(context)) {
+        context.splice(part, 1);
+      } else {
+        delete context[part];
+      }
+      break;
+    case "extend":
+      if ("object" !== typeof context[part]) {
+        throw new Error("Tried to extend a non-object");
+      }
+      $.extend(context[part], params[0]);
       break;
     case "unshift":
-      if ("undefined" === typeof this.data[params[0]]) {
-        this.data[params[0]] = [];
-      } else if (!Array.isArray(this.data[params[0]])) {
+      if ("undefined" === typeof context[part]) {
+        context[part] = [];
+      } else if (!Array.isArray(context[part])) {
         throw new Error("Operator 'unshift' must be applied to an array.");
       }
-      this.data[params[0]].unshift(params[1]);
+      context[part].unshift(params[0]);
       break;
     case "filter":
-      if (!Array.isArray(this.data[params[0]])) {
-        throw new Error("Operator 'filter' must be applied to an array.");
+      if (Array.isArray(context[part])) {
+        context[part].forEach(function (element, i) {
+          if ("object" === typeof element &&
+              element.hasOwnProperty(params[0]) &&
+              element[params[0]] === params[1]) {
+            var subpointer = originalPointer+"/"+i;
+            var subcommands = normalizeSubcommands(params.slice(2));
+
+            subcommands.forEach(function (subcommand) {
+              var op = subcommand[0];
+              var pointer = subpointer+subcommand[1];
+              _this.applyUpdate(op, pointer, subcommand.slice(2));
+            });
+          }
+        });
       }
-      this.data[params[0]].filter(function (entry) {
-        return entry[params[1]] !== entry[params[2]];
-      });
       break;
     default:
       throw new Error("Unsupported op "+op);
     }
   };
 
-  BlobObj.prototype.postUpdate = function (op, params, callback) {
+  BlobObj.prototype.postUpdate = function (op, pointer, params, callback) {
     // Callback is optional
     if ("function" !== typeof callback) callback = $.noop;
 
@@ -336,8 +395,9 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
 
     console.log("client: blob: submitting update", op, params);
 
+    params.unshift(pointer);
     params.unshift(op);
-
+ 
     $http({
       method: 'POST',
       url: this.url + '/blob/patch',
@@ -362,9 +422,19 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
       });
   };
 
-  BlobObj.prototype.set = function (key, value, callback) {
-    this.applyUpdate('set', [key, value]);
-    this.postUpdate('set', [key, value], callback);
+  BlobObj.prototype.set = function (pointer, value, callback) {
+    this.applyUpdate('set', pointer, [value]);
+    this.postUpdate('set', pointer, [value], callback);
+  };
+
+  BlobObj.prototype.unset = function (pointer, callback) {
+    this.applyUpdate('unset', pointer, []);
+    this.postUpdate('unset', pointer, [], callback);
+  };
+
+  BlobObj.prototype.extend = function (pointer, value, callback) {
+    this.applyUpdate('extend', pointer, [value]);
+    this.postUpdate('extend', pointer, [value], callback);
   };
 
   /**
@@ -372,26 +442,74 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
    *
    * This method adds an entry to the beginning of an array.
    */
-  BlobObj.prototype.unshift = function (key, value, callback) {
-    if (!Array.isArray(this.data[key])) {
-      throw new Error("Tried to prepend (unshift) data to a non-array");
-    }
-    this.applyUpdate('unshift', [key, value]);
-    this.postUpdate('unshift', [key, value], callback);
+  BlobObj.prototype.unshift = function (pointer, value, callback) {
+    this.applyUpdate('unshift', pointer, [value]);
+    this.postUpdate('unshift', pointer, [value], callback);
   };
+
+  function normalizeSubcommands(subcommands, compress) {
+    // Normalize parameter structure
+    if ("number" === typeof subcommands[0] ||
+        "string" === typeof subcommands[0]) {
+      // Case 1: Single subcommand inline
+      subcommands = [subcommands];
+    } else if (subcommands.length === 1 &&
+               Array.isArray(subcommands[0]) &&
+               ("number" === typeof subcommands[0][0] ||
+                "string" === typeof subcommands[0][0])) {
+      // Case 2: Single subcommand as array
+      // (nothing to do)
+    } else if (Array.isArray(subcommands[0])) {
+      // Case 3: Multiple subcommands as array of arrays
+      subcommands = subcommands[0];
+    }
+
+    // Normalize op name and convert strings to numeric codes
+    subcommands = subcommands.map(function (subcommand) {
+      if ("string" === typeof subcommand[0]) {
+        subcommand[0] = BlobObj.ops[subcommand[0]];
+      }
+      if ("number" !== typeof subcommand[0]) {
+        throw new Error("Invalid op in subcommand");
+      }
+      if ("string" !== typeof subcommand[1]) {
+        throw new Error("Invalid path in subcommand");
+      }
+      return subcommand;
+    });
+
+    if (compress) {
+      // Convert to the minimal possible format
+      if (subcommands.length === 1) {
+        return subcommands[0];
+      } else {
+        return [subcommands];
+      }
+    } else {
+      return subcommands;
+    }
+  }
 
   /**
    * Filter the row(s) from an array.
    *
-   * This method will remove any entries from the array stored under `key` where
-   * the field with the name `field` equals `value`.
+   * This method will find any entries from the array stored under `pointer` and
+   * apply the `subcommands` to each of them.
+   *
+   * The subcommands can be any commands with the pointer parameter left out.
    */
-  BlobObj.prototype.filter = function (key, field, value, callback) {
-    if (!Array.isArray(this.data[key])) {
-      throw new Error("Tried to filter data from a non-array");
+  BlobObj.prototype.filter = function (pointer, field, value, subcommands, callback) {
+    var params = Array.prototype.slice.apply(arguments);
+    if ("function" === typeof params[params.length-1]) {
+      callback = params.pop();
     }
-    this.applyUpdate('filter', [key, field, value]);
-    this.postUpdate('filter', [key, field, value], callback);
+    params.shift();
+
+    // Normalize subcommands to minimize the patch size
+    params = params.slice(0, 2).concat(normalizeSubcommands(params.slice(2), true));
+
+    this.applyUpdate('filter', pointer, params);
+    this.postUpdate('filter', pointer, params, callback);
   };
 
   BlobObj.prototype.decryptSecret = function (secretUnlockKey) {

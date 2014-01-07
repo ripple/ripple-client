@@ -64,7 +64,7 @@ ContactsTab.prototype.angular = function (module) {
       $scope.enable_highlight = true;
 
       // Add an element
-      $scope.userBlob.unshift("contacts", contact);
+      $scope.userBlob.unshift("/contacts", contact);
 
       // Hide the form
       $scope.toggle_form();
@@ -102,13 +102,18 @@ ContactsTab.prototype.angular = function (module) {
             && !$scope.inlineAddress.editaddress.$error.rpDest
             && !$scope.inlineName.editname.$error.rpUnique) {
 
-          // Update blob
-          $scope.entry.name = $scope.editname;
-          $scope.entry.address = $scope.editaddress;
+          var entry = {
+            name: $scope.editname,
+            address: $scope.editaddress
+          };
 
           if ($scope.editdt) {
-            $scope.entry.dt = $scope.editdt;
+            entry.dt = $scope.editdt;
           }
+
+          // Update blob
+          $scope.userBlob.filter('/contacts', 'name', $scope.entry.name,
+                                 'extend', '', entry);
 
           $scope.editing = false;
         }
@@ -119,9 +124,10 @@ ContactsTab.prototype.angular = function (module) {
        *
        * @param index
        */
-      $scope.remove = function (index) {
+      $scope.remove = function (name) {
         // Update blob
-        $scope.userBlob.data.contacts.splice(index,1);
+        $scope.userBlob.filter('/contacts', 'name', $scope.entry.name,
+                               'unset', '');
       };
 
       /**
