@@ -445,7 +445,7 @@ module.directive('rpAmount', function () {
         // check for valid amount
         ctrl.$setValidity('rpAmount', parsedValue == value);
 
-        return parsedValue;
+        return parsedValue ? parsedValue : value;
       };
 
       ctrl.$formatters.push(validator);
