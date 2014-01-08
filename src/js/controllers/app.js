@@ -360,14 +360,12 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
     }
   }
 
-  // Personalized default currency set
-  if (!store.get('ripple_currencies_all')) {
-    store.set('ripple_currencies_all',require('../data/currencies'));
-  }
+  $scope.currencies_all = require('../data/currencies');
 
-  $scope.currencies_all = store.get('ripple_currencies_all')
-    ? store.get('ripple_currencies_all')
-    : require('../data/currencies');
+  $.extend(true,
+    $scope.currencies_all,
+    store.get('ripple_currencies_all') || {}
+  );
 
   // Personalized default pair set
   if (!store.get('ripple_pairs_all')) {
@@ -396,7 +394,6 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
     store.set('ripple_pairs_all',$scope.pairs_all);
   }, true);
 
-  $scope.currencies = $scope.currencies_all.slice(1);
   $scope.pairs = $scope.pairs_all.slice(1);
 
   $scope.app_loaded = true;

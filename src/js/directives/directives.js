@@ -576,7 +576,6 @@ module.directive('rpSnapper', ['rpId', function($id) {
 
           // Snapper toggle button
           $('.snapper-toggle').click(function(){
-            console.log('aaa');
             snapper.state().state == 'closed' ? snapper.open('left') : snapper.close()
           });
 
@@ -584,28 +583,28 @@ module.directive('rpSnapper', ['rpId', function($id) {
             snapper.close();
           });
         });
-      }
 
-      // Activate if resized to mobile size
-      $(window).resize(function(){
-        checkSize();
-      });
+        // Activate if resized to mobile size
+        $(window).resize(function(){
+          checkSize();
+        });
 
-      var checkSize = function(){
-        // screen-sm-max
-        if ('object' === typeof snapper) {
-          if ($(window).width() > 991) {
-            snapper.close();
-            snapper.disable();
-          } else {
-            $('.mobile-nav').show();
-            snapper.enable();
+        var checkSize = function(){
+          // screen-sm-max
+          if ('object' === typeof snapper) {
+            if ($(window).width() > 991) {
+              snapper.close();
+              snapper.disable();
+            } else {
+              $('.mobile-nav').show();
+              snapper.enable();
+            }
           }
-        }
-      };
+        };
 
-      // Remove watcher
-      watcher();
+        // Remove watcher
+        watcher();
+      }
     });
   }
 }]);
