@@ -1,6 +1,6 @@
 {
   "name": "ripple-client",
-  "version": "0.2.43",
+  "version": "0.2.44",
   "description": "Client for the Ripple payment network",
   "author": {
     "name": "Ripple Labs, Inc.",
