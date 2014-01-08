@@ -295,7 +295,7 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
 
     var first = pointer.shift();
     if (first !== "") {
-      throw new Error("Invalid JSON pointer");
+      throw new Error("Invalid JSON pointer: "+path);
     }
 
     this._traverse(this.data, pointer, path, op, params);
@@ -393,11 +393,11 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
       throw new Error("Blob update op code out of bounds");
     }
 
-    console.log("client: blob: submitting update", op, params);
+    console.log("client: blob: submitting update", BlobObj.opsReverseMap[op], pointer, params);
 
     params.unshift(pointer);
     params.unshift(op);
- 
+
     $http({
       method: 'POST',
       url: this.url + '/blob/patch',

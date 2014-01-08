@@ -21,10 +21,12 @@ TrustTab.prototype.generateHtml = function ()
 
 TrustTab.prototype.angular = function (module)
 {
-  module.controller('TrustCtrl', ['$scope', '$timeout', '$routeParams', 'rpId', '$filter', 'rpNetwork', 'rpTracker',
-                                  function ($scope, $timeout, $routeParams, $id, $filter, $network, $rpTracker)
+  module.controller('TrustCtrl', ['$scope', '$timeout', '$routeParams', 'rpId',
+                                  '$filter', 'rpNetwork', 'rpTracker', 'rpKeychain',
+                                  function ($scope, $timeout, $routeParams, id,
+                                            $filter, $network, $rpTracker, keychain)
   {
-    if (!$id.loginStatus) return $id.goId();
+    if (!id.loginStatus) return id.goId();
 
     // Trust line sorting
     $scope.sorting = {
@@ -61,7 +63,7 @@ TrustTab.prototype.angular = function (module)
             $scope.grant();
             watcher();
           }
-        })
+        });
       }
     };
 
@@ -173,7 +175,7 @@ TrustTab.prototype.angular = function (module)
 
       // Flags
       tx
-        .rippleLineSet($id.account, amount)
+        .rippleLineSet(id.account, amount)
         .setFlags($scope.allowrippling ? 'ClearNoRipple' : 'NoRipple')
         .on('proposed', function(res){
           $scope.$apply(function () {
@@ -212,10 +214,17 @@ TrustTab.prototype.angular = function (module)
             });
           });
         })
-        .submit()
       ;
 
-      $scope.mode = 'granting';
+      keychain.requestSecret(id.account, id.username, function (err, secret) {
+        // XXX Error handling
+        if (err) return;
+
+        $scope.mode = 'granting';
+
+        tx.secret(secret);
+        tx.submit();
+      });
     };
 
     /**
@@ -274,7 +283,7 @@ TrustTab.prototype.angular = function (module)
         $scope.addressSaved = true;
       });
 
-      $scope.userBlob.unshift("contacts", contact);
+      $scope.userBlob.unshift("/contacts", contact);
     };
 
     $scope.edit_line = function ()
@@ -295,7 +304,7 @@ TrustTab.prototype.angular = function (module)
       $scope.editform_visible = false;
       $timeout(function(){
         $scope.editform_visible = true;
-      })
+      });
     };
 
     /**

@@ -12,7 +12,9 @@ var util = require('util'),
 var module = angular.module('app', []);
 
 module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
-                              function ($scope, $compile, $id, $net)
+                              'rpKeychain',
+                              function ($scope, $compile, $id, $net,
+                                        keychain)
 {
   reset();
 
@@ -22,6 +24,7 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
   if ("object" === typeof rippleclient) {
     rippleclient.id = $id;
     rippleclient.net = $net;
+    rippleclient.keychain = keychain;
   }
 
   function reset()

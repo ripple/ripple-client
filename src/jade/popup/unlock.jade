@@ -1,0 +1,14 @@
+form(role="form", ng-submit="confirm()")
+  .modal-header Unlock wallet
+  .modal-body
+    .form-group
+      label(for="popup_unlock_password") Password
+      input.form-control#popup_unlock_password(
+        type="password", name="popup_unlock_password"
+        ng-model="unlock.password")
+    p.help-block Please enter your password to confirm this transaction.
+    .alert.alert-danger(ng-show="unlock.error == 'password'") This password is incorrect, please try again.
+    p.literal(ng-show="unlock.isConfirming", rp-spinner="4") Confirming password
+  .modal-footer
+    button.btn.btn-default(type="button", ng-click="cancel()") Close
+    button.btn.btn-primary(type="submit", ng-disabled="isConfirming") Submit

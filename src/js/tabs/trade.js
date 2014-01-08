@@ -26,10 +26,14 @@ TradeTab.prototype.extraRoutes = [
 
 TradeTab.prototype.angular = function(module)
 {
-  module.controller('TradeCtrl', ['rpBooks', '$scope', 'rpId', 'rpNetwork', '$routeParams', '$location', '$filter', 'rpTracker',
-                                  function (books, $scope, $id, $network, $routeParams, $location, $filter, $rpTracker)
+  module.controller('TradeCtrl', ['rpBooks', '$scope', 'rpId', 'rpNetwork',
+                                  '$routeParams', '$location', '$filter',
+                                  'rpTracker', 'rpKeychain',
+                                  function (books, $scope, id, $network,
+                                            $routeParams, $location, $filter,
+                                            $rpTracker, keychain)
   {
-    if (!$id.loginStatus) return $id.goId();
+    if (!id.loginStatus) return id.goId();
 
     $scope.pairs_query = webutil.queryFromOptions($scope.pairs_all);
 
@@ -49,8 +53,8 @@ TradeTab.prototype.angular = function(module)
     $scope.reset = function (keepPair) {
       var pair = keepPair ? $scope.order.currency_pair :
             store.get('ripple_trade_currency_pair') || $scope.pairs_all[0].name;
-      var fIssuer = keepPair ? $scope.order.first_issuer : $id.account;
-      var sIssuer = keepPair ? $scope.order.second_issuer : $id.account;
+      var fIssuer = keepPair ? $scope.order.first_issuer : id.account;
+      var sIssuer = keepPair ? $scope.order.second_issuer : id.account;
 
       // Decide which listing to show
       var listing;
@@ -158,7 +162,7 @@ TradeTab.prototype.angular = function(module)
       var seq = this.entry ? this.entry.seq : this.order.Sequence;
 
       var tx = $network.remote.transaction();
-      tx.offer_cancel($id.account, seq);
+      tx.offer_cancel(id.account, seq);
       tx.on('success', function() {
         $rpTracker.track('Trade order cancellation', {
           'Status': 'success'
@@ -171,7 +175,14 @@ TradeTab.prototype.angular = function(module)
           'Message': err.engine_result
         });
       });
-      tx.submit();
+
+      keychain.requestSecret(id.account, id.username, function (err, secret) {
+        // XXX Error handling
+        if (err) return;
+
+        tx.secret(secret);
+        tx.submit();
+      });
 
       this.cancelling = true;
     };
@@ -187,7 +198,7 @@ TradeTab.prototype.angular = function(module)
       var tx = $network.remote.transaction();
 
       tx.offer_create(
-        $id.account,
+        id.account,
         order.buy_amount,
         order.sell_amount
       );
@@ -248,7 +259,13 @@ TradeTab.prototype.angular = function(module)
         });
       });
 
-      tx.submit();
+      keychain.requestSecret(id.account, id.username, function (err, secret) {
+        // XXX Error handling
+        if (err) return;
+
+        tx.secret(secret);
+        tx.submit();
+      });
 
       order.mode = "sending";
     };
@@ -490,13 +507,17 @@ TradeTab.prototype.angular = function(module)
         // Persist issuer setting
         if ($scope.order.valid_settings && $scope.order[prefix + '_currency'] !== 'XRP') {
           if (prefix === 'first') {
-            $scope.userBlob.set("preferred_issuer."+$scope.order['first_currency'], $scope.order['first_issuer']);
+            $scope.userBlob.set("/preferred_issuer/"+
+                                $scope.userBlob.escapeToken($scope.order['first_currency']),
+                                $scope.order['first_issuer']);
           } else {
             if ($scope.order.first_currency === $scope.order.second_currency) {
-              $scope.userBlob.set("preferred_second_issuer."+$scope.order.second_currency,
+              $scope.userBlob.set("/preferred_second_issuer/"+
+                                  $scope.userBlob.escapeToken($scope.order.second_currency),
                                   $scope.order.second_issuer);
             } else {
-              $scope.userBlob.set("preferred_issuer."+$scope.order.second_currency,
+              $scope.userBlob.set("/preferred_issuer/"+
+                                  $scope.userBlob.escapeToken($scope.order.second_currency),
                                   $scope.order.second_issuer);
             }
           }

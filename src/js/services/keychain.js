@@ -28,6 +28,66 @@ module.factory('rpKeychain', ['$rootScope', 'rpPopup', 'rpId',
     return !!this.secrets[account];
   };
 
+  /**
+   * Getting a secret for an account with default UI.
+   *
+   * This function will immediatly callback if the wallet is already unlocked.
+   * Otherwise, it will automatically handle the unlock process using a modal
+   * popover.
+   *
+   * If the user cancels the operation, the method will call the callback with
+   * an error.
+   */
+  Keychain.prototype.requestSecret = function (account, username, callback) {
+    var _this = this;
+
+    // Handle already unlocked accounts
+    if (this.secrets[account]) {
+      // Keep the secret in a closure in case it happens to get locked
+      // between now and when setImmediate calls back.
+      var secret = this.secrets[account];
+      setImmediate(function () {
+        callback(null, secret);
+      });
+      return;
+    }
+
+    var popupScope = $scope.$new();
+    var unlock = popupScope.unlock = {
+      isConfirming: false,
+      password: ''
+    };
+    popupScope.confirm = function () {
+      unlock.isConfirming = true;
+
+      function handleSecret(err, secret) {
+        if (err) {
+          // XXX More fine-grained error handling would be good. Can we detect
+          //     server down?
+          unlock.isConfirming = false;
+          unlock.error = "password";
+        } else {
+          popup.close();
+
+          callback(null, secret);
+        }
+      }
+
+      _this.getSecret(account, username, popupScope.unlock.password,
+                      handleSecret);
+    };
+    popupScope.cancel = function () {
+      popup.close();
+    };
+    popup.blank(require('../../jade/popup/unlock.jade')(), popupScope);
+  };
+
+  /**
+   * Getting a secret for an account with custom UI.
+   *
+   * The difference between this method and Keychain#requestSecret is that to
+   * call this function you have to request the password from the user yourself.
+   */
   Keychain.prototype.getSecret = function (account, username, password, callback) {
     var _this = this;
 
@@ -73,7 +133,6 @@ module.factory('rpKeychain', ['$rootScope', 'rpPopup', 'rpId',
     return this.secrets[account];
   };
 
-  //popup.blank(require('../../jade/popup/unlock.jade')(), $scope);
 
   return new Keychain();
 }]);

@@ -993,7 +993,7 @@ SendTab.prototype.angular = function (module)
         $scope.addressSaved = true;
       });
 
-      $scope.userBlob.unshift('contacts', contact);
+      $scope.userBlob.unshift('/contacts', contact);
     };
 
     $scope.$on("$destroy", function () {
