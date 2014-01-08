@@ -242,15 +242,27 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                         .error(rp-error-on='rpAmountPositive', l10n) Must be greater than zero
                         .error(rp-error-on='rpAmountXrpLimit', l10n) There is a limit of 100 billion XRPs
                 .message
-                  p(ng-show='tradeForm.$valid', l10n) You are wanting to
-                    span(ng-show="type == 'buy'", l10n-inc)  buy
-                    span(ng-show="type == 'sell'", l10n-inc)  sell
+                  //- Having two very similar blocks just because of
+                    translation related issues. (Cannot use the same format for
+                    chinese translation)
+                  p(ng-show="tradeForm.$valid && type == 'buy'", l10n) You are wanting to buy
                     span {{order[type].first_amount | rpamount:{precision: 10} }} {{order[type].first_amount | rpcurrency}}
                     |  for
                     span  {{order[type].second_amount | rpamount:{precision: 10} }} {{order[type].second_amount | rpcurrency}}
                     |  (
                     span {{order[type].price_amount | rpamount:{precision: 10} }} {{order[type].second_amount | rpcurrency}}
-                    |  per {{order[type].first_amount | rpcurrency}})
+                    span(l10n-inc)  per
+                    span {{order[type].first_amount | rpcurrency}}
+                    | )
+                  p(ng-show="tradeForm.$valid && type == 'sell'", l10n) You are wanting to sell
+                    span {{order[type].first_amount | rpamount:{precision: 10} }} {{order[type].first_amount | rpcurrency}}
+                    |  for
+                    span  {{order[type].second_amount | rpamount:{precision: 10} }} {{order[type].second_amount | rpcurrency}}
+                    |  (
+                    span {{order[type].price_amount | rpamount:{precision: 10} }} {{order[type].second_amount | rpcurrency}}
+                    span(l10n-inc)  per
+                    span {{order[type].first_amount | rpcurrency}}
+                    | )
                 .row
                   .col-xs-6
                     button.btn.btn-success.btn-block.submit(type='submit', ng-disabled='tradeForm.$invalid')
