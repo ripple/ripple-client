@@ -243,7 +243,7 @@ module.exports = function(grunt) {
           {expand: true, src: ['fonts/*'], dest: 'build/bundle/web'},
           {expand: true, src: ['img/**'], dest: 'build/bundle/web'},
           {expand: true, src: ['deps/js/modernizr*.js'], dest: 'build/bundle/web'},
-          {expand: true, src: ['deps/js/mixpanel.js'], dest: 'build/bundle/web'},
+          {expand: true, src: ['deps/js/mixpanel.min.js'], dest: 'build/bundle/web'},
           {src: 'config-example.js', dest: 'build/bundle/web/config-example.js'}
         ]
       },
@@ -254,7 +254,7 @@ module.exports = function(grunt) {
           {expand: true, src: ['fonts/*'], dest: 'build/bundle/nw-desktop'},
           {expand: true, src: ['img/**'], dest: 'build/bundle/nw-desktop'},
           {expand: true, src: ['deps/js/modernizr*.js'], dest: 'build/bundle/nw-desktop'},
-          {expand: true, src: ['deps/js/mixpanel.js'], dest: 'build/bundle/nw-desktop'},
+          {expand: true, src: ['deps/js/mixpanel.min.js'], dest: 'build/bundle/nw-desktop'},
           {src: 'build/dist/index_desktop.html', dest: 'build/bundle/nw-desktop/index.html'},
           {src: 'res/nw/package_desktop.json', dest: 'build/bundle/nw-desktop/package.json'},
           {src: 'config-example.js', dest: 'build/bundle/nw-desktop/config.js'}
@@ -267,7 +267,7 @@ module.exports = function(grunt) {
           {expand: true, src: ['fonts/*'], dest: 'build/bundle/nw-desktop-debug'},
           {expand: true, src: ['img/**'], dest: 'build/bundle/nw-desktop-debug'},
           {expand: true, src: ['deps/js/modernizr*.js'], dest: 'build/bundle/nw-desktop-debug'},
-          {expand: true, src: ['deps/js/mixpanel.js'], dest: 'build/bundle/nw-desktop-debug'},
+          {expand: true, src: ['deps/js/mixpanel.min.js'], dest: 'build/bundle/nw-desktop-debug'},
           {src: 'build/dist/index_desktop_debug.html', dest: 'build/bundle/nw-desktop-debug/index.html'},
           {src: 'res/nw/package_desktop_debug.json', dest: 'build/bundle/nw-desktop-debug/package.json'},
           {src: 'config-example.js', dest: 'build/bundle/nw-desktop-debug/config.js'}
