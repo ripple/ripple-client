@@ -42,7 +42,9 @@ section.col-xs-12.col-md-10.content(ng-controller="CashinCtrl")
 
         .row(ng-show="displaySignupForm")
           .col-md-10.col-md-offset-1.step
-            .head: span To deposit cash using ZipZap please complete the following form (Step 1 of 2).
+            .head
+              span To deposit cash using ZipZap please complete the following form (Step 1 of 2).
+            .alert.alert-warning Available to US customers only
             form.signup.form-horizontal#signupForm(name='signupForm', ng-submit="signup()")
               .form-group
                 label.control-label.col-sm-4(for='firstname', l10n) First name
@@ -79,8 +81,60 @@ section.col-xs-12.col-md-10.content(ng-controller="CashinCtrl")
               .form-group
                 label.control-label.col-sm-4(for='state', l10n) State
                 .col-sm-8
-                  input.form-control#state(name='state', type='text', ng-model='form.state'
-                  required)
+                  select.form-control#state(name='state', type='text'
+                  ng-model='form.state', required)
+                    option(value="", selected="selected") Select a State
+                    option(value="AL") Alabama 
+                    option(value="AK") Alaska 
+                    option(value="AZ") Arizona 
+                    option(value="AR") Arkansas 
+                    option(value="CA") California 
+                    option(value="CO") Colorado 
+                    option(value="CT") Connecticut 
+                    option(value="DE") Delaware 
+                    option(value="DC") District Of Columbia 
+                    option(value="FL") Florida 
+                    option(value="GA") Georgia 
+                    option(value="HI") Hawaii 
+                    option(value="ID") Idaho 
+                    option(value="IL") Illinois 
+                    option(value="IN") Indiana 
+                    option(value="IA") Iowa 
+                    option(value="KS") Kansas 
+                    option(value="KY") Kentucky 
+                    option(value="LA") Louisiana 
+                    option(value="ME") Maine 
+                    option(value="MD") Maryland 
+                    option(value="MA") Massachusetts 
+                    option(value="MI") Michigan 
+                    option(value="MN") Minnesota 
+                    option(value="MS") Mississippi 
+                    option(value="MO") Missouri 
+                    option(value="MT") Montana 
+                    option(value="NE") Nebraska 
+                    option(value="NV") Nevada 
+                    option(value="NH") New Hampshire 
+                    option(value="NJ") New Jersey 
+                    option(value="NM") New Mexico 
+                    option(value="NY") New York 
+                    option(value="NC") North Carolina 
+                    option(value="ND") North Dakota 
+                    option(value="OH") Ohio 
+                    option(value="OK") Oklahoma 
+                    option(value="OR") Oregon 
+                    option(value="PA") Pennsylvania 
+                    option(value="RI") Rhode Island 
+                    option(value="SC") South Carolina 
+                    option(value="SD") South Dakota 
+                    option(value="TN") Tennessee 
+                    option(value="TX") Texas 
+                    option(value="UT") Utah 
+                    option(value="VT") Vermont 
+                    option(value="VA") Virginia 
+                    option(value="WA") Washington 
+                    option(value="WV") West Virginia 
+                    option(value="WI") Wisconsin 
+                    option(value="WY") Wyoming
                   .errorGroup(rp-errors='state')
                     .error(rp-error-on='required', l10n)
                       | Please enter your state.
@@ -92,11 +146,11 @@ section.col-xs-12.col-md-10.content(ng-controller="CashinCtrl")
                   .errorGroup(rp-errors='zipcode')
                     .error(rp-error-on='required', l10n)
                       | Please enter your zipcode.
-              .form-group
-                label.control-label.col-sm-4(for='countrycode', l10n) Country code (ex. "US")
+              //.form-group
+                label.control-label.col-sm-4(for='countrycode', l10n) Country code
                 .col-sm-8
                   input.form-control#countrycode(name='countrycode', type='text', ng-model='form.countrycode'
-                  required, ng-minlength="2", ng-maxlength="2")
+                  required, ng-minlength="2", ng-maxlength="2", disabled="disabled")
                   .errorGroup(rp-errors='countrycode')
                     .error(rp-error-on='required', l10n)
                       | Please enter your country code.
@@ -164,7 +218,7 @@ section.col-xs-12.col-md-10.content(ng-controller="CashinCtrl")
                 rp-popover-placement="bottom"
                 rp-popover-title='Trust line'
                 rp-popover-trigger="click"
-                data-content="Your cash will be held by the SnapSwap gateway, so you'll need to trust SnapSwap before depositing cash at a ZipZap location. <a href=\"https://ripplelabs.zendesk.com/hc/en-us/articles/200916587-Understanding-trust-lines\", target=\"_blank\">More information about trusting</a>") Why?
+                data-content="Your cash will be held by the SnapSwap gateway, so you'll need to trust SnapSwap before depositing cash at a ZipZap location. <a href=\"https://ripplelabs.zendesk.com/hc/en-us/articles/200916587-Understanding-trust-lines\", target=\"_blank\") More information about trusting</a>") Why?
             .desc When you click "Trust SnapSwap", you'll be taken to a page that will have SnapSwap's Ripple address pre-filled. In Amount, fill in the maximum amount of USD you'll deposit with SnapSwap. Then click 'Grant Trust' and return to the Cash In tab to see ZipZap instructions.
             a.btn.btn-success.btn-block(href="#/trust?to=rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q") Trust SnapSwap
 
