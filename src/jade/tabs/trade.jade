@@ -246,22 +246,22 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                     translation related issues. (Cannot use the same format for
                     chinese translation)
                   p(ng-show="tradeForm.$valid && type == 'buy'", l10n) You are wanting to buy
-                    span {{order[type].first_amount | rpamount:{precision: 10} }} {{order[type].first_amount | rpcurrency}}
+                    span  {{order[type].first_amount | rpamount:{precision: 10} }} {{order[type].first_amount | rpcurrency}}
                     |  for
                     span  {{order[type].second_amount | rpamount:{precision: 10} }} {{order[type].second_amount | rpcurrency}}
                     |  (
                     span {{order[type].price_amount | rpamount:{precision: 10} }} {{order[type].second_amount | rpcurrency}}
                     |  per
-                    span {{order[type].first_amount | rpcurrency}}
+                    span  {{order[type].first_amount | rpcurrency}}
                     | )
                   p(ng-show="tradeForm.$valid && type == 'sell'", l10n) You are wanting to sell
-                    span {{order[type].first_amount | rpamount:{precision: 10} }} {{order[type].first_amount | rpcurrency}}
+                    span  {{order[type].first_amount | rpamount:{precision: 10} }} {{order[type].first_amount | rpcurrency}}
                     |  for
                     span  {{order[type].second_amount | rpamount:{precision: 10} }} {{order[type].second_amount | rpcurrency}}
                     |  (
                     span {{order[type].price_amount | rpamount:{precision: 10} }} {{order[type].second_amount | rpcurrency}}
                     |  per
-                    span {{order[type].first_amount | rpcurrency}}
+                    span  {{order[type].first_amount | rpcurrency}}
                     | )
                 .row
                   .col-xs-6
