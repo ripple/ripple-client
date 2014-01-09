@@ -251,7 +251,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                     span  {{order[type].second_amount | rpamount:{precision: 10} }} {{order[type].second_amount | rpcurrency}}
                     |  (
                     span {{order[type].price_amount | rpamount:{precision: 10} }} {{order[type].second_amount | rpcurrency}}
-                    span(l10n-inc)  per
+                    |  per
                     span {{order[type].first_amount | rpcurrency}}
                     | )
                   p(ng-show="tradeForm.$valid && type == 'sell'", l10n) You are wanting to sell
@@ -260,7 +260,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                     span  {{order[type].second_amount | rpamount:{precision: 10} }} {{order[type].second_amount | rpcurrency}}
                     |  (
                     span {{order[type].price_amount | rpamount:{precision: 10} }} {{order[type].second_amount | rpcurrency}}
-                    span(l10n-inc)  per
+                    |  per
                     span {{order[type].first_amount | rpcurrency}}
                     | )
                 .row
