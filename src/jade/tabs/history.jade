@@ -128,6 +128,7 @@ section.col-xs-12.col-md-10.content(ng-controller="HistoryCtrl")
                   span.address(title="{{entry.transaction.counterparty}}") {{entry.transaction.counterparty | rpcontactname}}
                   |  for&#32;
                   strong {{entry.transaction.amount | rpamount}} {{entry.transaction.amount | rpcurrency}}
+                  | .
                 != require("./history/effects.jade")()
               span(ng-switch-when="offernew")
                 span(ng-show="entry.transaction.sell", l10n) You created an offer to sell&#32;
