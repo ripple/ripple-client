@@ -156,7 +156,8 @@ exports.resolveContact = function (contacts, value)
  */
 exports.unresolveContact = function (contacts, address)
 {
-  return contact = exports.isContact(contacts, address) ? contact : address;
+  var contact;
+  return (contact = exports.isContact(contacts, address)) ? contact : address;
 };
 
 /**

@@ -1,3 +1,23 @@
+var pairs = require('../data/pairs');
+
+var getPrice = function(effect){
+  var g = effect.got ? effect.got : effect.gets;
+  var p = effect.paid ? effect.paid : effect.pays;
+  var price;
+
+  _.find(pairs, function(pair){
+    if (pair.name == g.currency().to_human() + '/' + p.currency().to_human()) {
+      price = p.ratio_human(g);
+    }
+  });
+
+  if (!price) {
+    price = g.ratio_human(p)
+  }
+
+  return price;
+};
+
 /**
  * Simple static class for processing server-side JSON.
  */
@@ -157,6 +177,7 @@ var JsonRewriter = module.exports = {
             transaction.type = 'offernew';
             transaction.pays = ripple.Amount.from_json(tx.TakerPays);
             transaction.gets = ripple.Amount.from_json(tx.TakerGets);
+            transaction.sell = tx.Flags & ripple.Transaction.flags.OfferCreate.Sell;
             break;
 
           case 'OfferCancel':
@@ -375,10 +396,6 @@ var JsonRewriter = module.exports = {
                 obj.transaction.gets = fieldSet.TakerGets;
                 obj.transaction.pays = fieldSet.TakerPays;
               }
-
-              // Flags
-              if (node.fields.Flags)
-                effect.flags = node.fields.Flags;
             }
 
             effect.seq = +node.fields.Sequence;
@@ -397,6 +414,16 @@ var JsonRewriter = module.exports = {
               effect.got = ripple.Amount.from_json(node.fieldsPrev.TakerGets).subtract(node.fields.TakerGets);
               effect.paid = ripple.Amount.from_json(node.fieldsPrev.TakerPays).subtract(node.fields.TakerPays);
             }
+          }
+
+          if (effect.gets && effect.pays) {
+            effect.price = getPrice(effect);
+          }
+
+          // Flags
+          if (node.fields.Flags) {
+            effect.flags = node.fields.Flags;
+            effect.sell = node.fields.Flags & ripple.Remote.flags.offer.Sell;
           }
         }
 

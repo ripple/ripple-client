@@ -24,7 +24,9 @@ CashinTab.prototype.angular = function (module)
   {
     if (!$id.loginStatus) return $id.goId();
 
-    $scope.form = {};
+    $scope.form = {
+      'countrycode': 'US'
+    };
 
     // TODO request results should be stored in blob
     $scope.$watch('address',function(address){

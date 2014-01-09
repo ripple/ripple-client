@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Ripple Client\n"
-"PO-Revision-Date: 2014-01-06 20:10+0000\n"
+"PO-Revision-Date: 2014-01-08 23:58+0000\n"
 "Last-Translator: vhpoet <vhpoet@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/ripple-client/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -57,7 +57,7 @@ msgstr "Otrzymuj"
 
 #: src/jade/client/index.jade:23 src/jade/client/index.jade:55
 msgid "Trade"
-msgstr "Transakcja"
+msgstr "Handel"
 
 #: src/jade/client/index.jade:27 src/jade/client/index.jade:58
 msgid "Advanced"
@@ -151,8 +151,8 @@ msgstr "Konto docelowe wymaga sprecyzowania znacznika adresu docelowego, podczas
 #: src/jade/directives/transactionerror.jade:44 src/jade/tabs/convert.jade:126
 #: src/jade/tabs/convert.jade:135 src/jade/tabs/convert.jade:142
 #: src/jade/tabs/send.jade:243 src/jade/tabs/send.jade:249
-#: src/jade/tabs/send.jade:258 src/jade/tabs/trade.jade:235
-#: src/jade/tabs/trade.jade:249 src/jade/tabs/trust.jade:160
+#: src/jade/tabs/send.jade:258 src/jade/tabs/trade.jade:247
+#: src/jade/tabs/trade.jade:261 src/jade/tabs/trust.jade:160
 msgid "Transaction failed!"
 msgstr "Transakcja nie powiodła się!"
 
@@ -222,10 +222,10 @@ msgstr "Ufasz użytkownikowi {{tx.counterparty | rpcontactname}} na"
 msgid "You have to be online to see this screen"
 msgstr "Musisz być online, aby zobaczyć zawartość"
 
-#: src/jade/tabs/balance.jade:10 src/jade/tabs/balance.jade:118
+#: src/jade/tabs/balance.jade:10 src/jade/tabs/balance.jade:121
 #: src/jade/tabs/cashin.jade:10 src/jade/tabs/cashin.jade:37
-#: src/jade/tabs/cashin.jade:142 src/jade/tabs/cashin.jade:200
-#: src/jade/tabs/convert.jade:10 src/jade/tabs/history.jade:171
+#: src/jade/tabs/cashin.jade:196 src/jade/tabs/cashin.jade:255
+#: src/jade/tabs/convert.jade:10 src/jade/tabs/history.jade:175
 #: src/jade/tabs/register.jade:47 src/jade/tabs/trust.jade:10
 msgid "Loading..."
 msgstr "Ładuje..."
@@ -239,70 +239,75 @@ msgid ""
 "You currently don&#39;t have any ripples (XRP). To get started you can:"
 msgstr "Nie posiadasz&#39; ripple (XRP). Aby rozpocząc możesz: "
 
-#: src/jade/tabs/balance.jade:35
+#: src/jade/tabs/balance.jade:36
 msgid "Activity"
 msgstr "Aktywność"
 
-#: src/jade/tabs/balance.jade:38 src/jade/tabs/history.jade:83
+#: src/jade/tabs/balance.jade:39 src/jade/tabs/history.jade:83
 msgid "Date"
 msgstr "Data"
 
-#: src/jade/tabs/balance.jade:39
+#: src/jade/tabs/balance.jade:40
 msgid "Event"
 msgstr "Wydarzenie"
 
-#: src/jade/tabs/balance.jade:45 src/jade/tabs/history.jade:101
+#: src/jade/tabs/balance.jade:46 src/jade/tabs/history.jade:101
 msgid "You sent {{1}} {{2}}"
 msgstr "Wysyłasz {{1}} {{2}}"
 
-#: src/jade/tabs/balance.jade:49 src/jade/tabs/balance.jade:58
-#: src/jade/tabs/balance.jade:76 src/jade/tabs/balance.jade:87
+#: src/jade/tabs/balance.jade:50 src/jade/tabs/balance.jade:59
+#: src/jade/tabs/balance.jade:77 src/jade/tabs/balance.jade:88
 msgid "Add to contacts"
 msgstr "Dodaj do kontaktów"
 
-#: src/jade/tabs/balance.jade:54
+#: src/jade/tabs/balance.jade:55
 msgid "{{entry.transaction.counterparty | rpcontactname}} sent you"
 msgstr "{{entry.transaction.counterparty | rpcontactname}} przesyła Ci"
 
-#: src/jade/tabs/balance.jade:63 src/jade/tabs/history.jade:112
+#: src/jade/tabs/balance.jade:64 src/jade/tabs/history.jade:112
 msgid "You requested to convert {{1}} to {{2}}"
 msgstr "Zażądano wymiany {{1}} na {{2}}"
 
-#: src/jade/tabs/balance.jade:71
+#: src/jade/tabs/balance.jade:72
 msgid "{{entry.transaction.counterparty | rpcontactname}} now trusts you for"
 msgstr "{{entry.transaction.counterparty | rpcontactname}} Teraz ufa Ci na"
 
-#: src/jade/tabs/balance.jade:81
+#: src/jade/tabs/balance.jade:82
 msgid "You now trust {{1}} {{2}}"
 msgstr "Ufasz teraz użytkownikowi {{1}} {{2}}"
 
-#: src/jade/tabs/balance.jade:92 src/jade/tabs/history.jade:130
-#: src/jade/tabs/history/effects.jade:29
-msgid "You created an offer accepting {{1}} for {{2}}"
-msgstr "Utworzono ofertę akceptującą {{1}} za {{2}}"
+#: src/jade/tabs/balance.jade:93 src/jade/tabs/history.jade:130
+#: src/jade/tabs/history/effects.jade:39
+msgid "You created an offer to sell {{1}} for {{2}}"
+msgstr ""
 
-#: src/jade/tabs/balance.jade:100 src/jade/tabs/history.jade:136
-#: src/jade/tabs/history/effects.jade:25
+#: src/jade/tabs/balance.jade:97 src/jade/tabs/history.jade:134
+#: src/jade/tabs/history/effects.jade:43
+msgid "You created an offer to buy {{1}} for {{2}}"
+msgstr ""
+
+#: src/jade/tabs/balance.jade:103 src/jade/tabs/history.jade:140
+#: src/jade/tabs/history/effects.jade:34
 msgid "You cancelled an offer accepting {{1}} for {{2}}"
 msgstr "Usunięto ofertę akceptującą  {{1}} za {{2}}"
 
-#: src/jade/tabs/balance.jade:107
+#: src/jade/tabs/balance.jade:110
 msgid "Account details have been changed"
 msgstr "Dane konta zostały zmienione"
 
-#: src/jade/tabs/balance.jade:109 src/jade/tabs/history.jade:144
+#: src/jade/tabs/balance.jade:112 src/jade/tabs/history.jade:148
 msgid "Failed transaction"
 msgstr ""
 
-#: src/jade/tabs/balance.jade:117 src/jade/tabs/history.jade:173
+#: src/jade/tabs/balance.jade:120 src/jade/tabs/history.jade:177
 msgid "Load more"
 msgstr "Załaduj więcej"
 
-#: src/jade/tabs/balance.jade:119
+#: src/jade/tabs/balance.jade:122
 msgid "Error"
 msgstr "Błąd"
 
-#: src/jade/tabs/balance.jade:120
+#: src/jade/tabs/balance.jade:123
 msgid "No past transactions found"
 msgstr "Nie znaleziono starszych transakcji"
 
@@ -317,124 +322,124 @@ msgstr "Musisz posiadać środki, aby skorzystać z tej zakładki."
 msgid "Back to balance"
 msgstr "Wróć do salda"
 
-#: src/jade/tabs/cashin.jade:40 src/jade/tabs/cashin.jade:141
+#: src/jade/tabs/cashin.jade:40 src/jade/tabs/cashin.jade:195
 msgid "Sign Up"
 msgstr "Rejestracja"
 
-#: src/jade/tabs/cashin.jade:47
+#: src/jade/tabs/cashin.jade:49
 msgid "First name"
 msgstr "Imię"
 
-#: src/jade/tabs/cashin.jade:51
+#: src/jade/tabs/cashin.jade:53
 msgid "Please enter your first name."
 msgstr "Wprowadź swoje imię."
 
-#: src/jade/tabs/cashin.jade:54
+#: src/jade/tabs/cashin.jade:56
 msgid "Last name"
 msgstr "Nazwisko"
 
-#: src/jade/tabs/cashin.jade:58
+#: src/jade/tabs/cashin.jade:60
 msgid "Please enter your last name."
 msgstr "Wprowadź swoje nazwisko."
 
-#: src/jade/tabs/cashin.jade:61 src/jade/tabs/contacts.jade:5
+#: src/jade/tabs/cashin.jade:63 src/jade/tabs/contacts.jade:5
 #: src/jade/tabs/contacts.jade:22
 msgid "Address"
 msgstr "Adres"
 
-#: src/jade/tabs/cashin.jade:65
+#: src/jade/tabs/cashin.jade:67
 msgid "Please enter your address."
 msgstr "Wprowadź swój adres."
 
-#: src/jade/tabs/cashin.jade:68
+#: src/jade/tabs/cashin.jade:70
 msgid "City"
 msgstr "Miasto"
 
-#: src/jade/tabs/cashin.jade:72
+#: src/jade/tabs/cashin.jade:74
 msgid "Please enter your city."
 msgstr "Wprowadź swoje miasto."
 
-#: src/jade/tabs/cashin.jade:75
+#: src/jade/tabs/cashin.jade:77
 msgid "State"
 msgstr "Województwo"
 
-#: src/jade/tabs/cashin.jade:79
+#: src/jade/tabs/cashin.jade:133
 msgid "Please enter your state."
 msgstr "Wprowadź województwo"
 
-#: src/jade/tabs/cashin.jade:82
+#: src/jade/tabs/cashin.jade:136
 msgid "Zip code"
 msgstr "Kod pocztowy"
 
-#: src/jade/tabs/cashin.jade:86
+#: src/jade/tabs/cashin.jade:140
 msgid "Please enter your zipcode."
 msgstr "Wprowadź swój kod pocztowy."
 
-#: src/jade/tabs/cashin.jade:89
-msgid "Country code (ex. \"US\")"
-msgstr "Kod Kraju (np. \"US\")"
+#: src/jade/tabs/cashin.jade:143
+msgid "Country code"
+msgstr ""
 
-#: src/jade/tabs/cashin.jade:93
+#: src/jade/tabs/cashin.jade:147
 msgid "Please enter your country code."
 msgstr "Wprowadź kod swojego kraju"
 
-#: src/jade/tabs/cashin.jade:95 src/jade/tabs/cashin.jade:97
+#: src/jade/tabs/cashin.jade:149 src/jade/tabs/cashin.jade:151
 msgid "Country code should be exactly 2 characters."
 msgstr "Kod kraju powinien składać się tylko z 2 liter."
 
-#: src/jade/tabs/cashin.jade:100
+#: src/jade/tabs/cashin.jade:154
 msgid "Phone (Only Numbers)"
 msgstr "Telefon (Tylko liczby)"
 
-#: src/jade/tabs/cashin.jade:104
+#: src/jade/tabs/cashin.jade:158
 msgid "Please enter your phone number."
 msgstr "Wprowadź swój numer telefonu."
 
-#: src/jade/tabs/cashin.jade:107
+#: src/jade/tabs/cashin.jade:161
 msgid "Date of birth (YYYY-MM-DD)"
 msgstr "Data urodzenia (RRRR-MM-DD)"
 
-#: src/jade/tabs/cashin.jade:111
+#: src/jade/tabs/cashin.jade:165
 msgid "Please enter your date of birth."
 msgstr "Wprowadź swoją datę urodzenia."
 
-#: src/jade/tabs/cashin.jade:113
+#: src/jade/tabs/cashin.jade:167
 msgid "The date of birth must be in YYYY-MM-DD format."
 msgstr "Data urodzenia musi być w formacie RRRR-MM-DD."
 
-#: src/jade/tabs/cashin.jade:116
+#: src/jade/tabs/cashin.jade:170
 msgid "Email"
 msgstr "Email"
 
-#: src/jade/tabs/cashin.jade:120
+#: src/jade/tabs/cashin.jade:174
 msgid "Please enter your email address."
 msgstr "Wprowadź swój adres email."
 
-#: src/jade/tabs/cashin.jade:122
+#: src/jade/tabs/cashin.jade:176
 msgid "Please use a valid email format."
 msgstr "Wprowadź poprawny format email."
 
-#: src/jade/tabs/cashin.jade:125
+#: src/jade/tabs/cashin.jade:179
 msgid "Last 4 digits of your SSN"
 msgstr "4 ostatnie cyfry Twojego NIP"
 
-#: src/jade/tabs/cashin.jade:129 src/jade/tabs/cashin.jade:131
-#: src/jade/tabs/cashin.jade:133
+#: src/jade/tabs/cashin.jade:183 src/jade/tabs/cashin.jade:185
+#: src/jade/tabs/cashin.jade:187
 msgid "Please enter last 4 digits of your social security number."
 msgstr "Wprowadź 4 ostatnie cyfry swojego numeru NIP"
 
-#: src/jade/tabs/cashin.jade:138 src/jade/tabs/contacts.jade:35
+#: src/jade/tabs/cashin.jade:192 src/jade/tabs/contacts.jade:35
 #: src/jade/tabs/contacts.jade:73 src/jade/tabs/send.jade:209
-#: src/jade/tabs/send.jade:280 src/jade/tabs/trade.jade:294
+#: src/jade/tabs/send.jade:280 src/jade/tabs/trade.jade:306
 #: src/jade/tabs/trust.jade:76
 msgid "Cancel"
 msgstr "Anuluj"
 
-#: src/jade/tabs/cashin.jade:199
+#: src/jade/tabs/cashin.jade:254
 msgid "Search!"
 msgstr "Szukaj!"
 
-#: src/jade/tabs/cashin.jade:204
+#: src/jade/tabs/cashin.jade:259
 msgid "show on map"
 msgstr "pokaż na mapie"
 
@@ -563,14 +568,14 @@ msgstr "{{1:Wymieniasz}}{{2}}{{3:na}}{{4}}{{5:Maksymalnie zapłacisz}}{{6}}{{7:Z
 
 #: src/jade/tabs/convert.jade:76 src/jade/tabs/convert.jade:98
 #: src/jade/tabs/send.jade:160 src/jade/tabs/send.jade:188
-#: src/jade/tabs/trade.jade:211 src/jade/tabs/trust.jade:114
+#: src/jade/tabs/trade.jade:223 src/jade/tabs/trust.jade:114
 #: src/jade/tabs/trust.jade:134
 msgid "&laquo; Back"
 msgstr "&laquo; Wróć"
 
 #: src/jade/tabs/convert.jade:78 src/jade/tabs/send.jade:163
 #: src/jade/tabs/trade.jade:50 src/jade/tabs/trade.jade:60
-#: src/jade/tabs/trade.jade:213 src/jade/tabs/trust.jade:116
+#: src/jade/tabs/trade.jade:225 src/jade/tabs/trust.jade:116
 msgid "Confirm"
 msgstr "Potwierdź"
 
@@ -623,7 +628,7 @@ msgid "Your transaction failed to clear, reason: {{engine_result_message}}"
 msgstr "Twoja transakcja nie została usunięta, powód: {{engine_result_message}}"
 
 #: src/jade/tabs/convert.jade:144 src/jade/tabs/send.jade:245
-#: src/jade/tabs/trade.jade:251 src/jade/tabs/trust.jade:162
+#: src/jade/tabs/trade.jade:263 src/jade/tabs/trust.jade:162
 msgid ""
 "The particular server you sent the transaction to was too busy to forward or"
 " process your transaction at the fee you included in it."
@@ -689,7 +694,7 @@ msgstr "Filtruj"
 msgid "Minimum amount filter"
 msgstr "Filter minimalnej kwoty"
 
-#: src/jade/tabs/history.jade:84 src/jade/tabs/history.jade:152
+#: src/jade/tabs/history.jade:84 src/jade/tabs/history.jade:156
 msgid "Description"
 msgstr "Opis"
 
@@ -709,91 +714,100 @@ msgstr "{{1}} ufa Ci na {{2}}"
 msgid "You now trust {{1}} for {{2}}"
 msgstr "Ufasz teraz użytkownikowi {{1}} na {{2}}"
 
-#: src/jade/tabs/history.jade:142
+#: src/jade/tabs/history.jade:146
 msgid "Account details have been Changed"
-msgstr ""
+msgstr "Szczegóły konta zostały zmienione"
 
-#: src/jade/tabs/history.jade:150
+#: src/jade/tabs/history.jade:154
 msgid "Balance Changes"
 msgstr "Zmiana Salda"
 
-#: src/jade/tabs/history.jade:153
+#: src/jade/tabs/history.jade:157
 msgid "Issuer"
 msgstr "Emitent"
 
-#: src/jade/tabs/history.jade:154 src/jade/tabs/trade.jade:275
+#: src/jade/tabs/history.jade:158 src/jade/tabs/trade.jade:287
 #: src/jade/tabs/trust.jade:54
 msgid "Amount"
 msgstr "Kwota"
 
-#: src/jade/tabs/history.jade:155
+#: src/jade/tabs/history.jade:159
 msgid "Final balance"
 msgstr "Saldo ostateczne"
 
-#: src/jade/tabs/history.jade:158
+#: src/jade/tabs/history.jade:162
 msgid "XRP balance Change"
 msgstr "Zmiana salda XRP"
 
-#: src/jade/tabs/history.jade:159
+#: src/jade/tabs/history.jade:163
 msgid "{{effect.currency}} balance Change"
 msgstr "Zmiana salda {{effect.currency}} "
 
-#: src/jade/tabs/history.jade:160
+#: src/jade/tabs/history.jade:164
 msgid "Fee"
 msgstr "Opłata"
 
-#: src/jade/tabs/history.jade:165
+#: src/jade/tabs/history.jade:169
 msgid "Transaction details"
 msgstr "Szczegóły transakcji"
 
-#: src/jade/tabs/history.jade:166
+#: src/jade/tabs/history.jade:170
 msgid "Add {{1}} to contact list"
 msgstr "Dodaj użytkownika {{1}} do listy kontaktów"
 
-#: src/jade/tabs/history.jade:174
+#: src/jade/tabs/history.jade:178
 msgid "No more transactions left"
 msgstr "Nie ma więcej transkacji"
 
-#: src/jade/tabs/history/effects.jade:3
-msgid ""
-"You sold {{1}} for {{2}}. ({{3:price}}{{4}}). This order has been funded."
+#: src/jade/tabs/history/effects.jade:4 src/jade/tabs/history/effects.jade:18
+msgid "You sold {{1}} for {{2}}"
 msgstr ""
 
-#: src/jade/tabs/history/effects.jade:13
-msgid ""
-"You sold {{1}} for {{2}}. ({{3:price}}{{4}}){{5:The rest of your order has "
-"been cancelled due to lack of funds.}}"
+#: src/jade/tabs/history/effects.jade:8 src/jade/tabs/history/effects.jade:22
+msgid "You bought {{1}} for {{2}}"
 msgstr ""
 
-#: src/jade/tabs/history/effects.jade:22
+#: src/jade/tabs/history/effects.jade:13 src/jade/tabs/history/effects.jade:27
+msgid "price"
+msgstr ""
+
+#: src/jade/tabs/history/effects.jade:16
+msgid "This order has been filled."
+msgstr ""
+
+#: src/jade/tabs/history/effects.jade:30
+msgid "The rest of your order has been cancelled due to lack of funds."
+msgstr ""
+
+#: src/jade/tabs/history/effects.jade:31
 msgid "This order has {{1}} remaining."
 msgstr "Pozostało {{1}} zamówienia."
 
-#: src/jade/tabs/history/effects.jade:33
+#: src/jade/tabs/history/effects.jade:47
 msgid "You bought {{1}} for {{2}}. ({{3:price}}{{4}})"
-msgstr ""
+msgstr "Zakupiono {{1}} za {{2}}. ({{3:cena}}{{4}})"
 
-#: src/jade/tabs/history/effects.jade:42
+#: src/jade/tabs/history/effects.jade:57
 msgid "You now trust {{1}} for {{2}}."
 msgstr "Od teraz ufasz użytkownikowi {{1}} na {{2}}."
 
-#: src/jade/tabs/history/effects.jade:47
+#: src/jade/tabs/history/effects.jade:62
 msgid "{{1}} is trusting you for {{2}}."
 msgstr "{{1}} ufa Ci na {{2}}."
 
-#: src/jade/tabs/history/effects.jade:53
+#: src/jade/tabs/history/effects.jade:68
 msgid "You have changed {{1}} trust for {{2}} from {{3}} to {{4}}."
 msgstr "Zmieniono zaufanie {{1}} dla {{2}} z {{3}} na {{4}}."
 
-#: src/jade/tabs/history/effects.jade:63
+#: src/jade/tabs/history/effects.jade:78
 msgid "{{1}} changed the {{2}} trust from {{3}} to {{4}}."
 msgstr "{{1}} zmienia zaufanie {{2}} z {{3}} na {{4}}."
 
-#: src/jade/tabs/history/effects.jade:73
+#: src/jade/tabs/history/effects.jade:88
 msgid "Trust balance between you and {{1}} has been changed by {{2}}."
 msgstr "Zaufanie pomiędzy Tobą a użytkownikiem {{1}} zmienia o {{2}}."
 
-#: src/jade/tabs/history/effects.jade:80
+#: src/jade/tabs/history/effects.jade:95
 msgid "Your balance has been changed by {{1}}."
 msgstr "Twoje saldo zmieniło się o  {{1}}."
 
@@ -1511,149 +1525,151 @@ msgstr "Cena Jednostki"
 msgid "Order Value (max)"
 msgstr "Wartość Zamówienia (max) "
 
-#: src/jade/tabs/trade.jade:172
-msgid ""
-"You are wanting to {{1: buy}} {{2: sell}}{{3}} for {{4}} ({{5}} per "
-"{{order[type].first_amount | rpcurrency}})"
+#: src/jade/tabs/trade.jade:175
+msgid "You are wanting to buy{{1}} for {{2}} ({{3}} {{4: per}}{{5}})"
 msgstr ""
 
 #: src/jade/tabs/trade.jade:184
+msgid "You are wanting to sell{{1}} for {{2}} ({{3}} {{4: per}}{{5}})"
+msgstr ""
+
+#: src/jade/tabs/trade.jade:196
 msgid "Buy"
 msgstr "Kupuj"
 
-#: src/jade/tabs/trade.jade:185
+#: src/jade/tabs/trade.jade:197
 msgid "Sell"
 msgstr "Sprzedaj"
 
-#: src/jade/tabs/trade.jade:191
+#: src/jade/tabs/trade.jade:203
 msgid "You do not have sufficient funds to create an order."
 msgstr "Nie posiadasz wystarczających środków aby utworzyć zamówienie. "
 
-#: src/jade/tabs/trade.jade:196
+#: src/jade/tabs/trade.jade:208
 msgid ""
 "You are about to create an order to {{1: buy}} {{2: "
 "sell}}{{3}}{{4:for}}{{5}}{{6:Are you sure?}}"
 msgstr "Zamierzasz utworzyć ofertę {{1: zakupu}} {{2: sprzedaży}}{{3}}{{4:za}}{{5}}{{6:Zgadzasz się?}}"
 
-#: src/jade/tabs/trade.jade:218
+#: src/jade/tabs/trade.jade:230
 msgid "Sending order to Ripple network..."
 msgstr "Przesyłanie zamówienia do sieci Ripple..."
 
-#: src/jade/tabs/trade.jade:224
+#: src/jade/tabs/trade.jade:236
 msgid "Your order has been submitted."
 msgstr "Zamówienie zostało wysłane."
 
-#: src/jade/tabs/trade.jade:226
+#: src/jade/tabs/trade.jade:238
 msgid "Your order is now active!"
 msgstr "Zamówienie jest od teraz aktywne!"
 
-#: src/jade/tabs/trade.jade:228
+#: src/jade/tabs/trade.jade:240
 msgid "Request has been denied!"
 msgstr "Żądanie odrzucone!"
 
-#: src/jade/tabs/trade.jade:229 src/jade/tabs/trust.jade:145
+#: src/jade/tabs/trade.jade:241 src/jade/tabs/trust.jade:145
 msgid "We were unable to submit the request. Please try again later."
 msgstr "Nie udało się przetworzyć Twojego żądania. Spróbuj ponownie później."
 
-#: src/jade/tabs/trade.jade:231
+#: src/jade/tabs/trade.jade:243
 msgid "Request is malformed!"
 msgstr "Niepoprawne żądanie!"
 
-#: src/jade/tabs/trade.jade:232
+#: src/jade/tabs/trade.jade:244
 msgid ""
 "Your request is invalid, reason: {{order[type].engine_result}} - "
 "{{order[type].engine_result_message}}"
 msgstr "Twoje żądanie jest nieprawidłowe, powód: {{order[type].engine_result}} - {{order[type].engine_result_message}}"
 
-#: src/jade/tabs/trade.jade:237
+#: src/jade/tabs/trade.jade:249
 msgid ""
 "You do not have enough {{type == 'buy' ? order.second_currency : "
 "order.first_currency}} to create this order."
 msgstr "Nie posiadasz wystarczającej ilości {{type == 'buy' ? order.second_currency : order.first_currency}} by utworzyć zamówienie."
 
-#: src/jade/tabs/trade.jade:239
+#: src/jade/tabs/trade.jade:251
 msgid ""
 "You must have at least {{account.reserve_to_add_trust | rpamount}} XRP to "
 "submit an order. {{1}}"
 msgstr "Musisz posiadać, co najmniej {{account.reserve_to_add_trust | rpamount}} XRP  by wysłać ofertę. {{1}}"
 
-#: src/jade/tabs/trade.jade:241
+#: src/jade/tabs/trade.jade:253
 msgid "More information."
 msgstr "Więcej informacji."
 
-#: src/jade/tabs/trade.jade:242
+#: src/jade/tabs/trade.jade:254
 msgid "Error: {{order[type].engine_result_message}}"
 msgstr "Błąd: {{order[type].engine_result_message}}"
 
-#: src/jade/tabs/trade.jade:245
+#: src/jade/tabs/trade.jade:257
 msgid "Trade failed!"
 msgstr "Transakcja nie powiodła się!"
 
-#: src/jade/tabs/trade.jade:247
+#: src/jade/tabs/trade.jade:259
 msgid "Trade failed, reason: {{order[type].engine_result_message}}"
 msgstr "Transakcja nie powiodła się, powód: {{order[type].engine_result_message}}"
 
-#: src/jade/tabs/trade.jade:260
+#: src/jade/tabs/trade.jade:272
 msgid "Submit another order"
 msgstr "Wyślij następna ofertę"
 
-#: src/jade/tabs/trade.jade:263
+#: src/jade/tabs/trade.jade:275
 msgid "Order book"
 msgstr "Lista zleceń"
 
-#: src/jade/tabs/trade.jade:264
+#: src/jade/tabs/trade.jade:276
 msgid "My Orders {{1}}"
 msgstr ""
 
-#: src/jade/tabs/trade.jade:272
+#: src/jade/tabs/trade.jade:284
 msgid "Type"
 msgstr "Rodzaj"
 
-#: src/jade/tabs/trade.jade:273
+#: src/jade/tabs/trade.jade:285
 msgid "Pair"
 msgstr "Para"
 
-#: src/jade/tabs/trade.jade:274
+#: src/jade/tabs/trade.jade:286
 msgid "Price"
 msgstr "Cena"
 
-#: src/jade/tabs/trade.jade:276
+#: src/jade/tabs/trade.jade:288
 msgid "Action"
 msgstr "Operacja"
 
-#: src/jade/tabs/trade.jade:296
+#: src/jade/tabs/trade.jade:308
 msgid "You haven't placed any orders."
 msgstr "Nie utworzono &#39; żadnych ofet."
 
-#: src/jade/tabs/trade.jade:302
+#: src/jade/tabs/trade.jade:314
 msgid "Bids"
 msgstr "Oferty"
 
-#: src/jade/tabs/trade.jade:304 src/jade/tabs/trade.jade:331
+#: src/jade/tabs/trade.jade:316 src/jade/tabs/trade.jade:343
 msgid "Sum{{1}}{{2}}"
-msgstr ""
+msgstr "Suma{{1}}{{2}}"
 
-#: src/jade/tabs/trade.jade:307 src/jade/tabs/trade.jade:328
+#: src/jade/tabs/trade.jade:319 src/jade/tabs/trade.jade:340
 msgid "Size{{1}}{{2}}"
-msgstr ""
+msgstr "Rozmiar{{1}}{{2}}"
 
-#: src/jade/tabs/trade.jade:310
+#: src/jade/tabs/trade.jade:322
 msgid "Bid Price{{1}}{{2}}"
-msgstr ""
+msgstr "Cena oferty{{1}}{{2}}"
 
-#: src/jade/tabs/trade.jade:321
+#: src/jade/tabs/trade.jade:333
 msgid "There are currently no bids for this pair."
 msgstr "Brak dostępnych zapytań dla ustalonego parowania."
 
-#: src/jade/tabs/trade.jade:323
+#: src/jade/tabs/trade.jade:335
 msgid "Asks"
 msgstr "Zapytania"
 
-#: src/jade/tabs/trade.jade:325
+#: src/jade/tabs/trade.jade:337
 msgid "Ask Price{{1}}{{2}}"
-msgstr ""
+msgstr "Cena zapytania{{1}}{{2}}"
 
-#: src/jade/tabs/trade.jade:342
+#: src/jade/tabs/trade.jade:354
 msgid "There are currently no asks for this pair."
 msgstr "Brak dostępnych ofert dla ustalonego parowania."
 

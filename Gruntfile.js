@@ -454,7 +454,8 @@ module.exports = function(grunt) {
                                  'preprocess',
                                  'webpack',
                                  'recess',
-                                 'deps']);
+                                 'deps',
+                                 'copy:web']);
 
   // Deps only - only rebuilds the dependencies
   grunt.registerTask('deps', ['uglify:deps',
@@ -466,7 +467,7 @@ module.exports = function(grunt) {
 
   // Distribution build - builds absolutely everything
   grunt.registerTask('dist', ['default',
-                              'copy:web', 'copy:nw_desktop', 'copy:nw_desktop_debug',
+                              'copy:nw_desktop', 'copy:nw_desktop_debug',
                               'nodewebkit:desktop']);
 
   // End-to-end tests

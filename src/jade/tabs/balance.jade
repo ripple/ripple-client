@@ -17,7 +17,8 @@ section.col-xs-12.col-md-10.content(ng-controller="BalanceCtrl")
       p(l10n) You currently don&#39;t have any ripples (XRP). To get started you can:
       .actions
         a.receive(href="#receive")
-        a.nexus(href="http://www.xrpga.org/ripple-giveaways.html", target="_blank")
+        a.buy(href="https://support.ripplelabs.com/hc/en-us/articles/201209016")
+        a.giveaway(href="https://support.ripplelabs.com/hc/en-us/articles/201082577-Current-Ripple-Labs-giveaways")
 
     .row.row-padding-small.currency-summary.positive(ng-show='account.Balance')
       .col-xs-6.col-md-4.col-lg-3.balancebox
@@ -101,12 +102,14 @@ section.col-xs-12.col-md-10.content(ng-controller="BalanceCtrl")
                     i.fa.fa-user
                 != require("./history/effects.jade")()
               .transaction(ng-switch-when="offernew")
-                span(l10n) You created an offer accepting&#32;
-                  strong.nowrap {{entry.transaction.pays | rpamount}}
-                    | {{entry.transaction.pays | rpcurrency}}
+                span(ng-show="entry.transaction.sell", l10n) You created an offer to sell&#32;
+                  strong {{entry.transaction.gets | rpamount}} {{entry.transaction.gets | rpcurrency}}
                   |  for&#32;
-                  strong.nowrap {{entry.transaction.gets | rpamount}}
-                    | {{entry.transaction.gets | rpcurrency}}
+                  strong {{entry.transaction.pays | rpamount}} {{entry.transaction.pays | rpcurrency}}
+                span(ng-hide="entry.transaction.sell", l10n) You created an offer to buy&#32;
+                  strong {{entry.transaction.pays | rpamount}} {{entry.transaction.pays | rpcurrency}}
+                  |  for&#32;
+                  strong {{entry.transaction.gets | rpamount}} {{entry.transaction.gets | rpcurrency}}
                 != require("./history/effects.jade")()
               .transaction(ng-switch-when="offercancel")
                 span(l10n) You cancelled an offer accepting&#32;
