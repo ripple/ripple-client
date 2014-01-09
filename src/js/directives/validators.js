@@ -486,10 +486,9 @@ module.directive('rpAmountXrpLimit', function () {
       var validator = function(value) {
         var currency = attr.rpAmountXrpLimitCurrency;
 
-        // If XRP, ensure amount is less than 100 billion
-        if (currency &&
-            currency.toLowerCase() === 'xrp') {
-          ctrl.$setValidity('rpAmountXrpLimit', value <= 100000000000);
+        // If XRP, ensure amount is less than 100 billion and is at least one drop
+        if (currency && currency.toLowerCase() === 'xrp') {
+          ctrl.$setValidity('rpAmountXrpLimit', value <= 100000000000 && value >= 0.000001);
         } else {
           ctrl.$setValidity('rpAmountXrpLimit', true);
         }

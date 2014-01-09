@@ -192,7 +192,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                         .error(rp-error-on='rpAmountPositive', l10n)
                           | Must be greater than zero
                         .error(rp-error-on='rpAmountXrpLimit', l10n)
-                          | There is a limit of 100 billion XRPs
+                          | Minimum is a drop (0.000001) and maximum is 100 billion XRPs
                   .col-xs-12
                     .value-field
                       label(l10n) Price of Each
@@ -217,7 +217,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                         .error(rp-error-on='rpAmountPositive', l10n)
                           | Must be greater than zero
                         .error(rp-error-on='rpAmountXrpLimit', l10n)
-                          | There is a limit of 100 billion XRPs
+                          | Minimum is a drop (0.000001) and maximum is 100 billion XRPs
                   .col-xs-12
                     .value-field
                       label(l10n) Order Value (max)
@@ -239,8 +239,10 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                       .errorGroup(rp-errors='value')
                         .error(rp-error-on='required', l10n) Required
                         .error(rp-error-on='rpAmount', l10n) Not a valid amount.
-                        .error(rp-error-on='rpAmountPositive', l10n) Must be greater than zero
-                        .error(rp-error-on='rpAmountXrpLimit', l10n) There is a limit of 100 billion XRPs
+                        .error(rp-error-on='rpAmountPositive', l10n)
+                          | Must be greater than zero
+                        .error(rp-error-on='rpAmountXrpLimit', l10n)
+                          | Minimum is a drop (0.000001) and maximum is 100 billion XRPs
                 .message
                   //- Having two very similar blocks just because of
                     translation related issues. (Cannot use the same format for
