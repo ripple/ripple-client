@@ -9,6 +9,7 @@
     {"name": "german", "nativeName": "Deutsch", "code": "de"},
     {"name": "norwegian", "nativeName": "Norsk", "code": "nb"},
     {"name": "slovak", "nativeName": "Slovenská", "code": "sk"},
-    {"name": "catalan", "nativeName": "Català", "code": "ca"}
+    {"name": "catalan", "nativeName": "Català", "code": "ca"},
+    {"name": "hebrew", "nativeName": "עברית", "code": "he"}
   ]
 }
