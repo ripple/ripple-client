@@ -32,16 +32,10 @@ section.col-xs-12.col-md-10.wide.content(ng-controller="SecurityCtrl")
   div
     .infoBox(ng-show="showKeys")
       .part
-        span.value(ng-show="SecretKeyUnmask") {{userCredentials.master_seed}}
-        span.value(ng-hide="SecretKeyUnmask") {{userCredentials.master_seed | rpmask}}
-      rp-confirm(
-        action-text="Are you in a safe place, where no person, or camera can see your screen?"
-        action-button-text="Yes, show me"
-        action-function="SecretKeyUnmask=true"
-        cancel-button-text="No"
-        ng-hide="SecretKeyUnmask")
-          a(href="", ng-hide="SecretKeyUnmask", l10n) Show
-      a(href="", ng-click="SecretKeyUnmask=false", ng-show="SecretKeyUnmask", l10n) Hide
+        span.value(ng-show="security.master_seed") {{security.master_seed}}
+        span.value(ng-hide="security.master_seed") •••••••••••••••••••••••••••••
+        a(href="", ng-click="unmaskSecret()", ng-hide="security.master_seed", l10n) Show
+        a(href="", ng-click="security.master_seed = null", ng-show="security.master_seed", l10n) Hide
   .hint(ng-show="showKeys", l10n) This gives access to your money. DO NOT SHARE THIS WITH ANYONE. Keep it safe. Keep it private.
 
   button.btn.btn-info.show-keys(ng-click="showKeys=true", ng-hide="showKeys", l10n) Show my keys

@@ -13,8 +13,8 @@ var webutil = require("../util/web"),
 
 var module = angular.module('keychain', ['popup']);
 
-module.factory('rpKeychain', ['$rootScope', 'rpPopup', 'rpId',
-                              function ($scope, popup, id)
+module.factory('rpKeychain', ['$rootScope', '$timeout', 'rpPopup', 'rpId',
+                              function ($scope, $timeout, popup, id)
 {
   var Keychain = function ()
   {
@@ -44,9 +44,9 @@ module.factory('rpKeychain', ['$rootScope', 'rpPopup', 'rpId',
     // Handle already unlocked accounts
     if (this.secrets[account]) {
       // Keep the secret in a closure in case it happens to get locked
-      // between now and when setImmediate calls back.
+      // between now and when $timeout calls back.
       var secret = this.secrets[account];
-      setImmediate(function () {
+      $timeout(function () {
         callback(null, secret);
       });
       return;
@@ -94,9 +94,9 @@ module.factory('rpKeychain', ['$rootScope', 'rpPopup', 'rpId',
     // Handle already unlocked accounts
     if (this.secrets[account]) {
       // Keep the secret in a closure in case it happens to get locked
-      // between now and when setImmediate calls back.
+      // between now and when $timeout calls back.
       var secret = this.secrets[account];
-      setImmediate(function () {
+      $timeout(function () {
         callback(null, secret);
       });
       return;

@@ -18,20 +18,43 @@ SecurityTab.prototype.generateHtml = function ()
 
 SecurityTab.prototype.angular = function (module) {
   module.controller('SecurityCtrl', ['$scope', 'rpId', 'rpOldBlob', 'rpTracker',
-                                     function ($scope, $id, $blob, $rpTracker)
+                                     'rpKeychain',
+                                     function ($scope, $id, $blob, $rpTracker,
+                                               keychain)
   {
     if (!$id.loginStatus) return $id.goId();
 
     $scope.$watch('userBlob', updateEnc, true);
+    updateEnc();
+
+    $scope.security = {};
 
     function updateEnc()
     {
-      if ("string" === typeof $id.username &&
-          "string" === typeof $id.password &&
-          $scope.userBlob) {
-        $scope.enc = $blob.enc($id.username.toLowerCase(), $id.password, $scope.userBlob);
+      if ("function" === typeof $scope.userBlob.encrypt) {
+        $scope.enc = $scope.userBlob.encrypt();
       }
     }
+
+    /*
+      rp-confirm(
+        action-text="Are you in a safe place, where no person, or camera can see your screen?"
+        action-button-text="Yes, show me"
+        action-function="SecretKeyUnmask=true"
+        cancel-button-text="No"
+        ng-hide="SecretKeyUnmask")
+     */
+
+    $scope.unmaskSecret = function () {
+      keychain.requestSecret($id.account, $id.username, function (err, secret) {
+        if (err) {
+          // XXX Handle error
+          return;
+        }
+
+        $scope.security.master_seed = secret;
+      });
+    };
   }]);
 };
 
