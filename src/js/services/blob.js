@@ -102,11 +102,13 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
     });
   };
 
-  BlobObj.create = function (url, id, crypt, unlock, account, secret, callback)
+  BlobObj.create = function (url, id, crypt, unlock,
+                             username, account, secret, callback)
   {
     var blob = new BlobObj(url, id, crypt);
     blob.revision = 0;
     blob.data = {
+      auth_secret: sjcl.codec.hex.fromBits(sjcl.random.randomWords(8)),
       encrypted_secret: blob.encryptSecret(unlock, secret),
       account_id: account,
       contacts: [],
@@ -119,11 +121,12 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
       dataType: 'json',
       data: {
         blob_id: id,
-        data: blob.encrypt(),
+        username: username,
         address: account,
         signature: "",
         pubkey: "",
-        auth_secret: ""
+        auth_secret: blob.data.auth_secret,
+        data: blob.encrypt()
       },
       timeout: 8000
     })

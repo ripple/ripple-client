@@ -211,7 +211,7 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
 
     var account = (new RippleAddress(masterkey)).getAddress();
 
-    $authflow.register(username.toLowerCase(), password, account, masterkey, function (err, blob, keys) {
+    $authflow.register(username, password, account, masterkey, function (err, blob, keys) {
       if (err) {
         console.log("client: id: registration failed:", (err && err.stack) ? err.stack : err);
         callback(err);

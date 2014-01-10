@@ -18,25 +18,16 @@ module.factory('rpAuthFlow', ['$rootScope', 'rpAuthInfo', 'rpKdf', 'rpBlob',
     getAuthInfo();
 
     function getAuthInfo() {
-      $authinfo.get(Options.domain, username, getBlob);
+      $authinfo.get(Options.domain, username, processResult);
     }
 
-    // XXX Instead of getting blob we should have some dedicated API endpoint
-    //     to query whether a username exists or not.
-    function getBlob(err, authInfo) {
+    function processResult(err, authInfo) {
       if (err) {
         callback(err);
         return;
       }
 
-      AuthFlow.getLoginKeys(authInfo, username, password, function (err, keys) {
-        if (err) {
-          callback(err);
-          return;
-        }
-
-        $blob.get(authInfo.blobvault, keys.id, callback);
-      });
+      callback(null, !!authInfo.exists);
     }
   };
 
@@ -47,6 +38,16 @@ module.factory('rpAuthFlow', ['$rootScope', 'rpAuthInfo', 'rpKdf', 'rpBlob',
       $authinfo.get(Options.domain, username, function (err, authInfo) {
         if (err) {
           callback(err);
+          return;
+        }
+
+        if (!authInfo.exists) {
+          callback(new Error("User does not exist."));
+          return;
+        }
+
+        if ("string" !== typeof authInfo.blobvault) {
+          callback(new Error("No blobvault specified in the authinfo."));
           return;
         }
 
@@ -88,6 +89,11 @@ module.factory('rpAuthFlow', ['$rootScope', 'rpAuthInfo', 'rpKdf', 'rpBlob',
           return;
         }
 
+        if ("string" !== typeof authInfo.blobvault) {
+          callback(new Error("No blobvault specified in the authinfo."));
+          return;
+        }
+
         getLoginKeys(authInfo);
       });
     }
@@ -118,6 +124,7 @@ module.factory('rpAuthFlow', ['$rootScope', 'rpAuthInfo', 'rpKdf', 'rpBlob',
       $blob.create(authInfo.blobvault,
                    loginKeys.id, loginKeys.crypt,
                    unlockKeys.unlock,
+                   username,
                    account, secret,
                    function (err, blob) {
         if (err) {
@@ -138,6 +145,16 @@ module.factory('rpAuthFlow', ['$rootScope', 'rpAuthInfo', 'rpKdf', 'rpBlob',
       $authinfo.get(Options.domain, username, function (err, authInfo) {
         if (err) {
           callback(err);
+          return;
+        }
+
+        if (!authInfo.exists) {
+          callback(new Error("User does not exist."));
+          return;
+        }
+
+        if ("string" !== typeof authInfo.blobvault) {
+          callback(new Error("No blobvault specified in the authinfo."));
           return;
         }
 
@@ -165,6 +182,16 @@ module.factory('rpAuthFlow', ['$rootScope', 'rpAuthInfo', 'rpKdf', 'rpBlob',
       $authinfo.get(Options.domain, username, function (err, authInfo) {
         if (err) {
           callback(err);
+          return;
+        }
+
+        if (!authInfo.exists) {
+          callback(new Error("User does not exist."));
+          return;
+        }
+
+        if ("string" !== typeof authInfo.blobvault) {
+          callback(new Error("No blobvault specified in the authinfo."));
           return;
         }
 
@@ -207,7 +234,9 @@ module.factory('rpAuthFlow', ['$rootScope', 'rpAuthInfo', 'rpKdf', 'rpBlob',
       //     authInfo.pakdf.modulus
       //     authInfo.pakdf.exponent
       //     authInfo.pakdf.alpha
-      $kdf.deriveRemotely(authInfo.pakdf, username, remoteToken, password,
+      $kdf.deriveRemotely(authInfo.pakdf,
+                          username.toLowerCase(), remoteToken,
+                          password,
                           function (err, key) {
                             if (err) {
                               callback(err);
