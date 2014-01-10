@@ -1,5 +1,11 @@
 var pairs = require('../data/pairs');
 
+/**
+ * Calculate executed order price
+ *
+ * @param effect
+ * @returns {*}
+ */
 var getPrice = function(effect){
   var g = effect.got ? effect.got : effect.gets;
   var p = effect.paid ? effect.paid : effect.pays;
@@ -16,6 +22,25 @@ var getPrice = function(effect){
   }
 
   return price;
+};
+
+/**
+ * Determine if the transaction is a "rippling" transaction based on effects
+ *
+ * @param effects
+ */
+var isRippling = function(effects){
+  if (
+    effects
+    && effects.length
+    && 2 === effects.length
+    && 'trust_change_balance' == effects[0].type
+    && 'trust_change_balance' == effects[1].type
+    && effects[0].currency == effects[1].currency
+    && !effects[0].amount.compareTo(effects[1].amount.negate())
+  ) {
+    return true;
+  }
 };
 
 /**
@@ -118,9 +143,14 @@ var JsonRewriter = module.exports = {
    * processTxn returns main purpose of transaction and side effects.
    *
    * Main purpose
+   *  Real transaction names
    *  - Payment (sent/received/convert)
    *  - TrustSet (trusting/trusted)
    *  - OfferCreate (offernew)
+   *
+   *  Virtual transaction names
+   *  - Failed
+   *  - Rippling
    *
    * Side effects
    *  - balance_change
@@ -455,6 +485,14 @@ var JsonRewriter = module.exports = {
     // If the transaction didn't wind up cancelling an offer
     if (tx.TransactionType === 'OfferCancel' && (!obj.transaction.gets || !obj.transaction.pays)) {
       return;
+    }
+
+    // Rippling transaction
+    if (isRippling(obj.effects)) {
+      if (!obj.transaction) {
+        obj.transaction = {};
+      }
+      obj.transaction.type = 'rippling';
     }
 
     obj.tx_type = tx.TransactionType;
