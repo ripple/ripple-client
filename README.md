@@ -61,3 +61,7 @@ Keep track of development and community news.
 ## More information
 
 * https://ripple.com/wiki/Ripple_Client
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/ripple/ripple-client/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
