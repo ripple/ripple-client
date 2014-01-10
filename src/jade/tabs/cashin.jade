@@ -189,7 +189,7 @@ section.col-xs-12.col-md-10.content(ng-controller="CashinCtrl")
               .form-group
                 label.control-label.col-sm-4(for='ssn', l10n) Last 4 digits of your SSN
                 .col-sm-8
-                  input.form-control#ssn(name='ssn', type='number', ng-model='form.ssn'
+                  input.form-control#ssn(name='ssn', type='text', ng-model='form.ssn'
                   required, ng-minlength="4", ng-maxlength="4")
                   .errorGroup(rp-errors='ssn')
                     .error(rp-error-on='required', l10n)
