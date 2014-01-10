@@ -484,7 +484,8 @@ var JsonRewriter = module.exports = {
       return;
 
     // If the transaction didn't wind up cancelling an offer
-    if (tx.TransactionType === 'OfferCancel' && (!obj.transaction.gets || !obj.transaction.pays)) {
+    if (tx.TransactionType === 'OfferCancel' && obj.transaction &&
+      (!obj.transaction.gets || !obj.transaction.pays)) {
       return;
     }
 
