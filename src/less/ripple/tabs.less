@@ -39,6 +39,39 @@
 }
 
 #t-register {
+  .mode-form {
+    .username-status {
+      @media (min-width: 768px) {
+        margin-top: 30px;
+      }
+      line-height: 42px;
+      padding-left: 10px;
+
+      .spinnerInner {
+        top: 21px !important;
+      }
+
+      &.reserved, &.exists, &.invalid {
+        color: #a94442;
+        border-left: 3px solid #eed3d7;
+        background-color: #fdf7f7;
+      }
+
+      &.ok {
+        color: #3c763d;
+        border-left: 3px solid #d6e9c6;
+        background-color: #ebff7e6;
+      }
+
+      i {
+        color: #999;
+      }
+
+      .popover {
+        color: #333;
+      }
+    }
+  }
   .mode-welcome {
     .important {
       font: 16px 'OpenSansLight';
