@@ -46,7 +46,7 @@ SecurityTab.prototype.angular = function (module) {
      */
 
     $scope.unmaskSecret = function () {
-      keychain.requestSecret($id.account, $id.username, function (err, secret) {
+      keychain.requestSecret($id.account, $id.username, 'showSecret', function (err, secret) {
         if (err) {
           // XXX Handle error
           return;

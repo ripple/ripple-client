@@ -6,7 +6,9 @@ form(role="form", ng-submit="confirm()")
       input.form-control#popup_unlock_password(
         type="password", name="popup_unlock_password"
         ng-model="unlock.password")
-    p.help-block Please enter your password to confirm this transaction.
+    p.help-block(ng-switch on="unlock.purpose")
+      span(ng-switch-when="showSecret", l10n) Please enter your password to show your Secret Key.
+      span(ng-switch-default, l10n) Please enter your password to confirm this transaction.
     .alert.alert-danger(ng-show="unlock.error == 'password'") This password is incorrect, please try again.
     p.literal(ng-show="unlock.isConfirming", rp-spinner="4") Confirming password
   .modal-footer

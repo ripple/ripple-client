@@ -38,8 +38,13 @@ module.factory('rpKeychain', ['$rootScope', '$timeout', 'rpPopup', 'rpId',
    * If the user cancels the operation, the method will call the callback with
    * an error.
    */
-  Keychain.prototype.requestSecret = function (account, username, callback) {
+  Keychain.prototype.requestSecret = function (account, username, purpose, callback) {
     var _this = this;
+
+    if ("function" === typeof purpose) {
+      callback = purpose;
+      purpose = null;
+    }
 
     // Handle already unlocked accounts
     if (this.secrets[account]) {
@@ -55,7 +60,8 @@ module.factory('rpKeychain', ['$rootScope', '$timeout', 'rpPopup', 'rpId',
     var popupScope = $scope.$new();
     var unlock = popupScope.unlock = {
       isConfirming: false,
-      password: ''
+      password: '',
+      purpose: purpose
     };
     popupScope.confirm = function () {
       unlock.isConfirming = true;
