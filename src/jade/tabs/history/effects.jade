@@ -33,10 +33,14 @@ ul.effects(ng-show="entry.effects")
       span(ng-hide="effect.deleted", l10n)  This order has
         span  {{effect.remaining | rpamount}} {{effect.remaining | rpcurrency}}
         |  remaining.
-    span(ng-switch-when="offer_cancelled", l10n) You cancelled an offer accepting&#32;
+    //- We don't show this if it's an offer_cancel transaction.
+    //- Instead we show it if the offer has been cancelled because of luck of
+    //- funds by some other non related transaction.
+    span(ng-switch-when="offer_cancelled", l10n) Offer (
       strong {{effect.pays | rpamount}} {{effect.pays | rpcurrency}}
       |  for&#32;
       strong {{effect.gets | rpamount}} {{effect.gets | rpcurrency}}
+      | ) has been cancelled due to lack of funds.
     span(ng-switch-when="offer_created")
       span(ng-show="effect.sell", l10n) You created an offer to sell&#32;
         strong {{effect.pays | rpamount}} {{effect.gets | rpcurrency}}

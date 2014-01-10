@@ -147,6 +147,7 @@ var JsonRewriter = module.exports = {
    *  - Payment (sent/received/convert)
    *  - TrustSet (trusting/trusted)
    *  - OfferCreate (offernew)
+   *  - OfferCancel (offercancel)
    *
    *  Virtual transaction names
    *  - Failed

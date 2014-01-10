@@ -260,8 +260,8 @@ HistoryTab.prototype.angular = function (module) {
                 case 'offer_funded':
                 case 'offer_partially_funded':
                 case 'offer_bought':
-                case 'offer_canceled':
-                  if (effect.type === 'offer_canceled' && event.transaction.type === 'offerCancel') {
+                case 'offer_cancelled':
+                  if (effect.type === 'offer_cancelled' && event.transaction && event.transaction.type === 'offercancel') {
                     return;
                   }
                   effects.push(effect);
