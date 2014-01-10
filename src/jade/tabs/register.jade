@@ -51,7 +51,7 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
           span(l10n) Help Ripple Labs make a better product through sending anonymous client usage data.
         .row
           .col-sm-5.col-lg-4
-            button.btn.btn-block.btn-success(type='submit', ng-disabled='registerForm.$invalid || submitLoading')
+            button.btn.btn-block.btn-success(type='submit', ng-disabled='registerForm.$invalid || submitLoading', rp-spinner='{{submitLoading ? 4 : null}}')
               span(ng-show="submitLoading", l10n) Loading...
               span(ng-hide="submitLoading", l10n) Create Wallet
         .row
@@ -67,6 +67,16 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
     .col-xs-12.col-md-10.col-md-offset-1
       h1(l10n) This wallet already exists!
       p.literal(l10n) There is already a wallet using this username, please choose a different username and try again.
+      p
+        button.btn.btn-primary(ng-click='mode="form"', l10n) Back
+
+  .row.mode-masterkeyerror(ng-show='mode=="failed"')
+    .col-xs-12.col-md-10.col-md-offset-1
+      h1(l10n) Registration failed!
+      p.literal(l10n) An error occurred during registration. Please try again later.
+      p.literal(l10n) The reported error was:
+        | &#32;
+        span(ng-bind="error_detail")
       p
         button.btn.btn-primary(ng-click='mode="form"', l10n) Back
 

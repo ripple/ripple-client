@@ -49,7 +49,9 @@ RegisterTab.prototype.angular = function (module) {
     {
       $id.register($scope.username, $scope.password1, function(err, key){
         if (err) {
-          // XXX Handle error!
+          $scope.mode = "failed";
+          $scope.error_detail = err.message;
+          return;
         }
         $scope.password = new Array($scope.password1.length+1).join("*");
         $scope.keyOpen = key;
