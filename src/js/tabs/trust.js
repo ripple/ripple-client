@@ -72,12 +72,15 @@ TrustTab.prototype.angular = function (module)
         $scope.addform_visible = true;
     };
 
-    // User should not be able to even try to make a trust if the reserve is insufficient
+    // User should not even be able to try grunting a trust if the reserve is insufficient
     $scope.$watch('account', function() {
       $scope.can_add_trust = false;
       if ($scope.account.Balance && $scope.account.reserve_to_add_trust) {
-        if ($scope.account.reserve_to_add_trust.subtract($scope.account.Balance).is_negative())
+        if (!$scope.account.reserve_to_add_trust.subtract($scope.account.Balance).is_positive()
+          || $.isEmptyObject($scope.lines))
+        {
           $scope.can_add_trust = true;
+        }
       }
     }, true);
 

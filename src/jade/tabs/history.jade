@@ -96,7 +96,7 @@ section.col-xs-12.col-md-10.content(ng-controller="HistoryCtrl")
               i.fa.fa-arrow-up(ng-show="entry.transaction.type=='sent'")
               i.fa.fa-download.fa-rotate-90(ng-show="entry.transaction.type=='trusted'")
               i.fa.fa-download.fa-rotate-270(ng-show="entry.transaction.type=='trusting'")
-              i.fa.fa-exchange(ng-show="!entry.transaction.type || entry.transaction.type=='offernew' || entry.transaction.type=='offercancel' || entry.transaction.type=='convert'")
+              i.fa.fa-exchange(ng-show="!entry.transaction.type || entry.transaction.type=='offernew' || entry.transaction.type=='offercancel' || entry.transaction.type=='convert' || entry.transaction.type=='rippling'")
               i.fa.fa-cogs(ng-show="entry.transaction.type=='accountset'")
             span.dt {{entry.date | date:'EEE, MMM d, h:mm a'}}
             span.desc(ng-switch on="entry.transaction.type")
@@ -128,6 +128,7 @@ section.col-xs-12.col-md-10.content(ng-controller="HistoryCtrl")
                   span.address(title="{{entry.transaction.counterparty}}") {{entry.transaction.counterparty | rpcontactname}}
                   |  for&#32;
                   strong {{entry.transaction.amount | rpamount}} {{entry.transaction.amount | rpcurrency}}
+                  | .
                 != require("./history/effects.jade")()
               span(ng-switch-when="offernew")
                 span(ng-show="entry.transaction.sell", l10n) You created an offer to sell&#32;
@@ -147,6 +148,9 @@ section.col-xs-12.col-md-10.content(ng-controller="HistoryCtrl")
                 != require("./history/effects.jade")()
               span(ng-switch-when="accountset")
                 span(l10n) Account details have been Changed
+                != require("./history/effects.jade")()
+              span(ng-switch-when="rippling")
+                span(l10n) Rippling
                 != require("./history/effects.jade")()
               span(ng-switch-when="failed", l10n) Failed transaction
               span(ng-switch-default)

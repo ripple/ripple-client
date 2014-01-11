@@ -43,8 +43,12 @@ BalanceTab.prototype.angular = function (module)
             || effect.type == 'offer_partially_funded'
             || effect.type == 'offer_bought'
             || effect.type == 'trust_change_no_ripple'
-            || (effect.type === 'offer_canceled' &&
-              event.transaction.type !== 'offercancel')) {
+            || effect.type === 'offer_cancelled')
+          {
+            if (effect.type === 'offer_cancelled' && event.transaction
+              && event.transaction.type === 'offercancel') {
+              return
+            }
             effects.push(effect);
           }
         });

@@ -61,7 +61,7 @@ HistoryTab.prototype.angular = function (module) {
         'checked': true
       },
       other: {
-        'types': ['accountset','failed'],
+        'types': ['accountset','failed','rippling'],
         'checked': true
       }
     };
@@ -79,7 +79,7 @@ HistoryTab.prototype.angular = function (module) {
       $scope.filters = {
         'currencies_is_active': false, // we do the currency filter only if this is true, which happens when at least one currency is off
         'currencies': {},
-        'types': ['sent','received','convert','trusting','trusted','offernew','offercancel'],
+        'types': ['sent','received','convert','trusting','trusted','offernew','offercancel','rippling'],
         'minimumAmount': 0.000001
       };
     }
@@ -260,8 +260,8 @@ HistoryTab.prototype.angular = function (module) {
                 case 'offer_funded':
                 case 'offer_partially_funded':
                 case 'offer_bought':
-                case 'offer_canceled':
-                  if (effect.type === 'offer_canceled' && event.transaction.type === 'offerCancel') {
+                case 'offer_cancelled':
+                  if (effect.type === 'offer_cancelled' && event.transaction && event.transaction.type === 'offercancel') {
                     return;
                   }
                   effects.push(effect);
