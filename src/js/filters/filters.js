@@ -55,7 +55,7 @@ module.filter('rpamount', function () {
 
     // If amount is very small and only has zeros (ex. 0.0000), raise precision
     // to make it useful.
-    if (out.length > 1 && 0 == out && !opts.hard_precision) {
+    if (out.length > 1 && 0 === +out && !opts.hard_precision) {
       opts.precision = 20;
 
       out = amount.to_human(opts);
