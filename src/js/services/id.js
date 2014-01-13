@@ -170,7 +170,7 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', 'rp
 
   Id.prototype.storeLogin = function (username, password)
   {
-    if (Options.persistent_auth) {
+    if (Options.persistent_auth && !store.disabled) {
       store.set('ripple_auth', {username: username, password: password});
     }
   };

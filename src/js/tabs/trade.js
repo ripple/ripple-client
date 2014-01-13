@@ -104,7 +104,9 @@ TradeTab.prototype.angular = function(module)
     $scope.setListing = function(listing){
       $scope.order.listing = listing;
 
-      store.set('ripple_trade_listing', listing);
+      if (!store.disabled) {
+        store.set('ripple_trade_listing', listing);
+      }
     };
 
     /**
@@ -572,7 +574,9 @@ TradeTab.prototype.angular = function(module)
     });
 
     $scope.$watch('order.currency_pair', function (pair) {
-      store.set('ripple_trade_currency_pair', pair);
+      if (!store.disabled) {
+        store.set('ripple_trade_currency_pair', pair);
+      }
       updateSettings();
       resetIssuers(true);
     }, true);

@@ -131,7 +131,9 @@ app.config(['$routeProvider', '$injector', function ($routeProvider, $injector) 
 
       if (lang == 'en') lang = '';
 
-      store.set('ripple_language',lang ? lang : '');
+      if (!store.disabled) {
+        store.set('ripple_language',lang ? lang : '');
+      }
 
       // problem?
       // reload will not work, as some pages are also available for guests.

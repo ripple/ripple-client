@@ -173,12 +173,16 @@ HistoryTab.prototype.angular = function (module) {
       });
       $scope.filters.types = arr;
 
-      store.set('ripple_history_type_selections', checked);
+      if (!store.disabled) {
+        store.set('ripple_history_type_selections', checked);
+      }
     }, true);
 
-    $scope.$watch('filters', function(){
-      store.set('ripple_history_filters', $scope.filters);
-    }, true);
+    if (!store.disabled) {
+      $scope.$watch('filters', function(){
+        store.set('ripple_history_filters', $scope.filters);
+      }, true);
+    }
 
     $scope.$watch('filters.types', function(){
       updateHistory();

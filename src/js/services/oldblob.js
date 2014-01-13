@@ -190,7 +190,9 @@ module.factory('rpOldBlob', ['$rootScope', function ($scope)
 
     set: function (key, value, callback)
     {
-      store.set('ripple_blob_'+key, value);
+      if (!store.disabled) {
+        store.set('ripple_blob_'+key, value);
+      }
       callback();
     }
   };
