@@ -530,8 +530,11 @@ TradeTab.prototype.angular = function(module)
       var second_issuer = $scope.order.second_issuer;
 
       var canBuy = second_currency.toUpperCase() === 'XRP' ||
+          second_issuer == $scope.address ||
           ($scope.lines[second_issuer+second_currency] && $scope.lines[second_issuer+second_currency].balance.is_positive());
+
       var canSell = first_currency.toUpperCase() === 'XRP' ||
+          first_issuer == $scope.address ||
           ($scope.lines[first_issuer+first_currency] && $scope.lines[first_issuer+first_currency].balance.is_positive());
 
       $scope.order.buy.showWidget = canBuy;
