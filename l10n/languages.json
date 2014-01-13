@@ -10,6 +10,9 @@
     {"name": "norwegian", "nativeName": "Norsk", "code": "nb"},
     {"name": "slovak", "nativeName": "Slovenská", "code": "sk"},
     {"name": "catalan", "nativeName": "Català", "code": "ca"},
-    {"name": "hebrew", "nativeName": "עברית", "code": "he"}
+    {"name": "hebrew", "nativeName": "עברית", "code": "he"},
+    {"name": "russian", "nativeName": "Русский", "code": "ru"},
+    {"name": "romanian", "nativeName": "Român", "code": "ro"},
+    {"name": "japanese", "nativeName": "日本の", "code": "ja"}
   ]
 }
