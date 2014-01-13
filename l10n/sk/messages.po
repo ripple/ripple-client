@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Ripple Client\n"
-"PO-Revision-Date: 2014-01-09 00:02+0000\n"
-"Last-Translator: Teachmegently <tarabcakr@gmail.com>\n"
+"PO-Revision-Date: 2014-01-10 12:06+0000\n"
+"Last-Translator: romcok <bejvas.jod@gmail.com>\n"
 "Language-Team: Slovak (http://www.transifex.com/projects/p/ripple-client/language/sk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -56,7 +56,7 @@ msgstr "Odoslať"
 #: src/jade/client/index.jade:19 src/jade/client/index.jade:52
 #: src/jade/tabs/convert.jade:22
 msgid "Receive"
-msgstr "Prijať."
+msgstr "Prijať"
 
 #: src/jade/client/index.jade:23 src/jade/client/index.jade:55
 msgid "Trade"
@@ -77,7 +77,7 @@ msgstr "Nastavenia"
 
 #: src/jade/client/index.jade:72
 msgid "Terms of Service"
-msgstr "Podmienky služby"
+msgstr "Podmienky používania"
 
 #: src/jade/client/index.jade:73
 msgid "Support"
@@ -93,15 +93,15 @@ msgstr "viac..."
 
 #: src/jade/client/status.jade:10
 msgid "logout"
-msgstr "Odhlásiť"
+msgstr "odhlásiť"
 
 #: src/jade/client/status.jade:12
 msgid "Loading your balance..."
-msgstr "Načítava sa Váš stav účtu..."
+msgstr "Načítanie zostatku na účte..."
 
 #: src/jade/client/status.jade:14
 msgid "Unfunded account"
-msgstr "Prázdny účet."
+msgstr "Prázdny účet"
 
 #: src/jade/directives/transactionerror.jade:4 src/jade/tabs/convert.jade:104
 #: src/jade/tabs/send.jade:221
@@ -110,7 +110,7 @@ msgstr "Vaša transakcia bola potvrdená."
 
 #: src/jade/directives/transactionerror.jade:5
 msgid "Your account balance will update once the transaction has cleared."
-msgstr "Váš zostatok na účte bude aktualizovaný, hneď ako bude platba pripísaná."
+msgstr "Zostatok na účte bude upravený po dokončení transakcie."
 
 #: src/jade/directives/transactionerror.jade:7 src/jade/tabs/convert.jade:107
 #: src/jade/tabs/send.jade:224
@@ -154,8 +154,8 @@ msgstr "Cieľový účet vyžaduje zadať cieľovú značku pri realizácií pla
 #: src/jade/directives/transactionerror.jade:44 src/jade/tabs/convert.jade:126
 #: src/jade/tabs/convert.jade:135 src/jade/tabs/convert.jade:142
 #: src/jade/tabs/send.jade:243 src/jade/tabs/send.jade:249
-#: src/jade/tabs/send.jade:258 src/jade/tabs/trade.jade:247
-#: src/jade/tabs/trade.jade:261 src/jade/tabs/trust.jade:160
+#: src/jade/tabs/send.jade:258 src/jade/tabs/trade.jade:249
+#: src/jade/tabs/trade.jade:263 src/jade/tabs/trust.jade:160
 msgid "Transaction failed!"
 msgstr "Transakcia zlyhala!"
 
@@ -190,11 +190,11 @@ msgstr "Pri tejto mene nemáte žiadnu dôveru."
 msgid ""
 "Your transaction failed to clear: {{engine_result}} - "
 "{{engine_result_message}}"
-msgstr "Vašu transakciu sa nepodarilo odstrániť: {{engine_result}} - {{engine_result_message}}"
+msgstr "Vašu transakciu sa nepodarilo dokončiť: {{engine_result}} - {{engine_result_message}}"
 
 #: src/jade/directives/transactionerror.jade:46
 msgid "Ripple client gave up trying to submit this transaction."
-msgstr "Ripple klient zastavil pokusy na odoslanie transkacie."
+msgstr "Ripple klient ukončil pokusy na odoslanie transkacie."
 
 #: src/jade/directives/transactionerror.jade:48
 msgid ""
@@ -208,7 +208,7 @@ msgstr "Odoslali ste {{1}} {{2}} {{3}}"
 
 #: src/jade/notification/account.jade:11
 msgid "{{tx.counterparty | rpcontactname}} sent you"
-msgstr "{{tx.counterparty | rpcontactname}} vám poslal/a"
+msgstr "{{tx.counterparty | rpcontactname}} vám odoslal/a"
 
 #: src/jade/notification/account.jade:18
 msgid "{{tx.counterparty | rpcontactname}} now trusts you for"
@@ -225,10 +225,10 @@ msgstr "Odteraz dôverujete {{tx.counterparty | rpcontactname}} na"
 msgid "You have to be online to see this screen"
 msgstr "Pre zobrazenie tejto stránky musíte byť pripojený"
 
-#: src/jade/tabs/balance.jade:10 src/jade/tabs/balance.jade:121
+#: src/jade/tabs/balance.jade:10 src/jade/tabs/balance.jade:126
 #: src/jade/tabs/cashin.jade:10 src/jade/tabs/cashin.jade:37
 #: src/jade/tabs/cashin.jade:196 src/jade/tabs/cashin.jade:255
-#: src/jade/tabs/convert.jade:10 src/jade/tabs/history.jade:175
+#: src/jade/tabs/convert.jade:10 src/jade/tabs/history.jade:179
 #: src/jade/tabs/register.jade:47 src/jade/tabs/trust.jade:10
 msgid "Loading..."
 msgstr "Načítanie..."
@@ -259,9 +259,9 @@ msgid "You sent {{1}} {{2}}"
 msgstr "Odoslali ste {{1}} {{2}}"
 
 #: src/jade/tabs/balance.jade:50 src/jade/tabs/balance.jade:59
-#: src/jade/tabs/balance.jade:77 src/jade/tabs/balance.jade:88
+#: src/jade/tabs/balance.jade:77 src/jade/tabs/balance.jade:90
 msgid "Add to contacts"
-msgstr "Pridať kontakt"
+msgstr "Pridať do kontaktov"
 
 #: src/jade/tabs/balance.jade:55
 msgid "{{entry.transaction.counterparty | rpcontactname}} sent you"
@@ -275,42 +275,46 @@ msgstr "Žiadate zmenu {{1}} za {{2}}"
 msgid "{{entry.transaction.counterparty | rpcontactname}} now trusts you for"
 msgstr "{{entry.transaction.counterparty | rpcontactname}} vám dôveruje na"
 
-#: src/jade/tabs/balance.jade:82
-msgid "You now trust {{1}} {{2}}"
-msgstr "Práve veríte {{1}} {{2}}"
+#: src/jade/tabs/balance.jade:82 src/jade/tabs/history.jade:124
+#: src/jade/tabs/history/effects.jade:63
+msgid "You now trust {{1}} for {{2}}."
+msgstr "Od teraz dôverujete {{1}} za {{2}}."
 
-#: src/jade/tabs/balance.jade:93 src/jade/tabs/history.jade:130
-#: src/jade/tabs/history/effects.jade:39
+#: src/jade/tabs/balance.jade:95 src/jade/tabs/history.jade:131
+#: src/jade/tabs/history/effects.jade:45
 msgid "You created an offer to sell {{1}} for {{2}}"
-msgstr ""
+msgstr "Vytvorili ste ponuku na predaj {{1}} za {{2}}"
 
-#: src/jade/tabs/balance.jade:97 src/jade/tabs/history.jade:134
-#: src/jade/tabs/history/effects.jade:43
+#: src/jade/tabs/balance.jade:99 src/jade/tabs/history.jade:135
+#: src/jade/tabs/history/effects.jade:49
 msgid "You created an offer to buy {{1}} for {{2}}"
-msgstr ""
+msgstr "Vytvorili ste ponuku na nákup {{1}} za {{2}}"
 
-#: src/jade/tabs/balance.jade:103 src/jade/tabs/history.jade:140
-#: src/jade/tabs/history/effects.jade:34
+#: src/jade/tabs/balance.jade:105 src/jade/tabs/history.jade:141
 msgid "You cancelled an offer accepting {{1}} for {{2}}"
-msgstr "Zrušili ste ponuku akceptujúcu {{1}} za {{2}}"
+msgstr "Zrušili ste príkaz akceptujúci {{1}} za {{2}}"
 
-#: src/jade/tabs/balance.jade:110
+#: src/jade/tabs/balance.jade:112
 msgid "Account details have been changed"
 msgstr "Informácie o účte boli zmenené"
 
-#: src/jade/tabs/balance.jade:112 src/jade/tabs/history.jade:148
+#: src/jade/tabs/balance.jade:115 src/jade/tabs/history.jade:150
+msgid "Rippling"
+msgstr "Rippling"
+
+#: src/jade/tabs/balance.jade:117 src/jade/tabs/history.jade:152
 msgid "Failed transaction"
 msgstr "Transakcia neúspešná"
 
-#: src/jade/tabs/balance.jade:120 src/jade/tabs/history.jade:177
+#: src/jade/tabs/balance.jade:125 src/jade/tabs/history.jade:181
 msgid "Load more"
 msgstr "Načítať viac"
 
-#: src/jade/tabs/balance.jade:122
+#: src/jade/tabs/balance.jade:127
 msgid "Error"
 msgstr "Chyba"
 
-#: src/jade/tabs/balance.jade:123
+#: src/jade/tabs/balance.jade:128
 msgid "No past transactions found"
 msgstr "Neboli nájdené žiadne predchádzajúce transakcie"
 
@@ -380,7 +384,7 @@ msgstr "Zadajte PSČ."
 
 #: src/jade/tabs/cashin.jade:143
 msgid "Country code"
-msgstr ""
+msgstr "Kód krajiny"
 
 #: src/jade/tabs/cashin.jade:147
 msgid "Please enter your country code."
@@ -433,7 +437,7 @@ msgstr "Zadajte posledné 4 číslice vášeho DIČ"
 
 #: src/jade/tabs/cashin.jade:192 src/jade/tabs/contacts.jade:35
 #: src/jade/tabs/contacts.jade:73 src/jade/tabs/send.jade:209
-#: src/jade/tabs/send.jade:280 src/jade/tabs/trade.jade:306
+#: src/jade/tabs/send.jade:280 src/jade/tabs/trade.jade:308
 #: src/jade/tabs/trust.jade:76
 msgid "Cancel"
 msgstr "Zrušiť"
@@ -506,13 +510,13 @@ msgstr "Uložiť"
 
 #: src/jade/tabs/contacts.jade:71
 msgid "Edit"
-msgstr "Zmeniť"
+msgstr "Upraviť"
 
 #: src/jade/tabs/contacts.jade:76
 msgid ""
 "You don't have any contacts yet.Click on \"Add contact\" button in the top "
 "right corner to add a new contact."
-msgstr "Momentálne nemáte žiadne kontakty. Na pridanie nového kontaktu kliknite na tlačidlo \"Pridať kontakt\" v pravom hornom rohu."
+msgstr "Nemáte žiadne kontakty. Na pridanie nového kontaktu kliknite na tlačidlo \"Pridať kontakt\" v pravom hornom rohu."
 
 #: src/jade/tabs/convert.jade:13
 msgid "You have to be funded before you can convert money"
@@ -549,11 +553,11 @@ msgid ""
 "Sorry! Cannot convert {{convert.amount}} {{convert.currency}}. Please make "
 "sure your account has enough funds, and a {{1}} to a {{convert.currency}} "
 "gateway."
-msgstr "Prepáčte! Nie je možné vymeniť {{convert.amount}} {{convert.currency}}. Prosím uistite sa, že váš účet má zostatok prostriedkov a {{1}} pre {{convert.currency}} platobnú bránu."
+msgstr "Prepáčte! Nie je možné zmeniť {{convert.amount}} {{convert.currency}}. Prosím uistite sa, že váš účet má dostatok prostriedkov a {{1}} pre {{convert.currency}} platobnú bránu."
 
 #: src/jade/tabs/convert.jade:40 src/jade/tabs/send.jade:112
 msgid "Error while calculating path"
-msgstr "Chyba pri výpočte cesty."
+msgstr "Chyba pri výpočte cesty"
 
 #: src/jade/tabs/convert.jade:49
 msgid "Convert {{ alt.amount | rpcurrency }}"
@@ -567,18 +571,18 @@ msgstr "Ripple vypočítava cestu pre vašu transakciu."
 msgid ""
 "{{1:You are converting}}{{2}}{{3:to}}{{4}}{{5:You will pay at "
 "most}}{{6}}{{7:Are you sure?}}"
-msgstr "{{1:You are converting}}{{2}}{{3:to}}{{4}}{{5:You will pay at most}}{{6}}{{7:Are you sure?}}"
+msgstr "{{1:Meníte}}{{2}}{{3:za}}{{4}}{{5:Zaplatíte aspoň}}{{6}}{{7:Ste si istý?}}"
 
 #: src/jade/tabs/convert.jade:76 src/jade/tabs/convert.jade:98
 #: src/jade/tabs/send.jade:160 src/jade/tabs/send.jade:188
-#: src/jade/tabs/trade.jade:223 src/jade/tabs/trust.jade:114
+#: src/jade/tabs/trade.jade:225 src/jade/tabs/trust.jade:114
 #: src/jade/tabs/trust.jade:134
 msgid "&laquo; Back"
 msgstr "&laquo; Späť"
 
 #: src/jade/tabs/convert.jade:78 src/jade/tabs/send.jade:163
 #: src/jade/tabs/trade.jade:50 src/jade/tabs/trade.jade:60
-#: src/jade/tabs/trade.jade:225 src/jade/tabs/trust.jade:116
+#: src/jade/tabs/trade.jade:227 src/jade/tabs/trust.jade:116
 msgid "Confirm"
 msgstr "Potvrdiť"
 
@@ -614,7 +618,7 @@ msgstr "Pred opätovným skúsením sa uistite, že vaša transakcia nebola usku
 
 #: src/jade/tabs/convert.jade:105 src/jade/tabs/send.jade:222
 msgid "Your account balance will update once the payment has cleared."
-msgstr "Zostatok na vašom účte sa aktualizuje po dokončení platby."
+msgstr "Zostatok na účte bude upravený po dokončení platby."
 
 #: src/jade/tabs/convert.jade:112 src/jade/tabs/send.jade:229
 msgid "Transaction could not be submitted!"
@@ -631,7 +635,7 @@ msgid "Your transaction failed to clear, reason: {{engine_result_message}}"
 msgstr "Vašu transakciu sa nepodarilo dokončiť, dôvod: {{engine_result_message}}"
 
 #: src/jade/tabs/convert.jade:144 src/jade/tabs/send.jade:245
-#: src/jade/tabs/trade.jade:263 src/jade/tabs/trust.jade:162
+#: src/jade/tabs/trade.jade:265 src/jade/tabs/trust.jade:162
 msgid ""
 "The particular server you sent the transaction to was too busy to forward or"
 " process your transaction at the fee you included in it."
@@ -679,7 +683,7 @@ msgstr "Minimálna čiastka: {{1}}{{2}}{{3}}"
 
 #: src/jade/tabs/history.jade:57
 msgid "Load history for specific date range"
-msgstr "Načítať konkrétne časové obdobie historie"
+msgstr "Načítať históriu pre konkrétne časové obdobie"
 
 #: src/jade/tabs/history.jade:62
 msgid "From"
@@ -697,7 +701,7 @@ msgstr "Filter"
 msgid "Minimum amount filter"
 msgstr "Filter minimálneho množstva"
 
-#: src/jade/tabs/history.jade:84 src/jade/tabs/history.jade:156
+#: src/jade/tabs/history.jade:84 src/jade/tabs/history.jade:160
 msgid "Description"
 msgstr "Popis"
 
@@ -711,108 +715,104 @@ msgstr "{{1}} vám odoslal {{2}}"
 
 #: src/jade/tabs/history.jade:118
 msgid "{{1}} now trusts you for {{2}}"
-msgstr "{{1}} s vami uzavrel partnerstvo za {{2}}"
+msgstr "{{1}} vám práve dôverujem za {{2}}"
 
-#: src/jade/tabs/history.jade:124
-msgid "You now trust {{1}} for {{2}}"
-msgstr "Partnerstvo s {{1}} za {{2}}"
-
-#: src/jade/tabs/history.jade:146
+#: src/jade/tabs/history.jade:147
 msgid "Account details have been Changed"
 msgstr "Detaily účtu boli zmenené"
 
-#: src/jade/tabs/history.jade:154
+#: src/jade/tabs/history.jade:158
 msgid "Balance Changes"
-msgstr "Zmena stavu účtu."
+msgstr "Zmeny zostatku na účte"
 
-#: src/jade/tabs/history.jade:157
+#: src/jade/tabs/history.jade:161
 msgid "Issuer"
 msgstr "Vydavateľ"
 
-#: src/jade/tabs/history.jade:158 src/jade/tabs/trade.jade:287
+#: src/jade/tabs/history.jade:162 src/jade/tabs/trade.jade:289
 #: src/jade/tabs/trust.jade:54
 msgid "Amount"
 msgstr "Čiastka"
 
-#: src/jade/tabs/history.jade:159
+#: src/jade/tabs/history.jade:163
 msgid "Final balance"
 msgstr "Konečný zostatok"
 
-#: src/jade/tabs/history.jade:162
+#: src/jade/tabs/history.jade:166
 msgid "XRP balance Change"
 msgstr "Zmena stavu XRP"
 
-#: src/jade/tabs/history.jade:163
+#: src/jade/tabs/history.jade:167
 msgid "{{effect.currency}} balance Change"
 msgstr "{{effect.currency}} zmena zostatku"
 
-#: src/jade/tabs/history.jade:164
+#: src/jade/tabs/history.jade:168
 msgid "Fee"
 msgstr "Poplatok"
 
-#: src/jade/tabs/history.jade:169
+#: src/jade/tabs/history.jade:173
 msgid "Transaction details"
 msgstr "Podrobnosti transakcie"
 
-#: src/jade/tabs/history.jade:170
+#: src/jade/tabs/history.jade:174
 msgid "Add {{1}} to contact list"
 msgstr "Pridať {{1}} do zoznamu kontaktov"
 
-#: src/jade/tabs/history.jade:178
+#: src/jade/tabs/history.jade:182
 msgid "No more transactions left"
 msgstr "Žiadne ďalšie transakcie"
 
-#: src/jade/tabs/history/effects.jade:4 src/jade/tabs/history/effects.jade:18
+#: src/jade/tabs/history/effects.jade:4 src/jade/tabs/history/effects.jade:19
 msgid "You sold {{1}} for {{2}}"
-msgstr ""
+msgstr "Predali ste {{1}} za {{2}}"
 
-#: src/jade/tabs/history/effects.jade:8 src/jade/tabs/history/effects.jade:22
+#: src/jade/tabs/history/effects.jade:8 src/jade/tabs/history/effects.jade:23
 msgid "You bought {{1}} for {{2}}"
-msgstr ""
+msgstr "Kúpili ste {{1}} za {{2}}"
 
-#: src/jade/tabs/history/effects.jade:13 src/jade/tabs/history/effects.jade:27
+#: src/jade/tabs/history/effects.jade:13 src/jade/tabs/history/effects.jade:28
 msgid "price"
-msgstr ""
+msgstr "cena"
 
-#: src/jade/tabs/history/effects.jade:16
+#: src/jade/tabs/history/effects.jade:17
 msgid "This order has been filled."
-msgstr ""
+msgstr "Tento príkaz bol dokončený."
 
-#: src/jade/tabs/history/effects.jade:30
+#: src/jade/tabs/history/effects.jade:32
 msgid "The rest of your order has been cancelled due to lack of funds."
-msgstr ""
+msgstr "Zostatok bol zrušený kvôli nedostatku prostriedkov."
 
-#: src/jade/tabs/history/effects.jade:31
+#: src/jade/tabs/history/effects.jade:33
 msgid "This order has {{1}} remaining."
-msgstr "Tejto objednávke ostáva {{1}}."
+msgstr "Tomuto príkazu zostáva {{1}}."
 
-#: src/jade/tabs/history/effects.jade:47
-msgid "You bought {{1}} for {{2}}. ({{3:price}}{{4}})"
-msgstr "Nakúpili ste {{1}} za {{2}}. ({{3:cena}}{{4}})"
+#: src/jade/tabs/history/effects.jade:39
+msgid "Offer ({{1}} for {{2}}) has been cancelled due to lack of funds."
+msgstr "Ponuka ({{1}} za {{2}}) bola zrušená z dôvodu nedostatku finančných prostriedkov."
 
-#: src/jade/tabs/history/effects.jade:57
-msgid "You now trust {{1}} for {{2}}."
-msgstr "Od teraz veríte {{1}} za {{2}}."
-
-#: src/jade/tabs/history/effects.jade:62
-msgid "{{1}} is trusting you for {{2}}."
-msgstr "{{1}} vám verí za {{2}}."
+#: src/jade/tabs/history/effects.jade:53
+msgid "You bought {{1}} for {{2}}. ({{3:price}}{{4}})."
+msgstr "Kúpili ste {{1}} za {{2}}. ({{3:cena}}{{4}})."
 
 #: src/jade/tabs/history/effects.jade:68
+msgid "{{1}} is trusting you for {{2}}."
+msgstr "{{1}} vám dôveruje za {{2}}."
+
+#: src/jade/tabs/history/effects.jade:74
 msgid "You have changed {{1}} trust for {{2}} from {{3}} to {{4}}."
 msgstr "Zmenili ste dôveru {{1}} pre {{2}} z {{3}} na {{4}}."
 
-#: src/jade/tabs/history/effects.jade:78
+#: src/jade/tabs/history/effects.jade:84
 msgid "{{1}} changed the {{2}} trust from {{3}} to {{4}}."
 msgstr "{{1}} zmenil dôveru {{2}} z {{3}} na {{4}}."
 
-#: src/jade/tabs/history/effects.jade:88
+#: src/jade/tabs/history/effects.jade:94
 msgid "Trust balance between you and {{1}} has been changed by {{2}}."
 msgstr "Dôvera medzi vami a {{1}} bola zmenená o {{2}}."
 
-#: src/jade/tabs/history/effects.jade:95
+#: src/jade/tabs/history/effects.jade:101
 msgid "Your balance has been changed by {{1}}."
-msgstr "Partner {{1}} vám zmenil zostatok na účte."
+msgstr "Zostatok vášho účtu bol zmenený dôverou {{1}}."
 
 #: src/jade/tabs/login.jade:4 src/jade/tabs/login.jade:25
 msgid "Open Wallet"
@@ -917,11 +917,11 @@ msgstr "Číslo portu je nesprávne."
 
 #: src/jade/tabs/options.jade:24
 msgid "Remove"
-msgstr "Zmazať"
+msgstr "Odstrániť"
 
 #: src/jade/tabs/options.jade:29
 msgid "Use secure WebSocket"
-msgstr "Použiť bezpečný WebSocket"
+msgstr "Použiť zabezpečený WebSocket"
 
 #: src/jade/tabs/options.jade:32
 msgid "Add new server"
@@ -961,7 +961,7 @@ msgstr "Kopírovať adresu"
 
 #: src/jade/tabs/register.jade:4
 msgid "Create a Ripple Wallet"
-msgstr "Vytvoriť Ripple peňaženku"
+msgstr "Vytvoriť ripple peňaženku"
 
 #: src/jade/tabs/register.jade:5
 msgid ""
@@ -984,7 +984,7 @@ msgstr "Len vy viete svoje užívateľské meno a heslo a ste zodpovedný za jeh
 
 #: src/jade/tabs/register.jade:19
 msgid "Create Wallet username"
-msgstr "Vytvoriť užívateľské meno peňaženky"
+msgstr "Vytvoriť meno peňaženky"
 
 #: src/jade/tabs/register.jade:23
 msgid "Create Wallet passphrase"
@@ -1006,7 +1006,7 @@ msgstr "Vaše heslo je príliš slabé. Nie je spojením písmen, čísel a znak
 
 #: src/jade/tabs/register.jade:35
 msgid "Secret Account Key {{1}}"
-msgstr "Tajný kľúč účtu {{1}}"
+msgstr "Tajný kľúč {{1}}"
 
 #: src/jade/tabs/register.jade:36
 msgid "hide"
@@ -1034,7 +1034,7 @@ msgstr "Otvoriť peňaženku"
 
 #: src/jade/tabs/register.jade:61
 msgid "Need to use your Secret Key? {{1}}"
-msgstr "Potrebujete použiť svoj tajný kľúč? {{1}}"
+msgstr "Potrebujete použiť váš tajný kľúč? {{1}}"
 
 #: src/jade/tabs/register.jade:63
 msgid "Use Key"
@@ -1050,7 +1050,7 @@ msgid ""
 "Secret Account Key is not connected to it. If you decide to continue "
 "registration your new Secret Account Key will be used for current Wallet "
 "name and passphrase."
-msgstr "K dispozícii je peňaženka s rovnakým názvom a prístupovým heslom, ale zadaný tajný kĺúč k nej pripojený nieje. Ak sa rozhodnete pokračovať, váš nový tajný kľúč bude použitý pre aktuálnu peňaženku."
+msgstr "K dispozícii je peňaženka s rovnakým názvom a prístupovým heslom, ale zadaný tajný kĺúč k nej pripojený nie je. Ak sa rozhodnete pokračovať, váš nový tajný kľúč bude použitý pre aktuálnu peňaženku."
 
 #: src/jade/tabs/register.jade:70 src/jade/tabs/register.jade:79
 msgid "Back"
@@ -1069,7 +1069,7 @@ msgid ""
 "There is a Wallet with a similar Wallet name and passphrase, but this wallet"
 " could not be decrypted. Try choosing a different wallet name and/or "
 "passphrase."
-msgstr "K dispozícii je peňaženka s podobným názvom a prístupovým heslom. Skúste vybrať iný názov a/alebo heslo."
+msgstr "Existuje peňaženka s podobným názvom a prístupovým heslom. Skúste vybrať iný názov a/alebo heslo."
 
 #: src/jade/tabs/register.jade:83
 msgid "Welcome To ripple"
@@ -1129,7 +1129,7 @@ msgstr "Áno, tajný kľúč účtu mám uložený."
 msgid ""
 "Your money and wallet are protected digitally through encryption algorithms "
 "that can be unlocked {{1:only with your personal keys}}"
-msgstr "Vaše peniaze a peňaženka sú chránené kryptovanými algoritmami a môžu byť odomknuté {{1:len s vašim osobným kľúčom}}"
+msgstr "Vaše peniaze a peňaženka sú chránené kódovacími algoritmami ktoré môžu byť odomknuté {{1:len s vašim osobným kľúčom}}"
 
 #: src/jade/tabs/security.jade:9
 msgid "No one else has them, so don't lose them!"
@@ -1179,7 +1179,7 @@ msgstr "Heslo:"
 msgid ""
 "This gives access to your wallet. DO NOT SHARE THIS WITH ANYONE. Keep it "
 "safe. Keep it private."
-msgstr "Toto umožňuje prístup do Vašej peňaženky, NIKDY TO S NIKÝM NEZDIEĽAJTE. Držte to v bezpečí a súkromí."
+msgstr "Umožňuje vám prístup do vašej peňaženky, NIKDY HO S NIKÝM NEZDIEĽAJTE. Držte ho v bezpečí a súkromí."
 
 #: src/jade/tabs/security.jade:44
 msgid "Secret Key"
@@ -1189,13 +1189,13 @@ msgstr "Tajný kľúč"
 msgid ""
 "This key is for emergency use only. You did not choose it. The network "
 "created it. You don't have to memorize it."
-msgstr "Tento kľúč je určený iba pre núdzové použitie. Nevybrali ste ho. Vytvorila ho sieť. Nemusíte si ho pamätať."
+msgstr "Tento kľúč je určený iba pre núdzové použitie. Nevybrali ste si ho ale vytvorila ho sieť. Nemusíte si ho pamätať."
 
 #: src/jade/tabs/security.jade:47
 msgid ""
 "The Secret Key accesses Your money, which is already contained inside your "
 "wallet."
-msgstr "Tajný kľúč sprístupňuje Vaše peniaze, ktoré už sú vo vnútri Vašej peňaženky."
+msgstr "Tajný kľúč sprístupňuje peniaze, ktoré už sú vo vašej peňaženke."
 
 #: src/jade/tabs/security.jade:48
 msgid ""
@@ -1205,13 +1205,13 @@ msgstr "Ale ak niekedy stratíte peňaženku, môžete ju obnoviť len s týmto 
 
 #: src/jade/tabs/security.jade:50
 msgid "Store it somewhere safe, never share it."
-msgstr "Uchovajte v bezpečí, nikdy nezdieľajte."
+msgstr "Uchovajte ho v bezpečí a nikdy ho s nikým nezdieľajte."
 
 #: src/jade/tabs/security.jade:59
 msgid ""
 "This gives access to your money. DO NOT SHARE THIS WITH ANYONE. Keep it "
 "safe. Keep it private."
-msgstr "Toto umožňuje prístup k Vašim peniazom. Nedávajte ho nikomu. Udržujte ho v bezpečí. Udržujte ho v súkromí."
+msgstr "Umožňuje prístup k vašim peniazom. NEDÁVAJTE HO NIKOMU. Držte ho v bezpečí a súkromí."
 
 #: src/jade/tabs/security.jade:61
 msgid "Show my keys"
@@ -1223,7 +1223,7 @@ msgstr "Musíte disponovať minimálnym zostatkom aby ste mohli odosielať penia
 
 #: src/jade/tabs/send.jade:17
 msgid "Send money."
-msgstr "Poslať peniaze"
+msgstr "Odoslať peniaze."
 
 #: src/jade/tabs/send.jade:21
 msgid "Recipient"
@@ -1237,11 +1237,11 @@ msgstr "Zadajte prijemcu."
 msgid ""
 "Recipient should be either a name from your contact list or Ripple/Bitcoin "
 "address."
-msgstr "Príjemca by mal byť buď zo zoznamu kontaktov alebo vložte Ripple / Bitcoin adresu."
+msgstr "Príjemca by mal byť v zoznamu kontaktov alebo Ripple/Bitcoin adresa."
 
 #: src/jade/tabs/send.jade:30
 msgid "This email address is not Ripple-enabled."
-msgstr "Táto emailová adresa nie je s Ripple spárovaná."
+msgstr "Táto emailová adresa nie je akceptovaná v ripple."
 
 #: src/jade/tabs/send.jade:38
 msgid "Destination cannot be blank."
@@ -1256,7 +1256,7 @@ msgstr "Príjemca vyžaduje zadať značku adresáta. Ak ju nepoznáte, prosím,
 
 #: src/jade/tabs/send.jade:44
 msgid "Source tag"
-msgstr "Zdrojová značka."
+msgstr "Zdrojová značka"
 
 #: src/jade/tabs/send.jade:47
 msgid "Invalid source tag"
@@ -1274,19 +1274,19 @@ msgstr "Čiastka musí byť väčšia ako 0."
 msgid ""
 "This transaction exceeds your balance, you can send a max. of "
 "{{account.max_spend | rpamount:{rel_precision: 0} }} XRP"
-msgstr "Táto transakcia prevyšuje váš zostatok, môžete poslať max. {{account.max_spend | rpamount: {rel_precision: 0}}} XRP"
+msgstr "Táto transakcia prevyšuje váš zostatok, môžete odoslať max. {{account.max_spend | rpamount:{rel_precision: 0} }} XRP"
 
 #: src/jade/tabs/send.jade:76
 msgid ""
 "Recipient does not allow XRP payments. Are you sure you want to send XRP "
 "anyway?"
-msgstr "Príjemca nepovolovuje XRP platby. Aj napriek tomu chcete poslať XRP?"
+msgstr "Príjemca nepovolovuje XRP platby. Napriek tomu chcete odoslať XRP?"
 
 #: src/jade/tabs/send.jade:78
 msgid ""
 "{{send.recipient | rpcontactname}}trusts you for {{send.trust_limit | "
 "rpamount}} {{send.trust_limit | rpcurrency}}."
-msgstr "{{send.recipient | rpcontactname}}vám verí za {{send.trust_limit | rpamount}} {{send.trust_limit | rpcurrency}}."
+msgstr "{{send.recipient | rpcontactname}}vám dôveruje za {{send.trust_limit | rpamount}} {{send.trust_limit | rpcurrency}}."
 
 #: src/jade/tabs/send.jade:82
 msgid "Add Destination tag"
@@ -1300,7 +1300,7 @@ msgstr "Odoslať XRP"
 msgid ""
 "Destination account is unfunded; send at least {{send.xrp_deficiency | "
 "rpamount}} XRP to fund it.{{1}}"
-msgstr "Cieľová adresa nie je dostatočné financovaná; odošlite aspoň {{send.xrp_deficiency | rpamount}} XRP pre dofinancovanie.{{1}}"
+msgstr "Cieľová adresa nemá dostatok prostriedkov; odošlite aspoň {{send.xrp_deficiency | rpamount}} XRP pre doplnenie prostriedkov.{{1}}"
 
 #: src/jade/tabs/send.jade:93 src/jade/tabs/trust.jade:46
 msgid "More information"
@@ -1331,7 +1331,7 @@ msgid ""
 "Sorry! Cannot send {{send.amount}} {{send.currency}} to {{send.recipient}}. "
 "Please make sure your account has enough funds, and the recipient accepts "
 "the currency you're sending. If it still doesn't work, try again later."
-msgstr "Je nám ľúto! Nemožno odoslať {{send.amount}} {{send.currency}} na {{send.recipient}}. Uistite sa, že váš účet má dostatok finančných prostriedkov, a príjemca akceptuje menu, v ktorej posielate. Ak to stále nefunguje, skúste to znova neskôr."
+msgstr "Je nám ľúto! Nie je možné odoslať {{send.amount}} {{send.currency}} na {{send.recipient}}. Uistite sa, že váš účet má dostatok prostriedkov a príjemca akceptuje menu, v ktorej odosielate. Ak to stále nefunguje, skúste to znova neskôr."
 
 #: src/jade/tabs/send.jade:110
 msgid "Error while retrieving quote for outbound payment"
@@ -1347,16 +1347,16 @@ msgstr "Alebo môžete odoslať"
 
 #: src/jade/tabs/send.jade:127
 msgid "Send {{ alt.amount | rpcurrency }}"
-msgstr "Poslať {{ alt.amount | rpcurrency }}"
+msgstr "Odoslať {{ alt.amount | rpcurrency }}"
 
 #: src/jade/tabs/send.jade:133
 msgid "Ripple is calculating a path for your payment."
-msgstr "Ripple vypočítava cestu pre platbu."
+msgstr "Ripple vypočítava cestu pre vašu platbu."
 
 #: src/jade/tabs/send.jade:139
 msgid ""
 "You are sending {{ (send.alt.amount || send.currency) | rpcurrency}} to"
-msgstr "Posielate {{ (send.alt.amount || send.currency) | rpcurrency}} na"
+msgstr "Odosielate {{ (send.alt.amount || send.currency) | rpcurrency}} na"
 
 #: src/jade/tabs/send.jade:145
 msgid "Destination tag: {{send.dt}}"
@@ -1364,7 +1364,7 @@ msgstr "Značka adresáta: {{send.dt}}"
 
 #: src/jade/tabs/send.jade:146
 msgid "They will receive"
-msgstr "Obdržia"
+msgstr "Získajú"
 
 #: src/jade/tabs/send.jade:151
 msgid "You will pay at most"
@@ -1394,7 +1394,7 @@ msgstr "Server odmietol transakciu pre chybu v klientskej aplikácii."
 msgid ""
 "Sorry, an error occurred while submitting your transaction.Make sure you are"
 " connected to the Internet and try again later."
-msgstr "Prepáčte, pri odosielaní vašej transakcie došlo k chybe. Overte si, či ste pripojený na Internet a skúste to znova."
+msgstr "Prepáčte, pri odosielaní vašej transakcie došlo k chybe. Overte si, či ste pripojený na internet a skúste to neskôr znova."
 
 #: src/jade/tabs/send.jade:187
 msgid "Please ensure you don't send your payment more than once."
@@ -1412,7 +1412,7 @@ msgstr "Pridať túto adresu do kontaktov"
 #: src/jade/tabs/send.jade:201 src/jade/tabs/send.jade:272
 #: src/jade/tabs/trust.jade:172
 msgid "Name this user"
-msgstr "Pomenujte užívateľa"
+msgstr "Pomenujte tohto užívateľa"
 
 #: src/jade/tabs/send.jade:207 src/jade/tabs/send.jade:278
 #: src/jade/tabs/trust.jade:178
@@ -1449,7 +1449,7 @@ msgstr "Vydavateľ základnej meny ({{order.first_currency}})"
 
 #: src/jade/tabs/trade.jade:48
 msgid "Not a valid Ripple address or contact"
-msgstr "Neplatná Ripple adresa, alebo kontakt"
+msgstr "Neplatná Ripple adresa alebo kontakt"
 
 #: src/jade/tabs/trade.jade:53
 msgid "Counter currency issuer ({{order.second_currency}})"
@@ -1457,7 +1457,7 @@ msgstr "Vydavateľ kótovacej meny ({{order.second_currency}})"
 
 #: src/jade/tabs/trade.jade:58
 msgid "Not a valid ripple address or contact"
-msgstr "Neplatná ripple adresa, alebo kontakt"
+msgstr "Neplatná ripple adresa alebo kontakt"
 
 #: src/jade/tabs/trade.jade:62
 msgid ""
@@ -1479,11 +1479,11 @@ msgstr "Rozšíriť"
 
 #: src/jade/tabs/trade.jade:86
 msgid "Last price"
-msgstr "Posledná hodnota"
+msgstr "Posledná cena"
 
 #: src/jade/tabs/trade.jade:93
 msgid "You have to be funded before you can trade"
-msgstr "Musíte disponovať minimálnym zostatkom aby ste mohli obchodovať"
+msgstr "Pre obchodovanie musíte disponovať minimálnym zostatkom"
 
 #: src/jade/tabs/trade.jade:100
 msgid "Buy {{1}} {{order.first_currency}}"
@@ -1499,7 +1499,7 @@ msgstr "{{1}}k dispozícii"
 
 #: src/jade/tabs/trade.jade:129
 msgid "Amount To buy"
-msgstr "Nakúpiť"
+msgstr "Kúpiť"
 
 #: src/jade/tabs/trade.jade:130
 msgid "Amount To sell"
@@ -1516,169 +1516,169 @@ msgid "Must be greater than zero"
 msgstr "Musí byť viac ako 0"
 
 #: src/jade/tabs/trade.jade:141 src/jade/tabs/trade.jade:156
-#: src/jade/tabs/trade.jade:170
-msgid "There is a limit of 100 billion XRPs"
-msgstr "Limit je 100 miliárd XRP."
+#: src/jade/tabs/trade.jade:171
+msgid "Minimum is a drop (0.000001) and maximum is 100 billion XRPs"
+msgstr "Minimum je Drop (0.000001) a maximum je 100 biliónov XRP"
 
 #: src/jade/tabs/trade.jade:145
 msgid "Price of Each"
-msgstr "Cena každého."
+msgstr "Cena za jeden"
 
 #: src/jade/tabs/trade.jade:160
 msgid "Order Value (max)"
-msgstr "Čiastka objednávky (max)"
+msgstr "Čiastka príkazu (max)"
 
-#: src/jade/tabs/trade.jade:175
-msgid "You are wanting to buy{{1}} for {{2}} ({{3}} {{4: per}}{{5}})"
-msgstr ""
+#: src/jade/tabs/trade.jade:177
+msgid "You are wanting to buy {{1}} for {{2}} ({{3}} per {{4}})"
+msgstr "Chcete kúpiť {{1}} za {{2}} ({{3}} za {{4}})"
 
-#: src/jade/tabs/trade.jade:184
-msgid "You are wanting to sell{{1}} for {{2}} ({{3}} {{4: per}}{{5}})"
-msgstr ""
+#: src/jade/tabs/trade.jade:186
+msgid "You are wanting to sell {{1}} for {{2}} ({{3}} per {{4}})"
+msgstr "Chcete predať {{1}} za {{2}} ({{3}} za {{4}})"
 
-#: src/jade/tabs/trade.jade:196
+#: src/jade/tabs/trade.jade:198
 msgid "Buy"
-msgstr "Nákup"
+msgstr "Kúpiť"
 
-#: src/jade/tabs/trade.jade:197
+#: src/jade/tabs/trade.jade:199
 msgid "Sell"
-msgstr "Predaj"
+msgstr "Predať"
 
-#: src/jade/tabs/trade.jade:203
+#: src/jade/tabs/trade.jade:205
 msgid "You do not have sufficient funds to create an order."
-msgstr "Nemáte dostatok finančných prostriedkov na vytvorenie objednávky."
+msgstr "Nemáte dostatok prostriedkov na vytvorenie príkazu."
 
-#: src/jade/tabs/trade.jade:208
+#: src/jade/tabs/trade.jade:210
 msgid ""
 "You are about to create an order to {{1: buy}} {{2: "
 "sell}}{{3}}{{4:for}}{{5}}{{6:Are you sure?}}"
-msgstr "Chystáte sa vytvoriť ponuku na {{1: buy}} {{2: sell}}{{3}}{{4:for}}{{5}}{{6:Are you sure?}}"
+msgstr "Chystáte sa vytvoriť príkaz na {{1: buy}} {{2: sell}}{{3}}{{4:for}}{{5}}{{6:Ste si istý?}}"
 
-#: src/jade/tabs/trade.jade:230
+#: src/jade/tabs/trade.jade:232
 msgid "Sending order to Ripple network..."
-msgstr "Posielam požiadavku na sieť Ripple..."
-
-#: src/jade/tabs/trade.jade:236
-msgid "Your order has been submitted."
-msgstr "Vaša objednávka bola odoslaná."
+msgstr "Odosielam požiadavku do sieťe ripple..."
 
 #: src/jade/tabs/trade.jade:238
-msgid "Your order is now active!"
-msgstr "Vaša objednávka je teraz aktívna!"
+msgid "Your order has been submitted."
+msgstr "Váš príkaz bol odoslaná."
 
 #: src/jade/tabs/trade.jade:240
+msgid "Your order is now active!"
+msgstr "Váš príkaz je aktívny!"
+
+#: src/jade/tabs/trade.jade:242
 msgid "Request has been denied!"
-msgstr "Požiadavka zamietnutá!"
+msgstr "Žiadosť zamietnutá!"
 
-#: src/jade/tabs/trade.jade:241 src/jade/tabs/trust.jade:145
+#: src/jade/tabs/trade.jade:243 src/jade/tabs/trust.jade:145
 msgid "We were unable to submit the request. Please try again later."
-msgstr "Neboli sme schopný požiadavku potvrdiť. Skúste neskôr prosím."
+msgstr "Neboli sme schopný žiadosť uskutočniť. Skúste to neskôr prosím."
 
-#: src/jade/tabs/trade.jade:243
+#: src/jade/tabs/trade.jade:245
 msgid "Request is malformed!"
-msgstr "Chybá požiadavka!"
+msgstr "Chyba žiadosti!"
 
-#: src/jade/tabs/trade.jade:244
+#: src/jade/tabs/trade.jade:246
 msgid ""
 "Your request is invalid, reason: {{order[type].engine_result}} - "
 "{{order[type].engine_result_message}}"
 msgstr "Vaša požiadavka je neplatná, dôvod: {{order[type].engine_result}} - {{order[type].engine_result_message}}"
 
-#: src/jade/tabs/trade.jade:249
+#: src/jade/tabs/trade.jade:251
 msgid ""
 "You do not have enough {{type == 'buy' ? order.second_currency : "
 "order.first_currency}} to create this order."
-msgstr "Nemáte dosť {{type == 'buy' ? order.second_currency : order.first_currency}} na vytvorenie objednávky."
+msgstr "Nemáte dosť {{type == 'buy' ? order.second_currency : order.first_currency}} pre vytvorenie príkazu."
 
-#: src/jade/tabs/trade.jade:251
+#: src/jade/tabs/trade.jade:253
 msgid ""
 "You must have at least {{account.reserve_to_add_trust | rpamount}} XRP to "
 "submit an order. {{1}}"
-msgstr "Musíte mať aspoň {{account.reserve_to_add_trust | rpamount}} XRP na vytvorenie objednávky. {{1}}"
+msgstr "Musíte mať aspoň {{account.reserve_to_add_trust | rpamount}} XRP pre vytvorenie príkazu. {{1}}"
 
-#: src/jade/tabs/trade.jade:253
+#: src/jade/tabs/trade.jade:255
 msgid "More information."
-msgstr "Viac informácii"
+msgstr "Viac informácii."
 
-#: src/jade/tabs/trade.jade:254
+#: src/jade/tabs/trade.jade:256
 msgid "Error: {{order[type].engine_result_message}}"
 msgstr "Chyba: {{order[type].engine_result_message}}"
 
-#: src/jade/tabs/trade.jade:257
-msgid "Trade failed!"
-msgstr "Prevod zlyhal!"
-
 #: src/jade/tabs/trade.jade:259
+msgid "Trade failed!"
+msgstr "Obchod zlyhal!"
+
+#: src/jade/tabs/trade.jade:261
 msgid "Trade failed, reason: {{order[type].engine_result_message}}"
 msgstr "Obchod zlyhal, dôvod: {{order[type].engine_result_message}}"
 
-#: src/jade/tabs/trade.jade:272
+#: src/jade/tabs/trade.jade:274
 msgid "Submit another order"
-msgstr "Potvrdiť inú požiadavku."
+msgstr "Vytvoriť ďalší príkaz"
 
-#: src/jade/tabs/trade.jade:275
+#: src/jade/tabs/trade.jade:277
 msgid "Order book"
 msgstr "Kniha príkazov"
 
-#: src/jade/tabs/trade.jade:276
+#: src/jade/tabs/trade.jade:278
 msgid "My Orders {{1}}"
 msgstr "Moje príkazy {{1}}"
 
-#: src/jade/tabs/trade.jade:284
+#: src/jade/tabs/trade.jade:286
 msgid "Type"
 msgstr "Typ"
 
-#: src/jade/tabs/trade.jade:285
+#: src/jade/tabs/trade.jade:287
 msgid "Pair"
 msgstr "Pár"
 
-#: src/jade/tabs/trade.jade:286
+#: src/jade/tabs/trade.jade:288
 msgid "Price"
 msgstr "Cena"
 
-#: src/jade/tabs/trade.jade:288
+#: src/jade/tabs/trade.jade:290
 msgid "Action"
 msgstr "Akcia"
 
-#: src/jade/tabs/trade.jade:308
+#: src/jade/tabs/trade.jade:310
 msgid "You haven't placed any orders."
-msgstr "Nemáte žiadne objednávky."
+msgstr "Nemáte žiadne príkazy."
 
-#: src/jade/tabs/trade.jade:314
+#: src/jade/tabs/trade.jade:316
 msgid "Bids"
 msgstr "Ponuky"
 
-#: src/jade/tabs/trade.jade:316 src/jade/tabs/trade.jade:343
+#: src/jade/tabs/trade.jade:318 src/jade/tabs/trade.jade:345
 msgid "Sum{{1}}{{2}}"
 msgstr "Celkom{{1}}{{2}}"
 
-#: src/jade/tabs/trade.jade:319 src/jade/tabs/trade.jade:340
+#: src/jade/tabs/trade.jade:321 src/jade/tabs/trade.jade:342
 msgid "Size{{1}}{{2}}"
 msgstr "Veľkosť{{1}}{{2}}"
 
-#: src/jade/tabs/trade.jade:322
+#: src/jade/tabs/trade.jade:324
 msgid "Bid Price{{1}}{{2}}"
 msgstr "Predajná cena{{1}}{{2}}"
 
-#: src/jade/tabs/trade.jade:333
-msgid "There are currently no bids for this pair."
-msgstr "Momentálne tu nie sú žiadne ponuky k tejto dvojici."
-
 #: src/jade/tabs/trade.jade:335
+msgid "There are currently no bids for this pair."
+msgstr "Momentálne neexistujú žiadne ponuky pre tento pár."
+
+#: src/jade/tabs/trade.jade:337
 msgid "Asks"
 msgstr "Dopyty"
 
-#: src/jade/tabs/trade.jade:337
+#: src/jade/tabs/trade.jade:339
 msgid "Ask Price{{1}}{{2}}"
 msgstr "Nákupná cena{{1}}{{2}}"
 
-#: src/jade/tabs/trade.jade:354
+#: src/jade/tabs/trade.jade:356
 msgid "There are currently no asks for this pair."
-msgstr "Momentálne tu nie sú žiadne dopyty k tejto dvojici."
+msgstr "Momentálne neexistujú žiadne dopyty k tomuto páru."
 
 #: src/jade/tabs/trust.jade:17
 msgid "You have to be funded before you can grant a trust"
-msgstr "Na udelovanie dôvery potrebujete mať nejaký kapitál"
+msgstr "Na udelenie dôvery potrebujete disponovať minimálnymi prostriedkami"
 
 #: src/jade/tabs/trust.jade:25
 msgid "Name / Address"
@@ -1690,11 +1690,11 @@ msgstr "Mena"
 
 #: src/jade/tabs/trust.jade:30
 msgid "Trust Limit"
-msgstr "Partnerský limit."
+msgstr "Limit dôvery"
 
 #: src/jade/tabs/trust.jade:32
 msgid "Add trust"
-msgstr "Pridať partnera"
+msgstr "Pridať dôveru"
 
 #: src/jade/tabs/trust.jade:45
 msgid "Account does not meet the minimum XRP reserve."
@@ -1702,11 +1702,11 @@ msgstr "Účet nedisponuje minimálnou rezervou XRP."
 
 #: src/jade/tabs/trust.jade:48
 msgid "Please enter a User."
-msgstr "Prosím zadajte užívateľa."
+msgstr "Zadajte užívateľa."
 
 #: src/jade/tabs/trust.jade:49
 msgid "You've entered your address."
-msgstr "Zadali ste adresu."
+msgstr "Zadali ste vašu adresu."
 
 #: src/jade/tabs/trust.jade:50
 msgid "User should be either a name from your contact list or Ripple address."
@@ -1714,17 +1714,17 @@ msgstr "Užívateľ by mal byť buď meno zo zoznamu kontaktov alebo Ripple adre
 
 #: src/jade/tabs/trust.jade:61
 msgid "Amount field is required"
-msgstr "Pole s čiastkou je povinné"
+msgstr "Pole čiastky je povinné"
 
 #: src/jade/tabs/trust.jade:63
 msgid ""
 "XRP can be sent without extending trust. If you really want to trust in XRP,"
 " please use XRR currency code."
-msgstr "XRP môžu byť odoslané bez vytvorenia partnerstva. Ak naozaj chcete partnerstvo v XRP, použite prosím XRR kód meny."
+msgstr "XRP môžu byť odoslané bez vytvorenia dôvery. Ak naozaj chcete dôveru v XRP, použite prosím XRR kód meny."
 
 #: src/jade/tabs/trust.jade:66
 msgid "Currency field is required"
-msgstr "Pole s menou je povinné"
+msgstr "Pole meny je povinné"
 
 #: src/jade/tabs/trust.jade:72
 msgid "Allow Rippling"
@@ -1736,7 +1736,7 @@ msgstr "Overovanie adresy"
 
 #: src/jade/tabs/trust.jade:83
 msgid "You must have at least {{1}} to add a new trust line. {{2}}"
-msgstr "Musíte mať aspoň {{1}} pre pridanie nového riadku dôvery. {{2}} "
+msgstr "Musíte mať aspoň {{1}} pre pridanie novéj dôvery. {{2}} "
 
 #: src/jade/tabs/trust.jade:92
 msgid "You are about to trust"
@@ -1752,7 +1752,7 @@ msgid ""
 "action carries the risk of potential loss up to the amount of the trust "
 "line. Make sure you understand these consequences, and that all the issuers "
 "are trustworthy."
-msgstr "Stlačením tlačidla potvrdzujete, že rozširuje dôveru inému Ripple užívateľovi. Táto akcia nesie riziko možnej straty až do výšky čiastky dôvery . Uistite sa, že ste pochopili tieto dôsledky, a že všetky žiadatelia sú dôveryhodní."
+msgstr "Stlačením tlačidla POTVRDIŤ rozširíte dôveru o ďalšieho ripple užívateľa. Táto akcia nesie riziko možnej straty až do výšky čiastky dôvery. Uistite sa, že ste pochopili tieto dôsledky, a že všetci žiadatelia sú dôveryhodní."
 
 #: src/jade/tabs/trust.jade:106
 msgid ""
@@ -1760,33 +1760,33 @@ msgid ""
 "which may result in your account balances changing without your direct "
 "action. Make sure you understand these consequences, and that all your "
 "issuers are trustworthy."
-msgstr "Stlačením tlačidla potvrdiť vyjadrujete dôveru s {{1}}v rovnakej mene, čo môže mať za následok zmenu vášho zostatku bez vášho priameho zásahu. Uistite sa, že ste pochopili tieto dôsledky, a že všetci žiadatelia sú dôveryhodní."
+msgstr "Stlačením tlačidla POTVRDIŤ vyjadrujete dôveru s {{1}}v rovnakej mene, čo môže mať za následok zmenu vášho zostatku bez vášho priameho zásahu. Uistite sa, že ste pochopili tieto dôsledky, a že všetci žiadatelia sú dôveryhodní."
 
 #: src/jade/tabs/trust.jade:121
 msgid "Granting is in progress"
-msgstr "Prebieha udelenie"
+msgstr "Prebieha udeľovanie"
 
 #: src/jade/tabs/trust.jade:132
 msgid ""
 "Sorry, an error occurred while granting. Make sure you are connected to the "
 "Internet and try again later."
-msgstr "Ospravedlňujeme sa, počas udeľovania došlo k chybe. Uistite sa, že ste pripojení na Internet a skúste to znova neskôr."
+msgstr "Ospravedlňujeme sa, ale počas udeľovania dôery nastala chyba. Uistite sa, že ste pripojený na Internet a skúste to znova neskôr."
 
 #: src/jade/tabs/trust.jade:140
 msgid "Your grant request has been submitted."
-msgstr "Vaša požiadavka bola potvrdená."
+msgstr "Vaša žiadosť na udelenie bola potvrdená."
 
 #: src/jade/tabs/trust.jade:142
 msgid "Trust is granted!"
-msgstr "Dôvera je potrvdená."
+msgstr "Dôvera udelená!"
 
 #: src/jade/tabs/trust.jade:144
 msgid "Trust could not be granted!"
-msgstr "Dôvera nemôže byť poskytnutá!"
+msgstr "Dôvera nemôže byť udelená!"
 
 #: src/jade/tabs/trust.jade:147
 msgid "Grant is malformed!"
-msgstr "Udeľenie je chybné!"
+msgstr "Udelenie je chybné!"
 
 #: src/jade/tabs/trust.jade:148
 msgid ""
@@ -1800,13 +1800,13 @@ msgstr "Udeľovanie zlyhalo!"
 
 #: src/jade/tabs/trust.jade:153
 msgid "Insufficient reserve to add trust line."
-msgstr "Nedostatok finančných prostriedkov pre udelenie dôvery."
+msgstr "Nedostatok prostriedkov pre udelenie dôvery."
 
 #: src/jade/tabs/trust.jade:154
 msgid ""
 "You must have at least {{account.reserve_to_add_trust | rpamount:0}} XRP to "
 "add a trust line. {{1}}"
-msgstr "Musíte disponovať aspoň  {{account.reserve_to_add_trust | rpamount:0}} XRP pre pridanie riadku dôvery. {{1}}"
+msgstr "Musíte disponovať aspoň {{account.reserve_to_add_trust | rpamount:0}} XRP pre pridanie dôvery. {{1}}"
 
 #: src/jade/tabs/trust.jade:156
 msgid "Read more."
@@ -1830,11 +1830,11 @@ msgstr "upraviť"
 
 #: src/jade/tabs/tx.jade:3
 msgid "Loading transaction details..."
-msgstr "Načítavanie detailov platby..."
+msgstr "Načítanie detailov platby..."
 
 #: src/jade/tabs/tx.jade:5
 msgid "An error occurred while loading the transaction details."
-msgstr "Pri načítaní podrobnosti platby došlo k chybe."
+msgstr "Pri načítaní podrobností transakcie nastala chyba."
 
 #: src/jade/tabs/tx.jade:7
 msgid "Transaction # {{transaction.hash}}"
@@ -1850,7 +1850,7 @@ msgstr "Adresa odoslaná z "
 
 #: src/jade/tabs/tx.jade:20
 msgid "Amount sent"
-msgstr "Odoslaná suma"
+msgstr "Odoslaná čiastka"
 
 #: src/jade/tabs/tx.jade:24
 msgid "Currency sent"
@@ -1862,7 +1862,7 @@ msgstr "Adresa odoslaná na"
 
 #: src/jade/tabs/tx.jade:33
 msgid "Amount received"
-msgstr "Prijatá suma"
+msgstr "Prijatá čiastka"
 
 #: src/jade/tabs/tx.jade:37
 msgid "Currency received"

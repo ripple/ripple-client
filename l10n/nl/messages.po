@@ -3,13 +3,14 @@
 # MatthijsDH <matthijs_dh@hotmail.com>, 2013-2014
 # marc c, 2014
 # marc c, 2014
+# marc c, 2014
 # MatthijsDH <matthijs_dh@hotmail.com>, 2013
 # superschotje <niels.schot@live.nl>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: Ripple Client\n"
-"PO-Revision-Date: 2014-01-08 23:58+0000\n"
-"Last-Translator: vhpoet <vhpoet@gmail.com>\n"
+"PO-Revision-Date: 2014-01-10 12:59+0000\n"
+"Last-Translator: marc c\n"
 "Language-Team: Dutch (Netherlands) (http://www.transifex.com/projects/p/ripple-client/language/nl_NL/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -37,7 +38,7 @@ msgstr "Contacten"
 #: src/jade/client/index.jade:9 src/jade/menu/wallet.jade:11
 #: src/jade/tabs/convert.jade:43
 msgid "Convert"
-msgstr "Omzetten"
+msgstr "Converteren"
 
 #: src/jade/client/index.jade:10 src/jade/menu/wallet.jade:13
 #: src/jade/tabs/cashin.jade:19
@@ -111,7 +112,7 @@ msgstr "Uw transactie is verstuurd."
 
 #: src/jade/directives/transactionerror.jade:5
 msgid "Your account balance will update once the transaction has cleared."
-msgstr "Uw account saldo zal vernieuwd worden wanneer de betaling is voltooid."
+msgstr "Uw saldo zal vernieuwd worden wanneer de betaling is voltooid."
 
 #: src/jade/directives/transactionerror.jade:7 src/jade/tabs/convert.jade:107
 #: src/jade/tabs/send.jade:224
@@ -155,8 +156,8 @@ msgstr "Bestemmings-account heeft een bestemmingskenmerk nodig wanneer er betali
 #: src/jade/directives/transactionerror.jade:44 src/jade/tabs/convert.jade:126
 #: src/jade/tabs/convert.jade:135 src/jade/tabs/convert.jade:142
 #: src/jade/tabs/send.jade:243 src/jade/tabs/send.jade:249
-#: src/jade/tabs/send.jade:258 src/jade/tabs/trade.jade:247
-#: src/jade/tabs/trade.jade:261 src/jade/tabs/trust.jade:160
+#: src/jade/tabs/send.jade:258 src/jade/tabs/trade.jade:249
+#: src/jade/tabs/trade.jade:263 src/jade/tabs/trust.jade:160
 msgid "Transaction failed!"
 msgstr "Transactie mislukt!"
 
@@ -164,7 +165,7 @@ msgstr "Transactie mislukt!"
 msgid ""
 "The particular server you sent the transaction to was too busy to forward or"
 " processyour transaction at the fee you included in it."
-msgstr "De server waar u de transactie naar toe stuurde was te druk om, deze door te sturen, of te verwerken tegen de fee die u aan deze transactie heeft meegegeven."
+msgstr "De server waar u de transactie naar toestuurde was te druk om deze door te sturen of te verwerken tegen de heffing die u aan deze transactie heeft meegegeven."
 
 #: src/jade/directives/transactionerror.jade:30 src/jade/tabs/convert.jade:128
 #: src/jade/tabs/send.jade:251
@@ -191,11 +192,11 @@ msgstr "U heeft geen kredietlijn in deze valuta."
 msgid ""
 "Your transaction failed to clear: {{engine_result}} - "
 "{{engine_result_message}}"
-msgstr "Uw transactie is mislukt om te wissen: {{engine_result}} - {{engine_result_message}}"
+msgstr "Uw transactie is niet goedgekeurd: {{engine_result}} - {{engine_result_message}}"
 
 #: src/jade/directives/transactionerror.jade:46
 msgid "Ripple client gave up trying to submit this transaction."
-msgstr "Ripple client gaf het op om deze transactie proberen in te dienen."
+msgstr "Ripple client is gestopt met het indienen van deze transactie."
 
 #: src/jade/directives/transactionerror.jade:48
 msgid ""
@@ -226,10 +227,10 @@ msgstr "U heeft vertrouwt {{tx.counterparty | rpcontactname}} nu voor"
 msgid "You have to be online to see this screen"
 msgstr "U moet online zijn om dit scherm te kunnen zien"
 
-#: src/jade/tabs/balance.jade:10 src/jade/tabs/balance.jade:121
+#: src/jade/tabs/balance.jade:10 src/jade/tabs/balance.jade:126
 #: src/jade/tabs/cashin.jade:10 src/jade/tabs/cashin.jade:37
 #: src/jade/tabs/cashin.jade:196 src/jade/tabs/cashin.jade:255
-#: src/jade/tabs/convert.jade:10 src/jade/tabs/history.jade:175
+#: src/jade/tabs/convert.jade:10 src/jade/tabs/history.jade:179
 #: src/jade/tabs/register.jade:47 src/jade/tabs/trust.jade:10
 msgid "Loading..."
 msgstr "Laden..."
@@ -260,58 +261,62 @@ msgid "You sent {{1}} {{2}}"
 msgstr "U verstuurde {{1}} {{2}}"
 
 #: src/jade/tabs/balance.jade:50 src/jade/tabs/balance.jade:59
-#: src/jade/tabs/balance.jade:77 src/jade/tabs/balance.jade:88
+#: src/jade/tabs/balance.jade:77 src/jade/tabs/balance.jade:90
 msgid "Add to contacts"
 msgstr "Voeg toe aan contacten"
 
 #: src/jade/tabs/balance.jade:55
 msgid "{{entry.transaction.counterparty | rpcontactname}} sent you"
-msgstr "{{entry.transaction.counterparty | rpcontactname}} verzond u"
+msgstr "{{entry.transaction.counterparty | rpcontactname}} stuurde u"
 
 #: src/jade/tabs/balance.jade:64 src/jade/tabs/history.jade:112
 msgid "You requested to convert {{1}} to {{2}}"
-msgstr "U heeft gevraagd {{1}} om te zetten naar {{2}}"
+msgstr "U heeft verzocht om {{1}} te converteren naar {{2}}"
 
 #: src/jade/tabs/balance.jade:72
 msgid "{{entry.transaction.counterparty | rpcontactname}} now trusts you for"
-msgstr "{{entry.transaction.counterparty | rpcontactname}} vertrouwt u nu voor"
+msgstr "{{entry.transaction.counterparty | rpcontactname}} vertrouwt u nu toe voor"
 
-#: src/jade/tabs/balance.jade:82
-msgid "You now trust {{1}} {{2}}"
-msgstr "U vertrouwt nu {{1}} {{2}}"
+#: src/jade/tabs/balance.jade:82 src/jade/tabs/history.jade:124
+#: src/jade/tabs/history/effects.jade:63
+msgid "You now trust {{1}} for {{2}}."
+msgstr "U vertrouwt nu {{1}} voor {{2}}"
 
-#: src/jade/tabs/balance.jade:93 src/jade/tabs/history.jade:130
-#: src/jade/tabs/history/effects.jade:39
+#: src/jade/tabs/balance.jade:95 src/jade/tabs/history.jade:131
+#: src/jade/tabs/history/effects.jade:45
 msgid "You created an offer to sell {{1}} for {{2}}"
-msgstr ""
+msgstr "U heeft een opdracht gecreëerd om {{1}} te verkopen voor {{2}}"
 
-#: src/jade/tabs/balance.jade:97 src/jade/tabs/history.jade:134
-#: src/jade/tabs/history/effects.jade:43
+#: src/jade/tabs/balance.jade:99 src/jade/tabs/history.jade:135
+#: src/jade/tabs/history/effects.jade:49
 msgid "You created an offer to buy {{1}} for {{2}}"
-msgstr ""
+msgstr "U heeft een opdracht gecreëerd om {{1}} te kopen voor {{2}}"
 
-#: src/jade/tabs/balance.jade:103 src/jade/tabs/history.jade:140
-#: src/jade/tabs/history/effects.jade:34
+#: src/jade/tabs/balance.jade:105 src/jade/tabs/history.jade:141
 msgid "You cancelled an offer accepting {{1}} for {{2}}"
 msgstr "U annuleerde een aanbod om {{1}} te accepteren voor {{2}}"
 
-#: src/jade/tabs/balance.jade:110
+#: src/jade/tabs/balance.jade:112
 msgid "Account details have been changed"
 msgstr "De details van uw account zijn gewijzigd"
 
-#: src/jade/tabs/balance.jade:112 src/jade/tabs/history.jade:148
+#: src/jade/tabs/balance.jade:115 src/jade/tabs/history.jade:150
+msgid "Rippling"
+msgstr "Rippling"
+
+#: src/jade/tabs/balance.jade:117 src/jade/tabs/history.jade:152
 msgid "Failed transaction"
 msgstr "Transactie mislukt"
 
-#: src/jade/tabs/balance.jade:120 src/jade/tabs/history.jade:177
+#: src/jade/tabs/balance.jade:125 src/jade/tabs/history.jade:181
 msgid "Load more"
 msgstr "Laad meer"
 
-#: src/jade/tabs/balance.jade:122
+#: src/jade/tabs/balance.jade:127
 msgid "Error"
 msgstr "Fout"
 
-#: src/jade/tabs/balance.jade:123
+#: src/jade/tabs/balance.jade:128
 msgid "No past transactions found"
 msgstr "Geen afgeronde transacties gevonden"
 
@@ -381,7 +386,7 @@ msgstr "Vul a.u.b. uw postcode in."
 
 #: src/jade/tabs/cashin.jade:143
 msgid "Country code"
-msgstr ""
+msgstr "Landcode"
 
 #: src/jade/tabs/cashin.jade:147
 msgid "Please enter your country code."
@@ -434,14 +439,14 @@ msgstr "Vul a.u.b. de laatste 4 cijfers van uw social security number in."
 
 #: src/jade/tabs/cashin.jade:192 src/jade/tabs/contacts.jade:35
 #: src/jade/tabs/contacts.jade:73 src/jade/tabs/send.jade:209
-#: src/jade/tabs/send.jade:280 src/jade/tabs/trade.jade:306
+#: src/jade/tabs/send.jade:280 src/jade/tabs/trade.jade:308
 #: src/jade/tabs/trust.jade:76
 msgid "Cancel"
 msgstr "Annuleren"
 
 #: src/jade/tabs/cashin.jade:254
 msgid "Search!"
-msgstr "Zoek!"
+msgstr "Zoeken!"
 
 #: src/jade/tabs/cashin.jade:259
 msgid "show on map"
@@ -497,7 +502,7 @@ msgstr "Ongeldig bestemmingskenmerk."
 
 #: src/jade/tabs/contacts.jade:62
 msgid "Delete"
-msgstr "Verwijder"
+msgstr "Verwijderen"
 
 #: src/jade/tabs/contacts.jade:64 src/jade/tabs/options.jade:47
 #: src/jade/tabs/send.jade:208 src/jade/tabs/send.jade:279
@@ -507,7 +512,7 @@ msgstr "Opslaan"
 
 #: src/jade/tabs/contacts.jade:71
 msgid "Edit"
-msgstr "Bewerk"
+msgstr "Bewerken"
 
 #: src/jade/tabs/contacts.jade:76
 msgid ""
@@ -517,11 +522,11 @@ msgstr "U heeft nog geen contacten. Klik op de \"Voeg contact toe\" knop in de r
 
 #: src/jade/tabs/convert.jade:13
 msgid "You have to be funded before you can convert money"
-msgstr "Uw account moet gefinancierd zijn voordat u geld kunt converteren "
+msgstr "Uw account moet gefinancierd zijn voordat u geld kunt converteren"
 
 #: src/jade/tabs/convert.jade:19
 msgid "Convert one currency into another."
-msgstr "Valuta omwisselen."
+msgstr "Valuta conferteren."
 
 #: src/jade/tabs/convert.jade:29 src/jade/tabs/send.jade:70
 msgid "Please enter an amount."
@@ -550,7 +555,7 @@ msgid ""
 "Sorry! Cannot convert {{convert.amount}} {{convert.currency}}. Please make "
 "sure your account has enough funds, and a {{1}} to a {{convert.currency}} "
 "gateway."
-msgstr "Sorry! Kan {{convert.amount}} {{convert.currency}} niet omzetten. Kijk na of uw account voldoende saldo heeft en een {{1}} naar een {{convert.currency}} gateway."
+msgstr "Sorry! Kan {{convert.amount}} {{convert.currency}} niet converteren. Kijk na of uw account voldoende saldo heeft en een {{1}} naar een {{convert.currency}} gateway."
 
 #: src/jade/tabs/convert.jade:40 src/jade/tabs/send.jade:112
 msgid "Error while calculating path"
@@ -568,18 +573,18 @@ msgstr "Ripple is een pad aan het berekenen voor de conversie."
 msgid ""
 "{{1:You are converting}}{{2}}{{3:to}}{{4}}{{5:You will pay at "
 "most}}{{6}}{{7:Are you sure?}}"
-msgstr "{{1:U converteert van}}{{2}}{{3:naar}}{{4}}{{5:U betaalt maximaal}}{{6}}{{7:Ben U zeker?}}"
+msgstr "{{1:U converteert}}{{2}}{{3:naar}}{{4}}{{5:U betaalt maximaal}}{{6}}{{7:Weet u dit zeker?}}"
 
 #: src/jade/tabs/convert.jade:76 src/jade/tabs/convert.jade:98
 #: src/jade/tabs/send.jade:160 src/jade/tabs/send.jade:188
-#: src/jade/tabs/trade.jade:223 src/jade/tabs/trust.jade:114
+#: src/jade/tabs/trade.jade:225 src/jade/tabs/trust.jade:114
 #: src/jade/tabs/trust.jade:134
 msgid "&laquo; Back"
 msgstr "&laquo; Terug"
 
 #: src/jade/tabs/convert.jade:78 src/jade/tabs/send.jade:163
 #: src/jade/tabs/trade.jade:50 src/jade/tabs/trade.jade:60
-#: src/jade/tabs/trade.jade:225 src/jade/tabs/trust.jade:116
+#: src/jade/tabs/trade.jade:227 src/jade/tabs/trust.jade:116
 msgid "Confirm"
 msgstr "Bevestigen"
 
@@ -632,11 +637,11 @@ msgid "Your transaction failed to clear, reason: {{engine_result_message}}"
 msgstr "Uw transactie kon niet worden voltooid, reden: {{engine_result_message}}"
 
 #: src/jade/tabs/convert.jade:144 src/jade/tabs/send.jade:245
-#: src/jade/tabs/trade.jade:263 src/jade/tabs/trust.jade:162
+#: src/jade/tabs/trade.jade:265 src/jade/tabs/trust.jade:162
 msgid ""
 "The particular server you sent the transaction to was too busy to forward or"
 " process your transaction at the fee you included in it."
-msgstr "De server waar u de transactie naar toe stuurde was te druk om, deze door te sturen, of te verwerken tegen de fee die u aan deze transactie heeft meegegeven."
+msgstr "De server waar u de transactie naar toestuurde was te druk om deze door te sturen of te verwerken tegen de heffing die u aan deze transactie heeft meegegeven."
 
 #: src/jade/tabs/convert.jade:150
 msgid "Do another conversion"
@@ -680,7 +685,7 @@ msgstr "Minimale hoeveelheid: {{1}}{{2}}{{3}}"
 
 #: src/jade/tabs/history.jade:57
 msgid "Load history for specific date range"
-msgstr "Laadt geschiedenis voor specifieke datum bereik"
+msgstr "Toon geschiedenis van specifieke periode"
 
 #: src/jade/tabs/history.jade:62
 msgid "From"
@@ -698,7 +703,7 @@ msgstr "Specificeer"
 msgid "Minimum amount filter"
 msgstr "Specificeer de minimale hoeveelheid"
 
-#: src/jade/tabs/history.jade:84 src/jade/tabs/history.jade:156
+#: src/jade/tabs/history.jade:84 src/jade/tabs/history.jade:160
 msgid "Description"
 msgstr "Omschrijving"
 
@@ -714,104 +719,100 @@ msgstr "{{1}} stuurde u {{2}}"
 msgid "{{1}} now trusts you for {{2}}"
 msgstr "{{1}} vertrouwt u nu voor {{2}}"
 
-#: src/jade/tabs/history.jade:124
-msgid "You now trust {{1}} for {{2}}"
-msgstr "U vertrouwt nu {{1}} voor {{2}}"
-
-#: src/jade/tabs/history.jade:146
+#: src/jade/tabs/history.jade:147
 msgid "Account details have been Changed"
 msgstr "Account details zijn gewijzigd"
 
-#: src/jade/tabs/history.jade:154
+#: src/jade/tabs/history.jade:158
 msgid "Balance Changes"
 msgstr "Saldo-wijzigingen"
 
-#: src/jade/tabs/history.jade:157
+#: src/jade/tabs/history.jade:161
 msgid "Issuer"
 msgstr "Verstrekker"
 
-#: src/jade/tabs/history.jade:158 src/jade/tabs/trade.jade:287
+#: src/jade/tabs/history.jade:162 src/jade/tabs/trade.jade:289
 #: src/jade/tabs/trust.jade:54
 msgid "Amount"
 msgstr "Hoeveelheid"
 
-#: src/jade/tabs/history.jade:159
+#: src/jade/tabs/history.jade:163
 msgid "Final balance"
 msgstr "Definitief saldo"
 
-#: src/jade/tabs/history.jade:162
+#: src/jade/tabs/history.jade:166
 msgid "XRP balance Change"
 msgstr "XRP saldo-wijziging"
 
-#: src/jade/tabs/history.jade:163
+#: src/jade/tabs/history.jade:167
 msgid "{{effect.currency}} balance Change"
 msgstr "{{effect.currency}} saldo-wijziging"
 
-#: src/jade/tabs/history.jade:164
+#: src/jade/tabs/history.jade:168
 msgid "Fee"
 msgstr "Heffing"
 
-#: src/jade/tabs/history.jade:169
+#: src/jade/tabs/history.jade:173
 msgid "Transaction details"
 msgstr "Transactie-details"
 
-#: src/jade/tabs/history.jade:170
+#: src/jade/tabs/history.jade:174
 msgid "Add {{1}} to contact list"
 msgstr "Voeg {{1}} aan uw contactenlijst toe"
 
-#: src/jade/tabs/history.jade:178
+#: src/jade/tabs/history.jade:182
 msgid "No more transactions left"
 msgstr "Geen transacties meer over"
 
-#: src/jade/tabs/history/effects.jade:4 src/jade/tabs/history/effects.jade:18
+#: src/jade/tabs/history/effects.jade:4 src/jade/tabs/history/effects.jade:19
 msgid "You sold {{1}} for {{2}}"
-msgstr ""
+msgstr "U heeft {{1}} verkocht voor {{2}}."
 
-#: src/jade/tabs/history/effects.jade:8 src/jade/tabs/history/effects.jade:22
+#: src/jade/tabs/history/effects.jade:8 src/jade/tabs/history/effects.jade:23
 msgid "You bought {{1}} for {{2}}"
-msgstr ""
+msgstr "U heeft {{1}} gekocht voor {{2}}."
 
-#: src/jade/tabs/history/effects.jade:13 src/jade/tabs/history/effects.jade:27
+#: src/jade/tabs/history/effects.jade:13 src/jade/tabs/history/effects.jade:28
 msgid "price"
-msgstr ""
+msgstr "prijs"
 
-#: src/jade/tabs/history/effects.jade:16
+#: src/jade/tabs/history/effects.jade:17
 msgid "This order has been filled."
-msgstr ""
+msgstr "Uw order is geplaatst."
 
-#: src/jade/tabs/history/effects.jade:30
+#: src/jade/tabs/history/effects.jade:32
 msgid "The rest of your order has been cancelled due to lack of funds."
-msgstr ""
+msgstr "De rest van uw order is geannuleerd wegens gebrek aan fondsen."
 
-#: src/jade/tabs/history/effects.jade:31
+#: src/jade/tabs/history/effects.jade:33
 msgid "This order has {{1}} remaining."
 msgstr "Deze order heeft {{1}} resterend."
 
-#: src/jade/tabs/history/effects.jade:47
-msgid "You bought {{1}} for {{2}}. ({{3:price}}{{4}})"
+#: src/jade/tabs/history/effects.jade:39
+msgid "Offer ({{1}} for {{2}}) has been cancelled due to lack of funds."
+msgstr "Aanbieding ({{1}} voor {{2}}) is geannuleerd wegens gebrek aan fondsen."
+
+#: src/jade/tabs/history/effects.jade:53
+msgid "You bought {{1}} for {{2}}. ({{3:price}}{{4}})."
 msgstr "U kocht {{1}} voor {{2}}. ({{3:price}}{{4}})"
 
-#: src/jade/tabs/history/effects.jade:57
-msgid "You now trust {{1}} for {{2}}."
-msgstr "U vertrouwt nu {{1}} voor {{2}}"
-
-#: src/jade/tabs/history/effects.jade:62
+#: src/jade/tabs/history/effects.jade:68
 msgid "{{1}} is trusting you for {{2}}."
 msgstr "{{1}} vertrouwt u voor {{2}}"
 
-#: src/jade/tabs/history/effects.jade:68
+#: src/jade/tabs/history/effects.jade:74
 msgid "You have changed {{1}} trust for {{2}} from {{3}} to {{4}}."
 msgstr "U heeft het toevertrouwen van {{1}} voor {{2}} veranderd van {{3}} naar {{4}}."
 
-#: src/jade/tabs/history/effects.jade:78
+#: src/jade/tabs/history/effects.jade:84
 msgid "{{1}} changed the {{2}} trust from {{3}} to {{4}}."
 msgstr "{{1}} veranderde het {{2}} toevertrouwen van {{3}} naar {{4}}."
 
-#: src/jade/tabs/history/effects.jade:88
+#: src/jade/tabs/history/effects.jade:94
 msgid "Trust balance between you and {{1}} has been changed by {{2}}."
 msgstr "Toevertrouwens balans tussen u en {{1}} is veranderd door {{2}}."
 
-#: src/jade/tabs/history/effects.jade:95
+#: src/jade/tabs/history/effects.jade:101
 msgid "Your balance has been changed by {{1}}."
 msgstr "Uw saldo is veranderd door {{1}}."
 
@@ -821,7 +822,7 @@ msgstr "Portefeuille openen"
 
 #: src/jade/tabs/login.jade:8
 msgid "Enter the Name and Passphrase used to encrypt your Wallet below."
-msgstr "Voer de naam en het wachtwoord van uw portefeuille in."
+msgstr "Voer de naam en wachtwoordzin van uw portefeuille in."
 
 #: src/jade/tabs/login.jade:28
 msgid "Fetch wallet from"
@@ -898,7 +899,7 @@ msgstr "Naam portefeuille"
 
 #: src/jade/tabs/login/form.jade:5
 msgid "Passphrase"
-msgstr "Wachtwoord"
+msgstr "Wachtwoordzin"
 
 #: src/jade/tabs/options.jade:8
 msgid "Ripple Servers"
@@ -906,7 +907,7 @@ msgstr "Ripple servers"
 
 #: src/jade/tabs/options.jade:12
 msgid "WebSocket hostname, port, secure"
-msgstr "WebSocket hostnaam, poort, veilig"
+msgstr "WebSocket hostname, port, veilig"
 
 #: src/jade/tabs/options.jade:18
 msgid "Socket ip or hostname is invalid."
@@ -918,7 +919,7 @@ msgstr "Ongeldige poort."
 
 #: src/jade/tabs/options.jade:24
 msgid "Remove"
-msgstr "Verwijder"
+msgstr "Verwijderen"
 
 #: src/jade/tabs/options.jade:29
 msgid "Use secure WebSocket"
@@ -944,7 +945,7 @@ msgstr "Anonieme statistieken"
 msgid ""
 "Help Ripple Labs make a better product through sending anonymous client "
 "usage data."
-msgstr "Help Ripple Labs een beter product te maken door het zenden van anonieme client gebruikersstatistieken."
+msgstr "Help Ripple Labs een beter product te ontwikkelen door anonieme gebruikersstatistieken te versturen."
 
 #: src/jade/tabs/receive.jade:2
 msgid ""
@@ -968,32 +969,32 @@ msgstr "Maak een Ripple portefeuille aan"
 msgid ""
 "Ripple is a global open payments system — a fast, easy way to send any kind "
 "of money to anyone in the world."
-msgstr "Ripple is een mondiaal, open betalingsnetwerk — een snelle, gemakkelijke manier om elke soort valuta naar waar ook ter wereld te kunnen versturen."
+msgstr "Ripple is een mondiaal, open betalingsnetwerk — een snelle, gemakkelijke manier om elke valuta wereldwijd te kunnen versturen."
 
 #: src/jade/tabs/register.jade:7
 msgid ""
 "Your Wallet is only as safe as your Wallet username and passphrase, used to "
 "encrypt your Wallet data. Choose a passphrase you can easily remember but "
 "others cannot guess. Hint: Mix letters, numbers, and symbols."
-msgstr "Uw portemonnee is enkel zo veilig als de door u gekozen naam en wachtwoord, die gebruikt worden om uw portefeuille te versleutelen. Kies een wachtwoord dat u gemakkelijk kunt onthouden maar die anderen niet kunnen raden. Tip: gebruik een combinatie van letters, nummers en symbolen."
+msgstr "Uw portefeuille is enkel zo veilig als de door u gekozen naam en wachtwoordzin waarmee hij versleuteld wordt. Kies een wachtwoordzin die u kunt onthouden maar die anderen niet kunnen raden. Tip: gebruik een combinatie van letters, nummers en symbolen."
 
 #: src/jade/tabs/register.jade:10
 msgid ""
 "Only you have this Wallet username and passphrase and are responsible for "
 "their safekeeping. Ripple cannot recover them if you forget them! {{1}}"
-msgstr "Alleen u kent deze naam en wachtwoordzin en u dient ze zelf veilig te bewaren. Ripple kan ze niet herstellen als u ze vergeet! {{1}}"
+msgstr "Alleen u kent deze naam en dit wachtwoord, u dient ze zelf dan ook veilig te bewaren. Ripple kan ze niet voor u opvragen als u ze vergeet! {{1}}"
 
 #: src/jade/tabs/register.jade:19
 msgid "Create Wallet username"
-msgstr "Bedenk een portefeuille gebruikersnaam"
+msgstr "Bedenk een naam voor uw portefeuille"
 
 #: src/jade/tabs/register.jade:23
 msgid "Create Wallet passphrase"
-msgstr "Bedenk een wachtwoord"
+msgstr "Bedenk een wachtwoordzin"
 
 #: src/jade/tabs/register.jade:26
 msgid "Re-enter passphrase"
-msgstr "Voer de wachtwoord opnieuw in"
+msgstr "Voer de wachtwoordzin opnieuw in"
 
 #: src/jade/tabs/register.jade:31
 msgid "Passwords do not match"
@@ -1003,7 +1004,7 @@ msgstr "Wachtwoorden komen niet overeen"
 msgid ""
 "Your password is weak. It is not a mix of letters, numbers and symbols or it"
 " is the same as your Wallet name."
-msgstr "Uw wachtwoordzin is niet sterk genoeg. Gebruik alstublieft een combinatie van letters, nummers en symbolen."
+msgstr "Uw wachtwoord is niet sterk genoeg of is gelijk aan de naam van uw portefeuille. Gebruik alstublieft een combinatie van letters, nummers en symbolen."
 
 #: src/jade/tabs/register.jade:35
 msgid "Secret Account Key {{1}}"
@@ -1051,7 +1052,7 @@ msgid ""
 "Secret Account Key is not connected to it. If you decide to continue "
 "registration your new Secret Account Key will be used for current Wallet "
 "name and passphrase."
-msgstr "Er bestaat een portemonnee met uw portemonneenaam en wachtwoordzin, maar de door u opgegeven beveiligingssleutel staat hier niet mee in verbinding. Als u verder wilt met de registratie zal uw nieuwe beveiligingssleutel gebruikt worden voor uw huidige portemonnee en wachtwoordzin."
+msgstr "Er bestaat een portefeuille met deze naam en wachtwoordzin, maar de door u opgegeven beveiligingssleutel is hier niet aan gekoppeld. Als u de registratie wilt voortzetten zal uw nieuwe beveiligingssleutel gebruikt worden voor uw huidige portefeuille en wachtwoordzin."
 
 #: src/jade/tabs/register.jade:70 src/jade/tabs/register.jade:79
 msgid "Back"
@@ -1070,7 +1071,7 @@ msgid ""
 "There is a Wallet with a similar Wallet name and passphrase, but this wallet"
 " could not be decrypted. Try choosing a different wallet name and/or "
 "passphrase."
-msgstr "Er bestaat een portemonnee met een zelfde portemonnee naam en wachtwoordzin, maar deze portemonnee kon niet worden gedecodeerd. Probeer een andere portemonnee naam en/of wachtwoordzin te kiezen."
+msgstr "Er bestaat een portefeuille met een zelfde portefeuille naam en wachtwoord, maar deze portefeuille kon niet worden gedecodeerd. Probeer een andere portefeuille naam en/of wachtwoord te kiezen."
 
 #: src/jade/tabs/register.jade:83
 msgid "Welcome To ripple"
@@ -1095,7 +1096,7 @@ msgstr "Portemonnee naam:{{1}}"
 
 #: src/jade/tabs/register.jade:92
 msgid "Pass phrase:{{1}}{{2}}{{3}}{{4}}"
-msgstr "Wachtwoordzin:{{1}}{{2}}{{3}}{{4}}"
+msgstr "Wachtwoord:{{1}}{{2}}{{3}}{{4}}"
 
 #: src/jade/tabs/register.jade:96 src/jade/tabs/security.jade:38
 #: src/jade/tabs/security.jade:57
@@ -1158,7 +1159,7 @@ msgstr "Dit is de sleutel die iedere keer gebruikt wordt als u Ripple gebruikt."
 
 #: src/jade/tabs/security.jade:24
 msgid "You created it when you chose your Wallet Name and Passphrase."
-msgstr "U heeft deze aangemaakt bij het kiezen van de naam en het wachtwoord voor de portefeuille."
+msgstr "U heeft deze aangemaakt bij het kiezen van de naam en wachtwoordzin voor de portefeuille."
 
 #: src/jade/tabs/security.jade:25
 msgid "It protects Your money + Your contacts and history."
@@ -1381,7 +1382,7 @@ msgstr "Bestemming bestaat niet"
 
 #: src/jade/tabs/send.jade:177
 msgid "The wallet you&#39;re trying to send to does not exist."
-msgstr "De portemonnee waar u naar probeert te verzenden bestaat niet."
+msgstr "De portefeuille waar u naar probeert te verzenden bestaat niet."
 
 #: src/jade/tabs/send.jade:182
 msgid "Invalid transaction"
@@ -1517,9 +1518,9 @@ msgid "Must be greater than zero"
 msgstr "Moet groter zijn dan nul"
 
 #: src/jade/tabs/trade.jade:141 src/jade/tabs/trade.jade:156
-#: src/jade/tabs/trade.jade:170
-msgid "There is a limit of 100 billion XRPs"
-msgstr "Er is een limiet van 100 miljard XRPs"
+#: src/jade/tabs/trade.jade:171
+msgid "Minimum is a drop (0.000001) and maximum is 100 billion XRPs"
+msgstr "Minimum is een druppel (0.000001) en maximum is 100 miljard XRPs"
 
 #: src/jade/tabs/trade.jade:145
 msgid "Price of Each"
@@ -1529,151 +1530,151 @@ msgstr "Prijs per stuk"
 msgid "Order Value (max)"
 msgstr "Order waarde (max)"
 
-#: src/jade/tabs/trade.jade:175
-msgid "You are wanting to buy{{1}} for {{2}} ({{3}} {{4: per}}{{5}})"
-msgstr ""
+#: src/jade/tabs/trade.jade:177
+msgid "You are wanting to buy {{1}} for {{2}} ({{3}} per {{4}})"
+msgstr "U wil kopen {{1}} voor {{2}} ({{3}} per {{4}})"
 
-#: src/jade/tabs/trade.jade:184
-msgid "You are wanting to sell{{1}} for {{2}} ({{3}} {{4: per}}{{5}})"
-msgstr ""
+#: src/jade/tabs/trade.jade:186
+msgid "You are wanting to sell {{1}} for {{2}} ({{3}} per {{4}})"
+msgstr "U wil verkopen {{1}} voor {{2}} ({{3}} per {{4}})"
 
-#: src/jade/tabs/trade.jade:196
+#: src/jade/tabs/trade.jade:198
 msgid "Buy"
 msgstr "Kopen"
 
-#: src/jade/tabs/trade.jade:197
+#: src/jade/tabs/trade.jade:199
 msgid "Sell"
 msgstr "Verkopen"
 
-#: src/jade/tabs/trade.jade:203
+#: src/jade/tabs/trade.jade:205
 msgid "You do not have sufficient funds to create an order."
 msgstr "U heeft niet genoeg saldo om een order te creëren."
 
-#: src/jade/tabs/trade.jade:208
+#: src/jade/tabs/trade.jade:210
 msgid ""
 "You are about to create an order to {{1: buy}} {{2: "
 "sell}}{{3}}{{4:for}}{{5}}{{6:Are you sure?}}"
 msgstr "U bent bezig een order te creëren om {{1: buy}} {{2: sell}}{{3}}{{4:for}}{{5}}{{6:Are you sure?}}"
 
-#: src/jade/tabs/trade.jade:230
+#: src/jade/tabs/trade.jade:232
 msgid "Sending order to Ripple network..."
 msgstr "De order wordt naar het Ripple netwerk verstuurd..."
 
-#: src/jade/tabs/trade.jade:236
+#: src/jade/tabs/trade.jade:238
 msgid "Your order has been submitted."
 msgstr "Uw order is geplaatst."
 
-#: src/jade/tabs/trade.jade:238
+#: src/jade/tabs/trade.jade:240
 msgid "Your order is now active!"
 msgstr "Uw order is nu actief!"
 
-#: src/jade/tabs/trade.jade:240
+#: src/jade/tabs/trade.jade:242
 msgid "Request has been denied!"
 msgstr "Aanvraag werd geweigerd!"
 
-#: src/jade/tabs/trade.jade:241 src/jade/tabs/trust.jade:145
+#: src/jade/tabs/trade.jade:243 src/jade/tabs/trust.jade:145
 msgid "We were unable to submit the request. Please try again later."
 msgstr "We waren niet in staat om de aanvraag te versturen. Probeert u het later opnieuw."
 
-#: src/jade/tabs/trade.jade:243
+#: src/jade/tabs/trade.jade:245
 msgid "Request is malformed!"
 msgstr "Aanvraag is misvormd!"
 
-#: src/jade/tabs/trade.jade:244
+#: src/jade/tabs/trade.jade:246
 msgid ""
 "Your request is invalid, reason: {{order[type].engine_result}} - "
 "{{order[type].engine_result_message}}"
 msgstr "Uw verzoek is ongeldig, reden: {{order[type].engine_result}} - {{order[type].engine_result_message}}"
 
-#: src/jade/tabs/trade.jade:249
+#: src/jade/tabs/trade.jade:251
 msgid ""
 "You do not have enough {{type == 'buy' ? order.second_currency : "
 "order.first_currency}} to create this order."
 msgstr "U heeft niet genoeg {{type == 'buy' ? order.second_currency : order.first_currency}} om deze order te creëren."
 
-#: src/jade/tabs/trade.jade:251
+#: src/jade/tabs/trade.jade:253
 msgid ""
 "You must have at least {{account.reserve_to_add_trust | rpamount}} XRP to "
 "submit an order. {{1}}"
 msgstr "U moet tenminste {{account.reserve_to_add_trust | rpamount}} XRP hebben om een order te creëren. {{1}}"
 
-#: src/jade/tabs/trade.jade:253
+#: src/jade/tabs/trade.jade:255
 msgid "More information."
 msgstr "Meer informatie."
 
-#: src/jade/tabs/trade.jade:254
+#: src/jade/tabs/trade.jade:256
 msgid "Error: {{order[type].engine_result_message}}"
 msgstr "Fout: {{order[type].engine_result_message}}"
 
-#: src/jade/tabs/trade.jade:257
+#: src/jade/tabs/trade.jade:259
 msgid "Trade failed!"
 msgstr "Transactie mislukt!"
 
-#: src/jade/tabs/trade.jade:259
+#: src/jade/tabs/trade.jade:261
 msgid "Trade failed, reason: {{order[type].engine_result_message}}"
 msgstr "Transactie mislukt, reden: {{order[type].engine_result_message}}"
 
-#: src/jade/tabs/trade.jade:272
+#: src/jade/tabs/trade.jade:274
 msgid "Submit another order"
 msgstr "Voeg nog een order toe"
 
-#: src/jade/tabs/trade.jade:275
+#: src/jade/tabs/trade.jade:277
 msgid "Order book"
 msgstr "Orderboek"
 
-#: src/jade/tabs/trade.jade:276
+#: src/jade/tabs/trade.jade:278
 msgid "My Orders {{1}}"
 msgstr "Mijn orders {{1}}"
 
-#: src/jade/tabs/trade.jade:284
+#: src/jade/tabs/trade.jade:286
 msgid "Type"
 msgstr "Type"
 
-#: src/jade/tabs/trade.jade:285
+#: src/jade/tabs/trade.jade:287
 msgid "Pair"
 msgstr "Pair"
 
-#: src/jade/tabs/trade.jade:286
+#: src/jade/tabs/trade.jade:288
 msgid "Price"
 msgstr "Prijs"
 
-#: src/jade/tabs/trade.jade:288
+#: src/jade/tabs/trade.jade:290
 msgid "Action"
 msgstr "Actie"
 
-#: src/jade/tabs/trade.jade:308
+#: src/jade/tabs/trade.jade:310
 msgid "You haven't placed any orders."
 msgstr "U heeft nog geen orders geplaatst."
 
-#: src/jade/tabs/trade.jade:314
+#: src/jade/tabs/trade.jade:316
 msgid "Bids"
 msgstr "Biedingen"
 
-#: src/jade/tabs/trade.jade:316 src/jade/tabs/trade.jade:343
+#: src/jade/tabs/trade.jade:318 src/jade/tabs/trade.jade:345
 msgid "Sum{{1}}{{2}}"
 msgstr "Som {{1}}{{2}}"
 
-#: src/jade/tabs/trade.jade:319 src/jade/tabs/trade.jade:340
+#: src/jade/tabs/trade.jade:321 src/jade/tabs/trade.jade:342
 msgid "Size{{1}}{{2}}"
 msgstr "Grootte {{1}}{{2}}"
 
-#: src/jade/tabs/trade.jade:322
+#: src/jade/tabs/trade.jade:324
 msgid "Bid Price{{1}}{{2}}"
 msgstr "Bied prijs {{1}}{{2}}"
 
-#: src/jade/tabs/trade.jade:333
+#: src/jade/tabs/trade.jade:335
 msgid "There are currently no bids for this pair."
 msgstr "Er zijn op dit moment geen biedingen voor deze pair."
 
-#: src/jade/tabs/trade.jade:335
+#: src/jade/tabs/trade.jade:337
 msgid "Asks"
 msgstr "Vraag"
 
-#: src/jade/tabs/trade.jade:337
+#: src/jade/tabs/trade.jade:339
 msgid "Ask Price{{1}}{{2}}"
 msgstr "Vraag prijs {{1}}{{2}}"
 
-#: src/jade/tabs/trade.jade:354
+#: src/jade/tabs/trade.jade:356
 msgid "There are currently no asks for this pair."
 msgstr "Er is op dit moment geen vraag naar deze pair."
 
@@ -1823,15 +1824,15 @@ msgstr "Adres opgeslagen!"
 
 #: src/jade/tabs/trust.jade:183
 msgid "Back to trust page"
-msgstr "Terug naar krediet overzicht"
+msgstr "Terug naar krediet-overzicht"
 
 #: src/jade/tabs/trust.jade:194
 msgid "edit"
-msgstr "bewerk"
+msgstr "bewerken"
 
 #: src/jade/tabs/tx.jade:3
 msgid "Loading transaction details..."
-msgstr "Transactiedetails opladen..."
+msgstr "Transactiedetails laden..."
 
 #: src/jade/tabs/tx.jade:5
 msgid "An error occurred while loading the transaction details."
@@ -1843,7 +1844,7 @@ msgstr "Transactie # {{transaction.hash}}"
 
 #: src/jade/tabs/tx.jade:9
 msgid "Transaction type: {{1}}"
-msgstr "Transactie type: {{1}}"
+msgstr "Transactie-type: {{1}}"
 
 #: src/jade/tabs/tx.jade:16
 msgid "Address sent from"
@@ -1871,7 +1872,7 @@ msgstr "Valuta ontvangen"
 
 #: src/jade/tabs/tx.jade:43
 msgid "Network fee paid"
-msgstr "Netwerk fee betaald"
+msgstr "Netwerk-heffing betaald"
 
 #: src/jade/tabs/tx.jade:47
 msgid "Conversion rate"
@@ -1879,7 +1880,7 @@ msgstr "Conversieverhouding"
 
 #: src/jade/tabs/tx.jade:53
 msgid "Ledger number"
-msgstr "Ledger nummer"
+msgstr "Boekingsnummer"
 
 #: src/jade/tabs/tx.jade:59
 msgid "Address sent from:"

@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Ripple Client\n"
-"PO-Revision-Date: 2014-01-09 22:47+0000\n"
-"Last-Translator: vhpoet <vhpoet@gmail.com>\n"
+"PO-Revision-Date: 2014-01-11 09:04+0000\n"
+"Last-Translator: bostik150 <ignacio.elizalde240@gmail.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/ripple-client/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -222,10 +222,10 @@ msgstr "Ara confies en {{tx.counterparty | rpcontactname}} per"
 msgid "You have to be online to see this screen"
 msgstr "Ha d'estar en línia per veure aquesta pantalla"
 
-#: src/jade/tabs/balance.jade:10 src/jade/tabs/balance.jade:123
+#: src/jade/tabs/balance.jade:10 src/jade/tabs/balance.jade:126
 #: src/jade/tabs/cashin.jade:10 src/jade/tabs/cashin.jade:37
 #: src/jade/tabs/cashin.jade:196 src/jade/tabs/cashin.jade:255
-#: src/jade/tabs/convert.jade:10 src/jade/tabs/history.jade:176
+#: src/jade/tabs/convert.jade:10 src/jade/tabs/history.jade:179
 #: src/jade/tabs/register.jade:47 src/jade/tabs/trust.jade:10
 msgid "Loading..."
 msgstr "Carregant..."
@@ -253,7 +253,7 @@ msgstr "Esdeveniment"
 
 #: src/jade/tabs/balance.jade:46 src/jade/tabs/history.jade:101
 msgid "You sent {{1}} {{2}}"
-msgstr "Ha enviat {{1}} {{2}}"
+msgstr "Ha enviat a {{1}} {{2}}"
 
 #: src/jade/tabs/balance.jade:50 src/jade/tabs/balance.jade:59
 #: src/jade/tabs/balance.jade:77 src/jade/tabs/balance.jade:90
@@ -273,22 +273,21 @@ msgid "{{entry.transaction.counterparty | rpcontactname}} now trusts you for"
 msgstr "{{entry.transaction.counterparty | rpcontactname}} ara confia amb tu per"
 
 #: src/jade/tabs/balance.jade:82 src/jade/tabs/history.jade:124
-#: src/jade/tabs/history/effects.jade:59
+#: src/jade/tabs/history/effects.jade:63
 msgid "You now trust {{1}} for {{2}}."
 msgstr "Ara confies en {{1}} per {{2}}."
 
 #: src/jade/tabs/balance.jade:95 src/jade/tabs/history.jade:131
-#: src/jade/tabs/history/effects.jade:41
+#: src/jade/tabs/history/effects.jade:45
 msgid "You created an offer to sell {{1}} for {{2}}"
 msgstr "Ha creat una oferta per vendre {{1}} per {{2}}"
 
 #: src/jade/tabs/balance.jade:99 src/jade/tabs/history.jade:135
-#: src/jade/tabs/history/effects.jade:45
+#: src/jade/tabs/history/effects.jade:49
 msgid "You created an offer to buy {{1}} for {{2}}"
 msgstr "Ha creat una oferta per comprar {{1}} per {{2}}"
 
 #: src/jade/tabs/balance.jade:105 src/jade/tabs/history.jade:141
-#: src/jade/tabs/history/effects.jade:36
 msgid "You cancelled an offer accepting {{1}} for {{2}}"
 msgstr "Ha cancel·lat una oferta acceptant {{1}} per {{2}}"
 
@@ -296,19 +295,23 @@ msgstr "Ha cancel·lat una oferta acceptant {{1}} per {{2}}"
 msgid "Account details have been changed"
 msgstr "Les dades del compte han estat modificades"
 
-#: src/jade/tabs/balance.jade:114 src/jade/tabs/history.jade:149
+#: src/jade/tabs/balance.jade:115 src/jade/tabs/history.jade:150
+msgid "Rippling"
+msgstr "Rippling"
+
+#: src/jade/tabs/balance.jade:117 src/jade/tabs/history.jade:152
 msgid "Failed transaction"
 msgstr "Transacció fallida"
 
-#: src/jade/tabs/balance.jade:122 src/jade/tabs/history.jade:178
+#: src/jade/tabs/balance.jade:125 src/jade/tabs/history.jade:181
 msgid "Load more"
 msgstr "Carregar més"
 
-#: src/jade/tabs/balance.jade:124
+#: src/jade/tabs/balance.jade:127
 msgid "Error"
 msgstr "Error"
 
-#: src/jade/tabs/balance.jade:125
+#: src/jade/tabs/balance.jade:128
 msgid "No past transactions found"
 msgstr "Cap transacció passada trobada"
 
@@ -654,7 +657,7 @@ msgstr "Tipus de transacció:{{1}}{{2}}{{3}}"
 #: src/jade/tabs/history.jade:25 src/jade/tabs/history.jade:29
 #: src/jade/tabs/history.jade:33 src/jade/tabs/history.jade:37
 msgid "Change"
-msgstr "Canvia"
+msgstr "Canviar"
 
 #: src/jade/tabs/history.jade:26 src/jade/tabs/history.jade:30
 #: src/jade/tabs/history.jade:34 src/jade/tabs/history.jade:38
@@ -695,7 +698,7 @@ msgstr "Filtre"
 msgid "Minimum amount filter"
 msgstr "Filtre d'import mínim"
 
-#: src/jade/tabs/history.jade:84 src/jade/tabs/history.jade:157
+#: src/jade/tabs/history.jade:84 src/jade/tabs/history.jade:160
 msgid "Description"
 msgstr "Descripció"
 
@@ -715,44 +718,44 @@ msgstr "{{1}} ara confia en vostè per {{2}}"
 msgid "Account details have been Changed"
 msgstr "Els detalls del compte han estat Canviats"
 
-#: src/jade/tabs/history.jade:155
+#: src/jade/tabs/history.jade:158
 msgid "Balance Changes"
 msgstr "Canvis de balanç"
 
-#: src/jade/tabs/history.jade:158
+#: src/jade/tabs/history.jade:161
 msgid "Issuer"
 msgstr "Emissor"
 
-#: src/jade/tabs/history.jade:159 src/jade/tabs/trade.jade:289
+#: src/jade/tabs/history.jade:162 src/jade/tabs/trade.jade:289
 #: src/jade/tabs/trust.jade:54
 msgid "Amount"
 msgstr "Import"
 
-#: src/jade/tabs/history.jade:160
+#: src/jade/tabs/history.jade:163
 msgid "Final balance"
 msgstr "Balanç final"
 
-#: src/jade/tabs/history.jade:163
+#: src/jade/tabs/history.jade:166
 msgid "XRP balance Change"
 msgstr "Canviar balanç de XRP"
 
-#: src/jade/tabs/history.jade:164
+#: src/jade/tabs/history.jade:167
 msgid "{{effect.currency}} balance Change"
 msgstr "Canviar balanç de {{effect.currency}}"
 
-#: src/jade/tabs/history.jade:165
+#: src/jade/tabs/history.jade:168
 msgid "Fee"
 msgstr "Comissió"
 
-#: src/jade/tabs/history.jade:170
+#: src/jade/tabs/history.jade:173
 msgid "Transaction details"
 msgstr "Detalls de la transacció"
 
-#: src/jade/tabs/history.jade:171
+#: src/jade/tabs/history.jade:174
 msgid "Add {{1}} to contact list"
 msgstr "Afegir {{1}} a la llista de contactes"
 
-#: src/jade/tabs/history.jade:179
+#: src/jade/tabs/history.jade:182
 msgid "No more transactions left"
 msgstr "Cap transacció pendent"
 
@@ -780,27 +783,31 @@ msgstr "El restant del seu ordre ha estat cancel·lat per manca de fons."
 msgid "This order has {{1}} remaining."
 msgstr "Aquesta ordre té {{1}} pendents."
 
-#: src/jade/tabs/history/effects.jade:49
+#: src/jade/tabs/history/effects.jade:39
+msgid "Offer ({{1}} for {{2}}) has been cancelled due to lack of funds."
+msgstr "L'oferta ({{1}} per {{2}}) s'ha cancel·lat per manca de fons."
+
+#: src/jade/tabs/history/effects.jade:53
 msgid "You bought {{1}} for {{2}}. ({{3:price}}{{4}})."
 msgstr "Ha comprat {{1}} per {{2}}.({{3:preu}}{{4}})."
 
-#: src/jade/tabs/history/effects.jade:64
+#: src/jade/tabs/history/effects.jade:68
 msgid "{{1}} is trusting you for {{2}}."
 msgstr "{{1}} confia en vostè per {{2}}."
 
-#: src/jade/tabs/history/effects.jade:70
+#: src/jade/tabs/history/effects.jade:74
 msgid "You have changed {{1}} trust for {{2}} from {{3}} to {{4}}."
 msgstr "Ha canviat la confiança de {{1}} per {{2}} de {{3}} a {{4}}."
 
-#: src/jade/tabs/history/effects.jade:80
+#: src/jade/tabs/history/effects.jade:84
 msgid "{{1}} changed the {{2}} trust from {{3}} to {{4}}."
 msgstr "{{1}} ha canviat la confiança en {{2}} de {{3}} a {{4}}."
 
-#: src/jade/tabs/history/effects.jade:90
+#: src/jade/tabs/history/effects.jade:94
 msgid "Trust balance between you and {{1}} has been changed by {{2}}."
 msgstr "El balanç de confiança entre vostè i {{1}} ha estat canviat canviat per {{2}}"
 
-#: src/jade/tabs/history/effects.jade:97
+#: src/jade/tabs/history/effects.jade:101
 msgid "Your balance has been changed by {{1}}."
 msgstr "El seu balanç ha estat canviat per {{1}}."
 
@@ -819,7 +826,7 @@ msgstr "Agafar cartera de"
 #: src/jade/tabs/login.jade:31 src/jade/tabs/login.jade:78
 #: src/jade/tabs/register.jade:53
 msgid "change"
-msgstr "canvia"
+msgstr "canviar"
 
 #: src/jade/tabs/login.jade:34 src/jade/tabs/login.jade:81
 msgid "ok"
@@ -895,7 +902,7 @@ msgstr "Servidors Ripple"
 
 #: src/jade/tabs/options.jade:12
 msgid "WebSocket hostname, port, secure"
-msgstr "WebSocket hostname, port, secure"
+msgstr "WebSocket hostname, port, segur"
 
 #: src/jade/tabs/options.jade:18
 msgid "Socket ip or hostname is invalid."
@@ -939,7 +946,7 @@ msgstr "Ajudar a Ripple Labs a millorar el producte enviant informació anònima
 msgid ""
 "This is your public address. Give this address to other users so they can "
 "send you money."
-msgstr "Aquesta és la seva adreça publica. Lliuri aquesta direcció a altres usuaris perquè li puguin enviar diners."
+msgstr "Aquesta és la seva adreça pública. Lliuri aquesta direcció a altres usuaris perquè li puguin enviar diners."
 
 #: src/jade/tabs/receive.jade:7
 msgid "Tip: {{1:Select}} and copy using Ctrl+C (Win), Command+C (OSX)."
@@ -957,20 +964,20 @@ msgstr "Crear una Cartera Ripple"
 msgid ""
 "Ripple is a global open payments system — a fast, easy way to send any kind "
 "of money to anyone in the world."
-msgstr "Ripple és un sistema obert de pagaments global —  una manera fàcil i ràpida d'enviar qualsevol tipus de diners a qualsevol part del món."
+msgstr "Ripple és un sistema de pagaments global i obert  —  una manera fàcil i ràpida d'enviar qualsevol tipus de diners a qualsevol part del món."
 
 #: src/jade/tabs/register.jade:7
 msgid ""
 "Your Wallet is only as safe as your Wallet username and passphrase, used to "
 "encrypt your Wallet data. Choose a passphrase you can easily remember but "
 "others cannot guess. Hint: Mix letters, numbers, and symbols."
-msgstr "La seva Cartera és només segura si el Nom de la Cartera i la Contrasenya utilitzats per encriptar les dades d'aquesta són segurs. Escolleixi una Contrasenya que pugui recordar fàcilment però que altres no puguin endevinar. Consell: combina lletres, números i símbols."
+msgstr "La seva Cartera serà només segura si el Nom de la Cartera i la Contrasenya utilitzats per encriptar les dades d'aquesta són segurs. Escolleixi una Contrasenya que pugui recordar fàcilment però que altres no puguin endevinar. Consell: combina lletres, números i símbols."
 
 #: src/jade/tabs/register.jade:10
 msgid ""
 "Only you have this Wallet username and passphrase and are responsible for "
 "their safekeeping. Ripple cannot recover them if you forget them! {{1}}"
-msgstr "Només vostè té el Nom i Contrasenya de la Cartera i es responsable de la seva custòdia. Ripple no pot recuperar aquestes dades si vostè les oblida!{{1}}"
+msgstr "Només vostè té el Nom i Contrasenya de la Cartera i es responsable de la seva custòdia. Ripple no pot recuperar aquestes dades si vostè les oblida! {{1}}"
 
 #: src/jade/tabs/register.jade:19
 msgid "Create Wallet username"
@@ -1119,15 +1126,15 @@ msgstr "Sí, he guardat  la meva clau secreta del compte "
 msgid ""
 "Your money and wallet are protected digitally through encryption algorithms "
 "that can be unlocked {{1:only with your personal keys}}"
-msgstr "Els seus diners i la cartera estan protegits digitalment a través d'algoritmes de de xifrat que poden ser desbloquejats {{1:només amb les seves claus personals}}"
+msgstr "Els seus diners i la cartera estan protegits digitalment a través d'algoritmes de xifrat que poden ser desbloquejats {{1:només amb les seves claus personals}}"
 
 #: src/jade/tabs/security.jade:9
 msgid "No one else has them, so don't lose them!"
-msgstr "Ningú més les té, així que no les perdis!"
+msgstr "Ningú més les té, així que no les perdi!"
 
 #: src/jade/tabs/security.jade:12
 msgid "Never share them!"
-msgstr "Mai les comparteixis!"
+msgstr "Mai les comparteixi!"
 
 #: src/jade/tabs/security.jade:15
 msgid "Wallet Key"
@@ -1191,11 +1198,11 @@ msgstr "La Clau Secreta dona accés als Seus diners, els quals es troben dintre 
 msgid ""
 "But if you ever lose your wallet, you can recover just your money with this "
 "key."
-msgstr "Però si perd la seva cartera, només podrà recuperar els seus diners amb aquesta clau. "
+msgstr "Si perd la seva cartera, només podrà recuperar els seus diners amb aquesta clau. "
 
 #: src/jade/tabs/security.jade:50
 msgid "Store it somewhere safe, never share it."
-msgstr "Deseu-la a un lloc segur, mai compartir-la."
+msgstr "Deseu-la a un lloc segur, no la comparteixi mai."
 
 #: src/jade/tabs/security.jade:59
 msgid ""
@@ -1217,7 +1224,7 @@ msgstr "Enviar diners."
 
 #: src/jade/tabs/send.jade:21
 msgid "Recipient"
-msgstr "Receptor"
+msgstr "Destinatari "
 
 #: src/jade/tabs/send.jade:26
 msgid "Please enter a recipient."
@@ -1254,7 +1261,7 @@ msgstr "Etiqueta del emissor invàlida"
 
 #: src/jade/tabs/send.jade:59
 msgid "Recipient will receive"
-msgstr "El receptor rebrà"
+msgstr "El destinatari rebrà"
 
 #: src/jade/tabs/send.jade:72
 msgid "Amount must be greater than zero."
@@ -1485,7 +1492,7 @@ msgstr "Vendre {{1}} {{order.first_currency}}"
 
 #: src/jade/tabs/trade.jade:106 src/jade/tabs/trade.jade:115
 msgid "{{1}}available"
-msgstr "{{1}}disponible"
+msgstr "{{1}}disponibles"
 
 #: src/jade/tabs/trade.jade:129
 msgid "Amount To buy"
@@ -1644,7 +1651,7 @@ msgstr "Suma{{1}}{{2}}"
 
 #: src/jade/tabs/trade.jade:321 src/jade/tabs/trade.jade:342
 msgid "Size{{1}}{{2}}"
-msgstr "Tamany{{1}}{{2}}"
+msgstr "Oferta{{1}}{{2}}"
 
 #: src/jade/tabs/trade.jade:324
 msgid "Bid Price{{1}}{{2}}"
@@ -1684,7 +1691,7 @@ msgstr "Límit de confiança"
 
 #: src/jade/tabs/trust.jade:32
 msgid "Add trust"
-msgstr "Afegir crèdit"
+msgstr "Afegir confiança"
 
 #: src/jade/tabs/trust.jade:45
 msgid "Account does not meet the minimum XRP reserve."
