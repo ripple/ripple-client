@@ -162,14 +162,15 @@ section.single.content(ng-controller='SendCtrl')
       p.literal(ng-show="send.path_status == 'error'", l10n) Error while calculating path
 
       //- Alternatives
-      .currency_sets.row.row-padding-small(ng-if="send.path_status == 'done'")
-        .col-xs-12
-          p.literal(ng-show="send.currency_code != 'XRP' || send.bitcoin", l10n)
-            | You can send
-          p.literal(ng-show="send.currency_code == 'XRP' && !send.bitcoin", l10n)
-            | Or you can send
-        ul
-          li.col-xs-12.col-sm-6.col-md-4.col-lg-3(ng-repeat="alt in send.alternatives")
+      .currency_sets(ng-if="send.path_status == 'done'")
+        .row.row-padding-small
+          .col-xs-12
+            p.literal(ng-show="send.currency_code != 'XRP' || send.bitcoin", l10n)
+              | You can send
+            p.literal(ng-show="send.currency_code == 'XRP' && !send.bitcoin", l10n)
+              | Or you can send
+        .row.row-padding-small.alternatives(ng-show="send.alternatives.length")
+          .col-xs-12.col-sm-6.col-md-4.col-lg-3(ng-repeat="alt in send.alternatives")
             .margin
               .am
                 span.amnt {{alt.amount | rpamount:{rel_precision: 4, rel_min_precision: 2} }}
@@ -177,6 +178,12 @@ section.single.content(ng-controller='SendCtrl')
               button.btn.btn-block.btn-success(type="submit"
                 ng-disabled='sendForm.$invalid', ng-click="send.alt = alt", l10n)
                   | Send {{ alt.amount | rpcurrency }}
+        .row.row-padding-small.pathupdate(ng-show="send.alternatives.length && lastUpdate")
+          .col-xs-12(l10n) Paths last updated
+            span  {{lastUpdate}}
+            span(ng-show="lastUpdate > '1'", l10n-inc)  seconds
+            span(ng-show="lastUpdate == '1'", l10n-inc)  second
+            |  ago
 
   //- N2. Waiting for path
 

@@ -26,6 +26,8 @@ ConvertTab.prototype.angular = function (module)
     {
       if (!$id.loginStatus) return $id.goId();
 
+      var timer;
+
       $scope.xrp = _.where($scope.currencies_all, {value: "XRP"})[0];
 
       $scope.$watch('convert.amount', function () {
@@ -76,8 +78,20 @@ ConvertTab.prototype.angular = function (module)
               $id.account,
               amount);
 
+          var lastUpdate;
+
           pf.on('update', function (upd) {
             $scope.$apply(function () {
+              lastUpdate = new Date();
+
+              clearInterval(timer);
+              timer = setInterval(function(){
+                $scope.$apply(function(){
+                  var seconds = Math.round((new Date() - lastUpdate)/1000);
+                  $scope.lastUpdate = seconds ? seconds : 0;
+                })
+              }, 1000);
+
               if (!upd.alternatives || !upd.alternatives.length) {
                 $scope.convert.path_status = "no-path";
               } else {
