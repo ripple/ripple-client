@@ -5,7 +5,7 @@ var path = require("path"),
 var BannerPlugin = require("webpack/lib/BannerPlugin");
 
 module.exports = function(grunt) {
-  grunt.loadTasks('scripts/grunt');
+  // grunt.loadTasks('scripts/grunt');
   grunt.loadNpmTasks('grunt-recess');
   grunt.loadNpmTasks('grunt-webpack');
   grunt.loadNpmTasks('grunt-preprocess');
