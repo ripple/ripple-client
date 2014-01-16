@@ -101,9 +101,10 @@ section.col-xs-12.col-md-10.content(ng-controller="HistoryCtrl")
             span.dt {{entry.date | date:'EEE, MMM d, h:mm a'}}
             span.desc(ng-switch on="entry.transaction.type")
               span(ng-switch-when="sent")
-                span(l10n) You sent&#32;
-                  span.address(title="{{entry.transaction.counterparty}}") {{entry.transaction.counterparty | rpcontactname}}
+                span(l10n) You sent
                   strong  {{entry.transaction.amount | rpamount}} {{entry.transaction.amount | rpcurrency}}
+                  |  to&#32;
+                  span.address(title="{{entry.transaction.counterparty}}") {{entry.transaction.counterparty | rpcontactname}}
                 != require("./history/effects.jade")()
               span(ng-switch-when="received")
                 span(l10n)

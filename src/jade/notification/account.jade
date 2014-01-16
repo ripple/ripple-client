@@ -1,11 +1,11 @@
 case tx.type
   when "sent"
     .type-info(l10n) You sent&#32;
-      span(title="{{tx.counterparty}}") {{tx.counterparty | rpcontactname}}
-      | &#32;
       span.number {{tx.amount | rpamount}}
       | &#32;
       span.currency {{tx.currency}}
+      |  to&#32;
+      span(title="{{tx.counterparty}}") {{tx.counterparty | rpcontactname}}
   when "received"
     .type-success
       span(title="{{tx.counterparty}}", l10n) {{tx.counterparty | rpcontactname}} sent you
