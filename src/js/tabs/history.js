@@ -309,6 +309,9 @@ HistoryTab.prototype.angular = function (module) {
             event.balanceEffects = effects;
           }
 
+          // Don't show sequence update events
+          if (event.effects && 1 === event.effects.length && event.effects[0].type == 'fee')
+            return;
 
           // Push events to history collection
           $scope.historyShow.push(event);
