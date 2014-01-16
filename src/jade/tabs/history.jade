@@ -98,6 +98,7 @@ section.col-xs-12.col-md-10.content(ng-controller="HistoryCtrl")
               i.fa.fa-download.fa-rotate-270(ng-show="entry.transaction.type=='trusting'")
               i.fa.fa-exchange(ng-show="!entry.transaction.type || entry.transaction.type=='offernew' || entry.transaction.type=='offercancel' || entry.transaction.type=='convert' || entry.transaction.type=='rippling'")
               i.fa.fa-cogs(ng-show="entry.transaction.type=='accountset'")
+              i.fa.fa-exclamation-triangle(ng-show="entry.transaction.type=='failed'")
             span.dt {{entry.date | date:'EEE, MMM d, h:mm a'}}
             span.desc(ng-switch on="entry.transaction.type")
               span(ng-switch-when="sent")
