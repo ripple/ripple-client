@@ -241,7 +241,7 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
     console.log("client: blob: consolidation at revision", this.revision);
     var encrypted = this.encrypt();
 
-    $http({
+    var config = {
       method: 'POST',
       url: this.url + '/blob/consolidate',
       responseType: 'json',
@@ -250,7 +250,9 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
         data: encrypted,
         revision: this.revision
       }
-    })
+    };
+
+    $http(this.signRequest(config))
       .success(function(data, status, headers, config) {
         if (data.result === "success") {
           callback(null, data);
@@ -382,6 +384,91 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
     }
   };
 
+  function copyObjectWithSortedKeys(object) {
+    if (jQuery.isPlainObject(object)) {
+      var newObj = {};
+      var keysSorted = Object.keys(object).sort();
+      var key;
+      for (var i in keysSorted) {
+        key = keysSorted[i];
+        if (Object.prototype.hasOwnProperty.call(object, key)) {
+          newObj[key] = copyObjectWithSortedKeys(object[key]);
+        }
+      }
+      return newObj;
+    } else if (jQuery.isArray(object)) {
+      return object.map(copyObjectWithSortedKeys);
+    } else {
+      return object;
+    }
+  }
+
+  var dateAsIso8601 = (function () {
+    function pad(n) {
+      return (n < 0 || n > 9 ? "" : "0") + n;
+    }
+
+    return function dateAsIso8601() {
+      var date = new Date();
+      return date.getUTCFullYear() + "-"
+        + pad(date.getUTCMonth() + 1) + "-"
+        + pad(date.getUTCDate()) + "T"
+        + pad(date.getUTCHours()) + ":"
+        + pad(date.getUTCMinutes()) + ":"
+        + pad(date.getUTCSeconds()) + ".000Z";
+    };
+  })();
+
+  BlobObj.prototype.signRequest = function (config) {
+    config = $.extend({}, config);
+
+    // XXX This method doesn't handle signing GET requests correctly. The data
+    //     field will be merged into the search string, not the request body.
+
+    // Parse URL
+    var parser = document.createElement('a');
+    parser.href = config.url;
+
+    // Sort the properties of the JSON object into canonical form
+    var canonicalData = JSON.stringify(copyObjectWithSortedKeys(config.data));
+
+    // Canonical request using Amazon's v4 signature format
+    // See: http://docs.aws.amazon.com/general/latest/gr/sigv4-create-canonical-request.html
+    var canonicalRequest = [
+      config.method || 'GET',
+      parser.pathname || '',
+      parser.search || '',
+      // XXX Headers signing not supported
+      '',
+      '',
+      sjcl.codec.hex.fromBits(sjcl.hash.sha512.hash(canonicalData)).toLowerCase()
+    ].join('\n');
+
+    var date = dateAsIso8601();
+
+    // String to sign inspired by Amazon's v4 signature format
+    // See: http://docs.aws.amazon.com/general/latest/gr/sigv4-create-string-to-sign.html
+    //
+    // We don't have a credential scope, so we skip it.
+    //
+    // But that modifies the format, so the format ID is RIPPLE1, instead of AWS4.
+    var stringToSign = [
+      'RIPPLE1-HMAC-SHA512',
+      date,
+      sjcl.codec.hex.fromBits(sjcl.hash.sha512.hash(canonicalRequest)).toLowerCase()
+    ].join('\n');
+
+    var hmac = new sjcl.misc.hmac(sjcl.codec.hex.toBits(this.data.auth_secret), sjcl.hash.sha512);
+    var signature = sjcl.codec.hex.fromBits(hmac.mac(stringToSign));
+
+    config.url += (parser.search ? "&" : "?") +
+      'signature='+signature+
+      '&signature_date='+date+
+      '&signature_blob_id='+this.id;
+
+    return config;
+  };
+
   BlobObj.prototype.postUpdate = function (op, pointer, params, callback) {
     // Callback is optional
     if ("function" !== typeof callback) callback = $.noop;
@@ -401,7 +488,7 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
     params.unshift(pointer);
     params.unshift(op);
 
-    $http({
+    var config = {
       method: 'POST',
       url: this.url + '/blob/patch',
       responseType: 'json',
@@ -409,7 +496,9 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
         blob_id: this.id,
         patch: encrypt(this.key, JSON.stringify(params))
       }
-    })
+    };
+
+    $http(this.signRequest(config))
       .success(function(data, status, headers, config) {
         if (data.result === "success") {
           console.log("client: blob: saved patch as revision", data.revision);
