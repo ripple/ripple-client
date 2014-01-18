@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Ripple Client\n"
-"PO-Revision-Date: 2014-01-13 15:57+0000\n"
-"Last-Translator: dotanshema <fromgamil@gmail.com>\n"
+"PO-Revision-Date: 2014-01-16 19:07+0000\n"
+"Last-Translator: vhpoet <vhpoet@gmail.com>\n"
 "Language-Team: Hebrew (Israel) (http://www.transifex.com/projects/p/ripple-client/language/he_IL/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -31,7 +31,7 @@ msgid "Contacts"
 msgstr "המוטבים שלי"
 
 #: src/jade/client/index.jade:9 src/jade/menu/wallet.jade:11
-#: src/jade/tabs/convert.jade:43
+#: src/jade/tabs/convert.jade:44
 msgid "Convert"
 msgstr "להמיר"
 
@@ -100,8 +100,20 @@ msgstr "טוען את המאזן שלך..."
 msgid "Unfunded account"
 msgstr "חשבון לא ממומן"
 
-#: src/jade/directives/transactionerror.jade:4 src/jade/tabs/convert.jade:104
-#: src/jade/tabs/send.jade:221
+#: src/jade/client/status.jade:18
+msgid "XRP Balance"
+msgstr ""
+
+#: src/jade/client/status.jade:18
+msgid ""
+"Your current XRP balance is {{account.Balance | rpamount:{precision: 2, "
+"max_sig_digits: 20} }}. Account reserve is {{ account.reserve | rpamount }} "
+"XRP. <br /><a href='https://ripple.com/wiki/Reserves' target='_blank'>More "
+"information</a>"
+msgstr ""
+
+#: src/jade/directives/transactionerror.jade:4 src/jade/tabs/convert.jade:111
+#: src/jade/tabs/send.jade:228
 msgid "Your transaction has been submitted."
 msgstr "העסקה שלך הוגשה"
 
@@ -109,37 +121,37 @@ msgstr "העסקה שלך הוגשה"
 msgid "Your account balance will update once the transaction has cleared."
 msgstr "יתרת החשבון שלך תתעדכן לאחר ניכוי העסקה."
 
-#: src/jade/directives/transactionerror.jade:7 src/jade/tabs/convert.jade:107
-#: src/jade/tabs/send.jade:224
+#: src/jade/directives/transactionerror.jade:7 src/jade/tabs/convert.jade:114
+#: src/jade/tabs/send.jade:231
 msgid "Transaction cleared!"
 msgstr "עסקה נוכתה!"
 
-#: src/jade/directives/transactionerror.jade:9 src/jade/tabs/convert.jade:109
-#: src/jade/tabs/send.jade:226
+#: src/jade/directives/transactionerror.jade:9 src/jade/tabs/convert.jade:116
+#: src/jade/tabs/send.jade:233
 msgid "Transaction partially valid!"
 msgstr "עסקה תקפה באופן חלקי!"
 
-#: src/jade/directives/transactionerror.jade:10 src/jade/tabs/convert.jade:110
-#: src/jade/tabs/send.jade:227
+#: src/jade/directives/transactionerror.jade:10 src/jade/tabs/convert.jade:117
+#: src/jade/tabs/send.jade:234
 msgid "Your transaction could only be partially applied."
 msgstr "העסקה שלך יכולה להיות מיושמת באופן חלקי בלבד."
 
 #: src/jade/directives/transactionerror.jade:12
-#: src/jade/directives/transactionerror.jade:17 src/jade/tabs/convert.jade:116
-#: src/jade/tabs/convert.jade:121 src/jade/tabs/send.jade:233
-#: src/jade/tabs/send.jade:238
+#: src/jade/directives/transactionerror.jade:17 src/jade/tabs/convert.jade:123
+#: src/jade/tabs/convert.jade:128 src/jade/tabs/send.jade:240
+#: src/jade/tabs/send.jade:245
 msgid "Transaction malformed!"
 msgstr "עסקה בעלת מבנה פגום!"
 
-#: src/jade/directives/transactionerror.jade:14 src/jade/tabs/convert.jade:118
-#: src/jade/tabs/send.jade:235
+#: src/jade/directives/transactionerror.jade:14 src/jade/tabs/convert.jade:125
+#: src/jade/tabs/send.jade:242
 msgid ""
 "Your transaction is invalid, reason: {{engine_result}} - "
 "{{engine_result_message}}"
 msgstr "העסקה שלך היא לא חוקית, סיבה: {{engine_result}} - {{engine_result_message}}"
 
-#: src/jade/directives/transactionerror.jade:19 src/jade/tabs/convert.jade:123
-#: src/jade/tabs/send.jade:240
+#: src/jade/directives/transactionerror.jade:19 src/jade/tabs/convert.jade:130
+#: src/jade/tabs/send.jade:247
 msgid ""
 "Destination account requires destination tag to be specified when making "
 "payments."
@@ -148,10 +160,10 @@ msgstr "דרוש חשבון יעד צריך לציין תג יעד כאשר מב
 #: src/jade/directives/transactionerror.jade:22
 #: src/jade/directives/transactionerror.jade:28
 #: src/jade/directives/transactionerror.jade:37
-#: src/jade/directives/transactionerror.jade:44 src/jade/tabs/convert.jade:126
-#: src/jade/tabs/convert.jade:135 src/jade/tabs/convert.jade:142
-#: src/jade/tabs/send.jade:243 src/jade/tabs/send.jade:249
-#: src/jade/tabs/send.jade:258 src/jade/tabs/trade.jade:249
+#: src/jade/directives/transactionerror.jade:44 src/jade/tabs/convert.jade:133
+#: src/jade/tabs/convert.jade:142 src/jade/tabs/convert.jade:149
+#: src/jade/tabs/send.jade:250 src/jade/tabs/send.jade:256
+#: src/jade/tabs/send.jade:265 src/jade/tabs/trade.jade:249
 #: src/jade/tabs/trade.jade:263 src/jade/tabs/trust.jade:160
 msgid "Transaction failed!"
 msgstr "עסקה נכשלה!"
@@ -162,24 +174,24 @@ msgid ""
 " processyour transaction at the fee you included in it."
 msgstr "השרת המסוים ששלחת את העסקה היה עסוק מדי כדי להעביר או לעבד את העסקה שלכם בעמלה שכללתם בו."
 
-#: src/jade/directives/transactionerror.jade:30 src/jade/tabs/convert.jade:128
-#: src/jade/tabs/send.jade:251
+#: src/jade/directives/transactionerror.jade:30 src/jade/tabs/convert.jade:135
+#: src/jade/tabs/send.jade:258
 msgid "The destination account does not exist."
 msgstr "חשבון היעד אינו קיים."
 
-#: src/jade/directives/transactionerror.jade:32 src/jade/tabs/convert.jade:130
-#: src/jade/tabs/send.jade:253
+#: src/jade/directives/transactionerror.jade:32 src/jade/tabs/convert.jade:137
+#: src/jade/tabs/send.jade:260
 msgid ""
 "The destination account does not exist. Too little XRP sent to create it."
 msgstr "חשבון היעד אינו קיים. נשלח מעט מדי XRP כדי ליצור אותו."
 
-#: src/jade/directives/transactionerror.jade:34 src/jade/tabs/convert.jade:132
-#: src/jade/tabs/send.jade:255
+#: src/jade/directives/transactionerror.jade:34 src/jade/tabs/convert.jade:139
+#: src/jade/tabs/send.jade:262
 msgid "Error: {{engine_result_message}}"
 msgstr "שגיאה: {{engine_result_message}}"
 
-#: src/jade/directives/transactionerror.jade:39 src/jade/tabs/convert.jade:137
-#: src/jade/tabs/send.jade:260 src/jade/tabs/trust.jade:152
+#: src/jade/directives/transactionerror.jade:39 src/jade/tabs/convert.jade:144
+#: src/jade/tabs/send.jade:267 src/jade/tabs/trust.jade:152
 msgid "You have no trust line in this currency."
 msgstr "אין לך חשבון נאמנים במטבע זה."
 
@@ -200,8 +212,8 @@ msgid ""
 msgstr "לא ניתן להגיש את העסקה שלך: {{engine_result}} - {{engine_result_message}}"
 
 #: src/jade/notification/account.jade:3
-msgid "You sent {{1}} {{2}} {{3}}"
-msgstr "אתם שלחתם {{1}} {{2}} {{3}}"
+msgid "You sent {{1}} {{2}} to {{3}}"
+msgstr ""
 
 #: src/jade/notification/account.jade:11
 msgid "{{tx.counterparty | rpcontactname}} sent you"
@@ -222,10 +234,10 @@ msgstr "אתה עכשיו נבטח {{tx.counterparty | rpcontactname}} עבור"
 msgid "You have to be online to see this screen"
 msgstr "עליכם להיות מחוברים על מנת לראות דף זה"
 
-#: src/jade/tabs/balance.jade:10 src/jade/tabs/balance.jade:126
+#: src/jade/tabs/balance.jade:10 src/jade/tabs/balance.jade:127
 #: src/jade/tabs/cashin.jade:10 src/jade/tabs/cashin.jade:37
 #: src/jade/tabs/cashin.jade:196 src/jade/tabs/cashin.jade:255
-#: src/jade/tabs/convert.jade:10 src/jade/tabs/history.jade:179
+#: src/jade/tabs/convert.jade:10 src/jade/tabs/history.jade:180
 #: src/jade/tabs/register.jade:47 src/jade/tabs/trust.jade:10
 msgid "Loading..."
 msgstr "טוען..."
@@ -252,66 +264,66 @@ msgid "Event"
 msgstr "פעולה"
 
 #: src/jade/tabs/balance.jade:46 src/jade/tabs/history.jade:101
-msgid "You sent {{1}} {{2}}"
-msgstr "אתם שלחתם {{1}} {{2}}"
+msgid "You sent {{1}} to {{2}}"
+msgstr ""
 
-#: src/jade/tabs/balance.jade:50 src/jade/tabs/balance.jade:59
-#: src/jade/tabs/balance.jade:77 src/jade/tabs/balance.jade:90
+#: src/jade/tabs/balance.jade:51 src/jade/tabs/balance.jade:60
+#: src/jade/tabs/balance.jade:78 src/jade/tabs/balance.jade:91
 msgid "Add to contacts"
 msgstr "להוסיף למוטבים"
 
-#: src/jade/tabs/balance.jade:55
+#: src/jade/tabs/balance.jade:56
 msgid "{{entry.transaction.counterparty | rpcontactname}} sent you"
 msgstr "{{entry.transaction.counterparty | rpcontactname}} שלח אליך"
 
-#: src/jade/tabs/balance.jade:64 src/jade/tabs/history.jade:112
+#: src/jade/tabs/balance.jade:65 src/jade/tabs/history.jade:113
 msgid "You requested to convert {{1}} to {{2}}"
 msgstr "בקשתם להמיר {{1}} ל {{2}}"
 
-#: src/jade/tabs/balance.jade:72
+#: src/jade/tabs/balance.jade:73
 msgid "{{entry.transaction.counterparty | rpcontactname}} now trusts you for"
 msgstr "{{entry.transaction.counterparty | rpcontactname}} עכשיו נותן בך אמון עבור"
 
-#: src/jade/tabs/balance.jade:82 src/jade/tabs/history.jade:124
+#: src/jade/tabs/balance.jade:83 src/jade/tabs/history.jade:125
 #: src/jade/tabs/history/effects.jade:63
 msgid "You now trust {{1}} for {{2}}."
 msgstr "אתם עכשיו סומכים על {{1}} עבור {{2}}."
 
-#: src/jade/tabs/balance.jade:95 src/jade/tabs/history.jade:131
+#: src/jade/tabs/balance.jade:96 src/jade/tabs/history.jade:132
 #: src/jade/tabs/history/effects.jade:45
 msgid "You created an offer to sell {{1}} for {{2}}"
 msgstr "אתם יצרתם הצעת מחיר {{1}} עבור {{2}}"
 
-#: src/jade/tabs/balance.jade:99 src/jade/tabs/history.jade:135
+#: src/jade/tabs/balance.jade:100 src/jade/tabs/history.jade:136
 #: src/jade/tabs/history/effects.jade:49
 msgid "You created an offer to buy {{1}} for {{2}}"
 msgstr "אתם יצרתם הצעת קנייה {{1}} עבור {{2}}"
 
-#: src/jade/tabs/balance.jade:105 src/jade/tabs/history.jade:141
+#: src/jade/tabs/balance.jade:106 src/jade/tabs/history.jade:142
 msgid "You cancelled an offer accepting {{1}} for {{2}}"
 msgstr "ביטלתם את ההצעה לקבל {{1}} מידי {{2}}"
 
-#: src/jade/tabs/balance.jade:112
+#: src/jade/tabs/balance.jade:113
 msgid "Account details have been changed"
 msgstr "פרטי חשבון שונו "
 
-#: src/jade/tabs/balance.jade:115 src/jade/tabs/history.jade:150
+#: src/jade/tabs/balance.jade:116 src/jade/tabs/history.jade:151
 msgid "Rippling"
 msgstr "Rippling "
 
-#: src/jade/tabs/balance.jade:117 src/jade/tabs/history.jade:152
+#: src/jade/tabs/balance.jade:118 src/jade/tabs/history.jade:153
 msgid "Failed transaction"
 msgstr "עסקה נכשלה"
 
-#: src/jade/tabs/balance.jade:125 src/jade/tabs/history.jade:181
+#: src/jade/tabs/balance.jade:126 src/jade/tabs/history.jade:182
 msgid "Load more"
 msgstr "טען עוד"
 
-#: src/jade/tabs/balance.jade:127
+#: src/jade/tabs/balance.jade:128
 msgid "Error"
 msgstr "שגיאה"
 
-#: src/jade/tabs/balance.jade:128
+#: src/jade/tabs/balance.jade:129
 msgid "No past transactions found"
 msgstr "לא נמצאו עסקאות שבצעו בעבר"
 
@@ -320,8 +332,8 @@ msgid "You have to be funded before you can use this tab."
 msgstr "אתם חייבים להיות ממומנים כדי להשתמש בתגית הזו."
 
 #: src/jade/tabs/cashin.jade:14 src/jade/tabs/convert.jade:14
-#: src/jade/tabs/convert.jade:152 src/jade/tabs/send.jade:12
-#: src/jade/tabs/send.jade:214 src/jade/tabs/send.jade:285
+#: src/jade/tabs/convert.jade:159 src/jade/tabs/send.jade:12
+#: src/jade/tabs/send.jade:221 src/jade/tabs/send.jade:292
 #: src/jade/tabs/trust.jade:18 src/jade/tabs/trust.jade:130
 msgid "Back to balance"
 msgstr "חזרה למאזן חשבון"
@@ -433,11 +445,24 @@ msgid "Please enter last 4 digits of your social security number."
 msgstr "נא להזין את 4 הספרות האחרונות של מספר הביטוח הלאומי שלך. "
 
 #: src/jade/tabs/cashin.jade:192 src/jade/tabs/contacts.jade:35
-#: src/jade/tabs/contacts.jade:73 src/jade/tabs/send.jade:209
-#: src/jade/tabs/send.jade:280 src/jade/tabs/trade.jade:308
+#: src/jade/tabs/contacts.jade:73 src/jade/tabs/send.jade:216
+#: src/jade/tabs/send.jade:287 src/jade/tabs/trade.jade:308
 #: src/jade/tabs/trust.jade:76
 msgid "Cancel"
 msgstr "ביטול"
+
+#: src/jade/tabs/cashin.jade:202
+msgid "Trust line"
+msgstr ""
+
+#: src/jade/tabs/cashin.jade:202
+msgid ""
+"Your cash will be held by the SnapSwap gateway, so you'll need to trust "
+"SnapSwap before depositing cash at a ZipZap location. <a "
+"href=\"https://ripplelabs.zendesk.com/hc/en-us/articles/200916587"
+"-Understanding-trust-lines\", target=\"_blank\") More information about "
+"trusting</a>"
+msgstr ""
 
 #: src/jade/tabs/cashin.jade:254
 msgid "Search!"
@@ -461,7 +486,7 @@ msgid "Please enter a name."
 msgstr "הזינו שם בבקשה."
 
 #: src/jade/tabs/contacts.jade:19 src/jade/tabs/contacts.jade:44
-#: src/jade/tabs/send.jade:203 src/jade/tabs/send.jade:274
+#: src/jade/tabs/send.jade:210 src/jade/tabs/send.jade:281
 #: src/jade/tabs/trust.jade:174
 msgid "You already have a contact with the same name."
 msgstr "כבר יש לכם מוטב בעל שם זהה."
@@ -500,7 +525,7 @@ msgid "Delete"
 msgstr "למחוק"
 
 #: src/jade/tabs/contacts.jade:64 src/jade/tabs/options.jade:47
-#: src/jade/tabs/send.jade:208 src/jade/tabs/send.jade:279
+#: src/jade/tabs/send.jade:215 src/jade/tabs/send.jade:286
 #: src/jade/tabs/trust.jade:179
 msgid "Save"
 msgstr "שמירה"
@@ -554,91 +579,95 @@ msgstr "סליחה! לא ניתן להמיר {{convert.amount}} {{convert.curren
 
 #: src/jade/tabs/convert.jade:40 src/jade/tabs/send.jade:112
 msgid "Error while calculating path"
-msgstr "שגיאה בעת חישוב חיבור"
+msgstr "שגיאה בעת חישוב נתיב"
 
-#: src/jade/tabs/convert.jade:49
+#: src/jade/tabs/convert.jade:50
 msgid "Convert {{ alt.amount | rpcurrency }}"
 msgstr "המירו {{alt.amount | rpcurrency}}"
 
-#: src/jade/tabs/convert.jade:54
-msgid "Ripple is calculating a path for your conversion."
-msgstr "ריפל מחשב חיבור עבור ההמרות שלך."
+#: src/jade/tabs/convert.jade:52 src/jade/tabs/send.jade:131
+msgid "Paths last updated {{1}} {{2: seconds}} {{3: second}} ago"
+msgstr "עדכון אחרון לנתיבים התבצע לפני {{1}} {{2: seconds}} {{3: second}}"
 
-#: src/jade/tabs/convert.jade:59
+#: src/jade/tabs/convert.jade:61
+msgid "Ripple is calculating a path for your conversion."
+msgstr "ריפל מחשב נתיב עבור ההמרות שלך."
+
+#: src/jade/tabs/convert.jade:66
 msgid ""
 "{{1:You are converting}}{{2}}{{3:to}}{{4}}{{5:You will pay at "
 "most}}{{6}}{{7:Are you sure?}}"
 msgstr "{{1: אתם ממירים}} {{2}} {{3: ל}} {{4}} {{5: אתם תשלמו לכל היותר}} {{6}} {{7: האם אתם בטוחים? }}"
 
-#: src/jade/tabs/convert.jade:76 src/jade/tabs/convert.jade:98
-#: src/jade/tabs/send.jade:160 src/jade/tabs/send.jade:188
+#: src/jade/tabs/convert.jade:83 src/jade/tabs/convert.jade:105
+#: src/jade/tabs/send.jade:167 src/jade/tabs/send.jade:195
 #: src/jade/tabs/trade.jade:225 src/jade/tabs/trust.jade:114
 #: src/jade/tabs/trust.jade:134
 msgid "&laquo; Back"
 msgstr "חזור"
 
-#: src/jade/tabs/convert.jade:78 src/jade/tabs/send.jade:163
+#: src/jade/tabs/convert.jade:85 src/jade/tabs/send.jade:170
 #: src/jade/tabs/trade.jade:50 src/jade/tabs/trade.jade:60
 #: src/jade/tabs/trade.jade:227 src/jade/tabs/trust.jade:116
 msgid "Confirm"
 msgstr "אשר"
 
-#: src/jade/tabs/convert.jade:83 src/jade/tabs/send.jade:168
+#: src/jade/tabs/convert.jade:90 src/jade/tabs/send.jade:175
 msgid "Sending transaction to Ripple network"
 msgstr "שולח עסקה לרשת ריפל"
 
-#: src/jade/tabs/convert.jade:85 src/jade/tabs/send.jade:170
+#: src/jade/tabs/convert.jade:92 src/jade/tabs/send.jade:177
 #: src/jade/tabs/trust.jade:123
 msgid "Stop waiting"
 msgstr "הפסק המתנה"
 
-#: src/jade/tabs/convert.jade:91 src/jade/tabs/send.jade:179
+#: src/jade/tabs/convert.jade:98 src/jade/tabs/send.jade:186
 msgid "No Path"
-msgstr "אין חיבור"
+msgstr "אין נתיב"
 
-#: src/jade/tabs/convert.jade:92 src/jade/tabs/send.jade:180
+#: src/jade/tabs/convert.jade:99 src/jade/tabs/send.jade:187
 msgid ""
 "Ripple was unable to find a path between you and the destination account."
-msgstr "ריפל לא הצליחה למצוא חיבור בינך לבין חשבון היעד."
+msgstr "ריפל לא הצליחה למצוא נתיב בינך לבין חשבון היעד."
 
-#: src/jade/tabs/convert.jade:94
+#: src/jade/tabs/convert.jade:101
 msgid ""
 "Sorry, an error occurred while submitting your transaction. Make sure you "
 "are connected to the Internet and try again later."
 msgstr "מצטערים, ארעה שגיאה בעת הגשת העסקה שלכם. ודאו שאתם מחוברים לאינטרנט ונסו שוב מאוחר יותר."
 
-#: src/jade/tabs/convert.jade:96
+#: src/jade/tabs/convert.jade:103
 msgid ""
 "Before trying again, please ensure that the transaction has not been "
 "executed already."
 msgstr "לפני שתנסו שוב, בבקשה בדקו כי העסקה לא בוצעה כבר."
 
-#: src/jade/tabs/convert.jade:105 src/jade/tabs/send.jade:222
+#: src/jade/tabs/convert.jade:112 src/jade/tabs/send.jade:229
 msgid "Your account balance will update once the payment has cleared."
 msgstr "יתרת החשבון שלך תעדכן כאשר תשלום זה ינוכה מחשבונכם."
 
-#: src/jade/tabs/convert.jade:112 src/jade/tabs/send.jade:229
+#: src/jade/tabs/convert.jade:119 src/jade/tabs/send.jade:236
 msgid "Transaction could not be submitted!"
 msgstr "לא ניתן להגיש עסקה!"
 
-#: src/jade/tabs/convert.jade:113 src/jade/tabs/send.jade:230
+#: src/jade/tabs/convert.jade:120 src/jade/tabs/send.jade:237
 msgid ""
 "We were unable to submit the transaction to the server.Please try again "
 "later."
 msgstr "לא הצלחנו להגיש את העסקה לשרת. אנא נסו שוב מאוחר יותר."
 
-#: src/jade/tabs/convert.jade:139 src/jade/tabs/send.jade:262
+#: src/jade/tabs/convert.jade:146 src/jade/tabs/send.jade:269
 msgid "Your transaction failed to clear, reason: {{engine_result_message}}"
 msgstr "העסקה שלך לא נוכתה, סיבה: {{engine_result_message}}"
 
-#: src/jade/tabs/convert.jade:144 src/jade/tabs/send.jade:245
+#: src/jade/tabs/convert.jade:151 src/jade/tabs/send.jade:252
 #: src/jade/tabs/trade.jade:265 src/jade/tabs/trust.jade:162
 msgid ""
 "The particular server you sent the transaction to was too busy to forward or"
 " process your transaction at the fee you included in it."
 msgstr "השרת המסוים ששלחת את העסקה היה עסוק מדי כדי להעביר או לעבד את העסקה שלכם בעמלה שכללתם בו."
 
-#: src/jade/tabs/convert.jade:150
+#: src/jade/tabs/convert.jade:157
 msgid "Do another conversion"
 msgstr "לבצע המרה אחרת"
 
@@ -698,7 +727,7 @@ msgstr "לסנן"
 msgid "Minimum amount filter"
 msgstr "סכום מינימלי לסינון "
 
-#: src/jade/tabs/history.jade:84 src/jade/tabs/history.jade:160
+#: src/jade/tabs/history.jade:84 src/jade/tabs/history.jade:161
 msgid "Description"
 msgstr "תיאור העסקה"
 
@@ -706,56 +735,56 @@ msgstr "תיאור העסקה"
 msgid "Sorry, no transactions match your current filter."
 msgstr "מצטערים, אין עסקות המתאימות לסינון הנוכחי שלך."
 
-#: src/jade/tabs/history.jade:106
+#: src/jade/tabs/history.jade:107
 msgid "{{1}} sent you {{2}}"
 msgstr "{{1}} שלח לך {{2}}"
 
-#: src/jade/tabs/history.jade:118
+#: src/jade/tabs/history.jade:119
 msgid "{{1}} now trusts you for {{2}}"
 msgstr "{{1}} עכשיו נותן בך אמון עבור {{2}}"
 
-#: src/jade/tabs/history.jade:147
+#: src/jade/tabs/history.jade:148
 msgid "Account details have been Changed"
 msgstr "פרטי חשבון שונו "
 
-#: src/jade/tabs/history.jade:158
+#: src/jade/tabs/history.jade:159
 msgid "Balance Changes"
 msgstr "שינוי מאזן"
 
-#: src/jade/tabs/history.jade:161
+#: src/jade/tabs/history.jade:162
 msgid "Issuer"
 msgstr "מנפיק"
 
-#: src/jade/tabs/history.jade:162 src/jade/tabs/trade.jade:289
+#: src/jade/tabs/history.jade:163 src/jade/tabs/trade.jade:289
 #: src/jade/tabs/trust.jade:54
 msgid "Amount"
 msgstr "סכום"
 
-#: src/jade/tabs/history.jade:163
+#: src/jade/tabs/history.jade:164
 msgid "Final balance"
 msgstr "מאזן סופי"
 
-#: src/jade/tabs/history.jade:166
+#: src/jade/tabs/history.jade:167
 msgid "XRP balance Change"
 msgstr "שינוי מאזן XRP "
 
-#: src/jade/tabs/history.jade:167
+#: src/jade/tabs/history.jade:168
 msgid "{{effect.currency}} balance Change"
 msgstr "{{effect.currency}} שינוי מאזן"
 
-#: src/jade/tabs/history.jade:168
+#: src/jade/tabs/history.jade:169
 msgid "Fee"
 msgstr "עמלה"
 
-#: src/jade/tabs/history.jade:173
+#: src/jade/tabs/history.jade:174
 msgid "Transaction details"
 msgstr "פרטי עסקה"
 
-#: src/jade/tabs/history.jade:174
+#: src/jade/tabs/history.jade:175
 msgid "Add {{1}} to contact list"
 msgstr "הוסיפו {{1}} לרשימת המוטבים"
 
-#: src/jade/tabs/history.jade:182
+#: src/jade/tabs/history.jade:183
 msgid "No more transactions left"
 msgstr "אין עסקות נותרות"
 
@@ -1138,7 +1167,7 @@ msgstr "לעולם אל תשתפו אותם!"
 
 #: src/jade/tabs/security.jade:15
 msgid "Wallet Key"
-msgstr "מפתח ארנק"
+msgstr "מפתח/ססמת הארנק"
 
 #: src/jade/tabs/security.jade:17
 msgid "{{userBlob.data.contacts.length}} contacts, {{1}}"
@@ -1180,7 +1209,7 @@ msgstr "זה נותן גישה לארנק שלך. אל תשתפו את זה עם
 
 #: src/jade/tabs/security.jade:44
 msgid "Secret Key"
-msgstr "מפתח סודי"
+msgstr "המפתח הסודי"
 
 #: src/jade/tabs/security.jade:46
 msgid ""
@@ -1317,7 +1346,7 @@ msgstr "נדרש מחיר"
 
 #: src/jade/tabs/send.jade:101
 msgid "Calculating paths"
-msgstr "מחשב חיבור"
+msgstr "מחשב נתיבים"
 
 #: src/jade/tabs/send.jade:103
 msgid "Calculating alternatives"
@@ -1334,89 +1363,89 @@ msgstr "סליחה! לא ניתן לשלוח {{send.amount}} {{send.currency}} �
 msgid "Error while retrieving quote for outbound payment"
 msgstr "שגיאה בעת אחזור בקשה לתשלום יוצא"
 
-#: src/jade/tabs/send.jade:117
+#: src/jade/tabs/send.jade:118
 msgid "You can send"
 msgstr "אפשר לשלוח"
 
-#: src/jade/tabs/send.jade:119
+#: src/jade/tabs/send.jade:120
 msgid "Or you can send"
 msgstr "או שאפשר לשלוח"
 
-#: src/jade/tabs/send.jade:127
+#: src/jade/tabs/send.jade:128
 msgid "Send {{ alt.amount | rpcurrency }}"
 msgstr "שלח {{ alt.amount | rpcurrency }}"
 
-#: src/jade/tabs/send.jade:133
+#: src/jade/tabs/send.jade:140
 msgid "Ripple is calculating a path for your payment."
-msgstr "ריפל מחשב חיבור לתשלום שלך."
+msgstr "ריפל מחשב נתיב לתשלום שלך."
 
-#: src/jade/tabs/send.jade:139
+#: src/jade/tabs/send.jade:146
 msgid ""
 "You are sending {{ (send.alt.amount || send.currency) | rpcurrency}} to"
 msgstr "אתם שולחים {{ (send.alt.amount || send.currency) | rpcurrency}} אל"
 
-#: src/jade/tabs/send.jade:145
+#: src/jade/tabs/send.jade:152
 msgid "Destination tag: {{send.dt}}"
 msgstr "תג יעד: {{send.dt}}"
 
-#: src/jade/tabs/send.jade:146
+#: src/jade/tabs/send.jade:153
 msgid "They will receive"
 msgstr "הם יקבלו "
 
-#: src/jade/tabs/send.jade:151
+#: src/jade/tabs/send.jade:158
 msgid "You will pay at most"
 msgstr "אתם תשלמו לכל היותר"
 
-#: src/jade/tabs/send.jade:157
+#: src/jade/tabs/send.jade:164
 msgid "Are you sure?"
 msgstr "אתם בטוחים?"
 
-#: src/jade/tabs/send.jade:176
+#: src/jade/tabs/send.jade:183
 msgid "Destination does not exist"
 msgstr "יעד לא קיים"
 
-#: src/jade/tabs/send.jade:177
+#: src/jade/tabs/send.jade:184
 msgid "The wallet you&#39;re trying to send to does not exist."
 msgstr "הארנק &#39; שאתם מנסים שוב לשלוח אליו לא קיים."
 
-#: src/jade/tabs/send.jade:182
+#: src/jade/tabs/send.jade:189
 msgid "Invalid transaction"
 msgstr "עסקה לא תקינה"
 
-#: src/jade/tabs/send.jade:183
+#: src/jade/tabs/send.jade:190
 msgid "The transaction was rejected by the server due to a client issue."
 msgstr "העסקה נדחתה על ידי השרת בגלל בעיית ממשק."
 
-#: src/jade/tabs/send.jade:185
+#: src/jade/tabs/send.jade:192
 msgid ""
 "Sorry, an error occurred while submitting your transaction.Make sure you are"
 " connected to the Internet and try again later."
 msgstr "סליחה, אירעה שגיאה בעת הגשת העסקה שלך. ודאו שאתם מחוברים לאינטרנט ונסו שוב מאוחר יותר."
 
-#: src/jade/tabs/send.jade:187
+#: src/jade/tabs/send.jade:194
 msgid "Please ensure you don't send your payment more than once."
 msgstr "אנא ודאו שאתם לא שולחים את התשלום שלכם יותר מפעם אחת."
 
-#: src/jade/tabs/send.jade:195 src/jade/tabs/send.jade:266
+#: src/jade/tabs/send.jade:202 src/jade/tabs/send.jade:273
 msgid "Contact saved!"
 msgstr "מוטב נשמר!"
 
-#: src/jade/tabs/send.jade:197 src/jade/tabs/send.jade:268
+#: src/jade/tabs/send.jade:204 src/jade/tabs/send.jade:275
 #: src/jade/tabs/trust.jade:169
 msgid "Add this address to contacts"
 msgstr "להוסיף כתובת זו למוטבים"
 
-#: src/jade/tabs/send.jade:201 src/jade/tabs/send.jade:272
+#: src/jade/tabs/send.jade:208 src/jade/tabs/send.jade:279
 #: src/jade/tabs/trust.jade:172
 msgid "Name this user"
 msgstr "תן שם למשתמש זה"
 
-#: src/jade/tabs/send.jade:207 src/jade/tabs/send.jade:278
+#: src/jade/tabs/send.jade:214 src/jade/tabs/send.jade:285
 #: src/jade/tabs/trust.jade:178
 msgid "Saving..."
 msgstr "שומר..."
 
-#: src/jade/tabs/send.jade:212 src/jade/tabs/send.jade:283
+#: src/jade/tabs/send.jade:219 src/jade/tabs/send.jade:290
 msgid "Send another payment"
 msgstr "שלחו תשלום אחר"
 
@@ -1464,11 +1493,11 @@ msgstr "עליכם לבחור מנפיק על מנת שתוכלו לסחור ב�
 
 #: src/jade/tabs/trade.jade:71
 msgid "Bid"
-msgstr "הצעות מחיר"
+msgstr "הצעות מכירה"
 
 #: src/jade/tabs/trade.jade:76
 msgid "Ask"
-msgstr "בקשת קנייה"
+msgstr "בקשות קנייה"
 
 #: src/jade/tabs/trade.jade:81
 msgid "Spread"
@@ -1523,7 +1552,7 @@ msgstr "מחיר של כל אחד"
 
 #: src/jade/tabs/trade.jade:160
 msgid "Order Value (max)"
-msgstr "(מקסימום) לשווי הזמנה"
+msgstr "(חישוב שווי העסקה)"
 
 #: src/jade/tabs/trade.jade:177
 msgid "You are wanting to buy {{1}} for {{2}} ({{3}} per {{4}})"
@@ -1647,19 +1676,19 @@ msgstr "הצעות מכירה"
 
 #: src/jade/tabs/trade.jade:318 src/jade/tabs/trade.jade:345
 msgid "Sum{{1}}{{2}}"
-msgstr "סקירה {{1}}{{2}}"
+msgstr "סיכום {{1}}{{2}}"
 
 #: src/jade/tabs/trade.jade:321 src/jade/tabs/trade.jade:342
 msgid "Size{{1}}{{2}}"
-msgstr "גודל {{1}}{{2}}"
+msgstr "מספר יחידות {{1}}{{2}}"
 
 #: src/jade/tabs/trade.jade:324
 msgid "Bid Price{{1}}{{2}}"
-msgstr "הצעת מחיר {{1}}{{2}}"
+msgstr "הצעות מכירה {{1}}{{2}}"
 
 #: src/jade/tabs/trade.jade:335
 msgid "There are currently no bids for this pair."
-msgstr "כרגע אין הצעות מחיר לצמד הזה. "
+msgstr "כרגע אין הצעות מכירה לצמד הזה."
 
 #: src/jade/tabs/trade.jade:337
 msgid "Asks"
@@ -1667,7 +1696,7 @@ msgstr "בקשות קנייה"
 
 #: src/jade/tabs/trade.jade:339
 msgid "Ask Price{{1}}{{2}}"
-msgstr "בקשת קנייה {{1}}{{2}}"
+msgstr "בקשות קנייה {{1}}{{2}}"
 
 #: src/jade/tabs/trade.jade:356
 msgid "There are currently no asks for this pair."
@@ -1723,9 +1752,16 @@ msgstr "ניתן לשלוח XRP ללא ארכת אמון. אם אתם באמת �
 msgid "Currency field is required"
 msgstr "נדרש להזין מטבע"
 
-#: src/jade/tabs/trust.jade:72
+#: src/jade/tabs/trust.jade:72 src/jade/tabs/trust.jade:73
 msgid "Allow Rippling"
 msgstr "לאפשר Rippling"
+
+#: src/jade/tabs/trust.jade:73
+msgid ""
+"Allow this trust line's balances to be transferred to another issuer you "
+"trust. <a href='https://ripple.com/wiki/No_Ripple' target='_blank'>More "
+"information</a>"
+msgstr ""
 
 #: src/jade/tabs/trust.jade:81
 msgid "Verifying address"
@@ -1833,55 +1869,59 @@ msgstr "טוען פרטי עסקה..."
 msgid "An error occurred while loading the transaction details."
 msgstr "אירעה שגיאה בעת טעינת פרטי העסקה."
 
-#: src/jade/tabs/tx.jade:7
-msgid "Transaction # {{transaction.hash}}"
-msgstr "עסקה # {{transaction.hash}}"
+#: src/jade/tabs/tx.jade:8
+msgid "Transaction #"
+msgstr ""
 
-#: src/jade/tabs/tx.jade:9
+#: src/jade/tabs/tx.jade:11
+msgid "Show in graph"
+msgstr ""
+
+#: src/jade/tabs/tx.jade:13
 msgid "Transaction type: {{1}}"
 msgstr "סוג עסקה: {{1}}"
 
-#: src/jade/tabs/tx.jade:16
-msgid "Address sent from"
-msgstr "כתובת שנשלחה מידי"
-
 #: src/jade/tabs/tx.jade:20
+msgid "Address sent from"
+msgstr "הכתובת השולחת"
+
+#: src/jade/tabs/tx.jade:24
 msgid "Amount sent"
 msgstr "הסכום שנשלח"
 
-#: src/jade/tabs/tx.jade:24
+#: src/jade/tabs/tx.jade:28
 msgid "Currency sent"
 msgstr "מטבע שנשלח"
 
-#: src/jade/tabs/tx.jade:29
-msgid "Address sent to"
-msgstr "כתובת נשלחה אל"
-
 #: src/jade/tabs/tx.jade:33
+msgid "Address sent to"
+msgstr "הכתובת המקבלת"
+
+#: src/jade/tabs/tx.jade:37
 msgid "Amount received"
 msgstr "סכום שהתקבל"
 
-#: src/jade/tabs/tx.jade:37
+#: src/jade/tabs/tx.jade:41
 msgid "Currency received"
 msgstr "מטבע שהתקבל"
 
-#: src/jade/tabs/tx.jade:43
+#: src/jade/tabs/tx.jade:47
 msgid "Network fee paid"
 msgstr "עמלת רשת ששולמה"
 
-#: src/jade/tabs/tx.jade:47
+#: src/jade/tabs/tx.jade:51
 msgid "Conversion rate"
 msgstr "יחס המרה"
 
-#: src/jade/tabs/tx.jade:53
+#: src/jade/tabs/tx.jade:57
 msgid "Ledger number"
 msgstr "ספר חשבונות"
 
-#: src/jade/tabs/tx.jade:59
-msgid "Address sent from:"
-msgstr "כתובת נשלחה מידי:"
-
 #: src/jade/tabs/tx.jade:63
+msgid "Address sent from:"
+msgstr "הכתובת השולחת:"
+
+#: src/jade/tabs/tx.jade:67
 msgid ""
 "Sorry, we don't have an info page layout for this transaction type yet."
 msgstr "מצטערים, אין לנו &#39; דף מידע לסוג עסקה זו עדיין."
