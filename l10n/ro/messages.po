@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Ripple Client\n"
-"PO-Revision-Date: 2014-01-13 18:39+0000\n"
+"PO-Revision-Date: 2014-01-16 20:16+0000\n"
 "Last-Translator: Sethan <the.sethan@gmail.com>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/ripple-client/language/ro/)\n"
 "MIME-Version: 1.0\n"
@@ -32,7 +32,7 @@ msgid "Contacts"
 msgstr "Contacte"
 
 #: src/jade/client/index.jade:9 src/jade/menu/wallet.jade:11
-#: src/jade/tabs/convert.jade:43
+#: src/jade/tabs/convert.jade:44
 msgid "Convert"
 msgstr "Conversie"
 
@@ -101,8 +101,20 @@ msgstr "Se încarcă soldul dvs..."
 msgid "Unfunded account"
 msgstr "Cont nefinanţat"
 
-#: src/jade/directives/transactionerror.jade:4 src/jade/tabs/convert.jade:104
-#: src/jade/tabs/send.jade:221
+#: src/jade/client/status.jade:18
+msgid "XRP Balance"
+msgstr "Sold XRP"
+
+#: src/jade/client/status.jade:18
+msgid ""
+"Your current XRP balance is {{account.Balance | rpamount:{precision: 2, "
+"max_sig_digits: 20} }}. Account reserve is {{ account.reserve | rpamount }} "
+"XRP. <br /><a href='https://ripple.com/wiki/Reserves' target='_blank'>More "
+"information</a>"
+msgstr "Soldul XRP curent este {{account.Balance | rpamount:{precision: 2, max_sig_digits: 20} }}. Rezerva contului este {{ account.reserve | rpamount }} XRP. <br /><a href='https://ripple.com/wiki/Reserves' target='_blank'>Mai multe informaţii</a>"
+
+#: src/jade/directives/transactionerror.jade:4 src/jade/tabs/convert.jade:111
+#: src/jade/tabs/send.jade:228
 msgid "Your transaction has been submitted."
 msgstr "Tranzacţia dvs. a fost înregistrată."
 
@@ -110,37 +122,37 @@ msgstr "Tranzacţia dvs. a fost înregistrată."
 msgid "Your account balance will update once the transaction has cleared."
 msgstr "Soldul contului dvs. va fii actualizat de îndată ce tranzacţia a fost aprobată"
 
-#: src/jade/directives/transactionerror.jade:7 src/jade/tabs/convert.jade:107
-#: src/jade/tabs/send.jade:224
+#: src/jade/directives/transactionerror.jade:7 src/jade/tabs/convert.jade:114
+#: src/jade/tabs/send.jade:231
 msgid "Transaction cleared!"
 msgstr "Tranzacţie aprobată!"
 
-#: src/jade/directives/transactionerror.jade:9 src/jade/tabs/convert.jade:109
-#: src/jade/tabs/send.jade:226
+#: src/jade/directives/transactionerror.jade:9 src/jade/tabs/convert.jade:116
+#: src/jade/tabs/send.jade:233
 msgid "Transaction partially valid!"
 msgstr "Tranzacţie parţial validă!"
 
-#: src/jade/directives/transactionerror.jade:10 src/jade/tabs/convert.jade:110
-#: src/jade/tabs/send.jade:227
+#: src/jade/directives/transactionerror.jade:10 src/jade/tabs/convert.jade:117
+#: src/jade/tabs/send.jade:234
 msgid "Your transaction could only be partially applied."
 msgstr "Tranzacţia dvs. a putut fii aplicată doar parţial."
 
 #: src/jade/directives/transactionerror.jade:12
-#: src/jade/directives/transactionerror.jade:17 src/jade/tabs/convert.jade:116
-#: src/jade/tabs/convert.jade:121 src/jade/tabs/send.jade:233
-#: src/jade/tabs/send.jade:238
+#: src/jade/directives/transactionerror.jade:17 src/jade/tabs/convert.jade:123
+#: src/jade/tabs/convert.jade:128 src/jade/tabs/send.jade:240
+#: src/jade/tabs/send.jade:245
 msgid "Transaction malformed!"
 msgstr "Tranzacţie distorsionată!"
 
-#: src/jade/directives/transactionerror.jade:14 src/jade/tabs/convert.jade:118
-#: src/jade/tabs/send.jade:235
+#: src/jade/directives/transactionerror.jade:14 src/jade/tabs/convert.jade:125
+#: src/jade/tabs/send.jade:242
 msgid ""
 "Your transaction is invalid, reason: {{engine_result}} - "
 "{{engine_result_message}}"
 msgstr "Tranzacţia dvs. este invalidă, deoarece: {{engine_result}} - {{engine_result_message}}"
 
-#: src/jade/directives/transactionerror.jade:19 src/jade/tabs/convert.jade:123
-#: src/jade/tabs/send.jade:240
+#: src/jade/directives/transactionerror.jade:19 src/jade/tabs/convert.jade:130
+#: src/jade/tabs/send.jade:247
 msgid ""
 "Destination account requires destination tag to be specified when making "
 "payments."
@@ -149,10 +161,10 @@ msgstr "Contul destinatarului cere ca eticheta de destinaţie să fie specificat
 #: src/jade/directives/transactionerror.jade:22
 #: src/jade/directives/transactionerror.jade:28
 #: src/jade/directives/transactionerror.jade:37
-#: src/jade/directives/transactionerror.jade:44 src/jade/tabs/convert.jade:126
-#: src/jade/tabs/convert.jade:135 src/jade/tabs/convert.jade:142
-#: src/jade/tabs/send.jade:243 src/jade/tabs/send.jade:249
-#: src/jade/tabs/send.jade:258 src/jade/tabs/trade.jade:249
+#: src/jade/directives/transactionerror.jade:44 src/jade/tabs/convert.jade:133
+#: src/jade/tabs/convert.jade:142 src/jade/tabs/convert.jade:149
+#: src/jade/tabs/send.jade:250 src/jade/tabs/send.jade:256
+#: src/jade/tabs/send.jade:265 src/jade/tabs/trade.jade:249
 #: src/jade/tabs/trade.jade:263 src/jade/tabs/trust.jade:160
 msgid "Transaction failed!"
 msgstr "Tranzacţie eşuată!"
@@ -161,26 +173,26 @@ msgstr "Tranzacţie eşuată!"
 msgid ""
 "The particular server you sent the transaction to was too busy to forward or"
 " processyour transaction at the fee you included in it."
-msgstr ""
+msgstr "Serverul specific către care aţi trimis tranzacţia a fost prea supraîncarcat pentru a redirecţiona sau procesa tranzacţia contra comisionului inclus de dvs. în aceasta."
 
-#: src/jade/directives/transactionerror.jade:30 src/jade/tabs/convert.jade:128
-#: src/jade/tabs/send.jade:251
+#: src/jade/directives/transactionerror.jade:30 src/jade/tabs/convert.jade:135
+#: src/jade/tabs/send.jade:258
 msgid "The destination account does not exist."
 msgstr "Contul de destinaţie nu există."
 
-#: src/jade/directives/transactionerror.jade:32 src/jade/tabs/convert.jade:130
-#: src/jade/tabs/send.jade:253
+#: src/jade/directives/transactionerror.jade:32 src/jade/tabs/convert.jade:137
+#: src/jade/tabs/send.jade:260
 msgid ""
 "The destination account does not exist. Too little XRP sent to create it."
 msgstr "Contul de destinaţie nu există.Prea puţin XRP trimişi pentru a-l creea."
 
-#: src/jade/directives/transactionerror.jade:34 src/jade/tabs/convert.jade:132
-#: src/jade/tabs/send.jade:255
+#: src/jade/directives/transactionerror.jade:34 src/jade/tabs/convert.jade:139
+#: src/jade/tabs/send.jade:262
 msgid "Error: {{engine_result_message}}"
 msgstr "Eroare: {{engine_result_message}}"
 
-#: src/jade/directives/transactionerror.jade:39 src/jade/tabs/convert.jade:137
-#: src/jade/tabs/send.jade:260 src/jade/tabs/trust.jade:152
+#: src/jade/directives/transactionerror.jade:39 src/jade/tabs/convert.jade:144
+#: src/jade/tabs/send.jade:267 src/jade/tabs/trust.jade:152
 msgid "You have no trust line in this currency."
 msgstr "Nu aveţi nicio linie de încredre în această valută."
 
@@ -201,8 +213,8 @@ msgid ""
 msgstr "Tranzacţia dvs. nu a putut fii înregistrată: {{engine_result}} - {{engine_result_message}}"
 
 #: src/jade/notification/account.jade:3
-msgid "You sent {{1}} {{2}} {{3}}"
-msgstr "Aţi trimis {{1}} {{2}} {{3}}"
+msgid "You sent {{1}} {{2}} to {{3}}"
+msgstr "Aţi trimis {{1}} {{2}} către {{3}}."
 
 #: src/jade/notification/account.jade:11
 msgid "{{tx.counterparty | rpcontactname}} sent you"
@@ -223,10 +235,10 @@ msgstr "Acum vă încredeţi în {{tx.counterparty | rpcontactname}} pentru"
 msgid "You have to be online to see this screen"
 msgstr "Trebuie să fiţi autentificaţi pentru a vizualiza aceasta pagină"
 
-#: src/jade/tabs/balance.jade:10 src/jade/tabs/balance.jade:126
+#: src/jade/tabs/balance.jade:10 src/jade/tabs/balance.jade:127
 #: src/jade/tabs/cashin.jade:10 src/jade/tabs/cashin.jade:37
 #: src/jade/tabs/cashin.jade:196 src/jade/tabs/cashin.jade:255
-#: src/jade/tabs/convert.jade:10 src/jade/tabs/history.jade:179
+#: src/jade/tabs/convert.jade:10 src/jade/tabs/history.jade:180
 #: src/jade/tabs/register.jade:47 src/jade/tabs/trust.jade:10
 msgid "Loading..."
 msgstr "Încărcare"
@@ -253,66 +265,66 @@ msgid "Event"
 msgstr "Eveniment"
 
 #: src/jade/tabs/balance.jade:46 src/jade/tabs/history.jade:101
-msgid "You sent {{1}} {{2}}"
-msgstr "Aţi trimis {{1}} {{2}}"
+msgid "You sent {{1}} to {{2}}"
+msgstr "Aţi trimis {{1}} către {{2}}"
 
-#: src/jade/tabs/balance.jade:50 src/jade/tabs/balance.jade:59
-#: src/jade/tabs/balance.jade:77 src/jade/tabs/balance.jade:90
+#: src/jade/tabs/balance.jade:51 src/jade/tabs/balance.jade:60
+#: src/jade/tabs/balance.jade:78 src/jade/tabs/balance.jade:91
 msgid "Add to contacts"
 msgstr "Adaugă la contacte"
 
-#: src/jade/tabs/balance.jade:55
+#: src/jade/tabs/balance.jade:56
 msgid "{{entry.transaction.counterparty | rpcontactname}} sent you"
 msgstr "{{entry.transaction.counterparty | rpcontactname}} v-a trimis"
 
-#: src/jade/tabs/balance.jade:64 src/jade/tabs/history.jade:112
+#: src/jade/tabs/balance.jade:65 src/jade/tabs/history.jade:113
 msgid "You requested to convert {{1}} to {{2}}"
 msgstr "Aţi cerut să schimbaţi {{1}} cu {{2}}"
 
-#: src/jade/tabs/balance.jade:72
+#: src/jade/tabs/balance.jade:73
 msgid "{{entry.transaction.counterparty | rpcontactname}} now trusts you for"
 msgstr "{{entry.transaction.counterparty | rpcontactname}} acum are încredere în dvs. pentru"
 
-#: src/jade/tabs/balance.jade:82 src/jade/tabs/history.jade:124
+#: src/jade/tabs/balance.jade:83 src/jade/tabs/history.jade:125
 #: src/jade/tabs/history/effects.jade:63
 msgid "You now trust {{1}} for {{2}}."
 msgstr "Aveţi încredere în {{1}} pentru {{2}}."
 
-#: src/jade/tabs/balance.jade:95 src/jade/tabs/history.jade:131
+#: src/jade/tabs/balance.jade:96 src/jade/tabs/history.jade:132
 #: src/jade/tabs/history/effects.jade:45
 msgid "You created an offer to sell {{1}} for {{2}}"
 msgstr "Aţi creat o ofertă de vânzare {{1}} pentru {{2}} "
 
-#: src/jade/tabs/balance.jade:99 src/jade/tabs/history.jade:135
+#: src/jade/tabs/balance.jade:100 src/jade/tabs/history.jade:136
 #: src/jade/tabs/history/effects.jade:49
 msgid "You created an offer to buy {{1}} for {{2}}"
 msgstr "Aţi creat o ofertă de cumpărare {{1}} pentru {{2}} "
 
-#: src/jade/tabs/balance.jade:105 src/jade/tabs/history.jade:141
+#: src/jade/tabs/balance.jade:106 src/jade/tabs/history.jade:142
 msgid "You cancelled an offer accepting {{1}} for {{2}}"
 msgstr "Aţi anulat o ofertă în care acceptaţi {{1}} pentru {{2}}"
 
-#: src/jade/tabs/balance.jade:112
+#: src/jade/tabs/balance.jade:113
 msgid "Account details have been changed"
 msgstr "Detaliile contului au fost modificate"
 
-#: src/jade/tabs/balance.jade:115 src/jade/tabs/history.jade:150
+#: src/jade/tabs/balance.jade:116 src/jade/tabs/history.jade:151
 msgid "Rippling"
 msgstr "Rippling"
 
-#: src/jade/tabs/balance.jade:117 src/jade/tabs/history.jade:152
+#: src/jade/tabs/balance.jade:118 src/jade/tabs/history.jade:153
 msgid "Failed transaction"
 msgstr "Tranzacţie eşuată"
 
-#: src/jade/tabs/balance.jade:125 src/jade/tabs/history.jade:181
+#: src/jade/tabs/balance.jade:126 src/jade/tabs/history.jade:182
 msgid "Load more"
 msgstr "Încarcă mai mult"
 
-#: src/jade/tabs/balance.jade:127
+#: src/jade/tabs/balance.jade:128
 msgid "Error"
 msgstr "Eroare"
 
-#: src/jade/tabs/balance.jade:128
+#: src/jade/tabs/balance.jade:129
 msgid "No past transactions found"
 msgstr "Nu s-a găsit nicio tranzacţie trecută"
 
@@ -321,8 +333,8 @@ msgid "You have to be funded before you can use this tab."
 msgstr "Aveţi nevoie de fonduri pentru a utiliza opţiunea"
 
 #: src/jade/tabs/cashin.jade:14 src/jade/tabs/convert.jade:14
-#: src/jade/tabs/convert.jade:152 src/jade/tabs/send.jade:12
-#: src/jade/tabs/send.jade:214 src/jade/tabs/send.jade:285
+#: src/jade/tabs/convert.jade:159 src/jade/tabs/send.jade:12
+#: src/jade/tabs/send.jade:221 src/jade/tabs/send.jade:292
 #: src/jade/tabs/trust.jade:18 src/jade/tabs/trust.jade:130
 msgid "Back to balance"
 msgstr "Înapoi la sold"
@@ -434,11 +446,24 @@ msgid "Please enter last 4 digits of your social security number."
 msgstr "Vă rugăm să introduceţi ultimele 4 cifre ale numărului de securitate socială."
 
 #: src/jade/tabs/cashin.jade:192 src/jade/tabs/contacts.jade:35
-#: src/jade/tabs/contacts.jade:73 src/jade/tabs/send.jade:209
-#: src/jade/tabs/send.jade:280 src/jade/tabs/trade.jade:308
+#: src/jade/tabs/contacts.jade:73 src/jade/tabs/send.jade:216
+#: src/jade/tabs/send.jade:287 src/jade/tabs/trade.jade:308
 #: src/jade/tabs/trust.jade:76
 msgid "Cancel"
 msgstr "Anulează"
+
+#: src/jade/tabs/cashin.jade:202
+msgid "Trust line"
+msgstr "Linia de încredere"
+
+#: src/jade/tabs/cashin.jade:202
+msgid ""
+"Your cash will be held by the SnapSwap gateway, so you'll need to trust "
+"SnapSwap before depositing cash at a ZipZap location. <a "
+"href=\"https://ripplelabs.zendesk.com/hc/en-us/articles/200916587"
+"-Understanding-trust-lines\", target=\"_blank\") More information about "
+"trusting</a>"
+msgstr "Banii dvs. for fii ţinuţi de platforma SnapSwap, deci este necesar să aveţi încredere in SnapSwap înainte de a depozita banii la o locaţie ZipZap. <a href=\"https://ripplelabs.zendesk.com/hc/en-us/articles/200916587-Understanding-trust-lines\", target=\"_blank\") Mai multe informaţii despre încredere. </a>"
 
 #: src/jade/tabs/cashin.jade:254
 msgid "Search!"
@@ -462,7 +487,7 @@ msgid "Please enter a name."
 msgstr "Vă rugăm să introduceți un nume."
 
 #: src/jade/tabs/contacts.jade:19 src/jade/tabs/contacts.jade:44
-#: src/jade/tabs/send.jade:203 src/jade/tabs/send.jade:274
+#: src/jade/tabs/send.jade:210 src/jade/tabs/send.jade:281
 #: src/jade/tabs/trust.jade:174
 msgid "You already have a contact with the same name."
 msgstr "Aveţi deja un contact cu acelaşi nume."
@@ -501,7 +526,7 @@ msgid "Delete"
 msgstr "Şterge"
 
 #: src/jade/tabs/contacts.jade:64 src/jade/tabs/options.jade:47
-#: src/jade/tabs/send.jade:208 src/jade/tabs/send.jade:279
+#: src/jade/tabs/send.jade:215 src/jade/tabs/send.jade:286
 #: src/jade/tabs/trust.jade:179
 msgid "Save"
 msgstr "Salvează"
@@ -557,89 +582,93 @@ msgstr "Ne pare rău. Conversia {{convert.amount}} {{convert.currency}} nu poate
 msgid "Error while calculating path"
 msgstr "Eroare în timpul calculării cărării"
 
-#: src/jade/tabs/convert.jade:49
+#: src/jade/tabs/convert.jade:50
 msgid "Convert {{ alt.amount | rpcurrency }}"
 msgstr "Converteşte {{ alt.amount | rpcurrency }}"
 
-#: src/jade/tabs/convert.jade:54
+#: src/jade/tabs/convert.jade:52 src/jade/tabs/send.jade:131
+msgid "Paths last updated {{1}} {{2: seconds}} {{3: second}} ago"
+msgstr "Căile au fost actualizate acum {{1}} {{2: seconds}} {{3: second}}"
+
+#: src/jade/tabs/convert.jade:61
 msgid "Ripple is calculating a path for your conversion."
 msgstr "Ripple calculează o cărare pentru conversia dvs."
 
-#: src/jade/tabs/convert.jade:59
+#: src/jade/tabs/convert.jade:66
 msgid ""
 "{{1:You are converting}}{{2}}{{3:to}}{{4}}{{5:You will pay at "
 "most}}{{6}}{{7:Are you sure?}}"
-msgstr ""
+msgstr "{{1:You are converting}}{{2}}{{3:to}}{{4}}{{5:You will pay at most}}{{6}}{{7:Are you sure?}}"
 
-#: src/jade/tabs/convert.jade:76 src/jade/tabs/convert.jade:98
-#: src/jade/tabs/send.jade:160 src/jade/tabs/send.jade:188
+#: src/jade/tabs/convert.jade:83 src/jade/tabs/convert.jade:105
+#: src/jade/tabs/send.jade:167 src/jade/tabs/send.jade:195
 #: src/jade/tabs/trade.jade:225 src/jade/tabs/trust.jade:114
 #: src/jade/tabs/trust.jade:134
 msgid "&laquo; Back"
 msgstr "&laquo; Înapoi"
 
-#: src/jade/tabs/convert.jade:78 src/jade/tabs/send.jade:163
+#: src/jade/tabs/convert.jade:85 src/jade/tabs/send.jade:170
 #: src/jade/tabs/trade.jade:50 src/jade/tabs/trade.jade:60
 #: src/jade/tabs/trade.jade:227 src/jade/tabs/trust.jade:116
 msgid "Confirm"
 msgstr "Confirmă"
 
-#: src/jade/tabs/convert.jade:83 src/jade/tabs/send.jade:168
+#: src/jade/tabs/convert.jade:90 src/jade/tabs/send.jade:175
 msgid "Sending transaction to Ripple network"
 msgstr "Se transmite tranzacţia către reţeaua Ripple"
 
-#: src/jade/tabs/convert.jade:85 src/jade/tabs/send.jade:170
+#: src/jade/tabs/convert.jade:92 src/jade/tabs/send.jade:177
 #: src/jade/tabs/trust.jade:123
 msgid "Stop waiting"
 msgstr "Opreşte aşteptarea"
 
-#: src/jade/tabs/convert.jade:91 src/jade/tabs/send.jade:179
+#: src/jade/tabs/convert.jade:98 src/jade/tabs/send.jade:186
 msgid "No Path"
 msgstr "Nicio cărare"
 
-#: src/jade/tabs/convert.jade:92 src/jade/tabs/send.jade:180
+#: src/jade/tabs/convert.jade:99 src/jade/tabs/send.jade:187
 msgid ""
 "Ripple was unable to find a path between you and the destination account."
 msgstr "Ripple nu a putut găsi nicio cărare între dvs. şi contul de destinaţie."
 
-#: src/jade/tabs/convert.jade:94
+#: src/jade/tabs/convert.jade:101
 msgid ""
 "Sorry, an error occurred while submitting your transaction. Make sure you "
 "are connected to the Internet and try again later."
 msgstr "Ne pare rău, o eroare a avut loc în timpul înregistrării tranzacţiei dvs. Asiguraţi-vă ca aveţi o conexiune activă la internet şi încercaţi din nou."
 
-#: src/jade/tabs/convert.jade:96
+#: src/jade/tabs/convert.jade:103
 msgid ""
 "Before trying again, please ensure that the transaction has not been "
 "executed already."
 msgstr "Înainte să încercaţi din nou, vă rugăm sa vă asiguraţi că tranzacţia nu a fost deja efectuată."
 
-#: src/jade/tabs/convert.jade:105 src/jade/tabs/send.jade:222
+#: src/jade/tabs/convert.jade:112 src/jade/tabs/send.jade:229
 msgid "Your account balance will update once the payment has cleared."
 msgstr "Soldul contului dvs. se va actualiza de îndată ce plata a fost aprobată."
 
-#: src/jade/tabs/convert.jade:112 src/jade/tabs/send.jade:229
+#: src/jade/tabs/convert.jade:119 src/jade/tabs/send.jade:236
 msgid "Transaction could not be submitted!"
 msgstr "Tranzacţia nu a putut fii înregistrată!"
 
-#: src/jade/tabs/convert.jade:113 src/jade/tabs/send.jade:230
+#: src/jade/tabs/convert.jade:120 src/jade/tabs/send.jade:237
 msgid ""
 "We were unable to submit the transaction to the server.Please try again "
 "later."
 msgstr "Nu s-a putut înregistra tranzacţia de către server. Vă rugăm să încercaţi mai târziu."
 
-#: src/jade/tabs/convert.jade:139 src/jade/tabs/send.jade:262
+#: src/jade/tabs/convert.jade:146 src/jade/tabs/send.jade:269
 msgid "Your transaction failed to clear, reason: {{engine_result_message}}"
 msgstr "Tranzacţia dvs. nu a putut fii aprobată, motivul: {{engine_result_message}}"
 
-#: src/jade/tabs/convert.jade:144 src/jade/tabs/send.jade:245
+#: src/jade/tabs/convert.jade:151 src/jade/tabs/send.jade:252
 #: src/jade/tabs/trade.jade:265 src/jade/tabs/trust.jade:162
 msgid ""
 "The particular server you sent the transaction to was too busy to forward or"
 " process your transaction at the fee you included in it."
 msgstr "Serverul specific către care aţi transmis tranzacţia a fost prea încarcat pentru a trimite mai departe sau procesa tranzacţia dvs. pentru comisionul inclus în aceasta."
 
-#: src/jade/tabs/convert.jade:150
+#: src/jade/tabs/convert.jade:157
 msgid "Do another conversion"
 msgstr "Efectuează o nouă conversie"
 
@@ -699,7 +728,7 @@ msgstr "Filtru"
 msgid "Minimum amount filter"
 msgstr "Filtru sumă minimă"
 
-#: src/jade/tabs/history.jade:84 src/jade/tabs/history.jade:160
+#: src/jade/tabs/history.jade:84 src/jade/tabs/history.jade:161
 msgid "Description"
 msgstr "Descriere"
 
@@ -707,56 +736,56 @@ msgstr "Descriere"
 msgid "Sorry, no transactions match your current filter."
 msgstr "Ne cerem scuze, nicio tranzacţie nu se potriveşte filtrului."
 
-#: src/jade/tabs/history.jade:106
+#: src/jade/tabs/history.jade:107
 msgid "{{1}} sent you {{2}}"
 msgstr "{{1}} v-a trimis {{2}}"
 
-#: src/jade/tabs/history.jade:118
+#: src/jade/tabs/history.jade:119
 msgid "{{1}} now trusts you for {{2}}"
 msgstr "{{1}} are încredere în dvs. pentru {{2}}"
 
-#: src/jade/tabs/history.jade:147
+#: src/jade/tabs/history.jade:148
 msgid "Account details have been Changed"
 msgstr "Detaliile contului au fost Modificate"
 
-#: src/jade/tabs/history.jade:158
+#: src/jade/tabs/history.jade:159
 msgid "Balance Changes"
 msgstr "Modificări Sold"
 
-#: src/jade/tabs/history.jade:161
+#: src/jade/tabs/history.jade:162
 msgid "Issuer"
 msgstr "Emitentul"
 
-#: src/jade/tabs/history.jade:162 src/jade/tabs/trade.jade:289
+#: src/jade/tabs/history.jade:163 src/jade/tabs/trade.jade:289
 #: src/jade/tabs/trust.jade:54
 msgid "Amount"
 msgstr "Suma"
 
-#: src/jade/tabs/history.jade:163
+#: src/jade/tabs/history.jade:164
 msgid "Final balance"
 msgstr "Sold final"
 
-#: src/jade/tabs/history.jade:166
+#: src/jade/tabs/history.jade:167
 msgid "XRP balance Change"
 msgstr "Modificare sold XRP"
 
-#: src/jade/tabs/history.jade:167
+#: src/jade/tabs/history.jade:168
 msgid "{{effect.currency}} balance Change"
 msgstr "{{effect.currency}} Modificare sold"
 
-#: src/jade/tabs/history.jade:168
+#: src/jade/tabs/history.jade:169
 msgid "Fee"
 msgstr "Taxă"
 
-#: src/jade/tabs/history.jade:173
+#: src/jade/tabs/history.jade:174
 msgid "Transaction details"
 msgstr "Detalii tranzacţie"
 
-#: src/jade/tabs/history.jade:174
+#: src/jade/tabs/history.jade:175
 msgid "Add {{1}} to contact list"
 msgstr "Adaugă {{1}} la lista dvs. de contacte"
 
-#: src/jade/tabs/history.jade:182
+#: src/jade/tabs/history.jade:183
 msgid "No more transactions left"
 msgstr "Nicio tranzacţie ramasă"
 
@@ -802,7 +831,7 @@ msgstr "Aţi modificat {{1}} încredere pentru {{2}} de la {{3}} până la {{4}}
 
 #: src/jade/tabs/history/effects.jade:84
 msgid "{{1}} changed the {{2}} trust from {{3}} to {{4}}."
-msgstr ""
+msgstr "{{1}} a schimbat {{2}} încredere de la {{3}} la {{4}}."
 
 #: src/jade/tabs/history/effects.jade:94
 msgid "Trust balance between you and {{1}} has been changed by {{2}}."
@@ -1048,7 +1077,7 @@ msgid ""
 "Secret Account Key is not connected to it. If you decide to continue "
 "registration your new Secret Account Key will be used for current Wallet "
 "name and passphrase."
-msgstr ""
+msgstr "Există un Portofel cu numele şi fraza de acces ale dvs., dar Cheia Secretă a Contului introdusă nu este conectată la acel portofel. Dacă veţi continua înregistrarea, noua Cheie Secretă a Contului va fii folosită pentru Portofelul şi fraza de acces existente."
 
 #: src/jade/tabs/register.jade:70 src/jade/tabs/register.jade:79
 msgid "Back"
@@ -1067,7 +1096,7 @@ msgid ""
 "There is a Wallet with a similar Wallet name and passphrase, but this wallet"
 " could not be decrypted. Try choosing a different wallet name and/or "
 "passphrase."
-msgstr ""
+msgstr "Există un Portofel cu numele şi fraza de acces similare, însă acest portofel nu a putut fii decriptat. Încercaţi să alegeţi un nume de portofel şi/sau o frază de acces diferite."
 
 #: src/jade/tabs/register.jade:83
 msgid "Welcome To ripple"
@@ -1159,7 +1188,7 @@ msgstr "Aţi creat-o în momentul în care v-aţi ales numele portofelului şi f
 
 #: src/jade/tabs/security.jade:25
 msgid "It protects Your money + Your contacts and history."
-msgstr ""
+msgstr "Vă va proteja banii, precum şi lista de contacte şi istoricul dvs."
 
 #: src/jade/tabs/security.jade:27
 msgid "Never forget it, never share it."
@@ -1335,89 +1364,89 @@ msgstr "Ne cerem scuze.Nu se poate trimite {{send.amount}} {{send.currency}} că
 msgid "Error while retrieving quote for outbound payment"
 msgstr "Eroare în timpul obţinerii unei estimări pentru plată"
 
-#: src/jade/tabs/send.jade:117
+#: src/jade/tabs/send.jade:118
 msgid "You can send"
 msgstr "Puteți trimite"
 
-#: src/jade/tabs/send.jade:119
+#: src/jade/tabs/send.jade:120
 msgid "Or you can send"
 msgstr "Sau puteți trimite"
 
-#: src/jade/tabs/send.jade:127
+#: src/jade/tabs/send.jade:128
 msgid "Send {{ alt.amount | rpcurrency }}"
 msgstr "Trimite {{ alt.amount | rpcurrency }}"
 
-#: src/jade/tabs/send.jade:133
+#: src/jade/tabs/send.jade:140
 msgid "Ripple is calculating a path for your payment."
 msgstr "Ripple calculează o cărare pentru plata dvs."
 
-#: src/jade/tabs/send.jade:139
+#: src/jade/tabs/send.jade:146
 msgid ""
 "You are sending {{ (send.alt.amount || send.currency) | rpcurrency}} to"
 msgstr "Veţi trimite {{ (send.alt.amount || send.currency) | rpcurrency}} către"
 
-#: src/jade/tabs/send.jade:145
+#: src/jade/tabs/send.jade:152
 msgid "Destination tag: {{send.dt}}"
 msgstr "Eticheta destinaţiei: {{send.dt}}"
 
-#: src/jade/tabs/send.jade:146
+#: src/jade/tabs/send.jade:153
 msgid "They will receive"
 msgstr "Ei vor primi "
 
-#: src/jade/tabs/send.jade:151
+#: src/jade/tabs/send.jade:158
 msgid "You will pay at most"
 msgstr "Veți plăti cel mult"
 
-#: src/jade/tabs/send.jade:157
+#: src/jade/tabs/send.jade:164
 msgid "Are you sure?"
 msgstr "Ești sigur?"
 
-#: src/jade/tabs/send.jade:176
+#: src/jade/tabs/send.jade:183
 msgid "Destination does not exist"
 msgstr "Destinaţia nu există"
 
-#: src/jade/tabs/send.jade:177
+#: src/jade/tabs/send.jade:184
 msgid "The wallet you&#39;re trying to send to does not exist."
 msgstr "Portofelul către care doriţi să trimiteţi nu există."
 
-#: src/jade/tabs/send.jade:182
+#: src/jade/tabs/send.jade:189
 msgid "Invalid transaction"
 msgstr "Tranzacţie invalidă"
 
-#: src/jade/tabs/send.jade:183
+#: src/jade/tabs/send.jade:190
 msgid "The transaction was rejected by the server due to a client issue."
 msgstr "Tranzacţia a fost respinsă de server din cauza unei probleme a clientului."
 
-#: src/jade/tabs/send.jade:185
+#: src/jade/tabs/send.jade:192
 msgid ""
 "Sorry, an error occurred while submitting your transaction.Make sure you are"
 " connected to the Internet and try again later."
 msgstr "Ne cerem scuze, însa a apărut o eroare în timpul înregistrării tranzacţiei dvs. Asiguraţi-vă că aveţi o conexiune activă la internet, şi încercaţi din nou."
 
-#: src/jade/tabs/send.jade:187
+#: src/jade/tabs/send.jade:194
 msgid "Please ensure you don't send your payment more than once."
 msgstr "Vă rugăm sa vă asiguraţi că nu efectuaţi plata dvs. de mai multe ori."
 
-#: src/jade/tabs/send.jade:195 src/jade/tabs/send.jade:266
+#: src/jade/tabs/send.jade:202 src/jade/tabs/send.jade:273
 msgid "Contact saved!"
 msgstr "Contact salvat!"
 
-#: src/jade/tabs/send.jade:197 src/jade/tabs/send.jade:268
+#: src/jade/tabs/send.jade:204 src/jade/tabs/send.jade:275
 #: src/jade/tabs/trust.jade:169
 msgid "Add this address to contacts"
 msgstr "Adaugă această adresă în lista de contacte"
 
-#: src/jade/tabs/send.jade:201 src/jade/tabs/send.jade:272
+#: src/jade/tabs/send.jade:208 src/jade/tabs/send.jade:279
 #: src/jade/tabs/trust.jade:172
 msgid "Name this user"
 msgstr "Numeşte acest utilizator"
 
-#: src/jade/tabs/send.jade:207 src/jade/tabs/send.jade:278
+#: src/jade/tabs/send.jade:214 src/jade/tabs/send.jade:285
 #: src/jade/tabs/trust.jade:178
 msgid "Saving..."
 msgstr "Se salvează..."
 
-#: src/jade/tabs/send.jade:212 src/jade/tabs/send.jade:283
+#: src/jade/tabs/send.jade:219 src/jade/tabs/send.jade:290
 msgid "Send another payment"
 msgstr "Efectuează o altă plată"
 
@@ -1451,7 +1480,7 @@ msgstr "Nu este o adresă Ripple sau contact valid"
 
 #: src/jade/tabs/trade.jade:53
 msgid "Counter currency issuer ({{order.second_currency}})"
-msgstr ""
+msgstr "Emitentul valutei de schimb ({{order.second_currency}})"
 
 #: src/jade/tabs/trade.jade:58
 msgid "Not a valid ripple address or contact"
@@ -1724,9 +1753,16 @@ msgstr "XRP pot fii trimişi şi fără a acorda încredere.Dacă doriţi într-
 msgid "Currency field is required"
 msgstr "Câmpul Valută este obligatoriu"
 
-#: src/jade/tabs/trust.jade:72
+#: src/jade/tabs/trust.jade:72 src/jade/tabs/trust.jade:73
 msgid "Allow Rippling"
 msgstr "Permite Rippling"
+
+#: src/jade/tabs/trust.jade:73
+msgid ""
+"Allow this trust line's balances to be transferred to another issuer you "
+"trust. <a href='https://ripple.com/wiki/No_Ripple' target='_blank'>More "
+"information</a>"
+msgstr "Permite soldului acestei linii de încredere să fie transferat unui alt emitent în care aveţi încredere. <a href='https://ripple.com/wiki/No_Ripple' target='_blank'>Mai multe informaţii</a>"
 
 #: src/jade/tabs/trust.jade:81
 msgid "Verifying address"
@@ -1758,7 +1794,7 @@ msgid ""
 "which may result in your account balances changing without your direct "
 "action. Make sure you understand these consequences, and that all your "
 "issuers are trustworthy."
-msgstr ""
+msgstr "Apăsând CONFIRMARE, veţi extinde încrederea către {{1}} pentru acelaşi tip de valută, ceea ce poate avea ca rezultat modificarea soldului contului dvs. fără nicio acţiune directă din partea dvs. Vă rugăm sa vă asiguraţi că înţelegeţi aceste consecinţe, şi ca toţi emitenţii sunt de încredere."
 
 #: src/jade/tabs/trust.jade:121
 msgid "Granting is in progress"
@@ -1834,55 +1870,59 @@ msgstr "Se încarcă detaliile tranzacţiei..."
 msgid "An error occurred while loading the transaction details."
 msgstr "A apărut o eroare în timpul încărcării detaliilor tranzacţiei."
 
-#: src/jade/tabs/tx.jade:7
-msgid "Transaction # {{transaction.hash}}"
-msgstr "Tranzacţie # {{transaction.hash}}"
+#: src/jade/tabs/tx.jade:8
+msgid "Transaction #"
+msgstr "Tranzacţia #"
 
-#: src/jade/tabs/tx.jade:9
+#: src/jade/tabs/tx.jade:11
+msgid "Show in graph"
+msgstr "Arată în grafic"
+
+#: src/jade/tabs/tx.jade:13
 msgid "Transaction type: {{1}}"
 msgstr "Tipul tranzacţiei: {{1}}"
 
-#: src/jade/tabs/tx.jade:16
+#: src/jade/tabs/tx.jade:20
 msgid "Address sent from"
 msgstr "Adresă trimisă de la"
 
-#: src/jade/tabs/tx.jade:20
+#: src/jade/tabs/tx.jade:24
 msgid "Amount sent"
 msgstr "Suma trimisă"
 
-#: src/jade/tabs/tx.jade:24
+#: src/jade/tabs/tx.jade:28
 msgid "Currency sent"
 msgstr "Valuta trimisă"
 
-#: src/jade/tabs/tx.jade:29
+#: src/jade/tabs/tx.jade:33
 msgid "Address sent to"
 msgstr "Adresă trimisă către"
 
-#: src/jade/tabs/tx.jade:33
+#: src/jade/tabs/tx.jade:37
 msgid "Amount received"
 msgstr "Suma primită"
 
-#: src/jade/tabs/tx.jade:37
+#: src/jade/tabs/tx.jade:41
 msgid "Currency received"
 msgstr "Valuta primită"
 
-#: src/jade/tabs/tx.jade:43
+#: src/jade/tabs/tx.jade:47
 msgid "Network fee paid"
 msgstr "Comisionul platit reţelei"
 
-#: src/jade/tabs/tx.jade:47
+#: src/jade/tabs/tx.jade:51
 msgid "Conversion rate"
 msgstr "Rata de conversie"
 
-#: src/jade/tabs/tx.jade:53
+#: src/jade/tabs/tx.jade:57
 msgid "Ledger number"
 msgstr "Număr registru"
 
-#: src/jade/tabs/tx.jade:59
+#: src/jade/tabs/tx.jade:63
 msgid "Address sent from:"
 msgstr "Adresă trimisă de la:"
 
-#: src/jade/tabs/tx.jade:63
+#: src/jade/tabs/tx.jade:67
 msgid ""
 "Sorry, we don't have an info page layout for this transaction type yet."
-msgstr ""
+msgstr "Ne pare rău, însă nu avem deocamdată un aranjament pentru o pagină de informaţii specifică acestui tip de tranzacţie."
