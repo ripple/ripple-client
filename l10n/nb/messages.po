@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Ripple Client\n"
-"PO-Revision-Date: 2014-01-08 23:58+0000\n"
-"Last-Translator: vhpoet <vhpoet@gmail.com>\n"
+"PO-Revision-Date: 2014-01-12 08:55+0000\n"
+"Last-Translator: hmalmedal <hmalmedal@gmail.com>\n"
 "Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.com/projects/p/ripple-client/language/nb_NO/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -39,7 +39,7 @@ msgstr "Veksling"
 #: src/jade/client/index.jade:10 src/jade/menu/wallet.jade:13
 #: src/jade/tabs/cashin.jade:19
 msgid "Cash In"
-msgstr "Penger inn"
+msgstr "Innskudd"
 
 #: src/jade/client/index.jade:11 src/jade/menu/wallet.jade:15
 #: src/jade/tabs/register.jade:88
@@ -58,7 +58,7 @@ msgstr "Motta"
 
 #: src/jade/client/index.jade:23 src/jade/client/index.jade:55
 msgid "Trade"
-msgstr "Ordrer"
+msgstr "Handel"
 
 #: src/jade/client/index.jade:27 src/jade/client/index.jade:58
 msgid "Advanced"
@@ -118,7 +118,7 @@ msgstr "Transaksjonen er gjennomført."
 #: src/jade/directives/transactionerror.jade:9 src/jade/tabs/convert.jade:109
 #: src/jade/tabs/send.jade:226
 msgid "Transaction partially valid!"
-msgstr "Transaksjonen er delvis gyldig!"
+msgstr "Transaksjonen er delvis gyldig."
 
 #: src/jade/directives/transactionerror.jade:10 src/jade/tabs/convert.jade:110
 #: src/jade/tabs/send.jade:227
@@ -130,7 +130,7 @@ msgstr "Transaksjonen ble kun delvis gjennomført."
 #: src/jade/tabs/convert.jade:121 src/jade/tabs/send.jade:233
 #: src/jade/tabs/send.jade:238
 msgid "Transaction malformed!"
-msgstr "Ugyldig transaksjon!"
+msgstr "Ugyldig transaksjon."
 
 #: src/jade/directives/transactionerror.jade:14 src/jade/tabs/convert.jade:118
 #: src/jade/tabs/send.jade:235
@@ -152,10 +152,10 @@ msgstr "Målkontoen krever referansenummer for betalinger."
 #: src/jade/directives/transactionerror.jade:44 src/jade/tabs/convert.jade:126
 #: src/jade/tabs/convert.jade:135 src/jade/tabs/convert.jade:142
 #: src/jade/tabs/send.jade:243 src/jade/tabs/send.jade:249
-#: src/jade/tabs/send.jade:258 src/jade/tabs/trade.jade:247
-#: src/jade/tabs/trade.jade:261 src/jade/tabs/trust.jade:160
+#: src/jade/tabs/send.jade:258 src/jade/tabs/trade.jade:249
+#: src/jade/tabs/trade.jade:263 src/jade/tabs/trust.jade:160
 msgid "Transaction failed!"
-msgstr "Transaksjonen mislyktes!"
+msgstr "Transaksjonen mislyktes."
 
 #: src/jade/directives/transactionerror.jade:24
 msgid ""
@@ -221,12 +221,12 @@ msgstr "Du har gitt {{tx.counterparty | rpcontactname}} kreditt på"
 #: src/jade/tabs/send.jade:6 src/jade/tabs/trade.jade:6
 #: src/jade/tabs/trust.jade:7
 msgid "You have to be online to see this screen"
-msgstr "Du må være på nett for å kunne se denne skjermen"
+msgstr "Du må være på nett for å kunne se denne siden"
 
-#: src/jade/tabs/balance.jade:10 src/jade/tabs/balance.jade:121
+#: src/jade/tabs/balance.jade:10 src/jade/tabs/balance.jade:126
 #: src/jade/tabs/cashin.jade:10 src/jade/tabs/cashin.jade:37
 #: src/jade/tabs/cashin.jade:196 src/jade/tabs/cashin.jade:255
-#: src/jade/tabs/convert.jade:10 src/jade/tabs/history.jade:175
+#: src/jade/tabs/convert.jade:10 src/jade/tabs/history.jade:179
 #: src/jade/tabs/register.jade:47 src/jade/tabs/trust.jade:10
 msgid "Loading..."
 msgstr "Henter..."
@@ -257,7 +257,7 @@ msgid "You sent {{1}} {{2}}"
 msgstr "Du sendte {{1}} {{2}}"
 
 #: src/jade/tabs/balance.jade:50 src/jade/tabs/balance.jade:59
-#: src/jade/tabs/balance.jade:77 src/jade/tabs/balance.jade:88
+#: src/jade/tabs/balance.jade:77 src/jade/tabs/balance.jade:90
 msgid "Add to contacts"
 msgstr "Legg til kontakter"
 
@@ -271,44 +271,48 @@ msgstr "Du ba om å veksle {{1}} til {{2}}"
 
 #: src/jade/tabs/balance.jade:72
 msgid "{{entry.transaction.counterparty | rpcontactname}} now trusts you for"
-msgstr "{{entry.transaction.counterparty | rpcontactname}} gir deg kreditt for"
+msgstr "{{entry.transaction.counterparty | rpcontactname}} gir deg kreditt på"
 
-#: src/jade/tabs/balance.jade:82
-msgid "You now trust {{1}} {{2}}"
-msgstr "Du gir {{1}} kreditt på {{2}}"
+#: src/jade/tabs/balance.jade:82 src/jade/tabs/history.jade:124
+#: src/jade/tabs/history/effects.jade:63
+msgid "You now trust {{1}} for {{2}}."
+msgstr "Du gir {{1}} kreditt på {{2}}."
 
-#: src/jade/tabs/balance.jade:93 src/jade/tabs/history.jade:130
-#: src/jade/tabs/history/effects.jade:39
+#: src/jade/tabs/balance.jade:95 src/jade/tabs/history.jade:131
+#: src/jade/tabs/history/effects.jade:45
 msgid "You created an offer to sell {{1}} for {{2}}"
-msgstr ""
+msgstr "Du la inn et bud om å selge {{1}} for {{2}}"
 
-#: src/jade/tabs/balance.jade:97 src/jade/tabs/history.jade:134
-#: src/jade/tabs/history/effects.jade:43
+#: src/jade/tabs/balance.jade:99 src/jade/tabs/history.jade:135
+#: src/jade/tabs/history/effects.jade:49
 msgid "You created an offer to buy {{1}} for {{2}}"
-msgstr ""
+msgstr "Du la inn et bud om å kjøpe {{1}} for {{2}}"
 
-#: src/jade/tabs/balance.jade:103 src/jade/tabs/history.jade:140
-#: src/jade/tabs/history/effects.jade:34
+#: src/jade/tabs/balance.jade:105 src/jade/tabs/history.jade:141
 msgid "You cancelled an offer accepting {{1}} for {{2}}"
 msgstr "Du trakk et bud på {{1}} for {{2}}"
 
-#: src/jade/tabs/balance.jade:110
+#: src/jade/tabs/balance.jade:112
 msgid "Account details have been changed"
 msgstr "Kontodetaljene er endret"
 
-#: src/jade/tabs/balance.jade:112 src/jade/tabs/history.jade:148
+#: src/jade/tabs/balance.jade:115 src/jade/tabs/history.jade:150
+msgid "Rippling"
+msgstr "Rippling"
+
+#: src/jade/tabs/balance.jade:117 src/jade/tabs/history.jade:152
 msgid "Failed transaction"
 msgstr "Mislykket transaksjon"
 
-#: src/jade/tabs/balance.jade:120 src/jade/tabs/history.jade:177
+#: src/jade/tabs/balance.jade:125 src/jade/tabs/history.jade:181
 msgid "Load more"
 msgstr "Hent mer"
 
-#: src/jade/tabs/balance.jade:122
+#: src/jade/tabs/balance.jade:127
 msgid "Error"
 msgstr "Feil"
 
-#: src/jade/tabs/balance.jade:123
+#: src/jade/tabs/balance.jade:128
 msgid "No past transactions found"
 msgstr "Ingen transaksjoner funnet"
 
@@ -378,7 +382,7 @@ msgstr "Angi postnummer."
 
 #: src/jade/tabs/cashin.jade:143
 msgid "Country code"
-msgstr ""
+msgstr "Landkode"
 
 #: src/jade/tabs/cashin.jade:147
 msgid "Please enter your country code."
@@ -431,14 +435,14 @@ msgstr "Angi de 4 siste sifrene i personnummeret ditt."
 
 #: src/jade/tabs/cashin.jade:192 src/jade/tabs/contacts.jade:35
 #: src/jade/tabs/contacts.jade:73 src/jade/tabs/send.jade:209
-#: src/jade/tabs/send.jade:280 src/jade/tabs/trade.jade:306
+#: src/jade/tabs/send.jade:280 src/jade/tabs/trade.jade:308
 #: src/jade/tabs/trust.jade:76
 msgid "Cancel"
 msgstr "Avbryt"
 
 #: src/jade/tabs/cashin.jade:254
 msgid "Search!"
-msgstr "Søk!"
+msgstr "Søk."
 
 #: src/jade/tabs/cashin.jade:259
 msgid "show on map"
@@ -547,11 +551,11 @@ msgid ""
 "Sorry! Cannot convert {{convert.amount}} {{convert.currency}}. Please make "
 "sure your account has enough funds, and a {{1}} to a {{convert.currency}} "
 "gateway."
-msgstr "Kan ikke veksle {{convert.amount}} {{convert.currency}}. Sørg for at kontoen din har nok midler, og {{1}} til en {{convert.currency}}-pengeport."
+msgstr "Kan ikke veksle {{convert.amount}} {{convert.currency}}. Sørg for at kontoen din har nok midler, og {{1}} til en {{convert.currency}}-portal."
 
 #: src/jade/tabs/convert.jade:40 src/jade/tabs/send.jade:112
 msgid "Error while calculating path"
-msgstr "Feil under beregning av sti"
+msgstr "Feil under beregning av rute"
 
 #: src/jade/tabs/convert.jade:49
 msgid "Convert {{ alt.amount | rpcurrency }}"
@@ -559,7 +563,7 @@ msgstr "Veksle {{ alt.amount | rpcurrency }}"
 
 #: src/jade/tabs/convert.jade:54
 msgid "Ripple is calculating a path for your conversion."
-msgstr "Ripple beregner sti for veksling."
+msgstr "Ripple beregner vekslingsrute."
 
 #: src/jade/tabs/convert.jade:59
 msgid ""
@@ -569,14 +573,14 @@ msgstr "{{1:Du veksler}}{{2}}{{3:til}}{{4}}{{5:Du betaler maks}}{{6}}{{7:Sikker?
 
 #: src/jade/tabs/convert.jade:76 src/jade/tabs/convert.jade:98
 #: src/jade/tabs/send.jade:160 src/jade/tabs/send.jade:188
-#: src/jade/tabs/trade.jade:223 src/jade/tabs/trust.jade:114
+#: src/jade/tabs/trade.jade:225 src/jade/tabs/trust.jade:114
 #: src/jade/tabs/trust.jade:134
 msgid "&laquo; Back"
 msgstr "&laquo; Tilbake"
 
 #: src/jade/tabs/convert.jade:78 src/jade/tabs/send.jade:163
 #: src/jade/tabs/trade.jade:50 src/jade/tabs/trade.jade:60
-#: src/jade/tabs/trade.jade:225 src/jade/tabs/trust.jade:116
+#: src/jade/tabs/trade.jade:227 src/jade/tabs/trust.jade:116
 msgid "Confirm"
 msgstr "Bekreft"
 
@@ -591,12 +595,12 @@ msgstr "Avslutt venting"
 
 #: src/jade/tabs/convert.jade:91 src/jade/tabs/send.jade:179
 msgid "No Path"
-msgstr "Ingen sti"
+msgstr "Ingen rute"
 
 #: src/jade/tabs/convert.jade:92 src/jade/tabs/send.jade:180
 msgid ""
 "Ripple was unable to find a path between you and the destination account."
-msgstr "Ripple fant ikke sti mellom deg og målkontoen."
+msgstr "Ripple fant ingen rute mellom deg og målkontoen."
 
 #: src/jade/tabs/convert.jade:94
 msgid ""
@@ -616,7 +620,7 @@ msgstr "Saldoen blir oppdatert når betalingen er gjennomført."
 
 #: src/jade/tabs/convert.jade:112 src/jade/tabs/send.jade:229
 msgid "Transaction could not be submitted!"
-msgstr "Transaksjonen ble ikke sendt!"
+msgstr "Transaksjonen ble ikke sendt."
 
 #: src/jade/tabs/convert.jade:113 src/jade/tabs/send.jade:230
 msgid ""
@@ -629,7 +633,7 @@ msgid "Your transaction failed to clear, reason: {{engine_result_message}}"
 msgstr "Transaksjonen ble ikke gjennomført, fordi: {{engine_result_message}}"
 
 #: src/jade/tabs/convert.jade:144 src/jade/tabs/send.jade:245
-#: src/jade/tabs/trade.jade:263 src/jade/tabs/trust.jade:162
+#: src/jade/tabs/trade.jade:265 src/jade/tabs/trust.jade:162
 msgid ""
 "The particular server you sent the transaction to was too busy to forward or"
 " process your transaction at the fee you included in it."
@@ -695,7 +699,7 @@ msgstr "Filter"
 msgid "Minimum amount filter"
 msgstr "Filter for minstebeløp"
 
-#: src/jade/tabs/history.jade:84 src/jade/tabs/history.jade:156
+#: src/jade/tabs/history.jade:84 src/jade/tabs/history.jade:160
 msgid "Description"
 msgstr "Beskrivelse"
 
@@ -709,106 +713,102 @@ msgstr "{{1}} sendte deg {{2}}"
 
 #: src/jade/tabs/history.jade:118
 msgid "{{1}} now trusts you for {{2}}"
-msgstr "{{1}} gir deg kreditt for {{2}}"
+msgstr "{{1}} gir deg kreditt på {{2}}"
 
-#: src/jade/tabs/history.jade:124
-msgid "You now trust {{1}} for {{2}}"
-msgstr "Du gir {{1}} kreditt for {{2}}"
-
-#: src/jade/tabs/history.jade:146
+#: src/jade/tabs/history.jade:147
 msgid "Account details have been Changed"
 msgstr "Kontodetaljene er endret"
 
-#: src/jade/tabs/history.jade:154
+#: src/jade/tabs/history.jade:158
 msgid "Balance Changes"
 msgstr "Saldoendringer"
 
-#: src/jade/tabs/history.jade:157
+#: src/jade/tabs/history.jade:161
 msgid "Issuer"
 msgstr "Utsteder"
 
-#: src/jade/tabs/history.jade:158 src/jade/tabs/trade.jade:287
+#: src/jade/tabs/history.jade:162 src/jade/tabs/trade.jade:289
 #: src/jade/tabs/trust.jade:54
 msgid "Amount"
 msgstr "Beløp"
 
-#: src/jade/tabs/history.jade:159
+#: src/jade/tabs/history.jade:163
 msgid "Final balance"
 msgstr "Sluttsaldo"
 
-#: src/jade/tabs/history.jade:162
+#: src/jade/tabs/history.jade:166
 msgid "XRP balance Change"
 msgstr "XRP-saldoendring"
 
-#: src/jade/tabs/history.jade:163
+#: src/jade/tabs/history.jade:167
 msgid "{{effect.currency}} balance Change"
 msgstr "{{effect.currency}}-saldoendring"
 
-#: src/jade/tabs/history.jade:164
+#: src/jade/tabs/history.jade:168
 msgid "Fee"
 msgstr "Gebyr"
 
-#: src/jade/tabs/history.jade:169
+#: src/jade/tabs/history.jade:173
 msgid "Transaction details"
 msgstr "Transaksjonsdetaljer"
 
-#: src/jade/tabs/history.jade:170
+#: src/jade/tabs/history.jade:174
 msgid "Add {{1}} to contact list"
 msgstr "Legg {{1}} til kontaktlisten"
 
-#: src/jade/tabs/history.jade:178
+#: src/jade/tabs/history.jade:182
 msgid "No more transactions left"
 msgstr "Ingen flere transaksjoner"
 
-#: src/jade/tabs/history/effects.jade:4 src/jade/tabs/history/effects.jade:18
+#: src/jade/tabs/history/effects.jade:4 src/jade/tabs/history/effects.jade:19
 msgid "You sold {{1}} for {{2}}"
-msgstr ""
+msgstr "Du solgte {{1}} for {{2}}"
 
-#: src/jade/tabs/history/effects.jade:8 src/jade/tabs/history/effects.jade:22
+#: src/jade/tabs/history/effects.jade:8 src/jade/tabs/history/effects.jade:23
 msgid "You bought {{1}} for {{2}}"
-msgstr ""
+msgstr "Du kjøpte {{1}} for {{2}}"
 
-#: src/jade/tabs/history/effects.jade:13 src/jade/tabs/history/effects.jade:27
+#: src/jade/tabs/history/effects.jade:13 src/jade/tabs/history/effects.jade:28
 msgid "price"
-msgstr ""
+msgstr "kurs"
 
-#: src/jade/tabs/history/effects.jade:16
+#: src/jade/tabs/history/effects.jade:17
 msgid "This order has been filled."
-msgstr ""
+msgstr "Ordren er fullført."
 
-#: src/jade/tabs/history/effects.jade:30
+#: src/jade/tabs/history/effects.jade:32
 msgid "The rest of your order has been cancelled due to lack of funds."
-msgstr ""
+msgstr "Resten av ordren er avbrutt på grunn av manglende midler."
 
-#: src/jade/tabs/history/effects.jade:31
+#: src/jade/tabs/history/effects.jade:33
 msgid "This order has {{1}} remaining."
 msgstr "{{1}} gjenstår av ordren."
 
-#: src/jade/tabs/history/effects.jade:47
-msgid "You bought {{1}} for {{2}}. ({{3:price}}{{4}})"
-msgstr "Du kjøpte {{1}} for {{2}}. ({{3:pris}}{{4}})"
+#: src/jade/tabs/history/effects.jade:39
+msgid "Offer ({{1}} for {{2}}) has been cancelled due to lack of funds."
+msgstr "Budet ({{1}} for {{2}}) er avbrutt på grunn av manglende midler."
 
-#: src/jade/tabs/history/effects.jade:57
-msgid "You now trust {{1}} for {{2}}."
-msgstr "Du gir {{1}} kreditt på {{2}}."
+#: src/jade/tabs/history/effects.jade:53
+msgid "You bought {{1}} for {{2}}. ({{3:price}}{{4}})."
+msgstr "Du kjøpte {{1}} for {{2}}. ({{3:kurs}}{{4}})."
 
-#: src/jade/tabs/history/effects.jade:62
+#: src/jade/tabs/history/effects.jade:68
 msgid "{{1}} is trusting you for {{2}}."
 msgstr "{{1}} gir deg kreditt på {{2}}."
 
-#: src/jade/tabs/history/effects.jade:68
+#: src/jade/tabs/history/effects.jade:74
 msgid "You have changed {{1}} trust for {{2}} from {{3}} to {{4}}."
 msgstr "Du endret {{1}}-kreditten for {{2}} fra {{3}} til {{4}}."
 
-#: src/jade/tabs/history/effects.jade:78
+#: src/jade/tabs/history/effects.jade:84
 msgid "{{1}} changed the {{2}} trust from {{3}} to {{4}}."
 msgstr "{{1}} endret {{2}}-kreditten fra {{3}} til {{4}}."
 
-#: src/jade/tabs/history/effects.jade:88
+#: src/jade/tabs/history/effects.jade:94
 msgid "Trust balance between you and {{1}} has been changed by {{2}}."
 msgstr "Kredittsaldoen mellom deg og {{1}} er endret av {{2}}."
 
-#: src/jade/tabs/history/effects.jade:95
+#: src/jade/tabs/history/effects.jade:101
 msgid "Your balance has been changed by {{1}}."
 msgstr "Saldoen din er endret av {{1}}."
 
@@ -1008,7 +1008,7 @@ msgstr "Hemmelig kontonøkkel {{1}}"
 
 #: src/jade/tabs/register.jade:36
 msgid "hide"
-msgstr "skul"
+msgstr "skjul"
 
 #: src/jade/tabs/register.jade:39
 msgid "Secret Account Key is invalid"
@@ -1318,7 +1318,7 @@ msgstr "Ber om pris"
 
 #: src/jade/tabs/send.jade:101
 msgid "Calculating paths"
-msgstr "Beregner stier"
+msgstr "Beregner ruter"
 
 #: src/jade/tabs/send.jade:103
 msgid "Calculating alternatives"
@@ -1349,7 +1349,7 @@ msgstr "Send {{ alt.amount | rpcurrency }}"
 
 #: src/jade/tabs/send.jade:133
 msgid "Ripple is calculating a path for your payment."
-msgstr "Ripple beregner sti for betalingen."
+msgstr "Ripple beregner betalingsrute."
 
 #: src/jade/tabs/send.jade:139
 msgid ""
@@ -1400,7 +1400,7 @@ msgstr "Ikke send betalingen flere ganger."
 
 #: src/jade/tabs/send.jade:195 src/jade/tabs/send.jade:266
 msgid "Contact saved!"
-msgstr "Kontakt lagret!"
+msgstr "Kontakt lagret."
 
 #: src/jade/tabs/send.jade:197 src/jade/tabs/send.jade:268
 #: src/jade/tabs/trust.jade:169
@@ -1461,15 +1461,15 @@ msgstr "Ugyldig Ripple-adresse eller kontakt"
 msgid ""
 "You must select an issuer to trade currencies. Click the “change issuer”, "
 "link above and enter your trusted gateway address or nickname."
-msgstr "Du må velge utsteder for å handle valuta. Trykk «endre utsteder» og angi adressen eller navnet til pengeporten din."
+msgstr "Du må velge utsteder for å handle valuta. Trykk «endre utsteder» og angi adressen eller navnet til portalen din."
 
 #: src/jade/tabs/trade.jade:71
 msgid "Bid"
-msgstr "Kjøp"
+msgstr "Kjøper"
 
 #: src/jade/tabs/trade.jade:76
 msgid "Ask"
-msgstr "Salg"
+msgstr "Selger"
 
 #: src/jade/tabs/trade.jade:81
 msgid "Spread"
@@ -1481,7 +1481,7 @@ msgstr "Sist omsatt"
 
 #: src/jade/tabs/trade.jade:93
 msgid "You have to be funded before you can trade"
-msgstr "Du må være finansiert før du kan legge inn ordrer."
+msgstr "Du må være finansiert før du kan handle."
 
 #: src/jade/tabs/trade.jade:100
 msgid "Buy {{1}} {{order.first_currency}}"
@@ -1497,11 +1497,11 @@ msgstr "{{1}}tilgjengelig"
 
 #: src/jade/tabs/trade.jade:129
 msgid "Amount To buy"
-msgstr "Kjøpsbeløp"
+msgstr "Beløp å kjøpe"
 
 #: src/jade/tabs/trade.jade:130
 msgid "Amount To sell"
-msgstr "Salgsbeløp"
+msgstr "Beløp å selge"
 
 #: src/jade/tabs/trade.jade:137 src/jade/tabs/trade.jade:152
 #: src/jade/tabs/trade.jade:167
@@ -1514,165 +1514,165 @@ msgid "Must be greater than zero"
 msgstr "Må være større enn null"
 
 #: src/jade/tabs/trade.jade:141 src/jade/tabs/trade.jade:156
-#: src/jade/tabs/trade.jade:170
-msgid "There is a limit of 100 billion XRPs"
-msgstr "Det er en grense på 100 milliarder XRP."
+#: src/jade/tabs/trade.jade:171
+msgid "Minimum is a drop (0.000001) and maximum is 100 billion XRPs"
+msgstr "Minimum er en dråpe (0.000001) og maksimum er 100 milliarder XRP"
 
 #: src/jade/tabs/trade.jade:145
 msgid "Price of Each"
-msgstr "Stykkpris"
+msgstr "Kurs"
 
 #: src/jade/tabs/trade.jade:160
 msgid "Order Value (max)"
 msgstr "Ordreverdi (maks)"
 
-#: src/jade/tabs/trade.jade:175
-msgid "You are wanting to buy{{1}} for {{2}} ({{3}} {{4: per}}{{5}})"
-msgstr ""
+#: src/jade/tabs/trade.jade:177
+msgid "You are wanting to buy {{1}} for {{2}} ({{3}} per {{4}})"
+msgstr "Du kjøper {{1}} for {{2}} ({{3}} per {{4}})"
 
-#: src/jade/tabs/trade.jade:184
-msgid "You are wanting to sell{{1}} for {{2}} ({{3}} {{4: per}}{{5}})"
-msgstr ""
+#: src/jade/tabs/trade.jade:186
+msgid "You are wanting to sell {{1}} for {{2}} ({{3}} per {{4}})"
+msgstr "Du selger {{1}} for {{2}} ({{3}} per {{4}})"
 
-#: src/jade/tabs/trade.jade:196
+#: src/jade/tabs/trade.jade:198
 msgid "Buy"
 msgstr "Kjøp"
 
-#: src/jade/tabs/trade.jade:197
+#: src/jade/tabs/trade.jade:199
 msgid "Sell"
 msgstr "Selg"
 
-#: src/jade/tabs/trade.jade:203
+#: src/jade/tabs/trade.jade:205
 msgid "You do not have sufficient funds to create an order."
 msgstr "Du har ikke nok midler til å legge inn en ordre."
 
-#: src/jade/tabs/trade.jade:208
+#: src/jade/tabs/trade.jade:210
 msgid ""
 "You are about to create an order to {{1: buy}} {{2: "
 "sell}}{{3}}{{4:for}}{{5}}{{6:Are you sure?}}"
-msgstr "Du legger inn en ordre for å {{1: kjøpe}} {{2: selge}}{{3}}{{4:for}}{{5}}{{6:Sikker?}}"
+msgstr "Du legger inn en ordre om å {{1: kjøpe}} {{2: selge}}{{3}}{{4:for}}{{5}}{{6:Sikker?}}"
 
-#: src/jade/tabs/trade.jade:230
+#: src/jade/tabs/trade.jade:232
 msgid "Sending order to Ripple network..."
 msgstr "Sender ordren til Ripple-nettverket"
 
-#: src/jade/tabs/trade.jade:236
+#: src/jade/tabs/trade.jade:238
 msgid "Your order has been submitted."
 msgstr "Ordren er sendt."
 
-#: src/jade/tabs/trade.jade:238
-msgid "Your order is now active!"
-msgstr "Ordren er aktiv!"
-
 #: src/jade/tabs/trade.jade:240
-msgid "Request has been denied!"
-msgstr "Forespørselen ble avvist!"
+msgid "Your order is now active!"
+msgstr "Ordren er aktiv."
 
-#: src/jade/tabs/trade.jade:241 src/jade/tabs/trust.jade:145
+#: src/jade/tabs/trade.jade:242
+msgid "Request has been denied!"
+msgstr "Forespørselen ble avvist."
+
+#: src/jade/tabs/trade.jade:243 src/jade/tabs/trust.jade:145
 msgid "We were unable to submit the request. Please try again later."
 msgstr "Ute av stand til å sende forespørselen. Prøv senere."
 
-#: src/jade/tabs/trade.jade:243
+#: src/jade/tabs/trade.jade:245
 msgid "Request is malformed!"
-msgstr "Ugyldig forespørsel!"
+msgstr "Ugyldig forespørsel."
 
-#: src/jade/tabs/trade.jade:244
+#: src/jade/tabs/trade.jade:246
 msgid ""
 "Your request is invalid, reason: {{order[type].engine_result}} - "
 "{{order[type].engine_result_message}}"
 msgstr "Forespørselsen er ugyldig, fordi: {{order[type].engine_result}} - {{order[type].engine_result_message}}"
 
-#: src/jade/tabs/trade.jade:249
+#: src/jade/tabs/trade.jade:251
 msgid ""
 "You do not have enough {{type == 'buy' ? order.second_currency : "
 "order.first_currency}} to create this order."
 msgstr "Du har ikke nok {{type == 'buy' ? order.second_currency : order.first_currency}} for å legge inn ordren."
 
-#: src/jade/tabs/trade.jade:251
+#: src/jade/tabs/trade.jade:253
 msgid ""
 "You must have at least {{account.reserve_to_add_trust | rpamount}} XRP to "
 "submit an order. {{1}}"
-msgstr "Du må ha minst {{account.reserve_to_add_trust | rpamount}} XRP for submit å legge inn en ordre. {{1}}"
+msgstr "Du må ha minst {{account.reserve_to_add_trust | rpamount}} XRP for å legge inn en ordre. {{1}}"
 
-#: src/jade/tabs/trade.jade:253
+#: src/jade/tabs/trade.jade:255
 msgid "More information."
 msgstr "Mer informasjon."
 
-#: src/jade/tabs/trade.jade:254
+#: src/jade/tabs/trade.jade:256
 msgid "Error: {{order[type].engine_result_message}}"
 msgstr "Feil: {{order[type].engine_result_message}}"
 
-#: src/jade/tabs/trade.jade:257
-msgid "Trade failed!"
-msgstr "Handelen mislyktes!"
-
 #: src/jade/tabs/trade.jade:259
+msgid "Trade failed!"
+msgstr "Handelen mislyktes."
+
+#: src/jade/tabs/trade.jade:261
 msgid "Trade failed, reason: {{order[type].engine_result_message}}"
 msgstr "Handelen mislyktes, fordi: {{order[type].engine_result_message}}"
 
-#: src/jade/tabs/trade.jade:272
+#: src/jade/tabs/trade.jade:274
 msgid "Submit another order"
 msgstr "Legg inn enda en ordre."
 
-#: src/jade/tabs/trade.jade:275
+#: src/jade/tabs/trade.jade:277
 msgid "Order book"
 msgstr "Ordrebok"
 
-#: src/jade/tabs/trade.jade:276
+#: src/jade/tabs/trade.jade:278
 msgid "My Orders {{1}}"
 msgstr "Mine ordrer {{1}}"
 
-#: src/jade/tabs/trade.jade:284
+#: src/jade/tabs/trade.jade:286
 msgid "Type"
 msgstr "Type"
 
-#: src/jade/tabs/trade.jade:285
+#: src/jade/tabs/trade.jade:287
 msgid "Pair"
 msgstr "Par"
 
-#: src/jade/tabs/trade.jade:286
-msgid "Price"
-msgstr "Pris"
-
 #: src/jade/tabs/trade.jade:288
+msgid "Price"
+msgstr "Kurs"
+
+#: src/jade/tabs/trade.jade:290
 msgid "Action"
 msgstr "Handling"
 
-#: src/jade/tabs/trade.jade:308
+#: src/jade/tabs/trade.jade:310
 msgid "You haven't placed any orders."
-msgstr "Du har ikke lagt inn ordre."
+msgstr "Du har ikke lagt inn noen ordrer."
 
-#: src/jade/tabs/trade.jade:314
+#: src/jade/tabs/trade.jade:316
 msgid "Bids"
-msgstr "Kjøp"
+msgstr "Kjøper"
 
-#: src/jade/tabs/trade.jade:316 src/jade/tabs/trade.jade:343
+#: src/jade/tabs/trade.jade:318 src/jade/tabs/trade.jade:345
 msgid "Sum{{1}}{{2}}"
 msgstr "Sum{{1}}{{2}}"
 
-#: src/jade/tabs/trade.jade:319 src/jade/tabs/trade.jade:340
+#: src/jade/tabs/trade.jade:321 src/jade/tabs/trade.jade:342
 msgid "Size{{1}}{{2}}"
-msgstr "Mengde{{1}}{{2}}"
+msgstr "Volum{{1}}{{2}}"
 
-#: src/jade/tabs/trade.jade:322
+#: src/jade/tabs/trade.jade:324
 msgid "Bid Price{{1}}{{2}}"
-msgstr "Kjøpspris{{1}}{{2}}"
-
-#: src/jade/tabs/trade.jade:333
-msgid "There are currently no bids for this pair."
-msgstr "Det er ingen kjøpsbud for dette paret."
+msgstr "Kjøperkurs{{1}}{{2}}"
 
 #: src/jade/tabs/trade.jade:335
-msgid "Asks"
-msgstr "Salg"
+msgid "There are currently no bids for this pair."
+msgstr "Det er ingen kjøperbud for dette paret."
 
 #: src/jade/tabs/trade.jade:337
-msgid "Ask Price{{1}}{{2}}"
-msgstr "Salgspris{{1}}{{2}}"
+msgid "Asks"
+msgstr "Selger"
 
-#: src/jade/tabs/trade.jade:354
+#: src/jade/tabs/trade.jade:339
+msgid "Ask Price{{1}}{{2}}"
+msgstr "Selgerkurs{{1}}{{2}}"
+
+#: src/jade/tabs/trade.jade:356
 msgid "There are currently no asks for this pair."
-msgstr "Det er ingen salgsbud for dette paret."
+msgstr "Det er ingen selgerbud for dette paret."
 
 #: src/jade/tabs/trust.jade:17
 msgid "You have to be funded before you can grant a trust"
@@ -1776,15 +1776,15 @@ msgstr "Kredittforespørselen er sendt."
 
 #: src/jade/tabs/trust.jade:142
 msgid "Trust is granted!"
-msgstr "Kreditt er gitt!"
+msgstr "Kreditt er gitt."
 
 #: src/jade/tabs/trust.jade:144
 msgid "Trust could not be granted!"
-msgstr "Kunne ikke gi kreditt!"
+msgstr "Kunne ikke gi kreditt."
 
 #: src/jade/tabs/trust.jade:147
 msgid "Grant is malformed!"
-msgstr "Ugyldig kredittforespørsel!"
+msgstr "Ugyldig kredittforespørsel."
 
 #: src/jade/tabs/trust.jade:148
 msgid ""
@@ -1794,7 +1794,7 @@ msgstr "Forespørselsen er ugyldig, fordi: {{engine_result}} - {{engine_result_m
 
 #: src/jade/tabs/trust.jade:150
 msgid "Granting failed!"
-msgstr "Kreditt mislyktes!"
+msgstr "Kreditt mislyktes."
 
 #: src/jade/tabs/trust.jade:153
 msgid "Insufficient reserve to add trust line."
@@ -1816,7 +1816,7 @@ msgstr "Kreditt ble ikke gjennomført, fordi: {{engine_result_message}}"
 
 #: src/jade/tabs/trust.jade:167
 msgid "Address saved!"
-msgstr "Adresse lagret!"
+msgstr "Adresse lagret."
 
 #: src/jade/tabs/trust.jade:183
 msgid "Back to trust page"

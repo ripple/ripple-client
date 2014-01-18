@@ -368,7 +368,7 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
   );
 
   // Personalized default pair set
-  if (!store.get('ripple_pairs_all')) {
+  if (!store.disabled && !store.get('ripple_pairs_all')) {
     store.set('ripple_pairs_all',require('../data/pairs'));
   }
 
@@ -387,11 +387,15 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
   $scope.pairs_all.sort(compare);
 
   $scope.$watch('currencies_all', function(){
-    store.set('ripple_currencies_all',$scope.currencies_all);
+    if (!store.disabled) {
+      store.set('ripple_currencies_all',$scope.currencies_all);
+    }
   }, true);
 
   $scope.$watch('pairs_all', function(){
-    store.set('ripple_pairs_all',$scope.pairs_all);
+    if (!store.disabled) {
+      store.set('ripple_pairs_all',$scope.pairs_all);
+    }
   }, true);
 
   $scope.pairs = $scope.pairs_all.slice(1);

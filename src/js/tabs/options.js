@@ -26,7 +26,9 @@ OptionsTab.prototype.angular = function(module)
 
     $scope.save = function () {
       // Save in local storage
-      store.set('ripple_settings', JSON.stringify($scope.options));
+      if (!store.disabled) {
+        store.set('ripple_settings', JSON.stringify($scope.options));
+      }
 
       // Reload
       location.reload();

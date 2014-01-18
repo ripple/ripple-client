@@ -47,9 +47,10 @@ section.col-xs-12.col-md-10.content(ng-controller="BalanceCtrl")
             td.date {{entry.date | rpfromnow}}
             td.desc(ng-switch on="entry.transaction.type")
               .transaction(ng-switch-when="sent")
-                span(l10n) You sent&#32;
-                  span.address(title="{{entry.transaction.counterparty}}") {{entry.transaction.counterparty | rpcontactname}}
+                span(l10n) You sent
                   strong.nowrap  {{entry.transaction.amount | rpamount}} {{entry.transaction.amount | rpcurrency}}
+                  |  to&#32;
+                  span.address(title="{{entry.transaction.counterparty}}") {{entry.transaction.counterparty | rpcontactname}}
                 a.add(ng-hide="entry.transaction.counterparty | rponlycontactname"
                   href="#/contact?to={{entry.transaction.counterparty}}"
                   class="btn btn-default btn-sm", rp-no-propagate, title="Add to contacts") +&#32;

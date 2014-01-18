@@ -33,7 +33,10 @@ LoginTab.prototype.angular = function (module) {
     $scope.backendChange = function()
     {
       $id.blobBackends = $scope.blobBackendCollection.something.value.split(',');
-      store.set('ripple_blobBackends', $id.blobBackends);
+
+      if (!store.disabled) {
+        store.set('ripple_blobBackends', $id.blobBackends);
+      }
     };
 
     $scope.error = '';

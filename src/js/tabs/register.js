@@ -31,7 +31,9 @@ RegisterTab.prototype.angular = function (module) {
     $scope.backendChange = function()
     {
       $id.blobBackends = $scope.blobBackendCollection.something.value.split(',');
-      store.set('ripple_blobBackends', $id.blobBackends);
+      if (!store.disabled) {
+        store.set('ripple_blobBackends', $id.blobBackends);
+      }
     };
 
     $scope.reset = function()
@@ -122,7 +124,9 @@ RegisterTab.prototype.angular = function (module) {
               Options.mixpanel.track = $scope.track;
             }
 
-            store.set('ripple_settings', JSON.stringify(Options));
+            if (!store.disabled) {
+              store.set('ripple_settings', JSON.stringify(Options));
+            }
 
             $scope.register();
           } else {

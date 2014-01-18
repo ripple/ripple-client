@@ -51,14 +51,21 @@ section.col-xs-12.col-md-10.content(ng-controller="ConvertCtrl")
         |  to a {{convert.currency}} gateway.
       p.literal(ng-show="convert.path_status == 'error'", l10n) Error while calculating path
 
-    .currency_sets.row.row-padding-small(ng-if="convert.path_status == 'done'")
-      .col-xs-12(l10n) Convert
-      ul
-        li.col-xs-12.col-sm-6.col-md-4(ng-repeat="alt in convert.alternatives")
+    .currency_sets
+      .row.row-padding-small(ng-if="convert.path_status == 'done'")
+        .col-xs-12(l10n) Convert
+      .row.row-padding-small.alternatives
+        .col-xs-12.col-sm-6.col-md-4(ng-repeat="alt in convert.alternatives")
           .am
             span.amnt {{alt.amount | rpamount:{rel_precision: 4, rel_min_precision: 2} }}
             span.currency {{alt.amount | rpcurrency }}
           button.btn.btn-block.btn-success(type="submit", ng-disabled='convertForm.$invalid', ng-click="convert.alt = alt", l10n) Convert {{ alt.amount | rpcurrency }}
+      .row.pathupdate(ng-show="convert.alternatives.length && lastUpdate")
+        .col-xs-12(l10n) Paths last updated
+          span  {{lastUpdate}}
+          span(ng-show="lastUpdate > '1'", l10n-inc)  seconds
+          span(ng-show="lastUpdate == '1'", l10n-inc)  second
+          |  ago
 
   //- N2. Waiting for path
 

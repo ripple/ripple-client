@@ -104,7 +104,9 @@ TradeTab.prototype.angular = function(module)
     $scope.setListing = function(listing){
       $scope.order.listing = listing;
 
-      store.set('ripple_trade_listing', listing);
+      if (!store.disabled) {
+        store.set('ripple_trade_listing', listing);
+      }
     };
 
     /**
@@ -528,8 +530,11 @@ TradeTab.prototype.angular = function(module)
       var second_issuer = $scope.order.second_issuer;
 
       var canBuy = second_currency.toUpperCase() === 'XRP' ||
+          second_issuer == $scope.address ||
           ($scope.lines[second_issuer+second_currency] && $scope.lines[second_issuer+second_currency].balance.is_positive());
+
       var canSell = first_currency.toUpperCase() === 'XRP' ||
+          first_issuer == $scope.address ||
           ($scope.lines[first_issuer+first_currency] && $scope.lines[first_issuer+first_currency].balance.is_positive());
 
       $scope.order.buy.showWidget = canBuy;
@@ -572,7 +577,9 @@ TradeTab.prototype.angular = function(module)
     });
 
     $scope.$watch('order.currency_pair', function (pair) {
-      store.set('ripple_trade_currency_pair', pair);
+      if (!store.disabled) {
+        store.set('ripple_trade_currency_pair', pair);
+      }
       updateSettings();
       resetIssuers(true);
     }, true);

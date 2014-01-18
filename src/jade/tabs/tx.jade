@@ -4,7 +4,11 @@ section.single.ddpage.content(ng-controller="TxCtrl", ng-switch on="state")
   group(ng-switch-when="error")
     p.literal(l10n) An error occurred while loading the transaction details.
   group(ng-switch-when="loaded")
-    p.literal.hash(l10n) Transaction # {{transaction.hash}}
+    p.literal.hash
+      span(l10n) Transaction #
+      span {{transaction.hash}}
+      div
+        a(href="{{'http://ripple.com/graph/#' + transaction.hash}}", target="_blank", l10n) Show in graph
     hr
     p.literal.type(l10n) Transaction type:
       strong  {{transaction.TransactionType}}

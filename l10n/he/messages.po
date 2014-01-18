@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Ripple Client\n"
-"PO-Revision-Date: 2014-01-10 07:21+0000\n"
+"PO-Revision-Date: 2014-01-13 15:57+0000\n"
 "Last-Translator: dotanshema <fromgamil@gmail.com>\n"
 "Language-Team: Hebrew (Israel) (http://www.transifex.com/projects/p/ripple-client/language/he_IL/)\n"
 "MIME-Version: 1.0\n"
@@ -38,7 +38,7 @@ msgstr "להמיר"
 #: src/jade/client/index.jade:10 src/jade/menu/wallet.jade:13
 #: src/jade/tabs/cashin.jade:19
 msgid "Cash In"
-msgstr "הכנס כסף"
+msgstr "להפקיד"
 
 #: src/jade/client/index.jade:11 src/jade/menu/wallet.jade:15
 #: src/jade/tabs/register.jade:88
@@ -53,7 +53,7 @@ msgstr "שלחו"
 #: src/jade/client/index.jade:19 src/jade/client/index.jade:52
 #: src/jade/tabs/convert.jade:22
 msgid "Receive"
-msgstr "התקבל"
+msgstr "סכום להמרה"
 
 #: src/jade/client/index.jade:23 src/jade/client/index.jade:55
 msgid "Trade"
@@ -245,7 +245,7 @@ msgstr "פעילות"
 
 #: src/jade/tabs/balance.jade:39 src/jade/tabs/history.jade:83
 msgid "Date"
-msgstr "תאריך"
+msgstr "תאריך עסקה"
 
 #: src/jade/tabs/balance.jade:40
 msgid "Event"
@@ -700,7 +700,7 @@ msgstr "סכום מינימלי לסינון "
 
 #: src/jade/tabs/history.jade:84 src/jade/tabs/history.jade:160
 msgid "Description"
-msgstr "תאור"
+msgstr "תיאור העסקה"
 
 #: src/jade/tabs/history.jade:85
 msgid "Sorry, no transactions match your current filter."
@@ -813,7 +813,7 @@ msgstr "המאזן שלך שונה על ידי {{1}}."
 
 #: src/jade/tabs/login.jade:4 src/jade/tabs/login.jade:25
 msgid "Open Wallet"
-msgstr "פתח ארנק"
+msgstr "ממשק ניהול ארנק"
 
 #: src/jade/tabs/login.jade:8
 msgid "Enter the Name and Passphrase used to encrypt your Wallet below."
@@ -821,12 +821,12 @@ msgstr "הזינו שם וססמה שתשמש להצפנת הארנק שלך ל�
 
 #: src/jade/tabs/login.jade:28
 msgid "Fetch wallet from"
-msgstr "לצפות בארנק מ"
+msgstr "ניתן לצפות בארנק על ידי:"
 
 #: src/jade/tabs/login.jade:31 src/jade/tabs/login.jade:78
 #: src/jade/tabs/register.jade:53
 msgid "change"
-msgstr "לשנות"
+msgstr "לחצו לשינוי!"
 
 #: src/jade/tabs/login.jade:34 src/jade/tabs/login.jade:81
 msgid "ok"
@@ -834,7 +834,7 @@ msgstr "אישור"
 
 #: src/jade/tabs/login.jade:38
 msgid "New to ripple?"
-msgstr "חדש בריפל ?"
+msgstr "עדיין אין לכם חשבון ריפל ?"
 
 #: src/jade/tabs/login.jade:39
 msgid "Create a wallet"
@@ -886,7 +886,7 @@ msgstr "באפשרותכם לאשר עסקה זו בעמוד הבא."
 
 #: src/jade/tabs/login.jade:93
 msgid "New to ripple? {{1:Create a wallet}}"
-msgstr "חדש בריפל? {{1:Create a wallet}}"
+msgstr "עדיין אין לכם חשבון ריפל ? {{1:צרו ארנק}}"
 
 #: src/jade/tabs/login/form.jade:2
 msgid "Wallet name"
@@ -950,7 +950,7 @@ msgstr "זוהי הכתובת הציבורית שלך. תנו כתובת זו ל
 
 #: src/jade/tabs/receive.jade:7
 msgid "Tip: {{1:Select}} and copy using Ctrl+C (Win), Command+C (OSX)."
-msgstr "טיפ: {{1: בחר}} והעתיקו באמצעות Ctrl + C (Win), Command + C (OSX)."
+msgstr "טיפ: {{1: בחרו}} והעתיקו באמצעות Ctrl + C (Win), Command + C (OSX)."
 
 #: src/jade/tabs/receive.jade:12
 msgid "Copy Address"
@@ -971,7 +971,7 @@ msgid ""
 "Your Wallet is only as safe as your Wallet username and passphrase, used to "
 "encrypt your Wallet data. Choose a passphrase you can easily remember but "
 "others cannot guess. Hint: Mix letters, numbers, and symbols."
-msgstr "רמת אבטחה של הארנק שלכם התלויה בשם המשתמש והססמה שתקבעו, בבקשה הזינו ססמה שתכלו לזכור אבל לאחרים יהיה קשה לנחש. הזינו ססמה המורכבת ממספרים, אותיות וסמלים."
+msgstr "רמת אבטחה של הארנק שלכם תלויה בשם המשתמש והססמה שתקבעו, בבקשה הזינו ססמה שתכלו לזכור אבל לאחרים יהיה קשה לנחש. הזינו ססמה המורכבת ממספרים, אותיות וסמלים."
 
 #: src/jade/tabs/register.jade:10
 msgid ""
@@ -1027,7 +1027,7 @@ msgstr "כבר יש לך ארנק?"
 
 #: src/jade/tabs/register.jade:59
 msgid "Open wallet"
-msgstr "פתחו ארנק"
+msgstr "לחצו לכניסה"
 
 #: src/jade/tabs/register.jade:61
 msgid "Need to use your Secret Key? {{1}}"
@@ -1083,7 +1083,7 @@ msgid ""
 "will be lost, but with this Secret Account Key alone anyone can retrieve "
 "your money. So pleasestore it somewhere PRIVATE AND SAFE. Read more about "
 "keys and wallet safety in {{1}}"
-msgstr "ססמת החשבון הסודית שלמטה נותנת גישה לכסף שלכם במצב בלתי סביר כאשר אבדתם את שם הארנק שלכם או את הססמה. במצב זה כל המוטבים לא ניתנים לשחזור, אבל עם מפתח החשבון הסודי ניתן להחזיר לך את הכסף. אז בבקשה תאחסנו את המפתח במקום פרטי ובטוח. קראו עוד על המפתח ועל הארנק ב {{1}}"
+msgstr "מפתח החשבון הסודי שלמטה נותן גישה לכסף שלכם במצב בלתי סביר כאשר אבדתם את שם הארנק שלכם או את הססמה. במצב זה כל המוטבים לא ניתנים לשחזור, אבל עם מפתח החשבון הסודי ניתן להחזיר לך את הכסף. אז בבקשה תאחסנו את המפתח במקום פרטי ובטוח. קראו עוד על המפתח ועל הארנק ב {{1}}"
 
 #: src/jade/tabs/register.jade:90
 msgid "Wallet name:{{1}}"
@@ -1192,7 +1192,7 @@ msgstr "מפתח זה הוא לשימוש חירום בלבד. אתם לא בח�
 msgid ""
 "The Secret Key accesses Your money, which is already contained inside your "
 "wallet."
-msgstr "למפתח הסודי יש גישה לכסף שלך, אשר כבר נמצא בתוך הארנק שלך."
+msgstr "למפתח הסודי יש גישה לכסף שלכם, לכסף הנמצא בתוך ארנקכם."
 
 #: src/jade/tabs/security.jade:48
 msgid ""
@@ -1430,7 +1430,7 @@ msgstr "מטבע בסיס"
 
 #: src/jade/tabs/trade.jade:23 src/jade/tabs/trade.jade:34
 msgid "change issuer"
-msgstr "שנו מנפיק"
+msgstr "שנוי מנפיק"
 
 #: src/jade/tabs/trade.jade:25 src/jade/tabs/trade.jade:36
 msgid "cancel"
@@ -1460,7 +1460,7 @@ msgstr "כתובת ריפל או מוטב אינה תקפה"
 msgid ""
 "You must select an issuer to trade currencies. Click the “change issuer”, "
 "link above and enter your trusted gateway address or nickname."
-msgstr "עליכם לבחור מנפיק על מנת שתוכלו לסחור במטבעות. לחץ על \"שינוי המנפיק\", הקישור שמופיע למעלה, הזינו gateway אמין, כתובת או כינוי."
+msgstr "עליכם לבחור מנפיק על מנת שתוכלו לסחור במטבעות. לחצו על \"שינוי מנפיק\", הקישור שמופיע למעלה, חשוב להזין מנפיק אמין, ניתן להזין כתובת או כינוי מנפיק."
 
 #: src/jade/tabs/trade.jade:71
 msgid "Bid"
@@ -1468,11 +1468,11 @@ msgstr "הצעות מחיר"
 
 #: src/jade/tabs/trade.jade:76
 msgid "Ask"
-msgstr "בקשות מחיר"
+msgstr "בקשת קנייה"
 
 #: src/jade/tabs/trade.jade:81
 msgid "Spread"
-msgstr "מופץ"
+msgstr "הפרש"
 
 #: src/jade/tabs/trade.jade:86
 msgid "Last price"
@@ -1500,7 +1500,7 @@ msgstr "סכום לקנייה"
 
 #: src/jade/tabs/trade.jade:130
 msgid "Amount To sell"
-msgstr "סכום למכירה"
+msgstr "כמות למכירה"
 
 #: src/jade/tabs/trade.jade:137 src/jade/tabs/trade.jade:152
 #: src/jade/tabs/trade.jade:167
@@ -1531,7 +1531,7 @@ msgstr "אתה רוצים לקנות {{1}} עבור {{2}} ({{3}} לכל { {4}})"
 
 #: src/jade/tabs/trade.jade:186
 msgid "You are wanting to sell {{1}} for {{2}} ({{3}} per {{4}})"
-msgstr "אתם רוצים למכור {{1}} עבור {{2}} ({{3}} לכל { {4}})"
+msgstr "האם אתם רוצים למכור {{1}} עבור {{2}} ({{3}} לכל { {4}})"
 
 #: src/jade/tabs/trade.jade:198
 msgid "Buy"
@@ -1539,7 +1539,7 @@ msgstr "קנייה"
 
 #: src/jade/tabs/trade.jade:199
 msgid "Sell"
-msgstr "מכירה"
+msgstr "הצעות מכירה"
 
 #: src/jade/tabs/trade.jade:205
 msgid "You do not have sufficient funds to create an order."
@@ -1643,7 +1643,7 @@ msgstr "לא &#39; הגשתם הזמנה."
 
 #: src/jade/tabs/trade.jade:316
 msgid "Bids"
-msgstr "הצעות מחיר"
+msgstr "הצעות מכירה"
 
 #: src/jade/tabs/trade.jade:318 src/jade/tabs/trade.jade:345
 msgid "Sum{{1}}{{2}}"
@@ -1655,23 +1655,23 @@ msgstr "גודל {{1}}{{2}}"
 
 #: src/jade/tabs/trade.jade:324
 msgid "Bid Price{{1}}{{2}}"
-msgstr "הצעה מחיר {{1}}{{2}}"
+msgstr "הצעת מחיר {{1}}{{2}}"
 
 #: src/jade/tabs/trade.jade:335
 msgid "There are currently no bids for this pair."
-msgstr "כרגע אין הצעות לצמד הזה. "
+msgstr "כרגע אין הצעות מחיר לצמד הזה. "
 
 #: src/jade/tabs/trade.jade:337
 msgid "Asks"
-msgstr "בקשות מחיר"
+msgstr "בקשות קנייה"
 
 #: src/jade/tabs/trade.jade:339
 msgid "Ask Price{{1}}{{2}}"
-msgstr "בקשת מחיר {{1}}{{2}}"
+msgstr "בקשת קנייה {{1}}{{2}}"
 
 #: src/jade/tabs/trade.jade:356
 msgid "There are currently no asks for this pair."
-msgstr "כרגע אין בקשות מחיר לצמד הזה."
+msgstr "כרגע אין בקשות קנייה לצמד הזה."
 
 #: src/jade/tabs/trust.jade:17
 msgid "You have to be funded before you can grant a trust"

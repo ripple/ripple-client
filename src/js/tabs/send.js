@@ -31,6 +31,8 @@ SendTab.prototype.angular = function (module)
   {
     if (!$id.loginStatus) return $id.goId();
 
+    var timer;
+
     // XRP currency object.
     // {name: "XRP - Ripples", order: 146, value: "XRP"}
     $scope.xrp = _.where($scope.currencies_all, {value: "XRP"})[0];
@@ -577,8 +579,20 @@ SendTab.prototype.angular = function (module)
 
       send.pathfind = pf;
 
+      var lastUpdate;
+
       pf.on('update', function (upd) {
         $scope.$apply(function () {
+          lastUpdate = new Date();
+
+          clearInterval(timer);
+          timer = setInterval(function(){
+            $scope.$apply(function(){
+              var seconds = Math.round((new Date() - lastUpdate)/1000);
+              $scope.lastUpdate = seconds ? seconds : 0;
+            })
+          }, 1000);
+
           // Check if this request is still current, exit if not
           var now_recipient = send.recipient_actual || send.recipient_address;
           if (recipient !== now_recipient) return;
