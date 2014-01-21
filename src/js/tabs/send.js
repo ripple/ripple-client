@@ -257,33 +257,6 @@ SendTab.prototype.angular = function (module)
 
             send.recipient_lines = false;
             $scope.update_currency_constraints();
-
-            // XXX Request available currency choices from server
-            //     We need some server-side support for this. Right now, the
-            //     server will just dutifully send us thousands of trust lines
-            //     if we request account_lines on a major gateway.
-            //
-            //     We need either a account_lines RPC call with a max_lines
-            //     setting or a dedicated account_accepted_currencies command.
-            //
-            // UPDATE: Check this out. Currently it's not released.
-            // https://github.com/ripple/rippled/commit/bf1843be9e352aa39207ea98b40709f66f8da1be
-            /*
-            account.lines(function (e, data) {
-              $scope.$apply(function () {
-                // Check if this request is still current, exit if not
-                var now_recipient = send.recipient_actual || send.recipient_address;
-                if (recipient !== now_recipient) return;
-
-                if (e) {
-                  // XXX Actual error
-                } else {
-                  send.recipient_lines = data.lines;
-                  $scope.update_currency_constraints();
-                }
-              });
-            });
-            */
           }
         });
       });
@@ -340,21 +313,26 @@ SendTab.prototype.angular = function (module)
 
       if (!send.recipient_info.loaded) return;
 
-      if (send.recipient_info.exists && send.recipient_lines) {
-        // XXX This clause is not in use
-        // ---------------------------------------------------------------------
-        var lines = send.recipient_lines;
+      if (send.recipient_info.exists) {
+        // Check allowed currencies for this address
+        $network.remote.request_account_currencies(send.recipient_address)
+          .on('success', function (data) {
+            if (data.receive_currencies) {
+              $scope.$apply(function () {
+                // Generate list of accepted currencies
+                send.currency_choices = _.uniq(_.compact(_.map(data.receive_currencies, function (currency) {
+                  return currency;
+                })));
 
-        // Generate list of accepted currencies from their trust lines
-        send.currency_choices = _.uniq(_.compact(_.map(lines, function (line) {
-          return line.currency;
-        })));
-
-        // Add XRP if they allow it
-        if (!send.recipient_info.disallow_xrp) {
-          send.currency_choices.unshift("XRP");
-        }
-        // ---------------------------------------------------------------------
+                // Add XRP if they allow it
+                if (!send.recipient_info.disallow_xrp) {
+                  send.currency_choices.unshift("XRP");
+                }
+              });
+            }
+          })
+          .on('error', function () {})
+          .request();
       } else if (send.recipient_info.exists) {
         // Their account exists, but we couldn't grab their trust lines,
         // probably because their owner directory is too large. So, we'll
