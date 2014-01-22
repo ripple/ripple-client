@@ -507,6 +507,39 @@ module.directive('rpAmountXrpLimit', function () {
 });
 
 /**
+ * Limit currencies to be entered
+ */
+module.directive('rpRestrictCurrencies', function () {
+  return {
+    restrict: 'A',
+    require: '?ngModel',
+    link: function (scope, elm, attr, ctrl) {
+      if (!ctrl) return;
+
+      var validator = function(value) {
+        value = value.slice(0, 3).toUpperCase();
+
+        if (attr.rpRestrictCurrencies) {
+          ctrl.$setValidity('rpRestrictCurrencies',
+            attr.rpRestrictCurrencies.indexOf(value) != -1
+              ? true
+              : value == 'XRP'
+          );
+        }
+        else {
+          ctrl.$setValidity('rpRestrictCurrencies', true);
+        }
+
+        return value;
+      };
+
+      ctrl.$formatters.push(validator);
+      ctrl.$parsers.unshift(validator);
+    }
+  };
+});
+
+/**
  * Port number validator
  */
 module.directive('rpPortNumber', function () {
