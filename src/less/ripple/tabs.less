@@ -1334,7 +1334,7 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
   }
 
   .listings {
-    padding: 15px;
+    padding: 0 15px;
     border: 1px solid darken(@bg, 10%);
     .border-radius(5px, 5px, 5px, 0);
     background: @bg;
@@ -1342,17 +1342,25 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
     .my {
       .head {
         font-weight: bold;
-        margin-bottom: 10px;
+      }
+      .row:first-child {
+        border-top: none;
       }
       .row {
-        padding: 10px 0;
+        border-top: 1px solid #EBEBEB;
 
         &:nth-child(even) {
           background-color: darken(@bg, 2%);
         }
 
+        & > div {
+          padding: 8px;
+          border-right: 1px solid #EBEBEB;
+        }
+
         & > div:last-child {
           text-align: right;
+          border-right: none;
         }
 
         .issuer {
