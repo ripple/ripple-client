@@ -359,21 +359,9 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
               .actionLink
                 a(href="#trade", ng-click="reset_widget(type)", l10n) Submit another order
 
-      .btn-group
-        button.btn.btn-default(
-          type="button"
-          ng-class="{'btn-info': order.listing == 'orderbook'}"
-          ng-click="setListing('orderbook')", l10n) Order book
-        button.btn.btn-default(
-          type="button"
-          ng-disabled="!account.Balance"
-          ng-class="{'btn-info': order.listing == 'my'}"
-          ng-click="setListing('my')", l10n)
-            | My Orders
-            span(ng-show="offers")  ({{offersCount}})
-
+      h3 My Orders
       .listings
-        .my(ng-show="order.listing == 'my'")
+        .my
           div(ng-hide="isEmpty(offers)")
             .row.head.hidden-xs
               .col-sm-1.type(l10n) Type
@@ -411,9 +399,11 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
           .emptyMessage(ng-show="isEmpty(offers)")
             p.literal(l10n="You haven't placed any orders.") You haven&#39;t placed any orders.
 
+      h3 Orderbook
+      .listings
         //- TODO hide one column (size/sum) to show bids/ask in the same line for mobile phones.
         //- TODO highlight changes
-        .row.orderbook(ng-show="order.listing == 'orderbook'")
+        .row.orderbook
           .bids.col-xs-12.col-sm-6
             .title(l10n) Bids
             .row.head(ng-show="book.bids.length")
