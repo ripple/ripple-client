@@ -8,8 +8,8 @@ var module = angular.module('books', ['network']);
 var Amount = ripple.Amount;
 
 
-module.factory('rpBooks', ['rpNetwork', '$q', '$rootScope', '$filter',
-function(net, $q, $scope, $filter) {
+module.factory('rpBooks', ['rpNetwork', '$q', '$rootScope', '$filter', 'rpId',
+function(net, $q, $scope, $filter, $id) {
   function loadBook(gets, pays, taker) {
     return net.remote.book(gets.currency, gets.issuer,
     pays.currency, pays.issuer,
@@ -59,14 +59,21 @@ function(net, $q, $scope, $filter) {
         rel_min_precision: 2
       });
 
-      if (lastprice === price) {
+      // Don't combine current user's orders.
+      if (d.Account == $id.account) {
+        d.my = true;
+      }
+
+      if (lastprice === price && !d.my) {
         if (combine) {
           newData[current].TakerPays = Amount.from_json(newData[current].TakerPays).add(d.TakerPays);
           newData[current].TakerGets = Amount.from_json(newData[current].TakerGets).add(d.TakerGets);
         }
         d = false;
       } else current = i;
-      lastprice = price;
+
+      if (!d.my)
+        lastprice = price;
 
       if (d) rowCount++;
 
