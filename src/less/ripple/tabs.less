@@ -1339,7 +1339,7 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
   .listings {
     padding: 0 15px;
     border: 1px solid darken(@bg, 10%);
-    .border-radius(5px, 5px, 5px, 0);
+    .border-radius(5px,5px,5px,5px);
     background: @bg;
 
     .my {
@@ -1383,14 +1383,9 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
     }
 
     .cancelling {
-      opacity: 0.3;
+      color: lighten(#000,70%);
 
-      .action {
-        background-image: url(../../img/throbber.gif);
-        background-repeat: no-repeat;
-        background-position: 90% 50%;
-      }
-      .action button {
+      .action a {
         display: none;
       }
     }
