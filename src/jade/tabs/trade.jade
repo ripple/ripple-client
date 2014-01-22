@@ -377,28 +377,31 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
           div(ng-hide="isEmpty(offers)")
             .row.head.hidden-xs
               .col-sm-1.type(l10n) Type
-              .col-sm-3.pair(l10n) Pair
-              .col-sm-3.price(l10n) Price
+              .col-sm-4(l10n) Currencies
+                span.issuer(l10n-inc)  (Issuer)
+              .col-sm-2.price(l10n) Price
               .col-sm-3.amount(l10n) Amount
               .col-sm-2.action(l10n) Action
           .row(ng-repeat="entry in offers", ng-class="{cancelling: cancelling}")
             .col-sm-1.type(data-label="Type") {{entry.type | rpucfirst}}
-            .col-sm-3.pair(data-label="Pair")
-              .first {{entry.first | rpcurrency}}
-                span(ng-show="entry.first.issuer().to_json()") &#32;(
-                  span(
-                    rp-pretty-issuer="entry.first.issuer().to_json()"
-                    rp-pretty-issuer-contacts="userBlob.data.contacts"
-                  ) ???
-                  | )
-              .second {{entry.second | rpcurrency}}
-                span(ng-show="entry.second.issuer().to_json()") &#32;(
-                  span(
-                    rp-pretty-issuer="entry.second.issuer().to_json()"
-                    rp-pretty-issuer-contacts="userBlob.data.contacts"
-                  ) ???
-                  | )
-            .col-sm-3.price.rpamount(data-label="Price") {{entry.second | rpamountratio:entry.first | rpamount:{precision: 5, min_precision: 5} }}
+            .col-sm-4(data-label="Currencies")
+              span {{entry.first | rpcurrency}}
+              span.issuer(ng-show="entry.first.issuer().to_json()") &nbsp;(
+                span(
+                  rp-pretty-issuer="entry.first.issuer().to_json()"
+                  rp-pretty-issuer-contacts="userBlob.data.contacts"
+                ) ???
+                | )
+              span(ng-show="'buy' == entry.type", l10n)  with
+              span(ng-show="'sell' == entry.type", l10n)  for
+              span  {{entry.second | rpcurrency}}
+              span.issuer(ng-show="entry.second.issuer().to_json()") &nbsp;(
+                span(
+                  rp-pretty-issuer="entry.second.issuer().to_json()"
+                  rp-pretty-issuer-contacts="userBlob.data.contacts"
+                ) ???
+                | )
+            .col-sm-2.price.rpamount(data-label="Price") {{entry.second | rpamountratio:entry.first | rpamount:{precision: 5, min_precision: 5} }}
               span.currency  {{entry.second | rpcurrency}}
             .col-sm-3.amount.rpamount(data-label="Amount") {{entry.first | rpamount}}
               span.currency  {{entry.first | rpcurrency}}

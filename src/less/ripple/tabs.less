@@ -1348,11 +1348,16 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
         padding: 10px 0;
 
         &:nth-child(even) {
-          background-color: darken(@bg, 3%);
+          background-color: darken(@bg, 2%);
         }
 
         & > div:last-child {
           text-align: right;
+        }
+
+        .issuer {
+          color: lighten(#000,70%);
+          font-size: 11px;
         }
 
         @media (max-width: @screen-xs-max) {
