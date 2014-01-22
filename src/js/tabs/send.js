@@ -319,6 +319,7 @@ SendTab.prototype.angular = function (module)
           .on('success', function (data) {
             if (data.receive_currencies) {
               $scope.$apply(function () {
+                send.restrict_currencies = data.receive_currencies;
                 // Generate list of accepted currencies
                 send.currency_choices = _.uniq(_.compact(_.map(data.receive_currencies, function (currency) {
                   return currency;

@@ -99,7 +99,8 @@ section.single.content(ng-controller='SendCtrl')
           rp-combobox="{{send.currency_choices}}", rp-combobox-select
           ng-model='send.currency'
           rp-autofill='$routeParams.amount'
-          rp-autofill-currency)
+          rp-autofill-currency
+          rp-restrict-currencies='{{send.restrict_currencies}}')
       .row(ng-if="send.currency_force")
         .col-xs-12.col-sm-6.col-md-3.input-group.currency_force
           input.form-control#send_amount(
@@ -114,6 +115,8 @@ section.single.content(ng-controller='SendCtrl')
           rp-amount-xrp-limit
           rp-amount-xrp-limit-currency='{{send.currency}}')
           span.input-group-addon(ng-bind="send.currency_force")
+      .errorGroup(rp-errors='send_amount_currency')
+        .error(rp-error-on='rpRestrictCurrencies', l10n) {{send.recipient | rpcontactname}} can't receive this currency.
       .errorGroup(rp-errors='send_amount')
         .error(rp-error-on='required', l10n) Please enter an amount.
         .error(rp-error-on='rpAmount', l10n) Not a valid amount.
