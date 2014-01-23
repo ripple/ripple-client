@@ -155,8 +155,10 @@ TradeTab.prototype.angular = function(module)
      */
     $scope.cancel_order = function ()
     {
+      var seq = this.entry ? this.entry.seq : this.order.Sequence;
+
       var tx = $network.remote.transaction();
-      tx.offer_cancel($id.account, this.entry.seq);
+      tx.offer_cancel($id.account, seq);
       tx.on('success', function() {
         $rpTracker.track('Trade order cancellation', {
           'Status': 'success'

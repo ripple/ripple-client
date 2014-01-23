@@ -1390,14 +1390,6 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
       }
     }
 
-    .cancelling {
-      color: lighten(#000,70%);
-
-      .action a {
-        display: none;
-      }
-    }
-
     .emptyMessage {
       margin: 10px 0;
     }
@@ -1418,6 +1410,22 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
 
       .currency {
         color: #B6B6B6;
+      }
+    }
+
+    .my {
+      font-weight: bold;
+      color: #177716;
+
+      .insig {
+        color: #177716;
+        font-weight: normal;
+      }
+
+      .delete {
+        margin: 0 10px 0 0;
+
+        text-decoration: none;
       }
     }
 
@@ -1459,6 +1467,14 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
     .issuer {
       font-size: 10px;
       color: #B6B6B6;
+    }
+  }
+
+  .cancelling {
+    color: lighten(#000,70%);
+
+    .action a {
+      display: none;
     }
   }
 }

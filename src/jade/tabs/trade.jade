@@ -401,7 +401,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                 action-function="cancel_order()"
                 cancel-button-css="btn btn-default"
                 cancel-button-text="Cancel")
-                  a.danger(href="", l10n) Cancel
+                a.danger(href="", l10n) Cancel
           .emptyMessage(ng-show="isEmpty(offers)")
             p.literal(l10n="You haven't placed any orders.") You haven&#39;t placed any orders.
 
@@ -434,7 +434,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                   rp-pretty-issuer="book.bids[0].TakerGets | rpissuer"
                   rp-pretty-issuer-contacts="userBlob.data.contacts"
                   rp-pretty-issuer-or-short)
-            .row(ng-repeat='order in book.bids')
+            .row(ng-repeat='order in book.bids', ng-class="{my: order.my, cancelling: cancelling}")
               .col-xs-4.rpamount.sum
                 a(href="", title="Sell {{order.showSum}} {{book.bids[0].showTakerPays | rpcurrency}}"
                   ng-click="fill_widget('sell',order,true)")
@@ -468,7 +468,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                   rp-pretty-issuer="book.asks[0].TakerGets | rpissuer"
                   rp-pretty-issuer-contacts="userBlob.data.contacts"
                   rp-pretty-issuer-or-short)
-            .row(ng-repeat='order in book.asks')
+            .row(ng-repeat='order in book.asks', ng-class="{my: order.my, cancelling: cancelling}")
               .col-xs-4.rpamount.price
                 a(href="", ng-click="fill_widget('buy',order)")
                   span(rp-bind-color-amount="order.showPrice")
