@@ -16,7 +16,7 @@
 
   a.receive(href="#/receive", ng-class="{active: $route.current.mainMenu == 'receive'}")
     span.nav-icon.nav-icon-receive
-    span(l10n) Receive
+    span(l10n="Receive (tabname)") Receive
 
   a.send(href="#/trade", ng-class="{active: $route.current.mainMenu == 'trade'}")
     span.nav-icon.nav-icon-trade
@@ -49,7 +49,7 @@ div#wrapper
               span(l10n) Send
           li#nav-receive.col-xs-2.col-md-1(ng-class="{active: $route.current.mainMenu == 'receive'}")
             a.nav-icon.nav-icon-receive(href="#/receive")
-              span(l10n) Receive
+              span(l10n="Receive (tabname)") Receive
           li#nav-trade.col-xs-2.col-md-1(ng-class="{active: $route.current.mainMenu == 'trade'}")
             a.nav-icon.nav-icon-trade(href="#/trade")
               span(l10n) Trade
