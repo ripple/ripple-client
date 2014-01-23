@@ -442,6 +442,9 @@ module.directive('rpAmount', function () {
 
         var parsedValue = parseFloat(value);
 
+        if (parsedValue)
+          parsedValue = parsedValue.toFixed(value.length-2);
+
         // check for valid amount
         ctrl.$setValidity('rpAmount', parsedValue == value);
 
