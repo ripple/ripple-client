@@ -126,7 +126,7 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
         //     logouts trigger a full page reload.
         self.loginStatus = true;
 
-        $authflow.relogin(auth.username, auth.keys, function (err, blob) {
+        $authflow.relogin(auth.username, auth.keys, function (err, blob, username) {
           if (err) {
             // Failed to relogin, logout
             console.log("client: id: failed to relogin:", err.toString());
@@ -136,7 +136,7 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
             $.extend(true, blob, Id.minimumBlob);
 
             $scope.userBlob = blob;
-            self.setUsername(auth.username);
+            self.setUsername(username);
             self.setAccount(blob.data.account_id);
             self.setLoginKeys(auth.keys);
             self.loginStatus = true;
@@ -257,7 +257,8 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
     username = Id.normalizeUsername(username);
     password = Id.normalizePassword(password);
 
-    $authflow.login(username.toLowerCase(), password, function (err, blob, keys) {
+    $authflow.login(username.toLowerCase(), password, function (err, blob, keys,
+                                                                actualUsername) {
       if (err && Options.blobvault) {
         console.log("Blob login failed, trying old blob protocol");
 
@@ -294,10 +295,13 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
         $.extend(true, blob, Id.minimumBlob);
 
         $scope.userBlob = blob;
-        self.setUsername(username);
+        // Ripple's username system persists the capitalization of the username,
+        // even though usernames are case-insensitive. That's why we want to use
+        // the "actualUsername" that the server returned.
+        self.setUsername(actualUsername);
         self.setAccount(blob.data.account_id);
         self.setLoginKeys(keys);
-        self.storeLoginKeys(username, keys);
+        self.storeLoginKeys(actualUsername, keys);
         self.loginStatus = true;
         $scope.$broadcast('$blobUpdate');
         store.set('ripple_known', true);

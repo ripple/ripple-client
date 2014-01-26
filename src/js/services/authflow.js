@@ -133,7 +133,7 @@ module.factory('rpAuthFlow', ['$rootScope', 'rpAuthInfo', 'rpKdf', 'rpBlob',
         }
 
         console.log("client: authflow: registration succeeded", blob);
-        callback(null, blob, loginKeys);
+        callback(null, blob, loginKeys, authInfo.username);
       });
     }
   };
@@ -170,7 +170,7 @@ module.factory('rpAuthFlow', ['$rootScope', 'rpAuthInfo', 'rpKdf', 'rpBlob',
         }
 
         console.log("client: authflow: relogin succeeded", blob);
-        callback(null, blob);
+        callback(null, blob, authInfo.username);
       });
     }
   };
