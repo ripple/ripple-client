@@ -61,7 +61,7 @@ section.col-xs-12.col-md-10.content(ng-controller="BalanceCtrl")
               .transaction(ng-switch-when="received")
                 span.address(title="{{entry.transaction.counterparty}}", l10n)
                   | {{entry.transaction.counterparty | rpcontactname}} sent you
-                strong.nowrap  {{entry.transaction.amount | rpamount}} {{entry.transaction.amount | rpcurrency}}
+                strong.nowrap  {{entry.transaction.amount | rpamount:{reference_date:entry.dateRaw} }} {{entry.transaction.amount | rpcurrency}}
                 a.add(ng-hide="entry.transaction.counterparty | rponlycontactname"
                   href="#/contact?to={{entry.transaction.counterparty}}"
                   class="btn btn-default btn-sm", rp-no-propagate, title="Add to contacts") +&#32;
@@ -94,7 +94,7 @@ section.col-xs-12.col-md-10.content(ng-controller="BalanceCtrl")
                   span.address(title="{{entry.transaction.counterparty}}")
                     | {{entry.transaction.counterparty | rpcontactname}}
                   |  for
-                  strong.nowrap  {{entry.transaction.amount | rpamount}}
+                  strong.nowrap  {{entry.transaction.amount | rpamount:{reference_date:entry.dateRaw} }}
                     | {{entry.transaction.amount | rpcurrency}}
                   | .
                 a.add(ng-hide="entry.transaction.counterparty | rponlycontactname"
