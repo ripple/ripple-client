@@ -1,14 +1,14 @@
 /**
- * STATUS
+ * NAVBAR
  *
- * The status controller manages the user box in the top right.
+ * The navbar controller manages the bar at the top of the screen.
  */
 
 var Amount = ripple.Amount;
 
-var module = angular.module('status', []);
+var module = angular.module('navbar', []);
 
-module.controller('StatusCtrl', ['$scope', '$element', '$compile', 'rpId',
+module.controller('NavbarCtrl', ['$scope', '$element', '$compile', 'rpId',
                                  function ($scope, el, $compile, $id)
 {
   var queue = [];

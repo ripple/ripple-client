@@ -78,96 +78,66 @@ body.loaded #appLoading {
 }
 
 #logo {
-  position: absolute;
-  top: 15px;
-  left: @grid-gutter-width / 2;
-
-  a {
-    display: block;
-    width: 218px;
-    height: 52px;
-    background: url('../../img/logo.png');
-
-    // Pixel ratio: 2
-    @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min-device-pixel-ratio: 2) {
-      background: url('../../img/logo_2x.png');
-      background-size: 218px 52px;
-    }
-  }
-
-  @media (max-width: @screen-sm-max) {
-    display: none;
-  }
+  position: relative;
+  color: #fff;
+  .icon-ripple-logo();
 }
 
 header {
   .clearfix();
-  height: 145px;
 
-  @media (max-width: @screen-sm-max) {
-    height: 100px;
-  }
-}
+  nav.navbar {
+    background-color: #648CB2;
+    .border-radius(0);
 
-header nav {
-  position: absolute;
-  width: 100%;
-  top: 85px;
-  left: 0;
-  padding-left: 30px;
-}
+    ul.nav {
+      font: 12px 'OpenSansRegular';
 
-header nav ul {
-  font: 12px 'OpenSansRegular';
-  list-style: none;
+      > li {
+        > a {
+          color: #fff;
+          .transition-duration(0.2s);
+          cursor: pointer;
 
-  > li {
-    position: relative;
-    text-align: center;
+          .caret {
+            border-top-color: #fff;
+            border-bottom-color: #fff;
+          }
 
-    > a {
-      opacity: 0.4;
-      width: 60px;
-      height: 60px;
-      color: #000;
+          &:hover,
+          &:focus {
+            color: #ddd;
+            text-decoration: none;
+            background-color: transparent;
+          }
+        }
+
+        p.navbar-text {
+          color: #fff;
+          margin-top: 16px;
+          margin-bottom: 16px;
+        }
+
+        &.active {
+          font-family: 'OpenSansBold';
+        }
+      }
+
+      li.balance {
+        .currency {
+          font-size: 0.75em;
+          opacity: 0.8;
+        }
+      }
+    }
+
+    .dropdown-menu {
       display: block;
-      .transition-duration(0.2s);
-
-      span {
-        padding: 35px 0 0 0;
-        display: block;
-      }
-
-      &:hover {
-        color: #333;
-        text-decoration: none;
-      }
     }
 
-    &.active {
-      font-family: 'OpenSansBold';
-
-      > a {
-        opacity: 1;
-        color: #333;
-      }
+    li.settings {
+      font-size: 1.7em;
     }
-  }
-}
-
-.nav-icon {
-  background-image: url(../../img/sprite_menu.png);
-
-  &.nav-icon-wallet {background-position: 0px -10px;}
-  &.nav-icon-send {background-position: -60px -10px;}
-  &.nav-icon-receive {background-position: -120px -10px;}
-  &.nav-icon-trade {background-position: -180px -10px;}
-  &.nav-icon-advanced {background-position: -240px -10px;}
-
-  // Pixel ratio: 2
-  @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min-device-pixel-ratio: 2) {
-    background-image: url('../../img/sprite_menu_2x.png');
-    background-size: 300px 120px;
   }
 }
 
@@ -404,39 +374,6 @@ footer {
     &.active {
       background: #428bca;
       color: #fff;
-    }
-
-    &.wallet .nav-icon,
-    &.send .nav-icon,
-    &.receive .nav-icon,
-    &.trade .nav-icon,
-    &.advanced .nav-icon {
-      float: left;
-      display: block;
-      width: 60px;
-      height: 40px;
-      margin-top: -10px;
-      background-image: url('../../img/sprite_menu.png');
-
-      // Pixel ratio: 2
-      @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min-device-pixel-ratio: 2) {
-        background-image: url('../../img/sprite_menu_2x.png');
-        background-size: 300px 120px;
-      }
-    }
-
-    &.wallet .nav-icon {background-position: 0px -10px;}
-    &.send .nav-icon {background-position: -60px -10px;}
-    &.receive .nav-icon {background-position: -120px -10px;}
-    &.trade .nav-icon {background-position: -180px -10px;}
-    &.advanced .nav-icon {background-position: -240px -10px;}
-
-    &.active {
-      &.wallet .nav-icon {background-position: 0px -70px;}
-      &.send .nav-icon {background-position: -60px -70px;}
-      &.receive .nav-icon {background-position: -120px -70px;}
-      &.trade .nav-icon {background-position: -180px -70px;}
-      &.advanced .nav-icon {background-position: -240px -70px;}
     }
   }
 

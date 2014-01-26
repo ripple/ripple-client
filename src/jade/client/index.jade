@@ -31,34 +31,10 @@
 
 // Wrapper
 div#wrapper
+  // Header
+  header
+    != require("./navbar.jade")()
   .container
-    // Header
-    header
-      // Logo
-      div#logo
-        a(href="#/", title="Ripple")
-
-      // Nav
-      nav.row.top-nav
-        ul.col-xs-12
-          li#nav-wallet.col-xs-2.col-md-1(ng-class="{active: $route.current.mainMenu == 'wallet'}")
-            a.nav-icon.nav-icon-wallet(href="#/balance")
-              span(l10n) Wallet
-          li#nav-send.col-xs-2.col-md-1(ng-class="{active: $route.current.mainMenu == 'send'}")
-            a.nav-icon.nav-icon-send(href="#/send")
-              span(l10n) Send
-          li#nav-receive.col-xs-2.col-md-1(ng-class="{active: $route.current.mainMenu == 'receive'}")
-            a.nav-icon.nav-icon-receive(href="#/receive")
-              span(l10n="Receive (tabname)") Receive
-          li#nav-trade.col-xs-2.col-md-1(ng-class="{active: $route.current.mainMenu == 'trade'}")
-            a.nav-icon.nav-icon-trade(href="#/trade")
-              span(l10n) Trade
-          li#nav-advanced.col-xs-2.col-md-1(ng-class="{active: $route.current.mainMenu == 'advanced'}")
-            a.nav-icon.nav-icon-advanced(href="#/trust")
-              span(l10n) Advanced
-
-      div(scope="root", rp-jade-replace="client/status.jade")
-
     // Main
     .row.main(role="main", id="{{$route.current.tabClass}}", ng-view)
 

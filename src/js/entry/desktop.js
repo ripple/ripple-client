@@ -2,7 +2,7 @@ var types = require('../util/types');
 
 // Load app modules
 require('../controllers/app');
-require('../controllers/status');
+require('../controllers/navbar');
 require('../directives/charts');
 require('../directives/fields');
 require('../directives/effects');
@@ -11,7 +11,6 @@ require('../directives/events');
 require('../directives/formatters');
 require('../directives/directives');
 require('../directives/datalinks');
-require('../directives/jade');
 require('../directives/errors');
 require('../filters/filters');
 require('../services/globalwrappers');
@@ -39,7 +38,7 @@ var appDependencies = [
   'ngRoute',
   // Controllers
   'app',
-  'status',
+  'navbar',
   // Services
   'id',
   'tracker',
@@ -52,7 +51,6 @@ var appDependencies = [
   'directives',
   'validators',
   'datalinks',
-  'jade',
   'errors',
   // Filters
   'filters',
