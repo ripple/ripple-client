@@ -216,7 +216,7 @@ section.col-xs-12.col-md-10.content(ng-controller="TrustCtrl")
 
     .row.row-padding-small.line.padding-vertical-xs(ng-show="mode=='main'", ng-repeat='(key, line) in linesArray | orderBy:sorting.sort:sorting.reverse')
       .col-sm-5 {{line.account | rpcontactnamefull}}
-      .col-sm-1 {{line.currency}}
+      .col-sm-1 {{line.balance | rpcurrency}}
       .col-sm-2
         span(rp-tooltip="{{line.balance | rpamount }}") {{line.balance | rpamount:{rel_precision: 0} }}
       .col-sm-3
