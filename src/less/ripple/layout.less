@@ -2,14 +2,7 @@ html, body {
   width: 100%;
   height: 100%;
   overflow-x: hidden;
-}
-
-body, #wrapper {
-  background: #F9F9F9 url("../../img/bg.png");
-
-  @media (max-width: @screen-xs-max) {
-    background: #fff;
-  }
+  background-color: #fff;
 }
 
 body {
@@ -178,17 +171,7 @@ header {
   }
 }
 #wrapper .container > .main {
-  background-color: #fff;
-  border: 1px solid #ccc;
-  .rounded(5px);
   min-height: 500px;
-
-  @media (max-width: @screen-xs-max) {
-    .rounded(0px);
-    border-left: 0;
-    border-right: 0;
-    border: none;
-  }
 }
 
 @sideNavWidth: 150px;
