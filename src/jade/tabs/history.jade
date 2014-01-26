@@ -85,7 +85,7 @@ section.col-xs-12.col-md-10.content(ng-controller="HistoryCtrl")
       .message(ng-hide="historyState=='loading' || historyShow", l10n)
         | Sorry, no transactions match your current filter.
       ul
-        li(ng-repeat="entry in historyShow", class="{{entry.transaction.type}}"
+        li(ng-repeat="entry in historyShow track by entry.hash", class="{{entry.transaction.type}}"
             ng-click='details[entry.hash] = !details[entry.hash]'
             ng-class="{open: details[entry.hash]}"
             ng-class-odd="'odd'")
