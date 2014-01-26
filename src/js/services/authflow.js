@@ -74,7 +74,7 @@ module.factory('rpAuthFlow', ['$rootScope', 'rpAuthInfo', 'rpKdf', 'rpBlob',
         }
 
         console.log("client: authflow: login succeeded", blob);
-        callback(null, blob, keys);
+        callback(null, blob, keys, authInfo.username);
       });
     }
   };

@@ -294,10 +294,19 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
         // Ensure certain properties exist
         $.extend(true, blob, Id.minimumBlob);
 
-        $scope.userBlob = blob;
         // Ripple's username system persists the capitalization of the username,
         // even though usernames are case-insensitive. That's why we want to use
         // the "actualUsername" that the server returned.
+        //
+        // However, we want this to never be a source for problems, so we'll
+        // ensure the actualUsername returned is equivalent to what we expected
+        // and fall back to what the user entered otherwise.
+        if ("string" !== typeof actualUsername ||
+            actualUsername.toLowerCase() !== username.toLowerCase()) {
+          actualUsername = username;
+        }
+
+        $scope.userBlob = blob;
         self.setUsername(actualUsername);
         self.setAccount(blob.data.account_id);
         self.setLoginKeys(keys);
