@@ -1,36 +1,48 @@
 nav.navbar(role="navigation", ng-controller="NavbarCtrl")
-      .container
-        .navbar-header
-          a.navbar-brand#logo(href="#/", title="Ripple")
-        .collapse.navbar-collapse
-          ul.nav.navbar-nav
-            li#nav-wallet(ng-class="{active: $route.current.mainMenu == 'wallet'}")
-              a(href="#/balance", l10n) Wallet
-            li#nav-send(ng-class="{active: $route.current.mainMenu == 'send'}")
-              a(href="#/send", l10n) Send
-            li#nav-receive(ng-class="{active: $route.current.mainMenu == 'receive'}")
-              a(href="#/receive", l10n="Receive (tabname)") Receive
-            li#nav-trade(ng-class="{active: $route.current.mainMenu == 'trade'}")
-              a(href="#/trade", l10n) Trade
-            li#nav-advanced(ng-class="{active: $route.current.mainMenu == 'advanced'}")
-              a(href="#/trust", l10n) Advanced
-          ul.nav.navbar-nav.navbar-right
-            li.balance
-              p.navbar-text(ng-show="!loadState.account", l10n) Loading your balance...
-              p.navbar-text(ng-show="loadState.account")
-                span.balance.primary(ng-show="!account.Account", l10n) Unfunded account
-                span.balance.primary(ng-show="account.Account")
-                  span.amount {{account.Balance | rpamount:{precision: 2} }}
-                  span.currency XRP
-                i.fa.fa-question-circle(ng-show="false && account.Account"
-                  rp-popover
-                  rp-popover-placement="bottom"
-                  l10n-rp-popover-title="XRP Balance"
-                  rp-popover-trigger="click"
-                  l10n-data-content="Your current XRP balance is {{account.Balance | rpamount:{precision: 2, max_sig_digits: 20} }}. Account reserve is {{ account.reserve | rpamount }} XRP. <br /><a href='https://ripple.com/wiki/Reserves' target='_blank'>More information</a>")
-            li.dropdown(ng-show="userCredentials.username")
-              a.dropdown-toggle(ng-click="userDropdown = !userDropdown") {{userCredentials.username}}
-                b.caret
-              ul.dropdown-menu(ng-show="userDropdown")
-                li: a.logout(ng-click='logout()', l10n) Logout
-            li.settings: a(href="#/options"): .fa.fa-cog
+  .container
+    .navbar-header
+      a.navbar-brand#logo(href="#/", title="Ripple")
+    .collapse.navbar-collapse
+      ul.nav.navbar-nav
+        li#nav-wallet(ng-class="{active: $route.current.mainMenu == 'wallet'}")
+          a(href="#/balance", l10n) Wallet
+        li#nav-send(ng-class="{active: $route.current.mainMenu == 'send'}")
+          a(href="#/send", l10n) Send
+        li#nav-receive(ng-class="{active: $route.current.mainMenu == 'receive'}")
+          a(href="#/receive", l10n="Receive (tabname)") Receive
+        li#nav-trade(ng-class="{active: $route.current.mainMenu == 'trade'}")
+          a(href="#/trade", l10n) Trade
+      ul.nav.navbar-nav.navbar-right
+        li.balance
+          p.navbar-text(ng-show="!loadState.account", l10n) Loading your balance...
+          p.navbar-text(ng-show="loadState.account")
+            span.balance.primary(ng-show="!account.Account", l10n) Unfunded account
+            span.balance.primary(ng-show="account.Account")
+              span.amount {{account.Balance | rpamount:{precision: 2} }}
+            span.currency XRP
+          i.fa.fa-question-circle(ng-show="false && account.Account"
+            rp-popover
+            rp-popover-placement="bottom"
+            l10n-rp-popover-title="XRP Balance"
+            rp-popover-trigger="click"
+            l10n-data-content="Your current XRP balance is {{account.Balance | rpamount:{precision: 2, max_sig_digits: 20} }}. Account reserve is {{ account.reserve | rpamount }} XRP. <br /><a href='https://ripple.com/wiki/Reserves' target='_blank'>More information</a>")
+        li.dropdown(ng-show="userCredentials.username")
+          a.dropdown-toggle(ng-click="userDropdown = !userDropdown") {{userCredentials.username}}
+            b.caret
+          ul.dropdown-menu(ng-show="userDropdown")
+            li: a.logout(href="#/security", l10n) Security
+            li: a.logout(ng-click='logout()', l10n) Logout
+        li.settings: a(href="#/options"): .fa.fa-cog
+  .subnav(ng-show="$route.current.mainMenu == 'wallet'")
+    .container
+      ul
+        li(ng-class="{active: $route.current.tabName == 'balance'}")
+          a(href="#/balance", l10n) Balance
+        li(ng-class="{active: $route.current.tabName == 'history'}")
+          a(href="#/history", l10n) History
+        li(ng-class="{active: $route.current.tabName == 'contacts'}")
+          a(href="#/contacts", l10n) Contacts
+        li(ng-class="{active: $route.current.tabName == 'convert'}")
+          a(href="#/convert", l10n) Convert
+        //- li(ng-class="{active: $route.current.tabName == 'cashin'}")
+          a(href="#/cashin", l10n) Cash In
