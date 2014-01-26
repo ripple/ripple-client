@@ -29,7 +29,8 @@
     "json-loader": "~0.5.0",
     "node-po": "~0.1.2",
     "grunt-jade-l10n-extractor": "~0.1.2",
-    "grunt-bower-task": "~0.3.4"
+    "grunt-bower-task": "~0.3.4",
+    "grunt-webfont": "~0.3.2"
   },
   "license": "ISC",
   "scripts": {
