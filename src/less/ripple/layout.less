@@ -15,6 +15,7 @@ body {
   display: none;
   width: 100%;
   min-height: 100%;
+  background-color: #fff;
 }
 
 #version, #browserVersion {
@@ -83,6 +84,12 @@ header {
     background-color: #648CB2;
     .border-radius(0);
 
+    .navbar-toggle {
+      color: #fff;
+      float: left;
+      font-size: 1.7em;
+    }
+
     ul.nav {
       > li {
         > a {
@@ -124,6 +131,14 @@ header {
 
     .dropdown-menu {
       display: block;
+    }
+
+    li.activity {
+      font-size: 1.7em;
+
+      .dropdown-menu {
+        min-width: 360px;
+      }
     }
 
     li.settings {
@@ -293,6 +308,39 @@ footer {
     &.active {
       background: #428bca;
       color: #fff;
+    }
+
+    &.wallet .nav-icon,
+    &.send .nav-icon,
+    &.receive .nav-icon,
+    &.trade .nav-icon,
+    &.advanced .nav-icon {
+      float: left;
+      display: block;
+      width: 60px;
+      height: 40px;
+      margin-top: -10px;
+      background-image: url('../../img/sprite_menu.png');
+
+      // Pixel ratio: 2
+      @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min-device-pixel-ratio: 2) {
+        background-image: url('../../img/sprite_menu_2x.png');
+        background-size: 300px 120px;
+      }
+    }
+
+    &.wallet .nav-icon {background-position: 0px -10px;}
+    &.send .nav-icon {background-position: -60px -10px;}
+    &.receive .nav-icon {background-position: -120px -10px;}
+    &.trade .nav-icon {background-position: -180px -10px;}
+    &.advanced .nav-icon {background-position: -240px -10px;}
+
+    &.active {
+      &.wallet .nav-icon {background-position: 0px -70px;}
+      &.send .nav-icon {background-position: -60px -70px;}
+      &.receive .nav-icon {background-position: -120px -70px;}
+      &.trade .nav-icon {background-position: -180px -70px;}
+      &.advanced .nav-icon {background-position: -240px -70px;}
     }
   }
 

@@ -267,46 +267,78 @@
   }
 
   .currency-summary {
+    font-size: 1.2em;
     overflow: hidden;
     margin-bottom: 10px;
 
     .balancebox {
       overflow: hidden;
+      border: 1px solid #D2D3D3;
+      background-color: #F9FAFA;
+      line-height: 45px;
+      padding: 5px 10px;
+      margin-bottom: 10px;
     }
 
     .lbl {
-      padding: 5px 10px;
-      font: normal 16px OpenSansLight;
+      font-weight: normal;
     }
 
-    .balance {
-      height: 90px;
-      text-align: center;
-      font: 36px 'OpenSansLight';
-      border: 1px solid #eee;
-      border-top: 0;
-      color: #666;
-      padding: 20px;
-      margin-bottom: 15px;
+    .total {
+      padding-top: 5px;
+      padding-bottom: 5px;
 
-      &.xrp {
-        height: 90px;
-        padding: 20px 0 0 0;
-      }
+      .lbl {
+        color: #474747;
+        font-family: OpenSansBold;
 
-      .secondary {
-        display: block;
-        margin: -5px 0 0 0;
-        font-size: 12px;
+        i {
+          color: #666;
+          display: inline-block;
+          text-align: center;
+          width: 2em;
+          padding-right: 0.8em;
+        }
       }
     }
 
-    &.positive .lbl {
-      background-color: #5cb85c;
-      color: #fff;
+    .component {
+      color: #BBB;
+      padding-top: 5px;
+      padding-bottom: 5px;
+    }
+
+    .currency-xrp .lbl i {
+      color: #4578AE;
+    }
+
+    .currency-usd .lbl i {
+      color: #319D52;
+    }
+
+    .currency-non-native .total {
+      border-bottom: 1px solid #C8C8C8;
     }
   }
+  .address-info {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border: 1px solid #D2D3D3;
+    background-color: #F9FAFA;
 
+    h4 {
+      color: #474747;
+      font-family: OpenSansBold;
+    }
+
+    p {
+      word-wrap: break-word;
+      color: #BBB;
+    }
+  }
+}
+
+#t-activity {
   table.events {
     caption {
       padding: 0 0 10px @grid-gutter-width/2;
@@ -424,10 +456,6 @@
       padding: 0;
     }
   }
-}
-
-html.t-balance header nav ul > li.active#nav-wallet > a:after {
-  border-bottom-color: #fff;
 }
 
 #t-trust {

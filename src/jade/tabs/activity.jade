@@ -1,0 +1,139 @@
+section.col-xs-12.content(ng-controller="BalanceCtrl")
+  //- Disconnected
+
+  group.disconnected(ng-hide="connected")
+    p.literal(l10n) You have to be online to see this screen
+
+  group.disconnected(ng-hide="!connected || loadState.account")
+    p.literal(l10n) Loading...
+
+  //- Connected
+
+  group(ng-show="connected && loadState.account")
+    .div#welcome(ng-hide='account.Balance')
+      p.title(l10n) Welcome to Ripple.
+      p(l10n) You currently don&#39;t have any ripples (XRP). To get started you can:
+      .actions
+        a.receive(href="#receive")
+        a.buy(href="https://support.ripplelabs.com/hc/en-us/articles/201209016")
+        a.giveaway(href="https://support.ripplelabs.com/hc/en-us/articles/201082577-Current-Ripple-Labs-giveaways")
+
+    .row.row-padding-small.currency-summary.positive(ng-show='account.Balance')
+      .col-xs-6.col-md-4.col-lg-3.balancebox
+        .lbl XRP - Ripple
+        .balance.xrp
+          span(rp-tooltip="{{account.Balance | rpamount:{rel_precision: 2, max_sig_digits: 20} }}") {{account.Balance | rpamount:{rel_precision: 2} }}
+          span(class="secondary") (reserve: {{ account.reserve | rpamount }} XRP)
+      .col-xs-6.col-md-4.col-lg-3.balancebox(ng-repeat="entry in balances", ng-hide="entry.total.is_zero()")
+        .lbl {{entry.total | rpcurrencyfull}}
+        .balance
+          span(rp-tooltip="{{entry.total | rpamount}}") {{entry.total | rpamount:{rel_precision: 0} }}
+
+    .row
+      table.table.events(ng-show="account.Balance")
+        caption(l10n) Activity
+        thead
+          tr
+            th.date(l10n) Date
+            th.desc(l10n) Event
+        tbody(ng-class="{passive: loading}")
+          tr(
+            ng-repeat="entry in transactions"
+            ng-class="entry.transaction.type"
+            rp-link-tx="entry.hash"
+            )
+            td.date {{entry.date | rpfromnow}}
+            td.desc(ng-switch on="entry.transaction.type")
+              .transaction(ng-switch-when="sent")
+                span(l10n) You sent
+                  strong.nowrap  {{entry.transaction.amount | rpamount}} {{entry.transaction.amount | rpcurrency}}
+                  |  to&#32;
+                  span.address(title="{{entry.transaction.counterparty}}") {{entry.transaction.counterparty | rpcontactname}}
+                a.add(ng-hide="entry.transaction.counterparty | rponlycontactname"
+                  href="#/contact?to={{entry.transaction.counterparty}}"
+                  class="btn btn-default btn-sm", rp-no-propagate, title="Add to contacts") +&#32;
+                  span.hidden-xs(l10n) Add to contacts
+                  span.visible-xs
+                    i.fa.fa-user
+                != require("./history/effects.jade")()
+              .transaction(ng-switch-when="received")
+                span.address(title="{{entry.transaction.counterparty}}", l10n)
+                  | {{entry.transaction.counterparty | rpcontactname}} sent you
+                strong.nowrap  {{entry.transaction.amount | rpamount:{reference_date:entry.dateRaw} }} {{entry.transaction.amount | rpcurrency}}
+                a.add(ng-hide="entry.transaction.counterparty | rponlycontactname"
+                  href="#/contact?to={{entry.transaction.counterparty}}"
+                  class="btn btn-default btn-sm", rp-no-propagate, title="Add to contacts") +&#32;
+                  span.hidden-xs(l10n) Add to contacts
+                  span.visible-xs
+                    i.fa.fa-user
+                != require("./history/effects.jade")()
+              .transaction(ng-switch-when="convert")
+                span(l10n) You requested to convert
+                  strong.nowrap  {{entry.transaction.spent | rpamount}}
+                    | {{entry.transaction.spent | rpcurrency}}
+                  |  to
+                  strong.nowrap  {{entry.transaction.amount | rpamount}}
+                    | {{entry.transaction.amount | rpcurrency}}
+                != require("./history/effects.jade")()
+              .transaction(ng-switch-when="trusted")
+                span.address(title="{{entry.transaction.counterparty}}", l10n)
+                  | {{entry.transaction.counterparty | rpcontactname}} now trusts you for
+                strong.nowrap  {{entry.transaction.amount | rpamount}}
+                  | {{entry.transaction.amount | rpcurrency}}
+                a.add(ng-hide="entry.transaction.counterparty | rponlycontactname"
+                  href="#/contact?to={{entry.transaction.counterparty}}"
+                  class="btn btn-default btn-sm", rp-no-propagate, title="Add to contacts") +&#32;
+                  span.hidden-xs(l10n) Add to contacts
+                  span.visible-xs
+                    i.fa.fa-user
+                != require("./history/effects.jade")()
+              .transaction(ng-switch-when="trusting")
+                span(l10n) You now trust&#32;
+                  span.address(title="{{entry.transaction.counterparty}}")
+                    | {{entry.transaction.counterparty | rpcontactname}}
+                  |  for
+                  strong.nowrap  {{entry.transaction.amount | rpamount:{reference_date:entry.dateRaw} }}
+                    | {{entry.transaction.amount | rpcurrency}}
+                  | .
+                a.add(ng-hide="entry.transaction.counterparty | rponlycontactname"
+                  href="#/contact?to={{entry.transaction.counterparty}}"
+                  class="btn btn-default btn-sm", rp-no-propagate, title="Add to contacts") +&#32;
+                  span.hidden-xs(l10n) Add to contacts
+                  span.visible-xs
+                    i.fa.fa-user
+                != require("./history/effects.jade")()
+              .transaction(ng-switch-when="offernew")
+                span(ng-show="entry.transaction.sell", l10n) You created an order to sell&#32;
+                  strong {{entry.transaction.gets | rpamount}} {{entry.transaction.gets | rpcurrency}}
+                  |  for&#32;
+                  strong {{entry.transaction.pays | rpamount}} {{entry.transaction.pays | rpcurrency}}
+                span(ng-hide="entry.transaction.sell", l10n) You created an order to buy&#32;
+                  strong {{entry.transaction.pays | rpamount}} {{entry.transaction.pays | rpcurrency}}
+                  |  for&#32;
+                  strong {{entry.transaction.gets | rpamount}} {{entry.transaction.gets | rpcurrency}}
+                != require("./history/effects.jade")()
+              .transaction(ng-switch-when="offercancel")
+                span(l10n) You cancelled an order accepting&#32;
+                  strong.nowrap {{entry.transaction.pays | rpamount}}
+                    | {{entry.transaction.pays | rpcurrency}}
+                  |  for&#32;
+                  strong.nowrap {{entry.transaction.gets | rpamount}}
+                    | {{entry.transaction.gets | rpcurrency}}
+                != require("./history/effects.jade")()
+              .transaction(ng-switch-when="accountset", l10n)
+                | Account details have been changed
+              .transaction(ng-switch-when="rippling")
+                span(l10n) Rippling
+                != require("./history/effects.jade")()
+              .transaction(ng-switch-when="failed", l10n)
+                | Failed transaction
+              .transaction(ng-switch-default)
+                != require("./history/effects.jade")()
+
+        tfoot
+          tr
+            td(colspan=2)
+              a(href="", ng-click="loadMore()", ng-show="!tx_load_status && has_more", l10n) Load more
+              span(ng-show="tx_load_status == 'loading'", l10n)  Loading...
+              span(ng-show="tx_load_status == 'error'", l10n)  Error
+              span(ng-show="!transactions.length && !tx_load_status", l10n)  No past transactions found
