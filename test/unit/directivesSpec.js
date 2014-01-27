@@ -26,7 +26,7 @@ describe('validators', function () {
   // load the validators code
   beforeEach(module('validators'));
 
-  describe.only('rpAmount', function() {
+  describe('rpAmount', function() {
     var element = angular.element('<form name="testForm"><input rp-amount ng-model="test"></form>');
 
     beforeEach(inject(function($compile,$rootScope,$document) {
