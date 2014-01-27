@@ -440,15 +440,16 @@ module.directive('rpAmount', function () {
           value = value.split(",").join("");
         }
 
-        var parsedValue = parseFloat(value);
+        var test = /^(([[0-9]*]?\.\d+)|([1-9]\d*))$/.test(value);
 
-        if (parsedValue && parsedValue < 1 && value.length-2 > 0)
-          parsedValue = parsedValue.toFixed(value.length-2);
+        if (test && value[0] == '.') {
+          value = '0' + value;
+        }
 
         // check for valid amount
-        ctrl.$setValidity('rpAmount', parsedValue == value);
+        ctrl.$setValidity('rpAmount', test);
 
-        return parsedValue ? parsedValue : value;
+        return value;
       };
 
       ctrl.$formatters.push(validator);

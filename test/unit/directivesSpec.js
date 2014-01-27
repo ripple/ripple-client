@@ -58,5 +58,10 @@ describe('validators', function () {
       scope.test = '.1';
       digestCheck();
     });
+
+    it('should allow a dot for very small numbers without a leading zero', function(){
+      scope.test = '.000000000001234123';
+      digestCheck();
+    });
   });
 });
