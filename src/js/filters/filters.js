@@ -11,7 +11,9 @@ var iso4217 = require('../data/iso4217');
  * If the parameter is a number, the number is treated the relative
  */
 module.filter('rpamount', function () {
-  return function (input, opts) {
+  return function (input, options) {
+    opts = jQuery.extend(true, {}, options);
+
     if ("number" === typeof opts) {
       opts = {
         rel_min_precision: opts
