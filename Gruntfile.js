@@ -295,7 +295,7 @@ module.exports = function(grunt) {
         options: { nospawn: true, livereload: true }
       },
       deps: {
-        files: ['<%= concat.deps.src %>'],
+        files: deps,
         tasks: ['concat:deps_debug'],
         options: { livereload: true }
       },

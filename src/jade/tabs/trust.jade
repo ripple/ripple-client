@@ -21,14 +21,14 @@ section.col-xs-12.col-md-10.content(ng-controller="TrustCtrl")
 
     //- N1. Trust form
 
-    .row.head(ng-show='mode=="main" && account.Balance')
-      .col-sm-4(l10n) Name / Address
+    .row.row-padding-small.head(ng-show='mode=="main" && account.Balance')
+      .col-sm-5(l10n) Name / Address
       .col-sm-1
         a(href="", ng-click="sorting.predicate = 'currency'; sorting.reverse=!sorting.reverse", l10n) Currency
       .col-sm-2
         a(href="", ng-click="sorting.predicate = 'balance'; sorting.reverse=!sorting.reverse", l10n) Balance
       .col-sm-3(l10n) Trust Limit
-      .col-sm-2.actions
+      .col-sm-1.actions
         a.btn.btn-success.btn-sm.btn-block.sign(ng-click='toggle_form()',
           ng-disabled='addform_visible || editform_visible', l10n) Add trust
     .row
@@ -215,11 +215,11 @@ section.col-xs-12.col-md-10.content(ng-controller="TrustCtrl")
         hr
 
     .row.row-padding-small.line.padding-vertical-xs(ng-show="mode=='main'", ng-repeat='(key, line) in linesArray | orderBy:sorting.sort:sorting.reverse')
-      .col-sm-4 {{line.account | rpcontactnamefull}}
+      .col-sm-5 {{line.account | rpcontactnamefull}}
       .col-sm-1 {{line.currency}}
       .col-sm-2
         span(rp-tooltip="{{line.balance | rpamount }}") {{line.balance | rpamount:{rel_precision: 0} }}
       .col-sm-3
         rp-trust-line(rp-line-data='line')
-      .col-sm-2.actions
+      .col-sm-1.actions
         button.btn.btn-default.btn-sm(href="", ng-click="edit_line()", l10n) edit

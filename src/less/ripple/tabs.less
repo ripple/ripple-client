@@ -1252,7 +1252,6 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
   .trade-widget {
     min-height: 430px;
     padding: 15px;
-    margin: 0 0 30px;
     border: 1px solid darken(@bg, 10%);
     .border-radius(5px,5px,5px,5px);
     background: @bg;
@@ -1333,29 +1332,54 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
     }
   }
 
+  h3 {
+    margin-top: 30px;
+  }
+
   .listings {
-    padding: 15px;
+    padding: 0 15px;
     border: 1px solid darken(@bg, 10%);
-    .border-radius(5px, 5px, 5px, 0);
+    .border-radius(5px,5px,5px,5px);
     background: @bg;
 
     .my {
       .head {
         font-weight: bold;
-        margin-bottom: 10px;
+      }
+      .row:first-child {
+        border-top: none;
       }
       .row {
-        padding: 10px 0;
+        border-top: 1px solid #EBEBEB;
 
         &:nth-child(even) {
-          background-color: darken(@bg, 3%);
+          background-color: darken(@bg, 2%);
+        }
+
+        & > div {
+          padding: 8px;
+          border-right: 1px solid #EBEBEB;
         }
 
         & > div:last-child {
           text-align: right;
+          border-right: none;
+        }
+
+        .issuer {
+          color: lighten(#000,70%);
+          font-size: 11px;
         }
 
         @media (max-width: @screen-xs-max) {
+          border: none;
+          padding: 4px;
+
+          & > div {
+            padding: 4px;
+            border: none;
+          }
+
           div:before {
             display: inline-block;
             width: 100px;
@@ -1363,19 +1387,6 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
             content:" "attr(data-label);
           }
         }
-      }
-    }
-
-    .cancelling {
-      opacity: 0.3;
-
-      .action {
-        background-image: url(../../img/throbber.gif);
-        background-repeat: no-repeat;
-        background-position: 90% 50%;
-      }
-      .action button {
-        display: none;
       }
     }
 
@@ -1399,6 +1410,22 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
 
       .currency {
         color: #B6B6B6;
+      }
+    }
+
+    .my {
+      font-weight: bold;
+      color: #177716;
+
+      .insig {
+        color: #177716;
+        font-weight: normal;
+      }
+
+      .delete {
+        margin: 0 10px 0 0;
+
+        text-decoration: none;
       }
     }
 
@@ -1440,6 +1467,14 @@ html.t-balance header nav ul > li.active#nav-wallet > a:after {
     .issuer {
       font-size: 10px;
       color: #B6B6B6;
+    }
+  }
+
+  .cancelling {
+    color: lighten(#000,70%);
+
+    .action a {
+      display: none;
     }
   }
 }

@@ -359,58 +359,57 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
               .actionLink
                 a(href="#trade", ng-click="reset_widget(type)", l10n) Submit another order
 
-      .btn-group
-        button.btn.btn-default(
-          type="button"
-          ng-class="{'btn-info': order.listing == 'orderbook'}"
-          ng-click="setListing('orderbook')", l10n) Order book
-        button.btn.btn-default(
-          type="button"
-          ng-disabled="!account.Balance"
-          ng-class="{'btn-info': order.listing == 'my'}"
-          ng-click="setListing('my')", l10n)
-            | My Orders
-            span(ng-show="offers")  ({{offersCount}})
-
+      h3 My Orders
       .listings
-        .my(ng-show="order.listing == 'my'")
+        .my
           div(ng-hide="isEmpty(offers)")
             .row.head.hidden-xs
               .col-sm-1.type(l10n) Type
-              .col-sm-3.pair(l10n) Pair
-              .col-sm-3.price(l10n) Price
+              .col-sm-4(l10n) Currencies
+                span.issuer(l10n-inc)  (Issuer)
+              .col-sm-2.price(l10n) Price
               .col-sm-3.amount(l10n) Amount
               .col-sm-2.action(l10n) Action
           .row(ng-repeat="entry in offers", ng-class="{cancelling: cancelling}")
             .col-sm-1.type(data-label="Type") {{entry.type | rpucfirst}}
-            .col-sm-3.pair(data-label="Pair")
-              .first {{entry.first | rpcurrency}}
-                span(ng-show="entry.first.issuer().to_json()") &#32;(
-                  span(
-                    rp-pretty-issuer="entry.first.issuer().to_json()"
-                    rp-pretty-issuer-contacts="userBlob.data.contacts"
-                  ) ???
-                  | )
-              .second {{entry.second | rpcurrency}}
-                span(ng-show="entry.second.issuer().to_json()") &#32;(
-                  span(
-                    rp-pretty-issuer="entry.second.issuer().to_json()"
-                    rp-pretty-issuer-contacts="userBlob.data.contacts"
-                  ) ???
-                  | )
-            .col-sm-3.price.rpamount(data-label="Price") {{entry.second | rpamountratio:entry.first | rpamount:{precision: 5, min_precision: 5} }}
+            .col-sm-4(data-label="Currencies")
+              span {{entry.first | rpcurrency}}
+              span.issuer(ng-show="entry.first.issuer().to_json()") &nbsp;(
+                span(
+                  rp-pretty-issuer="entry.first.issuer().to_json()"
+                  rp-pretty-issuer-contacts="userBlob.data.contacts"
+                ) ???
+                | )
+              span(ng-show="'buy' == entry.type", l10n)  with
+              span(ng-show="'sell' == entry.type", l10n)  for
+              span  {{entry.second | rpcurrency}}
+              span.issuer(ng-show="entry.second.issuer().to_json()") &nbsp;(
+                span(
+                  rp-pretty-issuer="entry.second.issuer().to_json()"
+                  rp-pretty-issuer-contacts="userBlob.data.contacts"
+                ) ???
+                | )
+            .col-sm-2.price.rpamount(data-label="Price") {{entry.second | rpamountratio:entry.first | rpamount:{precision: 5, min_precision: 5} }}
               span.currency  {{entry.second | rpcurrency}}
             .col-sm-3.amount.rpamount(data-label="Amount") {{entry.first | rpamount}}
               span.currency  {{entry.first | rpcurrency}}
-            .col-sm-2.action
-              //- Should not be possible to click cancel twice.
-              a.danger(href="", ng-click='cancel_order()', l10n) Cancel
+            .col-sm-2.action(rp-spinner="{{cancelling ? 4 : null}}")
+              rp-confirm(
+                action-text="Are you sure you want to delete this order?"
+                action-button-text="Delete"
+                action-button-css="btn btn-default btn-danger"
+                action-function="cancel_order()"
+                cancel-button-css="btn btn-default"
+                cancel-button-text="Cancel")
+                a.danger(href="", l10n) Cancel
           .emptyMessage(ng-show="isEmpty(offers)")
             p.literal(l10n="You haven't placed any orders.") You haven&#39;t placed any orders.
 
+      h3 Orderbook
+      .listings
         //- TODO hide one column (size/sum) to show bids/ask in the same line for mobile phones.
         //- TODO highlight changes
-        .row.orderbook(ng-show="order.listing == 'orderbook'")
+        .row.orderbook
           .bids.col-xs-12.col-sm-6
             .title(l10n) Bids
             .row.head(ng-show="book.bids.length")
@@ -435,9 +434,9 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                   rp-pretty-issuer="book.bids[0].TakerGets | rpissuer"
                   rp-pretty-issuer-contacts="userBlob.data.contacts"
                   rp-pretty-issuer-or-short)
-            .row(ng-repeat='order in book.bids')
+            .row(ng-repeat='order in book.bids', ng-class="{my: order.my, cancelling: cancelling}")
               .col-xs-4.rpamount.sum
-                a(href="", title="Sell {{order.showSum}} {{book.bids[0].showTakerPays | rpcurrency}}"
+                a(href=""
                   ng-click="fill_widget('sell',order,true)")
                   span(rp-bind-color-amount="order.showSum")
               .col-xs-4.rpamount.size(rp-bind-color-amount="order.showTakerPays")
@@ -469,13 +468,13 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                   rp-pretty-issuer="book.asks[0].TakerGets | rpissuer"
                   rp-pretty-issuer-contacts="userBlob.data.contacts"
                   rp-pretty-issuer-or-short)
-            .row(ng-repeat='order in book.asks')
+            .row(ng-repeat='order in book.asks', ng-class="{my: order.my, cancelling: cancelling}")
               .col-xs-4.rpamount.price
                 a(href="", ng-click="fill_widget('buy',order)")
                   span(rp-bind-color-amount="order.showPrice")
               .col-xs-4.rpamount.size(rp-bind-color-amount="order.showTakerGets")
               .col-xs-4.rpamount.sum
-                a(href="", title="Buy {{order.showSum}} {{book.asks[0].showTakerGets | rpcurrency}}"
+                a(href=""
                   ng-click="fill_widget('buy',order,true)")
                   span(rp-bind-color-amount="order.showSum")
             .message(ng-show='!book.asks.length', l10n) There are currently no asks for this pair.

@@ -440,12 +440,16 @@ module.directive('rpAmount', function () {
           value = value.split(",").join("");
         }
 
-        var parsedValue = parseFloat(value);
+        var test = /^(([0-9]*?\.\d+)|([1-9]\d*))$/.test(value);
+
+        if (test && value[0] == '.') {
+          value = '0' + value;
+        }
 
         // check for valid amount
-        ctrl.$setValidity('rpAmount', parsedValue == value);
+        ctrl.$setValidity('rpAmount', test);
 
-        return parsedValue ? parsedValue : value;
+        return value;
       };
 
       ctrl.$formatters.push(validator);
@@ -502,6 +506,39 @@ module.directive('rpAmountXrpLimit', function () {
       attr.$observe('rpAmountXrpLimitCurrency', function() {
         validator(ctrl.$viewValue);
       });
+    }
+  };
+});
+
+/**
+ * Limit currencies to be entered
+ */
+module.directive('rpRestrictCurrencies', function () {
+  return {
+    restrict: 'A',
+    require: '?ngModel',
+    link: function (scope, elm, attr, ctrl) {
+      if (!ctrl) return;
+
+      var validator = function(value) {
+        value = value.slice(0, 3).toUpperCase();
+
+        if (attr.rpRestrictCurrencies) {
+          ctrl.$setValidity('rpRestrictCurrencies',
+            attr.rpRestrictCurrencies.indexOf(value) != -1
+              ? true
+              : value == 'XRP'
+          );
+        }
+        else {
+          ctrl.$setValidity('rpRestrictCurrencies', true);
+        }
+
+        return value;
+      };
+
+      ctrl.$formatters.push(validator);
+      ctrl.$parsers.unshift(validator);
     }
   };
 });
