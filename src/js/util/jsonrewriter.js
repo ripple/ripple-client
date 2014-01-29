@@ -500,7 +500,8 @@ var JsonRewriter = module.exports = {
     obj.tx_type = tx.TransactionType;
     obj.tx_result = meta.TransactionResult;
     obj.fee = tx.Fee;
-    obj.date = (tx.date + 0x386D4380) * 1000;
+    obj.date = ripple.utils.toTimestamp(tx.date);
+    obj.dateRaw = tx.date;
     obj.hash = tx.hash;
     obj.affected_currencies = affected_currencies ? affected_currencies : [];
     obj.ledger_index = tx.ledger_index;

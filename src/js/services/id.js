@@ -8,10 +8,12 @@ var util = require('util'),
     Base58Utils = require('../util/base58'),
     RippleAddress = require('../util/types').RippleAddress;
 
-var module = angular.module('id', ['blob']);
+var module = angular.module('id', ['authflow', 'blob', 'oldblob']);
 
-module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', 'rpOldBlob',
-                        function($scope, $location, $route, $routeParams, $oldblob)
+module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
+                        'rpAuthFlow', 'rpBlob', 'rpOldBlob',
+                        function($scope, $location, $route, $routeParams,
+                                 $authflow, $blob, $oldblob)
 {
   /**
    * Identity manager
@@ -22,10 +24,6 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', 'rp
   {
     this.account = null;
     this.loginStatus = false;
-
-    this.blobBackends = store.get('ripple_blobBackends')
-      ? store.get('ripple_blobBackends')
-      : ['vault', 'local'];
   };
 
   // This object defines the minimum structure of the blob.
@@ -88,12 +86,6 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', 'rp
       {name: 'Local Browser', 'value':'local'}
     ];
 
-    var blobBackend = store.get('ripple_blobBackends')
-          ? $.grep($scope.blobBackendCollections, function(e){ return e.value == store.get('ripple_blobBackends'); })[0]
-        : $scope.blobBackendCollections[1];
-
-    $scope.blobBackendCollection = {something: blobBackend};
-
     $scope.userBlob = Id.defaultBlob;
     $scope.userCredentials = {};
 
@@ -101,13 +93,16 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', 'rp
       // XXX Maybe the blob service should handle this stuff?
       $scope.$broadcast('$blobUpdate');
 
+      // XXX What's the equivalent in the new login API?
+      /*
       if (self.username && self.password) {
-        $oldblob.set(self.blobBackends,
+        $oldblob.set(...,
                   self.username.toLowerCase(), self.password,
                   $scope.userBlob,function(){
                     $scope.$broadcast('$blobSave');
                   });
       }
+      */
     },true);
 
     $scope.$on('$blobUpdate', function(){
@@ -117,20 +112,47 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', 'rp
       }
     });
 
-    if (Options.persistent_auth && !!store.get('ripple_auth')) {
+    if (!!store.get('ripple_auth')) {
       var auth = store.get('ripple_auth');
 
-      // XXX This is technically not correct, since we don't know yet whether
-      //     the login will succeed. But we need to set it now, because the page
-      //     controller will likely query it long before we get a response from
-      //     the login system.
-      //
-      //     Probably not a big deal as persistent_auth is only used by
-      //     developers.
-      self.loginStatus = true;
-      this.login(auth.username, auth.password, function (err) {
-        // XXX If there was a login error, we're now in a broken state.
-      });
+      if (auth.keys) {
+
+        // XXX This is technically not correct, since we don't know yet whether
+        //     the login will succeed. But we need to set it now, because the page
+        //     controller will likely query it long before we get a response from
+        //     the login system.
+        //
+        //     Will work fine as long as any relogin error triggers a logout and
+        //     logouts trigger a full page reload.
+        self.loginStatus = true;
+
+        $authflow.relogin(auth.username, auth.keys, function (err, blob, username) {
+          if (err) {
+            // Failed to relogin, logout
+            console.log("client: id: failed to relogin:", err.toString());
+            self.logout();
+          } else {
+            // Ensure certain properties exist
+            $.extend(true, blob, Id.minimumBlob);
+
+            $scope.userBlob = blob;
+            self.setUsername(username);
+            self.setAccount(blob.data.account_id);
+            self.setLoginKeys(auth.keys);
+            self.loginStatus = true;
+            $scope.$broadcast('$blobUpdate');
+            store.set('ripple_known', true);
+
+            /*if (blob.data.account_id) {
+              // Success
+              callback(null);
+            } else {
+              // Invalid blob
+              callback(new Error("Blob format unrecognized!"));
+            }*/
+          }
+        });
+      }
     }
   };
 
@@ -141,21 +163,19 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', 'rp
     $scope.$broadcast('$idUserChange', {username: username});
   };
 
-  Id.prototype.setPassword = function (password)
-  {
-    this.password = password;
-    $scope.userCredentials.password = password;
-  };
-
-  Id.prototype.setAccount = function (accId, accKey)
+  Id.prototype.setAccount = function (accId)
   {
     if (this.account !== null) {
       $scope.$broadcast('$idAccountUnload', {account: accId});
     }
     this.account = accId;
     $scope.userCredentials.account = accId;
-    $scope.userCredentials.master_seed = accKey;
-    $scope.$broadcast('$idAccountLoad', {account: accId, secret: accKey});
+    $scope.$broadcast('$idAccountLoad', {account: accId});
+  };
+
+  Id.prototype.setLoginKeys = function (keys)
+  {
+    this.keys = keys;
   };
 
   Id.prototype.isReturning = function ()
@@ -168,11 +188,9 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', 'rp
     return this.loginStatus;
   };
 
-  Id.prototype.storeLogin = function (username, password)
+  Id.prototype.storeLoginKeys = function (username, keys)
   {
-    if (Options.persistent_auth && !store.disabled) {
-      store.set('ripple_auth', {username: username, password: password});
-    }
+    store.set('ripple_auth', {username: username, keys: keys});
   };
 
   Id.prototype.register = function (username, password, callback, masterkey)
@@ -191,29 +209,23 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', 'rp
     username = Id.normalizeUsername(username);
     password = Id.normalizePassword(password);
 
-    var data = {
-      data: {
-        master_seed: masterkey,
-        account_id: (new RippleAddress(masterkey)).getAddress(),
-        contacts: []
-      },
-      meta: {
-        created: (new Date()).toJSON(),
-        modified: (new Date()).toJSON()
-      }
-    };
+    var account = (new RippleAddress(masterkey)).getAddress();
 
-    // Add user to blob
-    $oldblob.set(self.blobBackends, username.toLowerCase(), password, data, function () {
-      $scope.userBlob = data;
+    $authflow.register(username, password, account, masterkey, function (err, blob, keys) {
+      if (err) {
+        console.log("client: id: registration failed:", (err && err.stack) ? err.stack : err);
+        callback(err);
+        return;
+      }
+      $scope.userBlob = blob;
       self.setUsername(username);
-      self.setPassword(password);
-      self.setAccount(data.data.account_id, data.data.master_seed);
-      self.storeLogin(username, password);
+      self.setAccount(blob.data.account_id);
+      self.setLoginKeys(keys);
+      self.storeLoginKeys(username, keys);
       self.loginStatus = true;
       $scope.$broadcast('$blobUpdate');
       store.set('ripple_known', true);
-      callback(data.data.master_seed);
+      callback(null, masterkey);
     });
   };
 
@@ -224,10 +236,12 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', 'rp
     username = Id.normalizeUsername(username);
     password = Id.normalizePassword(password);
 
-    $oldblob.get(self.blobBackends, username.toLowerCase(), password, function (err, data) {
+    $authflow.exists(username.toLowerCase(), password, function (err, data) {
       if (!err && data) {
+        // Blob found, new auth method
         callback(null, true);
       } else {
+        // No blob found
         callback(null, false);
       }
     });
@@ -243,46 +257,71 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', 'rp
     username = Id.normalizeUsername(username);
     password = Id.normalizePassword(password);
 
-    $oldblob.get(self.blobBackends, username.toLowerCase(), password, function (err, data) {
-      if (err) {
+    $authflow.login(username.toLowerCase(), password, function (err, blob, keys,
+                                                                actualUsername) {
+      if (err && Options.blobvault) {
+        console.log("Blob login failed, trying old blob protocol");
+
+        $oldblob.get(['vault', 'local'], username.toLowerCase(), password, function (oerr, data) {
+          if (oerr) {
+            // Old blob failed - since this was just the fallback report the
+            // original error
+            console.log("Old backend reported:", oerr);
+            callback(err);
+            return;
+          }
+
+          var blob = $oldblob.decrypt(username.toLowerCase(), password, data);
+          if (!blob) {
+            // Unable to decrypt blob
+            var msg = 'Unable to decrypt blob (Username / Password is wrong)';
+            callback(new Error(msg));
+          } else if (blob.old && !self.allowOldBlob) {
+            var oldBlobErr = new Error('Old blob format detected');
+            oldBlobErr.name = "OldBlobError";
+            callback(oldBlobErr);
+          } else {
+            var migrateErr = new Error('Your account uses the old blob format,'
+                                       + ' please migrate your account.');
+            migrateErr.name = "NeedsMigrationError";
+            callback(migrateErr);
+          }
+        });
+      } else if (err) {
+        // New login protocol failed and no fallback configured
         callback(err);
-        return;
-      }
-
-      var blob = $oldblob.decrypt(username.toLowerCase(), password, data);
-      if (!blob) {
-        // Unable to decrypt blob
-        var msg = 'Unable to decrypt blob (Username / Password is wrong)';
-        callback(new Error(msg));
-        return;
-      } else if (blob.old && !self.allowOldBlob) {
-        var oldBlobErr = new Error('Old blob format detected');
-        oldBlobErr.name = "OldBlobError";
-        callback(oldBlobErr);
-        return;
-      }
-
-      // Ensure certain properties exist
-      $.extend(true, blob, Id.minimumBlob);
-
-      $scope.userBlob = {
-        data: blob.data,
-        meta: blob.meta
-      };
-      self.setUsername(username);
-      self.setPassword(password);
-      self.setAccount(blob.data.account_id, blob.data.master_seed);
-      self.storeLogin(username, password);
-      self.loginStatus = true;
-      $scope.$broadcast('$blobUpdate');
-      store.set('ripple_known', true);
-
-      if (blob.data.account_id) {
-        // Success
-        callback(null);
       } else {
-        // Invalid blob
-        callback(new Error("Blob format unrecognized!"));
+        // Ensure certain properties exist
+        $.extend(true, blob, Id.minimumBlob);
+
+        // Ripple's username system persists the capitalization of the username,
+        // even though usernames are case-insensitive. That's why we want to use
+        // the "actualUsername" that the server returned.
+        //
+        // However, we want this to never be a source for problems, so we'll
+        // ensure the actualUsername returned is equivalent to what we expected
+        // and fall back to what the user entered otherwise.
+        if ("string" !== typeof actualUsername ||
+            actualUsername.toLowerCase() !== username.toLowerCase()) {
+          actualUsername = username;
+        }
+
+        $scope.userBlob = blob;
+        self.setUsername(actualUsername);
+        self.setAccount(blob.data.account_id);
+        self.setLoginKeys(keys);
+        self.storeLoginKeys(actualUsername, keys);
+        self.loginStatus = true;
+        $scope.$broadcast('$blobUpdate');
+        store.set('ripple_known', true);
+
+        if (blob.data.account_id) {
+          // Success
+          callback(null);
+        } else {
+          // Invalid blob
+          callback(new Error("Blob format unrecognized!"));
+        }
       }
     });
   };
@@ -297,6 +336,35 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', 'rp
     // This line redirects user to root (login) page
     var port = location.port.length > 0 ? ":" + location.port : "";
     location.href = location.protocol + '//' + location.hostname  + port + location.pathname;
+  };
+
+  Id.prototype.unlock = function (username, password, callback)
+  {
+    var self = this;
+
+    // Callback is optional
+    if ("function" !== typeof callback) callback = $.noop;
+
+    username = Id.normalizeUsername(username);
+    password = Id.normalizePassword(password);
+
+    $authflow.unlock(username.toLowerCase(), password, function (err, keys) {
+      if (err) {
+        callback(err);
+        return;
+      }
+
+      var secret;
+      try {
+        // XXX There should be a better way to get a reference to the blob obj
+        secret = $scope.userBlob.decryptSecret(keys.unlock);
+      } catch (err2) {
+        callback(err2);
+        return;
+      }
+
+      callback(null, secret);
+    });
   };
 
   /**

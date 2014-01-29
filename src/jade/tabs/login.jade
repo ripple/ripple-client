@@ -23,15 +23,6 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
               .col-xs-12.col-sm-6.col-md-5
                 button.btn.btn-lg.btn-submit.btn-block.btn-primary(type='submit', ng-disabled="loginForm.$invalid || ajax_loading", rp-spinner="{{ajax_loading ? 4 : null}}")
                   span(l10n) Open Wallet
-              .col-xs-12.col-sm-5.col-md-4
-                .storageinfo
-                  span.fetch(l10n) Fetch wallet from
-                  span(ng-hide="storeChange")
-                    strong {{blobBackendCollection.something.name}}&#32;
-                    a(href="", ng-click="storeChange=true", l10n) change
-                  span(ng-show="storeChange")
-                    select(ng-model="blobBackendCollection.something", ng-options="b.name for b in blobBackendCollections", ng-change="backendChange()")
-                    a(href="", ng-click="storeChange=false", l10n) ok
         .row
           .col-xs-12
             p.literal
@@ -72,13 +63,6 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
     .col-xs-12.col-sm-6.col-md-5.col-lg-4.col-lg-offset-1
       form(name='loginForm', ng-submit='submitForm()')
         include login/form
-        label.storageinfo
-          span(ng-hide="storeChange")
-            strong {{blobBackendCollection.something.name}}&#32;
-            a(href="", ng-click="storeChange=true", l10n) change
-          span(ng-show="storeChange")
-            select(ng-model="blobBackendCollection.something", ng-options="b.name for b in blobBackendCollections", ng-change="backendChange()")
-            a(href="", ng-click="storeChange=false", l10n) ok
         .row
           .col-xs-12.text-status(ng-show='status')
             span {{status}}

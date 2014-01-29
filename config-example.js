@@ -4,6 +4,12 @@
  * Copy this file to config.js and edit to suit your preferences.
  */
 var Options = {
+  // Local domain
+  //
+  // Which domain should ripple-client consider native?
+  domain: "ripple.com",
+
+  // Rippled to connect
   server: {
     trace :         true,
     trusted:        true,
@@ -17,6 +23,10 @@ var Options = {
     connection_offset: 0
   },
 
+  // DEPRECATED: Blobvault server (old blob protocol)
+  //
+  // The blobvault URL for the new login protocol is set via authinfo. You can
+  // still use this setting for the fallback feature.
   blobvault : 'https://blobvault.payward.com',
 
   // If set, login will persist across sessions (page reload). This is mostly
@@ -28,9 +38,11 @@ var Options = {
 
   // Configure bridges
   bridge: {
+    // Outbound bridges
     out: {
-//    "bitcoin": "localhost:3000"
-//    "bitcoin": "https://www.bitstamp.net/ripple/bridge/out/bitcoin/"
+      // Bitcoin outbound bridge
+//    'bitcoin': 'localhost:3000'
+//    'bitcoin': 'https://www.bitstamp.net/ripple/bridge/out/bitcoin/'
     }
   },
 

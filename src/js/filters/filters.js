@@ -28,6 +28,12 @@ module.filter('rpamount', function () {
       input = input + ".0";
     }
 
+    // Reference date
+    // XXX Should maybe use last ledger close time instead
+    if (!opts.reference_date) {
+      opts.reference_date = new Date();
+    }
+
     var amount = Amount.from_json(input);
     if (!amount.is_valid()) return "n/a";
 

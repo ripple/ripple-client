@@ -2,7 +2,7 @@ var types = require('../util/types');
 
 // Load app modules
 require('../controllers/app');
-require('../controllers/status');
+require('../controllers/navbar');
 require('../directives/charts');
 require('../directives/fields');
 require('../directives/effects');
@@ -11,13 +11,17 @@ require('../directives/events');
 require('../directives/formatters');
 require('../directives/directives');
 require('../directives/datalinks');
-require('../directives/jade');
 require('../directives/errors');
 require('../filters/filters');
 require('../services/globalwrappers');
 require('../services/id');
 require('../services/tracker');
+require('../services/blob');
 require('../services/oldblob');
+require('../services/authflow');
+require('../services/authinfo');
+require('../services/kdf');
+require('../services/keychain');
 require('../services/network');
 require('../services/books');
 require('../services/transactions');
@@ -34,7 +38,7 @@ var appDependencies = [
   'ngRoute',
   // Controllers
   'app',
-  'status',
+  'navbar',
   // Services
   'id',
   'tracker',
@@ -47,7 +51,6 @@ var appDependencies = [
   'directives',
   'validators',
   'datalinks',
-  'jade',
   'errors',
   // Filters
   'filters',
@@ -59,6 +62,7 @@ var tabdefs = [
   require('../tabs/register'),
   require('../tabs/login'),
   require('../tabs/balance'),
+  require('../tabs/activity'),
   require('../tabs/history'),
   require('../tabs/contacts'),
   require('../tabs/convert'),

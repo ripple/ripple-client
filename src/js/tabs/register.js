@@ -20,21 +20,17 @@ RegisterTab.prototype.generateHtml = function ()
 };
 
 RegisterTab.prototype.angular = function (module) {
-  module.controller('RegisterCtrl', ['$scope', '$location', '$element', 'rpId', 'rpTracker',
-                                     function ($scope, $location, $element, $id, $rpTracker)
+  module.controller('RegisterCtrl', ['$scope', '$location', '$element',
+                                     '$timeout', 'rpId', 'rpTracker',
+                                     'rpAuthInfo',
+                                     function ($scope, $location, $element,
+                                               $timeout, $id, $rpTracker,
+                                               authinfo)
   {
     if ($id.loginStatus) {
       $location.path('/balance');
       return;
     }
-
-    $scope.backendChange = function()
-    {
-      $id.blobBackends = $scope.blobBackendCollection.something.value.split(',');
-      if (!store.disabled) {
-        store.set('ripple_blobBackends', $id.blobBackends);
-      }
-    };
 
     $scope.reset = function()
     {
@@ -53,9 +49,67 @@ RegisterTab.prototype.angular = function (module) {
       if ($scope.registerForm) $scope.registerForm.$setPristine(true);
     };
 
+    var debounce;
+    $scope.$watch('username', function (username) {
+      $scope.usernameStatus = null;
+
+      if (debounce) $timeout.cancel(debounce);
+
+      if (!username) {
+        // No username entered, show nothing, do nothing
+      } else if (username.length < 2) {
+        $scope.usernameStatus = "invalid";
+        $scope.usernameInvalidReason = "tooshort";
+      } else if (username.length > 15) {
+        $scope.usernameStatus = "invalid";
+        $scope.usernameInvalidReason = "toolong";
+      } else if (!/^[a-zA-Z0-9\-]+$/.exec(username)) {
+        $scope.usernameStatus = "invalid";
+        $scope.usernameInvalidReason = "charset";
+      } else if (/^-/.exec(username)) {
+        $scope.usernameStatus = "invalid";
+        $scope.usernameInvalidReason = "starthyphen";
+      } else if (/-$/.exec(username)) {
+        $scope.usernameStatus = "invalid";
+        $scope.usernameInvalidReason = "endhyphen";
+      } else if (/--/.exec(username)) {
+        $scope.usernameStatus = "invalid";
+        $scope.usernameInvalidReason = "multhyphen";
+      } else {
+        debounce = $timeout(checkUsername, 800);
+      }
+    });
+
+    function checkUsername() {
+      $scope.usernameStatus = null;
+      if (!$scope.username) return;
+
+      $scope.usernameStatus = 'loading';
+      authinfo.get(Options.domain, $scope.username, function (err, info) {
+        if (err) {
+          // XXX Better error handling
+          $scope.usernameStatus = null;
+          return;
+        }
+        if (info.exists) {
+          $scope.usernameStatus = "exists";
+        } else if (info.reserved) {
+          $scope.usernameStatus = "reserved";
+          $scope.usernameReservedFor = info.reserved;
+        } else {
+          $scope.usernameStatus = "ok";
+        }
+      });
+    }
+
     $scope.register = function()
     {
-      $id.register($scope.username, $scope.password1, function(key){
+      $id.register($scope.username, $scope.password1, function(err, key){
+        if (err) {
+          $scope.mode = "failed";
+          $scope.error_detail = err.message;
+          return;
+        }
         $scope.password = new Array($scope.password1.length+1).join("*");
         $scope.keyOpen = key;
         $scope.key = $scope.keyOpen[0] + new Array($scope.keyOpen.length).join("*");
@@ -130,18 +184,7 @@ RegisterTab.prototype.angular = function (module) {
 
             $scope.register();
           } else {
-            $id.login($scope.username, $scope.password1, function (error) {
-              $scope.submitLoading = false;
-              if (error) {
-                // There is a conflicting wallet, but we can't login to it
-                $scope.mode = 'loginerror';
-              } else if ($scope.masterkey &&
-                         $scope.masterkey != $scope.userCredentials.master_seed) {
-                $scope.mode = 'masterkeyerror';
-              } else {
-                $location.path('/balance');
-              }
-            });
+            $scope.mode = 'alreadyexists';
           }
         }
       });
@@ -155,7 +198,6 @@ RegisterTab.prototype.angular = function (module) {
       $rpTracker.track('Sign Up', {
         'Used key': !!$scope.masterkey,
         'Password strength': $scope.strength,
-        'Blob': $scope.blobBackendCollection.something.name,
         'Showed secret key': !!$scope.showSecret,
         'Showed password': !!$scope.showPassword
       });

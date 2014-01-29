@@ -214,16 +214,24 @@ section.single.content(ng-controller='SendCtrl')
         span.value {{send.alt.amount | rpamount}}&#32;
         span.currency {{send.alt.amount | rpcurrency}} &#32;
         span &plusmn; 1%
-    .call-to-action
-      p.literal(l10n) Are you sure?
+    form.call-to-action(ng-submit="send_confirmed()")
+      p.literal(l10n, ng-show="send.secret") Are you sure?
+      p.literal(l10n, ng-hide="send.secret") Please enter your password to confirm this transaction.
+      .row.row-padding-small(ng-if="!send.secret")
+        input.form-control#send_unlock_password(
+          name='send_unlock_password', type='password', required
+          ng-model='send.unlock_password')
+          .errorGroup(rp-errors='send_unlock_password')
+            .error(rp-error-on='required', l10n) Password required to unlock wallet
       .row.row-padding-small
         .col-xs-6.col-sm-4.col-md-3.col-lg-2
-          button.btn.btn-block.btn-default.back(ng-click='cancelConfirm()', l10n)
+          button.btn.btn-block.btn-default.back(
+            type='button'
+            ng-click='cancelConfirm()', l10n)
             | &laquo; Back
         .col-xs-6.col-sm-4.col-md-3.col-lg-2
           button.btn.btn-block.btn-success.submit(
             type='submit'
-            ng-click='send_confirmed()'
             ng-disabled='confirm_wait', l10n) Confirm
 
   //- N4. Waiting for transaction result page
@@ -245,6 +253,9 @@ section.single.content(ng-controller='SendCtrl')
       group.result-error(ng-switch-when='invalidTransaction')
         h2.tx-status(l10n) Invalid transaction
         p(l10n) The transaction was rejected by the server due to a client issue.
+      group.result-error(ng-switch-when='unlockFailed')
+        h2.tx-status(l10n) Unlock failed
+        p(l10n) Your wallet could not be unlocked. This could be a server issue, please try again later.
       group(ng-switch-default)
         p.literal(l10n) Sorry, an error occurred while submitting your transaction.
           | Make sure you are connected to the Internet and try again later.

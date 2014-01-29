@@ -100,7 +100,7 @@ HistoryTab.prototype.angular = function (module) {
         .on('success', function(data) {
           if (data.transactions.length) {
             for(var i=0;i<data.transactions.length;i++) {
-              var date = (data.transactions[i].tx.date + 0x386D4380) * 1000;
+              var date = ripple.utils.toTimestamp(data.transactions[i].tx.date);
 
               if(date < dateMin.getTime()) {
                 completed = true;
@@ -338,7 +338,7 @@ HistoryTab.prototype.angular = function (module) {
       if (!$.isEmptyObject($scope.balances)) {
         var currencies = _.union(
           ['XRP'],
-          _.map($scope.balances,function(obj,key){return key.toUpperCase()}),
+          _.map($scope.balances,function(obj,key){return obj.total.currency().to_json();}),
           historyCurrencies
         );
 

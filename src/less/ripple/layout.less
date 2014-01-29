@@ -2,14 +2,7 @@ html, body {
   width: 100%;
   height: 100%;
   overflow-x: hidden;
-}
-
-body, #wrapper {
-  background: #F9F9F9 url("../../img/bg.png");
-
-  @media (max-width: @screen-xs-max) {
-    background: #fff;
-  }
+  background-color: #fff;
 }
 
 body {
@@ -22,6 +15,7 @@ body {
   display: none;
   width: 100%;
   min-height: 100%;
+  background-color: #fff;
 }
 
 #version, #browserVersion {
@@ -78,96 +72,107 @@ body.loaded #appLoading {
 }
 
 #logo {
-  position: absolute;
-  top: 15px;
-  left: @grid-gutter-width / 2;
-
-  a {
-    display: block;
-    width: 218px;
-    height: 52px;
-    background: url('../../img/logo.png');
-
-    // Pixel ratio: 2
-    @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min-device-pixel-ratio: 2) {
-      background: url('../../img/logo_2x.png');
-      background-size: 218px 52px;
-    }
-  }
-
-  @media (max-width: @screen-sm-max) {
-    display: none;
-  }
+  color: #fff;
+  .icon-ripple-logo();
 }
 
 header {
   .clearfix();
-  height: 145px;
 
-  @media (max-width: @screen-sm-max) {
-    height: 100px;
-  }
-}
+  nav.navbar {
+    font: 12px 'OpenSansRegular';
+    background-color: #648CB2;
+    .border-radius(0);
 
-header nav {
-  position: absolute;
-  width: 100%;
-  top: 85px;
-  left: 0;
-  padding-left: 30px;
-}
+    .navbar-toggle {
+      color: #fff;
+      float: left;
+      font-size: 1.7em;
+    }
 
-header nav ul {
-  font: 12px 'OpenSansRegular';
-  list-style: none;
+    ul.nav {
+      > li {
+        > a {
+          color: #fff;
+          .transition-duration(0.2s);
+          cursor: pointer;
 
-  > li {
-    position: relative;
-    text-align: center;
+          .caret {
+            border-top-color: #fff;
+            border-bottom-color: #fff;
+          }
 
-    > a {
-      opacity: 0.4;
-      width: 60px;
-      height: 60px;
-      color: #000;
+          &:hover,
+          &:focus {
+            color: #ddd;
+            text-decoration: none;
+            background-color: transparent;
+          }
+        }
+
+        p.navbar-text {
+          color: #fff;
+          margin-top: 16px;
+          margin-bottom: 16px;
+        }
+
+        &.active {
+          font-family: 'OpenSansBold';
+        }
+      }
+
+      li.balance {
+        .currency {
+          font-size: 0.75em;
+          opacity: 0.8;
+        }
+      }
+    }
+
+    .dropdown-menu {
       display: block;
-      .transition-duration(0.2s);
+    }
 
-      span {
-        padding: 35px 0 0 0;
-        display: block;
-      }
+    li.activity {
+      font-size: 1.7em;
 
-      &:hover {
-        color: #333;
-        text-decoration: none;
+      .dropdown-menu {
+        min-width: 360px;
       }
     }
 
-    &.active {
-      font-family: 'OpenSansBold';
-
-      > a {
-        opacity: 1;
-        color: #333;
-      }
+    li.settings {
+      font-size: 1.7em;
     }
   }
-}
 
-.nav-icon {
-  background-image: url(../../img/sprite_menu.png);
+  .subnav {
+    background-color: #F9FAFA;
+    border-bottom: 1px solid #E3E3E3;
 
-  &.nav-icon-wallet {background-position: 0px -10px;}
-  &.nav-icon-send {background-position: -60px -10px;}
-  &.nav-icon-receive {background-position: -120px -10px;}
-  &.nav-icon-trade {background-position: -180px -10px;}
-  &.nav-icon-advanced {background-position: -240px -10px;}
+    ul {
+      list-style: none;
 
-  // Pixel ratio: 2
-  @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min-device-pixel-ratio: 2) {
-    background-image: url('../../img/sprite_menu_2x.png');
-    background-size: 300px 120px;
+      > li {
+        float: left;
+
+        a {
+          color: #999;
+          display: inline-block;
+          padding: 10px;
+
+          &:hover,
+          &:focus {
+            color: #bbb;
+            text-decoration: none;
+          }
+        }
+
+        &.active {
+          font-family: 'OpenSansBold';
+        }
+      }
+    }
   }
 }
 
@@ -181,108 +186,7 @@ header nav ul {
   }
 }
 #wrapper .container > .main {
-  background-color: #fff;
-  border: 1px solid #ccc;
-  .rounded(5px);
   min-height: 500px;
-
-  @media (max-width: @screen-xs-max) {
-    .rounded(0px);
-    border-left: 0;
-    border-right: 0;
-    border: none;
-  }
-
-  nav {
-    padding: 0;
-
-    @media (max-width: @screen-sm-max) {
-      display: none;
-    }
-
-    & > ul {
-      font: 16px 'OpenSansRegular';
-      padding: 0;
-      margin: 0;
-      list-style: none;
-
-      > li {
-        > a {
-          position: relative;
-          display: block;
-          height: 60px;
-          color: #979797;
-          padding: 20px 0 20px 35px;
-          border-bottom: 1px solid #cacaca;
-          border-top: 1px solid #cacaca;
-          margin-top: -1px;
-          z-index: 10;
-          background: #f7f7f7;
-          .transition-duration(0.2s);
-
-          &:hover {
-            background-color: #fff;
-            text-decoration: none;
-          }
-
-          &:focus {
-            outline: none;
-          }
-        }
-
-        &.no-anim > a {
-          .transition-duration(0);
-        }
-
-        &:first-child > a {
-          border-top: 0 !important;
-          margin-top: 0;
-          .border-radius(0, 0, 0, 10px);
-        }
-
-        &.active {
-          > a {
-            position: relative;
-            color: #333;
-            background-color: #fff;
-            border-bottom: 1px solid #cacaca;
-            border-top: 1px solid #cacaca;
-            border-right: 0;
-            z-index: 25;
-          }
-        }
-      }
-    }
-
-    h2 {
-      display: none;
-      font-size: 1.8em;
-      font-family: 'OpenSansBold', sans-serif;
-      font-weight: normal;
-      color: #333;
-      background-color: #eee;
-      margin: 0;
-      line-height: 60px;
-      padding-left: 75px + @pmPanelLeftMarginPhone;
-      cursor: pointer;
-      .user-select(none);
-    }
-
-    h2:before {
-      .virtualel;
-      position: absolute;
-      top: 0px;
-      left: @pmPanelLeftMarginPhone;
-      width: 60px;
-      height: 60px;
-      background: #333 url("../../img/nav-icon-white.svg") center center no-repeat;
-      opacity: 0.7;
-    }
-
-    h2:hover:before {
-      opacity: 1;
-    }
-  }
 }
 
 @sideNavWidth: 150px;

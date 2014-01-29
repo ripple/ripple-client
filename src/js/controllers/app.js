@@ -12,7 +12,9 @@ var util = require('util'),
 var module = angular.module('app', []);
 
 module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
-                              function ($scope, $compile, $id, $net)
+                              'rpKeychain',
+                              function ($scope, $compile, $id, $net,
+                                        keychain)
 {
   reset();
 
@@ -22,6 +24,7 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
   if ("object" === typeof rippleclient) {
     rippleclient.id = $id;
     rippleclient.net = $net;
+    rippleclient.keychain = keychain;
   }
 
   function reset()
@@ -45,8 +48,6 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
     account = data.account;
 
     reset();
-
-    remote.set_secret(data.account, data.secret);
 
     var accountObj = remote.account(data.account);
 

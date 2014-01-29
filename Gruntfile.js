@@ -18,6 +18,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-jade-l10n-extractor');
   grunt.loadNpmTasks('grunt-node-webkit-builder');
   grunt.loadNpmTasks('grunt-bower-task');
+  grunt.loadNpmTasks('grunt-webfont');
 
   // Ripple client dependencies
   var deps = ["deps/js/jquery/jquery.js",
@@ -234,6 +235,21 @@ module.exports = function(grunt) {
         }
       }
     },
+    webfont: {
+      icons: {
+        options: {
+          engine: "fontforge",
+          stylesheet: "less",
+          classPrefix: 'icon-',
+          mixinPrefix: 'icon-',
+          relativeFontPath: '../../res/icons/font',
+          syntax: 'bootstrap',
+          htmlDemo: false
+        },
+        src: "res/icons/svg/*.svg",
+        dest: "res/icons/font/"
+      }
+    },
     copy: {
       web: {
         files: [
@@ -241,6 +257,7 @@ module.exports = function(grunt) {
           {expand: true, src: ['build/dist/*.css'], dest: 'build/bundle/web'},
           {expand: true, src: ['build/dist/*.html'], dest: 'build/bundle/web', flatten: true},
           {expand: true, src: ['fonts/*'], dest: 'build/bundle/web'},
+          {expand: true, src: ['res/icons/font/*'], dest: 'build/bundle/web'},
           {expand: true, src: ['img/**'], dest: 'build/bundle/web'},
           {expand: true, src: ['deps/js/modernizr*.js'], dest: 'build/bundle/web'},
           {expand: true, src: ['deps/js/mixpanel.min.js'], dest: 'build/bundle/web'},
@@ -252,6 +269,7 @@ module.exports = function(grunt) {
           {expand: true, src: ['build/dist/*.js'], dest: 'build/bundle/nw-desktop'},
           {expand: true, src: ['build/dist/*.css'], dest: 'build/bundle/nw-desktop'},
           {expand: true, src: ['fonts/*'], dest: 'build/bundle/nw-desktop'},
+          {expand: true, src: ['res/icons/font/*'], dest: 'build/bundle/nw-desktop'},
           {expand: true, src: ['img/**'], dest: 'build/bundle/nw-desktop'},
           {expand: true, src: ['deps/js/modernizr*.js'], dest: 'build/bundle/nw-desktop'},
           {expand: true, src: ['deps/js/mixpanel.min.js'], dest: 'build/bundle/nw-desktop'},
@@ -265,6 +283,7 @@ module.exports = function(grunt) {
           {expand: true, src: ['build/dist/*.js'], dest: 'build/bundle/nw-desktop-debug'},
           {expand: true, src: ['build/dist/*.css'], dest: 'build/bundle/nw-desktop-debug'},
           {expand: true, src: ['fonts/*'], dest: 'build/bundle/nw-desktop-debug'},
+          {expand: true, src: ['res/icons/font/*'], dest: 'build/bundle/nw-desktop-debug'},
           {expand: true, src: ['img/**'], dest: 'build/bundle/nw-desktop-debug'},
           {expand: true, src: ['deps/js/modernizr*.js'], dest: 'build/bundle/nw-desktop-debug'},
           {expand: true, src: ['deps/js/mixpanel.min.js'], dest: 'build/bundle/nw-desktop-debug'},
