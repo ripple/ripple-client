@@ -130,7 +130,7 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
                 .transaction(ng-switch-default)
                   != require("../tabs/history/effects.jade")()
         li.settings: a(href="#/options"): .fa.fa-cog
-  .subnav.hidden-xs.subMenu(ng-show="$route.current.mainMenu == 'wallet'")
+  .subnav(ng-show="$route.current.mainMenu == 'wallet'")
     .container
       ul
         li(ng-class="{active: $route.current.tabName == 'balance'}")
