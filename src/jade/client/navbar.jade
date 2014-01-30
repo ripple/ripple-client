@@ -10,6 +10,8 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
           a(href="#/balance", l10n) Wallet
         li#nav-send(ng-class="{active: $route.current.mainMenu == 'send'}")
           a(href="#/send", l10n) Send
+        li#nav-exchange(ng-class="{active: $route.current.mainMenu == 'exchange'}")
+          a(href="#/exchange", l10n) Exchange
         li#nav-trade(ng-class="{active: $route.current.mainMenu == 'trade'}")
           a(href="#/trade", l10n) Trade
       ul.nav.navbar-nav.navbar-right
@@ -139,7 +141,5 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
           a(href="#/history", l10n) History
         li(ng-class="{active: $route.current.tabName == 'contacts'}")
           a(href="#/contacts", l10n) Contacts
-        li(ng-class="{active: $route.current.tabName == 'exchange'}")
-          a(href="#/exchange", l10n) Exchange
         //- li(ng-class="{active: $route.current.tabName == 'cashin'}")
           a(href="#/cashin", l10n) Cash In

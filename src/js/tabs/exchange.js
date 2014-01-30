@@ -12,7 +12,7 @@ var ExchangeTab = function ()
 util.inherits(ExchangeTab, Tab);
 
 ExchangeTab.prototype.tabName = 'exchange';
-ExchangeTab.prototype.mainMenu = 'wallet';
+ExchangeTab.prototype.mainMenu = 'exchange';
 
 ExchangeTab.prototype.generateHtml = function ()
 {
