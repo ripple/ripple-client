@@ -12,8 +12,6 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
           a(href="#/send", l10n) Send
         li#nav-exchange(ng-class="{active: $route.current.mainMenu == 'exchange'}")
           a(href="#/exchange", l10n) Exchange
-        li#nav-trade(ng-class="{active: $route.current.mainMenu == 'trade'}")
-          a(href="#/trade", l10n) Trade
       ul.nav.navbar-nav.navbar-right
         li.balance
           p.navbar-text(ng-show="!loadState.account", l10n) Loading your balance...
@@ -143,3 +141,10 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
           a(href="#/contacts", l10n) Contacts
         //- li(ng-class="{active: $route.current.tabName == 'cashin'}")
           a(href="#/cashin", l10n) Cash In
+  .subnav(ng-show="$route.current.mainMenu == 'exchange'")
+    .container
+      ul
+        li(ng-class="{active: $route.current.tabName == 'trade'}")
+          a(href="#/trade", l10n) Trade
+        li(ng-class="{active: $route.current.tabName == 'exchange'}")
+          a(href="#/exchange", l10n) Exchange

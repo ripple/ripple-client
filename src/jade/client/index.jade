@@ -20,10 +20,7 @@
   a.exchange(href="#/exchange", ng-class="{active: $route.current.mainMenu == 'exchange'}", l10n)
     span.nav-icon.nav-icon-exchange
     span(l10n) Exchange
-
-  a.send(href="#/trade", ng-class="{active: $route.current.mainMenu == 'trade'}")
-    span.nav-icon.nav-icon-trade
-    span(l10n) Trade
+  a.sub(href="#/trade", ng-class="{active: $route.current.mainMenu == 'trade'}", l10n) Trade
 
   a.advanced(href="#/trust", ng-class="{active: $route.current.mainMenu == 'advanced'}")
     span.nav-icon.nav-icon-advanced
