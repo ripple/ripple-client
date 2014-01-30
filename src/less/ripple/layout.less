@@ -77,12 +77,11 @@ body.loaded #appLoading {
 }
 
 header {
-  .clearfix();
-
   nav.navbar {
-    font: 12px 'OpenSansRegular';
-    background-color: #648CB2;
+    font: 13px 'OpenSansRegular';
+    background-color: @ripple-color;
     .border-radius(0);
+    border: none;
 
     .navbar-toggle {
       color: #fff;
@@ -91,10 +90,15 @@ header {
     }
 
     ul.nav {
+      height: 50px;
+
       > li {
+        margin-left: 5px;
+        margin-right: 5px;
+
         > a {
           color: #fff;
-          .transition-duration(0.2s);
+          .transition-duration(0.1s);
           cursor: pointer;
 
           .caret {
@@ -117,7 +121,12 @@ header {
         }
 
         &.active {
-          font-family: 'OpenSansBold';
+          background: lighten(@ripple-color,5%);
+
+          a:hover,
+          a:focus {
+            color: #fff;
+          }
         }
       }
 
@@ -126,6 +135,18 @@ header {
           font-size: 0.75em;
           opacity: 0.8;
         }
+      }
+    }
+
+    ul.topMenu {
+      li.active:after {
+        .virtualel;
+        width: 0px;
+        height: 0px;
+        margin: -4px auto 0;
+        border-style: solid;
+        border-width: 0 6px 4px 6px;
+        border-color: transparent transparent #F9FAFA transparent;
       }
     }
 
@@ -169,7 +190,8 @@ header {
         }
 
         &.active {
-          font-family: 'OpenSansBold';
+          font-family: 'OpenSansRegular';
+          border-bottom: 2px solid #999;
         }
       }
     }

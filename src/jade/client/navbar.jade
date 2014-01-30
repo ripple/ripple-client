@@ -5,7 +5,7 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
         .fa.fa-bars
       a.navbar-brand.hidden-xs#logo(href="#/", title="Ripple")
     .collapse.navbar-collapse
-      ul.nav.navbar-nav
+      ul.nav.navbar-nav.topMenu
         li#nav-wallet(ng-class="{active: $route.current.mainMenu == 'wallet'}")
           a(href="#/balance", l10n) Wallet
         li#nav-send(ng-class="{active: $route.current.mainMenu == 'send'}")
@@ -19,13 +19,19 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
             span.balance.primary(ng-show="!account.Account", l10n) Unfunded account
             span.balance.primary(ng-show="account.Account")
               span.amount {{account.Balance | rpamount:{precision: 2} }}
-            span.currency XRP
+            span.currency  XRP
           i.fa.fa-question-circle(ng-show="false && account.Account"
             rp-popover
             rp-popover-placement="bottom"
             l10n-rp-popover-title="XRP Balance"
             rp-popover-trigger="click"
             l10n-data-content="Your current XRP balance is {{account.Balance | rpamount:{precision: 2, max_sig_digits: 20} }}. Account reserve is {{ account.reserve | rpamount }} XRP. <br /><a href='https://ripple.com/wiki/Reserves' target='_blank'>More information</a>")
+        li.dropdown(ng-show="userCredentials.username")
+          a.dropdown-toggle(ng-click="userDropdown = !userDropdown") {{userCredentials.username}}
+            b.caret
+          ul.dropdown-menu(ng-show="userDropdown")
+            li: a.logout(href="#/security", l10n) Security
+            li: a.logout(ng-click='logout()', l10n) Logout
         li.activity.dropdown
           a.dropdown-toggle(ng-click="activityDropdown = !activityDropdown")
             .fa.fa-lightbulb-o
@@ -123,14 +129,8 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
                   | Failed transaction
                 .transaction(ng-switch-default)
                   != require("../tabs/history/effects.jade")()
-        li.dropdown(ng-show="userCredentials.username")
-          a.dropdown-toggle(ng-click="userDropdown = !userDropdown") {{userCredentials.username}}
-            b.caret
-          ul.dropdown-menu(ng-show="userDropdown")
-            li: a.logout(href="#/security", l10n) Security
-            li: a.logout(ng-click='logout()', l10n) Logout
         li.settings: a(href="#/options"): .fa.fa-cog
-  .subnav.hidden-xs(ng-show="$route.current.mainMenu == 'wallet'")
+  .subnav.hidden-xs.subMenu(ng-show="$route.current.mainMenu == 'wallet'")
     .container
       ul
         li(ng-class="{active: $route.current.tabName == 'balance'}")
