@@ -4,24 +4,24 @@ var util = require('util'),
     Amount = ripple.Amount,
     Base = ripple.Base;
 
-var ConvertTab = function ()
+var ExchangeTab = function ()
 {
   Tab.call(this);
 };
 
-util.inherits(ConvertTab, Tab);
+util.inherits(ExchangeTab, Tab);
 
-ConvertTab.prototype.tabName = 'convert';
-ConvertTab.prototype.mainMenu = 'wallet';
+ExchangeTab.prototype.tabName = 'exchange';
+ExchangeTab.prototype.mainMenu = 'wallet';
 
-ConvertTab.prototype.generateHtml = function ()
+ExchangeTab.prototype.generateHtml = function ()
 {
-  return require('../../jade/tabs/convert.jade')();
+  return require('../../jade/tabs/exchange.jade')();
 };
 
-ConvertTab.prototype.angular = function (module)
+ExchangeTab.prototype.angular = function (module)
 {
-  module.controller('ConvertCtrl', ['$scope', '$timeout', '$routeParams', 'rpId', 'rpNetwork', 'rpTracker',
+  module.controller('ExchangeCtrl', ['$scope', '$timeout', '$routeParams', 'rpId', 'rpNetwork', 'rpTracker',
     function ($scope, $timeout, $routeParams, $id, $network, $rpTracker)
     {
       if (!$id.loginStatus) return $id.goId();
@@ -30,46 +30,46 @@ ConvertTab.prototype.angular = function (module)
 
       $scope.xrp = _.where($scope.currencies_all, {value: "XRP"})[0];
 
-      $scope.$watch('convert.amount', function () {
-        $scope.update_convert();
+      $scope.$watch('exchange.amount', function () {
+        $scope.update_exchange();
       }, true);
 
-      $scope.$watch('convert.currency', function () {
-        $scope.convert.currency_code = $scope.convert.currency ? $scope.convert.currency.slice(0, 3).toUpperCase() : "XRP";
-        $scope.update_convert();
+      $scope.$watch('exchange.currency', function () {
+        $scope.exchange.currency_code = $scope.exchange.currency ? $scope.exchange.currency.slice(0, 3).toUpperCase() : "XRP";
+        $scope.update_exchange();
       }, true);
 
       var pathUpdateTimeout;
-      $scope.update_convert = function () {
-        var convert = $scope.convert;
-        var currency = convert.currency_code;
-        var formatted = "" + convert.amount + " " + currency.slice(0, 3);
+      $scope.update_exchange = function () {
+        var exchange = $scope.exchange;
+        var currency = exchange.currency_code;
+        var formatted = "" + exchange.amount + " " + currency.slice(0, 3);
 
-        // if formatted or money to convert is 0 then don't calculate paths or offer to convert
+        // if formatted or money to exchange is 0 then don't calculate paths or offer to exchange
         if (parseFloat(formatted) === 0)
         {
           $scope.error_type = 'required';
           return false;
         }
 
-        convert.amount_feedback = Amount.from_human(formatted);
-        convert.amount_feedback.set_issuer($id.account);
+        exchange.amount_feedback = Amount.from_human(formatted);
+        exchange.amount_feedback.set_issuer($id.account);
 
-        if (convert.amount_feedback.is_valid()) {
-          convert.path_status = 'pending';
-          convert.alt = null;
+        if (exchange.amount_feedback.is_valid()) {
+          exchange.path_status = 'pending';
+          exchange.alt = null;
 
           if (pathUpdateTimeout) clearTimeout(pathUpdateTimeout);
           pathUpdateTimeout = $timeout($scope.update_paths, 500);
         } else {
-          convert.path_status = 'waiting';
+          exchange.path_status = 'waiting';
         }
       };
 
       $scope.update_paths = function () {
         $scope.$apply(function () {
-          $scope.convert.path_status = 'pending';
-          var amount = $scope.convert.amount_feedback;
+          $scope.exchange.path_status = 'pending';
+          var amount = $scope.exchange.amount_feedback;
 
           if (amount.is_zero()) return;
 
@@ -93,10 +93,10 @@ ConvertTab.prototype.angular = function (module)
               }, 1000);
 
               if (!upd.alternatives || !upd.alternatives.length) {
-                $scope.convert.path_status = "no-path";
+                $scope.exchange.path_status = "no-path";
               } else {
-                $scope.convert.path_status = "done";
-                $scope.convert.alternatives = _.map(upd.alternatives, function (raw) {
+                $scope.exchange.path_status = "done";
+                $scope.exchange.alternatives = _.map(upd.alternatives, function (raw) {
                   var alt = {};
                   alt.amount = Amount.from_json(raw.source_amount);
                   alt.send_max = alt.amount.product_human(Amount.from_json('1.01'));
@@ -134,10 +134,10 @@ ConvertTab.prototype.angular = function (module)
       $scope.reset = function () {
         $scope.mode = "form";
 
-        // XXX Most of these variables should be properties of $scope.convert.
+        // XXX Most of these variables should be properties of $scope.exchange.
         //     The Angular devs recommend that models be objects due to the way
         //     scope inheritance works.
-        $scope.convert = {
+        $scope.exchange = {
           amount: '',
           currency: $scope.xrp.name,
           currency_code: "XRP",
@@ -146,12 +146,12 @@ ConvertTab.prototype.angular = function (module)
         };
         $scope.nickname = '';
         $scope.error_type = '';
-        if ($scope.convertForm) $scope.convertForm.$setPristine(true);
+        if ($scope.exchangeForm) $scope.exchangeForm.$setPristine(true);
       };
 
       $scope.cancelConfirm = function () {
         $scope.mode = "form";
-        $scope.convert.alt = null;
+        $scope.exchange.alt = null;
       };
 
       $scope.reset_goto = function (tabName) {
@@ -165,7 +165,7 @@ ConvertTab.prototype.angular = function (module)
       /**
        * N3. Confirmation page
        */
-      $scope.convert_prepared = function () {
+      $scope.exchange_prepared = function () {
         $scope.confirm_wait = true;
         $timeout(function () {
           $scope.confirm_wait = false;
@@ -177,9 +177,9 @@ ConvertTab.prototype.angular = function (module)
       /**
        * N4. Waiting for transaction result page
        */
-      $scope.convert_confirmed = function () {
-        var currency = $scope.convert.currency.slice(0, 3).toUpperCase();
-        var amount = Amount.from_human(""+$scope.convert.amount+" "+currency);
+      $scope.exchange_confirmed = function () {
+        var currency = $scope.exchange.currency.slice(0, 3).toUpperCase();
+        var amount = Amount.from_human(""+$scope.exchange.amount+" "+currency);
 
         amount.set_issuer($id.account);
 
@@ -188,19 +188,19 @@ ConvertTab.prototype.angular = function (module)
         // Destination tag
         tx.destination_tag(webutil.getDestTagFromAddress($id.account));
         tx.payment($id.account, $id.account, amount.to_json());
-        tx.send_max($scope.convert.alt.send_max);
-        tx.paths($scope.convert.alt.paths);
+        tx.send_max($scope.exchange.alt.send_max);
+        tx.paths($scope.exchange.alt.paths);
 
         tx.on('proposed', function (res) {
           $scope.$apply(function () {
             setEngineStatus(res, false);
-            $scope.converted(tx.hash);
+            $scope.exchanged(tx.hash);
 
             // Remember currency and increase order
             var found;
 
             for (var i = 0; i < $scope.currencies_all.length; i++) {
-              if ($scope.currencies_all[i].value.toLowerCase() === $scope.convert.amount_feedback.currency().to_human().toLowerCase()) {
+              if ($scope.currencies_all[i].value.toLowerCase() === $scope.exchange.amount_feedback.currency().to_human().toLowerCase()) {
                 $scope.currencies_all[i].order++;
                 found = true;
                 break;
@@ -209,8 +209,8 @@ ConvertTab.prototype.angular = function (module)
 
             if (!found) {
               $scope.currencies_all.push({
-                "name": $scope.convert.amount_feedback.currency().to_human().toUpperCase(),
-                "value": $scope.convert.amount_feedback.currency().to_human().toUpperCase(),
+                "name": $scope.exchange.amount_feedback.currency().to_human().toUpperCase(),
+                "value": $scope.exchange.amount_feedback.currency().to_human().toUpperCase(),
                 "order": 1
               });
             }
@@ -238,9 +238,9 @@ ConvertTab.prototype.angular = function (module)
       };
 
       /**
-       * N6. Converted page
+       * N6. exchanged page
        */
-      $scope.converted = function (hash) {
+      $scope.exchanged = function (hash) {
         $scope.mode = "status";
         $network.remote.on('transaction', handleAccountEvent);
 
@@ -315,4 +315,4 @@ ConvertTab.prototype.angular = function (module)
   });
 };
 
-module.exports = ConvertTab;
+module.exports = ExchangeTab;

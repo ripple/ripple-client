@@ -144,7 +144,7 @@ var JsonRewriter = module.exports = {
    *
    * Main purpose
    *  Real transaction names
-   *  - Payment (sent/received/convert)
+   *  - Payment (sent/received/exchange)
    *  - TrustSet (trusting/trusted)
    *  - OfferCreate (offernew)
    *  - OfferCancel (offercancel)
@@ -180,7 +180,7 @@ var JsonRewriter = module.exports = {
 
             if (tx.Account === account) {
               if (tx.Destination === account) {
-                transaction.type = 'convert';
+                transaction.type = 'exchange';
                 transaction.spent = ripple.Amount.from_json(tx.SendMax);
               }
               else {

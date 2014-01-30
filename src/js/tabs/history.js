@@ -57,7 +57,7 @@ HistoryTab.prototype.angular = function (module) {
         'checked': true
       },
       offers: {
-        'types': ['offernew','offercancel','convert'],
+        'types': ['offernew','offercancel','exchange'],
         'checked': true
       },
       other: {
@@ -79,7 +79,7 @@ HistoryTab.prototype.angular = function (module) {
       $scope.filters = {
         'currencies_is_active': false, // we do the currency filter only if this is true, which happens when at least one currency is off
         'currencies': {},
-        'types': ['sent','received','convert','trusting','trusted','offernew','offercancel','rippling'],
+        'types': ['sent','received','exchange','trusting','trusted','offernew','offercancel','rippling'],
         'minimumAmount': 0.000001
       };
     }

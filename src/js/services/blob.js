@@ -287,7 +287,7 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
   };
 
   BlobObj.prototype.applyUpdate = function (op, path, params) {
-    // Convert from numeric op code to string
+    // Exchange from numeric op code to string
     if ("number" === typeof op) {
       op = BlobObj.opsReverseMap[op];
     }

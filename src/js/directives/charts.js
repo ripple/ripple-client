@@ -99,7 +99,7 @@ module.directive('rpTrustLine', ['$filter', function($filter) {
 
     ctx.fillText(lAmount, f(trust_l), axisY+lowText);
 
-    // Convert a value to a pixel position
+    // Exchange a value to a pixel position
     function f(val)
     {
       // Enforce limits

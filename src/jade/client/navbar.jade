@@ -67,8 +67,8 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
                     span.visible-xs
                       i.fa.fa-user
                   != require("../tabs/history/effects.jade")()
-                .transaction(ng-switch-when="convert")
-                  span(l10n) You requested to convert
+                .transaction(ng-switch-when="exchange")
+                  span(l10n) You requested to exchange
                     strong.nowrap  {{entry.transaction.spent | rpamount}}
                       | {{entry.transaction.spent | rpcurrency}}
                     |  to
@@ -139,7 +139,7 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
           a(href="#/history", l10n) History
         li(ng-class="{active: $route.current.tabName == 'contacts'}")
           a(href="#/contacts", l10n) Contacts
-        li(ng-class="{active: $route.current.tabName == 'convert'}")
-          a(href="#/convert", l10n) Convert
+        li(ng-class="{active: $route.current.tabName == 'exchange'}")
+          a(href="#/exchange", l10n) Exchange
         //- li(ng-class="{active: $route.current.tabName == 'cashin'}")
           a(href="#/cashin", l10n) Cash In

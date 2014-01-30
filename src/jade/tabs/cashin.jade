@@ -9,7 +9,7 @@ section.col-xs-12.content(ng-controller="CashinCtrl")
     p.literal(l10n) Loading...
 
   .unfunded(ng-show='loadState.account && !account.Balance')
-    p.literal(l10n="err-you-must-be-funded-before-you-can-convert-money", l10n) You have to be funded before you can use this tab.
+    p.literal(l10n="err-you-must-be-funded-before-you-can-exchange-money", l10n) You have to be funded before you can use this tab.
     p: a.btn.btn-default(href="#/balance", l10n) Back to balance
 
   //- Connected

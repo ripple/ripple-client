@@ -65,7 +65,7 @@ var tabdefs = [
   require('../tabs/activity'),
   require('../tabs/history'),
   require('../tabs/contacts'),
-  require('../tabs/convert'),
+  require('../tabs/exchange'),
   require('../tabs/cashin'),
   require('../tabs/trust'),
   require('../tabs/send'),

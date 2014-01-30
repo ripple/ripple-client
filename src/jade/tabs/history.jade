@@ -95,7 +95,7 @@ section.col-xs-12.content(ng-controller="HistoryCtrl")
               i.fa.fa-arrow-up(ng-show="entry.transaction.type=='sent'")
               i.fa.fa-download.fa-rotate-90(ng-show="entry.transaction.type=='trusted'")
               i.fa.fa-download.fa-rotate-270(ng-show="entry.transaction.type=='trusting'")
-              i.fa.fa-exchange(ng-show="!entry.transaction.type || entry.transaction.type=='offernew' || entry.transaction.type=='offercancel' || entry.transaction.type=='convert' || entry.transaction.type=='rippling'")
+              i.fa.fa-exchange(ng-show="!entry.transaction.type || entry.transaction.type=='offernew' || entry.transaction.type=='offercancel' || entry.transaction.type=='exchange' || entry.transaction.type=='rippling'")
               i.fa.fa-cogs(ng-show="entry.transaction.type=='accountset'")
               i.fa.fa-exclamation-triangle(ng-show="entry.transaction.type=='failed'")
             span.dt {{entry.date | date:'EEE, MMM d, h:mm a'}}
@@ -112,8 +112,8 @@ section.col-xs-12.content(ng-controller="HistoryCtrl")
                   |  sent you
                   strong  {{entry.transaction.amount | rpamount}} {{entry.transaction.amount | rpcurrency}}
                 != require("./history/effects.jade")()
-              span(ng-switch-when="convert")
-                span(l10n) You requested to convert
+              span(ng-switch-when="exchange")
+                span(l10n) You requested to exchange
                   strong  {{entry.transaction.spent | rpamount}} {{entry.transaction.spent | rpcurrency}}
                   |  to
                   strong  {{entry.transaction.amount | rpamount}} {{entry.transaction.amount | rpcurrency}}

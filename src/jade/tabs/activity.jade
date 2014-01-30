@@ -67,8 +67,8 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
                   span.visible-xs
                     i.fa.fa-user
                 != require("./history/effects.jade")()
-              .transaction(ng-switch-when="convert")
-                span(l10n) You requested to convert
+              .transaction(ng-switch-when="exchange")
+                span(l10n) You requested to exchange
                   strong.nowrap  {{entry.transaction.spent | rpamount}}
                     | {{entry.transaction.spent | rpcurrency}}
                   |  to
