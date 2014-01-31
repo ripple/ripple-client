@@ -1,0 +1,8 @@
+section.col-xs-12.content(ng-controller="FundCtrl")
+
+  //- Disconnected
+  group.disconnected(ng-hide="connected")
+    p.literal(l10n) You have to be online to see this screen
+
+  group.disconnected(ng-hide="!connected || loadState.account")
+    p.literal(l10n) Loading...

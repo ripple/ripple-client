@@ -13,14 +13,14 @@
     span.nav-icon.nav-icon-send
     span(l10n) Send
 
-  a.receive(href="#/receive", ng-class="{active: $route.current.mainMenu == 'receive'}")
-    span.nav-icon.nav-icon-receive
-    span(l10n="Receive (tabname)") Receive
-
   a.exchange(href="#/exchange", ng-class="{active: $route.current.mainMenu == 'exchange'}", l10n)
     span.nav-icon.nav-icon-exchange
     span(l10n) Exchange
   a.sub(href="#/trade", ng-class="{active: $route.current.mainMenu == 'trade'}", l10n) Trade
+
+  a.fund(href="#/fund", ng-class="{active: $route.current.mainMenu == 'fund'}", l10n)
+    span.nav-icon.nav-icon-fund
+    span(l10n) Fund
 
   a.advanced(href="#/trust", ng-class="{active: $route.current.mainMenu == 'advanced'}")
     span.nav-icon.nav-icon-advanced
