@@ -104,8 +104,9 @@ module.exports = function(grunt) {
       args : [ "describe", "--tags", "--always", "--dirty" ]
     }, function (err, result) {
       if (err) {
-        grunt.log.error(err);
-        return done(false);
+        grunt.config(prop || "meta.version", "unknown");
+        grunt.log.writeln("Unable to determine version, continuing".red);
+        return done();
       }
 
       grunt.config(prop || "meta.version", result.stdout);
