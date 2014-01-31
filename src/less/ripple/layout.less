@@ -81,8 +81,6 @@ body.loaded #appLoading {
 header {
   nav.navbar {
     font: 13px 'OpenSansRegular';
-    background-color: @ripple-color;
-    .border-radius(0);
     border: none;
 
     .navbar-toggle {
@@ -108,6 +106,8 @@ header {
       > li {
         margin-left: 5px;
         margin-right: 5px;
+        min-width: 70px;
+        text-align: center;
 
         > a {
           color: #fff;
@@ -171,15 +171,28 @@ header {
     }
   }
 
+  .mainnav {
+    background-color: @ripple-color;
+
+    .collapse {
+      padding: 0;
+    }
+  }
+
   .subnav {
     background-color: #F9FAFA;
     border-bottom: 1px solid #E3E3E3;
 
     ul {
       list-style: none;
+      margin: 0 0 0 52px;
+      padding: 0;
 
       > li {
         float: left;
+        margin: 0 10px 0 0;
+        min-width: 70px;
+        text-align: center;
 
         a {
           color: #999;
