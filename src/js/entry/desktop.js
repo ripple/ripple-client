@@ -54,7 +54,7 @@ var appDependencies = [
   'errors',
   // Filters
   'filters',
-  'zipzap'
+  'ui.bootstrap'
 ];
 
 // Load tabs

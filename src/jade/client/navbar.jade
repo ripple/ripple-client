@@ -26,10 +26,10 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
             l10n-rp-popover-title="XRP Balance"
             rp-popover-trigger="click"
             l10n-data-content="Your current XRP balance is {{account.Balance | rpamount:{precision: 2, max_sig_digits: 20} }}. Account reserve is {{ account.reserve | rpamount }} XRP. <br /><a href='https://ripple.com/wiki/Reserves' target='_blank'>More information</a>")
-        li.dropdown(ng-show="userCredentials.username")
-          a.dropdown-toggle(ng-click="userDropdown = !userDropdown") {{userCredentials.username}}
+        li.dropdown
+          a.dropdown-toggle {{userCredentials.username}}
             b.caret
-          ul.dropdown-menu(ng-show="userDropdown")
+          ul.dropdown-menu
             li: a.logout(href="#/security", l10n) Security
             li: a.logout(ng-click='logout()', l10n) Logout
         li.activity.dropdown

@@ -9,6 +9,8 @@ body {
   font-family: sans-serif;
 }
 
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+
 #wrapper {
   position: relative;
   z-index: 2;
@@ -143,6 +145,15 @@ header {
       }
     }
 
+    .open {
+      & > .dropdown-toggle {
+        background: lighten(@ripple-color,5%);
+      }
+      & > .dropdown-menu {
+        border-top: none;
+      }
+    }
+
     ul.topMenu {
       li.active:after {
         .virtualel;
@@ -153,10 +164,6 @@ header {
         border-width: 0 6px 4px 6px;
         border-color: transparent transparent #F9FAFA transparent;
       }
-    }
-
-    .dropdown-menu {
-      display: block;
     }
 
     li.activity {
