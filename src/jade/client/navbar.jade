@@ -26,12 +26,7 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
             l10n-rp-popover-title="XRP Balance"
             rp-popover-trigger="click"
             l10n-data-content="Your current XRP balance is {{account.Balance | rpamount:{precision: 2, max_sig_digits: 20} }}. Account reserve is {{ account.reserve | rpamount }} XRP. <br /><a href='https://ripple.com/wiki/Reserves' target='_blank'>More information</a>")
-        li.dropdown
-          a.dropdown-toggle {{userCredentials.username}}
-            b.caret
-          ul.dropdown-menu
-            li: a.logout(href="#/security", l10n) Security
-            li: a.logout(ng-click='logout()', l10n) Logout
+        li.navbar-text {{userCredentials.username}}
         li.activity.dropdown
           a.dropdown-toggle(ng-click="activityDropdown = !activityDropdown")
             .fa.fa-lightbulb-o
@@ -129,7 +124,14 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
                   | Failed transaction
                 .transaction(ng-switch-default)
                   != require("../tabs/history/effects.jade")()
-        li.settings: a(href="#/options"): .fa.fa-cog
+        li.settings
+          a.dropdown-toggle.fa.fa-cog
+            b.caret
+          ul.dropdown-menu
+            li: a(href="#/security", l10n) Security
+            li: a(href="#/options", l10n) Options
+            li.divider
+            li: a.logout(ng-click='logout()', l10n) Logout
   .subnav(ng-show="$route.current.mainMenu == 'wallet'")
     .container
       ul

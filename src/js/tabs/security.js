@@ -9,7 +9,7 @@ var SecurityTab = function ()
 util.inherits(SecurityTab, Tab);
 
 SecurityTab.prototype.tabName = 'security';
-SecurityTab.prototype.mainMenu = 'wallet';
+SecurityTab.prototype.mainMenu = 'security';
 
 SecurityTab.prototype.generateHtml = function ()
 {

@@ -9,7 +9,7 @@ body {
   font-family: sans-serif;
 }
 
-.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+.nav a, .pagination a, .carousel a, .panel-title a { cursor: pointer; }
 
 #wrapper {
   position: relative;
@@ -99,6 +99,12 @@ header {
     ul.nav {
       height: 50px;
 
+      .navbar-text {
+        color: #fff;
+        margin-top: 16px;
+        margin-bottom: 16px;
+      }
+
       > li {
         margin-left: 5px;
         margin-right: 5px;
@@ -119,12 +125,6 @@ header {
             text-decoration: none;
             background-color: transparent;
           }
-        }
-
-        p.navbar-text {
-          color: #fff;
-          margin-top: 16px;
-          margin-bottom: 16px;
         }
 
         &.active {
