@@ -166,14 +166,6 @@ header {
       }
     }
 
-    li.activity {
-      font-size: 1.7em;
-
-      .dropdown-menu {
-        min-width: 360px;
-      }
-    }
-
     li.settings {
       font-size: 1.7em;
     }
@@ -384,5 +376,46 @@ footer {
 
   ul {
     list-style-type: none;
+  }
+}
+
+.notifications-dropdown {
+  font-size: 1.7em;
+}
+
+#notifications {
+  min-width: 360px;
+  font-size: 12px;
+  padding: 0;
+
+  & > li {
+    border-bottom: 1px solid #ccc;
+    padding: 5px 10px;
+    cursor: pointer;
+
+    &:hover {
+      background: darken(#fff,3%);
+    }
+
+    &.history {
+      border-bottom: none;
+      text-align: center;
+
+      a {
+        margin: -5px -10px;
+        padding: 10px;
+      }
+    }
+  }
+
+  .date {
+    font-size: 10px;
+    color: #888;
+  }
+
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
   }
 }

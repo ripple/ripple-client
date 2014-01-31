@@ -27,17 +27,14 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
             rp-popover-trigger="click"
             l10n-data-content="Your current XRP balance is {{account.Balance | rpamount:{precision: 2, max_sig_digits: 20} }}. Account reserve is {{ account.reserve | rpamount }} XRP. <br /><a href='https://ripple.com/wiki/Reserves' target='_blank'>More information</a>")
         li.navbar-text {{userCredentials.username}}
-        li.activity.dropdown
-          a.dropdown-toggle(ng-click="activityDropdown = !activityDropdown")
-            .fa.fa-lightbulb-o
-            b.caret
-          ul.dropdown-menu(ng-show="activityDropdown")
+        li.dropdown.notifications-dropdown
+          a.dropdown-toggle.fa.fa-lightbulb-o
+          ul#notifications.dropdown-menu
             li(
               ng-repeat="entry in transactions"
               ng-class="entry.transaction.type"
               rp-link-tx="entry.hash"
               )
-              .date {{entry.date | rpfromnow}}
               .desc(ng-switch on="entry.transaction.type")
                 .transaction(ng-switch-when="sent")
                   span(l10n) You sent
@@ -124,9 +121,11 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
                   | Failed transaction
                 .transaction(ng-switch-default)
                   != require("../tabs/history/effects.jade")()
+              .date {{entry.date | rpfromnow}}
+            li.history
+              a(href="#/history") View Full History
         li.settings
           a.dropdown-toggle.fa.fa-cog
-            b.caret
           ul.dropdown-menu
             li: a(href="#/security", l10n) Security
             li: a(href="#/options", l10n) Options
