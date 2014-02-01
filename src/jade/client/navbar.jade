@@ -33,10 +33,12 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
           li.dropdown.notifications-dropdown
             a.dropdown-toggle.fa.fa-lightbulb-o
             ul#notifications.dropdown-menu
+              li(ng-hide="transactions.length") Loading...
               li(
                 ng-repeat="entry in transactions"
                 ng-class="entry.transaction.type"
                 rp-link-tx="entry.hash"
+                ng-show="transactions.length"
                 )
                 .desc(ng-switch on="entry.transaction.type")
                   .transaction(ng-switch-when="sent")
