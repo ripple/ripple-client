@@ -41,7 +41,3 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
                         rp-pretty-issuer-or-short)
             .balance.col-xs-4
               | {{component | rpamount:{rel_precision: 0} }}
-      .address-info.col-xs-12.col-sm-4
-        h4 My Address
-        p.literal(ng-bind="address")
-        .qr.hidden-xs#qr-code
