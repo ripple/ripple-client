@@ -19,25 +19,33 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
         a.giveaway(href="https://support.ripplelabs.com/hc/en-us/articles/201082577-Current-Ripple-Labs-giveaways")
 
     .row
-      .currency-summary.col-xs-12.col-sm-8(ng-show='account.Balance')
-        .balancebox.currency-xrp
-          .total.row
-            .lbl.col-xs-8
-              i.icon-ripple-logo
-              | XRP - Ripple
-            .balance.col-xs-4
-              div(rp-tooltip="{{account.Balance | rpamount:{rel_precision: 2, max_sig_digits: 20} }}") {{account.Balance | rpamount:{rel_precision: 2} }}
-              div(class="secondary", ng-show="false") (reserve: {{ account.reserve | rpamount }} XRP)
-        .balancebox.currency-non-native(ng-repeat="entry in balances", ng-hide="entry.total.is_zero()", ng-class="'currency-' + (entry.total | rpcurrency | lowercase)")
-          .total.row
-            .lbl.col-xs-8
-              i(class="icon fa fa-money", ng-class="'fa-' + (entry.total | rpcurrency | lowercase)")
-              | {{entry.total | rpcurrencyfull}}
-            .balance.col-xs-4
-              span(rp-tooltip="{{entry.total | rpamount}}") {{entry.total | rpamount:{rel_precision: 0} }}
-          .component.row(ng-repeat="(issuer, component) in entry.components")
-            .lbl.col-xs-8(rp-pretty-issuer="issuer"
-                        rp-pretty-issuer-contacts="userBlob.data.contacts"
-                        rp-pretty-issuer-or-short)
-            .balance.col-xs-4
-              | {{component | rpamount:{rel_precision: 0} }}
+      .col-xs-12.col-sm-8
+        .currency-summary(ng-show='account.Balance')
+          .balancebox.currency-xrp
+            .total.row
+              .lbl.col-xs-8
+                i.icon-ripple-logo
+                | XRP - Ripple
+              .balance.col-xs-4
+                | {{ account.Balance | rpamount:{rel_precision: 2, max_sig_digits: 20} }}
+            .component.row
+              .lbl.col-xs-8 Available
+              .balance.col-xs-4 {{account.max_spend | rpamount:{rel_precision: 0} }}
+            .component.row
+              .lbl.col-xs-8 Reserve
+              .balance.col-xs-4 {{ account.reserve | rpamount }}
+          //- TODO Determine currencies order
+          .balancebox.currency-non-native(ng-repeat="entry in balances", ng-hide="entry.total.is_zero()", ng-class="'currency-' + (entry.total | rpcurrency | lowercase)")
+            .total.row
+              .lbl.col-xs-8
+                a(href="", ng-click="entry.show=!entry.show")
+                  i(class="icon fa fa-money", ng-class="'fa-' + (entry.total | rpcurrency | lowercase)")
+                  | {{ entry.total | rpcurrencyfull }}
+              .balance.col-xs-4
+                a(href="", ng-click="entry.show=!entry.show") {{ entry.total | rpamount }}
+            //- TODO Remember selections
+            .component.row(ng-repeat="(issuer, component) in entry.components", ng-show="entry.show")
+              .lbl.col-xs-8(rp-pretty-issuer="issuer"
+              rp-pretty-issuer-contacts="userBlob.data.contacts")
+              .balance.col-xs-4 {{ component | rpamount:{rel_precision: 0} }}
+                a(href="#/fund") Add

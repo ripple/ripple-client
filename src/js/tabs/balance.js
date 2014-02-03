@@ -23,8 +23,11 @@ BalanceTab.prototype.angular = function (module)
   {
     if (!$id.loginStatus) return $id.goId();
 
+    $scope.showComponent = [];
+
     // watch the address function and detect when it changes so we can inject
     // the qr
+    // TODO don't need this anymore
     $scope.$watch('address', function(){
       if ($scope.address !== undefined)
       // use jquery qr code library to inject qr code into div

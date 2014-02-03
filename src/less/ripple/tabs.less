@@ -270,31 +270,22 @@
     .balance {
       font: 20px OpenSansRegular;
       color: #000;
-      line-height: 45px;
     }
   }
 
   .currency-summary {
     font-size: 1.2em;
-    overflow: hidden;
-    margin-bottom: 10px;
 
     .balancebox {
-      overflow: hidden;
       border: 1px solid #D2D3D3;
       background-color: #F9FAFA;
-      line-height: 45px;
-      padding: 5px 10px;
+      line-height: 60px;
+      padding: 0 15px;
       margin-bottom: 10px;
     }
 
-    .lbl {
-      font-weight: normal;
-    }
-
     .total {
-      padding-top: 5px;
-      padding-bottom: 5px;
+      border-bottom: 1px solid #C8C8C8;
 
       .lbl {
         color: #474747;
@@ -308,13 +299,32 @@
           padding-right: 0.8em;
         }
       }
+
+      .lbl, .balance {
+        color: #474747;
+        line-height: 60px;
+
+        a {
+          display: block;
+          color: #474747;
+          text-decoration: none;
+          line-height: 60px;
+        }
+      }
     }
 
     .component {
       font-family: OpenSansLight;
+      font-size: 16px;
+      line-height: 30px;
       color: #777;
+      background: #fff;
       padding-top: 5px;
       padding-bottom: 5px;
+
+      .balance a {
+        float: right;
+      }
     }
 
     .currency-xrp .lbl i {
@@ -323,10 +333,6 @@
 
     .currency-usd .lbl i {
       color: #319D52;
-    }
-
-    .currency-non-native .total {
-      border-bottom: 1px solid #C8C8C8;
     }
   }
   .address-info {
