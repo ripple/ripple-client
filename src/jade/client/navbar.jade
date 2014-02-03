@@ -46,23 +46,11 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
                       strong.nowrap  {{entry.transaction.amount | rpamount}} {{entry.transaction.amount | rpcurrency}}
                       |  to&#32;
                       span.address(title="{{entry.transaction.counterparty}}") {{entry.transaction.counterparty | rpcontactname}}
-                    a.add(ng-hide="entry.transaction.counterparty | rponlycontactname"
-                      href="#/contact?to={{entry.transaction.counterparty}}"
-                      class="btn btn-default btn-sm", rp-no-propagate, title="Add to contacts") +&#32;
-                      span.hidden-xs(l10n) Add to contacts
-                      span.visible-xs
-                        i.fa.fa-user
                     != require("../tabs/history/effects.jade")()
                   .transaction(ng-switch-when="received")
                     span.address(title="{{entry.transaction.counterparty}}", l10n)
                       | {{entry.transaction.counterparty | rpcontactname}} sent you
                     strong.nowrap  {{entry.transaction.amount | rpamount:{reference_date:entry.dateRaw} }} {{entry.transaction.amount | rpcurrency}}
-                    a.add(ng-hide="entry.transaction.counterparty | rponlycontactname"
-                      href="#/contact?to={{entry.transaction.counterparty}}"
-                      class="btn btn-default btn-sm", rp-no-propagate, title="Add to contacts") +&#32;
-                      span.hidden-xs(l10n) Add to contacts
-                      span.visible-xs
-                        i.fa.fa-user
                     != require("../tabs/history/effects.jade")()
                   .transaction(ng-switch-when="exchange")
                     span(l10n) You requested to exchange
@@ -77,12 +65,6 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
                       | {{entry.transaction.counterparty | rpcontactname}} now trusts you for
                     strong.nowrap  {{entry.transaction.amount | rpamount}}
                       | {{entry.transaction.amount | rpcurrency}}
-                    a.add(ng-hide="entry.transaction.counterparty | rponlycontactname"
-                      href="#/contact?to={{entry.transaction.counterparty}}"
-                      class="btn btn-default btn-sm", rp-no-propagate, title="Add to contacts") +&#32;
-                      span.hidden-xs(l10n) Add to contacts
-                      span.visible-xs
-                        i.fa.fa-user
                     != require("../tabs/history/effects.jade")()
                   .transaction(ng-switch-when="trusting")
                     span(l10n) You now trust&#32;
@@ -92,12 +74,6 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
                       strong.nowrap  {{entry.transaction.amount | rpamount:{reference_date:entry.dateRaw} }}
                         | {{entry.transaction.amount | rpcurrency}}
                       | .
-                    a.add(ng-hide="entry.transaction.counterparty | rponlycontactname"
-                      href="#/contact?to={{entry.transaction.counterparty}}"
-                      class="btn btn-default btn-sm", rp-no-propagate, title="Add to contacts") +&#32;
-                      span.hidden-xs(l10n) Add to contacts
-                      span.visible-xs
-                        i.fa.fa-user
                     != require("../tabs/history/effects.jade")()
                   .transaction(ng-switch-when="offernew")
                     span(ng-show="entry.transaction.sell", l10n) You created an order to sell&#32;
