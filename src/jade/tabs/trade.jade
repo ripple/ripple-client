@@ -395,12 +395,12 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
               span.currency  {{entry.first | rpcurrency}}
             .col-sm-2.action(rp-spinner="{{cancelling ? 4 : null}}")
               rp-confirm(
-                action-text="Are you sure you want to delete this order?"
-                action-button-text="Delete"
+                l10n-action-text="Are you sure you want to cancel this order?"
+                l10n-action-button-text="Cancel order"
                 action-button-css="btn btn-default btn-danger"
                 action-function="cancel_order()"
                 cancel-button-css="btn btn-default"
-                cancel-button-text="Cancel")
+                l10n-cancel-button-text="Keep order")
                 a.danger(href="", l10n) Cancel
           .emptyMessage(ng-show="isEmpty(offers)")
             p.literal(l10n="You haven't placed any orders.") You haven&#39;t placed any orders.
