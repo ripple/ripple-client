@@ -28,6 +28,14 @@ describe('SendCtrl', function(){
       $setValidity: function(){}
     };
 
+    scope.userBlob = {
+      data: {
+        contacts: []
+      }
+    };
+
+    scope.lines = {};
+
     scope.$apply = function(func){func()};
 
     scope.saveAddressForm = {
@@ -462,15 +470,18 @@ describe('SendCtrl', function(){
 
   describe('saving an address', function () {
     beforeEach(function () {
-      scope.userBlob = {
-        data: {
-          contacts: []
-        }
-      };
+      scope.userBlob.unshift = sinon.spy();
     });
 
     it('should have a function to do so', function (done) {
       assert.isFunction(scope.saveAddress);
+      done();
+    });
+
+    it("should add the address to the blob", function (done) {
+      assert.isFalse(scope.userBlob.unshift.calledOnce);
+      scope.saveAddress();
+      assert.isTrue(scope.userBlob.unshift.calledOnce);
       done();
     });
 
@@ -479,19 +490,12 @@ describe('SendCtrl', function(){
       scope.saveAddress();
       assert.isTrue(scope.addressSaving);
       done();
-    })
+    });
 
     it("should listen for blobSave event", function (done) {
       var onBlobSaveSpy = sinon.spy(scope, '$on');
       scope.saveAddress();
       assert(onBlobSaveSpy.withArgs('$blobSave').calledOnce);
-      done();
-    });
-
-    it("should add the contact to the blob's contacts", function (done) {
-      assert(scope.userBlob.data.contacts.length == 0);
-      scope.saveAddress();
-      assert(scope.userBlob.data.contacts.length == 1);
       done();
     });
 

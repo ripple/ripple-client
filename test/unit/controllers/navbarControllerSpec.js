@@ -5,7 +5,7 @@ function run(scope,done) {
   done();
 }
 
-describe('StatusCtrl', function(){
+describe('NavbarCtrl', function(){
   var rootScope, scope, controller_injector, dependencies, ctrl;
 
   beforeEach(module("rp"));
@@ -19,7 +19,7 @@ describe('StatusCtrl', function(){
       $element: null
     }
 
-    ctrl = controller_injector("StatusCtrl", dependencies);
+    ctrl = controller_injector("NavbarCtrl", dependencies);
   }));
 
   describe('initializing the controller', function () {
