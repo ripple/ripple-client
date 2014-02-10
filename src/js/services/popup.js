@@ -6,8 +6,8 @@
 
 var module = angular.module('popup', []);
 
-module.factory('rpPopup', ['$http', '$compile',
-                           function ($http, $compile)
+module.factory('rpPopup', ['$compile',
+                           function ($compile)
 {
   var popupService = {};
 
