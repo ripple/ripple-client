@@ -67,7 +67,7 @@ SendTab.prototype.angular = function (module)
     }, true);
 
     $scope.$watch('send.currency', function () {
-      $scope.send.currency_code = $scope.send.currency ? $scope.send.currency.slice(0, 3).toUpperCase() : "XRP";
+      $scope.send.currency_code = ripple.Currency.from_json($scope.send.currency).to_human().toUpperCase();
       $scope.update_currency();
     }, true);
 
@@ -388,10 +388,15 @@ SendTab.prototype.angular = function (module)
     $scope.update_amount = function () {
       var send = $scope.send;
       var recipient = send.recipient_actual || send.recipient_address;
+      console.log(send.currency);
+      var match = /^([a-zA-Z0-9]{3}|[A-Fa-f0-9]{40})\b/.exec(send.currency);
+      if (!match) {
+        // Currency code not recognized, should have been caught by
+        // form validator.
+        return;
+      }
       var currency = send.currency;
-      var formatted = "" + send.amount + " " + currency.slice(0, 3);
-
-      var amount = send.amount_feedback = Amount.from_human(formatted);
+      var amount = send.amount_feedback = ripple.Amount.from_human('' + send.amount + ' ' + currency.toUpperCase(), {reference_date: new Date()});
 
       $scope.reset_amount_deps();
       send.path_status = 'waiting';
@@ -830,7 +835,7 @@ SendTab.prototype.angular = function (module)
     $scope.send_confirmed = function () {
       var send = $scope.send;
       var currency = $scope.send.currency.slice(0, 3).toUpperCase();
-      var amount = Amount.from_human(""+$scope.send.amount+" "+currency);
+      var amount = send.amount_feedback;
       var addrress = $scope.send.recipient_address;
 
       $scope.mode = "sending";

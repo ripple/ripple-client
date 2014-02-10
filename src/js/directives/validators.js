@@ -521,14 +521,18 @@ module.directive('rpRestrictCurrencies', function () {
       if (!ctrl) return;
 
       var validator = function(value) {
-        value = value.slice(0, 3).toUpperCase();
+        var match = /^([a-zA-Z0-9]{3}|[A-Fa-f0-9]{40})\b/.exec(value);
 
         if (attr.rpRestrictCurrencies) {
-          ctrl.$setValidity('rpRestrictCurrencies',
-            attr.rpRestrictCurrencies.indexOf(value) != -1
-              ? true
-              : value == 'XRP'
-          );
+          if (match) {
+            ctrl.$setValidity('rpRestrictCurrencies',
+              attr.rpRestrictCurrencies.indexOf(match[1]) != -1
+                ? true
+                : value === 'XRP'
+            );
+          } else {
+            ctrl.$setValidity('rpRestrictCurrencies', false);
+          }
         }
         else {
           ctrl.$setValidity('rpRestrictCurrencies', true);
