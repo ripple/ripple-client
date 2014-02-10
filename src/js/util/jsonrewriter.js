@@ -194,7 +194,7 @@ var JsonRewriter = module.exports = {
             }
 
             transaction.amount = amount;
-            transaction.currency = amount.currency().to_json();
+            transaction.currency = amount.currency().to_human();
             break;
 
           case 'TrustSet':

@@ -38,7 +38,7 @@ module.filter('rpamount', function () {
     if (!amount.is_valid()) return "n/a";
 
     // Currency default precision
-    var currency = iso4217[amount.currency().to_json()];
+    var currency = iso4217[amount.currency().to_human()];
     var cdp = ("undefined" !== typeof currency) ? currency[1] : 4;
 
     // Certain formatting options are relative to the currency default precision
@@ -81,7 +81,7 @@ module.filter('rpcurrency', function () {
     if (!input) return "";
 
     var amount = Amount.from_json(input);
-    return amount.currency().to_json();
+    return amount.currency().to_human();
   };
 });
 
@@ -105,12 +105,12 @@ module.filter('rpcurrencyfull', ['$rootScope', function ($scope) {
     if (!input) return "";
 
     var amount = Amount.from_json(input);
-    var currency = $.grep($scope.currencies_all, function(e){ return e.value == amount.currency().to_json(); })[0];
+    var currency = $.grep($scope.currencies_all, function(e){ return e.value == amount.currency().to_human(); })[0];
 
     if (currency) {
       return currency.name;
     } else {
-      return amount.currency().to_json();
+      return amount.currency().to_human();
     }
   };
 }]);

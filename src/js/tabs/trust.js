@@ -132,7 +132,7 @@ TrustTab.prototype.angular = function (module)
              * - sameIssuer
              * - multipleIssuers
              */
-            var currency = amount.currency().to_json();
+            currency = amount.currency().to_human();
             var balance = $scope.balances[currency];
             $scope.currencyWarning = false;
 

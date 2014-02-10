@@ -338,7 +338,7 @@ HistoryTab.prototype.angular = function (module) {
       if (!$.isEmptyObject($scope.balances)) {
         var currencies = _.union(
           ['XRP'],
-          _.map($scope.balances,function(obj,key){return obj.total.currency().to_json();}),
+          _.map($scope.balances,function(obj,key){return obj.total.currency().to_human();}),
           historyCurrencies
         );
 

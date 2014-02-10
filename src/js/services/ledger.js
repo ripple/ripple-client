@@ -91,7 +91,7 @@ module.factory('rpLedger', ['$q', '$rootScope', 'rpNetwork', 'rpTransactions',
       // In the future we will likely remove this field altogether (and use
       // Amount class math instead), so it's ok.
       num: +amount.to_human({group_sep: false}),
-      currency: amount.currency().to_json(),
+      currency: amount.currency().to_human(),
       issuer: amount.issuer().to_json()
     };
   }
