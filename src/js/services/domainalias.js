@@ -56,8 +56,9 @@ module.factory('rpDomainAlias', ['$q', '$rootScope', 'rpNetwork', 'rpRippleTxt',
           if (data.account_data.Domain) {
             $scope.$apply(function () {
               var domain = sjcl.codec.utf8String.fromBits(sjcl.codec.hex.toBits(data.account_data.Domain));
+
               var txtData = txt.get(domain);
-              txtData.then(function (data) {
+              txtData.promise.then(function (data) {
                 var valid = validateDomain(domain, address, data);
                 aliasPromise.resolve(valid ? domain : false);
               }, function (error) {
