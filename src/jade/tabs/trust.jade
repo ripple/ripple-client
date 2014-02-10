@@ -114,9 +114,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
     group.mode-confirm.wide(ng-show='mode=="confirm" && account.Balance')
       span
         p.literal(l10n) You are about to trust
-        p.amount_feedback
-          span.value {{amount_feedback}}&#32;
-          span.currency {{currency_feedback}}
+        p.amount_feedback(rp-pretty-amount="amount_feedback")
         p.literal(l10n) to the Ripple user
       .dest_feedback
         .counterparty(ng-show='counterparty_name') {{counterparty_name}}

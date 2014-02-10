@@ -113,10 +113,21 @@ TrustTab.prototype.angular = function (module)
           $scope.$apply(function(){
             // hide throbber
             $scope.verifying = false;
-            var amount = ripple.Amount.from_human('' + $scope.amount + ' ' + $scope.currency.slice(0, 3).toUpperCase());
+            var match = /^([a-zA-Z0-9]{3}|[A-Fa-f0-9]{40})\b/.exec($scope.currency);
+            if (!match) {
+              // Currency code not recognized, should have been caught by
+              // form validator.
+              return;
+            }
+            var currency = match[1];
+            var amount = ripple.Amount.from_human('' + $scope.amount + ' ' + currency.toUpperCase(), {reference_date: new Date()});
+            amount.set_issuer($scope.counterparty_address);
+            if (!amount.is_valid()) {
+              // Invalid amount. Indicates a bug in one of the validators.
+              return;
+            }
 
-            $scope.amount_feedback = amount.to_human();
-            $scope.currency_feedback = amount.currency().to_json();
+            $scope.amount_feedback = amount;
 
             $scope.confirm_wait = true;
             $timeout(function () {
@@ -168,8 +179,8 @@ TrustTab.prototype.angular = function (module)
      * N3. Waiting for grant result page
      */
     $scope.grant_confirmed = function () {
-      var currency = $scope.currency.slice(0, 3).toUpperCase();
-      var amount = $scope.amount + '/' + currency + '/' + $scope.counterparty_address;
+      var currency = $scope.amount_feedback.currency().to_human();
+      var amount = $scope.amount_feedback.to_json();
 
       var tx = $network.remote.transaction();
 
