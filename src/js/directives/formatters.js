@@ -50,6 +50,58 @@ module.directive('rpPrettyIssuer', ['rpDomainAlias',
   };
 }]);
 
+var RP_PRETTY_AMOUNT_DATE = 'rp-pretty-amount-date';
+
+module.directive('rpPrettyAmount', [function () {
+  return {
+    restrict: 'EA',
+    scope: {
+      amount: '=rpPrettyAmount'
+    },
+    template: '<span class="value">{{amount | rpamount:{reference_date:date} }}</span> ' +
+              '<span class="currency">{{amount | rpcurrency}}</span>',
+    compile: function (element, attr, linker) {
+      return function (scope, element, attr) {
+        scope.date = scope.date || element.inheritedData(RP_PRETTY_AMOUNT_DATE);
+      };
+    }
+  };
+}]);
+
+/**
+ * Set the reference date for rpPrettyAmount.
+ *
+ * You can set this on the same element that uses rpPrettyAmount or on any
+ * parent element.
+ *
+ * The reference date is used to calculate demurrage/interest correctly.
+ */
+module.directive('rpPrettyAmountDate', [function () {
+  return {
+    restrict: 'EA',
+    compile: function (element, attr, linker) {
+      return function (scope, element, attr) {
+        element.data(RP_PRETTY_AMOUNT_DATE, scope.$eval(attr.rpPrettyAmountDate));
+      };
+    }
+  };
+}]);
+
+module.directive('rpPrettyIdentity', [function () {
+  return {
+    restrict: 'EA',
+    scope: {
+      identity: '=rpPrettyIdentity'
+    },
+    template: '{{identity | rpcontactname}}',
+    compile: function (element, attr, linker) {
+      return function (scope, element, attr) {
+        // XXX Set title to identity
+      };
+    }
+  };
+}]);
+
 module.directive('rpBindColorAmount', function () {
   return {
     restrict: 'A',

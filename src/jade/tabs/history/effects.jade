@@ -1,103 +1,101 @@
 ul.effects(ng-show="entry.effects")
   li(ng-repeat="effect in entry.showEffects", ng-switch on="effect.type")
     span(ng-switch-when="offer_funded")
-      span(ng-show="effect.sell", l10n) You sold&#32;
-        strong {{effect.gets | rpamount}} {{effect.gets | rpcurrency}}
-        |  for&#32;
-        strong {{effect.pays | rpamount}} {{effect.pays | rpcurrency}}
-      span(ng-hide="effect.sell", l10n) You bought&#32;
-        strong {{effect.pays | rpamount}} {{effect.pays | rpcurrency}}
-        |  for&#32;
-        strong {{effect.gets | rpamount}} {{effect.gets | rpcurrency}}
-      | . (
+      span(ng-show="effect.sell", l10n, rp-span-spacing) You sold
+        span.amount(rp-pretty-amount="effect.gets")
+        | for
+        span.amount(rp-pretty-amount="effect.pays")
+      span(ng-hide="effect.sell", l10n, rp-span-spacing) You bought
+        span.amount(rp-pretty-amount="effect.pays")
+        | for
+        span.amount(rp-pretty-amount="effect.gets")
+      | (
       span(l10n) price
       span :
         strong  {{effect.price | rpamount:{precision: 4} }}
       | ).
       span(l10n)  This order has been filled.
     span(ng-switch-when="offer_partially_funded")
-      span(ng-show="effect.sell", l10n) You sold&#32;
-        strong {{effect.got | rpamount}} {{effect.got | rpcurrency}}
-        |  for&#32;
-        strong {{effect.paid | rpamount}} {{effect.paid | rpcurrency}}
-      span(ng-hide="effect.sell", l10n) You bought&#32;
-        strong {{effect.paid | rpamount}} {{effect.paid | rpcurrency}}
-        |  for&#32;
-        strong {{effect.got | rpamount}} {{effect.got | rpcurrency}}
-      | . (
+      span(ng-show="effect.sell", l10n, rp-span-spacing) You sold
+        span.amount(rp-pretty-amount="effect.got")
+        | for
+        span.amount(rp-pretty-amount="effect.paid")
+      span(ng-hide="effect.sell", l10n, rp-span-spacing) You bought
+        span.amount(rp-pretty-amount="effect.paid")
+        | for
+        span.amount(rp-pretty-amount="effect.got")
+      | (
       span(l10n) price
       span :
         strong  {{effect.price | rpamount:{precision: 4} }}
       | ).
-      span(ng-show="effect.cancelled", l10n)  The rest of your order has been cancelled due to lack of funds.
-      span(ng-hide="effect.deleted", l10n)  This order has
-        span  {{effect.remaining | rpamount}} {{effect.remaining | rpcurrency}}
-        |  remaining.
+      span(ng-show="effect.cancelled", l10n) The rest of your order has been cancelled due to lack of funds.
+      span(ng-hide="effect.deleted", l10n, rp-span-spacing) This order has
+        span(rp-pretty-amount="effect.remaining")
+        | remaining.
     //- We don't show this if it's an offer_cancel transaction.
     //- Instead we show it if the order has been cancelled because of luck of
     //- funds by some other non related transaction.
     span(ng-switch-when="offer_cancelled", l10n) Order (
-      strong {{effect.pays | rpamount}} {{effect.pays | rpcurrency}}
+      span.amount(rp-pretty-amount="effect.pays")
       |  for&#32;
-      strong {{effect.gets | rpamount}} {{effect.gets | rpcurrency}}
+      span.amount(rp-pretty-amount="effect.gets")
       | ) has been cancelled due to lack of funds.
     span(ng-switch-when="offer_created")
-      span(ng-show="effect.sell", l10n) You created an order to sell&#32;
-        strong {{effect.pays | rpamount}} {{effect.gets | rpcurrency}}
-        |  for&#32;
-        strong {{effect.pays | rpamount}} {{effect.pays | rpcurrency}}
-      span(ng-hide="effect.sell", l10n) You created an order to buy&#32;
-        strong {{effect.pays | rpamount}} {{effect.pays | rpcurrency}}
-        |  for&#32;
-        strong {{effect.pays | rpamount}} {{effect.gets | rpcurrency}}
-    span(ng-switch-when="offer_bought", l10n) You bought&#32;
-      strong {{effect.got | rpamount}} {{effect.got | rpcurrency}}
-      |  for&#32;
-      strong {{effect.paid | rpamount}} {{effect.paid | rpcurrency}}
-      | . (
+      span(ng-show="effect.sell", l10n, rp-span-spacing) You created an order to sell
+        span.amount(rp-pretty-amount="effect.pays")
+        | for
+        span.amount(rp-pretty-amount="effect.pays")
+      span(ng-hide="effect.sell", l10n, rp-span-spacing) You created an order to buy
+        span.amount(rp-pretty-amount="effect.pays")
+        | for
+        span.amount(rp-pretty-amount="effect.pays")
+    span(ng-switch-when="offer_bought", l10n, rp-span-spacing) You bought
+      span.amount(rp-pretty-amount="effect.got")
+      | for
+      span.amount(rp-pretty-amount="effect.paid")
+      | (
       span(l10n-inc) price
       span :
         strong  {{effect.price | rpamount:{precision: 4} }}
       | ).
 
     span(ng-switch-when="trust_create_local", l10n) You now trust
-      span  {{effect.counterparty | rpcontactname}}
-      |  for
-      span  {{effect.limit | rpamount}} {{effect.limit | rpcurrency}}
+      span(rp-pretty-identity="effect.counterparty")
+      | for
+      span(rp-pretty-amount="effect.limit")
       | .
-    span(ng-switch-when="trust_create_remote", l10n)
-      span {{effect.counterparty | rpcontactname}}
-      |  is trusting you
-      |  for
-      span  {{effect.limit | rpamount}} {{effect.limit | rpcurrency}}
+    span(ng-switch-when="trust_create_remote", l10n, rp-span-spacing)
+      span(rp-pretty-identity="effect.counterparty")
+      | is trusting you for
+      span(rp-pretty-amount="effect.limit")
       | .
-    span(ng-switch-when="trust_change_local", l10n)
+    span(ng-switch-when="trust_change_local", l10n, rp-span-spacing)
       | You have changed
       span  {{effect.limit | rpcurrency}}
-      |  trust for
-      span  {{effect.counterparty | rpcontactname}}
-      |  from
-      span  {{effect.prevLimit | rpamount}}
-      |  to
-      span  {{effect.limit | rpamount}}
+      | trust for
+      span(rp-pretty-identity="effect.counterparty")
+      | from
+      span {{effect.prevLimit | rpamount:{reference_date: entry.dateRaw} }}
+      | to
+      span {{effect.limit | rpamount:{reference_date: entry.dateRaw} }}
       | .
-    span(ng-switch-when="trust_change_remote", l10n)
-      span {{effect.counterparty | rpcontactname}}
-      |  changed the
-      span  {{effect.limit | rpcurrency}}
-      |  trust
-      |  from
-      span  {{effect.prevLimit | rpamount}}
-      |  to
-      span  {{effect.limit | rpamount}}
+    span(ng-switch-when="trust_change_remote", l10n, rp-span-spacing)
+      span(rp-pretty-identity="effect.counterparty")
+      | changed the
+      span {{effect.limit | rpcurrency}}
+      | trust from
+      span {{effect.prevLimit | rpamount:{reference_date: entry.dateRaw} }}
+      | to
+      span {{effect.limit | rpamount:{reference_date: entry.dateRaw} }}
       | .
-    span(ng-switch-when="trust_change_balance", l10n)
+    span(ng-switch-when="trust_change_balance", l10n, rp-span-spacing)
       | Trust balance between you and
-      span  {{effect.counterparty | rpcontactname}}
-      |  has been changed by
-      span  {{effect.amount | rpamount}} {{effect.amount | rpcurrency}}
+      span(rp-pretty-identity="effect.counterparty")
+      | has been changed by
+      span(rp-pretty-amount="effect.amount")
       | .
 
-    span(ng-switch-when="balance_change", l10n) Your balance has been changed by
-      span  {{effect.amount | rpamount}} {{effect.amount | rpcurrency}}
+    span(ng-switch-when="balance_change", l10n, rp-span-spacing) Your balance has been changed by
+      span(rp-pretty-amount="effect.amount")
       | .

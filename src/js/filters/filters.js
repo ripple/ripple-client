@@ -12,7 +12,7 @@ var iso4217 = require('../data/iso4217');
  */
 module.filter('rpamount', function () {
   return function (input, options) {
-    opts = jQuery.extend(true, {}, options);
+    var opts = jQuery.extend(true, {}, options);
 
     if ("number" === typeof opts) {
       opts = {

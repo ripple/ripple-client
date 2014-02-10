@@ -608,3 +608,15 @@ module.directive('rpSnapper', ['rpId', function($id) {
     });
   }
 }]);
+
+/**
+ * Adds spacing around span tags.
+ */
+module.directive('rpSpanSpacing', [function () {
+  return {
+    restrict: 'EA',
+    compile: function (element, attr, linker) {
+      element.find('> span').before(' ').after(' ');
+    }
+  };
+}]);
