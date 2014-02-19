@@ -59,15 +59,19 @@ module.factory('rpDomainAlias', ['$q', '$rootScope', 'rpNetwork', 'rpRippleTxt',
 
               var txtData = txt.get(domain);
               txtData.then(function (data) {
-                var valid = validateDomain(domain, address, data);
-                aliasPromise.resolve(valid ? domain : false);
+                validateDomain(domain, address, data)
+                  ? aliasPromise.resolve(domain)
+                  : aliasPromise.reject(new Error("Invalid domain"));
+
               }, function (error) {
 
               });
             });
           }
         })
-        .on('error', function () {})
+        .on('error', function () {
+          aliasPromise.reject(new Error("No domain found"));
+        })
         .request();
 
       aliases[address] = aliasPromise.promise;
