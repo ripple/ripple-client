@@ -1289,12 +1289,28 @@
     margin-top: 30px;
   }
 
+  .toggle {
+    margin-left:10px;  
+    color: #428bca;
+    cursor:pointer;
+  }
+  
+  .toggle:hover {
+    text-decoration:underline;
+  }
+  
   .listings {
     padding: 0 15px;
     border: 1px solid darken(@bg, 10%);
     background: @bg;
 
+    transition:0.2s;  
+    max-height:0;
+    overflow:hidden;
+    
     .my {
+
+             
       .head {
         font-weight: bold;
       }
@@ -1345,6 +1361,16 @@
     .emptyMessage {
       margin: 10px 0;
     }
+  }
+  
+  .listings.offers.show {
+    max-height:1000px;
+    overflow:auto;
+  }
+  
+  .listings.orders.show {
+    max-height:9999px;
+    overflow:auto;
   }
 
   .orderbook {

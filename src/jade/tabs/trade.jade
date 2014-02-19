@@ -303,6 +303,10 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                       rp-pretty-issuer-contacts="userBlob.data.contacts"
                       rp-pretty-issuer-or-short)
                     span.currency  {{order[type].second_amount | rpcurrency}}
+                  .rate_feedback (
+                    span.rate {{(order[type].second_amount | rpamount)/(order[type].first_amount | rpamount)}}
+                    span.pair {{(order[type].second_amount | rpcurrency)/(order[type].first_amount | rpcurrency)}}
+                    )
                   p.literal(l10n-inc) Are you sure?
                 .row.row-padding-small
                   .col-xs-6.col-sm-offset-2.col-sm-4.col-md-offset-3.col-md-3
@@ -359,8 +363,9 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
               .actionLink
                 a(href="#trade", ng-click="reset_widget(type)", l10n) Submit another order
 
-      h3 My Orders
-      .listings
+      h3 My Orders ({{offersCount}})
+        small.toggle(ng-hide="isEmpty(offers)", ng-click="hideOffers = !hideOffers") {{hideOffers ? "show" : "hide"}}
+      .listings.offers(ng-class="{show : !hideOffers}")
         .my
           div(ng-hide="isEmpty(offers)")
             .row.head.hidden-xs
@@ -406,7 +411,8 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
             p.literal(l10n="You haven't placed any orders.") You haven&#39;t placed any orders.
 
       h3 Orderbook
-      .listings
+        small.toggle(ng-click="hideOrderBook = !hideOrderBook") {{hideOrderBook ? "show" : "hide"}}
+      .listings.orders(ng-class="{show : !hideOrderBook}")
         //- TODO hide one column (size/sum) to show bids/ask in the same line for mobile phones.
         //- TODO highlight changes
         .row.orderbook
