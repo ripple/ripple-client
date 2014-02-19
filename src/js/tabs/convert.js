@@ -92,13 +92,17 @@ ConvertTab.prototype.angular = function (module)
                 })
               }, 1000);
 
+              console.log(upd);
+              
               if (!upd.alternatives || !upd.alternatives.length) {
                 $scope.convert.path_status = "no-path";
+                $scope.convert.alternatives = [];
               } else {
                 $scope.convert.path_status = "done";
                 $scope.convert.alternatives = _.map(upd.alternatives, function (raw) {
                   var alt = {};
                   alt.amount = Amount.from_json(raw.source_amount);
+                  alt.rate   = alt.amount.ratio_human(amount);
                   alt.send_max = alt.amount.product_human(Amount.from_json('1.01'));
                   alt.paths = raw.paths_computed
                       ? raw.paths_computed

@@ -49,6 +49,8 @@ section.col-xs-12.col-md-10.content(ng-controller="ConvertCtrl")
         | Sorry! Cannot convert {{convert.amount}} {{convert.currency}}. Please make sure your account has enough funds, and a&#32;
         a(href="https://ripplelabs.zendesk.com/hc/en-us/articles/200916587-how-to-set-a-trust-line-ripple", target="_blank") trust line
         |  to a {{convert.currency}} gateway.
+      p.literal(ng-show="convert.path_status == 'no-path' && convert.currency_code == 'XRP'", l10n)
+        | Sorry! Cannot convert {{convert.amount}} {{convert.currency}}. Please make sure your account has enough funds.
       p.literal(ng-show="convert.path_status == 'error'", l10n) Error while calculating path
 
     .currency_sets
@@ -59,6 +61,10 @@ section.col-xs-12.col-md-10.content(ng-controller="ConvertCtrl")
           .am
             span.amnt {{alt.amount | rpamount:{rel_precision: 4, rel_min_precision: 2} }}
             span.currency {{alt.amount | rpcurrency }}
+            .ex (
+              span.rate {{alt.rate | rpamount:{rel_precision: 4, rel_min_precision: 2} }}
+              span.pair {{convert.currency_code}}/{{alt.amount | rpcurrency}}
+              )
           button.btn.btn-block.btn-success(type="submit", ng-disabled='convertForm.$invalid', ng-click="convert.alt = alt", l10n) Convert {{ alt.amount | rpcurrency }}
       .row.pathupdate(ng-show="convert.alternatives.length && lastUpdate")
         .col-xs-12(l10n) Paths last updated
