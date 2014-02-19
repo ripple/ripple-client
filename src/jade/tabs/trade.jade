@@ -304,8 +304,8 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                       rp-pretty-issuer-or-short)
                     span.currency  {{order[type].second_amount | rpcurrency}}
                   .rate_feedback (
-                    span.rate {{(order[type].second_amount | rpamount)/(order[type].first_amount | rpamount)}}
-                    span.pair {{(order[type].second_amount | rpcurrency)/(order[type].first_amount | rpcurrency)}}
+                    span.rate {{order[type].price}}
+                    span.pair {{order[type].first_amount | rpcurrency}}/{{order[type].second_amount | rpcurrency}}
                     )
                   p.literal(l10n-inc) Are you sure?
                 .row.row-padding-small
