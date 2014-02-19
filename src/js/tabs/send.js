@@ -587,15 +587,17 @@ SendTab.prototype.angular = function (module)
           if (!now_amount.equals(amount)) return;
 
           if (!upd.alternatives || !upd.alternatives.length) {
-            $scope.send.path_status = "no-path";
+            $scope.send.path_status  = "no-path";
+            $scope.send.alternatives = [];
           } else {
             var currentKey;
-            $scope.send.path_status = "done";
+            $scope.send.path_status  = "done";
             $scope.send.alternatives = _.map(upd.alternatives, function (raw,key) {
               var alt = {};
-              alt.amount = Amount.from_json(raw.source_amount);
+              alt.amount   = Amount.from_json(raw.source_amount);
+              alt.rate     = alt.amount.ratio_human(amount);
               alt.send_max = alt.amount.product_human(Amount.from_json('1.01'));
-              alt.paths = raw.paths_computed
+              alt.paths    = raw.paths_computed
                 ? raw.paths_computed
                 : raw.paths_canonical;
 

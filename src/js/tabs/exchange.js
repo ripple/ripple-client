@@ -40,11 +40,20 @@ ExchangeTab.prototype.angular = function (module)
       }, true);
 
       var pathUpdateTimeout;
+      
+      $scope.reset_paths = function () {
+        var exchange = $scope.exchange;
+  
+        exchange.alternatives = [];
+      };
+      
       $scope.update_exchange = function () {
         var exchange = $scope.exchange;
         var currency = exchange.currency_code;
         var formatted = "" + exchange.amount + " " + currency.slice(0, 3);
-
+        
+        $scope.reset_paths();
+        
         // if formatted or money to exchange is 0 then don't calculate paths or offer to exchange
         if (parseFloat(formatted) === 0)
         {
@@ -93,14 +102,16 @@ ExchangeTab.prototype.angular = function (module)
               }, 1000);
 
               if (!upd.alternatives || !upd.alternatives.length) {
-                $scope.exchange.path_status = "no-path";
+                $scope.exchange.path_status  = "no-path";
+                $scope.exchange.alternatives = [];
               } else {
-                $scope.exchange.path_status = "done";
+                $scope.exchange.path_status  = "done";
                 $scope.exchange.alternatives = _.map(upd.alternatives, function (raw) {
                   var alt = {};
-                  alt.amount = Amount.from_json(raw.source_amount);
+                  alt.amount   = Amount.from_json(raw.source_amount);
+                  alt.rate     = alt.amount.ratio_human(amount);
                   alt.send_max = alt.amount.product_human(Amount.from_json('1.01'));
-                  alt.paths = raw.paths_computed
+                  alt.paths    = raw.paths_computed
                       ? raw.paths_computed
                       : raw.paths_canonical;
 

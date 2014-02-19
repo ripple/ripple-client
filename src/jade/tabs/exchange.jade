@@ -48,6 +48,8 @@ section.col-xs-12.content(ng-controller="ExchangeCtrl")
         | Sorry! Cannot exchange {{exchange.amount}} {{exchange.currency}}. Please make sure your account has enough funds, and a&#32;
         a(href="https://ripplelabs.zendesk.com/hc/en-us/articles/200916587-how-to-set-a-trust-line-ripple", target="_blank") trust line
         |  to a {{exchange.currency}} gateway.
+      p.literal(ng-show="exchange.path_status == 'no-path' && exchange.currency_code == 'XRP'", l10n)
+        | Sorry! Cannot convert {{exchange.amount}} {{exchange.currency}}. Please make sure your account has enough funds.
       p.literal(ng-show="exchange.path_status == 'error'", l10n) Error while calculating path
 
     .currency_sets
@@ -58,6 +60,10 @@ section.col-xs-12.content(ng-controller="ExchangeCtrl")
           .am
             span.amnt {{alt.amount | rpamount:{rel_precision: 4, rel_min_precision: 2} }}
             span.currency {{alt.amount | rpcurrency }}
+            .ex (
+              span.rate {{alt.rate | rpamount:{rel_precision: 4, rel_min_precision: 2} }}
+              span.pair {{exchange.currency_code}}/{{alt.amount | rpcurrency}}
+              )  
           button.btn.btn-block.btn-success(type="submit", ng-disabled='exchangeForm.$invalid', ng-click="exchange.alt = alt", l10n) Exchange {{ alt.amount | rpcurrency }}
       .row.pathupdate(ng-show="exchange.alternatives.length && lastUpdate")
         .col-xs-12(l10n) Paths last updated
