@@ -32,6 +32,10 @@ require('../services/federation');
 require('../services/domainalias');
 require('../services/zipzap');
 
+require('../services/integration/appManager');
+require('../services/integration/profileManager');
+require('../services/integration/account');
+
 // Angular module dependencies
 var appDependencies = [
   'ng',
@@ -42,6 +46,7 @@ var appDependencies = [
   // Services
   'id',
   'tracker',
+  'appManager',
   // Directives
   'charts',
   'effects',
@@ -67,7 +72,7 @@ var tabdefs = [
   require('../tabs/contacts'),
   require('../tabs/exchange'),
   require('../tabs/fund'),
-//  require('../tabs/cashin'),
+  require('../tabs/apps'),
   require('../tabs/trust'),
   require('../tabs/send'),
   require('../tabs/receive'),
