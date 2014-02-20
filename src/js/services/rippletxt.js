@@ -15,48 +15,41 @@ module.factory('rpRippleTxt', ['$q', '$rootScope',
   var txts = {};
 
   function get(domain) {
-    if (txts[domain]) {
-      return txts[domain];
-    } else {
-      var txtPromise = $q.defer();
+    var txtPromise = $q.defer();
 
-      txts[domain] = txtPromise;
-
-      var urls = [
-        'https://ripple.'+domain+'/ripple.txt',
-        'https://www.'+domain+'/ripple.txt',
-        'https://'+domain+'/ripple.txt'
-      ].reverse();
-      var next = function (xhr, status) {
-        if (!urls.length) {
-          txts[domain] = {};
-          txtPromise.reject(new Error("No ripple.txt found"));
-          return;
+    var urls = [
+      'https://ripple.'+domain+'/ripple.txt',
+      'https://www.'+domain+'/ripple.txt',
+      'https://'+domain+'/ripple.txt'
+    ].reverse();
+    var next = function (xhr, status) {
+      if (!urls.length) {
+        txtPromise.reject(new Error("No ripple.txt found"));
+        return;
+      }
+      var url = urls.pop();
+      $.ajax({
+        url: url,
+        dataType: 'text',
+        success: function (data) {
+          $scope.$apply(function() {
+            var sections = parse(data);
+            txts[domain] = sections;
+            txtPromise.resolve(sections);
+          });
+        },
+        error: function (xhr, status) {
+          setImmediate(function () {
+            $scope.$apply(function () {
+              next(xhr, status);
+            });
+          });
         }
-        var url = urls.pop();
-        $.ajax({
-          url: url,
-          dataType: 'text',
-          success: function (data) {
-            $scope.$apply(function() {
-              var sections = parse(data);
-              txts[domain] = sections;
-              txtPromise.resolve(sections);
-            });
-          },
-          error: function (xhr, status) {
-            setImmediate(function () {
-              $scope.$apply(function () {
-                next(xhr, status);
-              });
-            });
-          }
-        });
-      };
-      next();
+      });
+    };
+    next();
 
-      return txtPromise.promise;
-    }
+    return txtPromise.promise;
   }
 
   function parse(txt) {

@@ -46,38 +46,33 @@ module.factory('rpDomainAlias', ['$q', '$rootScope', 'rpNetwork', 'rpRippleTxt',
   }
 
   function getAliasForAddress(address) {
-    if (aliases[address]) {
-      return aliases[address];
-    } else {
-      var aliasPromise = $q.defer();
+    var aliasPromise = $q.defer();
 
-      net.remote.request_account_info(address)
-        .on('success', function (data) {
-          if (data.account_data.Domain) {
-            $scope.$apply(function () {
-              var domain = sjcl.codec.utf8String.fromBits(sjcl.codec.hex.toBits(data.account_data.Domain));
+    net.remote.request_account_info(address)
+      .on('success', function (data) {
+        if (data.account_data.Domain) {
+          $scope.$apply(function () {
+            var domain = sjcl.codec.utf8String.fromBits(sjcl.codec.hex.toBits(data.account_data.Domain));
 
-              var txtData = txt.get(domain);
-              txtData.then(function (data) {
-                validateDomain(domain, address, data)
-                  ? aliasPromise.resolve(domain)
-                  : aliasPromise.reject(new Error("Invalid domain"));
+            var txtData = txt.get(domain);
+            txtData.then(function (data) {
+              validateDomain(domain, address, data)
+                ? aliasPromise.resolve(domain)
+                : aliasPromise.reject(new Error("Invalid domain"));
 
-              }, function (error) {
+            }, function (error) {
 
-              });
             });
-          }
-        })
-        .on('error', function () {
-          aliasPromise.reject(new Error("No domain found"));
-        })
-        .request();
+          });
+        }
+      })
+      .on('error', function () {
+        aliasPromise.reject(new Error("No domain found"));
+      })
+      .request();
 
-      aliases[address] = aliasPromise.promise;
-
-      return aliasPromise.promise;
-    }
+    console.log(jQuery.extend(true, {}, aliasPromise.promise));
+    return aliasPromise.promise;
   }
 
   return {
