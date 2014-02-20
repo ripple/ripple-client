@@ -72,14 +72,17 @@ var tabdefs = [
   require('../tabs/contacts'),
   require('../tabs/exchange'),
   require('../tabs/fund'),
-  require('../tabs/apps'),
   require('../tabs/trust'),
   require('../tabs/send'),
   require('../tabs/receive'),
   require('../tabs/trade'),
   require('../tabs/options'),
   require('../tabs/security'),
-  require('../tabs/tx')
+  require('../tabs/tx'),
+
+  // Hidden tabs
+  require('../tabs/apps'),
+  require('../tabs/su')
 ];
 
 // Prepare tab modules

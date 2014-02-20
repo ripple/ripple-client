@@ -21,11 +21,79 @@ FundTab.prototype.generateHtml = function ()
 
 FundTab.prototype.angular = function (module)
 {
-  module.controller('FundCtrl', ['$scope', '$timeout', '$routeParams', 'rpId', 'rpNetwork', 'rpTracker',
-    function ($scope, $timeout, $routeParams, $id, $network, $rpTracker)
+  module.controller('FundCtrl', ['$scope', '$timeout', '$routeParams', 'rpId', 'rpNetwork', 'rpTracker', 'rpAppManager',
+    function ($scope, $timeout, $routeParams, $id, $network, $rpTracker, $appManager)
   {
     if (!$id.loginStatus) return $id.goId();
 
+    var accountProfile;
+    $scope.fieldValue = {};
+
+    // TODO is there a better way without a watch?
+    var blobWatcher = $scope.$watch('userBlob', function(blob){
+      if (blob.id) {
+        console.log('ub',$scope.userBlob);
+
+        $appManager.getApp('rD1jovjQeEpvaDwn9wKaYokkXXrqo4D23x', function(err, data){
+          if (err) {
+            console.log('Error',err);
+            return;
+          }
+
+          $scope.app = data;
+          accountProfile = data.profiles.account;
+
+          // Check if the user already has an account
+          accountProfile.getUser($id.account, function(err, response){
+            if (err) {
+              $scope.fields = accountProfile.getFields();
+
+              return;
+            }
+
+            $scope.appUser = response;
+            $scope.appSettings = response;
+            $scope.appSettings.hasAccount = true;
+          });
+
+          $scope.loading = false;
+        });
+
+        blobWatcher();
+      }
+    });
+
+    /**
+     * Signup for app
+     */
+    $scope.signup = function(){
+      var fields = $scope.fieldValue;
+      fields.rippleAddress = $id.account;
+
+      accountProfile.signup(fields,function(err, response){
+        if (err) {
+          console.log('Error',err.message);
+          return;
+        }
+
+        $scope.response = response;console.log('$scope.app.name',$scope.app.name);
+
+        if (response.status === 'success') {
+          $scope.appSettings = {
+            name: $scope.app.name,
+            rippleAddress: $scope.app.rippleAddress,
+            hasAccount: true
+          };
+
+          $scope.appUser = response;
+
+          // Update blob
+          $scope.userBlob.unshift("/apps", $scope.appSettings);
+        }
+      });
+    };
+
+    $scope.loading = true;
   }]);
 };
 

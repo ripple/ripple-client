@@ -1,8 +1,25 @@
 section.col-xs-12.content(ng-controller="FundCtrl")
 
   //- Disconnected
-  group.disconnected(ng-hide="connected")
+  group.disconnected(ng-show="!connected")
     p.literal(l10n) You have to be online to see this screen
 
-  group.disconnected(ng-hide="!connected || loadState.account")
+  group.disconnected(ng-hide="!connected || !loading")
     p.literal(l10n) Loading...
+
+  div(ng-show="connected && loadState.account && !loading")
+    div(ng-show="appSettings.hasAccount")
+      div App: {{app.name}}
+      div {{appUser.instruction}}
+      div(ng-repeat="param in appUser.instructionParams")
+        div Label: {{param.label}}
+        div Value: {{param.param}}
+    form(ng-hide="appSettings.hasAccount", ng-submit="signup()")
+      h3 btc2ripple
+      .form-group(ng-repeat="(name,field) in fields")
+        label(for="{{name}}Field") {{field.label}}
+        div.description(ng-show="field.description") {{field.description}}
+        input.form-control(name="{{name}}Field", id="{{name}}Field", ng-model="fieldValue[name]")
+      button.btn.btn-success(type="submit") Sign Up
+      //- TODO better view
+      div(ng-show="response") Response: {{response}}
