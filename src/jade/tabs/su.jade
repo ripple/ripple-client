@@ -1,0 +1,19 @@
+section.col-xs-12.content(ng-controller="SuCtrl")
+
+  //- Disconnected
+  group.disconnected(ng-hide="connected")
+    p.literal(l10n) You have to be online to see this screen
+
+  group.disconnected(ng-hide="!connected || loadState.account")
+    p.literal(l10n) Loading...
+
+  div(ng-show="connected && loadState.account")
+    h3 Welcome Super User
+    p.literal(l10n) Account
+    hr
+    form(name="accountForm", ng-submit="accountSet()")
+      .row
+        .col-sm-6
+          input.form-control(name="domain", ng-model="account.domain")
+        .col-sm-3
+          button.btn.btn-block.btn-success(type="submit") Change Domain
