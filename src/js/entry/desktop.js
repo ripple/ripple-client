@@ -35,6 +35,7 @@ require('../services/zipzap');
 require('../services/integration/appManager');
 require('../services/integration/profileManager');
 require('../services/integration/account');
+require('../services/integration/history');
 
 // Angular module dependencies
 var appDependencies = [
