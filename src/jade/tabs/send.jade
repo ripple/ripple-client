@@ -161,7 +161,7 @@ section.single.content(ng-controller='SendCtrl')
         |  and the recipient has enough trust to the currency issuer. If it still
         |  doesn't work, try again later.
       p.literal(ng-show="send.path_status == 'error-quote'", l10n)
-        | Error while retrieving quote for outbound payment
+        | Sending to a bitcoin address is currently unavailable. The service provider has been contacted to resolve the issue.
       p.literal(ng-show="send.path_status == 'error'", l10n) Error while calculating path
 
       //- Alternatives

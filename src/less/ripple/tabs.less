@@ -500,6 +500,138 @@
   .tracking {
     margin: 0 10px 0 0;
   }
+  
+  hr.accordion-full{
+    margin:20px -30px 25px -30px;
+    border:0;
+    border-bottom: 1px solid #ccc;
+    height: 0;
+  }
+  .settings-title{
+    padding-left: 30px;
+    font-size: 14px;
+    font-weight: bold;
+  }
+  .settings-subtitle{
+    display: block;
+    font-size: 14px;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    font-weight: bold;
+  }
+  .setting-accordion{
+    .panel{
+      background: #fbfcfc;
+      margin-bottom: 10px;
+    }
+    .panel-heading{
+      background: transparent;
+      padding:0;
+      margin: 0;
+      a{
+        font-size: 14px;
+        display: block;
+        padding: 15px 30px;
+        text-decoration: none;
+        &:hover{
+          color: #77787b;
+        }
+      }
+    }
+    .panel-body{
+      padding-top:0;
+      border:0;
+      position: relative;
+    }
+    .form-group{
+
+      display: inline-block;
+      width: 100%;
+      border-top:1px solid #ccc;
+      margin-top: 20px;
+      margin-bottom: 0;
+      padding: 20px 15px 0 15px;
+      &:first-child{
+        margin-top: 0px;
+      }
+      &.form-group-actions{
+        border-top:0;
+      }
+      &.form-group-subtitle-wrapper{
+        margin-top: 0;
+        padding-top: 0;
+        border:0;
+      }
+      label{
+        font-size: 14px;
+      }
+      input{
+        font-size: 14px;
+      }
+      a.add-server{
+        cursor: pointer;
+        display: inline-block;
+        margin-bottom: 30px;
+      }
+      input{
+        margin-bottom: 0;
+      }
+      h5{
+        margin-top: 0;
+      }
+      .helperInput{
+        display: inline-block;
+        vertical-align: bottom;
+        padding-top: 25px;
+        label{
+          
+          font-size: 12px;
+          padding:0;
+          margin:0;
+        }
+      }
+    }
+    .gateway-settings{
+      width: 100%;
+      th{
+        font-size: 12px;
+        font-weight: 600;
+        padding-bottom: 10px;
+      }
+      td{
+        font-size: 12px;
+        line-height: 24px;
+      }
+      th,td{
+        text-align: center;
+        &:first-child{
+          text-align: left;
+        }
+      }
+    }
+    .secret-key-wrapper{
+      border-top:1px solid #ccc;
+      border-bottom:1px solid #ccc;
+      background: #fdde8a;
+      margin:0 -30px 15px -30px;
+      .secret-key-inner{
+        padding: 10px 30px;
+        strong{
+          font-size: 40px;
+          line-height: 40px;
+          font-weight: normal;
+          display: block;
+        }
+        span.secret-key-info{
+          font-size: 14px;
+          display: inline-block;
+          margin-top: 5px;
+          color: #737064;
+        }
+      }
+    }
+  }
 }
 
 #t-history {
@@ -1442,7 +1574,19 @@
         padding-top: 10px;
       }
     }
-
+    
+    @media (min-width: @screen-xs) and (max-width: @screen-xs-max){
+        .bids, .asks{
+          width: 50%;
+          float: left;
+          overflow-x: hidden;
+        }
+        .asks{
+          border-top:0;
+          padding-top: 0;
+          border-left: 1px solid #ccc;
+        }
+    }
     .bids, .asks {
       .row {
         padding: 5px 0;
