@@ -5,15 +5,18 @@
  */
 
 var module = angular.module('integrationProfileManager', [
-  'integrationAccount'
+  'integrationAccount',
+  'integrationHistory'
 ]);
 
 module.service('rpProfileManager', [
   '$rootScope',
   'rpAccountProfile',
+  'rpHistoryProfile',
   function(
     $scope,
-    accountProfile
+    accountProfile,
+    historyProfile
   )
 {
   this.getProfile = function(name,manifest) {
