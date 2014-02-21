@@ -20,6 +20,11 @@ module.service('rpProfileManager', [
   )
 {
   this.getProfile = function(name,manifest) {
-    return eval(name + 'Profile.fromManifest(manifest)');
+    var profiles = {
+      'accountProfile': function(){return accountProfile.fromManifest(manifest)},
+      'historyProfile': function(){return historyProfile.fromManifest(manifest)}
+    };
+
+    return profiles[name + 'Profile']();
   };
 }]);
