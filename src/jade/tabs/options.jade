@@ -1,48 +1,204 @@
 section.col-xs-12.content(ng-controller="OptionsCtrl")
   .row
-    .col-xs-12(l10n) Options
+    .col-xs-12
+      .settings-title(l10n) Settings
   .row
-    hr
-  form.row-padding-small(name="optionsForm", ng-submit="save()")
-    h3(l10n) Ripple Servers
-    div(ng-repeat="(index, server) in options.server.servers track by $index", ng-form name="subForm")
-      .row
-        .col-xs-12
-          label(l10n) WebSocket hostname, port, secure
-      .row
-        .col-xs-6.col-sm-5.col-md-3
-          input.form-control.host(name='host', type='text', ng-model='server.host', rp-hostname)
-          .errorGroup
-            div(rp-errors='host')
-              .error(rp-error-on='rpHostname', l10n) Socket ip or hostname is invalid.
-            div(rp-errors='port')
-              .error(rp-error-on='rpPortNumber', l10n) Port number is invalid.
-        .col-xs-3.col-sm-3.col-md-2
-          input.form-control.socketPort(name='port', type='text', ng-model='server.port', rp-port-number)
-        .col-xs-3.col-sm-3.col-md-2
-          a(href="", ng-click="options.server.servers.splice($index,1)", l10n) Remove
-      .row
-        .col-xs-12
-          div.helperInput
-            input(type="checkbox", name="secure", ng-model='server.secure')
-            label(for="secure", l10n) Use secure WebSocket
-    .row
-      .col-xs-12.col-sm-8.col-md-3.col-lg-2
-        button.btn.btn-block.btn-primary(type="button", ng-click="options.server.servers.push({})", l10n) Add new server
+    .col-xs-12
+      hr
+  .row
+    .col-xs-12
+      accordion.setting-accordion(close-others="false")
+        accordion-group(heading="Account settings", is-open="true")
+          //- form.row-padding-small(name="optionsForm", ng-submit="save()")
+          .form-group
+            .row
+              .col-xs-12.col-sm-8.col-md-5
+                label(for="blobIp", l10n) Blob vault
+                input.form-control.blobIp(
+                  name='blobIp', id="blobIp", type='text'
+                  ng-model='options.blobvault')
+          div.form-group(ng-repeat="(index, server) in options.server.servers track by $index", ng-form name="subForm")
+            .row
+              .col-xs-12
+                label(l10n) WebSocket hostname, port, secure
+            .row
+              .col-xs-6.col-sm-5.col-md-3
+                input.form-control.host(name='host', type='text', ng-model='server.host', rp-hostname)
+                .errorGroup
+                  div(rp-errors='host')
+                    .error(rp-error-on='rpHostname', l10n) Socket ip or hostname is invalid.
+                  div(rp-errors='port')
+                    .error(rp-error-on='rpPortNumber', l10n) Port number is invalid.
+              .col-xs-6.col-sm-3.col-md-2
+                input.form-control.socketPort(name='port', type='text', ng-model='server.port', rp-port-number)
+              .col-xs-12.col-sm-3.col-md-5
+                div.helperInput
+                  label(class="checkbox", for="secure", l10n) Use secure WebSocket
+                    input(type="checkbox", name="secure", ng-model='server.secure')
+              .col-xs-3.col-sm-3.col-md-2.pull-right.text-right
+                a(href="", ng-click="options.server.servers.splice($index,1)", l10n) Remove
+          .form-group
+            a.add-server(ng-click="options.server.servers.push({})", l10n) Add new server  
+          //- .form-group
+          //-   label.tracking(class="checkbox", for="track", l10n) Help Ripple Labs make a better product through sending anonymous client usage data.
+          //-     input(name='track', type='checkbox', ng-model='options.mixpanel.track')
+          //- .form-group.form-group-actions
+          //-   .row
+          //-     .col-xs-12.col-sm-8.col-md-3.col-lg-2
+          //-       button.btn.btn-block.btn-success.submit(type='submit', ng-disabled='optionsForm.$invalid', l10n) Save
+        accordion-group(heading="Security settings", is-open="true")
+          .form-group
+            h5(l10n) Secret Key
+            p(l10n) Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eu tortor nec neque auctor vestibulum. Suspendisse bibendum adipiscing ante ut bibendum. Duis varius dui eget nulla pulvinar, in fermentum urna luctus. Aenean consectetur mauris sed ligula tincidunt, sit amet ullamcorper dolor auctor. Nulla facilisi. Aenean viverra varius odio ac euismod. Donec eget quam sit amet urna posuere euismod imperdiet in elit.
+            p
+              strong(l10n) Store it somewhere safe, never hare it.
+            .secret-key-wrapper
+              .secret-key-inner
+                strong ssSo6cDLTeHTAtNo5LDAhytucDLbW
+                span.secret-key-info(l10n) This is what you should do
+            .row
+              .col-xs-12.col-sm-8.col-md-3.col-lg-2
+                button.btn.btn-block.btn-primary.submit(type='button', l10n) Hide Key
+        accordion-group(heading="Gateway settings", is-open="true")
+          .form-group
+            .row
+              .col-xs-12.col-sm-10.col-md-8
+                table.gateway-settings
+                  thead
+                    tr
+                      th(l10n) My Gateways
+                      th(l10n) Currency
+                      th(l10n) Balance
+                      th(l10n) Max
+                      th(l10n) Rippling
+                  tbody
+                    tr
+                      td ~SnapSwap
+                      td USD
+                      td 210
+                      td &infin;
+                      td off
+                      td
+                        a Edit
+                    tr
+                      td ~Bitstamp
+                      td BTC
+                      td 210
+                      td 100
+                      td off
+                      td
+                        a Edit
+                    tr
+                      td 
+                      td DYM
+                      td 1
+                      td 100
+                      td off
+                      td
+                        a Edit
+                    tr
+                      td 
+                      td USD
+                      td -20
+                      td 5
+                      td off
+                      td
+                        a Edit
+                    tr
+                      td r129kfsfdkksdsl123ff
+                      td USD
+                      td 210
+                      td &infin;
+                      td off
+                      td
+                        a Edit
+                    tr
+                      td ~SnapSwap
+                      td USD
+                      td 210
+                      td &infin;
+                      td off
+                      td
+                        a Edit
+          .form-group
+            .row
+              .col-xs-12.col-sm-6.col-md-4
+                label(l10n) Ripple Name
+                input.form-control(type="text")
+              .col-xs-6.col-sm-3.col-md-3
+                label(l10n) Amount
+                input.form-control(type="text")
+              .col-xs-6.col-sm-3.col-md-3
+                label(l10n) Currency
+                select.form-control(type="text")
+            .row
+              .col-xs-12.col-sm-8.col-md-3.col-lg-2
+                button.btn.btn-block.btn-primary.submit(type='button', l10n) Confirm
+          hr.accordion-full
+          .form-group.form-group-subtitle-wrapper
+            span.settings-subtitle(l10n) My Account holders
+            .row
+              .col-xs-12.col-sm-10.col-md-8
+                table.gateway-settings
+                  thead
+                    tr
+                      th(l10n) My Gateways
+                      th(l10n) Currency
+                      th(l10n) Balance with you
+                      th(l10n) Max
+                      th(l10n) Rippling
+                  tbody
+                    tr
+                      td ~SnapSwap
+                      td USD
+                      td 210
+                      td &infin;
+                      td off
+                      td
+                        a Edit
+                    tr
+                      td ~Bitstamp
+                      td BTC
+                      td 210
+                      td 100
+                      td off
+                      td
+                        a Edit
+                    tr
+                      td 
+                      td DYM
+                      td 1
+                      td 100
+                      td off
+                      td
+                        a Edit
+                    tr
+                      td 
+                      td USD
+                      td -20
+                      td 5
+                      td off
+                      td
+                        a Edit
+                    tr
+                      td ~r129kfsfdkksdsl123ff
+                      td USD
+                      td 210
+                      td &infin;
+                      td off
+                      td
+                        a Edit
+                    tr
+                      td ~SnapSwap
+                      td USD
+                      td 210
+                      td &infin;
+                      td off
+                      td
+                        a Edit
+        accordion-group(heading="Card settings", is-open="false")
+          p Test
+        accordion-group(heading="Wallet settings", is-open="false")
+          p Test
 
-    h3(l10n) Blob Vault
-    .row
-      .col-xs-12.col-sm-8.col-md-5
-        label(for="blobIp", l10n) Blob vault URL
-        input.form-control.blobIp(
-          name='blobIp', id="blobIp", type='text'
-          ng-model='options.blobvault')
-
-    h3(l10n) Anonymous statistics
-    label
-      input.tracking(name='track', type='checkbox', ng-model='options.mixpanel.track')
-      span(l10n) Help Ripple Labs make a better product through sending anonymous client usage data.
-
-    .row
-      .col-xs-12.col-sm-8.col-md-3.col-lg-2
-        button.btn.btn-block.btn-success.submit(type='submit', ng-disabled='optionsForm.$invalid', l10n) Save
+                  
