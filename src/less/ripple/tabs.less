@@ -232,11 +232,17 @@
 }
 
 #t-balance {
+  .content {
+    padding-top:0;  
+  }
+  
   #welcome {
     font: 18px 'OpenSansLight';
-    margin: 10px 25px;
+    margin:0 0 10px;
     text-align: center;
-
+    background:#d0e5d0;
+    padding:50px;
+    
     .title {
       font: 18px 'OpenSansBold';
     }
@@ -273,6 +279,151 @@
     }
   }
 
+  .currency-overview {
+    border: 1px solid #D2D3D3;
+    background-color: #F9FAFA;
+    padding:10px;
+    margin:0;
+    margin-bottom: 10px; 
+    overflow:hidden;
+    
+    .balancebox {
+      padding: 5px;
+      
+      .lbl {
+        font-size   : 1.2em;
+        font-family : OpenSansBold;  
+        
+        .desc {
+          color:#ccc;
+          font:12px OpenSansLight;
+        }
+      }
+      
+      .amount {
+        color: #060;  
+        
+        .fraction {
+          font-family:OpenSansLight;
+          color: #7b3;
+        }
+        
+        .currency {
+          font-family:OpenSansLight;
+          margin-left:15px;
+        }  
+      }
+      
+      .total {
+        margin:10px 0;
+        font-size: 45px;
+        
+        .fraction {
+          font-size:30px;
+        }
+        
+        select.currency {
+          font-size: 20px;
+          padding-right:20px;
+          border:none;
+          background: transparent url('../../img/dropdown_arrow.svg') no-repeat;
+          background-position:center right;
+          appearance: none;
+          moz-appearance: none;
+          -webkit-appearance: none;
+          
+        }
+      }
+      
+      .pending {
+        margin:10px 0;
+        
+        .lbl {
+          font-size:12px;
+          color:#ccc;
+          font:12px OpenSansLight;
+        }
+        
+        .amount {
+          font-size:24px;
+          
+          .fraction {
+            font-size:18px;
+          }  
+          
+          .currency {
+            font-size:14px
+          }
+        }
+      }
+    } 
+    
+    .funding-options {
+      border-left: 1px solid #D2D3D3;
+      min-height:220px;
+      padding:10px 30px;
+      
+      .btc-to-ripple {
+        
+        .inactive {
+      
+          button {
+            width: 200px; 
+            margin:15px 0;
+          } 
+               
+          .manual {
+            display:block;
+            font: 11px OpenSansLight;
+          }
+        }
+        
+        .pending {
+          
+          .btc-address {
+            font-size:18px;
+            margin:15px 0;  
+          }
+          
+          .qr-code {
+            height:100px;
+            width:100px;
+            background:#bbb;
+            float:left;
+          }
+          
+          .about {
+            float:left;
+            padding:15px;
+            width:300px;
+          }
+          
+          .limit {
+            clear:both;
+            padding:15px 0;
+            
+            .amount {
+              font-weight:bold;
+              margin:0 15px;
+            }
+            
+            .remove {
+              font:11px OpenSansLight;
+              
+            }
+          }
+        }
+      }  
+    } 
+    
+    @media (max-width: @screen-xs-max) { 
+      .funding-options {
+        border-left:none;
+        border-top: 1px solid #D2D3D3;
+      }
+    }
+  }
+  
   .currency-summary {
     font-size: 1.2em;
 
