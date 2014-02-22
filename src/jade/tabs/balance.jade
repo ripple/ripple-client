@@ -11,15 +11,52 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
 
   group(ng-show="connected && loadState.account")
     .div#welcome(ng-hide='account.Balance')
+      
       p.title(l10n) Welcome to Ripple.
-      p(l10n) You currently don&#39;t have any ripples (XRP). To get started you can:
-      .actions
-        a.receive(href="#receive")
-        a.buy(href="https://support.ripplelabs.com/hc/en-us/articles/201209016")
-        a.giveaway(href="https://support.ripplelabs.com/hc/en-us/articles/201082577-Current-Ripple-Labs-giveaways")
+      //p(l10n) You currently don&#39;t have any ripples (XRP). To get started you can:
+      //.actions
+      //  a.receive(href="#receive")
+      //  a.buy(href="https://support.ripplelabs.com/hc/en-us/articles/201209016")
+      //  a.giveaway(href="https://support.ripplelabs.com/hc/en-us/articles/201082577-Current-Ripple-Labs-giveaways")
 
     .row
-      .col-xs-12.col-sm-8
+      .col-xs-12.col-xs-8
+        .currency-overview
+          .balancebox.col-sm-4
+            .lbl Total Balance
+              .desc Estimated from exchange rates
+            .total.amount 0.
+              span.fraction 0000
+              select.currency
+                option(selected=true) XRP
+                option USD
+                option BTC
+                option CNY
+            .pending
+              .lbl Pending
+              .transactions
+                .amount 1.
+                  span.fraction 0000
+                  span.currency BTC
+          .funding-options.col-sm-8(ng-hide='account.Balance') 
+            .btc-to-ripple
+              .inactive(ng-show='true = true')
+                div(l10n) Use the btc2ripple service to add bitcoin
+                button.btn.btn-default.btn-primary.btn-block Add Bitcoin
+                a.manual(l10n) Manually add a funding source
+              .pending(ng-show='') 
+                div(l10n) To deposit, send BTC to the address below.
+                div(l10n) It will take about 1 hour.
+                .btc-address 13PDtZSa5LiYp1Ysn1vMuMzB59RzV3W9QH
+                img.qr-code(src="")
+                .about(l10n) A small amount (~.001 BTC) of your first 
+                  | transfer will be converted to XRP to activate your wallet. 
+                  a.why(l10n-inc) Why?
+                .limit(l10n)
+                  span(l10n-inc) Your current deposit limit is:
+                  span.amount 8.78
+                    span.currency BTC
+                  a.remove(l10n-inc) Remove Limit        
         .currency-summary(ng-show='account.Balance')
           .balancebox.currency-xrp
             .total.row
