@@ -6,7 +6,8 @@
 
 var webutil = require('../util/web'),
     Base = ripple.Base,
-    Amount = ripple.Amount;
+    Amount = ripple.Amount,
+    Currency = ripple.Currency;
 
 var module = angular.module('validators', []);
 
@@ -488,10 +489,10 @@ module.directive('rpAmountXrpLimit', function () {
 
       // We don't use parseAmount here, assuming that you also use rpAmount validator
       var validator = function(value) {
-        var currency = attr.rpAmountXrpLimitCurrency;
+        var currency = Currency.from_json(attr.rpAmountXrpLimitCurrency);
 
         // If XRP, ensure amount is less than 100 billion and is at least one drop
-        if (currency && currency.toLowerCase() === 'xrp') {
+        if (currency.is_valid() && currency.is_native()) {
           ctrl.$setValidity('rpAmountXrpLimit', value <= 100000000000 && value >= 0.000001);
         } else {
           ctrl.$setValidity('rpAmountXrpLimit', true);
