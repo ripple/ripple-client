@@ -388,7 +388,6 @@ SendTab.prototype.angular = function (module)
     $scope.update_amount = function () {
       var send = $scope.send;
       var recipient = send.recipient_actual || send.recipient_address;
-      console.log(send.currency);
       var match = /^([a-zA-Z0-9]{3}|[A-Fa-f0-9]{40})\b/.exec(send.currency);
       if (!match) {
         // Currency code not recognized, should have been caught by
@@ -396,7 +395,19 @@ SendTab.prototype.angular = function (module)
         return;
       }
       var currency = send.currency;
-      var amount = send.amount_feedback = ripple.Amount.from_human('' + send.amount + ' ' + currency.toUpperCase(), {reference_date: new Date()});
+
+      // Demurrage: Get a reference date five minutes in the future
+      //
+      // Normally, when using demurrage currencies, we would immediately round
+      // down (e.g. 0.99999 instead of 1) as demurrage occurs continuously. Not
+      // a good user experience.
+      //
+      // By choosing a date in the future, this gives us a time window before
+      // this rounding down occurs. Note that for positive interest currencies
+      // this actually *causes* the same odd rounding problem, so in the future
+      // we'll want a better solution, but for right now this does what we need.
+      var refDate = new Date(new Date().getTime() + 5 * 60000);
+      var amount = send.amount_feedback = ripple.Amount.from_human('' + send.amount + ' ' + currency.toUpperCase(), { reference_date: refDate });
 
       $scope.reset_amount_deps();
       send.path_status = 'waiting';
