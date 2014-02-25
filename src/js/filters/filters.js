@@ -1,6 +1,7 @@
 var module = angular.module('filters', []),
     webutil = require('../util/web'),
     Amount = ripple.Amount,
+    Currency = ripple.Currency,
     Base = ripple.Base;
 
 var iso4217 = require('../data/iso4217');
@@ -74,14 +75,24 @@ module.filter('rpamount', function () {
 });
 
 /**
- * Get the currency from an Amount.
+ * Get the currency from an Amount or Currency object.
+ *
+ * If the input is neither an Amount or Currency object it will be passed to
+ * Amount#from_json to try to interpret it.
  */
 module.filter('rpcurrency', function () {
   return function (input) {
     if (!input) return "";
 
-    var amount = Amount.from_json(input);
-    return amount.currency().to_human();
+    var currency;
+    if (input instanceof Currency) {
+      currency = input;
+    } else {
+      var amount = Amount.from_json(input);
+      currency = amount.currency();
+    }
+
+    return currency.to_human();
   };
 });
 
