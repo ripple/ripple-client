@@ -19,9 +19,9 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
             rp-combobox="pairs_query", rp-combobox-select
             ng-model='order.currency_pair')
         .col-sm-7.col-md-9
-          ul.issuers.inline(ng-show='order.first_currency != "XRP"')
+          ul.issuers.inline(ng-hide='order.first_currency.is_native()')
             li.label(l10n) Base currency
-            li.value {{order.first_currency}}&ensp;
+            li.value {{order.first_currency | rpcurrency}}&ensp;
               span(
                 rp-pretty-issuer="order.first_issuer"
                 rp-pretty-issuer-contacts="userBlob.data.contacts"
@@ -34,12 +34,12 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
               ng-show='show_issuer_form == "first"'
               ng-click='show_issuer_form = false', l10n)
               | cancel
-          ul.issuers.inline(ng-show='order.first_currency == "XRP"')
+          ul.issuers.inline(ng-show='order.first_currency.is_native()')
             li.label(l10n) Base currency
             li.value XRP
-          ul.issuers.inline(ng-show='order.second_currency != "XRP"')
+          ul.issuers.inline(ng-hide='order.second_currency.is_native()')
             li.label(l10n) Counter currency
-            li.value {{order.second_currency}}&ensp;
+            li.value {{order.second_currency | rpcurrency}}&ensp;
               span(
                 rp-pretty-issuer="order.second_issuer"
                 rp-pretty-issuer-contacts="userBlob.data.contacts"
@@ -52,12 +52,12 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
               ng-show='show_issuer_form == "second"'
               ng-click='show_issuer_form = false', l10n)
               | cancel
-          ul.issuers.inline(ng-show='order.second_currency == "XRP"')
+          ul.issuers.inline(ng-show='order.second_currency.is_native()')
             li.label(l10n) Counter currency
             li.value XRP
 
     form.issuerSelector.first-issuer(name='first_issuer_form', ng-show='show_issuer_form == "first"')
-      label(for='first_issuer', l10n) Base currency issuer ({{order.first_currency}})
+      label(for='first_issuer', l10n) Base currency issuer ({{order.first_currency | rpcurrency}})
       .row
         .col-xs-12.col-sm-8.col-md-5
           input.form-control#first_issuer(
@@ -73,7 +73,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
             ng-disabled="first_issuer_form.$invalid", l10n) Confirm
 
     form.issuerSelector.second-issuer(name='second_issuer_form', ng-show='show_issuer_form == "second"')
-      label(for='second_issuer', l10n) Counter currency issuer ({{order.second_currency}})
+      label(for='second_issuer', l10n) Counter currency issuer ({{order.second_currency | rpcurrency}})
       .row
         .col-xs-12.col-sm-8.col-md-5
           input.form-control#second_issuer(
@@ -128,41 +128,41 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
             .head
               span(ng-show="type == 'buy'", l10n) Buy&#32;
                 span.issuer(
-                  ng-show="order.first_currency !== 'XRP'"
+                  ng-hide="order.first_currency.is_native()"
                   rp-pretty-issuer="order.first_issuer"
                   rp-pretty-issuer-contacts="userBlob.data.contacts"
                   rp-pretty-issuer-or-short)
-                |  {{order.first_currency}}
+                |  {{order.first_currency | rpcurrency}}
               span(ng-show="type == 'sell'", l10n) Sell&#32;
                 span.issuer(
-                  ng-show="order.first_currency !== 'XRP'"
+                  ng-hide="order.first_currency.is_native()"
                   rp-pretty-issuer="order.first_issuer"
                   rp-pretty-issuer-contacts="userBlob.data.contacts"
                   rp-pretty-issuer-or-short)
-                |  {{order.first_currency}}
+                |  {{order.first_currency | rpcurrency}}
               span.available(ng-show="type == 'buy'", l10n)
                 span.amount
-                  span(ng-show="order.second_currency == 'XRP'")
+                  span(ng-show="order.second_currency.is_native()")
                     | {{account.Balance | rpamount}} XRP
-                  span(ng-show="order.second_currency != 'XRP'")
-                    | {{lines[order.second_issuer+order.second_currency].balance || "0" | rpamount}}&#32;
+                  span(ng-hide="order.second_currency.is_native()")
+                    | {{lines[order.second_issuer+order.second_currency.to_json()].balance || "0" | rpamount}}&#32;
                     span(
                       rp-pretty-issuer="order.second_issuer"
                       rp-pretty-issuer-contacts="userBlob.data.contacts"
                       rp-pretty-issuer-or-short)
-                    |  {{order.second_currency}}
+                    |  {{order.second_currency | rpcurrency}}
                 | available
               span.available(ng-show="type == 'sell'", l10n)
                 span.amount
-                  span(ng-show="order.first_currency == 'XRP'")
+                  span(ng-show="order.first_currency.is_native()")
                     | {{account.Balance | rpamount}} XRP
-                  span(ng-show="order.first_currency != 'XRP'")
-                    | {{lines[order.first_issuer+order.first_currency].balance || "0" | rpamount}}&#32;
+                  span(ng-hide="order.first_currency.is_native()")
+                    | {{lines[order.first_issuer+order.first_currency.to_json()].balance || "0" | rpamount}}&#32;
                     span(
                       rp-pretty-issuer="order.first_issuer"
                       rp-pretty-issuer-contacts="userBlob.data.contacts"
                       rp-pretty-issuer-or-short)
-                    |  {{order.first_currency}}
+                    |  {{order.first_currency | rpcurrency}}
                 | available
             div(ng-switch-when='trade')
               form.mode-form(name="tradeForm", ng-submit='place_order(type)', ng-show="order[type].showWidget")
@@ -180,9 +180,9 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                         rp-amount-xrp-limit-currency="{{order.first_currency}}"
                         required)
                         .input-group-addon
-                          | {{order.first_currency}}
+                          | {{order.first_currency | rpcurrency}}
                           .issuer(
-                            ng-show="order.first_currency !== 'XRP'"
+                            ng-hide="order.first_currency.is_native()"
                             rp-pretty-issuer="order.first_issuer"
                             rp-pretty-issuer-contacts="userBlob.data.contacts"
                             rp-pretty-issuer-or-short)
@@ -205,9 +205,9 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                         rp-amount-xrp-limit-currency="{{order.second_currency}}"
                         required)
                         .input-group-addon
-                          | {{order.second_currency}}
+                          | {{order.second_currency | rpcurrency}}
                           .issuer(
-                            ng-show="order.second_currency !== 'XRP'"
+                            ng-hide="order.second_currency.is_native()"
                             rp-pretty-issuer="order.second_issuer"
                             rp-pretty-issuer-contacts="userBlob.data.contacts"
                             rp-pretty-issuer-or-short)
@@ -230,9 +230,9 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                         rp-amount-xrp-limit-currency="{{order.second_currency}}"
                         required)
                         .input-group-addon
-                          | {{order.second_currency}}
+                          | {{order.second_currency | rpcurrency}}
                           .issuer(
-                            ng-show="order.second_currency !== 'XRP'"
+                            ng-hide="order.second_currency.is_native()"
                             rp-pretty-issuer="order.second_issuer"
                             rp-pretty-issuer-contacts="userBlob.data.contacts"
                             rp-pretty-issuer-or-short)
@@ -270,8 +270,8 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                     button.btn.btn-success.btn-block.submit(type='submit', ng-disabled='tradeForm.$invalid')
                       span(ng-show="type == 'buy'", l10n)  Buy
                       span(ng-show="type == 'sell'", l10n)  Sell
-                      |  {{order.first_currency}}
-                      span(ng-show="order.first_currency !== 'XRP'")  (
+                      |  {{order.first_currency | rpcurrency}}
+                      span(ng-hide="order.first_currency.is_native()")  (
                         span.issuer(
                           rp-pretty-issuer="order.first_issuer"
                           rp-pretty-issuer-contacts="userBlob.data.contacts"
@@ -339,7 +339,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                 h2.tx-status(l10n) Transaction failed!
                 p(ng-switch on="order[type].engine_result")
                   span(ng-switch-when="tecUNFUNDED_ORDER", l10n)
-                    | You do not have enough {{type == 'buy' ? order.second_currency : order.first_currency}} to create this order.
+                    | You do not have enough {{(type == 'buy' ? order.second_currency : order.first_currency) | rpcurrency}} to create this order.
                   span(ng-switch-when="tecINSUF_RESERVE_OFFER", l10n)
                     | You must have at least {{account.reserve_to_add_trust | rpamount}} XRP to submit an order.&#32;
                     a(href="https://ripple.com/wiki/Reserves", target="_blank", l10n) More information.

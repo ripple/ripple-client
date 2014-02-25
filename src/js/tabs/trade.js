@@ -2,6 +2,7 @@ var util = require('util');
 var webutil = require('../util/web');
 var Tab = require('../client/tab').Tab;
 var Amount = ripple.Amount;
+var Currency = ripple.Currency;
 
 var TradeTab = function ()
 {
@@ -70,8 +71,9 @@ TradeTab.prototype.angular = function(module)
 
       $scope.order = {
         currency_pair: pair,
-        first_currency: pair.slice(0, 3),
-        second_currency: pair.slice(4, 7),
+        // These will be filled in by updateSettings
+        //   first_currency
+        //   second_currency
         first_issuer: fIssuer,
         second_issuer: sIssuer,
         listing: listing,
@@ -304,32 +306,32 @@ TradeTab.prototype.angular = function(module)
 
     $scope.update_first = function (type) {
       var order = $scope.order[type];
-      var first_currency = $scope.order.first_currency || "XRP";
-      var formatted = "" + order.first + " " + first_currency;
+      var first_currency = $scope.order.first_currency || Currency.from_json("XRP");
+      var formatted = "" + order.first + " " + first_currency.to_json();
 
-      order.first_amount = ripple.Amount.from_human(formatted);
+      order.first_amount = ripple.Amount.from_human(formatted, {reference_date: new Date()});
 
-      if (first_currency !== 'XRP') order.first_amount.set_issuer($scope.order.first_issuer);
+      if (!first_currency.is_native()) order.first_amount.set_issuer($scope.order.first_issuer);
     };
 
     $scope.update_price = function (type) {
       var order = $scope.order[type];
-      var second_currency = $scope.order.second_currency || "XRP";
-      var formatted = "" + order.price + " " + second_currency;
+      var second_currency = $scope.order.second_currency || Currency.from_json("XRP");
+      var formatted = "" + order.price + " " + second_currency.to_json();
 
-      order.price_amount = ripple.Amount.from_human(formatted);
+      order.price_amount = ripple.Amount.from_human(formatted, {reference_date: new Date()});
 
-      if (second_currency !== 'XRP') order.price_amount.set_issuer($scope.order.second_issuer);
+      if (!second_currency.is_native()) order.price_amount.set_issuer($scope.order.second_issuer);
     };
 
     $scope.update_second = function (type) {
       var order = $scope.order[type];
-      var second_currency = $scope.order.second_currency || "XRP";
-      var formatted = "" + order.second + " " + second_currency;
+      var second_currency = $scope.order.second_currency || Currency.from_json("XRP");
+      var formatted = "" + order.second + " " + second_currency.to_json();
 
-      order.second_amount = ripple.Amount.from_human(formatted);
+      order.second_amount = ripple.Amount.from_human(formatted, {reference_date: new Date()});
 
-      if (second_currency !== 'XRP') order.second_amount.set_issuer($scope.order.second_issuer);
+      if (!second_currency.is_native()) order.second_amount.set_issuer($scope.order.second_issuer);
     };
 
     /**
@@ -375,22 +377,24 @@ TradeTab.prototype.angular = function(module)
       var pair = order.currency_pair;
 
       // Invalid currency pair
-      if ("string" !== typeof pair || !pair.match(/^[a-z]{3}\/[a-z]{3}$/i)) {
-        order.first_currency = 'XRP';
-        order.second_currency = 'XRP';
+      if ("string" !== typeof pair || !pair.match(/^[a-f0-9]{40}|[a-z0-9]{3}\/[a-f0-9]{40}|[a-z0-9]{3}$/i)) {
+        order.first_currency = Currency.from_json('XRP');
+        order.second_currency = Currency.from_json('XRP');
         order.valid_settings = false;
         return;
       }
 
-      var first_currency = order.first_currency = pair.slice(0, 3);
-      var second_currency = order.second_currency = pair.slice(4, 7);
+      pair = pair.split('/');
+
+      var first_currency = order.first_currency = ripple.Currency.from_json(pair[0]);
+      var second_currency = order.second_currency = ripple.Currency.from_json(pair[1]);
       var first_issuer = ripple.UInt160.from_json(order.first_issuer);
       var second_issuer = ripple.UInt160.from_json(order.second_issuer);
 
       // Invalid issuers or XRP/XRP pair
-      if ((first_currency !== 'XRP' && !first_issuer.is_valid()) ||
-          (second_currency !== 'XRP' && !second_issuer.is_valid()) ||
-          (first_currency === 'XRP' && second_currency === 'XRP')) {
+      if ((!first_currency.is_native() && !first_issuer.is_valid()) ||
+          (!second_currency.is_native() && !second_issuer.is_valid()) ||
+          (first_currency.is_native() && second_currency.is_native())) {
         order.valid_settings = false;
         return;
       }
@@ -400,11 +404,11 @@ TradeTab.prototype.angular = function(module)
       // Remember pair
       // Produces currency/issuer:currency/issuer
       var key = "" +
-        order.first_currency +
-        (order.first_currency === 'XRP' ? "" : "/" + order.first_issuer) +
+        order.first_currency.to_json() +
+        (order.first_currency.is_native() ? "" : "/" + order.first_issuer) +
         ":" +
         order.second_currency +
-        (order.second_currency === 'XRP' ? "" : "/" + order.second_issuer);
+        (order.second_currency.is_native() ? "" : "/" + order.second_issuer);
 
       // Load orderbook
       if (order.prev_settings !== key) {
@@ -469,15 +473,15 @@ TradeTab.prototype.angular = function(module)
         if (!order[prefix + '_issuer'] &&
             order[prefix + '_currency'] &&
             order[prefix + '_currency'] !== 'XRP' &&
-            (guess = guessIssuer(order[prefix + '_currency']))) {
+            (guess = guessIssuer(order[prefix + '_currency'].to_json()))) {
           order[prefix + '_issuer'] = guess;
         }
       });
 
       // If the same currency, exclude first issuer for second issuer guess
-      if (order.first_currency === order.second_currency &&
+      if (order.first_currency.equals(order.second_currency) &&
           order.first_issuer === order.second_issuer &&
-          (guess = guessIssuer(order.first_currency, order.first_issuer))) {
+          (guess = guessIssuer(order.first_currency.to_json(), order.first_issuer))) {
         order.second_issuer = guess;
       }
     }
@@ -505,19 +509,19 @@ TradeTab.prototype.angular = function(module)
         updateSettings();
 
         // Persist issuer setting
-        if ($scope.order.valid_settings && $scope.order[prefix + '_currency'] !== 'XRP') {
+        if ($scope.order.valid_settings && !$scope.order[prefix + '_currency'].is_native()) {
           if (prefix === 'first') {
             $scope.userBlob.set("/preferred_issuer/"+
-                                $scope.userBlob.escapeToken($scope.order['first_currency']),
+                                $scope.userBlob.escapeToken($scope.order.first_currency.to_json()),
                                 $scope.order['first_issuer']);
           } else {
-            if ($scope.order.first_currency === $scope.order.second_currency) {
+            if ($scope.order.first_currency.equals($scope.order.second_currency)) {
               $scope.userBlob.set("/preferred_second_issuer/"+
-                                  $scope.userBlob.escapeToken($scope.order.second_currency),
+                                  $scope.userBlob.escapeToken($scope.order.second_currency.to_json()),
                                   $scope.order.second_issuer);
             } else {
               $scope.userBlob.set("/preferred_issuer/"+
-                                  $scope.userBlob.escapeToken($scope.order.second_currency),
+                                  $scope.userBlob.escapeToken($scope.order.second_currency.to_json()),
                                   $scope.order.second_issuer);
             }
           }
@@ -535,10 +539,10 @@ TradeTab.prototype.angular = function(module)
       }
 
       $scope.book = books.get({
-        currency: $scope.order.first_currency,
+        currency: $scope.order.first_currency.to_json(),
         issuer: $scope.order.first_issuer
       }, {
-        currency: $scope.order.second_currency,
+        currency: $scope.order.second_currency.to_json(),
         issuer: $scope.order.second_issuer
       }, $scope.address);
     }
@@ -552,13 +556,13 @@ TradeTab.prototype.angular = function(module)
       var second_currency = $scope.order.second_currency;
       var second_issuer = $scope.order.second_issuer;
 
-      var canBuy = second_currency.toUpperCase() === 'XRP' ||
+      var canBuy = second_currency.is_native() ||
           second_issuer == $scope.address ||
-          ($scope.lines[second_issuer+second_currency] && $scope.lines[second_issuer+second_currency].balance.is_positive());
+          ($scope.lines[second_issuer+second_currency.to_json()] && $scope.lines[second_issuer+second_currency.to_json()].balance.is_positive());
 
-      var canSell = first_currency.toUpperCase() === 'XRP' ||
+      var canSell = first_currency.is_native() ||
           first_issuer == $scope.address ||
-          ($scope.lines[first_issuer+first_currency] && $scope.lines[first_issuer+first_currency].balance.is_positive());
+          ($scope.lines[first_issuer+first_currency.to_json()] && $scope.lines[first_issuer+first_currency.to_json()].balance.is_positive());
 
       $scope.order.buy.showWidget = canBuy;
       $scope.order.sell.showWidget = canSell;
