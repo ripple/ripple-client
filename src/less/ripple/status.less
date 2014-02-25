@@ -238,3 +238,51 @@
     display: none;
   }
 }
+
+.message {
+  .rounded(5px);
+  font-size:12px;
+  padding: 10px;
+  text-align:center;
+  border:1px solid #aaa;
+  background:#ccc;
+  font-family: OpenSansRegular;
+  
+  .number {
+    font-size: 18px;
+  }
+
+  .currency {
+    font-size: 12px;
+  }
+
+  &.type-success {
+    color: #474;
+    background-color: #cbe0b9;
+    border-color: #9b9;
+  }
+
+  &.type-info {
+    background-color: #d5e0f0;
+    color: #569;
+    border-color: #a5b0bb;
+  }
+
+  &.type-warning {
+    background-color: #f2edaf;
+    color: #764;
+    border-color: #cba;
+  }
+
+  &.type-error {
+    background-color: #d7a7aa;
+    color: #833;
+    border-color: #a55;
+  }
+
+  &.type-offline {
+    color: #ddd;
+    background-color: #444;
+    border-color:#111;
+  }
+}
