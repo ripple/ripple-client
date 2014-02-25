@@ -38,13 +38,16 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
                 .amount 1.
                   span.fraction 0000
                   span.currency BTC
-          .funding-options.col-sm-8(ng-hide='account.Balance') 
+          .funding-options.col-sm-8(ng-if='account.Balance') 
             .btc-to-ripple
               .inactive(ng-show='true = true')
-                div(l10n) Use the btc2ripple service to add bitcoin
-                button.btn.btn-default.btn-primary.btn-block Add Bitcoin
-                a.manual(l10n) Manually add a funding source
-              .pending(ng-show='') 
+                .row
+                  .col-xs-12.col-sm-8.col-md-6
+                    label(l10n) Use the btc2ripple service to add bitcoin
+                .row    
+                  .col-xs-12.col-sm-5.col-md-4
+                    button.btn.btn-default.btn-primary.btn-block Add Bitcoin
+              .active(ng-show='') 
                 div(l10n) To deposit, send BTC to the address below.
                 div(l10n) It will take about 1 hour.
                 .btc-address 13PDtZSa5LiYp1Ysn1vMuMzB59RzV3W9QH
@@ -56,7 +59,8 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
                   span(l10n-inc) Your current deposit limit is:
                   span.amount 8.78
                     span.currency BTC
-                  a.remove(l10n-inc) Remove Limit        
+                  a.remove(l10n-inc) Remove Limit  
+             a.manual(ng-show='true = true', l10n) Manually add a funding source           
         .currency-summary(ng-show='account.Balance')
           .balancebox.currency-xrp
             .total.row
@@ -85,4 +89,83 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
               .lbl.col-xs-8(rp-pretty-issuer="issuer"
               rp-pretty-issuer-contacts="userBlob.data.contacts")
               .balance.col-xs-4 {{ component | rpamount:{rel_precision: 0} }}
-                a(href="#/fund") Add
+                .transfer
+                  a(href="#/fund") Add   
+            .component.row.btc-to-ripple(ng-if="(entry.total | rpcurrency)=='BTC'", ng-show="entry.show")
+              .head
+                .lbl.col-xs-8 BTC to Ripple
+                  span.status.unverified Unverified
+                .balance.col-xs-4 0.0000
+                  .transfer
+                    a(ng-click="showAddB2R = !showAddB2R; showWithdrawB2R = false", ng-class="{selected:showAddB2R}") Add
+                    a(ng-click="showWithdrawB2R = !showWithdrawB2R; showAddB2R = false", ng-class="{selected:showWithdrawB2R}") Withdraw
+              .add(ng-show='showAddB2R')
+                .inactive(ng-show='true = true')
+                  .row
+                    .col-xs-12.col-sm-8.col-md-6
+                      label(l10n) Use the btc2ripple service to add bitcoin
+                  .row    
+                    .col-xs-12.col-sm-4.col-md-3
+                      button.btn.btn-default.btn-primary.btn-block Add Bitcoin
+                .active(ng-show='true=true') 
+                  div(l10n) To deposit, send BTC to the address below.
+                  div(l10n) It will take about 1 hour.
+                  .btc-address 13PDtZSa5LiYp1Ysn1vMuMzB59RzV3W9QH
+                  img.qr-code(src="")
+                  .limit(l10n)
+                    span(l10n-inc) Your current deposit limit is:
+                    span.amount 8.78
+                      span.currency BTC
+                    a.remove(l10n-inc) Remove Limit    
+              .withdraw(ng-show='showWithdrawB2R')
+                .step1(ng-show='!step || step==1')                  
+                  .row
+                    .col-xs-12.col-sm-6.col-md-6
+                      label(for='send_destination', l10n) Enter bitcoin address.
+                      input.form-control#send_destination(
+                        name='send_destination', type='text')
+                    .col-xs-12.col-sm-6.col-md-6
+                      label(for='send_amount', l10n) Enter amount to withdraw.
+                      input.form-control#send_amount(
+                        name='send_amount', type='text')
+                  .row.errorGroups
+                    .col-xs-12.col-sm-6.col-md-6.errorGroup(rp-errors='send_destination')
+                      .success(rp-error-valid)
+                      .error(rp-error-on='required', l10n)
+                        | Enter a valid bitcoin address
+                      .error(rp-error-on='invalid', l10n)
+                        | Enter a valid bitcoin address  
+                    .col-xs-12.col-sm-6.col-md-6.errorGroup(rp-errors='send_amount')
+                      .success(rp-error-valid)
+                      .error(rp-error-on='invalid', l10n)
+                        | Enter a valid amount       
+                  .row 
+                    .col-xs-12.col-sm-4.col-md-3
+                      button.btn.btn-block.btn-success.submit(type='submit', 
+                      ng-disabled='', ng-click="step=2", l10n)
+                        | Withdraw  
+                .step2(ng-show='step==2')
+                  label(l10n) You are sending 
+                    span.amount 1.2345
+                    |  BTC to:
+                  .btc_address 1agizZ31TmpachYAuG3n56XCb1R5vc3cTQ
+                  .row
+                    .col-xs-12.col-sm-3
+                      button.btn.btn-block.btn-default(ng-click="step=1", l10n)
+                        | Back    
+                    .col-xs-12.col-sm-3    
+                       button.btn.btn-block.btn-success.submit(type='submit', 
+                        ng-disabled='', ng-click="step=3", l10n)
+                        | Confirm                            
+                .step3(ng-show='step==3')
+                  .row
+                    .col-xs-12.col-sm-6
+                      .message.type-offline Offline
+                      .message.type-success Transaction Successful
+                      .message.type-warning Warning
+                      .message.type-error Transaction Failed
+                      .message.type-info Message    
+                  .row
+                    .col-xs-12.col-sm-3
+                      button.btn.btn-block.btn-default(ng-click="step=1", l10n)
+                        | Back         
