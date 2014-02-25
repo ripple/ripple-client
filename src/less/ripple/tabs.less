@@ -361,65 +361,19 @@
     .funding-options {
       border-left: 1px solid #D2D3D3;
       min-height:220px;
-      padding:10px 30px;
+      padding:10px 30px;  
       
-      .btc-to-ripple {
-        
-        .inactive {
-      
-          button {
-            width: 200px; 
-            margin:15px 0;
-          } 
-               
-          .manual {
-            display:block;
-            font: 11px OpenSansLight;
-          }
-        }
-        
-        .pending {
-          
-          .btc-address {
-            font-size:18px;
-            margin:15px 0;  
-          }
-          
-          .qr-code {
-            height:100px;
-            width:100px;
-            background:#bbb;
-            float:left;
-          }
-          
-          .about {
-            float:left;
-            padding:15px;
-            width:300px;
-          }
-          
-          .limit {
-            clear:both;
-            padding:15px 0;
-            
-            .amount {
-              font-weight:bold;
-              margin:0 15px;
-            }
-            
-            .remove {
-              font:11px OpenSansLight;
-              
-            }
-          }
-        }
-      }  
+      .manual {
+        display:block;
+        font: 12px OpenSansLight;
+      }
     } 
     
     @media (max-width: @screen-xs-max) { 
       .funding-options {
         border-left:none;
         border-top: 1px solid #D2D3D3;
+        min-height:0;
       }
     }
   }
@@ -430,14 +384,17 @@
     .balancebox {
       border: 1px solid #D2D3D3;
       background-color: #F9FAFA;
-      line-height: 60px;
-      padding: 0 15px;
+      padding: 0 20px;
       margin-bottom: 10px;
+      
+      .btc-to-ripple {
+
+      }
     }
 
     .total {
-      border-bottom: 1px solid #C8C8C8;
-
+      
+      
       .lbl {
         color: #474747;
         font-family: OpenSansBold;
@@ -453,7 +410,7 @@
 
       .lbl, .balance {
         color: #474747;
-        line-height: 60px;
+        line-height: 50px;
 
         a {
           display: block;
@@ -464,17 +421,35 @@
       }
     }
 
+    .currency-non-native .total {
+      cursor:pointer;  
+    }
+    
     .component {
       font-family: OpenSansLight;
       font-size: 16px;
-      line-height: 30px;
-      color: #777;
-      background: #fff;
+      line-height: 35px;
+      color: #888;
       padding-top: 5px;
       padding-bottom: 5px;
-
-      .balance a {
-        float: right;
+      border-top: 1px solid #C8C8C8;
+     
+      .transfer {
+        float:right;
+        
+        a {
+          font-size: 12px;
+          margin: 0 5px;
+          padding: 0 2px;
+          border-bottom: 3px solid transparent;
+          line-height: 16px;
+          text-decoration:none;
+        }
+      
+        a.selected, a:hover{
+          border-color:#888;
+          cursor:pointer;
+        }
       }
     }
 
@@ -500,6 +475,120 @@
     p {
       word-wrap: break-word;
       color: #BBB;
+    }
+  }
+  
+  .btc-to-ripple {
+          
+    .inactive {
+      padding-bottom:15px;
+      
+      label {
+        font: 14px OpenSansLight;
+        line-height:25px;
+        color:#474747;
+        margin-bottom:15px;        
+      }
+    }
+    
+    .active {
+      
+      .btc-address {
+        font-size:18px;
+        margin:15px 0;  
+      }
+      
+      .qr-code {
+        height:100px;
+        width:100px;
+        background:#bbb;
+        float:left;
+      }
+      
+      .about {
+        float:left;
+        padding:15px;
+        width:300px;
+      }
+      
+      .limit {
+        clear:both;
+        padding:15px 0;
+        
+        .amount {
+          font-family:OpenSansBold;
+          margin:0 15px;
+        }
+        
+        .remove {
+          font:11px OpenSansLight;
+          
+        }
+      }
+    }
+    
+    .head {
+      overflow:hidden;
+      
+      .status {
+        margin: 0 20px;
+        font:10px OpenSansRegular;
+        padding:3px 20px;
+        .rounded(2px);
+        background:#ddd;
+        border:1px solid #bbb;
+        
+        &.unverified {
+          color: #a96;
+          background: #e7e080;
+          border-color: #cb8;
+        }
+      }
+      
+      
+    }
+    
+    .add, .withdraw {
+      font-size:14px;
+      color:#474747;
+      border-top:1px solid #C8C8C8;
+      line-height:20px;
+      padding:15px 25px;
+      font-family:OpenSansRegular;
+      margin-top:5px;
+       
+      button {
+        margin:5px 0;  
+      } 
+      
+      .message {
+        margin:5px 0;
+      }
+       
+      label {
+        font: 14px OpenSansLight;
+        line-height:25px;
+      }
+    }
+    
+    .withdraw {
+      
+      .errorGroups {
+        min-height:20px;
+      }
+      
+      .step2 {
+        
+        .amount {
+          font-family:OpenSansBold;  
+          color:#474747;
+        }
+        
+        .btc_address {
+          font: 18px OpenSansRegular;  
+          margin: 10px 0 30px; 
+        }
+      }
     }
   }
 }
