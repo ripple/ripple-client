@@ -235,8 +235,12 @@ HistoryTab.prototype.angular = function (module) {
               dateMax = event.date;
           }
 
+          var affectedCurrencies = _.map(event.affected_currencies, function (currencyCode) {
+            return ripple.Currency.from_json(currencyCode).to_human();
+          });
+
           // Update currencies
-          historyCurrencies = _.union(historyCurrencies, event.affected_currencies); // TODO put in one large array, then union outside of foreach
+          historyCurrencies = _.union(historyCurrencies, affectedCurrencies); // TODO put in one large array, then union outside of foreach
 
           // Calculate min ledger. Used in "load more"
           if (!$scope.minLedger || $scope.minLedger > event.ledger_index)
