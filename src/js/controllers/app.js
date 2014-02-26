@@ -12,9 +12,9 @@ var util = require('util'),
 var module = angular.module('app', []);
 
 module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
-                              'rpKeychain',
+                              'rpKeychain', 'rpTxQueue',
                               function ($scope, $compile, $id, $net,
-                                        keychain)
+                                        keychain, txQueue)
 {
   reset();
 
@@ -179,6 +179,9 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
     $scope.account.max_spend = bal.subtract($scope.account.reserve);
 
     $scope.loadState['account'] = true;
+
+    // Transaction queue
+    txQueue.checkQueue();
   }
 
   function handleAccountTx(data)
