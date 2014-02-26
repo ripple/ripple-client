@@ -26,14 +26,12 @@ FundTab.prototype.angular = function (module)
   {
     if (!$id.loginStatus) return $id.goId();
 
-    var accountProfile;
+    var accountProfile, trustProfile;
     $scope.fieldValue = {};
 
     // TODO is there a better way without a watch?
     var blobWatcher = $scope.$watch('userBlob', function(blob){
       if (blob.id) {
-        console.log('ub',$scope.userBlob);
-
         $appManager.getApp('rD1jovjQeEpvaDwn9wKaYokkXXrqo4D23x', function(err, data){
           if (err) {
             console.log('Error',err);
@@ -42,6 +40,9 @@ FundTab.prototype.angular = function (module)
 
           $scope.app = data;
           accountProfile = data.profiles.account;
+
+          trustProfile = data.profiles.trust;
+          trustProfile.grantNeccessaryTrusts();
 
           // Check if the user already has an account
           accountProfile.getUser($id.account, function(err, response){
@@ -76,7 +77,7 @@ FundTab.prototype.angular = function (module)
           return;
         }
 
-        $scope.response = response;console.log('$scope.app.name',$scope.app.name);
+        $scope.response = response;
 
         if (response.status === 'success') {
           $scope.appSettings = {
