@@ -18,6 +18,7 @@ require('../services/id');
 require('../services/tracker');
 require('../services/blob');
 require('../services/oldblob');
+require('../services/txqueue');
 require('../services/authflow');
 require('../services/authinfo');
 require('../services/kdf');
@@ -36,6 +37,7 @@ require('../services/integration/appManager');
 require('../services/integration/profileManager');
 require('../services/integration/account');
 require('../services/integration/history');
+require('../services/integration/trust');
 
 // Angular module dependencies
 var appDependencies = [
