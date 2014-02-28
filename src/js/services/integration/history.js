@@ -11,6 +11,9 @@ module.service('rpHistoryProfile', ['$rootScope', 'rpNetwork', '$http',
 {
   this.historyProfile = function(manifest) {
     return {
+      type: manifest.type,
+      version: manifest.version,
+
       transactions: function(rippleAddress, callback) {
         $http({
           url: manifest.urls.transactions,

@@ -12,6 +12,9 @@ module.service('rpAccountProfile', ['$rootScope', 'rpNetwork', '$http',
 {
   this.accountProfile = function(manifest) {
     return {
+      type: manifest.type,
+      version: manifest.version,
+
       getFields: function () {
         return manifest.signupFields
       },

@@ -12,6 +12,9 @@ module.service('rpTrustProfile', ['$rootScope', 'rpNetwork', 'rpTxQueue', 'rpKey
 {
   this.trustProfile = function(manifest) {
     return {
+      type: manifest.type,
+      version: manifest.version,
+
       // TODO remove this
       grantNeccessaryTrusts: function() {
         manifest.lines.forEach(function(line){
