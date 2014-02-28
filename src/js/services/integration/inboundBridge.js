@@ -11,6 +11,11 @@ module.service('rpInboundBridgeProfile', ['$rootScope', 'rpNetwork', 'rpId',
 {
   this.inboundBridgeProfile = function(manifest) {
     return {
+      type: manifest.type,
+      version: manifest.version,
+      bridgeType: manifest.bridgeType,
+      currencies: manifest.currencies,
+
       trust: function () {
 
       }
