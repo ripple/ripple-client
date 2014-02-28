@@ -7,7 +7,8 @@
 var module = angular.module('integrationProfileManager', [
   'integrationAccount',
   'integrationHistory',
-  'integrationTrust'
+  'integrationTrust',
+  'integrationInboundBridge'
 ]);
 
 module.service('rpProfileManager', [
@@ -15,20 +16,23 @@ module.service('rpProfileManager', [
   'rpAccountProfile',
   'rpHistoryProfile',
   'rpTrustProfile',
+  'rpInboundBridgeProfile',
   function(
     $scope,
     accountProfile,
     historyProfile,
-    trustProfile
+    trustProfile,
+    inboundBridgeProfile
   )
 {
-  this.getProfile = function(name,manifest) {
+  this.getProfile = function(manifest) {
     var profiles = {
       'accountProfile': function(){return accountProfile.fromManifest(manifest)},
       'historyProfile': function(){return historyProfile.fromManifest(manifest)},
-      'trustProfile': function(){return trustProfile.fromManifest(manifest)}
+      'trustProfile': function(){return trustProfile.fromManifest(manifest)},
+      'inboundBridgeProfile': function(){return inboundBridgeProfile.fromManifest(manifest)}
     };
 
-    return profiles[name + 'Profile']();
+    return profiles[manifest.type + 'Profile']();
   };
 }]);
