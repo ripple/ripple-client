@@ -12,6 +12,7 @@ module.service('rpTrustProfile', ['$rootScope', 'rpNetwork', 'rpTxQueue', 'rpKey
 {
   this.trustProfile = function(manifest) {
     return {
+      // TODO remove this
       grantNeccessaryTrusts: function() {
         manifest.lines.forEach(function(line){
           // Is there an existing trust line?

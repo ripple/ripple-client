@@ -58,7 +58,7 @@ module.factory('rpAppManager', ['$rootScope', '$http', 'rpDomainAlias', 'rpRippl
                   }
 
                   _.each(data.profiles, function(profile,key){
-                    data.profiles[key] = profileManager.getProfile(key,profile);
+                    data.profiles[key] = profileManager.getProfile(profile);
                   });
 
                   callback(null, data);

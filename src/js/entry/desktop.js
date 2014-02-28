@@ -38,6 +38,7 @@ require('../services/integration/profileManager');
 require('../services/integration/account');
 require('../services/integration/history');
 require('../services/integration/trust');
+require('../services/integration/inboundBridge');
 
 // Angular module dependencies
 var appDependencies = [
