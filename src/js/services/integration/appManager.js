@@ -17,6 +17,40 @@ module.factory('rpAppManager', ['$rootScope', '$http', 'rpDomainAlias', 'rpRippl
     console.log.apply(console,mainArguments);
   };
 
+  var App = function(manifest){
+    this.name = manifest.name;
+    this.description = manifest.description;
+    this.image = manifest.imageUrl;
+    this.rippleAddress = manifest.rippleAddress;
+    this.profiles = [];
+
+    var self = this;
+
+    _.each(manifest.profiles, function(profile,key){
+      self.profiles[key] = profileManager.getProfile(profile);
+    });
+  };
+
+  App.prototype.findProfile = function (type) {
+    return _.findWhere(this.profiles, {type:type});
+  };
+
+  App.prototype.getInboundBridge = function (currency) {
+    var found;
+
+    this.profiles.forEach(function(profile,key){
+      if ('inboundBridge' === profile.type) {
+        profile.currencies.forEach(function(c){
+          if (currency.toUpperCase() === c.currency) {
+            found = profile;
+          }
+        })
+      }
+    });
+
+    return found;
+  };
+
   /**
    * Initializes Ripple App.
    *
@@ -52,16 +86,15 @@ module.factory('rpAppManager', ['$rootScope', '$http', 'rpDomainAlias', 'rpRippl
 
                   log('appManager:','Got the manifest for',manifest.name,manifest);
 
-                  if (!validateManifest(data)) {
+                  if (!validateManifest(manifest)) {
                     log('appManager:','Manifest is invalid.');
                     return;
                   }
 
-                  _.each(data.profiles, function(profile,key){
-                    data.profiles[key] = profileManager.getProfile(profile);
-                  });
+                  // Create the App object.
+                  var app = new App(manifest);
 
-                  callback(null, data);
+                  callback(null, app);
                 })
                 .error(function(data, status, headers, config) {
                   log("appManager:','Can't get the manifest");

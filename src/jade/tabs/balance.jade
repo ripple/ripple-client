@@ -11,7 +11,7 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
 
   group(ng-show="connected && loadState.account")
     .div#welcome(ng-hide='account.Balance')
-      
+
       p.title(l10n) Welcome to Ripple.
       //p(l10n) You currently don&#39;t have any ripples (XRP). To get started you can:
       //.actions
@@ -32,35 +32,41 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
                 option USD
                 option BTC
                 option CNY
-            .pending
+            .pending(ng-show="")
               .lbl Pending
               .transactions
                 .amount 1.
                   span.fraction 0000
                   span.currency BTC
-          .funding-options.col-sm-8(ng-if='account.Balance') 
-            .btc-to-ripple
-              .inactive(ng-show='true = true')
-                .row
-                  .col-xs-12.col-sm-8.col-md-6
-                    label(l10n) Use the btc2ripple service to add bitcoin
-                .row    
-                  .col-xs-12.col-sm-5.col-md-4
-                    button.btn.btn-default.btn-primary.btn-block Add Bitcoin
-              .active(ng-show='') 
-                div(l10n) To deposit, send BTC to the address below.
-                div(l10n) It will take about 1 hour.
-                .btc-address 13PDtZSa5LiYp1Ysn1vMuMzB59RzV3W9QH
+          //- BTC2RIPPLE hardcode
+          .funding-options.col-sm-8
+            .btc2ripple
+              .active(ng-show="btc2ripple.active")
+                div {{btc2ripple.instructions.instruction}}
+                .btc-address {{btc2ripple.instructions.instructionParams[0].value}}
                 img.qr-code(src="")
-                .about(l10n) A small amount (~.001 BTC) of your first 
-                  | transfer will be converted to XRP to activate your wallet. 
-                  a.why(l10n-inc) Why?
-                .limit(l10n)
-                  span(l10n-inc) Your current deposit limit is:
+                .about(l10n) A small amount (~.001 BTC) of your first
+                  | transfer will be converted to XRP to activate your wallet.
+                  a.why(href="", l10n-inc) Why?
+                .limit(ng-show="")
+                  span(l10n) Your current deposit limit is:
                   span.amount 8.78
                     span.currency BTC
-                  a.remove(l10n-inc) Remove Limit  
-             a.manual(ng-show='true = true', l10n) Manually add a funding source           
+                  a.remove(href="", l10n) Remove Limit
+              .inactive(ng-hide="btc2ripple.active")
+                .row
+                  .col-xs-12.col-sm-8.col-md-6
+                    label Use the btc2ripple service to add bitcoin
+                .row
+                  .col-xs-12.col-sm-5.col-md-4
+                    button.btn.btn-default.btn-primary.btn-block(ng-click="btc2rippleFields=true", ng-hide="btc2rippleFields") Add Bitcoin
+              form.fields(ng-show="btc2rippleFields", ng-submit="btc2rippleSignup()")
+                .form-group(ng-repeat="(name,field) in btc2rippleSignupFields")
+                  label(for="{{name}}Field") {{field.label}}
+                  div.description(ng-show="field.description") {{field.description}}
+                  input.form-control(name="{{name}}Field", id="{{name}}Field", ng-model="btc2rippleFieldValue[name]")
+                button.btn.btn-success(type="submit") Add Bitcoins
+           a.manual(href="", l10n, ng-show="") Manually add a funding source
         .currency-summary(ng-show='account.Balance')
           .balancebox.currency-xrp
             .total.row
@@ -86,77 +92,77 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
                 a(href="", ng-click="entry.show=!entry.show") {{ entry.total | rpamount }}
             //- TODO Remember selections
             .component.row(ng-repeat="(issuer, component) in entry.components", ng-show="entry.show")
-              .lbl.col-xs-8(rp-pretty-issuer="issuer"
-              rp-pretty-issuer-contacts="userBlob.data.contacts")
-              .balance.col-xs-4 {{ component | rpamount:{rel_precision: 0} }}
-                .transfer
-                  a(href="#/fund") Add   
-            .component.row.btc-to-ripple(ng-if="(entry.total | rpcurrency)=='BTC'", ng-show="entry.show")
               .head
-                .lbl.col-xs-8 BTC to Ripple
-                  span.status.unverified Unverified
-                .balance.col-xs-4 0.0000
-                  .transfer
-                    a(ng-click="showAddB2R = !showAddB2R; showWithdrawB2R = false", ng-class="{selected:showAddB2R}") Add
-                    a(ng-click="showWithdrawB2R = !showWithdrawB2R; showAddB2R = false", ng-class="{selected:showWithdrawB2R}") Withdraw
-              .add(ng-show='showAddB2R')
-                .inactive(ng-show='true = true')
+                .lbl.col-xs-8(ng-show="component.app") {{component.app.name}}
+                  span.status.unverified(ng-hide="true") Unverified
+                .lbl.col-xs-8(ng-hide="component.app", rp-pretty-issuer="issuer"
+                  rp-pretty-issuer-contacts="userBlob.data.contacts")
+                .balance.col-xs-4 {{ component | rpamount:{rel_precision: 0} }}
+                  .transfer(ng-show="component.app")
+                    div(ng-show="component.inboundBridge")
+                      a(href="", ng-click="component.window = 'add'", ng-class="{selected:component.window == 'add'}") Add
+                    div(ng-show="component.outboundBridge")
+                      a(href="") Withdraw
+              .add(ng-show="component.window == 'add'")
+                .inactive(ng-hide="component.app.user")
                   .row
                     .col-xs-12.col-sm-8.col-md-6
-                      label(l10n) Use the btc2ripple service to add bitcoin
-                  .row    
+                      label(l10n) Use the btc2ripple service to add bitcoins
+                  .row
                     .col-xs-12.col-sm-4.col-md-3
-                      button.btn.btn-default.btn-primary.btn-block Add Bitcoin
-                .active(ng-show='true=true') 
-                  div(l10n) To deposit, send BTC to the address below.
-                  div(l10n) It will take about 1 hour.
-                  .btc-address 13PDtZSa5LiYp1Ysn1vMuMzB59RzV3W9QH
+                      button.btn.btn-default.btn-primary.btn-block(l10n)
+                        | Add {{ entry.total | rpcurrencyfull }}
+                  | {{component.app.user}}
+                //- A lil bit hard code is going on in here.
+                .active(ng-show="component.app.user")
+                  div {{component.inboundBridge.instructions.instruction}}
+                  .btc-address {{component.inboundBridge.instructions.instructionParams[0].value}}
                   img.qr-code(src="")
-                  .limit(l10n)
-                    span(l10n-inc) Your current deposit limit is:
+                  .limit(ng-show="")
+                    span(l10n) Your current deposit limit is:
                     span.amount 8.78
                       span.currency BTC
-                    a.remove(l10n-inc) Remove Limit    
-              .withdraw(ng-show='showWithdrawB2R')
-                .step1(ng-show='!step || step==1')                  
+                    a.remove(href="", l10n) Remove Limit
+              form.withdraw(ng-show="component.window == 'withdraw'")
+                .step1(ng-show='!step || step==1')
                   .row
                     .col-xs-12.col-sm-6.col-md-6
                       label(for='send_destination', l10n) Enter bitcoin address.
                       input.form-control#send_destination(
-                        name='send_destination', type='text')
+                      name='send_destination', type='text')
                     .col-xs-12.col-sm-6.col-md-6
                       label(for='send_amount', l10n) Enter amount to withdraw.
                       input.form-control#send_amount(
-                        name='send_amount', type='text')
+                      name='send_amount', type='text')
                   .row.errorGroups
                     .col-xs-12.col-sm-6.col-md-6.errorGroup(rp-errors='send_destination')
                       .success(rp-error-valid)
                       .error(rp-error-on='required', l10n)
                         | Enter a valid bitcoin address
                       .error(rp-error-on='invalid', l10n)
-                        | Enter a valid bitcoin address  
+                        | Enter a valid bitcoin address
                     .col-xs-12.col-sm-6.col-md-6.errorGroup(rp-errors='send_amount')
                       .success(rp-error-valid)
                       .error(rp-error-on='invalid', l10n)
-                        | Enter a valid amount       
-                  .row 
+                        | Enter a valid amount
+                  .row
                     .col-xs-12.col-sm-4.col-md-3
-                      button.btn.btn-block.btn-success.submit(type='submit', 
+                      button.btn.btn-block.btn-success.submit(type='submit',
                       ng-disabled='', ng-click="step=2", l10n)
-                        | Withdraw  
+                        | Withdraw
                 .step2(ng-show='step==2')
-                  label(l10n) You are sending 
+                  label(l10n) You are sending
                     span.amount 1.2345
                     |  BTC to:
                   .btc_address 1agizZ31TmpachYAuG3n56XCb1R5vc3cTQ
                   .row
                     .col-xs-12.col-sm-3
                       button.btn.btn-block.btn-default(ng-click="step=1", l10n)
-                        | Back    
-                    .col-xs-12.col-sm-3    
-                       button.btn.btn-block.btn-success.submit(type='submit', 
-                        ng-disabled='', ng-click="step=3", l10n)
-                        | Confirm                            
+                        | Back
+                    .col-xs-12.col-sm-3
+                      button.btn.btn-block.btn-success.submit(type='submit',
+                      ng-disabled='', ng-click="step=3", l10n)
+                        | Confirm
                 .step3(ng-show='step==3')
                   .row
                     .col-xs-12.col-sm-6
@@ -164,8 +170,8 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
                       .message.type-success Transaction Successful
                       .message.type-warning Warning
                       .message.type-error Transaction Failed
-                      .message.type-info Message    
+                      .message.type-info Message
                   .row
                     .col-xs-12.col-sm-3
                       button.btn.btn-block.btn-default(ng-click="step=1", l10n)
-                        | Back         
+                        | Back

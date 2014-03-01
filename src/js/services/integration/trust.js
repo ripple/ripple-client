@@ -17,18 +17,18 @@ module.service('rpTrustProfile', ['$rootScope', 'rpNetwork', 'rpTxQueue', 'rpKey
 
       // TODO remove this
       grantNeccessaryTrusts: function() {
-        manifest.lines.forEach(function(line){
+        manifest.currencies.forEach(function(currency){
           // Is there an existing trust line?
-          if(existingTrustLine = $scope.lines[line.issuer + line.currency.toUpperCase()]) {
+          if(existingTrustLine = $scope.lines[currency.issuer + currency.currency.toUpperCase()]) {
             // Is the trust limit enough?
-            if(existingTrustLine.limit.to_number() >= line.amount)
+            if(existingTrustLine.limit.to_number() >= currency.amount)
               // We're good with the existing trust line
               return;
           }
 
           // Ok, looks like we need to set a trust line
           var tx = network.remote.transaction();
-          tx.rippleLineSet(id.account, line.amount + '/' + line.currency + '/' + line.issuer);
+          tx.rippleLineSet(id.account, currency.amount + '/' + currency.currency + '/' + currency.issuer);
           tx.setFlags('NoRipple');
 
           // txQueue please set the trust line asap.
