@@ -39,7 +39,6 @@ BalanceTab.prototype.angular = function (module)
         });
     }, true);
 
-    // BTC2Ripple
     $scope.btc2rippleFieldValue = {};
 
     var checkBTC2RippleUser = function(accountProfile) {
@@ -54,6 +53,12 @@ BalanceTab.prototype.angular = function (module)
 
         // Do the necessary trust
         $scope.btc2ripple.trust('BTC','rhxULAn1xW9T4V2u67FX9pQjSz4Tay2zjZ');
+        
+        // Get pending transactions
+        $scope.btc2ripple.getPending($scope.address, function(err, pending){
+          // TODO support multiple pending transactions
+          $scope.pending = pending[0];
+        });
 
         // Get deposit instructions
         $scope.btc2ripple.getInstructions($scope.address,function(err, instructions){

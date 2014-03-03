@@ -61,6 +61,29 @@ module.service('rpInboundBridgeProfile', ['$rootScope', 'rpNetwork', 'rpId', '$h
             message: "Can't get the instructions."
           });
         })
+      },
+      getPending: function(rippleAddress, callback) {
+        $http({
+          url: manifest.urls.pending,
+          method: 'GET',
+          params: {rippleAddress: rippleAddress}
+        })
+        .success(function(response){
+          if (response.status === 'error') {
+            callback({
+              message: response.message
+            });
+
+            return;
+          }
+
+          callback(null, response.deposits);
+        })
+        .error(function(data,status){
+          callback({
+            message: "Can't get pending deposits."
+          });
+        })
       }
     }
   };

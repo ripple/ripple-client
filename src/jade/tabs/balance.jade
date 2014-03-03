@@ -32,12 +32,12 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
                 option USD
                 option BTC
                 option CNY
-            .pending(ng-show="")
+            .pending(ng-show="pending")
               .lbl Pending
               .transactions
-                .amount 1.
-                  span.fraction 0000
-                  span.currency BTC
+                .amount 
+                  span.fraction {{pending.amount}}
+                  span.currency {{pending.currency}}
           //- BTC2RIPPLE hardcode
           .funding-options.col-sm-8
             .btc2ripple
