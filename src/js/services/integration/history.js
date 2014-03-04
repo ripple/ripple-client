@@ -14,11 +14,11 @@ module.service('rpHistoryProfile', ['$rootScope', 'rpNetwork', '$http',
       type: manifest.type,
       version: manifest.version,
 
-      transactions: function(rippleAddress, callback) {
+      getTransactions: function(rippleAddress, callback) {
         $http({
           url: manifest.urls.transactions,
           method: 'GET',
-          data: {
+          params: {
             rippleAddress: rippleAddress
           }
         })
@@ -31,11 +31,11 @@ module.service('rpHistoryProfile', ['$rootScope', 'rpNetwork', '$http',
             return;
           }
 
-          callback(null, response);
+          callback(null, response.history);
         })
         .error(function(data,status){
           callback({
-            message: 'Unable to fetch the transactions info.'
+            message: 'Unable to fetch the history.'
           });
         })
       }
