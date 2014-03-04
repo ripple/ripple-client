@@ -46,9 +46,17 @@ module.service('rpTxQueue', ['$rootScope', 'rpNetwork', 'rpKeychain', 'rpId',
         // If not, add it to the queue.
         // (Will be submitted as soon as account gets funding)
         else {
-          $scope.userBlob.unshift("/txQueue", {
-            blob: blob
-          });
+          var item = {
+            blob: blob,
+            type: tx.tx_json.TransactionType
+          };
+
+          // Additional details depending on a transaction type
+          if ('TrustSet' === item.type) {
+            item.details = tx.tx_json.LimitAmount;
+          }
+
+          $scope.userBlob.unshift("/txQueue", item);
         }
       });
     },
