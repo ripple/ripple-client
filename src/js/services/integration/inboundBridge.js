@@ -16,29 +16,65 @@ module.service('rpInboundBridgeProfile', ['$rootScope', 'rpNetwork', 'rpId', '$h
       bridgeType: manifest.bridgeType,
       currencies: manifest.currencies,
 
+      /**
+       * Trust one of the inbound bridge supported currencies.
+       *
+       * @param currency
+       * @param issuer
+       */
       trust: function(currency,issuer) {
-        manifest.currencies.forEach(function(line){
-          if (line.currency !== currency.toUpperCase() || line.issuer !== issuer) return;
-
-          // Is there an existing trust line?
-          if(existingTrustLine = $scope.lines[line.issuer + line.currency]) {
-            // Is the trust limit enough?
-            if(existingTrustLine.limit.to_number() >= line.amount)
-            // We're good with the existing trust line
-              return;
-          }
-
-          // Ok, looks like we need to set a trust line
-          var tx = network.remote.transaction();
-          tx.rippleLineSet(id.account, line.amount + '/' + line.currency + '/' + line.issuer);
-          tx.setFlags('NoRipple');
-
-          // txQueue please set the trust line asap.
-          txQueue.addTransaction(tx);
+        // Does this inbound bridge support this currency?
+        var line = _.findWhere(manifest.currencies, {
+          currency: currency.toUpperCase(),
+          issuer: issuer
         });
 
-        if('function' == typeof callback) callback();
+        // Nope
+        if (!line) {
+          console.warn("This service doesn't support " + currency + '/' + issuer);
+          return;
+        }
+
+        // Is there an existing trust line?
+        if(existingTrustLine = $scope.lines[line.issuer + line.currency]) {
+          // Is the trust limit enough?
+          if(existingTrustLine.limit.to_number() >= line.amount)
+          // We're good with the existing trust line
+            return;
+        }
+
+        // Is there an existing trustTx in queue?
+        // (Does this really belong here? maybe just move it to txqueue.js?)
+        var noNeed;
+        _.each(
+          // Find all trust transactions in queue
+          _.findWhere($scope.userBlob.data.txQueue, {type: "TrustSet"}),
+          function(elm,index,txInQueue){
+            // Does this fulfil our needs?
+            noNeed = txInQueue && txInQueue.details.currency === line.currency
+              && txInQueue.details.issuer === line.issuer
+              && txInQueue.details.value >= line.amount
+          }
+        );
+
+        // We already have the necessary trustTx waiting in line.
+        if (noNeed) return;
+
+        // Ok, looks like we need to set a trust line
+        var tx = network.remote.transaction();
+        tx.rippleLineSet(id.account, line.amount + '/' + line.currency + '/' + line.issuer);
+        tx.setFlags('NoRipple');
+
+        // txQueue please set the trust line asap.
+        txQueue.addTransaction(tx);
       },
+
+      /**
+       * Get instructions on using the inbound bridge
+       *
+       * @param rippleAddress
+       * @param callback
+       */
       getInstructions: function(rippleAddress, callback) {
         $http({
           url: manifest.urls.instructions,
@@ -62,6 +98,13 @@ module.service('rpInboundBridgeProfile', ['$rootScope', 'rpNetwork', 'rpId', '$h
           });
         })
       },
+
+      /**
+       * Get pending deposits list
+       *
+       * @param rippleAddress
+       * @param callback
+       */
       getPending: function(rippleAddress, callback) {
         $http({
           url: manifest.urls.pending,
@@ -88,6 +131,12 @@ module.service('rpInboundBridgeProfile', ['$rootScope', 'rpNetwork', 'rpId', '$h
     }
   };
 
+  /**
+   * Create and return a new instance of inbound bridge based on manifest
+   *
+   * @param manifest
+   * @returns {profiles.inboundBridgeProfile}
+   */
   this.fromManifest = function (manifest) {
     return new this.inboundBridgeProfile(manifest);
   }
