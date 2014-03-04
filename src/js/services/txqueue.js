@@ -66,7 +66,6 @@ module.service('rpTxQueue', ['$rootScope', 'rpNetwork', 'rpKeychain', 'rpId',
      * If yes, submit all the transactions in the queue.
      */
     checkQueue: function() {
-      console.log($scope.account.Balance, $scope.userBlob.data.txQueue);
       if (!$scope.account.Balance || !$scope.userBlob.data.txQueue) return;
 
       $scope.userBlob.data.txQueue.forEach(function(tx){
