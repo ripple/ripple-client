@@ -27,7 +27,7 @@ var Options = {
   //
   // The blobvault URL for the new login protocol is set via authinfo. You can
   // still use this setting for the fallback feature.
-  blobvault : 'https://blobvault.payward.com',
+  blobvault : 'https://blobvault.ripple.com',
 
   // If set, login will persist across sessions (page reload). This is mostly
   // intended for developers, be careful about using this in a real setting.
@@ -66,7 +66,8 @@ if (store.enabled) {
   }
 
   if (settings.blobvault) {
-    Options.blobvault = settings.blobvault;
+    // TODO: test if url defined and valid
+    Options.blobvault = settings.blobvault.replace("payward.com", "ripple.com");
   }
 
   if (settings.mixpanel) {
