@@ -91,7 +91,7 @@ section.col-xs-12.content(ng-controller="HistoryCtrl")
             rp-pretty-amount-date="entry.dateRaw")
           .info
             span.type &nbsp;
-            span.i
+            span.i(ng-hide="entry.details")
               i.fa.fa-arrow-down(ng-show="entry.transaction.type=='received'")
               i.fa.fa-arrow-up(ng-show="entry.transaction.type=='sent'")
               i.fa.fa-download.fa-rotate-90(ng-show="entry.transaction.type=='trusted'")
@@ -99,8 +99,10 @@ section.col-xs-12.content(ng-controller="HistoryCtrl")
               i.fa.fa-exchange(ng-show="!entry.transaction.type || entry.transaction.type=='offernew' || entry.transaction.type=='offercancel' || entry.transaction.type=='exchange' || entry.transaction.type=='rippling'")
               i.fa.fa-cogs(ng-show="entry.transaction.type=='accountset'")
               i.fa.fa-exclamation-triangle(ng-show="entry.transaction.type=='failed'")
+            span.i(ng-show="entry.details")
+              i.fa.fa-arrow-down
             span.dt {{entry.date | date:'EEE, MMM d, h:mm a'}}
-            span.desc(ng-switch on="entry.transaction.type")
+            span.desc(ng-hide="entry.details", ng-switch on="entry.transaction.type")
               span(ng-switch-when="sent")
                 span(l10n, rp-span-spacing) You sent
                   span.amount(rp-pretty-amount="entry.transaction.amount")
@@ -155,6 +157,19 @@ section.col-xs-12.content(ng-controller="HistoryCtrl")
                 != require("./history/effects.jade")()
               span(ng-switch-when="failed", l10n) Failed transaction
               span(ng-switch-default)
+                != require("./history/effects.jade")()
+            span.desc(ng-show="entry.details", ng-switch on="entry.details.type")
+              span(ng-switch-when="giveaway")
+                span(l10n, rp-span-spacing)
+                  | {{entry.details.app.name}} sent you
+                  span.amount(rp-pretty-amount="entry.transaction.amount")
+                  | and activated your account!
+                != require("./history/effects.jade")()
+              span(ng-switch-when="deposit")
+                span(l10n, rp-span-spacing)
+                  | You deposited
+                  span.amount(rp-pretty-amount="entry.transaction.amount")
+                  | using {{entry.details.app.name}}
                 != require("./history/effects.jade")()
 
           .details(ng-if="details[entry.hash]")
