@@ -7,7 +7,7 @@
 
 var module = angular.module('appManager', ['domainalias','integrationProfileManager']);
 
-module.factory('rpAppManager', ['$rootScope', '$http', 'rpDomainAlias', 'rpRippleTxt', 'rpProfileManager',
+module.service('rpAppManager', ['$rootScope', '$http', 'rpDomainAlias', 'rpRippleTxt', 'rpProfileManager',
   function($scope, $http, aliasService, txt, profileManager)
 {
   var log = function(){
@@ -17,6 +17,15 @@ module.factory('rpAppManager', ['$rootScope', '$http', 'rpDomainAlias', 'rpRippl
     console.log.apply(console,mainArguments);
   };
 
+  // Apps cache
+  var apps = {};
+
+  /**
+   * App object
+   *
+   * @param manifest
+   * @constructor
+   */
   var App = function(manifest){
     this.name = manifest.name;
     this.description = manifest.description;
@@ -55,10 +64,16 @@ module.factory('rpAppManager', ['$rootScope', '$http', 'rpDomainAlias', 'rpRippl
    * Initializes Ripple App.
    *
    * @param rippleAddress
-   * @returns App
+   * @param callback
    */
   var getApp = function(rippleAddress, callback){
     var domain, manifest;
+
+    // Check cache
+    if (apps[rippleAddress]) {
+      callback(null, apps[rippleAddress]);
+      return;
+    }
 
     // Get Domain
     log('appManager:','Looking up',rippleAddress);
@@ -92,9 +107,9 @@ module.factory('rpAppManager', ['$rootScope', '$http', 'rpDomainAlias', 'rpRippl
                   }
 
                   // Create the App object.
-                  var app = new App(manifest);
+                  apps[rippleAddress] = new App(manifest);
 
-                  callback(null, app);
+                  callback(null, apps[rippleAddress]);
                 })
                 .error(function(data, status, headers, config) {
                   log("appManager:','Can't get the manifest");
