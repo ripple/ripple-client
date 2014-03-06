@@ -38,34 +38,37 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
                 .amount 
                   span.fraction {{pending.amount}}
                   span.currency {{pending.currency}}
-          //- BTC2RIPPLE hardcode
+          //- B2R hardcode
           .funding-options.col-sm-8
-            .btc2ripple
-              .active(ng-show="btc2ripple.active")
-                div {{btc2ripple.instructions.instruction}}
-                .btc-address {{btc2ripple.instructions.instructionParams[0].value}}
-                img.qr-code(src="")
-                .about(l10n) A small amount (~.001 BTC) of your first
-                  | transfer will be converted to XRP to activate your wallet.
-                  a.why(href="", l10n-inc) Why?
-                .limit(ng-show="")
-                  span(l10n) Your current deposit limit is:
-                  span.amount 8.78
-                    span.currency BTC
-                  a.remove(href="", l10n) Remove Limit
-              .inactive(ng-hide="btc2ripple.active")
+            .B2R(ng-show="loadState.B2RApp")
+              .active(ng-show="B2R.active")
+                div(ng-show="loadState.B2RInstructions")
+                  div {{B2R.instructions.instruction}}
+                  .btc-address {{B2R.instructions.instructionParams[0].value}}
+                  img.qr-code(src="")
+                  .about(l10n) A small amount (~.001 BTC) of your first
+                    | transfer will be converted to XRP to activate your wallet.
+                    a.why(href="", l10n-inc) Why?
+                  .limit(ng-show="")
+                    span(l10n) Your current deposit limit is:
+                    span.amount 8.78
+                      span.currency BTC
+                    a.remove(href="", l10n) Remove Limit
+                div(ng-hide="loadState.B2RInstructions") Loading...
+              .inactive(ng-hide="B2R.active")
                 .row
                   .col-xs-12.col-sm-8.col-md-6
-                    label Use the btc2ripple service to add bitcoin
+                    label Use the Btc2Ripple service to add bitcoin
                 .row
                   .col-xs-12.col-sm-5.col-md-4
-                    button.btn.btn-default.btn-primary.btn-block(ng-click="btc2rippleFields=true", ng-hide="btc2rippleFields") Add Bitcoin
-              form.fields(ng-show="btc2rippleFields", ng-submit="btc2rippleSignup()")
-                .form-group(ng-repeat="(name,field) in btc2rippleSignupFields")
+                    button.btn.btn-default.btn-primary.btn-block(ng-click="B2RFields=true", ng-hide="B2RFields") Add Bitcoin
+              form.fields(ng-show="B2RFields && !B2R.active", ng-submit="B2RSignup()")
+                .form-group(ng-repeat="(name,field) in B2RSignupFields")
                   label(for="{{name}}Field") {{field.label}}
                   div.description(ng-show="field.description") {{field.description}}
-                  input.form-control(name="{{name}}Field", id="{{name}}Field", ng-model="btc2rippleFieldValue[name]")
+                  input.form-control(name="{{name}}Field", id="{{name}}Field", ng-model="B2RFieldValue[name]")
                 button.btn.btn-success(type="submit") Add Bitcoins
+            .B2R(ng-hide="loadState.B2RApp") Loading...
            a.manual(href="", l10n, ng-show="") Manually add a funding source
         .currency-summary(ng-show='account.Balance')
           .balancebox.currency-xrp
@@ -93,30 +96,29 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
             //- TODO Remember selections
             .component.row(ng-repeat="(issuer, component) in entry.components", ng-show="entry.show")
               .head
-                .lbl.col-xs-8(ng-show="component.app") {{component.app.name}}
+                .lbl.col-xs-8(ng-show="component.gateway.app") {{component.gateway.app.name}}
                   span.status.unverified(ng-hide="true") Unverified
-                .lbl.col-xs-8(ng-hide="component.app", rp-pretty-issuer="issuer"
+                .lbl.col-xs-8(ng-hide="component.gateway.app", rp-pretty-issuer="issuer"
                   rp-pretty-issuer-contacts="userBlob.data.contacts")
                 .balance.col-xs-4 {{ component | rpamount:{rel_precision: 0} }}
-                  .transfer(ng-show="component.app")
-                    div(ng-show="component.inboundBridge")
+                  .transfer(ng-show="component.gateway.app")
+                    div(ng-show="component.gateway.inboundBridge")
                       a(href="", ng-click="component.window = 'add'", ng-class="{selected:component.window == 'add'}") Add
                     div(ng-show="component.outboundBridge")
                       a(href="") Withdraw
               .add(ng-show="component.window == 'add'")
-                .inactive(ng-hide="component.app.user")
+                .inactive(ng-hide="component.gateway.user")
                   .row
                     .col-xs-12.col-sm-8.col-md-6
-                      label(l10n) Use the btc2ripple service to add bitcoins
+                      label(l10n) Use the B2R service to add bitcoins
                   .row
                     .col-xs-12.col-sm-4.col-md-3
                       button.btn.btn-default.btn-primary.btn-block(l10n)
                         | Add {{ entry.total | rpcurrencyfull }}
-                  | {{component.app.user}}
-                //- A lil bit hard code is going on in here.
-                .active(ng-show="component.app.user")
-                  div {{component.inboundBridge.instructions.instruction}}
-                  .btc-address {{component.inboundBridge.instructions.instructionParams[0].value}}
+                  | {{component.gateway.user}}
+                .active(ng-show="component.gateway.user")
+                  div {{component.gateway.inboundBridge.instructions.instruction}}
+                  .btc-address {{component.gateway.inboundBridge.instructions.instructionParams[0].value}}
                   img.qr-code(src="")
                   .limit(ng-show="")
                     span(l10n) Your current deposit limit is:

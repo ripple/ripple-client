@@ -334,17 +334,6 @@ HistoryTab.prototype.angular = function (module) {
           setValidDateOnScopeOrNullify('dateMinView', dateMin);
           setValidDateOnScopeOrNullify('dateMaxView', dateMax);
         }
-
-        // TODO We need a different approach as soon as we get the meta field.
-        // TODO load the address from user apps in blobvault
-        appManager.getApp('rD1jovjQeEpvaDwn9wKaYokkXXrqo4D23x', function(err, app){
-          app.findProfile('history').getTransactions($scope.address, function(err, history){
-            history.forEach(function(tx){
-              tx.app = app;
-              _.findWhere($scope.historyShow, {hash: tx.hash}).details = tx;
-            })
-          });
-        });
       }
     };
 

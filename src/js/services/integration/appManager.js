@@ -17,8 +17,23 @@ module.service('rpAppManager', ['$rootScope', '$http', 'rpDomainAlias', 'rpRippl
     console.log.apply(console,mainArguments);
   };
 
-  // Apps cache
-  var apps = {};
+  /**
+   * Load all apps
+   */
+  var init = function () {
+    $scope.$watch('userBlob.data.apps', function(apps){
+      if (apps && apps.length) {
+        apps.forEach(function(appInBlob){
+          loadApp(appInBlob.rippleAddress, function(err, app){
+            $scope.apps[appInBlob.rippleAddress] = app;
+          });
+        })
+      }
+    });
+  };
+
+  // Loaded apps
+  $scope.apps = {};
 
   /**
    * App object
@@ -60,20 +75,38 @@ module.service('rpAppManager', ['$rootScope', '$http', 'rpDomainAlias', 'rpRippl
     return found;
   };
 
+  var getApp = function(rippleAddress,callback) {
+    $scope.$watch('apps', function(apps){
+      if (app = apps[rippleAddress]) {
+        callback(null, app);
+      }
+    }, true);
+  };
+
+  /**
+   * Save app to userBlob
+   *
+   * @param app
+   */
+  var save = function(app) {
+    $scope.$watch('userBlob', function(userBlob){
+      if (userBlob.data.created && !_.findWhere($scope.userBlob.data.apps, {rippleAddress:app.rippleAddress})) {
+        $scope.userBlob.unshift("/apps", {
+          name: app.name,
+          rippleAddress: app.rippleAddress
+        });
+      }
+    });
+  };
+
   /**
    * Initializes Ripple App.
    *
    * @param rippleAddress
    * @param callback
    */
-  var getApp = function(rippleAddress, callback){
+  var loadApp = function(rippleAddress, callback){
     var domain, manifest;
-
-    // Check cache
-    if (apps[rippleAddress]) {
-      callback(null, apps[rippleAddress]);
-      return;
-    }
 
     // Get Domain
     log('appManager:','Looking up',rippleAddress);
@@ -107,9 +140,9 @@ module.service('rpAppManager', ['$rootScope', '$http', 'rpDomainAlias', 'rpRippl
                   }
 
                   // Create the App object.
-                  apps[rippleAddress] = new App(manifest);
+                  $scope.apps[rippleAddress] = new App(manifest);
 
-                  callback(null, apps[rippleAddress]);
+                  callback(null, $scope.apps[rippleAddress]);
                 })
                 .error(function(data, status, headers, config) {
                   log("appManager:','Can't get the manifest");
@@ -119,18 +152,14 @@ module.service('rpAppManager', ['$rootScope', '$http', 'rpDomainAlias', 'rpRippl
 
           // Rejected
           function(reason) {
-            callback({
-              'message': 'oops'
-            })
+            callback(reason)
           }
         )
       },
 
       // Rejected
       function(reason){
-        callback({
-          message: "Can't find domain for specified ripple address."
-        });
+        callback(reason);
       }
     );
   };
@@ -151,6 +180,9 @@ module.service('rpAppManager', ['$rootScope', '$http', 'rpDomainAlias', 'rpRippl
   };
 
   return {
-    getApp: getApp
+    getApp: getApp,
+    loadApp: loadApp,
+    init: init,
+    save: save
   }
 }]);
