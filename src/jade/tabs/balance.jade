@@ -43,12 +43,12 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
             .B2R(ng-show="loadState.B2RApp")
               .active(ng-show="B2R.active")
                 div(ng-show="loadState.B2RInstructions")
-                  div {{B2R.instructions.instruction}}
+                  .instructions {{B2R.instructions.instruction}}
                   .btc-address {{B2R.instructions.instructionParams[0].value}}
                   img.qr-code(src="")
                   .about(l10n) A small amount (~.001 BTC) of your first
                     | transfer will be converted to XRP to activate your wallet.
-                    a.why(href="", l10n-inc) Why?
+                    a.why(href="", l10n-inc)  Why?
                   .limit(ng-show="")
                     span(l10n) Your current deposit limit is:
                     span.amount 8.78
@@ -103,7 +103,7 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
                 .balance.col-xs-4 {{ component | rpamount:{rel_precision: 0} }}
                   .transfer(ng-show="component.gateway.app")
                     div(ng-show="component.gateway.inboundBridge")
-                      a(href="", ng-click="component.window = 'add'", ng-class="{selected:component.window == 'add'}") Add
+                      a(href="", ng-click="component.window = 'add' === component.window ? '' : 'add'", ng-class="{selected:component.window == 'add'}") Add
                     div(ng-show="component.outboundBridge")
                       a(href="") Withdraw
               .add(ng-show="component.window == 'add'")
@@ -118,8 +118,7 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
                   | {{component.gateway.user}}
                 .active(ng-show="component.gateway.user")
                   div {{component.gateway.inboundBridge.instructions.instruction}}
-                  .btc-address {{component.gateway.inboundBridge.instructions.instructionParams[0].value}}
-                  img.qr-code(src="")
+                  .instruction-value {{component.gateway.inboundBridge.instructions.instructionParams[0].value}}
                   .limit(ng-show="")
                     span(l10n) Your current deposit limit is:
                     span.amount 8.78
