@@ -48,6 +48,17 @@ module.factory('rpDomainAlias', ['$q', '$rootScope', 'rpNetwork', 'rpRippleTxt',
   function getAliasForAddress(address) {
     var aliasPromise = $q.defer();
 
+    if (aliases[address] && aliases[address].checked) {
+      if (aliases[address].domain) {
+        aliasPromise.resolve(aliases[address].domain);
+      }
+      else {
+        aliasPromise.reject(new Error("Invalid domain"));
+      }
+
+      return aliasPromise.promise;
+    }
+
     net.remote.request_account_info(address)
       .on('success', function (data) {
         if (data.account_data.Domain) {
@@ -55,15 +66,39 @@ module.factory('rpDomainAlias', ['$q', '$rootScope', 'rpNetwork', 'rpRippleTxt',
             var domain = sjcl.codec.utf8String.fromBits(sjcl.codec.hex.toBits(data.account_data.Domain));
 
             var txtData = txt.get(domain);
-            txtData.then(function (data) {
-              validateDomain(domain, address, data)
-                ? aliasPromise.resolve(domain)
-                : aliasPromise.reject(new Error("Invalid domain"));
-
-            }, function (error) {
-
-            });
+            txtData.then(
+              function (data) {
+                if(validateDomain(domain, address, data)) {
+                  aliases[address] = {
+                    checked: true,
+                    domain: domain
+                  };
+                  aliasPromise.resolve(domain);
+                }
+                else {
+                  aliases[address] = {
+                    checked: true,
+                    domain: false
+                  };
+                  aliasPromise.reject(new Error("Invalid domain"));
+                }
+              },
+              function (error) {
+                aliases[address] = {
+                  checked: true,
+                  domain: false
+                };
+                aliasPromise.reject(new Error(error));
+              }
+            );
           });
+        }
+        else {
+          aliases[address] = {
+            checked: true,
+            domain: false
+          };
+          aliasPromise.reject(new Error("No domain found"));
         }
       })
       .on('error', function () {
@@ -71,7 +106,6 @@ module.factory('rpDomainAlias', ['$q', '$rootScope', 'rpNetwork', 'rpRippleTxt',
       })
       .request();
 
-    console.log(jQuery.extend(true, {}, aliasPromise.promise));
     return aliasPromise.promise;
   }
 
