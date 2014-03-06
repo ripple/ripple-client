@@ -41,8 +41,6 @@ AppsTab.prototype.angular = function (module)
           }
 
           $scope.app.name = app.name;
-          $scope.app.type = app.type;
-
           $scope.userBlob.unshift("/apps", $scope.app);
           $scope.success = true;
 

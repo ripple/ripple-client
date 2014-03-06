@@ -12,9 +12,9 @@ var util = require('util'),
 var module = angular.module('app', []);
 
 module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
-                              'rpKeychain', 'rpTxQueue',
+                              'rpKeychain', 'rpTxQueue', 'rpAppManager',
                               function ($scope, $compile, $id, $net,
-                                        keychain, txQueue)
+                                        keychain, txQueue, appManager)
 {
   reset();
 
@@ -240,6 +240,18 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
         $scope.events.unshift(processedTxn);
       }
 
+      // TODO load the address from user apps in blobvault
+      appManager.getApp('rhxULAn1xW9T4V2u67FX9pQjSz4Tay2zjZ', function(err, app){
+        app.findProfile('history').getTransactions($scope.address, function(err, history){
+          history.forEach(function(tx){
+            tx.app = app;
+            if (processedTxn.hash === tx.hash) {
+              processedTxn.details = tx;
+            }
+          })
+        });
+      });
+
       // Add to history
       $scope.history.unshift(processedTxn);
 
@@ -362,6 +374,42 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
       var amount = balance.components[counterparty];
       balance.total = balance.total ? balance.total.add(amount) : amount;
     }
+
+    // Try to identify the gateway behind this balance
+    // TODO be more smart doing requests, one app may have multiple currencies
+    appManager.getApp(new_account, function(err, app){
+      if (err) {
+        console.warn(err);
+        return;
+      }
+
+      var gateway = {
+        app: app,
+        inboundBridge: app.getInboundBridge(currency)
+      };
+
+      balance.components[new_account].gateway = gateway;
+
+      // User's gateway account
+      app.findProfile('account').getUser($scope.address, function(err, user){
+        if (err) {
+          console.warn(err);
+          return;
+        }
+
+        gateway.user = user;
+
+        // Get inbound bridge instructions
+        gateway.inboundBridge.getInstructions($scope.address,function(err, instructions){
+          if (err) {
+            console.warn(err);
+            return;
+          }
+
+          gateway.inboundBridge.instructions = instructions;
+        });
+      });
+    });
   }
 
   $scope.currencies_all = require('../data/currencies');
@@ -442,9 +490,74 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
   $net.listenId($id);
   $net.init();
   $id.init();
+  appManager.init();
 
-  // Testing hooks
+  /**
+   * Integrations
+   */
 
+  $scope.loadState.B2RApp = false;
+  $scope.loadState.B2RInstructions = false;
+
+  // B2R
+  appManager.loadApp('rhxULAn1xW9T4V2u67FX9pQjSz4Tay2zjZ', function(err, app){
+    if (err) {
+      console.warn(err.message);
+      return;
+    }
+
+    $scope.B2RApp = app;
+    $scope.B2R = app.getInboundBridge('BTC');
+
+    appManager.save(app);
+
+    app.refresh = function() {
+      app.findProfile('account').getUser($scope.address, function(err, user){
+        $scope.loadState.B2RApp = true;
+
+        if (err) {
+          console.log('Error', err);
+          return;
+        }
+
+        $scope.B2R.active = user;
+
+        // Do the necessary trust
+        var trust = _.findWhere($scope.B2R.currencies, {currency: 'BTC'});
+        $scope.B2R.trust(trust.currency,trust.issuer);
+
+        // Get pending transactions
+        $scope.B2R.getPending($scope.address, function(err, pending){
+          // TODO support multiple pending transactions
+          $scope.pending = pending[0];
+        });
+
+        // Get deposit instructions
+        $scope.B2R.getInstructions($scope.address,function(err, instructions){
+          if (err) {
+            return;
+          }
+
+          $scope.B2R.instructions = instructions;
+          $scope.loadState.B2RInstructions = true;
+        });
+      });
+    };
+
+    var watcher = $scope.$watch('address', function(address){
+      if (!address) return;
+
+      app.refresh();
+      watcher();
+    });
+
+    // Required fields
+    $scope.B2RSignupFields = app.findProfile('account').getFields();
+  });
+
+  /**
+   * Testing hooks
+   */
   this.reset                  =  reset;
   this.handleAccountLoad      =  handleAccountLoad;
   this.handleAccountUnload    =  handleAccountUnload;
