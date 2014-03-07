@@ -85,7 +85,7 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
               .lbl.col-xs-8 Reserve
               .balance.col-xs-4 {{ account.reserve | rpamount }}
           //- TODO Determine currencies order
-          .balancebox.currency-non-native(ng-repeat="entry in balances", ng-hide="entry.total.is_zero()", ng-class="'currency-' + (entry.total | rpcurrency | lowercase)")
+          .balancebox.currency-non-native(ng-repeat="entry in balances", ng-class="'currency-' + (entry.total | rpcurrency | lowercase)")
             .total.row
               .lbl.col-xs-8
                 a(href="", ng-click="entry.show=!entry.show")
