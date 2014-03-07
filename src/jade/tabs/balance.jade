@@ -67,7 +67,9 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
                   label(for="{{name}}Field") {{field.label}}
                   div.description(ng-show="field.description") {{field.description}}
                   input.form-control(name="{{name}}Field", id="{{name}}Field", ng-model="B2RFieldValue[name]")
-                button.btn.btn-success(type="submit") Add Bitcoins
+                button.btn.btn-success(type="submit", ng-disabled="B2R.progress")
+                  span(l10n, ng-hide="B2R.progress") Add Bitcoins
+                  span(l10n, ng-show="B2R.progress") Loading...
             .B2R(ng-hide="loadState.B2RApp") Loading...
            a.manual(href="", l10n, ng-show="") Manually add a funding source
         .currency-summary(ng-show='account.Balance')

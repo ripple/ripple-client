@@ -24,7 +24,6 @@ BalanceTab.prototype.angular = function (module)
     if (!$id.loginStatus) return $id.goId();
 
     $scope.showComponent = [];
-    var appsLoaded;
 
     // watch the address function and detect when it changes so we can inject
     // the qr
@@ -56,6 +55,8 @@ BalanceTab.prototype.angular = function (module)
 
         $scope.B2RSignupResponse = response;
       });
+
+      $scope.B2R.progress = true;
     };
   }]);
 };
