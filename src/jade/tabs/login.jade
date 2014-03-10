@@ -1,33 +1,21 @@
 section.col-xs-12.content(ng-controller="LoginCtrl")
 
-  .row.normal-login(ng-hide="$routeParams.tab")
-    h1(l10n) Open Wallet
-    .col-sm-10.col-sm-offset-1
-      .row
-        .col-xs-12
-          p.literal(l10n) Enter the Name and Passphrase used to encrypt your Wallet below.
+  .row.auth-form-container.col-sm-offset-2.col-sm-8.col-md-offset-3.col-md-6(ng-hide="$routeParams.tab")
+    .auth-form-wrapper
       form(name='loginForm', ng-submit='submitForm()')
-        .row
-          .col-xs-12.col-sm-6.col-md-5
-            include login/form
-        .row
-          .col-xs-12
-            .text-status(ng-show='status')
-              span {{status}}
-              br
-              .backend(ng-repeat="message in backendMessages")
-                b {{message.backend}} &#32;
-                span {{message.message}}
-          .col-xs-12
-            .row
-              .col-xs-12.col-sm-6.col-md-5
-                button.btn.btn-lg.btn-submit.btn-block.btn-primary(type='submit', ng-disabled="loginForm.$invalid || ajax_loading", rp-spinner="{{ajax_loading ? 4 : null}}")
-                  span(l10n) Open Wallet
-        .row
-          .col-xs-12
-            p.literal
-              span(l10n) New to ripple?&#32;
-              a(href='#register', l10n) Create a wallet
+        h2 Log In
+        include login/form
+        .text-status(ng-show='status')
+          span {{status}}
+          br
+          .backend(ng-repeat="message in backendMessages")
+            b {{message.backend}} &#32;
+            span {{message.message}}
+        .submit-btn-container
+          button.btn.btn-submit.btn-block.btn-success(type='submit', ng-disabled="loginForm.$invalid || ajax_loading", rp-spinner="{{ajax_loading ? 4 : null}}")
+            span(l10n) Log In
+    .signup-link-container New to ripple?&#32;
+      a(href='#register', l10n) Sign Up
 
   .row.action-login(ng-show="$routeParams.tab")
     h1(ng-show="'send' == $routeParams.tab", l10n) Transaction summary
@@ -72,7 +60,7 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
               span {{message.message}}
         .row
           .col-xs-12
-            button.btn.btn-lg.btn-submit.btn-block.btn-primary(type='submit', ng-disabled="loginForm.$invalid || ajax_loading", rp-spinner="{{ajax_loading ? 4 : null}}") Open Wallet
+            button.btn.btn-lg.btn-submit.btn-block.btn-primary(type='submit', ng-disabled="loginForm.$invalid || ajax_loading", rp-spinner="{{ajax_loading ? 4 : null}}") Log In
         p.literal.hint(l10n) You can confirm this transaction on the next page.
         p.literal(l10n) New to ripple?&#32;
           a(href='#/register', l10n-inc) Create a wallet

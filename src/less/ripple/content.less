@@ -22,6 +22,17 @@ nav + .content {
   }
 }
 
+h1 {
+  height: 100px;
+  background: #326BAA;
+  text-align: center;
+  font: 26px 'OpenSansLight';
+  font-weight: 300;
+  line-height: 100px;
+  color: #fff;
+  margin-top: 0;
+}
+
 .content {
   padding-top: @grid-gutter-width/2;
   padding-bottom: @grid-gutter-width/2;
@@ -41,15 +52,6 @@ nav + .content {
     @media (min-width: @screen-sm-max) {
       margin: 20px 50px;
     }
-  }
-
-  h1 {
-    font: 35px 'OpenSansLight';
-    text-align: center;
-    margin: 0;
-    border-bottom: 1px solid #ccc;
-    padding-bottom: 20px;
-    margin-bottom: 30px;
   }
 
   h2 {
@@ -72,11 +74,6 @@ nav + .content {
 
   group {
     display: block;
-  }
-
-  label, p.label {
-    font: 18px 'OpenSansRegular';
-    color: #777;
   }
 
   p.literal {
@@ -285,4 +282,8 @@ a.danger {
       text-decoration: none;
     }
   }
+}
+
+.ripple-addon {
+  font-size: 18px;
 }

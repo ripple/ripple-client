@@ -141,15 +141,166 @@
 }
 
 #t-login {
-  .row {
-    margin-top: 10px;
-    margin-bottom: 10px;
-  }
+  .auth-form-container {
+    font-family: OpenSansRegular;
+    padding-bottom: 50px;
 
-  .fetch {
-    display: block;
-    font-size: 12px;
-    line-height: 22px;
+    h2 {
+      margin: 30px 0 30px 0;
+      padding: 0 0 30px;
+      text-align: center;
+      border-bottom: 1px solid #D1D1D1;
+    }
+
+    .auth-form-wrapper {
+      background: #FBFCFC;
+      padding: 15px 20px;
+      border: 1px solid #D1D1D1;
+      margin-bottom: 5px;
+
+      label {
+        font-weight: 400;
+        margin-bottom: 3px;
+      }
+      .recover-description {
+        margin-bottom: 15px;
+        font-size: 13px;
+      }
+    }
+    .form-group {
+      p.error-text {
+        display: none;
+      }
+      &.client-ok {
+        &:after {
+          content: "";
+          position: absolute;
+          left: 100%;
+          bottom: 0;
+          margin-left: 4px;
+          width: 5px;
+          height: 40px;
+          background: #56B95C;
+        }
+      }
+      &.server-error {
+        &:after {
+          content: "";
+          position: absolute;
+          left: 100%;
+          bottom: 0;
+          margin-left: 4px;
+          width: 5px;
+          height: 40px;
+          background: #DD1D42;
+        }
+      }
+      &.client-error {
+        margin-bottom: 25px;
+
+        p.error-text {
+          display: block;
+          position: absolute;
+          left: 0;
+          top: 100%;
+          padding-top: 3px;
+          line-height: 15px;
+          font-size: 12px;
+          color: #DD1D42;
+        }
+      }
+      &.server-warning {
+        &:after {
+          content: "";
+          position: absolute;
+          left: 100%;
+          bottom: 0;
+          margin-left: 4px;
+          width: 5px;
+          height: 40px;
+          background: #F5B217;
+        }
+      }
+    }
+    .secret-key-container {
+      margin-bottom: 30px;
+      background: #F3EEAE;
+      padding: 15px;
+      border: 1px solid #CBC25E;
+      .rounded(5px);
+
+      .secret-key {
+        padding-top: 15px;
+        margin-bottom: 10px;
+        span {
+          padding: 0 10px;
+        }
+      }
+    }
+    .signup-link-container {
+      text-align: center;
+
+      a {
+        text-decoration: none;
+      }
+    }
+    .auth-attention {
+      font-size: 13px;
+
+      span {
+        font-weight: bold;
+      }
+    }
+
+    &.sign-up-container {
+      padding-top: 50px;
+      .auth-form-wrapper {
+        min-height: 450px;
+        &>p {
+          margin-bottom: 15px;
+        }
+      }
+      .sign-up-steps-list {
+        margin-bottom: 15px;
+        li {
+          margin-right: 25px;
+          display: inline-block;
+          list-style: none;
+          padding-bottom: 5px;
+          border-bottom: 5px solid transparent;
+          &.active {
+            color: #727373;
+            font-weight: bold;
+            border-bottom: 5px solid #727373;
+          }
+          &.completed{
+            color: #727373;
+            font-weight: bold;
+          }
+
+        }
+      }
+
+      .change-email-bar {
+        margin-bottom: 15px;
+        span {
+          margin-right: 15px;
+          &.email {
+            font-weight: bold;
+            color: #727373;
+          }
+        }
+
+      }
+      .see-privacy-text {
+        color: #adadad;
+        font-size: 13px;
+        margin-bottom: 15px;
+      }
+    }
+    &.recover-form-container {
+      padding-top: 50px;
+    }
   }
 
   .text-status {
