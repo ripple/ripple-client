@@ -10,4 +10,5 @@ section.single.content(ng-controller="ReceiveCtrl")
     |  and copy using Ctrl+C (Win), Command+C (OSX).
   form(ng-show="copy_supported")
     button.btn.btn-success(l10n) Copy Address
-  .qr#qr-code
+  .qr#qr-code(ng-show="address")
+    rp-qrcode(data="https://ripple.com//contact?to={{address}}", size="256", version="10")

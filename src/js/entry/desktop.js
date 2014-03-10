@@ -12,6 +12,7 @@ require('../directives/formatters');
 require('../directives/directives');
 require('../directives/datalinks');
 require('../directives/errors');
+require('../directives/qr');
 require('../filters/filters');
 require('../services/globalwrappers');
 require('../services/id');

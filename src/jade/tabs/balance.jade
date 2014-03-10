@@ -45,7 +45,8 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
                 div(ng-show="loadState.B2RInstructions")
                   .instructions {{B2R.instructions.instruction}}
                   .btc-address {{B2R.instructions.instructionParams[0].value}}
-                  img.qr-code(src="")
+                  .qr-code
+                    rp-qrcode(data="bitcoin:{{B2R.instructions.instructionParams[0].value}}", size="100")
                   .about(l10n) A small amount (~.001 BTC) of your first
                     | transfer will be converted to XRP to activate your wallet.
                     a.why(href="", l10n-inc)  Why?

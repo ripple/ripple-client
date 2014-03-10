@@ -37,8 +37,7 @@ module.exports = function(grunt) {
               "deps/js/bootstrap-popover.js",
               "deps/js/angular-bootstrap/ui-bootstrap-tpls.js",
               "deps/js/bootstrap-datepicker.js",
-              "deps/js/qrcode.js",
-              "deps/js/jquery.qrcode.js",
+              "deps/js/qrcode-generator/js/qrcode.js",
               "deps/js/spin.js/dist/spin.js",
               "deps/js/snapjs/snap.js"];
 
