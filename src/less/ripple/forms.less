@@ -94,6 +94,25 @@ form {
       font-size: 12px;
     }
   }
+
+  .submit-btn-container {
+    margin: 30px auto 20px;
+    width: 50%;
+
+    .btn {
+      font-size: 16px;
+      min-height: 60px;
+    }
+
+    .btn.spinner {
+      padding: 0;
+
+      .spinnerInner {
+        top: 30px !important;
+        left: 30px !important;
+      }
+    }
+  }
 }
 
 // Undo default Bootstrap invalid style for Angular-managed forms

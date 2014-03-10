@@ -28,6 +28,7 @@
 div#wrapper
   // Header
   header
+    h1(ng-show="$route.current.tabClass == 't-login'") Welcome to Ripple Pay
     != require("./navbar.jade")()
   .container
     // Main
