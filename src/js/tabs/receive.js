@@ -10,19 +10,13 @@ util.inherits(ReceiveTab, Tab);
 
 ReceiveTab.prototype.tabName = 'receive';
 ReceiveTab.prototype.mainMenu = 'receive';
+ReceiveTab.prototype.angularDeps = Tab.prototype.angularDeps.concat(['qr']);
 
 ReceiveTab.prototype.angular = function (module) {
   module.controller('ReceiveCtrl', ['$scope', 'rpId', 'rpTracker',
                                      function ($scope, $id, $rpTracker)
   {
     if (!$id.loginStatus) return $id.goId();
-
-     // watch the address function and detect when it changes so we can inject the qr
-    $scope.$watch('address', function(){
-      if ($scope.address !== undefined)
-      // use jquery qr code library to inject qr code into div
-        $('#qr-code').qrcode('https://ripple.com//contact?to=' + $scope.address);
-    }, true);
   }]);
 };
 
