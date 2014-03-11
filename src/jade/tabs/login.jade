@@ -14,7 +14,7 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
         .submit-btn-container
           button.btn.btn-submit.btn-block.btn-success(type='submit', ng-disabled="loginForm.$invalid || ajax_loading", rp-spinner="{{ajax_loading ? 4 : null}}")
             span(l10n) Log In
-    .signup-link-container New to ripple?&#32;
+    .switch-mode-link-container New to ripple?&#32;
       a(href='#register', l10n) Sign Up
 
   .row.action-login(ng-show="$routeParams.tab")

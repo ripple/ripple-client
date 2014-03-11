@@ -15,8 +15,6 @@ RegisterTab.prototype.parent = 'main';
 RegisterTab.prototype.generateHtml = function ()
 {
   return require('../../jade/tabs/register.jade')();
-
-
 };
 
 RegisterTab.prototype.angular = function (module) {
@@ -31,6 +29,15 @@ RegisterTab.prototype.angular = function (module) {
       $location.path('/balance');
       return;
     }
+
+    // Countries list
+    var lang = store.get('ripple_language') || 'en';
+
+    $scope.countries = _.sortBy(require('../l10n/countries/' + lang + '.json'),
+      function(country){
+        return country;
+      }
+    );
 
     $scope.reset = function()
     {
@@ -114,7 +121,9 @@ RegisterTab.prototype.angular = function (module) {
         $scope.keyOpen = key;
         $scope.key = $scope.keyOpen[0] + new Array($scope.keyOpen.length).join("*");
 
-        $scope.mode = 'welcome';
+        // TODO send verification email
+//        $scope.mode = 'verification';
+        $scope.mode = 'verified';
       }, $scope.masterkey);
     };
 
@@ -168,6 +177,7 @@ RegisterTab.prototype.angular = function (module) {
 
       var regInProgress;
 
+      // TODO Update this. It cannot exist anymore, 'cause usernames are unique
       $id.exists($scope.username, $scope.password1, function (error, exists) {
         if (!regInProgress) {
           if (!exists) {
