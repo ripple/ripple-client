@@ -394,7 +394,8 @@ SendTab.prototype.angular = function (module)
         // form validator.
         return;
       }
-      var currency = send.currency;
+
+      var currency = match[0];
 
       // Demurrage: Get a reference date five minutes in the future
       //
