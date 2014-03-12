@@ -616,7 +616,8 @@ SendTab.prototype.angular = function (module)
               'Address Type': $scope.send.bitcoin ? 'bitcoin' :
                   $scope.send.federation ? 'federation' : 'ripple',
               'Destination Tag': !!$scope.send.dt,
-              'Paths': upd.alternatives.length
+              'Paths': upd.alternatives.length,
+              'Time': (+new Date() - +pathFindTime) / 1000
             });
 
             tracked = true;
@@ -640,6 +641,8 @@ SendTab.prototype.angular = function (module)
           'Destination Tag': !!$scope.send.dt
         })
       });
+
+      var pathFindTime = new Date();
     };
 
     $scope.handle_paths = function (data) {
