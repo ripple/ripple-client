@@ -285,6 +285,8 @@ var JsonRewriter = module.exports = {
           var high = node.fields.HighLimit;
           var low = node.fields.LowLimit;
 
+          var which = high.issuer === account ? 'HighNoRipple' : 'LowNoRipple';
+
           // New trust line
           if (node.diffType === "CreatedNode") {
             effect.limit = ripple.Amount.from_json(high.value > 0 ? high : low);
@@ -346,19 +348,15 @@ var JsonRewriter = module.exports = {
 
             // Trust flag change (effect gets this type only if nothing else but flags has been changed)
             else if (node.fieldsPrev.Flags) {
-              var which = high.issuer === account ? 'HighNoRipple' : 'LowNoRipple';
-
               // Account set a noRipple flag
               if (node.fields.Flags & ripple.Remote.flags.state[which] &&
                   !(node.fieldsPrev.Flags & ripple.Remote.flags.state[which])) {
-                effect.noRipple = true;
                 effect.type = "trust_change_no_ripple";
               }
 
               // Account removed the noRipple flag
               else if (node.fieldsPrev.Flags & ripple.Remote.flags.state[which] &&
                   !(node.fields.Flags & ripple.Remote.flags.state[which])) {
-                effect.noRipple = false;
                 effect.type = "trust_change_no_ripple";
               }
 
@@ -376,6 +374,11 @@ var JsonRewriter = module.exports = {
 
             if (obj.transaction && obj.transaction.type === "trust_change_balance") {
               obj.transaction.balance = effect.balance;
+            }
+
+            // noRipple flag
+            if (node.fields.Flags & ripple.Remote.flags.state[which]) {
+              effect.noRipple = true;
             }
           }
         }
