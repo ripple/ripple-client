@@ -83,6 +83,12 @@ module.service('rpAppManager', ['$rootScope', '$http', 'rpDomainAlias', 'rpRippl
     }, true);
   };
 
+  var getAllApps = function(callback) {
+    $scope.$watch('apps', function(apps){
+      if (!$.isEmptyObject(apps)) callback(apps);
+    }, true);
+  };
+
   /**
    * Save app to userBlob
    *
@@ -181,6 +187,7 @@ module.service('rpAppManager', ['$rootScope', '$http', 'rpDomainAlias', 'rpRippl
 
   return {
     getApp: getApp,
+    getAllApps: getAllApps,
     loadApp: loadApp,
     init: init,
     save: save
