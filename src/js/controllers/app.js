@@ -241,14 +241,18 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
       }
 
       // TODO load the address from user apps in blobvault
-      appManager.getApp('rhxULAn1xW9T4V2u67FX9pQjSz4Tay2zjZ', function(err, app){
-        app.findProfile('history').getTransactions($scope.address, function(err, history){
-          history.forEach(function(tx){
-            tx.app = app;
-            if (processedTxn.hash === tx.hash) {
-              processedTxn.details = tx;
-            }
-          })
+      appManager.getAllApps(function(apps){
+        _.each(apps, function(app){
+          if (historyProfile = app.findProfile('history')) {
+            historyProfile.getTransactions($scope.address, function(err, history){
+              history.forEach(function(tx){
+                tx.app = app;
+                if (processedTxn.hash === tx.hash) {
+                  processedTxn.details = tx;
+                }
+              })
+            });
+          }
         });
       });
 
