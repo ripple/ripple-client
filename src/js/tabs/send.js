@@ -849,14 +849,6 @@ SendTab.prototype.angular = function (module)
           tx.tx_json.InvoiceID = $scope.send.quote.invoice_id.toUpperCase();
         }
 
-        if ($scope.send.bitcoin) {
-          var encodedAddr = Base.decode(addrress, 'bitcoin');
-          encodedAddr = sjcl.codec.bytes.toBits(encodedAddr);
-          encodedAddr = sjcl.codec.hex.fromBits(encodedAddr).toUpperCase();
-          while (encodedAddr.length < 64) encodedAddr += "0";
-          tx.tx_json.InvoiceID = encodedAddr;
-        }
-
         tx.payment($id.account,
                    $scope.send.quote.address,
                    $scope.send.quote.send[0]);
