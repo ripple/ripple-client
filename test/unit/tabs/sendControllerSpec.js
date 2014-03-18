@@ -402,21 +402,19 @@ describe('SendCtrl', function(){
   describe('handling when a transaction send is confirmed', function (done) {
     beforeEach(function () {
       scope.send.recipient_address = 'r4EwBWxrx5HxYRyisfGzMto3AT8FZiYdWk';
+      scope.send.amount_feedback = {
+        currency: function () {
+          function to_human () {
+            return 'somestring';
+          }
+          return { to_human: to_human };
+        },
+        set_issuer: function () {}
+      };
     });
 
     describe("handling a 'propose' event from ripple-lib", function (done) {
       beforeEach(function () {
-        scope.send = {
-          amount_feedback: {
-            currency: function () {
-              function to_human () {
-                return 'somestring';
-              }
-              return { to_human: to_human }
-            }
-          }
-        }
-
         transaction = {
           hash: 'E64165A4ED2BF36E5922B11C4E192DF068E2ADC21836087DE5E0B1FDDCC9D82F'
         }
