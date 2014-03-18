@@ -115,7 +115,7 @@ HistoryTab.prototype.angular = function (module) {
               if (tx) history.push(tx);
             }
 
-            params.marker = {'ledger':data.transactions[i-1].tx.inLedger,'seq':0};
+            params.marker = data.marker;
             $scope.tx_marker = params.marker;
 
             if (completed)
