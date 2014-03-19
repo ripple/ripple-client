@@ -193,7 +193,7 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
     store.set('ripple_auth', {username: username, keys: keys});
   };
 
-  Id.prototype.register = function (username, password, callback, masterkey)
+  Id.prototype.register = function (username, password, callback, masterkey, oldUserBlob)
   {
     var self = this;
 
@@ -226,7 +226,7 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
       $scope.$broadcast('$blobUpdate');
       store.set('ripple_known', true);
       callback(null, masterkey);
-    });
+    }, oldUserBlob);
   };
 
   Id.prototype.exists = function (username, password, callback)
@@ -281,10 +281,16 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
             oldBlobErr.name = "OldBlobError";
             callback(oldBlobErr);
           } else {
-            var migrateErr = new Error('Your account uses the old blob format,'
-                                       + ' please migrate your account.');
-            migrateErr.name = "NeedsMigrationError";
-            callback(migrateErr);
+            // Migration
+
+            $scope.oldUserBlob = blob;
+            $location.path('/register');
+
+            return;
+//            var migrateErr = new Error('Your account uses the old blob format,'
+//                                       + ' please migrate your account.');
+//            migrateErr.name = "NeedsMigrationError";
+//            callback(migrateErr);
           }
         });
       } else if (err) {

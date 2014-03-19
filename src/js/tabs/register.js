@@ -111,6 +111,10 @@ RegisterTab.prototype.angular = function (module) {
 
     $scope.register = function()
     {
+      if ($scope.oldUserBlob) {
+        $scope.masterkey = $scope.oldUserBlob.data.master_seed;
+      }
+
       $id.register($scope.username, $scope.password1, function(err, key){
         if (err) {
           $scope.mode = "failed";
@@ -124,7 +128,7 @@ RegisterTab.prototype.angular = function (module) {
         // TODO send verification email
 //        $scope.mode = 'verification';
         $scope.mode = 'verified';
-      }, $scope.masterkey);
+      }, $scope.masterkey, $scope.oldUserBlob);
     };
 
     var updateFormFields = function(){

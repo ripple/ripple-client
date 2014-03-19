@@ -103,7 +103,7 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
   };
 
   BlobObj.create = function (url, id, crypt, unlock,
-                             username, account, secret, callback)
+                             username, account, secret, callback, oldUserBlob)
   {
     var blob = new BlobObj(url, id, crypt);
     blob.revision = 0;
@@ -114,6 +114,11 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
       contacts: [],
       created: (new Date()).toJSON()
     };
+
+    // Migration
+    if (oldUserBlob) {
+      blob.data.contacts = oldUserBlob.data.contacts;
+    }
 
     $.ajax({
       type: "POST",
