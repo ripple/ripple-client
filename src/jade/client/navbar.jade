@@ -13,6 +13,10 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
             a(href="#/send", l10n) Send
           li#nav-exchange(ng-class="{active: $route.current.mainMenu == 'exchange'}")
             a(href="#/exchange", l10n) Exchange
+          li#nav-receive(ng-class="{active: $route.current.mainMenu == 'receive'}")
+            a(href="#/receive", l10n) Receive
+          li#nav-trust(ng-class="{active: $route.current.mainMenu == 'trust'}")
+            a(href="#/trust", l10n) Trust
         ul.nav.navbar-nav.navbar-right
           li.balance
             p.navbar-text(ng-show="!loadState.account", l10n) Loading your balance...

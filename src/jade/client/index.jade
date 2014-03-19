@@ -17,6 +17,14 @@
     span(l10n) Exchange
   a.sub(href="#/trade", ng-class="{active: $route.current.mainMenu == 'trade'}", l10n) Trade
 
+  a.advanced(href="#/receive", ng-class="{active: $route.current.mainMenu == 'receive'}", l10n)
+    span.nav-icon.nav-icon-advanced
+    span(l10n) Receive
+
+  a.advanced(href="#/trust", ng-class="{active: $route.current.mainMenu == 'trust'}", l10n)
+    span.nav-icon.nav-icon-advanced
+    span(l10n) Trust
+
   a.advanced(href="#/security", ng-class="{active: $route.current.mainMenu == 'advanced'}")
     span.nav-icon.nav-icon-advanced
     span(l10n) Advanced
