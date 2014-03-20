@@ -1,8 +1,31 @@
 section.col-xs-12.content(ng-controller="RegisterCtrl")
+  .row.auth-form-container.col-sm-offset-2.col-sm-8.col-md-offset-3.col-md-6(ng-show='mode=="migration"')
+    .auth-form-wrapper
+      h2 Migrate your account
+      .sign-up-steps-list
+        li.active(l10n) Step
+          span  1
+        li(l10n) Step
+          span  2
+        li(l10n) Step
+          span  3
+      .alert.alert-info Dear user: the Ripple Client is moving, and the new name is Ripple Trade! Existing Client users need to migrate their accounts. Your secret key will remain the same, though you can choose a new username / password. It should only take a minute.
+      .secret-key-container Before migrating, make sure you save your secret key - it unlocks access to your funds if you lose your username or password.
+        div.secret-key
+          span.fa.fa-key
+          span(ng-hide="showSecret") •••••••••••••••••••••••••••••
+          span(ng-show="showSecret") {{oldUserBlob.data.master_seed}}
+        a(href="", ng-click="showSecret=!showSecret")
+          span(l10n, ng-hide="showSecret") Show secret key
+          span(l10n, ng-show="showSecret") Hide secret key
+      .submit-btn-container
+        button.btn.btn-block.btn-success(ng-click='mode="form"')
+          span(l10n) Migrate account
+
   .row.auth-form-container.col-sm-offset-2.col-sm-8.col-md-offset-3.col-md-6(ng-show='mode=="form"')
     .auth-form-wrapper
       form(name='registerForm', ng-submit='submitForm()')
-        h2 Sign Up
+        h2(l10n) Sign Up
         .sign-up-steps-list
           li.active(l10n) Step
             span  1

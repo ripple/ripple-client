@@ -53,6 +53,10 @@ RegisterTab.prototype.angular = function (module) {
       $scope.submitLoading = false;
       $scope.track = true;
 
+      if ($scope.oldUserBlob) {
+        $scope.mode = 'migration';
+      }
+
       if ($scope.registerForm) $scope.registerForm.$setPristine(true);
     };
 
@@ -118,7 +122,7 @@ RegisterTab.prototype.angular = function (module) {
       $id.register({
         'username': $scope.username,
         'password': $scope.password1,
-        'masterKey': $scope.masterkey,
+        'masterkey': $scope.masterkey,
         'oldUserBlob': $scope.oldUserBlob
       },
       function(err, key){
