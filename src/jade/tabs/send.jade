@@ -179,7 +179,7 @@ section.single.content(ng-controller='SendCtrl')
                 span.amnt {{alt.amount | rpamount:{rel_precision: 4, rel_min_precision: 2} }}
                 span.currency {{alt.amount | rpcurrency }}
                 .ex (
-                  span.rate {{alt.rate | rpamount:{rel_precision: 4, rel_min_precision: 2} }}
+                  span.rate {{alt.rate | rpamount:{rel_precision: 4, rel_min_precision: 2 } }}
                   span.pair {{send.currency_code}}/{{alt.amount | rpcurrency}}
                   )  
               button.btn.btn-block.btn-success(type="submit"

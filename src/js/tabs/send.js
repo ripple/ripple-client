@@ -608,6 +608,12 @@ SendTab.prototype.angular = function (module)
               var alt = {};
               alt.amount   = Amount.from_json(raw.source_amount);
               alt.rate     = alt.amount.ratio_human(amount);
+              // Compensate for demurrage (should maybe be a feature of
+              // product_human and ratio_human.)
+              if (amount.currency().has_interest()) {
+                var interestCompensation = amount.currency().get_interest_at(new Date(+new Date() + 5 * 60000));
+                alt.rate = alt.rate.ratio_human(Amount.from_json(""+interestCompensation+"/USD/1"));
+              }
               alt.send_max = alt.amount.product_human(Amount.from_json('1.01'));
               alt.paths    = raw.paths_computed
                 ? raw.paths_computed
