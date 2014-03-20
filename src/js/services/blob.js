@@ -102,32 +102,45 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
     });
   };
 
-  BlobObj.create = function (url, id, crypt, unlock,
-                             username, account, secret, callback, oldUserBlob)
+  /**
+   * Create a blob object
+   *
+   * @param {object} opts
+   * @param {string} opts.url
+   * @param {string} opts.id
+   * @param opts.crypt
+   * @param opts.unlock
+   * @param {string} opts.username
+   * @param {string} opts.account
+   * @param {string} opts.masterkey
+   * @param {object=} opts.oldUserBlob
+   * @param {function} callback
+   */
+  BlobObj.create = function (opts, callback)
   {
-    var blob = new BlobObj(url, id, crypt);
+    var blob = new BlobObj(opts.url, opts.id, opts.crypt);
     blob.revision = 0;
     blob.data = {
       auth_secret: sjcl.codec.hex.fromBits(sjcl.random.randomWords(8)),
-      encrypted_secret: blob.encryptSecret(unlock, secret),
-      account_id: account,
+      encrypted_secret: blob.encryptSecret(opts.unlock, opts.masterkey),
+      account_id: opts.account,
       contacts: [],
       created: (new Date()).toJSON()
     };
 
     // Migration
-    if (oldUserBlob) {
-      blob.data.contacts = oldUserBlob.data.contacts;
+    if (opts.oldUserBlob) {
+      blob.data.contacts = opts.oldUserBlob.data.contacts;
     }
 
     $.ajax({
       type: "POST",
-      url: url + '/blob/create',
+      url: opts.url + '/blob/create',
       dataType: 'json',
       data: {
-        blob_id: id,
-        username: username,
-        address: account,
+        blob_id: opts.id,
+        username: opts.username,
+        address: opts.account,
         signature: "",
         pubkey: "",
         auth_secret: blob.data.auth_secret,
@@ -135,18 +148,18 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
       },
       timeout: 8000
     })
-      .success(function (data) {
-        setImmediate(function () {
-          $scope.$apply(function () {
-            if (data.result === "success") {
-              callback(null, blob, data);
-            } else {
-              callback(new Error("Could not create blob"));
-            }
-          });
+    .success(function (data) {
+      setImmediate(function () {
+        $scope.$apply(function () {
+          if (data.result === "success") {
+            callback(null, blob, data);
+          } else {
+            callback(new Error("Could not create blob"));
+          }
         });
-      })
-      .error(webutil.getAjaxErrorHandler(callback, "BlobVault POST /blob/create"));
+      });
+    })
+    .error(webutil.getAjaxErrorHandler(callback, "BlobVault POST /blob/create"));
   };
 
   var cryptConfig = {

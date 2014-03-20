@@ -193,25 +193,32 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
     store.set('ripple_auth', {username: username, keys: keys});
   };
 
-  Id.prototype.register = function (username, password, callback, masterkey, oldUserBlob)
+  Id.prototype.register = function (opts, callback)
   {
     var self = this;
 
-    // If Secret Account Key is not present, generate one
-    masterkey = !!masterkey
-      ? masterkey
+    // If account master key is not present, generate one
+    var masterkey = !!opts.masterkey
+      ? opts.masterkey
       : Base58Utils.encode_base_check(33, sjcl.codec.bytes.fromBits(sjcl.random.randomWords(4)));
 
     // Callback is optional
     if ("function" !== typeof callback) callback = $.noop;
 
     // Blob data
-    username = Id.normalizeUsername(username);
-    password = Id.normalizePassword(password);
+    var username = Id.normalizeUsername(opts.username);
+    var password = Id.normalizePassword(opts.password);
 
     var account = (new RippleAddress(masterkey)).getAddress();
 
-    $authflow.register(username, password, account, masterkey, function (err, blob, keys) {
+    $authflow.register({
+      'username': username,
+      'password': password,
+      'account': account,
+      'masterkey': masterkey,
+      'oldUserBlob': opts.oldUserBlob
+    },
+    function (err, blob, keys) {
       if (err) {
         console.log("client: id: registration failed:", (err && err.stack) ? err.stack : err);
         callback(err);
@@ -226,7 +233,7 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
       $scope.$broadcast('$blobUpdate');
       store.set('ripple_known', true);
       callback(null, masterkey);
-    }, oldUserBlob);
+    });
   };
 
   Id.prototype.exists = function (username, password, callback)
