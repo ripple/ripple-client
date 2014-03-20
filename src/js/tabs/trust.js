@@ -120,7 +120,7 @@ TrustTab.prototype.angular = function (module)
               return;
             }
             var currency = match[1];
-            var amount = ripple.Amount.from_human('' + $scope.amount + ' ' + currency.toUpperCase(), {reference_date: new Date()});
+            var amount = ripple.Amount.from_human('' + $scope.amount + ' ' + currency.toUpperCase(), {reference_date: new Date(+new Date() + 5*60000)});
             amount.set_issuer($scope.counterparty_address);
             if (!amount.is_valid()) {
               // Invalid amount. Indicates a bug in one of the validators.

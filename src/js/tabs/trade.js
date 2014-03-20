@@ -309,7 +309,7 @@ TradeTab.prototype.angular = function(module)
       var first_currency = $scope.order.first_currency || Currency.from_json("XRP");
       var formatted = "" + order.first + " " + first_currency.to_json();
 
-      order.first_amount = ripple.Amount.from_human(formatted, {reference_date: new Date()});
+      order.first_amount = ripple.Amount.from_human(formatted, {reference_date: new Date(+new Date() + 5*60000)});
 
       if (!first_currency.is_native()) order.first_amount.set_issuer($scope.order.first_issuer);
     };
@@ -319,7 +319,7 @@ TradeTab.prototype.angular = function(module)
       var second_currency = $scope.order.second_currency || Currency.from_json("XRP");
       var formatted = "" + order.price + " " + second_currency.to_json();
 
-      order.price_amount = ripple.Amount.from_human(formatted, {reference_date: new Date()});
+      order.price_amount = ripple.Amount.from_human(formatted, {reference_date: new Date(+new Date() + 5*60000)});
 
       if (!second_currency.is_native()) order.price_amount.set_issuer($scope.order.second_issuer);
     };
@@ -329,7 +329,7 @@ TradeTab.prototype.angular = function(module)
       var second_currency = $scope.order.second_currency || Currency.from_json("XRP");
       var formatted = "" + order.second + " " + second_currency.to_json();
 
-      order.second_amount = ripple.Amount.from_human(formatted, {reference_date: new Date()});
+      order.second_amount = ripple.Amount.from_human(formatted, {reference_date: new Date(+new Date() + 5*60000)});
 
       if (!second_currency.is_native()) order.second_amount.set_issuer($scope.order.second_issuer);
     };
@@ -346,7 +346,7 @@ TradeTab.prototype.angular = function(module)
       $scope.update_price(type);
       if (order.price_amount && order.price_amount.is_valid() &&
           order.first_amount && order.first_amount.is_valid()) {
-        order.second_amount = order.price_amount.product_human(order.first_amount);
+        order.second_amount = order.price_amount.product_human(+order.first);
         order.second = +order.second_amount.to_human({group_sep: false});
       }
     };
