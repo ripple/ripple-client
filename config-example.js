@@ -48,8 +48,7 @@ var Options = {
 
   mixpanel: {
     "token": '',
-    // Don't track events by default
-    "track": false
+    "track": true
   },
 
   zipzap: {

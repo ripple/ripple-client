@@ -51,7 +51,6 @@ RegisterTab.prototype.angular = function (module) {
       $scope.mode = 'form';
       $scope.showMasterKeyInput = false;
       $scope.submitLoading = false;
-      $scope.track = true;
 
       if ($scope.oldUserBlob) {
         $scope.mode = 'migration';
@@ -196,11 +195,6 @@ RegisterTab.prototype.angular = function (module) {
         if (!regInProgress) {
           if (!exists) {
             regInProgress = true;
-
-            if (Options.mixpanel) {
-              // XXX You should never modify the Options object!!
-              Options.mixpanel.track = $scope.track;
-            }
 
             if (!store.disabled) {
               store.set('ripple_settings', JSON.stringify(Options));

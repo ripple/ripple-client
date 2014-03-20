@@ -19,8 +19,8 @@ OptionsTab.prototype.generateHtml = function ()
 
 OptionsTab.prototype.angular = function(module)
 {
-  module.controller('OptionsCtrl', ['$scope', '$rootScope', 'rpId', 'rpTracker',
-                                    function ($scope, $rootScope, $id, $rpTracker)
+  module.controller('OptionsCtrl', ['$scope', '$rootScope', 'rpId',
+                                    function ($scope, $rootScope, $id)
   {
     $scope.options = Options;
 
