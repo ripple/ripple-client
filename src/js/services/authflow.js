@@ -79,11 +79,22 @@ module.factory('rpAuthFlow', ['$rootScope', 'rpAuthInfo', 'rpKdf', 'rpBlob',
     }
   };
 
-  AuthFlow.register = function (username, password, account, secret, callback, oldUserBlob) {
+  /**
+   * Register an account
+   *
+   * @param {object} opts
+   * @param {string} opts.username
+   * @param {string} opts.password
+   * @param {string} opts.account
+   * @param {string} opts.masterkey
+   * @param {object=} opts.oldUserBlob
+   * @param {function} callback
+   */
+  AuthFlow.register = function (opts, callback) {
     getAuthInfo();
 
     function getAuthInfo() {
-      $authinfo.get(Options.domain, username, function (err, authInfo) {
+      $authinfo.get(Options.domain, opts.username, function (err, authInfo) {
         if (err) {
           callback(err);
           return;
@@ -99,7 +110,7 @@ module.factory('rpAuthFlow', ['$rootScope', 'rpAuthInfo', 'rpKdf', 'rpBlob',
     }
 
     function getLoginKeys(authInfo) {
-      AuthFlow.getLoginKeys(authInfo, username, password, function (err, loginKeys) {
+      AuthFlow.getLoginKeys(authInfo, opts.username, opts.password, function (err, loginKeys) {
         if (err) {
           callback(err);
           return;
@@ -110,7 +121,7 @@ module.factory('rpAuthFlow', ['$rootScope', 'rpAuthInfo', 'rpKdf', 'rpBlob',
     }
 
     function getUnlockKeys(authInfo, loginKeys) {
-      AuthFlow.getUnlockKeys(authInfo, username, password, function (err, unlockKeys) {
+      AuthFlow.getUnlockKeys(authInfo, opts.username, opts.password, function (err, unlockKeys) {
         if (err) {
           callback(err);
           return;
@@ -121,12 +132,17 @@ module.factory('rpAuthFlow', ['$rootScope', 'rpAuthInfo', 'rpKdf', 'rpBlob',
     }
 
     function setBlob(authInfo, loginKeys, unlockKeys) {
-      $blob.create(authInfo.blobvault,
-                   loginKeys.id, loginKeys.crypt,
-                   unlockKeys.unlock,
-                   username,
-                   account, secret,
-                   function (err, blob) {
+      $blob.create({
+        'url': authInfo.blobvault,
+        'id': loginKeys.id,
+        'crypt': loginKeys.crypt,
+        'unlock': unlockKeys.unlock,
+        'username': opts.username,
+        'account': opts.account,
+        'masterkey': opts.masterkey,
+        'oldUserBlob': opts.oldUserBlob
+      },
+      function (err, blob) {
         if (err) {
           callback(err);
           return;
@@ -134,7 +150,7 @@ module.factory('rpAuthFlow', ['$rootScope', 'rpAuthInfo', 'rpKdf', 'rpBlob',
 
         console.log("client: authflow: registration succeeded", blob);
         callback(null, blob, loginKeys, authInfo.username);
-      }, oldUserBlob);
+      });
     }
   };
 
