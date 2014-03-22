@@ -42,17 +42,22 @@ function(net, $q, $scope, $filter, $id) {
       d.TakerGets = Amount.from_json(d.TakerGets);
       d.TakerPays = Amount.from_json(d.TakerPays);
 
-      d.price = Amount.from_quality(d.BookDirectory, "1", "1");
-
-      if (action !== "asks") d.price = Amount.from_json("1/1/1").divide(d.price);
-
-      // Adjust for drops: The result would be a million times too large.
-      if (d[action === "asks" ? "TakerPays" : "TakerGets"].is_native())
-        d.price  = d.price.divide(Amount.from_json("1000000"));
-
-      // Adjust for drops: The result would be a million times too small.
-      if (d[action === "asks" ? "TakerGets" : "TakerPays"].is_native())
-        d.price  = d.price.multiply(Amount.from_json("1000000"));
+      if (action === "asks") {
+        d.price = Amount.from_quality(d.BookDirectory,
+                                      d.TakerPays.currency(),
+                                      d.TakerPays.issuer(), {
+          base_currency: d.TakerGets.currency(),
+          reference_date: new Date()
+        });
+      } else {
+        d.price = Amount.from_quality(d.BookDirectory,
+                                      d.TakerGets.currency(),
+                                      d.TakerGets.issuer(), {
+          inverse: true,
+          base_currency: d.TakerPays.currency(),
+          reference_date: new Date()
+        });
+      }
 
       var price = rpamount(d.price, {
         rel_precision: 4,
