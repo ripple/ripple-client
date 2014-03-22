@@ -66,14 +66,14 @@ module.factory('rpLedger', ['$q', '$rootScope', 'rpNetwork', 'rpTransactions',
     });
 
     obj.asks.sort(function (a, b) {
-      var aRatio = a.o.amount.ratio_human(a.i.amount);
-      var bRatio = b.o.amount.ratio_human(b.i.amount);
+      var aRatio = a.o.amount.ratio_human(a.i.amount, {reference_date: new Date()});
+      var bRatio = b.o.amount.ratio_human(b.i.amount, {reference_date: new Date()});
       return aRatio.compareTo(bRatio);
     });
 
     obj.bids.sort(function (a, b) {
-      var aRatio = a.o.amount.ratio_human(a.i.amount);
-      var bRatio = b.o.amount.ratio_human(b.i.amount);
+      var aRatio = a.o.amount.ratio_human(a.i.amount, {reference_date: new Date()});
+      var bRatio = b.o.amount.ratio_human(b.i.amount, {reference_date: new Date()});
       return bRatio.compareTo(aRatio);
     });
 

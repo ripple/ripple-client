@@ -6,19 +6,19 @@ var pairs = require('../data/pairs');
  * @param effect
  * @returns {*}
  */
-var getPrice = function(effect){
+var getPrice = function(effect, referenceDate){
   var g = effect.got ? effect.got : effect.gets;
   var p = effect.paid ? effect.paid : effect.pays;
   var price;
 
   _.find(pairs, function(pair){
     if (pair.name == g.currency().to_human() + '/' + p.currency().to_human()) {
-      price = p.ratio_human(g);
+      price = p.ratio_human(g, {reference_date: referenceDate});
     }
   });
 
   if (!price) {
-    price = g.ratio_human(p)
+    price = g.ratio_human(p, {reference_date: referenceDate});
   }
 
   return price;
@@ -451,7 +451,7 @@ var JsonRewriter = module.exports = {
           }
 
           if (effect.gets && effect.pays) {
-            effect.price = getPrice(effect);
+            effect.price = getPrice(effect, tx.date);
           }
 
           // Flags

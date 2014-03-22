@@ -132,7 +132,7 @@ module.filter('rpcurrencyfull', ['$rootScope', function ($scope) {
 module.filter('rpamountratio', function () {
   return function (numerator, denominator) {
     try {
-      return Amount.from_json(numerator).ratio_human(denominator);
+      return Amount.from_json(numerator).ratio_human(denominator, {reference_date: new Date()});
     } catch (err) {
       return Amount.NaN();
     }
