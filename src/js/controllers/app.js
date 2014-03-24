@@ -410,6 +410,11 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
             return;
           }
 
+          // TODO ...
+          if (!user.verified && gateway.inboundBridge.currencies[0].limit) {
+            gateway.inboundBridge.limit = gateway.inboundBridge.currencies[0].limit - balance.components[new_account].to_human();
+          }
+
           gateway.inboundBridge.instructions = instructions;
         });
       });
@@ -525,6 +530,11 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
         }
 
         $scope.B2R.active = user;
+
+        // TODO ...
+        if (!user.verified && $scope.B2R.currencies[0].limit) {
+          $scope.B2R.limit = $scope.B2R.currencies[0].limit - $scope.balances['BTC'].components['rhxULAn1xW9T4V2u67FX9pQjSz4Tay2zjZ'].to_human();
+        }
 
         // Do the necessary trust
         var trust = _.findWhere($scope.B2R.currencies, {currency: 'BTC'});

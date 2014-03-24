@@ -48,18 +48,18 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
                   .qr-code
                     rp-qrcode(data="bitcoin:{{B2R.instructions.instructionParams[0].value}}", size="100")
                   .about(l10n) A small amount (~.001 BTC) of your first
-                    | transfer will be converted to XRP to activate your wallet.
-                    a.why(href="", l10n-inc)  Why?
-                  .limit(ng-show="")
+                    | transfer will be converted to XRP to activate your wallet.&#32;
+                    a.why(href="", l10n-inc) Why?
+                  .limit(ng-show="B2R.limit")
                     span(l10n) Your current deposit limit is:
-                    span.amount 8.78
-                      span.currency BTC
+                    span.amount {{B2R.limit}}
+                      span.currency  BTC
                     a.remove(href="", l10n) Remove Limit
                 div(ng-hide="loadState.B2RInstructions") Loading...
               .inactive(ng-hide="B2R.active")
                 .row
                   .col-xs-12.col-sm-8.col-md-6
-                    label Use the Btc2Ripple service to add bitcoin
+                    label Use the BTC2Ripple service to add SnapSwap bitcoins
                 .row
                   .col-xs-12.col-sm-5.col-md-4
                     button.btn.btn-default.btn-primary.btn-block(ng-click="B2RFields=true", ng-hide="B2RFields") Add Bitcoin
@@ -122,11 +122,10 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
                 .active(ng-show="component.gateway.user")
                   div {{component.gateway.inboundBridge.instructions.instruction}}
                   .instruction-value {{component.gateway.inboundBridge.instructions.instructionParams[0].value}}
-                  .limit(ng-show="")
+                  .limit(ng-show="component.gateway.inboundBridge.currencies[0].limit")
                     span(l10n) Your current deposit limit is:
-                    span.amount 8.78
-                      span.currency BTC
-                    a.remove(href="", l10n) Remove Limit
+                    span.amount {{ component.gateway.inboundBridge.limit }}
+                      span.currency  {{component.gateway.inboundBridge.currencies[0].currency}}
               form.withdraw(ng-show="component.window == 'withdraw'")
                 .step1(ng-show='!step || step==1')
                   .row
