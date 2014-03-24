@@ -182,6 +182,9 @@ module.service('rpAppManager', ['$rootScope', '$http', 'rpDomainAlias', 'rpRippl
       return;
     }
 
+    // Ripple address is wrong
+    if (!ripple.UInt160.from_json(m.rippleAddress).is_valid()) return;
+
     return true;
   };
 
