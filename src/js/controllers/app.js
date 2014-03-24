@@ -79,8 +79,7 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
       'account': data.account,
       'ledger_index_min': -1,
       'descending': true,
-      'limit': Options.transactions_per_page,
-      'count': true
+      'limit': Options.transactions_per_page
     })
       .on('success', handleAccountTx)
       .on('error', handleAccountTxError).request();
