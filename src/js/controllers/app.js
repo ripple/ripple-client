@@ -411,7 +411,7 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
           }
 
           // TODO ...
-          if (!user.verified && gateway.inboundBridge.currencies[0].limit) {
+          if (!user.verified && gateway.inboundBridge.currencies[0].limit && balance) {
             gateway.inboundBridge.limit = gateway.inboundBridge.currencies[0].limit - balance.components[new_account].to_human();
           }
 
@@ -532,7 +532,7 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
         $scope.B2R.active = user;
 
         // TODO ...
-        if (!user.verified && $scope.B2R.currencies[0].limit) {
+        if (!user.verified && $scope.B2R.currencies[0].limit && $scope.balances['BTC']) {
           $scope.B2R.limit = $scope.B2R.currencies[0].limit - $scope.balances['BTC'].components['rhxULAn1xW9T4V2u67FX9pQjSz4Tay2zjZ'].to_human();
         }
 
