@@ -239,7 +239,7 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
         $scope.events.unshift(processedTxn);
       }
 
-      // TODO load the address from user apps in blobvault
+      // TODO Switch to txmemo field
       appManager.getAllApps(function(apps){
         _.each(apps, function(app){
           if (historyProfile = app.findProfile('history')) {
