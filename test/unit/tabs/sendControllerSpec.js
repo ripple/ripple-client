@@ -381,13 +381,6 @@ describe('SendCtrl', function(){
       done();
     });
 
-    it("should set the mode to 'confirm'", function (done) {
-      assert.notEqual(scope.mode, 'confirm');
-      scope.send_prepared();
-      assert.equal(scope.mode, 'confirm');
-      done();
-    })
-
     it('should set confirm_wait to false after a timeout', function (done) {
       scope.send_prepared();
       assert.isTrue(scope.confirm_wait);
