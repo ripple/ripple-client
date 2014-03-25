@@ -14,7 +14,7 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
         .submit-btn-container
           button.btn.btn-submit.btn-block.btn-success(type='submit', ng-disabled="loginForm.$invalid || ajax_loading", rp-spinner="{{ajax_loading ? 4 : null}}")
             span(l10n) Log In
-    .switch-mode-link-container New to ripple?&#32;
+    .switch-mode-link-container New to Ripple Trade?&#32;
       a(href='#register', l10n) Sign Up
 
   .row.action-login(ng-show="$routeParams.tab")
@@ -62,5 +62,5 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
           .col-xs-12
             button.btn.btn-lg.btn-submit.btn-block.btn-primary(type='submit', ng-disabled="loginForm.$invalid || ajax_loading", rp-spinner="{{ajax_loading ? 4 : null}}") Log In
         p.literal.hint(l10n) You can confirm this transaction on the next page.
-        p.literal(l10n) New to ripple?&#32;
+        p.literal(l10n) New to Ripple Trade?&#32;
           a(href='#/register', l10n-inc) Create a wallet
