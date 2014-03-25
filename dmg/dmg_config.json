@@ -1,0 +1,17 @@
+{
+
+  "title": "Ripple Client for Mac",
+
+  "app": "../build/pkg/nw/releases/ripple-client/mac/ripple-client.app",
+
+  "background": "xrp_ripple_logo.png",
+
+  "icon": "xrp_ripple_logo.icns",
+
+  "icons": {
+    "size": 80,
+    "app": [192, 344],
+    "alias": [448, 344]
+  }
+
+}

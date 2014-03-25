@@ -14,11 +14,13 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-connect');
+  grunt.loadNpmTasks('grunt-contrib-compress');
   grunt.loadNpmTasks('grunt-mocha-protractor');
   grunt.loadNpmTasks('grunt-jade-l10n-extractor');
   grunt.loadNpmTasks('grunt-node-webkit-builder');
   grunt.loadNpmTasks('grunt-bower-task');
   grunt.loadNpmTasks('grunt-webfont');
+  grunt.loadNpmTasks('grunt-shell');
 
   // Ripple client dependencies
   var deps = ["deps/js/jquery/dist/jquery.js",
@@ -119,6 +121,11 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     meta: {},
+    shell: {
+      appdmg: {
+        command: 'appdmg ./dmg/dmg_config.json ./ripple-client.dmg'
+      }
+    },
     recess: {
       web: {
         src: ['src/less/ripple/web.less'],
@@ -380,6 +387,19 @@ module.exports = function(grunt) {
           targetDir: './deps/js'
         }
       }
+    },
+    compress: {
+      main: {
+        options: {
+          archive: 'ripple-client.zip'
+        },
+        files: [
+          {src: ['./build/pkg/nw/releases/ripple-client/win/ripple-client'], dest: './', filter: 'isFile'}, // includes files in path
+          // {src: ['./build/pkg/nw/releases/ripple-client/win/ripple-client/**'], dest: './'}, // includes files in path and its subdirs
+          // {expand: true, cwd: './build/pkg/nw/releases/ripple-client/win/ripple-client/', src: ['**'], dest: './build/pkg/nw/releases/ripple-client/win/ripple-client'}, // makes all src relative to cwd
+          {flatten: true, src: ['./build/pkg/nw/releases/ripple-client/win/ripple-client/**'], dest: './', filter: 'isFile'} // flattens results to a single level
+        ]
+      }
     }
   });
 
@@ -475,7 +495,9 @@ module.exports = function(grunt) {
                                  'webpack',
                                  'recess',
                                  'deps',
-                                 'copy:web']);
+                                 'copy:web',
+                                 'shell',
+                                 'compress']);
 
   // Deps only - only rebuilds the dependencies
   grunt.registerTask('deps', ['uglify:deps',
