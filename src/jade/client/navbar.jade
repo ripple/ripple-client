@@ -34,17 +34,17 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
           li.navbar-text {{userCredentials.username}}
           li.dropdown.notifications-dropdown
             a.dropdown-toggle.fa.fa-lightbulb-o(ng-click="read()")
-              .number(ng-show="unseenNotifications") {{unseenNotifications}}
+              .number(ng-show="unseenNotifications.count") {{unseenNotifications.count}}
             ul#notifications.dropdown-menu
-              li(ng-hide="transactions.length") Loading...
+              li(ng-hide="notifications.length") Loading...
               li(
-                ng-repeat="entry in transactions"
+                ng-repeat="entry in notifications"
                 ng-class="entry.transaction.type"
                 rp-link-tx="entry.hash"
-                ng-show="transactions.length"
+                ng-show="notifications.length"
                 )
                 .desc(ng-switch on="entry.transaction.type")
-                  span(ng-show="$index < unseen") new
+                  span(ng-show="entry.unseen") new
                   .transaction(ng-switch-when="sent")
                     span(l10n) You sent
                       strong.nowrap  {{entry.transaction.amount | rpamount}} {{entry.transaction.amount | rpcurrency}}
