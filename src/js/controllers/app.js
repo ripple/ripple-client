@@ -185,19 +185,32 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
 
   function handleAccountTx(data)
   {
+    var lastSeenTxHash = $scope.userBlob.data.lastSeenTxHash;
+
     $scope.$apply(function () {
       $scope.history_count = data.count;
       $scope.tx_marker = data.marker;
 
       if (data.transactions) {
-        data.transactions.reverse().forEach(function (e) {
+        data.transactions.reverse().forEach(function (e, key) {
+          console.log('key',key, e.tx.hash,lastSeenTxHash);
+          if (e.tx.hash === lastSeenTxHash) {
+            console.log('keu',key);
+            $scope.unseenNotifications = data.transactions.length - 1 - key;
+          }
+
           processTxn(e.tx, e.meta, true);
         });
+
+        if ($scope.unseenNotifications === "undefined") {
+          $scope.unseenNotifications = '...';
+        }
       }
 
       $scope.loadState['transactions'] = true;
     });
   }
+
   function handleAccountTxError(data)
   {
     $scope.$apply(function () {
@@ -208,6 +221,13 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
   function handleAccountEvent(e)
   {
     $scope.$apply(function () {
+      if ($scope.unseenNotifications === undefined) {
+        $scope.unseenNotifications = 1;
+      }
+      else if ($scope.unseenNotifications === parseInt($scope.unseenNotifications)) {
+        $scope.unseenNotifications++;
+      }
+
       processTxn(e.transaction, e.meta);
     });
   }
@@ -231,7 +251,11 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
       if (processedTxn.tx_result === "tesSUCCESS" &&
           transaction &&
           !is_historic) {
-        $scope.$broadcast('$appTxNotification', transaction);
+
+        $scope.$broadcast('$appTxNotification', {
+          hash:tx.hash,
+          tx: transaction
+        });
       }
 
       // Add to recent notifications

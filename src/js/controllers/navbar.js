@@ -169,6 +169,24 @@ module.controller('NavbarCtrl', ['$scope', '$element', '$compile', 'rpId',
       }).request();
   };
 
+  /**
+   * Marks all the notifications as seen.
+   */
+  $scope.read = function() {
+    var lastTx = $scope.transactions[0].hash;
+
+    if ($scope.unseen > 0) {
+      $scope.unseen = 0;
+    }
+
+    if ($scope.userBlob.data.lastSeenTxHash !== lastTx) {
+      $scope.userBlob.set("/lastSeenTxHash", lastTx);
+
+      $scope.unseen = $scope.unseenNotifications;
+      $scope.unseenNotifications = 0;
+    }
+  };
+
   $scope.reset();
   $scope.loadMore();
 
@@ -188,9 +206,11 @@ module.controller('NavbarCtrl', ['$scope', '$element', '$compile', 'rpId',
    */
   $scope.$on('$appTxNotification', function (e, tx) {
     var $localScope = $scope.$new();
-    $localScope.tx = tx;
+    $localScope.tx = tx.tx;
 
     var html = tplAccount($localScope);
+
+    $scope.userBlob.unshift("/notifications", tx.hash);
 
     if (html.length) {
       var msg = $compile(html)($localScope);
