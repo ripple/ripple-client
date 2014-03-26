@@ -173,6 +173,10 @@ module.controller('NavbarCtrl', ['$scope', '$element', '$compile', 'rpId',
    * Marks all the notifications as seen.
    */
   $scope.read = function() {
+    // don't do anything if account is unfunded
+    if (!$scope.transactions.length)
+      return;
+
     var lastTx = $scope.transactions[0].hash;
 
     if ($scope.unseen > 0) {
