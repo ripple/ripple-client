@@ -36,15 +36,15 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
             a.dropdown-toggle.fa.fa-lightbulb-o(ng-click="read()")
               .number(ng-show="unseenNotifications.count") {{unseenNotifications.count}}
             ul#notifications.dropdown-menu
-              li(ng-hide="notifications.length") Loading...
-              li(
+              li.message(ng-hide="loadState.transactions", l10n) Loading...
+              li.message(ng-show="loadState.transactions && !notifications.length", l10n) There are no notifications yet.
+              li.notification(
                 ng-repeat="entry in notifications"
-                ng-class="entry.transaction.type"
+                ng-class="{unseen: entry.unseen}"
                 rp-link-tx="entry.hash"
                 ng-show="notifications.length"
                 )
                 .desc(ng-switch on="entry.transaction.type")
-                  span(ng-show="entry.unseen") new
                   .transaction(ng-switch-when="sent")
                     span(l10n) You sent
                       strong.nowrap  {{entry.transaction.amount | rpamount}} {{entry.transaction.amount | rpcurrency}}
@@ -107,7 +107,7 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
                   .transaction(ng-switch-default)
                     != require("../tabs/history/effects.jade")()
                 .date {{entry.date | rpfromnow}}
-              li.history
+              li.history(ng-show="notifications.length")
                 a(href="#/history") View Full History
           li.settings
             a.dropdown-toggle.fa.fa-cog

@@ -405,7 +405,19 @@ footer {
   & > li {
     border-bottom: 1px solid #ccc;
     padding: 5px 10px;
-    cursor: pointer;
+
+    &.message {
+      padding: 10px 20px;
+    }
+    &.notification {
+      cursor: pointer;
+    }
+    &.unseen {
+      background: darken(#fff,3%);
+    }
+    &.unseen:hover {
+      background: darken(#fff,7%);
+    }
 
     &:hover {
       background: darken(#fff,3%);
