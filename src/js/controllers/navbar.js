@@ -113,8 +113,6 @@ module.controller('NavbarCtrl', ['$scope', '$element', '$compile', 'rpId',
 
     var html = tplAccount($localScope);
 
-    $scope.userBlob.unshift("/notifications", tx.hash);
-
     if (html.length) {
       var msg = $compile(html)($localScope);
       enqueue(msg);

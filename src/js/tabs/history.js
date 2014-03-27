@@ -23,6 +23,8 @@ HistoryTab.prototype.angular = function (module) {
   {
     if (!$id.loginStatus) return $id.goId();
 
+    var history = [];
+
     // Latest transaction
     var latest;
 
@@ -142,12 +144,12 @@ HistoryTab.prototype.angular = function (module) {
     };
 
     var changeDateRange = function(dateMin,dateMax) {
-      $scope.history = [];
+      history = [];
       $scope.historyState = 'loading';
 
-      getDateRangeHistory(dateMin,dateMax,function(history){
+      getDateRangeHistory(dateMin,dateMax,function(hist){
         $scope.$apply(function () {
-          $scope.history = history;
+          history = hist;
           $scope.historyState = 'ready';
         })
       })
@@ -196,18 +198,13 @@ HistoryTab.prototype.angular = function (module) {
 
     // New transactions
     $scope.$watchCollection('history',function(){
-      // TODO This function has a double call on a history change. Don't know why
-      // This is a temporoary fix.
-      if (latest && $scope.history[$scope.history.length-1] && latest.hash === $scope.history[$scope.history.length-1].hash)
-        return;
+      history = $scope.history;
 
       updateHistory();
 
       // Update currencies
-      if ($scope.history.length)
+      if (history.length)
         updateCurrencies();
-
-      latest = $.extend(true, {}, $scope.history[$scope.history.length-1]);
     },true);
 
     // Updates the history collection
@@ -217,13 +214,13 @@ HistoryTab.prototype.angular = function (module) {
       //$scope.currencyUsage = [];
       $scope.historyShow = [];
 
-      if ($scope.history.length) {
+      if (history.length) {
         var dateMin, dateMax;
 
         $scope.minLedger = 0;
 
         var currencies = _.map($scope.filters.currencies,function(obj,key){return obj.checked ? key : false});
-        $scope.history.forEach(function(event)
+        history.forEach(function(event)
         {
 
           // Calculate dateMin/dateMax. Used in date filter view
@@ -409,10 +406,10 @@ HistoryTab.prototype.angular = function (module) {
               }
             });
 
-            var newHistory = _.uniq($scope.history.concat(transactions),false,function(ev){return ev.hash});
+            var newHistory = _.uniq(history.concat(transactions),false,function(ev){return ev.hash});
 
-            $scope.historyState = ($scope.history.length === newHistory.length) ? 'full' : 'ready';
-            $scope.history = newHistory;
+            $scope.historyState = (history.length === newHistory.length) ? 'full' : 'ready';
+            history = newHistory;
             setValidDateOnScopeOrNullify('dateMinView', dateMin);
           }
         });
