@@ -562,7 +562,6 @@
 
         .remove {
           font:11px OpenSansLight;
-
         }
       }
 
@@ -813,25 +812,31 @@
   @bg: #fafafa;
 
   .filters {
-    padding: 15px;
     margin: 0;
-    border: 1px solid darken(@bg, 10%);
-    background-color: @bg;
-
-    & > ul {
-      list-style-type: none;
-      margin-bottom: 0;
-    }
 
     .filter {
-      margin-top: 30px;
+      margin-bottom: 20px;
+
+      .filter-title {
+        font: 16px OpenSansLight;
+      }
+
+      .filter-description {
+        font: 12px OpenSansLight;
+        color: #959595;
+      }
+
+      .filter-choices {
+        margin-top: 10px;
+      }
+
+      .input-group {
+        margin: 0 0 10px;
+      }
     }
   }
 
   .type-filter {
-    .filter {
-      margin: 30px 0 0 0;
-    }
 
     i {
       margin: 0 10px 0 0;
@@ -855,9 +860,9 @@
       }
 
       &.active {
-        background: #428bca;
-        border: 1px solid #428bca;
-        color: #fff;
+        color: #565252;
+        background: #C8E3C2;
+        border: 1px solid #B6C49F;
 
         .count {
           float: right;
@@ -873,30 +878,7 @@
     }
   }
 
-  .date-amount-filters {
-    & > div {
-      & > span {
-        display: block;
-        font-size: 14px;
-        padding: 10px 0;
-      }
-
-      & > .row {
-        margin-left: -@grid-gutter-width / 4;
-        margin-right: -@grid-gutter-width / 4;
-      }
-
-      [class*="col-"] {
-        padding-left: @grid-gutter-width / 4;
-        padding-right: @grid-gutter-width / 4;
-      }
-
-    }
-  }
-
   .transactions {
-    margin: 20px 0 0 0;
-
     .head {
       display: inline-block;
       width: 100%;
@@ -904,7 +886,7 @@
 
       div{
         float: left;
-        padding: 10px 0;
+        margin: 0 0 10px;
         text-align: left;
       }
 

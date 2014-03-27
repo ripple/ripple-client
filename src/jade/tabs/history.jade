@@ -16,66 +16,52 @@ section.col-xs-12.content(ng-controller="HistoryCtrl")
 
   //- Connected
 
-  group(ng-show="connected && loadState.transactions && account.Balance")
-    .filters.row-padding-small
-      ul.row
-        li.col-xs-12.col-sm-6.col-md-3(l10n) Transaction type:
-          strong &#32;
-          a(href="", ng-click="filter='type'", ng-hide="filter=='type'", l10n) Change
-          a(href="", ng-click="filter=false", ng-show="filter=='type'", l10n) Hide
-        li.col-xs-12.col-sm-6.col-md-3(l10n) Currency:
-          strong &#32;
-          a(href="", ng-click="filter='currency'", ng-hide="filter=='currency'", l10n) Change
-          a(href="", ng-click="filter=false", ng-show="filter=='currency'", l10n) Hide
-        li.col-xs-12.col-sm-6.col-md-2(l10n) Date:
-          strong &#32;
-          a(href="", ng-click="filter='date'", ng-hide="filter=='date'", l10n) Change
-          a(href="", ng-click="filter=false", ng-show="filter=='date'", l10n) Hide
-        li.col-xs-12.col-sm-6.col-md-4(l10n) Minimum Amount:
-          strong  {{filters.minimumAmount}}&#32;
-          a(href="", ng-click="filter='minimum-amount'", ng-hide="filter=='minimum-amount'", l10n) Change
-          a(href="", ng-click="filter=false", ng-show="filter=='minimum-amount'", l10n) Hide
-
-      .row.filter.type-filter(ng-show="filter=='type'")
-        .col-xs-12.col-sm-3.col-lg-2(ng-repeat="name in orderedTypes")
-          label(ng-class="{active: types[name].checked}")
-            i.fa.fa-plus(ng-show="types[name].checked")
-            i.fa.fa-minus(ng-hide="types[name].checked")
-            span.name {{name}}
-            //span.count {{typeUsage[name] || 0}}
-            input(type="checkbox", name="type-filter", ng-model="types[name].checked")
-      .row.filter.type-filter(ng-show="filter=='currency'")
-        .col-xs-12.col-sm-3.col-lg-2(ng-repeat="(currency,obj) in filters.currencies")
-          label(ng-class="{active: obj.checked}")
-            i.fa.fa-plus(ng-show="obj.checked")
-            i.fa.fa-minus(ng-hide="obj.checked")
-            span.name {{currency}}
-            //span.count {{currencyUsage[currency] || 0}}
-            input(type="checkbox", name="currency-filter", ng-model="obj.checked")
-      .row.filter.date-filter(ng-show="filter=='date'")
-        .col-xs-12(l10n) Load history for specific date range
-        form.form-inline(ng-submit="submitDateRangeForm()")
-          label.form-group.date.col-xs-12.col-sm-5
-            .input-group
-              .input-group-addon
-                i.fa.fa-calendar(l10n) From
-              input.form-control(type="text", rp-datepicker, ng-model="dateMinView", readonly)
-          label.form-group.date.col-xs-12.col-sm-5
-            .input-group
-              .input-group-addon
-                i.fa.fa-calendar(l10n) To
-              input.form-control(type="text", rp-datepicker, ng-model="dateMaxView", readonly)
-          label.form-group.date.col-xs-12.col-sm-2
-            button.btn.btn-block.btn-success.submit(type='submit', l10n) Filter
-      .row.filter.amount-filter(ng-show="filter=='minimum-amount'")
-        .col-xs-12(l10n) Minimum amount filter
-        form.form-group(ng-submit="submitMinimumAmountForm()")
+  group.row(ng-show="connected && loadState.transactions && account.Balance")
+    .filters.row-padding-small.col-sm-3
+      h3 Filters
+      .filter.type-filter
+        .filter-title(l10n) Transaction type
+        .filter-choices
+          div(ng-repeat="name in orderedTypes")
+            label(ng-class="{active: types[name].checked}")
+              i.fa.fa-plus(ng-show="types[name].checked")
+              i.fa.fa-minus(ng-hide="types[name].checked")
+              span.name {{name}}
+              //span.count {{typeUsage[name] || 0}}
+              input(type="checkbox", name="type-filter", ng-model="types[name].checked")
+      .filter.type-filter
+        .filter-title(l10n) Currencies
+        .filter-choices
+          div(ng-repeat="(currency,obj) in filters.currencies")
+            label(ng-class="{active: obj.checked}")
+              i.fa.fa-plus(ng-show="obj.checked")
+              i.fa.fa-minus(ng-hide="obj.checked")
+              span.name {{currency}}
+              //span.count {{currencyUsage[currency] || 0}}
+              input(type="checkbox", name="currency-filter", ng-model="obj.checked")
+      .filter.date-filter
+        .filter-title(l10n) Date
+        .filter-description(l10n) Load history for specific date range
+        form.filter-choices(ng-submit="submitDateRangeForm()")
+          .input-group
+            .input-group-addon
+              i.fa.fa-calendar(l10n) From
+            input.form-control(type="text", rp-datepicker, ng-model="dateMinView", readonly)
+          .input-group
+            .input-group-addon
+              i.fa.fa-calendar(l10n) To
+            input.form-control(type="text", rp-datepicker, ng-model="dateMaxView", readonly)
+          button.btn.btn-block.btn-success.submit(type='submit', l10n) Filter
+      .filter.amount-filter
+        .filter-title(l10n) Minimum amount
+        form.filter-choices.row.form-group(ng-submit="submitMinimumAmountForm()")
           .col-xs-8
             input.form-control(type="text", ng-model="filters.minimumAmount")
           .col-xs-4
             button.btn.btn-block.btn-success.submit(type='submit', l10n) Filter
 
-    .transactions
+    .transactions.col-sm-9
+      h3 Transaction History
       .head
         .type
         .i
