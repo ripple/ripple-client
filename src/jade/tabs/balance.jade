@@ -54,7 +54,8 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
                     span(l10n) Your current deposit limit is:
                     span.amount {{B2R.limit}}
                       span.currency  BTC
-                    a.remove(href="", l10n) Remove Limit
+                    a.remove(href="https://btc2ripple.com/#/my/setup"
+                      target="_blank", l10n) Remove Limit
                 div(ng-hide="loadState.B2RInstructions") Loading...
               .inactive(ng-hide="B2R.active")
                 .row
