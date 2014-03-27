@@ -84,11 +84,26 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
             div(class="strength {{strength}}") {{strength}}
         .form-group(ng-class="{'field-error': registerForm.email.$error.email && registerForm.email.$dirty}")
           label(for='email') Email
-          input.form-control(type="email", name="email", id="email", placeholder="", ng-model="email", required)
+          input.form-control(type="email", name="email", id="email"
+            placeholder="", ng-model="email", required)
           p(ng-show="registerForm.email.$error.email && registerForm.email.$dirty")
             span(l10n) Email address is wrong
+        //- TODO focus on field when clicked
+        a(href="", ng-hide="showSecretField || oldUserBlob"
+          ng-click="showSecretField=true") Use secret key
+        .form-group(ng-show="showSecretField"
+          ng-class="{'field-error': registerForm.secret.$error.rpMasterKey && registerForm.secret.$dirty}")
+          //- TODO show help
+          label(for='masterkey') Secret Key
+          input.form-control(type="text", name="masterkey", id="masterkey"
+            l10n-placeholder="Leave blank if you don't have a secret key."
+            ng-model="masterkey", rp-master-key)
+          p(ng-show="registerForm.secret.$error.rpMasterKey && registerForm.secret.$dirty")
+            span(l10n) Secret is invalid
         .submit-btn-container
-          button.btn.btn-block.btn-success(type='submit', ng-disabled='registerForm.$invalid || submitLoading || "ok" !== usernameStatus', rp-spinner='{{submitLoading ? 4 : null}}')
+          button.btn.btn-block.btn-success(type='submit'
+            ng-disabled='registerForm.$invalid || submitLoading || "ok" !== usernameStatus'
+            rp-spinner='{{submitLoading ? 4 : null}}')
             span(ng-show="submitLoading", l10n) Loading...
             span(ng-hide="submitLoading", l10n) Sign Up
     .switch-mode-link-container Have an account?&#32;
