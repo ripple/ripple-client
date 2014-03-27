@@ -193,43 +193,42 @@
   width: @statusWidth;
 
   .notification {
+    z-index: 1000;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-top: none;
     position: absolute;
-    .rounded(0 0 5px 5px);
     top: 0;
-    right: 0;
-    width: 100%;
-    padding: 18px 5px 8px;
+    right: 50px;
     z-index: 50;
-    text-align: center;
+    width: 100%;
+    padding: 10px;
+    font-size: 12px;
     line-height: 20px;
-    .transition-duration(0.2s);
-
-    .number {
-      font-size: 18px;
-    }
-
-    .currency {
-      font-size: 12px;
-    }
+    text-align: center;
+    -moz-transition-duration: 0.2s;
+    -o-transition-duration: 0.2s;
+    transition-duration: 0.2s;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175); 
 
     &.active {
       top: 40px;
     }
 
     &.type-success {
-      background-color: #8DC86A;
+//      background-color: #8DC86A;
     }
 
     &.type-info {
-      background-color: #7898CA;
+//      background-color: #7898CA;
     }
 
     &.type-warning {
-      background-color: #F1CE42;
+//      background-color: #F1CE42;
     }
 
     &.type-error {
-      background-color: #DC4D38;
+//      background-color: #DC4D38;
     }
 
     &.type-offline {
