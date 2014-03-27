@@ -243,13 +243,16 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
 
       // Add to recent notifications
       if (processedTxn.tx_result === "tesSUCCESS") {
-        // Is it unseen?
-        if (processedTxn.date > ($scope.userBlob.data.lastSeenTxDate || 0)) {
-          processedTxn.unseen = true;
-          $scope.unseenNotifications.count++;
-        }
+        // Only show specific transactions
+        if ('received' === processedTxn.transaction.type) {
+          // Is it unseen?
+          if (processedTxn.date > ($scope.userBlob.data.lastSeenTxDate || 0)) {
+            processedTxn.unseen = true;
+            $scope.unseenNotifications.count++;
+          }
 
-        $scope.events.unshift(processedTxn);
+          $scope.events.unshift(processedTxn);
+        }
       }
 
       // TODO Switch to txmemo field
