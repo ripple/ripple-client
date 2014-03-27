@@ -63,12 +63,13 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
                 .row
                   .col-xs-12.col-sm-5.col-md-4
                     button.btn.btn-default.btn-primary.btn-block(ng-click="B2RFields=true", ng-hide="B2RFields") Add Bitcoin
-              form.fields(ng-show="B2RFields && !B2R.active", ng-submit="B2RSignup()")
+              form.fields(name="b2rform", ng-show="B2RFields && !B2R.active", ng-submit="B2RSignup()")
                 .form-group(ng-repeat="(name,field) in B2RSignupFields")
                   label(for="{{name}}Field") {{field.label}}
                   div.description(ng-show="field.description") {{field.description}}
-                  input.form-control(name="{{name}}Field", id="{{name}}Field", ng-model="B2RFieldValue[name]")
-                button.btn.btn-success(type="submit", ng-disabled="B2R.progress")
+                  input.form-control(name="{{name}}Field", type="email",
+                    id="{{name}}Field", ng-model="B2RFieldValue[name]", required)
+                button.btn.btn-success(type="submit", ng-disabled="B2R.progress || b2rform.$invalid")
                   span(l10n, ng-hide="B2R.progress") Add Bitcoins
                   span(l10n, ng-show="B2R.progress") Loading...
             .B2R(ng-hide="loadState.B2RApp") Loading...
