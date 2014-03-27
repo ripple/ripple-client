@@ -48,8 +48,8 @@
     "karma-mocha": "~0.1.0",
     "grunt-contrib-connect": "~0.5.0",
     "grunt-node-webkit-builder": "~0.1.14",
-    "grunt-contrib-compress": "^0.7.0",
-    "grunt-shell": "^0.6.4",
-    "appdmg": "^0.1.9"
+    "grunt-contrib-compress": "~0.7.0",
+    "grunt-shell": "~0.6.4",
+    "appdmg": "~0.1.9"
   }
 }

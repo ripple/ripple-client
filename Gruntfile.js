@@ -495,8 +495,10 @@ module.exports = function(grunt) {
                                  'webpack',
                                  'recess',
                                  'deps',
-                                 'copy:web',
-                                 'shell',
+                                 'copy:web']);
+
+  // Desktop apps packaging
+  grunt.registerTask('desktop', ['shell',
                                  'compress']);
 
   // Deps only - only rebuilds the dependencies
