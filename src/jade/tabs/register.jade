@@ -89,11 +89,17 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
           p(ng-show="registerForm.email.$error.email && registerForm.email.$dirty")
             span(l10n) Email address is wrong
         //- TODO focus on field when clicked
-        a(href="", ng-hide="showSecretField || oldUserBlob"
-          ng-click="showSecretField=true") Use secret key
+        div(ng-hide="showSecretField || oldUserBlob")
+          a(href="", ng-click="showSecretField=true", l10n) Use secret key
+          | &#32;
+          i.fa.fa-question-circle(
+            rp-popover
+            rp-popover-placement="bottom"
+            rp-popover-title="Using a secret key"
+            rp-popover-trigger="hover"
+            l10n-data-content="This will create a new Ripple name and password combination for your existing account.")
         .form-group(ng-show="showSecretField"
           ng-class="{'field-error': registerForm.secret.$error.rpMasterKey && registerForm.secret.$dirty}")
-          //- TODO show help
           label(for='masterkey') Secret Key
           input.form-control(type="text", name="masterkey", id="masterkey"
             l10n-placeholder="Leave blank if you don't have a secret key."
