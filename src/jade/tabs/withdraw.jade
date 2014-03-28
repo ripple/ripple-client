@@ -1,0 +1,10 @@
+section.single.content(ng-controller='WithdrawCtrl')
+
+  //- Disconnected
+
+  group.disconnected(ng-hide='connected')
+    p.literal(l10n="err-you-must-be-online-to-see-this-screen", l10n) You have to be online to see this screen
+
+  //- Withdraw
+
+  div(ng-show='connected')

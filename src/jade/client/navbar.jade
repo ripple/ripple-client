@@ -17,6 +17,8 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
             a(href="#/receive", l10n) Receive
           li#nav-trust(ng-class="{active: $route.current.mainMenu == 'trust'}")
             a(href="#/trust", l10n) Trust
+          li#nav-fund(ng-class="{active: $route.current.mainMenu == 'fund'}")
+            a(href="#/fund", l10n) Fund
         ul.nav.navbar-nav.navbar-right
           li.balance
             p.navbar-text(ng-show="!loadState.account", l10n) Loading your balance...
@@ -134,3 +136,10 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
           a(href="#/trade", l10n) Trade
         li(ng-class="{active: $route.current.tabName == 'exchange'}")
           a(href="#/exchange", l10n) Exchange
+  .subnav(ng-show="$route.current.mainMenu == 'fund'")
+    .container
+      ul
+        li(ng-class="{active: $route.current.tabName == 'fund'}")
+          a(href="#/fund", l10n) Fund
+        li(ng-class="{active: $route.current.tabName == 'withdraw'}")
+          a(href="#/withdraw", l10n) Withdraw

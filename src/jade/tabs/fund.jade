@@ -1,0 +1,27 @@
+section.content(ng-controller='FundCtrl')
+
+  //- Disconnected
+
+  group.disconnected(ng-hide='connected')
+    p.literal(l10n="err-you-must-be-online-to-see-this-screen", l10n) You have to be online to see this screen
+
+  //- Funding
+
+  .row(ng-show='connected')
+    .col-sm-3
+      .currencies
+        a(href="", ng-click="currencyPage = 'xrp'"
+          ng-class="{active: currencyPage == 'xrp'}") XRP (ripples)
+        a(href="", ng-click="currencyPage = 'btc'"
+          ng-class="{active: currencyPage == 'btc'}") BTC (Bitcoin)
+    .col-sm-9.list
+      .fundXrp(ng-show="currencyPage == 'xrp'")
+        .nameLine(ng-show="userCredentials.username", l10n) Ripple Name&#32;
+          span.name ~ {{userCredentials.username}}
+        .description(l10n) Your Ripple name (~{{userCredentials.username}})
+          | can be used to receive money. Ripple is switching from Ripple address
+          | to Ripple names. If you still want to see your Ripple address please
+          | click&#32;
+          a(href="", ng-click="showRippleAddress=true", l10n-inc) here
+          | .
+        .address(ng-show="showRippleAddress") {{address}}
