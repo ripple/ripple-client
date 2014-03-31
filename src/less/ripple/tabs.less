@@ -637,26 +637,7 @@
     }
   }
 
-  .B2R {
-    border-top: none;
 
-    .instructions {
-      line-height: 25px;
-    }
-
-    .btc-address {
-      font-size: 20px;
-      margin: 15px 0;
-      color: #000;
-    }
-
-    .about {
-      float: left;
-      padding: 5px 15px;
-      width: 300px;
-      line-height: 30px;
-    }
-  }
 }
 
 #t-trust {
@@ -1930,19 +1911,76 @@ html.t-trade header nav ul > li.active#nav-advanced > a:after {
     border-left: 1px solid #d9d9d9;
   }
 
-  .fundXrp {
-    .nameLine {
-      margin: 0 0 10px;
-      font: 20px OpenSansLight;
+  .nameLine {
+    margin: 0 0 20px;
+    padding: 0 0 20px;
+    font: 20px OpenSansLight;
+    border-bottom: 1px solid #d9d9d9;
 
-      .name {
-        font-weight: bold;
-      }
+    .name {
+      font-weight: bold;
+    }
+  }
+
+  .fundXrp {
+    .address {
+      font-size: 14px;
+    }
+  }
+
+  .fundBtc {
+    .action {
+      margin-top: 20px;
+    }
+  }
+
+  .B2R {
+    border-top: none;
+
+    .instructions {
+      line-height: 25px;
     }
 
-    .address {
-      margin: 20px 0 0;
-      font-size: 16px;
+    .btc-address {
+      font-size: 20px;
+      margin: 15px 0;
+      color: #000;
+    }
+
+    .about {
+      float: left;
+      padding: 5px 15px;
+      width: 300px;
+      line-height: 30px;
+    }
+
+    .active {
+      .qr-code {
+        height:100px;
+        width:100px;
+        background:#bbb;
+        float:left;
+      }
+
+      .limit {
+        clear:both;
+        padding:15px 0;
+
+        .amount {
+          font-family:OpenSansBold;
+          margin:0 15px;
+        }
+
+        .remove {
+          font:11px OpenSansLight;
+        }
+      }
+
+      .instruction-value {
+        margin: 15px 0;
+        color: #000;
+        font-size: 16px;
+      }
     }
   }
 }

@@ -38,43 +38,6 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
                 .amount 
                   span.fraction {{pending.amount}}
                   span.currency {{pending.currency}}
-          //- B2R hardcode
-          .funding-options.col-sm-8
-            .B2R(ng-show="loadState.B2RApp")
-              .active(ng-show="B2R.active")
-                div(ng-show="loadState.B2RInstructions")
-                  .instructions {{B2R.instructions.instruction}}
-                  .btc-address {{B2R.instructions.instructionParams[0].value}}
-                  .qr-code
-                    rp-qrcode(data="bitcoin:{{B2R.instructions.instructionParams[0].value}}", size="100")
-                  .about(l10n, ng-hide="account.Balance") A small amount (~.001 BTC) of your first
-                    | transfer will be converted to XRP to activate your wallet.&#32;
-                    a.why(href="", l10n-inc) Why?
-                  .limit(ng-show="B2R.limit")
-                    span(l10n) Your current deposit limit is:
-                    span.amount {{B2R.limit}}
-                      span.currency  BTC
-                    a.remove(href="https://btc2ripple.com/#/my/setup"
-                      target="_blank", l10n) Remove Limit
-                div(ng-hide="loadState.B2RInstructions") Loading...
-              .inactive(ng-hide="B2R.active")
-                .row
-                  .col-xs-12.col-sm-8.col-md-6
-                    label Use the BTC2Ripple service to add SnapSwap bitcoins
-                .row
-                  .col-xs-12.col-sm-5.col-md-4
-                    button.btn.btn-default.btn-primary.btn-block(ng-click="B2RFields=true", ng-hide="B2RFields") Add Bitcoin
-              form.fields(name="b2rform", ng-show="B2RFields && !B2R.active", ng-submit="B2RSignup()")
-                .form-group(ng-repeat="(name,field) in B2RSignupFields")
-                  label(for="{{name}}Field") {{field.label}}
-                  div.description(ng-show="field.description") {{field.description}}
-                  input.form-control(name="{{name}}Field", type="email",
-                    id="{{name}}Field", ng-model="B2RFieldValue[name]", required)
-                button.btn.btn-success(type="submit", ng-disabled="B2R.progress || b2rform.$invalid")
-                  span(l10n, ng-hide="B2R.progress") Add Bitcoins
-                  span(l10n, ng-show="B2R.progress") Loading...
-            .B2R(ng-hide="loadState.B2RApp") Loading...
-           a.manual(href="", l10n, ng-show="") Manually add a funding source
         .currency-summary(ng-show='account.Balance')
           .balancebox.currency-xrp
             .total.row
@@ -106,28 +69,6 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
                 .lbl.col-xs-8(ng-hide="component.gateway.app", rp-pretty-issuer="issuer"
                   rp-pretty-issuer-contacts="userBlob.data.contacts")
                 .balance.col-xs-4 {{ component | rpamount:{rel_precision: 0} }}
-                  .transfer(ng-show="component.gateway.app")
-                    div(ng-show="component.gateway.inboundBridge")
-                      a(href="", ng-click="component.window = 'add' === component.window ? '' : 'add'", ng-class="{selected:component.window == 'add'}") Add
-                    div(ng-show="component.outboundBridge")
-                      a(href="") Withdraw
-              .add(ng-show="component.window == 'add'")
-                .inactive(ng-hide="component.gateway.user")
-                  .row
-                    .col-xs-12.col-sm-8.col-md-6
-                      label(l10n) Use the B2R service to add bitcoins
-                  .row
-                    .col-xs-12.col-sm-4.col-md-3
-                      button.btn.btn-default.btn-primary.btn-block(l10n)
-                        | Add {{ entry.total | rpcurrencyfull }}
-                  | {{component.gateway.user}}
-                .active(ng-show="component.gateway.user")
-                  div {{component.gateway.inboundBridge.instructions.instruction}}
-                  .instruction-value {{component.gateway.inboundBridge.instructions.instructionParams[0].value}}
-                  .limit(ng-show="component.gateway.inboundBridge.currencies[0].limit")
-                    span(l10n) Your current deposit limit is:
-                    span.amount {{ component.gateway.inboundBridge.limit }}
-                      span.currency  {{component.gateway.inboundBridge.currencies[0].currency}}
               form.withdraw(ng-show="component.window == 'withdraw'")
                 .step1(ng-show='!step || step==1')
                   .row

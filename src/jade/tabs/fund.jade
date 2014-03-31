@@ -16,12 +16,51 @@ section.content(ng-controller='FundCtrl')
           ng-class="{active: currencyPage == 'btc'}") BTC (Bitcoin)
     .col-sm-9.list
       .fundXrp(ng-show="currencyPage == 'xrp'")
-        .nameLine(ng-show="userCredentials.username", l10n) Ripple Name&#32;
-          span.name ~ {{userCredentials.username}}
-        .description(l10n) Your Ripple name (~{{userCredentials.username}})
-          | can be used to receive money. Ripple is switching from Ripple address
-          | to Ripple names. If you still want to see your Ripple address please
-          | click&#32;
-          a(href="", ng-click="showRippleAddress=true", l10n-inc) here
-          | .
-        .address(ng-show="showRippleAddress") {{address}}
+        .nameLine(l10n) Ripple Name&#32;
+          span.name(ng-show="userCredentials.username") ~ {{userCredentials.username}}
+          span(ng-hide="userCredentials.username") loading...
+          .address
+            a(href="", ng-click="showRippleAddress=true"
+              ng-hide="showRippleAddress", l10n-inc) Show address
+            div(ng-show="showRippleAddress") {{address}}
+        .description(l10n) Ripple names are a new feature on Ripple! Use your
+          | Ripple name (~{{userCredentials.username}}) to receive money.
+          | You can still use your full Ripple address, and while we are
+          | working to transition to Ripple names, some gateways may still
+          | ask for your full address.
+      .fundBtc(ng-show="currencyPage == 'btc'")
+        .nameLine(l10n) Bitcoin Deposit
+        .B2R(ng-show="loadState.B2RApp")
+          .active(ng-show="B2R.active")
+            div(ng-show="loadState.B2RInstructions")
+              .instructions {{B2R.instructions.instruction}}
+              .btc-address {{B2R.instructions.instructionParams[0].value}}
+              .qr-code
+                rp-qrcode(data="bitcoin:{{B2R.instructions.instructionParams[0].value}}", size="100")
+              .about(l10n, ng-hide="account.Balance") A small amount (~.001 BTC) of your first
+                | transfer will be converted to XRP to activate your wallet.&#32;
+                a.why(href="", l10n-inc) Why?
+              .limit(ng-show="B2R.limit")
+                span(l10n) Your current deposit limit is:
+                span.amount {{B2R.limit}}
+                  span.currency  BTC
+                a.remove(href="https://btc2ripple.com/#/my/setup"
+                target="_blank", l10n) Remove Limit
+            div(ng-hide="loadState.B2RInstructions") Loading...
+          .inactive(ng-hide="B2R.active")
+            label(l10n) To deposit, generate a bitcoin receiving address
+              | using SnapSwap's btc2ripple service.
+            .row.action
+              .col-xs-12.col-sm-5.col-md-4
+                button.btn.btn-default.btn-success.btn-block(ng-hide="B2RFields"
+                  ng-click="B2RFields=true") Generate bitcoin address
+            form.fields(name="b2rform", ng-show="B2RFields && !B2R.active", ng-submit="B2RSignup()")
+              .form-group(ng-repeat="(name,field) in B2RSignupFields")
+                label(for="{{name}}Field") {{field.label}}
+                div.description(ng-show="field.description") {{field.description}}
+                input.form-control(name="{{name}}Field", type="email",
+                id="{{name}}Field", ng-model="B2RFieldValue[name]", required)
+              button.btn.btn-success(type="submit", ng-disabled="B2R.progress || b2rform.$invalid")
+                span(l10n, ng-hide="B2R.progress") Add Bitcoins
+                span(l10n, ng-show="B2R.progress") Loading...
+        .B2R(ng-hide="loadState.B2RApp") Loading...

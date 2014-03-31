@@ -25,9 +25,30 @@ FundTab.prototype.angular = function (module)
   {
     if (!$id.loginStatus) return $id.goId();
 
-    $scope.currencyPage = 'xrp';
+    $scope.currencyPage = 'btc';
 
+    $scope.showComponent = [];
 
+    $scope.B2RFieldValue = {};
+
+    // B2R Signup
+    $scope.B2RSignup = function () {
+      var fields = $scope.B2RFieldValue;
+      fields.rippleAddress = $id.account;
+
+      $scope.B2RApp.findProfile('account').signup(fields,function(err, response){
+        if (err) {
+          console.log('Error',err.message);
+          return;
+        }
+
+        $scope.B2RApp.refresh();
+
+        $scope.B2RSignupResponse = response;
+      });
+
+      $scope.B2R.progress = true;
+    };
   }]);
 };
 
