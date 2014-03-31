@@ -181,7 +181,7 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
         | user information
       .submit-btn-container
         //- TODO disabled state
-        button.btn.btn-block.btn-success(type='submit', ng-disabled='!terms', ng-click="goToBalance()") Continue
+        button.btn.btn-block.btn-success(type='submit', ng-disabled='!terms', ng-click="goToFund()") Continue
 
   .row.mode-welcome(ng-show='mode=="welcome"')
     .col-xs-12.col-md-10.col-md-offset-1
@@ -222,4 +222,4 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
       p.important(l10n) Have you saved your Secret Account Key somewhere safe?
       .row
         .col-xs-12.col-sm-5.col-lg-4
-          a.btn.btn-info.btn-block.btn-big(href='#balance', ng-click='goToBalance()', l10n) Yes, I saved my secret account key
+          a.btn.btn-info.btn-block.btn-big(href='#balance', ng-click='goToFund()', l10n) Yes, I saved my secret account key

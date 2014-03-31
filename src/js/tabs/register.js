@@ -208,7 +208,7 @@ RegisterTab.prototype.angular = function (module) {
       });
     };
 
-    $scope.goToBalance = function()
+    $scope.goToFund = function()
     {
       $scope.mode = 'form';
       $scope.reset();
@@ -220,7 +220,7 @@ RegisterTab.prototype.angular = function (module) {
         'Showed password': !!$scope.showPassword
       });
 
-      $location.path('/balance');
+      $location.path('/fund');
     };
 
     $scope.reset();
