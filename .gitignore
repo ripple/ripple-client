@@ -3,7 +3,7 @@ npm-debug.log
 .DS_Store
 node_modules
 build/
-config.js
+src/js/config.js
 analytics.js
 l10n/templates
 zipzap/config.php

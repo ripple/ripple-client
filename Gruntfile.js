@@ -199,7 +199,7 @@ module.exports = function(grunt) {
     },
     preprocess: {
       web: {
-        src: 'index.html',
+        src: 'src/index.html',
         dest: 'build/dist/index.html',
         options: {
           context: {
@@ -210,7 +210,7 @@ module.exports = function(grunt) {
         }
       },
       web_debug: {
-        src: 'index.html',
+        src: 'src/index.html',
         dest: 'build/dist/index_debug.html',
         options: {
           context: {
@@ -221,7 +221,7 @@ module.exports = function(grunt) {
         }
       },
       desktop: {
-        src: 'index.html',
+        src: 'src/index.html',
         dest: 'build/dist/index_desktop.html',
         options: {
           context: {
@@ -232,7 +232,7 @@ module.exports = function(grunt) {
         }
       },
       desktop_debug: {
-        src: 'index.html',
+        src: 'src/index.html',
         dest: 'build/dist/index_desktop_debug.html',
         options: {
           context: {
@@ -269,7 +269,7 @@ module.exports = function(grunt) {
           {expand: true, src: ['img/**'], dest: 'build/bundle/web'},
           {expand: true, src: ['deps/js/modernizr*.js'], dest: 'build/bundle/web'},
           {expand: true, src: ['deps/js/mixpanel.min.js'], dest: 'build/bundle/web'},
-          {src: 'config-example.js', dest: 'build/bundle/web/config-example.js'}
+          {src: 'src/js/config.js', dest: 'build/bundle/web/config.js'}
         ]
       },
       nw_desktop: {
@@ -283,7 +283,7 @@ module.exports = function(grunt) {
           {expand: true, src: ['deps/js/mixpanel.min.js'], dest: 'build/bundle/nw-desktop'},
           {src: 'build/dist/index_desktop.html', dest: 'build/bundle/nw-desktop/index.html'},
           {src: 'res/nw/package_desktop.json', dest: 'build/bundle/nw-desktop/package.json'},
-          {src: 'config-example.js', dest: 'build/bundle/nw-desktop/config.js'}
+          {src: 'src/js/config.js', dest: 'build/bundle/nw-desktop/config.js'}
         ]
       },
       nw_desktop_debug: {
@@ -297,7 +297,7 @@ module.exports = function(grunt) {
           {expand: true, src: ['deps/js/mixpanel.min.js'], dest: 'build/bundle/nw-desktop-debug'},
           {src: 'build/dist/index_desktop_debug.html', dest: 'build/bundle/nw-desktop-debug/index.html'},
           {src: 'res/nw/package_desktop_debug.json', dest: 'build/bundle/nw-desktop-debug/package.json'},
-          {src: 'config-example.js', dest: 'build/bundle/nw-desktop-debug/config.js'}
+          {src: 'src/js/config.js', dest: 'build/bundle/nw-desktop-debug/config.js'}
         ]
       }
     },
@@ -318,7 +318,7 @@ module.exports = function(grunt) {
       },
       scripts_debug: {
         files: ['src/js/**/*.js', 'src/jade/**/*.jade'],
-        tasks: ['webpack:pack_debug'],
+        tasks: ['webpack:pack_debug', 'copy:web'],
         options: { nospawn: true, livereload: true }
       },
       deps: {
@@ -328,16 +328,16 @@ module.exports = function(grunt) {
       },
       styles: {
         files: 'src/less/**/*.less',
-        tasks: 'recess',
+        tasks: ['recess','copy:web'],
         options: { livereload: true }
       },
       index: {
-        files: ['index.html'],
-        tasks: ['preprocess'],
+        files: ['src/index.html'],
+        tasks: ['preprocess','copy:web'],
         options: { livereload: true }
       },
       config: {
-        files: ['config.js'],
+        files: ['src/js/config.js'],
         options: { livereload: true }
       }
     },
