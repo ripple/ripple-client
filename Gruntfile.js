@@ -129,7 +129,7 @@ module.exports = function(grunt) {
     recess: {
       web: {
         src: ['src/less/ripple/web.less'],
-        dest: 'build/dist/ripple-web.css',
+        dest: 'build/dist/ripple.css',
         options: {
           compile: true
         }
@@ -318,7 +318,7 @@ module.exports = function(grunt) {
       },
       scripts_debug: {
         files: ['src/js/**/*.js', 'src/jade/**/*.jade'],
-        tasks: ['webpack:desktop_debug'],
+        tasks: ['webpack:pack_debug'],
         options: { nospawn: true, livereload: true }
       },
       deps: {
@@ -329,16 +329,16 @@ module.exports = function(grunt) {
       styles: {
         files: 'src/less/**/*.less',
         tasks: 'recess',
-        options: { livereload:true }
+        options: { livereload: true }
       },
       index: {
         files: ['index.html'],
         tasks: ['preprocess'],
-        options: { livereload:true }
+        options: { livereload: true }
       },
       config: {
         files: ['config.js'],
-        options: { livereload:true }
+        options: { livereload: true }
       }
     },
     connect: {
@@ -406,7 +406,10 @@ module.exports = function(grunt) {
   // Webpack
   var webpack = {
     options: {
-      entry: "./src/js/entry/desktop.js",
+      entry: {
+        web: "./src/js/entry/web.js",
+        desktop: "./src/js/entry/desktop.js"
+      },
       module: {
         preLoaders: [
           {
@@ -437,7 +440,7 @@ module.exports = function(grunt) {
         new BannerPlugin("Ripple Client v<%= meta.version %>\nCopyright (c) <%= grunt.template.today('yyyy') %> <%= pkg.author.name %>\nLicensed under the <%= pkg.license %> license.")
       ]
     },
-    desktop: {
+    pack: {
       module: {
         loaders: [
           { test: /\.jade$/, loader: "jade-l10n-loader" },
@@ -445,13 +448,14 @@ module.exports = function(grunt) {
         ]
       },
       output: {
-        filename: "<%= pkg.name %>-desktop.js"
+        filename: "<%= pkg.name %>-[name].js"
       },
       optimize: {
         minimize: true
       }
+      // TODO "target" usage?
     },
-    desktop_debug: {
+    pack_debug: {
       module: {
         loaders: [
           { test: /\.jade$/, loader: "jade-l10n-loader" },
@@ -459,7 +463,7 @@ module.exports = function(grunt) {
         ]
       },
       output: {
-        filename: "<%= pkg.name %>-desktop-debug.js"
+        filename: "<%= pkg.name %>-[name]-debug.js"
       },
       debug: true,
       devtool: 'eval'
@@ -467,7 +471,7 @@ module.exports = function(grunt) {
   };
 
   languages.forEach(function(language){
-    webpack[language.name] = {
+    webpack['pack_l10n_' + language.name] = {
       module: {
         loaders: [
           { test: /\.jade$/, loader: "jade-l10n-loader?languageFile=./l10n/" + language.code + "/messages.po" },
@@ -475,7 +479,7 @@ module.exports = function(grunt) {
         ]
       },
       output: {
-        filename: "<%= pkg.name %>-desktop-" + language.code + ".js"
+        filename: "<%= pkg.name %>-[name]-" + language.code + ".js"
       },
       optimize: {
         minimize: true

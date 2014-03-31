@@ -17,7 +17,7 @@
 
   <!-- CSS -->
   <link href="fonts/stylesheet.css" rel="stylesheet">
-  <link href="build/dist/ripple-web.css" rel="stylesheet">
+  <link href="build/dist/ripple.css" rel="stylesheet">
   <!-- ENDS CSS -->
 
   <!-- @if TARGET == 'desktop' !>
@@ -102,7 +102,7 @@
     var lang = store.get('ripple_language');
   </script>
 
-  <!-- @ifdef MODE == 'debug' -->
+  <!-- @if MODE == 'debug' !>
   <script>
     lang = 'debug';
   </script>
@@ -110,8 +110,8 @@
 
   <script id="client">
     var clFile = lang
-      ? 'build/dist/ripple-client-desktop-' + lang
-      : 'build/dist/ripple-client-desktop';
+      ? 'build/dist/ripple-client-<!-- @echo TARGET -->-' + lang
+      : 'build/dist/ripple-client-<!-- @echo TARGET -->';
 
     var script = document.createElement("script");
     script.setAttribute("src", clFile + '.js?v=0.2.48');
