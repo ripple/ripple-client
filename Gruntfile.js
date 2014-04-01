@@ -200,7 +200,7 @@ module.exports = function(grunt) {
     preprocess: {
       web: {
         src: 'src/index.html',
-        dest: 'build/dist/index.html',
+        dest: 'build/dist/web/index.html',
         options: {
           context: {
             MODE: "release",
@@ -211,7 +211,7 @@ module.exports = function(grunt) {
       },
       web_debug: {
         src: 'src/index.html',
-        dest: 'build/dist/index_debug.html',
+        dest: 'build/dist/web/index_debug.html',
         options: {
           context: {
             MODE: "debug",
@@ -222,7 +222,7 @@ module.exports = function(grunt) {
       },
       desktop: {
         src: 'src/index.html',
-        dest: 'build/dist/index_desktop.html',
+        dest: 'build/dist/desktop/index.html',
         options: {
           context: {
             MODE: "release",
@@ -233,7 +233,7 @@ module.exports = function(grunt) {
       },
       desktop_debug: {
         src: 'src/index.html',
-        dest: 'build/dist/index_desktop_debug.html',
+        dest: 'build/dist/desktop/index_debug.html',
         options: {
           context: {
             MODE: "debug",
@@ -261,41 +261,60 @@ module.exports = function(grunt) {
     copy: {
       web: {
         files: [
-          {expand: true, src: ['build/dist/*.js'], dest: 'build/bundle/web'},
-          {expand: true, src: ['build/dist/*.css'], dest: 'build/bundle/web'},
-          {expand: true, src: ['build/dist/*.html'], dest: 'build/bundle/web', flatten: true},
+          {expand: true, src: ['build/dist/*.js'],
+            dest: 'build/bundle/web/js', flatten: true},
+          {expand: true, src: ['build/dist/web/*.js'],
+            dest: 'build/bundle/web/js', flatten: true},
+          {expand: true, src: ['build/dist/*.css'],
+            dest: 'build/bundle/web/css', flatten: true},
           {expand: true, src: ['fonts/*'], dest: 'build/bundle/web'},
           {expand: true, src: ['res/icons/font/*'], dest: 'build/bundle/web'},
           {expand: true, src: ['img/**'], dest: 'build/bundle/web'},
-          {expand: true, src: ['deps/js/modernizr*.js'], dest: 'build/bundle/web'},
-          {expand: true, src: ['deps/js/mixpanel.min.js'], dest: 'build/bundle/web'},
+          {expand: true, src: ['deps/js/modernizr*.js'],
+            dest: 'build/bundle/web/js/deps', flatten: true},
+          {expand: true, src: ['deps/js/mixpanel.min.js'],
+            dest: 'build/bundle/web/js/deps', flatten: true},
+          {src: 'build/dist/web/index.html', dest: 'build/bundle/web/index.html'},
+          {src: 'build/dist/web/index_debug.html', dest: 'build/bundle/web/index_debug.html'},
           {src: 'src/js/config.js', dest: 'build/bundle/web/config.js'}
         ]
       },
       nw_desktop: {
         files: [
-          {expand: true, src: ['build/dist/*.js'], dest: 'build/bundle/nw-desktop'},
-          {expand: true, src: ['build/dist/*.css'], dest: 'build/bundle/nw-desktop'},
+          {expand: true, src: ['build/dist/*.js'],
+            dest: 'build/bundle/nw-desktop/js', flatten: true},
+          {expand: true, src: ['build/dist/desktop/*.js'],
+            dest: 'build/bundle/nw-desktop/js', flatten: true},
+          {expand: true, src: ['build/dist/*.css'],
+            dest: 'build/bundle/nw-desktop/css', flatten: true},
           {expand: true, src: ['fonts/*'], dest: 'build/bundle/nw-desktop'},
           {expand: true, src: ['res/icons/font/*'], dest: 'build/bundle/nw-desktop'},
           {expand: true, src: ['img/**'], dest: 'build/bundle/nw-desktop'},
-          {expand: true, src: ['deps/js/modernizr*.js'], dest: 'build/bundle/nw-desktop'},
-          {expand: true, src: ['deps/js/mixpanel.min.js'], dest: 'build/bundle/nw-desktop'},
-          {src: 'build/dist/index_desktop.html', dest: 'build/bundle/nw-desktop/index.html'},
+          {expand: true, src: ['deps/js/modernizr*.js'],
+            dest: 'build/bundle/nw-desktop/js/deps', flatten: true},
+          {expand: true, src: ['deps/js/mixpanel.min.js'],
+            dest: 'build/bundle/nw-desktop/js/deps', flatten: true},
+          {src: 'build/dist/desktop/index.html', dest: 'build/bundle/nw-desktop/index.html'},
           {src: 'res/nw/package_desktop.json', dest: 'build/bundle/nw-desktop/package.json'},
           {src: 'src/js/config.js', dest: 'build/bundle/nw-desktop/config.js'}
         ]
       },
       nw_desktop_debug: {
         files: [
-          {expand: true, src: ['build/dist/*.js'], dest: 'build/bundle/nw-desktop-debug'},
-          {expand: true, src: ['build/dist/*.css'], dest: 'build/bundle/nw-desktop-debug'},
+          {expand: true, src: ['build/dist/*.js'],
+            dest: 'build/bundle/nw-desktop-debug/js', flatten: true},
+          {expand: true, src: ['build/dist/desktop/*.js'],
+            dest: 'build/bundle/nw-desktop-debug/js', flatten: true},
+          {expand: true, src: ['build/dist/*.css'],
+            dest: 'build/bundle/nw-desktop-debug/css', flatten: true},
           {expand: true, src: ['fonts/*'], dest: 'build/bundle/nw-desktop-debug'},
           {expand: true, src: ['res/icons/font/*'], dest: 'build/bundle/nw-desktop-debug'},
           {expand: true, src: ['img/**'], dest: 'build/bundle/nw-desktop-debug'},
-          {expand: true, src: ['deps/js/modernizr*.js'], dest: 'build/bundle/nw-desktop-debug'},
-          {expand: true, src: ['deps/js/mixpanel.min.js'], dest: 'build/bundle/nw-desktop-debug'},
-          {src: 'build/dist/index_desktop_debug.html', dest: 'build/bundle/nw-desktop-debug/index.html'},
+          {expand: true, src: ['deps/js/modernizr*.js'],
+            dest: 'build/bundle/nw-desktop-debug/js/deps', flatten: true},
+          {expand: true, src: ['deps/js/mixpanel.min.js'],
+            dest: 'build/bundle/nw-desktop-debug/js/deps', flatten: true},
+          {src: 'build/dist/desktop/index_debug.html', dest: 'build/bundle/nw-desktop-debug/index.html'},
           {src: 'res/nw/package_desktop_debug.json', dest: 'build/bundle/nw-desktop-debug/package.json'},
           {src: 'src/js/config.js', dest: 'build/bundle/nw-desktop-debug/config.js'}
         ]
@@ -448,7 +467,7 @@ module.exports = function(grunt) {
         ]
       },
       output: {
-        filename: "<%= pkg.name %>-[name].js"
+        filename: "[name]/<%= pkg.name %>.js"
       },
       optimize: {
         minimize: true
@@ -463,7 +482,7 @@ module.exports = function(grunt) {
         ]
       },
       output: {
-        filename: "<%= pkg.name %>-[name]-debug.js"
+        filename: "[name]/<%= pkg.name %>-debug.js"
       },
       debug: true,
       devtool: 'eval'
@@ -479,7 +498,7 @@ module.exports = function(grunt) {
         ]
       },
       output: {
-        filename: "<%= pkg.name %>-[name]-" + language.code + ".js"
+        filename: "[name]/<%= pkg.name %>-" + language.code + ".js"
       },
       optimize: {
         minimize: true

@@ -17,17 +17,17 @@
 
   <!-- CSS -->
   <link href="fonts/stylesheet.css" rel="stylesheet">
-  <link href="build/dist/ripple.css" rel="stylesheet">
+  <link href="css/ripple.css" rel="stylesheet">
   <!-- ENDS CSS -->
 
   <!-- @if TARGET == 'desktop' !>
-  <link href="build/dist/ripple-desktop.css" rel="stylesheet">
+  <link href="js/ripple-desktop.css" rel="stylesheet">
   <!-- @endif -->
 
   <!-- All JavaScript at the bottom, except this Modernizr build.
      Modernizr enables HTML5 elements & feature detects for optimal performance.
      Create your own custom Modernizr build: www.modernizr.com/download/ -->
-  <script src="deps/js/modernizr-2.5.3.min.js"></script>
+  <script src="js/deps/modernizr-2.5.3.min.js"></script>
 </head>
 
 <body ng-class="{loaded: app_loaded}">
@@ -73,26 +73,26 @@
 
   <!-- JAVASCRIPT -->
   <!-- @if MODE == 'release' !>
-  <script src="build/dist/deps.js"></script>
+  <script src="js/deps.js"></script>
   <!--[if IE]>
   <script src="compat/ie/ws/ws-config.js"></script>
-  <script src="build/dist/compat_ie.js"></script>
+  <script src="js/compat_ie.js"></script>
   <![endif]-->
   <!-- @endif -->
 
   <!-- @if MODE == 'debug' -->
-  <script src="build/dist/deps-debug.js"></script>
+  <script src="js/deps-debug.js"></script>
   <!--[if IE]>
   <script src="compat/ie/ws/ws-config.js"></script>
-  <script src="build/dist/compat_ie-debug.js"></script>
+  <script src="js/compat_ie-debug.js"></script>
   <![endif]-->
   <!-- @endif -->
 
   <!-- @if TARGET == 'desktop' && MODE == 'release' !>
-  <script src="build/dist/compat_nw.js"></script>
+  <script src="js/compat_nw.js"></script>
   <!-- @endif -->
   <!-- @if TARGET == 'desktop' && MODE == 'debug' !>
-  <script src="build/dist/compat_nw-debug.js"></script>
+  <script src="js/compat_nw-debug.js"></script>
   <!-- @endif -->
 
   <script src="config.js"></script>
@@ -110,8 +110,8 @@
 
   <script id="client">
     var clFile = lang
-      ? 'build/dist/ripple-client-<!-- @echo TARGET -->-' + lang
-      : 'build/dist/ripple-client-<!-- @echo TARGET -->';
+      ? 'js/ripple-client-' + lang
+      : 'js/ripple-client';
 
     var script = document.createElement("script");
     script.setAttribute("src", clFile + '.js?v=0.2.48');
@@ -119,7 +119,7 @@
   </script>
 
   <!-- start Mixpanel -->
-  <script type="text/javascript">if (Options.mixpanel) { (function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src='deps/js/mixpanel.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f);b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==
+  <script type="text/javascript">if (Options.mixpanel) { (function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src='js/deps/mixpanel.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f);b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==
           typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");for(g=0;g<i.length;g++)f(c,i[g]);
     b._i.push([a,e,d])};b.__SV=1.2}})(document,window.mixpanel||[]);
   mixpanel.init(Options.mixpanel.token); }</script>
