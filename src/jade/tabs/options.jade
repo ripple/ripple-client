@@ -47,84 +47,93 @@ section.col-xs-12.content(ng-controller="OptionsCtrl")
           //-     .col-xs-12.col-sm-8.col-md-3.col-lg-2
           //-       button.btn.btn-block.btn-success.submit(type='submit', ng-disabled='optionsForm.$invalid', l10n) Save
         accordion-group(heading="Gateway settings", is-open="true")
+          .form-group.form-section
+            table.table.gateway-settings
+              thead
+                tr
+                  th.col-sm-3 
+                    .currency-name.usd USD
+                  th.col-sm-1(l10n) Balance
+                  th.col-sm-1(l10n) Max
+                  th.col-sm-1(l10n) Min
+                  th.col-sm-1(l10n) Rippling
+                  th.col-sm-3
+              tbody
+                tr
+                  td Bitstamp
+                  td 210
+                  td 100
+                  td 100
+                  td off
+                  td
+                    a Edit
+
+                tr
+                  td Snapswap
+                  td 210
+                  td &infin;
+                  td &infin;
+                  td off
+                  td
+                    a Edit
+
+                tr
+                  td Bitstamp
+                  td 210
+                  td &infin;
+                  td &infin;
+                  td off
+                  td
+                    a Edit
+
+            table.table.gateway-settings
+              thead
+                tr
+                  th.col-sm-3 
+                    .currency-name.btc BTC (Bitcoin)
+                  th.col-sm-1(l10n) Balance
+                  th.col-sm-1(l10n) Max
+                  th.col-sm-1(l10n) Min
+                  th.col-sm-1(l10n) Rippling
+                  th.col-sm-3
+              tbody
+                tr
+                  td Justcoin
+                  td 21000
+                  td &infin;
+                  td &infin;
+                  td off
+                  td
+                    a Edit
           .form-group
             .row
-              .col-xs-12.col-sm-10.col-md-8
-                table.gateway-settings
-                  thead
-                    tr
-                      th(l10n) My Gateways
-                      th(l10n) Currency
-                      th(l10n) Balance
-                      th(l10n) Max
-                      th(l10n) Rippling
-                  tbody
-                    tr
-                      td ~SnapSwap
-                      td USD
-                      td 210
-                      td &infin;
-                      td off
-                      td
-                        a Edit
-                    tr
-                      td ~Bitstamp
-                      td BTC
-                      td 210
-                      td 100
-                      td off
-                      td
-                        a Edit
-                    tr
-                      td 
-                      td DYM
-                      td 1
-                      td 100
-                      td off
-                      td
-                        a Edit
-                    tr
-                      td 
-                      td USD
-                      td -20
-                      td 5
-                      td off
-                      td
-                        a Edit
-                    tr
-                      td r129kfsfdkksdsl123ff
-                      td USD
-                      td 210
-                      td &infin;
-                      td off
-                      td
-                        a Edit
-                    tr
-                      td ~SnapSwap
-                      td USD
-                      td 210
-                      td &infin;
-                      td off
-                      td
-                        a Edit
-          .form-group
-            .row
-              .col-xs-12.col-sm-6.col-md-4
+              .col-xs-12.col-sm-6.col-md-5.ripple-name
                 label(l10n) Ripple Name
                 input.form-control(type="text")
               .col-xs-6.col-sm-3.col-md-3
                 label(l10n) Amount
                 input.form-control(type="text")
-              .col-xs-6.col-sm-3.col-md-3
+              .col-xs-6.col-sm-3.col-md-2
                 label(l10n) Currency
-                select.form-control(type="text")
-            .row
-              .col-xs-12.col-sm-8.col-md-3.col-lg-2
-                button.btn.btn-block.btn-primary.submit(type='button', l10n) Confirm
+                .rp-combobox
+                  input.currency.form-control(
+                    name='amount_currency', 
+                    type='text', 
+                    autocomplete='off'
+                  )
+                  ul.completions(style='display: none;')
+                  .select
+
+                //- select.form-control(type="text")
           .form-group
             label
               input(type='checkbox')
               | Allow rippling (balances from this account can be moved into other accounts without my conset)
+
+          .form-group      
+            .row
+              .col-xs-12.col-sm-4.col-md-3.col-lg-2
+                button.btn.btn-block.btn-primary.submit(type='button', l10n) Confirm
           //- hr.accordion-full
           //- .form-group.form-group-subtitle-wrapper
             span.settings-subtitle(l10n) My Account holders
@@ -188,13 +197,16 @@ section.col-xs-12.content(ng-controller="OptionsCtrl")
                       td
                         a Edit
         accordion-group(heading="Wallet settings", is-open="true")
-          .form-group
+          .form-group.wallet-settings
             label
               input(type='checkbox')      
               | Allow Rippling
-        accordion-group(heading="Security settings", is-open="true")
+            p.description(l10n) Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eu tortor nec neque auctor vestibulum. Suspendisse bibendum adipiscing ante ut bibendum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eu tortor nec neque auctor vestibulum. Suspendisse bibendum adipiscing ante ut bibendum.
+
+        accordion-group.hidden-xs(heading="Security settings", is-open="true")
           .form-group
-            h5(l10n) Secret Key
+            h5
+              strong(l10n) Secret Key
             p(l10n) Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eu tortor nec neque auctor vestibulum. Suspendisse bibendum adipiscing ante ut bibendum. Duis varius dui eget nulla pulvinar, in fermentum urna luctus. Aenean consectetur mauris sed ligula tincidunt, sit amet ullamcorper dolor auctor. Nulla facilisi. Aenean viverra varius odio ac euismod. Donec eget quam sit amet urna posuere euismod imperdiet in elit.
             p
               strong(l10n) Store it somewhere safe, never hare it.

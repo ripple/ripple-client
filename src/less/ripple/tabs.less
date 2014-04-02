@@ -801,6 +801,18 @@
   form .row {
     margin-bottom: 10px;
   }
+
+
+  label {
+    color: #929191;
+  }
+
+  label {
+    input[type="checkbox"] {
+      margin-right: 10px;
+    }
+  }
+
   .errorGroup {
     height: auto;
   }
@@ -836,6 +848,7 @@
       background: transparent;
       padding:0;
       margin: 0;
+      border-bottom: 1px solid #d1d1d2;
       a{
         font-size: 14px;
         display: block;
@@ -851,12 +864,18 @@
       border:0;
       position: relative;
     }
+
+
+    .form-section {
+      border-bottom: 1px solid #d1d1d2;
+    }
+
     .form-group{
 
       display: inline-block;
       width: 100%;
-      border-top:1px solid #ccc;
-      margin-top: 20px;
+      // border-top:1px solid #ccc;
+      // margin-top: 20px;
       margin-bottom: 0;
       padding: 20px 15px 0 15px;
       &:first-child{
@@ -901,20 +920,58 @@
     }
     .gateway-settings{
       width: 100%;
+
+      a {
+        color: inherit;
+      }
+
       th{
-        font-size: 12px;
+        font-size: 14px;
         font-weight: 600;
         padding-bottom: 10px;
+        border-bottom: 1px solid #d1d1d2;
+        color: #000000;
+
+        .currency-name {
+          font-size: 24px;
+          line-height: 26px;
+          margin-bottom: 5px;
+          padding-left: 5px;
+        }
+
       }
-      td{
-        font-size: 12px;
-        line-height: 24px;
-      }
+
       th,td{
         text-align: center;
         &:first-child{
           text-align: left;
         }
+      }
+
+
+      tbody {
+        td {
+          border:none;
+          color: #a4a4a4;
+          font-size: 12px;
+          line-height: 24px;
+
+          &:first-child {
+            color: #676767;
+            font-size: 14px;
+          }
+        }
+
+      }
+
+    }
+
+    .wallet-settings {
+      label {
+        margin-bottom: 10px;
+      }
+      .description {
+        color: #929191;
       }
     }
     .secret-key-wrapper{
@@ -924,8 +981,9 @@
       margin:0 -30px 15px -30px;
       .secret-key-inner{
         padding: 10px 30px;
+        text-align: center;
         strong{
-          font-size: 40px;
+          font-size: 26px;
           line-height: 40px;
           font-weight: normal;
           display: block;
@@ -938,6 +996,61 @@
         }
       }
     }
+    
+
+    @media (min-width: @screen-xs-max) {
+      .gateway-settings{
+        tbody {
+          tr:nth-child(2n) td {
+            background-color: #ffffff;
+          }
+        }
+      }
+    }
+
+    @media (max-width: @screen-xs-max) {
+      .gateway-settings{
+        thead {
+          display: none;
+        }
+        tbody {
+          td {
+            display: block;
+            text-align: left;
+            position: relative;
+            padding-left: 100px;
+
+            &:before {
+              position: absolute;
+              display: block;
+              left: 0;
+              font-weight: bold;
+              font-size: 12px;
+              color: #666769;
+            }
+
+            &:last-child {
+              margin-bottom: 15px;
+            }
+          }
+
+          td:nth-of-type(1):before { content: "Issuer"; }
+          td:nth-of-type(2):before { content: "Balance"; }
+          td:nth-of-type(3):before { content: "Max"; }
+          td:nth-of-type(4):before { content: "Min"; }
+          td:nth-of-type(5):before { content: "Rippling"; }
+
+
+
+        }
+      }
+
+      .ripple-name {
+        margin-bottom: 15px;
+      }
+    }
+
+
   }
 }
 
