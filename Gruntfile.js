@@ -122,8 +122,12 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
     meta: {},
     shell: {
-      appdmg: {
-        command: 'appdmg ./dmg/dmg_config.json ./ripple-client.dmg'
+      build: {
+        command: [
+          'appdmg ./dmg/dmg_config.json ./build/packages/ripple-client.dmg',
+          'tar -cvf ./build/packages/ripple-client32.tar ./build/pkg/nw/releases/ripple-client/linux32/ripple-client',
+          'tar -cvf ./build/packages/ripple-client64.tar ./build/pkg/nw/releases/ripple-client/linux64/ripple-client'
+        ].join('&')
       }
     },
     recess: {
@@ -410,12 +414,10 @@ module.exports = function(grunt) {
     compress: {
       main: {
         options: {
-          archive: 'ripple-client.zip'
+          archive: './build/packages/ripple-client.zip'
         },
         files: [
           {src: ['./build/pkg/nw/releases/ripple-client/win/ripple-client'], dest: './', filter: 'isFile'}, // includes files in path
-          // {src: ['./build/pkg/nw/releases/ripple-client/win/ripple-client/**'], dest: './'}, // includes files in path and its subdirs
-          // {expand: true, cwd: './build/pkg/nw/releases/ripple-client/win/ripple-client/', src: ['**'], dest: './build/pkg/nw/releases/ripple-client/win/ripple-client'}, // makes all src relative to cwd
           {flatten: true, src: ['./build/pkg/nw/releases/ripple-client/win/ripple-client/**'], dest: './', filter: 'isFile'} // flattens results to a single level
         ]
       }
