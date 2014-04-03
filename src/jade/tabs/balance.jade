@@ -47,10 +47,22 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
               .balance.col-xs-4
                 | {{ account.Balance | rpamount:{rel_precision: 2, max_sig_digits: 20} }}
             .component.row
-              .lbl.col-xs-8 Available
+              .lbl.col-xs-8 Available 
+                i.fa.fa-question-circle(
+                  rp-popover
+                  rp-popover-placement="bottom"
+                  rp-popover-title="Available amount"
+                  rp-popover-trigger="hover"
+                  l10n-data-content="Total amount of XRP in your account minus the reserve amount.")
               .balance.col-xs-4 {{account.max_spend | rpamount:{rel_precision: 0} }}
             .component.row
-              .lbl.col-xs-8 Reserve
+              .lbl.col-xs-8 Reserve 
+                i.fa.fa-question-circle(
+                  rp-popover
+                  rp-popover-placement="bottom"
+                  rp-popover-title="Reserve amount"
+                  rp-popover-trigger="hover"
+                  l10n-data-content="Minimum amount of XRP required to fund your account. You cannot spend the reserve.")
               .balance.col-xs-4 {{ account.reserve | rpamount }}
           //- TODO Determine currencies order
           .balancebox.currency-non-native(ng-repeat="entry in balances", ng-class="'currency-' + (entry.total | rpcurrency | lowercase)")
