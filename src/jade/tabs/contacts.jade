@@ -11,7 +11,7 @@ section.col-xs-12.content(ng-controller="ContactsCtrl")
     .col-xs-12.col-sm-5
       form(name="addForm", id="addForm", ng-submit="create()")
         .form-group
-          label(for='Name', l10n) Name
+          label(for='Name', l10n) Contact
           input.form-control.input-lg.name#name(name='name', type='text', step='any', maxlength="70"
             ng-model='contact.name'
             rp-unique='userBlob.data.contacts'
@@ -20,11 +20,11 @@ section.col-xs-12.content(ng-controller="ContactsCtrl")
             required
             rp-focus)
           .errorGroup(rp-errors='name')
-            .error(rp-error-on='required', l10n) Please enter a name.
+            .error(rp-error-on='required', l10n) Please enter a contact.
             .error(rp-error-on='rpUnique', l10n)
-              | You already have a contact with the same name.
+              | This contact already exists.
         .form-group
-          label(for='Address', l10n) Address
+          label(for='Address', l10n) Ripple name
           input.form-control.input-lg.address#address(
             name='address', type='text', step='any'
             ng-model='contact.address'
@@ -34,9 +34,9 @@ section.col-xs-12.content(ng-controller="ContactsCtrl")
             rp-autofill='$routeParams.to', rp-autofill-on='addform_visible = true'
             required)
           .errorGroup(rp-errors='address')
-            .error(rp-error-on='required', l10n) Please enter an address.
-            .error(rp-error-on='rpUnique', l10n) You already have a contact with the same address.
-            .error(rp-error-on='rpDest', l10n) Not a valid address.
+            .error(rp-error-on='required', l10n) Please enter a Ripple name.
+            .error(rp-error-on='rpUnique', l10n) You already have a contact with the same Ripple name.
+            .error(rp-error-on='rpDest', l10n) Not a valid Ripple name or address.
         .form-group
           label(for='dt', l10n) Destination tag
           input.form-control.input-lg.dt#dt(
