@@ -3,6 +3,7 @@ var path = require("path"),
     languages = require("./l10n/languages.json").active;
 
 var BannerPlugin = require("webpack/lib/BannerPlugin");
+var SeparateFileTypeChunkPlugin = require("./scripts/SeparateFileTypeChunkPlugin.js");
 
 module.exports = function(grunt) {
   // grunt.loadTasks('scripts/grunt');
@@ -263,6 +264,7 @@ module.exports = function(grunt) {
       }
     },
     copy: {
+      // TODO clear destination folders before copying
       web: {
         files: [
           {expand: true, src: ['build/dist/*.js'],
@@ -469,11 +471,17 @@ module.exports = function(grunt) {
         ]
       },
       output: {
-        filename: "[name]/<%= pkg.name %>.js"
+        filename: "[name]/<%= pkg.name %>.js",
+        chunkFilename: "[hash].js",
+        namedChunkFilename: "[name].js"
       },
       optimize: {
-        minimize: true
-      }
+//        minimize: true
+      },
+      plugins: [
+        // TODO generates unneeded files
+        new SeparateFileTypeChunkPlugin("templates.js", ["web", "desktop"], 'jade')
+      ]
       // TODO "target" usage?
     },
     pack_debug: {
@@ -484,8 +492,13 @@ module.exports = function(grunt) {
         ]
       },
       output: {
-        filename: "[name]/<%= pkg.name %>-debug.js"
+        filename: "[name]/<%= pkg.name %>-debug.js",
+        chunkFilename: "[hash]-debug.js",
+        namedChunkFilename: "[name]-debug.js"
       },
+      plugins: [
+        new SeparateFileTypeChunkPlugin("templates-debug.js", ["web", "desktop"], 'jade')
+      ],
       debug: true,
       devtool: 'eval'
     }
@@ -500,10 +513,17 @@ module.exports = function(grunt) {
         ]
       },
       output: {
-        filename: "[name]/<%= pkg.name %>-" + language.code + ".js"
+        filename: "[name]/<%= pkg.name %>.js",
+        chunkFilename: "[hash].js",
+        namedChunkFilename: "[name].js"
       },
+      plugins: [
+        // TODO generates duplicate files, one with .js.js
+        new SeparateFileTypeChunkPlugin("templates-" + language.code + ".js", ["web", "desktop"], 'jade')
+      ],
       optimize: {
-        minimize: true
+        // TODO minimize breaks our l10n mechanism
+//        minimize: true
       }
     }
   });

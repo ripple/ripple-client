@@ -100,22 +100,27 @@
   <script>
     window.name = 'NG_DEFER_BOOTSTRAP!';
     var lang = store.get('ripple_language');
+    var debug = false;
   </script>
 
   <!-- @if MODE == 'debug' !>
   <script>
-    lang = 'debug';
+    var debug = true;
   </script>
   <!-- @endif -->
 
-  <script id="client">
-    var clFile = lang
-      ? 'js/ripple-client-' + lang
-      : 'js/ripple-client';
-
+  <script>
     var script = document.createElement("script");
-    script.setAttribute("src", clFile + '.js?v=0.2.48');
+    script.setAttribute("src", 'js/templates' + (debug ? '-debug' : lang ? '-' + lang : '') + '.js');
     document.getElementsByTagName("head")[0].appendChild(script);
+  </script>
+
+  <script id="client">
+  setTimeout(function(){
+    var script = document.createElement("script");
+    script.setAttribute("src", 'js/ripple-client' + (debug ? '-debug' : '') + '.js?v=0.2.48');
+    document.getElementsByTagName("head")[0].appendChild(script);
+  }, 50);
   </script>
 
   <!-- start Mixpanel -->
