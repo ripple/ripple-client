@@ -62,7 +62,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
         .col-xs-12.col-sm-8.col-md-5
           input.form-control#first_issuer(
             name='first_issuer', type='text', rp-combobox="issuer_query"
-            placeholder='Contact name or Ripple address'
+            placeholder='Ripple name or contact'
             ng-model='order.first_issuer_edit'
             rp-dest, rp-dest-address, rp-dest-contact)
           .errorGroup(rp-errors='first_issuer')
