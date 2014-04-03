@@ -19,12 +19,19 @@ SeparateFileTypeChunkPlugin.prototype.apply = function(compiler) {
     compilation.plugin("optimize-chunks", function(chunks) {
 
       var templateChunk = this.addChunk(filenameTemplate);
+      var checkedModules = {};
 
       chunks.forEach(function(chunk){
         if (chunk === templateChunk) return;
 
         chunk.modules.slice().forEach(function(module){
-          if (module.userRequest && module.userRequest.indexOf('.' + fileExtension) > 0) {
+
+          if (module.userRequest
+            && module.userRequest.indexOf('.' + fileExtension) > 0
+            && !checkedModules[module.userRequest]) {
+
+            checkedModules[module.userRequest] = true;
+
             chunk.removeModule(module);
             templateChunk.addModule(module);
             module.removeChunk(chunk);

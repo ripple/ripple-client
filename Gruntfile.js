@@ -472,7 +472,6 @@ module.exports = function(grunt) {
       },
       output: {
         filename: "[name]/<%= pkg.name %>.js",
-        chunkFilename: "[hash].js",
         namedChunkFilename: "[name].js"
       },
       optimize: {
@@ -514,7 +513,6 @@ module.exports = function(grunt) {
       },
       output: {
         filename: "[name]/<%= pkg.name %>.js",
-        chunkFilename: "[hash].js",
         namedChunkFilename: "[name].js"
       },
       plugins: [
@@ -522,7 +520,7 @@ module.exports = function(grunt) {
         new SeparateFileTypeChunkPlugin("templates-" + language.code + ".js", ["web", "desktop"], 'jade')
       ],
       optimize: {
-        // TODO minimize breaks our l10n mechanism
+        // TODO Minimization breaks our l10n mechanisms
 //        minimize: true
       }
     }
