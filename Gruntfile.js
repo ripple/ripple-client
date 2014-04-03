@@ -343,7 +343,7 @@ module.exports = function(grunt) {
       },
       scripts_debug: {
         files: ['src/js/**/*.js', 'src/jade/**/*.jade'],
-        tasks: ['webpack:pack_debug', 'copy:web'],
+        tasks: ['webpack:pack_debug', 'copy'],
         options: { nospawn: true, livereload: true }
       },
       deps: {
@@ -353,12 +353,12 @@ module.exports = function(grunt) {
       },
       styles: {
         files: 'src/less/**/*.less',
-        tasks: ['recess','copy:web'],
+        tasks: ['recess','copy'],
         options: { livereload: true }
       },
       index: {
         files: ['src/index.html'],
-        tasks: ['preprocess','copy:web'],
+        tasks: ['preprocess','copy'],
         options: { livereload: true }
       },
       config: {
@@ -492,14 +492,14 @@ module.exports = function(grunt) {
       },
       output: {
         filename: "[name]/<%= pkg.name %>-debug.js",
-        chunkFilename: "[hash]-debug.js",
         namedChunkFilename: "[name]-debug.js"
       },
       plugins: [
         new SeparateFileTypeChunkPlugin("templates-debug.js", ["web", "desktop"], 'jade')
       ],
       debug: true,
-      devtool: 'eval'
+      devtool: 'eval',
+      cache: false
     }
   };
 
