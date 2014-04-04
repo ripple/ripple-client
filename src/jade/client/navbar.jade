@@ -8,7 +8,7 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
       .collapse.navbar-collapse
         ul.nav.navbar-nav.topMenu
           li#nav-wallet(ng-class="{active: $route.current.mainMenu == 'wallet'}")
-            a(href="#/balance", l10n) Wallet
+            a(href="#/balance", l10n) Overview
           li#nav-send(ng-class="{active: $route.current.mainMenu == 'send'}")
             a(href="#/send", l10n) Send
           li#nav-exchange(ng-class="{active: $route.current.mainMenu == 'exchange'}")
