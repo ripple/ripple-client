@@ -21,23 +21,24 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
 
     .row
       .col-xs-12.col-xs-8
-        .currency-overview
-          .balancebox.col-sm-4
-            .lbl Total Balance
-              .desc Estimated from exchange rates
-            .total.amount 0.
-              span.fraction 0000
-              select.currency
-                option(selected=true) XRP
-                option USD
-                option BTC
-                option CNY
-            .pending(ng-show="pending")
-              .lbl Pending
-              .transactions
-                .amount 
-                  span.fraction {{pending.amount}}
-                  span.currency {{pending.currency}}
+        // As per Anna's specs, "Total Balance" module has been removed as it doesn't work right now.  JIRA id#: WC-1563
+        //- .currency-overview
+          //- .balancebox.col-sm-4
+            //- .lbl Total Balance
+            //-   .desc Estimated from exchange rates
+            //- .total.amount 0.
+            //-   span.fraction 0000
+            //-   select.currency
+            //-     option(selected=true) XRP
+            //-     option USD
+            //-     option BTC
+            //-     option CNY
+            //- .pending(ng-show="pending")
+            //-   .lbl Pending
+            //-   .transactions
+            //-     .amount 
+            //-       span.fraction {{pending.amount}}
+            //-       span.currency {{pending.currency}}
         .currency-summary(ng-show='account.Balance')
           .balancebox.currency-xrp
             .total.row
