@@ -16,7 +16,7 @@ section.content(ng-controller='FundCtrl')
           ng-class="{active: currencyPage == 'btc'}") BTC (Bitcoin)
     .col-sm-9.list
       .fundXrp(ng-show="currencyPage == 'xrp'")
-        .nameLine(l10n) Ripple Name&#32;
+        .nameLine(l10n) Ripple name&#32;
           span.name(ng-show="userCredentials.username") ~ {{userCredentials.username}}
           span(ng-hide="userCredentials.username") loading...
           .address
