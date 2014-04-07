@@ -71,7 +71,7 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
           p(ng-show="strength=='weak'")
             span(l10n) Your password is weak. It is not a mix of letters, numbers and symbols or it is the same as your Ripple name.
         .form-group(ng-class="{'field-error': registerForm.register_password1.$error.rpSameInSet && registerForm.register_password2.$dirty}")
-          label(for='register_password2', l10n) Password again
+          label(for='register_password2', l10n) Confirm password
           input.form-control#register_password2(
             name='register_password2', autocomplete="off"
             type='password'
