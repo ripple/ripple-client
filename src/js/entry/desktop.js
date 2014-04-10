@@ -1,5 +1,7 @@
 var types = require('../util/types');
 
+// TODO don't use event tracking for desktop version.
+
 // Load app modules
 require('../controllers/app');
 require('../controllers/navbar');
@@ -17,10 +19,10 @@ require('../filters/filters');
 require('../services/globalwrappers');
 require('../services/id');
 require('../services/tracker');
-require('../services/blob');
+require('../services/blobLocal');
 require('../services/oldblob');
 require('../services/txqueue');
-require('../services/authflow');
+require('../services/authflowLocal');
 require('../services/authinfo');
 require('../services/kdf');
 require('../services/keychain');
@@ -69,8 +71,8 @@ var appDependencies = [
 
 // Load tabs
 var tabdefs = [
-  require('../tabs/register'),
-  require('../tabs/login'),
+  require('../tabs/desktop/register'),
+  require('../tabs/desktop/login'),
   require('../tabs/balance'),
   require('../tabs/activity'),
   require('../tabs/history'),
@@ -180,6 +182,8 @@ app.run(['$rootScope', '$injector', '$compile', '$route', '$routeParams', '$loca
   $rootScope.isEmpty = function (obj) {
     return angular.equals({},obj);
   };
+
+  $rootScope.blobStrategy = 'file';
 
   // if url has a + or %2b then replace with %20 and redirect
   if (_.isArray($location.$$absUrl.match(/%2B|\+/gi)))

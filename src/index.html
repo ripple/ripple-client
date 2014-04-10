@@ -21,7 +21,7 @@
   <!-- ENDS CSS -->
 
   <!-- @if TARGET == 'desktop' !>
-  <link href="js/ripple-desktop.css" rel="stylesheet">
+  <link href="css/ripple-desktop.css" rel="stylesheet">
   <!-- @endif -->
 
   <!-- All JavaScript at the bottom, except this Modernizr build.
@@ -116,11 +116,11 @@
   </script>
 
   <script id="client">
-  setTimeout(function(){
-    var script = document.createElement("script");
-    script.setAttribute("src", 'js/ripple-client' + (debug ? '-debug' : '') + '.js?v=0.2.48');
-    document.getElementsByTagName("head")[0].appendChild(script);
-  }, 50);
+      setTimeout(function(){
+        var script = document.createElement("script");
+        script.setAttribute("src", 'js/ripple-client' + (debug ? '-debug' : '') + '.js');
+        document.getElementsByTagName("head")[0].appendChild(script);
+      }, 100);
   </script>
 
   <!-- start Mixpanel -->

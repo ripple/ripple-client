@@ -92,7 +92,10 @@ LoginTab.prototype.angular = function (module) {
       updateFormFields();
 
       setImmediate(function () {
-        $id.login($scope.username, $scope.password, function (err, blob) {
+        $id.login({
+          username: $scope.username,
+          password: $scope.password
+        }, function (err, blob) {
           $scope.ajax_loading = false;
 
           if (err) {

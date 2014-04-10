@@ -205,6 +205,9 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
     // Callback is optional
     if ("function" !== typeof callback) callback = $.noop;
 
+    // Username might be empty if we're using a "local" strategy (Desktop client)
+    if (!opts.username) opts.username = 'local';
+
     // Blob data
     var username = Id.normalizeUsername(opts.username);
     var password = Id.normalizePassword(opts.password);
@@ -216,7 +219,8 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
       'password': password,
       'account': account,
       'masterkey': masterkey,
-      'oldUserBlob': opts.oldUserBlob
+      'oldUserBlob': opts.oldUserBlob,
+      'walletfile': opts.walletfile
     },
     function (err, blob, keys) {
       if (err) {
@@ -254,18 +258,21 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
     });
   };
 
-  Id.prototype.login = function (username, password, callback)
+  Id.prototype.login = function (opts, callback)
   {
     var self = this;
 
     // Callback is optional
     if ("function" !== typeof callback) callback = $.noop;
 
-    username = Id.normalizeUsername(username);
-    password = Id.normalizePassword(password);
+    var username = Id.normalizeUsername(opts.username);
+    var password = Id.normalizePassword(opts.password);
 
-    $authflow.login(username.toLowerCase(), password, function (err, blob, keys,
-                                                                actualUsername) {
+    $authflow.login({
+      'username': username.toLowerCase(),
+      'password': password,
+      'walletfile': opts.walletfile
+    }, function (err, blob, keys, actualUsername) {
       if (err && Options.blobvault) {
         console.log("Blob login failed, trying old blob protocol");
 
@@ -304,6 +311,7 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
         // New login protocol failed and no fallback configured
         callback(err);
       } else {
+      console.log('a',jQuery.extend(true, {}, blob));
         // Ensure certain properties exist
         $.extend(true, blob, Id.minimumBlob);
 
@@ -327,6 +335,8 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
         self.loginStatus = true;
         $scope.$broadcast('$blobUpdate');
         store.set('ripple_known', true);
+
+        console.log('blob',blob);
 
         if (blob.data.account_id) {
           // Success

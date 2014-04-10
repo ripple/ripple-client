@@ -125,6 +125,8 @@ RegisterTab.prototype.angular = function (module) {
         'oldUserBlob': $scope.oldUserBlob
       },
       function(err, key){
+        console.log('err',err);
+        console.log('key',key);
         if (err) {
           $scope.mode = "failed";
           $scope.error_detail = err.message;
@@ -136,7 +138,7 @@ RegisterTab.prototype.angular = function (module) {
 
         // TODO send verification email
 //        $scope.mode = 'verification';
-        $scope.mode = 'verified';
+        $location.path('/fund');
       });
     };
 
