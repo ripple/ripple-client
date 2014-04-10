@@ -1,0 +1,25 @@
+section.col-xs-12.content(ng-controller="LoginCtrl")
+
+  .row.auth-form-container.col-sm-offset-2.col-sm-8.col-md-offset-3.col-md-6
+    .auth-form-wrapper
+      form(name='loginForm', ng-submit='submitForm()')
+        h2 Log In
+        .form-group
+          label(for='login_walletfile', l10n) Wallet file
+          input.form-control#login_walletfile(name='login_walletfile', type="file"
+            ng-model='walletfile', required, rp-focus)
+        .form-group
+          label(for='login_password', l10n) Wallet unlock password
+          input.form-control#login_password(name='login_password', type='password'
+            ng-model='password', required, rp-focus)
+        .text-status(ng-show='status')
+          span {{status}}
+          br
+          .backend(ng-repeat="message in backendMessages")
+            b {{message.backend}} &#32;
+            span {{message.message}}
+        .submit-btn-container
+          button.btn.btn-submit.btn-block.btn-success(type='submit')
+            span(l10n) Log In
+    .switch-mode-link-container New to Ripple Trade?&#32;
+      a(href='#register', l10n) Sign Up
