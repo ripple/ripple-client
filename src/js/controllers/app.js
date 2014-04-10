@@ -242,9 +242,10 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
       }
 
       // Add to recent notifications
-      if (processedTxn.tx_result === "tesSUCCESS") {
+      if (processedTxn.tx_result === "tesSUCCESS" &&
+          transaction) {
         // Only show specific transactions
-        if ('received' === processedTxn.transaction.type) {
+        if ('received' === transaction.type) {
           // Is it unseen?
           if (processedTxn.date > ($scope.userBlob.data.lastSeenTxDate || 0)) {
             processedTxn.unseen = true;
@@ -258,6 +259,7 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
       // TODO Switch to txmemo field
       appManager.getAllApps(function(apps){
         _.each(apps, function(app){
+          var historyProfile;
           if (historyProfile = app.findProfile('history')) {
             historyProfile.getTransactions($scope.address, function(err, history){
               history.forEach(function(tx){
@@ -265,7 +267,7 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
                 if (processedTxn.hash === tx.hash) {
                   processedTxn.details = tx;
                 }
-              })
+              });
             });
           }
         });
