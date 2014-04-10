@@ -255,7 +255,7 @@ module.exports = function(grunt) {
           stylesheet: "less",
           classPrefix: 'icon-',
           mixinPrefix: 'icon-',
-          relativeFontPath: '../../res/icons/font',
+          relativeFontPath: '../res/icons/font',
           syntax: 'bootstrap',
           htmlDemo: false
         },
