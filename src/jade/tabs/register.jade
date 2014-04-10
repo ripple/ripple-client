@@ -9,8 +9,8 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
           span  2
         li(l10n) Step
           span  3
-      .alert.alert-info Dear user: You signed into an existing Ripple Client account, and you'll now need to migrate to a Ripple Trade account. When you click "Migrate", you'll reach the Ripple Trade sign-up page. You'll be creating an account with the same secret key, but will need to select a new username / password. It should only take a minute.
-      .secret-key-container Before migrating, make sure you save your secret key - it unlocks access to your funds if you lose your username or password. 
+      .alert.alert-info You are now migrating your account. You will retain all of your balances, contact information, and history. Your account will use the same secret key that you had before. If you have already saved your secret key, please continue your migration.
+      .secret-key-container If you have not saved your secret key, write it down and store in a secure location. If you forget your password, there is no way to reaccess your funds without your secret key.
         div.secret-key
           span.fa.fa-key
           span(ng-hide="showSecret") •••••••••••••••••••••••••••••
