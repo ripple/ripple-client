@@ -87,7 +87,7 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
           input.form-control(type="email", name="email", id="email"
             placeholder="", ng-model="email", required)
           p(ng-show="registerForm.email.$error.email && registerForm.email.$dirty")
-            span(l10n) Email address is wrong
+            span(l10n) Email address is invalid
         //- TODO focus on field when clicked
         div(ng-hide="showSecretField || oldUserBlob")
           a(href="", ng-click="showSecretField=true", l10n) Use secret key
