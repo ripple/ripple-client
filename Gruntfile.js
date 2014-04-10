@@ -343,7 +343,7 @@ module.exports = function(grunt) {
       },
       scripts_debug: {
         files: ['src/js/**/*.js', 'src/jade/**/*.jade'],
-        tasks: ['webpack:pack_debug', 'copy'],
+        tasks: ['webpack:web_debug', 'webpack:desktop_debug', 'copy'],
         options: { nospawn: true, livereload: true }
       },
       deps: {
@@ -429,10 +429,6 @@ module.exports = function(grunt) {
   // Webpack
   var webpack = {
     options: {
-      entry: {
-        web: "./src/js/entry/web.js",
-        desktop: "./src/js/entry/desktop.js"
-      },
       module: {
         preLoaders: [
           {
@@ -463,7 +459,10 @@ module.exports = function(grunt) {
         new BannerPlugin("Ripple Client v<%= meta.version %>\nCopyright (c) <%= grunt.template.today('yyyy') %> <%= pkg.author.name %>\nLicensed under the <%= pkg.license %> license.")
       ]
     },
-    pack: {
+    web: {
+      entry: {
+        web: "./src/js/entry/web.js"
+      },
       module: {
         loaders: [
           { test: /\.jade$/, loader: "jade-l10n-loader" },
@@ -471,19 +470,65 @@ module.exports = function(grunt) {
         ]
       },
       output: {
-        filename: "[name]/<%= pkg.name %>.js",
-        namedChunkFilename: "[name].js"
+        filename: "web/<%= pkg.name %>.js",
+        namedChunkFilename: "web/web.js"
+      },
+      plugins: [
+        // TODO generates unneeded files
+        new SeparateFileTypeChunkPlugin("web/templates.js", "web", 'jade')
+      ],
+      optimize: {
+//        minimize: true
+      }
+    },
+    web_debug: {
+      entry: {
+        web: "./src/js/entry/web.js"
+      },
+      module: {
+        loaders: [
+          { test: /\.jade$/, loader: "jade-l10n-loader" },
+          { test: /\.json$/, loader: "json-loader" }
+        ]
+      },
+      output: {
+        filename: "web/<%= pkg.name %>-debug.js",
+        namedChunkFilename: "web/web-debug.js"
+      },
+      plugins: [
+        new SeparateFileTypeChunkPlugin("web/templates-debug.js", "web", 'jade')
+      ],
+      debug: true,
+      devtool: 'eval',
+      cache: false
+    },
+    desktop: {
+      entry: {
+        desktop: "./src/js/entry/desktop.js"
+      },
+      module: {
+        loaders: [
+          { test: /\.jade$/, loader: "jade-l10n-loader" },
+          { test: /\.json$/, loader: "json-loader" }
+        ]
+      },
+      output: {
+        filename: "desktop/<%= pkg.name %>.js",
+        namedChunkFilename: "desktop/desktop.js"
       },
       optimize: {
 //        minimize: true
       },
       plugins: [
         // TODO generates unneeded files
-        new SeparateFileTypeChunkPlugin("templates.js", ["web", "desktop"], 'jade')
-      ]
-      // TODO "target" usage?
+        new SeparateFileTypeChunkPlugin("desktop/templates.js", "desktop", 'jade')
+      ],
+      target: 'node-webkit'
     },
-    pack_debug: {
+    desktop_debug: {
+      entry: {
+        desktop: "./src/js/entry/desktop.js"
+      },
       module: {
         loaders: [
           { test: /\.jade$/, loader: "jade-l10n-loader" },
@@ -491,20 +536,23 @@ module.exports = function(grunt) {
         ]
       },
       output: {
-        filename: "[name]/<%= pkg.name %>-debug.js",
-        namedChunkFilename: "[name]-debug.js"
+        filename: "desktop/<%= pkg.name %>-debug.js",
+        namedChunkFilename: "desktop/desktop-debug.js"
       },
       plugins: [
-        new SeparateFileTypeChunkPlugin("templates-debug.js", ["web", "desktop"], 'jade')
+        new SeparateFileTypeChunkPlugin("desktop/templates-debug.js", "desktop", 'jade')
       ],
       debug: true,
-      devtool: 'eval',
-      cache: false
+      cache: false,
+      target: 'node-webkit'
     }
   };
 
   languages.forEach(function(language){
-    webpack['pack_l10n_' + language.name] = {
+    webpack['web_l10n_' + language.name] = {
+      entry: {
+        web: "./src/js/entry/web.js"
+      },
       module: {
         loaders: [
           { test: /\.jade$/, loader: "jade-l10n-loader?languageFile=./l10n/" + language.code + "/messages.po" },
@@ -512,17 +560,39 @@ module.exports = function(grunt) {
         ]
       },
       output: {
-        filename: "[name]/<%= pkg.name %>.js",
-        namedChunkFilename: "[name].js"
+        filename: "web/<%= pkg.name %>.js",
+        namedChunkFilename: "web.js"
       },
       plugins: [
-        // TODO generates duplicate files, one with .js.js
-        new SeparateFileTypeChunkPlugin("templates-" + language.code + ".js", ["web", "desktop"], 'jade')
+        new SeparateFileTypeChunkPlugin("web/templates-" + language.code + ".js", "web", 'jade')
       ],
       optimize: {
         // TODO Minimization breaks our l10n mechanisms
 //        minimize: true
       }
+    };
+    webpack['desktop_l10n_' + language.name] = {
+      entry: {
+        desktop: "./src/js/entry/desktop.js"
+      },
+      module: {
+        loaders: [
+          { test: /\.jade$/, loader: "jade-l10n-loader?languageFile=./l10n/" + language.code + "/messages.po" },
+          { test: /\.json$/, loader: "json-loader" }
+        ]
+      },
+      output: {
+        filename: "desktop/<%= pkg.name %>.js",
+        namedChunkFilename: "desktop.js"
+      },
+      plugins: [
+        new SeparateFileTypeChunkPlugin("desktop/templates-" + language.code + ".js", "desktop", 'jade')
+      ],
+      optimize: {
+        // TODO Minimization breaks our l10n mechanisms
+//        minimize: true
+      },
+      target: 'node-webkit'
     }
   });
 
@@ -538,7 +608,7 @@ module.exports = function(grunt) {
                                  'webpack',
                                  'recess',
                                  'deps',
-                                 'copy:web']);
+                                 'copy']);
 
   // Desktop apps packaging
   grunt.registerTask('desktop', ['shell',
@@ -555,7 +625,7 @@ module.exports = function(grunt) {
   // Distribution build - builds absolutely everything
   grunt.registerTask('dist', ['default',
                               'copy:nw_desktop', 'copy:nw_desktop_debug',
-                              'nodewebkit:desktop']);
+                              'nodewebkit']);
 
   // End-to-end tests
   grunt.registerTask('e2e', ['connect:debug', 'mochaProtractor:local']);
