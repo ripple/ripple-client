@@ -18,7 +18,7 @@
     "grunt-contrib-watch": "~0.5.3",
     "jade-loader": "~0.5.1",
     "jshint-loader": "~0.5.0",
-    "webpack": "~1.1.5",
+    "webpack": "git://github.com/webpack/webpack.git#dc21f1b0f54a03833cf9cf816f7a2a79a8c0625a",
     "grunt-contrib-copy": "~0.4.1",
     "grunt-preprocess": "~4.0.0",
     "jade": "~0.35.0",
