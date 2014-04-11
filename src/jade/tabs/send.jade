@@ -209,9 +209,7 @@ section.single.content(ng-controller='SendCtrl')
         |  {{send.recipient_address}}
       .dt(ng-show="send.dt", l10n) Destination tag: {{send.dt}}
     p.literal(l10n) They will receive
-    p.amount_feedback
-      span.value {{send.amount_feedback | rpamount}}&#32;
-      span.currency {{send.amount_feedback | rpcurrency}}
+    p.amount_feedback(rp-pretty-amount="send.amount_feedback")
     group(ng-show='send.indirect')
       p.literal(l10n) You will pay at most
       p.sendmax_feedback
