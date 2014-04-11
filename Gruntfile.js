@@ -367,7 +367,7 @@ module.exports = function(grunt) {
       },
       index: {
         files: ['src/index.html'],
-        tasks: ['preprocess','copy'],
+        tasks: ['preprocess:web_debug','preprocess:desktop_debug','copy'],
         options: { livereload: true }
       },
       config: {
