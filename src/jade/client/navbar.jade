@@ -8,7 +8,7 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
       .collapse.navbar-collapse
         ul.nav.navbar-nav.topMenu
           li#nav-wallet(ng-class="{active: $route.current.mainMenu == 'wallet'}")
-            a(href="#/balance", l10n) Wallet
+            a(href="#/balance", l10n) Overview
           li#nav-send(ng-class="{active: $route.current.mainMenu == 'send'}")
             a(href="#/send", l10n) Send
           li#nav-exchange(ng-class="{active: $route.current.mainMenu == 'exchange'}")
@@ -31,7 +31,7 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
               l10n-rp-popover-title="XRP Balance"
               rp-popover-trigger="click"
               l10n-data-content="Your current XRP balance is {{account.Balance | rpamount:{precision: 2, max_sig_digits: 20} }}. Account reserve is {{ account.reserve | rpamount }} XRP. <br /><a href='https://ripple.com/wiki/Reserves' target='_blank'>More information</a>")
-          li.navbar-text {{userCredentials.username}}
+          li.navbar-text ~{{userCredentials.username}}
           li.dropdown.notifications-dropdown
             a.dropdown-toggle.fa.fa-lightbulb-o(ng-click="read()")
               .number(ng-show="unseenNotifications.count") {{unseenNotifications.count}}
@@ -133,7 +133,7 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
         li(ng-class="{active: $route.current.tabName == 'trade'}")
           a(href="#/trade", l10n) Trade
         li(ng-class="{active: $route.current.tabName == 'exchange'}")
-          a(href="#/exchange", l10n) Exchange
+          a(href="#/exchange", l10n) Convert
   .subnav(ng-show="$route.current.mainMenu == 'fund'")
     .container
       ul
