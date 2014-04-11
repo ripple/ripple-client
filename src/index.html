@@ -101,7 +101,7 @@
 
   <script>
     window.name = 'NG_DEFER_BOOTSTRAP!';
-    var lang = store.get('ripple_language');
+    var lang = store.get('ripple_language') || 'en';
     var debug = false;
   </script>
 
@@ -112,9 +112,9 @@
   <!-- @endif -->
 
   <script>
-    $.getScript('js/templates' + (debug ? '-debug' : lang ? '-'+lang : '') + '.js',
+    $.getScript('js/templates' + (debug ? '-debug' : '-'+lang) + '.js',
       function(data, textStatus, jqxhr) {
-        $.getScript('js/ripple-client' + (debug ? '-debug' : '') + '.js');
+        $.getScript('js/ripple-client' + (debug ? '-debug' : '') + '.js').fail(function(status,as,bb){console.log('stats',status,as,bb);});
       }
     );
   </script>

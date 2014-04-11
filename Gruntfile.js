@@ -468,28 +468,6 @@ module.exports = function(grunt) {
         new BannerPlugin("Ripple Client v<%= meta.version %>\nCopyright (c) <%= grunt.template.today('yyyy') %> <%= pkg.author.name %>\nLicensed under the <%= pkg.license %> license.")
       ]
     },
-    web: {
-      entry: {
-        web: "./src/js/entry/web.js"
-      },
-      module: {
-        loaders: [
-          { test: /\.jade$/, loader: "jade-l10n-loader" },
-          { test: /\.json$/, loader: "json-loader" }
-        ]
-      },
-      output: {
-        filename: "web/<%= pkg.name %>.js",
-        namedChunkFilename: "web/web.js"
-      },
-      plugins: [
-        // TODO generates unneeded files
-        new SeparateFileTypeChunkPlugin("web/templates.js", "web", 'jade')
-      ],
-      optimize: {
-//        minimize: true
-      }
-    },
     web_debug: {
       entry: {
         web: "./src/js/entry/web.js"
@@ -501,8 +479,7 @@ module.exports = function(grunt) {
         ]
       },
       output: {
-        filename: "web/<%= pkg.name %>-debug.js",
-        namedChunkFilename: "web/web-debug.js"
+        filename: "web/<%= pkg.name %>-debug.js"
       },
       plugins: [
         new SeparateFileTypeChunkPlugin("web/templates-debug.js", "web", 'jade')
@@ -510,29 +487,6 @@ module.exports = function(grunt) {
       debug: true,
       devtool: 'eval',
       cache: false
-    },
-    desktop: {
-      entry: {
-        desktop: "./src/js/entry/desktop.js"
-      },
-      module: {
-        loaders: [
-          { test: /\.jade$/, loader: "jade-l10n-loader" },
-          { test: /\.json$/, loader: "json-loader" }
-        ]
-      },
-      output: {
-        filename: "desktop/<%= pkg.name %>.js",
-        namedChunkFilename: "desktop/desktop.js"
-      },
-      optimize: {
-//        minimize: true
-      },
-      plugins: [
-        // TODO generates unneeded files
-        new SeparateFileTypeChunkPlugin("desktop/templates.js", "desktop", 'jade')
-      ],
-      target: 'node-webkit'
     },
     desktop_debug: {
       entry: {
@@ -545,8 +499,7 @@ module.exports = function(grunt) {
         ]
       },
       output: {
-        filename: "desktop/<%= pkg.name %>-debug.js",
-        namedChunkFilename: "desktop/desktop-debug.js"
+        filename: "desktop/<%= pkg.name %>-debug.js"
       },
       plugins: [
         new SeparateFileTypeChunkPlugin("desktop/templates-debug.js", "desktop", 'jade')
@@ -569,8 +522,7 @@ module.exports = function(grunt) {
         ]
       },
       output: {
-        filename: "web/<%= pkg.name %>.js",
-        namedChunkFilename: "web.js"
+        filename: "web/<%= pkg.name %>.js"
       },
       plugins: [
         new SeparateFileTypeChunkPlugin("web/templates-" + language.code + ".js", "web", 'jade')
@@ -591,8 +543,7 @@ module.exports = function(grunt) {
         ]
       },
       output: {
-        filename: "desktop/<%= pkg.name %>.js",
-        namedChunkFilename: "desktop.js"
+        filename: "desktop/<%= pkg.name %>.js"
       },
       plugins: [
         new SeparateFileTypeChunkPlugin("desktop/templates-" + language.code + ".js", "desktop", 'jade')

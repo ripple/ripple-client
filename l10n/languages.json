@@ -1,5 +1,6 @@
 {
   "active": [
+    {"name": "english", "nativeName": "English", "code": "en"},
     {"name": "chinese", "nativeName": "中文", "code": "cn"},
     {"name": "dutch", "nativeName": "Nederlands", "code": "nl"},
     {"name": "italian", "nativeName": "Italiano", "code": "it"},
