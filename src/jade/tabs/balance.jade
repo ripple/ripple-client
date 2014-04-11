@@ -58,7 +58,7 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
               .lbl.col-xs-8
                 a(href="", ng-click="entry.show=!entry.show")
                   i(class="icon fa fa-money", ng-class="'fa-' + (entry.total | rpcurrency | lowercase)")
-                  | {{ entry.total | rpcurrencyfull }}
+                  span(rp-currency="entry.total", rp-currency-full)
               .balance.col-xs-4
                 a(href="", ng-click="entry.show=!entry.show") {{ entry.total | rpamount }}
             //- TODO Remember selections

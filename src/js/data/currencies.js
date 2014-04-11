@@ -35,5 +35,8 @@ module.exports = [
   {value: 'KES', name: 'KES - Kenyan Shilling', order: 0},
   {value: 'AMD', name: 'AMD - Armenian Drams', order: 0},
   {value: 'RUR', name: 'RUR - Russian Rubles', order: 0},
-  {value: 'RON', name: 'RON - Romanian Leu', order: 0}
+  {value: 'RON', name: 'RON - Romanian Leu', order: 0},
+  {value: 'XAU', name: 'XAU - Gold', order: 0},
+  {value: 'XAG', name: 'XAG - Silver', order: 0},
+  {value: 'XPT', name: 'XPT - Platinum', order: 0}
 ];

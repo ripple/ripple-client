@@ -6,7 +6,9 @@
  * better to use a directive.
  */
 
-var webutil = require('../util/web');
+var webutil = require('../util/web'),
+    Amount = ripple.Amount,
+    Currency = ripple.Currency;
 
 var module = angular.module('formatters', ['domainalias']);
 
@@ -113,6 +115,58 @@ module.directive('rpBindColorAmount', function () {
             var decimalPart = parts[1].replace(/0(0+)$/, '0<span class="insig">$1</span>');
 
             element[0].innerHTML = decimalPart.length > 0 ? parts[0] + "." + decimalPart : parts[0];
+          }
+        });
+      };
+    }
+  };
+});
+
+module.directive('rpCurrency', function () {
+  return {
+    restrict: 'A',
+    compile: function (element, attr, linker) {
+      return function (scope, element, attr) {
+        scope.$watch(attr.rpCurrency, function (input) {
+          var currency;
+          if (input instanceof Currency) {
+            currency = input;
+          } else {
+            var amount = Amount.from_json(input);
+            currency = amount.currency();
+          }
+
+          var mainText = currency.to_human();
+
+          // Should we look for a full name like "USD - US Dollar"?
+          if (attr.rpCurrencyFull) {
+            var currencyInfo = $.grep(scope.currencies_all, function(e){ return e.value == mainText; })[0];
+            if (currencyInfo) mainText = currencyInfo.name;
+          }
+
+          if (currency.has_interest()) {
+            // Get yearly interest rate
+            var referenceDate = currency._interest_start + 3600 * 24 * 365;
+            var interestRate = currency.get_interest_at(referenceDate);
+
+            // Convert to percent and round to two decimal places
+            interestRate = Math.round(interestRate * 10000 - 10000) / 100;
+
+            var helpText;
+            if (interestRate > 0) {
+              // Positive interest
+              helpText = "Interest: "+interestRate+" %/yr";
+            } else {
+              // Demurrage
+              helpText = "Demurrage: "+(-interestRate)+"%/yr";
+            }
+
+            var el = $('<abbr></abbr>')
+                  .attr('title', helpText)
+                  .text(mainText);
+            element.empty().append(el);
+          } else {
+            element.empty().text(mainText);
           }
         });
       };
