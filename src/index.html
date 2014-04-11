@@ -28,6 +28,8 @@
      Modernizr enables HTML5 elements & feature detects for optimal performance.
      Create your own custom Modernizr build: www.modernizr.com/download/ -->
   <script src="js/deps/modernizr-2.5.3.min.js"></script>
+
+
 </head>
 
 <body ng-class="{loaded: app_loaded}">
@@ -110,17 +112,11 @@
   <!-- @endif -->
 
   <script>
-    var script = document.createElement("script");
-    script.setAttribute("src", 'js/templates' + (debug ? '-debug' : lang ? '-' + lang : '') + '.js');
-    document.getElementsByTagName("head")[0].appendChild(script);
-  </script>
-
-  <script id="client">
-      setTimeout(function(){
-        var script = document.createElement("script");
-        script.setAttribute("src", 'js/ripple-client' + (debug ? '-debug' : '') + '.js');
-        document.getElementsByTagName("head")[0].appendChild(script);
-      }, 100);
+    $.getScript('js/templates' + (debug ? '-debug' : lang ? '-'+lang : '') + '.js',
+      function(data, textStatus, jqxhr) {
+        $.getScript('js/ripple-client' + (debug ? '-debug' : '') + '.js');
+      }
+    );
   </script>
 
   <!-- start Mixpanel -->
