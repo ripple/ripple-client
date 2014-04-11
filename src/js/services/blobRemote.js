@@ -4,9 +4,10 @@
  * User blob storage service
  */
 
-var webutil = require("../util/web"),
-    // TODO do we need this?
-    log = require("../util/log");
+// TODO build a blobPrototype.
+// There's currently a code repetition between blobLocal and blobRemote..
+
+var webutil = require("../util/web");
 
 var module = angular.module('blob', []);
 

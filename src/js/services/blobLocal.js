@@ -4,11 +4,14 @@
  * User blob storage for desktop client
  */
 
+// TODO build a blobPrototype.
+// There's currently a code repetition between blobLocal and blobRemote..
+
 var fs = require("fs");
 
 var module = angular.module('blob', []);
 
-module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
+module.factory('rpBlob', ['$rootScope', function ($scope)
 {
   var cryptConfig = {
     // key size
@@ -78,16 +81,7 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
 
       if (!decryptedBlob) {
         callback(new Error("Error while decrypting blob"));
-      }
-
-      // Apply patches
-      if ($.isArray(data.patches) && data.patches.length) {
-        var successful = true;
-        $.each(data.patches, function (i, patch) {
-          successful = successful && blob.applyEncryptedPatch(patch);
-        });
-
-        if (successful) blob.consolidate();
+        return;
       }
 
       callback(null, decryptedBlob);
@@ -111,16 +105,23 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
   BlobObj.create = function (opts, callback)
   {
     var blob = new BlobObj(opts.password);
-    blob.revision = 0;
     blob.data = {
       masterkey: opts.masterkey,
       account_id: opts.account,
       contacts: [],
       created: (new Date()).toJSON()
     };
+    blob.walletfile = opts.walletfile;
 
-    // Store blob in a file
-    fs.writeFile(opts.walletfile, blob.encrypt(), function(){
+    blob.persist(callback);
+  };
+
+  // Store blob in a file
+  BlobObj.prototype.persist = function(callback)
+  {
+    var blob = this;
+
+    fs.writeFile(this.walletfile, this.encrypt(), function(){
       callback(null, blob);
     });
   };
@@ -159,60 +160,6 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
     }
   };
 
-  BlobObj.prototype.applyEncryptedPatch = function (patch)
-  {
-    try {
-      var params = JSON.parse(decrypt(this.key, patch));
-      var op = params.shift();
-      var path = params.shift();
-
-      this.applyUpdate(op, path, params);
-
-      this.revision++;
-
-      return true;
-    } catch (err) {
-      console.log("client: blob: failed to apply patch:", err.toString());
-      console.log(err.stack);
-      return false;
-    }
-  };
-
-  BlobObj.prototype.consolidate = function (callback) {
-    // Callback is optional
-    if ("function" !== typeof callback) callback = $.noop;
-
-    console.log("client: blob: consolidation at revision", this.revision);
-    var encrypted = this.encrypt();
-
-    var config = {
-      method: 'POST',
-      url: this.url + '/blob/consolidate',
-      responseType: 'json',
-      data: {
-        blob_id: this.id,
-        data: encrypted,
-        revision: this.revision
-      }
-    };
-
-    /*$http(this.signRequest(config))
-      .success(function(data, status, headers, config) {
-        if (data.result === "success") {
-          callback(null, data);
-        } else {
-          console.log("client: blob: could not consolidate:", data);
-          callback(new Error("Failed to consolidate blob"));
-        }
-      })
-      .error(function(data, status, headers, config) {
-        console.log("client: blob: could not consolidate: "+status+" - "+data);
-
-        // XXX Add better error information to exception
-        callback(new Error("Failed to consolidate blob - XHR error"));
-      });*/
-  };
-
   BlobObj.escapeToken = function (token) {
     return token.replace(/[~\/]/g, function (key) { return key === "~" ? "~0" : "~1"; });
   };
@@ -248,6 +195,10 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
     }
 
     this._traverse(this.data, pointer, path, op, params);
+
+    this.persist(function(){
+      console.log('Blob saved');
+    });
   };
 
   BlobObj.prototype._traverse = function (context, pointer,
@@ -328,131 +279,17 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
     }
   };
 
-  var dateAsIso8601 = (function () {
-    function pad(n) {
-      return (n < 0 || n > 9 ? "" : "0") + n;
-    }
-
-    return function dateAsIso8601() {
-      var date = new Date();
-      return date.getUTCFullYear() + "-"
-        + pad(date.getUTCMonth() + 1) + "-"
-        + pad(date.getUTCDate()) + "T"
-        + pad(date.getUTCHours()) + ":"
-        + pad(date.getUTCMinutes()) + ":"
-        + pad(date.getUTCSeconds()) + ".000Z";
-    };
-  })();
-
-  BlobObj.prototype.signRequest = function (config) {
-    config = $.extend({}, config);
-
-    // XXX This method doesn't handle signing GET requests correctly. The data
-    //     field will be merged into the search string, not the request body.
-
-    // Parse URL
-    var parser = document.createElement('a');
-    parser.href = config.url;
-
-    // Sort the properties of the JSON object into canonical form
-    var canonicalData = JSON.stringify(copyObjectWithSortedKeys(config.data));
-
-    // Canonical request using Amazon's v4 signature format
-    // See: http://docs.aws.amazon.com/general/latest/gr/sigv4-create-canonical-request.html
-    var canonicalRequest = [
-      config.method || 'GET',
-      parser.pathname || '',
-      parser.search || '',
-      // XXX Headers signing not supported
-      '',
-      '',
-      sjcl.codec.hex.fromBits(sjcl.hash.sha512.hash(canonicalData)).toLowerCase()
-    ].join('\n');
-
-    var date = dateAsIso8601();
-
-    // String to sign inspired by Amazon's v4 signature format
-    // See: http://docs.aws.amazon.com/general/latest/gr/sigv4-create-string-to-sign.html
-    //
-    // We don't have a credential scope, so we skip it.
-    //
-    // But that modifies the format, so the format ID is RIPPLE1, instead of AWS4.
-    var stringToSign = [
-      'RIPPLE1-HMAC-SHA512',
-      date,
-      sjcl.codec.hex.fromBits(sjcl.hash.sha512.hash(canonicalRequest)).toLowerCase()
-    ].join('\n');
-
-    var hmac = new sjcl.misc.hmac(sjcl.codec.hex.toBits(this.data.auth_secret), sjcl.hash.sha512);
-    var signature = sjcl.codec.hex.fromBits(hmac.mac(stringToSign));
-
-    config.url += (parser.search ? "&" : "?") +
-      'signature='+signature+
-      '&signature_date='+date+
-      '&signature_blob_id='+this.id;
-
-    return config;
-  };
-
-  BlobObj.prototype.postUpdate = function (op, pointer, params, callback) {
-    // Callback is optional
-    if ("function" !== typeof callback) callback = $.noop;
-
-    if ("string" === typeof op) {
-      op = BlobObj.ops[op];
-    }
-    if ("number" !== typeof op) {
-      throw new Error("Blob update op code must be a number or a valid op id string");
-    }
-    if (op < 0 || op > 255) {
-      throw new Error("Blob update op code out of bounds");
-    }
-
-    console.log("client: blob: submitting update", BlobObj.opsReverseMap[op], pointer, params);
-
-    params.unshift(pointer);
-    params.unshift(op);
-
-    var config = {
-      method: 'POST',
-      url: this.url + '/blob/patch',
-      responseType: 'json',
-      data: {
-        blob_id: this.id,
-        patch: encrypt(this.key, JSON.stringify(params))
-      }
-    };
-
-    $http(this.signRequest(config))
-      .success(function(data, status, headers, config) {
-        if (data.result === "success") {
-          console.log("client: blob: saved patch as revision", data.revision);
-          callback(null, data);
-        } else {
-          console.log("client: blob: could not save patch:", data);
-          callback(new Error("Patch could not be saved - bad result"));
-        }
-      })
-      .error(function(data, status, headers, config) {
-        console.log("client: blob: could not save patch: "+status+" - "+data);
-        callback(new Error("Patch could not be saved - XHR error"));
-      });
-  };
-
   BlobObj.prototype.set = function (pointer, value, callback) {
     this.applyUpdate('set', pointer, [value]);
-    this.postUpdate('set', pointer, [value], callback);
-  };
+    };
 
   BlobObj.prototype.unset = function (pointer, callback) {
     this.applyUpdate('unset', pointer, []);
-    this.postUpdate('unset', pointer, [], callback);
-  };
+    };
 
   BlobObj.prototype.extend = function (pointer, value, callback) {
     this.applyUpdate('extend', pointer, [value]);
-    this.postUpdate('extend', pointer, [value], callback);
-  };
+    };
 
   /**
    * Prepend an entry to an array.
@@ -461,7 +298,6 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
    */
   BlobObj.prototype.unshift = function (pointer, value, callback) {
     this.applyUpdate('unshift', pointer, [value]);
-    this.postUpdate('unshift', pointer, [value], callback);
   };
 
   function normalizeSubcommands(subcommands, compress) {
@@ -526,7 +362,6 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
     params = params.slice(0, 2).concat(normalizeSubcommands(params.slice(2), true));
 
     this.applyUpdate('filter', pointer, params);
-    this.postUpdate('filter', pointer, params, callback);
   };
 
   function BlobError(message, backend) {

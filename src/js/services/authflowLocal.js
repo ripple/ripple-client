@@ -61,5 +61,9 @@ module.factory('rpAuthFlow', ['$rootScope', 'rpBlob',
       });
     };
 
+    AuthFlow.relogin = function (username, keys, callback) {
+      callback('err');
+    };
+
     return AuthFlow;
   }]);
