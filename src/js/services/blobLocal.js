@@ -20,9 +20,10 @@ module.factory('rpBlob', ['$rootScope', function ($scope)
     iter: 1000
   };
 
-  var BlobObj = function (password)
+  var BlobObj = function (password, walletfile)
   {
     this.password = password;
+    this.walletfile = walletfile;
     this.data = {};
   };
 
@@ -76,7 +77,7 @@ module.factory('rpBlob', ['$rootScope', function ($scope)
         return;
       }
 
-      var blob = new BlobObj(password);
+      var blob = new BlobObj(password, walletfile);
       var decryptedBlob = blob.decrypt(data);
 
       if (!decryptedBlob) {
@@ -104,14 +105,13 @@ module.factory('rpBlob', ['$rootScope', function ($scope)
    */
   BlobObj.create = function (opts, callback)
   {
-    var blob = new BlobObj(opts.password);
+    var blob = new BlobObj(opts.password, opts.walletfile);
     blob.data = {
       masterkey: opts.masterkey,
       account_id: opts.account,
       contacts: [],
       created: (new Date()).toJSON()
     };
-    blob.walletfile = opts.walletfile;
 
     blob.persist(callback);
   };
@@ -144,10 +144,11 @@ module.factory('rpBlob', ['$rootScope', function ($scope)
 
   BlobObj.prototype.decrypt = function (data)
   {
+    var blob = this;
+
     try {
       function decrypt(priv, ciphertext)
       {
-        var blob = new BlobObj();
         blob.data = JSON.parse(sjcl.decrypt(priv, ciphertext));
         return blob;
       }
