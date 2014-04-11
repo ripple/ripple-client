@@ -796,13 +796,27 @@
     margin: 0;
 
     .filter {
-      margin-bottom: 20px;
+      margin-bottom: 10px;
 
       .filter-title {
+        display: block;
+        color: #000;
         font: 16px OpenSansLight;
+        background: #f9f9f9;
+        padding: 10px;
+
+        &:hover {
+          text-decoration: none;
+        }
+
+        .fa {
+          margin-top: 3px;
+          float: right;
+        }
       }
 
       .filter-description {
+        margin-top: 10px;
         font: 12px OpenSansLight;
         color: #959595;
       }
@@ -831,7 +845,7 @@
       text-transform: capitalize;
       color: #777;
       font-size: 14px;
-      border: 1px solid darken(#f2f2f2,5%);
+      border: 1px solid darken(#f2f2f2,3%);
 
       .count {
         float: right;

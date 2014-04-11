@@ -20,8 +20,10 @@ section.col-xs-12.content(ng-controller="HistoryCtrl")
     .filters.row-padding-small.col-sm-3
       h3 Filters
       .filter.type-filter
-        .filter-title(l10n) Transaction type
-        .filter-choices
+        a.filter-title(href="", ng-click="showFilterTxTypes=!showFilterTxTypes", l10n) Transaction type
+          .fa.fa-caret-right(ng-hide="showFilterTxTypes")
+          .fa.fa-caret-down(ng-show="showFilterTxTypes")
+        .filter-choices(ng-show="showFilterTxTypes")
           div(ng-repeat="name in orderedTypes")
             label(ng-class="{active: types[name].checked}")
               i.fa.fa-plus(ng-show="types[name].checked")
@@ -30,8 +32,10 @@ section.col-xs-12.content(ng-controller="HistoryCtrl")
               //span.count {{typeUsage[name] || 0}}
               input(type="checkbox", name="type-filter", ng-model="types[name].checked")
       .filter.type-filter
-        .filter-title(l10n) Currencies
-        .filter-choices
+        a.filter-title(href="", ng-click="showFilterCurrencies=!showFilterCurrencies", l10n) Currencies
+          .fa.fa-caret-right(ng-hide="showFilterCurrencies")
+          .fa.fa-caret-down(ng-show="showFilterCurrencies")
+        .filter-choices(ng-show="showFilterCurrencies")
           div(ng-repeat="(currency,obj) in filters.currencies")
             label(ng-class="{active: obj.checked}")
               i.fa.fa-plus(ng-show="obj.checked")
@@ -40,21 +44,26 @@ section.col-xs-12.content(ng-controller="HistoryCtrl")
               //span.count {{currencyUsage[currency] || 0}}
               input(type="checkbox", name="currency-filter", ng-model="obj.checked")
       .filter.date-filter
-        .filter-title(l10n) Date
-        .filter-description(l10n) Load history for specific date range
-        form.filter-choices(ng-submit="submitDateRangeForm()")
-          .input-group
-            .input-group-addon
-              i.fa.fa-calendar(l10n) From
-            input.form-control(type="text", rp-datepicker, ng-model="dateMinView", readonly)
-          .input-group
-            .input-group-addon
-              i.fa.fa-calendar(l10n) To
-            input.form-control(type="text", rp-datepicker, ng-model="dateMaxView", readonly)
-          button.btn.btn-block.btn-success.submit(type='submit', l10n) Filter
+        a.filter-title(href="", ng-click="showFilterDate=!showFilterDate", l10n) Date
+          .fa.fa-caret-right(ng-hide="showFilterDate")
+          .fa.fa-caret-down(ng-show="showFilterDate")
+        div(ng-show="showFilterDate")
+          .filter-description(l10n) Load history for specific date range
+          form.filter-choices(ng-submit="submitDateRangeForm()")
+            .input-group
+              .input-group-addon
+                i.fa.fa-calendar(l10n)  From
+              input.form-control(type="text", rp-datepicker, ng-model="dateMinView", readonly)
+            .input-group
+              .input-group-addon
+                i.fa.fa-calendar(l10n)  To
+              input.form-control(type="text", rp-datepicker, ng-model="dateMaxView", readonly)
+            button.btn.btn-block.btn-success.submit(type='submit', l10n) Filter
       .filter.amount-filter
-        .filter-title(l10n) Minimum amount
-        form.filter-choices.row.form-group(ng-submit="submitMinimumAmountForm()")
+        a.filter-title(href="", ng-click="showFilterMinAmount=!showFilterMinAmount", l10n) Minimum Amount
+          .fa.fa-caret-right(ng-hide="showFilterMinAmount")
+          .fa.fa-caret-down(ng-show="showFilterMinAmount")
+        form.filter-choices.row.form-group(ng-submit="submitMinimumAmountForm()", ng-show="showFilterMinAmount")
           .col-xs-8
             input.form-control(type="text", ng-model="filters.minimumAmount")
           .col-xs-4
