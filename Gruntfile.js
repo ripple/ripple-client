@@ -123,12 +123,21 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
     meta: {},
     shell: {
-      build: {
+      options: {
+        stdout: true,
+        failOnError: true
+      },
+      linux: {
         command: [
-          'appdmg ./dmg/dmg_config.json ./build/packages/ripple-client.dmg',
           'tar -cvf ./build/packages/ripple-client32.tar ./build/pkg/nw/releases/ripple-client/linux32/ripple-client',
           'tar -cvf ./build/packages/ripple-client64.tar ./build/pkg/nw/releases/ripple-client/linux64/ripple-client'
         ].join('&')
+      },
+      osx: {
+        command: process.platform === 'darwin' ? [
+          'npm install appdmg',
+          'appdmg ./dmg/dmg_config.json ./build/packages/ripple-client.dmg'
+        ].join('&') : 'echo Skipping DMG build, only supported on OSX'
       }
     },
     recess: {
@@ -610,10 +619,6 @@ module.exports = function(grunt) {
                                  'deps',
                                  'copy']);
 
-  // Desktop apps packaging
-  grunt.registerTask('desktop', ['shell',
-                                 'compress']);
-
   // Deps only - only rebuilds the dependencies
   grunt.registerTask('deps', ['uglify:deps',
                               'concat:deps','concat:deps_debug',
@@ -626,6 +631,11 @@ module.exports = function(grunt) {
   grunt.registerTask('dist', ['default',
                               'copy:nw_desktop', 'copy:nw_desktop_debug',
                               'nodewebkit']);
+
+  // Desktop apps packaging
+  grunt.registerTask('desktop', ['dist',
+                                 'shell',
+                                 'compress']);
 
   // End-to-end tests
   grunt.registerTask('e2e', ['connect:debug', 'mochaProtractor:local']);
