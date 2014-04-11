@@ -33,7 +33,7 @@ Run the following command to build the client.
 
     $ grunt
     
-Access the web client in `build/bundle/web/`.
+Access the web client in `build/bundle/web/`. Use `index_debug.html` for development. *Grunt watch* will run *preprocess* only for `index_debug.html`. 
 
 ## Travis CI
 
