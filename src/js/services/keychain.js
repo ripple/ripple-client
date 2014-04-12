@@ -19,6 +19,17 @@ module.factory('rpKeychain', ['$rootScope', '$timeout', 'rpPopup', 'rpId',
   var Keychain = function ()
   {
     this.secrets = {};
+
+    // Unlock the Desktop client right away
+    if ('desktop' === $scope.client) {
+      var keychain = this;
+      var watcher = $scope.$watch('userBlob', function(){
+        if ($scope.userBlob.data && $scope.userBlob.data.account_id) {
+          keychain.secrets[$scope.userBlob.data.account_id] = $scope.userBlob.data.masterkey;
+          watcher();
+        }
+      }, true);
+    }
   };
 
   // Default unlock duration is 5 minutes
