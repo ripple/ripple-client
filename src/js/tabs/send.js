@@ -468,7 +468,8 @@ SendTab.prototype.angular = function (module)
         var data = {
           type: "quote",
           amount: send.amount_feedback.to_text()+"/"+send.amount_feedback.currency().to_json(),
-          destination: send.quote_destination
+          destination: send.quote_destination,
+          address: $scope.address
         };
 
         if ($.isArray(send.extra_fields)) {
