@@ -522,6 +522,11 @@ SendTab.prototype.angular = function (module)
                   !Array.isArray(data.quote.send) ||
                   !data.quote.send.length || !data.quote.address) {
                 $scope.send.path_status = "error-quote";
+                $scope.send.quote_error = "";
+                if (data && data.result === "error" &&
+                    "string" === typeof data.error_message) {
+                  $scope.send.quote_error = data.error_message;
+                }
                 return;
               }
 
