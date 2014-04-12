@@ -468,7 +468,8 @@ SendTab.prototype.angular = function (module)
         var data = {
           type: "quote",
           amount: send.amount_feedback.to_text()+"/"+send.amount_feedback.currency().to_json(),
-          destination: send.quote_destination
+          destination: send.quote_destination,
+          address: $scope.address
         };
 
         if ($.isArray(send.extra_fields)) {
@@ -502,6 +503,11 @@ SendTab.prototype.angular = function (module)
                   !Array.isArray(data.quote.send) ||
                   !data.quote.send.length || !data.quote.address) {
                 $scope.send.path_status = "error-quote";
+                $scope.send.quote_error = "";
+                if (data && data.result === "error" &&
+                    "string" === typeof data.error_message) {
+                  $scope.send.quote_error = data.error_message;
+                }
                 return;
               }
 
