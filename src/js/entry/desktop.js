@@ -170,6 +170,9 @@ app.config(['$routeProvider', '$injector', function ($routeProvider, $injector) 
 app.run(['$rootScope', '$injector', '$compile', '$route', '$routeParams', '$location',
          function ($rootScope, $injector, $compile, $route, $routeParams, $location)
 {
+  // This is the desktop client
+  $rootScope.client = 'desktop';
+
   // Global reference for debugging only (!)
   if ("object" === typeof rippleclient) {
     rippleclient.$scope = $rootScope;
