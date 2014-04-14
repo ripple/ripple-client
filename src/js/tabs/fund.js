@@ -25,7 +25,7 @@ FundTab.prototype.angular = function (module)
   {
     if (!$id.loginStatus) return $id.goId();
 
-    $scope.currencyPage = 'btc';
+    $scope.currencyPage = 'xrp';
 
     $scope.showComponent = [];
 
