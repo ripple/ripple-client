@@ -16,18 +16,22 @@ section.content(ng-controller='FundCtrl')
           ng-class="{active: currencyPage == 'btc'}") BTC (Bitcoin)
     .col-sm-9.list
       .fundXrp(ng-show="currencyPage == 'xrp'")
-        .nameLine(l10n) Ripple name&#32;
-          span.name(ng-show="userCredentials.username") ~ {{userCredentials.username}}
-          span(ng-hide="userCredentials.username") loading...
-          .address
-            a(href="", ng-click="showRippleAddress=true"
-              ng-hide="showRippleAddress", l10n-inc) Show address
-            div(ng-show="showRippleAddress") {{address}}
-        .description(l10n) Ripple names are a new feature on Ripple! Use your
-          | Ripple name (~{{userCredentials.username}}) to receive money.
-          | You can still use your full Ripple address, and while we are
-          | working to transition to Ripple names, some gateways may still
-          | ask for your full address.
+        div(ng-show="'web' === client")
+          .nameLine(l10n) Ripple name&#32;
+            span.name(ng-show="userCredentials.username") ~ {{userCredentials.username}}
+            span(ng-hide="userCredentials.username") loading...
+            .address
+              a(href="", ng-click="showRippleAddress=true"
+                ng-hide="showRippleAddress", l10n-inc) Show address
+              div(ng-show="showRippleAddress") {{address}}
+          .description(l10n) Ripple names are a new feature on Ripple! Use your
+            | Ripple name (~{{userCredentials.username}}) to receive money.
+            | You can still use your full Ripple address, and while we are
+            | working to transition to Ripple names, some gateways may still
+            | ask for your full address.
+        div(ng-show="'desktop' === client")
+          .nameLine(l10n) Ripple address&#32;
+            .address {{address}}
       .fundBtc(ng-show="currencyPage == 'btc'")
         .nameLine(l10n) Bitcoin Deposit
         .B2R(ng-show="loadState.B2RApp")
