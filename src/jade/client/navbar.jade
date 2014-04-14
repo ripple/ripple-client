@@ -31,7 +31,7 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
               l10n-rp-popover-title="XRP Balance"
               rp-popover-trigger="click"
               l10n-data-content="Your current XRP balance is {{account.Balance | rpamount:{precision: 2, max_sig_digits: 20} }}. Account reserve is {{ account.reserve | rpamount }} XRP. <br /><a href='https://ripple.com/wiki/Reserves' target='_blank'>More information</a>")
-          li.navbar-text ~{{userCredentials.username}}
+          li.navbar-text(ng-hide="'desktop' === client") ~{{userCredentials.username}}
           li.dropdown.notifications-dropdown
             a.dropdown-toggle.fa.fa-lightbulb-o(ng-click="read()")
               .number(ng-show="unseenNotifications.count") {{unseenNotifications.count}}
