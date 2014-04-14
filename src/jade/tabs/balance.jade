@@ -10,18 +10,9 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
   //- Connected
 
   group(ng-show="connected && loadState.account")
-    .div#welcome(ng-hide='account.Balance')
-
-      p.title(l10n) Welcome to Ripple.
-      //p(l10n) You currently don&#39;t have any ripples (XRP). To get started you can:
-      //.actions
-      //  a.receive(href="#receive")
-      //  a.buy(href="https://support.ripplelabs.com/hc/en-us/articles/201209016")
-      //  a.giveaway(href="https://support.ripplelabs.com/hc/en-us/articles/201082577-Current-Ripple-Labs-giveaways")
-
     .row
       .col-xs-12.col-xs-8
-        // As per Anna's specs, "Total Balance" module has been removed as it doesn't work right now.  JIRA id#: WC-1563
+        // JIRA id#: WC-1563
         //- .currency-overview
           //- .balancebox.col-sm-4
             //- .lbl Total Balance
@@ -39,7 +30,7 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
             //-     .amount 
             //-       span.fraction {{pending.amount}}
             //-       span.currency {{pending.currency}}
-        .currency-summary(ng-show='account.Balance')
+        .currency-summary
           .balancebox.currency-xrp
             .total.row
               .lbl.col-xs-8
