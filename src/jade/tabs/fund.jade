@@ -13,7 +13,7 @@ section.content(ng-controller='FundCtrl')
         a(href="", ng-click="currencyPage = 'xrp'"
           ng-class="{active: currencyPage == 'xrp'}") XRP (ripples)
         a(href="", ng-click="currencyPage = 'btc'"
-          ng-class="{active: currencyPage == 'btc'}") BTC (Bitcoin)
+          ng-class="{active: currencyPage == 'btc'}", ng-show="'web' === client") BTC (Bitcoin)
     .col-sm-9.list
       .fundXrp(ng-show="currencyPage == 'xrp'")
         div(ng-show="'web' === client")
