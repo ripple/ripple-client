@@ -6,8 +6,9 @@ module.exports = function(config) {
     files: [
       'build/dist/deps-debug.js',
       'deps/js/angular-mocks/angular-mocks.js',
-      'config.js',
-      'build/dist/ripple-client-desktop-debug.js',
+      'src/js/config.js',
+      'build/dist/web/templates-debug.js',
+      'build/dist/web/ripple-client-debug.js',
       'test/unit/**/*.js'
     ],
 
