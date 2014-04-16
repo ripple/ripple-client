@@ -41,7 +41,7 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
             span.input-group-addon.ripple-addon ~
             input.form-control#register_username(
               name='register_username', type='text', ng-model="username"
-              required, rp-focus, autocomplete="off")
+              required, rp-focus, autocomplete="off", maxlength="15")
           p(ng-switch on="usernameStatus", class="{{usernameStatus}}", rp-spinner="{{usernameStatus == 'loading' ? 4 : null}}")
             span(ng-switch-when="exists", l10n) Already taken!
             span(ng-switch-when="reserved", l10n) Reserved for {{usernameReservedFor}}
