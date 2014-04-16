@@ -24,7 +24,7 @@ section.col-xs-12.content(ng-controller="ContactsCtrl")
             .error(rp-error-on='rpUnique', l10n)
               | This contact already exists.
         .form-group
-          label(for='Address', l10n) Ripple name
+          label(for='Address', l10n) Ripple name or address
           input.form-control.input-lg.address#address(
             name='address', type='text', step='any'
             ng-model='contact.address'
