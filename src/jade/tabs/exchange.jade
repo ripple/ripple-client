@@ -15,7 +15,7 @@ section.col-xs-12.content(ng-controller="ExchangeCtrl")
   //- Connected
 
   form.mode-form(name="exchangeForm", id="exchangeForm", ng-show='mode=="form" && account.Balance', ng-submit='exchange_prepared()')
-    p.literal(l10n) Exchange one currency into another.
+    p.literal(l10n) Convert one currency into another.
     hr
     .form-group
       label(for='amount', l10n="Receive (amount)") Receive
@@ -23,7 +23,7 @@ section.col-xs-12.content(ng-controller="ExchangeCtrl")
         .col-sm-5.col-md-4
           input.value.form-control#amount(
           name='amount', type='text'
-          ng-model='exchange.amount'
+          ng-model='.amount'
           required
           rp-autofill='$routeParams.amount'
           rp-autofill-amount
