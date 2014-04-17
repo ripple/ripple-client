@@ -37,7 +37,8 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
                 i.icon-ripple-logo
                 | XRP - Ripple
               .balance.col-xs-4
-                | {{ account.Balance | rpamount:{rel_precision: 2, max_sig_digits: 20} }}
+                span(ng-show="account.Balance") {{ account.Balance | rpamount:{rel_precision: 2, max_sig_digits: 20} }}
+                span(ng-hide="account.Balance") 0
             .component.row
               .lbl.col-xs-8 Available 
                 i.fa.fa-question-circle(
@@ -46,7 +47,9 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
                   rp-popover-title="Available amount"
                   rp-popover-trigger="hover"
                   l10n-data-content="Total amount of XRP in your account minus the reserve amount.")
-              .balance.col-xs-4 {{account.max_spend | rpamount:{rel_precision: 0} }}
+              .balance.col-xs-4
+                span(ng-show="account.max_spend") {{account.max_spend | rpamount:{rel_precision: 0} }}
+                span(ng-hide="account.max_spend") 0
             .component.row
               .lbl.col-xs-8 Reserve 
                 i.fa.fa-question-circle(
@@ -55,7 +58,9 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
                   rp-popover-title="Reserve amount"
                   rp-popover-trigger="hover"
                   l10n-data-content="Minimum amount of XRP required to fund your account. You cannot spend the reserve.")
-              .balance.col-xs-4 {{ account.reserve | rpamount }}
+              .balance.col-xs-4
+                span(ng-show="account.reserve") {{ account.reserve | rpamount }}
+                span(ng-hide="account.reserve") 0
           //- TODO Determine currencies order
           .balancebox.currency-non-native(ng-repeat="entry in balances", ng-class="'currency-' + (entry.total | rpcurrency | lowercase)")
             .total.row
