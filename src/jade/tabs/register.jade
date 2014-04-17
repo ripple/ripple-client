@@ -102,7 +102,6 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
           ng-class="{'field-error': registerForm.secret.$error.rpMasterKey && registerForm.secret.$dirty}")
           label(for='masterkey') Secret Key - leave blank if you don't have a secret key
           input.form-control(type="text", name="masterkey", id="masterkey"
-            l10n-placeholder=""
             ng-model="masterkey", rp-master-key)
           p(ng-show="registerForm.secret.$error.rpMasterKey && registerForm.secret.$dirty")
             span(l10n) Secret is invalid
