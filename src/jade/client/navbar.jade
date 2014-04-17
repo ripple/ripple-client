@@ -13,8 +13,6 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
             a(href="#/send", l10n) Send
           li#nav-exchange(ng-class="{active: $route.current.mainMenu == 'exchange'}")
             a(href="#/exchange", l10n) Exchange
-          li#nav-trust(ng-class="{active: $route.current.mainMenu == 'trust'}")
-            a(href="#/trust", l10n) Trust
           li#nav-fund(ng-class="{active: $route.current.mainMenu == 'fund'}")
             a(href="#/fund", l10n) Fund
         ul.nav.navbar-nav.navbar-right
@@ -112,6 +110,7 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
           li.settings
             a.dropdown-toggle.fa.fa-cog
             ul.dropdown-menu
+              li: a(href="#/trust", l10n) Trust
               li: a(href="#/security", l10n) Security
               li: a(href="#/options", l10n) Options
               li.divider
