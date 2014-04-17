@@ -142,12 +142,11 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
       .auth-attention(l10n) We’ve sent an email to
         span  {{email}}
         | . To verify your email please check the link in that email.
-      .change-email-bar
-        span(l10n) Email Address:
-        span.email {{email}}
-        //- TODO implement
-          a(href="", l10n) Change
       //- TODO implement
+        .change-email-bar
+          span(l10n) Email Address:
+          span.email {{email}}
+            a(href="", l10n) Change
         a(href="", l10n) Re-send Email
 
   .row.auth-form-container.mode-verified.col-sm-offset-2.col-sm-8.col-md-offset-3.col-md-6(ng-show='mode=="verified"')
