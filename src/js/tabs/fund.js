@@ -25,20 +25,51 @@ FundTab.prototype.angular = function (module)
   {
     if (!$id.loginStatus) return $id.goId();
 
+    $scope.$on('$idAccountLoad', function (e, data) {
+      $scope.$watch('B2RApp', function(b2rApp){
+        $scope.email = $scope.userBlob.data.email;
+        console.log('HISDHFOSKDFD  ', $scope.userBlob.data.email);
+      })
+    });
+
     $scope.currencyPage = 'xrp';
 
     $scope.showComponent = [];
 
-    $scope.B2RFieldValue = {};
 
+
+    $scope.okLoading = false;
+
+    $scope.emailError = false;
+
+    $scope.emailErrorSwitch = function() {
+      if ($scope.emailError === false && $id.email === 'undefined') {
+        $scope.emailError = true;
+      } else {
+        $scope.emailError = false;
+      }
+    }
     // B2R Signup
     $scope.B2RSignup = function () {
-      var fields = $scope.B2RFieldValue;
+      var fields = {};
+
+      $scope.okLoading = true;
+
       fields.rippleAddress = $id.account;
+
+      if ($id.email === 'undefined') {
+        $scope.emailError = true;
+        $scope.okLoading = false;
+      } else {
+        fields.email = $scope.userBlob.data.email;
+      }
+
 
       $scope.B2RApp.findProfile('account').signup(fields,function(err, response){
         if (err) {
-          console.log('Error',err.message);
+          console.log('Error',err);
+          $scope.emailError = true;
+          $scope.okLoading = false;
           return;
         }
 

@@ -428,9 +428,11 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
           }
 
           // TODO ...
-          if (!user.verified && gateway.inboundBridge.currencies[0].limit && balance) {
-            gateway.inboundBridge.limit = gateway.inboundBridge.currencies[0].limit - balance.components[new_account].to_human();
-          }
+          // if (!user.verified && gateway.inboundBridge.currencies[0].limit && balance) {
+          //   gateway.inboundBridge.limit = gateway.inboundBridge.currencies[0].limit - balance.components[new_account].to_human();
+          // }
+
+          gateway.inboundBridge.limit = $scope.B2R.currencies[0].limit;
 
           gateway.inboundBridge.instructions = instructions;
         });
@@ -549,14 +551,16 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
 
           $scope.B2R.active = user;
 
-          // TODO ...
-          if (!user.verified && $scope.B2R.currencies[0].limit && $scope.balances['BTC']) {
-            $scope.B2R.limit = $scope.B2R.currencies[0].limit - $scope.balances['BTC'].components['rhxULAn1xW9T4V2u67FX9pQjSz4Tay2zjZ'].to_human();
-          }
-
-          // Do the necessary trust
-          var trust = _.findWhere($scope.B2R.currencies, {currency: 'BTC'});
-          $scope.B2R.trust(trust.currency,trust.issuer);
+        // TODO ...
+        // if (!user.verified && $scope.B2R.currencies[0].limit && $scope.balances['BTC']) {
+        //   $scope.B2R.limit = $scope.B2R.currencies[0].limit - $scope.balances['BTC'].components['rhxULAn1xW9T4V2u67FX9pQjSz4Tay2zjZ'].to_human();
+        // } else {
+        $scope.B2R.limit = $scope.B2R.currencies[0].limit;
+        // }
+        
+        // Do the necessary trust
+        var trust = _.findWhere($scope.B2R.currencies, {currency: 'BTC'});
+        $scope.B2R.trust(trust.currency,trust.issuer);
 
           // Get pending transactions
           $scope.B2R.getPending($scope.address, function(err, pending){

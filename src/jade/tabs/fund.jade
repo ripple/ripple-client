@@ -43,28 +43,41 @@ section.content(ng-controller='FundCtrl')
                 rp-qrcode(data="bitcoin:{{B2R.instructions.instructionParams[0].value}}", size="100")
               .about(l10n, ng-hide="account.Balance") A small amount (~.001 BTC) of your first
                 | transfer will be converted to XRP to activate your wallet.&#32;
-                a.why(href="", l10n-inc) Why?
+                a.why(href="https://ripple.com/wiki/Reserves",
+                target="_blank", l10n-inc) Why?
               .limit(ng-show="B2R.limit")
                 span(l10n) Your current deposit limit is:
-                span.amount {{B2R.limit}}
-                  span.currency  BTC
+                rp-currency(limit="B2R.limit")
                 a.remove(href="https://btc2ripple.com/#/my/setup"
                 target="_blank", l10n) Remove Limit
             div(ng-hide="loadState.B2RInstructions") Loading...
           .inactive(ng-hide="B2R.active")
             label(l10n) To deposit, generate a bitcoin receiving address
-              | using SnapSwap's btc2ripple service.
+              | using SnapSwap's 
+              a(href="btc2ripple.com") btc2ripple 
+              | service.
             .row.action
               .col-xs-12.col-sm-5.col-md-4
-                button.btn.btn-default.btn-success.btn-block(ng-hide="B2RFields"
-                  ng-click="B2RFields=true") Generate bitcoin address
-            form.fields(name="b2rform", ng-show="B2RFields && !B2R.active", ng-submit="B2RSignup()")
-              .form-group(ng-repeat="(name,field) in B2RSignupFields")
-                label(for="{{name}}Field") {{field.label}}
-                div.description(ng-show="field.description") {{field.description}}
-                input.form-control(name="{{name}}Field", type="email",
-                id="{{name}}Field", ng-model="B2RFieldValue[name]", required)
-              button.btn.btn-success(type="submit", ng-disabled="B2R.progress || b2rform.$invalid")
-                span(l10n, ng-hide="B2R.progress") Add Bitcoins
-                span(l10n, ng-show="B2R.progress") Loading...
-        .B2R(ng-hide="loadState.B2RApp") Loading...
+                rp-popup
+                  a.btn.btn-success.btn-sm.sign(href="", rp-popup-link, l10n) Generate bitcoin address
+                  div.connectModal(rp-popup-content)
+                    .modal-header
+                      .navbar-brand.hidden-sm.modal-logo#logo
+                      .modal-title Connect
+                    .modal-body
+                      div.modal-prompt(l10n) SnapSwap would like to:
+                      div.grey-focus
+                        div.modal-permissions(l10n) - View your email address 
+                          span.modal-email(l10n) ({{email}})
+                        div.modal-permissions(l10n) - Hold deposited BTC on your behalf
+                      div.modal-agreement(l10n) By proceeding, you agree to the btc2ripple
+                        a(href="https://btc2ripple.com/#/terms/of/service")  terms of service.
+                      div.modal-buttons
+                        button.btn.btn-default.btn-success(ng-click="B2RSignup()",
+                          rp-spinner='{{okLoading ? 4 : null}}', ng-disabled="okLoading")
+                          span(ng-show="okLoading", l10n) Loading...
+                          span(ng-hide="okLoading", l10n) Share
+                        button.modal-btn.btn.btn-default.btn-md(data-dismiss="modal",
+                          aria-hidden="true",
+                          ng-click="emailErrorSwitch()", ng-hide="okLoading", l10n) Cancel
+                      span.modal-error(ng-show="emailError", l10n) SnapSwap's btc2ripple service is currently unavailable. Please check back later.

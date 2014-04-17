@@ -33,12 +33,77 @@ h1 {
   margin-top: 0;
 }
 
+.connectModal {
+  .grey-focus {
+    background-color: #E8E8E7;
+    margin: 1.6em 1.6em;
+    padding: 0.9em 1.5em;
+    border: 1px solid #D3D3D3;
+  }
+
+  .modal-logo {
+    margin: -.6em -.9em;
+  }
+
+  .modal-header {
+    background-color: #326BAA;
+    color: #FFF;
+    font-weight: 900;
+    font: bold 1.5em 'OpenSansLight';
+  }
+
+  .modal-title {
+    margin: 0 1.5em;
+  }
+
+  .modal-prompt {
+    margin: 0 0 0 2.8em;
+  }
+
+  .modal-permissions {
+    font-size: .7em;
+    margin: 0.8em 0;
+  }
+
+  .modal-body {
+    font: 1.3em 'OpenSansLight';
+    margin: 0 -2.45em 0 -2.40em;
+    border: 0;
+  }
+
+  .modal-email {
+    margin: .4em 0 1.2em 0;
+    font-weight: 900;
+  }
+
+  .modal-agreement {
+    font: 0.7em 'OpenSansLight';
+    color: #8A8A8A;
+    margin: -.5em 0 1.3em 4em;
+  }
+
+  .modal-error {
+    font: 0.6em 'OpenSansLight';
+    color: #FF0000;
+    margin: 2em 0 0 4.9em;
+  }
+
+  .modal-buttons {
+    margin: 0 0 0 3em;
+  }
+
+  .modal-btn {
+    margin: 0 2em;
+  }
+}
+
 .content {
   padding-top: @grid-gutter-width/2;
   padding-bottom: @grid-gutter-width/2;
   .rounded(5px);
   min-height: 500px;
   z-index: 10;
+
 
   @media (max-width: @screen-xs-max) {
     .rounded(0);
@@ -287,6 +352,10 @@ a.danger {
       text-decoration: none;
     }
   }
+}
+
+.why {
+  font-size: 11px;
 }
 
 .ripple-addon {
