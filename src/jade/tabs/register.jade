@@ -172,7 +172,7 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
             option(value="{{key}}", ng-repeat="(key, country) in countries"
               ng-selected="'United States' === country") {{country}}
         .checkbox
-          label(for='terms', l10n) I agree to the Ripple Trade&#32;
+          label(for='terms', l10n) I agree to the {{productName}}&#32;
             a(href="https://ripple.com/terms/", target="_blank", l10n-inc) terms of service.
           input#terms(type="checkbox", name="terms", ng-model="terms", l10n)
       .see-privacy-text(l10n)

@@ -172,6 +172,7 @@ app.run(['$rootScope', '$injector', '$compile', '$route', '$routeParams', '$loca
 {
   // This is the desktop client
   $rootScope.client = 'desktop';
+  $rootScope.productName = 'Ripple';
 
   // Global reference for debugging only (!)
   if ("object" === typeof rippleclient) {
