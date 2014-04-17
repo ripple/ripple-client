@@ -42,7 +42,7 @@ module.factory('rpAuthInfo', ['$rootScope', 'rpRippleTxt', function ($scope, $tx
           dataType: "json",
           data: {
             domain: domain,
-            user: username
+            username: username
           },
           error: function () {
             $scope.$apply(function() {

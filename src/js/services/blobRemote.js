@@ -53,7 +53,7 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
     if (url.indexOf("://") === -1) url = "http://" + url;
 
     $.ajax({
-      url: url + '/blob/' + id,
+      url: url + '/v1/blob/' + id,
       dataType: 'json',
       timeout: 8000
     })
@@ -137,7 +137,7 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
 
     $.ajax({
       type: "POST",
-      url: opts.url + '/blob/create',
+      url: opts.url + '/v1/user',
       dataType: 'json',
       data: {
         blob_id: opts.id,
@@ -146,7 +146,9 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
         signature: "",
         pubkey: "",
         auth_secret: blob.data.auth_secret,
-        data: blob.encrypt()
+        data: blob.encrypt(),
+        email: opts.email,
+        hostlink: Options.activate_link
       },
       timeout: 8000
     })
@@ -161,7 +163,29 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
         });
       });
     })
-    .error(webutil.getAjaxErrorHandler(callback, "BlobVault POST /blob/create"));
+//    .error(webutil.getAjaxErrorHandler(callback, "BlobVault POST /v1/user"));
+    .error(function(err){
+      console.log('err',err);
+    })
+  };
+
+  BlobObj.verify = function (opts, callback) {
+    $http({
+      method: 'GET',
+      url: opts.url + '/v1/user/' + opts.username + '/verify/' + opts.token
+    })
+    .success(function(data, status, headers, config) {
+      if (data.result === "success") {
+        callback(null, data);
+      } else {
+        console.log("client: blob: could not verify:", data);
+        callback(new Error("Failed to verify the account"));
+      }
+    })
+    .error(function(data, status, headers, config) {
+      console.log("client: blob: could not verify: "+status+" - "+data);
+      callback(new Error("Failed to verify the account - XHR error"));
+    });
   };
 
   var cryptConfig = {
@@ -263,7 +287,7 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
 
     var config = {
       method: 'POST',
-      url: this.url + '/blob/consolidate',
+      url: this.url + '/v1/blob/consolidate',
       responseType: 'json',
       data: {
         blob_id: this.id,
@@ -510,7 +534,7 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
 
     var config = {
       method: 'POST',
-      url: this.url + '/blob/patch',
+      url: this.url + '/v1/blob/patch',
       responseType: 'json',
       data: {
         blob_id: this.id,

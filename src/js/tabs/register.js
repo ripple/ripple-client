@@ -17,13 +17,17 @@ RegisterTab.prototype.generateHtml = function ()
   return require('../../jade/tabs/register.jade')();
 };
 
+RegisterTab.prototype.extraRoutes = [
+  { name: '/register/activate/:username/:token' }
+];
+
 RegisterTab.prototype.angular = function (module) {
   module.controller('RegisterCtrl', ['$scope', '$location', '$element',
                                      '$timeout', 'rpId', 'rpTracker',
-                                     'rpAuthInfo',
+                                     'rpAuthInfo', '$routeParams',
                                      function ($scope, $location, $element,
                                                $timeout, $id, $rpTracker,
-                                               authinfo)
+                                               authinfo, $routeParams)
   {
     if ($id.loginStatus) {
       $location.path('/balance');
@@ -51,6 +55,10 @@ RegisterTab.prototype.angular = function (module) {
       $scope.mode = 'form';
       $scope.showMasterKeyInput = false;
       $scope.submitLoading = false;
+
+      if ($routeParams.token) {
+        $scope.verify();
+      }
 
       if ($scope.oldUserBlob) {
         $scope.mode = 'migration';
@@ -96,21 +104,34 @@ RegisterTab.prototype.angular = function (module) {
 
       $scope.usernameStatus = 'loading';
       authinfo.get(Options.domain, $scope.username, function (err, info) {
-        if (err) {
-          // XXX Better error handling
-          $scope.usernameStatus = null;
-          return;
-        }
+        $scope.usernameStatus = "ok";
+
         if (info.exists) {
           $scope.usernameStatus = "exists";
         } else if (info.reserved) {
           $scope.usernameStatus = "reserved";
           $scope.usernameReservedFor = info.reserved;
-        } else {
-          $scope.usernameStatus = "ok";
         }
       });
     }
+
+    /**
+     * Email verification
+     */
+    $scope.verify = function() {
+      $id.verify({
+        username: $routeParams.username,
+        token: $routeParams.token
+      }, function(err, response){
+        if ('success' === response.result) {
+          $scope.verifyStatus = true;
+        }
+        console.log('response',response);
+      });
+
+      $scope.verifyStatus = false;
+      $scope.mode = 'verified';
+    };
 
     $scope.register = function()
     {
@@ -121,6 +142,7 @@ RegisterTab.prototype.angular = function (module) {
       $id.register({
         'username': $scope.username,
         'password': $scope.password1,
+        'email': $scope.email,
         'masterkey': $scope.masterkey,
         'oldUserBlob': $scope.oldUserBlob
       },
@@ -136,9 +158,7 @@ RegisterTab.prototype.angular = function (module) {
         $scope.keyOpen = key;
         $scope.key = $scope.keyOpen[0] + new Array($scope.keyOpen.length).join("*");
 
-        // TODO send verification email
-//        $scope.mode = 'verification';
-        $location.path('/fund');
+        $scope.mode = 'verification';
       });
     };
 

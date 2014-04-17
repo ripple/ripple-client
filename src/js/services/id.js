@@ -193,6 +193,10 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
     store.set('ripple_auth', {username: username, keys: keys});
   };
 
+  Id.prototype.verify = function (opts, callback) {
+    $authflow.verify(opts, callback);
+  };
+
   Id.prototype.register = function (opts, callback)
   {
     var self = this;
@@ -218,6 +222,7 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
       'username': username,
       'password': password,
       'account': account,
+      'email': opts.email,
       'masterkey': masterkey,
       'oldUserBlob': opts.oldUserBlob,
       'walletfile': opts.walletfile
@@ -311,7 +316,6 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
         // New login protocol failed and no fallback configured
         callback(err);
       } else {
-      console.log('a',jQuery.extend(true, {}, blob));
         // Ensure certain properties exist
         $.extend(true, blob, Id.minimumBlob);
 

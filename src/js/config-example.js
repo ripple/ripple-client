@@ -53,7 +53,9 @@ var Options = {
 
   zipzap: {
     "requester": "zipzap/request.php"
-  }
+  },
+
+  activate_link: 'http://ripple.com/client/#/register/activate'
 };
 
 // Load client-side overrides

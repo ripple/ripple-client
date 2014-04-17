@@ -82,11 +82,11 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
         div(ng-show="")
           .form-group
             div(class="strength {{strength}}") {{strength}}
-        .form-group(ng-class="{'field-error': registerForm.email.$error.email && registerForm.email.$dirty}")
-          label(for='email') Email
-          input.form-control(type="email", name="email", id="email"
+        .form-group(ng-class="{'field-error': registerForm.register_email.$error.email && registerForm.register_email.$dirty}")
+          label(for='register_email') Email
+          input.form-control(type="email", name="register_email", id="register_email"
             placeholder="", ng-model="email", required)
-          p(ng-show="registerForm.email.$error.email && registerForm.email.$dirty")
+          p(ng-show="registerForm.register_email.$error.email && registerForm.register_email.$dirty")
             span(l10n) Email address is invalid
         //- TODO focus on field when clicked
         div(ng-hide="showSecretField || oldUserBlob")
@@ -147,9 +147,9 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
         span(l10n) Email Address:
         span.email {{email}}
         //- TODO implement
-        a(href="", l10n) Change
+          a(href="", l10n) Change
       //- TODO implement
-      a(href="", l10n) Re-send Email
+        a(href="", l10n) Re-send Email
 
   .row.auth-form-container.mode-verified.col-sm-offset-2.col-sm-8.col-md-offset-3.col-md-6(ng-show='mode=="verified"')
     .auth-form-wrapper
@@ -162,7 +162,10 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
         li.active(l10n) Step
           span  3
       //- TODO
-      //- .auth-attention.text-center Email Verified
+      .auth-attention.text-center
+        .status(ng-hide="verifyStatus", l10n) Verifying...
+        .status(ng-show="verifyStatus", l10n) You have successfully verified your account.
+
       form
         .form-group
           label(l10n) Select your country

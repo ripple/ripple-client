@@ -49,6 +49,11 @@ module.factory('rpAuthFlow', ['$rootScope', 'rpAuthInfo', 'rpKdf', 'rpBlob',
           return;
         }
 
+        if (!authInfo.emailVerified) {
+          callback(new Error("Your email address has not been verified yet, please check your email for instructions."));
+          return;
+        }
+
         if ("string" !== typeof authInfo.blobvault) {
           callback(new Error("No blobvault specified in the authinfo."));
           return;
@@ -142,6 +147,7 @@ module.factory('rpAuthFlow', ['$rootScope', 'rpAuthInfo', 'rpKdf', 'rpBlob',
         'unlock': unlockKeys.unlock,
         'username': opts.username,
         'account': opts.account,
+        'email': opts.email,
         'masterkey': opts.masterkey,
         'oldUserBlob': opts.oldUserBlob
       },
@@ -155,6 +161,26 @@ module.factory('rpAuthFlow', ['$rootScope', 'rpAuthInfo', 'rpKdf', 'rpBlob',
         callback(null, blob, loginKeys, authInfo.username);
       });
     }
+  };
+
+  AuthFlow.verify = function (opts, callback) {
+    $authinfo.get(Options.domain, opts.username, function (err, authInfo) {
+      if (err) {
+        callback(err);
+        return;
+      }
+
+      if ("string" !== typeof authInfo.blobvault) {
+        callback(new Error("No blobvault specified in the authinfo."));
+        return;
+      }
+
+      $blob.verify({
+        username: opts.username,
+        token: opts.token,
+        url: authInfo.blobvault
+      }, callback);
+    });
   };
 
   AuthFlow.relogin = function (username, keys, callback) {
