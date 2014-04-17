@@ -126,6 +126,7 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
       auth_secret: sjcl.codec.hex.fromBits(sjcl.random.randomWords(8)),
       encrypted_secret: blob.encryptSecret(opts.unlock, opts.masterkey),
       account_id: opts.account,
+      email: opts.email,
       contacts: [],
       created: (new Date()).toJSON()
     };
