@@ -73,7 +73,7 @@ section.content(ng-controller='FundCtrl')
                       div.modal-agreement(l10n) By proceeding, you agree to the btc2ripple
                         a(href="https://btc2ripple.com/#/terms/of/service")  terms of service.
                       div.modal-buttons
-                        button.btn.btn-default.btn-success(ng-click="B2RSignup()",
+                        button.modal-btn.btn.btn-default.btn-success.btn-md(ng-click="B2RSignup()",
                           rp-spinner='{{okLoading ? 4 : null}}', ng-disabled="okLoading")
                           span(ng-show="okLoading", l10n) Loading...
                           span(ng-hide="okLoading", l10n) Share

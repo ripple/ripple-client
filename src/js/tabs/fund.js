@@ -28,15 +28,12 @@ FundTab.prototype.angular = function (module)
     $scope.$on('$idAccountLoad', function (e, data) {
       $scope.$watch('B2RApp', function(b2rApp){
         $scope.email = $scope.userBlob.data.email;
-        console.log('HISDHFOSKDFD  ', $scope.userBlob.data.email);
       })
     });
 
     $scope.currencyPage = 'xrp';
 
     $scope.showComponent = [];
-
-
 
     $scope.okLoading = false;
 

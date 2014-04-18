@@ -36,16 +36,19 @@ h1 {
 .connectModal {
   .grey-focus {
     background-color: #E8E8E7;
-    margin: 1.6em 1.6em;
+    margin: 0.9em 1.6em;
     padding: 0.9em 1.5em;
     border: 1px solid #D3D3D3;
   }
 
   .modal-logo {
-    margin: -.6em -.9em;
+    margin: -.7em -.9em -.6em -.9em;
   }
 
   .modal-header {
+    border: 1px solid transparent;
+    border-top-left-radius: @border-radius-base;
+    border-top-right-radius: @border-radius-base;
     background-color: #326BAA;
     color: #FFF;
     font-weight: 900;
@@ -53,16 +56,18 @@ h1 {
   }
 
   .modal-title {
-    margin: 0 1.5em;
+    font-size: 0.8em;
+    margin: 0 1.5em 0 1.7em;
   }
 
   .modal-prompt {
-    margin: 0 0 0 2.8em;
+    font-size: .8em;
+    margin: -0.7em 0 0 3.9em;
   }
 
   .modal-permissions {
     font-size: .7em;
-    margin: 0.8em 0;
+    margin: 0.5em 0;
   }
 
   .modal-body {
@@ -72,20 +77,20 @@ h1 {
   }
 
   .modal-email {
+    font-family: 'OpenSansBold';
     margin: .4em 0 1.2em 0;
-    font-weight: 900;
   }
 
   .modal-agreement {
-    font: 0.7em 'OpenSansLight';
+    font: 0.6em 'OpenSansLight';
     color: #8A8A8A;
-    margin: -.5em 0 1.3em 4em;
+    margin: 1em 0 1.5em 5.6em;
   }
 
   .modal-error {
     font: 0.6em 'OpenSansLight';
     color: #FF0000;
-    margin: 2em 0 0 4.9em;
+    margin: 0 0 0 5.6em;
   }
 
   .modal-buttons {
@@ -93,7 +98,8 @@ h1 {
   }
 
   .modal-btn {
-    margin: 0 2em;
+    margin: 0 0.5em;
+    padding: 0.7em 5em;
   }
 }
 
