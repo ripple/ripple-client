@@ -202,7 +202,8 @@ module.directive('rpPopup', ['rpPopup', function(popup) {
   };
 }]);
 
-module.directive('rpCurrency', [function(){
+// TODO Make it have different styling for different limits
+module.directive('rpInboundBridgeLimit', [function(){
   return {
     restrict: 'E',
     scope: {

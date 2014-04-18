@@ -47,7 +47,7 @@ section.content(ng-controller='FundCtrl')
                 target="_blank", l10n-inc) Why?
               .limit(ng-show="B2R.limit")
                 span(l10n) Your current deposit limit is:
-                rp-currency(limit="B2R.limit")
+                rp-inbound-bridge-limit(limit="B2R.limit")
                 a.remove(href="https://btc2ripple.com/#/my/setup"
                 target="_blank", l10n) Remove Limit
             div(ng-hide="loadState.B2RInstructions") Loading...
