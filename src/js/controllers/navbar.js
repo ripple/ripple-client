@@ -107,17 +107,19 @@ module.controller('NavbarCtrl', ['$scope', '$element', '$compile', 'rpId',
    * @param {Object} e Angular event object
    * @param {Object} tx Transaction info, returned from JsonRewriter#processTxn
    */
-  $scope.$on('$appTxNotification', function (e, tx) {
-    var $localScope = $scope.$new();
-    $localScope.tx = tx.tx;
 
-    var html = tplAccount($localScope);
-
-    if (html.length) {
-      var msg = $compile(html)($localScope);
-      enqueue(msg);
-    }
-  });
+// VH: Hiding this for now.
+//  $scope.$on('$appTxNotification', function (e, tx) {
+//    var $localScope = $scope.$new();
+//    $localScope.tx = tx.tx;
+//
+//    var html = tplAccount($localScope);
+//
+//    if (html.length) {
+//      var msg = $compile(html)($localScope);
+//      enqueue(msg);
+//    }
+//  });
 
   function setConnectionStatus(connected) {
     $scope.connected = !!connected;
