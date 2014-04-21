@@ -209,7 +209,7 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
     // Callback is optional
     if ("function" !== typeof callback) callback = $.noop;
 
-    // Username might be empty if we're using a "local" strategy (Desktop client)
+    // Username is empty for the desktop client
     if (!opts.username) opts.username = 'local';
 
     // Blob data
@@ -233,13 +233,13 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
         callback(err);
         return;
       }
-      $scope.userBlob = blob;
-      self.setUsername(username);
-      self.setAccount(blob.data.account_id);
-      self.setLoginKeys(keys);
-      self.storeLoginKeys(username, keys);
-      self.loginStatus = true;
-      $scope.$broadcast('$blobUpdate');
+//      $scope.userBlob = blob;
+//      self.setUsername(username);
+//      self.setAccount(blob.data.account_id);
+//      self.setLoginKeys(keys);
+//      self.storeLoginKeys(username, keys);
+//      self.loginStatus = true;
+//      $scope.$broadcast('$blobUpdate');
       store.set('ripple_known', true);
       callback(null, masterkey);
     });
