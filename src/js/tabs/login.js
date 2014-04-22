@@ -31,7 +31,6 @@ LoginTab.prototype.angular = function (module) {
     }
 
     $scope.error = '';
-    $scope.username = '';
     $scope.password = '';
     $scope.loginForm && $scope.loginForm.$setPristine(true);
     $scope.backendMessages = [];

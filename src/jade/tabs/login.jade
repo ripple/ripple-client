@@ -4,6 +4,9 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
     .auth-form-wrapper
       form(name='loginForm', ng-submit='submitForm()')
         h2 Log In
+        .auth-attention.text-center(ng-show="verification")
+          .status(ng-hide="verifyStatus", l10n) Verifying...
+          .status(ng-show="verifyStatus", l10n) You have successfully verified your email address.
         include login/form
         .text-status(ng-show='status')
           span {{status}}

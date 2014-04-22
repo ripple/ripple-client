@@ -22,10 +22,10 @@ RegisterTab.prototype.extraRoutes = [
 ];
 
 RegisterTab.prototype.angular = function (module) {
-  module.controller('RegisterCtrl', ['$scope', '$location', '$element',
+  module.controller('RegisterCtrl', ['$scope', '$rootScope', '$location', '$element',
                                      '$timeout', 'rpId', 'rpTracker',
                                      'rpAuthInfo', '$routeParams',
-                                     function ($scope, $location, $element,
+                                     function ($scope, $rootScope, $location, $element,
                                                $timeout, $id, $rpTracker,
                                                authinfo, $routeParams)
   {
@@ -124,13 +124,15 @@ RegisterTab.prototype.angular = function (module) {
         token: $routeParams.token
       }, function(err, response){
         if ('success' === response.result) {
-          $scope.verifyStatus = true;
+          $rootScope.verifyStatus = true;
         }
         console.log('response',response);
       });
 
-      $scope.verifyStatus = false;
-      $scope.mode = 'verified';
+      $rootScope.verifyStatus = false;
+      $rootScope.username = $routeParams.username;
+      $rootScope.verification = true;
+      $location.path('/login');
     };
 
     $scope.register = function()
