@@ -4,9 +4,10 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
     .auth-form-wrapper
       form(name='loginForm', ng-submit='submitForm()')
         h2 Log In
-        .auth-attention.text-center(ng-show="verification")
-          .status(ng-hide="verifyStatus", l10n) Verifying...
-          .status(ng-show="verifyStatus", l10n) You have successfully verified your email address.
+        .auth-attention.text-center(ng-show="verifyStatus")
+          .status(ng-show="'verifying' === verifyStatus", l10n) Verifying...
+          .status(ng-show="'verified' === verifyStatus", l10n) You have successfully verified your email address.
+          .status(ng-show="'error' === verifyStatus", l10n) Something went wrong, please try again.
         include login/form
         .text-status(ng-show='status')
           span {{status}}

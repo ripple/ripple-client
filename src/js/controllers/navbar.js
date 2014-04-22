@@ -10,9 +10,9 @@ var Amount = ripple.Amount,
 var module = angular.module('navbar', []);
 
 module.controller('NavbarCtrl', ['$scope', '$element', '$compile', 'rpId',
-                                 'rpNetwork',
+                                 'rpNetwork', '$location',
                                  function ($scope, el, $compile, $id,
-                                           network)
+                                           network, $location)
 {
   var queue = [];
   var tickInterval = 4000;
@@ -48,13 +48,8 @@ module.controller('NavbarCtrl', ['$scope', '$element', '$compile', 'rpId',
   }, true);
 
   $scope.logout = function () {
-    // logout() assumes that we are outside of an Angular $apply(), so we need
-    // to make sure that's actually the case otherwise we may get a
-    // "Error: $apply already in progress"
-    // XXX: Find out if there is a recommended/better way of doing this.
-    setImmediate(function () {
-      $id.logout();
-    });
+    $id.logout();
+    $location.path('/login');
   };
 
   $scope.$on('$netConnected', function (e) {

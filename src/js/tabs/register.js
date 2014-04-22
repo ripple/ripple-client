@@ -29,6 +29,33 @@ RegisterTab.prototype.angular = function (module) {
                                                $timeout, $id, $rpTracker,
                                                authinfo, $routeParams)
   {
+    /**
+     * Email verification
+     */
+    if ($routeParams.token) {
+      $id.verify({
+        username: $routeParams.username,
+        token: $routeParams.token
+      }, function(err, response){
+        if (err) {
+          $rootScope.verifyStatus = 'error';
+        }
+        else if ('success' === response.result) {
+          $rootScope.verifyStatus = 'verified';
+        }
+      });
+
+      $rootScope.verifyStatus = 'verifying';
+      $rootScope.username = $routeParams.username;
+      $id.logout();
+      $location.path('/login');
+
+      return;
+    }
+
+    /**
+     * User is already logged in
+     */
     if ($id.loginStatus) {
       $location.path('/balance');
       return;
@@ -55,10 +82,6 @@ RegisterTab.prototype.angular = function (module) {
       $scope.mode = 'form';
       $scope.showMasterKeyInput = false;
       $scope.submitLoading = false;
-
-      if ($routeParams.token) {
-        $scope.verify();
-      }
 
       if ($scope.oldUserBlob) {
         $scope.mode = 'migration';
@@ -114,26 +137,6 @@ RegisterTab.prototype.angular = function (module) {
         }
       });
     }
-
-    /**
-     * Email verification
-     */
-    $scope.verify = function() {
-      $id.verify({
-        username: $routeParams.username,
-        token: $routeParams.token
-      }, function(err, response){
-        if ('success' === response.result) {
-          $rootScope.verifyStatus = true;
-        }
-        console.log('response',response);
-      });
-
-      $rootScope.verifyStatus = false;
-      $rootScope.username = $routeParams.username;
-      $rootScope.verification = true;
-      $location.path('/login');
-    };
 
     $scope.register = function()
     {
