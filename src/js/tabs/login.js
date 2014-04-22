@@ -43,10 +43,10 @@ LoginTab.prototype.angular = function (module) {
       });
     }, 1000);
 
-    $rootScope.$on("$blobError", function (e, err) {
-      console.log("BLOB ERROR", arguments);
-      $scope.backendMessages.push({'backend': err.backend, 'message': err.message});
-    });
+//    $rootScope.$on("$blobError", function (e, err) {
+//      console.log("BLOB ERROR", arguments);
+//      $scope.backendMessages.push({'backend': err.backend, 'message': err.message});
+//    });
 
     var updateFormFields = function(){
       var username;
