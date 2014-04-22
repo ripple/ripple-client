@@ -80,12 +80,6 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
       sjcl.random.addEntropy(Math.random(), 32, "Math.random()");
     }
 
-    $scope.blobBackendCollections = [
-      {name: 'Payward', 'value':'vault'},
-      {name: 'Payward, Local Browser', 'value':'vault,local'},
-      {name: 'Local Browser', 'value':'local'}
-    ];
-
     $scope.userBlob = Id.defaultBlob;
     $scope.userCredentials = {};
 
