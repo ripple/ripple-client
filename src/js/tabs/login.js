@@ -84,7 +84,6 @@ LoginTab.prototype.angular = function (module) {
       if ($scope.ajax_loading) return;
 
       $scope.backendMessages = [];
-      $rootScope.verifyStatus = '';
 
       // Issue #36: Password managers may change the form values without
       // triggering the events Angular.js listens for. So we simply force
@@ -133,7 +132,13 @@ LoginTab.prototype.angular = function (module) {
           if ($routeParams.tab) {
             $location.path('/'+$routeParams.tab);
           } else {
-            $location.path('/balance');
+            if ($rootScope.verifyStatus) {
+              $rootScope.verifyStatus = '';
+              $location.path('/fund');
+            }
+            else {
+              $location.path('/balance');
+            }
           }
         });
       });

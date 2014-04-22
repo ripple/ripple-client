@@ -81,10 +81,6 @@ RegisterTab.prototype.angular = function (module) {
       $scope.showMasterKeyInput = false;
       $scope.submitLoading = false;
 
-      if ($scope.oldUserBlob) {
-        $scope.mode = 'migration';
-      }
-
       if ($scope.registerForm) $scope.registerForm.$setPristine(true);
     };
 
@@ -161,7 +157,7 @@ RegisterTab.prototype.angular = function (module) {
         $scope.keyOpen = key;
         $scope.key = $scope.keyOpen[0] + new Array($scope.keyOpen.length).join("*");
 
-        $scope.mode = 'verification';
+        $scope.mode = 'secret';
       });
     };
 
