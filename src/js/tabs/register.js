@@ -49,8 +49,6 @@ RegisterTab.prototype.angular = function (module) {
       $rootScope.username = $routeParams.username;
       $id.logout();
       $location.path('/login');
-
-      return;
     }
 
     /**
