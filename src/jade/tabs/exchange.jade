@@ -41,7 +41,7 @@ section.col-xs-12.content(ng-controller="ExchangeCtrl")
         .error(rp-error-on='rpAmount', l10n) Not a valid amount.
         .error(rp-error-on='rpAmountPositive', l10n)
           | Please enter an amount greater than zero.
-      p.literal(ng-show="exchange.path_status == 'waiting'", l10n) Please enter the conversion details.
+      p.literal(ng-show="exchange.path_status == 'waiting'", l10n) 
       p.literal.throbber(ng-show="exchange.path_status == 'pending'", l10n) Calculating...
       //- TODO how high trust?
       p.literal(ng-show="exchange.path_status == 'no-path' && exchange.currency_code != 'XRP'", l10n)
