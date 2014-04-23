@@ -457,9 +457,7 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
 
     // B2R
     if ('web' === $scope.client) {
-      console.log('web client');
       appManager.loadApp(Options.b2rAddress, function(err, app){
-        console.log('tryna load ');
         if (err) {
           console.warn('Error loading app', err.message);
           return;
@@ -467,7 +465,6 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
 
         $scope.B2RApp = app;
 
-        console.log('b2e',app);
         $scope.B2R = app.getInboundBridge('BTC');
 
         appManager.save(app);
