@@ -8,10 +8,10 @@ section.content(ng-controller='FundCtrl')
   //- Funding
 
   .row(ng-show='connected')
-    div.auth-attention(ng-show="'web' === client && !account.Balance") To use RippleTrade you must fund your account. You have two options,
-      |  either you can send XRP from another ripple account or add Bitcoin to
-      |  get started. If you do not activate your account with XRP or BTC within
-      |  30 days the ripple name associate with this account will be released.
+    div.auth-attention(ng-show="'web' === client && !account.Balance") Welcome to Ripple Trade! To activate your account, you'll need at least 20 XRP. 
+1) Have another user send XRP to your Ripple name (~NAME)
+2) Deposit BTC via SnapSwap. A small amount of your first deposit will be used to activate your account.
+3) If your account remains unfunded for 30 days, you will no longer be able to login using your Ripple name (~NAME). You'll need to sign up for a new Ripple name.
     .col-sm-3
       .currencies
         a(href="", ng-click="currencyPage = 'xrp'"
