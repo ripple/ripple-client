@@ -25,29 +25,12 @@ FundTab.prototype.angular = function (module)
   {
     if (!$id.loginStatus) return $id.goId();
 
-    $scope.$on('$idAccountLoad', function (e, data) {
-      $scope.$watch('B2RApp', function(b2rApp){
-        $scope.email = $scope.userBlob.data.email;
-      })
-    });
-
     $scope.currencyPage = 'xrp';
 
     $scope.showComponent = [];
 
-    $scope.okLoading = false;
-
-    $scope.emailError = false;
-
-    $scope.emailErrorSwitch = function() {
-      if ($scope.emailError === false && $id.email === 'undefined') {
-        $scope.emailError = true;
-      } else {
-        $scope.emailError = false;
-      }
-    };
-
     $scope.openPopup = function () {
+      $scope.emailError = false;
       rpTracker.track('B2R Show Connect');
     };
 
@@ -55,27 +38,23 @@ FundTab.prototype.angular = function (module)
     $scope.B2RSignup = function () {
       var fields = {};
 
-      $scope.okLoading = true;
+      $scope.loading = true;
 
       fields.rippleAddress = $id.account;
 
-      if ($id.email === 'undefined') {
-        $scope.emailError = true;
-        $scope.okLoading = false;
-      } else {
-        fields.email = $scope.userBlob.data.email;
-      }
+      fields.email = $scope.userBlob.data.email;
 
       $scope.B2RApp.findProfile('account').signup(fields,function(err, response){
         if (err) {
           console.log('Error',err);
           $scope.emailError = true;
-          $scope.okLoading = false;
+          $scope.loading = false;
 
           rpTracker.track('B2R SignUp', {
             result: 'failed',
             message: err.message
           });
+
           return;
         }
 
