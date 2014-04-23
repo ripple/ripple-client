@@ -73,12 +73,12 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
           i.fa.fa-question-circle(
             rp-popover
             rp-popover-placement="bottom"
-            rp-popover-title="Using a secret key"
+            rp-popover-title="Using a "
             rp-popover-trigger="hover"
             l10n-data-content="This will create a new Ripple name and password combination for your existing account.")
         .form-group(ng-show="showSecretField"
           ng-class="{'field-error': registerForm.secret.$error.rpMasterKey && registerForm.secret.$dirty}")
-          label(for='masterkey') Secret Key - leave blank if you don't have a secret key
+          label(for='masterkey') Secret Key - leave blank if you don't have a 
           input.form-control(type="text", name="masterkey", id="masterkey"
             ng-model="masterkey", rp-master-key)
           p(ng-show="registerForm.secret.$error.rpMasterKey && registerForm.secret.$dirty")
@@ -128,12 +128,11 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
           span  2
         li(l10n) Step
           span  3
-      .alert.alert-info(ng-hide="oldUserBlob") The Secret Account Key below gives access to your money in the unlikely case that you lose your wallet name or passphrase.
-        |  In that case your contacts will be lost, but with this Secret Account Key alone anyone can retrieve your money.
-      .alert.alert-info(ng-show="oldUserBlob") You are now migrating your account. You will retain all of your balances, contact information, and history. Your account will use the same  that you had before. If you have already saved your secret key, please continue your migration.
+      .alert.alert-info(ng-hide="oldUserBlob") The secret key below unlocks access to all your account funds. In the event you lose your Ripple name or password, you can use this secret key to recover your funds.
+      .alert.alert-info(ng-show="oldUserBlob") You are now migrating your account. You will retain all of your balances, contacts, and account history. Your account will use the same secret key as before. If you have already saved your secret key, please continue your migration.
       .secret-key-container
-        div(ng-hide="oldUserBlob") So please store it somewhere PRIVATE AND SAFE. Read more about keys and wallet safety in&#32;
-        div(ng-show="oldUserBlob") If you have not saved your secret key, write it down and store in a secure location. If you forget your password, there is no way to reaccess your funds without your secret key.
+        div(ng-hide="oldUserBlob") Please write it down and store it somewhere private and safe. Read more about keys and wallet safety in&#32; https://support.ripplelabs.com/hc/en-us/articles/201823366-Password-Recovery-and-Your-Secret-Key
+        div(ng-show="oldUserBlob") If you have not saved your secret key, please write it down and store it somewhere private and safe. In the event you lose your Ripple name or password, you can use this secret key to recover your funds.
         div.secret-key
           span.fa.fa-key
           span(ng-hide="showSecret") •••••••••••••••••••••••••••••
