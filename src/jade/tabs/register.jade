@@ -73,12 +73,12 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
           i.fa.fa-question-circle(
             rp-popover
             rp-popover-placement="bottom"
-            rp-popover-title="Using a "
+            rp-popover-title="Using a secret key"
             rp-popover-trigger="hover"
             l10n-data-content="This will create a new Ripple name and password combination for your existing account.")
         .form-group(ng-show="showSecretField"
           ng-class="{'field-error': registerForm.secret.$error.rpMasterKey && registerForm.secret.$dirty}")
-          label(for='masterkey') Secret Key - leave blank if you don't have a 
+          label(for='masterkey') Secret Key - leave blank if you don't have a secret key
           input.form-control(type="text", name="masterkey", id="masterkey"
             ng-model="masterkey", rp-master-key)
           p(ng-show="registerForm.secret.$error.rpMasterKey && registerForm.secret.$dirty")
