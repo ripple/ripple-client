@@ -35,7 +35,7 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
               .number(ng-show="unseenNotifications.count") {{unseenNotifications.count}}
             ul#notifications.dropdown-menu
               li.message(ng-hide="loadState.transactions", l10n) Loading...
-              li.message(ng-show="loadState.transactions && !notifications.length", l10n) There are no notifications yet.
+              li.message(ng-show="loadState.transactions && !notifications.length", l10n) There are no recent notifications.
               li.notification(
                 ng-repeat="entry in notifications"
                 ng-class="{unseen: entry.unseen}"
