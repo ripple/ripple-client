@@ -39,9 +39,18 @@ RegisterTab.prototype.angular = function (module) {
       }, function(err, response){
         if (err) {
           $rootScope.verifyStatus = 'error';
+
+          rpTracker.track('Email verification', {
+            result: 'failed',
+            message: err
+          });
         }
         else if ('success' === response.result) {
           $rootScope.verifyStatus = 'verified';
+
+          rpTracker.track('Email verification', {
+            result: 'success'
+          });
         }
       });
 
