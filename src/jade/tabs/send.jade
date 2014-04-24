@@ -35,7 +35,7 @@ section.single.content(ng-controller='SendCtrl')
           .error(rp-error-on='required', l10n)
             | Please enter a recipient.
           .error(rp-error-on='rpDest', l10n)
-            | Recipient should be either a name from your contact list or Ripple/Bitcoin address.
+            | Recipient should be a Ripple name, a contact, or Ripple/Bitcoin address.
           .error(rp-error-on='federation', l10n)
             | This email address is not Ripple-enabled.
     .row.form-group(ng-show='send.show_dt_field')
