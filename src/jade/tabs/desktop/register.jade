@@ -1,29 +1,28 @@
 section.col-xs-12.content(ng-controller="RegisterCtrl")
-  
+
   .row.auth-form-container.col-sm-offset-2.col-sm-8.col-md-offset-3.col-md-6(ng-show='mode=="register_new_account"')
     .auth-form-wrapper
       h2(l10n) Create New Account
 
       .form-group
-        a.btn.btn-block.btn-link(ng-click='goTo("/login")') Open existing wallet
+        a.btn.btn-block.btn-link(ng-click='goTo("/login")') Open existing account
 
       .form-group
-        //div(file-upload-button='createEmptyWallet', ng-model='walletfile')
-        a.btn.btn-block.btn-default(ng-click='createEmptyWallet()') Create an Empty Wallet
+        a.btn.btn-block.btn-default(ng-click='createEmptyWallet()') Create an empty account
 
       .form-group
-        a.btn.btn-block.btn-default(ng-click='mode="register_with_secret"') Create a New Wallet with a Secret Key
+        a.btn.btn-block.btn-default(ng-click='mode="register_with_secret"') Create a new account with a secret key
 
   .row.auth-form-container.col-sm-offset-2.col-sm-8.col-md-offset-3.col-md-6(ng-show='mode=="register_empty_wallet"')
     .auth-form-wrapper
-      h2(l10n) Create Empty Wallet
+      h2(l10n) Create Empty Account
 
-      p Encrypt your new wallet file: {{walletfile}}
+      p Encrypt your new account file: {{walletfile}}
 
       form(name='registerForm', ng-submit='submitForm()')
 
         label.hide(for='register_password', l10n) Wallet file
-          input.form-control.hide(type="file", nwsaveas="wallet.txt", ng-model="walletfile", required, name="save_wallet")
+        input.form-control.hide(type="file", nwsaveas="wallet.txt", ng-model="walletfile", required, name="save_wallet")
 
         .form-group(ng-class="{'field-error': 'weak' === strength}")
           label(for='register_password', l10n) Password
@@ -49,13 +48,13 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
         .submit-btn-container
           button.btn.btn-block.btn-success(type='submit'
           ng-disabled='registerForm.$invalid || submitLoading'
-          rp-spinner='{{submitLoading ? 4 : null}}', l10n) Encrypt Wallet
+          rp-spinner='{{submitLoading ? 4 : null}}', l10n) Encrypt account
 
 
 
   .row.auth-form-container.col-sm-offset-2.col-sm-8.col-md-offset-3.col-md-6(ng-show='mode=="register_with_secret" || oldUserBlob')
     .auth-form-wrapper
-      h2(l10n) Create Wallet with Secret Key
+      h2(l10n) Create Account with Secret Key
 
       form(name='useSecretKey', ng-submit='submitSecretKeyForm()')
         .form-group(ng-class="{'field-error': registerForm.secret.$error.rpMasterKey && registerForm.secret.$dirty}")
@@ -78,7 +77,7 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
         .submit-btn-container
           button.btn.btn-block.btn-success(type='submit'
           ng-disabled='useSecretKey.$invalid || submitLoading'
-          rp-spinner='{{submitLoading ? 4 : null}}', l10n) Create New Wallet
+          rp-spinner='{{submitLoading ? 4 : null}}', l10n) Create New Account
 
     .switch-mode-link-container Have an account?&#32;
       a(href='#login', l10n) Log In
@@ -92,7 +91,7 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
         | store it somewhere PRIVATE AND SAFE. Read more about keys and wallet safety in&#32;
         a(href="#", l10n) Security
       .credentials
-        span.password(l10n) Pass phrase:
+        span.password(l10n) Passphrase:
           span.value(ng-show="showPassword==true") {{password1}}&#32;
           span.value(ng-hide="showPassword==true") {{password}}
           rp-confirm(

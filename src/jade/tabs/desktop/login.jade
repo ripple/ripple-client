@@ -9,14 +9,14 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
           a.btn.btn-block.btn-link(href='#register', l10n) Create new account
 
         .form-group
-          .btn.btn-block.btn-default(ng-click='simulateFileInputClick("input[name=login_walletfile]")') Select Wallet File {{walletfile}}
+          .btn.btn-block.btn-default(ng-click='simulateFileInputClick("input[name=login_walletfile]")') Select account file {{walletfile}}
 
         .form-group.hide
-          label(for='login_walletfile', l10n) Select Wallet File
+          label(for='login_walletfile', l10n) Select account file
           input.form-control#login_walletfile(name='login_walletfile', type="file"
             ng-model='walletfile', required, rp-focus)
         .form-group
-          label(for='login_password', l10n) Wallet password
+          label(for='login_password', l10n) Account password
           input.form-control#login_password(name='login_password', type='password'
             ng-model='password', required, rp-focus)
         .text-status(ng-show='status')
