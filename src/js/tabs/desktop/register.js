@@ -52,12 +52,17 @@ RegisterTab.prototype.angular = function (module) {
 
     el.bind('change', function(){
       if(el.val()){
-        $scope.mode = 'register_empty_wallet2';
+        $scope.mode = 'register_empty_wallet';
       }
     });
 
     $scope.createEmptyWallet = function(){
         el.trigger('click');
+    };
+
+    $scope.submitSecretKeyForm = function(){
+      $scope.masterkey = $scope.secretKey;
+      $scope.createEmptyWallet();
     };
 
     $scope.register = function()
@@ -96,6 +101,9 @@ RegisterTab.prototype.angular = function (module) {
     };
 
     $scope.reset();
+
+
+
   }]);
 };
 
