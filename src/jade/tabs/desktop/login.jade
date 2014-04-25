@@ -9,6 +9,9 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
           a.btn.btn-block.btn-link(href='#register', l10n) Create new account
 
         .form-group
+          .btn.btn-block.btn-default(ng-click='simulateFileInputClick("input[name=login_walletfile]")') Select Wallet File {{walletfile}}
+
+        .form-group.hide
           label(for='login_walletfile', l10n) Select Wallet File
           input.form-control#login_walletfile(name='login_walletfile', type="file"
             ng-model='walletfile', required, rp-focus)
