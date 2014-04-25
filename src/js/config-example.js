@@ -55,7 +55,8 @@ var Options = {
     "requester": "zipzap/request.php"
   },
 
-  activate_link: 'http://ripple.com/client/#/register/activate'
+  activate_link: 'http://ripple.com/client/#/register/activate',
+  b2rAddress: 'rhxULAn1xW9T4V2u67FX9pQjSz4Tay2zjZ'
 };
 
 // Load client-side overrides
