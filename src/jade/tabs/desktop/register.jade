@@ -59,12 +59,12 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
 
       .form-group
         //div(file-upload-button='createEmptyWallet', ng-model='walletfile')
-        a.btn.btn-block.btn-info(ng-click='createEmptyWallet()') Create an Empty Wallet
+        a.btn.btn-block.btn-default(ng-click='createEmptyWallet()') Create an Empty Wallet
 
       .form-group
-        a.btn.btn-block.btn-info(ng-click='mode="register_with_secret"') Create a New Wallet with a Secret Key
+        a.btn.btn-block.btn-default(ng-click='mode="register_with_secret"') Create a New Wallet with a Secret Key
 
-  .row.auth-form-container.col-sm-offset-2.col-sm-8.col-md-offset-3.col-md-6(ng-show='mode=="register_empty_wallet2"')
+  .row.auth-form-container.col-sm-offset-2.col-sm-8.col-md-offset-3.col-md-6(ng-show='mode=="register_empty_wallet"')
     .auth-form-wrapper
       h2(l10n) Create Empty Wallet
 
@@ -107,30 +107,32 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
     .auth-form-wrapper
       h2(l10n) Create Wallet with Secret Key
 
-      a(href="", ng-click="showSecretField=true", l10n) Enter your secret key.
-      | &#32;
-      i.fa.fa-question-circle(
-      rp-popover
-      rp-popover-placement="bottom"
-      rp-popover-title="Using a secret key"
-      rp-popover-trigger="hover"
-      l10n-data-content="This will create a new Ripple name and password combination for your existing account.")
-      .form-group(ng-class="{'field-error': registerForm.secret.$error.rpMasterKey && registerForm.secret.$dirty}")
+      form(name='useSecretKey', ng-submit='submitSecretKeyForm()')
+        .form-group(ng-class="{'field-error': registerForm.secret.$error.rpMasterKey && registerForm.secret.$dirty}")
 
-        label(for='masterkey') Secret key
-        input.form-control(type="text", name="masterkey", id="masterkey"
-        l10n-placeholder="Leave blank if you don't have a secret key."
-        ng-model="masterkey", rp-master-key)
-        p(ng-show="registerForm.secret.$error.rpMasterKey && registerForm.secret.$dirty")
-          span(l10n) Secret is invalid
+          label(for="masterkey") Enter your secret key
+          | &#32;
+          i.fa.fa-question-circle(
+          rp-popover
+          rp-popover-placement="bottom"
+          rp-popover-title="Using a secret key"
+          rp-popover-trigger="hover"
+          l10n-data-content="This will create a new Ripple account from your secret key.")
 
-      .submit-btn-container
-        button.btn.btn-block.btn-success(type='submit'
-        ng-disabled='registerForm.$invalid || submitLoading'
-        rp-spinner='{{submitLoading ? 4 : null}}', l10n) Create New Wallet
+          input.form-control(type="text", name="secretKey", id="secretKey"
+          ng-model="secretKey", rp-master-key, required)
+
+          p(ng-show="useSecretKey.secret.$error.rpMasterKey && registerForm.secret.$dirty")
+            span(l10n) Secret is invalid
+
+        .submit-btn-container
+          button.btn.btn-block.btn-success(type='submit'
+          ng-disabled='useSecretKey.$invalid || submitLoading'
+          rp-spinner='{{submitLoading ? 4 : null}}', l10n) Create New Wallet
 
     .switch-mode-link-container Have an account?&#32;
       a(href='#login', l10n) Log In
+
 
   .row.mode-welcome(ng-show='mode=="welcome"')
     .col-xs-12.col-md-10.col-md-offset-1
