@@ -63,9 +63,9 @@ section.content(ng-controller='FundCtrl')
             div(ng-hide="loadState.B2RInstructions") Loading...
           .inactive(ng-hide="B2R.active")
             label(l10n) To deposit, generate a bitcoin receiving address
-              | using SnapSwap's 
+              | using#&32;
               a(href="btc2ripple.com") btc2ripple 
-              | service.
+              |  service powered by SnapSwap.
             .row.action
               .col-xs-12.col-sm-5.col-md-4
                 rp-popup
@@ -76,7 +76,7 @@ section.content(ng-controller='FundCtrl')
                       .navbar-brand.hidden-sm.modal-logo#logo
                       .modal-title Connect
                     .modal-body
-                      div.modal-prompt(l10n) SnapSwap would like to:
+                      div.modal-prompt(l10n) btc2ripple would like to:
                       div.grey-focus
                         div.modal-permissions(l10n) - Receive your email address 
                           span.modal-email(l10n) ({{userBlob.data.email}})
