@@ -1,55 +1,5 @@
 section.col-xs-12.content(ng-controller="RegisterCtrl")
-  .row.auth-form-container.col-sm-offset-2.col-sm-8.col-md-offset-3.col-md-6(ng-show='mode=="form"')
-    .auth-form-wrapper
-      form
-        h2(l10n) Sign Up
-        .form-group
-          label(for='register_password', l10n) Wallet file
-          //input.form-control(type="file", nwsaveas="wallet.txt", ng-model="walletfile", required)
-        .form-group(ng-class="{'field-error': 'weak' === strength}")
-          label(for='register_password', l10n) Password
-          input.form-control#register_password(
-          name='register_password1', type='password', autocomplete="off"
-          ng-model="password1"
-          rp-strong-password, required, rp-same-in-set="passwordSet")
-          p(ng-show="strength=='weak'")
-            span(l10n) Your password is weak. It is not a mix of letters, numbers and symbols or it is the same as your Ripple name.
-        .form-group(ng-class="{'field-error': registerForm.register_password1.$error.rpSameInSet && registerForm.register_password2.$dirty}")
-          label(for='register_password2', l10n) Password again
-          input.form-control#register_password2(
-          name='register_password2', autocomplete="off"
-          type='password'
-          ng-model="password2"
-          required, rp-same-in-set="passwordSet")
-          p(ng-show="registerForm.register_password1.$error.rpSameInSet && registerForm.register_password2.$dirty")
-            span(l10n) Passwords do not match
-        div(ng-show="")
-          .form-group
-            div(class="strength {{strength}}") {{strength}}
-        //- TODO focus on field when clicked
-        div(ng-hide="showSecretField || oldUserBlob")
-          a(href="", ng-click="showSecretField=true", l10n) Use secret key
-          | &#32;
-          i.fa.fa-question-circle(
-          rp-popover
-          rp-popover-placement="bottom"
-          rp-popover-title="Using a secret key"
-          rp-popover-trigger="hover"
-          l10n-data-content="This will create a new Ripple name and password combination for your existing account.")
-        .form-group(ng-show="showSecretField"
-        ng-class="{'field-error': registerForm.secret.$error.rpMasterKey && registerForm.secret.$dirty}")
-          label(for='masterkey') Secret key
-          input.form-control(type="text", name="masterkey", id="masterkey"
-          l10n-placeholder="Leave blank if you don't have a secret key."
-          ng-model="masterkey", rp-master-key)
-          p(ng-show="registerForm.secret.$error.rpMasterKey && registerForm.secret.$dirty")
-            span(l10n) Secret is invalid
-        .submit-btn-container
-
-          button.btn.btn-block.btn-success(type='submit'
-          ng-disabled='registerForm.$invalid || submitLoading'
-          rp-spinner='{{submitLoading ? 4 : null}}', l10n) Sign Up
-
+  
   .row.auth-form-container.col-sm-offset-2.col-sm-8.col-md-offset-3.col-md-6(ng-show='mode=="register_new_account"')
     .auth-form-wrapper
       h2(l10n) Create New Account
