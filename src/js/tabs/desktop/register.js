@@ -48,16 +48,16 @@ RegisterTab.prototype.angular = function (module) {
       if ($scope.registerForm) $scope.registerForm.$setPristine(true);
     };
 
-    var el = angular.element('input[name=save_wallet]');
+    var fileInput = angular.element('input[name=save_wallet]');
 
-    el.bind('change', function(){
-      if(el.val()){
+    fileInput.bind('change', function(){
+      if(fileInput.val()){
         $scope.mode = 'register_empty_wallet';
       }
     });
 
     $scope.createEmptyWallet = function(){
-        el.trigger('click');
+      fileInput.trigger('click');
     };
 
     $scope.submitSecretKeyForm = function(){

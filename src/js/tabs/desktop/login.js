@@ -31,8 +31,8 @@ LoginTab.prototype.angular = function (module) {
     }
 
     $scope.simulateFileInputClick = function(element){
-      el = angular.element(element);
-      el.trigger('click');
+      var fileInput = angular.element(element);
+      fileInput.trigger('click');
     }
 
     $scope.error = '';
