@@ -698,7 +698,7 @@ SendTab.prototype.angular = function (module)
     };
 
     $scope.$watch('userBlob.data.contacts', function (contacts) {
-      $scope.recipient_query = webutil.queryFromOptions(contacts);
+      $scope.recipient_query = webutil.queryFromContacts(contacts);
     }, true);
 
     $scope.$watch('lines', function (lines) {

@@ -50,18 +50,24 @@ module.directive('rpCombobox', [function () {
         });
       }
 
+      // Listen for keyboard keydown events
       el.keydown(function (e) {
-        if (e.which === 38 || e.which === 40) { // UP/DOWN
+        // "Up/Down" key press
+        if (e.which === 38 || e.which === 40) {
           if (!cplEl.children().length) {
             updateCompletions();
           }
           e.preventDefault();
 
+          // Move cursor (highlighted option) up/down
           if (e.which === 38) keyCursor--;
           else keyCursor++;
 
           updateKeyCursor();
-        } else if (e.which === 13) { // ENTER
+        }
+
+        // "Enter" key press (select the option)
+        else if (e.which === 13) {
           var curEl = cplEl.find('li.cursor');
           if (cplEl.is(':visible')) {
             e.preventDefault();
@@ -72,16 +78,23 @@ module.directive('rpCombobox', [function () {
           } else if (curEl.length === 1) {
             selectCompletion(curEl);
           }
-        } else if (e.which === 27) { // ESC
+        }
+
+        // "ESC" key press
+        else if (e.which === 27) {
+          // Hide the options list
           setVisible(false);
         }
       });
 
-      // Listen for keyup events to enable binding
+      // Listen for keyboard keyup events to enable binding
       el.keyup(function(e) {
+        // Ignore Left, up, right, down
         if (e.which >= 37 && e.which <= 40) return;
+        // Ignore Enter, Esc
         if (e.which === 13 || e.which === 27) return;
 
+        // Any other keypress should update completions list
         updateCompletions();
       });
 
@@ -103,20 +116,28 @@ module.directive('rpCombobox', [function () {
         cplEl[to ? 'fadeIn' : 'fadeOut']('fast');
       }
 
+      /**
+       * Update completions list
+       */
       function updateCompletions() {
-        var match = ngModel.$viewValue,
+        var match = ngModel.$viewValue, // Input value
             completions = [], re = null,
             complFn;
 
+        // Query function. This should return the full options list
         complFn = scope.$eval(attrs.rpCombobox);
 
+        // Uses the default query function, if it's not defined
         if ("function" !== typeof complFn) {
           complFn = webutil.queryFromOptions(complFn);
         }
 
         if ("string" === typeof match && match.length) {
+          // Escape field value
           var escaped = webutil.escapeRegExp(match);
+          // Build the regex for completion list lookup
           re = new RegExp('('+escaped+')', 'i');
+
           completions = complFn(match, re);
         }
 
@@ -133,11 +154,22 @@ module.directive('rpCombobox', [function () {
       function setCompletions(completions, re) {
         cplEl.empty();
         keyCursor = -1;
-        completions.forEach(function (val) {
-          val = escape(val);
+        completions.forEach(function (completion) {
+          var additional = '';
+
+          if ("string" === typeof completion) {
+            val = completion;
+          } else {
+            val = completion.name;
+
+            if (completion.additional) {
+              additional = '<span class="additional">' + completion.additional + '</span>';
+            }
+          }
+
           if (re) val = val.replace(re, '<u>$1</u>');
-          var completion = $('<li>'+val+'</li>');
-          el.parent().find('.completions').append(completion);
+          var completionHtml = $('<li><span class="val">' + val + '</span>' + additional + '</li>');
+          el.parent().find('.completions').append(completionHtml);
         });
       }
 
@@ -151,6 +183,7 @@ module.directive('rpCombobox', [function () {
         setVisible(visible);
       }
 
+      // Update the cursor (highlight selected option)
       function updateKeyCursor() {
         var opts = cplEl.find('li');
         keyCursor = Math.max(keyCursor, 0);
@@ -160,7 +193,7 @@ module.directive('rpCombobox', [function () {
       }
 
       function selectCompletion(liEl) {
-        var val = $(liEl).text();
+        var val = $(liEl).find('.val').text();
         scope.$apply(function () {
           el.val(val);
           ngModel.$setViewValue(val);
@@ -169,7 +202,12 @@ module.directive('rpCombobox', [function () {
       }
 
       function escape(str) {
-        return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;');
+        return str
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&apos;');
       }
 
       cplEl.on('click', 'li', function () {

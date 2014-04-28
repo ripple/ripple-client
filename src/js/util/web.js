@@ -161,6 +161,23 @@ exports.unresolveContact = function (contacts, address)
 };
 
 /**
+ * Creates a combobox query function out of a contacts list.
+ *
+ * @param options {array} An array of select options like {name: '', value: ''}.
+ */
+exports.queryFromContacts = function (contacts)
+{
+  return exports.queryFromOptions(
+    _.map(contacts, function (entry) {
+      return {
+        name: entry.name,
+        additional: entry.address
+      }
+    })
+  );
+};
+
+/**
  * Creates a combobox query function out of a select options array.
  *
  * @param options {array} An array of select options like {name: '', value: ''}.
@@ -168,10 +185,8 @@ exports.unresolveContact = function (contacts, address)
 exports.queryFromOptions = function (options)
 {
   var opts = _.map(options, function (entry) {
-    if ("string" === typeof entry) {
+    if ("object" === typeof entry || "string" === typeof entry ) {
       return entry;
-    } else if ("object" === typeof entry) {
-      return entry.name;
     } else {
       return null;
     }
@@ -188,10 +203,10 @@ exports.queryFromArray = function (options)
 {
   return function (match, re) {
     if (re instanceof RegExp) {
-      return options.filter(function (name) {
-        return "string" === typeof name
-          ? name.match(re)
-          : false;
+      return options.filter(function (item) {
+        return "string" === typeof item
+          ? item.match(re)
+          : (item.name ? item.name.match(re) : false);
       });
     } else return options;
   };

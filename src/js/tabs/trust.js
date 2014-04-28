@@ -318,22 +318,9 @@ TrustTab.prototype.angular = function (module)
       });
     };
 
-    /**
-     * Used for rpDestination validator
-     *
-     * @param destionation
-     */
-    $scope.counterparty_query = function (match, re) {
-      var opts = $scope.userBlob.data.contacts.map(function (contact) {
-        return contact.name;
-      });
-
-      if (re instanceof RegExp) {
-        return opts.filter(function (v) {
-          return v.toLowerCase().match(match.toLowerCase());
-        });
-      } else return opts;
-    };
+    $scope.$watch('userBlob.data.contacts', function (contacts) {
+      $scope.counterparty_query = webutil.queryFromContacts(contacts);
+    }, true);
 
     $scope.currency_query = webutil.queryFromOptions($scope.currencies_all);
 

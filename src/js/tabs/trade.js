@@ -633,7 +633,7 @@ TradeTab.prototype.angular = function(module)
     }, true);
 
     $scope.$watch('userBlob.data.contacts', function (contacts) {
-      $scope.issuer_query = webutil.queryFromOptions(contacts);
+      $scope.issuer_query = webutil.queryFromContacts(contacts);
     }, true);
 
     $scope.$watch('offers', function (offers){
