@@ -4,7 +4,7 @@
 
   "app": "../../build/pkg/nw/releases/ripple-client/mac/ripple-client.app",
 
-  "background": "xrp_ripple_logo.png",
+  "background": "logo.png",
 
   "icon": "xrp_ripple_logo.icns",
 

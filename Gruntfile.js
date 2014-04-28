@@ -408,7 +408,8 @@ module.exports = function(grunt) {
           win: true,
           mac: true,
           linux32: true,
-          linux64: true
+          linux64: true,
+          mac_icns: 'res/dmg/xrp_ripple_logo.icns'
         },
         files: {
           src: 'build/bundle/nw-desktop/**/*'
