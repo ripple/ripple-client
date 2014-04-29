@@ -46,15 +46,16 @@ module.directive('rpMasterKey', function () {
  *
  * You can set this validator and one or more of the type attributes:
  *
- * - rp-dest-address - If set, allows Ripple addresses as destinations.
- * - rp-dest-contact - If set, allows address book contacts.
- * - rp-dest-bitcoin - If set, allows Bitcoin addresses as destinations.
- * - rp-dest-email   - If set, allows federation/email addresses.
+ * - rp-dest-address     - If set, allows Ripple addresses as destinations.
+ * - rp-dest-contact     - If set, allows address book contacts.
+ * - rp-dest-bitcoin     - If set, allows Bitcoin addresses as destinations.
+ * - rp-dest-email       - If set, allows federation/email addresses.
+ * - rp-dest-ripple-name - If set, allows Existing ripple name as destination.
  *
  * If the input can be validly interpreted as one of these types, the validation
  * will succeed.
  */
-module.directive('rpDest', function () {
+module.directive('rpDest', function ($timeout, rpAuthInfo) {
   var emailRegex = /^\S+@\S+\.[^\s.]+$/;
   return {
     restrict: 'A',
@@ -62,6 +63,7 @@ module.directive('rpDest', function () {
     link: function (scope, elm, attr, ctrl) {
       if (!ctrl) return;
 
+      var timeoutPromise;
       var validator = function(value) {
         var strippedValue = webutil.stripRippleAddress(value);
         var address = ripple.UInt160.from_json(strippedValue);
@@ -90,6 +92,23 @@ module.directive('rpDest', function () {
         if (attr.rpDestEmail && emailRegex.test(strippedValue)) {
           ctrl.rpDestType = "email";
           ctrl.$setValidity('rpDest', true);
+          return value;
+        }
+
+        if (attr.rpDestRippleName && webutil.isRippleName(value)) {
+          ctrl.rpDestType = "rippleName";
+
+          if (timeoutPromise) $timeout.cancel(timeoutPromise);
+
+          timeoutPromise = $timeout(function(){
+            scope.validatorLoading = true;
+
+            rpAuthInfo.get(Options.domain, value, function(err, info){
+              ctrl.$setValidity('rpDest', info.exists);
+              scope.validatorLoading = false;
+            })
+          }, 500);
+
           return value;
         }
 
