@@ -221,3 +221,15 @@ exports.escapeRegExp = function (str)
 {
   return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
 };
+
+/**
+ * Regex check if the string is valid ripple name
+ *
+ * @param str
+ */
+exports.isRippleName = function (str)
+{
+  var nameRegex = /^~[a-zA-Z0-9]([\-]?[a-zA-Z0-9]){1,19}$/;
+
+  return nameRegex.test(str);
+};
