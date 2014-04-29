@@ -129,8 +129,8 @@ module.exports = function(grunt) {
       },
       linux: {
         command: [
-          'tar -cvf ./build/packages/ripple-client32.tar ./build/pkg/nw/releases/ripple-client/linux32/ripple-client',
-          'tar -cvf ./build/packages/ripple-client64.tar ./build/pkg/nw/releases/ripple-client/linux64/ripple-client'
+          'tar -cvf ./build/packages/ripple-client32.tar ./build/pkg/nw/releases/RippleClient/linux32/RippleClient',
+          'tar -cvf ./build/packages/ripple-client64.tar ./build/pkg/nw/releases/RippleClient/linux64/RippleClient'
         ].join('&')
       },
       osx: {
@@ -429,8 +429,8 @@ module.exports = function(grunt) {
           archive: './build/packages/ripple-client.zip'
         },
         files: [
-          {src: ['./build/pkg/nw/releases/ripple-client/win/ripple-client'], dest: './', filter: 'isFile'}, // includes files in path
-          {flatten: true, src: ['./build/pkg/nw/releases/ripple-client/win/ripple-client/**'], dest: './', filter: 'isFile'} // flattens results to a single level
+          {src: ['./build/pkg/nw/releases/RippleClient/win/RippleClient'], dest: './', filter: 'isFile'}, // includes files in path
+          {flatten: true, src: ['./build/pkg/nw/releases/RippleClient/win/Ripple Client/**'], dest: './', filter: 'isFile'} // flattens results to a single level
         ]
       }
     }
