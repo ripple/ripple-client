@@ -141,6 +141,17 @@ module.directive('rpCombobox', [function () {
           completions = complFn(match, re);
         }
 
+        // Value as option
+        if (attrs.rpComboboxValueAsOption && match.length) {
+          var prefix = attrs.rpComboboxValueAsOptionPrefix;
+
+          var valueOption = (prefix && 0 !== match.indexOf(prefix))
+            ? prefix + match
+            : match;
+
+          completions.push(webutil.escapeRegExp(valueOption));
+        }
+
         // By fading out without updating the completions we get a smoother effect
         if (!completions.length) {
           setVisible(false);
