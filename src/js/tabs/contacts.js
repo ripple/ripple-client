@@ -30,6 +30,7 @@ ContactsTab.prototype.angular = function (module) {
     {
       $scope.contact = {
         name: '',
+        view: '',
         address: ''
       };
       if ($scope.addForm) $scope.addForm.$setPristine();
@@ -53,6 +54,7 @@ ContactsTab.prototype.angular = function (module) {
     {
       var contact = {
         name: $scope.contact.name,
+        view: $scope.contact.view,
         address: $scope.contact.address
       };
 
@@ -88,6 +90,7 @@ ContactsTab.prototype.angular = function (module) {
         $scope.editing = true;
         $scope.editname = $scope.entry.name;
         $scope.editaddress = $scope.entry.address;
+        $scope.editview = $scope.entry.view;
         $scope.editdt = $scope.entry.dt;
       };
 
@@ -104,6 +107,7 @@ ContactsTab.prototype.angular = function (module) {
 
           var entry = {
             name: $scope.editname,
+            view: $scope.editview,
             address: $scope.editaddress
           };
 
