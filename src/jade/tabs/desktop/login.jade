@@ -3,7 +3,7 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
   .row.auth-form-container.col-sm-offset-2.col-sm-8.col-md-offset-3.col-md-6
     .auth-form-wrapper
       form(name='loginForm', ng-submit='submitForm()')
-        h2 Open Account
+        h2 Open account
 
         .form-group
           a.btn.btn-block.btn-link(href='#register', l10n) Create new account
@@ -27,4 +27,4 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
             span {{message.message}}
         .submit-btn-container
           button.btn.btn-submit.btn-block.btn-success(type='submit', ng-disabled="loginForm.$invalid || ajax_loading", rp-spinner="{{ajax_loading ? 4 : null}}")
-            span(l10n) Open Account
+            span(l10n) Open account
