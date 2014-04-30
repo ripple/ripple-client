@@ -126,7 +126,10 @@ module.directive('rpDest', function ($timeout, rpAuthInfo, $parse) {
           if (timeoutPromise) $timeout.cancel(timeoutPromise);
 
           timeoutPromise = $timeout(function(){
-            scope.validatorLoading = true;
+            if (attr.rpDestLoading) {
+              var getterL = $parse(attr.rpDestLoading);
+              getterL.assign(scope,true);
+            }
 
             rpAuthInfo.get(Options.domain, value, function(err, info){
               ctrl.$setValidity('rpDest', info.exists);
@@ -136,7 +139,9 @@ module.directive('rpDest', function ($timeout, rpAuthInfo, $parse) {
                 getter.assign(scope,info.address);
               }
 
-              scope.validatorLoading = false;
+              if (attr.rpDestLoading) {
+                getterL.assign(scope,false);
+              }
             })
           }, 500);
 
