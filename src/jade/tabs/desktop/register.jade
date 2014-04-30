@@ -2,7 +2,7 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
 
   .row.auth-form-container.col-sm-offset-2.col-sm-8.col-md-offset-3.col-md-6(ng-show='mode=="register_new_account"')
     .auth-form-wrapper
-      h2(l10n) Create New Account
+      h2(l10n) Create new account
 
       .form-group
         a.btn.btn-block.btn-link(ng-click='goTo("/login")') Open existing account
@@ -15,7 +15,7 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
 
   .row.auth-form-container.col-sm-offset-2.col-sm-8.col-md-offset-3.col-md-6(ng-show='mode=="register_empty_wallet"')
     .auth-form-wrapper
-      h2(l10n) Create Empty Account
+      h2(l10n) Create empty account
 
       p Encrypt your new account file: {{walletfile}}
 
@@ -54,7 +54,7 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
 
   .row.auth-form-container.col-sm-offset-2.col-sm-8.col-md-offset-3.col-md-6(ng-show='mode=="register_with_secret" || oldUserBlob')
     .auth-form-wrapper
-      h2(l10n) Create Account with Secret Key
+      h2(l10n) Create account with secret key
 
       form(name='useSecretKey', ng-submit='submitSecretKeyForm()')
         .form-group(ng-class="{'field-error': registerForm.secret.$error.rpMasterKey && registerForm.secret.$dirty}")
@@ -77,7 +77,7 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
         .submit-btn-container
           button.btn.btn-block.btn-success(type='submit'
           ng-disabled='useSecretKey.$invalid || submitLoading'
-          rp-spinner='{{submitLoading ? 4 : null}}', l10n) Create New Account
+          rp-spinner='{{submitLoading ? 4 : null}}', l10n) Create new account
 
     .switch-mode-link-container Have an account?&#32;
       a(href='#login', l10n) Log In
