@@ -495,7 +495,6 @@ TradeTab.prototype.angular = function(module)
     ['first','second'].forEach(function(prefix){
       $scope['edit_' + prefix + '_issuer'] = function () {
         $scope.show_issuer_form = prefix;
-        console.log('aaa',$scope.order[prefix + '_issuer']);
         $scope.order[prefix + '_issuer_edit'] = webutil.unresolveContact($scope.userBlob.data.contacts, $scope.order[prefix + '_issuer']);
 
         setImmediate(function () {

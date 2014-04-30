@@ -23,8 +23,7 @@ section.single.content(ng-controller='SendCtrl')
         label(for='send_destination', l10n) Recipient
         input.form-control#send_destination(
           name='send_destination', type='text'
-          rp-combobox="recipient_query", rp-combobox-value-as-option
-          rp-combobox-value-as-option-prefix="~"
+          rp-combobox="recipient_query", rp-combobox-value-as-ripple-name
           placeholder='Enter a Ripple name or contact'
           ng-model='send.recipient'
           rp-dest, rp-dest-address, rp-dest-contact, rp-dest-bitcoin

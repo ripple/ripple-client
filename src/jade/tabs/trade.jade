@@ -62,8 +62,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
         .col-xs-12.col-sm-8.col-md-5
           input.form-control#first_issuer(
             name='first_issuer', type='text', rp-combobox="issuer_query"
-            rp-combobox-value-as-option
-            rp-combobox-value-as-option-prefix="~"
+            rp-combobox-value-as-ripple-name
             placeholder='Ripple name or contact'
             ng-model="order.first_issuer_edit_name"
             rp-dest, rp-dest-address, rp-dest-contact, rp-dest-ripple-name
@@ -81,8 +80,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
         .col-xs-12.col-sm-8.col-md-5
           input.form-control#second_issuer(
             name='second_issuer', type='text', rp-combobox="issuer_query"
-            rp-combobox-value-as-option
-            rp-combobox-value-as-option-prefix="~"
+            rp-combobox-value-as-ripple-name
             placeholder='Contact name or Ripple address'
             ng-model='order.second_issuer_edit_name'
             rp-dest, rp-dest-address, rp-dest-contact, rp-dest-ripple-name

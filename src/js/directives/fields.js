@@ -152,6 +152,17 @@ module.directive('rpCombobox', [function () {
           completions.push(webutil.escapeRegExp(valueOption));
         }
 
+        // Value as ripple name
+        if (attrs.rpComboboxValueAsRippleName && match.length) {
+          var valueOption = (0 !== match.indexOf('~'))
+            ? '~' + match
+            : match;
+
+          if (webutil.isRippleName(valueOption)) {
+            completions.push(webutil.escapeRegExp(valueOption));
+          }
+        }
+
         // By fading out without updating the completions we get a smoother effect
         if (!completions.length) {
           setVisible(false);
