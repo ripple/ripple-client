@@ -430,7 +430,7 @@ module.exports = function(grunt) {
         },
         files: [
           {src: ['./build/pkg/nw/releases/RippleClient/win/RippleClient'], dest: './', filter: 'isFile'}, // includes files in path
-          {flatten: true, src: ['./build/pkg/nw/releases/RippleClient/win/Ripple Client/**'], dest: './', filter: 'isFile'} // flattens results to a single level
+          {flatten: true, src: ['./build/pkg/nw/releases/RippleClient/win/RippleClient/**'], dest: './', filter: 'isFile'} // flattens results to a single level
         ]
       }
     }
