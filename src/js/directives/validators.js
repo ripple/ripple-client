@@ -51,11 +51,12 @@ module.directive('rpMasterKey', function () {
  * - rp-dest-bitcoin     - If set, allows Bitcoin addresses as destinations.
  * - rp-dest-email       - If set, allows federation/email addresses.
  * - rp-dest-ripple-name - If set, allows Existing ripple name as destination.
+ * - rp-dest-model       - If set, updates the model with the resolved ripple address.
  *
  * If the input can be validly interpreted as one of these types, the validation
  * will succeed.
  */
-module.directive('rpDest', function ($timeout, rpAuthInfo) {
+module.directive('rpDest', function ($timeout, rpAuthInfo, $parse) {
   var emailRegex = /^\S+@\S+\.[^\s.]+$/;
   return {
     restrict: 'A',
@@ -73,6 +74,12 @@ module.directive('rpDest', function ($timeout, rpAuthInfo) {
         if (attr.rpDestAddress && address.is_valid()) {
           ctrl.rpDestType = "address";
           ctrl.$setValidity('rpDest', true);
+
+          if (attr.rpDestModel) {
+            var getter = $parse(attr.rpDestModel);
+            getter.assign(scope,address);
+          }
+
           return value;
         }
 
@@ -80,18 +87,36 @@ module.directive('rpDest', function ($timeout, rpAuthInfo) {
             webutil.getContact(scope.userBlob.data.contacts,strippedValue)) {
           ctrl.rpDestType = "contact";
           ctrl.$setValidity('rpDest', true);
+
+          if (attr.rpDestModel) {
+            var getter = $parse(attr.rpDestModel);
+            getter.assign(scope,webutil.getContact(scope.userBlob.data.contacts,strippedValue).address);
+          }
+
           return value;
         }
 
         if (attr.rpDestBitcoin && !isNaN(Base.decode_check([0, 5], strippedValue, 'bitcoin'))) {
           ctrl.rpDestType = "bitcoin";
           ctrl.$setValidity('rpDest', true);
+
+          if (attr.rpDestModel) {
+            var getter = $parse(attr.rpDestModel);
+            getter.assign(scope,value);
+          }
+
           return value;
         }
 
         if (attr.rpDestEmail && emailRegex.test(strippedValue)) {
           ctrl.rpDestType = "email";
           ctrl.$setValidity('rpDest', true);
+
+          if (attr.rpDestModel) {
+            var getter = $parse(attr.rpDestModel);
+            getter.assign(scope,value);
+          }
+
           return value;
         }
 
@@ -105,6 +130,12 @@ module.directive('rpDest', function ($timeout, rpAuthInfo) {
 
             rpAuthInfo.get(Options.domain, value, function(err, info){
               ctrl.$setValidity('rpDest', info.exists);
+
+              if (attr.rpDestModel && info.exists) {
+                var getter = $parse(attr.rpDestModel);
+                getter.assign(scope,info.address);
+              }
+
               scope.validatorLoading = false;
             })
           }, 500);
