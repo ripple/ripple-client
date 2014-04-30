@@ -122,7 +122,7 @@ module.directive('rpCombobox', [function () {
       function updateCompletions() {
         var match = ngModel.$viewValue, // Input value
             completions = [], re = null,
-            complFn;
+            complFn, valueOption;
 
         // Query function. This should return the full options list
         complFn = scope.$eval(attrs.rpCombobox);
@@ -145,7 +145,7 @@ module.directive('rpCombobox', [function () {
         if (attrs.rpComboboxValueAsOption && match.length) {
           var prefix = attrs.rpComboboxValueAsOptionPrefix;
 
-          var valueOption = (prefix && 0 !== match.indexOf(prefix))
+          valueOption = (prefix && 0 !== match.indexOf(prefix))
             ? prefix + match
             : match;
 
@@ -154,7 +154,7 @@ module.directive('rpCombobox', [function () {
 
         // Value as ripple name
         if (attrs.rpComboboxValueAsRippleName && match.length) {
-          var valueOption = (0 !== match.indexOf('~'))
+          valueOption = (0 !== match.indexOf('~'))
             ? '~' + match
             : match;
 

@@ -64,7 +64,7 @@ module.directive('rpDest', function ($timeout, rpAuthInfo, $parse) {
     link: function (scope, elm, attr, ctrl) {
       if (!ctrl) return;
 
-      var timeoutPromise;
+      var timeoutPromise, getter;
       var validator = function(value) {
         var strippedValue = webutil.stripRippleAddress(value);
         var address = ripple.UInt160.from_json(strippedValue);
@@ -76,7 +76,7 @@ module.directive('rpDest', function ($timeout, rpAuthInfo, $parse) {
           ctrl.$setValidity('rpDest', true);
 
           if (attr.rpDestModel) {
-            var getter = $parse(attr.rpDestModel);
+            getter = $parse(attr.rpDestModel);
             getter.assign(scope,address);
           }
 
@@ -89,7 +89,7 @@ module.directive('rpDest', function ($timeout, rpAuthInfo, $parse) {
           ctrl.$setValidity('rpDest', true);
 
           if (attr.rpDestModel) {
-            var getter = $parse(attr.rpDestModel);
+            getter = $parse(attr.rpDestModel);
             getter.assign(scope,webutil.getContact(scope.userBlob.data.contacts,strippedValue).address);
           }
 
@@ -101,7 +101,7 @@ module.directive('rpDest', function ($timeout, rpAuthInfo, $parse) {
           ctrl.$setValidity('rpDest', true);
 
           if (attr.rpDestModel) {
-            var getter = $parse(attr.rpDestModel);
+            getter = $parse(attr.rpDestModel);
             getter.assign(scope,value);
           }
 
@@ -113,7 +113,7 @@ module.directive('rpDest', function ($timeout, rpAuthInfo, $parse) {
           ctrl.$setValidity('rpDest', true);
 
           if (attr.rpDestModel) {
-            var getter = $parse(attr.rpDestModel);
+            getter = $parse(attr.rpDestModel);
             getter.assign(scope,value);
           }
 
@@ -135,7 +135,7 @@ module.directive('rpDest', function ($timeout, rpAuthInfo, $parse) {
               ctrl.$setValidity('rpDest', info.exists);
 
               if (attr.rpDestModel && info.exists) {
-                var getter = $parse(attr.rpDestModel);
+                getter = $parse(attr.rpDestModel);
                 getter.assign(scope,info.address);
               }
 
