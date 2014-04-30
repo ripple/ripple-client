@@ -223,13 +223,13 @@ exports.escapeRegExp = function (str)
 };
 
 /**
- * Regex check if the string is valid ripple name
+ * Regex check if the string is a valid ripple name
  *
  * @param str
  */
 exports.isRippleName = function (str)
 {
-  var nameRegex = /^~[a-zA-Z0-9]([\-]?[a-zA-Z0-9]){1,19}$/;
+  var nameRegex = /^~[a-zA-Z0-9]([\-]?[a-zA-Z0-9]){0,19}$/;
 
   return nameRegex.test(str);
 };

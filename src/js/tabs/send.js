@@ -26,10 +26,10 @@ SendTab.prototype.angular = function (module)
 {
   module.controller('SendCtrl', ['$scope', '$timeout', '$routeParams', 'rpId',
                                  'rpNetwork', 'rpFederation', 'rpTracker',
-                                 'rpKeychain',
+                                 'rpKeychain', 'rpAuthInfo',
                                  function ($scope, $timeout, $routeParams, $id,
                                            $network, $federation, $rpTracker,
-                                           keychain)
+                                           keychain, authInfo)
   {
     if (!$id.loginStatus) return $id.goId();
 
@@ -131,6 +131,9 @@ SendTab.prototype.angular = function (module)
       // This is used to disable 'Send XRP' button
       send.self = recipient === $scope.address;
 
+      // Trying to send to a Ripple name
+      send.rippleName = webutil.isRippleName(recipient);
+
       // Trying to send to a Bitcoin address
       send.bitcoin = !isNaN(Base.decode_check([0, 5], recipient, 'bitcoin'));
 
@@ -202,6 +205,13 @@ SendTab.prototype.angular = function (module)
             $scope.sendForm.send_destination.$setValidity("federation", false);
           })
         ;
+      }
+      else if (send.rippleName) {
+        authInfo.get(Options.domain,send.recipient,function(err, response){
+          send.recipient_address = response.address;
+
+          $scope.check_destination();
+        })
       }
       else {
         $scope.check_destination();

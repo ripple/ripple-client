@@ -22,14 +22,19 @@ section.single.content(ng-controller='SendCtrl')
       .col-xs-12.col-sm-6.col-md-5
         label(for='send_destination', l10n) Recipient
         input.form-control#send_destination(
-          name='send_destination', type='text', rp-combobox="recipient_query"
+          name='send_destination', type='text'
+          rp-combobox="recipient_query", rp-combobox-value-as-option
+          rp-combobox-value-as-option-prefix="~"
           placeholder='Enter a Ripple name or contact'
           ng-model='send.recipient'
-          rp-dest, rp-dest-address, rp-dest-contact, rp-dest-bitcoin, rp-dest-email
+          rp-dest, rp-dest-address, rp-dest-contact, rp-dest-bitcoin
+          rp-dest-email, rp-dest-ripple-name
           required
           rp-autofill='$routeParams.to'
           rp-focus)
-        .errorGroup(rp-errors='send_destination')
+        .errorGroup(ng-show="validatorLoading")
+          .error(l10n) Checking...
+        .errorGroup(rp-errors='send_destination', ng-hide="validatorLoading")
           .success(rp-error-valid ng-show='send.recipient != send.recipient_address')
             | {{send.recipient_address}}
           .error(rp-error-on='required', l10n)

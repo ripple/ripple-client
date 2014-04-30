@@ -487,14 +487,15 @@ TradeTab.prototype.angular = function(module)
     }
 
     /**
-     * $scope.edit_first_issuer
-     * $scope.save_first_issuer
-     * $scope.edit_second_issuer
-     * $scope.save_second_issuer
+     * $scope.first_issuer_edit
+     * $scope.first_issuer_save
+     * $scope.second_issuer_edit
+     * $scope.second_issuer_save
      */
     ['first','second'].forEach(function(prefix){
       $scope['edit_' + prefix + '_issuer'] = function () {
         $scope.show_issuer_form = prefix;
+        console.log('aaa',$scope.order[prefix + '_issuer']);
         $scope.order[prefix + '_issuer_edit'] = webutil.unresolveContact($scope.userBlob.data.contacts, $scope.order[prefix + '_issuer']);
 
         setImmediate(function () {

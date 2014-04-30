@@ -62,10 +62,13 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
         .col-xs-12.col-sm-8.col-md-5
           input.form-control#first_issuer(
             name='first_issuer', type='text', rp-combobox="issuer_query"
+            rp-combobox-value-as-option
+            rp-combobox-value-as-option-prefix="~"
             placeholder='Ripple name or contact'
-            ng-model='order.first_issuer_edit'
-            rp-dest, rp-dest-address, rp-dest-contact)
-          .errorGroup(rp-errors='first_issuer')
+            ng-model="order.first_issuer_edit_name"
+            rp-dest, rp-dest-address, rp-dest-contact, rp-dest-ripple-name
+            rp-dest-model="order.first_issuer_edit")
+          .errorGroup(rp-errors='first_issuer')f
             .error(rp-error-on='rpDest', l10n) Not a valid Ripple address or contact
         .col-xs-12.col-sm-4.col-md-2
           button.btn.btn-block.btn-success.submit(type='submit',
@@ -78,9 +81,12 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
         .col-xs-12.col-sm-8.col-md-5
           input.form-control#second_issuer(
             name='second_issuer', type='text', rp-combobox="issuer_query"
+            rp-combobox-value-as-option
+            rp-combobox-value-as-option-prefix="~"
             placeholder='Contact name or Ripple address'
-            ng-model='order.second_issuer_edit'
-            rp-dest, rp-dest-address, rp-dest-contact)
+            ng-model='order.second_issuer_edit_name'
+            rp-dest, rp-dest-address, rp-dest-contact, rp-dest-ripple-name
+            rp-dest-model="order.second_issuer_edit"))
           .errorGroup(rp-errors='second_issuer')
             .error(rp-error-on='rpDest', l10n) Not a valid ripple address or contact
         .col-xs-12.col-sm-4.col-md-2
