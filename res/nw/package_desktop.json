@@ -4,6 +4,8 @@
   "name": "RippleClient",
   "description": "Standalone Ripple Client using Node Webkit",
   "window": {
-    "toolbar": false
+    "toolbar": false,
+    "width": 1100,
+    "height": 750
   }
 }
