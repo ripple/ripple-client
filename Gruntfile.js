@@ -22,6 +22,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-bower-task');
   grunt.loadNpmTasks('grunt-webfont');
   grunt.loadNpmTasks('grunt-shell');
+  grunt.loadNpmTasks('grunt-aws');
 
   // Ripple client dependencies
   var deps = ["deps/js/jquery/dist/jquery.js",
@@ -119,7 +120,26 @@ module.exports = function(grunt) {
     });
   });
 
+  var aws = grunt.file.readJSON('config.json');
+
   grunt.initConfig({
+    aws: {
+      accessKeyId: aws.key,
+      secretAccessKey: aws.secret,
+    },
+    s3: {
+      options: {
+        accessKeyId: aws.key,
+        secretAccessKey: aws.secret,
+        bucket: aws.bucket,
+        enableWeb: true,
+      },
+      build: {
+        cwd: 'build/packages/',
+        src: '**'
+      }
+    },
+
     pkg: grunt.file.readJSON('package.json'),
     meta: {},
     shell: {
@@ -588,6 +608,9 @@ module.exports = function(grunt) {
   grunt.registerTask('desktop', ['dist',
                                  'shell',
                                  'compress']);
+
+  // AWS S3 deployment for downloadable clients
+  grunt.registerTask('dldeploy', ['s3']);
 
   // End-to-end tests
   grunt.registerTask('e2e', ['connect:debug', 'mochaProtractor:local']);
