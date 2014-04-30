@@ -149,7 +149,7 @@ module.directive('rpCombobox', [function () {
             ? prefix + match
             : match;
 
-          completions.push(webutil.escapeRegExp(valueOption));
+          completions.push(valueOption);
         }
 
         // Value as ripple name
@@ -159,7 +159,7 @@ module.directive('rpCombobox', [function () {
             : match;
 
           if (webutil.isRippleName(valueOption)) {
-            completions.push(webutil.escapeRegExp(valueOption));
+            completions.push(valueOption);
           }
         }
 
