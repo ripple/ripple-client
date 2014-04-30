@@ -27,13 +27,11 @@ section.single.content(ng-controller='SendCtrl')
           placeholder='Enter a Ripple name or contact'
           ng-model='send.recipient'
           rp-dest, rp-dest-address, rp-dest-contact, rp-dest-bitcoin
-          rp-dest-email, rp-dest-ripple-name
+          rp-dest-email, rp-dest-ripple-name, rp-dest-loading="recipient_loading"
           required
           rp-autofill='$routeParams.to'
-          rp-focus)
-        .errorGroup(ng-show="validatorLoading")
-          .error(l10n) Checking...
-        .errorGroup(rp-errors='send_destination', ng-hide="validatorLoading")
+          rp-focus, rp-spinner="{{recipient_loading ? 4 : null}}")
+        .errorGroup(rp-errors='send_destination')
           .success(rp-error-valid ng-show='send.recipient != send.recipient_address')
             | {{send.recipient_address}}
           .error(rp-error-on='required', l10n)
