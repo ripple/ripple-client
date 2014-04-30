@@ -153,7 +153,8 @@ module.directive('rpCombobox', [function () {
         }
 
         // Value as ripple name
-        if (attrs.rpComboboxValueAsRippleName && match.length) {
+        if (attrs.rpComboboxValueAsRippleName && match.length
+          && 'web' === scope.client) { // TODO Don't do a client check in validators
           valueOption = (0 !== match.indexOf('~'))
             ? '~' + match
             : match;

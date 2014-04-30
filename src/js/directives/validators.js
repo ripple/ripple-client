@@ -9,7 +9,7 @@ var webutil = require('../util/web'),
     Amount = ripple.Amount,
     Currency = ripple.Currency;
 
-var module = angular.module('validators', []);
+var module = angular.module('validators', ['authinfo']);
 
 /**
  * Secret Account Key validator
@@ -120,7 +120,8 @@ module.directive('rpDest', function ($timeout, rpAuthInfo, $parse) {
           return value;
         }
 
-        if (attr.rpDestRippleName && webutil.isRippleName(value)) {
+        if (attr.rpDestRippleName && webutil.isRippleName(value)
+          && 'web' === scope.client) { // TODO Don't do a client check in validators
           ctrl.rpDestType = "rippleName";
 
           if (timeoutPromise) $timeout.cancel(timeoutPromise);
