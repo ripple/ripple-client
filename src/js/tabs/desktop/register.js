@@ -18,6 +18,7 @@ RegisterTab.prototype.generateHtml = function ()
 };
 
 RegisterTab.prototype.angular = function (module) {
+
   module.controller('RegisterCtrl', ['$scope', '$location', '$element',
                                      '$timeout', 'rpId',
                                      function ($scope, $location, $element,
@@ -27,6 +28,9 @@ RegisterTab.prototype.angular = function (module) {
       $location.path('/balance');
       return;
     }
+    $scope.goTo = function(url){
+      $location.path(url);
+    };
 
     $scope.reset = function()
     {
@@ -36,11 +40,29 @@ RegisterTab.prototype.angular = function (module) {
       $scope.password2 = '';
       $scope.master = '';
       $scope.key = '';
-      $scope.mode = 'form';
+      $scope.mode = 'register_new_account';
+      //$scope.mode = 'register_empty_wallet1';
       $scope.showMasterKeyInput = false;
       $scope.submitLoading = false;
 
       if ($scope.registerForm) $scope.registerForm.$setPristine(true);
+    };
+
+    var fileInput = angular.element('input[name=save_wallet]');
+
+    fileInput.bind('change', function(){
+      if(fileInput.val()){
+        $scope.mode = 'register_empty_wallet';
+      }
+    });
+
+    $scope.createEmptyWallet = function(){
+      fileInput.trigger('click');
+    };
+
+    $scope.submitSecretKeyForm = function(){
+      $scope.masterkey = $scope.secretKey;
+      $scope.createEmptyWallet();
     };
 
     $scope.register = function()
@@ -79,6 +101,9 @@ RegisterTab.prototype.angular = function (module) {
     };
 
     $scope.reset();
+
+
+
   }]);
 };
 

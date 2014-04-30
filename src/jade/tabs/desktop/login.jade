@@ -3,13 +3,20 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
   .row.auth-form-container.col-sm-offset-2.col-sm-8.col-md-offset-3.col-md-6
     .auth-form-wrapper
       form(name='loginForm', ng-submit='submitForm()')
-        h2 Log In
+        h2 Open Account
+
         .form-group
-          label(for='login_walletfile', l10n) Wallet file
+          a.btn.btn-block.btn-link(href='#register', l10n) Create new account
+
+        .form-group
+          .btn.btn-block.btn-default(ng-click='simulateFileInputClick("input[name=login_walletfile]")') Select account file {{walletfile}}
+
+        .form-group.hide
+          label(for='login_walletfile', l10n) Select account file
           input.form-control#login_walletfile(name='login_walletfile', type="file"
             ng-model='walletfile', required, rp-focus)
         .form-group
-          label(for='login_password', l10n) Wallet unlock password
+          label(for='login_password', l10n) Account password
           input.form-control#login_password(name='login_password', type='password'
             ng-model='password', required, rp-focus)
         .text-status(ng-show='status')
@@ -20,6 +27,4 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
             span {{message.message}}
         .submit-btn-container
           button.btn.btn-submit.btn-block.btn-success(type='submit', ng-disabled="loginForm.$invalid || ajax_loading", rp-spinner="{{ajax_loading ? 4 : null}}")
-            span(l10n) Log In
-    .switch-mode-link-container New to Ripple?&#32;
-      a(href='#register', l10n) Sign Up
+            span(l10n) Open Account

@@ -30,6 +30,11 @@ LoginTab.prototype.angular = function (module) {
       return;
     }
 
+    $scope.simulateFileInputClick = function(element){
+      var fileInput = angular.element(element);
+      fileInput.trigger('click');
+    }
+
     $scope.error = '';
     $scope.username = '';
     $scope.password = '';
