@@ -9,6 +9,7 @@ src/js/config.js
 analytics.js
 l10n/templates
 zipzap/config.php
+res/nw/config.js
 deps/js/angular/
 deps/js/angular-route/
 deps/js/angular-mocks/
