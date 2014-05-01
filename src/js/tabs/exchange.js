@@ -21,8 +21,9 @@ ExchangeTab.prototype.generateHtml = function ()
 
 ExchangeTab.prototype.angular = function (module)
 {
-  module.controller('ExchangeCtrl', ['$scope', '$timeout', '$routeParams', 'rpId', 'rpNetwork', 'rpTracker',
-    function ($scope, $timeout, $routeParams, $id, $network, $rpTracker)
+  module.controller('ExchangeCtrl', ['$scope', '$timeout', '$routeParams',
+    'rpId', 'rpNetwork', 'rpTracker', 'rpKeychain',
+    function ($scope, $timeout, $routeParams, $id, $network, $rpTracker, keychain)
     {
       if (!$id.loginStatus) return $id.goId();
 
@@ -201,6 +202,26 @@ ExchangeTab.prototype.angular = function (module)
         tx.payment($id.account, $id.account, amount.to_json());
         tx.send_max($scope.exchange.alt.send_max);
         tx.paths($scope.exchange.alt.paths);
+
+        if ($scope.exchange.secret) {
+          tx.secret($scope.exchange.secret);
+        } else {
+          // Get secret asynchronously
+          keychain.requestSecret($id.account, $id.username,
+            function (err, secret) {
+              if (err) {
+                console.log("client: exchange tab: error while " +
+                  "unlocking wallet: ", err);
+                $scope.mode = "error";
+                $scope.error_type = "unlockFailed";
+                return;
+              }
+
+              $scope.exchange.secret = secret;
+              $scope.exchange_confirmed();
+            });
+          return;
+        }
 
         tx.on('proposed', function (res) {
           $scope.$apply(function () {
