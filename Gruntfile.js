@@ -508,9 +508,9 @@ module.exports = function(grunt) {
       output: {
         filename: "web/<%= pkg.name %>-debug.js"
       },
-      plugins: [
-        new SeparateFileTypeChunkPlugin("web/templates-debug.js", "web", 'jade')
-      ],
+//      plugins: [
+//        new SeparateFileTypeChunkPlugin("web/templates-debug.js", "web", 'jade')
+//      ],
       debug: true,
       devtool: 'eval',
       cache: false
@@ -528,9 +528,9 @@ module.exports = function(grunt) {
       output: {
         filename: "desktop/<%= pkg.name %>-debug.js"
       },
-      plugins: [
-        new SeparateFileTypeChunkPlugin("desktop/templates-debug.js", "desktop", 'jade')
-      ],
+//      plugins: [
+//        new SeparateFileTypeChunkPlugin("desktop/templates-debug.js", "desktop", 'jade')
+//      ],
       debug: true,
       cache: false,
       target: 'node-webkit'
@@ -549,11 +549,11 @@ module.exports = function(grunt) {
         ]
       },
       output: {
-        filename: "web/<%= pkg.name %>.js"
+        filename: "web/<%= pkg.name %>-" + language.code + ".js"
       },
-      plugins: [
-        new SeparateFileTypeChunkPlugin("web/templates-" + language.code + ".js", "web", 'jade')
-      ],
+//      plugins: [
+//        new SeparateFileTypeChunkPlugin("web/templates-" + language.code + ".js", "web", 'jade')
+//      ],
       optimize: {
         // TODO Minimization breaks our l10n mechanisms
 //        minimize: true
@@ -570,11 +570,11 @@ module.exports = function(grunt) {
         ]
       },
       output: {
-        filename: "desktop/<%= pkg.name %>.js"
+        filename: "desktop/<%= pkg.name %>-" + language.code + ".js"
       },
-      plugins: [
-        new SeparateFileTypeChunkPlugin("desktop/templates-" + language.code + ".js", "desktop", 'jade')
-      ],
+//      plugins: [
+//        new SeparateFileTypeChunkPlugin("desktop/templates-" + language.code + ".js", "desktop", 'jade')
+//      ],
       optimize: {
         // TODO Minimization breaks our l10n mechanisms
 //        minimize: true

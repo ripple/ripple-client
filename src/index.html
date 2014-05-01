@@ -112,11 +112,7 @@
   <!-- @endif -->
 
   <script type="text/javascript">
-    $.getScript('js/templates' + (debug ? '-debug' : '-'+lang) + '.js',
-      function(data, textStatus, jqxhr) {
-        $.getScript('js/ripple-client' + (debug ? '-debug' : '') + '.js');
-      }
-    );
+    $.getScript('js/ripple-client' + (debug ? '-debug' : '-'+lang) + '.js');
   </script>
 
   <!-- start Mixpanel -->
