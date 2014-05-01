@@ -555,8 +555,7 @@ module.exports = function(grunt) {
 //        new SeparateFileTypeChunkPlugin("web/templates-" + language.code + ".js", "web", 'jade')
 //      ],
       optimize: {
-        // TODO Minimization breaks our l10n mechanisms
-//        minimize: true
+        minimize: true
       }
     };
     webpack['desktop_l10n_' + language.name] = {
@@ -576,8 +575,7 @@ module.exports = function(grunt) {
 //        new SeparateFileTypeChunkPlugin("desktop/templates-" + language.code + ".js", "desktop", 'jade')
 //      ],
       optimize: {
-        // TODO Minimization breaks our l10n mechanisms
-//        minimize: true
+        minimize: true
       },
       target: 'node-webkit'
     }
