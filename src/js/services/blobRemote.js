@@ -121,10 +121,12 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
   BlobObj.create = function (opts, callback)
   {
     var blob = new BlobObj(opts.url, opts.id, opts.crypt);
+    var encryptedSecret = blob.encryptSecret(opts.unlock, opts.masterkey);
+
     blob.revision = 0;
     blob.data = {
       auth_secret: sjcl.codec.hex.fromBits(sjcl.random.randomWords(8)),
-      encrypted_secret: blob.encryptSecret(opts.unlock, opts.masterkey),
+      encrypted_secret: encryptedSecret,
       account_id: opts.account,
       email: opts.email,
       contacts: [],
@@ -136,33 +138,29 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
       blob.data.contacts = opts.oldUserBlob.data.contacts;
     }
 
-    $.ajax({
-      type: "POST",
+    var config = {
+      method: "POST",
       url: opts.url + '/v1/user',
-      dataType: 'json',
       data: {
         blob_id: opts.id,
         username: opts.username,
         address: opts.account,
-        signature: "",
-        pubkey: "",
         auth_secret: blob.data.auth_secret,
         data: blob.encrypt(),
         email: opts.email,
-        hostlink: Options.activate_link
-      },
-      timeout: 8000
-    })
+        hostlink: Options.activate_link,
+        encrypted_blobdecrypt_key: '',
+        encrypted_secret: encryptedSecret
+      }
+    };
+
+    $http(BlobObj.signRequestAsymmetric(config, opts.masterkey, opts.account, opts.id))
     .success(function (data) {
-      setImmediate(function () {
-        $scope.$apply(function () {
-          if (data.result === "success") {
-            callback(null, blob, data);
-          } else {
-            callback(new Error("Could not create blob"));
-          }
-        });
-      });
+      if (data.result === "success") {
+        callback(null, blob, data);
+      } else {
+        callback(new Error("Could not create blob"));
+      }
     })
 //    .error(webutil.getAjaxErrorHandler(callback, "BlobVault POST /v1/user"));
     .error(function(err){
@@ -297,7 +295,7 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
       }
     };
 
-    $http(this.signRequest(config))
+    $http(BlobObj.signRequestHmac(config, this.data.auth_secret, this.id))
       .success(function(data, status, headers, config) {
         if (data.result === "success") {
           callback(null, data);
@@ -464,15 +462,9 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
     };
   })();
 
-  BlobObj.prototype.signRequest = function (config) {
-    config = $.extend({}, config);
-
+  BlobObj.getStringToSign = function (config, parser, date, mechanism) {
     // XXX This method doesn't handle signing GET requests correctly. The data
     //     field will be merged into the search string, not the request body.
-
-    // Parse URL
-    var parser = document.createElement('a');
-    parser.href = config.url;
 
     // Sort the properties of the JSON object into canonical form
     var canonicalData = JSON.stringify(copyObjectWithSortedKeys(config.data));
@@ -489,27 +481,63 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
       sjcl.codec.hex.fromBits(sjcl.hash.sha512.hash(canonicalData)).toLowerCase()
     ].join('\n');
 
-    var date = dateAsIso8601();
-
     // String to sign inspired by Amazon's v4 signature format
     // See: http://docs.aws.amazon.com/general/latest/gr/sigv4-create-string-to-sign.html
     //
     // We don't have a credential scope, so we skip it.
     //
     // But that modifies the format, so the format ID is RIPPLE1, instead of AWS4.
-    var stringToSign = [
-      'RIPPLE1-HMAC-SHA512',
+    return stringToSign = [
+      mechanism,
       date,
       sjcl.codec.hex.fromBits(sjcl.hash.sha512.hash(canonicalRequest)).toLowerCase()
     ].join('\n');
+  }
 
-    var hmac = new sjcl.misc.hmac(sjcl.codec.hex.toBits(this.data.auth_secret), sjcl.hash.sha512);
+  BlobObj.signRequestHmac = function (config, auth_secret, blob_id) {
+    config = $.extend({}, config);
+
+    // Parse URL
+    var parser = document.createElement('a');
+    parser.href = config.url;
+
+    var date = dateAsIso8601();
+    var signatureType = 'RIPPLE1-HMAC-SHA512';
+
+    var stringToSign = BlobObj.getStringToSign(config, parser, date, signatureType);
+
+    var hmac = new sjcl.misc.hmac(sjcl.codec.hex.toBits(auth_secret), sjcl.hash.sha512);
     var signature = sjcl.codec.hex.fromBits(hmac.mac(stringToSign));
 
     config.url += (parser.search ? "&" : "?") +
       'signature='+signature+
       '&signature_date='+date+
-      '&signature_blob_id='+this.id;
+      '&signature_blob_id='+blob_id+
+      '&signature_type='+signatureType
+
+    return config;
+  };
+
+  BlobObj.signRequestAsymmetric = function (config, secretKey, account, blob_id) {
+    config = $.extend({}, config);
+
+    // Parse URL
+    var parser = document.createElement('a');
+    parser.href = config.url;
+
+    var date = dateAsIso8601();
+    var signatureType = 'RIPPLE1-ECDSA-SHA512';
+
+    var stringToSign = BlobObj.getStringToSign(config, parser, date, signatureType);
+
+    var signature = ripple.Message.signMessage(stringToSign, secretKey);
+
+    config.url += (parser.search ? "&" : "?") +
+      'signature='+signature+
+      '&signature_date='+date+
+      '&signature_blob_id='+blob_id+
+      '&signature_account='+account+
+      '&signature_type='+signatureType;
 
     return config;
   };
@@ -543,7 +571,7 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
       }
     };
 
-    $http(this.signRequest(config))
+    $http(BlobObj.signRequestHmac(config, this.data.auth_secret, this.id))
       .success(function(data, status, headers, config) {
         if (data.result === "success") {
           console.log("client: blob: saved patch as revision", data.revision);
