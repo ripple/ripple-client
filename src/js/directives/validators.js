@@ -77,7 +77,7 @@ module.directive('rpDest', function ($timeout, rpAuthInfo, $parse) {
 
           if (attr.rpDestModel) {
             getter = $parse(attr.rpDestModel);
-            getter.assign(scope,address);
+            getter.assign(scope,value);
           }
 
           return value;
