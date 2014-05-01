@@ -83,7 +83,10 @@ RegisterTab.prototype.angular = function (module) {
         $scope.keyOpen = key;
         $scope.key = $scope.keyOpen[0] + new Array($scope.keyOpen.length).join("*");
 
-        $scope.mode = 'welcome';
+        $scope.$apply(function(){
+          $scope.mode = 'welcome';
+        });
+
       });
     };
 
@@ -94,15 +97,13 @@ RegisterTab.prototype.angular = function (module) {
 
     $scope.goToFund = function()
     {
-      $scope.mode = 'form';
+      $scope.mode = 'register_empty_wallet';
       $scope.reset();
 
       $location.path('/fund');
     };
 
     $scope.reset();
-
-
 
   }]);
 };
