@@ -25,15 +25,17 @@ section.col-xs-12.content(ng-controller="ContactsCtrl")
               | This contact already exists.
         .form-group
           label(for='Address', l10n) Ripple name or address
-          input.form-control.input-lg.address#address(
-            name='address', type='text', step='any'
-            ng-model='contact.view'
-            rp-dest, rp-dest-address, rp-dest-bitcoin, rp-dest-ripple-name
-            rp-dest-model="contact.address"
-            rp-unique='userBlob.data.contacts'
-            rp-unique-field='address'
-            rp-autofill='$routeParams.to', rp-autofill-on='addform_visible = true'
-            required)
+          .spinnerEnabledInput
+            input.form-control.input-lg.address#address(
+              name='address', type='text', step='any'
+              ng-model='contact.view'
+              rp-dest, rp-dest-address, rp-dest-bitcoin, rp-dest-ripple-name
+              rp-dest-model="contact.address", rp-dest-loading="address_loading"
+              rp-unique='userBlob.data.contacts'
+              rp-unique-field='address'
+              rp-spinner="{{address_loading ? 4 : null}}"
+              rp-autofill='$routeParams.to', rp-autofill-on='addform_visible = true'
+              required)
           .errorGroup(rp-errors='address')
             .error(rp-error-on='required', l10n) Please enter a Ripple name.
             .error(rp-error-on='rpUnique', l10n) You already have a contact with the same Ripple name.
