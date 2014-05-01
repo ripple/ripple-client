@@ -121,22 +121,28 @@ module.exports = function(grunt) {
   });
 
   var aws = grunt.file.readJSON('config.json');
+  var configDesktopRead = grunt.file.readJSON('res/nw/package_desktop.json');
+  var configDesktopWrite = grunt.file.write('res/nw/config.js', 'var config = ' + JSON.stringify(configDesktopRead));
 
   grunt.initConfig({
     aws: {
       accessKeyId: aws.key,
-      secretAccessKey: aws.secret,
+      secretAccessKey: aws.secret
     },
     s3: {
       options: {
         accessKeyId: aws.key,
         secretAccessKey: aws.secret,
         bucket: aws.bucket,
-        enableWeb: true,
+        enableWeb: true
       },
       build: {
         cwd: 'build/packages/',
         src: '**'
+      },
+      specificFiles: {
+        src: 'res/nw/config.js',
+        dest: 'version-config.js'
       }
     },
 
