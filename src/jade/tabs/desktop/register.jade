@@ -50,6 +50,8 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
           ng-disabled='registerForm.$invalid || submitLoading'
           rp-spinner='{{submitLoading ? 4 : null}}', l10n) Encrypt account
 
+          a.btn.btn-block.btn-link(ng-click='reset()') Cancel and delete account file
+
 
 
   .row.auth-form-container.col-sm-offset-2.col-sm-8.col-md-offset-3.col-md-6(ng-show='mode=="register_with_secret" || oldUserBlob')
@@ -78,6 +80,8 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
           button.btn.btn-block.btn-success(type='submit'
           ng-disabled='useSecretKey.$invalid || submitLoading'
           rp-spinner='{{submitLoading ? 4 : null}}', l10n) Create new account
+
+          a.btn.btn-block.btn-link(ng-click='reset()') Cancel
 
     .switch-mode-link-container Have an account?&#32;
       a(href='#login', l10n) Log In
