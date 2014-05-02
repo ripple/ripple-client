@@ -7,6 +7,7 @@ before_install:
   - npm install -g grunt-cli
 before_script:
   - "cp src/js/config-example.js src/js/config.js"
+  - "cp config-example.json config.json"
 script: "grunt && npm test"
 notifications:
   email:
