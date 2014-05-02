@@ -85,6 +85,11 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
       var blob = new BlobObj(url, id, crypt);
 
       blob.revision = data.revision;
+
+      // HOTFIX: Workaround for blobvault sending encrypted_secret in incorrect format
+      if (Array.isArray(data.encrypted_secret)) {
+        data.encrypted_secret = sjcl.codec.utf8String.fromBits(sjcl.codec.bytes.toBits(data.encrypted_secret));
+      }
       blob.encrypted_secret = data.encrypted_secret;
 
       if (!blob.decrypt(data.blob)) {
