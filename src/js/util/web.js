@@ -240,7 +240,7 @@ exports.isRippleName = function (str)
  * @param {String} base64 Data
  */
 exports.base64ToBase64Url = function (encodedData) {
-  return encodedData.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+  return encodedData.replace(/\+/g, '-').replace(/\//g, '_').replace(/[=]+$/, '');
 };
 
 /**
