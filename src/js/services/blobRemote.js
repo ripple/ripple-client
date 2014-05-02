@@ -85,6 +85,7 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
       var blob = new BlobObj(url, id, crypt);
 
       blob.revision = data.revision;
+      blob.encrypted_secret = data.encrypted_secret;
 
       if (!blob.decrypt(data.blob)) {
         callback(new Error("Error while decrypting blob"));
@@ -126,12 +127,12 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
     blob.revision = 0;
     blob.data = {
       auth_secret: sjcl.codec.hex.fromBits(sjcl.random.randomWords(8)),
-      encrypted_secret: encryptedSecret,
       account_id: opts.account,
       email: opts.email,
       contacts: [],
       created: (new Date()).toJSON()
     };
+    blob.encrypted_secret = encryptedSecret;
 
     // Migration
     if (opts.oldUserBlob) {
@@ -678,7 +679,7 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
   };
 
   BlobObj.prototype.decryptSecret = function (secretUnlockKey) {
-    return decrypt(secretUnlockKey, this.data.encrypted_secret);
+    return decrypt(secretUnlockKey, this.encrypted_secret);
   };
 
   BlobObj.prototype.encryptSecret = function (secretUnlockKey, secret) {
