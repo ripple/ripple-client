@@ -115,7 +115,7 @@ module.factory('rpOldBlob', ['$rootScope', function ($scope)
     });
   };
 
-  BlobObj.delete = function(backends, username, password, callback)
+  BlobObj.remove = function(backends, username, password, callback)
   {
     // Callback is optional
     if ("function" !== typeof callback) callback = $.noop;

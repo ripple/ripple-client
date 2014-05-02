@@ -236,11 +236,11 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
 //      $scope.$broadcast('$blobUpdate');
 
       // Remove old blob
-      $oldblob.delete(['vault', 'local'], opts.oldUsername, opts.oldPassword, function (err, data) {
+      $oldblob.remove(['vault', 'local'], opts.oldUsername, opts.oldPassword, function (err, data) {
         if (err) {
           console.log("Can't delete the old blobvault:", err);
           return;
-        };
+        }
 
         console.log('Old blob has been removed.');
       });
