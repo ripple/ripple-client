@@ -150,7 +150,7 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
         data: blob.encrypt(),
         email: opts.email,
         hostlink: Options.activate_link,
-        encrypted_blobdecrypt_key: '',
+        encrypted_blobdecrypt_key: blob.encryptBlobCrypt(opts.masterkey, opts.crypt),
         encrypted_secret: encryptedSecret
       }
     };
@@ -684,6 +684,24 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
 
   BlobObj.prototype.encryptSecret = function (secretUnlockKey, secret) {
     return encrypt(secretUnlockKey, secret);
+  };
+
+  function deriveRecoveryEncryptionKeyFromSecret(secret) {
+    var seed = ripple.Seed.from_json(secret).to_bits();
+    var hmac = new sjcl.misc.hmac(seed, sjcl.hash.sha512);
+    var key = hmac.mac("ripple/hmac/recovery_encryption_key/v1");
+    key = sjcl.bitArray.bitSlice(key, 0, 256);
+    return sjcl.codec.hex.fromBits(key);
+  }
+
+  BlobObj.prototype.decryptBlobCrypt = function (secret) {
+    var recoveryEncryptionKey = deriveRecoveryEncryptionKeyFromSecret(secret);
+    return decrypt(recoveryEncryptionKey, this.encrypted_blobdecrypt_key);
+  };
+
+  BlobObj.prototype.encryptBlobCrypt = function (secret, blobDecryptKey) {
+    var recoveryEncryptionKey = deriveRecoveryEncryptionKeyFromSecret(secret);
+    return encrypt(recoveryEncryptionKey, blobDecryptKey);
   };
 
   function BlobError(message, backend) {
