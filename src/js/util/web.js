@@ -233,3 +233,25 @@ exports.isRippleName = function (str)
 
   return nameRegex.test(str);
 };
+
+/**
+ * Convert base64 encoded data into base64url encoded data.
+ *
+ * @param {String} base64 Data
+ */
+exports.base64ToBase64Url = function (encodedData) {
+  return encodedData.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+};
+
+/**
+ * Convert base64url encoded data into base64 encoded data.
+ *
+ * @param {String} base64 Data
+ */
+exports.base64UrlToBase64 = function (encodedData) {
+  encodedData = encodedData.replace(/-/g, '+').replace(/_/g, '/');
+  while (encodedData.length % 4) {
+    encodedData += '=';
+  }
+  return encodedData;
+};
