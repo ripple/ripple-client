@@ -155,8 +155,8 @@ module.exports = function(grunt) {
       },
       linux: {
         command: [
-          'tar -cvf ./build/packages/ripple-client32.tar ./build/pkg/nw/releases/RippleClient/linux32/RippleClient',
-          'tar -cvf ./build/packages/ripple-client64.tar ./build/pkg/nw/releases/RippleClient/linux64/RippleClient'
+          'tar -cvf ./build/packages/ripple-client32.tar ./build/pkg/nw/releases/RippleClient/linux32/',
+          'tar -cvf ./build/packages/ripple-client64.tar ./build/pkg/nw/releases/RippleClient/linux64/'
         ].join('&')
       },
       osx: {
@@ -455,12 +455,14 @@ module.exports = function(grunt) {
           archive: './build/packages/ripple-client.zip'
         },
         files: [
-          {src: ['./build/pkg/nw/releases/RippleClient/win/RippleClient'], dest: './', filter: 'isFile'}, // includes files in path
-          {flatten: true, src: ['./build/pkg/nw/releases/RippleClient/win/RippleClient/**'], dest: './', filter: 'isFile'} // flattens results to a single level
+          {
+            expand: true,
+            cwd: './build/pkg/nw/releases/RippleClient/win',
+            src: ['**']
+          }
         ]
       }
-    }
-  });
+    }  });
 
   // Webpack
   var webpack = {
@@ -508,9 +510,9 @@ module.exports = function(grunt) {
       output: {
         filename: "web/<%= pkg.name %>-debug.js"
       },
-//      plugins: [
-//        new SeparateFileTypeChunkPlugin("web/templates-debug.js", "web", 'jade')
-//      ],
+      plugins: [
+        new SeparateFileTypeChunkPlugin("web/templates-debug.js", "web", 'jade')
+      ],
       debug: true,
       devtool: 'eval',
       cache: false
@@ -528,9 +530,9 @@ module.exports = function(grunt) {
       output: {
         filename: "desktop/<%= pkg.name %>-debug.js"
       },
-//      plugins: [
-//        new SeparateFileTypeChunkPlugin("desktop/templates-debug.js", "desktop", 'jade')
-//      ],
+      plugins: [
+        new SeparateFileTypeChunkPlugin("desktop/templates-debug.js", "desktop", 'jade')
+      ],
       debug: true,
       cache: false,
       target: 'node-webkit'
@@ -549,13 +551,14 @@ module.exports = function(grunt) {
         ]
       },
       output: {
-        filename: "web/<%= pkg.name %>-" + language.code + ".js"
+        filename: "web/<%= pkg.name %>.js"
       },
-//      plugins: [
-//        new SeparateFileTypeChunkPlugin("web/templates-" + language.code + ".js", "web", 'jade')
-//      ],
+      plugins: [
+        new SeparateFileTypeChunkPlugin("web/templates-" + language.code + ".js", "web", 'jade')
+      ],
       optimize: {
-        minimize: true
+        // TODO Minimization breaks our l10n mechanisms
+//        minimize: true
       }
     };
     webpack['desktop_l10n_' + language.name] = {
@@ -569,13 +572,14 @@ module.exports = function(grunt) {
         ]
       },
       output: {
-        filename: "desktop/<%= pkg.name %>-" + language.code + ".js"
+        filename: "desktop/<%= pkg.name %>.js"
       },
-//      plugins: [
-//        new SeparateFileTypeChunkPlugin("desktop/templates-" + language.code + ".js", "desktop", 'jade')
-//      ],
+      plugins: [
+        new SeparateFileTypeChunkPlugin("desktop/templates-" + language.code + ".js", "desktop", 'jade')
+      ],
       optimize: {
-        minimize: true
+        // TODO Minimization breaks our l10n mechanisms
+//        minimize: true
       },
       target: 'node-webkit'
     }
