@@ -106,6 +106,14 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
         if (successful) blob.consolidate();
       }
 
+      // HOTFIX: Workaround for old staging accounts that have the secret stored in the blob
+      //         This is NOT needed for any production accounts and will be removed in the future.
+      if (blob.encrypted_secret === "" &&
+          "object" === typeof blob.data &&
+          "string" === typeof blob.data.encrypted_secret) {
+        blob.encrypted_secret = blob.data.encrypted_secret;
+      }
+
       callback(null, blob);
     });
   };
