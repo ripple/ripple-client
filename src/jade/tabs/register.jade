@@ -30,7 +30,7 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
               rp-popover-title='Reserved domain'
               rp-popover-trigger="click"
               ng-switch-when="reserved"
-              data-content='This name belongs to a high-traffic website and has been reserved to prevent phishing. <a href="#" target="_blank">More information</a>')
+              data-content='This name belongs to a high-traffic website and has been reserved to prevent phishing.')
             span(ng-switch-when="loading", l10n) Checking...
             span(ng-switch-when="ok", l10n) Available
             span(ng-switch-when="invalid", ng-switch on="usernameInvalidReason")
