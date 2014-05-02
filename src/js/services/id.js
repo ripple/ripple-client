@@ -234,6 +234,17 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
 //      self.storeLoginKeys(username, keys);
 //      self.loginStatus = true;
 //      $scope.$broadcast('$blobUpdate');
+
+      // Remove old blob
+      $oldblob.delete(['vault', 'local'], opts.oldUsername, opts.oldPassword, function (err, data) {
+        if (err) {
+          console.log("Can't delete the old blobvault:", err);
+          return;
+        };
+
+        console.log('Old blob has been removed.');
+      });
+
       store.set('ripple_known', true);
       callback(null, masterkey);
     });
@@ -297,6 +308,8 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
             // Migration
 
             $scope.oldUserBlob = blob;
+            $scope.oldUsername = username.toLowerCase();
+            $scope.oldPassword = password;
             $location.path('/register');
 
             return;

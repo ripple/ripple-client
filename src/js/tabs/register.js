@@ -152,11 +152,11 @@ RegisterTab.prototype.angular = function (module) {
         'password': $scope.password1,
         'email': $scope.email,
         'masterkey': $scope.masterkey,
-        'oldUserBlob': $scope.oldUserBlob
+        'oldUserBlob': $scope.oldUserBlob,
+        'oldUsername': $scope.oldUsername,
+        'oldPassword': $scope.oldPassword
       },
       function(err, key){
-        console.log('err',err);
-        console.log('key',key);
         if (err) {
           $scope.mode = "failed";
           $scope.error_detail = err.message;

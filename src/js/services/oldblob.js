@@ -115,6 +115,20 @@ module.factory('rpOldBlob', ['$rootScope', function ($scope)
     });
   };
 
+  BlobObj.delete = function(backends, username, password, callback)
+  {
+    // Callback is optional
+    if ("function" !== typeof callback) callback = $.noop;
+
+    backends = processBackendsParam(backends);
+
+    var hash = sjcl.codec.hex.fromBits(sjcl.hash.sha256.hash(username + password));
+
+    backends.forEach(function (backend) {
+      backend.set(hash, '.', callback);
+    });
+  };
+
   BlobObj.decrypt = function (user, pass, data)
   {
     function decrypt(priv, ciphertext)
