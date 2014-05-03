@@ -104,7 +104,7 @@ RegisterTab.prototype.angular = function (module) {
       } else if (username.length < 2) {
         $scope.usernameStatus = "invalid";
         $scope.usernameInvalidReason = "tooshort";
-      } else if (username.length > 15) {
+      } else if (username.length > 20) {
         $scope.usernameStatus = "invalid";
         $scope.usernameInvalidReason = "toolong";
       } else if (!/^[a-zA-Z0-9\-]+$/.exec(username)) {

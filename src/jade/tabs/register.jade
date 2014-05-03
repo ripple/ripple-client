@@ -19,7 +19,7 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
             span.input-group-addon.ripple-addon ~
             input.form-control#register_username(
               name='register_username', type='text', ng-model="username"
-              required, rp-focus, autocomplete="off", maxlength="15")
+              required, rp-focus, autocomplete="off", maxlength="20")
           p(ng-switch on="usernameStatus", class="{{usernameStatus}}", rp-spinner="{{usernameStatus == 'loading' ? 4 : null}}")
             span(ng-switch-when="exists", l10n) Already taken!
             span(ng-switch-when="reserved", l10n) Reserved for {{usernameReservedFor}}
@@ -35,7 +35,7 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
             span(ng-switch-when="ok", l10n) Available
             span(ng-switch-when="invalid", ng-switch on="usernameInvalidReason")
               span(ng-switch-when="tooshort", l10n) Must be at least 2 characters
-              span(ng-switch-when="toolong", l10n) Must be at most 15 characters
+              span(ng-switch-when="toolong", l10n) Must be at most 20 characters
               span(ng-switch-when="charset", l10n) Only a-z, 0-9 and hyphen (-)
               span(ng-switch-when="starthyphen", l10n) Cannot start with hyphen (-)
               span(ng-switch-when="endhyphen", l10n) Cannot end with hyphen (-)

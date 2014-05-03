@@ -615,9 +615,9 @@ module.directive('rpSnapper', ['rpId', function($id) {
         });
 
         var checkSize = function(){
-          // screen-sm-max
+          // screen-xs-max
           if ('object' === typeof snapper) {
-            if ($(window).width() > 991) {
+            if ($(window).width() > 767) {
               snapper.close();
               snapper.disable();
             } else {
