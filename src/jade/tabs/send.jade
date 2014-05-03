@@ -352,8 +352,7 @@ section.single.content(ng-controller='SendCtrl')
       .save-address-form(ng-hide='contact', class="actionLink")
         a(href="", ng-click='show_save_address_form = true', l10n)
           | Add this address to contacts
-        form(name="saveAddressForm"
-             ng-class="{ show: show_save_address_form }"
+        form(name="saveAddressForm", ng-class="{ show: show_save_address_form }"
              ng-submit='saveAddress()')
           .address {{send.recipient_address}}
           label(for='save_address_name', l10n) Name this user
@@ -364,7 +363,8 @@ section.single.content(ng-controller='SendCtrl')
           .error(ng-show='saveAddressForm.save_address_name.$error.unique', l10n)
             | You already have a contact with the same name.
           div
-            button.btn.btn-success(type='submit', ng-disabled='addressSaving')
+            button.btn.btn-success(type='submit'
+              ng-disabled='addressSaving || saveAddressForm.$invalid')
               span(ng-show='addressSaving', l10n) Saving...
               span(ng-hide='addressSaving', l10n) Save
             a(href="", ng-click='show_save_address_form = false', l10n) Cancel
