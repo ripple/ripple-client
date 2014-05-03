@@ -48,14 +48,35 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
   /**
    * Reduce username to standardized form.
    *
-   * Strips whitespace at beginning and end.
+   * This creates the version of the username that is displayed in the UI.
    */
-  Id.normalizeUsername = function (username) {
+  Id.normalizeUsernameForDisplay = function (username) {
     username = ""+username;
+
+    // Strips whitespace at beginning and end.
     username = username.trim();
-    //we should display username with same capitalization as how they enter it in open wallet
-    // toLowerCase used in all blob requests
-    // username = username.toLowerCase();
+
+    return username;
+  };
+
+  /**
+   * Reduce username to standardized form.
+   *
+   * This version is used in the login system and it's the version sent to
+   * servers.
+   */
+  Id.normalizeUsernameForInternals = function (username) {
+    username = ""+username;
+
+    // Strips whitespace at beginning and end.
+    username = username.trim();
+
+    // Remove hyphens
+    username = username.replace(/-/g, '');
+
+    // All lowercase
+    username = username.toLowerCase();
+
     return username;
   };
 
@@ -207,7 +228,7 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
     if (!opts.username) opts.username = 'local';
 
     // Blob data
-    var username = Id.normalizeUsername(opts.username);
+    var username = Id.normalizeUsernameForDisplay(opts.username);
     var password = Id.normalizePassword(opts.password);
 
     var account = (new RippleAddress(masterkey)).getAddress();
@@ -254,10 +275,10 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
   {
     var self = this;
 
-    username = Id.normalizeUsername(username);
+    username = Id.normalizeUsernameForDisplay(username);
     password = Id.normalizePassword(password);
 
-    $authflow.exists(username.toLowerCase(), password, function (err, data) {
+    $authflow.exists(Id.normalizeUsernameForInternals(username), password, function (err, data) {
       if (!err && data) {
         // Blob found, new auth method
         callback(null, true);
@@ -275,18 +296,18 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
     // Callback is optional
     if ("function" !== typeof callback) callback = $.noop;
 
-    var username = Id.normalizeUsername(opts.username);
+    var username = Id.normalizeUsernameForDisplay(opts.username);
     var password = Id.normalizePassword(opts.password);
 
     $authflow.login({
-      'username': username.toLowerCase(),
+      'username': Id.normalizeUsernameForInternals(username),
       'password': password,
       'walletfile': opts.walletfile
     }, function (err, blob, keys, actualUsername) {
       if (err && Options.blobvault) {
         console.log("Blob login failed, trying old blob protocol");
 
-        $oldblob.get(['vault', 'local'], username.toLowerCase(), password, function (oerr, data) {
+        $oldblob.get(['vault', 'local'], Id.normalizeUsernameForInternals(username), password, function (oerr, data) {
           if (oerr) {
             // Old blob failed - since this was just the fallback report the
             // original error
@@ -295,7 +316,7 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
             return;
           }
 
-          var blob = $oldblob.decrypt(username.toLowerCase(), password, data);
+          var blob = $oldblob.decrypt(Id.normalizeUsernameForInternals(username), password, data);
           if (!blob) {
             // Unable to decrypt blob
             var msg = 'Unable to decrypt blob (Username / Password is wrong)';
@@ -334,7 +355,7 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
         // ensure the actualUsername returned is equivalent to what we expected
         // and fall back to what the user entered otherwise.
         if ("string" !== typeof actualUsername ||
-            actualUsername.toLowerCase() !== username.toLowerCase()) {
+            Id.normalizeUsernameForInternals(actualUsername) !== Id.normalizeUsernameForInternals(username)) {
           actualUsername = username;
         }
 
@@ -389,10 +410,10 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
     // Callback is optional
     if ("function" !== typeof callback) callback = $.noop;
 
-    username = Id.normalizeUsername(username);
+    username = Id.normalizeUsernameForDisplay(username);
     password = Id.normalizePassword(password);
 
-    $authflow.unlock(username.toLowerCase(), password, function (err, keys) {
+    $authflow.unlock(Id.normalizeUsernameForInternals(username), password, function (err, keys) {
       if (err) {
         callback(err);
         return;

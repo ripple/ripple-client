@@ -279,8 +279,9 @@ module.factory('rpAuthFlow', ['$rootScope', 'rpAuthInfo', 'rpKdf', 'rpBlob',
       //     authInfo.pakdf.modulus
       //     authInfo.pakdf.exponent
       //     authInfo.pakdf.alpha
+      // XXX Instead of toLowerCase/replace we should be using Id.normalizeUsernameForInternals
       $kdf.deriveRemotely(authInfo.pakdf,
-                          username.toLowerCase(), remoteToken,
+                          username.toLowerCase().replace(/-/g, ''), remoteToken,
                           password,
                           function (err, key) {
                             if (err) {
