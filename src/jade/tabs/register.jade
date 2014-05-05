@@ -129,7 +129,7 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
         li(l10n) Step
           span  3
       .alert.alert-info(ng-hide="oldUserBlob") By proceeding, you understand that Ripple Trade does not provide a password or secret key recovery mechanism. If you forget your Ripple name/password and secret key, you will be unable to access this Ripple account. 
-      .alert.alert-info(ng-show="oldUserBlob") You are now migrating your account. You will retain all of your balances, contacts, and account history. Your account will use the same secret key as before. If you have already saved your secret key, please continue your migration.
+      .alert.alert-info(ng-show="oldUserBlob") You are now migrating your account- meaning you'll no longer be able to access your account from ripple.com/client. You will retain all of your balances, contacts, and account history. Your account will use the same secret key as before. If you have already saved your secret key, please continue your migration.
       .secret-key-container
         div(ng-hide="oldUserBlob") The secret key unlocks access to all your account funds in the event you lose your Ripple name or password. Please write it down and store it somewhere private and safe.&#32;
           a(href="https://support.ripplelabs.com/hc/en-us/articles/201823366-Password-Recovery-and-Your-Secret-Key", target="_blank") Read more
