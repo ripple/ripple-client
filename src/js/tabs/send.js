@@ -208,6 +208,7 @@ SendTab.prototype.angular = function (module)
       }
       else if (send.rippleName) {
         authInfo.get(Options.domain,send.recipient,function(err, response){
+          send.recipient_name = '~' + response.username;
           send.recipient_address = response.address;
 
           $scope.check_destination();
