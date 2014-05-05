@@ -29,7 +29,7 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
           input.form-control#register_password(
           name='register_password1', type='password', autocomplete="off"
           ng-model="password1"
-          rp-strong-password, required, rp-same-in-set="passwordSet")
+          rp-strong-password, required, rp-same-in-set="passwordSet", rp-focus)
           p(ng-show="strength=='weak'")
             span(l10n) Your password is weak. It is not a mix of letters, numbers and symbols or it is the same as your Ripple name.
         .form-group(ng-class="{'field-error': registerForm.register_password1.$error.rpSameInSet && registerForm.register_password2.$dirty}")
@@ -71,7 +71,7 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
           l10n-data-content="This will create a new Ripple account from your secret key.")
 
           input.form-control(type="text", name="secretKey", id="secretKey"
-          ng-model="secretKey", rp-master-key, required)
+          ng-model="secretKey", rp-master-key, required, rp-focus)
 
           p(ng-show="useSecretKey.secret.$error.rpMasterKey && registerForm.secret.$dirty")
             span(l10n) Secret is invalid
