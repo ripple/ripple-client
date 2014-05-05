@@ -27,8 +27,8 @@ section.content(ng-controller='FundCtrl')
     .col-sm-9.list
       .fundXrp(ng-show="currencyPage == 'xrp'")
         div(ng-show="'web' === client")
-          .nameLine(l10n) Ripple name&#32;
-            span.name(ng-show="userCredentials.username") ~ {{userCredentials.username}}
+          .nameLine(l10n) Ripple name:&#32;
+            span.name(ng-show="userCredentials.username") ~{{userCredentials.username}}
             span(ng-hide="userCredentials.username") loading...
             .address
               a(href="", ng-click="showRippleAddress=true"
