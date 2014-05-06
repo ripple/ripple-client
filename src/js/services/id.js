@@ -248,13 +248,20 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
         callback(err);
         return;
       }
-//      $scope.userBlob = blob;
+//
 //      self.setUsername(username);
 //      self.setAccount(blob.data.account_id);
 //      self.setLoginKeys(keys);
 //      self.storeLoginKeys(username, keys);
 //      self.loginStatus = true;
 //      $scope.$broadcast('$blobUpdate');
+
+      if ('desktop' === $scope.client) {
+        $scope.userBlob = blob;
+        self.setAccount(blob.data.account_id);
+        self.loginStatus = true;
+        $scope.$broadcast('$blobUpdate');
+      }
 
       // Remove old blob
       $oldblob.remove(['vault', 'local'], opts.oldUsername, opts.oldPassword, function (err, data) {
