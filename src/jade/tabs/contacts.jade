@@ -1,7 +1,8 @@
 section.col-xs-12.content(ng-controller="ContactsCtrl")
   .row.row-padding-small.head.hidden-xs
     .col-xs-3(l10n) Contacts
-    .col-xs-6(l10n) Ripple name or address
+    .col-xs-6(ng-show="'web' === client", l10n) Ripple name or address
+    .col-xs-6(ng-show="'desktop' === client", l10n) Ripple address
     .col-xs-3.text-right
       a.btn.btn-success.btn-sm.sign(ng-click='toggle_form()', ng-disabled='addform_visible', l10n) Add contact
   .row.head.visible-xs
@@ -24,22 +25,40 @@ section.col-xs-12.content(ng-controller="ContactsCtrl")
             .error(rp-error-on='rpUnique', l10n)
               | This contact already exists.
         .form-group
-          label(for='Address', l10n) Ripple name or address
-          .spinnerEnabledInput
-            input.form-control.input-lg.address#address(
-              name='address', type='text', step='any'
-              ng-model='contact.view'
-              rp-dest, rp-dest-address, rp-dest-bitcoin, rp-dest-ripple-name
-              rp-dest-model="contact.address", rp-dest-loading="address_loading"
-              rp-unique='userBlob.data.contacts'
-              rp-unique-field='address'
-              rp-spinner="{{address_loading ? 4 : null}}"
-              rp-autofill='$routeParams.to', rp-autofill-on='addform_visible = true'
-              required)
-          .errorGroup(rp-errors='address')
-            .error(rp-error-on='required', l10n) Please enter a Ripple name.
-            .error(rp-error-on='rpUnique', l10n) You already have a contact with the same Ripple name.
-            .error(rp-error-on='rpDest', l10n) Not a valid Ripple name or address.
+          div(ng-show="'web' === client")
+            label(for='Address', l10n) Ripple name or address
+            .spinnerEnabledInput
+              input.form-control.input-lg.address#address(
+                name='address', type='text', step='any'
+                ng-model='contact.view'
+                rp-dest, rp-dest-address, rp-dest-bitcoin, rp-dest-ripple-name
+                rp-dest-model="contact.address", rp-dest-loading="address_loading"
+                rp-unique='userBlob.data.contacts'
+                rp-unique-field='address'
+                rp-spinner="{{address_loading ? 4 : null}}"
+                rp-autofill='$routeParams.to', rp-autofill-on='addform_visible = true'
+                required)
+            .errorGroup(rp-errors='address')
+              .error(rp-error-on='required', l10n) Please enter a Ripple name.
+              .error(rp-error-on='rpUnique', l10n) You already have a contact with the same Ripple name.
+              .error(rp-error-on='rpDest', l10n) Not a valid Ripple name or address.
+          div(ng-show="'desktop' === client")
+            label(for='Address', l10n) Ripple address
+            .spinnerEnabledInput
+              input.form-control.input-lg.address#address(
+                name='address', type='text', step='any'
+                ng-model='contact.view'
+                rp-dest, rp-dest-address, rp-dest-bitcoin, rp-dest-ripple-name
+                rp-dest-model="contact.address", rp-dest-loading="address_loading"
+                rp-unique='userBlob.data.contacts'
+                rp-unique-field='address'
+                rp-spinner="{{address_loading ? 4 : null}}"
+                rp-autofill='$routeParams.to', rp-autofill-on='addform_visible = true'
+                required)
+            .errorGroup(rp-errors='address')
+              .error(rp-error-on='required', l10n) Please enter a Ripple address.
+              .error(rp-error-on='rpUnique', l10n) You already have a contact with the same Ripple address.
+              .error(rp-error-on='rpDest', l10n) Not a valid Ripple address.
         .form-group
           label(for='dt', l10n) Destination tag
           input.form-control.input-lg.dt#dt(
