@@ -114,7 +114,7 @@ rippleclient.types = types;
 // Install basic page template
 angular.element('body').prepend(require('../../jade/client/index.jade')());
 
-app.config(['$routeProvider', '$injector', function ($routeProvider, $injector) {
+app.config(['$routeProvider', function ($routeProvider) {
   // Set up routing for tabs
   _.each(tabs, function (tab) {
     if ("function" === typeof tab.generateHtml) {
@@ -129,17 +129,6 @@ app.config(['$routeProvider', '$injector', function ($routeProvider, $injector) 
       };
 
       $routeProvider.when('/'+tab.tabName, config);
-
-      if (tab.extraRoutes) {
-        _.each(tab.extraRoutes, function(route) {
-          $.extend({}, config, route.config);
-          $routeProvider.when(route.name, config);
-        });
-      }
-
-      _.each(tab.aliases, function (alias) {
-        $routeProvider.when('/'+alias, config);
-      });
     }
   });
 
@@ -166,8 +155,8 @@ app.config(['$routeProvider', '$injector', function ($routeProvider, $injector) 
   $routeProvider.otherwise({redirectTo: '/balance'});
 }]);
 
-app.run(['$rootScope', '$injector', '$compile', '$route', '$routeParams', '$location',
-         function ($rootScope, $injector, $compile, $route, $routeParams, $location)
+app.run(['$rootScope', '$route', '$routeParams',
+         function ($rootScope, $route, $routeParams)
 {
   // This is the desktop client
   $rootScope.client = 'desktop';
@@ -185,23 +174,10 @@ app.run(['$rootScope', '$injector', '$compile', '$route', '$routeParams', '$loca
     return angular.equals({},obj);
   };
 
-  $rootScope.blobStrategy = 'file';
-
-  // if url has a + or %2b then replace with %20 and redirect
-  if (_.isArray($location.$$absUrl.match(/%2B|\+/gi)))
-    window.location = $location.$$absUrl.replace(/%2B|\+/gi, '%20');
-
   var scope = $rootScope;
   $rootScope.$route = $route;
   $rootScope.$routeParams = $routeParams;
   $('#main').data('$scope', scope);
-
-  // If using the old "amnt" parameter rename it "amount"
-  var amnt = $location.search().amnt;
-  if (amnt) {
-    $location.search("amnt", null);
-    $location.search("amount", amnt);
-  }
 
   // Once the app controller has been instantiated
   // XXX ST: I think this should be an event instead of a watch
@@ -215,10 +191,5 @@ app.run(['$rootScope', '$injector', '$compile', '$route', '$routeParams', '$loca
     });
   });
 }]);
-
-// Some backwards compatibility
-if (!Options.blobvault) {
-  Options.blobvault = Options.BLOBVAULT_SERVER;
-}
 
 if ("function" === typeof angular.resumeBootstrap) angular.resumeBootstrap();
