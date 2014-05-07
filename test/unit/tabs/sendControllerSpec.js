@@ -464,11 +464,6 @@ describe('SendCtrl', function(){
       scope.userBlob.unshift = sinon.spy();
     });
 
-    it('should have a function to do so', function (done) {
-      assert.isFunction(scope.saveAddress);
-      done();
-    });
-
     it("should add the address to the blob", function (done) {
       assert.isFalse(scope.userBlob.unshift.calledOnce);
       scope.saveAddress();
@@ -482,44 +477,6 @@ describe('SendCtrl', function(){
       assert.isTrue(scope.addressSaving);
       done();
     });
-
-    it("should listen for blobSave event", function (done) {
-      var onBlobSaveSpy = sinon.spy(scope, '$on');
-      scope.saveAddress();
-      assert(onBlobSaveSpy.withArgs('$blobSave').calledOnce);
-      done();
-    });
-
-    describe('handling a blobSave event', function () {
-      describe('having called saveAddress', function () {
-        beforeEach(function () {
-          scope.saveAddress();
-        });
-
-        it('should set addressSaved to true', function (done) {
-          assert.isFalse(scope.addressSaved);
-          scope.$emit('$blobSave');
-          assert.isTrue(scope.addressSaved);
-          done();
-        });
-
-        it("should set the contact as the scope's contact", function (done) {
-          assert.isUndefined(scope.contact);
-          scope.$emit('$blobSave');
-          assert.isObject(scope.contact);
-          done();
-        });
-      })
-
-      describe('without having called saveAddress', function () {
-        it('should not set addressSaved', function (done) {
-          assert.isFalse(scope.addressSaved);
-          scope.$emit('$blobSave');
-          assert.isFalse(scope.addressSaved);
-          done(); 
-        });
-      })
-    })
   });
 
   describe('setting engine status', function () {
