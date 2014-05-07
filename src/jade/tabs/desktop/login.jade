@@ -9,7 +9,7 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
           a.btn.btn-block.btn-link(href='#register', l10n) Create new account
 
         .form-group
-          button.btn.btn-block.btn-default(ng-click='simulateFileInputClick("input[name=login_walletfile]")') Select account file {{walletfile}}
+          a.btn.btn-block.btn-default(ng-click='simulateFileInputClick("input[name=login_walletfile]")') Select account file {{walletfile}}
 
         .form-group.hide
           label(for='login_walletfile', l10n) Select account file
