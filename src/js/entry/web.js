@@ -32,7 +32,6 @@ require('../services/popup');
 require('../services/rippletxt');
 require('../services/federation');
 require('../services/domainalias');
-require('../services/zipzap');
 
 require('../services/integration/appManager');
 require('../services/integration/profileManager');
