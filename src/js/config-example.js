@@ -56,7 +56,10 @@ var Options = {
   },
 
   activate_link: 'http://ripple.com/client/#/register/activate',
-  b2rAddress: 'rhxULAn1xW9T4V2u67FX9pQjSz4Tay2zjZ'
+  b2rAddress: 'rhxULAn1xW9T4V2u67FX9pQjSz4Tay2zjZ',
+
+  // Number of ledgers ahead of the current ledger index where a tx is valid
+  tx_last_ledger: 3
 };
 
 // Load client-side overrides
