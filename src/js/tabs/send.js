@@ -945,10 +945,8 @@ SendTab.prototype.angular = function (module)
         }
       }
 
-      // TODO: Should this be optional or mandatory?
-      if (Options.tx_last_ledger) {
-        tx.lastLedger($network.remote._ledger_current_index + Options.tx_last_ledger);
-      }
+      var maxLedger = Options.tx_last_ledger || 3;
+      tx.lastLedger($network.remote._ledger_current_index + maxLedger);
 
       tx.on('success', function (res) {
         $scope.onTransactionSuccess(res, tx);
