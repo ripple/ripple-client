@@ -206,7 +206,7 @@ section.single.content(ng-controller='SendCtrl')
                 .ex (
                   span.rate {{alt.rate | rpamount:{rel_precision: 4, rel_min_precision: 2 } }}
                   span.pair {{send.currency_code}}/{{alt.amount | rpcurrency}}
-                  )  
+                  )
               button.btn.btn-block.btn-success(type="submit"
                 ng-disabled='sendForm.$invalid', ng-click="send.alt = alt", l10n)
                   | Send {{ alt.amount | rpcurrency }}
@@ -266,7 +266,7 @@ section.single.content(ng-controller='SendCtrl')
   group.mode-sending(ng-show='mode=="sending" && account.Balance')
     p.literal(rp-spinner="4", l10n) Sending transaction to Ripple network
     hr
-    p: button.btn.btn-default(ng-click='reset()', l10n) Stop waiting
+    //- p: button.btn.btn-default(ng-click='reset()', l10n) Stop waiting
 
   //- N5a. Error page
   group.mode-error(ng-show='mode=="error" && account.Balance')
