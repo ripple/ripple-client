@@ -30,7 +30,7 @@ section.col-xs-12.content(ng-controller="OptionsCtrl")
       .col-xs-12.col-sm-8.col-md-3.col-lg-2
         button.btn.btn-block.btn-primary(type="button", ng-click="options.server.servers.push({})", l10n) Add new server
 
-    h3(l10n) Blob Vault
+    h3(ng-show="'web' === client", l10n) Blob Vault
     .row
       .col-xs-12.col-sm-8.col-md-5
         label(for="blobIp", l10n) Blob vault URL
