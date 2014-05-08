@@ -41,7 +41,7 @@ section.col-xs-12.content(ng-controller="ExchangeCtrl")
         .error(rp-error-on='rpAmount', l10n) Not a valid amount.
         .error(rp-error-on='rpAmountPositive', l10n)
           | Please enter an amount greater than zero.
-      p.literal(ng-show="exchange.path_status == 'waiting'", l10n) 
+      p.literal(ng-show="exchange.path_status == 'waiting'", l10n)
       p.literal.throbber(ng-show="exchange.path_status == 'pending'", l10n) Calculating...
       //- TODO how high trust?
       p.literal(ng-show="exchange.path_status == 'no-path' && exchange.currency_code != 'XRP'", l10n)
@@ -63,7 +63,7 @@ section.col-xs-12.content(ng-controller="ExchangeCtrl")
             .ex (
               span.rate {{alt.rate | rpamount:{rel_precision: 4, rel_min_precision: 2} }}
               span.pair {{exchange.currency_code}}/{{alt.amount | rpcurrency}}
-              )  
+              )
           button.btn.btn-block.btn-success(type="submit", ng-disabled='exchangeForm.$invalid', ng-click="exchange.alt = alt", l10n) Exchange {{ alt.amount | rpcurrency }}
       .row.pathupdate(ng-show="exchange.alternatives.length && lastUpdate")
         .col-xs-12(l10n) Paths last updated
@@ -108,7 +108,7 @@ section.col-xs-12.content(ng-controller="ExchangeCtrl")
   group.mode-sending(ng-show='mode=="sending" && account.Balance')
     p.throbber.literal(l10n) Sending transaction to Ripple network
     hr
-    p: button.btn.btn-default(ng-click='reset()', l10n) Stop waiting
+    //- p: button.btn.btn-default(ng-click='reset()', l10n) Stop waiting
 
   //- N5. Error page
   group.mode-error(ng-show='mode=="error" && account.Balance')
