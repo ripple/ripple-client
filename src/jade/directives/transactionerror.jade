@@ -14,10 +14,16 @@
       span(ng-switch-default, l10n)
         | Your transaction is invalid, reason: {{engine_result}} - {{engine_result_message}}
   group.result-malformed(ng-switch-when='tef')
-    h2.tx-status(l10n) Transaction malformed!
-    p(ng-switch on="engine_result")
-      span(ng-switch-when="tefDST_TAG_NEEDED", l10n)
-        | Destination account requires destination tag to be specified when making payments.
+    div(ng-switch on="engine_result")
+      div(ng-switch-when="tefMAX_LEDGER", l10n)
+        h2.tx-status(l10n) Transaction timed out.
+        p(ng-switch on="engine_result")
+          span(l10n) Please try again.
+      div(ng-switch-default, l10n)
+        h2.tx-status(l10n) Transaction malformed!
+        p(ng-switch on="engine_result")
+          span(ng-switch-when="tefDST_TAG_NEEDED", l10n)
+            | Destination account requires destination tag to be specified when making payments.
   group.result-failed(ng-switch-when='tel')
     h2.tx-status(l10n) Transaction failed!
     p(ng-switch on="engine_result")
