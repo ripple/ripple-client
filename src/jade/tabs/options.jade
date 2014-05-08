@@ -31,7 +31,7 @@ section.col-xs-12.content(ng-controller="OptionsCtrl")
         button.btn.btn-block.btn-primary(type="button", ng-click="options.server.servers.push({})", l10n) Add new server
 
     h3(ng-show="'web' === client", l10n) Blob Vault
-    .row
+    .row(ng-show="'web' === client")
       .col-xs-12.col-sm-8.col-md-5
         label(for="blobIp", l10n) Blob vault URL
         input.form-control.blobIp(
