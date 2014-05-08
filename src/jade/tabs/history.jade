@@ -130,7 +130,7 @@ section.col-xs-12.content(ng-controller="HistoryCtrl")
                 != require("./history/effects.jade")()
               span(ng-switch-when="offernew")
                 span(ng-show="entry.transaction.sell", l10n, rp-span-spacing) You created an order to sell
-                  span.amount(rp-pretty-amount="entry.transaction.pays")
+                  span.amount(rp-pretty-amount="entry.transaction.gets")
                   | for
                   span.amount(rp-pretty-amount="entry.transaction.pays")
                 span(ng-hide="entry.transaction.sell", l10n, rp-span-spacing) You created an order to buy
