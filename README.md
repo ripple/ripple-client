@@ -24,9 +24,13 @@ This is a general purpose Ripple client in JavaScript.
         $ cd ripple-client
         $ npm install
 
-4. Create your config file
+4. Create your config.js file
         
         $ cp src/js/config-example.js src/js/config.js
+
+5. Create your config.json file
+        
+        $ cp config-example.json config.json
 
 ## Build
 Run the following command to build the client.    
