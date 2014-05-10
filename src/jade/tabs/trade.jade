@@ -173,8 +173,8 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                 .row.order-values
                   .col-xs-12
                     .value-field
-                      label(ng-show="type == 'buy'", l10n) Amount To buy
-                      label(ng-show="type == 'sell'", l10n) Amount To sell
+                      label(ng-show="type == 'buy'", l10n) Amount To Buy
+                      label(ng-show="type == 'sell'", l10n) Amount To Sell
                       .input-group
                         input.form-control(name='amount', type='text'
                         ng-model='order[type].first', ng-change='calc_second(type)'
