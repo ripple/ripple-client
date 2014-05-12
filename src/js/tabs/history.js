@@ -117,8 +117,14 @@ HistoryTab.prototype.angular = function (module) {
               if (tx) history.push(tx);
             }
 
-            params.marker = data.marker;
-            $scope.tx_marker = params.marker;
+            if (data.marker) {
+              params.marker = data.marker;
+              $scope.tx_marker = params.marker;
+            }
+            else {
+              // Received all transactions since a marker was not returned
+              completed = true;
+            }
 
             if (completed)
               callback(history);
@@ -151,6 +157,7 @@ HistoryTab.prototype.angular = function (module) {
         $scope.$apply(function () {
           history = hist;
           $scope.historyState = 'ready';
+          updateHistory();
         })
       })
     };
