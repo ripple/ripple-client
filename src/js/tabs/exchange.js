@@ -22,12 +22,15 @@ ExchangeTab.prototype.generateHtml = function ()
 ExchangeTab.prototype.angular = function (module)
 {
   module.controller('ExchangeCtrl', ['$scope', '$timeout', '$routeParams',
-    'rpId', 'rpNetwork', 'rpTracker', 'rpKeychain',
-    function ($scope, $timeout, $routeParams, $id, $network, $rpTracker, keychain)
+    'rpId', 'rpNetwork', 'rpTracker', 'rpKeychain', '$rootScope',
+    function ($scope, $timeout, $routeParams, $id, $network, $rpTracker, keychain, $rootScope)
     {
       if (!$id.loginStatus) return $id.goId();
 
       var timer;
+
+      // Remember user preference on Convert vs. Trade
+      $rootScope.ripple_exchange_selection_trade = false;
 
       $scope.xrp = _.where($scope.currencies_all, {value: "XRP"})[0];
 
@@ -41,20 +44,20 @@ ExchangeTab.prototype.angular = function (module)
       }, true);
 
       var pathUpdateTimeout;
-      
+
       $scope.reset_paths = function () {
         var exchange = $scope.exchange;
-  
+
         exchange.alternatives = [];
       };
-      
+
       $scope.update_exchange = function () {
         var exchange = $scope.exchange;
         var currency = exchange.currency_code;
         var formatted = "" + exchange.amount + " " + currency.slice(0, 3);
-        
+
         $scope.reset_paths();
-        
+
         // if formatted or money to exchange is 0 then don't calculate paths or offer to exchange
         if (parseFloat(formatted) === 0)
         {

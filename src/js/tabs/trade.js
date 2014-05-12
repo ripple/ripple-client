@@ -21,7 +21,7 @@ TradeTab.prototype.generateHtml = function ()
 
 TradeTab.prototype.angularDeps = Tab.prototype.angularDeps.concat(['books']);
 
-TradeTab.prototype.extraRoutes = [ 
+TradeTab.prototype.extraRoutes = [
   { name: '/trade/:first/:second' }
 ];
 
@@ -29,12 +29,15 @@ TradeTab.prototype.angular = function(module)
 {
   module.controller('TradeCtrl', ['rpBooks', '$scope', 'rpId', 'rpNetwork',
                                   '$routeParams', '$location', '$filter',
-                                  'rpTracker', 'rpKeychain',
+                                  'rpTracker', 'rpKeychain', '$rootScope',
                                   function (books, $scope, id, $network,
                                             $routeParams, $location, $filter,
-                                            $rpTracker, keychain)
+                                            $rpTracker, keychain, $rootScope)
   {
     if (!id.loginStatus) return id.goId();
+
+    // Remember user preference on Convert vs. Trade
+    $rootScope.ripple_exchange_selection_trade = true;
 
     $scope.pairs_query = webutil.queryFromOptions($scope.pairs_all);
 
@@ -126,7 +129,7 @@ TradeTab.prototype.angular = function(module)
       $scope.reset_widget(type);
 
       $scope.order[type].price = order.price.to_human().replace(',','');
-      
+
       if (sum) {
         $scope.order[type].first = order.sum.to_human().replace(',','');
         $scope.calc_second(type);
