@@ -248,7 +248,9 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
         callback(err);
         return;
       }
-//
+
+      $scope.userBlob = blob;
+
 //      self.setUsername(username);
 //      self.setAccount(blob.data.account_id);
 //      self.setLoginKeys(keys);
@@ -257,7 +259,6 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
 //      $scope.$broadcast('$blobUpdate');
 
       if ('desktop' === $scope.client) {
-        $scope.userBlob = blob;
         self.setAccount(blob.data.account_id);
         self.loginStatus = true;
         $scope.$broadcast('$blobUpdate');
@@ -310,7 +311,7 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
       'username': Id.normalizeUsernameForInternals(username),
       'password': password,
       'walletfile': opts.walletfile
-    }, function (err, blob, keys, actualUsername) {
+    }, function (err, blob, keys, actualUsername, emailVerified) {
       if (err && Options.blobvault) {
         console.log("Blob login failed, trying old blob protocol");
 
@@ -367,6 +368,15 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
         }
 
         $scope.userBlob = blob;
+
+        if (!emailVerified) {
+          $scope.unverified = true;
+          $location.path('/register');
+
+          callback(new Error("Email has not been verified!"));
+          return;
+        }
+
         self.setUsername(actualUsername);
         self.setAccount(blob.data.account_id);
         self.setLoginKeys(keys);
@@ -374,8 +384,6 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
         self.loginStatus = true;
         $scope.$broadcast('$blobUpdate');
         store.set('ripple_known', true);
-
-        console.log('blob',blob);
 
         if (blob.data.account_id) {
           // Success

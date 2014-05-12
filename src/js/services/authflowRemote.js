@@ -49,11 +49,6 @@ module.factory('rpAuthFlow', ['$rootScope', 'rpAuthInfo', 'rpKdf', 'rpBlob',
           return;
         }
 
-        if (!authInfo.emailVerified) {
-          callback(new Error("Your email address has not been verified yet, please check your email for instructions."));
-          return;
-        }
-
         if ("string" !== typeof authInfo.blobvault) {
           callback(new Error("No blobvault specified in the authinfo."));
           return;
@@ -82,7 +77,7 @@ module.factory('rpAuthFlow', ['$rootScope', 'rpAuthInfo', 'rpKdf', 'rpBlob',
         }
 
         console.log("client: authflow: login succeeded", blob);
-        callback(null, blob, keys, authInfo.username);
+        callback(null, blob, keys, authInfo.username, authInfo.emailVerified);
       });
     }
   };

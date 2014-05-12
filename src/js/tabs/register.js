@@ -254,6 +254,11 @@ RegisterTab.prototype.angular = function (module) {
     };
 
     $scope.reset();
+
+    // Unverified account login
+    if ($scope.unverified) {
+      $scope.mode = 'verification';
+    }
   }]);
 };
 

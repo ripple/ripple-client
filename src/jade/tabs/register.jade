@@ -158,7 +158,7 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
         li.active(l10n) Step
           span  3
       .auth-attention(l10n) We’ve sent an email to
-        span  {{email}}
+        span  {{userBlob.data.email}}
         | . To complete registration, click the link in the email.
       //- TODO implement
         .change-email-bar
