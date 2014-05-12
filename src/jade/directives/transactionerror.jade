@@ -19,7 +19,7 @@
         h2.tx-status(l10n) Transaction timed out.
         p(ng-switch on="engine_result")
           span(l10n) Please try again.
-      div(ng-switch-default, l10n)
+      div(ng-switch-default)
         h2.tx-status(l10n) Transaction malformed!
         p(ng-switch on="engine_result")
           span(ng-switch-when="tefDST_TAG_NEEDED", l10n)
