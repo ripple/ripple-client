@@ -160,12 +160,16 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
       .auth-attention(l10n) We’ve sent an email to
         span  {{userBlob.data.email}}
         | . To complete registration, click the link in the email.
-      //- TODO implement
-        .change-email-bar
-          span(l10n) Email Address:
-          span.email {{email}}
-            a(href="", l10n) Change
-        a(href="", l10n) Re-send Email
+      form(name="resendForm").row
+        .col-xs-12
+          label Email Address:
+        .col-xs-12.col-sm-8
+          .change-email-bar
+            input.form-control(type="email", ng-model="newEmail", placeholder="{{userBlob.data.email}}")
+        .col-xs-12.col-sm-4
+          button.btn.btn-success.btn-block(ng-click="resendEmail()", type="submit"
+            ng-disabled="resendForm.$invalid || resendLoading", l10n
+            rp-spinner="{{resendLoading ? 4 : null}}") Re-send Email
 
   .row.mode-welcome(ng-show='mode=="welcome"')
     .col-xs-12.col-md-10.col-md-offset-1

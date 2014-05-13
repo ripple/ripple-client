@@ -178,6 +178,26 @@ module.factory('rpAuthFlow', ['$rootScope', 'rpAuthInfo', 'rpKdf', 'rpBlob',
     });
   };
 
+  AuthFlow.resendEmail = function (opts, callback) {
+    $authinfo.get(Options.domain, opts.username, function (err, authInfo) {
+      if (err) {
+        callback(err);
+        return;
+      }
+
+      if ("string" !== typeof authInfo.blobvault) {
+        callback(new Error("No blobvault specified in the authinfo."));
+        return;
+      }
+
+      $scope.userBlob.resendEmail({
+        username: opts.username,
+        email: opts.email,
+        url: authInfo.blobvault
+      }, callback);
+    });
+  };
+
   AuthFlow.relogin = function (username, keys, callback) {
     getAuthInfo();
 

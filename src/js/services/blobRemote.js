@@ -201,6 +201,34 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
     });
   };
 
+  BlobObj.prototype.resendEmail = function (opts, callback) {
+    var config = {
+      method: 'POST',
+      url: opts.url + '/v1/user/email',
+      responseType: 'json',
+      data: {
+        blob_id: this.id,
+        username: opts.username,
+        email: opts.email,
+        hostlink: Options.activate_link
+      }
+    };
+
+    $http(BlobObj.signRequestAsymmetric(config, this.data.auth_secret, this.id))
+      .success(function(data, status, headers, config) {
+        if (data.result === "success") {
+          callback(null, data);
+        } else {
+          console.log("client: blob: could not resend the token:", data);
+          callback(new Error("Failed to resend the token"));
+        }
+      })
+      .error(function(data, status, headers, config) {
+        console.log("client: blob: could not resend the token:", data);
+        callback(new Error("Failed to resend the token"));
+      });
+  };
+
   var cryptConfig = {
     cipher: "aes",
     mode: "ccm",
@@ -219,6 +247,7 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
     var opts = $.extend({}, cryptConfig);
 
     var encryptedObj = JSON.parse(sjcl.encrypt(key, data, opts));
+
     var version = [sjcl.bitArray.partial(8, 0)];
     var initVector = sjcl.codec.base64.toBits(encryptedObj.iv);
     var ciphertext = sjcl.codec.base64.toBits(encryptedObj.ct);

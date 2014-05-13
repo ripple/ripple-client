@@ -212,6 +212,10 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
     $authflow.verify(opts, callback);
   };
 
+  Id.prototype.resendEmail = function (opts, callback) {
+    $authflow.resendEmail(opts, callback);
+  };
+
   Id.prototype.register = function (opts, callback)
   {
     var self = this;
@@ -368,6 +372,7 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
         }
 
         $scope.userBlob = blob;
+        self.setUsername(actualUsername);
 
         if (!emailVerified) {
           $scope.unverified = true;
@@ -377,7 +382,6 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
           return;
         }
 
-        self.setUsername(actualUsername);
         self.setAccount(blob.data.account_id);
         self.setLoginKeys(keys);
         self.storeLoginKeys(actualUsername, keys);

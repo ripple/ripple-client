@@ -170,6 +170,26 @@ RegisterTab.prototype.angular = function (module) {
       });
     };
 
+    $scope.resendEmail = function()
+    {
+      $scope.resendLoading = true;
+
+      $id.resendEmail({
+        username: $scope.userCredentials.username,
+        email: $scope.newEmail || $scope.userBlob.data.email
+      }, function(err, response){
+        if (err) {
+          console.log('Error',err);
+          return;
+        }
+
+        // Update the blob
+        $scope.userBlob.set('/email', $scope.newEmail || $scope.userBlob.data.email);
+
+        $scope.resendLoading = false;
+      });
+    };
+
     var updateFormFields = function(){
       var username;
       var password1;
