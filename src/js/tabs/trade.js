@@ -153,6 +153,8 @@ TradeTab.prototype.angular = function(module)
         $scope.order.sell.buy_amount = $scope.order.sell.second_amount;
       }
 
+      $scope.fatFingerCheck(type);
+
       // TODO track order type
       $rpTracker.track('Trade order confirmation page', {
         'Currency pair': $scope.order.currency_pair
@@ -336,6 +338,31 @@ TradeTab.prototype.angular = function(module)
 
       if (!second_currency.is_native()) order.second_amount.set_issuer($scope.order.second_issuer);
     };
+
+    $scope.fatFingerCheck = function(type) {
+      var order = $scope.order[type];
+      var fatFingerMarginMultiplier = 5;
+
+      $scope.fatFingerErr = false;
+
+      if (type === 'buy') {
+
+        if (order.price > ($scope.book.bids[0].showPrice * fatFingerMarginMultiplier) ||
+            order.price < ($scope.book.bids[0].showPrice / fatFingerMarginMultiplier)) {
+
+          $scope.fatFingerErr = true;
+        }
+      }
+
+      else if (type === 'sell') {
+
+        if (order.price > ($scope.book.asks[0].showPrice * fatFingerMarginMultiplier) ||
+            order.price < ($scope.book.asks[0].showPrice / fatFingerMarginMultiplier)) {
+
+          $scope.fatFingerErr = true;
+        }
+      }
+    }
 
     /**
      * Calculate second when first or price changes.
