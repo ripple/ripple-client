@@ -341,7 +341,7 @@ TradeTab.prototype.angular = function(module)
 
     $scope.fatFingerCheck = function(type) {
       var order = $scope.order[type];
-      var fatFingerMarginMultiplier = 5;
+      var fatFingerMarginMultiplier = 2;
 
       $scope.fatFingerErr = false;
 
