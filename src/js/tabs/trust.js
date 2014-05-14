@@ -306,6 +306,7 @@ TrustTab.prototype.angular = function (module)
       $scope.validation_pattern = contact ? /^[0-9.]+$/ : /^0*(([1-9][0-9]*.?[0-9]*)|(.0*[1-9][0-9]*))$/;
       $scope.currency = line.currency;
       $scope.counterparty = line.account;
+      $scope.counterparty_view = contact;
       $scope.amount = +line.limit.to_text();
       console.log('line',line);
       $scope.allowrippling = !line.no_ripple;

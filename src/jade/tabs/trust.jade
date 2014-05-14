@@ -47,6 +47,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                 rp-dest-loading="counterparty_loading"
                 required
                 rp-autofill='$routeParams.to'
+                rp-autofill-counterparty_view
                 rp-autofill-on='addform_visible = true'
                 rp-focus, rp-spinner="{{counterparty_loading ? 4 : null}}")
               .errorGroup(rp-errors='trust_counterparty')
@@ -72,6 +73,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                 rp-dest-loading="counterparty_loading"
                 required
                 rp-autofill='$routeParams.to'
+                rp-autofill-counterparty_view
                 rp-autofill-on='addform_visible = true'
                 rp-focus, rp-spinner="{{counterparty_loading ? 4 : null}}")
               .errorGroup(rp-errors='trust_counterparty')
