@@ -70,7 +70,7 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
           .checkbox
             label(for='terms', l10n) I agree to the {{productName}}&#32;
               a(href="#eula", target="_blank", l10n-inc) end-user license agreement
-            input#terms(type="checkbox", name="terms", ng-model="terms", required, l10n)
+            input#terms(type="checkbox", name="terms", ng-model="terms", required)
         .see-privacy-text(l10n)
           | Please see our&#32;
           a(href="https://ripple.com/privacy-policy/", target="_blank") privacy policy
