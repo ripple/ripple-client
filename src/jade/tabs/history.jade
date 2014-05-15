@@ -18,7 +18,7 @@ section.col-xs-12.content(ng-controller="HistoryCtrl")
 
   group.row(ng-show="connected && loadState.transactions && account.Balance")
     .filters.row-padding-small.col-sm-3
-      h3 Filters
+      h3(l10n) Filters
       .filter.type-filter
         a.filter-title(href="", ng-click="showFilterTxTypes=!showFilterTxTypes", l10n) Transaction type
           .fa.fa-caret-right(ng-hide="showFilterTxTypes")
@@ -70,7 +70,7 @@ section.col-xs-12.content(ng-controller="HistoryCtrl")
             button.btn.btn-block.btn-success.submit(type='submit', l10n) Filter
 
     .transactions.col-sm-9
-      h3 Transaction History
+      h3(l10n) Transaction History
       .head
         .type
         .i

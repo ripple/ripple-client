@@ -12,12 +12,12 @@
     span.nav-icon.nav-icon-send
     span(l10n) Send
 
-  a.exchange(href="#/exchange", ng-class="{active: $route.current.mainMenu == 'exchange'}", l10n)
+  a.exchange(href="#/exchange", ng-class="{active: $route.current.mainMenu == 'exchange'}")
     span.nav-icon.nav-icon-exchange
     span(l10n) Exchange
   a.sub(href="#/trade", ng-class="{active: $route.current.mainMenu == 'trade'}", l10n) Trade
 
-  a.advanced(href="#/fund", ng-class="{active: $route.current.mainMenu == 'fund'}", l10n)
+  a.advanced(href="#/fund", ng-class="{active: $route.current.mainMenu == 'fund'}")
     span.nav-icon.nav-icon-advanced
     span(l10n) Fund
   a.sub(href="#/withdraw", ng-class="{active: $route.current.mainMenu == 'withdraw'}", l10n) Withdraw
@@ -44,7 +44,7 @@ div#wrapper
     // Footer
     footer.row
       .col-xs-12.col-sm-3
-        a(href="https://ripple.com/wiki/index.php?title=Ripple_Client_Release_Notes")
+        a(href="https://ripple.com/wiki/index.php?title=Ripple_Client_Release_Notes", l10n)
           | Version: {{version}}
 
       .col-xs-12.col-sm-9.right-links
@@ -61,7 +61,7 @@ div#wrapper
           div.languageSelector(rp-popup-content)
             .modal-header
               button.close(type="button", data-dismiss="modal", aria-hidden="true") &times;
-              .modal-title Select a language
+              .modal-title(l10n) Select a language
             .modal-body.row.list
               .col-sm-6
                 a(href="#/lang/en") English

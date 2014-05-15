@@ -67,7 +67,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
             ng-model="order.first_issuer_edit_name"
             rp-dest, rp-dest-address, rp-dest-contact, rp-dest-ripple-name
             rp-dest-model="order.first_issuer_edit")
-          .errorGroup(rp-errors='first_issuer')f
+          .errorGroup(rp-errors='first_issuer')
             .error(rp-error-on='rpDest', l10n) Not a valid Ripple address or contact
         .col-xs-12.col-sm-4.col-md-2
           button.btn.btn-block.btn-success.submit(type='submit',
@@ -84,7 +84,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
             placeholder='Contact name or Ripple address'
             ng-model='order.second_issuer_edit_name'
             rp-dest, rp-dest-address, rp-dest-contact, rp-dest-ripple-name
-            rp-dest-model="order.second_issuer_edit"))
+            rp-dest-model="order.second_issuer_edit")
           .errorGroup(rp-errors='second_issuer')
             .error(rp-error-on='rpDest', l10n) Not a valid ripple address or contact
         .col-xs-12.col-sm-4.col-md-2
@@ -311,7 +311,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                   .rate_feedback (
                     span.rate {{order[type].price}}
                     span.pair {{order[type].first_amount | rpcurrency}}/{{order[type].second_amount | rpcurrency}}
-                    )
+                    | )
                   p.literal(l10n-inc) Are you sure?
                 .row.row-padding-small
                   .col-xs-6.col-sm-offset-2.col-sm-4.col-md-offset-3.col-md-3

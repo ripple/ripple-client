@@ -3,13 +3,13 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
   .row.auth-form-container.col-sm-offset-2.col-sm-8.col-md-offset-3.col-md-6
     .auth-form-wrapper
       form(name='loginForm', ng-submit='submitForm()')
-        h2 Open account
+        h2(l10n) Open account
 
         .form-group
           a.btn.btn-block.btn-link(href='#register', l10n) Create new account
 
         .form-group
-          a.btn.btn-block.btn-default(ng-click='simulateFileInputClick("input[name=login_walletfile]")') Select account file {{walletfile}}
+          a.btn.btn-block.btn-default(ng-click='simulateFileInputClick("input[name=login_walletfile]")', l10n) Select account file {{walletfile}}
 
         .form-group.hide
           label(for='login_walletfile', l10n) Select account file

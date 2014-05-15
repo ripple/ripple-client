@@ -66,23 +66,6 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
             placeholder="", ng-model="email", required)
           p(ng-show="registerForm.register_email.$error.email && registerForm.register_email.$dirty")
             span(l10n) Email address is invalid
-        //- TODO focus on field when clicked
-        //- div(ng-hide="showSecretField || oldUserBlob")
-          a(href="", ng-click="showSecretField=true", l10n) Use secret key
-          | &#32;
-          i.fa.fa-question-circle(
-            rp-popover
-            rp-popover-placement="bottom"
-            rp-popover-title="Using a secret key"
-            rp-popover-trigger="hover"
-            l10n-data-content="This will create a new Ripple name and password combination for your existing account. Your contacts will not be synced.")
-        //- .form-group(ng-show="showSecretField"
-          ng-class="{'field-error': registerForm.secret.$error.rpMasterKey && registerForm.secret.$dirty}")
-          label(for='masterkey') Secret Key - leave blank if you don't have a secret key
-          input.form-control(type="text", name="masterkey", id="masterkey"
-            ng-model="masterkey", rp-master-key)
-          p(ng-show="registerForm.secret.$error.rpMasterKey && registerForm.secret.$dirty")
-            span(l10n) Secret is invalid
         .form-group
           .checkbox
             label(for='terms', l10n) I agree to the {{productName}}&#32;
@@ -91,7 +74,7 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
         .see-privacy-text(l10n)
           | Please see our&#32;
           a(href="https://ripple.com/privacy-policy/", target="_blank") privacy policy
-          |  to see how we collect, use and share 
+          |  to see how we collect, use and share
           |  information about you
         .submit-btn-container
           button.btn.btn-block.btn-success(type='submit'
@@ -128,7 +111,7 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
           span  2
         li(l10n) Step
           span  3
-      .alert.alert-info(ng-hide="oldUserBlob") By proceeding, you understand that Ripple Trade does not provide a password or secret key recovery mechanism. If you forget your Ripple name/password and secret key, you will be unable to access this Ripple account. 
+      .alert.alert-info(ng-hide="oldUserBlob") By proceeding, you understand that Ripple Trade does not provide a password or secret key recovery mechanism. If you forget your Ripple name/password and secret key, you will be unable to access this Ripple account.
       .alert.alert-info(ng-show="oldUserBlob") You are now migrating your account- meaning you'll no longer be able to access your account from ripple.com/client. You will retain all of your balances, contacts, and account history. Your account will use the same secret key as before. If you have already saved your secret key, please continue your migration.
       .secret-key-container
         div(ng-hide="oldUserBlob") The secret key unlocks access to all your account funds in the event you lose your Ripple name or password. Please write it down and store it somewhere private and safe.&#32;

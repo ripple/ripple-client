@@ -7,7 +7,7 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
   .row.auth-form-container.col-sm-offset-2.col-sm-8.col-md-offset-3.col-md-6
     .auth-form-wrapper
       form(name='loginForm', ng-submit='submitForm()')
-        h2 Log In
+        h2(l10n) Log In
         .auth-attention.text-center(ng-show="verifyStatus")
           .status(ng-show="'verifying' === verifyStatus", l10n) Verifying...
           .status(ng-show="'verified' === verifyStatus", l10n) You have successfully verified your email address.
@@ -22,8 +22,8 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
         .submit-btn-container
           button.btn.btn-submit.btn-block.btn-success(type='submit', ng-disabled="loginForm.$invalid || ajax_loading", rp-spinner="{{ajax_loading ? 4 : null}}")
             span(l10n) Log In
-    .switch-mode-link-container New to {{productName}}?&#32;
-      a(href='#register', l10n) Sign Up
+    .switch-mode-link-container(l10n) New to {{productName}}?&#32;
+      a(href='#register', l10n-inc) Sign Up
 
   .row.action-login(ng-show="$routeParams.tab")
     h1(ng-show="'send' == $routeParams.tab", l10n) Transaction summary

@@ -5,19 +5,19 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
       h2(l10n) Create new account
 
       .form-group
-        a.btn.btn-block.btn-link(ng-click='goTo("/login")') Open existing account
+        a.btn.btn-block.btn-link(ng-click='goTo("/login")', l10n) Open existing account
 
       .form-group
-        a.btn.btn-block.btn-default(ng-click='createEmptyWallet()') Create an empty account
+        a.btn.btn-block.btn-default(ng-click='createEmptyWallet()', l10n) Create an empty account
 
       .form-group
-        a.btn.btn-block.btn-default(ng-click='mode="register_with_secret"') Create a new account with a secret key
+        a.btn.btn-block.btn-default(ng-click='mode="register_with_secret"', l10n) Create a new account with a secret key
 
   .row.auth-form-container.col-sm-offset-2.col-sm-8.col-md-offset-3.col-md-6(ng-show='mode=="register_empty_wallet"')
     .auth-form-wrapper
       h2(l10n) Create empty account
 
-      p Encrypt your new account file: {{walletfile}}
+      p(l10n) Encrypt your new account file: {{walletfile}}
 
       form(name='registerForm', ng-submit='submitForm()')
 
@@ -50,7 +50,7 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
           ng-disabled='registerForm.$invalid || submitLoading'
           rp-spinner='{{submitLoading ? 4 : null}}', l10n) Encrypt account
 
-          a.btn.btn-block.btn-link(ng-click='reset()') Cancel and delete account file
+          a.btn.btn-block.btn-link(ng-click='reset()', l10n) Cancel and delete account file
 
 
 
@@ -61,7 +61,7 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
       form(name='useSecretKey', ng-submit='submitSecretKeyForm()')
         .form-group(ng-class="{'field-error': registerForm.secret.$error.rpMasterKey && registerForm.secret.$dirty}")
 
-          label(for="masterkey") Enter your secret key
+          label(for="masterkey", l10n) Enter your secret key
           | &#32;
           i.fa.fa-question-circle(
           rp-popover
@@ -81,7 +81,7 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
           ng-disabled='useSecretKey.$invalid || submitLoading'
           rp-spinner='{{submitLoading ? 4 : null}}', l10n) Create new account
 
-          a.btn.btn-block.btn-link(ng-click='reset()') Cancel
+          a.btn.btn-block.btn-link(ng-click='reset()', l10n) Cancel
 
     .switch-mode-link-container Have an account?&#32;
       a(href='#login', l10n) Log In
