@@ -147,8 +147,8 @@ TrustTab.prototype.angular = function (module)
             var balance = $scope.balances[currency];
             $scope.currencyWarning = false;
 
-            // New trust on a currency
-            if (!balance) {
+            // New trust on a currency or no rippling enabled
+            if (!balance || !$scope.allowrippling) {
               $scope.currencyWarning = 'firstIssuer';
             }
             else {
