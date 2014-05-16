@@ -354,9 +354,7 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
         line.currency = effect.currency;
         line.account = effect.counterparty;
         line.flags = effect.flags;
-
-        // effect.noRipple does not exist if rippling is enabled
-        line.no_ripple = effect.noRipple ? effect.noRipple : false;
+        line.no_ripple = !!effect.noRipple; // Force Boolean
 
         if (effect.balance) {
           line.balance = effect.balance;
