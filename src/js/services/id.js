@@ -255,7 +255,8 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
 
       $scope.userBlob = blob;
 
-//      self.setUsername(username);
+      self.setUsername(username);
+
 //      self.setAccount(blob.data.account_id);
 //      self.setLoginKeys(keys);
 //      self.storeLoginKeys(username, keys);
