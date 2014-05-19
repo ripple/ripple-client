@@ -93,3 +93,5 @@ section.content(ng-controller='FundCtrl')
                       span.modal-error(ng-show="emailError", l10n)
                         | SnapSwap's btc2ripple service is currently unavailable.
                         |  Please check back later.
+        .B2R(ng-hide="loadState.B2RApp")
+          div(l10n) Loading...
