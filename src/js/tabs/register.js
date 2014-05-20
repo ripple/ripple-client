@@ -187,6 +187,7 @@ RegisterTab.prototype.angular = function (module) {
         $scope.userBlob.set('/email', $scope.newEmail || $scope.userBlob.data.email);
 
         $scope.resendLoading = false;
+        $scope.resendSuccess = true;
       });
     };
 

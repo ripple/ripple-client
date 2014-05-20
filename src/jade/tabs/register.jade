@@ -143,6 +143,7 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
       .auth-attention(l10n) We’ve sent an email to
         span  {{userBlob.data.email}}
         | . To complete registration, click the link in the email.
+      .auth-attention(ng-show="resendSuccess", l10n) Email token has been resent.
       form(name="resendForm").row
         .col-xs-12
           label Email Address:
