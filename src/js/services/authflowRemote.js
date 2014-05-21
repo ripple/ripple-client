@@ -193,7 +193,8 @@ module.factory('rpAuthFlow', ['$rootScope', 'rpAuthInfo', 'rpKdf', 'rpBlob',
       $scope.userBlob.resendEmail({
         username: opts.username,
         email: opts.email,
-        url: authInfo.blobvault
+        url: authInfo.blobvault,
+        masterkey: opts.masterkey
       }, callback);
     });
   };

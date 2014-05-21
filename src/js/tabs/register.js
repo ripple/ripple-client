@@ -24,10 +24,10 @@ RegisterTab.prototype.extraRoutes = [
 RegisterTab.prototype.angular = function (module) {
   module.controller('RegisterCtrl', ['$scope', '$rootScope', '$location', '$element',
                                      '$timeout', 'rpId', 'rpTracker',
-                                     'rpAuthInfo', '$routeParams',
+                                     'rpAuthInfo', '$routeParams', 'rpKeychain',
                                      function ($scope, $rootScope, $location, $element,
                                                $timeout, $id, $rpTracker,
-                                               authinfo, $routeParams)
+                                               authinfo, $routeParams, keychain)
   {
     /**
      * Email verification
@@ -174,21 +174,33 @@ RegisterTab.prototype.angular = function (module) {
     {
       $scope.resendLoading = true;
 
-      $id.resendEmail({
-        username: $scope.userCredentials.username,
-        email: $scope.newEmail || $scope.userBlob.data.email
-      }, function(err, response){
-        if (err) {
-          console.log('Error',err);
-          return;
-        }
+      keychain.requestSecret($id.account, $id.username,
+        function (err, masterkey) {
+          if (err) {
+            console.log("client: register tab: error while " +
+              "unlocking wallet: ", err);
+            $scope.mode = "error";
+            $scope.error_type = "unlockFailed";
+            return;
+          }
 
-        // Update the blob
-        $scope.userBlob.set('/email', $scope.newEmail || $scope.userBlob.data.email);
+          $id.resendEmail({
+            username: $scope.userCredentials.username,
+            email: $scope.newEmail || $scope.userBlob.data.email,
+            masterkey: masterkey
+          }, function(err, response){
+            if (err) {
+              console.log('Error',err);
+              return;
+            }
 
-        $scope.resendLoading = false;
-        $scope.resendSuccess = true;
-      });
+            // Update the blob
+            $scope.userBlob.set('/email', $scope.newEmail || $scope.userBlob.data.email);
+
+            $scope.resendLoading = false;
+            $scope.resendSuccess = true;
+          });
+        });
     };
 
     var updateFormFields = function(){

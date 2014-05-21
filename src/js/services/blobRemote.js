@@ -214,7 +214,7 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
       }
     };
 
-    $http(BlobObj.signRequestAsymmetric(config, this.data.auth_secret, this.id))
+    $http(BlobObj.signRequestAsymmetric(config, opts.masterkey, this.data.account_id, this.id))
       .success(function(data, status, headers, config) {
         if (data.result === "success") {
           callback(null, data);
