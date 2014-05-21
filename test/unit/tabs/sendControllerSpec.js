@@ -433,19 +433,6 @@ describe('SendCtrl', function(){
       });
     });
 
-    describe("handling errors from the server", function () {
-      describe("any error", function (done) {
-        it('should set the mode to error', function (done) {
-          var res = { error: null };
-          scope.onTransactionError(res, null);
-          setTimeout(function (){
-            assert.equal(scope.mode, "error");
-            done();
-          }, 10)
-        });
-      });
-    });
-
     it('should have a function to handle send confirmed', function (done) {
       assert.isFunction(scope.send_confirmed);
       done();
