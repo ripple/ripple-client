@@ -861,13 +861,13 @@ SendTab.prototype.angular = function (module)
     $scope.onTransactionError = function (res, tx) {
       setImmediate(function () {
         $scope.$apply(function () {
+          $scope.mode = "error";
+
           if (res.engine_result) {
             $scope.setEngineStatus(res);
           } else if (res.error === 'remoteError') {
-            $scope.mode = "error";
             $scope.error_type = res.remote.error;
           } else {
-            $scope.mode = "error";
             $scope.error_type = "unknown";
           }
         });
