@@ -5,7 +5,7 @@ form(role="form", ng-submit="confirm()")
       label(for="popup_unlock_password", l10n) Password
       input.form-control#popup_unlock_password(
         type="password", name="popup_unlock_password"
-        ng-model="unlock.password")
+        ng-model="unlock.password", rp-focus)
     p.help-block(ng-switch on="unlock.purpose")
       span(ng-switch-when="showSecret", l10n) Please enter your password to show your Secret Key.
       span(ng-switch-default, l10n) Please enter your password to confirm this transaction.
