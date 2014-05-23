@@ -280,7 +280,7 @@ TradeTab.prototype.angular = function(module)
     /**
      * Handle transaction result
      */
-    function setEngineStatus(res, accepted, type) {
+    var setEngineStatus = function (res, accepted, type) {
       var order = $scope.order[type];
 
       order.engine_result = res.engine_result;
@@ -346,19 +346,15 @@ TradeTab.prototype.angular = function(module)
       $scope.fatFingerErr = false;
 
       if (type === 'buy') {
-
         if (order.price > ($scope.book.bids[0].showPrice * fatFingerMarginMultiplier) ||
             order.price < ($scope.book.bids[0].showPrice / fatFingerMarginMultiplier)) {
-
           $scope.fatFingerErr = true;
         }
       }
 
       else if (type === 'sell') {
-
         if (order.price > ($scope.book.asks[0].showPrice * fatFingerMarginMultiplier) ||
             order.price < ($scope.book.asks[0].showPrice / fatFingerMarginMultiplier)) {
-
           $scope.fatFingerErr = true;
         }
       }
@@ -401,7 +397,7 @@ TradeTab.prototype.angular = function(module)
     // This functions is called whenever the settings, specifically the pair and
     // the issuer(s) have been modified. It checks the new configuration and
     // sets $scope.valid_settings.
-    function updateSettings() {
+    var updateSettings = function() {
       var order = $scope.order;
 
       var pair = order.currency_pair;
@@ -464,7 +460,7 @@ TradeTab.prototype.angular = function(module)
      * @param exclude_issuer
      * @returns issuer
      */
-    function guessIssuer(currency, exclude_issuer) {
+    var guessIssuer = function(currency, exclude_issuer) {
       var guess;
 
       // First guess: An explicit issuer preference setting in the user's blob
@@ -490,7 +486,7 @@ TradeTab.prototype.angular = function(module)
       return null;
     }
 
-    function resetIssuers(force) {
+    var resetIssuers = function(force) {
       var guess;
       var order = $scope.order;
 
@@ -562,7 +558,7 @@ TradeTab.prototype.angular = function(module)
     /**
      * Load orderbook
      */
-    function loadOffers() {
+    var loadOffers = function() {
       // Make sure we unsubscribe from any previously loaded orderbook
       if ($scope.book && "function" === typeof $scope.book.unsubscribe) {
         $scope.book.unsubscribe();
