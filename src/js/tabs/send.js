@@ -92,7 +92,6 @@ SendTab.prototype.angular = function (module)
     $scope.reset_destination_deps = function() {
       var send = $scope.send;
       send.self = false;
-      send.bitcoin = false;
       send.quote_url = false;
       send.federation = false;
       send.fund_status = "none";
@@ -113,7 +112,6 @@ SendTab.prototype.angular = function (module)
       send.show_dt_field = ($routeParams.dt
         || send.dt
         || send.recipient_info.dest_tag_required)
-          && !send.bitcoin
           && !send.federation;
     };
 
@@ -122,6 +120,14 @@ SendTab.prototype.angular = function (module)
       var recipient = send.recipient_address;
 
       if (recipient === send.last_recipient) return;
+
+      // Trying to send to a Bitcoin address
+      if (!isNaN(Base.decode_check([0, 5], recipient, 'bitcoin'))) {
+        if (Options.bridge.out.bitcoin) { // And there is a default bridge
+          recipient += '@' + Options.bridge.out.bitcoin
+          send.recipient_address = recipient
+        }
+      }
 
       send.last_recipient = recipient;
 
@@ -133,9 +139,6 @@ SendTab.prototype.angular = function (module)
 
       // Trying to send to a Ripple name
       send.rippleName = webutil.isRippleName(recipient);
-
-      // Trying to send to a Bitcoin address
-      send.bitcoin = !isNaN(Base.decode_check([0, 5], recipient, 'bitcoin'));
 
       // Trying to send to an email/federation address
       send.federation = ("string" === typeof recipient) && ~recipient.indexOf('@');
@@ -155,14 +158,7 @@ SendTab.prototype.angular = function (module)
       if ($scope.sendForm && $scope.sendForm.send_destination)
         $scope.sendForm.send_destination.$setValidity("federation", true);
 
-      if (send.bitcoin) {
-        send.quote_url = Options.bridge.out.bitcoin;
-        send.quote_destination = recipient;
-
-        // Destination is not known yet, skip ahead
-        $scope.update_currency_constraints();
-      }
-      else if (send.federation) {
+      if (send.federation) {
         send.path_status = "fed-check";
         $federation.check_email(recipient)
           .then(function (result) {
@@ -289,15 +285,6 @@ SendTab.prototype.angular = function (module)
       // Reset constraints
       send.currency_choices = $scope.currencies_all;
       send.currency_force = false;
-
-      // Apply Bitcoin currency restrictions
-      if (send.bitcoin) {
-        // Force BTC
-        send.currency_choices = ["BTC"];
-        send.currency_force = "BTC";
-        send.currency = "BTC";
-        return;
-      }
 
       // Federation response can specific a fixed amount
       if (send.federation_record &&
@@ -657,8 +644,7 @@ SendTab.prototype.angular = function (module)
             $rpTracker.track('Send pathfind', {
               'Status': 'success',
               'Currency': $scope.send.currency_code,
-              'Address Type': $scope.send.bitcoin ? 'bitcoin' :
-                  $scope.send.federation ? 'federation' : 'ripple',
+              'Address Type': $scope.send.federation ? 'federation' : 'ripple',
               'Destination Tag': !!$scope.send.dt,
               'Paths': upd.alternatives.length,
               'Time': (+new Date() - +pathFindTime) / 1000
@@ -680,8 +666,7 @@ SendTab.prototype.angular = function (module)
           'Status': 'error',
           'Message': res.engine_result,
           'Currency': $scope.send.currency_code,
-          'Address Type': $scope.send.bitcoin ? 'bitcoin' :
-            $scope.send.federation ? 'federation' : 'ripple',
+          'Address Type': $scope.send.federation ? 'federation' : 'ripple',
           'Destination Tag': !!$scope.send.dt
         })
       });
@@ -816,8 +801,7 @@ SendTab.prototype.angular = function (module)
 
       $rpTracker.track('Send confirmation page', {
         'Currency': $scope.send.currency_code,
-        'Address Type': $scope.send.bitcoin ? 'bitcoin' :
-            $scope.send.federation ? 'federation' : 'ripple',
+        'Address Type': $scope.send.federation ? 'federation' : 'ripple',
         'Destination Tag': !!$scope.send.dt
       })
     };
@@ -954,8 +938,7 @@ SendTab.prototype.angular = function (module)
         $rpTracker.track('Send result', {
           'Status': 'success',
           'Currency': $scope.send.currency_code,
-          'Address Type': $scope.send.bitcoin ? 'bitcoin' :
-              $scope.send.federation ? 'federation' : 'ripple',
+          'Address Type': $scope.send.federation ? 'federation' : 'ripple',
           'Destination Tag': !!$scope.send.dt,
           'Time': (+new Date() - +$scope.confirmedTime) / 1000
         })
@@ -972,8 +955,7 @@ SendTab.prototype.angular = function (module)
           'Status': 'error',
           'Message': res.engine_result,
           'Currency': $scope.send.currency_code,
-          'Address Type': $scope.send.bitcoin ? 'bitcoin' :
-              $scope.send.federation ? 'federation' : 'ripple',
+          'Address Type': $scope.send.federation ? 'federation' : 'ripple',
           'Destination Tag': !!$scope.send.dt,
           'Time': (+new Date() - +$scope.confirmedTime) / 1000
         });
