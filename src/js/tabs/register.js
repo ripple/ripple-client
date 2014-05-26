@@ -69,6 +69,7 @@ RegisterTab.prototype.angular = function (module) {
     }
 
     // Countries list
+    /*
     var lang = store.get('ripple_language') || 'en';
 
     $scope.countries = _.sortBy(require('../l10n/countries/' + lang + '.json'),
@@ -76,6 +77,7 @@ RegisterTab.prototype.angular = function (module) {
         return country;
       }
     );
+    */
 
     $scope.reset = function()
     {
