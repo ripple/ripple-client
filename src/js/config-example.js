@@ -41,8 +41,7 @@ var Options = {
     // Outbound bridges
     out: {
       // Bitcoin outbound bridge
-//    'bitcoin': 'localhost:3000'
-//    'bitcoin': 'https://www.bitstamp.net/ripple/bridge/out/bitcoin/'
+//    bitcoin: 'snapswap.us'
     }
   },
 
@@ -73,6 +72,10 @@ if (store.enabled) {
 
   if (settings.mixpanel) {
     Options.mixpanel = settings.mixpanel;
+  }
+
+  if (settings.bridge && settings.bridge.out) {
+    Options.bridge.out = $.extend(Options.bridge.out, settings.bridge.out);
   }
 }
 

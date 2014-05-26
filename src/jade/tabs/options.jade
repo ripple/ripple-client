@@ -30,6 +30,14 @@ section.col-xs-12.content(ng-controller="OptionsCtrl")
       .col-xs-12.col-sm-8.col-md-3.col-lg-2
         button.btn.btn-block.btn-primary(type="button", ng-click="options.server.servers.push({})", l10n) Add new server
 
+    h3(l10n) Bitcoin Bridge
+    .row
+      .col-xs-12.col-sm-8.col-md-5
+        label(for="btcDomain", l10n) Bitcoin Bridge Domain
+        input.form-control.btcDomain(
+          name='btcDomain', id="btcDomain", type='text'
+          ng-model='options.bridge.out.bitcoin')
+
     h3(ng-show="'web' === client", l10n) Blob Vault
     .row(ng-show="'web' === client")
       .col-xs-12.col-sm-8.col-md-5

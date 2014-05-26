@@ -141,39 +141,12 @@ describe('SendCtrl', function(){
       done();
     })
 
-    describe('when it is not bitcoin', function (done) {
-      beforeEach(function () {
-        scope.send.bitcoin = null
-      })
-
-      it('should check destination', function (done) {
-        var spy = sinon.spy(scope, 'check_destination');
-        scope.update_destination_remote();
-        assert(spy.calledOnce);
-        done();
-      });
+    it('should check destination', function (done) {
+      var spy = sinon.spy(scope, 'check_destination');
+      scope.update_destination_remote();
+      assert(spy.calledOnce);
+      done();
     });
-
-    describe('when it is bitcoin', function (done) {
-      beforeEach(function () {
-        scope.send.bitcoin = true;
-      });
-
-      it('should update currency constraints', function (done) {
-        var spy = sinon.spy(scope, 'update_currency_constraints');
-
-        scope.update_destination_remote();
-        spy.should.have.been.calledOnce;
-        done();
-      });
-
-      it('should not check destination', function (done) {
-        var spy = sinon.spy(scope, 'check_destination');
-        scope.update_destination_remote();
-        assert(!spy.called);
-        done();
-      });
-    })
   })
 
   it('should check the destination', function (done) {
