@@ -437,7 +437,7 @@ TradeTab.prototype.angular = function(module)
         order.first_currency.to_json() +
         (order.first_currency.is_native() ? "" : "/" + order.first_issuer) +
         ":" +
-        order.second_currency +
+        order.second_currency._iso_code +
         (order.second_currency.is_native() ? "" : "/" + order.second_issuer);
 
       // Load orderbook
