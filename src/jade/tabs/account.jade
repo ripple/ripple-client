@@ -1,0 +1,20 @@
+section.col-xs-12.content(ng-controller="AccountCtrl")
+  .row
+    .col-xs-12(l10n) Account
+  .row
+    hr
+  .row
+    div Account profile
+    div Ripple name: ~{{userCredentials.username}}
+    a(href="", ng-click="openForm=!openForm") Change
+    form(name="nameChangeForm", ng-show="openForm", ng-submit="changeName()")
+      label(for='name', l10n) New Ripple Name
+      input.form-control#name(name="name", ng-model="name")
+      label(for='password', l10n) Current password
+      input.form-control#password(name="password", ng-model="password")
+      button.btn.btn-success(type="submit", l10n
+        ng-disabled="nameChangeForm.$invalid || loading")
+        span(ng-hide="loading") Submit name change
+        span(ng-show="loading") Loading...
+      a(href="", ng-click="openForm=!openForm") Cancel
+    div Ripple address: {{address}}
