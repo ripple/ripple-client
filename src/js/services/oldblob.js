@@ -165,6 +165,7 @@ module.factory('rpOldBlob', ['$rootScope', function ($scope)
 
     get: function (key, callback) {
       var url = Options.blobvault;
+      if(!url) return;
 
       if (url.indexOf("://") === -1) url = "http://" + url;
 
@@ -180,6 +181,7 @@ module.factory('rpOldBlob', ['$rootScope', function ($scope)
 
     set: function (key, value, callback) {
       var url = Options.blobvault;
+      if(!url) return;
 
       if (url.indexOf("://") === -1) url = "http://" + url;
 
