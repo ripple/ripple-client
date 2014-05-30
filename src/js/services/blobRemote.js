@@ -512,11 +512,19 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
     // Sort the properties of the JSON object into canonical form
     var canonicalData = JSON.stringify(copyObjectWithSortedKeys(config.data));
 
+    // We're using URL parsing using browser functionality. Unfortunately the
+    // parsing result slightly differs in IE - it is missing a leading slash.
+    // XXX Proper fix would be to use a pure JS URL parser.
+    var pathname = parser.pathname;
+
+    // IE11 Workaround
+    if (pathname[0] !== '/') pathname = '/' + pathname;
+
     // Canonical request using Amazon's v4 signature format
     // See: http://docs.aws.amazon.com/general/latest/gr/sigv4-create-canonical-request.html
     var canonicalRequest = [
       config.method || 'GET',
-      parser.pathname || '',
+      pathname || '',
       parser.search || '',
       // XXX Headers signing not supported
       '',
