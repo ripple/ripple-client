@@ -179,9 +179,9 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
     // e.g. OwnerCount, additional convenience fields are lower case, e.g.
     // reserve, max_spend.
     var ownerCount  = $scope.account.OwnerCount || 0;
-    $scope.account.reserve_base = server.reserve(0);
-    $scope.account.reserve = server.reserve(ownerCount);
-    $scope.account.reserve_to_add_trust = server.reserve(ownerCount+1);
+    $scope.account.reserve_base = server._reserve(0);
+    $scope.account.reserve = server._reserve(ownerCount);
+    $scope.account.reserve_to_add_trust = server._reserve(ownerCount+1);
     $scope.account.reserve_low_balance = $scope.account.reserve.product_human(2);
 
     // Maximum amount user can spend
