@@ -54,7 +54,7 @@ ExchangeTab.prototype.angular = function (module)
       $scope.update_exchange = function () {
         var exchange = $scope.exchange;
         var currency = exchange.currency_code;
-        var formatted = "" + exchange.amount + " " + currency.slice(0, 3);
+        var formatted = "" + currency.slice(0,3) + " " + exchange.amount;
 
         $scope.reset_paths();
 
@@ -194,7 +194,7 @@ ExchangeTab.prototype.angular = function (module)
        */
       $scope.exchange_confirmed = function () {
         var currency = $scope.exchange.currency.slice(0, 3).toUpperCase();
-        var amount = Amount.from_human(""+$scope.exchange.amount+" "+currency);
+        var amount = Amount.from_human(""+currency+" "+$scope.exchange.amount);
 
         amount.set_issuer($id.account);
 

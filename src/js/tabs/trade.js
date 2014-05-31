@@ -312,7 +312,7 @@ TradeTab.prototype.angular = function(module)
     $scope.update_first = function (type) {
       var order = $scope.order[type];
       var first_currency = $scope.order.first_currency || Currency.from_json("XRP");
-      var formatted = "" + order.first + " " + first_currency.to_json();
+      var formatted = "" + first_currency.to_json() + " " + order.first;
 
       order.first_amount = ripple.Amount.from_human(formatted, {reference_date: new Date(+new Date() + 5*60000)});
 
@@ -322,7 +322,7 @@ TradeTab.prototype.angular = function(module)
     $scope.update_price = function (type) {
       var order = $scope.order[type];
       var second_currency = $scope.order.second_currency || Currency.from_json("XRP");
-      var formatted = "" + order.price + " " + second_currency.to_json();
+      var formatted = "" + second_currency.to_json() + " " + order.price;
 
       order.price_amount = ripple.Amount.from_human(formatted, {reference_date: new Date(+new Date() + 5*60000)});
 
@@ -332,7 +332,7 @@ TradeTab.prototype.angular = function(module)
     $scope.update_second = function (type) {
       var order = $scope.order[type];
       var second_currency = $scope.order.second_currency || Currency.from_json("XRP");
-      var formatted = "" + order.second + " " + second_currency.to_json();
+      var formatted = "" + second_currency.to_json() + " " + order.second;
 
       order.second_amount = ripple.Amount.from_human(formatted, {reference_date: new Date(+new Date() + 5*60000)});
 
