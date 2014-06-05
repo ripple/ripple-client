@@ -140,8 +140,8 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
         //     Will work fine as long as any relogin error triggers a logout and
         //     logouts trigger a full page reload.
         self.loginStatus = true;
-
-        $authflow.relogin(auth.username, auth.keys, function (err, blob, username) {
+  
+        $authflow.relogin(auth.url, auth.keys, function (err, blob) {
           if (err) {
             // Failed to relogin, logout
             console.log("client: id: failed to relogin:", err.toString());
@@ -151,7 +151,7 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
             $.extend(true, blob, Id.minimumBlob);
 
             $scope.userBlob = blob;
-            self.setUsername(username);
+            self.setUsername(auth.username);
             self.setAccount(blob.data.account_id);
             self.setLoginKeys(auth.keys);
             self.loginStatus = true;
@@ -203,9 +203,9 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
     return this.loginStatus;
   };
 
-  Id.prototype.storeLoginKeys = function (username, keys)
+  Id.prototype.storeLoginKeys = function (url, username, keys)
   {
-    store.set('ripple_auth', {username: username, keys: keys});
+    store.set('ripple_auth', {url:url, username: username, keys: keys});
   };
 
   Id.prototype.verify = function (opts, callback) {
@@ -385,7 +385,7 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
 
         self.setAccount(blob.data.account_id);
         self.setLoginKeys(keys);
-        self.storeLoginKeys(actualUsername, keys);
+        self.storeLoginKeys(blob.url, actualUsername, keys);
         self.loginStatus = true;
         $scope.$broadcast('$blobUpdate');
         store.set('ripple_known', true);
@@ -430,25 +430,16 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
     // Callback is optional
     if ("function" !== typeof callback) callback = $.noop;
 
-    username = Id.normalizeUsernameForDisplay(username);
-    password = Id.normalizePassword(password);
+    //username = Id.normalizeUsernameForDisplay(username);
+    //password = Id.normalizePassword(password);
 
-    $authflow.unlock(Id.normalizeUsernameForInternals(username), password, function (err, keys) {
+    $authflow.unlock(username, password, function (err, resp) {
       if (err) {
         callback(err);
         return;
       }
-
-      var secret;
-      try {
-        // XXX There should be a better way to get a reference to the blob obj
-        secret = $scope.userBlob.decryptSecret(keys.unlock);
-      } catch (err2) {
-        callback(err2);
-        return;
-      }
-
-      callback(null, secret);
+    
+      callback(null, resp.secret);
     });
   };
 
