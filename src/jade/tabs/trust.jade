@@ -131,7 +131,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
             .col-xs-6.col-sm-4
               button.btn.btn-block.btn-default(type="button", ng-click='toggle_form()', l10n) Cancel
             .col-xs-6.col-sm-8
-              button.btn.btn-block.btn-primary.submit(type='submit', ng-disabled='trustForm.$invalid || verifying', l10n) Grant Trust
+              button.btn.btn-block.btn-primary.submit(type='submit', ng-disabled='trustForm.$invalid || verifying', l10n) Save
           .row
             .col-xs-12
               p.literal.throbber.verifying(ng-show="verifying", l10n) Verifying address
