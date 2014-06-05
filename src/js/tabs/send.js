@@ -4,6 +4,7 @@ var util = require('util'),
     Amount = ripple.Amount,
     Base = ripple.Base,
     RippleError = ripple.RippleError;
+    authInfo = new ripple.AuthInfo();
 
 var SendTab = function ()
 {
@@ -15,7 +16,7 @@ util.inherits(SendTab, Tab);
 SendTab.prototype.tabName = 'send';
 SendTab.prototype.mainMenu = 'send';
 
-SendTab.prototype.angularDeps = Tab.prototype.angularDeps.concat(['federation', 'keychain', 'authinfo']);
+SendTab.prototype.angularDeps = Tab.prototype.angularDeps.concat(['federation', 'keychain']);
 
 SendTab.prototype.generateHtml = function ()
 {
@@ -26,10 +27,10 @@ SendTab.prototype.angular = function (module)
 {
   module.controller('SendCtrl', ['$scope', '$timeout', '$routeParams', 'rpId',
                                  'rpNetwork', 'rpFederation', 'rpTracker',
-                                 'rpKeychain', 'rpAuthInfo',
+                                 'rpKeychain',
                                  function ($scope, $timeout, $routeParams, $id,
                                            $network, $federation, $rpTracker,
-                                           keychain, authInfo)
+                                           keychain)
   {
     if (!$id.loginStatus) return $id.goId();
 
@@ -203,9 +204,11 @@ SendTab.prototype.angular = function (module)
         ;
       }
       else if (send.rippleName) {
-        authInfo.get(Options.domain,send.recipient,function(err, response){
-          send.recipient_name = '~' + response.username;
-          send.recipient_address = response.address;
+        authInfo.get(Options.domain,send.recipient,function(err, response) {
+          $scope.$apply(function(){
+            send.recipient_name = '~' + response.username;
+            send.recipient_address = response.address;            
+          });          
 
           $scope.check_destination();
         })
