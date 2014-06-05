@@ -583,6 +583,8 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
 
     var signature = ripple.Message.signMessage(stringToSign, secretKey);
 
+    console.log(config, secretKey, account, blob_id, signature);
+    
     config.url += (parser.search ? "&" : "?") +
       'signature='+webutil.base64ToBase64Url(signature)+
       '&signature_date='+date+

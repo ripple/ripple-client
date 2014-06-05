@@ -40,7 +40,7 @@ RegisterTab.prototype.angular = function (module) {
         if (err) {
           $rootScope.verifyStatus = 'error';
 
-          rpTracker.track('Email verification', {
+          $rpTracker.track('Email verification', {
             result: 'failed',
             message: err
           });
@@ -48,7 +48,7 @@ RegisterTab.prototype.angular = function (module) {
         else if ('success' === response.result) {
           $rootScope.verifyStatus = 'verified';
 
-          rpTracker.track('Email verification', {
+          $rpTracker.track('Email verification', {
             result: 'success'
           });
         }
@@ -185,9 +185,12 @@ RegisterTab.prototype.angular = function (module) {
             $scope.error_type = "unlockFailed";
             return;
           }
-
+                    
           $id.resendEmail({
+            id:$scope.userBlob.id,
+            url:$scope.userBlob.url,
             username: $scope.userCredentials.username,
+            account_id: $scope.userBlob.data.account_id,
             email: $scope.newEmail || $scope.userBlob.data.email,
             masterkey: masterkey
           }, function(err, response){
