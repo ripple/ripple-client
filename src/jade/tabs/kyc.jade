@@ -1,0 +1,104 @@
+section.col-xs-12.content(ng-controller="KYCCtrl")
+  .row
+    .col-xs-12(l10n) Settings
+  .row
+    hr
+  form.row-padding-small(name="profileForm", ng-submit="save()")
+    h3(l10n) Complete your profile information
+    hr
+    button.btn.btn-primary.btn-toggle(l10n) Individual
+    button.btn.btn-primary.btn-toggle(l10n) Business
+    br
+    .row
+      .col-xs-12.col-sm-8.col-md-5
+        label(for="fullName", l10n) Full Name
+        input.form-control.fullName(
+          name='fullName', id="fullName", type='text'
+          ng-model='profile.fullName')
+    .row
+      hr
+    .row
+      .col-xs-12.col-sm-8.col-md-5
+        label(l10n) Address
+        br
+        label(for="line1", l10n) Line 1
+        input.form-control.line1(
+          name='line1', id="line1", type='text'
+          ng-model='profile.line1')
+    .row
+      .col-xs-12.col-sm-8.col-md-5
+        label(for="line2", l10n) Line 2
+        input.form-control.line2(
+          name='line2', id="line2", type='text'
+          ng-model='profile.line2')
+    .row
+      .col-xs-12.col-sm-8.col-md-5
+        label(for="city", l10n) City
+        input.form-control.city(
+          name='city', id="city", type='text'
+          ng-model='profile.city')
+    .row
+      .col-xs-12.col-sm-8.col-md-5
+        label(for="state", l10n) State/Region
+        input.form-control.state(
+          name='state', id="state", type='text'
+          ng-model='profile.state')
+    .row
+      .col-xs-12.col-sm-8.col-md-5
+        label(for="zip", l10n) ZIP/Postal Code
+        input.form-control.zip(
+          name='zip', id="zip", type='text'
+          ng-model='profile.zip')
+    .row
+      .col-xs-12.col-sm-8.col-md-5
+        label(for="country", l10n) Country
+        input.form-control.line1(
+          name='country', id="country", type='text'
+          ng-model='profile.country')
+    hr
+    label(l10n) Date Of Birth
+    .row
+      .col-xs-4.col-sm-2.col-md-1
+        label(for="country", l10n) Day
+        input.form-control.line1(
+          name='country', id="country", type='text'
+          ng-model='profile.country')
+      .col-xs-4.col-sm-3.col-md-2
+        label(for="country", l10n) Month
+        input.form-control.line1(
+          name='country', id="country", type='text'
+          ng-model='profile.country')
+      .col-xs-4.col-sm-3.col-md-2
+        label(for="country", l10n) Year
+        input.form-control.line1(
+          name='country', id="country", type='text'
+          ng-model='profile.country')
+    hr
+    label(l10n) Identification
+    .row
+      .col-xs-12.col-sm-8.col-md-5
+        label(for="country", l10n) ID Type
+        input.form-control.line1(
+          name='country', id="country", type='text'
+          ng-model='profile.country')
+    .row
+      .col-xs-12.col-sm-8.col-md-5
+        label(for="country", l10n) ID Number
+        input.form-control.line1(
+          name='country', id="country", type='text'
+          ng-model='profile.country')
+    .row
+      .col-xs-12.col-sm-8.col-md-5
+        label(for="country", l10n) Issuing Country
+        input.form-control.line1(
+          name='country', id="country", type='text'
+          ng-model='profile.country')
+    .row
+      .col-xs-12.col-sm-8.col-md-5
+        input(type='checkbox')
+        label(for="country", l10n) I am a US resident, but I do not have a social security number.
+    button.btn.btn-primary(l10n) Save to profile
+    a(href="") Cancel
+
+
+
