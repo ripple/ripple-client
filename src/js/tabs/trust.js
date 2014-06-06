@@ -68,13 +68,14 @@ TrustTab.prototype.angular = function (module)
     };
 
     $scope.toggle_form = function () {
+      
       if($scope.addform_visible || $scope.editform_visible)
         $scope.reset();
       else
         $scope.addform_visible = true;
     };
 
-    // User should not even be able to try grunting a trust if the reserve is insufficient
+    // User should not even be able to try granting a trust if the reserve is insufficient
     $scope.$watch('account', function() {
       $scope.can_add_trust = false;
       if ($scope.account.Balance && $scope.account.reserve_to_add_trust) {
@@ -307,10 +308,10 @@ TrustTab.prototype.angular = function (module)
       $scope.edituser = (contact) ? contact : 'User';
       $scope.validation_pattern = contact ? /^[0-9.]+$/ : /^0*(([1-9][0-9]*.?[0-9]*)|(.0*[1-9][0-9]*))$/;
       $scope.currency = line.currency;
+      $scope.balance = line.balance.to_human();
       $scope.counterparty = line.account;
       $scope.counterparty_view = contact;
       $scope.amount = +line.limit.to_text();
-      console.log('line',line);
       $scope.allowrippling = !line.no_ripple;
 
       // Close/open form. Triggers focus on input.
@@ -319,6 +320,85 @@ TrustTab.prototype.angular = function (module)
       $timeout(function(){
         $scope.editform_visible = true;
       });
+    };
+
+    $scope.delete_line = function ()
+    {
+
+      var tx = $network.remote.transaction();
+      var counterpartyAddress = this.counterparty_address;
+      var newLinesArray = [];
+
+      // var returnBalanceToIssuer = function(fromAddress, toAddress, amount) {
+
+      //   var payment = tx.payment(fromAddress, toAddress, amount);
+
+      //   keychain.requestSecret(id.account, id.username, function (err, secret) {
+      //     if (err) {
+      //       console.log('Error: ', err);
+      //       return;
+      //     }
+
+      //     tx.secret(secret);
+      //     tx.destinationTag();
+          
+      //     payment.submit(function(err, res) {
+      //       if (err) {
+      //         console.log('Error: ', err);
+      //         return;
+      //       } else {
+      //         console.log('Trust line address', toAddress, 'has been deleted and the remaining balance of', amount.to_human(), 'has been returned to the issuer.');
+      //       }
+      //     });
+      //   });
+      // }
+
+      var nullifyTrustLine = function(idAccount, lineCurrency, lineAccount) {
+        tx.trustSet(idAccount, '0' + '/' + lineCurrency + '/' + lineAccount);
+        tx.setFlags('ClearNoRipple');
+
+        keychain.requestSecret(id.account, id.username, function (err, secret) {
+          if (err) {
+            console.log('Error: ', err);
+            return;
+          }
+
+          tx.secret(secret);
+
+          tx.submit(function(err, res) {
+            if (err) {
+              console.log('Error: ', err);
+            }
+            console.log(res);
+          });
+        });
+      }
+
+      for (var i = 0; i < this.linesArray.length; i++) {
+        var currentLine = this.linesArray[i];
+
+        if (currentLine.account === counterpartyAddress) {
+          if (currentLine.balance.to_human() !== '0') {
+
+            console.log("You can not delete a trust line that has a remaining balance, yet. We're working on it.");
+            newLinesArray.push(currentLine);
+
+            // returnBalanceToIssuer(id.account, currentLine.account, currentLine.balance);
+
+            //TODO: set trust line limit to 0, return remaining balance to issuer, check allow rippling and send to ripple-lib
+          } else {
+            nullifyTrustLine(id.account, currentLine.currency, currentLine.account);
+          }
+        }
+
+        else if (currentLine.account !== counterpartyAddress) {
+          newLinesArray.push(currentLine);
+        }
+      }
+
+      $scope.lines = newLinesArray;
+      $scope.toggle_form();
+
     };
 
     $scope.$watch('userBlob.data.contacts', function (contacts) {
