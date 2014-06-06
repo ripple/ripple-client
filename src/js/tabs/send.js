@@ -862,11 +862,11 @@ SendTab.prototype.angular = function (module)
       var send = $scope.send;
       var currency = $scope.send.currency.slice(0, 3).toUpperCase();
       var amount = send.amount_feedback;
-      var addrress = $scope.send.recipient_address;
+      var address = $scope.send.recipient_address;
 
       $scope.mode = "sending";
 
-      amount.set_issuer(addrress);
+      amount.set_issuer(address);
 
       var tx = $network.remote.transaction();
       // Source tag
@@ -917,7 +917,7 @@ SendTab.prototype.angular = function (module)
 
         tx.destination_tag(dt ? +dt : undefined); // 'cause +dt is NaN when dt is undefined
 
-        tx.payment($id.account, addrress, amount.to_json());
+        tx.payment($id.account, address, amount.to_json());
       }
 
       if ($scope.send.alt) {
