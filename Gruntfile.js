@@ -382,7 +382,7 @@ module.exports = function(grunt) {
       },
       deps: {
         files: deps,
-        tasks: ['concat:deps_debug'],
+        tasks: ['concat:deps_debug','copy'],
         options: { livereload: true }
       },
       styles: {
