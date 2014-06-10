@@ -216,6 +216,10 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
     $authflow.resendEmail(opts, callback);
   };
 
+  Id.prototype.rename = function (opts, callback) {
+    $authflow.rename(opts, callback);
+  };
+
   Id.prototype.register = function (opts, callback)
   {
     var self = this;

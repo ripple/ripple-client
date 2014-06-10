@@ -96,6 +96,14 @@ module.factory('rpAuthFlow', ['$rootScope', 'rpAuthInfo', 'rpKdf', 'rpBlob',
     });
   };
 
+  AuthFlow.rename = function (opts, callback) {
+    vaultClient.rename(opts, function(err, resp){
+      $scope.$apply(function(){
+        callback(err, resp);
+      });
+    });
+  };
+
   AuthFlow.relogin = function (url, keys, callback) {
     var meta = AuthFlow.getVaultClient('');
     meta.client.relogin(url, keys.id, keys.crypt, function(err, resp){

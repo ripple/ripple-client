@@ -1,19 +1,41 @@
 section.col-xs-12.content(ng-controller="AccountCtrl")
-  .row
-    .col-xs-12(l10n) Account
-  .row
-    hr
-  .row
-    div Account profile
+  div Account Profile
     div Ripple name: ~{{userCredentials.username}}
     a(href="", ng-click="openForm=!openForm") Change
-    form(name="nameChangeForm", ng-show="openForm", ng-submit="changeName()")
-      label(for='name', l10n) New Ripple Name
-      input.form-control#name(name="name", ng-model="name")
-      label(for='password', l10n) Current password
-      input.form-control#password(name="password", ng-model="password")
+    form(name="nameChangeForm", ng-hide="openForm", ng-submit="changeName()")
+      .form-group(
+      ng-class="{'field-error': 'invalid' == usernameStatus || 'reserved' == usernameStatus || 'exists' == usernameStatus, 'field-ok': 'ok' == usernameStatus}")
+        label(for='name', l10n) New Ripple Name
+        .input-group
+          span.input-group-addon.ripple-addon ~
+          input.form-control#username(
+          name='username', type='text', ng-model="username"
+          required, rp-focus, autocomplete="off", maxlength="20")
+        p(ng-switch on="usernameStatus", class="{{usernameStatus}}", rp-spinner="{{usernameStatus == 'loading' ? 4 : null}}")
+          span(ng-switch-when="exists", l10n) Already taken!
+          span(ng-switch-when="reserved", l10n) Reserved for {{usernameReservedFor}}
+            span &#32;
+          i.fa.fa-question-circle(
+          rp-popover
+          rp-popover-placement="bottom"
+          rp-popover-title='Reserved domain'
+          rp-popover-trigger="click"
+          ng-switch-when="reserved"
+          data-content='This name belongs to a high-traffic website and has been reserved to prevent phishing.')
+          span(ng-switch-when="loading", l10n) Checking...
+          span(ng-switch-when="ok", l10n) Available
+          span(ng-switch-when="invalid", ng-switch on="usernameInvalidReason")
+            span(ng-switch-when="tooshort", l10n) Must be at least 2 characters
+            span(ng-switch-when="toolong", l10n) Must be at most 20 characters
+            span(ng-switch-when="charset", l10n) Only a-z, 0-9 and hyphen (-)
+            span(ng-switch-when="starthyphen", l10n) Cannot start with hyphen (-)
+            span(ng-switch-when="endhyphen", l10n) Cannot end with hyphen (-)
+            span(ng-switch-when="multhyphen", l10n) Cannot bundle hyphens (--)
+      .form-group
+        label(type="password", for='password', l10n) Current password
+        input.form-control#password(type="password", name="password", ng-model="password")
       button.btn.btn-success(type="submit", l10n
-        ng-disabled="nameChangeForm.$invalid || loading")
+      ng-disabled="nameChangeForm.$invalid || loading")
         span(ng-hide="loading") Submit name change
         span(ng-show="loading") Loading...
       a(href="", ng-click="openForm=!openForm") Cancel
