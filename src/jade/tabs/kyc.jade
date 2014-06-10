@@ -3,12 +3,12 @@ section.col-xs-12.content(ng-controller="KycCtrl")
     .col-xs-12(l10n) Settings
   .row
     hr
-  form.row-padding-small(name="profileForm", ng-submit="save()")
     h3(l10n) Complete your profile information
     hr
-    button.btn.btn-primary(l10n) Individual
-    button.btn.btn-primary(l10n) Business
+    button.btn.btn-primary(ng-click="isIndividual = true", l10n) Individual
+    button.btn.btn-primary(ng-click="isIndividual = false", l10n) Business
     br
+  form.row-padding-small(name="profileForm", ng-submit="save()")
     .row
       .col-xs-12.col-sm-8.col-md-5
         label(for="fullName", l10n) Full Name
@@ -55,45 +55,55 @@ section.col-xs-12.content(ng-controller="KycCtrl")
         input.form-control.line1(
           name='country', id="country", type='text'
           ng-model='profile.country')
-    hr
-    label(l10n) Date Of Birth
-    .row
+    .row(ng-hide="isIndividual")
+      .col-xs-12.col-sm-8.col-md-5
+        label(for="tax_id", l10n) Tax ID
+        input.form-control.line1(
+          name='tax_id', id="tax_id", type='text'
+          ng-model='profile.tax_id')
+    hr(ng-show="isIndividual")
+    label(ng-show="isIndividual", l10n) Date Of Birth
+    .row(ng-show="isIndividual")
       .col-xs-4.col-sm-2.col-md-1
         label(for="country", l10n) Day
         input.form-control.line1(
           name='day', id="day", type='text'
+          rp-combobox="days", rp-combobox-select
           ng-model='profile.day')
       .col-xs-4.col-sm-3.col-md-2
         label(for="month", l10n) Month
         input.form-control.line1(
           name='month', id="month", type='text'
+          rp-combobox="months", rp-combobox-select
           ng-model='profile.month')
       .col-xs-4.col-sm-3.col-md-2
         label(for="year", l10n) Year
         input.form-control.line1(
           name='year', id="year", type='text'
+          rp-combobox="years", rp-combobox-select
           ng-model='profile.year')
-    hr
-    label(l10n) Identification
-    .row
+    hr(ng-show="isIndividual")
+    label(ng-show="isIndividual", l10n) Identification
+    .row(ng-show="isIndividual")
       .col-xs-12.col-sm-8.col-md-5
         label(for="id_type", l10n) ID Type
         input.form-control.line1(
           name='id_type', id="id_type", type='text'
+          rp-combobox="id_types", rp-combobox-select
           ng-model='profile.id_type')
-    .row
+    .row(ng-show="isIndividual")
       .col-xs-12.col-sm-8.col-md-5
         label(for="id_number", l10n) ID Number
         input.form-control.line1(
           name='id_number', id="id_number", type='text'
           ng-model='profile.id_number')
-    .row
+    .row(ng-show="isIndividual")
       .col-xs-12.col-sm-8.col-md-5
         label(for="issuing_country", l10n) Issuing Country
         input.form-control.line1(
           name='issuing_country', id="issuing_country", type='text'
           ng-model='profile.issuing_country')
-    .row
+    .row(ng-show="isIndividual")
       .col-xs-12.col-sm-8.col-md-5
         input(name='no_ssn', id="no_ssn", type='checkbox'
           ng-model='profile.no_ssn')
