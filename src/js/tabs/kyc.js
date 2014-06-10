@@ -9,7 +9,7 @@ var KycTab = function ()
 util.inherits(KycTab, Tab);
 
 KycTab.prototype.tabName = 'kyc';
-KycTab.prototype.mainMenu = 'advanced';
+//KycTab.prototype.mainMenu = 'advanced';
 
 KycTab.prototype.generateHtml = function ()
 {
@@ -18,10 +18,13 @@ KycTab.prototype.generateHtml = function ()
 
 KycTab.prototype.angular = function(module)
 {
-  module.controller('KycTab', ['$scope', '$rootScope', 'rpId', '$timeout',
+  module.controller('KycCtrl', ['$scope', '$rootScope', 'rpId', '$timeout',
                                     function ($scope, $rootScope, $id, $timeout)
   {
-    $scope.isIndividual = true;
+
+    $scope.save = function () {
+      console.log(JSON.stringify($scope.profile));
+    };
 
   }]);
 };

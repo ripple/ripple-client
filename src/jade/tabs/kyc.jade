@@ -1,4 +1,4 @@
-section.col-xs-12.content(ng-controller="KYCCtrl")
+section.col-xs-12.content(ng-controller="KycCtrl")
   .row
     .col-xs-12(l10n) Settings
   .row
@@ -6,8 +6,8 @@ section.col-xs-12.content(ng-controller="KYCCtrl")
   form.row-padding-small(name="profileForm", ng-submit="save()")
     h3(l10n) Complete your profile information
     hr
-    button.btn.btn-primary.btn-toggle(l10n) Individual
-    button.btn.btn-primary.btn-toggle(l10n) Business
+    button.btn.btn-primary(l10n) Individual
+    button.btn.btn-primary(l10n) Business
     br
     .row
       .col-xs-12.col-sm-8.col-md-5
@@ -61,43 +61,44 @@ section.col-xs-12.content(ng-controller="KYCCtrl")
       .col-xs-4.col-sm-2.col-md-1
         label(for="country", l10n) Day
         input.form-control.line1(
-          name='country', id="country", type='text'
-          ng-model='profile.country')
+          name='day', id="day", type='text'
+          ng-model='profile.day')
       .col-xs-4.col-sm-3.col-md-2
-        label(for="country", l10n) Month
+        label(for="month", l10n) Month
         input.form-control.line1(
-          name='country', id="country", type='text'
-          ng-model='profile.country')
+          name='month', id="month", type='text'
+          ng-model='profile.month')
       .col-xs-4.col-sm-3.col-md-2
-        label(for="country", l10n) Year
+        label(for="year", l10n) Year
         input.form-control.line1(
-          name='country', id="country", type='text'
-          ng-model='profile.country')
+          name='year', id="year", type='text'
+          ng-model='profile.year')
     hr
     label(l10n) Identification
     .row
       .col-xs-12.col-sm-8.col-md-5
-        label(for="country", l10n) ID Type
+        label(for="id_type", l10n) ID Type
         input.form-control.line1(
-          name='country', id="country", type='text'
-          ng-model='profile.country')
+          name='id_type', id="id_type", type='text'
+          ng-model='profile.id_type')
     .row
       .col-xs-12.col-sm-8.col-md-5
-        label(for="country", l10n) ID Number
+        label(for="id_number", l10n) ID Number
         input.form-control.line1(
-          name='country', id="country", type='text'
-          ng-model='profile.country')
+          name='id_number', id="id_number", type='text'
+          ng-model='profile.id_number')
     .row
       .col-xs-12.col-sm-8.col-md-5
-        label(for="country", l10n) Issuing Country
+        label(for="issuing_country", l10n) Issuing Country
         input.form-control.line1(
-          name='country', id="country", type='text'
-          ng-model='profile.country')
+          name='issuing_country', id="issuing_country", type='text'
+          ng-model='profile.issuing_country')
     .row
       .col-xs-12.col-sm-8.col-md-5
-        input(type='checkbox')
-        label(for="country", l10n) I am a US resident, but I do not have a social security number.
-    button.btn.btn-primary(l10n) Save to profile
+        input(name='no_ssn', id="no_ssn", type='checkbox'
+          ng-model='profile.no_ssn')
+        label(for="no_ssn", l10n) I am a US resident, but I do not have a social security number.
+    button.btn.btn-primary.submit(type='submit', l10n) Save to profile
     a(href="") Cancel
 
 
