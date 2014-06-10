@@ -4,7 +4,6 @@
  * The auth flow service manages the login, unlock and registration procedures.
  */
 
-var vaultClient = new ripple.VaultClient(Options.domain);
 var webutil     = require("../util/web");
 var log         = require("../util/log");
 
@@ -16,11 +15,13 @@ module.factory('rpAuthFlow', ['$rootScope', 'rpAuthInfo', 'rpKdf', 'rpBlob',
   var AuthFlow = {};
 
   AuthFlow.exists = function (username, password, callback) {
-    vaultClient.exists(username, callback); 
+    var meta = AuthFlow.getVaultClient(username);
+    meta.client.exists(meta.username, callback);
   };
 
   AuthFlow.login = function (opts, callback) {
-    vaultClient.login(opts.username, opts.password, function(err, resp) {
+    var meta = AuthFlow.getVaultClient(opts.username);
+    meta.client.login(meta.username, opts.password, function(err, resp) {
       if (err) {
         return callback(err);
       }
@@ -51,8 +52,11 @@ module.factory('rpAuthFlow', ['$rootScope', 'rpAuthInfo', 'rpKdf', 'rpBlob',
   AuthFlow.register = function (opts, callback) {
     
     opts.activateLink = Options.activate_link; //add the email activation link
-    
-    vaultClient.register(opts, function(err, resp) {
+
+    var meta = AuthFlow.getVaultClient(opts.username);
+    opts.username = meta.username;
+
+    meta.client.register(opts, function(err, resp) {
       if (err) {
         $scope.$apply(function(){
           callback(err);
@@ -73,7 +77,8 @@ module.factory('rpAuthFlow', ['$rootScope', 'rpAuthInfo', 'rpKdf', 'rpBlob',
   };
 
   AuthFlow.verify = function (opts, callback) {
-    vaultClient.verify(opts.username, opts.token, function(err, resp){
+    var meta = AuthFlow.getVaultClient(opts.username);
+    meta.client.verify(meta.username, opts.token, function(err, resp){
       $scope.$apply(function(){
         callback(err, resp);      
       });     
@@ -82,7 +87,9 @@ module.factory('rpAuthFlow', ['$rootScope', 'rpAuthInfo', 'rpKdf', 'rpBlob',
 
   AuthFlow.resendEmail = function (opts, callback) {
     opts.activateLink = Options.activate_link;
-    vaultClient.resendEmail(opts, function(err, resp){
+    var meta = AuthFlow.getVaultClient(opts.username);
+    opts.username = meta.username;
+    meta.client.resendEmail(opts, function(err, resp){
       $scope.$apply(function(){
         callback(err, resp);
       });  
@@ -90,7 +97,8 @@ module.factory('rpAuthFlow', ['$rootScope', 'rpAuthInfo', 'rpKdf', 'rpBlob',
   };
 
   AuthFlow.relogin = function (url, keys, callback) {
-    vaultClient.relogin(url, keys.id, keys.crypt, function(err, resp){
+    var meta = AuthFlow.getVaultClient('');
+    meta.client.relogin(url, keys.id, keys.crypt, function(err, resp){
         if (err) {
           callback(err);
           return;
@@ -108,8 +116,9 @@ module.factory('rpAuthFlow', ['$rootScope', 'rpAuthInfo', 'rpKdf', 'rpBlob',
       return;       
     }
     
+    var meta = AuthFlow.getVaultClient(username);
     var encrypted_secret = $scope.userBlob.encrypted_secret;
-    vaultClient.unlock(username, password, encrypted_secret, function (err, resp){
+    meta.client.unlock(meta.username, password, encrypted_secret, function (err, resp){
       setImmediate(function(){
         $scope.$apply(function(){ 
           callback(err, resp);         
@@ -117,6 +126,22 @@ module.factory('rpAuthFlow', ['$rootScope', 'rpAuthInfo', 'rpKdf', 'rpBlob',
       });    
     });        
   };
+
+  AuthFlow.getVaultClient = function(username) {
+    var meta = { username: username, domain: Options.domain };
+
+    var atSign = username.indexOf('@');
+    if (atSign !== -1) {
+      meta = {
+        username: username.substring(0, atSign),
+        domain: username.substring(atSign+1)
+      };
+    }
+
+    meta.client = new ripple.VaultClient(meta.domain);
+
+    return meta;
+  }
 
   return AuthFlow;
 }]);
