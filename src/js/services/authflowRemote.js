@@ -97,7 +97,8 @@ module.factory('rpAuthFlow', ['$rootScope', 'rpAuthInfo', 'rpKdf', 'rpBlob',
   };
 
   AuthFlow.rename = function (opts, callback) {
-    vaultClient.rename(opts, function(err, resp){
+    var meta = AuthFlow.getVaultClient(opts.username);
+    meta.client.rename(opts, function(err, resp){
       $scope.$apply(function(){
         callback(err, resp);
       });
