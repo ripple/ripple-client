@@ -43,7 +43,7 @@ SendTab.prototype.angular = function (module)
       // raw address without any parameters
       var address = webutil.stripRippleAddress($scope.send.recipient);
 
-      $scope.contact = webutil.getContact($scope.userBlob.data.contacts,address);
+      $scope.contact = webutil.getContact($scope.userBlob.data.contacts, address);
 
       // Sets
       // send.recipient, send.recipient_name, send.recipient_address, send.dt.
@@ -318,18 +318,7 @@ SendTab.prototype.angular = function (module)
         $network.remote.request_account_currencies(send.recipient_address)
           .on('success', function (data) {
             if (data.receive_currencies) {
-              $scope.$apply(function () {
-                send.restrict_currencies = data.receive_currencies;
-                // Generate list of accepted currencies
-                send.currency_choices = _.uniq(_.compact(_.map(data.receive_currencies, function (currency) {
-                  return currency;
-                })));
-
-                // Add XRP if they allow it
-                if (!send.recipient_info.disallow_xrp) {
-                  send.currency_choices.unshift("XRP");
-                }
-              });
+              $scope.update_currency_choices(data.receive_currencies);
             }
           })
           .on('error', function () {})
@@ -350,6 +339,39 @@ SendTab.prototype.angular = function (module)
       }
 
       $scope.update_currency();
+    };
+
+    $scope.update_currency_choices = function(receive_currencies) {
+
+      $scope.$apply(function () {
+        // Generate list of accepted currencies
+        var currencies = _.uniq(_.compact(_.map(receive_currencies, function (currency) {
+          return currency;
+        })));
+
+        // add XRP if it's allowed
+        if (!$scope.send.recipient_info.disallow_xrp) {
+          currencies.unshift('XRP');
+        }
+
+        // create a currency object for each of the currency codes
+        for (var i=0; i < currencies.length; i++) {
+          currencies[i] = ripple.Currency.from_json(currencies[i]);
+        }
+
+        // create the display version of the currencies
+        currencies = _.map(currencies, function (currency) {
+          if ($scope.currencies_all_keyed[currency._iso_code]) {
+            return currency.to_human({full_name:$scope.currencies_all_keyed[currency._iso_code].name});
+          } else {
+            return currency.to_human();
+          }
+        });
+
+        $scope.send.currency_choices = currencies;
+        $scope.send.currency_code = currencies[0]._iso_code;
+        $scope.send.currency = currencies[0];
+      });
     };
 
     // Reset anything that depends on the currency
@@ -697,22 +719,36 @@ SendTab.prototype.angular = function (module)
       $scope.recipient_query = webutil.queryFromContacts(contacts);
     }, true);
 
+    // update currency options based on existing trust lines
+    // the user can only send the currencies for which there exists trustlines
     $scope.$watch('lines', function (lines) {
-      var currencies = _.uniq(_.map(_.keys(lines), function (line) {
-        return line.slice(-3);
+
+      // create a list of currency codes from the trust line objects
+      var currencies = _.uniq(_.map(lines, function (line) {
+        return line.currency;
       }));
 
-      // XXX Not the fastest way of doing it...
+      // add XRP if it's allowed
+      if (!$scope.send.recipient_info.disallow_xrp) {
+        currencies.unshift('XRP');
+      }
+
+      // create a currency object for each of the currency codes
+      for (var i=0; i < currencies.length; i++) {
+        currencies[i] = ripple.Currency.from_json(currencies[i]);
+      }
+
+      // create the display version of the currencies
       currencies = _.map(currencies, function (currency) {
-        _.each($scope.currencies_all, function (entry) {
-          if (currency === entry.value) {
-            currency = entry.name;
-            return false;
-          }
-        });
-        return currency;
+        if ($scope.currencies_all_keyed[currency._iso_code]) {
+          return currency.to_human({full_name:$scope.currencies_all_keyed[currency._iso_code].name});
+        }
       });
-      $scope.source_currency_query = webutil.queryFromArray(currencies);
+
+      $scope.send.currency_choices = currencies;
+      $scope.send.currency_code = currencies[0]._iso_code;
+      $scope.send.currency = currencies[0];
+
     }, true);
 
     $scope.$watch('account.max_spend', function () {
@@ -734,7 +770,7 @@ SendTab.prototype.angular = function (module)
         amount: '',
         amount_prev: new Amount(),
         currency: $scope.xrp.name,
-        currency_choices: $scope.currencies_all,
+        currency_choices: [],
         currency_code: "XRP",
         path_status: 'waiting',
         fund_status: 'none',
@@ -862,11 +898,11 @@ SendTab.prototype.angular = function (module)
       var send = $scope.send;
       var currency = $scope.send.currency.slice(0, 3).toUpperCase();
       var amount = send.amount_feedback;
-      var addrress = $scope.send.recipient_address;
+      var address = $scope.send.recipient_address;
 
       $scope.mode = "sending";
 
-      amount.set_issuer(addrress);
+      amount.set_issuer(address);
 
       var tx = $network.remote.transaction();
       // Source tag
@@ -917,7 +953,7 @@ SendTab.prototype.angular = function (module)
 
         tx.destination_tag(dt ? +dt : undefined); // 'cause +dt is NaN when dt is undefined
 
-        tx.payment($id.account, addrress, amount.to_json());
+        tx.payment($id.account, address, amount.to_json());
       }
 
       if ($scope.send.alt) {

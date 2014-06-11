@@ -2,7 +2,8 @@ var util = require('util'),
     webutil = require('../util/web'),
     Tab = require('../client/tab').Tab,
     Amount = ripple.Amount,
-    Base = ripple.Base;
+    Base = ripple.Base,
+    Currency = ripple.Currency;
 
 var ExchangeTab = function ()
 {
@@ -32,18 +33,27 @@ ExchangeTab.prototype.angular = function (module)
       // Remember user preference on Convert vs. Trade
       $rootScope.ripple_exchange_selection_trade = false;
 
-      $scope.xrp = _.where($scope.currencies_all, {value: "XRP"})[0];
+      var xrpCurrency = Currency.from_json("XRP");
+
+      $scope.xrp = {
+        name: xrpCurrency.to_human({full_name: _.where($scope.currencies_all, {value: "XRP"})[0].name } ),
+        code: xrpCurrency.get_iso(),
+        currency: xrpCurrency
+      };
 
       $scope.$watch('exchange.amount', function () {
         $scope.update_exchange();
       }, true);
 
-      $scope.$watch('exchange.currency', function () {
-        $scope.exchange.currency_code = $scope.exchange.currency ? $scope.exchange.currency.slice(0, 3).toUpperCase() : "XRP";
+      $scope.$watch('exchange.currency_name', function () {
+        var exchange = $scope.exchange;
+        var currency = Currency.from_human($scope.exchange.currency_name ? $scope.exchange.currency_name : "XRP");
+        exchange.currency_obj = currency;
+        exchange.currency_code = currency.get_iso();
+        exchange.currency_name = currency.to_human({full_name: _.where($scope.currencies_all, {value: currency.get_iso()})[0].name});
         $scope.update_exchange();
       }, true);
 
-      var pathUpdateTimeout;
 
       $scope.reset_paths = function () {
         var exchange = $scope.exchange;
@@ -51,10 +61,10 @@ ExchangeTab.prototype.angular = function (module)
         exchange.alternatives = [];
       };
 
+      var pathUpdateTimeout;
       $scope.update_exchange = function () {
         var exchange = $scope.exchange;
-        var currency = exchange.currency_code;
-        var formatted = "" + exchange.amount + " " + currency.slice(0, 3);
+        var formatted = "" + exchange.amount + " " + exchange.currency_code;
 
         $scope.reset_paths();
 
@@ -127,23 +137,30 @@ ExchangeTab.prototype.angular = function (module)
         });
       };
 
-      $scope.currency_query = webutil.queryFromOptions($scope.currencies_all);
       $scope.$watch('lines', function (lines) {
-        var currencies = _.uniq(_.map(_.keys(lines), function (line) {
-          return line.slice(-3);
+
+        // create a list of currency codes from the trust line objects
+        var currencies = _.uniq(_.map(lines, function (line) {
+          return line.currency;
         }));
 
-        // XXX Not the fastest way of doing it...
+        // add XRP
+        currencies.unshift('XRP');
+
+        // create a currency object for each of the currency codes
+        for (var i=0; i < currencies.length; i++) {
+          currencies[i] = ripple.Currency.from_json(currencies[i]);
+        }
+
+        // create the display version of the currencies
         currencies = _.map(currencies, function (currency) {
-          _.each($scope.currencies_all, function (entry) {
-            if (currency === entry.value) {
-              currency = entry.name;
-              return false;
-            }
-          });
-          return currency;
+          if ($scope.currencies_all_keyed[currency._iso_code]) {
+            return currency.to_human({full_name:$scope.currencies_all_keyed[currency._iso_code].name});
+          }
         });
-        $scope.source_currency_query = webutil.queryFromArray(currencies);
+
+        $scope.currency_choices = currencies;
+
       }, true);
 
       $scope.reset = function () {
@@ -154,8 +171,9 @@ ExchangeTab.prototype.angular = function (module)
         //     scope inheritance works.
         $scope.exchange = {
           amount: '',
-          currency: $scope.xrp.name,
-          currency_code: "XRP",
+          currency_name: $scope.xrp.name,
+          currency_code: $scope.xrp.code,
+          currency_obj: $scope.xrp.currency,
           path_status: 'waiting',
           fund_status: 'none'
         };
@@ -193,8 +211,7 @@ ExchangeTab.prototype.angular = function (module)
        * N4. Waiting for transaction result page
        */
       $scope.exchange_confirmed = function () {
-        var currency = $scope.exchange.currency.slice(0, 3).toUpperCase();
-        var amount = Amount.from_human(""+$scope.exchange.amount+" "+currency);
+        var amount = Amount.from_human(""+$scope.exchange.amount+" "+$scope.exchange.currency_name);
 
         amount.set_issuer($id.account);
 
