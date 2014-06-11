@@ -164,6 +164,54 @@ module.directive('rpDest', function ($timeout, rpAuthInfo, $parse) {
 });
 
 /**
+ * Check if the ripple name is valid and is available for use
+ */
+module.directive('rpAvailableRippleName', function ($timeout, rpAuthInfo, $parse) {
+  return {
+    restrict: 'A',
+    require: '?ngModel',
+    link: function (scope, elm, attr, ctrl) {
+      if (!ctrl) return;
+
+      var timeoutPromise;
+
+      var validator = function(value) {
+        if (webutil.isRippleName("~" + value)) {
+          if (timeoutPromise) $timeout.cancel(timeoutPromise);
+
+          timeoutPromise = $timeout(function(){
+            if (attr.rpDestLoading) {
+              var getterL = $parse(attr.rpDestLoading);
+              getterL.assign(scope,true);
+            }
+
+            rpAuthInfo.get(Options.domain, value, function(err, info){
+              ctrl.$setValidity('rpAvailableRippleName', !info.exists);
+
+              if (attr.rpDestLoading) {
+                getterL.assign(scope,false);
+              }
+            })
+          }, 500);
+
+          return value;
+        }
+
+        ctrl.$setValidity('rpAvailableRippleName', false);
+        return;
+      };
+
+      ctrl.$formatters.push(validator);
+      ctrl.$parsers.unshift(validator);
+
+      attr.$observe('rpAvailableRippleName', function() {
+        validator(ctrl.$viewValue);
+      });
+    }
+  }
+});
+
+/**
  * Source and destination tags validator
  *
  * Integer in the range 0 to 2^32-1
