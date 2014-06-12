@@ -8,7 +8,7 @@ before_install:
 before_script:
   - "cp src/js/config-example.js src/js/config.js"
   - "cp config-example.json config.json"
-script: "grunt && ./node_modules/.bin/karma start test/karma.conf.js --single-run --browsers Firefox"
+script: "grunt && npm run test-travis"
 notifications:
   email:
     false
