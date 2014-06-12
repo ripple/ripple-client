@@ -21,9 +21,9 @@ TrustTab.prototype.generateHtml = function ()
 
 TrustTab.prototype.angular = function (module)
 {
-  module.controller('TrustCtrl', ['$scope', '$timeout', '$routeParams', 'rpId',
+  module.controller('TrustCtrl', ['rpBooks', '$scope', '$timeout', '$routeParams', 'rpId',
                                   '$filter', 'rpNetwork', 'rpTracker', 'rpKeychain',
-                                  function ($scope, $timeout, $routeParams, id,
+                                  function (books, $scope, $timeout, $routeParams, id,
                                             $filter, $network, $rpTracker, keychain)
   {
     if (!id.loginStatus) return id.goId();
@@ -305,10 +305,12 @@ TrustTab.prototype.angular = function (module)
       var line = this.line;
       var filterAddress = $filter('rpcontactnamefull');
       var contact = filterAddress(line.account);
+      $scope.line = this.line;
       $scope.edituser = (contact) ? contact : 'User';
       $scope.validation_pattern = contact ? /^[0-9.]+$/ : /^0*(([1-9][0-9]*.?[0-9]*)|(.0*[1-9][0-9]*))$/;
       $scope.currency = line.currency;
       $scope.balance = line.balance.to_human();
+      $scope.balanceAmount = line.balance;
       $scope.counterparty = line.account;
       $scope.counterparty_view = contact;
       $scope.amount = +line.limit.to_text();
@@ -322,17 +324,26 @@ TrustTab.prototype.angular = function (module)
       });
     };
 
-    $scope.delete_line = function ()
+    $scope.load_orderbook = function() {
+      if ($scope.book) {
+        $scope.book.unsubscribe();
+      }
+
+      $scope.book = books.get({
+        currency: $scope.currency,
+        issuer: $scope.counterparty
+      }, {
+        currency: 'XRP',
+        issuer: undefined
+      });
+
+      return $scope.book;
+    }
+
+    $scope.delete_line = function()
     {
 
-      var tx = $network.remote.transaction();
-      var counterpartyAddress = this.counterparty_address;
-      var newLinesArray = [];
-
-      var nullifyTrustLine = function(idAccount, lineCurrency, lineAccount) {
-        tx.trustSet(idAccount, '0' + '/' + lineCurrency + '/' + lineAccount);
-        tx.setFlags('ClearNoRipple');
-
+      var setSecretAndSubmit = function(tx) {
         keychain.requestSecret(id.account, id.username, function (err, secret) {
           if (err) {
             console.log('Error: ', err);
@@ -344,35 +355,73 @@ TrustTab.prototype.angular = function (module)
           tx.submit(function(err, res) {
             if (err) {
               console.log('Error: ', err);
+            } else {
+              console.log('Transaction has been submitted with response:', res);
             }
-            console.log(res);
           });
         });
       }
 
-      for (var i = 0; i < this.linesArray.length; i++) {
-        var currentLine = this.linesArray[i];
+      var nullifyTrustLine = function(idAccount, lineCurrency, lineAccount) {
+        var tx = $network.remote.transaction();
+        tx.trustSet(idAccount, '0' + '/' + lineCurrency + '/' + lineAccount);
+        tx.setFlags('ClearNoRipple');
 
-        if (currentLine.account === counterpartyAddress) {
-          if (currentLine.balance.to_human() !== '0') {
+        setSecretAndSubmit(tx);
+      }
 
-            console.log("You can not delete a trust line that has a remaining balance, yet. We're working on it.");
-            newLinesArray.push(currentLine);
+      var clearBalance = function(selfAddress, issuerAddress, curr, amountObject, callback) {
+        var tx;
 
-            // returnBalanceToIssuer(id.account, currentLine.account, currentLine.balance);
+        // Decision tree: two paths
+        // 1) There is a market -> send back balance to user as XRP
+        // 2) There is no market -> send back balance to issuer
 
-            //TODO: set trust line limit to 0, return remaining balance to issuer, check allow rippling and send to ripple-lib
-          } else {
-            nullifyTrustLine(id.account, currentLine.currency, currentLine.account);
-          }
+        var sendBalanceToSelf = function() {
+          tx = $network.remote.transaction();
+          var payment = tx.payment(selfAddress, selfAddress, '100000000000');
+
+          payment.setFlags('PartialPayment');
+          payment.sendMax(amountObject.to_human() + '/' + curr + '/' + issuerAddress);
+        };
+
+        var sendBalanceToIssuer = function() {
+          tx = $network.remote.transaction();
+
+          var amount = amountObject;
+          var newAmount = amount.set_issuer(issuerAddress);
+          var payment = tx.payment(selfAddress, issuerAddress, newAmount);
         }
 
-        else if (currentLine.account !== counterpartyAddress) {
-          newLinesArray.push(currentLine);
+        if ($scope.book.asks.length !== 0 && $scope.book.bids.length !== 0) {
+          sendBalanceToSelf();
+        } else {
+          sendBalanceToIssuer();
+        }
+
+        setSecretAndSubmit(tx);
+
+        tx.once('proposed', callback);
+      }
+
+      if ($scope.balance !== '0') {
+        (function (counterparty) {
+          clearBalance(id.account, $scope.counterparty, $scope.currency, $scope.balanceAmount, function(res) {
+            nullifyTrustLine(id.account, $scope.currency, counterparty);
+          });
+        })($scope.counterparty);
+      }
+
+      else {
+        nullifyTrustLine(id.account, $scope.currency, $scope.counterparty);
+      }
+
+      for (var address in $scope.lines) {
+        if (address === ($scope.counterparty + $scope.currency)) {
+          delete $scope.lines[address];
         }
       }
 
-      $scope.lines = newLinesArray;
       $scope.toggle_form();
 
     };
