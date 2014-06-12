@@ -60,7 +60,7 @@ section.col-xs-12.content(ng-controller="KycCtrl")
         label(for="taxID", l10n) Tax ID
         input.form-control.line1(
           name='taxID', id="taxID", type='text'
-          ng-model='profile.id.taxID')
+          ng-model='profile.nationalID.taxID')
     hr(ng-show='profile.entityType == "individual"')
     label(ng-show='profile.entityType == "individual"', l10n) Date Of Birth
     .row(ng-show='profile.entityType == "individual"')
@@ -69,19 +69,19 @@ section.col-xs-12.content(ng-controller="KycCtrl")
         input.form-control.line1(
           name='day', id="day", type='text'
           rp-combobox="days", rp-combobox-select
-          ng-model='profile.day')
+          ng-model='profile.birthday.day')
       .col-xs-4.col-sm-3.col-md-2
         label(for="month", l10n) Month
         input.form-control.line1(
           name='month', id="month", type='text'
           rp-combobox="months", rp-combobox-select
-          ng-model='profile.month')
+          ng-model='profile.birthday.month')
       .col-xs-4.col-sm-3.col-md-2
         label(for="year", l10n) Year
         input.form-control.line1(
           name='year', id="year", type='text'
           rp-combobox="years", rp-combobox-select
-          ng-model='profile.year')
+          ng-model='profile.birthday.year')
     hr(ng-show='profile.entityType == "individual"')
     label(ng-show='profile.entityType == "individual"', l10n) Identification
     .row(ng-show='profile.entityType == "individual"')
