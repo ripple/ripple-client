@@ -36,7 +36,7 @@ ExchangeTab.prototype.angular = function (module)
       var xrpCurrency = Currency.from_json("XRP");
 
       $scope.xrp = {
-        name: xrpCurrency.to_human({full_name: _.where($scope.currencies_all, {value: "XRP"})[0].name } ),
+        name: xrpCurrency.to_human({full_name:$scope.currencies_all_keyed["XRP"].name}),
         code: xrpCurrency.get_iso(),
         currency: xrpCurrency
       };
@@ -50,7 +50,7 @@ ExchangeTab.prototype.angular = function (module)
         var currency = Currency.from_human($scope.exchange.currency_name ? $scope.exchange.currency_name : "XRP");
         exchange.currency_obj = currency;
         exchange.currency_code = currency.get_iso();
-        exchange.currency_name = currency.to_human({full_name: _.where($scope.currencies_all, {value: currency.get_iso()})[0].name});
+        exchange.currency_name = currency.to_human({full_name:$scope.currencies_all_keyed[currency.get_iso()].name});
         $scope.update_exchange();
       }, true);
 
