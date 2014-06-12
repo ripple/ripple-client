@@ -67,7 +67,8 @@ SendTab.prototype.angular = function (module)
     }, true);
 
     $scope.$watch('send.currency', function () {
-      $scope.send.currency_code = ripple.Currency.from_json($scope.send.currency).to_human().toUpperCase();
+      var match = /^([a-zA-Z0-9]{3}|[A-Fa-f0-9]{40})\b/.exec($scope.send.currency);
+      $scope.send.currency_code = ripple.Currency.from_json(match[0]).to_human().toUpperCase();
       $scope.update_currency();
     }, true);
 
@@ -406,7 +407,7 @@ SendTab.prototype.angular = function (module)
       // this actually *causes* the same odd rounding problem, so in the future
       // we'll want a better solution, but for right now this does what we need.
       var refDate = new Date(new Date().getTime() + 5 * 60000);
-      var amount = send.amount_feedback = ripple.Amount.from_human('' + send.amount + ' ' + currency.toUpperCase(), { reference_date: refDate });
+      var amount = send.amount_feedback = ripple.Amount.from_human('' + currency.toUpperCase() + ' ' + send.amount, { reference_date: refDate });
 
       $scope.reset_amount_deps();
       send.path_status = 'waiting';
