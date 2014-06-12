@@ -107,7 +107,6 @@ KycTab.prototype.angular = function(module)
         //console.log(blob.identity.getAll(key));
       });
 
-      // TODO: DOES NOT WORK YET
       blob.identity.set('birthday', key, $scope.profile.birthday, function(err, resp) {
         console.log('here', err, resp);
         console.log(blob.identity.getAll(key));
