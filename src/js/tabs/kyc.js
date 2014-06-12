@@ -18,11 +18,34 @@ KycTab.prototype.generateHtml = function ()
 
 KycTab.prototype.angular = function(module)
 {
-  module.controller('KycCtrl', ['$scope', '$rootScope', 'rpId', '$timeout',
-                                    function ($scope, $rootScope, $id, $timeout)
+  module.controller('KycCtrl', ['$scope',
+                                    function ($scope)
   {
-    $scope.isIndividual = true;
+    var updateProfile = function() {
+      var blob = $scope.userBlob;
+      if (blob && typeof(blob.identity) !== 'undefined') {
+        var key = blob.key;
 
+        var profile = blob.identity.getAll(key);
+
+        // Normalize profile
+        for (var key in profile) {
+          profile[key] = profile[key].value;
+        }
+        $scope.profile = profile;
+      }
+    }
+
+    $scope.profile = {};
+    $scope.profile.entityType = 'individual';
+
+    $scope.$watch('userBlob', function(){
+      updateProfile();
+    });
+
+    if ($scope.userBlob) {
+      updateProfile();
+    };
 
     var genNum = function(start, end) {
       var arr = [];
@@ -37,10 +60,56 @@ KycTab.prototype.angular = function(module)
     var currentYear = new Date().getFullYear();
     $scope.years = genNum(currentYear - 100, currentYear);
 
-    $scope.id_types = ['Social Security Number','National ID Number','Passport Number','Drivers License Number'];
+    var id_type_dictionary = {
+      'Social Security Number': 'ssn',
+      'National ID Number': 'other',
+      'Passport Number': 'passport',
+      'Drivers License Number': 'driversLicense'
+    };
+    $scope.id_types = Object.keys(id_type_dictionary);
 
     $scope.save = function () {
-      console.log(JSON.stringify($scope.profile));
+      var blob = $scope.userBlob;
+      var key = blob.key;
+
+      var profile = $scope.profile;
+
+
+      blob.identity.set('name', key, $scope.profile.name, function(err, resp) {
+        //console.log('here', err, resp);
+        //console.log(blob.identity.getAll(key));
+      });
+
+      blob.identity.set('address', key, $scope.profile.address, function(err, resp) {
+        //console.log('here', err, resp);
+        //console.log(blob.identity.getAll(key));
+      });
+
+      blob.identity.set('entityType', key, $scope.profile.entityType, function(err, resp) {
+        //console.log('here', err, resp);
+        //console.log(blob.identity.getAll(key));
+      });
+
+      // NationalID
+      var nationalID;
+      if ($scope.profile.entityType === 'individual') {
+        nationalID = $scope.profile.nationalID;
+      }
+      else {
+        // corporation
+        nationalID = {
+          number: $scope.profile.nationalID.taxID,
+          type: 'taxID',
+          country: $scope.profile.address.country
+        };
+      }
+
+      blob.identity.set('nationalID', key, nationalID, function(err, resp) {
+        //console.log('here', err, resp);
+        //console.log(blob.identity.getAll(key));
+      });
+
+      console.log('Saved profile');
     };
 
   }]);

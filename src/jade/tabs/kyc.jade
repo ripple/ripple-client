@@ -5,16 +5,16 @@ section.col-xs-12.content(ng-controller="KycCtrl")
     hr
     h3(l10n) Complete your profile information
     hr
-    button.btn.btn-primary(ng-click="isIndividual = true", l10n) Individual
-    button.btn.btn-primary(ng-click="isIndividual = false", l10n) Business
+    button.btn.btn-primary(ng-click='profile.entityType = "individual"', l10n) Individual
+    button.btn.btn-primary(ng-click='profile.entityType = "corporation"', l10n) Business
     br
   form.row-padding-small(name="profileForm", ng-submit="save()")
     .row
       .col-xs-12.col-sm-8.col-md-5
-        label(for="fullName", l10n) Full Name
+        label(for="name", l10n) Full Name
         input.form-control.fullName(
-          name='fullName', id="fullName", type='text'
-          ng-model='profile.fullName')
+          name='name', id="name", type='text'
+          ng-model='profile.name')
     .row
       hr
     .row
@@ -24,46 +24,46 @@ section.col-xs-12.content(ng-controller="KycCtrl")
         label(for="line1", l10n) Line 1
         input.form-control.line1(
           name='line1', id="line1", type='text'
-          ng-model='profile.line1')
+          ng-model='profile.address.line1')
     .row
       .col-xs-12.col-sm-8.col-md-5
         label(for="line2", l10n) Line 2
         input.form-control.line2(
           name='line2', id="line2", type='text'
-          ng-model='profile.line2')
+          ng-model='profile.address.line2')
     .row
       .col-xs-12.col-sm-8.col-md-5
         label(for="city", l10n) City
         input.form-control.city(
           name='city', id="city", type='text'
-          ng-model='profile.city')
+          ng-model='profile.address.city')
     .row
       .col-xs-12.col-sm-8.col-md-5
         label(for="state", l10n) State/Region
         input.form-control.state(
-          name='state', id="state", type='text'
-          ng-model='profile.state')
+          name='region', id="region", type='text'
+          ng-model='profile.address.region')
     .row
       .col-xs-12.col-sm-8.col-md-5
-        label(for="zip", l10n) ZIP/Postal Code
+        label(for="postalCode", l10n) ZIP/Postal Code
         input.form-control.zip(
-          name='zip', id="zip", type='text'
-          ng-model='profile.zip')
+          name='postalCode', id="postalCode", type='text'
+          ng-model='profile.address.postalCode')
     .row
       .col-xs-12.col-sm-8.col-md-5
         label(for="country", l10n) Country
         input.form-control.line1(
           name='country', id="country", type='text'
-          ng-model='profile.country')
-    .row(ng-hide="isIndividual")
+          ng-model='profile.address.country')
+    .row(ng-show='profile.entityType == "corporation"')
       .col-xs-12.col-sm-8.col-md-5
-        label(for="tax_id", l10n) Tax ID
+        label(for="taxID", l10n) Tax ID
         input.form-control.line1(
-          name='tax_id', id="tax_id", type='text'
-          ng-model='profile.tax_id')
-    hr(ng-show="isIndividual")
-    label(ng-show="isIndividual", l10n) Date Of Birth
-    .row(ng-show="isIndividual")
+          name='taxID', id="taxID", type='text'
+          ng-model='profile.id.taxID')
+    hr(ng-show='profile.entityType == "individual"')
+    label(ng-show='profile.entityType == "individual"', l10n) Date Of Birth
+    .row(ng-show='profile.entityType == "individual"')
       .col-xs-4.col-sm-2.col-md-1
         label(for="country", l10n) Day
         input.form-control.line1(
@@ -82,31 +82,31 @@ section.col-xs-12.content(ng-controller="KycCtrl")
           name='year', id="year", type='text'
           rp-combobox="years", rp-combobox-select
           ng-model='profile.year')
-    hr(ng-show="isIndividual")
-    label(ng-show="isIndividual", l10n) Identification
-    .row(ng-show="isIndividual")
+    hr(ng-show='profile.entityType == "individual"')
+    label(ng-show='profile.entityType == "individual"', l10n) Identification
+    .row(ng-show='profile.entityType == "individual"')
       .col-xs-12.col-sm-8.col-md-5
         label(for="id_type", l10n) ID Type
         input.form-control.line1(
           name='id_type', id="id_type", type='text'
           rp-combobox="id_types", rp-combobox-select
-          ng-model='profile.id_type')
-    .row(ng-show="isIndividual")
+          ng-model='profile.nationalID.type')
+    .row(ng-show='profile.entityType == "individual"')
       .col-xs-12.col-sm-8.col-md-5
         label(for="id_number", l10n) ID Number
         input.form-control.line1(
           name='id_number', id="id_number", type='text'
-          ng-model='profile.id_number')
-    .row(ng-show="isIndividual")
+          ng-model='profile.nationalID.number')
+    .row(ng-show='profile.entityType == "individual"')
       .col-xs-12.col-sm-8.col-md-5
         label(for="issuing_country", l10n) Issuing Country
         input.form-control.line1(
           name='issuing_country', id="issuing_country", type='text'
-          ng-model='profile.issuing_country')
-    .row(ng-show="isIndividual")
+          ng-model='profile.nationalID.country')
+    .row(ng-show='profile.entityType == "individual"')
       .col-xs-12.col-sm-8.col-md-5
         input(name='no_ssn', id="no_ssn", type='checkbox'
-          ng-model='profile.no_ssn')
+          ng-model='profile.nationalID.no_ssn')
         label(for="no_ssn", l10n) I am a US resident, but I do not have a social security number.
     button.btn.btn-primary.submit(type='submit', l10n) Save to profile
     a(href="") Cancel
