@@ -382,38 +382,39 @@ TrustTab.prototype.angular = function (module)
       }
 
       var clearBalance = function(selfAddress, issuerAddress, curr, amountObject, callback) {
-        var tx;
 
         // Decision tree: two paths
         // 1) There is a market -> send back balance to user as XRP
         // 2) There is no market -> send back balance to issuer
 
         var sendBalanceToSelf = function() {
-          tx = $network.remote.transaction();
+          var tx = $network.remote.transaction();
           var payment = tx.payment(selfAddress, selfAddress, '100000000000');
 
           payment.setFlags('PartialPayment');
           payment.sendMax(amountObject.to_human() + '/' + curr + '/' + issuerAddress);
+
+          return tx;
         };
 
         var sendBalanceToIssuer = function() {
-          tx = $network.remote.transaction();
+          var tx = $network.remote.transaction();
 
-          var amount = amountObject;
+          var amount = amountObject.clone();
           var newAmount = amount.set_issuer(issuerAddress);
           var payment = tx.payment(selfAddress, issuerAddress, newAmount);
+
+          return tx;
         }
 
-        if ($scope.orderbookExists) {
-          sendBalanceToSelf();
-        } else {
-          sendBalanceToIssuer();
-        }
+        var tx = $scope.orderbookExists ? sendBalanceToSelf() : sendBalanceToIssuer();
 
         setSecretAndSubmit(tx);
 
         tx.once('proposed', callback);
       }
+
+      // $scope.counterparty inside the clearBalance callback function does not have counterparty in its scope, therefore, we need an immediate function to capture it.
 
       if ($scope.balance !== '0') {
         (function (counterparty) {
