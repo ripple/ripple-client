@@ -49,10 +49,6 @@ KycTab.prototype.angular = function(module)
           profile[key] = profile[key].value;
         }
 
-        if (profile.entityType === 'corporation') {
-          profile.nationalID.taxID = profile.nationalID.number;
-        }
-
         var type = profile.nationalID.type;
         var type_short = id_type_map_reverse[type];
         profile.nationalID.type =  type_short ? type_short: type;
@@ -122,7 +118,7 @@ KycTab.prototype.angular = function(module)
       }
       else {
         // corporation
-        national_id.number = nid.taxID;
+        national_id.number = nid.number;
         national_id.type = 'taxID';
         national_id.country = $scope.profile.address.country;
       }

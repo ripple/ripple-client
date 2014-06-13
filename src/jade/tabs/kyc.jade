@@ -55,12 +55,6 @@ section.col-xs-12.content(ng-controller="KycCtrl")
         input.form-control.line1(
           name='country', id="country", type='text'
           ng-model='profile.address.country')
-    .row(ng-show='profile.entityType == "corporation"')
-      .col-xs-12.col-sm-8.col-md-5
-        label(for="taxID", l10n) Tax ID
-        input.form-control.line1(
-          name='taxID', id="taxID", type='text'
-          ng-model='profile.nationalID.taxID')
     hr(ng-show='profile.entityType == "individual"')
     label(ng-show='profile.entityType == "individual"', l10n) Date Of Birth
     .row(ng-show='profile.entityType == "individual"')
@@ -91,9 +85,10 @@ section.col-xs-12.content(ng-controller="KycCtrl")
           name='id_type', id="id_type", type='text'
           rp-combobox="id_types", rp-combobox-select
           ng-model='profile.nationalID.type')
-    .row(ng-show='profile.entityType == "individual"')
+    .row
       .col-xs-12.col-sm-8.col-md-5
-        label(for="id_number", l10n) ID Number
+        label(for="id_number", ng-show='profile.entityType == "individual"', l10n) ID Number
+        label(for="id_number", ng-show='profile.entityType == "corporation"', l10n) Tax ID
         input.form-control.line1(
           name='id_number', id="id_number", type='text'
           ng-model='profile.nationalID.number')
