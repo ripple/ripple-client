@@ -7,12 +7,11 @@ module.exports = function(config) {
       'build/dist/deps-debug.js',
       'deps/js/angular-mocks/angular-mocks.js',
       'src/js/config.js',
-      'build/dist/web/templates-debug.js',
       'build/dist/web/ripple-client-debug.js',
       'test/unit/**/*.js'
     ],
 
-    browsers: ['Chrome'],
+    browsers: ['Chrome', 'Firefox'],
     singleRun: false,
     autoWatch: true
   });
