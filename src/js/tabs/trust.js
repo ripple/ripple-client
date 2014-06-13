@@ -300,6 +300,32 @@ TrustTab.prototype.angular = function (module)
       });
     };
 
+    $scope.load_orderbook = function() {
+      if ($scope.book) {
+        $scope.book.unsubscribe();
+      }
+
+      $scope.book = books.get({
+        currency: $scope.currency,
+        issuer: $scope.counterparty
+      }, {
+        currency: 'XRP',
+        issuer: undefined
+      });
+
+      setTimeout(function() {
+        if ($scope.book.asks.length !== 0 && $scope.book.bids.length !== 0) {
+          $scope.delete_trustline_actiontext = "Are you sure you want to delete this trust line? Ripple Trade will attempt to convert the remaining balance of " + $scope.balance + " " + $scope.currency + " into XRP. This action can't be undone.";
+          $scope.delete_trustline_buttontext = "Convert Balance and Delete";
+        } else {
+          $scope.delete_trustline_actiontext = "Are you sure you want to delete this trust line? Ripple Trade will return the balance to the issuer. This action can't be undone.";
+          $scope.delete_trustline_buttontext = "Return Balance and Delete";
+        }
+        
+      }, 200);
+
+    }
+
     $scope.edit_line = function ()
     {
       var line = this.line;
@@ -322,23 +348,9 @@ TrustTab.prototype.angular = function (module)
       $timeout(function(){
         $scope.editform_visible = true;
       });
+
+      $scope.load_orderbook();
     };
-
-    $scope.load_orderbook = function() {
-      if ($scope.book) {
-        $scope.book.unsubscribe();
-      }
-
-      $scope.book = books.get({
-        currency: $scope.currency,
-        issuer: $scope.counterparty
-      }, {
-        currency: 'XRP',
-        issuer: undefined
-      });
-
-      return $scope.book;
-    }
 
     $scope.delete_line = function()
     {
