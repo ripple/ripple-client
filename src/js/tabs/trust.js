@@ -301,6 +301,8 @@ TrustTab.prototype.angular = function (module)
     };
 
     $scope.load_orderbook = function() {
+      $scope.orderbookExists = false;
+
       if ($scope.book) {
         $scope.book.unsubscribe();
       }
@@ -313,16 +315,13 @@ TrustTab.prototype.angular = function (module)
         issuer: undefined
       });
 
-      setTimeout(function() {
+      $timeout(function() {
         if ($scope.book.asks.length !== 0 && $scope.book.bids.length !== 0) {
-          $scope.delete_trustline_actiontext = "Are you sure you want to delete this trust line? Ripple Trade will attempt to convert the remaining balance of " + $scope.balance + " " + $scope.currency + " into XRP. This action can't be undone.";
-          $scope.delete_trustline_buttontext = "Convert Balance and Delete";
-        } else {
-          $scope.delete_trustline_actiontext = "Are you sure you want to delete this trust line? Ripple Trade will return the balance to the issuer. This action can't be undone.";
-          $scope.delete_trustline_buttontext = "Return Balance and Delete";
+          $scope.orderbookExists = true;
         }
-        
       }, 200);
+
+      // 200 is the close to the shortest amount needed to load the orderbook
 
     }
 
