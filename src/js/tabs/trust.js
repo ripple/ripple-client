@@ -21,9 +21,9 @@ TrustTab.prototype.generateHtml = function ()
 
 TrustTab.prototype.angular = function (module)
 {
-  module.controller('TrustCtrl', ['$scope', '$timeout', '$routeParams', 'rpId',
+  module.controller('TrustCtrl', ['$scope', 'rpBooks', '$timeout', '$routeParams', 'rpId',
                                   '$filter', 'rpNetwork', 'rpTracker', 'rpKeychain',
-                                  function ($scope, $timeout, $routeParams, id,
+                                  function ($scope, books, $timeout, $routeParams, id,
                                             $filter, $network, $rpTracker, keychain)
   {
     if (!id.loginStatus) return id.goId();
@@ -68,13 +68,14 @@ TrustTab.prototype.angular = function (module)
     };
 
     $scope.toggle_form = function () {
+      
       if($scope.addform_visible || $scope.editform_visible)
         $scope.reset();
       else
         $scope.addform_visible = true;
     };
 
-    // User should not even be able to try grunting a trust if the reserve is insufficient
+    // User should not even be able to try granting a trust if the reserve is insufficient
     $scope.$watch('account', function() {
       $scope.can_add_trust = false;
       if ($scope.account.Balance && $scope.account.reserve_to_add_trust) {
@@ -299,18 +300,49 @@ TrustTab.prototype.angular = function (module)
       });
     };
 
+    $scope.load_orderbook = function() {
+      $scope.orderbookStatus = false;
+
+      if ($scope.book) {
+        $scope.book.unsubscribe();
+      }
+
+      $scope.book = books.get({
+        currency: $scope.currency,
+        issuer: $scope.counterparty
+      }, {
+        currency: 'XRP',
+        issuer: undefined
+      });
+
+      $scope.$watchCollection('book', function () {
+        if (!$scope.book.updated) return;
+        
+        if ($scope.book.asks.length !== 0 && $scope.book.bids.length !== 0) {
+          $scope.orderbookStatus = 'exists';
+        } else {
+          $scope.orderbookStatus = 'not';
+        }
+      });
+
+      // 200 is the close to the shortest amount needed to load the orderbook
+
+    }
+
     $scope.edit_line = function ()
     {
       var line = this.line;
       var filterAddress = $filter('rpcontactnamefull');
       var contact = filterAddress(line.account);
+      $scope.line = this.line;
       $scope.edituser = (contact) ? contact : 'User';
       $scope.validation_pattern = contact ? /^[0-9.]+$/ : /^0*(([1-9][0-9]*.?[0-9]*)|(.0*[1-9][0-9]*))$/;
       $scope.currency = line.currency;
+      $scope.balance = line.balance.to_human();
+      $scope.balanceAmount = line.balance;
       $scope.counterparty = line.account;
       $scope.counterparty_view = contact;
       $scope.amount = +line.limit.to_text();
-      console.log('line',line);
       $scope.allowrippling = !line.no_ripple;
 
       // Close/open form. Triggers focus on input.
@@ -319,6 +351,96 @@ TrustTab.prototype.angular = function (module)
       $timeout(function(){
         $scope.editform_visible = true;
       });
+
+      $scope.load_orderbook();
+    };
+
+    $scope.delete_line = function()
+    {
+
+      var setSecretAndSubmit = function(tx) {
+        keychain.requestSecret(id.account, id.username, function (err, secret) {
+          if (err) {
+            console.log('Error: ', err);
+            return;
+          }
+
+          tx.secret(secret);
+
+          tx.submit(function(err, res) {
+            if (err) {
+              console.log('Error: ', err);
+              return;
+            }
+            
+            console.log('Transaction has been submitted with response:', res);
+          });
+        });
+      }
+
+      var nullifyTrustLine = function(idAccount, lineCurrency, lineAccount) {
+        var tx = $network.remote.transaction();
+        tx.trustSet(idAccount, '0' + '/' + lineCurrency + '/' + lineAccount);
+        tx.setFlags('ClearNoRipple');
+
+        setSecretAndSubmit(tx);
+      }
+
+      var clearBalance = function(selfAddress, issuerAddress, curr, amountObject, callback) {
+
+        // Decision tree: two paths
+        // 1) There is a market -> send back balance to user as XRP
+        // 2) There is no market -> send back balance to issuer
+
+        var sendBalanceToSelf = function() {
+          var tx = $network.remote.transaction();
+          var payment = tx.payment(selfAddress, selfAddress, '100000000000');
+
+          payment.setFlags('PartialPayment');
+          payment.sendMax(amountObject.to_human() + '/' + curr + '/' + issuerAddress);
+
+          return tx;
+        };
+
+        var sendBalanceToIssuer = function() {
+          var tx = $network.remote.transaction();
+
+          var amount = amountObject.clone();
+          var newAmount = amount.set_issuer(issuerAddress);
+          var payment = tx.payment(selfAddress, issuerAddress, newAmount);
+
+          return tx;
+        }
+
+        var tx = $scope.orderbookExists ? sendBalanceToSelf() : sendBalanceToIssuer();
+
+        setSecretAndSubmit(tx);
+
+        tx.once('proposed', callback);
+      }
+
+      // $scope.counterparty inside the clearBalance callback function does not have counterparty in its scope, therefore, we need an immediate function to capture it.
+
+      if ($scope.balance !== '0') {
+        (function (counterparty) {
+          clearBalance(id.account, $scope.counterparty, $scope.currency, $scope.balanceAmount, function(res) {
+            nullifyTrustLine(id.account, $scope.currency, counterparty);
+          });
+        })($scope.counterparty);
+      }
+
+      else {
+        nullifyTrustLine(id.account, $scope.currency, $scope.counterparty);
+      }
+
+      for (var address in $scope.lines) {
+        if (address === ($scope.counterparty + $scope.currency)) {
+          delete $scope.lines[address];
+        }
+      }
+
+      $scope.toggle_form();
+
     };
 
     $scope.$watch('userBlob.data.contacts', function (contacts) {

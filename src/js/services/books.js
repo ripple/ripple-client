@@ -110,12 +110,14 @@ function(net, $q, $scope, $filter, $id) {
       function handleAskModel(offers) {
         $scope.$apply(function () {
           model.asks = filterRedundantPrices(offers, 'asks', true);
+          model.updated = true;
         });
       }
 
       function handleAskTrade(gets, pays) {
         $scope.$apply(function () {
           model.last_price = gets.ratio_human(pays);
+          model.updated = true;
         });
       }
       asks.on('model', handleAskModel);
@@ -124,12 +126,14 @@ function(net, $q, $scope, $filter, $id) {
       function handleBidModel(offers) {
         $scope.$apply(function () {
           model.bids = filterRedundantPrices(offers, 'bids', true);
+          model.updated = true;
         });
       }
 
       function handleBidTrade(gets, pays) {
         $scope.$apply(function () {
           model.last_price = pays.ratio_human(gets);
+          model.updated = true;
         });
       }
       bids.on('model', handleBidModel);

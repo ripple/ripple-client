@@ -127,11 +127,43 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                 l10n-rp-popover-title="Allow Rippling"
                 rp-popover-trigger="click"
                 l10n-data-content="Allow this trust line's balances to be transferred to another issuer you trust. <a href='https://ripple.com/wiki/No_Ripple' target='_blank'>More information</a>")
-          .row
+          .row(ng-show="orderbookStatus")
             .col-xs-6.col-sm-4
               button.btn.btn-block.btn-default(type="button", ng-click='toggle_form()', l10n) Cancel
             .col-xs-6.col-sm-8
               button.btn.btn-block.btn-primary.submit(type='submit', ng-disabled='trustForm.$invalid || verifying', l10n) Save
+            .col-xs-6.col-sm-6.col-md-8.col-lg-9.delete-trust(ng-show='balance !== "0" && orderbookStatus === "exists"')
+              rp-confirm(
+                action-text="Are you sure you want to delete this trust line? Ripple Trade will attempt to convert the remaining balance of {{ balance }} {{ currency }} into XRP. This action can't be undone."
+                action-button-text="Convert Balance and Delete"
+                action-button-css="btn btn-default btn-danger"
+                action-function="delete_line()"
+                cancel-button-css="btn btn-default"
+                cancel-button-text="Cancel"
+                ng-hide="showPassword==true")
+                  a.danger(ng-click="load_orderbook()", href="", l10n) Delete
+            .col-xs-6.col-sm-6.col-md-8.col-lg-9.delete-trust(ng-show='balance !== "0" && orderbookStatus === "not"')
+              rp-confirm(
+                action-text="Are you sure you want to delete this trust line? Ripple Trade will return the balance to the issuer. This action can't be undone."
+                action-button-text="Return Balance and Delete"
+                action-button-css="btn btn-default btn-danger"
+                action-function="delete_line()"
+                cancel-button-css="btn btn-default"
+                cancel-button-text="Cancel"
+                ng-hide="showPassword==true")
+                  a.danger(ng-click="load_orderbook()", href="", l10n) Delete
+            .col-xs-6.col-sm-6.col-md-8.col-lg-9.delete-trust(ng-show='balance === "0"')
+              rp-confirm(
+                action-text="Are you sure you want to delete this trust line? This action can't be undone."
+                action-button-text="Delete"
+                action-button-css="btn btn-default btn-danger"
+                action-function="delete_line()"
+                cancel-button-css="btn btn-default"
+                cancel-button-text="Cancel"
+                ng-hide="showPassword==true")
+                  a.danger(ng-click="load_orderbook()", href="", l10n) Delete
+          .row(ng-hide="orderbookStatus")
+            | Loading...
           .row
             .col-xs-12
               p.literal.throbber.verifying(ng-show="verifying", l10n) Verifying address
