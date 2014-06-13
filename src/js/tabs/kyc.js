@@ -26,15 +26,18 @@ KycTab.prototype.angular = function(module)
     var currentYear = new Date().getFullYear();
     $scope.years = genNum(currentYear - 100, currentYear);
 
-    var id_type_map = {
+    var id_type_map_individual = {
       'Social Security Number': 'ssn',
-      'National ID Number': 'other',
       'Passport Number': 'passport',
       'Drivers License Number': 'driversLicense',
-      'Tax ID': 'taxID'
+      'Other': 'other'
     };
-    var id_type_map_reverse = reverseDictionary(id_type_map);
-    $scope.id_types = Object.keys(id_type_map);
+    var id_type_map_individual_reverse = reverseDictionary(id_type_map_individual);
+    var id_type_map_organization = {
+      'Tax ID': 'taxID',
+      'Other': 'other'
+    };
+    var id_type_map_organization_reverse = reverseDictionary(id_type_map_organization);
 
 
     var updateProfile = function() {
@@ -50,8 +53,14 @@ KycTab.prototype.angular = function(module)
         }
 
         var type = profile.nationalID.type;
-        var type_short = id_type_map_reverse[type];
-        profile.nationalID.type =  type_short ? type_short: type;
+        if (profile.entityType === 'individual') {
+          var type_short = id_type_map_individual_reverse[type];
+          profile.nationalID.type =  type_short ? type_short: type;
+        }
+        else {
+          var type_short = id_type_map_organization_reverse[type];
+          profile.nationalID.type =  type_short ? type_short: type;
+        }
 
         $scope.profile = profile;
       }
@@ -84,6 +93,15 @@ KycTab.prototype.angular = function(module)
       updateProfile();
     };
 
+    $scope.$watch('profile.entityType', function(){
+      if ($scope.profile.entityType === 'individual') {
+        $scope.id_types = Object.keys(id_type_map_individual);
+      }
+      else {
+        $scope.id_types = Object.keys(id_type_map_organization);
+      }
+    });
+
     $scope.save = function () {
       var blob = $scope.userBlob;
       var key = blob.key;
@@ -113,13 +131,13 @@ KycTab.prototype.angular = function(module)
       var nid = $scope.profile.nationalID;
       if ($scope.profile.entityType === 'individual') {
         national_id.number = nid.number;
-        national_id.type = id_type_map[nid.type] ? id_type_map[nid.type]: 'other';
+        national_id.type = id_type_map_individual[nid.type] ? id_type_map_individual[nid.type]: 'other';
         national_id.country = nid.country;
       }
       else {
-        // corporation
+        // Organization
         national_id.number = nid.number;
-        national_id.type = 'taxID';
+        national_id.type = id_type_map_organization[nid.type] ? id_type_map_organization[nid.type]: 'other';
         national_id.country = $scope.profile.address.country;
       }
 

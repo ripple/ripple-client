@@ -6,15 +6,17 @@ section.col-xs-12.content(ng-controller="KycCtrl")
     h3(l10n) Complete your profile information
     hr
     button.btn.btn-primary(ng-click='profile.entityType = "individual"', l10n) Individual
-    button.btn.btn-primary(ng-click='profile.entityType = "corporation"', l10n) Business
+    button.btn.btn-primary(ng-click='profile.entityType = "organization"', l10n) Organization
     br
   form.row-padding-small(name="profileForm", ng-submit="save()")
     .row
       .col-xs-12.col-sm-8.col-md-5
-        label(for="name", l10n) Full Name
+        label(for="name", ng-show='profile.entityType == "individual"', l10n) Full Name
+        label(for="name", ng-show='profile.entityType == "organization"', l10n) Organization Name
         input.form-control.fullName(
           name='name', id="name", type='text'
-          ng-model='profile.name')
+          ng-model='profile.name'
+          require)
     .row
       hr
     .row
@@ -78,7 +80,7 @@ section.col-xs-12.content(ng-controller="KycCtrl")
           ng-model='profile.birthday.year')
     hr(ng-show='profile.entityType == "individual"')
     label(ng-show='profile.entityType == "individual"', l10n) Identification
-    .row(ng-show='profile.entityType == "individual"')
+    .row
       .col-xs-12.col-sm-8.col-md-5
         label(for="id_type", l10n) ID Type
         input.form-control.line1(
@@ -88,7 +90,7 @@ section.col-xs-12.content(ng-controller="KycCtrl")
     .row
       .col-xs-12.col-sm-8.col-md-5
         label(for="id_number", ng-show='profile.entityType == "individual"', l10n) ID Number
-        label(for="id_number", ng-show='profile.entityType == "corporation"', l10n) Tax ID
+        label(for="id_number", ng-show='profile.entityType == "organization"', l10n) Tax ID
         input.form-control.line1(
           name='id_number', id="id_number", type='text'
           ng-model='profile.nationalID.number')
