@@ -21,9 +21,9 @@ TrustTab.prototype.generateHtml = function ()
 
 TrustTab.prototype.angular = function (module)
 {
-  module.controller('TrustCtrl', ['rpBooks', '$scope', '$timeout', '$routeParams', 'rpId',
+  module.controller('TrustCtrl', ['$scope', 'rpBooks', '$timeout', '$routeParams', 'rpId',
                                   '$filter', 'rpNetwork', 'rpTracker', 'rpKeychain',
-                                  function (books, $scope, $timeout, $routeParams, id,
+                                  function ($scope, books, $timeout, $routeParams, id,
                                             $filter, $network, $rpTracker, keychain)
   {
     if (!id.loginStatus) return id.goId();
@@ -301,7 +301,7 @@ TrustTab.prototype.angular = function (module)
     };
 
     $scope.load_orderbook = function() {
-      $scope.orderbookExists = false;
+      $scope.orderbookStatus = false;
 
       if ($scope.book) {
         $scope.book.unsubscribe();
@@ -315,11 +315,15 @@ TrustTab.prototype.angular = function (module)
         issuer: undefined
       });
 
-      $timeout(function() {
+      $scope.$watchCollection('book', function () {
+        if (!$scope.book.updated) return;
+        
         if ($scope.book.asks.length !== 0 && $scope.book.bids.length !== 0) {
-          $scope.orderbookExists = true;
+          $scope.orderbookStatus = 'exists';
+        } else {
+          $scope.orderbookStatus = 'not';
         }
-      }, 200);
+      });
 
       // 200 is the close to the shortest amount needed to load the orderbook
 
