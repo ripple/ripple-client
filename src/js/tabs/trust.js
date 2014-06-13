@@ -404,7 +404,7 @@ TrustTab.prototype.angular = function (module)
           var payment = tx.payment(selfAddress, issuerAddress, newAmount);
         }
 
-        if ($scope.book.asks.length !== 0 && $scope.book.bids.length !== 0) {
+        if ($scope.orderbookExists) {
           sendBalanceToSelf();
         } else {
           sendBalanceToIssuer();
