@@ -366,9 +366,10 @@ TrustTab.prototype.angular = function (module)
           tx.submit(function(err, res) {
             if (err) {
               console.log('Error: ', err);
-            } else {
-              console.log('Transaction has been submitted with response:', res);
+              return;
             }
+            
+            console.log('Transaction has been submitted with response:', res);
           });
         });
       }
