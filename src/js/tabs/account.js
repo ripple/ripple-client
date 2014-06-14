@@ -18,80 +18,38 @@ AccountTab.prototype.generateHtml = function ()
 
 AccountTab.prototype.angular = function(module)
 {
-  module.controller('AccountCtrl', ['$scope', '$rootScope', 'rpId', '$timeout', 'rpAuthInfo', 'rpAuthFlow', 'rpKeychain',
-    function ($scope, $rootScope, $id, $timeout, authinfo, authflow, keychain)
+  module.controller('AccountCtrl', ['$scope', 'rpId', 'rpKeychain',
+    function ($scope, $id, keychain)
     {
-      var debounce;
-      $scope.$watch('username', function (username) {
-        $scope.usernameStatus = null;
+      if (!$id.loginStatus) return $id.goId();
 
-        if (debounce) $timeout.cancel(debounce);
-
-        if (!username) {
-          // No username entered, show nothing, do nothing
-        } else if (username.length < 2) {
-          $scope.usernameStatus = "invalid";
-          $scope.usernameInvalidReason = "tooshort";
-        } else if (username.length > 20) {
-          $scope.usernameStatus = "invalid";
-          $scope.usernameInvalidReason = "toolong";
-        } else if (!/^[a-zA-Z0-9\-]+$/.exec(username)) {
-          $scope.usernameStatus = "invalid";
-          $scope.usernameInvalidReason = "charset";
-        } else if (/^-/.exec(username)) {
-          $scope.usernameStatus = "invalid";
-          $scope.usernameInvalidReason = "starthyphen";
-        } else if (/-$/.exec(username)) {
-          $scope.usernameStatus = "invalid";
-          $scope.usernameInvalidReason = "endhyphen";
-        } else if (/--/.exec(username)) {
-          $scope.usernameStatus = "invalid";
-          $scope.usernameInvalidReason = "multhyphen";
-        } else {
-          debounce = $timeout(checkUsername, 800);
-        }
-      });
-
-      function checkUsername() {
-        $scope.usernameStatus = null;
-        if (!$scope.username) return;
-
-        $scope.usernameStatus = 'loading';
-        authinfo.get(Options.domain, $scope.username, function (err, info) {
-          $scope.usernameStatus = "ok";
-
-          if (info.exists) {
-            $scope.usernameStatus = "exists";
-          } else if (info.reserved) {
-            $scope.usernameStatus = "reserved";
-            $scope.usernameReservedFor = info.reserved;
-          }
-        });
-      }
-
-      $scope.changeName = function() {
+      $scope.rename = function() {
         $scope.loading = true;
+        $scope.error = false;
 
+        // Get the master key
         keychain.getSecret($id.account, $id.username, $scope.password,
           function (err, masterkey) {
             if (err) {
               console.log("client: account tab: error while " +
                 "unlocking wallet: ", err);
-              $scope.mode = "error";
-              $scope.error_type = "unlockFailed";
+
+              $scope.error = 'wrongpassword';
+              $scope.loading = false;
               return;
             }
 
+            // Rename
             $id.rename({
-              blob: $scope.userBlob,
-              url: $scope.userBlob.url,
-              username: $id.username,
               new_username: $scope.username,
               password: $scope.password,
               masterkey: masterkey
-            }, function(err, response){
+            }, function(err){
               if (err) {
-                console.log('Error',err);
+                console.log('client: account tab: error while ' +
+                  'renaming account: ', err);
+                $scope.error = true;
+                $scope.loading = false;
                 return;
               }
 
@@ -100,19 +58,40 @@ AccountTab.prototype.angular = function(module)
               $id.login({
                 username: $scope.username,
                 password: $scope.password
-              }, function (err, blob) {
+              }, function (err) {
                 if (err) {
-                  console.log('Error',err);
+                  console.log('client: account tab: error while ' +
+                    'logging user in: ', err);
+                  $scope.error = 'cantlogin';
+                  $scope.loading = false;
                   return;
                 }
-              });
 
-              $scope.loading = false;
+                $scope.success = true;
+                reset();
+              });
             });
           }
         );
-      }
-    }]);
+      };
+
+      var reset = function() {
+        $scope.openForm = false;
+        $scope.username = '';
+        $scope.password = '';
+        $scope.showPassword = true;
+        $scope.success = false;
+        $scope.loading = false;
+        $scope.error = false;
+
+        if ($scope.renameForm) {
+          $scope.renameForm.$setPristine(true);
+        }
+      };
+
+      reset();
+    }]
+  );
 };
 
 module.exports = AccountTab;

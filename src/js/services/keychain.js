@@ -25,7 +25,9 @@ module.factory('rpKeychain', ['$rootScope', '$timeout', 'rpPopup', 'rpId',
       var keychain = this;
       var watcher = $scope.$watch('userBlob', function(){
         if ($scope.userBlob.data && $scope.userBlob.data.account_id) {
-          keychain.secrets[$scope.userBlob.data.account_id] = $scope.userBlob.data.masterkey;
+          keychain.secrets[$scope.userBlob.data.account_id] = {
+            masterkey: $scope.userBlob.data.masterkey
+          };
           watcher();
         }
       }, true);
@@ -61,7 +63,7 @@ module.factory('rpKeychain', ['$rootScope', '$timeout', 'rpPopup', 'rpId',
     if (this.secrets[account]) {
       // Keep the secret in a closure in case it happens to get locked
       // between now and when $timeout calls back.
-      var secret = this.secrets[account];
+      var secret = this.secrets[account].masterkey;
       $timeout(function () {
         callback(null, secret);
       });
@@ -109,10 +111,10 @@ module.factory('rpKeychain', ['$rootScope', '$timeout', 'rpPopup', 'rpId',
     var _this = this;
 
     // Handle already unlocked accounts
-    if (this.secrets[account]) {
+    if (this.secrets[account] && this.secrets[account].password === password) {
       // Keep the secret in a closure in case it happens to get locked
       // between now and when $timeout calls back.
-      var secret = this.secrets[account];
+      var secret = this.secrets[account].masterkey;
       $timeout(function () {
         callback(null, secret);
       });
@@ -126,7 +128,10 @@ module.factory('rpKeychain', ['$rootScope', '$timeout', 'rpPopup', 'rpId',
       }
 
       // Cache secret for unlock period
-      _this.secrets[account] = secret;
+      _this.secrets[account] = {
+        masterkey: secret,
+        password: password
+      };
 
       setTimeout(function () {
         delete _this.secrets[account];
@@ -147,7 +152,7 @@ module.factory('rpKeychain', ['$rootScope', '$timeout', 'rpPopup', 'rpId',
       throw new Error("Keychain: Tried to get secret for locked account synchronously.");
     }
 
-    return this.secrets[account];
+    return this.secrets[account].masterkey;
   };
 
 

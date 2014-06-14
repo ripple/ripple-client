@@ -217,6 +217,10 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
   };
 
   Id.prototype.rename = function (opts, callback) {
+    opts.blob = $scope.userBlob;
+    opts.url = $scope.userBlob.url;
+    opts.username = this.username;
+
     $authflow.rename(opts, callback);
   };
 

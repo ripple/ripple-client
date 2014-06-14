@@ -166,7 +166,7 @@ module.directive('rpDest', function ($timeout, rpAuthInfo, $parse) {
 /**
  * Check if the ripple name is valid and is available for use
  */
-module.directive('rpAvailableRippleName', function ($timeout, rpAuthInfo, $parse) {
+module.directive('rpAvailableName', function ($timeout, rpAuthInfo, $parse) {
   return {
     restrict: 'A',
     require: '?ngModel',
@@ -176,19 +176,45 @@ module.directive('rpAvailableRippleName', function ($timeout, rpAuthInfo, $parse
       var timeoutPromise;
 
       var validator = function(value) {
-        if (webutil.isRippleName("~" + value)) {
+        var getterInvalidReason = $parse(attr.rpAvailableNameInvalidReason);
+        var getterReserved = $parse(attr.rpAvailableNameReservedFor);
+
+        if (!value) {
+          // No name entered, show nothing, do nothing
+        } else if (value.length < 2) {
+          getterInvalidReason.assign(scope,'tooshort');
+        } else if (value.length > 20) {
+          getterInvalidReason.assign(scope,'toolong');
+        } else if (!/^[a-zA-Z0-9\-]+$/.exec(value)) {
+          getterInvalidReason.assign(scope,'charset');
+        } else if (/^-/.exec(value)) {
+          getterInvalidReason.assign(scope,'starthyphen');
+        } else if (/-$/.exec(value)) {
+          getterInvalidReason.assign(scope,'endhyphen');
+        } else if (/--/.exec(value)) {
+          getterInvalidReason.assign(scope,'multhyphen');
+        } else {
           if (timeoutPromise) $timeout.cancel(timeoutPromise);
 
           timeoutPromise = $timeout(function(){
-            if (attr.rpDestLoading) {
-              var getterL = $parse(attr.rpDestLoading);
+            if (attr.rpLoading) {
+              var getterL = $parse(attr.rpLoading);
               getterL.assign(scope,true);
             }
 
             rpAuthInfo.get(Options.domain, value, function(err, info){
-              ctrl.$setValidity('rpAvailableRippleName', !info.exists);
+              if (info.exists) {
+                ctrl.$setValidity('rpAvailableName', false);
+                getterInvalidReason.assign(scope,'exists');
+              } else if (info.reserved) {
+                ctrl.$setValidity('rpAvailableName', false);
+                getterInvalidReason.assign(scope,'reserved');
+                getterReserved.assign(scope,info.reserved);
+              } else {
+                ctrl.$setValidity('rpAvailableName', true);
+              }
 
-              if (attr.rpDestLoading) {
+              if (attr.rpLoading) {
                 getterL.assign(scope,false);
               }
             })
@@ -197,14 +223,14 @@ module.directive('rpAvailableRippleName', function ($timeout, rpAuthInfo, $parse
           return value;
         }
 
-        ctrl.$setValidity('rpAvailableRippleName', false);
+        ctrl.$setValidity('rpAvailableName', false);
         return;
       };
 
       ctrl.$formatters.push(validator);
       ctrl.$parsers.unshift(validator);
 
-      attr.$observe('rpAvailableRippleName', function() {
+      attr.$observe('rpAvailableName', function() {
         validator(ctrl.$viewValue);
       });
     }
