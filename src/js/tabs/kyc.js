@@ -48,17 +48,18 @@ KycTab.prototype.angular = function(module)
         var profile = blob.identity.getAll(key);
 
         // Normalize profile
-        for (var key in profile) {
-          profile[key] = profile[key].value;
+        for (var k in profile) {
+          profile[k] = profile[k].value;
         }
 
         var type = profile.nationalID.type;
+        var type_short;
         if (profile.entityType === 'individual') {
-          var type_short = id_type_map_individual_reverse[type];
+          type_short = id_type_map_individual_reverse[type];
           profile.nationalID.type =  type_short ? type_short: type;
         }
         else {
-          var type_short = id_type_map_organization_reverse[type];
+          type_short = id_type_map_organization_reverse[type];
           profile.nationalID.type =  type_short ? type_short: type;
         }
 
