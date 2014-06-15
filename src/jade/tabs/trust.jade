@@ -163,8 +163,6 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                 cancel-button-text="Cancel"
                 ng-hide="showPassword==true")
                   a.danger(ng-click="load_orderbook()", href="", l10n) Delete
-          //- .row.delete-trust(ng-hide="orderbookStatus")
-          //-   | Loading...
           .row
             .col-xs-12
               p.literal.throbber.verifying(ng-show="verifying", l10n) Verifying address
