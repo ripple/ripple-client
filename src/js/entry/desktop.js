@@ -69,7 +69,8 @@ var tabdefs = [
   require('../tabs/trade'),
   require('../tabs/options'),
   require('../tabs/security'),
-  require('../tabs/tx')
+  require('../tabs/tx'),
+  require('../tabs/migrate')
 ];
 
 // Prepare tab modules
