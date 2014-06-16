@@ -288,16 +288,16 @@
 
 #t-balance {
   .content {
-    padding-top:0;  
+    padding-top:0;
   }
-  
+
   #welcome {
     font: 18px 'OpenSansLight';
     margin:0 0 10px;
     text-align: center;
     background:#d0e5d0;
     padding:50px;
-    
+
     .title {
       font: 18px 'OpenSansBold';
     }
@@ -339,44 +339,44 @@
     background-color: #F9FAFA;
     padding:10px;
     margin:0;
-    margin-bottom: 10px; 
+    margin-bottom: 10px;
     overflow:hidden;
-    
+
     .balancebox {
       padding: 5px;
-      
+
       .lbl {
         font-size   : 1.2em;
-        font-family : OpenSansBold;  
-        
+        font-family : OpenSansBold;
+
         .desc {
           color:#ccc;
           font:12px OpenSansLight;
         }
       }
-      
+
       .amount {
-        color: #060;  
-        
+        color: #060;
+
         .fraction {
           font-family:OpenSansLight;
           color: #7b3;
         }
-        
+
         .currency {
           font-family:OpenSansLight;
           margin-left:15px;
-        }  
+        }
       }
-      
+
       .total {
         margin:10px 0;
         font-size: 45px;
-        
+
         .fraction {
           font-size:30px;
         }
-        
+
         select.currency {
           font-size: 20px;
           padding-right:20px;
@@ -386,45 +386,45 @@
           appearance: none;
           moz-appearance: none;
           -webkit-appearance: none;
-          
+
         }
       }
-      
+
       .pending {
         margin:10px 0;
-        
+
         .lbl {
           font-size:12px;
           color:#ccc;
           font:12px OpenSansLight;
         }
-        
+
         .amount {
           font-size:24px;
-          
+
           .fraction {
             font-size:18px;
-          }  
-          
+          }
+
           .currency {
             font-size:14px
           }
         }
       }
-    } 
-    
+    }
+
     .funding-options {
       border-left: 1px solid #D2D3D3;
       min-height:220px;
-      padding:10px 30px;  
-      
+      padding:10px 30px;
+
       .manual {
         display:block;
         font: 12px OpenSansLight;
       }
-    } 
-    
-    @media (max-width: @screen-xs-max) { 
+    }
+
+    @media (max-width: @screen-xs-max) {
       .funding-options {
         border-left:none;
         border-top: 1px solid #D2D3D3;
@@ -432,7 +432,7 @@
       }
     }
   }
-  
+
   .currency-summary {
     font-size: 1.2em;
 
@@ -444,8 +444,8 @@
     }
 
     .total {
-      
-      
+
+
       .lbl {
         color: #474747;
         font-family: OpenSansBold;
@@ -473,7 +473,7 @@
     }
 
     .currency-non-native .total {
-      cursor:pointer;  
+      cursor:pointer;
     }
 
     .currency-xrp .lbl i {
@@ -1245,10 +1245,10 @@
           font-size: 20px;
           color: #bbb;
         }
-        
+
         .ex {
            color:#ccc;
-           
+
            .pair {
              margin-left:5px;
              font-size:12px;
@@ -1538,12 +1538,12 @@
       font-size: 30px;
       margin: 0 0 10px 0;
     }
-    
+
     .rate_feedback {
       margin: 0 0 30px 0;
       color:#aaa;
       font-size:18px;
-           
+
       .pair {
         margin-left:5px;
         font-size:14px;
@@ -1556,27 +1556,27 @@
   }
 
   .toggle {
-    margin-left:10px;  
+    margin-left:10px;
     color: #428bca;
     cursor:pointer;
   }
-  
+
   .toggle:hover {
     text-decoration:underline;
   }
-  
+
   .listings {
     padding: 0 15px;
     border: 1px solid darken(@bg, 10%);
     background: @bg;
 
-    transition:0.2s;  
+    transition:0.2s;
     max-height:0;
     overflow:hidden;
-    
+
     .my {
 
-             
+
       .head {
         font-weight: bold;
       }
@@ -1628,12 +1628,12 @@
       margin: 10px 0;
     }
   }
-  
+
   .listings.offers.show {
     max-height:1000px;
     overflow:auto;
   }
-  
+
   .listings.orders.show {
     max-height:9999px;
     overflow:auto;
@@ -1861,5 +1861,15 @@ html.t-trade header nav ul > li.active#nav-advanced > a:after {
 
   #nameChangeForm {
     margin: 10px 0 0 0;
+  }
+}
+
+#t-kyc {
+  @bg: #fafafa;
+
+  .box {
+    padding: 15px;
+    border: 1px solid darken(@bg, 10%);
+    background-color: @bg;
   }
 }
