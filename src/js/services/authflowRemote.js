@@ -50,8 +50,8 @@ module.factory('rpAuthFlow', ['$rootScope', 'rpAuthInfo', 'rpKdf', 'rpBlob',
    * @param {function} callback
    */
   AuthFlow.register = function (opts, callback) {
-    
     opts.activateLink = Options.activate_link; //add the email activation link
+    opts.domain = Options.domain;
 
     var meta = AuthFlow.getVaultClient(opts.username);
     opts.username = meta.username;
