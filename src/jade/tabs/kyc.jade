@@ -5,9 +5,11 @@ section.col-xs-12.content(ng-controller="KycCtrl")
     .row
       h3(l10n) Complete your profile information
       hr
-      button.btn.btn-primary(ng-click='profile.entityType = "individual"', l10n) Individual
-      button.btn.btn-primary(ng-click='profile.entityType = "organization"', l10n) Organization
-      br
+      .col-xs-6.col-sm-4.col-md-4
+        button.btn.btn-block.btn-primary(ng-click='profile.entityType = "individual"', l10n) Individual
+      .col-xs-6.col-sm-4.col-md-4
+        button.btn.btn-block.btn-primary(ng-click='profile.entityType = "organization"', l10n) Organization
+    br
     form.row-padding-small(name="profileForm", ng-submit="save()")
       .row
         .col-xs-12.col-sm-8.col-md-8
@@ -60,19 +62,19 @@ section.col-xs-12.content(ng-controller="KycCtrl")
       hr(ng-show='profile.entityType == "individual"')
       label(ng-show='profile.entityType == "individual"', l10n) Date Of Birth
       .row(ng-show='profile.entityType == "individual"')
-        .col-xs-4.col-sm-4.col-md-2
+        .col-xs-4.col-sm-2.col-md-2
           label(for="country", l10n) Day
           input.form-control.line1(
             name='day', id="day", type='text'
             rp-combobox="days", rp-combobox-select
             ng-model='profile.birthday.day')
-        .col-xs-4.col-sm-4.col-md-3
+        .col-xs-4.col-sm-3.col-md-3
           label(for="month", l10n) Month
           input.form-control.line1(
             name='month', id="month", type='text'
             rp-combobox="months", rp-combobox-select
             ng-model='profile.birthday.month')
-        .col-xs-4.col-sm-4.col-md-3
+        .col-xs-4.col-sm-3.col-md-3
           label(for="year", l10n) Year
           input.form-control.line1(
             name='year', id="year", type='text'
@@ -105,8 +107,11 @@ section.col-xs-12.content(ng-controller="KycCtrl")
           input(name='no_ssn', id="no_ssn", type='checkbox'
             ng-model='profile.nationalID.no_ssn')
           label(for="no_ssn", l10n) I am a US resident, but I do not have a social security number.
-      button.btn.btn-primary.submit(type='submit', l10n) Save to profile
-      a(href="") Cancel
+      .row
+        .col-xs-9.col-sm-6.col-md-4
+          button.btn.btn-block.btn-primary.submit(type='submit', l10n) Save to profile
+        .col-xs-3.col-sm-3.col-md-3
+          a(href="") Cancel
 
 
 
