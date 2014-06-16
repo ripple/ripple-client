@@ -325,8 +325,6 @@ TrustTab.prototype.angular = function (module)
         }
       });
 
-      // 200 is the close to the shortest amount needed to load the orderbook
-
     }
 
     $scope.edit_line = function ()
