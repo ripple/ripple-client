@@ -109,10 +109,10 @@ section.col-xs-12.content(ng-controller="KycCtrl")
           input.form-control.line1(
             name='issuing_country', id="issuing_country", type='text'
             ng-model='profile.nationalID.country')
-      .row(ng-show='profile.entityType == "individual"')
+      .row(ng-show='profile.entityType == "individual" && show_no_ssn')
         .col-xs-12.col-sm-8.col-md-8
           input(name='no_ssn', id="no_ssn", type='checkbox'
-            ng-model='profile.nationalID.no_ssn')
+            ng-model='profile.no_ssn')
           label(for="no_ssn", l10n) I am a US resident, but I do not have a social security number.
       .row
         .col-xs-9.col-sm-6.col-md-4

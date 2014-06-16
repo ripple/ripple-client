@@ -94,6 +94,24 @@ KycTab.prototype.angular = function(module)
       updateProfile();
     }
 
+    var updateShowNoSSN = function() {
+      if ($scope.profile.nationalID.type !== 'Social Security Number' &&
+        $scope.profile.nationalID.country === 'USA') {
+        $scope.show_no_ssn = true;
+      }
+      else {
+        $scope.show_no_ssn = false;
+      }
+    }
+
+    $scope.$watch('profile.nationalID.type', function(){
+      updateShowNoSSN();
+    });
+
+    $scope.$watch('profile.nationalID.country', function(){
+      updateShowNoSSN();
+    });
+
     $scope.$watch('profile.entityType', function(){
       if ($scope.profile.entityType === 'individual') {
         $scope.id_types = Object.keys(id_type_map_individual);
