@@ -92,7 +92,7 @@ KycTab.prototype.angular = function(module)
 
     if ($scope.userBlob) {
       updateProfile();
-    };
+    }
 
     $scope.$watch('profile.entityType', function(){
       if ($scope.profile.entityType === 'individual') {
