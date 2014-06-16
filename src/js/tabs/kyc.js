@@ -107,6 +107,33 @@ KycTab.prototype.angular = function(module)
       var blob = $scope.userBlob;
       var key = blob.key;
 
+      // NationalID
+      var national_id = {};
+      var nid = $scope.profile.nationalID;
+      if ($scope.profile.entityType === 'individual') {
+        national_id.number = nid.number;
+        national_id.type = id_type_map_individual[nid.type] ? id_type_map_individual[nid.type]: 'other';
+        national_id.country = nid.country;
+
+
+        blob.identity.set('birthday', key, $scope.profile.birthday, function(err, resp) {
+          //console.log('here', err, resp);
+          //console.log(blob.identity.getAll(key));
+        });
+      }
+      else {
+        // Organization
+        national_id.number = nid.number;
+        national_id.type = id_type_map_organization[nid.type] ? id_type_map_organization[nid.type]: 'other';
+        national_id.country = $scope.profile.address.country;
+
+        // Remove birthday
+        blob.identity.unset('birthday', key, function(err, resp) {
+          //console.log('here', err, resp);
+          //console.log(blob.identity.getAll(key));
+        });
+      }
+
       blob.identity.set('name', key, $scope.profile.name, function(err, resp) {
         //console.log('here', err, resp);
         //console.log(blob.identity.getAll(key));
@@ -121,26 +148,6 @@ KycTab.prototype.angular = function(module)
         //console.log('here', err, resp);
         //console.log(blob.identity.getAll(key));
       });
-
-      blob.identity.set('birthday', key, $scope.profile.birthday, function(err, resp) {
-        console.log('here', err, resp);
-        console.log(blob.identity.getAll(key));
-      });
-
-      // NationalID
-      var national_id = {};
-      var nid = $scope.profile.nationalID;
-      if ($scope.profile.entityType === 'individual') {
-        national_id.number = nid.number;
-        national_id.type = id_type_map_individual[nid.type] ? id_type_map_individual[nid.type]: 'other';
-        national_id.country = nid.country;
-      }
-      else {
-        // Organization
-        national_id.number = nid.number;
-        national_id.type = id_type_map_organization[nid.type] ? id_type_map_organization[nid.type]: 'other';
-        national_id.country = $scope.profile.address.country;
-      }
 
       blob.identity.set('nationalID', key, national_id, function(err, resp) {
         //console.log('here', err, resp);
