@@ -1,5 +1,6 @@
 var util = require('util');
 var Tab = require('../client/tab').Tab;
+var async = require('async');
 
 var KycTab = function ()
 {
@@ -18,8 +19,8 @@ KycTab.prototype.generateHtml = function ()
 
 KycTab.prototype.angular = function(module)
 {
-  module.controller('KycCtrl', ['$scope',
-                                    function ($scope)
+  module.controller('KycCtrl', ['$scope', '$rootScope',
+                                    function ($scope, $rootScope)
   {
     $scope.days = genNum(1, 31);
     $scope.months = ['01 - January', '02 - February', '03 - March', '04 - April', '05 - May', '06 - June', '07 - July', '08 - August', '09 - September', '10 - October', '11 - November', '12 - December'];
@@ -30,6 +31,7 @@ KycTab.prototype.angular = function(module)
       'Social Security Number': 'ssn',
       'Passport Number': 'passport',
       'Drivers License Number': 'driversLicense',
+      'National ID Number': 'other',
       'Other': 'other'
     };
     var id_type_map_individual_reverse = reverseDictionary(id_type_map_individual);
@@ -104,8 +106,18 @@ KycTab.prototype.angular = function(module)
       }
     }
 
+    var updateShowIssuingCountry = function () {
+      if ($scope.profile.nationalID.type !== 'Social Security Number') {
+        $scope.show_issuing_country = true;
+      }
+      else {
+        $scope.show_issuing_country = false;
+      }
+    }
+
     $scope.$watch('profile.nationalID.type', function(){
       updateShowNoSSN();
+      updateShowIssuingCountry();
     });
 
     $scope.$watch('profile.nationalID.country', function(){
@@ -121,10 +133,21 @@ KycTab.prototype.angular = function(module)
       }
     });
 
-    $scope.save = function () {
-      var blob = $scope.userBlob;
-      var key = blob.key;
 
+
+    var saveName = function (callback) {
+      $scope.userBlob.identity.set('name', $scope.userBlob.key, $scope.profile.name, callback);
+    }
+
+    var saveAddress = function (callback) {
+      $scope.userBlob.identity.set('address', $scope.userBlob.key, $scope.profile.address, callback);
+    }
+
+    var saveEntityType = function (callback) {
+      $scope.userBlob.identity.set('entityType', $scope.userBlob.key, $scope.profile.entityType, callback);
+    }
+
+    var saveNationalID = function (callback) {
       // NationalID
       var national_id = {};
       var nid = $scope.profile.nationalID;
@@ -132,47 +155,37 @@ KycTab.prototype.angular = function(module)
         national_id.number = nid.number;
         national_id.type = id_type_map_individual[nid.type] ? id_type_map_individual[nid.type]: 'other';
         national_id.country = nid.country;
-
-
-        blob.identity.set('birthday', key, $scope.profile.birthday, function(err, resp) {
-          //console.log('here', err, resp);
-          //console.log(blob.identity.getAll(key));
-        });
       }
       else {
         // Organization
         national_id.number = nid.number;
         national_id.type = id_type_map_organization[nid.type] ? id_type_map_organization[nid.type]: 'other';
         national_id.country = $scope.profile.address.country;
-
-        // Remove birthday
-        blob.identity.unset('birthday', key, function(err, resp) {
-          //console.log('here', err, resp);
-          //console.log(blob.identity.getAll(key));
-        });
       }
 
-      blob.identity.set('name', key, $scope.profile.name, function(err, resp) {
-        //console.log('here', err, resp);
-        //console.log(blob.identity.getAll(key));
-      });
+      $scope.userBlob.identity.set('nationalID', $scope.userBlob.key, national_id, callback);
+    }
 
-      blob.identity.set('address', key, $scope.profile.address, function(err, resp) {
-        //console.log('here', err, resp);
-        //console.log(blob.identity.getAll(key));
-      });
+    var saveBirthday = function (callback) {
+      if ($scope.profile.entityType === 'individual') {
+        $scope.userBlob.identity.set('birthday', $scope.userBlob.key, $scope.profile.birthday, callback);
+      }
+      else {
+        // Organization
+        // Remove birthday
+        $scope.userBlob.identity.unset('birthday', $scope.userBlob.key, callback);
+      }
+    }
 
-      blob.identity.set('entityType', key, $scope.profile.entityType, function(err, resp) {
-        //console.log('here', err, resp);
-        //console.log(blob.identity.getAll(key));
+    $scope.save = function () {
+      async.parallel([saveName, saveAddress, saveEntityType, saveNationalID, saveBirthday], function (err, results) {
+        if (err) {
+          console.log('Error saving profile: ', err);
+        }
+        else {
+          console.log('Successfully saved profile: ', results);
+        }
       });
-
-      blob.identity.set('nationalID', key, national_id, function(err, resp) {
-        //console.log('here', err, resp);
-        //console.log(blob.identity.getAll(key));
-      });
-
-      console.log('Saved profile');
     };
 
   }]);
