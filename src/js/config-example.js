@@ -7,20 +7,21 @@ var Options = {
   // Local domain
   //
   // Which domain should ripple-client consider native?
-  domain: "ripple.com",
+  domain: 'ripple.com',
 
   // Rippled to connect
   server: {
-    trace :         true,
-    trusted:        true,
-    local_signing:  true,
+    trace: true,
+    trusted: true,
+    local_signing: true,
 
     servers: [
       { host: 's-west.ripple.com', port: 443, secure: true },
       { host: 's-east.ripple.com', port: 443, secure: true }
     ],
 
-    connection_offset: 0
+    connection_offset: 0,
+    ping: 10
   },
 
   // DEPRECATED: Blobvault server (old blob protocol)
@@ -46,8 +47,8 @@ var Options = {
   },
 
   mixpanel: {
-    "token": '',
-    "track": true
+    token: '',
+    track: true
   },
 
   activate_link: 'http://ripple.com/client/#/register/activate',
@@ -59,7 +60,7 @@ var Options = {
 
 // Load client-side overrides
 if (store.enabled) {
-  var settings = JSON.parse(store.get('ripple_settings') || "{}");
+  var settings = JSON.parse(store.get('ripple_settings') || '{}');
 
   if (settings.server && settings.server.servers) {
     Options.server.servers = settings.server.servers;
@@ -67,7 +68,7 @@ if (store.enabled) {
 
   if (settings.blobvault) {
     // TODO: test if url defined and valid
-    Options.blobvault = settings.blobvault.replace("payward.com", "ripple.com");
+    Options.blobvault = settings.blobvault.replace('payward.com', 'ripple.com');
   }
 
   if (settings.mixpanel) {

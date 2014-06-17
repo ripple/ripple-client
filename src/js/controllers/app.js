@@ -548,6 +548,11 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
   $scope.currencies_all.sort(compare);
   $scope.pairs_all.sort(compare);
 
+  $scope.currencies_all_keyed = {};
+  _.each($scope.currencies_all, function(currency){
+    $scope.currencies_all_keyed[currency.value] = currency;
+  });
+
   $scope.$watch('currencies_all', function(){
     if (!store.disabled) {
       store.set('ripple_currencies_all',$scope.currencies_all);

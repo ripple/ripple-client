@@ -1,20 +1,70 @@
 section.col-xs-12.content(ng-controller="AccountCtrl")
-  .row
-    .col-xs-12(l10n) Account
-  .row
-    hr
-  .row
-    div Account profile
-    div Ripple name: ~{{userCredentials.username}}
-    a(href="", ng-click="openForm=!openForm") Change
-    form(name="nameChangeForm", ng-show="openForm", ng-submit="changeName()")
-      label(for='name', l10n) New Ripple Name
-      input.form-control#name(name="name", ng-model="name")
-      label(for='password', l10n) Current password
-      input.form-control#password(name="password", ng-model="password")
-      button.btn.btn-success(type="submit", l10n
-        ng-disabled="nameChangeForm.$invalid || loading")
-        span(ng-hide="loading") Submit name change
-        span(ng-show="loading") Loading...
-      a(href="", ng-click="openForm=!openForm") Cancel
-    div Ripple address: {{address}}
+  .box
+    .title Account Profile
+    .section
+      .alert.alert-success(ng-show="success", l10n) Your Ripple Name has been changed successfully.
+      .descriptor Ripple name
+      .row
+        .col-xs-12.col-sm-3.username ~{{userCredentials.username}}
+        .col-xs-12.col-sm-9
+          a(href="", ng-click="openForm=!openForm"
+            ng-hide="openForm") Change your Ripple name
+          .row
+            .col-xs-12.col-md-8.col-lg-6
+              form#renameForm(name="renameForm", ng-show="openForm", ng-submit="rename()")
+                .form-group
+                  label(for='name', l10n) New Ripple Name
+                  .input-group
+                    span.input-group-addon.ripple-addon ~
+                    input.form-control#username(
+                      name='username', type='text', ng-model="username"
+                      required, rp-focus, autocomplete="off", maxlength="20", rpDest
+                      rp-available-name
+                      rp-available-name-invalid-reason="usernameInvalidReason"
+                      rp-available-name-reserved-for="usernameReservedFor"
+                      rp-loading="usernameLoading")
+                  .errorGroup(rp-errors='username', ng-hide="usernameLoading")
+                    .success(rp-error-valid)
+                      | Available
+                    .error(rp-error-on='rpAvailableName', l10n)
+                      span(ng-switch on="usernameInvalidReason")
+                        span(ng-switch-when="exists", l10n) Already taken!
+                        span(ng-switch-when="reserved", l10n) Reserved for {{usernameReservedFor}}
+                          span &#32;
+                          i.fa.fa-question-circle(
+                            rp-popover
+                            rp-popover-placement="bottom"
+                            rp-popover-title='Reserved domain'
+                            rp-popover-trigger="click"
+                            ng-switch-when="reserved"
+                            data-content='This name belongs to a high-traffic website and has been reserved to prevent phishing.')
+                        span(ng-switch-when="tooshort", l10n) Must be at least 2 characters
+                        span(ng-switch-when="toolong", l10n) Must be at most 20 characters
+                        span(ng-switch-when="charset", l10n) Only a-z, 0-9 and hyphen (-)
+                        span(ng-switch-when="starthyphen", l10n) Cannot start with hyphen (-)
+                        span(ng-switch-when="endhyphen", l10n) Cannot end with hyphen (-)
+                        span(ng-switch-when="multhyphen", l10n) Cannot bundle hyphens (--)
+                  span(ng-show="usernameLoading", l10n) Checking...
+                .form-group
+                  label(type="password", for='password', l10n) Current password
+                  input.form-control#password(type="password", name="password"
+                    ng-model="password", required)
+                .alert.alert-danger(ng-show="error", ng-switch on="error")
+                  span(ng-switch-when="wrongpassword", l10n)
+                    | Entered password is wrong.
+                  span(ng-switch-when="cantlogin", l10n)
+                    | Your Ripple Name has been changed,
+                    |  but the client can't reported an error, please relogin.
+                  span(ng-switch-default, l10n)
+                    | Couldn't change your ripple name, please try again later.
+                .row
+                  .col-xs-12.col-sm-6
+                    button.btn.btn-success.btn-block(type="submit", l10n
+                      ng-disabled="renameForm.$invalid || loading")
+                      span(ng-hide="loading") Submit name change
+                      span(ng-show="loading") Loading...
+                  .col-xs-12.col-sm-6
+                    a.txtbtn(href="", ng-click="openForm=!openForm") Cancel
+    .section
+      .descriptor Ripple address
+      div {{address}}

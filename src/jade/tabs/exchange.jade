@@ -32,8 +32,8 @@ section.col-xs-12.content(ng-controller="ExchangeCtrl")
         .col-sm-4.col-md-3
           input.currency.form-control#amount_currency(
           name='amount_currency', type='text'
-          rp-combobox="currency_query", rp-combobox-select
-          ng-model='exchange.currency'
+          rp-combobox="currency_choices", rp-combobox-select
+          ng-model='exchange.currency_name'
           rp-autofill='$routeParams.amount'
           rp-autofill-currency)
       .errorGroup(rp-errors='amount')
@@ -45,11 +45,11 @@ section.col-xs-12.content(ng-controller="ExchangeCtrl")
       p.literal.throbber(ng-show="exchange.path_status == 'pending'", l10n) Calculating...
       //- TODO how high trust?
       p.literal(ng-show="exchange.path_status == 'no-path' && exchange.currency_code != 'XRP'", l10n)
-        | Sorry! Cannot exchange {{exchange.amount}} {{exchange.currency}}. Please make sure your account has enough funds, and a&#32;
+        | Sorry! Cannot exchange {{exchange.amount}} {{exchange.currency_name}}. Please make sure your account has enough funds, and a&#32;
         a(href="https://ripplelabs.zendesk.com/hc/en-us/articles/200916587-how-to-set-a-trust-line-ripple", target="_blank") trust line
-        |  to a {{exchange.currency}} gateway.
+        |  to a {{exchange.currency_name}} gateway.
       p.literal(ng-show="exchange.path_status == 'no-path' && exchange.currency_code == 'XRP'", l10n)
-        | Sorry! Cannot convert {{exchange.amount}} {{exchange.currency}}. Please make sure your account has enough funds.
+        | Sorry! Cannot convert {{exchange.amount}} {{exchange.currency_name}}. Please make sure your account has enough funds.
       p.literal(ng-show="exchange.path_status == 'error'", l10n) Error while calculating path
 
     .currency_sets
