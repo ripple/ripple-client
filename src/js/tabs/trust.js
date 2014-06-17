@@ -2,6 +2,7 @@ var util = require('util');
 var webutil = require('../util/web');
 var Tab = require('../client/tab').Tab;
 var Amount = ripple.Amount;
+var Currency = ripple.Currency;
 
 var TrustTab = function ()
 {
@@ -45,7 +46,8 @@ TrustTab.prototype.angular = function (module)
     $scope.validation_pattern = /^0*(([1-9][0-9]*.?[0-9]*)|(.0*[1-9][0-9]*))$/; //Don't allow zero for new trust lines.
     $scope.reset = function () {
       $scope.mode = 'main';
-      $scope.currency = 'USD';
+      var usdCurrency = Currency.from_human('USD');
+      $scope.currency = usdCurrency.to_human({full_name:$scope.currencies_all_keyed[usdCurrency.get_iso()].name});
       $scope.addform_visible = false;
       $scope.editform_visible = false;
       $scope.edituser = '';
@@ -120,8 +122,11 @@ TrustTab.prototype.angular = function (module)
               // form validator.
               return;
             }
-            var currency = match[1];
-            var amount = ripple.Amount.from_human('' + $scope.amount + ' ' + currency.toUpperCase(), {reference_date: new Date(+new Date() + 5*60000)});
+
+            var matchedCurrency = Currency.from_human(match[1]);
+            var currency = matchedCurrency.to_human({full_name:$scope.currencies_all_keyed[matchedCurrency.get_iso()].name});
+            var amount = ripple.Amount.from_human('' + $scope.amount + ' ' + matchedCurrency.get_iso(), {reference_date: new Date(+new Date() + 5*60000)});
+
             amount.set_issuer($scope.counterparty_address);
             if (!amount.is_valid()) {
               // Invalid amount. Indicates a bug in one of the validators.
@@ -144,7 +149,7 @@ TrustTab.prototype.angular = function (module)
              * - sameIssuer
              * - multipleIssuers
              */
-            currency = amount.currency().to_human();
+            currency = amount.currency().to_human({full_name:$scope.currencies_all_keyed[amount.currency().get_iso()].name});
             var balance = $scope.balances[currency];
             $scope.currencyWarning = false;
 
@@ -180,7 +185,7 @@ TrustTab.prototype.angular = function (module)
      * N3. Waiting for grant result page
      */
     $scope.grant_confirmed = function () {
-      var currency = $scope.amount_feedback.currency().to_human();
+      var currency = $scope.amount_feedback.currency().to_human({full_name:$scope.currencies_all_keyed[$scope.amount_feedback.currency().get_iso()].name});
       var amount = $scope.amount_feedback.to_json();
 
       var tx = $network.remote.transaction();
@@ -335,7 +340,10 @@ TrustTab.prototype.angular = function (module)
       $scope.line = this.line;
       $scope.edituser = (contact) ? contact : 'User';
       $scope.validation_pattern = contact ? /^[0-9.]+$/ : /^0*(([1-9][0-9]*.?[0-9]*)|(.0*[1-9][0-9]*))$/;
-      $scope.currency = line.currency;
+
+      var lineCurrency = Currency.from_json(line.currency);
+      $scope.currency = lineCurrency.to_human({full_name:$scope.currencies_all_keyed[lineCurrency.get_iso()].name});
+
       $scope.balance = line.balance.to_human();
       $scope.balanceAmount = line.balance;
       $scope.counterparty = line.account;
@@ -445,7 +453,7 @@ TrustTab.prototype.angular = function (module)
       $scope.counterparty_query = webutil.queryFromContacts(contacts);
     }, true);
 
-    $scope.currency_query = webutil.queryFromOptions($scope.currencies_all);
+    $scope.currency_query = webutil.queryFromOptionsIncludingKeys($scope.currencies_all);
 
     $scope.reset();
   }]);
