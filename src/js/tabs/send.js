@@ -357,19 +357,22 @@ SendTab.prototype.angular = function (module)
         // create a currency object for each of the currency codes
         for (var i=0; i < currencies.length; i++) {
           currencies[i] = ripple.Currency.from_json(currencies[i]);
+
+          if (i === 0) {
+            $scope.send.currency_code = currencies[i].get_iso();
+          }
         }
 
         // create the display version of the currencies
         currencies = _.map(currencies, function (currency) {
-          if ($scope.currencies_all_keyed[currency._iso_code]) {
-            return currency.to_human({full_name:$scope.currencies_all_keyed[currency._iso_code].name});
+          if ($scope.currencies_all_keyed[currency.get_iso()]) {
+            return currency.to_human({full_name:$scope.currencies_all_keyed[currency.get_iso()].name});
           } else {
             return currency.to_human();
           }
         });
 
         $scope.send.currency_choices = currencies;
-        $scope.send.currency_code = currencies[0]._iso_code;
         $scope.send.currency = currencies[0];
       });
     };
@@ -736,17 +739,20 @@ SendTab.prototype.angular = function (module)
       // create a currency object for each of the currency codes
       for (var i=0; i < currencies.length; i++) {
         currencies[i] = ripple.Currency.from_json(currencies[i]);
+
+        if (i === 0) {
+          $scope.send.currency_code = currencies[i].get_iso();
+        }
       }
 
       // create the display version of the currencies
       currencies = _.map(currencies, function (currency) {
-        if ($scope.currencies_all_keyed[currency._iso_code]) {
-          return currency.to_human({full_name:$scope.currencies_all_keyed[currency._iso_code].name});
+        if ($scope.currencies_all_keyed[currency.get_iso()]) {
+          return currency.to_human({full_name:$scope.currencies_all_keyed[currency.get_iso()].name});
         }
       });
 
       $scope.send.currency_choices = currencies;
-      $scope.send.currency_code = currencies[0]._iso_code;
       $scope.send.currency = currencies[0];
 
     }, true);
