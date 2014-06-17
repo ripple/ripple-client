@@ -124,7 +124,6 @@ TrustTab.prototype.angular = function (module)
             }
 
             var matchedCurrency = Currency.from_human(match[1]);
-            var currency = matchedCurrency.to_human({full_name:$scope.currencies_all_keyed[matchedCurrency.get_iso()].name});
             var amount = ripple.Amount.from_human('' + $scope.amount + ' ' + matchedCurrency.get_iso(), {reference_date: new Date(+new Date() + 5*60000)});
 
             amount.set_issuer($scope.counterparty_address);
@@ -185,7 +184,12 @@ TrustTab.prototype.angular = function (module)
      * N3. Waiting for grant result page
      */
     $scope.grant_confirmed = function () {
-      var currency = $scope.amount_feedback.currency().to_human({full_name:$scope.currencies_all_keyed[$scope.amount_feedback.currency().get_iso()].name});
+      var formatOpts;
+      if ($scope.currencies_all_keyed[$scope.amount_feedback.currency().get_iso()]) {
+        formatOpts = {full_name:$scope.currencies_all_keyed[$scope.amount_feedback.currency().get_iso()].name};
+      }
+
+      var currency = $scope.amount_feedback.currency().to_human(formatOpts);
       var amount = $scope.amount_feedback.to_json();
 
       var tx = $network.remote.transaction();
@@ -342,8 +346,14 @@ TrustTab.prototype.angular = function (module)
       $scope.validation_pattern = contact ? /^[0-9.]+$/ : /^0*(([1-9][0-9]*.?[0-9]*)|(.0*[1-9][0-9]*))$/;
 
       var lineCurrency = Currency.from_json(line.currency);
-      $scope.currency = lineCurrency.to_human({full_name:$scope.currencies_all_keyed[lineCurrency.get_iso()].name});
+      var formatOpts;
+      if ($scope.currencies_all_keyed[lineCurrency.get_iso()]) {
+        formatOpts = {
+          full_name:$scope.currencies_all_keyed[lineCurrency.get_iso()].name
+        }
+      }
 
+      $scope.currency = lineCurrency.to_human(formatOpts);
       $scope.balance = line.balance.to_human();
       $scope.balanceAmount = line.balance;
       $scope.counterparty = line.account;
