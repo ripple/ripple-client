@@ -19,8 +19,8 @@ KycTab.prototype.generateHtml = function ()
 
 KycTab.prototype.angular = function(module)
 {
-  module.controller('KycCtrl', ['$scope', '$rootScope',
-                                    function ($scope, $rootScope)
+  module.controller('KycCtrl', ['$scope', '$rootScope', '$location',
+                                    function ($scope, $rootScope, $location)
   {
     $scope.days = genNum(1, 31);
     $scope.months = ['01 - January', '02 - February', '03 - March', '04 - April', '05 - May', '06 - June', '07 - July', '08 - August', '09 - September', '10 - October', '11 - November', '12 - December'];
@@ -194,6 +194,11 @@ KycTab.prototype.angular = function(module)
             scope.failed = false;
             scope.success = true;
           });
+
+          // Redirect back to original referer
+          if ($rootScope.redirectURL) {
+            $location.path($rootScope.redirectURL);
+          }
         }
       });
     };
