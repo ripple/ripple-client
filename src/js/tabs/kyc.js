@@ -31,7 +31,7 @@ KycTab.prototype.angular = function(module)
       'Social Security Number': 'ssn',
       'Passport Number': 'passport',
       'Drivers License Number': 'driversLicense',
-      'National ID Number': 'other',
+      'National ID Number': 'other',                  // TODO: Add National ID Number to ripple-lib blob types
       'Other': 'other'
     };
     var id_type_map_individual_reverse = reverseDictionary(id_type_map_individual);

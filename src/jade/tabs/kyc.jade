@@ -13,6 +13,15 @@ section.col-xs-12.content(ng-controller="KycCtrl")
       form.row-padding-small(name="profileForm", ng-submit="save()")
         .row
           .col-xs-12.col-sm-8.col-md-8
+            label(for="name", ng-show='profile.entityType == "individual"', l10n) Full Name
+            label(for="name", ng-show='profile.entityType == "organization"', l10n) Organization Name
+            input.form-control.fullName(
+              name='name', id="name", type='text'
+              ng-model='profile.name'
+              required)
+        hr
+        .row
+          .col-xs-12.col-sm-8.col-md-8
             label(l10n) Address
             br
             label(for="line1", l10n) Line 1
@@ -62,19 +71,22 @@ section.col-xs-12.content(ng-controller="KycCtrl")
             input.form-control.line1(
               name='day', id="day", type='text'
               rp-combobox="days", rp-combobox-select
-              ng-model='profile.birthday.day')
+              ng-model='profile.birthday.day'
+              ng-required='profile.entityType === "individual"')
           .col-xs-4.col-sm-3.col-md-3
             label(for="month", l10n) Month
             input.form-control.line1(
               name='month', id="month", type='text'
               rp-combobox="months", rp-combobox-select
-              ng-model='profile.birthday.month')
+              ng-model='profile.birthday.month'
+              ng-required='profile.entityType === "individual"')
           .col-xs-4.col-sm-3.col-md-3
             label(for="year", l10n) Year
             input.form-control.line1(
               name='year', id="year", type='text'
               rp-combobox="years", rp-combobox-select
-              ng-model='profile.birthday.year')
+              ng-model='profile.birthday.year'
+              ng-required='profile.entityType === "individual"')
         hr(ng-show='profile.entityType == "individual"')
         label(ng-show='profile.entityType == "individual"', l10n) Identification
         .row
