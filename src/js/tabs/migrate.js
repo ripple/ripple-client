@@ -18,10 +18,18 @@ MigrateTab.prototype.generateHtml = function ()
 };
 
 MigrateTab.prototype.angular = function (module) {
-  module.controller('MigrateCtrl', ['$scope', '$location', '$element', 'rpId', 'rpTracker',
-                                     function ($scope, $location, $element, $id, $rpTracker)
+  module.controller('MigrateCtrl', ['$scope', '$window',
+                                     function ($scope, $window)
   {
 
+    $scope.migrate = function() {
+
+      console.log('inside migrate function');
+
+      var RTpath = 'https://rippletrade.com/#/migrate';
+
+      $window.location.href = RTpath;
+    }
 
   }]);
 };
