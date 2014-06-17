@@ -418,7 +418,7 @@ SendTab.prototype.angular = function (module)
         return;
       }
 
-      var currency = match[0];
+      var matchedCurrency = ripple.Currency.from_human(match[1]);
 
       // Demurrage: Get a reference date five minutes in the future
       //
@@ -431,7 +431,8 @@ SendTab.prototype.angular = function (module)
       // this actually *causes* the same odd rounding problem, so in the future
       // we'll want a better solution, but for right now this does what we need.
       var refDate = new Date(new Date().getTime() + 5 * 60000);
-      var amount = send.amount_feedback = ripple.Amount.from_human('' + send.amount + ' ' + currency.toUpperCase(), { reference_date: refDate });
+      var currency = matchedCurrency.to_human({full_name:$scope.currencies_all_keyed[matchedCurrency.get_iso()].name});
+      var amount = send.amount_feedback = ripple.Amount.from_human('' + send.amount + ' ' + matchedCurrency.get_iso(), { reference_date: refDate });
 
       $scope.reset_amount_deps();
       send.path_status = 'waiting';
