@@ -1,8 +1,9 @@
 section.col-xs-12.content(ng-controller="KycCtrl")
+  .alert.alert-success(ng-show="success", l10n) Your profile has been saved successfully.
+  .alert.alert-danger(ng-show="failed", l10n) Could not save your profile.
   .box
     .title Complete your profile information
     .section
-      .alert.alert-success(ng-show="success", l10n) Your profile has been changed successfully.
       .row
         .col-xs-6.col-sm-4.col-md-4
           button.btn.btn-block.btn-primary(ng-click='profile.entityType = "individual"', l10n) Individual

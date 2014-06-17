@@ -181,9 +181,19 @@ KycTab.prototype.angular = function(module)
       async.parallel([saveName, saveAddress, saveEntityType, saveNationalID, saveBirthday], function (err, results) {
         if (err) {
           console.log('Error saving profile: ', err);
+
+          $scope.$apply(function (scope) {
+            scope.failed = true;
+            scope.success = false;
+          });
         }
         else {
           console.log('Successfully saved profile: ', results);
+
+          $scope.$apply(function (scope) {
+            scope.failed = false;
+            scope.success = true;
+          });
         }
       });
     };
