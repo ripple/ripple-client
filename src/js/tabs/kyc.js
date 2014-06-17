@@ -86,7 +86,7 @@ KycTab.prototype.angular = function(module)
     }
 
     $scope.profile = {};
-    $scope.profile.entityType = 'individual';
+    $scope.profile.entityType = 'individual'; // Default to individual
 
     $scope.$watch('userBlob', function(){
       updateProfile();
@@ -97,7 +97,8 @@ KycTab.prototype.angular = function(module)
     }
 
     var updateShowNoSSN = function() {
-      if ($scope.profile.nationalID.type !== 'Social Security Number' &&
+      if ($scope.profile.nationalID &&
+        $scope.profile.nationalID.type !== 'Social Security Number' &&
         $scope.profile.nationalID.country === 'USA') {
         $scope.show_no_ssn = true;
       }
@@ -107,7 +108,8 @@ KycTab.prototype.angular = function(module)
     }
 
     var updateShowIssuingCountry = function () {
-      if ($scope.profile.nationalID.type !== 'Social Security Number') {
+      if ($scope.profile.nationalID &&
+        $scope.profile.nationalID.type !== 'Social Security Number') {
         $scope.show_issuing_country = true;
       }
       else {
@@ -182,25 +184,32 @@ KycTab.prototype.angular = function(module)
         if (err) {
           console.log('Error saving profile: ', err);
 
-          $scope.$apply(function (scope) {
-            scope.failed = true;
-            scope.success = false;
+          $scope.$apply(function () {
+            $scope.failed = true;
+            $scope.success = false;
           });
         }
         else {
           console.log('Successfully saved profile: ', results);
 
-          $scope.$apply(function (scope) {
-            scope.failed = false;
-            scope.success = true;
-          });
+          $scope.$apply(function () {
+            $scope.failed = false;
+            $scope.success = true;
 
-          // Redirect back to original referer
-          if ($rootScope.redirectURL) {
-            $location.path($rootScope.redirectURL);
-          }
+            // Redirect back to original referer
+            if ($rootScope.redirectURL) {
+              $location.path($rootScope.redirectURL);
+            }
+          });
         }
       });
+    };
+
+    $scope.cancel = function () {
+      // Redirect back to original referer
+      if ($rootScope.redirectURL) {
+        $location.path($rootScope.redirectURL);
+      }
     };
 
   }]);
