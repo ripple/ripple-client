@@ -24,8 +24,8 @@ module.exports = [
   {name: 'EUR/USD', order: 0},
   {name: 'GBP/USD', order: 0},
   {name: 'AUD/USD', order: 0},
-  {name: 'USD/CAD', order: 0}.
-  {name: 'USD/CHF', order: 0}.
+  {name: 'USD/CAD', order: 0},
+  {name: 'USD/CHF', order: 0},
   {name: 'USD/JPY', order: 0},
   {name: 'USD/CNY', order: 0},
 ];
