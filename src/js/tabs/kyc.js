@@ -39,7 +39,8 @@ KycTab.prototype.angular = function(module)
     }
 
     var updateShowNoSSN = function() {
-      if ($scope.profile.nationalID &&
+      if ($scope.profile &&
+        $scope.profile.nationalID &&
         $scope.profile.nationalID.type !== 'Social Security Number' &&
         $scope.profile.nationalID.country === 'USA') {
         $scope.show_no_ssn = true;
@@ -50,7 +51,8 @@ KycTab.prototype.angular = function(module)
     }
 
     var updateShowIssuingCountry = function () {
-      if ($scope.profile.nationalID &&
+      if ($scope.profile &&
+        $scope.profile.nationalID &&
         $scope.profile.nationalID.type !== 'Social Security Number') {
         $scope.show_issuing_country = true;
       }
@@ -92,6 +94,7 @@ KycTab.prototype.angular = function(module)
             // Redirect back to original referer
             if ($rootScope.redirectURL) {
               $location.path($rootScope.redirectURL);
+              $rootScope.redirectURL = undefined;
             }
           });
         }
@@ -102,6 +105,7 @@ KycTab.prototype.angular = function(module)
       // Redirect back to original referer
       if ($rootScope.redirectURL) {
         $location.path($rootScope.redirectURL);
+        $rootScope.redirectURL = undefined;
       }
     };
 
