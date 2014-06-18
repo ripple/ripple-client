@@ -1,0 +1,25 @@
+section.col-xs-12.content(ng-controller="RecoverCtrl")
+  .row.auth-form-container.col-sm-offset-2.col-sm-8.col-md-offset-3.col-md-6(ng-show='mode=="form"')
+    .auth-form-wrapper
+      form(name='recoverForm', ng-submit='submitForm()')
+        h2(l10n) Account Recovery
+        .form-group
+          label(for='recover_username', l10n) Ripple name
+          .input-group
+            span.input-group-addon.ripple-addon ~
+            input.form-control#recover_username(
+            name='recover_username', type='text', ng-model="username"
+            required, rp-focus, autocomplete="off", maxlength="20", rpDest)
+        .form-group
+          label(for='recover_masterkey', l10n) Secret Key
+          input.form-control#recover_masterkey(
+          name='recover_masterkey', type='password', autocomplete="off"
+          required, ng-model="masterkey")
+        .submit-btn-container
+          button.btn.btn-block.btn-success(type='submit'
+            ng-disabled='registerForm.$invalid || submitLoading'
+            rp-spinner='{{submitLoading ? 4 : null}}')
+            span(ng-show="submitLoading", l10n) Loading...
+            span(ng-hide="submitLoading", l10n) Recover Account
+    .switch-mode-link-container
+      a(href='#login', l10n) Log In

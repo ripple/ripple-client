@@ -37,6 +37,7 @@ div#wrapper
   header
     h1(ng-show="$route.current.tabClass == 't-login'", l10n) Welcome to {{productName}}
     h1(ng-show="$route.current.tabClass == 't-register'", l10n) Welcome to {{productName}}
+    h1(ng-show="$route.current.tabClass == 't-recover'", l10n) Welcome to {{productName}}
     != require("./navbar.jade")()
   .container
     // Main
