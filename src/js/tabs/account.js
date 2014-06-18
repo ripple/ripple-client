@@ -97,14 +97,9 @@ AccountTab.prototype.angular = function(module)
         $scope.profile = $rootScope.profile;
       }
 
-
       $scope.$watch('userBlob', function(){
         updateProfile();
-      });
-
-      if ($scope.userBlob) {
-        updateProfile();
-      }
+      }, true);
 
       $scope.saveName = function () {
         rpProfile.saveName(function (err, result) {
@@ -115,12 +110,12 @@ AccountTab.prototype.angular = function(module)
             if (err) {
               console.log('Could not update name');
 
-              $scope.failedProfileName = true;
+              $scope.status = 'failedName';
             }
             else {
               console.log('New name saved');
 
-              $scope.successProfileName = true;
+              $scope.status = 'successName';
             }
           });
         });
@@ -135,12 +130,12 @@ AccountTab.prototype.angular = function(module)
             if (err) {
               console.log('Could not update address');
 
-              $scope.failedProfileAddress = true;
+              $scope.status = 'failedAddress';
             }
             else {
               console.log('New address saved');
 
-              $scope.successProfileAddress = true;
+              $scope.status = 'successAddress';
             }
           });
         });
@@ -155,12 +150,12 @@ AccountTab.prototype.angular = function(module)
             if (err) {
               console.log('Could not update ID');
 
-              $scope.failedProfileID = true;
+              $scope.status = 'failedID';
             }
             else {
               console.log('New ID saved');
 
-              $scope.successProfileID = true;
+              $scope.status = 'successID';
             }
           });
         });

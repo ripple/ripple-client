@@ -1,6 +1,6 @@
 section.col-xs-12.content(ng-controller="KycCtrl")
-  .alert.alert-success(ng-show="success", l10n) Your profile has been saved successfully.
-  .alert.alert-danger(ng-show="failed", l10n) Could not save your profile.
+  .alert.alert-success(ng-show="'success' == status", l10n) Your profile has been saved successfully.
+  .alert.alert-danger(ng-show="'failed' == status", l10n) Could not save your profile.
   .box
     .title Complete your profile information
     .section
@@ -23,7 +23,6 @@ section.col-xs-12.content(ng-controller="KycCtrl")
         .row
           .col-xs-12.col-sm-8.col-md-8
             label(l10n) Address
-            br
             label(for="line1", l10n) Line 1
             input.form-control.line1(
               name='line1', id="line1", type='text'

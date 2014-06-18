@@ -31,12 +31,7 @@ KycTab.prototype.angular = function(module)
     $scope.$watch('userBlob', function(){
       rpProfile.updateProfileScope();
       $scope.profile = $rootScope.profile;
-    });
-
-    if ($scope.userBlob) {
-      rpProfile.updateProfileScope();
-      $scope.profile = $rootScope.profile;
-    }
+    }, true);
 
     var updateShowNoSSN = function() {
       if ($scope.profile &&
@@ -80,16 +75,14 @@ KycTab.prototype.angular = function(module)
           console.log('Error saving profile: ', err);
 
           $scope.$apply(function () {
-            $scope.failed = true;
-            $scope.success = false;
+            $scope.status = 'failed';
           });
         }
         else {
           console.log('Successfully saved profile: ', results);
 
           $scope.$apply(function () {
-            $scope.failed = false;
-            $scope.success = true;
+            $scope.status = 'success';
 
             // Redirect back to original referer
             if ($rootScope.redirectURL) {
