@@ -1,8 +1,9 @@
 /**
  * Ripple trading default currency pairs.
  *
- * This list is a bit arbitrary, but it's basically the Majors [1] from forex
- * trading with some XRP pairs added.
+ * The list is "the majors"
+ *with  XRP vs "the majors"
+ * Plus selected other currencies 
  *
  * [1] http://en.wikipedia.org/wiki/Currency_pair#The_Majors
  */
