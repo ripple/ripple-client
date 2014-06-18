@@ -90,6 +90,31 @@ AccountTab.prototype.angular = function(module)
       };
 
       reset();
+
+      // Profile information
+      function updateProfile() {
+        var blob = $scope.userBlob;
+        if (blob && typeof(blob.identity) !== 'undefined') {
+          var key = blob.key;
+
+          var profile = $scope.userBlob.identity.getAll(key);
+
+          // Normalize profile
+          for (var k in profile) {
+            profile[k] = profile[k].value;
+          }
+          $scope.name = profile.name;
+        }
+      }
+
+      $scope.$watch('userBlob', function(){
+        updateProfile();
+      });
+
+      if ($scope.userBlob) {
+        updateProfile();
+      }
+
     }]
   );
 };

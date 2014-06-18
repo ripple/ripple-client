@@ -68,3 +68,14 @@ section.col-xs-12.content(ng-controller="AccountCtrl")
     .section
       .descriptor Ripple address
       div {{address}}
+    .section
+      .row
+        .col-xs-12.col-sm-3.descriptor Full Name
+        .col-xs-12.col-sm-9
+          a(href="", ng-click="") edit
+      .row
+        .col-xs-12.col-sm-12
+          | {{name}}
+
+
+
