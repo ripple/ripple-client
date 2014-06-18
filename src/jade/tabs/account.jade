@@ -72,7 +72,7 @@ section.col-xs-12.content(ng-controller="AccountCtrl")
       .row
         .col-xs-12.col-sm-3.descriptor Full Name
         .col-xs-12.col-sm-9
-          a(href="", ng-click="editName = true") edit
+          a(href="", ng-click="editName = !editName") edit
       .row
         .alert.alert-success(ng-show="successProfileName", l10n) Your full name has been changed successfully.
         .alert.alert-danger(ng-show="failedProfileName", l10n) Your full name could not be updated.
@@ -93,7 +93,7 @@ section.col-xs-12.content(ng-controller="AccountCtrl")
       .row
         .col-xs-12.col-sm-3.descriptor Address
         .col-xs-12.col-sm-9
-          a(href="", ng-click="editAddress = true") edit
+          a(href="", ng-click="editAddress = !editAddress") edit
       .row
         .alert.alert-success(ng-show="successProfileAddress", l10n) Your address has been changed successfully.
         .alert.alert-danger(ng-show="failedProfileAddress", l10n) Your address could not be updated.
@@ -106,7 +106,7 @@ section.col-xs-12.content(ng-controller="AccountCtrl")
             | {{profile.address.city}}, {{profile.address.region}} {{profile.address.postalCode}}
             br
             | {{profile.address.country}}
-          form(ng-show='editAddress && editAddress == true', ng-submit="saveAddress()")
+          form(ng-show='editAddress == true', ng-submit="saveAddress()")
             label(for='name', l10n) New Address
             .row
               .col-xs-12.col-sm-12.col-md-12
