@@ -103,8 +103,28 @@ AccountTab.prototype.angular = function(module)
           for (var k in profile) {
             profile[k] = profile[k].value;
           }
+
+          var type = profile.nationalID.type;
+          var type_short;
+          if (profile.entityType === 'individual') {
+            type_short = id_type_map_individual_reverse[type];
+            profile.nationalID.type =  type_short ? type_short: type;
+          }
+          else {
+            type_short = id_type_map_organization_reverse[type];
+            profile.nationalID.type =  type_short ? type_short: type;
+          }
+
           $scope.profile = profile;
         }
+      }
+
+      function reverseDictionary(dict) {
+        var result = {};
+        for (var key in dict) {
+          result[dict[key]] = key;
+        }
+        return result;
       }
 
       $scope.$watch('userBlob', function(){
@@ -150,6 +170,55 @@ AccountTab.prototype.angular = function(module)
               console.log('New address saved');
 
               $scope.successProfileAddress = true;
+            }
+          });
+        });
+      }
+
+      var id_type_map_individual = {
+        'Social Security Number': 'ssn',
+        'Passport Number': 'passport',
+        'Drivers License Number': 'driversLicense',
+        'National ID Number': 'other',                  // TODO: Add National ID Number to ripple-lib blob types
+        'Other': 'other'
+      };
+      var id_type_map_individual_reverse = reverseDictionary(id_type_map_individual);
+      var id_type_map_organization = {
+        'Tax ID': 'taxID',
+        'Other': 'other'
+      };
+      var id_type_map_organization_reverse = reverseDictionary(id_type_map_organization);
+
+      $scope.saveID = function (callback) {
+        // NationalID
+        var national_id = {};
+        var nid = $scope.profile.nationalID;
+        if ($scope.profile.entityType === 'individual') {
+          national_id.number = nid.number;
+          national_id.type = id_type_map_individual[nid.type] ? id_type_map_individual[nid.type]: 'other';
+          national_id.country = nid.country;
+        }
+        else {
+          // Organization
+          national_id.number = nid.number;
+          national_id.type = id_type_map_organization[nid.type] ? id_type_map_organization[nid.type]: 'other';
+          national_id.country = $scope.profile.address.country;
+        }
+
+        $scope.userBlob.identity.set('nationalID', $scope.userBlob.key, national_id, function (err, result) {
+          $scope.$apply(function () {
+            $scope.editID = false;
+            updateProfile();
+
+            if (err) {
+              console.log('Could not update ID');
+
+              $scope.failedProfileID = true;
+            }
+            else {
+              console.log('New ID saved');
+
+              $scope.successProfileID = true;
             }
           });
         });

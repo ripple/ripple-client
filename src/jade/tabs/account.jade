@@ -154,6 +154,48 @@ section.col-xs-12.content(ng-controller="AccountCtrl")
                 button.btn.btn-block.btn-primary.submit(type='submit', l10n) Update address
               .col-xs-3.col-sm-3.col-md-3
                 a.txtbtn(href="", ng-click="editAddress = false") Cancel
+      .section
+        .row
+          .col-xs-12.col-sm-3.descriptor ID Number
+          .col-xs-12.col-sm-9
+            a(href="", ng-click="editID = !editID") edit
+        .row
+          .alert.alert-success(ng-show="successProfileID", l10n) Your ID has been changed successfully.
+          .alert.alert-danger(ng-show="failedProfileID", l10n) Your ID could not be updated.
+          .col-xs-12.col-sm-5
+            div(ng-hide='editID == true')
+              | {{profile.nationalID.number}}
+              br
+              | {{profile.nationalID.type}}
+              br
+              | {{profile.nationalID.country}}
+            form(ng-show='editID == true', ng-submit="saveID()")
+              label(for='name', l10n) New ID
+              .row
+                .col-xs-12.col-sm-12.col-md-12
+                  label(for="number", l10n) Number
+                  input.form-control(
+                    name='number', id="number", type='text'
+                    ng-model='profile.nationalID.number'
+                    required)
+              .row
+                .col-xs-12.col-sm-12.col-md-12
+                  label(for="type", l10n) Type
+                  input.form-control(
+                    name='type', id="type", type='text'
+                    ng-model='profile.nationalID.type')
+              .row
+                .col-xs-12.col-sm-12.col-md-12
+                  label(for="country", l10n) Issuing Country
+                  input.form-control(
+                    name='country', id="country", type='text'
+                    ng-model='profile.nationalID.country'
+                    required)
+              .row
+                .col-xs-9.col-sm-8.col-md-6
+                  button.btn.btn-block.btn-primary.submit(type='submit', l10n) Update ID
+                .col-xs-3.col-sm-3.col-md-3
+                  a.txtbtn(href="", ng-click="editID = false") Cancel
 
 
 
