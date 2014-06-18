@@ -93,7 +93,7 @@ AccountTab.prototype.angular = function(module)
 
 
       function updateProfile() {
-        $scope.profile = rpProfile.getProfileScope($scope.userBlob);
+        $scope.profile = rpProfile.getProfileScope();
         $rootScope.profile = $scope.profile;
       }
 

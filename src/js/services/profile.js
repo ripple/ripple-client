@@ -58,7 +58,8 @@ module.factory('rpProfile', ['$rootScope',
     }
   }
 
-  var getProfileScope = function (blob) {
+  var getProfileScope = function () {
+    var blob = $scope.userBlob;
     if (blob && typeof(blob.identity) !== 'undefined') {
       var key = blob.key;
 

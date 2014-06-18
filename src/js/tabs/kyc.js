@@ -26,7 +26,7 @@ KycTab.prototype.angular = function(module)
     $scope.calendar = rpProfile.getBirthdayScope();
 
     $scope.$watch('userBlob', function(){
-      $scope.profile = rpProfile.getProfileScope($scope.userBlob);
+      $scope.profile = rpProfile.getProfileScope();
       $rootScope.profile = $scope.profile;
       $scope.id_types = rpProfile.getNationalIDScope($scope.profile);
     }, true);
