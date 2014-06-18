@@ -72,10 +72,88 @@ section.col-xs-12.content(ng-controller="AccountCtrl")
       .row
         .col-xs-12.col-sm-3.descriptor Full Name
         .col-xs-12.col-sm-9
-          a(href="", ng-click="") edit
+          a(href="", ng-click="editName = true") edit
       .row
-        .col-xs-12.col-sm-12
-          | {{name}}
+        .alert.alert-success(ng-show="successProfileName", l10n) Your full name has been changed successfully.
+        .alert.alert-danger(ng-show="failedProfileName", l10n) Your full name could not be updated.
+        .col-xs-12.col-sm-5
+          div(ng-hide='editName == true') {{profile.name}}
+          form(ng-show='editName == true', ng-submit="saveName()")
+            label(for='name', l10n) New Name
+            input.form-control(
+              name='name', id="name", type='text'
+              ng-model='profile.name'
+              required)
+            .row
+              .col-xs-9.col-sm-8.col-md-4
+                button.btn.btn-block.btn-primary.submit(type='submit', l10n) Update name
+              .col-xs-3.col-sm-3.col-md-3
+                a.txtbtn(href="", ng-click="editName = false") Cancel
+    .section
+      .row
+        .col-xs-12.col-sm-3.descriptor Address
+        .col-xs-12.col-sm-9
+          a(href="", ng-click="editAddress = true") edit
+      .row
+        .alert.alert-success(ng-show="successProfileAddress", l10n) Your address has been changed successfully.
+        .alert.alert-danger(ng-show="failedProfileAddress", l10n) Your address could not be updated.
+        .col-xs-12.col-sm-5
+          div(ng-hide='editAddress == true')
+            | {{profile.address.line1}}
+            br
+            | {{profile.address.line2}}
+            br
+            | {{profile.address.city}}, {{profile.address.region}} {{profile.address.postalCode}}
+            br
+            | {{profile.address.country}}
+          form(ng-show='editAddress && editAddress == true', ng-submit="saveAddress()")
+            label(for='name', l10n) New Address
+            .row
+              .col-xs-12.col-sm-12.col-md-12
+                label(for="line1", l10n) Line 1
+                input.form-control.line1(
+                  name='line1', id="line1", type='text'
+                  ng-model='profile.address.line1'
+                  required)
+            .row
+              .col-xs-12.col-sm-12.col-md-12
+                label(for="line2", l10n) Line 2
+                input.form-control.line2(
+                  name='line2', id="line2", type='text'
+                  ng-model='profile.address.line2')
+            .row
+              .col-xs-12.col-sm-12.col-md-12
+                label(for="city", l10n) City
+                input.form-control.city(
+                  name='city', id="city", type='text'
+                  ng-model='profile.address.city'
+                  required)
+            .row
+              .col-xs-12.col-sm-12.col-md-12
+                label(for="state", l10n) State/Region
+                input.form-control.state(
+                  name='region', id="region", type='text'
+                  ng-model='profile.address.region'
+                  required)
+            .row
+              .col-xs-12.col-sm-12.col-md-12
+                label(for="postalCode", l10n) ZIP/Postal Code
+                input.form-control.zip(
+                  name='postalCode', id="postalCode", type='text'
+                  ng-model='profile.address.postalCode'
+                  required)
+            .row
+              .col-xs-12.col-sm-12.col-md-12
+                label(for="country", l10n) Country
+                input.form-control.line1(
+                  name='country', id="country", type='text'
+                  ng-model='profile.address.country'
+                  required)
+            .row
+              .col-xs-9.col-sm-8.col-md-6
+                button.btn.btn-block.btn-primary.submit(type='submit', l10n) Update address
+              .col-xs-3.col-sm-3.col-md-3
+                a.txtbtn(href="", ng-click="editAddress = false") Cancel
 
 
 

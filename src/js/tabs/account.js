@@ -103,7 +103,7 @@ AccountTab.prototype.angular = function(module)
           for (var k in profile) {
             profile[k] = profile[k].value;
           }
-          $scope.name = profile.name;
+          $scope.profile = profile;
         }
       }
 
@@ -115,6 +115,45 @@ AccountTab.prototype.angular = function(module)
         updateProfile();
       }
 
+      $scope.saveName = function () {
+        $scope.userBlob.identity.set('name', $scope.userBlob.key, $scope.profile.name, function (err, result) {
+          $scope.$apply(function () {
+            $scope.editName = false;
+            updateProfile();
+
+            if (err) {
+              console.log('Could not update name');
+
+              $scope.failedProfileName = true;
+            }
+            else {
+              console.log('New name saved');
+
+              $scope.successProfileName = true;
+            }
+          });
+        });
+      }
+
+      $scope.saveAddress = function (callback) {
+        $scope.userBlob.identity.set('address', $scope.userBlob.key, $scope.profile.address, function (err, result) {
+          $scope.$apply(function () {
+            $scope.editAddress = false;
+            updateProfile();
+
+            if (err) {
+              console.log('Could not update address');
+
+              $scope.failedProfileAddress = true;
+            }
+            else {
+              console.log('New address saved');
+
+              $scope.successProfileAddress = true;
+            }
+          });
+        });
+      }
     }]
   );
 };
