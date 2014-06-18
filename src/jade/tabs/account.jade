@@ -72,13 +72,13 @@ section.col-xs-12.content(ng-controller="AccountCtrl")
       .row
         .col-xs-12.col-sm-3.descriptor Full Name
         .col-xs-12.col-sm-9
-          a(href="", ng-click="editName = !editName") edit
+          a(href="", ng-click="edit = 'name'") edit
       .row
         .alert.alert-success(ng-show="'successName' == status", l10n) Your full name has been changed successfully.
         .alert.alert-danger(ng-show="'failedName' == status", l10n) Your full name could not be updated.
         .col-xs-12.col-sm-5
-          div(ng-hide='editName == true') {{profile.name}}
-          form(ng-show='editName == true', ng-submit="saveName()")
+          div(ng-hide='"name" == edit') {{profile.name}}
+          form(ng-show='"name" == edit', ng-submit="saveName()")
             input.form-control(
               name='name', id="name", type='text'
               ng-model='profile.name'
@@ -87,60 +87,60 @@ section.col-xs-12.content(ng-controller="AccountCtrl")
               .col-xs-9.col-sm-8.col-md-4
                 button.btn.btn-block.btn-primary.submit(type='submit', l10n) Update name
               .col-xs-3.col-sm-3.col-md-3
-                a.txtbtn(href="", ng-click="editName = false") Cancel
+                a.txtbtn(href="", ng-click="edit = ''") Cancel
     .section
       .row
         .col-xs-12.col-sm-3.descriptor Address
         .col-xs-12.col-sm-9
-          a(href="", ng-click="editAddress = !editAddress") edit
+          a(href="", ng-click="edit = 'address'") edit
       .row
         .alert.alert-success(ng-show="'successAddress' == status", l10n) Your address has been changed successfully.
         .alert.alert-danger(ng-show="'failedAddress' == status", l10n) Your address could not be updated.
         .col-xs-12.col-sm-5
-          div(ng-hide='editAddress == true')
+          div(ng-hide='"address" == edit')
             div {{profile.address.line1}}
             div {{profile.address.line2}}
             div {{profile.address.city}} {{profile.address.region}} {{profile.address.postalCode}}
             div {{profile.address.country}}
-          form(ng-show='editAddress == true', ng-submit="saveAddress()")
+          form(ng-show='"address" == edit', ng-submit="saveAddress()")
             .row
               .col-xs-12.col-sm-12.col-md-12
                 label(for="line1", l10n) Line 1
-                input.form-control.line1(
+                input.form-control(
                   name='line1', id="line1", type='text'
                   ng-model='profile.address.line1'
                   required)
             .row
               .col-xs-12.col-sm-12.col-md-12
                 label(for="line2", l10n) Line 2
-                input.form-control.line2(
+                input.form-control(
                   name='line2', id="line2", type='text'
                   ng-model='profile.address.line2')
             .row
               .col-xs-12.col-sm-12.col-md-12
                 label(for="city", l10n) City
-                input.form-control.city(
+                input.form-control(
                   name='city', id="city", type='text'
                   ng-model='profile.address.city'
                   required)
             .row
               .col-xs-12.col-sm-12.col-md-12
-                label(for="state", l10n) State/Region
-                input.form-control.state(
+                label(for="region", l10n) State/Region
+                input.form-control(
                   name='region', id="region", type='text'
                   ng-model='profile.address.region'
                   required)
             .row
               .col-xs-12.col-sm-12.col-md-12
                 label(for="postalCode", l10n) ZIP/Postal Code
-                input.form-control.zip(
+                input.form-control(
                   name='postalCode', id="postalCode", type='text'
                   ng-model='profile.address.postalCode'
                   required)
             .row
               .col-xs-12.col-sm-12.col-md-12
                 label(for="country", l10n) Country
-                input.form-control.line1(
+                input.form-control(
                   name='country', id="country", type='text'
                   ng-model='profile.address.country'
                   required)
@@ -148,21 +148,21 @@ section.col-xs-12.content(ng-controller="AccountCtrl")
               .col-xs-9.col-sm-8.col-md-6
                 button.btn.btn-block.btn-primary.submit(type='submit', l10n) Update address
               .col-xs-3.col-sm-3.col-md-3
-                a.txtbtn(href="", ng-click="editAddress = false") Cancel
+                a.txtbtn(href="", ng-click="edit = ''") Cancel
       .section
         .row
           .col-xs-12.col-sm-3.descriptor ID Number
           .col-xs-12.col-sm-9
-            a(href="", ng-click="editID = !editID") edit
+            a(href="", ng-click="edit = 'id'") edit
         .row
           .alert.alert-success(ng-show="'successID' == status", l10n) Your ID has been changed successfully.
           .alert.alert-danger(ng-show="'failedID' == status", l10n) Your ID could not be updated.
           .col-xs-12.col-sm-5
-            div(ng-hide='editID == true')
+            div(ng-hide='"id" == edit')
               div {{profile.nationalID.number}}
               div {{profile.nationalID.type}}
               div {{profile.nationalID.country}}
-            form(ng-show='editID', ng-submit="saveID()")
+            form(ng-show='"id" == edit', ng-submit="saveID()")
               .row
                 .col-xs-12.col-sm-12.col-md-12
                   label(for="number", l10n) Number
@@ -187,7 +187,7 @@ section.col-xs-12.content(ng-controller="AccountCtrl")
                 .col-xs-9.col-sm-8.col-md-6
                   button.btn.btn-block.btn-primary.submit(type='submit', l10n) Update ID
                 .col-xs-3.col-sm-3.col-md-3
-                  a.txtbtn(href="", ng-click="editID = false") Cancel
+                  a.txtbtn(href="", ng-click="edit = ''") Cancel
 
 
 

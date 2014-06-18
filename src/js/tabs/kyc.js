@@ -22,8 +22,7 @@ KycTab.prototype.angular = function(module)
   module.controller('KycCtrl', ['$scope', '$rootScope', '$location', 'rpProfile',
                                     function ($scope, $rootScope, $location, rpProfile)
   {
-    $scope.profile = {};
-    $scope.profile.entityType = 'individual'; // Default to individual
+    //$scope.profile.entityType = ($scope.profile && $scope.profile.entityType) ? $scope.profile.entityType: 'individual'; // Default to individual
     $scope.calendar = rpProfile.getBirthdayScope();
 
     $scope.$watch('userBlob', function(){

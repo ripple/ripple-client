@@ -69,17 +69,23 @@ module.factory('rpProfile', ['$rootScope',
         profile[k] = profile[k].value;
       }
 
-      var type = profile.nationalID.type;
-      var type_short;
-      if (profile.entityType === 'individual') {
-        var id_type_map_individual_reverse = reverseDictionary(id_type_map_individual);
-        type_short = id_type_map_individual_reverse[type];
-        profile.nationalID.type =  type_short ? type_short: type;
+      if (profile.nationalID) {
+        var type = profile.nationalID.type;
+        var type_short;
+        if (profile.entityType === 'individual') {
+          var id_type_map_individual_reverse = reverseDictionary(id_type_map_individual);
+          type_short = id_type_map_individual_reverse[type];
+          profile.nationalID.type =  type_short ? type_short: type;
+        }
+        else {
+          var id_type_map_organization_reverse = reverseDictionary(id_type_map_organization);
+          type_short = id_type_map_organization_reverse[type];
+          profile.nationalID.type =  type_short ? type_short: type;
+        }
       }
-      else {
-        var id_type_map_organization_reverse = reverseDictionary(id_type_map_organization);
-        type_short = id_type_map_organization_reverse[type];
-        profile.nationalID.type =  type_short ? type_short: type;
+
+      if (!profile.entityType) {
+        profile.entityType = 'individual';
       }
 
       return profile;

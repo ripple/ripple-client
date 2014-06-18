@@ -93,8 +93,8 @@ AccountTab.prototype.angular = function(module)
 
 
       function updateProfile() {
-        rpProfile.updateProfileScope();
-        $scope.profile = $rootScope.profile;
+        $scope.profile = rpProfile.getProfileScope($scope.userBlob);
+        $rootScope.profile = $scope.profile;
       }
 
       $scope.$watch('userBlob', function(){
@@ -104,7 +104,7 @@ AccountTab.prototype.angular = function(module)
       $scope.saveName = function () {
         rpProfile.saveName(function (err, result) {
           $scope.$apply(function () {
-            $scope.editName = false;
+            $scope.edit = undefined;
             updateProfile();
 
             if (err) {
@@ -124,7 +124,7 @@ AccountTab.prototype.angular = function(module)
       $scope.saveAddress = function (callback) {
         rpProfile.saveAddress(function (err, result) {
           $scope.$apply(function () {
-            $scope.editAddress = false;
+            $scope.edit = undefined;
             updateProfile();
 
             if (err) {
@@ -144,7 +144,7 @@ AccountTab.prototype.angular = function(module)
       $scope.saveID = function (callback) {
         rpProfile.saveNationalID(function (err, result) {
           $scope.$apply(function () {
-            $scope.editID = false;
+            $scope.edit = undefined;
             updateProfile();
 
             if (err) {

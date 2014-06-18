@@ -13,7 +13,7 @@ section.col-xs-12.content(ng-controller="KycCtrl")
       form.row-padding-small(name="profileForm", ng-submit="save()")
         .row
           .col-xs-12.col-sm-8.col-md-8
-            label(for="name", ng-show='profile.entityType == "individual"', l10n) Full Name
+            label(for="name", ng-hide='profile.entityType == "organization"', l10n) Full Name
             label(for="name", ng-show='profile.entityType == "organization"', l10n) Organization Name
             input.form-control.fullName(
               name='name', id="name", type='text'
@@ -98,7 +98,7 @@ section.col-xs-12.content(ng-controller="KycCtrl")
               required)
         .row
           .col-xs-12.col-sm-8.col-md-8
-            label(for="id_number", ng-show='profile.entityType == "individual"', l10n) ID Number
+            label(for="id_number", ng-hide='profile.entityType == "organization"', l10n) ID Number
             label(for="id_number", ng-show='profile.entityType == "organization"', l10n) Tax ID
             input.form-control.line1(
               name='id_number', id="id_number", type='text'
