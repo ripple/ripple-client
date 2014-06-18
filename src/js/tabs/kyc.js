@@ -24,13 +24,12 @@ KycTab.prototype.angular = function(module)
   {
     $scope.profile = {};
     $scope.profile.entityType = 'individual'; // Default to individual
-
-    rpProfile.setBirthdayScope();
-
+    $scope.calendar = rpProfile.getBirthdayScope();
 
     $scope.$watch('userBlob', function(){
-      rpProfile.updateProfileScope();
-      $scope.profile = $rootScope.profile;
+      $scope.profile = rpProfile.getProfileScope($scope.userBlob);
+      $rootScope.profile = $scope.profile;
+      $scope.id_types = rpProfile.getNationalIDScope($scope.profile);
     }, true);
 
     var updateShowNoSSN = function() {
@@ -66,7 +65,7 @@ KycTab.prototype.angular = function(module)
     });
 
     $scope.$watch('profile.entityType', function(){
-      rpProfile.setNationalIDScope();
+      $scope.id_types = rpProfile.getNationalIDScope($scope.profile);
     });
 
     $scope.save = function () {

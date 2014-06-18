@@ -40,26 +40,25 @@ module.factory('rpProfile', ['$rootScope',
   }
 
 
-  var setBirthdayScope = function () {
-    $scope.days = genNum(1, 31);
-    $scope.months = ['01 - January', '02 - February', '03 - March', '04 - April', '05 - May', '06 - June', '07 - July', '08 - August', '09 - September', '10 - October', '11 - November', '12 - December'];
+  var getBirthdayScope = function () {
+    var obj = {};
+    obj.days = genNum(1, 31);
+    obj.months = ['01 - January', '02 - February', '03 - March', '04 - April', '05 - May', '06 - June', '07 - July', '08 - August', '09 - September', '10 - October', '11 - November', '12 - December'];
     var currentYear = new Date().getFullYear();
-    $scope.years = genNum(currentYear - 100, currentYear);
+    obj.years = genNum(currentYear - 100, currentYear);
+    return obj;
   }
 
-  var setNationalIDScope = function () {
-    if ($scope.profile) {
-      if ($scope.profile.entityType === 'individual') {
-        $scope.id_types = Object.keys(id_type_map_individual);
-      }
-      else {
-        $scope.id_types = Object.keys(id_type_map_organization);
-      }
+  var getNationalIDScope = function (profile) {
+    if (profile && profile.entityType === 'individual') {
+      return Object.keys(id_type_map_individual);
+    }
+    else {
+      return Object.keys(id_type_map_organization);
     }
   }
 
-  var updateProfileScope = function () {
-    var blob = $scope.userBlob;
+  var getProfileScope = function (blob) {
     if (blob && typeof(blob.identity) !== 'undefined') {
       var key = blob.key;
 
@@ -83,7 +82,7 @@ module.factory('rpProfile', ['$rootScope',
         profile.nationalID.type =  type_short ? type_short: type;
       }
 
-      $scope.profile = profile;
+      return profile;
     }
   }
 
@@ -130,9 +129,9 @@ module.factory('rpProfile', ['$rootScope',
   }
 
   return {
-    updateProfileScope: updateProfileScope,
-    setBirthdayScope: setBirthdayScope,
-    setNationalIDScope: setNationalIDScope,
+    getProfileScope: getProfileScope,
+    getBirthdayScope: getBirthdayScope,
+    getNationalIDScope: getNationalIDScope,
     saveName: saveName,
     saveAddress: saveAddress,
     saveEntityType: saveEntityType,

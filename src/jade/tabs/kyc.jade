@@ -69,21 +69,21 @@ section.col-xs-12.content(ng-controller="KycCtrl")
             label(for="country", l10n) Day
             input.form-control.line1(
               name='day', id="day", type='text'
-              rp-combobox="days", rp-combobox-select
+              rp-combobox="calendar.days", rp-combobox-select
               ng-model='profile.birthday.day'
               ng-required='profile.entityType === "individual"')
           .col-xs-4.col-sm-3.col-md-3
             label(for="month", l10n) Month
             input.form-control.line1(
               name='month', id="month", type='text'
-              rp-combobox="months", rp-combobox-select
+              rp-combobox="calendar.months", rp-combobox-select
               ng-model='profile.birthday.month'
               ng-required='profile.entityType === "individual"')
           .col-xs-4.col-sm-3.col-md-3
             label(for="year", l10n) Year
             input.form-control.line1(
               name='year', id="year", type='text'
-              rp-combobox="years", rp-combobox-select
+              rp-combobox="calendar.years", rp-combobox-select
               ng-model='profile.birthday.year'
               ng-required='profile.entityType === "individual"')
         hr(ng-show='profile.entityType == "individual"')
