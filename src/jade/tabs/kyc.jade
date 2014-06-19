@@ -6,9 +6,9 @@ section.col-xs-12.content(ng-controller="KycCtrl")
     .section
       .row
         .col-xs-6.col-sm-4.col-md-4
-          button.btn.btn-block.btn-primary(ng-click='profile.entityType = "individual"', l10n) Individual
+          button.btn.btn-block.btn-primary(ng-class="{ 'button-unselected' : profile.entityType === 'organization' }", ng-click='profile.entityType = "individual"', l10n) Individual
         .col-xs-6.col-sm-4.col-md-4
-          button.btn.btn-block.btn-primary(ng-click='profile.entityType = "organization"', l10n) Organization
+          button.btn.btn-block.btn-primary(ng-class="{ 'button-unselected' : profile.entityType === 'individual' }", ng-click='profile.entityType = "organization"', l10n) Organization
       hr
       form.row-padding-small(name="profileForm", ng-submit="save()")
         .row

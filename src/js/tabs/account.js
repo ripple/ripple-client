@@ -122,6 +122,12 @@ AccountTab.prototype.angular = function(module)
 
               $scope.status = 'successName';
             }
+
+            setTimeout(function() {
+              $scope.$apply(function() {
+                $scope.status = '';
+              });
+            }, 3000);
           });
         });
       }
@@ -142,6 +148,12 @@ AccountTab.prototype.angular = function(module)
 
               $scope.status = 'successAddress';
             }
+
+            setTimeout(function() {
+              $scope.$apply(function() {
+                $scope.status = '';
+              });
+            }, 3000);
           });
         });
       }
@@ -162,6 +174,12 @@ AccountTab.prototype.angular = function(module)
 
               $scope.status = 'successID';
             }
+
+            setTimeout(function() {
+              $scope.$apply(function() {
+                $scope.status = '';
+              });
+            }, 3000);
           });
         });
       }
