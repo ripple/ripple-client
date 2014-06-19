@@ -33,25 +33,74 @@ RecoverTab.prototype.angular = function (module) {
       return;
     }
     
-    $scope.reset = function()
-    {
-      $scope.username = '';
-      $scope.master = '';
-      $scope.mode = 'form';
-      $scope.showMasterKeyInput = false;
-      $scope.submitLoading = false;
-    };
+    var recoveredBlob;
     
-    $scope.reset();
+
+    $scope.username      = '';
+    $scope.masterkey     = '';
+    $scope.mode          = 'recover';
+    $scope.submitLoading = false;
+    $scope.passwordSet   = {};
+    $scope.password1     = '';
+    $scope.password2     = '';
+    $scope.recoverError  = null;
+    $scope.passwordError = null;
     
     $scope.submitForm = function() {
+      
       // Disable submit button
       $scope.submitLoading = true;
-      $authflow.recoverBlob($scope.username, $scope.masterkey, function (err, blob){
-        console.log(err, blob);
-      });
-    };
+      
+      if ($scope.mode === 'recover') {
+        $authflow.recoverBlob($scope.username, $scope.masterkey, function (err, blob){
+          $scope.submitLoading = false;
+           
+          if (err) {
+            console.log('recover:', err);
+            $scope.recoverError = err;
+            return;
+          }       
+          
+          recoveredBlob       = blob;
+          $scope.mode         = 'setPassword';
+          $scope.recoverError = null; //clear any existing errors
+        });
         
+      } else if ($scope.mode === 'setPassword') {
+      
+        var options = {
+          username  : $scope.username,
+          password  : $scope.password1,
+          masterkey : $scope.masterkey,
+          blob      : recoveredBlob
+        }
+      
+        $authflow.changePassword(options, function(err, resp) {
+          $scope.submitLoading = false;
+          
+          if (err) {
+            console.log('changePassword:', err);
+            $scope.passwordError = err;
+            return;
+          }
+          
+          $scope.mode          = 'continue';
+          $scope.passwordError = null;       
+        });
+      }    
+    };
+    
+    $scope.loadWallet = function () {
+      var keys = {
+        id    : recoveredBlob.id, 
+        crypt : recoveredBlob.key
+      };
+      
+      $id.storeLoginKeys(recoveredBlob.url, $scope.username, keys);
+      $id.loginStatus = true;     
+      $location.path('/balance');
+      return;     
+    };    
   }]);
 };
 

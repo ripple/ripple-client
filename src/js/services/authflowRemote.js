@@ -163,7 +163,17 @@ module.factory('rpAuthFlow', ['$rootScope', function ($scope)
       }
       
     });
-  }
+  };
+  
+  AuthFlow.changePassword = function (options, callback) {
+    var meta = AuthFlow.getVaultClient(options.username);
+    
+    meta.client.changePassword(options, function(err, resp){
+      $scope.$apply(function(){ 
+        callback(err, resp);         
+      });      
+    });
+  };
 
   AuthFlow.getVaultClient = function(username) {
     var meta = { username: username, domain: Options.domain };

@@ -1,7 +1,7 @@
 section.col-xs-12.content(ng-controller="RecoverCtrl")
-  .row.auth-form-container.col-sm-offset-2.col-sm-8.col-md-offset-3.col-md-6(ng-show='mode=="form"')
+  .row.auth-form-container.col-sm-offset-2.col-sm-8.col-md-offset-3.col-md-6
     .auth-form-wrapper
-      form(name='recoverForm', ng-submit='submitForm()')
+      form(name='recoverForm', ng-submit='submitForm()', ng-show="mode === 'recover'")
         h2(l10n) Account Recovery
         .form-group
           label(for='recover_username', l10n) Ripple name
@@ -15,11 +15,47 @@ section.col-xs-12.content(ng-controller="RecoverCtrl")
           input.form-control#recover_masterkey(
           name='recover_masterkey', type='password', autocomplete="off"
           required, ng-model="masterkey")
+        .error.text-center(ng-show="error", l10n) Unable to recover account.  Check your ripple name and secret key.
         .submit-btn-container
           button.btn.btn-block.btn-success(type='submit'
-            ng-disabled='registerForm.$invalid || submitLoading'
+            ng-disabled='recoverForm.$invalid || submitLoading'
             rp-spinner='{{submitLoading ? 4 : null}}')
             span(ng-show="submitLoading", l10n) Loading...
             span(ng-hide="submitLoading", l10n) Recover Account
-    .switch-mode-link-container
-      a(href='#login', l10n) Log In
+      form(name='setPasswordForm', ng-submit='submitForm()', ng-show="mode === 'setPassword'")
+        h2(l10n) Set Password
+        .auth-attention.text-center
+          .status(l10n) Your account was sucessfully recovered! Please re-encrypt your Ripple vault with a new password.
+        .form-group
+          label(l10n) Ripple Name
+          .rippleName
+            span ~
+            span(ng-bind="username")
+        .form-group(ng-class="{'field-error': 'weak' === strength}")
+          label(for='password1', l10n) Password
+          input.form-control#password1(
+            name='password1', type='password', autocomplete="off"
+            ng-model="password1"
+            rp-strong-password, required, rp-same-in-set="passwordSet")
+          p(ng-show="strength=='weak'")
+            span(l10n) Your password is weak. It does not contain numbers and symbols or it is too short.
+        .form-group(ng-class="{'field-error': setPasswordForm.password1.$error.rpSameInSet && setPasswordForm.password2.$dirty}")
+          label(for='password2', l10n) Confirm password
+          input.form-control#password2(
+            name='password2', autocomplete="off", type='password'
+            ng-model="password2"
+            required, rp-same-in-set="passwordSet")
+          p(ng-show="setPasswordForm.password1.$error.rpSameInSet && setPasswordForm.password2.$dirty")
+            span(l10n) Passwords do not match     
+        .error.text-center(ng-show="error", l10n) Error
+        .submit-btn-container
+          button.btn.btn-block.btn-success(type='submit'
+            ng-disabled='setPasswordForm.$invalid || submitLoading'
+            rp-spinner='{{submitLoading ? 4 : null}}')
+            span(ng-show="submitLoading", l10n) Updating...
+            span(ng-hide="submitLoading", l10n) Set Password
+      .auth-attention.text-center(ng-show="mode === 'continue'")
+          .status(l10n) Your password was successfully changed.
+      .submit-btn-container(ng-show="mode === 'continue'")
+        button.btn.btn-block.btn-success(ng-click='loadWallet()')
+          span(l10n) Continue
