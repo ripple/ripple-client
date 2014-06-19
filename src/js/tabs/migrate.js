@@ -24,9 +24,7 @@ MigrateTab.prototype.angular = function (module) {
 
     $scope.migrate = function() {
 
-      console.log('inside migrate function');
-
-      var RTpath = 'https://rippletrade.com/#/migrate';
+      var RTpath = 'https://rippletrade.com/#/login/migrate';
 
       $window.location.href = RTpath;
     }
