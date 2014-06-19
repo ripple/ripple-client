@@ -13,6 +13,7 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
             span  3
         .form-group
           label(for='register_username', l10n) Create Ripple name
+          .auth-attention(ng-show="oldUserBlob", l10n) If your username is available, you can use it. Otherwise, pick a unique name.
           .input-group
             span.input-group-addon.ripple-addon ~
             input.form-control#register_username(
@@ -84,8 +85,8 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
           button.btn.btn-block.btn-success(type='submit'
             ng-disabled='registerForm.$invalid || submitLoading'
             rp-spinner='{{submitLoading ? 4 : null}}')
-            span(ng-show="submitLoading", l10n) Loading...
-            span(ng-hide="submitLoading", l10n) Sign Up
+            span(ng-hide="oldUserBlob", l10n) Sign Up
+            span(ng-show="oldUserBlob", l10n) Migrate Account
     .switch-mode-link-container Have an account?&#32;
       a(href='#login', l10n) Log In
 
