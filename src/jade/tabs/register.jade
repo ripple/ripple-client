@@ -12,7 +12,7 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
           li(l10n) Step
             span  3
         .form-group
-          label(for='register_username', l10n) Create Ripple name
+          label(for='register_username', ng-hide="oldUserBlob", l10n) Create Ripple name
           .auth-attention(ng-show="oldUserBlob", l10n) If your username is available, you can use it. Otherwise, pick a unique name.
           .input-group
             span.input-group-addon.ripple-addon ~

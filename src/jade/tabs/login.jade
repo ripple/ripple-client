@@ -18,10 +18,10 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
           .backend(ng-repeat="message in backendMessages")
             b {{message.backend}} &#32;
             span {{message.message}}
-        .submit-btn-container(ng-hide="$routeParams.action === 'migrate'");
+        .submit-btn-container(ng-hide="$routeParams.action === 'migrate'")
           button.btn.btn-submit.btn-block.btn-success(type='submit', ng-disabled="loginForm.$invalid || ajax_loading", rp-spinner="{{ajax_loading ? 4 : null}}")
             span(l10n) Log In
-        .submit-btn-container(ng-show="$routeParams.action === 'migrate'");
+        .submit-btn-container(ng-show="$routeParams.action === 'migrate'")
           button.btn.btn-submit.btn-block.btn-success(type='submit', ng-disabled="loginForm.$invalid || ajax_loading", rp-spinner="{{ajax_loading ? 4 : null}}")
             span(l10n) Begin Migration
     .switch-mode-link-container(ng-hide="$routeParams.action === 'migrate'", l10n) Already have a ripple.com/client account?&#32;
