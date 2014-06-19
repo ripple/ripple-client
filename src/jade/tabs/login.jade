@@ -9,9 +9,12 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
       form(name='loginForm', ng-submit='submitForm()')
         h2(l10n) Log In
         .auth-attention.text-center(ng-show="verifyStatus")
-          .status(ng-show="'verifying' === verifyStatus", l10n) Verifying...
-          .status(ng-show="'verified' === verifyStatus", l10n) You have successfully verified your email address.
-          .status(ng-show="'error' === verifyStatus", l10n) Something went wrong, please try again.
+          .status(ng-show="'verifying' === verifyStatus", l10n)
+            | Just a minute, verifying your email address...
+          .status(ng-show="'verified' === verifyStatus", l10n)
+            | You have successfully verified your email address.
+          .status(ng-show="'error' === verifyStatus", l10n)
+            | Something went wrong, please try again.
         include login/form
         .text-status(ng-show='status')
           span {{status}}
@@ -20,7 +23,9 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
             b {{message.backend}} &#32;
             span {{message.message}}
         .submit-btn-container
-          button.btn.btn-submit.btn-block.btn-success(type='submit', ng-disabled="loginForm.$invalid || ajax_loading", rp-spinner="{{ajax_loading ? 4 : null}}")
+          button.btn.btn-submit.btn-block.btn-success(type='submit'
+            ng-disabled="loginForm.$invalid || ajax_loading || 'verifying' === verifyStatus"
+            rp-spinner="{{ajax_loading ? 4 : null}}")
             span(l10n) Log In
     .switch-mode-link-container(l10n) New to {{productName}}?&#32;
       a(href='#register', l10n-inc) Sign Up

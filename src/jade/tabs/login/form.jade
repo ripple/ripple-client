@@ -2,10 +2,12 @@
   label(for='login_username', l10n) Ripple name
   .input-group
     span.input-group-addon.ripple-addon ~
-    input.form-control#login_username(name='login_username', type='text', ng-model='username', required,
-    rp-focus-on-empty, rp-autofill='$routeParams.username')
+    input.form-control#login_username(name='login_username', type='text'
+      rp-autofill='$routeParams.username'
+      ng-model='username', required, rp-focus-on-empty)
 .form-group
   label(for='login_password', l10n) Password
-  input.form-control#login_password(name='login_password', type='password', ng-model='password', required, rp-focus)
+  input.form-control#login_password(name='login_password', type='password'
+    ng-model='password', required, rp-focus)
   //- TODO
   //a.recover-link(href="", l10n) Recover Account
