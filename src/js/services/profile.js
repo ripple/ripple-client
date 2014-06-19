@@ -14,7 +14,6 @@ module.factory('rpProfile', ['$rootScope',
     'Social Security Number': 'ssn',
     'Passport Number': 'passport',
     'Drivers License Number': 'driversLicense',
-    'National ID Number': 'other',                  // TODO: Add National ID Number to ripple-lib blob types
     'Other': 'other'
   };
 
