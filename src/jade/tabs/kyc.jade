@@ -2,7 +2,7 @@ section.col-xs-12.content(ng-controller="KycCtrl")
   .alert.alert-success(ng-show="'success' == status", l10n) Your profile has been saved successfully.
   .alert.alert-danger(ng-show="'failed' == status", l10n) Could not save your profile.
   .box
-    .title Complete your profile information
+    .title(l10n) Complete your profile information
     .section
       .row
         .col-xs-6.col-sm-4.col-md-4
@@ -119,6 +119,6 @@ section.col-xs-12.content(ng-controller="KycCtrl")
           .col-xs-9.col-sm-6.col-md-4
             button.btn.btn-block.btn-primary.submit(type='submit', l10n) Save to profile
           .col-xs-3.col-sm-3.col-md-3
-            a.txtbtn(href="", ng-click="cancel()") Cancel
+            a.txtbtn(href="", ng-click="cancel()", l10n) Cancel
 
 

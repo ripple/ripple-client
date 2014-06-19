@@ -92,6 +92,11 @@ AccountTab.prototype.angular = function(module)
       reset();
 
 
+      $scope.calendar = rpProfile.getBirthdayScope();
+      $scope.$watch('profile.entityType', function(){
+        $scope.id_types = rpProfile.getNationalIDScope($scope.profile);
+      });
+
       function updateProfile() {
         $scope.profile = rpProfile.getProfileScope();
         $rootScope.profile = $scope.profile;
