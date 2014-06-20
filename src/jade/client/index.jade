@@ -39,6 +39,11 @@ div#wrapper
     h1(ng-show="$route.current.tabClass == 't-register'", l10n) Welcome to {{productName}}
     != require("./navbar.jade")()
   .container
+    .alert.alert-warning(ng-show="numberOfDaysLeftKyc", l10n) In
+      strong(l10n) &nbsp;{{numberOfDaysLeftKyc}},&nbsp;
+      | you will need a
+      a.alert-link(href="", ng-click="completeKycProfile()", l10n) &nbsp;complete profile&nbsp;
+      | to use all Ripple Trade features. Profile information is stored encrypted, and is not viewable by anybody other than yourself
 
     // Main
     .row.main(role="main", id="{{$route.current.tabClass}}", ng-view)

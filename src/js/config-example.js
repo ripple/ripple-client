@@ -55,7 +55,9 @@ var Options = {
   b2rAddress: 'rhxULAn1xW9T4V2u67FX9pQjSz4Tay2zjZ',
 
   // Number of ledgers ahead of the current ledger index where a tx is valid
-  tx_last_ledger: 3
+  tx_last_ledger: 3,
+
+  kyc_profile_deadline: 'July 19, 2014'
 };
 
 // Load client-side overrides
