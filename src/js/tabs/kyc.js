@@ -87,6 +87,13 @@ KycTab.prototype.angular = function(module)
             if ($rootScope.redirectURL) {
               $location.path($rootScope.redirectURL);
               $rootScope.redirectURL = undefined;
+
+              $rootScope.completedProfileKyc = true;
+              setTimeout(function() {
+                $scope.$apply(function() {
+                  $rootScope.completedProfileKyc = undefined;
+                });
+              }, 5000);
             }
           });
         }
