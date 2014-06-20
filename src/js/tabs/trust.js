@@ -410,7 +410,7 @@ TrustTab.prototype.angular = function (module)
           return tx;
         }
 
-        var tx = $scope.orderbookExists ? sendBalanceToSelf() : sendBalanceToIssuer();
+        var tx = ($scope.orderbookStatus === 'exists') ? sendBalanceToSelf() : sendBalanceToIssuer();
 
         setSecretAndSubmit(tx);
 
@@ -429,12 +429,6 @@ TrustTab.prototype.angular = function (module)
 
       else {
         nullifyTrustLine(id.account, $scope.currency, $scope.counterparty);
-      }
-
-      for (var address in $scope.lines) {
-        if (address === ($scope.counterparty + $scope.currency)) {
-          delete $scope.lines[address];
-        }
       }
 
       $scope.toggle_form();
