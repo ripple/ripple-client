@@ -192,6 +192,47 @@ section.col-xs-12.content(ng-controller="AccountCtrl")
                   button.btn.btn-block.btn-primary.submit(type='submit', l10n) Update ID
                 .col-xs-3.col-sm-3.col-md-3
                   a.txtbtn(href="", ng-click="edit = ''; status = ''", l10n) Cancel
+      .section(ng-show="'individual' == profile.entityType")
+        .row
+          .col-xs-12.col-sm-3.descriptor(l10n) Date of Birth
+          .col-xs-12.col-sm-9
+            a(href="", ng-click="edit = 'dob'", l10n) edit
+        .row
+          .alert.alert-success(ng-show="'successDob' == status", l10n) Your date of birth has been changed successfully.
+          .alert.alert-danger(ng-show="'failedDob' == status", l10n) Your date of birth could not be updated.
+          .col-xs-12.col-sm-12
+            div(ng-hide='"dob" == edit')
+              div(l10n) Day:   {{profile.birthday.day}}
+              div(l10n) Month:     {{profile.birthday.month}}
+              div(l10n) Year:  {{profile.birthday.year}}
+            form(ng-show='"dob" == edit', ng-submit="saveDob()")
+              .row
+                .col-xs-4.col-sm-2.col-md-2
+                  label(for="country", l10n) Day
+                  input.form-control(
+                    name='day', id="day", type='text'
+                    rp-combobox="calendar.days", rp-combobox-select
+                    ng-model='profile.birthday.day'
+                    ng-required='profile.entityType === "individual"')
+                .col-xs-4.col-sm-3.col-md-3
+                  label(for="month", l10n) Month
+                  input.form-control(
+                    name='month', id="month", type='text'
+                    rp-combobox="calendar.months", rp-combobox-select
+                    ng-model='profile.birthday.month'
+                    ng-required='profile.entityType === "individual"')
+                .col-xs-4.col-sm-3.col-md-3
+                  label(for="year", l10n) Year
+                  input.form-control(
+                    name='year', id="year", type='text'
+                    rp-combobox="calendar.years", rp-combobox-select
+                    ng-model='profile.birthday.year'
+                    ng-required='profile.entityType === "individual"')
+              .row
+                .col-xs-9.col-sm-8.col-md-6
+                  button.btn.btn-block.btn-primary.submit(type='submit', l10n) Update date of birth
+                .col-xs-3.col-sm-3.col-md-3
+                  a.txtbtn(href="", ng-click="edit = ''; status = ''", l10n) Cancel
 
 
 

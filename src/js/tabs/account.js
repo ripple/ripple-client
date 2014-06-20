@@ -184,6 +184,32 @@ AccountTab.prototype.angular = function(module)
           });
         });
       }
+
+      $scope.saveDob = function (callback) {
+        rpProfile.saveBirthday(function (err, result) {
+          $scope.$apply(function () {
+            $scope.edit = undefined;
+            updateProfile();
+
+            if (err) {
+              console.log('Could not update date of birth');
+
+              $scope.status = 'failedDob';
+            }
+            else {
+              console.log('New date of birth saved');
+
+              $scope.status = 'successDob';
+            }
+
+            setTimeout(function() {
+              $scope.$apply(function() {
+                $scope.status = '';
+              });
+            }, 3000);
+          });
+        });
+      }
     }]
   );
 };
