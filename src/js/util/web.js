@@ -194,6 +194,23 @@ exports.queryFromOptions = function (options)
   return exports.queryFromArray(opts);
 };
 
+exports.queryFromOptionsIncludingKeys = function (options)
+{
+  var opts = _.map(options, function (entry) {
+    if ("object" === typeof entry &&
+        entry.value && "string" === typeof entry.value && entry.name && "string" === typeof entry.name)
+    {
+      return entry.value + " - " + entry.name;
+    } else if ("object" === typeof entry || "string" === typeof entry) {
+      return entry;
+    } else {
+      return null;
+    }
+  });
+
+  return exports.queryFromArray(opts);
+};
+
 /**
  * Creates a combobox query function out of a plain array of strings.
  *
