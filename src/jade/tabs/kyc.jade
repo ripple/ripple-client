@@ -24,42 +24,43 @@ section.col-xs-12.content(ng-controller="KycCtrl")
           .col-xs-12.col-sm-8.col-md-8
             label(l10n) Address
             label(for="line1", l10n) Line 1
-            input.form-control.line1(
+            input.form-control(
               name='line1', id="line1", type='text'
               ng-model='profile.address.line1'
               required)
         .row
           .col-xs-12.col-sm-8.col-md-8
             label(for="line2", l10n) Line 2
-            input.form-control.line2(
+            input.form-control(
               name='line2', id="line2", type='text'
               ng-model='profile.address.line2')
         .row
           .col-xs-12.col-sm-8.col-md-8
             label(for="city", l10n) City
-            input.form-control.city(
+            input.form-control(
               name='city', id="city", type='text'
               ng-model='profile.address.city'
               required)
         .row
           .col-xs-12.col-sm-8.col-md-8
             label(for="state", l10n) State/Region
-            input.form-control.state(
+            input.form-control(
               name='region', id="region", type='text'
               ng-model='profile.address.region'
               required)
         .row
           .col-xs-12.col-sm-8.col-md-8
             label(for="postalCode", l10n) ZIP/Postal Code
-            input.form-control.zip(
+            input.form-control(
               name='postalCode', id="postalCode", type='text'
               ng-model='profile.address.postalCode'
               required)
         .row
           .col-xs-12.col-sm-8.col-md-8
             label(for="country", l10n) Country
-            input.form-control.line1(
+            input.form-control(
               name='country', id="country", type='text'
+              rp-combobox="countries", rp-combobox-select
               ng-model='profile.address.country'
               required)
         hr(ng-show='profile.entityType == "individual"')
@@ -67,21 +68,21 @@ section.col-xs-12.content(ng-controller="KycCtrl")
         .row(ng-show='profile.entityType == "individual"')
           .col-xs-4.col-sm-2.col-md-2
             label(for="country", l10n) Day
-            input.form-control.line1(
+            input.form-control(
               name='day', id="day", type='text'
               rp-combobox="calendar.days", rp-combobox-select
               ng-model='profile.birthday.day'
               ng-required='profile.entityType === "individual"')
           .col-xs-4.col-sm-3.col-md-3
             label(for="month", l10n) Month
-            input.form-control.line1(
+            input.form-control(
               name='month', id="month", type='text'
               rp-combobox="calendar.months", rp-combobox-select
               ng-model='profile.birthday.month'
               ng-required='profile.entityType === "individual"')
           .col-xs-4.col-sm-3.col-md-3
             label(for="year", l10n) Year
-            input.form-control.line1(
+            input.form-control(
               name='year', id="year", type='text'
               rp-combobox="calendar.years", rp-combobox-select
               ng-model='profile.birthday.year'
@@ -91,7 +92,7 @@ section.col-xs-12.content(ng-controller="KycCtrl")
         .row
           .col-xs-12.col-sm-8.col-md-8
             label(for="id_type", l10n) ID Type
-            input.form-control.line1(
+            input.form-control(
               name='id_type', id="id_type", type='text'
               rp-combobox="id_types", rp-combobox-select
               ng-model='profile.nationalID.type'
@@ -100,15 +101,16 @@ section.col-xs-12.content(ng-controller="KycCtrl")
           .col-xs-12.col-sm-8.col-md-8
             label(for="id_number", ng-hide='profile.entityType == "organization"', l10n) ID Number
             label(for="id_number", ng-show='profile.entityType == "organization"', l10n) Tax ID
-            input.form-control.line1(
+            input.form-control(
               name='id_number', id="id_number", type='text'
               ng-model='profile.nationalID.number'
               required)
         .row(ng-show='profile.entityType == "individual" && show_issuing_country')
           .col-xs-12.col-sm-8.col-md-8
             label(for="issuing_country", l10n) Issuing Country
-            input.form-control.line1(
+            input.form-control(
               name='issuing_country', id="issuing_country", type='text'
+              rp-combobox="countries", rp-combobox-select
               ng-model='profile.nationalID.country')
         .row(ng-show='profile.entityType == "individual" && show_no_ssn')
           .col-xs-12.col-sm-8.col-md-8

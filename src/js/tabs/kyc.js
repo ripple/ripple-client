@@ -24,6 +24,7 @@ KycTab.prototype.angular = function(module)
   {
     //$scope.profile.entityType = ($scope.profile && $scope.profile.entityType) ? $scope.profile.entityType: 'individual'; // Default to individual
     $scope.calendar = rpProfile.getBirthdayScope();
+    $scope.countries = rpProfile.getCountryScope();
 
     $scope.$watch('userBlob', function(){
       $scope.profile = rpProfile.getProfileScope();

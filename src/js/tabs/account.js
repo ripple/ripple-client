@@ -93,6 +93,7 @@ AccountTab.prototype.angular = function(module)
 
 
       $scope.calendar = rpProfile.getBirthdayScope();
+      $scope.countries = rpProfile.getCountryScope();
       $scope.$watch('profile.entityType', function(){
         $scope.id_types = rpProfile.getNationalIDScope($scope.profile);
       });

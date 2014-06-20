@@ -142,6 +142,7 @@ section.col-xs-12.content(ng-controller="AccountCtrl")
                 label(for="country", l10n) Country
                 input.form-control(
                   name='country', id="country", type='text'
+                  rp-combobox="countries", rp-combobox-select
                   ng-model='profile.address.country'
                   required)
             .row
@@ -184,6 +185,7 @@ section.col-xs-12.content(ng-controller="AccountCtrl")
                   label(for="issuing_country", l10n) Issuing Country
                   input.form-control.line1(
                     name='issuing_country', id="issuing_country", type='text'
+                    rp-combobox="countries", rp-combobox-select
                     ng-model='profile.nationalID.country')
               .row
                 .col-xs-9.col-sm-8.col-md-6

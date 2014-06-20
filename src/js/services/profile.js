@@ -57,6 +57,16 @@ module.factory('rpProfile', ['$rootScope',
     }
   }
 
+  var getCountryScope = function () {
+    // TODO: Make this international
+    var countries = require('../l10n/countries/en.json');
+
+    var keys = Object.keys(countries);
+    var values = keys.map(function(v) { return countries[v]; });
+    //console.log(keys, values);
+    return values;
+  }
+
   var getProfileScope = function () {
     var blob = $scope.userBlob;
     if (blob && typeof(blob.identity) !== 'undefined') {
@@ -138,6 +148,7 @@ module.factory('rpProfile', ['$rootScope',
     getProfileScope: getProfileScope,
     getBirthdayScope: getBirthdayScope,
     getNationalIDScope: getNationalIDScope,
+    getCountryScope: getCountryScope,
     saveName: saveName,
     saveAddress: saveAddress,
     saveEntityType: saveEntityType,
