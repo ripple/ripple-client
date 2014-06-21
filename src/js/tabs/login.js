@@ -121,6 +121,7 @@ LoginTab.prototype.angular = function (module) {
               'Message': err.message
             });
 
+            $scope.$apply();
             return;
           }
 
