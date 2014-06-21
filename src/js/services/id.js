@@ -270,14 +270,16 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
       }
 
       // Remove old blob
-      $oldblob.remove(['vault', 'local'], opts.oldUsername, opts.oldPassword, function (err, data) {
-        if (err) {
-          console.log("Can't delete the old blobvault:", err);
-          return;
-        }
+      if(Options.blobvault) {
+        $oldblob.remove(['vault', 'local'], opts.oldUsername, opts.oldPassword, function (err, data) {
+          if (err) {
+            console.log("Can't delete the old blobvault:", err);
+            return;
+          }
 
-        console.log('Old blob has been removed.');
-      });
+          console.log('Old blob has been removed.');
+        });
+      }
 
       store.set('ripple_known', true);
       callback(null, masterkey);
