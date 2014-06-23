@@ -1,6 +1,5 @@
 var util     = require('util');
 var Tab      = require('../client/tab').Tab;
-var authInfo = new ripple.AuthInfo();
 
 var RegisterTab = function ()
 {
