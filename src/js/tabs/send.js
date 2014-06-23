@@ -26,10 +26,10 @@ SendTab.prototype.angular = function (module)
 {
   module.controller('SendCtrl', ['$scope', '$timeout', '$routeParams', 'rpId',
                                  'rpNetwork', 'rpFederation', 'rpTracker',
-                                 'rpKeychain', 'rpAuthInfo',
+                                 'rpKeychain',
                                  function ($scope, $timeout, $routeParams, $id,
                                            $network, $federation, $rpTracker,
-                                           keychain, authInfo)
+                                           keychain)
   {
     if (!$id.loginStatus) return $id.goId();
 
@@ -98,7 +98,8 @@ SendTab.prototype.angular = function (module)
       send.extra_fields = [];
 
       // Reset federation address validity status
-      $scope.sendForm.send_destination.$setValidity("federation", true);
+      if ($scope.sendForm && $scope.sendForm.send_destination)
+        $scope.sendForm.send_destination.$setValidity("federation", true);
 
       // Now starting to work on resolving the recipient
       send.recipient_resolved = false;
@@ -203,9 +204,11 @@ SendTab.prototype.angular = function (module)
         ;
       }
       else if (send.rippleName) {
-        authInfo.get(Options.domain,send.recipient,function(err, response){
-          send.recipient_name = '~' + response.username;
-          send.recipient_address = response.address;
+        ripple.AuthInfo.get(Options.domain,send.recipient,function(err, response) {
+          $scope.$apply(function(){
+            send.recipient_name = '~' + response.username;
+            send.recipient_address = response.address;            
+          });    
 
           $scope.check_destination();
         })
@@ -357,19 +360,22 @@ SendTab.prototype.angular = function (module)
         // create a currency object for each of the currency codes
         for (var i=0; i < currencies.length; i++) {
           currencies[i] = ripple.Currency.from_json(currencies[i]);
+
+          if (i === 0) {
+            $scope.send.currency_code = currencies[i].get_iso();
+          }
         }
 
         // create the display version of the currencies
         currencies = _.map(currencies, function (currency) {
-          if ($scope.currencies_all_keyed[currency._iso_code]) {
-            return currency.to_human({full_name:$scope.currencies_all_keyed[currency._iso_code].name});
+          if ($scope.currencies_all_keyed[currency.get_iso()]) {
+            return currency.to_human({full_name:$scope.currencies_all_keyed[currency.get_iso()].name});
           } else {
             return currency.to_human();
           }
         });
 
         $scope.send.currency_choices = currencies;
-        $scope.send.currency_code = currencies[0]._iso_code;
         $scope.send.currency = currencies[0];
       });
     };
@@ -415,7 +421,7 @@ SendTab.prototype.angular = function (module)
         return;
       }
 
-      var currency = match[0];
+      var matchedCurrency = ripple.Currency.from_human(match[1]);
 
       // Demurrage: Get a reference date five minutes in the future
       //
@@ -428,7 +434,7 @@ SendTab.prototype.angular = function (module)
       // this actually *causes* the same odd rounding problem, so in the future
       // we'll want a better solution, but for right now this does what we need.
       var refDate = new Date(new Date().getTime() + 5 * 60000);
-      var amount = send.amount_feedback = ripple.Amount.from_human('' + send.amount + ' ' + currency.toUpperCase(), { reference_date: refDate });
+      var amount = send.amount_feedback = ripple.Amount.from_human('' + send.amount + ' ' + matchedCurrency.get_iso(), { reference_date: refDate });
 
       $scope.reset_amount_deps();
       send.path_status = 'waiting';
@@ -736,17 +742,20 @@ SendTab.prototype.angular = function (module)
       // create a currency object for each of the currency codes
       for (var i=0; i < currencies.length; i++) {
         currencies[i] = ripple.Currency.from_json(currencies[i]);
+
+        if (i === 0) {
+          $scope.send.currency_code = currencies[i].get_iso();
+        }
       }
 
       // create the display version of the currencies
       currencies = _.map(currencies, function (currency) {
-        if ($scope.currencies_all_keyed[currency._iso_code]) {
-          return currency.to_human({full_name:$scope.currencies_all_keyed[currency._iso_code].name});
+        if ($scope.currencies_all_keyed[currency.get_iso()]) {
+          return currency.to_human({full_name:$scope.currencies_all_keyed[currency.get_iso()].name});
         }
       });
 
       $scope.send.currency_choices = currencies;
-      $scope.send.currency_code = currencies[0]._iso_code;
       $scope.send.currency = currencies[0];
 
     }, true);

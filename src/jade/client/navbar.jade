@@ -31,7 +31,8 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
               l10n-rp-popover-title="XRP Balance"
               rp-popover-trigger="click"
               l10n-data-content="Your current XRP balance is {{account.Balance | rpamount:{precision: 2, max_sig_digits: 20} }}. Account reserve is {{ account.reserve | rpamount }} XRP. <br /><a href='https://ripple.com/wiki/Reserves' target='_blank'>More information</a>")
-          li.navbar-text(ng-hide="'desktop' === client") ~{{userCredentials.username}}&nbsp;&nbsp;&nbsp;
+          li(ng-hide="'desktop' === client")
+            a(href="#/account") ~{{userCredentials.username}}
           li.dropdown.notifications-dropdown
             a.dropdown-toggle.fa.fa-bell(ng-click="read()")
               .number(ng-show="unseenNotifications.count") {{unseenNotifications.count}}
@@ -143,3 +144,12 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
           a(href="#/fund", l10n) Fund
         li(ng-class="{active: $route.current.tabName == 'withdraw'}")
           a(href="#/withdraw", l10n) Withdraw
+  div.auth-attention.unfunded-banner(ng-show="'web' === client && !account.Balance && connected")
+    h4(l10n) Welcome to Ripple Trade! To activate your account, you'll need at least 20 XRP.
+    ul
+      li(l10n) Have another user send XRP to your Ripple name (~{{userCredentials.username}})
+      li(l10n) Use the bitcoin funding flow. A small amount of your first deposit
+        |  will be used to activate your account.
+      li(l10n) If your account remains unfunded for 30 days, you will no longer be
+        |  able to login using your Ripple name (~{{userCredentials.username}}).
+        |  You'll need to sign up for a new Ripple name.

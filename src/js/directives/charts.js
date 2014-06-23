@@ -111,7 +111,7 @@ module.directive('rpTrustLine', ['$filter', function($filter) {
 
   return {
     restrict: 'E',
-    template: '<canvas width="200" height="50">',
+    template: '<canvas width="140" height="50">',
     scope: {
       data: '=rpLineData'
     },

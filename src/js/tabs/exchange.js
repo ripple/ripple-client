@@ -154,8 +154,8 @@ ExchangeTab.prototype.angular = function (module)
 
         // create the display version of the currencies
         currencies = _.map(currencies, function (currency) {
-          if ($scope.currencies_all_keyed[currency._iso_code]) {
-            return currency.to_human({full_name:$scope.currencies_all_keyed[currency._iso_code].name});
+          if ($scope.currencies_all_keyed[currency.get_iso()]) {
+            return currency.to_human({full_name:$scope.currencies_all_keyed[currency.get_iso()].name});
           }
         });
 
