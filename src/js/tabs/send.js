@@ -4,7 +4,6 @@ var util = require('util'),
     Amount = ripple.Amount,
     Base = ripple.Base,
     RippleError = ripple.RippleError;
-    authInfo = new ripple.AuthInfo();
 
 var SendTab = function ()
 {
@@ -99,7 +98,8 @@ SendTab.prototype.angular = function (module)
       send.extra_fields = [];
 
       // Reset federation address validity status
-      $scope.sendForm.send_destination.$setValidity("federation", true);
+      if ($scope.sendForm && $scope.sendForm.send_destination)
+        $scope.sendForm.send_destination.$setValidity("federation", true);
 
       // Now starting to work on resolving the recipient
       send.recipient_resolved = false;
@@ -204,7 +204,7 @@ SendTab.prototype.angular = function (module)
         ;
       }
       else if (send.rippleName) {
-        authInfo.get(Options.domain,send.recipient,function(err, response) {
+        ripple.AuthInfo.get(Options.domain,send.recipient,function(err, response) {
           $scope.$apply(function(){
             send.recipient_name = '~' + response.username;
             send.recipient_address = response.address;            

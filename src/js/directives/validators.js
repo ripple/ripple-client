@@ -7,8 +7,7 @@
 var webutil = require('../util/web'),
     Base = ripple.Base,
     Amount = ripple.Amount,
-    Currency = ripple.Currency,
-    authInfo = new ripple.AuthInfo();
+    Currency = ripple.Currency
 
 var module = angular.module('validators', []);
 
@@ -134,7 +133,7 @@ module.directive('rpDest', function ($timeout, $parse) {
             }
 
             
-            authInfo.get(Options.domain, value, function(err, info){
+            ripple.AuthInfo.get(Options.domain, value, function(err, info){
               scope.$apply(function(){
                 ctrl.$setValidity('rpDest', info.exists);
                 
@@ -170,7 +169,7 @@ module.directive('rpDest', function ($timeout, $parse) {
 /**
  * Check if the ripple name is valid and is available for use
  */
-module.directive('rpAvailableName', function ($timeout, rpAuthInfo, $parse) {
+module.directive('rpAvailableName', function ($timeout, $parse) {
   return {
     restrict: 'A',
     require: '?ngModel',
@@ -206,7 +205,7 @@ module.directive('rpAvailableName', function ($timeout, rpAuthInfo, $parse) {
               getterL.assign(scope,true);
             }
 
-            rpAuthInfo.get(Options.domain, value, function(err, info){
+            ripple.AuthInfo.get(Options.domain, value, function(err, info){
               if (info.exists) {
                 ctrl.$setValidity('rpAvailableName', false);
                 getterInvalidReason.assign(scope,'exists');
