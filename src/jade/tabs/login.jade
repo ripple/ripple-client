@@ -1,13 +1,12 @@
 section.col-xs-12.content(ng-controller="LoginCtrl")
 
-  .auth-attention.text-center(l10n)
-    | Existing Ripple Client users: you now have the option to migrate to Ripple Trade and choose a Ripple name.
-    div(l10n-inc) Please enter your ripple.com/client credentials into the Ripple Trade login page to begin the migration process. It will only take a minute.
-
   .row.auth-form-container.col-sm-offset-2.col-sm-8.col-md-offset-3.col-md-6
     .auth-form-wrapper
       form(name='loginForm', ng-submit='submitForm()')
-        h2(l10n) Log In
+        h2(l10n, ng-hide="$routeParams.action === 'migrate'") Log In
+        h2(l10n, ng-show="$routeParams.action === 'migrate'") Migrate
+        .auth-attention(ng-show="$routeParams.action === 'migrate'", l10n) To begin migration, enter the name and passphrase
+          | used to encrypt your ripple.com/client wallet below.
         .auth-attention.text-center(ng-show="verifyStatus")
           .status(ng-show="'verifying' === verifyStatus", l10n) Verifying...
           .status(ng-show="'verified' === verifyStatus", l10n) You have successfully verified your email address.
@@ -19,9 +18,14 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
           .backend(ng-repeat="message in backendMessages")
             b {{message.backend}} &#32;
             span {{message.message}}
-        .submit-btn-container
+        .submit-btn-container(ng-hide="$routeParams.action === 'migrate'")
           button.btn.btn-submit.btn-block.btn-success(type='submit', ng-disabled="loginForm.$invalid || ajax_loading", rp-spinner="{{ajax_loading ? 4 : null}}")
             span(l10n) Log In
+        .submit-btn-container(ng-show="$routeParams.action === 'migrate'")
+          button.btn.btn-submit.btn-block.btn-success(type='submit', ng-disabled="loginForm.$invalid || ajax_loading", rp-spinner="{{ajax_loading ? 4 : null}}")
+            span(l10n) Begin Migration
+    .switch-mode-link-container(ng-hide="$routeParams.action === 'migrate'", l10n) Already have a ripple.com/client account?&#32;
+      a(ng-hide="$routeParams.action === 'migrate'", href='#/login/migrate', l10n-inc) Migrate
     .switch-mode-link-container(l10n) New to {{productName}}?&#32;
       a(href='#register', l10n-inc) Sign Up
 

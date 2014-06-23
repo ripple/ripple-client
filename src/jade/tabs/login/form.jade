@@ -1,8 +1,12 @@
-.form-group
+.form-group(ng-hide="$routeParams.action == 'migrate'")
   label(for='login_username', l10n) Ripple name
   .input-group
     span.input-group-addon.ripple-addon ~
     input.form-control#login_username(name='login_username', type='text', ng-model='username', required,
+    rp-focus-on-empty, rp-autofill='$routeParams.username')
+.form-group(ng-show="$routeParams.action == 'migrate'")
+  label(for='login_username', l10n) Existing Wallet name
+  input.form-control#login_username(name='login_username', type='text', ng-model='username', required,
     rp-focus-on-empty, rp-autofill='$routeParams.username')
 .form-group
   label(for='login_password', l10n) Password
