@@ -1,14 +1,14 @@
 section.col-xs-12.content(ng-controller="AccountCtrl")
   .box
-    .title Account Profile
+    .title(l10n) Account Profile
     .section
       .alert.alert-success(ng-show="success", l10n) Your Ripple Name has been changed successfully.
-      .descriptor Ripple name
+      .descriptor(l10n) Ripple name
       .row
         .col-xs-12.col-sm-3.username ~{{userCredentials.username}}
         .col-xs-12.col-sm-9
           a(href="", ng-click="openForm=!openForm"
-            ng-hide="openForm") Change your Ripple name
+            ng-hide="openForm", l10n) Change your Ripple name
           .row
             .col-xs-12.col-md-8.col-lg-6
               form#renameForm(name="renameForm", ng-show="openForm", ng-submit="rename()")
@@ -24,7 +24,7 @@ section.col-xs-12.content(ng-controller="AccountCtrl")
                       rp-available-name-reserved-for="usernameReservedFor"
                       rp-loading="usernameLoading")
                   .errorGroup(rp-errors='username', ng-hide="usernameLoading")
-                    .success(rp-error-valid)
+                    .success(rp-error-valid, l10n)
                       | Available
                     .error(rp-error-on='rpAvailableName', l10n)
                       span(ng-switch on="usernameInvalidReason")
@@ -64,7 +64,175 @@ section.col-xs-12.content(ng-controller="AccountCtrl")
                       span(ng-hide="loading") Submit name change
                       span(ng-show="loading") Loading...
                   .col-xs-12.col-sm-6
-                    a.txtbtn(href="", ng-click="openForm=!openForm") Cancel
+                    a.txtbtn(href="", ng-click="openForm=!openForm", l10n) Cancel
     .section
-      .descriptor Ripple address
+      .descriptor(l10n) Ripple address
       div {{address}}
+    .section
+      .row
+        .col-xs-12.col-sm-3.descriptor(l10n) Full Name
+        .col-xs-12.col-sm-9
+          a(href="", ng-click="edit = 'name'", l10n) edit
+      .row
+        .alert.alert-success(ng-show="'successName' == status", l10n) Your full name has been changed successfully.
+        .alert.alert-danger(ng-show="'failedName' == status", l10n) Your full name could not be updated.
+        .col-xs-12.col-sm-5
+          div(ng-hide='"name" == edit') {{profile.name}}
+          form(ng-show='"name" == edit', ng-submit="saveName()")
+            input.form-control(
+              name='name', id="name", type='text'
+              ng-model='profile.name'
+              )
+            .row
+              .col-xs-9.col-sm-8.col-md-4
+                button.btn.btn-block.btn-primary.submit(type='submit', l10n) Update name
+              .col-xs-3.col-sm-3.col-md-3
+                a.txtbtn(href="", ng-click="edit = ''; status = ''", l10n) Cancel
+    .section
+      .row
+        .col-xs-12.col-sm-3.descriptor(l10n) Address
+        .col-xs-12.col-sm-9
+          a(href="", ng-click="edit = 'address'", l10n) edit
+      .row
+        .alert.alert-success(ng-show="'successAddress' == status", l10n) Your address has been changed successfully.
+        .alert.alert-danger(ng-show="'failedAddress' == status", l10n) Your address could not be updated.
+        .col-xs-12.col-sm-5
+          div(ng-hide='"address" == edit')
+            div {{profile.address.line1}}
+            div {{profile.address.line2}}
+            div {{profile.address.city}} {{profile.address.region}} {{profile.address.postalCode}}
+            div {{profile.address.country}}
+          form(ng-show='"address" == edit', ng-submit="saveAddress()")
+            .row
+              .col-xs-12.col-sm-12.col-md-12
+                label(for="line1", l10n) Line 1
+                input.form-control(
+                  name='line1', id="line1", type='text'
+                  ng-model='profile.address.line1'
+                  required)
+            .row
+              .col-xs-12.col-sm-12.col-md-12
+                label(for="line2", l10n) Line 2
+                input.form-control(
+                  name='line2', id="line2", type='text'
+                  ng-model='profile.address.line2')
+            .row
+              .col-xs-12.col-sm-12.col-md-12
+                label(for="city", l10n) City
+                input.form-control(
+                  name='city', id="city", type='text'
+                  ng-model='profile.address.city'
+                  required)
+            .row
+              .col-xs-12.col-sm-12.col-md-12
+                label(for="region", l10n) State/Region
+                input.form-control(
+                  name='region', id="region", type='text'
+                  ng-model='profile.address.region'
+                  required)
+            .row
+              .col-xs-12.col-sm-12.col-md-12
+                label(for="postalCode", l10n) ZIP/Postal Code
+                input.form-control(
+                  name='postalCode', id="postalCode", type='text'
+                  ng-model='profile.address.postalCode'
+                  required)
+            .row
+              .col-xs-12.col-sm-12.col-md-12
+                label(for="country", l10n) Country
+                input.form-control(
+                  name='country', id="country", type='text'
+                  rp-combobox="countries", rp-combobox-select
+                  ng-model='profile.address.country'
+                  required)
+            .row
+              .col-xs-9.col-sm-8.col-md-6
+                button.btn.btn-block.btn-primary.submit(type='submit', l10n) Update address
+              .col-xs-3.col-sm-3.col-md-3
+                a.txtbtn(href="", ng-click="edit = ''; status = ''", l10n) Cancel
+      .section
+        .row
+          .col-xs-12.col-sm-3.descriptor(l10n) ID Number
+          .col-xs-12.col-sm-9
+            a(href="", ng-click="edit = 'id'", l10n) edit
+        .row
+          .alert.alert-success(ng-show="'successID' == status", l10n) Your ID has been changed successfully.
+          .alert.alert-danger(ng-show="'failedID' == status", l10n) Your ID could not be updated.
+          .col-xs-12.col-sm-5
+            div(ng-hide='"id" == edit')
+              div(l10n) Number:   {{profile.nationalID.number}}
+              div(l10n) Type:     {{profile.nationalID.type}}
+              div(l10n) Country:  {{profile.nationalID.country}}
+            form(ng-show='"id" == edit', ng-submit="saveID()")
+              .row
+                .col-xs-12.col-sm-12.col-md-12
+                  label(for="id_type", l10n) ID Type
+                  input.form-control.line1(
+                    name='id_type', id="id_type", type='text'
+                    rp-combobox="id_types", rp-combobox-select
+                    ng-model='profile.nationalID.type'
+                    required)
+              .row
+                .col-xs-12.col-sm-12.col-md-12
+                  label(for="id_number", ng-hide='profile.entityType == "organization"', l10n) ID Number
+                  label(for="id_number", ng-show='profile.entityType == "organization"', l10n) Tax ID
+                  input.form-control.line1(
+                    name='id_number', id="id_number", type='text'
+                    ng-model='profile.nationalID.number'
+                    required)
+              .row(ng-show='profile.entityType == "individual"')
+                .col-xs-12.col-sm-12.col-md-12
+                  label(for="issuing_country", l10n) Issuing Country
+                  input.form-control.line1(
+                    name='issuing_country', id="issuing_country", type='text'
+                    rp-combobox="countries", rp-combobox-select
+                    ng-model='profile.nationalID.country')
+              .row
+                .col-xs-9.col-sm-8.col-md-6
+                  button.btn.btn-block.btn-primary.submit(type='submit', l10n) Update ID
+                .col-xs-3.col-sm-3.col-md-3
+                  a.txtbtn(href="", ng-click="edit = ''; status = ''", l10n) Cancel
+      .section(ng-show="'individual' == profile.entityType")
+        .row
+          .col-xs-12.col-sm-3.descriptor(l10n) Date of Birth
+          .col-xs-12.col-sm-9
+            a(href="", ng-click="edit = 'dob'", l10n) edit
+        .row
+          .alert.alert-success(ng-show="'successDob' == status", l10n) Your date of birth has been changed successfully.
+          .alert.alert-danger(ng-show="'failedDob' == status", l10n) Your date of birth could not be updated.
+          .col-xs-12.col-sm-12
+            div(ng-hide='"dob" == edit')
+              div(l10n) Day:   {{profile.birthday.day}}
+              div(l10n) Month:     {{profile.birthday.month}}
+              div(l10n) Year:  {{profile.birthday.year}}
+            form(ng-show='"dob" == edit', ng-submit="saveDob()")
+              .row
+                .col-xs-4.col-sm-2.col-md-2
+                  label(for="country", l10n) Day
+                  input.form-control(
+                    name='day', id="day", type='text'
+                    rp-combobox="calendar.days", rp-combobox-select
+                    ng-model='profile.birthday.day'
+                    ng-required='profile.entityType === "individual"')
+                .col-xs-4.col-sm-3.col-md-3
+                  label(for="month", l10n) Month
+                  input.form-control(
+                    name='month', id="month", type='text'
+                    rp-combobox="calendar.months", rp-combobox-select
+                    ng-model='profile.birthday.month'
+                    ng-required='profile.entityType === "individual"')
+                .col-xs-4.col-sm-3.col-md-3
+                  label(for="year", l10n) Year
+                  input.form-control(
+                    name='year', id="year", type='text'
+                    rp-combobox="calendar.years", rp-combobox-select
+                    ng-model='profile.birthday.year'
+                    ng-required='profile.entityType === "individual"')
+              .row
+                .col-xs-9.col-sm-8.col-md-6
+                  button.btn.btn-block.btn-primary.submit(type='submit', l10n) Update date of birth
+                .col-xs-3.col-sm-3.col-md-3
+                  a.txtbtn(href="", ng-click="edit = ''; status = ''", l10n) Cancel
+
+
+

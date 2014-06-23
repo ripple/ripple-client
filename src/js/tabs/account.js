@@ -18,8 +18,8 @@ AccountTab.prototype.generateHtml = function ()
 
 AccountTab.prototype.angular = function(module)
 {
-  module.controller('AccountCtrl', ['$scope', 'rpId', 'rpKeychain',
-    function ($scope, $id, keychain)
+  module.controller('AccountCtrl', ['$scope', '$rootScope', 'rpId', 'rpKeychain', 'rpProfile',
+    function ($scope, $rootScope, $id, keychain, rpProfile)
     {
       if (!$id.loginStatus) return $id.goId();
 
@@ -90,6 +90,126 @@ AccountTab.prototype.angular = function(module)
       };
 
       reset();
+
+
+      $scope.calendar = rpProfile.getBirthdayScope();
+      $scope.countries = rpProfile.getCountryScope();
+      $scope.$watch('profile.entityType', function(){
+        $scope.id_types = rpProfile.getNationalIDScope($scope.profile);
+      });
+
+      function updateProfile() {
+        $scope.profile = rpProfile.getProfileScope();
+        $rootScope.profile = $scope.profile;
+      }
+
+      $scope.$watch('userBlob', function(){
+        updateProfile();
+      }, true);
+
+      $scope.saveName = function () {
+        rpProfile.saveName(function (err, result) {
+          $scope.$apply(function () {
+            $scope.edit = undefined;
+            updateProfile();
+
+            if (err) {
+              console.log('Could not update name');
+
+              $scope.status = 'failedName';
+            }
+            else {
+              console.log('New name saved');
+
+              $scope.status = 'successName';
+            }
+
+            setTimeout(function() {
+              $scope.$apply(function() {
+                $scope.status = '';
+              });
+            }, 3000);
+          });
+        });
+      }
+
+      $scope.saveAddress = function (callback) {
+        rpProfile.saveAddress(function (err, result) {
+          $scope.$apply(function () {
+            $scope.edit = undefined;
+            updateProfile();
+
+            if (err) {
+              console.log('Could not update address');
+
+              $scope.status = 'failedAddress';
+            }
+            else {
+              console.log('New address saved');
+
+              $scope.status = 'successAddress';
+            }
+
+            setTimeout(function() {
+              $scope.$apply(function() {
+                $scope.status = '';
+              });
+            }, 3000);
+          });
+        });
+      }
+
+      $scope.saveID = function (callback) {
+        rpProfile.saveNationalID(function (err, result) {
+          $scope.$apply(function () {
+            $scope.edit = undefined;
+            updateProfile();
+
+            if (err) {
+              console.log('Could not update ID');
+
+              $scope.status = 'failedID';
+            }
+            else {
+              console.log('New ID saved');
+
+              $scope.status = 'successID';
+            }
+
+            setTimeout(function() {
+              $scope.$apply(function() {
+                $scope.status = '';
+              });
+            }, 3000);
+          });
+        });
+      }
+
+      $scope.saveDob = function (callback) {
+        rpProfile.saveBirthday(function (err, result) {
+          $scope.$apply(function () {
+            $scope.edit = undefined;
+            updateProfile();
+
+            if (err) {
+              console.log('Could not update date of birth');
+
+              $scope.status = 'failedDob';
+            }
+            else {
+              console.log('New date of birth saved');
+
+              $scope.status = 'successDob';
+            }
+
+            setTimeout(function() {
+              $scope.$apply(function() {
+                $scope.status = '';
+              });
+            }, 3000);
+          });
+        });
+      }
     }]
   );
 };

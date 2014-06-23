@@ -12,9 +12,9 @@ var util = require('util'),
 var module = angular.module('app', []);
 
 module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
-                              'rpKeychain', 'rpTxQueue', 'rpAppManager',
+                              'rpKeychain', 'rpTxQueue', 'rpAppManager', '$location',
                               function ($scope, $compile, $id, $net,
-                                        keychain, txQueue, appManager)
+                                        keychain, txQueue, appManager, $location)
 {
   reset();
 
@@ -621,6 +621,39 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
   $net.init();
   $id.init();
   appManager.init();
+
+
+
+  // Start of KYC code
+  $scope.$watch('userBlob', function() {
+    var blob = $scope.userBlob;
+    if (Options.kyc_profile_deadline && // Only check if the deadline is set
+      blob && typeof(blob.identity) !== 'undefined') {
+      var key = blob.key;
+
+      var profile = blob.identity.getAll(key);
+
+      if (profile.name &&
+        profile.name.value.length > 0) {
+        $scope.numberOfDaysLeftKyc = undefined;
+      }
+      else {
+        var end = new Date(Options.kyc_profile_deadline);
+        var now = new Date();
+        var diff = end - now;
+        var days = Math.round(diff / (24 * 60 * 60 * 1000));
+        var str = days > 1 ? days + ' days': days + ' day';
+        $scope.numberOfDaysLeftKyc = str;
+      }
+    }
+  }, true);
+  $scope.completeKycProfile = function() {
+    $scope.redirectURL = $location.url();
+    $location.path('/kyc');
+  }
+  // End of KYC code
+
+
 
   /**
    * Testing hooks

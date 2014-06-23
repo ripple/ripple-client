@@ -32,6 +32,7 @@ require('../services/popup');
 require('../services/rippletxt');
 require('../services/federation');
 require('../services/domainalias');
+require('../services/profile');
 
 require('../services/integration/appManager');
 require('../services/integration/profileManager');
@@ -51,6 +52,7 @@ var appDependencies = [
   'id',
   'tracker',
   'appManager',
+  'profile',
   // Directives
   'charts',
   'effects',
@@ -85,6 +87,7 @@ var tabdefs = [
   require('../tabs/fund'),
   require('../tabs/withdraw'),
   require('../tabs/eula'),
+  require('../tabs/kyc'),
 
   // Hidden tabs
   require('../tabs/apps'),
