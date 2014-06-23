@@ -18,7 +18,7 @@ section.single.content(ng-controller='SendCtrl')
     ng-submit='send_prepared()')
     p.literal(l10n) Send money on the Ripple network.
     hr
-    .row.form-group(ng-show="'web' === client")
+    .row.form-group(ng-if="'web' === client")
       .col-xs-12.col-sm-6.col-md-5
         label(for='send_destination', l10n) Recipient
         input.form-control#send_destination(
@@ -40,7 +40,7 @@ section.single.content(ng-controller='SendCtrl')
             | Recipient should be a Ripple name, a contact, or Ripple/Bitcoin address.
           .error(rp-error-on='federation', l10n)
             | This email address is not Ripple-enabled.
-    .row.form-group(ng-show="'desktop' === client")
+    .row.form-group(ng-if="'desktop' === client")
       .col-xs-12.col-sm-6.col-md-5
         label(for='send_destination', l10n) Recipient
         input.form-control#send_destination(
