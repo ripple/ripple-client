@@ -7,10 +7,10 @@
 var webutil     = require("../util/web");
 var log         = require("../util/log");
 
-var module = angular.module('authflow', ['authinfo', 'kdf']);
+var module = angular.module('authflow', []);
 
-module.factory('rpAuthFlow', ['$rootScope', 'rpAuthInfo', 'rpKdf', 'rpBlob',
-                              function ($scope, $authinfo, $kdf, $blob)
+module.factory('rpAuthFlow', ['$rootScope',
+                              function ($scope)
 {
   var AuthFlow = {};
 

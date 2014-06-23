@@ -1,5 +1,5 @@
 var util = require('util');
-var Tab = require('../client/tab').Tab;
+var Tab  = require('../client/tab').Tab;
 
 var RegisterTab = function ()
 {

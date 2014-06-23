@@ -9,7 +9,7 @@ var webutil = require('../util/web'),
     Amount = ripple.Amount,
     Currency = ripple.Currency;
 
-var module = angular.module('validators', ['authinfo']);
+var module = angular.module('validators', []);
 
 /**
  * Secret Account Key validator
@@ -132,18 +132,20 @@ module.directive('rpDest', function ($timeout, rpAuthInfo, $parse) {
               getterL.assign(scope,true);
             }
 
-            rpAuthInfo.get(Options.domain, value, function(err, info){
-              ctrl.$setValidity('rpDest', info.exists);
-
-              if (attr.rpDestModel && info.exists) {
-                getter = $parse(attr.rpDestModel);
-                getter.assign(scope,info.address);
-              }
-
-              if (attr.rpDestLoading) {
-                getterL.assign(scope,false);
-              }
-            })
+            ripple.AuthInfo.get(Options.domain, value, function(err, info){
+              scope.$apply(function(){
+                ctrl.$setValidity('rpDest', info.exists);
+                
+                if (attr.rpDestModel && info.exists) {
+                  getter = $parse(attr.rpDestModel);
+                  getter.assign(scope,info.address);
+                }
+  
+                if (attr.rpDestLoading) {
+                  getterL.assign(scope,false);
+                }                
+              });
+            });
           }, 500);
 
           return value;
@@ -166,7 +168,7 @@ module.directive('rpDest', function ($timeout, rpAuthInfo, $parse) {
 /**
  * Check if the ripple name is valid and is available for use
  */
-module.directive('rpAvailableName', function ($timeout, rpAuthInfo, $parse) {
+module.directive('rpAvailableName', function ($timeout, $parse) {
   return {
     restrict: 'A',
     require: '?ngModel',
@@ -202,7 +204,7 @@ module.directive('rpAvailableName', function ($timeout, rpAuthInfo, $parse) {
               getterL.assign(scope,true);
             }
 
-            rpAuthInfo.get(Options.domain, value, function(err, info){
+            ripple.AuthInfo.get(Options.domain, value, function(err, info){
               if (info.exists) {
                 ctrl.$setValidity('rpAvailableName', false);
                 getterInvalidReason.assign(scope,'exists');
