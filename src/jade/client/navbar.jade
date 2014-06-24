@@ -144,7 +144,7 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
           a(href="#/fund", l10n) Fund
         li(ng-class="{active: $route.current.tabName == 'withdraw'}")
           a(href="#/withdraw", l10n) Withdraw
-  div.auth-attention.unfunded-banner(ng-show="'web' === client && !account.Balance && connected")
+  div.auth-attention.unfunded-banner(ng-show="'web' === client && !loadingAccount && !account.Balance && connected")
     h4(l10n) Welcome to Ripple Trade! To activate your account, you'll need at least 20 XRP.
     ul
       li(l10n) Have another user send XRP to your Ripple name (~{{userCredentials.username}})
