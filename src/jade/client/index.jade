@@ -60,12 +60,12 @@ div#wrapper
       div(scope="root", rp-jade-replace="client/status.jade")
 
     .migrate-attention.text-center(l10n)
-      | On August 15, 2014 we're deprecating ripple.com/client. All ripple.com/client users will need to 
-      a(href="#/migrate", l10n) migrate to rippletrade.com 
+      | Announcement: On August 15, 2014 we're deprecating ripple.com/client. All ripple.com/client users will need to 
+      a(l10n-inc, href="#/migrate") migrate to rippletrade.com 
       | and complete a profile. We encourage you to migrate now - it should take just a minute.
       | If you don't want to sign up for Ripple Trade, you can use the 
-      a(href="http://download.ripple.com", l10n) downloadable client.  
-      a(href="https://support.ripplelabs.com/hc/en-us/articles/202507538-Migrating-to-Ripple-Trade", l10n) More information.
+      a(l10n-inc, href="http://download.ripple.com") downloadable client.  
+      a(l10n-inc, href="https://support.ripplelabs.com/hc/en-us/articles/202507538-Migrating-to-Ripple-Trade") More information.
 
     // Main
     .row.main(role="main", id="{{$route.current.tabClass}}", ng-view)

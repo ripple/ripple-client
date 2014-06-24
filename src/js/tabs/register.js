@@ -20,12 +20,19 @@ RegisterTab.prototype.generateHtml = function ()
 };
 
 RegisterTab.prototype.angular = function (module) {
-  module.controller('RegisterCtrl', ['$scope', '$location', '$element', 'rpId', 'rpTracker',
-                                     function ($scope, $location, $element, $id, $rpTracker)
+  module.controller('RegisterCtrl', ['$scope', '$location', '$window', '$element', 'rpId', 'rpTracker',
+                                     function ($scope, $location, $window, $element, $id, $rpTracker)
   {
     if ($id.loginStatus) {
       $location.path('/balance');
       return;
+    }
+
+    $scope.RTRedirect = function() {
+
+      var path = 'https://rippletrade.com/#/register';
+
+      $window.location.href = path;
     }
 
     $scope.backendChange = function()
