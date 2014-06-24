@@ -64,16 +64,19 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
     // unregister them if the account is unloaded.
     myHandleAccountEvent = handleAccountEvent;
     myHandleAccountEntry = handleAccountEntry;
-
+    $scope.loadingAccount = true;
+    
     accountObj.on('transaction', myHandleAccountEvent);
     accountObj.on('entry', function(data){
       $scope.$apply(function () {
+        $scope.loadingAccount = false;
         myHandleAccountEntry(data);
       });
     });
 
     accountObj.entry(function (err, entry) {
       if (err) {
+        $scope.loadingAccount = false;
         $scope.loadState['account'] = true;
       }
     });

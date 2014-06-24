@@ -56,7 +56,7 @@ module.directive('rpMasterKey', function () {
  * If the input can be validly interpreted as one of these types, the validation
  * will succeed.
  */
-module.directive('rpDest', function ($timeout, rpAuthInfo, $parse) {
+module.directive('rpDest', function ($timeout, $parse) {
   var emailRegex = /^\S+@\S+\.[^\s.]+$/;
   return {
     restrict: 'A',
@@ -205,20 +205,22 @@ module.directive('rpAvailableName', function ($timeout, $parse) {
             }
 
             ripple.AuthInfo.get(Options.domain, value, function(err, info){
-              if (info.exists) {
-                ctrl.$setValidity('rpAvailableName', false);
-                getterInvalidReason.assign(scope,'exists');
-              } else if (info.reserved) {
-                ctrl.$setValidity('rpAvailableName', false);
-                getterInvalidReason.assign(scope,'reserved');
-                getterReserved.assign(scope,info.reserved);
-              } else {
-                ctrl.$setValidity('rpAvailableName', true);
-              }
-
-              if (attr.rpLoading) {
-                getterL.assign(scope,false);
-              }
+              scope.$apply(function(){
+                if (info.exists) {
+                  ctrl.$setValidity('rpAvailableName', false);
+                  getterInvalidReason.assign(scope,'exists');
+                } else if (info.reserved) {
+                  ctrl.$setValidity('rpAvailableName', false);
+                  getterInvalidReason.assign(scope,'reserved');
+                  getterReserved.assign(scope,info.reserved);
+                } else {
+                  ctrl.$setValidity('rpAvailableName', true);
+                }
+  
+                if (attr.rpLoading) {
+                  getterL.assign(scope,false);
+                }                
+              });
             })
           }, 500);
 
