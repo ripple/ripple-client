@@ -211,7 +211,10 @@ ExchangeTab.prototype.angular = function (module)
        * N4. Waiting for transaction result page
        */
       $scope.exchange_confirmed = function () {
-        var amount = Amount.from_human(""+$scope.exchange.amount+" "+$scope.exchange.currency_name);
+
+        // parse the currency name and extract the iso
+        var currencyIso = Currency.from_human($scope.exchange.currency_name).get_iso();
+        var amount = Amount.from_human(""+$scope.exchange.amount+" "+currencyIso);
 
         amount.set_issuer($id.account);
 
