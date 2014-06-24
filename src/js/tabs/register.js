@@ -23,11 +23,9 @@ RegisterTab.prototype.extraRoutes = [
 
 RegisterTab.prototype.angular = function (module) {
   module.controller('RegisterCtrl', ['$scope', '$rootScope', '$location', '$element',
-                                     '$timeout', 'rpId', 'rpTracker',
-                                     'rpAuthInfo', '$routeParams', 'rpKeychain',
+                                     '$timeout', 'rpId', 'rpTracker', '$routeParams', 'rpKeychain',
                                      function ($scope, $rootScope, $location, $element,
-                                               $timeout, $id, $rpTracker,
-                                               authinfo, $routeParams, keychain)
+                                               $timeout, $id, $rpTracker, $routeParams, keychain)
   {
     /**
      * Email verification
