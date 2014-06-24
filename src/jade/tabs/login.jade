@@ -51,7 +51,7 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
           span.number {{$routeParams.amount | rpamount:{xrp_human: true} }}
           span.currency {{$routeParams.amount | rpcurrency}}
         p(ng-hide="$routeParams.name", l10n) To ripple address
-        p(ng-show="$routeParams.name", l10n) To <b>{{$routeParams.name}}</b> with a ripple address
+        p(ng-show="$routeParams.name", l10n) To {{$routeParams.name}} with a ripple address
         .address {{$routeParams.to}}
       div.info(ng-show="'contacts' == $routeParams.tab")
         p.literal {{$routeParams.label}}

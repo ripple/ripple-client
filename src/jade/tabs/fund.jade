@@ -26,10 +26,10 @@ section.content(ng-controller='FundCtrl')
                 ng-hide="showRippleAddress", l10n-inc) Show address
               div(ng-show="showRippleAddress") {{address}}
           .description(l10n) Ripple names are a new feature on Ripple! Use your
-            | Ripple name (~{{userCredentials.username}}) to receive money.
-            | You can still use your full Ripple address, and while we are
-            | working to transition to Ripple names, some gateways may still
-            | ask for your full address.
+            |  Ripple name (~{{userCredentials.username}}) to receive money.
+            |  You can still use your full Ripple address, and while we are
+            |  working to transition to Ripple names, some gateways may still
+            |  ask for your full address.
         div(ng-show="'desktop' === client")
           .nameLine(l10n) Ripple address&#32;
             .address {{address}}
@@ -43,7 +43,7 @@ section.content(ng-controller='FundCtrl')
               .qr-code
                 rp-qrcode(data="bitcoin:{{B2R.instructions.instructionParams[0].value}}", size="100")
               .about(ng-hide="account.Balance", l10n) A small amount (~.001 BTC) of your first
-                | transfer will be converted to XRP to activate your wallet.&#32;
+                |  transfer will be converted to XRP to activate your wallet.&#32;
                 a.why(href="https://ripple.com/wiki/Reserves",
                 target="_blank", l10n-inc) Why?
               .limit(ng-show="B2R.limit")
@@ -54,7 +54,7 @@ section.content(ng-controller='FundCtrl')
             div(ng-hide="loadState.B2RInstructions") Loading...
           .inactive(ng-hide="B2R.active")
             label(l10n) To deposit, generate a bitcoin receiving address
-              | using the&#32; 
+              |  using the&#32;
               a(href="https://btc2ripple.com") btc2ripple 
               |  service powered by SnapSwap.
             .row.action
