@@ -205,20 +205,22 @@ module.directive('rpAvailableName', function ($timeout, $parse) {
             }
 
             ripple.AuthInfo.get(Options.domain, value, function(err, info){
-              if (info.exists) {
-                ctrl.$setValidity('rpAvailableName', false);
-                getterInvalidReason.assign(scope,'exists');
-              } else if (info.reserved) {
-                ctrl.$setValidity('rpAvailableName', false);
-                getterInvalidReason.assign(scope,'reserved');
-                getterReserved.assign(scope,info.reserved);
-              } else {
-                ctrl.$setValidity('rpAvailableName', true);
-              }
-
-              if (attr.rpLoading) {
-                getterL.assign(scope,false);
-              }
+              scope.$apply(function(){
+                if (info.exists) {
+                  ctrl.$setValidity('rpAvailableName', false);
+                  getterInvalidReason.assign(scope,'exists');
+                } else if (info.reserved) {
+                  ctrl.$setValidity('rpAvailableName', false);
+                  getterInvalidReason.assign(scope,'reserved');
+                  getterReserved.assign(scope,info.reserved);
+                } else {
+                  ctrl.$setValidity('rpAvailableName', true);
+                }
+  
+                if (attr.rpLoading) {
+                  getterL.assign(scope,false);
+                }                
+              });
             })
           }, 500);
 
