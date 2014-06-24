@@ -8,7 +8,7 @@ section.single.ddpage.content(ng-controller="TxCtrl", ng-switch on="state")
       span(l10n) Transaction #
       span {{transaction.hash}}
       div
-        a(href="{{'http://ripple.com/graph/#' + transaction.hash}}", target="_blank", l10n) Show in graph
+        a(href="{{'https://ripplecharts.com/#/graph/' + transaction.hash}}", target="_blank", l10n) Show in graph
     hr
     p.literal.type(l10n) Transaction type:
       strong  {{transaction.TransactionType}}
