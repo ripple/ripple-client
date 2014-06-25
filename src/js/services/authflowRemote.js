@@ -135,6 +135,46 @@ module.factory('rpAuthFlow', ['$rootScope',
       });    
     });        
   };
+  
+  AuthFlow.recoverBlob = function (username, masterkey, callback) {
+    var meta = AuthFlow.getVaultClient(username);
+    
+    meta.client.getAuthInfo(username, function(err, authInfo){
+      if (err) {
+        $scope.$apply(function(){ 
+          callback(err);         
+        });      
+      
+      } else if (!authInfo.exists) {
+        $scope.$apply(function(){ 
+          callback(new Error ("User does not exist."));         
+        });  
+             
+      } else {
+        var options = {
+          url       : authInfo.blobvault,
+          username  : username,
+          masterkey : masterkey
+        }
+        meta.client.recoverBlob(options, function (err, resp){
+          $scope.$apply(function(){ 
+            callback(err, resp);         
+          }); 
+        });
+      }
+      
+    });
+  };
+  
+  AuthFlow.changePassword = function (options, callback) {
+    var meta = AuthFlow.getVaultClient(options.username);
+    
+    meta.client.changePassword(options, function(err, resp){
+      $scope.$apply(function(){ 
+        callback(err, resp);         
+      });      
+    });
+  };
 
   AuthFlow.getVaultClient = function(username) {
     var meta = { username: username, domain: Options.domain };

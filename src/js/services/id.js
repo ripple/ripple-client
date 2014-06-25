@@ -409,6 +409,21 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
     });
   };
 
+  Id.prototype.changePassword = function (options, callback) {
+    var self = this;
+    
+    $authflow.changePassword(options, function(err, resp) {  
+      
+      if (err) {
+        return callback(err);
+      }
+      
+      //perform login, so that the email verification is checked
+      //and the username, blob, and keys get stored.
+      self.login(options, callback);         
+    });
+  };
+  
   Id.prototype.logout = function ()
   {
     store.remove('ripple_auth');
