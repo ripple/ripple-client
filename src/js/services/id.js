@@ -462,7 +462,10 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
       if (_.size($routeParams)) {
         var tab = $route.current.tabName;
         $location.search('tab', tab);
+        $location.path('/login');
+        return;
       }
+
       if (this.isReturning()) {
         $location.path('/login');
       } else {
