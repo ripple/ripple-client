@@ -135,8 +135,6 @@ TradeTab.prototype.angular = function(module)
         $scope.calc_second(type);
       }
 
-      console.log('order is: ', order);
-      console.log('$scope.order[type].first is: ', $scope.order[type].first);
     };
 
     /**
