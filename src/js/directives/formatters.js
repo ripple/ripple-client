@@ -157,8 +157,8 @@ module.directive('rpCurrency', function () {
               // Positive interest
               helpText = "Interest: "+interestRate+" %/yr";
             } else {
-              // Demurrage
-              helpText = "Demurrage: "+(-interestRate)+"%/yr";
+              // Fee
+              helpText = "Fee: "+(-interestRate)+"%/yr";
             }
 
             var el = $('<abbr></abbr>')
