@@ -154,8 +154,8 @@ ExchangeTab.prototype.angular = function (module)
 
         // create the display version of the currencies
         currencies = _.map(currencies, function (currency) {
-          if ($scope.currencies_all_keyed[currency._iso_code]) {
-            return currency.to_human({full_name:$scope.currencies_all_keyed[currency._iso_code].name});
+          if ($scope.currencies_all_keyed[currency.get_iso()]) {
+            return currency.to_human({full_name:$scope.currencies_all_keyed[currency.get_iso()].name});
           }
         });
 
@@ -211,7 +211,10 @@ ExchangeTab.prototype.angular = function (module)
        * N4. Waiting for transaction result page
        */
       $scope.exchange_confirmed = function () {
-        var amount = Amount.from_human(""+$scope.exchange.amount+" "+$scope.exchange.currency_name);
+
+        // parse the currency name and extract the iso
+        var currencyIso = Currency.from_human($scope.exchange.currency_name).get_iso();
+        var amount = Amount.from_human(""+$scope.exchange.amount+" "+currencyIso);
 
         amount.set_issuer($id.account);
 

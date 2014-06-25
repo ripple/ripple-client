@@ -15,7 +15,7 @@
         | Your transaction is invalid, reason: {{engine_result}} - {{engine_result_message}}
   group.result-malformed(ng-switch-when='tef')
     div(ng-switch on="engine_result")
-      div(ng-switch-when="tefMAX_LEDGER", l10n)
+      div(ng-switch-when="tefMAX_LEDGER")
         h2.tx-status(l10n) Transaction timed out.
         p(ng-switch on="engine_result")
           span(l10n) Please try again.
@@ -29,7 +29,7 @@
     p(ng-switch on="engine_result")
       span(ng-switch-when="telINSUF_FEE_P", l10n)
         | The particular server you sent the transaction to was too busy to forward or process
-        | your transaction at the fee you included in it.
+        |  your transaction at the fee you included in it.
   group.result-malformed(ng-switch-when='tec')
     h2.tx-status(l10n) Transaction failed!
     p(ng-switch on="engine_result")

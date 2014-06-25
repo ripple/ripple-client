@@ -64,16 +64,19 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
     // unregister them if the account is unloaded.
     myHandleAccountEvent = handleAccountEvent;
     myHandleAccountEntry = handleAccountEntry;
-
+    $scope.loadingAccount = true;
+    
     accountObj.on('transaction', myHandleAccountEvent);
     accountObj.on('entry', function(data){
       $scope.$apply(function () {
+        $scope.loadingAccount = false;
         myHandleAccountEntry(data);
       });
     });
 
     accountObj.entry(function (err, entry) {
       if (err) {
+        $scope.loadingAccount = false;
         $scope.loadState['account'] = true;
       }
     });
@@ -524,10 +527,25 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
 
   $scope.currencies_all = require('../data/currencies');
 
-  $.extend(true,
-    $scope.currencies_all,
-    store.get('ripple_currencies_all') || {}
-  );
+  // prefer currency full_names over whatever the local storage has saved
+  var storeCurrenciesAll = store.get('ripple_currencies_all') || [];
+
+  // run through all currencies
+  _.each($scope.currencies_all, function(currency) {
+
+    // find the currency in the local storage
+    var allCurrencyHit = _.where(storeCurrenciesAll, {value: currency.value})[0];
+
+    // if the currency already exists in local storage, updated only the name
+    if (allCurrencyHit) {
+      allCurrencyHit.name = currency.name;
+    } else {
+      // else append the currency to the storeCurrenciesAll array
+      storeCurrenciesAll.push(currency);
+    }
+  });
+
+  $scope.currencies_all = storeCurrenciesAll;
 
   // Personalized default pair set
   if (!store.disabled && !store.get('ripple_pairs_all')) {

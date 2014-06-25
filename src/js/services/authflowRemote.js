@@ -9,7 +9,8 @@ var log         = require("../util/log");
 
 var module = angular.module('authflow', []);
 
-module.factory('rpAuthFlow', ['$rootScope', function ($scope)
+module.factory('rpAuthFlow', ['$rootScope',
+                              function ($scope)
 {
   var AuthFlow = {};
 
