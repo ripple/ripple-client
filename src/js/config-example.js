@@ -55,7 +55,10 @@ var Options = {
   b2rAddress: 'rhxULAn1xW9T4V2u67FX9pQjSz4Tay2zjZ',
 
   // Number of ledgers ahead of the current ledger index where a tx is valid
-  tx_last_ledger: 3
+  tx_last_ledger: 3,
+
+  // Set max transaction fee for network in drops of XRP
+  max_tx_network_fee: 12
 };
 
 // Load client-side overrides
