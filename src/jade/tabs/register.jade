@@ -71,6 +71,17 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
             placeholder="", ng-model="email", required)
           p(ng-show="registerForm.register_email.$error.email && registerForm.register_email.$dirty")
             span(l10n) Email address is invalid
+        .form-group(ng-show="showMasterKeyInput"
+          ng-class="{'field-error': registerForm.register_masterkey.$error.rpMasterKey && registerForm.register_masterkey.$dirty}")
+          label(for='register_masterkey', l10n) Secret Account Key&#32;
+          a(href="", ng-click="showMasterKeyInput=false", l10n)  hide
+          input.form-control#register_masterkey(name='register_masterkey'
+            type='text', autocomplete='off', ng-model="masterkey", rp-master-key, rp-focus)
+          .errorBox(ng-show="registerForm.register_masterkey.$error.rpMasterKey")
+            p.text-error(l10n) Secret Account Key is invalid
+        div(ng-hide="showMasterKeyInput || oldUserBlob", l10n)
+          | Need to use your Secret Key?&#32;
+          a(href="", ng-click="showMasterKeyInput=true", l10n) Use Key
         .form-group
           .checkbox
             label(for='terms', l10n) I agree to the {{productName}}&#32;
