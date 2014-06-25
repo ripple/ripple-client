@@ -569,10 +569,10 @@ TradeTab.prototype.angular = function(module)
       }
 
       $scope.book = books.get({
-        currency: $scope.order.first_currency.to_json(),
+        currency: $scope.order.first_currency.to_hex(),
         issuer: $scope.order.first_issuer
       }, {
-        currency: $scope.order.second_currency.to_json(),
+        currency: $scope.order.second_currency.get_iso(),
         issuer: $scope.order.second_issuer
       }, $scope.address);
     }
@@ -588,11 +588,14 @@ TradeTab.prototype.angular = function(module)
 
       var canBuy = second_currency.is_native() ||
           second_issuer == $scope.address ||
-          ($scope.lines[second_issuer+second_currency.to_json()] && $scope.lines[second_issuer+second_currency.to_json()].balance.is_positive());
+          ($scope.lines[second_issuer+($scope.order.second_currency.has_interest() ? $scope.order.second_currency.to_hex() : $scope.order.second_currency.to_json())]
+            && $scope.lines[second_issuer+($scope.order.second_currency.has_interest() ? $scope.order.second_currency.to_hex() : $scope.order.second_currency.to_json())].balance.is_positive());
+
 
       var canSell = first_currency.is_native() ||
           first_issuer == $scope.address ||
-          ($scope.lines[first_issuer+first_currency.to_json()] && $scope.lines[first_issuer+first_currency.to_json()].balance.is_positive());
+          ($scope.lines[first_issuer+($scope.order.first_currency.has_interest() ? $scope.order.first_currency.to_hex() : $scope.order.first_currency.to_json())]
+            && $scope.lines[first_issuer+($scope.order.first_currency.has_interest() ? $scope.order.first_currency.to_hex() : $scope.order.first_currency.to_json())].balance.is_positive());
 
       $scope.order.buy.showWidget = canBuy;
       $scope.order.sell.showWidget = canSell;
