@@ -26,6 +26,9 @@ module.factory('rpNetwork', ['$rootScope', function($scope)
     this.remote.on('connected', this.handleConnect.bind(this));
     this.remote.on('disconnected', this.handleDisconnect.bind(this));
 
+    // Set network max transaction fee from Options, or default to 12 drops of XRP
+    this.remote.max_fee = Options.max_tx_network_fee || 12;
+
     this.connected = false;
   };
 
