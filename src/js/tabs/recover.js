@@ -56,8 +56,7 @@ RecoverTab.prototype.angular = function (module) {
           $scope.submitLoading = false;
            
           if (err) {
-            console.log('recover:', err);
-            $scope.recoverError = err;
+            $scope.recoverError = err.message || err;
             return;
           }       
           
@@ -75,12 +74,11 @@ RecoverTab.prototype.angular = function (module) {
           blob      : recoveredBlob
         }
       
-        $authflow.changePassword(options, function(err, resp) {
+        $id.changePassword(options, function(err, resp) {
           $scope.submitLoading = false;
           
           if (err) {
-            console.log('changePassword:', err);
-            $scope.passwordError = err;
+            $scope.passwordError = err.message || err;
             return;
           }
           
@@ -91,13 +89,15 @@ RecoverTab.prototype.angular = function (module) {
     };
     
     $scope.loadWallet = function () {
+      /*
       var keys = {
         id    : recoveredBlob.id, 
         crypt : recoveredBlob.key
       };
       
       $id.storeLoginKeys(recoveredBlob.url, $scope.username, keys);
-      $id.loginStatus = true;     
+      $id.loginStatus = true; 
+      */    
       $location.path('/balance');
       return;     
     };    
