@@ -377,7 +377,8 @@ TrustTab.prototype.angular = function (module)
       var setSecretAndSubmit = function(tx) {
         keychain.requestSecret(id.account, id.username, function (err, secret) {
           if (err) {
-            console.log('Error: ', err);
+            $scope.mode = 'error';
+            console.log('Error on requestSecret: ', err);
             return;
           }
 
@@ -385,7 +386,8 @@ TrustTab.prototype.angular = function (module)
 
           tx.submit(function(err, res) {
             if (err) {
-              console.log('Error: ', err);
+              $scope.mode = 'error';
+              console.log('Error on tx submit: ', err);
               return;
             }
             

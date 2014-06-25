@@ -69,10 +69,14 @@ ExchangeTab.prototype.angular = function (module)
         $scope.reset_paths();
 
         // if formatted or money to exchange is 0 then don't calculate paths or offer to exchange
-        if (parseFloat(formatted) === 0)
+        if (parseFloat(exchange.amount) === 0 || !exchange.currency_code)
         {
           $scope.error_type = 'required';
           return false;
+        }
+
+        else {
+          $scope.error_type = '';
         }
 
         exchange.amount_feedback = Amount.from_human(formatted);
@@ -237,6 +241,7 @@ ExchangeTab.prototype.angular = function (module)
                   "unlocking wallet: ", err);
                 $scope.mode = "error";
                 $scope.error_type = "unlockFailed";
+
                 return;
               }
 
@@ -278,6 +283,10 @@ ExchangeTab.prototype.angular = function (module)
           setImmediate(function () {
             $scope.$apply(function () {
               $scope.mode = "error";
+
+              if (res.result === "tejMaxFeeExceeded") {
+                $scope.error_type = "maxFeeExceeded";
+              }
 
               if (res.error === 'remoteError' &&
                   res.remote.error === 'noPath') {
