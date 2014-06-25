@@ -116,6 +116,9 @@ section.col-xs-12.content(ng-controller="ExchangeCtrl")
       group.result-error(ng-switch-when='noPath')
         h2.tx-status(l10n) No Path
         p(l10n) Ripple was unable to find a path between you and the destination account.
+      group.result-error(ng-switch-when='maxFeeExceeded')
+        h2.tx-status(l10n) Transaction Failed
+        p(l10n) Network fee exceeded. Please try again later.
       group(ng-switch-default)
         p.literal(l10n) Sorry, an error occurred while submitting your transaction.
           |  Make sure you are connected to the Internet and try again later.

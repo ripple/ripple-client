@@ -51,5 +51,7 @@
     p(ng-switch on="engine_result")
       span(ng-switch-when="tejLost", l10n)
         | Ripple client gave up trying to submit this transaction.
+      span(ng-switch-when="tejMaxFeeExceeded", l10n)
+        | Network fee exceeded. Please try again later.
     span(ng-switch-default, l10n)
       | Your transaction could not be submitted: {{engine_result}} - {{engine_result_message}}

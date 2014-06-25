@@ -124,7 +124,7 @@ TrustTab.prototype.angular = function (module)
             }
 
             var matchedCurrency = Currency.from_human(match[1]);
-            var amount = ripple.Amount.from_human('' + $scope.amount + ' ' + matchedCurrency.get_iso(), {reference_date: new Date(+new Date() + 5*60000)});
+            var amount = ripple.Amount.from_human('' + $scope.amount + ' ' + matchedCurrency.to_hex(), {reference_date: new Date(+new Date() + 5*60000)});
 
             amount.set_issuer($scope.counterparty_address);
             if (!amount.is_valid()) {
@@ -377,7 +377,8 @@ TrustTab.prototype.angular = function (module)
       var setSecretAndSubmit = function(tx) {
         keychain.requestSecret(id.account, id.username, function (err, secret) {
           if (err) {
-            console.log('Error: ', err);
+            $scope.mode = 'error';
+            console.log('Error on requestSecret: ', err);
             return;
           }
 
@@ -385,7 +386,8 @@ TrustTab.prototype.angular = function (module)
 
           tx.submit(function(err, res) {
             if (err) {
-              console.log('Error: ', err);
+              $scope.mode = 'error';
+              console.log('Error on tx submit: ', err);
               return;
             }
             
