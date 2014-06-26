@@ -34,6 +34,7 @@ LoginTab.prototype.angular = function (module) {
       return;
     }
 
+    $scope.attempts = 0;
     $scope.error = '';
     $scope.password = '';
     $scope.loginForm && $scope.loginForm.$setPristine(true);
@@ -71,9 +72,10 @@ LoginTab.prototype.angular = function (module) {
 
     // Issues #1024, #1060
     $scope.$watch('username',function(){
+      $rootScope.username = $scope.username;
       $timeout(function(){
         $scope.$apply(function () {
-         updateFormFields();
+          updateFormFields();
         })
       }, 50);
     });
@@ -102,6 +104,10 @@ LoginTab.prototype.angular = function (module) {
           $scope.ajax_loading = false;
 
           if (err) {
+            if (++$scope.attempts>2) {
+              $scope.showRecover = true;
+            }
+    
             $scope.status = 'Login failed:';
 
             if (err.name === "OldBlobError") {
@@ -125,7 +131,9 @@ LoginTab.prototype.angular = function (module) {
               'Message': err.message
             });
 
-            $scope.$apply();
+            if (!$scope.$$phase) {
+              $scope.$apply();
+            }
             return;
           }
 

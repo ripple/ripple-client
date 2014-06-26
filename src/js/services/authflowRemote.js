@@ -153,12 +153,20 @@ module.factory('rpAuthFlow', ['$rootScope',
       } else {
         var options = {
           url       : authInfo.blobvault,
-          username  : username,
+          username  : authInfo.username, //must use actual username
           masterkey : masterkey
         }
         meta.client.recoverBlob(options, function (err, resp){
-          $scope.$apply(function(){ 
-            callback(err, resp);         
+          setImmediate(function(){
+            $scope.$apply(function(){ 
+            
+              //need the actual username for the change password call
+              if (resp) {
+                resp.username = authInfo.username;
+              }
+              
+              callback(err, resp);     
+            });    
           }); 
         });
       }
