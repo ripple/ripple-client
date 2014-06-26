@@ -35,8 +35,7 @@ RecoverTab.prototype.angular = function (module) {
     
     var recoveredBlob;
     
-
-    $scope.username      = '';
+    $scope.username      = $rootScope.username;
     $scope.masterkey     = '';
     $scope.mode          = 'recover';
     $scope.submitLoading = false;
@@ -56,11 +55,26 @@ RecoverTab.prototype.angular = function (module) {
           $scope.submitLoading = false;
            
           if (err) {
-            $scope.recoverError = err.message || err;
+            $rpTracker.track('Recover Blob', {
+              'Status': 'error',
+              'Message': err.message
+            });
+            
+            var message = err.message || err;
+            if (err.message == 'Invalid ECDSA signature') {
+              message = 'Please check your secret key';
+            } 
+            
+            $scope.recoverError = message;
             return;
           }       
           
+          $rpTracker.track('Recover Blob', {
+            result: 'success'
+          });
+          
           recoveredBlob       = blob;
+          $scope.username     = blob.username;
           $scope.mode         = 'setPassword';
           $scope.recoverError = null; //clear any existing errors
         });
@@ -78,29 +92,24 @@ RecoverTab.prototype.angular = function (module) {
           $scope.submitLoading = false;
           
           if (err) {
+            $rpTracker.track('Change Password', {
+              'Status': 'error',
+              'Message': err.message
+            });
+            
             $scope.passwordError = err.message || err;
             return;
           }
           
-          $scope.mode          = 'continue';
-          $scope.passwordError = null;       
+          $rpTracker.track('Change Password', {
+            result: 'success'
+          });
+          
+          $rootScope.recovered = true;
+          $location.path('/balance');     
         });
       }    
-    };
-    
-    $scope.loadWallet = function () {
-      /*
-      var keys = {
-        id    : recoveredBlob.id, 
-        crypt : recoveredBlob.key
-      };
-      
-      $id.storeLoginKeys(recoveredBlob.url, $scope.username, keys);
-      $id.loginStatus = true; 
-      */    
-      $location.path('/balance');
-      return;     
-    };    
+    };   
   }]);
 };
 

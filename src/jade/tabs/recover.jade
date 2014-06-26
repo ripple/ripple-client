@@ -3,6 +3,8 @@ section.col-xs-12.content(ng-controller="RecoverCtrl")
     .auth-form-wrapper
       form(name='recoverForm', ng-submit='submitForm()', ng-show="mode === 'recover'")
         h2(l10n) Account Recovery
+        .auth-attention.text-center
+          .status(l10n) You can only recover your Ripple Trade account with a secret key. You will recover the account's Ripple name, contacts and other information.
         .form-group
           label(for='recover_username', l10n) Ripple Name
           .input-group
@@ -16,7 +18,7 @@ section.col-xs-12.content(ng-controller="RecoverCtrl")
           name='recover_masterkey', type='password', autocomplete="off"
           required, ng-model="masterkey")
         .error.text-center(ng-show="recoverError") 
-          div(l10n) Unable to recover account.  Check your ripple name and secret key.
+          div(l10n) Unable to recover account.
           div(ng-bind="recoverError")
         .submit-btn-container
           button.btn.btn-block.btn-success(type='submit'
@@ -27,7 +29,7 @@ section.col-xs-12.content(ng-controller="RecoverCtrl")
       form(name='setPasswordForm', ng-submit='submitForm()', ng-show="mode === 'setPassword'")
         h2(l10n) Set Password
         .auth-attention.text-center
-          .status(l10n) Your account was sucessfully recovered! Please re-encrypt your account with a new password.
+          .status(l10n) Your account was sucessfully recovered. Please re-encrypt your account with a new password.
         .form-group
           label(l10n) Ripple Name
           .rippleName
@@ -58,10 +60,5 @@ section.col-xs-12.content(ng-controller="RecoverCtrl")
             rp-spinner='{{submitLoading ? 4 : null}}')
             span(ng-show="submitLoading", l10n) Updating...
             span(ng-hide="submitLoading", l10n) Set Password
-      .auth-attention.text-center(ng-show="mode === 'continue'")
-          .status(l10n) Your password was successfully changed!
-      .submit-btn-container(ng-show="mode === 'continue'")
-        button.btn.btn-block.btn-success(ng-click='loadWallet()')
-          span(l10n) Continue
-    .switch-mode-link-container(ng-hide="mode === 'continue'", l10n) Remember your password?&#32;
-      a(href='#login', l10n) Log In   
+    .switch-mode-link-container(l10n) Remember your password?&#32;
+      a(href='#login', l10n) Log In
