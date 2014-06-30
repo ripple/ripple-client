@@ -48,6 +48,7 @@ TrustTab.prototype.angular = function (module)
       $scope.mode = 'main';
       var usdCurrency = Currency.from_human('USD');
       $scope.currency = usdCurrency.to_human({full_name:$scope.currencies_all_keyed[usdCurrency.get_iso()].name});
+      $scope.currencyHex = '';
       $scope.addform_visible = false;
       $scope.editform_visible = false;
       $scope.edituser = '';
@@ -70,7 +71,7 @@ TrustTab.prototype.angular = function (module)
     };
 
     $scope.toggle_form = function () {
-      
+
       if($scope.addform_visible || $scope.editform_visible)
         $scope.reset();
       else
@@ -116,7 +117,7 @@ TrustTab.prototype.angular = function (module)
           $scope.$apply(function(){
             // hide throbber
             $scope.verifying = false;
-            var match = /^([a-zA-Z0-9]{3}|[A-Fa-f0-9]{40})\b/.exec($scope.currency);
+            var match = /^([a-zA-Z0-9]{3}|[A-Fa-f0-9]{40})\b/.exec($scope.currencyHex);
             if (!match) {
               // Currency code not recognized, should have been caught by
               // form validator.
@@ -326,7 +327,7 @@ TrustTab.prototype.angular = function (module)
 
       $scope.$watchCollection('book', function () {
         if (!$scope.book.updated) return;
-        
+
         if ($scope.book.asks.length !== 0 && $scope.book.bids.length !== 0) {
           $scope.orderbookStatus = 'exists';
         } else {
@@ -354,6 +355,7 @@ TrustTab.prototype.angular = function (module)
       }
 
       $scope.currency = lineCurrency.to_human(formatOpts);
+      $scope.currencyHex = lineCurrency.to_hex();
       $scope.balance = line.balance.to_human();
       $scope.balanceAmount = line.balance;
       $scope.counterparty = line.account;
@@ -390,7 +392,7 @@ TrustTab.prototype.angular = function (module)
               console.log('Error on tx submit: ', err);
               return;
             }
-            
+
             console.log('Transaction has been submitted with response:', res);
           });
         });
