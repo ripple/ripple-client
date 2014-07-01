@@ -41,10 +41,9 @@ OptionsTab.prototype.angular = function(module)
     
     $scope.setPasswordProtection = function () {
       $keychain.setPasswordProtection(!$scope.passwordProtection, function(err, resp){
-        console.log(err, resp);
         if (err) {
           $scope.passwordProtection = !$scope.PasswordProtection;
-          console.log($scope.passwordProtection);
+          //TODO: report errors to user
         }
       });
     };

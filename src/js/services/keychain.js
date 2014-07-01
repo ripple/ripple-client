@@ -38,7 +38,6 @@ module.factory('rpKeychain', ['$rootScope', '$timeout', 'rpPopup', 'rpId',
   // Default unlock duration is 5 minutes
   Keychain.unlockDuration = 5 * 60 * 1000;
 
-  
   Keychain.prototype.isUnlocked = function (account) {
     return !!this.secrets[account];
   };
@@ -193,7 +192,7 @@ module.factory('rpKeychain', ['$rootScope', '$timeout', 'rpPopup', 'rpId',
   
   Keychain.prototype.expireSecret = function (account) {
     var _this = this;
-    setTimeout(function(){
+    $timeout(function(){
       if (_this.secrets[account] && !$scope.userBlob.data.persistUnlock) {
         delete _this.secrets[account];  
       }  
