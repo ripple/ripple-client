@@ -1,5 +1,6 @@
 config.json
 js/.DS_Store
+.tx/
 .idea
 npm-debug.log
 .DS_Store
