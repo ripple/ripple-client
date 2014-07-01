@@ -436,7 +436,7 @@ SendTab.prototype.angular = function (module)
       // this actually *causes* the same odd rounding problem, so in the future
       // we'll want a better solution, but for right now this does what we need.
       var refDate = new Date(new Date().getTime() + 5 * 60000);
-      var amount = send.amount_feedback = ripple.Amount.from_human('' + send.amount + ' ' + currency.to_hex(), { reference_date: refDate });
+      var amount = send.amount_feedback = ripple.Amount.from_human('' + send.amount + ' ' + matchedCurrency, { reference_date: refDate });
 
       $scope.reset_amount_deps();
       send.path_status = 'waiting';
