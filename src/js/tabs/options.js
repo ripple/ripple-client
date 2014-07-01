@@ -19,11 +19,13 @@ OptionsTab.prototype.generateHtml = function ()
 
 OptionsTab.prototype.angular = function(module)
 {
-  module.controller('OptionsCtrl', ['$scope', '$rootScope', 'rpId',
-                                    function ($scope, $rootScope, $id)
+  module.controller('OptionsCtrl', ['$scope', '$rootScope', 'rpId', 'rpKeychain',
+                                    function ($scope, $rootScope, $id, $keychain)
   {
+    
     $scope.options = Options;
-
+    $scope.passwordProtection = !$scope.userBlob.data.persistUnlock;
+    
     $scope.save = function () {
       // Save in local storage
       if (!store.disabled) {
@@ -32,6 +34,19 @@ OptionsTab.prototype.angular = function(module)
 
       // Reload
       location.reload();
+    };
+    $scope.$on('$blobUpdate', function(){
+      $scope.passwordProtection = !$scope.userBlob.data.persistUnlock;
+    });
+    
+    $scope.setPasswordProtection = function () {
+      $keychain.setPasswordProtection(!$scope.passwordProtection, function(err, resp){
+        console.log(err, resp);
+        if (err) {
+          $scope.passwordProtection = !$scope.PasswordProtection;
+          console.log($scope.passwordProtection);
+        }
+      });
     };
   }]);
 };
