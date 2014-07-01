@@ -140,7 +140,7 @@ section.col-xs-12.content(ng-controller="ExchangeCtrl")
     group.result-error(ng-show='tx_result=="error"')
       h2.tx-status(l10n) Transaction could not be submitted!
       p(l10n) We were unable to submit the transaction to the server.
-        | Please try again later.
+        |  Please try again later.
     group.result-malformed(ng-show='tx_result=="malformed"')
       h2.tx-status(l10n) Transaction malformed!
       p(ng-switch on="engine_result")
