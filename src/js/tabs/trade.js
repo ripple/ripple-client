@@ -134,6 +134,7 @@ TradeTab.prototype.angular = function(module)
         $scope.order[type].first = order.sum.to_human().replace(',','');
         $scope.calc_second(type);
       }
+
     };
 
     /**
@@ -312,7 +313,7 @@ TradeTab.prototype.angular = function(module)
     $scope.update_first = function (type) {
       var order = $scope.order[type];
       var first_currency = $scope.order.first_currency || Currency.from_json("XRP");
-      var formatted = "" + order.first + " " + first_currency.to_json();
+      var formatted = "" + order.first + " " + (first_currency.has_interest() ? first_currency.to_hex() : first_currency.get_iso());
 
       order.first_amount = ripple.Amount.from_human(formatted, {reference_date: new Date(+new Date() + 5*60000)});
 
@@ -322,7 +323,7 @@ TradeTab.prototype.angular = function(module)
     $scope.update_price = function (type) {
       var order = $scope.order[type];
       var second_currency = $scope.order.second_currency || Currency.from_json("XRP");
-      var formatted = "" + order.price + " " + second_currency.to_json();
+      var formatted = "" + order.price + " " + (second_currency.has_interest() ? second_currency.to_hex() : second_currency.get_iso());
 
       order.price_amount = ripple.Amount.from_human(formatted, {reference_date: new Date(+new Date() + 5*60000)});
 
@@ -332,7 +333,7 @@ TradeTab.prototype.angular = function(module)
     $scope.update_second = function (type) {
       var order = $scope.order[type];
       var second_currency = $scope.order.second_currency || Currency.from_json("XRP");
-      var formatted = "" + order.second + " " + second_currency.to_json();
+      var formatted = "" + order.second + " " + (second_currency.has_interest() ? second_currency.to_hex() : second_currency.get_iso());
 
       order.second_amount = ripple.Amount.from_human(formatted, {reference_date: new Date(+new Date() + 5*60000)});
 
@@ -569,10 +570,10 @@ TradeTab.prototype.angular = function(module)
       }
 
       $scope.book = books.get({
-        currency: $scope.order.first_currency.to_hex(),
+        currency: ($scope.order.first_currency.has_interest() ? $scope.order.first_currency.to_hex() : $scope.order.first_currency.get_iso()),
         issuer: $scope.order.first_issuer
       }, {
-        currency: $scope.order.second_currency.get_iso(),
+        currency: ($scope.order.second_currency.has_interest() ? $scope.order.second_currency.to_hex() : $scope.order.second_currency.get_iso()),
         issuer: $scope.order.second_issuer
       }, $scope.address);
     }

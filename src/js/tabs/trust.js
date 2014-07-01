@@ -116,15 +116,19 @@ TrustTab.prototype.angular = function (module)
           $scope.$apply(function(){
             // hide throbber
             $scope.verifying = false;
-            var match = /^([a-zA-Z0-9]{3}|[A-Fa-f0-9]{40})\b/.exec($scope.currency);
+
+            $scope.lineCurrencyObj = Currency.from_human($scope.currency);
+            var matchedCurrency = $scope.lineCurrencyObj.has_interest() ? $scope.lineCurrencyObj.to_hex() : $scope.lineCurrencyObj.get_iso();
+            var match = /^([a-zA-Z0-9]{3}|[A-Fa-f0-9]{40})\b/.exec(matchedCurrency);
+            
             if (!match) {
               // Currency code not recognized, should have been caught by
               // form validator.
+              console.error('Currency code:', match, 'is not recognized');
               return;
             }
 
-            var matchedCurrency = Currency.from_human(match[1]);
-            var amount = ripple.Amount.from_human('' + $scope.amount + ' ' + matchedCurrency.to_hex(), {reference_date: new Date(+new Date() + 5*60000)});
+            var amount = ripple.Amount.from_human('' + $scope.amount + ' ' + $scope.lineCurrencyObj.to_hex(), {reference_date: new Date(+new Date() + 5*60000)});
 
             amount.set_issuer($scope.counterparty_address);
             if (!amount.is_valid()) {
@@ -353,6 +357,7 @@ TrustTab.prototype.angular = function (module)
         }
       }
 
+      $scope.lineCurrencyObj = lineCurrency;
       $scope.currency = lineCurrency.to_human(formatOpts);
       $scope.balance = line.balance.to_human();
       $scope.balanceAmount = line.balance;
