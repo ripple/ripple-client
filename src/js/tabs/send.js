@@ -414,14 +414,16 @@ SendTab.prototype.angular = function (module)
     $scope.update_amount = function () {
       var send = $scope.send;
       var recipient = send.recipient_actual || send.recipient_address;
-      var match = /^([a-zA-Z0-9]{3}|[A-Fa-f0-9]{40})\b/.exec(send.currency);
+      var currency = ripple.Currency.from_human(send.currency);
+
+      var matchedCurrency = currency.has_interest() ? currency.to_hex() : currency.get_iso();
+      var match = /^([a-zA-Z0-9]{3}|[A-Fa-f0-9]{40})\b/.exec(matchedCurrency);
+
       if (!match) {
         // Currency code not recognized, should have been caught by
         // form validator.
         return;
       }
-
-      var matchedCurrency = ripple.Currency.from_human(match[1]);
 
       // Demurrage: Get a reference date five minutes in the future
       //
@@ -434,7 +436,7 @@ SendTab.prototype.angular = function (module)
       // this actually *causes* the same odd rounding problem, so in the future
       // we'll want a better solution, but for right now this does what we need.
       var refDate = new Date(new Date().getTime() + 5 * 60000);
-      var amount = send.amount_feedback = ripple.Amount.from_human('' + send.amount + ' ' + matchedCurrency.get_iso(), { reference_date: refDate });
+      var amount = send.amount_feedback = ripple.Amount.from_human('' + send.amount + ' ' + matchedCurrency, { reference_date: refDate });
 
       $scope.reset_amount_deps();
       send.path_status = 'waiting';
