@@ -18,6 +18,7 @@ module.factory('rpKeychain', ['$rootScope', '$timeout', 'rpPopup', 'rpId',
 {
   var Keychain = function ()
   {
+    var _this = this;
     this.secrets = {};
 
     // Unlock the Desktop client right away
@@ -96,6 +97,7 @@ module.factory('rpKeychain', ['$rootScope', '$timeout', 'rpPopup', 'rpId',
                       handleSecret);
     };
     popupScope.cancel = function () {
+      callback("canceled"); //need this for setting password protection
       popup.close();
     };
     popup.blank(require('../../jade/popup/unlock.jade')(), popupScope);
@@ -133,10 +135,7 @@ module.factory('rpKeychain', ['$rootScope', '$timeout', 'rpPopup', 'rpId',
         password: password
       };
 
-      setTimeout(function () {
-        delete _this.secrets[account];
-      }, Keychain.unlockDuration);
-
+      _this.expireSecret(account);
       callback(null, secret);
     });
   };
@@ -156,5 +155,49 @@ module.factory('rpKeychain', ['$rootScope', '$timeout', 'rpPopup', 'rpId',
   };
 
 
+ /**
+  * setPasswordProtection
+  * @param {Object} protect
+  * @param {Object} callback
+  */
+  Keychain.prototype.setPasswordProtection = function (protect, callback) {
+    var _this   = this;
+
+    if (protect === false) {
+      this.requestSecret(id.account, id.username, function(err, secret) {
+        if (err) {
+          return callback(err);            
+        }
+        
+        setPasswordProtection(protect, secret, callback);
+      });
+                       
+    } else {
+      setPasswordProtection(protect, null, callback);
+    }
+    
+    function setPasswordProtection (protect, secret, callback) {
+      $scope.userBlob.set('/persistUnlock', !protect, function(err, resp) {
+        if (err) {
+          return callback(err);
+        }
+        
+        if (protect) {
+          _this.expireSecret(id.account);
+        }
+        
+      });
+    }
+  };
+  
+  Keychain.prototype.expireSecret = function (account) {
+    var _this = this;
+    $timeout(function(){
+      if (_this.secrets[account] && !$scope.userBlob.data.persistUnlock) {
+        delete _this.secrets[account];  
+      }  
+    }, this.unlockDuration);  
+  }
+  
   return new Keychain();
 }]);

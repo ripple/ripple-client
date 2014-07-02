@@ -44,8 +44,14 @@ section.col-xs-12.content(ng-controller="OptionsCtrl")
         label(for="blobIp", l10n) Blob vault URL
         input.form-control.blobIp(
           name='blobIp', id="blobIp", type='text'
-          ng-model='options.blobvault')
-
+          ng-model='options.blobvault')         
     .row
       .col-xs-12.col-sm-8.col-md-3.col-lg-2
         button.btn.btn-block.btn-success.submit(type='submit', ng-disabled='optionsForm.$invalid', l10n) Save
+        
+    h3(l10n) Password Protection
+    .row
+      .col-xs-12.col-sm-8.col-md-4.col-lg-4
+        div.helperInput
+          input.passwordProtection(name='passwordProtection', type='checkbox', ng-model='passwordProtection', ng-click='setPasswordProtection()')
+          label(for='passwordProtection', l10n) Require password for transactions        
