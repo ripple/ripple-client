@@ -17,7 +17,7 @@ section.col-xs-12.content(ng-controller="RecoverCtrl")
           input.form-control#recover_masterkey(
           name='recover_masterkey', type='password', autocomplete="off"
           required, ng-model="masterkey")
-        .error.text-center(ng-show="recoverError") 
+        .error.text-center(ng-show="recoverError")
           div(l10n) Unable to recover account.
           div(ng-bind="recoverError")
         .submit-btn-container
@@ -35,7 +35,7 @@ section.col-xs-12.content(ng-controller="RecoverCtrl")
           .rippleName
             span ~
             span(ng-bind="username")
-        .form-group(ng-class="{'field-error': 'weak' === strength}")
+        .form-group(ng-class="{'field-error': 'weak' === strength || 'match' === strength}")
           label(for='password1', l10n) Password
           input.form-control#password1(
             name='password1', type='password', autocomplete="off"
@@ -43,6 +43,8 @@ section.col-xs-12.content(ng-controller="RecoverCtrl")
             rp-strong-password, required, rp-same-in-set="passwordSet")
           p(ng-show="strength=='weak'")
             span(l10n) Your password is weak. It does not contain numbers and symbols or it is too short.
+          p(ng-show="strength=='match'")
+            span(l10n) Your Ripple name and password cannot match. Please create a new password.
         .form-group(ng-class="{'field-error': setPasswordForm.password1.$error.rpSameInSet && setPasswordForm.password2.$dirty}")
           label(for='password2', l10n) Confirm password
           input.form-control#password2(
@@ -50,8 +52,8 @@ section.col-xs-12.content(ng-controller="RecoverCtrl")
             ng-model="password2"
             required, rp-same-in-set="passwordSet")
           p(ng-show="setPasswordForm.password1.$error.rpSameInSet && setPasswordForm.password2.$dirty")
-            span(l10n) Passwords do not match     
-        .error.text-center(ng-show="passwordError") 
+            span(l10n) Passwords do not match
+        .error.text-center(ng-show="passwordError")
           div(l10n) Unable to change your account password.
           div(ng-bind="passwordError")
         .submit-btn-container

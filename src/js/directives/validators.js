@@ -135,15 +135,15 @@ module.directive('rpDest', function ($timeout, $parse) {
             ripple.AuthInfo.get(Options.domain, value, function(err, info){
               scope.$apply(function(){
                 ctrl.$setValidity('rpDest', info.exists);
-                
+
                 if (attr.rpDestModel && info.exists) {
                   getter = $parse(attr.rpDestModel);
                   getter.assign(scope,info.address);
                 }
-  
+
                 if (attr.rpDestLoading) {
                   getterL.assign(scope,false);
-                }                
+                }
               });
             });
           }, 500);
@@ -216,10 +216,10 @@ module.directive('rpAvailableName', function ($timeout, $parse) {
                 } else {
                   ctrl.$setValidity('rpAvailableName', true);
                 }
-  
+
                 if (attr.rpLoading) {
                   getterL.assign(scope,false);
-                }                
+                }
               });
             })
           }, 500);
@@ -319,7 +319,7 @@ module.directive('rpIssuer', function () {
 
         var shortValue = value.slice(0, 3).toUpperCase();
 
-        if ( (shortValue==="XRP") || webutil.findIssuer(scope.lines,shortValue)) 
+        if ( (shortValue==="XRP") || webutil.findIssuer(scope.lines,shortValue))
         {
           ctrl.$setValidity('rpIssuer', true);
           return value;
@@ -464,7 +464,7 @@ module.directive('rpStrongPassword', function () {
         // password == user name
         if (password.toLowerCase() === username.toLowerCase()) {
           ctrl.$setValidity('rpStrongPassword', false);
-          scope.strength = 'weak';
+          scope.strength = 'match';
           return;
         }
 
