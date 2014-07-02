@@ -363,7 +363,11 @@ TrustTab.prototype.angular = function (module)
       $scope.balanceAmount = line.balance;
       $scope.counterparty = line.account;
       $scope.counterparty_view = contact;
-      $scope.amount = +line.limit.to_text();
+
+      $scope.amount = line.limit.currency().has_interest()
+        ? +Math.round(line.limit.applyInterest(new Date()).to_text())
+        : +line.limit.to_text()
+
       $scope.allowrippling = !line.no_ripple;
 
       // Close/open form. Triggers focus on input.

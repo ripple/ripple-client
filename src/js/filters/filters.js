@@ -31,7 +31,7 @@ module.filter('rpamount', function () {
 
     // Reference date
     // XXX Should maybe use last ledger close time instead
-    if (!opts.reference_date) {
+    if (!opts.reference_date && !opts.no_interest) {
       opts.reference_date = new Date();
     }
 
