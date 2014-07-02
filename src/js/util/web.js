@@ -1,4 +1,4 @@
-// returns the raw address after removing any parameters 
+// returns the raw address after removing any parameters
 exports.stripRippleAddress = function (addr)
 {
   if(typeof(addr)=='string')
@@ -11,7 +11,7 @@ exports.stripRippleAddress = function (addr)
   }
   return(addr);
 }
-//returns the destination tag of an address if there is one 
+//returns the destination tag of an address if there is one
 exports.getDestTagFromAddress = function (addr)
 {
   var index=addr.indexOf("?");
@@ -272,3 +272,22 @@ exports.base64UrlToBase64 = function (encodedData) {
   }
   return encodedData;
 };
+
+/**
+ * Parses a full currency name into a name/value dictionary
+ *
+ * @params {String} Full currency name
+ */
+exports.parseCurrencyName = function(fullName)  {
+  var val = {};
+  var split = fullName.split(' - ');
+  if (split && split.length === 2 && split[0].length === 3) {
+    val.value = split[0];
+    val.name = split[1];
+  }
+  else {
+    val.value = fullName;
+    val.name = fullName;
+  }
+  return val;
+}
