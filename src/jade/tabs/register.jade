@@ -45,7 +45,7 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
                 span(ng-switch-when="endhyphen", l10n) Cannot end with hyphen (-)
                 span(ng-switch-when="multhyphen", l10n) Cannot bundle hyphens (--)
           span(ng-show="usernameLoading", l10n) Checking...
-        .form-group(ng-class="{'field-error': 'weak' === strength}")
+        .form-group(ng-class="{'field-error': 'weak' === strength || 'match' === strength}")
           label(for='register_password', l10n) Password
           input.form-control#register_password(
             name='register_password1', type='password', autocomplete="off"
@@ -53,6 +53,8 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
             rp-strong-password, required, rp-same-in-set="passwordSet")
           p(ng-show="strength=='weak'")
             span(l10n) Your password is weak. It does not contain numbers and symbols or it is too short.
+          p(ng-show="strength=='match'")
+            span(l10n) Your Ripple name and password cannot match. Please create a new password.
         .form-group(ng-class="{'field-error': registerForm.register_password1.$error.rpSameInSet && registerForm.register_password2.$dirty}")
           label(for='register_password2', l10n) Confirm password
           input.form-control#register_password2(

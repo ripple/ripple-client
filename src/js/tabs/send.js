@@ -207,8 +207,8 @@ SendTab.prototype.angular = function (module)
         ripple.AuthInfo.get(Options.domain,send.recipient,function(err, response) {
           $scope.$apply(function(){
             send.recipient_name = '~' + response.username;
-            send.recipient_address = response.address;            
-          });    
+            send.recipient_address = response.address;
+          });
 
           $scope.check_destination();
         })
@@ -865,21 +865,24 @@ SendTab.prototype.angular = function (module)
         // Remember currency and increase order
         var found;
 
+        var cur = webutil.parseCurrencyName($scope.send.amount_feedback.currency().to_human());
+
         for (var i = 0; i < $scope.currencies_all.length; i++) {
-          if ($scope.currencies_all[i].value.toLowerCase() === $scope.send.amount_feedback.currency().to_human().toLowerCase()) {
+          if ($scope.currencies_all[i].value.toLowerCase() === cur.value.toLowerCase()) {
             $scope.currencies_all[i].order++;
             found = true;
             break;
           }
         }
 
-        if (!found) {
-          $scope.currencies_all.push({
-            "name": $scope.send.amount_feedback.currency().to_human().toUpperCase(),
-            "value": $scope.send.amount_feedback.currency().to_human().toUpperCase(),
-            "order": 1
-          });
-        }
+        // TODO: Fix before enabling
+        // if (!found) {
+        //   $scope.currencies_all.push({
+        //     "name": cur.name,
+        //     "value": cur.value,
+        //     "order": 1
+        //   });
+        // }
       });
     };
 

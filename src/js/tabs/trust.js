@@ -70,7 +70,7 @@ TrustTab.prototype.angular = function (module)
     };
 
     $scope.toggle_form = function () {
-      
+
       if($scope.addform_visible || $scope.editform_visible)
         $scope.reset();
       else
@@ -120,7 +120,7 @@ TrustTab.prototype.angular = function (module)
             $scope.lineCurrencyObj = Currency.from_human($scope.currency);
             var matchedCurrency = $scope.lineCurrencyObj.has_interest() ? $scope.lineCurrencyObj.to_hex() : $scope.lineCurrencyObj.get_iso();
             var match = /^([a-zA-Z0-9]{3}|[A-Fa-f0-9]{40})\b/.exec(matchedCurrency);
-            
+
             if (!match) {
               // Currency code not recognized, should have been caught by
               // form validator.
@@ -210,21 +210,24 @@ TrustTab.prototype.angular = function (module)
             // Remember currency and increase order
             var found;
 
+            var cur = webutil.parseCurrencyName(currency);
+
             for (var i = 0; i < $scope.currencies_all.length; i++) {
-              if ($scope.currencies_all[i].value.toLowerCase() === currency.toLowerCase()) {
+              if ($scope.currencies_all[i].value.toLowerCase() === cur.value.toLowerCase()) {
                 $scope.currencies_all[i].order++;
                 found = true;
                 break;
               }
             }
 
-            if (!found) {
-              $scope.currencies_all.push({
-                'name': currency,
-                'value': currency,
-                'order': 1
-              });
-            }
+            // TODO: Fix before enabling
+            // if (!found) {
+            //   $scope.currencies_all.push({
+            //     "name": cur.name,
+            //     "value": cur.value,
+            //     "order": 1
+            //   });
+            // }
           });
         })
         .on('success', function(res){
@@ -330,7 +333,7 @@ TrustTab.prototype.angular = function (module)
 
       $scope.$watchCollection('book', function () {
         if (!$scope.book.updated) return;
-        
+
         if ($scope.book.asks.length !== 0 && $scope.book.bids.length !== 0) {
           $scope.orderbookStatus = 'exists';
         } else {
@@ -395,7 +398,7 @@ TrustTab.prototype.angular = function (module)
               console.log('Error on tx submit: ', err);
               return;
             }
-            
+
             console.log('Transaction has been submitted with response:', res);
           });
         });
