@@ -79,8 +79,8 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
           a(href="", ng-click="showMasterKeyInput=false", l10n)&#32;hide
           input.form-control#register_masterkey(name='register_masterkey'
             type='text', autocomplete='off', ng-model="masterkey", rp-master-key, rp-focus)
-          .errorBox(ng-show="registerForm.register_masterkey.$error.rpMasterKey")
-            p.text-error(l10n) Secret key is invalid
+          p(ng-show="registerForm.register_masterkey.$error.rpMasterKey")
+            span(l10n) Secret Account Key is invalid
         div(ng-hide="showMasterKeyInput || oldUserBlob", l10n)
           | Need to use your secret key?&#32;
           a(href="", ng-click="showMasterKeyInput=true", l10n) Use key
