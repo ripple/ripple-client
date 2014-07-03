@@ -6,7 +6,10 @@
  *
  * [1] http://en.wikipedia.org/wiki/Currency_pair#The_Majors
  */
-module.exports = [
+
+var DEFAULT_PAIRS = [
+  {name: 'XAU (-0.5%pa)/XRP', order: 2},
+  {name: 'XAU (-0.5%pa)/USD', order: 2},
   {name: 'BTC/XRP', order: 1},
   {name: 'XRP/USD', order: 1},
   {name: 'XRP/EUR', order: 1},
@@ -26,3 +29,5 @@ module.exports = [
   {name: 'USD/MXN', order: 0},
   {name: 'USD/CHF', order: 0}
 ];
+
+module.exports = DEFAULT_PAIRS;
