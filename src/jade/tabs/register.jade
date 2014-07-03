@@ -75,15 +75,15 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
             span(l10n) Email address is invalid
         .form-group(ng-show="showMasterKeyInput"
           ng-class="{'field-error': registerForm.register_masterkey.$error.rpMasterKey && registerForm.register_masterkey.$dirty}")
-          label(for='register_masterkey', l10n) Secret Account Key&#32;
-          a(href="", ng-click="showMasterKeyInput=false", l10n)  hide
+          label(for='register_masterkey', l10n) Secret key&#32;
+          a(href="", ng-click="showMasterKeyInput=false", l10n)&#32;hide
           input.form-control#register_masterkey(name='register_masterkey'
             type='text', autocomplete='off', ng-model="masterkey", rp-master-key, rp-focus)
           .errorBox(ng-show="registerForm.register_masterkey.$error.rpMasterKey")
-            p.text-error(l10n) Secret Account Key is invalid
+            p.text-error(l10n) Secret key is invalid
         div(ng-hide="showMasterKeyInput || oldUserBlob", l10n)
-          | Need to use your Secret Key?&#32;
-          a(href="", ng-click="showMasterKeyInput=true", l10n) Use Key
+          | Need to use your secret key?&#32;
+          a(href="", ng-click="showMasterKeyInput=true", l10n) Use key
         .form-group
           .checkbox
             label(for='terms', l10n) I agree to the {{productName}}&#32;
