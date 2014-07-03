@@ -445,7 +445,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                   rp-pretty-issuer="book.bids[0].TakerGets | rpissuer"
                   rp-pretty-issuer-contacts="userBlob.data.contacts"
                   rp-pretty-issuer-or-short)
-            .row(ng-repeat='order in book.bids', ng-class="{my: order.my, cancelling: cancelling}")
+            .row(ng-repeat='order in book.bids', ng-class="{my: order.my, cancelling: cancelling}", title="{{order.Account}}")
               .col-xs-4.rpamount.sum
                 a(href=""
                   ng-click="fill_widget('sell',order,true)")
@@ -479,7 +479,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                   rp-pretty-issuer="book.asks[0].TakerGets | rpissuer"
                   rp-pretty-issuer-contacts="userBlob.data.contacts"
                   rp-pretty-issuer-or-short)
-            .row(ng-repeat='order in book.asks', ng-class="{my: order.my, cancelling: cancelling}")
+            .row(ng-repeat='order in book.asks', ng-class="{my: order.my, cancelling: cancelling}", title="{{order.Account}}")
               .col-xs-4.rpamount.price
                 a(href="", ng-click="fill_widget('buy',order)")
                   span(rp-bind-color-amount="order.showPrice")
