@@ -27,7 +27,7 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
           a.recover-btn(href="#recover")
             button.btn.btn-block.btn-primary(ng-click="")
               span(l10n) Account Recovery
-        a.recover(href="#recover", ng-hide="showRecover", l10n) Account Recovery
+        a.recover(ng-href="#/recover/{{username}}", ng-hide="showRecover", l10n) Account Recovery
     .switch-mode-link-container(ng-hide="$routeParams.action === 'migrate'", l10n) Already have a ripple.com/client account?&#32;
       a(ng-hide="$routeParams.action === 'migrate'", href='#/login/migrate', l10n-inc) Migrate
     .switch-mode-link-container(l10n) New to {{productName}}?&#32;

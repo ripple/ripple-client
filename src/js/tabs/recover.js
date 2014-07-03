@@ -17,12 +17,16 @@ RecoverTab.prototype.generateHtml = function ()
   return require('../../jade/tabs/recover.jade')();
 };
 
+RecoverTab.prototype.extraRoutes = [
+  { name: '/recover/:username' }
+];
+
 RecoverTab.prototype.angular = function (module) {
   module.controller('RecoverCtrl', ['$scope', '$element', '$routeParams',
                                   '$location', 'rpId', '$rootScope',
                                   'rpPopup', '$timeout', 'rpTracker', 'rpAuthFlow',
                                   function ($scope, $element, $routeParams,
-                                            $location, $id, $rootScope,
+                                            $location, $id, $rootScope, 
                                             popup, $timeout, $rpTracker, $authflow) {
 
     /**
@@ -35,7 +39,7 @@ RecoverTab.prototype.angular = function (module) {
     
     var recoveredBlob;
     
-    $scope.username      = $rootScope.username;
+    $scope.username      = $routeParams.username;
     $scope.masterkey     = '';
     $scope.mode          = 'recover';
     $scope.submitLoading = false;

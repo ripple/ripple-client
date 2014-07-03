@@ -74,13 +74,22 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
           p(ng-show="registerForm.register_email.$error.email && registerForm.register_email.$dirty")
             span(l10n) Email address is invalid
         .form-group(ng-show="showMasterKeyInput"
-          ng-class="{'field-error': registerForm.register_masterkey.$error.rpMasterKey && registerForm.register_masterkey.$dirty}")
-          label(for='register_masterkey', l10n) Secret key&#32;
-          a(href="", ng-click="showMasterKeyInput=false", l10n)&#32;hide
-          input.form-control#register_masterkey(name='register_masterkey'
-            type='text', autocomplete='off', ng-model="masterkey", rp-master-key, rp-focus)
-          .errorBox(ng-show="registerForm.register_masterkey.$error.rpMasterKey")
-            p.text-error(l10n) Secret key is invalid
+          ng-class="{'field-error': (registerForm.register_masterkey.$error.rpMasterKey || registerForm.register_masterkey.$error.rpMasterAddressExists)  && registerForm.register_masterkey.$dirty}")
+          label(for='register_masterkey', l10n) Secret Account Key&#32;
+          a(href="", ng-click="showMasterKeyInput=false", l10n)  hide
+          div.register_masterkey
+            input.form-control#register_masterkey(name='register_masterkey', type='text', 
+              autocomplete='off', ng-model="masterkey", rp-master-key, rp-master-address-exists, 
+              rp-focus, rp-spinner="{{checkingMasterkey ? 4 : null}}")
+            p(ng-show="registerForm.register_masterkey.$error.rpMasterKey")
+              span(l10n) Secret Account Key is invalid     
+            .auth-attention(ng-show="registerForm.register_masterkey.$error.rpMasterAddressExists && masterkeyAddress") 
+              div(l10n)
+                | The account ~
+                span {{ masterkeyUsername }} 
+                span ({{ masterkeyAddress }})
+                |  has already been created using this secret key.
+              a.btn.btn-primary.recovery(ng-href="#/recover/{{masterkeyUsername}}", l10n) Recover Account
         div(ng-hide="showMasterKeyInput || oldUserBlob", l10n)
           | Need to use your secret key?&#32;
           a(href="", ng-click="showMasterKeyInput=true", l10n) Use key
