@@ -64,7 +64,7 @@ ExchangeTab.prototype.angular = function (module)
       var pathUpdateTimeout;
       $scope.update_exchange = function () {
         var exchange = $scope.exchange;
-        var formatted = "" + exchange.amount + " " + exchange.currency_code;
+        var currency = ripple.Currency.from_human(exchange.currency_code);
 
         $scope.reset_paths();
 
@@ -79,7 +79,28 @@ ExchangeTab.prototype.angular = function (module)
           $scope.error_type = '';
         }
 
-        exchange.amount_feedback = Amount.from_human(formatted);
+        var matchedCurrency = currency.has_interest() ? currency.to_hex() : currency.get_iso();
+        var match = /^([a-zA-Z0-9]{3}|[A-Fa-f0-9]{40})\b/.exec(matchedCurrency);
+
+        if (!match) {
+          // Currency code not recognized, should have been caught by
+          // form validator.
+          return;
+        }
+
+        // Demurrage: Get a reference date five minutes in the future
+        //
+        // Normally, when using demurrage currencies, we would immediately round
+        // down (e.g. 0.99999 instead of 1) as demurrage occurs continuously. Not
+        // a good user experience.
+        //
+        // By choosing a date in the future, this gives us a time window before
+        // this rounding down occurs. Note that for positive interest currencies
+        // this actually *causes* the same odd rounding problem, so in the future
+        // we'll want a better solution, but for right now this does what we need.
+        var refDate = new Date(new Date().getTime() + 5 * 60000);
+
+        exchange.amount_feedback = Amount.from_human('' + exchange.amount + ' ' + matchedCurrency, { reference_date: refDate });
         exchange.amount_feedback.set_issuer($id.account);
 
         if (exchange.amount_feedback.is_valid()) {
