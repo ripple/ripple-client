@@ -287,7 +287,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
             //- 2. Confirmation
             form.mode-confirm(ng-switch-when='confirm', ng-submit="order_confirmed(type)")
               p.title.literal
-                p.order-warning(ng-show="fatFingerErr === true", l10n-inc) CAUTION: Your order is far off from the current market price.
+                p.order-warning(ng-show="fatFingerErr === true", l10n) CAUTION: Your order is far off from the current market price.
                 span(l10n) You are about to create an order to
                   span(ng-show="type == 'buy'", l10n-inc)  buy
                   span(ng-show="type == 'sell'", l10n-inc)  sell
