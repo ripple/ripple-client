@@ -48,7 +48,7 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
         p.literal {{$routeParams.label}}
         p(l10n) you will trust
         .amount(ng-show="$routeParams.amount")
-          span.number {{$routeParams.amount | rpamount:{xrp_human: true} }}
+          span.number {{$routeParams.amount | rpamount:{xrp_human: true, no_interest: true} }}
           span.currency {{$routeParams.amount | rpcurrency}}
         p(ng-hide="$routeParams.name", l10n) To ripple address
         p(ng-show="$routeParams.name", l10n) To
