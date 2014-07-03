@@ -40,7 +40,7 @@ section.col-xs-12.content(ng-controller="RecoverCtrl")
           input.form-control#password1(
             name='password1', type='password', autocomplete="off"
             ng-model="password1"
-            rp-strong-password, required, rp-same-in-set="passwordSet")
+            rp-strong-password, required, rp-focus, rp-same-in-set="passwordSet")
           p(ng-show="strength=='weak'")
             span(l10n) Your password is weak. It does not contain numbers and symbols or it is too short.
           p(ng-show="strength=='match'")

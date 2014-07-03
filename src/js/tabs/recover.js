@@ -39,7 +39,7 @@ RecoverTab.prototype.angular = function (module) {
     
     var recoveredBlob;
     
-    $scope.username      = $routeParams.username || $rootScope.username;
+    $scope.username      = $routeParams.username;
     $scope.masterkey     = '';
     $scope.mode          = 'recover';
     $scope.submitLoading = false;
