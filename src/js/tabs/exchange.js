@@ -64,12 +64,12 @@ ExchangeTab.prototype.angular = function (module)
       var pathUpdateTimeout;
       $scope.update_exchange = function () {
         var exchange = $scope.exchange;
-        var currency = ripple.Currency.from_human(exchange.currency_code);
+        var currency = ripple.Currency.from_human(exchange.currency_name);
 
         $scope.reset_paths();
 
         // if formatted or money to exchange is 0 then don't calculate paths or offer to exchange
-        if (parseFloat(exchange.amount) === 0 || !exchange.currency_code)
+        if (parseFloat(exchange.amount) === 0 || !exchange.currency_name)
         {
           $scope.error_type = 'required';
           return false;
