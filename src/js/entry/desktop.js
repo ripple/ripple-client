@@ -73,7 +73,6 @@ var tabdefs = [
   require('../tabs/desktop/register'),
   require('../tabs/desktop/login'),
   require('../tabs/balance'),
-  require('../tabs/activity'),
   require('../tabs/history'),
   require('../tabs/contacts'),
   require('../tabs/exchange'),
