@@ -226,7 +226,9 @@ section.single.content(ng-controller='SendCtrl')
   //- N3. Confirmation page
 
   group.mode-confirm(ng-show='mode=="confirm" && account.Balance')
-    p.literal(l10n) You are sending {{ (send.alt.amount || send.currency) | rpcurrency}} to
+    p.literal(l10n) You are sending
+      span  {{ (send.alt.amount || send.currency) | rpcurrency}}
+      |  to
     .dest_feedback
       .recipient(ng-show='send.recipient_name') {{send.recipient_name}}
       .recipient(ng-hide='send.recipient_name') {{send.recipient_address}}

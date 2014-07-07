@@ -54,8 +54,9 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
                     != require("../tabs/history/effects.jade")()
                   .transaction(ng-switch-when="received")
                     span.address(title="{{entry.transaction.counterparty}}", l10n)
-                      | {{entry.transaction.counterparty | rpcontactname}} sent you
-                    strong.nowrap  {{entry.transaction.amount | rpamount:{reference_date:entry.dateRaw} }} {{entry.transaction.amount | rpcurrency}}
+                      span {{entry.transaction.counterparty | rpcontactname}}
+                      |  sent you
+                      strong.nowrap  {{entry.transaction.amount | rpamount:{reference_date:entry.dateRaw} }} {{entry.transaction.amount | rpcurrency}}
                     != require("../tabs/history/effects.jade")()
                   .transaction(ng-switch-when="exchange")
                     span(l10n) You requested to exchange

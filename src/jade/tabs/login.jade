@@ -57,10 +57,10 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
         .address {{$routeParams.to}}
       div.info(ng-show="'contacts' == $routeParams.tab")
         p.literal {{$routeParams.label}}
-        span
-          p(l10n) you will add the user
+        span(l10n)
+          p(l10n-inc) you will add the user
           .address {{$routeParams.to}}
-          p(l10n) To your ripple contacts
+          p(l10n-inc) To your ripple contacts
 
     .col-xs-12.col-sm-6.col-md-5.col-lg-4.col-lg-offset-1
       form(name='loginForm', ng-submit='submitForm()')
