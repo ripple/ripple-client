@@ -65,7 +65,7 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
     myHandleAccountEvent = handleAccountEvent;
     myHandleAccountEntry = handleAccountEntry;
     $scope.loadingAccount = true;
-    
+
     accountObj.on('transaction', myHandleAccountEvent);
     accountObj.on('entry', function(data){
       $scope.$apply(function () {
@@ -552,9 +552,32 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
     store.set('ripple_pairs_all',require('../data/pairs'));
   }
 
-  $scope.pairs_all = store.get('ripple_pairs_all')
-    ? store.get('ripple_pairs_all')
-    : require('../data/pairs');
+  /**
+   * Description: Combines 2 arrays removing duplicates based on a object key
+   * @param arr1: Array of objects
+   * @param arr2: Array of objects
+   * @param key:  object key to be unique
+   *
+   * @return array of unique objects based on key
+   */
+  function uniqueObjArray(arr1, arr2, key) {
+    var obj = {};
+    _.each(arr1, function(v) {
+      obj[v[key]] = v;
+    });
+
+    _.each(arr2, function(v) {
+      if (!(v[key] in obj)) {
+        obj[v[key]] = v;
+      }
+    });
+
+    return _.values(obj);
+  }
+
+  var pairs_all = store.get('ripple_pairs_all');
+  var pairs_default = require('../data/pairs');
+  $scope.pairs_all = uniqueObjArray(pairs_all, pairs_default, 'name');
 
   function compare(a, b) {
     if (a.order < b.order) return 1;
