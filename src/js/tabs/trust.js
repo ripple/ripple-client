@@ -70,7 +70,7 @@ TrustTab.prototype.angular = function (module)
     };
 
     $scope.toggle_form = function () {
-      
+
       if($scope.addform_visible || $scope.editform_visible)
         $scope.reset();
       else
@@ -120,7 +120,7 @@ TrustTab.prototype.angular = function (module)
             $scope.lineCurrencyObj = Currency.from_human($scope.currency);
             var matchedCurrency = $scope.lineCurrencyObj.has_interest() ? $scope.lineCurrencyObj.to_hex() : $scope.lineCurrencyObj.get_iso();
             var match = /^([a-zA-Z0-9]{3}|[A-Fa-f0-9]{40})\b/.exec(matchedCurrency);
-            
+
             if (!match) {
               // Currency code not recognized, should have been caught by
               // form validator.
@@ -188,12 +188,6 @@ TrustTab.prototype.angular = function (module)
      * N3. Waiting for grant result page
      */
     $scope.grant_confirmed = function () {
-      var formatOpts;
-      if ($scope.currencies_all_keyed[$scope.amount_feedback.currency().get_iso()]) {
-        formatOpts = {full_name:$scope.currencies_all_keyed[$scope.amount_feedback.currency().get_iso()].name};
-      }
-
-      var currency = $scope.amount_feedback.currency().to_human(formatOpts);
       var amount = $scope.amount_feedback.to_json();
 
       var tx = $network.remote.transaction();
@@ -211,20 +205,21 @@ TrustTab.prototype.angular = function (module)
             var found;
 
             for (var i = 0; i < $scope.currencies_all.length; i++) {
-              if ($scope.currencies_all[i].value.toLowerCase() === currency.toLowerCase()) {
+              if ($scope.currencies_all[i].value.toLowerCase() === $scope.amount_feedback.currency().get_iso().toLowerCase()) {
                 $scope.currencies_all[i].order++;
                 found = true;
                 break;
               }
             }
 
-            if (!found) {
-              $scope.currencies_all.push({
-                'name': currency,
-                'value': currency,
-                'order': 1
-              });
-            }
+            // // Removed feature until a permanent fix
+            // if (!found) {
+            //   $scope.currencies_all.push({
+            //     'name': currency,
+            //     'value': currency,
+            //     'order': 1
+            //   });
+            // }
           });
         })
         .on('success', function(res){
@@ -330,7 +325,7 @@ TrustTab.prototype.angular = function (module)
 
       $scope.$watchCollection('book', function () {
         if (!$scope.book.updated) return;
-        
+
         if ($scope.book.asks.length !== 0 && $scope.book.bids.length !== 0) {
           $scope.orderbookStatus = 'exists';
         } else {
@@ -399,7 +394,7 @@ TrustTab.prototype.angular = function (module)
               console.log('Error on tx submit: ', err);
               return;
             }
-            
+
             console.log('Transaction has been submitted with response:', res);
           });
         });
