@@ -219,4 +219,10 @@ if (!Options.blobvault) {
   Options.blobvault = Options.BLOBVAULT_SERVER;
 }
 
-if ("function" === typeof angular.resumeBootstrap) angular.resumeBootstrap();
+if ("function" === typeof angular.resumeBootstrap) {
+  angular.resumeBootstrap();
+
+  angular.resumeBootstrap = function() {
+    return false;
+  };
+}
