@@ -2,6 +2,7 @@
 
 var chai = require('chai');
 var chaiAsPromised = require('chai-as-promised');
+var config = require('./protractor.conf.js').config;
 
 chai.use(chaiAsPromised);
 var expect = chai.expect;
@@ -16,7 +17,6 @@ describe('ripple client', function() {
   describe('bootstrap', function() {
 
     beforeEach(function() {
-      ptor = protractor.getInstance();
       ptor.get('#');
     });
 
@@ -36,7 +36,7 @@ describe('ripple client', function() {
     });
 
     it('should render login when user navigates to /login', function() {
-      expect($("form[name='loginForm']")).to.exist;
+      expect($("form[name='loginForm']").getText()).to.exist;
     });
 
   });

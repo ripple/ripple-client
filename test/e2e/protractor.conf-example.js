@@ -4,5 +4,8 @@ exports.config = {
   capabilities: {
     browserName: 'firefox'
   },
-  baseUrl: 'http://local.rippletrade.com/index_debug.html'
+  baseUrl: 'http://local.rippletrade.com/index_debug.html',
+
+  username: '',
+  password: ''
 };
