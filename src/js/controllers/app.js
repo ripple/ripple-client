@@ -7,6 +7,7 @@
 var util = require('util'),
     events = require('events'),
     rewriter = require('../util/jsonrewriter'),
+    genericUtils = require('../util/generic'),
     Amount = ripple.Amount;
 
 var module = angular.module('app', []);
@@ -65,7 +66,7 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
     myHandleAccountEvent = handleAccountEvent;
     myHandleAccountEntry = handleAccountEntry;
     $scope.loadingAccount = true;
-    
+
     accountObj.on('transaction', myHandleAccountEvent);
     accountObj.on('entry', function(data){
       $scope.$apply(function () {
@@ -552,9 +553,9 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
     store.set('ripple_pairs_all',require('../data/pairs'));
   }
 
-  $scope.pairs_all = store.get('ripple_pairs_all')
-    ? store.get('ripple_pairs_all')
-    : require('../data/pairs');
+  var pairs_all = store.get('ripple_pairs_all');
+  var pairs_default = require('../data/pairs');
+  $scope.pairs_all = genericUtils.uniqueObjArray(pairs_all, pairs_default, 'name');
 
   function compare(a, b) {
     if (a.order < b.order) return 1;
