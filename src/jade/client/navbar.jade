@@ -54,7 +54,7 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
                     != require("../tabs/history/effects.jade")()
                   .transaction(ng-switch-when="received")
                     span.address(title="{{entry.transaction.counterparty}}", l10n)
-                      span {{entry.transaction.counterparty | rpcontactname}}
+                      span(l10n) {{entry.transaction.counterparty | rpcontactname}}
                       |  sent you
                       strong.nowrap  {{entry.transaction.amount | rpamount:{reference_date:entry.dateRaw} }} {{entry.transaction.amount | rpcurrency}}
                     != require("../tabs/history/effects.jade")()
@@ -110,7 +110,7 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
                     != require("../tabs/history/effects.jade")()
                 .date {{entry.date | rpfromnow}}
               li.history(ng-show="notifications.length")
-                a(href="#/history") View Full History
+                a(href="#/history", l10n) View Full History
           li.settings
             a.dropdown-toggle.fa.fa-cog
             ul.dropdown-menu

@@ -368,7 +368,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
               .actionLink
                 a(href="#trade", ng-click="reset_widget(type)", l10n) Submit another order
 
-      h3 My Orders ({{offersCount}})
+      h3(l10n) My Orders ({{offersCount}})
         small.toggle(ng-hide="isEmpty(offers)", ng-click="hideOffers = !hideOffers") {{hideOffers ? "show" : "hide"}}
       .listings.offers(ng-class="{show : !hideOffers}")
         .my
@@ -415,7 +415,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
           .emptyMessage(ng-show="isEmpty(offers)")
             p.literal(l10n="You haven't placed any orders.") You haven&#39;t placed any orders.
 
-      h3 Orderbook
+      h3(l10n) Orderbook
         small.toggle(ng-click="hideOrderBook = !hideOrderBook") {{hideOrderBook ? "show" : "hide"}}
       .listings.orders(ng-class="{show : !hideOrderBook}")
         //- TODO hide one column (size/sum) to show bids/ask in the same line for mobile phones.
