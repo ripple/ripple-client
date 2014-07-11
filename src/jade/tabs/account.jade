@@ -53,10 +53,9 @@ section.col-xs-12.content(ng-controller="AccountCtrl")
                   span(ng-switch-when="wrongpassword", l10n)
                     | Entered password is wrong.
                   span(ng-switch-when="cantlogin", l10n)
-                    | Your Ripple Name has been changed,
-                    |  but the client can't reported an error, please re-login.
+                    | Your Ripple name has been changed. Please login again.
                   span(ng-switch-default, l10n)
-                    | Couldn't change your ripple name, please try again later.
+                    | Couldn't change your Ripple name, please try again later.
                 .row
                   .col-xs-12.col-sm-6
                     button.btn.btn-success.btn-block(type="submit"
@@ -84,10 +83,9 @@ section.col-xs-12.content(ng-controller="AccountCtrl")
                   span(ng-switch-when="wrongpassword", l10n)
                     | Entered password is wrong.
                   span(ng-switch-when="cantlogin", l10n)
-                    | Your Ripple password has been changed,
-                    |  but the client can't reported an error, please re-login.
+                    | Your Ripple password has been changed, please login again
                   span(ng-switch-default, l10n)
-                    | Couldn't change your ripple password, please try again later.
+                    | Couldn't change your Ripple password, please try again later.
                 .form-group(ng-class="{'field-error': 'weak' === strength || 'match' === strength}")
                   label(for='change_password', l10n) New password
                   input.form-control(
