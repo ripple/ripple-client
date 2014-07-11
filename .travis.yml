@@ -8,6 +8,8 @@ before_install:
 before_script:
   - "cp src/js/config-example.js src/js/config.js"
   - "cp config-example.json config.json"
+  - npm install -g bower
+  - bower install
 script: "bower install && grunt && npm run test-travis"
 notifications:
   email:
