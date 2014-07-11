@@ -12,7 +12,7 @@ section.col-xs-12.content(ng-controller="HistoryCtrl")
 
   .unfunded(ng-show='loadState.account && !account.Balance')
     p.literal(l10n) Your account history is empty
-    p: a.btn.btn-default(href="#/balance") Back to balance
+    p: a.btn.btn-default(href="#/balance", l10n) Back to balance
 
   //- Connected
 

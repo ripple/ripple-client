@@ -1,14 +1,14 @@
 section.col-xs-12.content(ng-controller="AccountCtrl")
   .box
-    .title Account Profile
+    .title(l10n) Account Profile
     .section
       .alert.alert-success(ng-show="success", l10n) Your Ripple Name has been changed successfully.
-      .descriptor Ripple name
+      .descriptor(l10n) Ripple name
       .row
         .col-xs-12.col-sm-3.username ~{{userCredentials.username}}
         .col-xs-12.col-sm-9
           a(href="", ng-click="openForm=!openForm"
-            ng-hide="openForm") Change your Ripple name
+            ng-hide="openForm", l10n) Change your Ripple name
           .row
             .col-xs-12.col-md-8.col-lg-6
               form#renameForm(name="renameForm", ng-show="openForm", ng-submit="rename()")
@@ -66,5 +66,5 @@ section.col-xs-12.content(ng-controller="AccountCtrl")
                   .col-xs-12.col-sm-6
                     a.txtbtn(href="", ng-click="openForm=!openForm") Cancel
     .section
-      .descriptor Ripple address
+      .descriptor(l10n) Ripple address
       div {{address}}
