@@ -10,7 +10,7 @@ before_script:
   - "cp config-example.json config.json"
   - npm install -g bower
   - bower install
-script: "bower install && grunt && npm run test-travis"
+script: "grunt && npm run test-travis"
 notifications:
   email:
     false
