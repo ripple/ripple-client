@@ -47,11 +47,6 @@ module.controller('NavbarCtrl', ['$scope', '$element', '$compile', 'rpId',
     }
   }, true);
 
-  $scope.logout = function () {
-    $id.logout();
-    $location.path('/login');
-  };
-
   $scope.$on('$netConnected', function (e) {
     setConnectionStatus(true);
   });
