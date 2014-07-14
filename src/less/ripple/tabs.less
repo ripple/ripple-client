@@ -470,16 +470,15 @@
 
     .balancebox {
       border: 1px solid #D2D3D3;
-      background-color: #F9FAFA;
+      background-color: #F3F3F3;
       padding: 0 20px;
       margin-bottom: 10px;
     }
 
     .total {
 
-
       .lbl {
-        color: #474747;
+        color: #948C50;
         font-family: OpenSansBold;
 
         i {
@@ -836,18 +835,21 @@
 
       .filter-title {
         display: block;
-        color: #000;
+        color: #1e3f78;
         font: 16px OpenSansLight;
         background: #f9f9f9;
         padding: 10px;
+        border: 1px solid #f9f9f9;
 
         &:hover {
           text-decoration: none;
+          border: 1px solid #ccccca;
         }
 
         .fa {
           margin-top: 3px;
           float: right;
+          color: #1e1e1e;
         }
       }
 
@@ -892,7 +894,7 @@
 
       &.active {
         color: #565252;
-        background: #C8E3C2;
+        background: #d1def1;
         border: 1px solid #B6C49F;
 
         .count {
@@ -928,7 +930,7 @@
     }
 
     .message {
-      background-color: #f2f2f2;
+      background-color: #f3f3f3;
       padding: 10px;
     }
 
@@ -941,19 +943,20 @@
         padding: 0 15px;
         margin: 5px 0;
         cursor: pointer;
-        background: @bg;
+        background-color: #f3f3f3;
 
         &.open {
 
         }
 
         &.odd{
-          background: @bg;
+          background-color: #f3f3f3;
         }
 
         .info {
           display: inline-block;
           width: 100%;
+          background-color: #f3f3f3;
 
           & > span {
             display: inline-block;
@@ -971,23 +974,25 @@
           width: 8px;
           display: block;
           margin: 0 0 0 -15px;
-          background: #f5c30d;
+          background: #346aa9;
         }
         &.sent .type {
-          background: #d20019;
+          background: #41a447;
         }
         &.received .type {
-          background: #8bbe37;
+          background: #41a447;
         }
-        &.trusted .type,
-        &.trusting .type {
-          background: #2999e7;
+        &.trusted .type {
+          background: #888888;
         }
         &.trusting .type {
-          background: #2999e7;
+          background: #888888;
         }
         &.accountset .type {
           background: #d7d7d7;
+        }
+        &.failed .type {
+          background: #b01e1e;
         }
 
         .i {
@@ -1120,21 +1125,23 @@
       margin: 10px 0 0 0;
       clear: both;
       padding: 0;
-      background: #f2f2f2;
+      background: #f3f3f3;
 
       a,div {
         display: block;
         padding: 15px 40px;
         text-align: center;
-        color: #6c6c6c;
+        color: #1e3f78;
+        border: 1px solid #f3f3f3;
       }
 
       a {
         text-decoration: none;
-        color: #000;
+        color: #1e1e1e;
 
         &:hover {
           background: #f4f4f4;
+          border: 1px solid #ccccca
         }
       }
     }
