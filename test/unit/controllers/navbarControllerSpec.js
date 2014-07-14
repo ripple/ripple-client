@@ -59,11 +59,7 @@ describe('NavbarCtrl', function(){
 
       run(scope,done);
     });
-
-    it('should logout', function (done) {
-      assert.isFunction(scope.logout);
-      run(scope,done);
-    });
+    
   });
 
   describe('private functions', function() {
