@@ -162,7 +162,7 @@ module.exports = function(grunt) {
         command: process.platform === 'darwin' ? [
           'npm install appdmg',
           'appdmg ./res/dmg/dmg_config.json ./build/packages/ripple-client.dmg'
-        ].join('&') : 'echo Skipping DMG build, only supported on OSX'
+        ].join('&&') : 'echo Skipping DMG build, only supported on OSX'
       }
     },
     recess: {
