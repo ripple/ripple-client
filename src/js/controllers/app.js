@@ -13,9 +13,9 @@ var util = require('util'),
 var module = angular.module('app', []);
 
 module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
-                              'rpKeychain', 'rpTxQueue', 'rpAppManager',
+                              'rpKeychain', 'rpTxQueue', 'rpAppManager', '$location',
                               function ($scope, $compile, $id, $net,
-                                        keychain, txQueue, appManager)
+                                        keychain, txQueue, appManager, $location)
 {
   reset();
 
@@ -625,6 +625,11 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
   $net.init();
   $id.init();
   appManager.init();
+
+  $scope.logout = function () {
+    $id.logout();
+    $location.path('/login');
+  };
 
   /**
    * Testing hooks
