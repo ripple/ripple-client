@@ -152,6 +152,12 @@ module.exports = function(grunt) {
         stdout: true,
         failOnError: true
       },
+      removeFiles: {
+        command: [
+          'rm  -rf ./build/packages/',
+          'mkdir ./build/packages/'
+        ].join('&&')
+      },
       linux: {
         command: [
           'tar -cvf ./build/packages/ripple-client32.tar ./build/pkg/nw/releases/RippleClient/linux32/',
@@ -601,7 +607,9 @@ module.exports = function(grunt) {
 
   // Desktop apps packaging
   grunt.registerTask('desktop', ['dist',
-                                 'shell',
+                                 'shell:removeFiles',
+                                 'shell:linux',
+                                 'shell:osx',
                                  'compress']);
 
   // AWS S3 deployment for downloadable clients
