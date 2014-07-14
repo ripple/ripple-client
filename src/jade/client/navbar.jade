@@ -13,7 +13,7 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
             a(href="#/send", l10n) Send
           li#nav-exchange(ng-class="{active: $route.current.mainMenu == 'exchange'}", ng-show="!ripple_exchange_selection_trade")
             a(href="#/exchange", l10n) Exchange
-          li#nav-exchange(ng-class="{active: $route.current.mainMenu == 'trade'}", ng-show="ripple_exchange_selection_trade")
+          li#nav-exchange(ng-class="{active: $route.current.mainMenu == 'exchange'}", ng-show="ripple_exchange_selection_trade")
             a(href="#/trade", l10n) Exchange
           li#nav-fund(ng-class="{active: $route.current.mainMenu == 'fund'}")
             a(href="#/fund", l10n) Fund
