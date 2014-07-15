@@ -154,8 +154,10 @@ module.exports = function(grunt) {
       },
       removeFiles: {
         command: [
-          'rm  -rf ./build/packages/',
-          'mkdir ./build/packages/'
+          'rm -f ./build/packages/ripple-client.dmg',
+          'rm -f ./build/packages/ripple-client.zip',
+          'rm -f ./build/packages/ripple-client32.tar',
+          'rm -f ./build/packages/ripple-client64.tar'
         ].join('&&')
       },
       linux: {
