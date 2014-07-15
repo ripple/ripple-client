@@ -281,20 +281,21 @@ ExchangeTab.prototype.angular = function (module)
             var found;
 
             for (var i = 0; i < $scope.currencies_all.length; i++) {
-              if ($scope.currencies_all[i].value.toLowerCase() === $scope.exchange.amount_feedback.currency().to_human().toLowerCase()) {
+              if ($scope.currencies_all[i].value.toLowerCase() === $scope.exchange.amount_feedback.currency().get_iso().toLowerCase()) {
                 $scope.currencies_all[i].order++;
                 found = true;
                 break;
               }
             }
 
-            if (!found) {
-              $scope.currencies_all.push({
-                "name": $scope.exchange.amount_feedback.currency().to_human().toUpperCase(),
-                "value": $scope.exchange.amount_feedback.currency().to_human().toUpperCase(),
-                "order": 1
-              });
-            }
+            // // Removed feature until a permanent fix
+            // if (!found) {
+            //   $scope.currencies_all.push({
+            //     "name": $scope.exchange.amount_feedback.currency().to_human().toUpperCase(),
+            //     "value": $scope.exchange.amount_feedback.currency().to_human().toUpperCase(),
+            //     "order": 1
+            //   });
+            // }
           });
         });
         tx.on('success',function(res){
