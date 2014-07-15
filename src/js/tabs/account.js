@@ -9,7 +9,7 @@ var AccountTab = function ()
 util.inherits(AccountTab, Tab);
 
 AccountTab.prototype.tabName = 'account';
-AccountTab.prototype.mainMenu = 'advanced';
+AccountTab.prototype.mainMenu = 'account';
 
 AccountTab.prototype.generateHtml = function ()
 {

@@ -10,7 +10,7 @@ var ContactsTab = function ()
 util.inherits(ContactsTab, Tab);
 
 ContactsTab.prototype.tabName = 'contacts';
-ContactsTab.prototype.mainMenu = 'wallet';
+ContactsTab.prototype.mainMenu = 'contacts';
 
 // /contact is the way it appears in Ripple URIs
 ContactsTab.prototype.aliases = ['contact'];
