@@ -196,7 +196,7 @@ module.factory('rpKeychain', ['$rootScope', '$timeout', 'rpPopup', 'rpId',
       if (_this.secrets[account] && !$scope.userBlob.data.persistUnlock) {
         delete _this.secrets[account];  
       }  
-    }, this.unlockDuration);  
+    }, Keychain.unlockDuration);  
   }
   
   return new Keychain();
