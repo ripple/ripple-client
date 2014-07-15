@@ -1,7 +1,7 @@
 .mobile-nav(rp-snapper)
   a.wallet(href="#/balance", ng-class="{active: $route.current.mainMenu == 'balance'}")
     span.nav-icon.nav-icon-wallet
-    span(l10n) Overview
+    span(l10n) Balance
   //- a.sub(href="#/balance", ng-class="{active: $route.current.mainMenu == 'balance'}", l10n) Balance
   a.sub(href="#/history", ng-class="{active: $route.current.mainMenu == 'history'}", l10n) History
   a.sub(href="#/contacts", ng-class="{active: $route.current.mainMenu == 'contacts'}", l10n) Contacts
@@ -12,7 +12,7 @@
 
   a.exchange(href="#/exchange", ng-class="{active: $route.current.mainMenu == 'exchange'}")
     span.nav-icon.nav-icon-exchange
-    span(l10n) Exchange
+    span(l10n) Convert
   //- a.sub(href="#/exchange", ng-class="{active: $route.current.mainMenu == 'exchange'}", l10n) Convert
   a.sub(href="#/trade", ng-class="{active: $route.current.mainMenu == 'trade'}", l10n) Trade
 
@@ -23,7 +23,7 @@
 
   a.advanced(href="#/account", ng-class="{active: $route.current.mainMenu == 'account'}")
     span.nav-icon.nav-icon-advanced
-    span(l10n) Advanced
+    span(l10n) Account
 
   //- a.sub(href="#/account", ng-class="{active: $route.current.mainMenu == 'account'}", l10n) Account
   a.sub(href="#/trust", ng-class="{active: $route.current.mainMenu == 'trust'}", l10n) Trust
