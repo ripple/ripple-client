@@ -159,7 +159,7 @@ section.single.content(ng-controller='SendCtrl')
             | Add Destination tag
     .row
       .col-xs-12.col-sm-6.col-md-5(ng-show="send.currency_code == 'XRP'")
-        button.btn.btn-block.btn-success.submit(type='submit'
+        button#sendXrpButton.btn.btn-block.btn-success.submit(type='submit'
           ng-disabled='sendForm.$invalid || send.self || !send.recipient_resolved || account.max_spend.to_number() < send.amount * 1000000', l10n)
           | Send XRP
     .remote
@@ -259,7 +259,7 @@ section.single.content(ng-controller='SendCtrl')
             ng-click='cancelConfirm()', l10n)
             | &laquo; Back
         .col-xs-6.col-sm-4.col-md-3.col-lg-2
-          button.btn.btn-block.btn-success.submit(
+          button#confirmButton.btn.btn-block.btn-success.submit(
             type='submit'
             ng-disabled='confirm_wait', l10n) Confirm
 

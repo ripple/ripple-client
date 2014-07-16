@@ -8,12 +8,11 @@ var config = require('./protractor.conf.js').config;
 chai.use(chaiAsPromised);
 var expect = chai.expect;
 
-describe('ripple client', function() {
-  var ptor;
+// For some weird reason config ignores allScriptsTimeout
+browser.manage().timeouts().setScriptTimeout(20000);
 
-  beforeEach(function() {
-    ptor = protractor.getInstance();
-  });
+describe('ripple client', function() {
+  var ptor = protractor.getInstance();
 
   describe('bootstrap', function() {
 
@@ -21,37 +20,164 @@ describe('ripple client', function() {
       ptor.get('#');
     });
 
-    it('should automatically redirect to /register when location hash/fragment is empty', function() {
-      ptor.getCurrentUrl()
-        .then(function(url) {
-          expect(url).to.contain('/register');
-        });
+    it('should automatically redirect to /register when location hash/fragment is empty', function(done) {
+      expect(ptor.getCurrentUrl())
+        .to.eventually.contain('/register')
+        .and.notify(done);
     });
 
   });
 
   describe('login', function() {
 
-    beforeEach(function() {
+    beforeEach(function(){
       ptor.get('#/login');
     });
 
-    it('should render login when user navigates to /login', function() {
-      expect($("form[name='loginForm']").getText()).to.exist;
+    it('should render login when user navigates to /login', function(done) {
+      expect($("form[name='loginForm']").getText()).to.exist.and.notify(done);
     });
 
-    it('should login the test user', function() {
+    it('should login the test user', function(done) {
       // Fill the form
       $(".auth-form-wrapper #login_username").sendKeys(config.username);
       $(".auth-form-wrapper #login_password").sendKeys(config.password);
       $(".auth-form-wrapper button").click();
 
       // Check if it takes to the balance page (success login)
-      ptor.getCurrentUrl()
-        .then(function(url) {
-          expect(url).to.contain('/balance');
-        });
+      expect(ptor.getCurrentUrl())
+        .to.eventually.contain('/balance')
+        .and.notify(done);
     });
 
   });
+
+  describe('send', function() {
+
+    it('should render the send page', function(done) {
+      // Go to send page
+      ptor.get('#/send');
+
+      // Wait for the send form to render
+      ptor.wait(function() {
+        return $('#sendForm').isDisplayed().then(function(result) {
+          return result;
+        });
+      });
+
+      // We assume everthing's ok if the #send_destination is there
+      expect($('#send_destination').isDisplayed())
+        .to.eventually.be.true
+        .and.notify(done);
+    });
+
+    describe('recipient', function() {
+
+      var input = $('#send_destination');
+
+      beforeEach(function(){
+        input.clear();
+      });
+
+      it('should not accept an invalid ripple address', function(done) {
+        input.sendKeys('invalidrippleaddress');
+        expect(input.getAttribute('class'))
+          .to.eventually.contain('ng-invalid')
+          .and.notify(done);
+      });
+
+      it('should accept a valid ripple address', function(done) {
+        input.sendKeys(config.counterparty);
+        expect(input.getAttribute('class'))
+          .to.eventually.not.contain('ng-invalid')
+          .and.notify(done);
+      });
+
+      // TODO should accept a contact name
+      // TODO should accept a ripple name
+
+    });
+
+    describe('amount', function() {
+
+      var input = $('#send_amount');
+
+      beforeEach(function(){
+        input.clear();
+      });
+
+      it('should not accept an invalid amount', function(done) {
+        input.sendKeys('123a');
+        expect(input.getAttribute('class'))
+          .to.eventually.contain('ng-invalid')
+          .and.notify(done);
+      });
+
+      it('should accept a valid amount', function(done) {
+        input.sendKeys('0.000001');
+        expect(input.getAttribute('class'))
+          .to.eventually.not.contain('ng-invalid')
+          .and.notify(done);
+      });
+
+    });
+
+    // TODO test destination tag
+    // TODO test source tag
+
+    describe('send xrp button', function() {
+
+      var input = $('#sendXrpButton');
+
+      it('should be active', function(done) {
+        expect(input.getAttribute('disabled'))
+          .to.eventually.not.equal('disabled')
+          .and.notify(done);
+      });
+
+      it('should take to the confirmation screen', function(done) {
+        input.click();
+        expect($('.mode-confirm').isDisplayed())
+          .to.eventually.be.true
+          .and.notify(done);
+      });
+
+    });
+
+    // TODO test alternate payments (with pathfinding)
+
+    describe('confirm', function() {
+
+      // TODO test the wrong password case
+
+      it('button click should confirm the transaction', function(done) {
+        $('#send_unlock_password').sendKeys(config.password);
+        $('#confirmButton').click();
+
+        ptor.wait(function() {
+          return $('.mode-status').isDisplayed().then(function(result) {
+            return result;
+          });
+        });
+
+        expect($('.mode-status .pending').isDisplayed())
+          .to.eventually.be.true
+          .and.notify(done);
+      });
+
+      it('should succeed', function(done) {
+        ptor.wait(function() {
+          return $('.mode-status .pending').isDisplayed().then(function(result) {
+            return !result;
+          });
+        });
+
+        expect($('.mode-status .result-success').isDisplayed())
+          .to.eventually.be.true
+          .and.notify(done);
+      });
+
+    });
+
+  })
 });
