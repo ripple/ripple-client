@@ -1,5 +1,5 @@
 form(role="form", ng-submit="confirm()")
-  .modal-header(l10n) Unlock wallet
+  .modal-header(l10n) Unlock account
   .modal-body
     .form-group
       label(for="popup_unlock_password", l10n) Password
@@ -7,7 +7,7 @@ form(role="form", ng-submit="confirm()")
         type="password", name="popup_unlock_password"
         ng-model="unlock.password", rp-focus)
     p.help-block(ng-switch on="unlock.purpose")
-      span(ng-switch-when="showSecret", l10n) Please enter your password to show your Secret Key.
+      span(ng-switch-when="showSecret", l10n) Please enter your password to show your secret key.
       span(ng-switch-default, l10n) Please enter your password to confirm this transaction.
     .alert.alert-danger(ng-show="unlock.error == 'password'", l10n) This password is incorrect, please try again.
     p.literal(ng-show="unlock.isConfirming", rp-spinner="4", l10n) Confirming password
