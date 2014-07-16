@@ -23,8 +23,10 @@ ptor.executeScript('store.set("ripple_auth",{' +
   '"id":"' + config.user.keys.id + '",' +
   '"crypt":"' + config.user.keys.crypt + '"' +
   '}, ' +
-  'url: "' + config.user.url + '"});location.reload()'
+  'url: "' + config.user.url + '"})'
 );
+
+ptor.navigate().refresh();
 
 describe('send', function() {
 

@@ -3,7 +3,7 @@
 // Chai is a BDD / TDD assertion library
 var chai = require('chai');
 var chaiAsPromised = require('chai-as-promised');
-var config = require('./e2e/protractor.conf.js').config;
+var config = require('./protractor.conf.js').config;
 
 chai.use(chaiAsPromised);
 var expect = chai.expect;
