@@ -6,9 +6,16 @@ exports.config = {
   },
   baseUrl: 'http://local.rippletrade.com/index_debug.html',
 
-  // Credentials of a funded account
-  username: '',
-  password: '',
+  // Credentials of a funded test account
+  user: {
+    username: '',
+    password: '',
+    url: '',
+    keys: {
+      "id":"",
+      "crypt":""
+    }
+  },
 
   // Ripple address to send xrp to
   counterparty: ''
