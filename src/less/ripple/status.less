@@ -7,9 +7,9 @@
   right: @grid-gutter-width/2;
   width: @statusWidth;
   height: 81px;
-  background-color: #fff;
+  background-color: @white;
   .rounded(5px);
-  border: 1px solid #ccc;
+  border: 1px solid @midgray;
   z-index: 100;
 
   .nav-toggle {
@@ -21,7 +21,7 @@
       display: block;
       margin: 20px 0px;
       cursor: pointer;
-      color: #333;
+      color: @black;
     }
   }
 
@@ -53,7 +53,7 @@
       display: inline-block;
       margin: 12px 0 0 5px;
       cursor: pointer;
-      color: #888;
+      color: @darkgray;
     }
 
     .logout {
@@ -61,13 +61,13 @@
     }
 
     .balances {
-      border-top: 1px solid #DADADA;
+      border-top: 1px solid @midgray;
     }
   }
 
   .balance {
     font: 17px 'OpenSansLight';
-    color: #333;
+    color: @black;
 
     .currency {
       margin-left: 3px;
@@ -78,7 +78,7 @@
   ul.secondary {
     padding: 0;
     list-style-type: none;
-    background-color: #fff;
+    background-color: @white;
     .border-radius(0, 10px, 10px, 0);
     margin: 0 -@grid-gutter-width/2;
 
@@ -90,12 +90,12 @@
     }
 
     li.negative {
-      color: #f00;
+      color: @midred;
     }
 
     // When not expanded we only show the first secondary currency.
     li:first-child {
-      border-left: 1px solid #DADADA;
+      border-left: 1px solid @midgray;
       display: block;
       line-height: 36px;
     }
@@ -113,7 +113,7 @@
       display: block;
       width: 14px;
       border: 7px solid transparent;
-      border-top: 8px solid #888;
+      border-top: 8px solid @darkgray;
       content: "";
     }
   }
@@ -126,7 +126,7 @@
     // Show all secondary currencies
     ul.secondary {
       border-top: none;
-      border: 1px solid #d9d9d9;
+      border: 1px solid @midgray;
       margin: 0 -@grid-gutter-width/2-1 0 -@grid-gutter-width/2;
 
       li {
@@ -139,11 +139,11 @@
 
   .message {
     .rounded(5px);
-    font-size:12px;
+    font-size: 12px;
     padding: 10px;
-    text-align:center;
-    border:1px solid #aaa;
-    background:#ccc;
+    text-align: center;
+    border: 1px solid @midgray;
+    background: @midgray;
     font-family: OpenSansRegular;
 
     .number {
@@ -155,33 +155,33 @@
     }
 
     &.type-success {
-      color: #474;
-      background-color: #cbe0b9;
-      border-color: #9b9;
+      color: @darkgreen;
+      background-color: @lightgreen;
+      border-color: @midgray;
     }
 
     &.type-info {
-      background-color: #d5e0f0;
-      color: #569;
-      border-color: #a5b0bb;
+      background-color: @lightblue;
+      color: @darkblue;
+      border-color: @midgray;
     }
 
     &.type-warning {
-      background-color: #f2edaf;
-      color: #764;
-      border-color: #cba;
+      background-color: @lightyellow;
+      color: @darkyellow;
+      border-color: @midgray;
     }
 
     &.type-error {
-      background-color: #d7a7aa;
-      color: #833;
-      border-color: #a55;
+      background-color: @lightred;
+      color: @midred;
+      border-color: @midgray;
     }
 
     &.type-offline {
-      color: #ddd;
-      background-color: #444;
-      border-color:#111;
+      color: @midgray;
+      background-color: @black;
+      border-color: @midgray;
     }
   }
 }
@@ -194,8 +194,8 @@
 
   .notification {
     z-index: 1000;
-    background: #fff;
-    border: 1px solid #ccc;
+    background: @white;
+    border: 1px solid @midgray;
     border-top: none;
     position: absolute;
     top: 0;
@@ -216,25 +216,25 @@
     }
 
     &.type-success {
-//      background-color: #8DC86A;
+//      background-color: @lightgreen;
     }
 
     &.type-info {
-//      background-color: #7898CA;
+//      background-color: @lightblue;
     }
 
     &.type-warning {
-//      background-color: #F1CE42;
+//      background-color: @lightyellow;
     }
 
     &.type-error {
-//      background-color: #DC4D38;
+//      background-color: @lightred;
     }
 
     &.type-offline {
       font-weight: bold;
-      color: #fff;
-      background-color: #000;
+      color: @white;
+      background-color: @black;
     }
   }
 
