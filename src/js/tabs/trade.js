@@ -217,49 +217,53 @@ TradeTab.prototype.angular = function(module)
         tx.set_flags('Sell');
 
       tx.on('proposed', function (res) {
-        $scope.$apply(function () {
-          setEngineStatus(res, false, type);
 
-          // Remember currency pair and increase usage number
-          var found;
+        // Remember currency pair and increase usage number
+        var found;
+        setEngineStatus(res, false, type);
 
-          for (var i = 0; i < $scope.pairs_all.length; i++) {
-            if ($scope.pairs_all[i].name === $scope.order.currency_pair) {
-              $scope.pairs_all[i].order++;
-              found = true;
-              break;
-            }
+        for (var i = 0; i < $scope.pairs_all.length; i++) {
+          if ($scope.pairs_all[i].name === $scope.order.currency_pair) {
+            $scope.pairs_all[i].order++;
+            found = true;
+            break;
           }
+        }
 
-          if (!found) {
-            $scope.pairs_all.push({
-              "name": $scope.order.currency_pair,
-              "order": 1
-            });
-          }
-        });
+        if (!found) {
+          $scope.pairs_all.push({
+            "name": $scope.order.currency_pair,
+            "order": 1
+          });
+        }
+        
+        if (!$scope.$$phase) {
+          $scope.$apply();
+        }        
       });
 
-      tx.on('success', function(res){
-        $scope.$apply(function () {
-          setEngineStatus(res, true, type);
-
-          order.mode = "done";
-
-          $rpTracker.track('Trade order result', {
-            'Status': 'success',
-            'Currency pair': $scope.order.currency_pair
-          });
+      tx.on('success', function(res) {
+        setEngineStatus(res, true, type);
+        order.mode = "done";
+        
+        if (!$scope.$$phase) {
+          $scope.$apply();
+        }
+        
+        $rpTracker.track('Trade order result', {
+          'Status': 'success',
+          'Currency pair': $scope.order.currency_pair
         });
       });
 
       tx.on('error', function (err) {
-        $scope.$apply(function () {
-          setEngineStatus(err, false, type);
-
-          order.mode = "done";
-        });
-
+        setEngineStatus(err, false, type);
+        order.mode = "done";
+        
+        if (!$scope.$$phase) {
+          $scope.$apply();
+        }
+        
         $rpTracker.track('Trade order result', {
           'Status': 'error',
           'Message': err.engine_result,
