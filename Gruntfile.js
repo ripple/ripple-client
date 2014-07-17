@@ -427,7 +427,8 @@ module.exports = function(grunt) {
       local: {
         options: {
           reporter: 'Spec',
-          browsers: ['Chrome', 'Firefox']
+          browsers: ['Firefox'],
+          baseUrl: 'http://local.rippletrade.com/index_debug.html'
         },
         files: {
           src: 'test/e2e/*.js'
