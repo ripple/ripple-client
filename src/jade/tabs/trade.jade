@@ -414,7 +414,11 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                 a.danger(href="", l10n) Cancel
           .emptyMessage(ng-show="isEmpty(offers)")
             p.literal(l10n="You haven't placed any orders.") You haven&#39;t placed any orders.
-
+      .alert.alert-danger(ng-show="cancelError")
+        span(l10n) Unable to cancel order.    
+        span(l10n)  Error: {{cancelError}}  
+        a.dismiss(href="", ng-click="dismissCancelError()", l10n)  hide
+        
       h3 Orderbook
         small.toggle(ng-click="hideOrderBook = !hideOrderBook") {{hideOrderBook ? "show" : "hide"}}
       .listings.orders(ng-class="{show : !hideOrderBook}")
