@@ -10,7 +10,7 @@ var HistoryTab = function ()
 util.inherits(HistoryTab, Tab);
 
 HistoryTab.prototype.tabName = 'history';
-HistoryTab.prototype.mainMenu = 'history';
+HistoryTab.prototype.mainMenu = 'wallet';
 
 HistoryTab.prototype.generateHtml = function ()
 {
