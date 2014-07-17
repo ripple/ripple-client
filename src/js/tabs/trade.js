@@ -272,9 +272,13 @@ TradeTab.prototype.angular = function(module)
       });
 
       keychain.requestSecret(id.account, id.username, function (err, secret) {
-        // XXX Error handling
-        if (err) return;
-
+        if (err) {
+          
+          //err should equal 'canceled' here, other errors are not passed through 
+          order.mode = 'trade';
+          return;
+        }
+        
         tx.secret(secret);
         tx.submit();
       });
