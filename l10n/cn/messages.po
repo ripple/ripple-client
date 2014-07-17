@@ -15,8 +15,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Ripple Client\n"
-"PO-Revision-Date: 2014-07-02 07:34+0000\n"
-"Last-Translator: sheshiqi <sheshiqi@rebopay.com>\n"
+"PO-Revision-Date: 2014-07-08 00:10+0000\n"
+"Last-Translator: Yuhao Huang <yuhao@ripple.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/ripple-client/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,16 +28,16 @@ msgstr ""
 msgid "Overview"
 msgstr "概况"
 
-#: src/jade/client/index.jade:6 src/jade/client/navbar.jade:116
+#: src/jade/client/index.jade:6 src/jade/client/navbar.jade:117
 #: src/jade/tabs/trust.jade:28
 msgid "Balance"
 msgstr "余额"
 
-#: src/jade/client/index.jade:7 src/jade/client/navbar.jade:118
+#: src/jade/client/index.jade:7 src/jade/client/navbar.jade:119
 msgid "History"
 msgstr "历史"
 
-#: src/jade/client/index.jade:8 src/jade/client/navbar.jade:120
+#: src/jade/client/index.jade:8 src/jade/client/navbar.jade:121
 #: src/jade/tabs/contacts.jade:3
 msgid "Contacts"
 msgstr "联系人"
@@ -52,16 +52,16 @@ msgstr "发送"
 msgid "Exchange"
 msgstr "交易"
 
-#: src/jade/client/index.jade:18 src/jade/client/navbar.jade:127
+#: src/jade/client/index.jade:18 src/jade/client/navbar.jade:128
 msgid "Trade"
 msgstr "交易"
 
-#: src/jade/client/index.jade:19 src/jade/client/navbar.jade:129
+#: src/jade/client/index.jade:19 src/jade/client/navbar.jade:130
 msgid "Convert"
 msgstr "兑换"
 
 #: src/jade/client/index.jade:23 src/jade/client/navbar.jade:19
-#: src/jade/client/navbar.jade:134
+#: src/jade/client/navbar.jade:135
 msgid "Fund"
 msgstr "资金"
 
@@ -69,16 +69,16 @@ msgstr "资金"
 msgid "Advanced"
 msgstr "高级"
 
-#: src/jade/client/index.jade:30 src/jade/client/navbar.jade:107
+#: src/jade/client/index.jade:30 src/jade/client/navbar.jade:108
 msgid "Trust"
 msgstr "信任额度"
 
-#: src/jade/client/index.jade:31 src/jade/client/navbar.jade:108
-#: src/jade/tabs/desktop/register.jade:79 src/jade/tabs/register.jade:154
+#: src/jade/client/index.jade:31 src/jade/client/navbar.jade:109
+#: src/jade/tabs/desktop/register.jade:79 src/jade/tabs/register.jade:159
 msgid "Security"
 msgstr "安全"
 
-#: src/jade/client/index.jade:32 src/jade/client/navbar.jade:109
+#: src/jade/client/index.jade:32 src/jade/client/navbar.jade:110
 #: src/jade/tabs/options.jade:3
 msgid "Options"
 msgstr "选项"
@@ -86,11 +86,11 @@ msgstr "选项"
 #: src/jade/client/index.jade:38 src/jade/client/index.jade:39
 #: src/jade/client/index.jade:40
 msgid "Welcome to {{productName}}"
-msgstr "欢迎来到{{}}"
+msgstr "欢迎来到 {{productName}}"
 
 #: src/jade/client/index.jade:50
 msgid "Version: {{version}}"
-msgstr "版本：{{}}"
+msgstr "版本：{{version}}"
 
 #: src/jade/client/index.jade:54
 msgid "Terms of Service"
@@ -121,7 +121,6 @@ msgid "Unfunded account"
 msgstr "未激活的账户"
 
 #: src/jade/client/navbar.jade:35 src/jade/tabs/account.jade:50
-#: src/jade/tabs/activity.jade:8 src/jade/tabs/activity.jade:125
 #: src/jade/tabs/apps.jade:8 src/jade/tabs/balance.jade:8
 #: src/jade/tabs/exchange.jade:9 src/jade/tabs/fund.jade:73
 #: src/jade/tabs/fund.jade:80 src/jade/tabs/history.jade:189
@@ -132,103 +131,101 @@ msgstr "载入中..."
 
 #: src/jade/client/navbar.jade:36
 msgid "There are no recent notifications."
-msgstr "没有最新的通知"
+msgstr "没有新通知"
 
-#: src/jade/client/navbar.jade:40 src/jade/tabs/activity.jade:44
+#: src/jade/client/navbar.jade:40
 msgid "You sent {{1}} to {{2}}"
 msgstr "你给{{2}}发送了{{1}}"
 
-#: src/jade/client/navbar.jade:46 src/jade/tabs/activity.jade:54
-msgid "{{entry.transaction.counterparty | rpcontactname}} sent you"
-msgstr "{{entry.transaction.counterparty | rpcontactname}} 给你发了"
+#: src/jade/client/navbar.jade:46
+msgid "{{1}} sent you {{2}}"
+msgstr "{{1}} 给你发了 {{2}}"
 
-#: src/jade/client/navbar.jade:51 src/jade/tabs/activity.jade:63
+#: src/jade/client/navbar.jade:52
 msgid "You requested to exchange {{1}} to {{2}}"
 msgstr "你请求把 {{1}} 兑换成 {{2}}"
 
-#: src/jade/client/navbar.jade:59 src/jade/tabs/activity.jade:71
+#: src/jade/client/navbar.jade:60
 msgid "{{entry.transaction.counterparty | rpcontactname}} now trusts you for"
 msgstr "{{entry.transaction.counterparty | rpcontactname}} 对你设置了"
 
-#: src/jade/client/navbar.jade:65 src/jade/tabs/activity.jade:81
+#: src/jade/client/navbar.jade:66
 msgid "You now trust {{1}} for {{2}}."
-msgstr "你现在对 {{1}} 设置了 {{2}} 的信任额度。"
+msgstr "你对 {{1}} 设置了 {{2}} 的信任额度。"
 
-#: src/jade/client/navbar.jade:74 src/jade/tabs/activity.jade:94
+#: src/jade/client/navbar.jade:75
 msgid "You created an order to sell {{1}} for {{2}}"
 msgstr "你建立了卖出 {{1}} 得到 {{2}} 的挂单 "
 
-#: src/jade/client/navbar.jade:78 src/jade/tabs/activity.jade:98
+#: src/jade/client/navbar.jade:79
 msgid "You created an order to buy {{1}} for {{2}}"
 msgstr "你建立了用 {{2}} 买入 {{1}} 的挂单 "
 
-#: src/jade/client/navbar.jade:84 src/jade/tabs/activity.jade:104
+#: src/jade/client/navbar.jade:85
 msgid "You cancelled an order accepting {{1}} for {{2}}"
 msgstr "您取消了以 {{2}} 的价格购入 {{1}} 的挂单"
 
-#: src/jade/client/navbar.jade:91 src/jade/tabs/activity.jade:111
+#: src/jade/client/navbar.jade:92
 msgid "Account details have been changed"
 msgstr "账户细节发生了变化"
 
-#: src/jade/client/navbar.jade:94 src/jade/tabs/activity.jade:114
-#: src/jade/tabs/history.jade:147
+#: src/jade/client/navbar.jade:95 src/jade/tabs/history.jade:147
 msgid "Rippling"
-msgstr "允许同种货币互相置换"
+msgstr "同种货币互相置换"
 
-#: src/jade/client/navbar.jade:96 src/jade/tabs/activity.jade:116
-#: src/jade/tabs/history.jade:149
+#: src/jade/client/navbar.jade:97 src/jade/tabs/history.jade:149
 msgid "Failed transaction"
-msgstr "交易失败"
+msgstr "失败的交易"
 
-#: src/jade/client/navbar.jade:106 src/jade/tabs/su.jade:12
+#: src/jade/client/navbar.jade:107 src/jade/tabs/su.jade:12
 msgid "Account"
 msgstr "账户"
 
-#: src/jade/client/navbar.jade:111
+#: src/jade/client/navbar.jade:112
 msgid "Logout"
 msgstr "注销"
 
-#: src/jade/client/navbar.jade:122
+#: src/jade/client/navbar.jade:123
 msgid "Cash In"
 msgstr "存入现金"
 
-#: src/jade/client/navbar.jade:136 src/jade/tabs/balance.jade:94
+#: src/jade/client/navbar.jade:137 src/jade/tabs/balance.jade:94
 msgid "Withdraw"
 msgstr "取款"
 
-#: src/jade/client/navbar.jade:137
+#: src/jade/client/navbar.jade:138
 msgid "{{1}}{{2}}"
 msgstr "{{1}}{{2}}"
 
-#: src/jade/client/navbar.jade:138
+#: src/jade/client/navbar.jade:139
 msgid ""
 "Your account was successfully recovered and encrypted with the new password "
 "you provided!"
 msgstr "你的账户已成功恢复并且以用你的新密码加密！"
 
-#: src/jade/client/navbar.jade:139
+#: src/jade/client/navbar.jade:140
 msgid "dismiss"
 msgstr "忽略"
 
-#: src/jade/client/navbar.jade:141
+#: src/jade/client/navbar.jade:142
 msgid ""
 "Welcome to Ripple Trade! To activate your account, you'll need at least 20 "
 "XRP."
 msgstr "欢迎来到Ripple Trade！你需要至少20个XRP来激活账户"
 
-#: src/jade/client/navbar.jade:143
+#: src/jade/client/navbar.jade:144
 msgid ""
 "Have another user send XRP to your Ripple name "
 "(~{{userCredentials.username}})"
 msgstr "让另一位用户向你的Ripple名称发送XRP。(~{{userCredentials.username}})"
 
-#: src/jade/client/navbar.jade:144
+#: src/jade/client/navbar.jade:145
 msgid ""
 "Use the bitcoin funding flow. A small amount of your first deposit will be "
 "used to activate your account."
 msgstr "使用比特币的资金流。你的第一次存款的一小部分会被用来激活你的账户。"
 
-#: src/jade/client/navbar.jade:146
+#: src/jade/client/navbar.jade:147
 msgid ""
 "If your account remains unfunded for 30 days, you will no longer be able to "
 "login using your Ripple name (~{{userCredentials.username}}). You'll need to"
@@ -236,7 +233,7 @@ msgid ""
 msgstr "如果你的账户在30天内没有注入资金，你将不能使用你的Ripple名称 (~{{userCredentials.username}})登录。你需要重新注册一个新的Ripple名称。"
 
 #: src/jade/directives/transactionerror.jade:4 src/jade/tabs/exchange.jade:119
-#: src/jade/tabs/send.jade:254
+#: src/jade/tabs/send.jade:256
 msgid "Your transaction has been submitted."
 msgstr "交易信息已经提交。"
 
@@ -245,29 +242,29 @@ msgid "Your account balance will update once the transaction has cleared."
 msgstr "您的账户余额会在交易完成后更新。"
 
 #: src/jade/directives/transactionerror.jade:7 src/jade/tabs/exchange.jade:122
-#: src/jade/tabs/send.jade:257
+#: src/jade/tabs/send.jade:259
 msgid "Transaction cleared!"
 msgstr "交易完成！"
 
 #: src/jade/directives/transactionerror.jade:9 src/jade/tabs/exchange.jade:124
-#: src/jade/tabs/send.jade:259
+#: src/jade/tabs/send.jade:261
 msgid "Transaction partially valid!"
 msgstr "交易仅部分有效！"
 
 #: src/jade/directives/transactionerror.jade:10
-#: src/jade/tabs/exchange.jade:125 src/jade/tabs/send.jade:260
+#: src/jade/tabs/exchange.jade:125 src/jade/tabs/send.jade:262
 msgid "Your transaction could only be partially applied."
-msgstr "你的交易只能部分被成交。"
+msgstr "你的交易只能被部分实现。"
 
 #: src/jade/directives/transactionerror.jade:12
 #: src/jade/directives/transactionerror.jade:23
 #: src/jade/tabs/exchange.jade:131 src/jade/tabs/exchange.jade:136
-#: src/jade/tabs/send.jade:266 src/jade/tabs/send.jade:271
+#: src/jade/tabs/send.jade:268 src/jade/tabs/send.jade:273
 msgid "Transaction malformed!"
 msgstr "无效的交易！"
 
 #: src/jade/directives/transactionerror.jade:14
-#: src/jade/tabs/exchange.jade:133 src/jade/tabs/send.jade:268
+#: src/jade/tabs/exchange.jade:133 src/jade/tabs/send.jade:270
 msgid ""
 "Your transaction is invalid, reason: {{engine_result}} - "
 "{{engine_result_message}}"
@@ -275,14 +272,14 @@ msgstr "您的交易无效，因为：{{engine_result}} - {{engine_result_messag
 
 #: src/jade/directives/transactionerror.jade:19
 msgid "Transaction timed out."
-msgstr "交易超时"
+msgstr "交易超时。"
 
 #: src/jade/directives/transactionerror.jade:21
 msgid "Please try again."
-msgstr "请重试"
+msgstr "请重试。"
 
 #: src/jade/directives/transactionerror.jade:25
-#: src/jade/tabs/exchange.jade:138 src/jade/tabs/send.jade:273
+#: src/jade/tabs/exchange.jade:138 src/jade/tabs/send.jade:275
 msgid ""
 "Destination account requires destination tag to be specified when making "
 "payments."
@@ -293,15 +290,15 @@ msgstr "对方账户要求在支付时输入终端标签以区分款项。"
 #: src/jade/directives/transactionerror.jade:43
 #: src/jade/directives/transactionerror.jade:50
 #: src/jade/tabs/exchange.jade:141 src/jade/tabs/exchange.jade:150
-#: src/jade/tabs/exchange.jade:157 src/jade/tabs/send.jade:276
-#: src/jade/tabs/send.jade:282 src/jade/tabs/send.jade:291
+#: src/jade/tabs/exchange.jade:157 src/jade/tabs/send.jade:278
+#: src/jade/tabs/send.jade:284 src/jade/tabs/send.jade:293
 #: src/jade/tabs/trade.jade:254 src/jade/tabs/trade.jade:268
 #: src/jade/tabs/trust.jade:180
 msgid "Transaction failed!"
 msgstr "交易失败！"
 
 #: src/jade/directives/transactionerror.jade:30
-#: src/jade/tabs/exchange.jade:159 src/jade/tabs/send.jade:278
+#: src/jade/tabs/exchange.jade:159 src/jade/tabs/send.jade:280
 #: src/jade/tabs/trade.jade:270 src/jade/tabs/trust.jade:182
 msgid ""
 "The particular server you sent the transaction to was too busy to forward or"
@@ -309,23 +306,23 @@ msgid ""
 msgstr "该交易提交到的服务器太忙了，不能处理或者转发你提交的交易。"
 
 #: src/jade/directives/transactionerror.jade:36
-#: src/jade/tabs/exchange.jade:143 src/jade/tabs/send.jade:284
+#: src/jade/tabs/exchange.jade:143 src/jade/tabs/send.jade:286
 msgid "The destination account does not exist."
 msgstr "对方地址不存在。"
 
 #: src/jade/directives/transactionerror.jade:38
-#: src/jade/tabs/exchange.jade:145 src/jade/tabs/send.jade:286
+#: src/jade/tabs/exchange.jade:145 src/jade/tabs/send.jade:288
 msgid ""
 "The destination account does not exist. Too little XRP sent to create it."
 msgstr "目标账户不存在。发送的XRP数量未达到激活账户的条件。"
 
 #: src/jade/directives/transactionerror.jade:40
-#: src/jade/tabs/exchange.jade:147 src/jade/tabs/send.jade:288
+#: src/jade/tabs/exchange.jade:147 src/jade/tabs/send.jade:290
 msgid "Error: {{engine_result_message}}"
 msgstr "错误: {{engine_result_message}}"
 
 #: src/jade/directives/transactionerror.jade:45
-#: src/jade/tabs/exchange.jade:152 src/jade/tabs/send.jade:293
+#: src/jade/tabs/exchange.jade:152 src/jade/tabs/send.jade:295
 #: src/jade/tabs/trust.jade:172
 msgid "You have no trust line in this currency."
 msgstr "你没有这种货币的信任线。"
@@ -381,7 +378,7 @@ msgstr "密码"
 msgid "Please enter your password to show your Secret Key."
 msgstr "请输入密码以显示秘钥"
 
-#: src/jade/popup/unlock.jade:9 src/jade/tabs/send.jade:183
+#: src/jade/popup/unlock.jade:9 src/jade/tabs/send.jade:185
 msgid "Please enter your password to confirm this transaction."
 msgstr "请输入密码以确认交易"
 
@@ -403,7 +400,7 @@ msgstr "提交"
 
 #: src/jade/tabs/account.jade:5
 msgid "Your Ripple Name has been changed successfully."
-msgstr "你的Ripple名称变更成功。"
+msgstr "你成功地改变了你的 Ripple 名称。"
 
 #: src/jade/tabs/account.jade:15
 msgid "New Ripple Name"
@@ -411,7 +408,7 @@ msgstr "新的Ripple名称"
 
 #: src/jade/tabs/account.jade:24 src/jade/tabs/register.jade:25
 msgid "Already taken!"
-msgstr "已经被使用！"
+msgstr "已被占用！"
 
 #: src/jade/tabs/account.jade:25 src/jade/tabs/register.jade:26
 msgid "Reserved for {{usernameReservedFor}}{{1}}{{2}}"
@@ -427,7 +424,7 @@ msgstr "最多可以使用20个字符"
 
 #: src/jade/tabs/account.jade:30 src/jade/tabs/register.jade:31
 msgid "Only a-z, 0-9 and hyphen (-)"
-msgstr "只能使用a-z, 0-9以及连字符(-)"
+msgstr "只能使用 a-z, 0-9 以及连字符(-)"
 
 #: src/jade/tabs/account.jade:31 src/jade/tabs/register.jade:32
 msgid "Cannot start with hyphen (-)"
@@ -465,62 +462,23 @@ msgstr "不能变更你的Ripple名称，请稍后重试"
 
 #: src/jade/tabs/account.jade:49
 msgid "Submit name change"
-msgstr "提交名称变更"
+msgstr "提交更名请求"
 
-#: src/jade/tabs/activity.jade:5 src/jade/tabs/apps.jade:5
-#: src/jade/tabs/balance.jade:5 src/jade/tabs/exchange.jade:6
-#: src/jade/tabs/fund.jade:6 src/jade/tabs/history.jade:6
-#: src/jade/tabs/send.jade:6 src/jade/tabs/su.jade:5
-#: src/jade/tabs/trade.jade:6 src/jade/tabs/trust.jade:6
-#: src/jade/tabs/withdraw.jade:6
+#: src/jade/tabs/apps.jade:5 src/jade/tabs/balance.jade:5
+#: src/jade/tabs/exchange.jade:6 src/jade/tabs/fund.jade:6
+#: src/jade/tabs/history.jade:6 src/jade/tabs/send.jade:6
+#: src/jade/tabs/su.jade:5 src/jade/tabs/trade.jade:6
+#: src/jade/tabs/trust.jade:6 src/jade/tabs/withdraw.jade:6
 msgid "You have to be online to see this screen"
 msgstr "要看到这一界面，你必须在线"
 
-#: src/jade/tabs/activity.jade:14
-msgid "Welcome to Ripple."
-msgstr "欢迎来到 Ripple."
-
-#: src/jade/tabs/activity.jade:15
-msgid ""
-"You currently don&#39;t have any ripples (XRP). To get started you can:"
-msgstr "目前你没有任何 XRP. 要开始使用你可以："
-
-#: src/jade/tabs/activity.jade:34
-msgid "Activity"
-msgstr "动态"
-
-#: src/jade/tabs/activity.jade:37 src/jade/tabs/history.jade:77
-msgid "Date"
-msgstr "日期"
-
-#: src/jade/tabs/activity.jade:38
-msgid "Event"
-msgstr "事件"
-
-#: src/jade/tabs/activity.jade:49 src/jade/tabs/activity.jade:58
-#: src/jade/tabs/activity.jade:76 src/jade/tabs/activity.jade:89
-msgid "Add to contacts"
-msgstr "添加到联系人列表"
-
-#: src/jade/tabs/activity.jade:124 src/jade/tabs/history.jade:191
-msgid "Load more"
-msgstr "载入更多"
-
-#: src/jade/tabs/activity.jade:126
-msgid "Error"
-msgstr "错误"
-
-#: src/jade/tabs/activity.jade:127
-msgid "No past transactions found"
-msgstr "没有找到历史转账和交易记录"
-
 #: src/jade/tabs/apps.jade:29
 msgid "Please enter a ripple address."
-msgstr "请输入ripple钱包地址"
+msgstr "请输入 Ripple 钱包地址"
 
 #: src/jade/tabs/apps.jade:31
 msgid "Please enter a valid ripple address."
-msgstr "请输入合法的ripple钱包地址"
+msgstr "请输入有效的ripple钱包地址"
 
 #: src/jade/tabs/balance.jade:44
 msgid "Available"
@@ -528,11 +486,11 @@ msgstr "现有"
 
 #: src/jade/tabs/balance.jade:51
 msgid "Reserve"
-msgstr "保证金"
+msgstr "冻结额度"
 
 #: src/jade/tabs/balance.jade:69
 msgid "Unverified"
-msgstr "未确认的"
+msgstr "未经验证"
 
 #: src/jade/tabs/balance.jade:76
 msgid "Enter bitcoin address."
@@ -544,7 +502,7 @@ msgstr "请输入取款金额"
 
 #: src/jade/tabs/balance.jade:84 src/jade/tabs/balance.jade:86
 msgid "Enter a valid bitcoin address"
-msgstr "请输入合法的比特币地址"
+msgstr "请输入有效的比特币地址"
 
 #: src/jade/tabs/balance.jade:90
 msgid "Enter a valid amount"
@@ -555,12 +513,12 @@ msgid "You are sending {{1}} BTC to:"
 msgstr "你正在把{{1}}比特币发送给："
 
 #: src/jade/tabs/balance.jade:103 src/jade/tabs/balance.jade:118
-#: src/jade/tabs/register.jade:87 src/jade/tabs/register.jade:93
+#: src/jade/tabs/register.jade:92 src/jade/tabs/register.jade:98
 msgid "Back"
 msgstr "返回"
 
 #: src/jade/tabs/balance.jade:106 src/jade/tabs/exchange.jade:90
-#: src/jade/tabs/fund.jade:74 src/jade/tabs/send.jade:193
+#: src/jade/tabs/fund.jade:74 src/jade/tabs/send.jade:195
 #: src/jade/tabs/trade.jade:50 src/jade/tabs/trade.jade:60
 #: src/jade/tabs/trade.jade:232 src/jade/tabs/trust.jade:136
 msgid "Confirm"
@@ -588,7 +546,7 @@ msgstr "消息"
 
 #: src/jade/tabs/contacts.jade:4 src/jade/tabs/contacts.jade:23
 msgid "Ripple name or address"
-msgstr "Ripple钱包名称或地址"
+msgstr "Ripple 名称或地址"
 
 #: src/jade/tabs/contacts.jade:5 src/jade/tabs/contacts.jade:31
 #: src/jade/tabs/desktop/register.jade:88
@@ -614,7 +572,7 @@ msgstr "该联系人已存在"
 
 #: src/jade/tabs/contacts.jade:27
 msgid "Please enter a Ripple name."
-msgstr "请输入一个Ripple名称"
+msgstr "请输入一个 Ripple 名称"
 
 #: src/jade/tabs/contacts.jade:28
 msgid "You already have a contact with the same Ripple name."
@@ -626,7 +584,7 @@ msgstr "Ripple名称或地址不合法"
 
 #: src/jade/tabs/contacts.jade:35
 msgid "Please enter a Ripple address."
-msgstr "请输入一个Ripple地址"
+msgstr "请输入一个 Ripple 地址"
 
 #: src/jade/tabs/contacts.jade:36
 msgid "You already have a contact with the same Ripple address."
@@ -634,7 +592,7 @@ msgstr "您已有一个拥有相同Ripple地址的联系人。"
 
 #: src/jade/tabs/contacts.jade:37
 msgid "Not a valid Ripple address."
-msgstr "Ripple地址无效"
+msgstr "该 Ripple 地址无效"
 
 #: src/jade/tabs/contacts.jade:39 src/jade/tabs/contacts.jade:65
 #: src/jade/tabs/send.jade:47
@@ -647,13 +605,13 @@ msgstr "无效的终端标签"
 
 #: src/jade/tabs/contacts.jade:45 src/jade/tabs/contacts.jade:83
 #: src/jade/tabs/desktop/register.jade:67 src/jade/tabs/fund.jade:75
-#: src/jade/tabs/send.jade:242 src/jade/tabs/send.jade:313
+#: src/jade/tabs/send.jade:244 src/jade/tabs/send.jade:315
 #: src/jade/tabs/trade.jade:312 src/jade/tabs/trust.jade:88
 msgid "Cancel"
 msgstr "取消"
 
-#: src/jade/tabs/contacts.jade:54 src/jade/tabs/send.jade:236
-#: src/jade/tabs/send.jade:307 src/jade/tabs/trust.jade:194
+#: src/jade/tabs/contacts.jade:54 src/jade/tabs/send.jade:238
+#: src/jade/tabs/send.jade:309 src/jade/tabs/trust.jade:194
 msgid "You already have a contact with the same name."
 msgstr "已有同名联系人。"
 
@@ -674,8 +632,8 @@ msgstr "无效的终端标签"
 msgid "Delete"
 msgstr "删除"
 
-#: src/jade/tabs/contacts.jade:74 src/jade/tabs/options.jade:47
-#: src/jade/tabs/send.jade:241 src/jade/tabs/send.jade:312
+#: src/jade/tabs/contacts.jade:74 src/jade/tabs/options.jade:46
+#: src/jade/tabs/send.jade:243 src/jade/tabs/send.jade:314
 #: src/jade/tabs/trust.jade:90 src/jade/tabs/trust.jade:199
 msgid "Save"
 msgstr "保存"
@@ -688,7 +646,7 @@ msgstr "编辑"
 msgid ""
 "You don't have any contacts yet.Click on \"Add contact\" button in the top "
 "right corner to add a new contact."
-msgstr "您目前还没有任何联系人。请点击 “添加联系人” 按钮来增加一个新的联系人。"
+msgstr "您目前还没有任何联系人。请点击 “添加联系人” 按钮来添加一个新的联系人。"
 
 #: src/jade/tabs/desktop/login.jade:3
 msgid ""
@@ -711,7 +669,7 @@ msgstr "创建新账户"
 
 #: src/jade/tabs/desktop/login.jade:18
 msgid "Select account file {{walletfile}}"
-msgstr "选择账户文件{{}}"
+msgstr "选择账户文件{{walletfile}}"
 
 #: src/jade/tabs/desktop/login.jade:21
 msgid "Select account file"
@@ -739,7 +697,7 @@ msgstr "创建一个空账户"
 
 #: src/jade/tabs/desktop/register.jade:20
 msgid "Encrypt your new account file: {{walletfile}}"
-msgstr "加密你的账户文件：{{}}"
+msgstr "加密你的新账户文件：{{walletfile}}"
 
 #: src/jade/tabs/desktop/register.jade:24
 msgid "Wallet file"
@@ -749,15 +707,15 @@ msgstr "钱包文件"
 msgid ""
 "Your password is weak. It is not a mix of letters, numbers and symbols or it"
 " is the same as your Ripple name."
-msgstr "你的密码安全性太低。请在密码中混入字母、数字和符号，并且不能与Ripple名称相同。"
+msgstr "你的密码安全性太低。请在密码中混入字母、数字和符号，并且不能与 Ripple 名称相同。"
 
-#: src/jade/tabs/desktop/register.jade:33 src/jade/tabs/recover.jade:38
-#: src/jade/tabs/register.jade:42
+#: src/jade/tabs/desktop/register.jade:33 src/jade/tabs/recover.jade:40
+#: src/jade/tabs/register.jade:44
 msgid "Confirm password"
 msgstr "确认密码"
 
-#: src/jade/tabs/desktop/register.jade:36 src/jade/tabs/recover.jade:41
-#: src/jade/tabs/register.jade:45
+#: src/jade/tabs/desktop/register.jade:36 src/jade/tabs/recover.jade:43
+#: src/jade/tabs/register.jade:47
 msgid "Passwords do not match"
 msgstr "两次输入的密码不一致"
 
@@ -771,7 +729,7 @@ msgstr "取消并删除账户文件"
 
 #: src/jade/tabs/desktop/register.jade:50
 msgid "Create account with secret key"
-msgstr "通过秘钥创建帐户"
+msgstr "用秘钥创建帐户"
 
 #: src/jade/tabs/desktop/register.jade:55
 msgid "Enter your secret key"
@@ -779,15 +737,14 @@ msgstr "请输入秘钥"
 
 #: src/jade/tabs/desktop/register.jade:62
 msgid "Secret is invalid"
-msgstr "秘钥不合法"
+msgstr "秘钥无效"
 
 #: src/jade/tabs/desktop/register.jade:70 src/jade/tabs/login.jade:5
-#: src/jade/tabs/login.jade:22 src/jade/tabs/recover.jade:50
-#: src/jade/tabs/register.jade:78
+#: src/jade/tabs/login.jade:22 src/jade/tabs/register.jade:83
 msgid "Log In"
 msgstr "登录"
 
-#: src/jade/tabs/desktop/register.jade:75 src/jade/tabs/register.jade:150
+#: src/jade/tabs/desktop/register.jade:75 src/jade/tabs/register.jade:155
 msgid "Important:"
 msgstr "重要信息："
 
@@ -801,14 +758,14 @@ msgstr "下方的秘钥让你可以在丢失密码的小概率事件中拿回你
 
 #: src/jade/tabs/desktop/register.jade:81
 msgid "Passphrase:{{1}}{{2}}{{3}}{{4}}"
-msgstr "通行码：{{1}}{{2}}{{3}}{{4}}"
+msgstr "密码：{{1}}{{2}}{{3}}{{4}}"
 
-#: src/jade/tabs/desktop/register.jade:85 src/jade/tabs/register.jade:162
+#: src/jade/tabs/desktop/register.jade:85 src/jade/tabs/register.jade:167
 #: src/jade/tabs/security.jade:36
 msgid "Show"
 msgstr "显示"
 
-#: src/jade/tabs/desktop/register.jade:86 src/jade/tabs/register.jade:163
+#: src/jade/tabs/desktop/register.jade:86 src/jade/tabs/register.jade:168
 #: src/jade/tabs/security.jade:37
 msgid "Hide"
 msgstr "隐藏"
@@ -817,21 +774,21 @@ msgstr "隐藏"
 msgid "Secret key:"
 msgstr "密钥："
 
-#: src/jade/tabs/desktop/register.jade:95 src/jade/tabs/register.jade:118
-#: src/jade/tabs/register.jade:172
+#: src/jade/tabs/desktop/register.jade:95 src/jade/tabs/register.jade:123
+#: src/jade/tabs/register.jade:177
 msgid "Show secret key"
 msgstr "显示密钥"
 
-#: src/jade/tabs/desktop/register.jade:97 src/jade/tabs/register.jade:119
-#: src/jade/tabs/register.jade:174
+#: src/jade/tabs/desktop/register.jade:97 src/jade/tabs/register.jade:124
+#: src/jade/tabs/register.jade:179
 msgid "Hide secret key"
 msgstr "隐藏密钥"
 
-#: src/jade/tabs/desktop/register.jade:98 src/jade/tabs/register.jade:175
+#: src/jade/tabs/desktop/register.jade:98 src/jade/tabs/register.jade:180
 msgid "Have you saved your secret key somewhere safe?"
 msgstr "你把密钥保存在安全的地方了吗？"
 
-#: src/jade/tabs/desktop/register.jade:101 src/jade/tabs/register.jade:178
+#: src/jade/tabs/desktop/register.jade:101 src/jade/tabs/register.jade:183
 msgid "Yes, I saved my secret key"
 msgstr "嗯，我把密钥保存好了"
 
@@ -840,8 +797,8 @@ msgid "You have to be funded before you can exchange money"
 msgstr "在交易之前必须先激活"
 
 #: src/jade/tabs/exchange.jade:13 src/jade/tabs/exchange.jade:167
-#: src/jade/tabs/send.jade:12 src/jade/tabs/send.jade:247
-#: src/jade/tabs/send.jade:318 src/jade/tabs/trust.jade:17
+#: src/jade/tabs/send.jade:12 src/jade/tabs/send.jade:249
+#: src/jade/tabs/send.jade:320 src/jade/tabs/trust.jade:17
 #: src/jade/tabs/trust.jade:150
 msgid "Back to balance"
 msgstr "返回到余额界面"
@@ -877,7 +834,7 @@ msgid ""
 "Sorry! Cannot exchange {{exchange.amount}} {{exchange.currency_name}}. "
 "Please make sure your account has enough funds, and a {{1}} to a "
 "{{exchange.currency_name}} gateway."
-msgstr "抱歉！不能兑换{{exchange.amount}}{{exchange.currency_name}}。请确认你的账户中有足够的愈合，并写有一个跟{{exchange.currency_name}}网关的{{1}}"
+msgstr "抱歉！不能兑换{{exchange.amount}}{{exchange.currency_name}}。请确认你的账户中有足够的余额，并写有一个跟{{exchange.currency_name}}网关的{{1}}"
 
 #: src/jade/tabs/exchange.jade:39
 msgid ""
@@ -895,7 +852,7 @@ msgstr "交易 {{ alt.amount | rpcurrency }}"
 
 #: src/jade/tabs/exchange.jade:57 src/jade/tabs/send.jade:151
 msgid "Paths last updated {{1}} {{2: seconds}} {{3: second}} ago"
-msgstr "路径上次更新{{1}}{{2:seconds}}{{3:second}}之前"
+msgstr "路径于{{1}}{{2:seconds}}{{3:second}}之前更新"
 
 #: src/jade/tabs/exchange.jade:66
 msgid "Ripple is calculating a path for your conversion."
@@ -908,21 +865,21 @@ msgid ""
 msgstr "{{1:你将把}} {{2}}{{3:交易成}}{{4}}{{5:你最多将花费}}{{6}}{{7:你确定吗？}}"
 
 #: src/jade/tabs/exchange.jade:88 src/jade/tabs/exchange.jade:113
-#: src/jade/tabs/send.jade:190 src/jade/tabs/send.jade:221
+#: src/jade/tabs/send.jade:192 src/jade/tabs/send.jade:223
 #: src/jade/tabs/trade.jade:230 src/jade/tabs/trust.jade:134
 #: src/jade/tabs/trust.jade:154
 msgid "&laquo; Back"
 msgstr "&laquo; 返回"
 
-#: src/jade/tabs/exchange.jade:95 src/jade/tabs/send.jade:198
+#: src/jade/tabs/exchange.jade:95 src/jade/tabs/send.jade:200
 msgid "Sending transaction to Ripple network"
 msgstr "正在把交易提交到 Ripple 网络"
 
-#: src/jade/tabs/exchange.jade:103 src/jade/tabs/send.jade:209
+#: src/jade/tabs/exchange.jade:103 src/jade/tabs/send.jade:211
 msgid "No Path"
 msgstr "没有路径"
 
-#: src/jade/tabs/exchange.jade:104 src/jade/tabs/send.jade:210
+#: src/jade/tabs/exchange.jade:104 src/jade/tabs/send.jade:212
 msgid ""
 "Ripple was unable to find a path between you and the destination account."
 msgstr "Ripple 找不到你和目标账户之间的路径"
@@ -939,21 +896,21 @@ msgid ""
 "executed already."
 msgstr "再次尝试之前，请确保该交易未被执行。"
 
-#: src/jade/tabs/exchange.jade:120 src/jade/tabs/send.jade:255
+#: src/jade/tabs/exchange.jade:120 src/jade/tabs/send.jade:257
 msgid "Your account balance will update once the payment has cleared."
 msgstr "您的账户余额会在支付完成后即时更新。"
 
-#: src/jade/tabs/exchange.jade:127 src/jade/tabs/send.jade:262
+#: src/jade/tabs/exchange.jade:127 src/jade/tabs/send.jade:264
 msgid "Transaction could not be submitted!"
 msgstr "不能提交该交易！"
 
-#: src/jade/tabs/exchange.jade:128 src/jade/tabs/send.jade:263
+#: src/jade/tabs/exchange.jade:128
 msgid ""
-"We were unable to submit the transaction to the server.Please try again "
+"We were unable to submit the transaction to the server. Please try again "
 "later."
 msgstr "抱歉！暂时未能将交易提交到服务器。请稍后再试。"
 
-#: src/jade/tabs/exchange.jade:154 src/jade/tabs/send.jade:295
+#: src/jade/tabs/exchange.jade:154 src/jade/tabs/send.jade:297
 msgid "Your transaction failed to clear, reason: {{engine_result_message}}"
 msgstr "转账未被网络通过，原因：{{engine_result_message}}"
 
@@ -991,13 +948,13 @@ msgstr "Ripple 地址{{1}}"
 
 #: src/jade/tabs/fund.jade:34
 msgid "Bitcoin Deposit"
-msgstr "比特币存款"
+msgstr "存入比特币"
 
 #: src/jade/tabs/fund.jade:42
 msgid ""
 "A small amount (~.001 BTC) of your first transfer will be converted to XRP "
 "to activate your wallet. {{1:Why?}}"
-msgstr "你第一笔汇款中的一小部分 (~.001 BTC)会被转换成XRP来激活你的钱包。{{1:Why?}}"
+msgstr "你第一笔汇款中的一小部分（约 0.001 BTC）会被转换成XRP来激活你的钱包。{{1: 为什么？}}"
 
 #: src/jade/tabs/fund.jade:46
 msgid "Your current deposit limit is:"
@@ -1023,7 +980,7 @@ msgstr "连接"
 
 #: src/jade/tabs/fund.jade:64
 msgid "btc2ripple would like to:"
-msgstr "btc2ripple想要："
+msgstr "btc2ripple 想要："
 
 #: src/jade/tabs/fund.jade:66
 msgid "- Receive your email address {{1}}"
@@ -1057,7 +1014,7 @@ msgstr "您的账户暂无历史记录"
 
 #: src/jade/tabs/history.jade:21
 msgid "Filters"
-msgstr "过滤"
+msgstr "过滤条件"
 
 #: src/jade/tabs/history.jade:23
 msgid "Transaction type{{1}}{{2}}"
@@ -1095,6 +1052,10 @@ msgstr "最低金额{{1}}{{2}}"
 msgid "Transaction History"
 msgstr "交易历史"
 
+#: src/jade/tabs/history.jade:77
+msgid "Date"
+msgstr "日期"
+
 #: src/jade/tabs/history.jade:78 src/jade/tabs/history.jade:170
 msgid "Description"
 msgstr "描述"
@@ -1121,7 +1082,7 @@ msgstr "{{1}}对你设置了{{2}}的信任额度"
 
 #: src/jade/tabs/history.jade:122
 msgid "You now trust{{1}}for{{2}}"
-msgstr "你现在对{{1}}设置了{{2}}的信任额度"
+msgstr "你对{{1}}设置了{{2}}的信任额度"
 
 #: src/jade/tabs/history.jade:128 src/jade/tabs/history/effects.jade:45
 msgid "You created an order to sell{{1}}for{{2}}"
@@ -1137,7 +1098,7 @@ msgstr "你取消了以{{2}}的价格购入{{1}} 的挂单"
 
 #: src/jade/tabs/history.jade:144
 msgid "Account details have been Changed"
-msgstr "账户资料修改完成"
+msgstr "账户资料已修改"
 
 #: src/jade/tabs/history.jade:154
 msgid "{{entry.details.app.name}} sent you{{1}}and activated your account!"
@@ -1183,6 +1144,10 @@ msgstr "交易详情"
 #: src/jade/tabs/history.jade:184
 msgid "Add {{1}} to contact list"
 msgstr "把 {{1}} 加为联系人"
+
+#: src/jade/tabs/history.jade:191
+msgid "Load more"
+msgstr "载入更多"
 
 #: src/jade/tabs/history.jade:192
 msgid "No more transactions left"
@@ -1245,7 +1210,7 @@ msgid "Your balance has been changed by{{1}}."
 msgstr "你的余额变化了{{1}}。"
 
 #: src/jade/tabs/login.jade:6 src/jade/tabs/register.jade:6
-#: src/jade/tabs/register.jade:98 src/jade/tabs/register.jade:127
+#: src/jade/tabs/register.jade:103 src/jade/tabs/register.jade:132
 msgid "Migrate"
 msgstr "转移"
 
@@ -1257,11 +1222,11 @@ msgstr "请输入用户名和密码来加密你的ripple.com/client钱包以开�
 
 #: src/jade/tabs/login.jade:10
 msgid "Verifying..."
-msgstr "正在验证..."
+msgstr "验证中..."
 
 #: src/jade/tabs/login.jade:11
 msgid "You have successfully verified your email address."
-msgstr "你已经成功验证了电子邮箱地址。"
+msgstr "你的电子邮箱地址已经通过验证。"
 
 #: src/jade/tabs/login.jade:12
 msgid "Something went wrong, please try again."
@@ -1274,15 +1239,15 @@ msgstr "开始转移"
 #: src/jade/tabs/login.jade:29 src/jade/tabs/login.jade:30
 #: src/jade/tabs/recover.jade:5
 msgid "Account Recovery"
-msgstr "账户恢复"
+msgstr "找回账户"
 
-#: src/jade/tabs/login.jade:31
+#: src/jade/tabs/login.jade:31 src/jade/tabs/register.jade:80
 msgid "Already have a ripple.com/client account? {{1:Migrate}}"
-msgstr "已经拥有一个ripple.com/client账户？{{1:Migrate}}"
+msgstr "已经拥有一个ripple.com/client账户？{{1:转移}}"
 
 #: src/jade/tabs/login.jade:33
 msgid "New to {{productName}}? {{1:Sign Up}}"
-msgstr "第一次登录{{}}？{{1:注册}}"
+msgstr "第一次登录{{productName}}？{{1:注册}}"
 
 #: src/jade/tabs/login.jade:40
 msgid "you will send"
@@ -1308,13 +1273,9 @@ msgstr "到 Ripple 地址"
 msgid "To {{1}} with a ripple address"
 msgstr "用Ripple地址给{{1}}"
 
-#: src/jade/tabs/login.jade:61
-msgid "you will add the user"
-msgstr "您将会添加用户"
-
-#: src/jade/tabs/login.jade:63
-msgid "To your ripple contacts"
-msgstr "到您的ripple通讯录"
+#: src/jade/tabs/login.jade:60
+msgid "{{1:you will add the user}}{{2}}{{3:To your ripple contacts}}"
+msgstr "{{1: 你将把用户}}{{2}}{{3: 添加到你的 Ripple 联系人中}}"
 
 #: src/jade/tabs/login.jade:78
 msgid "You can confirm this transaction on the next page."
@@ -1322,7 +1283,7 @@ msgstr "你可以在下一界面确认这个交易"
 
 #: src/jade/tabs/login.jade:79
 msgid "New to {{productName}}? {{1:Create a wallet}}"
-msgstr "第一次来到{{}}？{{1:创建一个钱包}}"
+msgstr "第一次来到{{productName}}？{{1:创建一个钱包}}"
 
 #: src/jade/tabs/login/form.jade:2
 msgid "Ripple name"
@@ -1376,6 +1337,14 @@ msgstr "二进制数据存储处 (Blob vault)"
 msgid "Blob vault URL"
 msgstr "二进制数据存储处 (Blob vault) 的网址"
 
+#: src/jade/tabs/options.jade:48
+msgid "Password Protection"
+msgstr "密码保护"
+
+#: src/jade/tabs/options.jade:53
+msgid "Require password for transactions"
+msgstr "交易时要求输入密码"
+
 #: src/jade/tabs/recover.jade:7
 msgid ""
 "You can only recover your Ripple Trade account with a secret key. You will "
@@ -1398,7 +1367,7 @@ msgstr "无法恢复账户"
 msgid "Recover Account"
 msgstr "恢复账户"
 
-#: src/jade/tabs/recover.jade:24 src/jade/tabs/recover.jade:48
+#: src/jade/tabs/recover.jade:24 src/jade/tabs/recover.jade:50
 msgid "Set Password"
 msgstr "设置密码"
 
@@ -1414,33 +1383,38 @@ msgid ""
 "short."
 msgstr "你的密码安全性太低。它没有包含字母、数字和符号，或者过短。"
 
-#: src/jade/tabs/recover.jade:43
+#: src/jade/tabs/recover.jade:38 src/jade/tabs/register.jade:42
+msgid ""
+"Your Ripple name and password cannot match. Please create a new password."
+msgstr "你的 Ripple 名字和密码不符。请创建新密码。"
+
+#: src/jade/tabs/recover.jade:45
 msgid "Unable to change your account password."
 msgstr "无法更改你的账户密码"
 
-#: src/jade/tabs/recover.jade:47
+#: src/jade/tabs/recover.jade:49
 msgid "Updating..."
 msgstr "正在更新..."
 
-#: src/jade/tabs/recover.jade:49
-msgid "Remember your password? {{1}}"
-msgstr "记住你的密码？{{1}}"
+#: src/jade/tabs/recover.jade:51
+msgid "Remember your password? {{1:Log In}}"
+msgstr "能想起来你的密码吗？{{1: 登录}}"
 
-#: src/jade/tabs/register.jade:5 src/jade/tabs/register.jade:75
-#: src/jade/tabs/register.jade:97 src/jade/tabs/register.jade:126
+#: src/jade/tabs/register.jade:5 src/jade/tabs/register.jade:77
+#: src/jade/tabs/register.jade:102 src/jade/tabs/register.jade:131
 msgid "Sign Up"
 msgstr "注册"
 
 #: src/jade/tabs/register.jade:8 src/jade/tabs/register.jade:10
-#: src/jade/tabs/register.jade:12 src/jade/tabs/register.jade:102
-#: src/jade/tabs/register.jade:104 src/jade/tabs/register.jade:129
-#: src/jade/tabs/register.jade:131 src/jade/tabs/register.jade:133
+#: src/jade/tabs/register.jade:12 src/jade/tabs/register.jade:107
+#: src/jade/tabs/register.jade:109 src/jade/tabs/register.jade:134
+#: src/jade/tabs/register.jade:136 src/jade/tabs/register.jade:138
 msgid "Step {{1}}"
 msgstr "步骤 {{1}}"
 
 #: src/jade/tabs/register.jade:15
 msgid "Create Ripple name"
-msgstr "创建Ripple名称"
+msgstr "创建 Ripple 名称"
 
 #: src/jade/tabs/register.jade:16
 msgid ""
@@ -1452,96 +1426,96 @@ msgstr "如果你的用户名可行，你可以使用它。如果不行，请选
 msgid "{{1}}"
 msgstr "{{1}}"
 
-#: src/jade/tabs/register.jade:53
-msgid "Email address is invalid"
-msgstr "邮箱地址不合法"
-
 #: src/jade/tabs/register.jade:55
+msgid "Email address is invalid"
+msgstr "邮箱地址无效"
+
+#: src/jade/tabs/register.jade:57
 msgid "Secret Account Key"
 msgstr "账户密钥"
 
-#: src/jade/tabs/register.jade:56
+#: src/jade/tabs/register.jade:58
 msgid "hide"
 msgstr "隐藏"
 
-#: src/jade/tabs/register.jade:59
+#: src/jade/tabs/register.jade:61
 msgid "Secret Account Key is invalid"
-msgstr "账户秘钥不合法"
+msgstr "无效的密钥"
 
-#: src/jade/tabs/register.jade:60
+#: src/jade/tabs/register.jade:62
 msgid "Need to use your Secret Key? {{1}}"
 msgstr "需要用密钥吗？{{1}}"
 
-#: src/jade/tabs/register.jade:62
+#: src/jade/tabs/register.jade:64
 msgid "Use Key"
 msgstr "使用密钥"
 
-#: src/jade/tabs/register.jade:65
+#: src/jade/tabs/register.jade:67
 msgid "I agree to the {{productName}} {{1:end-user license agreement}}"
-msgstr "我同意{{}}的{{1:用户证书协议}}"
+msgstr "我同意{{productName}}的{{1:最终用户许可协议}}"
 
-#: src/jade/tabs/register.jade:68
+#: src/jade/tabs/register.jade:70
 msgid ""
 "Please see our {{1}} to see how we collect, use and share information about "
 "you"
 msgstr "请参见我们的{{1}}以了解我们如何收集、使用、分享关于你的信息"
 
-#: src/jade/tabs/register.jade:76
+#: src/jade/tabs/register.jade:78
 msgid "Migrate Account"
 msgstr "转移账户"
 
-#: src/jade/tabs/register.jade:82
+#: src/jade/tabs/register.jade:87
 msgid "An error occurred during registration. Please try again later."
-msgstr "注册中出错了。请稍后再试"
+msgstr "注册过程中出现了错误。请稍后再试。"
 
-#: src/jade/tabs/register.jade:83
+#: src/jade/tabs/register.jade:88
 msgid "The reported error was: {{1}}"
-msgstr "错误报告：{{1}}"
+msgstr "报上的错误是：{{1}}"
 
-#: src/jade/tabs/register.jade:91
+#: src/jade/tabs/register.jade:96
 msgid ""
 "There is already a wallet using this username, please choose a different "
 "username and try again."
 msgstr "当前用户名已有钱包，请选择一个不同的用户名重试"
 
-#: src/jade/tabs/register.jade:122
+#: src/jade/tabs/register.jade:127
 msgid "Continue"
 msgstr "继续"
 
-#: src/jade/tabs/register.jade:135
+#: src/jade/tabs/register.jade:140
 msgid ""
 "We’ve sent an email to {{1}}. To complete registration, click the link in "
 "the email."
 msgstr "我们已经给{{1}}发送了邮件。请点击邮件中的链接以完成注册。"
 
-#: src/jade/tabs/register.jade:138
+#: src/jade/tabs/register.jade:143
 msgid "Email token has been resent."
 msgstr "Email标记已重新发送"
 
-#: src/jade/tabs/register.jade:146
-msgid "Re-send Email"
-msgstr "重新发送邮件"
-
 #: src/jade/tabs/register.jade:151
+msgid "Re-send Email"
+msgstr "重发邮件"
+
+#: src/jade/tabs/register.jade:156
 msgid ""
 "The secret key unlocks access to all your account funds in the event you "
 "lose your Ripple name or password. Please write it down and store it "
 "somewhere private and safe. {{1}} about keys and wallet safety.{{2}}"
 msgstr "在你丢失你的Ripple名称和密码时，秘钥可以帮你解锁你账户中的资金。请把它记下来并且保存在隐蔽的地方。{{1}}关于秘钥和钱包安全性。{{2}}"
 
-#: src/jade/tabs/register.jade:156
+#: src/jade/tabs/register.jade:161
 msgid "Wallet name:{{1}}"
 msgstr "钱包名：{{1}}"
 
-#: src/jade/tabs/register.jade:158
+#: src/jade/tabs/register.jade:163
 msgid "Pass phrase:{{1}}{{2}}{{3}}{{4}}"
 msgstr "密码：{{1}} {{2}} {{3}} {{4}}"
 
-#: src/jade/tabs/register.jade:165
+#: src/jade/tabs/register.jade:170
 msgid "Ripple Address"
 msgstr "Ripple 钱包地址"
 
-#: src/jade/tabs/register.jade:167
+#: src/jade/tabs/register.jade:172
 msgid "Secret Account key:"
 msgstr "账户密钥:"
 
@@ -1609,7 +1583,7 @@ msgstr "在转账之前，必须先激活钱包"
 
 #: src/jade/tabs/send.jade:17
 msgid "Send money on the Ripple network."
-msgstr "在Ripple网络中转账"
+msgstr "在 Ripple 网络中转账"
 
 #: src/jade/tabs/send.jade:21 src/jade/tabs/send.jade:34
 msgid "Recipient"
@@ -1748,88 +1722,93 @@ msgid "Ripple is calculating a path for your payment."
 msgstr "Ripple 网络正在为您计算最优支付路径。"
 
 #: src/jade/tabs/send.jade:166
-msgid ""
-"You are sending {{ (send.alt.amount || send.currency) | rpcurrency}} to"
-msgstr "你要把 {{ (send.alt.amount || send.currency) | rpcurrency}} 发送到"
+msgid "You are sending {{1}} to"
+msgstr "你正把{{1}}发到："
 
-#: src/jade/tabs/send.jade:172
+#: src/jade/tabs/send.jade:174
 msgid "Destination tag: {{send.dt}}"
 msgstr "终端标签: {{send.dt}}"
 
-#: src/jade/tabs/send.jade:173
+#: src/jade/tabs/send.jade:175
 msgid "They will receive"
 msgstr "对方将收到"
 
-#: src/jade/tabs/send.jade:176
+#: src/jade/tabs/send.jade:178
 msgid "You will pay at most"
 msgstr "您最多需要支付"
 
-#: src/jade/tabs/send.jade:182
+#: src/jade/tabs/send.jade:184
 msgid "Are you sure?"
 msgstr "确定吗？"
 
-#: src/jade/tabs/send.jade:187
+#: src/jade/tabs/send.jade:189
 msgid "Password required to unlock wallet"
-msgstr "需要密码来解锁钱包"
+msgstr "钱包需要密码解锁"
 
-#: src/jade/tabs/send.jade:206
+#: src/jade/tabs/send.jade:208
 msgid "Destination does not exist"
 msgstr "此地址不存在。"
 
-#: src/jade/tabs/send.jade:207
+#: src/jade/tabs/send.jade:209
 msgid "The wallet you&#39;re trying to send to does not exist."
 msgstr "你想发到的钱包并不存在。"
 
-#: src/jade/tabs/send.jade:212
+#: src/jade/tabs/send.jade:214
 msgid "Invalid transaction"
 msgstr "无效的交易"
 
-#: src/jade/tabs/send.jade:213
+#: src/jade/tabs/send.jade:215
 msgid "The transaction was rejected by the server due to a client issue."
 msgstr "由于客户端的问题，这笔交易被拒绝了。"
 
-#: src/jade/tabs/send.jade:215
+#: src/jade/tabs/send.jade:217
 msgid "Unlock failed"
 msgstr "解锁失败"
 
-#: src/jade/tabs/send.jade:216
+#: src/jade/tabs/send.jade:218
 msgid ""
 "Your wallet could not be unlocked. This could be a server issue, please try "
 "again later."
 msgstr "你的钱包不能被解锁。这可能是服务器问题，请稍后再试。"
 
-#: src/jade/tabs/send.jade:218
+#: src/jade/tabs/send.jade:220
 msgid ""
 "Sorry, an error occurred while submitting your transaction.Make sure you are"
 " connected to the Internet and try again later."
 msgstr "不好意思，提交交易的时候出错了。请确定连上了网络并稍后再试。"
 
-#: src/jade/tabs/send.jade:220
+#: src/jade/tabs/send.jade:222
 msgid "Please ensure you don't send your payment more than once."
-msgstr "请确认不要多次发送。"
+msgstr "请确保不要多次支付。"
 
-#: src/jade/tabs/send.jade:228 src/jade/tabs/send.jade:299
+#: src/jade/tabs/send.jade:230 src/jade/tabs/send.jade:301
 msgid "Contact saved!"
 msgstr "联系人已保存！"
 
-#: src/jade/tabs/send.jade:230 src/jade/tabs/send.jade:301
+#: src/jade/tabs/send.jade:232 src/jade/tabs/send.jade:303
 #: src/jade/tabs/trust.jade:189
 msgid "Add this address to contacts"
 msgstr "把这一地址加为联系人"
 
-#: src/jade/tabs/send.jade:234 src/jade/tabs/send.jade:305
+#: src/jade/tabs/send.jade:236 src/jade/tabs/send.jade:307
 #: src/jade/tabs/trust.jade:192
 msgid "Name this user"
 msgstr "给此用户命名"
 
-#: src/jade/tabs/send.jade:240 src/jade/tabs/send.jade:311
+#: src/jade/tabs/send.jade:242 src/jade/tabs/send.jade:313
 #: src/jade/tabs/trust.jade:198
 msgid "Saving..."
 msgstr "正在保存..."
 
-#: src/jade/tabs/send.jade:245 src/jade/tabs/send.jade:316
+#: src/jade/tabs/send.jade:247 src/jade/tabs/send.jade:318
 msgid "Send another payment"
-msgstr "再次支付"
+msgstr "进行另一笔支付"
+
+#: src/jade/tabs/send.jade:265
+msgid ""
+"We were unable to submit the transaction to the server.Please try again "
+"later."
+msgstr "抱歉！暂时未能将交易提交到服务器。请稍后再试。"
 
 #: src/jade/tabs/trade.jade:9
 msgid "Loading order book..."
@@ -1926,7 +1905,7 @@ msgstr "必须大于零"
 #: src/jade/tabs/trade.jade:141 src/jade/tabs/trade.jade:156
 #: src/jade/tabs/trade.jade:171
 msgid "Minimum is a drop (0.000001) and maximum is 100 billion XRPs"
-msgstr "最小的数量是drop(0.000001)，最大的数量是1000亿XRP。"
+msgstr "最小值是一个 drop (0.000001 XRP)，最大值是1000亿XRP。"
 
 #: src/jade/tabs/trade.jade:145
 msgid "Price of Each"
@@ -1934,7 +1913,7 @@ msgstr "单价"
 
 #: src/jade/tabs/trade.jade:160
 msgid "Order Value (max)"
-msgstr "本单总值"
+msgstr "本单（最多）价值"
 
 #: src/jade/tabs/trade.jade:177
 msgid "You are wanting to buy {{1}} for {{2}} ({{3}} per {{4}})"
@@ -2002,7 +1981,7 @@ msgstr "你没有足够的{{(type == 'buy' ? order.second_currency : order.first
 msgid ""
 "You must have at least {{account.reserve_to_add_trust | rpamount}} XRP to "
 "submit an order. {{1}}"
-msgstr "你必须至少有 {{account.reserve_to_add_trust | rpamount:0}} XRP 才能再提交一个挂单。{{1}}"
+msgstr "你必须至少有 {{account.reserve_to_add_trust | rpamount}} XRP 才能再提交一个挂单。{{1}}"
 
 #: src/jade/tabs/trade.jade:260
 msgid "More information."
@@ -2082,7 +2061,7 @@ msgstr "卖出价 {{1}}{{2}}"
 
 #: src/jade/tabs/trade.jade:363
 msgid "There are currently no asks for this pair."
-msgstr "目前该货币组合没有买单"
+msgstr "目前该货币组合没有卖单"
 
 #: src/jade/tabs/trust.jade:16
 msgid "You have to be funded before you can grant a trust"
@@ -2114,7 +2093,7 @@ msgstr "请输入一个Ripple名称，联系人，或者地址"
 
 #: src/jade/tabs/trust.jade:48 src/jade/tabs/trust.jade:62
 msgid "You've entered your own address."
-msgstr "你已输入你的地址"
+msgstr "你输入了你自己的地址"
 
 #: src/jade/tabs/trust.jade:49
 msgid "Please enter a valid Ripple name, contact, or address."
@@ -2154,13 +2133,9 @@ msgstr "正在验证地址"
 msgid "You must have at least {{1}} to add a new trust line. {{2}}"
 msgstr "你必须至少有 {{1}} 才能再加一条信任线。{{2}}"
 
-#: src/jade/tabs/trust.jade:114
-msgid "You are about to trust"
-msgstr "你即将要信任"
-
-#: src/jade/tabs/trust.jade:116
-msgid "to the Ripple user"
-msgstr "到 Ripple 用户"
+#: src/jade/tabs/trust.jade:113
+msgid "{{1:You are about to trust}}{{2}}{{3:to the Ripple user}}"
+msgstr "{{1: 你将对}}{{3: Ripple 用户}}设置{{2}}的信任额度。"
 
 #: src/jade/tabs/trust.jade:121
 msgid ""
@@ -2254,11 +2229,11 @@ msgstr "加载交易详情时出错。"
 
 #: src/jade/tabs/tx.jade:8
 msgid "Transaction #"
-msgstr "交易#"
+msgstr "交易号"
 
 #: src/jade/tabs/tx.jade:11
 msgid "Show in graph"
-msgstr "显示在图表中"
+msgstr "在 Ripple 图中显示"
 
 #: src/jade/tabs/tx.jade:13
 msgid "Transaction type: {{1}}"
@@ -2303,4 +2278,4 @@ msgstr "发自地址："
 #: src/jade/tabs/tx.jade:63
 msgid ""
 "Sorry, we don't have an info page layout for this transaction type yet."
-msgstr "不好意思，这类转账的信息页面还没有准备好。"
+msgstr "不好意思，这类交易的信息页面还没有准备好。"
