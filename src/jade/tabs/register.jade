@@ -91,9 +91,9 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
                 span ({{ masterkeyAddress }})
                 |  has already been created using this secret key.
               a.btn.btn-primary.recovery(ng-href="#/recover/{{masterkeyUsername}}", l10n) Recover Account
-        div(ng-hide="showMasterKeyInput || oldUserBlob", l10n)
+        div(ng-hide="showMasterKeyInput || oldUserBlob", l10n-inc)
           | Need to use your secret key?&#32;
-          a(href="", ng-click="showMasterKeyInput=true", l10n) Use key
+          a(href="", ng-click="showMasterKeyInput=true", l10n-inc) Use key
         .form-group
           .checkbox
             label(for='terms', l10n) I agree to the {{productName}}&#32;
@@ -101,7 +101,7 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
             input#terms(type="checkbox", name="terms", ng-model="terms", required)
         .see-privacy-text(l10n)
           | Please see our&#32;
-          a(href="https://ripple.com/privacy-policy/", target="_blank") privacy policy
+          a(href="https://ripple.com/privacy-policy/", target="_blank", l10n) privacy policy
           |  to see how we collect, use and share
           |  information about you
         .submit-btn-container
