@@ -10,7 +10,9 @@ exports.config = {
   user: {
     username: '',
     password: '',
+    // Blobvault url
     url: '',
+    // Login once, and copy these from your local storage "ripple_auth"
     keys: {
       "id":"",
       "crypt":""
