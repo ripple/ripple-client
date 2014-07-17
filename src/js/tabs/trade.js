@@ -12,7 +12,7 @@ var TradeTab = function ()
 util.inherits(TradeTab, Tab);
 
 TradeTab.prototype.tabName = 'trade';
-TradeTab.prototype.mainMenu = 'exchange';
+TradeTab.prototype.mainMenu = 'trade';
 
 TradeTab.prototype.generateHtml = function ()
 {
