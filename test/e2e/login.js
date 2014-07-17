@@ -15,8 +15,12 @@ var ptor = protractor.getInstance();
 
 describe('bootstrap', function() {
 
-  beforeEach(function() {
+  before(function() {
     ptor.get('#');
+
+    // Remove session
+    ptor.executeScript('store.set("ripple_auth")');
+    ptor.navigate().refresh();
   });
 
   it('should automatically redirect to /register when location hash/fragment is empty', function(done) {
@@ -29,7 +33,7 @@ describe('bootstrap', function() {
 
 describe('login', function() {
 
-  beforeEach(function(){
+  before(function(){
     ptor.get('#/login');
   });
 

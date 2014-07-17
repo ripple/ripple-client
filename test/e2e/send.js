@@ -13,22 +13,24 @@ browser.manage().timeouts().setScriptTimeout(20000);
 
 var ptor = protractor.getInstance();
 
-// Open the client
-ptor.get('#');
-
-// Login the user
-ptor.executeScript('store.set("ripple_auth",{' +
-  'username: "' + config.user.username + '", ' +
-  'keys: {' +
-  '"id":"' + config.user.keys.id + '",' +
-  '"crypt":"' + config.user.keys.crypt + '"' +
-  '}, ' +
-  'url: "' + config.user.url + '"})'
-);
-
-ptor.navigate().refresh();
-
 describe('send', function() {
+
+  before(function(){
+    // Open the client
+    ptor.get('#');
+
+    // Login the user
+    ptor.executeScript('store.set("ripple_auth",{' +
+      'username: "' + config.user.username + '", ' +
+      'keys: {' +
+      '"id":"' + config.user.keys.id + '",' +
+      '"crypt":"' + config.user.keys.crypt + '"' +
+      '}, ' +
+      'url: "' + config.user.url + '"})'
+    );
+
+    ptor.navigate().refresh();
+  });
 
   it('should render the send page', function(done) {
     // Go to send page
