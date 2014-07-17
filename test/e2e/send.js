@@ -11,16 +11,14 @@ var expect = chai.expect;
 // For some weird reason config ignores allScriptsTimeout
 browser.manage().timeouts().setScriptTimeout(20000);
 
-var ptor = protractor.getInstance();
-
 describe('send', function() {
 
   before(function(){
     // Open the client
-    ptor.get('#');
+    browser.get('#');
 
     // Login the user
-    ptor.executeScript('store.set("ripple_auth",{' +
+    browser.executeScript('store.set("ripple_auth",{' +
       'username: "' + config.user.username + '", ' +
       'keys: {' +
       '"id":"' + config.user.keys.id + '",' +
@@ -29,15 +27,15 @@ describe('send', function() {
       'url: "' + config.user.url + '"})'
     );
 
-    ptor.navigate().refresh();
+    browser.navigate().refresh();
   });
 
   it('should render the send page', function(done) {
     // Go to send page
-    ptor.get('#/send');
+    browser.get('#/send');
 
     // Wait for the send form to render
-    ptor.wait(function() {
+    browser.wait(function() {
       return $('#sendForm').isDisplayed().then(function(result) {
         return result;
       });
@@ -132,7 +130,7 @@ describe('send', function() {
       $('#send_unlock_password').sendKeys(config.user.password);
       $('#confirmButton').click();
 
-      ptor.wait(function() {
+      browser.wait(function() {
         return $('.mode-status').isDisplayed().then(function(result) {
           return result;
         });
@@ -144,7 +142,7 @@ describe('send', function() {
     });
 
     it('should succeed', function(done) {
-      ptor.wait(function() {
+      browser.wait(function() {
         return $('.mode-status .pending').isDisplayed().then(function(result) {
           return !result;
         });

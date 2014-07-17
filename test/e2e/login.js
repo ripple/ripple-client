@@ -11,20 +11,18 @@ var expect = chai.expect;
 // For some weird reason config ignores allScriptsTimeout
 browser.manage().timeouts().setScriptTimeout(20000);
 
-var ptor = protractor.getInstance();
-
 describe('bootstrap', function() {
 
   before(function() {
-    ptor.get('#');
+    browser.get('#');
 
     // Remove session
-    ptor.executeScript('store.set("ripple_auth")');
-    ptor.navigate().refresh();
+    browser.executeScript('store.set("ripple_auth")');
+    browser.navigate().refresh();
   });
 
   it('should automatically redirect to /register when location hash/fragment is empty', function(done) {
-    expect(ptor.getCurrentUrl())
+    expect(browser.getCurrentUrl())
       .to.eventually.contain('/register')
       .and.notify(done);
   });
@@ -34,7 +32,7 @@ describe('bootstrap', function() {
 describe('login', function() {
 
   before(function(){
-    ptor.get('#/login');
+    browser.get('#/login');
   });
 
   it('should render login when user navigates to /login', function(done) {
@@ -48,7 +46,7 @@ describe('login', function() {
     $(".auth-form-wrapper button").click();
 
     // Check if it takes to the balance page (success login)
-    expect(ptor.getCurrentUrl())
+    expect(browser.getCurrentUrl())
       .to.eventually.contain('/balance')
       .and.notify(done);
   });
