@@ -25,27 +25,10 @@ module.controller('NavbarCtrl', ['$scope', '$element', '$compile', 'rpId',
     $scope.show_secondary = !$scope.show_secondary;
   };
 
-  $scope.$watch('balances', function () {
-    $scope.orderedBalances = _.filter($scope.balances, function (balance) {
-      // XXX Maybe we should show zero balances if there is outgoing trust in
-      //     that currency.
-      return !balance.total.is_zero();
-    });
-    $scope.orderedBalances.sort(function(a,b){
-      return parseFloat(Math.abs(b.total.to_text())) - parseFloat(Math.abs(a.total.to_text()));
-    });
-
-    $scope.balance_count = $scope.orderedBalances.length;
-  }, true);
-
-  // Username
-  $scope.$watch('userCredentials', function(){
-    var username = $scope.userCredentials.username;
-    $scope.shortUsername = null;
-    if(username && username.length > 25) {
-      $scope.shortUsername = username.substring(0,24)+"...";
-    }
-  }, true);
+  $scope.logout = function () {
+    $id.logout();
+    $location.path('/login');
+  };
 
   $scope.$on('$netConnected', function (e) {
     setConnectionStatus(true);
@@ -55,8 +38,10 @@ module.controller('NavbarCtrl', ['$scope', '$element', '$compile', 'rpId',
     setConnectionStatus(false);
   });
 
-  $scope.$watch('events', function(events) {
-    $scope.notifications = events.slice(0,10);
+  $scope.$watch('events.length', function() {
+    if ($scope.events && $scope.events.length) {
+      $scope.notifications = events.slice(0,10);
+    }
   }, true);
 
   /**
