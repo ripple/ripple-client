@@ -40,9 +40,9 @@ module.controller('NavbarCtrl', ['$scope', '$element', '$compile', 'rpId',
 
   $scope.$watch('events.length', function() {
     if ($scope.events && $scope.events.length) {
-      $scope.notifications = events.slice(0,10);
+      $scope.notifications = $scope.events.slice(0,10);
     }
-  }, true);
+  });
 
   /**
    * Marks all the notifications as seen.
