@@ -11,9 +11,9 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
             a(href="#/balance", l10n) Overview
           li#nav-send(ng-class="{active: $route.current.mainMenu == 'send'}")
             a(href="#/send", l10n) Send
-          li#nav-exchange(ng-class="{active: $route.current.mainMenu == 'exchange'}", ng-show="!ripple_exchange_selection_trade")
+          li#nav-exchange(ng-class="{active: $route.current.mainMenu == 'exchange' || $route.current.mainMenu == 'trade'}", ng-show="!ripple_exchange_selection_trade")
             a(href="#/exchange", l10n) Exchange
-          li#nav-exchange(ng-class="{active: $route.current.mainMenu == 'exchange'}", ng-show="ripple_exchange_selection_trade")
+          li#nav-exchange(ng-class="{active: $route.current.mainMenu == 'exchange' || $route.current.mainMenu == 'trade'}", ng-show="ripple_exchange_selection_trade")
             a(href="#/trade", l10n) Exchange
           li#nav-fund(ng-class="{active: $route.current.mainMenu == 'fund'}")
             a(href="#/fund", l10n) Fund
@@ -131,7 +131,7 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
           a(href="#/contacts", l10n) Contacts
         //- li(ng-class="{active: $route.current.tabName == 'cashin'}")
           a(href="#/cashin", l10n) Cash In
-  .subnav(ng-show="$route.current.mainMenu == 'exchange'")
+  .subnav(ng-show="$route.current.mainMenu == 'exchange' || $route.current.mainMenu == 'trade'")
     .container
       ul
         li(ng-class="{active: $route.current.tabName == 'trade'}")
