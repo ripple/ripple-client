@@ -9,7 +9,6 @@ build/
 src/js/config.js
 test/e2e/protractor.conf.js
 analytics.js
-l10n/templates
 res/nw/config.js
 deps/js/angular/
 deps/js/angular-route/
