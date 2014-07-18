@@ -180,10 +180,9 @@ section.single.content(ng-controller='SendCtrl')
       p.literal(ng-show="send.path_status == 'pending' && send.currency_code == 'XRP'", rp-spinner="4", l10n)
         | Calculating alternatives
       p.literal(ng-show="send.path_status == 'no-path' && send.currency_code != 'XRP'", l10n)
-        | Sorry! Cannot send {{send.amount}} {{send.currency}} to
-        |  {{send.recipient}}. Please make sure your account has enough funds,
-        |  and the recipient has enough trust to the currency issuer. If it still
-        |  doesn't work, try again later.
+        | You cannot send {{send.amount}} {{send.currency}} to
+        |  {{send.recipient}}. Either your account has insufficient funds,
+        |  or {{send.recipient}} doesn't accept {{send.currency}}. 
       p.literal(ng-show="send.path_status == 'error-quote'", l10n)
         | Error while retrieving quote for outbound payment.
         span(ng-show="send.quote_error")  The outbound bridge reported: "{{send.quote_error | rpheavynormalize}}"
