@@ -1,14 +1,14 @@
 section.col-xs-12.content(ng-controller="AccountCtrl")
   .box
-    .title Account Profile
+    .title(l10n) Account Profile
     .section
       .alert.alert-success(ng-show="success", l10n) Your Ripple Name has been changed successfully.
-      .descriptor Ripple name
+      .descriptor(l10n) Ripple name
       .row
         .col-xs-12.col-sm-3.username ~{{userCredentials.username}}
         .col-xs-12.col-sm-9
           a(href="", ng-click="openForm=!openForm"
-            ng-hide="openForm") Change your Ripple name
+            ng-hide="openForm", l10n) Change your Ripple name
           .row
             .col-xs-12.col-md-8.col-lg-6
               form#renameForm(name="renameForm", ng-show="openForm", ng-submit="rename()")
@@ -24,8 +24,7 @@ section.col-xs-12.content(ng-controller="AccountCtrl")
                       rp-available-name-reserved-for="usernameReservedFor"
                       rp-loading="usernameLoading")
                   .errorGroup(rp-errors='username', ng-hide="usernameLoading")
-                    .success(rp-error-valid)
-                      | Available
+                    .success(rp-error-valid, l10n) Available
                     .error(rp-error-on='rpAvailableName')
                       span(ng-switch on="usernameInvalidReason")
                         span(ng-switch-when="exists", l10n) Already taken!
@@ -63,15 +62,15 @@ section.col-xs-12.content(ng-controller="AccountCtrl")
                       span(ng-hide="loading", l10n) Submit name change
                       span(ng-show="loading", l10n) Loading...
                   .col-xs-12.col-sm-6
-                    a.txtbtn(href="", ng-click="openForm=!openForm") Cancel
+                    a.txtbtn(href="", ng-click="openForm=!openForm", l10n) Cancel
     .section
       .alert.alert-success(ng-show="success", l10n) Your Ripple password has been changed successfully.
-      .descriptor Ripple password
+      .descriptor(l10n) Ripple password
       .row
         .col-xs-12.col-sm-3 *****************
         .col-xs-12.col-sm-9
           a(href="", ng-click="openFormPassword=!openFormPassword"
-            ng-hide="openFormPassword") Change your Ripple password
+            ng-hide="openFormPassword", l10n) Change your Ripple password
           .row
             .auth-form-container.col-xs-12.col-md-8.col-lg-6
               form#renameForm(name="changeForm", ng-show="openFormPassword", ng-submit="changePassword()")
@@ -115,7 +114,7 @@ section.col-xs-12.content(ng-controller="AccountCtrl")
                       span(ng-hide="loading", l10n) Submit password change
                       span(ng-show="loading", l10n) Loading...
                   .col-xs-12.col-sm-6
-                    a.txtbtn(href="", ng-click="openFormPassword=!openFormPassword") Cancel
+                    a.txtbtn(href="", ng-click="openFormPassword=!openFormPassword", l10n) Cancel
     .section
-      .descriptor Ripple address
+      .descriptor(l10n) Ripple address
       div {{address}}

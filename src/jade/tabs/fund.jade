@@ -23,7 +23,7 @@ section.content(ng-controller='FundCtrl')
             span(ng-hide="userCredentials.username", l10n) loading...
             .address
               a(href="", ng-click="showRippleAddress=true"
-                ng-hide="showRippleAddress", l10n-inc) Show address
+                ng-hide="showRippleAddress", l10n) Show address
               div(ng-show="showRippleAddress") {{address}}
           .description(l10n) Ripple names are a new feature on Ripple! Use your
             |  Ripple name (~{{userCredentials.username}}) to receive money.

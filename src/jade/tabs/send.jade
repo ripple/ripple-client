@@ -24,7 +24,7 @@ section.single.content(ng-controller='SendCtrl')
         input.form-control#send_destination(
           name='send_destination', type='text'
           rp-combobox="recipient_query", rp-combobox-value-as-ripple-name
-          placeholder='Enter a Ripple name or contact'
+          l10n-placeholder='Enter a Ripple name or contact'
           ng-model='send.recipient'
           rp-dest, rp-dest-address, rp-dest-contact, rp-dest-bitcoin
           rp-dest-email, rp-dest-ripple-name, rp-dest-loading="recipient_loading"
@@ -246,8 +246,8 @@ section.single.content(ng-controller='SendCtrl')
         span.currency {{send.alt.amount | rpcurrency}} &#32;
         span &plusmn; 1%
     form.call-to-action(ng-submit="send_confirmed()")
-      p.literal(l10n, ng-show="send.secret") Are you sure?
-      p.literal(l10n, ng-hide="send.secret") Please enter your password to confirm this transaction.
+      p.literal(ng-show="send.secret", l10n) Are you sure?
+      p.literal(ng-hide="send.secret", l10n) Please enter your password to confirm this transaction.
       .row.row-padding-small(ng-if="!send.secret")
         input.form-control#send_unlock_password(
           name='send_unlock_password', type='password', required
