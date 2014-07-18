@@ -62,6 +62,11 @@ section.single.content(ng-controller='SendCtrl')
             | Recipient should be a contact or Ripple/Bitcoin address.
           .error(rp-error-on='federation', l10n)
             | This email address is not Ripple-enabled.
+    ul.tagsLinks
+      li
+        a(href="", ng-click="send.show_dt_field = true"
+          ng-hide="send.show_dt_field || send.bitcoin || send.federation", l10n)
+            | Show destination tag
     .row.form-group(ng-show='send.show_dt_field')
       .col-xs-12.col-sm-6.col-md-5
         label(for='send_dt', l10n) Destination tag
@@ -155,11 +160,6 @@ section.single.content(ng-controller='SendCtrl')
           | Recipient does not allow XRP payments. Are you sure you want to send XRP anyway?
         .notice(ng-show="send.trust_limit", l10n) {{send.recipient | rpcontactname}}
           | trusts you for {{send.trust_limit | rpamount}} {{send.trust_limit | rpcurrency}}.
-    ul.tagsLinks
-      li
-        a(href="", ng-click="send.show_dt_field = true"
-          ng-hide="send.show_dt_field || send.bitcoin || send.federation", l10n)
-            | Add Destination tag
     .row
       .col-xs-12.col-sm-6.col-md-5(ng-show="send.currency_code == 'XRP'")
         button#sendXrpButton.btn.btn-block.btn-success.submit(type='submit'
