@@ -32,9 +32,13 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
                   span.fraction {{pending.amount}}
                   span.currency {{pending.currency}}
           .col-xs-4
+            //TODO externalize CSS
+            style div[rp-pie-chart] text {font-family:OpenSansLight, sans-serif} div[rp-pie-chart] text.percentage {fill:#999; font-size:12px;}
+            style div[rp-pie-chart] .main {opacity:1;} div[rp-pie-chart] .sub {opacity:0;} div[rp-pie-chart] * {-webkit-transition:opacity 0.17s; transition: opacity 0.17s;}
             div(rp-pie-chart
               rp-drops="account.Balance"
-              rp-ious="balances")
+              rp-ious="balances"
+              rp-exchange-rates="exchangeRates")
         .currency-summary
           .balancebox.currency-xrp
             .total.row
