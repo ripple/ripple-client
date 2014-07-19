@@ -18,13 +18,17 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
             //button(ng-click="addPath()") click here!
             .lbl Total Balance
               .desc Estimated from exchange rates
-            .total.amount 0.
+            .total.amount {{aggregateValueDisplayed}}.
               span.fraction 0000
-              select.currency
-                option(selected=true) XRP
-                option USD
-                option BTC
-                option CNY
+              select.currency(ng-model='selectedValueMetric'
+                ng-change='changeMetric(this)')
+                //option(selected=true value="XRP") XRP
+                option(ng-repeat='metric in valueMetrics'
+                  value='{{metric.code}}') {{metric.text}}
+              //  option(selected=true) XRP
+              //  option USD, ng-bind='option.label', 
+              //  option BTC
+              //  option CNY
             .pending(ng-show="pending")
               .lbl Pending
               .transactions

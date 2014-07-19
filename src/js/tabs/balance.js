@@ -375,11 +375,87 @@ BalanceTab.prototype.angular = function (module)
   }]);
   */
 
-  module.controller('BalanceCtrl', ['$rootScope', 'rpId', 'rpAppManager',
-                                     function ($scope, $id, appManager)
+  module.controller('BalanceCtrl', ['$rootScope', 'rpId', '$filter', 'rpAppManager',
+                                     function ($scope, $id, $filter, appManager)
   {
     if (!$id.loginStatus) return $id.goId();
-    //console.log("SCOPE!", $scope);
+    
+    //console.log("$FILTER!!", $filter);
+    
+    $scope.selectedValueMetric = "XRP";
+    
+    $scope.changeMetric = function(scope){
+      //console.log("THAT!", that);
+      //var metric = that.value;
+      $scope.selectedValueMetric = scope.selectedValueMetric;
+      
+    };
+    
+    $scope.$watch("selectedValueMetric", function(){
+      console.log("SELECTED VALUE METRIC!", $scope.selectedValueMetric);
+      updateAggregateValueDisplayed();
+    })
+    
+    $scope.exchangeRates = {"XRP":1};
+    
+    $scope.$watch("exchangeRates", function(){
+      //var curs = Object.keys($scope.exchangeRates);
+      if ($scope.exchangeRates) {
+        var isAmbiguous = {};
+        var okser = Object.keys($scope.exchangeRates);
+        outerLoop: for (var i=0; i<okser.length; i++) {
+          var cur = okser[i].split(":")[0];
+          if (isAmbiguous[cur] && isAmbiguous.hasOwnProperty(cur)) { //In case there's a currency called "constructor" or something
+            continue; //todo: get rid of this
+          } else {
+            for (var j=i+1; j<okser.length; j++) {
+              var cur2 = okser[j].split(":")[0];
+              if (cur === cur2) {
+                isAmbiguous[cur] = true;
+                break outerLoop; //todo: get rid of this
+              }
+            }
+          }
+        }
+        $scope.valueMetrics = okser.map(function(code){
+          var curIssuer = code.split(":");
+          var currencyName = $filter('rpcurrency')(ripple.Amount.from_human("0 "+curIssuer[0])); //This is really messy
+          var issuerName = $filter('rpcontactname')(curIssuer[1]);
+          return {
+            code: code,
+            text: currencyName + (isAmbiguous[currencyName] ? " ("+ issuerName +")" : "")
+          };
+        });
+      }
+      // Don't include XRP
+      updateAggregateValueAsXrp();
+    }, true);
+    
+    function updateAggregateValueAsXrp() {
+      if ( $scope.exchangeRates) {
+        //do stuff
+        var av = $scope.account.Balance / 1000000;
+        
+        //TODO: a lot of this is duplicated from up above.
+        for (var cur in $scope.balances) {if ($scope.balances.hasOwnProperty(cur)){
+          var components = $scope.balances[cur].components;
+          for (var issuer in components) {if (components.hasOwnProperty(issuer)){
+            var rate = ( $scope.exchangeRates[cur+":"+issuer] || 0);
+            var sbAsXrp = components[issuer].to_number() * rate;
+            av += sbAsXrp;
+          }}
+        }}
+        
+        $scope.aggregateValueAsXrp = av;
+        updateAggregateValueDisplayed();
+      }
+    }
+    
+    function updateAggregateValueDisplayed() {
+      if ( $scope.exchangeRates) {
+        $scope.aggregateValueDisplayed =  $scope.aggregateValueAsXrp / $scope.exchangeRates[$scope.selectedValueMetric];
+      }
+    }
     
     $scope.$watch("balances", function(){
       var currencies = [];
@@ -399,220 +475,17 @@ BalanceTab.prototype.angular = function (module)
         }
       });
       
-      $.post("http://api.ripplecharts.com/api/exchangeRates", {pairs:pairs,last:true}, function(response){
+      $.post("https://api.ripplecharts.com/api/exchangeRates", {pairs:pairs,last:true}, function(response){
         console.log("RIPPLE CHARTS RESPONSE!", response);
-        var exchangeRates = {};
         for (var i=0; i<response.length; i++) {
           var pair = response[i];
-          exchangeRates[pair.base.currency+":"+pair.base.issuer] = pair.last;
+          $scope.exchangeRates[pair.base.currency+":"+pair.base.issuer] = pair.last;
         }
-        $scope.exchangeRates = exchangeRates;
+        //$scope.exchangeRates = exchangeRates;
       });
-      
+      updateAggregateValueAsXrp();
     }, true);
     
-    
-    /*
-    $.post("http://api.ripplecharts.com/api", {
-      pairs : [
-        {
-          base    : {currency:"CNY","issuer":"rnuF96W4SZoCJmbHYBFoJZpR8eCaxNvekK"},
-          counter : {currency:"XRP"}
-        }
-      ],
-      last: true
-    }, function(response){
-      console.log("RIPPLE CHARTS RESPONSE!", response);
-    });
-    */
-    
-    /*$.get("http://local.ripple.com/", function(response) {
-      console.log("GET REQUEST COMPLETE!", response);
-      $scope.exchangeRates = {
-        USD: 196,
-        BTC: 121000,
-        CNY: 32
-      };
-    });*/
-    
-    //setTimeout(function(){
-    //  console.log("GOT EXCHANGE RATES!");
-    //  $scope.account.Balance = 123456789;
-      /*$scope.exchangeRates = {
-        USD: 196,
-        BTC: 121000,
-        CNY: 32
-      };*/
-    //}, 5000);
-    
-    //additional stuff here:
-    /*
-    $scope.hello = "TESTING!";
-    var TAU = Math.PI*2;
-    var drawPieChart = function(proportions, labels, colors) {
-      var boundaries = [];
-      var sum = 0;
-      var i;
-      for (i=0; i<proportions.length; i++) {
-        boundaries.push(proportions[i]+sum);
-        sum += proportions[i];
-      }
-      var boundaryAngles = boundaries.map(function(x){return x*TAU;});
-      
-      var midpoints = [];
-      for (i=0; i<proportions.length; i++) {
-        midpoints.push((boundaries[i-1]||0) + proportions[i]/2);
-      }
-      var midpointAngles = midpoints.map(function(x){return x*TAU;});
-      
-      var center = [60,60];
-      var circleRadius = 60;
-      var labelWidth = 20;
-      var labelHeight = 10;
-      
-      var polarToRect = function(radius, angle) {
-        return [
-          center[0]+radius*Math.sin(angle), 
-          center[1]-radius*Math.cos(angle)
-        ];
-        //console.log("POLAR!", radius, angle, 
-      };
-      
-      var labelDisplacement = function(angle) {
-        var a = angle % TAU;
-        if (a % (TAU/4) === 0) {
-          return 0;
-        }
-        
-        var verticallyDominant = (
-          0       <a&&a<= TAU/8   ||
-          TAU*3/8 <a&&a<= TAU*5/8 ||
-          TAU*7/8 <a&&a<= TAU
-        );
-        
-        a = ( 
-          0       <a&&a<= TAU/8   ?  a           :
-          TAU/8   <a&&a<= TAU/4   ?  TAU/4 - a   :
-          TAU/4   <a&&a<= TAU*3/8 ?  a - TAU/4   :
-          TAU*3/8 <a&&a<= TAU/2   ?  TAU/2 - a   :
-          TAU/2   <a&&a<= TAU*5/8 ?  a - TAU/2   :
-          TAU*5/8 <a&&a<= TAU*3/4 ?  TAU*3/4 - a :
-          TAU*3/4 <a&&a<= TAU*7/8 ?  a - TAU*3/4 :
-          TAU*7/8 <a&&a<= TAU     ?  TAU - a     :
-        0);
-        
-        var sin = Math.sin(a),
-            cos = Math.cos(a),
-            tan = Math.tan(a);
-        
-        if (verticallyDominant) {
-          return (labelWidth*sin - labelHeight*sin*tan + labelHeight/cos)/2;
-        } else {
-          return (labelHeight*cos - labelWidth*cos/tan + labelWidth/sin)/2;
-        }
-        
-      };
-      
-      var sectors = [];
-      for (i=0; i<proportions.length; i++) {
-        var pointA = polarToRect(circleRadius, boundaryAngles[i-1]||0);
-        var pointB = polarToRect(circleRadius, boundaryAngles[i]);
-        var labelCoords = polarToRect(circleRadius+20, midpointAngles[i]);
-        var labelPosition = {
-          x: labelCoords[0],
-          y: labelCoords[1]
-        };
-        
-        //console.log("A:", JSON.stringify(pointA), "B:", JSON.stringify(pointB));
-        sectors.push({
-          path: "M "+center.join(",")+
-            " L "+pointA.join(",")+
-            " A "+circleRadius+","+circleRadius+
-            " 0,"+(proportions[i]>0.5?"1":"0")+",1 "+
-            pointB.join(",")+" Z",
-          color: colors[i],
-          labelPosition: labelPosition,
-          labelAmount: labels[i]
-        });
-      }
-      
-      $scope.sectors = sectors;
-      //console.log("SECTORS!", $scope.sectors);
-      
-      
-      
-    };
-    
-    
-    
-  
-    
-    $scope.sectors = [];
-    
-    $scope.addPath = function(){
-      //console.log("GO!");
-      //$scope.sectors.push(sectors.shift());
-      //console.log($scope.sectors);
-      computePieSectors();
-    };
-    
-    
-    console.log("SCOPE!", $scope);
-    
-    var exchangeRates = {
-      XRP: 1,
-      USD: 196,
-      BTC: 121000,
-      CNY: 32
-    };
-    
-    var currencyColors = {
-      //"__N": "#f00", //RED	
-      "BTC": "#fa0", //ORANGE
-      "CNY": "#af0", //YELLOW
-      "USD": "#0f0", //LIME
-      "AUD": "#0fa", //GREEN
-      "XRP": "#0af", //BLUE
-      //"___": "#00f", //INDIGO
-      "CAD": "#a0f", //VIOLET
-      "EUR": "#f0a"  //PINK
-    };
-    
-    var computePieSectors = function() {
-      //console.log("DROPLETS:", $scope.account.Balance);
-      //console.log("BALANCES:", $scope.balances);
-      var xrpAsSuch = $scope.account.Balance / 1000000;
-      var balancesAsXrp = [xrpAsSuch];
-      var totalAsXrp = xrpAsSuch;
-      var amounts = ["1"];
-      for (var cur in $scope.balances) {if ($scope.balances.hasOwnProperty(cur)){
-        var components = $scope.balances[cur].components;
-        var totalBalance = 0;
-        for (var issuer in components) {if (components.hasOwnProperty(issuer)){
-          totalBalance += components[issuer].to_number();
-        }}
-        var totalBalanceAsXrp = totalBalance * (exchangeRates[cur] || 0);
-        totalAsXrp += totalBalanceAsXrp;
-        balancesAsXrp.push(totalBalanceAsXrp);
-        amounts.push(components[issuer]);
-      }}
-      
-      
-      var scaledBalances = balancesAsXrp.map(function(x){return x/totalAsXrp});
-      //console.log("DRAWING PIE CHART!", scaledBalances, currencies);
-      drawPieChart(
-        [0.25,0.5,0.25,0],
-        amounts,
-        ["#fa0","#af0","#0f0","#0fa"]//currencies.map(function(c){return currencyColors[c]})
-      );
-      
-      //drawPieChart([0.68, 0.25, 0.07], ["ABC","DEF","GHI"], ["#f00","#0f0","#00f"]);
-    };
-
-    
-    $scope.$watch("account.Balance", computePieSectors);
-    $scope.$watch("balances", computePieSectors, true);
-    */
 
   }]);
 };
