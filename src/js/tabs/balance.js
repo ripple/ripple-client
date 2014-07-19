@@ -28,6 +28,64 @@ BalanceTab.prototype.angular = function (module)
       return x==="XRP" ? "XRP" : rpcontactname(x);
     }
     
+    function colorHexToRGB(colorHex) {
+      if (colorHex.charAt(0) === "#") {
+        colorHex = colorHex.slice(1);
+      }
+      if (colorHex.length === 3) {
+        colorHex = ""+
+          colorHex.charAt(0)+colorHex.charAt(0)+
+          colorHex.charAt(1)+colorHex.charAt(1)+
+          colorHex.charAt(2)+colorHex.charAt(2);
+      }
+      var red   = parseInt(colorHex.substring(0,2), 16),
+          green = parseInt(colorHex.substring(2,4), 16),
+          blue  = parseInt(colorHex.substring(4,6), 16);
+      return [red, green, blue];
+    }
+    
+    function colorRGBToHex(colorRGB) {
+      return "#" + colorRGB.map(function(v){
+        var s = Math.round(v).toString(16);
+        s.length === 1 && (s = "0"+s);
+        return s;
+      }).join("");
+    }
+    
+    function invertColorRGB(colorRGB) {
+      return [
+        255-colorRGB[0],
+        255-colorRGB[1],
+        255-colorRGB[2]
+      ];
+    }
+    
+    function darken(colorHex, factor) {
+      return colorRGBToHex(
+        colorHexToRGB(colorHex).map(function(v){return v/factor})
+      );
+    }
+    
+    function lighten(colorHex, factor) {
+      return colorRGBToHex(
+        invertColorRGB(
+          invertColorRGB(
+            colorHexToRGB(colorHex)
+          ).map(function(v){return v/factor})
+        )
+      );
+    }
+    
+    function shades(colorHex) {
+      return [
+        darken(colorHex, 3),
+        lighten(colorHex, 2),
+        darken(colorHex, 2),
+        lighten(colorHex, 3),
+        colorHex
+      ];
+    }
+    
     /*var exchangeRates = {
       XRP: 1,
       USD: 196,
@@ -44,7 +102,7 @@ BalanceTab.prototype.angular = function (module)
         return;
       }
       
-      console.log("DRAWING PIE WITH RATES:", exchangeRates);
+      //console.log("DRAWING PIE WITH RATES:", exchangeRates);
     
       //console.log("DRAW PIE CHART!", scope.ious);
       var xrpAsSuch = parseInt(scope.drops,10) / 1000000;      
@@ -76,8 +134,8 @@ BalanceTab.prototype.angular = function (module)
       // Add up each group of subshares to get shares
       var shares = subshareses.map(function(x){return x.reduce(function(a,b){return a+b})});
       
-      console.log("SHARES!", shares);
-      console.log("SUBSHARESES!", subshareses);
+      //console.log("SHARES!", shares);
+      //console.log("SUBSHARESES!", subshareses);
 
       var currencies = amounts.map(function(a){return rpcurrency(a)});
       
@@ -114,7 +172,7 @@ BalanceTab.prototype.angular = function (module)
           container,
           subshareses[i],
           issuerses[i].map(contactButNotXrp),
-          ["#999","#666","#333","#111"], //TODO
+          shades(colors[i]), //["#999","#111"], //TODO
           "sub",
           currencies[i],
           offset
@@ -165,8 +223,8 @@ BalanceTab.prototype.angular = function (module)
       
       if (offset) {
         shares.unshift(offset);
-        labels.unshift("!"); // These should never actually appear in the view.
-        colors.unshift("!"); // If they do, something's wrong.
+        labels.unshift("!"); // This should never actually appear in the view.
+        colors.unshift(colors.pop());
       }
       
       
@@ -215,7 +273,7 @@ BalanceTab.prototype.angular = function (module)
               " A "+circleRadius+","+circleRadius+
               " 0,"+(shares[i]>0.5?"1":"0")+",1 "+
               pointB.join(",")+" Z",
-            color: colors[i],
+            color: colors[i % colors.length],
             labelPosition: labelPosition,
             labelText: labels[i],
             group: "string"===typeof(grouping) ? grouping : grouping[i], //TODO move this out to make it more efficient
