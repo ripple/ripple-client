@@ -77,7 +77,7 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
         .form-group(ng-show="showMasterKeyInput"
           ng-class="{'field-error': (registerForm.register_masterkey.$error.rpMasterKey || registerForm.register_masterkey.$error.rpMasterAddressExists)  && registerForm.register_masterkey.$dirty}")
           label(for='register_masterkey', l10n) Secret key&#32;
-          a(href="", ng-click="showMasterKeyInput=false", l10n)&#32;hide
+          a(href="", ng-click="showMasterKeyInput=false", l10n) hide
           div.register_masterkey
             input.form-control#register_masterkey(name='register_masterkey', type='text', 
               autocomplete='off', ng-model="masterkey", rp-master-key, rp-master-address-exists, 
@@ -113,8 +113,8 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
 
     .switch-mode-link-container(ng-hide="$routeParams.action === 'migrate'", l10n) Already have a ripple.com/client account?&#32;
       a(ng-hide="$routeParams.action === 'migrate'", href='#/login/migrate', l10n-inc) Migrate
-    .switch-mode-link-container Have an account?&#32;
-      a(href='#login', l10n) Log In
+    .switch-mode-link-container(l10n) Have an account?&#32;
+      a(href='#login', l10n-inc) Log In
 
   .row.mode-masterkeyerror(ng-show='mode=="failed"')
     .col-xs-12.col-md-10.col-md-offset-1
@@ -142,20 +142,35 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
           span  2
         li(l10n) Step
           span  3
-      .alert.alert-info(ng-hide="oldUserBlob") By proceeding, you understand that Ripple Trade does not provide a password or secret key recovery mechanism. If you forget your Ripple name/password and secret key, you will be unable to access this Ripple account.
-      .alert.alert-info(ng-show="oldUserBlob") You are now migrating your account- meaning you'll no longer be able to access your account from ripple.com/client. You will retain all of your balances, contacts, and account history. Your account will use the same secret key as before. If you have already saved your secret key, please continue your migration.
+      .alert.alert-info(ng-hide="oldUserBlob", l10n)
+        | By proceeding, you understand that Ripple Trade does not provide a
+        |  password or secret key recovery mechanism. If you forget your Ripple
+        |  name/password and secret key, you will be unable to access this
+        |  Ripple account.
+      .alert.alert-info(ng-show="oldUserBlob", l10n)
+        | You are now migrating your account- meaning you'll no longer be able
+        |  to access your account from ripple.com/client. You will retain all of
+        |  your balances, contacts, and account history. Your account will use
+        |  the same secret key as before. If you have already saved your secret
+        |  key, please continue your migration.
       .secret-key-container
-        div(ng-hide="oldUserBlob") The secret key unlocks access to all your account funds in the event you lose your Ripple name or password. Please write it down and store it somewhere private and safe.&#32;
-          a(href="https://support.ripplelabs.com/hc/en-us/articles/201823366-Password-Recovery-and-Your-Secret-Key", target="_blank") Read more
+        div(ng-hide="oldUserBlob", l10n) The secret key unlocks access to all
+          |  your account funds in the event you lose your Ripple name or password.
+          |  Please write it down and store it somewhere private and safe.&#32;
+          a(href="https://support.ripplelabs.com/hc/en-us/articles/201823366-Password-Recovery-and-Your-Secret-Key"
+            target="_blank", l10n-inc) Read more
           |  about keys and wallet safety.
-        div(ng-show="oldUserBlob") If you have not saved your secret key, please write it down and store it somewhere private and safe. In the event you lose your Ripple name or password, you can use this secret key to recover your funds.
+        div(ng-show="oldUserBlob", l10n) If you have not saved your secret key,
+          |  please write it down and store it somewhere private and safe.
+          |  In the event you lose your Ripple name or password, you can use
+          |  this secret key to recover your funds.
         div.secret-key
           span.fa.fa-key
           span(ng-hide="showSecret") •••••••••••••••••••••••••••••
           span(ng-show="showSecret") {{keyOpen}}
         a(href="", ng-click="showSecret=!showSecret")
-          span(l10n, ng-hide="showSecret") Show secret key
-          span(l10n, ng-show="showSecret") Hide secret key
+          span(ng-hide="showSecret", l10n) Show secret key
+          span(ng-show="showSecret", l10n) Hide secret key
       .submit-btn-container
         button.btn.btn-block.btn-success(ng-click='mode="verification"')
           span(l10n) Continue
@@ -177,19 +192,21 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
       .auth-attention(ng-show="resendSuccess", l10n) Email token has been resent.
       form(name="resendForm").row
         .col-xs-12
-          label Email Address:
+          label(l10n) Email Address:
         .col-xs-12.col-sm-8
           .change-email-bar
             input.form-control(type="email", ng-model="newEmail", placeholder="{{userBlob.data.email}}")
         .col-xs-12.col-sm-4
           button.btn.btn-success.btn-block(ng-click="resendEmail()", type="submit"
-            ng-disabled="resendForm.$invalid || resendLoading", l10n
-            rp-spinner="{{resendLoading ? 4 : null}}") Re-send Email
+            ng-disabled="resendForm.$invalid || resendLoading"
+            rp-spinner="{{resendLoading ? 4 : null}}", l10n) Re-send Email
 
   .row.mode-welcome(ng-show='mode=="welcome"')
     .col-xs-12.col-md-10.col-md-offset-1
       p.important(l10n) Important:
-      p.hint(l10n) The secret key unlocks access to all your account funds in the event you lose your Ripple name or password. Please write it down and store it somewhere private and safe.&#32;
+      p.hint(l10n) The secret key unlocks access to all your account funds in
+        |  the event you lose your Ripple name or password. Please write it down
+        |  and store it somewhere private and safe.&#32;
         a(href="https://support.ripplelabs.com/hc/en-us/articles/201823366-Password-Recovery-and-Your-Secret-Key", target="_blank") Read more
         |  about keys and wallet safety.
         a(href="#", l10n) Security
@@ -225,4 +242,5 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
       p.important(l10n) Have you saved your secret key somewhere safe?
       .row
         .col-xs-12.col-sm-5.col-lg-4
-          a.btn.btn-info.btn-block.btn-big(href='#balance', ng-click='goToFund()', l10n) Yes, I saved my secret key
+          a.btn.btn-info.btn-block.btn-big(href='#balance', ng-click='goToFund()'
+            l10n) Yes, I saved my secret key

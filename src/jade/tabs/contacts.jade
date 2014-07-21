@@ -62,7 +62,8 @@ section.col-xs-12.content(ng-controller="ContactsCtrl")
         .form-group
           label(for='dt', l10n) Destination tag
           input.form-control.input-lg.dt#dt(
-            name='dt', type='text', step='any', placeholder="Leave blank if not applicable"
+            name='dt', type='text', step='any'
+            l10n-placeholder="Leave blank if not applicable"
             ng-model='contact.dt'
             rp-stdt
             rp-autofill='$routeParams.dt')
@@ -107,7 +108,7 @@ section.col-xs-12.content(ng-controller="ContactsCtrl")
             label(for="contact_dt", l10n) Destination tag
             input.form-control.dt#contact_dt(
               name='dt', type='text', step='any', class="inline"
-              placeholder="Leave blank if not applicable"
+              l10n-placeholder="Leave blank if not applicable"
               ng-model='editdt'
               rp-stdt
               rp-autofill='$routeParams.dt'
@@ -143,4 +144,4 @@ section.col-xs-12.content(ng-controller="ContactsCtrl")
         .col-xs-6
           button.send.btn.btn-block.btn-primary.btn-sm(ng-click='send($index)', l10n) Send
   div(ng-hide="userBlob.data.contacts.length", l10n) You don't have any contacts yet.
-    | Click on "Add contact" button in the top right corner to add a new contact.
+    |  Click on 'Add contact' button in the top right corner to add a new contact.

@@ -64,7 +64,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
           input.form-control#first_issuer(
             name='first_issuer', type='text', rp-combobox="issuer_query"
             rp-combobox-value-as-ripple-name
-            placeholder='Ripple name or contact'
+            l10n-placeholder="Ripple name or contact"
             ng-model="order.first_issuer_edit_name"
             rp-dest, rp-dest-address, rp-dest-contact, rp-dest-ripple-name
             rp-dest-model="order.first_issuer_edit")
@@ -156,7 +156,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                       rp-pretty-issuer-contacts="userBlob.data.contacts"
                       rp-pretty-issuer-or-short)
                     |  {{order.second_currency | rpcurrency}}
-                | available
+                |  available
               span.available(ng-show="type == 'sell'", l10n)
                 span.amount
                   span(ng-show="order.first_currency.is_native()")
@@ -168,7 +168,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                       rp-pretty-issuer-contacts="userBlob.data.contacts"
                       rp-pretty-issuer-or-short)
                     |  {{order.first_currency | rpcurrency}}
-                | available
+                |  available
             div(ng-switch-when='trade')
               form.mode-form(name="tradeForm", ng-submit='place_order(type)', ng-show="order[type].showWidget")
                 .row.order-values
@@ -288,7 +288,8 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
             //- 2. Confirmation
             form.mode-confirm(ng-switch-when='confirm', ng-submit="order_confirmed(type)")
               p.title.literal
-                p.order-warning(ng-show="fatFingerErr === true", l10n) CAUTION: Your order is far off from the current market price.
+                p.order-warning(ng-show="fatFingerErr === true", l10n)
+                  | CAUTION: Your order is far off from the current market price.
                 span(l10n) You are about to create an order to
                   span(ng-show="type == 'buy'", l10n-inc)  buy
                   span(ng-show="type == 'sell'", l10n-inc)  sell
@@ -369,7 +370,8 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
               .actionLink
                 a(href="#trade", ng-click="reset_widget(type)", l10n) Submit another order
 
-      h3 My Orders ({{offersCount}})
+      h3(l10n) My Orders
+        span ({{offersCount}})
         small.toggle(ng-hide="isEmpty(offers)", ng-click="hideOffers = !hideOffers") {{hideOffers ? "show" : "hide"}}
       .listings.offers(ng-class="{show : !hideOffers}")
         .my
@@ -420,8 +422,10 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
         span(l10n)  Error: {{cancelError}}  
         a.dismiss(href="", ng-click="dismissCancelError()", l10n)  hide
         
-      h3 Orderbook
-        small.toggle(ng-click="hideOrderBook = !hideOrderBook") {{hideOrderBook ? "show" : "hide"}}
+      h3(l10n) Orderbook
+        small.toggle(ng-click="hideOrderBook = !hideOrderBook")
+          span(ng-show="hideOrderBook", l10n) show
+          span(ng-hide="hideOrderBook", l10n) hide
       .listings.orders(ng-class="{show : !hideOrderBook}")
         //- TODO hide one column (size/sum) to show bids/ask in the same line for mobile phones.
         //- TODO highlight changes

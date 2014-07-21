@@ -26,7 +26,7 @@ section.col-xs-12.content(ng-controller="AppsCtrl")
       .col-sm-4
         input.form-control(
           name='rippleAddress', id='rippleAddress', type="text"
-          placeholder='App Ripple Address'
+          l10n-placeholder="App Ripple Address"
           ng-model='app.rippleAddress'
           required, rp-dest, rp-dest-address)
         .errorGroup(rp-errors='rippleAddress')

@@ -110,7 +110,7 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
                     != require("../tabs/history/effects.jade")()
                 .date {{entry.date | rpfromnow}}
               li.history(ng-show="notifications.length")
-                a(href="#/history") View Full History
+                a(href="#/history", l10n) View Full History
           li.settings
             a.dropdown-toggle.fa.fa-cog
             ul.dropdown-menu
