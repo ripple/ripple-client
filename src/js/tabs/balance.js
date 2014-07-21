@@ -94,10 +94,11 @@ BalanceTab.prototype.angular = function (module)
     };*/
     
     function drawPieChart(container, scope) {
+      console.log("DRAWING PIE CHART!", scope.drops, scope.ious, scope.exchangeRates);
       var exchangeRates = scope.exchangeRates;
       
-      if (exchangeRates && Object.keys(exchangeRates).length) {
-        exchangeRates["XRP"] = 1;
+      if (scope.drops && exchangeRates && Object.keys(exchangeRates).length) {
+        //exchangeRates["XRP"] = 1;
       } else {
         return;
       }
@@ -220,7 +221,12 @@ BalanceTab.prototype.angular = function (module)
     
     function drawSectors(container, shares, labels, colors, cssClass, grouping, offset) {
       var TAU = Math.PI*2;
-      
+      console.log("SHARES!", shares);
+      //shares = [1];
+      if (shares.length && shares[0] === 1) {
+        console.log("ADJUSTING SHARES!");
+        shares[0] = 0.9999;
+      }
       if (offset) {
         shares.unshift(offset);
         labels.unshift("!"); // This should never actually appear in the view.
@@ -261,6 +267,7 @@ BalanceTab.prototype.angular = function (module)
         if (share !== 0) {
           var pointA = polarToRect(circleRadius, boundaryAngles[i-1]||0);
           var pointB = polarToRect(circleRadius, boundaryAngles[i]);
+          console.log("POINT B", pointB);
           var labelCoords = polarToRect(circleRadius+20, midpointAngles[i]);
           var labelPosition = {
             x: labelCoords[0],
@@ -375,8 +382,8 @@ BalanceTab.prototype.angular = function (module)
   }]);
   */
 
-  module.controller('BalanceCtrl', ['$rootScope', 'rpId', '$filter', 'rpAppManager',
-                                     function ($scope, $id, $filter, appManager)
+  module.controller('BalanceCtrl', ['$rootScope', 'rpId', '$filter', '$http', 'rpAppManager',
+                                     function ($scope, $id, $filter, $http, appManager)
   {
     if (!$id.loginStatus) return $id.goId();
     
@@ -392,15 +399,21 @@ BalanceTab.prototype.angular = function (module)
     };
     
     $scope.$watch("selectedValueMetric", function(){
-      console.log("SELECTED VALUE METRIC!", $scope.selectedValueMetric);
-      updateAggregateValueDisplayed();
+      console.log("SELECTED VALUE METRIC!", $scope.selectedValueMetric, $scope.aggregateValueAsXrp);
+      if ($scope.aggregateValueAsXrp) {
+        console.log("OKAY!!!!");
+        updateAggregateValueDisplayed();
+      } else {
+        console.log("NEVERMIND");
+      }
     })
     
     $scope.exchangeRates = {"XRP":1};
     
     $scope.$watch("exchangeRates", function(){
       //var curs = Object.keys($scope.exchangeRates);
-      if ($scope.exchangeRates) {
+      //if ($scope.exchangeRates) {
+        console.log("EXCHANGE RATES WATCH!", $scope.exchangeRates);
         var isAmbiguous = {};
         var okser = Object.keys($scope.exchangeRates);
         outerLoop: for (var i=0; i<okser.length; i++) {
@@ -426,14 +439,15 @@ BalanceTab.prototype.angular = function (module)
             text: currencyName + (isAmbiguous[currencyName] ? " ("+ issuerName +")" : "")
           };
         });
-      }
+      //}
       // Don't include XRP
       updateAggregateValueAsXrp();
     }, true);
     
     function updateAggregateValueAsXrp() {
-      if ( $scope.exchangeRates) {
+      if ( $scope.account.Balance) {
         //do stuff
+        console.log("UAVAX!", $scope.account.Balance);
         var av = $scope.account.Balance / 1000000;
         
         //TODO: a lot of this is duplicated from up above.
@@ -452,9 +466,12 @@ BalanceTab.prototype.angular = function (module)
     }
     
     function updateAggregateValueDisplayed() {
-      if ( $scope.exchangeRates) {
-        $scope.aggregateValueDisplayed =  $scope.aggregateValueAsXrp / $scope.exchangeRates[$scope.selectedValueMetric];
-      }
+      console.log("updateAggregateValueDisplayed", $scope.aggregateValueAsXrp);
+      //if ( $scope.exchangeRates) {
+        console.log("really!");
+        $scope.aggregateValueDisplayed = $scope.aggregateValueAsXrp / $scope.exchangeRates[$scope.selectedValueMetric];
+        console.log("!!! "+$scope.selectedValueMetric+" !! "+$scope.aggregateValueAsXrp+" "+JSON.stringify($scope.exchangeRates));
+      //}
     }
     
     $scope.$watch("balances", function(){
@@ -474,16 +491,18 @@ BalanceTab.prototype.angular = function (module)
           counter:{currency:"XRP"}
         }
       });
-      
-      $.post("https://api.ripplecharts.com/api/exchangeRates", {pairs:pairs,last:true}, function(response){
-        console.log("RIPPLE CHARTS RESPONSE!", response);
-        for (var i=0; i<response.length; i++) {
-          var pair = response[i];
-          $scope.exchangeRates[pair.base.currency+":"+pair.base.issuer] = pair.last;
-        }
-        //$scope.exchangeRates = exchangeRates;
-      });
-      updateAggregateValueAsXrp();
+      if (pairs.length) {
+        $http.post("https://api.ripplecharts.com/api/exchangeRates", {pairs:pairs,last:true})
+        .success(function(response){
+          console.log("RIPPLE CHARTS RESPONSE!", response);
+          for (var i=0; i<response.length; i++) {
+            var pair = response[i];
+            $scope.exchangeRates[pair.base.currency+":"+pair.base.issuer] = pair.last;
+          }
+          //$scope.exchangeRates = exchangeRates;
+          updateAggregateValueAsXrp();
+        });
+      }
     }, true);
     
 

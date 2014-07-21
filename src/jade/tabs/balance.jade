@@ -18,8 +18,9 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
             //button(ng-click="addPath()") click here!
             .lbl Total Balance
               .desc Estimated from exchange rates
-            .total.amount {{aggregateValueDisplayed}}.
-              span.fraction 0000
+            .total.amount
+              span.fraction {{ aggregateValueDisplayed.toFixed(4) }}
+              //span.fraction XXXX
               select.currency(ng-model='selectedValueMetric'
                 ng-change='changeMetric(this)')
                 //option(selected=true value="XRP") XRP
