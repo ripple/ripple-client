@@ -1,3 +1,4 @@
+
 section.col-xs-12.content(ng-controller="TradeCtrl")
 
   //- Disconnected
@@ -86,7 +87,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
             rp-dest, rp-dest-address, rp-dest-contact, rp-dest-ripple-name
             rp-dest-model="order.second_issuer_edit")
           .errorGroup(rp-errors='second_issuer')
-            .error(rp-error-on='rpDest', l10n) Not a valid ripple address or contact
+            .error(rp-error-on='rpDest', l10n) Not a valid Ripple name or address 
         .col-xs-12.col-sm-4.col-md-2
           button.btn.btn-block.btn-success.submit(type='submit',
             ng-click='save_second_issuer()',
@@ -94,8 +95,8 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
 
     .message-select-issuer(ng-hide="order.valid_settings", l10n)
       | You must select an issuer to trade currencies.
-      |  Click the “change issuer”, link above and enter your trusted
-      |  gateway address or nickname.
+      |  Click the “change issuer” link above and enter the issuing
+      |  gateway's address or Ripple name.
 
     group(ng-if="order.valid_settings")
       ul.ticker
