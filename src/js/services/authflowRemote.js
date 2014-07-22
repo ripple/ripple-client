@@ -20,10 +20,15 @@ module.factory('rpAuthFlow', ['$rootScope',
   };
 
   AuthFlow.login = function (opts, callback) {
-    var meta = AuthFlow.getVaultClient(opts.username);
-    meta.client.login(meta.username, opts.password, function(err, resp) {
+    var meta     = AuthFlow.getVaultClient(opts.username);
+    var deviceID = opts.device_id || meta.client.generateDeviceID(); 
+    meta.client.login(meta.username, opts.password, deviceID, function(err, resp) {
       if (err) {
-        return callback(err);
+        $scope.$apply(function(){
+          callback(err);
+        });
+        
+        return;
       }
 
       var keys = {
@@ -105,9 +110,10 @@ module.factory('rpAuthFlow', ['$rootScope',
     });
   };
 
-  AuthFlow.relogin = function (url, keys, callback) {
+  AuthFlow.relogin = function (url, keys, deviceID, callback) {
     var meta = AuthFlow.getVaultClient('');
-    meta.client.relogin(url, keys.id, keys.crypt, function(err, resp){
+    if (!deviceID) deviceID = meta.client.generateDeviceID(); 
+    meta.client.relogin(url, keys.id, keys.crypt, deviceID, function(err, resp){
         if (err) {
           callback(err);
           return;
@@ -183,7 +189,29 @@ module.factory('rpAuthFlow', ['$rootScope',
       });      
     });
   };
+  
+  AuthFlow.requestToken = function (url, id, callback) {
+    var meta = AuthFlow.getVaultClient('');
+    meta.client.requestToken(url, id, function(err, resp){
+      $scope.$apply(function() { 
+        callback(err, resp);         
+      });       
+    });  
+  }
 
+  AuthFlow.verifyToken = function (options, callback) {
+    var meta = AuthFlow.getVaultClient('');
+    if (!options.device_id) {
+      options.device_id = meta.client.generateDeviceID(); 
+    }
+
+    meta.client.verifyToken(options, function(err, resp){
+      $scope.$apply(function() { 
+        callback(err, resp);         
+      });       
+    });  
+  }
+  
   AuthFlow.getVaultClient = function(username) {
     var meta = { username: username, domain: Options.domain };
 
