@@ -78,11 +78,11 @@ BalanceTab.prototype.angular = function (module)
     
     function shades(colorHex) {
       return [
-        darken(colorHex, 3),
-        lighten(colorHex, 2),
+        darken(colorHex, Math.SQRT2),
+        lighten(colorHex, Math.SQRT2)/*,
         darken(colorHex, 2),
         lighten(colorHex, 3),
-        colorHex
+        colorHex*/
       ];
     }
     
@@ -141,23 +141,18 @@ BalanceTab.prototype.angular = function (module)
       var currencies = amounts.map(function(a){return rpcurrency(a)});
       
 
-      
-      
-
       // TODO: make this better
       var currencyColors = {
-        //"__N": "#f00", //RED	
-        "BTC": "#fa0", //ORANGE
-        "CNY": "#af0", //YELLOW
-        "USD": "#0f0", //LIME
-        "AUD": "#0fa", //GREEN
-        "XRP": "#0af", //BLUE
-        //"___": "#00f", //INDIGO
-        "CAD": "#a0f", //VIOLET
-        "EUR": "#f0a"  //PINK
+        XRP : '#346aa9',
+        USD : "#32b450",
+        BTC : "#dc8246",
+        EUR : "#fae632",
+        CNY : "#c82832",
+        JPY : "#8c466e",
+        CAD : "#8264be"
       };
       
-      var colors = currencies.map(function(c){return currencyColors[c] || "#00f";});
+      var colors = currencies.map(function(c){return currencyColors[c] || "#3c3ca0";});
       
       // Prepare the container
       container.find('*').remove()
@@ -203,6 +198,9 @@ BalanceTab.prototype.angular = function (module)
         $(this).attr("x",x - width/2);
       });
       
+      //Resolve collisions:
+      resolveCollisions(container);
+      
       // Define hovering behavior
       container.find("path.main").on("mouseover", function(){
         var group = $(this).attr("group");
@@ -230,7 +228,7 @@ BalanceTab.prototype.angular = function (module)
       if (offset) {
         shares.unshift(offset);
         labels.unshift("!"); // This should never actually appear in the view.
-        colors.unshift(colors.pop());
+        //colors.unshift(colors.pop());
       }
       
       
@@ -260,7 +258,6 @@ BalanceTab.prototype.angular = function (module)
       };
       
       
-      
       var sectors = [];
       for ((offset ? i=1 : i=0); i<shares.length; i++) {
         var share = shares[i];
@@ -280,7 +277,7 @@ BalanceTab.prototype.angular = function (module)
               " A "+circleRadius+","+circleRadius+
               " 0,"+(shares[i]>0.5?"1":"0")+",1 "+
               pointB.join(",")+" Z",
-            color: colors[i % colors.length],
+            color: colors[sectors.length % colors.length],
             labelPosition: labelPosition,
             labelText: labels[i],
             group: "string"===typeof(grouping) ? grouping : grouping[i], //TODO move this out to make it more efficient
@@ -308,20 +305,121 @@ BalanceTab.prototype.angular = function (module)
           group: sector.group
         });
         
-        $('<text></text>').appendTo(svg).text(sector.labelText).attr({
+        var g = $('<g></g>').appendTo(svg).attr({
+          "class": cssClass + " pielabel",
+          group: sector.group
+        });
+        
+        /*var g = $('<g></g>').appendTo(svg).attr({
+          "class":"label"
+          "class": cssClass + " label",
+          group: sector.group
+        });*/
+        
+        $('<text></text>').appendTo(g).text(sector.labelText).attr({
           x: sector.labelPosition.x,
           y: sector.labelPosition.y,
           "class": cssClass,
           group: sector.group
         });
         
-        $('<text></text>').appendTo(svg).text(Math.round(sector.share*100)+"%").attr({
+        $('<text></text>').appendTo(g).text(Math.round(sector.share*100)+"%").attr({
           "class": cssClass + " percentage",
           x: sector.labelPosition.x,
           y: sector.labelPosition.y+14,
           group: sector.group
         });
       }
+    }
+    
+    
+    
+    function resolveCollisions(container) {
+      var svg = container.find('svg');
+      console.log("RESOLVING COLLISIONS::");
+      for (var a=0; a<6; a++) {
+        if (!resolveCollisionsInSelection(svg.find("g.main.pielabel"))) {
+          break;
+        }
+      }
+      var groups = {};
+      svg.find("g.sub.pielabel").each(function(){
+        groups[$(this).attr("group")] = true;
+      });
+      console.log("GROUPS!", Object.keys(groups));
+      var okg = Object.keys(groups);
+      for (var i=0; i<okg.length; i++) {
+        var group = okg[i];
+        var selection = svg.find("g.sub.pielabel[group='"+group+"']");
+        for (var a=0; a<6; a++) {
+          if (!resolveCollisionsInSelection(selection)) {
+            break;
+          }
+        }
+      }
+    }
+    
+    function resolveCollisionsInSelection(selection) {
+      var bounds = [];
+      selection.each(function(){
+        var bbox = $(this)[0].getBBox();
+        console.log("BBOX", bbox);
+        bounds.push({
+          left:   bbox.x,
+          right:  bbox.x+bbox.width,
+          top:    bbox.y,
+          bottom: bbox.y+bbox.height
+        });
+      });
+      var collisions = {};
+      for (var collider=0; collider<bounds.length; collider++) {
+        var colliderBounds = bounds[collider];
+        for (var collidee=0; collidee<bounds.length; collidee++) { if (collider !== collidee) {
+          var collideeBounds = bounds[collidee];
+          var collisionLR = colliderBounds.right - collideeBounds.left;
+          var collisionRL = colliderBounds.left - collideeBounds.right;
+          var collisionTB = colliderBounds.bottom - collideeBounds.top;
+          var collisionBT = colliderBounds.top - collideeBounds.bottom;
+          
+          if (collisionLR > 0 && collisionRL < 0 && collisionTB > 0 && collisionBT < 0) {
+            //console.log("COLLISION DETECTED!", colliderBounds, collideeBounds, positiveCollision, negativeCollision);
+            if (!collisions[collider]) {
+              collisions[collider] = {};
+            }
+            if (!collisions[collider][collidee]) {
+              collisions[collider][collidee] = {};
+            }
+            collisions[collider][collidee] = {
+              h: (collisionLR > -collisionRL ? collisionRL : collisionLR),
+              v: (collisionTB > -collisionBT ? collisionBT : collisionTB)
+            };
+          }
+        }}
+      }
+      
+      console.log("DETECTED COLLISIONS:", collisions);
+      
+      for (var collider in collisions) {if (collisions.hasOwnProperty(collider)) {
+        var collidingWith = collisions[collider];
+        for (var collidee in collidingWith) {if (collidingWith.hasOwnProperty(collidee)) {
+          var collision = collidingWith[collidee];
+          var g = $(selection[collider]);
+          if (true || Math.abs(collision.h) < Math.abs(collision.v)) { //TODO: Be smarter about this
+            g.find("text").each(function(){
+              var x = $(this).attr("x");
+              $(this).attr("x",x-collision.h/2);
+            });
+          } else {
+            g.find("text").each(function(){
+              var y = $(this).attr("y");
+              $(this).attr("y",y-collision.v/2);
+            });
+          }
+        }}
+      }}
+      
+      return !!Object.keys(collisions);
+      
     }
     
     
@@ -416,8 +514,9 @@ BalanceTab.prototype.angular = function (module)
         console.log("EXCHANGE RATES WATCH!", $scope.exchangeRates);
         var isAmbiguous = {};
         var okser = Object.keys($scope.exchangeRates);
-        outerLoop: for (var i=0; i<okser.length; i++) {
+        for (var i=0; i<okser.length; i++) {
           var cur = okser[i].split(":")[0];
+          console.log("TESTING AMBIGUITY:", cur);
           if (isAmbiguous[cur] && isAmbiguous.hasOwnProperty(cur)) { //In case there's a currency called "constructor" or something
             continue; //todo: get rid of this
           } else {
@@ -425,18 +524,19 @@ BalanceTab.prototype.angular = function (module)
               var cur2 = okser[j].split(":")[0];
               if (cur === cur2) {
                 isAmbiguous[cur] = true;
-                break outerLoop; //todo: get rid of this
+                break;
               }
             }
           }
         }
+        console.log("IS AMBIGUOUS?", isAmbiguous);
         $scope.valueMetrics = okser.map(function(code){
           var curIssuer = code.split(":");
           var currencyName = $filter('rpcurrency')(ripple.Amount.from_human("0 "+curIssuer[0])); //This is really messy
           var issuerName = $filter('rpcontactname')(curIssuer[1]);
           return {
             code: code,
-            text: currencyName + (isAmbiguous[currencyName] ? " ("+ issuerName +")" : "")
+            text: currencyName + (isAmbiguous[curIssuer[0]] ? " ("+ issuerName +")" : "")
           };
         });
       //}
