@@ -306,6 +306,18 @@ TradeTab.prototype.angular = function(module)
       order.mode = "sending";
     };
 
+    $scope.loadMore = function () {
+      $scope.orderbookLength = books.getLength();
+      var multiplier = 30;
+
+      Options.orderbook_max_rows += multiplier;
+
+      loadOffers();
+
+      $scope.orderbookState = (($scope.orderbookLength - Options.orderbook_max_rows + multiplier) < 1) ? 'full' : 'ready';
+    }
+    
+
     /**
      * Handle transaction result
      */
@@ -604,6 +616,8 @@ TradeTab.prototype.angular = function(module)
         currency: ($scope.order.second_currency.has_interest() ? $scope.order.second_currency.to_hex() : $scope.order.second_currency.get_iso()),
         issuer: $scope.order.second_issuer
       }, $scope.address);
+
+      $scope.orderbookState = 'ready';
     }
 
     /**
