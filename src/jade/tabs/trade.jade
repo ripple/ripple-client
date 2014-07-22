@@ -500,4 +500,4 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
             .message(ng-show='!book.asks.length', l10n) There are currently no asks for this pair.
       .foot
         a.loadmore(ng-show="orderbookState=='ready'", href="", ng-click="loadMore()", l10n) Load more
-        div(ng-show="orderbookState=='full'", l10n) Entire orderbook already shown
+        div(ng-show="orderbookState=='full'", l10n) No more orders
