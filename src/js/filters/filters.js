@@ -171,9 +171,14 @@ module.filter('rpamountsubtract', function () {
  *
  * Displays a timestamp as "x minutes ago".
  */
+var momentCache = {};
+
 module.filter('rpfromnow', function () {
   return function (input) {
-    return moment(input).fromNow();
+    // This is an expensive function, cache it
+    if (!momentCache[input]) momentCache[input] = moment(input).fromNow();
+
+    return momentCache[input];
   };
 });
 

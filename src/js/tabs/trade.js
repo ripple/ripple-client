@@ -12,7 +12,7 @@ var TradeTab = function ()
 util.inherits(TradeTab, Tab);
 
 TradeTab.prototype.tabName = 'trade';
-TradeTab.prototype.mainMenu = 'exchange';
+TradeTab.prototype.mainMenu = 'trade';
 
 TradeTab.prototype.generateHtml = function ()
 {
@@ -167,17 +167,29 @@ TradeTab.prototype.angular = function(module)
      */
     $scope.cancel_order = function ()
     {
-      var seq = this.entry ? this.entry.seq : this.order.Sequence;
-
-      var tx = $network.remote.transaction();
+      var seq   = this.entry ? this.entry.seq : this.order.Sequence;
+      var order = this;      
+      var tx    = $network.remote.transaction();
+      
+      $scope.cancelError = null;
+                  
       tx.offer_cancel(id.account, seq);
       tx.on('success', function() {
         $rpTracker.track('Trade order cancellation', {
           'Status': 'success'
         });
       });
-      // TODO handle this
+
       tx.on('error', function (err) {
+        console.log("cancel error: ", err);
+        
+        order.cancelling   = false;
+        $scope.cancelError = err.engine_result_message;
+        
+        if (!$scope.$$phase) {
+          $scope.$apply();
+        }
+                
         $rpTracker.track('Trade order cancellation', {
           'Status': 'error',
           'Message': err.engine_result
@@ -185,16 +197,24 @@ TradeTab.prototype.angular = function(module)
       });
 
       keychain.requestSecret(id.account, id.username, function (err, secret) {
-        // XXX Error handling
-        if (err) return;
+        if (err) {
+          
+          //err should equal 'canceled' here, other errors are not passed through 
+          order.cancelling = false;
+          return;
+        }
 
         tx.secret(secret);
         tx.submit();
       });
 
-      this.cancelling = true;
+      order.cancelling = true;
     };
 
+    $scope.dismissCancelError = function() {
+      $scope.cancelError = null;  
+    };
+    
     /**
      * Happens when user clicks "Confirm" in order confirmation view.
      *
@@ -217,49 +237,53 @@ TradeTab.prototype.angular = function(module)
         tx.set_flags('Sell');
 
       tx.on('proposed', function (res) {
-        $scope.$apply(function () {
-          setEngineStatus(res, false, type);
 
-          // Remember currency pair and increase usage number
-          var found;
+        // Remember currency pair and increase usage number
+        var found;
+        setEngineStatus(res, false, type);
 
-          for (var i = 0; i < $scope.pairs_all.length; i++) {
-            if ($scope.pairs_all[i].name === $scope.order.currency_pair) {
-              $scope.pairs_all[i].order++;
-              found = true;
-              break;
-            }
+        for (var i = 0; i < $scope.pairs_all.length; i++) {
+          if ($scope.pairs_all[i].name === $scope.order.currency_pair) {
+            $scope.pairs_all[i].order++;
+            found = true;
+            break;
           }
+        }
 
-          if (!found) {
-            $scope.pairs_all.push({
-              "name": $scope.order.currency_pair,
-              "order": 1
-            });
-          }
-        });
+        if (!found) {
+          $scope.pairs_all.push({
+            "name": $scope.order.currency_pair,
+            "order": 1
+          });
+        }
+        
+        if (!$scope.$$phase) {
+          $scope.$apply();
+        }        
       });
 
-      tx.on('success', function(res){
-        $scope.$apply(function () {
-          setEngineStatus(res, true, type);
-
-          order.mode = "done";
-
-          $rpTracker.track('Trade order result', {
-            'Status': 'success',
-            'Currency pair': $scope.order.currency_pair
-          });
+      tx.on('success', function(res) {
+        setEngineStatus(res, true, type);
+        order.mode = "done";
+        
+        if (!$scope.$$phase) {
+          $scope.$apply();
+        }
+        
+        $rpTracker.track('Trade order result', {
+          'Status': 'success',
+          'Currency pair': $scope.order.currency_pair
         });
       });
 
       tx.on('error', function (err) {
-        $scope.$apply(function () {
-          setEngineStatus(err, false, type);
-
-          order.mode = "done";
-        });
-
+        setEngineStatus(err, false, type);
+        order.mode = "done";
+        
+        if (!$scope.$$phase) {
+          $scope.$apply();
+        }
+        
         $rpTracker.track('Trade order result', {
           'Status': 'error',
           'Message': err.engine_result,
@@ -268,9 +292,13 @@ TradeTab.prototype.angular = function(module)
       });
 
       keychain.requestSecret(id.account, id.username, function (err, secret) {
-        // XXX Error handling
-        if (err) return;
-
+        if (err) {
+          
+          //err should equal 'canceled' here, other errors are not passed through 
+          order.mode = 'trade';
+          return;
+        }
+        
         tx.secret(secret);
         tx.submit();
       });

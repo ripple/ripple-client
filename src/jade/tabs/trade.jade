@@ -1,3 +1,4 @@
+
 section.col-xs-12.content(ng-controller="TradeCtrl")
 
   //- Disconnected
@@ -63,7 +64,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
           input.form-control#first_issuer(
             name='first_issuer', type='text', rp-combobox="issuer_query"
             rp-combobox-value-as-ripple-name
-            placeholder='Ripple name or contact'
+            l10n-placeholder="Ripple name or contact"
             ng-model="order.first_issuer_edit_name"
             rp-dest, rp-dest-address, rp-dest-contact, rp-dest-ripple-name
             rp-dest-model="order.first_issuer_edit")
@@ -86,7 +87,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
             rp-dest, rp-dest-address, rp-dest-contact, rp-dest-ripple-name
             rp-dest-model="order.second_issuer_edit")
           .errorGroup(rp-errors='second_issuer')
-            .error(rp-error-on='rpDest', l10n) Not a valid ripple address or contact
+            .error(rp-error-on='rpDest', l10n) Not a valid Ripple name or address 
         .col-xs-12.col-sm-4.col-md-2
           button.btn.btn-block.btn-success.submit(type='submit',
             ng-click='save_second_issuer()',
@@ -94,8 +95,8 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
 
     .message-select-issuer(ng-hide="order.valid_settings", l10n)
       | You must select an issuer to trade currencies.
-      |  Click the “change issuer”, link above and enter your trusted
-      |  gateway address or nickname.
+      |  Click the “change issuer” link above and enter the issuing
+      |  gateway's address or Ripple name.
 
     group(ng-if="order.valid_settings")
       ul.ticker
@@ -155,7 +156,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                       rp-pretty-issuer-contacts="userBlob.data.contacts"
                       rp-pretty-issuer-or-short)
                     |  {{order.second_currency | rpcurrency}}
-                | available
+                |  available
               span.available(ng-show="type == 'sell'", l10n)
                 span.amount
                   span(ng-show="order.first_currency.is_native()")
@@ -167,7 +168,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                       rp-pretty-issuer-contacts="userBlob.data.contacts"
                       rp-pretty-issuer-or-short)
                     |  {{order.first_currency | rpcurrency}}
-                | available
+                |  available
             div(ng-switch-when='trade')
               form.mode-form(name="tradeForm", ng-submit='place_order(type)', ng-show="order[type].showWidget")
                 .row.order-values
@@ -287,7 +288,8 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
             //- 2. Confirmation
             form.mode-confirm(ng-switch-when='confirm', ng-submit="order_confirmed(type)")
               p.title.literal
-                p.order-warning(ng-show="fatFingerErr === true", l10n) CAUTION: Your order is far off from the current market price.
+                p.order-warning(ng-show="fatFingerErr === true", l10n)
+                  | CAUTION: Your order is far off from the current market price.
                 span(l10n) You are about to create an order to
                   span(ng-show="type == 'buy'", l10n-inc)  buy
                   span(ng-show="type == 'sell'", l10n-inc)  sell
@@ -368,7 +370,8 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
               .actionLink
                 a(href="#trade", ng-click="reset_widget(type)", l10n) Submit another order
 
-      h3 My Orders ({{offersCount}})
+      h3(l10n) My Orders
+        span ({{offersCount}})
         small.toggle(ng-hide="isEmpty(offers)", ng-click="hideOffers = !hideOffers") {{hideOffers ? "show" : "hide"}}
       .listings.offers(ng-class="{show : !hideOffers}")
         .my
@@ -414,9 +417,15 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                 a.danger(href="", l10n) Cancel
           .emptyMessage(ng-show="isEmpty(offers)")
             p.literal(l10n="You haven't placed any orders.") You haven&#39;t placed any orders.
-
-      h3 Orderbook
-        small.toggle(ng-click="hideOrderBook = !hideOrderBook") {{hideOrderBook ? "show" : "hide"}}
+      .alert.alert-danger(ng-show="cancelError")
+        span(l10n) Unable to cancel order.    
+        span(l10n)  Error: {{cancelError}}  
+        a.dismiss(href="", ng-click="dismissCancelError()", l10n)  hide
+        
+      h3(l10n) Orderbook
+        small.toggle(ng-click="hideOrderBook = !hideOrderBook")
+          span(ng-show="hideOrderBook", l10n) show
+          span(ng-hide="hideOrderBook", l10n) hide
       .listings.orders(ng-class="{show : !hideOrderBook}")
         //- TODO hide one column (size/sum) to show bids/ask in the same line for mobile phones.
         //- TODO highlight changes

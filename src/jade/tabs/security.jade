@@ -1,7 +1,9 @@
+
+
 section.col-xs-12.wide.content(ng-controller="SecurityCtrl")
-  p.important(l10n) Your money and wallet are protected digitally through
+  p.important(l10n) Your account is protected digitally through
     |  encryption algorithms that can be unlocked&#32;
-    b(l10n-inc) only with your personal keys
+    b(l10n-inc) only with your secret key or password
   ul.notices
     li
       span –
@@ -11,21 +13,21 @@ section.col-xs-12.wide.content(ng-controller="SecurityCtrl")
       span(l10n) Never share them!
   .title
     .icon.wallet
-    .name(l10n) Wallet
+    .name(l10n) Account
     .more
       span(l10n) {{userBlob.data.contacts.length}} contacts,&#32;
         span {{enc.length | rpfilesize}} &ensp;
     .more
       span(rp-download='enc',rp-download-filename='ripple-wallet.txt', l10n) You can&#32;
-        a(href="", rp-download-trigger, l10n-inc) backup your wallet to a file.
+        a(href="", rp-download-trigger, l10n-inc) backup your account to a file.
 
   .title
     .icon.money
-    .name(l10n) Secret Key
+    .name(l10n) Secret key
   ul.description(ng-hide="showKeys")
     li(l10n) This key is for emergency use only. You did not choose it. The network created it. You don't have to memorize it.
-    li(l10n) The Secret Key accesses Your money, which is already contained inside your wallet.
-    li(l10n) But if you ever lose your wallet, you can recover just your money with this key.
+    li(l10n) The Secret key accesses Your money, which is already contained inside your account.
+    li(l10n) But if you ever lose your account, you can recover just your money with this key.
     li
       b(l10n) Store it somewhere safe, never share it.
   div

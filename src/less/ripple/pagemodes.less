@@ -18,7 +18,7 @@
   }
 
   .question {
-    color: #5f5f5f;
+    color: @black;
     text-align: center;
     margin: 0 0 0 10px;
     font-size: 15px;
@@ -52,17 +52,17 @@
   }
 
   p.type {
-    background-color: #F8FBF2;
+    background-color: @lightgray;
     font-size: 18px;
     padding-top: 10px;
     padding-bottom: 10px;
-    color: #999;
+    color: @darkgray;
 
     strong {
       font-weight: normal;
       font-family: "OpenSansRegular";
       padding-left: 10px;
-      color: #000;
+      color: @black;
     }
   }
 
@@ -70,7 +70,7 @@
     .clearfix;
     dt {
       font-family: "OpenSansRegular";
-      color: #888;
+      color: @darkgray;
       clear: left;
       float: left;
       width: 120px;
@@ -81,7 +81,7 @@
       float: left;
       margin: 0;
       padding: 8px 0;
-      color: #000;
+      color: @black;
     }
 
     &.half {

@@ -2,7 +2,7 @@ html, body {
   width: 100%;
   height: 100%;
   overflow-x: hidden;
-  background-color: #fff;
+  background-color: @white;
 }
 
 body {
@@ -17,12 +17,12 @@ body {
   display: none;
   width: 100%;
   min-height: 100%;
-  background-color: #fff;
+  background-color: @white;
 }
 
 #version, #browserVersion {
   font-size: 12px;
-  color: #aaa;
+  color: @darkgray;
   text-align: center;
   margin-top: 0.3em;
 }
@@ -44,7 +44,7 @@ body.loaded #wrapper {
   margin: 200px 40px 0 40px;
   text-align: center;
   font: 18px 'OpenSansLight';
-  color: #b1b1b1;
+  color: @darkgray;
 
   p{
     margin: 50px 0 0 0;
@@ -74,7 +74,7 @@ body.loaded #appLoading {
 }
 
 #logo {
-  color: #fff;
+  color: @white;
   .icon-ripple-logo();
 }
 
@@ -89,7 +89,7 @@ header {
       padding: 9px 15px;
 
       a, a:hover, a:active {
-        color: #fff;
+        color: @white;
         text-decoration: none;
       }
     }
@@ -98,7 +98,7 @@ header {
       height: 50px;
 
       .navbar-text {
-        color: #fff;
+        color: @white;
         margin-top: 16px;
         margin-bottom: 16px;
       }
@@ -108,30 +108,30 @@ header {
         margin-right: 5px;
 
         > a {
-          color: #fff;
+          color: @white;
           .transition-duration(0.1s);
           cursor: pointer;
           padding: 15px 10px;
 
           .caret {
-            border-top-color: #fff;
-            border-bottom-color: #fff;
+            border-top-color: @white;
+            border-bottom-color: @white;
           }
 
           &:hover,
           &:focus {
-            color: #ddd;
+            color: @midgray;
             text-decoration: none;
             background-color: transparent;
           }
         }
 
         &.active {
-          background: lighten(@ripple-color,5%);
+          background: lighten(@midblue,5%);
 
           a:hover,
           a:focus {
-            color: #fff;
+            color: @white;
           }
         }
       }
@@ -146,7 +146,7 @@ header {
 
     .open {
       & > .dropdown-toggle {
-        background: lighten(@ripple-color,5%);
+        background: lighten(@midblue,5%);
       }
       & > .dropdown-menu {
         border-top: none;
@@ -161,7 +161,7 @@ header {
         margin: -4px auto 0;
         border-style: solid;
         border-width: 0 6px 4px 6px;
-        border-color: transparent transparent #F9FAFA transparent;
+        border-color: transparent transparent @lightgray transparent;
       }
     }
 
@@ -171,7 +171,7 @@ header {
   }
 
   .mainnav {
-    background-color: @ripple-color;
+    background-color: @midblue;
 
     .collapse {
       padding: 0;
@@ -179,8 +179,8 @@ header {
   }
 
   .subnav {
-    background-color: #F9FAFA;
-    border-bottom: 1px solid #E3E3E3;
+    background-color: @lightgray;
+    border-bottom: 1px solid @midgray;
 
     ul {
       list-style: none;
@@ -194,20 +194,20 @@ header {
         text-align: center;
 
         a {
-          color: #999;
+          color: @darkgray;
           display: inline-block;
           padding: 10px;
 
           &:hover,
           &:focus {
-            color: #bbb;
+            color: @midgray;
             text-decoration: none;
           }
         }
 
         &.active {
           font-family: 'OpenSansRegular';
-          border-bottom: 2px solid #999;
+          border-bottom: 2px solid @midgray;
         }
       }
     }
@@ -227,17 +227,17 @@ header {
 }
 
 .error {
-  color: #DC4D38;
+  color: @midred;
 }
 
 footer {
-  color: #aaa;
+  color: @darkgray;
   padding: 8px 20px;
-  border-top: 1px solid #ccc;
+  border-top: 1px solid @midgray;
   font: 12px OpenSansRegular;
 
   a {
-    color: #aaa;
+    color: @darkgray;
   }
 
   div:last-child {
@@ -258,7 +258,7 @@ footer {
 
   .right-links {
     & > a {
-      border-right: 1px solid #ccc;
+      border-right: 1px solid @midgray;
       padding-right: 5px;
       margin-right: 5px;
     }
@@ -300,8 +300,8 @@ footer {
   height: auto;
   overflow: auto;
   z-index: 1;
-  border-right: 1px solid #d9d9d9;
-  background: #fff;
+  border-right: 1px solid @midgray;
+  background: @white;
   -webkit-overflow-scrolling: touch;
   -webkit-transition: width 0.3s ease;
   -moz-transition: width 0.3s ease;
@@ -325,25 +325,26 @@ footer {
   a {
     display: block;
     padding: 12px 0;
-    color: #333;
-    background: #EEEEEE;
-    margin: 3px 0;
+    color: @black;
+    background: @lightgray;
+    border-bottom: 1px solid #d9d9d9;
+    font: 15px 'OpenSansLight';
 
     &.sub {
-      padding: 8px 0 8px 70px;
+      padding: 12px 0 12px 60px;
     }
     &:hover {
-      background: darken(#EEEEEE,5%);
+      background: darken(@lightgray,5%);
       text-decoration: none;
     }
     &.active {
-      background: #428bca;
-      color: #fff;
+      background: @midblue;
+      color: @white;
     }
 
     &.wallet .nav-icon,
     &.send .nav-icon,
-//    &.fund .nav-icon,
+    &.fund .nav-icon,
     &.exchange .nav-icon,
     &.advanced .nav-icon {
       float: left;
@@ -362,14 +363,14 @@ footer {
 
     &.wallet .nav-icon {background-position: 0px -10px;}
     &.send .nav-icon {background-position: -60px -10px;}
-//    &.fund .nav-icon {background-position: -120px -10px;}
+    &.fund .nav-icon {background-position: -120px -10px;}
     &.exchange .nav-icon {background-position: -180px -10px;}
     &.advanced .nav-icon {background-position: -240px -10px;}
 
     &.active {
       &.wallet .nav-icon {background-position: 0px -70px;}
       &.send .nav-icon {background-position: -60px -70px;}
-//      &.fund .nav-icon {background-position: -120px -70px;}
+      &.fund .nav-icon {background-position: -120px -70px;}
       &.exchange .nav-icon {background-position: -180px -70px;}
       &.advanced .nav-icon {background-position: -240px -70px;}
     }
@@ -393,7 +394,7 @@ footer {
     text-align: center;
     width: 17px;
     border-radius: 5px;
-    color: #fff;
+    color: @white;
   }
 }
 
@@ -403,7 +404,7 @@ footer {
   padding: 0;
 
   & > li {
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid @midgray;
     padding: 5px 10px;
 
     &.message {
@@ -413,14 +414,14 @@ footer {
       cursor: pointer;
     }
     &.unseen {
-      background: darken(#fff,3%);
+      background: darken(@white,3%);
     }
     &.unseen:hover {
-      background: darken(#fff,7%);
+      background: darken(@white,7%);
     }
 
     &:hover {
-      background: darken(#fff,3%);
+      background: darken(@white,3%);
     }
 
     &.history {
@@ -436,7 +437,7 @@ footer {
 
   .date {
     font-size: 10px;
-    color: #888;
+    color: @darkgray;
   }
 
   ul {
@@ -448,15 +449,15 @@ footer {
 
 .box {
   padding: 20px;
-  background: #FAFAFA;
-  border: 1px solid darken(#FAFAFA,10%);
+  background: @lightgray;
+  border: 1px solid darken(@lightgray,10%);
 
   .title {
     font-size: 18px;
   }
 
   .section {
-    border-top: 1px solid darken(#FAFAFA,10%);
+    border-top: 1px solid darken(@lightgray,10%);
     padding: 15px 0 0 0;
     margin: 10px 0 20px 0;
   }

@@ -24,7 +24,7 @@ section.single.content(ng-controller='SendCtrl')
         input.form-control#send_destination(
           name='send_destination', type='text'
           rp-combobox="recipient_query", rp-combobox-value-as-ripple-name
-          placeholder='Enter a Ripple name or contact'
+          l10n-placeholder="Enter a Ripple name or contact"
           ng-model='send.recipient'
           rp-dest, rp-dest-address, rp-dest-contact, rp-dest-bitcoin
           rp-dest-email, rp-dest-ripple-name, rp-dest-loading="recipient_loading"
@@ -62,9 +62,17 @@ section.single.content(ng-controller='SendCtrl')
             | Recipient should be a contact or Ripple/Bitcoin address.
           .error(rp-error-on='federation', l10n)
             | This email address is not Ripple-enabled.
+    ul.tagsLinks
+      li
+        a(href="", ng-click="send.show_dt_field = true"
+          ng-hide="send.show_dt_field || send.bitcoin || send.federation", l10n)
+            | Show destination tag
     .row.form-group(ng-show='send.show_dt_field')
       .col-xs-12.col-sm-6.col-md-5
         label(for='send_dt', l10n) Destination tag
+        | 
+        a(href="", ng-click="send.show_dt_field = false", l10n)
+          | hide
         input.form-control#send_dt(
         name='send_dt', type='text'
         ng-model='send.dt'
@@ -152,14 +160,9 @@ section.single.content(ng-controller='SendCtrl')
           | Recipient does not allow XRP payments. Are you sure you want to send XRP anyway?
         .notice(ng-show="send.trust_limit", l10n) {{send.recipient | rpcontactname}}
           | trusts you for {{send.trust_limit | rpamount}} {{send.trust_limit | rpcurrency}}.
-    ul.tagsLinks
-      li
-        a(href="", ng-click="send.show_dt_field = true"
-          ng-hide="send.show_dt_field || send.bitcoin || send.federation", l10n)
-            | Add Destination tag
     .row
       .col-xs-12.col-sm-6.col-md-5(ng-show="send.currency_code == 'XRP'")
-        button.btn.btn-block.btn-success.submit(type='submit'
+        button#sendXrpButton.btn.btn-block.btn-success.submit(type='submit'
           ng-disabled='sendForm.$invalid || send.self || !send.recipient_resolved || account.max_spend.to_number() < send.amount * 1000000', l10n)
           | Send XRP
     .remote
@@ -180,10 +183,9 @@ section.single.content(ng-controller='SendCtrl')
       p.literal(ng-show="send.path_status == 'pending' && send.currency_code == 'XRP'", rp-spinner="4", l10n)
         | Calculating alternatives
       p.literal(ng-show="send.path_status == 'no-path' && send.currency_code != 'XRP'", l10n)
-        | Sorry! Cannot send {{send.amount}} {{send.currency}} to
-        |  {{send.recipient}}. Please make sure your account has enough funds,
-        |  and the recipient has enough trust to the currency issuer. If it still
-        |  doesn't work, try again later.
+        | You cannot send {{send.amount}} {{send.currency}} to
+        |  {{send.recipient}}. Either your account has insufficient funds,
+        |  or {{send.recipient}} doesn't accept {{send.currency}}. 
       p.literal(ng-show="send.path_status == 'error-quote'", l10n)
         | Error while retrieving quote for outbound payment.
         span(ng-show="send.quote_error")  The outbound bridge reported: "{{send.quote_error | rpheavynormalize}}"
@@ -244,8 +246,8 @@ section.single.content(ng-controller='SendCtrl')
         span.currency {{send.alt.amount | rpcurrency}} &#32;
         span &plusmn; 1%
     form.call-to-action(ng-submit="send_confirmed()")
-      p.literal(l10n, ng-show="send.secret") Are you sure?
-      p.literal(l10n, ng-hide="send.secret") Please enter your password to confirm this transaction.
+      p.literal(ng-show="send.secret", l10n) Are you sure?
+      p.literal(ng-hide="send.secret", l10n) Please enter your password to confirm this transaction.
       .row.row-padding-small(ng-if="!send.secret")
         input.form-control#send_unlock_password(
           name='send_unlock_password', type='password', required
@@ -259,7 +261,7 @@ section.single.content(ng-controller='SendCtrl')
             ng-click='cancelConfirm()', l10n)
             | &laquo; Back
         .col-xs-6.col-sm-4.col-md-3.col-lg-2
-          button.btn.btn-block.btn-success.submit(
+          button#confirmButton.btn.btn-block.btn-success.submit(
             type='submit'
             ng-disabled='confirm_wait', l10n) Confirm
 

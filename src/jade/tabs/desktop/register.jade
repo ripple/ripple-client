@@ -83,8 +83,8 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
 
           a.btn.btn-block.btn-link(ng-click='reset()', l10n) Cancel
 
-    .switch-mode-link-container Have an account?&#32;
-      a(href='#login', l10n) Log In
+    .switch-mode-link-container(l10n) Have an account?&#32;
+      a(href='#login', l10n-inc) Log In
 
 
   .row.mode-welcome(ng-show='mode=="welcome"')

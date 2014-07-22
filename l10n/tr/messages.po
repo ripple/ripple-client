@@ -9,8 +9,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Ripple Client\n"
-"PO-Revision-Date: 2014-06-30 21:38+0000\n"
-"Last-Translator: Vahe Hovhannisyan <vhpoet@gmail.com>\n"
+"PO-Revision-Date: 2014-07-08 12:42+0000\n"
+"Last-Translator: Geoff <misc@geoff.kelsall.name>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/ripple-client/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,16 +22,16 @@ msgstr ""
 msgid "Overview"
 msgstr "Genel bakış"
 
-#: src/jade/client/index.jade:6 src/jade/client/navbar.jade:116
+#: src/jade/client/index.jade:6 src/jade/client/navbar.jade:117
 #: src/jade/tabs/trust.jade:28
 msgid "Balance"
 msgstr "Bakiye"
 
-#: src/jade/client/index.jade:7 src/jade/client/navbar.jade:118
+#: src/jade/client/index.jade:7 src/jade/client/navbar.jade:119
 msgid "History"
 msgstr "Geçmiş"
 
-#: src/jade/client/index.jade:8 src/jade/client/navbar.jade:120
+#: src/jade/client/index.jade:8 src/jade/client/navbar.jade:121
 #: src/jade/tabs/contacts.jade:3
 msgid "Contacts"
 msgstr "Kişiler"
@@ -46,16 +46,16 @@ msgstr "Gönder"
 msgid "Exchange"
 msgstr "Değiş"
 
-#: src/jade/client/index.jade:18 src/jade/client/navbar.jade:127
+#: src/jade/client/index.jade:18 src/jade/client/navbar.jade:128
 msgid "Trade"
 msgstr "Trade"
 
-#: src/jade/client/index.jade:19 src/jade/client/navbar.jade:129
+#: src/jade/client/index.jade:19 src/jade/client/navbar.jade:130
 msgid "Convert"
 msgstr "Çevir"
 
 #: src/jade/client/index.jade:23 src/jade/client/navbar.jade:19
-#: src/jade/client/navbar.jade:134
+#: src/jade/client/navbar.jade:135
 msgid "Fund"
 msgstr "Al"
 
@@ -63,16 +63,16 @@ msgstr "Al"
 msgid "Advanced"
 msgstr "İleri"
 
-#: src/jade/client/index.jade:30 src/jade/client/navbar.jade:107
+#: src/jade/client/index.jade:30 src/jade/client/navbar.jade:108
 msgid "Trust"
 msgstr "Güven "
 
-#: src/jade/client/index.jade:31 src/jade/client/navbar.jade:108
-#: src/jade/tabs/desktop/register.jade:79 src/jade/tabs/register.jade:154
+#: src/jade/client/index.jade:31 src/jade/client/navbar.jade:109
+#: src/jade/tabs/desktop/register.jade:79 src/jade/tabs/register.jade:159
 msgid "Security"
 msgstr "Güvenlik"
 
-#: src/jade/client/index.jade:32 src/jade/client/navbar.jade:109
+#: src/jade/client/index.jade:32 src/jade/client/navbar.jade:110
 #: src/jade/tabs/options.jade:3
 msgid "Options"
 msgstr "Seçenekler"
@@ -115,7 +115,6 @@ msgid "Unfunded account"
 msgstr "Para yatırılmamış hesap"
 
 #: src/jade/client/navbar.jade:35 src/jade/tabs/account.jade:50
-#: src/jade/tabs/activity.jade:8 src/jade/tabs/activity.jade:125
 #: src/jade/tabs/apps.jade:8 src/jade/tabs/balance.jade:8
 #: src/jade/tabs/exchange.jade:9 src/jade/tabs/fund.jade:73
 #: src/jade/tabs/fund.jade:80 src/jade/tabs/history.jade:189
@@ -128,109 +127,107 @@ msgstr "Yükleniyor..."
 msgid "There are no recent notifications."
 msgstr "Yeni bir mesaj yok."
 
-#: src/jade/client/navbar.jade:40 src/jade/tabs/activity.jade:44
+#: src/jade/client/navbar.jade:40
 msgid "You sent {{1}} to {{2}}"
 msgstr "{{2}} 'e {{1}} gönderdiniz"
 
-#: src/jade/client/navbar.jade:46 src/jade/tabs/activity.jade:54
-msgid "{{entry.transaction.counterparty | rpcontactname}} sent you"
-msgstr "{{entry.transaction.counterparty | rpcontactname}} size gönderdi"
+#: src/jade/client/navbar.jade:46
+msgid "{{1}} sent you {{2}}"
+msgstr "{{1}} size {{2}} gönderdi"
 
-#: src/jade/client/navbar.jade:51 src/jade/tabs/activity.jade:63
+#: src/jade/client/navbar.jade:52
 msgid "You requested to exchange {{1}} to {{2}}"
 msgstr "{{1}} den {{2}} ye para birimi dönüşümü talep ettiniz."
 
-#: src/jade/client/navbar.jade:59 src/jade/tabs/activity.jade:71
+#: src/jade/client/navbar.jade:60
 msgid "{{entry.transaction.counterparty | rpcontactname}} now trusts you for"
 msgstr "{{entry.transaction.counterparty | rpcontactname}} size güveniyor"
 
-#: src/jade/client/navbar.jade:65 src/jade/tabs/activity.jade:81
+#: src/jade/client/navbar.jade:66
 msgid "You now trust {{1}} for {{2}}."
 msgstr "{{2}} için {{1}} 'e güveniyorsunuz."
 
-#: src/jade/client/navbar.jade:74 src/jade/tabs/activity.jade:94
+#: src/jade/client/navbar.jade:75
 msgid "You created an order to sell {{1}} for {{2}}"
 msgstr "{{2}} için {{1}} satış talebiniz yaratılmıştır."
 
-#: src/jade/client/navbar.jade:78 src/jade/tabs/activity.jade:98
+#: src/jade/client/navbar.jade:79
 msgid "You created an order to buy {{1}} for {{2}}"
 msgstr "{{2}} karşılığında {{1}} almak için teklifiniz alındı"
 
-#: src/jade/client/navbar.jade:84 src/jade/tabs/activity.jade:104
+#: src/jade/client/navbar.jade:85
 msgid "You cancelled an order accepting {{1}} for {{2}}"
 msgstr "{{2}} karşılığında {{1}} almak için iptal ediniz"
 
-#: src/jade/client/navbar.jade:91 src/jade/tabs/activity.jade:111
+#: src/jade/client/navbar.jade:92
 msgid "Account details have been changed"
 msgstr "Hesap ayrıntıları değiştirilmiştir"
 
-#: src/jade/client/navbar.jade:94 src/jade/tabs/activity.jade:114
-#: src/jade/tabs/history.jade:147
+#: src/jade/client/navbar.jade:95 src/jade/tabs/history.jade:147
 msgid "Rippling"
 msgstr "Rippling"
 
-#: src/jade/client/navbar.jade:96 src/jade/tabs/activity.jade:116
-#: src/jade/tabs/history.jade:149
+#: src/jade/client/navbar.jade:97 src/jade/tabs/history.jade:149
 msgid "Failed transaction"
 msgstr "Hatalı transaction"
 
-#: src/jade/client/navbar.jade:106 src/jade/tabs/su.jade:12
+#: src/jade/client/navbar.jade:107 src/jade/tabs/su.jade:12
 msgid "Account"
 msgstr "Hesap"
 
-#: src/jade/client/navbar.jade:111
+#: src/jade/client/navbar.jade:112
 msgid "Logout"
 msgstr "Çıkış"
 
-#: src/jade/client/navbar.jade:122
+#: src/jade/client/navbar.jade:123
 msgid "Cash In"
 msgstr "Nakit yükle"
 
-#: src/jade/client/navbar.jade:136 src/jade/tabs/balance.jade:94
+#: src/jade/client/navbar.jade:137 src/jade/tabs/balance.jade:94
 msgid "Withdraw"
 msgstr "Çek"
 
-#: src/jade/client/navbar.jade:137
-msgid "{{1}}{{2}}"
-msgstr ""
-
 #: src/jade/client/navbar.jade:138
+msgid "{{1}}{{2}}"
+msgstr "{{1}}{{2}}"
+
+#: src/jade/client/navbar.jade:139
 msgid ""
 "Your account was successfully recovered and encrypted with the new password "
 "you provided!"
-msgstr ""
+msgstr "Hesabınız başarıyla kurtarıldı ve sağlanan yeni parola ile şifrelenmiş!"
 
-#: src/jade/client/navbar.jade:139
+#: src/jade/client/navbar.jade:140
 msgid "dismiss"
-msgstr ""
+msgstr "azletme"
 
-#: src/jade/client/navbar.jade:141
+#: src/jade/client/navbar.jade:142
 msgid ""
 "Welcome to Ripple Trade! To activate your account, you'll need at least 20 "
 "XRP."
 msgstr "Ripple Trade hoşgeldiniz! Hesabınızı etkinleştirmek için, en az 20 XRP gerekir."
 
-#: src/jade/client/navbar.jade:143
+#: src/jade/client/navbar.jade:144
 msgid ""
 "Have another user send XRP to your Ripple name "
 "(~{{userCredentials.username}})"
-msgstr ""
+msgstr "Sizin Ripple adına XRP göndermek için başka bir kullanıcı isteyin (~{{userCredentials.username}})"
 
-#: src/jade/client/navbar.jade:144
+#: src/jade/client/navbar.jade:145
 msgid ""
 "Use the bitcoin funding flow. A small amount of your first deposit will be "
 "used to activate your account."
-msgstr ""
+msgstr "Bitcoin fon akışını kullanın. İlk para yatırma küçük bir miktar hesabınızı aktive etmek için kullanılır."
 
-#: src/jade/client/navbar.jade:146
+#: src/jade/client/navbar.jade:147
 msgid ""
 "If your account remains unfunded for 30 days, you will no longer be able to "
 "login using your Ripple name (~{{userCredentials.username}}). You'll need to"
 " sign up for a new Ripple name."
-msgstr ""
+msgstr "Hesabınız 30 gün boyunca fonlanmayan kalırsa, artık Ripple adını (~ {{}} userCredentials.username) kullanarak giriş mümkün olacak. Yeni bir Ripple isim için kaydolmak gerekir."
 
 #: src/jade/directives/transactionerror.jade:4 src/jade/tabs/exchange.jade:119
-#: src/jade/tabs/send.jade:254
+#: src/jade/tabs/send.jade:256
 msgid "Your transaction has been submitted."
 msgstr "Transaction işletilmek üzere gönderildi."
 
@@ -239,29 +236,29 @@ msgid "Your account balance will update once the transaction has cleared."
 msgstr "İşlem gerçekleştiğinde hesap bakiyeniz güncellenecek"
 
 #: src/jade/directives/transactionerror.jade:7 src/jade/tabs/exchange.jade:122
-#: src/jade/tabs/send.jade:257
+#: src/jade/tabs/send.jade:259
 msgid "Transaction cleared!"
 msgstr "İşlem gerçekleşti!"
 
 #: src/jade/directives/transactionerror.jade:9 src/jade/tabs/exchange.jade:124
-#: src/jade/tabs/send.jade:259
+#: src/jade/tabs/send.jade:261
 msgid "Transaction partially valid!"
 msgstr "İşlem kısmen geçerlidir!"
 
 #: src/jade/directives/transactionerror.jade:10
-#: src/jade/tabs/exchange.jade:125 src/jade/tabs/send.jade:260
+#: src/jade/tabs/exchange.jade:125 src/jade/tabs/send.jade:262
 msgid "Your transaction could only be partially applied."
 msgstr "İşleminiz kısmen uygulanabildi."
 
 #: src/jade/directives/transactionerror.jade:12
 #: src/jade/directives/transactionerror.jade:23
 #: src/jade/tabs/exchange.jade:131 src/jade/tabs/exchange.jade:136
-#: src/jade/tabs/send.jade:266 src/jade/tabs/send.jade:271
+#: src/jade/tabs/send.jade:268 src/jade/tabs/send.jade:273
 msgid "Transaction malformed!"
 msgstr "Transaction yapısı hatalı!"
 
 #: src/jade/directives/transactionerror.jade:14
-#: src/jade/tabs/exchange.jade:133 src/jade/tabs/send.jade:268
+#: src/jade/tabs/exchange.jade:133 src/jade/tabs/send.jade:270
 msgid ""
 "Your transaction is invalid, reason: {{engine_result}} - "
 "{{engine_result_message}}"
@@ -276,7 +273,7 @@ msgid "Please try again."
 msgstr "Lütfen tekrar deneyin"
 
 #: src/jade/directives/transactionerror.jade:25
-#: src/jade/tabs/exchange.jade:138 src/jade/tabs/send.jade:273
+#: src/jade/tabs/exchange.jade:138 src/jade/tabs/send.jade:275
 msgid ""
 "Destination account requires destination tag to be specified when making "
 "payments."
@@ -287,15 +284,15 @@ msgstr "Hedef hesap ödemeyi belirleyebilmesi için hedef etiketine ihtiyaç duy
 #: src/jade/directives/transactionerror.jade:43
 #: src/jade/directives/transactionerror.jade:50
 #: src/jade/tabs/exchange.jade:141 src/jade/tabs/exchange.jade:150
-#: src/jade/tabs/exchange.jade:157 src/jade/tabs/send.jade:276
-#: src/jade/tabs/send.jade:282 src/jade/tabs/send.jade:291
+#: src/jade/tabs/exchange.jade:157 src/jade/tabs/send.jade:278
+#: src/jade/tabs/send.jade:284 src/jade/tabs/send.jade:293
 #: src/jade/tabs/trade.jade:254 src/jade/tabs/trade.jade:268
 #: src/jade/tabs/trust.jade:180
 msgid "Transaction failed!"
 msgstr "İşlem başarısız oldu!"
 
 #: src/jade/directives/transactionerror.jade:30
-#: src/jade/tabs/exchange.jade:159 src/jade/tabs/send.jade:278
+#: src/jade/tabs/exchange.jade:159 src/jade/tabs/send.jade:280
 #: src/jade/tabs/trade.jade:270 src/jade/tabs/trust.jade:182
 msgid ""
 "The particular server you sent the transaction to was too busy to forward or"
@@ -303,23 +300,23 @@ msgid ""
 msgstr "Transactionı yönlendirdiğiniz server, belirlediğiniz komisyon ile işlem yapabilmek için çok yoğun durumda."
 
 #: src/jade/directives/transactionerror.jade:36
-#: src/jade/tabs/exchange.jade:143 src/jade/tabs/send.jade:284
+#: src/jade/tabs/exchange.jade:143 src/jade/tabs/send.jade:286
 msgid "The destination account does not exist."
 msgstr "Hedef hesap bulunamadı."
 
 #: src/jade/directives/transactionerror.jade:38
-#: src/jade/tabs/exchange.jade:145 src/jade/tabs/send.jade:286
+#: src/jade/tabs/exchange.jade:145 src/jade/tabs/send.jade:288
 msgid ""
 "The destination account does not exist. Too little XRP sent to create it."
 msgstr "Hedef hesap mevcut değil . Hesabı oluşturmak için gönderileen XRP miktarı çok az ."
 
 #: src/jade/directives/transactionerror.jade:40
-#: src/jade/tabs/exchange.jade:147 src/jade/tabs/send.jade:288
+#: src/jade/tabs/exchange.jade:147 src/jade/tabs/send.jade:290
 msgid "Error: {{engine_result_message}}"
 msgstr "Hata: {{engine_result_message}}"
 
 #: src/jade/directives/transactionerror.jade:45
-#: src/jade/tabs/exchange.jade:152 src/jade/tabs/send.jade:293
+#: src/jade/tabs/exchange.jade:152 src/jade/tabs/send.jade:295
 #: src/jade/tabs/trust.jade:172
 msgid "You have no trust line in this currency."
 msgstr "Bu para birimi için güven ilişkiniz bulunmuyor."
@@ -337,7 +334,7 @@ msgstr "Ripple sistemi bu işlemi göndermeyi denemekten  vazgeçmiştir"
 #: src/jade/directives/transactionerror.jade:54
 #: src/jade/tabs/exchange.jade:107
 msgid "Network fee exceeded. Please try again later."
-msgstr ""
+msgstr "Ağ ücreti aşmıştır. Lütfen sonra tekrar deneyin."
 
 #: src/jade/directives/transactionerror.jade:56
 msgid ""
@@ -375,7 +372,7 @@ msgstr "Şifre"
 msgid "Please enter your password to show your Secret Key."
 msgstr "Gizli Key göstermek için şifrenizi giriniz."
 
-#: src/jade/popup/unlock.jade:9 src/jade/tabs/send.jade:183
+#: src/jade/popup/unlock.jade:9 src/jade/tabs/send.jade:185
 msgid "Please enter your password to confirm this transaction."
 msgstr "Bu işlemi onaylamak için şifrenizi giriniz."
 
@@ -397,11 +394,11 @@ msgstr "Gönder"
 
 #: src/jade/tabs/account.jade:5
 msgid "Your Ripple Name has been changed successfully."
-msgstr ""
+msgstr "Ripple adınız başarıyla değiştirildi."
 
 #: src/jade/tabs/account.jade:15
 msgid "New Ripple Name"
-msgstr ""
+msgstr "Yeni Ripple Adı"
 
 #: src/jade/tabs/account.jade:24 src/jade/tabs/register.jade:25
 msgid "Already taken!"
@@ -409,7 +406,7 @@ msgstr "Zaten alınmış"
 
 #: src/jade/tabs/account.jade:25 src/jade/tabs/register.jade:26
 msgid "Reserved for {{usernameReservedFor}}{{1}}{{2}}"
-msgstr ""
+msgstr " {{usernameReservedFor}}{{1}}{{2}} için rezerve"
 
 #: src/jade/tabs/account.jade:28 src/jade/tabs/register.jade:29
 msgid "Must be at least 2 characters"
@@ -441,72 +438,33 @@ msgstr "Denetleme..."
 
 #: src/jade/tabs/account.jade:36
 msgid "Current password"
-msgstr ""
+msgstr "Mevcut parolası"
 
 #: src/jade/tabs/account.jade:39
 msgid "Entered password is wrong."
-msgstr ""
+msgstr "Girilen parola yanlış."
 
 #: src/jade/tabs/account.jade:41
 msgid ""
 "Your Ripple Name has been changed, but the client can't reported an error, "
 "please re-login."
-msgstr ""
+msgstr "Ripple adınız değiştirildi, ancak istemci bir hata, lütfen tekrar giriş bildirdi."
 
 #: src/jade/tabs/account.jade:44
 msgid "Couldn't change your ripple name, please try again later."
-msgstr ""
+msgstr " Ripple adınız değiştirmek olamazdı, daha sonra tekrar deneyin."
 
 #: src/jade/tabs/account.jade:49
 msgid "Submit name change"
-msgstr ""
+msgstr "Isim değişikliği gönder"
 
-#: src/jade/tabs/activity.jade:5 src/jade/tabs/apps.jade:5
-#: src/jade/tabs/balance.jade:5 src/jade/tabs/exchange.jade:6
-#: src/jade/tabs/fund.jade:6 src/jade/tabs/history.jade:6
-#: src/jade/tabs/send.jade:6 src/jade/tabs/su.jade:5
-#: src/jade/tabs/trade.jade:6 src/jade/tabs/trust.jade:6
-#: src/jade/tabs/withdraw.jade:6
+#: src/jade/tabs/apps.jade:5 src/jade/tabs/balance.jade:5
+#: src/jade/tabs/exchange.jade:6 src/jade/tabs/fund.jade:6
+#: src/jade/tabs/history.jade:6 src/jade/tabs/send.jade:6
+#: src/jade/tabs/su.jade:5 src/jade/tabs/trade.jade:6
+#: src/jade/tabs/trust.jade:6 src/jade/tabs/withdraw.jade:6
 msgid "You have to be online to see this screen"
 msgstr "Bu ekranı görmek için online olmanız gerekir"
-
-#: src/jade/tabs/activity.jade:14
-msgid "Welcome to Ripple."
-msgstr "Ripple'a hoş geldiniz."
-
-#: src/jade/tabs/activity.jade:15
-msgid ""
-"You currently don&#39;t have any ripples (XRP). To get started you can:"
-msgstr "Hiç ripple (XRP)nız bulunmamakta. Başlayabilmek için:"
-
-#: src/jade/tabs/activity.jade:34
-msgid "Activity"
-msgstr "Aktivite"
-
-#: src/jade/tabs/activity.jade:37 src/jade/tabs/history.jade:77
-msgid "Date"
-msgstr "Tarih"
-
-#: src/jade/tabs/activity.jade:38
-msgid "Event"
-msgstr "Olay"
-
-#: src/jade/tabs/activity.jade:49 src/jade/tabs/activity.jade:58
-#: src/jade/tabs/activity.jade:76 src/jade/tabs/activity.jade:89
-msgid "Add to contacts"
-msgstr "Kişilere ekle"
-
-#: src/jade/tabs/activity.jade:124 src/jade/tabs/history.jade:191
-msgid "Load more"
-msgstr "Daha fazla yükle"
-
-#: src/jade/tabs/activity.jade:126
-msgid "Error"
-msgstr "Hata"
-
-#: src/jade/tabs/activity.jade:127
-msgid "No past transactions found"
-msgstr "Geçmiş işlemler bulunmadı"
 
 #: src/jade/tabs/apps.jade:29
 msgid "Please enter a ripple address."
@@ -546,15 +504,15 @@ msgstr "Geçerli miktar giriniz"
 
 #: src/jade/tabs/balance.jade:97
 msgid "You are sending {{1}} BTC to:"
-msgstr ""
+msgstr "{{1}} BTC şu adrese gönderiyorsunuz:"
 
 #: src/jade/tabs/balance.jade:103 src/jade/tabs/balance.jade:118
-#: src/jade/tabs/register.jade:87 src/jade/tabs/register.jade:93
+#: src/jade/tabs/register.jade:92 src/jade/tabs/register.jade:98
 msgid "Back"
 msgstr "Geri"
 
 #: src/jade/tabs/balance.jade:106 src/jade/tabs/exchange.jade:90
-#: src/jade/tabs/fund.jade:74 src/jade/tabs/send.jade:193
+#: src/jade/tabs/fund.jade:74 src/jade/tabs/send.jade:195
 #: src/jade/tabs/trade.jade:50 src/jade/tabs/trade.jade:60
 #: src/jade/tabs/trade.jade:232 src/jade/tabs/trust.jade:136
 msgid "Confirm"
@@ -641,13 +599,13 @@ msgstr "Hatalı hedef etiketi"
 
 #: src/jade/tabs/contacts.jade:45 src/jade/tabs/contacts.jade:83
 #: src/jade/tabs/desktop/register.jade:67 src/jade/tabs/fund.jade:75
-#: src/jade/tabs/send.jade:242 src/jade/tabs/send.jade:313
+#: src/jade/tabs/send.jade:244 src/jade/tabs/send.jade:315
 #: src/jade/tabs/trade.jade:312 src/jade/tabs/trust.jade:88
 msgid "Cancel"
 msgstr "İptal"
 
-#: src/jade/tabs/contacts.jade:54 src/jade/tabs/send.jade:236
-#: src/jade/tabs/send.jade:307 src/jade/tabs/trust.jade:194
+#: src/jade/tabs/contacts.jade:54 src/jade/tabs/send.jade:238
+#: src/jade/tabs/send.jade:309 src/jade/tabs/trust.jade:194
 msgid "You already have a contact with the same name."
 msgstr "Halihazırda aynı isimli kişi  kaydına sahipsiniz "
 
@@ -668,8 +626,8 @@ msgstr "Hatalı hedef etiketi."
 msgid "Delete"
 msgstr "Sil"
 
-#: src/jade/tabs/contacts.jade:74 src/jade/tabs/options.jade:47
-#: src/jade/tabs/send.jade:241 src/jade/tabs/send.jade:312
+#: src/jade/tabs/contacts.jade:74 src/jade/tabs/options.jade:46
+#: src/jade/tabs/send.jade:243 src/jade/tabs/send.jade:314
 #: src/jade/tabs/trust.jade:90 src/jade/tabs/trust.jade:199
 msgid "Save"
 msgstr "Kaydet"
@@ -692,7 +650,7 @@ msgid ""
 "account. This is because the downloadable client stores your login "
 "information locally on your computer, so your account is as safe as the "
 "security of your personal computer."
-msgstr ""
+msgstr "Eğer Ripple Trade oluşturduğunuz bir kullanıcı adı / parola veya Ripple Client web sürümünü kullanarak indirilebilir istemci giriş mümkün olmayacaktır. Sadece varolan Ripple hesabınıza erişmek için gizli bir anahtar kullanabilirsiniz. Indirilebilir istemci hesabınızda kişisel bilgisayarınızın güvenliği kadar güvenli olduğunu, bilgisayarınızda yerel olarak oturum açma bilgilerini depolayan olmasıdır."
 
 #: src/jade/tabs/desktop/login.jade:12 src/jade/tabs/desktop/login.jade:34
 msgid "Open account"
@@ -745,13 +703,13 @@ msgid ""
 " is the same as your Ripple name."
 msgstr "Şifreniz zayuftır. Harfler,sayılar ve semboller karışımından oluşmammaktadır yada Ripple ismiyle aynı."
 
-#: src/jade/tabs/desktop/register.jade:33 src/jade/tabs/recover.jade:38
-#: src/jade/tabs/register.jade:42
+#: src/jade/tabs/desktop/register.jade:33 src/jade/tabs/recover.jade:40
+#: src/jade/tabs/register.jade:44
 msgid "Confirm password"
 msgstr "Parolayı onayla"
 
-#: src/jade/tabs/desktop/register.jade:36 src/jade/tabs/recover.jade:41
-#: src/jade/tabs/register.jade:45
+#: src/jade/tabs/desktop/register.jade:36 src/jade/tabs/recover.jade:43
+#: src/jade/tabs/register.jade:47
 msgid "Passwords do not match"
 msgstr "Şifreler uyuşmuyor"
 
@@ -776,12 +734,11 @@ msgid "Secret is invalid"
 msgstr "Gizli geçersizdir"
 
 #: src/jade/tabs/desktop/register.jade:70 src/jade/tabs/login.jade:5
-#: src/jade/tabs/login.jade:22 src/jade/tabs/recover.jade:50
-#: src/jade/tabs/register.jade:78
+#: src/jade/tabs/login.jade:22 src/jade/tabs/register.jade:83
 msgid "Log In"
 msgstr "Giriş"
 
-#: src/jade/tabs/desktop/register.jade:75 src/jade/tabs/register.jade:150
+#: src/jade/tabs/desktop/register.jade:75 src/jade/tabs/register.jade:155
 msgid "Important:"
 msgstr "Önemli:"
 
@@ -791,18 +748,18 @@ msgid ""
 "you lose your password. In that case your contacts will be lost, but with "
 "this secret key alone anyone can retrieve your money. So please store it "
 "somewhere PRIVATE AND SAFE. Read more about keys and wallet safety in {{1}}"
-msgstr ""
+msgstr "Parolanızı kaybetmeniz durumunda gizli anahtar size paranıza ulaşma imkanı sunar. Bu durumda bağlantılarınız kaybolacaktır. fakat bu durumda gizli anahtarı paranızı geri alabilir. Lütfen gizli anahtarınızı ÖZEL VE GÜVENLİ bir yerde saklayın. {{1}} de anahtarlar ve cüzdanlar hakkında daha fazla okuyun. "
 
 #: src/jade/tabs/desktop/register.jade:81
 msgid "Passphrase:{{1}}{{2}}{{3}}{{4}}"
 msgstr "Parolası:{{1}}{{2}}{{3}}{{4}}"
 
-#: src/jade/tabs/desktop/register.jade:85 src/jade/tabs/register.jade:162
+#: src/jade/tabs/desktop/register.jade:85 src/jade/tabs/register.jade:167
 #: src/jade/tabs/security.jade:36
 msgid "Show"
 msgstr "Göster"
 
-#: src/jade/tabs/desktop/register.jade:86 src/jade/tabs/register.jade:163
+#: src/jade/tabs/desktop/register.jade:86 src/jade/tabs/register.jade:168
 #: src/jade/tabs/security.jade:37
 msgid "Hide"
 msgstr "Gizle"
@@ -811,21 +768,21 @@ msgstr "Gizle"
 msgid "Secret key:"
 msgstr "Gizli anahtar"
 
-#: src/jade/tabs/desktop/register.jade:95 src/jade/tabs/register.jade:118
-#: src/jade/tabs/register.jade:172
+#: src/jade/tabs/desktop/register.jade:95 src/jade/tabs/register.jade:123
+#: src/jade/tabs/register.jade:177
 msgid "Show secret key"
 msgstr "Gizli anahtarı göster"
 
-#: src/jade/tabs/desktop/register.jade:97 src/jade/tabs/register.jade:119
-#: src/jade/tabs/register.jade:174
+#: src/jade/tabs/desktop/register.jade:97 src/jade/tabs/register.jade:124
+#: src/jade/tabs/register.jade:179
 msgid "Hide secret key"
 msgstr "Gizli anahtarı gösterme"
 
-#: src/jade/tabs/desktop/register.jade:98 src/jade/tabs/register.jade:175
+#: src/jade/tabs/desktop/register.jade:98 src/jade/tabs/register.jade:180
 msgid "Have you saved your secret key somewhere safe?"
 msgstr "Gizli anahtarını güvenli bir yerde sakladınız mı?"
 
-#: src/jade/tabs/desktop/register.jade:101 src/jade/tabs/register.jade:178
+#: src/jade/tabs/desktop/register.jade:101 src/jade/tabs/register.jade:183
 msgid "Yes, I saved my secret key"
 msgstr "Evet, gizli anahtarımı kaydettim"
 
@@ -834,8 +791,8 @@ msgid "You have to be funded before you can exchange money"
 msgstr "Para değişimi yapabilmek için bakiyenizin olması gerekir"
 
 #: src/jade/tabs/exchange.jade:13 src/jade/tabs/exchange.jade:167
-#: src/jade/tabs/send.jade:12 src/jade/tabs/send.jade:247
-#: src/jade/tabs/send.jade:318 src/jade/tabs/trust.jade:17
+#: src/jade/tabs/send.jade:12 src/jade/tabs/send.jade:249
+#: src/jade/tabs/send.jade:320 src/jade/tabs/trust.jade:17
 #: src/jade/tabs/trust.jade:150
 msgid "Back to balance"
 msgstr "Bakiye'ye dön"
@@ -871,13 +828,13 @@ msgid ""
 "Sorry! Cannot exchange {{exchange.amount}} {{exchange.currency_name}}. "
 "Please make sure your account has enough funds, and a {{1}} to a "
 "{{exchange.currency_name}} gateway."
-msgstr ""
+msgstr "Üzgünüz. {{exchange.amount}} {{exchange.currency_name}} değiştirlemez. Lütfen hesabınızda yeterli paranız olduğundan emin olun ve {{1}} olarak {{exchange.currency_name}} gateway."
 
 #: src/jade/tabs/exchange.jade:39
 msgid ""
 "Sorry! Cannot convert {{exchange.amount}} {{exchange.currency_name}}. Please"
 " make sure your account has enough funds."
-msgstr ""
+msgstr "Üzgünüz. {{exchange.amount}} {{exchange.currency_name}} dönüştürülemez. Lütfen hesabınızda yeterli paranız olduğundan emin olun."
 
 #: src/jade/tabs/exchange.jade:41 src/jade/tabs/send.jade:128
 msgid "Error while calculating path"
@@ -902,21 +859,21 @@ msgid ""
 msgstr "{{1:Değiştiriyorsunuz}}{{2}}ı {{4}}{{3:ya}}. {{5:En fazla {{6}} ödeyeceksin.}} {{7: Emin misin?}}"
 
 #: src/jade/tabs/exchange.jade:88 src/jade/tabs/exchange.jade:113
-#: src/jade/tabs/send.jade:190 src/jade/tabs/send.jade:221
+#: src/jade/tabs/send.jade:192 src/jade/tabs/send.jade:223
 #: src/jade/tabs/trade.jade:230 src/jade/tabs/trust.jade:134
 #: src/jade/tabs/trust.jade:154
 msgid "&laquo; Back"
 msgstr "&laquo; Geri"
 
-#: src/jade/tabs/exchange.jade:95 src/jade/tabs/send.jade:198
+#: src/jade/tabs/exchange.jade:95 src/jade/tabs/send.jade:200
 msgid "Sending transaction to Ripple network"
 msgstr "Transaction Ripple ağına gönderiliyor."
 
-#: src/jade/tabs/exchange.jade:103 src/jade/tabs/send.jade:209
+#: src/jade/tabs/exchange.jade:103 src/jade/tabs/send.jade:211
 msgid "No Path"
 msgstr "Yol yok"
 
-#: src/jade/tabs/exchange.jade:104 src/jade/tabs/send.jade:210
+#: src/jade/tabs/exchange.jade:104 src/jade/tabs/send.jade:212
 msgid ""
 "Ripple was unable to find a path between you and the destination account."
 msgstr "Ripple, senle hedef hesap arasında bir yol bulamadı."
@@ -933,21 +890,21 @@ msgid ""
 "executed already."
 msgstr "Tekrar denemeden önce, transactionın gerçekleşmemiş olduğundan emin olunuz."
 
-#: src/jade/tabs/exchange.jade:120 src/jade/tabs/send.jade:255
+#: src/jade/tabs/exchange.jade:120 src/jade/tabs/send.jade:257
 msgid "Your account balance will update once the payment has cleared."
 msgstr "Ödeme gerçekleştiğinde hesap bakiyeniz güncellenecek"
 
-#: src/jade/tabs/exchange.jade:127 src/jade/tabs/send.jade:262
+#: src/jade/tabs/exchange.jade:127 src/jade/tabs/send.jade:264
 msgid "Transaction could not be submitted!"
 msgstr "İşlem gönderilemedi!"
 
-#: src/jade/tabs/exchange.jade:128 src/jade/tabs/send.jade:263
+#: src/jade/tabs/exchange.jade:128
 msgid ""
-"We were unable to submit the transaction to the server.Please try again "
+"We were unable to submit the transaction to the server. Please try again "
 "later."
-msgstr "İşleminizi sunucuya gönderemedik. Lütfen daha sonra tekrar deneyin"
+msgstr "Biz sunucuya işlem sunacak koyamadık. Lütfen sonra tekrar deneyin."
 
-#: src/jade/tabs/exchange.jade:154 src/jade/tabs/send.jade:295
+#: src/jade/tabs/exchange.jade:154 src/jade/tabs/send.jade:297
 msgid "Your transaction failed to clear, reason: {{engine_result_message}}"
 msgstr "Transaction hatalı. sebep: {{engine_result_message}}"
 
@@ -977,7 +934,7 @@ msgid ""
 "(~{{userCredentials.username}}) to receive money. You can still use your "
 "full Ripple address, and while we are working to transition to Ripple names,"
 " some gateways may still ask for your full address."
-msgstr ""
+msgstr "Ripple adısı Ripple yeni bir özelliktir! Para almak için Ripple adını (~{{userCredentials.username}}) kullanın. Hala tam Ripple adresini kullanabilirsiniz, ve biz isimleri Ripple geçiş için çalışırken, bazı ağ geçitleri hala tam adresi isteyebilir."
 
 #: src/jade/tabs/fund.jade:31
 msgid "Ripple address {{1}}"
@@ -991,7 +948,7 @@ msgstr "Bitcoin Mevduat"
 msgid ""
 "A small amount (~.001 BTC) of your first transfer will be converted to XRP "
 "to activate your wallet. {{1:Why?}}"
-msgstr ""
+msgstr "İlk transferi küçük bir miktar (~.001 BTC) cüzdan etkinleştirmek için XRP dönüştürülür. {{1:Neden?}}"
 
 #: src/jade/tabs/fund.jade:46
 msgid "Your current deposit limit is:"
@@ -1005,7 +962,7 @@ msgstr "Sınırını Kaldır"
 msgid ""
 "To deposit, generate a bitcoin receiving address using the {{1}} service "
 "powered by SnapSwap."
-msgstr ""
+msgstr "Mevduat için, SnapSwap tarafından desteklenmektedir {{1}} hizmetini kullanarak bir bitcoin alma adresi oluştur."
 
 #: src/jade/tabs/fund.jade:58
 msgid "Generate bitcoin address"
@@ -1088,6 +1045,10 @@ msgstr "Minimum Miktar{{1}}{{2}}"
 #: src/jade/tabs/history.jade:73
 msgid "Transaction History"
 msgstr "İşlem tarihi"
+
+#: src/jade/tabs/history.jade:77
+msgid "Date"
+msgstr "Tarih"
 
 #: src/jade/tabs/history.jade:78 src/jade/tabs/history.jade:170
 msgid "Description"
@@ -1178,6 +1139,10 @@ msgstr "Transaction ayrıntısı"
 msgid "Add {{1}} to contact list"
 msgstr "{{1}} 'i kişiler listesine ekle"
 
+#: src/jade/tabs/history.jade:191
+msgid "Load more"
+msgstr "Daha fazla yükle"
+
 #: src/jade/tabs/history.jade:192
 msgid "No more transactions left"
 msgstr "Daha fazla işlemler kalmadı"
@@ -1239,7 +1204,7 @@ msgid "Your balance has been changed by{{1}}."
 msgstr "Bakiyeniz değişti{{1}}."
 
 #: src/jade/tabs/login.jade:6 src/jade/tabs/register.jade:6
-#: src/jade/tabs/register.jade:98 src/jade/tabs/register.jade:127
+#: src/jade/tabs/register.jade:103 src/jade/tabs/register.jade:132
 msgid "Migrate"
 msgstr "Göç"
 
@@ -1247,7 +1212,7 @@ msgstr "Göç"
 msgid ""
 "To begin migration, enter the name and passphraseused to encrypt your "
 "ripple.com/client wallet below."
-msgstr ""
+msgstr "Göç başlayacak için, ripple.com/client cüzdan adınızı ve cüzdanınızı şifrelemek için kullandığınız şifre cümlenizi aşağıya girin. "
 
 #: src/jade/tabs/login.jade:10
 msgid "Verifying..."
@@ -1263,16 +1228,16 @@ msgstr "Bir şeyler ters gitti, lütfen tekrar deneyin."
 
 #: src/jade/tabs/login.jade:25
 msgid "Begin Migration"
-msgstr ""
+msgstr "Göç başlar"
 
 #: src/jade/tabs/login.jade:29 src/jade/tabs/login.jade:30
 #: src/jade/tabs/recover.jade:5
 msgid "Account Recovery"
-msgstr ""
+msgstr "Hesap Kurtarma"
 
-#: src/jade/tabs/login.jade:31
+#: src/jade/tabs/login.jade:31 src/jade/tabs/register.jade:80
 msgid "Already have a ripple.com/client account? {{1:Migrate}}"
-msgstr ""
+msgstr "Zaten bir ripple.com/client hesabınız var mı? {{1: Göç}}"
 
 #: src/jade/tabs/login.jade:33
 msgid "New to {{productName}}? {{1:Sign Up}}"
@@ -1300,15 +1265,11 @@ msgstr "İlgili ripple adresine"
 
 #: src/jade/tabs/login.jade:54
 msgid "To {{1}} with a ripple address"
-msgstr ""
+msgstr "{{1}}'e Ripple adresiyle"
 
-#: src/jade/tabs/login.jade:61
-msgid "you will add the user"
-msgstr "kullanıcıyı ekleyeceksiniz"
-
-#: src/jade/tabs/login.jade:63
-msgid "To your ripple contacts"
-msgstr "Kişiler listenize"
+#: src/jade/tabs/login.jade:60
+msgid "{{1:you will add the user}}{{2}}{{3:To your ripple contacts}}"
+msgstr "{{3:Ripple kişilerinize}}{{2}}{{1:kullanıcıyı katacak}}"
 
 #: src/jade/tabs/login.jade:78
 msgid "You can confirm this transaction on the next page."
@@ -1324,7 +1285,7 @@ msgstr "Ripple adısı"
 
 #: src/jade/tabs/login/form.jade:7
 msgid "Existing Wallet name"
-msgstr ""
+msgstr "Mevcut Cüzdan isim"
 
 #: src/jade/tabs/options.jade:7
 msgid "Ripple Servers"
@@ -1356,11 +1317,11 @@ msgstr "Yeni sunucu ekle"
 
 #: src/jade/tabs/options.jade:33
 msgid "Bitcoin Bridge"
-msgstr ""
+msgstr "Bitcoin Köprüsü"
 
 #: src/jade/tabs/options.jade:36
 msgid "Bitcoin Bridge Domain"
-msgstr ""
+msgstr "Bitcoin Köprü Alan"
 
 #: src/jade/tabs/options.jade:39
 msgid "Blob Vault"
@@ -1370,15 +1331,23 @@ msgstr "Blob Vault"
 msgid "Blob vault URL"
 msgstr "Blob vault URL"
 
+#: src/jade/tabs/options.jade:48
+msgid "Password Protection"
+msgstr "Şifre Koruması"
+
+#: src/jade/tabs/options.jade:53
+msgid "Require password for transactions"
+msgstr "Işlemler için parola iste"
+
 #: src/jade/tabs/recover.jade:7
 msgid ""
 "You can only recover your Ripple Trade account with a secret key. You will "
 "recover the account's Ripple name, contacts and other information."
-msgstr ""
+msgstr "Sadece bir gizli anahtar ile Ripple Trade hesabınızı kurtarabilirsiniz.  Hesabınızın Ripple adını, kişileri ve diğer bilgileri kurtarmak olacaktır."
 
 #: src/jade/tabs/recover.jade:9 src/jade/tabs/recover.jade:28
 msgid "Ripple Name"
-msgstr ""
+msgstr "Ripple Adısı"
 
 #: src/jade/tabs/recover.jade:14 src/jade/tabs/security.jade:24
 msgid "Secret Key"
@@ -1386,21 +1355,21 @@ msgstr "Gizli anahtar"
 
 #: src/jade/tabs/recover.jade:17
 msgid "Unable to recover account."
-msgstr ""
+msgstr "Hesabını kurtarmıyor."
 
 #: src/jade/tabs/recover.jade:22
 msgid "Recover Account"
-msgstr ""
+msgstr "Hesap Kurtar"
 
-#: src/jade/tabs/recover.jade:24 src/jade/tabs/recover.jade:48
+#: src/jade/tabs/recover.jade:24 src/jade/tabs/recover.jade:50
 msgid "Set Password"
-msgstr ""
+msgstr "Parola Ayarlayın"
 
 #: src/jade/tabs/recover.jade:26
 msgid ""
 "Your account was sucessfully recovered. Please re-encrypt your account with "
 "a new password."
-msgstr ""
+msgstr "Hesabınız başarıyla kurtarıldı. Yeni şifre ile hesabınızı yeniden şifreleyebilirsiniz lütfen."
 
 #: src/jade/tabs/recover.jade:36 src/jade/tabs/register.jade:40
 msgid ""
@@ -1408,27 +1377,32 @@ msgid ""
 "short."
 msgstr "Şifreniz zayuftır. Sayılar ve semboller karışımından oluşmammaktadır yada çok kısa."
 
-#: src/jade/tabs/recover.jade:43
-msgid "Unable to change your account password."
-msgstr ""
+#: src/jade/tabs/recover.jade:38 src/jade/tabs/register.jade:42
+msgid ""
+"Your Ripple name and password cannot match. Please create a new password."
+msgstr "Şifreniz Ripple ismiyle farklı olmalıdır. Yeni bir parola oluşturun."
 
-#: src/jade/tabs/recover.jade:47
-msgid "Updating..."
-msgstr ""
+#: src/jade/tabs/recover.jade:45
+msgid "Unable to change your account password."
+msgstr "Hesap şifrenizi değiştirilemiyor."
 
 #: src/jade/tabs/recover.jade:49
-msgid "Remember your password? {{1}}"
-msgstr ""
+msgid "Updating..."
+msgstr "Güncelleniyor ..."
 
-#: src/jade/tabs/register.jade:5 src/jade/tabs/register.jade:75
-#: src/jade/tabs/register.jade:97 src/jade/tabs/register.jade:126
+#: src/jade/tabs/recover.jade:51
+msgid "Remember your password? {{1:Log In}}"
+msgstr "Parolanızı unuttunuz? {{1: Giriş}}"
+
+#: src/jade/tabs/register.jade:5 src/jade/tabs/register.jade:77
+#: src/jade/tabs/register.jade:102 src/jade/tabs/register.jade:131
 msgid "Sign Up"
 msgstr "Kayıt ol"
 
 #: src/jade/tabs/register.jade:8 src/jade/tabs/register.jade:10
-#: src/jade/tabs/register.jade:12 src/jade/tabs/register.jade:102
-#: src/jade/tabs/register.jade:104 src/jade/tabs/register.jade:129
-#: src/jade/tabs/register.jade:131 src/jade/tabs/register.jade:133
+#: src/jade/tabs/register.jade:12 src/jade/tabs/register.jade:107
+#: src/jade/tabs/register.jade:109 src/jade/tabs/register.jade:134
+#: src/jade/tabs/register.jade:136 src/jade/tabs/register.jade:138
 msgid "Step {{1}}"
 msgstr "Adım {{1}}"
 
@@ -1440,102 +1414,102 @@ msgstr "Ripple adısı yarat"
 msgid ""
 "If your username is available, you can use it. Otherwise, pick a unique "
 "name."
-msgstr ""
+msgstr "Adınız varsa, bunu kullanabilirsiniz. Aksi halde, benzersiz bir ad seçin."
 
 #: src/jade/tabs/register.jade:23
 msgid "{{1}}"
-msgstr ""
+msgstr "{{1}}"
 
-#: src/jade/tabs/register.jade:53
+#: src/jade/tabs/register.jade:55
 msgid "Email address is invalid"
 msgstr "E-posta adresi geçersiz"
 
-#: src/jade/tabs/register.jade:55
+#: src/jade/tabs/register.jade:57
 msgid "Secret Account Key"
-msgstr ""
+msgstr "Gizli Hesap Anahtarı"
 
-#: src/jade/tabs/register.jade:56
+#: src/jade/tabs/register.jade:58
 msgid "hide"
-msgstr ""
+msgstr "gizle"
 
-#: src/jade/tabs/register.jade:59
+#: src/jade/tabs/register.jade:61
 msgid "Secret Account Key is invalid"
-msgstr ""
-
-#: src/jade/tabs/register.jade:60
-msgid "Need to use your Secret Key? {{1}}"
-msgstr ""
+msgstr "Gizli Hesap Anahtarı geçersizdir"
 
 #: src/jade/tabs/register.jade:62
-msgid "Use Key"
-msgstr ""
+msgid "Need to use your Secret Key? {{1}}"
+msgstr "Gizli anahtarınızı kullanmaya ihtiyacınız var mı? {{1}}"
 
-#: src/jade/tabs/register.jade:65
+#: src/jade/tabs/register.jade:64
+msgid "Use Key"
+msgstr "Anahtarı kullan"
+
+#: src/jade/tabs/register.jade:67
 msgid "I agree to the {{productName}} {{1:end-user license agreement}}"
 msgstr " {{productName}} {{1:son kullanıcı lisans anlaşması}} kabul ediyorum"
 
-#: src/jade/tabs/register.jade:68
+#: src/jade/tabs/register.jade:70
 msgid ""
 "Please see our {{1}} to see how we collect, use and share information about "
 "you"
 msgstr "Bizim {{1}}, topladığımız nasıl kullanabilir ve sizinle ilgili bilgileri paylaşmak için bakınız"
 
-#: src/jade/tabs/register.jade:76
+#: src/jade/tabs/register.jade:78
 msgid "Migrate Account"
-msgstr ""
+msgstr "Hesap göç"
 
-#: src/jade/tabs/register.jade:82
+#: src/jade/tabs/register.jade:87
 msgid "An error occurred during registration. Please try again later."
 msgstr "Bir hata kayıt sırasında oluştu. Lütfen daha sonra tekrar deneyiniz."
 
-#: src/jade/tabs/register.jade:83
+#: src/jade/tabs/register.jade:88
 msgid "The reported error was: {{1}}"
 msgstr "Hata bildirdi oldu: {{1}}"
 
-#: src/jade/tabs/register.jade:91
+#: src/jade/tabs/register.jade:96
 msgid ""
 "There is already a wallet using this username, please choose a different "
 "username and try again."
 msgstr "Bu kullanıcı adını kullanarak bir cüzdan zaten var olan, farklı bir kullanıcı adı seçin ve tekrar deneyin."
 
-#: src/jade/tabs/register.jade:122
+#: src/jade/tabs/register.jade:127
 msgid "Continue"
 msgstr "Devam"
 
-#: src/jade/tabs/register.jade:135
+#: src/jade/tabs/register.jade:140
 msgid ""
 "We’ve sent an email to {{1}}. To complete registration, click the link in "
 "the email."
 msgstr "{{1}}'e bir e-posta gönderdik. Kaydı tamamlamak için, e-postadaki bağlantıyı tıklayın."
 
-#: src/jade/tabs/register.jade:138
+#: src/jade/tabs/register.jade:143
 msgid "Email token has been resent."
-msgstr ""
+msgstr "E-posta belirteci yeniden gönderildi."
 
-#: src/jade/tabs/register.jade:146
+#: src/jade/tabs/register.jade:151
 msgid "Re-send Email"
 msgstr "E-posta yeniden gönder"
 
-#: src/jade/tabs/register.jade:151
+#: src/jade/tabs/register.jade:156
 msgid ""
 "The secret key unlocks access to all your account funds in the event you "
 "lose your Ripple name or password. Please write it down and store it "
 "somewhere private and safe. {{1}} about keys and wallet safety.{{2}}"
 msgstr "Gizli anahtar sizin Ripple adı veya şifre kaybetmek durumunda tüm hesap fonlarına erişim kilidini açar. Bunu yazmak ve bir yere özel ve güvenli saklayın lütfen. {{1}} tuşları ve cüzdan güvenliği hakkında.{{2}}"
 
-#: src/jade/tabs/register.jade:156
+#: src/jade/tabs/register.jade:161
 msgid "Wallet name:{{1}}"
 msgstr "Cüzdan adı:{{1}}"
 
-#: src/jade/tabs/register.jade:158
+#: src/jade/tabs/register.jade:163
 msgid "Pass phrase:{{1}}{{2}}{{3}}{{4}}"
 msgstr "Şifre ifadesi:{{1}}{{2}}{{3}}{{4}}"
 
-#: src/jade/tabs/register.jade:165
+#: src/jade/tabs/register.jade:170
 msgid "Ripple Address"
 msgstr "Ripple Adresi"
 
-#: src/jade/tabs/register.jade:167
+#: src/jade/tabs/register.jade:172
 msgid "Secret Account key:"
 msgstr "Gizli hesap anahtarı:"
 
@@ -1742,88 +1716,93 @@ msgid "Ripple is calculating a path for your payment."
 msgstr "Ripple ödemeniz için bir yol hesaplıyor/arıyor."
 
 #: src/jade/tabs/send.jade:166
-msgid ""
-"You are sending {{ (send.alt.amount || send.currency) | rpcurrency}} to"
-msgstr " {{ (send.alt.amount || send.currency) | rpcurrency}} şu adrese gönderiyorsunuz"
+msgid "You are sending {{1}} to"
+msgstr "{{1}} gönderdiğiniz"
 
-#: src/jade/tabs/send.jade:172
+#: src/jade/tabs/send.jade:174
 msgid "Destination tag: {{send.dt}}"
 msgstr "Hedef etkieti: {{send.dt}}"
 
-#: src/jade/tabs/send.jade:173
+#: src/jade/tabs/send.jade:175
 msgid "They will receive"
 msgstr "Alacaklar"
 
-#: src/jade/tabs/send.jade:176
+#: src/jade/tabs/send.jade:178
 msgid "You will pay at most"
 msgstr "Ödeyeceğiniz miktar"
 
-#: src/jade/tabs/send.jade:182
+#: src/jade/tabs/send.jade:184
 msgid "Are you sure?"
 msgstr "Emin misin ?"
 
-#: src/jade/tabs/send.jade:187
+#: src/jade/tabs/send.jade:189
 msgid "Password required to unlock wallet"
 msgstr "Bir parola cüzdanını kilidini açmak için gereklidir"
 
-#: src/jade/tabs/send.jade:206
+#: src/jade/tabs/send.jade:208
 msgid "Destination does not exist"
 msgstr "Hedef hesap bulunamadı."
 
-#: src/jade/tabs/send.jade:207
+#: src/jade/tabs/send.jade:209
 msgid "The wallet you&#39;re trying to send to does not exist."
 msgstr "Gönderim yapmaya çalıştığınız cüzdan bulunamadı."
 
-#: src/jade/tabs/send.jade:212
+#: src/jade/tabs/send.jade:214
 msgid "Invalid transaction"
 msgstr "geçersiz işlem"
 
-#: src/jade/tabs/send.jade:213
+#: src/jade/tabs/send.jade:215
 msgid "The transaction was rejected by the server due to a client issue."
 msgstr "Cüzdana ilişkin bir problem nedeniyle, transaction server tarafından reddedildi."
 
-#: src/jade/tabs/send.jade:215
+#: src/jade/tabs/send.jade:217
 msgid "Unlock failed"
 msgstr "Kilidini açmaya başarısız oldu"
 
-#: src/jade/tabs/send.jade:216
+#: src/jade/tabs/send.jade:218
 msgid ""
 "Your wallet could not be unlocked. This could be a server issue, please try "
 "again later."
 msgstr "Cüzdan kilidi açılamaz. Bu bir sunucu sorunu olabilir, daha sonra tekrar deneyin."
 
-#: src/jade/tabs/send.jade:218
+#: src/jade/tabs/send.jade:220
 msgid ""
 "Sorry, an error occurred while submitting your transaction.Make sure you are"
 " connected to the Internet and try again later."
 msgstr "Üzgünüz. İşleminizi gerçekleştirirken bir hata oluştu. İnternete bağlı olduğunuzdan emin olun ve tekrar deneyin."
 
-#: src/jade/tabs/send.jade:220
+#: src/jade/tabs/send.jade:222
 msgid "Please ensure you don't send your payment more than once."
 msgstr "Birden fazla defa ödemeye yapmadığınıza emin olun lütfen."
 
-#: src/jade/tabs/send.jade:228 src/jade/tabs/send.jade:299
+#: src/jade/tabs/send.jade:230 src/jade/tabs/send.jade:301
 msgid "Contact saved!"
 msgstr "Kişi kaydedildi!"
 
-#: src/jade/tabs/send.jade:230 src/jade/tabs/send.jade:301
+#: src/jade/tabs/send.jade:232 src/jade/tabs/send.jade:303
 #: src/jade/tabs/trust.jade:189
 msgid "Add this address to contacts"
 msgstr "Bu adresi kişiler listesine ekle"
 
-#: src/jade/tabs/send.jade:234 src/jade/tabs/send.jade:305
+#: src/jade/tabs/send.jade:236 src/jade/tabs/send.jade:307
 #: src/jade/tabs/trust.jade:192
 msgid "Name this user"
 msgstr "Bu kullanıcıya isim verin"
 
-#: src/jade/tabs/send.jade:240 src/jade/tabs/send.jade:311
+#: src/jade/tabs/send.jade:242 src/jade/tabs/send.jade:313
 #: src/jade/tabs/trust.jade:198
 msgid "Saving..."
 msgstr "Kaydediliyor..."
 
-#: src/jade/tabs/send.jade:245 src/jade/tabs/send.jade:316
+#: src/jade/tabs/send.jade:247 src/jade/tabs/send.jade:318
 msgid "Send another payment"
 msgstr "Yeni bir ödeme yap"
+
+#: src/jade/tabs/send.jade:265
+msgid ""
+"We were unable to submit the transaction to the server.Please try again "
+"later."
+msgstr "İşleminizi sunucuya gönderemedik. Lütfen daha sonra tekrar deneyin"
 
 #: src/jade/tabs/trade.jade:9
 msgid "Loading order book..."
@@ -2148,13 +2127,9 @@ msgstr "Adres onaylanıyor"
 msgid "You must have at least {{1}} to add a new trust line. {{2}}"
 msgstr "En az {{1}} sizde gerekiyor yeni bir güven ilişki eklemek için. {{2}}"
 
-#: src/jade/tabs/trust.jade:114
-msgid "You are about to trust"
-msgstr ""
-
-#: src/jade/tabs/trust.jade:116
-msgid "to the Ripple user"
-msgstr ""
+#: src/jade/tabs/trust.jade:113
+msgid "{{1:You are about to trust}}{{2}}{{3:to the Ripple user}}"
+msgstr "{{3:Ripple kullanıcıya}} {{2}}{{1:güven üzeresiniz}}"
 
 #: src/jade/tabs/trust.jade:121
 msgid ""
@@ -2180,7 +2155,7 @@ msgstr "İzin verme işlemi sürüyor"
 msgid ""
 "Sorry, an error occurred. Make sure you are connected to the Internet and "
 "try again later."
-msgstr ""
+msgstr "Üzgünüz hata oluştu. Internete bağlı olduğunuzu kontrol ettikten sonra tekrar deneyiniz."
 
 #: src/jade/tabs/trust.jade:160
 msgid "Your grant request has been submitted."

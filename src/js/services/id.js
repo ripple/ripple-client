@@ -81,6 +81,26 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
   };
 
   /**
+   * Reduce username to the oldBlob standardized form.
+   *
+   * This version is used in the login system and it's the version sent to
+   * servers.
+   */
+  Id.normalizeUsernameForOldBlob = function (username) {
+    // The old blob does not remove hyphens
+
+    username = ""+username;
+
+    // Strips whitespace at beginning and end.
+    username = username.trim();
+
+    // All lowercase
+    username = username.toLowerCase();
+
+    return username;
+  };
+
+  /**
    * Reduce password to standardized form.
    *
    * Strips whitespace at beginning and end.
@@ -278,14 +298,16 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
       }
 
       // Remove old blob
-      $oldblob.remove(['vault', 'local'], opts.oldUsername, opts.oldPassword, function (err, data) {
-        if (err) {
-          console.log("Can't delete the old blobvault:", err);
-          return;
-        }
+      if(Options.blobvault) {
+        $oldblob.remove(['vault', 'local'], opts.oldUsername, opts.oldPassword, function (err, data) {
+          if (err) {
+            console.log("Can't delete the old blobvault:", err);
+            return;
+          }
 
-        console.log('Old blob has been removed.');
-      });
+          console.log('Old blob has been removed.');
+        });
+      }
 
       store.set('ripple_known', true);
       callback(null, masterkey);
@@ -328,7 +350,9 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
       if (err && Options.blobvault) {
         console.log("Blob login failed, trying old blob protocol");
 
-        $oldblob.get(['vault', 'local'], Id.normalizeUsernameForInternals(username), password, function (oerr, data) {
+        var oldBlobUsername = Id.normalizeUsernameForOldBlob(username);
+
+        $oldblob.get(['vault', 'local'], oldBlobUsername, password, function (oerr, data) {
           if (oerr) {
             // Old blob failed - since this was just the fallback report the
             // original error
@@ -337,7 +361,7 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
             return;
           }
 
-          var blob = $oldblob.decrypt(Id.normalizeUsernameForInternals(username), password, data);
+          var blob = $oldblob.decrypt(oldBlobUsername, password, data);
           if (!blob) {
             // Unable to decrypt blob
             var msg = 'Unable to decrypt blob (Username / Password is wrong)';
@@ -350,7 +374,7 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
             // Migration
 
             $scope.oldUserBlob = blob;
-            $scope.oldUsername = username.toLowerCase();
+            $scope.oldUsername = oldBlobUsername;
             $scope.oldPassword = password;
             $location.path('/register');
 

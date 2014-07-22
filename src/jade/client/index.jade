@@ -1,12 +1,10 @@
 .mobile-nav(rp-snapper)
-  .logo
-  a.wallet(href="#/balance", ng-class="{active: $route.current.mainMenu == 'wallet'}")
+  a.wallet(href="#/balance", ng-class="{active: $route.current.mainMenu == 'balance'}")
     span.nav-icon.nav-icon-wallet
-    span(l10n) Overview
-  a.sub(href="#/balance", ng-class="{active: $route.current.mainMenu == 'balance'}", l10n) Balance
+    span(l10n) Balance
+  //- a.sub(href="#/balance", ng-class="{active: $route.current.mainMenu == 'balance'}", l10n) Balance
   a.sub(href="#/history", ng-class="{active: $route.current.mainMenu == 'history'}", l10n) History
   a.sub(href="#/contacts", ng-class="{active: $route.current.mainMenu == 'contacts'}", l10n) Contacts
-  //a.sub(href="#/cashin", ng-class="{active: $route.current.mainMenu == 'cashin'}", l10n) Cash In
 
   a.send(href="#/send", ng-class="{active: $route.current.mainMenu == 'send'}")
     span.nav-icon.nav-icon-send
@@ -14,22 +12,24 @@
 
   a.exchange(href="#/exchange", ng-class="{active: $route.current.mainMenu == 'exchange'}")
     span.nav-icon.nav-icon-exchange
-    span(l10n) Exchange
+    span(l10n) Convert
+  //- a.sub(href="#/exchange", ng-class="{active: $route.current.mainMenu == 'exchange'}", l10n) Convert
   a.sub(href="#/trade", ng-class="{active: $route.current.mainMenu == 'trade'}", l10n) Trade
-  a.sub(href="#/exchange", ng-class="{active: $route.current.mainMenu == 'convert'}", l10n) Convert
 
-  a.advanced(href="#/fund", ng-class="{active: $route.current.mainMenu == 'fund'}")
+  a.fund(href="#/fund", ng-class="{active: $route.current.mainMenu == 'fund'}")
     span.nav-icon.nav-icon-advanced
     span(l10n) Fund
   //- a.sub(href="#/withdraw", ng-class="{active: $route.current.mainMenu == 'withdraw'}", l10n) Withdraw
 
-  a.advanced(href="#/security", ng-class="{active: $route.current.mainMenu == 'advanced'}")
+  a.advanced(href="#/account", ng-class="{active: $route.current.mainMenu == 'account'}")
     span.nav-icon.nav-icon-advanced
-    span(l10n) Advanced
+    span(l10n) Account
 
+  //- a.sub(href="#/account", ng-class="{active: $route.current.mainMenu == 'account'}", l10n) Account
   a.sub(href="#/trust", ng-class="{active: $route.current.mainMenu == 'trust'}", l10n) Trust
   a.sub(href="#/security", ng-class="{active: $route.current.mainMenu == 'security'}", l10n) Security
   a.sub(href="#/options", ng-class="{active: $route.current.mainMenu == 'options'}", l10n) Options
+  a.sub(href="#", ng-click='logout()', l10n) Logout
 
 // Wrapper
 div#wrapper
@@ -54,7 +54,7 @@ div#wrapper
         a(href="https://ripplelabs.atlassian.net/browse/WC", target="_blank", l10n) Bug reports
         a(href="#/lang/en") English
         a(href="#/lang/cn") 中文
-        a(href="#/lang/it") Italiano
+        a(href="#/lang/ja") 日本語
 
         // Language selector
         rp-popup

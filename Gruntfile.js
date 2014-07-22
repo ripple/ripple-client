@@ -152,6 +152,14 @@ module.exports = function(grunt) {
         stdout: true,
         failOnError: true
       },
+      removeFiles: {
+        command: [
+          'rm -f ./build/packages/ripple-client.dmg',
+          'rm -f ./build/packages/ripple-client.zip',
+          'rm -f ./build/packages/ripple-client32.tar',
+          'rm -f ./build/packages/ripple-client64.tar'
+        ].join('&&')
+      },
       linux: {
         command: [
           'tar -cvf ./build/packages/ripple-client32.tar ./build/pkg/nw/releases/RippleClient/linux32/',
@@ -162,7 +170,7 @@ module.exports = function(grunt) {
         command: process.platform === 'darwin' ? [
           'npm install appdmg',
           'appdmg ./res/dmg/dmg_config.json ./build/packages/ripple-client.dmg'
-        ].join('&') : 'echo Skipping DMG build, only supported on OSX'
+        ].join('&&') : 'echo Skipping DMG build, only supported on OSX'
       }
     },
     recess: {
@@ -307,7 +315,7 @@ module.exports = function(grunt) {
             dest: 'build/bundle/web/js', flatten: true},
           {expand: true, src: ['build/dist/*.css'],
             dest: 'build/bundle/web/css', flatten: true},
-          {expand: true, src: ['fonts/*'], dest: 'build/bundle/web'},
+          {expand: true, src: ['res/fonts/*'], dest: 'build/bundle/web/fonts', flatten: true},
           {expand: true, src: ['res/icons/font/*'], dest: 'build/bundle/web'},
           {expand: true, src: ['img/**'], dest: 'build/bundle/web'},
           {expand: true, src: ['deps/js/modernizr*.js'],
@@ -327,7 +335,7 @@ module.exports = function(grunt) {
             dest: 'build/bundle/nw-desktop/js', flatten: true},
           {expand: true, src: ['build/dist/*.css'],
             dest: 'build/bundle/nw-desktop/css', flatten: true},
-          {expand: true, src: ['fonts/*'], dest: 'build/bundle/nw-desktop'},
+          {expand: true, src: ['res/fonts/*'], dest: 'build/bundle/nw-desktop/fonts', flatten: true},
           {expand: true, src: ['res/icons/font/*'], dest: 'build/bundle/nw-desktop'},
           {expand: true, src: ['img/**'], dest: 'build/bundle/nw-desktop'},
           {expand: true, src: ['deps/js/modernizr*.js'],
@@ -347,7 +355,7 @@ module.exports = function(grunt) {
             dest: 'build/bundle/nw-desktop-debug/js', flatten: true},
           {expand: true, src: ['build/dist/*.css'],
             dest: 'build/bundle/nw-desktop-debug/css', flatten: true},
-          {expand: true, src: ['fonts/*'], dest: 'build/bundle/nw-desktop-debug'},
+          {expand: true, src: ['res/fonts/*'], dest: 'build/bundle/nw-desktop-debug/fonts', flatten: true},
           {expand: true, src: ['res/icons/font/*'], dest: 'build/bundle/nw-desktop-debug'},
           {expand: true, src: ['img/**'], dest: 'build/bundle/nw-desktop-debug'},
           {expand: true, src: ['deps/js/modernizr*.js'],
@@ -419,7 +427,8 @@ module.exports = function(grunt) {
       local: {
         options: {
           reporter: 'Spec',
-          browsers: ['Chrome', 'Firefox']
+          browsers: ['Firefox'],
+          baseUrl: 'http://local.rippletrade.com/index_debug.html'
         },
         files: {
           src: 'test/e2e/*.js'
@@ -601,7 +610,9 @@ module.exports = function(grunt) {
 
   // Desktop apps packaging
   grunt.registerTask('desktop', ['dist',
-                                 'shell',
+                                 'shell:removeFiles',
+                                 'shell:linux',
+                                 'shell:osx',
                                  'compress']);
 
   // AWS S3 deployment for downloadable clients

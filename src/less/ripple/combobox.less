@@ -7,7 +7,7 @@
   }
 
   &.active input {
-    border-color: #999;
+    border-color: @midgray;
     .border-radius(5px, 0, 0, 5px);
   }
 
@@ -19,9 +19,9 @@
     padding: 10px;
     margin: 0;
     list-style-type: none;
-    border: 1px solid #999;
-    border-top: 1px solid #ccc;
-    background-color: #fff;
+    border: 1px solid @midgray;
+    border-top: 1px solid @midgray;
+    background-color: @white;
     .border-radius(0, 5px, 5px, 0);
     overflow: auto;
     max-height: 290px;
@@ -36,16 +36,16 @@
 
       .additional {
         display: block;
-        color: #d9d9d9;
+        color: @midgray;
         font-size: 12px;
       }
     }
 
     li.cursor, li:hover {
-      background-color: #ddd;
+      background-color: @midgray;
 
       .additional {
-        color: #3d3d3d;
+        color: @black;
       }
     }
   }
@@ -57,14 +57,14 @@
     height: 40px;
     width: 40px;
     z-index: 25;
-    .bw-gradient(#eee, 230, 245);
+    .bw-gradient(@lightgray, 230, 245);
     .border-radius(4px, 4px, 0, 0);
-    border-left: 1px solid #ccc;
+    border-left: 1px solid @midgray;
     cursor: default;
     .transition-duration(0.2s);
 
     &:hover {
-      .bw-gradient(#f9f9f9, 233, 248);
+      .bw-gradient(@lightgray, 233, 248);
     }
 
     &:after {
@@ -73,7 +73,7 @@
       top: 50%;
       right: 50%;
       margin: -2px -3px 0 0;
-      border-top: 5px solid black;
+      border-top: 5px solid @black;
       border-left: solid 4px transparent;
       border-right: solid 4px transparent;
     }
@@ -81,6 +81,6 @@
 
   &.active .select {
     .border-radius(4px, 0, 0, 0);
-    .bw-gradient(#eee, 245, 230);
+    .bw-gradient(@lightgray, 245, 230);
   }
 }
