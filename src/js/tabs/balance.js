@@ -199,7 +199,22 @@ BalanceTab.prototype.angular = function (module)
       });
       
       //Resolve collisions:
-      resolveCollisions(container);
+      var extremeBounds = resolveCollisions(container);
+      console.log("EXTREME BOUNDS!", extremeBounds);
+      var MARGIN = 5
+      container.find('svg')[0].setAttribute("viewBox",
+        (extremeBounds.left-MARGIN)+" "+
+        (extremeBounds.top-MARGIN)+" "+
+        (extremeBounds.right-extremeBounds.left+MARGIN*2)+" "+
+        (extremeBounds.bottom-extremeBounds.top+MARGIN*2)
+      );
+      /*container.find('svg').attr("viewBox",
+        (extremeBounds.left-MARGIN)+" "+
+        (extremeBounds.top-MARGIN)+" "+
+        (extremeBounds.right-extremeBounds.left+MARGIN*2)+" "+
+        (extremeBounds.bottom-extremeBounds.top+MARGIN*2)
+      );*/
+      
       
       // Define hovering behavior
       container.find("path.main").on("mouseover", function(){
@@ -220,7 +235,6 @@ BalanceTab.prototype.angular = function (module)
     function drawSectors(container, shares, labels, colors, cssClass, grouping, offset) {
       var TAU = Math.PI*2;
       console.log("SHARES!", shares);
-      //shares = [1];
       if (shares.length && shares[0] === 1) {
         console.log("ADJUSTING SHARES!");
         shares[0] = 0.9999;
@@ -228,7 +242,6 @@ BalanceTab.prototype.angular = function (module)
       if (offset) {
         shares.unshift(offset);
         labels.unshift("!"); // This should never actually appear in the view.
-        //colors.unshift(colors.pop());
       }
       
       
@@ -289,7 +302,7 @@ BalanceTab.prototype.angular = function (module)
       var svg = container.find('svg').attr({
         width: "100%",
         height: 190,
-        viewBox: "-34 -34 188 188",
+        //viewBox: "-34 -34 188 188",
         "xmlns:svg": "http://www.w3.org/2000/svg",
         "xmlns":     "http://www.w3.org/2000/svg"
       });
@@ -304,17 +317,15 @@ BalanceTab.prototype.angular = function (module)
           "class": cssClass,
           group: sector.group
         });
+      }
+
+      for (i=0; i<sectors.length; i++) {
+        var sector = sectors[i];
         
         var g = $('<g></g>').appendTo(svg).attr({
           "class": cssClass + " pielabel",
           group: sector.group
         });
-        
-        /*var g = $('<g></g>').appendTo(svg).attr({
-          "class":"label"
-          "class": cssClass + " label",
-          group: sector.group
-        });*/
         
         $('<text></text>').appendTo(g).text(sector.labelText).attr({
           x: sector.labelPosition.x,
@@ -337,26 +348,54 @@ BalanceTab.prototype.angular = function (module)
     function resolveCollisions(container) {
       var svg = container.find('svg');
       console.log("RESOLVING COLLISIONS::");
-      for (var a=0; a<6; a++) {
+      var bounds = [];
+      /*var a;
+      for (a=0; a<6; a++) {
         if (!resolveCollisionsInSelection(svg.find("g.main.pielabel"))) {
           break;
         }
-      }
+      }*/
+      var bb = resolveCollisionsInSelection(svg.find("g.main.pielabel"));
+      bounds.push(bb);
       var groups = {};
       svg.find("g.sub.pielabel").each(function(){
         groups[$(this).attr("group")] = true;
       });
       console.log("GROUPS!", Object.keys(groups));
       var okg = Object.keys(groups);
-      for (var i=0; i<okg.length; i++) {
+      var i;
+      for (i=0; i<okg.length; i++) {
         var group = okg[i];
         var selection = svg.find("g.sub.pielabel[group='"+group+"']");
-        for (var a=0; a<6; a++) {
+        var bb2 = resolveCollisionsInSelection(selection);
+        bounds.push(bb2);
+        /*for (a=0; a<6; a++) {
           if (!resolveCollisionsInSelection(selection)) {
             break;
           }
-        }
+        }*/
       }
+      return findExtremeBounds(bounds);
+    }
+    
+    function findExtremeBounds(bounds) {
+      var extrema = {
+        left:    0,
+        right:  120,
+        top:     0,
+        bottom: 120
+      };
+      
+      for (var i=0; i<bounds.length; i++) {
+        var bound = bounds[i];
+        extrema = {
+          left:   Math.min(extrema.left, bound.left),
+          right:  Math.max(extrema.right, bound.right),
+          top:    Math.min(extrema.top, bound.top),
+          bottom: Math.max(extrema.bottom, bound.bottom)
+        };
+      }
+      return extrema;
     }
     
     function resolveCollisionsInSelection(selection) {
@@ -372,9 +411,10 @@ BalanceTab.prototype.angular = function (module)
         });
       });
       var collisions = {};
-      for (var collider=0; collider<bounds.length; collider++) {
+      var collider, collidee;
+      for (collider=0; collider<bounds.length; collider++) {
         var colliderBounds = bounds[collider];
-        for (var collidee=0; collidee<bounds.length; collidee++) { if (collider !== collidee) {
+        for (collidee=0; collidee<bounds.length; collidee++) { if (collider !== collidee) {
           var collideeBounds = bounds[collidee];
           var collisionLR = colliderBounds.right - collideeBounds.left;
           var collisionRL = colliderBounds.left - collideeBounds.right;
@@ -390,8 +430,8 @@ BalanceTab.prototype.angular = function (module)
               collisions[collider][collidee] = {};
             }
             collisions[collider][collidee] = {
-              h: (collisionLR > -collisionRL ? collisionRL : collisionLR),
-              v: (collisionTB > -collisionBT ? collisionBT : collisionTB)
+              x: (collisionLR > -collisionRL ? collisionRL : collisionLR),
+              y: (collisionTB > -collisionBT ? collisionBT : collisionTB)
             };
           }
         }}
@@ -399,26 +439,39 @@ BalanceTab.prototype.angular = function (module)
       
       console.log("DETECTED COLLISIONS:", collisions);
       
-      for (var collider in collisions) {if (collisions.hasOwnProperty(collider)) {
+      function adjustBy(collision, coordinate) {
+        return function() {
+          var t = $(this).attr(coordinate);
+          var adjustment = collision[coordinate];
+          $(this).attr(coordinate,t-adjustment/1.9);
+        }
+      }
+      
+      
+      for (collider in collisions) {if (collisions.hasOwnProperty(collider)) {
         var collidingWith = collisions[collider];
-        for (var collidee in collidingWith) {if (collidingWith.hasOwnProperty(collidee)) {
+        for (collidee in collidingWith) {if (collidingWith.hasOwnProperty(collidee)) {
           var collision = collidingWith[collidee];
           var g = $(selection[collider]);
-          if (true || Math.abs(collision.h) < Math.abs(collision.v)) { //TODO: Be smarter about this
-            g.find("text").each(function(){
-              var x = $(this).attr("x");
-              $(this).attr("x",x-collision.h/2);
-            });
+          if (false || Math.abs(collision.x) < Math.abs(collision.y)) { //TODO: Be smarter about this
+            g.find("text").each(adjustBy(collision,"x"));
           } else {
-            g.find("text").each(function(){
-              var y = $(this).attr("y");
-              $(this).attr("y",y-collision.v/2);
-            });
+            g.find("text").each(adjustBy(collision,"y"));
           }
         }}
       }}
       
-      return !!Object.keys(collisions);
+      //return !!(Object.keys(collisions).length);
+      
+      return findExtremeBounds(bounds);
+      
+      /*console.log("BOUNDS!", bounds);
+      return {
+        left:   bounds.reduce(function(p,q){return Math.min(p.left, q.left)}),
+        right:  bounds.reduce(function(p,q){return Math.max(p.right, q.right)}),
+        top:    bounds.reduce(function(p,q){return Math.min(p.top, q.top)}),
+        bottom: bounds.reduce(function(p,q){return Math.max(p.bottom, q.bottom)})
+      };*/
       
     }
     
