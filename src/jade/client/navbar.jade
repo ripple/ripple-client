@@ -135,8 +135,6 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
           a(href="#/history", l10n) History
         li(ng-class="{active: $route.current.tabName == 'contacts'}")
           a(href="#/contacts", l10n) Contacts
-        //- li(ng-class="{active: $route.current.tabName == 'cashin'}")
-          a(href="#/cashin", l10n) Cash In
   .subnav(ng-show="$route.current.mainMenu == 'exchange' || $route.current.mainMenu == 'trade'")
     .container
       ul
