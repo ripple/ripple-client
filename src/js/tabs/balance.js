@@ -79,33 +79,19 @@ BalanceTab.prototype.angular = function (module)
     function shades(colorHex) {
       return [
         darken(colorHex, Math.SQRT2),
-        lighten(colorHex, Math.SQRT2)/*,
-        darken(colorHex, 2),
-        lighten(colorHex, 3),
-        colorHex*/
+        lighten(colorHex, Math.SQRT2)
       ];
     }
     
-    /*var exchangeRates = {
-      XRP: 1,
-      USD: 196,
-      BTC: 121000,
-      CNY: 32
-    };*/
+    
     
     function drawPieChart(container, scope) {
-      console.log("DRAWING PIE CHART!", scope.drops, scope.ious, scope.exchangeRates);
       var exchangeRates = scope.exchangeRates;
       
-      if (scope.drops && exchangeRates && Object.keys(exchangeRates).length) {
-        //exchangeRates["XRP"] = 1;
-      } else {
+      if (scope.drops && exchangeRates && Object.keys(exchangeRates).length) {} else {
         return;
       }
       
-      //console.log("DRAWING PIE WITH RATES:", exchangeRates);
-    
-      //console.log("DRAW PIE CHART!", scope.ious);
       var xrpAsSuch = parseInt(scope.drops,10) / 1000000;      
       var subbalancesAsXrp = [[xrpAsSuch]];
       var totalAsXrp = xrpAsSuch;
@@ -116,8 +102,8 @@ BalanceTab.prototype.angular = function (module)
         
         var sbs = [];
         var issuers = [];
-        
-        for (var issuer in components) {if (components.hasOwnProperty(issuer)){
+        var issuer;
+        for (issuer in components) {if (components.hasOwnProperty(issuer)){
           var rate = (exchangeRates[cur+":"+issuer] || 0);
           var sbAsXrp = components[issuer].to_number() * rate;
           totalAsXrp += sbAsXrp;
@@ -126,20 +112,14 @@ BalanceTab.prototype.angular = function (module)
         }}
         subbalancesAsXrp.push(sbs);
         issuerses.push(issuers);
-        amounts.push(components[issuer]); //This is kinda sketchy but it works
+        amounts.push(components[issuer]);
       }}
       
       // Scale to have an overall sum of 1
       var subshareses = subbalancesAsXrp.map(function(x){return x.map(function(y){return y/totalAsXrp})});
-      
       // Add up each group of subshares to get shares
       var shares = subshareses.map(function(x){return x.reduce(function(a,b){return a+b})});
-      
-      //console.log("SHARES!", shares);
-      //console.log("SUBSHARESES!", subshareses);
-
       var currencies = amounts.map(function(a){return rpcurrency(a)});
-      
 
       // TODO: make this better
       var currencyColors = {
@@ -168,7 +148,7 @@ BalanceTab.prototype.angular = function (module)
           container,
           subshareses[i],
           issuerses[i].map(contactButNotXrp),
-          shades(colors[i]), //["#999","#111"], //TODO
+          shades(colors[i]),
           "sub",
           currencies[i],
           offset
@@ -188,7 +168,7 @@ BalanceTab.prototype.angular = function (module)
       });
       
       // And finally...
-      container.html(container.html()); // <- some bullshit right here
+      container.html(container.html());
       
       
       // Center text elements
@@ -198,9 +178,8 @@ BalanceTab.prototype.angular = function (module)
         $(this).attr("x",x - width/2);
       });
       
-      //Resolve collisions:
+      //Resolve collisions and adjust viewBox:
       var extremeBounds = resolveCollisions(container);
-      console.log("EXTREME BOUNDS!", extremeBounds);
       var MARGIN = 5
       container.find('svg')[0].setAttribute("viewBox",
         (extremeBounds.left-MARGIN)+" "+
@@ -208,13 +187,6 @@ BalanceTab.prototype.angular = function (module)
         (extremeBounds.right-extremeBounds.left+MARGIN*2)+" "+
         (extremeBounds.bottom-extremeBounds.top+MARGIN*2)
       );
-      /*container.find('svg').attr("viewBox",
-        (extremeBounds.left-MARGIN)+" "+
-        (extremeBounds.top-MARGIN)+" "+
-        (extremeBounds.right-extremeBounds.left+MARGIN*2)+" "+
-        (extremeBounds.bottom-extremeBounds.top+MARGIN*2)
-      );*/
-      
       
       // Define hovering behavior
       container.find("path.main").on("mouseover", function(){
@@ -228,15 +200,13 @@ BalanceTab.prototype.angular = function (module)
         container.find(".sub").css("opacity",0);
       });
       
-      //Done!
+      
     }
     
     
     function drawSectors(container, shares, labels, colors, cssClass, grouping, offset) {
       var TAU = Math.PI*2;
-      console.log("SHARES!", shares);
       if (shares.length && shares[0] === 1) {
-        console.log("ADJUSTING SHARES!");
         shares[0] = 0.9999;
       }
       if (offset) {
@@ -277,7 +247,6 @@ BalanceTab.prototype.angular = function (module)
         if (share !== 0) {
           var pointA = polarToRect(circleRadius, boundaryAngles[i-1]||0);
           var pointB = polarToRect(circleRadius, boundaryAngles[i]);
-          console.log("POINT B", pointB);
           var labelCoords = polarToRect(circleRadius+20, midpointAngles[i]);
           var labelPosition = {
             x: labelCoords[0],
@@ -302,13 +271,13 @@ BalanceTab.prototype.angular = function (module)
       var svg = container.find('svg').attr({
         width: "100%",
         height: 190,
-        //viewBox: "-34 -34 188 188",
         "xmlns:svg": "http://www.w3.org/2000/svg",
         "xmlns":     "http://www.w3.org/2000/svg"
       });
       
+      var sector;
       for (i=0; i<sectors.length; i++) {
-        var sector = sectors[i];
+        sector = sectors[i];
         
         $('<path></path>').appendTo(svg).attr({
           fill: sector.color,
@@ -320,7 +289,7 @@ BalanceTab.prototype.angular = function (module)
       }
 
       for (i=0; i<sectors.length; i++) {
-        var sector = sectors[i];
+        sector = sectors[i];
         
         var g = $('<g></g>').appendTo(svg).attr({
           "class": cssClass + " pielabel",
@@ -347,33 +316,35 @@ BalanceTab.prototype.angular = function (module)
     
     function resolveCollisions(container) {
       var svg = container.find('svg');
-      console.log("RESOLVING COLLISIONS::");
       var bounds = [];
-      /*var a;
-      for (a=0; a<6; a++) {
-        if (!resolveCollisionsInSelection(svg.find("g.main.pielabel"))) {
-          break;
-        }
-      }*/
-      var bb = resolveCollisionsInSelection(svg.find("g.main.pielabel"));
-      bounds.push(bb);
+
+      var iterations=0, mainBounds, changed, temp;
+      do {
+        temp = resolveCollisionsInSelection(svg.find("g.main.pielabel"));
+        mainBounds = temp[0];
+        changed = temp[1];
+        iterations++;
+      } while (changed && iterations<10);
+      bounds.push(mainBounds);
+      
       var groups = {};
       svg.find("g.sub.pielabel").each(function(){
         groups[$(this).attr("group")] = true;
       });
-      console.log("GROUPS!", Object.keys(groups));
       var okg = Object.keys(groups);
       var i;
+      var groupBounds;
       for (i=0; i<okg.length; i++) {
         var group = okg[i];
         var selection = svg.find("g.sub.pielabel[group='"+group+"']");
-        var bb2 = resolveCollisionsInSelection(selection);
-        bounds.push(bb2);
-        /*for (a=0; a<6; a++) {
-          if (!resolveCollisionsInSelection(selection)) {
-            break;
-          }
-        }*/
+        iterations = 0;
+        do {
+          temp = resolveCollisionsInSelection(selection);
+          groupBounds = temp[0];
+          changed = temp[1];
+          iterations++;
+        } while (changed && iterations<10);
+        bounds.push(groupBounds);
       }
       return findExtremeBounds(bounds);
     }
@@ -402,7 +373,6 @@ BalanceTab.prototype.angular = function (module)
       var bounds = [];
       selection.each(function(){
         var bbox = $(this)[0].getBBox();
-        console.log("BBOX", bbox);
         bounds.push({
           left:   bbox.x,
           right:  bbox.x+bbox.width,
@@ -422,7 +392,6 @@ BalanceTab.prototype.angular = function (module)
           var collisionBT = colliderBounds.top - collideeBounds.bottom;
           
           if (collisionLR > 0 && collisionRL < 0 && collisionTB > 0 && collisionBT < 0) {
-            //console.log("COLLISION DETECTED!", colliderBounds, collideeBounds, positiveCollision, negativeCollision);
             if (!collisions[collider]) {
               collisions[collider] = {};
             }
@@ -437,7 +406,6 @@ BalanceTab.prototype.angular = function (module)
         }}
       }
       
-      console.log("DETECTED COLLISIONS:", collisions);
       
       function adjustBy(collision, coordinate) {
         return function() {
@@ -460,19 +428,11 @@ BalanceTab.prototype.angular = function (module)
           }
         }}
       }}
-      
-      //return !!(Object.keys(collisions).length);
-      
-      return findExtremeBounds(bounds);
-      
-      /*console.log("BOUNDS!", bounds);
-      return {
-        left:   bounds.reduce(function(p,q){return Math.min(p.left, q.left)}),
-        right:  bounds.reduce(function(p,q){return Math.max(p.right, q.right)}),
-        top:    bounds.reduce(function(p,q){return Math.min(p.top, q.top)}),
-        bottom: bounds.reduce(function(p,q){return Math.max(p.bottom, q.bottom)})
-      };*/
-      
+            
+      return [
+        findExtremeBounds(bounds),
+        !!(Object.keys(collisions).length)
+      ];
     }
     
     
@@ -486,121 +446,69 @@ BalanceTab.prototype.angular = function (module)
       link: function(scope, element, attributes) {
         drawPieChart(element, scope),
         scope.$watch('drops', function() {
-          console.log("DROPS WATCH TRIGGERED");
           drawPieChart(element, scope);
         });
         scope.$watch('ious', function() {
           drawPieChart(element, scope);
         }, true);
         scope.$watch('exchangeRates', function() {
-          console.log("EXCHANGE RATE WATCH TRIGGERED");
           drawPieChart(element, scope);
         }, true);
       }
     };
   }]); 
   
-  /*
-  module.directive('svgCenterText', [function() {
-    console.log("MANUFACTURING DIRECTIVE!");
-    return {
-      priority: -1,
-      link: function(scope, element, attrs) {
-        //console.log("LINKING DIRECTIVE!");
-        //console.log("SCOPE", scope, "ELEMENT", element, "ATTRS", attrs);
-        //console.log("DONE LINKING DIRECTIVE!");
-        
-        //attrs.$observe("y", function(){
-        //setTimeout(function(){
-          var baseX = attrs.basex;
-          var cw = window.getComputedStyle(element[0]).width;
-          console.log("WIDTH!", element.width());
-          console.log("CW!!!!!!!", cw);
-          var computedWidth = parseInt(cw, 10);
-          console.log("computedWidth!", computedWidth);
-          //var cs = window.getComputedStyle(element[0]);
-          //console.log("COMPUTED STYLE!", cs);
-          element.attr("x",baseX-computedWidth/2);
-          element.attr("cw",computedWidth);
-        //}, 5000);
-        //});
-
-        //element.attr("hello","world");
-        //console.log("EA!!!!!!!!!!!!!!!!");
-        //scope.theStyle = window.getComputedStyle(element[0], null);
-      }
-    };
-  }]);
-  */
 
   module.controller('BalanceCtrl', ['$rootScope', 'rpId', '$filter', '$http', 'rpAppManager',
                                      function ($scope, $id, $filter, $http, appManager)
   {
     if (!$id.loginStatus) return $id.goId();
-    
-    //console.log("$FILTER!!", $filter);
-    
+        
     $scope.selectedValueMetric = "XRP";
-    
     $scope.changeMetric = function(scope){
-      //console.log("THAT!", that);
-      //var metric = that.value;
       $scope.selectedValueMetric = scope.selectedValueMetric;
-      
     };
     
     $scope.$watch("selectedValueMetric", function(){
-      console.log("SELECTED VALUE METRIC!", $scope.selectedValueMetric, $scope.aggregateValueAsXrp);
       if ($scope.aggregateValueAsXrp) {
-        console.log("OKAY!!!!");
         updateAggregateValueDisplayed();
-      } else {
-        console.log("NEVERMIND");
       }
     })
     
     $scope.exchangeRates = {"XRP":1};
     
     $scope.$watch("exchangeRates", function(){
-      //var curs = Object.keys($scope.exchangeRates);
-      //if ($scope.exchangeRates) {
-        console.log("EXCHANGE RATES WATCH!", $scope.exchangeRates);
-        var isAmbiguous = {};
-        var okser = Object.keys($scope.exchangeRates);
-        for (var i=0; i<okser.length; i++) {
-          var cur = okser[i].split(":")[0];
-          console.log("TESTING AMBIGUITY:", cur);
-          if (isAmbiguous[cur] && isAmbiguous.hasOwnProperty(cur)) { //In case there's a currency called "constructor" or something
-            continue; //todo: get rid of this
-          } else {
-            for (var j=i+1; j<okser.length; j++) {
-              var cur2 = okser[j].split(":")[0];
-              if (cur === cur2) {
-                isAmbiguous[cur] = true;
-                break;
-              }
+      var isAmbiguous = {};
+      var okser = Object.keys($scope.exchangeRates);
+      for (var i=0; i<okser.length; i++) {
+        var cur = okser[i].split(":")[0];
+        if (isAmbiguous[cur] && isAmbiguous.hasOwnProperty(cur)) { //In case there's a currency called "constructor" or something
+          continue; //todo: get rid of this
+        } else {
+          for (var j=i+1; j<okser.length; j++) {
+            var cur2 = okser[j].split(":")[0];
+            if (cur === cur2) {
+              isAmbiguous[cur] = true;
+              break;
             }
           }
         }
-        console.log("IS AMBIGUOUS?", isAmbiguous);
-        $scope.valueMetrics = okser.map(function(code){
-          var curIssuer = code.split(":");
-          var currencyName = $filter('rpcurrency')(ripple.Amount.from_human("0 "+curIssuer[0])); //This is really messy
-          var issuerName = $filter('rpcontactname')(curIssuer[1]);
-          return {
-            code: code,
-            text: currencyName + (isAmbiguous[curIssuer[0]] ? " ("+ issuerName +")" : "")
-          };
-        });
-      //}
-      // Don't include XRP
+      }
+      $scope.valueMetrics = okser.map(function(code){
+        var curIssuer = code.split(":");
+        var currencyName = $filter('rpcurrency')(ripple.Amount.from_human("0 "+curIssuer[0])); //This is really messy
+        var issuerName = $filter('rpcontactname')(curIssuer[1]);
+        return {
+          code: code,
+          text: currencyName + (isAmbiguous[curIssuer[0]] ? " ("+ issuerName +")" : "")
+        };
+      });
+
       updateAggregateValueAsXrp();
     }, true);
     
     function updateAggregateValueAsXrp() {
       if ( $scope.account.Balance) {
-        //do stuff
-        console.log("UAVAX!", $scope.account.Balance);
         var av = $scope.account.Balance / 1000000;
         
         //TODO: a lot of this is duplicated from up above.
@@ -619,13 +527,10 @@ BalanceTab.prototype.angular = function (module)
     }
     
     function updateAggregateValueDisplayed() {
-      console.log("updateAggregateValueDisplayed", $scope.aggregateValueAsXrp);
-      //if ( $scope.exchangeRates) {
-        console.log("really!");
-        $scope.aggregateValueDisplayed = $scope.aggregateValueAsXrp / $scope.exchangeRates[$scope.selectedValueMetric];
-        console.log("!!! "+$scope.selectedValueMetric+" !! "+$scope.aggregateValueAsXrp+" "+JSON.stringify($scope.exchangeRates));
-      //}
+      $scope.aggregateValueDisplayed = $scope.aggregateValueAsXrp / $scope.exchangeRates[$scope.selectedValueMetric];
     }
+    
+    $scope.$watch("account.Balance", updateAggregateValueAsXrp);
     
     $scope.$watch("balances", function(){
       var currencies = [];
@@ -647,12 +552,10 @@ BalanceTab.prototype.angular = function (module)
       if (pairs.length) {
         $http.post("https://api.ripplecharts.com/api/exchangeRates", {pairs:pairs,last:true})
         .success(function(response){
-          console.log("RIPPLE CHARTS RESPONSE!", response);
           for (var i=0; i<response.length; i++) {
             var pair = response[i];
             $scope.exchangeRates[pair.base.currency+":"+pair.base.issuer] = pair.last;
           }
-          //$scope.exchangeRates = exchangeRates;
           updateAggregateValueAsXrp();
         });
       }
