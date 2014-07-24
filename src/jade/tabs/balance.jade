@@ -15,7 +15,6 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
         // JIRA id#: WC-1563
         .currency-overview
           .balancebox.col-xs-8
-            //button(ng-click="addPath()") click here!
             .lbl Total Balance
               .desc Estimated from exchange rates
             .total.amount
@@ -23,13 +22,8 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
               //span.fraction XXXX
               select.currency(ng-model='selectedValueMetric'
                 ng-change='changeMetric(this)')
-                //option(selected=true value="XRP") XRP
                 option(ng-repeat='metric in valueMetrics'
                   value='{{metric.code}}') {{metric.text}}
-              //  option(selected=true) XRP
-              //  option USD, ng-bind='option.label', 
-              //  option BTC
-              //  option CNY
             .pending(ng-show="pending")
               .lbl Pending
               .transactions
