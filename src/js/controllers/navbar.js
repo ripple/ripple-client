@@ -43,7 +43,9 @@ module.controller('NavbarCtrl', ['$scope', '$element', '$compile', 'rpId',
   });
 
   var updateNotifications = function () {
-    $scope.notifications = $scope.events.slice(0,10);
+    if ($scope.events) {
+      $scope.notifications = $scope.events.slice(0,10);
+    }
   };
 
   $scope.$on('$eventsUpdate', updateNotifications);
