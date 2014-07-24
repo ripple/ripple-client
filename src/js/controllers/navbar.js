@@ -42,9 +42,11 @@ module.controller('NavbarCtrl', ['$scope', '$element', '$compile', 'rpId',
     setConnectionStatus(false);
   });
 
-  $scope.$watch('events', function(events) {
-    $scope.notifications = events.slice(0,10);
-  }, true);
+  var updateNotifications = function () {
+    $scope.notifications = $scope.events.slice(0,10);
+  };
+
+  $scope.$on('$eventsUpdate', updateNotifications);
 
   /**
    * Marks all the notifications as seen.
@@ -168,6 +170,8 @@ module.controller('NavbarCtrl', ['$scope', '$element', '$compile', 'rpId',
       setTimeout(tick, tickInterval);
     }
   }
+
+  updateNotifications();
 
   // Testing Hooks
   this.setConnectionStatus = setConnectionStatus;

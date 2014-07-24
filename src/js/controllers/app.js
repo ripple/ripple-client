@@ -210,6 +210,8 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
         data.transactions.reverse().forEach(function (e, key) {
           processTxn(e.tx, e.meta, true);
         });
+
+        $scope.$broadcast('$eventsUpdate');
       }
 
       $scope.loadState['transactions'] = true;
@@ -227,6 +229,7 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
   {
     $scope.$apply(function () {
       processTxn(e.transaction, e.meta);
+      $scope.$broadcast('$eventsUpdate');
     });
   }
 
