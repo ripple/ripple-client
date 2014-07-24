@@ -25,11 +25,6 @@ module.controller('NavbarCtrl', ['$scope', '$element', '$compile', 'rpId',
     $scope.show_secondary = !$scope.show_secondary;
   };
 
-  $scope.logout = function () {
-    $id.logout();
-    $location.path('/login');
-  };
-
   $scope.$on('$netConnected', function (e) {
     setConnectionStatus(true);
   });
