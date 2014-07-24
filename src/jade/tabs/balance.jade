@@ -41,6 +41,7 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
             style div[rp-pie-chart] text {font-family:OpenSansLight, sans-serif; pointer-events:none;} div[rp-pie-chart] text.percentage {fill:#999; font-size:12px;}
             style div[rp-pie-chart] .main {opacity:1;} div[rp-pie-chart] .sub {opacity:0;} div[rp-pie-chart] * {-webkit-transition:opacity 0.17s; transition: opacity 0.17s;}
             div(rp-pie-chart
+              rp-size="120"
               rp-drops="account.Balance"
               rp-ious="balances"
               rp-exchange-rates="exchangeRates")
