@@ -134,6 +134,8 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
       }
       console.log('lines updated:', $scope.lines);
 
+      if (data.lines.length) $scope.$broadcast('$balancesUpdate');
+
       $scope.loadState['lines'] = true;
     });
   }
@@ -159,6 +161,7 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
         updateOffer(offer);
       });
       console.log('offers updated:', $scope.offers);
+      $scope.$broadcast('$offersUpdate');
 
       $scope.loadState['offers'] = true;
     });
@@ -207,6 +210,8 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
         data.transactions.reverse().forEach(function (e, key) {
           processTxn(e.tx, e.meta, true);
         });
+
+        $scope.$broadcast('$eventsUpdate');
       }
 
       $scope.loadState['transactions'] = true;
@@ -224,6 +229,7 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
   {
     $scope.$apply(function () {
       processTxn(e.transaction, e.meta);
+      $scope.$broadcast('$eventsUpdate');
     });
   }
 
@@ -315,6 +321,8 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
             updateOffer(offer);
           }
         });
+
+        $scope.$broadcast('$offersUpdate');
       }
     }
   }
@@ -342,6 +350,8 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
   {
     if (!$.isArray(effects)) return;
 
+    var balancesUpdated;
+
     $.each(effects, function () {
       if (_.contains([
         'trust_create_local',
@@ -365,6 +375,7 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
           updateRippleBalance(effect.currency,
                                     effect.counterparty,
                                     effect.balance);
+          balancesUpdated = true;
         }
 
         if (effect.deleted) {
@@ -383,6 +394,8 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
         $scope.lines[index] = $.extend($scope.lines[index], line);
       }
     });
+
+    if (balancesUpdated) $scope.$broadcast('$balancesUpdate');
   }
 
   function updateRippleBalance(currency, new_account, new_balance)

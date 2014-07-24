@@ -25,19 +25,6 @@ module.controller('NavbarCtrl', ['$scope', '$element', '$compile', 'rpId',
     $scope.show_secondary = !$scope.show_secondary;
   };
 
-  $scope.$watch('balances', function () {
-    $scope.orderedBalances = _.filter($scope.balances, function (balance) {
-      // XXX Maybe we should show zero balances if there is outgoing trust in
-      //     that currency.
-      return !balance.total.is_zero();
-    });
-    $scope.orderedBalances.sort(function(a,b){
-      return parseFloat(Math.abs(b.total.to_text())) - parseFloat(Math.abs(a.total.to_text()));
-    });
-
-    $scope.balance_count = $scope.orderedBalances.length;
-  }, true);
-
   // Username
   $scope.$watch('userCredentials', function(){
     var username = $scope.userCredentials.username;
@@ -55,9 +42,13 @@ module.controller('NavbarCtrl', ['$scope', '$element', '$compile', 'rpId',
     setConnectionStatus(false);
   });
 
-  $scope.$watch('events', function(events) {
-    $scope.notifications = events.slice(0,10);
-  }, true);
+  var updateNotifications = function () {
+    if ($scope.events) {
+      $scope.notifications = $scope.events.slice(0,10);
+    }
+  };
+
+  $scope.$on('$eventsUpdate', updateNotifications);
 
   /**
    * Marks all the notifications as seen.
@@ -181,6 +172,8 @@ module.controller('NavbarCtrl', ['$scope', '$element', '$compile', 'rpId',
       setTimeout(tick, tickInterval);
     }
   }
+
+  updateNotifications();
 
   // Testing Hooks
   this.setConnectionStatus = setConnectionStatus;
