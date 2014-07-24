@@ -501,9 +501,9 @@ module.directive('rpPieChart', ['$filter', 'rpColorManager', function($filter, $
       });
       
       // TODO: remove this
-      scope.$watch('ious', function() {
+      /*scope.$watch('ious', function() {
         pieChart(element, scope);
-      }, true);
+      }, true);*/
       
       scope.$watch('exchangeRates', function() {
         pieChart(element, scope);

@@ -53,6 +53,7 @@ BalanceTab.prototype.angular = function (module)
     $scope.exchangeRates = {"XRP":1};
     
     function updateExchangeRates() {
+      console.log("UPDATING EXCHANGE RATES!");
       var currencies = [];
       for (var cur in $scope.balances) {if ($scope.balances.hasOwnProperty(cur)){
       var components = $scope.balances[cur].components;
@@ -83,7 +84,7 @@ BalanceTab.prototype.angular = function (module)
     }
     
     $scope.$on('$balancesUpdate', updateExchangeRates);
-    $scope.$watch("balances", updateExchangeRates, true); //TODO: Get rid of this
+    //$scope.$watch("balances", updateExchangeRates, true); //TODO: Get rid of this
     
     updateExchangeRates();
     
