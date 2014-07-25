@@ -75,7 +75,7 @@ module.factory('rpColorManager', function () {
   
   var defaultColors = [
     "#3c3ca0",
-    "#bbbbbb"
+    "#999999"
   ];
   
   /*function colorsForCurrencies(currencies) {

@@ -224,21 +224,39 @@ module.directive('rpPieChart', ['$filter', 'rpColorManager', function($filter, $
           return o[name];
         }
       }
-      for (i=0; i<protoSectors.length; i++) {
-        ps = protoSectors[i];
-        var offset = 0;
-        for (j=0; j<i; j++) {
-          offset += protoSectors[j].share;
+      var OTHER_COLOR = "#ccc";
+      var p, offset=0, broken=false;
+      for (p=0; p<protoSectors.length; p++) {
+        ps = protoSectors[p];
+        if (p>0) {
+          offset += protoSectors[p-1].share;
         }
-        drawSectors(
-          container,
-          ps.issuerSubshares.map(selectValue("subshare")),
-          ps.issuerSubshares.map(selectValue("issuer")),
-          $colorManager.shades(ps.color),
-          "sub",
-          ps.currency,
-          offset
-        );
+        if (offset < 0.97) {
+          drawSectors(
+            container,
+            ps.issuerSubshares.map(selectValue("subshare")),
+            ps.issuerSubshares.map(selectValue("issuer")),
+            $colorManager.shades(ps.color),
+            "sub",
+            ps.currency,
+            offset
+          );
+        } else {
+          // We've come to the limit, and so we'll lump the rest under "other".
+          broken = true;
+          drawSectors(container, [1 - offset], ["other"],
+            $colorManager.shades(OTHER_COLOR), "sub", "other", offset
+          );
+          break;
+        }
+      }
+      if (broken) {
+        protoSectors.length = p;
+        protoSectors.push({
+          share: 1 - offset,
+          currency: "other", // We are trusting here that no actual currency will ever be called "other".
+          color: OTHER_COLOR
+        });
       }
 
       // Draw the main sectors.
