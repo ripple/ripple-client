@@ -18,7 +18,7 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
             .lbl Total Balance
               .desc Estimated from exchange rates
             .total.amount
-              span.fraction {{ aggregateValueDisplayed.toFixed(4) }}
+              span.amount {{ aggregateValueDisplayed.toFixed(4) }}
               //span.fraction XXXX
               select.currency(ng-model='selectedValueMetric'
                 ng-change='changeMetric(this)')

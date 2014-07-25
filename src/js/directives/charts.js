@@ -145,106 +145,91 @@ module.directive('rpPieChart', ['$filter', 'rpColorManager', function($filter, $
     
     function drawPieChart(container, exchangeRates, drops, ious) {
       
-      if (drops && exchangeRates && Object.keys(exchangeRates).length) {} else {
+      if (!(drops && exchangeRates && Object.keys(exchangeRates).length)) {
         return;
       }
       
       var xrpAsSuch = parseInt(drops,10) / 1000000;      
-      var subbalancesAsXrp = [[xrpAsSuch]];
+      
+      var protoSectors = [{
+        issuerSubshares: [{
+          issuer: "XRP",
+          subbalance: xrpAsSuch
+        }],
+        amountForCurrency: "0"
+      }];
+        
+      function descendingBy(key) {
+        return function(a,b) {
+          return b[key] - a[key];
+        };
+      }
+        
       var totalAsXrp = xrpAsSuch;
-      var amounts = ["1"];
-      var issuerses = [["XRP"]];
       for (var cur in ious) {if (ious.hasOwnProperty(cur)){
         var components = ious[cur].components;
-        
-        var sbs = [];
-        var issuers = [];
+        var issuerSubshares = [];
         var issuer;
         for (issuer in components) {if (components.hasOwnProperty(issuer)){
-          var rate = (exchangeRates[cur+":"+issuer] || 0);
-          var sbAsXrp = components[issuer].to_number() * rate;
-          totalAsXrp += sbAsXrp;
-          sbs.push(sbAsXrp);
-          issuers.push(issuer);
+          var subbalanceAsXrp = components[issuer].to_number() * (exchangeRates[cur+":"+issuer] || 0);
+          totalAsXrp += subbalanceAsXrp;
+          issuerSubshares.push({
+            issuer: contactButNotXrp(issuer),
+            subbalance: subbalanceAsXrp
+          });
         }}
-        subbalancesAsXrp.push(sbs);
-        issuerses.push(issuers);
-        amounts.push(components[issuer]);
+        issuerSubshares.sort(descendingBy("subbalance"));
+        protoSectors.push({
+          issuerSubshares: issuerSubshares,
+          amountForCurrency: components[issuer]
+        });
       }}
       
-      
-      // Scale to have an overall sum of 1
-      var subshareses = subbalancesAsXrp.map(function(x){return x.map(function(y){return y/totalAsXrp})});
-      // Add up each group of subshares to get shares
-      var shares = subshareses.map(function(x){return x.reduce(function(a,b){return a+b})});
-      // Render the currencies as names
-      var currencies = amounts.map(function(a){return rpcurrency(a)});
-      
-      /*function sorter(a,b) {
-        return b-a;
-      }*/
-      
-      // Zip together the four parallel arrays: issuerses, subshareses, shares, currencies.
-      // But, since "issuers" and "subshares" are themselves parallel arrays, zip them together too,
-      // sorting by largest to smallest subshare
-      var protoSectors = [];
-      for (var i=0; i<subshareses.length; i++) {
-        //sort subshares, issuers
-        var subshares = subshareses[i];
-        var issuers = issuerses[i];
-        var issuerSubshares = [];
-        for (var j=0; j<subshares.length; j++) {
-          issuerSubshares.push({
-            issuer:   issuers[j],
-            subshare: subshares[j]
-          });
+      // Now, go through the list of protoSectors and do the following for each:
+      // -Divide all the subbalances by totalAsXrp, inserting the result as "subshare"s
+      // -Insert the sum of the "subshare"s as "share"
+      // -Insert "currency" by translating "amountForCurrency" into a currency
+      var i, j, ps;
+      for (i=0; i<protoSectors.length; i++) {
+        ps = protoSectors[i];
+        var share = 0;
+        for (j=0; j<ps.issuerSubshares.length; j++) {
+          var is = ps.issuerSubshares[j];
+          is.subshare = is.subbalance / totalAsXrp;
+          share += is.subshare;
         }
-        issuerSubshares.sort(function(is1, is2){
-          return is2.subshare - is1.subshare;
-        });
-        protoSectors.push({
-          issuerSubshares : issuerSubshares,
-          share    : shares[i],
-          currency : currencies[i]
-        });
+        ps.share = share;
+        ps.currency = rpcurrency(ps.amountForCurrency);
       }
       
-            
-      function selectValue(name) {
-        return function(o) {
-          return o[name];
-        }
-      }
-      
-      protoSectors.sort(function(ps1, ps2){
-        return ps2.share - ps1.share;
-      });//TODO: sort protoSectors by share size
+      protoSectors.sort(descendingBy("share"));
       
       var ccg = new $colorManager.CurrencyColorGenerator();
-      for (var i=0; i<protoSectors.length; i++) {
-        var ps = protoSectors[i];
+      for (i=0; i<protoSectors.length; i++) {
+        ps = protoSectors[i];
         ps.color = ccg.generateColor(ps.currency);
       }
-      
-      //var colors = $colorManager.colorsForCurrencies(currencies);
-      //TODO: stop trying to maintain parallel arrays; sort the sectors from largest to smallest
-      
       
       // Prepare the container
       container.find('*').remove()
       container.append('<svg></svg>');
       
-      // Draw the subsectors
-      for (var i=0; i<protoSectors.length; i++) {
-        var ps = protoSectors[i];
+      // Draw the subsectors          
+      function selectValue(name) {
+        return function(o) {
+          return o[name];
+        }
+      }
+      for (i=0; i<protoSectors.length; i++) {
+        ps = protoSectors[i];
         var offset = 0;
-        for (var j=0; j<i; j++) {
+        for (j=0; j<i; j++) {
           offset += protoSectors[j].share;
         }
         drawSectors(
           container,
           ps.issuerSubshares.map(selectValue("subshare")),
-          ps.issuerSubshares.map(selectValue("issuer")).map(contactButNotXrp), //really?
+          ps.issuerSubshares.map(selectValue("issuer")),
           $colorManager.shades(ps.color),
           "sub",
           ps.currency,
@@ -252,7 +237,6 @@ module.directive('rpPieChart', ['$filter', 'rpColorManager', function($filter, $
         );
       }
 
-      
       // Draw the main sectors.
       // This must come last, so that the onMouseOver works.
       drawSectors(
@@ -262,7 +246,7 @@ module.directive('rpPieChart', ['$filter', 'rpColorManager', function($filter, $
         protoSectors.map(selectValue("color")),
         "main",
         protoSectors.map(selectValue("currency"))
-      );// TODO: Make this more efficient
+      );
       
       // Draw the hole in the middle
       $('<circle></circle>').appendTo(container.find('svg')).attr({
@@ -304,7 +288,6 @@ module.directive('rpPieChart', ['$filter', 'rpColorManager', function($filter, $
         container.find(".sub").css("opacity",0);
       });
       
-      
     }
     
     function drawSectors(container, shares, labels, colors, cssClass, grouping, offset) {
@@ -314,7 +297,7 @@ module.directive('rpPieChart', ['$filter', 'rpColorManager', function($filter, $
       }
       if (offset) {
         shares.unshift(offset);
-        labels.unshift("!!!"); // This should never actually appear in the view.
+        labels.unshift("!!!"); // If you see this in the view, something's wrong.
       }
       
       
@@ -507,7 +490,6 @@ module.directive('rpPieChart', ['$filter', 'rpColorManager', function($filter, $
         }}
       }
       
-      
       function adjustBy(collision, coordinate) {
         return function() {
           var t = $(this).attr(coordinate);
@@ -515,7 +497,6 @@ module.directive('rpPieChart', ['$filter', 'rpColorManager', function($filter, $
           $(this).attr(coordinate,t-adjustment/1.9);
         }
       }
-      
       
       for (collider in collisions) {if (collisions.hasOwnProperty(collider)) {
         var collidingWith = collisions[collider];
