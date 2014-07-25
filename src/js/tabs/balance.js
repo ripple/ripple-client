@@ -54,15 +54,19 @@ BalanceTab.prototype.angular = function (module)
     
     function updateExchangeRates() {
       var currencies = [];
+      var hasNegative = false;
       for (var cur in $scope.balances) {if ($scope.balances.hasOwnProperty(cur)){
-      var components = $scope.balances[cur].components;
+        var components = $scope.balances[cur].components;
         for (var issuer in components) {if (components.hasOwnProperty(issuer)){
+          // While we're at it, check for negative balances:
+          hasNegative || (hasNegative = components[issuer].is_negative()); 
           currencies.push({
             currency: cur,
             issuer: issuer
           });
         }}
       }}
+      $scope.hasNegative = hasNegative;
       var pairs = currencies.map(function(c){
         return {
           base:c,
@@ -79,7 +83,7 @@ BalanceTab.prototype.angular = function (module)
         });
       }
     }
-    
+
     $scope.$on('$balancesUpdate', updateExchangeRates);
     
     updateExchangeRates();

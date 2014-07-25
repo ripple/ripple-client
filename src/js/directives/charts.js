@@ -171,12 +171,16 @@ module.directive('rpPieChart', ['$filter', 'rpColorManager', function($filter, $
         var issuerSubshares = [];
         var issuer;
         for (issuer in components) {if (components.hasOwnProperty(issuer)){
-          var subbalanceAsXrp = components[issuer].to_number() * (exchangeRates[cur+":"+issuer] || 0);
-          totalAsXrp += subbalanceAsXrp;
-          issuerSubshares.push({
-            issuer: contactButNotXrp(issuer),
-            subbalance: subbalanceAsXrp
-          });
+          var amount = components[issuer].to_number();
+          // The chart ignores negative balances. The user should be notified (separately) of this omission.
+          if (amount > 0) {
+            var subbalanceAsXrp = amount * (exchangeRates[cur+":"+issuer] || 0);
+            totalAsXrp += subbalanceAsXrp;
+            issuerSubshares.push({
+              issuer: contactButNotXrp(issuer),
+              subbalance: subbalanceAsXrp
+            });
+          }
         }}
         issuerSubshares.sort(descendingBy("subbalance"));
         protoSectors.push({
@@ -503,7 +507,7 @@ module.directive('rpPieChart', ['$filter', 'rpColorManager', function($filter, $
         for (collidee in collidingWith) {if (collidingWith.hasOwnProperty(collidee)) {
           var collision = collidingWith[collidee];
           var g = $(selection[collider]);
-          if (false || Math.abs(collision.x) < Math.abs(collision.y)) { //TODO: Be smarter about this
+          if (Math.abs(collision.x) < Math.abs(collision.y)) {
             g.find("text").each(adjustBy(collision,"x"));
           } else {
             g.find("text").each(adjustBy(collision,"y"));

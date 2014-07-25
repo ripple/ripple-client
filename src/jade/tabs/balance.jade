@@ -24,12 +24,8 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
                 ng-change='changeMetric(this)')
                 option(ng-repeat='metric in valueMetrics'
                   value='{{metric.code}}') {{metric.text}}
-            .pending(ng-show="pending")
-              .lbl Pending
-              .transactions
-                .amount 
-                  span.fraction {{pending.amount}}
-                  span.currency {{pending.currency}}
+            .lbl(ng-show="hasNegative")
+              .desc (excluding negative balances)
           .col-xs-4
             rp-pie-chart(
               rp-size="120"
