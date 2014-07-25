@@ -73,24 +73,43 @@ module.factory('rpColorManager', function () {
     CAD : "#8264be"
   };
   
-  function colorsForCurrencies(currencies) {
+  var defaultColors = [
+    "#3c3ca0",
+    "#cccccc"
+  ];
+  
+  /*function colorsForCurrencies(currencies) {
     var colors = [];
     for (var i=0; i<currencies.length; i++) {
       colors.push(currencyColors[currencies[i]] || "#3c3ca0"); //TODO: make this better
     }
     return colors;
+  }*/
+  
+  function CurrencyColorGenerator() {
+    var index = 0;
+    return {
+      generateColor: function(cur) {
+        var cc = currencyColors[cur];
+        if (!cc) {
+          cc = defaultColors[index % defaultColors.length];
+          index++
+        }
+        return cc;
+      }
+    }
   }
   
   
   return {
-    colorHexToRGB       : colorHexToRGB,
-    colorRGBToHex       : colorRGBToHex,
-    invertColorRGB      : invertColorRGB,
-    darken              : darken,
-    lighten             : lighten,
-    shades              : shades,
-    currencyColors      : currencyColors,
-    colorsForCurrencies : colorsForCurrencies
+    colorHexToRGB          : colorHexToRGB,
+    colorRGBToHex          : colorRGBToHex,
+    invertColorRGB         : invertColorRGB,
+    darken                 : darken,
+    lighten                : lighten,
+    shades                 : shades,
+    currencyColors         : currencyColors,
+    CurrencyColorGenerator : CurrencyColorGenerator
   };
   
   
