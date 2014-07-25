@@ -178,7 +178,8 @@ module.directive('rpPieChart', ['$filter', 'rpColorManager', function($filter, $
       var shares = subshareses.map(function(x){return x.reduce(function(a,b){return a+b})});
       var currencies = amounts.map(function(a){return rpcurrency(a)});
       var colors = $colorManager.colorsForCurrencies(currencies);
-      //currencies.map(function(c){return currencyColors[c] || "#3c3ca0";});
+      //TODO: stop trying to maintain parallel arrays; sort the sectors from largest to smallest
+      
       
       // Prepare the container
       container.find('*').remove()
@@ -213,9 +214,8 @@ module.directive('rpPieChart', ['$filter', 'rpColorManager', function($filter, $
         r:    SIZE/6
       });
       
-      // And finally...
+      // Refresh the DOM (because JQuery and SVG don't play nice)
       container.html(container.html());
-      
       
       // Center text elements
       container.find("text").each(function(){
@@ -226,13 +226,13 @@ module.directive('rpPieChart', ['$filter', 'rpColorManager', function($filter, $
       
       //Resolve collisions and adjust viewBox:
       var extremeBounds = resolveCollisions(container);
-      var MARGIN = 5
-      container.find('svg')[0].setAttribute("viewBox",
-        (extremeBounds.left-MARGIN)+" "+
-        (extremeBounds.top-MARGIN)+" "+
-        (extremeBounds.right-extremeBounds.left+MARGIN*2)+" "+
-        (extremeBounds.bottom-extremeBounds.top+MARGIN*2)
-      );
+      var PADDING = 5
+      container.find('svg')[0].setAttribute("viewBox", [
+        (extremeBounds.left-PADDING),
+        (extremeBounds.top-PADDING),
+        (extremeBounds.right-extremeBounds.left+PADDING*2),
+        (extremeBounds.bottom-extremeBounds.top+PADDING*2)
+      ].join(" "));
       
       // Define hovering behavior
       container.find("path.main").on("mouseover", function(){
@@ -499,11 +499,6 @@ module.directive('rpPieChart', ['$filter', 'rpColorManager', function($filter, $
       scope.$on('$balancesUpdate', function() {
         pieChart(element, scope);
       });
-      
-      // TODO: remove this
-      /*scope.$watch('ious', function() {
-        pieChart(element, scope);
-      }, true);*/
       
       scope.$watch('exchangeRates', function() {
         pieChart(element, scope);

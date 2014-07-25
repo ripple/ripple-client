@@ -53,7 +53,6 @@ BalanceTab.prototype.angular = function (module)
     $scope.exchangeRates = {"XRP":1};
     
     function updateExchangeRates() {
-      console.log("UPDATING EXCHANGE RATES!");
       var currencies = [];
       for (var cur in $scope.balances) {if ($scope.balances.hasOwnProperty(cur)){
       var components = $scope.balances[cur].components;
@@ -77,14 +76,11 @@ BalanceTab.prototype.angular = function (module)
             var pair = response[i];
             $scope.exchangeRates[pair.base.currency+":"+pair.base.issuer] = pair.last;
           }
-          //updateAggregateValueAsXrp(); //I don't think this is necessary, is it? 
-          // Will the exchange rate watch trigger on each loop?
         });
       }
     }
     
     $scope.$on('$balancesUpdate', updateExchangeRates);
-    //$scope.$watch("balances", updateExchangeRates, true); //TODO: Get rid of this
     
     updateExchangeRates();
     
@@ -93,9 +89,8 @@ BalanceTab.prototype.angular = function (module)
       var okser = Object.keys($scope.exchangeRates);
       for (var i=0; i<okser.length; i++) {
         var cur = okser[i].split(":")[0];
-        if (isAmbiguous[cur] && isAmbiguous.hasOwnProperty(cur)) { //In case there's a currency called "constructor" or something
-          continue; //todo: get rid of this
-        } else {
+        if (!isAmbiguous[cur] || !isAmbiguous.hasOwnProperty(cur)) {
+          // (In case there's a currency called "constructor" or something)
           for (var j=i+1; j<okser.length; j++) {
             var cur2 = okser[j].split(":")[0];
             if (cur === cur2) {
@@ -127,7 +122,7 @@ BalanceTab.prototype.angular = function (module)
       if ( $scope.account.Balance) {
         var av = $scope.account.Balance / 1000000;
         
-        //TODO: a lot of this is duplicated from up above.
+        //TODO: a lot of this is duplicated from the pie chart directive
         for (var cur in $scope.balances) {if ($scope.balances.hasOwnProperty(cur)){
           var components = $scope.balances[cur].components;
           for (var issuer in components) {if (components.hasOwnProperty(issuer)){
