@@ -483,7 +483,7 @@ module.directive('rpPieChart', ['$filter', 'rpColorManager', function($filter, $
   }
   
   return {
-    restrict: 'A',
+    restrict: 'E',
     scope: {
       drops: '=rpDrops',
       ious: '=rpIous',

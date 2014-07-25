@@ -386,3 +386,30 @@ a.danger {
     font-family: OpenSansBold;
   }
 }
+
+rp-pie-chart {
+  text {
+    font-family: OpenSansLight, sans-serif;
+    pointer-events: none;
+  }
+  
+  text.percentage {
+    fill: #999;
+    font-size: 12px;
+  }
+
+  .main {
+    opacity: 1;
+  }
+
+  .sub {
+    opacity: 0;
+  }
+
+  * {
+    -webkit-transition: opacity 0.17s;
+    -moz-transition   : opacity 0.17s;
+    -o-transition     : opacity 0.17s;
+    transition        : opacity 0.17s;
+  } 
+}
