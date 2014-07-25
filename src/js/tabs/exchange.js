@@ -28,7 +28,7 @@ ExchangeTab.prototype.angular = function (module)
     {
       if (!$id.loginStatus) return $id.goId();
 
-      var timer;
+      var timer, pf;
 
       // Remember user preference on Convert vs. Trade
       $rootScope.ripple_exchange_selection_trade = false;
@@ -122,7 +122,7 @@ ExchangeTab.prototype.angular = function (module)
           if (amount.is_zero()) return;
 
           // Start path find
-          var pf = $network.remote.path_find($id.account,
+          pf = $network.remote.path_find($id.account,
               $id.account,
               amount);
 
@@ -371,6 +371,13 @@ ExchangeTab.prototype.angular = function (module)
       }
 
       $scope.reset();
+
+      // Stop the pathfinding when leaving the page
+      $scope.$on('$destroy', function(){
+        if (pf && "function" === typeof pf.close) {
+          pf.close();
+        }
+      });
     }]);
 
   /**
