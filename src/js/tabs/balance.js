@@ -48,7 +48,8 @@ BalanceTab.prototype.angular = function (module)
     
     // Maintain a dictionary for the value of each "currency:issuer" pair, denominated in XRP.
     // Fetch the data from RippleCharts, and refresh it whenever any non-XRP balances change.
-    // When exchangeRates changes, update the aggregate value, and the list of available value metrics.
+    // When exchangeRates changes, update the aggregate value, and the list of available value metrics,
+    // and also check for negative balances to see if the user should be notified.
     
     $scope.exchangeRates = {"XRP":1};
     
@@ -125,8 +126,6 @@ BalanceTab.prototype.angular = function (module)
     function updateAggregateValueAsXrp() {
       if ( $scope.account.Balance) {
         var av = $scope.account.Balance / 1000000;
-        
-        //TODO: a lot of this is duplicated from the pie chart directive
         for (var cur in $scope.balances) {if ($scope.balances.hasOwnProperty(cur)){
           var components = $scope.balances[cur].components;
           for (var issuer in components) {if (components.hasOwnProperty(issuer)){
@@ -135,7 +134,6 @@ BalanceTab.prototype.angular = function (module)
             av += sbAsXrp;
           }}
         }}
-        
         $scope.aggregateValueAsXrp = av;
         updateAggregateValueDisplayed();
       }

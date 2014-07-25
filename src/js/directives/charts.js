@@ -139,10 +139,12 @@ module.directive('rpPieChart', ['$filter', 'rpColorManager', function($filter, $
     return x==="XRP" ? "XRP" : rpcontactname(x);
   }
 
+  // Create a pie chart in the element, using the data on the scope.
   function pieChart(element, scope) {
     
     var SIZE = parseInt(scope.size, 10);
     
+    // Main function
     function drawPieChart(container, exchangeRates, drops, ious) {
       
       if (!(drops && exchangeRates && Object.keys(exchangeRates).length)) {
@@ -151,7 +153,9 @@ module.directive('rpPieChart', ['$filter', 'rpColorManager', function($filter, $
       
       var xrpAsSuch = parseInt(drops,10) / 1000000;      
       
-      var protoSectors = [{
+      // We construct an array of "pieces", which each correspond to one piece of the pie,
+      // containing information that will be extracted to calculate the appearance of each sector.
+      var pieces = [{
         issuerSubshares: [{
           issuer: "XRP",
           subbalance: xrpAsSuch
@@ -183,38 +187,38 @@ module.directive('rpPieChart', ['$filter', 'rpColorManager', function($filter, $
           }
         }}
         issuerSubshares.sort(descendingBy("subbalance"));
-        protoSectors.push({
+        pieces.push({
           issuerSubshares: issuerSubshares,
           amountForCurrency: components[issuer]
         });
       }}
       
-      // Now, go through the list of protoSectors and do the following for each:
+      // Now, go through the list of pieces and do the following for each:
       // -Divide all the subbalances by totalAsXrp, inserting the result as "subshare"s
       // -Insert the sum of the "subshare"s as "share"
       // -Insert "currency" by translating "amountForCurrency" into a currency
-      var i, j, ps;
-      for (i=0; i<protoSectors.length; i++) {
-        ps = protoSectors[i];
+      var i, j, piece;
+      for (i=0; i<pieces.length; i++) {
+        piece = pieces[i];
         var share = 0;
-        for (j=0; j<ps.issuerSubshares.length; j++) {
-          var is = ps.issuerSubshares[j];
+        for (j=0; j<piece.issuerSubshares.length; j++) {
+          var is = piece.issuerSubshares[j];
           is.subshare = is.subbalance / totalAsXrp;
           share += is.subshare;
         }
-        ps.share = share;
-        ps.currency = rpcurrency(ps.amountForCurrency);
+        piece.share = share;
+        piece.currency = rpcurrency(piece.amountForCurrency);
       }
       
-      protoSectors.sort(descendingBy("share"));
+      pieces.sort(descendingBy("share"));
       
       var ccg = new $colorManager.CurrencyColorGenerator();
-      for (i=0; i<protoSectors.length; i++) {
-        ps = protoSectors[i];
-        ps.color = ccg.generateColor(ps.currency);
+      for (i=0; i<pieces.length; i++) {
+        piece = pieces[i];
+        piece.color = ccg.generateColor(piece.currency);
       }
       
-      // Prepare the container
+      // Reset the container
       container.find('*').remove()
       container.append('<svg></svg>');
       
@@ -226,23 +230,23 @@ module.directive('rpPieChart', ['$filter', 'rpColorManager', function($filter, $
       }
       var OTHER_COLOR = "#ccc";
       var p, offset=0, broken=false;
-      for (p=0; p<protoSectors.length; p++) {
-        ps = protoSectors[p];
+      for (p=0; p<pieces.length; p++) {
+        piece = pieces[p];
         if (p>0) {
-          offset += protoSectors[p-1].share;
+          offset += pieces[p-1].share;
         }
         if (offset < 0.97) {
           drawSectors(
             container,
-            ps.issuerSubshares.map(selectValue("subshare")),
-            ps.issuerSubshares.map(selectValue("issuer")),
-            $colorManager.shades(ps.color),
+            piece.issuerSubshares.map(selectValue("subshare")),
+            piece.issuerSubshares.map(selectValue("issuer")),
+            $colorManager.shades(piece.color),
             "sub",
-            ps.currency,
+            piece.currency,
             offset
           );
         } else {
-          // We've come to the limit, and so we'll lump the rest under "other".
+          // We've come to the limit, and so we'll lump the rest in under "other".
           broken = true;
           drawSectors(container, [1 - offset], ["other"],
             $colorManager.shades(OTHER_COLOR), "sub", "other", offset
@@ -251,8 +255,8 @@ module.directive('rpPieChart', ['$filter', 'rpColorManager', function($filter, $
         }
       }
       if (broken) {
-        protoSectors.length = p;
-        protoSectors.push({
+        pieces.length = p;
+        pieces.push({
           share: 1 - offset,
           currency: "other", // We are trusting here that no actual currency will ever be called "other".
           color: OTHER_COLOR
@@ -263,11 +267,11 @@ module.directive('rpPieChart', ['$filter', 'rpColorManager', function($filter, $
       // This must come last, so that the onMouseOver works.
       drawSectors(
         container,
-        protoSectors.map(selectValue("share")),
-        protoSectors.map(selectValue("currency")),
-        protoSectors.map(selectValue("color")),
+        pieces.map(selectValue("share")),
+        pieces.map(selectValue("currency")),
+        pieces.map(selectValue("color")),
         "main",
-        protoSectors.map(selectValue("currency"))
+        pieces.map(selectValue("currency"))
       );
       
       // Draw the hole in the middle
@@ -312,6 +316,9 @@ module.directive('rpPieChart', ['$filter', 'rpColorManager', function($filter, $
       
     }
     
+    // Given a container, and parallel arrays "shares" "labels" and "colors",
+    // draw sectors on the container's SVG element, with the given "cssClass" and "grouping".
+    // Off-set the whole thing by "offset" turns.
     function drawSectors(container, shares, labels, colors, cssClass, grouping, offset) {
       var TAU = Math.PI*2;
       if (shares.length && shares[0] === 1) {
@@ -370,7 +377,7 @@ module.directive('rpPieChart', ['$filter', 'rpColorManager', function($filter, $
             color: colors[sectors.length % colors.length],
             labelPosition: labelPosition,
             labelText: labels[i],
-            group: "string"===typeof(grouping) ? grouping : grouping[i], //TODO move this out to make it more efficient
+            group: "string"===typeof(grouping) ? grouping : grouping[i],
             share: share
           });
         }
@@ -420,6 +427,8 @@ module.directive('rpPieChart', ['$filter', 'rpColorManager', function($filter, $
       }
     }
 
+    // Move the labels around until they don't overlap, and return the extreme bounding box.
+    // (The adjustment is only done a finite number of times, to avoid an infinite loop.)
     function resolveCollisions(container) {
       var svg = container.find('svg');
       var bounds = [];
@@ -455,6 +464,7 @@ module.directive('rpPieChart', ['$filter', 'rpColorManager', function($filter, $
       return findExtremeBounds(bounds);
     }
     
+    // Given a list of "bounds" objects, find the smallest bound that contains them all.
     function findExtremeBounds(bounds) {
       var extrema = {
         left:    0,
@@ -475,6 +485,11 @@ module.directive('rpPieChart', ['$filter', 'rpColorManager', function($filter, $
       return extrema;
     }
     
+    // Given a selection, move the labels around if they collide.
+    // Returns an array: [
+    //   The extreme bounds after moving the labels, and
+    //   true/false whether anything was moved.
+    // ]
     function resolveCollisionsInSelection(selection) {
       var bounds = [];
       selection.each(function(){
@@ -540,6 +555,7 @@ module.directive('rpPieChart', ['$filter', 'rpColorManager', function($filter, $
     }
     
     
+    // Finally, call the main function.
     drawPieChart(element, scope.exchangeRates, scope.drops, scope.ious);
   }
   
