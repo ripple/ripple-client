@@ -162,10 +162,9 @@ ExchangeTab.prototype.angular = function (module)
         });
       };
 
-      $scope.$watch('lines', function (lines) {
-
+      var updateCurrencyOptions = function(){
         // create a list of currency codes from the trust line objects
-        var currencies = _.uniq(_.map(lines, function (line) {
+        var currencies = _.uniq(_.map($scope.lines, function (line) {
           return line.currency;
         }));
 
@@ -185,8 +184,9 @@ ExchangeTab.prototype.angular = function (module)
         });
 
         $scope.currency_choices = currencies;
+      };
 
-      }, true);
+      $scope.$on('$balancesUpdate', updateCurrencyOptions);
 
       $scope.reset = function () {
         $scope.mode = "form";
@@ -371,6 +371,8 @@ ExchangeTab.prototype.angular = function (module)
       }
 
       $scope.reset();
+
+      updateCurrencyOptions();
 
       // Stop the pathfinding when leaving the page
       $scope.$on('$destroy', function(){

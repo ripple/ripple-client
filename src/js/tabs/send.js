@@ -729,10 +729,9 @@ SendTab.prototype.angular = function (module)
 
     // update currency options based on existing trust lines
     // the user can only send the currencies for which there exists trustlines
-    $scope.$watch('lines', function (lines) {
-
+    var updateCurrencyOptions = function(){
       // create a list of currency codes from the trust line objects
-      var currencies = _.uniq(_.map(lines, function (line) {
+      var currencies = _.uniq(_.map($scope.lines, function (line) {
         return line.currency;
       }));
 
@@ -759,8 +758,9 @@ SendTab.prototype.angular = function (module)
 
       $scope.send.currency_choices = currencies;
       $scope.send.currency = currencies[0];
+    }
 
-    }, true);
+    $scope.$on('$balancesUpdate', updateCurrencyOptions);
 
     $scope.$watch('account.max_spend', function () {
       $scope.update_amount();
@@ -1080,6 +1080,8 @@ SendTab.prototype.angular = function (module)
     });
 
     $scope.reset();
+
+    updateCurrencyOptions();
   }]);
 
   /**
