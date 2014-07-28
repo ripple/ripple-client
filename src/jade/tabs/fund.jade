@@ -12,9 +12,11 @@ section.content(ng-controller='FundCtrl')
     .col-sm-3
       .currencies
         a(href="", ng-click="currencyPage = 'xrp'"
-          ng-class="{active: currencyPage == 'xrp'}", l10n) XRP (ripples)
+          ng-class="{active: currencyPage == 'xrp'}", l10n) XRP
         a(href="", ng-click="currencyPage = 'btc'"
-          ng-class="{active: currencyPage == 'btc'}", ng-show="'web' === client", l10n) BTC (Bitcoin)
+          ng-class="{active: currencyPage == 'btc'}", ng-show="'web' === client", l10n) Bitcoin
+        a(href="", ng-click="currencyPage = 'accounts'"
+          ng-class="{active: currencyPage == 'accounts'}", l10n) Accounts
     .col-sm-9.list
       .fundXrp(ng-show="currencyPage == 'xrp'")
         div(ng-show="'web' === client")
@@ -84,5 +86,20 @@ section.content(ng-controller='FundCtrl')
                       span.modal-error(ng-show="emailError", l10n)
                         | SnapSwap's btc2ripple service is currently unavailable.
                         |  Please check back later.
-        .B2R(ng-hide="loadState.B2RApp")
-          div(l10n) Loading...
+      .fundBtc(ng-show="currencyPage == 'accounts'", ng-controller='TrustCtrl')
+        span.i(class="icon fa fa-money fa-usd")
+        span.currency(l10n) USD
+          .accounts
+            span.issuer(l10n) Issuer
+            span.balance(l10n) Balance
+            span.max(l10n) Max
+            span.min(l10n) Min
+            span.rippling(l10n) Rippling
+        span.i(class="icon fa fa-money fa-btc")
+        span.currency(l10n) BTC
+          .accounts
+            span.issuer(l10n) Issuer
+            span.balance(l10n) Balance
+            span.max(l10n) Max
+            span.min(l10n) Min
+            span.rippling(l10n) Rippling
