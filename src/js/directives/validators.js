@@ -55,6 +55,7 @@ module.directive('rpMasterAddressExists', function ($http) {
       var validator = function(value) {
         if (!value || !Base.decode_check(33, value)) {
           ctrl.$setValidity('rpMasterAddressExists', true);
+          return value;
         
         } else if (value) {
           ctrl.$setValidity('rpMasterAddressExists', false); //while checking
@@ -65,6 +66,7 @@ module.directive('rpMasterAddressExists', function ($http) {
           ripple.AuthInfo.get(Options.domain, "1", function(err, authInfo) {
             if (err) {
               scope.checkingMasterkey = false;
+              return value;
             }
             
             $http.get(authInfo.blobvault + '/v1/user/' + account_id)
@@ -74,15 +76,15 @@ module.directive('rpMasterAddressExists', function ($http) {
                   scope.masterkeyAddress  = account_id;
                   ctrl.$setValidity('rpMasterAddressExists', false);
                   scope.checkingMasterkey = false;
+                  return value;
                 } else {
                   ctrl.$setValidity('rpMasterAddressExists', true);
                   scope.checkingMasterkey = false;
+                  return value;
                 }
               });
           });           
         }
-        
-        return value;
       };
 
       ctrl.$formatters.push(validator);
