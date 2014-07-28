@@ -28,7 +28,12 @@ BalanceTab.prototype.angular = function (module)
     if (!$id.loginStatus) return $id.goId();
     
     
-    // Data for the pie chart and aggregate balance
+    // In the following, we get and watch for changes to data that is used to
+    // calculate the pie chart and aggregate balance. This data includes:
+    // -What balances the user holds
+    // -What (if any) market value in terms of XRP each balance has, according to
+    //  https://api.ripplecharts.com/api/exchangeRates
+    // -What metric the user has chosen to calculate the aggregate value in
     
     
     // When the selected value metric changes, update the displayed amount.

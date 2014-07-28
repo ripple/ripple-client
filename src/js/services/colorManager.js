@@ -61,8 +61,7 @@ module.factory('rpColorManager', function () {
       lighten(colorHex, Math.SQRT2)
     ];
   }
-  
-  
+
   var currencyColors = {
     XRP : '#346aa9',
     USD : "#32b450",
@@ -77,15 +76,7 @@ module.factory('rpColorManager', function () {
     "#3c3ca0",
     "#999999"
   ];
-  
-  /*function colorsForCurrencies(currencies) {
-    var colors = [];
-    for (var i=0; i<currencies.length; i++) {
-      colors.push(currencyColors[currencies[i]] || "#3c3ca0"); //TODO: make this better
-    }
-    return colors;
-  }*/
-  
+
   function CurrencyColorGenerator() {
     var index = 0;
     return {

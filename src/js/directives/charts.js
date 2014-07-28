@@ -235,7 +235,7 @@ module.directive('rpPieChart', ['$filter', 'rpColorManager', function($filter, $
         if (p>0) {
           offset += pieces[p-1].share;
         }
-        if (offset < 0.97) {
+        if (offset < 0.80) {
           drawSectors(
             container,
             piece.issuerSubshares.map(selectValue("subshare")),
@@ -276,7 +276,7 @@ module.directive('rpPieChart', ['$filter', 'rpColorManager', function($filter, $
       
       // Draw the hole in the middle
       $('<circle></circle>').appendTo(container.find('svg')).attr({
-        fill: "#fff",
+        "class": "hole",
         cx:   SIZE/2,
         cy:   SIZE/2,
         r:    SIZE/6
@@ -292,7 +292,7 @@ module.directive('rpPieChart', ['$filter', 'rpColorManager', function($filter, $
         $(this).attr("x",x - width/2);
       });
       
-      //Resolve collisions and adjust viewBox:
+      // Resolve collisions and adjust viewBox
       var extremeBounds = resolveCollisions(container);
       var PADDING = 5
       container.find('svg')[0].setAttribute("viewBox", [
@@ -305,8 +305,8 @@ module.directive('rpPieChart', ['$filter', 'rpColorManager', function($filter, $
       // Define hovering behavior
       container.find("path.main").on("mouseover", function(){
         var group = $(this).attr("group");
-        container.find(".main").css("opacity",0);
-        container.find("path.main").css("opacity",0.125);
+        container.find(".main text").css("opacity",0);
+        container.find(".main path").css("opacity",0.125);
         $(this).css("opacity",0);
         container.find(".sub[group='"+group+"']").css("opacity",1);
       }).on("mouseout", function(){
@@ -394,9 +394,27 @@ module.directive('rpPieChart', ['$filter', 'rpColorManager', function($filter, $
       for (i=0; i<sectors.length; i++) {
         sector = sectors[i];
         
-        $('<path></path>').appendTo(svg).attr({
-          fill: sector.color,
-          stroke: sector.color,
+        var colorClass = sector.group.toLowerCase();
+        if (!({
+          xrp: true,
+          usd: true,
+          btc: true,
+          eur: true,
+          cny: true,
+          jpy: true,
+          cad: true,
+          other: true
+        }).hasOwnProperty(colorClass)) {
+          colorClass = "generic" + (i%2 + 1);
+        }
+        var g = $('<g></g>').appendTo(svg).attr({
+          "class": cssClass + " " + colorClass,
+          group: sector.group
+        });
+        
+        $('<path></path>').appendTo(g).attr({
+          //fill: sector.color,
+          //stroke: sector.color,
           d: sector.path,
           "class": cssClass,
           group: sector.group

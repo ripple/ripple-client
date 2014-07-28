@@ -394,7 +394,7 @@ rp-pie-chart {
   }
   
   text.percentage {
-    fill: #999;
+    fill: @darkgray;
     font-size: 12px;
   }
 
@@ -405,11 +405,157 @@ rp-pie-chart {
   .sub {
     opacity: 0;
   }
+  
+  .hole {
+    fill: @white;
+    stroke: @white;
+  }
 
   * {
     -webkit-transition: opacity 0.17s;
     -moz-transition   : opacity 0.17s;
     -o-transition     : opacity 0.17s;
     transition        : opacity 0.17s;
-  } 
+  }
+  
+  
+  .main.xrp {
+    fill: @color-xrp;
+    stroke: @color-xrp;
+  }
+  .sub.xrp {
+    fill: darken(@color-xrp, 20%);
+    stroke: darken(@color-xrp, 20%);
+  }
+  
+  .main.usd {
+    fill: @color-usd;
+    stroke: @color-usd;
+  }
+  .sub.usd {
+    &:nth-of-type(odd) {
+      fill: darken(@color-usd, 20%);
+      stroke: darken(@color-usd, 20%);
+    }
+    &:nth-of-type(even) {
+      fill: lighten(@color-usd, 20%);
+      stroke: lighten(@color-usd, 20%);
+    }
+  }
+  
+  .main.btc {
+    fill: @color-btc;
+    stroke: @color-btc;
+  }
+  .sub.btc {
+    &:nth-of-type(odd) {
+      fill: darken(@color-btc, 20%);
+      stroke: darken(@color-btc, 20%);
+    }
+    &:nth-of-type(even) {
+      fill: lighten(@color-btc, 20%);
+      stroke: lighten(@color-btc, 20%);
+    }
+  }
+  
+  .main.eur {
+    fill: @color-eur;
+    stroke: @color-eur;
+  }
+  .sub.eur {
+    &:nth-of-type(odd) {
+      fill: darken(@color-eur, 20%);
+      stroke: darken(@color-eur, 20%);
+    }
+    &:nth-of-type(even) {
+      fill: lighten(@color-eur, 20%);
+      stroke: lighten(@color-eur, 20%);
+    }
+  }
+  
+  .main.cny {
+    fill: @color-cny;
+    stroke: @color-cny;
+  }
+  .sub.cny {
+    &:nth-of-type(odd) {
+      fill: darken(@color-cny, 20%);
+      stroke: darken(@color-cny, 20%);
+    }
+    &:nth-of-type(even) {
+      fill: lighten(@color-cny, 20%);
+      stroke: lighten(@color-cny, 20%);
+    }
+  }
+  
+  .main.jpy {
+    fill: @color-jpy;
+    stroke: @color-jpy;
+  }
+  .sub.jpy {
+    &:nth-of-type(odd) {
+      fill: darken(@color-jpy, 20%);
+      stroke: darken(@color-jpy, 20%);
+    }
+    &:nth-of-type(even) {
+      fill: lighten(@color-jpy, 20%);
+      stroke: lighten(@color-jpy, 20%);
+    }
+  }
+  
+  .main.cad {
+    fill: @color-cad;
+    stroke: @color-cad;
+  }
+  .sub.cad {
+    &:nth-of-type(odd) {
+      fill: darken(@color-cad, 20%);
+      stroke: darken(@color-cad, 20%);
+    }
+    &:nth-of-type(even) {
+      fill: lighten(@color-cad, 20%);
+      stroke: lighten(@color-cad, 20%);
+    }
+  }
+  
+  
+  .main.generic1 {
+    fill: @color-generic1;
+    stroke: @color-generic1;
+  }
+  .sub.generic1 {
+    &:nth-of-type(odd) {
+      fill: darken(@color-generic1, 20%);
+      stroke: darken(@color-generic1, 20%);
+    }
+    &:nth-of-type(even) {
+      fill: lighten(@color-generic1, 20%);
+      stroke: lighten(@color-generic1, 20%);
+    }
+  }
+  
+  .main.generic2 {
+    fill: @color-generic2;
+    stroke: @color-generic2;
+  }
+  .sub.generic2 {
+    &:nth-of-type(odd) {
+      fill: darken(@color-generic2, 20%);
+      stroke: darken(@color-generic2, 20%);
+    }
+    &:nth-of-type(even) {
+      fill: lighten(@color-generic2, 20%);
+      stroke: lighten(@color-generic2, 20%);
+    }
+  }
+  
+  
+  .main.other {
+    fill: @color-other;
+    stroke: @color-other;
+  }
+  .sub.other {
+    fill: darken(@color-other, 20%);
+    stroke: darken(@color-other, 20%);
+  }
 }

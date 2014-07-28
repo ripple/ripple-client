@@ -12,20 +12,18 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
   group(ng-show="connected && loadState.account")
     .row
       .col-xs-12.col-xs-8
-        // JIRA id#: WC-1563
         .currency-overview
           .balancebox.col-xs-8
-            .lbl Total Balance
-              .desc Estimated from exchange rates
+            .lbl(l10n) Total Balance
+              .desc(l10n) Estimated from exchange rates
             .total.amount
               span.amount {{ aggregateValueDisplayed.toFixed(4) }}
-              //span.fraction XXXX
               select.currency(ng-model='selectedValueMetric'
                 ng-change='changeMetric(this)')
                 option(ng-repeat='metric in valueMetrics'
                   value='{{metric.code}}') {{metric.text}}
             .lbl(ng-show="hasNegative")
-              .desc (excluding negative balances)
+              .desc(l10n) (excluding negative balances)
           .col-xs-4
             rp-pie-chart(
               rp-size="120"
