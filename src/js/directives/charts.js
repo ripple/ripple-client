@@ -422,7 +422,12 @@ module.directive('rpPieChart', ['$filter', function($filter) {
           group: sector.group
         });
         
-        $('<text></text>').appendTo(g).text(Math.round(sector.share*100)+"%").attr({
+        var percentage = Math.round(sector.share*100);
+        if (percentage === 0 && sector.share > 0) {
+          percentage = "<1";
+        }
+        
+        $('<text></text>').appendTo(g).text(percentage+"%").attr({
           "class": cssClass + " percentage",
           x: sector.labelPosition.x,
           y: sector.labelPosition.y+14,
