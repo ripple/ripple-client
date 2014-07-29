@@ -238,8 +238,8 @@ ExchangeTab.prototype.angular = function (module)
       $scope.exchange_confirmed = function () {
 
         // parse the currency name and extract the iso
-        var currencyIso = Currency.from_human($scope.exchange.currency_name).get_iso();
-        var amount = Amount.from_human(""+$scope.exchange.amount+" "+currencyIso);
+        var currencyHex = Currency.from_human($scope.exchange.currency_name).to_hex();
+        var amount = Amount.from_human(""+$scope.exchange.amount+" "+currencyHex);
 
         amount.set_issuer($id.account);
 
