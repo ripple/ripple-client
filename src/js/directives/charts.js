@@ -238,7 +238,7 @@ module.directive('rpPieChart', ['$filter', function($filter) {
             piece.currency,
             offset
           );
-        } else {
+        } else if (offset < 0.999999999999) { // (to account for floating-point errors)
           // We've come to the limit, and so we'll lump the rest in under "other".
           broken = true;
           drawSectors(container, [1 - offset], ["other"], "sub", "other", offset);
