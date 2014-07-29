@@ -25,12 +25,6 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
               span.balance.primary(ng-show="account.Account")
                 span.amount {{account.Balance | rpamount:{precision: 2} }}
               span.currency  XRP
-            i.fa.fa-question-circle(ng-show="false && account.Account"
-              rp-popover
-              rp-popover-placement="bottom"
-              l10n-rp-popover-title="XRP Balance"
-              rp-popover-trigger="click"
-              l10n-data-content="Your current XRP balance is {{account.Balance | rpamount:{precision: 2, max_sig_digits: 20} }}. Account reserve is {{ account.reserve | rpamount }} XRP. <br /><a href='https://ripple.com/wiki/Reserves' target='_blank'>More information</a>")
           li(ng-hide="'desktop' === client")
             a(href="#/account") ~{{userCredentials.username}}
           li.dropdown.notifications-dropdown

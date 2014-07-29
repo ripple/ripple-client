@@ -28,7 +28,7 @@ ExchangeTab.prototype.angular = function (module)
     {
       if (!$id.loginStatus) return $id.goId();
 
-      var timer;
+      var timer, pf;
 
       // Remember user preference on Convert vs. Trade
       $rootScope.ripple_exchange_selection_trade = false;
@@ -122,7 +122,7 @@ ExchangeTab.prototype.angular = function (module)
           if (amount.is_zero()) return;
 
           // Start path find
-          var pf = $network.remote.path_find($id.account,
+          pf = $network.remote.path_find($id.account,
               $id.account,
               amount);
 
@@ -162,10 +162,9 @@ ExchangeTab.prototype.angular = function (module)
         });
       };
 
-      $scope.$watch('lines', function (lines) {
-
+      var updateCurrencyOptions = function(){
         // create a list of currency codes from the trust line objects
-        var currencies = _.uniq(_.map(lines, function (line) {
+        var currencies = _.uniq(_.map($scope.lines, function (line) {
           return line.currency;
         }));
 
@@ -185,8 +184,9 @@ ExchangeTab.prototype.angular = function (module)
         });
 
         $scope.currency_choices = currencies;
+      };
 
-      }, true);
+      $scope.$on('$balancesUpdate', updateCurrencyOptions);
 
       $scope.reset = function () {
         $scope.mode = "form";
@@ -371,6 +371,15 @@ ExchangeTab.prototype.angular = function (module)
       }
 
       $scope.reset();
+
+      updateCurrencyOptions();
+
+      // Stop the pathfinding when leaving the page
+      $scope.$on('$destroy', function(){
+        if (pf && "function" === typeof pf.close) {
+          pf.close();
+        }
+      });
     }]);
 
   /**

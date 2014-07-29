@@ -687,9 +687,9 @@ TradeTab.prototype.angular = function(module)
       resetIssuers(true);
     }, true);
 
-    $scope.$watch('userBlob', function () {
+    $scope.$on('$blobUpdate', function () {
       resetIssuers(false);
-    }, true);
+    });
 
     $scope.$watch('order.type', function () {
       updateCanBuySell();
@@ -706,7 +706,7 @@ TradeTab.prototype.angular = function(module)
     var updateBalances = function(){
       updateCanBuySell();
       resetIssuers(false);
-    }
+    };
 
     $scope.$on('$balancesUpdate', updateBalances);
 
@@ -752,6 +752,13 @@ TradeTab.prototype.angular = function(module)
     }
 
     updateBalances();
+
+    // Unsubscribe from the book when leaving this page
+    $scope.$on('$destroy', function(){
+      if ($scope.book && "function" === typeof $scope.book.unsubscribe) {
+        $scope.book.unsubscribe();
+      }
+    });
   }]);
 };
 

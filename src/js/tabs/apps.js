@@ -21,8 +21,8 @@ AppsTab.prototype.generateHtml = function ()
 
 AppsTab.prototype.angular = function (module)
 {
-  module.controller('AppsCtrl', ['$scope', '$timeout', '$routeParams', 'rpId', 'rpAppManager',
-    function ($scope, $timeout, $routeParams, $id, $appManager)
+  module.controller('AppsCtrl', ['$scope', 'rpId', 'rpAppManager',
+    function ($scope, $id, $appManager)
   {
     if (!$id.loginStatus) return $id.goId();
 

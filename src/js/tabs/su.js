@@ -21,9 +21,9 @@ SuTab.prototype.generateHtml = function ()
 
 SuTab.prototype.angular = function (module)
 {
-  module.controller('SuCtrl', ['$scope', '$timeout', '$routeParams', 'rpId',
+  module.controller('SuCtrl', ['$scope', '$routeParams', 'rpId',
                                'rpNetwork', 'rpDomainAlias', 'rpKeychain',
-    function ($scope, $timeout, $routeParams, id, net, aliasService, keychain)
+    function ($scope, $routeParams, id, net, aliasService, keychain)
   {
     if (!id.loginStatus) return id.goId();
 
