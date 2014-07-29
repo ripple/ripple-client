@@ -12,24 +12,24 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
   group(ng-show="connected && loadState.account")
     .row
       .col-xs-12.col-xs-8
-        // JIRA id#: WC-1563
-        //- .currency-overview
-          //- .balancebox.col-sm-4
-            //- .lbl Total Balance
-            //-   .desc Estimated from exchange rates
-            //- .total.amount 0.
-            //-   span.fraction 0000
-            //-   select.currency
-            //-     option(selected=true) XRP
-            //-     option USD
-            //-     option BTC
-            //-     option CNY
-            //- .pending(ng-show="pending")
-            //-   .lbl Pending
-            //-   .transactions
-            //-     .amount 
-            //-       span.fraction {{pending.amount}}
-            //-       span.currency {{pending.currency}}
+        .currency-overview
+          .balancebox.col-xs-8
+            .lbl(l10n) Total Balance
+              .desc(l10n) Estimated from exchange rates
+            .total.amount
+              span.amount {{ aggregateValueDisplayed.toFixed(4) }}
+              select.currency(ng-model='selectedValueMetric'
+                ng-change='changeMetric(this)')
+                option(ng-repeat='metric in valueMetrics'
+                  value='{{metric.code}}') {{metric.text}}
+            .lbl(ng-show="hasNegative")
+              .desc(l10n) (excluding negative balances)
+          .col-xs-4
+            rp-pie-chart(
+              rp-size="120"
+              rp-drops="account.Balance"
+              rp-ious="balances"
+              rp-exchange-rates="exchangeRates")
         .currency-summary
           .balancebox.currency-xrp
             .total.row
