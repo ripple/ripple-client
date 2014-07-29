@@ -84,7 +84,9 @@ BalanceTab.prototype.angular = function (module)
         .success(function(response){
           for (var i=0; i<response.length; i++) {
             var pair = response[i];
-            $scope.exchangeRates[pair.base.currency+":"+pair.base.issuer] = pair.last;
+            if (pair.last > 0) { // Disregard unmarketable assets
+              $scope.exchangeRates[pair.base.currency+":"+pair.base.issuer] = pair.last; 
+            }
           }
         });
       }
