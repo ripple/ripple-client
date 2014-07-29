@@ -83,8 +83,6 @@ describe('ExchangeCtrl', function() {
     scope.$apply();
 
     assert.strictEqual(scope.currency_choices[0], 'XRP - Ripples');
-    assert.strictEqual(scope.currency_choices[1], 'USD - US Dollar');
-    assert.strictEqual(scope.currency_choices[2], 'XAU - Gold (-0.5%pa)');
 
     done();
   });

@@ -69,9 +69,8 @@ describe('SendCtrl', function(){
     assert.isObject(scope.xrp);
     assert.strictEqual(scope.xrp.name, 'Ripples');
     assert.isObject(scope.send);
-    assert.strictEqual(scope.send.currency, 'Ripples');
+    assert.strictEqual(scope.send.currency, 'XRP - Ripples');
     assert.strictEqual(scope.send.currency_code, 'XRP');
-    assert.strictEqual(scope.send.currency_choices.length, 0);
 
     done();
   });
@@ -103,8 +102,6 @@ describe('SendCtrl', function(){
       scope.$apply();
 
       assert.strictEqual(scope.send.currency_choices[0], 'XRP - Ripples');
-      assert.strictEqual(scope.send.currency_choices[1], 'USD - US Dollar');
-      assert.strictEqual(scope.send.currency_choices[2], 'XAU - Gold (-0.5%pa)');
 
       done();
     });
