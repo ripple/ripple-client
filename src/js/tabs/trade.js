@@ -687,9 +687,9 @@ TradeTab.prototype.angular = function(module)
       resetIssuers(true);
     }, true);
 
-    $scope.$watch('userBlob', function () {
+    $scope.$on('$blobUpdate', function () {
       resetIssuers(false);
-    }, true);
+    });
 
     $scope.$watch('order.type', function () {
       updateCanBuySell();

@@ -24,7 +24,7 @@ SecurityTab.prototype.angular = function (module) {
   {
     if (!$id.loginStatus) return $id.goId();
 
-    $scope.$watch('userBlob', updateEnc, true);
+    $scope.$on('$blobUpdate', updateEnc);
     updateEnc();
 
     $scope.security = {};
