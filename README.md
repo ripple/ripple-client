@@ -5,7 +5,7 @@ The Ripple Trade client is an open-source GUI for the Ripple network that facili
 
 [Ripple Labs](https://ripplelabs.com) is the core team behind the project. For more information on the Ripple protocol, please visit our [wiki](https://ripple.com/wiki/).
 
-We would love to have folks contribute! Check out our bounties [here](https://www.bountysource.com/teams/ripple/bounties).
+We would love to have folks contribute! Check out our bounties [here](https://www.bountysource.com/teams/ripple/bounties), and you can see what we're working on in our [JIRA project tracker](https://ripplelabs.atlassian.net/browse/RT-2000?jql=project%20%3D%20RT).
 
 Ripple Trade is available at www.rippletrade.com, or you can download the desktop version at [download.ripple.com](download.ripple.com).
 
