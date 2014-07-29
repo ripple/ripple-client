@@ -390,7 +390,7 @@ module.directive('rpPieChart', ['$filter', function($filter) {
           eur: true,
           cny: true,
           jpy: true,
-          cad: true,
+          cad: true, // If we add any more specific currency colors, add them to this list also.
           other: true
         }).hasOwnProperty(colorClass)) {
           colorClass = "generic" + (i%2 + 1);
