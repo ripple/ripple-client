@@ -95,12 +95,14 @@ module.service('rpAppManager', ['$rootScope', '$http', 'rpDomainAlias', 'rpRippl
    * @param app
    */
   var save = function(app) {
-    $scope.$watch('userBlob', function(userBlob){
+    var watcher = $scope.$watch('userBlob', function(userBlob){
       if (userBlob.data.created && !_.findWhere($scope.userBlob.data.apps, {rippleAddress:app.rippleAddress})) {
         $scope.userBlob.unshift("/apps", {
           name: app.name,
           rippleAddress: app.rippleAddress
         });
+        
+        watcher();
       }
     });
   };

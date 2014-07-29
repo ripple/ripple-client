@@ -236,6 +236,30 @@
       } 
     }     
   }
+  
+  .welcome-wrapper {
+	text-align: center;
+  }
+
+  h3.platform, h4.new {
+	max-width: 700px;
+	margin: auto;
+  }
+
+  h4.new {
+	padding: 25px 0;
+	border-top: 1px solid @midgray;
+	font-weight: 200;
+	font-size: 1.1em;
+  }
+
+  span.currency {
+	font-weight: 500;
+  }
+
+  .xrp-xau {
+	font-size: 1.2em;
+  }
 }
 
 #t-login {
@@ -1119,29 +1143,30 @@
       }
     }
 
-    .foot {
-      margin: 10px 0 0 0;
-      clear: both;
-      padding: 0;
+  }
+}
+
+.foot {
+  margin: 10px 0 0 0;
+  clear: both;
+  padding: 0;
+  background: @lightgray;
+
+  a,div {
+    display: block;
+    padding: 15px 40px;
+    text-align: center;
+    color: @darkblue;
+    border: 1px solid @lightgray;
+  }
+
+  a {
+    text-decoration: none;
+    color: @black;
+
+    &:hover {
       background: @lightgray;
-
-      a,div {
-        display: block;
-        padding: 15px 40px;
-        text-align: center;
-        color: @darkblue;
-        border: 1px solid @lightgray;
-      }
-
-      a {
-        text-decoration: none;
-        color: @black;
-
-        &:hover {
-          background: @lightgray;
-          border: 1px solid @midgray
-        }
-      }
+      border: 1px solid @midgray
     }
   }
 }

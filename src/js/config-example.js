@@ -58,7 +58,10 @@ var Options = {
   tx_last_ledger: 3,
 
   // Set max transaction fee for network in drops of XRP
-  max_tx_network_fee: 12
+  max_tx_network_fee: 1000,
+
+  // Set max number of rows for orderbook
+  orderbook_max_rows: 100
 };
 
 // Load client-side overrides

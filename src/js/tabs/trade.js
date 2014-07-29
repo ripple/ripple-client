@@ -168,11 +168,11 @@ TradeTab.prototype.angular = function(module)
     $scope.cancel_order = function ()
     {
       var seq   = this.entry ? this.entry.seq : this.order.Sequence;
-      var order = this;      
+      var order = this;
       var tx    = $network.remote.transaction();
-      
+
       $scope.cancelError = null;
-                  
+
       tx.offer_cancel(id.account, seq);
       tx.on('success', function() {
         $rpTracker.track('Trade order cancellation', {
@@ -182,14 +182,14 @@ TradeTab.prototype.angular = function(module)
 
       tx.on('error', function (err) {
         console.log("cancel error: ", err);
-        
+
         order.cancelling   = false;
         $scope.cancelError = err.engine_result_message;
-        
+
         if (!$scope.$$phase) {
           $scope.$apply();
         }
-                
+
         $rpTracker.track('Trade order cancellation', {
           'Status': 'error',
           'Message': err.engine_result
@@ -198,8 +198,8 @@ TradeTab.prototype.angular = function(module)
 
       keychain.requestSecret(id.account, id.username, function (err, secret) {
         if (err) {
-          
-          //err should equal 'canceled' here, other errors are not passed through 
+
+          //err should equal 'canceled' here, other errors are not passed through
           order.cancelling = false;
           return;
         }
@@ -212,9 +212,9 @@ TradeTab.prototype.angular = function(module)
     };
 
     $scope.dismissCancelError = function() {
-      $scope.cancelError = null;  
+      $scope.cancelError = null;
     };
-    
+
     /**
      * Happens when user clicks "Confirm" in order confirmation view.
      *
@@ -256,20 +256,20 @@ TradeTab.prototype.angular = function(module)
             "order": 1
           });
         }
-        
+
         if (!$scope.$$phase) {
           $scope.$apply();
-        }        
+        }
       });
 
       tx.on('success', function(res) {
         setEngineStatus(res, true, type);
         order.mode = "done";
-        
+
         if (!$scope.$$phase) {
           $scope.$apply();
         }
-        
+
         $rpTracker.track('Trade order result', {
           'Status': 'success',
           'Currency pair': $scope.order.currency_pair
@@ -279,11 +279,11 @@ TradeTab.prototype.angular = function(module)
       tx.on('error', function (err) {
         setEngineStatus(err, false, type);
         order.mode = "done";
-        
+
         if (!$scope.$$phase) {
           $scope.$apply();
         }
-        
+
         $rpTracker.track('Trade order result', {
           'Status': 'error',
           'Message': err.engine_result,
@@ -293,18 +293,30 @@ TradeTab.prototype.angular = function(module)
 
       keychain.requestSecret(id.account, id.username, function (err, secret) {
         if (err) {
-          
-          //err should equal 'canceled' here, other errors are not passed through 
+
+          //err should equal 'canceled' here, other errors are not passed through
           order.mode = 'trade';
           return;
         }
-        
+
         tx.secret(secret);
         tx.submit();
       });
 
       order.mode = "sending";
     };
+
+    $scope.loadMore = function () {
+      $scope.orderbookLength = books.getLength();
+      var multiplier = 30;
+
+      Options.orderbook_max_rows += multiplier;
+
+      loadOffers();
+
+      $scope.orderbookState = (($scope.orderbookLength - Options.orderbook_max_rows + multiplier) < 1) ? 'full' : 'ready';
+    }
+
 
     /**
      * Handle transaction result
@@ -604,6 +616,8 @@ TradeTab.prototype.angular = function(module)
         currency: ($scope.order.second_currency.has_interest() ? $scope.order.second_currency.to_hex() : $scope.order.second_currency.get_iso()),
         issuer: $scope.order.second_issuer
       }, $scope.address);
+
+      $scope.orderbookState = 'ready';
     }
 
     /**
@@ -673,9 +687,9 @@ TradeTab.prototype.angular = function(module)
       resetIssuers(true);
     }, true);
 
-    $scope.$watch('userBlob', function () {
+    $scope.$on('$blobUpdate', function () {
       resetIssuers(false);
-    }, true);
+    });
 
     $scope.$watch('order.type', function () {
       updateCanBuySell();
@@ -689,18 +703,20 @@ TradeTab.prototype.angular = function(module)
       updateSettings();
     });
 
-    $scope.$watch('balances', function () {
+    var updateBalances = function(){
       updateCanBuySell();
       resetIssuers(false);
-    }, true);
+    };
+
+    $scope.$on('$balancesUpdate', updateBalances);
 
     $scope.$watch('userBlob.data.contacts', function (contacts) {
       $scope.issuer_query = webutil.queryFromContacts(contacts);
     }, true);
 
-    $scope.$watch('offers', function (offers){
-      $scope.offersCount = _.size(offers);
-    }, true);
+    $scope.$watchCollection('offers', function(){
+      $scope.offersCount = _.size($scope.offers);
+    });
 
     $scope.reset();
 
@@ -734,6 +750,15 @@ TradeTab.prototype.angular = function(module)
 
       updateSettings();
     }
+
+    updateBalances();
+
+    // Unsubscribe from the book when leaving this page
+    $scope.$on('$destroy', function(){
+      if ($scope.book && "function" === typeof $scope.book.unsubscribe) {
+        $scope.book.unsubscribe();
+      }
+    });
   }]);
 };
 

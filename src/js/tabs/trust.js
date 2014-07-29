@@ -39,9 +39,11 @@ TrustTab.prototype.angular = function (module)
     };
 
     // orderBy filter works with arrays
-    $scope.$watch('lines', function(lines){
-      $scope.linesArray = _.toArray(lines);
-    }, true);
+    var updateLines = function() {
+      $scope.linesArray = _.toArray($scope.lines);
+    };
+
+    $scope.$on('$balancesUpdate', updateLines);
 
     $scope.validation_pattern = /^0*(([1-9][0-9]*.?[0-9]*)|(.0*[1-9][0-9]*))$/; //Don't allow zero for new trust lines.
     $scope.reset = function () {
@@ -466,6 +468,8 @@ TrustTab.prototype.angular = function (module)
     $scope.currency_query = webutil.queryFromOptionsIncludingKeys($scope.currencies_all);
 
     $scope.reset();
+
+    updateLines();
   }]);
 };
 

@@ -324,7 +324,8 @@ module.exports = function(grunt) {
             dest: 'build/bundle/web/js/deps', flatten: true},
           {src: 'build/dist/web/index.html', dest: 'build/bundle/web/index.html'},
           {src: 'build/dist/web/index_debug.html', dest: 'build/bundle/web/index_debug.html'},
-          {src: 'src/js/config.js', dest: 'build/bundle/web/config.js'}
+          {src: 'src/js/config.js', dest: 'build/bundle/web/config.js'},
+          {src: 'scripts/livereload.js', dest: 'build/bundle/web/livereload.js'}
         ]
       },
       nw_desktop: {
@@ -344,7 +345,8 @@ module.exports = function(grunt) {
             dest: 'build/bundle/nw-desktop/js/deps', flatten: true},
           {src: 'build/dist/desktop/index.html', dest: 'build/bundle/nw-desktop/index.html'},
           {src: 'res/nw/package_desktop.json', dest: 'build/bundle/nw-desktop/package.json'},
-          {src: 'src/js/config.js', dest: 'build/bundle/nw-desktop/config.js'}
+          {src: 'src/js/config.js', dest: 'build/bundle/nw-desktop/config.js'},
+          {src: 'scripts/livereload.js', dest: 'build/bundle/web/livereload.js'}
         ]
       },
       nw_desktop_debug: {
@@ -364,7 +366,8 @@ module.exports = function(grunt) {
             dest: 'build/bundle/nw-desktop-debug/js/deps', flatten: true},
           {src: 'build/dist/desktop/index_debug.html', dest: 'build/bundle/nw-desktop-debug/index.html'},
           {src: 'res/nw/package_desktop_debug.json', dest: 'build/bundle/nw-desktop-debug/package.json'},
-          {src: 'src/js/config.js', dest: 'build/bundle/nw-desktop-debug/config.js'}
+          {src: 'src/js/config.js', dest: 'build/bundle/nw-desktop-debug/config.js'},
+          {src: 'scripts/livereload.js', dest: 'build/bundle/web/livereload.js'}
         ]
       }
     },

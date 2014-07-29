@@ -1,4 +1,15 @@
 section.col-xs-12.content(ng-controller="RegisterCtrl")
+  .row.col-md-12
+   .welcome-wrapper
+     h3.platform(l10n) Ripple Trade is the only platform where you can trade between stores of value spanning fiat, crypto, precious metals and more.
+     h4.new
+      p.xrp-xau XRP <i class="fa fa-arrows-h"></i> XAU
+      em(l10n) New! 
+      span.currency(l10n) The historic qualities of gold combined with the capabilities of digital currency. 
+      span(l10n) Buy and sell physical gold issued by&#32;
+      a(target='_blank', href='http://www.bullioninternational.com/', l10n) GBI
+      span(l10n) , one of the world’s most prominent independent gold dealers.&#32;
+      a(target='_blank', href='https://support.ripplelabs.com/hc/en-us/articles/202882453', l10n) Learn more.
   .row.auth-form-container.col-sm-offset-2.col-sm-8.col-md-offset-3.col-md-6(ng-show='mode=="form"')
     .auth-form-wrapper
       form(name='registerForm', ng-submit='submitForm()')
@@ -41,10 +52,10 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
                   data-content='This name belongs to a high-traffic website and has been reserved to prevent phishing.')
                 span(ng-switch-when="tooshort", l10n) Must be at least 2 characters
                 span(ng-switch-when="toolong", l10n) Must be at most 20 characters
-                span(ng-switch-when="charset", l10n) Only a-z, 0-9 and hyphen (-)
+                span(ng-switch-when="charset", l10n) You can only use the following characters: a-z, 0-9 and hyphens (-)
                 span(ng-switch-when="starthyphen", l10n) Cannot start with hyphen (-)
                 span(ng-switch-when="endhyphen", l10n) Cannot end with hyphen (-)
-                span(ng-switch-when="multhyphen", l10n) Cannot bundle hyphens (--)
+                span(ng-switch-when="multhyphen", l10n) Cannot use hyphens in a row (--)
           span(ng-show="usernameLoading", l10n) Checking...
         .form-group(ng-class="{'field-error': 'weak' === strength || 'match' === strength}")
           label(for='register_password', l10n) Password

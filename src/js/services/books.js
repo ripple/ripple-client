@@ -10,6 +10,9 @@ var Amount = ripple.Amount;
 
 module.factory('rpBooks', ['rpNetwork', '$q', '$rootScope', '$filter', 'rpId',
 function(net, $q, $scope, $filter, $id) {
+
+  var rowCount;
+
   function loadBook(gets, pays, taker) {
     return net.remote.book(gets.currency, gets.issuer,
     pays.currency, pays.issuer,
@@ -27,7 +30,7 @@ function(net, $q, $scope, $filter, $id) {
     var demoninator;
     var newData = jQuery.extend(true, {}, data);
 
-    var rowCount = 0;
+    rowCount = 0;
     newData = _.values(_.compact(_.map(newData, function(d, i) {
 
       // This check is redundant, but saves the CPU some work
@@ -147,6 +150,10 @@ function(net, $q, $scope, $filter, $id) {
       };
 
       return model;
+    },
+
+    getLength: function() {
+      return rowCount;
     }
   };
 }]);
