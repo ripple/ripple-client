@@ -32,7 +32,6 @@ require('../services/popup');
 require('../services/rippletxt');
 require('../services/federation');
 require('../services/domainalias');
-require('../services/colorManager');
 
 require('../services/integration/appManager');
 require('../services/integration/profileManager');
@@ -52,7 +51,6 @@ var appDependencies = [
   'id',
   'tracker',
   'appManager',
-  'colormanager',
   // Directives
   'charts',
   'effects',

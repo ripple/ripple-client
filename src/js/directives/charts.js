@@ -132,7 +132,7 @@ module.directive('rpTrustLine', ['$filter', function($filter) {
 /**
  * Balance pie chart
  */
-module.directive('rpPieChart', ['$filter', 'rpColorManager', function($filter, $colorManager) {
+module.directive('rpPieChart', ['$filter', function($filter) {
   var rpcurrency = $filter('rpcurrency');
   var rpcontactname = $filter('rpcontactname');
   function contactButNotXrp(x) {
@@ -212,11 +212,6 @@ module.directive('rpPieChart', ['$filter', 'rpColorManager', function($filter, $
       
       pieces.sort(descendingBy("share"));
       
-      var ccg = new $colorManager.CurrencyColorGenerator();
-      for (i=0; i<pieces.length; i++) {
-        piece = pieces[i];
-        piece.color = ccg.generateColor(piece.currency);
-      }
       
       // Reset the container
       container.find('*').remove()
@@ -228,19 +223,17 @@ module.directive('rpPieChart', ['$filter', 'rpColorManager', function($filter, $
           return o[name];
         }
       }
-      var OTHER_COLOR = "#ccc";
       var p, offset=0, broken=false;
       for (p=0; p<pieces.length; p++) {
         piece = pieces[p];
         if (p>0) {
           offset += pieces[p-1].share;
         }
-        if (offset < 0.80) {
+        if (offset < 0.97) {
           drawSectors(
             container,
             piece.issuerSubshares.map(selectValue("subshare")),
             piece.issuerSubshares.map(selectValue("issuer")),
-            $colorManager.shades(piece.color),
             "sub",
             piece.currency,
             offset
@@ -248,9 +241,7 @@ module.directive('rpPieChart', ['$filter', 'rpColorManager', function($filter, $
         } else {
           // We've come to the limit, and so we'll lump the rest in under "other".
           broken = true;
-          drawSectors(container, [1 - offset], ["other"],
-            $colorManager.shades(OTHER_COLOR), "sub", "other", offset
-          );
+          drawSectors(container, [1 - offset], ["other"], "sub", "other", offset);
           break;
         }
       }
@@ -258,8 +249,7 @@ module.directive('rpPieChart', ['$filter', 'rpColorManager', function($filter, $
         pieces.length = p;
         pieces.push({
           share: 1 - offset,
-          currency: "other", // We are trusting here that no actual currency will ever be called "other".
-          color: OTHER_COLOR
+          currency: "other" // We are trusting here that no actual currency will ever be called "other".
         });
       }
 
@@ -269,7 +259,6 @@ module.directive('rpPieChart', ['$filter', 'rpColorManager', function($filter, $
         container,
         pieces.map(selectValue("share")),
         pieces.map(selectValue("currency")),
-        pieces.map(selectValue("color")),
         "main",
         pieces.map(selectValue("currency"))
       );
@@ -316,10 +305,10 @@ module.directive('rpPieChart', ['$filter', 'rpColorManager', function($filter, $
       
     }
     
-    // Given a container, and parallel arrays "shares" "labels" and "colors",
+    // Given a container, and parallel arrays "shares" and "labels",
     // draw sectors on the container's SVG element, with the given "cssClass" and "grouping".
     // Off-set the whole thing by "offset" turns.
-    function drawSectors(container, shares, labels, colors, cssClass, grouping, offset) {
+    function drawSectors(container, shares, labels, cssClass, grouping, offset) {
       var TAU = Math.PI*2;
       if (shares.length && shares[0] === 1) {
         shares[0] = 0.9999;
@@ -374,7 +363,6 @@ module.directive('rpPieChart', ['$filter', 'rpColorManager', function($filter, $
               " A "+circleRadius+","+circleRadius+
               " 0,"+(shares[i]>0.5?"1":"0")+",1 "+
               pointB.join(",")+" Z",
-            color: colors[sectors.length % colors.length],
             labelPosition: labelPosition,
             labelText: labels[i],
             group: "string"===typeof(grouping) ? grouping : grouping[i],
@@ -390,7 +378,7 @@ module.directive('rpPieChart', ['$filter', 'rpColorManager', function($filter, $
         "xmlns":     "http://www.w3.org/2000/svg"
       });
       
-      var sector;
+      var sector, g;
       for (i=0; i<sectors.length; i++) {
         sector = sectors[i];
         
@@ -407,14 +395,12 @@ module.directive('rpPieChart', ['$filter', 'rpColorManager', function($filter, $
         }).hasOwnProperty(colorClass)) {
           colorClass = "generic" + (i%2 + 1);
         }
-        var g = $('<g></g>').appendTo(svg).attr({
+        g = $('<g></g>').appendTo(svg).attr({
           "class": cssClass + " " + colorClass,
           group: sector.group
         });
         
         $('<path></path>').appendTo(g).attr({
-          //fill: sector.color,
-          //stroke: sector.color,
           d: sector.path,
           "class": cssClass,
           group: sector.group
@@ -424,7 +410,7 @@ module.directive('rpPieChart', ['$filter', 'rpColorManager', function($filter, $
       for (i=0; i<sectors.length; i++) {
         sector = sectors[i];
         
-        var g = $('<g></g>').appendTo(svg).attr({
+        g = $('<g></g>').appendTo(svg).attr({
           "class": cssClass + " pielabel",
           group: sector.group
         });
