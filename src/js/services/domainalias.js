@@ -16,6 +16,7 @@ var module = angular.module('domainalias', ['network', 'rippletxt']);
 module.factory('rpDomainAlias', ['$q', '$rootScope', 'rpNetwork', 'rpRippleTxt',
                                  function ($q, $scope, net, txt)
 {
+  // Alias caching
   var aliases = {};
 
   /**
@@ -45,66 +46,82 @@ module.factory('rpDomainAlias', ['$q', '$rootScope', 'rpNetwork', 'rpRippleTxt',
     return false;
   }
 
-  function getAliasForAddress(address) {
+  function getAliasForAddress(address)
+  {
+    // Return the promise if there's already a lookup in progress for this address
+    if (aliases[address] && aliases[address].promise) {
+      return aliases[address].promise;
+    }
+
     var aliasPromise = $q.defer();
 
-    if (aliases[address] && aliases[address].checked) {
+    // We might already have the alias for given ripple address
+    if (aliases[address] && aliases[address].resolved) {
       if (aliases[address].domain) {
         aliasPromise.resolve(aliases[address].domain);
       }
       else {
         aliasPromise.reject(new Error("Invalid domain"));
       }
-
-      return aliasPromise.promise;
     }
 
-    net.remote.request_account_info(address)
-      .on('success', function (data) {
-        if (data.account_data.Domain) {
-          $scope.$apply(function () {
-            var domain = sjcl.codec.utf8String.fromBits(sjcl.codec.hex.toBits(data.account_data.Domain));
+    // If not, then get the alias
+    else {
+      net.remote.request_account_info(address)
+        .on('success', function (data) {
+          if (data.account_data.Domain) {
+            $scope.$apply(function () {
+              var domain = sjcl.codec.utf8String.fromBits(sjcl.codec.hex.toBits(data.account_data.Domain));
 
-            var txtData = txt.get(domain);
-            txtData.then(
-              function (data) {
-                if(validateDomain(domain, address, data)) {
+              var txtData = txt.get(domain);
+              txtData.then(
+                function (data) {
                   aliases[address] = {
-                    checked: true,
-                    domain: domain
+                    resolved: true
                   };
-                  aliasPromise.resolve(domain);
-                }
-                else {
+
+                  if(validateDomain(domain, address, data)) {
+                    aliases[address].domain = domain;
+                    aliasPromise.resolve(domain);
+                  }
+                  else {
+                    aliasPromise.reject(new Error("Invalid domain"));
+                  }
+                },
+                function (error) {
                   aliases[address] = {
-                    checked: true,
-                    domain: false
+                    resolved: true
                   };
-                  aliasPromise.reject(new Error("Invalid domain"));
+                  aliasPromise.reject(new Error(error));
                 }
-              },
-              function (error) {
-                aliases[address] = {
-                  checked: true,
-                  domain: false
-                };
-                aliasPromise.reject(new Error(error));
-              }
-            );
-          });
-        }
-        else {
-          aliases[address] = {
-            checked: true,
-            domain: false
-          };
+              );
+            });
+          }
+          else {
+            aliases[address] = {
+              resolved: true
+            };
+            aliasPromise.reject(new Error("No domain found"));
+          }
+        })
+        .on('error', function () {
           aliasPromise.reject(new Error("No domain found"));
-        }
-      })
-      .on('error', function () {
-        aliasPromise.reject(new Error("No domain found"));
-      })
-      .request();
+        })
+        .request();
+
+      // Because finally is a reserved word in JavaScript and reserved keywords
+      // are not supported as property names by ES3, we're invoking the
+      // method like aliasPromise['finally'](callback) to make our code
+      // IE8 and Android 2.x compatible.
+      aliasPromise.promise['finally'](function(){
+        aliases[address].promise = false;
+      });
+
+      aliases[address] = {
+        promise: aliasPromise.promise
+      };
+
+    }
 
     return aliasPromise.promise;
   }
