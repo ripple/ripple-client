@@ -190,13 +190,21 @@ module.directive('rpPopup', ['rpPopup', function(popup) {
   return {
     restrict: 'E',
     link: function postLink(scope, element, attrs) {
-      element.find('a[rp-popup-link]').click(function(e) {
+      var a = element.find('a[rp-popup-link]');
+      a.click(function(e) {
         e.preventDefault();
+        var xml = a.data('popup');
+        if (!xml) {
+          var content = element.find('[rp-popup-content]');
+          xml = new XMLSerializer().serializeToString(content[0]);
+          a.data('popup', xml);  
+          content.remove();
+        } 
 
-        popup.blank(
-          new XMLSerializer().serializeToString(element.find('[rp-popup-content]')[0]),
-          scope
-        );
+        popup.blank(xml, scope);
+        if (attrs.onopen && scope[attrs.onopen]) {
+          scope[attrs.onopen]();
+        }
       });
     }
   };

@@ -25,6 +25,7 @@ module.exports = function(grunt) {
 
   // Ripple client dependencies
   var deps = ["deps/js/jquery/dist/jquery.js",
+              "deps/js/authy.js",
               "deps/js/swfobject.js",
               "deps/js/setImmediate.js",
               "deps/js/underscore/underscore.js",

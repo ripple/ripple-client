@@ -148,46 +148,12 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
     });
 
     if (!!store.get('ripple_auth')) {
-      var auth = store.get('ripple_auth');
-
-      if (auth.keys) {
-
-        // XXX This is technically not correct, since we don't know yet whether
-        //     the login will succeed. But we need to set it now, because the page
-        //     controller will likely query it long before we get a response from
-        //     the login system.
-        //
-        //     Will work fine as long as any relogin error triggers a logout and
-        //     logouts trigger a full page reload.
-        self.loginStatus = true;
-  
-        $authflow.relogin(auth.url, auth.keys, function (err, blob) {
-          if (err) {
-            // Failed to relogin, logout
-            console.log("client: id: failed to relogin:", err.toString());
-            self.logout();
-          } else {
-            // Ensure certain properties exist
-            $.extend(true, blob, Id.minimumBlob);
-
-            $scope.userBlob = blob;
-            self.setUsername(auth.username);
-            self.setAccount(blob.data.account_id);
-            self.setLoginKeys(auth.keys);
-            self.loginStatus = true;
-            $scope.$broadcast('$blobUpdate');
-            store.set('ripple_known', true);
-
-            /*if (blob.data.account_id) {
-              // Success
-              callback(null);
-            } else {
-              // Invalid blob
-              callback(new Error("Blob format unrecognized!"));
-            }*/
-          }
-        });
-      }
+      
+      self.relogin(function(err, blob) {
+        if (!blob) {
+          self.logout();  
+        }
+      });
     }
   };
 
@@ -262,8 +228,7 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
     // Blob data
     var username = Id.normalizeUsernameForDisplay(opts.username);
     var password = Id.normalizePassword(opts.password);
-
-    var account = (new RippleAddress(masterkey)).getAddress();
+    var account  = (new RippleAddress(masterkey)).getAddress();
 
     $authflow.register({
       'username': username,
@@ -341,13 +306,32 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
 
     var username = Id.normalizeUsernameForDisplay(opts.username);
     var password = Id.normalizePassword(opts.password);
-
+    var deviceID = opts.device_id || store.get('device_id');
+    
+    //deviceID = "8b190cb6cfb958b16599c48869f356ba";
+    //deviceID = null;
+    
     $authflow.login({
       'username': Id.normalizeUsernameForInternals(username),
       'password': password,
-      'walletfile': opts.walletfile
+      'walletfile': opts.walletfile,
+      'device_id' : deviceID
     }, function (err, blob, keys, actualUsername, emailVerified) {
-      if (err && Options.blobvault) {
+      
+      //handle 2FA
+      if (err && err.twofactor) {
+ 
+        //request verification token. If they are using the
+        //app, the request will be ignored.
+        $authflow.requestToken(err.twofactor.blob_url, err.twofactor.blob_id, function(tokenError, tokenResp) {
+          
+          //keep this for reporting
+          err.twofactor.tokenError    = tokenError; 
+          err.twofactor.tokenResponse = tokenResp;
+          return callback(err);
+        });
+        
+      } else if (err && Options.blobvault) {
         console.log("Blob login failed, trying old blob protocol");
 
         var oldBlobUsername = Id.normalizeUsernameForOldBlob(username);
@@ -418,6 +402,7 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
         self.setAccount(blob.data.account_id);
         self.setLoginKeys(keys);
         self.storeLoginKeys(blob.url, actualUsername, keys);
+        store.set('device_id', blob.device_id);
         self.loginStatus = true;
         $scope.$broadcast('$blobUpdate');
         store.set('ripple_known', true);
@@ -432,7 +417,57 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
       }
     });
   };
+  
+  Id.prototype.relogin = function (callback) {
+    var self     = this;
+    var auth     = store.get('ripple_auth');
+    var deviceID = store.get('device_id');
+    if (!auth || !auth.keys) {
+      return callback(new Error('Missing authentication keys'));
+    }
 
+    console.log(deviceID);
+    //deviceID = "8b190cb6cfb958b16599c48869f356ba";
+    //deviceID = null;
+    
+    // XXX This is technically not correct, since we don't know yet whether
+    //     the login will succeed. But we need to set it now, because the page
+    //     controller will likely query it long before we get a response from
+    //     the login system.
+    //
+    //     Will work fine as long as any relogin error triggers a logout and
+    //     logouts trigger a full page reload.
+    self.loginStatus = true;    
+    
+    $authflow.relogin(auth.url, auth.keys, deviceID, function (err, blob) {
+      
+      if (err) {
+        
+        // Failed to relogin
+        console.log("client: id: failed to relogin:", err.message || err.toString());
+        callback(err);        
+        
+      } else {
+        // Ensure certain properties exist
+        $.extend(true, blob, Id.minimumBlob);
+
+        $scope.userBlob = blob;
+        self.setUsername(auth.username);
+        self.setAccount(blob.data.account_id);
+        self.setLoginKeys(auth.keys);
+        self.loginStatus = true;
+        $scope.$broadcast('$blobUpdate');
+        store.set('ripple_known', true);
+        callback(null, blob);
+      }
+    });    
+  };
+
+  Id.prototype.verifyToken = function (options, callback) {
+    store.set('remember_me', options.remember_me);
+    $authflow.verifyToken(options, callback);    
+  }; 
+  
   Id.prototype.changePassword = function (options, callback) {
     var self = this;
     
@@ -452,6 +487,11 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
   {
     store.remove('ripple_auth');
 
+    //remove deviceID if remember me is not set
+    if (!store.get('remember_me')) {
+      store.remove('device_id');  
+    }
+    
     // TODO make it better
     this.account = '';
     this.keys = {};
@@ -459,15 +499,6 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
     this.username = '';
 
     $scope.address = '';
-
-//    $location.path('/login');
-
-    // problem?
-    // reload will not work, as some pages are also available for guests.
-    // Logout will show the same page instead of showing login page.
-    // This line redirects user to root (login) page
-//    var port = location.port.length > 0 ? ":" + location.port : "";
-//    location.href = location.protocol + '//' + location.hostname  + port + location.pathname;
   };
 
   Id.prototype.unlock = function (username, password, callback)
