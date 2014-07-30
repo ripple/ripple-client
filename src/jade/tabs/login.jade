@@ -6,7 +6,8 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
         h2(l10n, ng-hide="$routeParams.action === 'migrate'") Log In
         h2(l10n, ng-show="$routeParams.action === 'migrate'") Migrate
         .auth-attention(ng-show="$routeParams.action === 'migrate'", l10n) To begin migration, enter the name and passphrase
-          |  used to encrypt your ripple.com/client wallet below.
+          |  used to login to your ripple.com/client wallet below. &#32;
+          href='https://support.ripplelabs.com/hc/en-us/articles/202507538', l10n) Step-by-step instructions.
         .auth-attention.text-center(ng-show="verifyStatus")
           .status(ng-show="'verifying' === verifyStatus", l10n) Verifying...
           .status(ng-show="'verified' === verifyStatus", l10n) You have successfully verified your email address.

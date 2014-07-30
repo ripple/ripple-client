@@ -18,7 +18,7 @@ Questions? Contact us as support@ripple.com.
 
 Install Node.js, Grunt, and Git if you haven't already.
 
-Fork and clone the ripple-client repository and run 'npm install'.
+Fork and clone the ripple-client repository and run 'sudo npm install -g bower', then 'npm install'.
 
 Create a new config.js file and copy/paste from config-example.js into the same directory, located under 'src/js'.
 
