@@ -58,8 +58,12 @@ HistoryTab.prototype.angular = function (module) {
         'types': ['trusting','trusted'],
         'checked': true
       },
-      offers: {
-        'types': ['offernew','offercancel','exchange'],
+      trades: {
+        'types': ['offernew','exchange'],
+        'checked': true
+      },
+      orders: {
+        'types': ['offernew','offercancel'],
         'checked': true
       },
       other: {
@@ -68,7 +72,7 @@ HistoryTab.prototype.angular = function (module) {
       }
     };
 
-    $scope.orderedTypes = ['sent','received','trusts','offers','other'];
+    $scope.orderedTypes = ['sent','received','trusts','trades','orders','other'];
 
     if (store.get('ripple_history_type_selections')) {
       $scope.types = $.extend(true,$scope.types,store.get('ripple_history_type_selections'));
@@ -263,6 +267,8 @@ HistoryTab.prototype.angular = function (module) {
             return;
 
           var effects = [];
+          var isFundedTrade = false; // Partially/fully funded
+          var isCancellation = false;
 
           if (event.effects) {
             // Show effects
@@ -272,9 +278,13 @@ HistoryTab.prototype.angular = function (module) {
                 case 'offer_funded':
                 case 'offer_partially_funded':
                 case 'offer_bought':
+                  isFundedTrade = true;
+                  /* falls through */
                 case 'offer_cancelled':
-                  if (effect.type === 'offer_cancelled' && event.transaction && event.transaction.type === 'offercancel') {
-                    return;
+                  if (effect.type === 'offer_cancelled') {
+                    isCancellation = true;
+                    if (event.transaction && event.transaction.type === 'offercancel')
+                      return;
                   }
                   effects.push(effect);
                   break;
@@ -282,6 +292,16 @@ HistoryTab.prototype.angular = function (module) {
             });
 
             event.showEffects = effects;
+
+            // Trade filter - remove open orders that haven't been filled/partially filled
+            if (_.contains($scope.filters.types,'exchange') && !_.contains($scope.filters.types,'offercancel')) {
+              if ((event.transaction && event.transaction.type === 'offernew' && !isFundedTrade) || isCancellation)
+                return
+            } else if (!_.contains($scope.filters.types,'exchange') && _.contains($scope.filters.types,'offercancel')) {
+              // Remove filled/partially filled orders with 'orders' filter
+              if (isFundedTrade)
+                return
+            }
 
             effects = [ ];
 
