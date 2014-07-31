@@ -63,7 +63,7 @@ HistoryTab.prototype.angular = function (module) {
         'checked': true
       },
       orders: {
-        'types': ['offernew','offercancel','exchange'],
+        'types': ['offernew','offercancel'],
         'checked': true
       },
       other: {
@@ -293,6 +293,10 @@ HistoryTab.prototype.angular = function (module) {
             // Trade filter - remove open orders that haven't been filled/partially filled
             if (_.contains($scope.filters.types,'exchange') && !_.contains($scope.filters.types,'offercancel')) {
               if (event.transaction && event.transaction.type === 'offernew' && !isTrade)
+                return
+            } else if (!_.contains($scope.filters.types,'exchange') && _.contains($scope.filters.types,'offercancel')) {
+              // Remove filled/partially filled orders with 'orders' filter
+              if (isTrade)
                 return
             }
 
