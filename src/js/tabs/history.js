@@ -58,7 +58,11 @@ HistoryTab.prototype.angular = function (module) {
         'types': ['trusting','trusted'],
         'checked': true
       },
-      offers: {
+      trades: {
+        'types': ['offernew','exchange'],
+        'checked': true
+      },
+      orders: {
         'types': ['offernew','offercancel','exchange'],
         'checked': true
       },
@@ -68,7 +72,7 @@ HistoryTab.prototype.angular = function (module) {
       }
     };
 
-    $scope.orderedTypes = ['sent','received','trusts','offers','other'];
+    $scope.orderedTypes = ['sent','received','trusts','trades','orders','other'];
 
     if (store.get('ripple_history_type_selections')) {
       $scope.types = $.extend(true,$scope.types,store.get('ripple_history_type_selections'));
@@ -263,6 +267,7 @@ HistoryTab.prototype.angular = function (module) {
             return;
 
           var effects = [];
+          var isTrade = false; // Partially/fully funded trade
 
           if (event.effects) {
             // Show effects
@@ -272,6 +277,8 @@ HistoryTab.prototype.angular = function (module) {
                 case 'offer_funded':
                 case 'offer_partially_funded':
                 case 'offer_bought':
+                  isTrade = true;
+                  /* falls through */
                 case 'offer_cancelled':
                   if (effect.type === 'offer_cancelled' && event.transaction && event.transaction.type === 'offercancel') {
                     return;
@@ -282,6 +289,12 @@ HistoryTab.prototype.angular = function (module) {
             });
 
             event.showEffects = effects;
+            
+            // Trade filter - remove open orders that haven't been filled/partially filled
+            if (_.contains($scope.filters.types,'exchange') && !_.contains($scope.filters.types,'offercancel')) {
+              if (event.transaction && event.transaction.type === 'offernew' && !isTrade)
+                return
+            }
 
             effects = [ ];
 
