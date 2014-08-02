@@ -30,7 +30,7 @@ section.col-xs-12.content(ng-controller="ContactsCtrl")
             .spinnerEnabledInput
               input.form-control.input-lg.address#address(
                 name='address', type='text', step='any'
-                ng-model='contact.view'
+                ng-model='contact.address'
                 rp-dest, rp-dest-address, rp-dest-bitcoin, rp-dest-ripple-name
                 rp-dest-model="contact.address", rp-dest-loading="address_loading"
                 rp-unique='userBlob.data.contacts'
@@ -47,7 +47,7 @@ section.col-xs-12.content(ng-controller="ContactsCtrl")
             .spinnerEnabledInput
               input.form-control.input-lg.address#address(
                 name='address', type='text', step='any'
-                ng-model='contact.view'
+                ng-model='contact.address'
                 rp-dest, rp-dest-address, rp-dest-bitcoin, rp-dest-ripple-name
                 rp-dest-model="contact.address", rp-dest-loading="address_loading"
                 rp-unique='userBlob.data.contacts'
@@ -94,7 +94,7 @@ section.col-xs-12.content(ng-controller="ContactsCtrl")
         ng-form(name='inlineAddress')
           input.form-control(
             name='editaddress', type="text", class="inline"
-            ng-model='editview'
+            ng-model='editaddress'
             rp-unique='userBlob.data.contacts'
             rp-unique-field='address'
             rp-unique-orig='entry.address'
