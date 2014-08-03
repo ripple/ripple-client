@@ -163,6 +163,22 @@ TradeTab.prototype.angular = function(module)
     };
 
     /**
+     * Happens when user cliens the currency in "My Orders".
+     */
+    $scope.goto_order_currency = function()
+    {
+      if (!this.entry) return;
+      var entry = this.entry;
+      var order = $scope.order;
+      order['first_currency'] = this.entry.first.currency().to_json();
+      order['first_issuer'] = this.entry.first.issuer().to_json();
+      order['second_currency'] = this.entry.second.currency().to_json();
+      order['second_issuer'] = this.entry.second.issuer().to_json();
+      order['currency_pair'] = this.entry.first.currency()._iso_code + '/' + this.entry.second.currency()._iso_code;
+      updateSettings();
+    }
+
+    /**
      * Happens when user clicks on "Cancel" in "My Orders".
      */
     $scope.cancel_order = function ()

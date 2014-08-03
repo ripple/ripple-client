@@ -391,22 +391,23 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
           .row(ng-repeat="entry in offers", ng-class="{cancelling: cancelling}")
             .col-sm-1.type(data-label="Type") {{entry.type | rpucfirst}}
             .col-sm-4(data-label="Currencies")
-              span {{entry.first | rpcurrency}}
-              span.issuer(ng-show="entry.first.issuer().to_json()") &nbsp;(
-                span(
-                  rp-pretty-issuer="entry.first.issuer().to_json()"
-                  rp-pretty-issuer-contacts="userBlob.data.contacts"
-                ) ???
-                | )
-              span(ng-show="'buy' == entry.type", l10n)  with
-              span(ng-show="'sell' == entry.type", l10n)  for
-              span  {{entry.second | rpcurrency}}
-              span.issuer(ng-show="entry.second.issuer().to_json()") &nbsp;(
-                span(
-                  rp-pretty-issuer="entry.second.issuer().to_json()"
-                  rp-pretty-issuer-contacts="userBlob.data.contacts"
-                ) ???
-                | )
+              a(href="",ng-click="goto_order_currency()")
+                span {{entry.first | rpcurrency}}
+                span.issuer(ng-show="entry.first.issuer().to_json()") &nbsp;(
+                  span(
+                    rp-pretty-issuer="entry.first.issuer().to_json()"
+                    rp-pretty-issuer-contacts="userBlob.data.contacts"
+                  ) ???
+                  | )
+                span(ng-show="'buy' == entry.type", l10n)  with
+                span(ng-show="'sell' == entry.type", l10n)  for
+                span  {{entry.second | rpcurrency}}
+                span.issuer(ng-show="entry.second.issuer().to_json()") &nbsp;(
+                  span(
+                    rp-pretty-issuer="entry.second.issuer().to_json()"
+                    rp-pretty-issuer-contacts="userBlob.data.contacts"
+                  ) ???
+                  | )
             .col-sm-2.price.rpamount(data-label="Price") {{entry.second | rpamountratio:entry.first | rpamount:{precision: 5, min_precision: 5} }}
               span.currency  {{entry.second | rpcurrency}}
             .col-sm-3.amount.rpamount(data-label="Amount") {{entry.first | rpamount}}
