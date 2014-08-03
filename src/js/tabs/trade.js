@@ -439,6 +439,20 @@ TradeTab.prototype.angular = function(module)
       }
     };
 
+    $scope.flip_issuer = function () {
+      var order = $scope.order;
+      if (!order.valid_settings) return;
+      var currency = order['first_currency'];
+      var issuer = order['first_issuer'];
+      var pair = order['currency_pair'].split('/');
+      order['first_currency'] = order['second_currency'];
+      order['first_issuer'] = order['second_issuer'];
+      order['second_currency'] = currency;
+      order['second_issuer'] = issuer;
+      order['currency_pair'] = pair[1] + '/' + pair[0];
+      updateSettings();
+    }
+
     // This functions is called whenever the settings, specifically the pair and
     // the issuer(s) have been modified. It checks the new configuration and
     // sets $scope.valid_settings.

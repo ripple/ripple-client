@@ -19,7 +19,12 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
             name='currency_pair', type='text'
             rp-combobox="pairs_query", rp-combobox-select
             ng-model='order.currency_pair')
-        .col-sm-7.col-md-9
+        .col-sm-1.col-md-1.currency-flip
+          button.btn.btn-default.btn-block(href=""
+            ng-disabled="order.valid_settings != true"
+            ng-click='flip_issuer()', l10n)
+            | flip
+        .col-sm-6.col-md-8
           ul.issuers.inline(ng-hide='order.first_currency.is_native()')
             li.label(l10n) Base currency
             li.value {{order.first_currency | rpcurrency}}&ensp;
