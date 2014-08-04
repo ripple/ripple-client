@@ -12,16 +12,15 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
   group(ng-show="connected && loadState.account")
     .row
       .col-xs-12.col-xs-8
-        .currency-overview
+        .currency-overview(ng-show="exchangeRatesNonempty")
           .balancebox.col-xs-8
             .lbl(l10n) Total Balance
               .desc(l10n) Estimated from exchange rates
             .total.amount
               span.amount {{ aggregateValueDisplayed.toFixed(4) }}
               select.currency(ng-model='selectedValueMetric'
-                ng-change='changeMetric(this)')
-                option(ng-repeat='metric in valueMetrics'
-                  value='{{metric.code}}') {{metric.text}}
+                ng-change='changeMetric(this)'
+                ng-options='metric.code as metric.text for metric in valueMetrics')
             .lbl(ng-show="hasNegative")
               .desc(l10n) (excluding negative balances)
           .col-xs-4

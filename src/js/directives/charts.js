@@ -283,6 +283,7 @@ module.directive('rpPieChart', ['$filter', function($filter) {
       
       // Resolve collisions and adjust viewBox
       var extremeBounds = resolveCollisions(container);
+      console.log("EXTREME BOUNDS!", extremeBounds);
       var PADDING = 5
       container.find('svg')[0].setAttribute("viewBox", [
         (extremeBounds.left-PADDING),
@@ -470,6 +471,7 @@ module.directive('rpPieChart', ['$filter', function($filter) {
         } while (changed && iterations<10);
         bounds.push(groupBounds);
       }
+      console.log("FOUND BOUNDS!", bounds);
       return findExtremeBounds(bounds);
     }
     
@@ -500,9 +502,11 @@ module.directive('rpPieChart', ['$filter', function($filter) {
     //   true/false whether anything was moved.
     // ]
     function resolveCollisionsInSelection(selection) {
+      console.log("RESOLVE COLLISIONS IN SELECTION:", selection);
       var bounds = [];
       selection.each(function(){
         var bbox = $(this)[0].getBBox();
+        console.log("BBOX!", bbox);
         bounds.push({
           left:   bbox.x,
           right:  bbox.x+bbox.width,
@@ -510,6 +514,7 @@ module.directive('rpPieChart', ['$filter', function($filter) {
           bottom: bbox.y+bbox.height
         });
       });
+      console.log("BOUNDS!", bounds);
       var collisions = {};
       var collider, collidee;
       for (collider=0; collider<bounds.length; collider++) {

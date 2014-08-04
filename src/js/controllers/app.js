@@ -134,7 +134,7 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
       }
       console.log('lines updated:', $scope.lines);
 
-      if (data.lines.length) $scope.$broadcast('$balancesUpdate');
+      $scope.$broadcast('$balancesUpdate');
 
       $scope.loadState['lines'] = true;
     });
