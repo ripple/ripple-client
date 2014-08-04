@@ -546,7 +546,6 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
     }
   };
 
-
   return new Id();
 }]);
 
