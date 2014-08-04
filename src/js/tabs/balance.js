@@ -59,6 +59,7 @@ BalanceTab.prototype.angular = function (module)
     $scope.exchangeRates || ($scope.exchangeRates = {"XRP":1});
     
     function updateExchangeRates() {
+      console.log("BALANCES UPDATED!");
       var currencies = [];
       var hasNegative = false;
       for (var cur in $scope.balances) {if ($scope.balances.hasOwnProperty(cur)){
