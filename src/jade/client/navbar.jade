@@ -18,13 +18,18 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
           li#nav-fund(ng-class="{active: $route.current.mainMenu == 'fund'}")
             a(href="#/fund", l10n) Fund
         ul.nav.navbar-nav.navbar-right
-          li.balance
+          li.dropdown.balances-dropdown
             p.navbar-text(ng-show="!loadState.account", l10n) Loading your balance...
-            p.navbar-text(ng-show="loadState.account")
+            a.dropdown-toggle(ng-show="loadState.account")
               span.balance.primary(ng-show="!account.Account", l10n) Unfunded account
               span.balance.primary(ng-show="account.Account")
                 span.amount {{account.Balance | rpamount:{precision: 2} }}
-              span.currency  XRP
+                span.balance.currency  XRP&nbsp;
+                  span.fa.fa-chevron-down
+            ul#balances.dropdown-menu
+              li.balance(ng-repeat="balance in balances")
+                span.balance {{balance.total | rpamount:{rel_precision: 2} }}&nbsp;
+                span.balance(rp-currency="balance.total", rp-currency-short)
           li(ng-hide="'desktop' === client")
             a(href="#/account") ~{{userCredentials.username}}
           li.dropdown.notifications-dropdown
