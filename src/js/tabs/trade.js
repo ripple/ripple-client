@@ -163,6 +163,22 @@ TradeTab.prototype.angular = function(module)
     };
 
     /**
+     * Happens when user cliens the currency in "My Orders".
+     */
+    $scope.goto_order_currency = function()
+    {
+      if (!this.entry) return;
+      var entry = this.entry;
+      var order = $scope.order;
+      order['first_currency'] = this.entry.first.currency().to_json();
+      order['first_issuer'] = this.entry.first.issuer().to_json();
+      order['second_currency'] = this.entry.second.currency().to_json();
+      order['second_issuer'] = this.entry.second.issuer().to_json();
+      order['currency_pair'] = this.entry.first.currency()._iso_code + '/' + this.entry.second.currency()._iso_code;
+      updateSettings();
+    }
+
+    /**
      * Happens when user clicks on "Cancel" in "My Orders".
      */
     $scope.cancel_order = function ()
@@ -438,6 +454,20 @@ TradeTab.prototype.angular = function(module)
         order.first = +order.first_amount.to_human({group_sep: false});
       }
     };
+
+    $scope.flip_issuer = function () {
+      var order = $scope.order;
+      if (!order.valid_settings) return;
+      var currency = order['first_currency'];
+      var issuer = order['first_issuer'];
+      var pair = order['currency_pair'].split('/');
+      order['first_currency'] = order['second_currency'];
+      order['first_issuer'] = order['second_issuer'];
+      order['second_currency'] = currency;
+      order['second_issuer'] = issuer;
+      order['currency_pair'] = pair[1] + '/' + pair[0];
+      updateSettings();
+    }
 
     // This functions is called whenever the settings, specifically the pair and
     // the issuer(s) have been modified. It checks the new configuration and
