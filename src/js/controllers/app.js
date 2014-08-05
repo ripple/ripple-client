@@ -641,7 +641,7 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
 
   $scope.logout = function () {
     $id.logout();
-    $location.path('/login');
+    location.reload();
   };
 
   /**
