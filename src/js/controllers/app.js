@@ -117,6 +117,7 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
   {
     $scope.$apply(function () {
       $scope.lines = {};
+      $scope._trustlines = data.lines;
 
       for (var n=0, l=data.lines.length; n<l; n++) {
         var line = data.lines[n];

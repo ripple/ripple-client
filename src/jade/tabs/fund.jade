@@ -86,20 +86,22 @@ section.content(ng-controller='FundCtrl')
                       span.modal-error(ng-show="emailError", l10n)
                         | SnapSwap's btc2ripple service is currently unavailable.
                         |  Please check back later.
-      .fundBtc(ng-show="currencyPage == 'accounts'", ng-controller='TrustCtrl')
-        span.i(class="icon fa fa-money fa-usd")
-        span.currency(l10n) USD
-          .accounts
+      .fundAcct(ng-show="currencyPage == 'accounts'", ng-controller='TrustCtrl')
+        .trustBox(ng-repeat="entry in accountLines", ng-class="'currency-' + (entry.amtObj | rpcurrency | lowercase)")
+          .row
+            .lbl.col-xs-8
+              i(class="icon fa fa-money", ng-class="'fa-' + (entry.amtObj | rpcurrency | lowercase)")
+              span.currency(rp-currency="entry.amtObj", rp-currency-full)
+          .accountsHeader
             span.issuer(l10n) Issuer
             span.balance(l10n) Balance
             span.max(l10n) Max
             span.min(l10n) Min
             span.rippling(l10n) Rippling
-        span.i(class="icon fa fa-money fa-btc")
-        span.currency(l10n) BTC
-          .accounts
-            span.issuer(l10n) Issuer
-            span.balance(l10n) Balance
-            span.max(l10n) Max
-            span.min(l10n) Min
-            span.rippling(l10n) Rippling
+          .row.accounts
+            .row(ng-repeat="issuer in entry.components")
+              .lbl.col-xs-2.issuer {{ issuer.issuer | rpcontactnamefull }}
+              .lbl.col-xs-2.balance {{ issuer.balance | rpamount:{rel_precision: 2} }}
+              .lbl.col-xs-2.max {{ issuer.max }}
+              .lbl.col-xs-2.min {{ issuer.min }}
+              .lbl.col-xs-2.rippling {{ issuer.rippling }}

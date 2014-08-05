@@ -2098,46 +2098,82 @@ html.t-trade header nav ul > li.active#nav-advanced > a:after {
     border-left: 1px solid @midgray;
   }
 
-  .accounts {
+  .lbl {
+    font-size   : 1.2em;
+    font-family : OpenSansBold;
+
+    .desc {
+      color: @midgray;
+      font: 12px OpenSansLight;
+    }
+  }
+
+  .amount {
+    color: @darkblue;
+
+    .fraction {
+      font-family: OpenSansLight;
+      color: @lightgreen;
+    }
+
+    .currency {
+      font-family: OpenSansLight;
+      margin-left: 15px;
+    }
+  }
+
+  .total {
+    margin: 10px 0;
+    font-size: 15px;
+
+    .fraction {
+      font-size: 30px;
+    }
+
+    select.currency {
+      font-size: 20px;
+      padding-right: 20px;
+      border: none;
+      background: transparent url('../../img/dropdown_arrow.svg') no-repeat;
+      background-position: center right;
+      appearance: none;
+      moz-appearance: none;
+      -webkit-appearance: none;
+
+    }
+  }
+
+  .accountsHeader {
     align: 100%;
     padding: 0 0 5px 0;
     margin: 0 0 20px 0;
-    font: 20px OpenSansLight;
+    font: 13px OpenSansBold;
     border-bottom: 1px solid @midgray;
+
 
     .issuer {
       margin: 0 6% 0 4%;
       width: 100px;
-      font-size: 13px;
-      font-weight: bold;
     }
 
     .balance {
       margin: 0 7%;
       width: 100px;
-      font-size: 13px;
-      font-weight: bold;
     }
 
     .max {
       margin: 0 7%;
       width: 100px;
-      font-size: 13px;
-      font-weight: bold;
     }
 
     .min {
       margin: 0 7%;
       width: 100px;
-      font-size: 13px;
-      font-weight: bold;
     }
 
     .rippling {
       margin: 0 7%;
       width: 100px;
-      font-size: 13px;
-      font-weight: bold;
     }
   }
 
@@ -2149,6 +2185,21 @@ html.t-trade header nav ul > li.active#nav-advanced > a:after {
 
     .name {
       font-weight: bold;
+    }
+  }
+
+  .accounts {
+    align: 100%;
+    padding: 0 0 5px 0;
+    margin: 0 0 20px 0;
+    text-align: center;
+
+    .lbl {
+      font: 12px OpenSansRegular;
+    }
+
+    .balance {
+      margin: 0 20px
     }
   }
 
