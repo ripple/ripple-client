@@ -13,7 +13,7 @@ var TrustTab = function ()
 util.inherits(TrustTab, Tab);
 
 TrustTab.prototype.tabName = 'trust';
-TrustTab.prototype.mainMenu = 'trust';
+TrustTab.prototype.mainMenu = 'fund';
 
 TrustTab.prototype.generateHtml = function ()
 {
@@ -470,6 +470,56 @@ TrustTab.prototype.angular = function (module)
     $scope.reset();
 
     updateLines();
+
+    var updateAccountLines = function(currArr) {
+      var obj = {};
+      currArr = currArr || [];
+
+      for (var i = 0; i < currArr.length; i++) {
+        var currentEntry = currArr[i];
+        var newEntry = {
+          currency: currentEntry.currency,
+          issuer: currentEntry.account,
+          balance: ripple.Amount.from_json({
+            currency: currentEntry.currency,
+            value: currentEntry.balance,
+            issuer: currentEntry.account
+          }),
+          max: ripple.Amount.from_json({
+            currency: currentEntry.currency,
+            value: currentEntry.limit,
+            issuer: currentEntry.account
+          }),
+          min: ripple.Amount.from_json({
+            currency: currentEntry.currency,
+            value: currentEntry.limit_peer,
+            issuer: currentEntry.account
+          }),
+          rippling: currentEntry.no_ripple_peer
+        }
+
+        if (obj[currentEntry.currency] === undefined) {
+          obj[currentEntry.currency] = { components: [], amtObj: null };
+          obj[currentEntry.currency].amtObj = ripple.Amount.from_json({
+            currency: currentEntry.currency,
+            value: currentEntry.balance,
+            issuer: currentEntry.account
+          });
+        }
+
+        obj[currentEntry.currency].components.push(newEntry);
+      }
+
+      $scope.accountLines = obj;
+      console.log('$scope.accountLines is: ', $scope.accountLines);
+
+      return;
+    }
+
+    $scope.$watch('_trustlines', function(line) {
+      console.log('$scope.trustlines is: ', $scope._trustlines);
+      updateAccountLines($scope._trustlines);
+    }, true);
   }]);
 };
 

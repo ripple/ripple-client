@@ -20,267 +20,292 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
 
     //- N1. Trust form
 
-    .row.row-padding-small.head(ng-show='mode=="main" && account.Balance')
-      .col-sm-5(l10n) Name / Address
-      .col-sm-2
-        a(href="", ng-click="sorting.predicate = 'currency'; sorting.reverse=!sorting.reverse", l10n) Currency
-      .col-sm-2
-        a(href="", ng-click="sorting.predicate = 'balance'; sorting.reverse=!sorting.reverse", l10n) Balance
-      .col-sm-2(l10n) Trust Limit
-      .col-sm-1.actions
-        a.btn.btn-success.btn-sm.btn-block.sign(ng-click='toggle_form()',
-          ng-disabled='addform_visible || editform_visible', l10n) Add trust
-    .row
-      .col-xs-12.col-sm-6
-        form.row-padding-small(name='trustForm', id='trustForm', ng-submit='grant()',
-          ng-show='mode=="main" && ((addform_visible && can_add_trust)|| editform_visible)')
-          .row
-            .col-xs-12.form-group(ng-show="'web' === client")
-              label(for='trust_counterparty', ng-show="edituser") {{ edituser }}
-              input.form-control#trust_counterparty(
-                name='trust_counterparty', type='text', rp-combobox="counterparty_query"
-                rp-combobox-value-as-ripple-name
-                l10n-placeholder="Enter a Ripple name or contact"
-                ng-model='counterparty_view'
-                rp-dest, rp-dest-address, rp-dest-contact, rp-not-me, rp-dest-email
-                rp-dest-ripple-name, rp-dest-model="counterparty"
-                rp-dest-loading="counterparty_loading"
-                required
-                rp-autofill='$routeParams.to'
-                rp-autofill-counterparty_view
-                rp-autofill-on='addform_visible = true'
-                rp-focus, rp-spinner="{{counterparty_loading ? 4 : null}}")
-              .errorGroup(rp-errors='trust_counterparty')
-                div(rp-error-valid)
-                  .success(ng-show='counterparty != counterparty_address && counterparty_name && !error_account_reserve')
-                    | {{counterparty_address}}
-                  .error(ng-show='error_account_reserve')
-                    span(l10n) Account does not meet the minimum XRP reserve.&#32;
-                    a(href="https://ripple.com/wiki/Account_Creation", target="_blank", l10n)
-                      | More information
-                .error(rp-error-on='required', l10n) Please enter a Ripple name, contact, or address.
-                .error(rp-error-on='rpNotMe', l10n) You've entered your own address.
-                .error(rp-error-on='rpDest', l10n) Please enter a valid Ripple name, contact, or address.
-            .col-xs-12.form-group(ng-show="'desktop' === client")
-              label(for='trust_counterparty', ng-show="edituser") {{ edituser }}
-              input.form-control#trust_counterparty(
-                name='trust_counterparty', type='text', rp-combobox="counterparty_query"
-                rp-combobox-value-as-ripple-name
-                l10n-placeholder="Enter a Ripple address or contact"
-                ng-model='counterparty_view'
-                rp-dest, rp-dest-address, rp-dest-contact, rp-not-me, rp-dest-email
-                rp-dest-ripple-name, rp-dest-model="counterparty"
-                rp-dest-loading="counterparty_loading"
-                required
-                rp-autofill='$routeParams.to'
-                rp-autofill-counterparty_view
-                rp-autofill-on='addform_visible = true'
-                rp-focus, rp-spinner="{{counterparty_loading ? 4 : null}}")
-              .errorGroup(rp-errors='trust_counterparty')
-                div(rp-error-valid)
-                  .success(ng-show='counterparty != counterparty_address && counterparty_name && !error_account_reserve')
-                    | {{counterparty_address}}
-                  .error(ng-show='error_account_reserve')
-                    span(l10n) Account does not meet the minimum XRP reserve.&#32;
-                    a(href="https://ripple.com/wiki/Account_Creation", target="_blank", l10n)
-                      | More information
-                .error(rp-error-on='required', l10n) Please enter a Ripple address or contact.
-                .error(rp-error-on='rpNotMe', l10n) You've entered your own address.
-                .error(rp-error-on='rpDest', l10n) Please enter a valid Ripple address or contact.
-          .row
-            .col-xs-12.form-group
-              label(for='trust_amount', l10n) Amount
+    .row(ng-show='connected')
+      include fund/menu
+      .col-sm-9
+        .row.row-padding-small.head(ng-hide='true')
+          .col-sm-5(l10n) Name / Address
+          .col-sm-2
+            a(href="", ng-click="sorting.predicate = 'currency'; sorting.reverse=!sorting.reverse", l10n) Currency
+          .col-sm-2
+            a(href="", ng-click="sorting.predicate = 'balance'; sorting.reverse=!sorting.reverse", l10n) Balance
+          .col-sm-2(l10n) Trust Limit
+        .row
+          .col-sm-3.actions
+            a.btn.btn-success.btn-sm.btn-block.sign(ng-click='toggle_form()',
+              ng-disabled='addform_visible || editform_visible', l10n) Add trust
+        .row
+          .col-xs-12.col-sm-6
+            form.row-padding-small(name='trustForm', id='trustForm', ng-submit='grant()',
+              ng-show='mode=="main" && ((addform_visible && can_add_trust)|| editform_visible)')
               .row
-                .col-md-5
-                  input.form-control.value#trust_amount(name='trust_amount'
-                    type='number', step='any', ng-model='amount'
-                    ng-pattern='validation_pattern'
-                    rp-autofill='$routeParams.amount'
-                    rp-autofill-amount
+                .col-xs-12.form-group(ng-show="'web' === client")
+                  label(for='trust_counterparty', ng-show="edituser") {{ edituser }}
+                  input.form-control#trust_counterparty(
+                    name='trust_counterparty', type='text', rp-combobox="counterparty_query"
+                    rp-combobox-value-as-ripple-name
+                    l10n-placeholder="Enter a Ripple name or contact"
+                    ng-model='counterparty_view'
+                    rp-dest, rp-dest-address, rp-dest-contact, rp-not-me, rp-dest-email
+                    rp-dest-ripple-name, rp-dest-model="counterparty"
+                    rp-dest-loading="counterparty_loading"
+                    required
+                    rp-autofill='$routeParams.to'
+                    rp-autofill-counterparty_view
                     rp-autofill-on='addform_visible = true'
-                    required)
-                .col-md-7
-                  input.form-control.currency-field#trust_amount_currency(name='trust_amount_currency', type='text'
-                    ng-model='currency', rp-combobox="currency_query", rp-combobox-select
-                    rp-autofill='$routeParams.amount'
-                    rp-autofill-currency
+                    rp-focus, rp-spinner="{{counterparty_loading ? 4 : null}}")
+                  .errorGroup(rp-errors='trust_counterparty')
+                    div(rp-error-valid)
+                      .success(ng-show='counterparty != counterparty_address && counterparty_name && !error_account_reserve')
+                        | {{counterparty_address}}
+                      .error(ng-show='error_account_reserve')
+                        span(l10n) Account does not meet the minimum XRP reserve.&#32;
+                        a(href="https://ripple.com/wiki/Account_Creation", target="_blank", l10n)
+                          | More information
+                    .error(rp-error-on='required', l10n) Please enter a Ripple name, contact, or address.
+                    .error(rp-error-on='rpNotMe', l10n) You've entered your own address.
+                    .error(rp-error-on='rpDest', l10n) Please enter a valid Ripple name, contact, or address.
+                .col-xs-12.form-group(ng-show="'desktop' === client")
+                  label(for='trust_counterparty', ng-show="edituser") {{ edituser }}
+                  input.form-control#trust_counterparty(
+                    name='trust_counterparty', type='text', rp-combobox="counterparty_query"
+                    rp-combobox-value-as-ripple-name
+                    l10n-placeholder="Enter a Ripple address or contact"
+                    ng-model='counterparty_view'
+                    rp-dest, rp-dest-address, rp-dest-contact, rp-not-me, rp-dest-email
+                    rp-dest-ripple-name, rp-dest-model="counterparty"
+                    rp-dest-loading="counterparty_loading"
+                    required
+                    rp-autofill='$routeParams.to'
+                    rp-autofill-counterparty_view
                     rp-autofill-on='addform_visible = true'
-                    rp-not-xrp
-                    required)
-              .errorGroup(rp-errors='trust_amount')
-                .error(rp-error-on='required', l10n) Amount field is required
-              .errorGroup(rp-errors='trust_amount_currency')
-                .error(rp-error-on='rpNotXrp', l10n)
-                  | XRP can be sent without extending trust. If you really want
-                  |  to trust in XRP, please use XRR currency code.
-                .error(rp-error-on='required', l10n)
-                  | Currency field is required
-          .row
-            .col-xs-12.allow-rippling
-              label.checkbox(for="trust_allowrippling")
-                input#trust_allowrippling(
-                  name='trust_allowrippling', type='checkbox'
-                  ng-model='allowrippling')
-                span(l10n) Allow Rippling
-              i.fa.fa-question-circle.help-icon(
-                rp-popover
-                rp-popover-placement="bottom"
-                l10n-rp-popover-title="Allow Rippling"
-                rp-popover-trigger="click"
-                l10n-data-content="Allow this trust line's balances to be transferred to another issuer you trust. <a href=https://ripple.com/wiki/No_Ripple target=_blank>More information</a>")
-          .row
-            .col-xs-6.col-sm-4
-              button.btn.btn-block.btn-default(type="button", ng-click='toggle_form()', l10n) Cancel
-            .col-xs-6.col-sm-8
-              button.btn.btn-block.btn-primary.submit(type='submit', ng-disabled='trustForm.$invalid || verifying', l10n) Save
-          .row.delete-trust
-            .col-xs-6.col-sm-6.col-md-8.col-lg-9(ng-show='balance !== "0" && orderbookStatus === "exists"')
-              rp-confirm(
-                action-text="Are you sure you want to delete this trust line? Ripple Trade will attempt to convert the remaining balance of {{ balance }} {{ currency }} into XRP. This action can't be undone."
-                action-button-text="Convert Balance and Delete"
-                action-button-css="btn btn-default btn-danger"
-                action-function="delete_line()"
-                cancel-button-css="btn btn-default"
-                cancel-button-text="Cancel"
-                ng-hide="showPassword==true")
-                  a.danger(ng-click="load_orderbook()", href="", l10n) Delete
-            .col-xs-6.col-sm-6.col-md-8.col-lg-9(ng-show='balance !== "0" && orderbookStatus === "not"')
-              rp-confirm(
-                action-text="Are you sure you want to delete this trust line? Ripple Trade will return the balance of {{ balance }} {{ currency }} to the issuer. This action can't be undone."
-                action-button-text="Return Balance and Delete"
-                action-button-css="btn btn-default btn-danger"
-                action-function="delete_line()"
-                cancel-button-css="btn btn-default"
-                cancel-button-text="Cancel"
-                ng-hide="showPassword==true")
-                  a.danger(ng-click="load_orderbook()", href="", l10n) Delete
-            .col-xs-6.col-sm-6.col-md-8.col-lg-9(ng-show='balance === "0"')
-              rp-confirm(
-                action-text="Are you sure you want to delete this trust line? This action can't be undone."
-                action-button-text="Delete"
-                action-button-css="btn btn-default btn-danger"
-                action-function="delete_line()"
-                cancel-button-css="btn btn-default"
-                cancel-button-text="Cancel"
-                ng-hide="showPassword==true")
-                  a.danger(ng-click="load_orderbook()", href="", l10n) Delete
-          .row
-            .col-xs-12
-              p.literal.throbber.verifying(ng-show="verifying", l10n) Verifying address
-      .col-xs-12(ng-show='addform_visible && !can_add_trust')
-        .alert.alert-warning(l10n) You must have at least
-          strong  {{account.reserve_to_add_trust | rpamount:0}} XRP
-          |  to add a new trust line.&#32;
-          a(href="https://ripple.com/wiki/Reserves", target="_blank") More information
+                    rp-focus, rp-spinner="{{counterparty_loading ? 4 : null}}")
+                  .errorGroup(rp-errors='trust_counterparty')
+                    div(rp-error-valid)
+                      .success(ng-show='counterparty != counterparty_address && counterparty_name && !error_account_reserve')
+                        | {{counterparty_address}}
+                      .error(ng-show='error_account_reserve')
+                        span(l10n) Account does not meet the minimum XRP reserve.&#32;
+                        a(href="https://ripple.com/wiki/Account_Creation", target="_blank", l10n)
+                          | More information
+                    .error(rp-error-on='required', l10n) Please enter a Ripple address or contact.
+                    .error(rp-error-on='rpNotMe', l10n) You've entered your own address.
+                    .error(rp-error-on='rpDest', l10n) Please enter a valid Ripple address or contact.
+              .row
+                .col-xs-12.form-group
+                  label(for='trust_amount', l10n) Amount
+                  .row
+                    .col-md-5
+                      input.form-control.value#trust_amount(name='trust_amount'
+                        type='number', step='any', ng-model='amount'
+                        ng-pattern='validation_pattern'
+                        rp-autofill='$routeParams.amount'
+                        rp-autofill-amount
+                        rp-autofill-on='addform_visible = true'
+                        required)
+                    .col-md-7
+                      input.form-control.currency-field#trust_amount_currency(name='trust_amount_currency', type='text'
+                        ng-model='currency', rp-combobox="currency_query", rp-combobox-select
+                        rp-autofill='$routeParams.amount'
+                        rp-autofill-currency
+                        rp-autofill-on='addform_visible = true'
+                        rp-not-xrp
+                        required)
+                  .errorGroup(rp-errors='trust_amount')
+                    .error(rp-error-on='required', l10n) Amount field is required
+                  .errorGroup(rp-errors='trust_amount_currency')
+                    .error(rp-error-on='rpNotXrp', l10n)
+                      | XRP can be sent without extending trust. If you really want
+                      |  to trust in XRP, please use XRR currency code.
+                    .error(rp-error-on='required', l10n)
+                      | Currency field is required
+              .row
+                .col-xs-12.allow-rippling
+                  label.checkbox(for="trust_allowrippling")
+                    input#trust_allowrippling(
+                      name='trust_allowrippling', type='checkbox'
+                      ng-model='allowrippling')
+                    span(l10n) Allow Rippling
+                  i.fa.fa-question-circle.help-icon(
+                    rp-popover
+                    rp-popover-placement="bottom"
+                    l10n-rp-popover-title="Allow Rippling"
+                    rp-popover-trigger="click"
+                    l10n-data-content="Allow this trust line's balances to be transferred to another issuer you trust. <a href=https://ripple.com/wiki/No_Ripple target=_blank>More information</a>")
+              .row
+                .col-xs-6.col-sm-4
+                  button.btn.btn-block.btn-default(type="button", ng-click='toggle_form()', l10n) Cancel
+                .col-xs-6.col-sm-8
+                  button.btn.btn-block.btn-primary.submit(type='submit', ng-disabled='trustForm.$invalid || verifying', l10n) Save
+              .row.delete-trust
+                .col-xs-6.col-sm-6.col-md-8.col-lg-9(ng-show='balance !== "0" && orderbookStatus === "exists"')
+                  rp-confirm(
+                    action-text="Are you sure you want to delete this trust line? Ripple Trade will attempt to convert the remaining balance of {{ balance }} {{ currency }} into XRP. This action can't be undone."
+                    action-button-text="Convert Balance and Delete"
+                    action-button-css="btn btn-default btn-danger"
+                    action-function="delete_line()"
+                    cancel-button-css="btn btn-default"
+                    cancel-button-text="Cancel"
+                    ng-hide="showPassword==true")
+                      a.danger(ng-click="load_orderbook()", href="", l10n) Delete
+                .col-xs-6.col-sm-6.col-md-8.col-lg-9(ng-show='balance !== "0" && orderbookStatus === "not"')
+                  rp-confirm(
+                    action-text="Are you sure you want to delete this trust line? Ripple Trade will return the balance of {{ balance }} {{ currency }} to the issuer. This action can't be undone."
+                    action-button-text="Return Balance and Delete"
+                    action-button-css="btn btn-default btn-danger"
+                    action-function="delete_line()"
+                    cancel-button-css="btn btn-default"
+                    cancel-button-text="Cancel"
+                    ng-hide="showPassword==true")
+                      a.danger(ng-click="load_orderbook()", href="", l10n) Delete
+                .col-xs-6.col-sm-6.col-md-8.col-lg-9(ng-show='balance === "0"')
+                  rp-confirm(
+                    action-text="Are you sure you want to delete this trust line? This action can't be undone."
+                    action-button-text="Delete"
+                    action-button-css="btn btn-default btn-danger"
+                    action-function="delete_line()"
+                    cancel-button-css="btn btn-default"
+                    cancel-button-text="Cancel"
+                    ng-hide="showPassword==true")
+                      a.danger(ng-click="load_orderbook()", href="", l10n) Delete
+              .row
+                .col-xs-12
+                  p.literal.throbber.verifying(ng-show="verifying", l10n) Verifying address
+          .col-xs-12(ng-show='addform_visible && !can_add_trust')
+            .alert.alert-warning(l10n) You must have at least
+              strong  {{account.reserve_to_add_trust | rpamount:0}} XRP
+              |  to add a new trust line.&#32;
+              a(href="https://ripple.com/wiki/Reserves", target="_blank") More information
 
-    //- N2. Confirmation page
+        //- N2. Confirmation page
 
-    group.mode-confirm.wide(ng-show='mode=="confirm" && account.Balance')
-      span(l10n)
-        p.literal(l10n-inc) You are about to trust
-        p.amount_feedback(rp-pretty-amount="amount_feedback")
-        p.literal(l10n-inc) to the Ripple user
-      .dest_feedback
-        .counterparty(ng-show='counterparty_name') {{counterparty_name}}
-        .counterparty(ng-hide='counterparty_name') {{counterparty_address}}
-        .extra(ng-show="counterparty != counterparty_address || counterparty_name") {{counterparty_address}}
-      p.literal.trust-notice(ng-show="currencyWarning == 'firstIssuer'", l10n)
-        | By pressing CONFIRM you are extending trust to another Ripple user.
-        |  This action carries the risk of potential loss up to the amount of the trust
-        |  line. Make sure you understand these consequences, and that
-        |  all the issuers are trustworthy.
-      p.literal.trust-notice(ng-show="currencyWarning == 'multipleIssuers'", l10n)
-        | By pressing CONFIRM you are extending trust to&#32;
-        strong multiple issuers&#32;
-        | for the same currency which may result in your account balances changing without
-        |  your direct action. Make sure you understand these consequences, and that
-        |  all your issuers are trustworthy.
-      .row.row-padding-small
-        .col-xs-6.col-md-3.col-lg-2
-          button.btn.btn-block.btn-default.back(ng-click='mode="main"', l10n) &laquo; Back
-        .col-xs-6.col-md-3.col-lg-2
-          button.btn.btn-block.btn-success.submit(type='submit'
-            ng-click='grant_confirmed()', ng-disabled='confirm_wait', l10n) Confirm
+        group.mode-confirm.wide(ng-show='mode=="confirm" && account.Balance')
+          span(l10n)
+            p.literal(l10n-inc) You are about to trust
+            p.amount_feedback(rp-pretty-amount="amount_feedback")
+            p.literal(l10n-inc) to the Ripple user
+          .dest_feedback
+            .counterparty(ng-show='counterparty_name') {{counterparty_name}}
+            .counterparty(ng-hide='counterparty_name') {{counterparty_address}}
+            .extra(ng-show="counterparty != counterparty_address || counterparty_name") {{counterparty_address}}
+          p.literal.trust-notice(ng-show="currencyWarning == 'firstIssuer'", l10n)
+            | By pressing CONFIRM you are extending trust to another Ripple user.
+            |  This action carries the risk of potential loss up to the amount of the trust
+            |  line. Make sure you understand these consequences, and that
+            |  all the issuers are trustworthy.
+          p.literal.trust-notice(ng-show="currencyWarning == 'multipleIssuers'", l10n)
+            | By pressing CONFIRM you are extending trust to&#32;
+            strong multiple issuers&#32;
+            | for the same currency which may result in your account balances changing without
+            |  your direct action. Make sure you understand these consequences, and that
+            |  all your issuers are trustworthy.
+          .row.row-padding-small
+            .col-xs-6.col-md-3.col-lg-2
+              button.btn.btn-block.btn-default.back(ng-click='mode="main"', l10n) &laquo; Back
+            .col-xs-6.col-md-3.col-lg-2
+              button.btn.btn-block.btn-success.submit(type='submit'
+                ng-click='grant_confirmed()', ng-disabled='confirm_wait', l10n) Confirm
 
-    //- N3. Waiting for transaction result page
+        //- N3. Waiting for transaction result page
 
-    group.mode-granting(ng-show='mode=="granting" && account.Balance')
-      p.throbber.literal(l10n) Granting is in progress
-      hr
-      //- p: button.btn.btn-default(ng-click='reset()', l10n) Stop waiting
-
-    //- N4. Error page
-
-    group.mode-error(ng-show='mode=="error" && account.Balance')
-      div(ng-show="errorMessage")
-        p.literal {{errorMessage}}
-        p: a.btn.btn-default(href="#balance", l10n) Back to balance
-      div(ng-hide="errorMessage")
-        p.literal(l10n) Sorry, an error occurred. Make sure you
-          |  are connected to the Internet and try again later.
-        p: button.btn.btn-default(ng-click='reset()', l10n) &laquo; Back
-
-    //- N5. Granted page
-
-    group.mode-granted.wide(ng-show='mode=="granted" && account.Balance')
-      group.pending(ng-show='tx_result=="pending"')
-        h2.tx-status(l10n) Your grant request has been submitted.
-      group.result-success(ng-show='tx_result=="cleared"')
-        h2.tx-status(l10n) Trust is granted!
-      group.result-error(ng-show='tx_result=="error"')
-        h2.tx-status(l10n) Trust could not be granted!
-        p(l10n) We were unable to submit the request. Please try again later.
-      group.result-malformed(ng-show='tx_result=="malformed"')
-        h2.tx-status(l10n) Grant is malformed!
-        p(l10n) Your request is invalid, reason: {{engine_result}} - {{engine_result_message}}
-      group.result-failed(ng-show='tx_result=="failed"')
-        h2.tx-status(l10n) Granting failed!
-        p(ng-switch on="engine_result")
-          span(ng-switch-when="terNO_LINE", l10n) You have no trust line in this currency.
-          span(ng-switch-when="tecINSUF_RESERVE_LINE", l10n) Insufficient reserve to add trust line.
-          span(ng-switch-when="tecNO_LINE_INSUF_RESERVE", l10n) You must have at
-            |  least {{account.reserve_to_add_trust | rpamount:0}} XRP to add a trust line.&#32;
-            a(href="http://ripple.com/help/#reserve", l10n) Read more.
-          span(ng-switch-default, l10n) Trust granting failed to clear,
-            |  reason: {{engine_result_message}}
-      group.result-failed(ng-show='tx_result=="local"')
-        h2.tx-status(l10n) Transaction failed!
-        p(ng-switch on="engine_result")
-          span(ng-switch-when="telINSUF_FEE_P", l10n)
-            | The particular server you sent the transaction to was too busy to forward or process
-            |  your transaction at the fee you included in it.
-      group.actions
-        hr
-        .text-success(ng-show='addressSaved', class="actionLink", l10n) Address saved!
-        .save-address-form(ng-hide='contact', class="actionLink")
-          a(href="", ng-click='show_save_address_form = true',
-            ng-hide="show_save_address_form", l10n) Add this address to contacts
-          form(name="saveAddressForm", ng-class="{ show: show_save_address_form }", ng-submit='saveAddress()')
-            .address {{counterparty_address}}
-            label(for='save_address_name', l10n) Name this user
-            input.form-control#contact_name(
-            name='save_address_name', type="text"
-            ng-model='saveAddressName', unique, required
-            rp-autofill='$routeParams.name'
-            rp-focus)
-            .error(ng-show='saveAddressForm.save_address_name.$error.unique', l10n)
-              | You already have a contact with the same name.
-            div
-              button.btn.btn-success(type='submit', ng-disabled='addressSaving || saveAddressForm.$invalid')
-                span(ng-show='addressSaving', l10n) Saving...
-                span(ng-hide='addressSaving', l10n) Save
-              a(href="", ng-click='show_save_address_form = false') Cancel
+        group.mode-granting(ng-show='mode=="granting" && account.Balance')
+          p.throbber.literal(l10n) Granting is in progress
           hr
-        div(class="actionLink")
-          a(href="#trust", ng-click="reset()", l10n) Back to trust page
-        hr
+          //- p: button.btn.btn-default(ng-click='reset()', l10n) Stop waiting
 
-    .row.row-padding-small.line.padding-vertical-xs(ng-show="mode=='main'", ng-repeat='(key, line) in linesArray | orderBy:sorting.sort:sorting.reverse')
-      .col-sm-5 {{line.account | rpcontactnamefull}}
-      .col-sm-2(rp-currency="line.balance")
-      .col-sm-2
-        span(rp-tooltip="{{line.balance | rpamount }}") {{line.balance | rpamount:{rel_precision: 0} }}
-      .col-sm-2
-        rp-trust-line(rp-line-data='line')
-      .col-sm-1.actions
-        button.btn.btn-default.btn-sm(href="", ng-click="edit_line()", l10n) edit
+        //- N4. Error page
+
+        group.mode-error(ng-show='mode=="error" && account.Balance')
+          div(ng-show="errorMessage")
+            p.literal {{errorMessage}}
+            p: a.btn.btn-default(href="#balance", l10n) Back to balance
+          div(ng-hide="errorMessage")
+            p.literal(l10n) Sorry, an error occurred. Make sure you
+              |  are connected to the Internet and try again later.
+            p: button.btn.btn-default(ng-click='reset()', l10n) &laquo; Back
+
+        //- N5. Granted page
+
+        group.mode-granted.wide(ng-show='mode=="granted" && account.Balance')
+          group.pending(ng-show='tx_result=="pending"')
+            h2.tx-status(l10n) Your grant request has been submitted.
+          group.result-success(ng-show='tx_result=="cleared"')
+            h2.tx-status(l10n) Trust is granted!
+          group.result-error(ng-show='tx_result=="error"')
+            h2.tx-status(l10n) Trust could not be granted!
+            p(l10n) We were unable to submit the request. Please try again later.
+          group.result-malformed(ng-show='tx_result=="malformed"')
+            h2.tx-status(l10n) Grant is malformed!
+            p(l10n) Your request is invalid, reason: {{engine_result}} - {{engine_result_message}}
+          group.result-failed(ng-show='tx_result=="failed"')
+            h2.tx-status(l10n) Granting failed!
+            p(ng-switch on="engine_result")
+              span(ng-switch-when="terNO_LINE", l10n) You have no trust line in this currency.
+              span(ng-switch-when="tecINSUF_RESERVE_LINE", l10n) Insufficient reserve to add trust line.
+              span(ng-switch-when="tecNO_LINE_INSUF_RESERVE", l10n) You must have at
+                |  least {{account.reserve_to_add_trust | rpamount:0}} XRP to add a trust line.&#32;
+                a(href="http://ripple.com/help/#reserve", l10n) Read more.
+              span(ng-switch-default, l10n) Trust granting failed to clear,
+                |  reason: {{engine_result_message}}
+          group.result-failed(ng-show='tx_result=="local"')
+            h2.tx-status(l10n) Transaction failed!
+            p(ng-switch on="engine_result")
+              span(ng-switch-when="telINSUF_FEE_P", l10n)
+                | The particular server you sent the transaction to was too busy to forward or process
+                |  your transaction at the fee you included in it.
+          group.actions
+            hr
+            .text-success(ng-show='addressSaved', class="actionLink", l10n) Address saved!
+            .save-address-form(ng-hide='contact', class="actionLink")
+              a(href="", ng-click='show_save_address_form = true',
+                ng-hide="show_save_address_form", l10n) Add this address to contacts
+              form(name="saveAddressForm", ng-class="{ show: show_save_address_form }", ng-submit='saveAddress()')
+                .address {{counterparty_address}}
+                label(for='save_address_name', l10n) Name this user
+                input.form-control#contact_name(
+                name='save_address_name', type="text"
+                ng-model='saveAddressName', unique, required
+                rp-autofill='$routeParams.name'
+                rp-focus)
+                .error(ng-show='saveAddressForm.save_address_name.$error.unique', l10n)
+                  | You already have a contact with the same name.
+                div
+                  button.btn.btn-success(type='submit', ng-disabled='addressSaving || saveAddressForm.$invalid')
+                    span(ng-show='addressSaving', l10n) Saving...
+                    span(ng-hide='addressSaving', l10n) Save
+                  a(href="", ng-click='show_save_address_form = false') Cancel
+              hr
+            div(class="actionLink")
+              a(href="#trust", ng-click="reset()", l10n) Back to trust page
+            hr
+
+        .row.row-padding-small.line.padding-vertical-xs(ng-hide="true", ng-repeat='(key, line) in linesArray | orderBy:sorting.sort:sorting.reverse')
+          .col-sm-5 {{line.account | rpcontactnamefull}}
+          .col-sm-2(rp-currency="line.balance")
+          .col-sm-2
+            span(rp-tooltip="{{line.balance | rpamount }}") {{line.balance | rpamount:{rel_precision: 0} }}
+          .col-sm-2
+            rp-trust-line(rp-line-data='line')
+          .col-sm-1.actions
+            button.btn.btn-default.btn-sm(href="", ng-click="edit_line()", l10n) edit
+
+        .trustBox(ng-repeat="entry in accountLines", ng-class="'currency-' + (entry.amtObj | rpcurrency | lowercase)")
+          .row
+            .lbl.col-xs-8
+              i(class="icon fa fa-money", ng-class="'fa-' + (entry.amtObj | rpcurrency | lowercase)")
+              span.currency(rp-currency="entry.amtObj", rp-currency-full)
+          .accountsHeader
+            span.issuer(l10n) Issuer
+            span.balance(l10n) Balance
+            span.max(l10n) Max
+            span.min(l10n) Min
+            span.rippling(l10n) Rippling
+          .accounts
+            .row(ng-repeat="component in entry.components")
+              //- TODO resolve ripple names
+              .lbl.col-xs-2.issuer {{ component.issuer | rpcontactnamefull }}
+              .lbl.col-xs-2.balance {{ component.balance | rpamount:{rel_precision: 2} }}
+              .lbl.col-xs-2.max {{ component.max | rpamount }}
+              .lbl.col-xs-2.min {{ component.min | rpamount }}
+              .lbl.col-xs-2.rippling(ng-show="component.rippling", l10n) On
+              .lbl.col-xs-2.rippling(ng-hide="component.rippling", l10n) Off

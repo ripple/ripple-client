@@ -18,45 +18,23 @@ FundTab.prototype.generateHtml = function ()
   return require('../../jade/tabs/fund.jade')();
 };
 
+FundTab.prototype.extraRoutes = [
+  { name: '/fund/:currency' }
+];
+
 FundTab.prototype.angular = function (module)
 {
-  module.controller('FundCtrl', ['$rootScope', 'rpId', 'rpAppManager', 'rpTracker',
-                                     function ($scope, $id, appManager, rpTracker)
+  module.controller('FundCtrl', ['$rootScope', 'rpId', 'rpAppManager', 'rpTracker', '$routeParams',
+                                     function ($scope, $id, appManager, rpTracker, $routeParams)
   {
-    $scope.currencyPage = 'xrp';
+    if (!$routeParams.currency) {
+      $routeParams.currency = 'xrp'
+    }
+
     $scope.accountLines = {};
     $scope.showComponent = [];
 
     if (!$id.loginStatus) return $id.goId();
-
-    var updateAccountLines = function(currArr) {
-      var obj = {};
-      currArr = currArr || [];
-
-      for (var i = 0; i < currArr.length; i++) {
-        var currentEntry = currArr[i];
-        var newEntry = {
-          currency: currentEntry.currency,
-          issuer: currentEntry.account,
-          balance: ripple.Amount.from_json({ currency: currentEntry.currency, value: currentEntry.balance, issuer: currentEntry.account }),
-          max: currentEntry.limit,
-          min: currentEntry.limit_peer,
-          rippling: currentEntry.no_ripple_peer ? 'On' : 'Off'
-        }
-
-        if (obj[currentEntry.currency] === undefined) {
-          obj[currentEntry.currency] = { components: [], amtObj: null };
-          obj[currentEntry.currency].amtObj = ripple.Amount.from_json({currency: currentEntry.currency, value: currentEntry.balance, issuer: currentEntry.account});
-        }
-
-        obj[currentEntry.currency].components.push(newEntry);
-      }
-
-      $scope.accountLines = obj;
-      console.log('$scope.accountLines is: ', $scope.accountLines);
-
-      return;
-    }
 
     $scope.openPopup = function () {
       $scope.emailError = false;
@@ -100,12 +78,6 @@ FundTab.prototype.angular = function (module)
 
       rpTracker.track('B2R Shared Email');
     };
-
-    $scope.$watch('_trustlines', function(line) {
-      $scope.trustlines = $scope._trustlines;
-      console.log('$scope.trustlines is: ', $scope.trustlines);
-      updateAccountLines($scope.trustlines);
-    }, true);
 
   }]);
 };

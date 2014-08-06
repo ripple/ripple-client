@@ -1,0 +1,5 @@
+.col-sm-3
+  .currencies
+    a(href="#/fund/xrp", ng-class="{active: $routeParams.currency == 'xrp'}", l10n) XRP
+    a(href="#/fund/btc", ng-class="{active: $routeParams.currency == 'btc'}", ng-show="'web' === client", l10n) Bitcoin
+    a(href="#/trust", ng-class="{active: $route.current.tabName == 'trust'}", l10n) Accounts

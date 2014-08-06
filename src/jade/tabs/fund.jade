@@ -9,16 +9,9 @@ section.content(ng-controller='FundCtrl')
   //- Funding
 
   .row(ng-show='connected')
-    .col-sm-3
-      .currencies
-        a(href="", ng-click="currencyPage = 'xrp'"
-          ng-class="{active: currencyPage == 'xrp'}", l10n) XRP
-        a(href="", ng-click="currencyPage = 'btc'"
-          ng-class="{active: currencyPage == 'btc'}", ng-show="'web' === client", l10n) Bitcoin
-        a(href="", ng-click="currencyPage = 'accounts'"
-          ng-class="{active: currencyPage == 'accounts'}", l10n) Accounts
+    include fund/menu
     .col-sm-9.list
-      .fundXrp(ng-show="currencyPage == 'xrp'")
+      .fundXrp(ng-show="$routeParams.currency == 'xrp'")
         div(ng-show="'web' === client")
           .nameLine(l10n) Ripple name:&#32;
             span.name(ng-show="userCredentials.username") ~{{userCredentials.username}}
@@ -35,7 +28,7 @@ section.content(ng-controller='FundCtrl')
         div(ng-show="'desktop' === client")
           .nameLine(l10n) Ripple address&#32;
             .address {{address}}
-      .fundBtc(ng-show="currencyPage == 'btc'")
+      .fundBtc(ng-show="$routeParams.currency == 'btc'")
         .nameLine(l10n) Bitcoin Deposit
         .B2R(ng-show="loadState.B2RApp")
           .active(ng-show="B2R.active")
@@ -57,7 +50,7 @@ section.content(ng-controller='FundCtrl')
           .inactive(ng-hide="B2R.active")
             label(l10n) To deposit, generate a bitcoin receiving address
               |  using the&#32;
-              a(href="https://btc2ripple.com", target="_blank") btc2ripple 
+              a(href="https://btc2ripple.com", target="_blank") btc2ripple
               |  service powered by SnapSwap.
             .row.action
               .col-xs-12.col-sm-5.col-md-4
@@ -71,7 +64,7 @@ section.content(ng-controller='FundCtrl')
                     .modal-body
                       div.modal-prompt(l10n) btc2ripple would like to:
                       div.grey-focus
-                        div.modal-permissions(l10n) - Receive your email address 
+                        div.modal-permissions(l10n) - Receive your email address
                           span.modal-email(l10n) ({{userBlob.data.email}})
                         div.modal-permissions(l10n) - Hold deposited BTC on your behalf
                       div.modal-agreement(l10n) By proceeding, you agree to the btc2ripple
@@ -192,21 +185,3 @@ section.content(ng-controller='FundCtrl')
                   button.btn.btn-block.btn-default(type="button", ng-click='toggle_form()', l10n) Cancel
                 .col-xs-6.col-sm-8
                   button.btn.btn-block.btn-primary.submit(type='submit', ng-disabled='trustForm.$invalid || verifying', l10n) Save
-        .trustBox(ng-repeat="entry in accountLines", ng-class="'currency-' + (entry.amtObj | rpcurrency | lowercase)")
-          .row
-            .lbl.col-xs-8
-              i(class="icon fa fa-money", ng-class="'fa-' + (entry.amtObj | rpcurrency | lowercase)")
-              span.currency(rp-currency="entry.amtObj", rp-currency-full)
-          .accountsHeader
-            span.issuer(l10n) Issuer
-            span.balance(l10n) Balance
-            span.max(l10n) Max
-            span.min(l10n) Min
-            span.rippling(l10n) Rippling
-          .row.accounts
-            .row(ng-repeat="issuer in entry.components")
-              .lbl.col-xs-2.issuer {{ issuer.issuer | rpcontactnamefull }}
-              .lbl.col-xs-2.balance {{ issuer.balance | rpamount:{rel_precision: 2} }}
-              .lbl.col-xs-2.max {{ issuer.max }}
-              .lbl.col-xs-2.min {{ issuer.min }}
-              .lbl.col-xs-2.rippling {{ issuer.rippling }}
