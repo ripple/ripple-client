@@ -377,7 +377,8 @@ HistoryTab.prototype.angular = function (module) {
     };
 
     $scope.loadMore = function () {
-      var dateMin;
+      var dateMin = $scope.dateMinView;
+      var dateMax = $scope.dateMaxView;
 
       $scope.historyState = 'loading';
 
@@ -405,11 +406,17 @@ HistoryTab.prototype.angular = function (module) {
             data.transactions.forEach(function (e) {
               var tx = rewriter.processTxn(e.tx, e.meta, $id.account);
               if (tx) {
-                transactions.push(tx);
+                var date = ripple.utils.toTimestamp(tx.date);
 
-                // Min date
-                if (!dateMin || tx.date < dateMin)
-                  dateMin = tx.date;
+                if (dateMin && dateMax) {
+                  if (date < dateMin.getTime() || date > dateMax.getTime())
+                    return;
+                } else if (dateMax && date > dateMax.getTime()) {
+                  return;
+                } else if (dateMin && date < dateMin.getTime()) {
+                  return;
+                }
+                transactions.push(tx);
               }
             });
 
@@ -418,7 +425,6 @@ HistoryTab.prototype.angular = function (module) {
             $scope.historyState = (history.length === newHistory.length) ? 'full' : 'ready';
             history = newHistory;
             updateHistory();
-            setValidDateOnScopeOrNullify('dateMinView', dateMin);
           }
         });
       }).request();
