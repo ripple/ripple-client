@@ -14,3 +14,9 @@ script: "grunt && npm run test-travis"
 notifications:
   email:
     false
+  webhooks:
+    urls:
+      - https://webhooks.gitter.im/e/706809d6a4c29c8fb8b6
+    on_success: change
+    on_failure: always
+    on_start: false
