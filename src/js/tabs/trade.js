@@ -39,7 +39,7 @@ TradeTab.prototype.angular = function(module)
     // Remember user preference on Convert vs. Trade
     $rootScope.ripple_exchange_selection_trade = true;
 
-    $scope.pairs_query = webutil.queryFromOptions($scope.pairs_all);
+    $scope.pairs_query = $scope.pairs_all;
 
     var widget = {
       first: '',
@@ -91,6 +91,7 @@ TradeTab.prototype.angular = function(module)
       };
 
       updateSettings();
+      updateMRU();
     };
 
     /**
@@ -103,6 +104,7 @@ TradeTab.prototype.angular = function(module)
       $scope.order[type] = jQuery.extend(true, {}, widget);
 
       updateSettings();
+      updateMRU();
     };
 
     /**
@@ -254,28 +256,8 @@ TradeTab.prototype.angular = function(module)
 
       tx.on('proposed', function (res) {
 
-        // Remember currency pair and increase usage number
-        var found;
         setEngineStatus(res, false, type);
 
-        for (var i = 0; i < $scope.pairs_all.length; i++) {
-          if ($scope.pairs_all[i].name === $scope.order.currency_pair) {
-            $scope.pairs_all[i].order++;
-            found = true;
-            break;
-          }
-        }
-
-        if (!found) {
-          $scope.pairs_all.push({
-            "name": $scope.order.currency_pair,
-            "order": 1
-          });
-        }
-
-        if (!$scope.$$phase) {
-          $scope.$apply();
-        }
       });
 
       tx.on('success', function(res) {
@@ -528,6 +510,38 @@ TradeTab.prototype.angular = function(module)
       updateCanBuySell();
     }
 
+    // This functions is called after the settings have been modified. 
+    // It updates the most recent used pairs dropdown.
+    function updateMRU() {
+      var order = $scope.order;
+      if (!order.valid_settings) return;
+      if (!order.first_currency || !order.second_currency) return;
+
+      // Remember currency pair and set last used time
+      var found = false;
+      for (var i = 0; i < $scope.pairs_all.length; i++) {
+        if ($scope.pairs_all[i].name.toLowerCase() == order.currency_pair.toLowerCase()) {
+          var pair_obj = $scope.pairs_all[i];
+          pair_obj.last_used = new Date().getTime();
+          $scope.pairs_all.splice(i, 1);
+          $scope.pairs_all.unshift(pair_obj);
+          found = true;
+          break;
+        }
+      }
+
+      if (!found) {
+        $scope.pairs_all.unshift({
+          "name": order.currency_pair,
+          "last_used": new Date().getTime()
+        });
+      }
+
+      if (!$scope.$$phase) {
+        $scope.$apply();
+      }
+    }
+
     /**
      * Tries to guess an issuer based on user's preferred issuer or highest trust.
      *
@@ -608,6 +622,7 @@ TradeTab.prototype.angular = function(module)
         $scope.show_issuer_form = false;
 
         updateSettings();
+        updateMRU();
 
         // Persist issuer setting
         if ($scope.order.valid_settings && !$scope.order[prefix + '_currency'].is_native()) {
@@ -715,6 +730,7 @@ TradeTab.prototype.angular = function(module)
       }
       updateSettings();
       resetIssuers(true);
+      updateMRU();
     }, true);
 
     $scope.$on('$blobUpdate', function () {
@@ -727,10 +743,12 @@ TradeTab.prototype.angular = function(module)
 
     $scope.$watch('order.first_issuer', function () {
       updateSettings();
+      updateMRU();
     });
 
     $scope.$watch('order.second_issuer', function () {
       updateSettings();
+      updateMRU();
     });
 
     var updateBalances = function(){
@@ -779,6 +797,7 @@ TradeTab.prototype.angular = function(module)
       }
 
       updateSettings();
+      updateMRU();
     }
 
     updateBalances();
