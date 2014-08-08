@@ -754,6 +754,8 @@ SendTab.prototype.angular = function (module)
         if ($scope.currencies_all_keyed[currency.get_iso()]) {
           return currency.to_human({full_name:$scope.currencies_all_keyed[currency.get_iso()].name});
         }
+
+        return currency.get_iso();
       });
 
       $scope.send.currency_choices = currencies;
