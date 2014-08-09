@@ -176,7 +176,7 @@ TradeTab.prototype.angular = function(module)
       order['first_issuer'] = this.entry.first.issuer().to_json();
       order['second_currency'] = this.entry.second.currency().to_json();
       order['second_issuer'] = this.entry.second.issuer().to_json();
-      order['currency_pair'] = this.entry.first.currency()._iso_code + '/' + this.entry.second.currency()._iso_code;
+      order['currency_pair'] = this.entry.first.currency().to_json() + '/' + this.entry.second.currency().to_json();
       updateSettings();
     }
 
@@ -456,18 +456,18 @@ TradeTab.prototype.angular = function(module)
     // sets $scope.valid_settings.
     function updateSettings() {
       var order = $scope.order;
-
       var pair = order.currency_pair;
 
+      if ("string" !== typeof pair) pair = "";
+      pair = pair.split('/');
+
       // Invalid currency pair
-      if ("string" !== typeof pair || !pair.match(/^[a-f0-9]{40}|[a-z0-9]{3}\/[a-f0-9]{40}|[a-z0-9]{3}$/i)) {
+      if (pair.length != 2 || pair[0].length === 0 || pair[1].length === 0) {
         order.first_currency = Currency.from_json('XRP');
         order.second_currency = Currency.from_json('XRP');
         order.valid_settings = false;
         return;
       }
-
-      pair = pair.split('/');
 
       var first_currency = order.first_currency = ripple.Currency.from_json(pair[0]);
       var second_currency = order.second_currency = ripple.Currency.from_json(pair[1]);
