@@ -518,12 +518,15 @@ TradeTab.prototype.angular = function(module)
       var order = $scope.order;
       if (!order.valid_settings) return;
       if (!order.first_currency || !order.second_currency) return;
+      if (!order.first_currency.is_valid() || !order.second_currency.is_valid()) return;
+      var canonical_name = order.first_currency.to_json() + "/" + order.second_currency.to_json();
 
       // Remember currency pair and set last used time
       var found = false;
       for (var i = 0; i < $scope.pairs_all.length; i++) {
-        if ($scope.pairs_all[i].name.toLowerCase() == order.currency_pair.toLowerCase()) {
+        if ($scope.pairs_all[i].name.toLowerCase() == canonical_name.toLowerCase()) {
           var pair_obj = $scope.pairs_all[i];
+          pair_obj.name = canonical_name;
           pair_obj.last_used = new Date().getTime();
           $scope.pairs_all.splice(i, 1);
           $scope.pairs_all.unshift(pair_obj);
@@ -534,7 +537,7 @@ TradeTab.prototype.angular = function(module)
 
       if (!found) {
         $scope.pairs_all.unshift({
-          "name": order.currency_pair,
+          "name": canonical_name,
           "last_used": new Date().getTime()
         });
       }
