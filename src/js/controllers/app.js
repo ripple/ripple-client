@@ -680,6 +680,43 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
     location.reload();
   };
 
+  // Generate an array of source currencies for path finding.
+  // This will generate currencies for every issuers.
+  // It will also generate a self-issue currency for currencies which have multi issuers.
+  //
+  // Example balances for account rEXAMPLE:
+  //   CNY: rCNY1
+  //        rCNY2
+  //   BTC: rBTC
+  // Will generate:
+  //   CNY/rEXAMPLE
+  //   CNY/rCNY1
+  //   CNY/rCNY2
+  //   BTC/rBTC
+  $scope.generate_src_currencies = function () {
+    var src_currencies = [];
+    var balances = $scope.balances;
+    src_currencies.push({ currency: "XRP" });
+    for (var currency_name in balances) {
+      if (!balances.hasOwnProperty(currency_name)) continue;
+
+      var currency = balances[currency_name];
+      var currency_hex = currency.total.currency().to_hex();
+      var result = [];
+      for (var issuer_name in currency.components)
+      {
+        if (!currency.components.hasOwnProperty(issuer_name)) continue;
+        result.push({ currency: currency_hex, issuer: issuer_name});
+      }
+
+      if (result.length > 1)
+        src_currencies.push({ currency: currency_hex });
+
+      src_currencies = src_currencies.concat(result);
+    }
+    return src_currencies;
+  };
+
   /**
    * Testing hooks
    */
