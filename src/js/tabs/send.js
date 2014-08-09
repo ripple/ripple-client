@@ -582,6 +582,7 @@ SendTab.prototype.angular = function (module)
       send.alternatives = [];
     };
 
+
     $scope.update_paths = function () {
       var send = $scope.send;
       var recipient = send.recipient_actual || send.recipient_address;
@@ -607,7 +608,8 @@ SendTab.prototype.angular = function (module)
       // Start path find
       var pf = $network.remote.path_find($id.account,
                                          recipient,
-                                         amount);
+                                         amount,
+                                         $scope.generate_src_currencies());
 
       send.pathfind = pf;
 
@@ -637,9 +639,11 @@ SendTab.prototype.angular = function (module)
             $scope.send.alternatives = [];
           } else {
             var currentKey;
+            var currencies = {};
             $scope.send.path_status  = "done";
-            $scope.send.alternatives = _.map(upd.alternatives, function (raw,key) {
+            $scope.send.alternatives = _.filter(_.map(upd.alternatives, function (raw,key) {
               var alt = {};
+
               alt.amount   = Amount.from_json(raw.source_amount);
 
               // Compensate for demurrage
@@ -663,7 +667,16 @@ SendTab.prototype.angular = function (module)
                 currentKey = key;
               }
 
+              if (alt.amount.issuer().to_json() != $scope.address) {
+                currencies[alt.amount.currency().to_hex()] = true
+              }
+
               return alt;
+            }), function(alt) {
+              if (currencies[alt.amount.currency().to_hex()]) {
+                return alt.amount.issuer().to_json() != $scope.address;
+              }
+              return true;
             });
 
             if (currentKey)
