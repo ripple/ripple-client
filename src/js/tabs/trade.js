@@ -178,6 +178,7 @@ TradeTab.prototype.angular = function(module)
       order['second_issuer'] = this.entry.second.issuer().to_json();
       order['currency_pair'] = this.entry.first.currency().to_json() + '/' + this.entry.second.currency().to_json();
       updateSettings();
+      updateMRU();
     }
 
     /**
@@ -449,6 +450,7 @@ TradeTab.prototype.angular = function(module)
       order['second_issuer'] = issuer;
       order['currency_pair'] = pair[1] + '/' + pair[0];
       updateSettings();
+      updateMRU();
     }
 
     // This functions is called whenever the settings, specifically the pair and
