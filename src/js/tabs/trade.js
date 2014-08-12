@@ -176,8 +176,9 @@ TradeTab.prototype.angular = function(module)
       order['first_issuer'] = this.entry.first.issuer().to_json();
       order['second_currency'] = this.entry.second.currency().to_json();
       order['second_issuer'] = this.entry.second.issuer().to_json();
-      order['currency_pair'] = this.entry.first.currency()._iso_code + '/' + this.entry.second.currency()._iso_code;
+      order['currency_pair'] = this.entry.first.currency().to_json() + '/' + this.entry.second.currency().to_json();
       updateSettings();
+      updateMRU();
     }
 
     /**
@@ -449,6 +450,7 @@ TradeTab.prototype.angular = function(module)
       order['second_issuer'] = issuer;
       order['currency_pair'] = pair[1] + '/' + pair[0];
       updateSettings();
+      updateMRU();
     }
 
     // This functions is called whenever the settings, specifically the pair and
@@ -456,18 +458,18 @@ TradeTab.prototype.angular = function(module)
     // sets $scope.valid_settings.
     function updateSettings() {
       var order = $scope.order;
-
       var pair = order.currency_pair;
 
+      if ("string" !== typeof pair) pair = "";
+      pair = pair.split('/');
+
       // Invalid currency pair
-      if ("string" !== typeof pair || !pair.match(/^[a-f0-9]{40}|[a-z0-9]{3}\/[a-f0-9]{40}|[a-z0-9]{3}$/i)) {
+      if (pair.length != 2 || pair[0].length === 0 || pair[1].length === 0) {
         order.first_currency = Currency.from_json('XRP');
         order.second_currency = Currency.from_json('XRP');
         order.valid_settings = false;
         return;
       }
-
-      pair = pair.split('/');
 
       var first_currency = order.first_currency = ripple.Currency.from_json(pair[0]);
       var second_currency = order.second_currency = ripple.Currency.from_json(pair[1]);
@@ -516,12 +518,15 @@ TradeTab.prototype.angular = function(module)
       var order = $scope.order;
       if (!order.valid_settings) return;
       if (!order.first_currency || !order.second_currency) return;
+      if (!order.first_currency.is_valid() || !order.second_currency.is_valid()) return;
+      var canonical_name = order.first_currency.to_json() + "/" + order.second_currency.to_json();
 
       // Remember currency pair and set last used time
       var found = false;
       for (var i = 0; i < $scope.pairs_all.length; i++) {
-        if ($scope.pairs_all[i].name.toLowerCase() == order.currency_pair.toLowerCase()) {
+        if ($scope.pairs_all[i].name.toLowerCase() == canonical_name.toLowerCase()) {
           var pair_obj = $scope.pairs_all[i];
+          pair_obj.name = canonical_name;
           pair_obj.last_used = new Date().getTime();
           $scope.pairs_all.splice(i, 1);
           $scope.pairs_all.unshift(pair_obj);
@@ -532,7 +537,7 @@ TradeTab.prototype.angular = function(module)
 
       if (!found) {
         $scope.pairs_all.unshift({
-          "name": order.currency_pair,
+          "name": canonical_name,
           "last_used": new Date().getTime()
         });
       }
