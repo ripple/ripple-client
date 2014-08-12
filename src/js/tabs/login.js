@@ -17,10 +17,6 @@ LoginTab.prototype.generateHtml = function ()
   return require('../../jade/tabs/login.jade')();
 };
 
-LoginTab.prototype.extraRoutes = [
-  { name: '/login/:action' }
-];
-
 LoginTab.prototype.angular = function (module) {
   module.controller('LoginCtrl', ['$scope', '$element', '$routeParams',
                                   '$location', 'rpId', '$rootScope',
