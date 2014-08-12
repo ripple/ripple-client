@@ -1,12 +1,8 @@
-
 section.col-xs-12.content(ng-controller="LoginCtrl")
   .row.auth-form-container.col-sm-offset-2.col-sm-8.col-md-offset-3.col-md-6(ng-hide="$routeParams.tab")
     .auth-form-wrapper
       form(name='loginForm', ng-submit='submitForm()')
-        h2(l10n, ng-hide="$routeParams.action === 'migrate'") Log In
-        h2(l10n, ng-show="$routeParams.action === 'migrate'") Migrate
-        .auth-attention(ng-show="$routeParams.action === 'migrate'", l10n) To begin migration, enter the name and passphrase
-          |  used to encrypt your ripple.com/client wallet below.
+        h2(l10n) Log In
         .auth-attention.text-center(ng-show="verifyStatus")
           .status(ng-show="'verifying' === verifyStatus", l10n) Verifying...
           .status(ng-show="'verified' === verifyStatus", l10n) You have successfully verified your email address.
@@ -21,8 +17,7 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
         .submit-btn-container
           button.btn.btn-submit.btn-block.btn-success(type='submit', rp-spinner="{{ajax_loading ? 4 : null}}",
             ng-disabled="ajax_loading || loginForm.$invalid", ng-hide="twoFactor")
-            span(ng-hide="$routeParams.action === 'migrate'", l10n) Log In
-            span(ng-show="$routeParams.action === 'migrate'", l10n) Begin Migration
+            span(l10n) Log In
           button.btn.btn-submit.btn-block.btn-success(type='submit', rp-spinner="{{ajax_loading ? 4 : null}}",
             ng-disabled="ajax_loading || !token", ng-show="twoFactor")
             span(l10n) Verify   
@@ -31,8 +26,8 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
             button.btn.btn-block.btn-primary(ng-click="")
               span(l10n) Account Recovery
         a.recover(ng-href="#/recover/{{username}}", ng-hide="showRecover", l10n) Account Recovery
-    .switch-mode-link-container(ng-hide="$routeParams.action === 'migrate'", l10n) Already have a ripple.com/client account?&#32;
-      a(ng-hide="$routeParams.action === 'migrate'", href='#/login/migrate', l10n-inc) Migrate
+    .switch-mode-link-container(l10n) Already have a ripple.com/client account?&#32;
+      a(href='#migrate', l10n-inc) Migrate
     .switch-mode-link-container(l10n) New to {{productName}}?&#32;
       a(href='#register', l10n-inc) Sign Up
 
