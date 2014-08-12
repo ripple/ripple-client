@@ -254,7 +254,7 @@ AccountTab.prototype.angular = function(module)
 
       function requestToken (callback) {
         //return callback (null, null);
-        authflow.requestToken($scope.userBlob.url, $scope.userBlob.id, function(tokenError, tokenResp) {
+        authflow.requestToken($scope.userBlob.url, $scope.userBlob.id, false, function(tokenError, tokenResp) {
           $scope.mode2FA = '';
 
           if (tokenError) {

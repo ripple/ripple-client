@@ -363,7 +363,7 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
  
         //request verification token. If they are using the
         //app, the request will be ignored.
-        $authflow.requestToken(err.twofactor.blob_url, err.twofactor.blob_id, function(tokenError, tokenResp) {
+        $authflow.requestToken(err.twofactor.blob_url, err.twofactor.blob_id, false, function(tokenError, tokenResp) {
           
           //keep this for reporting
           err.twofactor.tokenError    = tokenError; 
