@@ -31,12 +31,12 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
             a(href="", ng-click="sorting.predicate = 'balance'; sorting.reverse=!sorting.reverse", l10n) Balance
           .col-sm-2(l10n) Trust Limit
         .row
-          .col-sm-3.actions
-            a.btn.btn-success.btn-sm.btn-block.sign(ng-click='toggle_form()',
-              ng-disabled='addform_visible || editform_visible', l10n) Add trust
+          .col-sm-3.actions.btn-add-trust
+            a.btn.btn-primary.btn-sm.btn-block.sign(ng-click='toggle_form()',
+              ng-disabled='addform_visible || editform_visible', l10n) Connect account
         .row
           .col-xs-12.col-sm-6
-            form.row-padding-small(name='trustForm', id='trustForm', ng-submit='grant()',
+            form.row-padding-small(name='trustForm', id='trustForm',
               ng-show='mode=="main" && ((addform_visible && can_add_trust)|| editform_visible)')
               .row
                 .col-xs-12.form-group(ng-show="'web' === client")
@@ -136,7 +136,25 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                 .col-xs-6.col-sm-4
                   button.btn.btn-block.btn-default(type="button", ng-click='toggle_form()', l10n) Cancel
                 .col-xs-6.col-sm-8
-                  button.btn.btn-block.btn-primary.submit(type='submit', ng-disabled='trustForm.$invalid || verifying', l10n) Save
+                  rp-popup(rp-popup-on-open="grant()") 
+                    a.btn.btn-block.btn-primary.submit(href="", rp-popup-link, ng-disabled='trustForm.$invalid || verifying', l10n) Save
+                    div.connectModal(rp-popup-content)
+                      .modal-header
+                        .navbar-brand.hidden-sm.modal-logo#logo
+                        .modal-title(l10n) Connect
+                      .modal-body
+                        div.modal-prompt(l10n) {{ counterparty_address }} would like to:
+                        div.grey-focus
+                          div.modal-permissions(l10n) - Hold up to&#32;
+                          span(rp-pretty-amount="amount_feedback")
+                          span(l10n-inc) &#32;on your behalf
+                        div.modal-buttons
+                          button.modal-btn.btn.btn-default.btn-success.btn-md(ng-click="grant_confirmed()",
+                            rp-spinner='{{loading ? 4 : null}}', ng-disabled="loading")
+                            span(ng-show="loading", l10n) Loading...
+                            span(ng-hide="loading", l10n) Confirm
+                          button.modal-btn.btn.btn-default.btn-md(data-dismiss="modal"
+                            ng-hide="loading", l10n) Cancel
               .row.delete-trust
                 .col-xs-6.col-sm-6.col-md-8.col-lg-9(ng-show='balance !== "0" && orderbookStatus === "exists"')
                   rp-confirm(
@@ -179,32 +197,32 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
 
         //- N2. Confirmation page
 
-        group.mode-confirm.wide(ng-show='mode=="confirm" && account.Balance')
-          span(l10n)
-            p.literal(l10n-inc) You are about to trust
-            p.amount_feedback(rp-pretty-amount="amount_feedback")
-            p.literal(l10n-inc) to the Ripple user
-          .dest_feedback
-            .counterparty(ng-show='counterparty_name') {{counterparty_name}}
-            .counterparty(ng-hide='counterparty_name') {{counterparty_address}}
-            .extra(ng-show="counterparty != counterparty_address || counterparty_name") {{counterparty_address}}
-          p.literal.trust-notice(ng-show="currencyWarning == 'firstIssuer'", l10n)
-            | By pressing CONFIRM you are extending trust to another Ripple user.
-            |  This action carries the risk of potential loss up to the amount of the trust
-            |  line. Make sure you understand these consequences, and that
-            |  all the issuers are trustworthy.
-          p.literal.trust-notice(ng-show="currencyWarning == 'multipleIssuers'", l10n)
-            | By pressing CONFIRM you are extending trust to&#32;
-            strong multiple issuers&#32;
-            | for the same currency which may result in your account balances changing without
-            |  your direct action. Make sure you understand these consequences, and that
-            |  all your issuers are trustworthy.
-          .row.row-padding-small
-            .col-xs-6.col-md-3.col-lg-2
-              button.btn.btn-block.btn-default.back(ng-click='mode="main"', l10n) &laquo; Back
-            .col-xs-6.col-md-3.col-lg-2
-              button.btn.btn-block.btn-success.submit(type='submit'
-                ng-click='grant_confirmed()', ng-disabled='confirm_wait', l10n) Confirm
+        //- group.mode-confirm.wide(ng-show='mode=="confirm" && account.Balance')
+        //-   span(l10n)
+        //-     p.literal(l10n-inc) You are about to trust
+        //-     p.amount_feedback(rp-pretty-amount="amount_feedback")
+        //-     p.literal(l10n-inc) to the Ripple user
+        //-   .dest_feedback
+        //-     .counterparty(ng-show='counterparty_name') {{counterparty_name}}
+        //-     .counterparty(ng-hide='counterparty_name') {{counterparty_address}}
+        //-     .extra(ng-show="counterparty != counterparty_address || counterparty_name") {{counterparty_address}}
+        //-   p.literal.trust-notice(ng-show="currencyWarning == 'firstIssuer'", l10n)
+        //-     | By pressing CONFIRM you are extending trust to another Ripple user.
+        //-     |  This action carries the risk of potential loss up to the amount of the trust
+        //-     |  line. Make sure you understand these consequences, and that
+        //-     |  all the issuers are trustworthy.
+        //-   p.literal.trust-notice(ng-show="currencyWarning == 'multipleIssuers'", l10n)
+        //-     | By pressing CONFIRM you are extending trust to&#32;
+        //-     strong multiple issuers&#32;
+        //-     | for the same currency which may result in your account balances changing without
+        //-     |  your direct action. Make sure you understand these consequences, and that
+        //-     |  all your issuers are trustworthy.
+        //-   .row.row-padding-small
+        //-     .col-xs-6.col-md-3.col-lg-2
+        //-       button.btn.btn-block.btn-default.back(ng-click='mode="main"', l10n) &laquo; Back
+        //-     .col-xs-6.col-md-3.col-lg-2
+        //-       button.btn.btn-block.btn-success.submit(type='submit'
+        //-         ng-click='grant_confirmed()', ng-disabled='confirm_wait', l10n) Confirm
 
         //- N3. Waiting for transaction result page
 
@@ -289,23 +307,74 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
           .col-sm-1.actions
             button.btn.btn-default.btn-sm(href="", ng-click="edit_line()", l10n) edit
 
+        form(name="advancedTrustFeatures").row
+          .col-xs-12
+            input(type="checkbox", ng-model="advanced_feature_switch")
+            span &#32; Show advanced settings
         .trustBox(ng-repeat="entry in accountLines", ng-class="'currency-' + (entry.amtObj | rpcurrency | lowercase)")
           .row
             .lbl.col-xs-8
               i(class="icon fa fa-money", ng-class="'fa-' + (entry.amtObj | rpcurrency | lowercase)")
               span.currency(rp-currency="entry.amtObj", rp-currency-full)
-          .accountsHeader
-            span.issuer(l10n) Issuer
-            span.balance(l10n) Balance
-            span.max(l10n) Max
-            span.min(l10n) Min
-            span.rippling(l10n) Rippling
-          .accounts
-            .row(ng-repeat="component in entry.components")
-              //- TODO resolve ripple names
-              .lbl.col-xs-2.issuer {{ component.issuer | rpcontactnamefull }}
-              .lbl.col-xs-2.balance {{ component.balance | rpamount:{rel_precision: 2} }}
-              .lbl.col-xs-2.max {{ component.max | rpamount }}
-              .lbl.col-xs-2.min {{ component.min | rpamount }}
-              .lbl.col-xs-2.rippling(ng-show="component.rippling", l10n) On
-              .lbl.col-xs-2.rippling(ng-hide="component.rippling", l10n) Off
+          .currencyContainer
+            .accountsHeader
+              span.issuerAdv(ng-show="advanced_feature_switch", l10n) Issuer
+              span.issuer(ng-show="!advanced_feature_switch", l10n) Issuer
+              span.balanceAdv(ng-show="advanced_feature_switch", l10n) Balance
+              span.balance(ng-show="!advanced_feature_switch", l10n) Balance
+              span.max(ng-show="!advanced_feature_switch", l10n) Limit
+              span.maxAdv(ng-show="advanced_feature_switch", l10n) Max
+              span.min(ng-show="advanced_feature_switch", l10n) Min
+              span.rippling(ng-show="advanced_feature_switch", l10n) Rippling
+            .accounts
+              form(ng-controller="AccountRowCtrl", ng-repeat="component in entry.components", ng-submit="save_account()")
+                ng-form(name="accountForm", ng-show="advanced_feature_switch")
+                  .row(ng-hide="editing")
+                    //- TODO resolve ripple names
+                    .lbl.col-xs-2.issuerAdv {{ component.issuer | rpcontactnamefull }}
+                    .lbl.col-xs-2.balanceAdv {{ component.balance | rpamount:{rel_precision: 2} }}
+                    .lbl.col-xs-2.maxAdv {{ component.max | rpamount }}
+                    .lbl.col-xs-2.min {{ component.min | rpamount }}
+                    .lbl.col-xs-2.rippling(ng-show="component.rippling", l10n) On
+                    .lbl.col-xs-2.rippling(ng-hide="component.rippling", l10n) Off
+                    .col-sm-1.actions
+                      a.btn.btn-default.btn-xs(href="", ng-click="edit_account()", l10n) Edit
+                  .row(ng-show="editing")
+                    .col-xs-2
+                      input.form-control.limit(name='limit', type='text', ng-model='max')
+                      .errorGroup
+                        //- TODO: Create validation checks on limit
+                    .col-xs-2
+                      input.form-control.min(name='min', type='text', ng-model='min')
+                    .col-xs-2
+                      p.editAcctSettings
+                        span.rippling Rippling:&#32; 
+                        span
+                          input.rippling(name='rippling', type='checkbox', ng-model='component.rippling')
+                    .col-xs-2
+                      button.btn.btn-block.btn-success.btn-xs.submit.editAcctSettings(id='save', type='submit'
+                        ng-disabled='accountForm.$invalid', l10n) Save
+                    .col-xs-2
+                      button.btn.btn-block.btn-success.btn-xs.submit.editAcctSettings(id="delete", type="button", ng-click="", ng-show="", l10n) Delete
+                    .col-xs-2.editAcctSettings(id="cancel")
+                      a(href="", ng-disabled='accountForm.$invalid', ng-click="cancel()", l10n) Cancel
+                ng-form(name="accountForm", ng-show="!advanced_feature_switch")
+                  .row(ng-hide="editing")
+                    //- TODO resolve ripple names
+                    .lbl.col-xs-2.issuer {{ component.issuer | rpcontactnamefull }}
+                    .lbl.col-xs-2.balance {{ component.balance | rpamount:{rel_precision: 2} }}
+                    .lbl.col-xs-2.max {{ component.max | rpamount }}
+                    .col-sm-2.actions
+                      a.btn.btn-default.btn-xs(href="", ng-click="edit_account()", l10n) Edit
+                  .row(ng-show="editing")
+                    .col-xs-2
+                      input.form-control.limit(name='limit', type='text', ng-model='max')
+                      .errorGroup
+                      //- TODO: Create validation checks on limit
+                    .col-xs-2
+                      button.btn.btn-block.btn-success.btn-xs.submit.editAcctSettings(id='save', type='submit'
+                        ng-disabled='accountForm.$invalid', l10n) Save
+                    .col-xs-2
+                      button.btn.btn-block.btn-success.btn-xs.submit.editAcctSettings(id="delete", type="button", ng-click="", ng-show="showDelete()", l10n) Delete
+                    .col-xs-2.editAcctSettings(id="cancel")
+                      a(href="", ng-disabled='accountForm.$invalid', ng-click="cancel()", l10n) Cancel

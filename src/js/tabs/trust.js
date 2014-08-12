@@ -29,6 +29,9 @@ TrustTab.prototype.angular = function (module)
   {
     if (!id.loginStatus) return id.goId();
 
+    // Hide advanced settings as default
+    $scope.advanced_feature_switch = false;
+
     // Trust line sorting
     $scope.sorting = {
       predicate: 'balance',
@@ -46,6 +49,7 @@ TrustTab.prototype.angular = function (module)
     $scope.$on('$balancesUpdate', updateLines);
 
     $scope.validation_pattern = /^0*(([1-9][0-9]*.?[0-9]*)|(.0*[1-9][0-9]*))$/; //Don't allow zero for new trust lines.
+
     $scope.reset = function () {
       $scope.mode = 'main';
       var usdCurrency = Currency.from_human('USD');
@@ -119,6 +123,8 @@ TrustTab.prototype.angular = function (module)
             // hide throbber
             $scope.verifying = false;
 
+            console.log('inside grant, $scope.currency is: ', $scope.currency);
+
             $scope.lineCurrencyObj = Currency.from_human($scope.currency);
             var matchedCurrency = $scope.lineCurrencyObj.has_interest() ? $scope.lineCurrencyObj.to_hex() : $scope.lineCurrencyObj.get_iso();
             var match = /^([a-zA-Z0-9]{3}|[A-Fa-f0-9]{40})\b/.exec(matchedCurrency);
@@ -159,20 +165,20 @@ TrustTab.prototype.angular = function (module)
             $scope.currencyWarning = false;
 
             // New trust on a currency or no rippling enabled
-            if (!balance || !$scope.allowrippling) {
-              $scope.currencyWarning = 'firstIssuer';
-            }
-            else {
+            // if (!balance || !$scope.allowrippling) {
+            //   $scope.currencyWarning = 'firstIssuer';
+            // }
+            // else {
               // Trust limit change
-              for (var counterparty in balance.components) {
-                if (counterparty === $scope.counterparty_address)
-                  $scope.currencyWarning = 'sameIssuer';
-              }
+              // for (var counterparty in balance.components) {
+              //   if (counterparty === $scope.counterparty_address)
+              //     $scope.currencyWarning = 'sameIssuer';
+              // }
 
               // Multiple trusts on a same currency
-              if (!$scope.currencyWarning)
-                $scope.currencyWarning = 'multipleIssuers';
-            }
+              // if (!$scope.currencyWarning)
+              //   $scope.currencyWarning = 'multipleIssuers';
+            // }
           });
         })
         .on('error', function (m){
@@ -339,10 +345,11 @@ TrustTab.prototype.angular = function (module)
 
     $scope.edit_line = function ()
     {
-      var line = this.line;
+      console.log('this in edit_line is: ', this.component);
+      var line = this.component;
       var filterAddress = $filter('rpcontactnamefull');
-      var contact = filterAddress(line.account);
-      $scope.line = this.line;
+      var contact = filterAddress(line.issuer);
+      $scope.line = this.component;
       $scope.edituser = (contact) ? contact : 'User';
       $scope.validation_pattern = contact ? /^[0-9.]+$/ : /^0*(([1-9][0-9]*.?[0-9]*)|(.0*[1-9][0-9]*))$/;
 
@@ -358,14 +365,14 @@ TrustTab.prototype.angular = function (module)
       $scope.currency = lineCurrency.to_human(formatOpts);
       $scope.balance = line.balance.to_human();
       $scope.balanceAmount = line.balance;
-      $scope.counterparty = line.account;
+      $scope.counterparty = line.issuer;
       $scope.counterparty_view = contact;
 
-      $scope.amount = line.limit.currency().has_interest()
-        ? +Math.round(line.limit.applyInterest(new Date()).to_text())
-        : +line.limit.to_text()
+      $scope.amount = line.max.currency().has_interest()
+        ? +Math.round(line.max.applyInterest(new Date()).to_text())
+        : +line.max.to_text()
 
-      $scope.allowrippling = !line.no_ripple;
+      $scope.allowrippling = line.rippling;
 
       // Close/open form. Triggers focus on input.
       $scope.addform_visible = false;
@@ -521,6 +528,94 @@ TrustTab.prototype.angular = function (module)
       updateAccountLines($scope._trustlines);
     }, true);
   }]);
+
+  module.controller('AccountRowCtrl', ['$scope', '$timeout', 'rpNetwork', 
+    function ($scope, $timeout, $network) {
+
+      $scope.editing = $scope.editing || false;
+ 
+        // Delete the server
+      $scope.delete_account = function () {
+        // $scope.options.server.servers.splice($scope.index,1);
+      }
+ 
+      $scope.cancel = function () {
+        // if ($scope.server.isEmptyServer) {
+        //   $scope.deleteServer();
+        //   return;
+        // }
+ 
+        $scope.editing = false;
+      }
+
+      $scope.edit_account = function() {
+        $scope.editing = true;
+
+        console.log('$scope.component is: ', $scope.component);
+
+        $scope.max = $scope.component.max.to_json().value;
+        $scope.min = $scope.component.min.to_json().value;
+        $scope.rippling = $scope.component.rippling;
+
+        // console.log('$scope.rippling is: ', $scope.rippling);
+      }
+ 
+      $scope.save_account = function () {
+        $scope.editing = false;
+
+        $network.remote.request_account_info($scope.component.issuer)
+          // if account is valid then just to confirm page
+          .on('success', function (m){
+            $scope.$apply(function(){
+
+              $scope.lineCurrencyObj = Currency.from_human($scope.component.currency);
+              var matchedCurrency = $scope.lineCurrencyObj.has_interest() ? $scope.lineCurrencyObj.to_hex() : $scope.lineCurrencyObj.get_iso();
+              var match = /^([a-zA-Z0-9]{3}|[A-Fa-f0-9]{40})\b/.exec(matchedCurrency);
+
+              if (!match) {
+                // Currency code not recognized, should have been caught by
+                // form validator.
+                console.error('Currency code:', match, 'is not recognized');
+                return;
+              }
+
+              var amount = ripple.Amount.from_human('' + $scope.max + ' ' + $scope.lineCurrencyObj.to_hex(), {reference_date: new Date(+new Date() + 5*60000)});
+
+              amount.set_issuer($scope.component.issuer);
+              if (!amount.is_valid()) {
+                console.log("The amount is invalid");
+                // Invalid amount. Indicates a bug in one of the validators.
+                return;
+              }
+
+              $scope.amount_feedback = amount;
+
+              $scope.confirm_wait = true;
+
+              $timeout(function () {
+                $scope.confirm_wait = false;
+              }, 1000, true);
+
+              currency = amount.currency().to_human({full_name:$scope.currencies_all_keyed[amount.currency().get_iso()].name});
+              var balance = $scope.balances[currency];
+            });
+          })
+        .on('error', function (m){
+          console.log('Error on save account');
+          setImmediate(function () {
+            $scope.$apply(function(){
+              $scope.verifying = false;
+              $scope.error_account_reserve = true;
+            });
+          });
+        })
+        .request();
+      };
+
+    }]);
+
 };
+
+
 
 module.exports = TrustTab;
