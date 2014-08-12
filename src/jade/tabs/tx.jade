@@ -42,11 +42,18 @@ section.single.ddpage.content(ng-controller="TxCtrl", ng-switch on="state")
               span :
             dd {{transaction.Amount | rpcurrencyfull}}
         hr
-        dl.details
-          dt
-            span(l10n) Network fee paid
-            span :
-          dd {{transaction.Fee | rpamount}} XRP
+        group.clearfix
+          dl.details.half
+            dt
+              span(l10n) Network fee paid
+              span :
+            dd {{transaction.Fee | rpamount}} XRP
+          dl.details.half
+            group(ng-show="transaction.DestinationTag !== null && transaction.DestinationTag !== undefined")
+              dt
+                span(l10n) Destination tag
+                span :
+              dd {{transaction.DestinationTag}}
         hr
         dl.details
           dt
