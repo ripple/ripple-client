@@ -58,7 +58,11 @@ HistoryTab.prototype.angular = function (module) {
         'types': ['trusting','trusted'],
         'checked': true
       },
-      offers: {
+      trades: {
+        'types': ['offernew','exchange'],
+        'checked': true
+      },
+      orders: {
         'types': ['offernew','offercancel','exchange'],
         'checked': true
       },
@@ -68,7 +72,7 @@ HistoryTab.prototype.angular = function (module) {
       }
     };
 
-    $scope.orderedTypes = ['sent','received','trusts','offers','other'];
+    $scope.orderedTypes = ['sent','received','trusts','trades','orders','other'];
 
     if (store.get('ripple_history_type_selections')) {
       $scope.types = $.extend(true,$scope.types,store.get('ripple_history_type_selections'));
@@ -263,6 +267,8 @@ HistoryTab.prototype.angular = function (module) {
             return;
 
           var effects = [];
+          var isFundedTrade = false; // Partially/fully funded
+          var isCancellation = false;
 
           if (event.effects) {
             // Show effects
@@ -272,9 +278,13 @@ HistoryTab.prototype.angular = function (module) {
                 case 'offer_funded':
                 case 'offer_partially_funded':
                 case 'offer_bought':
+                  isFundedTrade = true;
+                  /* falls through */
                 case 'offer_cancelled':
-                  if (effect.type === 'offer_cancelled' && event.transaction && event.transaction.type === 'offercancel') {
-                    return;
+                  if (effect.type === 'offer_cancelled') {
+                    isCancellation = true;
+                    if (event.transaction && event.transaction.type === 'offercancel')
+                      return;
                   }
                   effects.push(effect);
                   break;
@@ -282,6 +292,12 @@ HistoryTab.prototype.angular = function (module) {
             });
 
             event.showEffects = effects;
+
+            // Trade filter - remove open orders that haven't been filled/partially filled
+            if (_.contains($scope.filters.types,'exchange') && !_.contains($scope.filters.types,'offercancel')) {
+              if ((event.transaction && event.transaction.type === 'offernew' && !isFundedTrade) || isCancellation)
+                return
+            }
 
             effects = [ ];
 
@@ -377,7 +393,8 @@ HistoryTab.prototype.angular = function (module) {
     };
 
     $scope.loadMore = function () {
-      var dateMin;
+      var dateMin = $scope.dateMinView;
+      var dateMax = $scope.dateMaxView;
 
       $scope.historyState = 'loading';
 
@@ -405,11 +422,17 @@ HistoryTab.prototype.angular = function (module) {
             data.transactions.forEach(function (e) {
               var tx = rewriter.processTxn(e.tx, e.meta, $id.account);
               if (tx) {
-                transactions.push(tx);
+                var date = ripple.utils.toTimestamp(tx.date);
 
-                // Min date
-                if (!dateMin || tx.date < dateMin)
-                  dateMin = tx.date;
+                if (dateMin && dateMax) {
+                  if (date < dateMin.getTime() || date > dateMax.getTime())
+                    return;
+                } else if (dateMax && date > dateMax.getTime()) {
+                  return;
+                } else if (dateMin && date < dateMin.getTime()) {
+                  return;
+                }
+                transactions.push(tx);
               }
             });
 
@@ -418,7 +441,6 @@ HistoryTab.prototype.angular = function (module) {
             $scope.historyState = (history.length === newHistory.length) ? 'full' : 'ready';
             history = newHistory;
             updateHistory();
-            setValidDateOnScopeOrNullify('dateMinView', dateMin);
           }
         });
       }).request();

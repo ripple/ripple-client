@@ -17,17 +17,13 @@ LoginTab.prototype.generateHtml = function ()
   return require('../../jade/tabs/login.jade')();
 };
 
-LoginTab.prototype.extraRoutes = [
-  { name: '/login/:action' }
-];
-
 LoginTab.prototype.angular = function (module) {
   module.controller('LoginCtrl', ['$scope', '$element', '$routeParams',
                                   '$location', 'rpId', '$rootScope',
-                                  'rpPopup', '$timeout', 'rpTracker',
+                                  'rpPopup', '$timeout', 'rpTracker', 'rpAuthFlow',
                                   function ($scope, $element, $routeParams,
                                             $location, $id, $rootScope,
-                                            popup, $timeout, $rpTracker)
+                                            popup, $timeout, $rpTracker, authflow)
   {
     if ($id.loginStatus) {
       $location.path('/balance');
@@ -37,9 +33,20 @@ LoginTab.prototype.angular = function (module) {
     $scope.attempts = 0;
     $scope.error = '';
     $scope.password = '';
+    $scope.token = '';
+    $scope.showRecover = false; 
+    $scope.rememberMe = true;     
+      
     $scope.loginForm && $scope.loginForm.$setPristine(true);
     $scope.backendMessages = [];
-
+    
+    //set username and password here so
+    //that the form will be valid if we are
+    //only verifying via 2FA    
+    if ($scope.twoFactor && $scope.twoFactor.tokenError) {
+      $scope.backendMessages.push({'backend': "2FA", 'message': $scope.twoFactor.tokenError.message});    
+    }
+    
     // Autofill fix
     $timeout(function(){
       $scope.$apply(function () {
@@ -88,78 +95,164 @@ LoginTab.prototype.angular = function (module) {
     $scope.submitForm = function()
     {
       if ($scope.ajax_loading) return;
-
+      
       $scope.backendMessages = [];
+      
+      //submitting a verification code
+      if ($scope.twoFactor) {
+        var options = {
+          url         : $scope.twoFactor.blob_url,
+          id          : $scope.twoFactor.blob_id,
+          device_id   : $scope.twoFactor.device_id,
+          token       : $scope.token,
+          remember_me : $scope.rememberMe
+        };
+        
+        $id.verifyToken(options, function(err, resp) {
+          $scope.ajax_loading = false;
+
+          if (err) {
+            $scope.status = 'Verification Falied:';
+            $scope.backendMessages.push({'backend': "2FA", 'message': err.message});
+            
+          } else {
+            var username = (""+$scope.username).trim();
+            var keys     = {
+              id    : $scope.twoFactor.blob_id,
+              crypt : $scope.twoFactor.blob_key
+            }
+
+            //save credentials for login  
+            $id.storeLoginKeys($scope.twoFactor.blob_url, username, keys);
+            $id.setUsername(username);
+            store.set('device_id', $scope.twoFactor.device_id);
+            setImmediate(login);
+          }
+        })
+        
+        $scope.ajax_loading = true;
+        $scope.error  = '';
+        $scope.status = 'verifiying...';
+        return;
+      }
 
       // Issue #36: Password managers may change the form values without
       // triggering the events Angular.js listens for. So we simply force
       // an update of Angular's model when the form is submitted.
       updateFormFields();
 
-      setImmediate(function () {
-        $id.login({
-          username: $scope.username,
-          password: $scope.password
-        }, function (err, blob) {
-          $scope.ajax_loading = false;
-
-          if (err) {
-            if (++$scope.attempts>2) {
-              $scope.showRecover = true;
-            }
-    
-            $scope.status = 'Login failed:';
-
-            if (err.name === "OldBlobError") {
-              popup.confirm("Wallet Upgrade", "Ripple is upgrading the wallet encryption format. After the upgrade, only Ripple clients 0.2.24 or higher can access your wallet.<br><br>If you use other clients, please make sure they are upgraded to the current version.",
-                            "OK", "migrateConfirm()", null,
-                            "Abort login", null, null,
-                            $scope, {});
-
-              $scope.migrateConfirm = function () {
-                $id.allowOldBlob = true;
-                $scope.submitForm();
-              };
-            }
-
-            if (err.name !== "BlobError") {
-              $scope.backendMessages.push({'backend': "ID", 'message': err.message});
-            }
-
-            $rpTracker.track('Login', {
-              'Status': 'error',
-              'Message': err.message
-            });
-
-            if (!$scope.$$phase) {
-              $scope.$apply();
-            }
-            return;
-          }
-
-          $rpTracker.track('Login', {
-            'Status': 'success'
-          });
-
-          $scope.status = '';
-          if ($routeParams.tab) {
-            $location.path('/'+$routeParams.tab);
-          } else {
-            if ($rootScope.verifyStatus) {
-              $rootScope.verifyStatus = '';
-              $location.path('/fund');
-            }
-            else {
-              $location.path('/balance');
-            }
-          }
-        });
-      });
+      setImmediate(login);
 
       $scope.ajax_loading = true;
       $scope.error = '';
       $scope.status = 'Fetching wallet...';
     };
+    
+    //initiate the login
+    function login () {      
+      if ($scope.twoFactor) {
+        $id.relogin(loginCallback);
+        
+      } else {
+        $id.login({
+          username   : $scope.username,
+          password   : $scope.password
+        }, loginCallback);
+      }
+    }
+     
+    //handle the login results    
+    function loginCallback (err, blob) {
+        
+      $scope.ajax_loading = false;
+      
+      //blob has 2FA enabled
+      if (err && err.twofactor) {
+
+        if (err.twofactor.tokenError) {
+          $scope.status = 'Request token:';
+          $scope.backendMessages.push({'backend': "2FA", 'message': err.twofactor.tokenError.message});       
+          return;
+        }
+
+        $scope.twoFactor   = err.twofactor;
+        $scope.status      = '';
+        $scope.maskedPhone = err.twofactor.masked_phone;
+
+        //TODO: different display if 'ignored' is set,
+        //meaning the user has the app
+
+        return;
+      
+      //login failed for a different reason
+      } else if (err) {
+        if (++$scope.attempts>2) {
+          $scope.showRecover = true;
+        }
+
+        $scope.status = 'Login failed:';
+
+        if (err.name === "OldBlobError") {
+          popup.confirm("Wallet Upgrade", "Ripple is upgrading the wallet encryption format. After the upgrade, only Ripple clients 0.2.24 or higher can access your wallet.<br><br>If you use other clients, please make sure they are upgraded to the current version.",
+                        "OK", "migrateConfirm()", null,
+                        "Abort login", null, null,
+                        $scope, {});
+
+          $scope.migrateConfirm = function () {
+            $id.allowOldBlob = true;
+            $scope.submitForm();
+          };
+        }
+
+        if (err.name !== "BlobError") {
+          $scope.backendMessages.push({'backend': "ID", 'message': err.message});
+        }
+
+        $rpTracker.track('Login', {
+          'Status': 'error',
+          'Message': err.message
+        });
+
+        if (!$scope.$$phase) {
+          $scope.$apply();
+        }
+        return;
+      }
+
+      $rpTracker.track('Login', {
+        'Status': 'success'
+      });
+
+      $scope.status = '';
+      if ($routeParams.tab) {
+        $location.path('/'+$routeParams.tab);
+      } else {
+        if ($rootScope.verifyStatus) {
+          $rootScope.verifyStatus = '';
+          $location.path('/fund');
+        }
+        else {
+          $location.path('/balance');
+        }
+      }
+    } 
+ 
+    $scope.resendToken = function() {
+      $scope.status = 'requesting token...';
+      authflow.requestToken($scope.twoFactor.blob_url, $scope.twoFactor.blob_id, function(tokenError, tokenResp) {
+        if (tokenError) {
+          $scope.status = 'token request failed...';
+          $scope.backendMessages.push({'backend': "2FA", 'message': tokenError.message});  
+        } else {
+          $scope.status = 'token resent!';
+        }  
+      });
+    }
+    
+    $scope.cancel2FA = function() {
+      $scope.twoFactor  = null;
+      $scope.status     = null;
+    }
   }]);
 
   /**

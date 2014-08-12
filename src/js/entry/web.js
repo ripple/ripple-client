@@ -70,6 +70,7 @@ var appDependencies = [
 var tabdefs = [
   require('../tabs/register'),
   require('../tabs/login'),
+  require('../tabs/migrate'),
   require('../tabs/recover'),
   require('../tabs/balance'),
   require('../tabs/history'),

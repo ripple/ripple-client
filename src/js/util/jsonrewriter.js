@@ -11,17 +11,19 @@ var getPrice = function(effect, referenceDate){
   var p = effect.paid ? effect.paid : effect.pays;
   var price;
 
-  _.find(pairs, function(pair){
-    if (pair.name == g.currency().to_human() + '/' + p.currency().to_human()) {
-      price = p.ratio_human(g, {reference_date: referenceDate});
-    }
-  });
+  if (!p.is_zero() && !g.is_zero()) {
+    _.find(pairs, function(pair){
+      if (pair.name == g.currency().to_human() + '/' + p.currency().to_human()) {
+        price = p.ratio_human(g, {reference_date: referenceDate});
+      }
+    });
 
-  if (!price) {
-    price = g.ratio_human(p, {reference_date: referenceDate});
+    if (!price) {
+      price = g.ratio_human(p, {reference_date: referenceDate});
+    }
   }
 
-  return price;
+  return price || 0;
 };
 
 /**

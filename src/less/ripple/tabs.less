@@ -1,5 +1,5 @@
 // TODO all _ or all -
-.t-register, .t-login, .t-recover {
+.t-register, .t-login, .t-recover, .t-migrate {
   header nav {
     display: none;
   }
@@ -17,7 +17,7 @@
   margin: 2% 8.5% 0 8.5%;
 }
 
-#t-register, #t-login, #t-recover, #t-account {
+#t-register, #t-login, #t-recover, #t-account, #t-migrate {
 
   .rippleName {
     font-size: 18px;
@@ -270,6 +270,16 @@
         color: @midred;
       }
     }
+  }
+
+  .maskedPhone {
+    font-size:16px;
+    margin:0 5px;
+  }
+
+  .rememberMe {
+    margin: 4px 7px 0 0;
+    float: left;
   }
 
   .action-login {
@@ -532,15 +542,67 @@
     }
 
     .currency-xrp .lbl i {
-      color: @midblue;
+      color: @color-xrp;
     }
 
     .currency-usd .lbl i {
-      color: @darkgreen;
+      color: @color-usd-dark;
     }
 
     .currency-btc .lbl i {
-      color: #E58918;
+      color: @color-btc;
+    }
+
+    .currency-eur .lbl i {
+      color: @color-eur-dark;
+    }
+
+    // Commodity currencies
+    .currency-xau, .currency-xag, .currency-xpt, .currency-xpd, .currency-xal,
+    .currency-xcu, .currency-xni, .currency-xzn, .currency-xpb, .currency-xsn {
+      .lbl i {
+        .icon-metal-bars;
+      }
+    }
+
+    .currency-xau .lbl i {
+      color: @color-xau;
+    }
+
+    .currency-xag .lbl i {
+      color: @color-xag;
+    }
+
+    .currency-xpt .lbl i {
+      color: @color-xpt;
+    }
+
+    .currency-xpd .lbl i {
+      color: @color-xpd;
+    }
+
+    .currency-xal .lbl i {
+      color: @color-xal;
+    }
+
+    .currency-xcu .lbl i {
+      color: @color-xcu;
+    }
+
+    .currency-xni .lbl i {
+      color: @color-xni;
+    }
+
+    .currency-xzn .lbl i {
+      color: @color-xzn;
+    }
+
+    .currency-xpb .lbl i {
+      color: @color-xpb;
+    }
+
+    .currency-xsn .lbl i {
+      color: @color-xsn;
     }
   }
   .address-info {
@@ -840,7 +902,7 @@
   .tracking {
     margin: 0 10px 0 0;
   }
-  
+
   .btn-block {
     margin-bottom: 20px;
   }
@@ -1425,6 +1487,18 @@
   .show-keys {
     margin: 20px 0 0 40px;
   }
+
+  .twoFactorSettings {
+    margin-top:40px;
+
+    .enabled2FA {
+      margin-right:5px
+    }
+
+    input:disabled {
+      opacity:.5;
+    }
+  }
 }
 
 #t-trade {
@@ -1929,6 +2003,35 @@ html.t-trade header nav ul > li.active#nav-advanced > a:after {
 }
 
 #t-account {
+  .sessionUnlock {
+    margin: 15px;
+
+      label {
+        margin-top: 15px
+      }
+
+      button.spinner {
+        padding-left:0;
+      }
+  }
+
+  .confirm2FA {
+    margin-top:20px;
+    margin-bottom:20px;
+  }
+
+  .verify2FA {
+    margin-bottom:10px;
+
+    .status {
+      margin:20px 0;
+    }
+
+     button.spinner {
+      padding-left:0;
+    }   
+  }
+
   .descriptor {
     color: @darkgray;
     margin: 0 0 10px;
@@ -1944,5 +2047,18 @@ html.t-trade header nav ul > li.active#nav-advanced > a:after {
 
   .auth-form-container {
     padding-bottom: 0px;
+  }
+}
+
+.modal2FA {
+
+  .email {
+    font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight:bold;
+    font-size:1.1em;
+  }
+
+  input {
+    font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
   }
 }

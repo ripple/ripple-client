@@ -38,14 +38,14 @@ BalanceTab.prototype.angular = function (module)
     
     // When the selected value metric changes, update the displayed amount.
     
-    $scope.selectedValueMetric = "XRP";
+    $scope.selectedValueMetric || ($scope.selectedValueMetric = "XRP");
     
     $scope.changeMetric = function(scope){
       $scope.selectedValueMetric = scope.selectedValueMetric;
     };
     
     $scope.$watch("selectedValueMetric", function(){
-      if ($scope.aggregateValueAsXrp) {
+      if ($scope.selectedValueMetric && $scope.aggregateValueAsXrp) {
         updateAggregateValueDisplayed();
       }
     })
@@ -56,7 +56,7 @@ BalanceTab.prototype.angular = function (module)
     // When exchangeRates changes, update the aggregate value, and the list of available value metrics,
     // and also check for negative balances to see if the user should be notified.
     
-    $scope.exchangeRates = {"XRP":1};
+    $scope.exchangeRates || ($scope.exchangeRates = {"XRP":1});
     
     function updateExchangeRates() {
       var currencies = [];
@@ -82,44 +82,53 @@ BalanceTab.prototype.angular = function (module)
       if (pairs.length) {
         $http.post("https://api.ripplecharts.com/api/exchangeRates", {pairs:pairs,last:true})
         .success(function(response){
+          var anything = false;
           for (var i=0; i<response.length; i++) {
             var pair = response[i];
-            $scope.exchangeRates[pair.base.currency+":"+pair.base.issuer] = pair.last;
+            if (pair.last > 0) { // Disregard unmarketable assets
+              $scope.exchangeRates[pair.base.currency+":"+pair.base.issuer] = pair.last; 
+              anything || (anything = true);
+            }
+          }
+          if (anything) {
+            $scope.exchangeRatesNonempty || ($scope.exchangeRatesNonempty = true);
           }
         });
+      } else {
+        $scope.exchangeRatesNonempty || ($scope.exchangeRatesNonempty = true);
       }
     }
 
     $scope.$on('$balancesUpdate', updateExchangeRates);
-    
-    updateExchangeRates();
-    
+
     $scope.$watch("exchangeRates", function(){
-      var isAmbiguous = {};
-      var okser = Object.keys($scope.exchangeRates);
-      for (var i=0; i<okser.length; i++) {
-        var cur = okser[i].split(":")[0];
-        if (!isAmbiguous[cur] || !isAmbiguous.hasOwnProperty(cur)) {
-          // (In case there's a currency called "constructor" or something)
-          for (var j=i+1; j<okser.length; j++) {
-            var cur2 = okser[j].split(":")[0];
-            if (cur === cur2) {
-              isAmbiguous[cur] = true;
-              break;
+      if ($scope.exchangeRates) {
+        var isAmbiguous = {};
+        var okser = Object.keys($scope.exchangeRates);
+        for (var i=0; i<okser.length; i++) {
+          var cur = okser[i].split(":")[0];
+          if (!isAmbiguous[cur] || !isAmbiguous.hasOwnProperty(cur)) {
+            // (In case there's a currency called "constructor" or something)
+            for (var j=i+1; j<okser.length; j++) {
+              var cur2 = okser[j].split(":")[0];
+              if (cur === cur2) {
+                isAmbiguous[cur] = true;
+                break;
+              }
             }
           }
         }
+        $scope.valueMetrics = okser.map(function(code){
+          var curIssuer = code.split(":");
+          var currencyName = $filter('rpcurrency')(ripple.Amount.from_human("0 "+curIssuer[0])); //This is really messy
+          var issuerName = $filter('rpcontactname')(curIssuer[1]);
+          return {
+            code: code,
+            text: currencyName + (isAmbiguous[curIssuer[0]] ? " ("+ issuerName +")" : "")
+          };
+        });
+        updateAggregateValueAsXrp();
       }
-      $scope.valueMetrics = okser.map(function(code){
-        var curIssuer = code.split(":");
-        var currencyName = $filter('rpcurrency')(ripple.Amount.from_human("0 "+curIssuer[0])); //This is really messy
-        var issuerName = $filter('rpcontactname')(curIssuer[1]);
-        return {
-          code: code,
-          text: currencyName + (isAmbiguous[curIssuer[0]] ? " ("+ issuerName +")" : "")
-        };
-      });
-      updateAggregateValueAsXrp();
     }, true);
     
     

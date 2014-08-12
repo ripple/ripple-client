@@ -136,7 +136,7 @@ header {
         }
       }
 
-      li.balance {
+      li.balances-dropdown {
         .currency {
           font-size: 0.75em;
           opacity: 0.8;
@@ -147,6 +147,7 @@ header {
     .open {
       & > .dropdown-toggle {
         background: lighten(@midblue,5%);
+        height: 50px;
       }
       & > .dropdown-menu {
         border-top: none;
@@ -438,6 +439,37 @@ footer {
   .date {
     font-size: 10px;
     color: @darkgray;
+  }
+
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+.balances-dropdown {
+  min-width: 140px;
+  text-align: right;
+  margin-bottom: -10px;
+}
+
+#balances {
+  min-width: 140px;
+  font-size: 12px;
+  padding: 0;
+  text-align: right;
+
+  & > li {
+    padding: 15px 10px;
+
+    &.balance {
+      cursor: pointer;
+    }
+
+    &:hover {
+      background: darken(@white,3%);
+    }
   }
 
   ul {
