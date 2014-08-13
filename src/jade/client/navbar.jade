@@ -113,13 +113,19 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
           li.settings
             a.dropdown-toggle.fa.fa-cog
             ul.dropdown-menu
-              li: a(href="#/account", l10n) <img src="../../img/profile.png" /> Account
+              li: a(href="#/account", l10n)
+                img(src="../../img/profile.png")
+                |  Account
               //li.divider
               //li: a(href="#/trust", l10n) Trust
               li.divider
-              li: a(href="#/security", l10n) <img src="../../img/settings.png" /> Settings
+              li: a(href="#/security", l10n)
+                img(src="../../img/settings.png")
+                |  Settings
               li.divider
-              li: a.logout(ng-click='logout()', l10n) <img src="../../img/logout.png" /> Log Out
+              li: a.logout(ng-click='logout()', l10n)
+                img(src="../../img/logout.png")
+                |  Log Out
   .subnav(ng-show="$route.current.mainMenu == 'wallet'")
     .container
       ul
