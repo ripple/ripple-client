@@ -529,22 +529,10 @@ TrustTab.prototype.angular = function (module)
     }, true);
   }]);
 
-  module.controller('AccountRowCtrl', ['$scope', '$timeout', 'rpNetwork', 
-    function ($scope, $timeout, $network) {
+  module.controller('AccountRowCtrl', ['$scope', 'rpNetwork', 'rpId', 'rpKeychain',
+    function ($scope, $network, id, keychain) {
 
-      $scope.editing = $scope.editing || false;
- 
-        // Delete the server
-      $scope.delete_account = function () {
-        // $scope.options.server.servers.splice($scope.index,1);
-      }
- 
       $scope.cancel = function () {
-        // if ($scope.server.isEmptyServer) {
-        //   $scope.deleteServer();
-        //   return;
-        // }
- 
         $scope.editing = false;
       }
 
@@ -553,63 +541,85 @@ TrustTab.prototype.angular = function (module)
 
         console.log('$scope.component is: ', $scope.component);
 
-        $scope.max = $scope.component.max.to_json().value;
-        $scope.min = $scope.component.min.to_json().value;
-        $scope.rippling = $scope.component.rippling;
-
-        // console.log('$scope.rippling is: ', $scope.rippling);
+        $scope.trust = {};
+        $scope.trust.max = $scope.component.max.to_json().value;
+        $scope.trust.min = $scope.component.min.to_json().value;
+        $scope.rippling = !!$scope.component.rippling;
       }
- 
+
       $scope.save_account = function () {
-        $scope.editing = false;
+        var amount = ripple.Amount.from_human(
+          $scope.trust.max + ' ' + $scope.component.currency,
+          {reference_date: new Date(+new Date() + 5*60000)}
+        );
 
-        $network.remote.request_account_info($scope.component.issuer)
-          // if account is valid then just to confirm page
-          .on('success', function (m){
-            $scope.$apply(function(){
+        amount.set_issuer($scope.component.issuer);
 
-              $scope.lineCurrencyObj = Currency.from_human($scope.component.currency);
-              var matchedCurrency = $scope.lineCurrencyObj.has_interest() ? $scope.lineCurrencyObj.to_hex() : $scope.lineCurrencyObj.get_iso();
-              var match = /^([a-zA-Z0-9]{3}|[A-Fa-f0-9]{40})\b/.exec(matchedCurrency);
+        console.log(amount.to_human());
 
-              if (!match) {
-                // Currency code not recognized, should have been caught by
-                // form validator.
-                console.error('Currency code:', match, 'is not recognized');
-                return;
-              }
+        if (!amount.is_valid()) {
+          // Invalid amount. Indicates a bug in one of the validators.
+          console.log('Invalid amount');
+          return;
+        }
 
-              var amount = ripple.Amount.from_human('' + $scope.max + ' ' + $scope.lineCurrencyObj.to_hex(), {reference_date: new Date(+new Date() + 5*60000)});
+        var tx = $network.remote.transaction();
 
-              amount.set_issuer($scope.component.issuer);
-              if (!amount.is_valid()) {
-                console.log("The amount is invalid");
-                // Invalid amount. Indicates a bug in one of the validators.
-                return;
-              }
-
-              $scope.amount_feedback = amount;
-
-              $scope.confirm_wait = true;
-
-              $timeout(function () {
-                $scope.confirm_wait = false;
-              }, 1000, true);
-
-              currency = amount.currency().to_human({full_name:$scope.currencies_all_keyed[amount.currency().get_iso()].name});
-              var balance = $scope.balances[currency];
+        // Flags
+        tx
+          .rippleLineSet(id.account, amount)
+          .setFlags($scope.component.rippling ? 'ClearNoRipple' : 'NoRipple')
+          .on('success', function(res){
+            console.log('success');
+            $scope.$apply(function () {
+              setEngineStatus(res, true);
+              $scope.editing = false;
             });
           })
-        .on('error', function (m){
-          console.log('Error on save account');
-          setImmediate(function () {
-            $scope.$apply(function(){
-              $scope.verifying = false;
-              $scope.error_account_reserve = true;
+          .on('error', function(res){
+            console.log('error', res);
+            setImmediate(function () {
+              $scope.$apply(function () {
+                $scope.mode = 'error';
+              });
             });
-          });
-        })
-        .request();
+          })
+        ;
+
+        function setEngineStatus(res, accepted) {
+          $scope.engine_result = res.engine_result;
+          $scope.engine_result_message = res.engine_result_message;
+
+          switch (res.engine_result.slice(0, 3)) {
+            case 'tes':
+              $scope.tx_result = accepted ? 'cleared' : 'pending';
+              break;
+            case 'tem':
+              $scope.tx_result = 'malformed';
+              break;
+            case 'ter':
+              $scope.tx_result = 'failed';
+              break;
+            case 'tec':
+              $scope.tx_result = 'failed';
+              break;
+            case 'tel':
+              $scope.tx_result = "local";
+              break;
+            case 'tep':
+              console.warn('Unhandled engine status encountered!');
+          }
+        }
+
+        keychain.requestSecret(id.account, id.username, function (err, secret) {
+          // XXX Error handling
+          if (err) return;
+
+          $scope.mode = 'granting';
+
+          tx.secret(secret);
+          tx.submit();
+        });
       };
 
     }]);

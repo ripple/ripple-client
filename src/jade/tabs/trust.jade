@@ -328,7 +328,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
               span.rippling(ng-show="advanced_feature_switch", l10n) Rippling
             .accounts
               form(ng-controller="AccountRowCtrl", ng-repeat="component in entry.components", ng-submit="save_account()")
-                ng-form(name="accountForm", ng-show="advanced_feature_switch")
+                ng-form(name="accountForm", ng-if="advanced_feature_switch")
                   .row(ng-hide="editing")
                     //- TODO resolve ripple names
                     .lbl.col-xs-2.issuerAdv {{ component.issuer | rpcontactnamefull }}
@@ -341,11 +341,11 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                       a.btn.btn-default.btn-xs(href="", ng-click="edit_account()", l10n) Edit
                   .row(ng-show="editing")
                     .col-xs-2
-                      input.form-control.limit(name='limit', type='text', ng-model='max')
+                      input.form-control.limit(name='limit', type='text', ng-model='trust.max')
                       .errorGroup
                         //- TODO: Create validation checks on limit
                     .col-xs-2
-                      input.form-control.min(name='min', type='text', ng-model='min')
+                      input.form-control.min(name='min', type='text', ng-model='trust.min')
                     .col-xs-2
                       p.editAcctSettings
                         span.rippling Rippling:&#32; 
@@ -358,7 +358,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                       button.btn.btn-block.btn-success.btn-xs.submit.editAcctSettings(id="delete", type="button", ng-click="", ng-show="", l10n) Delete
                     .col-xs-2.editAcctSettings(id="cancel")
                       a(href="", ng-disabled='accountForm.$invalid', ng-click="cancel()", l10n) Cancel
-                ng-form(name="accountForm", ng-show="!advanced_feature_switch")
+                ng-form(name="accountForm", ng-if="!advanced_feature_switch")
                   .row(ng-hide="editing")
                     //- TODO resolve ripple names
                     .lbl.col-xs-2.issuer {{ component.issuer | rpcontactnamefull }}
@@ -368,7 +368,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                       a.btn.btn-default.btn-xs(href="", ng-click="edit_account()", l10n) Edit
                   .row(ng-show="editing")
                     .col-xs-2
-                      input.form-control.limit(name='limit', type='text', ng-model='max')
+                      input.form-control.limit(name='limit', type='text', ng-model='trust.max')
                       .errorGroup
                       //- TODO: Create validation checks on limit
                     .col-xs-2
