@@ -482,40 +482,15 @@ TrustTab.prototype.angular = function (module)
       var obj = {};
       currArr = currArr || [];
 
-      for (var i = 0; i < currArr.length; i++) {
-        var currentEntry = currArr[i];
-        var newEntry = {
-          currency: currentEntry.currency,
-          issuer: currentEntry.account,
-          balance: ripple.Amount.from_json({
-            currency: currentEntry.currency,
-            value: currentEntry.balance,
-            issuer: currentEntry.account
-          }),
-          max: ripple.Amount.from_json({
-            currency: currentEntry.currency,
-            value: currentEntry.limit,
-            issuer: currentEntry.account
-          }),
-          min: ripple.Amount.from_json({
-            currency: currentEntry.currency,
-            value: currentEntry.limit_peer,
-            issuer: currentEntry.account
-          }),
-          rippling: currentEntry.no_ripple_peer
+
+
+      _.each(currArr, function(line){
+        if (!obj[line.currency]) {
+          obj[line.currency] = { components: [] };
         }
 
-        if (obj[currentEntry.currency] === undefined) {
-          obj[currentEntry.currency] = { components: [], amtObj: null };
-          obj[currentEntry.currency].amtObj = ripple.Amount.from_json({
-            currency: currentEntry.currency,
-            value: currentEntry.balance,
-            issuer: currentEntry.account
-          });
-        }
-
-        obj[currentEntry.currency].components.push(newEntry);
-      }
+        obj[line.currency].components.push(line);
+      })
 
       $scope.accountLines = obj;
       console.log('$scope.accountLines is: ', $scope.accountLines);
@@ -523,10 +498,10 @@ TrustTab.prototype.angular = function (module)
       return;
     }
 
-    $scope.$watch('_trustlines', function(line) {
-      console.log('$scope.trustlines is: ', $scope._trustlines);
-      updateAccountLines($scope._trustlines);
-    }, true);
+    $scope.$on('$balancesUpdate', function(){
+      console.log('$scope.trustlines is: ', $scope.lines);
+      updateAccountLines($scope.lines);
+    })
   }]);
 
   module.controller('AccountRowCtrl', ['$scope', 'rpNetwork', 'rpId', 'rpKeychain',
@@ -544,20 +519,18 @@ TrustTab.prototype.angular = function (module)
         console.log('$scope.component is: ', $scope.component);
 
         $scope.trust = {};
-        $scope.trust.max = Number($scope.component.max.to_json().value);
-        $scope.trust.min = Number($scope.component.min.to_json().value);
+        $scope.trust.limit = Number($scope.component.limit.to_json().value);
+        $scope.trust.limit_peer = Number($scope.component.limit_peer.to_json().value);
         $scope.rippling = !!$scope.component.rippling;
       }
 
       $scope.save_account = function () {
         var amount = ripple.Amount.from_human(
-          $scope.trust.max + ' ' + $scope.component.currency,
+          $scope.trust.limit + ' ' + $scope.component.currency,
           {reference_date: new Date(+new Date() + 5*60000)}
         );
 
-        amount.set_issuer($scope.component.issuer);
-
-        console.log(amount.to_human());
+        amount.set_issuer($scope.component.account);
 
         if (!amount.is_valid()) {
           // Invalid amount. Indicates a bug in one of the validators.
@@ -572,7 +545,6 @@ TrustTab.prototype.angular = function (module)
           .rippleLineSet(id.account, amount)
           .setFlags($scope.component.rippling ? 'ClearNoRipple' : 'NoRipple')
           .on('success', function(res){
-            console.log('success');
             $scope.$apply(function () {
               setEngineStatus(res, true);
               $scope.editing = false;

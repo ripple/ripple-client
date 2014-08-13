@@ -311,11 +311,11 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
           .col-xs-12
             input(type="checkbox", ng-model="advanced_feature_switch")
             span &#32; Show advanced settings
-        .trustBox(ng-repeat="entry in accountLines", ng-class="'currency-' + (entry.amtObj | rpcurrency | lowercase)")
+        .trustBox(ng-repeat="entry in accountLines", ng-class="'currency-' + (entry.components[0].currency | lowercase)")
           .row
             .lbl.col-xs-8
-              i(class="icon fa fa-money", ng-class="'fa-' + (entry.amtObj | rpcurrency | lowercase)")
-              span.currency(rp-currency="entry.amtObj", rp-currency-full)
+              i(class="icon fa fa-money", ng-class="'fa-' + (entry.components[0].currency | lowercase)")
+              span.currency(rp-currency="entry.components[0].limit", rp-currency-full)
           .currencyContainer
             .accountsHeader
               span.issuerAdv(ng-show="advanced_feature_switch", l10n) Issuer
@@ -331,10 +331,10 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                 ng-form(name="accountForm", ng-if="advanced_feature_switch")
                   .row(ng-hide="editing")
                     //- TODO resolve ripple names
-                    .lbl.col-xs-2.issuerAdv {{ component.issuer | rpcontactnamefull }}
+                    .lbl.col-xs-2.issuerAdv {{ component.account | rpcontactnamefull }}
                     .lbl.col-xs-2.balanceAdv {{ component.balance | rpamount:{rel_precision: 2} }}
-                    .lbl.col-xs-2.maxAdv {{ component.max | rpamount }}
-                    .lbl.col-xs-2.min {{ component.min | rpamount }}
+                    .lbl.col-xs-2.maxAdv {{ component.limit | rpamount }}
+                    .lbl.col-xs-2.min {{ component.limit_peer | rpamount }}
                     .lbl.col-xs-2.rippling(ng-show="component.rippling", l10n) On
                     .lbl.col-xs-2.rippling(ng-hide="component.rippling", l10n) Off
                     .col-sm-1.actions
@@ -342,10 +342,10 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                   .row(ng-show="editing").editGeneral
                     .col-xs-2
                       input.form-control.edit-lbl(name='limit', type='text'
-                        ng-model='trust.max', ng-pattern='validation_pattern'
+                        ng-model='trust.limit', ng-pattern='validation_pattern'
                         required)
                     .col-xs-2
-                      input.form-control.min(name='min', type='text', ng-model='trust.min')
+                      input.form-control.min(name='limit_peer', type='text', ng-model='trust.limit_peer')
                     .col-xs-2
                       p.editAcctSettings
                         span.rippling Rippling:&#32; 
@@ -361,15 +361,15 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                 ng-form(name="accountForm", ng-if="!advanced_feature_switch")
                   .row(ng-hide="editing")
                     //- TODO resolve ripple names
-                    .lbl.col-xs-2.issuer {{ component.issuer | rpcontactnamefull }}
+                    .lbl.col-xs-2.issuer {{ component.account | rpcontactnamefull }}
                     .lbl.col-xs-2.balance {{ component.balance | rpamount:{rel_precision: 2} }}
-                    .lbl.col-xs-2.max {{ component.max | rpamount }}
+                    .lbl.col-xs-2.max {{ component.limit | rpamount }}
                     .col-sm-2.actions
                       a.btn.btn-default.btn-xs(href="", ng-click="edit_account()", l10n) Edit
                   .row(ng-show="editing").editAcct
                     .col-xs-2
                       input.form-control.edit-lbl(name='limit', type='number'
-                        ng-model='trust.max', ng-pattern='validation_pattern'
+                        ng-model='trust.limit', ng-pattern='validation_pattern'
                         required)
                     .col-xs-2.editAcctSettings
                       button.btn.btn-block.btn-success.btn-xs.submit(id='save', type='submit'
