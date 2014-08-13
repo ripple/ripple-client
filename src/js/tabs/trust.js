@@ -309,36 +309,9 @@ TrustTab.prototype.angular = function (module)
       });
     };
 
-    $scope.load_orderbook = function() {
-      $scope.orderbookStatus = false;
-
-      if ($scope.book) {
-        $scope.book.unsubscribe();
-      }
-
-      $scope.book = books.get({
-        currency: $scope.currency,
-        issuer: $scope.counterparty
-      }, {
-        currency: 'XRP',
-        issuer: undefined
-      });
-
-      $scope.$watchCollection('book', function () {
-        if (!$scope.book.updated) return;
-
-        if ($scope.book.asks.length !== 0 && $scope.book.bids.length !== 0) {
-          $scope.orderbookStatus = 'exists';
-        } else {
-          $scope.orderbookStatus = 'not';
-        }
-      });
-
-    }
 
     $scope.edit_line = function ()
     {
-      console.log('this in edit_line is: ', this.component);
       var line = this.component;
       var filterAddress = $filter('rpcontactnamefull');
       var contact = filterAddress(line.issuer);
@@ -377,7 +350,7 @@ TrustTab.prototype.angular = function (module)
       $scope.load_orderbook();
     };
 
-    $scope.delete_line = function()
+    $scope.delete_account = function()
     {
 
       var setSecretAndSubmit = function(tx) {
@@ -399,6 +372,7 @@ TrustTab.prototype.angular = function (module)
 
             console.log('Transaction has been submitted with response:', res);
           });
+
         });
       }
 
@@ -494,8 +468,8 @@ TrustTab.prototype.angular = function (module)
     updateAccountLines();
   }]);
 
-  module.controller('AccountRowCtrl', ['$scope', 'rpNetwork', 'rpId', 'rpKeychain',
-    function ($scope, $network, id, keychain) {
+  module.controller('AccountRowCtrl', ['$scope', 'rpBooks', 'rpNetwork', 'rpId', 'rpKeychain',
+    function ($scope, books, $network, id, keychain) {
 
       $scope.validation_pattern = /^0*(([0-9]*.?[0-9]*)|(.0*[1-9][0-9]*))$/;
 
@@ -511,7 +485,44 @@ TrustTab.prototype.angular = function (module)
         $scope.trust = {};
         $scope.trust.limit = Number($scope.component.limit.to_json().value);
         $scope.trust.limit_peer = Number($scope.component.limit_peer.to_json().value);
-        $scope.rippling = !!$scope.component.rippling;
+        $scope.trust.balance = String($scope.component.balance.to_json().value);
+        var currency = Currency.from_human($scope.component.currency);
+        $scope.trust.currency = currency.to_human({full_name:$scope.currencies_all_keyed[currency.get_iso()].name});
+        $scope.trust.counterparty = $scope.component.account;
+
+        console.log('$scope.trust.currency is: ', $scope.trust.currency);
+        console.log('$scope.trust.counterparty: ', $scope.trust.counterparty);
+
+        $scope.load_orderbook();
+      }
+
+      $scope.load_orderbook = function() {
+        $scope.orderbookStatus = false;
+
+        if ($scope.book) {
+          $scope.book.unsubscribe();
+        }
+
+        $scope.book = books.get({
+          currency: $scope.trust.currency,
+          issuer: $scope.trust.counterparty
+        }, {
+          currency: 'XRP',
+          issuer: undefined
+        });
+
+        $scope.$watchCollection('book', function () {
+          if (!$scope.book.updated) return;
+
+          if ($scope.book.asks.length !== 0 && $scope.book.bids.length !== 0) {
+            $scope.orderbookStatus = 'exists';
+          } else {
+            $scope.orderbookStatus = 'not';
+          }
+
+          console.log('$scope.orderbookStatus is: ', $scope.orderbookStatus);
+        });
+
       }
 
       $scope.save_account = function () {
@@ -547,8 +558,7 @@ TrustTab.prototype.angular = function (module)
                 $scope.mode = 'error';
               });
             });
-          })
-        ;
+          });
 
         function setEngineStatus(res, accepted) {
           $scope.engine_result = res.engine_result;

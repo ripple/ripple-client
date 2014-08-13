@@ -158,7 +158,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
               .row.delete-trust
                 .col-xs-6.col-sm-6.col-md-8.col-lg-9(ng-show='balance !== "0" && orderbookStatus === "exists"')
                   rp-confirm(
-                    action-text="Are you sure you want to delete this trust line? Ripple Trade will attempt to convert the remaining balance of {{ balance }} {{ currency }} into XRP. This action can't be undone."
+                    action-text="Are you sure you want to delete this trust line? Ripple Trade will attempt to convert the remaining balance of {{ trust.balance }} {{ trust.currency }} into XRP. This action can't be undone."
                     action-button-text="Convert Balance and Delete"
                     action-button-css="btn btn-default btn-danger"
                     action-function="delete_line()"
@@ -168,7 +168,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                       a.danger(ng-click="load_orderbook()", href="", l10n) Delete
                 .col-xs-6.col-sm-6.col-md-8.col-lg-9(ng-show='balance !== "0" && orderbookStatus === "not"')
                   rp-confirm(
-                    action-text="Are you sure you want to delete this trust line? Ripple Trade will return the balance of {{ balance }} {{ currency }} to the issuer. This action can't be undone."
+                    action-text="Are you sure you want to delete this trust line? Ripple Trade will return the balance of {{ trust.balance }} {{ trust.currency }} to the issuer. This action can't be undone."
                     action-button-text="Return Balance and Delete"
                     action-button-css="btn btn-default btn-danger"
                     action-function="delete_line()"
@@ -339,13 +339,13 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                     .lbl.col-xs-2.rippling(ng-hide="component.rippling", l10n) Off
                     .col-sm-1.actions
                       a.btn.btn-default.btn-xs(href="", ng-click="edit_account()", l10n) Edit
-                  .row(ng-show="editing").editGeneral
+                  .row(ng-show="editing")
                     .col-xs-2
                       input.form-control.edit-lbl(name='limit', type='text'
                         ng-model='trust.limit', ng-pattern='validation_pattern'
                         required)
                     .col-xs-2
-                      input.form-control.min(name='limit_peer', type='text', ng-model='trust.limit_peer')
+                      input.form-control.edit-lbl(name='limit_peer', type='text', ng-model='trust.limit_peer')
                     .col-xs-2
                       p.editAcctSettings
                         span.rippling Rippling:&#32; 
@@ -364,17 +364,49 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                     .lbl.col-xs-2.issuer {{ component.account | rpcontactnamefull }}
                     .lbl.col-xs-2.balance {{ component.balance | rpamount:{rel_precision: 2} }}
                     .lbl.col-xs-2.max {{ component.limit | rpamount }}
-                    .col-sm-2.actions
+                    .lbl.col-sm-2.actions
                       a.btn.btn-default.btn-xs(href="", ng-click="edit_account()", l10n) Edit
-                  .row(ng-show="editing").editAcct
-                    .col-xs-2
+                  .row(ng-show="editing")
+                    .lbl.col-xs-2.issuer {{ component.account | rpcontactnamefull }}
+                    .lbl.col-xs-2.balance {{ component.balance | rpamount:{rel_precision: 2} }}
+                    .lbl.col-xs-2.max
                       input.form-control.edit-lbl(name='limit', type='number'
                         ng-model='trust.limit', ng-pattern='validation_pattern'
                         required)
-                    .col-xs-2.editAcctSettings
-                      button.btn.btn-block.btn-success.btn-xs.submit(id='save', type='submit'
-                        ng-disabled='accountForm.$invalid', l10n) Save
                     .col-xs-2
-                      button.btn.btn-block.btn-success.btn-xs.submit(id="delete", type="button", ng-click="", ng-show="showDelete()", l10n) Delete
+                      button.btn.btn-block.btn-success.btn-xs.submit.editAcctSettings(id='save', type='submit'
+                        ng-disabled='accountForm.$invalid', l10n) Save
                     .col-xs-2.editAcctSettings(id="cancel")
                       a(href="", ng-disabled='accountForm.$invalid', ng-click="cancel()", l10n) Cancel
+                    .col-xs-2
+                      .delete-trust
+                        .col-xs-6.col-sm-6.col-md-8.col-lg-9(ng-show='trust.balance !== "0" && orderbookStatus === "exists"')
+                          rp-confirm(
+                            action-text="Are you sure you want to delete this trust line? Ripple Trade will attempt to convert the remaining balance of {{ balance }} {{ currency }} into XRP. This action can't be undone."
+                            action-button-text="Convert Balance and Delete"
+                            action-button-css="btn btn-default btn-danger"
+                            action-function="delete_account()"
+                            cancel-button-css="btn btn-default"
+                            cancel-button-text="Cancel"
+                            ng-hide="showPassword==true")
+                              a.danger(ng-click="load_orderbook()", href="", l10n) Delete
+                        .col-xs-6.col-sm-6.col-md-8.col-lg-9(ng-show='trust.balance !== "0" && orderbookStatus === "not"')
+                          rp-confirm(
+                            action-text="Are you sure you want to delete this trust line? Ripple Trade will return the balance of {{ balance }} {{ currency }} to the issuer. This action can't be undone."
+                            action-button-text="Return Balance and Delete"
+                            action-button-css="btn btn-default btn-danger"
+                            action-function="delete_account()"
+                            cancel-button-css="btn btn-default"
+                            cancel-button-text="Cancel"
+                            ng-hide="showPassword==true")
+                              a.danger(ng-click="load_orderbook()", href="", l10n) Delete
+                        .col-xs-6.col-sm-6.col-md-8.col-lg-9(ng-show='trust.balance === "0"')
+                          rp-confirm(
+                            action-text="Are you sure you want to delete this trust line? This action can't be undone."
+                            action-button-text="Delete"
+                            action-button-css="btn btn-default btn-danger"
+                            action-function="delete_account()"
+                            cancel-button-css="btn btn-default"
+                            cancel-button-text="Cancel"
+                            ng-hide="showPassword==true")
+                              a.danger(ng-click="load_orderbook()", href="", l10n) Delete
