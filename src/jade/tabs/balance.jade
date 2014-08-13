@@ -16,15 +16,15 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
           .balancebox.col-xs-8
             .lbl(l10n) Total Balance
               .desc(l10n) Estimated from exchange rates
-            .total.amount
+            .total.amount(ng-show="exchangeRatesNonempty")
               span.amount {{ aggregateValueDisplayed.toFixed(4) }}
               select.currency(ng-model='selectedValueMetric'
-                ng-change='changeMetric(this)')
-                option(ng-repeat='metric in valueMetrics'
-                  value='{{metric.code}}') {{metric.text}}
+                ng-change='changeMetric(this)'
+                ng-options='metric.code as metric.text for metric in valueMetrics')
+            p.literal(l10n ng-hide="exchangeRatesNonempty") Loading...
             .lbl(ng-show="hasNegative")
               .desc(l10n) (excluding negative balances)
-          .col-xs-4
+          .col-xs-4(ng-class="{ 'blank' : !exchangeRatesNonempty }")
             rp-pie-chart(
               rp-size="120"
               rp-drops="account.Balance"
