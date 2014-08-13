@@ -61,7 +61,11 @@ var Options = {
   max_tx_network_fee: 1000,
 
   // Set max number of rows for orderbook
-  orderbook_max_rows: 100
+  orderbook_max_rows: 100,
+
+  defaults: {
+    allow_rippling: false
+  }
 };
 
 // Load client-side overrides
