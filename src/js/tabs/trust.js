@@ -41,13 +41,6 @@ TrustTab.prototype.angular = function (module)
       }
     };
 
-    // orderBy filter works with arrays
-    var updateLines = function() {
-      $scope.linesArray = _.toArray($scope.lines);
-    };
-
-    $scope.$on('$balancesUpdate', updateLines);
-
     $scope.validation_pattern = /^0*(([1-9][0-9]*.?[0-9]*)|(.0*[1-9][0-9]*))$/; //Don't allow zero for new trust lines.
 
     $scope.reset = function () {
@@ -476,15 +469,10 @@ TrustTab.prototype.angular = function (module)
 
     $scope.reset();
 
-    updateLines();
-
-    var updateAccountLines = function(currArr) {
+    var updateAccountLines = function() {
       var obj = {};
-      currArr = currArr || [];
 
-
-
-      _.each(currArr, function(line){
+      _.each($scope.lines, function(line){
         if (!obj[line.currency]) {
           obj[line.currency] = { components: [] };
         }
@@ -500,8 +488,10 @@ TrustTab.prototype.angular = function (module)
 
     $scope.$on('$balancesUpdate', function(){
       console.log('$scope.trustlines is: ', $scope.lines);
-      updateAccountLines($scope.lines);
+      updateAccountLines();
     })
+
+    updateAccountLines();
   }]);
 
   module.controller('AccountRowCtrl', ['$scope', 'rpNetwork', 'rpId', 'rpKeychain',
