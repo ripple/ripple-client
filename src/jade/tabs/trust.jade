@@ -339,13 +339,11 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                     .lbl.col-xs-2.rippling(ng-hide="component.rippling", l10n) Off
                     .col-sm-1.actions
                       a.btn.btn-default.btn-xs(href="", ng-click="edit_account()", l10n) Edit
-                  .row(ng-show="editing")
+                  .row(ng-show="editing").editGeneral
                     .col-xs-2
-                      input.form-control.limit(name='limit', type='text'
+                      input.form-control.edit-lbl(name='limit', type='text'
                         ng-model='trust.max', ng-pattern='validation_pattern'
                         required)
-                      .errorGroup
-                        //- TODO: Create validation checks on limit
                     .col-xs-2
                       input.form-control.min(name='min', type='text', ng-model='trust.min')
                     .col-xs-2
@@ -353,11 +351,11 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                         span.rippling Rippling:&#32; 
                         span
                           input.rippling(name='rippling', type='checkbox', ng-model='component.rippling')
-                    .col-xs-2
-                      button.btn.btn-block.btn-success.btn-xs.submit.editAcctSettings(id='save', type='submit'
+                    .col-xs-2.editAcctSettings
+                      button.btn.btn-block.btn-success.btn-xs.submit(id='save', type='submit'
                         ng-disabled='accountForm.$invalid', l10n) Save
                     .col-xs-2
-                      button.btn.btn-block.btn-success.btn-xs.submit.editAcctSettings(id="delete", type="button", ng-click="", ng-show="", l10n) Delete
+                      button.btn.btn-block.btn-success.btn-xs.submit(id="delete", type="button", ng-click="", ng-show="", l10n) Delete
                     .col-xs-2.editAcctSettings(id="cancel")
                       a(href="", ng-disabled='accountForm.$invalid', ng-click="cancel()", l10n) Cancel
                 ng-form(name="accountForm", ng-if="!advanced_feature_switch")
@@ -368,17 +366,15 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                     .lbl.col-xs-2.max {{ component.max | rpamount }}
                     .col-sm-2.actions
                       a.btn.btn-default.btn-xs(href="", ng-click="edit_account()", l10n) Edit
-                  .row(ng-show="editing")
+                  .row(ng-show="editing").editAcct
                     .col-xs-2
-                      input.form-control.limit(name='limit', type='number'
+                      input.form-control.edit-lbl(name='limit', type='number'
                         ng-model='trust.max', ng-pattern='validation_pattern'
                         required)
-                      .errorGroup
-                      //- TODO: Create validation checks on limit
-                    .col-xs-2
-                      button.btn.btn-block.btn-success.btn-xs.submit.editAcctSettings(id='save', type='submit'
+                    .col-xs-2.editAcctSettings
+                      button.btn.btn-block.btn-success.btn-xs.submit(id='save', type='submit'
                         ng-disabled='accountForm.$invalid', l10n) Save
                     .col-xs-2
-                      button.btn.btn-block.btn-success.btn-xs.submit.editAcctSettings(id="delete", type="button", ng-click="", ng-show="showDelete()", l10n) Delete
+                      button.btn.btn-block.btn-success.btn-xs.submit(id="delete", type="button", ng-click="", ng-show="showDelete()", l10n) Delete
                     .col-xs-2.editAcctSettings(id="cancel")
                       a(href="", ng-disabled='accountForm.$invalid', ng-click="cancel()", l10n) Cancel
