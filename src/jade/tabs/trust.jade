@@ -341,7 +341,9 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                       a.btn.btn-default.btn-xs(href="", ng-click="edit_account()", l10n) Edit
                   .row(ng-show="editing")
                     .col-xs-2
-                      input.form-control.limit(name='limit', type='text', ng-model='trust.max')
+                      input.form-control.limit(name='limit', type='text'
+                        ng-model='trust.max', ng-pattern='validation_pattern'
+                        required)
                       .errorGroup
                         //- TODO: Create validation checks on limit
                     .col-xs-2
@@ -368,7 +370,9 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                       a.btn.btn-default.btn-xs(href="", ng-click="edit_account()", l10n) Edit
                   .row(ng-show="editing")
                     .col-xs-2
-                      input.form-control.limit(name='limit', type='text', ng-model='trust.max')
+                      input.form-control.limit(name='limit', type='number'
+                        ng-model='trust.max', ng-pattern='validation_pattern'
+                        required)
                       .errorGroup
                       //- TODO: Create validation checks on limit
                     .col-xs-2

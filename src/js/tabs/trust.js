@@ -532,6 +532,8 @@ TrustTab.prototype.angular = function (module)
   module.controller('AccountRowCtrl', ['$scope', 'rpNetwork', 'rpId', 'rpKeychain',
     function ($scope, $network, id, keychain) {
 
+      $scope.validation_pattern = /^0*(([0-9]*.?[0-9]*)|(.0*[1-9][0-9]*))$/;
+
       $scope.cancel = function () {
         $scope.editing = false;
       }
@@ -542,8 +544,8 @@ TrustTab.prototype.angular = function (module)
         console.log('$scope.component is: ', $scope.component);
 
         $scope.trust = {};
-        $scope.trust.max = $scope.component.max.to_json().value;
-        $scope.trust.min = $scope.component.min.to_json().value;
+        $scope.trust.max = Number($scope.component.max.to_json().value);
+        $scope.trust.min = Number($scope.component.min.to_json().value);
         $scope.rippling = !!$scope.component.rippling;
       }
 
