@@ -350,91 +350,6 @@ TrustTab.prototype.angular = function (module)
       $scope.load_orderbook();
     };
 
-    $scope.delete_account = function()
-    {
-
-      var setSecretAndSubmit = function(tx) {
-        keychain.requestSecret(id.account, id.username, function (err, secret) {
-          if (err) {
-            $scope.mode = 'error';
-            console.log('Error on requestSecret: ', err);
-            return;
-          }
-
-          tx.secret(secret);
-
-          tx.submit(function(err, res) {
-            if (err) {
-              $scope.mode = 'error';
-              console.log('Error on tx submit: ', err);
-              return;
-            }
-
-            console.log('Transaction has been submitted with response:', res);
-          });
-
-        });
-      }
-
-      var nullifyTrustLine = function(idAccount, lineCurrency, lineAccount) {
-        var tx = $network.remote.transaction();
-        tx.trustSet(idAccount, '0' + '/' + lineCurrency + '/' + lineAccount);
-        tx.setFlags('ClearNoRipple');
-
-        setSecretAndSubmit(tx);
-      }
-
-      var clearBalance = function(selfAddress, issuerAddress, curr, amountObject, callback) {
-
-        // Decision tree: two paths
-        // 1) There is a market -> send back balance to user as XRP
-        // 2) There is no market -> send back balance to issuer
-
-        var sendBalanceToSelf = function() {
-          var tx = $network.remote.transaction();
-          var payment = tx.payment(selfAddress, selfAddress, '100000000000');
-
-          payment.setFlags('PartialPayment');
-          payment.sendMax(amountObject.to_human() + '/' + curr + '/' + issuerAddress);
-
-          return tx;
-        };
-
-        var sendBalanceToIssuer = function() {
-          var tx = $network.remote.transaction();
-
-          var amount = amountObject.clone();
-          var newAmount = amount.set_issuer(issuerAddress);
-          var payment = tx.payment(selfAddress, issuerAddress, newAmount);
-
-          return tx;
-        }
-
-        var tx = ($scope.orderbookStatus === 'exists') ? sendBalanceToSelf() : sendBalanceToIssuer();
-
-        setSecretAndSubmit(tx);
-
-        tx.once('proposed', callback);
-      }
-
-      // $scope.counterparty inside the clearBalance callback function does not have counterparty in its scope, therefore, we need an immediate function to capture it.
-
-      if ($scope.balance !== '0') {
-        (function (counterparty) {
-          clearBalance(id.account, $scope.counterparty, $scope.currency, $scope.balanceAmount, function(res) {
-            nullifyTrustLine(id.account, $scope.currency, counterparty);
-          });
-        })($scope.counterparty);
-      }
-
-      else {
-        nullifyTrustLine(id.account, $scope.currency, $scope.counterparty);
-      }
-
-      $scope.toggle_form();
-
-    };
-
     $scope.$watch('userBlob.data.contacts', function (contacts) {
       $scope.counterparty_query = webutil.queryFromContacts(contacts);
     }, true);
@@ -486,15 +401,100 @@ TrustTab.prototype.angular = function (module)
         $scope.trust.limit = Number($scope.component.limit.to_json().value);
         $scope.trust.limit_peer = Number($scope.component.limit_peer.to_json().value);
         $scope.trust.balance = String($scope.component.balance.to_json().value);
+        $scope.trust.balanceAmount = $scope.component.balance;
         var currency = Currency.from_human($scope.component.currency);
         $scope.trust.currency = currency.to_human({full_name:$scope.currencies_all_keyed[currency.get_iso()].name});
         $scope.trust.counterparty = $scope.component.account;
 
         console.log('$scope.trust.currency is: ', $scope.trust.currency);
-        console.log('$scope.trust.counterparty: ', $scope.trust.counterparty);
+        console.log('$scope.trust.balance: ', $scope.trust.balance);
 
         $scope.load_orderbook();
       }
+
+      $scope.delete_account = function()
+      {
+
+        var setSecretAndSubmit = function(tx) {
+          keychain.requestSecret(id.account, id.username, function (err, secret) {
+            if (err) {
+              $scope.mode = 'error';
+              console.log('Error on requestSecret: ', err);
+              return;
+            }
+
+            tx.secret(secret);
+
+            tx.submit(function(err, res) {
+              if (err) {
+                $scope.mode = 'error';
+                console.log('Error on tx submit: ', err);
+                return;
+              }
+
+              console.log('Transaction has been submitted with response:', res);
+            });
+
+          });
+        }
+
+        var nullifyTrustLine = function(idAccount, lineCurrency, lineAccount) {
+          var tx = $network.remote.transaction();
+          tx.trustSet(idAccount, '0' + '/' + lineCurrency + '/' + lineAccount);
+          tx.setFlags('ClearNoRipple');
+
+          setSecretAndSubmit(tx);
+        }
+
+        var clearBalance = function(selfAddress, issuerAddress, curr, amountObject, callback) {
+
+          // Decision tree: two paths
+          // 1) There is a market -> send back balance to user as XRP
+          // 2) There is no market -> send back balance to issuer
+
+          var sendBalanceToSelf = function() {
+            var tx = $network.remote.transaction();
+            var payment = tx.payment(selfAddress, selfAddress, '100000000000');
+
+            payment.setFlags('PartialPayment');
+            payment.sendMax(amountObject.to_human() + '/' + curr + '/' + issuerAddress);
+
+            return tx;
+          };
+
+          var sendBalanceToIssuer = function() {
+            var tx = $network.remote.transaction();
+
+            var amount = amountObject.clone();
+            var newAmount = amount.set_issuer(issuerAddress);
+            var payment = tx.payment(selfAddress, issuerAddress, newAmount);
+
+            return tx;
+          }
+
+          var tx = ($scope.orderbookStatus === 'exists') ? sendBalanceToSelf() : sendBalanceToIssuer();
+
+          setSecretAndSubmit(tx);
+
+          tx.once('proposed', callback);
+        }
+
+        // $scope.counterparty inside the clearBalance callback function does not have counterparty in its scope, therefore, we need an immediate function to capture it.
+        console.log('$scope.trust.balance is: ', $scope.trust.balance);
+
+        if ($scope.trust.balance !== '0') {
+          (function (counterparty) {
+            clearBalance(id.account, $scope.trust.counterparty, $scope.trust.currency, $scope.trust.balanceAmount, function(res) {
+              nullifyTrustLine(id.account, $scope.trust.currency, counterparty);
+            });
+          })($scope.trust.counterparty);
+        }
+
+        else {
+          nullifyTrustLine(id.account, $scope.trust.currency, $scope.trust.counterparty);
+        }
+
+      };
 
       $scope.load_orderbook = function() {
         $scope.orderbookStatus = false;

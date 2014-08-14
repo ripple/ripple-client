@@ -145,9 +145,9 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                       .modal-body
                         div.modal-prompt(l10n) {{ counterparty_address }} would like to:
                         div.grey-focus
-                          div.modal-permissions(l10n) - Hold up to&#32;
+                          span.modal-permissions(l10n) - Hold up to&#32;
                           span(rp-pretty-amount="amount_feedback")
-                          span(l10n-inc) &#32;on your behalf
+                          span.modal-permissions(l10n-inc) &#32;on your behalf
                         div.modal-buttons
                           button.modal-btn.btn.btn-default.btn-success.btn-md(ng-click="grant_confirmed()",
                             rp-spinner='{{loading ? 4 : null}}', ng-disabled="loading")
@@ -349,7 +349,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                           div
                             .col-xs-6.col-sm-6.col-md-8.col-lg-9(ng-show='trust.balance !== "0" && orderbookStatus === "exists"')
                               rp-confirm(
-                              action-text="Are you sure you want to delete this trust line? Ripple Trade will attempt to convert the remaining balance of {{ balance }} {{ currency }} into XRP. This action can't be undone."
+                              action-text="Are you sure you want to delete this trust line? Ripple Trade will attempt to convert the remaining balance of {{ trust.balance }} {{ currency }} into XRP. This action can't be undone."
                               action-button-text="Convert Balance and Delete"
                               action-button-css="btn btn-default btn-danger"
                               action-function="delete_account()"
@@ -359,7 +359,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                                 a.danger(ng-click="load_orderbook()", href="", l10n) Delete
                             .col-xs-6.col-sm-6.col-md-8.col-lg-9(ng-show='trust.balance !== "0" && orderbookStatus === "not"')
                               rp-confirm(
-                              action-text="Are you sure you want to delete this trust line? Ripple Trade will return the balance of {{ balance }} {{ currency }} to the issuer. This action can't be undone."
+                              action-text="Are you sure you want to delete this trust line? Ripple Trade will return the balance of {{ trust.balance }} {{ currency }} to the issuer. This action can't be undone."
                               action-button-text="Return Balance and Delete"
                               action-button-css="btn btn-default btn-danger"
                               action-function="delete_account()"
