@@ -756,30 +756,6 @@
 }
 
 #t-trust {
-  .head {
-    font: 16px 'OpenSansRegular';
-    line-height: 30px;
-    margin-bottom: 14px;
-  }
-
-  .line {
-    border-top: 1px solid @lightgray;
-
-    @media (min-width: @screen-xs-max) {
-      & > div {
-        height: 50px;
-        line-height: 50px;
-      }
-    }
-
-    .actions {
-      text-align: right;
-    }
-  }
-  rp-trust-line {
-    margin: 0 -15px;
-  }
-
   #trustForm {
     margin-bottom: 20px;
 
@@ -805,54 +781,8 @@
     }
   }
 
-  .mode-confirm {
-    .amount_feedback, .dest_feedback {
-      font-size: 26px;
-      margin: 0;
-      padding: 20px;
-      margin: 0 0 20px;
-      background-color: @lightgray;
+  .lines {
 
-      .extra {
-        font-size: 18px;
-        color: @darkgray;
-        margin-top: 0.5em;
-      }
-    }
-
-    .amount_feedback {
-      font: 34px 'OpenSansLight';
-
-      .currency {
-        font-size: 20px;
-      }
-    }
-  }
-
-  .mode-granted {
-    .pending h2 {
-      margin: 0;
-    }
-    .address {
-      font-size: 25px;
-      font: 34px 'OpenSansLight';
-      margin: 0 0 30px;
-    }
-    p {
-      margin: 20px 0 40px;
-      font-size: 16px;
-    }
-    .actionLink {
-      margin-top: 20px;
-      margin-bottom: 20px;
-      font-size: 16px;
-    }
-  }
-
-  .trust-notice {
-    color: @midred;
-    font-size: 14px;
-    margin: 30px 0;
   }
 }
 
@@ -2072,14 +2002,6 @@ html.t-trade header nav ul > li.active#nav-advanced > a:after {
 }
 
 #t-fund, #t-trust {
-  padding: 0px 26px;
-
-  .currency {
-    font-size: 18px;
-    margin: 0 0 0 5px;
-    color: darken(@darkgray, 15%);
-  }
-
   .currencies a {
     display: block;
     padding: 10px;
@@ -2092,6 +2014,16 @@ html.t-trade header nav ul > li.active#nav-advanced > a:after {
       text-decoration: none;
       background: @midblue;
     }
+  }
+}
+
+#t-fund {
+  padding: 0px 26px;
+
+  .currency {
+    font-size: 18px;
+    margin: 0 0 0 5px;
+    color: darken(@darkgray, 15%);
   }
 
   .list{
@@ -2140,91 +2072,6 @@ html.t-trade header nav ul > li.active#nav-advanced > a:after {
       moz-appearance: none;
       -webkit-appearance: none;
 
-    }
-  }
-
-  .trustBox {
-
-    .editAcctSettings {
-      margin-top: 10px;
-    }
-
-    .currencyContainer {
-      margin: 0 0 2% 0;
-    }
-
-    .accountsHeader {
-      align: 100%;
-      padding: 0 0 5px 0;
-      margin: 0 0 13px 0;
-      font: 13px OpenSansBold;
-      border-bottom: 1px solid @midgray;
-
-      .issuer {
-        margin: 0 14%;
-        width: 400px;
-      }
-
-      .issuerAdv {
-        margin: 0 10%;
-        width: 200px;
-      }
-
-      .balance {
-        margin: 0 8%;
-        width: 100px;
-      }
-
-      .balanceAdv {
-        margin: 0 4%;
-      }
-
-      .max {
-        margin: 0 9%;
-      }
-
-      .maxAdv {
-        margin: 0 5%;
-      }
-
-      .min {
-        margin: 0 5%;
-      }
-
-      .rippling {
-        margin: 0 5%;
-        width: 100px;
-      }
-    }
-    .accounts {
-      align: 100%;
-      text-align: center;
-
-      .lbl {
-        font: 12px OpenSansRegular;
-        margin: 1% 0;
-      }
-
-      .issuer {
-        width: 300px;
-      }
-
-      .max {
-        width: 230px;
-      }
-
-      .min {
-        width: 100px;
-      }
-
-      .rippling {
-        width: 50px;
-      }
-
-      .edit-lbl {
-        // width: 50px;
-        // height: 5px;
-      }
     }
   }
 
