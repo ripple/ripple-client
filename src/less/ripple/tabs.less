@@ -1423,6 +1423,23 @@
 }
 
 #t-security {
+
+  padding: 0px 26px;
+
+  .settingPage a {
+    display: block;
+    padding: 10px;
+    border-radius: 2px;
+    margin: 0 0 3px;
+    background: @lightgray;
+
+    &:hover, &.active {
+      color: @lightgray;
+      text-decoration: none;
+      background: @midblue;
+    }
+  }
+
   .notices {
     list-style-type: none;
     margin: 10px 0 0 0;
@@ -1435,19 +1452,6 @@
     .clearfix;
     margin: 20px 0 0;
 
-    .icon {
-      display: inline-block;
-      background: url(../../img/spritex.png);
-      width: 40px;
-      height: 40px;
-      float: left;
-    }
-    .icon.wallet {
-      background-position:  -80px 0;
-    }
-    .icon.money {
-      background-position:  -34px 0;
-    }
     .name {
       margin: 0 20px 0 10px;
       line-height: 40px;
@@ -1459,8 +1463,21 @@
     }
   }
   .description {
-    margin: 5px 0 5px 68px;
+    margin: 5px 0 5px 0;
     font-size: 13px;
+  }
+
+  .descriptor {
+    color: @darkgray;
+    margin: 0 0 10px;
+    border-top: 1px solid @midgray;
+    padding-top: 20px;
+  }
+
+  div#password.row {
+    padding-top: 10px;
+    padding-bottom: 10px;
+
   }
   .infoBox {
     .clearfix;
@@ -1468,22 +1485,19 @@
     padding: 20px;
     margin-top: 5px;
     margin-bottom: 5px;
+  }
 
-    .part {
-      float: left;
-      margin: 0 50px 0 0;
+  div.section {
+    padding-bottom: 20px;
+  }
 
-      .label {
-        white-space: nowrap;
-        color: @black;
-      }
-
-      .value {
-        font-size: 20px;
-        margin: 0 10px;
-      }
+  div.part {
+    padding-top: 10px;
+    a {
+      float: right;
     }
   }
+
   .show-keys {
     margin: 20px 0 0 40px;
   }
@@ -1498,6 +1512,148 @@
     input:disabled {
       opacity:.5;
     }
+  }
+
+  .confirm2FA {
+    margin-top:20px;
+    margin-bottom:20px;
+  }
+
+  .verify2FA {
+    margin-bottom:10px;
+
+    .status {
+      margin:20px 0;
+    }
+
+     button.spinner {
+      padding-left:0;
+    }
+  }
+
+  .sessionUnlock {
+    margin-left: 15px;
+
+    label {
+      margin-top: 15px
+    }
+
+    button.spinner {
+      padding-left:0;
+    }
+  }
+
+  label[for=passwordProtection]{
+    padding-left: 5px;
+
+  }
+
+  #renameForm {
+    padding-left: 15px;
+
+  }
+}
+
+#t-advanced {
+
+  padding: 0px 26px;
+
+  .settingPage a {
+    display: block;
+    padding: 10px;
+    border-radius: 2px;
+    margin: 0 0 3px;
+    background: @lightgray;
+
+    &:hover, &.active {
+      color: @lightgray;
+      text-decoration: none;
+      background: @midblue;
+    }
+  }
+
+  #serverSettings {
+    margin-top: 40px;
+  }
+
+  .description {
+    margin: 5px 0 5px 0;
+    font-size: 13px;
+  }
+
+  .descriptor {
+    color: @darkgray;
+    margin: 0 0 10px;
+    border-top: 1px solid @midgray;
+    padding-top: 20px;
+  }
+
+  div.section {
+    padding-bottom: 20px;
+  }
+
+  div.part {
+    padding-top: 10px;
+    a {
+      float: right;
+    }
+  }
+
+  #save {
+    margin-top: 8px;
+  }
+
+  #saveBlob {
+    margin-top: 8px;
+  }
+
+  #saveBridge {
+    margin-top: 8px;
+  }
+
+  #deleteBlob {
+    background-color: @midred;
+    border-color: @midred;
+    margin-top: 8px;
+  }
+
+  #deleteBridge {
+    background-color: @midred;
+    border-color: @midred;
+    margin-top: 8px;
+  }
+
+  #delete {
+    background-color: @midred;
+    border-color: @midred;
+    margin-top: 8px;
+  }
+
+  #cancel {
+    margin-top: 8px;
+  }
+
+  #newServer {
+    width: 175%;
+    margin-top: 20px;
+  }
+
+  #servers {
+    padding-top: 0px;
+  }
+
+  #secureSocket {
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+
+  #renameForm {
+    padding-left: 15px;
+
+  }
+
+  label[for=passwordProtection]{
+    padding-left: 5px;
   }
 }
 
@@ -1874,6 +2030,14 @@
   }
 }
 
+header nav.navbar .open > .dropdown-menu {
+  background-color: @lightgray;
+}
+
+.dropdown-menu > li > a {
+  color: @midblue;
+}
+
 html.t-trade header nav ul > li.active#nav-advanced > a:after {
   border-bottom-color: @lightgray;
 }
@@ -2003,8 +2167,93 @@ html.t-trade header nav ul > li.active#nav-advanced > a:after {
 }
 
 #t-account {
+
+  padding: 0px 26px;
+
+  .info a {
+    display: block;
+    padding: 10px;
+    border-radius: 2px;
+    margin: 0 0 3px;
+    background: @lightgray;
+
+    &:hover, &.active {
+      color: @lightgray;
+      text-decoration: none;
+      background: @midblue;
+    }
+  }
+
+  #open_name_change {
+    float: left;
+    padding-left: 20px;
+  }
+
+  .nameLine {
+    margin: 0 0 20px;
+    padding: 0 0 20px;
+    font: 20px OpenSansLight;
+
+    .name {
+      font-weight: bold;
+    }
+  }
+
+  .descriptor {
+    color: @darkgray;
+    margin: 0 0 20px;
+    font-size: 16px;
+  }
+
+  #address.descriptor {
+    border-top: 1px solid @midgray;
+    padding-top: 20px;
+    color: @darkgray;
+  }
+
+  .username {
+    color: @black;
+    padding-bottom: 30px;
+    font-family: OpenSansRegular;
+  }
+
+  #nameChangeForm {
+    margin: 10px 0 0 0;
+
+  }
+
+  .auth-form-container {
+    padding-bottom: 0px;
+  }
+
+  #renameForm {
+    width: 400px;
+    padding-top: 20px;
+    padding-bottom: 30px;
+
+    .form-group {
+
+
+      label {
+        color: @darkgray;
+      }
+
+      label[for=password]{
+        padding-top: 20px;
+      }
+      .input-group {
+        .input-group-addon:first-child {
+          background: @midblue;
+          border-color: @midblue;
+          color: @white;
+
+        }
+      }
+    }
+  }
+
   .sessionUnlock {
-    margin: 15px;
+    margin-left: 15px;
 
       label {
         margin-top: 15px
@@ -2032,22 +2281,6 @@ html.t-trade header nav ul > li.active#nav-advanced > a:after {
     }   
   }
 
-  .descriptor {
-    color: @darkgray;
-    margin: 0 0 10px;
-  }
-
-  .username {
-    font-family: OpenSansRegular;
-  }
-
-  #nameChangeForm {
-    margin: 10px 0 0 0;
-  }
-
-  .auth-form-container {
-    padding-bottom: 0px;
-  }
 }
 
 .modal2FA {

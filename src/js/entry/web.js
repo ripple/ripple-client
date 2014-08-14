@@ -80,7 +80,7 @@ var tabdefs = [
   require('../tabs/trust'),
   require('../tabs/send'),
   require('../tabs/trade'),
-  require('../tabs/options'),
+  require('../tabs/advanced'),
   require('../tabs/security'),
   require('../tabs/tx'),
   require('../tabs/fund'),
