@@ -20,8 +20,8 @@ section.col-xs-12.content(ng-controller="SecurityCtrl")
     .col-sm-9.list(ng-show="isUnlocked")
       .showSecurity(ng-show="settingsPage == 'security'")
         div(ng-show="'web' === client")
+          h4(l10n) Security settings
           .section
-            h4(l10n) Security settings
             .alert.alert-success(ng-show="", l10n) Two factor authentication has been enbabled.
             .alert.alert-success(ng-show="", l10n) Two factor authentication has been disabled.
             .descriptor Two Factor Authentication
@@ -33,9 +33,9 @@ section.col-xs-12.content(ng-controller="SecurityCtrl")
                 span(ng-show="enabled2FA", l10n) Enabled
                 span(ng-hide="enabled2FA", l10n) Disabled
               .col-xs-12.col-sm-9
-                a(href="", ng-show="enabled2FA", ng-click="disable2FA()", l10n) edit
+                a(href="", ng-show="enabled2FA", ng-click="disable2FA()", l10n) disable
                 rp-popup(onOpen="open2FA")
-                  a(href="", rp-popup-link, ng-hide="enabled2FA", l10n) edit
+                  a(href="", rp-popup-link, ng-hide="enabled2FA", l10n) enable
                   div.connectModal.modal2FA(rp-popup-content)
                     .modal-header
                       .navbar-brand.hidden-sm.modal-logo#logo
@@ -72,7 +72,9 @@ section.col-xs-12.content(ng-controller="SecurityCtrl")
             form.verify2FA(ng-show="mode2FA === 'verifyPhone'")
               .row
                 .col-xs-12
-                  .status(l10n) An SMS message with a verification code has been sent to
+                  .status
+                    span(ng-hide="via === 'app'", l10n) Please enter the verification code from the SMS message sent to your device: 
+                    span(ng-show="via === 'app'", l10n) Please enter the verification code from the Authy app installed on your device: 
                     span  +{{currentCountryCode}} {{currentPhone}}
                     div(l10n-inc) Enter the code below to complete the process.
               .row
@@ -82,13 +84,14 @@ section.col-xs-12.content(ng-controller="SecurityCtrl")
                 .col-xs-7.col-sm-5
                   input.form-control#verifyToken(name="verifyToken", ng-model="verifyToken")
                 .col-xs-5.col-sm-3
-                  button.btn.btn-default.btn-block(type="button", ng-disabled="isResending",
-                  rp-spinner="{{isResending ? 4 : null}}", ng-click="resendToken()")
-                    span(l10n) Resend Code
+                  button.btn.btn-default.btn-block(type="button", ng-disabled="isRequesting",
+                  rp-spinner="{{isRequesting ? 4 : null}}", ng-click="requestToken()")
+                    span(ng-hide="via === 'app'", l10n) Resend Code
+                    span(ng-show="via === 'app'", l10n) Send Via SMS
               .row
                 .col-xs-7.col-sm-3
-                  button.btn.btn-primary.btn-block(type="submit", ng-disabled="isVerifying",
-                  rp-spinner="{{isVerifying ? 4 : null}}", ng-click="enable2FA()")
+                  button.btn.btn-primary.btn-block(type="button", ng-disabled="isVerifying", ng-click="enable2FA()",
+                  rp-spinner="{{isVerifying ? 4 : null}}")
                     span(l10n) Enable
                 .col-xs-5.col-sm-2
                   a.txtbtn(ng-click="cancel2FA()", l10n) Cancel
