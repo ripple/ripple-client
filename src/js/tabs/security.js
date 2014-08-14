@@ -31,17 +31,19 @@ SecurityTab.prototype.angular = function (module) {
     $scope.isUnlocked  = keychain.isUnlocked($id.account);
     $scope.loading2FA  = false;
 
+    $scope.passwordProtection = !$scope.userBlob.data.persistUnlock;
 
-    $scope.$on('$blobUpdate', updateEnc);
-    updateEnc();
+    $scope.$on('$blobUpdate', onBlobUpdate);
+    onBlobUpdate();
 
     $scope.security = {};
 
-    function updateEnc()
+    function onBlobUpdate()
     {
       if ("function" === typeof $scope.userBlob.encrypt) {
         $scope.enc = $scope.userBlob.encrypt();
       }
+      $scope.passwordProtection = !$scope.userBlob.data.persistUnlock;
     }
 
     //$scope.mode2FA = 'verifyPhone';
@@ -118,6 +120,15 @@ SecurityTab.prototype.angular = function (module) {
         }
 
         $scope.security.master_seed = secret;
+      });
+    };
+
+    $scope.setPasswordProtection = function () {
+      keychain.setPasswordProtection(!$scope.passwordProtection, function(err, resp){
+        if (err) {
+          $scope.passwordProtection = !$scope.PasswordProtection;
+          //TODO: report errors to user
+        }
       });
     };
 

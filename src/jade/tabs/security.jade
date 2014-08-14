@@ -164,7 +164,7 @@ section.col-xs-12.content(ng-controller="SecurityCtrl")
                   a(href="", ng-click="security.master_seed = null", ng-show="security.master_seed", l10n) Hide
           .descriptor(l10n) Password Protection
           .row
-            .col-xs-12.col-sm-8.col-md-4.col-lg-4
+            .col-xs-12
               div.helperInput
                 input.passwordProtection(name='passwordProtection', type='checkbox', ng-model='passwordProtection', ng-click='setPasswordProtection()')
                 label(for='passwordProtection', l10n) Require password for transactions
