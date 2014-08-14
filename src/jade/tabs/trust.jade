@@ -220,24 +220,24 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
 
         group.mode-granted.wide(ng-show='mode=="granted" && account.Balance')
           group.pending(ng-show='tx_result=="pending"')
-            h2.tx-status(l10n) Your grant request has been submitted.
+            h2.tx-status(l10n) The Ripple network is verifying your account connection to {{ counterparty_address }}.
           group.result-success(ng-show='tx_result=="cleared"')
-            h2.tx-status(l10n) Trust is granted!
+            h2.tx-status(l10n) Your account has been connected to {{ counterparty_address }}.
           group.result-error(ng-show='tx_result=="error"')
-            h2.tx-status(l10n) Trust could not be granted!
-            p(l10n) We were unable to submit the request. Please try again later.
+            h2.tx-status(l10n) Your account could not be connected to {{ counterparty_address }}.
+            p(l10n) We were unable to connect your account. Please try again later.
           group.result-malformed(ng-show='tx_result=="malformed"')
-            h2.tx-status(l10n) Grant is malformed!
+            h2.tx-status(l10n) Account connect request is malformed!
             p(l10n) Your request is invalid, reason: {{engine_result}} - {{engine_result_message}}
           group.result-failed(ng-show='tx_result=="failed"')
-            h2.tx-status(l10n) Granting failed!
+            h2.tx-status(l10n)  Connect account failed!
             p(ng-switch on="engine_result")
-              span(ng-switch-when="terNO_LINE", l10n) You have no trust line in this currency.
-              span(ng-switch-when="tecINSUF_RESERVE_LINE", l10n) Insufficient reserve to add trust line.
+              span(ng-switch-when="terNO_LINE", l10n) You have no connected account in this currency.
+              span(ng-switch-when="tecINSUF_RESERVE_LINE", l10n) Insufficient reserve to connect an account.
               span(ng-switch-when="tecNO_LINE_INSUF_RESERVE", l10n) You must have at
-                |  least {{account.reserve_to_add_trust | rpamount:0}} XRP to add a trust line.&#32;
+                |  least {{account.reserve_to_add_trust | rpamount:0}} XRP to connect an account.&#32;
                 a(href="http://ripple.com/help/#reserve", l10n) Read more.
-              span(ng-switch-default, l10n) Trust granting failed to clear,
+              span(ng-switch-default, l10n) Connecting account failed to clear,
                 |  reason: {{engine_result_message}}
           group.result-failed(ng-show='tx_result=="local"')
             h2.tx-status(l10n) Transaction failed!
@@ -245,41 +245,6 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
               span(ng-switch-when="telINSUF_FEE_P", l10n)
                 | The particular server you sent the transaction to was too busy to forward or process
                 |  your transaction at the fee you included in it.
-          group.actions
-            hr
-            .text-success(ng-show='addressSaved', class="actionLink", l10n) Address saved!
-            .save-address-form(ng-hide='contact', class="actionLink")
-              a(href="", ng-click='show_save_address_form = true',
-                ng-hide="show_save_address_form", l10n) Add this address to contacts
-              form(name="saveAddressForm", ng-class="{ show: show_save_address_form }", ng-submit='saveAddress()')
-                .address {{counterparty_address}}
-                label(for='save_address_name', l10n) Name this user
-                input.form-control#contact_name(
-                name='save_address_name', type="text"
-                ng-model='saveAddressName', unique, required
-                rp-autofill='$routeParams.name'
-                rp-focus)
-                .error(ng-show='saveAddressForm.save_address_name.$error.unique', l10n)
-                  | You already have a contact with the same name.
-                div
-                  button.btn.btn-success(type='submit', ng-disabled='addressSaving || saveAddressForm.$invalid')
-                    span(ng-show='addressSaving', l10n) Saving...
-                    span(ng-hide='addressSaving', l10n) Save
-                  a(href="", ng-click='show_save_address_form = false') Cancel
-              hr
-            div(class="actionLink")
-              a(href="#trust", ng-click="reset()", l10n) Back to trust page
-            hr
-
-        .row.row-padding-small.line.padding-vertical-xs(ng-hide="true", ng-repeat='(key, line) in linesArray | orderBy:sorting.sort:sorting.reverse')
-          .col-sm-5 {{line.account | rpcontactnamefull}}
-          .col-sm-2(rp-currency="line.balance")
-          .col-sm-2
-            span(rp-tooltip="{{line.balance | rpamount }}") {{line.balance | rpamount:{rel_precision: 0} }}
-          .col-sm-2
-            rp-trust-line(rp-line-data='line')
-          .col-sm-1.actions
-            button.btn.btn-default.btn-sm(href="", ng-click="edit_line()", l10n) edit
 
         form.row(name="advancedTrustFeatures")
           .col-xs-12

@@ -290,26 +290,6 @@ TrustTab.prototype.angular = function (module)
       }
     }
 
-    $scope.saveAddress = function () {
-      $scope.addressSaving = true;
-
-      var contact = {
-        'name': $scope.saveAddressName,
-        'address': $scope.counterparty_address
-      };
-
-      $scope.userBlob.unshift('/contacts', contact, function(err, data){
-        if (err) {
-          console.log("Can't save the contact. ", err);
-          return;
-        }
-
-        $scope.contact = data;
-        $scope.addressSaved = true;
-      });
-    };
-
-
     $scope.edit_line = function ()
     {
       var line = this.component;
