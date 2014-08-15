@@ -188,17 +188,17 @@ module.filter('rpfromnow', function () {
  * Shows a ripple name for a given ripple address
  */
 module.filter("rpripplename", ['$http', function($http) {
-  var resolvedName = null,
-    serviceInvoked = false;
+  var resolvedNames = [],
+    serviceInvoked = [];
 
-  function realFilter(value) {
-    return resolvedName;
+  function realFilter(address) {
+    return resolvedNames[address];
   }
 
   return function(address) {
-    if(!resolvedName) {
-      if(!serviceInvoked) {
-        serviceInvoked = true;
+    if(!resolvedNames[address]) {
+      if(!serviceInvoked[address]) {
+        serviceInvoked[address] = true;
 
         // Get the blobvault url
         ripple.AuthInfo.get(Options.domain, "1", function(err, authInfo) {
@@ -210,10 +210,10 @@ module.filter("rpripplename", ['$http', function($http) {
           $http.get(authInfo.blobvault + '/v1/user/' + address)
             .success(function(data) {
               if (data.username) {
-                resolvedName = data.username;
+                resolvedNames[address] = data.username;
               } else {
                 // Show the ripple address if there's no name associated with it
-                resolvedName = address;
+                resolvedNames[address] = address;
               }
             })
             .error(function(err){
