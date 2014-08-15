@@ -19,7 +19,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
     //- Account is funded
 
     //- N1. Trust form
-
+    
     .row(ng-show='connected')
       .col-sm-3
         include fund/menu
@@ -298,8 +298,8 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                   div {{ component.limit | rpamount }}
                 .col-sm-1(ng-show="advanced_feature_switch") {{ component.limit_peer | rpamount }}
                 .col-sm-1(ng-show="advanced_feature_switch")
-                  div(ng-show="component.rippling", l10n) On
-                  div(ng-hide="component.rippling", l10n) Off
+                  div(ng-hide="component.no_ripple", l10n) On
+                  div(ng-show="component.no_ripple", l10n) Off
                 div.col-xs-2(ng-hide="component.freeze_peer", l10n)
                   a(href="", ng-hide="editing", ng-click="edit_account()"
                     l10n) Edit
@@ -321,7 +321,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                     .col-sm-3
                       input.form-control(name='limit', type='text'
                         ng-model='trust.limit', ng-pattern='validation_pattern'
-                        required)
+                        ng-disabled='trust.loading', required)
                     .col-sm-4.inputPadding
                       div(ng-show="advanced_feature_switch")
                         label(l10n) Rippling&#32;
@@ -330,11 +330,13 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                       .row
                         .col-xs-6
                           button.btn.btn-block.btn-primary(id='save', type='submit'
-                            ng-disabled='accountForm.$invalid', l10n) Save
+                            ng-disabled='accountForm.$invalid || trust.loading')
+                            span(ng-hide="trust.loading", l10n) Save
+                            span(ng-show="trust.loading", l10n) Saving...
                         .col-xs-6
                           a.btn.btn-block.btn-default(href="", ng-click="cancel()"
-                            l10n) Cancel
-                      .row.text-right
+                            ng-disabled="trust.loading", l10n) Cancel
+                      .row.text-right(ng-hide="trust.loading")
                         .col-xs-12(ng-show='trust.balance !== "0" && orderbookStatus === "exists"')
                           rp-confirm(
                           action-text="Are you sure you want to disconnect from this account? Ripple Trade will attempt to convert the remaining balance of {{ trust.balance }} {{ currency }} into XRP. This action can't be undone."

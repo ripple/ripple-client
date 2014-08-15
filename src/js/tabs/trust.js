@@ -383,7 +383,7 @@ TrustTab.prototype.angular = function (module)
 
         $scope.trust = {};
         $scope.trust.limit = Number($scope.component.limit.to_json().value);
-        $scope.trust.rippling = $scope.component.rippling;
+        $scope.trust.rippling = component.rippling;
         $scope.trust.limit_peer = Number($scope.component.limit_peer.to_json().value);
         $scope.trust.balance = String($scope.component.balance.to_json().value);
         $scope.trust.balanceAmount = $scope.component.balance;
@@ -509,8 +509,7 @@ TrustTab.prototype.angular = function (module)
       }
 
       $scope.save_account = function () {
-
-        var lineRippling = $scope.component.rippling;
+        $scope.trust.loading = true;
 
         var amount = ripple.Amount.from_human(
           $scope.trust.limit + ' ' + $scope.component.currency,
@@ -530,12 +529,13 @@ TrustTab.prototype.angular = function (module)
         // Flags
         tx
           .rippleLineSet(id.account, amount)
-          .setFlags(lineRippling ? 'ClearNoRipple' : 'NoRipple')
+          .setFlags($scope.trust.rippling ? 'ClearNoRipple' : 'NoRipple')
           .on('success', function(res){
             $scope.$apply(function () {
               console.log('lineRippling is: ', lineRippling);
               setEngineStatus(res, true);
               $scope.editing = false;
+              $scope.trust.loading = false;
             });
           })
           .on('error', function(res){
@@ -543,6 +543,7 @@ TrustTab.prototype.angular = function (module)
             setImmediate(function () {
               $scope.$apply(function () {
                 $scope.mode = 'error';
+                $scope.trust.loading = false;
               });
             });
           });
@@ -574,7 +575,10 @@ TrustTab.prototype.angular = function (module)
 
         keychain.requestSecret(id.account, id.username, function (err, secret) {
           // XXX Error handling
-          if (err) return;
+          if (err) {
+            $scope.trust.loading = false;
+            return;
+          }
 
           $scope.mode = 'granting';
 
