@@ -146,9 +146,9 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                       .modal-body
                         div.modal-prompt(l10n) {{ counterparty_address }} would like to:
                         div.grey-focus
-                          div.modal-permissions(l10n) - Hold up to&#32;
+                          span.modal-permissions(l10n) - Hold up to&#32;
                           span(rp-pretty-amount="amount_feedback")
-                          span(l10n-inc) &#32;on your behalf
+                          span.modal-permissions(l10n-inc) &#32;on your behalf
                         div.modal-buttons
                           button.modal-btn.btn.btn-default.btn-success.btn-md(ng-click="grant_confirmed()",
                             rp-spinner='{{loading ? 4 : null}}', ng-disabled="loading")
