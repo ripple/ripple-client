@@ -183,6 +183,51 @@ module.filter('rpfromnow', function () {
 });
 
 /**
+ * Show Ripple Name
+ *
+ * Shows a ripple name for a given ripple address
+ */
+module.filter("rpripplename", ['$http', function($http) {
+  var resolvedName = null,
+    serviceInvoked = false;
+
+  function realFilter(value) {
+    return resolvedName;
+  }
+
+  return function(address) {
+    if(!resolvedName) {
+      if(!serviceInvoked) {
+        serviceInvoked = true;
+
+        // Get the blobvault url
+        ripple.AuthInfo.get(Options.domain, "1", function(err, authInfo) {
+          if (err) {
+            console.log("Can't get the authinfo", err);
+          }
+
+          // Get the user
+          $http.get(authInfo.blobvault + '/v1/user/' + address)
+            .success(function(data) {
+              if (data.username) {
+                resolvedName = data.username;
+              } else {
+                // Show the ripple address if there's no name associated with it
+                resolvedName = address;
+              }
+            })
+            .error(function(err){
+              console.log("Can't get the blobvault", err);
+            });
+        });
+      }
+      return address;
+    }
+    else return realFilter(address);
+  }
+}]);
+
+/**
  * Show contact name or short address
  */
 module.filter('rpcontactname', ['$rootScope', function ($scope) {
