@@ -21,7 +21,12 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
     //- N1. Trust form
 
     .row(ng-show='connected')
-      include fund/menu
+      .col-sm-3
+        include fund/menu
+        form.row(name="advancedTrustFeatures")
+          .col-xs-12
+            label &#32; Show advanced settings
+              input(type="checkbox", ng-model="advanced_feature_switch")
       .col-sm-9
         .row.row-padding-small.head(ng-hide='true')
           .col-sm-5(l10n) Name / Address
@@ -30,10 +35,6 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
           .col-sm-2
             a(href="", ng-click="sorting.predicate = 'balance'; sorting.reverse=!sorting.reverse", l10n) Balance
           .col-sm-2(l10n) Trust Limit
-        .row
-          .col-sm-3.actions.btn-add-trust
-            a.btn.btn-primary.btn-sm.btn-block.sign(ng-click='toggle_form()',
-              ng-disabled='addform_visible || editform_visible', l10n) Connect account
         .row
           .col-xs-12.col-sm-6
             form.row-padding-small(name='trustForm', id='trustForm',
@@ -145,9 +146,9 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                       .modal-body
                         div.modal-prompt(l10n) {{ counterparty_address }} would like to:
                         div.grey-focus
-                          span.modal-permissions(l10n) - Hold up to&#32;
+                          div.modal-permissions(l10n) - Hold up to&#32;
                           span(rp-pretty-amount="amount_feedback")
-                          span.modal-permissions(l10n-inc) &#32;on your behalf
+                          span(l10n-inc) &#32;on your behalf
                         div.modal-buttons
                           button.modal-btn.btn.btn-default.btn-success.btn-md(ng-click="grant_confirmed()",
                             rp-spinner='{{loading ? 4 : null}}', ng-disabled="loading")
@@ -220,24 +221,24 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
 
         group.mode-granted.wide(ng-show='mode=="granted" && account.Balance')
           group.pending(ng-show='tx_result=="pending"')
-            h2.tx-status(l10n) The Ripple network is verifying your account connection to {{ counterparty_address }}.
+            h2.tx-status(l10n) Your grant request has been submitted.
           group.result-success(ng-show='tx_result=="cleared"')
-            h2.tx-status(l10n) Your account has been connected to {{ counterparty_address }}.
+            h2.tx-status(l10n) Trust is granted!
           group.result-error(ng-show='tx_result=="error"')
-            h2.tx-status(l10n) Your account could not be connected to {{ counterparty_address }}.
-            p(l10n) We were unable to connect your account. Please try again later.
+            h2.tx-status(l10n) Trust could not be granted!
+            p(l10n) We were unable to submit the request. Please try again later.
           group.result-malformed(ng-show='tx_result=="malformed"')
-            h2.tx-status(l10n) Account connect request is malformed!
+            h2.tx-status(l10n) Grant is malformed!
             p(l10n) Your request is invalid, reason: {{engine_result}} - {{engine_result_message}}
           group.result-failed(ng-show='tx_result=="failed"')
-            h2.tx-status(l10n)  Connect account failed!
+            h2.tx-status(l10n) Granting failed!
             p(ng-switch on="engine_result")
-              span(ng-switch-when="terNO_LINE", l10n) You have no connected account in this currency.
-              span(ng-switch-when="tecINSUF_RESERVE_LINE", l10n) Insufficient reserve to connect an account.
+              span(ng-switch-when="terNO_LINE", l10n) You have no trust line in this currency.
+              span(ng-switch-when="tecINSUF_RESERVE_LINE", l10n) Insufficient reserve to add trust line.
               span(ng-switch-when="tecNO_LINE_INSUF_RESERVE", l10n) You must have at
-                |  least {{account.reserve_to_add_trust | rpamount:0}} XRP to connect an account.&#32;
+                |  least {{account.reserve_to_add_trust | rpamount:0}} XRP to add a trust line.&#32;
                 a(href="http://ripple.com/help/#reserve", l10n) Read more.
-              span(ng-switch-default, l10n) Connecting account failed to clear,
+              span(ng-switch-default, l10n) Trust granting failed to clear,
                 |  reason: {{engine_result_message}}
           group.result-failed(ng-show='tx_result=="local"')
             h2.tx-status(l10n) Transaction failed!
@@ -245,100 +246,126 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
               span(ng-switch-when="telINSUF_FEE_P", l10n)
                 | The particular server you sent the transaction to was too busy to forward or process
                 |  your transaction at the fee you included in it.
+          group.actions
+            hr
+            .text-success(ng-show='addressSaved', class="actionLink", l10n) Address saved!
+            .save-address-form(ng-hide='contact', class="actionLink")
+              a(href="", ng-click='show_save_address_form = true',
+                ng-hide="show_save_address_form", l10n) Add this address to contacts
+              form(name="saveAddressForm", ng-class="{ show: show_save_address_form }", ng-submit='saveAddress()')
+                .address {{counterparty_address}}
+                label(for='save_address_name', l10n) Name this user
+                input.form-control#contact_name(
+                name='save_address_name', type="text"
+                ng-model='saveAddressName', unique, required
+                rp-autofill='$routeParams.name'
+                rp-focus)
+                .error(ng-show='saveAddressForm.save_address_name.$error.unique', l10n)
+                  | You already have a contact with the same name.
+                div
+                  button.btn.btn-success(type='submit', ng-disabled='addressSaving || saveAddressForm.$invalid')
+                    span(ng-show='addressSaving', l10n) Saving...
+                    span(ng-hide='addressSaving', l10n) Save
+                  a(href="", ng-click='show_save_address_form = false') Cancel
+              hr
+            div(class="actionLink")
+              a(href="#trust", ng-click="reset()", l10n) Back to trust page
+            hr
 
-        form.row(name="advancedTrustFeatures")
-          .col-xs-12
-            input(type="checkbox", ng-model="advanced_feature_switch")
-            span &#32; Show advanced settings
-        .trustBox(ng-repeat="entry in accountLines", ng-class="'currency-' + (entry.components[0].currency | lowercase)")
-          .row
-            .col-xs-8
+        .row.row-padding-small.line.padding-vertical-xs(ng-hide="true", ng-repeat='(key, line) in linesArray | orderBy:sorting.sort:sorting.reverse')
+          .col-sm-5 {{line.account | rpcontactnamefull}}
+          .col-sm-2(rp-currency="line.balance")
+          .col-sm-2
+            span(rp-tooltip="{{line.balance | rpamount }}") {{line.balance | rpamount:{rel_precision: 0} }}
+          .col-sm-2
+            rp-trust-line(rp-line-data='line')
+          .col-sm-1.actions
+            button.btn.btn-default.btn-sm(href="", ng-click="edit_line()", l10n) edit
+
+        .currencyBox(ng-repeat="entry in accountLines", ng-class="'currency-' + (entry.components[0].currency | lowercase)")
+          .row.currencyTitle
+            .col-xs-12
               i(class="icon fa fa-money", ng-class="'fa-' + (entry.components[0].currency | lowercase)")
               span.currency(rp-currency="entry.components[0].limit", rp-currency-full)
-          .row
-            div
-              span(
-                ng-class="{ 'col-sm-2': advanced_feature_switch, 'col-sm-3': !advanced_feature_switch }"
-                l10n) Issuer
-              span(
-                ng-class="{ 'col-sm-2': advanced_feature_switch, 'col-sm-3': !advanced_feature_switch }"
-                l10n) Balance
-              span(
-                ng-class="{ 'col-sm-2': advanced_feature_switch, 'col-sm-3': !advanced_feature_switch }"
-                l10n) Limit
-              span.col-sm-2(ng-show="advanced_feature_switch", l10n) Min
-              span.col-sm-2(ng-show="advanced_feature_switch", l10n) Rippling
-              span(
-                ng-class="{ 'col-sm-2': advanced_feature_switch, 'col-sm-3': !advanced_feature_switch }"
-                l10n) Edit
-            .lines
-              form(ng-controller="AccountRowCtrl", ng-repeat="component in entry.components", ng-submit="save_account()")
+          .row.head
+            div.col-xs-6(l10n) Issuer
+            div(
+              ng-class="{ 'col-xs-1': advanced_feature_switch, 'col-xs-2': !advanced_feature_switch }"
+              l10n) Balance
+            div(
+              ng-class="{ 'col-xs-1': advanced_feature_switch, 'col-xs-2': !advanced_feature_switch }"
+              l10n) Limit
+            div.col-xs-1(ng-show="advanced_feature_switch", l10n) Min
+            div.col-xs-1(ng-show="advanced_feature_switch", l10n) Rippling
+            div.col-xs-2(l10n) Edit
+          .lines
+            form(ng-controller="AccountRowCtrl", ng-repeat="component in entry.components", ng-submit="save_account()")
+              .row
                 ng-form(name="accountForm")
-                  .row
-                    //- TODO resolve ripple names
-                    div(
-                      ng-class="{ 'col-sm-2': advanced_feature_switch, 'col-sm-3': !advanced_feature_switch }"
-                      l10n) {{ component.account | rpcontactnamefull }}
-                    div(
-                      ng-class="{ 'col-sm-2': advanced_feature_switch, 'col-sm-3': !advanced_feature_switch }"
-                      l10n) {{ component.balance | rpamount:{rel_precision: 2} }}
-                    div(
-                      ng-class="{ 'col-sm-2': advanced_feature_switch, 'col-sm-3': !advanced_feature_switch }"
-                      l10n)
-                      div(ng-hide="editing") {{ component.limit | rpamount }}
-                      div(ng-show="editing")
-                        input.form-control(name='limit', type='text'
-                          ng-model='trust.limit', ng-pattern='validation_pattern'
-                          required)
-                    .col-sm-2(ng-show="advanced_feature_switch") {{ component.limit_peer | rpamount }}
-                    .col-sm-2(ng-show="advanced_feature_switch")
+                  //- TODO resolve ripple names
+                  div.col-xs-6(l10n) {{ component.account | rpcontactnamefull }}
+                  div(
+                    ng-class="{ 'col-xs-1': advanced_feature_switch, 'col-xs-2': !advanced_feature_switch }"
+                    l10n) {{ component.balance | rpamount:{rel_precision: 2} }}
+                  div(
+                    ng-class="{ 'col-xs-1': advanced_feature_switch, 'col-xs-2': !advanced_feature_switch }"
+                    l10n)
+                    div(ng-hide="editing") {{ component.limit | rpamount }}
+                    div(ng-show="editing")
+                      input.form-control.input-sm(name='limit', type='text'
+                        ng-model='trust.limit', ng-pattern='validation_pattern'
+                        required)
+                  .col-sm-1(ng-show="advanced_feature_switch") {{ component.limit_peer | rpamount }}
+                  .col-sm-1(ng-show="advanced_feature_switch")
+                    div(ng-hide="editing")
+                      .col-xs-2(ng-show="component.rippling", l10n) On
+                      .col-xs-2(ng-hide="component.rippling", l10n) Off
+                    div(ng-show="editing")
+                      span Rippling:&#32;
+                      span
+                        input(name='rippling', type='checkbox', ng-model='component.rippling')
+                  div.col-xs-2(l10n)
                       div(ng-hide="editing")
-                        .col-xs-2(ng-show="component.rippling", l10n) On
-                        .col-xs-2(ng-hide="component.rippling", l10n) Off
+                        a(href="", ng-click="edit_account()", l10n) Edit
                       div(ng-show="editing")
-                        span Rippling:&#32;
-                        span
-                          input(name='rippling', type='checkbox', ng-model='component.rippling')
-                    div(
-                      ng-class="{ 'col-sm-2': advanced_feature_switch, 'col-sm-3': !advanced_feature_switch }"
-                      l10n)
-                        div(ng-hide="editing")
-                          a.btn.btn-default(href="", ng-click="edit_account()", l10n) Edit
-                        div(ng-show="editing")
-                          button.btn.btn-block.btn-success(id='save', type='submit'
-                            ng-disabled='accountForm.$invalid', l10n) Save
-                          div
-                            button.btn.btn-block.btn-success(id="delete", type="button", ng-click="", ng-show="", l10n) Delete
-                          div(id="cancel")
-                            a(href="", ng-disabled='accountForm.$invalid', ng-click="cancel()", l10n) Cancel
-                          div
-                            .col-xs-6.col-sm-6.col-md-8.col-lg-9(ng-show='trust.balance !== "0" && orderbookStatus === "exists"')
-                              rp-confirm(
-                              action-text="Are you sure you want to delete this trust line? Ripple Trade will attempt to convert the remaining balance of {{ trust.balance }} {{ currency }} into XRP. This action can't be undone."
-                              action-button-text="Convert Balance and Delete"
-                              action-button-css="btn btn-default btn-danger"
-                              action-function="delete_account()"
-                              cancel-button-css="btn btn-default"
-                              cancel-button-text="Cancel"
-                              ng-hide="showPassword==true")
-                                a.danger(ng-click="load_orderbook()", href="", l10n) Delete
-                            .col-xs-6.col-sm-6.col-md-8.col-lg-9(ng-show='trust.balance !== "0" && orderbookStatus === "not"')
-                              rp-confirm(
-                              action-text="Are you sure you want to delete this trust line? Ripple Trade will return the balance of {{ trust.balance }} {{ currency }} to the issuer. This action can't be undone."
-                              action-button-text="Return Balance and Delete"
-                              action-button-css="btn btn-default btn-danger"
-                              action-function="delete_account()"
-                              cancel-button-css="btn btn-default"
-                              cancel-button-text="Cancel"
-                              ng-hide="showPassword==true")
-                                a.danger(ng-click="load_orderbook()", href="", l10n) Delete
-                            .col-xs-6.col-sm-6.col-md-8.col-lg-9(ng-show='trust.balance === "0"')
-                              rp-confirm(
-                              action-text="Are you sure you want to delete this trust line? This action can't be undone."
-                              action-button-text="Delete"
-                              action-button-css="btn btn-default btn-danger"
-                              action-function="delete_account()"
-                              cancel-button-css="btn btn-default"
-                              cancel-button-text="Cancel"
-                              ng-hide="showPassword==true")
-                                a.danger(ng-click="load_orderbook()", href="", l10n) Delete
+                        button.btn.btn-sm.btn-primary(id='save', type='submit'
+                          ng-disabled='accountForm.$invalid', l10n) Save
+                        a.btn.btn-sm.btn-default(href="", ng-click="cancel()"
+                          ng-disabled='accountForm.$invalid', l10n) Cancel
+                        div
+                          button.btn.btn-block.btn-success(id="delete", type="button", ng-click="", ng-show="", l10n) Delete
+                        div
+                          .col-xs-6.col-sm-6.col-md-8.col-lg-9(ng-show='trust.balance !== "0" && orderbookStatus === "exists"')
+                            rp-confirm(
+                            action-text="Are you sure you want to delete this trust line? Ripple Trade will attempt to convert the remaining balance of {{ balance }} {{ currency }} into XRP. This action can't be undone."
+                            action-button-text="Convert Balance and Delete"
+                            action-button-css="btn btn-default btn-danger"
+                            action-function="delete_account()"
+                            cancel-button-css="btn btn-default"
+                            cancel-button-text="Cancel"
+                            ng-hide="showPassword==true")
+                              a.danger(ng-click="load_orderbook()", href="", l10n) Delete
+                          .col-xs-6.col-sm-6.col-md-8.col-lg-9(ng-show='trust.balance !== "0" && orderbookStatus === "not"')
+                            rp-confirm(
+                            action-text="Are you sure you want to delete this trust line? Ripple Trade will return the balance of {{ balance }} {{ currency }} to the issuer. This action can't be undone."
+                            action-button-text="Return Balance and Delete"
+                            action-button-css="btn btn-default btn-danger"
+                            action-function="delete_account()"
+                            cancel-button-css="btn btn-default"
+                            cancel-button-text="Cancel"
+                            ng-hide="showPassword==true")
+                              a.danger(ng-click="load_orderbook()", href="", l10n) Delete
+                          .col-xs-6.col-sm-6.col-md-8.col-lg-9(ng-show='trust.balance === "0"')
+                            rp-confirm(
+                            action-text="Are you sure you want to delete this trust line? This action can't be undone."
+                            action-button-text="Delete"
+                            action-button-css="btn btn-default btn-danger"
+                            action-function="delete_account()"
+                            cancel-button-css="btn btn-default"
+                            cancel-button-text="Cancel"
+                            ng-hide="showPassword==true")
+                              a.danger(ng-click="load_orderbook()", href="", l10n) Delete
+        .row
+          .col-sm-3.actions.btn-add-trust
+            a.btn.btn-primary.btn-sm.btn-block.sign(ng-click='toggle_form()',
+            ng-disabled='addform_visible || editform_visible', l10n) Connect account

@@ -9,7 +9,8 @@ section.col-xs-12.content(ng-controller='FundCtrl')
   //- Funding
 
   .row(ng-show='connected')
-    include fund/menu
+    .col-sm-3
+      include fund/menu
     .col-sm-9.list
       .fundXrp(ng-show="$routeParams.currency == 'xrp'")
         div(ng-show="'web' === client")
