@@ -195,7 +195,6 @@ module.directive('rpPopup', ['rpPopup', '$parse', function(popup, $parse) {
         e.preventDefault();
 
         // onShow action
-        console.log('attrs',attrs);
         if (attrs.rpPopupOnOpen) {
           $parse(attrs.rpPopupOnOpen)(scope); 
         }

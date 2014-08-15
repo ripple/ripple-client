@@ -70,11 +70,13 @@ TrustTab.prototype.angular = function (module)
 
     $scope.toggle_form = function () {
 
-      if($scope.addform_visible || $scope.editform_visible)
+      if($scope.addform_visible || $scope.editform_visible) {
         $scope.reset();
-      else
+      } else {
         $scope.addform_visible = true;
+      }
     };
+
 
     // User should not even be able to try granting a trust if the reserve is insufficient
     $scope.$watch('account', function() {
@@ -101,6 +103,7 @@ TrustTab.prototype.angular = function (module)
     }, true);
 
     /**
+
      * N2. Confirmation page
      */
     $scope.grant = function ()
@@ -115,8 +118,6 @@ TrustTab.prototype.angular = function (module)
           $scope.$apply(function(){
             // hide throbber
             $scope.verifying = false;
-
-            console.log('inside grant, $scope.currency is: ', $scope.currency);
 
             $scope.lineCurrencyObj = Currency.from_human($scope.currency);
             var matchedCurrency = $scope.lineCurrencyObj.has_interest() ? $scope.lineCurrencyObj.to_hex() : $scope.lineCurrencyObj.get_iso();
@@ -356,7 +357,6 @@ TrustTab.prototype.angular = function (module)
     }
 
     $scope.$on('$balancesUpdate', function(){
-      console.log('$scope.trustlines is: ', $scope.lines);
       updateAccountLines();
     })
 
@@ -372,10 +372,9 @@ TrustTab.prototype.angular = function (module)
         $scope.editing = false;
       }
 
+
       $scope.edit_account = function() {
         $scope.editing = true;
-
-        console.log('$scope.component is: ', $scope.component);
 
         $scope.trust = {};
         $scope.trust.limit = Number($scope.component.limit.to_json().value);
@@ -385,9 +384,6 @@ TrustTab.prototype.angular = function (module)
         var currency = Currency.from_human($scope.component.currency);
         $scope.trust.currency = currency.to_human({full_name:$scope.currencies_all_keyed[currency.get_iso()].name});
         $scope.trust.counterparty = $scope.component.account;
-
-        console.log('$scope.trust.currency is: ', $scope.trust.currency);
-        console.log('$scope.trust.balance: ', $scope.trust.balance);
 
         $scope.load_orderbook();
       }
@@ -499,8 +495,6 @@ TrustTab.prototype.angular = function (module)
           } else {
             $scope.orderbookStatus = 'not';
           }
-
-          console.log('$scope.orderbookStatus is: ', $scope.orderbookStatus);
         });
 
       }

@@ -154,8 +154,8 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                             rp-spinner='{{loading ? 4 : null}}', ng-disabled="loading")
                             span(ng-show="loading", l10n) Loading...
                             span(ng-hide="loading", l10n) Confirm
-                          button.modal-btn.btn.btn-default.btn-md(data-dismiss="modal"
-                            ng-hide="loading", l10n) Cancel
+                          button.modal-btn.btn.btn-default.btn-md(data-dismiss="modal",
+                            ng-click='toggle_form()', ng-hide="loading", l10n) Cancel
               .row.delete-trust
                 .col-xs-6.col-sm-6.col-md-8.col-lg-9(ng-show='balance !== "0" && orderbookStatus === "exists"')
                   rp-confirm(
