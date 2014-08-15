@@ -58,12 +58,6 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
                       strong.nowrap  {{entry.transaction.amount | rpamount:{reference_date:entry.dateRaw} }} {{entry.transaction.amount | rpcurrency}}
                     != require("../tabs/history/effects.jade")()
                   .transaction(ng-switch-when="exchange")
-                    span(l10n) You requested to exchange
-                      strong.nowrap  {{entry.transaction.spent | rpamount}}
-                        | {{entry.transaction.spent | rpcurrency}}
-                      |  to
-                      strong.nowrap  {{entry.transaction.amount | rpamount}}
-                        | {{entry.transaction.amount | rpcurrency}}
                     != require("../tabs/history/effects.jade")()
                   .transaction(ng-switch-when="trusted")
                     span.address(title="{{entry.transaction.counterparty}}", l10n)
@@ -81,14 +75,6 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
                       | .
                     != require("../tabs/history/effects.jade")()
                   .transaction(ng-switch-when="offernew")
-                    span(ng-show="entry.transaction.sell", l10n) You created an order to sell&#32;
-                      strong {{entry.transaction.gets | rpamount}} {{entry.transaction.gets | rpcurrency}}
-                      |  for&#32;
-                      strong {{entry.transaction.pays | rpamount}} {{entry.transaction.pays | rpcurrency}}
-                    span(ng-hide="entry.transaction.sell", l10n) You created an order to buy&#32;
-                      strong {{entry.transaction.pays | rpamount}} {{entry.transaction.pays | rpcurrency}}
-                      |  for&#32;
-                      strong {{entry.transaction.gets | rpamount}} {{entry.transaction.gets | rpcurrency}}
                     != require("../tabs/history/effects.jade")()
                   .transaction(ng-switch-when="offercancel")
                     span(l10n) You cancelled an order accepting&#32;
