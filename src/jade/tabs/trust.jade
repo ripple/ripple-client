@@ -132,7 +132,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                     rp-popover-placement="bottom"
                     l10n-rp-popover-title="Allow Rippling"
                     rp-popover-trigger="click"
-                    l10n-data-content="Allow this trust line's balances to be transferred to another issuer you trust. <a href=https://ripple.com/wiki/No_Ripple target=_blank>More information</a>")
+                    l10n-data-content="Allow this account's balances to be transferred to another issuer you connect to. <a href=https://ripple.com/wiki/No_Ripple target=_blank>More information</a>")
               .row
                 .col-xs-6.col-sm-4
                   button.btn.btn-block.btn-default(type="button", ng-click='toggle_form()', l10n) Cancel
@@ -196,49 +196,28 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
               |  to add a new trust line.&#32;
               a(href="https://ripple.com/wiki/Reserves", target="_blank") More information
 
-        //- N2. Confirmation page
-
-
-        //- N3. Waiting for transaction result page
-
-        group.mode-granting(ng-show='mode=="granting" && account.Balance')
-          p.throbber.literal(l10n) Granting is in progress
-          hr
-          //- p: button.btn.btn-default(ng-click='reset()', l10n) Stop waiting
-
-        //- N4. Error page
-
-        group.mode-error(ng-show='mode=="error" && account.Balance')
-          div(ng-show="errorMessage")
-            p.literal {{errorMessage}}
-            p: a.btn.btn-default(href="#balance", l10n) Back to balance
-          div(ng-hide="errorMessage")
-            p.literal(l10n) Sorry, an error occurred. Make sure you
-              |  are connected to the Internet and try again later.
-            p: button.btn.btn-default(ng-click='reset()', l10n) &laquo; Back
 
         //- N5. Granted page
-
-        group.mode-granted.wide(ng-show='mode=="granted" && account.Balance')
+        group.mode-granted.wide(ng-show='mode=="granted" && account.Balance', ng-class="{ clear-notif: clearNotification }")
           group.pending(ng-show='tx_result=="pending"')
-            h2.tx-status(l10n) Your grant request has been submitted.
+            h2.tx-status(l10n) Your account connection request has been submitted.
           group.result-success(ng-show='tx_result=="cleared"')
-            h2.tx-status(l10n) Trust is granted!
+            h2.tx-status(l10n) Your account has been connected.
           group.result-error(ng-show='tx_result=="error"')
-            h2.tx-status(l10n) Trust could not be granted!
+            h2.tx-status(l10n) Account could not be granted!
             p(l10n) We were unable to submit the request. Please try again later.
           group.result-malformed(ng-show='tx_result=="malformed"')
-            h2.tx-status(l10n) Grant is malformed!
+            h2.tx-status(l10n) Account connection request is malformed!
             p(l10n) Your request is invalid, reason: {{engine_result}} - {{engine_result_message}}
           group.result-failed(ng-show='tx_result=="failed"')
-            h2.tx-status(l10n) Granting failed!
+            h2.tx-status(l10n) Account connection failed!
             p(ng-switch on="engine_result")
-              span(ng-switch-when="terNO_LINE", l10n) You have no trust line in this currency.
-              span(ng-switch-when="tecINSUF_RESERVE_LINE", l10n) Insufficient reserve to add trust line.
+              span(ng-switch-when="terNO_LINE", l10n) You have no account connected in this currency.
+              span(ng-switch-when="tecINSUF_RESERVE_LINE", l10n) Insufficient reserve to connect account.
               span(ng-switch-when="tecNO_LINE_INSUF_RESERVE", l10n) You must have at
-                |  least {{account.reserve_to_add_trust | rpamount:0}} XRP to add a trust line.&#32;
+                |  least {{account.reserve_to_add_trust | rpamount:0}} XRP to connect an account.&#32;
                 a(href="http://ripple.com/help/#reserve", l10n) Read more.
-              span(ng-switch-default, l10n) Trust granting failed to clear,
+              span(ng-switch-default, l10n) Account connection failed to clear,
                 |  reason: {{engine_result_message}}
           group.result-failed(ng-show='tx_result=="local"')
             h2.tx-status(l10n) Transaction failed!
@@ -246,31 +225,38 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
               span(ng-switch-when="telINSUF_FEE_P", l10n)
                 | The particular server you sent the transaction to was too busy to forward or process
                 |  your transaction at the fee you included in it.
-          group.actions
-            hr
-            .text-success(ng-show='addressSaved', class="actionLink", l10n) Address saved!
-            .save-address-form(ng-hide='contact', class="actionLink")
-              a(href="", ng-click='show_save_address_form = true',
-                ng-hide="show_save_address_form", l10n) Add this address to contacts
-              form(name="saveAddressForm", ng-class="{ show: show_save_address_form }", ng-submit='saveAddress()')
-                .address {{counterparty_address}}
-                label(for='save_address_name', l10n) Name this user
-                input.form-control#contact_name(
-                name='save_address_name', type="text"
-                ng-model='saveAddressName', unique, required
-                rp-autofill='$routeParams.name'
-                rp-focus)
-                .error(ng-show='saveAddressForm.save_address_name.$error.unique', l10n)
-                  | You already have a contact with the same name.
-                div
-                  button.btn.btn-success(type='submit', ng-disabled='addressSaving || saveAddressForm.$invalid')
-                    span(ng-show='addressSaving', l10n) Saving...
-                    span(ng-hide='addressSaving', l10n) Save
-                  a(href="", ng-click='show_save_address_form = false') Cancel
-              hr
-            div(class="actionLink")
-              a(href="#trust", ng-click="reset()", l10n) Back to trust page
-            hr
+          //- group.actions
+          //-   hr
+          //-   .text-success(ng-show='addressSaved', class="actionLink", l10n) Address saved!
+          //-   .save-address-form(ng-hide='contact', class="actionLink")
+          //-     a(href="", ng-click='show_save_address_form = true',
+          //-       ng-hide="show_save_address_form", l10n) Add this address to contacts
+          //-     form(name="saveAddressForm", ng-class="{ show: show_save_address_form }", ng-submit='saveAddress()')
+          //-       .address {{counterparty_address}}
+          //-       label(for='save_address_name', l10n) Name this user
+          //-       input.form-control#contact_name(
+          //-       name='save_address_name', type="text"
+          //-       ng-model='saveAddressName', unique, required
+          //-       rp-autofill='$routeParams.name'
+          //-       rp-focus)
+          //-       .error(ng-show='saveAddressForm.save_address_name.$error.unique', l10n)
+          //-         | You already have a contact with the same name.
+          //-       div
+          //-         button.btn.btn-success(type='submit', ng-disabled='addressSaving || saveAddressForm.$invalid')
+          //-           span(ng-show='addressSaving', l10n) Saving...
+          //-           span(ng-hide='addressSaving', l10n) Save
+          //-         a(href="", ng-click='show_save_address_form = false') Cancel
+          //-     hr
+          //-   div(class="actionLink")
+          //-     a(href="#trust", ng-click="reset()", l10n) Back to trust page
+          //-   hr
+        .row
+          .col-sm-3.actions.btn-add-trust
+            a.btn.btn-primary.btn-sm.btn-block.sign(ng-click='toggle_form()',
+            ng-disabled='addform_visible || editform_visible', l10n) Connect account
+        .row
+          .col-sm-3.actions
+            a(href="https://support.ripplelabs.com/hc/en-us/articles/202847686-Gateway-Information", target="_blank", l10n) Learn more about gateways
 
         .row.row-padding-small.line.padding-vertical-xs(ng-hide="true", ng-repeat='(key, line) in linesArray | orderBy:sorting.sort:sorting.reverse')
           .col-sm-5 {{line.account | rpcontactnamefull}}
@@ -300,7 +286,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
             div.col-xs-2(l10n) Edit
           .lines
             .line(ng-controller="AccountRowCtrl", ng-repeat="component in entry.components")
-              .row
+              .row(ng-class="{ 'frozen-account': component.freeze_peer }")
                 //- TODO resolve ripple names
                 div.col-xs-6(l10n) {{ component.account | rpcontactnamefull }}
                 div(
@@ -351,7 +337,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                       .row.text-right
                         .col-xs-12(ng-show='trust.balance !== "0" && orderbookStatus === "exists"')
                           rp-confirm(
-                          action-text="Are you sure you want to disconnect from this trust line? Ripple Trade will attempt to convert the remaining balance of {{ trust.balance }} {{ currency }} into XRP. This action can't be undone."
+                          action-text="Are you sure you want to disconnect from this account? Ripple Trade will attempt to convert the remaining balance of {{ trust.balance }} {{ currency }} into XRP. This action can't be undone."
                           action-button-text="Convert Balance and Delete"
                           action-button-css="btn btn-default btn-danger"
                           action-function="delete_account()"
@@ -380,7 +366,3 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                           ng-hide="showPassword==true")
                             a.danger(ng-click="load_orderbook()", href="", l10n) Delete
 
-        .row
-          .col-sm-3.actions.btn-add-trust
-            a.btn.btn-primary.btn-sm.btn-block.sign(ng-click='toggle_form()',
-            ng-disabled='addform_visible || editform_visible', l10n) Connect account
