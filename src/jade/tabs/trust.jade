@@ -299,82 +299,87 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
             div.col-xs-1(ng-show="advanced_feature_switch", l10n) Rippling
             div.col-xs-2(l10n) Edit
           .lines
-            form(ng-controller="AccountRowCtrl", ng-repeat="component in entry.components", ng-submit="save_account()")
-              .row(ng-class="{ 'frozen-account': component.freeze_peer }")
-                ng-form(name="accountForm")
-                  //- TODO resolve ripple names
-                  div.col-xs-6(l10n) {{ component.account | rpcontactnamefull }}
-                  div(
-                    ng-class="{ 'col-xs-1': advanced_feature_switch, 'col-xs-2': !advanced_feature_switch }"
-                    l10n) {{ component.balance | rpamount:{rel_precision: 2} }}
-                  div(
-                    ng-class="{ 'col-xs-1': advanced_feature_switch, 'col-xs-2': !advanced_feature_switch }"
-                    l10n)
-                    div(ng-hide="editing") {{ component.limit | rpamount }}
-                    div(ng-show="editing")
-                      input.form-control.input-sm(name='limit', type='text'
+            .line(ng-controller="AccountRowCtrl", ng-repeat="component in entry.components")
+              .row
+                //- TODO resolve ripple names
+                div.col-xs-6(l10n) {{ component.account | rpcontactnamefull }}
+                div(
+                  ng-class="{ 'col-xs-1': advanced_feature_switch, 'col-xs-2': !advanced_feature_switch }"
+                  l10n) {{ component.balance | rpamount:{rel_precision: 2} }}
+                div(
+                  ng-class="{ 'col-xs-1': advanced_feature_switch, 'col-xs-2': !advanced_feature_switch }"
+                  l10n)
+                  div {{ component.limit | rpamount }}
+                .col-sm-1(ng-show="advanced_feature_switch") {{ component.limit_peer | rpamount }}
+                .col-sm-1(ng-show="advanced_feature_switch")
+                  div(ng-show="component.rippling", l10n) On
+                  div(ng-hide="component.rippling", l10n) Off
+                div.col-xs-2(ng-hide="component.freeze_peer", l10n)
+                  a(href="", ng-hide="editing", ng-click="edit_account()"
+                    l10n) Edit
+
+                //- Account Freeze
+                div.col-xs-2(ng-show="component.freeze_peer", l10n)
+                  div
+                    i.fa.fa-lock(
+                      rp-popover
+                      rp-popover-placement="bottom"
+                      rp-popover-title='Account Frozen'
+                      rp-popover-trigger="click"
+                      data-content='This is an issue you are being reminded about. Click here to fix.')
+              .row.editBox(ng-show="editing")
+                form(ng-class="{ 'frozen-account': component.freeze_peer }"
+                  ng-submit="save_account()")
+                  ng-form(name="accountForm")
+                    .col-sm-1.inputPadding(l10n) Limit
+                    .col-sm-3
+                      input.form-control(name='limit', type='text'
                         ng-model='trust.limit', ng-pattern='validation_pattern'
                         required)
-                  .col-sm-1(ng-show="advanced_feature_switch") {{ component.limit_peer | rpamount }}
-                  .col-sm-1(ng-show="advanced_feature_switch")
-                    div(ng-hide="editing")
-                      .col-xs-2(ng-show="component.rippling", l10n) On
-                      .col-xs-2(ng-hide="component.rippling", l10n) Off
-                    div(ng-show="editing")
-                      span Rippling:&#32;
-                      span
-                        input(name='rippling', type='checkbox', ng-model='component.rippling')
-                  div.col-xs-2(ng-show="!component.rippling", l10n)
-                      div(ng-hide="editing")
-                        a(href="", ng-click="edit_account()", l10n) Edit
-                      div(ng-show="editing")
-                        button.btn.btn-sm.btn-primary(id='save', type='submit'
-                          ng-disabled='accountForm.$invalid', l10n) Save
-                        a.btn.btn-sm.btn-default(href="", ng-click="cancel()"
-                          ng-disabled='accountForm.$invalid', l10n) Cancel
-                        div
-                          button.btn.btn-block.btn-success(id="delete", type="button", ng-click="", ng-show="", l10n) Delete
-                        div
-                          .col-xs-6.col-sm-6.col-md-8.col-lg-9(ng-show='trust.balance !== "0" && orderbookStatus === "exists"')
-                            rp-confirm(
-                            action-text="Are you sure you want to disconnect from this trust line? Ripple Trade will attempt to convert the remaining balance of {{ trust.balance }} {{ currency }} into XRP. This action can't be undone."
-                            action-button-text="Convert Balance and Delete"
-                            action-button-css="btn btn-default btn-danger"
-                            action-function="delete_account()"
-                            cancel-button-css="btn btn-default"
-                            cancel-button-text="Cancel"
-                            ng-hide="showPassword==true")
-                              a.danger(ng-click="load_orderbook()", href="", l10n) Delete
-                          .col-xs-6.col-sm-6.col-md-8.col-lg-9(ng-show='trust.balance !== "0" && orderbookStatus === "not"')
-                            rp-confirm(
-                            action-text="Are you sure you want to disconnect from this account? Ripple Trade will return the balance of {{ trust.balance }} {{ currency }} to the issuer. This action can't be undone."
-                            action-button-text="Return Balance and Delete"
-                            action-button-css="btn btn-default btn-danger"
-                            action-function="delete_account()"
-                            cancel-button-css="btn btn-default"
-                            cancel-button-text="Cancel"
-                            ng-hide="showPassword==true")
-                              a.danger(ng-click="load_orderbook()", href="", l10n) Delete
-                          .col-xs-6.col-sm-6.col-md-8.col-lg-9(ng-show='trust.balance === "0"')
-                            rp-confirm(
-                            action-text="Are you sure you want to disconnect from this account? This action can't be undone."
-                            action-button-text="Delete"
-                            action-button-css="btn btn-default btn-danger"
-                            action-function="delete_account()"
-                            cancel-button-css="btn btn-default"
-                            cancel-button-text="Cancel"
-                            ng-hide="showPassword==true")
-                              a.danger(ng-click="load_orderbook()", href="", l10n) Delete
+                    .col-sm-4.inputPadding
+                      div(ng-show="advanced_feature_switch")
+                        label(l10n) Rippling&#32;
+                          input(name='rippling', type='checkbox', ng-model='trust.rippling')
+                    .col-sm-4
+                      .row
+                        .col-xs-6
+                          button.btn.btn-block.btn-primary(id='save', type='submit'
+                            ng-disabled='accountForm.$invalid', l10n) Save
+                        .col-xs-6
+                          a.btn.btn-block.btn-default(href="", ng-click="cancel()"
+                            l10n) Cancel
+                      .row.text-right
+                        .col-xs-12(ng-show='trust.balance !== "0" && orderbookStatus === "exists"')
+                          rp-confirm(
+                          action-text="Are you sure you want to disconnect from this trust line? Ripple Trade will attempt to convert the remaining balance of {{ trust.balance }} {{ currency }} into XRP. This action can't be undone."
+                          action-button-text="Convert Balance and Delete"
+                          action-button-css="btn btn-default btn-danger"
+                          action-function="delete_account()"
+                          cancel-button-css="btn btn-default"
+                          cancel-button-text="Cancel"
+                          ng-hide="showPassword==true")
+                            a.danger(ng-click="load_orderbook()", href="", l10n) Delete
+                        .col-xs-12(ng-show='trust.balance !== "0" && orderbookStatus === "not"')
+                          rp-confirm(
+                          action-text="Are you sure you want to disconnect from this account? Ripple Trade will return the balance of {{ trust.balance }} {{ currency }} to the issuer. This action can't be undone."
+                          action-button-text="Return Balance and Delete"
+                          action-button-css="btn btn-default btn-danger"
+                          action-function="delete_account()"
+                          cancel-button-css="btn btn-default"
+                          cancel-button-text="Cancel"
+                          ng-hide="showPassword==true")
+                            a.danger(ng-click="load_orderbook()", href="", l10n) Delete
+                        .col-xs-12(ng-show='trust.balance === "0"')
+                          rp-confirm(
+                          action-text="Are you sure you want to disconnect from this account? This action can't be undone."
+                          action-button-text="Delete"
+                          action-button-css="btn btn-default btn-danger"
+                          action-function="delete_account()"
+                          cancel-button-css="btn btn-default"
+                          cancel-button-text="Cancel"
+                          ng-hide="showPassword==true")
+                            a.danger(ng-click="load_orderbook()", href="", l10n) Delete
 
-                  //- Account Freeze
-                  div.col-xs-2(ng-show="component.freeze_peer" l10n)
-                      div
-                        i.fa.fa-lock(
-                          rp-popover
-                          rp-popover-placement="bottom"
-                          rp-popover-title='Account Frozen'
-                          rp-popover-trigger="click"
-                          data-content='This is an issue you are being reminded about. Click here to fix.')
         .row
           .col-sm-3.actions.btn-add-trust
             a.btn.btn-primary.btn-sm.btn-block.sign(ng-click='toggle_form()',

@@ -378,6 +378,7 @@ TrustTab.prototype.angular = function (module)
 
         $scope.trust = {};
         $scope.trust.limit = Number($scope.component.limit.to_json().value);
+        $scope.trust.rippling = component.rippling;
         $scope.trust.limit_peer = Number($scope.component.limit_peer.to_json().value);
         $scope.trust.balance = String($scope.component.balance.to_json().value);
         $scope.trust.balanceAmount = $scope.component.balance;
