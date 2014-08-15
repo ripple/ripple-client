@@ -55,6 +55,7 @@ TrustTab.prototype.angular = function (module)
       $scope.counterparty = '';
       $scope.saveAddressName = '';
       $scope.error_account_reserve = false;
+      $scope.clearNotification = false;
 
       // If all the form fields are prefilled, go to confirmation page
       if ($routeParams.to && $routeParams.amount) {
@@ -191,8 +192,9 @@ TrustTab.prototype.angular = function (module)
      */
     $scope.grant_confirmed = function () {
       var amount = $scope.amount_feedback.to_json();
-
       var tx = $network.remote.transaction();
+
+      $scope.toggle_form();
 
       // Flags
       tx
@@ -273,6 +275,9 @@ TrustTab.prototype.angular = function (module)
       switch (res.engine_result.slice(0, 3)) {
         case 'tes':
           $scope.tx_result = accepted ? 'cleared' : 'pending';
+          $timeout(function() {
+            $scope.clearNotification = true;
+          }, 3000, true);
           break;
         case 'tem':
           $scope.tx_result = 'malformed';
@@ -363,8 +368,8 @@ TrustTab.prototype.angular = function (module)
     updateAccountLines();
   }]);
 
-  module.controller('AccountRowCtrl', ['$scope', 'rpBooks', 'rpNetwork', 'rpId', 'rpKeychain',
-    function ($scope, books, $network, id, keychain) {
+  module.controller('AccountRowCtrl', ['$scope', 'rpBooks', 'rpNetwork', 'rpId', 'rpKeychain', '$timeout',
+    function ($scope, books, $network, id, keychain, $timeout) {
 
       $scope.validation_pattern = /^0*(([0-9]*.?[0-9]*)|(.0*[1-9][0-9]*))$/;
 
@@ -382,6 +387,9 @@ TrustTab.prototype.angular = function (module)
         $scope.trust.limit_peer = Number($scope.component.limit_peer.to_json().value);
         $scope.trust.balance = String($scope.component.balance.to_json().value);
         $scope.trust.balanceAmount = $scope.component.balance;
+        $scope.trust.rippling = $scope.component.rippling;
+
+        console.log('$scope.trust.rippling in edit_account: ', $scope.trust.rippling);
         var currency = Currency.from_human($scope.component.currency);
         $scope.trust.currency = currency.to_human({full_name:$scope.currencies_all_keyed[currency.get_iso()].name});
         $scope.trust.counterparty = $scope.component.account;
@@ -501,6 +509,9 @@ TrustTab.prototype.angular = function (module)
       }
 
       $scope.save_account = function () {
+
+        var lineRippling = $scope.component.rippling;
+
         var amount = ripple.Amount.from_human(
           $scope.trust.limit + ' ' + $scope.component.currency,
           {reference_date: new Date(+new Date() + 5*60000)}
@@ -519,9 +530,10 @@ TrustTab.prototype.angular = function (module)
         // Flags
         tx
           .rippleLineSet(id.account, amount)
-          .setFlags($scope.component.rippling ? 'ClearNoRipple' : 'NoRipple')
+          .setFlags(lineRippling ? 'ClearNoRipple' : 'NoRipple')
           .on('success', function(res){
             $scope.$apply(function () {
+              console.log('lineRippling is: ', lineRippling);
               setEngineStatus(res, true);
               $scope.editing = false;
             });
