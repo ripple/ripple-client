@@ -190,9 +190,9 @@ module.factory('rpAuthFlow', ['$rootScope',
     });
   };
   
-  AuthFlow.requestToken = function (url, id, callback) {
+  AuthFlow.requestToken = function (url, id, force_sms, callback) {
     var meta = AuthFlow.getVaultClient('');
-    meta.client.requestToken(url, id, function(err, resp){
+    meta.client.requestToken(url, id, force_sms, function(err, resp){
       $scope.$apply(function() { 
         callback(err, resp);         
       });       
