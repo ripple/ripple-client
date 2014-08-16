@@ -198,7 +198,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
 
 
         //- N5. Granted page
-        group.mode-granted.wide(ng-show='mode=="granted" && account.Balance', ng-class="{ clear-notif: clearNotification }")
+        group.mode-granted.wide(ng-show='mode=="granted" && account.Balance', ng-class="{ 'clearNotif': clearNotification }")
           group.pending(ng-show='tx_result=="pending"')
             h2.tx-status(l10n) Your account connection request has been submitted.
           group.result-success(ng-show='tx_result=="cleared"')
@@ -259,7 +259,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
             a(href="https://support.ripplelabs.com/hc/en-us/articles/202847686-Gateway-Information", target="_blank", l10n) Learn more about gateways
 
         .row.row-padding-small.line.padding-vertical-xs(ng-hide="true", ng-repeat='(key, line) in linesArray | orderBy:sorting.sort:sorting.reverse')
-          .col-sm-5 {{line.account | rpcontactnamefull}}
+          .col-sm-5 {{line.account | rpcontactnamefull }}
           .col-sm-2(rp-currency="line.balance")
           .col-sm-2
             span(rp-tooltip="{{line.balance | rpamount }}") {{line.balance | rpamount:{rel_precision: 0} }}

@@ -57,6 +57,8 @@ TrustTab.prototype.angular = function (module)
       $scope.error_account_reserve = false;
       $scope.clearNotification = false;
 
+      console.log('clearNotification is false');
+
       // If all the form fields are prefilled, go to confirmation page
       if ($routeParams.to && $routeParams.amount) {
         // At this stage 'counterparty_address' may be empty. Wait for it...
@@ -276,8 +278,11 @@ TrustTab.prototype.angular = function (module)
         case 'tes':
           $scope.tx_result = accepted ? 'cleared' : 'pending';
           $timeout(function() {
-            $scope.clearNotification = true;
-          }, 3000, true);
+            if ($scope.tx_result === 'cleared') {
+              $scope.clearNotification = true;
+              console.log('$scope.clearNotification is: ', $scope.clearNotification);
+            }
+          }, 3000);
           break;
         case 'tem':
           $scope.tx_result = 'malformed';
@@ -383,11 +388,10 @@ TrustTab.prototype.angular = function (module)
 
         $scope.trust = {};
         $scope.trust.limit = Number($scope.component.limit.to_json().value);
-        $scope.trust.rippling = component.rippling;
+        $scope.trust.rippling = $scope.component.no_ripple;
         $scope.trust.limit_peer = Number($scope.component.limit_peer.to_json().value);
         $scope.trust.balance = String($scope.component.balance.to_json().value);
         $scope.trust.balanceAmount = $scope.component.balance;
-        $scope.trust.rippling = $scope.component.rippling;
 
         console.log('$scope.trust.rippling in edit_account: ', $scope.trust.rippling);
         var currency = Currency.from_human($scope.component.currency);
@@ -492,6 +496,7 @@ TrustTab.prototype.angular = function (module)
           currency: $scope.trust.currency,
           issuer: $scope.trust.counterparty
         }, {
+
           currency: 'XRP',
           issuer: undefined
         });
@@ -509,6 +514,7 @@ TrustTab.prototype.angular = function (module)
       }
 
       $scope.save_account = function () {
+
         $scope.trust.loading = true;
 
         var amount = ripple.Amount.from_human(
@@ -532,7 +538,6 @@ TrustTab.prototype.angular = function (module)
           .setFlags($scope.trust.rippling ? 'ClearNoRipple' : 'NoRipple')
           .on('success', function(res){
             $scope.$apply(function () {
-              console.log('lineRippling is: ', lineRippling);
               setEngineStatus(res, true);
               $scope.editing = false;
               $scope.trust.loading = false;
