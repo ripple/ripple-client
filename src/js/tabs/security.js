@@ -30,11 +30,9 @@ SecurityTab.prototype.angular = function (module) {
 
 
     $scope.isUnlocked = true; //hiding the dialog for now
-    $scope.isUnlocked  = keychain.isUnlocked($id.account);
-    $scope.loading2FA  = false;
-
-    $scope.passwordProtection = !$scope.userBlob.data.persistUnlock;
-
+    //$scope.isUnlocked = keychain.isUnlocked($id.account);
+    $scope.loading2FA = false;
+    
     $scope.$on('$blobUpdate', onBlobUpdate);
     onBlobUpdate();
 
@@ -45,13 +43,12 @@ SecurityTab.prototype.angular = function (module) {
       if ("function" === typeof $scope.userBlob.encrypt) {
         $scope.enc = $scope.userBlob.encrypt();
       }
-      $scope.passwordProtection = !$scope.userBlob.data.persistUnlock;
+      
+      $scope.persistUnlock = $scope.userBlob.data.persistUnlock;
     }
 
-    //$scope.mode2FA = 'verifyPhone';
-
     if ($scope.isUnlocked) {
-      $timeout(load2FA, 50);
+      //$timeout(load2FA, 50);
     }
 
     $scope.restoreSession = function() {
@@ -127,9 +124,10 @@ SecurityTab.prototype.angular = function (module) {
     };
 
     $scope.setPasswordProtection = function () {
-      keychain.setPasswordProtection(!$scope.passwordProtection, function(err, resp){
+      keychain.setPasswordProtection($scope.persistUnlock, function(err, resp){
         if (err) {
-          $scope.passwordProtection = !$scope.PasswordProtection;
+          console.log(err);
+          $scope.persistUnlock = !$scope.persistUnlock;
           //TODO: report errors to user
         }
       });
