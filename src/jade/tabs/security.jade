@@ -21,7 +21,7 @@ section.col-xs-12.content(ng-controller="SecurityCtrl")
       .showSecurity(ng-show="settingsPage == 'security'")
         div(ng-show="'web' === client")
           h4(l10n) Security settings
-          .section
+          .section(ng-if="0")
             .alert.alert-success(ng-show="", l10n) Two factor authentication has been enbabled.
             .alert.alert-success(ng-show="", l10n) Two factor authentication has been disabled.
             .descriptor Two Factor Authentication
@@ -169,5 +169,6 @@ section.col-xs-12.content(ng-controller="SecurityCtrl")
           .row
             .col-xs-12
               div.helperInput
-                input.passwordProtection(name='passwordProtection', type='checkbox', ng-model='passwordProtection', ng-click='setPasswordProtection()')
-                label(for='passwordProtection', l10n) Require password for transactions
+                input.persistUnlock(name='persistUnlock', type='checkbox', ng-model='persistUnlock', ng-click='setPasswordProtection()')
+                label(for='persistUnlock', l10n) Do not require password for transactions
+                div.note(l10n) Your secret is stored in memory only, you’ll still have to enter your password once after reloading the page.
