@@ -6,7 +6,7 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
       section.content(id="servers")
         h4(l10n) Settings
         form(name="blobForm", ng-submit="saveBlob()")
-          .descriptor(ng-show="'web' === client", l10n) Blob Vault
+          .descriptor(ng-show="'web' === client", l10n) Blob vault
           .row(ng-hide="editBlob")
             .col-xs-12.col-sm-8.col-md-5
               .description {{options.blobvault}}
@@ -26,7 +26,7 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
             .col-xs-3.col-sm-3.col-md-2(id="cancel")
               a(href="", ng-click="cancelEditBlob()", l10n) Cancel
         form(name="bridgeForm", ng-submit="saveBridge()")
-          .descriptor(l10n) Bitcoin Bridge
+          .descriptor(l10n) Bitcoin bridge
           .row(ng-hide="editBridge")
             .col-xs-12.col-sm-8.col-md-5
               .description {{options.bridge.out.bitcoin}}
@@ -45,6 +45,31 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
               button.btn.btn-block.btn-success.btn-xs.submit(id="deleteBridge", type="button", ng-click="deleteBridge()", l10n) Delete
             .col-xs-3.col-sm-3.col-md-2(id="cancel")
               a(href="", ng-click="cancelEditBridge()", l10n) Cancel
+        form(name="accountsAdvForm", ng-submit="saveAcctOptions()")
+          .descriptor(ng-show="'web' === client", l10n) Trust line
+          .row(ng-hide="editAcctOptions")
+            .col-xs-6.col-sm-5.col-md-3
+              .description Advanced settings
+            .col-xs-6.col-sm-5.col-md-3
+              .description(ng-show="advanced_feature_switch", l10n) Show
+              .description(ng-hide="advanced_feature_switch", l10n) Hide
+            .col-xs-3.col-sm-3.col-md-2
+              a(href="", ng-click="editAcctOptions = true", l10n) edit
+          .row(ng-show="editAcctOptions")
+            .col-xs-6.col-sm-5.col-md-3
+              .description Advanced settings
+            .col-xs-2
+              div.helperInput
+                label
+                  input(type="checkbox", name="acct_adv", ng-model='advanced_feature_switch')
+                  span(l10n) Show
+            .col-xs-2
+              button.btn.btn-block.btn-success.btn-xs.submit(id='save', type='submit'
+              ng-disabled='serverForm.$invalid', l10n) Save
+            .col-xs-2
+              button.btn.btn-block.btn-success.btn-xs.submit(id="delete", type="button", ng-click="remove()", ng-show="hasRemove()", l10n) Delete
+            .col-xs-3.col-sm-3.col-md-2(id="cancel")
+              a(href="", ng-click="cancelEditAcctOptions()", l10n) Cancel
         h4(id="serverSettings", l10n) Server settings
         form(ng-controller="ServerRowCtrl", ng-repeat="(index, server) in options.server.servers", ng-submit="save()")
           ng-form(name="serverForm")

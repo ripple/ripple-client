@@ -23,10 +23,6 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
     .row(ng-show='connected')
       .col-sm-3
         include fund/menu
-        form.row(name="advancedTrustFeatures")
-          .col-xs-12
-            label &#32; Show advanced settings
-              input(type="checkbox", ng-model="advanced_feature_switch")
       .col-sm-9
         .row.row-padding-small.head(ng-hide='true')
           .col-sm-5(l10n) Name / Address
@@ -298,8 +294,8 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                   div {{ component.limit | rpamount }}
                 .col-sm-1(ng-show="advanced_feature_switch") {{ component.limit_peer | rpamount }}
                 .col-sm-1(ng-show="advanced_feature_switch")
-                  div(ng-hide="component.no_ripple", l10n) On
                   div(ng-show="component.no_ripple", l10n) Off
+                  div(ng-hide="component.no_ripple", l10n) On
                 div.col-xs-2(ng-hide="component.freeze_peer", l10n)
                   a(href="", ng-hide="editing", ng-click="edit_account()"
                     l10n) Edit
