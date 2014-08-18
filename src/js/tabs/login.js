@@ -144,7 +144,7 @@ LoginTab.prototype.angular = function (module) {
       setImmediate(login);
 
       $scope.ajax_loading = true;
-      $scope.error = '';
+      $scope.error  = '';
       $scope.status = 'Fetching wallet...';
     };
     
@@ -168,19 +168,22 @@ LoginTab.prototype.angular = function (module) {
       
       //blob has 2FA enabled
       if (err && err.twofactor) {
-
         if (err.twofactor.tokenError) {
           $scope.status = 'Request token:';
           $scope.backendMessages.push({'backend': "2FA", 'message': err.twofactor.tokenError.message});       
           return;
         }
 
-        $scope.twoFactor   = err.twofactor;
-        $scope.status      = '';
-        $scope.maskedPhone = err.twofactor.masked_phone;
+        $scope.twoFactor     = err.twofactor;
+        $scope.twoFactor.via = '';//TODO remove this from blob response
+        $scope.status        = '';
+        $scope.maskedPhone   = err.twofactor.masked_phone;
 
         //TODO: different display if 'ignored' is set,
         //meaning the user has the app
+        if (err.twofactor.tokenResponse) {
+          $scope.twoFactor.via = err.twofactor.tokenResponse.via;
+        }
 
         return;
       
@@ -237,9 +240,10 @@ LoginTab.prototype.angular = function (module) {
       }
     } 
  
-    $scope.resendToken = function() {
+    $scope.requestToken = function() {
+      var force = $scope.twoFactor.via == 'app' ? true : false;
       $scope.status = 'requesting token...';
-      authflow.requestToken($scope.twoFactor.blob_url, $scope.twoFactor.blob_id, function(tokenError, tokenResp) {
+      authflow.requestToken($scope.twoFactor.blob_url, $scope.twoFactor.blob_id, force, function(tokenError, tokenResp) {
         if (tokenError) {
           $scope.status = 'token request failed...';
           $scope.backendMessages.push({'backend': "2FA", 'message': tokenError.message});  

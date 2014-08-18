@@ -18,8 +18,8 @@ AccountTab.prototype.generateHtml = function ()
 
 AccountTab.prototype.angular = function(module)
 {
-  module.controller('AccountCtrl', ['$scope', '$timeout', 'rpId', 'rpPopup', 'rpKeychain', 'rpAuthFlow',
-    function ($scope, $timeout, $id, popup, keychain, authflow)
+  module.controller('AccountCtrl', ['$scope', '$timeout', 'rpId', 'rpKeychain',
+    function ($scope, $timeout, $id, keychain)
     {
       if (!$id.loginStatus) return $id.goId();
 
