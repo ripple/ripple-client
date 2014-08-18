@@ -116,8 +116,8 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                       |  to trust in XRP, please use XRR currency code.
                     .error(rp-error-on='required', l10n)
                       | Currency field is required
-              .row
-                .col-xs-12.allow-rippling
+              .row(ng-show="advanced_feature_switch");
+                .col-xs-12.allow-rippling()
                   label.checkbox(for="trust_allowrippling")
                     input#trust_allowrippling(
                       name='trust_allowrippling', type='checkbox'
