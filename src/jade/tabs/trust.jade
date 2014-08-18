@@ -23,6 +23,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
     .row(ng-show='connected')
       .col-sm-3
         include fund/menu
+        a(href="https://support.ripplelabs.com/hc/en-us/articles/202847686-Gateway-Information", target="_blank", l10n) Learn more about gateways
       .col-sm-9
         .row.row-padding-small.head(ng-hide='true')
           .col-sm-5(l10n) Name / Address
@@ -250,9 +251,6 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
           .col-sm-3.actions.btn-add-trust
             a.btn.btn-primary.btn-sm.btn-block.sign(ng-click='toggle_form()',
             ng-disabled='addform_visible || editform_visible', l10n) Connect account
-        .row
-          .col-sm-3.actions
-            a(href="https://support.ripplelabs.com/hc/en-us/articles/202847686-Gateway-Information", target="_blank", l10n) Learn more about gateways
 
         .row.row-padding-small.line.padding-vertical-xs(ng-hide="true", ng-repeat='(key, line) in linesArray | orderBy:sorting.sort:sorting.reverse')
           .col-sm-5 {{line.account | rpcontactnamefull }}
