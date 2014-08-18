@@ -26,24 +26,37 @@ function(net, $q, $scope, $filter, $id) {
     var lastprice;
     var current;
     var rpamount = $filter('rpamount');
-    var numerator;
-    var demoninator;
     var newData = jQuery.extend(true, {}, data);
 
     rowCount = 0;
     newData = _.values(_.compact(_.map(newData, function(d, i) {
 
       // This check is redundant, but saves the CPU some work
-      if (rowCount > max_rows) return false;
+      if (rowCount > max_rows) return;
 
-      // prefer taker_pays_funded & taker_gets_funded
-      if (d.hasOwnProperty('taker_gets_funded')) {
+      // rippled has a bug where it shows some unfunded offers
+      // We're ignoring them
+      if (d.taker_gets_funded === "0" || d.taker_pays_funded === "0")
+        return;
+
+      if (d.TakerGets.value) {
+        d.TakerGets.value = d.taker_gets_funded;
+      } else {
         d.TakerGets = d.taker_gets_funded;
+      }
+
+      if (d.TakerPays.value) {
+        d.TakerPays.value = d.taker_pays_funded;
+      } else {
         d.TakerPays = d.taker_pays_funded;
       }
 
       d.TakerGets = Amount.from_json(d.TakerGets);
       d.TakerPays = Amount.from_json(d.TakerPays);
+
+      // You never know
+      if (!d.TakerGets.is_valid() || !d.TakerPays.is_valid())
+        return;
 
       if (action === "asks") {
         d.price = Amount.from_quality(d.BookDirectory,
