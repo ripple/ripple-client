@@ -35,7 +35,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
             li: a(href=""
               ng-show='show_issuer_form != "first"'
               ng-click='edit_first_issuer()', l10n)
-              | change issuer
+              | change gateway
             li: a(href=""
               ng-show='show_issuer_form == "first"'
               ng-click='show_issuer_form = false', l10n)
@@ -53,7 +53,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
             li: a(href=""
               ng-show='show_issuer_form != "second"'
               ng-click='edit_second_issuer()', l10n)
-              | change issuer
+              | change gateway
             li: a(href=""
               ng-show='show_issuer_form == "second"'
               ng-click='show_issuer_form = false', l10n)
@@ -99,9 +99,10 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
             ng-disabled="second_issuer_form.$invalid", l10n) Confirm
 
     .message-select-issuer(ng-hide="order.valid_settings", l10n)
-      | You must select an issuer to trade currencies.
-      |  Click the “change issuer” link above and enter the issuing
-      |  gateway's address or Ripple name.
+      | You must select a gateway to trade currencies.
+      |  Click the “change gateway” link above and enter the 
+      |  gateway's address or Ripple name.&#32;
+      |  a(href="https://support.ripplelabs.com/hc/en-us/articles/202847686-Gateway-Information", target="_blank") Find a gateway.
 
     group(ng-if="order.valid_settings")
       ul.ticker
