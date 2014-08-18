@@ -118,7 +118,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                     .error(rp-error-on='required', l10n)
                       | Currency field is required
               .row(ng-show="advanced_feature_switch");
-                .col-xs-12.allow-rippling()
+                .col-xs-12.allow-rippling
                   label.checkbox(for="trust_allowrippling")
                     input#trust_allowrippling(
                       name='trust_allowrippling', type='checkbox'
