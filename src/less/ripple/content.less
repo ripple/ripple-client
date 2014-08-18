@@ -37,6 +37,10 @@ h1 {
   color: @midred;
 }
 
+.clearNotif {
+  
+}
+
 .connectModal {
   .grey-focus {
     background-color: @lightgray;
@@ -105,6 +109,10 @@ h1 {
     margin: 0.5em 0.5em;
     padding: 0.7em 5em;
   }
+}
+
+.frozen-account {
+  background-color: @lightgray;
 }
 
 .content {
@@ -195,18 +203,18 @@ h1 {
   // This class is used to show the color-coded messages after submitting a
   // transaction on various pages.
   h2.tx-status {
-    font: 34px 'OpenSansRegular';
+    background-color: @lightyellow;
+    font: 12px 'OpenSansRegular';
     font-weight: normal;
-    padding: 10px 0;
+    padding: 15px;
     .transition-duration(0.2s);
+    .border-radius(5px,5px,5px,5px);
   }
 
   .result-success h2.tx-status {
     background-color: @lightgreen;
-    padding: 15px;
-    color: @darkgreen;
-    .border-radius(5px,5px,5px,5px);
-  }
+    color: @darkgreen;  }
+
   .result-error h2.tx-status,
   .result-malformed h2.tx-status,
   .result-failed h2.tx-status {
