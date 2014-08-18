@@ -29,8 +29,7 @@ TrustTab.prototype.angular = function (module)
   {
     if (!id.loginStatus) return id.goId();
 
-    // Hide advanced settings as default
-    $scope.advanced_feature_switch = false;
+    $scope.advanced_feature_switch = Options.advanced_feature_switch;
 
     // Trust line sorting
     $scope.sorting = {
@@ -55,9 +54,6 @@ TrustTab.prototype.angular = function (module)
       $scope.counterparty = '';
       $scope.saveAddressName = '';
       $scope.error_account_reserve = false;
-      $scope.clearNotification = false;
-
-      console.log('clearNotification is false');
 
       // If all the form fields are prefilled, go to confirmation page
       if ($routeParams.to && $routeParams.amount) {
@@ -277,12 +273,6 @@ TrustTab.prototype.angular = function (module)
       switch (res.engine_result.slice(0, 3)) {
         case 'tes':
           $scope.tx_result = accepted ? 'cleared' : 'pending';
-          $timeout(function() {
-            if ($scope.tx_result === 'cleared') {
-              $scope.clearNotification = true;
-              console.log('$scope.clearNotification is: ', $scope.clearNotification);
-            }
-          }, 3000);
           break;
         case 'tem':
           $scope.tx_result = 'malformed';
@@ -361,8 +351,6 @@ TrustTab.prototype.angular = function (module)
       })
 
       $scope.accountLines = obj;
-      console.log('$scope.accountLines is: ', $scope.accountLines);
-
       return;
     }
 
@@ -388,12 +376,11 @@ TrustTab.prototype.angular = function (module)
 
         $scope.trust = {};
         $scope.trust.limit = Number($scope.component.limit.to_json().value);
-        $scope.trust.rippling = $scope.component.no_ripple;
+        $scope.trust.rippling = !$scope.component.no_ripple;
         $scope.trust.limit_peer = Number($scope.component.limit_peer.to_json().value);
         $scope.trust.balance = String($scope.component.balance.to_json().value);
         $scope.trust.balanceAmount = $scope.component.balance;
 
-        console.log('$scope.trust.rippling in edit_account: ', $scope.trust.rippling);
         var currency = Currency.from_human($scope.component.currency);
         $scope.trust.currency = currency.to_human({full_name:$scope.currencies_all_keyed[currency.get_iso()].name});
         $scope.trust.counterparty = $scope.component.account;
