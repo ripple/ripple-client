@@ -8,7 +8,15 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
     p.literal(l10n) Loading...
 
   //- Connected
-
+  div.auth-attention.banner(ng-show="'web' === client && !loadingAccount && !account.Balance && loadState.account && connected")
+    h4(l10n) Welcome to Ripple Trade! To activate your account, you'll need at least 20 XRP.
+    ul
+      li(l10n) Have another user send XRP to your Ripple name (~{{userCredentials.username}})
+      li(l10n) Use the bitcoin funding flow. A small amount of your first deposit
+        | will be used to activate your account.
+      li(l10n) If your account remains unfunded for 30 days, you will no longer be
+        | able to login using your Ripple name (~{{userCredentials.username}}).
+        | You'll need to sign up for a new Ripple name.
   group(ng-show="connected && loadState.account")
     .row
       .col-xs-12.col-xs-8
