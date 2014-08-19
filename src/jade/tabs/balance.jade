@@ -20,7 +20,7 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
   group(ng-show="connected && loadState.account")
     .row
       .col-xs-12.col-xs-8
-        .currency-overview
+        .currency-overview(ng-show="account.Balance")
           .balancebox.col-xs-8
             .lbl(l10n) Total Balance
               .desc(l10n) Estimated from exchange rates
