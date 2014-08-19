@@ -123,7 +123,10 @@ SecurityTab.prototype.angular = function (module) {
       });
     };
 
+
     $scope.setPasswordProtection = function () {
+      $scope.editUnlock = false;
+
       keychain.setPasswordProtection($scope.persistUnlock, function(err, resp){
         if (err) {
           console.log(err);
@@ -131,6 +134,10 @@ SecurityTab.prototype.angular = function (module) {
           //TODO: report errors to user
         }
       });
+    };
+
+    $scope.cancelUnlockOptions = function () {
+      $scope.editUnlock = false;
     };
 
     $scope.changePassword = function() {
@@ -343,6 +350,7 @@ SecurityTab.prototype.angular = function (module) {
       $scope.invalidToken = false;
       $scope.error2FA     = false;
     };
+
 
     var reset = function() {
 

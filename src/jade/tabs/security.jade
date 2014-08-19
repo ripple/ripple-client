@@ -105,9 +105,15 @@ section.col-xs-12.content(ng-controller="SecurityCtrl")
           .section
             .descriptor(l10n) Ripple password
             .row
+<<<<<<< HEAD
               .col-xs-12.col-sm-3 *****************
               .col-xs-12.col-sm-9
                 a(href="", ng-click="openFormPassword=!openFormPassword; success=false"
+=======
+              .col-xs-12.col-sm-3.col-md-6 *****************
+              .col-xs-12.col-sm-9.col-md-6
+                a(href="", ng-click="openFormPassword=!openFormPassword"
+>>>>>>> [FIX] RT-2105 Password Required flow change
                 ng-hide="openFormPassword", l10n) edit
             .row
               .row
@@ -155,21 +161,39 @@ section.col-xs-12.content(ng-controller="SecurityCtrl")
                       .col-xs-12.col-sm-6
                         a.txtbtn(href="", ng-click="openFormPassword=!openFormPassword", l10n) Cancel
           .section
-            .descriptor(l10n) Secret Key
+            .descriptor(l10n) Secret key
             .row
             label(l10n) Your secret key unlocks access to your account funds. Please write it down and store it
                 |  somewhere private and safe. In the event you lose your Ripple name or password, you can use this secret
                 |  key to recover your funds.
-              div
-                .part
-                  span.value(ng-show="security.master_seed") {{security.master_seed}}
-                  span.value(ng-hide="security.master_seed") ••••••••••••••••••••••••••••••••••••••••••••
-                  a(href="", ng-click="unmaskSecret(); success=false", ng-hide="security.master_seed", l10n) Show
-                  a(href="", ng-click="security.master_seed = null", ng-show="security.master_seed", l10n) Hide
-          .descriptor(l10n) Password Protection
+            .row
+              .col-xs-12.col-sm-5.col-md-6
+                span.value(ng-show="security.master_seed") {{security.master_seed}}
+                span.value(ng-hide="security.master_seed") ••••••••••••••••••••••••••••••••••••••••••••
+              .col-xs-12.col-sm-5.col-md-3
+                a(href="", ng-click="unmaskSecret()", ng-hide="security.master_seed", l10n) Show
+                a(href="", ng-click="security.master_seed = null", ng-show="security.master_seed", l10n) Hide
+          .descriptor(l10n) Password protection for transactions
           .row
             .col-xs-12
+              .description(l10n) If you turn off password requests, you’ll still need to enter your password after each page refresh.
               div.helperInput
-                input.persistUnlock(name='persistUnlock', type='checkbox', ng-model='persistUnlock', ng-click='setPasswordProtection(); success=false')
-                label(for='persistUnlock', l10n) Do not require password for transactions
-                div.note(l10n) Your secret is stored in memory only, you’ll still have to enter your password once after reloading the page.
+                form(name="persistUnlock", ng-submit="setPasswordProtection()")
+                  .row(ng-hide="editUnlock")
+                    .col-xs-12.col-sm-5.col-md-3
+                      .description Require password
+                    .col-xs-6.col-sm-5.col-md-3
+                      .description(ng-show="unlock_switch", id='isProtected', l10n) Yes
+                      .description(ng-hide="unlock_switch", id='isProtected', l10n) No
+                    .col-xs-3.col-sm-3.col-md-4
+                      a(href="", id='edit', ng-click="editUnlock = true", l10n) edit
+                  .row(ng-show="editUnlock")
+                    .col-xs-6.col-sm-5.col-md-3
+                      .description Require password
+                    .col-xs-2.col-md-3
+                      div.helperInput
+                        label
+                          input(type="checkbox", name="unlock", ng-model='unlock_switch')
+                    .col-xs-2.col-md-2
+                      button.btn.btn-block.btn-success.btn-xs.submit(id='save', type='submit'
+                      ng-disabled='serverForm.$invalid', l10n) Save
