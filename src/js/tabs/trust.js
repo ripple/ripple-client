@@ -74,7 +74,6 @@ TrustTab.prototype.angular = function (module)
         return;
       }
 
-      $scope.trust.notif = "clear";
       $scope.trust.notif = status;
 
       $timeout(function() {
