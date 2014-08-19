@@ -141,7 +141,9 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                         .navbar-brand.hidden-sm.modal-logo#logo
                         .modal-title(l10n) Connect
                       .modal-body
-                        div.modal-prompt(l10n) {{ counterparty_address | rpripplename}} would like to:
+                        div.modal-prompt(l10n) 
+                          div You are connecting a gateway, which means
+                          div {{ counterparty_address | rpripplename}} can:
                         div.grey-focus
                           span.modal-permissions(l10n) - Hold up to&#32;
                           span(rp-pretty-amount="amount_feedback")
