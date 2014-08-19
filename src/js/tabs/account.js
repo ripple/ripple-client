@@ -84,7 +84,6 @@ AccountTab.prototype.angular = function(module)
         $scope.username = '';
         $scope.password = '';
         $scope.showPassword = true;
-        $scope.success = false;
         $scope.loading = false;
         $scope.error = false;
 
@@ -95,6 +94,7 @@ AccountTab.prototype.angular = function(module)
       };
 
       reset();
+      $scope.success = false;
     }]
   );
 };

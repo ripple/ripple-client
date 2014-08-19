@@ -350,6 +350,8 @@ SecurityTab.prototype.angular = function (module) {
       $scope.password1 = '';
       $scope.password2 = '';
       $scope.passwordSet = {};
+      $scope.loading = false;
+      $scope.error = false;
 
       if ($scope.changeForm) {
         $scope.changeForm.$setPristine(true);
@@ -357,6 +359,8 @@ SecurityTab.prototype.angular = function (module) {
   };
 
   reset();
+  $scope.success = false;
+
   }]);
 };
 

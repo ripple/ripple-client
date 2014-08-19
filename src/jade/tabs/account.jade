@@ -8,13 +8,15 @@ section.col-xs-12.content(ng-controller="AccountCtrl")
     .col-sm-9.list
       div(ng-show="'web' === client")
         .showPublic(ng-show="infoPage == 'public'")
+          .alert.alert-warning(ng-show="loading", l10n) Changing your Ripple name...
+          .alert.alert-success(ng-show="success", l10n) Your Ripple name has been changed successfully.
+          h4(l10n) Account settings
           .section
-            .alert.alert-success(ng-show="success", l10n) Your Ripple Name has been changed successfully.
             .descriptor(l10n) Ripple name
             .row
               .col-xs-12.col-sm-3.username ~{{userCredentials.username}}
               .col-xs-12.col-sm-9
-                a(href="", ng-click="openForm=!openForm"
+                a(href="", ng-click="openForm=!openForm; success=false"
                   ng-hide="openForm", l10n) edit
               form#renameForm(name="renameForm", ng-show="openForm", ng-submit="rename()")
                 .form-group(id="open_name_change")
@@ -63,8 +65,8 @@ section.col-xs-12.content(ng-controller="AccountCtrl")
                   .row
                     .col-xs-12.col-sm-6
                       button.btn.btn-success.btn-block(type="submit"
-                        ng-disabled="renameForm.$invalid || loading")
-                        span(ng-hide="loading", l10n) Submit name change
+                      ng-disabled="renameForm.$invalid || loading")
+                        span(ng-hide="loading", l10n) Submit
                         span(ng-show="loading", l10n) Loading...
                     .col-xs-12.col-sm-6
                       a.txtbtn(href="", ng-click="openForm=!openForm", l10n) Cancel
