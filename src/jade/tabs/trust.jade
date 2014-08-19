@@ -190,8 +190,8 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
               a(href="https://ripple.com/wiki/Reserves", target="_blank") More information
 
 
-        //- N5. Granted page
-        group.mode-granted.wide(ng-show='mode=="granted" && account.Balance', ng-class="{ 'clearNotif': clearNotification }")
+        //- N5. Notifications for connect new account
+        group.mode-granted.wide(ng-show='mode=="granted" && account.Balance')
           group.pending(ng-show='tx_result=="pending"')
             h2.tx-status(l10n) Connecting a gateway to your Ripple account...
           group.result-success(ng-show='tx_result=="cleared"')
@@ -218,32 +218,18 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
               span(ng-switch-when="telINSUF_FEE_P", l10n)
                 | The particular server you sent the transaction to was too busy to forward or process
                 |  your transaction at the fee you included in it.
-          //- group.actions
-          //-   hr
-          //-   .text-success(ng-show='addressSaved', class="actionLink", l10n) Address saved!
-          //-   .save-address-form(ng-hide='contact', class="actionLink")
-          //-     a(href="", ng-click='show_save_address_form = true',
-          //-       ng-hide="show_save_address_form", l10n) Add this address to contacts
-          //-     form(name="saveAddressForm", ng-class="{ show: show_save_address_form }", ng-submit='saveAddress()')
-          //-       .address {{counterparty_address}}
-          //-       label(for='save_address_name', l10n) Name this user
-          //-       input.form-control#contact_name(
-          //-       name='save_address_name', type="text"
-          //-       ng-model='saveAddressName', unique, required
-          //-       rp-autofill='$routeParams.name'
-          //-       rp-focus)
-          //-       .error(ng-show='saveAddressForm.save_address_name.$error.unique', l10n)
-          //-         | You already have a contact with the same name.
-          //-       div
-          //-         button.btn.btn-success(type='submit', ng-disabled='addressSaving || saveAddressForm.$invalid')
-          //-           span(ng-show='addressSaving', l10n) Saving...
-          //-           span(ng-hide='addressSaving', l10n) Save
-          //-         a(href="", ng-click='show_save_address_form = false') Cancel
-          //-     hr
-          //-   div(class="actionLink")
-          //-     a(href="#trust", ng-click="reset()", l10n) Back to gateway page
-          //-   hr
-        //- Account is unfunded
+
+
+        //- N5. Notifications for edit account
+        group.mode-granted.wide(ng-show='trust.notif !== "clear" && account.Balance')
+          group(ng-switch on="trust.notif")          
+            group.pending(ng-switch-when="loading")
+              h2.tx-status(l10n) Saving changes...
+            group.result-success(ng-switch-when="success")
+              h2.tx-status(l10n) Changes saved!
+            group.result-error(ng-switch-when="error")
+              h2.tx-status(l10n) There was an error while saving your changes.&#32;
+              p(l10n) Please try again later.
         .row
           .unfunded(ng-hide='account.Balance')
             span.literal(l10n) Your account has to be&#32;

@@ -30,6 +30,7 @@ TrustTab.prototype.angular = function (module)
     if (!id.loginStatus) return id.goId();
 
     $scope.advanced_feature_switch = Options.advanced_feature_switch;
+    $scope.trust = {};
 
     // Trust line sorting
     $scope.sorting = {
@@ -66,6 +67,20 @@ TrustTab.prototype.angular = function (module)
         });
       }
     };
+
+    $scope.load_notification = function(status) {
+      if (typeof status !== 'string') {
+        console.log("You must pass in a string for the status");
+        return;
+      }
+
+      $scope.trust.notif = "clear";
+      $scope.trust.notif = status;
+
+      $timeout(function() {
+        $scope.trust.notif = "clear";
+      }, 10000);
+    }
 
     $scope.toggle_form = function () {
 
@@ -264,6 +279,10 @@ TrustTab.prototype.angular = function (module)
           }
         });
       }
+
+      $timeout(function(){
+        $scope.mode = 'main';
+      }, 10000);
     };
 
     function setEngineStatus(res, accepted) {
@@ -504,6 +523,8 @@ TrustTab.prototype.angular = function (module)
 
         $scope.trust.loading = true;
 
+        $scope.load_notification('loading');
+
         var amount = ripple.Amount.from_human(
           $scope.trust.limit + ' ' + $scope.component.currency,
           {reference_date: new Date(+new Date() + 5*60000)}
@@ -526,8 +547,9 @@ TrustTab.prototype.angular = function (module)
           .on('success', function(res){
             $scope.$apply(function () {
               setEngineStatus(res, true);
-              $scope.editing = false;
-              $scope.trust.loading = false;
+
+              $scope.trust.loading = false
+              $scope.load_notification('success');
             });
           })
           .on('error', function(res){
@@ -535,7 +557,9 @@ TrustTab.prototype.angular = function (module)
             setImmediate(function () {
               $scope.$apply(function () {
                 $scope.mode = 'error';
+
                 $scope.trust.loading = false;
+                $scope.load_notification("error");
               });
             });
           });
@@ -569,6 +593,8 @@ TrustTab.prototype.angular = function (module)
           // XXX Error handling
           if (err) {
             $scope.trust.loading = false;
+            $scope.load_notification('error');
+
             return;
           }
 
