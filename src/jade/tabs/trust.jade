@@ -29,7 +29,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
         .row
           .col-xs-12.col-sm-6
             form.row-padding-small(name='trustForm', id='trustForm',
-              ng-show='mode=="main" && ((addform_visible && can_add_trust)|| editform_visible)')
+              ng-show='mode=="main" && (addform_visible && can_add_trust)')
               .row
                 .col-xs-12.form-group(ng-show="'web' === client")
                   label(for='trust_counterparty', ng-show="edituser") {{ edituser }}
@@ -240,8 +240,8 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
         //- Account is funded
         .row
           .col-sm-3.actions.btn-add-trust
-            a.btn.btn-primary.btn-sm.btn-block.sign(ng-click='toggle_form()', ng-show='account.Balance',
-            ng-disabled='addform_visible || editform_visible', l10n) Connect gateway 
+            a.btn.btn-primary.btn-sm.btn-block.sign(ng-click='toggle_form()', ng-show='!addform_visible && account.Balance',
+            ng-disabled='addform_visible', l10n) Connect gateway 
 
         .row.row-padding-small.line.padding-vertical-xs(ng-hide="true", ng-repeat='(key, line) in linesArray | orderBy:sorting.sort:sorting.reverse')
           .col-sm-5 {{line.account | rpcontactnamefull }}

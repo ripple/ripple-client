@@ -48,7 +48,6 @@ TrustTab.prototype.angular = function (module)
       var usdCurrency = Currency.from_human('USD');
       $scope.currency = usdCurrency.to_human({full_name:$scope.currencies_all_keyed[usdCurrency.get_iso()].name});
       $scope.addform_visible = false;
-      $scope.editform_visible = false;
       $scope.edituser = '';
       $scope.amount = '';
       $scope.allowrippling = false;
@@ -83,7 +82,7 @@ TrustTab.prototype.angular = function (module)
 
     $scope.toggle_form = function () {
 
-      if($scope.addform_visible || $scope.editform_visible) {
+      if($scope.addform_visible) {
         $scope.reset();
       } else {
         $scope.addform_visible = true;
@@ -341,10 +340,6 @@ TrustTab.prototype.angular = function (module)
 
       // Close/open form. Triggers focus on input.
       $scope.addform_visible = false;
-      $scope.editform_visible = false;
-      $timeout(function(){
-        $scope.editform_visible = true;
-      });
 
       $scope.load_orderbook();
     };
