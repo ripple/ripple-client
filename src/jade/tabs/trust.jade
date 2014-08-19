@@ -147,7 +147,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                           span(rp-pretty-amount="amount_feedback")
                           span.modal-permissions(l10n-inc) &#32;on your behalf
                         div.modal-buttons
-                          button.modal-btn.btn.btn-default.btn-success.btn-md(ng-click="grant_confirmed()",
+                          button.modal-btn.btn.btn-default.btn-success.btn-md(data-dismiss="modal", ng-click="grant_confirmed()",
                             rp-spinner='{{loading ? 4 : null}}', ng-disabled="loading")
                             span(ng-show="loading", l10n) Loading...
                             span(ng-hide="loading", l10n) Confirm
