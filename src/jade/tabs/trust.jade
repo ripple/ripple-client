@@ -137,7 +137,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                       .modal-body
                         div.modal-prompt(l10n) 
                           div You are connecting a gateway, which means
-                          div {{ counterparty_address | rpripplename}} can:
+                          div ~{{ counterparty_address | rpripplename}} can:
                         div.grey-focus
                           span.modal-permissions(l10n) - Hold up to&#32;
                           span(rp-pretty-amount="amount_feedback")
