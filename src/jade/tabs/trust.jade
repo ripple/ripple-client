@@ -11,12 +11,6 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
   //- Connected
 
   group(ng-show="connected && loadState.lines")
-    //- Account is unfunded
-    .unfunded(ng-hide='account.Balance')
-      p.literal(l10n) You have to be funded before you can connect any gateways
-      p: a.btn.btn-default(href="#balance", l10n) Back to overview
-
-    //- Account is funded
 
     //- N1. Trust form
     
@@ -118,7 +112,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                     .error(rp-error-on='required', l10n)
                       | Currency field is required
               .row(ng-show="advanced_feature_switch");
-                .col-xs-12.allow-rippling()
+                .col-xs-12.allow-rippling
                   label.checkbox(for="trust_allowrippling")
                     input#trust_allowrippling(
                       name='trust_allowrippling', type='checkbox'
@@ -149,7 +143,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                           span(rp-pretty-amount="amount_feedback")
                           span.modal-permissions(l10n-inc) &#32;on your behalf
                         div.modal-buttons
-                          button.modal-btn.btn.btn-default.btn-success.btn-md(ng-click="grant_confirmed()",
+                          button.modal-btn.btn.btn-default.btn-success.btn-md(data-dismiss="modal", ng-click="grant_confirmed()",
                             rp-spinner='{{loading ? 4 : null}}', ng-disabled="loading")
                             span(ng-show="loading", l10n) Loading...
                             span(ng-hide="loading", l10n) Confirm
@@ -249,9 +243,18 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
           //-   div(class="actionLink")
           //-     a(href="#trust", ng-click="reset()", l10n) Back to gateway page
           //-   hr
+        //- Account is unfunded
+        .row
+          .unfunded(ng-hide='account.Balance')
+            span.literal(l10n) Your account has to be&#32;
+            a(href="https://support.ripplelabs.com/hc/en-us/articles/200916837-How-to-activate-a-Ripple-account", target="_blank", l10n) activated&#32;
+            span.literal(l10n) before you can add a gateway account
+            p: a.btn.btn-default(href="#/balance", l10n) Back to balance
+
+        //- Account is funded
         .row
           .col-sm-3.actions.btn-add-trust
-            a.btn.btn-primary.btn-sm.btn-block.sign(ng-click='toggle_form()',
+            a.btn.btn-primary.btn-sm.btn-block.sign(ng-click='toggle_form()', ng-show='account.Balance',
             ng-disabled='addform_visible || editform_visible', l10n) Connect gateway 
 
         .row.row-padding-small.line.padding-vertical-xs(ng-hide="true", ng-repeat='(key, line) in linesArray | orderBy:sorting.sort:sorting.reverse')

@@ -198,6 +198,25 @@ h1 {
     font-weight: bold;
   }
 
+  span.literal {
+      font: 16px 'OpenSansRegular';
+
+    strong {
+      font-family: 'OpenSansBold';
+      font-weight: normal;
+    }
+
+    &.spinner {
+      position: relative;
+      padding-left: 25px;
+
+      .spinnerInner {
+        left: -15px !important;
+        top: 11px !important;
+      }
+    }
+  }
+
   // Transaction status
   //
   // This class is used to show the color-coded messages after submitting a
