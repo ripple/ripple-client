@@ -13,8 +13,8 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
   group(ng-show="connected && loadState.lines")
     //- Account is unfunded
     .unfunded(ng-hide='account.Balance')
-      p.literal(l10n) You have to be funded before you can grant a trust
-      p: a.btn.btn-default(href="#balance", l10n) Back to balance
+      p.literal(l10n) You have to be funded before you can connect any gateways
+      p: a.btn.btn-default(href="#balance", l10n) Back to overview
 
     //- Account is funded
 
@@ -129,7 +129,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                     rp-popover-placement="bottom"
                     l10n-rp-popover-title="Allow Rippling"
                     rp-popover-trigger="click"
-                    l10n-data-content="Allow this account's balances to be transferred to another issuer you connect to. <a href=https://ripple.com/wiki/No_Ripple target=_blank>More information</a>")
+                    l10n-data-content="Allow this trust line's balances to be transferred to another issuer you connect to. <a href=https://ripple.com/wiki/No_Ripple target=_blank>More information</a>")
               .row
                 .col-xs-6.col-sm-4
                   button.btn.btn-block.btn-default(type="button", ng-click='toggle_form()', l10n) Cancel
@@ -156,34 +156,34 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
               .row.delete-trust
                 .col-xs-6.col-sm-6.col-md-8.col-lg-9(ng-show='balance !== "0" && orderbookStatus === "exists"')
                   rp-confirm(
-                    action-text="Are you sure you want to delete this trust line? Ripple Trade will attempt to convert the remaining balance of {{ trust.balance }} {{ trust.currency }} into XRP. This action can't be undone."
-                    action-button-text="Convert Balance and Delete"
+                    action-text="Are you sure you want to remove this gateway? Ripple Trade will attempt to convert the remaining balance of {{ trust.balance }} {{ trust.currency }} into XRP. This action can't be undone."
+                    action-button-text="Convert balance and remove"
                     action-button-css="btn btn-default btn-danger"
                     action-function="delete_line()"
                     cancel-button-css="btn btn-default"
                     cancel-button-text="Cancel"
                     ng-hide="showPassword==true")
-                      a.danger(ng-click="load_orderbook()", href="", l10n) Delete
+                      a.danger(ng-click="load_orderbook()", href="", l10n) Remove
                 .col-xs-6.col-sm-6.col-md-8.col-lg-9(ng-show='balance !== "0" && orderbookStatus === "not"')
                   rp-confirm(
-                    action-text="Are you sure you want to delete this trust line? Ripple Trade will return the balance of {{ trust.balance }} {{ trust.currency }} to the issuer. This action can't be undone."
-                    action-button-text="Return Balance and Delete"
+                    action-text="Are you sure you want to remove this gateway? Ripple Trade will return the balance of {{ trust.balance }} {{ trust.currency }} to the issuer. This action can't be undone."
+                    action-button-text="Return balance and remove"
                     action-button-css="btn btn-default btn-danger"
                     action-function="delete_line()"
                     cancel-button-css="btn btn-default"
                     cancel-button-text="Cancel"
                     ng-hide="showPassword==true")
-                      a.danger(ng-click="load_orderbook()", href="", l10n) Delete
+                      a.danger(ng-click="load_orderbook()", href="", l10n) Remove
                 .col-xs-6.col-sm-6.col-md-8.col-lg-9(ng-show='balance === "0"')
                   rp-confirm(
-                    action-text="Are you sure you want to delete this trust line? This action can't be undone."
-                    action-button-text="Delete"
+                    action-text="Are you sure you want to remove this gateway? This action can't be undone."
+                    action-button-text="Remove"
                     action-button-css="btn btn-default btn-danger"
                     action-function="delete_line()"
                     cancel-button-css="btn btn-default"
                     cancel-button-text="Cancel"
                     ng-hide="showPassword==true")
-                      a.danger(ng-click="load_orderbook()", href="", l10n) Delete
+                      a.danger(ng-click="load_orderbook()", href="", l10n) Remove
               .row
                 .col-xs-12
                   p.literal.throbber.verifying(ng-show="verifying", l10n) Verifying address
@@ -197,24 +197,24 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
         //- N5. Granted page
         group.mode-granted.wide(ng-show='mode=="granted" && account.Balance', ng-class="{ 'clearNotif': clearNotification }")
           group.pending(ng-show='tx_result=="pending"')
-            h2.tx-status(l10n) Your account connection request has been submitted.
+            h2.tx-status(l10n) Connecting a gateway to your Ripple account...
           group.result-success(ng-show='tx_result=="cleared"')
-            h2.tx-status(l10n) Your account has been connected.
+            h2.tx-status(l10n) Gateway connected.
           group.result-error(ng-show='tx_result=="error"')
-            h2.tx-status(l10n) Account could not be granted!
-            p(l10n) We were unable to submit the request. Please try again later.
+            h2.tx-status(l10n) Gateway could not be connected!
+            p(l10n) There was a problem connecting the gateway. Please try again later.
           group.result-malformed(ng-show='tx_result=="malformed"')
-            h2.tx-status(l10n) Account connection request is malformed!
+            h2.tx-status(l10n) There was a problem connecting the gateway. Please try again later.
             p(l10n) Your request is invalid, reason: {{engine_result}} - {{engine_result_message}}
           group.result-failed(ng-show='tx_result=="failed"')
-            h2.tx-status(l10n) Account connection failed!
+            h2.tx-status(l10n) Gateway connection failed!
             p(ng-switch on="engine_result")
-              span(ng-switch-when="terNO_LINE", l10n) You have no account connected in this currency.
-              span(ng-switch-when="tecINSUF_RESERVE_LINE", l10n) Insufficient reserve to connect account.
+              span(ng-switch-when="terNO_LINE", l10n) You have no gateway connected in this currency.
+              span(ng-switch-when="tecINSUF_RESERVE_LINE", l10n) Insufficient reserve to connect gateway.
               span(ng-switch-when="tecNO_LINE_INSUF_RESERVE", l10n) You must have at
-                |  least {{account.reserve_to_add_trust | rpamount:0}} XRP to connect an account.&#32;
+                |  least {{account.reserve_to_add_trust | rpamount:0}} XRP to connect a gateway.&#32;
                 a(href="http://ripple.com/help/#reserve", l10n) Read more.
-              span(ng-switch-default, l10n) Account connection failed to clear,
+              span(ng-switch-default, l10n) Gateway connection failed to clear,
                 |  reason: {{engine_result_message}}
           group.result-failed(ng-show='tx_result=="local"')
             h2.tx-status(l10n) Transaction failed!
@@ -245,12 +245,12 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
           //-         a(href="", ng-click='show_save_address_form = false') Cancel
           //-     hr
           //-   div(class="actionLink")
-          //-     a(href="#trust", ng-click="reset()", l10n) Back to trust page
+          //-     a(href="#trust", ng-click="reset()", l10n) Back to gateway page
           //-   hr
         .row
           .col-sm-3.actions.btn-add-trust
             a.btn.btn-primary.btn-sm.btn-block.sign(ng-click='toggle_form()',
-            ng-disabled='addform_visible || editform_visible', l10n) Connect account
+            ng-disabled='addform_visible || editform_visible', l10n) Connect gateway 
 
         .row.row-padding-small.line.padding-vertical-xs(ng-hide="true", ng-repeat='(key, line) in linesArray | orderBy:sorting.sort:sorting.reverse')
           .col-sm-5 {{line.account | rpcontactnamefull }}
@@ -268,7 +268,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
               i(class="icon fa fa-money", ng-class="'fa-' + (entry.components[0].currency | lowercase)")
               span.currency(rp-currency="entry.components[0].limit", rp-currency-full)
           .row.head
-            div.col-xs-6(l10n) Issuer
+            div.col-xs-6(l10n) Gateway
             div(
               ng-class="{ 'col-xs-1': advanced_feature_switch, 'col-xs-2': !advanced_feature_switch }"
               l10n) Balance
@@ -333,32 +333,32 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                       .row.text-right(ng-hide="trust.loading")
                         .col-xs-12(ng-show='trust.balance !== "0" && orderbookStatus === "exists"')
                           rp-confirm(
-                          action-text="Are you sure you want to disconnect from this account? Ripple Trade will attempt to convert the remaining balance of {{ trust.balance }} {{ currency }} into XRP. This action can't be undone."
-                          action-button-text="Convert Balance and Delete"
+                          action-text="Are you sure you want to remove this gateway? Ripple Trade will attempt to convert the remaining balance of {{ trust.balance }} {{ currency }} into XRP. This action can't be undone."
+                          action-button-text="Convert balance and remove"
                           action-button-css="btn btn-default btn-danger"
                           action-function="delete_account()"
                           cancel-button-css="btn btn-default"
                           cancel-button-text="Cancel"
                           ng-hide="showPassword==true")
-                            a.danger(ng-click="load_orderbook()", href="", l10n) Delete
+                            a.danger(ng-click="load_orderbook()", href="", l10n) Remove
                         .col-xs-12(ng-show='trust.balance !== "0" && orderbookStatus === "not"')
                           rp-confirm(
-                          action-text="Are you sure you want to disconnect from this account? Ripple Trade will return the balance of {{ trust.balance }} {{ currency }} to the issuer. This action can't be undone."
-                          action-button-text="Return Balance and Delete"
+                          action-text="Are you sure you want to remove this gateway? Ripple Trade will return the balance of {{ trust.balance }} {{ currency }} to the issuer. This action can't be undone."
+                          action-button-text="Return balance and remove"
                           action-button-css="btn btn-default btn-danger"
                           action-function="delete_account()"
                           cancel-button-css="btn btn-default"
                           cancel-button-text="Cancel"
                           ng-hide="showPassword==true")
-                            a.danger(ng-click="load_orderbook()", href="", l10n) Delete
+                            a.danger(ng-click="load_orderbook()", href="", l10n) Remove
                         .col-xs-12(ng-show='trust.balance === "0"')
                           rp-confirm(
-                          action-text="Are you sure you want to disconnect from this account? This action can't be undone."
-                          action-button-text="Delete"
+                          action-text="Are you sure you want to remove this gateway? This action can't be undone."
+                          action-button-text="Remove"
                           action-button-css="btn btn-default btn-danger"
                           action-function="delete_account()"
                           cancel-button-css="btn btn-default"
                           cancel-button-text="Cancel"
                           ng-hide="showPassword==true")
-                            a.danger(ng-click="load_orderbook()", href="", l10n) Delete
+                            a.danger(ng-click="load_orderbook()", href="", l10n) Remove
 
