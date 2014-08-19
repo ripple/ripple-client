@@ -20,6 +20,8 @@ section.col-xs-12.content(ng-controller="SecurityCtrl")
     .col-sm-9.list(ng-show="isUnlocked")
       .showSecurity(ng-show="settingsPage == 'security'")
         div(ng-show="'web' === client")
+          .alert.alert-warning(ng-show="loading", l10n) Changing your Ripple password...
+          .alert.alert-success(ng-show="success", l10n) Your Ripple password has been changed successfully.
           h4(l10n) Security settings
           .section(ng-if="0")
             .alert.alert-success(ng-show="", l10n) Two factor authentication has been enbabled.
@@ -101,12 +103,11 @@ section.col-xs-12.content(ng-controller="SecurityCtrl")
             .alert.auth-attention(ng-show="enableSuccess", l10n) Two factor authetication has been successfully enabled.
             .alert.auth-attention(ng-show="disableSuccess", l10n) Two factor authetication has been successfully disabled.
           .section
-            .alert.alert-success(ng-show="success", l10n) Your Ripple password has been changed successfully.
             .descriptor(l10n) Ripple password
             .row
               .col-xs-12.col-sm-3 *****************
               .col-xs-12.col-sm-9
-                a(href="", ng-click="openFormPassword=!openFormPassword"
+                a(href="", ng-click="openFormPassword=!openFormPassword; success=false"
                 ng-hide="openFormPassword", l10n) edit
             .row
               .row
@@ -163,12 +164,12 @@ section.col-xs-12.content(ng-controller="SecurityCtrl")
                 .part
                   span.value(ng-show="security.master_seed") {{security.master_seed}}
                   span.value(ng-hide="security.master_seed") ••••••••••••••••••••••••••••••••••••••••••••
-                  a(href="", ng-click="unmaskSecret()", ng-hide="security.master_seed", l10n) Show
+                  a(href="", ng-click="unmaskSecret(); success=false", ng-hide="security.master_seed", l10n) Show
                   a(href="", ng-click="security.master_seed = null", ng-show="security.master_seed", l10n) Hide
           .descriptor(l10n) Password Protection
           .row
             .col-xs-12
               div.helperInput
-                input.persistUnlock(name='persistUnlock', type='checkbox', ng-model='persistUnlock', ng-click='setPasswordProtection()')
+                input.persistUnlock(name='persistUnlock', type='checkbox', ng-model='persistUnlock', ng-click='setPasswordProtection(); success=false')
                 label(for='persistUnlock', l10n) Do not require password for transactions
                 div.note(l10n) Your secret is stored in memory only, you’ll still have to enter your password once after reloading the page.
