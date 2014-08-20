@@ -405,12 +405,16 @@ TrustTab.prototype.angular = function (module)
 
       $scope.delete_account = function()
       {
+        $scope.trust.loading = true;
+        $scope.load_notification("remove_gateway");
 
         var setSecretAndSubmit = function(tx) {
           keychain.requestSecret(id.account, id.username, function (err, secret) {
             if (err) {
               $scope.mode = 'error';
               console.log('Error on requestSecret: ', err);
+              $scope.trust.loading = false;
+              $scope.load_notification("error");
               return;
             }
 
@@ -420,10 +424,14 @@ TrustTab.prototype.angular = function (module)
               if (err) {
                 $scope.mode = 'error';
                 console.log('Error on tx submit: ', err);
+                $scope.trust.loading = false;
+                $scope.load_notification("error");
                 return;
               }
 
               console.log('Transaction has been submitted with response:', res);
+              $scope.trust.loading = false;
+              $scope.load_notification("gateway_removed");
             });
 
           });
