@@ -199,13 +199,8 @@ module.directive('rpPopup', ['rpPopup', '$parse', function(popup, $parse) {
           $parse(attrs.rpPopupOnOpen)(scope); 
         }
 
-        var xml = a.data('popup');
-        if (!xml) {
-          var content = element.find('[rp-popup-content]');
-          xml = new XMLSerializer().serializeToString(content[0]);
-          a.data('popup', xml);  
-          content.remove();
-        } 
+        var content = element.find('[rp-popup-content]');
+        xml = new XMLSerializer().serializeToString(content[0]);
 
         popup.blank(xml, scope);
         if (attrs.onopen && scope[attrs.onopen]) {
