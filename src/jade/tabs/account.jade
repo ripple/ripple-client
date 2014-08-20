@@ -1,5 +1,7 @@
 section.col-xs-12.content(ng-controller="AccountCtrl")
   .row(ng-show='connected')
+    div(ng-show="'web' === client && !loadingAccount && !account.Balance && loadState.account && connected")
+      include banner/unfunded
     .col-sm-3
       .info
         a(href="", ng-click="infoPage = 'public'"

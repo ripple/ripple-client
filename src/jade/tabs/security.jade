@@ -15,6 +15,8 @@ section.col-xs-12.content(ng-controller="SecurityCtrl")
                 span(l10n) Restore Session
       .alert.alert-danger(ng-show="unlockError")
         span(l10n) Entered password is wrong.
+    div(ng-show="'web' === client && !loadingAccount && !account.Balance && loadState.account && connected")
+      include banner/unfunded
     .col-sm-3(ng-show="isUnlocked")
       include settings/navbar
     .col-sm-9.list(ng-show="isUnlocked")

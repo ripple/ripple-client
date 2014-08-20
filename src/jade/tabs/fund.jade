@@ -7,6 +7,8 @@ section.col-xs-12.content(ng-controller='FundCtrl')
       | You have to be online to see this screen
 
   //- Funding
+  div(ng-show="'web' === client && !loadingAccount && !account.Balance && loadState.account && connected")
+    include banner/unfunded
 
   .row(ng-show='connected')
     .col-sm-3

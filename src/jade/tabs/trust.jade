@@ -11,6 +11,8 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
   //- Connected
 
   group(ng-show="connected && loadState.lines")
+    div(ng-show="'web' === client && !loadingAccount && !account.Balance && loadState.account && connected")
+      include banner/unfunded
 
     //- N1. Trust form
     

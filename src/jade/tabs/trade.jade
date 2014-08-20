@@ -11,6 +11,9 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
 
   //- Connected
 
+  div(ng-show="'web' === client && !loadingAccount && !account.Balance && loadState.account && connected")
+    include banner/unfunded
+
   group(ng-show="connected && loadState.offers")
     .settings
       .row
