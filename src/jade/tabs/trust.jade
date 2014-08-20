@@ -36,7 +36,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                   input.form-control#trust_counterparty(
                     name='trust_counterparty', type='text', rp-combobox="counterparty_query"
                     rp-combobox-value-as-ripple-name
-                    l10n-placeholder="Enter a Ripple name or contact"
+                    l10n-placeholder="Gateway's Ripple name or address"
                     ng-model='counterparty_view'
                     rp-dest, rp-dest-address, rp-dest-contact, rp-not-me, rp-dest-email
                     rp-dest-ripple-name, rp-dest-model="counterparty"
@@ -62,7 +62,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                   input.form-control#trust_counterparty(
                     name='trust_counterparty', type='text', rp-combobox="counterparty_query"
                     rp-combobox-value-as-ripple-name
-                    l10n-placeholder="Enter a Ripple address or contact"
+                    l10n-placeholder="Gateway's Ripple name or address"
                     ng-model='counterparty_view'
                     rp-dest, rp-dest-address, rp-dest-contact, rp-not-me, rp-dest-email
                     rp-dest-ripple-name, rp-dest-model="counterparty"
@@ -137,7 +137,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                       .modal-body
                         div.modal-prompt(l10n) 
                           div You are connecting a gateway, which means
-                          div ~{{ counterparty_address | rpripplename}} can:
+                          div {{ counterparty_address | rpripplename:{tilde: true} }} can:
                         div.grey-focus
                           span.modal-permissions(l10n) - Hold up to&#32;
                           span(rp-pretty-amount="amount_feedback")

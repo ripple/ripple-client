@@ -195,7 +195,9 @@ module.filter("rpripplename", ['$http', function($http) {
     return resolvedNames[address];
   }
 
-  return function(address) {
+  return function(address, options) {
+    var opts = jQuery.extend(true, {}, options);
+
     if(!resolvedNames[address]) {
       if(!serviceInvoked[address]) {
         serviceInvoked[address] = true;
@@ -210,7 +212,11 @@ module.filter("rpripplename", ['$http', function($http) {
           $http.get(authInfo.blobvault + '/v1/user/' + address)
             .success(function(data) {
               if (data.username) {
-                resolvedNames[address] = data.username;
+                if (opts.tilde === true) {
+                  resolvedNames[address] = "~".concat(data.username);
+                } else {
+                  resolvedNames[address] = data.username;
+                }
               } else {
                 // Show the ripple address if there's no name associated with it
                 resolvedNames[address] = address;
