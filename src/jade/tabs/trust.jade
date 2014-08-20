@@ -272,7 +272,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
             .line(ng-controller="AccountRowCtrl", ng-repeat="component in entry.components")
               .row(ng-class="{ 'frozen-account': component.freeze_peer }")
                 //- TODO resolve ripple names
-                div.col-xs-6(l10n) {{ component.account | rpcontactnamefull }}
+                div.col-xs-6(l10n) {{ component.account | rpcontactnamefull | rpripplename: {tilde: true} }}
                 div(
                   ng-class="{ 'col-xs-1': advanced_feature_switch, 'col-xs-2': !advanced_feature_switch }"
                   l10n) {{ component.balance | rpamount:{rel_precision: 2} }}
