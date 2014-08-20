@@ -546,6 +546,7 @@ TrustTab.prototype.angular = function (module)
 
               $scope.trust.loading = false
               $scope.load_notification('success');
+              $scope.editing = false;
             });
           })
           .on('error', function(res){
@@ -556,6 +557,7 @@ TrustTab.prototype.angular = function (module)
 
                 $scope.trust.loading = false;
                 $scope.load_notification("error");
+                $scope.editing = false;
               });
             });
           });
