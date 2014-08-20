@@ -196,46 +196,44 @@ module.filter("rpripplename", ['$rootScope', '$http', function($scope, $http) {
   }
 
   return function(address, options) {
-    var contact = webutil.getContact($scope.userBlob.data.contacts, address);
+    var strippedValue = webutil.stripRippleAddress(address);
+    var rpAddress = ripple.UInt160.from_json(address);
+    if (!rpAddress.is_valid()) return address;
 
-    if (contact) {
-      return contact.name;
-    } else {
-      var opts = jQuery.extend(true, {}, options);
+    var opts = jQuery.extend(true, {}, options);
 
-      if(!resolvedNames[address]) {
-        if(!serviceInvoked[address]) {
-          serviceInvoked[address] = true;
+    if(!resolvedNames[address]) {
+      if(!serviceInvoked[address]) {
+        serviceInvoked[address] = true;
 
-          // Get the blobvault url
-          ripple.AuthInfo.get(Options.domain, "1", function(err, authInfo) {
-            if (err) {
-              console.log("Can't get the authinfo", err);
-            }
+        // Get the blobvault url
+        ripple.AuthInfo.get(Options.domain, "1", function(err, authInfo) {
+          if (err) {
+            console.log("Can't get the authinfo", err);
+          }
 
-            // Get the user
-            $http.get(authInfo.blobvault + '/v1/user/' + address)
-              .success(function(data) {
-                if (data.username) {
-                  if (opts.tilde === true) {
-                    resolvedNames[address] = "~".concat(data.username);
-                  } else {
-                    resolvedNames[address] = data.username;
-                  }
+          // Get the user
+          $http.get(authInfo.blobvault + '/v1/user/' + address)
+            .success(function(data) {
+              if (data.username) {
+                if (opts.tilde === true) {
+                  resolvedNames[address] = "~".concat(data.username);
                 } else {
-                  // Show the ripple address if there's no name associated with it
-                  resolvedNames[address] = address;
+                  resolvedNames[address] = data.username;
                 }
-              })
-              .error(function(err){
-                console.log("Can't get the blobvault", err);
-              });
-          });
-        }
-        return address;
+              } else {
+                // Show the ripple address if there's no name associated with it
+                resolvedNames[address] = address;
+              }
+            })
+            .error(function(err){
+              console.log("Can't get the blobvault", err);
+            });
+        });
       }
-      else return realFilter(address);  
+      return address;
     }
+    else return realFilter(address);  
   }
 }]);
 
