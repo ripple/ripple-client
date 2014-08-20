@@ -17,7 +17,6 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
     .row(ng-show='connected')
       .col-sm-3
         include fund/menu
-        a(href="https://support.ripplelabs.com/hc/en-us/articles/202847686-Gateway-Information", target="_blank", l10n) Learn more about gateways
       .col-sm-9
         .row.row-padding-small.head(ng-hide='true')
           .col-sm-5(l10n) Name / Address
@@ -36,7 +35,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                   input.form-control#trust_counterparty(
                     name='trust_counterparty', type='text', rp-combobox="counterparty_query"
                     rp-combobox-value-as-ripple-name
-                    l10n-placeholder="Enter a Ripple name or contact"
+                    l10n-placeholder="Gateway's Ripple name or address"
                     ng-model='counterparty_view'
                     rp-dest, rp-dest-address, rp-dest-contact, rp-not-me, rp-dest-email
                     rp-dest-ripple-name, rp-dest-model="counterparty"
@@ -62,7 +61,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                   input.form-control#trust_counterparty(
                     name='trust_counterparty', type='text', rp-combobox="counterparty_query"
                     rp-combobox-value-as-ripple-name
-                    l10n-placeholder="Enter a Ripple address or contact"
+                    l10n-placeholder="Gateway's Ripple name or address"
                     ng-model='counterparty_view'
                     rp-dest, rp-dest-address, rp-dest-contact, rp-not-me, rp-dest-email
                     rp-dest-ripple-name, rp-dest-model="counterparty"
@@ -137,7 +136,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                       .modal-body
                         div.modal-prompt(l10n) 
                           div You are connecting a gateway, which means
-                          div {{ counterparty_address | rpripplename}} can:
+                          div {{ counterparty_address | rpripplename:{tilde: true} }} can:
                         div.grey-focus
                           span.modal-permissions(l10n) - Hold up to&#32;
                           span(rp-pretty-amount="amount_feedback")
@@ -233,7 +232,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
         .row
           .unfunded(ng-hide='account.Balance')
             span.literal(l10n) Your account has to be&#32;
-            a(href="https://support.ripplelabs.com/hc/en-us/articles/200916837-How-to-activate-a-Ripple-account", target="_blank", l10n) activated&#32;
+            a.literal(href="https://support.ripplelabs.com/hc/en-us/articles/200916837-How-to-activate-a-Ripple-account", target="_blank", l10n) activated&#32;
             span.literal(l10n) before you can add a gateway account
             p: a.btn.btn-default(href="#/balance", l10n) Back to balance
 
@@ -273,7 +272,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
             .line(ng-controller="AccountRowCtrl", ng-repeat="component in entry.components")
               .row(ng-class="{ 'frozen-account': component.freeze_peer }")
                 //- TODO resolve ripple names
-                div.col-xs-6(l10n) {{ component.account | rpcontactnamefull }}
+                div.col-xs-6(l10n) {{ component.account | rpcontactnamefull | rpripplename: {tilde: true} }}
                 div(
                   ng-class="{ 'col-xs-1': advanced_feature_switch, 'col-xs-2': !advanced_feature_switch }"
                   l10n) {{ component.balance | rpamount:{rel_precision: 2} }}

@@ -155,7 +155,7 @@ h1 {
     display: block;
   }
 
-  p.literal {
+  p.literal, span.literal, a.literal {
     font: 16px 'OpenSansRegular';
 
     strong {
@@ -192,25 +192,6 @@ h1 {
 
   span.address {
     font-weight: bold;
-  }
-
-  span.literal {
-      font: 16px 'OpenSansRegular';
-
-    strong {
-      font-family: 'OpenSansBold';
-      font-weight: normal;
-    }
-
-    &.spinner {
-      position: relative;
-      padding-left: 25px;
-
-      .spinnerInner {
-        left: -15px !important;
-        top: 11px !important;
-      }
-    }
   }
 
   // Transaction status

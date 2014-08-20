@@ -52,6 +52,8 @@ TrustTab.prototype.angular = function (module)
       $scope.amount = '';
       $scope.allowrippling = false;
       $scope.counterparty = '';
+      $scope.counterparty_view = '';
+      $scope.counterparty_address = '';
       $scope.saveAddressName = '';
       $scope.error_account_reserve = false;
 
@@ -544,6 +546,7 @@ TrustTab.prototype.angular = function (module)
 
               $scope.trust.loading = false
               $scope.load_notification('success');
+              $scope.editing = false;
             });
           })
           .on('error', function(res){
@@ -554,6 +557,7 @@ TrustTab.prototype.angular = function (module)
 
                 $scope.trust.loading = false;
                 $scope.load_notification("error");
+                $scope.editing = false;
               });
             });
           });
