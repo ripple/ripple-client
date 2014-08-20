@@ -22,6 +22,8 @@ AdvancedTab.prototype.angular = function(module)
   module.controller('AdvancedCtrl', ['$scope', '$rootScope', 'rpId', 'rpKeychain',
                                     function ($scope, $rootScope, $id, $keychain)
   {
+    if (!$id.loginStatus) return $id.goId();
+    
     $scope.options = Options;
     $scope.optionsBackup = $.extend(true, {}, Options);
     $scope.passwordProtection = !$scope.userBlob.data.persistUnlock;
