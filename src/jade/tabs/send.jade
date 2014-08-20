@@ -7,7 +7,7 @@ section.single.content(ng-controller='SendCtrl')
 
   //- Account is unfunded
 
-  .unfunded(ng-hide='account.Balance || !connected')
+  div(ng-show="'web' === client && !loadingAccount && !account.Balance && loadState.account && connected")
     include banner/unfunded
     p.literal(l10n="err-you-must-be-funded-before-you-can-send-money", l10n) You have to be funded before you can send money
     p: a.btn.btn-default(href="#/balance", l10n) Back to balance
