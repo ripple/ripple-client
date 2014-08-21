@@ -18,7 +18,9 @@ Questions? Contact us as support@ripple.com.
 
 Install Node.js, Grunt, and Git if you haven't already.
 
-Fork and clone the ripple-client repository and run 'npm install'.
+Install bower by running `bower install --allow-root`.
+
+Fork and clone the ripple-client repository and run `npm install`.
 
 Create a new config.js file and copy/paste from config-example.js into the same directory, located under 'src/js'.
 
@@ -80,7 +82,7 @@ Keep track of development and community news.
 - Like [Ripple Labs on Facebook](https://facebook.com/ripplelabs)
 - Subscribe to [@Ripple on Reddit](http://www.reddit.com/r/Ripple)
 - Have a question that's not a feature request or bug report? Send a message to [support@ripple.com](mailto:support@ripple.com)
-- Chat with ripplers in IRC. On the `irc.freenode.net` server, in the `#ripple` and `#ripple-dev` channel.
+- Chat directly with our engineers! Join us [here](https://gitter.im/ripple/developers).
 
 
 ## More Information

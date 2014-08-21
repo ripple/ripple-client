@@ -2,7 +2,7 @@
 
 // Temporary
 @media (max-width: @screen-xs-max) {
-  .t-login, .t-register {
+  .t-login, .t-register, .t-migrate {
     header {
       display: none;
     }
@@ -17,8 +17,8 @@ nav + .content {
   .border-radius(5px,5px,0,0);
 
   @media (min-width: @screen-sm-max) {
-    -webkit-box-shadow:  -3px 0px 5px 0px rgba(0, 0, 0, 0.1);
-    box-shadow:  -3px 0px 5px 0px rgba(0, 0, 0, 0.1);
+    -webkit-box-shadow: -3px 0px 5px 0px rgba(0, 0, 0, 0.1);
+    box-shadow: -3px 0px 5px 0px rgba(0, 0, 0, 0.1);
   }
 }
 
@@ -107,6 +107,10 @@ h1 {
   }
 }
 
+.frozen-account {
+  background-color: @lightgray;
+}
+
 .content {
   padding-top: @grid-gutter-width/2;
   padding-bottom: @grid-gutter-width/2;
@@ -151,7 +155,7 @@ h1 {
     display: block;
   }
 
-  p.literal {
+  p.literal, span.literal, a.literal {
     font: 16px 'OpenSansRegular';
 
     strong {
@@ -195,18 +199,18 @@ h1 {
   // This class is used to show the color-coded messages after submitting a
   // transaction on various pages.
   h2.tx-status {
-    font: 34px 'OpenSansRegular';
+    background-color: @lightyellow;
+    font: 12px 'OpenSansRegular';
     font-weight: normal;
-    padding: 10px 0;
+    padding: 15px;
     .transition-duration(0.2s);
+    .border-radius(5px,5px,5px,5px);
   }
 
   .result-success h2.tx-status {
     background-color: @lightgreen;
-    padding: 15px;
-    color: @darkgreen;
-    .border-radius(5px,5px,5px,5px);
-  }
+    color: @darkgreen;  }
+
   .result-error h2.tx-status,
   .result-malformed h2.tx-status,
   .result-failed h2.tx-status {
@@ -384,5 +388,182 @@ a.danger {
 
   span {
     font-family: OpenSansBold;
+  }
+}
+
+.blank {
+  visibility: hidden;
+}
+
+rp-pie-chart {
+  text {
+    font-family: OpenSansLight, sans-serif;
+    pointer-events: none;
+  }
+  
+  text.percentage {
+    fill: @darkgray;
+    font-size: 12px;
+  }
+
+  .main {
+    opacity: 1;
+  }
+
+  .sub {
+    opacity: 0;
+  }
+  
+  .hole {
+    fill: @white;
+    stroke: @white;
+  }
+
+  * {
+    -webkit-transition: opacity 0.17s;
+    -moz-transition   : opacity 0.17s;
+    -o-transition     : opacity 0.17s;
+    transition        : opacity 0.17s;
+  }
+  
+  
+  .main.xrp {
+    fill: @color-xrp;
+    stroke: @color-xrp;
+  }
+  .sub.xrp {
+    fill: darken(@color-xrp, 20%);
+    stroke: darken(@color-xrp, 20%);
+  }
+  
+  .main.usd {
+    fill: @color-usd;
+    stroke: @color-usd;
+  }
+  .sub.usd {
+    &:nth-of-type(odd) {
+      fill: darken(@color-usd, 20%);
+      stroke: darken(@color-usd, 20%);
+    }
+    &:nth-of-type(even) {
+      fill: lighten(@color-usd, 20%);
+      stroke: lighten(@color-usd, 20%);
+    }
+  }
+  
+  .main.btc {
+    fill: @color-btc;
+    stroke: @color-btc;
+  }
+  .sub.btc {
+    &:nth-of-type(odd) {
+      fill: darken(@color-btc, 20%);
+      stroke: darken(@color-btc, 20%);
+    }
+    &:nth-of-type(even) {
+      fill: lighten(@color-btc, 20%);
+      stroke: lighten(@color-btc, 20%);
+    }
+  }
+  
+  .main.eur {
+    fill: @color-eur;
+    stroke: @color-eur;
+  }
+  .sub.eur {
+    &:nth-of-type(odd) {
+      fill: darken(@color-eur, 20%);
+      stroke: darken(@color-eur, 20%);
+    }
+    &:nth-of-type(even) {
+      fill: lighten(@color-eur, 20%);
+      stroke: lighten(@color-eur, 20%);
+    }
+  }
+  
+  .main.cny {
+    fill: @color-cny;
+    stroke: @color-cny;
+  }
+  .sub.cny {
+    &:nth-of-type(odd) {
+      fill: darken(@color-cny, 20%);
+      stroke: darken(@color-cny, 20%);
+    }
+    &:nth-of-type(even) {
+      fill: lighten(@color-cny, 20%);
+      stroke: lighten(@color-cny, 20%);
+    }
+  }
+  
+  .main.jpy {
+    fill: @color-jpy;
+    stroke: @color-jpy;
+  }
+  .sub.jpy {
+    &:nth-of-type(odd) {
+      fill: darken(@color-jpy, 20%);
+      stroke: darken(@color-jpy, 20%);
+    }
+    &:nth-of-type(even) {
+      fill: lighten(@color-jpy, 20%);
+      stroke: lighten(@color-jpy, 20%);
+    }
+  }
+  
+  .main.cad {
+    fill: @color-cad;
+    stroke: @color-cad;
+  }
+  .sub.cad {
+    &:nth-of-type(odd) {
+      fill: darken(@color-cad, 20%);
+      stroke: darken(@color-cad, 20%);
+    }
+    &:nth-of-type(even) {
+      fill: lighten(@color-cad, 20%);
+      stroke: lighten(@color-cad, 20%);
+    }
+  }
+  
+  
+  .main.generic1 {
+    fill: @color-generic1;
+    stroke: @color-generic1;
+  }
+  .sub.generic1 {
+    &:nth-of-type(odd) {
+      fill: darken(@color-generic1, 20%);
+      stroke: darken(@color-generic1, 20%);
+    }
+    &:nth-of-type(even) {
+      fill: lighten(@color-generic1, 20%);
+      stroke: lighten(@color-generic1, 20%);
+    }
+  }
+  
+  .main.generic2 {
+    fill: @color-generic2;
+    stroke: @color-generic2;
+  }
+  .sub.generic2 {
+    &:nth-of-type(odd) {
+      fill: darken(@color-generic2, 20%);
+      stroke: darken(@color-generic2, 20%);
+    }
+    &:nth-of-type(even) {
+      fill: lighten(@color-generic2, 20%);
+      stroke: lighten(@color-generic2, 20%);
+    }
+  }
+  
+  
+  .main.other {
+    fill: @color-other;
+    stroke: @color-other;
+  }
+  .sub.other {
+    fill: darken(@color-other, 20%);
+    stroke: darken(@color-other, 20%);
   }
 }

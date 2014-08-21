@@ -134,7 +134,7 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
       }
       console.log('lines updated:', $scope.lines);
 
-      if (data.lines.length) $scope.$broadcast('$balancesUpdate');
+      $scope.$broadcast('$balancesUpdate');
 
       $scope.loadState['lines'] = true;
     });
@@ -578,7 +578,15 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
 
   // sort currencies and pairs by order
   $scope.currencies_all.sort(compare);
-  $scope.pairs_all.sort(compare);
+
+  function compare_last_used(a, b) {
+    var time_a = a.last_used || a.order || 0;
+    var time_b = b.last_used || b.order || 0;
+    if (time_a < time_b) return 1;
+    if (time_a > time_b) return -1;
+    return 0;
+  }
+  $scope.pairs_all.sort(compare_last_used);
 
   $scope.currencies_all_keyed = {};
   _.each($scope.currencies_all, function(currency){

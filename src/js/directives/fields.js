@@ -38,7 +38,11 @@ module.directive('rpCombobox', [function () {
         selectEl.click(function () {
           var complFn = scope.$eval(attrs.rpCombobox);
           if ("function" !== typeof complFn) {
+            var options = complFn;
             complFn = webutil.queryFromOptions(complFn);
+            scope.$watch(options, function(value) {
+              setCompletions(complFn());
+            });
           }
           setCompletions(complFn());
           if (cplEl.is(':visible')) {

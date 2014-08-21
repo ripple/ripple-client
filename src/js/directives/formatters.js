@@ -112,9 +112,12 @@ module.directive('rpBindColorAmount', function () {
         scope.$watch(attr.rpBindColorAmount, function(value){
           if (value) {
             var parts = value.split(".");
-            var decimalPart = parts[1].replace(/0(0+)$/, '0<span class="insig">$1</span>');
 
-            element[0].innerHTML = decimalPart.length > 0 ? parts[0] + "." + decimalPart : parts[0];
+            if (parts.length === 2) { // you never know
+              var decimalPart = parts[1].replace(/0(0+)$/, '0<span class="insig">$1</span>');
+
+              element[0].innerHTML = decimalPart.length > 0 ? parts[0] + "." + decimalPart : parts[0];
+            }
           }
         });
       };

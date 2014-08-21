@@ -2,6 +2,8 @@ var path = require("path"),
     fs = require("fs"),
     languages = require("./l10n/languages.json").active;
 
+var languageCodes = languages.map(function(i) { return i.code; }).join(' ');
+
 var BannerPlugin = require("webpack/lib/BannerPlugin");
 
 module.exports = function(grunt) {
@@ -25,6 +27,7 @@ module.exports = function(grunt) {
 
   // Ripple client dependencies
   var deps = ["deps/js/jquery/dist/jquery.js",
+              "deps/js/authy.js",
               "deps/js/swfobject.js",
               "deps/js/setImmediate.js",
               "deps/js/underscore/underscore.js",
@@ -252,7 +255,8 @@ module.exports = function(grunt) {
           context: {
             MODE: "release",
             TARGET: "web",
-            VERSION: "<%= meta.version %>"
+            VERSION: "<%= meta.version %>",
+            LANGUAGES: languageCodes
           }
         }
       },
@@ -263,7 +267,8 @@ module.exports = function(grunt) {
           context: {
             MODE: "debug",
             TARGET: "web",
-            VERSION: "<%= meta.version %>"
+            VERSION: "<%= meta.version %>",
+            LANGUAGES: languageCodes
           }
         }
       },
@@ -274,7 +279,8 @@ module.exports = function(grunt) {
           context: {
             MODE: "release",
             TARGET: "desktop",
-            VERSION: "<%= meta.version %>"
+            VERSION: "<%= meta.version %>",
+            LANGUAGES: languageCodes
           }
         }
       },
@@ -285,7 +291,8 @@ module.exports = function(grunt) {
           context: {
             MODE: "debug",
             TARGET: "desktop",
-            VERSION: "<%= meta.version %>"
+            VERSION: "<%= meta.version %>",
+            LANGUAGES: languageCodes
           }
         }
       }

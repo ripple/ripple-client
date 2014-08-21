@@ -8,28 +8,30 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
     p.literal(l10n) Loading...
 
   //- Connected
+  div(ng-show="'web' === client && !loadingAccount && !account.Balance && loadState.account && connected")
+    include banner/unfunded
 
   group(ng-show="connected && loadState.account")
     .row
       .col-xs-12.col-xs-8
-        // JIRA id#: WC-1563
-        //- .currency-overview
-          //- .balancebox.col-sm-4
-            //- .lbl Total Balance
-            //-   .desc Estimated from exchange rates
-            //- .total.amount 0.
-            //-   span.fraction 0000
-            //-   select.currency
-            //-     option(selected=true) XRP
-            //-     option USD
-            //-     option BTC
-            //-     option CNY
-            //- .pending(ng-show="pending")
-            //-   .lbl Pending
-            //-   .transactions
-            //-     .amount 
-            //-       span.fraction {{pending.amount}}
-            //-       span.currency {{pending.currency}}
+        .currency-overview(ng-show="account.Balance")
+          .balancebox.col-xs-8
+            .lbl(l10n) Total Balance
+              .desc(l10n) Estimated from exchange rates
+            .total.amount(ng-show="exchangeRatesNonempty")
+              span.amount {{ aggregateValueDisplayed.toFixed(4) }}
+              select.currency(ng-model='selectedValueMetric'
+                ng-change='changeMetric(this)'
+                ng-options='metric.code as metric.text for metric in valueMetrics')
+            p.literal(l10n ng-hide="exchangeRatesNonempty") Loading...
+            .lbl(ng-show="hasNegative")
+              .desc(l10n) (excluding negative balances)
+          .col-xs-4(ng-class="{ 'blank' : !exchangeRatesNonempty }")
+            rp-pie-chart(
+              rp-size="120"
+              rp-drops="account.Balance"
+              rp-ious="balances"
+              rp-exchange-rates="exchangeRates")
         .currency-summary
           .balancebox.currency-xrp
             .total.row

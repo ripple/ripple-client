@@ -118,7 +118,26 @@
 
   <script>
     window.name = 'NG_DEFER_BOOTSTRAP!';
-    var lang = store.get('ripple_language') || 'en';
+    var lang = (function(){
+      var languages = "<!-- @echo LANGUAGES -->".split(" ");
+      var languagesMap = { "zh": "cn" };
+      var resolveLanguage = function(lang) {
+        if (!lang) return null;
+        
+        lang = lang.toLowerCase();
+        if (languages.indexOf(lang) != -1) return lang;
+        if (lang.indexOf("-") != -1) {
+          lang = lang.split("-")[0];
+          if (languages.indexOf(lang) != -1) return lang;
+          if (languagesMap[lang]) return languagesMap[lang];
+        }
+        return null;
+      };
+
+      return resolveLanguage(store.get('ripple_language')) ||
+             resolveLanguage(window.navigator.userLanguage || window.navigator.language) ||
+             "en";
+    })();
     var debug = false;
   </script>
 

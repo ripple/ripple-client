@@ -1,12 +1,25 @@
-.form-group(ng-hide="$routeParams.action == 'migrate'")
+.form-group(ng-hide="twoFactor")
   label(for='login_username', l10n) Ripple name
   .input-group
     span.input-group-addon.ripple-addon ~
     input.form-control#login_username(name='login_username', type='text', ng-model='username', required,
     rp-focus-on-empty, rp-autofill='$routeParams.username')
-.form-group(ng-show="$routeParams.action == 'migrate'")
-  label(for='login_username', l10n) Existing ripple.com/client Wallet name
-  input.form-control#login_username(name='login_username', type='text', ng-model='username', required, autofocus='autofocus', rp-focus-on-empty, rp-autofill='$routeParams.username')
-.form-group
-  label(for='login_password', l10n) Passphrase
-  input.form-control#login_password(name='login_password', type='password', ng-model='password', required)
+.form-group(ng-hide="twoFactor")
+  label(for='login_password', l10n) Password
+  input.form-control#login_password(name='login_password', type='password', ng-model='password', required, rp-focus)
+div(ng-show="twoFactor")
+  .form-group
+    span.status(ng-show="twoFactor.via === 'sms'", l10n) Please enter the verification code from the SMS message sent to your device: 
+    span.status(ng-show="twoFactor.via === 'app'", l10n) Please enter the verification code from the Authy app installed on your device: 
+    span.maskedPhone(ng-bind="maskedPhone") 
+  .form-group.text-right  
+    button.btn.btn-inline.btn-primary(type="button", ng-click="requestToken()") 
+      span(ng-show="twoFactor.via === 'sms'", l10n) Resend
+      span(ng-show="twoFactor.via === 'app'", l10n) Send Via SMS
+    a.txtbtn.danger(ng-click="cancel2FA()", l10n) Cancel
+  .form-group  
+    label(for='token', l10n) Verification Code
+    input.form-control#login_password(name='token', ng-model='token', rp-focus)
+  .form-group
+    input.rememberMe(name='rememberMe', type='checkbox', ng-model='rememberMe')
+    label(for='rememberMe', l10n) Remember me on this device for 30 days

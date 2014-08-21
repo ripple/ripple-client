@@ -1,5 +1,5 @@
 // TODO all _ or all -
-.t-register, .t-login, .t-recover {
+.t-register, .t-login, .t-recover, .t-migrate {
   header nav {
     display: none;
   }
@@ -15,9 +15,13 @@
 
 .banner {
   margin: 2% 8.5% 0 8.5%;
+  margin-right: 0px;
+  margin-left: 0px;
+  margin-bottom: 20px;
+  margin-top: 0px;
 }
 
-#t-register, #t-login, #t-recover, #t-account {
+#t-register, #t-login, #t-recover, #t-account, #t-migrate {
 
   .rippleName {
     font-size: 18px;
@@ -228,7 +232,7 @@
     position: relative;
     
     .auth-attention {
-      margin-top: 10px;
+      margin-top: 90px;
       text-align: center;
       
       .recovery {
@@ -270,6 +274,16 @@
         color: @midred;
       }
     }
+  }
+
+  .maskedPhone {
+    font-size:16px;
+    margin:0 5px;
+  }
+
+  .rememberMe {
+    margin: 4px 7px 0 0;
+    float: left;
   }
 
   .action-login {
@@ -343,6 +357,7 @@
 }
 
 #t-balance {
+
   .content {
     padding-top: 0;
   }
@@ -532,15 +547,67 @@
     }
 
     .currency-xrp .lbl i {
-      color: @midblue;
+      color: @color-xrp;
     }
 
     .currency-usd .lbl i {
-      color: @darkgreen;
+      color: @color-usd-dark;
     }
 
     .currency-btc .lbl i {
-      color: #E58918;
+      color: @color-btc;
+    }
+
+    .currency-eur .lbl i {
+      color: @color-eur-dark;
+    }
+
+    // Commodity currencies
+    .currency-xau, .currency-xag, .currency-xpt, .currency-xpd, .currency-xal,
+    .currency-xcu, .currency-xni, .currency-xzn, .currency-xpb, .currency-xsn {
+      .lbl i {
+        .icon-metal-bars;
+      }
+    }
+
+    .currency-xau .lbl i {
+      color: @color-xau;
+    }
+
+    .currency-xag .lbl i {
+      color: @color-xag;
+    }
+
+    .currency-xpt .lbl i {
+      color: @color-xpt;
+    }
+
+    .currency-xpd .lbl i {
+      color: @color-xpd;
+    }
+
+    .currency-xal .lbl i {
+      color: @color-xal;
+    }
+
+    .currency-xcu .lbl i {
+      color: @color-xcu;
+    }
+
+    .currency-xni .lbl i {
+      color: @color-xni;
+    }
+
+    .currency-xzn .lbl i {
+      color: @color-xzn;
+    }
+
+    .currency-xpb .lbl i {
+      color: @color-xpb;
+    }
+
+    .currency-xsn .lbl i {
+      color: @color-xsn;
     }
   }
   .address-info {
@@ -694,30 +761,6 @@
 }
 
 #t-trust {
-  .head {
-    font: 16px 'OpenSansRegular';
-    line-height: 30px;
-    margin-bottom: 14px;
-  }
-
-  .line {
-    border-top: 1px solid @lightgray;
-
-    @media (min-width: @screen-xs-max) {
-      & > div {
-        height: 50px;
-        line-height: 50px;
-      }
-    }
-
-    .actions {
-      text-align: right;
-    }
-  }
-  rp-trust-line {
-    margin: 0 -15px;
-  }
-
   #trustForm {
     margin-bottom: 20px;
 
@@ -743,58 +786,51 @@
     }
   }
 
-  .mode-confirm {
-    .amount_feedback, .dest_feedback {
-      font-size: 26px;
-      margin: 0;
-      padding: 20px;
-      margin: 0 0 20px;
-      background-color: @lightgray;
+  .currencyBox {
+    margin: 0 0 30px;
+  }
 
-      .extra {
-        font-size: 18px;
-        color: @darkgray;
-        margin-top: 0.5em;
-      }
-    }
+  .editBox {
+    background: @lightgray;
+    margin: 10px 0 0 0;
+    padding: 20px 0 10px;
 
-    .amount_feedback {
-      font: 34px 'OpenSansLight';
-
-      .currency {
-        font-size: 20px;
-      }
+    .inputPadding {
+      padding-top: 10px;
+      padding-bottom: 10px;
     }
   }
 
-  .mode-granted {
-    .pending h2 {
-      margin: 0;
+  .currencyTitle {
+    font-size: @font-size-big;
+
+    i {
+      width: 25px;
     }
-    .address {
-      font-size: 25px;
-      font: 34px 'OpenSansLight';
-      margin: 0 0 30px;
-    }
-    p {
-      margin: 20px 0 40px;
-      font-size: 16px;
-    }
-    .actionLink {
-      margin-top: 20px;
-      margin-bottom: 20px;
-      font-size: 16px;
+    span {
+      margin: 0 0 0 10px;
     }
   }
 
-  .trust-notice {
-    color: @midred;
-    font-size: 14px;
-    margin: 30px 0;
+  .head {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 0 0 5px;
+    font-weight: bold;
+    border-bottom: 1px solid @midgray;
+  }
+
+  .lines {
+    color: @darkgray;
+
+    .line {
+      padding: 5px 0;
+    }
   }
 }
 
 #t-contacts {
+
   .head {
     margin-bottom: 10px;
     border-bottom: 1px solid @midgray;
@@ -840,13 +876,14 @@
   .tracking {
     margin: 0 10px 0 0;
   }
-  
+
   .btn-block {
     margin-bottom: 20px;
   }
 }
 
 #t-history {
+
   @bg: @lightgray;
 
   .filters {
@@ -1361,6 +1398,23 @@
 }
 
 #t-security {
+
+  padding: 0px 26px;
+
+  .settingPage a {
+    display: block;
+    padding: 10px;
+    border-radius: 2px;
+    margin: 0 0 3px;
+    background: @lightgray;
+
+    &:hover, &.active {
+      color: @lightgray;
+      text-decoration: none;
+      background: @midblue;
+    }
+  }
+
   .notices {
     list-style-type: none;
     margin: 10px 0 0 0;
@@ -1373,19 +1427,6 @@
     .clearfix;
     margin: 20px 0 0;
 
-    .icon {
-      display: inline-block;
-      background: url(../../img/spritex.png);
-      width: 40px;
-      height: 40px;
-      float: left;
-    }
-    .icon.wallet {
-      background-position:  -80px 0;
-    }
-    .icon.money {
-      background-position:  -34px 0;
-    }
     .name {
       margin: 0 20px 0 10px;
       line-height: 40px;
@@ -1397,8 +1438,20 @@
     }
   }
   .description {
-    margin: 5px 0 5px 68px;
-    font-size: 13px;
+    margin: 5px 0 5px 0;
+  }
+
+  .descriptor {
+    color: @darkgray;
+    margin: 0 0 10px;
+    border-top: 1px solid @midgray;
+    padding-top: 20px;
+  }
+
+  div#password.row {
+    padding-top: 10px;
+    padding-bottom: 10px;
+
   }
   .infoBox {
     .clearfix;
@@ -1406,28 +1459,179 @@
     padding: 20px;
     margin-top: 5px;
     margin-bottom: 5px;
+  }
 
-    .part {
-      float: left;
-      margin: 0 50px 0 0;
+  div.section {
+    padding-bottom: 20px;
+  }
 
-      .label {
-        white-space: nowrap;
-        color: @black;
-      }
-
-      .value {
-        font-size: 20px;
-        margin: 0 10px;
-      }
+  div.part {
+    padding-top: 10px;
+    a {
+      float: right;
     }
   }
+
   .show-keys {
     margin: 20px 0 0 40px;
+  }
+
+  .twoFactorSettings {
+    margin-top:40px;
+
+    .enabled2FA {
+      margin-right:5px
+    }
+
+    input:disabled {
+      opacity:.5;
+    }
+  }
+
+  .confirm2FA {
+    margin-top:20px;
+    margin-bottom:20px;
+  }
+
+  .verify2FA {
+    margin-bottom:10px;
+
+    .status {
+      margin:20px 0;
+    }
+
+     button.spinner {
+      padding-left:0;
+    }
+  }
+
+  .sessionUnlock {
+    margin-left: 15px;
+
+    label {
+      margin-top: 15px
+    }
+
+    button.spinner {
+      padding-left:0;
+    }
+  }
+
+  label[for=persistUnlock]{
+    padding-left: 5px;
+  }
+  
+  .note {
+    font-size:12px;
+    color:@darkgray;  
+  }
+
+  #renameForm {
+    padding-left: 15px;
+  }
+}
+
+#t-advanced {
+
+  padding: 0px 26px;
+
+  .settingPage a {
+    display: block;
+    padding: 10px;
+    border-radius: 2px;
+    margin: 0 0 3px;
+    background: @lightgray;
+
+    &:hover, &.active {
+      color: @lightgray;
+      text-decoration: none;
+      background: @midblue;
+    }
+  }
+
+  #serverSettings {
+    margin-top: 40px;
+  }
+
+  .description {
+    margin: 5px 0 5px 0;
+    font-size: 13px;
+  }
+
+  .descriptor {
+    color: @darkgray;
+    margin: 0 0 10px;
+    border-top: 1px solid @midgray;
+    padding-top: 20px;
+  }
+
+  div.section {
+    padding-bottom: 20px;
+  }
+
+  div.part {
+    padding-top: 10px;
+    a {
+      float: right;
+    }
+  }
+
+  #save {
+    margin-top: 8px;
+  }
+
+  #saveBlob {
+    margin-top: 8px;
+  }
+
+  #saveBridge {
+    margin-top: 8px;
+  }
+
+  #deleteBlob {
+    background-color: @midred;
+    border-color: @midred;
+    margin-top: 8px;
+  }
+
+  #deleteBridge {
+    background-color: @midred;
+    border-color: @midred;
+    margin-top: 8px;
+  }
+
+  #delete {
+    background-color: @midred;
+    border-color: @midred;
+    margin-top: 8px;
+  }
+
+  #cancel {
+    margin-top: 8px;
+  }
+
+  #newServer {
+    width: 175%;
+    margin-top: 20px;
+  }
+
+  #servers {
+    padding-top: 0px;
+  }
+
+  #secureSocket {
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+
+  #renameForm {
+    padding-left: 15px;
+
   }
 }
 
 #t-trade {
+
   @bg: @white;
 
   .btn-group {
@@ -1800,11 +2004,20 @@
   }
 }
 
+header nav.navbar .open > .dropdown-menu {
+  background-color: @lightgray;
+}
+
+.dropdown-menu > li > a {
+  color: @midblue;
+}
+
 html.t-trade header nav ul > li.active#nav-advanced > a:after {
   border-bottom-color: @lightgray;
 }
 
 #t-exchange {
+
   .no-gateway {
     text-align: center;
 
@@ -1833,9 +2046,7 @@ html.t-trade header nav ul > li.active#nav-advanced > a:after {
   }
 }
 
-#t-fund {
-  padding: 0px 26px;
-
+#t-fund, #t-trust {
   .currencies a {
     display: block;
     padding: 10px;
@@ -1849,10 +2060,65 @@ html.t-trade header nav ul > li.active#nav-advanced > a:after {
       background: @midblue;
     }
   }
+}
+
+#t-fund {
+
+  .currency {
+    font-size: 18px;
+    margin: 0 0 0 5px;
+    color: darken(@darkgray, 15%);
+  }
 
   .list{
     border-left: 1px solid @midgray;
   }
+
+  .lbl {
+    font-size   : 1.2em;
+    font-family : OpenSansBold;
+
+    .desc {
+      color: @midgray;
+      font: 12px OpenSansLight;
+    }
+  }
+
+  .amount {
+    color: @darkblue;
+
+    .fraction {
+      font-family: OpenSansLight;
+      color: @lightgreen;
+    }
+
+    .currency {
+      font-family: OpenSansLight;
+      margin-left: 15px;
+    }
+  }
+
+  .total {
+    margin: 10px 0;
+    font-size: 15px;
+
+    .fraction {
+      font-size: 30px;
+    }
+
+    select.currency {
+      font-size: 20px;
+      padding-right: 20px;
+      border: none;
+      background: transparent url('../../img/dropdown_arrow.svg') no-repeat;
+      background-position: center right;
+      appearance: none;
+      moz-appearance: none;
+      -webkit-appearance: none;
+
+    }
+  }
+
 
   .nameLine {
     margin: 0 0 20px;
@@ -1864,6 +2130,7 @@ html.t-trade header nav ul > li.active#nav-advanced > a:after {
       font-weight: bold;
     }
   }
+
 
   .fundXrp {
     .address {
@@ -1929,20 +2196,127 @@ html.t-trade header nav ul > li.active#nav-advanced > a:after {
 }
 
 #t-account {
+
+  padding: 0px 26px;
+
+  .info a {
+    display: block;
+    padding: 10px;
+    border-radius: 2px;
+    margin: 0 0 3px;
+    background: @lightgray;
+
+    &:hover, &.active {
+      color: @lightgray;
+      text-decoration: none;
+      background: @midblue;
+    }
+  }
+
+  #open_name_change {
+    float: left;
+    padding-left: 20px;
+  }
+
+  .nameLine {
+    margin: 0 0 20px;
+    padding: 0 0 20px;
+    font: 20px OpenSansLight;
+
+    .name {
+      font-weight: bold;
+    }
+  }
+
   .descriptor {
     color: @darkgray;
-    margin: 0 0 10px;
+    margin: 0 0 20px;
+    border-top: 1px solid @midgray;
+    padding-top: 20px;
+    color: @darkgray;
   }
 
   .username {
+    color: @black;
+    padding-bottom: 30px;
     font-family: OpenSansRegular;
   }
 
   #nameChangeForm {
     margin: 10px 0 0 0;
+
   }
 
   .auth-form-container {
     padding-bottom: 0px;
+  }
+
+  #renameForm {
+    width: 400px;
+    padding-top: 20px;
+    padding-bottom: 30px;
+
+    .form-group {
+
+
+      label {
+        color: @darkgray;
+      }
+
+      label[for=password]{
+        padding-top: 20px;
+      }
+      .input-group {
+        .input-group-addon:first-child {
+          background: @midblue;
+          border-color: @midblue;
+          color: @white;
+
+        }
+      }
+    }
+  }
+
+  .sessionUnlock {
+    margin-left: 15px;
+
+      label {
+        margin-top: 15px
+      }
+
+      button.spinner {
+        padding-left:0;
+      }
+  }
+
+  .confirm2FA {
+    margin-top:20px;
+    margin-bottom:20px;
+  }
+
+  .verify2FA {
+    margin-bottom:10px;
+
+    .status {
+      margin:20px 0;
+    }
+
+     button.spinner {
+      padding-left:0;
+    }   
+  }
+
+}
+
+.modal2FA {
+
+  .email {
+    font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight:bold;
+    font-size:1.1em;
+  }
+
+  input {
+    font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
   }
 }
