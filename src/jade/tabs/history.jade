@@ -178,8 +178,8 @@ section.col-xs-12.content(ng-controller="HistoryCtrl")
                 span.balance(l10n) Final balance
               .effect(ng-repeat="effect in entry.balanceEffects")
                 span.description
-                  span(ng-show="effect.type == 'balance_Change'", data-label="Description", l10n) XRP balance Change
-                  span(ng-show="effect.type == 'trust_Change_balance'", data-label="Description", l10n) {{effect.currency}} balance Change
+                  span(ng-show="effect.type == 'balance_change'", data-label="Description", l10n) XRP Balance Change
+                  span(ng-show="effect.type == 'trust_change_balance'", data-label="Description", l10n) {{effect.currency}} Balance Change
                   span(ng-show="effect.type == 'fee'", data-label="Description", l10n) Fee
                 span.issuer(
                   rp-pretty-issuer="effect.amount.issuer().to_json()"
