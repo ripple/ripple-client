@@ -22,12 +22,17 @@ AdvancedTab.prototype.angular = function(module)
   module.controller('AdvancedCtrl', ['$scope', '$rootScope', 'rpId', 'rpKeychain',
                                     function ($scope, $rootScope, $id, $keychain)
   {
+    if (!$id.loginStatus) return $id.goId();
+    
     $scope.options = Options;
     $scope.optionsBackup = $.extend(true, {}, Options);
     $scope.passwordProtection = !$scope.userBlob.data.persistUnlock;
     $scope.editBridge = false;
     $scope.editBlob = false;
+    $scope.editAcctOptions = false;
 
+    $scope.advanced_feature_switch = Options.advanced_feature_switch;
+    
     $scope.saveBlob = function () {
       // Save in local storage
       if (!store.disabled) {
@@ -50,6 +55,12 @@ AdvancedTab.prototype.angular = function(module)
 
       // Reload
       location.reload();
+    };
+
+    $scope.saveAcctOptions = function () {
+      Options.advanced_feature_switch = !Options.advanced_feature_switch;
+
+      $scope.editAcctOptions = false;
     };
 
     $scope.deleteBlob = function () {
@@ -76,6 +87,11 @@ AdvancedTab.prototype.angular = function(module)
     $scope.cancelEditBridge = function () {
       $scope.editBridge = false;
       $scope.options.bridge.out.bitcoin = $scope.optionsBackup.bridge.out.bitcoin;
+    }
+
+    $scope.cancelEditAcctOptions = function () {
+      $scope.editAcctOptions = false;
+      
     }
 
 

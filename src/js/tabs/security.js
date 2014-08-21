@@ -18,9 +18,9 @@ SecurityTab.prototype.generateHtml = function ()
 
 SecurityTab.prototype.angular = function (module) {
   module.controller('SecurityCtrl', ['$scope', 'rpId', 'rpOldBlob', 'rpTracker',
-                                     'rpKeychain', '$timeout',
+                                     'rpKeychain', '$timeout', 'rpAuthFlow', 'rpPopup',
                                      function ($scope, $id, $blob, $rpTracker,
-                                               keychain, $timeout)
+                                               keychain, $timeout, authflow, popup)
   {
     if (!$id.loginStatus) return $id.goId();
 
@@ -28,11 +28,11 @@ SecurityTab.prototype.angular = function (module) {
 
     $scope.showComponent = [];
 
-    $scope.isUnlocked  = keychain.isUnlocked($id.account);
-    $scope.loading2FA  = false;
 
-    $scope.passwordProtection = !$scope.userBlob.data.persistUnlock;
-
+    $scope.isUnlocked = true; //hiding the dialog for now
+    //$scope.isUnlocked = keychain.isUnlocked($id.account);
+    $scope.loading2FA = false;
+    
     $scope.$on('$blobUpdate', onBlobUpdate);
     onBlobUpdate();
 
@@ -43,13 +43,12 @@ SecurityTab.prototype.angular = function (module) {
       if ("function" === typeof $scope.userBlob.encrypt) {
         $scope.enc = $scope.userBlob.encrypt();
       }
-      $scope.passwordProtection = !$scope.userBlob.data.persistUnlock;
+      
+      $scope.persistUnlock = $scope.userBlob.data.persistUnlock;
     }
 
-    //$scope.mode2FA = 'verifyPhone';
-
     if ($scope.isUnlocked) {
-      $timeout(load2FA, 50);
+      //$timeout(load2FA, 50);
     }
 
     $scope.restoreSession = function() {
@@ -64,7 +63,8 @@ SecurityTab.prototype.angular = function (module) {
 
       keychain.getSecret($id.account, $id.username, $scope.sessionPassword, function(err, secret) {
         $scope.isConfirming = false;
-
+        $scope.sessionPassword = '';
+        
         if (err) {
           $scope.unlockError = err;
           return;
@@ -123,13 +123,21 @@ SecurityTab.prototype.angular = function (module) {
       });
     };
 
+
     $scope.setPasswordProtection = function () {
-      keychain.setPasswordProtection(!$scope.passwordProtection, function(err, resp){
+      $scope.editUnlock = false;
+
+      keychain.setPasswordProtection($scope.persistUnlock, function(err, resp){
         if (err) {
-          $scope.passwordProtection = !$scope.PasswordProtection;
+          console.log(err);
+          $scope.persistUnlock = !$scope.persistUnlock;
           //TODO: report errors to user
         }
       });
+    };
+
+    $scope.cancelUnlockOptions = function () {
+      $scope.editUnlock = false;
     };
 
     $scope.changePassword = function() {
@@ -180,25 +188,6 @@ SecurityTab.prototype.angular = function (module) {
         $scope.countryCode    = $scope.currentCountryCode;
         window.Authy.UI.instance(true, $scope.countryCode); //enables the authy dropdown
       });
-
-      //authy.setCountryCode(0, $scope.countryCode);
-      /*
-       //not very angular but I think its the only way in this case
-       var countryCode = document.getElementsByName('countryCode')[0].value;
-       var options = {
-       masterkey    : secret,
-       remember_me  : true,
-       enabled      : $scope.enabled2FA,
-       phone        : $scope.phoneNumber,
-       country_code : countryCode,
-       via          : "sms"
-       };
-
-       $scope.userBlob.set2FA(options, function(err, resp){
-       console.log(err, resp);
-       });
-       */
-
     };
 
     $scope.savePhone = function() {
@@ -235,10 +224,9 @@ SecurityTab.prototype.angular = function (module) {
               $scope.currentCountryCode = options.country_code;
 
               //request verification token
-              requestToken(function(err, resp) {
-
+              requestToken(false, function(err, resp) {
                 //TODO: handle error
-                console.log(err, resp);
+                
                 $scope.savingPhone = false;
                 $scope.mode2FA     = 'verifyPhone';
                 popup.close();
@@ -249,26 +237,26 @@ SecurityTab.prototype.angular = function (module) {
       });
     };
 
-    function requestToken (callback) {
-      //return callback (null, null);
-      authflow.requestToken($scope.userBlob.url, $scope.userBlob.id, function(tokenError, tokenResp) {
-        $scope.mode2FA = '';
+    function requestToken (force, callback) {
 
+      authflow.requestToken($scope.userBlob.url, $scope.userBlob.id, force, function(tokenError, tokenResp) {
         if (tokenError) {
           $scope.error2FA = true;
+        } else {
+          $scope.via = tokenResp.via;
         }
 
         callback(tokenError, tokenResp);
       });
     }
 
-    $scope.resendToken = function () {
-      $scope.isResending = true;
-
-      requestToken(function(err, resp) {
-        console.log(err, resp);
-        $scope.isResending = false;
-        //present message of resend success or failure
+    $scope.requestToken = function () {
+      var force = $scope.via === 'app' ? true : false;
+      
+      $scope.isRequesting = true;
+      requestToken(force, function(err, resp) {
+        $scope.isRequesting = false;
+        //TODO: present message of resend success or failure
       });
     }
 
@@ -287,7 +275,6 @@ SecurityTab.prototype.angular = function (module) {
 
       authflow.verifyToken(options, function(err, resp){
 
-        console.log(err, resp);
         if (err) {
           $scope.invalidToken = true;
           $scope.isVerifying  = false;
@@ -364,12 +351,15 @@ SecurityTab.prototype.angular = function (module) {
       $scope.error2FA     = false;
     };
 
+
     var reset = function() {
 
       $scope.openFormPassword = false;
       $scope.password1 = '';
       $scope.password2 = '';
       $scope.passwordSet = {};
+      $scope.loading = false;
+      $scope.error = false;
 
       if ($scope.changeForm) {
         $scope.changeForm.$setPristine(true);
@@ -377,6 +367,8 @@ SecurityTab.prototype.angular = function (module) {
   };
 
   reset();
+  $scope.success = false;
+
   }]);
 };
 

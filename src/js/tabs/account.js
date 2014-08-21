@@ -18,8 +18,8 @@ AccountTab.prototype.generateHtml = function ()
 
 AccountTab.prototype.angular = function(module)
 {
-  module.controller('AccountCtrl', ['$scope', '$timeout', 'rpId', 'rpPopup', 'rpKeychain', 'rpAuthFlow',
-    function ($scope, $timeout, $id, popup, keychain, authflow)
+  module.controller('AccountCtrl', ['$scope', '$timeout', 'rpId', 'rpKeychain',
+    function ($scope, $timeout, $id, keychain)
     {
       if (!$id.loginStatus) return $id.goId();
 
@@ -84,7 +84,6 @@ AccountTab.prototype.angular = function(module)
         $scope.username = '';
         $scope.password = '';
         $scope.showPassword = true;
-        $scope.success = false;
         $scope.loading = false;
         $scope.error = false;
 
@@ -95,6 +94,7 @@ AccountTab.prototype.angular = function(module)
       };
 
       reset();
+      $scope.success = false;
     }]
   );
 };

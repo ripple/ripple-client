@@ -18,16 +18,23 @@ FundTab.prototype.generateHtml = function ()
   return require('../../jade/tabs/fund.jade')();
 };
 
+FundTab.prototype.extraRoutes = [
+  { name: '/fund/:currency' }
+];
+
 FundTab.prototype.angular = function (module)
 {
-  module.controller('FundCtrl', ['$rootScope', 'rpId', 'rpAppManager', 'rpTracker',
-                                     function ($scope, $id, appManager, rpTracker)
+  module.controller('FundCtrl', ['$rootScope', 'rpId', 'rpAppManager', 'rpTracker', '$routeParams',
+                                     function ($scope, $id, appManager, rpTracker, $routeParams)
   {
-    if (!$id.loginStatus) return $id.goId();
+    if (!$routeParams.currency) {
+      $routeParams.currency = 'xrp'
+    }
 
-    $scope.currencyPage = 'xrp';
-
+    $scope.accountLines = {};
     $scope.showComponent = [];
+
+    if (!$id.loginStatus) return $id.goId();
 
     $scope.openPopup = function () {
       $scope.emailError = false;
@@ -71,6 +78,7 @@ FundTab.prototype.angular = function (module)
 
       rpTracker.track('B2R Shared Email');
     };
+
   }]);
 };
 

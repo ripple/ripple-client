@@ -9,11 +9,13 @@
   input.form-control#login_password(name='login_password', type='password', ng-model='password', required, rp-focus)
 div(ng-show="twoFactor")
   .form-group
-    span.status(ng-show="twoFactor.via === 'sms'", l10n) Please enter your verification code from the SMS message sent to your device: 
-    span.status(ng-show="twoFactor.via === 'app'", l10n) Please enter your verification code from the Authy app installed on your device: 
+    span.status(ng-show="twoFactor.via === 'sms'", l10n) Please enter the verification code from the SMS message sent to your device: 
+    span.status(ng-show="twoFactor.via === 'app'", l10n) Please enter the verification code from the Authy app installed on your device: 
     span.maskedPhone(ng-bind="maskedPhone") 
   .form-group.text-right  
-    button.btn.btn-inline.btn-primary(type="button", ng-click="resendToken()", l10n) Resend
+    button.btn.btn-inline.btn-primary(type="button", ng-click="requestToken()") 
+      span(ng-show="twoFactor.via === 'sms'", l10n) Resend
+      span(ng-show="twoFactor.via === 'app'", l10n) Send Via SMS
     a.txtbtn.danger(ng-click="cancel2FA()", l10n) Cancel
   .form-group  
     label(for='token', l10n) Verification Code

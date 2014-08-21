@@ -15,6 +15,10 @@
 
 .banner {
   margin: 2% 8.5% 0 8.5%;
+  margin-right: 0px;
+  margin-left: 0px;
+  margin-bottom: 20px;
+  margin-top: 0px;
 }
 
 #t-register, #t-login, #t-recover, #t-account, #t-migrate {
@@ -228,7 +232,7 @@
     position: relative;
     
     .auth-attention {
-      margin-top: 10px;
+      margin-top: 90px;
       text-align: center;
       
       .recovery {
@@ -353,6 +357,7 @@
 }
 
 #t-balance {
+
   .content {
     padding-top: 0;
   }
@@ -756,30 +761,6 @@
 }
 
 #t-trust {
-  .head {
-    font: 16px 'OpenSansRegular';
-    line-height: 30px;
-    margin-bottom: 14px;
-  }
-
-  .line {
-    border-top: 1px solid @lightgray;
-
-    @media (min-width: @screen-xs-max) {
-      & > div {
-        height: 50px;
-        line-height: 50px;
-      }
-    }
-
-    .actions {
-      text-align: right;
-    }
-  }
-  rp-trust-line {
-    margin: 0 -15px;
-  }
-
   #trustForm {
     margin-bottom: 20px;
 
@@ -805,58 +786,51 @@
     }
   }
 
-  .mode-confirm {
-    .amount_feedback, .dest_feedback {
-      font-size: 26px;
-      margin: 0;
-      padding: 20px;
-      margin: 0 0 20px;
-      background-color: @lightgray;
+  .currencyBox {
+    margin: 0 0 30px;
+  }
 
-      .extra {
-        font-size: 18px;
-        color: @darkgray;
-        margin-top: 0.5em;
-      }
-    }
+  .editBox {
+    background: @lightgray;
+    margin: 10px 0 0 0;
+    padding: 20px 0 10px;
 
-    .amount_feedback {
-      font: 34px 'OpenSansLight';
-
-      .currency {
-        font-size: 20px;
-      }
+    .inputPadding {
+      padding-top: 10px;
+      padding-bottom: 10px;
     }
   }
 
-  .mode-granted {
-    .pending h2 {
-      margin: 0;
+  .currencyTitle {
+    font-size: @font-size-big;
+
+    i {
+      width: 25px;
     }
-    .address {
-      font-size: 25px;
-      font: 34px 'OpenSansLight';
-      margin: 0 0 30px;
-    }
-    p {
-      margin: 20px 0 40px;
-      font-size: 16px;
-    }
-    .actionLink {
-      margin-top: 20px;
-      margin-bottom: 20px;
-      font-size: 16px;
+    span {
+      margin: 0 0 0 10px;
     }
   }
 
-  .trust-notice {
-    color: @midred;
-    font-size: 14px;
-    margin: 30px 0;
+  .head {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 0 0 5px;
+    font-weight: bold;
+    border-bottom: 1px solid @midgray;
+  }
+
+  .lines {
+    color: @darkgray;
+
+    .line {
+      padding: 5px 0;
+    }
   }
 }
 
 #t-contacts {
+
   .head {
     margin-bottom: 10px;
     border-bottom: 1px solid @midgray;
@@ -909,6 +883,7 @@
 }
 
 #t-history {
+
   @bg: @lightgray;
 
   .filters {
@@ -1464,7 +1439,6 @@
   }
   .description {
     margin: 5px 0 5px 0;
-    font-size: 13px;
   }
 
   .descriptor {
@@ -1543,14 +1517,17 @@
     }
   }
 
-  label[for=passwordProtection]{
+  label[for=persistUnlock]{
     padding-left: 5px;
-
+  }
+  
+  .note {
+    font-size:12px;
+    color:@darkgray;  
   }
 
   #renameForm {
     padding-left: 15px;
-
   }
 }
 
@@ -1651,13 +1628,10 @@
     padding-left: 15px;
 
   }
-
-  label[for=passwordProtection]{
-    padding-left: 5px;
-  }
 }
 
 #t-trade {
+
   @bg: @white;
 
   .btn-group {
@@ -2043,6 +2017,7 @@ html.t-trade header nav ul > li.active#nav-advanced > a:after {
 }
 
 #t-exchange {
+
   .no-gateway {
     text-align: center;
 
@@ -2071,9 +2046,7 @@ html.t-trade header nav ul > li.active#nav-advanced > a:after {
   }
 }
 
-#t-fund {
-  padding: 0px 26px;
-
+#t-fund, #t-trust {
   .currencies a {
     display: block;
     padding: 10px;
@@ -2087,10 +2060,65 @@ html.t-trade header nav ul > li.active#nav-advanced > a:after {
       background: @midblue;
     }
   }
+}
+
+#t-fund {
+
+  .currency {
+    font-size: 18px;
+    margin: 0 0 0 5px;
+    color: darken(@darkgray, 15%);
+  }
 
   .list{
     border-left: 1px solid @midgray;
   }
+
+  .lbl {
+    font-size   : 1.2em;
+    font-family : OpenSansBold;
+
+    .desc {
+      color: @midgray;
+      font: 12px OpenSansLight;
+    }
+  }
+
+  .amount {
+    color: @darkblue;
+
+    .fraction {
+      font-family: OpenSansLight;
+      color: @lightgreen;
+    }
+
+    .currency {
+      font-family: OpenSansLight;
+      margin-left: 15px;
+    }
+  }
+
+  .total {
+    margin: 10px 0;
+    font-size: 15px;
+
+    .fraction {
+      font-size: 30px;
+    }
+
+    select.currency {
+      font-size: 20px;
+      padding-right: 20px;
+      border: none;
+      background: transparent url('../../img/dropdown_arrow.svg') no-repeat;
+      background-position: center right;
+      appearance: none;
+      moz-appearance: none;
+      -webkit-appearance: none;
+
+    }
+  }
+
 
   .nameLine {
     margin: 0 0 20px;
@@ -2102,6 +2130,7 @@ html.t-trade header nav ul > li.active#nav-advanced > a:after {
       font-weight: bold;
     }
   }
+
 
   .fundXrp {
     .address {
@@ -2202,10 +2231,6 @@ html.t-trade header nav ul > li.active#nav-advanced > a:after {
   .descriptor {
     color: @darkgray;
     margin: 0 0 20px;
-    font-size: 16px;
-  }
-
-  #address.descriptor {
     border-top: 1px solid @midgray;
     padding-top: 20px;
     color: @darkgray;
