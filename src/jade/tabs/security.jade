@@ -24,19 +24,22 @@ section.col-xs-12.content(ng-controller="SecurityCtrl")
         div(ng-show="'web' === client")
           .alert.alert-warning(ng-show="loading", l10n) Changing your Ripple password...
           .alert.alert-success(ng-show="success", l10n) Your Ripple password has been changed successfully.
+          .alert.alert-danger(ng-show="errorLoading2FA", l10n) Unable to load two factor authentication settings.
+          .alert.alert-danger(ng-show="error2FA", l10n) Error saving 2FA settings.
+          .alert.alert-danger(ng-show="invalidToken", l10n) The verification code is invalid.
+          .alert.alert-success(ng-show="enableSuccess", l10n) Two factor authetication has been successfully enabled.
+          .alert.alert-success(ng-show="disableSuccess", l10n) Two factor authetication has been successfully disabled.
           h4(l10n) Security settings
-          .section(ng-if="0")
-            .alert.alert-success(ng-show="", l10n) Two factor authentication has been enbabled.
-            .alert.alert-success(ng-show="", l10n) Two factor authentication has been disabled.
+          .section
             .descriptor Two Factor Authentication
             .row(ng-show="loading2FA")
-              .col-xs-12.col-sm-5
+              .col-xs-12.col-sm-9
                 div(rp-spinner="4", l10n) Loading two factor authentication settings....
             .row(ng-hide="loading2FA || errorLoading2FA || mode2FA === 'verifyPhone'")
-              .col-xs-12.col-sm-3
+              .col-xs-9.col-sm-8.col-md-6
                 span(ng-show="enabled2FA", l10n) Enabled
                 span(ng-hide="enabled2FA", l10n) Disabled
-              .col-xs-12.col-sm-9
+              .col-xs-3.col-sm-4.col-md-6
                 a(href="", ng-show="enabled2FA", ng-click="disable2FA()", l10n) disable
                 rp-popup(onOpen="open2FA")
                   a(href="", rp-popup-link, ng-hide="enabled2FA", l10n) enable
@@ -55,7 +58,7 @@ section.col-xs-12.content(ng-controller="SecurityCtrl")
                           .col-xs-12.col-sm-8.phone2FA
                             .form-group.authy-control
                               label(l10n) Country Code
-                              input#authy-countries.form-control(name="countryCode")
+                              input.authy-countries.form-control(ng-model="countryCode")
                             .form-group.authy-control
                               label(l10n) Phone Number
                               input.form-control(name="phoneNumber", ng-model="phoneNumber")
@@ -67,7 +70,6 @@ section.col-xs-12.content(ng-controller="SecurityCtrl")
                         button.modal-btn.btn.btn-default.btn-md(data-dismiss="modal"
                         ng-hide="savingPhone", l10n) Cancel
             .row.confirm2FA(ng-hide="!mode2FA || mode2FA === 'verifyPhone'")
-              .col-xs-12.col-sm-3
               .col-xs-12.col-sm-9
                 .status
                   div(rp-spinner="4", ng-show="mode2FA === 'savePhone'", l10n) Saving settings....
@@ -99,16 +101,11 @@ section.col-xs-12.content(ng-controller="SecurityCtrl")
                     span(l10n) Enable
                 .col-xs-5.col-sm-2
                   a.txtbtn(ng-click="cancel2FA()", l10n) Cancel
-            .alert.alert-danger(ng-show="errorLoading2FA", l10n) Unable to load two factor authentication settings.
-            .alert.alert-danger(ng-show="error2FA", l10n) Error saving 2FA settings.
-            .alert.alert-danger(ng-show="invalidToken", l10n) The verification code is invalid.
-            .alert.auth-attention(ng-show="enableSuccess", l10n) Two factor authetication has been successfully enabled.
-            .alert.auth-attention(ng-show="disableSuccess", l10n) Two factor authetication has been successfully disabled.
           .section
             .descriptor(l10n) Ripple password
             .row
-              .col-xs-12.col-sm-3.col-md-6 *****************
-              .col-xs-12.col-sm-9.col-md-6
+              .col-xs-9.col-sm-8.col-md-6 *****************
+              .col-xs-3.col-sm-4.col-md-6
                 a(href="", ng-click="openFormPassword=!openFormPassword"
                 ng-hide="openFormPassword", l10n) edit
             .row
@@ -163,10 +160,10 @@ section.col-xs-12.content(ng-controller="SecurityCtrl")
                 |  somewhere private and safe. In the event you lose your Ripple name or password, you can use this secret
                 |  key to recover your funds.
             .row
-              .col-xs-12.col-sm-5.col-md-6
+              .col-xs-9.col-sm-8.col-md-6
                 span.value(ng-show="security.master_seed") {{security.master_seed}}
                 span.value(ng-hide="security.master_seed") ••••••••••••••••••••••••••••••••••••••••••••
-              .col-xs-12.col-sm-5.col-md-3
+              .col-xs-3.col-sm-4.col-md-3
                 a(href="", ng-click="unmaskSecret()", ng-hide="security.master_seed", l10n) Show
                 a(href="", ng-click="security.master_seed = null", ng-show="security.master_seed", l10n) Hide
           .descriptor(l10n) Password protection for transactions
@@ -176,20 +173,23 @@ section.col-xs-12.content(ng-controller="SecurityCtrl")
               div.helperInput
                 form(name="persistUnlock", ng-submit="setPasswordProtection()")
                   .row(ng-hide="editUnlock")
-                    .col-xs-12.col-sm-5.col-md-3
-                      .description Require password
                     .col-xs-6.col-sm-5.col-md-3
-                      .description(ng-show="unlock_switch", id='isProtected', l10n) Yes
-                      .description(ng-hide="unlock_switch", id='isProtected', l10n) No
-                    .col-xs-3.col-sm-3.col-md-4
-                      a(href="", id='edit', ng-click="editUnlock = true", l10n) edit
+                      .description Require password
+                    .col-xs-3.col-sm-3.col-md-3
+                      div.description
+                        div(ng-show="requirePassword", l10n) Yes
+                        div(ng-hide="requirePassword", l10n) No
+                    .col-xs-3.col-sm-4.col-md-4
+                      div.description
+                        a(href="", id='edit', ng-click="editUnlock = true", l10n) edit
                   .row(ng-show="editUnlock")
                     .col-xs-6.col-sm-5.col-md-3
                       .description Require password
-                    .col-xs-2.col-md-3
-                      div.helperInput
+                    .col-xs-3.col-sm-3.col-md-3
+                      div.helperInput.description
                         label
-                          input(type="checkbox", name="unlock", ng-model='unlock_switch')
-                    .col-xs-2.col-md-2
-                      button.btn.btn-block.btn-success.btn-xs.submit(id='save', type='submit'
-                      ng-disabled='serverForm.$invalid', l10n) Save
+                          input(type="checkbox", name="unlock", ng-checked='requirePassword', ng-click="requirePasswordChanged = true")
+                    .col-xs-3.col-sm-3.col-md-2
+                      .description
+                        button.btn.btn-block.btn-success.btn-xs.submit(id='save', type='submit'
+                        ng-disabled='serverForm.$invalid', l10n) Save
