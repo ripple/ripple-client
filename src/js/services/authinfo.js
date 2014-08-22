@@ -1,3 +1,4 @@
+
 /**
  * AUTH INFO
  *
@@ -47,7 +48,7 @@ module.factory('rpAuthInfo', ['$rootScope', 'rpRippleTxt', '$http',
           },
           error: function () {
             $scope.$apply(function() {
-              callback(new Error("Authentication info server unreachable"));
+              callback(new Error("Cannot connect to our login system, please try again later or contact support@ripple.com."));
             });
           },
           success: function (data) {
