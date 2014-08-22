@@ -38,7 +38,7 @@ TxTab.prototype.angular = function (module)
           var tx = res.tx ? res.tx : res;
           _.extend($scope.transaction, res);
 
-          $scope.amountSent = rewriter.amountSent(tx, tx.meta);
+          $scope.amountSent = rewriter.getAmountSent(tx, tx.meta);
         });
       });
       request.on('error', function (res) {
