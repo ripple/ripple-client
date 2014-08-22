@@ -17,6 +17,8 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
             a(href="#/trade", l10n) Exchange
           li#nav-fund(ng-class="{active: $route.current.mainMenu == 'fund'}")
             a(href="#/fund", l10n) Fund
+          li#nav-buy(ng-class="{active: $route.current.mainMenu == 'buy'}")
+            a(href="#/buy", l10n) Buy
         ul.nav.navbar-nav.navbar-right
           li.dropdown.balances-dropdown
             p.navbar-text(ng-show="!loadState.account", l10n) Loading your balance...
