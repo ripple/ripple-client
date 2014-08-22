@@ -36,7 +36,7 @@ module.factory('rpKeychain', ['$rootScope', '$timeout', 'rpPopup', 'rpId',
   };
 
   // Default unlock duration is 5 minutes
-  Keychain.unlockDuration = 5 * 60 * 1000;
+  Keychain.unlockDuration = 5 * 60 * 10;
 
   Keychain.prototype.isUnlocked = function (account) {
     return !!this.secrets[account];
@@ -160,29 +160,30 @@ module.factory('rpKeychain', ['$rootScope', '$timeout', 'rpPopup', 'rpId',
   * @param {Object} protect
   * @param {Object} callback
   */
-  Keychain.prototype.setPasswordProtection = function (protect, callback) {
+  Keychain.prototype.setPasswordProtection = function (requirePassword, callback) {
     var _this   = this;
 
-    if (protect === false) {
+    if (requirePassword === false) {
       this.requestSecret(id.account, id.username, function(err, secret) {
         if (err) {
           return callback(err);            
         }
         
-        setPasswordProtection(protect, secret, callback);
+        setPasswordProtection(requirePassword, secret, callback);
       });
                        
     } else {
-      setPasswordProtection(protect, null, callback);
+      setPasswordProtection(requirePassword, null, callback);
     }
     
-    function setPasswordProtection (protect, secret, callback) {
-      $scope.userBlob.set('/persistUnlock', !protect, function(err, resp) {
+    function setPasswordProtection (requirePassword, secret, callback) {
+      
+      $scope.userBlob.set('/persistUnlock', !requirePassword, function(err, resp) {
         if (err) {
           return callback(err);
         }
         
-        if (protect) {
+        if (requirePassword) {
           _this.expireSecret(id.account);
         }
         
