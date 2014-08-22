@@ -2308,6 +2308,44 @@ html.t-trade header nav ul > li.active#nav-advanced > a:after {
 
 }
 
+#t-buy {
+  .prices {
+    button {
+      padding: 2em 1em 2em 1em;
+      margin: 1.2em;
+      width: 40%;
+      text-align: center;
+      border: 1px solid @midblue;
+      font-weight: bold;
+      background: @midblue;
+      color: @white;
+
+      &:hover, &.active {
+        background: @midgreen;
+        border-color: @midgreen;
+      }
+    }
+
+    h3 {
+      text-align: center;
+      margin-top: 0px;
+      font-weight: bold;
+    }
+
+    p {
+      font-weight: bold;
+    }
+  }
+
+  #spinner {
+    -webkit-animation:spin 1s linear infinite;
+    -moz-animation:spin 1s linear infinite;
+    animation:spin 1s linear infinite;
+  }
+
+
+}
+
 .modal2FA {
 
   .email {
