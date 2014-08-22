@@ -428,10 +428,6 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
     if (!auth || !auth.keys) {
       return callback(new Error('Missing authentication keys'));
     }
-
-    console.log(deviceID);
-    //deviceID = "8b190cb6cfb958b16599c48869f356ba";
-    //deviceID = null;
     
     // XXX This is technically not correct, since we don't know yet whether
     //     the login will succeed. But we need to set it now, because the page
