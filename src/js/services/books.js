@@ -42,13 +42,13 @@ function(net, $q, $scope, $filter, $id) {
       if (d.TakerGets.value) {
         d.TakerGets.value = d.taker_gets_funded;
       } else {
-        d.TakerGets = d.taker_gets_funded;
+        d.TakerGets = parseInt(d.taker_gets_funded, 10);
       }
 
       if (d.TakerPays.value) {
         d.TakerPays.value = d.taker_pays_funded;
       } else {
-        d.TakerPays = d.taker_pays_funded;
+        d.TakerPays = parseInt(d.taker_pays_funded, 10);
       }
 
       d.TakerGets = Amount.from_json(d.TakerGets);
