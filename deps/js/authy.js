@@ -860,6 +860,7 @@
 
     buildItem = function(dropdown, classActive, country) {
       var cc, flag, li, name;
+      
       cc = country.country.substring(0, 2).toLowerCase() + country.code;
       li = document.createElement("li");
       li.setAttribute("class", classActive);
@@ -897,17 +898,14 @@
         return;
       }
 
-      //if the elements are already in place, just make sure the events are set up
+      //delete the existing ones if there are any
       if (countryCode.parentNode.getElementsByClassName("countries-input").length) {
-        authyElements = {
-          code     : countryCode,
-          input    : countryCode.parentNode.getElementsByClassName("countries-input")[0],
-          dropdown : countryCode.parentNode.getElementsByClassName("countries-autocomplete")[0],
-        };
-               
-        return setupEvents(authyElements); 
+        var input    = countryCode.parentNode.getElementsByClassName("countries-input")[0];
+        var dropdown = countryCode.parentNode.getElementsByClassName("countries-autocomplete")[0];
+        countryCode.parentNode.removeChild(input);
+        countryCode.parentNode.removeChild(dropdown);
       }
-      
+    
       authyElements = {
         code     : countryCode,
         input    : document.createElement("input"),
@@ -935,7 +933,7 @@
       authyElements.input.setAttribute("type", "text");
       authyElements.input.setAttribute("autocomplete", "off");
             
-      authyElements.code.setAttribute("type", "hidden");
+      authyElements.code.style.display = "none";
       authyElements.dropdown.innerHTML = "";
       authyElements.dropdown.appendChild(countriesAutocompleteList);
 
@@ -1058,20 +1056,27 @@
       if (matches) {
         authyElements.dropdown.innerHTML = "";
         authyElements.dropdown.appendChild(countriesAutocompleteList);
-        authyElements.code.value = firstCountryCodeFound;
+        changeValue(authyElements.code, firstCountryCodeFound);
         return;
       }
     };
     
+    function changeValue (input, value) {
+      input.value = value;
+      var event = new Event('change');
+      input.dispatchEvent(event);
+    }
+    
     this.autocomplete = function(authyElements, obj, hideList) {
-      var countriesInput, countryCode;
+      var countryCode;
       countryCode = obj.getAttribute("rel");
       if (authyElements.input.getAttribute("data-show-as") === "number") {
         authyElements.input.value = "+" + countryCode;
       } else {
         authyElements.input.value = obj.getAttribute("data-name");
       }
-      authyElements.code.value = countryCode;
+      
+      changeValue (authyElements.code, countryCode);
       if (hideList) {
         authyElements.dropdown.style.display = "none";
       }

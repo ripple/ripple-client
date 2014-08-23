@@ -173,9 +173,7 @@ SecurityTab.prototype.angular = function (module) {
       $scope.disableSuccess = false;
       $scope.phoneNumber    = $scope.currentPhone;
       $scope.countryCode    = $scope.currentCountryCode;
-
       window.Authy.UI.instance(true, $scope.countryCode); //enables the authy dropdown 
-      $scope.$apply();
     };
 
     $scope.savePhone = function() {
