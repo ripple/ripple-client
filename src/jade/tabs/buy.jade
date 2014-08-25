@@ -1,0 +1,23 @@
+section.content(ng-controller='BuyCtrl')
+
+  //- Disconnected
+
+  group.disconnected(ng-hide='connected')
+    p.literal(l10n="err-you-must-be-online-to-see-this-screen", l10n)
+      | You have to be online to see this screen
+
+  //- Buying
+
+  .row(ng-show='connected')
+    .row
+      .col-md-4
+
+      .col-md-4(style='text-align: center;')
+        section.prices
+          h3.center Buy XRP
+          p Select amount to buy
+          span(id='priceButtons')
+            button.btn.btn-large(ng-click='loadStripe(1)') $1
+            button.btn.btn-large(ng-click='loadStripe(2)') $2
+            button.btn.btn-large(ng-click='loadStripe(5)') $5
+            button.btn.btn-large(ng-click='loadStripe(10)') $10
