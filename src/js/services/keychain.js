@@ -36,7 +36,7 @@ module.factory('rpKeychain', ['$rootScope', '$timeout', 'rpPopup', 'rpId',
   };
 
   // Default unlock duration is 5 minutes
-  Keychain.unlockDuration = 5 * 60 * 10;
+  Keychain.unlockDuration = 5 * 60 * 1000;
 
   Keychain.prototype.isUnlocked = function (account) {
     return !!this.secrets[account];
