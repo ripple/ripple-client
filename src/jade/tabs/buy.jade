@@ -11,23 +11,13 @@ section.content(ng-controller='BuyCtrl')
   .row(ng-show='connected')
     .row
       .col-md-4
-        section.submittingTransaction.hidden
-          p(style='font-weight: bold;') Submitting your payment to the Ripple network
-          br
-          img#spinner.image(src='https://dev.ripple.com/img/ripple-triskelion.png', alt='', width='120', height='120')
-        section.transactionConfirmed.hidden
-          p(style='font-weight: bold; font-size: 150%;') Congratulations, your payment succeeded!
-          br
-          p#transactionAmount(style='font-weight: bold;')
-          p#transactionHash
-
 
       .col-md-4(style='text-align: center;')
         section.prices
           h3.center Buy XRP
           p Select amount to buy
           span(id='priceButtons')
-            button.btn.btn-large(type='submit', ng-click='loadStripe(1)') $1
-            button.btn.btn-large(type = 'submit', ng-click='loadStripe(2)') $2
-            button.btn.btn-large(type = 'submit', ng-click='loadStripe(5)') $5
-            button.btn.btn-large(type = 'submit', ng-click='loadStripe(10)') $10
+            button.btn.btn-large(ng-click='loadStripe(1)') $1
+            button.btn.btn-large(ng-click='loadStripe(2)') $2
+            button.btn.btn-large(ng-click='loadStripe(5)') $5
+            button.btn.btn-large(ng-click='loadStripe(10)') $10
