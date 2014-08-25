@@ -21,6 +21,13 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
 
   var account;
 
+  // For announcement banner
+  $scope.showAnnouncement = $scope.showAnnouncement || true;
+
+  $scope.dismissBanner = function() {
+    $scope.showAnnouncement = false;
+  }
+
   // Global reference for debugging only (!)
   if ("object" === typeof rippleclient) {
     rippleclient.id = $id;
