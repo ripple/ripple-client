@@ -262,15 +262,36 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
       // Add to recent notifications
       if (processedTxn.tx_result === "tesSUCCESS" &&
           transaction) {
-        // Only show specific transactions
-        if ('received' === transaction.type) {
-          // Is it unseen?
-          if (processedTxn.date > ($scope.userBlob.data.lastSeenTxDate || 0)) {
-            processedTxn.unseen = true;
-            $scope.unseenNotifications.count++;
-          }
 
-          $scope.events.unshift(processedTxn);
+        var effects = [];
+        // Only show specific transactions
+        switch (transaction.type) {
+          case 'offernew':
+          case 'exchange':
+            var funded = false;
+            processedTxn.effects.some(function(effect) {
+              if (_.contains(['offer_bought','offer_funded','offer_partially_funded'], effect.type)) {
+                funded = true;
+                effects.push(effect);
+                return true;
+              }
+            });
+
+            // Only show trades/exchanges which are at least partially funded
+            if (!funded) {
+              break;            
+            }
+            /* falls through */
+          case 'received':
+
+            // Is it unseen?
+            if (processedTxn.date > ($scope.userBlob.data.lastSeenTxDate || 0)) {
+              processedTxn.unseen = true;
+              $scope.unseenNotifications.count++;
+            }
+
+            processedTxn.showEffects = effects;
+            $scope.events.unshift(processedTxn);
         }
       }
 
