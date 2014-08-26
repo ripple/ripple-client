@@ -67,7 +67,12 @@ SendTab.prototype.angular = function (module)
     }, true);
 
     $scope.$watch('send.currency', function () {
-      $scope.send.currency_code = ripple.Currency.from_json($scope.send.currency).to_human().toUpperCase();
+      var currency = ripple.Currency.from_json($scope.send.currency);
+      if ($scope.send.currency !== '' && currency.is_valid()) {
+        $scope.send.currency_code = currency.to_human().toUpperCase();
+      } else {
+        $scope.send.currency_code = '';
+      }
       $scope.update_currency();
     }, true);
 
@@ -158,6 +163,12 @@ SendTab.prototype.angular = function (module)
       // Reset federation address validity status
       if ($scope.sendForm && $scope.sendForm.send_destination)
         $scope.sendForm.send_destination.$setValidity("federation", true);
+
+      // If there was a previous federation request, we need to clean it up here.
+      if (send.federation_record) {
+        send.federation_record = null;
+        send.dt = null;
+      }
 
       if (send.federation) {
         send.path_status = "fed-check";
@@ -289,40 +300,50 @@ SendTab.prototype.angular = function (module)
       send.currency_choices = $scope.currencies_all;
       send.currency_force = false;
 
+      send.currency_choices_constraints = {};
+
       // Federation response can specific a fixed amount
       if (send.federation_record &&
           "undefined" !== typeof send.federation_record.amount) {
         send.force_amount = Amount.from_json(send.federation_record.amount);
         send.amount = send.force_amount.to_text();
-        send.currency_choices = [send.force_amount.currency().to_json()];
-        send.currency_force = send.force_amount.currency().to_json();
-        send.currency = send.currency_force;
-      }
+        send.currency_choices_constraints.federation = [send.force_amount.currency().to_json()];
 
       // Apply federation currency restrictions
-      if (send.federation_record &&
+      } else if (send.federation_record &&
           $.isArray(send.federation_record.currencies) &&
           send.federation_record.currencies.length >= 1 &&
           "object" === typeof send.federation_record.currencies[0] &&
           "string" === typeof send.federation_record.currencies[0].currency) {
         // XXX Do some validation on this
-        send.currency_choices = [];
+        send.currency_choices_constraints.federation = [];
         $.each(send.federation_record.currencies, function () {
-          send.currency_choices.push(this.currency);
+          send.currency_choices_constraints.federation.push(this.currency);
         });
-        send.currency_force = send.currency_choices[0];
-        send.currency = send.currency_choices[0];
       }
 
       if (!send.recipient_info.loaded) return;
 
       if (send.recipient_info.exists) {
         // Check allowed currencies for this address
-        $network.remote.request_account_currencies(send.recipient_address)
+        var requestedRecipientAddress = send.recipient_address;
+        send.currency_choices_constraints.accountLines = 'pending';
+        $network.remote.request_account_currencies(requestedRecipientAddress)
           .on('success', function (data) {
-            if (data.receive_currencies) {
-              $scope.update_currency_choices(data.receive_currencies);
-            }
+            $scope.$apply(function () {
+              if (data.receive_currencies &&
+                  // We need to make sure the destination account hasn't changed
+                  send.recipient_address === requestedRecipientAddress) {
+                send.currency_choices_constraints.accountLines = data.receive_currencies;
+
+                // add XRP if it's allowed
+                if (!$scope.send.recipient_info.disallow_xrp) {
+                  send.currency_choices_constraints.accountLines.unshift('XRP');
+                }
+
+                $scope.update_currency_choices();
+              }
+            });
           })
           .on('error', function () {})
           .request();
@@ -336,48 +357,56 @@ SendTab.prototype.angular = function (module)
         // Do nothing
       } else {
         // If the account doesn't exist, we can only send XRP
-        send.currency_choices = ["XRP"];
-        send.currency_force = "XRP";
-        send.currency = "XRP";
+        send.currency_choices_constraints.accountLines = ["XRP"];
       }
 
-      $scope.update_currency();
+      $scope.update_currency_choices();
     };
 
-    $scope.update_currency_choices = function(receive_currencies) {
+    // Generate list of accepted currencies
+    $scope.update_currency_choices = function() {
+      var send = $scope.send;
 
-      $scope.$apply(function () {
-        // Generate list of accepted currencies
-        var currencies = _.uniq(_.compact(_.map(receive_currencies, function (currency) {
-          return currency;
-        })));
+      var currencies = [];
 
-        // add XRP if it's allowed
-        if (!$scope.send.recipient_info.disallow_xrp) {
-          currencies.unshift('XRP');
-        }
-
-        // create a currency object for each of the currency codes
-        for (var i=0; i < currencies.length; i++) {
-          currencies[i] = ripple.Currency.from_json(currencies[i]);
-
-          if (i === 0) {
-            $scope.send.currency_code = currencies[i].get_iso();
-          }
-        }
+      // Make sure none of the currency_choices_constraints are pending
+      if (_.values(send.currency_choices_constraints).indexOf('pending') !== -1) {
+        send.path_status = 'account-currencies';
+        send.currency_choices = [];
+        return;
+      } else {
+        // The possible currencies are the intersection of all provided currency
+        // constraints.
+        currencies = _.intersection.apply(_, _.values(send.currency_choices_constraints));
+        currencies = _.uniq(_.compact(currencies));
 
         // create the display version of the currencies
         currencies = _.map(currencies, function (currency) {
-          if ($scope.currencies_all_keyed[currency.get_iso()]) {
-            return currency.to_human({full_name:$scope.currencies_all_keyed[currency.get_iso()].name});
+         // create a currency object for each of the currency codes
+          var currencyObj = ripple.Currency.from_json(currency);
+          if ($scope.currencies_all_keyed[currencyObj.get_iso()]) {
+            return currencyObj.to_human({full_name:$scope.currencies_all_keyed[currencyObj.get_iso()].name});
           } else {
-            return currency.to_human();
+            return currencyObj.to_human();
           }
         });
+      }
 
-        $scope.send.currency_choices = currencies;
-        $scope.send.currency = currencies[0];
-      });
+      if (currencies.length === 1) {
+        send.currency = send.currency_force = currencies[0];
+      } else if (currencies.length === 0) {
+        send.path_status = 'error-no-currency';
+        send.currency = '';
+      } else {
+        send.currency_force = false;
+
+        if (currencies.indexOf(send.currency) === -1) {
+          send.currency = currencies[0];
+        }
+      }
+
+      $scope.send.currency_choices = currencies;
+      $scope.update_currency();
     };
 
     // Reset anything that depends on the currency
@@ -398,6 +427,11 @@ SendTab.prototype.angular = function (module)
         return;
       }
 
+      if (!send.currency_choices ||
+          send.currency_choices.length === 0) {
+        return;
+      }
+
       $scope.update_amount();
     };
 
@@ -414,6 +448,12 @@ SendTab.prototype.angular = function (module)
     $scope.update_amount = function () {
       var send = $scope.send;
       var recipient = send.recipient_actual || send.recipient_address;
+
+      if (!send.currency_choices ||
+          send.currency_choices.length === 0) {
+        return;
+      }
+
       var currency = ripple.Currency.from_human(send.currency);
 
       var matchedCurrency = currency.has_interest() ? currency.to_hex() : currency.get_iso();
