@@ -129,29 +129,17 @@ describe('SendCtrl', function(){
     });
 
     it("should update the currency_choices with the receiver's options", function(done) {
+      scope.send.currency_choices_constraints = {};
+      scope.send.currency_choices_constraints.accountLines = ["XRP", "BEE", "BRL", "DPD", "FLO", "FRI", "GUM", "LTC", "NMC", "PPC", "SFO", "TDO", "TIK", "TIM", "USD", "XAU", "015841551A748AD2C1F76FF6ECB0CCCD00000000"];
+      scope.update_currency_choices();
 
-      var recipient_currencies = ["BEE", "BRL", "DPD", "FLO", "FRI", "GUM", "LTC", "NMC", "PPC", "SFO", "TDO", "TIK", "TIM", "USD", "XAU", "015841551A748AD2C1F76FF6ECB0CCCD00000000"];
-      scope.update_currency_choices(recipient_currencies);
-
-      // +1 since XRP is added
-      assert.strictEqual(scope.send.currency_choices.length, recipient_currencies.length + 1);
+      assert.strictEqual(scope.send.currency_choices.length,
+                         scope.send.currency_choices_constraints.accountLines.length);
 
       assert.isTrue(_.contains(scope.send.currency_choices, "XRP - Ripples"));
       assert.isTrue(_.contains(scope.send.currency_choices, "XAU - Gold"));
       assert.isTrue(_.contains(scope.send.currency_choices, "TIM"));
       assert.isTrue(_.contains(scope.send.currency_choices, "XAU - Gold (-0.5%pa)"));
-
-      done();
-    });
-
-    it("shouldn't add XRP as an option if the receiver disallows XRP", function(done) {
-      scope.send.recipient_info.disallow_xrp = 1;
-      scope.$apply();
-
-      var recipient_currencies = ["BEE", "BRL", "DPD", "FLO", "FRI", "GUM", "LTC", "NMC", "PPC", "SFO", "TDO", "TIK", "TIM", "USD", "XAU", "015841551A748AD2C1F76FF6ECB0CCCD00000000"];
-      scope.update_currency_choices(recipient_currencies);
-
-      assert.strictEqual(scope.send.currency_choices.length, recipient_currencies.length);
 
       done();
     });
