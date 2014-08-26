@@ -175,7 +175,7 @@ SendTab.prototype.angular = function (module)
         $federation.check_email(recipient)
           .then(function (result) {
             // Check if this request is still current, exit if not
-            var now_recipient = send.recipient_actual || send.recipient_address;
+            var now_recipient = send.recipient_address;
             if (recipient !== now_recipient) return;
 
             send.federation_record = result;
@@ -239,6 +239,7 @@ SendTab.prototype.angular = function (module)
       var account = $network.remote.account(recipient);
 
       send.path_status = 'checking';
+      send.recipient_info = null;
       account.entry(function (e, data) {
         $scope.$apply(function () {
           // Check if this request is still current, exit if not
@@ -322,42 +323,42 @@ SendTab.prototype.angular = function (module)
         });
       }
 
-      if (!send.recipient_info.loaded) return;
+      // If we don't have information about the recipient Ripple account yet,
+      // we'll just return. We'll get back here once we have that information.
+      //
+      // Except: If this a bridge where we need a quote, we need to enter an
+      // amount first, before we can even find out who the recipient is. So
+      // if there is a quote_url, we want to pass this by.
+      if (!send.recipient_info.loaded && !send.quote_url) return;
 
-      if (send.recipient_info.exists) {
-        // Check allowed currencies for this address
-        var requestedRecipientAddress = send.recipient_address;
-        send.currency_choices_constraints.accountLines = 'pending';
-        $network.remote.request_account_currencies(requestedRecipientAddress)
-          .on('success', function (data) {
-            $scope.$apply(function () {
-              if (data.receive_currencies &&
-                  // We need to make sure the destination account hasn't changed
-                  send.recipient_address === requestedRecipientAddress) {
-                send.currency_choices_constraints.accountLines = data.receive_currencies;
+      if (send.recipient_info.loaded) {
+        if (send.recipient_info.exists) {
+          // Check allowed currencies for this address
+          var requestedRecipientAddress = send.recipient_address;
+          send.currency_choices_constraints.accountLines = 'pending';
+          $network.remote.request_account_currencies(requestedRecipientAddress)
+            .on('success', function (data) {
+              $scope.$apply(function () {
+                if (data.receive_currencies &&
+                    // We need to make sure the destination account hasn't changed
+                    send.recipient_address === requestedRecipientAddress) {
+                  send.currency_choices_constraints.accountLines = data.receive_currencies;
 
-                // add XRP if it's allowed
-                if (!$scope.send.recipient_info.disallow_xrp) {
-                  send.currency_choices_constraints.accountLines.unshift('XRP');
+                  // add XRP if it's allowed
+                  if (!$scope.send.recipient_info.disallow_xrp) {
+                    send.currency_choices_constraints.accountLines.unshift('XRP');
+                  }
+
+                  $scope.update_currency_choices();
                 }
-
-                $scope.update_currency_choices();
-              }
-            });
-          })
-          .on('error', function () {})
-          .request();
-      } else if (send.recipient_info.exists) {
-        // Their account exists, but we couldn't grab their trust lines,
-        // probably because their owner directory is too large. So, we'll
-        // just show a default selection of currencies.
-
-        // If we do nothing here, we'll be showing the default currency list
-
-        // Do nothing
-      } else {
-        // If the account doesn't exist, we can only send XRP
-        send.currency_choices_constraints.accountLines = ["XRP"];
+              });
+            })
+            .on('error', function () {})
+            .request();
+        } else {
+          // If the account doesn't exist, we can only send XRP
+          send.currency_choices_constraints.accountLines = ["XRP"];
+        }
       }
 
       $scope.update_currency_choices();
