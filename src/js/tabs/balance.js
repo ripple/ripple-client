@@ -1,5 +1,6 @@
 var util = require('util'),
-    Tab = require('../client/tab').Tab;
+    Tab = require('../client/tab').Tab,
+    rewriter = require('../util/jsonrewriter');
 
 var BalanceTab = function ()
 {
@@ -22,12 +23,11 @@ BalanceTab.prototype.angular = function (module)
 {
   
 
-  module.controller('BalanceCtrl', ['$rootScope', 'rpId', '$filter', '$http', 'rpAppManager',
-                                     function ($scope, $id, $filter, $http, appManager)
+  module.controller('BalanceCtrl', ['$rootScope', 'rpId', 'rpNetwork', '$filter', '$http', 'rpAppManager',
+                                     function ($scope, $id, $network, $filter, $http, appManager)
   {
     if (!$id.loginStatus) return $id.goId();
-    
-    
+
     // In the following, we get and watch for changes to data that is used to
     // calculate the pie chart and aggregate balance. This data includes:
     // -What balances the user holds
@@ -156,8 +156,175 @@ BalanceTab.prototype.angular = function (module)
     function updateAggregateValueDisplayed() {
       $scope.aggregateValueDisplayed = $scope.aggregateValueAsXrp / $scope.exchangeRates[$scope.selectedValueMetric];
     }
-    
 
+    var history = [];
+
+    var getDateRangeHistory = function(dateMin,dateMax,callback)
+    {
+      if (!$id.account) return;
+      var completed = false;
+      var history = [];
+
+      var params = {
+        'account': $id.account,
+        'ledger_index_min': -1
+      };
+
+      var getTx = function(){
+        $network.remote.request_account_tx(params)
+        .on('success', function(data) {
+          if (data.transactions.length) {
+            for(var i=0;i<data.transactions.length;i++) {
+              var date = ripple.utils.toTimestamp(data.transactions[i].tx.date);
+
+              if(date < dateMin.getTime()) {
+                completed = true;
+                break;
+              }
+
+              if(date > dateMax.getTime())
+                continue;
+
+              // Push
+              var tx = rewriter.processTxn(data.transactions[i].tx, data.transactions[i].meta, $id.account);
+              if (tx) history.push(tx);
+            }
+
+            if (data.marker) {
+              params.marker = data.marker;
+              $scope.tx_marker = params.marker;
+            }
+            else {
+              // Received all transactions since a marker was not returned
+              completed = true;
+            }
+
+            if (completed)
+              callback(history);
+            else
+              getTx();
+          } else {
+            callback(history);
+          }
+        }).request();
+      };
+
+      getTx(0);
+    };
+
+    var changeDateRange = function(dateMin,dateMax) {
+      history = [];
+      $scope.trendValueAsPercentage = undefined;
+
+      getDateRangeHistory(dateMin,dateMax,function(hist){
+        $scope.$apply(function () {
+          history = hist;
+          updateTrend();
+        })
+      })
+    };
+
+    var updateTrend = function() { 
+      $scope.trendMap = {}
+      var trendMap = _.reduce(history, function(map, event) {
+          _.forEach(event.effects, function(effect){
+            switch (effect.type) {
+              case 'fee':
+              case 'balance_change':
+              case 'trust_change_balance':
+                currency = effect.amount.is_native() ? "XRP" : (effect.currency + ":" + effect.counterparty);
+                if (typeof map[currency] === "undefined") map[currency] = 0;
+
+                map[currency] += effect.amount.is_native()
+                  ? effect.amount.to_number() / 1000000
+                  : effect.amount.to_number();
+                break;
+              }
+            });
+          return map;
+        }, {});
+      $scope.trendMap = trendMap;
+    }
+
+    $scope.selectedTrendSpan = 86400000;
+    
+    $scope.changeTrendSpan = function(scope){
+      $scope.selectedTrendSpan = scope.selectedTrendSpan;
+    };
+    
+    var refreshTrend = function() {
+      changeDateRange(new Date(new Date() - $scope.selectedTrendSpan),new Date());
+    };
+
+    $scope.$watch("selectedTrendSpan", refreshTrend);
+    $scope.$watch("account.Balance", refreshTrend);
+
+    $scope.$watch("aggregateValueAsXrp", updateTrendValue);
+    $scope.$watch("trendMap", updateTrendValue);
+    
+    function updateTrendValue() {
+      if (!$scope.trendMap) return;
+      var av = $scope.aggregateValueAsXrp;
+      for (var cur in $scope.trendMap) {if ($scope.trendMap.hasOwnProperty(cur)){
+        var rate = ( $scope.exchangeRates[cur] || 0);
+        var sbAsXrp = $scope.trendMap[cur] * rate;
+        av -= sbAsXrp;
+      }}
+      $scope.trendValueAsPercentage = ($scope.aggregateValueAsXrp - av) / av;
+    }
+
+  }]);
+
+  module.directive('rpFlatSelect', [function () {
+    return {
+      restrict: 'A',
+      link: function (scope, el, attrs) { 
+        var expanded = true;
+
+        var collapse = function() {
+          expanded = false;
+          element = this;
+          el.find('option').each(function(i, option){
+            $option = $(option);
+            $option.attr("rp-flat-select-text", $option.html());
+            if (i != element.selectedIndex)
+              $option.html("");
+          });
+          el.width("auto");
+        };
+
+        var expand = function() {
+          if (expanded) return;
+          expanded = true;
+          element = this;
+          el.width(el.width());
+          el.find('option').each(function(i, option){
+            $option = $(option);
+            if (!$option.attr("rp-flat-select-text"))
+              $option.attr("rp-flat-select-text", $option.html());
+            if ($option.html() != $option.attr("rp-flat-select-text"))
+              $option.html($option.attr("rp-flat-select-text"));
+          });
+        };
+
+        el.focus(expand);
+        el.mouseover(expand);
+        el.blur(collapse);
+        el.change(function(){
+          collapse.apply(this);
+          expand.apply(this);
+        });
+
+        optionsAttr = el.attr('ng-options') || el.attr('data-ng-options');
+        if (optionsAttr) {
+          watch = $.trim(optionsAttr.split('|')[0]).split(' ').pop();
+          scope.$watch(watch, function(){
+            if (el.is(":focus")) return;
+            collapse.apply(el.first()[0]);
+          });
+        }
+      }
+    };
   }]);
 };
 
