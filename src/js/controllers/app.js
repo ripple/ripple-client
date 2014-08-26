@@ -269,15 +269,36 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
       // Add to recent notifications
       if (processedTxn.tx_result === "tesSUCCESS" &&
           transaction) {
-        // Only show specific transactions
-        if ('received' === transaction.type) {
-          // Is it unseen?
-          if (processedTxn.date > ($scope.userBlob.data.lastSeenTxDate || 0)) {
-            processedTxn.unseen = true;
-            $scope.unseenNotifications.count++;
-          }
 
-          $scope.events.unshift(processedTxn);
+        var effects = [];
+        // Only show specific transactions
+        switch (transaction.type) {
+          case 'offernew':
+          case 'exchange':
+            var funded = false;
+            processedTxn.effects.some(function(effect) {
+              if (_.contains(['offer_bought','offer_funded','offer_partially_funded'], effect.type)) {
+                funded = true;
+                effects.push(effect);
+                return true;
+              }
+            });
+
+            // Only show trades/exchanges which are at least partially funded
+            if (!funded) {
+              break;            
+            }
+            /* falls through */
+          case 'received':
+
+            // Is it unseen?
+            if (processedTxn.date > ($scope.userBlob.data.lastSeenTxDate || 0)) {
+              processedTxn.unseen = true;
+              $scope.unseenNotifications.count++;
+            }
+
+            processedTxn.showEffects = effects;
+            $scope.events.unshift(processedTxn);
         }
       }
 
@@ -657,6 +678,43 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
   $scope.logout = function () {
     $id.logout();
     location.reload();
+  };
+
+  // Generate an array of source currencies for path finding.
+  // This will generate currencies for every issuers.
+  // It will also generate a self-issue currency for currencies which have multi issuers.
+  //
+  // Example balances for account rEXAMPLE:
+  //   CNY: rCNY1
+  //        rCNY2
+  //   BTC: rBTC
+  // Will generate:
+  //   CNY/rEXAMPLE
+  //   CNY/rCNY1
+  //   CNY/rCNY2
+  //   BTC/rBTC
+  $scope.generate_src_currencies = function () {
+    var src_currencies = [];
+    var balances = $scope.balances;
+    src_currencies.push({ currency: "XRP" });
+    for (var currency_name in balances) {
+      if (!balances.hasOwnProperty(currency_name)) continue;
+
+      var currency = balances[currency_name];
+      var currency_hex = currency.total.currency().to_hex();
+      var result = [];
+      for (var issuer_name in currency.components)
+      {
+        if (!currency.components.hasOwnProperty(issuer_name)) continue;
+        result.push({ currency: currency_hex, issuer: issuer_name});
+      }
+
+      if (result.length > 1)
+        src_currencies.push({ currency: currency_hex });
+
+      src_currencies = src_currencies.concat(result);
+    }
+    return src_currencies;
   };
 
   /**

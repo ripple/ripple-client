@@ -233,7 +233,9 @@ module.directive('rpDownload', [function() {
     restrict: 'A',
     scope: {
       data: '=rpDownload',
-      filename: '@rpDownloadFilename'
+      filename: '@rpDownloadFilename',
+      isCsv: '@rpDownloadCsv',
+      clickHandler: '@ngClick'
     },
     compile: function(element, attr, linker) {
       return function(scope, element, attr) {
@@ -242,7 +244,8 @@ module.directive('rpDownload', [function() {
 
         if ("download" in document.createElement("a")) {
           scope.$watch('data', function(data) {
-            trigger.attr('href', "data:text/plain," + data);
+            if (scope.isCsv) trigger.attr('href', data ? "data:text/csv;charset=utf-8," + escape(data) : "");
+            else trigger.attr('href', "data:text/plain," + data);
           });
           scope.$watch('filename', function(filename) {
             trigger.attr('download', filename);
@@ -262,6 +265,8 @@ module.directive('rpDownload', [function() {
                 return scope.filename;
               },
               data: function() {
+                // If there was a click handler in the element Downloadify hides, then trigger it now
+                if (scope.clickHandler) trigger.trigger('click');
                 return scope.data;
               },
               transparent: true,
