@@ -22,12 +22,6 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
   var account;
 
   // For announcement banner
-//  if(store.get('announcement') === false){
-//    store.set('announcement', false);
-//  }
-//  else{
-//    store.set('announcement', true);
-//  }
 
   $scope.showAnnouncement = store.get('announcement');
 
