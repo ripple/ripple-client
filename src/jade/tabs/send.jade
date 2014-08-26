@@ -112,7 +112,7 @@ section.single.content(ng-controller='SendCtrl')
           ng-model='field.value'
           ng-required='{{field.required}}')
           option(ng-repeat='option in field.options', ng-bind='option.label', value='{{option.value}}', ng-selected='option.selected', ng-disabled='option.disabled')
-    .form-group
+    .form-group(ng-show="send.currency_choices.length")
       label(for='send_amount', l10n) Recipient will receive
       .row.amount(ng-if="!send.currency_force")
         .col-xs-12.col-sm-6.col-md-2
@@ -177,6 +177,8 @@ section.single.content(ng-controller='SendCtrl')
         | Checking
       p.literal(ng-show="send.path_status == 'fed-check'", rp-spinner="4", l10n)
         | Analyzing address
+      p.literal(ng-show="send.path_status == 'account-currencies'", rp-spinner="4", l10n)
+        | Scanning accepted currencies
       p.literal(ng-show="send.path_status == 'bridge-quote'", rp-spinner="4", l10n)
         | Requesting quote
       p.literal(ng-show="send.path_status == 'pending' && send.currency_code != 'XRP'", rp-spinner="4", l10n)
@@ -186,7 +188,9 @@ section.single.content(ng-controller='SendCtrl')
       p.literal(ng-show="send.path_status == 'no-path' && send.currency_code != 'XRP'", l10n)
         | You cannot send {{send.amount}} {{send.currency}} to
         |  {{send.recipient}}. Either your account has insufficient funds,
-        |  or {{send.recipient}} doesn't accept {{send.currency}}. 
+        |  or {{send.recipient}} doesn't accept {{send.currency}}.
+      p.literal(ng-show="send.path_status == 'error-no-currency'", l10n)
+        | There are no valid currency choices for this destination.
       p.literal(ng-show="send.path_status == 'error-quote'", l10n)
         | Error while retrieving quote for outbound payment.
         span(ng-show="send.quote_error")  The outbound bridge reported: "{{send.quote_error | rpheavynormalize}}"
