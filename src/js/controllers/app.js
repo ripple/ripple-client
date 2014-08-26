@@ -22,10 +22,18 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
   var account;
 
   // For announcement banner
-  $scope.showAnnouncement = $scope.showAnnouncement || true;
+  if(store.get('announcement') === false){
+    store.set('announcement', false);
+  }
+  else{
+    store.set('announcement', true);
+  }
+
+  $scope.showAnnouncement = store.get('announcement');
 
   $scope.dismissBanner = function() {
-    $scope.showAnnouncement = false;
+    store.set('announcement', false);
+    $scope.showAnnouncement = store.get('announcement');
   }
 
   // Global reference for debugging only (!)
