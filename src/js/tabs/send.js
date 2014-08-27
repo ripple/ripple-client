@@ -108,6 +108,7 @@ SendTab.prototype.angular = function (module)
 
       // Now starting to work on resolving the recipient
       send.recipient_resolved = false;
+      send.recipient_actual = false;
 
       $scope.reset_currency_deps();
     };
@@ -745,65 +746,9 @@ SendTab.prototype.angular = function (module)
       var pathFindTime = new Date();
     };
 
-    $scope.handle_paths = function (data) {
-      if (!data.alternatives || !data.alternatives.length) {
-        $scope.send.path_status = "no-path";
-      } else {
-        $scope.send.path_status = "done";
-        $scope.send.alternatives = _.map(data.alternatives, function (raw) {
-          var alt = {};
-          alt.amount = Amount.from_json(raw.source_amount);
-          alt.send_max = alt.amount.product_human(Amount.from_json('1.01'));
-          alt.paths = raw.paths_computed
-            ? raw.paths_computed
-            : raw.paths_canonical;
-
-          return alt;
-        });
-        //              $scope.send.alt = $scope.send.alternatives[0];
-      }
-    };
-
     $scope.$watch('userBlob.data.contacts', function (contacts) {
       $scope.recipient_query = webutil.queryFromContacts(contacts);
     }, true);
-
-    // update currency options based on existing trust lines
-    // the user can only send the currencies for which there exists trustlines
-    var updateCurrencyOptions = function(){
-      // create a list of currency codes from the trust line objects
-      var currencies = _.uniq(_.map($scope.lines, function (line) {
-        return line.currency;
-      }));
-
-      // add XRP if it's allowed
-      if (!$scope.send.recipient_info.disallow_xrp) {
-        currencies.unshift('XRP');
-      }
-
-      // create a currency object for each of the currency codes
-      for (var i=0; i < currencies.length; i++) {
-        currencies[i] = ripple.Currency.from_json(currencies[i]);
-
-        if (i === 0) {
-          $scope.send.currency_code = currencies[i].get_iso();
-        }
-      }
-
-      // create the display version of the currencies
-      currencies = _.map(currencies, function (currency) {
-        if ($scope.currencies_all_keyed[currency.get_iso()]) {
-          return currency.to_human({full_name:$scope.currencies_all_keyed[currency.get_iso()].name});
-        }
-
-        return currency.get_iso();
-      });
-
-      $scope.send.currency_choices = currencies;
-      $scope.send.currency = currencies[0];
-    }
-
-    $scope.$on('$balancesUpdate', updateCurrencyOptions);
 
     $scope.$watch('account.max_spend', function () {
       $scope.update_amount();
@@ -1123,8 +1068,6 @@ SendTab.prototype.angular = function (module)
     });
 
     $scope.reset();
-
-    updateCurrencyOptions();
   }]);
 
   /**
