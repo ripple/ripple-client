@@ -38,10 +38,12 @@ BalanceTab.prototype.angular = function (module)
     
     // When the selected value metric changes, update the displayed amount.
     
-    $scope.selectedValueMetric || ($scope.selectedValueMetric = "XRP");
+    ($scope.selectedValueMetric = store.get('balance')) || ($scope.selectedValueMetric = "XRP");
     
     $scope.changeMetric = function(scope){
       $scope.selectedValueMetric = scope.selectedValueMetric;
+      store.set('balance', $scope.selectedValueMetric);
+      console.log(store.get('balance'));
     };
     
     $scope.$watch("selectedValueMetric", function(){
