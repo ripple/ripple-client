@@ -108,6 +108,8 @@ SendTab.prototype.angular = function (module)
 
       // Now starting to work on resolving the recipient
       send.recipient_resolved = false;
+      send.recipient_actual = void(0);
+      send.amount_actual = void(0);
 
       $scope.reset_currency_deps();
     };
@@ -115,10 +117,12 @@ SendTab.prototype.angular = function (module)
     $scope.check_dt_visibility = function () {
       var send = $scope.send;
 
-      send.show_dt_field = ($routeParams.dt
-        || send.dt
-        || send.recipient_info.dest_tag_required)
-          && !send.federation;
+      send.show_dt_field =
+        ($routeParams.dt
+         || send.dt
+         || ('object' === typeof send.recipient_info &&
+             send.recipient_info.dest_tag_required))
+        && !send.federation;
     };
 
     $scope.update_destination = function () {
@@ -323,42 +327,45 @@ SendTab.prototype.angular = function (module)
         });
       }
 
+      // If this a bridge where we need a quote, we need to enter an
+      // amount first, before we can even find out who the recipient is. So
+      // if there is a quote_url, we want to bypass the recipient-based
+      // constraints.
+      if (send.quote_url) {
+        $scope.update_currency_choices();
+        return;
+      }
+
       // If we don't have information about the recipient Ripple account yet,
       // we'll just return. We'll get back here once we have that information.
-      //
-      // Except: If this a bridge where we need a quote, we need to enter an
-      // amount first, before we can even find out who the recipient is. So
-      // if there is a quote_url, we want to pass this by.
-      if (!send.recipient_info.loaded && !send.quote_url) return;
+      if (!send.recipient_info.loaded) return;
 
-      if (send.recipient_info.loaded) {
-        if (send.recipient_info.exists) {
-          // Check allowed currencies for this address
-          var requestedRecipientAddress = send.recipient_address;
-          send.currency_choices_constraints.accountLines = 'pending';
-          $network.remote.request_account_currencies(requestedRecipientAddress)
-            .on('success', function (data) {
-              $scope.$apply(function () {
-                if (data.receive_currencies &&
-                    // We need to make sure the destination account hasn't changed
-                    send.recipient_address === requestedRecipientAddress) {
-                  send.currency_choices_constraints.accountLines = data.receive_currencies;
+      if (send.recipient_info.exists) {
+        // Check allowed currencies for this address
+        var requestedRecipientAddress = send.recipient_address;
+        send.currency_choices_constraints.accountLines = 'pending';
+        $network.remote.request_account_currencies(requestedRecipientAddress)
+          .on('success', function (data) {
+            $scope.$apply(function () {
+              if (data.receive_currencies &&
+                  // We need to make sure the destination account hasn't changed
+                  send.recipient_address === requestedRecipientAddress) {
+                send.currency_choices_constraints.accountLines = data.receive_currencies;
 
-                  // add XRP if it's allowed
-                  if (!$scope.send.recipient_info.disallow_xrp) {
-                    send.currency_choices_constraints.accountLines.unshift('XRP');
-                  }
-
-                  $scope.update_currency_choices();
+                // add XRP if it's allowed
+                if (!$scope.send.recipient_info.disallow_xrp) {
+                  send.currency_choices_constraints.accountLines.unshift('XRP');
                 }
-              });
-            })
-            .on('error', function () {})
-            .request();
-        } else {
-          // If the account doesn't exist, we can only send XRP
-          send.currency_choices_constraints.accountLines = ["XRP"];
-        }
+
+                $scope.update_currency_choices();
+              }
+            });
+          })
+          .on('error', function () {})
+          .request();
+      } else {
+        // If the account doesn't exist, we can only send XRP
+        send.currency_choices_constraints.accountLines = ["XRP"];
       }
 
       $scope.update_currency_choices();
@@ -424,7 +431,9 @@ SendTab.prototype.angular = function (module)
 
       $scope.reset_currency_deps();
 
-      if (!ripple.UInt160.is_valid(recipient)) {
+      // We should have a valid recipient unless it's a quoting bridge, in
+      // which case we should continue so we can request a quote.
+      if (!ripple.UInt160.is_valid(recipient) && !send.quote_url) {
         return;
       }
 
@@ -632,11 +641,6 @@ SendTab.prototype.angular = function (module)
 
       $scope.reset_paths();
 
-      // Note that last_am_recipient and last_recipient are intentionally
-      // separate, the former is the last recipient that update_paths used.
-      send.last_am_recipient = recipient;
-      send.last_amount = send.amount_feedback;
-
       send.path_status = 'pending';
 
       // Determine if we need to update the paths.
@@ -758,65 +762,9 @@ SendTab.prototype.angular = function (module)
       var pathFindTime = new Date();
     };
 
-    $scope.handle_paths = function (data) {
-      if (!data.alternatives || !data.alternatives.length) {
-        $scope.send.path_status = "no-path";
-      } else {
-        $scope.send.path_status = "done";
-        $scope.send.alternatives = _.map(data.alternatives, function (raw) {
-          var alt = {};
-          alt.amount = Amount.from_json(raw.source_amount);
-          alt.send_max = alt.amount.product_human(Amount.from_json('1.01'));
-          alt.paths = raw.paths_computed
-            ? raw.paths_computed
-            : raw.paths_canonical;
-
-          return alt;
-        });
-        //              $scope.send.alt = $scope.send.alternatives[0];
-      }
-    };
-
     $scope.$watch('userBlob.data.contacts', function (contacts) {
       $scope.recipient_query = webutil.queryFromContacts(contacts);
     }, true);
-
-    // update currency options based on existing trust lines
-    // the user can only send the currencies for which there exists trustlines
-    var updateCurrencyOptions = function(){
-      // create a list of currency codes from the trust line objects
-      var currencies = _.uniq(_.map($scope.lines, function (line) {
-        return line.currency;
-      }));
-
-      // add XRP if it's allowed
-      if (!$scope.send.recipient_info.disallow_xrp) {
-        currencies.unshift('XRP');
-      }
-
-      // create a currency object for each of the currency codes
-      for (var i=0; i < currencies.length; i++) {
-        currencies[i] = ripple.Currency.from_json(currencies[i]);
-
-        if (i === 0) {
-          $scope.send.currency_code = currencies[i].get_iso();
-        }
-      }
-
-      // create the display version of the currencies
-      currencies = _.map(currencies, function (currency) {
-        if ($scope.currencies_all_keyed[currency.get_iso()]) {
-          return currency.to_human({full_name:$scope.currencies_all_keyed[currency.get_iso()].name});
-        }
-
-        return currency.get_iso();
-      });
-
-      $scope.send.currency_choices = currencies;
-      $scope.send.currency = currencies[0];
-    }
-
-    $scope.$on('$balancesUpdate', updateCurrencyOptions);
 
     $scope.$watch('account.max_spend', function () {
       $scope.update_amount();
@@ -854,7 +802,6 @@ SendTab.prototype.angular = function (module)
       $scope.send.alt = null;
 
       // Force pathfinding reset
-      $scope.send.last_am_recipient = null;
       $scope.update_paths();
     };
 
@@ -1136,8 +1083,6 @@ SendTab.prototype.angular = function (module)
     });
 
     $scope.reset();
-
-    updateCurrencyOptions();
   }]);
 
   /**
