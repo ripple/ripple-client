@@ -431,7 +431,9 @@ SendTab.prototype.angular = function (module)
 
       $scope.reset_currency_deps();
 
-      if (!ripple.UInt160.is_valid(recipient)) {
+      // We should have a valid recipient unless it's a quoting bridge, in
+      // which case we should continue so we can request a quote.
+      if (!ripple.UInt160.is_valid(recipient) && !send.quote_url) {
         return;
       }
 
