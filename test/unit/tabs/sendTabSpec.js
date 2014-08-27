@@ -67,45 +67,12 @@ describe('SendCtrl', function(){
 
   it('should be initialized with defaults', function (done) {
     assert.isObject(scope.xrp);
-    assert.strictEqual(scope.xrp.name, 'Ripples');
+    assert.strictEqual(scope.xrp.name, 'XRP - Ripples');
     assert.isObject(scope.send);
     assert.strictEqual(scope.send.currency, 'XRP - Ripples');
     assert.strictEqual(scope.send.currency_code, 'XRP');
 
     done();
-  });
-
-  describe('setting trust lines', function() {
-
-    it('should update currency_choices after setting trust lines', function(done) {
-
-      scope.lines = {
-        "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59BUSD": {
-          "account": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
-          "currency": "USD"
-        },
-        "rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2qUSD": {
-          "account": "rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q",
-          "currency": "USD"
-        },
-        "rhXzSyt1q9J8uiFXpK3qSugAAPJKXLtnrFUSD": {
-          "account": "rhXzSyt1q9J8uiFXpK3qSugAAPJKXLtnrF",
-          "currency": "USD"
-        },
-        "rs9M85karFkCRjvc6KMWn8Coigm9cbcgcx015841551A748AD2C1F76FF6ECB0CCCD00000000": {
-          "account": "rs9M85karFkCRjvc6KMWn8Coigm9cbcgcx",
-          "currency": "015841551A748AD2C1F76FF6ECB0CCCD00000000"
-        }
-      };
-
-      // kicks off watches
-      scope.$apply();
-
-      assert.strictEqual(scope.send.currency_choices[0], 'XRP - Ripples');
-
-      done();
-    });
-
   });
 
   describe('setting a receiver', function() {
@@ -139,6 +106,22 @@ describe('SendCtrl', function(){
       assert.isTrue(_.contains(scope.send.currency_choices, "XRP - Ripples"));
       assert.isTrue(_.contains(scope.send.currency_choices, "XAU - Gold"));
       assert.isTrue(_.contains(scope.send.currency_choices, "TIM"));
+      assert.isTrue(_.contains(scope.send.currency_choices, "XAU - Gold (-0.5%pa)"));
+
+      done();
+    });
+
+    it("should intersect currency_choices from federation with the receiver's options", function(done) {
+      scope.send.currency_choices_constraints = {};
+      scope.send.currency_choices_constraints.accountLines = ["XRP", "BEE", "BRL", "DPD", "FLO", "FRI", "GUM", "LTC", "NMC", "PPC", "SFO", "TDO", "TIK", "TIM", "USD", "XAU", "015841551A748AD2C1F76FF6ECB0CCCD00000000"];
+      scope.send.currency_choices_constraints.federation = ["BRL", "SFO", "015841551A748AD2C1F76FF6ECB0CCCD00000000", "XXX", "DOG", "XRP"];
+      scope.update_currency_choices();
+
+      assert.strictEqual(scope.send.currency_choices.length, 4);
+
+      assert.isTrue(_.contains(scope.send.currency_choices, "XRP - Ripples"));
+      assert.isFalse(_.contains(scope.send.currency_choices, "XAU - Gold"));
+      assert.isFalse(_.contains(scope.send.currency_choices, "TIM"));
       assert.isTrue(_.contains(scope.send.currency_choices, "XAU - Gold (-0.5%pa)"));
 
       done();
