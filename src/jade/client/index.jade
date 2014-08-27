@@ -24,15 +24,15 @@
 
 
   a.advanced(href="#/account", ng-class="{active: $route.current.tabName == 'account'}")
-    img(src="img/profile.png")
+    img(src="img/profile-gray.png")
     span(l10n) Account
 
   //- a.sub(href="#/account", ng-class="{active: $route.current.tabName == 'account'}", l10n) Account
   a.advanced(href="#/security", ng-class="{active: $route.current.tabName == 'security'}")
-    img(src="img/settings.png")
+    img(src="img/settings-gray.png")
     span(l10n) Settings
   a.advanced(href="#", ng-click='logout()')
-    img(src="img/logout.png")
+    img(src="img/logout-gray.png")
     span(l10n) Logout
 
 // Wrapper
