@@ -43,7 +43,6 @@ BalanceTab.prototype.angular = function (module)
     $scope.changeMetric = function(scope){
       $scope.selectedValueMetric = scope.selectedValueMetric;
       store.set('balance', $scope.selectedValueMetric);
-      console.log(store.get('balance'));
     };
     
     $scope.$watch("selectedValueMetric", function(){
