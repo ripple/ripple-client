@@ -20,16 +20,20 @@
     span.nav-icon.nav-icon-advanced
     span(l10n) Fund
   //- a.sub(href="#/withdraw", ng-class="{active: $route.current.tabName == 'withdraw'}", l10n) Withdraw
+  a.sub(href="#/trust", ng-class="{active: $route.current.tabName == 'trust'}", l10n) Gateways
+
 
   a.advanced(href="#/account", ng-class="{active: $route.current.tabName == 'account'}")
-    span.nav-icon.nav-icon-advanced
+    img(src="img/profile.png")
     span(l10n) Account
 
   //- a.sub(href="#/account", ng-class="{active: $route.current.tabName == 'account'}", l10n) Account
-  a.sub(href="#/trust", ng-class="{active: $route.current.tabName == 'trust'}", l10n) Trust
-  a.sub(href="#/security", ng-class="{active: $route.current.tabName == 'security'}", l10n) Security
-  a.sub(href="#/options", ng-class="{active: $route.current.tabName == 'options'}", l10n) Options
-  a.sub(href="#", ng-click='logout()', l10n) Logout
+  a.advanced(href="#/security", ng-class="{active: $route.current.tabName == 'security'}")
+    img(src="img/settings.png")
+    span(l10n) Settings
+  a.advanced(href="#", ng-click='logout()')
+    img(src="img/logout.png")
+    span(l10n) Logout
 
 // Wrapper
 div#wrapper
