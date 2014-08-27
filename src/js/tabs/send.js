@@ -2,6 +2,7 @@ var util = require('util'),
     webutil = require('../util/web'),
     Tab = require('../client/tab').Tab,
     Amount = ripple.Amount,
+    Currency = ripple.Currency,
     Base = ripple.Base,
     RippleError = ripple.RippleError;
 
@@ -37,7 +38,13 @@ SendTab.prototype.angular = function (module)
 
     // XRP currency object.
     // {name: "XRP - Ripples", order: 146, value: "XRP"}
-    $scope.xrp = _.where($scope.currencies_all, {value: "XRP"})[0];
+    var xrpCurrency = Currency.from_json("XRP");
+
+    $scope.xrp = {
+      name: xrpCurrency.to_human({full_name:$scope.currencies_all_keyed["XRP"].name}),
+      code: xrpCurrency.get_iso(),
+      currency: xrpCurrency
+    };
 
     $scope.$watch('send.recipient', function(){
       // raw address without any parameters
