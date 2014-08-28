@@ -22,10 +22,14 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
   var account;
 
   // For announcement banner
-  $scope.showAnnouncement = $scope.showAnnouncement || true;
+
+  $scope.showAnnouncement = store.get('announcement');
+
+  if('undefined' === typeof $scope.showAnnouncement) $scope.showAnnouncement = true;
 
   $scope.dismissBanner = function() {
-    $scope.showAnnouncement = false;
+    store.set('announcement', false);
+    $scope.showAnnouncement = store.get('announcement');
   }
 
   // Global reference for debugging only (!)
