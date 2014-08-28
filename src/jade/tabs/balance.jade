@@ -20,7 +20,7 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
             .lbl(l10n) Total Balance
               .desc(l10n) Estimated from exchange rates
             .total.amount(ng-show="exchangeRatesNonempty")
-              span.amount {{ aggregateValueDisplayed.toFixed(4) }}
+              span.amount {{ aggregateValueDisplayed.toFixed(2) | rpamount }} 
               select.currency(ng-model='selectedValueMetric'
                 ng-change='changeMetric(this)'
                 ng-options='metric.code as metric.text for metric in valueMetrics')
