@@ -148,6 +148,10 @@ AdvancedTab.prototype.angular = function(module)
 
       }
 
+      $scope.noCancel = function () {
+        return $scope.server.isEmptyServer && $scope.options.server.servers.length === 1;
+      }
+
       $scope.save = function () {
         $scope.server.isEmptyServer = false;
         $scope.editing = false;
