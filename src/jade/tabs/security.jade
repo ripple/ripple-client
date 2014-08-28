@@ -24,17 +24,17 @@ section.col-xs-12.content(ng-controller="SecurityCtrl")
         div(ng-show="'web' === client")
           .alert.alert-warning(ng-show="loading", l10n) Changing your Ripple password...
           .alert.alert-success(ng-show="success", l10n) Your Ripple password has been changed successfully.
-          .alert.alert-danger(ng-show="errorLoading2FA", l10n) Unable to load two factor authentication settings.
-          .alert.alert-danger(ng-show="error2FA", l10n) Error saving 2FA settings.
+          .alert.alert-danger(ng-show="errorLoading2FA", l10n) Unable to load Two-factor authentication settings.
+          .alert.alert-danger(ng-show="error2FA", l10n) Error saving Two-factor authentication settings.
           .alert.alert-danger(ng-show="invalidToken", l10n) The verification code is invalid.
-          .alert.alert-success(ng-show="enableSuccess", l10n) Two factor authetication has been successfully enabled.
-          .alert.alert-success(ng-show="disableSuccess", l10n) Two factor authetication has been successfully disabled.
+          .alert.alert-success(ng-show="enableSuccess", l10n) Two-factor authentication has been successfully enabled.
+          .alert.alert-success(ng-show="disableSuccess", l10n) Two-factor authentication has been successfully disabled.
           h4(l10n) Security settings
           .section
-            .descriptor Two Factor Authentication
+            .descriptor Two-factor authentication
             .row(ng-show="loading2FA")
               .col-xs-12.col-sm-9
-                div(rp-spinner="4", l10n) Loading two factor authentication settings....
+                div(rp-spinner="4", l10n) Loading Two-factor authentication settings....
             .row(ng-hide="loading2FA || errorLoading2FA || mode2FA === 'verifyPhone'")
               .col-xs-9.col-sm-8.col-md-6
                 span(ng-show="enabled2FA", l10n) Enabled
@@ -48,7 +48,7 @@ section.col-xs-12.content(ng-controller="SecurityCtrl")
                       .navbar-brand.hidden-sm.modal-logo#logo
                       .modal-title(l10n) Connect
                     .modal-body
-                      div.modal-prompt(l10n) Authy is providing two factor authentication for Ripple Trade. To enable two factor authentication, you must share some information with Authy.
+                      div.modal-prompt(l10n) Authy is providing Two-factor authentication for Ripple Trade. To enable Two-factor authentication, you must share some information with Authy.
                       div.grey-focus
                         .row.modal-permissions
                           .col-xs-12.col-sm-4(l10n) - Your email address:
@@ -73,8 +73,8 @@ section.col-xs-12.content(ng-controller="SecurityCtrl")
               .col-xs-12.col-sm-9
                 .status
                   div(rp-spinner="4", ng-show="mode2FA === 'savePhone'", l10n) Saving settings....
-                  div(rp-spinner="4", ng-show="mode2FA === 'disable'", l10n) Disabling two factor authentication....
-                  div(rp-spinner="4", ng-show="mode2FA === 'enable'", l10n) Enabling two factor authentication....
+                  div(rp-spinner="4", ng-show="mode2FA === 'disable'", l10n) Disabling Two-factor authentication....
+                  div(rp-spinner="4", ng-show="mode2FA === 'enable'", l10n) Enabling Two-factor authentication....
             form.verify2FA(ng-show="mode2FA === 'verifyPhone'")
               .row
                 .col-xs-12
