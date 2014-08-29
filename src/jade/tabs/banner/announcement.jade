@@ -1,10 +1,12 @@
 div.auth-attention.banner(ng-show="showAnnouncement")
-  li(l10n)
-    |  New! Two-factor authentication. We’ve added an extra layer of security to Ripple Trade.
-    |  Now you can protect your account with both your password and your phone.
-    a(href='#/security', l10n)  Enable two-factor authentication.
+  h4(l10n) New to Ripple Trade!
+  ul
+    li(l10n)
+      |  Two-factor authentication. We’ve added an extra layer of security.
+      |  Now you can protect your account with both your password and your phone.
+      a(href='#/security', l10n)  Enable two-factor authentication.
+    li(l10n) Looking for the old 'Trust' page? It's now called the
+      a(href="#/trust", l10n)  Gateways
+      |  page, located in the Fund tab.
+  a.dismiss(href="", id="hide", ng-click="dismissBanner()", l10n)  hide
   br
-  li(l10n) Looking for the old 'Trust' page? It's now called the
-    a(href="#/trust", l10n)  Gateways
-    |  page, located in the Fund tab.
-  a.dismiss(href="", ng-click="dismissBanner()", l10n)  hide
