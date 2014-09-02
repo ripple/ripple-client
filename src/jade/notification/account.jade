@@ -22,7 +22,7 @@ case tx.type
       span.currency {{tx.currency}}
   when "trusting"
     .type-success
-      span(title="{{tx.counterparty}}", l10n) You now trust {{tx.counterparty | rpcontactname}} for
+      span(title="{{tx.counterparty}}", l10n) You have now connected to the gateway {{tx.counterparty | rpcontactname}} for
       | &#32;
       span.number {{tx.amount | rpamount}}
       | &#32;

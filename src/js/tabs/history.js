@@ -57,7 +57,7 @@ HistoryTab.prototype.angular = function (module) {
         'types': ['received'],
         'checked': true
       },
-      trusts: {
+      gateways: {
         'types': ['trusting','trusted'],
         'checked': true
       },
@@ -75,7 +75,7 @@ HistoryTab.prototype.angular = function (module) {
       }
     };
 
-    $scope.orderedTypes = ['sent','received','trusts','trades','orders','other'];
+    $scope.orderedTypes = ['sent','received','gateways','trades','orders','other'];
 
     if (store.get('ripple_history_type_selections')) {
       $scope.types = $.extend(true,$scope.types,store.get('ripple_history_type_selections'));

@@ -126,7 +126,7 @@ section.col-xs-12.content(ng-controller="HistoryCtrl")
                   span.amount(rp-pretty-amount="entry.transaction.amount")
                 != require("./history/effects.jade")()
               span(ng-switch-when="trusting")
-                span(l10n, rp-span-spacing) You now trust
+                span(l10n, rp-span-spacing) You have now connected to the gateway
                   span.address(rp-pretty-identity="entry.transaction.counterparty")
                   | for
                   span.amount(rp-pretty-amount="entry.transaction.amount")

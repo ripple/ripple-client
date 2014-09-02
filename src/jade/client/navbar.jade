@@ -66,7 +66,7 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
                       | {{entry.transaction.amount | rpcurrency}}
                     != require("../tabs/history/effects.jade")()
                   .transaction(ng-switch-when="trusting")
-                    span(l10n) You now trust&#32;
+                    span(l10n) You have now connected to the gateway&#32;
                       span.address(title="{{entry.transaction.counterparty}}")
                         | {{entry.transaction.counterparty | rpcontactname}}
                       |  for
