@@ -60,7 +60,7 @@ ul.effects(ng-show="entry.effects")
         strong  {{effect.price | rpamount:{precision: 4} }}
       | ).
 
-    span(ng-switch-when="trust_create_local", l10n) You now trust
+    span(ng-switch-when="trust_create_local", l10n) You have now connected to the gateway
       span(rp-pretty-identity="effect.counterparty")
       | for
       span(rp-pretty-amount="effect.limit")
