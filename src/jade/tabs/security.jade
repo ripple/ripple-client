@@ -66,7 +66,7 @@ section.col-xs-12.content(ng-controller="SecurityCtrl")
                         a(href="https://www.authy.com/terms", target="_blank", l10n-inc)  terms of service.
                       div.modal-buttons
                         button.modal-btn.btn.btn-default.btn-primary.btn-md(ng-click="savePhone()", ng-disabled="savingPhone")
-                          span(l10n) Enable and share
+                          span(l10n) Share
                         button.modal-btn.btn.btn-default.btn-md(data-dismiss="modal"
                         ng-hide="savingPhone", l10n) Cancel
             .row.confirm2FA(ng-hide="!mode2FA || mode2FA === 'verifyPhone'")
