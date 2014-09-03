@@ -183,14 +183,14 @@ module.exports = function(grunt) {
         options: {
           compile: true
         }
-      },
-      desktop: {
+      }
+      /*desktop: {
         src: ['src/less/ripple/desktop.less'],
         dest: 'build/dist/ripple-desktop.css',
         options: {
           compile: true
         }
-      }
+      }*/
     },
     concat: {
       deps: {
@@ -271,8 +271,8 @@ module.exports = function(grunt) {
             LANGUAGES: languageCodes
           }
         }
-      },
-      desktop: {
+      }
+      /*desktop: {
         src: 'src/index.html',
         dest: 'build/dist/desktop/index.html',
         options: {
@@ -295,7 +295,7 @@ module.exports = function(grunt) {
             LANGUAGES: languageCodes
           }
         }
-      }
+      }*/
     },
     webfont: {
       icons: {
@@ -334,18 +334,18 @@ module.exports = function(grunt) {
           {src: 'src/js/config.js', dest: 'build/bundle/web/config.js'},
           {src: 'scripts/livereload.js', dest: 'build/bundle/web/livereload.js'}
         ]
-      },
-      nw_desktop: {
+      }
+      /*nw_desktop: {
         files: [
-          {expand: true, src: ['build/dist/*.js'],
+          {expand: true, src: ['build/dist*//*.js'],
             dest: 'build/bundle/nw-desktop/js', flatten: true},
-          {expand: true, src: ['build/dist/desktop/*.js'],
+          {expand: true, src: ['build/dist/desktop*//*.js'],
             dest: 'build/bundle/nw-desktop/js', flatten: true},
-          {expand: true, src: ['build/dist/*.css'],
+          {expand: true, src: ['build/dist*//*.css'],
             dest: 'build/bundle/nw-desktop/css', flatten: true},
-          {expand: true, src: ['res/fonts/*'], dest: 'build/bundle/nw-desktop/fonts', flatten: true},
-          {expand: true, src: ['res/icons/font/*'], dest: 'build/bundle/nw-desktop'},
-          {expand: true, src: ['img/**'], dest: 'build/bundle/nw-desktop'},
+          {expand: true, src: ['res/fonts*//*'], dest: 'build/bundle/nw-desktop/fonts', flatten: true},
+          {expand: true, src: ['res/icons/font*//*'], dest: 'build/bundle/nw-desktop'},
+          {expand: true, src: ['img*//**'], dest: 'build/bundle/nw-desktop'},
           {expand: true, src: ['deps/js/modernizr*.js'],
             dest: 'build/bundle/nw-desktop/js/deps', flatten: true},
           {expand: true, src: ['deps/js/mixpanel.min.js'],
@@ -358,15 +358,15 @@ module.exports = function(grunt) {
       },
       nw_desktop_debug: {
         files: [
-          {expand: true, src: ['build/dist/*.js'],
+          {expand: true, src: ['build/dist*//*.js'],
             dest: 'build/bundle/nw-desktop-debug/js', flatten: true},
-          {expand: true, src: ['build/dist/desktop/*.js'],
+          {expand: true, src: ['build/dist/desktop*//*.js'],
             dest: 'build/bundle/nw-desktop-debug/js', flatten: true},
-          {expand: true, src: ['build/dist/*.css'],
+          {expand: true, src: ['build/dist*//*.css'],
             dest: 'build/bundle/nw-desktop-debug/css', flatten: true},
-          {expand: true, src: ['res/fonts/*'], dest: 'build/bundle/nw-desktop-debug/fonts', flatten: true},
-          {expand: true, src: ['res/icons/font/*'], dest: 'build/bundle/nw-desktop-debug'},
-          {expand: true, src: ['img/**'], dest: 'build/bundle/nw-desktop-debug'},
+          {expand: true, src: ['res/fonts*//*'], dest: 'build/bundle/nw-desktop-debug/fonts', flatten: true},
+          {expand: true, src: ['res/icons/font*//*'], dest: 'build/bundle/nw-desktop-debug'},
+          {expand: true, src: ['img*//**'], dest: 'build/bundle/nw-desktop-debug'},
           {expand: true, src: ['deps/js/modernizr*.js'],
             dest: 'build/bundle/nw-desktop-debug/js/deps', flatten: true},
           {expand: true, src: ['deps/js/mixpanel.min.js'],
@@ -376,7 +376,7 @@ module.exports = function(grunt) {
           {src: 'src/js/config.js', dest: 'build/bundle/nw-desktop-debug/config.js'},
           {src: 'scripts/livereload.js', dest: 'build/bundle/web/livereload.js'}
         ]
-      }
+      }*/
     },
     jade_l10n_extractor: {
       templates: {
@@ -395,7 +395,7 @@ module.exports = function(grunt) {
       },
       scripts_debug: {
         files: ['src/js/**/*.js', 'src/jade/**/*.jade'],
-        tasks: ['webpack:web_debug', 'webpack:desktop_debug', 'copy'],
+        tasks: ['webpack:web_debug', /*'webpack:desktop_debug', */'copy'],
         options: { nospawn: true, livereload: true }
       },
       deps: {
@@ -410,7 +410,7 @@ module.exports = function(grunt) {
       },
       index: {
         files: ['src/index.html'],
-        tasks: ['preprocess:web_debug','preprocess:desktop_debug','copy'],
+        tasks: ['preprocess:web_debug',/*'preprocess:desktop_debug',*/'copy'],
         options: { livereload: true }
       },
       config: {
@@ -531,8 +531,8 @@ module.exports = function(grunt) {
       debug: true,
       devtool: 'eval',
       cache: false
-    },
-    desktop_debug: {
+    }
+    /*desktop_debug: {
       entry: {
         desktop: "./src/js/entry/desktop.js"
       },
@@ -548,7 +548,7 @@ module.exports = function(grunt) {
       debug: true,
       cache: false,
       target: 'node-webkit'
-    }
+    }*/
   };
 
   languages.forEach(function(language){
@@ -570,7 +570,7 @@ module.exports = function(grunt) {
 //        minimize: true
       }
     };
-    webpack['desktop_l10n_' + language.name] = {
+    /*webpack['desktop_l10n_' + language.name] = {
       entry: {
         desktop: "./src/js/entry/desktop.js"
       },
@@ -588,7 +588,7 @@ module.exports = function(grunt) {
 //        minimize: true
       },
       target: 'node-webkit'
-    }
+    }*/
   });
 
   grunt.config.set('webpack',webpack);
