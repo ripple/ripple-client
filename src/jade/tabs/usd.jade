@@ -14,6 +14,7 @@ section.col-xs-12.content(ng-controller='UsdCtrl')
     .col-sm-3
       include fund/menu
     .col-sm-9
+<<<<<<< HEAD
       .row
         .col-sm-6
           .nameLine Fund your account with USD
@@ -60,3 +61,24 @@ section.col-xs-12.content(ng-controller='UsdCtrl')
             input(type="hidden", name="swift_code", value="{{bank}}")
             button.btn.btn-large(type="submit", class="knox-payments-button") Continue to authorization
 
+=======
+      h3 Fund your account with USD
+      h5 Amount
+    .col-sm-4
+      input.form-control.amount(name='amount', id='amount', type='text'
+        placeholder='e.g. 100', ng-model='usdAmount')
+    .col-sm-6
+      h5 Fee
+      .description $ {{fee}}0
+      h5 Total
+      .description $ {{total}}0
+      .description Ripple Trade has partnered with SnapSwap to make deposits
+        |  easier. By continuing, you agree to SnapSwap's Terms of Service.
+      .knox-payments-div(data-amount="amount")
+      script(src="https://knoxpayments.com/merchant/knox.js"
+        id="knox_payments_script", button_text="PAY WITH YOUR BANK"
+        api-key="8217_b9fb17939cb3c7f", recurring="ot", user_request="show_all"
+        invoice_detail="Deposit USD into your Ripple wallet", response_url="")
+        //button.btn.btn-large(class='knox-payment-button', type='submit', name='usdAmount')
+        //  p Confirm deposit
+>>>>>>> [FEATURE] Initial deposit USD flow
