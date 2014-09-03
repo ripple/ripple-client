@@ -57,16 +57,6 @@ TrustTab.prototype.angular = function (module)
       $scope.saveAddressName = '';
       $scope.error_account_reserve = false;
 
-      // If all the form fields are prefilled, go to confirmation page
-      if ($routeParams.to && $routeParams.amount) {
-        // At this stage 'counterparty_address' may be empty. Wait for it...
-        var watcher = $scope.$watch('counterparty_address', function(address){
-          if (address) {
-            $scope.grant();
-            watcher();
-          }
-        });
-      }
     };
 
     $scope.load_notification = function(status) {
