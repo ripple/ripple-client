@@ -14,6 +14,18 @@ section.col-xs-12.content(ng-controller='UsdCtrl')
     .col-sm-3
       include fund/menu
     .col-sm-9
+<<<<<<< HEAD
+      .nameLine Fund your account with USD
+      h5 Amount
+    .col-sm-4
+      input.form-control.amount(name='amount', id='amount', type='number'
+        placeholder='e.g. 100', ng-model='usdAmount')
+    .col-sm-6
+      h5 Fee
+      .nameLine $ #{5*.30}
+      h5 Total
+      .nameLine $ {{total}}
+=======
       h3 Fund your account with USD
       h5 Amount
     .col-sm-4
@@ -24,6 +36,7 @@ section.col-xs-12.content(ng-controller='UsdCtrl')
       .description $ {{fee}}0
       h5 Total
       .description $ {{total}}0
+>>>>>>> [FEATURE] Initial deposit USD flow
       .description Ripple Trade has partnered with SnapSwap to make deposits
         |  easier. By continuing, you agree to SnapSwap's Terms of Service.
       .knox-payments-div(data-amount="amount")

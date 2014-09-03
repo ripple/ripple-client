@@ -23,12 +23,29 @@ UsdTab.prototype.angular = function (module)
   module.controller('UsdCtrl', ['$rootScope', 'rpId', 'rpAppManager', 'rpTracker', '$routeParams',
     function ($scope, $id, appManager, rpTracker, $routeParams)
     {
+<<<<<<< HEAD
+
+      $scope.usdAmount;
+      if (!$id.loginStatus) return $id.goId();
+
+      $scope.calculateFee = function() {
+        $scope.usdAmount * .30;
+      }
+
+      if($scope.usdAmount) {
+
+        $scope.fee = ($scope.usdAmount * .30);
+
+        $scope.total = $scope.usdAmount + $scope.fee;
+      }
+=======
       $scope.usdAmount = 10;
       if (!$id.loginStatus) return $id.goId();
 
       $scope.fee = ($scope.usdAmount*.18) + 1;
 
       $scope.total = $scope.usdAmount + $scope.fee;
+>>>>>>> [FEATURE] Initial deposit USD flow
 
     }]);
 };
