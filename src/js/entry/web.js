@@ -88,7 +88,6 @@ var tabdefs = [
   require('../tabs/withdraw'),
   require('../tabs/usd'),
   require('../tabs/eula'),
-  require('../tabs/deposit'),
 
   // Hidden tabs
   require('../tabs/apps'),
