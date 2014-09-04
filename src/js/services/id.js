@@ -428,10 +428,6 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
     if (!auth || !auth.keys) {
       return callback(new Error('Missing authentication keys'));
     }
-
-    console.log(deviceID);
-    //deviceID = "8b190cb6cfb958b16599c48869f356ba";
-    //deviceID = null;
     
     // XXX This is technically not correct, since we don't know yet whether
     //     the login will succeed. But we need to set it now, because the page
@@ -480,9 +476,25 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
         return callback(err);
       }
       
+      //NOTE: the section below changed so that you can recover with 2FA enabled
+      //We should be checking attestation statuses here also.
+      
       //perform login, so that the email verification is checked
       //and the username, blob, and keys get stored.
-      self.login(options, callback);         
+      //self.login(options, callback); 
+      
+      var keys = {id:options.blob.id,crypt:options.blob.key};
+      
+      $scope.userBlob = options.blob;
+      self.setUsername(options.username);
+      self.setAccount(options.blob.data.account_id);
+      self.setLoginKeys(keys);
+      self.storeLoginKeys(options.blob.url, options.username, keys);
+      store.set('device_id', options.blob.device_id);
+      self.loginStatus = true;
+      $scope.$broadcast('$blobUpdate');
+      store.set('ripple_known', true);  
+      callback();          
     });
   };
   
