@@ -49,11 +49,11 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
                     span(l10n) You sent
                       strong.nowrap  {{entry.transaction.amount | rpamount}} {{entry.transaction.amount | rpcurrency}}
                       |  to
-                      span.address(title="{{entry.transaction.counterparty}}")  {{entry.transaction.counterparty | rpcontactname}}
+                      span.address(title="{{entry.transaction.counterparty}}")  {{entry.transaction.counterparty | rpcontactnamefull | rpripplename: {tilde: true} }}
                     != require("../tabs/history/effects.jade")()
                   .transaction(ng-switch-when="received")
                     span.address(title="{{entry.transaction.counterparty}}", l10n)
-                      span {{entry.transaction.counterparty | rpcontactname}}
+                      span {{entry.transaction.counterparty | rpcontactnamefull | rpripplename: {tilde: true} }}
                       |  sent you
                       strong.nowrap  {{entry.transaction.amount | rpamount:{reference_date:entry.dateRaw} }} {{entry.transaction.amount | rpcurrency}}
                     != require("../tabs/history/effects.jade")()
