@@ -114,6 +114,13 @@ RegisterTab.prototype.angular = function (module) {
         if (err) {
           $scope.mode = "failed";
           $scope.error_detail = err.message;
+
+          $rpTracker.track('Sign Up', {
+            'Used key': !!$scope.masterkey,
+            'Password strength': $scope.strength,
+            'Result': 'fail'
+          });
+
           return;
         }
         $scope.password = new Array($scope.password1.length+1).join("*");
@@ -121,6 +128,12 @@ RegisterTab.prototype.angular = function (module) {
         $scope.key = $scope.keyOpen[0] + new Array($scope.keyOpen.length).join("*");
 
         $scope.mode = 'secret';
+
+        $rpTracker.track('Sign Up', {
+          'Used key': !!$scope.masterkey,
+          'Password strength': $scope.strength,
+          'Result': 'success'
+        });
       });
     };
 
@@ -226,21 +239,6 @@ RegisterTab.prototype.angular = function (module) {
           }
         }
       });
-    };
-
-    $scope.goToFund = function()
-    {
-      $scope.mode = 'form';
-      $scope.reset();
-
-      $rpTracker.track('Sign Up', {
-        'Used key': !!$scope.masterkey,
-        'Password strength': $scope.strength,
-        'Showed secret key': !!$scope.showSecret,
-        'Showed password': !!$scope.showPassword
-      });
-
-      $location.path('/fund');
     };
 
     $scope.reset();
