@@ -53,12 +53,13 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
           .balancebox.currency-xrp
             .total.row
               .lbl.col-xs-8
-                i.icon-ripple-logo
-                | XRP - Ripple
+                a(href="", ng-click="entry.show=!entry.show")
+                  i.icon-ripple-logo
+                  | XRP - Ripple
               .balance.col-xs-4
                 span(ng-show="account.Balance") {{ account.Balance | rpamount:{rel_precision: 2, max_sig_digits: 20} }}
                 span(ng-hide="account.Balance") 0
-            .component.row
+            .component.row(ng-show="entry.show")
               .lbl.col-xs-8
                 span(l10n) Available&#32;
                 i.fa.fa-question-circle(
@@ -70,7 +71,7 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
               .balance.col-xs-4
                 span(ng-show="account.max_spend") {{account.max_spend | rpamount:{rel_precision: 0} }}
                 span(ng-hide="account.max_spend") 0
-            .component.row
+            .component.row(ng-show="entry.show")
               .lbl.col-xs-8
                 span(l10n) Reserve&#32;
                 i.fa.fa-question-circle(
