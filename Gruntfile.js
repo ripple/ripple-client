@@ -44,7 +44,7 @@ module.exports = function(grunt) {
               "deps/js/angular-bootstrap/ui-bootstrap-tpls.js",
               "deps/js/bootstrap-datepicker.js",
               "deps/js/qrcode-generator/js/qrcode.js",
-              "deps/js/spin.js/dist/spin.js",
+              "deps/js/spin.js/spin.js",
               "deps/js/snapjs/snap.js"];
 
   var compat_ie = ["compat/ie/base64/base64.js",
