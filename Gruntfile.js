@@ -155,6 +155,9 @@ module.exports = function(grunt) {
         stdout: true,
         failOnError: true
       },
+      startdevserver: {
+        command: 'node ./scripts/web-server.js'
+      },
       removeFiles: {
         command: [
           'rm -f ./build/packages/ripple-client.dmg',
@@ -634,6 +637,9 @@ module.exports = function(grunt) {
 
   // AWS S3 deployment for downloadable clients
   grunt.registerTask('dldeploy', ['s3']);
+
+  // Node.js server to serve built files
+  grunt.registerTask('devserver', ['shell:startdevserver']);
 
   // End-to-end tests
   grunt.registerTask('e2e', ['connect:debug', 'mochaProtractor:local']);
