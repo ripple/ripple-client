@@ -32,6 +32,7 @@ UsdTab.prototype.angular = function (module)
         $scope.fee = (parseInt(amount, 10) * (3/100)) + 1;
         $scope.total = parseInt(amount, 10) + $scope.fee;
 
+
       }
 
     }]);
