@@ -35,7 +35,7 @@ module.exports = function(grunt) {
               "deps/js/angular/angular.js",
               "deps/js/angular-route/angular-route.js",
               "deps/js/store.js/store.js",
-              "deps/js/ripple.js",
+              "deps/js/ripple/ripple-debug.js",
               "deps/js/ripple-sjcl.js",
               "deps/js/moment/moment.js",
               "deps/js/bootstrap-modal.js",
