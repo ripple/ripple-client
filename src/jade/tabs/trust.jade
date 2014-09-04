@@ -305,7 +305,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                     rp-popover-placement="bottom"
                     rp-popover-title='Account Frozen'
                     rp-popover-trigger="click"
-                    data-content='This is an issue you are being reminded about. Click here to fix.')
+                    data-content='This account has been frozen. Please contact the issuer to unfreeze your account. <a href=https://ripple.com/wiki/Freeze target=_blank>More about freezing</a>')
               .row.editBox(ng-show="editing")
                 form(ng-class="{ 'frozen-account': component.freeze_peer }"
                   ng-submit="save_account()")
