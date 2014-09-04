@@ -10,6 +10,7 @@ src/js/config.js
 test/e2e/protractor.conf.js
 analytics.js
 res/nw/config.js
+deps/js/ripple/
 deps/js/angular/
 deps/js/angular-route/
 deps/js/angular-mocks/
