@@ -42,6 +42,10 @@ BalanceTab.prototype.angular = function (module)
     
     $scope.changeMetric = function(scope){
       $scope.selectedValueMetric = scope.selectedValueMetric;
+      
+      //NOTE: this really should be stored in the blob or
+      //scoped to the blob_id so that it changes based on 
+      //which account is being viewed
       store.set('balance', $scope.selectedValueMetric);
     };
     
@@ -81,22 +85,22 @@ BalanceTab.prototype.angular = function (module)
         }
       });
       if (pairs.length) {
+        $scope.exchangeRatesNonempty = false;
         $http.post("https://api.ripplecharts.com/api/exchangeRates", {pairs:pairs,last:true})
         .success(function(response){
-          var anything = false;
+
           for (var i=0; i<response.length; i++) {
             var pair = response[i];
             if (pair.last > 0) { // Disregard unmarketable assets
               $scope.exchangeRates[pair.base.currency+":"+pair.base.issuer] = pair.last; 
-              anything || (anything = true);
             }
           }
-          if (anything) {
-            $scope.exchangeRatesNonempty || ($scope.exchangeRatesNonempty = true);
-          }
+          
+          $scope.exchangeRatesNonempty = true;
+          console.log("Exchange Rates: ", $scope.exchangeRates);
         });
       } else {
-        $scope.exchangeRatesNonempty || ($scope.exchangeRatesNonempty = true);
+        $scope.exchangeRatesNonempty = true;
       }
     }
 
@@ -128,6 +132,7 @@ BalanceTab.prototype.angular = function (module)
             text: currencyName + (isAmbiguous[curIssuer[0]] ? " ("+ issuerName +")" : "")
           };
         });
+        
         updateAggregateValueAsXrp();
       }
     }, true);
@@ -155,7 +160,14 @@ BalanceTab.prototype.angular = function (module)
     }
     
     function updateAggregateValueDisplayed() {
-      $scope.aggregateValueDisplayed = $scope.aggregateValueAsXrp / $scope.exchangeRates[$scope.selectedValueMetric];
+      var metric = $scope.exchangeRates[$scope.selectedValueMetric];
+      if (!metric) {
+        $scope.selectedValueMetric = "XRP";
+        $scope.changeMetric($scope);
+        metric = $scope.exchangeRates[$scope.selectedValueMetric];
+      }
+      
+      $scope.aggregateValueDisplayed = $scope.aggregateValueAsXrp / metric;
     }
 
     var history = [];
