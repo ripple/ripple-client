@@ -125,7 +125,7 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
             span(ng-show="oldUserBlob", l10n) Migrate Account
 
     .switch-mode-link-container(ng-hide="$routeParams.action === 'migrate'", l10n) Already have a ripple.com/client account?&#32;
-      a(ng-hide="$routeParams.action === 'migrate'", href='#/login/migrate', l10n-inc) Migrate
+      a(ng-hide="$routeParams.action === 'migrate'", href='#/migrate', l10n-inc) Migrate
     .switch-mode-link-container(l10n) Have an account?&#32;
       a(href='#login', l10n-inc) Log In
 
