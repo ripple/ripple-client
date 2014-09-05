@@ -134,6 +134,7 @@ TrustTab.prototype.angular = function (module)
             }
 
             if ($scope.advanced_feature_switch === false || $scope.amount === "") {
+              // $scope.amount = Number(ripple.Amount.consts.max_value);
               $scope.amount = Options.gateway_max_limit;
             }
 
@@ -390,7 +391,12 @@ TrustTab.prototype.angular = function (module)
         $scope.trust.balanceAmount = $scope.component.balance;
 
         var currency = Currency.from_human($scope.component.currency);
-        $scope.trust.currency = currency.to_human({full_name:$scope.currencies_all_keyed[currency.get_iso()].name});
+
+        currency.to_human({full_name:$scope.currencies_all_keyed[currency.get_iso()]})
+          ? $scope.trust.currency = currency.to_human({full_name:$scope.currencies_all_keyed[currency]})
+          : $scope.trust.currency = currency.to_human({full_name:$scope.currencies_all_keyed[currency.get_iso()].name});
+
+        // $scope.trust.currency = currency.to_human({full_name:$scope.currencies_all_keyed[currency.get_iso()].name});
         $scope.trust.counterparty = $scope.component.account;
 
         $scope.load_orderbook();
