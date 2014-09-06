@@ -58,9 +58,15 @@ AdvancedTab.prototype.angular = function(module)
     };
 
     $scope.saveAcctOptions = function () {
-      Options.advanced_feature_switch = !Options.advanced_feature_switch;
+      if (!store.disabled) {
+        // Save in local storage
+        store.set('ripple_settings', JSON.stringify($scope.options));
+      }
 
       $scope.editAcctOptions = false;
+
+      // Reload
+      location.reload();
     };
 
     $scope.deleteBlob = function () {
