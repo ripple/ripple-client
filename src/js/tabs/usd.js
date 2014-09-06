@@ -29,7 +29,7 @@ UsdTab.prototype.angular = function (module)
       if (!$id.loginStatus) return $id.goId();
 
       $scope.calculate = function(amount) {
-        $scope.fee = (parseInt(amount, 10) * (3/100)) + 1;
+        $scope.fee = (parseInt(amount, 10) * (1/100)) + .3;
         $scope.total = parseInt(amount, 10) + $scope.fee;
 
 
