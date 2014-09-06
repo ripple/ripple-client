@@ -30,12 +30,36 @@ section.col-xs-12.content(ng-controller='UsdCtrl')
           .nameLine $ {{ fee.toFixed(2) }}
           h5 Total
           .nameLine $ {{ total.toFixed(2) }}
+      .row
+        .col-sm-4
+          h5 Select your bank
+          select.form-control(name='bank', placeholder="e.g. Bank of America", ng-model="bank")
+            option(value="PNBPUS") Wells Fargo
+            option(value="BOFAUS") Bank of America
+            option(value="HIBKUS") Capital One
+            option(value="INGBUS") Capital One 360
+            option(value="K349US") USAA
+            option(value="J447US") TD Bank
+            option(value="USBKUS") US Bank
+            option(value="PNCCUS") PNC
+            option(value="CHASUS") Chase
+            option(value="CITIUS") Citibank
+      .row
+        .col-sm-6
           .description(class="ssText") Ripple Trade has partnered with SnapSwap to make deposits
             |  easier. By continuing, you agree to SnapSwap's Terms of Service.
-          .knox-payments-div(data-amount="11.30")
-          script(src="https://knoxpayments.com/merchant/knox.js"
-            id="knox_payments_script", button_text="PAY WITH YOUR BANK"
-            api-key="8217_b9fb17939cb3c7f", recurring="ot", user_request="show_all"
-            invoice_detail="Deposit USD into your Ripple wallet", response_url="")
-            //button.btn.btn-large(class='knox-payment-button', type='submit', name='usdAmount')
-            //  p Confirm deposit
+      .row
+        .col-sm-8
+          form(action="https://knoxpayments.com/pay/index.php", method="get", name ="usdDeposit")
+            input(type="hidden", name="amount", value="{{total}}")
+            input(type="hidden", name="api_key", value="7063_d07449f011f370c")
+            input(type="hidden", name="invoice_detail", value="Deposit USD into your Ripple wallet")
+            input(type="hidden", name="recurring", value="ot")
+            input(type="hidden", name="information_request", value="none")
+            input(type="hidden", name="redirect_url", value="")
+            input(type="hidden", name="cancel_url", value="")
+            input(type="hidden", name="swift_code", value="{{bank}}")
+            button.btn.btn-large(type="submit", class="knox-payments-button") Continue to authorization
+
+
+
