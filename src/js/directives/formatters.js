@@ -95,10 +95,11 @@ module.directive('rpPrettyIdentity', [function () {
     scope: {
       identity: '=rpPrettyIdentity'
     },
-    template: '{{identity | rpcontactname}}',
+    template: '{{identity | rpcontactname | rpripplename:{tilde:true} }}',
     compile: function (element, attr, linker) {
       return function (scope, element, attr) {
         // XXX Set title to identity
+        console.log(element);
       };
     }
   };
