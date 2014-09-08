@@ -2358,10 +2358,32 @@ html.t-trade header nav ul > li.active#nav-advanced > a:after {
       border-color: @midgreen;
     }
   }
-<<<<<<< HEAD
 
   .description {
     padding-bottom: 20px;
+
+  }
+
+  h5 {
+    font-weight: bold;
+  }
+
+  .ssText {
+    font-size: 12px;
+  }
+
+  #dollarSign {
+    width: 0px;
+    margin-right: 0px;
+<<<<<<< HEAD
+    padding-top: 7px;
+  }
+
+  #amountBox {
+    padding-left: 0px;
+=======
+
+>>>>>>> b16065fa6b4b9aa0e30d32c0725b6d7f5c7df5de
   }
 
   .nameLine {
@@ -2371,9 +2393,12 @@ html.t-trade header nav ul > li.active#nav-advanced > a:after {
     .name {
       font-weight: bold;
     }
-  }
+
+<<<<<<< HEAD
+
 =======
->>>>>>> [FEATURE] Initial deposit USD flow
+>>>>>>> b16065fa6b4b9aa0e30d32c0725b6d7f5c7df5de
+  }
 }
 
 .modal2FA {

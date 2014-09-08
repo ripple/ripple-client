@@ -24,28 +24,30 @@ UsdTab.prototype.angular = function (module)
     function ($scope, $id, appManager, rpTracker, $routeParams)
     {
 <<<<<<< HEAD
+      if(!$scope.usdAmount){
+        $scope.fee = 0;
+        $scope.total = 0;
+      }
 
-      $scope.usdAmount;
       if (!$id.loginStatus) return $id.goId();
 
-      $scope.calculateFee = function() {
-        $scope.usdAmount * .30;
-      }
 
-      if($scope.usdAmount) {
-
-        $scope.fee = ($scope.usdAmount * .30);
-
-        $scope.total = $scope.usdAmount + $scope.fee;
-      }
 =======
-      $scope.usdAmount = 10;
+      $scope.fee = 0;
+      $scope.total = 0;
+
       if (!$id.loginStatus) return $id.goId();
 
-      $scope.fee = ($scope.usdAmount*.18) + 1;
+>>>>>>> b16065fa6b4b9aa0e30d32c0725b6d7f5c7df5de
+      $scope.calculate = function(amount) {
+        $scope.fee = (parseInt(amount, 10) * (1/100)) + .3;
+        $scope.total = parseInt(amount, 10) + $scope.fee;
 
-      $scope.total = $scope.usdAmount + $scope.fee;
->>>>>>> [FEATURE] Initial deposit USD flow
+<<<<<<< HEAD
+=======
+
+>>>>>>> b16065fa6b4b9aa0e30d32c0725b6d7f5c7df5de
+      }
 
     }]);
 };
