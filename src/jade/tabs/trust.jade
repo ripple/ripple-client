@@ -155,11 +155,11 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                         div.grey-focus(ng-show="advanced_feature_switch", l10n)
                           span.modal-permissions(l10n-inc) - Hold up to&#32;
                           span(rp-pretty-amount="amount_feedback")
-                          span.modal-permissions(l10n-inc) &#32;on your behalf
+                          span.modal-permissions(l10n-inc)  on your behalf
                         div.grey-focus(ng-hide="advanced_feature_switch", l10n)
                           span.modal-permissions(l10n-inc) - Hold&#32;
                           span {{ currency }}
-                          span.modal-permissions(l10n-inc) &#32;on your behalf
+                          span.modal-permissions(l10n-inc)  on your behalf
                         div.modal-buttons
                           button.modal-btn.btn.btn-default.btn-success.btn-md(data-dismiss="modal", ng-click="grant_confirmed()",
                             rp-spinner='{{loading ? 4 : null}}', ng-disabled="loading")
