@@ -12,7 +12,7 @@ section.col-xs-12.content(ng-controller="ContactsCtrl")
       a.btn.btn-success.btn-block.btn-sm.sign(ng-click='toggle_form()', ng-disabled='addform_visible', l10n) Add contact
   .row.row-padding-small.addForm(ng-show='addform_visible')
     .col-xs-12.col-sm-5
-      form(name="addForm", id="addForm", ng-submit="create()")
+      form(name="addForm", id="addForm", ng-submit="create()", rp-unique-scope)
         .form-group
           label(for='Name', l10n) Contact
           input.form-control.input-lg.name#name(name='name', type='text', step='any', maxlength="70"
@@ -28,54 +28,76 @@ section.col-xs-12.content(ng-controller="ContactsCtrl")
               | This contact already exists.
         .form-group
           div(ng-show="'web' === client")
-            label(for='Address', l10n) Ripple name or address
+            label(for='address_web', l10n) Ripple name or address
             .spinnerEnabledInput
-              input.form-control.input-lg.address#address(
-                name='address', type='text', step='any'
+              input.form-control.input-lg.address#address_web(
+                name='address_web', type='text', step='any'
                 ng-model='contact.view'
                 rp-dest, rp-dest-address, rp-dest-bitcoin, rp-dest-ripple-name
                 rp-dest-model="contact.address", rp-dest-loading="address_loading"
                 rp-unique='userBlob.data.contacts'
                 rp-unique-field='address'
+                rp-unique-group='address-dt-web'
                 rp-spinner="{{address_loading ? 4 : null}}"
                 rp-autofill='$routeParams.to', rp-autofill-on='addform_visible = true'
                 required)
-            .errorGroup(rp-errors='address')
+            .errorGroup(rp-errors='address_web')
               .error(rp-error-on='required', l10n) Please enter a Ripple name.
-              .error(rp-error-on='rpUnique', l10n) You already have a contact with the same Ripple name.
+              .error(rp-error-on='rpUnique', l10n) You already have a contact with the same Ripple name and/or the same Destination tag.
               .error(rp-error-on='rpDest', l10n) Not a valid Ripple name or address.
           div(ng-show="'desktop' === client")
-            label(for='Address', l10n) Ripple address
+            label(for='address_desktop', l10n) Ripple address
             .spinnerEnabledInput
-              input.form-control.input-lg.address#address(
-                name='address', type='text', step='any'
+              input.form-control.input-lg.address#address_desktop(
+                name='address_desktop', type='text', step='any'
                 ng-model='contact.view'
                 rp-dest, rp-dest-address, rp-dest-bitcoin, rp-dest-ripple-name
                 rp-dest-model="contact.address", rp-dest-loading="address_loading"
                 rp-unique='userBlob.data.contacts'
                 rp-unique-field='address'
+                rp-unique-group='address-dt-desktop'
                 rp-spinner="{{address_loading ? 4 : null}}"
                 rp-autofill='$routeParams.to', rp-autofill-on='addform_visible = true'
                 required)
-            .errorGroup(rp-errors='address')
+            .errorGroup(rp-errors='address_desktop')
               .error(rp-error-on='required', l10n) Please enter a Ripple address.
-              .error(rp-error-on='rpUnique', l10n) You already have a contact with the same Ripple address.
+              .error(rp-error-on='rpUnique', l10n) You already have a contact with the same Ripple address and/or the same Destination tag.
               .error(rp-error-on='rpDest', l10n) Not a valid Ripple address.
         .form-group
-          label(for='dt', l10n) Destination tag
-          input.form-control.input-lg.dt#dt(
-            name='dt', type='text', step='any'
-            l10n-placeholder="Leave blank if not applicable"
-            ng-model='contact.dt'
-            rp-stdt
-            rp-autofill='$routeParams.dt')
-          .errorGroup(rp-errors='dt')
-            .error(rp-error-on='rpStdt', l10n) Invalid destination tag
+          div(ng-show="'web' === client")
+            label(for='dt_web', l10n) Destination tag
+            input.form-control.input-lg.dt#dt_web(
+              name='dt_web', type='text', step='any'
+              l10n-placeholder="Leave blank if not applicable"
+              ng-model='contact.dt'
+              rp-unique='userBlob.data.contacts'
+              rp-unique-field='dt'
+              rp-unique-group='address-dt-web'
+              rp-stdt
+              rp-autofill='$routeParams.dt')
+            .errorGroup(rp-errors='dt_web')
+              .error(rp-error-on='rpStdt', l10n) Invalid destination tag
+              .error(rp-error-on='rpUnique', l10n) You already have a contact with the same Ripple name and/or the same Destination tag.
+          div(ng-show="'desktop' === client")
+            label(for='dt_desktop', l10n) Destination tag
+            input.form-control.input-lg.dt#dt_desktop(
+              name='dt_desktop', type='text', step='any'
+              l10n-placeholder="Leave blank if not applicable"
+              ng-model='contact.dt'
+              rp-unique='userBlob.data.contacts'
+              rp-unique-field='dt'
+              rp-unique-group='address-dt-desktop'
+              rp-stdt
+              rp-autofill='$routeParams.dt')
+            .errorGroup(rp-errors='dt_desktop')
+              .error(rp-error-on='rpStdt', l10n) Invalid destination tag
+              .error(rp-error-on='rpUnique', l10n) You already have a contact with the same Ripple address and/or the same Destination tag.
         .row.row-padding-small
           .col-xs-6.col-sm-4
             button.btn.btn-default.btn-block(type='button', ng-click='addform_visible = false', l10n) Cancel
           .col-xs-6.col-sm-8
             button.btn.btn-success.btn-block.submit(type='submit', ng-disabled='addForm.$invalid', l10n) Add contact
+
   .row.row-padding-small.contact(ng-repeat="entry in userBlob.data.contacts"
     ng-class="{editing: editing}", ng-controller="ContactRowCtrl")
     .col-xs-12.col-sm-3
@@ -92,7 +114,7 @@ section.col-xs-12.content(ng-controller="ContactsCtrl")
               | You already have a contact with the same name.
       span.name(ng-hide='editing') {{entry.name}}
     .col-xs-12.col-sm-6
-      div(ng-show='editing')
+      div(ng-show='editing', rp-unique-scope)
         ng-form(name='inlineAddress')
           input.form-control(
             name='editaddress', type="text", class="inline"
@@ -100,11 +122,12 @@ section.col-xs-12.content(ng-controller="ContactsCtrl")
             rp-unique='userBlob.data.contacts'
             rp-unique-field='address'
             rp-unique-orig='entry.address'
+            rp-unique-group='address-dt'
             rp-dest, rp-dest-address, rp-dest-bitcoin, rp-dest-ripple-name
             rp-dest-model="editaddress"
             ng-enter="update($index)")
           .errorGroup(rp-errors='editaddress')
-            .error(rp-error-on='rpUnique', l10n) You already have this address.
+            .error(rp-error-on='rpUnique', l10n) You already have a contact with the same Ripple address and/or the same Destination tag.
             .error(rp-error-on='rpDest', l10n) Not a valid address.
           .form-group
             label(for="contact_dt", l10n) Destination tag
@@ -113,9 +136,13 @@ section.col-xs-12.content(ng-controller="ContactsCtrl")
               l10n-placeholder="Leave blank if not applicable"
               ng-model='editdt'
               rp-stdt
-              rp-autofill='$routeParams.dt'
+              rp-unique='userBlob.data.contacts'
+              rp-unique-field='dt'
+              rp-unique-orig='entry.dt'
+              rp-unique-group='address-dt'
               ng-enter="update($index)")
             .errorGroup(rp-errors='dt')
+              .error(rp-error-on='rpUnique', l10n) You already have a contact with the same Ripple address and/or the same Destination tag.
               .error(rp-error-on='rpStdt', l10n) Invalid destination tag.
           .row
             .col-xs-6.col-sm-6.col-md-8.col-lg-9
