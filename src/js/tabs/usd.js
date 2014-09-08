@@ -23,10 +23,13 @@ UsdTab.prototype.angular = function (module)
   module.controller('UsdCtrl', ['$rootScope', 'rpId', 'rpAppManager', 'rpTracker', '$routeParams',
     function ($scope, $id, appManager, rpTracker, $routeParams)
     {
-      $scope.fee = 0;
-      $scope.total = 0;
+      if(!$scope.usdAmount){
+        $scope.fee = 0;
+        $scope.total = 0;
+      }
 
       if (!$id.loginStatus) return $id.goId();
+
 
       $scope.calculate = function(amount) {
         $scope.fee = (parseInt(amount, 10) * (1/100)) + .3;
