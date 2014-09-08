@@ -23,19 +23,22 @@ UsdTab.prototype.angular = function (module)
   module.controller('UsdCtrl', ['$rootScope', 'rpId', 'rpAppManager', 'rpTracker', '$routeParams',
     function ($scope, $id, appManager, rpTracker, $routeParams)
     {
-      if(!$scope.usdAmount){
-        $scope.fee = 0;
-        $scope.total = 0;
-      }
-
       if (!$id.loginStatus) return $id.goId();
 
 
       $scope.calculate = function(amount) {
+        if(!amount){
+          $scope.fee = 0;
+          $scope.total = 0;
+
+          return;
+        }
+
         $scope.fee = (parseInt(amount, 10) * (1/100)) + .3;
         $scope.total = parseInt(amount, 10) + $scope.fee;
-
       }
+
+      $scope.calculate();
 
     }]);
 };
