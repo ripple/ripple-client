@@ -75,6 +75,8 @@ HistoryTab.prototype.angular = function (module) {
       }
     };
 
+    $scope.advanced_feature_switch = Options.advanced_feature_switch;
+
     $scope.orderedTypes = ['sent','received','gateways','trades','orders','other'];
 
     if (store.get('ripple_history_type_selections')) {

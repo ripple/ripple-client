@@ -56,7 +56,6 @@ TrustTab.prototype.angular = function (module)
       $scope.counterparty_address = '';
       $scope.saveAddressName = '';
       $scope.error_account_reserve = false;
-
     };
 
     $scope.load_notification = function(status) {
@@ -132,6 +131,11 @@ TrustTab.prototype.angular = function (module)
               // form validator.
               console.error('Currency code:', match, 'is not recognized');
               return;
+            }
+
+            if ($scope.advanced_feature_switch === false || $scope.amount === "") {
+              // $scope.amount = Number(ripple.Amount.consts.max_value);
+              $scope.amount = Options.gateway_max_limit;
             }
 
             var amount = ripple.Amount.from_human('' + $scope.amount + ' ' + $scope.lineCurrencyObj.to_hex(), {reference_date: new Date(+new Date() + 5*60000)});
@@ -387,7 +391,12 @@ TrustTab.prototype.angular = function (module)
         $scope.trust.balanceAmount = $scope.component.balance;
 
         var currency = Currency.from_human($scope.component.currency);
-        $scope.trust.currency = currency.to_human({full_name:$scope.currencies_all_keyed[currency.get_iso()].name});
+
+        currency.to_human({full_name:$scope.currencies_all_keyed[currency.get_iso()]})
+          ? $scope.trust.currency = currency.to_human({full_name:$scope.currencies_all_keyed[currency]})
+          : $scope.trust.currency = currency.to_human({full_name:$scope.currencies_all_keyed[currency.get_iso()].name});
+
+        // $scope.trust.currency = currency.to_human({full_name:$scope.currencies_all_keyed[currency.get_iso()].name});
         $scope.trust.counterparty = $scope.component.account;
 
         $scope.load_orderbook();

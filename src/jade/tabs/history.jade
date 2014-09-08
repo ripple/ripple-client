@@ -128,8 +128,8 @@ section.col-xs-12.content(ng-controller="HistoryCtrl")
               span(ng-switch-when="trusting")
                 span(l10n, rp-span-spacing) You have now connected to the gateway
                   span.address(rp-pretty-identity="entry.transaction.counterparty")
-                  | for
-                  span.amount(rp-pretty-amount="entry.transaction.amount")
+                  span(ng-show="advanced_feature_switch", l10n-inc)  for
+                  span.amount(ng-show="advanced_feature_switch", rp-pretty-amount="entry.transaction.amount")
                 != require("./history/effects.jade")()
               span(ng-switch-when="offernew")
                 span(ng-show="entry.transaction.sell", l10n, rp-span-spacing) You created an order to sell
