@@ -31,18 +31,18 @@ section.col-xs-12.content(ng-controller="HistoryCtrl")
               span.name {{name}}
               //span.count {{typeUsage[name] || 0}}
               input(type="checkbox", name="type-filter", ng-model="types[name].checked")
-      .filter.type-filter
-        a.filter-title(href="", ng-click="showFilterCurrencies=!showFilterCurrencies", l10n) Currencies
-          .fa.fa-caret-right(ng-hide="showFilterCurrencies")
-          .fa.fa-caret-down(ng-show="showFilterCurrencies")
-        .filter-choices(ng-show="showFilterCurrencies")
-          div(ng-repeat="(currency,obj) in filters.currencies")
-            label(ng-class="{active: obj.checked}")
-              i.fa.fa-plus(ng-show="obj.checked")
-              i.fa.fa-minus(ng-hide="obj.checked")
-              span.name {{currency}}
-              //span.count {{currencyUsage[currency] || 0}}
-              input(type="checkbox", name="currency-filter", ng-model="obj.checked")
+      //- .filter.type-filter
+      //-   a.filter-title(href="", ng-click="showFilterCurrencies=!showFilterCurrencies", l10n) Currencies
+      //-     .fa.fa-caret-right(ng-hide="showFilterCurrencies")
+      //-     .fa.fa-caret-down(ng-show="showFilterCurrencies")
+      //-   .filter-choices(ng-show="showFilterCurrencies")
+      //-     div(ng-repeat="(currency,obj) in filters.currencies")
+      //-       label(ng-class="{active: obj.checked}")
+      //-         i.fa.fa-plus(ng-show="obj.checked")
+      //-         i.fa.fa-minus(ng-hide="obj.checked")
+      //-         span.name {{currency}}
+      //-         span.count {{currencyUsage[currency] || 0}}
+      //-         input(type="checkbox", name="currency-filter", ng-model="obj.checked")
       .filter.date-filter
         a.filter-title(href="", ng-click="showFilterDate=!showFilterDate", l10n) Date
           .fa.fa-caret-right(ng-hide="showFilterDate")
