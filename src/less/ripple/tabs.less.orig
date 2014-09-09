@@ -31,7 +31,15 @@
   }
 }
 
+<<<<<<< HEAD
 #t-register, #t-login, #t-recover, #t-account, #t-migrate {
+  .submit-btn-container {
+    padding: 14px 0;
+    font: 14px;
+  }
+=======
+#t-register, #t-login, #t-recover, #t-privateacct, #t-publicacct, #t-migrate {
+>>>>>>> [TASK] Accts: Restructure accounts page for public/private info
 
   .rippleName {
     font-size: 18px;
@@ -424,10 +432,6 @@
     }
   }
 
-  .balance {
-    text-align: right;
-  }
-
   .currency-overview {
     border: 1px solid @midgray;
     background-color: @lightgray;
@@ -460,13 +464,8 @@
         }
       }
 
-      .amountDecimal {
-        color: @lightgreen;
-        font-size: 85%;
-      }
-      
       .amount {
-        color: @darkgreen;
+        color: @darkblue;
 
         .fraction {
           font-family: OpenSansLight;
@@ -1112,7 +1111,7 @@
         &.accountset .type {
           background: @midgray;
         }
-        &.failed .type, &.error .type {
+        &.failed .type {
           background: @midred;
         }
 
@@ -1628,18 +1627,6 @@
     padding-top: 20px;
   }
 
-  .websocket{
-    padding-right: 0px;
-  }
-
-  .port{
-    padding-left: 0px;
-  }
-
-  .portNumber{
-    padding-left: 15px;
-  }
-
   div.section {
     padding-bottom: 20px;
   }
@@ -1697,20 +1684,11 @@
   #secureSocket {
     padding-left: 0px;
     padding-right: 0px;
-
-
-    .helperInput {
-      padding-top: 7px;
-    }
   }
 
   #renameForm {
     padding-left: 15px;
 
-  }
-
-  .editButton {
-    padding-top: 4px;
   }
 }
 
@@ -2130,7 +2108,7 @@ html.t-trade header nav ul > li.active#nav-advanced > a:after {
   }
 }
 
-#t-fund, #t-xrp, #t-btc, #t-usd, #t-trust {
+#t-fund, #t-xrp, #t-btc, #t-trust {
 
   .currencies a {
     display: block;
@@ -2280,9 +2258,15 @@ html.t-trade header nav ul > li.active#nav-advanced > a:after {
   }
 }
 
-#t-account {
+#t-publicacct, #t-privateacct {
 
+<<<<<<< HEAD
   .info a {
+=======
+  padding: 0px 26px;
+
+  .accountPage a {
+>>>>>>> [TASK] Accts: Restructure accounts page for public/private info
     display: block;
     padding: 10px;
     border-radius: 2px;
@@ -2393,58 +2377,6 @@ html.t-trade header nav ul > li.active#nav-advanced > a:after {
     }   
   }
 
-}
-
-#t-usd {
-  .button-group {
-    text-align: center;
-  }
-  button {
-    text-align: center;
-    border: 1px solid @midblue;
-    font-weight: bold;
-    background: @midblue;
-    color: @white;
-
-    &:hover, &.active {
-      background: @midgreen;
-      border-color: @midgreen;
-    }
-  }
-
-  .description {
-    padding-bottom: 20px;
-
-  }
-
-  h5 {
-    font-weight: bold;
-  }
-
-  .ssText {
-    font-size: 12px;
-  }
-
-  #dollarSign {
-    width: 0px;
-    margin-right: 0px;
-    padding-top: 7px;
-  }
-
-  #amountBox {
-    padding-left: 0px;
-  }
-
-  .nameLine {
-    padding: 0 0 20px;
-    font: 20px OpenSansLight;
-
-    .name {
-      font-weight: bold;
-    }
-
-
-  }
 }
 
 .modal2FA {
