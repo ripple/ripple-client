@@ -31,15 +31,7 @@
   }
 }
 
-<<<<<<< HEAD
 #t-register, #t-login, #t-recover, #t-account, #t-migrate {
-  .submit-btn-container {
-    padding: 14px 0;
-    font: 14px;
-  }
-=======
-#t-register, #t-login, #t-recover, #t-privateacct, #t-publicacct, #t-migrate {
->>>>>>> [TASK] Accts: Restructure accounts page for public/private info
 
   .rippleName {
     font-size: 18px;
@@ -2258,15 +2250,14 @@ html.t-trade header nav ul > li.active#nav-advanced > a:after {
   }
 }
 
-#t-publicacct, #t-privateacct {
-
+#t-account {
 <<<<<<< HEAD
-  .info a {
 =======
-  padding: 0px 26px;
 
-  .accountPage a {
->>>>>>> [TASK] Accts: Restructure accounts page for public/private info
+  padding: 0px 26px;
+>>>>>>> [TASK] Accounts: Routing changes for improved architecture
+
+  .info a {
     display: block;
     padding: 10px;
     border-radius: 2px;
