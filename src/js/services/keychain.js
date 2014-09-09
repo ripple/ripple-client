@@ -75,7 +75,9 @@ module.factory('rpKeychain', ['$rootScope', '$timeout', 'rpPopup', 'rpId',
     var unlock = popupScope.unlock = {
       isConfirming: false,
       password: '',
-      purpose: purpose
+      purpose: purpose,
+      disablePasswordPrompt: false,
+      showDisablePromptCheckbox: !$scope.userBlob.data.persistUnlock
     };
     popupScope.confirm = function () {
       unlock.isConfirming = true;
@@ -88,8 +90,13 @@ module.factory('rpKeychain', ['$rootScope', '$timeout', 'rpPopup', 'rpId',
           unlock.error = "password";
         } else {
           popup.close();
-
-          callback(null, secret);
+          if (unlock.disablePasswordPrompt) {
+            _this.setPasswordProtection(false, function(err, resp){
+              if (err) {
+              }
+            });
+          }
+          callback(null, secret, unlock.disablePasswordPrompt);
         }
       }
 
@@ -166,39 +173,39 @@ module.factory('rpKeychain', ['$rootScope', '$timeout', 'rpPopup', 'rpId',
     if (requirePassword === false) {
       this.requestSecret(id.account, id.username, function(err, secret) {
         if (err) {
-          return callback(err);            
+          return callback(err);
         }
-        
+
         setPasswordProtection(requirePassword, secret, callback);
       });
-                       
+
     } else {
       setPasswordProtection(requirePassword, null, callback);
     }
-    
+
     function setPasswordProtection (requirePassword, secret, callback) {
-      
+
       $scope.userBlob.set('/persistUnlock', !requirePassword, function(err, resp) {
         if (err) {
           return callback(err);
         }
-        
+
         if (requirePassword) {
           _this.expireSecret(id.account);
         }
-        
+
       });
     }
   };
-  
+
   Keychain.prototype.expireSecret = function (account) {
     var _this = this;
     $timeout(function(){
       if (_this.secrets[account] && !$scope.userBlob.data.persistUnlock) {
-        delete _this.secrets[account];  
-      }  
-    }, Keychain.unlockDuration);  
+        delete _this.secrets[account];
+      }
+    }, Keychain.unlockDuration);
   }
-  
+
   return new Keychain();
 }]);

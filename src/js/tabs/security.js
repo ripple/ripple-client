@@ -36,6 +36,8 @@ SecurityTab.prototype.angular = function (module) {
     $scope.errorLoading2FA = false;
     $scope.requirePasswordChanged = false;
     
+    $scope.showPasswordDisabledAnnouncement = false;
+
     $scope.$on('$blobUpdate', onBlobUpdate);
     onBlobUpdate();
 
@@ -96,12 +98,13 @@ SecurityTab.prototype.angular = function (module) {
 
 
     $scope.unmaskSecret = function () {
-      keychain.requestSecret($id.account, $id.username, 'showSecret', function (err, secret) {
+      keychain.requestSecret($id.account, $id.username, 'showSecret', function (err, secret, showAnnouncement) {
         if (err) {
           // XXX Handle error
           return;
         }
 
+        $scope.showPasswordDisabledAnnouncement = showAnnouncement;
         $scope.security.master_seed = secret;
       });
     };
