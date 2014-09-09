@@ -63,7 +63,10 @@ MigrateTab.prototype.angular = function (module) {
 
       if (err) {
         // TODO move to template
-        $scope.status = "Can't get the account";
+        $scope.status = "Migrate failed:";
+        $scope.error = "This username/passphrase combination doesn't exist in ripple.com/client. Please try again.";
+
+        console.log($scope.error);
 
         if (err.name === "OldBlobError") {
           popup.confirm("Wallet Upgrade", "Ripple is upgrading the wallet encryption format. After the upgrade, only Ripple clients 0.2.24 or higher can access your wallet.<br><br>If you use other clients, please make sure they are upgraded to the current version.",

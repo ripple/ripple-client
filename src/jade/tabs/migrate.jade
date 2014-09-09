@@ -17,6 +17,8 @@ section.col-xs-12.content(ng-controller="MigrateCtrl")
         .text-status(ng-show='status')
           span {{status}}
           br
+          span(id="error") {{error}}
+          br
           .backend(ng-repeat="message in backendMessages")
             b {{message.backend}} &#32;
             span {{message.message}}
