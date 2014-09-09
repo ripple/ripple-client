@@ -150,6 +150,8 @@ section.col-xs-12.content(ng-controller="ContactsCtrl")
         b.hidden-xs {{entry.address | rpaddressorigin}}: {{entry.view || entry.address}}
     .col-xs-12.col-sm-3
       .row.padding-vertical-xs
+        .col-xs-6
+          button.send.btn.btn-block.btn-primary.btn-sm(ng-click='send($index)', l10n) Send
         .col-xs-6(ng-hide='editing')
           button.edit.btn.btn-link.btn-default(ng-click='edit($index)', l10n) edit
         .col-xs-6(ng-hide='editing')
