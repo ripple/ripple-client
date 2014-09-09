@@ -90,6 +90,7 @@ MigrateTab.prototype.angular = function (module) {
         return;
       }
 
+      $scope.error = '';
       $scope.status = '';
       if ($routeParams.tab) {
         $location.path('/'+$routeParams.tab);
