@@ -94,10 +94,10 @@ section.col-xs-12.content(ng-controller="ContactsCtrl")
               .error(rp-error-on='rpStdt', l10n) Invalid destination tag
               .error(rp-error-on='rpUnique', l10n) You already have a contact with the same Ripple address and/or the same Destination tag.
         .row.row-padding-small
-          .col-xs-6.col-sm-4
-            button.btn.btn-default.btn-block(type='button', ng-click='addform_visible = false', l10n) Cancel
           .col-xs-6.col-sm-8
             button.btn.btn-success.btn-block.submit(type='submit', ng-disabled='addForm.$invalid', l10n) Add contact
+          .col-xs-6.col-sm-4
+            button.btn.btn-default.btn-link(type='button', ng-click='addform_visible = false', l10n) Cancel
 
   .row.row-padding-small.contact(ng-repeat="entry in userBlob.data.contacts"
     ng-class="{editing: editing}", ng-controller="ContactRowCtrl")
@@ -152,7 +152,7 @@ section.col-xs-12.content(ng-controller="ContactsCtrl")
                 action-button-text="Delete"
                 action-button-css="btn btn-default btn-danger"
                 action-function="remove($index)"
-                cancel-button-css="btn btn-default"
+                cancel-button-css="btn btn-link"
                 cancel-button-text="Cancel"
                 ng-hide="showPassword==true")
                   a.danger(href="", l10n) Delete
@@ -167,11 +167,11 @@ section.col-xs-12.content(ng-controller="ContactsCtrl")
         b.hidden-xs {{entry.address | rpaddressorigin}}: {{entry.view || entry.address}}
     .col-xs-12.col-sm-3.text-right
       .row.padding-vertical-xs
+        .col-xs-6
+          button.send.btn.btn-block.btn-primary.btn-sm(ng-click='send($index)', l10n) Send
         .col-xs-6(ng-hide='editing')
           button.edit.btn.btn-block.btn-default.btn-sm(ng-click='edit($index)', l10n) Edit
         .col-xs-6(ng-show='editing')
           button.editing.btn-block.btn.btn-default.btn-sm(ng-click='cancel($index)', l10n) Cancel
-        .col-xs-6
-          button.send.btn.btn-block.btn-primary.btn-sm(ng-click='send($index)', l10n) Send
   div(ng-hide="userBlob.data.contacts.length", l10n) You don't have any contacts yet.
     |  Click on 'Add contact' button in the top right corner to add a new contact.
