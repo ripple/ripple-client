@@ -1,4 +1,5 @@
 section.col-xs-12.content(ng-controller="AccountCtrl")
+<<<<<<< HEAD
   div(ng-show="'web' === client && !loadingAccount && !account.Balance && loadState.account && connected")
     include banner/unfunded
   .row(ng-show='connected')  
@@ -76,4 +77,18 @@ section.col-xs-12.content(ng-controller="AccountCtrl")
           .section
             .descriptor(id="address", l10n) Ripple address
             div {{address}}
+=======
+  .row(ng-show='connected')
+    div(ng-show="'web' === client && !loadingAccount && !account.Balance && loadState.account && connected")
+      include banner/unfunded
+    .col-sm-3
+      include account/navbar
+
+    .col-sm-9.list
+      div(ng-show="'web' === client")
+        .showPublic(ng-show="$routeParams.route == 'public'")
+          include account/public
+        .showPublic(ng-show="$routeParams.route == 'private'")
+          include account/private
+>>>>>>> [TASK] Accounts: Routing changes for improved architecture
 
