@@ -59,15 +59,15 @@ section.col-xs-12.content(ng-controller="HistoryCtrl")
                 i.fa.fa-calendar(l10n)  To
               input.form-control(type="text", rp-datepicker, ng-model="dateMaxView", readonly)
             button.btn.btn-block.btn-primary.submit(type='submit', l10n) Filter
-      .filter.amount-filter
-        a.filter-title(href="", ng-click="showFilterMinAmount=!showFilterMinAmount", l10n) Minimum Amount
-          .fa.fa-caret-right(ng-hide="showFilterMinAmount")
-          .fa.fa-caret-down(ng-show="showFilterMinAmount")
-        form.filter-choices.row.form-group(ng-submit="submitMinimumAmountForm()", ng-show="showFilterMinAmount")
-          .col-xs-8
-            input.form-control(type="text", ng-model="filters.minimumAmount")
-          .col-xs-4
-            button.btn.btn-block.btn-primary.submit(type='submit', l10n) Filter
+      //- .filter.amount-filter
+      //-   a.filter-title(href="", ng-click="showFilterMinAmount=!showFilterMinAmount", l10n) Minimum Amount
+      //-     .fa.fa-caret-right(ng-hide="showFilterMinAmount")
+      //-     .fa.fa-caret-down(ng-show="showFilterMinAmount")
+      //-   form.filter-choices.row.form-group(ng-submit="submitMinimumAmountForm()", ng-show="showFilterMinAmount")
+      //-     .col-xs-8
+      //-       input.form-control(type="text", ng-model="filters.minimumAmount")
+      //-     .col-xs-4
+      //-       button.btn.btn-block.btn-primary.submit(type='submit', l10n) Filter
 
     .transactions.col-sm-9
       .col-xs-6
