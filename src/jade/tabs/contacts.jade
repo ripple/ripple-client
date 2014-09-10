@@ -33,7 +33,7 @@ section.col-xs-12.content(ng-controller="ContactsCtrl")
               input.form-control.input-lg.address#address_web(
                 name='address_web', type='text', step='any'
                 ng-model='contact.view'
-                rp-dest, rp-dest-address, rp-dest-bitcoin, rp-dest-ripple-name
+                rp-dest, rp-dest-address, rp-dest-bitcoin, rp-dest-ripple-name, rp-dest-ripple-name-no-tilde
                 rp-dest-model="contact.address", rp-dest-loading="address_loading"
                 rp-unique='userBlob.data.contacts'
                 rp-unique-field='address'
@@ -51,7 +51,7 @@ section.col-xs-12.content(ng-controller="ContactsCtrl")
               input.form-control.input-lg.address#address_desktop(
                 name='address_desktop', type='text', step='any'
                 ng-model='contact.view'
-                rp-dest, rp-dest-address, rp-dest-bitcoin, rp-dest-ripple-name
+                rp-dest, rp-dest-address, rp-dest-bitcoin, rp-dest-ripple-name, rp-dest-ripple-name-no-tilde
                 rp-dest-model="contact.address", rp-dest-loading="address_loading"
                 rp-unique='userBlob.data.contacts'
                 rp-unique-field='address'
@@ -123,7 +123,7 @@ section.col-xs-12.content(ng-controller="ContactsCtrl")
             rp-unique-field='address'
             rp-unique-orig='entry.address'
             rp-unique-group='address-dt'
-            rp-dest, rp-dest-address, rp-dest-bitcoin, rp-dest-ripple-name
+            rp-dest, rp-dest-address, rp-dest-bitcoin, rp-dest-ripple-name, rp-dest-ripple-name-no-tilde
             rp-dest-model="editaddress"
             ng-enter="update($index)")
           .errorGroup(rp-errors='editaddress')
