@@ -332,7 +332,8 @@ module.exports = function(grunt) {
           {src: 'build/dist/web/index.html', dest: 'build/bundle/web/index.html'},
           {src: 'build/dist/web/index_debug.html', dest: 'build/bundle/web/index_debug.html'},
           {src: 'src/js/config.js', dest: 'build/bundle/web/config.js'},
-          {src: 'scripts/livereload.js', dest: 'build/bundle/web/livereload.js'}
+          {src: 'scripts/livereload.js', dest: 'build/bundle/web/livereload.js'},
+          {src: 'deps/downloadify.swf', dest: 'build/bundle/web/swf/downloadify.swf' }
         ]
       }
       /*nw_desktop: {
