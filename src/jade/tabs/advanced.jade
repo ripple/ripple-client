@@ -24,9 +24,9 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
             .col-xs-3.col-sm-3.col-md-2
               button.btn.btn-block.btn-success.btn-xs.submit(id = 'saveBlob', type='submit', ng-disabled='blobForm.$invalid', l10n) Save
             .col-xs-3.col-sm-3.col-md-2
-              button.btn.btn-block.btn-success.btn-xs.submit(id="deleteBlob", type="button", ng-click="deleteBlob()", l10n) Delete
+              button.btn.btn-block.btn-danger.btn-xs.submit(id="deleteBlob", type="button", ng-click="deleteBlob()", l10n) Delete
             .col-xs-3.col-sm-3.col-md-2(id="cancel")
-              a(href="", ng-click="cancelEditBlob()", l10n) Cancel
+              a(href="", ng-click="cancelEditBlob()", l10n) cancel
         form(name="bridgeForm", ng-submit="saveBridge()")
           .descriptor(l10n) Bitcoin bridge
           .row(ng-hide="editBridge")
@@ -44,9 +44,9 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
             .col-xs-3.col-sm-3.col-md-2
               button.btn.btn-block.btn-success.btn-xs.submit(id = 'saveBridge', type='submit', ng-disabled='bridgeForm.$invalid', l10n) Save
             .col-xs-3.col-sm-3.col-md-2
-              button.btn.btn-block.btn-success.btn-xs.submit(id="deleteBridge", type="button", ng-click="deleteBridge()", l10n) Delete
+              button.btn.btn-block.btn-danger.btn-xs.submit(id="deleteBridge", type="button", ng-click="deleteBridge()", l10n) Delete
             .col-xs-3.col-sm-3.col-md-2(id="cancel")
-              a(href="", ng-click="cancelEditBridge()", l10n) Cancel
+              a(href="", ng-click="cancelEditBridge()", l10n) cancel
         form(name="accountsAdvForm", ng-submit="saveAcctOptions()")
           .descriptor(ng-show="'web' === client", l10n) Trust line
           .row(ng-hide="editAcctOptions")
@@ -69,9 +69,9 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
               button.btn.btn-block.btn-success.btn-xs.submit(id='save', type='submit'
               ng-disabled='serverForm.$invalid', l10n) Save
             .col-xs-2
-              button.btn.btn-block.btn-success.btn-xs.submit(id="delete", type="button", ng-click="remove()", ng-show="hasRemove()", l10n) Delete
+              button.btn.btn-block.btn-danger.btn-xs.submit(id="delete", type="button", ng-click="remove()", ng-show="hasRemove()", l10n) Delete
             .col-xs-3.col-sm-3.col-md-2(id="cancel")
-              a(href="", ng-click="cancelEditAcctOptions()", l10n) Cancel
+              a(href="", ng-click="cancelEditAcctOptions()", l10n) cancel
         h4(id="serverSettings", l10n) Server settings
         form(ng-controller="ServerRowCtrl", ng-repeat="(index, server) in options.server.servers", ng-submit="save()")
           ng-form(name="serverForm")
@@ -97,9 +97,9 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
                 button.btn.btn-block.btn-success.btn-xs.submit(id='save', type='submit'
                 ng-disabled='serverForm.$invalid', l10n) Save
               .col-xs-2
-                button.btn.btn-block.btn-success.btn-xs.submit(id="delete", type="button", ng-click="remove()", ng-show="hasRemove()", l10n) Delete
+                button.btn.btn-block.btn-danger.btn-xs.submit(id="delete", type="button", ng-click="remove()", ng-show="hasRemove()", l10n) Delete
               .col-xs-2(id="cancel")
-                a(href="", ng-disabled='serverForm.$invalid', ng-click="cancel()", ng-hide="noCancel()", l10n) Cancel
+                a(href="", ng-disabled='serverForm.$invalid', ng-click="cancel()", ng-hide="noCancel()", l10n) cancel
             .row(ng-hide="editing")
               .col-xs-6.col-sm-5.col-md-3
                 .description {{server.host}}
