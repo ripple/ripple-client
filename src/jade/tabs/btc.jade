@@ -60,8 +60,8 @@ section.col-xs-12.content(ng-controller='BtcCtrl')
                           rp-spinner='{{loading ? 4 : null}}', ng-disabled="loading")
                           span(ng-show="loading", l10n) Loading...
                           span(ng-hide="loading", l10n) Confirm
-                        button.modal-btn.btn.btn-default.btn-md(data-dismiss="modal"
-                          ng-hide="loading", l10n) Cancel
+                        button.modal-btn.btn.btn-default.btn-link.btn-md(data-dismiss="modal"
+                          ng-hide="loading", l10n) cancel
                       span.modal-error(ng-show="emailError", l10n)
                         | SnapSwap's btc2ripple service is currently unavailable.
                         |  Please check back later.
