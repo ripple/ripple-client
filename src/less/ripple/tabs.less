@@ -13,6 +13,12 @@
   margin: 1.4em 0;
 }
 
+.custom-btn {
+  padding-top: 14px;
+  padding-bottom: 14px;
+  font-size: 14px;
+} 
+
 .banner {
   margin: 2% 8.5% 0 8.5%;
   margin-right: 0px;
@@ -26,6 +32,10 @@
 }
 
 #t-register, #t-login, #t-recover, #t-account, #t-migrate {
+  .submit-btn-container {
+    padding: 14px 0;
+    font: 14px;
+  }
 
   .rippleName {
     font-size: 18px;
@@ -886,6 +896,8 @@
     padding-bottom: 15px;
     margin-top: -10px;
     margin-bottom: 10px;
+    margin-right: 0px;
+    margin-left: 0px;
   }
 
   .contact {
@@ -894,6 +906,8 @@
 
     &.editing {
       background: @lightgray;
+      margin-right: 0px;
+      margin-left: 0px;
     }
 
     @media (max-width: @screen-xs-max) {
@@ -1569,6 +1583,12 @@
 
   #renameForm {
     padding-left: 15px;
+  }
+
+
+  .btn-link {
+    padding-top: 0px;
+
   }
 }
 
@@ -2277,6 +2297,10 @@ html.t-trade header nav ul > li.active#nav-advanced > a:after {
     border-top: 1px solid @midgray;
     padding-top: 20px;
     color: @darkgray;
+  }
+
+  .edit {
+    padding-top: 0px;
   }
 
   .username {

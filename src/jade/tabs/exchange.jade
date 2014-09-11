@@ -11,7 +11,6 @@ section.col-xs-12.content(ng-controller="ExchangeCtrl")
   div(ng-show="'web' === client && !loadingAccount && !account.Balance && loadState.account && connected")
     include banner/unfunded
     p.literal(l10n="err-you-must-be-funded-before-you-can-exchange-money", l10n) You have to be funded before you can exchange money
-    p: a.btn.btn-default(href="#/balance", l10n) Back to balance
 
   //- Connected
 
@@ -110,11 +109,12 @@ section.col-xs-12.content(ng-controller="ExchangeCtrl")
       p.literal(l10n-inc) Are you sure?
     .row.row-padding-small
       .col-xs-6.col-sm-4.col-md-3.col-lg-2
-        button.btn.btn-block.btn-default.back(ng-click='cancelConfirm()', l10n) &laquo; Back
+        button.btn.btn-block.btn-success.submit(type='submit'
+        ng-click='exchange_confirmed()'
+        ng-disabled='confirm_wait', l10n) Confirm
       .col-xs-6.col-sm-4.col-md-3.col-lg-2
-          button.btn.btn-block.btn-success.submit(type='submit'
-          ng-click='exchange_confirmed()'
-          ng-disabled='confirm_wait', l10n) Confirm
+        button.btn.btn-link.btn-default.back(ng-click='cancelConfirm()', l10n) cancel
+
 
   //- N4. Waiting for transaction result page
 
@@ -137,7 +137,7 @@ section.col-xs-12.content(ng-controller="ExchangeCtrl")
           |  Make sure you are connected to the Internet and try again later.
         p.literal(l10n) Before trying again, please ensure that the transaction has
           |  not been executed already.
-    p: button.btn.btn-default(ng-click='cancelConfirm()', l10n) &laquo; Back
+    p: button.btn.btn-link.btn-default(ng-click='cancelConfirm()', l10n) cancel
 
   //- N6. Confirmed page
 

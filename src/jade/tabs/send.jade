@@ -1,4 +1,4 @@
-section.single.content(ng-controller='SendCtrl')
+section.col-xs-12.content(ng-controller='SendCtrl')
 
   //- Disconnected
 
@@ -10,7 +10,6 @@ section.single.content(ng-controller='SendCtrl')
   div(ng-show="'web' === client && !loadingAccount && !account.Balance && loadState.account && connected")
     include banner/unfunded
     p.literal(l10n="err-you-must-be-funded-before-you-can-send-money", l10n) You have to be funded before you can send money
-    p: a.btn.btn-default(href="#/balance", l10n) Back to balance
 
   //- 1. Send form
 
@@ -276,9 +275,9 @@ section.single.content(ng-controller='SendCtrl')
             type='submit'
             ng-disabled='confirm_wait', l10n) Confirm
         .col-xs-6.col-sm-4.col-md-3.col-lg-2
-          button.btn.btn-block.btn-link.back(
+          button.btn.btn-link.back(
             type='button'
-            ng-click='cancelConfirm()', l10n) Cancel
+            ng-click='cancelConfirm()', l10n) cancel
 
   //- N4. Waiting for transaction result page
 
@@ -306,7 +305,7 @@ section.single.content(ng-controller='SendCtrl')
         p.literal(l10n) Sorry, an error occurred while submitting your transaction.
           | Make sure you are connected to the Internet and try again later.
         p.literal(l10n) Please ensure you don't send your payment more than once.
-    p: button.btn.btn-default(ng-click='cancelConfirm()', l10n) &laquo; Back
+    p: button.btn.btn-link.btn-default(ng-click='cancelConfirm()', l10n) cancel
 
   //- N5b. Ripple error page
   group.mode-ripplerror(ng-show='mode=="rippleerror" && account.Balance')
@@ -332,7 +331,7 @@ section.single.content(ng-controller='SendCtrl')
             button.btn.btn-success(type='submit', ng-disabled='addressSaving')
               span(ng-show='addressSaving', l10n) Saving...
               span(ng-hide='addressSaving', l10n) Save
-            a(href="", ng-click='show_save_address_form = false', l10n) Cancel
+            a(href="", ng-click='show_save_address_form = false', l10n) cancel
           hr
       div(class="actionLink")
         a(href="", ng-click="reset()", l10n) Send another payment
@@ -408,7 +407,7 @@ section.single.content(ng-controller='SendCtrl')
               ng-disabled='addressSaving || saveAddressForm.$invalid')
               span(ng-show='addressSaving', l10n) Saving...
               span(ng-hide='addressSaving', l10n) Save
-            a(href="", ng-click='show_save_address_form = false', l10n) Cancel
+            a(href="", ng-click='show_save_address_form = false', l10n) cancel
           hr
       div(class="actionLink")
         a(href="", ng-click="reset()", l10n) Send another payment

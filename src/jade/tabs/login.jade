@@ -21,7 +21,7 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
           button.btn.btn-submit.btn-block.btn-success(type='submit', rp-spinner="{{ajax_loading ? 4 : null}}",
             ng-disabled="ajax_loading || !token", ng-show="twoFactor")
             span(l10n) Verify   
-        .submit-btn-container
+        .submit-btn-container-recovery
           a.recover-btn(href="#recover/{{username}}", ng-show="showRecover")
             button.btn.btn-block.btn-primary(ng-click="")
               span(l10n) Account Recovery
