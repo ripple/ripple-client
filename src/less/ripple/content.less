@@ -79,7 +79,9 @@ h1 {
     margin: 0 -2.45em 0 -2.40em;
     border: 0;
   }
-
+.alert-danger {
+    background-color: @notification-warning-background;
+  }
   .modal-email {
     font-family: 'OpenSansBold';
     margin: .4em 0 1.2em 0;
@@ -199,7 +201,8 @@ h1 {
   // This class is used to show the color-coded messages after submitting a
   // transaction on various pages.
   h2.tx-status {
-    background-color: @lightyellow;
+    background-color: @notification-warning-background;
+    color: @notification-warning-text;
     font: 12px 'OpenSansRegular';
     font-weight: normal;
     padding: 15px;
@@ -208,14 +211,14 @@ h1 {
   }
 
   .result-success h2.tx-status {
-    background-color: @lightgreen;
-    color: @darkgreen;  }
+    background-color: @notification-success-background;
+    color: @notification-success-text;  }
 
   .result-error h2.tx-status,
   .result-malformed h2.tx-status,
   .result-failed h2.tx-status {
-    background-color: @lightred;
-    color: @midred;
+    background-color: @state-danger-bg;
+    color: @state-danger-text;
   }
 
   // Tabs
@@ -384,12 +387,37 @@ a.danger {
 .auth-attention {
   margin-bottom: 20px;
   font-size: 13px;
-  background: @lightblue;
-  color: @darkblue;
-  border: 1px solid @midgray;
-  padding: 15px ;
-  .rounded(5px);
+  background: @notification-info-background;
+  color: @notification-info-text;
+  border: 1px solid @notification-info-border;
+  padding: 15px;
+  h4 {
+    display: inline-block;
+    margin-top: 0;
+  }
+  .close {
+    display: inline-block;
+    font-size: 21px;
+    margin-top: -5px;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 
+  }
+  .rounded(5px);
+  a{
+    text-decoration: underline; 
+    &#hide {
+      margin-right: 10px;
+      margin-bottom: 10px;
+      display: inline-block;
+    }
+    &:hover {
+      text-decoration: none;
+    }
+  }
+  ul {
+    margin-bottom: 0;
+    padding-left: 18px;
+  }
   span {
     font-family: OpenSansBold;
   }
