@@ -298,6 +298,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
             div.col-xs-1(ng-show="advanced_feature_switch", l10n) Min
             div.col-xs-1(ng-show="advanced_feature_switch", l10n) Rippling
             div.col-xs-2(l10n) Edit
+          hr(id='divider')
           .lines
             .line(ng-controller="AccountRowCtrl", ng-repeat="component in entry.components")
               .row(ng-class="{ 'frozen-account': component.freeze_peer }")
