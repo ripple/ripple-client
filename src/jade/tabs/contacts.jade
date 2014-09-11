@@ -2,17 +2,17 @@ section.col-xs-12.content(ng-controller="ContactsCtrl")
   div(ng-show="'web' === client && !loadingAccount && !account.Balance && loadState.account && connected")
     include banner/unfunded
   .row.row-padding-small.head.hidden-xs
-    .col-xs-3(l10n) Contacts
-    .col-xs-6(ng-show="'web' === client", l10n) Ripple name or address
+    .col-xs-3.col-sm-3.col-md-3(l10n) Contacts
+    .col-xs-6.col-sm-4.col-md-7(ng-show="'web' === client", l10n) Ripple name or address
     .col-xs-6(ng-show="'desktop' === client", l10n) Ripple address
-    .col-xs-3.text-right
+    .col-xs-3.col-sm-5.col-md-2.text-right
       a.btn.btn-success.btn-sm.sign(ng-click='toggle_form()', ng-disabled='addform_visible', l10n) Add contact
   hr
   .row.head.visible-xs
     .col-xs-12.col-sm-2
       a.btn.btn-success.btn-block.btn-sm.sign.custom-btn(ng-click='toggle_form()', ng-disabled='addform_visible', l10n) Add contact
   .row.row-padding-small.addForm(ng-show='addform_visible')
-    .col-xs-12
+    .col-xs-12.col-md-6.col-sm-8
       form(name="addForm", id="addForm", ng-submit="create()", rp-unique-scope)
         .form-group
           label(for='Name', l10n) Contact
@@ -94,14 +94,14 @@ section.col-xs-12.content(ng-controller="ContactsCtrl")
               .error(rp-error-on='rpStdt', l10n) Invalid destination tag
               .error(rp-error-on='rpUnique', l10n) You already have a contact with the same Ripple address and/or the same Destination tag.
         .row
-          .col-xs-3.text-left
+          .col-xs-8.col-sm-8.col-md-9.text-left
             button.btn.btn-success.btn-block.submit.custom-btn(type='submit', ng-disabled='addForm.$invalid', l10n) Add contact
-          .col-xs-2
-            button.btn.btn-default.btn-link(type='button', ng-click='addform_visible = false', l10n) cancel
+          .col-xs-4.col-sm-4.col-md-3.text-center
+            button.btn.btn-default.btn-block.custom-btn.btn-link(type='button', ng-click='addform_visible = false', l10n) cancel
 
   .row.row-padding-small.contact(ng-repeat="entry in userBlob.data.contacts"
     ng-class="{editing: editing}", ng-controller="ContactRowCtrl")
-    .col-xs-12.col-sm-3
+    .col-xs-6.col-md-3.col-sm-3
       div(ng-show='editing')
         ng-form(name='inlineName')
           input.form-control(name='editname', type="text", class="inline", maxlength="70"
@@ -114,63 +114,58 @@ section.col-xs-12.content(ng-controller="ContactsCtrl")
             .error(rp-error-on='rpUnique', l10n)
               | You already have a contact with the same name.
       span.name(ng-hide='editing') {{entry.name}}
-    .col-xs-12.col-sm-6
-      div(ng-show='editing', rp-unique-scope)
+    .col-xs-12.col-sm-6.col-md-6
+      div(ng-show='editing')
         ng-form(name='inlineAddress')
           input.form-control(
             name='editaddress', type="text", class="inline"
-            ng-model='editview'
+            ng-model='editaddress'
             rp-unique='userBlob.data.contacts'
             rp-unique-field='address'
             rp-unique-orig='entry.address'
-            rp-unique-group='address-dt'
-            rp-dest, rp-dest-address, rp-dest-bitcoin, rp-dest-ripple-name, rp-dest-ripple-name-no-tilde
-            rp-dest-model="editaddress"
+            rp-dest, rp-dest-address, rp-dest-bitcoin
             ng-enter="update($index)")
           .errorGroup(rp-errors='editaddress')
-            .error(rp-error-on='rpUnique', l10n) You already have a contact with the same Ripple address and/or the same Destination tag.
+            .error(rp-error-on='rpUnique', l10n) You already have this address.
             .error(rp-error-on='rpDest', l10n) Not a valid address.
           .form-group
             label(for="contact_dt", l10n) Destination tag
             input.form-control.dt#contact_dt(
               name='dt', type='text', step='any', class="inline"
-              l10n-placeholder="Leave blank if not applicable"
+              placeholder="Leave blank if not applicable"
               ng-model='editdt'
               rp-stdt
-              rp-unique='userBlob.data.contacts'
-              rp-unique-field='dt'
-              rp-unique-orig='entry.dt'
-              rp-unique-group='address-dt'
+              rp-autofill='$routeParams.dt'
               ng-enter="update($index)")
             .errorGroup(rp-errors='dt')
-              .error(rp-error-on='rpUnique', l10n) You already have a contact with the same Ripple address and/or the same Destination tag.
               .error(rp-error-on='rpStdt', l10n) Invalid destination tag.
+          .row
+            .col-xs-6.col-sm-6.col-md-8.col-lg-9
+              rp-confirm(
+                action-text="Are you sure you want to delete this contact?"
+                action-button-text="Delete"
+                action-button-css="btn btn-default btn-danger delete-contact-btn"
+                action-function="remove($index)"
+                cancel-button-css="btn btn-default cancel-btn btn-link"
+                cancel-button-text="Cancel"
+                ng-hide="showPassword==true")
+                  a.danger(href="", l10n) Delete
+            .col-xs-6.col-sm-6.col-md-4.col-lg-3
+              button.save.btn.btn-block.btn-success(
+                ng-disabled="inlineAddress.editaddress.$error.rpUnique"
+                ng-disabled="inlineName.editname.$error.rpUnique"
+                ng-disabled="inlineAddress.editaddress.$error.rpDest"
+                ng-click='update($index)', l10n) Save
 
       div(ng-hide='editing')
-        b.hidden-xs {{entry.address | rpaddressorigin}}: {{entry.view || entry.address}}
-    .col-xs-12.col-sm-3
+        b.hidden-xs {{entry.address | rpaddressorigin}}: {{entry.address}}
+    .col-xs-6.col-sm-3.col-md-3.text-right.pull-right
       .row.padding-vertical-xs
-        .col-xs-6(ng-hide='editing')
-          button.edit.btn.btn-link.btn-default(ng-click='edit($index)', l10n) edit
-        .col-xs-6(ng-hide='editing')
+        .col-xs-4.col-md-4.col-sm-4(ng-hide='editing')
+          button.edit.btn.btn-block.btn-default.btn-sm(ng-click='edit($index)', l10n) Edit
+        .col-xs-4.col-md-4.col-sm-4(ng-show='editing')
+          button.editing.btn-block.btn.btn-default.btn-sm.btn-link(ng-click='cancel($index)', l10n) cancel
+        .col-xs-8.col-md-8.col-sm-8
           button.send.btn.btn-block.btn-primary.btn-sm(ng-click='send($index)', l10n) Send
-        .col-xs-4(ng-show='editing')
-          button.save.btn.btn-block.btn-success(
-            ng-disabled="inlineAddress.editaddress.$error.rpUnique"
-            ng-disabled="inlineName.editname.$error.rpUnique"
-            ng-disabled="inlineAddress.editaddress.$error.rpDest"
-            ng-click='update($index)', l10n) Save
-        .col-xs-4(ng-show='editing')
-          rp-confirm(
-            action-text="Are you sure you want to delete this contact?",
-            action-button-text="Delete",
-            action-button-css="btn btn-default btn-danger",
-            action-function="remove($index)",
-            cancel-button-css="btn btn-link",
-            cancel-button-text="cancel",
-            ng-hide="showPassword==true")
-              button.btn.btn-block.btn-danger(l10n) Delete
-        .col-xs-4(ng-show='editing')
-          button.editing.btn-link.btn.btn-default(ng-click='cancel($index)', l10n) cancel
   div(ng-hide="userBlob.data.contacts.length", l10n) You don't have any contacts yet.
     |  Click on 'Add contact' button in the top right corner to add a new contact.

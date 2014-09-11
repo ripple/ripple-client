@@ -15,17 +15,16 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
             .col-xs-1
             .col-xs-3.col-sm-3.col-md-2
               a(href="", ng-click="editBlob = true", l10n) edit
-          .row(ng-show="editBlob")
-            .col-xs-12.col-sm-8.col-md-5
+          .row.field-edit-row(ng-show="editBlob")
+            .col-xs-9.col-sm-5.col-md-5
               input.form-control.blobIp(
               name='blobIp', id="blobIp", type='text'
               ng-model='options.blobvault')
-            .col-xs-1
-            .col-xs-3.col-sm-3.col-md-2
+            .col-xs-6.col-sm-3.col-md-2
               button.btn.btn-block.btn-success.btn-xs.submit(id = 'saveBlob', type='submit', ng-disabled='blobForm.$invalid', l10n) Save
-            .col-xs-3.col-sm-3.col-md-2
+            .col-xs-3.col-sm-2.col-md-2
               button.btn.btn-block.btn-danger.btn-xs.submit(id="deleteBlob", type="button", ng-click="deleteBlob()", l10n) Delete
-            .col-xs-3.col-sm-3.col-md-2(id="cancel")
+            .col-xs-3.col-sm-1.col-md-2(id="cancel")
               a(href="", ng-click="cancelEditBlob()", l10n) cancel
         form(name="bridgeForm", ng-submit="saveBridge()")
           .descriptor(l10n) Bitcoin bridge
@@ -35,17 +34,16 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
             .col-xs-1
             .col-xs-3.col-sm-3.col-md-2
               a(href="", ng-click="editBridge = true", l10n) edit
-          .row(ng-show="editBridge")
-            .col-xs-12.col-sm-8.col-md-5
+          .row.field-edit-row(ng-show="editBridge")
+            .col-xs-9.col-sm-5.col-md-5
               input.form-control.btcDomain(
               name='btcDomain', id="btcDomain", type='text'
               ng-model='options.bridge.out.bitcoin')
-            .col-xs-1
-            .col-xs-3.col-sm-3.col-md-2
+            .col-xs-6.col-sm-3.col-md-2
               button.btn.btn-block.btn-success.btn-xs.submit(id = 'saveBridge', type='submit', ng-disabled='bridgeForm.$invalid', l10n) Save
-            .col-xs-3.col-sm-3.col-md-2
+            .col-xs-3.col-sm-2.col-md-2
               button.btn.btn-block.btn-danger.btn-xs.submit(id="deleteBridge", type="button", ng-click="deleteBridge()", l10n) Delete
-            .col-xs-3.col-sm-3.col-md-2(id="cancel")
+            .col-xs-3.col-sm-1.col-md-2(id="cancel")
               a(href="", ng-click="cancelEditBridge()", l10n) cancel
         form(name="accountsAdvForm", ng-submit="saveAcctOptions()")
           .descriptor(ng-show="'web' === client", l10n) Trust line
@@ -73,13 +71,13 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
             .col-xs-3.col-sm-3.col-md-2(id="cancel")
               a(href="", ng-click="cancelEditAcctOptions()", l10n) cancel
         h4(id="serverSettings", l10n) Server settings
-        form(ng-controller="ServerRowCtrl", ng-repeat="(index, server) in options.server.servers", ng-submit="save()")
+        form.server-row-form(ng-controller="ServerRowCtrl", ng-repeat="(index, server) in options.server.servers", ng-submit="save()")
           ng-form(name="serverForm")
             .row
-              .websocket.col-xs-6.col-sm-5.col-md-3
+              .col-xs-12
                 .descriptor(l10n) WebSocket host name
               .port.col-xs-6.col-sm-7.col-md-9
-                .descriptor(class="portNumber", l10n) Port number
+                .descriptor.portNumber(l10n) Port number
             .row(ng-show="editing")
               .col-xs-6.col-sm-5.col-md-3
                 input.form-control.host(name='host', type='text', ng-model='server.host', rp-hostname)
@@ -114,6 +112,6 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
                 a(href="", ng-click="editing = true", l10n) edit
 
         .row
-          .col-xs-12.col-sm-8.col-md-3.col-lg-2
+          .col-xs-12.col-sm-6.col-md-4.col-lg-3
             button.btn.btn-block.btn-primary(type="button", id="newServer", ng-click="addServer()", l10n) Add new server
 

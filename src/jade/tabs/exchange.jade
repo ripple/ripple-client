@@ -20,7 +20,7 @@ section.col-xs-12.content(ng-controller="ExchangeCtrl")
     .form-group
       label(for='amount', l10n="Receive (amount)") Receive
       .row.row-padding-small.amount
-        .col-sm-5.col-md-4
+        .col-sm-2.col-md-2.col-xs-3
           input.value.form-control#amount(
           name='amount', type='text'
           ng-model='exchange.amount'
@@ -29,7 +29,7 @@ section.col-xs-12.content(ng-controller="ExchangeCtrl")
           rp-autofill-amount
           rp-amount
           rp-amount-positive)
-        .col-sm-4.col-md-3
+        .col-sm-6.col-md-4.col-xs-9
           input.currency.form-control#amount_currency(
           name='amount_currency', type='text'
           rp-combobox="currency_choices", rp-combobox-select

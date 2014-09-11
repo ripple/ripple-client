@@ -1,6 +1,6 @@
 section.col-xs-12.content(ng-controller="LoginCtrl")
-  .row.auth-form-container.col-sm-offset-2.col-sm-8.col-md-offset-3.col-md-6(ng-hide="$routeParams.tab")
-    .auth-form-wrapper
+  .row.auth-form-container(ng-hide="$routeParams.tab")
+    .auth-form-wrapper.col-xs-12.col-sm-8.col-md-6
       form(name='loginForm', ng-submit='submitForm()')
         h2(l10n) Log In
         .auth-attention.text-center(ng-show="verifyStatus")
@@ -26,6 +26,7 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
             button.btn.btn-block.btn-primary(ng-click="")
               span(l10n) Account Recovery
         a.recover(ng-href="#/recover/{{username}}", ng-hide="showRecover", l10n) Account Recovery
+  .row.switch-mode-wrapper      
     .switch-mode-link-container(l10n) Already have a ripple.com/client account?&#32;
       a(href='#migrate', l10n-inc) Migrate
     .switch-mode-link-container(l10n) New to {{productName}}?&#32;
