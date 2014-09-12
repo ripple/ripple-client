@@ -1,4 +1,4 @@
-section.single.content(ng-controller='SendCtrl')
+section.col-xs-12.content(ng-controller='SendCtrl')
 
   //- Disconnected
 
@@ -265,11 +265,12 @@ section.single.content(ng-controller='SendCtrl')
       p.literal(ng-show="send.secret", l10n) Are you sure?
       p.literal(ng-hide="send.secret", l10n) Please enter your password to confirm this transaction.
       .row.row-padding-small(ng-if="!send.secret")
-        input.form-control#send_unlock_password(
-          name='send_unlock_password', type='password', required
-          ng-model='send.unlock_password')
-          .errorGroup(rp-errors='send_unlock_password')
-            .error(rp-error-on='required', l10n) Password required to unlock wallet
+        .col-xs-6.col-sm-4
+          input.form-control#send_unlock_password(
+            name='send_unlock_password', type='password', required
+            ng-model='send.unlock_password')
+            .errorGroup(rp-errors='send_unlock_password')
+              .error(rp-error-on='required', l10n) Password required to unlock wallet
       .row.row-padding-small
         .col-xs-6.col-sm-4.col-md-3.col-lg-2
           button.btn.btn-block.btn-default.back(

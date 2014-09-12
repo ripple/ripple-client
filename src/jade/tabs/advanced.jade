@@ -1,7 +1,7 @@
 section.col-xs-12.content(ng-controller="AdvancedCtrl")
-  .row
-    div(ng-show="'web' === client && !loadingAccount && !account.Balance && loadState.account && connected")
-      include banner/unfunded
+  div(ng-show="'web' === client && !loadingAccount && !account.Balance && loadState.account && connected")
+    include banner/unfunded
+  .row(ng-show='connected')
     .col-sm-3
       include settings/navbar
     .col-sm-9.list

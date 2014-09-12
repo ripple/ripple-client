@@ -1,22 +1,22 @@
 section.col-xs-12.content(ng-controller="SecurityCtrl")
-  .row(ng-show='connected')
-    .col-xs-12(ng-hide="isUnlocked")
-      .auth-attention.sessionUnlock
-        h5(l10n) Active Session Timeout
-        .status(l10n) To view or edit your security settings, you must currently have an active session.
-        .row
-          .col-xs-12.col-sm-5
-            form(ng-submit="restoreSession()")
-              label(for="sessionPassword", l10n) Password
-              input.form-control#sessionPassword(type="password",
-              name="sessionPassword", ng-model="sessionPassword", rp-focus)
-              button.btn.btn-primary.btn-block(type="submit", ng-disabled="isConfirming",
-              rp-spinner="{{isConfirming ? 4 : null}}")
-                span(l10n) Restore Session
-      .alert.alert-danger(ng-show="unlockError")
-        span(l10n) Entered password is wrong.
-    div(ng-show="'web' === client && !loadingAccount && !account.Balance && loadState.account && connected")
-      include banner/unfunded
+  .col-xs-12(ng-hide="isUnlocked")
+    .auth-attention.sessionUnlock
+      h5(l10n) Active Session Timeout
+      .status(l10n) To view or edit your security settings, you must currently have an active session.
+      .row
+        .col-xs-12.col-sm-5
+          form(ng-submit="restoreSession()")
+            label(for="sessionPassword", l10n) Password
+            input.form-control#sessionPassword(type="password",
+            name="sessionPassword", ng-model="sessionPassword", rp-focus)
+            button.btn.btn-primary.btn-block(type="submit", ng-disabled="isConfirming",
+            rp-spinner="{{isConfirming ? 4 : null}}")
+              span(l10n) Restore Session
+    .alert.alert-danger(ng-show="unlockError")
+      span(l10n) Entered password is wrong.
+  div(ng-show="'web' === client && !loadingAccount && !account.Balance && loadState.account && connected")
+    include banner/unfunded
+  .row(ng-show='connected')    
     .col-sm-3(ng-show="isUnlocked")
       include settings/navbar
     .col-sm-9.list(ng-show="isUnlocked")

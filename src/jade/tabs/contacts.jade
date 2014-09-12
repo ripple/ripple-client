@@ -7,6 +7,7 @@ section.col-xs-12.content(ng-controller="ContactsCtrl")
     .col-xs-6(ng-show="'desktop' === client", l10n) Ripple address
     .col-xs-3.text-right
       a.btn.btn-success.btn-sm.sign(ng-click='toggle_form()', ng-disabled='addform_visible', l10n) Add contact
+  hr
   .row.head.visible-xs
     .col-xs-12
       a.btn.btn-success.btn-block.btn-sm.sign(ng-click='toggle_form()', ng-disabled='addform_visible', l10n) Add contact
