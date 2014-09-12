@@ -196,7 +196,7 @@ module.directive('rpPopup', ['rpPopup', '$parse', function(popup, $parse) {
 
         // onShow action
         if (attrs.rpPopupOnOpen) {
-          $parse(attrs.rpPopupOnOpen)(scope); 
+          $parse(attrs.rpPopupOnOpen)(scope);
         }
 
         var content = element.find('[rp-popup-content]');
@@ -352,14 +352,23 @@ module.directive('rpAutofill', ['$parse', function($parse) {
               value = value + '.0';
             }
 
+            // Is it an amount?
             var amount = ripple.Amount.from_json(value);
-            if (!amount.is_valid()) return;
-            if (attr.rpAutofillAmount) {
-              value = +amount.to_human({
-                group_sep: false
-              });
-            } else {
-              value = amount.currency().to_json();
+            if (amount.is_valid()) {
+              if (attr.rpAutofillAmount) {
+                value = +amount.to_human({
+                  group_sep: false
+                });
+              } else {
+                value = amount.currency().to_json();
+              }
+            }
+            // Maybe a currency?
+            else {
+              var currency = ripple.Currency.from_json(value);
+              if (!currency.is_valid()) return;
+
+              value = currency.to_json();
             }
           }
 
@@ -528,9 +537,9 @@ module.directive('ngUpload', function() {
 
             // remove iframe
             if (content !== "") // Fixes a bug in Google Chrome that dispose the iframe before content is ready.
-            setTimeout(function() {
-              iframe.remove();
-            }, 250);
+              setTimeout(function() {
+                iframe.remove();
+              }, 250);
 
             //if (options.enableControls == null || !(options.enableControls.length >= 0))
             submitControl.attr('disabled', null);
@@ -545,28 +554,28 @@ module.directive('ngUpload', function() {
         // 2) attach a handler to the controls' click event
         $('.upload-submit', element).click(
 
-        function() {
+          function() {
 
-          addNewDisposableIframe($(this) /* pass the submit control */ );
+            addNewDisposableIframe($(this) /* pass the submit control */ );
 
-          scope.$apply(function() {
-            callbackFn("Please wait...", false /* upload not completed */ );
-          });
+            scope.$apply(function() {
+              callbackFn("Please wait...", false /* upload not completed */ );
+            });
 
-          //console.log(angular.toJson(options));
+            //console.log(angular.toJson(options));
 
-          var enabled = true;
-          if (options.enableControls === null || options.enableControls === undefined || options.enableControls.length >= 0) {
-            // disable the submit control on click
-            $(this).attr('disabled', 'disabled');
-            enabled = false;
-          }
+            var enabled = true;
+            if (options.enableControls === null || options.enableControls === undefined || options.enableControls.length >= 0) {
+              // disable the submit control on click
+              $(this).attr('disabled', 'disabled');
+              enabled = false;
+            }
 
-          $(this).attr('title', (enabled ? '[ENABLED]: ' : '[DISABLED]: ') + 'Uploading, please wait...');
+            $(this).attr('title', (enabled ? '[ENABLED]: ' : '[DISABLED]: ') + 'Uploading, please wait...');
 
-          // submit the form
-          $(element).submit();
-        }).attr('title', 'Click to start upload.');
+            // submit the form
+            $(element).submit();
+          }).attr('title', 'Click to start upload.');
       } else console.log("No callback function found on the ngUpload directive.");
     }
   };

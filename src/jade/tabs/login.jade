@@ -35,30 +35,32 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
     .col-xs-12.col-sm-6.col-md-6
       div.info(ng-show="'send' == $routeParams.tab")
         p.literal {{$routeParams.label}}
-        p(ng-show="$routeParams.amount", l10n) you will send
-        p(ng-hide="$routeParams.amount", l10n) you will send money to the ripple address
+        p(ng-show="$routeParams.amount", l10n) You're sending
+        p(ng-hide="$routeParams.amount", l10n) You're sending money to
         .amount(ng-show="$routeParams.amount")
           span.number {{$routeParams.amount | rpamount:{xrp_human: true} }}
           span.currency {{$routeParams.amount | rpcurrency}}
-        p(ng-show="$routeParams.amount", l10n) To the ripple address
-        .address {{$routeParams.to}}
+        p(ng-show="$routeParams.amount", l10n) to
+        .address {{ $routeParams.to | rpripplename:{tilde:true} }}
       div.info(ng-show="'trust' == $routeParams.tab")
         p.literal {{$routeParams.label}}
-        p(l10n) you will trust
-        .amount(ng-show="$routeParams.amount")
-          span.number {{$routeParams.amount | rpamount:{xrp_human: true, no_interest: true} }}
-          span.currency {{$routeParams.amount | rpcurrency}}
-        p(ng-hide="$routeParams.name", l10n) To ripple address
-        p(ng-show="$routeParams.name", l10n) To
-          b  {{$routeParams.name}}
-          |  with a ripple address
-        .address {{$routeParams.to}}
+        p(l10n) You're connecting to the gateway
+        .address {{ $routeParams.to | rpripplename:{tilde:true} }}
+        div(ng-show="$routeParams.currency")
+          p(l10n) for
+          .amount
+            span.currency {{$routeParams.currency}}
+        div(ng-show="$routeParams.amount")
+          p(l10n) with a limit of
+          .amount
+            span.currency {{$routeParams.amount | rpamount}} {{$routeParams.amount | rpcurrency}}
+
       div.info(ng-show="'contacts' == $routeParams.tab")
         p.literal {{$routeParams.label}}
         span(l10n)
-          p(l10n-inc) you will add the user
-          .address {{$routeParams.to}}
-          p(l10n-inc) To your ripple contacts
+          p(l10n-inc) You're adding
+          .address {{ $routeParams.to | rpripplename:{tilde:true} }}
+          p(l10n-inc) to your contacts list
 
     .col-xs-12.col-sm-6.col-md-5.col-lg-4.col-lg-offset-1
       form(name='loginForm', ng-submit='submitForm()')

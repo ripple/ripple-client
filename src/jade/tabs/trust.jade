@@ -105,7 +105,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                     .col-md-7
                       input.form-control.currency-field#trust_amount_currency(name='trust_amount_currency', type='text'
                         ng-model='currency', rp-combobox="currency_query", rp-combobox-select
-                        rp-autofill='$routeParams.amount'
+                        rp-autofill='$routeParams.currency || $routeParams.amount'
                         rp-autofill-currency
                         rp-autofill-on='addform_visible = true'
                         rp-not-xrp
@@ -114,7 +114,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                     .col-md-7
                       input.form-control.currency-field#trust_amount_currency(name='trust_amount_currency', type='text'
                         ng-model='currency', rp-combobox="currency_query", rp-combobox-select
-                        rp-autofill='$routeParams.amount'
+                        rp-autofill='$routeParams.currency || $routeParams.amount'
                         rp-autofill-currency
                         rp-autofill-on='addform_visible = true'
                         rp-not-xrp
