@@ -15,20 +15,29 @@ section.col-xs-12.content(ng-controller="SecurityCtrl")
                 span(l10n) Restore Session
       .alert.alert-danger(ng-show="unlockError")
         span(l10n) Entered password is wrong.
-    div(ng-show="'web' === client && !loadingAccount && !account.Balance && loadState.account && connected")
+    div.col-xs-12(ng-show="'web' === client && !loadingAccount && !account.Balance && loadState.account && connected")
       include banner/unfunded
+    .col-sm-12.error-wrapper
+      .alert.alert-danger(ng-show="error", ng-switch on="error")
+        span(ng-switch-when="wrongpassword", l10n)
+          | Entered password is wrong.
+        span(ng-switch-when="cantlogin", l10n)
+          | Your Ripple password has been changed, please login again
+        span(ng-switch-default, l10n)
+          | Couldn't change your Ripple password, please try again later.  
+    .col-sm-12.notification-wrapper
+      .alert.alert-warning(ng-show="loading", l10n) Changing your Ripple password...
+      .alert.alert-success(ng-show="success", l10n) Your Ripple password has been changed successfully.
+      .alert.alert-danger(ng-show="errorLoading2FA", l10n) Unable to load Two-factor authentication settings.
+      .alert.alert-danger(ng-show="error2FA", l10n) Error saving Two-factor authentication settings.
+      .alert.alert-danger(ng-show="invalidToken", l10n) The verification code is invalid.
+      .alert.alert-success(ng-show="enableSuccess", l10n) Two-factor authentication has been successfully enabled.
+      .alert.alert-success(ng-show="disableSuccess", l10n) Two-factor authentication has been successfully disabled.  
     .col-sm-3(ng-show="isUnlocked")
       include settings/navbar
     .col-sm-9.list(ng-show="isUnlocked")
       .showSecurity(ng-show="settingsPage == 'security'")
         div(ng-show="'web' === client")
-          .alert.alert-warning(ng-show="loading", l10n) Changing your Ripple password...
-          .alert.alert-success(ng-show="success", l10n) Your Ripple password has been changed successfully.
-          .alert.alert-danger(ng-show="errorLoading2FA", l10n) Unable to load Two-factor authentication settings.
-          .alert.alert-danger(ng-show="error2FA", l10n) Error saving Two-factor authentication settings.
-          .alert.alert-danger(ng-show="invalidToken", l10n) The verification code is invalid.
-          .alert.alert-success(ng-show="enableSuccess", l10n) Two-factor authentication has been successfully enabled.
-          .alert.alert-success(ng-show="disableSuccess", l10n) Two-factor authentication has been successfully disabled.
           h4(l10n) Security settings
           .section
             .descriptor Two-factor authentication
@@ -109,50 +118,43 @@ section.col-xs-12.content(ng-controller="SecurityCtrl")
                 a(href="", ng-click="openFormPassword=!openFormPassword"
                 ng-hide="openFormPassword", l10n) edit
             .row
-              .row
-                .auth-form-container.col-xs-12.col-md-8.col-lg-6
-                  form#renameForm(name="changeForm", ng-show="openFormPassword", ng-submit="changePassword()")
+              
+              .auth-form-container.col-xs-12.col-md-8.col-lg-6
+                form#renameForm(name="changeForm", ng-show="openFormPassword", ng-submit="changePassword()")
+                  .form-group
+                    label(type="password", for='password', l10n) Current password
+                    input.form-control#password(type="password", name="password"
+                    rp-focus, ng-model="password", required)
+                  .form-group(ng-class="{'field-error': 'weak' === strength || 'match' === strength}")
+                    label(for='change_password', l10n) New password
+                    input.form-control(
+                    name='change_password1', type='password', autocomplete="off"
+                    ng-model="password1"
+                    rp-strong-password, required, rp-same-in-set="passwordSet")
+                    p(ng-show="strength=='weak'")
+                      span(l10n) Your password is weak. It does not contain numbers and symbols or it is too short.
+                    p(ng-show="strength=='match'")
+                      span(l10n) Your Ripple name and password cannot match. Please create a new password.
+                  .form-group(ng-class="{'field-error': changeForm.change_password1.$error.rpSameInSet && changeForm.change_password2.$dirty}")
+                    label(for='change_password2', l10n) Confirm password
+                    input.form-control(
+                    name='change_password2', autocomplete="off"
+                    type='password'
+                    ng-model="password2"
+                    required, rp-same-in-set="passwordSet")
+                    p(ng-show="changeForm.change_password1.$error.rpSameInSet && changeForm.change_password2.$dirty")
+                      span(l10n) Passwords do not match
+                  div(ng-show="")
                     .form-group
-                      label(type="password", for='password', l10n) Current password
-                      input.form-control#password(type="password", name="password"
-                      rp-focus, ng-model="password", required)
-                    .alert.alert-danger(ng-show="error", ng-switch on="error")
-                      span(ng-switch-when="wrongpassword", l10n)
-                        | Entered password is wrong.
-                      span(ng-switch-when="cantlogin", l10n)
-                        | Your Ripple password has been changed, please login again
-                      span(ng-switch-default, l10n)
-                        | Couldn't change your Ripple password, please try again later.
-                    .form-group(ng-class="{'field-error': 'weak' === strength || 'match' === strength}")
-                      label(for='change_password', l10n) New password
-                      input.form-control(
-                      name='change_password1', type='password', autocomplete="off"
-                      ng-model="password1"
-                      rp-strong-password, required, rp-same-in-set="passwordSet")
-                      p(ng-show="strength=='weak'")
-                        span(l10n) Your password is weak. It does not contain numbers and symbols or it is too short.
-                      p(ng-show="strength=='match'")
-                        span(l10n) Your Ripple name and password cannot match. Please create a new password.
-                    .form-group(ng-class="{'field-error': changeForm.change_password1.$error.rpSameInSet && changeForm.change_password2.$dirty}")
-                      label(for='change_password2', l10n) Confirm password
-                      input.form-control(
-                      name='change_password2', autocomplete="off"
-                      type='password'
-                      ng-model="password2"
-                      required, rp-same-in-set="passwordSet")
-                      p(ng-show="changeForm.change_password1.$error.rpSameInSet && changeForm.change_password2.$dirty")
-                        span(l10n) Passwords do not match
-                    div(ng-show="")
-                      .form-group
-                        div(class="strength {{strength}}") {{strength}}
-                    .row
-                      .col-xs-12.col-sm-6
-                        button.btn.btn-success.btn-block(type="submit"
-                        ng-disabled="changeForm.$invalid || loading")
-                          span(ng-hide="loading", l10n) Submit
-                          span(ng-show="loading", l10n) Loading...
-                      .col-xs-12.col-sm-6
-                        a.txtbtn(href="", ng-click="openFormPassword=!openFormPassword", l10n) Cancel
+                      div(class="strength {{strength}}") {{strength}}
+                  .row
+                    .col-xs-12.col-sm-6
+                      button.btn.btn-success.btn-block(type="submit"
+                      ng-disabled="changeForm.$invalid || loading")
+                        span(ng-hide="loading", l10n) Submit
+                        span(ng-show="loading", l10n) Loading...
+                    .col-xs-12.col-sm-6
+                      a.txtbtn(href="", ng-click="openFormPassword=!openFormPassword", l10n) Cancel
           .section
             .descriptor(l10n) Secret key
             .row
