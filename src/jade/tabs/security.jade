@@ -66,9 +66,9 @@ section.col-xs-12.content(ng-controller="SecurityCtrl")
                         a(href="https://www.authy.com/terms", target="_blank", l10n-inc)  terms of service.
                       div.modal-buttons
                         button.modal-btn.btn.btn-default.btn-primary.btn-md(ng-click="savePhone()", ng-disabled="savingPhone")
-                          span(l10n) Share
-                        button.modal-btn.btn.btn-default.btn-md(data-dismiss="modal"
-                        ng-hide="savingPhone", l10n) Cancel
+                          span(l10n) Save
+                        button.modal-btn.btn.btn-link.btn-md(data-dismiss="modal"
+                        ng-hide="savingPhone", l10n) cancel
             .row.confirm2FA(ng-hide="!mode2FA || mode2FA === 'verifyPhone'")
               .col-xs-12.col-sm-9
                 .status
@@ -100,7 +100,7 @@ section.col-xs-12.content(ng-controller="SecurityCtrl")
                   rp-spinner="{{isVerifying ? 4 : null}}")
                     span(l10n) Enable
                 .col-xs-5.col-sm-2
-                  a.txtbtn(ng-click="cancel2FA()", l10n) Cancel
+                  a.txtbtn(ng-click="cancel2FA()", l10n) cancel
           .section
             .descriptor(l10n) Ripple password
             .row
@@ -152,7 +152,7 @@ section.col-xs-12.content(ng-controller="SecurityCtrl")
                           span(ng-hide="loading", l10n) Submit
                           span(ng-show="loading", l10n) Loading...
                       .col-xs-12.col-sm-6
-                        a.txtbtn(href="", ng-click="openFormPassword=!openFormPassword", l10n) Cancel
+                        a.txtbtn(href="", ng-click="openFormPassword=!openFormPassword", l10n) cancel
           .section
             .descriptor(l10n) Secret key
             .row

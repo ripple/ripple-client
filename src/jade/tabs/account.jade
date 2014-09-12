@@ -18,7 +18,7 @@ section.col-xs-12.content(ng-controller="AccountCtrl")
             .row
               .col-xs-12.col-sm-3.username ~{{userCredentials.username}}
               .col-xs-12.col-sm-9
-                a(href="", ng-click="openForm=!openForm; success=false"
+                button.edit.btn.btn-link.btn-default(ng-click="openForm=!openForm; success=false"
                   ng-hide="openForm", l10n) edit
               form#renameForm(name="renameForm", ng-show="openForm", ng-submit="rename()")
                 .form-group(id="open_name_change")
@@ -71,7 +71,7 @@ section.col-xs-12.content(ng-controller="AccountCtrl")
                         span(ng-hide="loading", l10n) Submit
                         span(ng-show="loading", l10n) Loading...
                     .col-xs-12.col-sm-6
-                      a.txtbtn(href="", ng-click="openForm=!openForm", l10n) Cancel
+                      a.txtbtn(href="", ng-click="openForm=!openForm", l10n) cancel
 
           .section
             .descriptor(id="address", l10n) Ripple address
