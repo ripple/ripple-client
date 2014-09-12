@@ -1,7 +1,18 @@
 section.col-xs-12.content(ng-controller="AccountCtrl")
   .row(ng-show='connected')
-    div(ng-show="'web' === client && !loadingAccount && !account.Balance && loadState.account && connected")
+    div.col-xs-12(ng-show="'web' === client && !loadingAccount && !account.Balance && loadState.account && connected")
       include banner/unfunded
+    div.col-xs-12  
+      .alert.alert-danger(ng-show="error", ng-switch on="error")
+        span(ng-switch-when="wrongpassword", l10n)
+          | Entered password is wrong.
+        span(ng-switch-when="cantlogin", l10n)
+          | Your Ripple name has been changed. Please login again.
+        span(ng-switch-default, l10n)
+          | Couldn't change your Ripple name, please try again later.
+    div.col-xs-12
+      .alert.alert-warning(ng-show="loading", l10n) Changing your Ripple name...
+      .alert.alert-success(ng-show="success", l10n) Your Ripple name has been changed successfully.      
     .col-sm-3
       .info
         a(href="", ng-click="infoPage = 'public'"
@@ -10,8 +21,7 @@ section.col-xs-12.content(ng-controller="AccountCtrl")
     .col-sm-9.list
       div(ng-show="'web' === client")
         .showPublic(ng-show="infoPage == 'public'")
-          .alert.alert-warning(ng-show="loading", l10n) Changing your Ripple name...
-          .alert.alert-success(ng-show="success", l10n) Your Ripple name has been changed successfully.
+          
           h4(l10n) Account settings
           .section
             .descriptor(l10n) Ripple name
@@ -57,20 +67,13 @@ section.col-xs-12.content(ng-controller="AccountCtrl")
                     label(type="password", for='password', l10n) Current password
                     input.form-control#password(type="password", name="password"
                       ng-model="password", required)
-                  .alert.alert-danger(ng-show="error", ng-switch on="error")
-                    span(ng-switch-when="wrongpassword", l10n)
-                      | Entered password is wrong.
-                    span(ng-switch-when="cantlogin", l10n)
-                      | Your Ripple name has been changed. Please login again.
-                    span(ng-switch-default, l10n)
-                      | Couldn't change your Ripple name, please try again later.
                   .row
                     .col-xs-12.col-sm-6
                       button.btn.btn-success.btn-block(type="submit"
                       ng-disabled="renameForm.$invalid || loading")
                         span(ng-hide="loading", l10n) Submit
                         span(ng-show="loading", l10n) Loading...
-                    .col-xs-12.col-sm-6
+                    .col-xs-12.col-sm-6.text-center
                       a.txtbtn(href="", ng-click="openForm=!openForm", l10n) Cancel
 
           .section

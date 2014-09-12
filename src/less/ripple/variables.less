@@ -16,7 +16,7 @@
 /**
  * Ripple colors
  */
-@black:        #1e1e1e;  // This is for all standard text and anywhere there is a 'black'.
+@black:        #1f1f1e;  // This is for all standard text and anywhere there is a 'black'.
 @darkgray:     #888888;  // Gray text on gray background.
 @midgray:      #ccccca;  // Inactive or faded text. Background for inactive buttons. Border at 1px for all buttons and form elements.
 @lightgray:    #f3f3f3;  // Background for sections in RT. Background for UI form elements.
@@ -65,3 +65,33 @@
 @color-generic2: #999999;
 @color-other: #cccccc;
 
+@notification-border: #cccccb;
+
+@notification-info-background: #d1e0f3;
+@notification-info-text: #1c407a;
+@notification-info-border: @notification-border;
+
+@notification-warning-background: #f3f0c1;
+@notification-warning-text: #686128;
+@notification-warning-border: @notification-border;
+
+@notification-error-background: #ebbaba;
+@notification-error-text: #b0202f;
+@notification-error-border: @notification-border;
+
+@notification-success-background: #b8dca6;
+@notification-success-text: #176934;
+@notification-success-border: @notification-border;
+
+
+@state-danger-bg: @notification-error-background;
+@state-danger-text: @notification-error-text;
+@state-danger-border: @notification-error-border;
+
+@state-warning-bg: @notification-warning-background;
+@state-warning-text: @notification-warning-text;
+@state-warning-border: @notification-warning-border;
+
+@state-success-bg: @notification-success-background;
+@state-success-text: @notification-success-text;
+@state-success-border: @notification-success-border;
