@@ -16,7 +16,7 @@ Questions? Contact us as support@ripple.com.
 
 ### Install Dependencies
 
-Install Node.js, Grunt, and Git if you haven't already.
+Install Node.js, Grunt, Git and Python 2 if you haven't already.
 
 Install bower by running `bower install --allow-root`.
 
@@ -36,6 +36,7 @@ If you want to watch for changes and have the client rebuild for index_debug.htm
 
 Please have a look at our ['Setting Up Local Environment' wiki post](https://github.com/ripple/ripple-client/wiki/Setting-Up-Local-Environment) for more information.
 
+Once building has completed, create a 'ripple.txt' file inside 'build/bundle/web/', you can copy the contents for the file from [here](http://rippletrade.com/ripple.txt).
 
 ## Directory Layout
 
