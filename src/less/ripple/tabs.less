@@ -13,6 +13,12 @@
   margin: 1.4em 0;
 }
 
+.custom-btn {
+  padding-top: 14px;
+  padding-bottom: 14px;
+  font-size: 14px;
+} 
+
 .banner {
   margin: 2% 8.5% 0 8.5%;
   margin-right: 0px;
@@ -26,6 +32,10 @@
 }
 
 #t-register, #t-login, #t-recover, #t-account, #t-migrate {
+  .submit-btn-container {
+    padding: 14px 0;
+    font: 14px;
+  }
 
   .rippleName {
     font-size: 18px;
@@ -246,27 +256,27 @@
   }
   
   .welcome-wrapper {
-	text-align: center;
+  text-align: center;
   }
 
   h3.platform, h4.new {
-	max-width: 700px;
-	margin: auto;
+  max-width: 700px;
+  margin: auto;
   }
 
   h4.new {
-	padding: 25px 0;
-	border-top: 1px solid @midgray;
-	font-weight: 200;
-	font-size: 1.1em;
+  padding: 25px 0;
+  border-top: 1px solid @midgray;
+  font-weight: 200;
+  font-size: 1.1em;
   }
 
   span.currency {
-	font-weight: 500;
+  font-weight: 500;
   }
 
   .xrp-xau {
-	font-size: 1.2em;
+  font-size: 1.2em;
   }
 }
 
@@ -854,12 +864,15 @@
     }
   }
 
+  #divider {
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+
   .head {
     margin-top: 10px;
     margin-bottom: 10px;
-    padding: 0 0 5px;
     font-weight: bold;
-    border-bottom: 1px solid @midgray;
   }
 
   .lines {
@@ -875,8 +888,6 @@
 
   .head {
     margin-bottom: 10px;
-    border-bottom: 1px solid @midgray;
-    padding-bottom: 10px;
     line-height: 30px;
   }
 
@@ -886,6 +897,8 @@
     padding-bottom: 15px;
     margin-top: -10px;
     margin-bottom: 10px;
+    margin-right: 0px;
+    margin-left: 0px;
   }
 
   .contact {
@@ -894,6 +907,8 @@
 
     &.editing {
       background: @lightgray;
+      margin-right: 0px;
+      margin-left: 0px;
     }
 
     @media (max-width: @screen-xs-max) {
@@ -1441,8 +1456,6 @@
 
 #t-security {
 
-  padding: 0px 26px;
-
   .settingPage a {
     display: block;
     padding: 10px;
@@ -1570,11 +1583,15 @@
   #renameForm {
     padding-left: 15px;
   }
+
+
+  .btn-link {
+    padding-top: 0px;
+
+  }
 }
 
 #t-advanced {
-
-  padding: 0px 26px;
 
   .settingPage a {
     display: block;
@@ -2087,8 +2104,7 @@ html.t-trade header nav ul > li.active#nav-advanced > a:after {
   }
 }
 
-#t-fund, #t-trust {
-  padding: 0px 26px;
+#t-fund, #t-xrp, #t-btc, #t-trust {
 
   .currencies a {
     display: block;
@@ -2105,7 +2121,7 @@ html.t-trade header nav ul > li.active#nav-advanced > a:after {
   }
 }
 
-#t-fund {
+#t-fund, #t-xrp, #t-btc {
 
   .currency {
     font-size: 18px;
@@ -2240,8 +2256,6 @@ html.t-trade header nav ul > li.active#nav-advanced > a:after {
 
 #t-account {
 
-  padding: 0px 26px;
-
   .info a {
     display: block;
     padding: 10px;
@@ -2277,6 +2291,10 @@ html.t-trade header nav ul > li.active#nav-advanced > a:after {
     border-top: 1px solid @midgray;
     padding-top: 20px;
     color: @darkgray;
+  }
+
+  .edit {
+    padding-top: 0px;
   }
 
   .username {

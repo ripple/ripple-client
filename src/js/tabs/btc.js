@@ -1,36 +1,29 @@
 var util = require('util'),
     Tab = require('../client/tab').Tab;
 
-var FundTab = function ()
+var BtcTab = function ()
 {
   Tab.call(this);
 };
 
-util.inherits(FundTab, Tab);
+util.inherits(BtcTab, Tab);
 
-FundTab.prototype.tabName = 'fund';
-FundTab.prototype.mainMenu = 'fund';
+BtcTab.prototype.tabName = 'btc';
+BtcTab.prototype.mainMenu = 'fund';
 
-FundTab.prototype.angularDeps = Tab.prototype.angularDeps.concat(['qr']);
+BtcTab.prototype.angularDeps = Tab.prototype.angularDeps.concat(['qr']);
 
-FundTab.prototype.generateHtml = function ()
+BtcTab.prototype.generateHtml = function ()
 {
-  return require('../../jade/tabs/fund.jade')();
+  return require('../../jade/tabs/btc.jade')();
 };
 
-FundTab.prototype.extraRoutes = [
-  { name: '/fund/:currency' }
-];
-
-FundTab.prototype.angular = function (module)
+BtcTab.prototype.angular = function (module)
 {
-  module.controller('FundCtrl', ['$rootScope', 'rpId', 'rpAppManager', 'rpTracker', '$routeParams',
+  module.controller('BtcCtrl', ['$rootScope', 'rpId', 'rpAppManager', 'rpTracker', '$routeParams',
                                      function ($scope, $id, appManager, rpTracker, $routeParams)
   {
-    if (!$routeParams.currency) {
-      $routeParams.currency = 'xrp'
-    }
-
+ 
     $scope.accountLines = {};
     $scope.showComponent = [];
 
@@ -82,4 +75,4 @@ FundTab.prototype.angular = function (module)
   }]);
 };
 
-module.exports = FundTab;
+module.exports = BtcTab;

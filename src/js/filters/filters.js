@@ -247,7 +247,8 @@ module.filter('rpcontactname', ['$rootScope', function ($scope) {
     var contact = webutil.getContact($scope.userBlob.data.contacts, address);
 
     if (!contact) {
-      return "" + address.substring(0,7) + "…";
+      //return "" + address.substring(0,7) + "…";
+      return address;
     }
 
     return contact.name;

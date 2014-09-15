@@ -1,5 +1,5 @@
 .currencies
-  a(href="#/fund/xrp", ng-class="{active: $routeParams.currency == 'xrp'}", l10n) XRP
-  a(href="#/fund/btc", ng-class="{active: $routeParams.currency == 'btc'}", ng-show="'web' === client", l10n) BTC
+  a(href="#/xrp", ng-class="{active: $route.current.tabName == 'xrp'}", l10n) XRP
+  a(href="#/btc", ng-class="{active: $route.current.tabName == 'btc'}", ng-show="'web' === client", l10n) BTC
   a(href="#/trust", ng-class="{active: $route.current.tabName == 'trust'}", l10n) Gateways
 a(href="https://support.ripplelabs.com/hc/en-us/articles/202847686-Gateway-Information", target="_blank", l10n) Learn more about gateways
