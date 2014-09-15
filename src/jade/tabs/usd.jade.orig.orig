@@ -61,6 +61,9 @@ section.col-xs-12.content(ng-controller='UsdCtrl')
             input(type="hidden", name="cancel_url", value="")
             input(type="hidden", name="swift_code", value="{{bank}}")
             button.btn.btn-large(type="submit", class="knox-payments-button") Continue to authorization
+<<<<<<< HEAD
+=======
 
 
 
+>>>>>>> 4509dc62dc48830ea142a5c9b31fd9816b4ba8b7
