@@ -76,7 +76,7 @@ AccountTab.prototype.angular = function(module)
             });
           }
         );
-      };
+      }
 
       var reset = function() {
         $scope.openForm = false;

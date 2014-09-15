@@ -1,0 +1,150 @@
+section.col-xs-12.content(ng-controller='KycCtrl')
+
+  //- Disconnected
+
+  group.disconnected(ng-hide='connected')
+    p.literal(l10n="err-you-must-be-online-to-see-this-screen", l10n)
+      | You have to be online to see this screen
+
+  //- Funding
+  div(ng-show="'web' === client && !loadingAccount && !account.Balance && loadState.account && connected")
+    include banner/unfunded
+
+  group.mode-granted.wide(ng-show='kyc.notif !== "clear"')
+    group(ng-switch on="kyc.notif")          
+      group.pending(ng-switch-when="verifying")
+        h2.tx-status(l10n) Verifying your information. Please wait...
+      group.result-success(ng-switch-when="info_verified")
+        h2.tx-status(l10n) Your identity information has been verified.
+      group.result-success(ng-switch-when="questions_verified")
+        h2.tx-status(l10n) Your identity questions have been verified.
+      group.result-error(ng-switch-when="info_error")
+        h2.tx-status(l10n) We are unable to validate your identity information. Please check your information and try again.
+      group.result-error(ng-switch-when="questions_error")
+        h2.tx-status(l10n) We are unable to validate your identity questions. Please check your answers and try again.
+  group(ng-show="connected && loadState.account")
+    .row
+      h3.text-center(l10n) Profile Completion
+      .row
+        .col-md-4.text-center.steps
+          span(ng-class="{ 'selected': currentStep == 'one' }", l10n) STEP 1: IDENTITY INFORMATION
+        .col-md-4.text-center.steps
+          span(ng-class="{ 'selected': currentStep == 'two' }", l10n) STEP 2: IDENTITY QUESTIONS
+        .col-md-4.text-center.steps
+          span(ng-class="{ 'selected': currentStep == 'three' }", l10n) STEP 3: TWO-FACTOR AUTHENTICATION 
+      hr
+      group(ng-switch on="currentStep")
+        form.row-padding-small(name="identityForm", ng-switch-when="one", ng-submit="saveIdentityInfo()")
+          .col-sm-9
+            .row
+              .col-xs-12.col-sm-6.col-md-3
+                label(for="firstName", l10n) First Name
+                input.form-control.firstName(
+                name='firstName', id='firstName', type='text'
+                ng-model='profile.name.given'
+                required)
+              .col-xs-12.col-sm-6.col-md-3
+                label(for="lastName", l10n) Last Name
+                input.form-control.lastName(
+                name='lastName', id='lastName', type='text'
+                ng-model='profile.name.family'
+                required)
+            .row
+              .col-xs-12.col-sm-6.col-md-6
+                label(for="address", l10n) Street Address
+                br
+                input.form-control.address1(
+                name='address1', id='address1', type='text'
+                ng-model='profile.address.line1'
+                required)
+            .row
+              .col-xs-12.col-sm-6.col-md-6
+                label(for="city", l10n) City
+                input.form-control.city(
+                name='city', id='city', type='text'
+                ng-model='profile.address.locality', ng-pattern='validation_pattern_city'
+                required)
+            .row
+              .col-xs-12.col-sm-6.col-md-6
+                label(for="state", l10n) State
+                input.form-control.state(
+                name='state', id='state', type='text'
+                ng-model='profile.address.region', ng-pattern='validation_pattern_state'
+                required)
+            .row
+              .col-xs-12.col-sm-6.col-md-6
+                label(for="zip", l10n) ZIP
+                input.form-control.zip(
+                name='zip', id='zip', type='text'
+                ng-model='profile.address.postal_code', ng-pattern='validation_pattern_zip'
+                required)
+            .row
+              .col-xs-12.col-sm-6.col-md-6
+                label(l10n) Date of Birth
+                br
+            .row
+              .col-xs-12.col-sm-6.col-md-2
+                label(for="month", l10n) Month
+                  input.form-control.line1(
+                  name='month', id="month", type='text', rp-combobox="months", rp-combobox-select,
+                  ng-model='profile.birthdate.month', ng-pattern='validation_pattern_month'
+                  required)
+              .col-xs-12.col-sm-6.col-md-2
+                label(for="date", l10n) Day
+                  input.form-control.line1(
+                  name='date', id="date", type='text', rp-combobox="dates", rp-combobox-select,
+                  ng-model='profile.birthdate.date', ng-pattern='validation_pattern_date'
+                  required)
+              .col-xs-12.col-sm-6.col-md-2
+                label(for="year", l10n) Year
+                  input.form-control.line1(
+                  name='year', id="year", type='text', rp-combobox="years", rp-combobox-select,
+                  ng-model='profile.birthdate.year', ng-pattern='validation_pattern_year'
+                  required)
+            .row
+              .col-xs-12.col-sm-6.col-md-6
+                label(for="ssn", l10n) Last 4 digits of Social Security Number
+                input.form-control.ssn(
+                name='ssn', id='ssn', type='ssn'
+                ng-model='profile.ssn_last_4', ng-pattern='validation_pattern_sss'
+                required)
+            .row
+              .col-xs-5
+                button.btn.btn-block.btn-primary.submit(type='submit', ng-disabled='identityForm.$invalid', l10n) Continue to identity questions
+              .col-xs-5
+                a(href='#/fund', l10n) Cancel
+        form.row-padding-small(name="questionsForm", ng-switch-when="two", ng-submit="saveQuestions()")
+          .row
+            .col-xs-4 
+              div.question(ng-repeat="q in questions", l10n) {{ q.question }}
+                div(ng-repeat="a in q.answers")
+                  input(
+                  name='q{{ q.id }}', id="q{{ q.id }}a{{ a.id }}", value="{{ a.id }}", type='radio',
+                  ng-model='q.answerId', required)
+                  label.answer(for="q{{ q.id }}a{{ a.id }}", l10n)  {{ a.answer }}
+          .row
+            .col-xs-5
+              button.btn.btn-block.btn-primary.submit(type='submit', l10n) Continue to two-factor authentication
+            .col-xs-5
+              a(href='#/fund', l10n) Cancel
+        group(ng-switch-when="three")
+          .row.twoFAInfo
+            .col-xs-1
+              i.fa.fa-lock.fa-3x
+            .col-xs-4
+              span.two-factor-desc(l10n) Two-factor authentication provides extra security for your account.
+          .row
+            .col-xs-12.col-sm-6.col-md-4
+              .form-group.authy-control
+                label(l10n) Country Code
+                input.authy-countries.form-control(ng-model="countryCode")
+          .row
+            .col-xs-12.col-sm-6.col-md-4
+              .form-group.authy-control
+                label(l10n) Phone Number
+                input.form-control(name="phoneNumber", ng-model="phoneNumber")
+          .row
+            .col-xs-5
+              button.btn.btn-block.btn-primary.submit(type='submit', ng-disabled='identityForm.$invalid', l10n) Verify phone number
+            .col-xs-5
+              a(href='#/fund', l10n) Cancel

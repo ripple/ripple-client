@@ -1,87 +1,10 @@
 .col-sm-9.list
   form.row-padding-small(name="kycForm", ng-show="editForm = true", ng-submit="save()")
-    h4(l10n) Identity Information
+    h4(l10n) Profile Information
     hr
     .row
-      .col-xs-12.col-sm-6.col-md-3
-        label(for="firstName", l10n) First Name
-        input.form-control.firstName(
-        name='firstName', id='firstName', type='text'
-        ng-model='profile.name.first'
-        required)
-      .col-xs-12.col-sm-6.col-md-3
-        label(for="lastName", l10n) Last Name
-        input.form-control.lastName(
-        name='lastName', id='lastName', type='text'
-        ng-model='profile.name.last'
-        required)
+      .col-lg-4
+        .description(l10n) Identity Information
     .row
-      .col-xs-12.col-sm-6.col-md-6
-        label(l10n) Date of Birth
-        br
-    .row
-      .col-xs-12.col-sm-6.col-md-2
-        label(for="day", l10n) Day
-          input.form-control.line1(
-          name='day', id="day", type='text'
-          rp-combobox="days", rp-combobox-select
-          ng-model='profile.birthday.day', ng-pattern='validation_pattern_day'
-          required)
-      .col-xs-12.col-sm-6.col-md-2
-        label(for="month", l10n) Month
-          input.form-control.line1(
-          name='month', id="month", type='text'
-          rp-combobox="months", rp-combobox-select
-          ng-model='profile.birthday.month'
-          required)
-      .col-xs-12.col-sm-6.col-md-2
-        label(for="year", l10n) Year
-          input.form-control.line1(
-          name='year', id="year", type='text'
-          rp-combobox="years", rp-combobox-select
-          ng-model='profile.birthday.year', ng-pattern='validation_pattern_year'
-          required)
-    .row
-      .col-xs-12.col-sm-6.col-md-6
-        label(l10n) Street Address
-        br
-        input.form-control.address1(
-        name='address1', id='address1', type='text'
-        ng-model='profile.address.line1'
-        required)
-    .row
-      .col-xs-12.col-sm-6.col-md-6
-        input.form-control.address2(
-        name='address2', id='address2', type='text'
-        ng-model='profile.address.line2')
-    .row
-      .col-xs-12.col-sm-6.col-md-6
-        label(for="city", l10n) City
-        input.form-control.city(
-        name='city', id='city', type='text'
-        ng-model='profile.address.city', ng-pattern='validation_pattern_city'
-        required)
-    .row
-      .col-xs-12.col-sm-6.col-md-6
-        label(for="state", l10n) State
-        input.form-control.state(
-        name='state', id='state', type='text'
-        ng-model='profile.address.state', ng-pattern='validation_pattern_state'
-        required)
-    .row
-      .col-xs-12.col-sm-6.col-md-6
-        label(for="zip", l10n) ZIP
-        input.form-control.zip(
-        name='zip', id='zip', type='text'
-        ng-model='profile.address.zip', ng-pattern='validation_pattern_zip'
-        required)
-    .row
-      .col-xs-12.col-sm-6.col-md-6
-        label(for="ssn", l10n) Last 4 digits of Social Security Number
-        input.form-control.ssn(
-        name='ssn', id='ssn', type='ssn'
-        ng-model='profile.ssn', ng-pattern='validation_pattern_sss'
-        required)
-    .row
-      .col-xs-9.col-sm-6.col-md-3
-        button.btn.btn-block.btn-primary.submit(type='submit', ng-disabled='kycForm.$invalid', l10n) Save
+      .col-lg-4
+        .description(l10n) Identity Questions
