@@ -82,6 +82,7 @@ var tabdefs = [
   require('../tabs/trade'),
   require('../tabs/advanced'),
   require('../tabs/security'),
+  require('../tabs/kyc'),
   require('../tabs/tx'),
   require('../tabs/xrp'),
   require('../tabs/btc'),  
