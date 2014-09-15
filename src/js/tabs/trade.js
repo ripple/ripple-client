@@ -41,6 +41,8 @@ TradeTab.prototype.angular = function(module)
 
     $scope.pairs_query = $scope.pairs_all;
 
+    var currencyPairChangedByNonUser = false;
+
     var widget = {
       first: '',
       price: '',
@@ -172,6 +174,7 @@ TradeTab.prototype.angular = function(module)
       if (!this.entry) return;
       var entry = this.entry;
       var order = $scope.order;
+      currencyPairChangedByNonUser = true;
       order['first_currency'] = this.entry.first.currency().to_json();
       order['first_issuer'] = this.entry.first.issuer().to_json();
       order['second_currency'] = this.entry.second.currency().to_json();
@@ -444,6 +447,7 @@ TradeTab.prototype.angular = function(module)
       var currency = order['first_currency'];
       var issuer = order['first_issuer'];
       var pair = order['currency_pair'].split('/');
+      currencyPairChangedByNonUser = true;
       order['first_currency'] = order['second_currency'];
       order['first_issuer'] = order['second_issuer'];
       order['second_currency'] = currency;
@@ -730,6 +734,10 @@ TradeTab.prototype.angular = function(module)
     });
 
     $scope.$watch('order.currency_pair', function (pair) {
+      if (currencyPairChangedByNonUser) {
+        currencyPairChangedByNonUser = false;
+        return;
+      }
       if (!store.disabled) {
         store.set('ripple_trade_currency_pair', pair);
       }
