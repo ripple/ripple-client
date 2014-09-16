@@ -1,5 +1,6 @@
 .currencies
   a(href="#/xrp", ng-class="{active: $route.current.tabName == 'xrp'}", l10n) XRP
   a(href="#/btc", ng-class="{active: $route.current.tabName == 'btc'}", ng-show="'web' === client", l10n) BTC
+  a(href="#/usd", ng-class="{active: $route.current.tabName == 'usd'}", l10n) USD (US only)
   a(href="#/trust", ng-class="{active: $route.current.tabName == 'trust'}", l10n) Gateways
 a(href="https://support.ripplelabs.com/hc/en-us/articles/202847686-Gateway-Information", target="_blank", l10n) Learn more about gateways
