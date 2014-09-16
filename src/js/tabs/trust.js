@@ -201,6 +201,9 @@ TrustTab.prototype.angular = function (module)
       var amount = $scope.amount_feedback.to_json();
       var tx = $network.remote.transaction();
 
+      // Add memo to tx
+      tx.addMemo('client', 'rt' + $('#version').html());
+
       $scope.toggle_form();
 
       // Flags
@@ -438,6 +441,10 @@ TrustTab.prototype.angular = function (module)
 
         var nullifyTrustLine = function(idAccount, lineCurrency, lineAccount) {
           var tx = $network.remote.transaction();
+
+          // Add memo to tx
+          tx.addMemo('client', 'rt' + $('#version').html());
+
           tx.trustSet(idAccount, '0' + '/' + lineCurrency + '/' + lineAccount);
           tx.setFlags('ClearNoRipple');
 
@@ -452,6 +459,10 @@ TrustTab.prototype.angular = function (module)
 
           var sendBalanceToSelf = function() {
             var tx = $network.remote.transaction();
+
+            // Add memo to tx
+            tx.addMemo('client', 'rt' + $('#version').html());
+
             var payment = tx.payment(selfAddress, selfAddress, '100000000000');
 
             payment.setFlags('PartialPayment');
@@ -462,6 +473,9 @@ TrustTab.prototype.angular = function (module)
 
           var sendBalanceToIssuer = function() {
             var tx = $network.remote.transaction();
+
+            // Add memo to tx
+            tx.addMemo('client', 'rt' + $('#version').html());
 
             var amount = amountObject.clone();
             var newAmount = amount.set_issuer(issuerAddress);
@@ -478,7 +492,6 @@ TrustTab.prototype.angular = function (module)
         }
 
         // $scope.counterparty inside the clearBalance callback function does not have counterparty in its scope, therefore, we need an immediate function to capture it.
-        console.log('$scope.trust.balance is: ', $scope.trust.balance);
 
         if ($scope.trust.balance !== '0') {
           (function (counterparty) {
@@ -542,6 +555,9 @@ TrustTab.prototype.angular = function (module)
         }
 
         var tx = $network.remote.transaction();
+
+        // Add memo to tx
+        tx.addMemo('client', 'rt' + $('#version').html());
 
         // Flags
         tx

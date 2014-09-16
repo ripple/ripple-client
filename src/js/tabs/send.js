@@ -932,6 +932,9 @@ SendTab.prototype.angular = function (module)
         tx.source_tag($scope.send.st);
       }
 
+      // Add memo to tx
+      tx.addMemo('client', 'rt' + $('#version').html());
+
       if (send.secret) {
         tx.secret(send.secret);
       } else {
