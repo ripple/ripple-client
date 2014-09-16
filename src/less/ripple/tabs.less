@@ -43,8 +43,7 @@
 
   .auth-form-container {
     font-family: OpenSansRegular;
-    padding-bottom: 50px;
-
+    padding: 0 45px;
     h2 {
       margin: 10px 0 30px 0;
       padding: 0 0 30px;
@@ -57,7 +56,8 @@
       padding: 15px 20px;
       border: 1px solid @midgray;
       margin-bottom: 5px;
-
+      margin: 0 auto 10px;
+      float: none;
       label {
         font-weight: 400;
         margin-bottom: 3px;
@@ -66,6 +66,7 @@
         margin-bottom: 15px;
         font-size: 13px;
       }
+      
     }
     .form-group {
       p.error-text {
@@ -192,6 +193,11 @@
       }
     }
   }
+
+  .switch-mode-wrapper {
+    text-align: center;
+    font-family: OpenSansRegular;
+  }
   &.recover-form-container {
     padding-top: 50px;
   }
@@ -229,9 +235,31 @@
   .storeChange {
     display: block;
   }
+  .auth-form-wrapper {
+    
+        .submit-btn-container {
+          width: 40%;
+        }
+       
+        @media (max-width: @screen-sm-max) {
+          .submit-btn-container {
+            width: 50%;
+          }
+        }
+        @media (max-width: @screen-xs-max) {
+          .submit-btn-container {
+            width: 100%;
+          }
+        }
+      
+  }
 }
 
 #t-register {
+  .auth-form-container {
+    padding: inherit;
+    padding-bottom: 50px;
+  }
   .register_masterkey {
     position: relative;
     
@@ -271,6 +299,19 @@
 }
 
 #t-login {
+
+  .content {
+    padding-bottom: 50px;
+  }
+  @media (max-width: @screen-xs-max) {
+    .content {
+      padding-top: 0;
+      .auth-form-container {
+        padding: 15px; 
+        padding-bottom: 0;
+      }
+    }
+  }
   .text-status {
     .backend {
       font-size: 12px;
@@ -882,7 +923,12 @@
   .contact {
     padding-top: 10px;
     padding-bottom: 10px;
-
+    .edit-contact-btn-wrapper {
+      div {
+        float: inherit;
+        display: inline-block;
+      }
+    }
     &.editing {
       background: @lightgray;
     }

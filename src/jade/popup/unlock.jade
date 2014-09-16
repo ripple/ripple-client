@@ -12,5 +12,6 @@ form(role="form", ng-submit="confirm()")
     .alert.alert-danger(ng-show="unlock.error == 'password'", l10n) This password is incorrect, please try again.
     p.literal(ng-show="unlock.isConfirming", rp-spinner="4", l10n) Confirming password
   .modal-footer
-    button.btn.btn-default(type="button", ng-click="cancel()", l10n) Close
-    button.btn.btn-primary(type="submit", ng-disabled="isConfirming", l10n) Submit
+    .unlock-btns-wrapper
+      button.btn.btn-default(type="button", ng-click="cancel()", l10n) Close
+      button.btn.btn-primary(type="submit", ng-disabled="isConfirming", l10n) Submit
