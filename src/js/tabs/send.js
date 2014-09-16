@@ -662,6 +662,7 @@ SendTab.prototype.angular = function (module)
                                          recipient,
                                          amount,
                                          $scope.generate_src_currencies());
+      var isIssuer = $scope.generate_issuer_currencies();
 
       send.pathfind = pf;
 
@@ -690,10 +691,11 @@ SendTab.prototype.angular = function (module)
             $scope.send.path_status  = "no-path";
             $scope.send.alternatives = [];
           } else {
-            var currentKey;
             var currencies = {};
+            var currentAlternatives = [];
+
             $scope.send.path_status  = "done";
-            $scope.send.alternatives = _.filter(_.map(upd.alternatives, function (raw,key) {
+            $scope.send.alternatives = _.map(upd.alternatives, function (raw,key) {
               var alt = {};
 
               alt.amount   = Amount.from_json(raw.source_amount);
@@ -714,25 +716,25 @@ SendTab.prototype.angular = function (module)
               // Selected currency should be the first option
               if (raw.source_amount.currency) {
                 if (raw.source_amount.currency === $scope.send.currency_code)
-                  currentKey = key;
+                  currentAlternatives.push(alt);
               } else if ($scope.send.currency_code === 'XRP') {
-                currentKey = key;
+                currentAlternatives.push(alt);
               }
 
-              if (alt.amount.issuer().to_json() != $scope.address) {
+              if (alt.amount.issuer().to_json() != $scope.address && !isIssuer[alt.amount.currency().to_hex()]) {
                 currencies[alt.amount.currency().to_hex()] = true
               }
 
               return alt;
-            }), function(alt) {
+            }).filter(function(alt) { return currentAlternatives.indexOf(alt) == -1; });
+            Array.prototype.unshift.apply($scope.send.alternatives, currentAlternatives);
+
+            $scope.send.alternatives = $scope.send.alternatives.filter(function(alt) {
               if (currencies[alt.amount.currency().to_hex()]) {
                 return alt.amount.issuer().to_json() != $scope.address;
               }
               return true;
             });
-
-            if (currentKey)
-              $scope.send.alternatives.splice(0, 0, $scope.send.alternatives.splice(currentKey, 1)[0]);
           }
 
           if (!tracked) {
