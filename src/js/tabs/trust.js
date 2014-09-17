@@ -202,7 +202,7 @@ TrustTab.prototype.angular = function (module)
       var tx = $network.remote.transaction();
 
       // Add memo to tx
-      tx.addMemo('client', 'rt' + $('#version').html());
+      tx.addMemo('client', 'rt' + $rootScope.version);
 
       $scope.toggle_form();
 
@@ -443,7 +443,7 @@ TrustTab.prototype.angular = function (module)
           var tx = $network.remote.transaction();
 
           // Add memo to tx
-          tx.addMemo('client', 'rt' + $('#version').html());
+          tx.addMemo('client', 'rt' + $rootScope.version);
 
           tx.trustSet(idAccount, '0' + '/' + lineCurrency + '/' + lineAccount);
           tx.setFlags('ClearNoRipple');
@@ -461,7 +461,7 @@ TrustTab.prototype.angular = function (module)
             var tx = $network.remote.transaction();
 
             // Add memo to tx
-            tx.addMemo('client', 'rt' + $('#version').html());
+            tx.addMemo('client', 'rt' + $rootScope.version);
 
             var payment = tx.payment(selfAddress, selfAddress, '100000000000');
 
@@ -475,7 +475,7 @@ TrustTab.prototype.angular = function (module)
             var tx = $network.remote.transaction();
 
             // Add memo to tx
-            tx.addMemo('client', 'rt' + $('#version').html());
+            tx.addMemo('client', 'rt' + $rootScope.version);
 
             var amount = amountObject.clone();
             var newAmount = amount.set_issuer(issuerAddress);
@@ -557,7 +557,7 @@ TrustTab.prototype.angular = function (module)
         var tx = $network.remote.transaction();
 
         // Add memo to tx
-        tx.addMemo('client', 'rt' + $('#version').html());
+        tx.addMemo('client', 'rt' + $rootScope.version);
 
         // Flags
         tx

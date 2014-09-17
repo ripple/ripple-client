@@ -933,7 +933,7 @@ SendTab.prototype.angular = function (module)
       }
 
       // Add memo to tx
-      tx.addMemo('client', 'rt' + $('#version').html());
+      tx.addMemo('client', 'rt' + $rootScope.version);
 
       if (send.secret) {
         tx.secret(send.secret);
