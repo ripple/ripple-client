@@ -95,7 +95,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                   label(for='trust_amount', ng-show="advanced_feature_switch", l10n) Amount
                   label(for='trust_amount', ng-hide="advanced_feature_switch", l10n) Currency
                   .row(ng-show="advanced_feature_switch")
-                    .col-md-5
+                    .col-md-5(ng-init="amount = $routeParams.amount ? '' : 1000000000")
                       input.form-control.value#trust_amount(name='trust_amount'
                         type='number', step='any', ng-model='amount'
                         ng-pattern='validation_pattern'
