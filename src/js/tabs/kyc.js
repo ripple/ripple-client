@@ -22,7 +22,7 @@ KycTab.prototype.angular = function(module)
     function ($scope, $id, keychain, authflow, $timeout)
     {
       if (!$id.loginStatus) return $id.goId();
-      if (!$scope.currentStep) $scope.currentStep = 'three';
+      if (!$scope.currentStep) $scope.currentStep = 'one';
       if (!$scope.blockscoreError) $scope.blockscoreError = false;
       if (!$scope.profile) $scope.profile = {};
       if (!$scope.kyc) $scope.kyc = {};
@@ -117,7 +117,7 @@ KycTab.prototype.angular = function(module)
           }
         }
 
-        authflow.createAttestation(options, function(err, res) {
+        authflow.updateAttestation(options, function(err, res) {
 
           console.log('profile being submitted: ', options.profile);
 
@@ -138,7 +138,7 @@ KycTab.prototype.angular = function(module)
             options.type = 'identity';
 
             // Retrieve questions from BlockScore after successfully identifying user
-            authflow.createAttestation(options, function(err, res) {
+            authflow.updateAttestation(options, function(err, res) {
               if (err) {
                 console.log("Error in retrieving questions: ", err);
                 $scope.blockscoreError = true;
@@ -180,7 +180,7 @@ KycTab.prototype.angular = function(module)
         });
 
 
-        authflow.createAttestation(options, function(err, res) {
+        authflow.updateAttestation(options, function(err, res) {
 
           console.log('answers being submitted: ', options.answers);
 

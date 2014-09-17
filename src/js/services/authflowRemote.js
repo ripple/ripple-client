@@ -212,10 +212,10 @@ module.factory('rpAuthFlow', ['$rootScope',
     });  
   }
 
-  AuthFlow.createAttestation = function (options, callback) {
+  AuthFlow.updateAttestation = function (options, callback) {
     var meta = AuthFlow.getVaultClient('');
 
-    meta.client.attestation(options, function(err, resp) {
+    meta.client.updateAttestation(options, function(err, resp) {
       $scope.$apply(function() {
         if (err) {
           console.log('Error: ', err);
@@ -224,7 +224,41 @@ module.factory('rpAuthFlow', ['$rootScope',
 
         callback(err, resp);
 
-        console.log('Response in AuthFlow.createAttestation is : ', resp);
+        console.log('Response in AuthFlow.updateAttestation is : ', resp);
+      })
+    })
+  }
+
+  AuthFlow.getAttestation = function(options, callback) {
+    var meta = AuthFlow.getVaultClient('');
+
+    meta.client.getAttestation(options, function(err, resp) {
+      $scope.$apply(function() {
+        if (err) {
+          console.log('Error: ', err);
+          return;
+        }
+
+        callback(err, resp);
+
+        console.log('Response in AuthFlow.getAttestation is : ', resp);
+      })
+    })
+  }
+
+  AuthFlow.getAttestationSummary = function(options, callback) {
+    var meta = AuthFlow.getVaultClient('');
+
+    meta.client.getAttestationSummary(options, function(err, resp) {
+      $scope.$apply(function() {
+        if (err) {
+          console.log('Error: ', err);
+          return;
+        }
+
+        callback(err, resp);
+
+        console.log('Response in AuthFlow.getAttestationSummary is : ', resp);
       })
     })
   }
