@@ -18,9 +18,11 @@ TxTab.prototype.generateHtml = function ()
 
 TxTab.prototype.angular = function (module)
 {
-  module.controller('TxCtrl', ['$scope', 'rpNetwork', '$routeParams',
-                               function ($scope, net, $routeParams)
+  module.controller('TxCtrl', ['$scope', 'rpNetwork', '$routeParams', 'rpId',
+                               function ($scope, net, $routeParams, $id)
   {
+    if (!$id.loginStatus) return $id.goId();
+
     $scope.state = 'loading';
     $scope.transaction = {
       hash: $routeParams.id
