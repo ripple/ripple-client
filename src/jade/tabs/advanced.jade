@@ -76,8 +76,10 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
         form(ng-controller="ServerRowCtrl", ng-repeat="(index, server) in options.server.servers", ng-submit="save()")
           ng-form(name="serverForm")
             .row
-              .col-xs-12
+              .col-xs-6.col-sm-5.col-md-3(id="websocket")
                 .descriptor(l10n) WebSocket host name
+              .col-xs-6.col-sm-7.col-md-9(id="port")
+                .descriptor(id="portNumber", l10n) Port number
             .row(ng-show="editing")
               .col-xs-6.col-sm-5.col-md-3
                 input.form-control.host(name='host', type='text', ng-model='server.host', rp-hostname)
@@ -108,7 +110,7 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
               .col-xs-1(id="secureSocket")
                 .description(ng-show="server.secure", l10n) Secure
                 .description(ng-hide="server.secure", l10n) Not Secure
-              .col-xs-2
+              .col-xs-2(id="editButton")
                 a(href="", ng-click="editing = true", l10n) edit
 
         .row
