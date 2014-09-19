@@ -188,6 +188,9 @@ section.col-xs-12.content(ng-controller='SendCtrl')
         | You cannot send {{send.amount}} {{send.currency}} to
         |  {{send.recipient}}. Either your account has insufficient funds,
         |  or {{send.recipient}} doesn't accept {{send.currency}}.
+      p.literal(ng-show="send.path_status == 'no-path' && send.currency_code == 'XRP'", l10n)
+        | You cannot send {{send.amount}} {{send.currency}} to
+        |  {{send.recipient}}. Your account has insufficient funds.
       p.literal(ng-show="send.path_status == 'error-no-currency'", l10n)
         | There are no valid currency choices for this destination.
       p.literal(ng-show="send.path_status == 'error-quote'", l10n)
