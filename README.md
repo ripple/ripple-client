@@ -32,11 +32,11 @@ Run 'grunt' in your command line to build the client.
 
 Your web client is in the 'build/bundle/web/' directory. Use 'index_debug.html' for development.
 
-If you want to watch for changes and have the client rebuild for index_debug.html, run 'grunt watch' while you make changes:
+If you want to watch for changes and have the client rebuild for index_debug.html, run 'grunt watch' while you make changes.
 
-Please have a look at our ['Setting Up Local Environment' wiki post](https://github.com/ripple/ripple-client/wiki/Setting-Up-Local-Environment) for more information.
+A web server is needed to serve the built files. Please have a look at our ['Setting Up Local Environment' wiki post](https://github.com/ripple/ripple-client/wiki/Setting-Up-Local-Environment) for more information.
 
-Once building has completed, create a 'ripple.txt' file inside 'build/bundle/web/', you can copy the contents for the file from [here](https://www.ripple.com/ripple.txt).
+After the first successful build, create a ['ripple.txt'](https://wiki.ripple.com/Ripple.txt) file inside 'build/bundle/web/'. You can copy the contents for the file from [here](https://www.ripple.com/ripple.txt).
 
 ## Directory Layout
 
