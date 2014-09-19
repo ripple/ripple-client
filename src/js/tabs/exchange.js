@@ -50,7 +50,9 @@ ExchangeTab.prototype.angular = function (module)
         var currency = Currency.from_human($scope.exchange.currency_name ? $scope.exchange.currency_name : "XRP");
         exchange.currency_obj = currency;
         exchange.currency_code = currency.get_iso();
-        exchange.currency_name = currency.to_human({full_name:$scope.currencies_all_keyed[currency.get_iso()].name});
+        exchange.currency_name = currency.to_human({
+          full_name: $scope.currencies_all_keyed[currency.get_iso()] ? $scope.currencies_all_keyed[currency.get_iso()].name : null
+        });
         $scope.update_exchange();
       }, true);
 
@@ -126,6 +128,7 @@ ExchangeTab.prototype.angular = function (module)
               $id.account,
               amount,
               $scope.generate_src_currencies());
+          var isIssuer = $scope.generate_issuer_currencies();
 
           var lastUpdate;
 
@@ -156,7 +159,7 @@ ExchangeTab.prototype.angular = function (module)
                       ? raw.paths_computed
                       : raw.paths_canonical;
 
-                  if (alt.amount.issuer().to_json() != $scope.address) {
+                  if (alt.amount.issuer().to_json() != $scope.address && !isIssuer[alt.amount.currency().to_hex()]) {
                     currencies[alt.amount.currency().to_hex()] = true
                   }
 
@@ -258,6 +261,9 @@ ExchangeTab.prototype.angular = function (module)
         amount.set_issuer($id.account);
 
         var tx = $network.remote.transaction();
+
+        // Add memo to tx
+        tx.addMemo('client', 'rt' + $rootScope.version);
 
         // Destination tag
         tx.destination_tag(webutil.getDestTagFromAddress($id.account));

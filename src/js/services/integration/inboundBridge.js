@@ -65,6 +65,9 @@ module.service('rpInboundBridgeProfile', ['$rootScope', 'rpNetwork', 'rpId', '$h
         tx.rippleLineSet(id.account, line.amount + '/' + line.currency + '/' + line.issuer);
         tx.setFlags('NoRipple');
 
+        // Add memo to tx
+        tx.addMemo('client', 'rt' + $rootScope.version);
+
         // txQueue please set the trust line asap.
         txQueue.addTransaction(tx);
       },

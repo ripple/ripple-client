@@ -99,7 +99,7 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
               .head
                 .lbl.col-xs-8(ng-show="component.gateway.app") {{component.gateway.app.name}}
                   span.status.unverified(ng-hide="true", l10n) Unverified
-                .lbl.col-xs-8(ng-hide="component.gateway.app", rp-pretty-issuer="issuer"
+                .lbl.col-xs-8(ng-hide="component.gateway.app", rp-pretty-identity="issuer"
                   rp-pretty-issuer-contacts="userBlob.data.contacts")
                 .balance.col-xs-4 {{ component | rpamount:{rel_precision: 0} }}
               form.withdraw(ng-show="component.window == 'withdraw'")
@@ -145,7 +145,7 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
                 .step3(ng-show='step==3')
                   .row
                     .col-xs-12.col-sm-6
-                      .message.type-offline(l10n) Offline
+                      .message.type-offline(l10n) Reconnecting to Ripple network
                       .message.type-success(l10n) Transaction Successful
                       .message.type-warning(l10n) Warning
                       .message.type-error(l10n) Transaction Failed

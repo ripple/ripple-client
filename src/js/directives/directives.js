@@ -352,6 +352,18 @@ module.directive('rpAutofill', ['$parse', function($parse) {
               value = value + '.0';
             }
 
+            var convertCurrency = function(currencyObj) {
+              if (attr.rpAutofillCurrencyFullname) {
+                if ($scope.currencies_all_keyed[currencyObj.get_iso()]) {
+                  return currencyObj.to_human({full_name:$scope.currencies_all_keyed[currencyObj.get_iso()].name});
+                } else {
+                  return currencyObj.to_human();
+                }
+              } else {
+                return currencyObj.to_json();
+              }
+            };
+
             // Is it an amount?
             var amount = ripple.Amount.from_json(value);
             if (amount.is_valid()) {
@@ -360,7 +372,7 @@ module.directive('rpAutofill', ['$parse', function($parse) {
                   group_sep: false
                 });
               } else {
-                value = amount.currency().to_json();
+                value = convertCurrency(amount.currency());
               }
             }
             // Maybe a currency?
@@ -368,7 +380,7 @@ module.directive('rpAutofill', ['$parse', function($parse) {
               var currency = ripple.Currency.from_json(value);
               if (!currency.is_valid()) return;
 
-              value = currency.to_json();
+              value = convertCurrency(currency);
             }
           }
 
