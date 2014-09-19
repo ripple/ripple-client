@@ -71,7 +71,7 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
                   rp-popover-trigger="hover"
                   l10n-data-content="Total amount of XRP in your account minus the reserve amount.")
               .balance.col-xs-2
-                span(ng-show="account.max_spend") {{account.max_spend | rpamount:{precision: 5, min_precision: 5, max_sig_digits: 20} }}
+                span(ng-show="account.max_spend") {{account.max_spend | rpamount:{precision: 6, min_precision: 6, max_sig_digits: 20} }}
                 span(ng-hide="account.max_spend") 0
             .component.row(ng-show="entry.show")
               .lbl.col-xs-8
@@ -83,7 +83,7 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
                   rp-popover-trigger="hover"
                   l10n-data-content="Minimum amount of XRP required to fund your account. You cannot spend the reserve.")
               .balance.col-xs-2
-                span(ng-show="account.reserve") {{ account.reserve | rpamount:{precision: 5, min_precision: 5, max_sig_digits: 20} }}
+                span(ng-show="account.reserve") {{ account.reserve | rpamount:{precision: 6, min_precision: 6, max_sig_digits: 20} }}
                 span(ng-hide="account.reserve") 0
           //- TODO Determine currencies order
           .balancebox.currency-non-native(ng-repeat="entry in balances", ng-class="'currency-' + (entry.total | rpcurrency | lowercase)")
@@ -101,7 +101,7 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
                   span.status.unverified(ng-hide="true", l10n) Unverified
                 .lbl.col-xs-8(ng-hide="component.gateway.app", rp-pretty-identity="issuer"
                   rp-pretty-issuer-contacts="userBlob.data.contacts")
-                .balance.col-xs-2 {{ component | rpamount:{precision: 5, min_precision: 5, max_sig_digits: 20} }}
+                .balance.col-xs-2 {{ component | rpamount:{precision: 6, min_precision: 6, max_sig_digits: 20} }}
               form.withdraw(ng-show="component.window == 'withdraw'")
                 .step1(ng-show='!step || step==1')
                   .row
