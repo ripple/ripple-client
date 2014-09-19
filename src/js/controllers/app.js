@@ -707,18 +707,47 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
       var currency = balances[currency_name];
       var currency_hex = currency.total.currency().to_hex();
       var result = [];
+      var issuer = false;
       for (var issuer_name in currency.components)
       {
         if (!currency.components.hasOwnProperty(issuer_name)) continue;
-        result.push({ currency: currency_hex, issuer: issuer_name});
+        var component = currency.components[issuer_name];
+        if (component.is_negative())
+          issuer = true;
+
+        if (component.is_positive())
+          result.push({ currency: currency_hex, issuer: issuer_name});
       }
 
-      if (result.length > 1)
-        src_currencies.push({ currency: currency_hex });
+      if (result.length > 1 || issuer)
+        result.unshift({ currency: currency_hex });
 
       src_currencies = src_currencies.concat(result);
     }
     return src_currencies;
+  };
+
+  $scope.generate_issuer_currencies = function () {
+    var balances = $scope.balances;
+    var isIssuer = [];
+    for (var currency_name in balances) {
+      if (!balances.hasOwnProperty(currency_name)) continue;
+
+      var currency = balances[currency_name];
+      var currency_hex = currency.total.currency().to_hex();
+      isIssuer[currency_hex] = false;
+      for (var issuer_name in currency.components)
+      {
+        if (!currency.components.hasOwnProperty(issuer_name)) continue;
+        var component = currency.components[issuer_name];
+        if (component.is_negative())
+        {
+          isIssuer[currency_hex] = true;
+          break;
+        }
+      }
+    }
+    return isIssuer;
   };
 
   /**
