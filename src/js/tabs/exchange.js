@@ -50,7 +50,9 @@ ExchangeTab.prototype.angular = function (module)
         var currency = Currency.from_human($scope.exchange.currency_name ? $scope.exchange.currency_name : "XRP");
         exchange.currency_obj = currency;
         exchange.currency_code = currency.get_iso();
-        exchange.currency_name = currency.to_human({full_name:$scope.currencies_all_keyed[currency.get_iso()].name});
+        exchange.currency_name = currency.to_human({
+          full_name: $scope.currencies_all_keyed[currency.get_iso()] ? $scope.currencies_all_keyed[currency.get_iso()].name : null
+        });
         $scope.update_exchange();
       }, true);
 
@@ -124,7 +126,9 @@ ExchangeTab.prototype.angular = function (module)
           // Start path find
           pf = $network.remote.path_find($id.account,
               $id.account,
-              amount);
+              amount,
+              $scope.generate_src_currencies());
+          var isIssuer = $scope.generate_issuer_currencies();
 
           var lastUpdate;
 
@@ -144,8 +148,9 @@ ExchangeTab.prototype.angular = function (module)
                 $scope.exchange.path_status  = "no-path";
                 $scope.exchange.alternatives = [];
               } else {
+                var currencies = {};
                 $scope.exchange.path_status  = "done";
-                $scope.exchange.alternatives = _.map(upd.alternatives, function (raw) {
+                $scope.exchange.alternatives = _.filter(_.map(upd.alternatives, function (raw) {
                   var alt = {};
                   alt.amount   = Amount.from_json(raw.source_amount);
                   alt.rate     = alt.amount.ratio_human(amount);
@@ -154,7 +159,16 @@ ExchangeTab.prototype.angular = function (module)
                       ? raw.paths_computed
                       : raw.paths_canonical;
 
+                  if (alt.amount.issuer().to_json() != $scope.address && !isIssuer[alt.amount.currency().to_hex()]) {
+                    currencies[alt.amount.currency().to_hex()] = true
+                  }
+
                   return alt;
+                }), function(alt) {
+                  if (currencies[alt.amount.currency().to_hex()]) {
+                    return alt.amount.issuer().to_json() != $scope.address;
+                  }
+                  return true;
                 });
               }
             });
@@ -181,6 +195,8 @@ ExchangeTab.prototype.angular = function (module)
           if ($scope.currencies_all_keyed[currency.get_iso()]) {
             return currency.to_human({full_name:$scope.currencies_all_keyed[currency.get_iso()].name});
           }
+
+          return currency.get_iso();
         });
 
         $scope.currency_choices = currencies;
@@ -238,12 +254,16 @@ ExchangeTab.prototype.angular = function (module)
       $scope.exchange_confirmed = function () {
 
         // parse the currency name and extract the iso
-        var currencyHex = Currency.from_human($scope.exchange.currency_name).to_hex();
-        var amount = Amount.from_human(""+$scope.exchange.amount+" "+currencyHex);
+        var currency = Currency.from_human($scope.exchange.currency_name);
+        currency = currency.has_interest() ? currency.to_hex() : currency.get_iso();
+        var amount = Amount.from_human(""+$scope.exchange.amount+" "+currency);
 
         amount.set_issuer($id.account);
 
         var tx = $network.remote.transaction();
+
+        // Add memo to tx
+        tx.addMemo('client', 'rt' + $rootScope.version);
 
         // Destination tag
         tx.destination_tag(webutil.getDestTagFromAddress($id.account));

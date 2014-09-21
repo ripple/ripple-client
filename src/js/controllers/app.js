@@ -21,6 +21,17 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
 
   var account;
 
+  // For announcement banner
+
+  $scope.showAnnouncement = store.get('announcement');
+
+  if('undefined' === typeof $scope.showAnnouncement) $scope.showAnnouncement = true;
+
+  $scope.dismissBanner = function() {
+    store.set('announcement', false);
+    $scope.showAnnouncement = store.get('announcement');
+  }
+
   // Global reference for debugging only (!)
   if ("object" === typeof rippleclient) {
     rippleclient.id = $id;
@@ -134,7 +145,7 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
       }
       console.log('lines updated:', $scope.lines);
 
-      if (data.lines.length) $scope.$broadcast('$balancesUpdate');
+      $scope.$broadcast('$balancesUpdate');
 
       $scope.loadState['lines'] = true;
     });
@@ -262,15 +273,36 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
       // Add to recent notifications
       if (processedTxn.tx_result === "tesSUCCESS" &&
           transaction) {
-        // Only show specific transactions
-        if ('received' === transaction.type) {
-          // Is it unseen?
-          if (processedTxn.date > ($scope.userBlob.data.lastSeenTxDate || 0)) {
-            processedTxn.unseen = true;
-            $scope.unseenNotifications.count++;
-          }
 
-          $scope.events.unshift(processedTxn);
+        var effects = [];
+        // Only show specific transactions
+        switch (transaction.type) {
+          case 'offernew':
+          case 'exchange':
+            var funded = false;
+            processedTxn.effects.some(function(effect) {
+              if (_.contains(['offer_bought','offer_funded','offer_partially_funded'], effect.type)) {
+                funded = true;
+                effects.push(effect);
+                return true;
+              }
+            });
+
+            // Only show trades/exchanges which are at least partially funded
+            if (!funded) {
+              break;            
+            }
+            /* falls through */
+          case 'received':
+
+            // Is it unseen?
+            if (processedTxn.date > ($scope.userBlob.data.lastSeenTxDate || 0)) {
+              processedTxn.unseen = true;
+              $scope.unseenNotifications.count++;
+            }
+
+            processedTxn.showEffects = effects;
+            $scope.events.unshift(processedTxn);
         }
       }
 
@@ -578,7 +610,15 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
 
   // sort currencies and pairs by order
   $scope.currencies_all.sort(compare);
-  $scope.pairs_all.sort(compare);
+
+  function compare_last_used(a, b) {
+    var time_a = a.last_used || a.order || 0;
+    var time_b = b.last_used || b.order || 0;
+    if (time_a < time_b) return 1;
+    if (time_a > time_b) return -1;
+    return 0;
+  }
+  $scope.pairs_all.sort(compare_last_used);
 
   $scope.currencies_all_keyed = {};
   _.each($scope.currencies_all, function(currency){
@@ -641,7 +681,73 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
 
   $scope.logout = function () {
     $id.logout();
-    $location.path('/login');
+    location.reload();
+  };
+
+  // Generate an array of source currencies for path finding.
+  // This will generate currencies for every issuers.
+  // It will also generate a self-issue currency for currencies which have multi issuers.
+  //
+  // Example balances for account rEXAMPLE:
+  //   CNY: rCNY1
+  //        rCNY2
+  //   BTC: rBTC
+  // Will generate:
+  //   CNY/rEXAMPLE
+  //   CNY/rCNY1
+  //   CNY/rCNY2
+  //   BTC/rBTC
+  $scope.generate_src_currencies = function () {
+    var src_currencies = [];
+    var balances = $scope.balances;
+    src_currencies.push({ currency: "XRP" });
+    for (var currency_name in balances) {
+      if (!balances.hasOwnProperty(currency_name)) continue;
+
+      var currency = balances[currency_name];
+      var currency_hex = currency.total.currency().to_hex();
+      var result = [];
+      var issuer = false;
+      for (var issuer_name in currency.components)
+      {
+        if (!currency.components.hasOwnProperty(issuer_name)) continue;
+        var component = currency.components[issuer_name];
+        if (component.is_negative())
+          issuer = true;
+
+        if (component.is_positive())
+          result.push({ currency: currency_hex, issuer: issuer_name});
+      }
+
+      if (result.length > 1 || issuer)
+        result.unshift({ currency: currency_hex });
+
+      src_currencies = src_currencies.concat(result);
+    }
+    return src_currencies;
+  };
+
+  $scope.generate_issuer_currencies = function () {
+    var balances = $scope.balances;
+    var isIssuer = [];
+    for (var currency_name in balances) {
+      if (!balances.hasOwnProperty(currency_name)) continue;
+
+      var currency = balances[currency_name];
+      var currency_hex = currency.total.currency().to_hex();
+      isIssuer[currency_hex] = false;
+      for (var issuer_name in currency.components)
+      {
+        if (!currency.components.hasOwnProperty(issuer_name)) continue;
+        var component = currency.components[issuer_name];
+        if (component.is_negative())
+        {
+          isIssuer[currency_hex] = true;
+          break;
+        }
+      }
+    }
+    return isIssuer;
   };
 
   /**

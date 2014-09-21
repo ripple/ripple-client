@@ -20,22 +20,26 @@
     span.nav-icon.nav-icon-advanced
     span(l10n) Fund
   //- a.sub(href="#/withdraw", ng-class="{active: $route.current.tabName == 'withdraw'}", l10n) Withdraw
+  a.sub(href="#/trust", ng-class="{active: $route.current.tabName == 'trust'}", l10n) Gateways
+
 
   a.advanced(href="#/account", ng-class="{active: $route.current.tabName == 'account'}")
-    span.nav-icon.nav-icon-advanced
+    img(src="img/profile-gray.png")
     span(l10n) Account
 
   //- a.sub(href="#/account", ng-class="{active: $route.current.tabName == 'account'}", l10n) Account
-  a.sub(href="#/trust", ng-class="{active: $route.current.tabName == 'trust'}", l10n) Trust
-  a.sub(href="#/security", ng-class="{active: $route.current.tabName == 'security'}", l10n) Security
-  a.sub(href="#/options", ng-class="{active: $route.current.tabName == 'options'}", l10n) Options
-  a.sub(href="#", ng-click='logout()', l10n) Logout
+  a.advanced(href="#/security", ng-class="{active: $route.current.tabName == 'security'}")
+    img(src="img/settings-gray.png")
+    span(l10n) Settings
+  a.advanced(href="#", ng-click='logout()')
+    img(src="img/logout-gray.png")
+    span(l10n) Logout
 
 // Wrapper
 div#wrapper
   // Header
   header
-    h1(ng-show="['t-login','t-recover','t-register'].indexOf($route.current.tabClass) !== -1", l10n) Welcome to {{productName}}, a global value exchange
+    h1(ng-show="['t-login','t-recover','t-register','t-migrate'].indexOf($route.current.tabClass) !== -1", l10n) Welcome to {{productName}}, a global value exchange
     != require("./navbar.jade")()
   .container
 
@@ -45,7 +49,7 @@ div#wrapper
     // Footer
     footer.row
       .col-xs-12.col-sm-3
-        a(href="https://ripple.com/wiki/index.php?title=Ripple_Client_Release_Notes", l10n)
+        a(href="https://ripple.com/wiki/index.php?title=Ripple_Client_Release_Notes", target="_blank", l10n)
           | Version: {{version}}
 
       .col-xs-12.col-sm-9.right-links

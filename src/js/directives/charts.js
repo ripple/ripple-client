@@ -238,7 +238,7 @@ module.directive('rpPieChart', ['$filter', function($filter) {
             piece.currency,
             offset
           );
-        } else {
+        } else if (offset < 0.999999999999) { // (to account for floating-point errors)
           // We've come to the limit, and so we'll lump the rest in under "other".
           broken = true;
           drawSectors(container, [1 - offset], ["other"], "sub", "other", offset);
@@ -422,7 +422,12 @@ module.directive('rpPieChart', ['$filter', function($filter) {
           group: sector.group
         });
         
-        $('<text></text>').appendTo(g).text(Math.round(sector.share*100)+"%").attr({
+        var percentage = Math.round(sector.share*100);
+        if (percentage === 0 && sector.share > 0) {
+          percentage = "<1";
+        }
+        
+        $('<text></text>').appendTo(g).text(percentage+"%").attr({
           "class": cssClass + " percentage",
           x: sector.labelPosition.x,
           y: sector.labelPosition.y+14,

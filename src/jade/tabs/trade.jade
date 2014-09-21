@@ -11,6 +11,9 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
 
   //- Connected
 
+  div(ng-show="'web' === client && !loadingAccount && !account.Balance && loadState.account && connected")
+    include banner/unfunded
+
   group(ng-show="connected && loadState.offers")
     .settings
       .row
@@ -19,7 +22,12 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
             name='currency_pair', type='text'
             rp-combobox="pairs_query", rp-combobox-select
             ng-model='order.currency_pair')
-        .col-sm-7.col-md-9
+        .col-sm-1.col-md-1.currency-flip
+          button.btn.btn-default.btn-block(href=""
+            ng-disabled="order.valid_settings != true"
+            ng-click='flip_issuer()', l10n)
+            | flip
+        .col-sm-6.col-md-8
           ul.issuers.inline(ng-hide='order.first_currency.is_native()')
             li.label(l10n) Base currency
             li.value {{order.first_currency | rpcurrency}}&ensp;
@@ -30,7 +38,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
             li: a(href=""
               ng-show='show_issuer_form != "first"'
               ng-click='edit_first_issuer()', l10n)
-              | change issuer
+              | Change gateway
             li: a(href=""
               ng-show='show_issuer_form == "first"'
               ng-click='show_issuer_form = false', l10n)
@@ -48,7 +56,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
             li: a(href=""
               ng-show='show_issuer_form != "second"'
               ng-click='edit_second_issuer()', l10n)
-              | change issuer
+              | Change gateway
             li: a(href=""
               ng-show='show_issuer_form == "second"'
               ng-click='show_issuer_form = false', l10n)
@@ -94,9 +102,10 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
             ng-disabled="second_issuer_form.$invalid", l10n) Confirm
 
     .message-select-issuer(ng-hide="order.valid_settings", l10n)
-      | You must select an issuer to trade currencies.
-      |  Click the “change issuer” link above and enter the issuing
-      |  gateway's address or Ripple name.
+      | You must select a gateway to trade currencies.
+      |  Click the “Change gateway” link above and enter the 
+      |  gateway's address or Ripple name.&#32;
+      a(href="https://support.ripplelabs.com/hc/en-us/articles/202847686-Gateway-Information", target="_blank", l10n-inc) Find a gateway.
 
     group(ng-if="order.valid_settings")
       ul.ticker
@@ -386,22 +395,23 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
           .row(ng-repeat="entry in offers", ng-class="{cancelling: cancelling}")
             .col-sm-1.type(data-label="Type") {{entry.type | rpucfirst}}
             .col-sm-4(data-label="Currencies")
-              span {{entry.first | rpcurrency}}
-              span.issuer(ng-show="entry.first.issuer().to_json()") &nbsp;(
-                span(
-                  rp-pretty-issuer="entry.first.issuer().to_json()"
-                  rp-pretty-issuer-contacts="userBlob.data.contacts"
-                ) ???
-                | )
-              span(ng-show="'buy' == entry.type", l10n)  with
-              span(ng-show="'sell' == entry.type", l10n)  for
-              span  {{entry.second | rpcurrency}}
-              span.issuer(ng-show="entry.second.issuer().to_json()") &nbsp;(
-                span(
-                  rp-pretty-issuer="entry.second.issuer().to_json()"
-                  rp-pretty-issuer-contacts="userBlob.data.contacts"
-                ) ???
-                | )
+              a(href="",ng-click="goto_order_currency()")
+                span {{entry.first | rpcurrency}}
+                span.issuer(ng-show="entry.first.issuer().to_json()") &nbsp;(
+                  span(
+                    rp-pretty-issuer="entry.first.issuer().to_json()"
+                    rp-pretty-issuer-contacts="userBlob.data.contacts"
+                  ) ???
+                  | )
+                span(ng-show="'buy' == entry.type", l10n)  with
+                span(ng-show="'sell' == entry.type", l10n)  for
+                span  {{entry.second | rpcurrency}}
+                span.issuer(ng-show="entry.second.issuer().to_json()") &nbsp;(
+                  span(
+                    rp-pretty-issuer="entry.second.issuer().to_json()"
+                    rp-pretty-issuer-contacts="userBlob.data.contacts"
+                  ) ???
+                  | )
             .col-sm-2.price.rpamount(data-label="Price") {{entry.second | rpamountratio:entry.first | rpamount:{precision: 5, min_precision: 5} }}
               span.currency  {{entry.second | rpcurrency}}
             .col-sm-3.amount.rpamount(data-label="Amount") {{entry.first | rpamount}}
@@ -422,7 +432,8 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
         span(l10n)  Error: {{cancelError}}  
         a.dismiss(href="", ng-click="dismissCancelError()", l10n)  hide
         
-      h3(l10n) Orderbook
+      h3
+        span(l10n) Orderbook
         small.toggle(ng-click="hideOrderBook = !hideOrderBook")
           span(ng-show="hideOrderBook", l10n) show
           span(ng-hide="hideOrderBook", l10n) hide

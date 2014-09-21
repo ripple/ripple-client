@@ -11,17 +11,19 @@ var getPrice = function(effect, referenceDate){
   var p = effect.paid ? effect.paid : effect.pays;
   var price;
 
-  _.find(pairs, function(pair){
-    if (pair.name == g.currency().to_human() + '/' + p.currency().to_human()) {
-      price = p.ratio_human(g, {reference_date: referenceDate});
-    }
-  });
+  if (!p.is_zero() && !g.is_zero()) {
+    _.find(pairs, function(pair){
+      if (pair.name == g.currency().to_human() + '/' + p.currency().to_human()) {
+        price = p.ratio_human(g, {reference_date: referenceDate});
+      }
+    });
 
-  if (!price) {
-    price = g.ratio_human(p, {reference_date: referenceDate});
+    if (!price) {
+      price = g.ratio_human(p, {reference_date: referenceDate});
+    }
   }
 
-  return price;
+  return price || 0;
 };
 
 /**
@@ -131,6 +133,74 @@ var JsonRewriter = module.exports = {
   },
 
   /**
+   * Takes a transaction and its metadata and returns the amount sent as:
+   *
+   * If XRP, value sent as String
+   *
+   * If not XRP,
+      {
+       value: value sent as String,
+       currency: currency code of value sent
+      }
+    *
+    * If unable to determine, returns undefined
+    *
+    * If the caller needs the issuer of sent currency as well, try tx.sendMax.issuer
+   */
+  getAmountSent: function (tx, meta) {
+    var sender = tx.Account;
+    var difference = null;
+    var cur = null;
+    var i;
+    var affectedNode;
+    var amtSent;
+
+    if (tx.TransactionType === "Payment" && meta.AffectedNodes) {
+      // Find the metadata node with entry type == "RippleState"
+      // and either HighLimit.issuer == [sender's account] or
+      // LowLimit.issuer == [sender's account] and
+      // Balance.currency == [currency of SendMax || Amount]
+      if (tx.SendMax && tx.SendMax.currency) {
+        for (i = 0; i < meta.AffectedNodes.length; i++) {
+          affectedNode = meta.AffectedNodes[i];
+          if (affectedNode.ModifiedNode && affectedNode.ModifiedNode.LedgerEntryType === "RippleState" && 
+            (affectedNode.ModifiedNode.FinalFields.HighLimit.issuer === sender ||
+              affectedNode.ModifiedNode.FinalFields.LowLimit.issuer === sender) &&
+            affectedNode.ModifiedNode.FinalFields.Balance.currency === tx.SendMax.currency) {
+
+            // Calculate the difference before/after. If HighLimit.issuer == [sender's account] negate it.
+            difference = affectedNode.ModifiedNode.PreviousFields.Balance.value - affectedNode.ModifiedNode.FinalFields.Balance.value;
+            if (affectedNode.ModifiedNode.FinalFields.HighLimit.issuer === sender) difference *= -1;
+            cur = affectedNode.ModifiedNode.FinalFields.Balance.currency;
+            break;
+          }
+        }
+      }
+
+      if (difference === null) {
+        // Find the metadata node with entry type == "AccountRoot" and Account == [sender's account].
+        for (i = 0; i < meta.AffectedNodes.length; i++) {
+          affectedNode = meta.AffectedNodes[i];
+          if (affectedNode.ModifiedNode && affectedNode.ModifiedNode.LedgerEntryType === "AccountRoot" && 
+            affectedNode.ModifiedNode.FinalFields.Account === sender) {
+
+            // Calculate the difference minus the fee
+            difference = affectedNode.ModifiedNode.PreviousFields.Balance - affectedNode.ModifiedNode.FinalFields.Balance - tx.Fee;
+            break;
+          }
+        }
+      }
+
+      if (difference) {  // calculated and non-zero
+        var diff = String(difference);
+        amtSent = cur ? {value: diff, currency:cur} : diff;
+      }
+    }
+
+    return amtSent;
+  },
+
+  /**
    * Convert transactions into a more useful (for our purposes) format.
    *
    * The main operation this function performs is to change the view on the
@@ -192,6 +262,11 @@ var JsonRewriter = module.exports = {
               transaction.type = 'received';
               transaction.counterparty = tx.Account;
             }
+
+            if (typeof tx.SendMax === 'object') transaction.sendMax = tx.SendMax;
+
+            var amtSent = JsonRewriter.getAmountSent(tx, meta);
+            if (amtSent) transaction.amountSent = amtSent;
 
             transaction.amount = amount;
             transaction.currency = amount.currency().to_human();

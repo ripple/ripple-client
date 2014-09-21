@@ -2,6 +2,8 @@ var path = require("path"),
     fs = require("fs"),
     languages = require("./l10n/languages.json").active;
 
+var languageCodes = languages.map(function(i) { return i.code; }).join(' ');
+
 var BannerPlugin = require("webpack/lib/BannerPlugin");
 
 module.exports = function(grunt) {
@@ -25,6 +27,7 @@ module.exports = function(grunt) {
 
   // Ripple client dependencies
   var deps = ["deps/js/jquery/dist/jquery.js",
+              "deps/js/authy.js",
               "deps/js/swfobject.js",
               "deps/js/setImmediate.js",
               "deps/js/underscore/underscore.js",
@@ -32,7 +35,7 @@ module.exports = function(grunt) {
               "deps/js/angular/angular.js",
               "deps/js/angular-route/angular-route.js",
               "deps/js/store.js/store.js",
-              "deps/js/ripple.js",
+              "deps/js/ripple/ripple-debug.js",
               "deps/js/ripple-sjcl.js",
               "deps/js/moment/moment.js",
               "deps/js/bootstrap-modal.js",
@@ -41,7 +44,7 @@ module.exports = function(grunt) {
               "deps/js/angular-bootstrap/ui-bootstrap-tpls.js",
               "deps/js/bootstrap-datepicker.js",
               "deps/js/qrcode-generator/js/qrcode.js",
-              "deps/js/spin.js/dist/spin.js",
+              "deps/js/spin.js/spin.js",
               "deps/js/snapjs/snap.js"];
 
   var compat_ie = ["compat/ie/base64/base64.js",
@@ -152,6 +155,9 @@ module.exports = function(grunt) {
         stdout: true,
         failOnError: true
       },
+      startdevserver: {
+        command: 'node ./scripts/web-server.js'
+      },
       removeFiles: {
         command: [
           'rm -f ./build/packages/ripple-client.dmg',
@@ -180,14 +186,14 @@ module.exports = function(grunt) {
         options: {
           compile: true
         }
-      },
-      desktop: {
+      }
+      /*desktop: {
         src: ['src/less/ripple/desktop.less'],
         dest: 'build/dist/ripple-desktop.css',
         options: {
           compile: true
         }
-      }
+      }*/
     },
     concat: {
       deps: {
@@ -252,7 +258,8 @@ module.exports = function(grunt) {
           context: {
             MODE: "release",
             TARGET: "web",
-            VERSION: "<%= meta.version %>"
+            VERSION: "<%= meta.version %>",
+            LANGUAGES: languageCodes
           }
         }
       },
@@ -263,18 +270,20 @@ module.exports = function(grunt) {
           context: {
             MODE: "debug",
             TARGET: "web",
-            VERSION: "<%= meta.version %>"
+            VERSION: "<%= meta.version %>",
+            LANGUAGES: languageCodes
           }
         }
-      },
-      desktop: {
+      }
+      /*desktop: {
         src: 'src/index.html',
         dest: 'build/dist/desktop/index.html',
         options: {
           context: {
             MODE: "release",
             TARGET: "desktop",
-            VERSION: "<%= meta.version %>"
+            VERSION: "<%= meta.version %>",
+            LANGUAGES: languageCodes
           }
         }
       },
@@ -285,10 +294,11 @@ module.exports = function(grunt) {
           context: {
             MODE: "debug",
             TARGET: "desktop",
-            VERSION: "<%= meta.version %>"
+            VERSION: "<%= meta.version %>",
+            LANGUAGES: languageCodes
           }
         }
-      }
+      }*/
     },
     webfont: {
       icons: {
@@ -325,20 +335,22 @@ module.exports = function(grunt) {
           {src: 'build/dist/web/index.html', dest: 'build/bundle/web/index.html'},
           {src: 'build/dist/web/index_debug.html', dest: 'build/bundle/web/index_debug.html'},
           {src: 'src/js/config.js', dest: 'build/bundle/web/config.js'},
-          {src: 'scripts/livereload.js', dest: 'build/bundle/web/livereload.js'}
+          {src: 'scripts/livereload.js', dest: 'build/bundle/web/livereload.js'},
+          {src: 'deps/downloadify.swf', dest: 'build/bundle/web/swf/downloadify.swf' },
+          {src: 'ripple.txt', dest: 'build/bundle/web/ripple.txt' }
         ]
-      },
-      nw_desktop: {
+      }
+      /*nw_desktop: {
         files: [
-          {expand: true, src: ['build/dist/*.js'],
+          {expand: true, src: ['build/dist*//*.js'],
             dest: 'build/bundle/nw-desktop/js', flatten: true},
-          {expand: true, src: ['build/dist/desktop/*.js'],
+          {expand: true, src: ['build/dist/desktop*//*.js'],
             dest: 'build/bundle/nw-desktop/js', flatten: true},
-          {expand: true, src: ['build/dist/*.css'],
+          {expand: true, src: ['build/dist*//*.css'],
             dest: 'build/bundle/nw-desktop/css', flatten: true},
-          {expand: true, src: ['res/fonts/*'], dest: 'build/bundle/nw-desktop/fonts', flatten: true},
-          {expand: true, src: ['res/icons/font/*'], dest: 'build/bundle/nw-desktop'},
-          {expand: true, src: ['img/**'], dest: 'build/bundle/nw-desktop'},
+          {expand: true, src: ['res/fonts*//*'], dest: 'build/bundle/nw-desktop/fonts', flatten: true},
+          {expand: true, src: ['res/icons/font*//*'], dest: 'build/bundle/nw-desktop'},
+          {expand: true, src: ['img*//**'], dest: 'build/bundle/nw-desktop'},
           {expand: true, src: ['deps/js/modernizr*.js'],
             dest: 'build/bundle/nw-desktop/js/deps', flatten: true},
           {expand: true, src: ['deps/js/mixpanel.min.js'],
@@ -351,15 +363,15 @@ module.exports = function(grunt) {
       },
       nw_desktop_debug: {
         files: [
-          {expand: true, src: ['build/dist/*.js'],
+          {expand: true, src: ['build/dist*//*.js'],
             dest: 'build/bundle/nw-desktop-debug/js', flatten: true},
-          {expand: true, src: ['build/dist/desktop/*.js'],
+          {expand: true, src: ['build/dist/desktop*//*.js'],
             dest: 'build/bundle/nw-desktop-debug/js', flatten: true},
-          {expand: true, src: ['build/dist/*.css'],
+          {expand: true, src: ['build/dist*//*.css'],
             dest: 'build/bundle/nw-desktop-debug/css', flatten: true},
-          {expand: true, src: ['res/fonts/*'], dest: 'build/bundle/nw-desktop-debug/fonts', flatten: true},
-          {expand: true, src: ['res/icons/font/*'], dest: 'build/bundle/nw-desktop-debug'},
-          {expand: true, src: ['img/**'], dest: 'build/bundle/nw-desktop-debug'},
+          {expand: true, src: ['res/fonts*//*'], dest: 'build/bundle/nw-desktop-debug/fonts', flatten: true},
+          {expand: true, src: ['res/icons/font*//*'], dest: 'build/bundle/nw-desktop-debug'},
+          {expand: true, src: ['img*//**'], dest: 'build/bundle/nw-desktop-debug'},
           {expand: true, src: ['deps/js/modernizr*.js'],
             dest: 'build/bundle/nw-desktop-debug/js/deps', flatten: true},
           {expand: true, src: ['deps/js/mixpanel.min.js'],
@@ -369,7 +381,7 @@ module.exports = function(grunt) {
           {src: 'src/js/config.js', dest: 'build/bundle/nw-desktop-debug/config.js'},
           {src: 'scripts/livereload.js', dest: 'build/bundle/web/livereload.js'}
         ]
-      }
+      }*/
     },
     jade_l10n_extractor: {
       templates: {
@@ -388,7 +400,7 @@ module.exports = function(grunt) {
       },
       scripts_debug: {
         files: ['src/js/**/*.js', 'src/jade/**/*.jade'],
-        tasks: ['webpack:web_debug', 'webpack:desktop_debug', 'copy'],
+        tasks: ['webpack:web_debug', /*'webpack:desktop_debug', */'copy'],
         options: { nospawn: true, livereload: true }
       },
       deps: {
@@ -403,11 +415,16 @@ module.exports = function(grunt) {
       },
       index: {
         files: ['src/index.html'],
-        tasks: ['preprocess:web_debug','preprocess:desktop_debug','copy'],
+        tasks: ['preprocess:web_debug',/*'preprocess:desktop_debug',*/'copy'],
         options: { livereload: true }
       },
       config: {
         files: ['src/js/config.js'],
+        options: { livereload: true }
+      },
+      txt: {
+        files: ['ripple.txt'],
+        tasks: ['copy'],
         options: { livereload: true }
       }
     },
@@ -524,8 +541,8 @@ module.exports = function(grunt) {
       debug: true,
       devtool: 'eval',
       cache: false
-    },
-    desktop_debug: {
+    }
+    /*desktop_debug: {
       entry: {
         desktop: "./src/js/entry/desktop.js"
       },
@@ -541,7 +558,7 @@ module.exports = function(grunt) {
       debug: true,
       cache: false,
       target: 'node-webkit'
-    }
+    }*/
   };
 
   languages.forEach(function(language){
@@ -563,7 +580,7 @@ module.exports = function(grunt) {
 //        minimize: true
       }
     };
-    webpack['desktop_l10n_' + language.name] = {
+    /*webpack['desktop_l10n_' + language.name] = {
       entry: {
         desktop: "./src/js/entry/desktop.js"
       },
@@ -581,7 +598,7 @@ module.exports = function(grunt) {
 //        minimize: true
       },
       target: 'node-webkit'
-    }
+    }*/
   });
 
   grunt.config.set('webpack',webpack);
@@ -620,6 +637,9 @@ module.exports = function(grunt) {
 
   // AWS S3 deployment for downloadable clients
   grunt.registerTask('dldeploy', ['s3']);
+
+  // Node.js server to serve built files
+  grunt.registerTask('devserver', ['shell:startdevserver']);
 
   // End-to-end tests
   grunt.registerTask('e2e', ['connect:debug', 'mochaProtractor:local']);

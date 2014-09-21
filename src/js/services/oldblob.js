@@ -46,19 +46,17 @@ module.factory('rpOldBlob', ['$rootScope', function ($scope)
     var key = sjcl.codec.hex.fromBits(sjcl.hash.sha256.hash(user + pass));
     try {
       backend.get(key, function (err, data) {
-        setImmediate(function () {
-          $scope.$apply(function () {
-            if (err) {
-              handleError(err, backend);
-              return;
-            }
+        $scope.$apply(function () {
+          if (err) {
+            handleError(err, backend);
+            return;
+          }
 
-            if (data) {
-              callback(null, data);
-            } else {
-              handleError('Wallet not found (Username / Password is wrong)', backend);
-            }
-          });
+          if (data) {
+            callback(null, data);
+          } else {
+            handleError('Wallet not found (Username / Password is wrong)', backend);
+          }
         });
       });
     } catch (err) {

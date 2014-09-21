@@ -7,7 +7,7 @@ var Options = {
   // Local domain
   //
   // Which domain should ripple-client consider native?
-  domain: 'ripple.com',
+  domain: 'local.ripple.com',
 
   // Rippled to connect
   server: {
@@ -61,7 +61,9 @@ var Options = {
   max_tx_network_fee: 1000,
 
   // Set max number of rows for orderbook
-  orderbook_max_rows: 100
+  orderbook_max_rows: 100,
+
+  advanced_feature_switch: false
 };
 
 // Load client-side overrides
@@ -79,6 +81,10 @@ if (store.enabled) {
 
   if (settings.mixpanel) {
     Options.mixpanel = settings.mixpanel;
+  }
+
+  if (settings.advanced_feature_switch) {
+    Options.advanced_feature_switch = settings.advanced_feature_switch;
   }
 
   if (settings.bridge && settings.bridge.out) {

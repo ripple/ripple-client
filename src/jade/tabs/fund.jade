@@ -1,4 +1,4 @@
-section.content(ng-controller='FundCtrl')
+section.col-xs-12.content(ng-controller='FundCtrl')
 
   //- Disconnected
 
@@ -7,82 +7,116 @@ section.content(ng-controller='FundCtrl')
       | You have to be online to see this screen
 
   //- Funding
+  div(ng-show="'web' === client && !loadingAccount && !account.Balance && loadState.account && connected")
+    include banner/unfunded
 
   .row(ng-show='connected')
     .col-sm-3
-      .currencies
-        a(href="", ng-click="currencyPage = 'xrp'"
-          ng-class="{active: currencyPage == 'xrp'}", l10n) XRP (ripples)
-        a(href="", ng-click="currencyPage = 'btc'"
-          ng-class="{active: currencyPage == 'btc'}", ng-show="'web' === client", l10n) BTC (Bitcoin)
+      include fund/menu
     .col-sm-9.list
-      .fundXrp(ng-show="currencyPage == 'xrp'")
-        div(ng-show="'web' === client")
-          .nameLine(l10n) Ripple name:&#32;
-            span.name(ng-show="userCredentials.username") ~{{userCredentials.username}}
-            span(ng-hide="userCredentials.username", l10n) loading...
-            .address
-              a(href="", ng-click="showRippleAddress=true"
-                ng-hide="showRippleAddress", l10n) Show address
-              div(ng-show="showRippleAddress") {{address}}
-          .description(l10n) Ripple names are a new feature on Ripple! Use your
-            |  Ripple name (~{{userCredentials.username}}) to receive money.
-            |  You can still use your full Ripple address, and while we are
-            |  working to transition to Ripple names, some gateways may still
-            |  ask for your full address.
-        div(ng-show="'desktop' === client")
-          .nameLine(l10n) Ripple address&#32;
-            .address {{address}}
-      .fundBtc(ng-show="currencyPage == 'btc'")
-        .nameLine(l10n) Bitcoin Deposit
-        .B2R(ng-show="loadState.B2RApp")
-          .active(ng-show="B2R.active")
-            div(ng-show="loadState.B2RInstructions")
-              .instructions {{B2R.instructions.instruction}}
-              .btc-address {{B2R.instructions.instructionParams[0].value}}
-              .qr-code
-                rp-qrcode(data="bitcoin:{{B2R.instructions.instructionParams[0].value}}", size="100")
-              .about(ng-hide="account.Balance", l10n) A small amount (~.001 BTC) of your first
-                |  transfer will be converted to XRP to activate your wallet.&#32;
-                a.why(href="https://ripple.com/wiki/Reserves",
-                target="_blank", l10n-inc) Why?
-              .limit(ng-show="B2R.limit")
-                span(l10n) Your current deposit limit is:
-                rp-inbound-bridge-limit(limit="B2R.limit")
-                a.remove(href="https://btc2ripple.com/#/my/setup"
-                target="_blank", l10n) Remove Limit
-            div(ng-hide="loadState.B2RInstructions") Loading...
-          .inactive(ng-hide="B2R.active")
-            label(l10n) To deposit, generate a bitcoin receiving address
-              |  using the&#32;
-              a(href="https://btc2ripple.com", target="_blank") btc2ripple 
-              |  service powered by SnapSwap.
-            .row.action
-              .col-xs-12.col-sm-5.col-md-4
-                rp-popup
-                  a.btn.btn-success.btn-sm.sign(href="", rp-popup-link,
-                    ng-click="openPopup()", l10n) Generate bitcoin address
-                  div.connectModal(rp-popup-content)
-                    .modal-header
-                      .navbar-brand.hidden-sm.modal-logo#logo
-                      .modal-title(l10n) Connect
-                    .modal-body
-                      div.modal-prompt(l10n) btc2ripple would like to:
-                      div.grey-focus
-                        div.modal-permissions(l10n) - Receive your email address 
-                          span.modal-email(l10n) ({{userBlob.data.email}})
-                        div.modal-permissions(l10n) - Hold deposited BTC on your behalf
-                      div.modal-agreement(l10n) By proceeding, you agree to the btc2ripple
-                        a(href="https://btc2ripple.com/#/terms/of/service", target="_blank")  terms of service.
-                      div.modal-buttons
-                        button.modal-btn.btn.btn-default.btn-success.btn-md(ng-click="B2RSignup()",
-                          rp-spinner='{{loading ? 4 : null}}', ng-disabled="loading")
-                          span(ng-show="loading", l10n) Loading...
-                          span(ng-hide="loading", l10n) Confirm
-                        button.modal-btn.btn.btn-default.btn-md(data-dismiss="modal"
-                          ng-hide="loading", l10n) Cancel
-                      span.modal-error(ng-show="emailError", l10n)
-                        | SnapSwap's btc2ripple service is currently unavailable.
-                        |  Please check back later.
-        .B2R(ng-hide="loadState.B2RApp")
-          div(l10n) Loading...
+      .fundAcct(ng-show="currencyPage == 'accounts'", ng-controller='TrustCtrl')
+        .row
+          .col-sm-2
+            a.btn.btn-success.btn-sm.btn-block(ng-click='toggle_form()', ng-disabled='addform_visible || editform_visible', l10n) Add trust
+        .row
+          .col-xs-12.col-sm-6
+            form.row-padding-small(name='trustForm', id='trustForm', ng-submit='grant()')
+              .row
+                .col-xs-12.form-group(ng-show="'web' === client")
+                  label(for='trust_counterparty', ng-show="edituser") {{ edituser }}
+                  input.form-control#trust_counterparty(
+                    name='trust_counterparty', type='text', rp-combobox="counterparty_query"
+                    rp-combobox-value-as-ripple-name
+                    l10n-placeholder="Enter a Ripple name or contact"
+                    ng-model='counterparty_view'
+                    rp-dest, rp-dest-address, rp-dest-contact, rp-not-me, rp-dest-email
+                    rp-dest-ripple-name, rp-dest-model="counterparty"
+                    rp-dest-loading="counterparty_loading"
+                    required
+                    rp-autofill='$routeParams.to'
+                    rp-autofill-counterparty_view
+                    rp-autofill-on='addform_visible = true'
+                    rp-focus, rp-spinner="{{counterparty_loading ? 4 : null}}")
+                  .errorGroup(rp-errors='trust_counterparty')
+                    div(rp-error-valid)
+                      .success(ng-show='counterparty != counterparty_address && counterparty_name && !error_account_reserve')
+                        | {{counterparty_address}}
+                      .error(ng-show='error_account_reserve')
+                        span(l10n) Account does not meet the minimum XRP reserve.&#32;
+                        a(href="https://ripple.com/wiki/Account_Creation", target="_blank", l10n)
+                          | More information
+                    .error(rp-error-on='required', l10n) Please enter a Ripple name, contact, or address.
+                    .error(rp-error-on='rpNotMe', l10n) You've entered your own address.
+                    .error(rp-error-on='rpDest', l10n) Please enter a valid Ripple name, contact, or address.
+                .col-xs-12.form-group(ng-show="'desktop' === client")
+                  label(for='trust_counterparty', ng-show="edituser") {{ edituser }}
+                  input.form-control#trust_counterparty(
+                    name='trust_counterparty', type='text', rp-combobox="counterparty_query"
+                    rp-combobox-value-as-ripple-name
+                    l10n-placeholder="Enter a Ripple address or contact"
+                    ng-model='counterparty_view'
+                    rp-dest, rp-dest-address, rp-dest-contact, rp-not-me, rp-dest-email
+                    rp-dest-ripple-name, rp-dest-model="counterparty"
+                    rp-dest-loading="counterparty_loading"
+                    required
+                    rp-autofill='$routeParams.to'
+                    rp-autofill-counterparty_view
+                    rp-autofill-on='addform_visible = true'
+                    rp-focus, rp-spinner="{{counterparty_loading ? 4 : null}}")
+                  .errorGroup(rp-errors='trust_counterparty')
+                    div(rp-error-valid)
+                      .success(ng-show='counterparty != counterparty_address && counterparty_name && !error_account_reserve')
+                        | {{counterparty_address}}
+                      .error(ng-show='error_account_reserve')
+                        span(l10n) Account does not meet the minimum XRP reserve.&#32;
+                        a(href="https://ripple.com/wiki/Account_Creation", target="_blank", l10n)
+                          | More information
+                    .error(rp-error-on='required', l10n) Please enter a Ripple address or contact.
+                    .error(rp-error-on='rpNotMe', l10n) You've entered your own address.
+                    .error(rp-error-on='rpDest', l10n) Please enter a valid Ripple address or contact.
+              .row
+                .col-xs-12.form-group
+                  label(for='trust_amount', l10n) Amount
+                  .row
+                    .col-md-5
+                      input.form-control.value#trust_amount(name='trust_amount'
+                        type='number', step='any', ng-model='amount'
+                        ng-pattern='validation_pattern'
+                        rp-autofill='$routeParams.amount'
+                        rp-autofill-amount
+                        rp-autofill-on='addform_visible = true'
+                        required)
+                    .col-md-7
+                      input.form-control.currency-field#trust_amount_currency(name='trust_amount_currency', type='text'
+                        ng-model='currency', rp-combobox="currency_query", rp-combobox-select
+                        rp-autofill='$routeParams.amount'
+                        rp-autofill-currency
+                        rp-autofill-on='addform_visible = true'
+                        rp-not-xrp
+                        required)
+                  .errorGroup(rp-errors='trust_amount')
+                    .error(rp-error-on='required', l10n) Amount field is required
+                  .errorGroup(rp-errors='trust_amount_currency')
+                    .error(rp-error-on='rpNotXrp', l10n)
+                      | XRP can be sent without extending trust. If you really want
+                      |  to trust in XRP, please use XRR currency code.
+                    .error(rp-error-on='required', l10n)
+                      | Currency field is required
+              .row
+                .col-xs-12.allow-rippling
+                  label.checkbox(for="trust_allowrippling")
+                    input#trust_allowrippling(
+                      name='trust_allowrippling', type='checkbox'
+                      ng-model='allowrippling')
+                    span(l10n) Allow Rippling
+                  i.fa.fa-question-circle.help-icon(
+                    rp-popover
+                    rp-popover-placement="bottom"
+                    l10n-rp-popover-title="Allow Rippling"
+                    rp-popover-trigger="click"
+                    l10n-data-content="Allow this trust line's balances to be transferred to another issuer you trust. <a href=https://ripple.com/wiki/No_Ripple target=_blank>More information</a>")
+              .row
+                .col-xs-6.col-sm-4
+                  button.btn.btn-block.btn-default(type="button", ng-click='toggle_form()', l10n) Cancel
+                .col-xs-6.col-sm-8
+                  button.btn.btn-block.btn-primary.submit(type='submit', ng-disabled='trustForm.$invalid || verifying', l10n) Save

@@ -9,10 +9,9 @@ section.col-xs-12.content(ng-controller="HistoryCtrl")
     p.literal(l10n) Loading history...
 
   //- Account is unfunded
-
-  .unfunded(ng-show='loadState.account && !account.Balance')
+  div(ng-show="'web' === client && !loadingAccount && !account.Balance && loadState.account && connected")
+    include banner/unfunded
     p.literal(l10n) Your account history is empty
-    p: a.btn.btn-default(href="#/balance", l10n) Back to balance
 
   //- Connected
 
@@ -31,18 +30,18 @@ section.col-xs-12.content(ng-controller="HistoryCtrl")
               span.name {{name}}
               //span.count {{typeUsage[name] || 0}}
               input(type="checkbox", name="type-filter", ng-model="types[name].checked")
-      .filter.type-filter
-        a.filter-title(href="", ng-click="showFilterCurrencies=!showFilterCurrencies", l10n) Currencies
-          .fa.fa-caret-right(ng-hide="showFilterCurrencies")
-          .fa.fa-caret-down(ng-show="showFilterCurrencies")
-        .filter-choices(ng-show="showFilterCurrencies")
-          div(ng-repeat="(currency,obj) in filters.currencies")
-            label(ng-class="{active: obj.checked}")
-              i.fa.fa-plus(ng-show="obj.checked")
-              i.fa.fa-minus(ng-hide="obj.checked")
-              span.name {{currency}}
-              //span.count {{currencyUsage[currency] || 0}}
-              input(type="checkbox", name="currency-filter", ng-model="obj.checked")
+      //- .filter.type-filter
+      //-   a.filter-title(href="", ng-click="showFilterCurrencies=!showFilterCurrencies", l10n) Currencies
+      //-     .fa.fa-caret-right(ng-hide="showFilterCurrencies")
+      //-     .fa.fa-caret-down(ng-show="showFilterCurrencies")
+      //-   .filter-choices(ng-show="showFilterCurrencies")
+      //-     div(ng-repeat="(currency,obj) in filters.currencies")
+      //-       label(ng-class="{active: obj.checked}")
+      //-         i.fa.fa-plus(ng-show="obj.checked")
+      //-         i.fa.fa-minus(ng-hide="obj.checked")
+      //-         span.name {{currency}}
+      //-         span.count {{currencyUsage[currency] || 0}}
+      //-         input(type="checkbox", name="currency-filter", ng-model="obj.checked")
       .filter.date-filter
         a.filter-title(href="", ng-click="showFilterDate=!showFilterDate", l10n) Date
           .fa.fa-caret-right(ng-hide="showFilterDate")
@@ -59,18 +58,21 @@ section.col-xs-12.content(ng-controller="HistoryCtrl")
                 i.fa.fa-calendar(l10n)  To
               input.form-control(type="text", rp-datepicker, ng-model="dateMaxView", readonly)
             button.btn.btn-block.btn-primary.submit(type='submit', l10n) Filter
-      .filter.amount-filter
-        a.filter-title(href="", ng-click="showFilterMinAmount=!showFilterMinAmount", l10n) Minimum Amount
-          .fa.fa-caret-right(ng-hide="showFilterMinAmount")
-          .fa.fa-caret-down(ng-show="showFilterMinAmount")
-        form.filter-choices.row.form-group(ng-submit="submitMinimumAmountForm()", ng-show="showFilterMinAmount")
-          .col-xs-8
-            input.form-control(type="text", ng-model="filters.minimumAmount")
-          .col-xs-4
-            button.btn.btn-block.btn-primary.submit(type='submit', l10n) Filter
+      //- .filter.amount-filter
+      //-   a.filter-title(href="", ng-click="showFilterMinAmount=!showFilterMinAmount", l10n) Minimum Amount
+      //-     .fa.fa-caret-right(ng-hide="showFilterMinAmount")
+      //-     .fa.fa-caret-down(ng-show="showFilterMinAmount")
+      //-   form.filter-choices.row.form-group(ng-submit="submitMinimumAmountForm()", ng-show="showFilterMinAmount")
+      //-     .col-xs-8
+      //-       input.form-control(type="text", ng-model="filters.minimumAmount")
+      //-     .col-xs-4
+      //-       button.btn.btn-block.btn-primary.submit(type='submit', l10n) Filter
 
     .transactions.col-sm-9
-      h3(l10n) Transaction History
+      .col-xs-6
+        h3(l10n) Transaction History
+      .col-xs-6.text-right
+        a#csv.btn.btn-default.btn-sm(href='', ng-click='exportCsv()', rp-download='historyCsv', rp-download-csv='true', rp-download-filename='ripple_historic.csv', l10n) Export to CSV
       .head
         .type
         .i
@@ -123,10 +125,10 @@ section.col-xs-12.content(ng-controller="HistoryCtrl")
                   span.amount(rp-pretty-amount="entry.transaction.amount")
                 != require("./history/effects.jade")()
               span(ng-switch-when="trusting")
-                span(l10n, rp-span-spacing) You now trust
+                span(l10n, rp-span-spacing) You have now connected to the gateway
                   span.address(rp-pretty-identity="entry.transaction.counterparty")
-                  | for
-                  span.amount(rp-pretty-amount="entry.transaction.amount")
+                  span(ng-show="advanced_feature_switch", l10n-inc)  for
+                  span.amount(ng-show="advanced_feature_switch", rp-pretty-amount="entry.transaction.amount")
                 != require("./history/effects.jade")()
               span(ng-switch-when="offernew")
                 span(ng-show="entry.transaction.sell", l10n, rp-span-spacing) You created an order to sell
@@ -178,8 +180,8 @@ section.col-xs-12.content(ng-controller="HistoryCtrl")
                 span.balance(l10n) Final balance
               .effect(ng-repeat="effect in entry.balanceEffects")
                 span.description
-                  span(ng-show="effect.type == 'balance_Change'", data-label="Description", l10n) XRP balance Change
-                  span(ng-show="effect.type == 'trust_Change_balance'", data-label="Description", l10n) {{effect.currency}} balance Change
+                  span(ng-show="effect.type == 'balance_change'", data-label="Description", l10n) XRP Balance Change
+                  span(ng-show="effect.type == 'trust_change_balance'", data-label="Description", l10n) {{effect.currency}} Balance Change
                   span(ng-show="effect.type == 'fee'", data-label="Description", l10n) Fee
                 span.issuer(
                   rp-pretty-issuer="effect.amount.issuer().to_json()"

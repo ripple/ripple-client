@@ -1,33 +1,33 @@
 var util = require('util'),
     Tab = require('../client/tab').Tab;
 
-var FundTab = function ()
+var BtcTab = function ()
 {
   Tab.call(this);
 };
 
-util.inherits(FundTab, Tab);
+util.inherits(BtcTab, Tab);
 
-FundTab.prototype.tabName = 'fund';
-FundTab.prototype.mainMenu = 'fund';
+BtcTab.prototype.tabName = 'btc';
+BtcTab.prototype.mainMenu = 'fund';
 
-FundTab.prototype.angularDeps = Tab.prototype.angularDeps.concat(['qr']);
+BtcTab.prototype.angularDeps = Tab.prototype.angularDeps.concat(['qr']);
 
-FundTab.prototype.generateHtml = function ()
+BtcTab.prototype.generateHtml = function ()
 {
-  return require('../../jade/tabs/fund.jade')();
+  return require('../../jade/tabs/btc.jade')();
 };
 
-FundTab.prototype.angular = function (module)
+BtcTab.prototype.angular = function (module)
 {
-  module.controller('FundCtrl', ['$rootScope', 'rpId', 'rpAppManager', 'rpTracker',
-                                     function ($scope, $id, appManager, rpTracker)
+  module.controller('BtcCtrl', ['$rootScope', 'rpId', 'rpAppManager', 'rpTracker', '$routeParams',
+                                     function ($scope, $id, appManager, rpTracker, $routeParams)
   {
-    if (!$id.loginStatus) return $id.goId();
-
-    $scope.currencyPage = 'xrp';
-
+ 
+    $scope.accountLines = {};
     $scope.showComponent = [];
+
+    if (!$id.loginStatus) return $id.goId();
 
     $scope.openPopup = function () {
       $scope.emailError = false;
@@ -71,7 +71,8 @@ FundTab.prototype.angular = function (module)
 
       rpTracker.track('B2R Shared Email');
     };
+
   }]);
 };
 
-module.exports = FundTab;
+module.exports = BtcTab;

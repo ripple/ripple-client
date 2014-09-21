@@ -186,17 +186,26 @@ module.directive('rpConfirm', ['rpPopup', function(popup) {
   };
 }]);
 
-module.directive('rpPopup', ['rpPopup', function(popup) {
+module.directive('rpPopup', ['rpPopup', '$parse', function(popup, $parse) {
   return {
     restrict: 'E',
     link: function postLink(scope, element, attrs) {
-      element.find('a[rp-popup-link]').click(function(e) {
+      var a = element.find('a[rp-popup-link]');
+      a.click(function(e) {
         e.preventDefault();
 
-        popup.blank(
-          new XMLSerializer().serializeToString(element.find('[rp-popup-content]')[0]),
-          scope
-        );
+        // onShow action
+        if (attrs.rpPopupOnOpen) {
+          $parse(attrs.rpPopupOnOpen)(scope);
+        }
+
+        var content = element.find('[rp-popup-content]');
+        xml = new XMLSerializer().serializeToString(content[0]);
+
+        popup.blank(xml, scope);
+        if (attrs.onopen && scope[attrs.onopen]) {
+          scope[attrs.onopen]();
+        }
       });
     }
   };
@@ -224,7 +233,9 @@ module.directive('rpDownload', [function() {
     restrict: 'A',
     scope: {
       data: '=rpDownload',
-      filename: '@rpDownloadFilename'
+      filename: '@rpDownloadFilename',
+      isCsv: '@rpDownloadCsv',
+      clickHandler: '@ngClick'
     },
     compile: function(element, attr, linker) {
       return function(scope, element, attr) {
@@ -233,7 +244,8 @@ module.directive('rpDownload', [function() {
 
         if ("download" in document.createElement("a")) {
           scope.$watch('data', function(data) {
-            trigger.attr('href', "data:text/plain," + data);
+            if (scope.isCsv) trigger.attr('href', data ? "data:text/csv;charset=utf-8," + escape(data) : "");
+            else trigger.attr('href', "data:text/plain," + data);
           });
           scope.$watch('filename', function(filename) {
             trigger.attr('download', filename);
@@ -253,6 +265,8 @@ module.directive('rpDownload', [function() {
                 return scope.filename;
               },
               data: function() {
+                // If there was a click handler in the element Downloadify hides, then trigger it now
+                if (scope.clickHandler) trigger.trigger('click');
                 return scope.data;
               },
               transparent: true,
@@ -338,14 +352,35 @@ module.directive('rpAutofill', ['$parse', function($parse) {
               value = value + '.0';
             }
 
+            var convertCurrency = function(currencyObj) {
+              if (attr.rpAutofillCurrencyFullname) {
+                if ($scope.currencies_all_keyed[currencyObj.get_iso()]) {
+                  return currencyObj.to_human({full_name:$scope.currencies_all_keyed[currencyObj.get_iso()].name});
+                } else {
+                  return currencyObj.to_human();
+                }
+              } else {
+                return currencyObj.to_json();
+              }
+            };
+
+            // Is it an amount?
             var amount = ripple.Amount.from_json(value);
-            if (!amount.is_valid()) return;
-            if (attr.rpAutofillAmount) {
-              value = +amount.to_human({
-                group_sep: false
-              });
-            } else {
-              value = amount.currency().to_json();
+            if (amount.is_valid()) {
+              if (attr.rpAutofillAmount) {
+                value = +amount.to_human({
+                  group_sep: false
+                });
+              } else {
+                value = convertCurrency(amount.currency());
+              }
+            }
+            // Maybe a currency?
+            else {
+              var currency = ripple.Currency.from_json(value);
+              if (!currency.is_valid()) return;
+
+              value = convertCurrency(currency);
             }
           }
 
@@ -514,9 +549,9 @@ module.directive('ngUpload', function() {
 
             // remove iframe
             if (content !== "") // Fixes a bug in Google Chrome that dispose the iframe before content is ready.
-            setTimeout(function() {
-              iframe.remove();
-            }, 250);
+              setTimeout(function() {
+                iframe.remove();
+              }, 250);
 
             //if (options.enableControls == null || !(options.enableControls.length >= 0))
             submitControl.attr('disabled', null);
@@ -531,28 +566,28 @@ module.directive('ngUpload', function() {
         // 2) attach a handler to the controls' click event
         $('.upload-submit', element).click(
 
-        function() {
+          function() {
 
-          addNewDisposableIframe($(this) /* pass the submit control */ );
+            addNewDisposableIframe($(this) /* pass the submit control */ );
 
-          scope.$apply(function() {
-            callbackFn("Please wait...", false /* upload not completed */ );
-          });
+            scope.$apply(function() {
+              callbackFn("Please wait...", false /* upload not completed */ );
+            });
 
-          //console.log(angular.toJson(options));
+            //console.log(angular.toJson(options));
 
-          var enabled = true;
-          if (options.enableControls === null || options.enableControls === undefined || options.enableControls.length >= 0) {
-            // disable the submit control on click
-            $(this).attr('disabled', 'disabled');
-            enabled = false;
-          }
+            var enabled = true;
+            if (options.enableControls === null || options.enableControls === undefined || options.enableControls.length >= 0) {
+              // disable the submit control on click
+              $(this).attr('disabled', 'disabled');
+              enabled = false;
+            }
 
-          $(this).attr('title', (enabled ? '[ENABLED]: ' : '[DISABLED]: ') + 'Uploading, please wait...');
+            $(this).attr('title', (enabled ? '[ENABLED]: ' : '[DISABLED]: ') + 'Uploading, please wait...');
 
-          // submit the form
-          $(element).submit();
-        }).attr('title', 'Click to start upload.');
+            // submit the form
+            $(element).submit();
+          }).attr('title', 'Click to start upload.');
       } else console.log("No callback function found on the ngUpload directive.");
     }
   };

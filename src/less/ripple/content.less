@@ -2,7 +2,7 @@
 
 // Temporary
 @media (max-width: @screen-xs-max) {
-  .t-login, .t-register {
+  .t-login, .t-register, .t-migrate {
     header {
       display: none;
     }
@@ -17,8 +17,8 @@ nav + .content {
   .border-radius(5px,5px,0,0);
 
   @media (min-width: @screen-sm-max) {
-    -webkit-box-shadow:  -3px 0px 5px 0px rgba(0, 0, 0, 0.1);
-    box-shadow:  -3px 0px 5px 0px rgba(0, 0, 0, 0.1);
+    -webkit-box-shadow: -3px 0px 5px 0px rgba(0, 0, 0, 0.1);
+    box-shadow: -3px 0px 5px 0px rgba(0, 0, 0, 0.1);
   }
 }
 
@@ -107,6 +107,10 @@ h1 {
   }
 }
 
+.frozen-account {
+  background-color: @lightgray;
+}
+
 .content {
   padding-top: @grid-gutter-width/2;
   padding-bottom: @grid-gutter-width/2;
@@ -151,7 +155,7 @@ h1 {
     display: block;
   }
 
-  p.literal {
+  p.literal, span.literal, a.literal {
     font: 16px 'OpenSansRegular';
 
     strong {
@@ -195,18 +199,18 @@ h1 {
   // This class is used to show the color-coded messages after submitting a
   // transaction on various pages.
   h2.tx-status {
-    font: 34px 'OpenSansRegular';
+    background-color: @lightyellow;
+    font: 12px 'OpenSansRegular';
     font-weight: normal;
-    padding: 10px 0;
+    padding: 15px;
     .transition-duration(0.2s);
+    .border-radius(5px,5px,5px,5px);
   }
 
   .result-success h2.tx-status {
     background-color: @lightgreen;
-    padding: 15px;
-    color: @darkgreen;
-    .border-radius(5px,5px,5px,5px);
-  }
+    color: @darkgreen;  }
+
   .result-error h2.tx-status,
   .result-malformed h2.tx-status,
   .result-failed h2.tx-status {
@@ -365,6 +369,10 @@ a.danger {
   }
 }
 
+.cancel {
+  margin: 0 15px;
+}
+
 .why {
   font-size: 11px;
 }
@@ -385,6 +393,10 @@ a.danger {
   span {
     font-family: OpenSansBold;
   }
+}
+
+.blank {
+  visibility: hidden;
 }
 
 rp-pie-chart {

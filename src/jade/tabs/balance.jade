@@ -8,23 +8,44 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
     p.literal(l10n) Loading...
 
   //- Connected
+  div(ng-show="'web' === client && !loadingAccount && !account.Balance && loadState.account && connected")
+    include banner/unfunded
 
   group(ng-show="connected && loadState.account")
+    include banner/announcement
     .row
       .col-xs-12.col-xs-8
-        .currency-overview
+        .currency-overview(ng-show="account.Balance")
+          //- .balancebox.col-xs-4
           .balancebox.col-xs-8
             .lbl(l10n) Total Balance
               .desc(l10n) Estimated from exchange rates
-            .total.amount
-              span.amount {{ aggregateValueDisplayed.toFixed(4) }}
-              select.currency(ng-model='selectedValueMetric'
-                ng-change='changeMetric(this)')
-                option(ng-repeat='metric in valueMetrics'
-                  value='{{metric.code}}') {{metric.text}}
+            .total.amount(ng-show="exchangeRatesNonempty")
+              span.amount {{ aggregateValueDisplayed }}
+              span.amountDecimal {{  aggregateValueDisplayedDecimal }}
+              select.currency(rp-flat-select, ng-model='selectedValueMetric'
+                ng-change='changeMetric(this)'
+                ng-options='metric.code as metric.text for metric in valueMetrics')
+            p.literal(l10n ng-hide="exchangeRatesNonempty") Loading...
             .lbl(ng-show="hasNegative")
               .desc(l10n) (excluding negative balances)
-          .col-xs-4
+          //- .trendbox.col-xs-4
+          //-   .lbl(l10n) Trend
+          //-     .desc(l10n) Compared to the past estimated total balance
+          //-   .trend
+          //-     span(ng-show="trendValueAsPercentage !== undefined")
+          //-       span.positive(ng-show="trendValueAsPercentage > 0") +
+          //-         span.amount {{ (trendValueAsPercentage * 100).toFixed(2) }}%
+          //-       span.equal(ng-show="trendValueAsPercentage == 0") =
+          //-         span.amount {{ (trendValueAsPercentage * 100).toFixed(2) }}%
+          //-       span.negative(ng-show="trendValueAsPercentage < 0") -
+          //-         span.amount {{ (trendValueAsPercentage * -100).toFixed(2) }}%
+          //-     span.loading(ng-hide="trendValueAsPercentage !== undefined") ...
+          //-     select.trendspan(rp-flat-select,ng-model='selectedTrendSpan'
+          //-       ng-change='changeTrendSpan(this)')
+          //-       option(l10n,value='86400000') in past 24 hours
+          //-       option(l10n,value='604800000') in past 7 days
+          .col-xs-4(ng-class="{ 'blank' : !exchangeRatesNonempty }")
             rp-pie-chart(
               rp-size="120"
               rp-drops="account.Balance"
@@ -34,12 +55,13 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
           .balancebox.currency-xrp
             .total.row
               .lbl.col-xs-8
-                i.icon-ripple-logo
-                | XRP - Ripple
+                a(href="", ng-click="entry.show=!entry.show")
+                  i.icon-ripple-logo
+                  | XRP - Ripple
               .balance.col-xs-4
                 span(ng-show="account.Balance") {{ account.Balance | rpamount:{rel_precision: 2, max_sig_digits: 20} }}
                 span(ng-hide="account.Balance") 0
-            .component.row
+            .component.row(ng-show="entry.show")
               .lbl.col-xs-8
                 span(l10n) Available&#32;
                 i.fa.fa-question-circle(
@@ -51,7 +73,7 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
               .balance.col-xs-4
                 span(ng-show="account.max_spend") {{account.max_spend | rpamount:{rel_precision: 0} }}
                 span(ng-hide="account.max_spend") 0
-            .component.row
+            .component.row(ng-show="entry.show")
               .lbl.col-xs-8
                 span(l10n) Reserve&#32;
                 i.fa.fa-question-circle(
@@ -77,7 +99,7 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
               .head
                 .lbl.col-xs-8(ng-show="component.gateway.app") {{component.gateway.app.name}}
                   span.status.unverified(ng-hide="true", l10n) Unverified
-                .lbl.col-xs-8(ng-hide="component.gateway.app", rp-pretty-issuer="issuer"
+                .lbl.col-xs-8(ng-hide="component.gateway.app", rp-pretty-identity="issuer"
                   rp-pretty-issuer-contacts="userBlob.data.contacts")
                 .balance.col-xs-4 {{ component | rpamount:{rel_precision: 0} }}
               form.withdraw(ng-show="component.window == 'withdraw'")
@@ -123,7 +145,7 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
                 .step3(ng-show='step==3')
                   .row
                     .col-xs-12.col-sm-6
-                      .message.type-offline(l10n) Offline
+                      .message.type-offline(l10n) Reconnecting to Ripple network
                       .message.type-success(l10n) Transaction Successful
                       .message.type-warning(l10n) Warning
                       .message.type-error(l10n) Transaction Failed

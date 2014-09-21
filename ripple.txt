@@ -1,0 +1,2 @@
+[authinfo_url]
+https://id.staging.ripple.com/v1/authinfo

@@ -15,16 +15,21 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
             a(href="#/exchange", l10n) Exchange
           li#nav-exchange(ng-class="{active: $route.current.mainMenu == 'exchange' || $route.current.mainMenu == 'trade'}", ng-show="ripple_exchange_selection_trade")
             a(href="#/trade", l10n) Exchange
-          li#nav-fund(ng-class="{active: $route.current.mainMenu == 'fund'}")
-            a(href="#/fund", l10n) Fund
+          li#nav-fund(ng-class="{active: $route.current.mainMenu == 'xrp'}")
+            a(href="#/xrp", l10n) Fund
         ul.nav.navbar-nav.navbar-right
-          li.balance
-            p.navbar-text(ng-show="!loadState.account", l10n) Loading your balance...
-            p.navbar-text(ng-show="loadState.account")
-              span.balance.primary(ng-show="!account.Account", l10n) Unfunded account
-              span.balance.primary(ng-show="account.Account")
-                span.amount {{account.Balance | rpamount:{precision: 2} }}
-              span.currency  XRP
+          //- li.dropdown.balances-dropdown
+          //-   p.navbar-text(ng-show="!loadState.account", l10n) Loading your balance...
+          //-   a.dropdown-toggle(ng-show="loadState.account")
+          //-     span.balance.primary(ng-show="!account.Account", l10n) Unfunded account
+          //-     span.balance.primary(ng-show="account.Account")
+          //-       span.amount {{account.Balance | rpamount:{precision: 2} }}
+          //-       span.balance.currency  XRP&nbsp;
+          //-         span.fa.fa-chevron-down
+          //-   ul#balances.dropdown-menu
+          //-     li.balance(ng-repeat="balance in balances")
+          //-       span.balance {{balance.total | rpamount:{rel_precision: 2} }}&nbsp;
+          //-       span.balance(rp-currency="balance.total", rp-currency-short)
           li(ng-hide="'desktop' === client")
             a(href="#/account") ~{{userCredentials.username}}
           li.dropdown.notifications-dropdown
@@ -44,21 +49,15 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
                     span(l10n) You sent
                       strong.nowrap  {{entry.transaction.amount | rpamount}} {{entry.transaction.amount | rpcurrency}}
                       |  to
-                      span.address(title="{{entry.transaction.counterparty}}")  {{entry.transaction.counterparty | rpcontactname}}
+                      span.address(title="{{entry.transaction.counterparty}}")  {{entry.transaction.counterparty | rpcontactnamefull | rpripplename: {tilde: true} }}
                     != require("../tabs/history/effects.jade")()
                   .transaction(ng-switch-when="received")
                     span.address(title="{{entry.transaction.counterparty}}", l10n)
-                      span {{entry.transaction.counterparty | rpcontactname}}
+                      span {{entry.transaction.counterparty | rpcontactnamefull | rpripplename: {tilde: true} }}
                       |  sent you
                       strong.nowrap  {{entry.transaction.amount | rpamount:{reference_date:entry.dateRaw} }} {{entry.transaction.amount | rpcurrency}}
                     != require("../tabs/history/effects.jade")()
                   .transaction(ng-switch-when="exchange")
-                    span(l10n) You requested to exchange
-                      strong.nowrap  {{entry.transaction.spent | rpamount}}
-                        | {{entry.transaction.spent | rpcurrency}}
-                      |  to
-                      strong.nowrap  {{entry.transaction.amount | rpamount}}
-                        | {{entry.transaction.amount | rpcurrency}}
                     != require("../tabs/history/effects.jade")()
                   .transaction(ng-switch-when="trusted")
                     span.address(title="{{entry.transaction.counterparty}}", l10n)
@@ -67,7 +66,7 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
                       | {{entry.transaction.amount | rpcurrency}}
                     != require("../tabs/history/effects.jade")()
                   .transaction(ng-switch-when="trusting")
-                    span(l10n) You now trust&#32;
+                    span(l10n) You have now connected to the gateway&#32;
                       span.address(title="{{entry.transaction.counterparty}}")
                         | {{entry.transaction.counterparty | rpcontactname}}
                       |  for
@@ -76,14 +75,6 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
                       | .
                     != require("../tabs/history/effects.jade")()
                   .transaction(ng-switch-when="offernew")
-                    span(ng-show="entry.transaction.sell", l10n) You created an order to sell&#32;
-                      strong {{entry.transaction.gets | rpamount}} {{entry.transaction.gets | rpcurrency}}
-                      |  for&#32;
-                      strong {{entry.transaction.pays | rpamount}} {{entry.transaction.pays | rpcurrency}}
-                    span(ng-hide="entry.transaction.sell", l10n) You created an order to buy&#32;
-                      strong {{entry.transaction.pays | rpamount}} {{entry.transaction.pays | rpcurrency}}
-                      |  for&#32;
-                      strong {{entry.transaction.gets | rpamount}} {{entry.transaction.gets | rpcurrency}}
                     != require("../tabs/history/effects.jade")()
                   .transaction(ng-switch-when="offercancel")
                     span(l10n) You cancelled an order accepting&#32;
@@ -108,12 +99,19 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
           li.settings
             a.dropdown-toggle.fa.fa-cog
             ul.dropdown-menu
-              li: a(href="#/account", l10n) Account
-              li: a(href="#/trust", l10n) Trust
-              li: a(href="#/security", l10n) Security
-              li: a(href="#/options", l10n) Options
+              li: a(href="#/account", l10n)
+                img(src="img/profile.png")
+                |  Account
+              //li.divider
+              //li: a(href="#/trust", l10n) Trust
               li.divider
-              li: a.logout(ng-click='logout()', l10n) Logout
+              li: a(href="#/security", l10n)
+                img(src="img/settings.png")
+                |  Settings
+              li.divider
+              li: a.logout(ng-click='logout()', l10n)
+                img(src="img/logout.png")
+                |  Log Out
   .subnav(ng-show="$route.current.mainMenu == 'wallet'")
     .container
       ul
@@ -123,8 +121,6 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
           a(href="#/history", l10n) History
         li(ng-class="{active: $route.current.tabName == 'contacts'}")
           a(href="#/contacts", l10n) Contacts
-        //- li(ng-class="{active: $route.current.tabName == 'cashin'}")
-          a(href="#/cashin", l10n) Cash In
   .subnav(ng-show="$route.current.mainMenu == 'exchange' || $route.current.mainMenu == 'trade'")
     .container
       ul
@@ -139,15 +135,6 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
           a(href="#/fund", l10n) Fund
         li(ng-class="{active: $route.current.tabName == 'withdraw'}")
           a(href="#/withdraw", l10n) Withdraw
-  div.auth-attention.banner.text-center(ng-if="recovered", ng-show="recovered", l10n) 
+  div.auth-attention.banner.text-center(ng-if="recovered", ng-show="recovered")
     h4(l10n) Your account was successfully recovered and encrypted with the new password you provided!
     a(href="#", ng-click="recovered = false", l10n) dismiss
-  div.auth-attention.banner(ng-show="'web' === client && !loadingAccount && !account.Balance && connected")
-    h4(l10n) Welcome to Ripple Trade! To activate your account, you'll need at least 20 XRP.
-    ul
-      li(l10n) Have another user send XRP to your Ripple name (~{{userCredentials.username}})
-      li(l10n) Use the bitcoin funding flow. A small amount of your first deposit
-        |  will be used to activate your account.
-      li(l10n) If your account remains unfunded for 30 days, you will no longer be
-        |  able to login using your Ripple name (~{{userCredentials.username}}).
-        |  You'll need to sign up for a new Ripple name.

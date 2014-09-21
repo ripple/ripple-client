@@ -1,4 +1,4 @@
-section.single.content(ng-controller='SendCtrl')
+section.col-xs-12.content(ng-controller='SendCtrl')
 
   //- Disconnected
 
@@ -7,9 +7,9 @@ section.single.content(ng-controller='SendCtrl')
 
   //- Account is unfunded
 
-  .unfunded(ng-hide='account.Balance || !connected')
+  div(ng-show="'web' === client && !loadingAccount && !account.Balance && loadState.account && connected")
+    include banner/unfunded
     p.literal(l10n="err-you-must-be-funded-before-you-can-send-money", l10n) You have to be funded before you can send money
-    p: a.btn.btn-default(href="#/balance", l10n) Back to balance
 
   //- 1. Send form
 
@@ -111,7 +111,7 @@ section.single.content(ng-controller='SendCtrl')
           ng-model='field.value'
           ng-required='{{field.required}}')
           option(ng-repeat='option in field.options', ng-bind='option.label', value='{{option.value}}', ng-selected='option.selected', ng-disabled='option.disabled')
-    .form-group
+    .form-group(ng-show="send.currency_choices.length")
       label(for='send_amount', l10n) Recipient will receive
       .row.amount(ng-if="!send.currency_force")
         .col-xs-12.col-sm-6.col-md-2
@@ -132,6 +132,7 @@ section.single.content(ng-controller='SendCtrl')
           ng-model='send.currency'
           rp-autofill='$routeParams.amount'
           rp-autofill-currency
+          rp-autofill-currency-fullname
           rp-restrict-currencies='{{send.restrict_currencies}}')
       .row(ng-if="send.currency_force")
         .col-xs-12.col-sm-6.col-md-3.input-group.currency_force
@@ -176,6 +177,8 @@ section.single.content(ng-controller='SendCtrl')
         | Checking
       p.literal(ng-show="send.path_status == 'fed-check'", rp-spinner="4", l10n)
         | Analyzing address
+      p.literal(ng-show="send.path_status == 'account-currencies'", rp-spinner="4", l10n)
+        | Scanning accepted currencies
       p.literal(ng-show="send.path_status == 'bridge-quote'", rp-spinner="4", l10n)
         | Requesting quote
       p.literal(ng-show="send.path_status == 'pending' && send.currency_code != 'XRP'", rp-spinner="4", l10n)
@@ -185,7 +188,12 @@ section.single.content(ng-controller='SendCtrl')
       p.literal(ng-show="send.path_status == 'no-path' && send.currency_code != 'XRP'", l10n)
         | You cannot send {{send.amount}} {{send.currency}} to
         |  {{send.recipient}}. Either your account has insufficient funds,
-        |  or {{send.recipient}} doesn't accept {{send.currency}}. 
+        |  or {{send.recipient}} doesn't accept {{send.currency}}.
+      p.literal(ng-show="send.path_status == 'no-path' && send.currency_code == 'XRP'", l10n)
+        | You cannot send {{send.amount}} {{send.currency}} to
+        |  {{send.recipient}}. Your account has insufficient funds.
+      p.literal(ng-show="send.path_status == 'error-no-currency'", l10n)
+        | There are no valid currency choices for this destination.
       p.literal(ng-show="send.path_status == 'error-quote'", l10n)
         | Error while retrieving quote for outbound payment.
         span(ng-show="send.quote_error")  The outbound bridge reported: "{{send.quote_error | rpheavynormalize}}"
@@ -204,7 +212,12 @@ section.single.content(ng-controller='SendCtrl')
             .margin
               .am
                 span.amnt {{alt.amount | rpamount:{rel_precision: 4, rel_min_precision: 2} }}
-                span.currency {{alt.amount | rpcurrency }}
+                span(ng-hide="alt.amount.is_native() || alt.amount.issuer().to_json() == account.Account")
+                  span.issuer(
+                    rp-pretty-issuer="alt.amount.issuer().to_json()"
+                    rp-pretty-issuer-contacts="userBlob.data.contacts"
+                    rp-pretty-issuer-or-short)
+                span.currency  {{alt.amount | rpcurrency }}
                 .ex (
                   span.rate {{alt.rate | rpamount:{rel_precision: 4, rel_min_precision: 2 } }}
                   span.pair {{send.currency_code}}/{{alt.amount | rpcurrency}}
@@ -212,6 +225,12 @@ section.single.content(ng-controller='SendCtrl')
               button.btn.btn-block.btn-success(type="submit"
                 ng-disabled='sendForm.$invalid', ng-click="send.alt = alt", l10n)
                   | Send {{ alt.amount | rpcurrency }}
+                  span(ng-hide="alt.amount.is_native() || alt.amount.issuer().to_json() == account.Account")  (
+                    span.issuer(
+                      rp-pretty-issuer="alt.amount.issuer().to_json()"
+                      rp-pretty-issuer-contacts="userBlob.data.contacts"
+                      rp-pretty-issuer-or-short)
+                    | )
         .row.row-padding-small.pathupdate(ng-show="send.alternatives.length && lastUpdate")
           .col-xs-12(l10n) Paths last updated
             span  {{lastUpdate}}
@@ -249,21 +268,21 @@ section.single.content(ng-controller='SendCtrl')
       p.literal(ng-show="send.secret", l10n) Are you sure?
       p.literal(ng-hide="send.secret", l10n) Please enter your password to confirm this transaction.
       .row.row-padding-small(ng-if="!send.secret")
-        input.form-control#send_unlock_password(
-          name='send_unlock_password', type='password', required
-          ng-model='send.unlock_password')
-          .errorGroup(rp-errors='send_unlock_password')
-            .error(rp-error-on='required', l10n) Password required to unlock wallet
+        .col-xs-6.col-sm-4
+          input.form-control#send_unlock_password(
+            name='send_unlock_password', type='password', required
+            ng-model='send.unlock_password')
+            .errorGroup(rp-errors='send_unlock_password')
+              .error(rp-error-on='required', l10n) Password required to unlock wallet
       .row.row-padding-small
-        .col-xs-6.col-sm-4.col-md-3.col-lg-2
-          button.btn.btn-block.btn-default.back(
-            type='button'
-            ng-click='cancelConfirm()', l10n)
-            | &laquo; Back
         .col-xs-6.col-sm-4.col-md-3.col-lg-2
           button#confirmButton.btn.btn-block.btn-success.submit(
             type='submit'
             ng-disabled='confirm_wait', l10n) Confirm
+        .col-xs-6.col-sm-4.col-md-3.col-lg-2
+          button.btn.btn-link.back(
+            type='button'
+            ng-click='cancelConfirm()', l10n) cancel
 
   //- N4. Waiting for transaction result page
 
@@ -291,7 +310,7 @@ section.single.content(ng-controller='SendCtrl')
         p.literal(l10n) Sorry, an error occurred while submitting your transaction.
           | Make sure you are connected to the Internet and try again later.
         p.literal(l10n) Please ensure you don't send your payment more than once.
-    p: button.btn.btn-default(ng-click='cancelConfirm()', l10n) &laquo; Back
+    p: button.btn.btn-link.btn-default(ng-click='cancelConfirm()', l10n) cancel
 
   //- N5b. Ripple error page
   group.mode-ripplerror(ng-show='mode=="rippleerror" && account.Balance')
@@ -317,7 +336,7 @@ section.single.content(ng-controller='SendCtrl')
             button.btn.btn-success(type='submit', ng-disabled='addressSaving')
               span(ng-show='addressSaving', l10n) Saving...
               span(ng-hide='addressSaving', l10n) Save
-            a(href="", ng-click='show_save_address_form = false', l10n) Cancel
+            a(href="", ng-click='show_save_address_form = false', l10n) cancel
           hr
       div(class="actionLink")
         a(href="", ng-click="reset()", l10n) Send another payment
@@ -393,7 +412,7 @@ section.single.content(ng-controller='SendCtrl')
               ng-disabled='addressSaving || saveAddressForm.$invalid')
               span(ng-show='addressSaving', l10n) Saving...
               span(ng-hide='addressSaving', l10n) Save
-            a(href="", ng-click='show_save_address_form = false', l10n) Cancel
+            a(href="", ng-click='show_save_address_form = false', l10n) cancel
           hr
       div(class="actionLink")
         a(href="", ng-click="reset()", l10n) Send another payment

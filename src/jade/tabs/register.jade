@@ -1,15 +1,17 @@
 section.col-xs-12.content(ng-controller="RegisterCtrl")
   .row.col-md-12
-   .welcome-wrapper
-     h3.platform(l10n) Ripple Trade is the only platform where you can trade between stores of value spanning fiat, crypto, precious metals and more.
-     h4.new
-      p.xrp-xau XRP <i class="fa fa-arrows-h"></i> XAU
-      em(l10n) New! 
-      span.currency(l10n) The historic qualities of gold combined with the capabilities of digital currency. 
-      span(l10n) Buy and sell physical gold issued by&#32;
-      a(target='_blank', href='http://www.bullioninternational.com/', l10n) GBI
-      span(l10n) , one of the world’s most prominent independent gold dealers.&#32;
-      a(target='_blank', href='https://support.ripplelabs.com/hc/en-us/articles/202882453', l10n) Learn more.
+    .welcome-wrapper
+      h3.platform(l10n) Ripple Trade is the only platform where you can trade between stores of value spanning fiat, crypto, precious metals and more.
+      h4.new
+        p.xrp-xau XRP <i class="fa fa-arrows-h"></i> XAU
+        em(l10n) New!
+      span(l10n)
+        span.currency(l10n-inc) The historic qualities of gold combined with the capabilities of digital currency.
+        span(l10n-inc) Buy and sell physical gold issued by&#32;
+        a(target='_blank', href='http://www.bullioninternational.com/', l10n-inc) GBI
+        | ,
+        span(l10n-inc)  one of the world’s most prominent independent gold dealers.&#32;
+        a(target='_blank', href='https://support.ripplelabs.com/hc/en-us/articles/202882453', l10n-inc) Learn more.
   .row.auth-form-container.col-sm-offset-2.col-sm-8.col-md-offset-3.col-md-6(ng-show='mode=="form"')
     .auth-form-wrapper
       form(name='registerForm', ng-submit='submitForm()')
@@ -38,7 +40,7 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
           .errorGroup(rp-errors='register_username', ng-hide="usernameLoading")
             .success(rp-error-valid)
               | Available
-            .error(rp-error-on='rpAvailableName', l10n)
+            .error(rp-error-on='rpAvailableName')
               span(ng-switch on="usernameInvalidReason")
                 span(ng-switch-when="exists", l10n) Already taken!
                 span(ng-switch-when="reserved", l10n) Reserved for {{usernameReservedFor}}
@@ -123,7 +125,7 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
             span(ng-show="oldUserBlob", l10n) Migrate Account
 
     .switch-mode-link-container(ng-hide="$routeParams.action === 'migrate'", l10n) Already have a ripple.com/client account?&#32;
-      a(ng-hide="$routeParams.action === 'migrate'", href='#/login/migrate', l10n-inc) Migrate
+      a(ng-hide="$routeParams.action === 'migrate'", href='#/migrate', l10n-inc) Migrate
     .switch-mode-link-container(l10n) Have an account?&#32;
       a(href='#login', l10n-inc) Log In
 
@@ -184,7 +186,7 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
           span(ng-show="showSecret", l10n) Hide secret key
       .submit-btn-container
         button.btn.btn-block.btn-success(ng-click='mode="verification"')
-          span(l10n) Continue
+          span(l10n) Continue to email verification
 
   .row.auth-form-container.mode-verification.col-sm-offset-2.col-sm-8.col-md-offset-3.col-md-6(ng-show='mode=="verification"')
     .auth-form-wrapper
@@ -211,47 +213,3 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
           button.btn.btn-success.btn-block(ng-click="resendEmail()", type="submit"
             ng-disabled="resendForm.$invalid || resendLoading"
             rp-spinner="{{resendLoading ? 4 : null}}", l10n) Re-send Email
-
-  .row.mode-welcome(ng-show='mode=="welcome"')
-    .col-xs-12.col-md-10.col-md-offset-1
-      p.important(l10n) Important:
-      p.hint(l10n) The secret key unlocks access to all your account funds in
-        |  the event you lose your Ripple name or password. Please write it down
-        |  and store it somewhere private and safe.&#32;
-        a(href="https://support.ripplelabs.com/hc/en-us/articles/201823366-Password-Recovery-and-Your-Secret-Key", target="_blank") Read more
-        |  about keys and wallet safety.
-        a(href="#", l10n) Security
-      .credentials
-        span.username(l10n) Wallet name:
-          span.value {{username}}
-        span.password(l10n) Pass phrase:
-          span.value(ng-show="showPassword==true") {{password1}}&#32;
-          span.value(ng-hide="showPassword==true") {{password}}
-          rp-confirm(
-          action-text="Are you in a safe place where no person or camera can see your screen?"
-          action-button-text="Yes, show me"
-          action-function="showPassword=true"
-          cancel-button-text="no"
-          ng-hide="showPassword==true")
-            a(href="", l10n) Show
-          a(href="", ng-click="showPassword=false", ng-show="showPassword==true", l10n) Hide
-      .secret
-        p.important(l10n) Ripple Address
-        p.key {{address}}
-        p.important(l10n) Secret Account key:
-        p.key(ng-show="showSecret==true") {{keyOpen}}
-        p.key(ng-hide="showSecret==true") {{key}}
-        p(ng-hide="showSecret==true")
-          rp-confirm(
-          action-text="Are you in a safe place where no person or camera can see your screen?"
-          action-button-text="Yes, show me"
-          action-function="showSecret=true"
-          cancel-button-text="no")
-            button.btn.btn-info.btn-sm(l10n) Show secret key
-        p(ng-show="showSecret==true")
-          button.btn.btn-info.btn-sm(ng-click="showSecret=false", l10n) Hide secret key
-      p.important(l10n) Have you saved your secret key somewhere safe?
-      .row
-        .col-xs-12.col-sm-5.col-lg-4
-          a.btn.btn-info.btn-block.btn-big(href='#balance', ng-click='goToFund()'
-            l10n) Yes, I saved my secret key

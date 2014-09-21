@@ -13,7 +13,7 @@ var TrustTab = function ()
 util.inherits(TrustTab, Tab);
 
 TrustTab.prototype.tabName = 'trust';
-TrustTab.prototype.mainMenu = 'trust';
+TrustTab.prototype.mainMenu = 'fund';
 
 TrustTab.prototype.generateHtml = function ()
 {
@@ -29,6 +29,9 @@ TrustTab.prototype.angular = function (module)
   {
     if (!id.loginStatus) return id.goId();
 
+    $scope.advanced_feature_switch = Options.advanced_feature_switch;
+    $scope.trust = {};
+
     // Trust line sorting
     $scope.sorting = {
       predicate: 'balance',
@@ -38,46 +41,45 @@ TrustTab.prototype.angular = function (module)
       }
     };
 
-    // orderBy filter works with arrays
-    var updateLines = function() {
-      $scope.linesArray = _.toArray($scope.lines);
-    };
-
-    $scope.$on('$balancesUpdate', updateLines);
-
     $scope.validation_pattern = /^0*(([1-9][0-9]*.?[0-9]*)|(.0*[1-9][0-9]*))$/; //Don't allow zero for new trust lines.
+
     $scope.reset = function () {
       $scope.mode = 'main';
       var usdCurrency = Currency.from_human('USD');
       $scope.currency = usdCurrency.to_human({full_name:$scope.currencies_all_keyed[usdCurrency.get_iso()].name});
       $scope.addform_visible = false;
-      $scope.editform_visible = false;
       $scope.edituser = '';
       $scope.amount = '';
       $scope.allowrippling = false;
       $scope.counterparty = '';
+      $scope.counterparty_view = '';
+      $scope.counterparty_address = '';
       $scope.saveAddressName = '';
       $scope.error_account_reserve = false;
-
-      // If all the form fields are prefilled, go to confirmation page
-      if ($routeParams.to && $routeParams.amount) {
-        // At this stage 'counterparty_address' may be empty. Wait for it...
-        var watcher = $scope.$watch('counterparty_address', function(address){
-          if (address) {
-            $scope.grant();
-            watcher();
-          }
-        });
-      }
     };
+
+    $scope.load_notification = function(status) {
+      if (typeof status !== 'string') {
+        console.log("You must pass in a string for the status");
+        return;
+      }
+
+      $scope.trust.notif = status;
+
+      $timeout(function() {
+        $scope.trust.notif = "clear";
+      }, 10000);
+    }
 
     $scope.toggle_form = function () {
 
-      if($scope.addform_visible || $scope.editform_visible)
+      if($scope.addform_visible) {
         $scope.reset();
-      else
+      } else {
         $scope.addform_visible = true;
+      }
     };
+
 
     // User should not even be able to try granting a trust if the reserve is insufficient
     $scope.$watch('account', function() {
@@ -104,6 +106,7 @@ TrustTab.prototype.angular = function (module)
     }, true);
 
     /**
+
      * N2. Confirmation page
      */
     $scope.grant = function ()
@@ -128,6 +131,11 @@ TrustTab.prototype.angular = function (module)
               // form validator.
               console.error('Currency code:', match, 'is not recognized');
               return;
+            }
+
+            if ($scope.advanced_feature_switch === false || $scope.amount === "") {
+              // $scope.amount = Number(ripple.Amount.consts.max_value);
+              $scope.amount = Options.gateway_max_limit;
             }
 
             var amount = ripple.Amount.from_human('' + $scope.amount + ' ' + $scope.lineCurrencyObj.to_hex(), {reference_date: new Date(+new Date() + 5*60000)});
@@ -159,20 +167,20 @@ TrustTab.prototype.angular = function (module)
             $scope.currencyWarning = false;
 
             // New trust on a currency or no rippling enabled
-            if (!balance || !$scope.allowrippling) {
-              $scope.currencyWarning = 'firstIssuer';
-            }
-            else {
+            // if (!balance || !$scope.allowrippling) {
+            //   $scope.currencyWarning = 'firstIssuer';
+            // }
+            // else {
               // Trust limit change
-              for (var counterparty in balance.components) {
-                if (counterparty === $scope.counterparty_address)
-                  $scope.currencyWarning = 'sameIssuer';
-              }
+              // for (var counterparty in balance.components) {
+              //   if (counterparty === $scope.counterparty_address)
+              //     $scope.currencyWarning = 'sameIssuer';
+              // }
 
               // Multiple trusts on a same currency
-              if (!$scope.currencyWarning)
-                $scope.currencyWarning = 'multipleIssuers';
-            }
+              // if (!$scope.currencyWarning)
+              //   $scope.currencyWarning = 'multipleIssuers';
+            // }
           });
         })
         .on('error', function (m){
@@ -191,8 +199,12 @@ TrustTab.prototype.angular = function (module)
      */
     $scope.grant_confirmed = function () {
       var amount = $scope.amount_feedback.to_json();
-
       var tx = $network.remote.transaction();
+
+      // Add memo to tx
+      tx.addMemo('client', 'rt' + $rootScope.version);
+
+      $scope.toggle_form();
 
       // Flags
       tx
@@ -264,6 +276,10 @@ TrustTab.prototype.angular = function (module)
           }
         });
       }
+
+      $timeout(function(){
+        $scope.mode = 'main';
+      }, 10000);
     };
 
     function setEngineStatus(res, accepted) {
@@ -291,58 +307,12 @@ TrustTab.prototype.angular = function (module)
       }
     }
 
-    $scope.saveAddress = function () {
-      $scope.addressSaving = true;
-
-      var contact = {
-        'name': $scope.saveAddressName,
-        'address': $scope.counterparty_address
-      };
-
-      $scope.userBlob.unshift('/contacts', contact, function(err, data){
-        if (err) {
-          console.log("Can't save the contact. ", err);
-          return;
-        }
-
-        $scope.contact = data;
-        $scope.addressSaved = true;
-      });
-    };
-
-    $scope.load_orderbook = function() {
-      $scope.orderbookStatus = false;
-
-      if ($scope.book) {
-        $scope.book.unsubscribe();
-      }
-
-      $scope.book = books.get({
-        currency: $scope.currency,
-        issuer: $scope.counterparty
-      }, {
-        currency: 'XRP',
-        issuer: undefined
-      });
-
-      $scope.$watchCollection('book', function () {
-        if (!$scope.book.updated) return;
-
-        if ($scope.book.asks.length !== 0 && $scope.book.bids.length !== 0) {
-          $scope.orderbookStatus = 'exists';
-        } else {
-          $scope.orderbookStatus = 'not';
-        }
-      });
-
-    }
-
     $scope.edit_line = function ()
     {
-      var line = this.line;
+      var line = this.component;
       var filterAddress = $filter('rpcontactnamefull');
-      var contact = filterAddress(line.account);
-      $scope.line = this.line;
+      var contact = filterAddress(line.issuer);
+      $scope.line = this.component;
       $scope.edituser = (contact) ? contact : 'User';
       $scope.validation_pattern = contact ? /^[0-9.]+$/ : /^0*(([1-9][0-9]*.?[0-9]*)|(.0*[1-9][0-9]*))$/;
 
@@ -358,107 +328,19 @@ TrustTab.prototype.angular = function (module)
       $scope.currency = lineCurrency.to_human(formatOpts);
       $scope.balance = line.balance.to_human();
       $scope.balanceAmount = line.balance;
-      $scope.counterparty = line.account;
+      $scope.counterparty = line.issuer;
       $scope.counterparty_view = contact;
 
-      $scope.amount = line.limit.currency().has_interest()
-        ? +Math.round(line.limit.applyInterest(new Date()).to_text())
-        : +line.limit.to_text()
+      $scope.amount = line.max.currency().has_interest()
+        ? +Math.round(line.max.applyInterest(new Date()).to_text())
+        : +line.max.to_text()
 
-      $scope.allowrippling = !line.no_ripple;
+      $scope.allowrippling = line.rippling;
 
       // Close/open form. Triggers focus on input.
       $scope.addform_visible = false;
-      $scope.editform_visible = false;
-      $timeout(function(){
-        $scope.editform_visible = true;
-      });
 
       $scope.load_orderbook();
-    };
-
-    $scope.delete_line = function()
-    {
-
-      var setSecretAndSubmit = function(tx) {
-        keychain.requestSecret(id.account, id.username, function (err, secret) {
-          if (err) {
-            $scope.mode = 'error';
-            console.log('Error on requestSecret: ', err);
-            return;
-          }
-
-          tx.secret(secret);
-
-          tx.submit(function(err, res) {
-            if (err) {
-              $scope.mode = 'error';
-              console.log('Error on tx submit: ', err);
-              return;
-            }
-
-            console.log('Transaction has been submitted with response:', res);
-          });
-        });
-      }
-
-      var nullifyTrustLine = function(idAccount, lineCurrency, lineAccount) {
-        var tx = $network.remote.transaction();
-        tx.trustSet(idAccount, '0' + '/' + lineCurrency + '/' + lineAccount);
-        tx.setFlags('ClearNoRipple');
-
-        setSecretAndSubmit(tx);
-      }
-
-      var clearBalance = function(selfAddress, issuerAddress, curr, amountObject, callback) {
-
-        // Decision tree: two paths
-        // 1) There is a market -> send back balance to user as XRP
-        // 2) There is no market -> send back balance to issuer
-
-        var sendBalanceToSelf = function() {
-          var tx = $network.remote.transaction();
-          var payment = tx.payment(selfAddress, selfAddress, '100000000000');
-
-          payment.setFlags('PartialPayment');
-          payment.sendMax(amountObject.to_human() + '/' + curr + '/' + issuerAddress);
-
-          return tx;
-        };
-
-        var sendBalanceToIssuer = function() {
-          var tx = $network.remote.transaction();
-
-          var amount = amountObject.clone();
-          var newAmount = amount.set_issuer(issuerAddress);
-          var payment = tx.payment(selfAddress, issuerAddress, newAmount);
-
-          return tx;
-        }
-
-        var tx = ($scope.orderbookStatus === 'exists') ? sendBalanceToSelf() : sendBalanceToIssuer();
-
-        setSecretAndSubmit(tx);
-
-        tx.once('proposed', callback);
-      }
-
-      // $scope.counterparty inside the clearBalance callback function does not have counterparty in its scope, therefore, we need an immediate function to capture it.
-
-      if ($scope.balance !== '0') {
-        (function (counterparty) {
-          clearBalance(id.account, $scope.counterparty, $scope.currency, $scope.balanceAmount, function(res) {
-            nullifyTrustLine(id.account, $scope.currency, counterparty);
-          });
-        })($scope.counterparty);
-      }
-
-      else {
-        nullifyTrustLine(id.account, $scope.currency, $scope.counterparty);
-      }
-
-      $scope.toggle_form();
-
     };
 
     $scope.$watch('userBlob.data.contacts', function (contacts) {
@@ -469,8 +351,285 @@ TrustTab.prototype.angular = function (module)
 
     $scope.reset();
 
-    updateLines();
+    var updateAccountLines = function() {
+      var obj = {};
+
+      _.each($scope.lines, function(line){
+        if (!obj[line.currency]) {
+          obj[line.currency] = { components: [] };
+        }
+
+        obj[line.currency].components.push(line);
+      })
+
+      $scope.accountLines = obj;
+      return;
+    }
+
+    $scope.$on('$balancesUpdate', function(){
+      updateAccountLines();
+    })
+
+    updateAccountLines();
   }]);
+
+  module.controller('AccountRowCtrl', ['$scope', 'rpBooks', 'rpNetwork', 'rpId', 'rpKeychain', '$timeout',
+    function ($scope, books, $network, id, keychain, $timeout) {
+
+      $scope.validation_pattern = /^0*(([0-9]*.?[0-9]*)|(.0*[1-9][0-9]*))$/;
+
+      $scope.cancel = function () {
+        $scope.editing = false;
+      }
+
+
+      $scope.edit_account = function() {
+        $scope.editing = true;
+
+        $scope.trust = {};
+        $scope.trust.limit = Number($scope.component.limit.to_json().value);
+        $scope.trust.rippling = !$scope.component.no_ripple;
+        $scope.trust.limit_peer = Number($scope.component.limit_peer.to_json().value);
+        $scope.trust.balance = String($scope.component.balance.to_json().value);
+        $scope.trust.balanceAmount = $scope.component.balance;
+
+        var currency = Currency.from_human($scope.component.currency);
+
+        currency.to_human({full_name:$scope.currencies_all_keyed[currency.get_iso()]})
+          ? $scope.trust.currency = currency.to_human({full_name:$scope.currencies_all_keyed[currency]})
+          : $scope.trust.currency = currency.to_human({full_name:$scope.currencies_all_keyed[currency.get_iso()].name});
+
+        // $scope.trust.currency = currency.to_human({full_name:$scope.currencies_all_keyed[currency.get_iso()].name});
+        $scope.trust.counterparty = $scope.component.account;
+
+        $scope.load_orderbook();
+      }
+
+      $scope.delete_account = function()
+      {
+        $scope.trust.loading = true;
+        $scope.load_notification("remove_gateway");
+
+        var setSecretAndSubmit = function(tx) {
+          keychain.requestSecret(id.account, id.username, function (err, secret) {
+            if (err) {
+              $scope.mode = 'error';
+              console.log('Error on requestSecret: ', err);
+              $scope.trust.loading = false;
+              $scope.load_notification("error");
+              return;
+            }
+
+            tx.secret(secret);
+
+            tx.submit(function(err, res) {
+              if (err) {
+                $scope.mode = 'error';
+                console.log('Error on tx submit: ', err);
+                $scope.trust.loading = false;
+                $scope.load_notification("error");
+                return;
+              }
+
+              console.log('Transaction has been submitted with response:', res);
+              $scope.trust.loading = false;
+              $scope.load_notification("gateway_removed");
+            });
+
+          });
+        }
+
+        var nullifyTrustLine = function(idAccount, lineCurrency, lineAccount) {
+          var tx = $network.remote.transaction();
+
+          // Add memo to tx
+          tx.addMemo('client', 'rt' + $rootScope.version);
+
+          tx.trustSet(idAccount, '0' + '/' + lineCurrency + '/' + lineAccount);
+          tx.setFlags('ClearNoRipple');
+
+          setSecretAndSubmit(tx);
+        }
+
+        var clearBalance = function(selfAddress, issuerAddress, curr, amountObject, callback) {
+
+          // Decision tree: two paths
+          // 1) There is a market -> send back balance to user as XRP
+          // 2) There is no market -> send back balance to issuer
+
+          var sendBalanceToSelf = function() {
+            var tx = $network.remote.transaction();
+
+            // Add memo to tx
+            tx.addMemo('client', 'rt' + $rootScope.version);
+
+            var payment = tx.payment(selfAddress, selfAddress, '100000000000');
+
+            payment.setFlags('PartialPayment');
+            payment.sendMax(amountObject.to_human() + '/' + curr + '/' + issuerAddress);
+
+            return tx;
+          };
+
+          var sendBalanceToIssuer = function() {
+            var tx = $network.remote.transaction();
+
+            // Add memo to tx
+            tx.addMemo('client', 'rt' + $rootScope.version);
+
+            var amount = amountObject.clone();
+            var newAmount = amount.set_issuer(issuerAddress);
+            var payment = tx.payment(selfAddress, issuerAddress, newAmount);
+
+            return tx;
+          }
+
+          var tx = ($scope.orderbookStatus === 'exists') ? sendBalanceToSelf() : sendBalanceToIssuer();
+
+          setSecretAndSubmit(tx);
+
+          tx.once('proposed', callback);
+        }
+
+        // $scope.counterparty inside the clearBalance callback function does not have counterparty in its scope, therefore, we need an immediate function to capture it.
+
+        if ($scope.trust.balance !== '0') {
+          (function (counterparty) {
+            clearBalance(id.account, $scope.trust.counterparty, $scope.trust.currency, $scope.trust.balanceAmount, function(res) {
+              nullifyTrustLine(id.account, $scope.trust.currency, counterparty);
+            });
+          })($scope.trust.counterparty);
+        }
+
+        else {
+          nullifyTrustLine(id.account, $scope.trust.currency, $scope.trust.counterparty);
+        }
+
+      };
+
+      $scope.load_orderbook = function() {
+        $scope.orderbookStatus = false;
+
+        if ($scope.book) {
+          $scope.book.unsubscribe();
+        }
+
+        $scope.book = books.get({
+          currency: $scope.trust.currency,
+          issuer: $scope.trust.counterparty
+        }, {
+
+          currency: 'XRP',
+          issuer: undefined
+        });
+
+        $scope.$watchCollection('book', function () {
+          if (!$scope.book.updated) return;
+
+          if ($scope.book.asks.length !== 0 && $scope.book.bids.length !== 0) {
+            $scope.orderbookStatus = 'exists';
+          } else {
+            $scope.orderbookStatus = 'not';
+          }
+        });
+
+      }
+
+      $scope.save_account = function () {
+
+        $scope.trust.loading = true;
+
+        $scope.load_notification('loading');
+
+        var amount = ripple.Amount.from_human(
+          $scope.trust.limit + ' ' + $scope.component.currency,
+          {reference_date: new Date(+new Date() + 5*60000)}
+        );
+
+        amount.set_issuer($scope.component.account);
+
+        if (!amount.is_valid()) {
+          // Invalid amount. Indicates a bug in one of the validators.
+          console.log('Invalid amount');
+          return;
+        }
+
+        var tx = $network.remote.transaction();
+
+        // Add memo to tx
+        tx.addMemo('client', 'rt' + $rootScope.version);
+
+        // Flags
+        tx
+          .rippleLineSet(id.account, amount)
+          .setFlags($scope.trust.rippling ? 'ClearNoRipple' : 'NoRipple')
+          .on('success', function(res){
+            $scope.$apply(function () {
+              setEngineStatus(res, true);
+
+              $scope.trust.loading = false
+              $scope.load_notification('success');
+              $scope.editing = false;
+            });
+          })
+          .on('error', function(res){
+            console.log('error', res);
+            setImmediate(function () {
+              $scope.$apply(function () {
+                $scope.mode = 'error';
+
+                $scope.trust.loading = false;
+                $scope.load_notification("error");
+                $scope.editing = false;
+              });
+            });
+          });
+
+        function setEngineStatus(res, accepted) {
+          $scope.engine_result = res.engine_result;
+          $scope.engine_result_message = res.engine_result_message;
+
+          switch (res.engine_result.slice(0, 3)) {
+            case 'tes':
+              $scope.tx_result = accepted ? 'cleared' : 'pending';
+              break;
+            case 'tem':
+              $scope.tx_result = 'malformed';
+              break;
+            case 'ter':
+              $scope.tx_result = 'failed';
+              break;
+            case 'tec':
+              $scope.tx_result = 'failed';
+              break;
+            case 'tel':
+              $scope.tx_result = "local";
+              break;
+            case 'tep':
+              console.warn('Unhandled engine status encountered!');
+          }
+        }
+
+        keychain.requestSecret(id.account, id.username, function (err, secret) {
+          // XXX Error handling
+          if (err) {
+            $scope.trust.loading = false;
+            $scope.load_notification('error');
+
+            return;
+          }
+
+          $scope.mode = 'granting';
+
+          tx.secret(secret);
+          tx.submit();
+        });
+      };
+
+    }]);
+
 };
+
+
 
 module.exports = TrustTab;

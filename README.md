@@ -16,9 +16,11 @@ Questions? Contact us as support@ripple.com.
 
 ### Install Dependencies
 
-Install Node.js, Grunt, and Git if you haven't already.
+Install Node.js, Grunt, Git and Python 2 if you haven't already.
 
-Fork and clone the ripple-client repository and run 'npm install'.
+Install bower by running `bower install --allow-root`.
+
+Fork and clone the ripple-client repository and run `npm install`.
 
 Create a new config.js file and copy/paste from config-example.js into the same directory, located under 'src/js'.
 
@@ -30,10 +32,11 @@ Run 'grunt' in your command line to build the client.
 
 Your web client is in the 'build/bundle/web/' directory. Use 'index_debug.html' for development.
 
-If you want to watch for changes and have the client rebuild for index_debug.html, run 'grunt watch' while you make changes:
+If you want to watch for changes and have the client rebuild for index_debug.html, run 'grunt watch' while you make changes.
 
-Please have a look at our ['Setting Up Local Environment' wiki post](https://github.com/ripple/ripple-client/wiki/Setting-Up-Local-Environment) for more information.
+A web server is needed to serve the built files. Please have a look at our ['Setting Up Local Environment' wiki post](https://github.com/ripple/ripple-client/wiki/Setting-Up-Local-Environment) for more information.
 
+After the first successful build, create a ['ripple.txt'](https://wiki.ripple.com/Ripple.txt) file inside 'build/bundle/web/'. You can copy the contents for the file from [here](https://www.ripple.com/ripple.txt).
 
 ## Directory Layout
 
@@ -80,7 +83,7 @@ Keep track of development and community news.
 - Like [Ripple Labs on Facebook](https://facebook.com/ripplelabs)
 - Subscribe to [@Ripple on Reddit](http://www.reddit.com/r/Ripple)
 - Have a question that's not a feature request or bug report? Send a message to [support@ripple.com](mailto:support@ripple.com)
-- Chat with ripplers in IRC. On the `irc.freenode.net` server, in the `#ripple` and `#ripple-dev` channel.
+- Chat directly with our engineers! Join us [here](https://gitter.im/ripple/developers).
 
 
 ## More Information
