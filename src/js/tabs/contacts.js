@@ -90,7 +90,7 @@ ContactsTab.prototype.angular = function (module) {
         $scope.editing = true;
         $scope.editname = $scope.entry.name;
         $scope.editaddress = $scope.entry.address;
-        $scope.editview = $scope.entry.view;
+        $scope.editview = $scope.entry.view || $scope.entry.address;
         $scope.editdt = $scope.entry.dt;
       };
 
