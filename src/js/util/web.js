@@ -106,6 +106,8 @@ exports.findIssuer= function(lines, currency)
 
 exports.getContact = function (contacts,value)
 {
+  if (!value) return false;
+
   for (var i=0;i<contacts.length;i++) {
     if (contacts[i].name === value || contacts[i].address === value) {
       return contacts[i];
