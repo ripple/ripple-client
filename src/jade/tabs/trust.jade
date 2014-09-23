@@ -311,7 +311,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                 .col-sm-1(ng-show="advanced_feature_switch")
                   div(ng-show="component.no_ripple", l10n) Off
                   div(ng-hide="component.no_ripple", l10n) On
-                div.col-xs-6(ng-hide="component.freeze_peer")
+                div.col-xs-1(ng-hide="component.freeze_peer")
                   a(href="", ng-hide="editing", ng-click="edit_account()"
                     l10n) edit
                   span(ng-show="editing && !advanced_feature_switch")
@@ -329,7 +329,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                             button.btn.btn-block.btn-danger.btn-xs.submit(type="button", ng-click="load_orderbook()", l10n) Remove
                         span(ng-show='trust.balance !== "0" && orderbookStatus === "not"')
                           rp-confirm(
-                          action-text="Are you sure you want to remove this gateway? Ripple Trade will return the balance of {{ trust.balance }} {{ currency }} to the issuer. This action can't be undone."
+                          action-text="Are you sure you want to remove this gateway? pplingpple Trade will return the balance of {{ trust.balance }} {{ currency }} to the issuer. This action can't be undone."
                           action-button-text="Return balance and remove"
                           action-button-css="btn btn-default btn-danger custom-btn"
                           action-function="delete_account()"
@@ -368,7 +368,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                       input.form-control(name='limit', type='text'
                         ng-model='trust.limit', ng-pattern='validation_pattern'
                         ng-disabled='trust.loading', required)
-                    .col-sm-4.inputPadding
+                    .col-sm-2.inputPadding
                       div
                         label(l10n) Rippling&#32;
                           input(name='rippling', type='checkbox', ng-model='trust.rippling')
