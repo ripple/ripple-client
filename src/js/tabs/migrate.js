@@ -45,7 +45,7 @@ MigrateTab.prototype.angular = function (module) {
 
       $scope.ajax_loading = true;
       $scope.error = '';
-      $scope.status = 'Fetching wallet...';
+      $scope.status = 'Logging in...';
     };
     
     //initiate the login
