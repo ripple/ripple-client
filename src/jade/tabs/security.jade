@@ -1,4 +1,12 @@
 section.col-xs-12.content(ng-controller="SecurityCtrl")
+  .col-xs-12(ng-show="showPasswordDisabledAnnouncement")
+    div.auth-success.banner
+      br
+      p.text-center(l10n)
+        | You have successfully turned off password requests.
+        |  You will still need to enter your password after each page refresh.
+      a.dismiss(href="", id="hide", ng-click="showPasswordDisabledAnnouncement = false", l10n) hide
+      br
   .col-xs-12(ng-hide="isUnlocked")
     .auth-attention.sessionUnlock
       h5(l10n) Active Session Timeout

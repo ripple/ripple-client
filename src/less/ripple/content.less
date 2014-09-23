@@ -381,18 +381,26 @@ a.danger {
   font-size: 18px;
 }
 
-.auth-attention {
+.auth-base(@background, @color) {
   margin-bottom: 20px;
   font-size: 13px;
-  background: @lightblue;
-  color: @darkblue;
-  border: 1px solid @midgray;
   padding: 15px ;
   .rounded(5px);
+  border: 1px solid @midgray;
+  background: @background;
+  color: @color;
 
   span {
     font-family: OpenSansBold;
   }
+}
+
+.auth-attention {
+  .auth-base(@lightblue, @darkblue);
+}
+
+.auth-success {
+  .auth-base(@lightgreen, @darkgreen);
 }
 
 .blank {
