@@ -125,11 +125,12 @@ SendTab.prototype.angular = function (module)
       var send = $scope.send;
 
       send.show_dt_field =
-        ($routeParams.dt
-         || send.dt
-         || ('object' === typeof send.recipient_info &&
-             send.recipient_info.dest_tag_required))
-        && !send.federation;
+          ($routeParams.dt
+          || send.dt
+          || (send.recipient_info &&
+          'object' === typeof send.recipient_info &&
+          send.recipient_info.dest_tag_required))
+          && !send.federation;
     };
 
     $scope.update_destination = function () {
