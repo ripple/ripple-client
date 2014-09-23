@@ -937,8 +937,24 @@
       padding-top: 10px;
       padding-bottom: 10px;
     }
-  }
+    .rippling-checkbox {
+      margin-left: -15px;
+      margin-right: -15px;
+      @media (max-width: @screen-xs-max) {
+        padding-left: 15px;
+        padding-right: 15px;
+      }
+    }
 
+  }
+  .gateway {
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+  .limit {
+    text-overflow: ellipsis;
+      overflow: hidden;
+  }  
   .currencyTitle {
     font-size: @font-size-big;
 
@@ -1788,8 +1804,12 @@
     }
     .server-row-form {
       border-top: 1px solid #ccccca;
+      margin-bottom: 10px;
       .descriptor {
         border: 0;
+      }
+      .hostname-wrapper {
+        padding-right: 0;
       }
     }
   }
@@ -1797,10 +1817,15 @@
   #secureSocket {
     padding-left: 0px;
     padding-right: 0px;
-
-
+    &.editable {
+      line-height: 35px;
+      // padding-left: 15px;
+      @media (max-width: @screen-xs-max) {
+        padding-left: 15px;
+      }
+    }
     .helperInput {
-      padding-top: 7px;
+      // padding-top: 7px;
     }
   }
 
