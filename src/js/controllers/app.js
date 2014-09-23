@@ -700,6 +700,7 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
   $scope.generate_src_currencies = function () {
     var src_currencies = [];
     var balances = $scope.balances;
+    var isIssuer = $scope.generate_issuer_currencies();
     src_currencies.push({ currency: "XRP" });
     for (var currency_name in balances) {
       if (!balances.hasOwnProperty(currency_name)) continue;
@@ -707,19 +708,15 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
       var currency = balances[currency_name];
       var currency_hex = currency.total.currency().to_hex();
       var result = [];
-      var issuer = false;
       for (var issuer_name in currency.components)
       {
         if (!currency.components.hasOwnProperty(issuer_name)) continue;
         var component = currency.components[issuer_name];
-        if (component.is_negative())
-          issuer = true;
-
         if (component.is_positive())
           result.push({ currency: currency_hex, issuer: issuer_name});
       }
 
-      if (result.length > 1 || issuer)
+      if (result.length > 1 || isIssuer[currency_hex] || result.length === 0)
         result.unshift({ currency: currency_hex });
 
       src_currencies = src_currencies.concat(result);
@@ -728,25 +725,12 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
   };
 
   $scope.generate_issuer_currencies = function () {
-    var balances = $scope.balances;
-    var isIssuer = [];
-    for (var currency_name in balances) {
-      if (!balances.hasOwnProperty(currency_name)) continue;
-
-      var currency = balances[currency_name];
-      var currency_hex = currency.total.currency().to_hex();
-      isIssuer[currency_hex] = false;
-      for (var issuer_name in currency.components)
-      {
-        if (!currency.components.hasOwnProperty(issuer_name)) continue;
-        var component = currency.components[issuer_name];
-        if (component.is_negative())
-        {
-          isIssuer[currency_hex] = true;
-          break;
-        }
+    var isIssuer = {};
+    _.each($scope.lines, function(line){
+      if (line.limit_peer.is_positive()) {
+        isIssuer[line.balance.currency().to_hex()] = true;
       }
-    }
+    });
     return isIssuer;
   };
 
