@@ -22,12 +22,9 @@ KycTab.prototype.angular = function(module)
     function ($scope, $id, keychain, authflow, $timeout)
     {
       if (!$id.loginStatus) return $id.goId();
-      if (!$scope.currentStep) $scope.currentStep = 'one';
       if (!$scope.blockscoreError) $scope.blockscoreError = false;
       if (!$scope.profile) $scope.profile = {};
       if (!$scope.kyc) $scope.kyc = {};
-
-      console.log('currentStep', $scope.currentStep);
 
       $scope.load_notification = function(status) {
         if (typeof status !== 'string') {
@@ -40,6 +37,76 @@ KycTab.prototype.angular = function(module)
         $timeout(function() {
           $scope.kyc.notif = 'clear';
         }, 10000);
+      }
+
+      $scope.load_notification('checking_step');
+
+      $scope.$on('$blobUpdate', onBlobUpdate);
+      onBlobUpdate();
+
+      function onBlobUpdate()
+      {
+        if ("function" === typeof $scope.userBlob.encrypt) {
+          $scope.enc = $scope.userBlob.encrypt();
+        }
+        
+        $scope.requirePassword = !$scope.userBlob.data.persistUnlock;
+        
+        if (!$scope.loaded2FA && "function" === typeof $scope.userBlob.get2FA) {
+          $scope.userBlob.get2FA(function(err, resp) {
+            $scope.$apply(function(){
+              if (err) {
+                console.log('Error: ', err);
+                return;
+              }
+
+              $scope.enabled2FA = resp.enabled;
+              $scope.phoneNumber = resp.phone;
+              $scope.countryCode = resp.country_code;
+            });
+          });
+        }
+
+        // Check what step user is on - they may have partially gone through KYC flow
+        if ($scope.userBlob.id) {
+
+          $scope.options = {
+            url         : $scope.userBlob.url,
+            auth_secret : $scope.userBlob.data.auth_secret,
+            blob_id     : $scope.userBlob.id
+          }
+
+          authflow.getAttestationSummary($scope.options, function(err, resp) {
+
+            if (err) {
+              console.log('Error on getAttestationSummary');
+              return;
+            }
+
+            if (resp.decoded.payload.profile_verified === true && resp.decoded.payload.identity_verified === true) {
+
+              $scope.currentStep = 'three';
+            }
+
+            else if (resp.decoded.payload.profile_verified === true && resp.decoded.payload.identity_verified === false) {
+              $scope.options.type = 'identity';
+
+              $scope.getQuestions($scope.options, function() {
+                $scope.currentStep = 'two';
+              });
+            }
+
+            else if (resp.decoded.payload.profile_verified === false && resp.decoded.payload.identity_verified === false) {
+              $scope.currentStep = 'one';
+            }
+
+            else {
+              console.log('Error: KYC flow route not recognized');
+            }
+
+            $scope.kyc.notif = 'clear';
+          });
+        }
       }
 
       // STEP ONE: IDENTITY INFORMATION
@@ -73,13 +140,6 @@ KycTab.prototype.angular = function(module)
       $scope.months =
         ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
 
-      // $scope.states =
-      //   ['AK', 'AL', 'AR', 'AS', 'AZ', 'CA', 'CO', 'CT', 'DC', 'DE', 'FL', 'GA',
-      //    'GU', 'HI', 'IA', 'ID', 'IL', 'IN', 'KS', 'LA', 'MA', 'MD', 'ME', 'MH',
-      //    'MI', 'MN', 'MO', 'MS', 'MT', 'NC', 'ND', 'NE', 'NH', 'NJ', 'NM', 'NV',
-      //    'NY', 'OH', 'OK', 'OR', 'PA', 'PW', 'RI', 'SC', 'SD', 'TN', 'UT', 'VA',
-      //    'VI', 'VT', 'WA', 'WI', 'WV', 'WY'];
-
       $scope.saveIdentityInfo = function () {
         $scope.load_notification('verifying');
 
@@ -92,16 +152,9 @@ KycTab.prototype.angular = function(module)
         // US only for now
         $scope.profile.address.country = 'US';
 
-        // Required for BlockScore API attestation
-        var options = {
-          url         : $scope.userBlob.url,
-          auth_secret : $scope.userBlob.data.auth_secret,
-          blob_id     : $scope.userBlob.id
-        }
-
-        options.type = 'profile';
+        $scope.options.type = 'profile';
        
-        options.profile = {
+        $scope.options.profile = {
           name : {
             given  : $scope.profile.name.given,
             family : $scope.profile.name.family
@@ -117,10 +170,7 @@ KycTab.prototype.angular = function(module)
           }
         }
 
-        authflow.updateAttestation(options, function(err, res) {
-
-          console.log('profile being submitted: ', options.profile);
-
+        authflow.updateAttestation($scope.options, function(err, res) {
           if (err) {
             console.log("Error in saveIdentityInfo: ", err);
             $scope.load_notification('info_error');
@@ -128,62 +178,53 @@ KycTab.prototype.angular = function(module)
             return;
           }
 
-          if (res.status === "invalid") {
+          if (res.status === "unverified") {
             $scope.load_notification('info_error');
             if ($scope.identityForm) $scope.identityForm.$setPristine(true);
-          } else {
+          }
 
+          else {
             $scope.load_notification('info_verified');
-
-            options.type = 'identity';
+            $scope.options.type = 'identity';
 
             // Retrieve questions from BlockScore after successfully identifying user
-            authflow.updateAttestation(options, function(err, res) {
-              if (err) {
-                console.log("Error in retrieving questions: ", err);
-                $scope.blockscoreError = true;
-                return;
-              } else {
-
-                $scope.currentStep = 'two';
-
-                console.log('res from retrieving questions is: ', res);
-                                
-                $scope.questions = res.questions;
-              }
+            $scope.getQuestions($scope.options, function() {
+              $scope.currentStep = 'two';
             });
           } 
         });
       }
 
-      // STEP TWO: SECURITY QUESTIONS
+      // STEP TWO: IDENTITY QUESTIONS
 
-      // FOR TESTING ONLY
-      // var sampleData = {"result":"success","status":"unverified","attestation":"eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJodHRwczovL2lkLnJpcHBsZS5jb20iLCJzdWIiOiIyOTY0MDYwNC1mOGE5LTQ0ZGEtOGJlNS0xYWUwNTA3YzE4MGEiLCJleHAiOjE0MTAzOTA1NzYsImlhdCI6MTQxMDM4ODcxNn0.cWnzu3ePM0Qg53U/MFq08Fjo9qzGimg1LYSHwrHhelWS3A+uztdpDnThp110rYCKsz4Kzvmhe1Vtf7ibo86aqM8KPqrT3PyMpq7ISW94VWsQOZT/tABsh5wL1MgE+IdehUU33fSTngDR7nI9lzLurZwzI4tYuENpi5ZlLni1epUoLmxezgnMHmRxvqV9orzG4yIHcJxuN7xElNMewUTH/TwwexPdypDSuYFCymuWfqTFKQ6rm6ZIqYknJX4l4eh6rbq5qHLNOwR2SIQmd+bJ7HFVIq6kfOpno8SM38OiJfrtl9/LuclywGkKGUfHfJWiNt6JYT28XN/0TyoQKN7wXg==","questions":[{"id":1,"question":"Which one of the following addresses is associated with you?","answers":[{"id":1,"answer":"430 Dwight"},{"id":2,"answer":"309 Colver Rd"},{"id":3,"answer":"123 Main St"},{"id":4,"answer":"467 Meridian Rd"},{"id":5,"answer":"None Of The Above"}]},{"id":2,"question":"Which one of the following adult individuals is most closely associated with you?","answers":[{"id":1,"answer":"Luis"},{"id":2,"answer":"Cecilia"},{"id":3,"answer":"Jose"},{"id":4,"answer":"Miranda"},{"id":5,"answer":"None Of The Above"}]},{"id":3,"question":"Which one of the following zip codes is associated with you?","answers":[{"id":1,"answer":"49993"},{"id":2,"answer":"49557"},{"id":3,"answer":"49184"},{"id":4,"answer":"49230"},{"id":5,"answer":"None Of The Above"}]},{"id":4,"question":"Which one of the following counties is associated with you?","answers":[{"id":1,"answer":"Jasper"},{"id":2,"answer":"Niagara"},{"id":3,"answer":"Floyd"},{"id":4,"answer":"Sangamon"},{"id":5,"answer":"None Of The Above"}]},{"id":5,"question":"What state was your SSN issued in?","answers":[{"id":1,"answer":"Utah"},{"id":2,"answer":"Delaware"},{"id":3,"answer":"New Hampshire"},{"id":4,"answer":"Idaho"},{"id":5,"answer":"None Of The Above"}]}]};
-      // $scope.questions = sampleData.questions;
+      $scope.getQuestions = function(options, cb) {
+
+        authflow.updateAttestation(options, function(err, res) {
+          if (err) {
+            console.log("Error in retrieving questions: ", err);
+            $scope.blockscoreError = true;
+            return;
+          } else {
+            $scope.questions = res.questions;
+          }
+
+          cb();
+        });
+      }
 
 
       $scope.saveQuestions = function() {
         $scope.load_notification('verifying');
 
-        var options = {
-          url         : $scope.userBlob.url,
-          auth_secret : $scope.userBlob.data.auth_secret,
-          blob_id     : $scope.userBlob.id
-        }
-
-        options.answers = [];
-        options.type = 'identity';
+        $scope.options.answers = [];
+        $scope.options.type = 'identity';
 
         _.each($scope.questions, function(question) {
-          options.answers.push({ question_id : question.id, answer_id : Number(question.answerId) });
+          $scope.options.answers.push({ question_id : question.id, answer_id : Number(question.answerId) });
         });
 
 
-        authflow.updateAttestation(options, function(err, res) {
-
-          console.log('answers being submitted: ', options.answers);
-
+        authflow.updateAttestation($scope.options, function(err, res) {
           if (err) {
             console.log("Error in saveQuestions: ", err);
             $scope.load_notification('questions_error');
@@ -203,32 +244,6 @@ KycTab.prototype.angular = function(module)
 
       // STEP THREE: TWO FACTOR AUTH
 
-      $scope.$on('$blobUpdate', onBlobUpdate);
-      onBlobUpdate();
-
-      function onBlobUpdate()
-      {
-        if ("function" === typeof $scope.userBlob.encrypt) {
-          $scope.enc = $scope.userBlob.encrypt();
-        }
-        
-        $scope.requirePassword = !$scope.userBlob.data.persistUnlock;
-        
-        if (!$scope.loaded2FA && "function" === typeof $scope.userBlob.get2FA) {
-          $scope.userBlob.get2FA(function(err, resp) {
-            $scope.$apply(function(){
-              if (err) {
-                console.log('Error: ', err);
-                return;
-              }
-
-              $scope.enabled2FA = resp.enabled;
-              $scope.phoneNumber = resp.phone;
-              $scope.countryCode = resp.country_code;
-            });
-          });
-        }   
-      }
 
       window.Authy.UI.instance(true, $scope.countryCode);
       

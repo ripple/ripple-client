@@ -22,7 +22,9 @@ section.col-xs-12.content(ng-controller='KycCtrl')
         h2.tx-status(l10n) We are unable to validate your identity information. Please check your information and try again.
       group.result-error(ng-switch-when="questions_error")
         h2.tx-status(l10n) We are unable to validate your identity questions. Please check your answers and try again.
-  group(ng-show="connected && loadState.account")
+      group(ng-switch-when="checking_step")
+        h2.tx-status(l10n) Loading...
+  group(ng-show="connected && loadState.account && kyc.notif !== 'checking_step'")
     .row
       h3.text-center(l10n) Profile Completion
       .row
