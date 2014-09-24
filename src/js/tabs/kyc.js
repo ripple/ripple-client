@@ -111,9 +111,9 @@ KycTab.prototype.angular = function(module)
 
       // STEP ONE: IDENTITY INFORMATION
 
-      //$scope.validation_pattern_name = /^[a-zA-Z0-9]{1,}$/;
+      // $scope.validation_pattern_name = /^[a-zA-Z0-9]{1,}$/;
+      $scope.validation_pattern_month = /^[a-zA-Z][a-zA-Z][a-zA-Z]$/;
       $scope.validation_pattern_date = /^(0[1-9]|[12]\d|3[0-1])$/;
-      $scope.validation_pattern_month = /^(0[1-9]|1[0-2])$/;
       $scope.validation_pattern_year = /^[0-9]{4}$/;
       $scope.validation_pattern_city = /^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$/;
       $scope.validation_pattern_state = /^[a-zA-Z][a-zA-Z]$/;
@@ -133,19 +133,68 @@ KycTab.prototype.angular = function(module)
       $scope.years = genNum(currentYear - 100, currentYear);
 
       $scope.dates = 
-        ['01','02', '03', '04', '05', '06', '07', '08', '09', '10',
+        ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10',
          '11', '12', '13', '14', '15', '16', '17', '18', '19', '20',
          '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31'];
 
       $scope.months =
-        ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
+        ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+      $scope.states =
+        ['AK', 'AL', 'AR', 'AS', 'AZ', 'CA', 'CO', 'CT', 'DC', 'DE', 'FL', 'GA',
+         'GU', 'HI', 'IA', 'ID', 'IL', 'IN', 'KS', 'LA', 'MA', 'MD', 'ME', 'MH',
+         'MI', 'MN', 'MO', 'MS', 'MT', 'NC', 'ND', 'NE', 'NH', 'NJ', 'NM', 'NV',
+         'NY', 'OH', 'OK', 'OR', 'PA', 'PW', 'RI', 'SC', 'SD', 'TN', 'UT', 'VA',
+         'VI', 'VT', 'WA', 'WI', 'WV', 'WY'];
 
       $scope.saveIdentityInfo = function () {
         $scope.load_notification('verifying');
 
+        // Parse month correctly
+        $scope.profile.birthdate.month_parsed = $scope.profile.birthdate.month.toLowerCase();
+
+        switch($scope.profile.birthdate.month_parsed) {
+          case 'jan':
+            $scope.profile.birthdate.month_parsed = '01';
+            break;
+          case 'feb':
+            $scope.profile.birthdate.month_parsed = '02';
+            break;
+          case 'mar':
+            $scope.profile.birthdate.month_parsed = '03';
+            break;
+          case 'apr':
+            $scope.profile.birthdate.month_parsed = '04';
+            break;
+          case 'may':
+            $scope.profile.birthdate.month_parsed = '05';
+            break;
+          case 'jun':
+            $scope.profile.birthdate.month_parsed = '06';
+            break;
+          case 'jul':
+            $scope.profile.birthdate.month_parsed = '07';
+            break;
+          case 'aug':
+            $scope.profile.birthdate.month_parsed = '08';
+            break;
+          case 'sep':
+            $scope.profile.birthdate.month_parsed = '09';
+            break;
+          case 'oct':
+            $scope.profile.birthdate.month_parsed = '10';
+            break;
+          case 'nov':
+            $scope.profile.birthdate.month_parsed = '11';
+            break;
+          case 'dec':
+            $scope.profile.birthdate.month_parsed = '12';
+            break;
+        }
+
         var parsedBirthdate = ''.concat($scope.profile.birthdate.year)
           .concat('-')
-          .concat($scope.profile.birthdate.month)
+          .concat($scope.profile.birthdate.month_parsed)
           .concat('-')
           .concat($scope.profile.birthdate.date);
 

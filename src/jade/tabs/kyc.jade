@@ -60,17 +60,16 @@ section.col-xs-12.content(ng-controller='KycCtrl')
                 ng-model='profile.address.line1'
                 required)
             .row
-              .col-xs-12.col-sm-6.col-md-6
+              .col-xs-12.col-sm-6.col-md-4
                 label(for="city", l10n) City
                 input.form-control.city(
                 name='city', id='city', type='text'
                 ng-model='profile.address.locality', ng-pattern='validation_pattern_city'
                 required)
-            .row
-              .col-xs-12.col-sm-6.col-md-6
+              .col-xs-12.col-sm-6.col-md-2
                 label(for="state", l10n) State
                 input.form-control.state(
-                name='state', id='state', type='text'
+                name='state', id='state', type='text', rp-combobox="states", rp-combobox-select,
                 ng-model='profile.address.region', ng-pattern='validation_pattern_state'
                 required)
             .row
@@ -105,7 +104,11 @@ section.col-xs-12.content(ng-controller='KycCtrl')
                   required)
             .row
               .col-xs-12.col-sm-6.col-md-6
-                label(for="ssn", l10n) Last 4 digits of Social Security Number
+                div(l10n) Last 4 digits of Social Security Number
+            .row
+              .col-xs-12.col-sm-6.col-md-2
+                div.ssn-hidden &#149;&#149;&#149; - &#149;&#149; -
+              .col-xs-12.col-sm-6.col-md-2
                 input.form-control.ssn(
                 name='ssn', id='ssn', type='ssn'
                 ng-model='profile.ssn_last_4', ng-pattern='validation_pattern_sss'
