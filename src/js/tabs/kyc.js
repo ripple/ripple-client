@@ -84,13 +84,17 @@ KycTab.prototype.angular = function(module)
             }
 
             if (resp.decoded.payload.profile_verified === true && resp.decoded.payload.identity_verified === true) {
-
               $scope.currentStep = 'three';
+              $scope.profileCompleted = true;
+              $scope.identityCompleted = true;
             }
 
             else if (resp.decoded.payload.profile_verified === true && resp.decoded.payload.identity_verified === false) {
-              $scope.options.type = 'identity';
 
+              $scope.profileCompleted = true;
+              $scope.identityCompleted = false;
+
+              $scope.options.type = 'identity';
               $scope.getQuestions($scope.options, function() {
                 $scope.currentStep = 'two';
               });
@@ -98,6 +102,8 @@ KycTab.prototype.angular = function(module)
 
             else if (resp.decoded.payload.profile_verified === false && resp.decoded.payload.identity_verified === false) {
               $scope.currentStep = 'one';
+              $scope.profileCompleted = false;
+              $scope.identityCompleted = false;
             }
 
             else {

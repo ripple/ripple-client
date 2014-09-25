@@ -39,13 +39,14 @@ section.col-xs-12.content(ng-controller='KycCtrl')
         form.row-padding-small(name="identityForm", ng-switch-when="one", ng-submit="saveIdentityInfo()")
           .col-sm-9
             .row
-              .col-xs-12.col-sm-6.col-md-3
+              .col-xs-12.col-sm-6.col-md-6
                 label(for="firstName", l10n) First Name
                 input.form-control.firstName(
                 name='firstName', id='firstName', type='text'
                 ng-model='profile.name.given'
                 required)
-              .col-xs-12.col-sm-6.col-md-3
+            .row
+              .col-xs-12.col-sm-6.col-md-6
                 label(for="lastName", l10n) Last Name
                 input.form-control.lastName(
                 name='lastName', id='lastName', type='text'
@@ -60,13 +61,14 @@ section.col-xs-12.content(ng-controller='KycCtrl')
                 ng-model='profile.address.line1'
                 required)
             .row
-              .col-xs-12.col-sm-6.col-md-4
+              .col-xs-12.col-sm-6.col-md-6
                 label(for="city", l10n) City
                 input.form-control.city(
                 name='city', id='city', type='text'
                 ng-model='profile.address.locality', ng-pattern='validation_pattern_city'
                 required)
-              .col-xs-12.col-sm-6.col-md-2
+            .row
+              .col-xs-12.col-sm-6.col-md-6
                 label(for="state", l10n) State
                 input.form-control.state(
                 name='state', id='state', type='text', rp-combobox="states", rp-combobox-select,
@@ -117,7 +119,7 @@ section.col-xs-12.content(ng-controller='KycCtrl')
               .col-xs-5
                 button.btn.btn-block.btn-primary.submit(type='submit', ng-disabled='identityForm.$invalid', l10n) Continue to identity questions
               .col-xs-5
-                a(href='#/fund', l10n) Cancel
+                a.button.btn.btn-link(href='#/xrp', l10n) cancel
         form.row-padding-small(name="questionsForm", ng-switch-when="two", ng-submit="saveQuestions()")
           .row
             .col-xs-4 
@@ -131,7 +133,7 @@ section.col-xs-12.content(ng-controller='KycCtrl')
             .col-xs-5
               button.btn.btn-block.btn-primary.submit(type='submit', l10n) Continue to two-factor authentication
             .col-xs-5
-              a(href='#/fund', l10n) Cancel
+              a.button.btn.btn-link(href='#/xrp', l10n) cancel
         group(ng-switch-when="three")
           .row.twoFAInfo
             .col-xs-1
@@ -152,4 +154,4 @@ section.col-xs-12.content(ng-controller='KycCtrl')
             .col-xs-5
               button.btn.btn-block.btn-primary.submit(type='submit', ng-disabled='identityForm.$invalid', l10n) Verify phone number
             .col-xs-5
-              a(href='#/fund', l10n) Cancel
+              a.button.btn.btn-link(href='#/xrp', l10n) cancel

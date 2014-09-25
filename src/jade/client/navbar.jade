@@ -126,11 +126,11 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
           a(href="#/trade", l10n) Trade
         li(ng-class="{active: $route.current.tabName == 'exchange'}")
           a(href="#/exchange", l10n) Convert
-  //-.subnav(ng-show="$route.current.mainMenu == 'fund'")
+  //- .subnav(ng-show="$route.current.mainMenu == 'fund'")
     .container
       ul
-        li(ng-class="{active: $route.current.tabName == 'fund'}")
-          a(href="#/fund", l10n) Fund
+        li(ng-class="{active: $route.current.tabName == 'xrp'}")
+          a(href="#/xrp", l10n) Fund
         li(ng-class="{active: $route.current.tabName == 'withdraw'}")
           a(href="#/withdraw", l10n) Withdraw
   div.auth-attention.banner.text-center(ng-if="recovered", ng-show="recovered")

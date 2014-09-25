@@ -1,10 +1,8 @@
-.col-sm-9.list
-  form.row-padding-small(name="kycForm", ng-show="editForm = true", ng-submit="save()")
+.col-sm-9.list(ng-controller='KycCtrl')
     h4(l10n) Profile Information
-    hr
     .row
       .col-lg-4
-        .description(l10n) Identity Information
+        .descriptor(l10n) Identity Information
     .row
       .col-sm-4
         span(ng-show="profileCompleted") Completed
@@ -13,7 +11,7 @@
         span(ng-hide="profileCompleted") Incomplete
     .row
       .col-lg-4
-        .description(l10n) Identity Questions
+        .descriptor(l10n) Identity Questions
     .row
       .col-sm-4
         span(ng-show="identityCompleted") Completed
