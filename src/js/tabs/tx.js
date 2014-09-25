@@ -18,9 +18,16 @@ TxTab.prototype.generateHtml = function ()
 
 TxTab.prototype.angular = function (module)
 {
-  module.controller('TxCtrl', ['$scope', 'rpNetwork', '$routeParams',
-                               function ($scope, net, $routeParams)
+  module.controller('TxCtrl', ['$scope', 'rpNetwork', '$routeParams', 'rpId', '$location',
+                               function ($scope, net, $routeParams, $id, $location)
   {
+    $scope.logoutTx = function () {
+      $id.logout();
+      $location.path('/login');
+    };
+
+    if (!$id.loginStatus) return $scope.logoutTx();
+
     $scope.state = 'loading';
     $scope.transaction = {
       hash: $routeParams.id
