@@ -1,0 +1,46 @@
+// Confirmation messages for the send and convert tabs
+
+group.pending(ng-show='tx_result=="pending"')
+  h2.tx-status(l10n) Your transaction has been submitted.
+  p(l10n) Your account balance will update once the payment has cleared.
+group.result-success(ng-show='tx_result=="cleared"')
+  h2.tx-status(l10n) Transaction cleared!
+group.result-partial(ng-show='tx_result=="partial"')
+  h2.tx-status(l10n) Transaction partially valid!
+  p(l10n) Your transaction could only be partially applied.
+group.result-error(ng-show='tx_result=="error"')
+  h2.tx-status(l10n) Transaction could not be submitted!
+  p(l10n) We were unable to submit the transaction to the server.
+    | Please try again later.
+group.result-malformed(ng-show='tx_result=="malformed"')
+  h2.tx-status(l10n) Transaction malformed!
+  p(ng-switch on="engine_result")
+    span(ng-switch-default, l10n)
+      | Your transaction is invalid, reason: {{engine_result}} - {{engine_result_message}}
+group.result-malformed(ng-show='tx_result=="failure"')
+  h2.tx-status(l10n) Transaction malformed!
+  p(ng-switch on="engine_result")
+    span(ng-switch-when="tefDST_TAG_NEEDED", l10n)
+      | Destination account requires destination tag to be specified when making payments.
+group.result-malformed(ng-show='tx_result=="claim"')
+  h2.tx-status(l10n) Transaction failed!
+  p(ng-switch on="engine_result")
+    span(ng-switch-when="tecNO_DST", l10n)
+      | The destination account does not exist.
+    span(ng-switch-when="tecNO_DST_INSUF_XRP", l10n)
+      | The destination account does not exist. Too little XRP sent to create it.
+    span(ng-switch-default, l10n)
+      | Error: {{engine_result_message}}
+group.result-failed(ng-show='tx_result=="failed"')
+  h2.tx-status(l10n) Transaction failed!
+  p(ng-switch on="engine_result")
+    span(ng-switch-when="terNO_LINE", l10n)
+      | You have no trust line in this currency.
+    span(ng-switch-default, l10n)
+      | Your transaction failed to clear, reason: {{engine_result_message}}
+group.result-failed(ng-show='tx_result=="local"')
+  h2.tx-status(l10n) Transaction failed!
+  p(ng-switch on="engine_result")
+    span(ng-switch-when="telINSUF_FEE_P", l10n)
+      | The particular server you sent the transaction to was too busy to forward or process
+      | your transaction at the fee you included in it.
