@@ -169,23 +169,23 @@ section.col-xs-12.content(ng-controller="SecurityCtrl")
               div.helperInput
                 form(name="persistUnlock", ng-submit="setPasswordProtection()")
                   .row(ng-hide="editUnlock")
-                    .col-xs-6.col-sm-5.col-md-3
+                    .col-xs-6.col-sm-5.col-md-4
                       .description Require password
-                    .col-xs-3.col-sm-3.col-md-3
+                    .col-xs-3.col-sm-3.col-md-2
                       div.description
                         div(ng-show="requirePassword", l10n) Yes
                         div(ng-hide="requirePassword", l10n) No
-                    .col-xs-3.col-sm-4.col-md-4
+                    .col-xs-3.col-sm-4.col-md-6
                       div.description
                         a(href="", id='edit', ng-click="editUnlock = true", l10n) edit
-                  .row(ng-show="editUnlock")
-                    .col-xs-6.col-sm-5.col-md-3
+                  .row(ng-show="editUnlock", class="edit-security-pswd")
+                    .col-xs-6.col-sm-5.col-md-4
                       .description Require password
-                    .col-xs-3.col-sm-3.col-md-3
+                    .col-xs-3.col-sm-3.col-md-2
                       div.helperInput.description
                         label
                           input(type="checkbox", name="unlock", ng-checked='requirePassword', ng-click="requirePasswordChanged = true")
-                    .col-xs-3.col-sm-3.col-md-2
+                    .col-xs-6.col-sm-4.col-md-4
                       .description
                         button.btn.btn-block.btn-success.btn-xs.submit(id='save', type='submit'
                         ng-disabled='serverForm.$invalid', l10n) Save

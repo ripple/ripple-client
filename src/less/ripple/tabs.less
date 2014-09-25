@@ -899,6 +899,11 @@
 }
 
 #t-trust {
+  @media (max-width: @screen-xs-max) {
+    input[type="radio"], input[type="checkbox"] {
+      margin: 2px 0 0;
+    }
+  }
   #trustForm {
     margin-bottom: 20px;
 
@@ -916,10 +921,20 @@
       & > label, & > i {
         float: left;
       }
-
+      @media (max-width: @screen-xs-max){
+        .checkbox {
+          padding-left: 0;
+          input {
+            margin-right: 10px;
+          }
+        }     
+      }
       & > i {
         float: left;
         margin: -4px 0 0 5px;
+        @media (max-width: @screen-xs-max) {
+          margin: -6px 0 0 5px;
+        }
       }
     }
   }
@@ -975,13 +990,19 @@
     margin-top: 10px;
     margin-bottom: 10px;
     font-weight: bold;
+    
   }
 
   .lines {
     color: @darkgray;
-
+    
     .line {
       padding: 5px 0;
+    }
+  }
+  .trust-menu {
+    @media (max-width: @screen-xs-max) {
+      font-size: 10px;
     }
   }
 }
@@ -1701,6 +1722,11 @@
     padding-top: 0px;
 
   }
+  .edit-security-pswd {
+    #save {
+
+    }
+  }
 }
 
 #t-advanced {
@@ -1759,37 +1785,37 @@
   }
 
   #save {
-    margin-top: 8px;
+    margin-top: 0px;
   }
 
   #saveBlob {
-    margin-top: 8px;
+    margin-top: 0px;
   }
 
   #saveBridge {
-    margin-top: 8px;
+    margin-top: 0px;
   }
 
   #deleteBlob {
     background-color: @midred;
     border-color: @midred;
-    margin-top: 8px;
+    margin-top: 0px;
   }
 
   #deleteBridge {
     background-color: @midred;
     border-color: @midred;
-    margin-top: 8px;
+    margin-top: 0px;
   }
 
   #delete {
     background-color: @midred;
     border-color: @midred;
-    margin-top: 8px;
+    margin-top: 0px;
   }
 
   #cancel {
-    margin-top: 8px;
+    margin-top: 0px;
   }
 
   #newServer {
@@ -1799,6 +1825,9 @@
 
   #servers {
     padding-top: 0px;
+    @media (max-width: @screen-xs-max){
+      font-size: 12px;
+    }
     .field-edit-row {
       padding-bottom: 20px;
     }
@@ -1812,17 +1841,26 @@
         padding-right: 0;
       }
     }
+    .helperInput {
+      margin-bottom: 10px;
+      line-height: 28px;
+    }
+    .edit-btn {
+      line-height: 28px;
+    }
   }
 
   #secureSocket {
     padding-left: 0px;
     padding-right: 0px;
+    @media (max-width: @screen-xs-max) {
+
+        padding-left: 15px;
+    }
     &.editable {
       line-height: 35px;
       // padding-left: 15px;
-      @media (max-width: @screen-xs-max) {
-        padding-left: 15px;
-      }
+     
     }
     .helperInput {
       // padding-top: 7px;

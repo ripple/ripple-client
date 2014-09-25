@@ -3,10 +3,10 @@ section.col-xs-12.content(ng-controller="ContactsCtrl")
     include banner/unfunded
   .row.row-padding-small.head.hidden-xs
     .col-xs-3.col-sm-3.col-md-3(l10n) Contacts
-    .col-xs-6.col-sm-4.col-md-7(ng-show="'web' === client", l10n) Ripple name or address
+    .col-xs-6.col-sm-5.col-md-7(ng-show="'web' === client", l10n) Ripple name or address
     .col-xs-6(ng-show="'desktop' === client", l10n) Ripple address
-    .col-xs-3.col-sm-5.col-md-2.text-right
-      a.btn.btn-success.btn-sm.sign(ng-click='toggle_form()', ng-disabled='addform_visible', l10n) Add contact
+    .col-xs-12.col-sm-4.col-md-2.text-right
+      a.btn.btn-block.btn-success.btn-sm.sign(ng-click='toggle_form()', ng-disabled='addform_visible', l10n) Add contact
   hr
   .row.head.visible-xs
     .col-xs-12.col-sm-2
@@ -159,7 +159,7 @@ section.col-xs-12.content(ng-controller="ContactsCtrl")
 
       div(ng-hide='editing')
         b.hidden-xs {{entry.address | rpaddressorigin}}: {{entry.address}}
-    .col-xs-6.col-sm-3.col-md-3.text-right.pull-right
+    .col-xs-12.col-sm-3.col-md-3.text-right.pull-right
       .row.padding-vertical-xs
         .col-xs-4.col-md-4.col-sm-4(ng-hide='editing')
           button.edit.btn.btn-block.btn-default.btn-sm(ng-click='edit($index)', l10n) Edit

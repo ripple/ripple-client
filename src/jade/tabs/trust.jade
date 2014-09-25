@@ -77,7 +77,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
 
       .col-sm-3
         include fund/menu
-      .col-sm-9
+      .col-sm-9.trust-menu
         .row.row-padding-small.head(ng-hide='true')
           .col-sm-5(l10n) Name / Address
           .col-sm-2
@@ -276,7 +276,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
 
         //- Account is funded
         .row
-          .col-xs-12.col-sm-4.col-md-2.actions.btn-add-trust
+          .col-xs-12.col-sm-4.col-md-3.actions.btn-add-trust
             a.btn.btn-primary.btn-sm.btn-block.sign(ng-click='toggle_form()', ng-show='!addform_visible && account.Balance',
             ng-disabled='addform_visible', l10n) Connect gateway 
 
@@ -296,68 +296,74 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
               i(class="icon fa fa-money", ng-class="'fa-' + (entry.components[0].currency | lowercase)")
               span.currency(rp-currency="entry.components[0].limit", rp-currency-full)
           .row.head
-            div.col-xs-2.col-sm-3(l10n) Gateway
-            div.col-xs-2(
-              ng-class="{ 'col-xs-1': advanced_feature_switch, 'col-xs-2': !advanced_feature_switch }"
+            div(
+              ng-class="{ 'col-sm-3 col-xs-2': advanced_feature_switch, 'col-sm-4 col-xs-4 col-md-5': !advanced_feature_switch }"
+              l10n) Gateway
+            div(
+              ng-class="{ 'col-xs-2 col-sm-2': advanced_feature_switch, 'col-xs-4': !advanced_feature_switch }"
               l10n) Balance
-            div.col-xs-2(ng-show="advanced_feature_switch", ng-class="{ 'col-xs-1': advanced_feature_switch }", l10n) Limit
+            div(ng-show="advanced_feature_switch", ng-class="{ 'col-xs-2': advanced_feature_switch }", l10n) Limit
             div.col-xs-2.col-sm-1(ng-show="advanced_feature_switch", l10n) Min
             div.col-xs-2(ng-show="advanced_feature_switch", l10n) Rippling
-            div.col-xs-2(l10n) Edit
+            div(ng-class="{'col-xs-2' : advanced_feature_switch, 'col-xs-4 col-md-3': !advanced_feature_switch }"
+              l10n) Edit
           hr(id='divider')
           .lines
             .line(ng-controller="AccountRowCtrl", ng-repeat="component in entry.components")
               .row(ng-class="{ 'frozen-account': component.freeze_peer }")
-                div.col-sm-3.col-xs-2.gateway {{ component.account | rpcontactnamefull | rpripplename: {tilde: true} }}
-                div.col-xs-2(
-                  ng-class="{ 'col-xs-1': advanced_feature_switch, 'col-xs-2': !advanced_feature_switch }")
+                div.gateway(
+                  ng-class="{ 'col-sm-3 col-xs-2': advanced_feature_switch, 'col-md-5 col-sm-4 col-xs-4': !advanced_feature_switch }"
+                  ) {{ component.account | rpcontactnamefull | rpripplename: {tilde: true} }}
+                div(
+                  ng-class="{ 'col-xs-2 col-sm-2': advanced_feature_switch, 'col-xs-4': !advanced_feature_switch }")
                   {{ component.balance | rpamount:{rel_precision: 2} }}
                 div.col-xs-2(ng-show="advanced_feature_switch", ng-class="{ 'col-xs-1': advanced_feature_switch }")
                   div {{ component.limit | rpamount }}
                 .col-sm-1.col-xs-2(ng-show="advanced_feature_switch && component.limit_peer._offset == '-100'") {{ component.limit_peer | rpamount }}
                 .col-sm-1.col-xs-2(ng-show="advanced_feature_switch && component.limit_peer._offset !== '-100'", ng-hide="component.limit_peer._offset == '-100'") -{{ component.limit_peer | rpamount }}
-                .col-sm-1.col-xs-2(ng-show="advanced_feature_switch")
+                .col-sm-2.col-xs-2(ng-show="advanced_feature_switch")
                   div(ng-show="component.no_ripple", l10n) Off
                   div(ng-hide="component.no_ripple", l10n) On
-                div.col-xs-2(ng-hide="component.freeze_peer")
+                div(ng-hide="component.freeze_peer", ng-class="{ 'col-xs-2': advanced_feature_switch, 'col-xs-4 col-md-3': !advanced_feature_switch }")
                   a(href="", ng-hide="editing", ng-click="edit_account()"
                     l10n) edit
                   span(ng-show="editing && !advanced_feature_switch")
                     span(ng-hide="trust.loading")
-                      .col-md-4
-                        span(ng-show='trust.balance !== "0" && orderbookStatus === "exists"')
-                          rp-confirm(
-                          action-text="Are you sure you want to remove this gateway? Ripple Trade will attempt to convert the remaining balance of {{ trust.balance }} {{ currency }} into XRP. This action can't be undone."
-                          action-button-text="Convert balance and remove"
-                          action-button-css="btn btn-default btn-danger custom-btn"
-                          action-function="delete_account()"
-                          cancel-button-css="btn btn-link"
-                          cancel-button-text="cancel"
-                          ng-hide="showPassword==true")
-                            button.btn.btn-block.btn-danger.submit(type="button", ng-click="load_orderbook()", l10n) Remove
-                        span(ng-show='trust.balance !== "0" && orderbookStatus === "not"')
-                          rp-confirm(
-                          action-text="Are you sure you want to remove this gateway? Ripple Trade will return the balance of {{ trust.balance }} {{ currency }} to the issuer. This action can't be undone."
-                          action-button-text="Return balance and remove"
-                          action-button-css="btn btn-default btn-danger custom-btn"
-                          action-function="delete_account()"
-                          cancel-button-css="btn btn-link"
-                          cancel-button-text="cancel"
-                          ng-hide="showPassword==true")
-                            button.btn.btn-block.btn-danger.submit(type="button", ng-click="load_orderbook()", l10n) Remove
-                        span(ng-show='trust.balance === "0"')
-                          rp-confirm(
-                          action-text="Are you sure you want to remove this gateway? This action can't be undone."
-                          action-button-text="Remove"
-                          action-button-css="btn btn-default btn-danger custom-btn"
-                          action-function="delete_account()"
-                          cancel-button-css="btn btn-link"
-                          cancel-button-text="cancel"
-                          ng-hide="showPassword==true")
-                            button.btn.btn-block.btn-danger.submit(type="button", ng-click="load_orderbook()", l10n) Remove
-                      .col-md-2
-                        a.btn.btn-block.btn-link(href="", ng-click="cancel()"
-                        ng-disabled="trust.loading", l10n) cancel
+                      div.row
+                        .col-md-8.col-sm-7.col-xs-12
+                          span(ng-show='trust.balance !== "0" && orderbookStatus === "exists"')
+                            rp-confirm(
+                            action-text="Are you sure you want to remove this gateway? Ripple Trade will attempt to convert the remaining balance of {{ trust.balance }} {{ currency }} into XRP. This action can't be undone."
+                            action-button-text="Convert balance and remove"
+                            action-button-css="btn btn-default btn-danger custom-btn"
+                            action-function="delete_account()"
+                            cancel-button-css="btn btn-link"
+                            cancel-button-text="cancel"
+                            ng-hide="showPassword==true")
+                              button.btn.btn-block.btn-danger.submit(type="button", ng-click="load_orderbook()", l10n) Remove
+                          span(ng-show='trust.balance !== "0" && orderbookStatus === "not"')
+                            rp-confirm(
+                            action-text="Are you sure you want to remove this gateway? Ripple Trade will return the balance of {{ trust.balance }} {{ currency }} to the issuer. This action can't be undone."
+                            action-button-text="Return balance and remove"
+                            action-button-css="btn btn-default btn-danger custom-btn"
+                            action-function="delete_account()"
+                            cancel-button-css="btn btn-link"
+                            cancel-button-text="cancel"
+                            ng-hide="showPassword==true")
+                              button.btn.btn-block.btn-danger.submit(type="button", ng-click="load_orderbook()", l10n) Remove
+                          span(ng-show='trust.balance === "0"')
+                            rp-confirm(
+                            action-text="Are you sure you want to remove this gateway? This action can't be undone."
+                            action-button-text="Remove"
+                            action-button-css="btn btn-default btn-danger custom-btn"
+                            action-function="delete_account()"
+                            cancel-button-css="btn btn-link"
+                            cancel-button-text="cancel"
+                            ng-hide="showPassword==true")
+                              button.btn.btn-block.btn-danger.submit(type="button", ng-click="load_orderbook()", l10n) Remove
+                        .col-md-4.col-sm-5.col-xs-12
+                          a.btn.btn-block.btn-link(href="", ng-click="cancel()"
+                          ng-disabled="trust.loading", l10n) cancel
 
                 //- Account Freeze
                 div.col-xs-2(ng-show="component.freeze_peer")
@@ -390,7 +396,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                         .col-xs-3(ng-show='trust.balance !== "0" && orderbookStatus === "exists"')
                           a.btn.btn-block.btn-link(href="", ng-click="cancel()"
                             ng-disabled="trust.loading", l10n) cancel
-                        .col-xs-3.inputPadding(ng-hide="trust.loading")  
+                        .col-xs-4.col-sm-4.col-md-3(ng-hide="trust.loading")  
                           .row.text-right
                             .col-xs-12(ng-show='trust.balance !== "0" && orderbookStatus === "exists"')
                               rp-confirm(
