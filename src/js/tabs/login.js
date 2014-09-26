@@ -160,6 +160,9 @@ LoginTab.prototype.angular = function (module) {
         }, loginCallback);
       }
     }
+    $scope.$on('$idRemoteLogin', function(){
+      $id.relogin(loginCallback);
+    });
      
     //handle the login results    
     function loginCallback (err, blob) {

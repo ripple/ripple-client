@@ -164,6 +164,10 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', '$t
       if (e.originalEvent.key == 'ripple_auth' && e.originalEvent.oldValue && !e.originalEvent.newValue) {
         $timeout(function(){ $scope.$broadcast('$idRemoteLogout'); }, 0);
       }
+
+      if (e.originalEvent.key == 'ripple_auth' && !e.originalEvent.oldValue && e.originalEvent.newValue) {
+        $timeout(function(){ $scope.$broadcast('$idRemoteLogin'); }, 0);
+      }
     });
   };
 
