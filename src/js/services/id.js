@@ -10,9 +10,9 @@ var util = require('util'),
 
 var module = angular.module('id', ['authflow', 'blob', 'oldblob']);
 
-module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
+module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', '$timeout',
                         'rpAuthFlow', 'rpBlob', 'rpOldBlob',
-                        function($scope, $location, $route, $routeParams,
+                        function($scope, $location, $route, $routeParams, $timeout,
                                  $authflow, $blob, $oldblob)
 {
   /**
@@ -156,6 +156,15 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams',
         }
       });
     }
+
+    $(window).bind('storage', function (e) {
+      // http://stackoverflow.com/questions/18476564/ie-localstorage-event-misfired
+      if (document.hasFocus()) return;
+
+      if (e.originalEvent.key == 'ripple_auth' && e.originalEvent.oldValue && !e.originalEvent.newValue) {
+        $timeout(function(){ $scope.$broadcast('$idRemoteLogout'); }, 0);
+      }
+    });
   };
 
   Id.prototype.setUsername = function (username)
