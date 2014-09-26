@@ -18,21 +18,19 @@ var Options = {
     servers: [
       { host: 's-west.ripple.com', port: 443, secure: true },
       { host: 's-east.ripple.com', port: 443, secure: true }
-    ],
+    ]
 
-    connection_offset: 0,
-    ping: 10
   },
 
   // DEPRECATED: Blobvault server (old blob protocol)
   //
   // The blobvault URL for the new login protocol is set via authinfo. You can
   // still use this setting for the fallback feature.
-  blobvault : 'https://blobvault.ripple.com',
+  blobvault: 'https://blobvault.ripple.com',
 
   // If set, login will persist across sessions (page reload). This is mostly
   // intended for developers, be careful about using this in a real setting.
-  persistent_auth : false,
+  persistent_auth: false,
 
   // Number of transactions each page has in balance tab notifications
   transactions_per_page: 50,
@@ -42,17 +40,23 @@ var Options = {
     // Outbound bridges
     out: {
       // Bitcoin outbound bridge
-//    bitcoin: 'snapswap.us'
+      // bitcoin: 'snapswap.us'
+      'bitcoin': 'btc2ripple.com'
     }
   },
 
   mixpanel: {
-    token: '',
-    track: true
+    'token': '',
+    // Don't track events by default
+    'track': false
   },
 
-  activate_link: 'http://ripple.com/client/#/register/activate',
-  b2rAddress: 'rhxULAn1xW9T4V2u67FX9pQjSz4Tay2zjZ',
+  // production
+  // activate_link: 'http://rippletrade.com/#/register/activate',
+  // staging
+  activate_link: 'http://staging.ripple.com/client/#/register/activate',
+
+  b2rAddress: 'rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q',
 
   // Number of ledgers ahead of the current ledger index where a tx is valid
   tx_last_ledger: 3,
@@ -61,9 +65,11 @@ var Options = {
   max_tx_network_fee: 1000,
 
   // Set max number of rows for orderbook
-  orderbook_max_rows: 100,
+  orderbook_max_rows: 20,
 
-  advanced_feature_switch: false
+  advanced_feature_switch: false,
+
+  gateway_max_limit: 1000000000
 };
 
 // Load client-side overrides
@@ -72,6 +78,10 @@ if (store.enabled) {
 
   if (settings.server && settings.server.servers) {
     Options.server.servers = settings.server.servers;
+  }
+
+  if (settings.bridge) {
+    Options.bridge.out.bitcoin = settings.bridge.out.bitcoin.replace('https://www.bitstamp.net/ripple/bridge/out/bitcoin/', 'snapswap.us');
   }
 
   if (settings.blobvault) {
@@ -86,9 +96,4 @@ if (store.enabled) {
   if (settings.advanced_feature_switch) {
     Options.advanced_feature_switch = settings.advanced_feature_switch;
   }
-
-  if (settings.bridge && settings.bridge.out) {
-    Options.bridge.out = $.extend(Options.bridge.out, settings.bridge.out);
-  }
 }
-
