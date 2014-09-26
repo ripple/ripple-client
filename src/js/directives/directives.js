@@ -368,7 +368,7 @@ module.directive('rpAutofill', ['$parse', function($parse) {
             var amount = ripple.Amount.from_json(value);
             if (amount.is_valid()) {
               if (attr.rpAutofillAmount) {
-                value = +amount.to_human({
+                value = amount.to_human({
                   group_sep: false
                 });
               } else {
