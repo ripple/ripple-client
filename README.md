@@ -36,8 +36,6 @@ If you want to watch for changes and have the client rebuild for index_debug.htm
 
 A web server is needed to serve the built files. Please have a look at our ['Setting Up Local Environment' wiki post](https://github.com/ripple/ripple-client/wiki/Setting-Up-Local-Environment) for more information.
 
-After the first successful build, create a ['ripple.txt'](https://wiki.ripple.com/Ripple.txt) file inside 'build/bundle/web/'. You can copy the contents for the file from [here](https://www.ripple.com/ripple.txt).
-
 ### Target backend
 
 By default, the [ripple.txt](https://wiki.ripple.com/Ripple.txt) file is pointed at the staging server.
