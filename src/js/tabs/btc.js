@@ -20,8 +20,8 @@ BtcTab.prototype.generateHtml = function ()
 
 BtcTab.prototype.angular = function (module)
 {
-  module.controller('BtcCtrl', ['$rootScope', 'rpId', 'rpAppManager', 'rpTracker', '$routeParams',
-                                     function ($scope, $id, appManager, rpTracker, $routeParams)
+  module.controller('BtcCtrl', ['$rootScope', 'rpId', 'rpAppManager', 'rpTracker', '$routeParams', 'rpKeychain',
+                                     function ($scope, $id, appManager, rpTracker, $routeParams, keychain)
   {
  
     $scope.accountLines = {};
@@ -44,26 +44,37 @@ BtcTab.prototype.angular = function (module)
 
       fields.email = $scope.userBlob.data.email;
 
-      $scope.B2RApp.findProfile('account').signup(fields,function(err, response){
+      keychain.requestSecret($id.account, $id.username, function (err, secret) {
         if (err) {
-          console.log('Error',err);
-          $scope.emailError = true;
+          console.log("client: trust profile: error while " +
+            "unlocking wallet: ", err);
+          $scope.mode = "error";
+          $scope.error_type = "unlockFailed";
           $scope.loading = false;
-
-          rpTracker.track('B2R SignUp', {
-            result: 'failed',
-            message: err.message
-          });
-
           return;
         }
 
-        $scope.B2RApp.refresh();
+        $scope.B2RApp.findProfile('account').signup(fields, function (err, response) {
+          if (err) {
+            console.log('Error', err);
+            $scope.emailError = true;
+            $scope.loading = false;
 
-        $scope.B2RSignupResponse = response;
+            rpTracker.track('B2R SignUp', {
+              result: 'failed',
+              message: err.message
+            });
 
-        rpTracker.track('B2R SignUp', {
-          result: 'success'
+            return;
+          }
+
+          $scope.B2RApp.refresh();
+
+          $scope.B2RSignupResponse = response;
+
+          rpTracker.track('B2R SignUp', {
+            result: 'success'
+          });
         });
       });
 
