@@ -466,7 +466,11 @@ TradeTab.prototype.angular = function(module)
     function updateSettings() {
       var order = $scope.order;
       var pair = order.currency_pair;
-
+      
+      if (!store.disabled) {
+        store.set('ripple_trade_currency_pair', pair);
+      }
+      
       if ("string" !== typeof pair) pair = "";
       pair = pair.split('/');
 
@@ -741,9 +745,7 @@ TradeTab.prototype.angular = function(module)
         currencyPairChangedByNonUser = false;
         return;
       }
-      if (!store.disabled) {
-        store.set('ripple_trade_currency_pair', pair);
-      }
+
       updateSettings();
       resetIssuers(true);
       updateMRU();
