@@ -56,11 +56,8 @@ TradeTab.prototype.angular = function(module)
       'max_sig_digits':20
     };
 
-    $scope.reset = function (keepPair) {
-      var pair = keepPair ? $scope.order.currency_pair :
-            store.get('ripple_trade_currency_pair') || $scope.pairs_all[0].name;
-      var fIssuer = keepPair ? $scope.order.first_issuer : id.account;
-      var sIssuer = keepPair ? $scope.order.second_issuer : id.account;
+    $scope.reset = function () {
+      var pair = store.get('ripple_trade_currency_pair') || $scope.pairs_all[0].name;
 
       // Decide which listing to show
       var listing;
@@ -79,8 +76,8 @@ TradeTab.prototype.angular = function(module)
         // These will be filled in by updateSettings
         //   first_currency
         //   second_currency
-        first_issuer: fIssuer,
-        second_issuer: sIssuer,
+        first_issuer: null,
+        second_issuer: null,
         listing: listing,
 
         buy: jQuery.extend(true, {}, widget),
@@ -466,7 +463,11 @@ TradeTab.prototype.angular = function(module)
     function updateSettings() {
       var order = $scope.order;
       var pair = order.currency_pair;
-
+      
+      if (!store.disabled) {
+        store.set('ripple_trade_currency_pair', pair);
+      }
+      
       if ("string" !== typeof pair) pair = "";
       pair = pair.split('/');
 
@@ -741,9 +742,7 @@ TradeTab.prototype.angular = function(module)
         currencyPairChangedByNonUser = false;
         return;
       }
-      if (!store.disabled) {
-        store.set('ripple_trade_currency_pair', pair);
-      }
+
       updateSettings();
       resetIssuers(true);
       updateMRU();
