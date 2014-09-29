@@ -117,7 +117,10 @@ function(net, $q, $scope, $filter, $id) {
     get: function(first, second, taker) {
       var asks = loadBook(first, second, taker);
       var bids = loadBook(second, first, taker);
-
+     
+      asks._shouldSubscribe = true;
+      bids._shouldSubscribe = true;
+      
       var model = {
         asks: filterRedundantPrices(asks.offersSync(), 'asks', true),
         bids: filterRedundantPrices(bids.offersSync(), 'bids', true)
