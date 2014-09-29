@@ -19,7 +19,7 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
           //- .balancebox.col-xs-4
           .balancebox.col-xs-8
             .lbl(l10n) Total Balance
-              .desc(l10n) Estimated from exchange rates
+              .desc(l10n) Estimated from latest trade price
             .total.amount(ng-show="exchangeRatesNonempty")
               span.amount {{ aggregateValueDisplayed }}
               span.amountDecimal {{  aggregateValueDisplayedDecimal }}
