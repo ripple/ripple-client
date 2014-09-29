@@ -100,7 +100,7 @@ RegisterTab.prototype.angular = function (module) {
       $scope.mode = 'register_empty_wallet';
       $scope.reset();
 
-      $location.path('/fund');
+      $location.path('/xrp');
     };
 
     $scope.reset();

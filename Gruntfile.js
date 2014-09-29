@@ -167,10 +167,10 @@ module.exports = function(grunt) {
         ].join('&&')
       },
       linux: {
-        command: [
+        command: (process.platform === 'linux' || process.platform === 'darwin') ? [
           'tar -cvf ./build/packages/ripple-client32.tar ./build/pkg/nw/releases/RippleClient/linux32/',
           'tar -cvf ./build/packages/ripple-client64.tar ./build/pkg/nw/releases/RippleClient/linux64/'
-        ].join('&')
+        ].join('&') : 'echo Skipping tar compression, only supported on linux and OSX'
       },
       osx: {
         command: process.platform === 'darwin' ? [
@@ -186,14 +186,14 @@ module.exports = function(grunt) {
         options: {
           compile: true
         }
-      }
-      /*desktop: {
+      },
+      desktop: {
         src: ['src/less/ripple/desktop.less'],
         dest: 'build/dist/ripple-desktop.css',
         options: {
           compile: true
         }
-      }*/
+      }
     },
     concat: {
       deps: {
@@ -274,8 +274,8 @@ module.exports = function(grunt) {
             LANGUAGES: languageCodes
           }
         }
-      }
-      /*desktop: {
+      },
+      desktop: {
         src: 'src/index.html',
         dest: 'build/dist/desktop/index.html',
         options: {
@@ -298,7 +298,7 @@ module.exports = function(grunt) {
             LANGUAGES: languageCodes
           }
         }
-      }*/
+      }
     },
     webfont: {
       icons: {
@@ -339,8 +339,8 @@ module.exports = function(grunt) {
           {src: 'deps/downloadify.swf', dest: 'build/bundle/web/swf/downloadify.swf' },
           {src: 'ripple.txt', dest: 'build/bundle/web/ripple.txt' }
         ]
-      }
-      /*nw_desktop: {
+      },
+      nw_desktop: {
         files: [
           {expand: true, src: ['build/dist*//*.js'],
             dest: 'build/bundle/nw-desktop/js', flatten: true},
@@ -381,7 +381,7 @@ module.exports = function(grunt) {
           {src: 'src/js/config.js', dest: 'build/bundle/nw-desktop-debug/config.js'},
           {src: 'scripts/livereload.js', dest: 'build/bundle/web/livereload.js'}
         ]
-      }*/
+      }
     },
     jade_l10n_extractor: {
       templates: {
@@ -400,7 +400,7 @@ module.exports = function(grunt) {
       },
       scripts_debug: {
         files: ['src/js/**/*.js', 'src/jade/**/*.jade'],
-        tasks: ['webpack:web_debug', /*'webpack:desktop_debug', */'copy'],
+        tasks: ['webpack:web_debug', 'webpack:desktop_debug', 'copy'],
         options: { nospawn: true, livereload: true }
       },
       deps: {
@@ -415,7 +415,7 @@ module.exports = function(grunt) {
       },
       index: {
         files: ['src/index.html'],
-        tasks: ['preprocess:web_debug',/*'preprocess:desktop_debug',*/'copy'],
+        tasks: ['preprocess:web_debug','preprocess:desktop_debug','copy'],
         options: { livereload: true }
       },
       config: {
@@ -541,8 +541,8 @@ module.exports = function(grunt) {
       debug: true,
       devtool: 'eval',
       cache: false
-    }
-    /*desktop_debug: {
+    },
+    desktop_debug: {
       entry: {
         desktop: "./src/js/entry/desktop.js"
       },
@@ -558,11 +558,11 @@ module.exports = function(grunt) {
       debug: true,
       cache: false,
       target: 'node-webkit'
-    }*/
+    }
   };
 
   languages.forEach(function(language){
-    webpack['web_l10n_' + language.name] = {
+    /* webpack['web_l10n_' + language.name] = {
       entry: {
         web: "./src/js/entry/web.js"
       },
@@ -579,8 +579,8 @@ module.exports = function(grunt) {
         // TODO Minimization breaks our l10n mechanisms
 //        minimize: true
       }
-    };
-    /*webpack['desktop_l10n_' + language.name] = {
+    };*/
+    webpack['desktop_l10n_' + language.name] = {
       entry: {
         desktop: "./src/js/entry/desktop.js"
       },
@@ -598,7 +598,7 @@ module.exports = function(grunt) {
 //        minimize: true
       },
       target: 'node-webkit'
-    }*/
+    }
   });
 
   grunt.config.set('webpack',webpack);

@@ -72,6 +72,8 @@ var appDependencies = [
 var tabdefs = [
   require('../tabs/desktop/register'),
   require('../tabs/desktop/login'),
+  require('../tabs/migrate'),
+  require('../tabs/recover'),
   require('../tabs/balance'),
   require('../tabs/history'),
   require('../tabs/contacts'),
@@ -82,9 +84,14 @@ var tabdefs = [
   require('../tabs/trade'),
   require('../tabs/advanced'),
   require('../tabs/security'),
+  require('../tabs/kyc'),
   require('../tabs/tx'),
-  require('../tabs/fund'),
+  require('../tabs/xrp'),
+  require('../tabs/btc'),
   require('../tabs/withdraw'),
+  require('../tabs/usd'),
+  require('../tabs/eula'),
+  require('../tabs/twofa'),
 
   // Hidden tabs
   require('../tabs/apps'),
