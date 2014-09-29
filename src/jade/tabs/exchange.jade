@@ -119,73 +119,19 @@ section.col-xs-12.content(ng-controller="ExchangeCtrl")
   //- N4. Waiting for transaction result page
 
   group.mode-sending(ng-show='mode=="sending" && account.Balance')
-    p.throbber.literal(l10n) Sending transaction to Ripple network
+    include messages/waiting
     hr
     //- p: button.btn.btn-default(ng-click='reset()', l10n) Stop waiting
 
   //- N5. Error page
   group.mode-error(ng-show='mode=="error" && account.Balance')
-    group(ng-switch on="error_type")
-      group.result-error(ng-switch-when='noPath')
-        h2.tx-status(l10n) No Path
-        p(l10n) Ripple was unable to find a path between you and the destination account.
-      group.result-error(ng-switch-when='maxFeeExceeded')
-        h2.tx-status(l10n) Transaction Failed
-        p(l10n) Network fee exceeded. Please try again later.
-      group(ng-switch-default)
-        p.literal(l10n) Sorry, an error occurred while submitting your transaction.
-          |  Make sure you are connected to the Internet and try again later.
-        p.literal(l10n) Before trying again, please ensure that the transaction has
-          |  not been executed already.
+    include messages/errors
     p: button.btn.btn-link.btn-default(ng-click='cancelConfirm()', l10n) cancel
 
   //- N6. Confirmed page
 
   group.mode-status(ng-show='mode=="status" && account.Balance')
-    group.pending(ng-show='tx_result=="pending"')
-      h2.tx-status(l10n) Your transaction has been submitted.
-      p(l10n) Your account balance will update once the payment has cleared.
-    group.result-success(ng-show='tx_result=="cleared"')
-      h2.tx-status(l10n) Transaction cleared!
-    group.result-partial(ng-show='tx_result=="partial"')
-      h2.tx-status(l10n) Transaction partially valid!
-      p(l10n) Your transaction could only be partially applied.
-    group.result-error(ng-show='tx_result=="error"')
-      h2.tx-status(l10n) Transaction could not be submitted!
-      p(l10n) We were unable to submit the transaction to the server.
-        |  Please try again later.
-    group.result-malformed(ng-show='tx_result=="malformed"')
-      h2.tx-status(l10n) Transaction malformed!
-      p(ng-switch on="engine_result")
-        span(ng-switch-default, l10n)
-          | Your transaction is invalid, reason: {{engine_result}} - {{engine_result_message}}
-    group.result-malformed(ng-show='tx_result=="failure"')
-      h2.tx-status(l10n) Transaction malformed!
-      p(ng-switch on="engine_result")
-        span(ng-switch-when="tefDST_TAG_NEEDED", l10n)
-          | Destination account requires destination tag to be specified when making payments.
-    group.result-malformed(ng-show='tx_result=="claim"')
-      h2.tx-status(l10n) Transaction failed!
-      p(ng-switch on="engine_result")
-        span(ng-switch-when="tecNO_DST", l10n)
-          | The destination account does not exist.
-        span(ng-switch-when="tecNO_DST_INSUF_XRP", l10n)
-          | The destination account does not exist. Too little XRP sent to create it.
-        span(ng-switch-default, l10n)
-          | Error: {{engine_result_message}}
-    group.result-failed(ng-show='tx_result=="failed"')
-      h2.tx-status(l10n) Transaction failed!
-      p(ng-switch on="engine_result")
-        span(ng-switch-when="terNO_LINE", l10n)
-          | You have no trust line in this currency.
-        span(ng-switch-default, l10n)
-          | Your transaction failed to clear, reason: {{engine_result_message}}
-    group.result-failed(ng-show='tx_result=="local"')
-      h2.tx-status(l10n) Transaction failed!
-      p(ng-switch on="engine_result")
-        span(ng-switch-when="telINSUF_FEE_P", l10n)
-          | The particular server you sent the transaction to was too busy to forward or process
-          |  your transaction at the fee you included in it.
+    include messages/confirmation
     group.actions
       hr
       div(class="actionLink")
