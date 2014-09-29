@@ -182,6 +182,11 @@ BalanceTab.prototype.angular = function (module)
 
       }
     }
+    
+    //if we were previously loaded, update the estimate
+    if ($scope.loadState.lines) {
+      updateExchangeRates();
+    }
 
     var history = [];
 
