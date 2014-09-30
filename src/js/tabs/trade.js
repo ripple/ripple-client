@@ -159,7 +159,8 @@ TradeTab.prototype.angular = function(module)
 
       // TODO track order type
       $rpTracker.track('Trade order confirmation page', {
-        'Currency pair': $scope.order.currency_pair
+        'Currency pair': $scope.order.currency_pair,
+        'Address': $scope.userBlob.data.account_id
       });
     };
 
@@ -195,7 +196,8 @@ TradeTab.prototype.angular = function(module)
       tx.offer_cancel(id.account, seq);
       tx.on('success', function() {
         $rpTracker.track('Trade order cancellation', {
-          'Status': 'success'
+          'Status': 'success',
+          'Address': $scope.userBlob.data.account_id
         });
       });
 
@@ -211,7 +213,8 @@ TradeTab.prototype.angular = function(module)
 
         $rpTracker.track('Trade order cancellation', {
           'Status': 'error',
-          'Message': err.engine_result
+          'Message': err.engine_result,
+          'Address': $scope.userBlob.data.account_id
         });
       });
 
@@ -276,7 +279,7 @@ TradeTab.prototype.angular = function(module)
         $rpTracker.track('Trade order result', {
           'Status': 'success',
           'Currency pair': $scope.order.currency_pair,
-          'Address': res.tx_json.Account,
+          'Address': $scope.userBlob.data.account_id,
           'Transaction ID': res.tx_json.hash
         });
       });
@@ -293,7 +296,7 @@ TradeTab.prototype.angular = function(module)
           'Status': 'error',
           'Message': err.engine_result,
           'Currency pair': $scope.order.currency_pair,
-          'Address': res.tx_json.Account,
+          'Address': $scope.userBlob.data.account_id,
           'Transaction ID': res.tx_json.hash
         });
       });
