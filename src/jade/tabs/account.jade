@@ -52,6 +52,7 @@ section.col-xs-12.content(ng-controller="AccountCtrl")
                         span(ng-switch-when="starthyphen", l10n) Cannot start with hyphen (-)
                         span(ng-switch-when="endhyphen", l10n) Cannot end with hyphen (-)
                         span(ng-switch-when="multhyphen", l10n) Cannot bundle hyphens (--)
+                        span(ng-switch-default, l10n) Server rejected username
                   span(ng-show="usernameLoading", l10n) Checking...
                   .form-group
                     label(type="password", for='password', l10n) Current password

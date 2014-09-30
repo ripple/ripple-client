@@ -225,7 +225,7 @@ module.directive('rpDest', function ($timeout, $parse) {
 /**
  * Check if the ripple name is valid and is available for use
  */
-module.directive('rpAvailableName', function ($timeout, $parse) {
+module.directive('rpAvailableName', ['$timeout','$parse','rpAuthFlow', function ($timeout, $parse, $authflow) {
   return {
     restrict: 'A',
     require: '?ngModel',
@@ -261,9 +261,13 @@ module.directive('rpAvailableName', function ($timeout, $parse) {
               getterL.assign(scope,true);
             }
 
-            ripple.AuthInfo.get(Options.domain, value, function(err, info){
+            var meta = $authflow.getVaultClient(value);
+            meta.client.getAuthInfo(meta.username, function(err, info){
               scope.$apply(function(){
-                if (info.exists) {
+                if (!info || !info.username) {
+                  ctrl.$setValidity('rpAvailableName', false);
+                  getterInvalidReason.assign(scope,'invalid');
+                } else if (info.exists) {
                   ctrl.$setValidity('rpAvailableName', false);
                   getterInvalidReason.assign(scope,'exists');
                 } else if (info.reserved) {
@@ -296,7 +300,7 @@ module.directive('rpAvailableName', function ($timeout, $parse) {
       });
     }
   }
-});
+}]);
 
 /**
  * Source and destination tags validator
