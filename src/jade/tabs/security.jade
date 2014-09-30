@@ -55,13 +55,7 @@ section.col-xs-12.content(ng-controller="SecurityCtrl")
                           .col-xs-12.col-sm-8.email {{userBlob.data.email}}
                         .row.modal-permissions
                           .col-xs-12.col-sm-4(l10n) - Your phone number:
-                          .col-xs-12.col-sm-8.phone2FA
-                            .form-group.authy-control
-                              label(l10n) Country Code
-                              input.authy-countries.form-control(ng-model="countryCode")
-                            .form-group.authy-control
-                              label(l10n) Phone Number
-                              input.form-control(name="phoneNumber", ng-model="phoneNumber")
+                          include 2fa/form
                       div.modal-agreement(l10n) By proceeding, you agree to the Authy
                         a(href="https://www.authy.com/terms", target="_blank", l10n-inc)  terms of service.
                       div.modal-buttons

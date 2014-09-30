@@ -18,13 +18,23 @@ section.col-xs-12.content(ng-controller='KycCtrl')
         h2.tx-status(l10n) Your identity information has been verified.
       group.result-success(ng-switch-when="questions_verified")
         h2.tx-status(l10n) Your identity questions have been verified.
+      group.result-success(ng-switch-when="info_verified")
+        h2.tx-status(l10n) Your identity information has been verified.
+      group.result-success(ng-switch-when="2fa_done")
+        h2.tx-status(l10n) Congrats! Your profile is complete. You can now deposit up to $300 per day instantly.
+      group.result-error(ng-switch-when="general_error")
+        h2.tx-status(l10n) There was an error with your request. Please try again later.
+      group.result-error(ng-switch-when="phone_error")
+        h2.tx-status(l10n) There was an error with your request. Make sure your phone number is valid and try again.
+      group.result-error(ng-switch-when="request_token_error")
+        h2.tx-status(l10n) There was an error while requesting the verification code. Please try again later.
       group.result-error(ng-switch-when="info_error")
         h2.tx-status(l10n) We are unable to validate your identity information. Please check your information and try again.
       group.result-error(ng-switch-when="questions_error")
         h2.tx-status(l10n) We are unable to validate your identity questions. Please check your answers and try again.
-      group(ng-switch-when="checking_step")
+      group(ng-switch-when="loading")
         h2.tx-status(l10n) Loading...
-  group(ng-show="connected && loadState.account && kyc.notif !== 'checking_step'")
+  group(ng-show="connected && loadState.account && kyc.notif !== 'loading'")
     .row
       h3.text-center(l10n) Profile Completion
       .row
@@ -134,24 +144,48 @@ section.col-xs-12.content(ng-controller='KycCtrl')
               button.btn.btn-block.btn-primary.submit(type='submit', l10n) Continue to two-factor authentication
             .col-xs-5
               a.button.btn.btn-link(href='#/xrp', l10n) cancel
-        group(ng-switch-when="three")
+        group(ng-switch-when="three", ng-controller="TwoFACtrl")
           .row.twoFAInfo
             .col-xs-1
               i.fa.fa-lock.fa-3x
             .col-xs-4
               span.two-factor-desc(l10n) Two-factor authentication provides extra security for your account.
-          .row
-            .col-xs-12.col-sm-6.col-md-4
-              .form-group.authy-control
-                label(l10n) Country Code
-                input.authy-countries.form-control(ng-model="countryCode")
-          .row
-            .col-xs-12.col-sm-6.col-md-4
-              .form-group.authy-control
-                label(l10n) Phone Number
-                input.form-control(name="phoneNumber", ng-model="phoneNumber")
-          .row
-            .col-xs-5
-              button.btn.btn-block.btn-primary.submit(type='submit', ng-disabled='identityForm.$invalid', l10n) Verify phone number
-            .col-xs-5
-              a.button.btn.btn-link(href='#/xrp', l10n) cancel
+          .section(ng-show="twoFAVerify")
+            .row
+              .col-xs-12.col-sm-6.col-md-6
+                include 2fa/form
+            .row.kyc-align
+              .col-xs-12.col-sm-6.col-md-6
+                span(l10n) Ripple Trade has partnered with Authy to provide better security for your account.
+                  | By continuing, you agree to Authy's&#32;
+                  a(href="https://www.authy.com/terms", target="blank", l10n-inc) Terms of Service
+                  | .
+            .row.kyc-align
+              .col-xs-12.col-sm-6.col-md-3
+                button.modal-btn.btn.btn-default.btn-primary.btn-md(ng-click="savePhone()", ng-disabled="savingPhone") Verify phone number
+              .col-xs-12.col-sm-6.col-md-3
+                a.button.btn.btn-link(href='#/xrp', l10n) cancel
+          .section(ng-hide="twoFAVerify")
+            .row
+              .col-xs-12.col-sm-4
+                .form-group.authy-control
+                  div(l10n) Phone Number
+                  div +{{ currentCountryCode }} {{ phoneNumber }}
+                    span.a.button.btn.btn-link(ng-click="edit_toggle()", l10n) change
+            .row
+              .col-xs-12.col-sm-8
+                .form-group.authy-control
+                  span(l10n) A verification code has been sent to +{{ currentCountryCode }} {{ phoneNumber }}.
+            form
+              .row
+                .col-xs-12.col-sm-4
+                  .form-group
+                    label(l10n) Verification Code
+                    input.form-control(ng-model="verificationCode")
+                .col-xs-12.col-m-4
+                  button.modal-btn.btn.btn-default.btn-md(ng-click="requestToken()") Resend Code                  
+            .row.kyc-align
+              .col-xs-12.col-sm-6.col-md-3
+                button.modal-btn.btn.btn-default.btn-primary.btn-md(ng-click="enable2FA()", ng-disabled="isVeryifying") Submit code
+              .col-xs-12.col-sm-6.col-md-3
+                a.button.btn.btn-link(href='#/xrp', l10n) cancel

@@ -39,7 +39,7 @@ KycTab.prototype.angular = function(module)
         }, 10000);
       }
 
-      $scope.load_notification('checking_step');
+      $scope.load_notification('loading');
 
       $scope.$on('$blobUpdate', onBlobUpdate);
       onBlobUpdate();
@@ -297,11 +297,6 @@ KycTab.prototype.angular = function(module)
         });
       }
 
-      // STEP THREE: TWO FACTOR AUTH
-
-
-      window.Authy.UI.instance(true, $scope.countryCode);
-      
     }]
   );
 };
