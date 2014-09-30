@@ -182,7 +182,7 @@ var JsonRewriter = module.exports = {
         for (i = 0; i < meta.AffectedNodes.length; i++) {
           affectedNode = meta.AffectedNodes[i];
           if (affectedNode.ModifiedNode && affectedNode.ModifiedNode.LedgerEntryType === "AccountRoot" && 
-            affectedNode.ModifiedNode.FinalFields.Account === sender) {
+            affectedNode.ModifiedNode.FinalFields && affectedNode.ModifiedNode.FinalFields.Account === sender) {
 
             // Calculate the difference minus the fee
             difference = affectedNode.ModifiedNode.PreviousFields.Balance - affectedNode.ModifiedNode.FinalFields.Balance - tx.Fee;
