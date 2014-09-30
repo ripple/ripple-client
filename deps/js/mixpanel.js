@@ -1,5 +1,5 @@
 /*
- * Mixpanel JS Library v2.2.0
+ * Mixpanel JS Library v2.2.3
  *
  * Copyright 2012, Mixpanel, Inc. All Rights Reserved
  * http://mixpanel.com/
@@ -788,9 +788,8 @@ Globals should be all caps
     // _.isBlockedUA()
     // This is to block various web spiders from executing our JS and
     // sending false tracking data
-    _.isBlockedUA = function() {
-        var a = userAgent;
-        if (/(google web preview|baiduspider|yandexbot)/i.test(a)) {
+    _.isBlockedUA = function(ua) {
+        if (/(google web preview|baiduspider|yandexbot|bingbot|googlebot|yahoo! slurp)/i.test(ua)) {
             return true;
         }
         return false;
@@ -1178,32 +1177,35 @@ Globals should be all caps
          * The order of the checks are important since many user agents
          * include key words used in later checks.
          */
-        browser: function() {
-            var ua = userAgent
-                , vend = navigator.vendor || ''; // vendor is undefined for at least IE9
-            if (window.opera) {
-                if (_.includes(ua, "Mini")) {
+        browser: function(user_agent, vendor, opera) {
+            var vendor = vendor || ''; // vendor is undefined for at least IE9
+            if (opera) {
+                if (_.includes(user_agent, "Mini")) {
                     return "Opera Mini";
                 }
                 return "Opera";
-            } else if (/(BlackBerry|PlayBook|BB10)/i.test(ua)) {
+            } else if (/(BlackBerry|PlayBook|BB10)/i.test(user_agent)) {
                 return 'BlackBerry';
-            } else if (_.includes(ua, "Chrome")) {
+            } else if (_.includes(user_agent, "FBIOS")) {
+                return "Facebook Mobile";
+            } else if (_.includes(user_agent, "Chrome")) {
                 return "Chrome";
-            } else if (_.includes(vend, "Apple")) {
-                if (_.includes(ua, "Mobile")) {
+            } else if (_.includes(user_agent, "CriOS")) {
+                return "Chrome iOS";
+            } else if (_.includes(vendor, "Apple")) {
+                if (_.includes(user_agent, "Mobile")) {
                     return "Mobile Safari";
                 }
                 return "Safari";
-            } else if (_.includes(ua, "Android")) {
+            } else if (_.includes(user_agent, "Android")) {
                 return "Android Mobile";
-            } else if (_.includes(ua, "Konqueror")) {
+            } else if (_.includes(user_agent, "Konqueror")) {
                 return "Konqueror";
-            } else if (_.includes(ua, "Firefox")) {
+            } else if (_.includes(user_agent, "Firefox")) {
                 return "Firefox";
-            } else if (_.includes(ua, "MSIE")) {
+            } else if (_.includes(user_agent, "MSIE") || _.includes(user_agent, "Trident/")) {
                 return "Internet Explorer";
-            } else if (_.includes(ua, "Gecko")) {
+            } else if (_.includes(user_agent, "Gecko")) {
                 return "Mozilla";
             } else {
                 return "";
@@ -1230,19 +1232,18 @@ Globals should be all caps
             }
         },
 
-        device: function() {
-            var a = userAgent;
-            if (/iPhone/.test(a)) {
-                return 'iPhone';
-            } else if (/iPad/.test(a)) {
+        device: function(user_agent) {
+            if (/iPad/.test(user_agent)) {
                 return 'iPad';
-            } else if (/iPod/.test(a)) {
+            } else if (/iPod/.test(user_agent)) {
                 return 'iPod Touch';
-            } else if (/(BlackBerry|PlayBook|BB10)/i.test(a)) {
+            } else if (/iPhone/.test(user_agent)) {
+                return 'iPhone';
+            } else if (/(BlackBerry|PlayBook|BB10)/i.test(user_agent)) {
                 return 'BlackBerry';
-            } else if (/Windows Phone/i.test(a)) {
+            } else if (/Windows Phone/i.test(user_agent)) {
                 return 'Windows Phone';
-            } else if (/Android/.test(a)) {
+            } else if (/Android/.test(user_agent)) {
                 return 'Android';
             } else {
                 return '';
@@ -1258,12 +1259,15 @@ Globals should be all caps
         },
 
         properties: function() {
-            return _.strip_empty_properties({
+            return _.extend(_.strip_empty_properties({
                 '$os': _.info.os(),
-                '$browser': _.info.browser(),
+                '$browser': _.info.browser(userAgent, navigator.vendor, window.opera),
                 '$referrer': document.referrer,
                 '$referring_domain': _.info.referringDomain(document.referrer),
-                '$device': _.info.device(),
+                '$device': _.info.device(userAgent)
+            }), {
+                '$screen_height': screen.height,
+                '$screen_width': screen.width,
                 'mp_lib': 'web'
             });
         },
@@ -1271,7 +1275,7 @@ Globals should be all caps
         people_properties: function() {
             return _.strip_empty_properties({
                 '$os': _.info.os(),
-                '$browser': _.info.browser()
+                '$browser': _.info.browser(userAgent, navigator.vendor, window.opera)
             });
         },
 
@@ -1279,7 +1283,7 @@ Globals should be all caps
             return _.strip_empty_properties({
                 'mp_page': page
                 , 'mp_referrer': document.referrer
-                , 'mp_browser': _.info.browser()
+                , 'mp_browser': _.info.browser(userAgent, navigator.vendor, window.opera)
                 , 'mp_platform': _.info.os()
             });
         }
@@ -1839,8 +1843,8 @@ Globals should be all caps
      *      mixpanel.library_name.track(...)
      *
      * @param {String} token   Your Mixpanel API token
-     * @param {Object} config  A dictionary of config options to override
-     * @param {String} name    The name for the new mixpanel instance that you want created
+     * @param {Object} [config]  A dictionary of config options to override
+     * @param {String} [name]    The name for the new mixpanel instance that you want created
      */
     MixpanelLib.prototype.init = function (token, config, name) {
         if (typeof(name) === "undefined") {
@@ -2125,7 +2129,7 @@ Globals should be all caps
             return;
         }
 
-        if (_.isBlockedUA()
+        if (_.isBlockedUA(userAgent)
         ||  this._flags.disable_all_events
         ||  _.include(this.__disabled_events, event_name)) {
             if (typeof(callback) !== 'undefined') { callback(0); }
@@ -2176,12 +2180,12 @@ Globals should be all caps
     };
 
     /**
-     * Track a page view event.  This is most useful for ajax websites
-     * where new page views occur without a new page load.  This
-     * function is called by default on page load unless the
+     * Track a page view event, which is currently ignored by the server.
+     * This function is called by default on page load unless the
      * track_pageview configuration variable is false.
      *
      * @param {String} [page] The url of the page to record. If you don't include this, it defaults to the current url.
+     * @api private
      */
     MixpanelLib.prototype.track_pageview = function(page) {
         if (typeof(page) === "undefined") { page = document.location.href; }
@@ -2200,7 +2204,7 @@ Globals should be all caps
      * ### Notes:
      *
      * This function will wait up to 300 ms for the Mixpanel
-     * servers to respond, if they have not responded by that time
+     * servers to respond. If they have not responded by that time
      * it will head to the link without ensuring that your event
      * has been tracked.  To configure this timeout please see the
      * mixpanel.set_config docs below.
@@ -2337,8 +2341,9 @@ Globals should be all caps
     };
 
     /**
-     * Create an alias. Multiple aliases can map to the same original ID, but not vice-versa.
-     * Aliases can also be chained - the following is a valid scenario:
+     * Create an alias, which Mixpanel will use to link two distinct_ids going forward (not retroactively).
+     *  Multiple aliases can map to the same original ID, but not vice-versa. Aliases can also be chained - the
+     *  following is a valid scenario:
      *
      *      mixpanel.alias("new_id", "existing_id");
      *      ...
@@ -2384,6 +2389,7 @@ Globals should be all caps
      * This value will only be included in Streams data.
      *
      * @param {String} name_tag A human readable name for the user
+     * @api private
      */
     MixpanelLib.prototype.name_tag = function(name_tag) {
         this._register_single('mp_name_tag', name_tag);
@@ -2482,11 +2488,11 @@ Globals should be all caps
      *
      *     // or set multiple properties at once
      *     mixpanel.people.set({
-     *         'company': 'Acme',
-     *         'plan': 'Premium',
-     *         'last_seen': new Date()
+     *         'Company': 'Acme',
+     *         'Plan': 'Premium',
+     *         'Upgrade date': new Date()
      *     });
-     *     // properties can be strings, integers or dates
+     *     // properties can be strings, integers, dates, or lists
      *
      * @param {Object|String} prop If a string, this is the name of the property. If an object, this is an associative array of names and values.
      * @param {*} [to] A value to set on the given property name
@@ -2632,7 +2638,7 @@ Globals should be all caps
      *     });
      *
      * @param {Object|String} prop If a string, this is the name of the property. If an object, this is an associative array of names and numeric values.
-     * @param {*} [value] An amount to increment the given property
+     * @param {*} [value] An item to append to the list
      * @param {Function} [callback] If provided, the callback will be called after the tracking event
      */
     MixpanelPeople.prototype.append = function(list_name, value, callback) {
@@ -2851,7 +2857,11 @@ Globals should be all caps
     _['isObject']                                       = _.isObject;
     _['JSONEncode']                                     = _.JSONEncode;
     _['JSONDecode']                                     = _.JSONDecode;
+    _['isBlockedUA']                                    = _.isBlockedUA;
     _['isEmptyObject']                                  = _.isEmptyObject;
+    _['info']                                           = _.info;
+    _['info']['device']                                 = _.info.device;
+    _['info']['browser']                                = _.info.browser;
 
     // MixpanelLib Exports
     MixpanelLib.prototype['init']                       = MixpanelLib.prototype.init;
