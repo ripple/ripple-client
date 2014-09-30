@@ -13,9 +13,11 @@ var util = require('util'),
 var module = angular.module('app', []);
 
 module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
-                              'rpKeychain', 'rpTxQueue', 'rpAppManager', '$location',
+                              'rpKeychain', 'rpTxQueue', 'rpAppManager', 'rpTracker',
+                              '$location',
                               function ($scope, $compile, $id, $net,
-                                        keychain, txQueue, appManager, $location)
+                                        keychain, txQueue, appManager, rpTracker,
+                                        $location)
 {
   reset();
 
@@ -251,7 +253,18 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
   {
     var processedTxn = rewriter.processTxn(tx, meta, account);
 
-    if (processedTxn) {
+    if (processedTxn && processedTxn.transaction.type === 'error') {
+      var err = processedTxn.error;
+      rpTracker.trackError('JsonRewriter Error', err, {
+        'Transaction Hash': processedTxn.transaction.hash,
+        'Source': is_historic ? 'app controller historic' : 'app controller event'
+      });
+      console.error('Error processing transaction '+processedTxn.transaction.hash+'\n',
+                    err && 'object' === typeof err && err.stack ? err.stack : err);
+
+      // Add to history only
+      $scope.history.unshift(processedTxn);
+    } else if (processedTxn) {
       var transaction = processedTxn.transaction;
 
       // Update account
