@@ -1025,7 +1025,7 @@ SendTab.prototype.angular = function (module)
           'Address Type': $scope.send.federation ? 'federation' : 'ripple',
           'Destination Tag': !!$scope.send.dt,
           'Time': (+new Date() - +$scope.confirmedTime) / 1000,
-          'Address': $scope.userBlob.data.account_id,
+          'Address': res.tx_json.Account,
           'Transaction ID': res.tx_json.hash
         });
       });
