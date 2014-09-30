@@ -997,6 +997,7 @@ SendTab.prototype.angular = function (module)
       tx.lastLedger($network.remote._ledger_current_index + maxLedger);
 
       tx.on('success', function (res) {
+
         $scope.onTransactionSuccess(res, tx);
 
         $rpTracker.track('Send result', {
@@ -1004,7 +1005,9 @@ SendTab.prototype.angular = function (module)
           'Currency': $scope.send.currency_code,
           'Address Type': $scope.send.federation ? 'federation' : 'ripple',
           'Destination Tag': !!$scope.send.dt,
-          'Time': (+new Date() - +$scope.confirmedTime) / 1000
+          'Time': (+new Date() - +$scope.confirmedTime) / 1000,
+          'Address': res.tx_json.Account,
+          'Transaction ID': res.tx_json.hash
         })
       });
 
@@ -1021,7 +1024,9 @@ SendTab.prototype.angular = function (module)
           'Currency': $scope.send.currency_code,
           'Address Type': $scope.send.federation ? 'federation' : 'ripple',
           'Destination Tag': !!$scope.send.dt,
-          'Time': (+new Date() - +$scope.confirmedTime) / 1000
+          'Time': (+new Date() - +$scope.confirmedTime) / 1000,
+          'Address': $scope.userBlob.data.account_id,
+          'Transaction ID': res.tx_json.hash
         });
       });
 

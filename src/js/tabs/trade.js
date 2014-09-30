@@ -265,6 +265,7 @@ TradeTab.prototype.angular = function(module)
       });
 
       tx.on('success', function(res) {
+
         setEngineStatus(res, true, type);
         order.mode = "done";
 
@@ -274,7 +275,9 @@ TradeTab.prototype.angular = function(module)
 
         $rpTracker.track('Trade order result', {
           'Status': 'success',
-          'Currency pair': $scope.order.currency_pair
+          'Currency pair': $scope.order.currency_pair,
+          'Address': res.tx_json.Account,
+          'Transaction ID': res.tx_json.hash
         });
       });
 
@@ -289,7 +292,9 @@ TradeTab.prototype.angular = function(module)
         $rpTracker.track('Trade order result', {
           'Status': 'error',
           'Message': err.engine_result,
-          'Currency pair': $scope.order.currency_pair
+          'Currency pair': $scope.order.currency_pair,
+          'Address': res.tx_json.Account,
+          'Transaction ID': res.tx_json.hash
         });
       });
 
