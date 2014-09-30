@@ -153,6 +153,11 @@ section.col-xs-12.content(ng-controller="HistoryCtrl")
                 span(l10n) Rippling
                 != require("./history/effects.jade")()
               span(ng-switch-when="failed", l10n) Failed transaction
+              span(ng-switch-when="error", l10n)
+                strong(l10n) Unknown transaction
+                ul.effects(rp-if="details[entry.hash]")
+                  li
+                    span(l10n) The client failed to parse this transaction. The developers have been notified of the issue.
               span(ng-switch-default)
                 != require("./history/effects.jade")()
             span.desc(ng-show="entry.details", ng-switch on="entry.details.type")

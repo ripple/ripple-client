@@ -260,7 +260,8 @@ HistoryTab.prototype.angular = function (module) {
             $scope.minLedger = event.ledger_index;
 
           // Type filter
-          if (event.transaction && !_.contains($scope.filters.types,event.transaction.type))
+          if (event.transaction && event.transaction.type === 'error') ; // Always show errors
+          else if (event.transaction && !_.contains($scope.filters.types,event.transaction.type))
             return;
 
           // Some events don't have transactions.. this is a temporary fix for filtering offers

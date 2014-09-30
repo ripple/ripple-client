@@ -182,7 +182,7 @@ var JsonRewriter = module.exports = {
         for (i = 0; i < meta.AffectedNodes.length; i++) {
           affectedNode = meta.AffectedNodes[i];
           if (affectedNode.ModifiedNode && affectedNode.ModifiedNode.LedgerEntryType === "AccountRoot" && 
-            affectedNode.ModifiedNode.FinalFields.Account === sender) {
+            affectedNode.ModifiedNode.FinalFields && affectedNode.ModifiedNode.FinalFields.Account === sender) {
 
             // Calculate the difference minus the fee
             difference = affectedNode.ModifiedNode.PreviousFields.Balance - affectedNode.ModifiedNode.FinalFields.Balance - tx.Fee;
@@ -231,6 +231,25 @@ var JsonRewriter = module.exports = {
    *          offer_cancelled, offer_bought)
    */
   processTxn: function (tx, meta, account) {
+    try {
+      return JsonRewriter._processTxn(tx, meta, account);
+    } catch (err) {
+      var transaction = {};
+      transaction.type = 'error';
+      if (tx && 'object' === typeof tx) {
+        transaction.hash = tx.hash;
+        transaction.date = ripple.utils.toTimestamp(tx.date);
+        transaction.dateRaw = tx.date;
+      } else {
+        transaction.hash = 'unknown';
+        transaction.date = new Date().getTime();
+        transaction.dateRaw = ripple.utils.fromTimestamp(fromTimestamp);
+      }
+      return {transaction: transaction, error: err};
+    }
+  },
+
+  _processTxn: function (tx, meta, account) {
     var obj = {};
 
     // Currency balances that have been affected by the transaction
