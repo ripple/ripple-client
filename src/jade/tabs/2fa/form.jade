@@ -4,4 +4,4 @@
     input.authy-countries.form-control(ng-model="countryCode")
   .form-group.authy-control
     label(l10n) Phone Number
-    input.form-control(name="phoneNumber", ng-model="phoneNumber")
+    input.form-control(name="phoneNumber", ng-model="phoneNumber", ng-pattern='validation_pattern_phone')

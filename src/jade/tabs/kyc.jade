@@ -26,6 +26,8 @@ section.col-xs-12.content(ng-controller='KycCtrl')
         h2.tx-status(l10n) There was an error with your request. Please try again later.
       group.result-error(ng-switch-when="phone_error")
         h2.tx-status(l10n) There was an error with your request. Make sure your phone number is valid and try again.
+      group.result-error(ng-switch-when="invalid_token")
+        h2.tx-status(l10n) Please check your verification code and try again.
       group.result-error(ng-switch-when="request_token_error")
         h2.tx-status(l10n) There was an error while requesting the verification code. Please try again later.
       group.result-error(ng-switch-when="info_error")
@@ -150,7 +152,7 @@ section.col-xs-12.content(ng-controller='KycCtrl')
               i.fa.fa-lock.fa-3x
             .col-xs-4
               span.two-factor-desc(l10n) Two-factor authentication provides extra security for your account.
-          .section(ng-show="twoFAVerify")
+          form.section(name="twoFA", ng-submit="savePhone()", ng-show="twoFAVerify")
             .row
               .col-xs-12.col-sm-6.col-md-6
                 include 2fa/form
@@ -162,7 +164,7 @@ section.col-xs-12.content(ng-controller='KycCtrl')
                   | .
             .row.kyc-align
               .col-xs-12.col-sm-6.col-md-3
-                button.modal-btn.btn.btn-default.btn-primary.btn-md(ng-click="savePhone()", ng-disabled="savingPhone") Verify phone number
+                button.modal-btn.btn.btn-default.btn-primary.btn-md(type="submit", ng-disabled="savingPhone || twoFA.$invalid", l10n) Verify phone number
               .col-xs-12.col-sm-6.col-md-3
                 a.button.btn.btn-link(href='#/xrp', l10n) cancel
           .section(ng-hide="twoFAVerify")

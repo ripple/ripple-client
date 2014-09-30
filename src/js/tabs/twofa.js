@@ -150,12 +150,10 @@ TwoFATab.prototype.angular = function(module)
           remember_me : false
         };
 
-        console.log('options being sent: ', options);
-
         authflow.verifyToken(options, function(err, resp){
 
           if (err) {
-            $scope.load_notification('general_error');
+            $scope.load_notification('invalid_token');
             $scope.isVerifying  = false;
             console.log('Error: ', err);
             return;
@@ -191,7 +189,9 @@ TwoFATab.prototype.angular = function(module)
                   //next login will require 2FA
                   store.remove('device_id');
 
-                  $location.path('/xrp');
+                  $timeout(function() {
+                    $location.path('/xrp');                    
+                  }, 5000);
                 }
               });
             });

@@ -125,6 +125,7 @@ KycTab.prototype.angular = function(module)
       $scope.validation_pattern_state = /^[a-zA-Z][a-zA-Z]$/;
       $scope.validation_pattern_zip = /(^\d{5}$)|(^\d{5}-\d{4}$)/;
       $scope.validation_pattern_sss = /^[0-9]{4}$/;
+      $scope.validation_pattern_phone = /^[0-9]*$/;
 
       var genNum = function(start, end) {
         var arr = [];
