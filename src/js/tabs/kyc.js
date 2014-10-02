@@ -24,23 +24,9 @@ KycTab.prototype.angular = function(module)
       if (!$id.loginStatus) return $id.goId();
       if (!$scope.blockscoreError) $scope.blockscoreError = false;
       if (!$scope.profile) $scope.profile = {};
-      if (!$scope.kyc) $scope.kyc = {};
-
-      $scope.load_notification = function(status) {
-        if (typeof status !== 'string') {
-          console.log("You must pass in a string for the status");
-          return;
-        }
-
-        $scope.kyc.notif = status;
-
-        $timeout(function() {
-          $scope.kyc.notif = 'clear';
-        }, 10000);
-      }
 
       $scope.load_notification('loading');
-
+      
       $scope.$on('$blobUpdate', onBlobUpdate);
       onBlobUpdate();
 
@@ -110,17 +96,18 @@ KycTab.prototype.angular = function(module)
               console.log('Error: KYC flow route not recognized');
             }
 
-            $scope.kyc.notif = 'clear';
+            $scope.load_notification('clear');
           });
         }
       }
+      
 
       // STEP ONE: IDENTITY INFORMATION
 
       // $scope.validation_pattern_name = /^[a-zA-Z0-9]{1,}$/;
       $scope.validation_pattern_month = /^[a-zA-Z][a-zA-Z][a-zA-Z]$/;
       $scope.validation_pattern_date = /^(0[1-9]|[12]\d|3[0-1])$/;
-      $scope.validation_pattern_year = /^[0-9]{4}$/;
+      $scope.validation_pattern_year = /^[1-2][0-9][0-9][0-9]$/;
       $scope.validation_pattern_city = /^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$/;
       $scope.validation_pattern_state = /^[a-zA-Z][a-zA-Z]$/;
       $scope.validation_pattern_zip = /(^\d{5}$)|(^\d{5}-\d{4}$)/;
@@ -237,9 +224,7 @@ KycTab.prototype.angular = function(module)
           if (res.status === "unverified") {
             $scope.load_notification('info_error');
             if ($scope.identityForm) $scope.identityForm.$setPristine(true);
-          }
-
-          else {
+          } else {
             $scope.load_notification('info_verified');
             $scope.options.type = 'identity';
 
@@ -261,6 +246,7 @@ KycTab.prototype.angular = function(module)
             $scope.blockscoreError = true;
             return;
           } else {
+            console.log('response is: ', res);
             $scope.questions = res.questions;
           }
 
@@ -293,10 +279,14 @@ KycTab.prototype.angular = function(module)
             if ($scope.questionsForm) $scope.questionsForm.$setPristine(true);
           } else {
             $scope.load_notification('questions_verified');
-            $scope.currentStep = 'three';  
-          } 
+            $scope.currentStep = 'three';
+          }
         });
       }
+
+      // STEP THREE: TWO-FACTOR AUTH
+      // TODO: Merge twofa.js and kyc.js
+      // Look at twofa.js
 
     }]
   );

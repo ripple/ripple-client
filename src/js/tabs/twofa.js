@@ -23,12 +23,14 @@ TwoFATab.prototype.angular = function(module)
     {
 
       if (!$scope.twoFAVerify) $scope.twoFAVerify = true;
+      if (!$scope.editNum) $scope.editNum = false;
       if (!$scope.verificationCode) $scope.verificationCode = '';
       if (!$scope.editPhone) $scope.editPhone = false;
-      if (!$scope.kyc) $scope.kyc = {};
 
       window.Authy.UI.instance(true, $scope.countryCode);
-      
+     
+      $scope.validation_pattern_phone = /^[0-9]*$/;
+
       $scope.$on('$blobUpdate', onBlobUpdate);
       onBlobUpdate();
 
@@ -55,21 +57,9 @@ TwoFATab.prototype.angular = function(module)
         }
       }
 
-      $scope.load_notification = function(status) {
-        if (typeof status !== 'string') {
-          console.log("You must pass in a string for the status");
-          return;
-        }
-
-        $scope.kyc.notif = status;
-
-        $timeout(function() {
-          $scope.kyc.notif = 'clear';
-        }, 10000);
-      }
-
       $scope.edit_toggle = function() {
-        $scope.twoFAVerify = true;
+        $scope.twoFAVerify = !$scope.twoFAVerify;
+        $scope.editNum = !$scope.editNum;
       }
 
       $scope.requestToken = function(force, callback) {
@@ -190,7 +180,7 @@ TwoFATab.prototype.angular = function(module)
                   store.remove('device_id');
 
                   $timeout(function() {
-                    $location.path('/xrp');                    
+                    $location.path('#/usd');                    
                   }, 5000);
                 }
               });

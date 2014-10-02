@@ -10,16 +10,14 @@ section.col-xs-12.content(ng-controller='KycCtrl')
   div(ng-show="'web' === client && !loadingAccount && !account.Balance && loadState.account && connected")
     include banner/unfunded
 
-  group.mode-granted.wide(ng-show='kyc.notif !== "clear"')
-    group(ng-switch on="kyc.notif")          
+  group.mode-granted.wide(ng-show='notif !== "clear"')
+    group(ng-switch on="notif")          
       group.pending(ng-switch-when="verifying")
         h2.tx-status(l10n) Verifying your information. Please wait...
       group.result-success(ng-switch-when="info_verified")
         h2.tx-status(l10n) Your identity information has been verified.
       group.result-success(ng-switch-when="questions_verified")
         h2.tx-status(l10n) Your identity questions have been verified.
-      group.result-success(ng-switch-when="info_verified")
-        h2.tx-status(l10n) Your identity information has been verified.
       group.result-success(ng-switch-when="2fa_done")
         h2.tx-status(l10n) Congrats! Your profile is complete. You can now deposit up to $300 per day instantly.
       group.result-error(ng-switch-when="general_error")
@@ -36,7 +34,7 @@ section.col-xs-12.content(ng-controller='KycCtrl')
         h2.tx-status(l10n) We are unable to validate your identity questions. Please check your answers and try again.
       group(ng-switch-when="loading")
         h2.tx-status(l10n) Loading...
-  group(ng-show="connected && loadState.account && kyc.notif !== 'loading'")
+  group(ng-show="connected && loadState.account && notif !== 'loading'")
     .row
       h3.text-center(l10n) Profile Completion
       .row
@@ -166,7 +164,8 @@ section.col-xs-12.content(ng-controller='KycCtrl')
               .col-xs-12.col-sm-6.col-md-3
                 button.modal-btn.btn.btn-default.btn-primary.btn-md(type="submit", ng-disabled="savingPhone || twoFA.$invalid", l10n) Verify phone number
               .col-xs-12.col-sm-6.col-md-3
-                a.button.btn.btn-link(href='#/xrp', l10n) cancel
+                a.button.btn.btn-link(href='#/xrp', ng-hide="editNum", l10n) cancel
+                a.button.btn.btn-link(ng-click="edit_toggle()", ng-show="editNum", l10n) cancel
           .section(ng-hide="twoFAVerify")
             .row
               .col-xs-12.col-sm-4
@@ -185,7 +184,7 @@ section.col-xs-12.content(ng-controller='KycCtrl')
                     label(l10n) Verification Code
                     input.form-control(ng-model="verificationCode")
                 .col-xs-12.col-m-4
-                  button.modal-btn.btn.btn-default.btn-md(ng-click="requestToken()") Resend Code                  
+                  button.btn.btn-default.btn-md(ng-click="requestToken()") Resend Code                  
             .row.kyc-align
               .col-xs-12.col-sm-6.col-md-3
                 button.modal-btn.btn.btn-default.btn-primary.btn-md(ng-click="enable2FA()", ng-disabled="isVeryifying") Submit code

@@ -240,8 +240,8 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                 |  your transaction at the fee you included in it.
 
         //- N5. Notifications for edit account
-        group.mode-granted.wide(ng-show='trust.notif !== "clear" && account.Balance')
-          group(ng-switch on="trust.notif")          
+        group.mode-granted.wide(ng-show='notif !== "clear" && account.Balance')
+          group(ng-switch on="notif")          
             group.pending(ng-switch-when="loading")
               h2.tx-status(l10n) Saving changes...
             group.result-success(ng-switch-when="success")
@@ -251,8 +251,8 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
               p(l10n) Please try again later.
 
         //- N5. Notifications for removing account
-        group.mode-granted.wide(ng-show='trust.notif !== "clear"')
-          group(ng-switch on="trust.notif")          
+        group.mode-granted.wide(ng-show='notif !== "clear"')
+          group(ng-switch on="notif")          
             group.pending(ng-switch-when="remove_gateway")
               h2.tx-status(l10n) Removing gateway...
             group.result-success(ng-switch-when="gateway_removed")
