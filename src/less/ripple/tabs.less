@@ -31,11 +31,47 @@
   }
 }
 
-#t-register, #t-login, #t-recover, #t-account, #t-migrate {
-  .submit-btn-container {
-    padding: 14px 0;
-    font: 14px;
+#t-kyc {
+  .two-factor-desc {
+    margin: 0 auto;
   }
+
+  .kyc-error {
+    color: @midred;
+  }
+
+  .question {
+    margin: 25px 0;
+  }
+
+  .answer {
+    margin: 0 10px
+  }
+
+  .lock {
+    margin-left: 50px;
+  }
+
+  .ssn-hidden {
+    font-size: 25px;
+  }
+
+  .kyc-align {
+    margin: 15px 0 15px 1px;
+  }
+
+  #resend-code-btn {
+    margin-top: 25px;
+  }
+}
+
+#t-twofa {
+  .kyc-align {
+    margin: 15px 0 15px 1px;
+  }
+}
+
+#t-register, #t-login, #t-recover, #t-account, #t-migrate {
 
   .rippleName {
     font-size: 18px;
@@ -2284,9 +2320,9 @@ html.t-trade header nav ul > li.active#nav-advanced > a:after {
   }
 }
 
-#t-account {
+#t-account, #t-public, #t-private {
 
-  .info a {
+  .accountPage a {
     display: block;
     padding: 10px;
     border-radius: 2px;

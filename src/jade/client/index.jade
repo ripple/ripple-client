@@ -16,18 +16,16 @@
   //- a.sub(href="#/exchange", ng-class="{active: $route.current.tabName == 'exchange'}", l10n) Convert
   a.sub(href="#/trade", ng-class="{active: $route.current.tabName == 'trade'}", l10n) Trade
 
-  a.fund(href="#/fund", ng-class="{active: $route.current.tabName == 'fund'}")
+  a.fund(href="#/xrp", ng-class="{active: $route.current.tabName == 'xrp'}")
     span.nav-icon.nav-icon-advanced
     span(l10n) Fund
   //- a.sub(href="#/withdraw", ng-class="{active: $route.current.tabName == 'withdraw'}", l10n) Withdraw
   a.sub(href="#/trust", ng-class="{active: $route.current.tabName == 'trust'}", l10n) Gateways
 
 
-  a.advanced(href="#/account", ng-class="{active: $route.current.tabName == 'account'}")
+  a.advanced(href="#/account/public", ng-class="{active: $route.current.tabName == 'account'}")
     img(src="img/profile-gray.png")
     span(l10n) Account
-
-  //- a.sub(href="#/account", ng-class="{active: $route.current.tabName == 'account'}", l10n) Account
   a.advanced(href="#/security", ng-class="{active: $route.current.tabName == 'security'}")
     img(src="img/settings-gray.png")
     span(l10n) Settings

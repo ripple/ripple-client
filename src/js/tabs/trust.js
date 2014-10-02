@@ -58,19 +58,6 @@ TrustTab.prototype.angular = function (module)
       $scope.error_account_reserve = false;
     };
 
-    $scope.load_notification = function(status) {
-      if (typeof status !== 'string') {
-        console.log("You must pass in a string for the status");
-        return;
-      }
-
-      $scope.trust.notif = status;
-
-      $timeout(function() {
-        $scope.trust.notif = "clear";
-      }, 10000);
-    }
-
     $scope.toggle_form = function () {
 
       if($scope.addform_visible) {

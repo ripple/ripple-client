@@ -16,19 +16,19 @@ AccountTab.prototype.generateHtml = function ()
   return require('../../jade/tabs/account.jade')();
 };
 
+AccountTab.prototype.extraRoutes = [
+  { name: '/account/:route' }
+];
+
 AccountTab.prototype.angular = function(module)
 {
-  module.controller('AccountCtrl', ['$scope', '$timeout', 'rpId', 'rpKeychain',
-    function ($scope, $timeout, $id, keychain)
+  module.controller('AccountCtrl', ['$scope', '$timeout', 'rpId', 'rpKeychain', '$routeParams',
+    function ($scope, $timeout, $id, keychain, $routeParams)
     {
+      if (!$routeParams.route) {
+        $routeParams.route = 'public';
+
       if (!$id.loginStatus) return $id.goId();
-
-      $scope.infoPage = 'public';
-
-
-      $scope.rename = function() {
-        $scope.loading = true;
-        $scope.error = false;
 
         // Get the master key
         keychain.getSecret($id.account, $id.username, $scope.password,
@@ -76,8 +76,7 @@ AccountTab.prototype.angular = function(module)
             });
           }
         );
-      };
-
+      }
 
       var reset = function() {
         $scope.openForm = false;
@@ -95,6 +94,7 @@ AccountTab.prototype.angular = function(module)
 
       reset();
       $scope.success = false;
+      
     }]
   );
 };

@@ -82,12 +82,14 @@ var tabdefs = [
   require('../tabs/trade'),
   require('../tabs/advanced'),
   require('../tabs/security'),
+  require('../tabs/kyc'),
   require('../tabs/tx'),
   require('../tabs/xrp'),
   require('../tabs/btc'),  
   require('../tabs/withdraw'),
   require('../tabs/usd'),
   require('../tabs/eula'),
+  require('../tabs/twofa'),
 
   // Hidden tabs
   require('../tabs/apps'),

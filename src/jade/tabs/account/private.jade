@@ -1,0 +1,24 @@
+.col-sm-9.list(ng-controller='KycCtrl')
+    h4(l10n) Profile Information
+    .row
+      .col-lg-4
+        .descriptor(l10n) Identity Information
+    .row(ng-show="profileCompleted")
+      .col-sm-4
+        span(l10n) Completed
+    .row(ng-hide="profileCompleted")
+      .col-sm-4
+        span(l10n) Incomplete
+      .col-sm-4
+        a(href="#/kyc", l10n) Complete your profile
+    .row
+      .col-lg-4
+        .descriptor(l10n) Identity Questions
+    .row(ng-show="identityCompleted")
+      .col-sm-4
+        span(l10n) Completed
+    .row(ng-hide="identityCompleted")
+      .col-sm-4
+        span(l10n) Incomplete
+      .col-sm-4
+        a(href="#/kyc", l10n) Complete your profile

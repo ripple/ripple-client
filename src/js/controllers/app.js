@@ -14,10 +14,10 @@ var module = angular.module('app', []);
 
 module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
                               'rpKeychain', 'rpTxQueue', 'rpAppManager', 'rpTracker',
-                              '$location',
+                              '$location', '$timeout',
                               function ($scope, $compile, $id, $net,
                                         keychain, txQueue, appManager, rpTracker,
-                                        $location)
+                                        $location, $timeout)
 {
   reset();
 
@@ -54,6 +54,20 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
     $scope.unseenNotifications = {
       count: 0
     };
+  }
+
+  // Load notification modal
+  $scope.load_notification = function(status) {
+    if (typeof status !== 'string') {
+      console.log("You must pass in a string for the status");
+      return;
+    }
+
+    $scope.notif = status;
+
+    $timeout(function() {
+      $scope.notif = "clear";
+    }, 7000);
   }
 
   // TODO fix this
