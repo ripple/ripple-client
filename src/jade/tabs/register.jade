@@ -2,16 +2,6 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
   .row.col-md-12
     .welcome-wrapper
       h3.platform(l10n) Ripple Trade is the only platform where you can trade between stores of value spanning fiat, crypto, precious metals and more.
-      h4.new
-        p.xrp-xau XRP <i class="fa fa-arrows-h"></i> XAU
-        em(l10n) New!
-      span(l10n)
-        span.currency(l10n-inc) The historic qualities of gold combined with the capabilities of digital currency.
-        span(l10n-inc) Buy and sell physical gold issued by&#32;
-        a(target='_blank', href='http://www.bullioninternational.com/', l10n-inc) GBI
-        | ,
-        span(l10n-inc)  one of the world’s most prominent independent gold dealers.&#32;
-        a(target='_blank', href='https://support.ripplelabs.com/hc/en-us/articles/202882453', l10n-inc) Learn more.
   .row.auth-form-container.col-sm-offset-2.col-sm-8.col-md-offset-3.col-md-6(ng-show='mode=="form"')
     .auth-form-wrapper
       form(name='registerForm', ng-submit='submitForm()')
