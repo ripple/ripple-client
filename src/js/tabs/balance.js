@@ -1,5 +1,6 @@
 var util = require('util'),
     Tab = require('../client/tab').Tab,
+    Amount = ripple.Amount,
     rewriter = require('../util/jsonrewriter');
 
 var BalanceTab = function ()
@@ -158,7 +159,7 @@ BalanceTab.prototype.angular = function (module)
         updateAggregateValueDisplayed();
       }
     }
-    
+
     function updateAggregateValueDisplayed() {
       var metric = $scope.exchangeRates[$scope.selectedValueMetric];
       if (!metric) {
@@ -173,12 +174,16 @@ BalanceTab.prototype.angular = function (module)
           $scope.selectedValueMetric === "0158415500000000C1F76FF6ECB0BAC600000000:rDRXp3XC6ko3JKNh1pNrDARZzFKfBzaxyi" ||
           $scope.selectedValueMetric === "015841551A748AD2C1F76FF6ECB0CCCD00000000:rs9M85karFkCRjvc6KMWn8Coigm9cbcgcx" ) 
       {
-        $scope.aggregateValueDisplayed = $scope.aggregateValueAsMetric.toFixed(4).substring(0, (($scope.aggregateValueAsXrp / metric).toFixed(4)).length - 5);
-        $scope.aggregateValueDisplayedDecimal = $scope.aggregateValueAsMetric.toFixed(4).substring((($scope.aggregateValueAsXrp / metric).toFixed(4)).length - 5, (($scope.aggregateValueAsXrp / metric).toFixed(4)).length);
+        $scope.aggregateValueDisplayed = (Amount.from_json({value:($scope.aggregateValueAsMetric.toFixed(4)
+            .substring(0, (($scope.aggregateValueAsXrp / metric).toFixed(4)).length - 5))})).to_human();
+        $scope.aggregateValueDisplayedDecimal = $scope.aggregateValueAsMetric.toFixed(4).substring((($scope.aggregateValueAsXrp / metric)
+            .toFixed(4)).length - 5, (($scope.aggregateValueAsXrp / metric).toFixed(4)).length);
       } 
       else {
-        $scope.aggregateValueDisplayed = $scope.aggregateValueAsMetric.toFixed(2).substring(0, (($scope.aggregateValueAsXrp / metric).toFixed(2)).length - 3);
-        $scope.aggregateValueDisplayedDecimal = $scope.aggregateValueAsMetric.toFixed(2).substring((($scope.aggregateValueAsXrp / metric).toFixed(2)).length - 3, (($scope.aggregateValueAsXrp / metric).toFixed(2)).length);
+        $scope.aggregateValueDisplayed = (Amount.from_json({value:($scope.aggregateValueAsMetric.toFixed(2)
+            .substring(0, (($scope.aggregateValueAsXrp / metric).toFixed(2)).length - 3))})).to_human();
+        $scope.aggregateValueDisplayedDecimal = $scope.aggregateValueAsMetric.toFixed(2).substring((($scope.aggregateValueAsXrp / metric)
+            .toFixed(2)).length - 3, (($scope.aggregateValueAsXrp / metric).toFixed(2)).length);
 
       }
     }
