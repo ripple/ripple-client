@@ -45,6 +45,27 @@
   &:not(:first-child):not(:last-child) {
     border-radius: 0;
   }
+
+
+}
+.input-group {
+  &.inline-inputs-group {
+    width: 100%;
+    .input-group-addon {
+      display: inline-block;
+      width: 35%;
+      padding: 0;
+      height: 42px;
+      line-height: 40px;
+      padding-left: 7%;
+      text-align: left;
+    }
+    .input-wrapper {
+      width: 65%;
+      display: inline-block;
+    }
+  }
+
 }
 // Addon and addon wrapper for buttons
 .input-group-addon,

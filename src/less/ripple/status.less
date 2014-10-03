@@ -155,33 +155,33 @@
     }
 
     &.type-success {
-      color: @darkgreen;
-      background-color: @lightgreen;
-      border-color: @midgray;
+      color: @state-success-text;
+      background-color: @state-success-bg;
+      border-color: @notification-border;
     }
 
     &.type-info {
-      background-color: @lightblue;
-      color: @darkblue;
-      border-color: @midgray;
+      background-color: @notification-info-background;
+      color: @notification-info-text;
+      border-color: @notification-border;
     }
 
     &.type-warning {
-      background-color: @lightyellow;
-      color: @darkyellow;
-      border-color: @midgray;
+      background-color: @state-warning-bg;
+      color: @state-warning-text;
+      border-color: @notification-border;
     }
 
     &.type-error {
-      background-color: @lightred;
-      color: @midred;
-      border-color: @midgray;
+      background-color: @state-danger-bg;
+      color: @state-danger-text;
+      border-color: @notification-border;
     }
 
     &.type-offline {
       color: @midgray;
       background-color: @black;
-      border-color: @midgray;
+      border-color: @notification-border;
     }
   }
 }
@@ -230,7 +230,35 @@
     &.type-error {
 //      background-color: @lightred;
     }
+    &.type-success {
+      color: @state-success-text;
+      background-color: @state-success-bg;
+      border-color: @notification-border;
+    }
 
+    &.type-info {
+      background-color: @notification-info-background;
+      color: @notification-info-text;
+      border-color: @notification-border;
+    }
+
+    &.type-warning {
+      background-color: @state-warning-bg;
+      color: @state-warning-text;
+      border-color: @notification-border;
+    }
+
+    &.type-error {
+      background-color: @state-danger-bg;
+      color: @state-danger-text;
+      border-color: @notification-border;
+    }
+
+    &.type-offline {
+      color: @midgray;
+      background-color: @black;
+      border-color: @notification-border;
+    }
     &.type-offline {
       font-weight: bold;
       color: @white;

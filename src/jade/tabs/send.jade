@@ -19,7 +19,7 @@ section.col-xs-12.content(ng-controller='SendCtrl')
     p.literal(l10n) Send money on the Ripple network.
     hr
     .row.form-group(ng-if="'web' === client")
-      .col-xs-12.col-sm-6.col-md-5
+      .col-xs-12.col-sm-6.col-md-4
         label(for='send_destination', l10n) Recipient
         input.form-control#send_destination(
         name='send_destination', type='text'
@@ -68,7 +68,7 @@ section.col-xs-12.content(ng-controller='SendCtrl')
         ng-hide="send.show_dt_field || send.bitcoin || send.federation", l10n)
           | Show destination tag
     .row.form-group(ng-show='send.show_dt_field')
-      .col-xs-12.col-sm-6.col-md-5
+      .col-xs-12.col-sm-8.col-md-6
         label(for='send_dt', l10n) Destination tag
         |
         a(href="", ng-click="send.show_dt_field = false", l10n)
@@ -114,7 +114,7 @@ section.col-xs-12.content(ng-controller='SendCtrl')
     .form-group(ng-show="send.currency_choices.length")
       label(for='send_amount', l10n) Recipient will receive
       .row.amount(ng-if="!send.currency_force")
-        .col-xs-12.col-sm-6.col-md-2
+        .col-xs-3.col-sm-2.col-md-2
           input.form-control#send_amount(
           name='send_amount', type='text'
           ng-model='send.amount'
@@ -125,7 +125,7 @@ section.col-xs-12.content(ng-controller='SendCtrl')
           rp-amount-positive
           rp-amount-xrp-limit
           rp-amount-xrp-limit-currency='{{send.currency}}')
-        .col-xs-12.col-sm-6.col-md-3
+        .col-xs-9.col-sm-6.col-md-4
           input.form-control.currency#send_amount_currency(
           name='send_amount_currency', type='text'
           rp-combobox="{{send.currency_choices}}", rp-combobox-select
@@ -162,7 +162,7 @@ section.col-xs-12.content(ng-controller='SendCtrl')
         .notice(ng-show="send.trust_limit", l10n) {{send.recipient | rpcontactname}}
           | trusts you for {{send.trust_limit | rpamount}} {{send.trust_limit | rpcurrency}}.
     .row
-      .col-xs-12.col-sm-6.col-md-5(ng-show="send.currency_code == 'XRP'")
+      .col-xs-12.col-sm-6.col-md-4(ng-show="send.currency_code == 'XRP'")
         button#sendXrpButton.btn.btn-block.btn-success.submit(type='submit'
         ng-disabled='sendForm.$invalid || send.self || !send.recipient_resolved || account.max_spend.to_number() < send.amount * 1000000', l10n)
           | Send XRP
@@ -205,7 +205,7 @@ section.col-xs-12.content(ng-controller='SendCtrl')
             p.literal(ng-show="send.currency_code == 'XRP' && !send.bitcoin", l10n)
               | Or you can send
         .row.row-padding-small.alternatives(ng-show="send.alternatives.length")
-          .col-xs-12.col-sm-6.col-md-4.col-lg-3(ng-repeat="alt in send.alternatives")
+          .col-xs-12.col-sm-6.col-md-4.col-lg-4(ng-repeat="alt in send.alternatives")
             .margin
               .am
                 span.amnt {{alt.amount | rpamount:{rel_precision: 4, rel_min_precision: 2} }}
@@ -265,14 +265,14 @@ section.col-xs-12.content(ng-controller='SendCtrl')
       p.literal(ng-show="send.secret", l10n) Are you sure?
       p.literal(ng-hide="send.secret", l10n) Please enter your password to confirm this transaction.
       .row.row-padding-small(ng-if="!send.secret")
-        .col-xs-6.col-sm-4
+        .col-xs-12.col-sm-8.col-md-6
           input.form-control#send_unlock_password(
           name='send_unlock_password', type='password', required
           ng-model='send.unlock_password')
             .errorGroup(rp-errors='send_unlock_password')
               .error(rp-error-on='required', l10n) Password required to unlock wallet
       .row.row-padding-small
-        .col-xs-6.col-sm-4.col-md-3.col-lg-2
+        .col-xs-8.col-sm-4.col-md-3.col-lg-3
           button#confirmButton.btn.btn-block.btn-success.submit(
           type='submit'
           ng-disabled='confirm_wait', l10n) Confirm
@@ -345,12 +345,14 @@ section.col-xs-12.content(ng-controller='SendCtrl')
           rp-autofill='$routeParams.name')
           .error(ng-show='saveAddressForm.save_address_name.$error.unique', l10n)
             | You already have a contact with the same name.
-          div
-            button.btn.btn-success(type='submit'
-            ng-disabled='addressSaving || saveAddressForm.$invalid')
-              span(ng-show='addressSaving', l10n) Saving...
-              span(ng-hide='addressSaving', l10n) Save
-            a(href="", ng-click='show_save_address_form = false', l10n) cancel
+          div.row.add-contact-btns-wrapper
+            div.col-md-3.col-sm-4.col-xs-8
+              button.btn.btn-success.btn-block(type='submit'
+                ng-disabled='addressSaving || saveAddressForm.$invalid')
+                span(ng-show='addressSaving', l10n) Saving...
+                span(ng-hide='addressSaving', l10n) Save
+            div.col-md-1.col-sm-2.col-xs-4
+              a.btn.btn-block(href="", ng-click='show_save_address_form = false', l10n) cancel
           hr
       div(class="actionLink")
         a(href="", ng-click="reset()", l10n) Send another payment

@@ -15,7 +15,7 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
             a(href="#/exchange", l10n) Exchange
           li#nav-exchange(ng-class="{active: $route.current.mainMenu == 'exchange' || $route.current.mainMenu == 'trade'}", ng-show="ripple_exchange_selection_trade")
             a(href="#/trade", l10n) Exchange
-          li#nav-fund(ng-class="{active: $route.current.mainMenu == 'xrp'}")
+          li#nav-fund(ng-class="{active: $route.current.mainMenu == 'fund'}")
             a(href="#/xrp", l10n) Fund
         ul.nav.navbar-nav.navbar-right
           //- li.dropdown.balances-dropdown

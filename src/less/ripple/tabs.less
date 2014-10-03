@@ -89,8 +89,7 @@
 
   .auth-form-container {
     font-family: OpenSansRegular;
-    padding-bottom: 50px;
-
+    padding: 0 45px;
     h2 {
       margin: 10px 0 30px 0;
       padding: 0 0 30px;
@@ -103,7 +102,8 @@
       padding: 15px 20px;
       border: 1px solid @midgray;
       margin-bottom: 5px;
-
+      margin: 0 auto 10px;
+      float: none;
       label {
         font-weight: 400;
         margin-bottom: 3px;
@@ -112,6 +112,7 @@
         margin-bottom: 15px;
         font-size: 13px;
       }
+      
     }
     .form-group {
       p.error-text {
@@ -238,6 +239,11 @@
       }
     }
   }
+
+  .switch-mode-wrapper {
+    text-align: center;
+    font-family: OpenSansRegular;
+  }
   &.recover-form-container {
     padding-top: 50px;
   }
@@ -275,9 +281,31 @@
   .storeChange {
     display: block;
   }
+  .auth-form-wrapper {
+    
+        .submit-btn-container {
+          width: 40%;
+        }
+       
+        @media (max-width: @screen-sm-max) {
+          .submit-btn-container {
+            width: 50%;
+          }
+        }
+        @media (max-width: @screen-xs-max) {
+          .submit-btn-container {
+            width: 100%;
+          }
+        }
+      
+  }
 }
 
 #t-register {
+  .auth-form-container {
+    padding: inherit;
+    padding-bottom: 50px;
+  }
   .register_masterkey {
     position: relative;
     
@@ -326,6 +354,19 @@
 }
 
 #t-login {
+
+  .content {
+    padding-bottom: 50px;
+  }
+  @media (max-width: @screen-xs-max) {
+    .content {
+      padding-top: 0;
+      .auth-form-container {
+        padding: 15px; 
+        padding-bottom: 0;
+      }
+    }
+  }
   .text-status {
     .backend {
       font-size: 12px;
@@ -858,6 +899,11 @@
 }
 
 #t-trust {
+  @media (max-width: @screen-xs-max) {
+    input[type="radio"], input[type="checkbox"] {
+      margin: 2px 0 0;
+    }
+  }
   #trustForm {
     margin-bottom: 20px;
 
@@ -875,10 +921,20 @@
       & > label, & > i {
         float: left;
       }
-
+      @media (max-width: @screen-xs-max){
+        .checkbox {
+          padding-left: 0;
+          input {
+            margin-right: 10px;
+          }
+        }     
+      }
       & > i {
         float: left;
         margin: -4px 0 0 5px;
+        @media (max-width: @screen-xs-max) {
+          margin: -6px 0 0 5px;
+        }
       }
     }
   }
@@ -896,8 +952,24 @@
       padding-top: 10px;
       padding-bottom: 10px;
     }
-  }
+    .rippling-checkbox {
+      margin-left: -15px;
+      margin-right: -15px;
+      @media (max-width: @screen-xs-max) {
+        padding-left: 15px;
+        padding-right: 15px;
+      }
+    }
 
+  }
+  .gateway {
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+  .limit {
+    text-overflow: ellipsis;
+      overflow: hidden;
+  }  
   .currencyTitle {
     font-size: @font-size-big;
 
@@ -918,13 +990,19 @@
     margin-top: 10px;
     margin-bottom: 10px;
     font-weight: bold;
+    
   }
 
   .lines {
     color: @darkgray;
-
+    
     .line {
       padding: 5px 0;
+    }
+  }
+  .trust-menu {
+    @media (max-width: @screen-xs-max) {
+      font-size: 10px;
     }
   }
 }
@@ -949,7 +1027,12 @@
   .contact {
     padding-top: 10px;
     padding-bottom: 10px;
-
+    .edit-contact-btn-wrapper {
+      div {
+        float: inherit;
+        display: inline-block;
+      }
+    }
     &.editing {
       background: @lightgray;
       margin-right: 0px;
@@ -1496,6 +1579,11 @@
     hr {
       margin: 15px 0 0 0;
     }
+    .add-contact-btns-wrapper {
+      .btn {
+        width: 100%;
+      }
+    }
   }
 }
 
@@ -1634,6 +1722,11 @@
     padding-top: 0px;
 
   }
+  .edit-security-pswd {
+    #save {
+
+    }
+  }
 }
 
 #t-advanced {
@@ -1692,55 +1785,85 @@
   }
 
   #save {
-    margin-top: 8px;
+    margin-top: 0px;
   }
 
   #saveBlob {
-    margin-top: 8px;
+    margin-top: 0px;
   }
 
   #saveBridge {
-    margin-top: 8px;
+    margin-top: 0px;
   }
 
   #deleteBlob {
     background-color: @midred;
     border-color: @midred;
-    margin-top: 8px;
+    margin-top: 0px;
   }
 
   #deleteBridge {
     background-color: @midred;
     border-color: @midred;
-    margin-top: 8px;
+    margin-top: 0px;
   }
 
   #delete {
     background-color: @midred;
     border-color: @midred;
-    margin-top: 8px;
+    margin-top: 0px;
   }
 
   #cancel {
-    margin-top: 8px;
+    margin-top: 0px;
   }
 
   #newServer {
-    width: 175%;
+    width: 100%;
     margin-top: 20px;
   }
 
   #servers {
     padding-top: 0px;
+    @media (max-width: @screen-xs-max){
+      font-size: 12px;
+    }
+    .field-edit-row {
+      padding-bottom: 20px;
+    }
+    .server-row-form {
+      border-top: 1px solid #ccccca;
+      margin-bottom: 10px;
+      .descriptor {
+        border: 0;
+      }
+      .hostname-wrapper {
+        padding-right: 0;
+      }
+    }
+    .helperInput {
+      margin-bottom: 10px;
+      line-height: 28px;
+    }
+    .edit-btn {
+      line-height: 28px;
+    }
   }
 
   #secureSocket {
     padding-left: 0px;
     padding-right: 0px;
+    @media (max-width: @screen-xs-max) {
 
-
+        padding-left: 15px;
+    }
+    &.editable {
+      line-height: 35px;
+      // padding-left: 15px;
+     
+    }
     .helperInput {
-      padding-top: 7px;
+      // padding-top: 7px;
     }
   }
 
@@ -1822,6 +1945,11 @@
     border: 1px solid darken(@bg, 10%);
     border-bottom: none;
     background-color: darken(@bg, 2%);
+    button {
+      &.btn-block {
+        outline: none;
+      }
+    }
   }
 
   .message-select-issuer {
@@ -1884,6 +2012,19 @@
     .errorGroup {
       position: relative;
     }
+    .order-values {
+      .value-field {
+        .input-group {
+          width: 100%;
+          .input-group-addon {
+            width: 33.3333333%;
+            @media (max-width: @screen-xs-max) {
+              width: 25%;
+            }
+          }
+        }
+      }
+    }
   }
 
   .mode-form {
@@ -1913,6 +2054,12 @@
       color: @midgreen;
       height: 40px;
       line-height: 40px;
+    }
+    .btns-row {
+      .btns-wrapper {
+        float: none;
+        margin: 0 auto;
+      }
     }
   }
 

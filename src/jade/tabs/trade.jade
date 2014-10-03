@@ -17,17 +17,17 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
   group(ng-show="connected && loadState.offers")
     .settings
       .row
-        .col-sm-5.col-md-3.currency-config
+        .col-sm-4.col-md-4.col-xs-9.currency-config
           input.form-control.currency#currency_pair(
             name='currency_pair', type='text'
             rp-combobox="pairs_query", rp-combobox-select
             ng-model='order.currency_pair')
-        .col-sm-1.col-md-1.currency-flip
-          button.btn.btn-default.btn-block(href=""
+        .col-sm-2.col-md-2.col-xs-3.currency-flip
+          button.btn.btn-default.btn-block.btn-link(href=""
             ng-disabled="order.valid_settings != true"
             ng-click='flip_issuer()', l10n)
             | flip
-        .col-sm-6.col-md-8
+        .col-sm-6.col-md-6.col-xs-11
           ul.issuers.inline(ng-hide='order.first_currency.is_native()')
             li.label(l10n) Base currency
             li.value {{order.first_currency | rpcurrency}}&ensp;
@@ -86,7 +86,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
     form.issuerSelector.second-issuer(name='second_issuer_form', ng-show='show_issuer_form == "second"')
       label(for='second_issuer', l10n) Counter currency issuer ({{order.second_currency | rpcurrency}})
       .row
-        .col-xs-12.col-sm-8.col-md-5
+        .col-xs-9.col-sm-4.col-md-4
           input.form-control#second_issuer(
             name='second_issuer', type='text', rp-combobox="issuer_query"
             rp-combobox-value-as-ripple-name
@@ -96,7 +96,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
             rp-dest-model="order.second_issuer_edit")
           .errorGroup(rp-errors='second_issuer')
             .error(rp-error-on='rpDest', l10n) Not a valid Ripple name or address 
-        .col-xs-12.col-sm-4.col-md-2
+        .col-xs-3.col-sm-2.col-md-2
           button.btn.btn-block.btn-success.submit(type='submit',
             ng-click='save_second_issuer()',
             ng-disabled="second_issuer_form.$invalid", l10n) Confirm
@@ -279,8 +279,8 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                     |  per
                     span  {{order[type].first_amount | rpcurrency}}
                     | )
-                .row
-                  .col-xs-6
+                .row.btns-row
+                  .col-xs-12.col-md-4.col-sm-6.btns-wrapper
                     button.btn.btn-success.btn-block.submit(type='submit', ng-disabled='tradeForm.$invalid')
                       span(ng-show="type == 'buy'", l10n)  Buy
                       span(ng-show="type == 'sell'", l10n)  Sell

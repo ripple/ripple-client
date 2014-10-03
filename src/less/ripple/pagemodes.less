@@ -14,7 +14,7 @@
 
 .modal {
   .modal-body {
-    padding: 25px 15px 25px;
+    // padding: 25px 15px 25px;
   }
 
   .question {
@@ -32,7 +32,46 @@
       margin: 0 5px;
       padding: 10px 30px;
     }
-
+    //media for md size
+    @media (min-width: @screen-md) {
+      .delete-contact-btn {
+        width: 45%;
+        margin: 0;
+      }
+      .cancel-btn {
+        width: 15%;
+        margin: 0;
+        margin-left: 5%;
+        padding-left: 18px;
+      }
+    }
+   // media for sm size
+    @media (max-width: @screen-sm-max) and (min-width: @screen-xs-max) {
+      .delete-contact-btn {
+        width: 30%;
+        margin: 0;
+      }
+      .cancel-btn {
+        width: 15%;
+        margin: 0;
+        margin-left: 5%;
+        padding-left: 18px;
+      }
+      
+    }
+  // media for xs size
+    @media (max-width: @screen-xs-max) {
+      .delete-contact-btn {
+        width: 60%;
+        margin: 0;
+      }
+      .cancel-btn {
+        width: 30%;
+        margin: 0;
+        margin-left: 5%;
+      }
+      
+    }
     a {
       margin: 0 5px;
     }
