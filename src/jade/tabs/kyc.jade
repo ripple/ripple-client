@@ -32,6 +32,8 @@ section.col-xs-12.content(ng-controller='KycCtrl')
         h2.tx-status(l10n) We are unable to validate your identity information. Please check your information and try again.
       group.result-error(ng-switch-when="questions_error")
         h2.tx-status(l10n) We are unable to validate your identity questions. Please check your answers and try again.
+      group.result-error(ng-switch-when="contact_support")
+        h2.tx-status(l10n) We can't verify your identity. Please contact us at support@ripple.com.
       group(ng-switch-when="loading")
         h2.tx-status(l10n) Loading...
   group(ng-show="connected && loadState.account && notif !== 'loading'")
