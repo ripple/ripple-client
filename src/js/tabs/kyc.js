@@ -248,6 +248,10 @@ KycTab.prototype.angular = function(module)
           } else {
             console.log('response is: ', res);
             $scope.questions = res.questions;
+            if ($scope.questions.length === 0) {
+              $scope.load_notification('contact_support');
+              return;
+            }
           }
 
           cb();
