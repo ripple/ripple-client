@@ -269,10 +269,10 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
 
 
         .row
-          .unfunded(ng-hide='account.Balance')
-            span.literal(l10n) Your account has to be&#32;
-            a.literal(href="https://support.ripplelabs.com/hc/en-us/articles/202964876-Activating-Your-Wallet", target="_blank", l10n) activated&#32;
-            span.literal(l10n) before you can add a gateway account
+          .unfunded.literal(ng-hide='account.Balance', l10n)
+            | Your account has to be&#32;
+            a(href="https://support.ripplelabs.com/hc/en-us/articles/202964876-Activating-Your-Wallet", target="_blank", l10n-inc) activated
+            | &#32;before you can add a gateway account.
 
         //- Account is funded
         .row
