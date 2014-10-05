@@ -69,8 +69,8 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
                     span(l10n) You have now connected to the gateway&#32;
                       span.address(title="{{entry.transaction.counterparty}}")
                         | {{entry.transaction.counterparty | rpcontactname}}
-                      |  for
-                      strong.nowrap  {{entry.transaction.amount | rpamount:{reference_date:entry.dateRaw} }}
+                      span(l10n-inc) &#32;for&#32;
+                      strong.nowrap {{entry.transaction.amount | rpamount:{reference_date:entry.dateRaw} }}
                         | {{entry.transaction.amount | rpcurrency}}
                       | .
                     != require("../tabs/history/effects.jade")()
