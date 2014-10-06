@@ -119,19 +119,19 @@ section.col-xs-12.content(ng-controller="ExchangeCtrl")
   //- N4. Waiting for transaction result page
 
   group.mode-sending(ng-show='mode=="sending" && account.Balance')
-    include messages/waiting
+    include ../messages/sendconvert/waiting
     hr
     //- p: button.btn.btn-default(ng-click='reset()', l10n) Stop waiting
 
   //- N5. Error page
   group.mode-error(ng-show='mode=="error" && account.Balance')
-    include messages/errors
+    include ../messages/sendconvert/localerror
     p: button.btn.btn-link.btn-default(ng-click='cancelConfirm()', l10n) cancel
 
-  //- N6. Confirmed page
+  //- N6. Confirmed page 
 
   group.mode-status(ng-show='mode=="status" && account.Balance')
-    include messages/confirmation
+    include ../messages/sendconvert/confirmation
     group.actions
       hr
       div(class="actionLink")

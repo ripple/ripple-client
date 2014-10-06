@@ -287,13 +287,13 @@ section.col-xs-12.content(ng-controller='SendCtrl')
   //- N4. Waiting for transaction result page
 
   group.mode-sending(ng-show='mode=="sending" && account.Balance')
-    include messages/waiting
+    include ../messages/sendconvert/waiting
     hr
     //- p: button.btn.btn-default(ng-click='reset()', l10n) Stop waiting
 
   //- N5a. Error page
   group.mode-error(ng-show='mode=="error" && account.Balance')
-    include messages/errors
+    include ../messages/sendconvert/localerror
     p: button.btn.btn-link.btn-default(ng-click='cancelConfirm()', l10n) cancel
 
   //- N5b. Ripple error page
@@ -331,7 +331,7 @@ section.col-xs-12.content(ng-controller='SendCtrl')
   //- N5c. Sent page
 
   group.mode-status(ng-show='mode=="status" && account.Balance')
-    include messages/confirmation
+    include ../messages/sendconvert/confirmation
     group.actions
       hr
       .text-success(ng-show='addressSaved', class="actionLink", l10n) Contact saved!
