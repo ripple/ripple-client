@@ -267,7 +267,7 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
   {
     var processedTxn = rewriter.processTxn(tx, meta, account);
 
-    if (processedTxn && processedTxn.transaction.type === 'error') {
+    if (processedTxn && processedTxn.error) {
       var err = processedTxn.error;
       rpTracker.trackError('JsonRewriter Error', err, {
         'Transaction Hash': processedTxn.transaction.hash,
