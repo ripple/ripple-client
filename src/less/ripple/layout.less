@@ -104,14 +104,13 @@ header {
       }
 
       > li {
-        margin-left: 5px;
-        margin-right: 5px;
+        margin-left: 1px;
 
         > a {
           color: @white;
           .transition-duration(0.1s);
           cursor: pointer;
-          padding: 15px 10px;
+          padding: 15px;
 
           .caret {
             border-top-color: @white;
@@ -120,9 +119,8 @@ header {
 
           &:hover,
           &:focus {
-            color: @midgray;
             text-decoration: none;
-            background-color: transparent;
+            background: lighten(@midblue,3%);
           }
         }
 
@@ -205,14 +203,15 @@ header {
 
           &:hover,
           &:focus {
-            color: @midgray;
+            color: @black;
             text-decoration: none;
+            border-bottom: 2px solid @midgray;
           }
         }
 
-        &.active {
+        &.active a {
           font-family: 'OpenSansRegular';
-          border-bottom: 2px solid @midgray;
+          border-bottom: 2px solid @darkgray;
         }
       }
     }
