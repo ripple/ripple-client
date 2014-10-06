@@ -562,7 +562,7 @@ module.exports = function(grunt) {
   };
 
   languages.forEach(function(language){
-    /* webpack['web_l10n_' + language.name] = {
+    webpack['web_l10n_' + language.name] = {
       entry: {
         web: "./src/js/entry/web.js"
       },
@@ -579,7 +579,7 @@ module.exports = function(grunt) {
         // TODO Minimization breaks our l10n mechanisms
 //        minimize: true
       }
-    };*/
+    };
     webpack['desktop_l10n_' + language.name] = {
       entry: {
         desktop: "./src/js/entry/desktop.js"
