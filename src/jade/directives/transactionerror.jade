@@ -1,3 +1,4 @@
+
 .transaction-error(ng-switch on="engine_result | rptruncate:3")
   group(ng-switch-when='tes')
     group.pending(ng-hide="accepted")
@@ -8,7 +9,7 @@
     h2.tx-status(l10n) Payment failed
     p(ng-switch on="engine_result")
       span(ng-switch-default, l10n)
-        | Your payment failed. Error code: {{engine_result}} - {{engine_result_message}}
+        | Error code: {{engine_result}} - {{engine_result_message}}
   group.result-malformed(ng-switch-when='tef')
     div(ng-switch on="engine_result")
       div(ng-switch-when="tefMAX_LEDGER")
@@ -24,7 +25,7 @@
     h2.tx-status(l10n) Payment failed
     p(ng-switch on="engine_result")
       span(ng-switch-when="telINSUF_FEE_P", l10n)
-        | Error code: Insufficient fee [telINSUF_FEE_P].
+        | Error code: This transaction failed because it exceeded the maximum network fee, please try again later [telINSUF_FEE_P].
   group.result-malformed(ng-switch-when='tec')
     h2.tx-status(l10n) Payment failed
     p(ng-switch on="engine_result")
