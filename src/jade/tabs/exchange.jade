@@ -45,8 +45,8 @@ section.col-xs-12.content(ng-controller="ExchangeCtrl")
       p.literal.throbber(ng-show="exchange.path_status == 'pending'", l10n) Calculating...
       //- TODO how high trust?
       p.literal(ng-show="exchange.path_status == 'no-path' && exchange.currency_code != 'XRP'", l10n)
-        | Sorry! Cannot exchange {{exchange.amount}} {{exchange.currency_name}}. Please make sure your account has enough funds, and a&#32;
-        a(href="https://ripplelabs.zendesk.com/hc/en-us/articles/200916587-how-to-set-a-trust-line-ripple", target="_blank") trust line
+        | Cannot convert to {{exchange.amount}} {{exchange.currency_name}}. Please make sure your account has enough funds, and a&#32;
+        a(href="https://support.ripplelabs.com/hc/en-us/categories/200194186-Gateways", target="_blank") connection 
         |  to a {{exchange.currency_name}} gateway.
       p.literal(ng-show="exchange.path_status == 'no-path' && exchange.currency_code == 'XRP'", l10n)
         | Sorry! Cannot convert {{exchange.amount}} {{exchange.currency_name}}. Please make sure your account has enough funds.
