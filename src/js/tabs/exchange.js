@@ -105,7 +105,7 @@ ExchangeTab.prototype.angular = function (module)
         exchange.amount_feedback = Amount.from_human('' + exchange.amount + ' ' + matchedCurrency, { reference_date: refDate });
         exchange.amount_feedback.set_issuer($id.account);
 
-        if (exchange.amount_feedback.is_valid()) {
+        if (exchange.amount_feedback.is_valid() && exchange.amount_feedback.is_positive()) {
           exchange.path_status = 'pending';
           exchange.alt = null;
 
