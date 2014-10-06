@@ -1,0 +1,52 @@
+section.col-xs-12.content(ng-controller='TrustCtrl')
+
+  //- Disconnected
+
+  group.disconnected(ng-hide='connected')
+    p.literal(l10n="err-you-must-be-online-to-see-this-screen", l10n)
+      | You have to be online to see this screen
+
+  //- Funding
+  div(ng-show="'web' === client && !loadingAccount && !account.Balance && loadState.account && connected")
+    include banner/unfunded
+
+  .row(ng-show='connected')
+    .col-sm-3
+      include fund/menu
+    .col-sm-9.list
+      .row
+        .col-xs-12.col-sm-4.col-md-3
+          h4(l10n) Gateway
+        .col-xs-12.col-sm-4.col-md-3
+          h4(l10n) Availability
+        .col-xs-12.col-sm-4.col-md-3
+          h4(l10n) Fees
+        .col-xs-12.col-sm-4.col-md-3
+          h4(l10n) Rating
+      .row
+        .col-xs-12.col-sm-4.col-md-3
+          .description(l10n) Gold Bullion International (GBI)&#32;
+            a(href="http://www.bullioninternational.com/", target="_blank") www.bullioninternational.com
+        .col-xs-12.col-sm-4.col-md-3
+          .description(l10n) All countries
+        .col-xs-12.col-sm-4.col-md-3
+          .description(l10n) 0.5% per year&#32;
+          .description(l10n)
+            a(href="", target="_blank") read about demurrage currency
+        .col-xs-12.col-sm-4.col-md-3
+          .description(l10n)
+            a(href="https://coinist.co/ripple/assets/xau-gbi", target="_blank") read reviews
+      br
+      .row
+        .col-xs-12.col-sm-10.col-md-6
+          .descriptor(ng-show="!connected()", l10n) Ripple Trade has partnered with GBI to provide easy access to XAU.
+            | By continuing, you agree to GBI's terms of service. Following this action will
+            | add XAU to your accounts.
+      br
+      .row
+        .col-xs-12.col-sm-6.col-md-4
+          button.btn.btn-large(ng-show="!connected()", type="submit", ng-click="connectGBI()") Add GBI
+          button.btn.btn-large(ng-show="connected()", type="submit", ng-click="connectGBI()") Buy Gold
+        .connect.col-xs-12.col-sm-4.col-md-2
+          .description.fa.fa-times(ng-show="!connected()", l10n) Not connected
+          .description.fa.fa-check(ng-show="connected()", l10n) Connected
