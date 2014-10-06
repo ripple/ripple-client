@@ -99,7 +99,7 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
               .col-xs-3.col-sm-3.col-md-2(ng-show="hasRemove()")
                 button.btn.btn-block.btn-danger.btn-xs.submit(id="delete", type="button", ng-click="remove()", ng-show="hasRemove()", l10n) Delete
               .col-xs-3.col-sm-3.col-md-1.text-center(id="cancel")
-                a(href="", ng-disabled='serverForm.$invalid', ng-click="cancel()", ng-hide="noCancel()",class="btn" ,l10n) cancel
+                a(href="", ng-click="cancel()", ng-hide="noCancel()",class="btn" ,l10n) cancel
             .row(ng-hide="editing")
               .col-xs-8.col-sm-5.col-md-3
                 .description {{server.host}}
