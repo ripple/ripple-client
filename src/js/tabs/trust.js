@@ -92,13 +92,20 @@ TrustTab.prototype.angular = function (module)
       }
     }, true);
 
+    $scope.connectGBI = function() {
+      $scope.counterparty_name = "~GBI";
+      $scope.counterparty_address = "rrh7rf1gV2pXAoqA8oYbpHd8TKv5ZQeo67";
+      $scope.grant();
+      $scope.grant_confirmed();
+    }
+
     /**
 
      * N2. Confirmation page
      */
     $scope.grant = function ()
     {
-      // set variable to show throbber
+      // set variable to show throbberit
       $scope.verifying = true;
       $scope.error_account_reserve = false;
       // test if account is valid
@@ -185,6 +192,7 @@ TrustTab.prototype.angular = function (module)
      * N3. Waiting for grant result page
      */
     $scope.grant_confirmed = function () {
+      console.log($scope.amount_feedback);
       var amount = $scope.amount_feedback.to_json();
       var tx = $network.remote.transaction();
 
