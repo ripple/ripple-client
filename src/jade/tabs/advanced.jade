@@ -15,7 +15,7 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
             .col-xs-1
             .col-xs-3.col-sm-3.col-md-2
               a(href="", ng-click="editBlob = true", l10n) edit
-          .row.field-edit-row(ng-show="editBlob")
+          .row.row-padding-small-xs.field-edit-row(ng-show="editBlob")
             .col-xs-9.col-sm-5.col-md-5
               input.form-control.blobIp(
               name='blobIp', id="blobIp", type='text'
@@ -34,7 +34,7 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
             .col-xs-1
             .col-xs-3.col-sm-3.col-md-2
               a(href="", ng-click="editBridge = true", l10n) edit
-          .row.field-edit-row(ng-show="editBridge")
+          .row.row-padding-small-xs.field-edit-row(ng-show="editBridge")
             .col-xs-9.col-sm-5.col-md-5
               input.form-control.btcDomain(
               name='btcDomain', id="btcDomain", type='text'
@@ -78,7 +78,7 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
                 .descriptor(l10n) WebSocket host name
               .port.col-xs-4.col-sm-7.col-md-9
                 .descriptor.portNumber(l10n) Port number
-            .row(ng-show="editing")
+            .row.row-padding-small-xs(ng-show="editing")
               .col-xs-8.col-sm-5.col-md-3.hostname-wrapper
                 input.form-control.host(name='host', type='text', ng-model='server.host', rp-hostname)
                 .errorGroup

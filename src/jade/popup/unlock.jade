@@ -13,5 +13,5 @@ form(role="form", ng-submit="confirm()")
     p.literal(ng-show="unlock.isConfirming", rp-spinner="4", l10n) Confirming password
   .modal-footer
     .unlock-btns-wrapper
-      button.btn.btn-default(type="button", ng-click="cancel()", l10n) Close
-      button.btn.btn-primary(type="submit", ng-disabled="isConfirming", l10n) Submit
+      button.btn.btn-default.modal-close-btn(type="button", ng-click="cancel()", l10n) Close
+      button.btn.btn-primary.modal-submit-btn(type="submit", ng-disabled="isConfirming", l10n) Submit

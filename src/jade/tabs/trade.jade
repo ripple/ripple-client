@@ -27,7 +27,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
             ng-disabled="order.valid_settings != true"
             ng-click='flip_issuer()', l10n)
             | flip
-        .col-sm-6.col-md-6.col-xs-11
+        .col-sm-6.col-md-6.col-xs-12.issuers-wrapper
           ul.issuers.inline(ng-hide='order.first_currency.is_native()')
             li.label(l10n) Base currency
             li.value {{order.first_currency | rpcurrency}}&ensp;
@@ -280,7 +280,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                     span  {{order[type].first_amount | rpcurrency}}
                     | )
                 .row.btns-row
-                  .col-xs-12.col-md-4.col-sm-6.btns-wrapper
+                  .col-xs-12.col-md-6.col-sm-8.btns-wrapper
                     button.btn.btn-success.btn-block.submit(type='submit', ng-disabled='tradeForm.$invalid')
                       span(ng-show="type == 'buy'", l10n)  Buy
                       span(ng-show="type == 'sell'", l10n)  Sell

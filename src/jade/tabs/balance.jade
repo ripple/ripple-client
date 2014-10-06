@@ -14,10 +14,10 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
   group(ng-show="connected && loadState.account")
     include banner/announcement
     .row
-      .col-xs-12.col-xs-8
+      .col-xs-12
         .currency-overview(ng-show="account.Balance")
           //- .balancebox.col-xs-4
-          .balancebox.col-xs-8
+          .balancebox.col-xs-12.col-sm-8
             .lbl(l10n) Total Balance
               .desc(l10n) Estimated from latest trade price
             .total.amount(ng-show="exchangeRatesNonempty")
@@ -45,7 +45,7 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
           //-       ng-change='changeTrendSpan(this)')
           //-       option(l10n,value='86400000') in past 24 hours
           //-       option(l10n,value='604800000') in past 7 days
-          .col-xs-4(ng-class="{ 'blank' : !exchangeRatesNonempty }")
+          .col-xs-12.col-sm-4(ng-class="{ 'blank' : !exchangeRatesNonempty }")
             rp-pie-chart(
               rp-size="120"
               rp-drops="account.Balance"

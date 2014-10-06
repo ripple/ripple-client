@@ -286,6 +286,25 @@ footer {
     padding-right: (@grid-gutter-width / 6);
   }
 }
+.row-padding-small-xs {
+  @media (max-width: @screen-xs-max){
+    &.row {
+      padding-left: (@grid-gutter-width / 3);
+      padding-right: (@grid-gutter-width / 3);
+    }
+
+    .row {
+      padding-left: (@grid-gutter-width / 3);
+      padding-right: (@grid-gutter-width / 3);
+    }
+
+    [class*='col-'] {
+      padding-left:  (@grid-gutter-width / 6);
+      padding-right: (@grid-gutter-width / 6);
+    }
+    
+  }
+}
 
 .padding-vertical-xs {
   @media (max-width: @screen-xs-max) {
