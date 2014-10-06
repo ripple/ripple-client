@@ -16,7 +16,36 @@
   .modal-body {
     // padding: 25px 15px 25px;
   }
+  .modal-footer{
+    .unlock-btns-wrapper {
+      .modal-close-btn{
+          width: 8.333333333333332%;
+        }
+        .modal-submit-btn {
+          width: 25%;
+        }
+      @media (max-width: @screen-xs-max) {
+        .modal-close-btn{
+          width: 24%;
+        }
+        .modal-submit-btn {
+          width: 74%;
+          margin-left: 0;
+        }
+        
+      }
+      @media (max-width: @screen-sm-max) and (min-width: @screen-xs-max) {
+        .modal-close-btn{
+          width: 16.666666666666664%;
+        }
+        .modal-submit-btn {
+          width: 33.33333333333333%;
+        } 
+      }
+      
 
+    }
+  }
   .question {
     color: @black;
     text-align: center;

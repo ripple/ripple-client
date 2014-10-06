@@ -373,7 +373,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                     rp-popover-title='Account Frozen'
                     rp-popover-trigger="click"
                     data-content='This account has been frozen. Please contact the issuer to unfreeze your account. <a href=https://ripple.com/wiki/Freeze target=_blank>More about freezing</a>')
-              .row.editBox(ng-show="editing && advanced_feature_switch")
+              .row.row-padding-small-xs.editBox(ng-show="editing && advanced_feature_switch")
                 form(ng-class="{ 'frozen-account': component.freeze_peer }"
                   ng-submit="save_account()")
                   ng-form(name="accountForm")
@@ -396,7 +396,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                         .col-xs-3(ng-show='trust.balance !== "0" && orderbookStatus === "exists"')
                           a.btn.btn-block.btn-link(href="", ng-click="cancel()"
                             ng-disabled="trust.loading", l10n) cancel
-                        .col-xs-4.col-sm-4.col-md-3(ng-hide="trust.loading")  
+                        .col-xs-3.col-sm-4.col-md-3(ng-hide="trust.loading")  
                           .row.text-right
                             .col-xs-12(ng-show='trust.balance !== "0" && orderbookStatus === "exists"')
                               rp-confirm(

@@ -284,17 +284,14 @@
   .auth-form-wrapper {
     
         .submit-btn-container {
-          width: 40%;
-        }
-       
-        @media (max-width: @screen-sm-max) {
-          .submit-btn-container {
-            width: 50%;
-          }
+          width: 70%;
         }
         @media (max-width: @screen-xs-max) {
           .submit-btn-container {
             width: 100%;
+            button {
+              font-size: 14px;
+            }
           }
         }
       
@@ -502,6 +499,9 @@
     .balance {
       font: 20px OpenSansRegular;
       color: @black;
+      @media (max-width: @screen-xs-max) {
+        font-size: 12px;
+      }
     }
   }
 
@@ -530,7 +530,9 @@
 
     .balancebox {
       padding: 5px;
-
+      @media (max-width: @screen-xs-max) {
+        text-align: center;
+      }
       .lbl {
         font-size   : 1.2em;
         font-family : OpenSansBold;
@@ -650,6 +652,9 @@
       background-color: @lightgray;
       padding: 0 20px;
       margin-bottom: 10px;
+      @media (max-width: @screen-xs-max) {
+        font-size: 14px;
+      }
     }
 
     .total {
@@ -669,7 +674,7 @@
 
       .lbl, .balance {
         color: @black;
-        line-height: 50px;
+        line-height: 60px;
 
         a {
           display: block;
@@ -1726,6 +1731,7 @@
 
     }
   }
+
 }
 
 #t-advanced {
@@ -1770,6 +1776,9 @@
 
   .portNumber{
     padding-left: 15px;
+    @media (max-width: @screen-xs-max) {
+      padding-left: 0;
+    }
   }
 
   div.section {
@@ -1919,6 +1928,12 @@
       .down {
         color: @midred;
       }
+      @media (max-width: @screen-xs-max) {
+        padding-left: 0;
+      }
+       @media (max-width: @screen-sm-max) {
+        padding-left: 0;
+      }
     }
 
     &.issuers {
@@ -1926,7 +1941,11 @@
         width: 120px;
       }
       .value {
-        margin-right: 30px;
+        margin-right: 15px;
+        @media (max-width: @screen-xs-max) {
+          margin-right: 0;
+          padding-right: 15px;
+        }
       }
     }
   }
@@ -1944,6 +1963,9 @@
     border: 1px solid darken(@bg, 10%);
     border-bottom: none;
     background-color: darken(@bg, 2%);
+    .issuers-wrapper {
+      display: inline-block;
+    }
     button {
       &.btn-block {
         outline: none;
@@ -1967,7 +1989,9 @@
     border-top: none;
     background-color: darken(@bg, 5%);
     list-style-type: none;
-
+    @media (max-width: @screen-xs-max) {
+      font-size: 11px;
+    }
     .value {
       font-weight: bold;
     }
@@ -2189,6 +2213,9 @@
   }
 
   .orderbook {
+    @media (max-width: @screen-xs-max) {
+      font-size: 10px;
+    }
     .title {
       margin: 0 -15px 15px -15px;
       font: bold 15px 'OpenSansRegular';
