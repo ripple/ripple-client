@@ -393,9 +393,6 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                             ng-disabled='accountForm.$invalid || trust.loading')
                             span(ng-hide="trust.loading", l10n) Save
                             span(ng-show="trust.loading", l10n) Saving...
-                        .col-xs-3(ng-show='trust.balance !== "0" && orderbookStatus === "exists"')
-                          a.btn.btn-block.btn-link(href="", ng-click="cancel()"
-                            ng-disabled="trust.loading", l10n) cancel
                         .col-xs-3.col-sm-4.col-md-3(ng-hide="trust.loading")  
                           .row.text-right
                             .col-xs-12(ng-show='trust.balance !== "0" && orderbookStatus === "exists"')
@@ -428,4 +425,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                               cancel-button-text="cancel"
                               ng-hide="showPassword==true")
                                 button.btn.btn-block.btn-danger.btn-xs.submit(type="button", ng-click="load_orderbook()", l10n) Remove
+                        .col-xs-3
+                          a.btn.btn-block.btn-link(href="", ng-click="cancel()"
+                            ng-disabled="trust.loading", l10n) cancel
                       
