@@ -35,7 +35,9 @@ SecurityTab.prototype.angular = function (module) {
     $scope.loaded2FA       = false;
     $scope.errorLoading2FA = false;
     $scope.requirePasswordChanged = false;
-    
+   
+    $scope.validation_pattern_phone = /^[0-9]*$/;
+
     $scope.$on('$blobUpdate', onBlobUpdate);
     onBlobUpdate();
 
