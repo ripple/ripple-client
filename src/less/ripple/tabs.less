@@ -1592,7 +1592,9 @@
 }
 
 #t-security {
-
+  .edit-security-pswd{
+    line-height: 45px;  
+  }
   .settingPage a {
     display: block;
     padding: 10px;
@@ -1757,6 +1759,7 @@
   .description {
     margin: 5px 0 5px 0;
     font-size: 13px;
+
   }
 
   .descriptor {
@@ -1775,7 +1778,7 @@
   }
 
   .portNumber{
-    padding-left: 15px;
+    padding-left: 10px;
     @media (max-width: @screen-xs-max) {
       padding-left: 0;
     }
@@ -1833,6 +1836,11 @@
 
   #servers {
     padding-top: 0px;
+    .trust-line-form {
+      .edit-trust-line {
+        line-height: 34px;
+      }
+    }
     @media (max-width: @screen-xs-max){
       font-size: 12px;
     }
@@ -1850,19 +1858,21 @@
       }
     }
     .helperInput {
-      margin-bottom: 10px;
-      line-height: 28px;
+      // margin-bottom: 10px;
+      line-height: 44px;
+      // vertical-align: top;
+      // margin-top: 5px;
     }
     .edit-btn {
       line-height: 28px;
     }
+
   }
 
   #secureSocket {
     padding-left: 0px;
     padding-right: 0px;
     @media (max-width: @screen-xs-max) {
-
         padding-left: 15px;
     }
     &.editable {
@@ -1872,6 +1882,7 @@
     }
     .helperInput {
       // padding-top: 7px;
+      line-height: 40px;
     }
   }
 
