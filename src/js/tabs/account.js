@@ -25,11 +25,12 @@ AccountTab.prototype.angular = function(module)
   module.controller('AccountCtrl', ['$scope', '$timeout', 'rpId', 'rpKeychain', '$routeParams',
     function ($scope, $timeout, $id, keychain, $routeParams)
     {
-      if (!$routeParams.route) {
-        $routeParams.route = 'public';
-
       if (!$id.loginStatus) return $id.goId();
+      if (!$routeParams.route) $routeParams.route = 'public';
 
+      $scope.rename = function() {
+        $scope.loading = true;
+        $scope.error = false;
         // Get the master key
         keychain.getSecret($id.account, $id.username, $scope.password,
           function (err, masterkey) {
