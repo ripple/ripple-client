@@ -439,8 +439,6 @@ TradeTab.prototype.angular = function(module)
 
         order.first_amount = Amount.from_json(order.second_amount.to_text_full()).ratio_human(Amount.from_json(order.price_amount.to_text()), {reference_date: new Date()});
         order.first = +order.first_amount.to_human({group_sep: false});
-
-        console.log('order.first_amount is: ', order.first_amount.to_human());
       }
     };
 
