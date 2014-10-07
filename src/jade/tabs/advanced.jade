@@ -14,17 +14,17 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
               .description {{options.blobvault}}
             .col-xs-1
             .col-xs-3.col-sm-3.col-md-2
-              a(href="", ng-click="editBlob = true", l10n) edit
-          .row.row-padding-small-xs.field-edit-row(ng-show="editBlob")
-            .col-xs-9.col-sm-5.col-md-5
+              a.edit-btn(href="", ng-click="editBlob = true", l10n) edit
+          .row.row-padding-small.field-edit-row(ng-show="editBlob")
+            .col-xs-12.col-sm-9.col-md-6
               input.form-control.blobIp(
               name='blobIp', id="blobIp", type='text'
               ng-model='options.blobvault')
-            .col-xs-6.col-sm-3.col-md-2
+            .col-xs-6.col-sm-6.col-md-3
               button.btn.btn-block.btn-success.btn-xs.submit(id = 'saveBlob', type='submit', ng-disabled='blobForm.$invalid', l10n) Save
-            .col-xs-3.col-sm-2.col-md-2
+            .col-xs-3.col-sm-3.col-md-2
               button.btn.btn-block.btn-danger.btn-xs.submit(id="deleteBlob", type="button", ng-click="deleteBlob()", l10n) Delete
-            .col-xs-3.col-sm-1.col-md-2(id="cancel")
+            .col-xs-3.col-sm-3.col-md-1.text-center(id="cancel")
               a(href="", ng-click="cancelEditBlob()", class="btn", l10n) cancel
         form(name="bridgeForm", ng-submit="saveBridge()")
           .descriptor(l10n) Bitcoin bridge
@@ -33,19 +33,19 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
               .description {{options.bridge.out.bitcoin}}
             .col-xs-1
             .col-xs-3.col-sm-3.col-md-2
-              a(href="", ng-click="editBridge = true", l10n) edit
-          .row.row-padding-small-xs.field-edit-row(ng-show="editBridge")
-            .col-xs-9.col-sm-5.col-md-5
+              a.edit-btn(href="", ng-click="editBridge = true", l10n) edit
+          .row.row-padding-small.field-edit-row(ng-show="editBridge")
+            .col-xs-12.col-sm-9.col-md-6
               input.form-control.btcDomain(
               name='btcDomain', id="btcDomain", type='text'
               ng-model='options.bridge.out.bitcoin')
-            .col-xs-6.col-sm-3.col-md-2
+            .col-xs-6.col-sm-6.col-md-3
               button.btn.btn-block.btn-success.btn-xs.submit(id = 'saveBridge', type='submit', ng-disabled='bridgeForm.$invalid', l10n) Save
-            .col-xs-3.col-sm-2.col-md-2
+            .col-xs-3.col-sm-3.col-md-2
               button.btn.btn-block.btn-danger.btn-xs.submit(id="deleteBridge", type="button", ng-click="deleteBridge()", l10n) Delete
-            .col-xs-3.col-sm-1.col-md-2(id="cancel")
+            .col-xs-3.col-sm-3.col-md-1.text-center(id="cancel")
               a(href="", ng-click="cancelEditBridge()", class="btn", l10n) cancel
-        form(name="accountsAdvForm", ng-submit="saveAcctOptions()")
+        form.trust-line-form(name="accountsAdvForm", ng-submit="saveAcctOptions()")
           .descriptor(ng-show="'web' === client", l10n) Trust line
           .row(ng-hide="editAcctOptions")
             .col-xs-6.col-sm-5.col-md-3
@@ -55,20 +55,20 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
               .description(ng-hide="advanced_feature_switch", l10n) Hide
             .col-xs-3.col-sm-3.col-md-2
               a(href="", ng-click="editAcctOptions = true", class="edit-btn",l10n) edit
-          .row(ng-show="editAcctOptions")
+          .row.row-padding-small.edit-trust-line(ng-show="editAcctOptions")
             .col-xs-6.col-sm-5.col-md-3
               .description Advanced settings
-            .col-xs-4.col-sm-2
+            .col-xs-4.col-sm-4.col-md-3
               div.helperInput
                 label
                   input(type="checkbox", name="acct_adv", ng-model='options.advanced_feature_switch')
                   span(l10n) Show
-            .col-xs-6.col-sm-3
+            .col-xs-6.col-sm-6.col-md-3
               button.btn.btn-block.btn-success.btn-xs.submit(id='save', type='submit'
               ng-disabled='serverForm.$invalid', l10n) Save
             .col-xs-3(ng-show="hasRemove()")
               button.btn.btn-block.btn-danger.btn-xs.submit(id="delete", type="button", ng-click="remove()", ng-show="hasRemove()", l10n) Delete
-            .col-xs-3.col-sm-2.col-md-2(id="cancel")
+            .col-xs-3.col-sm-2.col-md-2.text-center(id="cancel")
               a(href="", ng-click="cancelEditAcctOptions()", class="btn", l10n) cancel
         h4(id="serverSettings", l10n) Server settings
         form.server-row-form(ng-controller="ServerRowCtrl", ng-repeat="(index, server) in options.server.servers", ng-submit="save()")
@@ -78,7 +78,7 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
                 .descriptor(l10n) WebSocket host name
               .port.col-xs-4.col-sm-7.col-md-9
                 .descriptor.portNumber(l10n) Port number
-            .row.row-padding-small-xs(ng-show="editing")
+            .row.row-padding-small(ng-show="editing")
               .col-xs-8.col-sm-5.col-md-3.hostname-wrapper
                 input.form-control.host(name='host', type='text', ng-model='server.host', rp-hostname)
                 .errorGroup
