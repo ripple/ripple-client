@@ -507,6 +507,9 @@
 
   .balance {
     text-align: right;
+    @media (max-width: @screen-xs-max) {
+      font-size: 12px;
+    }
   }
 
   .currency-overview {
@@ -838,7 +841,9 @@
 
     .head {
       overflow: hidden;
-
+      @media (max-width: @screen-xs-max){
+        font-size: 12px;
+      }
       .status {
         margin: 0 20px;
         font: 10px OpenSansRegular;
@@ -853,7 +858,10 @@
           border-color: @midgray;
         }
       }
-
+      .balance-text-wrapper {
+        text-overflow: ellipsis;
+        overflow: hidden;
+      }
 
     }
 
@@ -1176,7 +1184,11 @@
         width: 170px;
       }
     }
-
+    .export-btn-wrapper {
+      @media (max-width: @screen-xs-max) {
+        margin-bottom: 20px;
+      }
+    }
     .message {
       background-color: @lightgray;
       padding: 10px;
@@ -1205,7 +1217,9 @@
           display: inline-block;
           width: 100%;
           background-color: @lightgray;
-
+          @media (max-width: @screen-xs-max) {
+            font-size: 11px;
+          }
           & > span {
             display: inline-block;
             line-height: 22px;
@@ -1263,8 +1277,10 @@
 
         .details {
           padding: 10px 0;
-
-          .effects {
+          @media (max-width: @screen-xs-max) {
+            font-size: 12px;
+          }
+          .effects {  
             border-top: 1px solid @midgray;
             border-bottom: 1px solid @midgray;
             padding-top: 10px;
@@ -1337,7 +1353,9 @@
           .links {
             display: inline-block;
             width: 100%;
-
+            @media (max-width: @screen-xs-max) {
+              font-size: 10px;
+            }
             .txLink {
               float: left;
             }
@@ -1592,7 +1610,9 @@
 }
 
 #t-security {
-
+  .edit-security-pswd{
+    line-height: 45px;  
+  }
   .settingPage a {
     display: block;
     padding: 10px;
@@ -1757,6 +1777,7 @@
   .description {
     margin: 5px 0 5px 0;
     font-size: 13px;
+
   }
 
   .descriptor {
@@ -1775,7 +1796,7 @@
   }
 
   .portNumber{
-    padding-left: 15px;
+    padding-left: 10px;
     @media (max-width: @screen-xs-max) {
       padding-left: 0;
     }
@@ -1833,6 +1854,11 @@
 
   #servers {
     padding-top: 0px;
+    .trust-line-form {
+      .edit-trust-line {
+        line-height: 34px;
+      }
+    }
     @media (max-width: @screen-xs-max){
       font-size: 12px;
     }
@@ -1850,19 +1876,21 @@
       }
     }
     .helperInput {
-      margin-bottom: 10px;
-      line-height: 28px;
+      // margin-bottom: 10px;
+      line-height: 44px;
+      // vertical-align: top;
+      // margin-top: 5px;
     }
     .edit-btn {
       line-height: 28px;
     }
+
   }
 
   #secureSocket {
     padding-left: 0px;
     padding-right: 0px;
     @media (max-width: @screen-xs-max) {
-
         padding-left: 15px;
     }
     &.editable {
@@ -1872,6 +1900,7 @@
     }
     .helperInput {
       // padding-top: 7px;
+      line-height: 40px;
     }
   }
 

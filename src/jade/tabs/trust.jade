@@ -320,7 +320,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                 div.col-xs-2(ng-show="advanced_feature_switch", ng-class="{ 'col-xs-1': advanced_feature_switch }")
                   div {{ component.limit | rpamount }}
                 .col-sm-1.col-xs-2(ng-show="advanced_feature_switch && component.limit_peer._offset == '-100'") {{ component.limit_peer | rpamount }}
-                .col-sm-1.col-xs-2(ng-show="advanced_feature_switch && component.limit_peer._offset !== '-100'", ng-hide="component.limit_peer._offset == '-100'") -{{ component.limit_peer | rpamount }}
+                .col-sm-1.col-xs-2(ng-show="advanced_feature_switch && component.limit_peer._offset !== '-100'", ng-hide="component.limit_peer._offset == '-100' || !advanced_feature_switch") -{{ component.limit_peer | rpamount }}
                 .col-sm-2.col-xs-2(ng-show="advanced_feature_switch")
                   div(ng-show="component.no_ripple", l10n) Off
                   div(ng-hide="component.no_ripple", l10n) On
@@ -393,9 +393,6 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                             ng-disabled='accountForm.$invalid || trust.loading')
                             span(ng-hide="trust.loading", l10n) Save
                             span(ng-show="trust.loading", l10n) Saving...
-                        .col-xs-3(ng-show='trust.balance !== "0" && orderbookStatus === "exists"')
-                          a.btn.btn-block.btn-link(href="", ng-click="cancel()"
-                            ng-disabled="trust.loading", l10n) cancel
                         .col-xs-3.col-sm-4.col-md-3(ng-hide="trust.loading")  
                           .row.text-right
                             .col-xs-12(ng-show='trust.balance !== "0" && orderbookStatus === "exists"')
@@ -428,4 +425,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                               cancel-button-text="cancel"
                               ng-hide="showPassword==true")
                                 button.btn.btn-block.btn-danger.btn-xs.submit(type="button", ng-click="load_orderbook()", l10n) Remove
+                        .col-xs-3
+                          a.btn.btn-block.btn-link(href="", ng-click="cancel()"
+                            ng-disabled="trust.loading", l10n) cancel
                       
