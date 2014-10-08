@@ -745,7 +745,8 @@ SendTab.prototype.angular = function (module)
               'Address Type': $scope.send.federation ? 'federation' : 'ripple',
               'Destination Tag': !!$scope.send.dt,
               'Paths': upd.alternatives.length,
-              'Time': (+new Date() - +pathFindTime) / 1000
+              'Time': (+new Date() - +pathFindTime) / 1000,
+              'Address': $scope.userBlob.data.account_id
             });
 
             tracked = true;
@@ -765,7 +766,8 @@ SendTab.prototype.angular = function (module)
           'Message': res.engine_result,
           'Currency': $scope.send.currency_code,
           'Address Type': $scope.send.federation ? 'federation' : 'ripple',
-          'Destination Tag': !!$scope.send.dt
+          'Destination Tag': !!$scope.send.dt,
+          'Address': $scope.userBlob.data.account_id
         })
       });
 
@@ -862,7 +864,8 @@ SendTab.prototype.angular = function (module)
       $rpTracker.track('Send confirmation page', {
         'Currency': $scope.send.currency_code,
         'Address Type': $scope.send.federation ? 'federation' : 'ripple',
-        'Destination Tag': !!$scope.send.dt
+        'Destination Tag': !!$scope.send.dt,
+        'Address': $scope.userBlob.data.account_id
       })
     };
 
@@ -1004,7 +1007,9 @@ SendTab.prototype.angular = function (module)
           'Currency': $scope.send.currency_code,
           'Address Type': $scope.send.federation ? 'federation' : 'ripple',
           'Destination Tag': !!$scope.send.dt,
-          'Time': (+new Date() - +$scope.confirmedTime) / 1000
+          'Time': (+new Date() - +$scope.confirmedTime) / 1000,
+          'Address': $scope.userBlob.data.account_id,
+          'Transaction ID': res.tx_json.hash
         })
       });
 
@@ -1021,7 +1026,9 @@ SendTab.prototype.angular = function (module)
           'Currency': $scope.send.currency_code,
           'Address Type': $scope.send.federation ? 'federation' : 'ripple',
           'Destination Tag': !!$scope.send.dt,
-          'Time': (+new Date() - +$scope.confirmedTime) / 1000
+          'Time': (+new Date() - +$scope.confirmedTime) / 1000,
+          'Address': $scope.userBlob.account_id,
+          'Transaction ID': res.tx_json.hash
         });
       });
 
