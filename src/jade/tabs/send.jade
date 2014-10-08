@@ -70,9 +70,7 @@ section.col-xs-12.content(ng-controller='SendCtrl')
     .row.form-group(ng-show='send.show_dt_field')
       .col-xs-12.col-sm-8.col-md-6
         label(for='send_dt', l10n) Destination tag
-        |
-        a(href="", ng-click="send.show_dt_field = false", l10n)
-          | hide
+        a(href="", ng-click="send.show_dt_field = false", l10n) hide
         input.form-control#send_dt(
         name='send_dt', type='text'
         ng-model='send.dt'
