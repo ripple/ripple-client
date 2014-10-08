@@ -507,6 +507,9 @@
 
   .balance {
     text-align: right;
+    @media (max-width: @screen-xs-max) {
+      font-size: 12px;
+    }
   }
 
   .currency-overview {
@@ -838,7 +841,9 @@
 
     .head {
       overflow: hidden;
-
+      @media (max-width: @screen-xs-max){
+        font-size: 12px;
+      }
       .status {
         margin: 0 20px;
         font: 10px OpenSansRegular;
@@ -853,7 +858,10 @@
           border-color: @midgray;
         }
       }
-
+      .balance-text-wrapper {
+        text-overflow: ellipsis;
+        overflow: hidden;
+      }
 
     }
 
@@ -1176,7 +1184,11 @@
         width: 170px;
       }
     }
-
+    .export-btn-wrapper {
+      @media (max-width: @screen-xs-max) {
+        margin-bottom: 20px;
+      }
+    }
     .message {
       background-color: @lightgray;
       padding: 10px;
@@ -1205,7 +1217,9 @@
           display: inline-block;
           width: 100%;
           background-color: @lightgray;
-
+          @media (max-width: @screen-xs-max) {
+            font-size: 11px;
+          }
           & > span {
             display: inline-block;
             line-height: 22px;
@@ -1263,8 +1277,10 @@
 
         .details {
           padding: 10px 0;
-
-          .effects {
+          @media (max-width: @screen-xs-max) {
+            font-size: 12px;
+          }
+          .effects {  
             border-top: 1px solid @midgray;
             border-bottom: 1px solid @midgray;
             padding-top: 10px;
@@ -1337,7 +1353,9 @@
           .links {
             display: inline-block;
             width: 100%;
-
+            @media (max-width: @screen-xs-max) {
+              font-size: 10px;
+            }
             .txLink {
               float: left;
             }

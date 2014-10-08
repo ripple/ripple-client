@@ -99,7 +99,7 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
               .head
                 .lbl.col-xs-8(ng-show="component.gateway.app") {{component.gateway.app.name}}
                   span.status.unverified(ng-hide="true", l10n) Unverified
-                .lbl.col-xs-8(ng-hide="component.gateway.app", rp-pretty-identity="issuer"
+                .lbl.balance-text-wrapper.col-xs-8(ng-hide="component.gateway.app", rp-pretty-identity="issuer"
                   rp-pretty-issuer-contacts="userBlob.data.contacts")
                 .balance.col-xs-2 {{ component | rpamount:{precision: 6, min_precision: 6, max_sig_digits: 20} }}
               form.withdraw(ng-show="component.window == 'withdraw'")

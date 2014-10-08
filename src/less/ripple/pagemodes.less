@@ -124,6 +124,7 @@
     font-size: 18px;
     padding-top: 10px;
     padding-bottom: 10px;
+    padding-left: 10px;
     color: @darkgray;
 
     strong {
@@ -144,6 +145,9 @@
       width: 120px;
       margin: 0;
       padding: 8px 0;
+      @media (max-width: @screen-xs-max) {
+        width: 100%;
+      }
     }
     dd {
       float: left;
