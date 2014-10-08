@@ -108,7 +108,7 @@ section.col-xs-12.content(ng-controller="HistoryCtrl")
             span.desc(ng-hide="entry.details", ng-switch on="entry.transaction.type")
               span(ng-switch-when="sent")
                 span(l10n, rp-span-spacing) You sent
-                  span.amount(rp-pretty-amount="entry.transaction.amount")
+                  span.amount(rp-pretty-amount="entry.transaction.amountSent || entry.transaction.amount")
                   | to
                   span.address(rp-pretty-identity="entry.transaction.counterparty")
                 != require("./history/effects.jade")()
