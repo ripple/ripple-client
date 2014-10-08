@@ -77,7 +77,7 @@ section.col-xs-12.content(ng-controller="HistoryCtrl")
     .transactions.col-md-9.col-sm-7.col-xs-12
       .col-xs-12.col-sm-8.col-md-9
         h3(l10n) Transaction History
-      .col-xs-12.col-sm-4.col-md-3.text-right
+      .col-xs-12.col-sm-4.col-md-3.export-btn-wrapper.text-right
         a#csv.btn.btn-primary.btn-block.btn-sm(href='', ng-click='exportCsv()', rp-download='historyCsv', rp-download-csv='true', rp-download-filename='ripple_historic.csv', l10n) Export to CSV
       .head
         .type
