@@ -238,8 +238,11 @@ module.directive('rpAvailableName', function ($timeout, $parse) {
         var getterInvalidReason = $parse(attr.rpAvailableNameInvalidReason);
         var getterReserved = $parse(attr.rpAvailableNameReservedFor);
 
+        if (timeoutPromise) $timeout.cancel(timeoutPromise);
+
         if (!value) {
           // No name entered, show nothing, do nothing
+          getterInvalidReason.assign(scope,false);
         } else if (value.length < 2) {
           getterInvalidReason.assign(scope,'tooshort');
         } else if (value.length > 20) {
@@ -253,7 +256,6 @@ module.directive('rpAvailableName', function ($timeout, $parse) {
         } else if (/--/.exec(value)) {
           getterInvalidReason.assign(scope,'multhyphen');
         } else {
-          if (timeoutPromise) $timeout.cancel(timeoutPromise);
 
           timeoutPromise = $timeout(function(){
             if (attr.rpLoading) {
