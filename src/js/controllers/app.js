@@ -134,10 +134,12 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
 
   function handleAccountUnload(e, data)
   {
-    var remote = $net.remote;
-    var accountObj = remote.account(data.account);
-    accountObj.removeListener('transaction', myHandleAccountEvent);
-    accountObj.removeListener('entry', myHandleAccountEntry);
+    if (myHandleAccountEvent && myHandleAccountEntry) {
+      var remote = $net.remote;
+      var accountObj = remote.account(data.account);
+      accountObj.removeListener('transaction', myHandleAccountEvent);
+      accountObj.removeListener('entry', myHandleAccountEntry);
+    }
   }
 
   function handleRippleLines(data)
@@ -317,7 +319,7 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
 
             // Only show trades/exchanges which are at least partially funded
             if (!funded) {
-              break;            
+              break;
             }
             /* falls through */
           case 'received':
@@ -686,6 +688,7 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
     // Server is not connected yet. Handle account load after server response.
     $scope.$on('$netConnected', function(){
       if ($.isEmptyObject($scope.account)) {
+        $scope.$broadcast('$idAccountUnload', {account: $scope.account});
         handleAccountLoad(e, data);
       }
     });
