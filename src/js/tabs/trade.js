@@ -271,8 +271,6 @@ TradeTab.prototype.angular = function(module)
         setEngineStatus(res, true, type);
         order.mode = "done";
 
-        console.log('res is: ', res);
-
         if (!$scope.$$phase) {
           $scope.$apply();
         }
