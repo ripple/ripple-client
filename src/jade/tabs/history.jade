@@ -55,12 +55,14 @@ section.col-xs-12.content(ng-controller="HistoryCtrl")
                 form.filter-choices(ng-submit="submitDateRangeForm()")
                   .input-group.inline-inputs-group
                     .input-group-addon
-                      i.fa.fa-calendar(l10n)  From
+                      i.fa.fa-calendar
+                      span(l10n) &#32;From
                     .input-wrapper  
                       input.form-control(type="text", rp-datepicker, ng-model="dateMinView", readonly)
                   .input-group.inline-inputs-group
                     .input-group-addon
-                      i.fa.fa-calendar(l10n)  To
+                      i.fa.fa-calendar
+                      span(l10n) &#32;To
                     .input-wrapper  
                       input.form-control(type="text", rp-datepicker, ng-model="dateMaxView", readonly)
                   button.btn.btn-block.btn-primary.submit(type='submit', l10n) Filter
