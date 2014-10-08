@@ -2305,8 +2305,17 @@ header nav.navbar .open > .dropdown-menu {
   background-color: @lightgray;
 }
 
-.dropdown-menu > li > a {
-  color: @midblue;
+.dropdown-menu  {
+  padding: 0;
+
+  > li > a {
+    color: @midblue;
+    padding: 12px 20px;
+  }
+
+  .divider {
+    margin: 0;
+  }
 }
 
 html.t-trade header nav ul > li.active#nav-advanced > a:after {
