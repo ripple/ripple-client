@@ -57,7 +57,7 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
               .lbl.col-xs-8
                 a(href="", ng-click="entry.show=!entry.show")
                   i.icon-ripple-logo
-                  | XRP - Ripple
+                  | XRP – Ripple
               .balance.col-xs-2
                 span(ng-show="account.Balance") {{ account.Balance | rpamount:{precision: 5, min_precision: 5, max_sig_digits: 20} }}
                 span(ng-hide="account.Balance") 0
