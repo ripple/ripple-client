@@ -155,45 +155,51 @@ var JsonRewriter = module.exports = {
     var affectedNode;
     var amtSent;
 
-    if (tx.TransactionType === "Payment" && meta.AffectedNodes) {
-      // Find the metadata node with entry type == "RippleState"
-      // and either HighLimit.issuer == [sender's account] or
-      // LowLimit.issuer == [sender's account] and
-      // Balance.currency == [currency of SendMax || Amount]
-      if (tx.SendMax && tx.SendMax.currency) {
-        for (i = 0; i < meta.AffectedNodes.length; i++) {
-          affectedNode = meta.AffectedNodes[i];
-          if (affectedNode.ModifiedNode && affectedNode.ModifiedNode.LedgerEntryType === "RippleState" && 
-            (affectedNode.ModifiedNode.FinalFields.HighLimit.issuer === sender ||
-              affectedNode.ModifiedNode.FinalFields.LowLimit.issuer === sender) &&
-            affectedNode.ModifiedNode.FinalFields.Balance.currency === tx.SendMax.currency) {
-
-            // Calculate the difference before/after. If HighLimit.issuer == [sender's account] negate it.
-            difference = affectedNode.ModifiedNode.PreviousFields.Balance.value - affectedNode.ModifiedNode.FinalFields.Balance.value;
-            if (affectedNode.ModifiedNode.FinalFields.HighLimit.issuer === sender) difference *= -1;
-            cur = affectedNode.ModifiedNode.FinalFields.Balance.currency;
-            break;
-          }
-        }
+    if (tx.TransactionType === "Payment") {
+      if (meta.DeliveredAmount) {
+        return meta.DeliveredAmount;
       }
 
-      if (difference === null) {
-        // Find the metadata node with entry type == "AccountRoot" and Account == [sender's account].
-        for (i = 0; i < meta.AffectedNodes.length; i++) {
-          affectedNode = meta.AffectedNodes[i];
-          if (affectedNode.ModifiedNode && affectedNode.ModifiedNode.LedgerEntryType === "AccountRoot" && 
-            affectedNode.ModifiedNode.FinalFields && affectedNode.ModifiedNode.FinalFields.Account === sender) {
+      if (meta.AffectedNodes) {
+        // Find the metadata node with entry type == "RippleState"
+        // and either HighLimit.issuer == [sender's account] or
+        // LowLimit.issuer == [sender's account] and
+        // Balance.currency == [currency of SendMax || Amount]
+        if (tx.SendMax && tx.SendMax.currency) {
+          for (i = 0; i < meta.AffectedNodes.length; i++) {
+            affectedNode = meta.AffectedNodes[i];
+            if (affectedNode.ModifiedNode && affectedNode.ModifiedNode.LedgerEntryType === "RippleState" &&
+              (affectedNode.ModifiedNode.FinalFields.HighLimit.issuer === sender ||
+                affectedNode.ModifiedNode.FinalFields.LowLimit.issuer === sender) &&
+              affectedNode.ModifiedNode.FinalFields.Balance.currency === tx.SendMax.currency) {
 
-            // Calculate the difference minus the fee
-            difference = affectedNode.ModifiedNode.PreviousFields.Balance - affectedNode.ModifiedNode.FinalFields.Balance - tx.Fee;
-            break;
+              // Calculate the difference before/after. If HighLimit.issuer == [sender's account] negate it.
+              difference = affectedNode.ModifiedNode.PreviousFields.Balance.value - affectedNode.ModifiedNode.FinalFields.Balance.value;
+              if (affectedNode.ModifiedNode.FinalFields.HighLimit.issuer === sender) difference *= -1;
+              cur = affectedNode.ModifiedNode.FinalFields.Balance.currency;
+              break;
+            }
           }
         }
-      }
 
-      if (difference) {  // calculated and non-zero
-        var diff = String(difference);
-        amtSent = cur ? {value: diff, currency:cur} : diff;
+        if (difference === null) {
+          // Find the metadata node with entry type == "AccountRoot" and Account == [sender's account].
+          for (i = 0; i < meta.AffectedNodes.length; i++) {
+            affectedNode = meta.AffectedNodes[i];
+            if (affectedNode.ModifiedNode && affectedNode.ModifiedNode.LedgerEntryType === "AccountRoot" &&
+              affectedNode.ModifiedNode.FinalFields && affectedNode.ModifiedNode.FinalFields.Account === sender) {
+
+              // Calculate the difference minus the fee
+              difference = affectedNode.ModifiedNode.PreviousFields.Balance - affectedNode.ModifiedNode.FinalFields.Balance - tx.Fee;
+              break;
+            }
+          }
+        }
+
+        if (difference) {  // calculated and non-zero
+          var diff = String(difference);
+          amtSent = cur ? {value: diff, currency:cur} : diff;
+        }
       }
     }
 
