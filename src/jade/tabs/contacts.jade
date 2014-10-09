@@ -97,7 +97,7 @@ section.col-xs-12.content(ng-controller="ContactsCtrl")
           .col-xs-8.col-sm-8.col-md-9.text-left
             button.btn.btn-success.btn-block.submit.custom-btn(type='submit', ng-disabled='addForm.$invalid', l10n) Add contact
           .col-xs-4.col-sm-4.col-md-3.text-center
-            button.btn.btn-default.btn-block.custom-btn.btn-link(type='button', ng-click='addform_visible = false', l10n) cancel
+            button.btn.btn-default.btn-block.custom-btn.btn-cancel(type='button', ng-click='addform_visible = false', l10n) cancel
 
   .row.row-padding-small.contact(ng-repeat="entry in userBlob.data.contacts"
     ng-class="{editing: editing}", ng-controller="ContactRowCtrl")
@@ -146,7 +146,7 @@ section.col-xs-12.content(ng-controller="ContactsCtrl")
                 action-button-text="Delete"
                 action-button-css="btn btn-default btn-danger delete-contact-btn"
                 action-function="remove($index)"
-                cancel-button-css="btn btn-default cancel-btn btn-link"
+                cancel-button-css="btn btn-default cancel-btn btn-cancel"
                 cancel-button-text="Cancel"
                 ng-hide="showPassword==true")
                   a.danger(href="", l10n) Delete
@@ -162,9 +162,9 @@ section.col-xs-12.content(ng-controller="ContactsCtrl")
     .col-xs-12.col-sm-3.col-md-3.text-right.pull-right
       .row.padding-vertical-xs
         .col-xs-4.col-md-4.col-sm-4(ng-hide='editing')
-          button.edit.btn.btn-block.btn-default.btn-sm(ng-click='edit($index)', l10n) Edit
+          button.edit.btn.btn-block.btn-default.btn-sm.btn-link(ng-click='edit($index)', l10n) Edit
         .col-xs-4.col-md-4.col-sm-4(ng-show='editing')
-          button.editing.btn-block.btn.btn-default.btn-sm.btn-link(ng-click='cancel($index)', l10n) cancel
+          button.editing.btn-block.btn.btn-default.btn-sm.btn-cancel(ng-click='cancel($index)', l10n) cancel
         .col-xs-8.col-md-8.col-sm-8
           button.send.btn.btn-block.btn-primary.btn-sm(ng-click='send($index)', l10n) Send
   div(ng-hide="userBlob.data.contacts.length", l10n) You don't have any contacts yet.

@@ -1742,7 +1742,7 @@
   }
 
   #renameForm {
-    padding-left: 15px;
+    // padding-left: 15px;
   }
 
 
@@ -1830,20 +1830,20 @@
   }
 
   #deleteBlob {
-    background-color: @midred;
-    border-color: @midred;
+    // background-color: @midred;
+    // border-color: @midred;
     margin-top: 0px;
   }
 
   #deleteBridge {
-    background-color: @midred;
-    border-color: @midred;
+    // background-color: @midred;
+    // border-color: @midred;
     margin-top: 0px;
   }
 
   #delete {
-    background-color: @midred;
-    border-color: @midred;
+    // background-color: @midred;
+    // border-color: @midred;
     margin-top: 0px;
   }
 
@@ -1878,6 +1878,17 @@
       .hostname-wrapper {
         padding-right: 0;
       }
+      @media (max-width: @screen-xs-max) {
+        .port-wrapper {
+        
+          padding-left: 0px;
+        
+        }
+        .editButton {
+          padding-left: 0;
+        }
+      }
+      
     }
     .helperInput {
       // margin-bottom: 10px;
@@ -2342,7 +2353,43 @@ header nav.navbar .open > .dropdown-menu {
     color: @midblue;
     padding: 12px 20px;
   }
+  li {
+    a {
+      i {
+        width: 20px;
+        height: 20px;
+        margin-right: 10px;
+        background-image: url(../../img/icons-dropdown.png);
+        background-repeat: no-repeat;
+        display: inline-block;
+        vertical-align: top;
+        &.icon-profile {
+          background-position: 0 0;
+        }
+        &.icon-settings {
+          background-position: -20px 0;
 
+        }
+        &.icon-logout {
+          background-position: -40px 0;
+        }
+      }
+      &:hover {
+        i {
+          &.icon-profile {
+          background-position: 0 -20px;
+          }
+          &.icon-settings {
+            background-position: -20px -20px;
+
+          }
+          &.icon-logout {
+            background-position: -40px -20px;
+          }
+        }
+      }
+    }
+  }
   .divider {
     margin: 0;
   }

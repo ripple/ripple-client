@@ -58,10 +58,10 @@ module.factory('rpPopup', ['$compile',
         +    "<div class=\"actions\">";
 
     if (actionFunction) {
-      confirmHTML += "<button class=\"" + actionButtonCss + " btn-cancel\" ng-click=\""+actionFunction+"\">"+actionButtonText+"</button>";
+      confirmHTML += "<button class=\"" + actionButtonCss + " \" ng-click=\""+actionFunction+"\">"+actionButtonText+"</button>";
     }
     else {
-      confirmHTML += "<button class=\"" + actionButtonCss + " btn-cancel\">"+actionButtonText+"</button>";
+      confirmHTML += "<button class=\"" + actionButtonCss + " \">"+actionButtonText+"</button>";
     }
 
     if (cancelFunction) {
