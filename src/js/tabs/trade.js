@@ -760,6 +760,10 @@ TradeTab.prototype.angular = function(module)
       resetIssuers(false);
     });
 
+    $scope.$on('$appTxNotification', function() {
+      $scope.executed = true;
+    });
+
     $scope.$watch('order.type', function () {
       updateCanBuySell();
     });

@@ -297,7 +297,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
             //- 2. Confirmation
             form.mode-confirm(ng-switch-when='confirm', ng-submit="order_confirmed(type)")
               p.title.literal
-                p.order-warning(ng-show="fatFingerErr === true", l10n)
+                p.order-warning(ng-show="fatFingerErr", l10n)
                   | CAUTION: Your order is far off from the current market price.
                 span(l10n) You are about to create an order to
                   span(ng-show="type == 'buy'", l10n-inc)  buy
@@ -342,17 +342,19 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
             group.mode-done(ng-switch-when='done')
               group.pending(ng-show='order[type].tx_result=="pending"')
                 h2.tx-status(l10n) Your order has been submitted.
-              group.result-success(ng-show='order[type].tx_result=="cleared"')
-                h2.tx-status(l10n) Your order is now active!
+              group.result-success(ng-show="'order[type].tx_result==cleared' && !executed")
+                h2.tx-status(l10n) Your order is now active.
+              group.result-success(ng-show="'order[type].tx_result==cleared' && executed")
+                h2.tx-status(l10n) Your order is filled.
               group.result-error(ng-show='order[type].tx_result=="error"')
-                h2.tx-status(l10n) Request has been denied!
+                h2.tx-status(l10n) Request has been denied.
                 p(l10n) We were unable to submit the request. Please try again later.
               group.result-malformed(ng-show='order[type].tx_result=="malformed"')
-                h2.tx-status(l10n) Request is malformed!
+                h2.tx-status(l10n) Request is malformed.
                 p(l10n) Your request is invalid, reason: {{order[type].engine_result}}
                   |  - {{order[type].engine_result_message}}
               group.result-malformed(ng-show='order[type].tx_result=="claim"')
-                h2.tx-status(l10n) Transaction failed!
+                h2.tx-status(l10n) Transaction failed.
                 p(ng-switch on="order[type].engine_result")
                   span(ng-switch-when="tecUNFUNDED_ORDER", l10n)
                     | You do not have enough {{(type == 'buy' ? order.second_currency : order.first_currency) | rpcurrency}} to create this order.
@@ -362,11 +364,11 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                   span(ng-switch-default, l10n)
                     | Error: {{order[type].engine_result_message}}
               group.result-failed(ng-show='order[type].tx_result=="failed"')
-                h2.tx-status(l10n) Trade failed!
+                h2.tx-status(l10n) Trade failed.
                 p(ng-switch on="order[type].engine_result")
                   span(ng-switch-default, l10n) Trade failed, reason: {{order[type].engine_result_message}}
               group.result-failed(ng-show='order[type].tx_result=="local"')
-                h2.tx-status(l10n) Transaction failed!
+                h2.tx-status(l10n) Transaction failed.
                 p(ng-switch on="order[type].engine_result")
                   span(ng-switch-when="telINSUF_FEE_P", l10n)
                     | The particular server you sent the transaction to was too busy to forward or process
