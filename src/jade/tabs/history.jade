@@ -118,7 +118,7 @@ section.col-xs-12.content(ng-controller="HistoryCtrl")
                 span(l10n, rp-span-spacing)
                   span.address(rp-pretty-identity="entry.transaction.counterparty")
                   | sent you
-                  span.amount(rp-pretty-amount="entry.transaction.amount")
+                  span.amount(rp-pretty-amount="entry.transaction.amountReceived")
                 != require("./history/effects.jade")()
               span(ng-switch-when="exchange")
                 span(l10n, rp-span-spacing) You requested to exchange

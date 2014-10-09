@@ -201,6 +201,83 @@ var JsonRewriter = module.exports = {
   },
 
   /**
+   * Takes a transaction and its metadata and returns the amount received as:
+   *
+   * If XRP, value received as String
+   *
+   * If not XRP,
+      {
+       value: value received as String,
+       currency: currency code of value received
+      }
+   *
+   * If unable to determine, returns undefined
+   *
+   * If the caller needs the issuer of received currency as well, try tx.Amount.issuer
+   */
+  getAmountReceived: function (tx, meta) {
+    var recipient = tx.Destination;
+    var difference;
+    var i;
+    var affectedNode;
+    var amtReceived;
+
+    if (tx.TransactionType === "Payment") {
+      if (tx.Flags & ripple.Transaction.flags.Payment.PartialPayment) {
+        // If this is a partial payment, check if there's a DeliveredAmount
+        // field.
+        if (meta.DeliveredAmount) {
+          amtReceived = meta.DeliveredAmount.currency
+              ? { value: meta.DeliveredAmount.value, currency: meta.DeliveredAmount.currency }
+              : meta.DeliveredAmount;
+        } else if (meta.AffectedNodes) {
+          // No DeliveredAmount (pre 2014)
+          if (tx.Amount.currency) {
+            // For non-XRP, iterate over the affected nodes and look for entry
+            // type "RippleState" with HighLimit.issuer or LowLimit.issuer
+            // equal to tx.Destination and where the currency matches.
+            for (i = 0; i < meta.AffectedNodes.length; i++) {
+              affectedNode = meta.AffectedNodes[i];
+              if (affectedNode.ModifiedNode && affectedNode.ModifiedNode.LedgerEntryType === "RippleState"
+                  && (affectedNode.ModifiedNode.FinalFields.HighLimit.issuer === recipient
+                      || affectedNode.ModifiedNode.FinalFields.LowLimit.issuer === recipient)
+                  && affectedNode.ModifiedNode.FinalFields.Balance.currency === tx.Amount.currency) {
+                // Calculate the difference.
+                difference = affectedNode.ModifiedNode.PreviousFields.Balance.value
+                    - affectedNode.ModifiedNode.FinalFields.Balance.value;
+                // If LowLimit.issuer then negate the difference.
+                if (affectedNode.ModifiedNode.FinalFields.LowLimit.issuer === recipient) {
+                  difference *= -1;
+                }
+                amtReceived = { value: String(difference), currency: affectedNode.ModifiedNode.FinalFields.Balance.currency };
+                break;
+              }
+            }
+          } else {
+            // For XRP, look for entry type "AccountRoot" with Account equal to
+            // tx.Destination.
+            for (i = 0; i < meta.AffectedNodes.length; i++) {
+              affectedNode = meta.AffectedNodes[i];
+              if (affectedNode.ModifiedNode && affectedNode.ModifiedNode.LedgerEntryType === "AccountRoot"
+                  && affectedNode.ModifiedNode.FinalFields && affectedNode.ModifiedNode.FinalFields.Account === recipient) {
+                // Calculate the difference (minus the fee).
+                difference = affectedNode.ModifiedNode.FinalFields.Balance - (affectedNode.ModifiedNode.PreviousFields.Balance - tx.Fee);
+                amtReceived = String(difference);
+                break;
+              }
+            }
+          }
+        }
+      } else {
+        // Not a partial payment
+        amtReceived = tx.Amount;
+      }
+    }
+
+    return amtReceived;
+  },
+
+  /**
    * Convert transactions into a more useful (for our purposes) format.
    *
    * The main operation this function performs is to change the view on the
@@ -286,6 +363,9 @@ var JsonRewriter = module.exports = {
 
             var amtSent = JsonRewriter.getAmountSent(tx, meta);
             if (amtSent) transaction.amountSent = amtSent;
+
+            var amtReceived = JsonRewriter.getAmountReceived(tx, meta);
+            if (amtReceived) transaction.amountReceived = amtReceived;
 
             transaction.amount = amount;
             transaction.currency = amount.currency().to_human();
