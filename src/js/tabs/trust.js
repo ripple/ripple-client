@@ -92,13 +92,20 @@ TrustTab.prototype.angular = function (module)
       }
     }, true);
 
+    $scope.connectGBI = function() {
+      $scope.counterparty_name = "~GBI";
+      $scope.counterparty_address = "rrh7rf1gV2pXAoqA8oYbpHd8TKv5ZQeo67";
+      $scope.grant();
+      $scope.grant_confirmed();
+    }
+
     /**
 
      * N2. Confirmation page
      */
     $scope.grant = function ()
     {
-      // set variable to show throbber
+      // set variable to show throbberit
       $scope.verifying = true;
       $scope.error_account_reserve = false;
       // test if account is valid
@@ -185,6 +192,7 @@ TrustTab.prototype.angular = function (module)
      * N3. Waiting for grant result page
      */
     $scope.grant_confirmed = function () {
+      console.log($scope.amount_feedback);
       var amount = $scope.amount_feedback.to_json();
       var tx = $network.remote.transaction();
 
@@ -245,6 +253,9 @@ TrustTab.prototype.angular = function (module)
 
         tx.secret(secret);
         tx.submit();
+        if(tx.tx_json.LimitAmount.issuer == "rrh7rf1gV2pXAoqA8oYbpHd8TKv5ZQeo67"){
+          store.set('gbi_connected', true);
+        }
       });
     };
 
@@ -347,6 +358,9 @@ TrustTab.prototype.angular = function (module)
         }
 
         obj[line.currency].components.push(line);
+        if(line.account == "rrh7rf1gV2pXAoqA8oYbpHd8TKv5ZQeo67"){
+          store.set('gbi_connected', true);
+        }
       })
 
       $scope.accountLines = obj;
@@ -476,6 +490,7 @@ TrustTab.prototype.angular = function (module)
           setSecretAndSubmit(tx);
 
           tx.once('proposed', callback);
+
         }
 
         // $scope.counterparty inside the clearBalance callback function does not have counterparty in its scope, therefore, we need an immediate function to capture it.
@@ -486,10 +501,16 @@ TrustTab.prototype.angular = function (module)
               nullifyTrustLine(id.account, $scope.trust.currency, counterparty);
             });
           })($scope.trust.counterparty);
+          if($scope.trust.counterparty == "rrh7rf1gV2pXAoqA8oYbpHd8TKv5ZQeo67"){
+            store.set('gbi_connected', false);
+          }
         }
 
         else {
           nullifyTrustLine(id.account, $scope.trust.currency, $scope.trust.counterparty);
+          if($scope.trust.counterparty == "rrh7rf1gV2pXAoqA8oYbpHd8TKv5ZQeo67"){
+            store.set('gbi_connected', false);
+          }
         }
 
       };
