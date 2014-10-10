@@ -337,7 +337,8 @@ module.exports = function(grunt) {
           {src: 'src/js/config.js', dest: 'build/bundle/web/config.js'},
           {src: 'scripts/livereload.js', dest: 'build/bundle/web/livereload.js'},
           {src: 'deps/downloadify.swf', dest: 'build/bundle/web/swf/downloadify.swf' },
-          {src: 'ripple.txt', dest: 'build/bundle/web/ripple.txt' }
+          {src: 'ripple.txt', dest: 'build/bundle/web/ripple.txt' },
+          {src: 'src/callback.html', dest: 'build/bundle/web/callback.html'}
         ]
       },
       nw_desktop: {
@@ -418,6 +419,10 @@ module.exports = function(grunt) {
         tasks: ['preprocess:web_debug','preprocess:desktop_debug','copy'],
         options: { livereload: true }
       },
+      callback: {
+        files: ['src/callback.html'],
+        tasks: ['copy']
+      },
       config: {
         files: ['src/js/config.js'],
         options: { livereload: true }
@@ -447,7 +452,7 @@ module.exports = function(grunt) {
       local: {
         options: {
           reporter: 'Spec',
-          browsers: ['Firefox'],
+          browsers: ['Chrome'],
           baseUrl: 'http://local.rippletrade.com/index_debug.html'
         },
         files: {

@@ -216,30 +216,30 @@ module.factory('rpAuthFlow', ['$rootScope',
     var meta = AuthFlow.getVaultClient('');
 
     meta.client.updateAttestation(options, function(err, resp) {
-      $scope.$apply(function() { 
-        callback(err, resp);         
-      });
-    });
+      $scope.$apply(function() {
+        callback(err, resp);
+      })
+    })
   }
 
   AuthFlow.getAttestation = function(options, callback) {
     var meta = AuthFlow.getVaultClient('');
 
     meta.client.getAttestation(options, function(err, resp) {
-      $scope.$apply(function() { 
-        callback(err, resp);         
-      });
-    });
+      $scope.$apply(function() {
+        callback(err, resp);
+      })
+    })
   }
 
   AuthFlow.getAttestationSummary = function(options, callback) {
     var meta = AuthFlow.getVaultClient('');
 
     meta.client.getAttestationSummary(options, function(err, resp) {
-      $scope.$apply(function() { 
-        callback(err, resp);         
-      });
-    });
+      $scope.$apply(function() {
+        callback(err, resp);
+      })
+    })
   }
   
   AuthFlow.getVaultClient = function(username) {

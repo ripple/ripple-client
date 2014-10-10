@@ -57,6 +57,7 @@ var Options = {
   activate_link: 'http://staging.ripple.com/client/#/register/activate',
 
   b2rAddress: 'rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q',
+  snapswapApi: 'https://snapswap.us/api/v1',
 
   // Number of ledgers ahead of the current ledger index where a tx is valid
   tx_last_ledger: 3,
