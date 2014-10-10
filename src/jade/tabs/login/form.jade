@@ -16,7 +16,7 @@ div(ng-show="twoFactor")
     button.btn.btn-inline.btn-primary(type="button", ng-click="requestToken()") 
       span(ng-show="twoFactor.via === 'sms'", l10n) Resend
       span(ng-show="twoFactor.via === 'app'", l10n) Send Via SMS
-    a.txtbtn.danger(ng-click="cancel2FA()", l10n) cancel
+    a.btn-cancel(ng-click="cancel2FA()", l10n) cancel
   .form-group  
     label(for='token', l10n) Verification Code
     input.form-control#login_password(name='token', ng-model='token', rp-focus)
