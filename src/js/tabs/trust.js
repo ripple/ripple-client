@@ -92,6 +92,13 @@ TrustTab.prototype.angular = function (module)
       }
     }, true);
 
+    $scope.connectGBI = function() {
+      $scope.counterparty_name = "~GBI";
+      $scope.counterparty_address = "rrh7rf1gV2pXAoqA8oYbpHd8TKv5ZQeo67";
+      $scope.grant();
+      $scope.grant_confirmed();
+    }
+
     /**
 
      * N2. Confirmation page
