@@ -88,6 +88,7 @@ var tabdefs = [
   require('../tabs/btc'),  
   require('../tabs/withdraw'),
   require('../tabs/usd'),
+  require('../tabs/gold'),
   require('../tabs/eula'),
   require('../tabs/twofa'),
 
