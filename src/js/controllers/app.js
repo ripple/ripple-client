@@ -160,6 +160,10 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
 
         $scope.lines[line.account+line.currency] = line;
         updateRippleBalance(line.currency, line.account, line.balance);
+        if(line.account == "rrh7rf1gV2pXAoqA8oYbpHd8TKv5ZQeo67"){
+          store.set('gbi_connected', true);
+        }
+        console.log(line.account == "rrh7rf1gV2pXAoqA8oYbpHd8TKv5ZQeo67");
       }
       console.log('lines updated:', $scope.lines);
 
