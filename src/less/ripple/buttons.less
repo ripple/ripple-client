@@ -3,12 +3,40 @@
 	font-size: 14px;
 	font-family: OpenSansRegular; 
 	border: none;
-	line-height: 1.3em;
+	line-height: 1em;
 	padding: 1em 0;
 	border-radius: 5px;
 	@media (max-width: @screen-xs-max) {
 		font-size: 12px;
 	}
+	&:focus {
+		outline: none;
+	}
+}
+.btn-default {
+	padding-left: 10px;
+	padding-right: 10px;
+}
+.btn-cancel {
+	padding-left: 10px;
+	padding-right: 10px;
+	background-color: transparent;
+	color: #428bca;
+	cursor: pointer;
+	text-decoration: none !important;
+	&:hover {
+		color: darken(#428bca, 15%);
+	}
+
+	&:hover, &:focus, &:active {
+		background-color: transparent;
+		outline: 0 !important;
+		box-shadow: none;
+	}
+}
+.btn-link {
+	padding-left: 10px;
+	padding-right: 10px;
 }
 .edit {
 	color: #428bca;
@@ -31,6 +59,8 @@
 
 .btn-inline {
   margin: 0 5px;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 .btn-add-trust {

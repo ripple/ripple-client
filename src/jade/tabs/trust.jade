@@ -223,10 +223,10 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                             rp-spinner='{{loading ? 4 : null}}', ng-disabled="loading")
                             span(ng-show="loading", l10n) Loading...
                             span(ng-hide="loading", l10n) Confirm
-                          button.modal-btn.btn.btn-link.btn-md(data-dismiss="modal",
+                          button.modal-btn.btn.btn-cancel.btn-md(data-dismiss="modal",
                             ng-click='toggle_form()', ng-hide="loading", l10n) cancel
                 .col-xs-4.col-sm-3.col-md-3
-                  button.btn.btn-block.btn-link(type="button", ng-click='toggle_form()', l10n) cancel
+                  button.btn.btn-block.btn-cancel(type="button", ng-click='toggle_form()', l10n) cancel
               .row.delete-trust
                 .col-xs-6.col-sm-6.col-md-8.col-lg-9(ng-show='balance !== "0" && orderbookStatus === "exists"')
                   rp-confirm(
@@ -234,7 +234,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                     action-button-text="Convert balance and remove"
                     action-button-css="btn btn-default btn-danger"
                     action-function="delete_line()"
-                    cancel-button-css="btn btn-link"
+                    cancel-button-css="btn btn-cancel"
                     cancel-button-text="cancel"
                     ng-hide="showPassword==true")
                       button.btn.btn-block.btn-danger.btn-xs.submit(type="button", ng-click="load_orderbook()", l10n) Remove
@@ -244,7 +244,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                     action-button-text="Return balance and remove"
                     action-button-css="btn btn-default btn-danger"
                     action-function="delete_line()"
-                    cancel-button-css="btn btn-link"
+                    cancel-button-css="btn btn-cancel"
                     cancel-button-text="cancel"
                     ng-hide="showPassword==true")
                       button.btn.btn-block.btn-danger.btn-xs.submit(type="button", ng-click="load_orderbook()", l10n) Remove
@@ -254,7 +254,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                     action-button-text="Remove"
                     action-button-css="btn btn-default btn-danger"
                     action-function="delete_line()"
-                    cancel-button-css="btn btn-link"
+                    cancel-button-css="btn btn-cancel"
                     cancel-button-text="cancel"
                     ng-hide="showPassword==true")
                       button.btn.btn-block.btn-danger.btn-xs.submit(type="button", ng-click="load_orderbook()", l10n) Remove
@@ -337,7 +337,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                             action-button-text="Convert balance and remove"
                             action-button-css="btn btn-default btn-danger custom-btn"
                             action-function="delete_account()"
-                            cancel-button-css="btn btn-link"
+                            cancel-button-css="btn btn-cancel"
                             cancel-button-text="cancel"
                             ng-hide="showPassword==true")
                               button.btn.btn-block.btn-danger.submit(type="button", ng-click="load_orderbook()", l10n) Remove
@@ -347,7 +347,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                             action-button-text="Return balance and remove"
                             action-button-css="btn btn-default btn-danger custom-btn"
                             action-function="delete_account()"
-                            cancel-button-css="btn btn-link"
+                            cancel-button-css="btn btn-cancel"
                             cancel-button-text="cancel"
                             ng-hide="showPassword==true")
                               button.btn.btn-block.btn-danger.submit(type="button", ng-click="load_orderbook()", l10n) Remove
@@ -357,12 +357,12 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                             action-button-text="Remove"
                             action-button-css="btn btn-default btn-danger custom-btn"
                             action-function="delete_account()"
-                            cancel-button-css="btn btn-link"
+                            cancel-button-css="btn btn-cancel"
                             cancel-button-text="cancel"
                             ng-hide="showPassword==true")
                               button.btn.btn-block.btn-danger.submit(type="button", ng-click="load_orderbook()", l10n) Remove
                         .col-md-4.col-sm-5.col-xs-12
-                          a.btn.btn-block.btn-link(href="", ng-click="cancel()"
+                          a.btn.btn-block.btn-cancel(href="", ng-click="cancel()"
                           ng-disabled="trust.loading", l10n) cancel
 
                 //- Account Freeze
@@ -387,7 +387,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                         label(l10n) Rippling&#32;
                           input(name='rippling', type='checkbox', ng-model='trust.rippling')
                     .col-sm-7.col-md-6
-                      .row
+                      .row.row-padding-small
                         .col-xs-6.col-sm-5
                           button.btn.btn-block.btn-primary(id='save', type='submit'
                             ng-disabled='accountForm.$invalid || trust.loading')
@@ -401,7 +401,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                               action-button-text="Convert balance and remove"
                               action-button-css="btn btn-default btn-danger"
                               action-function="delete_account()"
-                              cancel-button-css="btn btn-link"
+                              cancel-button-css="btn btn-cancel"
                               cancel-button-text="cancel"
                               ng-hide="showPassword==true")
                                 button.btn.btn-block.btn-danger.btn-xs.submit(type="button", ng-click="load_orderbook()", l10n) Remove
@@ -426,6 +426,6 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                               ng-hide="showPassword==true")
                                 button.btn.btn-block.btn-danger.btn-xs.submit(type="button", ng-click="load_orderbook()", l10n) Remove
                         .col-xs-3
-                          a.btn.btn-block.btn-link(href="", ng-click="cancel()"
+                          a.btn.btn-block.btn-cancel(href="", ng-click="cancel()"
                             ng-disabled="trust.loading", l10n) cancel
                       

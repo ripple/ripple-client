@@ -100,15 +100,15 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
             a.dropdown-toggle.fa.fa-cog
             ul.dropdown-menu
               li: a(href="#/account/public", l10n)
-                img(src="img/profile.png")
+                i.icon-profile
                 |  Account
               li.divider
               li: a(href="#/security", l10n)
-                img(src="img/settings.png")
+                i.icon-settings
                 |  Settings
               li.divider
               li: a.logout(ng-click='logout()', l10n)
-                img(src="img/logout.png")
+                i.icon-logout
                 |  Log Out
   .subnav(ng-show="$route.current.mainMenu == 'wallet'")
     .container
