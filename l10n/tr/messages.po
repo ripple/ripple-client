@@ -10,8 +10,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Ripple Trade\n"
-"PO-Revision-Date: 2014-10-08 20:38+0000\n"
-"Last-Translator: Jublo Solutions <support@jublo.net>\n"
+"PO-Revision-Date: 2014-10-10 14:00+0000\n"
+"Last-Translator: Geoff <misc@geoff.kelsall.name>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/ripple-trade/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -77,7 +77,7 @@ msgstr "Versiyon: {{version}}"
 
 #: src/jade/client/index.jade:55
 msgid "End-User License Agreement"
-msgstr ""
+msgstr "Son Kullanıcı Lisans Sözleşmesi"
 
 #: src/jade/client/index.jade:56
 msgid "Support"
@@ -133,7 +133,7 @@ msgstr "{{entry.transaction.counterparty | rpcontactname}} size güveniyor"
 #: src/jade/client/navbar.jade:64 src/jade/notification/account.jade:25
 #: src/jade/tabs/history.jade:132 src/jade/tabs/history/effects.jade:63
 msgid "You have now connected to the gateway {{1}}{{2: for }}{{3}}."
-msgstr ""
+msgstr "{{3}}{{2: için }}geçit {{1}} 'e şimdi bağlı olan."
 
 #: src/jade/client/navbar.jade:75
 msgid "You cancelled an order accepting {{1}} for {{2}}"
@@ -184,11 +184,11 @@ msgstr "azletme"
 
 #: src/jade/directives/transactionerror.jade:5
 msgid "Payment pending"
-msgstr ""
+msgstr "Beklemedeki ödeme "
 
 #: src/jade/directives/transactionerror.jade:7
 msgid "Payment successful"
-msgstr ""
+msgstr "Başarılı ödeme"
 
 #: src/jade/directives/transactionerror.jade:9
 #: src/jade/directives/transactionerror.jade:16
@@ -198,38 +198,38 @@ msgstr ""
 #: src/jade/directives/transactionerror.jade:39
 #: src/jade/directives/transactionerror.jade:46
 msgid "Payment failed"
-msgstr ""
+msgstr "Ödeme başarısız "
 
 #: src/jade/directives/transactionerror.jade:11
 #: src/jade/messages/sendconvert/confirmation.jade:13
 msgid "Error code: {{engine_result}} - {{engine_result_message}}"
-msgstr ""
+msgstr "Hata kodu:  {{engine_result}} - {{engine_result_message}}"
 
 #: src/jade/directives/transactionerror.jade:18
 msgid "Your payment timed out, please try again."
-msgstr ""
+msgstr "Ödemeniz zaman aşımına uğradı, lütfen tekrar deneyin."
 
 #: src/jade/directives/transactionerror.jade:22
 #: src/jade/messages/sendconvert/confirmation.jade:18
 msgid "Error code: Destination tag needed [tefDST_TAG_NEEDED]."
-msgstr ""
+msgstr "Hata kodu: Hedef etiketi gerekli  [tefDST_TAG_NEEDED]."
 
 #: src/jade/directives/transactionerror.jade:27
 #: src/jade/messages/sendconvert/confirmation.jade:39
 msgid ""
 "Error code: This transaction failed because it exceeded the maximum network "
 "fee, please try again later [telINSUF_FEE_P]."
-msgstr ""
+msgstr "Hata kodu: Maksimum ağ ücretini aşması nedeniyle bu işlem başarısız oldu, lütfen tekrar deneyiniz  [telINSUF_FEE_P]."
 
 #: src/jade/directives/transactionerror.jade:32
 msgid "Error code: No destination [tecNO_DST]."
-msgstr ""
+msgstr "Hata kodu: Hedef yok  [tecNO_DST]."
 
 #: src/jade/directives/transactionerror.jade:34
 #: src/jade/messages/sendconvert/confirmation.jade:25
 msgid ""
 "Error code: Insufficient XRP sent to destination [tecNO_DST_INSUF_XRP]."
-msgstr ""
+msgstr "Hata kodu: Hedefe gönderilir XRP yetersiz [tecNO_DST_INSUF_XRP]."
 
 #: src/jade/directives/transactionerror.jade:36
 #: src/jade/messages/sendconvert/confirmation.jade:27
@@ -239,33 +239,33 @@ msgstr "Hata: {{engine_result_message}}"
 #: src/jade/directives/transactionerror.jade:41
 #: src/jade/messages/sendconvert/confirmation.jade:32
 msgid "Error code: You have no trust line in this currency [terNO_LINE]."
-msgstr ""
+msgstr "Hata kodu: Bu para birimi için güven ilişkiniz bulunmuyor [terNO_LINE]."
 
 #: src/jade/directives/transactionerror.jade:43
 msgid "Your payment failed: {{engine_result}} - {{engine_result_message}}"
-msgstr ""
+msgstr "Ödemeniz başarısız oldu: {{engine_result}} - {{engine_result_message}}"
 
 #: src/jade/directives/transactionerror.jade:48
 msgid "Error code: Transaction could not be submitted [tejLost]."
-msgstr ""
+msgstr "Hata kodu: İşlem gönderilemedi [tejLost]."
 
 #: src/jade/directives/transactionerror.jade:50
 msgid "Error code: Network fee exceeded [tejMaxFeeExceeded]."
-msgstr ""
+msgstr "Hata kodu: Ağ ücreti aşıldı [tejMaxFeeExceeded]."
 
 #: src/jade/directives/transactionerror.jade:52
 msgid ""
 "Your payment could not be submitted: {{engine_result}} - "
 "{{engine_result_message}}"
-msgstr ""
+msgstr "Ödemeniz teslim edilemedi: {{engine_result}} - {{engine_result_message}}"
 
 #: src/jade/messages/sendconvert/confirmation.jade:4
 msgid "Transaction pending."
-msgstr ""
+msgstr "Beklemedeki transaction"
 
 #: src/jade/messages/sendconvert/confirmation.jade:6
 msgid "Transaction successful"
-msgstr ""
+msgstr "İşlem başarılı oldu"
 
 #: src/jade/messages/sendconvert/confirmation.jade:8
 #: src/jade/messages/sendconvert/confirmation.jade:11
@@ -278,7 +278,7 @@ msgstr ""
 #: src/jade/messages/sendconvert/localerror.jade:11
 #: src/jade/messages/sendconvert/localerror.jade:14
 msgid "Transaction failed"
-msgstr ""
+msgstr "İşlem başarısız oldu"
 
 #: src/jade/messages/sendconvert/confirmation.jade:9
 #: src/jade/tabs/trust.jade:58 src/jade/tabs/trust.jade:70
@@ -287,43 +287,43 @@ msgstr "Lütfen daha sonra tekrar deneyiniz."
 
 #: src/jade/messages/sendconvert/confirmation.jade:23
 msgid "Error code: The destination account does not exist [tecNO_DST]."
-msgstr ""
+msgstr "Hata kodu: Hedef hesap mevcut değil [tecNO_DST]."
 
 #: src/jade/messages/sendconvert/confirmation.jade:34
 msgid "Your transaction failed: {{engine_result_message}}"
-msgstr ""
+msgstr "Transaction hatalı: {{engine_result_message}}"
 
 #: src/jade/messages/sendconvert/localerror.jade:6
 msgid ""
 "Error code: The account you&#39;re trying to send to does not exist "
 "[noDest]."
-msgstr ""
+msgstr "Hata kodu: Gönderim yapmaya çalıştığınız hesap mevcut değil [noDest]."
 
 #: src/jade/messages/sendconvert/localerror.jade:9
 msgid ""
 "Error code: Ripple was unable to find a path between you and the destination"
 " account [noPath]."
-msgstr ""
+msgstr "Hata kodu: Ripple, senle hedef hesap arasında bir yol bulamadı [noPath]."
 
 #: src/jade/messages/sendconvert/localerror.jade:12
 msgid ""
 "Error code: This transaction failed because it exceeded the maximum network "
 "fee. [maxfeeExceeded]."
-msgstr ""
+msgstr "Hata kodu: Maksimum ağ ücretini aşması nedeniyle bu işlem başarısız oldu [maxfeeExceeded]."
 
 #: src/jade/messages/sendconvert/localerror.jade:15
 msgid ""
 "Error code: The transaction was rejected by the Ripple network "
 "[invalidTransaction]."
-msgstr ""
+msgstr "Hata kodu: işlem Ripple şebeke tarafından reddedildi [invalidTransaction]."
 
 #: src/jade/messages/sendconvert/localerror.jade:17
 msgid "Account unlock failed"
-msgstr ""
+msgstr "Hesap açmaya başarısız oldu"
 
 #: src/jade/messages/sendconvert/localerror.jade:18
 msgid "Your account could not be unlocked. Please try again later."
-msgstr ""
+msgstr "Hesabınız kilidi açılamaz. Lütfen daha sonra tekrar deneyin."
 
 #: src/jade/messages/sendconvert/localerror.jade:20
 msgid ""
@@ -339,7 +339,7 @@ msgstr "Tekrar denemeden önce, transactionın gerçekleşmemiş olduğundan emi
 
 #: src/jade/messages/sendconvert/waiting.jade:3
 msgid "Sending transaction to the Ripple network"
-msgstr ""
+msgstr "Transaction Ripple ağına gönderiliyor."
 
 #: src/jade/notification/account.jade:3
 msgid "You sent {{1}} {{2}} to {{3}}"
@@ -402,27 +402,27 @@ msgstr "Kamuya açık bilgi"
 
 #: src/jade/tabs/account/private.jade:2
 msgid "Profile Information"
-msgstr ""
+msgstr "Profil Bilgisi"
 
 #: src/jade/tabs/account/private.jade:5
 msgid "Identity Information"
-msgstr ""
+msgstr "Kimlik Bilgileri"
 
 #: src/jade/tabs/account/private.jade:8 src/jade/tabs/account/private.jade:19
 msgid "Completed"
-msgstr ""
+msgstr "Tamamlandı"
 
 #: src/jade/tabs/account/private.jade:11 src/jade/tabs/account/private.jade:22
 msgid "Incomplete"
-msgstr ""
+msgstr "Eksik"
 
 #: src/jade/tabs/account/private.jade:13 src/jade/tabs/account/private.jade:24
 msgid "Complete your profile"
-msgstr ""
+msgstr "Profilinizi tamamlayın"
 
 #: src/jade/tabs/account/private.jade:16
 msgid "Identity Questions"
-msgstr ""
+msgstr "Kimlik Sorular"
 
 #: src/jade/tabs/account/public.jade:1
 msgid "Changing your Ripple name..."
@@ -583,7 +583,7 @@ msgstr "WebSocket ana sunucu adı"
 
 #: src/jade/tabs/advanced.jade:75
 msgid "Port number"
-msgstr ""
+msgstr "Port numarası"
 
 #: src/jade/tabs/advanced.jade:81
 msgid "Socket ip or hostname is invalid."
@@ -629,7 +629,7 @@ msgstr "Toplam Bakiye {{1}}"
 
 #: src/jade/tabs/balance.jade:22
 msgid "Estimated from latest trade price"
-msgstr ""
+msgstr "Son ticaret fiyatı tahmini"
 
 #: src/jade/tabs/balance.jade:29
 msgid "(excluding negative balances)"
@@ -677,7 +677,7 @@ msgstr "Onayla"
 
 #: src/jade/tabs/balance.jade:127
 msgid "Reconnecting to Ripple network"
-msgstr ""
+msgstr "Ripple ağına yeniden bağlanıyor"
 
 #: src/jade/tabs/balance.jade:128
 msgid "Transaction Successful"
@@ -697,7 +697,7 @@ msgstr "Mesaj"
 
 #: src/jade/tabs/banner/announcement.jade:2
 msgid "Help our team improve Ripple Trade!&#32{{1:Take a quick user survey.}}"
-msgstr ""
+msgstr "Ekibimiz Ripple Trade geliştirmemize yardımcı olun!&#32{{1:Hızlı bir kullanıcı anketimize katılın.}}"
 
 #: src/jade/tabs/banner/announcement.jade:5
 msgid "×"
@@ -741,7 +741,7 @@ msgstr "Sınırı Kaldır"
 
 #: src/jade/tabs/btc.jade:36
 msgid "Waiting for response from SnapSwap service..."
-msgstr ""
+msgstr "SnapSwap hizmetinden yanıt bekleniyor ..."
 
 #: src/jade/tabs/btc.jade:38
 msgid ""
@@ -813,7 +813,7 @@ msgstr "Lütfen bir Ripple isim girin"
 msgid ""
 "You already have a contact with the same Ripple name and/or the same "
 "Destination tag."
-msgstr ""
+msgstr "Halihazırda aynı Ripple isimli ve/veya Hedef etiketli kişi kaydına sahipsiniz."
 
 #: src/jade/tabs/contacts.jade:32
 msgid "Not a valid Ripple name or address."
@@ -827,7 +827,7 @@ msgstr "Ripple adresine girin"
 msgid ""
 "You already have a contact with the same Ripple address and/or the same "
 "Destination tag."
-msgstr ""
+msgstr "Halihazırda aynı Ripple adrese ve/veya Hedef etiketli kişi kaydına sahipsiniz."
 
 #: src/jade/tabs/contacts.jade:40
 msgid "Not a valid Ripple address."
@@ -1041,7 +1041,7 @@ msgid ""
 "Cannot convert to {{exchange.amount}} {{exchange.currency_name}}. Please "
 "make sure your account has enough funds, and a {{1}} to a "
 "{{exchange.currency_name}} gateway."
-msgstr ""
+msgstr "{{exchange.amount}} {{exchange.currency_name}} değiştirlemez. Lütfen hesabınızda yeterli paranız olduğundan emin olun ve {{1}} olarak {{exchange.currency_name}} gateway."
 
 #: src/jade/tabs/exchange.jade:39
 msgid ""
@@ -1248,13 +1248,13 @@ msgstr ""
 
 #: src/jade/tabs/history.jade:162
 msgid "Unknown transaction"
-msgstr ""
+msgstr "Bilinmeyen işlem"
 
 #: src/jade/tabs/history.jade:165
 msgid ""
 "The client failed to parse this transaction. The developers have been "
 "notified of the issue."
-msgstr ""
+msgstr "Istemci bu işlem ayrıştırmak için başarısız oldu.Geliştiriciler sayısında haberdar edilmiştir."
 
 #: src/jade/tabs/history.jade:170
 msgid "{{1}} sent you{{2}} and activated your account!"
@@ -1358,114 +1358,114 @@ msgstr "Bakiyeniz değişti{{1}}."
 
 #: src/jade/tabs/kyc.jade:16
 msgid "Verifying your information. Please wait..."
-msgstr ""
+msgstr "Bilgilerinizi doğrulanıyor. Lütfen bekleyin ..."
 
 #: src/jade/tabs/kyc.jade:18
 msgid "Your identity information has been verified."
-msgstr ""
+msgstr "Kimlik bilgilerinizi doğrulandı."
 
 #: src/jade/tabs/kyc.jade:20
 msgid "Your identity questions have been verified."
-msgstr ""
+msgstr "Kimlik sorunlarınızı doğrulandı."
 
 #: src/jade/tabs/kyc.jade:22
 msgid ""
 "Congrats! Your profile is complete. You can now deposit up to $300 per day "
 "instantly."
-msgstr ""
+msgstr "Tebrikler! Profiliniz tamamlandı. Şimdi günde $300 kadar yatırabilirsiniz."
 
 #: src/jade/tabs/kyc.jade:24
 msgid "There was an error with your request. Please try again later."
-msgstr ""
+msgstr "İsteğiniz bir hata oluştu. Lütfen sonra tekrar deneyin."
 
 #: src/jade/tabs/kyc.jade:26
 msgid ""
 "There was an error with your request. Make sure your phone number is valid "
 "and try again."
-msgstr ""
+msgstr "İsteğiniz bir hata oluştu. Telefon numarasınız geçerli olduğundan emin olun ve yeniden deneyin."
 
 #: src/jade/tabs/kyc.jade:28
 msgid "Please check your verification code and try again."
-msgstr ""
+msgstr "Doğrulama kodunu kontrol edin ve tekrar deneyin."
 
 #: src/jade/tabs/kyc.jade:30
 msgid ""
 "There was an error while requesting the verification code. Please try again "
 "later."
-msgstr ""
+msgstr "Doğrulama kodunu talep ederken bir hata oluştu. Lütfen sonra tekrar deneyin."
 
 #: src/jade/tabs/kyc.jade:32
 msgid ""
 "We are unable to validate your identity information. Please check your "
 "information and try again."
-msgstr ""
+msgstr "Kimlik bilgilerini doğrulamak mümkün değildir. Bilgilerinizi kontrol edin ve tekrar deneyin."
 
 #: src/jade/tabs/kyc.jade:34
 msgid ""
 "We are unable to validate your identity questions. Please check your answers"
 " and try again."
-msgstr ""
+msgstr "Kimlik sorularınız doğrulayamıyoruz. Cevaplarınız kontrol edin ve tekrar deneyin."
 
 #: src/jade/tabs/kyc.jade:36
 msgid ""
 "We can't verify your identity. Please contact us at support@ripple.com."
-msgstr ""
+msgstr "Kimliğinizi doğrulamak olamaz. support@ripple.com bizimle irtibata geçiniz."
 
 #: src/jade/tabs/kyc.jade:41
 msgid "Profile Completion"
-msgstr ""
+msgstr "Profil Tamamlama"
 
 #: src/jade/tabs/kyc.jade:44
 msgid "STEP 1: IDENTITY INFORMATION"
-msgstr ""
+msgstr "1. ADIM: KİMLİK BİLGİLERİ"
 
 #: src/jade/tabs/kyc.jade:46
 msgid "STEP 2: IDENTITY QUESTIONS"
-msgstr ""
+msgstr "2. ADIM: KİMLİK SORULARI"
 
 #: src/jade/tabs/kyc.jade:48
 msgid "STEP 3: TWO-FACTOR AUTHENTICATION"
-msgstr ""
+msgstr "3. ADIM: İKİ FAKTÖRLÜ KİMLİK DOĞRULAMA"
 
 #: src/jade/tabs/kyc.jade:55
 msgid "First Name"
-msgstr ""
+msgstr "İlk Ad"
 
 #: src/jade/tabs/kyc.jade:59
 msgid "Last Name"
-msgstr ""
+msgstr "Soyad"
 
 #: src/jade/tabs/kyc.jade:63
 msgid "Street Address"
-msgstr ""
+msgstr "Sokak adresi"
 
 #: src/jade/tabs/kyc.jade:68
 msgid "City"
-msgstr ""
+msgstr "Şehir"
 
 #: src/jade/tabs/kyc.jade:72
 msgid "State"
-msgstr ""
+msgstr "İl"
 
 #: src/jade/tabs/kyc.jade:76
 msgid "ZIP"
-msgstr ""
+msgstr "Posta Kodu"
 
 #: src/jade/tabs/kyc.jade:80
 msgid "Date of Birth"
-msgstr ""
+msgstr "Doğum Tarihi"
 
 #: src/jade/tabs/kyc.jade:84
 msgid "Month{{1}}"
-msgstr ""
+msgstr "Ay{{1}}"
 
 #: src/jade/tabs/kyc.jade:87
 msgid "Day{{1}}"
-msgstr ""
+msgstr "Gün{{1}}"
 
 #: src/jade/tabs/kyc.jade:90
 msgid "Year{{1}}"
-msgstr ""
+msgstr "Yıl{{1}}"
 
 #: src/jade/tabs/kyc.jade:94
 msgid "Last 4 digits of Social Security Number"
@@ -1473,43 +1473,43 @@ msgstr ""
 
 #: src/jade/tabs/kyc.jade:102
 msgid "Continue to identity questions"
-msgstr ""
+msgstr "Kimlik sorunları devam"
 
 #: src/jade/tabs/kyc.jade:108
 msgid "{{ q.question }}{{1}}"
-msgstr ""
+msgstr "{{ q.sorun }}{{1}}"
 
 #: src/jade/tabs/kyc.jade:111
 msgid "{{ a.answer }}"
-msgstr ""
+msgstr "{{ a.cevap }}"
 
 #: src/jade/tabs/kyc.jade:114
 msgid "Continue to two-factor authentication"
-msgstr ""
+msgstr "İki faktör doğrulama devam"
 
 #: src/jade/tabs/kyc.jade:122
 msgid "Two-factor authentication provides extra security for your account."
-msgstr ""
+msgstr "İki faktörlü kimlik doğrulama hesabınız için ekstra güvenlik sağlar."
 
 #: src/jade/tabs/kyc.jade:129
 msgid ""
 "Ripple Trade has partnered with Authy to provide better security for your "
 "account.By continuing, you agree to Authy's {{1:Terms of Service}}."
-msgstr ""
+msgstr "Ripple Trade hesabınız daha iyi güvenlik sağlamak için Authy ile ortaklığa girmiştir. Devam ederek, Authy'nın {{1:Hizmet Şartları}} kabul ediyorsunuz."
 
 #: src/jade/tabs/kyc.jade:135
 msgid "Verify phone number"
-msgstr ""
+msgstr "Telefon numarasını doğrulamak"
 
 #: src/jade/tabs/kyc.jade:145
 msgid "change"
-msgstr ""
+msgstr "değiştir"
 
 #: src/jade/tabs/kyc.jade:149
 msgid ""
 "A verification code has been sent to +{{ currentCountryCode }} {{ "
 "phoneNumber }}."
-msgstr ""
+msgstr "Doğrulama kodu +{{ currentCountryCode }} {{ phoneNumber }} ya gönderildi."
 
 #: src/jade/tabs/kyc.jade:154 src/jade/tabs/login/form.jade:20
 #: src/jade/tabs/security.jade:88
@@ -1611,7 +1611,7 @@ msgid ""
 "To begin migration, enter the name and passphrase used to encrypt your "
 "ripple.com/client wallet below. After migration, you will no longer be able "
 "to login on ripple.com/client."
-msgstr ""
+msgstr "Göç başlar için aşağıdaki ripple.com/client cüzdanınızı adı ve şifrelemek için kullanılan anahtar parolasını belirleyin. Geçişten sonra, artık ripple.com/client giriş mümkün olacak."
 
 #: src/jade/tabs/migrate.jade:10
 msgid "Existing ripple.com/client Wallet name"
@@ -1817,7 +1817,7 @@ msgstr "Eğer gizli anahtarınızı saklamadıysanız, lütfen yazın, özel ve 
 
 #: src/jade/tabs/register.jade:154
 msgid "Continue to email verification"
-msgstr ""
+msgstr "E-posta doğrulamaya devam"
 
 #: src/jade/tabs/register.jade:167
 msgid ""
@@ -2113,7 +2113,7 @@ msgstr "{{send.recipient}} kullanıcısına {{send.amount}} {{send.currency}} g�
 msgid ""
 "You cannot send {{send.amount}} {{send.currency}} to{{send.recipient}}. Your"
 " account has insufficient funds."
-msgstr ""
+msgstr "{{send.recipient}} a {{send.amount}} {{send.currency}} gönderilemez. Hesabınızda yetersiz para var."
 
 #: src/jade/tabs/send.jade:132
 msgid "There are no valid currency choices for this destination."
@@ -2571,7 +2571,7 @@ msgstr "Güven limiti"
 
 #: src/jade/tabs/trust.jade:93
 msgid "Gateway's Ripple name or address"
-msgstr ""
+msgstr "Geçişin Ripple adısı veya adresi"
 
 #: src/jade/tabs/trust.jade:162
 msgid ""
@@ -2602,7 +2602,7 @@ msgstr "Adres onaylanıyor"
 #: src/jade/tabs/trust.jade:201
 msgid ""
 "Your account has to be {{1:activated}} before you can add a gateway account."
-msgstr ""
+msgstr "Hesbınız {{1:aktif olmak}} gerekiyor bir geçit hesabı eklemeden önce."
 
 #: src/jade/tabs/trust.jade:209
 msgid "Connect gateway"

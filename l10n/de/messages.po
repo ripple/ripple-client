@@ -3,8 +3,8 @@
 # chi.monow <chi.monow@gmail.com>, 2014
 # Ettore Atalan <atalanttore@googlemail.com>, 2014
 # FabianRuehle <fabian@ripple.com>, 2014
-# Jublo Solutions <support@jublo.net>, 2014
-# Jublo Solutions <support@jublo.net>, 2014
+# J.M. <jm@ripple.com>, 2014
+# J.M. <jm@ripple.com>, 2014
 # marion.krieger <marion@ripple.com>, 2014
 # Sukrim <markusteufelberger@gmail.com>, 2014
 # Stefan Thomas <stefan@ripple.com>, 2013-2014
@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ripple Trade\n"
 "PO-Revision-Date: 2014-10-09 17:25+0000\n"
-"Last-Translator: Jublo Solutions <support@jublo.net>\n"
+"Last-Translator: J.M. <jm@ripple.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/ripple-trade/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
