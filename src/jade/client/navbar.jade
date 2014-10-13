@@ -123,9 +123,9 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
     .container
       ul
         li(ng-class="{active: $route.current.tabName == 'trade'}")
-          a(href="#/trade", l10n) Trade
+          a(href="#/trade", l10n) Trade (limit order)
         li(ng-class="{active: $route.current.tabName == 'exchange'}")
-          a(href="#/exchange", l10n) Convert
+          a(href="#/exchange", l10n) Convert (market order)
   //- .subnav(ng-show="$route.current.mainMenu == 'fund'")
     .container
       ul
