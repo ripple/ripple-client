@@ -15,8 +15,6 @@ section.col-xs-12.content(ng-controller="ExchangeCtrl")
   //- Connected
 
   form.mode-form(name="exchangeForm", id="exchangeForm", ng-show='mode=="form" && account.Balance', ng-submit='exchange_prepared()')
-    p.literal(l10n) Convert one currency into another.
-    hr
     .form-group
       label(for='amount', l10n="Receive (amount)") Receive
       .row.row-padding-small.amount
