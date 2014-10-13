@@ -594,14 +594,20 @@ HistoryTab.prototype.angular = function (module) {
           }
 
           if (exists(transaction.amountSent)) {
-            amtSent = transaction.amountSent;
+            var amtSent = transaction.amountSent;
             linePayment['SentAmount'] = exists(amtSent.value) ? amtSent.value : formatAmount(Amount.from_json(amtSent));
             linePayment['SentCcy'] = exists(amtSent.currency) ? amtSent.currency : 'XRP';
             if (exists(transaction.sendMax)) linePayment['SentIssuer'] = rippleName(transaction.sendMax.issuer);
           }
 
-          linePayment['RecvAmount'] = formatAmount(transaction.amount);
-          linePayment['RecvCcy'] = transaction.currency;
+          if (exists(transaction.amountReceived)) {
+            var amtReceived = transaction.amountReceived;
+            linePayment['RecvAmount'] = exists(amtReceived.value) ? amtReceived.value : formatAmount(Amount.from_json(amtReceived));
+            linePayment['RecvCcy'] = exists(amtReceived.currency) ? amtReceived.currency : 'XRP';
+          } else {
+            linePayment['RecvAmount'] = formatAmount(transaction.amount);
+            linePayment['RecvCcy'] = transaction.currency;
+          }
           linePayment['RecvIssuer'] = rippleName(issuerToString(transaction.amount.issuer()));
 
           line = $.extend({}, lineTemplate, linePayment);
