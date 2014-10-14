@@ -1524,10 +1524,6 @@ msgstr "Day{{1}}"
 msgid "Year{{1}}"
 msgstr "Year{{1}}"
 
-#: src/jade/tabs/kyc.jade:94
-msgid "Last 4 digits of Social Security Number"
-msgstr "Last 4 digits of Social Security Number"
-
 #: src/jade/tabs/kyc.jade:102
 msgid "Continue to identity questions"
 msgstr "Continue to identity questions"
