@@ -157,13 +157,13 @@ section.col-xs-12.content(ng-controller="HistoryCtrl")
                   span.amount(rp-pretty-amount="entry.transaction.gets")
                 != require("./history/effects.jade")()
               span(ng-switch-when="accountset")
-                span(l10n) Account details have been Changed
+                span(l10n) Account details have been changed
                 != require("./history/effects.jade")()
               span(ng-switch-when="rippling")
                 span(l10n) Rippling
                 != require("./history/effects.jade")()
               span(ng-switch-when="failed", l10n) Failed transaction
-              span(ng-switch-when="error", l10n)
+              span(ng-switch-when="error")
                 strong(l10n) Unknown transaction
                 ul.effects(rp-if="details[entry.hash]")
                   li
