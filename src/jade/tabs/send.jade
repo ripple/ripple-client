@@ -16,8 +16,6 @@ section.col-xs-12.content(ng-controller='SendCtrl')
   form.row-padding-small.mode-form(name="sendForm", id="sendForm", role="form"
   ng-show='mode=="form" && account.Balance'
   ng-submit='send_prepared()')
-    p.literal(l10n) Send money on the Ripple network.
-    hr
     .row.form-group(ng-if="'web' === client")
       .col-xs-12.col-sm-6.col-md-4
         label(for='send_destination', l10n) Recipient
