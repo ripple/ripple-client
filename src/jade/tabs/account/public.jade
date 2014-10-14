@@ -3,11 +3,11 @@
 h4(l10n) Account settings
 .section
   .descriptor(l10n) Ripple name
-  .row
+  .row.public-account-row
     .col-xs-12.col-sm-3.username ~{{userCredentials.username}}
     .col-xs-12.col-sm-9
       a(href="", ng-click="openForm=!openForm; success=false"
-        ng-hide="openForm", l10n) edit
+        ng-hide="openForm", class="btn btn-cancel" , l10n) edit
     form#renameForm(name="renameForm", ng-show="openForm", ng-submit="rename()")
       .form-group(id="open_name_change")
         label(for='name', l10n) New Ripple name
@@ -59,7 +59,7 @@ h4(l10n) Account settings
               span(ng-hide="loading", l10n) Submit
               span(ng-show="loading", l10n) Loading...
           .col-xs-12.col-sm-6
-            a.txtbtn.btn-cancel(href="", ng-click="openForm=!openForm", l10n) cancel
+            a.btn.btn-cancel(href="", ng-click="openForm=!openForm", l10n) cancel
 .section
   .descriptor(id="address", l10n) Ripple address
   div {{address}}

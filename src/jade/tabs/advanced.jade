@@ -25,7 +25,7 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
             .col-xs-3.col-sm-3.col-md-2
               button.btn.btn-block.btn-danger.btn-xs.submit(id="deleteBlob", type="button", ng-click="deleteBlob()", l10n) Delete
             .col-xs-3.col-sm-3.col-md-1.text-center(id="cancel")
-              a(href="", ng-click="cancelEditBlob()", class="btn btn-cancel", l10n) cancel
+              a(href="", ng-click="cancelEditBlob()", class="btn btn-cancel btn-block", l10n) cancel
         form(name="bridgeForm", ng-submit="saveBridge()")
           .descriptor(l10n) Bitcoin bridge
           .row(ng-hide="editBridge")
@@ -44,7 +44,7 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
             .col-xs-3.col-sm-3.col-md-2
               button.btn.btn-block.btn-danger.btn-xs.submit(id="deleteBridge", type="button", ng-click="deleteBridge()", l10n) Delete
             .col-xs-3.col-sm-3.col-md-1.text-center(id="cancel")
-              a(href="", ng-click="cancelEditBridge()", class="btn btn-cancel", l10n) cancel
+              a(href="", ng-click="cancelEditBridge()", class="btn btn-cancel btn-block", l10n) cancel
         form.trust-line-form(name="accountsAdvForm", ng-submit="saveAcctOptions()")
           .descriptor(ng-show="'web' === client", l10n) Trust line
           .row(ng-hide="editAcctOptions")
@@ -68,27 +68,27 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
               ng-disabled='serverForm.$invalid', l10n) Save
             .col-xs-3(ng-show="hasRemove()")
               button.btn.btn-block.btn-danger.btn-xs.submit(id="delete", type="button", ng-click="remove()", ng-show="hasRemove()", l10n) Delete
-            .col-xs-3.col-sm-2.col-md-2.text-center(id="cancel")
-              a(href="", ng-click="cancelEditAcctOptions()", class="btn btn-cancel", l10n) cancel
+            .col-xs-3.col-sm-3.col-md-2.text-center(id="cancel")
+              a(href="", ng-click="cancelEditAcctOptions()", class="btn btn-cancel btn-block", l10n) cancel
         h4(id="serverSettings", l10n) Server settings
         form.server-row-form(ng-controller="ServerRowCtrl", ng-repeat="(index, server) in options.server.servers", ng-submit="save()")
           ng-form(name="serverForm")
             .row
-              .col-xs-8.col-sm-5.col-md-3
+              .col-xs-6.col-sm-5.col-md-3
                 .descriptor(l10n) WebSocket host name
               .port.col-xs-4.col-sm-7.col-md-9
                 .descriptor.portNumber(l10n) Port number
             .row.row-padding-small(ng-show="editing")
-              .col-xs-8.col-sm-5.col-md-3.hostname-wrapper
+              .col-xs-6.col-sm-5.col-md-3.hostname-wrapper
                 input.form-control.host(name='host', type='text', ng-model='server.host', rp-hostname)
                 .errorGroup
                   div(rp-errors='host')
                     .error(rp-error-on='rpHostname', l10n) Socket ip or hostname is invalid.
                   div(rp-errors='port')
                     .error(rp-error-on='rpPortNumber', l10n) Port number is invalid.
-              .col-xs-4.col-sm-2.col-md-2
+              .col-xs-3.col-sm-2.col-md-2
                 input.form-control.socketPort(name='port', type='text', ng-model='server.port', rp-port-number)
-              .col-xs-12.col-md-1.col-sm-2.editable(id="secureSocket")
+              .col-xs-3.col-md-1.col-sm-2.editable(id="secureSocket")
                 div.helperInput
                   label
                     input(type="checkbox", name="secure", ng-model='server.secure')
@@ -99,16 +99,16 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
               .col-xs-3.col-sm-3.col-md-2(ng-show="hasRemove()")
                 button.btn.btn-block.btn-danger.btn-xs.submit(id="delete", type="button", ng-click="remove()", ng-show="hasRemove()", l10n) Delete
               .col-xs-3.col-sm-3.col-md-1.text-center(id="cancel")
-                a(href="", ng-click="cancel()", ng-hide="noCancel()",class="btn btn-cancel" ,l10n) cancel
+                a(href="", ng-click="cancel()", ng-hide="noCancel()",class="btn btn-cancel btn-block" ,l10n) cancel
             .row(ng-hide="editing")
-              .col-xs-8.col-sm-5.col-md-3
+              .col-xs-6.col-sm-5.col-md-3
                 .description {{server.host}}
               .col-xs-3.col-sm-3.col-md-2.port-wrapper
                 .description {{server.port}}
-              .col-xs-8.col-sm-2.col-md-1(id="secureSocket")
+              .col-xs-3.col-sm-2.col-md-1(id="secureSocket")
                 .description(ng-show="server.secure", l10n) Secure
                 .description(ng-hide="server.secure", l10n) Not Secure
-              .editButton.col-xs-4.col-sm-2.col-md-4
+              .editButton.col-xs-3.col-sm-2.col-md-4
                 a(href="", ng-click="editing = true", class="" ,l10n) edit
 
         .row

@@ -26,7 +26,7 @@
 @lightgreen:   #b8dba5;	 // Background for success messages for all good banners. Used for the decimal and remainder on balance.
 @darkyellow:   #676027;  // Text color on Warning messages and issue information.
 @lightyellow:  #f2edbf;  // Background for Warning messages and issue information.
-@midred:	   #b01e1e;  // Text color on Error messages. Button color for red buttons. Any red text.
+@midred:	   #b01e2e;  // Text color on Error messages. Button color for red buttons. Any red text.
 @lightred:     #e9b8b9;  // Background for Error messages.
 @darkblue:     #1e3f78;  // General message text color.
 @midblue:      #346aa9;  // Primary brand color. Most buttons. All links outside of messages.
@@ -38,6 +38,7 @@
  */
 @brand-success:         #346aa9;
 
+@brand-danger: 			@midred;
 /**
  * Currency colors
  */
@@ -65,23 +66,22 @@
 @color-generic2: #999999;
 @color-other: #cccccc;
 
-@notification-border: #cccccb;
 
-@notification-info-background: #d1e0f3;
-@notification-info-text: #1c407a;
-@notification-info-border: @notification-border;
+@notification-info-background: @lightblue;
+@notification-info-text: @darkblue;
+@notification-info-border: @midgray;
 
 @notification-warning-background: #f3f0c1;
 @notification-warning-text: #686128;
-@notification-warning-border: @notification-border;
+@notification-warning-border: @midgray;
 
 @notification-error-background: #ebbaba;
 @notification-error-text: #b0202f;
-@notification-error-border: @notification-border;
+@notification-error-border: @midgray;
 
 @notification-success-background: #b8dca6;
 @notification-success-text: #176934;
-@notification-success-border: @notification-border;
+@notification-success-border: @midgray;
 
 
 @state-danger-bg: @notification-error-background;
@@ -95,3 +95,4 @@
 @state-success-bg: @notification-success-background;
 @state-success-text: @notification-success-text;
 @state-success-border: @notification-success-border;
+

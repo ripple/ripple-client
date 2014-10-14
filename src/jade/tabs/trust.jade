@@ -329,8 +329,8 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                     l10n) edit
                   span(ng-show="editing && !advanced_feature_switch")
                     span(ng-hide="trust.loading")
-                      div.row
-                        .col-md-8.col-sm-7.col-xs-12
+                      div.row.row-padding-small
+                        .col-md-7.col-sm-7.col-xs-6
                           span(ng-show='trust.balance !== "0" && orderbookStatus === "exists"')
                             rp-confirm(
                             action-text="Are you sure you want to remove this gateway? Ripple Trade will attempt to convert the remaining balance of {{ trust.balance }} {{ currency }} into XRP. This action can't be undone."
@@ -361,7 +361,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                             cancel-button-text="cancel"
                             ng-hide="showPassword==true")
                               button.btn.btn-block.btn-danger.submit(type="button", ng-click="load_orderbook()", l10n) Remove
-                        .col-md-4.col-sm-5.col-xs-12
+                        .col-md-5.col-sm-5.col-xs-6
                           a.btn.btn-block.btn-cancel(href="", ng-click="cancel()"
                           ng-disabled="trust.loading", l10n) cancel
 

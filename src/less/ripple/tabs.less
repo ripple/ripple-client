@@ -188,7 +188,8 @@
       margin-bottom: 30px;
       background: @lightyellow;
       padding: 15px;
-      border: 1px solid @darkyellow;
+      border: 1px solid @midgray;
+      color: @darkyellow;
       .rounded(5px);
 
       .secret-key {
@@ -1045,6 +1046,7 @@
   .contact {
     padding-top: 10px;
     padding-bottom: 10px;
+    line-height: 40px;
     .edit-contact-btn-wrapper {
       div {
         float: inherit;
@@ -1055,6 +1057,20 @@
       background: @lightgray;
       margin-right: 0px;
       margin-left: 0px;
+      margin-bottom: 20px;
+      input {
+        margin: 0;
+      }
+      label {
+        line-height: normal;
+      }
+    }
+    .contact-input-wrapper {
+      .inline-name-form {
+        display: inline-block;
+        width: 100%;
+        margin-bottom: 15px;
+      }
     }
 
     @media (max-width: @screen-xs-max) {
@@ -1620,6 +1636,9 @@
 }
 
 #t-security {
+  .col-xs-12 {
+    float: left;
+  }
   .edit-security-pswd{
     line-height: 45px;  
   }
@@ -1889,9 +1908,6 @@
         
           padding-left: 0px;
         
-        }
-        .editButton {
-          padding-left: 0;
         }
       }
       
@@ -2630,7 +2646,7 @@ html.t-trade header nav ul > li.active#nav-advanced > a:after {
 
   .username {
     color: @black;
-    padding-bottom: 30px;
+    line-height: 42px;
     font-family: OpenSansRegular;
   }
 
@@ -2642,7 +2658,9 @@ html.t-trade header nav ul > li.active#nav-advanced > a:after {
   .auth-form-container {
     padding-bottom: 0px;
   }
-
+  .public-account-row {
+    margin-bottom: 10px;
+  }
   #renameForm {
     width: 400px;
     padding-top: 20px;
@@ -2699,6 +2717,7 @@ html.t-trade header nav ul > li.active#nav-advanced > a:after {
   }
 
 }
+
 
 #t-usd {
   .button-group {

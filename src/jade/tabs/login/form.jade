@@ -7,19 +7,24 @@
 .form-group(ng-hide="twoFactor")
   label(for='login_password', l10n) Password
   input.form-control#login_password(name='login_password', type='password', ng-model='password', required, rp-focus)
-div(ng-show="twoFactor")
-  .form-group
+div.row.row-padding-small(ng-show="twoFactor")
+  .form-group.col-xs-12
     span.status(ng-show="twoFactor.via === 'sms'", l10n) Please enter the verification code from the SMS message sent to your device: 
     span.status(ng-show="twoFactor.via === 'app'", l10n) Please enter the verification code from the Authy app installed on your device: 
     span.maskedPhone(ng-bind="maskedPhone") 
-  .form-group.text-right  
-    button.btn.btn-inline.btn-primary(type="button", ng-click="requestToken()") 
-      span(ng-show="twoFactor.via === 'sms'", l10n) Resend
-      span(ng-show="twoFactor.via === 'app'", l10n) Send Via SMS
-    a.btn-cancel(ng-click="cancel2FA()", l10n) cancel
-  .form-group  
+  .label-wrapper.col-xs-12
     label(for='token', l10n) Verification Code
+  .form-group.col-xs-12.col-sm-5.col-md-6.col-lg-7
     input.form-control#login_password(name='token', ng-model='token', rp-focus)
-  .form-group
-    input.rememberMe(name='rememberMe', type='checkbox', ng-model='rememberMe')
-    label(for='rememberMe', l10n) Remember me on this device for 30 days
+  .form-group.col-xs-12.col-sm-7.col-md-6.col-lg-5
+    .row
+      .col-xs-6
+        button.btn.btn-block.btn-primary.btn-nomargin-xs(type="button", ng-click="requestToken()") 
+          span(ng-show="twoFactor.via === 'sms'", l10n) Resend
+          span(ng-show="twoFactor.via === 'app'", l10n) Send Via SMS
+      .col-xs-6    
+        a.btn.btn-block.btn-cancel(ng-click="cancel2FA()", l10n) cancel
+  .input-group.col-xs-12
+    label
+      input.rememberMe(name='rememberMe', type='checkbox', ng-model='rememberMe')
+      span(for='rememberMe', l10n) Remember me on this device for 30 days
