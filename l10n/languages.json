@@ -1,20 +1,20 @@
 {
   "active": [
-    {"name": "english", "nativeName": "English", "code": "en"},
-    {"name": "chinese", "nativeName": "中文", "code": "cn"},
-    {"name": "dutch", "nativeName": "Nederlands", "code": "nl"},
-    {"name": "italian", "nativeName": "Italiano", "code": "it"},
-    {"name": "polish", "nativeName": "Polski", "code": "pl"},
-    {"name": "spanish", "nativeName": "Español", "code": "es"},
-    {"name": "portuguese", "nativeName": "Português", "code": "pt"},
-    {"name": "german", "nativeName": "Deutsch", "code": "de"},
-    {"name": "norwegian", "nativeName": "Norsk", "code": "nb"},
-    {"name": "slovak", "nativeName": "Slovenská", "code": "sk"},
-    {"name": "catalan", "nativeName": "Català", "code": "ca"},
-    {"name": "hebrew", "nativeName": "עברית", "code": "he"},
-    {"name": "russian", "nativeName": "Русский", "code": "ru"},
-    {"name": "romanian", "nativeName": "Român", "code": "ro"},
-    {"name": "japanese", "nativeName": "日本の", "code": "ja"},
-    {"name": "turkish", "nativeName": "Türk", "code": "tr"}
+    {"code": "ca", "name": "catalan", "nativeName": "Català"},
+    {"code": "de", "name": "german", "nativeName": "Deutsch"},
+    {"code": "en", "name": "english", "nativeName": "English"},
+    {"code": "es", "name": "spanish", "nativeName": "Español"},
+    {"code": "he_IL", "name": "hebrew_israel", "nativeName": "עברית"},
+    {"code": "it", "name": "italian", "nativeName": "Italiano"},
+    {"code": "ja", "name": "japanese", "nativeName": "日本の"},
+    {"code": "nb_NO", "name": "norwegian_bokmal", "nativeName": "Norsk bokmål"},
+    {"code": "nl_NL", "name": "dutch_netherlands", "nativeName": "Nederlands"},
+    {"code": "pl", "name": "polish", "nativeName": "Polski"},
+    {"code": "pt", "name": "portuguese", "nativeName": "Português"},
+    {"code": "ro", "name": "romanian", "nativeName": "Român"},
+    {"code": "ru", "name": "russian", "nativeName": "Русский"},
+    {"code": "sk", "name": "slovak", "nativeName": "Slovenská"},
+    {"code": "tr", "name": "turkish", "nativeName": "Türkçe"},
+    {"code": "zh_CN", "name": "chinese_china", "nativeName": "中文"}
   ]
 }
