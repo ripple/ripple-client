@@ -119,7 +119,8 @@ section.col-xs-12.content(ng-controller='KycCtrl')
                   required)
             .row
               .col-xs-12.col-sm-6.col-md-6
-                div(l10n) Last 4 digits of Social Security Number
+                //- Don't make the following localizable, see RT-1539
+                div Last 4 digits of Social Security Number
             .row
               .col-xs-12.col-sm-6.col-md-2
                 div.ssn-hidden &#149;&#149;&#149; - &#149;&#149; -
