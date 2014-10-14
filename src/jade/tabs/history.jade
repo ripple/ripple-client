@@ -20,9 +20,9 @@ section.col-xs-12.content(ng-controller="HistoryCtrl")
       .filter.type-filter.row
         .col-xs-12.filters-wrapper
           a.filter-title(href="", ng-click="showFilterTxTypes=!showFilterTxTypes", l10n) Transaction type
-            .fa.fa-caret-right(ng-hide="showFilterTxTypes")
-            .fa.fa-caret-down(ng-show="showFilterTxTypes")
-          .filter-choices(ng-show="showFilterTxTypes")
+            .fa.fa-caret-right(ng-show="showFilterTxTypes")
+            .fa.fa-caret-down(ng-hide="showFilterTxTypes")
+          .filter-choices(ng-hide="showFilterTxTypes")
             div(ng-repeat="name in orderedTypes")
               label(ng-class="{active: types[name].checked}")
                 i.fa.fa-plus(ng-show="types[name].checked")
@@ -45,9 +45,9 @@ section.col-xs-12.content(ng-controller="HistoryCtrl")
       .filter.date-filter.row
         .col-xs-12.filters-wrapper
           a.filter-title(href="", ng-click="showFilterDate=!showFilterDate", l10n) Date
-            .fa.fa-caret-right(ng-hide="showFilterDate")
-            .fa.fa-caret-down(ng-show="showFilterDate")
-          div.row(ng-show="showFilterDate")
+            .fa.fa-caret-right(ng-show="showFilterDate")
+            .fa.fa-caret-down(ng-hide="showFilterDate")
+          div.row(ng-hide="showFilterDate")
             .col-xs-12
               .filter-description(l10n) Load history for specific date range
               .filter-form-wrapper
