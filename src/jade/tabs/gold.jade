@@ -57,19 +57,19 @@ section.col-xs-12.content(ng-controller='GoldCtrl')
 
       .row
         .col-md-6
-          .tos.descriptor(ng-show="!gbiConnected", l10n) Ripple Trade has partnered with GBI to provide easy access to XAU.
-            | By continuing, you agree to GBI's terms of service. Following this action will
-            | add XAU to your accounts.
+          .tos.descriptor(ng-show="!gbiConnected", l10n) Ripple Trade has partnered with GBI to provide easy access to
+            | XAU. By continuing, you are allowing GBI to hold gold on your behalf.
 
       .row
         .col-xs-9.col-sm-5.col-md-4
-          button.btn.btn-large(ng-show="!gbiConnected", type="submit", ng-click="save_account()") Add GBI
+          button.btn.btn-large(ng-show="!gbiConnected && !loading", type="submit", ng-click="save_account()") Add GBI
+          button.btn.btn-large(ng-show="!gbiConnected && loading", type="submit", ng-disabled="loading") Adding...
           button.btn.btn-large(ng-show="show_instructions && gbiConnected", type="submit", ng-click="show_instructions = false") Hide instructions
           button.btn.btn-large(ng-show="gbiConnected && !show_instructions", type="submit", ng-click="show_instructions = true") Show instructions
 
         .connect.col-md-2
-          .description.fa.fa-times(ng-show="!gbiConnected", l10n) Not connected
-          .description.fa.fa-check(ng-show="gbiConnected", l10n) Connected
+          .description.fa.fa-times(ng-show="!gbiConnected && !loading", l10n) Not connected
+          .description.fa.fa-check(ng-show="gbiConnected && !loading", l10n) Connected 
       .row(ng-show="show_instructions == true", ng-hide="!gbiConnected")
         .instructions.col-md-10
           a.dismiss(href="", id="hide", ng-click="show_instructions = false", l10n)  ×
