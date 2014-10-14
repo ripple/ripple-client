@@ -41,34 +41,26 @@ section.col-xs-12.content(ng-controller='GoldCtrl')
       .nameLine(l10n) Gold Deposit
       .gateway.row
         .col-md-3
-          .row
             h4(l10n) Gateway
-          .row
             .description(l10n) Gold Bullion International (GBI)&#32;
               a(href="http://www.bullioninternational.com/", target="_blank") www.bullioninternational.com
         .col-md-3
-          .row
             h4(l10n) Availability
-          .row
             .description(l10n) All countries
         .col-md-3
-          .row
             h4(l10n) Fees
-          .row
             .description(l10n) 0.5% per year&#32;
         .col-md-3
-          .row
             h4(l10n) Rating
-          .row
             .description(l10n)
               a(href="https://coinist.co/ripple/assets/xau-gbi", target="_blank") read reviews
-      br
+
       .row
         .col-md-6
-          .descriptor(ng-show="!gbiConnected", l10n) Ripple Trade has partnered with GBI to provide easy access to XAU.
+          .tos.descriptor(ng-show="!gbiConnected", l10n) Ripple Trade has partnered with GBI to provide easy access to XAU.
             | By continuing, you agree to GBI's terms of service. Following this action will
             | add XAU to your accounts.
-      br
+
       .row
         .col-xs-9.col-sm-5.col-md-4
           button.btn.btn-large(ng-show="!gbiConnected", type="submit", ng-click="save_account()") Add GBI
