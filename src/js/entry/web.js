@@ -153,8 +153,6 @@ app.config(['$routeProvider', '$injector', function ($routeProvider, $injector) 
     redirectTo: function(routeParams, path, search){
       lang = routeParams.language;
 
-      if (lang == 'en') lang = '';
-
       if (!store.disabled) {
         store.set('ripple_language',lang ? lang : '');
       }
