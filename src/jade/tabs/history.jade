@@ -17,7 +17,6 @@ section.col-xs-12.content(ng-controller="HistoryCtrl")
 
   group.row(ng-show="connected && loadState.transactions && account.Balance")
     .filters.row-padding-small.col-md-3.col-sm-5.col-xs-12
-      h3(l10n) Filters
       .filter.type-filter.row
         .col-xs-12.filters-wrapper
           a.filter-title(href="", ng-click="showFilterTxTypes=!showFilterTxTypes", l10n) Transaction type
@@ -79,7 +78,6 @@ section.col-xs-12.content(ng-controller="HistoryCtrl")
     .transactions.col-md-9.col-sm-7.col-xs-12
       .row
         .col-xs-12.col-sm-8.col-md-9
-          h3(l10n) Transaction History
         .col-xs-12.col-sm-4.col-md-3.export-btn-wrapper.text-right
           a#csv.btn.btn-primary.btn-block.btn-sm(href='', ng-click='exportCsv()', rp-download='historyCsv', rp-download-csv='true', rp-download-filename='ripple_historic.csv', l10n) Export to CSV
       .head
