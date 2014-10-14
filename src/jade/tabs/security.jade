@@ -103,7 +103,7 @@ section.col-xs-12.content(ng-controller="SecurityCtrl")
                   rp-spinner="{{isVerifying ? 4 : null}}")
                     span(l10n) Enable
                 .col-xs-4.col-sm-2
-                  a.txtbtn.btn-cancel(ng-click="cancel2FA()", l10n) cancel
+                  a.txtbtn.btn.btn-cancel(ng-click="cancel2FA()", l10n) cancel
           .section
             .descriptor(l10n) Ripple password
             .row
@@ -142,13 +142,13 @@ section.col-xs-12.content(ng-controller="SecurityCtrl")
                     .form-group
                       div(class="strength {{strength}}") {{strength}}
                   .row
-                    .col-xs-12.col-sm-6
+                    .col-xs-6.col-sm-6
                       button.btn.btn-success.btn-block(type="submit"
                       ng-disabled="changeForm.$invalid || loading")
                         span(ng-hide="loading", l10n) Submit
                         span(ng-show="loading", l10n) Loading...
-                    .col-xs-12.col-sm-6
-                      a.txtbtn.btn-cancel(href="", ng-click="openFormPassword=!openFormPassword", l10n) cancel
+                    .col-xs-6.col-sm-6
+                      a.btn.btn-block.btn-cancel(href="", ng-click="openFormPassword=!openFormPassword", l10n) cancel
           .section
             .descriptor(l10n) Secret key
             .row
@@ -181,11 +181,11 @@ section.col-xs-12.content(ng-controller="SecurityCtrl")
                   .row(ng-show="editUnlock", class="edit-security-pswd")
                     .col-xs-6.col-sm-5.col-md-4
                       .description Require password
-                    .col-xs-3.col-sm-3.col-md-2
+                    .col-xs-6.col-sm-3.col-md-2
                       div.helperInput.description
                         label
                           input(type="checkbox", name="unlock", ng-checked='requirePassword', ng-click="requirePasswordChanged = true")
-                    .col-xs-6.col-sm-4.col-md-4
+                    .col-xs-12.col-sm-4.col-md-4
                       .description
                         button.btn.btn-block.btn-success.btn-xs.submit(id='save', type='submit'
                         ng-disabled='serverForm.$invalid', l10n) Save

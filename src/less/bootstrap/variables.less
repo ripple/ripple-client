@@ -18,7 +18,8 @@
 // Brand colors
 // -------------------------
 
-@brand-primary:         #428bca;
+// @brand-primary:         #428bca;
+@brand-primary:         @midblue;
 @brand-success:         #5cb85c;
 @brand-warning:         #f0ad4e;
 @brand-danger:          #d9534f;
@@ -374,9 +375,12 @@
 @state-success-bg:               #dff0d8;
 @state-success-border:           darken(spin(@state-success-bg, -10), 5%);
 
-@state-info-text:                #3a87ad;
-@state-info-bg:                  #d9edf7;
-@state-info-border:              darken(spin(@state-info-bg, -10), 7%);
+// @state-info-text:                #3a87ad;
+@state-info-text:                @darkblue;
+// @state-info-bg:                  #d9edf7;
+@state-info-bg:                  @lightblue;
+// @state-info-border:              darken(spin(@state-info-bg, -10), 7%);
+@state-info-border:              @midgray;
 
 
 // Tooltips
@@ -446,9 +450,12 @@
 @alert-success-text:          @state-success-text;
 @alert-success-border:        @state-success-border;
 
-@alert-info-bg:               @state-info-bg;
-@alert-info-text:             @state-info-text;
-@alert-info-border:           @state-info-border;
+// @alert-info-bg:               @state-info-bg;
+// @alert-info-text:             @state-info-text;
+// @alert-info-border:           @state-info-border;
+@alert-info-bg:               @lightblue;
+@alert-info-text:             @darkblue;
+@alert-info-border:           @midgray;
 
 @alert-warning-bg:            @state-warning-bg;
 @alert-warning-text:          @state-warning-text;

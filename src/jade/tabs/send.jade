@@ -17,7 +17,7 @@ section.col-xs-12.content(ng-controller='SendCtrl')
   ng-show='mode=="form" && account.Balance'
   ng-submit='send_prepared()')
     .row.form-group(ng-if="'web' === client")
-      .col-xs-12.col-sm-6.col-md-4
+      .col-xs-12.col-sm-8.col-md-6
         label(for='send_destination', l10n) Recipient
         input.form-control#send_destination(
         name='send_destination', type='text'

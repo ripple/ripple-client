@@ -18,8 +18,8 @@
 	padding-right: 10px;
 }
 .btn-cancel {
-	padding-left: 10px;
-	padding-right: 10px;
+	// padding-left: 10px;
+	// padding-right: 10px;
 	background-color: transparent;
 	color: #428bca;
 	cursor: pointer;
@@ -33,6 +33,11 @@
 		outline: 0 !important;
 		box-shadow: none;
 	}
+	&:hover {
+		color: #333333;
+		background-color: #d9d9d9;
+		border-color: #adadad;
+	}
 }
 .btn-link {
 	padding-left: 10px;
@@ -41,7 +46,10 @@
 .edit {
 	color: #428bca;
 	&:hover {
-		background-color: transparent;
+		// color: #333333;
+		background-color: #d9d9d9;
+		border-color: #adadad;
+		text-decoration: none;
 	}
 }
 .btn-primary {
@@ -62,7 +70,11 @@
   padding-left: 10px;
   padding-right: 10px;
 }
-
+.btn-nomargin-xs {
+	@media (max-width: @screen-xs-max) {
+		margin: 0; 
+	}
+}
 .btn-add-trust {
   float: right;
 }
