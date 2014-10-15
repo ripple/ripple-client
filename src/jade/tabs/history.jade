@@ -103,7 +103,7 @@ section.col-xs-12.col-md-10.content(ng-controller="HistoryCtrl")
             span.desc(ng-switch on="entry.transaction.type")
               span(ng-switch-when="sent")
                 span(l10n) You sent
-                  strong  {{entry.transaction.amount | rpamount}} {{entry.transaction.amount | rpcurrency}}
+                  strong  {{entry.transaction.amountSent || entry.transaction.amount | rpamount}} {{entry.transaction.amount | rpcurrency}}
                   |  to&#32;
                   span.address(title="{{entry.transaction.counterparty}}") {{entry.transaction.counterparty | rpcontactname}}
                 != require("./history/effects.jade")()
@@ -111,7 +111,7 @@ section.col-xs-12.col-md-10.content(ng-controller="HistoryCtrl")
                 span(l10n)
                   span.address(title="{{entry.transaction.counterparty}}") {{entry.transaction.counterparty | rpcontactname}}
                   |  sent you
-                  strong  {{entry.transaction.amount | rpamount}} {{entry.transaction.amount | rpcurrency}}
+                  strong  {{entry.transaction.amountSent || entry.transaction.amount | rpamount}} {{entry.transaction.amount | rpcurrency}}
                 != require("./history/effects.jade")()
               span(ng-switch-when="convert")
                 span(l10n) You requested to convert
