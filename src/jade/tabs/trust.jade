@@ -223,7 +223,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                             rp-spinner='{{loading ? 4 : null}}', ng-disabled="loading")
                             span(ng-show="loading", l10n) Loading...
                             span(ng-hide="loading", l10n) Confirm
-                          button.modal-btn.btn.btn-cancel.btn-md(data-dismiss="modal",
+                          button.modal-btn.btn.btn-cancel.btn-md.btn-cancel(data-dismiss="modal",
                             ng-click='toggle_form()', ng-hide="loading", l10n) cancel
                 .col-xs-4.col-sm-3.col-md-3
                   button.btn.btn-block.btn-cancel(type="button", ng-click='toggle_form()', l10n) cancel
