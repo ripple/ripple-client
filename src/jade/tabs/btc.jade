@@ -16,8 +16,68 @@ section.col-xs-12.content(ng-controller='BtcCtrl')
     .col-sm-8.col-md-9.col-xs-12.list
       .fundBtc
         .nameLine(l10n) Bitcoin Deposit
-        .B2R(ng-show="loadState.B2RApp")
-          .active(ng-show="B2R.active")
+
+        .btc-tab-description.row
+          .col-md-3
+              h4(l10n) Gateway
+              .description(l10n) btc2ripple, powered by 
+                a(href="https://www.snapswap.us/", target="_blank") Snapswap
+          .col-md-3
+              h4(l10n) Availability
+              .description(l10n) All countries
+          .col-md-3
+              h4(l10n) Fees
+              .description(l10n) 0% 
+          .col-md-3
+              h4(l10n) Rating
+              .description(l10n) We get the ratings from 
+                  a(href="https://coinist.co/", target="_blank") Coinist
+        .row.btc-tab-description
+          .col-md-6
+            .description(ng-show="!gbiConnected", l10n) Ripple Trade has partnered with GBI to provide easy access to XAU.
+              | By continuing, you agree to GBI's terms of service. Following this action will
+              | add XAU to your accounts.
+        
+        .row.btc-tab-description
+          .col-xs-9.col-sm-5.col-md-4
+            rp-popup
+              a.btn.btn-success.btn-sm.btn-block.sign(href="", rp-popup-link,
+                ng-click="openPopup()", l10n) Add btc2ripple
+              div.connectModal(rp-popup-content)
+                .modal-header
+                  .navbar-brand.hidden-sm.modal-logo#logo
+                  .modal-title(l10n) Connect
+                .modal-body
+                  div.modal-prompt(l10n) btc2ripple would like to:
+                  div.grey-focus
+                    div.modal-permissions(l10n) - Receive your email address
+                      span.modal-email(l10n) ({{userBlob.data.email}})
+                    div.modal-permissions(l10n) - Hold deposited BTC on your behalf
+                  div.modal-agreement(l10n) By proceeding, you agree to the btc2ripple
+                    a(href="https://btc2ripple.com/#/terms/of/service", target="_blank")  terms of service.
+                  div.modal-buttons
+                    button.modal-btn.btn.btn-default.btn-success.btn-md(ng-click="B2RSignup()",
+                      rp-spinner='{{loading ? 4 : null}}', ng-disabled="loading")
+                      span(ng-show="loading", l10n) Loading...
+                      span(ng-hide="loading", l10n) Confirm
+                    button.modal-btn.btn.btn-default.btn-link.btn-cancel(data-dismiss="modal"
+                      ng-hide="loading", l10n) cancel
+                  span.modal-error(ng-show="emailError", l10n)
+                    | SnapSwap's btc2ripple service is currently unavailable.
+                    |  Please check back later.
+            button.btn.btn-block.btn-primary(ng-show="show_instructions && gbiConnected", type="submit", ng-click="show_instructions = false") Hide instructions
+            button.btn.btn-block.btn-primary(ng-show="gbiConnected && !show_instructions", type="submit", ng-click="show_instructions = true") Show instructions
+
+          .connect.col-md-2
+            .description(ng-show="!gbiConnected", l10n)
+              i.fa.fa-times
+              | Not connected
+            .description(ng-show="gbiConnected", l10n)
+              i.fa.fa-check
+              | Connected
+
+        .B2R.row(ng-show="loadState.B2RApp")
+          .active.col-xs-12(ng-show="B2R.active")
             div(ng-show="loadState.B2RInstructions")
               .instructions {{B2R.instructions.instruction}}
               .btc-address {{B2R.instructions.instructionParams[0].value}}
@@ -63,7 +123,7 @@ section.col-xs-12.content(ng-controller='BtcCtrl')
                             rp-spinner='{{loading ? 4 : null}}', ng-disabled="loading")
                             span(ng-show="loading", l10n) Loading...
                             span(ng-hide="loading", l10n) Confirm
-                          button.modal-btn.btn.btn-default.btn-link.btn-md(data-dismiss="modal"
+                          button.modal-btn.btn.btn-default.btn-link.btn-cancel(data-dismiss="modal"
                             ng-hide="loading", l10n) cancel
                         span.modal-error(ng-show="emailError", l10n)
                           | SnapSwap's btc2ripple service is currently unavailable.
