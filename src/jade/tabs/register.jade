@@ -4,7 +4,7 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
     .welcome-wrapper.col-xs-12
       h3.platform(l10n) Ripple Trade is the only platform where you can trade between stores of value spanning fiat, crypto, precious metals and more.
   .row.auth-form-container(ng-show='mode=="form"')
-    .auth-form-wrapper.col-xs-12.col-sm-8.col-md-6
+    .auth-form-wrapper.col-xs-12.col-sm-8.col-md-7
       form(name='registerForm', ng-submit='submitForm()')
         h2(ng-hide="oldUserBlob", l10n) Sign Up
         h2(ng-show="oldUserBlob", l10n) Migrate
