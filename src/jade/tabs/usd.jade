@@ -100,7 +100,7 @@ section.col-xs-12.content(ng-controller='UsdCtrl')
           .col-xs-6.col-sm-4.col-lg-3(ng-hide="error")
             a.btn.btn-block.btn-success(href="", ng-click="confirm()", l10n) Confirm
           .col-xs-6.col-sm-4.col-lg-3(ng-show="inProcess")
-            a.btn.btn-danger(ng-click="cancel()") Cancel processing
+            a.btn.btn-danger.btn-block(ng-click="cancel()") Cancel processing
 
       .step3(ng-show="mode=='step3'")
         .row
