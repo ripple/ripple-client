@@ -49,7 +49,7 @@ UsdTab.prototype.angular = function (module)
         authflow.getAttestationSummary($scope.options, function(err, resp) {
           if (err) {
             console.log('Error while getting attestation', err);
-            $scope.error = 'Something went wrong, please contact SnapSwap support.';
+            $scope.error = 'We are unable to proceed with instant deposit. Please contact support@snapswap.us.';
             return;
           }
 
@@ -141,7 +141,7 @@ UsdTab.prototype.angular = function (module)
             // Create account if it doesn't exist yet
             $scope.createAccount(function(err){
               if (err) {
-                $scope.error = 'Something went wrong, please contact SnapSwap support.';
+                $scope.error = 'We are unable to proceed with instant deposit. Please contact support@snapswap.us.';
                 $scope.calculating = false;
                 return;
               }

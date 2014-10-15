@@ -58,7 +58,7 @@ GoldTab.prototype.angular = function (module)
               $scope.$apply(function () {
                 setEngineStatus(res, true);
 
-                $scope.loading = false
+                $scope.loading = false;
                 $scope.load_notification('success');
                 $scope.editing = false;
               });

@@ -75,17 +75,9 @@ module.factory('rpPopup', ['$compile',
 
     popup.html(confirmHTML);
 
-    if (!actionFunction) {
-      popup.find(".btn-primary").click(function () {
-        popupService.close();
-      });
-    }
-
-    if (!cancelFunction) {
-      popup.find(".btn-cancel").click(function () {
-        popupService.close();
-      });
-    }
+    popup.find(".btn").click(function () {
+      popupService.close();
+    });
 
     popupService.compileAndRunPopup(popup, scope, options);
   };
