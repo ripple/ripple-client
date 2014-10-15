@@ -2,6 +2,7 @@ var util = require('util');
 var webutil = require('../util/web');
 var Tab = require('../client/tab').Tab;
 var Amount = ripple.Amount;
+var rewriter = require('../util/jsonrewriter');
 var Currency = ripple.Currency;
 
 var TradeTab = function ()
@@ -57,6 +58,7 @@ TradeTab.prototype.angular = function(module)
     };
 
     $scope.reset = function () {
+      $scope.executed = false;
       var pair = store.get('ripple_trade_currency_pair') || $scope.pairs_all[0].name;
 
       // Decide which listing to show
@@ -270,6 +272,10 @@ TradeTab.prototype.angular = function(module)
       tx.on('success', function(res) {
         setEngineStatus(res, true, type);
         order.mode = "done";
+
+        var tx = rewriter.processTxn(res, res.metadata, id.account);
+
+        (tx.effects[1].type === "trust_change_balance") ? $scope.executed = true : $scope.executed = false;
 
         if (!$scope.$$phase) {
           $scope.$apply();
@@ -760,9 +766,6 @@ TradeTab.prototype.angular = function(module)
       resetIssuers(false);
     });
 
-    $scope.$on('$appTxNotification', function() {
-      $scope.executed = true;
-    });
 
     $scope.$watch('order.type', function () {
       updateCanBuySell();
