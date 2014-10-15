@@ -13,7 +13,7 @@ section.col-xs-12.content(ng-controller='UsdCtrl')
   .row(ng-show='connected')
     .col-sm-3
       include fund/menu
-    form.col-sm-9(action="", method="post", name="usdDeposit"
+    form.col-sm-9.list(action="", method="post", name="usdDeposit"
       ng-submit="getQuote()", id="usdDepositForm")
       .nameLine(l10n) USD instant deposit
       //ol.breadcrumb
