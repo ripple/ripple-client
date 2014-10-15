@@ -39,7 +39,8 @@ section.col-xs-12.content(ng-controller='UsdCtrl')
           h2.tx-status(l10n) Your transaction has failed. Your bank account was not charged. Please contact support@snapswap.us.
 
       .noKyc(ng-show="mode=='noKyc'") Verify your identity to deposit USD.
-        a(href="#/kyc")  Verify identity.
+        | &#32;
+        a(href="#/kyc") Verify identity.
 
       .step1(ng-show="mode=='step1'")
         .row
