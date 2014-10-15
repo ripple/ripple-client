@@ -32,13 +32,13 @@ section.col-xs-12.content(ng-controller='UsdCtrl')
       br
       .results(ng-show="mode == 'step1'")
         .result-success(ng-show="$routeParams.result == 'success'")
-          h2.tx-status(l10n) Deposit successful. You account balance will update shortly.
+          h2.tx-status(l10n) Deposit successful. Your account balance will update shortly.
         div(ng-show="$routeParams.result == 'cancel'")
           h2.tx-status(l10n) You cancelled your deposit.
         .result-error(ng-show="$routeParams.result == 'failure'")
           h2.tx-status(l10n) Your transaction has failed. Your bank account was not charged. Please contact support@snapswap.us.
 
-      .noKyc(ng-show="mode=='noKyc'") Verify your identity to deposit USD.
+      .noKyc(ng-show="mode=='noKyc'") Verify your identity to deposit USD (US-only).
         | &#32;
         a(href="#/kyc") Verify identity.
 
@@ -72,7 +72,7 @@ section.col-xs-12.content(ng-controller='UsdCtrl')
         .row
           .col-sm-6
             .description(class="ssText") Ripple Trade has partnered with SnapSwap to make deposits
-              |  easier. By continuing, you agree to SnapSwap's&#32
+              |  easier. By continuing, you agree to SnapSwap's&#32;
               a(href="https://snapswap.us/#/legal", onclick="window.open('https://snapswap.us/#/legal', 'newWindow', 'width= 550, height=500, top=120, left=200'); return false;") Terms of Service.
         .row
           .col-sm-3
