@@ -148,7 +148,7 @@ section.col-xs-12.content(ng-controller='KycCtrl')
               button.btn.btn-block.btn-primary.submit(type='submit', l10n) Continue to two-factor authentication
             .col-xs-5
               a.button.btn.btn-link(href='#/xrp', l10n) cancel
-        group(ng-switch-when="three", ng-controller="TwoFACtrl")
+        group()
           .row.twoFAInfo
             .icon-wrapper
               i.fa.fa-lock.fa-3x
@@ -171,13 +171,13 @@ section.col-xs-12.content(ng-controller='KycCtrl')
               .col-xs-12.col-sm-2.col-md-1.text-center
                 a.button.btn.btn-link(href='#/xrp', ng-hide="editNum", l10n) cancel
                 a.button.btn.btn-link(ng-click="edit_toggle()", ng-show="editNum", l10n) cancel
-          .section(ng-hide="twoFAVerify")
+          .section()
             .row
               .col-xs-12.col-sm-4
                 .form-group.authy-control
                   div(l10n) Phone Number
-                  div +{{ currentCountryCode }} {{ phoneNumber }}
-                    span.a.button.btn.btn-link(ng-click="edit_toggle()", l10n) change
+                  div.phone-number-wrapper +{{ currentCountryCode }} {{ phoneNumber }}
+                    span.btn-link(ng-click="edit_toggle()", l10n) change
             .row
               .col-xs-12.col-sm-8
                 .form-group.authy-control
