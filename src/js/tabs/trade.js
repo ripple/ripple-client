@@ -58,7 +58,7 @@ TradeTab.prototype.angular = function(module)
     };
 
     $scope.reset = function () {
-      $scope.executed = false;
+      $scope.executedOnOfferCreate = 'none';
       var pair = store.get('ripple_trade_currency_pair') || $scope.pairs_all[0].name;
 
       // Decide which listing to show
@@ -275,7 +275,21 @@ TradeTab.prototype.angular = function(module)
 
         var tx = rewriter.processTxn(res, res.metadata, id.account);
 
-        (tx.effects[1].type === "trust_change_balance") ? $scope.executed = true : $scope.executed = false;
+        for (var i = 0; i < tx.effects.length; i++) {
+          var messageType = tx.effects[i].type;
+
+          switch (messageType) {
+            case 'trust_change_balance':
+              $scope.executedOnOfferCreate = 'all';
+              break;
+            case 'offer_partially_funded':
+              $scope.executedOnOfferCreate = 'partial';
+              break;
+            default:
+              $scope.executedOnOfferCreate = 'none';
+              break;
+          }
+        }
 
         if (!$scope.$$phase) {
           $scope.$apply();
