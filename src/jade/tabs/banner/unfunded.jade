@@ -1,8 +1,9 @@
 div.auth-attention.banner
-  h4(l10n) Welcome to Ripple Trade! To activate your account, you'll need at least 20 XRP.
+  h4(l10n) Welcome to Ripple Trade! Your account needs to be activated. You can activate it in 3 ways:
   ul
-    li(l10n) Have another user send XRP to your Ripple name (~{{userCredentials.username}}).
+    li(l10n) Have another user send XRP to your Ripple name (~{{userCredentials.username}}).&#32
+      a(href="https://support.ripplelabs.com/hc/en-us/articles/202964876-Activating-Your-Wallet", target="_blank") Suggestions for getting XRP.
     li(l10n)
-      | Use the&#32
-      a(href="#/btc") bitcoin funding flow
-      | . A small amount of your first deposit will be used to activate your account.
+      a(href="#/btc") Deposit BTC
+    li(l10n)
+      a(href="#/usd") Deposit USD (US users only)
