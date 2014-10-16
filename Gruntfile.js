@@ -156,7 +156,9 @@ module.exports = function(grunt) {
         failOnError: true
       },
       startdevserver: {
-        command: 'node ./scripts/web-server.js'
+        command: 
+          process.platform === 'darwin' ? 'sudo node ./scripts/web-server.js'
+                                        : 'node ./scripts/web-server.js'
       },
       removeFiles: {
         command: [
