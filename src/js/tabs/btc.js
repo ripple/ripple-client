@@ -26,6 +26,10 @@ BtcTab.prototype.angular = function (module)
  
     $scope.accountLines = {};
     $scope.showComponent = [];
+    $scope.show_instructions = true;
+
+    $scope.gbiConnected = store.get('gbi_connected');
+    
 
     if (!$id.loginStatus) return $id.goId();
 

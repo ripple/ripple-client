@@ -2469,8 +2469,36 @@ html.t-trade header nav ul > li.active#nav-advanced > a:after {
 }
 
 #t-fund, #t-xrp, #t-btc, #t-gold {
+    .B2R-wrap {
+      font-size: 12px;
+      .dismiss {
+        float: right;
+        font-size: 14px;
+      }
+    }
+   .instructions {
+      display: block;
+      padding: 10px;
+      border-radius: 2px;
+      margin: 0 0 3px;
+      background: @lightgray;
+      margin-left: 15px;
+      margin-top: 15px;
+      border: 1px solid @midgray;
+      h4 {
+        font-family: 'Open Sans', sans-serif;
+        font-size: 12px;
+        font-weight: 600;
+        color: #1e1e1e;
+        text-transform: uppercase;
+      }
+  }
   .btc-tab-description {
     margin-bottom: 20px;
+    &.gateway {
+      padding-left: 15px;
+      padding-right: 15px;
+    }
     h4 {
       font-family: 'Open Sans', sans-serif;
       font-size: 12px;
@@ -2826,16 +2854,7 @@ html.t-trade header nav ul > li.active#nav-advanced > a:after {
     }
   }
 
-  .instructions {
-    display: block;
-    padding: 10px;
-    border-radius: 2px;
-    margin: 0 0 3px;
-    background: @lightgray;
-    margin-left: 15px;
-    margin-top: 15px;
-    border: 1px solid @midgray;
-  }
+ 
 
   .dismiss {
     float: right;
