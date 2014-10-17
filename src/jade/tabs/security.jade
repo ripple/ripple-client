@@ -185,7 +185,7 @@ section.col-xs-12.content(ng-controller="SecurityCtrl")
                       div.helperInput.description
                         label
                           input(type="checkbox", name="unlock", ng-checked='requirePassword', ng-click="requirePasswordChanged = true")
-                    .col-xs-12.col-sm-4.col-md-4
+                    .col-xs-12.col-sm-4.col-md-4.save-btn-wrapper
                       .description
                         button.btn.btn-block.btn-success.btn-xs.submit(id='save', type='submit'
                         ng-disabled='serverForm.$invalid', l10n) Save
