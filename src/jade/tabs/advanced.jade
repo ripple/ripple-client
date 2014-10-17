@@ -9,12 +9,12 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
         h4(l10n) Settings
         form(name="blobForm", ng-submit="saveBlob()")
           .descriptor(ng-show="'web' === client", l10n) Blob vault
-          .row(ng-hide="editBlob")
+          .row.advanced-form-row(ng-hide="editBlob")
             .col-xs-9.col-sm-8.col-md-5
               .description {{options.blobvault}}
             .col-xs-1
             .col-xs-3.col-sm-3.col-md-2
-              a.edit-btn(href="", ng-click="editBlob = true", l10n) edit
+              a.btn.btn-block.btn-cancel(href="", ng-click="editBlob = true", l10n) edit
           .row.row-padding-small.field-edit-row(ng-show="editBlob")
             .col-xs-12.col-sm-9.col-md-6
               input.form-control.blobIp(
@@ -28,12 +28,12 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
               a(href="", ng-click="cancelEditBlob()", class="btn btn-cancel btn-block", l10n) cancel
         form(name="bridgeForm", ng-submit="saveBridge()")
           .descriptor(l10n) Bitcoin bridge
-          .row(ng-hide="editBridge")
+          .row.advanced-form-row(ng-hide="editBridge")
             .col-xs-9.col-sm-8.col-md-5
               .description {{options.bridge.out.bitcoin}}
             .col-xs-1
             .col-xs-3.col-sm-3.col-md-2
-              a.edit-btn(href="", ng-click="editBridge = true", l10n) edit
+              a.btn.btn-block.btn-cancel(href="", ng-click="editBridge = true", l10n) edit
           .row.row-padding-small.field-edit-row(ng-show="editBridge")
             .col-xs-12.col-sm-9.col-md-6
               input.form-control.btcDomain(
@@ -47,14 +47,14 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
               a(href="", ng-click="cancelEditBridge()", class="btn btn-cancel btn-block", l10n) cancel
         form.trust-line-form(name="accountsAdvForm", ng-submit="saveAcctOptions()")
           .descriptor(ng-show="'web' === client", l10n) Trust line
-          .row(ng-hide="editAcctOptions")
+          .row.advanced-form-row(ng-hide="editAcctOptions")
             .col-xs-6.col-sm-5.col-md-3
               .description Advanced settings
             .col-xs-3.col-sm-4.col-md-3
               .description(ng-show="advanced_feature_switch", l10n) Show
               .description(ng-hide="advanced_feature_switch", l10n) Hide
             .col-xs-3.col-sm-3.col-md-2
-              a(href="", ng-click="editAcctOptions = true", class="edit-btn",l10n) edit
+              a(href="", ng-click="editAcctOptions = true", class="btn btn-block btn-cancel",l10n) edit
           .row.row-padding-small.edit-trust-line(ng-show="editAcctOptions")
             .col-xs-6.col-sm-5.col-md-3
               .description Advanced settings
@@ -100,7 +100,7 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
                 button.btn.btn-block.btn-danger.btn-xs.submit(id="delete", type="button", ng-click="remove()", ng-show="hasRemove()", l10n) Delete
               .col-xs-3.col-sm-3.col-md-1.text-center(id="cancel")
                 a(href="", ng-click="cancel()", ng-hide="noCancel()",class="btn btn-cancel btn-block" ,l10n) cancel
-            .row(ng-hide="editing")
+            .row.advanced-form-row(ng-hide="editing")
               .col-xs-6.col-sm-5.col-md-3
                 .description {{server.host}}
               .col-xs-3.col-sm-3.col-md-2.port-wrapper
@@ -108,8 +108,8 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
               .col-xs-3.col-sm-2.col-md-1(id="secureSocket")
                 .description(ng-show="server.secure", l10n) Secure
                 .description(ng-hide="server.secure", l10n) Not Secure
-              .editButton.col-xs-3.col-sm-2.col-md-4
-                a(href="", ng-click="editing = true", class="" ,l10n) edit
+              .col-xs-3.col-sm-2.col-md-4
+                a(href="", ng-click="editing = true", class="btn btn-cancel btn-block" ,l10n) edit
 
         .row
           .col-xs-12.col-sm-6.col-md-3

@@ -1784,7 +1784,6 @@
 }
 
 #t-advanced {
-
   .settingPage a {
     display: block;
     padding: 10px;
@@ -1883,6 +1882,7 @@
 
   #servers {
     padding-top: 0px;
+    
     .trust-line-form {
       .edit-trust-line {
         line-height: 34px;
@@ -1893,6 +1893,13 @@
     }
     .field-edit-row {
       padding-bottom: 20px;
+    }
+    .advanced-form-row {
+      line-height: 32px;
+      margin-bottom: 15px;
+      @media (max-width: @screen-xs-max) {
+        line-height: 26px;
+      }
     }
     .server-row-form {
       border-top: 1px solid #ccccca;
@@ -1913,10 +1920,7 @@
       
     }
     .helperInput {
-      // margin-bottom: 10px;
       line-height: 44px;
-      // vertical-align: top;
-      // margin-top: 5px;
     }
     .edit-btn {
       line-height: 28px;
@@ -1949,6 +1953,7 @@
   .editButton {
     padding-top: 4px;
   }
+
 }
 
 #t-trade {
