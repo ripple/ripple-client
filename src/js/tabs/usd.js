@@ -24,8 +24,8 @@ UsdTab.prototype.extraRoutes = [
 
 UsdTab.prototype.angular = function (module)
 {
-  module.controller('UsdCtrl', ['$scope', 'rpId', '$routeParams', '$http', 'rpAuthFlow', 'rpNetwork', 'rpTxQueue', '$location',
-    function ($scope, $id, $routeParams, $http, authflow, network, txQueue, $location)
+  module.controller('UsdCtrl', ['$scope', 'rpId', '$routeParams', '$http', 'rpAuthFlow', 'rpNetwork', 'rpTxQueue', '$location', 'rpTracker',
+    function ($scope, $id, $routeParams, $http, authflow, network, txQueue, $location, $rpTracker)
     {
       if (!$id.loginStatus) return $id.goId();
 
@@ -127,6 +127,12 @@ UsdTab.prototype.angular = function (module)
           $scope.total = data.total.toFixed(2);
 
           $scope.calculating = false;
+
+          $rpTracker.track('Fund USD: Get Quote', {
+            'Amount': $scope.usdAmount,
+            'Bank': $scope.bank,
+            'Status': 'success'
+          });
         })
         .error(function(err){
           console.log('Error while getting the quote', err);
@@ -154,6 +160,13 @@ UsdTab.prototype.angular = function (module)
 
           $scope.error = err.detail;
           $scope.calculating = false;
+
+          $rpTracker.track('Fund USD: Get Quote', {
+            'Amount': $scope.usdAmount,
+            'Bank': $scope.bank,
+            'Status': 'error',
+            'Message': err.detail
+          });
         });
       };
 
@@ -217,6 +230,11 @@ UsdTab.prototype.angular = function (module)
           $('#knoxFrame').attr('src',$scope.iframeUrl);
 
           $scope.mode = 'step3';
+
+          $rpTracker.track('Fund USD: Confirmed', {
+            'Amount': $scope.usdAmount,
+            'Bank': $scope.bank
+          });
         });
       };
 
@@ -229,6 +247,15 @@ UsdTab.prototype.angular = function (module)
           url: Options.snapswapApi + '/ripple/' + $id.account + '/processing/instantKnox'
         }).success(function(data, status, headers, config){
           $scope.mode = 'step1';
+        });
+
+        $rpTracker.track('Fund USD: Cancelled a pending deposit');
+      };
+
+      // Track the result
+      if ($routeParams.result) {
+        $rpTracker.track('Fund USD: Completed', {
+          'Result': $routeParams.result
         });
       }
     }])
