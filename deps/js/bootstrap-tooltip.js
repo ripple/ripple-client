@@ -1,9 +1,9 @@
 /* ===========================================================
- * bootstrap-tooltip.js v2.2.2
- * http://twitter.github.com/bootstrap/javascript.html#tooltips
+ * bootstrap-tooltip.js v2.3.2
+ * http://getbootstrap.com/2.3.2/javascript.html#tooltips
  * Inspired by the original jQuery.tipsy by Jason Frame
  * ===========================================================
- * Copyright 2012 Twitter, Inc.
+ * Copyright 2013 Twitter, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,8 +24,8 @@
   "use strict"; // jshint ;_;
 
 
-  /* TOOLTIP PUBLIC CLASS DEFINITION
-   * =============================== */
+ /* TOOLTIP PUBLIC CLASS DEFINITION
+  * =============================== */
 
   var Tooltip = function (element, options) {
     this.init('tooltip', element, options)
@@ -35,44 +35,60 @@
 
     constructor: Tooltip
 
-    , init: function (type, element, options) {
+  , init: function (type, element, options) {
       var eventIn
-          , eventOut
+        , eventOut
+        , triggers
+        , trigger
+        , i
 
       this.type = type
       this.$element = $(element)
       this.options = this.getOptions(options)
       this.enabled = true
 
-      if (this.options.trigger == 'click') {
-        this.$element.on('click.' + this.type, this.options.selector, $.proxy(this.toggle, this))
-      } else if (this.options.trigger != 'manual') {
-        eventIn = this.options.trigger == 'hover' ? 'mouseenter' : 'focus'
-        eventOut = this.options.trigger == 'hover' ? 'mouseleave' : 'blur'
-        this.$element.on(eventIn + '.' + this.type, this.options.selector, $.proxy(this.enter, this))
-        this.$element.on(eventOut + '.' + this.type, this.options.selector, $.proxy(this.leave, this))
+      triggers = this.options.trigger.split(' ')
+
+      for (i = triggers.length; i--;) {
+        trigger = triggers[i]
+        if (trigger == 'click') {
+          this.$element.on('click.' + this.type, this.options.selector, $.proxy(this.toggle, this))
+        } else if (trigger != 'manual') {
+          eventIn = trigger == 'hover' ? 'mouseenter' : 'focus'
+          eventOut = trigger == 'hover' ? 'mouseleave' : 'blur'
+          this.$element.on(eventIn + '.' + this.type, this.options.selector, $.proxy(this.enter, this))
+          this.$element.on(eventOut + '.' + this.type, this.options.selector, $.proxy(this.leave, this))
+        }
       }
 
       this.options.selector ?
-          (this._options = $.extend({}, this.options, { trigger: 'manual', selector: '' })) :
-          this.fixTitle()
+        (this._options = $.extend({}, this.options, { trigger: 'manual', selector: '' })) :
+        this.fixTitle()
     }
 
-    , getOptions: function (options) {
-      options = $.extend({}, $.fn[this.type].defaults, options, this.$element.data())
+  , getOptions: function (options) {
+      options = $.extend({}, $.fn[this.type].defaults, this.$element.data(), options)
 
       if (options.delay && typeof options.delay == 'number') {
         options.delay = {
           show: options.delay
-          , hide: options.delay
+        , hide: options.delay
         }
       }
 
       return options
     }
 
-    , enter: function (e) {
-      var self = $(e.currentTarget)[this.type](this._options).data(this.type)
+  , enter: function (e) {
+      var defaults = $.fn[this.type].defaults
+        , options = {}
+        , self
+
+      this._options && $.each(this._options, function (key, value) {
+        if (defaults[key] != value) options[key] = value
+      }, this)
+
+      self = $(e.currentTarget)[this.type](options).data(this.type)
 
       if (!self.options.delay || !self.options.delay.show) return self.show()
 
@@ -83,7 +99,7 @@
       }, self.options.delay.show)
     }
 
-    , leave: function (e) {
+  , leave: function (e) {
       var self = $(e.currentTarget)[this.type](this._options).data(this.type)
 
       if (this.timeout) clearTimeout(this.timeout)
@@ -95,16 +111,18 @@
       }, self.options.delay.hide)
     }
 
-    , show: function () {
+  , show: function () {
       var $tip
-          , inside
-          , pos
-          , actualWidth
-          , actualHeight
-          , placement
-          , tp
+        , pos
+        , actualWidth
+        , actualHeight
+        , placement
+        , tp
+        , e = $.Event('show')
 
       if (this.hasContent() && this.enabled) {
+        this.$element.trigger(e)
+        if (e.isDefaultPrevented()) return
         $tip = this.tip()
         this.setContent()
 
@@ -113,22 +131,21 @@
         }
 
         placement = typeof this.options.placement == 'function' ?
-            this.options.placement.call(this, $tip[0], this.$element[0]) :
-            this.options.placement
-
-        inside = /in/.test(placement)
+          this.options.placement.call(this, $tip[0], this.$element[0]) :
+          this.options.placement
 
         $tip
-            .detach()
-            .css({ top: 0, left: 0, display: 'block' })
-            .insertAfter(this.$element)
+          .detach()
+          .css({ top: 0, left: 0, display: 'block' })
 
-        pos = this.getPosition(inside)
+        this.options.container ? $tip.appendTo(this.options.container) : $tip.insertAfter(this.$element)
+
+        pos = this.getPosition()
 
         actualWidth = $tip[0].offsetWidth
         actualHeight = $tip[0].offsetHeight
 
-        switch (inside ? placement.split(' ')[1] : placement) {
+        switch (placement) {
           case 'bottom':
             tp = {top: pos.top + pos.height, left: pos.left + pos.width / 2 - actualWidth / 2}
             break
@@ -143,24 +160,73 @@
             break
         }
 
-        $tip
-            .offset(tp)
-            .addClass(placement)
-            .addClass('in')
+        this.applyPlacement(tp, placement)
+        this.$element.trigger('shown')
       }
     }
 
-    , setContent: function () {
+  , applyPlacement: function(offset, placement){
       var $tip = this.tip()
-          , title = this.getTitle()
+        , width = $tip[0].offsetWidth
+        , height = $tip[0].offsetHeight
+        , actualWidth
+        , actualHeight
+        , delta
+        , replace
+
+      $tip
+        .offset(offset)
+        .addClass(placement)
+        .addClass('in')
+
+      actualWidth = $tip[0].offsetWidth
+      actualHeight = $tip[0].offsetHeight
+
+      if (placement == 'top' && actualHeight != height) {
+        offset.top = offset.top + height - actualHeight
+        replace = true
+      }
+
+      if (placement == 'bottom' || placement == 'top') {
+        delta = 0
+
+        if (offset.left < 0){
+          delta = offset.left * -2
+          offset.left = 0
+          $tip.offset(offset)
+          actualWidth = $tip[0].offsetWidth
+          actualHeight = $tip[0].offsetHeight
+        }
+
+        this.replaceArrow(delta - width + actualWidth, actualWidth, 'left')
+      } else {
+        this.replaceArrow(actualHeight - height, actualHeight, 'top')
+      }
+
+      if (replace) $tip.offset(offset)
+    }
+
+  , replaceArrow: function(delta, dimension, position){
+      this
+        .arrow()
+        .css(position, delta ? (50 * (1 - delta / dimension) + "%") : '')
+    }
+
+  , setContent: function () {
+      var $tip = this.tip()
+        , title = this.getTitle()
 
       $tip.find('.tooltip-inner')[this.options.html ? 'html' : 'text'](title)
       $tip.removeClass('fade in top bottom left right')
     }
 
-    , hide: function () {
+  , hide: function () {
       var that = this
-          , $tip = this.tip()
+        , $tip = this.tip()
+        , e = $.Event('hide')
+
+      this.$element.trigger(e)
+      if (e.isDefaultPrevented()) return
 
       $tip.removeClass('in')
 
@@ -176,46 +242,53 @@
       }
 
       $.support.transition && this.$tip.hasClass('fade') ?
-          removeWithAnimation() :
-          $tip.detach()
+        removeWithAnimation() :
+        $tip.detach()
+
+      this.$element.trigger('hidden')
 
       return this
     }
 
-    , fixTitle: function () {
+  , fixTitle: function () {
       var $e = this.$element
       if ($e.attr('title') || typeof($e.attr('data-original-title')) != 'string') {
-        $e.attr('data-original-title', $e.attr('title') || '').removeAttr('title')
+        $e.attr('data-original-title', $e.attr('title') || '').attr('title', '')
       }
     }
 
-    , hasContent: function () {
+  , hasContent: function () {
       return this.getTitle()
     }
 
-    , getPosition: function (inside) {
-      return $.extend({}, (inside ? {top: 0, left: 0} : this.$element.offset()), {
-        width: this.$element[0].offsetWidth
-        , height: this.$element[0].offsetHeight
-      })
+  , getPosition: function () {
+      var el = this.$element[0]
+      return $.extend({}, (typeof el.getBoundingClientRect == 'function') ? el.getBoundingClientRect() : {
+        width: el.offsetWidth
+      , height: el.offsetHeight
+      }, this.$element.offset())
     }
 
-    , getTitle: function () {
+  , getTitle: function () {
       var title
-          , $e = this.$element
-          , o = this.options
+        , $e = this.$element
+        , o = this.options
 
       title = $e.attr('data-original-title')
-          || (typeof o.title == 'function' ? o.title.call($e[0]) :  o.title)
+        || (typeof o.title == 'function' ? o.title.call($e[0]) :  o.title)
 
       return title
     }
 
-    , tip: function () {
+  , tip: function () {
       return this.$tip = this.$tip || $(this.options.template)
     }
 
-    , validate: function () {
+  , arrow: function(){
+      return this.$arrow = this.$arrow || this.tip().find(".tooltip-arrow")
+    }
+
+  , validate: function () {
       if (!this.$element[0].parentNode) {
         this.hide()
         this.$element = null
@@ -223,40 +296,40 @@
       }
     }
 
-    , enable: function () {
+  , enable: function () {
       this.enabled = true
     }
 
-    , disable: function () {
+  , disable: function () {
       this.enabled = false
     }
 
-    , toggleEnabled: function () {
+  , toggleEnabled: function () {
       this.enabled = !this.enabled
     }
 
-    , toggle: function (e) {
-      var self = $(e.currentTarget)[this.type](this._options).data(this.type)
-      self[self.tip().hasClass('in') ? 'hide' : 'show']()
+  , toggle: function (e) {
+      var self = e ? $(e.currentTarget)[this.type](this._options).data(this.type) : this
+      self.tip().hasClass('in') ? self.hide() : self.show()
     }
 
-    , destroy: function () {
+  , destroy: function () {
       this.hide().$element.off('.' + this.type).removeData(this.type)
     }
 
   }
 
 
-  /* TOOLTIP PLUGIN DEFINITION
-   * ========================= */
+ /* TOOLTIP PLUGIN DEFINITION
+  * ========================= */
 
   var old = $.fn.tooltip
 
   $.fn.tooltip = function ( option ) {
     return this.each(function () {
       var $this = $(this)
-          , data = $this.data('tooltip')
-          , options = typeof option == 'object' && option
+        , data = $this.data('tooltip')
+        , options = typeof option == 'object' && option
       if (!data) $this.data('tooltip', (data = new Tooltip(this, options)))
       if (typeof option == 'string') data[option]()
     })
@@ -266,18 +339,19 @@
 
   $.fn.tooltip.defaults = {
     animation: true
-    , placement: 'top'
-    , selector: false
-    , template: '<div class="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>'
-    , trigger: 'hover'
-    , title: ''
-    , delay: 0
-    , html: false
+  , placement: 'top'
+  , selector: false
+  , template: '<div class="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>'
+  , trigger: 'hover focus'
+  , title: ''
+  , delay: 0
+  , html: false
+  , container: false
   }
 
 
-  /* TOOLTIP NO CONFLICT
-   * =================== */
+ /* TOOLTIP NO CONFLICT
+  * =================== */
 
   $.fn.tooltip.noConflict = function () {
     $.fn.tooltip = old
