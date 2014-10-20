@@ -93,7 +93,7 @@ section.col-xs-12.content(ng-controller="SecurityCtrl")
                 .col-xs-9.col-md-5.col-sm-9
                   input.form-control#verifyToken(name="verifyToken", ng-model="verifyToken")
                 .col-xs-3.col-md-3.col-sm-3
-                  button.btn.btn-default.btn-block(type="button", ng-disabled="isRequesting",
+                  button.btn.btn-block.btn-cancel(type="button", ng-disabled="isRequesting",
                   rp-spinner="{{isRequesting ? 4 : null}}", ng-click="requestToken()")
                     span(ng-hide="via === 'app'", l10n) Resend Code
                     span(ng-show="via === 'app'", l10n) Send Via SMS
@@ -103,7 +103,7 @@ section.col-xs-12.content(ng-controller="SecurityCtrl")
                   rp-spinner="{{isVerifying ? 4 : null}}")
                     span(l10n) Enable
                 .col-xs-4.col-sm-2
-                  a.txtbtn.btn.btn-cancel(ng-click="cancel2FA()", l10n) cancel
+                  a.btn.btn-block.btn-cancel(ng-click="cancel2FA()", l10n) cancel
           .section
             .descriptor(l10n) Ripple password
             .row
