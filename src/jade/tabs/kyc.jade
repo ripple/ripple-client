@@ -10,6 +10,11 @@ section.col-xs-12.content(ng-controller='KycCtrl')
   div(ng-show="'web' === client && !loadingAccount && !account.Balance && loadState.account && connected")
     include banner/unfunded
 
+  div.auth-attention.banner(ng-hide="hideUsOnlyBanner")
+    h4#announcement(l10n) Profile completion is only available to US residents.
+    a.dismiss(href="", id="hide", ng-click="hideUsOnlyBanner=!hideUsOnlyBanner")  ×
+    br
+
   group.mode-granted.wide(ng-show='notif !== "clear"')
     group(ng-switch on="notif")          
       group.pending(ng-switch-when="verifying")
