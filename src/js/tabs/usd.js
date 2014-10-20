@@ -205,9 +205,9 @@ UsdTab.prototype.angular = function (module)
           data: {
             amount: Number($scope.usdAmount),
             // TODO have working urls
-            success: location.protocol + '//' + Options.domain + '/usd/success',
-            cancel: location.protocol + '//' + Options.domain + '/usd/cancel',
-            failure: location.protocol + '//' + Options.domain + '/usd/failure'
+            success: location.origin + location.pathname + '#/usd/success',
+            cancel: location.origin + location.pathname + '#/usd/cancel',
+            failure: location.origin + location.pathname + '#/usd/failure'
           },
           url: Options.snapswapApi + '/ripple/' + $id.account + '/balance/USD/deposit/instantKnox'
         }).success(function(data){
@@ -226,7 +226,7 @@ UsdTab.prototype.angular = function (module)
       $scope.cancel = function() {
         $http({
           method: 'DELETE',
-          url: snapswapApiUrl + '/ripple/' + $id.account + '/processing/instantKnox'
+          url: Options.snapswapApi + '/ripple/' + $id.account + '/processing/instantKnox'
         }).success(function(data, status, headers, config){
           $scope.mode = 'step1';
         });
