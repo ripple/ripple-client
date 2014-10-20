@@ -49,6 +49,15 @@ SendTab.prototype.angular = function (module)
     $scope.$watch('send.recipient', function(){
       // raw address without any parameters
       var address = webutil.stripRippleAddress($scope.send.recipient);
+      var dt = webutil.getDestTagFromAddress($scope.send.recipient);
+
+      $scope.send.recipient = address;
+
+      //fill in destination tag if provided
+      if (dt) {
+        $scope.send.show_dt_field = true;
+        $scope.send.dt = dt;
+      }
 
       $scope.contact = webutil.getContact($scope.userBlob.data.contacts, address);
 
@@ -61,8 +70,11 @@ SendTab.prototype.angular = function (module)
         $scope.send.recipient_name = $scope.contact.name;
         $scope.send.recipient_address = $scope.contact.address;
 
-        if ($scope.contact.dt) {
+        //prevent contact from overwriting dt if one was provided
+        //can be overwriten if dt field is hidden (even if contact has an empty dt)
+        if (!$scope.send.dt || $scope.send.show_dt_field === false) {
           $scope.send.dt = $scope.contact.dt;
+          $scope.send.show_dt_field = true;
         }
       }
       else {
