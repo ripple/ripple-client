@@ -176,8 +176,8 @@ section.col-xs-12.content(ng-controller='KycCtrl')
               .col-xs-12.col-sm-4
                 .form-group.authy-control
                   div(l10n) Phone Number
-                  div +{{ currentCountryCode }} {{ phoneNumber }}
-                    span.a.button.btn.btn-link(ng-click="edit_toggle()", l10n) change
+                  div.phone-number-wrapper +{{ currentCountryCode }} {{ phoneNumber }}
+                    span.btn-link(ng-click="edit_toggle()", l10n) change
             .row
               .col-xs-12.col-sm-8
                 .form-group.authy-control
