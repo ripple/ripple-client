@@ -15,8 +15,12 @@ module.service('rpTxQueue', ['$rootScope', 'rpNetwork', 'rpKeychain', 'rpId',
      * This method will set the secret, sequence number and sign it.
      *
      * @param tx object
+     * @param callback function
      */
-    addTransaction: function(tx) {
+    addTransaction: function(tx, callback) {
+      // Callback is optional
+      if ("function" !== typeof callback) callback = $.noop;
+
       // Get user's secret key
       keychain.requestSecret(id.account, id.username, function (err, secret) {
         if (err) {
@@ -24,6 +28,8 @@ module.service('rpTxQueue', ['$rootScope', 'rpNetwork', 'rpKeychain', 'rpId',
             "unlocking wallet: ", err);
           $scope.mode = "error";
           $scope.error_type = "unlockFailed";
+
+          callback(err);
           return;
         }
 
@@ -58,6 +64,8 @@ module.service('rpTxQueue', ['$rootScope', 'rpNetwork', 'rpKeychain', 'rpId',
 
           $scope.userBlob.unshift("/txQueue", item);
         }
+
+        callback();
       });
     },
 
