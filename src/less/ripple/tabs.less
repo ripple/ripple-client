@@ -2672,7 +2672,12 @@ html.t-trade header nav ul > li.active#nav-advanced > a:after {
     color: @black;
     line-height: 42px;
     font-family: OpenSansRegular;
+    @media (max-width: @screen-xs-max) {
+      line-height: 36px;
+    }
   }
+
+  
 
   #nameChangeForm {
     margin: 10px 0 0 0;
