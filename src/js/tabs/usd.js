@@ -144,13 +144,19 @@ UsdTab.prototype.angular = function (module)
 
           // In process
           $scope.inProcess = false;
+          $scope.error = err.detail;
 
           if (err.type === 'http://snapswap.vc/api/v1/errors/override-not-allowed') {
             $scope.inProcess = true;
           }
+          else if (err.type === 'http://snapswap.vc/api/v1/errors/locked-account') {
+            $scope.error = 'We are sorry, but SnapSwap has locked your account. Please contact support@snapswap.us.';
+          }
           else if (err.title === 'Not Found') {
             // Create account if it doesn't exist yet
             $scope.createAccount(function(err){
+              $scope.error = '';
+              
               if (err) {
                 $scope.error = 'We are unable to proceed with instant deposit. Please contact support@snapswap.us.';
                 $scope.calculating = false;
@@ -162,8 +168,6 @@ UsdTab.prototype.angular = function (module)
 
             return;
           }
-
-          $scope.error = err.detail;
           $scope.calculating = false;
 
           $rpTracker.track('Fund USD: Get Quote', {
