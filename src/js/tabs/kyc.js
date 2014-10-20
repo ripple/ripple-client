@@ -243,8 +243,13 @@ KycTab.prototype.angular = function(module)
         authflow.updateAttestation(options, function(err, res) {
           if (err) {
             console.log("Error in retrieving questions: ", err);
-            $scope.blockscoreError = true;
-            return;
+            if (err.message === "attestation error: Max attempts exceeded. Try again in 24 hours.") {
+              $scope.load_notification('max_attempts_questions_error');
+              return;
+            } else {
+              $scope.blockscoreError = true;
+              return;
+            }
           } else {
             console.log('response is: ', res);
             $scope.questions = res.questions;
@@ -273,9 +278,15 @@ KycTab.prototype.angular = function(module)
         authflow.updateAttestation($scope.options, function(err, res) {
           if (err) {
             console.log("Error in saveQuestions: ", err);
-            $scope.load_notification('questions_error');
-            if ($scope.identityForm) $scope.identityForm.$setPristine(true);
-            return;
+            if (err.message === "attestation error: Max attempts exceeded. Try again in 24 hours.") {
+              $scope.load_notification('max_attempts_questions_error');
+              return;
+            } else {
+              $scope.load_notification('questions_error');
+              if ($scope.identityForm) $scope.identityForm.$setPristine(true);
+              return;
+            }
+
           }
 
           if (res.status === "unverified") {
