@@ -69,7 +69,12 @@ UsdTab.prototype.angular = function (module)
       }
 
       // If not, then wait until it's there
-      $scope.$on('$blobUpdate', checkAttestation);
+      $scope.$on('$blobUpdate', function(){
+        if ($scope.mode == 'step2' || $scope.mode == 'step3')
+          return;
+
+        checkAttestation();
+      });
 
       //$scope.mode = 'step1';
       $scope.step1 = function() {
@@ -173,13 +178,15 @@ UsdTab.prototype.angular = function (module)
       /**
        * Transaction confirmed, show the deposit widget
        */
-      $scope.prepareTrust = function() {
+      $scope.prepareTrust = function(callback) {
         // Is there an existing trust line?
         if(existingTrustLine = $scope.lines[issuer + currency]) {
           // Is the trust limit enough?
-          if(existingTrustLine.limit.to_number() >= trustAmount)
+          if(existingTrustLine.limit.to_number() >= trustAmount) {
           // We're good with the existing trust line
+            callback();
             return;
+          }
         }
 
         // Is there an existing trustTx in queue?
@@ -197,7 +204,10 @@ UsdTab.prototype.angular = function (module)
         );
 
         // We already have the necessary trustTx waiting in line.
-        if (noNeed) return;
+        if (noNeed) {
+          callback();
+          return;
+        }
 
         // Ok, looks like we need to set a trust line
         var tx = network.remote.transaction();
@@ -205,35 +215,43 @@ UsdTab.prototype.angular = function (module)
         tx.setFlags('NoRipple');
 
         // txQueue please set the trust line asap.
-        txQueue.addTransaction(tx);
+        txQueue.addTransaction(tx, callback);
       };
 
       $scope.confirm = function() {
         // Prepare the trustline
-        $scope.prepareTrust();
+        $scope.prepareTrust(function(err){
+          if (err) {
+            if (err !== 'canceled') {
+              $scope.error = err;
+            }
 
-        // Get the knox link
-        $http({
-          method: 'POST',
-          data: {
-            amount: Number($scope.usdAmount),
-            // TODO have working urls
-            success: location.origin + location.pathname + '#/usd/success',
-            cancel: location.origin + location.pathname + '#/usd/cancel',
-            failure: location.origin + location.pathname + '#/usd/failure'
-          },
-          url: Options.snapswapApi + '/ripple/' + $id.account + '/balance/USD/deposit/instantKnox'
-        }).success(function(data){
-          // Add the selected bank swift code
-          $scope.iframeUrl = data.redirectUrl + '&swift_code=' + $scope.bank;
+            return;
+          }
 
-          $('#knoxFrame').attr('src',$scope.iframeUrl);
+          // Get the knox link
+          $http({
+            method: 'POST',
+            data: {
+              amount: Number($scope.usdAmount),
+              // TODO have working urls
+              success: location.origin + location.pathname + '#/usd/success',
+              cancel: location.origin + location.pathname + '#/usd/cancel',
+              failure: location.origin + location.pathname + '#/usd/failure'
+            },
+            url: Options.snapswapApi + '/ripple/' + $id.account + '/balance/USD/deposit/instantKnox'
+          }).success(function(data){
+            // Add the selected bank swift code
+            $scope.iframeUrl = data.redirectUrl + '&swift_code=' + $scope.bank;
 
-          $scope.mode = 'step3';
+            $('#knoxFrame').attr('src',$scope.iframeUrl);
 
-          $rpTracker.track('Fund USD: Confirmed', {
-            'Amount': $scope.usdAmount,
-            'Bank': $scope.bank
+            $scope.mode = 'step3';
+
+            $rpTracker.track('Fund USD: Confirmed', {
+              'Amount': $scope.usdAmount,
+              'Bank': $scope.bank
+            });
           });
         });
       };
