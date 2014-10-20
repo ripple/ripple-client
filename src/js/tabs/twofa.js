@@ -181,7 +181,7 @@ TwoFATab.prototype.angular = function(module)
 
                   $timeout(function() {
                     location.href = "#/usd";
-                  }, 5000);
+                  }, 2000);
                 }
               });
             });
