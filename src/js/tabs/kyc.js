@@ -24,6 +24,8 @@ KycTab.prototype.angular = function(module)
       if (!$id.loginStatus) return $id.goId();
       if (!$scope.blockscoreError) $scope.blockscoreError = false;
       if (!$scope.profile) $scope.profile = {};
+      if (!$scope.profileStatus) $scope.profileStatus = 'loading';
+      if (!$scope.identityStatus) $scope.identityStatus = 'loading';
 
       $scope.load_notification('loading');
       
@@ -71,14 +73,14 @@ KycTab.prototype.angular = function(module)
 
             if (resp.decoded.payload.profile_verified === true && resp.decoded.payload.identity_verified === true) {
               $scope.currentStep = 'three';
-              $scope.profileCompleted = true;
-              $scope.identityCompleted = true;
+              $scope.profileStatus = 'complete';
+              $scope.identityStatus = 'complete';
             }
 
             else if (resp.decoded.payload.profile_verified === true && resp.decoded.payload.identity_verified === false) {
 
-              $scope.profileCompleted = true;
-              $scope.identityCompleted = false;
+              $scope.profileStatus = 'complete';
+              $scope.identityStatus = 'incomplete';
 
               $scope.options.type = 'identity';
               $scope.getQuestions($scope.options, function() {
@@ -88,8 +90,8 @@ KycTab.prototype.angular = function(module)
 
             else if (resp.decoded.payload.profile_verified === false && resp.decoded.payload.identity_verified === false) {
               $scope.currentStep = 'one';
-              $scope.profileCompleted = false;
-              $scope.identityCompleted = false;
+              $scope.profileStatus = 'incomplete';
+              $scope.identityStatus = 'incomplete';
             }
 
             else {
