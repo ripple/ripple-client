@@ -96,7 +96,7 @@ section.col-xs-12.content(ng-controller='UsdCtrl')
             br
         .row(ng-show="!calculating")
           .col-xs-6.col-sm-3.col-lg-2
-            a.btn.btn-block.btn-default(href="", ng-click="step1()", l10n) Back
+            a.btn.btn-block.btn-cancel(href="", ng-click="step1()", l10n) Back
           .col-xs-6.col-sm-4.col-lg-3(ng-hide="error")
             a.btn.btn-block.btn-success(href="", ng-click="confirm()", l10n) Confirm
           .col-xs-6.col-sm-4.col-lg-3(ng-show="inProcess")
