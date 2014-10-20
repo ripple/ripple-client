@@ -1193,7 +1193,10 @@
     .head {
       display: inline-block;
       width: 100%;
+      padding-bottom: 10px;
       border-bottom: 1px solid @midgray;
+      margin-bottom: 30px;
+      margin-left: 0;
 
       div{
         float: left;
@@ -1202,12 +1205,14 @@
       }
 
       .dt {
-        margin: 0 0 0 38px;
+        margin: 0 0 0 23px;
         width: 170px;
       }
     }
     .export-btn-wrapper {
+      padding-right: 0 !important;
       @media (max-width: @screen-xs-max) {
+        padding-left: 0;
         margin-bottom: 20px;
       }
     }

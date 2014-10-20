@@ -2,7 +2,7 @@ section.col-xs-12.content(ng-controller="ContactsCtrl")
   div(ng-show="'web' === client && !loadingAccount && !account.Balance && loadState.account && connected")
     include banner/unfunded
   .row.row-padding-small.head.hidden-xs
-    .col-xs-3.col-sm-3.col-md-3(l10n) Contacts
+    .col-xs-3.col-sm-3.col-md-3(l10n) Contact
     .col-xs-6.col-sm-5.col-md-7(ng-show="'web' === client", l10n) Ripple name or address
     .col-xs-6(ng-show="'desktop' === client", l10n) Ripple address
     .col-xs-12.col-sm-4.col-md-2.text-right
