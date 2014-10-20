@@ -9,6 +9,7 @@ section.col-xs-12.content(ng-controller="AccountCtrl")
       div(ng-show="'web' === client")
         .showPublic(ng-show="$routeParams.route == 'public'")
           include account/public
-        .showPublic(ng-show="$routeParams.route == 'private'")
+        .showPublic(ng-show="$routeParams.route == 'private'", ng-controller="KycCtrl")
           include account/private
+
 
