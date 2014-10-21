@@ -16,7 +16,7 @@ section.col-xs-12.content(ng-controller='KycCtrl')
     br
 
   group.mode-granted.wide(ng-show='notif !== "clear"')
-    group(ng-switch on="notif")          
+    group(ng-switch on="notif")
       group.pending(ng-switch-when="verifying")
         h2.tx-status(l10n) Verifying your information. Please wait...
       group.result-success(ng-switch-when="info_verified")
