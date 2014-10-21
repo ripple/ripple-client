@@ -217,7 +217,7 @@ section.col-xs-12.content(ng-controller='SendCtrl')
                 .ex (
                   span.rate {{alt.rate | rpamount:{rel_precision: 4, rel_min_precision: 2 } }}
                   span.pair {{send.currency_code}}/{{alt.amount | rpcurrency}}
-                )
+                  | )
               button.btn.btn-block.btn-success(type="submit"
               ng-disabled='sendForm.$invalid', ng-click="send.alt = alt", l10n)
                 | Send {{ alt.amount | rpcurrency }}
