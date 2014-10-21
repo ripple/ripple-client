@@ -2451,7 +2451,7 @@ html.t-trade header nav ul > li.active#nav-advanced > a:after {
   }
 }
 
-#t-fund, #t-xrp, #t-btc, #t-usd, #t-gold, #t-trust {
+#t-fund, #t-xrp, #t-btc, #t-usd, #t-gold, #t-trust, #t-brl {
 
   .currencies a {
     display: block;
@@ -2468,7 +2468,7 @@ html.t-trade header nav ul > li.active#nav-advanced > a:after {
   }
 }
 
-#t-fund, #t-xrp, #t-btc, #t-gold {
+#t-fund, #t-xrp, #t-btc, #t-gold, #t-brl {
   .btc-tab-description {
     margin-bottom: 20px;
     h4 {
@@ -2785,7 +2785,7 @@ html.t-trade header nav ul > li.active#nav-advanced > a:after {
   }
 }
 
-#t-gold {
+#t-gold, #t-brl {
   h4 {
     font-family: 'Open Sans', sans-serif;
     font-size: 12px;
@@ -2851,7 +2851,32 @@ html.t-trade header nav ul > li.active#nav-advanced > a:after {
     padding-left: 5px;
   }
 }
-
+#t-brl {
+  p {
+    margin: 0;
+  }
+  .btc-tab-description {
+    .connect {
+      line-height: normal;
+    }
+  }
+  .action-btn-wrapper {
+    button {
+      margin-bottom: 10px;
+    }
+  }
+  .connect {
+     margin-top: 16px; 
+  }
+}
+#t-btc {
+  button {
+    &:hover, &.active {
+      background: @midgreen;
+      border-color: @midgreen;
+    }
+  }
+}
 .modal2FA {
 
   .email {
