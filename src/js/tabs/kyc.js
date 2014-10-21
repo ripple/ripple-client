@@ -1,4 +1,5 @@
-var util = require('util');
+var util = require('util'),
+    webutil = require('../util/web');
 var Tab = require('../client/tab').Tab;
 
 var KycTab = function ()
@@ -144,6 +145,7 @@ KycTab.prototype.angular = function(module)
          'VI', 'VT', 'WA', 'WI', 'WV', 'WY'];
 
       $scope.saveIdentityInfo = function () {
+        webutil.scrollToTop();
         $scope.load_notification('verifying');
 
         // Parse month correctly
@@ -267,6 +269,8 @@ KycTab.prototype.angular = function(module)
 
 
       $scope.saveQuestions = function() {
+        webutil.scrollToTop();
+
         $scope.load_notification('verifying');
 
         $scope.options.answers = [];
