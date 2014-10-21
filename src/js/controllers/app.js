@@ -717,6 +717,12 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
     location.reload();
   };
 
+  $scope.$on('$idRemoteLogout', handleRemoteLogout);
+  function handleRemoteLogout()
+  {
+    location.reload();
+  }
+
   // Generate an array of source currencies for path finding.
   // This will generate currencies for every issuers.
   // It will also generate a self-issue currency for currencies which have multi issuers.
@@ -773,6 +779,7 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
   this.reset                  =  reset;
   this.handleAccountLoad      =  handleAccountLoad;
   this.handleAccountUnload    =  handleAccountUnload;
+  this.handleRemoteLogout     =  handleRemoteLogout;
   this.handleRippleLines      =  handleRippleLines;
   this.handleRippleLinesError =  handleRippleLinesError;
   this.handleOffers           =  handleOffers;
