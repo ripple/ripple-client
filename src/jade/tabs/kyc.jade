@@ -138,7 +138,10 @@ section.col-xs-12.content(ng-controller='KycCtrl')
                 required)
             .row
               .col-xs-5
-                button.btn.btn-block.btn-primary.submit(type='submit', ng-disabled='identityForm.$invalid', l10n) Continue to identity questions
+                button.btn.btn-block.btn-primary.submit(type='submit', rp-spinner='{{identityLoading ? 4 : null}}',
+                  ng-disabled='identityForm.$invalid || identityLoading', l10n)
+                    span(ng-hide="identityLoading", l10n) Continue to identity questions
+                    span(ng-show="identityLoading", l10n) Verifying...
               .col-xs-5
                 a.button.btn.btn-link(href='#/xrp', l10n) cancel
         form.row-padding-small(name="questionsForm", ng-switch-when="two", ng-submit="saveQuestions()")
@@ -152,7 +155,10 @@ section.col-xs-12.content(ng-controller='KycCtrl')
                   label.answer(for="q{{ q.id }}a{{ a.id }}", l10n)  {{ a.answer }}
           .row
             .col-xs-5
-              button.btn.btn-block.btn-primary.submit(type='submit', l10n) Continue to two-factor authentication
+              button.btn.btn-block.btn-primary.submit(type='submit', rp-spinner='{{questionsLoading ? 4 : null}}',
+                ng-disabled='identityForm.$invalid || questionsLoading', l10n)
+                  span(ng-hide="questionsLoading", l10n) Continue to two-factor authentication
+                  span(ng-show="questionsLoading", l10n) Verifying...
             .col-xs-5
               a.button.btn.btn-link(href='#/xrp', l10n) cancel
         group(ng-switch-when="three", ng-controller="TwoFACtrl")
@@ -174,7 +180,10 @@ section.col-xs-12.content(ng-controller='KycCtrl')
                   | .
             .row.kyc-align
               .col-xs-12.col-sm-6.col-md-3
-                button.modal-btn.btn.btn-default.btn-primary.btn-md.btn-block(type="submit", ng-disabled="savingPhone || twoFA.$invalid", l10n) Verify phone number
+                button.modal-btn.btn.btn-default.btn-primary.btn-md.btn-block(type='submit', rp-spinner='{{phoneLoading ? 4 : null}}',
+                  ng-disabled='identityForm.$invalid || phoneLoading', l10n)
+                    span(ng-hide="phoneLoading", l10n) Verify phone number
+                    span(ng-show="phoneLoading", l10n) Verifying...
               .col-xs-12.col-sm-2.col-md-1.text-center
                 a.button.btn.btn-link(href='#/xrp', ng-hide="editNum", l10n) cancel
                 a.button.btn.btn-link(ng-click="edit_toggle()", ng-show="editNum", l10n) cancel
@@ -201,6 +210,10 @@ section.col-xs-12.content(ng-controller='KycCtrl')
                   button.btn.btn-default.btn-md.btn-block(ng-click="requestToken()") Resend Code                  
             .row.kyc-align
               .col-xs-12.col-sm-6.col-md-3
-                button.modal-btn.btn.btn-default.btn-primary.btn-md.btn-block(ng-click="enable2FA()", ng-disabled="isVeryifying") Submit code
+                button.modal-btn.btn.btn-default.btn-primary.btn-md.btn-block(ng-click="enable2FA()",
+                  rp-spinner='{{phoneLoading ? 4 : null}}',
+                  ng-disabled="isVeryifying || phoneLoading")
+                    span(ng-hide="phoneLoading", l10n) Submit code
+                    span(ng-show="phoneLoading", l10n) Verifying...
               .col-xs-12.col-sm-2.col-md-1.text-center
                 a.button.btn.btn-link(href='#/xrp', l10n) cancel

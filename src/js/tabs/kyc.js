@@ -27,6 +27,8 @@ KycTab.prototype.angular = function(module)
       if (!$scope.profile) $scope.profile = {};
       if (!$scope.profileStatus) $scope.profileStatus = 'loading';
       if (!$scope.identityStatus) $scope.identityStatus = 'loading';
+      if (!$scope.identityLoading) $scope.identityLoading = false;
+      if (!$scope.questionsLoading) $scope.questionsLoading = false;
 
       $scope.load_notification('loading');
       
@@ -145,6 +147,7 @@ KycTab.prototype.angular = function(module)
          'VI', 'VT', 'WA', 'WI', 'WV', 'WY'];
 
       $scope.saveIdentityInfo = function () {
+        $scope.identityLoading = true;
         webutil.scrollToTop();
 
         $scope.load_notification('verifying');
@@ -223,6 +226,7 @@ KycTab.prototype.angular = function(module)
             console.log("Error in saveIdentityInfo: ", err);
             $scope.load_notification('info_error');
             if ($scope.identityForm) $scope.identityForm.$setPristine(true);
+            $scope.identityLoading = false;
             return;
           }
 
@@ -237,7 +241,9 @@ KycTab.prototype.angular = function(module)
             $scope.getQuestions($scope.options, function() {
               $scope.currentStep = 'two';
             });
-          } 
+          }
+
+          $scope.identityLoading = false; 
         });
       }
 
@@ -270,6 +276,7 @@ KycTab.prototype.angular = function(module)
 
 
       $scope.saveQuestions = function() {
+        $scope.questionsLoading = true;
         webutil.scrollToTop();
 
         $scope.load_notification('verifying');
@@ -287,10 +294,12 @@ KycTab.prototype.angular = function(module)
             console.log("Error in saveQuestions: ", err);
             if (err.message === "attestation error: Max attempts exceeded. Try again in 24 hours.") {
               $scope.load_notification('max_attempts_questions_error');
+              $scope.questionsLoading = false;
               return;
             } else {
               $scope.load_notification('questions_error');
               if ($scope.identityForm) $scope.identityForm.$setPristine(true);
+              $scope.questionsLoading = false;
               return;
             }
 
@@ -303,6 +312,8 @@ KycTab.prototype.angular = function(module)
             $scope.load_notification('questions_verified');
             $scope.currentStep = 'three';
           }
+
+          $scope.questionsLoading = false;
         });
       }
 
