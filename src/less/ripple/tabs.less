@@ -38,7 +38,17 @@
       float: left;
     }
   }
- 
+  .form-group {
+    &.authy-control {
+      .phone-number-wrapper {
+        padding-top: 15px;
+        .btn-link {
+          display: inline-block;
+        }
+      }
+    }
+  }
+  
 
   .kyc-error {
     color: @midred;
@@ -2381,7 +2391,7 @@ header nav.navbar .open > .dropdown-menu {
         width: 20px;
         height: 20px;
         margin-right: 10px;
-        background-image: url(../../img/icons-dropdown.png);
+        background-image: url(../img/icons-dropdown.png);
         background-repeat: no-repeat;
         display: inline-block;
         vertical-align: top;
@@ -2767,7 +2777,7 @@ html.t-trade header nav ul > li.active#nav-advanced > a:after {
 }
 
 #t-gold {
-  h4 {
+  .title {
     font-family: 'Open Sans', sans-serif;
     font-size: 12px;
     color: #1e1e1e;
@@ -2794,8 +2804,8 @@ html.t-trade header nav ul > li.active#nav-advanced > a:after {
     width: 100%;
 
     &:hover, &.active {
-      background: @midgreen;
-      border-color: @midgreen;
+      background: darken(@midblue, 15%);
+      border-color: darken(@midblue, 15%);
     }
   }
 

@@ -24,6 +24,8 @@ KycTab.prototype.angular = function(module)
       if (!$id.loginStatus) return $id.goId();
       if (!$scope.blockscoreError) $scope.blockscoreError = false;
       if (!$scope.profile) $scope.profile = {};
+      if (!$scope.profileStatus) $scope.profileStatus = 'loading';
+      if (!$scope.identityStatus) $scope.identityStatus = 'loading';
 
       $scope.load_notification('loading');
       
@@ -71,14 +73,14 @@ KycTab.prototype.angular = function(module)
 
             if (resp.decoded.payload.profile_verified === true && resp.decoded.payload.identity_verified === true) {
               $scope.currentStep = 'three';
-              $scope.profileCompleted = true;
-              $scope.identityCompleted = true;
+              $scope.profileStatus = 'complete';
+              $scope.identityStatus = 'complete';
             }
 
             else if (resp.decoded.payload.profile_verified === true && resp.decoded.payload.identity_verified === false) {
 
-              $scope.profileCompleted = true;
-              $scope.identityCompleted = false;
+              $scope.profileStatus = 'complete';
+              $scope.identityStatus = 'incomplete';
 
               $scope.options.type = 'identity';
               $scope.getQuestions($scope.options, function() {
@@ -88,8 +90,8 @@ KycTab.prototype.angular = function(module)
 
             else if (resp.decoded.payload.profile_verified === false && resp.decoded.payload.identity_verified === false) {
               $scope.currentStep = 'one';
-              $scope.profileCompleted = false;
-              $scope.identityCompleted = false;
+              $scope.profileStatus = 'incomplete';
+              $scope.identityStatus = 'incomplete';
             }
 
             else {
@@ -108,7 +110,7 @@ KycTab.prototype.angular = function(module)
       $scope.validation_pattern_month = /^[a-zA-Z][a-zA-Z][a-zA-Z]$/;
       $scope.validation_pattern_date = /^(0[1-9]|[12]\d|3[0-1])$/;
       $scope.validation_pattern_year = /^[1-2][0-9][0-9][0-9]$/;
-      $scope.validation_pattern_city = /^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$/;
+      $scope.validation_pattern_city = /^[a-zA-Z]+(?:[\s][a-zA-Z]+)*$/;
       $scope.validation_pattern_state = /^[a-zA-Z][a-zA-Z]$/;
       $scope.validation_pattern_zip = /(^\d{5}$)|(^\d{5}-\d{4}$)/;
       $scope.validation_pattern_sss = /^[0-9]{4}$/;
@@ -243,8 +245,13 @@ KycTab.prototype.angular = function(module)
         authflow.updateAttestation(options, function(err, res) {
           if (err) {
             console.log("Error in retrieving questions: ", err);
-            $scope.blockscoreError = true;
-            return;
+            if (err.message === "attestation error: Max attempts exceeded. Try again in 24 hours.") {
+              $scope.load_notification('max_attempts_questions_error');
+              return;
+            } else {
+              $scope.blockscoreError = true;
+              return;
+            }
           } else {
             console.log('response is: ', res);
             $scope.questions = res.questions;
@@ -273,9 +280,15 @@ KycTab.prototype.angular = function(module)
         authflow.updateAttestation($scope.options, function(err, res) {
           if (err) {
             console.log("Error in saveQuestions: ", err);
-            $scope.load_notification('questions_error');
-            if ($scope.identityForm) $scope.identityForm.$setPristine(true);
-            return;
+            if (err.message === "attestation error: Max attempts exceeded. Try again in 24 hours.") {
+              $scope.load_notification('max_attempts_questions_error');
+              return;
+            } else {
+              $scope.load_notification('questions_error');
+              if ($scope.identityForm) $scope.identityForm.$setPristine(true);
+              return;
+            }
+
           }
 
           if (res.status === "unverified") {

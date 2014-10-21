@@ -18,8 +18,8 @@ TwoFATab.prototype.generateHtml = function ()
 
 TwoFATab.prototype.angular = function(module)
 {
-  module.controller('TwoFACtrl', ['$scope', 'rpId', 'rpKeychain', 'rpAuthFlow', '$timeout', '$location',
-    function ($scope, $id, keychain, authflow, $timeout, $location)
+  module.controller('TwoFACtrl', ['$scope', 'rpId', 'rpKeychain', 'rpAuthFlow', '$timeout',
+    function ($scope, $id, keychain, authflow, $timeout)
     {
 
       if (!$scope.twoFAVerify) $scope.twoFAVerify = true;
@@ -180,8 +180,8 @@ TwoFATab.prototype.angular = function(module)
                   store.remove('device_id');
 
                   $timeout(function() {
-                    $location.path('#/usd');                    
-                  }, 5000);
+                    location.href = "#/usd";
+                  }, 2000);
                 }
               });
             });

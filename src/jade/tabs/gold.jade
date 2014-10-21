@@ -41,22 +41,22 @@ section.col-xs-12.content(ng-controller='GoldCtrl')
       .nameLine(l10n) Gold Deposit
       .gateway.row
         .col-md-3
-            h4(l10n) Gateway
+            .title(l10n) Gateway
             .description(l10n) Gold Bullion International (GBI)&#32;
               a(href="http://www.bullioninternational.com/", target="_blank") www.bullioninternational.com
         .col-md-3
-            h4(l10n) Availability
+            .title(l10n) Availability
             .description(l10n) All countries
         .col-md-3
-            h4(l10n) Fees
+            .title(l10n) Fees
             .description(l10n) 0.5% per year&#32;
         .col-md-3
-            h4(l10n) Rating
+            .title(l10n) Rating
             .description(l10n)
               a(href="https://coinist.co/ripple/assets/xau-gbi", target="_blank") read reviews
 
       .row
-        .col-md-6
+        .col-xs-12.col-md-8.col-lg-6
           .tos.descriptor(ng-show="!gbiConnected", l10n) Ripple Trade has partnered with GBI to provide easy access to
             | XAU. By continuing, you are allowing GBI to hold gold on your behalf.
 
@@ -73,14 +73,14 @@ section.col-xs-12.content(ng-controller='GoldCtrl')
       .row(ng-show="show_instructions == true", ng-hide="!gbiConnected")
         .instructions.col-md-10
           a.dismiss(href="", id="hide", ng-click="show_instructions = false", l10n)  ×
-          h4(l10n) Deposit
+          .title(l10n) Deposit
           .description(l10n) GBI does not currently support direct deposits. You can&#32;
             a(href="#/trade") trade XAU(-.5%pa)
             | &#32;or&#32;
             a(href="#/exchange") convert some of your current holdings
             | .
 
-          h4(l10n) Withdrawal
+          .title(l10n) Withdrawal
           .description(l10n) You can redeem the physical gold in 1 oz increments.
             | To do so, you'll need to&#32;
             a(href="https://direct.bullioninternational.com/PortalApplyNow/OpenAccount", target="_blank") create an account on GBI's website

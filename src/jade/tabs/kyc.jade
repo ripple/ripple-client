@@ -10,6 +10,11 @@ section.col-xs-12.content(ng-controller='KycCtrl')
   div(ng-show="'web' === client && !loadingAccount && !account.Balance && loadState.account && connected")
     include banner/unfunded
 
+  div.auth-attention.banner(ng-hide="hideUsOnlyBanner")
+    h4#announcement(l10n) Profile completion is only available to US residents.
+    a.dismiss(href="", id="hide", ng-click="hideUsOnlyBanner=!hideUsOnlyBanner")  ×
+    br
+
   group.mode-granted.wide(ng-show='notif !== "clear"')
     group(ng-switch on="notif")          
       group.pending(ng-switch-when="verifying")
@@ -32,6 +37,8 @@ section.col-xs-12.content(ng-controller='KycCtrl')
         h2.tx-status(l10n) We are unable to validate your identity information. Please check your information and try again.
       group.result-error(ng-switch-when="questions_error")
         h2.tx-status(l10n) We are unable to validate your identity questions. Please check your answers and try again.
+      group.result-error(ng-switch-when="max_attempts_questions_error")
+        h2.tx-status(l10n) Sorry, you've reached your maximum number of verification attempts. Please try again in 24 hours.
       group.result-error(ng-switch-when="contact_support")
         h2.tx-status(l10n) We can't verify your identity. Please contact us at support@ripple.com.
       group(ng-switch-when="loading")
@@ -176,8 +183,8 @@ section.col-xs-12.content(ng-controller='KycCtrl')
               .col-xs-12.col-sm-4
                 .form-group.authy-control
                   div(l10n) Phone Number
-                  div +{{ currentCountryCode }} {{ phoneNumber }}
-                    span.a.button.btn.btn-link(ng-click="edit_toggle()", l10n) change
+                  div.phone-number-wrapper +{{ currentCountryCode }} {{ phoneNumber }}
+                    span.btn-link(ng-click="edit_toggle()", l10n) change
             .row
               .col-xs-12.col-sm-8
                 .form-group.authy-control
