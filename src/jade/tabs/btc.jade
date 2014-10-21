@@ -1,7 +1,15 @@
 section.col-xs-12.content(ng-controller='BtcCtrl')
+  //- the ng-states & ng-clicks should be implemented
+  //- Connected
+  //- group.connected(ng-show="connected")
+  group.connected
+    .row
+      .col-xs-12
+        div.notification-wrapper
+          .alert.alert-success
+            | Success! You can deposit BTC via your generated BTC receiving address.
 
   //- Disconnected
-
   group.disconnected(ng-hide='connected')
     p.literal(l10n="err-you-must-be-online-to-see-this-screen", l10n)
       | You have to be online to see this screen
@@ -65,18 +73,24 @@ section.col-xs-12.content(ng-controller='BtcCtrl')
                   span.modal-error(ng-show="emailError", l10n)
                     | SnapSwap's btc2ripple service is currently unavailable.
                     |  Please check back later.
-            button.btn.btn-block.btn-primary(ng-show="show_instructions && gbiConnected", type="submit", ng-click="show_instructions = false") Hide instructions
-            button.btn.btn-block.btn-primary(ng-show="gbiConnected && !show_instructions", type="submit", ng-click="show_instructions = true") Show instructions
+            //- button.btn.btn-block.btn-primary(ng-show="show_instructions && connected", type="submit", ng-click="show_instructions = false") Hide instructions
+            //- button.btn.btn-block.btn-primary(ng-show="connected && !show_instructions", type="submit", ng-click="show_instructions = true") Show instructions
+            button.btn.btn-block.btn-primary Hide instructions
+            button.btn.btn-block.btn-primary Show instructions
+
 
           .connect.col-md-2
-            .description(ng-show="!gbiConnected", l10n)
+            //- .description(ng-hide="loadState.B2RApp", l10n)
+            .description(l10n)
               i.fa.fa-times
               | Not connected
-            .description(ng-show="gbiConnected", l10n)
+            //- .description(ng-show="connected && loadState.B2RApp", l10n)
+            .description(10n)
               i.fa.fa-check
               | Connected
 
-        .B2R.row(ng-show="loadState.B2RApp")
+
+        .B2R.row(ng-show="loadState.B2RApp")         
           .active.col-xs-12(ng-show="B2R.active")
             div(ng-show="loadState.B2RInstructions")
               .instructions {{B2R.instructions.instruction}}
