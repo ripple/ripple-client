@@ -24,6 +24,9 @@ GoldTab.prototype.angular = function (module)
     function ($scope, $id, appManager, rpTracker, $routeParams, keychain, $network, $timeout) {
       $scope.show_instructions = true;
       if (!$id.loginStatus) return $id.goId();
+      if (!$scope.account.Balance){
+        store.set('gbi_connected', false);
+      }
 
       $scope.gbiConnected = store.get('gbi_connected');
 
