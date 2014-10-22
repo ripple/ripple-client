@@ -182,16 +182,13 @@ UsdTab.prototype.angular = function (module)
       /**
        * Transaction confirmed, show the deposit widget
        */
-      $scope.prepareTrust = function(callback) {
+      $scope.prepareTrust = function() {
         // Is there an existing trust line?
-        if(existingTrustLine = $scope.lines[issuer + currency]) {
+        if(existingTrustLine = $scope.lines[issuer + currency])
           // Is the trust limit enough?
-          if(existingTrustLine.limit.to_number() >= trustAmount) {
+          if(existingTrustLine.limit.to_number() >= trustAmount)
           // We're good with the existing trust line
-            callback();
             return;
-          }
-        }
 
         // Is there an existing trustTx in queue?
         // (Does this really belong here? maybe just move it to txqueue.js?)
@@ -208,10 +205,7 @@ UsdTab.prototype.angular = function (module)
         );
 
         // We already have the necessary trustTx waiting in line.
-        if (noNeed) {
-          callback();
-          return;
-        }
+        if (noNeed) return;
 
         // Ok, looks like we need to set a trust line
         var tx = network.remote.transaction();
@@ -219,43 +213,34 @@ UsdTab.prototype.angular = function (module)
         tx.setFlags('NoRipple');
 
         // txQueue please set the trust line asap.
-        txQueue.addTransaction(tx, callback);
+        txQueue.addTransaction(tx);
       };
 
       $scope.confirm = function() {
         // Prepare the trustline
-        $scope.prepareTrust(function(err){
-          if (err) {
-            if (err !== 'canceled') {
-              $scope.error = err;
-            }
+        $scope.prepareTrust();
 
-            return;
-          }
+        // Get the knox link
+        $http({
+          method: 'POST',
+          data: {
+            amount: Number($scope.usdAmount),
+            success: location.origin + location.pathname + '#/usd/success',
+            cancel: location.origin + location.pathname + '#/usd/cancel',
+            failure: location.origin + location.pathname + '#/usd/failure'
+          },
+          url: Options.snapswapApi + '/ripple/' + $id.account + '/balance/USD/deposit/instantKnox'
+        }).success(function(data){
+          // Add the selected bank swift code
+          $scope.iframeUrl = data.redirectUrl + '&swift_code=' + $scope.bank;
 
-          // Get the knox link
-          $http({
-            method: 'POST',
-            data: {
-              amount: Number($scope.usdAmount),
-              // TODO have working urls
-              success: location.origin + location.pathname + '#/usd/success',
-              cancel: location.origin + location.pathname + '#/usd/cancel',
-              failure: location.origin + location.pathname + '#/usd/failure'
-            },
-            url: Options.snapswapApi + '/ripple/' + $id.account + '/balance/USD/deposit/instantKnox'
-          }).success(function(data){
-            // Add the selected bank swift code
-            $scope.iframeUrl = data.redirectUrl + '&swift_code=' + $scope.bank;
+          $('#knoxFrame').attr('src',$scope.iframeUrl);
 
-            $('#knoxFrame').attr('src',$scope.iframeUrl);
+          $scope.mode = 'step3';
 
-            $scope.mode = 'step3';
-
-            $rpTracker.track('Fund USD: Confirmed', {
-              'Amount': $scope.usdAmount,
-              'Bank': $scope.bank
-            });
+          $rpTracker.track('Fund USD: Confirmed', {
+            'Amount': $scope.usdAmount,
+            'Bank': $scope.bank
           });
         });
       };
