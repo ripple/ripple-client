@@ -95,7 +95,7 @@ UsdTab.prototype.angular = function (module)
             email: $scope.userBlob.data.email,
             rippleAddress: $id.account,
             trustTxBlob: 'anystring',
-            usernameProposal: $scope.userCredentials.username,
+            usernameProposal: $scope.userCredentials.username.split("@")[0],
             data: {
               source: 'https://id.ripple.com',
               jwt: $scope.attestation
