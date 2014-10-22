@@ -92,6 +92,7 @@ var tabdefs = [
   require('../tabs/usd'),
   require('../tabs/eula'),
   require('../tabs/twofa'),
+  require('../tabs/404'),
 
   // Hidden tabs
   require('../tabs/apps'),
@@ -157,7 +158,11 @@ app.config(['$routeProvider', function ($routeProvider) {
     }
   });
 
-  $routeProvider.otherwise({redirectTo: '/balance'});
+  $routeProvider.when('/',{
+      redirectTo: '/balance'
+  });
+
+  $routeProvider.otherwise({redirectTo: '/404'});
 }]);
 
 app.run(['$rootScope', '$route', '$routeParams',

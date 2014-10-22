@@ -91,6 +91,7 @@ var tabdefs = [
   require('../tabs/gold'),
   require('../tabs/eula'),
   require('../tabs/twofa'),
+  require('../tabs/404'),
 
   // Hidden tabs
   require('../tabs/apps'),
@@ -166,8 +167,11 @@ app.config(['$routeProvider', '$injector', function ($routeProvider, $injector) 
       location.href = location.protocol + '//' + location.hostname  + port + location.pathname;
     }
   });
+  $routeProvider.when('/',{
+    redirectTo: '/balance'
+  });
 
-  $routeProvider.otherwise({redirectTo: '/balance'});
+  $routeProvider.otherwise({redirectTo: '/404'});
 }]);
 
 app.run(['$rootScope', '$injector', '$compile', '$route', '$routeParams', '$location',
