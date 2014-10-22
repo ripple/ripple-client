@@ -290,18 +290,35 @@
   }
   .auth-form-wrapper {
     
-        .submit-btn-container {
-          width: 70%;
+    .submit-btn-container {
+      width: 70%;
+    }
+    .submit-btn-container-recovery {
+      text-align: center;
+      .recover-btn {
+        display: inline-block;
+        width: 70%;
+      }
+      .btn {
+        min-height: 60px;
+      }
+    }
+    @media (max-width: @screen-xs-max) {
+      .submit-btn-container {
+        width: 100%;
+        button {
+          font-size: 14px;
         }
-        @media (max-width: @screen-xs-max) {
-          .submit-btn-container {
-            width: 100%;
-            button {
-              font-size: 14px;
-            }
-          }
+      }
+      .submit-btn-container-recovery {
+        text-align: center;
+        .recover-btn {
+          display: inline-block;
+          width: 100%;
+
         }
-      
+      }
+    }
   }
 }
 
