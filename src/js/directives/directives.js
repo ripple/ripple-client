@@ -336,6 +336,114 @@ module.directive('rpPopover', [function() {
   };
 }]);
 
+/**
+ * Special popover to show ripple address with ability to double click on address to select.
+ * Also can link to www.ripplecharts.com.
+ */
+module.directive('rpAddressPopover', ['$timeout', '$interpolate', function($timeout, $interpolate) {
+  var popupDelay = 800;
+  var hideDelay = 1500;
+
+  return {
+    restrict: 'A',
+    compile: function (element, attr, linker) {
+      return function (scope, element, attr) {
+        var cancelHidePopoverTimeout;
+        var cancelShowPopoverTimeout;
+        var tip;
+        var shown = false;
+        var identity = $interpolate('{{' + attr.rpAddressPopover + '}}')(scope);
+
+        function hidePopover() {
+          if (!cancelHidePopoverTimeout) {
+            cancelHidePopoverTimeout = $timeout( function() {
+              element.popover('hide');
+              shown = false;
+            }, hideDelay, false );
+            cancelHidePopoverTimeout.finally(function() { cancelHidePopoverTimeout = null; });
+          }
+        }
+
+        function onPopoverEnter() {
+          if (cancelShowPopoverTimeout) {
+            $timeout.cancel( cancelShowPopoverTimeout );
+            cancelShowPopoverTimeout = null;
+          }
+          if (cancelHidePopoverTimeout) {
+            $timeout.cancel( cancelHidePopoverTimeout );
+            cancelHidePopoverTimeout = null;
+          }
+        }
+
+        function onPopoverLeave() {
+          hidePopover();
+        }
+
+        function onElemEnter() {
+          if (cancelHidePopoverTimeout) {
+            $timeout.cancel( cancelHidePopoverTimeout );
+            cancelHidePopoverTimeout = null;
+          } else if (!cancelShowPopoverTimeout) {
+            cancelShowPopoverTimeout = $timeout( function() {
+              element.popover('show'); 
+              shown = true;
+            }, popupDelay, false );
+            cancelShowPopoverTimeout.finally(function() { cancelShowPopoverTimeout = null; });
+          }
+        }
+
+        function onElemLeave() {
+          if (cancelShowPopoverTimeout) {
+            $timeout.cancel( cancelShowPopoverTimeout );
+            cancelShowPopoverTimeout = null;
+          } else if (shown) {
+            hidePopover();
+          }
+        }
+
+        function unbindHanlders() {
+          element.unbind('mouseenter', onElemEnter);
+          element.unbind('mouseleave', onElemLeave);
+          tip.unbind('mouseenter', onPopoverEnter);
+          tip.bind('mouseleave', onPopoverLeave);
+        }
+        // XXX Set title to identity
+        console.log(element);
+
+        element.popover('destroy');
+        var content = 'Ripple address ' + identity;
+        var options = {
+          content: content,
+          trigger: 'manual', placement: 'top',
+          container: 'body',
+          template: '<div class="popover"><div class="arrow"></div><div class="popover-inner"><div class="popover-content" ></div></div></div>'
+        };
+        if (attr.rpAddressPopoverLinkToCharts) {
+          options.html = true;
+          options.content = '<a target="_blank" href="http://www.ripplecharts.com/#/graph/' + identity + '" >' + identity + '</a>';
+        }
+        var popover = element.popover(options);
+        tip = element.data('popover').tip();
+        element.bind('mouseenter', onElemEnter);
+        element.bind('mouseleave', onElemLeave);
+        tip.bind('mouseenter', onPopoverEnter);
+        tip.bind('mouseleave', onPopoverLeave);
+        // Make sure popover is destroyed and removed.
+        scope.$on('$destroy', function onDestroyPopover() {
+          $timeout.cancel( cancelHidePopoverTimeout );
+          $timeout.cancel( cancelShowPopoverTimeout );
+          unbindHanlders();
+          if (tip) {
+            tip.remove();
+            tip = null;
+          }
+        });
+      };
+    }
+  };
+}]);
+
+
 module.directive('rpAutofill', ['$parse', function($parse) {
   return {
     restrict: 'A',
