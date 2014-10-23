@@ -61,12 +61,12 @@ ul.effects(ng-show="entry.effects")
       | ).
 
     span(ng-switch-when="trust_create_local", l10n) You have now connected to the gateway&#32;
-      span(rp-pretty-identity="effect.counterparty")
+      span(rp-pretty-identity="effect.counterparty", rp-address-popover="effect.counterparty")
       span(l10n-inc) &#32;for&#32;
       span(rp-pretty-amount="effect.limit")
       | .
     span(ng-switch-when="trust_create_remote", l10n, rp-span-spacing)
-      span(rp-pretty-identity="effect.counterparty")
+      span(rp-pretty-identity="effect.counterparty", rp-address-popover="effect.counterparty")
       | is trusting you for
       span(rp-pretty-amount="effect.limit")
       | .
@@ -74,14 +74,14 @@ ul.effects(ng-show="entry.effects")
       | You have changed
       span  {{effect.limit | rpcurrency}}
       | trust for
-      span(rp-pretty-identity="effect.counterparty")
+      span(rp-pretty-identity="effect.counterparty", rp-address-popover="effect.counterparty")
       | from
       span {{effect.prevLimit | rpamount:{reference_date: entry.dateRaw} }}
       | to
       span {{effect.limit | rpamount:{reference_date: entry.dateRaw} }}
       | .
     span(ng-switch-when="trust_change_remote", l10n, rp-span-spacing)
-      span(rp-pretty-identity="effect.counterparty")
+      span(rp-pretty-identity="effect.counterparty", rp-address-popover="effect.counterparty")
       | changed the
       span {{effect.limit | rpcurrency}}
       | trust from
@@ -91,7 +91,7 @@ ul.effects(ng-show="entry.effects")
       | .
     span(ng-switch-when="trust_change_balance", l10n, rp-span-spacing)
       | Trust balance between you and
-      span(rp-pretty-identity="effect.counterparty")
+      span(rp-pretty-identity="effect.counterparty", rp-address-popover="effect.counterparty")
       | has been changed by
       span(rp-pretty-amount="effect.amount")
       | .
