@@ -41,46 +41,47 @@ section.col-xs-12.content(ng-controller='GoldCtrl')
       .nameLine(l10n) Gold Deposit
       .gateway.row
         .col-md-3
-            h4(l10n) Gateway
+            .title(l10n) Gateway
             .description(l10n) Gold Bullion International (GBI)&#32;
               a(href="http://www.bullioninternational.com/", target="_blank") www.bullioninternational.com
         .col-md-3
-            h4(l10n) Availability
+            .title(l10n) Availability
             .description(l10n) All countries
         .col-md-3
-            h4(l10n) Fees
+            .title(l10n) Fees
             .description(l10n) 0.5% per year&#32;
         .col-md-3
-            h4(l10n) Rating
+            .title(l10n) Rating
             .description(l10n)
               a(href="https://coinist.co/ripple/assets/xau-gbi", target="_blank") read reviews
 
       .row
-        .col-md-6
-          .tos.descriptor(ng-show="!gbiConnected", l10n) Ripple Trade has partnered with GBI to provide easy access to XAU.
-            | By continuing, you agree to GBI's terms of service. Following this action will
-            | add XAU to your accounts.
+        .col-xs-12.col-md-8.col-lg-6
+          .tos.descriptor(ng-show="!gbiConnected", l10n) Ripple Trade has partnered with GBI to provide easy access to
+            | XAU. By continuing, you are allowing GBI to hold gold on your behalf.
 
       .row
         .col-xs-9.col-sm-5.col-md-4
-          button.btn.btn-large(ng-show="!gbiConnected", type="submit", ng-click="save_account()") Add GBI
-          button.btn.btn-large(ng-show="show_instructions && gbiConnected", type="submit", ng-click="show_instructions = false") Hide instructions
-          button.btn.btn-large(ng-show="gbiConnected && !show_instructions", type="submit", ng-click="show_instructions = true") Show instructions
+          button.btn.btn-large(ng-show="!gbiConnected && !loading", type="submit", ng-click="save_account()", ng-disabled="!account.Balance") Add GBI
+          button.btn.btn-large(ng-show="!gbiConnected && loading", type="submit", ng-disabled="loading") Adding...
+          button.btn.btn-large(ng-show="showInstructions && gbiConnected", type="submit", ng-click="toggle_instructions()") Hide instructions
+          button.btn.btn-large(ng-show="gbiConnected && !showInstructions", type="submit", ng-click="toggle_instructions()") Show instructions
 
-        .connect.col-md-2
-          .description.fa.fa-times(ng-show="!gbiConnected", l10n) Not connected
-          .description.fa.fa-check(ng-show="gbiConnected", l10n) Connected
-      .row(ng-show="show_instructions == true", ng-hide="!gbiConnected")
+        .connect.col-xs-10.col-sm-8.col-md-8(ng-hide="loading")
+          .description.fa.fa-times(ng-show="!gbiConnected && account.Balance", l10n) Not connected
+          .description.fa.fa-check(ng-show="gbiConnected && account.Balance", l10n) Connected
+          .description(ng-show="!account.Balance", l10n) Your account has to be activated before you can add a gateway account.
+      .row(ng-show="showInstructions && gbiConnected")
         .instructions.col-md-10
-          a.dismiss(href="", id="hide", ng-click="show_instructions = false", l10n)  ×
-          h4(l10n) Deposit
+          a.dismiss(href="", id="hide", ng-click="toggle_instructions()", l10n)  ×
+          .title(l10n) Deposit
           .description(l10n) GBI does not currently support direct deposits. You can&#32;
             a(href="#/trade") trade XAU(-.5%pa)
             | &#32;or&#32;
             a(href="#/exchange") convert some of your current holdings
             | .
 
-          h4(l10n) Withdrawal
+          .title(l10n) Withdrawal
           .description(l10n) You can redeem the physical gold in 1 oz increments.
             | To do so, you'll need to&#32;
             a(href="https://direct.bullioninternational.com/PortalApplyNow/OpenAccount", target="_blank") create an account on GBI's website

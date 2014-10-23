@@ -1,4 +1,5 @@
-var util = require('util');
+var util = require('util'),
+    webutil = require('../util/web');
 var Tab = require('../client/tab').Tab;
 
 var KycTab = function ()
@@ -24,6 +25,10 @@ KycTab.prototype.angular = function(module)
       if (!$id.loginStatus) return $id.goId();
       if (!$scope.blockscoreError) $scope.blockscoreError = false;
       if (!$scope.profile) $scope.profile = {};
+      if (!$scope.profileStatus) $scope.profileStatus = 'loading';
+      if (!$scope.identityStatus) $scope.identityStatus = 'loading';
+      if (!$scope.identityLoading) $scope.identityLoading = false;
+      if (!$scope.questionsLoading) $scope.questionsLoading = false;
 
       $scope.load_notification('loading');
       
@@ -71,14 +76,14 @@ KycTab.prototype.angular = function(module)
 
             if (resp.decoded.payload.profile_verified === true && resp.decoded.payload.identity_verified === true) {
               $scope.currentStep = 'three';
-              $scope.profileCompleted = true;
-              $scope.identityCompleted = true;
+              $scope.profileStatus = 'complete';
+              $scope.identityStatus = 'complete';
             }
 
             else if (resp.decoded.payload.profile_verified === true && resp.decoded.payload.identity_verified === false) {
 
-              $scope.profileCompleted = true;
-              $scope.identityCompleted = false;
+              $scope.profileStatus = 'complete';
+              $scope.identityStatus = 'incomplete';
 
               $scope.options.type = 'identity';
               $scope.getQuestions($scope.options, function() {
@@ -88,8 +93,8 @@ KycTab.prototype.angular = function(module)
 
             else if (resp.decoded.payload.profile_verified === false && resp.decoded.payload.identity_verified === false) {
               $scope.currentStep = 'one';
-              $scope.profileCompleted = false;
-              $scope.identityCompleted = false;
+              $scope.profileStatus = 'incomplete';
+              $scope.identityStatus = 'incomplete';
             }
 
             else {
@@ -108,7 +113,7 @@ KycTab.prototype.angular = function(module)
       $scope.validation_pattern_month = /^[a-zA-Z][a-zA-Z][a-zA-Z]$/;
       $scope.validation_pattern_date = /^(0[1-9]|[12]\d|3[0-1])$/;
       $scope.validation_pattern_year = /^[1-2][0-9][0-9][0-9]$/;
-      $scope.validation_pattern_city = /^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$/;
+      $scope.validation_pattern_city = /^[a-zA-Z]+(?:[\s][a-zA-Z]+)*$/;
       $scope.validation_pattern_state = /^[a-zA-Z][a-zA-Z]$/;
       $scope.validation_pattern_zip = /(^\d{5}$)|(^\d{5}-\d{4}$)/;
       $scope.validation_pattern_sss = /^[0-9]{4}$/;
@@ -142,6 +147,9 @@ KycTab.prototype.angular = function(module)
          'VI', 'VT', 'WA', 'WI', 'WV', 'WY'];
 
       $scope.saveIdentityInfo = function () {
+        $scope.identityLoading = true;
+        webutil.scrollToTop();
+
         $scope.load_notification('verifying');
 
         // Parse month correctly
@@ -218,6 +226,7 @@ KycTab.prototype.angular = function(module)
             console.log("Error in saveIdentityInfo: ", err);
             $scope.load_notification('info_error');
             if ($scope.identityForm) $scope.identityForm.$setPristine(true);
+            $scope.identityLoading = false;
             return;
           }
 
@@ -227,12 +236,14 @@ KycTab.prototype.angular = function(module)
           } else {
             $scope.load_notification('info_verified');
             $scope.options.type = 'identity';
-
+            
             // Retrieve questions from BlockScore after successfully identifying user
             $scope.getQuestions($scope.options, function() {
               $scope.currentStep = 'two';
             });
-          } 
+          }
+
+          $scope.identityLoading = false; 
         });
       }
 
@@ -243,8 +254,13 @@ KycTab.prototype.angular = function(module)
         authflow.updateAttestation(options, function(err, res) {
           if (err) {
             console.log("Error in retrieving questions: ", err);
-            $scope.blockscoreError = true;
-            return;
+            if (err.message === "attestation error: Max attempts exceeded. Try again in 24 hours.") {
+              $scope.load_notification('max_attempts_questions_error');
+              return;
+            } else {
+              $scope.blockscoreError = true;
+              return;
+            }
           } else {
             console.log('response is: ', res);
             $scope.questions = res.questions;
@@ -260,6 +276,9 @@ KycTab.prototype.angular = function(module)
 
 
       $scope.saveQuestions = function() {
+        $scope.questionsLoading = true;
+        webutil.scrollToTop();
+
         $scope.load_notification('verifying');
 
         $scope.options.answers = [];
@@ -273,9 +292,17 @@ KycTab.prototype.angular = function(module)
         authflow.updateAttestation($scope.options, function(err, res) {
           if (err) {
             console.log("Error in saveQuestions: ", err);
-            $scope.load_notification('questions_error');
-            if ($scope.identityForm) $scope.identityForm.$setPristine(true);
-            return;
+            if (err.message === "attestation error: Max attempts exceeded. Try again in 24 hours.") {
+              $scope.load_notification('max_attempts_questions_error');
+              $scope.questionsLoading = false;
+              return;
+            } else {
+              $scope.load_notification('questions_error');
+              if ($scope.identityForm) $scope.identityForm.$setPristine(true);
+              $scope.questionsLoading = false;
+              return;
+            }
+
           }
 
           if (res.status === "unverified") {
@@ -285,6 +312,8 @@ KycTab.prototype.angular = function(module)
             $scope.load_notification('questions_verified');
             $scope.currentStep = 'three';
           }
+
+          $scope.questionsLoading = false;
         });
       }
 

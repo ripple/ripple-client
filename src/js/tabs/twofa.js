@@ -18,14 +18,15 @@ TwoFATab.prototype.generateHtml = function ()
 
 TwoFATab.prototype.angular = function(module)
 {
-  module.controller('TwoFACtrl', ['$scope', 'rpId', 'rpKeychain', 'rpAuthFlow', '$timeout', '$location',
-    function ($scope, $id, keychain, authflow, $timeout, $location)
+  module.controller('TwoFACtrl', ['$scope', 'rpId', 'rpKeychain', 'rpAuthFlow', '$timeout',
+    function ($scope, $id, keychain, authflow, $timeout)
     {
 
       if (!$scope.twoFAVerify) $scope.twoFAVerify = true;
       if (!$scope.editNum) $scope.editNum = false;
       if (!$scope.verificationCode) $scope.verificationCode = '';
       if (!$scope.editPhone) $scope.editPhone = false;
+      if (!$scope.phoneLoading) $scope.phoneLoading = false;
 
       window.Authy.UI.instance(true, $scope.countryCode);
      
@@ -66,6 +67,7 @@ TwoFATab.prototype.angular = function(module)
         authflow.requestToken($scope.userBlob.url, $scope.userBlob.id, force, function(tokenError, tokenResp) {
           if (tokenError) {
             $scope.load_notification('request_token_error');
+            $scope.phoneLoading = false;
             return;
           } else {
             if (callback) {
@@ -77,6 +79,7 @@ TwoFATab.prototype.angular = function(module)
       }
 
       $scope.savePhone = function() {
+        $scope.phoneLoading = true;
         $scope.load_notification('loading');
 
         $scope.savingPhone = true;
@@ -86,6 +89,7 @@ TwoFATab.prototype.angular = function(module)
             $scope.savingPhone = false;
             $scope.load_notification('general_error');
             console.log('Error: ', err);
+            $scope.phoneLoading = false;
             return;
           }
           
@@ -104,6 +108,7 @@ TwoFATab.prototype.angular = function(module)
 
                 $scope.savingPhone = false;
                 console.log(err, resp);
+                $scope.phoneLoading = false;
                 return;
               } else {
 
@@ -116,11 +121,13 @@ TwoFATab.prototype.angular = function(module)
                     $scope.savingPhone = false;
                     $scope.load_notification('general_error');
                     console.log("Error: ", err);
+                    $scope.phoneLoading = false;
                     return;
                   }
                   $scope.load_notification('clear');
                   $scope.twoFAVerify = false;
                   $scope.savingPhone = false;
+                  $scope.phoneLoading = false;
                 });
               }
             });
@@ -180,8 +187,8 @@ TwoFATab.prototype.angular = function(module)
                   store.remove('device_id');
 
                   $timeout(function() {
-                    $location.path('#/usd');                    
-                  }, 5000);
+                    location.href = "#/usd";
+                  }, 2000);
                 }
               });
             });
