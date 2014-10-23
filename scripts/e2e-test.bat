@@ -1,7 +1,7 @@
 @echo off
 
 REM Windows script for running client e2e tests
-REM You have to run server and capture some browser first
+REM You have to run server and capture browser first
 REM
 REM Requirements:
 REM - NodeJS (http://nodejs.org/)
@@ -13,7 +13,6 @@ set BASE_DIR=%~dp0
 
 cls
 node "%BASE_DIR%\..\node_modules\protractor\bin\protractor" "%BASE_DIR%\..\test\protractor.conf.js" %*
-
 REM @echo Destroying leftover instances of chromedriver.exe
 REM taskkill /F /IM chromedriver.exe
 
