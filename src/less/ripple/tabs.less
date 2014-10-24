@@ -300,18 +300,35 @@
   }
   .auth-form-wrapper {
     
-        .submit-btn-container {
-          width: 70%;
+    .submit-btn-container {
+      width: 70%;
+    }
+    .submit-btn-container-recovery {
+      text-align: center;
+      .recover-btn {
+        display: inline-block;
+        width: 70%;
+      }
+      .btn {
+        min-height: 60px;
+      }
+    }
+    @media (max-width: @screen-xs-max) {
+      .submit-btn-container {
+        width: 100%;
+        button {
+          font-size: 14px;
         }
-        @media (max-width: @screen-xs-max) {
-          .submit-btn-container {
-            width: 100%;
-            button {
-              font-size: 14px;
-            }
-          }
+      }
+      .submit-btn-container-recovery {
+        text-align: center;
+        .recover-btn {
+          display: inline-block;
+          width: 100%;
+
         }
-      
+      }
+    }
   }
 }
 
@@ -1203,7 +1220,10 @@
     .head {
       display: inline-block;
       width: 100%;
+      padding-bottom: 10px;
       border-bottom: 1px solid @midgray;
+      margin-bottom: 30px;
+      margin-left: 0;
 
       div{
         float: left;
@@ -1212,12 +1232,14 @@
       }
 
       .dt {
-        margin: 0 0 0 38px;
+        margin: 0 0 0 23px;
         width: 170px;
       }
     }
     .export-btn-wrapper {
+      padding-right: 0 !important;
       @media (max-width: @screen-xs-max) {
+        padding-left: 0;
         margin-bottom: 20px;
       }
     }
@@ -1646,7 +1668,7 @@
 }
 
 #t-security {
-  .col-xs-12 {
+  .save-btn-wrapper {
     float: left;
   }
   .edit-security-pswd{
@@ -1794,7 +1816,6 @@
 }
 
 #t-advanced {
-
   .settingPage a {
     display: block;
     padding: 10px;
@@ -1893,6 +1914,7 @@
 
   #servers {
     padding-top: 0px;
+    
     .trust-line-form {
       .edit-trust-line {
         line-height: 34px;
@@ -1903,6 +1925,13 @@
     }
     .field-edit-row {
       padding-bottom: 20px;
+    }
+    .advanced-form-row {
+      line-height: 32px;
+      margin-bottom: 15px;
+      @media (max-width: @screen-xs-max) {
+        line-height: 26px;
+      }
     }
     .server-row-form {
       border-top: 1px solid #ccccca;
@@ -1923,10 +1952,7 @@
       
     }
     .helperInput {
-      // margin-bottom: 10px;
       line-height: 44px;
-      // vertical-align: top;
-      // margin-top: 5px;
     }
     .edit-btn {
       line-height: 28px;
@@ -1959,6 +1985,7 @@
   .editButton {
     padding-top: 4px;
   }
+
 }
 
 #t-trade {
@@ -2479,6 +2506,26 @@ html.t-trade header nav ul > li.active#nav-advanced > a:after {
 }
 
 #t-fund, #t-xrp, #t-btc, #t-usd, #t-gold {
+  .btc-tab-description {
+    margin-bottom: 20px;
+    h4 {
+      font-family: 'Open Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      color: #1e1e1e;
+      text-transform: uppercase;
+    }
+    .description {
+      font-size: 12px;
+    }
+    .connect {
+      line-height: 42px;
+      font-size: 12px;
+      i {
+        padding-right: 4px;
+      }
+    }
+  }
 
   .currency {
     font-size: 18px;
@@ -2658,7 +2705,12 @@ html.t-trade header nav ul > li.active#nav-advanced > a:after {
     color: @black;
     line-height: 42px;
     font-family: OpenSansRegular;
+    @media (max-width: @screen-xs-max) {
+      line-height: 36px;
+    }
   }
+
+  
 
   #nameChangeForm {
     margin: 10px 0 0 0;
@@ -2693,6 +2745,15 @@ html.t-trade header nav ul > li.active#nav-advanced > a:after {
           color: @white;
 
         }
+      }
+    }
+    @media (max-width: @screen-xs-max) {
+      width: 100%;
+      display: inline-block;
+      padding-right: 15px;
+      padding-left: 15px;
+      #open_name_change {
+        padding-left: 0;
       }
     }
   }

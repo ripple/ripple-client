@@ -89,7 +89,10 @@ module.directive('rpPrettyAmountDate', [function () {
   };
 }]);
 
-module.directive('rpPrettyIdentity', [function () {
+module.directive('rpPrettyIdentity', ['$timeout', function ($timeout) {
+  var popupDelay = 800;
+  var hideDelay = 1500;
+
   return {
     restrict: 'EA',
     scope: {
@@ -97,9 +100,94 @@ module.directive('rpPrettyIdentity', [function () {
     },
     template: '{{identity | rpcontactname | rpripplename:{tilde:true} }}',
     compile: function (element, attr, linker) {
+      if (attr.rpPrettyIdentityFilters) {
+        element.text('{{identity | ' + attr.rpPrettyIdentityFilters + ' }}');
+      }
       return function (scope, element, attr) {
+        var cancelHidePopoverTimeout;
+        var cancelShowPopoverTimeout;
+        var tip;
+        var shown = false;
+
+        function hidePopover() {
+          if (!cancelHidePopoverTimeout) {
+            cancelHidePopoverTimeout = $timeout( function() {
+              element.popover('hide');
+              shown = false;
+            }, hideDelay, false );
+            cancelHidePopoverTimeout.finally(function() { cancelHidePopoverTimeout = null; });
+          }
+        }
+
+        function onPopoverEnter() {
+          if (cancelShowPopoverTimeout) {
+            $timeout.cancel( cancelShowPopoverTimeout );
+            cancelShowPopoverTimeout = null;
+          }
+          if (cancelHidePopoverTimeout) {
+            $timeout.cancel( cancelHidePopoverTimeout );
+            cancelHidePopoverTimeout = null;
+          }
+        }
+
+        function onPopoverLeave() {
+          hidePopover();
+        }
+
+        function onElemEnter() {
+          if (cancelHidePopoverTimeout) {
+            $timeout.cancel( cancelHidePopoverTimeout );
+            cancelHidePopoverTimeout = null;
+          } else if (!cancelShowPopoverTimeout) {
+            cancelShowPopoverTimeout = $timeout( function() {
+              element.popover('show'); 
+              shown = true;
+            }, popupDelay, false );
+            cancelShowPopoverTimeout.finally(function() { cancelShowPopoverTimeout = null; });
+          }
+        }
+
+        function onElemLeave() {
+          if (cancelShowPopoverTimeout) {
+            $timeout.cancel( cancelShowPopoverTimeout );
+            cancelShowPopoverTimeout = null;
+          } else if (shown) {
+            hidePopover();
+          }
+        }
+
+        function unbindHanlders() {
+          element.unbind('mouseenter', onElemEnter);
+          element.unbind('mouseleave', onElemLeave);
+          tip.unbind('mouseenter', onPopoverEnter);
+          tip.bind('mouseleave', onPopoverLeave);
+        }
         // XXX Set title to identity
         console.log(element);
+
+        element.popover('destroy');
+        var content = 'Ripple address ' + scope.identity;
+        var options = {  content: content,
+          trigger: 'manual', placement: 'top',
+          container: 'body',
+          template: '<div class="popover"><div class="arrow"></div><div class="popover-inner"><div class="popover-content" ></div></div></div>'
+        };
+        var popover = element.popover(options);
+        tip = element.data('popover').tip();
+        element.bind('mouseenter', onElemEnter);
+        element.bind('mouseleave', onElemLeave);
+        tip.bind('mouseenter', onPopoverEnter);
+        tip.bind('mouseleave', onPopoverLeave);
+        // Make sure popover is destroyed and removed.
+        scope.$on('$destroy', function onDestroyPopover() {
+          $timeout.cancel( cancelHidePopoverTimeout );
+          $timeout.cancel( cancelShowPopoverTimeout );
+          unbindHanlders();
+          if (tip) {
+            tip.remove();
+            tip = null;
+          }
+        });
       };
     }
   };

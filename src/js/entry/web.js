@@ -90,6 +90,7 @@ var tabdefs = [
   require('../tabs/usd'),
   require('../tabs/gold'),
   require('../tabs/eula'),
+  require('../tabs/privacypolicy'),
   require('../tabs/twofa'),
 
   // Hidden tabs
