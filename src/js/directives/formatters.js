@@ -91,7 +91,7 @@ module.directive('rpPrettyAmountDate', [function () {
 
 module.directive('rpPrettyIdentity', ['$timeout', function ($timeout) {
   var popupDelay = 800;
-  var hideDelay = 1500;
+  var hideDelay =  790;
 
   return {
     restrict: 'EA',
