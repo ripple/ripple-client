@@ -5,6 +5,9 @@ var chai = require('chai');
 var chaiAsPromised = require('chai-as-promised');
 var config = require('./protractor.conf.js').config;
 
+var helperForms = require('./utils/forms');
+var helperBrowser = require('./utils/browser');
+
 chai.use(chaiAsPromised);
 var expect = chai.expect;
 
@@ -14,20 +17,7 @@ browser.manage().timeouts().setScriptTimeout(20000);
 describe('send', function() {
 
   before(function(){
-    // Open the client
-    browser.get('#');
-
-    // Login the user
-    browser.executeScript('store.set("ripple_auth",{' +
-      'username: "' + config.user.username + '", ' +
-      'keys: {' +
-      '"id":"' + config.user.keys.id + '",' +
-      '"crypt":"' + config.user.keys.crypt + '"' +
-      '}, ' +
-      'url: "' + config.user.url + '"})'
-    );
-
-    browser.navigate().refresh();
+    helperForms.login(config.user.username,config.user.password);
   });
 
   it('should render the send page', function(done) {
