@@ -89,8 +89,12 @@ var tabdefs = [
   require('../tabs/withdraw'),
   require('../tabs/usd'),
   require('../tabs/gold'),
-  require('../tabs/tou'),
+<<<<<<< HEAD
+  require('../tabs/eula'),
   require('../tabs/privacypolicy'),
+=======
+  require('../tabs/tou'),
+>>>>>>> [FIX] Change EULA to TOU
   require('../tabs/twofa'),
 
   // Hidden tabs
