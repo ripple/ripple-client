@@ -38,7 +38,7 @@ MigrateTab.prototype.angular = function (module) {
     $scope.submitForm = function()
     {
       if ($scope.ajax_loading) return;
-      
+
       $scope.backendMessages = [];
 
       login();
@@ -47,7 +47,7 @@ MigrateTab.prototype.angular = function (module) {
       $scope.error = '';
       $scope.status = 'Logging in...';
     };
-    
+
     //initiate the login
     function login () {
       $id.oldLogin({
@@ -55,10 +55,10 @@ MigrateTab.prototype.angular = function (module) {
         password: $scope.password
       }, loginCallback);
     }
-     
-    //handle the login results    
+
+    //handle the login results
     function loginCallback (err, blob) {
-        
+
       $scope.ajax_loading = false;
 
       if (err) {
@@ -101,7 +101,7 @@ MigrateTab.prototype.angular = function (module) {
           $location.path('/balance');
         }
       }
-    } 
+    }
 
   }]);
 
@@ -112,12 +112,12 @@ MigrateTab.prototype.angular = function (module) {
   module.directive('rpFocusOnEmpty', ['$timeout', function($timeout) {
     return function($scope, element) {
       $timeout(function(){
-        $scope.$watch(function () {return element.is(':visible')}, function(newValue) {
+        $scope.$watch(function () {return element.is(':visible');}, function(newValue) {
           if (newValue === true && !element.val())
             element.focus();
-        })
-      }, 200)
-    }
+        });
+      }, 200);
+    };
   }]);
 };
 

@@ -233,8 +233,8 @@ module.filter("rpripplename", ['$rootScope', '$http', function($scope, $http) {
       }
       return address;
     }
-    else return realFilter(address);  
-  }
+    else return realFilter(address);
+  };
 }]);
 
 /**

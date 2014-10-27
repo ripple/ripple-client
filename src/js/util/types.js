@@ -2,7 +2,7 @@ var Base58Utils = require('./base58');
 
 var RippleAddress = (function () {
   function append_int(a, i) {
-    return [].concat(a, i >> 24, (i >> 16) & 0xff, (i >> 8) & 0xff, i & 0xff)
+    return [].concat(a, i >> 24, (i >> 16) & 0xff, (i >> 8) & 0xff, i & 0xff);
   }
 
   function firstHalfOfSHA512(bytes) {
@@ -20,7 +20,7 @@ var RippleAddress = (function () {
     this.seed = Base58Utils.decode_base_check(33, seed);
 
     if (!this.seed) {
-      throw "Invalid seed."
+      throw "Invalid seed.";
     }
 
     this.getAddress = function (seq) {

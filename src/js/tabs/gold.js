@@ -34,7 +34,7 @@ GoldTab.prototype.angular = function (module)
       $scope.toggle_instructions = function () {
         $scope.showInstructions = !$scope.showInstructions;
         store.set('show_instructions', $scope.showInstructions);
-      }
+      };
 
       $scope.save_account = function () {
 

@@ -214,14 +214,14 @@ module.directive('rpPieChart', ['$filter', function($filter) {
       
       
       // Reset the container
-      container.find('*').remove()
+      container.find('*').remove();
       container.append('<svg></svg>');
       
       // Draw the subsectors          
       function selectValue(name) {
         return function(o) {
           return o[name];
-        }
+        };
       }
       var p, offset=0, broken=false;
       for (p=0; p<pieces.length; p++) {
@@ -283,7 +283,7 @@ module.directive('rpPieChart', ['$filter', function($filter) {
       
       // Resolve collisions and adjust viewBox
       var extremeBounds = resolveCollisions(container);
-      var PADDING = 5
+      var PADDING = 5;
       container.find('svg')[0].setAttribute("viewBox", [
         (extremeBounds.left-PADDING),
         (extremeBounds.top-PADDING),
@@ -541,7 +541,7 @@ module.directive('rpPieChart', ['$filter', function($filter) {
           var t = $(this).attr(coordinate);
           var adjustment = collision[coordinate];
           $(this).attr(coordinate,t-adjustment/1.9);
-        }
+        };
       }
       
       for (collider in collisions) {if (collisions.hasOwnProperty(collider)) {
@@ -577,7 +577,7 @@ module.directive('rpPieChart', ['$filter', function($filter) {
       size: '@rpSize'
     },
     link: function(scope, element, attributes) {
-      pieChart(element, scope),
+      pieChart(element, scope);
       scope.$watch('drops', function() {
         pieChart(element, scope);
       });

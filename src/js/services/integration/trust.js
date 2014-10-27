@@ -37,10 +37,10 @@ module.service('rpTrustProfile', ['$rootScope', 'rpNetwork', 'rpTxQueue', 'rpKey
 
         if('function' == typeof callback) callback();
       }
-    }
+    };
   };
 
   this.fromManifest = function (manifest) {
     return new this.trustProfile(manifest);
-  }
+  };
 }]);

@@ -77,7 +77,7 @@ AccountTab.prototype.angular = function(module)
             });
           }
         );
-      }
+      };
 
       var reset = function() {
         $scope.openForm = false;
@@ -95,7 +95,7 @@ AccountTab.prototype.angular = function(module)
 
       reset();
       $scope.success = false;
-      
+
     }]
   );
 };

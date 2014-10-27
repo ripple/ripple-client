@@ -37,12 +37,12 @@ module.service('rpHistoryProfile', ['$rootScope', 'rpNetwork', '$http',
           callback({
             message: 'Unable to fetch the history.'
           });
-        })
+        });
       }
-    }
+    };
   };
 
   this.fromManifest = function (manifest) {
     return new this.historyProfile(manifest);
-  }
+  };
 }]);

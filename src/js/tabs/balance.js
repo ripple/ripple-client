@@ -22,7 +22,7 @@ BalanceTab.prototype.generateHtml = function ()
 
 BalanceTab.prototype.angular = function (module)
 {
-  
+
 
   module.controller('BalanceCtrl', ['$rootScope', 'rpId', 'rpNetwork', '$filter', '$http', 'rpAppManager',
                                      function ($scope, $id, $network, $filter, $http, appManager)
@@ -35,35 +35,35 @@ BalanceTab.prototype.angular = function (module)
     // -What (if any) market value in terms of XRP each balance has, according to
     //  https://api.ripplecharts.com/api/exchangeRates
     // -What metric the user has chosen to calculate the aggregate value in
-    
-    
+
+
     // When the selected value metric changes, update the displayed amount.
-    
+
     ($scope.selectedValueMetric = store.get('balance')) || ($scope.selectedValueMetric = "XRP");
-    
-    $scope.changeMetric = function(scope){
+
+    $scope.changeMetric = function(scope) {
       $scope.selectedValueMetric = scope.selectedValueMetric;
-      
+
       //NOTE: this really should be stored in the blob or
-      //scoped to the blob_id so that it changes based on 
+      //scoped to the blob_id so that it changes based on
       //which account is being viewed
       store.set('balance', $scope.selectedValueMetric);
     };
-    
-    $scope.$watch("selectedValueMetric", function(){
+
+    $scope.$watch("selectedValueMetric", function() {
       if ($scope.selectedValueMetric && $scope.aggregateValueAsXrp) {
         updateAggregateValueDisplayed();
       }
-    })
-    
-    
+    });
+
+
     // Maintain a dictionary for the value of each "currency:issuer" pair, denominated in XRP.
     // Fetch the data from RippleCharts, and refresh it whenever any non-XRP balances change.
     // When exchangeRates changes, update the aggregate value, and the list of available value metrics,
     // and also check for negative balances to see if the user should be notified.
-    
+
     $scope.exchangeRates || ($scope.exchangeRates = {"XRP":1});
-    
+
     function updateExchangeRates() {
       var currencies = [];
       var hasNegative = false;
@@ -71,7 +71,7 @@ BalanceTab.prototype.angular = function (module)
         var components = $scope.balances[cur].components;
         for (var issuer in components) {if (components.hasOwnProperty(issuer)){
           // While we're at it, check for negative balances:
-          hasNegative || (hasNegative = components[issuer].is_negative()); 
+          hasNegative || (hasNegative = components[issuer].is_negative());
           currencies.push({
             currency: cur,
             issuer: issuer
@@ -83,7 +83,7 @@ BalanceTab.prototype.angular = function (module)
         return {
           base:c,
           counter:{currency:"XRP"}
-        }
+        };
       });
       if (pairs.length) {
         $scope.exchangeRatesNonempty = false;
@@ -93,10 +93,10 @@ BalanceTab.prototype.angular = function (module)
           for (var i=0; i<response.length; i++) {
             var pair = response[i];
             if (pair.last > 0) { // Disregard unmarketable assets
-              $scope.exchangeRates[pair.base.currency+":"+pair.base.issuer] = pair.last; 
+              $scope.exchangeRates[pair.base.currency+":"+pair.base.issuer] = pair.last;
             }
           }
-          
+
           $scope.exchangeRatesNonempty = true;
           console.log("Exchange Rates: ", $scope.exchangeRates);
         });
@@ -133,17 +133,17 @@ BalanceTab.prototype.angular = function (module)
             text: currencyName + (isAmbiguous[curIssuer[0]] ? " ("+ issuerName +")" : "")
           };
         });
-        
+
         updateAggregateValueAsXrp();
       }
     }, true);
-    
-    
+
+
     // Whenever the XRP balance changes, update the aggregate value, but no need to refresh exchangeRates.
     // Update the displayed amount.
-    
+
     $scope.$watch("account.Balance", updateAggregateValueAsXrp);
-    
+
     function updateAggregateValueAsXrp() {
       if ( $scope.account.Balance) {
         var av = $scope.account.Balance / 1000000;
@@ -169,16 +169,16 @@ BalanceTab.prototype.angular = function (module)
       }
 
       $scope.aggregateValueAsMetric = $scope.aggregateValueAsXrp / metric;
-      
-      if($scope.selectedValueMetric === "XRP" || 
+
+      if($scope.selectedValueMetric === "XRP" ||
           $scope.selectedValueMetric === "0158415500000000C1F76FF6ECB0BAC600000000:rDRXp3XC6ko3JKNh1pNrDARZzFKfBzaxyi" ||
-          $scope.selectedValueMetric === "015841551A748AD2C1F76FF6ECB0CCCD00000000:rs9M85karFkCRjvc6KMWn8Coigm9cbcgcx" ) 
+          $scope.selectedValueMetric === "015841551A748AD2C1F76FF6ECB0CCCD00000000:rs9M85karFkCRjvc6KMWn8Coigm9cbcgcx" )
       {
         $scope.aggregateValueDisplayed = (Amount.from_json({value:($scope.aggregateValueAsMetric.toFixed(4)
             .substring(0, (($scope.aggregateValueAsXrp / metric).toFixed(4)).length - 5))})).to_human();
         $scope.aggregateValueDisplayedDecimal = $scope.aggregateValueAsMetric.toFixed(4).substring((($scope.aggregateValueAsXrp / metric)
             .toFixed(4)).length - 5, (($scope.aggregateValueAsXrp / metric).toFixed(4)).length);
-      } 
+      }
       else {
         $scope.aggregateValueDisplayed = (Amount.from_json({value:($scope.aggregateValueAsMetric.toFixed(2)
             .substring(0, (($scope.aggregateValueAsXrp / metric).toFixed(2)).length - 3))})).to_human();
@@ -187,7 +187,7 @@ BalanceTab.prototype.angular = function (module)
 
       }
     }
-    
+
     //if we were previously loaded, update the estimate
     if ($scope.loadState.lines) {
       updateExchangeRates();
@@ -256,12 +256,12 @@ BalanceTab.prototype.angular = function (module)
         $scope.$apply(function () {
           history = hist;
           updateTrend();
-        })
-      })
+        });
+      });
     };
 
-    var updateTrend = function() { 
-      $scope.trendMap = {}
+    var updateTrend = function() {
+      $scope.trendMap = {};
       var trendMap = _.reduce(history, function(map, event) {
           _.forEach(event.effects, function(effect){
             switch (effect.type) {
@@ -280,14 +280,14 @@ BalanceTab.prototype.angular = function (module)
           return map;
         }, {});
       $scope.trendMap = trendMap;
-    }
+    };
 
     $scope.selectedTrendSpan = 86400000;
-    
-    $scope.changeTrendSpan = function(scope){
+
+    $scope.changeTrendSpan = function(scope) {
       $scope.selectedTrendSpan = scope.selectedTrendSpan;
     };
-    
+
     var refreshTrend = function() {
       changeDateRange(new Date(new Date() - $scope.selectedTrendSpan),new Date());
     };
@@ -297,7 +297,7 @@ BalanceTab.prototype.angular = function (module)
 
     $scope.$watch("aggregateValueAsXrp", updateTrendValue);
     $scope.$watch("trendMap", updateTrendValue);
-    
+
     function updateTrendValue() {
       if (!$scope.trendMap) return;
       var av = $scope.aggregateValueAsXrp;
@@ -314,7 +314,7 @@ BalanceTab.prototype.angular = function (module)
   module.directive('rpFlatSelect', [function () {
     return {
       restrict: 'A',
-      link: function (scope, el, attrs) { 
+      link: function (scope, el, attrs) {
         var expanded = true;
 
         var collapse = function() {

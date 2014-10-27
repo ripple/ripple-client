@@ -280,7 +280,7 @@ module.directive('rpAvailableName', function ($timeout, $parse) {
                   getterL.assign(scope,false);
                 }
               });
-            })
+            });
           }, 500);
 
           return value;
@@ -297,7 +297,7 @@ module.directive('rpAvailableName', function ($timeout, $parse) {
         validator(ctrl.$viewValue);
       });
     }
-  }
+  };
 });
 
 /**
@@ -441,7 +441,7 @@ module.directive('rpSameInSet', [function() {
           }
       );
     }
-  }
+  };
 }]);
 
 /**
@@ -464,7 +464,7 @@ module.directive('rpUnique', function() {
     return function(args) {
       return callback.apply(this, args);
     };
-  }
+  };
   return {
     restrict: 'A',
     require: '?ngModel',
@@ -492,7 +492,7 @@ module.directive('rpUnique', function() {
         if (a === b) return true;
         if ((a === null || a === undefined || a === '') &&
             (b === null || b === undefined || b === '')) return true;
-        return false
+        return false;
       };
 
       var validator = function(value) {

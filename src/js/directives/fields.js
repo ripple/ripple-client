@@ -265,7 +265,7 @@ module.directive('rpDatepicker', [function() {
           function falsy(v) {return v == '0' || v == 'false'; }
 
           if (!falsy(attr.ignoreInvalidUpdate) &&
-               (update == null ||
+               (update === null ||
                  (update instanceof Date && isNaN(update.getYear())) )) {
               return;
             } else {
@@ -310,6 +310,6 @@ module.directive('fileUploadButton', function() {
 
       el.append(fileInput);
     }
-  }
+  };
 });
 

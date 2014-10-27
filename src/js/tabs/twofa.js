@@ -29,7 +29,7 @@ TwoFATab.prototype.angular = function(module)
       if (!$scope.phoneLoading) $scope.phoneLoading = false;
 
       window.Authy.UI.instance(true, $scope.countryCode);
-     
+
       $scope.validation_pattern_phone = /^[0-9]*$/;
 
       $scope.$on('$blobUpdate', onBlobUpdate);
@@ -40,9 +40,9 @@ TwoFATab.prototype.angular = function(module)
         if ("function" === typeof $scope.userBlob.encrypt) {
           $scope.enc = $scope.userBlob.encrypt();
         }
-        
+
         $scope.requirePassword = !$scope.userBlob.data.persistUnlock;
-        
+
         if (!$scope.loaded2FA && "function" === typeof $scope.userBlob.get2FA) {
           $scope.userBlob.get2FA(function(err, resp) {
             $scope.$apply(function(){
@@ -61,7 +61,7 @@ TwoFATab.prototype.angular = function(module)
       $scope.edit_toggle = function() {
         $scope.twoFAVerify = !$scope.twoFAVerify;
         $scope.editNum = !$scope.editNum;
-      }
+      };
 
       $scope.requestToken = function(force, callback) {
         authflow.requestToken($scope.userBlob.url, $scope.userBlob.id, force, function(tokenError, tokenResp) {
@@ -76,7 +76,7 @@ TwoFATab.prototype.angular = function(module)
           }
 
         });
-      }
+      };
 
       $scope.savePhone = function() {
         $scope.phoneLoading = true;
@@ -92,7 +92,7 @@ TwoFATab.prototype.angular = function(module)
             $scope.phoneLoading = false;
             return;
           }
-          
+
           var options = {
             masterkey    : secret,
             phone        : $scope.phoneNumber,
@@ -195,7 +195,7 @@ TwoFATab.prototype.angular = function(module)
           });
         });
       };
-      
+
     }]
   );
 };

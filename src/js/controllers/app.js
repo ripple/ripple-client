@@ -32,7 +32,7 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
   $scope.dismissBanner = function() {
     store.set('announcement', false);
     $scope.showAnnouncement = store.get('announcement');
-  }
+  };
 
   // Global reference for debugging only (!)
   if ("object" === typeof rippleclient) {
@@ -73,7 +73,7 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
   // TODO fix this
   $scope.reset = function(){
     reset();
-  }
+  };
 
   var myHandleAccountEvent;
   var myHandleAccountEntry;
@@ -105,7 +105,7 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
     accountObj.entry(function (err, entry) {
       if (err) {
         $scope.loadingAccount = false;
-        $scope.loadState['account'] = true;
+        $scope.loadState.account = true;
       }
     });
 
@@ -168,14 +168,14 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
 
       $scope.$broadcast('$balancesUpdate');
 
-      $scope.loadState['lines'] = true;
+      $scope.loadState.lines = true;
     });
   }
 
   function handleRippleLinesError(data)
   {
     $scope.$apply(function () {
-      $scope.loadState['lines'] = true;
+      $scope.loadState.lines = true;
     });
   }
 
@@ -195,14 +195,14 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
       console.log('offers updated:', $scope.offers);
       $scope.$broadcast('$offersUpdate');
 
-      $scope.loadState['offers'] = true;
+      $scope.loadState.offers = true;
     });
   }
 
   function handleOffersError(data)
   {
     $scope.$apply(function () {
-      $scope.loadState['offers'] = true;
+      $scope.loadState.offers = true;
     });
   }
 
@@ -227,7 +227,7 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
     var bal = Amount.from_json(data.Balance);
     $scope.account.max_spend = bal.subtract($scope.account.reserve);
 
-    $scope.loadState['account'] = true;
+    $scope.loadState.account = true;
 
     // Transaction queue
     txQueue.checkQueue();
@@ -246,14 +246,14 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
         $scope.$broadcast('$eventsUpdate');
       }
 
-      $scope.loadState['transactions'] = true;
+      $scope.loadState.transactions = true;
     });
   }
 
   function handleAccountTxError(data)
   {
     $scope.$apply(function () {
-      $scope.loadState['transactions'] = true;
+      $scope.loadState.transactions = true;
     });
   }
 

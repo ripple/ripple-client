@@ -177,9 +177,9 @@ module.directive('rpConfirm', ['rpPopup', function(popup) {
       element.find('a,button').click(function(e) {
         e.preventDefault();
 
-        popup.confirm(attrs["title"], attrs["actionText"],
-          attrs["actionButtonText"], attrs["actionFunction"], attrs["actionButtonCss"],
-          attrs["cancelButtonText"], attrs["cancelFunction"], attrs["cancelButtonCss"],
+        popup.confirm(attrs.title, attrs.actionText,
+          attrs.actionButtonText, attrs.actionFunction, attrs.actionButtonCss,
+          attrs.cancelButtonText, attrs.cancelFunction, attrs.cancelButtonCss,
           scope, popupOptions);
       });
     }
@@ -598,13 +598,13 @@ module.directive('ngUpload', function() {
  */
 module.directive('rpFocus', ['$timeout', function($timeout) {
   return function($scope, element) {
-    $timeout(function(){
-      $scope.$watch(function () {return element.is(':visible')}, function(newValue) {
+    $timeout(function() {
+      $scope.$watch(function() {return element.is(':visible');}, function(newValue) {
         if (newValue === true)
           element.focus();
-      })
-    })
-  }
+      });
+    });
+  };
 }]);
 
 module.directive('rpOffCanvasMenu', function() {
@@ -621,7 +621,7 @@ module.directive('rpOffCanvasMenu', function() {
 module.directive('rpSnapper', ['rpId', function($id) {
   return function($scope) {
     // Initialize snapper only if user is logged in.
-    var watcher = $scope.$watch(function(){return $id.loginStatus}, function(){
+    var watcher = $scope.$watch(function(){return $id.loginStatus;}, function() {
       var snapper;
 
       if ($id.loginStatus) {
@@ -636,7 +636,7 @@ module.directive('rpSnapper', ['rpId', function($id) {
 
           // Snapper toggle button
           $('.snapper-toggle').click(function(){
-            snapper.state().state == 'closed' ? snapper.open('left') : snapper.close()
+            snapper.state().state == 'closed' ? snapper.open('left') : snapper.close();
           });
 
           $('.mobile-nav').find('a').click(function(){

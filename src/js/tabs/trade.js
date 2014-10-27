@@ -175,14 +175,14 @@ TradeTab.prototype.angular = function(module)
       var entry = this.entry;
       var order = $scope.order;
       currencyPairChangedByNonUser = true;
-      order['first_currency'] = this.entry.first.currency().to_json();
-      order['first_issuer'] = this.entry.first.issuer().to_json();
-      order['second_currency'] = this.entry.second.currency().to_json();
-      order['second_issuer'] = this.entry.second.issuer().to_json();
-      order['currency_pair'] = this.entry.first.currency().to_json() + '/' + this.entry.second.currency().to_json();
+      order.first_currency = this.entry.first.currency().to_json();
+      order.first_issuer = this.entry.first.issuer().to_json();
+      order.second_currency = this.entry.second.currency().to_json();
+      order.second_issuer = this.entry.second.issuer().to_json();
+      order.currency_pair = this.entry.first.currency().to_json() + '/' + this.entry.second.currency().to_json();
       updateSettings();
       updateMRU();
-    }
+    };
 
     /**
      * Happens when user clicks on "Cancel" in "My Orders".
@@ -344,7 +344,7 @@ TradeTab.prototype.angular = function(module)
       loadOffers();
 
       $scope.orderbookState = (($scope.orderbookLength - Options.orderbook_max_rows + multiplier) < 1) ? 'full' : 'ready';
-    }
+    };
 
 
     /**
@@ -432,7 +432,7 @@ TradeTab.prototype.angular = function(module)
           $scope.fatFingerErr = true;
         }
       }
-    }
+    };
 
     /**
      * Calculate second when first or price changes.
@@ -472,18 +472,18 @@ TradeTab.prototype.angular = function(module)
     $scope.flip_issuer = function () {
       var order = $scope.order;
       if (!order.valid_settings) return;
-      var currency = order['first_currency'];
-      var issuer = order['first_issuer'];
-      var pair = order['currency_pair'].split('/');
+      var currency = order.first_currency;
+      var issuer = order.first_issuer;
+      var pair = order.currency_pair.split('/');
       currencyPairChangedByNonUser = true;
-      order['first_currency'] = order['second_currency'];
-      order['first_issuer'] = order['second_issuer'];
-      order['second_currency'] = currency;
-      order['second_issuer'] = issuer;
-      order['currency_pair'] = pair[1] + '/' + pair[0];
+      order.first_currency = order.second_currency;
+      order.first_issuer = order.second_issuer;
+      order.second_currency = currency;
+      order.second_issuer = issuer;
+      order.currency_pair = pair[1] + '/' + pair[0];
       updateSettings();
       updateMRU();
-    }
+    };
 
     // This functions is called whenever the settings, specifically the pair and
     // the issuer(s) have been modified. It checks the new configuration and
@@ -491,11 +491,11 @@ TradeTab.prototype.angular = function(module)
     function updateSettings() {
       var order = $scope.order;
       var pair = order.currency_pair;
-      
+
       if (!store.disabled) {
         store.set('ripple_trade_currency_pair', pair);
       }
-      
+
       if ("string" !== typeof pair) pair = "";
       pair = pair.split('/');
 
@@ -548,7 +548,7 @@ TradeTab.prototype.angular = function(module)
       updateCanBuySell();
     }
 
-    // This functions is called after the settings have been modified. 
+    // This functions is called after the settings have been modified.
     // It updates the most recent used pairs dropdown.
     function updateMRU() {
       var order = $scope.order;
@@ -670,7 +670,7 @@ TradeTab.prototype.angular = function(module)
           if (prefix === 'first') {
             $scope.userBlob.set("/preferred_issuer/"+
                                 $scope.userBlob.escapeToken($scope.order.first_currency.to_json()),
-                                $scope.order['first_issuer']);
+                                $scope.order.first_issuer);
           } else {
             if ($scope.order.first_currency.equals($scope.order.second_currency)) {
               $scope.userBlob.set("/preferred_second_issuer/"+
@@ -832,9 +832,9 @@ TradeTab.prototype.angular = function(module)
         }
       });
 
-      if (routeCurrencies['first'] && routeCurrencies['second']) {
-        if (routeCurrencies['first'][1] !== routeCurrencies['second'][1]) {
-          $scope.order.currency_pair = routeCurrencies['first'][1] + '/' + routeCurrencies['second'][1];
+      if (routeCurrencies.first && routeCurrencies.second) {
+        if (routeCurrencies.first[1] !== routeCurrencies.second[1]) {
+          $scope.order.currency_pair = routeCurrencies.first[1] + '/' + routeCurrencies.second[1];
         } else {
           $location.path('/trade');
         }

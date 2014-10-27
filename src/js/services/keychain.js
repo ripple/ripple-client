@@ -166,39 +166,39 @@ module.factory('rpKeychain', ['$rootScope', '$timeout', 'rpPopup', 'rpId',
     if (requirePassword === false) {
       this.requestSecret(id.account, id.username, function(err, secret) {
         if (err) {
-          return callback(err);            
+          return callback(err);
         }
-        
+
         setPasswordProtection(requirePassword, secret, callback);
       });
-                       
+
     } else {
       setPasswordProtection(requirePassword, null, callback);
     }
-    
+
     function setPasswordProtection (requirePassword, secret, callback) {
-      
+
       $scope.userBlob.set('/persistUnlock', !requirePassword, function(err, resp) {
         if (err) {
           return callback(err);
         }
-        
+
         if (requirePassword) {
           _this.expireSecret(id.account);
         }
-        
+
       });
     }
   };
-  
+
   Keychain.prototype.expireSecret = function (account) {
     var _this = this;
     $timeout(function(){
       if (_this.secrets[account] && !$scope.userBlob.data.persistUnlock) {
-        delete _this.secrets[account];  
-      }  
-    }, Keychain.unlockDuration);  
-  }
-  
+        delete _this.secrets[account];
+      }
+    }, Keychain.unlockDuration);
+  };
+
   return new Keychain();
 }]);

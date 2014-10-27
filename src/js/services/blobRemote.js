@@ -179,7 +179,7 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
 //    .error(webutil.getAjaxErrorHandler(callback, "BlobVault POST /v1/user"));
     .error(function(err){
       console.log('err',err);
-    })
+    });
   };
 
   BlobObj.verify = function (opts, callback) {
@@ -543,7 +543,7 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
       date,
       sjcl.codec.hex.fromBits(sjcl.hash.sha512.hash(canonicalRequest)).toLowerCase()
     ].join('\n');
-  }
+  };
 
   BlobObj.signRequestHmac = function (config, auth_secret, blob_id) {
     config = $.extend({}, config);
@@ -561,10 +561,10 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
     var signature = sjcl.codec.hex.fromBits(hmac.mac(stringToSign));
 
     config.url += (parser.search ? "&" : "?") +
-      'signature='+signature+
-      '&signature_date='+date+
-      '&signature_blob_id='+blob_id+
-      '&signature_type='+signatureType
+      'signature=' + signature +
+      '&signature_date=' + date +
+      '&signature_blob_id=' + blob_id +
+      '&signature_type=' + signatureType;
 
     return config;
   };
@@ -582,7 +582,7 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
     var stringToSign = BlobObj.getStringToSign(config, parser, date, signatureType);
 
     var signature = ripple.Message.signMessage(stringToSign, secretKey);
-    
+
     config.url += (parser.search ? "&" : "?") +
       'signature='+webutil.base64ToBase64Url(signature)+
       '&signature_date='+date+

@@ -31,7 +31,7 @@ KycTab.prototype.angular = function(module)
       if (!$scope.questionsLoading) $scope.questionsLoading = false;
 
       $scope.load_notification('loading');
-      
+
       $scope.$on('$blobUpdate', onBlobUpdate);
       onBlobUpdate();
 
@@ -40,9 +40,9 @@ KycTab.prototype.angular = function(module)
         if ("function" === typeof $scope.userBlob.encrypt) {
           $scope.enc = $scope.userBlob.encrypt();
         }
-        
+
         $scope.requirePassword = !$scope.userBlob.data.persistUnlock;
-        
+
         if (!$scope.loaded2FA && "function" === typeof $scope.userBlob.get2FA) {
           $scope.userBlob.get2FA(function(err, resp) {
             $scope.$apply(function(){
@@ -65,7 +65,7 @@ KycTab.prototype.angular = function(module)
             url         : $scope.userBlob.url,
             auth_secret : $scope.userBlob.data.auth_secret,
             blob_id     : $scope.userBlob.id
-          }
+          };
 
           authflow.getAttestationSummary($scope.options, function(err, resp) {
 
@@ -105,7 +105,7 @@ KycTab.prototype.angular = function(module)
           });
         }
       }
-      
+
 
       // STEP ONE: IDENTITY INFORMATION
 
@@ -125,13 +125,13 @@ KycTab.prototype.angular = function(module)
           arr.push('' + i);
         }
         return arr;
-      }
+      };
 
       var currentYear = new Date().getFullYear();
 
       $scope.years = genNum(currentYear - 100, currentYear);
 
-      $scope.dates = 
+      $scope.dates =
         ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10',
          '11', '12', '13', '14', '15', '16', '17', '18', '19', '20',
          '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31'];
@@ -204,7 +204,7 @@ KycTab.prototype.angular = function(module)
         $scope.profile.address.country = 'US';
 
         $scope.options.type = 'profile';
-       
+
         $scope.options.profile = {
           name : {
             given  : $scope.profile.name.given,
@@ -219,7 +219,7 @@ KycTab.prototype.angular = function(module)
             postal_code : $scope.profile.address.postal_code,
             country     : $scope.profile.address.country
           }
-        }
+        };
 
         authflow.updateAttestation($scope.options, function(err, res) {
           if (err) {
@@ -236,16 +236,16 @@ KycTab.prototype.angular = function(module)
           } else {
             $scope.load_notification('info_verified');
             $scope.options.type = 'identity';
-            
+
             // Retrieve questions from BlockScore after successfully identifying user
             $scope.getQuestions($scope.options, function() {
               $scope.currentStep = 'two';
             });
           }
 
-          $scope.identityLoading = false; 
+          $scope.identityLoading = false;
         });
-      }
+      };
 
       // STEP TWO: IDENTITY QUESTIONS
 
@@ -272,7 +272,7 @@ KycTab.prototype.angular = function(module)
 
           cb();
         });
-      }
+      };
 
 
       $scope.saveQuestions = function() {
@@ -315,7 +315,7 @@ KycTab.prototype.angular = function(module)
 
           $scope.questionsLoading = false;
         });
-      }
+      };
 
       // STEP THREE: TWO-FACTOR AUTH
       // TODO: Merge twofa.js and kyc.js

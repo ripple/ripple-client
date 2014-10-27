@@ -53,7 +53,7 @@ module.service('rpInboundBridgeProfile', ['$rootScope', 'rpNetwork', 'rpId', '$h
             // Does this fulfil our needs?
             noNeed = txInQueue && txInQueue.details.currency === line.currency
               && txInQueue.details.issuer === line.issuer
-              && txInQueue.details.value >= line.amount
+              && txInQueue.details.value >= line.amount;
           }
         );
 
@@ -99,7 +99,7 @@ module.service('rpInboundBridgeProfile', ['$rootScope', 'rpNetwork', 'rpId', '$h
           callback({
             message: "Can't get the instructions."
           });
-        })
+        });
       },
 
       /**
@@ -129,9 +129,9 @@ module.service('rpInboundBridgeProfile', ['$rootScope', 'rpNetwork', 'rpId', '$h
           callback({
             message: "Can't get pending deposits."
           });
-        })
+        });
       }
-    }
+    };
   };
 
   /**
@@ -142,5 +142,5 @@ module.service('rpInboundBridgeProfile', ['$rootScope', 'rpNetwork', 'rpId', '$h
    */
   this.fromManifest = function (manifest) {
     return new this.inboundBridgeProfile(manifest);
-  }
+  };
 }]);
