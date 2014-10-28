@@ -220,27 +220,6 @@ app.run(['$rootScope', '$injector', '$compile', '$route', '$routeParams', '$loca
         });
       }
     });
-
-    // global keyboard shorcut
-    var isCtrl = false;
-    var isShift = false;
-    var isAlt = false;
-    $document.keyup(function (e) {
-        if(e.which == 18) isAlt   = false;
-        if(e.which == 17) isCtrl  = false;
-        if(e.which == 16) isShift = false;
-    }).keydown(function (e) {
-        if(e.which == 16) isShift   = true;
-        if(e.which == 17) isCtrl    = true;
-        if(e.which == 18) isAlt     = true;
-        if(e.which == 80 && isCtrl == true && isShift == true) {
-          /// Ctrl Shift P
-          $rootScope.$apply(function() {
-            $location.path('/pretend');
-          });
-        }
-    });    
-
   });
 }]);
 

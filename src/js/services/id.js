@@ -5,6 +5,7 @@
  */
 
 var util = require('util'),
+    webutil = require('../util/web'),
     Base58Utils = require('../util/base58'),
     RippleAddress = require('../util/types').RippleAddress;
 
@@ -582,11 +583,26 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', '$t
  *
  * Find a ripple name for a given ripple address
    */
+  Id.prototype.resolveNameSync = function (address, options) {
+    if(!this.resolvedNames[address]) {
+      if(!this.serviceInvoked[address]) {
+        this.resolveName(address, options);
+      }
+      return address;
+    }
+    return this.resolvedNames[address];
+  }
+
+  /**
+ * Find Ripple Name
+ *
+ * Find a ripple name for a given ripple address
+   */
   Id.prototype.resolveName = function (address, options) {
     var self = this;
     var deferred = $q.defer();
-    //var strippedValue = webutil.stripRippleAddress(address);
-    var rpAddress = ripple.UInt160.from_json(address);
+    var strippedValue = webutil.stripRippleAddress(address);
+    var rpAddress = ripple.UInt160.from_json(strippedValue);
     if (!rpAddress.is_valid()) {
       deferred.resolve(address);
       return deferred.promise;
@@ -601,11 +617,11 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', '$t
         // Get the blobvault url
         ripple.AuthInfo.get(Options.domain, "1", function(err, authInfo) {
           if (err) {
-            console.log("Can't get the authinfo", err);
+            console.log("Can't get the authinfo data", err);
             deferred.reject(err);
           } else {
             // Get the user
-            $http.get(authInfo.blobvault + '/v1/user/' + address)
+            $http.get(authInfo.blobvault + '/v1/user/' + strippedValue)
               .success(function(data) {
                 if (data.username) {
                   if (opts.tilde === true) {
@@ -629,7 +645,7 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', '$t
         deferred.resolve(address);
       }
     } else {
-      deferred.resolve(resolvedNames[address]);
+      deferred.resolve(self.resolvedNames[address]);
     }
     return deferred.promise;
   }
