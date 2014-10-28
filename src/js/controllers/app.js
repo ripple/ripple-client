@@ -25,13 +25,13 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
 
   // For announcement banner
 
-  $scope.showAnnouncement = store.get('announcement_instant_usd');
+  $scope.showAnnouncement = store.get('announcement');
 
   if('undefined' === typeof $scope.showAnnouncement) $scope.showAnnouncement = true;
 
   $scope.dismissBanner = function() {
-    store.set('announcement_instant_usd', false);
-    $scope.showAnnouncement = store.get('announcement_instant_usd');
+    store.set('announcement', false);
+    $scope.showAnnouncement = store.get('announcement');
   }
 
   // Global reference for debugging only (!)
