@@ -187,8 +187,10 @@ app.run(['$rootScope', '$injector', '$compile', '$route', '$routeParams', '$loca
     rippleclient.$scope = $rootScope;
     rippleclient.version = $rootScope.version =
       angular.element('#version').html();
-    rippleclient.versionBranch = $rootScope.versionBranch =
-      angular.element('#versionbranch').text();
+    if (debug === true) {
+      rippleclient.versionBranch = $rootScope.versionBranch =
+        angular.element('#versionbranch').text();
+    }
   }
 
   // Helper for detecting empty object enumerations

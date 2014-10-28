@@ -310,7 +310,7 @@ module.exports = function(grunt) {
       },
       index: {
         files: ['src/index.html'],
-        tasks: ['preprocess:web_debug','copy'],
+        tasks: ['version','versionBranch','preprocess:web_debug','copy'],
         options: { livereload: true }
       },
       callback: {

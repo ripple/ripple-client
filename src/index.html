@@ -72,13 +72,12 @@
 
   <div id="appLoading">
     <img src="img/main.png" class="loader" alt="" title="" />
-    <div class="loading_text">Loading Ripple Trade</div> 
-
+    <div class="loading_text">Loading Ripple Trade</div>
   </div>
 
   <!-- VERSION -->
-  <div id="version"><!-- @echo VERSION --><!-- @ifdef MODE_DEBUG !>-debug<!-- @endif --><!-- @exclude -->[unprocessed]<!-- @endexclude --></div>
-  <div id="versionbranch"><!-- @echo VERSIONBRANCH --></div>
+  <div id="version"><!-- @echo VERSION --><!-- @if MODE == 'debug' !>-debug<!-- @endif --><!-- @exclude -->[unprocessed]<!-- @endexclude --></div>
+  <div id="versionbranch"><!-- @if MODE == 'debug' !><!-- @echo VERSIONBRANCH --><!-- @endif --></div>
 
   <div id="noWebSockets">
     <p>We apologize, but the Ripple Client needs JavaScript and WebSockets in order to function. <br />
@@ -112,7 +111,7 @@
       var languages = "<!-- @echo LANGUAGES -->".split(" ");
       var resolveLanguage = function(lang) {
         if (!lang) return null;
-        
+
         if (languages.indexOf(lang) != -1) return lang;
         if (lang.indexOf("_") != -1) {
           lang = lang.split("_")[0];
