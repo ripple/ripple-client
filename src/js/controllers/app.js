@@ -175,7 +175,7 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
   function handleRippleLinesError(data)
   {
     $scope.$apply(function () {
-      $scope.loadState.lines = true;
+      $scope.loadState['lines'] = true;
     });
   }
 

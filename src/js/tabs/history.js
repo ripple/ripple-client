@@ -391,7 +391,7 @@ HistoryTab.prototype.angular = function (module) {
     };
 
     var setValidDateOnScopeOrNullify = function(key, value) {
-      if (isNaN(value) || value === null) {
+      if (isNaN(value) || value == null) {
         $scope[key] = null;
       } else {
         $scope[key] = new Date(value);

@@ -63,7 +63,7 @@ __protocol.Parser = Parser = (function() {
   Parser.prototype.process = function(data) {
     var command, message, options, _ref;
     try {
-      if (this.protocol === null) {
+      if (!(this.protocol != null)) {
         if (data.match(/^!!ver:([\d.]+)$/)) {
           this.protocol = 6;
         } else if (message = this._parseMessage(data, ['hello'])) {
@@ -90,7 +90,7 @@ __protocol.Parser = Parser = (function() {
         return this.handlers.message({
           command: 'reload',
           path: options.path,
-          liveCSS: (_ref = options.apply_css_live) !== null ? _ref : true
+          liveCSS: (_ref = options.apply_css_live) != null ? _ref : true
         });
       } else {
         message = this._parseMessage(data, ['reload', 'alert']);
@@ -224,7 +224,7 @@ __connector.Connector = Connector = (function() {
   };
 
   Connector.prototype.sendCommand = function(command) {
-    if (this.protocol === null) {
+    if (this.protocol == null) {
       return;
     }
     return this._sendCommand(command);
@@ -479,7 +479,7 @@ Options.extract = function(document) {
     Reloader.prototype.reload = function(path, options) {
       var plugin, _base, _i, _len, _ref;
       this.options = options;
-      if ((_base = this.options).stylesheetReloadTimeout === null) {
+      if ((_base = this.options).stylesheetReloadTimeout == null) {
         _base.stylesheetReloadTimeout = 15000;
       }
       _ref = this.plugins;
@@ -543,7 +543,7 @@ Options.extract = function(document) {
     Reloader.prototype.reloadStylesheetImages = function(styleSheet, path, expando) {
       var rule, rules, styleNames, _i, _j, _len, _len1;
       try {
-        rules = styleSheet !== null ? styleSheet.cssRules : void 0;
+        rules = styleSheet != null ? styleSheet.cssRules : void 0;
       } catch (e) {
 
       }
@@ -649,7 +649,7 @@ Options.extract = function(document) {
     Reloader.prototype.collectImportedStylesheets = function(link, styleSheet, result) {
       var index, rule, rules, _i, _len;
       try {
-        rules = styleSheet !== null ? styleSheet.cssRules : void 0;
+        rules = styleSheet != null ? styleSheet.cssRules : void 0;
       } catch (e) {
 
       }
@@ -744,7 +744,7 @@ Options.extract = function(document) {
           }
           link.parentNode.removeChild(link);
           clone.onreadystatechange = null;
-          return (_ref = _this.window.StyleFix) !== null ? _ref.link(clone) : void 0;
+          return (_ref = _this.window.StyleFix) != null ? _ref.link(clone) : void 0;
         });
       });
     };
@@ -792,7 +792,7 @@ Options.extract = function(document) {
 
     Reloader.prototype.generateCacheBustUrl = function(url, expando) {
       var hash, oldParams, params, _ref;
-      if (expando === null) {
+      if (expando == null) {
         expando = this.generateUniqueString();
       }
       _ref = splitUrl(url), url = _ref.url, hash = _ref.hash, oldParams = _ref.params;
@@ -915,8 +915,8 @@ __livereload.LiveReload = LiveReload = (function() {
     var _ref, _ref2;
     this.log("LiveReload received reload request for " + message.path + ".");
     return this.reloader.reload(message.path, {
-      liveCSS: (_ref = message.liveCSS) !== null ? _ref : true,
-      liveImg: (_ref2 = message.liveImg) !== null ? _ref2 : true,
+      liveCSS: (_ref = message.liveCSS) != null ? _ref : true,
+      liveImg: (_ref2 = message.liveImg) != null ? _ref2 : true,
       originalPath: message.originalPath || '',
       overrideURL: message.overrideURL || '',
       serverURL: "http://" + this.options.host + ":" + this.options.port
