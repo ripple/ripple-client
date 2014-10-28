@@ -16,7 +16,7 @@ module.service('rpAccountProfile', ['$rootScope', 'rpNetwork', '$http',
       version: manifest.version,
 
       getFields: function () {
-        return manifest.signupFields
+        return manifest.signupFields;
       },
       signup: function(fields, callback) {
         $http({
@@ -39,7 +39,7 @@ module.service('rpAccountProfile', ['$rootScope', 'rpNetwork', '$http',
           callback({
             message: 'Unable to sign up.'
           });
-        })
+        });
       },
       getUser: function(rippleAddress, callback) {
         $http({
@@ -62,12 +62,12 @@ module.service('rpAccountProfile', ['$rootScope', 'rpNetwork', '$http',
           callback({
             message: "Can't get the user."
           });
-        })
+        });
       }
-    }
+    };
   };
 
   this.fromManifest = function (manifest) {
     return new this.accountProfile(manifest);
-  }
+  };
 }]);

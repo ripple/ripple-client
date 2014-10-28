@@ -25,7 +25,7 @@ SecurityTab.prototype.angular = function (module) {
     if (!$id.loginStatus) return $id.goId();
 
     $scope.settingsPage = 'security';
-    
+
     $scope.showComponent = [];
 
 
@@ -35,7 +35,7 @@ SecurityTab.prototype.angular = function (module) {
     $scope.loaded2FA       = false;
     $scope.errorLoading2FA = false;
     $scope.requirePasswordChanged = false;
-   
+
     $scope.validation_pattern_phone = /^[0-9]*$/;
 
     $scope.$on('$blobUpdate', onBlobUpdate);
@@ -48,10 +48,10 @@ SecurityTab.prototype.angular = function (module) {
       if ("function" === typeof $scope.userBlob.encrypt) {
         $scope.enc = $scope.userBlob.encrypt();
       }
-      
+
 
       $scope.requirePassword = !$scope.userBlob.data.persistUnlock;
-      
+
       if (!$scope.loaded2FA && "function" === typeof $scope.userBlob.get2FA) {
         $scope.loading2FA      = true;
         $scope.errorLoading2FA = false;
@@ -62,14 +62,14 @@ SecurityTab.prototype.angular = function (module) {
               $scope.errorLoading2FA = true;
               return;
             }
-  
+
             $scope.loaded2FA          = true;
             $scope.enabled2FA         = resp.enabled;
             $scope.currentPhone       = resp.phone;
             $scope.currentCountryCode = resp.country_code;
           });
         });
-      }   
+      }
     }
 
     $scope.restoreSession = function() {
@@ -85,7 +85,7 @@ SecurityTab.prototype.angular = function (module) {
       keychain.getSecret($id.account, $id.username, $scope.sessionPassword, function(err, secret) {
         $scope.isConfirming = false;
         $scope.sessionPassword = '';
-        
+
         if (err) {
           $scope.unlockError = err;
           return;
@@ -111,12 +111,12 @@ SecurityTab.prototype.angular = function (module) {
 
     $scope.setPasswordProtection = function () {
       $scope.editUnlock = false;
-      
+
       //ignore it if we are not going to change anything
       if (!$scope.requirePasswordChanged) return;
       $scope.requirePasswordChanged = false;
       $scope.requirePassword        = !$scope.requirePassword;
-      
+
       keychain.setPasswordProtection($scope.requirePassword, function(err, resp){
         if (err) {
           console.log(err);
@@ -168,14 +168,14 @@ SecurityTab.prototype.angular = function (module) {
       );
     };
 
-    $scope.open2FA = function() {  
+    $scope.open2FA = function() {
       $scope.mode2FA        = '';
       $scope.loading        = false;
       $scope.error2FA       = false;
       $scope.disableSuccess = false;
       $scope.phoneNumber    = $scope.currentPhone;
       $scope.countryCode    = $scope.currentCountryCode;
-      window.Authy.UI.instance(true, $scope.countryCode); //enables the authy dropdown 
+      window.Authy.UI.instance(true, $scope.countryCode); //enables the authy dropdown
     };
 
     $scope.savePhone = function() {
@@ -188,7 +188,7 @@ SecurityTab.prototype.angular = function (module) {
           $scope.mode2FA = '';
           return;
         }
-        
+
         var options = {
           masterkey    : secret,
           phone        : $scope.phoneNumber,
@@ -211,7 +211,7 @@ SecurityTab.prototype.angular = function (module) {
               //request verification token
               requestToken(false, function(err, resp) {
                 //TODO: handle error
-                
+
                 $scope.savingPhone = false;
                 $scope.mode2FA     = 'verifyPhone';
                 popup.close();
@@ -237,13 +237,13 @@ SecurityTab.prototype.angular = function (module) {
 
     $scope.requestToken = function () {
       var force = $scope.via === 'app' ? true : false;
-      
+
       $scope.isRequesting = true;
       requestToken(force, function(err, resp) {
         $scope.isRequesting = false;
         //TODO: present message of resend success or failure
       });
-    }
+    };
 
 
     $scope.enable2FA = function() {

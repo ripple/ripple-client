@@ -167,8 +167,8 @@ HistoryTab.prototype.angular = function (module) {
           history = hist;
           $scope.historyState = 'ready';
           updateHistory();
-        })
-      })
+        });
+      });
     };
 
     // All the currencies
@@ -235,7 +235,7 @@ HistoryTab.prototype.angular = function (module) {
 
         $scope.minLedger = 0;
 
-        var currencies = _.map($scope.filters.currencies,function(obj,key){return obj.checked ? key : false});
+        var currencies = _.map($scope.filters.currencies,function(obj,key){return obj.checked ? key : false;});
         history.forEach(function(event)
         {
 
@@ -302,7 +302,7 @@ HistoryTab.prototype.angular = function (module) {
             // Trade filter - remove open orders that haven't been filled/partially filled
             if (_.contains($scope.filters.types,'exchange') && !_.contains($scope.filters.types,'offercancel')) {
               if ((event.transaction && event.transaction.type === 'offernew' && !isFundedTrade) || isCancellation)
-                return
+                return;
             }
 
             effects = [ ];
@@ -442,7 +442,7 @@ HistoryTab.prototype.angular = function (module) {
               }
             });
 
-            var newHistory = _.uniq(history.concat(transactions),false,function(ev){return ev.hash});
+            var newHistory = _.uniq(history.concat(transactions),false,function(ev) {return ev.hash;});
 
             $scope.historyState = (history.length === newHistory.length) ? 'full' : 'ready';
             history = newHistory;
@@ -450,7 +450,7 @@ HistoryTab.prototype.angular = function (module) {
           }
         });
       }).request();
-    }
+    };
 
     var exists = function(pty) {
       return typeof pty !== 'undefined';
@@ -500,27 +500,27 @@ HistoryTab.prototype.angular = function (module) {
 
       var addLineToCsv = function(line) {
         // Ensure that the fields match the CSV header initialized in var csv
-        csv += [ line['Date'], line['Time'], line['LedgerNum'], line['TransType'], line['TrustAddr'], 
-          line['FromAddr'], line['SentAmount'], line['SentCcy'], line['SentIssuer'], 
-          line['ToAddr'], line['RecvAmount'], line['RecvCcy'], line['RecvIssuer'], 
-          line['ExecPrice'], line['Fee'], line['TransHash']
+        csv += [ line.Date, line.Time, line.LedgerNum, line.TransType, line.TrustAddr,
+          line.FromAddr, line.SentAmount, line.SentCcy, line.SentIssuer,
+          line.ToAddr, line.RecvAmount, line.RecvCcy, line.RecvIssuer,
+          line.ExecPrice, line.Fee, line.TransHash
           ].join(',') + '\r\n';
-      }
+      };
 
       // Convert the fields of interest in buy & sell Amounts to strings in Key/Value pairs
       var getOrderDetails = function(keyVal, buy, sell) {
         if (buy !== null && buy instanceof Amount) {
-          keyVal['SentAmount'] = formatAmount(buy);
-          keyVal['SentCcy'] = buy.currency().get_iso();
-          keyVal['SentIssuer'] = rippleName(issuerToString(buy.issuer()));
+          keyVal.SentAmount = formatAmount(buy);
+          keyVal.SentCcy = buy.currency().get_iso();
+          keyVal.SentIssuer = rippleName(issuerToString(buy.issuer()));
         }
 
         if (sell !== null && sell instanceof Amount) {
-          keyVal['RecvAmount'] = formatAmount(sell);
-          keyVal['RecvCcy'] = sell.currency().get_iso();
-          keyVal['RecvIssuer'] = rippleName(issuerToString(sell.issuer()));
+          keyVal.RecvAmount = formatAmount(sell);
+          keyVal.RecvCcy = sell.currency().get_iso();
+          keyVal.RecvIssuer = rippleName(issuerToString(sell.issuer()));
         }
-      }
+      };
 
       // Construct a CSV string by:
       // 1) Iterating over each line item in the *displayed* Transaction History
@@ -544,15 +544,15 @@ HistoryTab.prototype.angular = function (module) {
         if (transType === 'failed' || histLine.tx_result !== 'tesSUCCESS') continue;
 
         // Fields common to all Transaction types
-        lineTemplate['Date'] = dateTime.format('YYYY-MM-DD');
-        lineTemplate['Time'] = dateTime.format('HH:mm:ss');
-        lineTemplate['LedgerNum'] = histLine.ledger_index;
-        lineTemplate['Fee'] = formatAmount(Amount.from_json(histLine.fee));
-        lineTemplate['TransHash'] = histLine.hash;
+        lineTemplate.Date = dateTime.format('YYYY-MM-DD');
+        lineTemplate.Time = dateTime.format('HH:mm:ss');
+        lineTemplate.LedgerNum = histLine.ledger_index;
+        lineTemplate.Fee = formatAmount(Amount.from_json(histLine.fee));
+        lineTemplate.TransHash = histLine.hash;
 
         // Default type-specific fields to NA, they will be overridden later if applicable
-        lineTemplate['TrustAddr'] = lineTemplate['FromAddr'] = lineTemplate['ToAddr'] = na;
-        lineTemplate['RecvAmount'] = lineTemplate['RecvCcy'] = lineTemplate['ExecPrice'] = na;
+        lineTemplate.TrustAddr = lineTemplate.FromAddr = lineTemplate.ToAddr = na;
+        lineTemplate.RecvAmount = lineTemplate.RecvCcy = lineTemplate.ExecPrice = na;
 
         // Include if Payment, Trust, Offer. Otherwise Exclude.
         if (type === 'TrustSet') {
@@ -563,13 +563,13 @@ HistoryTab.prototype.angular = function (module) {
           else if (transType === 'trusting') trust = 'Outgoing ';
           else continue;  // unrecognised trust type
 
-          lineTrust['TransType'] = trust + 'trust line';
-          lineTrust['TrustAddr'] = rippleName(transaction.counterparty);
+          lineTrust.TransType = trust + 'trust line';
+          lineTrust.TrustAddr = rippleName(transaction.counterparty);
 
-          lineTrust['SentAmount'] = formatAmount(transaction.amount);
-          lineTrust['SentCcy'] = transaction.currency; //transaction.amount.currency().get_iso();
+          lineTrust.SentAmount = formatAmount(transaction.amount);
+          lineTrust.SentCcy = transaction.currency; //transaction.amount.currency().get_iso();
 
-          lineTrust['SentIssuer'] = lineTrust['RecvIssuer'] = na;
+          lineTrust.SentIssuer = lineTrust.RecvIssuer = na;
 
           line = $.extend({}, lineTemplate, lineTrust);
           addLineToCsv(line);
@@ -580,29 +580,29 @@ HistoryTab.prototype.angular = function (module) {
           else if (transType === 'received') sent = false;
           else continue;  // unrecognised payment type
 
-          linePayment['TransType'] = capFirst(transType, true) + ' ' + capFirst(type, false);
+          linePayment.TransType = capFirst(transType, true) + ' ' + capFirst(type, false);
 
           if (sent) {
             // If sent, counterparty is Address To
-            linePayment['ToAddr'] = rippleName(transaction.counterparty);
-            linePayment['FromAddr'] = rippleName($id.account);
+            linePayment.ToAddr = rippleName(transaction.counterparty);
+            linePayment.FromAddr = rippleName($id.account);
           }
           else {
             // If received, counterparty is Address From
-            linePayment['FromAddr'] = rippleName(transaction.counterparty);
-            linePayment['ToAddr'] = rippleName($id.account);
+            linePayment.FromAddr = rippleName(transaction.counterparty);
+            linePayment.ToAddr = rippleName($id.account);
           }
 
           if (exists(transaction.amountSent)) {
             amtSent = transaction.amountSent;
-            linePayment['SentAmount'] = exists(amtSent.value) ? amtSent.value : formatAmount(Amount.from_json(amtSent));
-            linePayment['SentCcy'] = exists(amtSent.currency) ? amtSent.currency : 'XRP';
-            if (exists(transaction.sendMax)) linePayment['SentIssuer'] = rippleName(transaction.sendMax.issuer);
+            linePayment.SentAmount = exists(amtSent.value) ? amtSent.value : formatAmount(Amount.from_json(amtSent));
+            linePayment.SentCcy = exists(amtSent.currency) ? amtSent.currency : 'XRP';
+            if (exists(transaction.sendMax)) linePayment.SentIssuer = rippleName(transaction.sendMax.issuer);
           }
 
-          linePayment['RecvAmount'] = formatAmount(transaction.amount);
-          linePayment['RecvCcy'] = transaction.currency;
-          linePayment['RecvIssuer'] = rippleName(issuerToString(transaction.amount.issuer()));
+          linePayment.RecvAmount = formatAmount(transaction.amount);
+          linePayment.RecvCcy = transaction.currency;
+          linePayment.RecvIssuer = rippleName(issuerToString(transaction.amount.issuer()));
 
           line = $.extend({}, lineTemplate, linePayment);
           addLineToCsv(line);
@@ -613,7 +613,7 @@ HistoryTab.prototype.angular = function (module) {
 
           if (transType === 'offernew') {
             getOrderDetails(lineOffer, transaction.gets, transaction.pays);
-            lineOffer['TransType'] = 'Offer Created';
+            lineOffer.TransType = 'Offer Created';
 
             line = $.extend({}, lineTemplate, lineOffer);
             addLineToCsv(line);
@@ -624,7 +624,7 @@ HistoryTab.prototype.angular = function (module) {
 
               if (effect.type === 'offer_cancelled') {
                 getOrderDetails(lineOffer, effect.gets, effect.pays);
-                lineOffer['TransType'] = 'Offer Cancelled';
+                lineOffer.TransType = 'Offer Cancelled';
 
                 line = $.extend({}, lineTemplate, lineOffer);
                 addLineToCsv(line);
@@ -656,11 +656,11 @@ HistoryTab.prototype.angular = function (module) {
               }
 
               getOrderDetails(lineOffer, buy, sell);
-              lineOffer['TransType'] = 'Executed offer';
-              lineOffer['ExecPrice'] = formatAmount(effect.price);
+              lineOffer.TransType = 'Executed offer';
+              lineOffer.ExecPrice = formatAmount(effect.price);
 
               line = $.extend({}, lineTemplate, lineOffer);
-              if (s > 0) line['Fee'] = '';  // Fee only applies once
+              if (s > 0) line.Fee = '';  // Fee only applies once
               addLineToCsv(line);
 
             break;  // end case

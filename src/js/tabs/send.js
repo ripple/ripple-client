@@ -41,7 +41,7 @@ SendTab.prototype.angular = function (module)
     var xrpCurrency = Currency.from_json("XRP");
 
     $scope.xrp = {
-      name: xrpCurrency.to_human({full_name:$scope.currencies_all_keyed["XRP"].name}),
+      name: xrpCurrency.to_human({full_name:$scope.currencies_all_keyed.XRP.name}),
       code: xrpCurrency.get_iso(),
       currency: xrpCurrency
     };
@@ -142,8 +142,8 @@ SendTab.prototype.angular = function (module)
       // Trying to send to a Bitcoin address
       if (!isNaN(Base.decode_check([0, 5], recipient, 'bitcoin'))) {
         if (Options.bridge.out.bitcoin) { // And there is a default bridge
-          recipient += '@' + Options.bridge.out.bitcoin
-          send.recipient_address = recipient
+          recipient += '@' + Options.bridge.out.bitcoin;
+          send.recipient_address = recipient;
         }
       }
 
@@ -234,7 +234,7 @@ SendTab.prototype.angular = function (module)
           });
 
           $scope.check_destination();
-        })
+        });
       }
       else {
         $scope.check_destination();
@@ -677,9 +677,9 @@ SendTab.prototype.angular = function (module)
           clearInterval(timer);
           timer = setInterval(function(){
             $scope.$apply(function(){
-              var seconds = Math.round((new Date() - lastUpdate)/1000);
+              var seconds = Math.round((new Date() - lastUpdate) / 1000);
               $scope.lastUpdate = seconds ? seconds : 0;
-            })
+            });
           }, 1000);
 
           // Check if this request is still current, exit if not
@@ -724,7 +724,7 @@ SendTab.prototype.angular = function (module)
               }
 
               if (alt.amount.issuer().to_json() != $scope.address && !isIssuer[alt.amount.currency().to_hex()]) {
-                currencies[alt.amount.currency().to_hex()] = true
+                currencies[alt.amount.currency().to_hex()] = true;
               }
 
               return alt;
@@ -770,7 +770,7 @@ SendTab.prototype.angular = function (module)
           'Address Type': $scope.send.federation ? 'federation' : 'ripple',
           'Destination Tag': !!$scope.send.dt,
           'Address': $scope.userBlob.data.account_id
-        })
+        });
       });
 
       var pathFindTime = new Date();
@@ -868,7 +868,7 @@ SendTab.prototype.angular = function (module)
         'Address Type': $scope.send.federation ? 'federation' : 'ripple',
         'Destination Tag': !!$scope.send.dt,
         'Address': $scope.userBlob.data.account_id
-      })
+      });
     };
 
     /**
@@ -1012,7 +1012,7 @@ SendTab.prototype.angular = function (module)
           'Time': (+new Date() - +$scope.confirmedTime) / 1000,
           'Address': $scope.userBlob.data.account_id,
           'Transaction ID': res.tx_json.hash
-        })
+        });
       });
 
       tx.on('proposed', function (res) {

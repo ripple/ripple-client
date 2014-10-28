@@ -311,7 +311,7 @@ TrustTab.prototype.angular = function (module)
       if ($scope.currencies_all_keyed[lineCurrency.get_iso()]) {
         formatOpts = {
           full_name:$scope.currencies_all_keyed[lineCurrency.get_iso()].name
-        }
+        };
       }
 
       $scope.lineCurrencyObj = lineCurrency;
@@ -323,7 +323,7 @@ TrustTab.prototype.angular = function (module)
 
       $scope.amount = line.max.currency().has_interest()
         ? +Math.round(line.max.applyInterest(new Date()).to_text())
-        : +line.max.to_text()
+        : +line.max.to_text();
 
       $scope.allowrippling = line.rippling;
 
@@ -353,15 +353,15 @@ TrustTab.prototype.angular = function (module)
         if(line.account == "rrh7rf1gV2pXAoqA8oYbpHd8TKv5ZQeo67"){
           store.set('gbi_connected', true);
         }
-      })
+      });
 
       $scope.accountLines = obj;
       return;
-    }
+    };
 
     $scope.$on('$balancesUpdate', function(){
       updateAccountLines();
-    })
+    });
 
     updateAccountLines();
   }]);
@@ -373,7 +373,7 @@ TrustTab.prototype.angular = function (module)
 
       $scope.cancel = function () {
         $scope.editing = false;
-      }
+      };
 
 
       $scope.edit_account = function() {
@@ -396,7 +396,7 @@ TrustTab.prototype.angular = function (module)
         $scope.trust.counterparty = $scope.component.account;
 
         $scope.load_orderbook();
-      }
+      };
 
       $scope.delete_account = function()
       {
@@ -430,7 +430,7 @@ TrustTab.prototype.angular = function (module)
             });
 
           });
-        }
+        };
 
         var nullifyTrustLine = function(idAccount, lineCurrency, lineAccount) {
           var tx = $network.remote.transaction();
@@ -442,7 +442,7 @@ TrustTab.prototype.angular = function (module)
           tx.setFlags('ClearNoRipple');
 
           setSecretAndSubmit(tx);
-        }
+        };
 
         var clearBalance = function(selfAddress, issuerAddress, curr, amountObject, callback) {
 
@@ -475,14 +475,14 @@ TrustTab.prototype.angular = function (module)
             var payment = tx.payment(selfAddress, issuerAddress, newAmount);
 
             return tx;
-          }
+          };
 
           var tx = ($scope.orderbookStatus === 'exists') ? sendBalanceToSelf() : sendBalanceToIssuer();
 
           setSecretAndSubmit(tx);
 
           tx.once('proposed', callback);
-        }
+        };
 
         // $scope.counterparty inside the clearBalance callback function does not have counterparty in its scope, therefore, we need an immediate function to capture it.
 
@@ -532,7 +532,7 @@ TrustTab.prototype.angular = function (module)
           }
         });
 
-      }
+      };
 
       $scope.save_account = function () {
 
@@ -566,7 +566,7 @@ TrustTab.prototype.angular = function (module)
             $scope.$apply(function () {
               setEngineStatus(res, true);
 
-              $scope.trust.loading = false
+              $scope.trust.loading = false;
               $scope.load_notification('success');
               $scope.editing = false;
             });

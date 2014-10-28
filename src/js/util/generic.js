@@ -19,4 +19,4 @@ exports.uniqueObjArray = function(arr1, arr2, key) {
   });
 
   return _.values(obj);
-}
+};

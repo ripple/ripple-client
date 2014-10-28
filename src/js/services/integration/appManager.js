@@ -27,7 +27,7 @@ module.service('rpAppManager', ['$rootScope', '$http', 'rpDomainAlias', 'rpRippl
           loadApp(appInBlob.rippleAddress, function(err, app){
             $scope.apps[appInBlob.rippleAddress] = app;
           });
-        })
+        });
       }
     });
   };
@@ -68,7 +68,7 @@ module.service('rpAppManager', ['$rootScope', '$http', 'rpDomainAlias', 'rpRippl
           if (currency.toUpperCase() === c.currency) {
             found = profile;
           }
-        })
+        });
       }
     });
 
@@ -101,7 +101,7 @@ module.service('rpAppManager', ['$rootScope', '$http', 'rpDomainAlias', 'rpRippl
           name: app.name,
           rippleAddress: app.rippleAddress
         });
-        
+
         watcher();
       }
     });
@@ -153,20 +153,20 @@ module.service('rpAppManager', ['$rootScope', '$http', 'rpDomainAlias', 'rpRippl
                   callback(null, $scope.apps[rippleAddress]);
                 })
                 .error(function(data, status, headers, config) {
-                  log("appManager:','Can't get the manifest");
+                  log('appManager:','Can\'t get the manifest');
                 });
             }
           },
 
           // Rejected
           function(reason) {
-            callback(reason)
+            callback(reason);
           }
-        )
+        );
       },
 
       // Rejected
-      function(reason){
+      function(reason) {
         callback(reason);
       }
     );
@@ -196,5 +196,5 @@ module.service('rpAppManager', ['$rootScope', '$http', 'rpDomainAlias', 'rpRippl
     loadApp: loadApp,
     init: init,
     save: save
-  }
+  };
 }]);

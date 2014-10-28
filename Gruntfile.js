@@ -57,7 +57,7 @@ module.exports = function(grunt) {
   /**
    * Returns true if the source is newer than the destination.
    */
-  var isNewer = function (src,dest) {
+  var isNewer = function (src, dest) {
     if (!fs.existsSync(dest)) {
       return true;
     }
@@ -156,7 +156,7 @@ module.exports = function(grunt) {
         failOnError: true
       },
       startdevserver: {
-        command: 
+        command:
           process.platform === 'darwin' ? 'sudo node ./scripts/web-server.js'
                                         : 'node ./scripts/web-server.js'
       },
@@ -444,8 +444,8 @@ module.exports = function(grunt) {
           open: false,
           middleware: function(connect, options) {
             return [
-              connect['static'](options.base)
-            ]
+              connect.static(options.base)
+            ];
           }
         }
       }
@@ -605,10 +605,10 @@ module.exports = function(grunt) {
 //        minimize: true
       },
       target: 'node-webkit'
-    }
+    };
   });
 
-  grunt.config.set('webpack',webpack);
+  grunt.config.set('webpack', webpack);
 
   // Tasks
   // -----

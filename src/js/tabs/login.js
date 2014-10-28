@@ -34,19 +34,19 @@ LoginTab.prototype.angular = function (module) {
     $scope.error = '';
     $scope.password = '';
     $scope.token = '';
-    $scope.showRecover = false; 
-    $scope.rememberMe = true;     
-      
+    $scope.showRecover = false;
+    $scope.rememberMe = true;
+
     $scope.loginForm && $scope.loginForm.$setPristine(true);
     $scope.backendMessages = [];
-    
+
     //set username and password here so
     //that the form will be valid if we are
-    //only verifying via 2FA    
+    //only verifying via 2FA
     if ($scope.twoFactor && $scope.twoFactor.tokenError) {
-      $scope.backendMessages.push({'backend': "2FA", 'message': $scope.twoFactor.tokenError.message});    
+      $scope.backendMessages.push({'backend': "2FA", 'message': $scope.twoFactor.tokenError.message});
     }
-    
+
     // Autofill fix
     $timeout(function(){
       $scope.$apply(function () {
@@ -83,7 +83,7 @@ LoginTab.prototype.angular = function (module) {
       $timeout(function(){
         $scope.$apply(function () {
           updateFormFields();
-        })
+        });
       }, 50);
     });
 
@@ -95,9 +95,9 @@ LoginTab.prototype.angular = function (module) {
     $scope.submitForm = function()
     {
       if ($scope.ajax_loading) return;
-      
+
       $scope.backendMessages = [];
-      
+
       //submitting a verification code
       if ($scope.twoFactor) {
         var options = {
@@ -107,29 +107,29 @@ LoginTab.prototype.angular = function (module) {
           token       : $scope.token,
           remember_me : $scope.rememberMe
         };
-        
+
         $id.verifyToken(options, function(err, resp) {
           $scope.ajax_loading = false;
 
           if (err) {
             $scope.status = 'Verification Falied:';
             $scope.backendMessages.push({'backend': "2FA", 'message': err.message});
-            
+
           } else {
             var username = (""+$scope.username).trim();
             var keys     = {
               id    : $scope.twoFactor.blob_id,
               crypt : $scope.twoFactor.blob_key
-            }
+            };
 
-            //save credentials for login  
+            //save credentials for login
             $id.storeLoginKeys($scope.twoFactor.blob_url, username, keys);
             $id.setUsername(username);
             store.set('device_id', $scope.twoFactor.device_id);
             setImmediate(login);
           }
-        })
-        
+        });
+
         $scope.ajax_loading = true;
         $scope.error  = '';
         $scope.status = 'verifiying...';
@@ -147,12 +147,12 @@ LoginTab.prototype.angular = function (module) {
       $scope.error  = '';
       $scope.status = 'Logging in...';
     };
-    
+
     //initiate the login
-    function login () {      
+    function login () {
       if ($scope.twoFactor) {
         $id.relogin(loginCallback);
-        
+
       } else {
         $id.login({
           username   : $scope.username,
@@ -163,17 +163,17 @@ LoginTab.prototype.angular = function (module) {
     $scope.$on('$idRemoteLogin', function(){
       $id.relogin(loginCallback);
     });
-     
-    //handle the login results    
+
+    //handle the login results
     function loginCallback (err, blob) {
-        
+
       $scope.ajax_loading = false;
-      
+
       //blob has 2FA enabled
       if (err && err.twofactor) {
         if (err.twofactor.tokenError) {
           $scope.status = 'Request token:';
-          $scope.backendMessages.push({'backend': "2FA", 'message': err.twofactor.tokenError.message});       
+          $scope.backendMessages.push({'backend': "2FA", 'message': err.twofactor.tokenError.message});
           return;
         }
 
@@ -189,7 +189,7 @@ LoginTab.prototype.angular = function (module) {
         }
 
         return;
-      
+
       //login failed for a different reason
       } else if (err) {
         if (++$scope.attempts>2) {
@@ -241,25 +241,25 @@ LoginTab.prototype.angular = function (module) {
           $location.path('/balance');
         }
       }
-    } 
- 
+    }
+
     $scope.requestToken = function() {
       var force = $scope.twoFactor.via == 'app' ? true : false;
       $scope.status = 'requesting token...';
       authflow.requestToken($scope.twoFactor.blob_url, $scope.twoFactor.blob_id, force, function(tokenError, tokenResp) {
         if (tokenError) {
           $scope.status = 'token request failed...';
-          $scope.backendMessages.push({'backend': "2FA", 'message': tokenError.message});  
+          $scope.backendMessages.push({'backend': "2FA", 'message': tokenError.message});
         } else {
           $scope.status = 'token resent!';
-        }  
+        }
       });
-    }
-    
+    };
+
     $scope.cancel2FA = function() {
       $scope.twoFactor  = null;
       $scope.status     = null;
-    }
+    };
   }]);
 
   /**
@@ -269,12 +269,12 @@ LoginTab.prototype.angular = function (module) {
   module.directive('rpFocusOnEmpty', ['$timeout', function($timeout) {
     return function($scope, element) {
       $timeout(function(){
-        $scope.$watch(function () {return element.is(':visible')}, function(newValue) {
+        $scope.$watch(function () {return element.is(':visible');}, function(newValue) {
           if (newValue === true && !element.val())
             element.focus();
-        })
-      }, 200)
-    }
+        });
+      }, 200);
+    };
   }]);
 };
 

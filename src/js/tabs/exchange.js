@@ -36,7 +36,7 @@ ExchangeTab.prototype.angular = function (module)
       var xrpCurrency = Currency.from_json("XRP");
 
       $scope.xrp = {
-        name: xrpCurrency.to_human({full_name:$scope.currencies_all_keyed["XRP"].name}),
+        name: xrpCurrency.to_human({full_name:$scope.currencies_all_keyed.XRP.name}),
         code: xrpCurrency.get_iso(),
         currency: xrpCurrency
       };
@@ -140,9 +140,9 @@ ExchangeTab.prototype.angular = function (module)
               clearInterval(timer);
               timer = setInterval(function(){
                 $scope.$apply(function(){
-                  var seconds = Math.round((new Date() - lastUpdate)/1000);
+                  var seconds = Math.round((new Date() - lastUpdate) / 1000);
                   $scope.lastUpdate = seconds ? seconds : 0;
-                })
+                });
               }, 1000);
 
               if (!upd.alternatives || !upd.alternatives.length) {
@@ -161,7 +161,7 @@ ExchangeTab.prototype.angular = function (module)
                       : raw.paths_canonical;
 
                   if (alt.amount.issuer().to_json() != $scope.address && !isIssuer[alt.amount.currency().to_hex()]) {
-                    currencies[alt.amount.currency().to_hex()] = true
+                    currencies[alt.amount.currency().to_hex()] = true;
                   }
 
                   return alt;

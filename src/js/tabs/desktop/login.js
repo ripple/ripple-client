@@ -33,7 +33,7 @@ LoginTab.prototype.angular = function (module) {
     $scope.simulateFileInputClick = function(element){
       var fileInput = angular.element(element);
       fileInput.trigger('click');
-    }
+    };
 
     $scope.error = '';
     $scope.username = '';
@@ -76,7 +76,7 @@ LoginTab.prototype.angular = function (module) {
       $timeout(function(){
         $scope.$apply(function () {
          updateFormFields();
-        })
+        });
       }, 50);
     });
 
@@ -157,12 +157,12 @@ LoginTab.prototype.angular = function (module) {
   module.directive('rpFocusOnEmpty', ['$timeout', function($timeout) {
     return function($scope, element) {
       $timeout(function(){
-        $scope.$watch(function () {return element.is(':visible')}, function(newValue) {
+        $scope.$watch(function () {return element.is(':visible');}, function(newValue) {
           if (newValue === true && !element.val())
             element.focus();
-        })
-      }, 200)
-    }
+        });
+      }, 200);
+    };
   }]);
 };
 

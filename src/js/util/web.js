@@ -1,4 +1,4 @@
-// returns the raw address after removing any parameters 
+// returns the raw address after removing any parameters
 exports.stripRippleAddress = function (addr)
 {
   if(typeof(addr)=='string')
@@ -10,8 +10,8 @@ exports.stripRippleAddress = function (addr)
     }
   }
   return(addr);
-}
-//returns the destination tag of an address if there is one 
+};
+//returns the destination tag of an address if there is one
 exports.getDestTagFromAddress = function (addr)
 {
   var index=addr.indexOf("?");
@@ -36,7 +36,7 @@ exports.getDestTagFromAddress = function (addr)
     }
   }
   return(undefined);
-}
+};
 
 exports.removeClassPrefix = function (el, group)
 {
@@ -102,7 +102,7 @@ exports.findIssuer= function(lines, currency)
     }
   }
   return maxIssuer;
-}
+};
 
 exports.getContact = function (contacts,value)
 {
@@ -174,7 +174,7 @@ exports.queryFromContacts = function (contacts)
       return {
         name: entry.name,
         additional: entry.view || entry.address
-      }
+      };
     })
   );
 };

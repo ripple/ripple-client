@@ -310,6 +310,6 @@ module.directive('fileUploadButton', function() {
 
       el.append(fileInput);
     }
-  }
+  };
 });
 

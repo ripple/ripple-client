@@ -156,7 +156,7 @@ UsdTab.prototype.angular = function (module)
             // Create account if it doesn't exist yet
             $scope.createAccount(function(err){
               $scope.error = '';
-              
+
               if (err) {
                 $scope.error = 'We are unable to proceed with instant deposit. Please contact support@snapswap.us.';
                 $scope.calculating = false;
@@ -200,7 +200,7 @@ UsdTab.prototype.angular = function (module)
             // Does this fulfil our needs?
             noNeed = txInQueue && txInQueue.details.currency === currency
             && txInQueue.details.issuer === issuer
-            && txInQueue.details.value >= trustAmount
+            && txInQueue.details.value >= trustAmount;
           }
         );
 
@@ -265,7 +265,7 @@ UsdTab.prototype.angular = function (module)
           'Result': $routeParams.result
         });
       }
-    }])
+    }]);
 };
 
 module.exports = UsdTab;
