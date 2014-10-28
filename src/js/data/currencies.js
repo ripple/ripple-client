@@ -186,9 +186,9 @@ module.exports = [
   {value: 'XAU', short_value: 'XAU', name: 'Gold', display: true, standard_precision: 2, order: 0},
   {value: 'XAU (-0.05%pa)', short_value: 'XAU.gbi', display: true, name: 'GBI Gold', standard_precision: 2, order: 0},
   {value: 'XAG', short_value: 'XAG', name: 'Silver', display: true, standard_precision: 2, order: 0},
-  {value: 'XPT', short_value: 'XPT', name: 'Platinum', display: true, standard_precision: 2, order: 0}
+  {value: 'XPT', short_value: 'XPT', name: 'Platinum', display: true, standard_precision: 2, order: 0},
 
   // Cryptocurrencies
   {value: 'BTC', short_value: 'BTC', name: 'Bitcoin', display: true, standard_precision: 4, order: 2},
-  {value: 'LTC', short_value: 'LTC', name: 'Litecoin', display: true, standard_precision: 4, order: 1},
+  {value: 'LTC', short_value: 'LTC', name: 'Litecoin', display: true, standard_precision: 4, order: 1}
 ];
