@@ -93,6 +93,7 @@ var tabdefs = [
   require('../tabs/privacypolicy'),
   require('../tabs/twofa'),
   require('../tabs/404'),
+  require('../tabs/brl'),
 
   // Hidden tabs
   require('../tabs/apps'),
