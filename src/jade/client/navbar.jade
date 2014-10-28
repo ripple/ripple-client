@@ -1,4 +1,7 @@
 nav.navbar(role="navigation", ng-controller="NavbarCtrl")
+  div.alert(l10n, style="background-color: #AA3333; color: #FFAAAA; padding: 1em; margin-bottom: 0;", ng-show="pretended")
+    p
+      strong You are viewing an account in Pretend mode. While in this mode, you can view publicly available data, but you cannot initiate any transactions.
   .mainnav
     .container
       .navbar-header
@@ -17,6 +20,8 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
             a(href="#/trade", l10n) Exchange
           li#nav-fund(ng-class="{active: $route.current.mainMenu == 'fund'}")
             a(href="#/xrp", l10n) Fund
+          //- li#nav-fund(ng-class="{active: $route.current.mainMenu == 'pretend'}")
+          //-   a(href="#/pretend", l10n) Pretend
         ul.nav.navbar-nav.navbar-right
           //- li.dropdown.balances-dropdown
           //-   p.navbar-text(ng-show="!loadState.account", l10n) Loading your balance...
