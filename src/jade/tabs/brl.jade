@@ -61,24 +61,26 @@ section.col-xs-12.content(ng-controller='BrlCtrl')
               .description(l10n)
                 a(href="https://coinist.co/ripple/assets/brl-rippex", target="_blank") read reviews
 
-        .row.btc-tab-description
-          .col-md-12
-            .descriptor(l10n) Ripple Trade has partnered with Rippex to provide easy access to BRL. By continuing, you agree with Rippex's terms of service. Following this action will add BRL to your ripple account.
+        .row.btc-tab-description(ng-show="!brlConnected")
+          .col-xs-12.col-md-8.col-lg-6
+            .descriptor(l10n) Ripple Trade has partnered with Rippex to provide easy access to BRL. By continuing, you agree with Rippex's 
+              a(href="https://rippex.net/termos.php#/", target="_blank") terms of service.
+              | Following this action will enable Rippex to hold BRL on your behalf.
 
         .row.btc-tab-description
           .col-xs-9.col-sm-5.col-md-4.action-btn-wrapper
             button.btn.btn-large(type="submit",ng-click="create_trust_line()", ng-hide="brlConnected", ng-disabled="loading || !account.Balance") 
               span(ng-show="!loading")  Add Rippex
               span(ng-show="loading")  Adding...
-            button.btn.btn-large(ng-show="show_instructions && brlConnected", type="submit", ng-click="show_instructions = false") Hide instructions
-            button.btn.btn-large(ng-show="!show_instructions", type="submit", ng-click="show_instructions = true") Show instructions
+            button.btn.btn-large(ng-show="showInstructions && brlConnected", type="submit", ng-click="showInstructions = false") Hide instructions
+            button.btn.btn-large(ng-show="!showInstructions", type="submit", ng-click="showInstructions = true") Show instructions
 
           .connect.col-md-2
             .description.fa.fa-times(ng-show="!brlConnected", l10n) Not connected
             .description.fa.fa-check(ng-show="brlConnected", l10n) Connected
-        .row.btc-tab-description(ng-show="show_instructions == true", ng-hide="!brlConnected")
+        .row.btc-tab-description(ng-show="showInstructions == true", ng-hide="!brlConnected")
           .instructions.col-md-10
-            a.dismiss(href="", id="hide", ng-click="show_instructions = false", l10n)  ×
+            a.dismiss(href="", id="hide", ng-click="showInstructions = false", l10n)  ×
             h4(l10n) NEW CUSTOMERS- SIGN UP AT RIPPEX
             .description(l10n) Sign up at Rippex.net to initiate deposits and withdrawals. You will need:
               ul

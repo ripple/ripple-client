@@ -22,17 +22,14 @@ BrlTab.prototype.angular = function (module)
 {
 	module.controller('BrlCtrl', ['$rootScope', 'rpId', 'rpAppManager', 'rpTracker', '$routeParams', 'rpKeychain', 'rpNetwork', '$timeout',
     function ($scope, $id, appManager, rpTracker, $routeParams, keychain, $network, $timeout)  {
-	    $scope.show_instructions = true;
+	   
 	    $scope.loading = false;
-    	
-
-      $scope.brlConnected = store.get('brl_connected');
 
       if (!$id.loginStatus) return $id.goId();
 
-      if (!$scope.account.Balance){
-        store.set('brl_connected', false);
-      }
+      // if (!$scope.account.Balance){
+      //   store.set('brl_connected', false);
+      // }
 
       $scope.brlConnected = store.get('brl_connected');
       $scope.showInstructions = store.get('show_instructions');

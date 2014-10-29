@@ -248,6 +248,9 @@ TrustTab.prototype.angular = function (module)
         if(tx.tx_json.LimitAmount.issuer == "rrh7rf1gV2pXAoqA8oYbpHd8TKv5ZQeo67") {
           store.set('gbi_connected', true);
         }
+        if(tx.tx_json.LimitAmount.issuer == "rfNZPxoZ5Uaamdp339U9dCLWz2T73nZJZH") {
+          store.set('brl_connected', true);
+        }
       });
     };
 
@@ -352,6 +355,9 @@ TrustTab.prototype.angular = function (module)
         obj[line.currency].components.push(line);
         if(line.account == "rrh7rf1gV2pXAoqA8oYbpHd8TKv5ZQeo67"){
           store.set('gbi_connected', true);
+        }
+        if(line.account == "rfNZPxoZ5Uaamdp339U9dCLWz2T73nZJZH"){
+          store.set('brl_connected', true);
         }
       });
 
@@ -495,12 +501,18 @@ TrustTab.prototype.angular = function (module)
           if($scope.trust.counterparty == "rrh7rf1gV2pXAoqA8oYbpHd8TKv5ZQeo67") {
             store.set('gbi_connected', false);
           }
+          if($scope.trust.counterparty == "rfNZPxoZ5Uaamdp339U9dCLWz2T73nZJZH") {
+            store.set('brl_connected', false);
+          }
         }
 
         else {
           nullifyTrustLine(id.account, $scope.trust.currency, $scope.trust.counterparty);
           if($scope.trust.counterparty == "rrh7rf1gV2pXAoqA8oYbpHd8TKv5ZQeo67") {
             store.set('gbi_connected', false);
+          }
+          if($scope.trust.counterparty == "rfNZPxoZ5Uaamdp339U9dCLWz2T73nZJZH") {
+            store.set('brl_connected', false);
           }
         }
 
