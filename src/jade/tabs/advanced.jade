@@ -70,6 +70,25 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
               button.btn.btn-block.btn-danger.btn-xs.submit(id="delete", type="button", ng-click="remove()", ng-show="hasRemove()", l10n) Delete
             .col-xs-3.col-sm-3.col-md-2.text-center(id="cancel")
               a(href="", ng-click="cancelEditAcctOptions()", class="btn btn-cancel btn-block", l10n) cancel
+        h4(id="networkSettings", l10n) Network settings
+        form(name="maxnetworkfeeForm", ng-submit="saveMaxNetworkFee()")
+          .descriptor(l10n) Maximum network fee
+          .row.advanced-form-row(ng-hide="editMaxNetworkFee")
+            .col-xs-9.col-sm-8.col-md-6
+              .description {{options.max_tx_network_fee}}
+            .col-xs-1
+            .col-xs-3.col-sm-3.col-md-2
+              a.btn.btn-block.btn-cancel(href="", ng-click="editMaxNetworkFee = true", l10n) edit
+          .row.row-padding-small.field-edit-row(ng-show="editMaxNetworkFee")
+            .col-xs-12.col-sm-9.col-md-6
+              input.form-control.maxNetworkFee(
+              name='maxNetworkFee', id="maxNetworkFee", type='text'
+              ng-model='options.max_tx_network_fee')
+            .col-xs-6.col-sm-6.col-md-3
+              button.btn.btn-block.btn-success.btn-xs.submit(id = 'saveMaxNetworkFee', type='submit', ng-disabled='maxnetworkfeeForm.$invalid', l10n) Save
+            .col-xs-3.col-sm-3.col-md-1.text-center(id="cancel")
+              a(href="", ng-click="cancelEditMaxNetworkFee()", class="btn btn-cancel btn-block", l10n) cancel
+
         h4(id="serverSettings", l10n) Server settings
         form.server-row-form(ng-controller="ServerRowCtrl", ng-repeat="(index, server) in options.server.servers", ng-submit="save()")
           ng-form(name="serverForm")
