@@ -1,8 +1,17 @@
 // TODO all _ or all -
 .t-register, .t-login, .t-recover, .t-migrate {
+
   header nav {
     display: none;
   }
+}
+
+.loading_text {
+  padding-left: 5px;
+}
+
+.loading_sections {
+  padding-top: 10px;
 }
 
 .fa-bell {
@@ -488,6 +497,22 @@
 }
 
 #t-balance {
+
+  #balance_loader {
+    color: @midgray;
+    text-align: center;
+    position: absolute;
+    top: 850%;
+    left: 74%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+    @media (max-width: @screen-sm-max) {
+      top: 850%;
+      left: 50%;
+      margin-right: -50%;
+      transform: translate(-50%, -50%);
+    }
+  }
 
   .content {
     padding-top: 0;
@@ -1065,6 +1090,15 @@
 }
 
 #t-history {
+  #section_loader {
+    color: @midgray;
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+  }
 
   @bg: @lightgray;
 
@@ -1394,6 +1428,12 @@
     border: 1px solid @lightgray;
   }
 
+  #button_loader {
+    display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
   a {
     text-decoration: none;
     color: @black;
@@ -1406,6 +1446,7 @@
 }
 
 #t-send {
+
   .rp-combobox {
     display: block;
   }
@@ -1604,6 +1645,10 @@
 }
 
 #t-security {
+  #button_loader{
+    display:  inline-block;
+  }
+
   .save-btn-wrapper {
     float: left;
   }
@@ -1925,6 +1970,15 @@
 }
 
 #t-trade {
+  #section_loader {
+    color: @midgray;
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+  }
 
   @bg: @white;
 
@@ -2891,6 +2945,45 @@ html.t-trade header nav ul > li.active#nav-advanced > a:after {
   input {
     font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
   }
+}/* animation for png loader */
+@keyframes rotating {
+  from {
+    transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes rotating /* Safari and Chrome */ {
+  from {
+    transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+  }
+}
+.loader {
+  -webkit-animation: rotating 1s linear infinite;
+  -moz-animation: rotating 1s linear infinite;
+  -ms-animation: rotating 1s linear infinite;
+  -o-animation: rotating 1s linear infinite;
+  animation: rotating 1s linear infinite;
 }
 
 .currency-xrp i {

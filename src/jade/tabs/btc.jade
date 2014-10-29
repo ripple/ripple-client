@@ -65,8 +65,9 @@ section.col-xs-12.content(ng-controller='BtcCtrl')
                     a(href="https://btc2ripple.com/#/terms/of/service", target="_blank")  terms of service.
                   div.modal-buttons
                     button.modal-btn.btn.btn-default.btn-success.btn-md(ng-click="B2RSignup()",
-                      rp-spinner='{{loading ? 4 : null}}', ng-disabled="loading")
-                      span(ng-show="loading", l10n) Loading...
+                      ng-disabled="loading")
+                      img(src="img/ButtonS.png", class="loader", ng-show="loading")
+                      span(class="loading_text", ng-show="loading", l10n) Loading...
                       span(ng-hide="loading", l10n) Confirm
                     button.modal-btn.btn.btn-default.btn-link.btn-cancel(data-dismiss="modal"
                       ng-hide="loading", l10n) cancel
@@ -134,7 +135,8 @@ section.col-xs-12.content(ng-controller='BtcCtrl')
                           a(href="https://btc2ripple.com/#/terms/of/service", target="_blank")  terms of service.
                         div.modal-buttons
                           button.modal-btn.btn.btn-default.btn-success.btn-md(ng-click="B2RSignup()",
-                            rp-spinner='{{loading ? 4 : null}}', ng-disabled="loading")
+                            ng-disabled="loading")
+                            img(src="img/ButtonS.png", class="loader", ng-show="loading")
                             span(ng-show="loading", l10n) Loading...
                             span(ng-hide="loading", l10n) Confirm
                           button.modal-btn.btn.btn-default.btn-link.btn-cancel(data-dismiss="modal"

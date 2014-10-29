@@ -7,8 +7,9 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
     p.literal(l10n) You have to be online to see this screen
 
   group.disconnected(ng-hide="!connected || loadState.offers")
-    p.literal(l10n) Loading order book...
-
+    div(id="section_loader")
+      img(src="img/Sections.png", class="loader")
+      div(class="loading_sections", l10n) Loading Order Book
   //- Connected
 
   div(ng-show="'web' === client && !loadingAccount && !account.Balance && loadState.account && connected")
@@ -339,7 +340,9 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                 //- 3. Sending
 
                 group.mode-sending(ng-switch-when='sending')
-                  p.throbber.literal(l10n) Sending order to Ripple network...
+                  p.literal
+                    img(src="img/ButtonS.png", class="loader")
+                    span(class="loading_text", l10n) Sending order to Ripple network...
 
                 //- 4. Done
 
@@ -424,7 +427,8 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                   span.currency  {{entry.second | rpcurrency}}
                 .col-sm-3.amount.rpamount(data-label="Amount") {{entry.first | rpamount}}
                   span.currency  {{entry.first | rpcurrency}}
-                .col-sm-2.action(rp-spinner="{{cancelling ? 4 : null}}")
+                .col-sm-2.action
+		  img(src="img/ButtonS.png", class="loader", ng-show="cancelling")
                   rp-confirm(
                     l10n-action-text="Are you sure you want to cancel this order?"
                     l10n-action-button-text="Cancel order"

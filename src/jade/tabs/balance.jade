@@ -5,7 +5,7 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
     p.literal(l10n) You have to be online to see this screen
 
   group.disconnected(ng-hide="!connected || loadState.account")
-    p.literal(l10n) Loading...
+    //img(src="img/Sections.png", class="loader", id="section_loader", ng-hide="exchangeRatesNonempty")
 
   //- Connected
   div(ng-show="'web' === client && !loadingAccount && !account.Balance && loadState.account && connected")
@@ -18,7 +18,7 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
         .currency-overview(ng-show="account.Balance")
           //- .balancebox.col-xs-4
           .balancebox.col-xs-12.col-sm-8
-            .lbl(l10n) Total Balance
+            .lbl(ng-show="exchangeRatesNonempty", l10n) Total Balance
               .desc(l10n) Estimated from latest trade price
             .total.amount(ng-show="exchangeRatesNonempty")
               span.amount {{ aggregateValueDisplayed }}
@@ -26,7 +26,9 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
               select.currency(rp-flat-select, ng-model='selectedValueMetric'
                 ng-change='changeMetric(this)'
                 ng-options='metric.code as metric.text for metric in valueMetrics')
-            p.literal(l10n ng-hide="exchangeRatesNonempty") Loading...
+            div(id="balance_loader", ng-hide="exchangeRatesNonempty")
+              img(src="img/Sections.png", class="loader")
+              div(class="loading_sections", l10n) Loading Balance Totals
             .lbl(ng-show="hasNegative")
               .desc(l10n) (excluding negative balances)
           //- .trendbox.col-xs-4

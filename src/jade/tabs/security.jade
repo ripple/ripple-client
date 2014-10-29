@@ -10,8 +10,8 @@ section.col-xs-12.content(ng-controller="SecurityCtrl")
               label(for="sessionPassword", l10n) Password
               input.form-control#sessionPassword(type="password",
               name="sessionPassword", ng-model="sessionPassword", rp-focus)
-              button.btn.btn-primary.btn-block(type="submit", ng-disabled="isConfirming",
-              rp-spinner="{{isConfirming ? 4 : null}}")
+              button.btn.btn-primary.btn-block(type="submit", ng-disabled="isConfirming")
+                img(src="img/ButtonS.png", class="loader", ng-show="isConfirming")
                 span(l10n) Restore Session
       .alert.alert-danger(ng-show="unlockError")
         span(l10n) Entered password is wrong.
@@ -42,8 +42,9 @@ section.col-xs-12.content(ng-controller="SecurityCtrl")
           .section
             .descriptor Two-factor authentication
             .row(ng-show="loading2FA")
-              .col-xs-12.col-sm-9
-                div(rp-spinner="4", l10n) Loading Two-factor authentication settings...
+              .col-xs-12.col-sm-9(l10n)
+                img(src="img/ButtonS.png", class="loader", id="button_loader")
+                span(class="loading_text", l10n) Loading Two-factor authentication settings...
             .row(ng-hide="loading2FA || errorLoading2FA || mode2FA === 'verifyPhone'")
               .col-xs-9.col-sm-8.col-md-6
                 span(ng-show="enabled2FA", l10n) Enabled
@@ -75,9 +76,10 @@ section.col-xs-12.content(ng-controller="SecurityCtrl")
             .row.confirm2FA(ng-hide="!mode2FA || mode2FA === 'verifyPhone'")
               .col-xs-12.col-sm-9
                 .status
-                  div(rp-spinner="4", ng-show="mode2FA === 'savePhone'", l10n) Saving settings...
-                  div(rp-spinner="4", ng-show="mode2FA === 'disable'", l10n) Disabling Two-factor authentication...
-                  div(rp-spinner="4", ng-show="mode2FA === 'enable'", l10n) Enabling Two-factor authentication...
+                  img(src="img/ButtonS.png", class="loader", ng-show="mode2FA === 'savePhone' || mode2FA === 'disable' || mode2FA === 'enable'")
+                  span(class="loading_text", ng-show="mode2FA === 'savePhone'", l10n) Saving settings...
+                  span(class="loading_text", ng-show="mode2FA === 'disable'", l10n) Disabling Two-factor authentication...
+                  span(class="loading_text", ng-show="mode2FA === 'enable'", l10n) Enabling Two-factor authentication...
             form.verify2FA(ng-show="mode2FA === 'verifyPhone'")
               .row
                 .col-xs-12
@@ -93,14 +95,15 @@ section.col-xs-12.content(ng-controller="SecurityCtrl")
                 .col-xs-9.col-md-5.col-sm-9
                   input.form-control#verifyToken(name="verifyToken", ng-model="verifyToken")
                 .col-xs-3.col-md-3.col-sm-3
-                  button.btn.btn-block.btn-cancel(type="button", ng-disabled="isRequesting",
-                  rp-spinner="{{isRequesting ? 4 : null}}", ng-click="requestToken()")
-                    span(ng-hide="via === 'app'", l10n) Resend Code
+                  button.btn.btn-default.btn-block(type="button", ng-disabled="isRequesting",
+                  ng-click="requestToken()")
+                    img(src="img/ButtonS.png", class="loader", ng-show="isRequesting")
+                    span(class="loading_text", ng-hide="via === 'app'", l10n) Resend Code
                     span(ng-show="via === 'app'", l10n) Send Via SMS
               .row
                 .col-xs-8.col-sm-3
-                  button.btn.btn-primary.btn-block(type="button", ng-disabled="isVerifying", ng-click="enable2FA()",
-                  rp-spinner="{{isVerifying ? 4 : null}}")
+                  button.btn.btn-primary.btn-block(type="button", ng-disabled="isVerifying", ng-click="enable2FA()")
+                    img(src="img/ButtonS.png", class="loader", ng-show="isVerifying")
                     span(l10n) Enable
                 .col-xs-4.col-sm-2
                   a.btn.btn-block.btn-cancel(ng-click="cancel2FA()", l10n) cancel

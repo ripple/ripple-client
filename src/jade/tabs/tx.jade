@@ -1,6 +1,8 @@
 section.single.ddpage.content(ng-controller="TxCtrl", ng-switch on="state")
   group(ng-switch-when="loading")
-    p.literal.throbber(l10n) Loading transaction details...
+    p.literal
+      img(src="img/ButtonS.png", class="loader")
+      span(class="loading_text", l10n) Loading transaction details...
   group(ng-switch-when="error")
     p.literal(l10n) An error occurred while loading the transaction details.
   group(ng-switch-when="loaded")
