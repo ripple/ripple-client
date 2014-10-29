@@ -187,7 +187,7 @@ app.run(['$rootScope', '$injector', '$compile', '$route', '$routeParams', '$loca
     rippleclient.$scope = $rootScope;
     rippleclient.version = $rootScope.version =
       angular.element('#version').html();
-    if (debug === true) {
+    if (typeof debug !== "undefined" && debug === true) {
       rippleclient.versionBranch = $rootScope.versionBranch =
         angular.element('#versionbranch').text();
     }
