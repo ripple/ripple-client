@@ -14,126 +14,130 @@ section.col-xs-12.content(ng-controller="ExchangeCtrl")
 
   //- Connected
 
-  form.mode-form(name="exchangeForm", id="exchangeForm", ng-show='mode=="form" && account.Balance', ng-submit='exchange_prepared()')
-    .form-group
-      label(for='amount', l10n="Receive (amount)") Receive
-      .row.row-padding-small.amount
-        .col-sm-2.col-md-2.col-xs-3
-          input.value.form-control#amount(
-          name='amount', type='text'
-          ng-model='exchange.amount'
-          required
-          rp-autofill='$routeParams.amount'
-          rp-autofill-amount
-          rp-amount
-          rp-amount-positive)
-        .col-sm-6.col-md-4.col-xs-9
-          input.currency.form-control#amount_currency(
-          name='amount_currency', type='text'
-          rp-combobox="currency_choices", rp-combobox-select
-          ng-model='exchange.currency_name'
-          rp-autofill='$routeParams.amount'
-          rp-autofill-currency)
-      .errorGroup(rp-errors='amount')
-        .error(rp-error-on='required', l10n) Please enter an amount.
-        .error(rp-error-on='rpAmount', l10n) Not a valid amount.
-        .error(rp-error-on='rpAmountPositive', l10n)
-          | Please enter an amount greater than zero.
-      p.literal(ng-show="exchange.path_status == 'waiting'")
-      p.literal.throbber(ng-show="exchange.path_status == 'pending'", l10n) Calculating...
-      //- TODO how high trust?
-      p.literal(ng-show="exchange.path_status == 'no-path' && exchange.currency_code != 'XRP'", l10n)
-        | Cannot convert to {{exchange.amount}} {{exchange.currency_name}}. Please make sure your account has enough funds, and a&#32;
-        a(href="https://support.ripplelabs.com/hc/en-us/categories/200194186-Gateways", target="_blank") connection 
-        |  to a {{exchange.currency_name}} gateway.
-      p.literal(ng-show="exchange.path_status == 'no-path' && exchange.currency_code == 'XRP'", l10n)
-        | Sorry! Cannot convert {{exchange.amount}} {{exchange.currency_name}}. Please make sure your account has enough funds.
-      p.literal(ng-show="exchange.path_status == 'error'", l10n) Error while calculating path
+  .row(ng-show='connected')
+    .widgets.hidden-xs.col-sm-4.col-md-4.col-lg-3
+      include widgets/balances
+    .col-xs-12.col-sm-8.col-md-8.col-lg-9
+      form.mode-form(name="exchangeForm", id="exchangeForm", ng-show='mode=="form" && account.Balance', ng-submit='exchange_prepared()')
+        .form-group
+          label(for='amount', l10n="Receive (amount)") Receive
+          .row.row-padding-small.amount
+            .col-sm-2.col-md-2.col-xs-3
+              input.value.form-control#amount(
+              name='amount', type='text'
+              ng-model='exchange.amount'
+              required
+              rp-autofill='$routeParams.amount'
+              rp-autofill-amount
+              rp-amount
+              rp-amount-positive)
+            .col-sm-6.col-md-4.col-xs-9
+              input.currency.form-control#amount_currency(
+              name='amount_currency', type='text'
+              rp-combobox="currency_choices", rp-combobox-select
+              ng-model='exchange.currency_name'
+              rp-autofill='$routeParams.amount'
+              rp-autofill-currency)
+          .errorGroup(rp-errors='amount')
+            .error(rp-error-on='required', l10n) Please enter an amount.
+            .error(rp-error-on='rpAmount', l10n) Not a valid amount.
+            .error(rp-error-on='rpAmountPositive', l10n)
+              | Please enter an amount greater than zero.
+          p.literal(ng-show="exchange.path_status == 'waiting'")
+          p.literal.throbber(ng-show="exchange.path_status == 'pending'", l10n) Calculating...
+          //- TODO how high trust?
+          p.literal(ng-show="exchange.path_status == 'no-path' && exchange.currency_code != 'XRP'", l10n)
+            | Cannot convert to {{exchange.amount}} {{exchange.currency_name}}. Please make sure your account has enough funds, and a&#32;
+            a(href="https://support.ripplelabs.com/hc/en-us/categories/200194186-Gateways", target="_blank") connection
+            | &#32;to a {{exchange.currency_name}} gateway.
+          p.literal(ng-show="exchange.path_status == 'no-path' && exchange.currency_code == 'XRP'", l10n)
+            | Sorry! Cannot convert {{exchange.amount}} {{exchange.currency_name}}. Please make sure your account has enough funds.
+          p.literal(ng-show="exchange.path_status == 'error'", l10n) Error while calculating path
 
-    .currency_sets
-      .row.row-padding-small(ng-if="exchange.path_status == 'done'")
-        .col-xs-12(l10n) Exchange
-      .row.row-padding-small.alternatives
-        .col-xs-12.col-sm-6.col-md-4(ng-repeat="alt in exchange.alternatives")
-          .am
-            span.amnt {{alt.amount | rpamount:{rel_precision: 4, rel_min_precision: 2} }}
-            span(ng-hide="alt.amount.is_native() || alt.amount.issuer().to_json() == account.Account")
-              span.issuer(
-                rp-pretty-issuer="alt.amount.issuer().to_json()"
-                rp-pretty-issuer-contacts="userBlob.data.contacts"
-                rp-pretty-issuer-or-short)
-            span.currency  {{alt.amount | rpcurrency }}
-            .ex (
-              span.rate {{alt.rate | rpamount:{rel_precision: 4, rel_min_precision: 2} }}
-              span.pair {{exchange.currency_code}}/{{alt.amount | rpcurrency}}
-              )
-          button.btn.btn-block.btn-success(type="submit", ng-disabled='exchangeForm.$invalid', ng-click="exchange.alt = alt", l10n)
-            | Exchange {{ alt.amount | rpcurrency }}
-            span(ng-hide="alt.amount.is_native() || alt.amount.issuer().to_json() == account.Account")  (
-              span.issuer(
-                rp-pretty-issuer="alt.amount.issuer().to_json()"
-                rp-pretty-issuer-contacts="userBlob.data.contacts"
-                rp-pretty-issuer-or-short)
-              | )
-      .row.pathupdate(ng-show="exchange.alternatives.length && lastUpdate")
-        .col-xs-12(l10n) Paths last updated
-          span  {{lastUpdate}}
-          span(ng-show="lastUpdate > '1'", l10n-inc)  seconds
-          span(ng-show="lastUpdate == '1'", l10n-inc)  second
-          |  ago
+        .currency_sets
+          .row.row-padding-small(ng-if="exchange.path_status == 'done'")
+            .col-xs-12(l10n) Exchange
+          .row.row-padding-small.alternatives
+            .col-xs-12.col-sm-6.col-md-4(ng-repeat="alt in exchange.alternatives")
+              .am
+                span.amnt {{alt.amount | rpamount:{rel_precision: 4, rel_min_precision: 2} }}
+                span(ng-hide="alt.amount.is_native() || alt.amount.issuer().to_json() == account.Account")
+                  span.issuer(
+                    rp-pretty-issuer="alt.amount.issuer().to_json()"
+                    rp-pretty-issuer-contacts="userBlob.data.contacts"
+                    rp-pretty-issuer-or-short)
+                span.currency  {{alt.amount | rpcurrency }}
+                .ex (
+                  span.rate {{alt.rate | rpamount:{rel_precision: 4, rel_min_precision: 2} }}
+                  span.pair {{exchange.currency_code}}/{{alt.amount | rpcurrency}}
+                  )
+              button.btn.btn-block.btn-success(type="submit", ng-disabled='exchangeForm.$invalid', ng-click="exchange.alt = alt", l10n)
+                | Exchange {{ alt.amount | rpcurrency }}
+                span(ng-hide="alt.amount.is_native() || alt.amount.issuer().to_json() == account.Account")  (
+                  span.issuer(
+                    rp-pretty-issuer="alt.amount.issuer().to_json()"
+                    rp-pretty-issuer-contacts="userBlob.data.contacts"
+                    rp-pretty-issuer-or-short)
+                  | )
+          .row.pathupdate(ng-show="exchange.alternatives.length && lastUpdate")
+            .col-xs-12(l10n) Paths last updated
+              span  {{lastUpdate}}
+              span(ng-show="lastUpdate > '1'", l10n-inc)  seconds
+              span(ng-show="lastUpdate == '1'", l10n-inc)  second
+              |  ago
 
-  //- N2. Waiting for path
+      //- N2. Waiting for path
 
-  group.mode-wait-path(ng-show='mode=="wait_path" && account.Balance')
-    p.throbber.literal(l10n) Ripple is calculating a path for your conversion.
+      group.mode-wait-path(ng-show='mode=="wait_path" && account.Balance')
+        p.throbber.literal(l10n) Ripple is calculating a path for your conversion.
 
-  //- N3. Confirmation page
+      //- N3. Confirmation page
 
-  group.mode-confirm(ng-show='mode=="confirm" && account.Balance')
-    span(l10n)
-      p.literal(l10n-inc) You are exchanging
-      p.amount_feedback
-        span.value {{exchange.alt.amount | rpamount}}&#32;
-        span.currency {{exchange.alt.amount | rpcurrency}}
-      p.literal(l10n-inc) to
-      p.amount_feedback
-        span.value {{exchange.amount_feedback | rpamount}}&#32;
-        span.currency {{exchange.amount_feedback | rpcurrency}}
-      p.literal(l10n-inc) You will pay at most
-      p.amount_feedback
-        span.value {{exchange.alt.amount | rpamount}}&#32;
-        span.currency {{exchange.alt.amount | rpcurrency}} &#32;
-        span &plusmn; 1%
-      p.literal(l10n-inc) Are you sure?
-    .row.row-padding-small
-      .col-xs-6.col-sm-4.col-md-3.col-lg-2
-        button.btn.btn-block.btn-success.submit(type='submit'
-        ng-click='exchange_confirmed()'
-        ng-disabled='confirm_wait', l10n) Confirm
-      .col-xs-6.col-sm-4.col-md-3.col-lg-2
-        button.btn.btn-link.btn-default.back(ng-click='cancelConfirm()', l10n) cancel
+      group.mode-confirm(ng-show='mode=="confirm" && account.Balance')
+        span(l10n)
+          p.literal(l10n-inc) You are exchanging
+          p.amount_feedback
+            span.value {{exchange.alt.amount | rpamount}}&#32;
+            span.currency {{exchange.alt.amount | rpcurrency}}
+          p.literal(l10n-inc) to
+          p.amount_feedback
+            span.value {{exchange.amount_feedback | rpamount}}&#32;
+            span.currency {{exchange.amount_feedback | rpcurrency}}
+          p.literal(l10n-inc) You will pay at most
+          p.amount_feedback
+            span.value {{exchange.alt.amount | rpamount}}&#32;
+            span.currency {{exchange.alt.amount | rpcurrency}} &#32;
+            span &plusmn; 1%
+          p.literal(l10n-inc) Are you sure?
+        .row.row-padding-small
+          .col-xs-6.col-sm-4.col-md-3.col-lg-2
+            button.btn.btn-block.btn-success.submit(type='submit'
+            ng-click='exchange_confirmed()'
+            ng-disabled='confirm_wait', l10n) Confirm
+          .col-xs-6.col-sm-4.col-md-3.col-lg-2
+            button.btn.btn-link.btn-default.back(ng-click='cancelConfirm()', l10n) cancel
 
 
-  //- N4. Waiting for transaction result page
+      //- N4. Waiting for transaction result page
 
-  group.mode-sending(ng-show='mode=="sending" && account.Balance')
-    include ../messages/sendconvert/waiting
-    hr
-    //- p: button.btn.btn-default(ng-click='reset()', l10n) Stop waiting
+      group.mode-sending(ng-show='mode=="sending" && account.Balance')
+        include ../messages/sendconvert/waiting
+        hr
+        //- p: button.btn.btn-default(ng-click='reset()', l10n) Stop waiting
 
-  //- N5. Error page
-  group.mode-error(ng-show='mode=="error" && account.Balance')
-    include ../messages/sendconvert/localerror
-    p: button.btn.btn-link.btn-default(ng-click='cancelConfirm()', l10n) cancel
+      //- N5. Error page
+      group.mode-error(ng-show='mode=="error" && account.Balance')
+        include ../messages/sendconvert/localerror
+        p: button.btn.btn-link.btn-default(ng-click='cancelConfirm()', l10n) cancel
 
-  //- N6. Confirmed page 
+      //- N6. Confirmed page 
 
-  group.mode-status(ng-show='mode=="status" && account.Balance')
-    include ../messages/sendconvert/confirmation
-    group.actions
-      hr
-      div(class="actionLink")
-        a(href="", ng-click="reset()", l10n) Do another conversion
-      div(class="actionLink")
-        a(href="", ng-click="reset_goto('balance')", l10n) Back to balance
-      hr
+      group.mode-status(ng-show='mode=="status" && account.Balance')
+        include ../messages/sendconvert/confirmation
+        group.actions
+          hr
+          div(class="actionLink")
+            a(href="", ng-click="reset()", l10n) Do another conversion
+          div(class="actionLink")
+            a(href="", ng-click="reset_goto('balance')", l10n) Back to balance
+          hr
