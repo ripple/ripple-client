@@ -5,7 +5,7 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
     p.literal(l10n) You have to be online to see this screen
 
   group.disconnected(ng-hide="!connected || loadState.account")
-    //img(src="img/Sections.png", class="loader", id="section_loader", ng-hide="exchangeRatesNonempty")
+    //img(src="img/sections.png", class="loader", id="section_loader", ng-hide="exchangeRatesNonempty")
 
   //- Connected
   div(ng-show="'web' === client && !loadingAccount && !account.Balance && loadState.account && connected")
@@ -27,7 +27,7 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
                 ng-change='changeMetric(this)'
                 ng-options='metric.code as metric.text for metric in valueMetrics')
             div(id="balance_loader", ng-hide="exchangeRatesNonempty")
-              img(src="img/Sections.png", class="loader")
+              img(src="img/sections.png", class="loader")
               div(class="loading_sections", l10n) Loading Balance Totals
             .lbl(ng-show="hasNegative")
               .desc(l10n) (excluding negative balances)

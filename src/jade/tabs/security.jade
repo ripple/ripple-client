@@ -11,7 +11,7 @@ section.col-xs-12.content(ng-controller="SecurityCtrl")
               input.form-control#sessionPassword(type="password",
               name="sessionPassword", ng-model="sessionPassword", rp-focus)
               button.btn.btn-primary.btn-block(type="submit", ng-disabled="isConfirming")
-                img(src="img/ButtonS.png", class="loader", ng-show="isConfirming")
+                img(src="img/buttonS.png", class="loader", ng-show="isConfirming")
                 span(l10n) Restore Session
       .alert.alert-danger(ng-show="unlockError")
         span(l10n) Entered password is wrong.
@@ -43,7 +43,7 @@ section.col-xs-12.content(ng-controller="SecurityCtrl")
             .descriptor Two-factor authentication
             .row(ng-show="loading2FA")
               .col-xs-12.col-sm-9(l10n)
-                img(src="img/ButtonS.png", class="loader", id="button_loader")
+                img(src="img/buttonS.png", class="loader", id="button_loader")
                 span(class="loading_text", l10n) Loading Two-factor authentication settings...
             .row(ng-hide="loading2FA || errorLoading2FA || mode2FA === 'verifyPhone'")
               .col-xs-9.col-sm-8.col-md-6
@@ -76,7 +76,7 @@ section.col-xs-12.content(ng-controller="SecurityCtrl")
             .row.confirm2FA(ng-hide="!mode2FA || mode2FA === 'verifyPhone'")
               .col-xs-12.col-sm-9
                 .status
-                  img(src="img/ButtonS.png", class="loader", ng-show="mode2FA === 'savePhone' || mode2FA === 'disable' || mode2FA === 'enable'")
+                  img(src="img/buttonS.png", class="loader", ng-show="mode2FA === 'savePhone' || mode2FA === 'disable' || mode2FA === 'enable'")
                   span(class="loading_text", ng-show="mode2FA === 'savePhone'", l10n) Saving settings...
                   span(class="loading_text", ng-show="mode2FA === 'disable'", l10n) Disabling Two-factor authentication...
                   span(class="loading_text", ng-show="mode2FA === 'enable'", l10n) Enabling Two-factor authentication...
@@ -97,13 +97,13 @@ section.col-xs-12.content(ng-controller="SecurityCtrl")
                 .col-xs-3.col-md-3.col-sm-3
                   button.btn.btn-default.btn-block(type="button", ng-disabled="isRequesting",
                   ng-click="requestToken()")
-                    img(src="img/ButtonS.png", class="loader", ng-show="isRequesting")
+                    img(src="img/buttonS.png", class="loader", ng-show="isRequesting")
                     span(class="loading_text", ng-hide="via === 'app'", l10n) Resend Code
                     span(ng-show="via === 'app'", l10n) Send Via SMS
               .row
                 .col-xs-8.col-sm-3
                   button.btn.btn-primary.btn-block(type="button", ng-disabled="isVerifying", ng-click="enable2FA()")
-                    img(src="img/ButtonS.png", class="loader", ng-show="isVerifying")
+                    img(src="img/buttonS.png", class="loader", ng-show="isVerifying")
                     span(l10n) Enable
                 .col-xs-4.col-sm-2
                   a.btn.btn-block.btn-cancel(ng-click="cancel2FA()", l10n) cancel

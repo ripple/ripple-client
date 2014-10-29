@@ -8,7 +8,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
 
   group.disconnected(ng-hide="!connected || loadState.offers")
     div(id="section_loader")
-      img(src="img/Sections.png", class="loader")
+      img(src="img/sections.png", class="loader")
       div(class="loading_sections", l10n) Loading Order Book
   //- Connected
 
@@ -341,7 +341,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
 
                 group.mode-sending(ng-switch-when='sending')
                   p.literal
-                    img(src="img/ButtonS.png", class="loader")
+                    img(src="img/buttonS.png", class="loader")
                     span(class="loading_text", l10n) Sending order to Ripple network...
 
                 //- 4. Done
@@ -428,7 +428,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                 .col-sm-3.amount.rpamount(data-label="Amount") {{entry.first | rpamount}}
                   span.currency  {{entry.first | rpcurrency}}
                 .col-sm-2.action
-		  img(src="img/ButtonS.png", class="loader", ng-show="cancelling")
+		  img(src="img/buttonS.png", class="loader", ng-show="cancelling")
                   rp-confirm(
                     l10n-action-text="Are you sure you want to cancel this order?"
                     l10n-action-button-text="Cancel order"

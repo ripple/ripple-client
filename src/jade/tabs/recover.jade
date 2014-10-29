@@ -23,7 +23,7 @@ section.col-xs-12.content(ng-controller="RecoverCtrl")
         .submit-btn-container
           button.btn.btn-block.btn-success(type='submit'
             ng-disabled='recoverForm.$invalid || submitLoading')
-            img(src="img/ButtonS.png", class="loader", ng-show="submitLoading")
+            img(src="img/buttonS.png", class="loader", ng-show="submitLoading")
             span(ng-show="submitLoading", l10n) Loading...
             span(ng-hide="submitLoading", l10n) Recover Account
       form(name='setPasswordForm', ng-submit='submitForm()', ng-show="mode === 'setPassword'")
@@ -59,7 +59,7 @@ section.col-xs-12.content(ng-controller="RecoverCtrl")
         .submit-btn-container
           button.btn.btn-block.btn-success(type='submit'
             ng-disabled='setPasswordForm.$invalid || submitLoading')
-            img(src="img/ButtonS.png", class="loader", ng-show="submitLoading")
+            img(src="img/buttonS.png", class="loader", ng-show="submitLoading")
             span(ng-show="submitLoading", l10n) Updating...
             span(ng-hide="submitLoading", l10n) Set Password
     .switch-mode-link-container(l10n) Remember your password?&#32;

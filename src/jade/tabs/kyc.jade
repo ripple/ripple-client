@@ -140,7 +140,7 @@ section.col-xs-12.content(ng-controller='KycCtrl')
               .col-xs-5
                 button.btn.btn-block.btn-primary.submit(type='submit',
                   ng-disabled='identityForm.$invalid || identityLoading', l10n)
-                    img(src="img/ButtonS.png", class="loader", ng-show="identityLoading")
+                    img(src="img/buttonS.png", class="loader", ng-show="identityLoading")
                     span(ng-hide="identityLoading", l10n) Continue to identity questions
                     span(class="loading_text", ng-show="identityLoading", l10n) Verifying...
               .col-xs-5
@@ -158,7 +158,7 @@ section.col-xs-12.content(ng-controller='KycCtrl')
             .col-xs-5
               button.btn.btn-block.btn-primary.submit(type='submit',
                 ng-disabled='identityForm.$invalid || questionsLoading', l10n)
-                  img(src="img/ButtonS.png", class="loader", ng-show="questionsLoading")
+                  img(src="img/buttonS.png", class="loader", ng-show="questionsLoading")
                   span(ng-hide="questionsLoading", l10n) Continue to two-factor authentication
                   span(class="loading_text", ng-show="questionsLoading", l10n) Verifying...
             .col-xs-5
@@ -184,7 +184,7 @@ section.col-xs-12.content(ng-controller='KycCtrl')
               .col-xs-12.col-sm-6.col-md-3
                 button.modal-btn.btn.btn-default.btn-primary.btn-md.btn-block(type='submit',
                   ng-disabled='identityForm.$invalid || phoneLoading', l10n)
-                    img(src="img/ButtonS.png", class="loader", ng-show="phoneLoading")
+                    img(src="img/buttonS.png", class="loader", ng-show="phoneLoading")
                     span(ng-hide="phoneLoading", l10n) Verify phone number
                     span(class="loading_text", ng-show="phoneLoading", l10n) Verifying...
               .col-xs-12.col-sm-2.col-md-1.text-center
@@ -215,7 +215,7 @@ section.col-xs-12.content(ng-controller='KycCtrl')
               .col-xs-12.col-sm-6.col-md-3
                 button.modal-btn.btn.btn-default.btn-primary.btn-md.btn-block(ng-click="enable2FA()",
                   ng-disabled="isVeryifying || phoneLoading")
-                    img(src="img/ButtonS.png", class="loader", ng-show="phoneLoading")
+                    img(src="img/buttonS.png", class="loader", ng-show="phoneLoading")
                     span(ng-hide="phoneLoading", l10n) Submit code
                     span(class="loading_text", ng-show="phoneLoading", l10n) Verifying...
               .col-xs-12.col-sm-2.col-md-1.text-center
