@@ -26,6 +26,10 @@ BtcTab.prototype.angular = function (module)
  
     $scope.accountLines = {};
     $scope.showComponent = [];
+    $scope.show_instructions = true;
+
+    $scope.gbiConnected = store.get('gbi_connected');
+    
 
     if (!$id.loginStatus) return $id.goId();
 
@@ -59,12 +63,12 @@ BtcTab.prototype.angular = function (module)
             console.log('Error', err);
             $scope.emailError = true;
             $scope.loading = false;
+            $scope.gbiConnected = false;
 
             rpTracker.track('B2R SignUp', {
               result: 'failed',
               message: err.message
             });
-
             return;
           }
 
@@ -75,6 +79,11 @@ BtcTab.prototype.angular = function (module)
           rpTracker.track('B2R SignUp', {
             result: 'success'
           });
+
+          console.log('success');
+          $scope.gbiConnected = true;
+          $scope.show_instructions = true;
+
         });
       });
 
