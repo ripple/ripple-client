@@ -427,8 +427,8 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                   span.currency  {{entry.second | rpcurrency}}
                 .col-sm-3.amount.rpamount(data-label="Amount") {{entry.first | rpamount}}
                   span.currency  {{entry.first | rpcurrency}}
-                .col-sm-2.action
-		  img(src="img/buttonS.png", class="loader", ng-show="cancelling")
+                .col-sm-2.actio
+                  img(src="img/buttonS.png", class="loader", ng-show="cancelling")
                   rp-confirm(
                     l10n-action-text="Are you sure you want to cancel this order?"
                     l10n-action-button-text="Cancel order"

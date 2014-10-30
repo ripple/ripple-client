@@ -46,8 +46,8 @@ section.col-xs-12.content(ng-controller="ExchangeCtrl")
           p.literal(ng-show="exchange.path_status == 'waiting'")
           p.literal(ng-show="exchange.path_status == 'pending'", l10n)
             img(src="img/buttonS.png", class="loader")
-            |  Calculating...          
-	  //- TODO how high trust?
+            |  Calculating...
+          //- TODO how high trust?
           p.literal(ng-show="exchange.path_status == 'no-path' && exchange.currency_code != 'XRP'", l10n)
             | Cannot convert to {{exchange.amount}} {{exchange.currency_name}}. Please make sure your account has enough funds, and a&#32;
             a(href="https://support.ripplelabs.com/hc/en-us/categories/200194186-Gateways", target="_blank") connection
