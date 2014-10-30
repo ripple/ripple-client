@@ -28,17 +28,17 @@ section.col-xs-12.content(ng-controller='BtcCtrl')
           .col-xs-12
             .btc-tab-description.gateway.row
               .col-md-3
-                  h4(l10n) Gateway
+                  .title(l10n) Gateway
                   .description(l10n) btc2ripple, powered by 
                     a(href="https://www.snapswap.us/", target="_blank") Snapswap
               .col-md-3
-                  h4(l10n) Availability
+                  .title(l10n) Availability
                   .description(l10n) All countries
               .col-md-3
-                  h4(l10n) Fees
+                  .title(l10n) Fees
                   .description(l10n) 0% 
               .col-md-3
-                  h4(l10n) Rating
+                  .title(l10n) Rating
                   .description(l10n) We get the ratings from 
                       a(href="https://coinist.co/", target="_blank") Coinist
             .row.btc-tab-description
@@ -110,30 +110,3 @@ section.col-xs-12.content(ng-controller='BtcCtrl')
                 |  using the&#32;
                 a(href="https://btc2ripple.com", target="_blank") btc2ripple
                 |  service powered by SnapSwap.
-              //- .row.action
-              //-   .col-xs-12.col-sm-6.col-md-4
-              //-     rp-popup
-              //-       a.btn.btn-success.btn-sm.btn-block.sign(href="", rp-popup-link,
-              //-         ng-click="openPopup()", l10n) Generate bitcoin address
-              //-       div.connectModal(rp-popup-content)
-              //-         .modal-header
-              //-           .navbar-brand.hidden-sm.modal-logo#logo
-              //-           .modal-title(l10n) Connect
-              //-         .modal-body
-              //-           div.modal-prompt(l10n) btc2ripple would like to:
-              //-           div.grey-focus
-              //-             div.modal-permissions(l10n) - Receive your email address&#32;
-              //-               span.modal-email(l10n) ({{userBlob.data.email}})
-              //-             div.modal-permissions(l10n) - Hold deposited BTC on your behalf
-              //-           div.modal-agreement(l10n) By proceeding, you agree to the btc2ripple
-              //-             a(href="https://btc2ripple.com/#/terms/of/service", target="_blank")  terms of service.
-              //-           div.modal-buttons
-              //-             button.modal-btn.btn.btn-default.btn-success.btn-md(ng-click="B2RSignup()",
-              //-               rp-spinner='{{loading ? 4 : null}}', ng-disabled="loading")
-              //-               span(ng-show="loading", l10n) Loading...
-              //-               span(ng-hide="loading", l10n) Confirm
-              //-             button.modal-btn.btn.btn-default.btn-link.btn-cancel(data-dismiss="modal"
-              //-               ng-hide="loading", l10n) cancel
-              //-           span.modal-error(ng-show="emailError", l10n)
-              //-             | SnapSwap's btc2ripple service is currently unavailable.
-              //-             |  Please check back later.
