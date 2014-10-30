@@ -5,7 +5,7 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
     .col-sm-3
       include settings/navbar
     .col-sm-9.list
-      section.content(id="servers")
+      section.content#servers
         h4(l10n) Settings
         form(name="blobForm", ng-submit="saveBlob()")
           .descriptor(ng-show="'web' === client", l10n) Blob vault
@@ -24,7 +24,7 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
               button.btn.btn-block.btn-success.btn-xs.submit#saveBlob(type='submit', ng-disabled='blobForm.$invalid', l10n) Save
             .col-xs-3.col-sm-3.col-md-2
               button.btn.btn-block.btn-danger.btn-xs.submit#deleteBlob(type="button", ng-click="deleteBlob()", l10n) Delete
-            .col-xs-3.col-sm-3.col-md-1.text-center(id="cancel")
+            .col-xs-3.col-sm-3.col-md-1.text-center#cancel
               a(href="", ng-click="cancelEditBlob()", class="btn btn-cancel btn-block", l10n) cancel
         form(name="bridgeForm", ng-submit="saveBridge()")
           .descriptor(l10n) Bitcoin bridge
@@ -43,7 +43,7 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
               button.btn.btn-block.btn-success.btn-xs.submit#saveBridge(type='submit', ng-disabled='bridgeForm.$invalid', l10n) Save
             .col-xs-3.col-sm-3.col-md-2
               button.btn.btn-block.btn-danger.btn-xs.submit#deleteBridge(type="button", ng-click="deleteBridge()", l10n) Delete
-            .col-xs-3.col-sm-3.col-md-1.text-center(id="cancel")
+            .col-xs-3.col-sm-3.col-md-1.text-center#cancel
               a(href="", ng-click="cancelEditBridge()", class="btn btn-cancel btn-block", l10n) cancel
         form.trust-line-form(name="accountsAdvForm", ng-submit="saveAcctOptions()")
           .descriptor(ng-show="'web' === client", l10n) Trust line
@@ -68,9 +68,9 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
               ng-disabled='serverForm.$invalid', l10n) Save
             .col-xs-3(ng-show="hasRemove()")
               button.btn.btn-block.btn-danger.btn-xs.submit#delete(type="button", ng-click="remove()", ng-show="hasRemove()", l10n) Delete
-            .col-xs-3.col-sm-3.col-md-2.text-center(id="cancel")
+            .col-xs-3.col-sm-3.col-md-2.text-center#cancel
               a(href="", ng-click="cancelEditAcctOptions()", class="btn btn-cancel btn-block", l10n) cancel
-        h4(id="networkSettings", l10n) Network settings
+        h4#networkSettings(l10n) Network settings
         form(name="maxnetworkfeeForm", ng-submit="saveMaxNetworkFee()")
           .descriptor(l10n) Maximum network fee
           .row.advanced-form-row(ng-hide="editMaxNetworkFee")
@@ -86,10 +86,10 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
               ng-model='options.max_tx_network_fee')
             .col-xs-6.col-sm-6.col-md-3
               button.btn.btn-block.btn-success.btn-xs.submit#saveMaxNetworkFee(type='submit', ng-disabled='maxnetworkfeeForm.$invalid', l10n) Save
-            .col-xs-3.col-sm-3.col-md-1.text-center(id="cancel")
+            .col-xs-3.col-sm-3.col-md-1.text-center#cancel
               a(href="", ng-click="cancelEditMaxNetworkFee()", class="btn btn-cancel btn-block", l10n) cancel
 
-        h4(id="serverSettings", l10n) Server settings
+        h4#serverSettings(l10n) Server settings
         form.server-row-form(ng-controller="ServerRowCtrl", ng-repeat="(index, server) in options.server.servers", ng-submit="save()")
           ng-form(name="serverForm")
             .row
@@ -107,7 +107,7 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
                     .error(rp-error-on='rpPortNumber', l10n) Port number is invalid.
               .col-xs-3.col-sm-2.col-md-2
                 input.form-control.socketPort(name='port', type='text', ng-model='server.port', rp-port-number)
-              .col-xs-3.col-md-1.col-sm-2.editable(id="secureSocket")
+              .col-xs-3.col-md-1.col-sm-2.editable#secureSocket
                 div.helperInput
                   label
                     input(type="checkbox", name="secure", ng-model='server.secure')
@@ -117,14 +117,14 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
                 ng-disabled='serverForm.$invalid', l10n) Save
               .col-xs-3.col-sm-3.col-md-2(ng-show="hasRemove()")
                 button.btn.btn-block.btn-danger.btn-xs.submit#delete(type="button", ng-click="remove()", ng-show="hasRemove()", l10n) Delete
-              .col-xs-3.col-sm-3.col-md-1.text-center(id="cancel")
+              .col-xs-3.col-sm-3.col-md-1.text-center#cancel
                 a(href="", ng-click="cancel()", ng-hide="noCancel()",class="btn btn-cancel btn-block" ,l10n) cancel
             .row.advanced-form-row(ng-hide="editing")
               .col-xs-6.col-sm-5.col-md-3
                 .description {{server.host}}
               .col-xs-3.col-sm-3.col-md-2.port-wrapper
                 .description {{server.port}}
-              .col-xs-3.col-sm-2.col-md-2(id="secureSocket")
+              .col-xs-3.col-sm-2.col-md-2#secureSocket
                 .description(ng-show="server.secure", l10n) Secure
                 .description(ng-hide="server.secure", l10n) Not Secure
               .col-xs-3.col-sm-2.col-md-2
