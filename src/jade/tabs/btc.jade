@@ -2,7 +2,7 @@ section.col-xs-12.content(ng-controller='BtcCtrl')
   //- the ng-states & ng-clicks should be implemented
   //- Connected
   //- group.connected(ng-show="connected")
-  group.connected(ng-show="gbiConnected")
+  group.connected(ng-show="btcConnected && loading")
     .row
       .col-xs-12
         div.notification-wrapper
@@ -43,7 +43,7 @@ section.col-xs-12.content(ng-controller='BtcCtrl')
                       a(href="https://coinist.co/", target="_blank") Coinist
             .row.btc-tab-description
               .col-md-6
-                .description(ng-show="!gbiConnected", l10n) Ripple Trade has partnered with GBI to provide easy access to XAU.
+                .description(ng-show="!btcConnected", l10n) Ripple Trade has partnered with GBI to provide easy access to XAU.
                   | By continuing, you agree to GBI's terms of service. Following this action will
                   | add XAU to your accounts.
             
@@ -51,7 +51,7 @@ section.col-xs-12.content(ng-controller='BtcCtrl')
               .col-xs-9.col-sm-5.col-md-4
                 rp-popup
                   a.btn.btn-success.btn-sm.btn-block.sign(href="", rp-popup-link,
-                    ng-click="openPopup()", l10n) Add btc2ripple
+                    ng-click="openPopup()", ng-hide="btcConnected" ,l10n) Add btc2ripple
                   div.connectModal(rp-popup-content)
                     .modal-header
                       .navbar-brand.hidden-sm.modal-logo#logo
@@ -75,34 +75,17 @@ section.col-xs-12.content(ng-controller='BtcCtrl')
                       span.modal-error(ng-show="emailError", l10n)
                         | SnapSwap's btc2ripple service is currently unavailable.
                         |  Please check back later.
-                button.btn.btn-block.btn-primary(ng-show="show_instructions && gbiConnected", type="submit", ng-click="show_instructions = false") Hide instructions
-                button.btn.btn-block.btn-primary(ng-show="gbiConnected && !show_instructions", type="submit", ng-click="show_instructions = true") Show instructions
+                button.btn.btn-block.btn-primary(ng-show="showInstructions && btcConnected", type="submit", ng-click="showInstructions = false") Hide instructions
+                button.btn.btn-block.btn-primary(ng-show="btcConnected && !showInstructions", type="submit", ng-click="showInstructions = true") Show instructions
 
-              .connect.col-md-2.col-sm-7.col-xs-11
-
-
-                .description(ng-show="!gbiConnected", l10n)
+              .connect.col-md-2.col-sm-7.col-xs-1
+                .description(ng-show="!btcConnected", l10n)
                   i.fa.fa-times
                   | Not connected
-                .description(ng-show="gbiConnected", l10n)
+                .description(ng-show="btcConnected", l10n)
                   i.fa.fa-check
                   | Connected
-            .row(ng-show="show_instructions == true", ng-hide="!gbiConnected")
-              .instructions.col-md-10
-                a.dismiss(href="", id="hide", ng-click="show_instructions = false", l10n)  ×
-                h4(l10n) Deposit
-                .description(l10n) GBI does not currently support direct deposits. You can&#32;
-                  a(href="#/trade") trade XAU(-.5%pa)
-                  | &#32;or&#32;
-                  a(href="#/exchange") convert some of your current holdings
-                  | .
-
-                h4(l10n) Withdrawal
-                .description(l10n) You can redeem the physical gold in 1 oz increments.
-                  | To do so, you'll need to&#32;
-                  a(href="https://direct.bullioninternational.com/PortalApplyNow/OpenAccount", target="_blank") create an account on GBI's website
-                  | &#32;and arrange to have the gold shipped to you.
-        .B2R.row(ng-show="loadState.B2RApp && gbiConnected")
+        .B2R.row(ng-show="btcConnected && showInstructions")
           .active.col-xs-12(ng-show="B2R.active")
             div(ng-show="loadState.B2RInstructions")
               .instructions-b2r {{B2R.instructions.instruction}}
