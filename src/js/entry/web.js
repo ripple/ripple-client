@@ -95,6 +95,7 @@ var tabdefs = [
   require('../tabs/twofa'),
   require('../tabs/jpy'),
   require('../tabs/404'),
+  require('../tabs/brl'),
 
   // Hidden tabs
   require('../tabs/apps'),

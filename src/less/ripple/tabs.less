@@ -2448,7 +2448,7 @@ html.t-trade header nav ul > li.active#nav-advanced > a:after {
   }
 }
 
-#t-fund, #t-xrp, #t-btc, #t-usd, #t-gold, #t-trust, #t-jpy {
+#t-fund, #t-xrp, #t-btc, #t-usd, #t-gold, #t-trust, #t-jpy, #t-brl {
 
   .currencies a {
     display: block;
@@ -2524,7 +2524,8 @@ html.t-trade header nav ul > li.active#nav-advanced > a:after {
       }
     }
   }
-
+}
+#t-fund, #t-xrp, #t-btc, #t-usd, #t-gold, #t-brl {
   .currency {
     font-size: 18px;
     margin: 0 0 0 5px;
@@ -2833,14 +2834,14 @@ html.t-trade header nav ul > li.active#nav-advanced > a:after {
   }
 }
 
-#t-gold, #t-jpy, #t-btc {
+#t-gold, #t-jpy, #t-btc, #t-brl {
   .title {
     font-family: 'Open Sans', sans-serif;
     font-size: 12px;
     color: #1e1e1e;
     font-weight: 600;
     text-transform: uppercase;
-    padding-bottom: 5px;
+    // padding-bottom: 5px;
   }
 
   .description {
@@ -2930,6 +2931,28 @@ html.t-trade header nav ul > li.active#nav-advanced > a:after {
       li {
         margin-bottom: 2px;
       }
+    }
+  }
+}
+
+#t-brl {
+  p {
+    margin: 0;
+  }
+  .btc-tab-description {
+    .connect {
+      line-height: normal;
+    }
+  }
+  .connect {
+     margin-top: 16px; 
+  }
+}
+#t-btc {
+  button {
+    &:hover, &.active {
+      background: @midgreen;
+      border-color: @midgreen;
     }
   }
 }
