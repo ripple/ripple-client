@@ -340,7 +340,7 @@ module.directive('rpPopover', [function() {
  * Special popover to show ripple address with ability to double click on address to select.
  * Also can link to www.ripplecharts.com.
  */
-module.directive('rpAddressPopover', ['$timeout', '$interpolate', function($timeout, $interpolate) {
+module.directive('rpAddressPopover', ['$timeout', '$interpolate', 'rpId', function($timeout, $interpolate, $id) {
   var popupDelay = 800;
   var hideDelay = 1500;
 
@@ -420,7 +420,7 @@ module.directive('rpAddressPopover', ['$timeout', '$interpolate', function($time
         };
         if (attr.rpAddressPopoverLinkToCharts) {
           options.html = true;
-          options.content = '<a target="_blank" href="http://www.ripplecharts.com/#/graph/' + identity + '" >' + identity + '</a>';
+          options.content = identity + '<br/><a target="_blank" href="http://www.ripplecharts.com/#/graph/' + identity + '" >Show in graph</a>';
         }
         var popover = element.popover(options);
         tip = element.data('popover').tip();
@@ -428,6 +428,16 @@ module.directive('rpAddressPopover', ['$timeout', '$interpolate', function($time
         element.bind('mouseleave', onElemLeave);
         tip.bind('mouseenter', onPopoverEnter);
         tip.bind('mouseleave', onPopoverLeave);
+
+        if (attr.rpAddressPopoverLinkToCharts) {
+          $id.resolveName(identity, { tilde: true }).then(function(name) {
+            if (name != identity && tip) {
+              element.data('popover').options.content = name + '<br/>' + identity + 
+                  '<br/><a target="_blank" href="http://www.ripplecharts.com/#/graph/' + identity + '" >Show in graph</a>';
+              element.data('popover').setContent();
+            }
+          });
+        }
         // Make sure popover is destroyed and removed.
         scope.$on('$destroy', function onDestroyPopover() {
           $timeout.cancel( cancelHidePopoverTimeout );
