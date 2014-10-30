@@ -163,6 +163,9 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
         if(line.account == "rrh7rf1gV2pXAoqA8oYbpHd8TKv5ZQeo67"){
           store.set('gbi_connected', true);
         }
+        if(line.account == "rfNZPxoZ5Uaamdp339U9dCLWz2T73nZJZH"){
+          store.set('brl_connected', true);
+        }
       }
       console.log('lines updated:', $scope.lines);
 
