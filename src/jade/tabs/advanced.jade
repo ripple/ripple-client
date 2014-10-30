@@ -21,9 +21,9 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
               name='blobIp', id="blobIp", type='text'
               ng-model='options.blobvault')
             .col-xs-6.col-sm-6.col-md-3
-              button.btn.btn-block.btn-success.btn-xs.submit(id = 'saveBlob', type='submit', ng-disabled='blobForm.$invalid', l10n) Save
+              button.btn.btn-block.btn-success.btn-xs.submit#saveBlob(type='submit', ng-disabled='blobForm.$invalid', l10n) Save
             .col-xs-3.col-sm-3.col-md-2
-              button.btn.btn-block.btn-danger.btn-xs.submit(id="deleteBlob", type="button", ng-click="deleteBlob()", l10n) Delete
+              button.btn.btn-block.btn-danger.btn-xs.submit#deleteBlob(type="button", ng-click="deleteBlob()", l10n) Delete
             .col-xs-3.col-sm-3.col-md-1.text-center(id="cancel")
               a(href="", ng-click="cancelEditBlob()", class="btn btn-cancel btn-block", l10n) cancel
         form(name="bridgeForm", ng-submit="saveBridge()")
@@ -40,9 +40,9 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
               name='btcDomain', id="btcDomain", type='text'
               ng-model='options.bridge.out.bitcoin')
             .col-xs-6.col-sm-6.col-md-3
-              button.btn.btn-block.btn-success.btn-xs.submit(id = 'saveBridge', type='submit', ng-disabled='bridgeForm.$invalid', l10n) Save
+              button.btn.btn-block.btn-success.btn-xs.submit#saveBridge(type='submit', ng-disabled='bridgeForm.$invalid', l10n) Save
             .col-xs-3.col-sm-3.col-md-2
-              button.btn.btn-block.btn-danger.btn-xs.submit(id="deleteBridge", type="button", ng-click="deleteBridge()", l10n) Delete
+              button.btn.btn-block.btn-danger.btn-xs.submit#deleteBridge(type="button", ng-click="deleteBridge()", l10n) Delete
             .col-xs-3.col-sm-3.col-md-1.text-center(id="cancel")
               a(href="", ng-click="cancelEditBridge()", class="btn btn-cancel btn-block", l10n) cancel
         form.trust-line-form(name="accountsAdvForm", ng-submit="saveAcctOptions()")
@@ -64,10 +64,10 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
                   input(type="checkbox", name="acct_adv", ng-model='options.advanced_feature_switch')
                   span(l10n) Show
             .col-xs-6.col-sm-6.col-md-3
-              button.btn.btn-block.btn-success.btn-xs.submit(id='save', type='submit'
+              button.btn.btn-block.btn-success.btn-xs.submit#save(type='submit'
               ng-disabled='serverForm.$invalid', l10n) Save
             .col-xs-3(ng-show="hasRemove()")
-              button.btn.btn-block.btn-danger.btn-xs.submit(id="delete", type="button", ng-click="remove()", ng-show="hasRemove()", l10n) Delete
+              button.btn.btn-block.btn-danger.btn-xs.submit#delete(type="button", ng-click="remove()", ng-show="hasRemove()", l10n) Delete
             .col-xs-3.col-sm-3.col-md-2.text-center(id="cancel")
               a(href="", ng-click="cancelEditAcctOptions()", class="btn btn-cancel btn-block", l10n) cancel
         h4(id="networkSettings", l10n) Network settings
@@ -85,7 +85,7 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
               name='maxNetworkFee', id="maxNetworkFee", type='text'
               ng-model='options.max_tx_network_fee')
             .col-xs-6.col-sm-6.col-md-3
-              button.btn.btn-block.btn-success.btn-xs.submit(id = 'saveMaxNetworkFee', type='submit', ng-disabled='maxnetworkfeeForm.$invalid', l10n) Save
+              button.btn.btn-block.btn-success.btn-xs.submit#saveMaxNetworkFee(type='submit', ng-disabled='maxnetworkfeeForm.$invalid', l10n) Save
             .col-xs-3.col-sm-3.col-md-1.text-center(id="cancel")
               a(href="", ng-click="cancelEditMaxNetworkFee()", class="btn btn-cancel btn-block", l10n) cancel
 
@@ -113,10 +113,10 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
                     input(type="checkbox", name="secure", ng-model='server.secure')
                     span(l10n) Secure
               .col-xs-6.col-sm-6.col-md-3
-                button.btn.btn-block.btn-success.btn-xs.submit(id='save', type='submit'
+                button.btn.btn-block.btn-success.btn-xs.submit#save(type='submit'
                 ng-disabled='serverForm.$invalid', l10n) Save
               .col-xs-3.col-sm-3.col-md-2(ng-show="hasRemove()")
-                button.btn.btn-block.btn-danger.btn-xs.submit(id="delete", type="button", ng-click="remove()", ng-show="hasRemove()", l10n) Delete
+                button.btn.btn-block.btn-danger.btn-xs.submit#delete(type="button", ng-click="remove()", ng-show="hasRemove()", l10n) Delete
               .col-xs-3.col-sm-3.col-md-1.text-center(id="cancel")
                 a(href="", ng-click="cancel()", ng-hide="noCancel()",class="btn btn-cancel btn-block" ,l10n) cancel
             .row.advanced-form-row(ng-hide="editing")
