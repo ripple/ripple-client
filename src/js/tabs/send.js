@@ -49,6 +49,11 @@ SendTab.prototype.angular = function (module)
     $scope.$watch('send.recipient', function(){
       // raw address without any parameters
       var address = webutil.stripRippleAddress($scope.send.recipient);
+      var dt = webutil.getDestTagFromAddress($scope.send.recipient);
+
+      if (dt) {
+          $scope.send.dt = dt;
+      }
 
       $scope.contact = webutil.getContact($scope.userBlob.data.contacts, address);
 
@@ -61,7 +66,7 @@ SendTab.prototype.angular = function (module)
         $scope.send.recipient_name = $scope.contact.name;
         $scope.send.recipient_address = $scope.contact.address;
 
-        if ($scope.contact.dt) {
+        if ($scope.contact.dt && !dt) {
           $scope.send.dt = $scope.contact.dt;
         }
       }
