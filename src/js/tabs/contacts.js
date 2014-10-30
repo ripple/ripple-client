@@ -118,6 +118,11 @@ ContactsTab.prototype.angular = function (module) {
           // Update blob
           $scope.userBlob.filter('/contacts', 'name', $scope.entry.name,
                                  'extend', '', entry);
+          // delete destination tag
+          if (!$scope.editdt && $scope.entry.dt) {
+            $scope.userBlob.filter('/contacts', 'name', $scope.entry.name,
+                                   'unset', '/dt');
+          }
 
           $scope.editing = false;
         }
