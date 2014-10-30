@@ -170,8 +170,15 @@ ExchangeTab.prototype.angular = function (module)
                   /* if (currencies[alt.amount.currency().to_hex()]) {
                     return alt.amount.issuer().to_json() != $scope.address;
                   } */
-                  return true;
+                  //return false;
+                  return !(alt.amount.is_native() && $scope.account.max_spend
+                    && $scope.account.max_spend.to_number() > 1
+                    && $scope.account.max_spend.compareTo(alt.amount) < 0);
                 });
+                if (!$scope.exchange.alternatives.length) {
+                  $scope.exchange.path_status  = "no-path";
+                  $scope.exchange.alternatives = [];
+                }
               }
             });
           });
