@@ -353,15 +353,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                             ng-hide="showPassword==true")
                               button.btn.btn-block.btn-danger.submit(type="button", ng-click="load_orderbook()", l10n) Remove
                           span(ng-show='trust.balance === "0"')
-                            rp-confirm(
-                            action-text="Are you sure you want to remove this gateway? This action can't be undone."
-                            action-button-text="Remove"
-                            action-button-css="btn btn-default btn-danger custom-btn"
-                            action-function="delete_account()"
-                            cancel-button-css="btn btn-cancel"
-                            cancel-button-text="cancel"
-                            ng-hide="showPassword==true")
-                              button.btn.btn-block.btn-danger.submit(type="button", ng-click="load_orderbook()", l10n) Remove
+                              button.btn.btn-block.btn-danger.submit(type="button", ng-click="delete_account()", l10n) Remove
                         .col-md-5.col-sm-5.col-xs-6
                           a.btn.btn-block.btn-cancel(href="", ng-click="cancel()"
                           ng-disabled="trust.loading", l10n) cancel
@@ -417,15 +409,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                               ng-hide="showPassword==true")
                                 button.btn.btn-block.btn-danger.btn-xs.submit(type="button", ng-click="load_orderbook()", l10n) Remove
                             .col-xs-12(ng-show='trust.balance === "0"')
-                              rp-confirm(
-                              action-text="Are you sure you want to remove this gateway? This action can't be undone."
-                              action-button-text="Remove"
-                              action-button-css="btn btn-default btn-danger "
-                              action-function="delete_account()"
-                              cancel-button-css="btn btn-default cancel-btn btn-cancel"
-                              cancel-button-text="cancel"
-                              ng-hide="showPassword==true")
-                                button.btn.btn-block.btn-danger.btn-xs.submit(type="button", ng-click="load_orderbook()", l10n) Remove
+                                button.btn.btn-block.btn-danger.btn-xs.submit(type="button", ng-click="delete_account()", l10n) Remove
                         .col-xs-3
                           a.btn.btn-block.btn-cancel(href="", ng-click="cancel()"
                             ng-disabled="trust.loading", l10n) cancel
