@@ -1,6 +1,7 @@
 .currencies
   a(href="#/xrp", ng-class="{active: $route.current.tabName == 'xrp'}", l10n) XRP
   a(href="#/btc", ng-class="{active: $route.current.tabName == 'btc'}", ng-show="'web' === client", l10n) BTC
+  a(href="#/brl", ng-class="{active: $route.current.tabName == 'brl'}", ng-show="'web' === client", l10n) BRL (Brazil-only)
   //a(href="#/usd", ng-class="{active: $route.current.tabName == 'usd'}", l10n) USD (US only)
   a(href="#/gold", ng-class="{active: $route.current.tabName == 'gold'}", l10n) Gold
   a(href="#/trust", ng-class="{active: $route.current.tabName == 'trust'}", l10n) Gateways
