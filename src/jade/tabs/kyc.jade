@@ -12,7 +12,7 @@ section.col-xs-12.content(ng-controller='KycCtrl')
 
   div.auth-attention.banner(ng-hide="hideUsOnlyBanner")
     h4#announcement(l10n) Profile completion is only available to US residents.
-    a.dismiss(href="", id="hide", ng-click="hideUsOnlyBanner=!hideUsOnlyBanner")  ×
+    a.dismiss#hide(href="", ng-click="hideUsOnlyBanner=!hideUsOnlyBanner")  ×
     br
 
   group.mode-granted.wide(ng-show='notif !== "clear"')
@@ -61,44 +61,44 @@ section.col-xs-12.content(ng-controller='KycCtrl')
             .row
               .col-xs-12.col-sm-6.col-md-6
                 label(for="firstName", l10n) First Name
-                input.form-control.firstName(
-                name='firstName', id='firstName', type='text'
+                input.form-control.firstName#firstName(
+                name='firstName', type='text'
                 ng-model='profile.name.given'
                 required)
             .row
               .col-xs-12.col-sm-6.col-md-6
                 label(for="lastName", l10n) Last Name
-                input.form-control.lastName(
-                name='lastName', id='lastName', type='text'
+                input.form-control.lastName#lastName(
+                name='lastName', type='text'
                 ng-model='profile.name.family'
                 required)
             .row
               .col-xs-12.col-sm-6.col-md-6
                 label(for="address", l10n) Street Address
                 br
-                input.form-control.address1(
-                name='address1', id='address1', type='text'
+                input.form-control.address1#address1(
+                name='address1', type='text'
                 ng-model='profile.address.line1'
                 required)
             .row
               .col-xs-12.col-sm-6.col-md-6
                 label(for="city", l10n) City
-                input.form-control.city(
-                name='city', id='city', type='text'
+                input.form-control.city#city(
+                name='city', type='text'
                 ng-model='profile.address.locality', ng-pattern='validation_pattern_city'
                 required)
             .row
               .col-xs-12.col-sm-6.col-md-6
                 label(for="state", l10n) State
-                input.form-control.state(
-                name='state', id='state', type='text', rp-combobox="states", rp-combobox-select,
+                input.form-control.state#state(
+                name='state', type='text', rp-combobox="states", rp-combobox-select,
                 ng-model='profile.address.region', ng-pattern='validation_pattern_state'
                 required)
             .row
               .col-xs-12.col-sm-6.col-md-6
                 label(for="zip", l10n) ZIP
-                input.form-control.zip(
-                name='zip', id='zip', type='text'
+                input.form-control.zip#zip(
+                name='zip', type='text'
                 ng-model='profile.address.postal_code', ng-pattern='validation_pattern_zip'
                 required)
             .row
@@ -108,20 +108,20 @@ section.col-xs-12.content(ng-controller='KycCtrl')
             .row
               .col-xs-12.col-sm-6.col-md-2
                 label(for="month", l10n) Month
-                  input.form-control.line1(
-                  name='month', id="month", type='text', rp-combobox="months", rp-combobox-select,
+                  input.form-control.line1#month(
+                  name='month', type='text', rp-combobox="months", rp-combobox-select,
                   ng-model='profile.birthdate.month', ng-pattern='validation_pattern_month'
                   required)
               .col-xs-12.col-sm-6.col-md-2
                 label(for="date", l10n) Day
-                  input.form-control.line1(
-                  name='date', id="date", type='text', rp-combobox="dates", rp-combobox-select,
+                  input.form-control.line1#date(
+                  name='date', type='text', rp-combobox="dates", rp-combobox-select,
                   ng-model='profile.birthdate.date', ng-pattern='validation_pattern_date'
                   required)
               .col-xs-12.col-sm-6.col-md-2
                 label(for="year", l10n) Year
-                  input.form-control.line1(
-                  name='year', id="year", type='text', rp-combobox="years", rp-combobox-select,
+                  input.form-control.line1#year(
+                  name='year', type='text', rp-combobox="years", rp-combobox-select,
                   ng-model='profile.birthdate.year', ng-pattern='validation_pattern_year'
                   required)
             .row
@@ -132,8 +132,8 @@ section.col-xs-12.content(ng-controller='KycCtrl')
               .col-xs-12.col-sm-6.col-md-2
                 div.ssn-hidden &#149;&#149;&#149; - &#149;&#149; -
               .col-xs-12.col-sm-6.col-md-2
-                input.form-control.ssn(
-                name='ssn', id='ssn', type='ssn'
+                input.form-control.ssn#ssn(
+                name='ssn', type='ssn'
                 ng-model='profile.ssn_last_4', ng-pattern='validation_pattern_sss'
                 required)
             .row
@@ -149,8 +149,8 @@ section.col-xs-12.content(ng-controller='KycCtrl')
             .col-xs-4 
               div.question(ng-repeat="q in questions", l10n) {{ q.question }}
                 div(ng-repeat="a in q.answers")
-                  input(
-                  name='q{{ q.id }}', id="q{{ q.id }}a{{ a.id }}", value="{{ a.id }}", type='radio',
+                  input#q{{ q.id }}a{{ a.id }}(
+                  name='q{{ q.id }}', value="{{ a.id }}", type='radio',
                   ng-model='q.answerId', required)
                   label.answer(for="q{{ q.id }}a{{ a.id }}", l10n)  {{ a.answer }}
           .row

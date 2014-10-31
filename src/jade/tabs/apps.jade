@@ -24,8 +24,8 @@ section.col-xs-12.content(ng-controller="AppsCtrl")
       .col-xs-12
         label(for="rippleAddress") Add an app
       .col-sm-4
-        input.form-control(
-          name='rippleAddress', id='rippleAddress', type="text"
+        input.form-control#rippleAddress(
+          name='rippleAddress', type="text"
           l10n-placeholder="App Ripple Address"
           ng-model='app.rippleAddress'
           required, rp-dest, rp-dest-address)

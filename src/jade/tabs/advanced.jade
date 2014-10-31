@@ -17,8 +17,8 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
               a.btn.btn-block.btn-cancel(href="", ng-click="editBlob = true", l10n) edit
           .row.row-padding-small.field-edit-row(ng-show="editBlob")
             .col-xs-12.col-sm-9.col-md-6
-              input.form-control.blobIp(
-              name='blobIp', id="blobIp", type='text'
+              input.form-control.blobIp#blobIp(
+              name='blobIp', type='text'
               ng-model='options.blobvault')
             .col-xs-6.col-sm-6.col-md-3
               button.btn.btn-block.btn-success.btn-xs.submit#saveBlob(type='submit', ng-disabled='blobForm.$invalid', l10n) Save
@@ -36,8 +36,8 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
               a.btn.btn-block.btn-cancel(href="", ng-click="editBridge = true", l10n) edit
           .row.row-padding-small.field-edit-row(ng-show="editBridge")
             .col-xs-12.col-sm-9.col-md-6
-              input.form-control.btcDomain(
-              name='btcDomain', id="btcDomain", type='text'
+              input.form-control.btcDomain#btcDomain(
+              name='btcDomain', type='text'
               ng-model='options.bridge.out.bitcoin')
             .col-xs-6.col-sm-6.col-md-3
               button.btn.btn-block.btn-success.btn-xs.submit#saveBridge(type='submit', ng-disabled='bridgeForm.$invalid', l10n) Save
@@ -81,8 +81,8 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
               a.btn.btn-block.btn-cancel(href="", ng-click="editMaxNetworkFee = true", l10n) edit
           .row.row-padding-small.field-edit-row(ng-show="editMaxNetworkFee")
             .col-xs-12.col-sm-9.col-md-6
-              input.form-control.maxNetworkFee(
-              name='maxNetworkFee', id="maxNetworkFee", type='text'
+              input.form-control.maxNetworkFee#maxNetworkFee(
+              name='maxNetworkFee', type='text'
               ng-model='options.max_tx_network_fee')
             .col-xs-6.col-sm-6.col-md-3
               button.btn.btn-block.btn-success.btn-xs.submit#saveMaxNetworkFee(type='submit', ng-disabled='maxnetworkfeeForm.$invalid', l10n) Save
@@ -132,5 +132,5 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
 
         .row
           .col-xs-12.col-sm-6.col-md-3
-            button.btn.btn-block.btn-primary(type="button", id="newServer", ng-click="addServer()", l10n) Add new server
+            button.btn.btn-block.btn-primary#newServer(type="button", ng-click="addServer()", l10n) Add new server
 

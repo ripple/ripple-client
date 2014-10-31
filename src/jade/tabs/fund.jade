@@ -20,7 +20,7 @@ section.col-xs-12.content(ng-controller='FundCtrl')
             a.btn.btn-success.btn-sm.btn-block(ng-click='toggle_form()', ng-disabled='addform_visible || editform_visible', l10n) Add trust
         .row
           .col-xs-12.col-sm-6
-            form.row-padding-small(name='trustForm', id='trustForm', ng-submit='grant()')
+            form.row-padding-small#trustForm(name='trustForm', ng-submit='grant()')
               .row
                 .col-xs-12.form-group(ng-show="'web' === client")
                   label(for='trust_counterparty', ng-show="edituser") {{ edituser }}

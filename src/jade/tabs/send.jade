@@ -13,7 +13,7 @@ section.col-xs-12.content(ng-controller='SendCtrl')
 
   //- 1. Send form
 
-  form.row-padding-small.mode-form(name="sendForm", id="sendForm", role="form"
+  form.row-padding-small.mode-form#sendForm(name="sendForm", role="form"
   ng-show='mode=="form" && account.Balance'
   ng-submit='send_prepared()')
     .row.form-group(ng-if="'web' === client")

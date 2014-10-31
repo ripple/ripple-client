@@ -87,7 +87,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
           .col-sm-2(l10n) Trust Limit
         .row
           .col-xs-12
-            form.row-padding-small(name='trustForm', id='trustForm',
+            form.row-padding-small#trustForm(name='trustForm',
               ng-show='mode=="main" && (addform_visible && can_add_trust)')
               .row
                 .col-xs-12.col-sm-10.col-md-9.form-group(ng-show="'web' === client")
@@ -307,7 +307,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
             div.col-xs-2(ng-show="advanced_feature_switch", l10n) Rippling
             div(ng-class="{'col-xs-2' : advanced_feature_switch, 'col-xs-4 col-md-3': !advanced_feature_switch }"
               l10n) Edit
-          hr(id='divider')
+          hr#divider
           .lines
             .line(ng-controller="AccountRowCtrl", ng-repeat="component in entry.components")
               .row(ng-class="{ 'frozen-account': component.freeze_peer }")

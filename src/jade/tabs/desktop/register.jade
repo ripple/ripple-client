@@ -70,7 +70,7 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
           rp-popover-trigger="hover"
           l10n-data-content="This will create a new Ripple account from your secret key.")
 
-          input.form-control(type="text", name="secretKey", id="secretKey"
+          input.form-control#secretKey(type="text", name="secretKey"
           ng-model="secretKey", rp-master-key, required, rp-focus)
 
           p(ng-show="useSecretKey.secret.$error.rpMasterKey && registerForm.secret.$dirty")

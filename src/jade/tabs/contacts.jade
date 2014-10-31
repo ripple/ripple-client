@@ -13,7 +13,7 @@ section.col-xs-12.content(ng-controller="ContactsCtrl")
       a.btn.btn-success.btn-block.btn-sm.sign.custom-btn(ng-click='toggle_form()', ng-disabled='addform_visible', l10n) Add contact
   .row.row-padding-small.addForm(ng-show='addform_visible')
     .col-xs-12.col-md-6.col-sm-8
-      form(name="addForm", id="addForm", ng-submit="create()", rp-unique-scope)
+      form#addForm(name="addForm", ng-submit="create()", rp-unique-scope)
         .form-group
           label(for='Name', l10n) Contact
           input.form-control.input-lg.name#name(name='name', type='text', step='any', maxlength="70"
