@@ -43,7 +43,7 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
               span(l10n) Passwords do not match
           div(ng-show="")
         .form-group
-              .strength.{{strength}} {{strength}}
+              .strength(class="{{strength}}") {{strength}}
 
         .submit-btn-container
           button.btn.btn-block.btn-success(type='submit'
