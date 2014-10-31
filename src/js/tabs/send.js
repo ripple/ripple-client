@@ -43,7 +43,8 @@ SendTab.prototype.angular = function (module)
       currency: xrpCurrency
     };
 
-    $scope.$watch('send.recipient', function(){
+    $scope.$watch('send.recipient', function(rec){
+      if (!rec) return;
       // raw address without any parameters
       var address = webutil.stripRippleAddress($scope.send.recipient);
       var dt = webutil.getDestTagFromAddress($scope.send.recipient);
