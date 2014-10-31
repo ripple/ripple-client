@@ -1,0 +1,17 @@
+.widget.widget-balances
+  h4(l10n) Balances
+
+  ul.fa-ul
+    li.currency-xrp
+      i.fa-li
+      h5 XRP
+      div(ng-show="account.Balance") {{ account.Balance | rpamount:{precision: 2, min_precision: 2, max_sig_digits: 5} }}
+      div(ng-hide="account.Balance") 0.00
+    li(ng-repeat="entry in balances", ng-class="'currency-' + (entry.total | rpcurrency | lowercase)")
+      i.fa-li.fa-money(ng-class="'fa-' + (entry.total | rpcurrency | lowercase)")
+      h5 {{ entry.total | rpcurrency }}
+      div {{ entry.total | rpamount:{precision: 2, min_precision: 2, max_sig_digits: 4} }}
+      dl(ng-repeat="(issuer, component) in entry.components")
+        dt(ng-show="component.gateway.app") {{rp-currency}}.{{component.gateway.app.name}}
+        dt(ng-hide="component.gateway.app", rp-pretty-identity="issuer", rp-pretty-issuer-contacts="userBlob.data.contacts")
+        dd {{ component | rpamount:{precision: 2, min_precision: 2, max_sig_digits: 4} }}

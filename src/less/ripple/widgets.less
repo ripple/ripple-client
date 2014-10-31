@@ -1,0 +1,96 @@
+.widgets {
+  font-size: 14px;
+  font-family: 'OpenSansRegular';
+  color: @black;
+
+  .widget {
+    padding-bottom: @padding-base-vertical;
+
+    > h4 {
+      font-size: inherit !important;
+      font-family: 'OpenSansBold';
+      text-transform: uppercase;
+      margin: 0;
+    }
+
+    &.widget-balances {
+      li {
+        clear: left;
+        margin: @padding-base-horizontal/4 0;
+        padding: @padding-base-horizontal @padding-base-vertical;
+        margin-left: -31px;
+        padding-left: 31px;
+        border: 1px solid @midgray;
+        border-color: @midgray;
+        color: @black;
+        background: @lightgray;
+        .transition(all 2s ease-in-out);
+
+        i.fa-li {
+          font-family: 'FontAwesome';
+          font-style: normal;
+          top: @padding-base-horizontal;
+          left: 0;
+        }
+
+        h5 {
+          font-size: inherit !important;
+          font-family: 'OpenSansBold';
+          margin: 0 0 @padding-base-vertical;
+          line-height: 20px;
+          .pull-left;
+        }
+
+        > div {
+          font-family: 'OpenSansBold';
+          text-align: right;
+          text-overflow: ellipsis;
+          overflow: hidden;
+        }
+
+        dl {
+          clear: left;
+          color: @darkgray;
+          margin: 0;
+          .transition(inherit);
+
+          dt {
+            width: 59%;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            font-weight: 400;
+            .pull-left;
+          }
+
+          dd {
+            text-align: right;
+            text-overflow: ellipsis;
+            overflow: hidden;
+          }
+        }
+
+        &.amount-plus {
+          border-color: @darkgreen;
+          color: @darkgreen;
+          background: @lightgreen;
+          .transition(none);
+
+          dl.amount-plus {
+            color: inherit;
+          }
+        }
+
+        &.amount-minus {
+          border-color: @midred;
+          color: @midred;
+          background: @lightred;
+          .transition(none);
+
+          dl.amount-minus {
+            color: inherit;
+          }
+        }
+      }
+    }
+  }
+}

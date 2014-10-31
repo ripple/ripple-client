@@ -74,4 +74,27 @@ describe('login', function() {
       .and.notify(done);
   });
 
+  it('should not login a user with wrong password', function(done) {
+    helperForms.logout();
+    browser.get('#/login');
+    browser.getCurrentUrl()
+      .then(function(url){
+        // It's already logged in if the page is other then login or register
+        if (url.match('login') || url.match('register')){
+          browser.get('#/login');
+
+          $(".auth-form-container #login_username").sendKeys(config.user.username);
+          $(".auth-form-container #login_password").sendKeys("wrongpassword");
+          $(".auth-form-container .submit-btn-container button").click()
+            .then(function(){
+              var errorMessage = $("form[name='loginForm'] .text-status .backend b");
+              helperBrowser.waitForElement(errorMessage);
+              expect(errorMessage.isPresent())
+                .to.eventually.be.true
+                .and.notify(done);
+            });
+        }
+      });
+  });
+
 });
