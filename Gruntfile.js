@@ -16,14 +16,10 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-connect');
-  grunt.loadNpmTasks('grunt-contrib-compress');
   grunt.loadNpmTasks('grunt-mocha-protractor');
   grunt.loadNpmTasks('grunt-jade-l10n-extractor');
-  grunt.loadNpmTasks('grunt-node-webkit-builder');
   grunt.loadNpmTasks('grunt-bower-task');
   grunt.loadNpmTasks('grunt-webfont');
-  grunt.loadNpmTasks('grunt-shell');
-  grunt.loadNpmTasks('grunt-aws');
 
   // Ripple client dependencies
   var deps = ["deps/js/jquery/dist/jquery.js",
@@ -122,76 +118,12 @@ module.exports = function(grunt) {
     });
   });
 
-  var aws = grunt.file.readJSON('config.json');
-  var configDesktopRead = grunt.file.readJSON('res/nw/package_desktop.json');
-  var configDesktopWrite = grunt.file.write('res/nw/config.js', 'var config = ' + JSON.stringify(configDesktopRead));
-
   grunt.initConfig({
-    aws: {
-      accessKeyId: aws.key,
-      secretAccessKey: aws.secret
-    },
-    s3: {
-      options: {
-        accessKeyId: aws.key,
-        secretAccessKey: aws.secret,
-        bucket: aws.bucket,
-        enableWeb: true
-      },
-      build: {
-        cwd: 'build/packages/',
-        src: '**'
-      },
-      specificFiles: {
-        src: 'res/nw/config.js',
-        dest: 'version-config.js'
-      }
-    },
-
-    pkg: grunt.file.readJSON('package.json'),
     meta: {},
-    shell: {
-      options: {
-        stdout: true,
-        failOnError: true
-      },
-      startdevserver: {
-        command:
-          process.platform === 'darwin' ? 'sudo node ./scripts/web-server.js'
-                                        : 'node ./scripts/web-server.js'
-      },
-      removeFiles: {
-        command: [
-          'rm -f ./build/packages/ripple-client.dmg',
-          'rm -f ./build/packages/ripple-client.zip',
-          'rm -f ./build/packages/ripple-client32.tar',
-          'rm -f ./build/packages/ripple-client64.tar'
-        ].join('&&')
-      },
-      linux: {
-        command: (process.platform === 'linux' || process.platform === 'darwin') ? [
-          'tar -cvf ./build/packages/ripple-client32.tar ./build/pkg/nw/releases/RippleClient/linux32/',
-          'tar -cvf ./build/packages/ripple-client64.tar ./build/pkg/nw/releases/RippleClient/linux64/'
-        ].join('&') : 'echo Skipping tar compression, only supported on linux and OSX'
-      },
-      osx: {
-        command: process.platform === 'darwin' ? [
-          'npm install appdmg',
-          'appdmg ./res/dmg/dmg_config.json ./build/packages/ripple-client.dmg'
-        ].join('&&') : 'echo Skipping DMG build, only supported on OSX'
-      }
-    },
     recess: {
       web: {
         src: ['src/less/ripple/web.less'],
         dest: 'build/dist/ripple.css',
-        options: {
-          compile: true
-        }
-      },
-      desktop: {
-        src: ['src/less/ripple/desktop.less'],
-        dest: 'build/dist/ripple-desktop.css',
         options: {
           compile: true
         }
@@ -276,30 +208,6 @@ module.exports = function(grunt) {
             LANGUAGES: languageCodes
           }
         }
-      },
-      desktop: {
-        src: 'src/index.html',
-        dest: 'build/dist/desktop/index.html',
-        options: {
-          context: {
-            MODE: "release",
-            TARGET: "desktop",
-            VERSION: "<%= meta.version %>",
-            LANGUAGES: languageCodes
-          }
-        }
-      },
-      desktop_debug: {
-        src: 'src/index.html',
-        dest: 'build/dist/desktop/index_debug.html',
-        options: {
-          context: {
-            MODE: "debug",
-            TARGET: "desktop",
-            VERSION: "<%= meta.version %>",
-            LANGUAGES: languageCodes
-          }
-        }
       }
     },
     webfont: {
@@ -342,48 +250,6 @@ module.exports = function(grunt) {
           {src: 'ripple.txt', dest: 'build/bundle/web/ripple.txt' },
           {src: 'src/callback.html', dest: 'build/bundle/web/callback.html'}
         ]
-      },
-      nw_desktop: {
-        files: [
-          {expand: true, src: ['build/dist*//*.js'],
-            dest: 'build/bundle/nw-desktop/js', flatten: true},
-          {expand: true, src: ['build/dist/desktop*//*.js'],
-            dest: 'build/bundle/nw-desktop/js', flatten: true},
-          {expand: true, src: ['build/dist*//*.css'],
-            dest: 'build/bundle/nw-desktop/css', flatten: true},
-          {expand: true, src: ['res/fonts*//*'], dest: 'build/bundle/nw-desktop/fonts', flatten: true},
-          {expand: true, src: ['res/icons/font*//*'], dest: 'build/bundle/nw-desktop'},
-          {expand: true, src: ['img*//**'], dest: 'build/bundle/nw-desktop'},
-          {expand: true, src: ['deps/js/modernizr*.js'],
-            dest: 'build/bundle/nw-desktop/js/deps', flatten: true},
-          {expand: true, src: ['deps/js/mixpanel.min.js'],
-            dest: 'build/bundle/nw-desktop/js/deps', flatten: true},
-          {src: 'build/dist/desktop/index.html', dest: 'build/bundle/nw-desktop/index.html'},
-          {src: 'res/nw/package_desktop.json', dest: 'build/bundle/nw-desktop/package.json'},
-          {src: 'src/js/config.js', dest: 'build/bundle/nw-desktop/config.js'},
-          {src: 'scripts/livereload.js', dest: 'build/bundle/web/livereload.js'}
-        ]
-      },
-      nw_desktop_debug: {
-        files: [
-          {expand: true, src: ['build/dist*//*.js'],
-            dest: 'build/bundle/nw-desktop-debug/js', flatten: true},
-          {expand: true, src: ['build/dist/desktop*//*.js'],
-            dest: 'build/bundle/nw-desktop-debug/js', flatten: true},
-          {expand: true, src: ['build/dist*//*.css'],
-            dest: 'build/bundle/nw-desktop-debug/css', flatten: true},
-          {expand: true, src: ['res/fonts*//*'], dest: 'build/bundle/nw-desktop-debug/fonts', flatten: true},
-          {expand: true, src: ['res/icons/font*//*'], dest: 'build/bundle/nw-desktop-debug'},
-          {expand: true, src: ['img*//**'], dest: 'build/bundle/nw-desktop-debug'},
-          {expand: true, src: ['deps/js/modernizr*.js'],
-            dest: 'build/bundle/nw-desktop-debug/js/deps', flatten: true},
-          {expand: true, src: ['deps/js/mixpanel.min.js'],
-            dest: 'build/bundle/nw-desktop-debug/js/deps', flatten: true},
-          {src: 'build/dist/desktop/index_debug.html', dest: 'build/bundle/nw-desktop-debug/index.html'},
-          {src: 'res/nw/package_desktop_debug.json', dest: 'build/bundle/nw-desktop-debug/package.json'},
-          {src: 'src/js/config.js', dest: 'build/bundle/nw-desktop-debug/config.js'},
-          {src: 'scripts/livereload.js', dest: 'build/bundle/web/livereload.js'}
-        ]
       }
     },
     jade_l10n_extractor: {
@@ -403,7 +269,7 @@ module.exports = function(grunt) {
       },
       scripts_debug: {
         files: ['src/js/**/*.js', 'src/jade/**/*.jade'],
-        tasks: ['webpack:web_debug', 'webpack:desktop_debug', 'copy'],
+        tasks: ['webpack:web_debug', 'copy'],
         options: { nospawn: true, livereload: true }
       },
       deps: {
@@ -418,7 +284,7 @@ module.exports = function(grunt) {
       },
       index: {
         files: ['src/index.html'],
-        tasks: ['preprocess:web_debug','preprocess:desktop_debug','copy'],
+        tasks: ['preprocess:web_debug','copy'],
         options: { livereload: true }
       },
       callback: {
@@ -462,42 +328,14 @@ module.exports = function(grunt) {
         }
       }
     },
-    nodewebkit: {
-      desktop: {
-        options: {
-          build_dir: 'build/pkg/nw/',
-          win: true,
-          mac: true,
-          linux32: true,
-          linux64: true,
-          mac_icns: 'res/dmg/xrp_ripple_logo.icns'
-        },
-        files: {
-          src: 'build/bundle/nw-desktop/**/*'
-        }
-      }
-    },
     bower: {
       install: {
         options: {
           targetDir: './deps/js'
         }
       }
-    },
-    compress: {
-      main: {
-        options: {
-          archive: './build/packages/ripple-client.zip'
-        },
-        files: [
-          {
-            expand: true,
-            cwd: './build/pkg/nw/releases/RippleClient/win',
-            src: ['**']
-          }
-        ]
-      }
-    }  });
+    }
+  });
 
   // Webpack
   var webpack = {
@@ -548,23 +386,6 @@ module.exports = function(grunt) {
       debug: true,
       devtool: 'eval',
       cache: false
-    },
-    desktop_debug: {
-      entry: {
-        desktop: "./src/js/entry/desktop.js"
-      },
-      module: {
-        loaders: [
-          { test: /\.jade$/, loader: "jade-l10n-loader" },
-          { test: /\.json$/, loader: "json-loader" }
-        ]
-      },
-      output: {
-        filename: "desktop/<%= pkg.name %>-debug.js"
-      },
-      debug: true,
-      cache: false,
-      target: 'node-webkit'
     }
   };
 
@@ -586,25 +407,6 @@ module.exports = function(grunt) {
         // TODO Minimization breaks our l10n mechanisms
 //        minimize: true
       }
-    };
-    webpack['desktop_l10n_' + language.name] = {
-      entry: {
-        desktop: "./src/js/entry/desktop.js"
-      },
-      module: {
-        loaders: [
-          { test: /\.jade$/, loader: "jade-l10n-loader?languageFile=./l10n/" + language.code + "/messages.po" },
-          { test: /\.json$/, loader: "json-loader" }
-        ]
-      },
-      output: {
-        filename: "desktop/<%= pkg.name %>-" + language.code + ".js"
-      },
-      optimize: {
-        // TODO Minimization breaks our l10n mechanisms
-//        minimize: true
-      },
-      target: 'node-webkit'
     };
   });
 
@@ -629,21 +431,6 @@ module.exports = function(grunt) {
                               'concat:compat_ie', 'concat:compat_ie_debug',
                               'uglify:compat_nw',
                               'concat:compat_nw', 'concat:compat_nw_debug']);
-
-  // Distribution build - builds absolutely everything
-  grunt.registerTask('dist', ['default',
-                              'copy:nw_desktop', 'copy:nw_desktop_debug',
-                              'nodewebkit']);
-
-  // Desktop apps packaging
-  grunt.registerTask('desktop', ['dist',
-                                 'shell:removeFiles',
-                                 'shell:linux',
-                                 'shell:osx',
-                                 'compress']);
-
-  // AWS S3 deployment for downloadable clients
-  grunt.registerTask('dldeploy', ['s3']);
 
   // Node.js server to serve built files
   grunt.registerTask('devserver', ['shell:startdevserver']);

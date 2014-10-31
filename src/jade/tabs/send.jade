@@ -7,7 +7,7 @@ section.col-xs-12.content(ng-controller='SendCtrl')
 
   //- Account is unfunded
 
-  div(ng-show="'web' === client && !loadingAccount && !account.Balance && loadState.account && connected")
+  div(ng-show="!loadingAccount && !account.Balance && loadState.account && connected")
     include banner/unfunded
     p.literal(l10n="err-you-must-be-funded-before-you-can-send-money", l10n) You have to be funded before you can send money
 
@@ -20,7 +20,7 @@ section.col-xs-12.content(ng-controller='SendCtrl')
       form.row-padding-small.mode-form#sendForm(name="sendForm", role="form"
       ng-show='mode=="form" && account.Balance'
       ng-submit='send_prepared()')
-        .row.form-group(ng-if="'web' === client")
+        .row.form-group
           .col-xs-12.col-sm-8.col-md-6
             label(for='send_destination', l10n) Recipient
             input.form-control#send_destination(
@@ -40,28 +40,6 @@ section.col-xs-12.content(ng-controller='SendCtrl')
                 | Please enter a recipient.
               .error(rp-error-on='rpDest', l10n)
                 | Recipient should be a Ripple name, a contact, or Ripple/Bitcoin address.
-              .error(rp-error-on='federation', l10n)
-                | This email address is not Ripple-enabled.
-        .row.form-group(ng-if="'desktop' === client")
-          .col-xs-12.col-sm-6.col-md-5
-            label(for='send_destination', l10n) Recipient
-            input.form-control#send_destination(
-            name='send_destination', type='text'
-            rp-combobox="recipient_query", rp-combobox-value-as-ripple-name
-            placeholder='Enter a Ripple address or contact'
-            ng-model='send.recipient'
-                    rp-dest, rp-dest-address, rp-dest-contact, rp-dest-bitcoin
-            rp-dest-email, rp-dest-ripple-name, rp-dest-loading="recipient_loading"
-            required
-            rp-autofill='$routeParams.to'
-                    rp-focus, rp-spinner="{{recipient_loading ? 4 : null}}")
-            .errorGroup(rp-errors='send_destination')
-              .success(rp-error-valid ng-show='send.recipient != send.recipient_address')
-                | {{send.recipient_address}}
-              .error(rp-error-on='required', l10n)
-                | Please enter a recipient.
-              .error(rp-error-on='rpDest', l10n)
-                | Recipient should be a contact or Ripple/Bitcoin address.
               .error(rp-error-on='federation', l10n)
                 | This email address is not Ripple-enabled.
         ul.tagsLinks

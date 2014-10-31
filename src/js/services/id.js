@@ -269,13 +269,7 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', '$t
 //      self.storeLoginKeys(username, keys);
 //      self.loginStatus = true;
 //      $scope.$broadcast('$blobUpdate');
-
-      if ('desktop' === $scope.client) {
-        self.setAccount(blob.data.account_id);
-        self.loginStatus = true;
-        $scope.$broadcast('$blobUpdate');
-      }
-
+      
       // Remove old blob
       if(Options.blobvault) {
         $oldblob.remove(['vault', 'local'], opts.oldUsername, opts.oldPassword, function (err, data) {

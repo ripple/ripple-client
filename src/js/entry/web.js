@@ -178,8 +178,6 @@ app.config(['$routeProvider', '$injector', function ($routeProvider, $injector) 
 app.run(['$rootScope', '$injector', '$compile', '$route', '$routeParams', '$location',
          function ($rootScope, $injector, $compile, $route, $routeParams, $location)
 {
-  // This is the web client
-  $rootScope.client = 'web';
   $rootScope.productName = 'Ripple Trade';
 
   // Global reference for debugging only (!)
