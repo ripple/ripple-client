@@ -63,7 +63,7 @@ section.col-xs-12.content(ng-controller='BrlCtrl')
 
         .row.btc-tab-description(ng-show="!brlConnected")
           .col-md-12
-            .descriptor(l10n) Ripple Trade has partnered with Rippex to provide easy access to BRL. By continuing, you agree with Rippex's 
+            .descriptor.tos(l10n) Ripple Trade has partnered with Rippex to provide easy access to BRL. By continuing, you agree with Rippex's 
               a(href="https://rippex.net/termos.php#/", target="_blank") terms of service.&#32;
               | Following this action will enable Rippex to hold BRL on your behalf.
 
@@ -72,16 +72,17 @@ section.col-xs-12.content(ng-controller='BrlCtrl')
             button.btn.btn-large(type="submit",ng-click="create_trust_line()", ng-hide="brlConnected", ng-disabled="loading || !account.Balance") 
               span(ng-show="!loading")  Add Rippex
               span(ng-show="loading")  Adding...
-            button.btn.btn-large(ng-show="showInstructions && brlConnected", type="submit", ng-click="showInstructions = false") Hide instructions
-            button.btn.btn-large(ng-show="!showInstructions", type="submit", ng-click="showInstructions = true") Show instructions
+            button.btn.btn-large(ng-show="showInstructions && brlConnected", type="submit", ng-click="toggleInstructions()") Hide instructions
+            button.btn.btn-large(ng-show="!showInstructions && brlConnected ", type="submit", ng-click="toggleInstructions()") Show instructions
+
 
           .connect.col-md-2
             .description.fa.fa-times(ng-show="!brlConnected", l10n) Not connected
             .description.fa.fa-check(ng-show="brlConnected", l10n) Connected
-        .row.btc-tab-description(ng-show="showInstructions == true", ng-hide="!brlConnected")
+        .row.btc-tab-description(ng-show="showInstructions && brlConnected")
           .instructions.col-md-10
-            a.dismiss(href="", id="hide", ng-click="showInstructions = false", l10n)  ×
-            h4(l10n) NEW CUSTOMERS- SIGN UP AT RIPPEX
+            a.dismiss(href="", id="hide", ng-click="toggleInstructions()", l10n)  ×
+            .title(l10n) NEW CUSTOMERS- SIGN UP AT RIPPEX
             .description(l10n) Sign up at Rippex.net to initiate deposits and withdrawals. You will need:
               ul
                 li A&#32;
@@ -91,10 +92,10 @@ section.col-xs-12.content(ng-controller='BrlCtrl')
                   a(href="https://rippex.zendesk.com/hc/pt-br/articles/202324834-Crie-sua-conta-Rippex", target="_blank") Detailed instructions.
 
 
-            h4(l10n) EXISTING RIPPEX CUSTOMERS
+            .title(l10n) EXISTING RIPPEX CUSTOMERS
             .description(l10n) If you have a Rippex account, 
               a(href="https://rippex.net/#/login", target="_blank") login here. 
 
-            h4(l10n) DEPOSIT INSTRUCTIONS
+            .title(l10n) DEPOSIT INSTRUCTIONS
             .description(l10n) Rippex accepts deposits from all Brazilian banks. Instructions 
               a(href="https://rippex.zendesk.com/hc/pt-br/articles/202324844-Dep%C3%B3sitos-Transfer%C3%AAncia-Banc%C3%A1ria", target="_blank") here. 

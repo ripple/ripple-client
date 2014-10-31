@@ -25,14 +25,15 @@ BrlTab.prototype.angular = function (module)
 	   
 	    $scope.loading = false;
 
-     if (!$id.loginStatus) return $id.goId();
-      // if (!$scope.account.Balance){
-      //   store.set('brl_connected', false);
-      // }
+      if (!$id.loginStatus) return $id.goId();
 
       $scope.brlConnected = store.get('brl_connected');
-      $scope.showInstructions = store.get('show_instructions');
-     // $scope.brlConnected = false;
+      $scope.showInstructions = store.get('show_brl_instructions');
+
+      $scope.toggleInstructions = function() {
+         $scope.showInstructions = !$scope.showInstructions;
+         store.set('show_brl_instructions', $scope.showInstructions);
+      }
 
       $scope.create_trust_line = function () {
         $scope.loading = true;
@@ -112,7 +113,7 @@ BrlTab.prototype.angular = function (module)
             // Save in local storage
             if (!store.disabled) {
               store.set('brl_connected', $scope.brlConnected);
-              store.set('show_instructions', $scope.showInstructions);
+              store.set('show_brl_instructions', $scope.showInstructions);
             }
 
           }
