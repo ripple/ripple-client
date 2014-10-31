@@ -25,7 +25,7 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
             .col-xs-3.col-sm-3.col-md-2
               button.btn.btn-block.btn-danger.btn-xs.submit#deleteBlob(type="button", ng-click="deleteBlob()", l10n) Delete
             .col-xs-3.col-sm-3.col-md-1.text-center#cancel
-              a(href="", ng-click="cancelEditBlob()", class="btn btn-cancel btn-block", l10n) cancel
+              a.btn.btn-cancel.btn-block(href="", ng-click="cancelEditBlob()", l10n) cancel
         form(name="bridgeForm", ng-submit="saveBridge()")
           .descriptor(l10n) Bitcoin bridge
           .row.advanced-form-row(ng-hide="editBridge")
@@ -44,7 +44,7 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
             .col-xs-3.col-sm-3.col-md-2
               button.btn.btn-block.btn-danger.btn-xs.submit#deleteBridge(type="button", ng-click="deleteBridge()", l10n) Delete
             .col-xs-3.col-sm-3.col-md-1.text-center#cancel
-              a(href="", ng-click="cancelEditBridge()", class="btn btn-cancel btn-block", l10n) cancel
+              a.btn.btn-cancel.btn-block(href="", ng-click="cancelEditBridge()", l10n) cancel
         form.trust-line-form(name="accountsAdvForm", ng-submit="saveAcctOptions()")
           .descriptor(ng-show="'web' === client", l10n) Trust line
           .row.advanced-form-row(ng-hide="editAcctOptions")
@@ -54,7 +54,7 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
               .description(ng-show="advanced_feature_switch", l10n) Show
               .description(ng-hide="advanced_feature_switch", l10n) Hide
             .col-xs-3.col-sm-3.col-md-2
-              a(href="", ng-click="editAcctOptions = true", class="btn btn-block btn-cancel",l10n) edit
+              a.btn.btn-cancel.btn-block(href="", ng-click="editAcctOptions = true", l10n) edit
           .row.row-padding-small.edit-trust-line(ng-show="editAcctOptions")
             .col-xs-6.col-sm-5.col-md-3
               .description Advanced settings
@@ -69,7 +69,7 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
             .col-xs-3(ng-show="hasRemove()")
               button.btn.btn-block.btn-danger.btn-xs.submit#delete(type="button", ng-click="remove()", ng-show="hasRemove()", l10n) Delete
             .col-xs-3.col-sm-3.col-md-2.text-center#cancel
-              a(href="", ng-click="cancelEditAcctOptions()", class="btn btn-cancel btn-block", l10n) cancel
+              a.btn.btn-cancel.btn-block(href="", ng-click="cancelEditAcctOptions()", class="btn btn-cancel btn-block", l10n) cancel
         h4#networkSettings(l10n) Network settings
         form(name="maxnetworkfeeForm", ng-submit="saveMaxNetworkFee()")
           .descriptor(l10n) Maximum network fee
@@ -87,7 +87,7 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
             .col-xs-6.col-sm-6.col-md-3
               button.btn.btn-block.btn-success.btn-xs.submit#saveMaxNetworkFee(type='submit', ng-disabled='maxnetworkfeeForm.$invalid', l10n) Save
             .col-xs-3.col-sm-3.col-md-1.text-center#cancel
-              a(href="", ng-click="cancelEditMaxNetworkFee()", class="btn btn-cancel btn-block", l10n) cancel
+              a.btn.btn-cancel.btn-block(href="", ng-click="cancelEditMaxNetworkFee()", l10n) cancel
 
         h4#serverSettings(l10n) Server settings
         form.server-row-form(ng-controller="ServerRowCtrl", ng-repeat="(index, server) in options.server.servers", ng-submit="save()")
@@ -118,7 +118,7 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
               .col-xs-3.col-sm-3.col-md-2(ng-show="hasRemove()")
                 button.btn.btn-block.btn-danger.btn-xs.submit#delete(type="button", ng-click="remove()", ng-show="hasRemove()", l10n) Delete
               .col-xs-3.col-sm-3.col-md-1.text-center#cancel
-                a(href="", ng-click="cancel()", ng-hide="noCancel()",class="btn btn-cancel btn-block" ,l10n) cancel
+                a.btn.btn-cancel.btn-block(href="", ng-click="cancel()", ng-hide="noCancel()", l10n) cancel
             .row.advanced-form-row(ng-hide="editing")
               .col-xs-6.col-sm-5.col-md-3
                 .description {{server.host}}
@@ -128,7 +128,7 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
                 .description(ng-show="server.secure", l10n) Secure
                 .description(ng-hide="server.secure", l10n) Not Secure
               .col-xs-3.col-sm-2.col-md-2
-                a(href="", ng-click="editing = true", class="btn btn-cancel btn-block" ,l10n) edit
+                a.btn.btn-cancel.btn-block(href="", ng-click="editing = true", l10n) edit
 
         .row
           .col-xs-12.col-sm-6.col-md-3
