@@ -129,8 +129,8 @@ section.col-xs-12.content(ng-controller="ContactsCtrl")
                 | You already have a contact with the same name.
         div.col-md-4.col-sm-4.col-xs-12.address-wrapper
           ng-form(name='inlineAddress')
-            input.form-control(
-              name='editaddress', type="text", class="inline"
+            input.form-control.inline(
+              name='editaddress', type="text"
               ng-model='editaddress'
               rp-unique='userBlob.data.contacts'
               rp-unique-field='address'
@@ -142,8 +142,8 @@ section.col-xs-12.content(ng-controller="ContactsCtrl")
               .error(rp-error-on='rpDest', l10n) Not a valid address.
             .form-group
               label(for="contact_dt", l10n) Destination tag
-              input.form-control.dt#contact_dt(
-                name='dt', type='text', step='any', class="inline"
+              input.form-control.dt.inline#contact_dt(
+                name='dt', type='text', step='any'
                 placeholder="Leave blank if not applicable"
                 ng-model='editdt'
                 rp-stdt

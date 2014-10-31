@@ -69,7 +69,7 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
             .col-xs-3(ng-show="hasRemove()")
               button.btn.btn-block.btn-danger.btn-xs.submit#delete(type="button", ng-click="remove()", ng-show="hasRemove()", l10n) Delete
             .col-xs-3.col-sm-3.col-md-2.text-center#cancel
-              a.btn.btn-cancel.btn-block(href="", ng-click="cancelEditAcctOptions()", class="btn btn-cancel btn-block", l10n) cancel
+              a.btn.btn-cancel.btn-block(href="", ng-click="cancelEditAcctOptions()", l10n) cancel
         h4#networkSettings(l10n) Network settings
         form(name="maxnetworkfeeForm", ng-submit="saveMaxNetworkFee()")
           .descriptor(l10n) Maximum network fee

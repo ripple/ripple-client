@@ -6,8 +6,8 @@ h4(l10n) Account settings
   .row.public-account-row
     .col-xs-9.col-sm-6.username ~{{userCredentials.username}}
     .col-xs-3.col-sm-3.edit-account-btn-wrapper
-      a(href="", ng-click="openForm=!openForm; success=false"
-        ng-hide="openForm", class="btn btn-cancel btn-block" , l10n) edit
+      a.btn.btn-cancel.btn-block(href="", ng-click="openForm=!openForm; success=false"
+        ng-hide="openForm", l10n) edit
     form#renameForm(name="renameForm", ng-show="openForm", ng-submit="rename()")
       .form-group#open_name_change
         label(for='name', l10n) New Ripple name

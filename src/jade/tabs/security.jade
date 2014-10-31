@@ -178,7 +178,7 @@ section.col-xs-12.content(ng-controller="SecurityCtrl")
                     .col-xs-3.col-sm-4.col-md-6
                       div.description
                         a#edit(href="", ng-click="editUnlock = true", l10n) edit
-                  .row(ng-show="editUnlock", class="edit-security-pswd")
+                  .row.edit-security-pswd(ng-show="editUnlock")
                     .col-xs-6.col-sm-5.col-md-4
                       .description Require password
                     .col-xs-6.col-sm-3.col-md-2
