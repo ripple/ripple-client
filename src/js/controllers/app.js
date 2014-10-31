@@ -25,14 +25,15 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
 
   // For announcement banner
 
+  store.set('announcement', false);
   $scope.showAnnouncement = store.get('announcement');
 
-  if('undefined' === typeof $scope.showAnnouncement) $scope.showAnnouncement = true;
-
-  $scope.dismissBanner = function() {
-    store.set('announcement', false);
-    $scope.showAnnouncement = store.get('announcement');
-  };
+  //if('undefined' === typeof $scope.showAnnouncement) $scope.showAnnouncement = true;
+  //
+  //$scope.dismissBanner = function() {
+  //  store.set('announcement', false);
+  //  $scope.showAnnouncement = store.get('announcement');
+  //};
 
   // Global reference for debugging only (!)
   if ("object" === typeof rippleclient) {
