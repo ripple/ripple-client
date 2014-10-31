@@ -35,9 +35,6 @@ SendTab.prototype.angular = function (module)
     if (!$id.loginStatus) return $id.goId();
 
     var timer;
-
-    // XRP currency object.
-    // {name: "XRP - Ripples", order: 146, value: "XRP"}
     var xrpCurrency = Currency.from_json("XRP");
 
     $scope.xrp = {
