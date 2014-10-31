@@ -48,6 +48,7 @@
       span(ng-switch-when="tejLost", l10n)
         | Error code: Transaction could not be submitted [tejLost].
       span(ng-switch-when="tejMaxFeeExceeded", l10n)
+        | This transaction failed because the current network fee is higher than your account limit. You can adjust your maximum network fee in Settings &gt Advanced, or try again later. <br>
         | Error code: Network fee exceeded [tejMaxFeeExceeded].
     span(ng-switch-default, l10n)
       | Your payment could not be submitted: {{engine_result}} - {{engine_result_message}}
