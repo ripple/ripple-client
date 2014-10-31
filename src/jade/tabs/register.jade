@@ -74,7 +74,7 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
             div(class="strength {{strength}}") {{strength}}
         .form-group(ng-class="{'field-error': registerForm.register_email.$error.email && registerForm.register_email.$dirty}")
           label(for='register_email') Email
-          input.form-control(type="email", name="register_email", id="register_email"
+          input.form-control#register_email(type="email", name="register_email"
             placeholder="", ng-model="email", required)
           p(ng-show="registerForm.register_email.$error.email && registerForm.register_email.$dirty")
             span(l10n) Email address is invalid

@@ -13,8 +13,8 @@ section.col-xs-12.content(ng-controller='UsdCtrl')
   .row(ng-show='connected')
     .col-sm-3
       include fund/menu
-    form.col-sm-9.list(action="", method="post", name="usdDeposit"
-      ng-submit="getQuote()", id="usdDepositForm")
+    form.col-sm-9.list#usdDepositForm(action="", method="post", name="usdDeposit"
+      ng-submit="getQuote()")
       .nameLine(l10n) USD instant deposit
       //ol.breadcrumb
         li.active(ng-if="mode == 'step1'", l10n) Step 1 (Amount)
@@ -52,14 +52,14 @@ section.col-xs-12.content(ng-controller='UsdCtrl')
           .col-sm-4
             .input-group.input-margin-group
               span.input-group-addon.ripple-addon $
-              input.form-control.amount(name='amount', id='amount', type='number'
+              input.form-control.amount#amount(name='amount', type='number'
                 placeholder='e.g. 100', ng-model='usdAmount', required, min="1")
             .errorGroup(rp-errors='amount')
               .error(rp-error-on='maxAmount') {{error}}
         .row
           .col-sm-4
             h5(l10n) Select your bank
-            select.form-control(name='bank', id="bank", ng-model="bank", required)
+            select.form-control#bank(name='bank', ng-model="bank", required)
               option(value="", disabled, selected, l10n) Select your bank
               option(value="BOFAUS") Bank of America
               option(value="HIBKUS") Capital One
@@ -113,4 +113,4 @@ section.col-xs-12.content(ng-controller='UsdCtrl')
 
       .step3(ng-show="mode=='step3'")
         .row
-          iframe.col-sm-12(name="knoxFrame", id="knoxFrame")
+          iframe.col-sm-12#knoxFrame(name="knoxFrame")

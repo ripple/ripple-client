@@ -73,7 +73,7 @@ section.col-xs-12.content(ng-controller='GoldCtrl')
           .description(ng-show="!account.Balance", l10n) Your account has to be activated before you can add a gateway account.
       .row(ng-show="showInstructions && gbiConnected")
         .instructions.col-md-10
-          a.dismiss(href="", id="hide", ng-click="toggle_instructions()", l10n)  ×
+          a.dismiss#hide(href="", ng-click="toggle_instructions()", l10n)  ×
           .title(l10n) Deposit
           .description(l10n) GBI does not currently support direct deposits. You can&#32;
             a(href="#/trade") trade XAU(-.5%pa)

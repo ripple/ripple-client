@@ -18,7 +18,7 @@ section.col-xs-12.content(ng-controller="ExchangeCtrl")
     .widgets.hidden-xs.col-sm-4.col-md-4.col-lg-3
       include widgets/balances
     .col-xs-12.col-sm-8.col-md-8.col-lg-9
-      form.mode-form(name="exchangeForm", id="exchangeForm", ng-show='mode=="form" && account.Balance', ng-submit='exchange_prepared()')
+      form.mode-form#exchangeForm(name="exchangeForm", ng-show='mode=="form" && account.Balance', ng-submit='exchange_prepared()')
         .form-group
           label(for='amount', l10n="Receive (amount)") Receive
           .row.row-padding-small.amount

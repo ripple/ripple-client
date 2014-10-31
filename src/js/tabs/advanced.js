@@ -29,6 +29,7 @@ AdvancedTab.prototype.angular = function(module)
     $scope.passwordProtection = !$scope.userBlob.data.persistUnlock;
     $scope.editBridge = false;
     $scope.editBlob = false;
+    $scope.editMaxNetworkFee = false;
     $scope.editAcctOptions = false;
 
     $scope.advanced_feature_switch = Options.advanced_feature_switch;
@@ -52,6 +53,18 @@ AdvancedTab.prototype.angular = function(module)
       }
 
       $scope.editBridge = false;
+
+      // Reload
+      location.reload();
+    };
+
+    $scope.saveMaxNetworkFee = function () {
+      // Save in local storage
+      if (!store.disabled) {
+        store.set('ripple_settings', JSON.stringify($scope.options));
+      }
+
+      $scope.editMaxNetworkFee = false;
 
       // Reload
       location.reload();
@@ -93,6 +106,11 @@ AdvancedTab.prototype.angular = function(module)
     $scope.cancelEditBridge = function () {
       $scope.editBridge = false;
       $scope.options.bridge.out.bitcoin = $scope.optionsBackup.bridge.out.bitcoin;
+    };
+
+    $scope.cancelEditMaxNetworkFee = function () {
+      $scope.editMaxNetworkFee = false;
+      $scope.options.max_tx_network_fee = $scope.optionsBackup.max_tx_network_fee;
     };
 
     $scope.cancelEditAcctOptions = function () {

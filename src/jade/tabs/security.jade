@@ -177,8 +177,8 @@ section.col-xs-12.content(ng-controller="SecurityCtrl")
                         div(ng-hide="requirePassword", l10n) No
                     .col-xs-3.col-sm-4.col-md-6
                       div.description
-                        a(href="", id='edit', ng-click="editUnlock = true", l10n) edit
-                  .row(ng-show="editUnlock", class="edit-security-pswd")
+                        a#edit(href="", ng-click="editUnlock = true", l10n) edit
+                  .row.edit-security-pswd(ng-show="editUnlock")
                     .col-xs-6.col-sm-5.col-md-4
                       .description Require password
                     .col-xs-6.col-sm-3.col-md-2
@@ -187,5 +187,5 @@ section.col-xs-12.content(ng-controller="SecurityCtrl")
                           input(type="checkbox", name="unlock", ng-checked='requirePassword', ng-click="requirePasswordChanged = true")
                     .col-xs-12.col-sm-4.col-md-4.save-btn-wrapper
                       .description
-                        button.btn.btn-block.btn-success.btn-xs.submit(id='save', type='submit'
+                        button.btn.btn-block.btn-success.btn-xs.submit#save(type='submit'
                         ng-disabled='serverForm.$invalid', l10n) Save
