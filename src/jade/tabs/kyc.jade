@@ -149,8 +149,8 @@ section.col-xs-12.content(ng-controller='KycCtrl')
             .col-xs-4 
               div.question(ng-repeat="q in questions", l10n) {{ q.question }}
                 div(ng-repeat="a in q.answers")
-                  input#q{{ q.id }}a{{ a.id }}(
-                  name='q{{ q.id }}', value="{{ a.id }}", type='radio',
+                  input(
+                  id="q{{ q.id }}a{{ a.id }}", name='q{{ q.id }}', value="{{ a.id }}", type='radio',
                   ng-model='q.answerId', required)
                   label.answer(for="q{{ q.id }}a{{ a.id }}", l10n)  {{ a.answer }}
           .row
