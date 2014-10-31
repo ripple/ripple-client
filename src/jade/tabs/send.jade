@@ -154,6 +154,7 @@ section.col-xs-12.content(ng-controller='SendCtrl')
             .error(rp-error-on='required', l10n) Please enter an amount.
             .error(rp-error-on='rpAmount', l10n) Not a valid amount.
             .error(rp-error-on='rpAmountPositive', l10n) Amount must be greater than zero.
+            .error(rp-error-on='rpAmountXrpLimit', l10n) Minimum amount of XRP you can send is a drop (0.000001) and the maximum is 100 billion XRPs.
             .error(rp-error-on='rpMaxAmount', l10n)
               | This transaction exceeds your balance, you can send
               |  a max. of {{account.max_spend | rpamount:{rel_precision: 0} }} XRP
