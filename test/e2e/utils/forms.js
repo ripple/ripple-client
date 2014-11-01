@@ -1,4 +1,3 @@
-var protractor = require('protractor');
 var helpers = require('./browser');
 
 /*
