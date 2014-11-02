@@ -75,7 +75,7 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
           .descriptor(l10n) Maximum network fee
           .row.advanced-form-row(ng-hide="editMaxNetworkFee")
             .col-xs-9.col-sm-8.col-md-6
-              .description {{max_tx_network_fee_human}}
+              .description {{max_tx_network_fee_human}} {{xrp.code}}
             .col-xs-1
             .col-xs-3.col-sm-3.col-md-2
               a.btn.btn-block.btn-cancel(href="", ng-click="editMaxNetworkFee = true", l10n) edit
