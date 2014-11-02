@@ -390,7 +390,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
           h3(l10n) My Orders
             span &#32;({{offersCount}})
             small.toggle(ng-hide="isEmpty(offers)", ng-click="hideOffers = !hideOffers") {{hideOffers ? "show" : "hide"}}
-          .listings.offers(ng-class="{show : !hideOffers}")
+          .listings.offers(ng-hide="hideOffers")
             .my
               div(ng-hide="isEmpty(offers)")
                 .row.head.hidden-xs
