@@ -81,7 +81,7 @@ section.col-xs-12.content(ng-controller='UsdCtrl')
               | .
         .row
           .col-sm-3
-            button.btn.btn-block.knox-payments-button(type="submit", ng-disabled="usdDeposit.$invalid") Continue
+            button.btn.btn-block.knox-payments-button.btn-primary(type="submit", ng-disabled="usdDeposit.$invalid") Continue
 
       .step2(ng-show="mode=='step2'")
         .row(ng-hide="error || calculating || !total")
