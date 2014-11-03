@@ -85,6 +85,7 @@ var tabdefs = [
   require('../tabs/kyc'),
   require('../tabs/tx'),
   require('../tabs/xrp'),
+  require('../tabs/pretend'),
   require('../tabs/btc'),  
   require('../tabs/withdraw'),
   // require('../tabs/usd'),
@@ -176,8 +177,8 @@ app.config(['$routeProvider', '$injector', function ($routeProvider, $injector) 
   $routeProvider.otherwise({redirectTo: '/404'});
 }]);
 
-app.run(['$rootScope', '$injector', '$compile', '$route', '$routeParams', '$location',
-         function ($rootScope, $injector, $compile, $route, $routeParams, $location)
+app.run(['$rootScope', '$injector', '$compile', '$route', '$routeParams', '$location', '$document',
+         function ($rootScope, $injector, $compile, $route, $routeParams, $location, $document)
 {
   $rootScope.productName = 'Ripple Trade';
 

@@ -208,54 +208,10 @@ module.filter('rpfromnow', function () {
  *
  * Shows a ripple name for a given ripple address
  */
-module.filter("rpripplename", ['$rootScope', '$http', function($scope, $http) {
-  var resolvedNames = [],
-    serviceInvoked = [];
-
-  function realFilter(address) {
-    return resolvedNames[address];
-  }
-
+module.filter("rpripplename", ['$rootScope', '$http', 'rpId', function($scope, $http, $id) {
   return function(address, options) {
-    var strippedValue = webutil.stripRippleAddress(address);
-    var rpAddress = ripple.UInt160.from_json(address);
-    if (!rpAddress.is_valid()) return address;
-
-    var opts = jQuery.extend(true, {}, options);
-
-    if(!resolvedNames[address]) {
-      if(!serviceInvoked[address]) {
-        serviceInvoked[address] = true;
-
-        // Get the blobvault url
-        ripple.AuthInfo.get(Options.domain, "1", function(err, authInfo) {
-          if (err) {
-            console.log("Can't get the authinfo", err);
-          }
-
-          // Get the user
-          $http.get(authInfo.blobvault + '/v1/user/' + address)
-            .success(function(data) {
-              if (data.username) {
-                if (opts.tilde === true) {
-                  resolvedNames[address] = "~".concat(data.username);
-                } else {
-                  resolvedNames[address] = data.username;
-                }
-              } else {
-                // Show the ripple address if there's no name associated with it
-                resolvedNames[address] = address;
-              }
-            })
-            .error(function(err){
-              console.log("Can't get the blobvault", err);
-            });
-        });
-      }
-      return address;
-    }
-    else return realFilter(address);
-  };
+    return $id.resolveNameSync(address, options);
+  }
 }]);
 
 /**
