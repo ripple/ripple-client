@@ -49,9 +49,10 @@ module.factory('rpDomainAlias', ['$q', '$rootScope', 'rpNetwork', 'rpRippleTxt',
   function getAliasForAddress(address)
   {
     // Return the promise if there's already a lookup in progress for this address
-    if (aliases[address] && aliases[address].promise) {
-      return aliases[address].promise;
-    }
+    // Commenting for now.. There's a ripple-lib problem we need to fix first.
+    //if (aliases[address] && aliases[address].promise) {
+    //  return aliases[address].promise;
+    //}
 
     var aliasPromise = $q.defer();
 
