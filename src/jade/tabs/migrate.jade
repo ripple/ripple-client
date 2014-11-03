@@ -25,9 +25,9 @@ section.col-xs-12.content(ng-controller="MigrateCtrl")
             span {{message.message}}
         .submit-btn-container
           button.btn.btn-submit.btn-block.btn-success(type='submit'
-            rp-spinner="{{ajax_loading ? 4 : null}}",
             ng-disabled="ajax_loading || loginForm.$invalid")
-            span(l10n) Begin Migration
+            img(src="img/buttonS.png", class="loader", ng-show="ajax_loading")
+            span(class="loading_text", l10n) Begin Migration
     .switch-mode-link-container(l10n) New to {{productName}}?&#32;
       a(href='#register', l10n-inc) Sign Up
     .switch-mode-link-container(l10n) Have a {{productName}} account?&#32;

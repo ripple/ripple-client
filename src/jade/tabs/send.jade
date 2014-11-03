@@ -152,18 +152,24 @@ section.col-xs-12.content(ng-controller='SendCtrl')
             |  {{send.xrp_deficiency | rpamount}} XRP to fund it.
             a(href="https://ripple.com/wiki/Reserves", target="_blank", l10n)
               | More information
-          p.literal(ng-show="send.path_status == 'checking'", rp-spinner="4", l10n)
-            | Checking
-          p.literal(ng-show="send.path_status == 'fed-check'", rp-spinner="4", l10n)
-            | Analyzing address
-          p.literal(ng-show="send.path_status == 'account-currencies'", rp-spinner="4", l10n)
-            | Scanning accepted currencies
-          p.literal(ng-show="send.path_status == 'bridge-quote'", rp-spinner="4", l10n)
-            | Requesting quote
-          p.literal(ng-show="send.path_status == 'pending' && send.currency_code != 'XRP'", rp-spinner="4", l10n)
-            | Calculating paths
-          p.literal(ng-show="send.path_status == 'pending' && send.currency_code == 'XRP'", rp-spinner="4", l10n)
-            | Calculating alternatives
+          p.literal(ng-show="send.path_status == 'checking'")
+            img(src="img/buttonS.png", class="loader")
+            span(class="loading_text", l10n) Checking
+          p.literal(ng-show="send.path_status == 'fed-check'")
+            img(src="img/buttonS.png", class="loader")
+            span(class="loading_text", l10n)  Analyzing address
+          p.literal(ng-show="send.path_status == 'account-currencies'")
+            img(src="img/buttonS.png", class="loader")
+            span(class="loading_text", l10n) Scanning accepted currencies
+          p.literal(ng-show="send.path_status == 'bridge-quote'")
+            img(src="img/buttonS.png", class="loader")
+            span(class="loading_text", l10n) Requesting quote
+          p.literal(ng-show="send.path_status == 'pending' && send.currency_code != 'XRP'")
+            img(src="img/buttonS.png", class="loader")
+            span(class="loading_text", l10n) Calculating paths
+          p.literal(ng-show="send.path_status == 'pending' && send.currency_code == 'XRP'")
+            img(src="img/buttonS.png", class="loader")
+            span(class="loading_text", l10n) Calculating alternatives
           p.literal(ng-show="send.path_status == 'no-path' && send.currency_code != 'XRP'", l10n)
             | You cannot send {{send.amount}} {{send.currency}} to
             |  {{send.recipient}}. Either your account has insufficient funds,
@@ -220,8 +226,9 @@ section.col-xs-12.content(ng-controller='SendCtrl')
       //- N2. Waiting for path
 
       group.mode-wait-path(ng-show='mode=="wait_path" && account.Balance')
-        p.literal(rp-spinner="4", l10n)
-          | Ripple is calculating a path for your payment.
+        p.literal
+          img(src="img/buttonS.png", class="loader")
+          span(class="loading_text", l10n) Ripple is calculating a path for your payment.
 
       //- N3. Confirmation page
 
