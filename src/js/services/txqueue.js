@@ -21,7 +21,7 @@ module.service('rpTxQueue', ['$rootScope', 'rpNetwork', 'rpKeychain', 'rpId',
       // If account is funded submit the transaction right away
       if ($scope.account.Balance) {
         network.remote.requestSubmit()
-          .txBlob(blob)
+          .txBlob(tx.tx_json)
           .request();
       }
 
