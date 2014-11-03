@@ -29,8 +29,8 @@ section.col-xs-12.content(ng-controller='BtcCtrl')
             .btc-tab-description.gateway.row
               .col-md-3
                 .title(l10n) Gateway
-                .description(l10n) btc2ripple, powered by
-                  a(href="https://www.snapswap.us/", target="_blank") Snapswap
+                .description(l10n) btc2ripple (~snapswap)&#32;
+                  a(href="https://www.btc2ripple.com", target="_blank") www.btc2ripple.com
               .col-md-3
                 .title(l10n) Availability
                 .description(l10n) All countries
@@ -39,14 +39,11 @@ section.col-xs-12.content(ng-controller='BtcCtrl')
                 .description(l10n) 0%
               .col-md-3
                 .title(l10n) Rating
-                .description(l10n) We get the ratings from
-                    a(href="https://coinist.co/", target="_blank") Coinist
+                .description(l10n) 
+                  a(href="https://coinist.co/ripple/assets/btc-btc2ripple", target="_blank") read reviews
             .row.btc-tab-description
-              .col-md-6
-                .description(ng-show="!btcConnected", l10n) Ripple Trade has partnered with GBI to provide easy access to XAU.
-                  | By continuing, you agree to GBI's terms of service. Following this action will
-                  | add XAU to your accounts.
-            
+              .col-xs-12.col-md-8.col-lg-6
+                .description(ng-show="!gbiConnected", l10n) Ripple Trade has partnered with btc2ripple to make depositing BTC easier. By proceeding, you agree to the btc2ripple terms of service. Following this action will allow btc2ripple to hold BTC on your behalf.
             .row.btc-tab-description
               .col-xs-9.col-sm-5.col-md-4
                 rp-popup
