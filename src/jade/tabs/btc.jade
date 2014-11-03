@@ -28,8 +28,8 @@ section.col-xs-12.content(ng-controller='BtcCtrl')
         .btc-tab-description.row
           .col-md-3
               h4(l10n) Gateway
-              .description(l10n) btc2ripple, powered by 
-                a(href="https://www.snapswap.us/", target="_blank") Snapswap
+              .description(l10n) btc2ripple (~snapswap)&#32;
+                a(href="https://www.btc2ripple.com", target="_blank") www.btc2ripple.com
           .col-md-3
               h4(l10n) Availability
               .description(l10n) All countries
@@ -40,11 +40,11 @@ section.col-xs-12.content(ng-controller='BtcCtrl')
               h4(l10n) Rating
               .description(l10n) We get the ratings from 
                   a(href="https://coinist.co/", target="_blank") Coinist
-        .row.btc-tab-description
-          .col-md-6
-            .description(ng-show="!gbiConnected", l10n) Ripple Trade has partnered with GBI to provide easy access to XAU.
-              | By continuing, you agree to GBI's terms of service. Following this action will
-              | add XAU to your accounts.
+        //- .row.btc-tab-description
+        //-   .col-xs-12.col-md-8.col-lg-6
+        //-     .description(ng-show="!gbiConnected", l10n) Ripple Trade has partnered with GBI to provide easy access to XAU.
+        //-       | By continuing, you agree to GBI's terms of service. Following this action will
+        //-       | add XAU to your accounts.
         
         .row.btc-tab-description
           .col-xs-9.col-sm-5.col-md-4

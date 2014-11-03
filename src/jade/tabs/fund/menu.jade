@@ -1,8 +1,16 @@
-.currencies
-  a(href="#/xrp", ng-class="{active: $route.current.tabName == 'xrp'}", l10n) XRP
-  a(href="#/btc", ng-class="{active: $route.current.tabName == 'btc'}", l10n) BTC
+.currencies.fund-menu
+  a(href="#/xrp", ng-class="{active: $route.current.tabName == 'xrp'}", class="currency-xrp", l10n)
+    i.icon.fa.fa-money.fa-xrp
+    | XRP
+  a(href="#/btc", ng-class="{active: $route.current.tabName == 'btc'}", class="currency-btc", l10n)
+    i.icon.fa.fa-money.fa-btc
+    | BTC
   //a(href="#/usd", ng-class="{active: $route.current.tabName == 'usd'}", l10n) USD (US only)
-  a(href="#/gold", ng-class="{active: $route.current.tabName == 'gold'}", l10n) Gold
-  a(href="#/jpy", ng-class="{active: $route.current.tabName == 'jpy'}", l10n) JPY
+  a(href="#/gold", ng-class="{active: $route.current.tabName == 'gold'}", class="currency-xau", l10n) 
+    i.icon.fa.fa-money.fa-xau
+    | XAU
+  a(href="#/jpy", ng-class="{active: $route.current.tabName == 'jpy'}", class="currency-jpy", l10n)
+    i.icon.fa.fa-money.fa-jpy
+    | JPY
   a(href="#/trust", ng-class="{active: $route.current.tabName == 'trust'}", l10n) Gateways
 a(href="https://support.ripplelabs.com/hc/en-us/articles/202847686-Gateway-Information", target="_blank", l10n) Learn more about gateways

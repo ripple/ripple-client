@@ -38,7 +38,7 @@ section.col-xs-12.content(ng-controller='JpyCtrl')
     .col-sm-3
       include fund/menu
     .col-sm-9.list
-      .nameLine(l10n) Japanese Yen deposit
+      .nameLine(l10n) Japanese Yen Deposit
       .gateway.row
         .col-md-3
             .title(l10n) Gateway
@@ -57,7 +57,7 @@ section.col-xs-12.content(ng-controller='JpyCtrl')
             .description(l10n) 
               a(href="https://coinist.co/ripple/assets/jpy-rippletradejapan", target="_blank") read reviews
       .row
-        .col-xs-12
+        .col-xs-12.col-md-8.col-lg-6
           .tos.descriptor(ng-show="!jpyConnected", l10n) Ripple Trade has partnered with Tokyo JPY Issuer to provide easier access to JPY. Following this action will enable Tokyo JPY Issuer to hold JPY on your behalf.
       .row
         .col-xs-9.col-sm-5.col-md-4
