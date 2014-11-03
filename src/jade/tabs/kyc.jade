@@ -7,7 +7,7 @@ section.col-xs-12.content(ng-controller='KycCtrl')
       | You have to be online to see this screen
 
   //- Funding
-  div(ng-show="'web' === client && !loadingAccount && !account.Balance && loadState.account && connected")
+  div(ng-show="!loadingAccount && !account.Balance && loadState.account && connected")
     include banner/unfunded
 
   div.auth-attention.banner(ng-hide="hideUsOnlyBanner")

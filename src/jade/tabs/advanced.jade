@@ -1,5 +1,5 @@
 section.col-xs-12.content(ng-controller="AdvancedCtrl")
-  div(ng-show="'web' === client && !loadingAccount && !account.Balance && loadState.account && connected")
+  div(ng-show="!loadingAccount && !account.Balance && loadState.account && connected")
     include banner/unfunded
   .row(ng-show='connected')
     .col-sm-3
@@ -8,7 +8,7 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
       section.content#servers
         h4(l10n) Settings
         form(name="blobForm", ng-submit="saveBlob()")
-          .descriptor(ng-show="'web' === client", l10n) Blob vault
+          .descriptor(l10n) Blob vault
           .row.advanced-form-row(ng-hide="editBlob")
             .col-xs-9.col-sm-8.col-md-6
               .description {{options.blobvault}}
@@ -46,7 +46,7 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
             .col-xs-3.col-sm-3.col-md-1.text-center#cancel
               a.btn.btn-cancel.btn-block(href="", ng-click="cancelEditBridge()", l10n) cancel
         form.trust-line-form(name="accountsAdvForm", ng-submit="saveAcctOptions()")
-          .descriptor(ng-show="'web' === client", l10n) Trust line
+          .descriptor(l10n) Trust line
           .row.advanced-form-row(ng-hide="editAcctOptions")
             .col-xs-6.col-sm-5.col-md-3
               .description Advanced settings

@@ -1,7 +1,0 @@
-{
-  "_comment" : "Ripple AWS S3 Configuration",
-  "_comment" : "Copy this file to config.json and edit to suit your preferences.",
-  "key": "aws-key",
-  "secret": "aws-secret",
-  "bucket": "aws-bucket"
-}

@@ -1,5 +1,0 @@
-{
-  "main": "index.html",
-  "name": "ripple-client-nw-linux-debug",
-  "description": "Standalone Ripple Client Linux using Node Webkit (Debug version)"
-}

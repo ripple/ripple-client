@@ -30,7 +30,7 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
           //-     li.balance(ng-repeat="balance in balances")
           //-       span.balance {{balance.total | rpamount:{rel_precision: 2} }}&nbsp;
           //-       span.balance(rp-currency="balance.total", rp-currency-short)
-          li(ng-hide="'desktop' === client")
+          li
             a(href="#/account/public") ~{{userCredentials.username}}
           li.dropdown.notifications-dropdown
             a.dropdown-toggle.fa.fa-bell(ng-click="read()")

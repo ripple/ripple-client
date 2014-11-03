@@ -177,8 +177,7 @@ module.directive('rpDest', function ($timeout, $parse) {
         }
 
         if (((attr.rpDestRippleName && webutil.isRippleName(value)) ||
-          (attr.rpDestRippleNameNoTilde && value && value[0] !== '~' && webutil.isRippleName('~'+value)))
-          && 'web' === scope.client) { // TODO Don't do a client check in validators
+          (attr.rpDestRippleNameNoTilde && value && value[0] !== '~' && webutil.isRippleName('~'+value)))) { // TODO Don't do a client check in validators
           ctrl.rpDestType = "rippleName";
 
           if (timeoutPromise) $timeout.cancel(timeoutPromise);

@@ -538,70 +538,68 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
     $scope.loadState.B2RInstructions = false;
 
     // B2R
-    if ('web' === $scope.client) {
-      appManager.loadApp(Options.b2rAddress, function(err, app){
-        if (err) {
-          console.warn('Error loading app', err.message);
-          return;
-        }
+    appManager.loadApp(Options.b2rAddress, function(err, app){
+      if (err) {
+        console.warn('Error loading app', err.message);
+        return;
+      }
 
-        $scope.B2RApp = app;
+      $scope.B2RApp = app;
 
-        $scope.B2R = app.getInboundBridge('BTC');
+      $scope.B2R = app.getInboundBridge('BTC');
 
-        appManager.save(app);
+      appManager.save(app);
 
-        app.refresh = function() {
-          app.findProfile('account').getUser($scope.address, function(err, user){
-            $scope.loadState.B2RApp = true;
+      app.refresh = function() {
+        app.findProfile('account').getUser($scope.address, function(err, user){
+          $scope.loadState.B2RApp = true;
 
+          if (err) {
+            console.log('Error', err);
+            return;
+          }
+
+          $scope.B2R.active = user;
+
+          // TODO ...
+          // if (!user.verified && $scope.B2R.currencies[0].limit && $scope.balances['BTC']) {
+          //   $scope.B2R.limit = $scope.B2R.currencies[0].limit - $scope.balances['BTC'].components['rhxULAn1xW9T4V2u67FX9pQjSz4Tay2zjZ'].to_human();
+          // } else {
+          $scope.B2R.limit = $scope.B2R.currencies[0].limit;
+          // }
+
+          // Do the necessary trust
+          var trust = _.findWhere($scope.B2R.currencies, {currency: 'BTC'});
+          $scope.B2R.trust(trust.currency,trust.issuer);
+
+          // Get pending transactions
+          $scope.B2R.getPending($scope.address, function(err, pending){
+            // TODO support multiple pending transactions
+            $scope.pending = pending[0];
+          });
+
+          // Get deposit instructions
+          $scope.B2R.getInstructions($scope.address,function(err, instructions){
             if (err) {
-              console.log('Error', err);
               return;
             }
 
-            $scope.B2R.active = user;
-
-            // TODO ...
-            // if (!user.verified && $scope.B2R.currencies[0].limit && $scope.balances['BTC']) {
-            //   $scope.B2R.limit = $scope.B2R.currencies[0].limit - $scope.balances['BTC'].components['rhxULAn1xW9T4V2u67FX9pQjSz4Tay2zjZ'].to_human();
-            // } else {
-            $scope.B2R.limit = $scope.B2R.currencies[0].limit;
-            // }
-
-            // Do the necessary trust
-            var trust = _.findWhere($scope.B2R.currencies, {currency: 'BTC'});
-            $scope.B2R.trust(trust.currency,trust.issuer);
-
-            // Get pending transactions
-            $scope.B2R.getPending($scope.address, function(err, pending){
-              // TODO support multiple pending transactions
-              $scope.pending = pending[0];
-            });
-
-            // Get deposit instructions
-            $scope.B2R.getInstructions($scope.address,function(err, instructions){
-              if (err) {
-                return;
-              }
-
-              $scope.B2R.instructions = instructions;
-              $scope.loadState.B2RInstructions = true;
-            });
+            $scope.B2R.instructions = instructions;
+            $scope.loadState.B2RInstructions = true;
           });
-        };
-
-        var watcher = $scope.$watch('address', function(address){
-          if (!address) return;
-
-          app.refresh();
-          watcher();
         });
+      };
 
-        // Required fields
-        $scope.B2RSignupFields = app.findProfile('account').getFields();
+      var watcher = $scope.$watch('address', function(address){
+        if (!address) return;
+
+        app.refresh();
+        watcher();
       });
-    }
+
+      // Required fields
+      $scope.B2RSignupFields = app.findProfile('account').getFields();
+    });
   }
 
   $scope.currencies_all = require('../data/currencies');
