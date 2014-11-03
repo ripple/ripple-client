@@ -63,8 +63,8 @@ section.col-xs-12.content(ng-controller='JpyCtrl')
         .col-xs-9.col-sm-5.col-md-4
           button.btn.btn-large(ng-show="!jpyConnected && !loading", type="submit", ng-click="save_account()") Add Tokyo JPY
           button.btn.btn-large(ng-show="!jpyConnected && loading", type="submit", ng-disabled="loading") Adding...
-          button.btn.btn-large(ng-show="showInstructions && jpyConnected", type="submit", ng-click="toggle_instructions()") Hide instructions
-          button.btn.btn-large(ng-show="jpyConnected && !showInstructions", type="submit", ng-click="toggle_instructions()") Show instructions
+          button.btn.btn-large(ng-show="showInstructions && jpyConnected", type="submit", ng-click="toggle_instructions()", l10n) Hide instructions
+          button.btn.btn-large(ng-show="jpyConnected && !showInstructions", type="submit", ng-click="toggle_instructions()", l10n) Show instructions
 
         .connect.col-xs-10.col-sm-8.col-md-8(ng-hide="loading")
           .description.fa.fa-times(ng-show="!jpyConnected && account.Balance", l10n) Not connected
@@ -79,25 +79,25 @@ section.col-xs-12.content(ng-controller='JpyCtrl')
             | at Tokyo JPY Issuer. You will need:
             ul
               li
-                p A valid government-issued ID. 
+                p(l10n) A valid government-issued ID. 
               li
-                p A proof of address (utility bill, etc).
+                p(l10n) A proof of address (utility bill, etc).
               li
-                p A bank account under the same name.
+                p(l10n) A bank account under the same name.
 
           .title(l10n) EXISTING TOKYO JPY ISSUER CUSTOMERS
           .description(l10n) 
             ul 
               li
-                p Login to your account&#32;
+                p(l10n) Login to your account&#32;
                   a(href="https://tokyojpy.com/login.php", target="_blank") here.
           .title(l10n) DEPOSITS AND WITHDRAWALS:
           .description(l10n)
             ul
               li
-                p Tokyo JPY Issuer accepts deposits and withdrawals via bank transfer. Details&#32;
+                p(l10n) Tokyo JPY Issuer accepts deposits and withdrawals via bank transfer. Details&#32;
                   a(href="https://tokyojpy.com/ripple-faq/index.php", target="_blank") here.
               li
-                p To deposit, you’ll need to first deposit into your Tokyo JPY Issuer account and then initiate a transfer into your Ripple account.
+                p(l10n) To deposit, you’ll need to first deposit into your Tokyo JPY Issuer account and then initiate a transfer into your Ripple account.
               li
-                p To withdraw to a bank account, you’ll first send money from your Ripple account to your Tokyo JPY Issuer account. Follow instructions on the Tokyo JPY Issuer site to send to your bank account.
+                p(l10n) To withdraw to a bank account, you’ll first send money from your Ripple account to your Tokyo JPY Issuer account. Follow instructions on the Tokyo JPY Issuer site to send to your bank account.

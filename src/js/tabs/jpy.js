@@ -35,7 +35,6 @@ JpyTab.prototype.angular = function (module)
       $scope.save_account = function (){
         $scope.loading = true;
       
-        console.log($scope.jpyConnected);
         $scope.load_notification('loading');
 
         var amount = ripple.Amount.from_human(
