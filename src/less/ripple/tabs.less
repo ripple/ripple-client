@@ -2486,12 +2486,20 @@ html.t-trade header nav ul > li.active#nav-advanced > a:after {
     border-radius: 2px;
     margin: 0 0 3px;
     background: @lightgray;
-
+    i{
+      margin-right: 5px;
+      width: 13px;
+      text-align: center;
+    }
     &:hover, &.active {
       color: @lightgray;
       text-decoration: none;
       background: @midblue;
+      i:before{
+        color:@white;
+      }
     }
+    
   }
 }
 
