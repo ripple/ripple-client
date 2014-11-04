@@ -191,7 +191,6 @@ TrustTab.prototype.angular = function (module)
       // Add memo to tx
       tx.addMemo('client', 'rt' + $scope.version);
 
-      $scope.toggle_form();
 
       // Flags
       tx
@@ -252,6 +251,8 @@ TrustTab.prototype.angular = function (module)
           store.set('jpy_connected', true);
         }
       });
+
+      $scope.toggle_form();
     };
 
     /**
