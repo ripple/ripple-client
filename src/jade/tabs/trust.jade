@@ -196,7 +196,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                         div.modal-buttons
                           button.modal-btn.btn.btn-default.btn-success.btn-md(data-dismiss="modal", ng-click="grant_confirmed()",
                             ng-disabled="loading")
-                            img(src="img/buttonS.png", class="loader", ng-show="loading")
+                            img(src="img/button-s.png", class="loader", ng-show="loading")
                             span(class="loading_text", ng-show="loading", l10n) Loading...
                             span(ng-hide="loading", l10n) Confirm
                           button.modal-btn.btn.btn-cancel.btn-md.btn-cancel(data-dismiss="modal",
@@ -237,7 +237,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
               .row
                 .col-xs-12
                   p.literal.verifying(ng-show="verifying")
-                    img(src="img/buttonS.png", class="loader")
+                    img(src="img/button-s.png", class="loader")
                     span(class="loading_text", l10n) Verifying address
           .col-xs-12(ng-show='addform_visible && !can_add_trust')
             .alert.alert-warning(l10n) You must have at least

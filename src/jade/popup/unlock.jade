@@ -11,7 +11,7 @@ form(role="form", ng-submit="confirm()")
       span(ng-switch-default, l10n) Please enter your password to confirm this transaction.
     .alert.alert-danger(ng-show="unlock.error == 'password'", l10n) This password is incorrect, please try again.
     p.literal(ng-show="unlock.isConfirming")
-      img(src="img/buttonS.png", class="loader")
+      img(src="img/button-s.png", class="loader")
       span(class="loading_text", l10n) Confirming password
   .modal-footer
     .unlock-btns-wrapper
