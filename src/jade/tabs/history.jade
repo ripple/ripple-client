@@ -218,7 +218,7 @@ section.col-xs-12.content(ng-controller="HistoryCtrl")
                 |  to contact list
       .foot
         div(ng-show="historyState=='loading'", l10n)
-          img(src="img/buttonS.png", class="loader", id="button_loader")
+          img(src="img/button-s.png", class="loader", id="button_loader")
           |  Loading more
         a.loadmore(ng-show="historyState=='ready'", href="", ng-click="loadMore()", l10n) Load more
         div(ng-show="historyState=='full'", l10n) No more transactions left

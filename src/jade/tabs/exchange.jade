@@ -52,7 +52,7 @@ section.col-xs-12.content(ng-controller="ExchangeCtrl")
               | Please enter an amount greater than zero.
           p.literal(ng-show="exchange.path_status == 'waiting'")
           p.literal(ng-show="exchange.path_status == 'pending'", l10n)
-            img(src="img/buttonS.png", class="loader")
+            img(src="img/button-s.png", class="loader")
             |  Calculating...
           //- TODO how high trust?
           p.literal(ng-show="exchange.path_status == 'no-path' && exchange.currency_code != 'XRP'", l10n)
@@ -99,7 +99,7 @@ section.col-xs-12.content(ng-controller="ExchangeCtrl")
 
       group.mode-wait-path(ng-show='mode=="wait_path" && account.Balance')
         p.literal
-          img(src="img/buttonS.png", class="loader")
+          img(src="img/button-s.png", class="loader")
           span(class="loading_text", l10n) Ripple is calculating a path for your conversion.
 
       //- N3. Confirmation page
