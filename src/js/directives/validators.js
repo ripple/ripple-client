@@ -743,7 +743,7 @@ module.directive('rpAmountXrpLimit', function () {
 
       // We don't use parseAmount here, assuming that you also use rpAmount validator
       var validator = function(value) {
-        var currency = Currency.from_human(attr.rpAmountXrpLimitCurrency.slice(0, 3));
+        var currency = Currency.from_human(attr.rpAmountCurrency.slice(0, 3));
 
         // If XRP, ensure amount is less than 100 billion and is at least one drop
         if (currency.is_valid() && currency.is_native()) {
@@ -758,7 +758,7 @@ module.directive('rpAmountXrpLimit', function () {
       ctrl.$formatters.push(validator);
       ctrl.$parsers.unshift(validator);
 
-      attr.$observe('rpAmountXrpLimitCurrency', function() {
+      attr.$observe('rpAmountCurrency', function() {
         validator(ctrl.$viewValue);
       });
     }
@@ -775,8 +775,9 @@ module.directive('rpMaxDigits', function () {
     link: function (scope, elm, attr, ctrl) {
       if (!ctrl) return;
 
+      // We don't use parseAmount here, assuming that you also use rpAmount validator
       var validator = function(value) {
-        var currency = Currency.from_human(attr.rpAmountXrpLimitCurrency.slice(0, 3));
+        var currency = Currency.from_human(attr.rpAmountCurrency.slice(0, 3));
 
         if (currency === 'XRP') {
           ctrl.$setValidity('rpMaxDigits', true);
@@ -793,7 +794,7 @@ module.directive('rpMaxDigits', function () {
       ctrl.$formatters.push(validator);
       ctrl.$parsers.unshift(validator);
 
-      attr.$observe('rpAmountXrpLimitCurrency', function() {
+      attr.$observe('rpAmountCurrency', function() {
         validator(ctrl.$viewValue);
       });
     }

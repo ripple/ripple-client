@@ -30,7 +30,10 @@ section.col-xs-12.content(ng-controller="ExchangeCtrl")
               rp-autofill='$routeParams.amount'
               rp-autofill-amount
               rp-amount
-              rp-amount-positive)
+              rp-amount-positive
+              rp-amount-xrp-limit
+              rp-amount-currency='{{exchange.currency_name}}'
+              rp-max-digits)
             .col-sm-6.col-md-4.col-xs-9
               input.currency.form-control#amount_currency(
               name='amount_currency', type='text'
@@ -41,6 +44,10 @@ section.col-xs-12.content(ng-controller="ExchangeCtrl")
           .errorGroup(rp-errors='amount')
             .error(rp-error-on='required', l10n) Please enter an amount.
             .error(rp-error-on='rpAmount', l10n) Not a valid amount.
+            .error(rp-error-on='rpAmountXrpLimit', l10n)
+              | You are either trying to send too little or too much XRP.
+              | Minimum amount is 0.000001 XRP and maximum amount is 100 billion XRP.
+            .error(rp-error-on='rpMaxDigits', l10n) Your amount has too many digits. The max number of digits is 16.
             .error(rp-error-on='rpAmountPositive', l10n)
               | Please enter an amount greater than zero.
           p.literal(ng-show="exchange.path_status == 'waiting'")

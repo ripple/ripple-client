@@ -102,7 +102,7 @@ section.col-xs-12.content(ng-controller='SendCtrl')
               rp-amount
               rp-amount-positive
               rp-amount-xrp-limit
-              rp-amount-xrp-limit-currency='{{send.currency}}'
+              rp-amount-currency='{{send.currency}}'
               rp-max-digits)
             .col-xs-9.col-sm-6.col-md-4
               input.form-control.currency#send_amount_currency(
@@ -125,7 +125,7 @@ section.col-xs-12.content(ng-controller='SendCtrl')
               rp-amount
               rp-amount-positive
               rp-amount-xrp-limit
-              rp-amount-xrp-limit-currency='{{send.currency}}'
+              rp-amount-currency='{{send.currency}}'
               rp-max-digits)
               span.input-group-addon(ng-bind="send.currency_force")
           .errorGroup(rp-errors='send_amount_currency')

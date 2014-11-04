@@ -196,7 +196,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                             rp-amount
                             rp-amount-positive
                             rp-amount-xrp-limit
-                            rp-amount-xrp-limit-currency="{{order.first_currency}}"
+                            rp-amount-currency="{{order.first_currency}}"
                             required)
                             .input-group-addon
                               | {{order.first_currency | rpcurrency}}
@@ -221,7 +221,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                             rp-amount
                             rp-amount-positive
                             rp-amount-xrp-limit
-                            rp-amount-xrp-limit-currency="{{order.second_currency}}"
+                            rp-amount-currency="{{order.second_currency}}"
                             required)
                             .input-group-addon
                               | {{order.second_currency | rpcurrency}}
@@ -246,7 +246,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                             rp-amount
                             rp-amount-positive
                             rp-amount-xrp-limit
-                            rp-amount-xrp-limit-currency="{{order.second_currency}}"
+                            rp-amount-currency="{{order.second_currency}}"
                             required)
                             .input-group-addon
                               | {{order.second_currency | rpcurrency}}
