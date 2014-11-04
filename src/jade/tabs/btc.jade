@@ -41,11 +41,13 @@ section.col-xs-12.content(ng-controller='BtcCtrl')
                 .title(l10n) Rating
                 .description(l10n) 
                   a(href="https://coinist.co/ripple/assets/btc-btc2ripple", target="_blank") read reviews
-            .row.btc-tab-description(ng-show="!gbiConnected")
+            .row.fund-tab-description(ng-show="!btcConnected")
               .col-xs-12.col-md-8.col-lg-6
-                .description(l10n) Ripple Trade has partnered with btc2ripple to make depositing BTC easier. By proceeding, you agree to the btc2ripple terms of service. Following this action will allow btc2ripple to hold BTC on your behalf.
-            .row.btc-tab-description
-              .col-xs-9.col-sm-5.col-md-4
+                .descriptor(l10n) Ripple Trade has partnered with btc2ripple to make depositing BTC easier. By proceeding, you agree to the btc2ripple&#32;
+                  a(href="https://btc2ripple.com/#/terms/of/service", target="_blank") terms of service.
+                  |&#32;Following this action will allow btc2ripple to hold BTC on your behalf.
+            .row.fund-tab-description
+              .col-xs-7.col-sm-5.col-md-4
                 rp-popup
                   a.btn.btn-success.btn-sm.btn-block.sign(href="", rp-popup-link,
                     ng-click="openPopup()", ng-hide="btcConnected",l10n) Add btc2ripple
@@ -75,7 +77,7 @@ section.col-xs-12.content(ng-controller='BtcCtrl')
                 button.btn.btn-block.btn-primary(ng-show="showInstructions && btcConnected", type="submit", ng-click="showInstructions = false") Hide instructions
                 button.btn.btn-block.btn-primary(ng-show="btcConnected && !showInstructions", type="submit", ng-click="showInstructions = true") Show instructions
 
-              .connect.col-md-2.col-sm-7.col-xs-1
+              .connect.col-md-8.col-sm-7.col-xs-5
                 .description(ng-show="!btcConnected", l10n)
                   i.fa.fa-times
                   | Not connected

@@ -27,6 +27,10 @@ JpyTab.prototype.angular = function (module)
 
       $scope.showInstructions = store.get('show_jpy_instructions');
       $scope.jpyConnected = store.get('jpy_connected');
+
+      if (!$scope.account.Balance){
+        store.set('jpy_connected', false);
+      }
       
       $scope.toggle_instructions = function (){
         $scope.showInstructions = !$scope.showInstructions;
@@ -135,7 +139,7 @@ JpyTab.prototype.angular = function (module)
 
 
         });
-
+        
         $timeout(function(){
           $scope.mode = 'main';
         }, 10000);

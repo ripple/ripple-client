@@ -92,7 +92,7 @@ BtcTab.prototype.angular = function (module)
 
       rpTracker.track('B2R Shared Email');
     };
-     // window.scope = $scope;
+     window.scope = $scope;
 
   }]);
 };
