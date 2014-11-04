@@ -36,26 +36,20 @@ exports.migrate = function (username,password) {
 		})
 };
 
-// TODO refactor to use jQuery like selectors
 exports.logout = function () {
 	browser.getCurrentUrl()
 		.then(function(url){
+			// check the route first. if its not already at /login open the dropdown menu and logout
 			if (!url.match('login')){
-				browser.findElement(protractor.By.className('mainnav'))
-					.findElement(protractor.By.className('settings')).click()
-					.then(function(){
-
-						browser.findElement(protractor.By.className('mainnav'))
-							.findElement(protractor.By.className('settings'))
-							.findElement(protractor.By.className('dropdown-menu'))
-							.findElement(protractor.By.css('li:nth-child(5)')).click()
-							.then(function(){
+				$('.mainnav .settings').click()
+					.then(function() {
+						$('.mainnav .settings .dropdown-menu li:nth-child(5)').click()
+							.then(function () {
 								helpers.waitForNavigation('#/login');
 							});
 					});
-			} else {
+			}else
 				browser.get('#/login');
-			}
 
 		});
 };
