@@ -766,6 +766,41 @@ module.directive('rpAmountXrpLimit', function () {
 });
 
 /**
+ * Maximum number of digits a user can send is 16
+ */
+module.directive('rpMaxDigits', function () {
+  return {
+    restrict: 'A',
+    require: '?ngModel',
+    link: function (scope, elm, attr, ctrl) {
+      if (!ctrl) return;
+
+      var validator = function(value) {
+        var currency = Currency.from_human(attr.rpAmountXrpLimitCurrency.slice(0, 3));
+
+        if (currency === 'XRP') {
+          ctrl.$setValidity('rpMaxDigits', true);
+        } else {
+          var test = /^(?:(?=.{2,17}$)\d+\.\d+|\d{1,16})$/.test(value);
+
+          // check for valid amount
+          ctrl.$setValidity('rpMaxDigits', test);
+        }
+
+        return value;
+      };
+
+      ctrl.$formatters.push(validator);
+      ctrl.$parsers.unshift(validator);
+
+      attr.$observe('rpAmountXrpLimitCurrency', function() {
+        validator(ctrl.$viewValue);
+      });
+    }
+  };
+});
+
+/**
  * Limit currencies to be entered
  */
 module.directive('rpRestrictCurrencies', function () {
