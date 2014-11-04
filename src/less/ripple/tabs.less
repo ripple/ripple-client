@@ -2513,14 +2513,13 @@ html.t-trade header nav ul > li.active#nav-advanced > a:after {
     }
    .instructions {
       display: block;
-      padding: 10px;
       border-radius: 2px;
-      margin: 0 0 3px;
       background: @lightgray;
-      margin-left: 15px;
-      margin-top: 15px;
+      margin: 15px;
       border: 1px solid @midgray;
-      h4 {
+      padding-top: 10px;
+      padding-bottom: 10px;
+      .title {
         font-family: 'Open Sans', sans-serif;
         font-size: 12px;
         font-weight: 600;
@@ -2528,7 +2527,7 @@ html.t-trade header nav ul > li.active#nav-advanced > a:after {
         text-transform: uppercase;
       }
   }
-  .btc-tab-description {
+  .fund-tab-description {
     margin-bottom: 20px;
     &.gateway {
       padding-left: 15px;
@@ -2549,6 +2548,9 @@ html.t-trade header nav ul > li.active#nav-advanced > a:after {
       font-size: 12px;
       i {
         padding-right: 4px;
+      }
+      @media (max-width: @screen-xs-max) {
+        line-height: 36px;
       }
     }
   }
@@ -2902,17 +2904,6 @@ html.t-trade header nav ul > li.active#nav-advanced > a:after {
     ::before {
       padding-right: 5px;
     }
-  }
-
-  .instructions {
-    display: block;
-    padding: 10px;
-    border-radius: 2px;
-    margin: 0 0 3px;
-    background: @lightgray;
-    margin-left: 15px;
-    margin-top: 15px;
-    border: 1px solid @midgray;
   }
 
   .dismiss {

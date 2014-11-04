@@ -22,11 +22,20 @@ GoldTab.prototype.angular = function (module)
 {
   module.controller('GoldCtrl', ['$rootScope', 'rpId', 'rpAppManager', 'rpTracker', '$routeParams', 'rpKeychain', 'rpNetwork', '$timeout',
     function ($scope, $id, appManager, rpTracker, $routeParams, keychain, $network, $timeout) {
-      //$scope.show_instructions = true;
+
+      $scope.setGbi = function() {
+        if (!$scope.account.Balance){
+          store.set('gbi_connected', false);
+          // console.log("gbiFALSE");
+        }
+        else {
+          store.set('gbi_connected',true);
+          // console.log("gbiTRUE");
+        }       
+      };
+
       if (!$id.loginStatus) return $id.goId();
-      if (!$scope.account.Balance){
-        store.set('gbi_connected', false);
-      }
+      $scope.$watch('account.Balance', $scope.setGbi);
 
       $scope.gbiConnected = store.get('gbi_connected');
       $scope.showInstructions = store.get('show_instructions');
