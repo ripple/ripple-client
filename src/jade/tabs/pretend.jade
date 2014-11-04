@@ -10,7 +10,7 @@ section.col-xs-12.content(ng-controller='PretendCtrl')
           name='pretendAddr', type='text'
           ng-model='pretendAs'
           required
-          rp-dest, rp-dest-address
+          rp-dest, rp-dest-address, rp-dest-ripple-name
           )
       .errorGroup(rp-errors='pretendAddr')
         .error(rp-error-on='required', l10n) Please enter an address.
