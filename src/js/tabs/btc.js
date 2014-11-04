@@ -37,6 +37,16 @@ BtcTab.prototype.angular = function (module)
       rpTracker.track('B2R Show Connect');
     };
 
+    // TODO don't worry, the whole thing needs to be rewritten
+    var btcwatcher = $scope.$watch('B2R', function(){
+      if ($scope.B2R && $scope.B2R.active) {
+        store.set('btc_connected', true);
+        $scope.btcConnected = true;
+
+        btcwatcher();
+      }
+    });
+
     // B2R Signup
     $scope.B2RSignup = function () {
       var fields = {};
