@@ -23,26 +23,19 @@ GoldTab.prototype.angular = function (module)
   module.controller('GoldCtrl', ['$rootScope', 'rpId', 'rpAppManager', 'rpTracker', '$routeParams', 'rpKeychain', 'rpNetwork', '$timeout',
     function ($scope, $id, appManager, rpTracker, $routeParams, keychain, $network, $timeout) {
 
-      $scope.setGbi = function() {
-        if (!$scope.account.Balance){
-          store.set('gbi_connected', false);
-          // console.log("gbiFALSE");
+      $scope.$watch('lines', function () {
+        if($scope.lines['rrh7rf1gV2pXAoqA8oYbpHd8TKv5ZQeo670158415500000000C1F76FF6ECB0BAC600000000']){
+          $scope.gbiConnected = true;
         }
         else {
-          store.set('gbi_connected',true);
-          // console.log("gbiTRUE");
-        }       
-      };
+          $scope.gbiConnected = false;
+        }
+      }, true);
 
       if (!$id.loginStatus) return $id.goId();
-      $scope.$watch('account.Balance', $scope.setGbi);
-
-      $scope.gbiConnected = store.get('gbi_connected');
-      $scope.showInstructions = store.get('show_instructions');
-
+      
       $scope.toggle_instructions = function () {
         $scope.showInstructions = !$scope.showInstructions;
-        store.set('show_instructions', $scope.showInstructions);
       };
 
       $scope.save_account = function () {
@@ -120,12 +113,6 @@ GoldTab.prototype.angular = function (module)
           if ($scope.tx_result=="cleared"){
             $scope.gbiConnected = true;
             $scope.showInstructions = true;
-
-            // Save in local storage
-            if (!store.disabled) {
-              store.set('gbi_connected', $scope.gbiConnected);
-              store.set('show_instructions', $scope.showInstructions);
-            }
 
           }
           console.log($scope.tx_result);
