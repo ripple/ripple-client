@@ -92,7 +92,7 @@ section.col-xs-12.content(ng-controller='SendCtrl')
         .form-group(ng-show="send.currency_choices.length")
           label(for='send_amount', l10n) Recipient will receive
           .row.amount(ng-if="!send.currency_force")
-            .col-xs-3.col-sm-2.col-md-2
+            .col-xs-3.col-sm-2.col-md-3
               input.form-control#send_amount(
               name='send_amount', type='text'
               ng-model='send.amount'
@@ -198,7 +198,7 @@ section.col-xs-12.content(ng-controller='SendCtrl')
               .col-xs-12.col-sm-6.col-md-4.col-lg-4(ng-repeat="alt in send.alternatives")
                 .margin
                   .am
-                    span.amnt {{alt.amount | rpamount:{rel_precision: 4, rel_min_precision: 2} }}
+                    span.amnt {{alt.amount | rpamount:{rel_precision: 7} }}
                     span(ng-hide="alt.amount.is_native() || alt.amount.issuer().to_json() == account.Account")
                       span.issuer(
                       rp-pretty-issuer="alt.amount.issuer().to_json()"
@@ -206,7 +206,7 @@ section.col-xs-12.content(ng-controller='SendCtrl')
                       rp-pretty-issuer-or-short)
                     span.currency  {{alt.amount | rpcurrency }}
                     .ex (
-                      span.rate {{alt.rate | rpamount:{rel_precision: 4, rel_min_precision: 2 } }}
+                      span.rate {{alt.rate | rpamount:{rel_precision: 4} }}
                       span.pair {{send.currency_code}}/{{alt.amount | rpcurrency}}
                       | )
                   button.btn.btn-block.btn-success(type="submit"
