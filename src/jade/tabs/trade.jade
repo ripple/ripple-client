@@ -264,8 +264,8 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                               | Minimum amount of XRP you can send is a drop (0.000001) and the maximum is 100 billion XRPs.
                     .message
                       //- Having two very similar blocks just because of
-                        translation related issues. (Cannot use the same format for
-                        chinese translation)
+                      //- translation related issues. (Cannot use the same format for
+                      //- chinese translation)
                       p(ng-show="tradeForm.$valid && type == 'buy'", l10n) You are wanting to buy
                         span  {{order[type].first_amount | rpamount:{precision: 10} }} {{order[type].first_amount | rpcurrency}}
                         |  for
