@@ -54,7 +54,8 @@ TradeTab.prototype.angular = function(module)
     var OrderbookFilterOpts = {
       'precision':5,
       'min_precision':5,
-      'max_sig_digits':20
+      'max_sig_digits':20,
+      'abs_precision':7
     };
 
     $scope.reset = function () {
