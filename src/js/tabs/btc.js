@@ -26,6 +26,7 @@ BtcTab.prototype.angular = function (module)
  
     $scope.accountLines = {};
     $scope.showComponent = [];
+    $scope.showInstructions = false;
 
     $scope.$watch('lines', function () {
       if($scope.lines['rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2qBTC']){
@@ -98,6 +99,7 @@ BtcTab.prototype.angular = function (module)
           console.log('success');
 
           $scope.btcConnected = true;
+          $scope.showInstructions = true;
 
         });
       });
