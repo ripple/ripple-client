@@ -244,12 +244,7 @@ TrustTab.prototype.angular = function (module)
 
         tx.secret(secret);
         tx.submit();
-        if(tx.tx_json.LimitAmount.issuer == "rrh7rf1gV2pXAoqA8oYbpHd8TKv5ZQeo67") {
-          store.set('gbi_connected', true);
-        }
-        if(tx.tx_json.LimitAmount.issuer == "r94s8px6kSw1uZ1MV98dhSRTvc6VMPoPcN") {
-          store.set('jpy_connected', true);
-        }
+
       });
 
       $scope.toggle_form();
@@ -354,12 +349,7 @@ TrustTab.prototype.angular = function (module)
         }
 
         obj[line.currency].components.push(line);
-        if(line.account == "rrh7rf1gV2pXAoqA8oYbpHd8TKv5ZQeo67"){
-          store.set('gbi_connected', true);
-        }
-        if(line.account == "r94s8px6kSw1uZ1MV98dhSRTvc6VMPoPcN"){
-          store.set('jpy_connected', true);
-        }
+
       });
 
       $scope.accountLines = obj;
@@ -499,22 +489,12 @@ TrustTab.prototype.angular = function (module)
               nullifyTrustLine(id.account, $scope.trust.currency, counterparty);
             });
           })($scope.trust.counterparty);
-          if($scope.trust.counterparty == "rrh7rf1gV2pXAoqA8oYbpHd8TKv5ZQeo67") {
-            store.set('gbi_connected', false);
-          }
-          if($scope.trust.counterparty == "r94s8px6kSw1uZ1MV98dhSRTvc6VMPoPcN") {
-            store.set('jpy_connected', false);
-          }
+
         }
 
         else {
           nullifyTrustLine(id.account, $scope.trust.currency, $scope.trust.counterparty);
-          if($scope.trust.counterparty == "rrh7rf1gV2pXAoqA8oYbpHd8TKv5ZQeo67") {
-            store.set('gbi_connected', false);
-          }
-          if($scope.trust.counterparty == "r94s8px6kSw1uZ1MV98dhSRTvc6VMPoPcN") {
-            store.set('jpy_connected', false);
-          }
+
         }
 
       };

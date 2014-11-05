@@ -25,17 +25,19 @@ JpyTab.prototype.angular = function (module)
 
       if (!$id.loginStatus) return $id.goId();
 
-      $scope.showInstructions = store.get('show_jpy_instructions');
-      $scope.jpyConnected = store.get('jpy_connected');
-
-      if (!$scope.account.Balance){
-        store.set('jpy_connected', false);
-      }
+      $scope.$watch('lines', function () {
+        if($scope.lines['r94s8px6kSw1uZ1MV98dhSRTvc6VMPoPcNJPY']){
+          $scope.jpyConnected = true;
+        }
+        else {
+          $scope.jpyConnected = false;
+        }
+      }, true);
       
       $scope.toggle_instructions = function (){
         $scope.showInstructions = !$scope.showInstructions;
-        store.set('show_jpy_instructions', $scope.showInstructions);
       }
+
       $scope.save_account = function (){
         $scope.loading = true;
       
@@ -110,12 +112,6 @@ JpyTab.prototype.angular = function (module)
           if ($scope.tx_result=="cleared"){
             $scope.jpyConnected = true;
             $scope.showInstructions = true;
-
-            // Save in local storage
-            if (!store.disabled) {
-              store.set('jpy_connected', $scope.jpyConnected);
-              store.set('show_jpy_instructions', $scope.showInstructions);
-            }
 
           }
           console.log($scope.tx_result);
