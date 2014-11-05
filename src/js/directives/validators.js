@@ -5,9 +5,9 @@
  */
 
 var webutil = require('../util/web'),
-    Base = ripple.Base,
-    Amount = ripple.Amount,
-    Currency = ripple.Currency;
+  Base = ripple.Base,
+  Amount = ripple.Amount,
+  Currency = ripple.Currency;
 
 var module = angular.module('validators', []);
 
@@ -56,23 +56,23 @@ module.directive('rpMasterAddressExists', function ($http) {
         if (!value || !Base.decode_check(33, value)) {
           ctrl.$setValidity('rpMasterAddressExists', true);
           return value;
-        
+
         } else if (value) {
           ctrl.$setValidity('rpMasterAddressExists', false); //while checking
           scope.checkingMasterkey = true;
-          var account_id = ripple.Seed.from_json(value).get_key().get_address().to_json();    
-              
+          var account_id = ripple.Seed.from_json(value).get_key().get_address().to_json();
+
           //NOTE: is there a better way to get the blobvault URL?         
           ripple.AuthInfo.get(Options.domain, "1", function(err, authInfo) {
             if (err) {
               scope.checkingMasterkey = false;
               return;
             }
-            
+
             $http.get(authInfo.blobvault + '/v1/user/' + account_id)
               .success(function(data) {
                 if (data.username) {
-                  scope.masterkeyUsername = data.username; 
+                  scope.masterkeyUsername = data.username;
                   scope.masterkeyAddress  = account_id;
                   ctrl.$setValidity('rpMasterAddressExists', false);
                   scope.checkingMasterkey = false;
@@ -140,7 +140,7 @@ module.directive('rpDest', function ($timeout, $parse) {
         }
 
         if (attr.rpDestContact && scope.userBlob &&
-            webutil.getContact(scope.userBlob.data.contacts,strippedValue)) {
+          webutil.getContact(scope.userBlob.data.contacts,strippedValue)) {
           ctrl.rpDestType = "contact";
           ctrl.$setValidity('rpDest', true);
 
@@ -414,8 +414,8 @@ module.directive('rpSameInSet', [function() {
 
       function validator(value) {
         var oldValue = value !== ctrl.$modelValue
-            ? ctrl.$modelValue
-            : (value !== ctrl.$viewValue ? ctrl.$viewValue : value);
+          ? ctrl.$modelValue
+          : (value !== ctrl.$viewValue ? ctrl.$viewValue : value);
         if (value !== oldValue) {
           set[oldValue] = (set[oldValue] || 1) - 1;
           if (set[oldValue] === 0) {
@@ -432,12 +432,12 @@ module.directive('rpSameInSet', [function() {
       ctrl.$parsers.push(validator);
 
       scope.$watch(
-          function() {
-            return _.size(set) === 1;
-          },
-          function(value){
-            ctrl.$setValidity('rpSameInSet', value);
-          }
+        function() {
+          return _.size(set) === 1;
+        },
+        function(value){
+          ctrl.$setValidity('rpSameInSet', value);
+        }
       );
     }
   };
@@ -490,7 +490,7 @@ module.directive('rpUnique', function() {
       var checkValue = function(a, b) {
         if (a === b) return true;
         if ((a === null || a === undefined || a === '') &&
-            (b === null || b === undefined || b === '')) return true;
+          (b === null || b === undefined || b === '')) return true;
         return false;
       };
 
@@ -743,24 +743,13 @@ module.directive('rpAmountXrpLimit', function () {
 
       // We don't use parseAmount here, assuming that you also use rpAmount validator
       var validator = function(value) {
-        var currency = Currency.from_human(attr.rpAmountCurrency.slice(0, 3));
-
-        // If XRP, ensure amount is less than 100 billion and is at least one drop
-        if (currency.is_valid() && currency.is_native()) {
-          ctrl.$setValidity('rpAmountXrpLimit', value <= 100000000000 && value >= 0.000001);
-        } else {
-          ctrl.$setValidity('rpAmountXrpLimit', true);
-        }
+        ctrl.$setValidity('rpAmountXrpLimit', value <= 100000000000 && value >= 0.000001);
 
         return value;
       };
 
       ctrl.$formatters.push(validator);
       ctrl.$parsers.unshift(validator);
-
-      attr.$observe('rpAmountCurrency', function() {
-        validator(ctrl.$viewValue);
-      });
     }
   };
 });
