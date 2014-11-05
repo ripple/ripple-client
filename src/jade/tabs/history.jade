@@ -116,11 +116,11 @@ section.col-xs-12.content(ng-controller="HistoryCtrl")
                 span(l10n, rp-span-spacing) You sent
                   span.amount(rp-pretty-amount="entry.transaction.amountSent || entry.transaction.amount")
                   | to
-                  span.address(rp-pretty-identity="entry.transaction.counterparty")
+                  span.address(rp-pretty-identity="entry.transaction.counterparty", rp-address-popover="entry.transaction.counterparty")
                 != require("./history/effects.jade")()
               span(ng-switch-when="received")
                 span(l10n, rp-span-spacing)
-                  span.address(rp-pretty-identity="entry.transaction.counterparty")
+                  span.address(rp-pretty-identity="entry.transaction.counterparty", rp-address-popover="entry.transaction.counterparty")
                   | sent you
                   span.amount(rp-pretty-amount="entry.transaction.amount")
                 != require("./history/effects.jade")()
@@ -138,7 +138,7 @@ section.col-xs-12.content(ng-controller="HistoryCtrl")
                 != require("./history/effects.jade")()
               span(ng-switch-when="trusting")
                 span(l10n, rp-span-spacing) You have now connected to the gateway&#32;
-                  span.address(rp-pretty-identity="entry.transaction.counterparty")
+                  span.address(rp-pretty-identity="entry.transaction.counterparty", rp-address-popover="entry.transaction.counterparty")
                   span(ng-show="advanced_feature_switch", l10n-inc) &#32;for&#32;
                   span.amount(ng-show="advanced_feature_switch", rp-pretty-amount="entry.transaction.amount")
                   | .

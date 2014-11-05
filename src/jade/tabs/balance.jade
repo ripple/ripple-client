@@ -102,7 +102,7 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
                 .lbl.col-xs-8(ng-show="component.gateway.app") {{component.gateway.app.name}}
                   span.status.unverified(ng-hide="true", l10n) Unverified
                 .lbl.balance-text-wrapper.col-xs-8(ng-hide="component.gateway.app")
-                  span(rp-pretty-identity="issuer")
+                  span(rp-pretty-identity="issuer", rp-address-popover="issuer")
                 .balance.col-xs-2 {{ component | rpamount }}
               form.withdraw(ng-show="component.window == 'withdraw'")
                 .step1(ng-show='!step || step==1')
