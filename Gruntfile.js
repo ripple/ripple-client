@@ -118,6 +118,29 @@ module.exports = function(grunt) {
     });
   });
 
+  grunt.registerTask("versionBranch", "Describes current git branch", function (prop) {
+    var done = this.async();
+
+    grunt.log.write("Branch: ");
+
+    grunt.util.spawn({
+      cmd : "git",
+      args : [ "rev-parse", "--abbrev-ref", "HEAD" ]
+    }, function (err, result) {
+      if (err) {
+        grunt.config(prop || "meta.versionBranch", "unknown");
+        grunt.log.writeln("Unable to determine branch, continuing".red);
+        return done();
+      }
+
+      grunt.config(prop || "meta.versionBranch", result.stdout);
+
+      grunt.log.writeln(result.stdout.green);
+
+      done(result);
+    });
+  });
+
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     meta: {},
@@ -194,6 +217,7 @@ module.exports = function(grunt) {
             MODE: "release",
             TARGET: "web",
             VERSION: "<%= meta.version %>",
+            VERSIONBRANCH: "<%= meta.versionBranch %>",
             LANGUAGES: languageCodes
           }
         }
@@ -206,6 +230,7 @@ module.exports = function(grunt) {
             MODE: "debug",
             TARGET: "web",
             VERSION: "<%= meta.version %>",
+            VERSIONBRANCH: "<%= meta.versionBranch %>",
             LANGUAGES: languageCodes
           }
         }
@@ -285,7 +310,7 @@ module.exports = function(grunt) {
       },
       index: {
         files: ['src/index.html'],
-        tasks: ['preprocess:web_debug','copy'],
+        tasks: ['version','versionBranch','preprocess:web_debug','copy'],
         options: { livereload: true }
       },
       callback: {
@@ -419,6 +444,7 @@ module.exports = function(grunt) {
   // Default - builds the web version of the client
   grunt.registerTask('default', ['bower:install',
                                  'version',
+                                 'versionBranch',
                                  'preprocess',
                                  'webpack',
                                  'recess',

@@ -19,10 +19,13 @@ body {
   background-color: @white;
 }
 
-#version, #browserVersion {
+#version, #versionbranch, #browserVersion {
   font-size: 12px;
   color: @darkgray;
   text-align: center;
+}
+
+#version {
   margin-top: 0.3em;
 }
 
@@ -31,7 +34,8 @@ body {
   margin-top: 20px;
 }
 
-body.loaded #version {
+body.loaded #version,
+body.loaded #versionbranch {
   display: none;
 }
 
