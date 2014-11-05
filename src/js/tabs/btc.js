@@ -26,9 +26,16 @@ BtcTab.prototype.angular = function (module)
  
     $scope.accountLines = {};
     $scope.showComponent = [];
-    
-    $scope.btcConnected = store.get('btc_connected');
-    $scope.showInstructions = store.get('show_instructions');
+    $scope.showInstructions = false;
+
+    $scope.$watch('lines', function () {
+      if($scope.lines['rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2qBTC']){
+        $scope.btcConnected = true;
+      }
+      else {
+        $scope.btcConnected = false;
+      }
+    }, true);
 
     if (!$id.loginStatus) return $id.goId();
 
@@ -40,7 +47,6 @@ BtcTab.prototype.angular = function (module)
     // TODO don't worry, the whole thing needs to be rewritten
     var btcwatcher = $scope.$watch('B2R', function(){
       if ($scope.B2R && $scope.B2R.active) {
-        store.set('btc_connected', true);
         $scope.btcConnected = true;
 
         btcwatcher();
@@ -72,7 +78,7 @@ BtcTab.prototype.angular = function (module)
             console.log('Error', err);
             $scope.emailError = true;
             $scope.loading = false;
-            store.set('btc_connected', false);
+            $scope.btcConnected = false;
 
             rpTracker.track('B2R SignUp', {
               result: 'failed',
@@ -92,8 +98,8 @@ BtcTab.prototype.angular = function (module)
 
           console.log('success');
 
-          store.set('btc_connected', true);
-          store.set('show_instructions', true);
+          $scope.btcConnected = true;
+          $scope.showInstructions = true;
 
         });
       });
