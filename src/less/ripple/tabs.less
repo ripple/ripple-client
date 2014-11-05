@@ -2794,14 +2794,10 @@ html.t-trade header nav ul > li.active#nav-advanced > a:after {
   }
   button {
     text-align: center;
-    border: 1px solid @midblue;
-    font-weight: bold;
-    background: @midblue;
-    color: @white;
-
-    &:hover, &.active {
-      background: @midgreen;
-      border-color: @midgreen;
+    &:disabled {
+      background-color: @midblue;
+      color: #fff;
+      border-color: @midblue;
     }
   }
 
