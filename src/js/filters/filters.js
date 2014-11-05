@@ -15,7 +15,6 @@ module.filter('rpamount', function () {
 
     var currency;
     var opts = jQuery.extend(true, {}, options);
-
     
     if ("number" === typeof opts) {
       opts = {
@@ -48,50 +47,59 @@ module.filter('rpamount', function () {
 
     if (!amount.is_valid()) return "n/a";
 
-    // Currency default precision 
-    for (var i = 0; i < currencies.length; i++) {
-      if (currencies[i].value === amount.currency().to_human()) {
-        currency = currencies[i].standard_precision;
+    // if abs_precision is passed, bypass entire currency look up (for loop - expensive)
+    if (opts.abs_precision) {
+      opts.precision = opts.abs_precision;
 
-        // Default standard precision per currency is taken from currencies.js
-        opts.min_precision = currency;
-        opts.precision = currency;
-        break;
+      return amount.to_human(opts);
+    }
+
+    else {
+      // Currency default precision 
+      for (var i = 0; i < currencies.length; i++) {
+        if (currencies[i].value === amount.currency().to_human()) {
+          currency = currencies[i].standard_precision;
+
+          // Default standard precision per currency is taken from currencies.js
+          opts.min_precision = currency;
+          opts.precision = currency;
+          break;
+        }
       }
+
+      var cdp = ("undefined" !== typeof currency) ? currency : 4;
+
+      if (amount.to_human() < 0.01 && amount.to_human() > 0) {
+        // We attempt to show the entire number, by setting opts.precision to a high number... 100
+        opts.precision = 100;
+
+      }
+
+      // Certain formatting options are relative to the currency default precision
+      if ("number" === typeof opts.rel_precision) {
+        opts.precision = cdp + opts.rel_precision;
+      }
+      if ("number" === typeof opts.rel_min_precision) {
+        opts.min_precision = cdp + opts.rel_min_precision;
+      }
+
+      // But we will cut off after five significant decimals
+      // if ("number" !== typeof opts.max_sig_digits) {
+      //   opts.max_sig_digits = 30;
+      // }
+
+      var out = amount.to_human(opts);
+
+      // If amount is very small and only has zeros (ex. 0.0000), raise precision
+      // to make it useful.
+      // if (out.length > 1 && 0 === +out && !opts.hard_precision) {
+      //   opts.precision = 5;
+
+      //   out = amount.to_human(opts);
+      // }
+
+      return out;
     }
-
-    var cdp = ("undefined" !== typeof currency) ? currency : 4;
-
-    if (amount.to_human() < 0.01 && amount.to_human() > 0) {
-      // We attempt to show the entire number, by setting opts.precision to a high number... 100
-      opts.precision = 100;
-
-    }
-
-    // Certain formatting options are relative to the currency default precision
-    if ("number" === typeof opts.rel_precision) {
-      opts.precision = cdp + opts.rel_precision;
-    }
-    if ("number" === typeof opts.rel_min_precision) {
-      opts.min_precision = cdp + opts.rel_min_precision;
-    }
-
-    // But we will cut off after five significant decimals
-    // if ("number" !== typeof opts.max_sig_digits) {
-    //   opts.max_sig_digits = 30;
-    // }
-
-    var out = amount.to_human(opts);
-
-    // If amount is very small and only has zeros (ex. 0.0000), raise precision
-    // to make it useful.
-    // if (out.length > 1 && 0 === +out && !opts.hard_precision) {
-    //   opts.precision = 5;
-
-    //   out = amount.to_human(opts);
-    // }
-
-    return out;
   };
 });
 
