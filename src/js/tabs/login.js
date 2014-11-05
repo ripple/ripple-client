@@ -233,13 +233,7 @@ LoginTab.prototype.angular = function (module) {
       if ($routeParams.tab) {
         $location.path('/'+$routeParams.tab);
       } else {
-        if ($rootScope.verifyStatus) {
-          $rootScope.verifyStatus = '';
-          $location.path('/fund');
-        }
-        else {
-          $location.path('/balance');
-        }
+        $location.path('/balance');
       }
     }
 
