@@ -9,8 +9,8 @@ var PretendTab = function ()
 
 util.inherits(PretendTab, Tab);
 
-PretendTab.prototype.tabName = 'pretend';
-PretendTab.prototype.mainMenu = 'pretend';
+PretendTab.prototype.tabName = 'debug';
+PretendTab.prototype.mainMenu = 'debug';
 
 PretendTab.prototype.angularDeps = Tab.prototype.angularDeps.concat(['qr']);
 
