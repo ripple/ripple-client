@@ -25,13 +25,13 @@
     "jsdom": "~0.8.11",
     "jade-l10n": "0.1.x",
     "jade-l10n-loader": "0.0.x",
-    "grunt-mocha-protractor": "~0.5.0",
     "json-loader": "~0.5.0",
     "node-po": "~0.1.2",
     "grunt-jade-l10n-extractor": "~0.1.2",
     "grunt-bower-task": "~0.4.0",
     "grunt-webfont": "~0.3.4",
-    "grunt-contrib-connect": "~0.5.0"
+    "grunt-contrib-connect": "~0.5.0",
+    "protractor": "~1.4.0"
   },
   "license": "ISC",
   "scripts": {
