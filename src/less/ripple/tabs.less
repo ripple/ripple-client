@@ -505,16 +505,9 @@
     color: @midgray;
     text-align: center;
     position: absolute;
-    top: 850%;
-    left: 74%;
-    margin-right: -50%;
-    transform: translate(-50%, -50%);
-    @media (max-width: @screen-xs-max) {
-      top: 850%;
-      left: 50%;
-      margin-right: -50%;
-      transform: translate(-50%, -50%);
-    }
+    top: 50%;
+    left: 50%;
+    .translate(-50%; -50%);
   }
 
   .content {
@@ -581,7 +574,7 @@
     margin: 0;
     margin-bottom: 10px;
     overflow: hidden;
-
+    position: relative;
     .flat-select() {
       padding-right: 20px;
       border: none;
