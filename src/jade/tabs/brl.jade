@@ -61,13 +61,13 @@ section.col-xs-12.content(ng-controller='BrlCtrl')
               .description(l10n)
                 a(href="https://coinist.co/ripple/assets/brl-rippex", target="_blank") read reviews
 
-        .row.btc-tab-description(ng-show="!brlConnected")
+        .row.fund-tab-description(ng-show="!brlConnected")
           .col-md-12
             .descriptor.tos(l10n) Ripple Trade has partnered with Rippex to provide easy access to BRL. By continuing, you agree with Rippex's 
               a(href="https://rippex.net/termos.php#/", target="_blank") terms of service.&#32;
               | Following this action will enable Rippex to hold BRL on your behalf.
 
-        .row.btc-tab-description
+        .row.fund-tab-description
           .col-xs-9.col-sm-5.col-md-4.action-btn-wrapper
             button.btn.btn-large(type="submit",ng-click="create_trust_line()", ng-hide="brlConnected", ng-disabled="loading || !account.Balance") 
               span(ng-show="!loading", l10n)  Add Rippex
@@ -79,7 +79,7 @@ section.col-xs-12.content(ng-controller='BrlCtrl')
           .connect.col-md-2.col-xs-3.col-sm-7
             .description.fa.fa-times(ng-show="!brlConnected", l10n) Not connected
             .description.fa.fa-check(ng-show="brlConnected", l10n) Connected
-        .row.btc-tab-description(ng-show="showInstructions && brlConnected")
+        .row.fund-tab-description(ng-show="showInstructions && brlConnected")
           .instructions.col-md-10
             a.dismiss(href="", id="hide", ng-click="toggleInstructions()", l10n)  ×
             .title(l10n) NEW CUSTOMERS- SIGN UP AT RIPPEX

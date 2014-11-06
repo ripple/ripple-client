@@ -27,8 +27,14 @@ BrlTab.prototype.angular = function (module)
 
       if (!$id.loginStatus) return $id.goId();
 
-      $scope.brlConnected = store.get('brl_connected');
-      $scope.showInstructions = store.get('show_brl_instructions');
+      $scope.$watch('lines', function () {
+        if($scope.lines['rfNZPxoZ5Uaamdp339U9dCLWz2T73nZJZHBRL']){
+          $scope.brlConnected = true;
+        }
+        else {
+          $scope.brlConnected = false;
+        }
+      }, true);
 
       $scope.toggleInstructions = function() {
          $scope.showInstructions = !$scope.showInstructions;
