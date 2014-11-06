@@ -232,7 +232,9 @@ module.directive('rpCurrency', function () {
           // Should we look for a full name like "USD - US Dollar"?
           if (attr.rpCurrencyFull) {
             var currencyInfo = $.grep(scope.currencies_all, function(e){ return e.value == mainText; })[0];
-            if (currencyInfo) mainText = currencyInfo.name;
+            if (currencyInfo) {
+              var mainText = currencyInfo.value  + " - " + currencyInfo.name;
+            } 
           }
 
           if (currency.has_interest()) {
