@@ -115,7 +115,7 @@ module.directive('rpPrettyIdentity', ['$timeout', function ($timeout) {
               element.popover('hide');
               shown = false;
             }, hideDelay, false );
-            cancelHidePopoverTimeout.finally(function() { cancelHidePopoverTimeout = null; });
+            cancelHidePopoverTimeout['finally'](function() { cancelHidePopoverTimeout = null; });
           }
         }
 
@@ -143,7 +143,7 @@ module.directive('rpPrettyIdentity', ['$timeout', function ($timeout) {
               element.popover('show'); 
               shown = true;
             }, popupDelay, false );
-            cancelShowPopoverTimeout.finally(function() { cancelShowPopoverTimeout = null; });
+            cancelShowPopoverTimeout['finally'](function() { cancelShowPopoverTimeout = null; });
           }
         }
 
@@ -235,7 +235,7 @@ module.directive('rpCurrency', function () {
           if (attr.rpCurrencyFull) {
             var currencyInfo = $.grep(scope.currencies_all, function(e){ return e.value == mainText; })[0];
             if (currencyInfo) {
-              var mainText = currencyInfo.value  + " - " + currencyInfo.name;
+              mainText = currencyInfo.value  + " - " + currencyInfo.name;
             } 
           }
 
