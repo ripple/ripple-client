@@ -227,6 +227,15 @@ app.run(['$rootScope', '$injector', '$compile', '$route', '$routeParams', '$loca
   });
 }]);
 
+// Track uncaught exceptions
+app.factory('$exceptionHandler', ['$injector', function($injector) {
+  return function(exception, cause) {
+    var $log = $injector.get('$log');
+    $log.error.apply($log,arguments);
+    $injector.get('rpTracker').trackError('Uncaught Exception', exception);
+  };
+}]);
+
 // Some backwards compatibility
 if (!Options.blobvault) {
   Options.blobvault = Options.BLOBVAULT_SERVER;
