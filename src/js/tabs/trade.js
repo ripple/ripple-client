@@ -465,7 +465,15 @@ TradeTab.prototype.angular = function(module)
       if (order.price_amount  && order.price_amount.is_valid() &&
           order.second_amount && order.second_amount.is_valid()) {
 
-        order.first_amount = Amount.from_json(order.second_amount.to_text_full()).ratio_human(Amount.from_json(order.price_amount.to_text()), {reference_date: new Date()});
+        if (!order.price_amount.is_native()) {
+          var price = order.price_amount.to_human();
+          var currency = order.price_amount.currency().to_json();
+          var issuer = order.price_amount.issuer().to_json();
+
+          order.first_amount = Amount.from_json(order.second_amount.to_text_full()).ratio_human(Amount.from_json(price + '/' + currency + '/' + issuer), {reference_date: new Date()});
+        } else {
+          order.first_amount = Amount.from_json(order.second_amount.to_text_full()).ratio_human(Amount.from_json(order.price_amount.to_text()), {reference_date: new Date()});
+        }
         order.first = +order.first_amount.to_human({group_sep: false});
       }
     };
