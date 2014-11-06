@@ -16,7 +16,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-connect');
-  grunt.loadNpmTasks('grunt-mocha-protractor');
   grunt.loadNpmTasks('grunt-jade-l10n-extractor');
   grunt.loadNpmTasks('grunt-bower-task');
   grunt.loadNpmTasks('grunt-webfont');
@@ -342,18 +341,6 @@ module.exports = function(grunt) {
         }
       }
     },
-    mochaProtractor: {
-      local: {
-        options: {
-          reporter: 'Spec',
-          browsers: ['Chrome'],
-          baseUrl: 'http://local.rippletrade.com/index_debug.html'
-        },
-        files: {
-          src: 'test/e2e/*.js'
-        }
-      }
-    },
     bower: {
       install: {
         options: {
@@ -461,9 +448,6 @@ module.exports = function(grunt) {
 
   // Node.js server to serve built files
   grunt.registerTask('devserver', ['shell:startdevserver']);
-
-  // End-to-end tests
-  grunt.registerTask('e2e', ['connect:debug', 'mochaProtractor:local']);
 
   // Start server with auto-recompilation
   grunt.registerTask('serve', ['connect:debug', 'watch']);
