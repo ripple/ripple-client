@@ -212,6 +212,16 @@ module.factory('rpAuthFlow', ['$rootScope',
     });
   };
 
+  AuthFlow.deleteBlob = function (options, callback) {
+    var meta = AuthFlow.getVaultClient('');
+
+    meta.client.deleteBlob(options, function(err, resp) {
+      $scope.$apply(function() {
+        callback(err, resp);
+      });
+    });
+  };
+
   AuthFlow.updateAttestation = function (options, callback) {
     var meta = AuthFlow.getVaultClient('');
 
