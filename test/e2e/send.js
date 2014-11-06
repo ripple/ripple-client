@@ -11,9 +11,6 @@ var helperBrowser = require('./utils/browser');
 chai.use(chaiAsPromised);
 var expect = chai.expect;
 
-// For some weird reason config ignores allScriptsTimeout
-browser.manage().timeouts().setScriptTimeout(20000);
-
 describe('send', function() {
 
   before(function(){

@@ -1,6 +1,9 @@
 exports.config = {
   seleniumAddress: 'http://localhost:4444/wd/hub',
   framework: 'mocha',
+  mochaOpts: {
+    timeout: 20000
+  },
   specs: ['*.js'],
   capabilities: {
     browserName: 'chrome'
