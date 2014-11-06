@@ -10,11 +10,6 @@ var helperForms = require('./utils/forms');
 chai.use(chaiAsPromised);
 var expect = chai.expect;
 
-// For some weird reason config ignores allScriptsTimeout
-// I don't think so. TODO: This can be proven by printing
-// out config parameters
-browser.manage().timeouts().setScriptTimeout(20000);
-
 describe('password setting', function() {
 
     function changePassword(oldpassword, newpassword) {
