@@ -336,7 +336,16 @@ TrustTab.prototype.angular = function (module)
       $scope.counterparty_query = webutil.queryFromContacts(contacts);
     }, true);
 
-    $scope.currency_query = webutil.queryFromOptionsIncludingKeys($scope.currencies_all);
+    // Get all currencies from currencies.js, parse through to display only those with display: true
+    var displayCurrenciesOnly = [];
+
+    for (var i = 0; i < $scope.currencies_all.length; i++) {
+      if ($scope.currencies_all[i].display) {
+        displayCurrenciesOnly.push($scope.currencies_all[i]);
+      }
+    }
+
+    $scope.currency_query = webutil.queryFromOptionsIncludingKeys(displayCurrenciesOnly);
 
     $scope.reset();
 
