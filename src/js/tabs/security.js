@@ -336,6 +336,32 @@ SecurityTab.prototype.angular = function (module) {
       $scope.error2FA     = false;
     };
 
+    /**
+     * Delete Ripple Account
+     */
+    $scope.deleteAccount = function () {
+      keychain.requestSecret($id.account, $id.username, function (err, secret) {
+        // XXX Error handling
+        if (err) return;
+
+        var options = {
+          url         : $scope.userBlob.url,
+          blob_id     : $scope.userBlob.id,
+          username    : $id.username,
+          account_id  : $id.account,
+          masterkey   : secret
+        };
+
+        authflow.deleteBlob(options, function(err){
+          if (err) {
+            console.log('error: account deletion failed', err);
+            return;
+          }
+
+          location.reload();
+        });
+      });
+    };
 
     var reset = function() {
 

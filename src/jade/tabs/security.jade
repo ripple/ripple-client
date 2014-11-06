@@ -165,30 +165,45 @@ section.col-xs-12.content(ng-controller="SecurityCtrl")
               .col-xs-3.col-sm-4.col-md-3
                 a(href="", ng-click="unmaskSecret()", ng-hide="security.master_seed", l10n) Show
                 a(href="", ng-click="security.master_seed = null", ng-show="security.master_seed", l10n) Hide
-          .descriptor(l10n) Password protection for transactions
-          .row
-            .col-xs-12
-              .description(l10n) If you turn off password requests, you’ll still need to enter your password after each page refresh.
-              div.helperInput
-                form(name="persistUnlock", ng-submit="setPasswordProtection()")
-                  .row(ng-hide="editUnlock")
-                    .col-xs-6.col-sm-5.col-md-4
-                      .description Require password
-                    .col-xs-3.col-sm-3.col-md-2
-                      div.description
-                        div(ng-show="requirePassword", l10n) Yes
-                        div(ng-hide="requirePassword", l10n) No
-                    .col-xs-3.col-sm-4.col-md-6
-                      div.description
-                        a#edit(href="", ng-click="editUnlock = true", l10n) edit
-                  .row.edit-security-pswd(ng-show="editUnlock")
-                    .col-xs-6.col-sm-5.col-md-4
-                      .description Require password
-                    .col-xs-6.col-sm-3.col-md-2
-                      div.helperInput.description
-                        label
-                          input(type="checkbox", name="unlock", ng-checked='requirePassword', ng-click="requirePasswordChanged = true")
-                    .col-xs-12.col-sm-4.col-md-4.save-btn-wrapper
-                      .description
-                        button.btn.btn-block.btn-success.btn-xs.submit#save(type='submit'
-                        ng-disabled='serverForm.$invalid', l10n) Save
+          .section
+            .descriptor(l10n) Password protection for transactions
+            .row
+              .col-xs-12
+                .description(l10n) If you turn off password requests, you’ll still need to enter your password after each page refresh.
+                div.helperInput
+                  form(name="persistUnlock", ng-submit="setPasswordProtection()")
+                    .row(ng-hide="editUnlock")
+                      .col-xs-6.col-sm-5.col-md-4
+                        .description Require password
+                      .col-xs-3.col-sm-3.col-md-2
+                        div.description
+                          div(ng-show="requirePassword", l10n) Yes
+                          div(ng-hide="requirePassword", l10n) No
+                      .col-xs-3.col-sm-4.col-md-6
+                        div.description
+                          a#edit(href="", ng-click="editUnlock = true", l10n) edit
+                    .row.edit-security-pswd(ng-show="editUnlock")
+                      .col-xs-6.col-sm-5.col-md-4
+                        .description Require password
+                      .col-xs-6.col-sm-3.col-md-2
+                        div.helperInput.description
+                          label
+                            input(type="checkbox", name="unlock", ng-checked='requirePassword', ng-click="requirePasswordChanged = true")
+                      .col-xs-12.col-sm-4.col-md-4.save-btn-wrapper
+                        .description
+                          button.btn.btn-block.btn-success.btn-xs.submit#save(type='submit'
+                          ng-disabled='serverForm.$invalid', l10n) Save
+          .section
+            .descriptor(l10n) Delete Ripple Trade account
+            .row
+              .col-xs-9.col-sm-8.col-md-6(l10n) This deletes your Ripple Trade account. You will no longer be able to login to Ripple
+                |  Trade and your account data will be deleted. However, you can still access your funds using your secret key.
+              .col-xs-3.col-sm-4.col-md-3
+                rp-confirm(
+                  action-text="Are you sure you want to permanently delete this account? You will lose access to ~{{userCredentials.username}}."
+                  action-button-text="Delete Ripple Trade account ~{{userCredentials.username}}"
+                  action-button-css="btn btn-default btn-danger"
+                  action-function="deleteAccount()"
+                  cancel-button-css="btn btn-cancel"
+                  cancel-button-text="cancel")
+                    a.danger(href="", l10n) Delete
