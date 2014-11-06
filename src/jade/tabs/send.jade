@@ -114,7 +114,7 @@ section.col-xs-12.content(ng-controller='SendCtrl')
               rp-autofill-currency-fullname
               rp-restrict-currencies='{{send.restrict_currencies}}')
           .row(ng-if="send.currency_force")
-            .col-xs-12.col-sm-6.col-md-3.input-group.currency_force
+            .col-xs-12.col-sm-6.col-md-6.input-group.currency_force
               input.form-control#send_amount(
               name='send_amount', type='text'
               ng-model='send.amount'
