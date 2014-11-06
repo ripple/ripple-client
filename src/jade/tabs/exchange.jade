@@ -45,7 +45,7 @@ section.col-xs-12.content(ng-controller="ExchangeCtrl")
             .error(rp-error-on='required', l10n) Please enter an amount.
             .error(rp-error-on='rpAmount', l10n) Not a valid amount.
             .error(rp-error-on='rpAmountXrpLimit', l10n)
-              | You are either trying to send too little or too much XRP.
+              | You are either trying to convert too little or too much XRP.
               | Minimum amount is 0.000001 XRP and maximum amount is 100 billion XRP.
             .error(rp-error-on='rpMaxDigits', l10n) Your amount has too many digits. The max number of digits is 16.
             .error(rp-error-on='rpAmountPositive', l10n)
