@@ -220,6 +220,8 @@ module.directive('rpCurrency', function () {
       return function (scope, element, attr) {
         scope.$watch(attr.rpCurrency, function (input) {
           var currency;
+          var mainText;
+
           if (input instanceof Currency) {
             currency = input;
           } else {
@@ -227,7 +229,7 @@ module.directive('rpCurrency', function () {
             currency = amount.currency();
           }
 
-          var mainText = currency.to_human();
+          mainText = currency.has_interest() ? currency.to_human().slice(0,3) : currency.to_human();
 
           // Should we look for a full name like "USD - US Dollar"?
           if (attr.rpCurrencyFull) {
