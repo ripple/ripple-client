@@ -360,7 +360,7 @@ module.directive('rpAddressPopover', ['$timeout', '$interpolate', 'rpId', functi
               element.popover('hide');
               shown = false;
             }, hideDelay, false );
-            cancelHidePopoverTimeout.finally(function() { cancelHidePopoverTimeout = null; });
+            cancelHidePopoverTimeout['finally'](function() { cancelHidePopoverTimeout = null; });
           }
         }
 
@@ -388,7 +388,7 @@ module.directive('rpAddressPopover', ['$timeout', '$interpolate', 'rpId', functi
               element.popover('show'); 
               shown = true;
             }, popupDelay, false );
-            cancelShowPopoverTimeout.finally(function() { cancelShowPopoverTimeout = null; });
+            cancelShowPopoverTimeout['finally'](function() { cancelShowPopoverTimeout = null; });
           }
         }
 
