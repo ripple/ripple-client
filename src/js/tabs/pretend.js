@@ -49,7 +49,24 @@ PretendTab.prototype.angular = function (module)
 
       gotAddress.then(function(address) {
         $id.setAccount(address);
+
+        // just dummy object, so no one can operate on blob
+        var dummyBlob = {
+            data: {
+              contacts: [],
+              preferred_issuer: {},
+              preferred_second_issuer: {}
+            },
+            meta: [],
+            set: function() {},
+            unset: function() {},
+            unshift: function() {},
+            filter: function() {}
+          };
+
+        $rootScope.userBlob = dummyBlob;
         $id.setUsername(address);
+
         var promise = $id.resolveName(address);
         promise.then(function(name) {
           $id.setUsername(name);
