@@ -13,9 +13,6 @@ var TrustPage = require('./pages/trustPage.js');
 chai.use(chaiAsPromised);
 var expect = chai.expect;
 
-// For some weird reason config ignores allScriptsTimeout
-browser.manage().timeouts().setScriptTimeout(60000);
-
 describe('gateway simple', function() {
 
   var page;

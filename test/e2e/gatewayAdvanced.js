@@ -14,9 +14,6 @@ var AdvancedPage = require('./pages/advancedPage.js');
 chai.use(chaiAsPromised);
 var expect = chai.expect;
 
-// For some weird reason config ignores allScriptsTimeout
-browser.manage().timeouts().setScriptTimeout(60000);
-
 describe('gateway advanced', function() {
 
   var page;
@@ -86,7 +83,9 @@ describe('gateway advanced', function() {
 
   it('should show new limit', function(done) {
     page.editLimitInput.clear().
-      then(page.editLimitInput.sendKeys.bind(this, '200')).
+      then(function () { 
+        page.editLimitInput.sendKeys('200');
+      }).
       then(function() {
         protractor.getInstance().ignoreSynchronization = true;
         return page.usdGatewaySaveButton.click();

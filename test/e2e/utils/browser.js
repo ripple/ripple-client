@@ -7,7 +7,9 @@ exports.waitForNavigation = function (part) {
 };
 
 exports.waitForElement = function (part) {
-  return browser.wait(part.isPresent);
+  return browser.wait(function () {
+    return part.isPresent();
+  });
 };
 
 exports.waitForElementToDisplay = function (part) {
