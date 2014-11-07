@@ -743,13 +743,28 @@ module.directive('rpAmountXrpLimit', function () {
 
       // We don't use parseAmount here, assuming that you also use rpAmount validator
       var validator = function(value) {
-        ctrl.$setValidity('rpAmountXrpLimit', value <= 100000000000 && value >= 0.000001);
+        if (attr.rpAmountCurrency) {
+          var currency = Currency.from_human(attr.rpAmountCurrency.slice(0, 3));
 
+          // If XRP, ensure amount is less than 100 billion and is at least one drop
+          if (currency.is_valid() && currency.is_native()) {
+            ctrl.$setValidity('rpAmountXrpLimit', value <= 100000000000 && value >= 0.000001);
+          } else {
+            ctrl.$setValidity('rpAmountXrpLimit', true);
+          }
+
+        } else {
+          ctrl.$setValidity('rpAmountXrpLimit', true);
+        }
         return value;
-      };
+      }
 
       ctrl.$formatters.push(validator);
       ctrl.$parsers.unshift(validator);
+
+      attr.$observe('rpAmountCurrency', function() {
+        validator(ctrl.$viewValue);
+      });
     }
   };
 });
