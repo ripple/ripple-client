@@ -19,6 +19,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-jade-l10n-extractor');
   grunt.loadNpmTasks('grunt-bower-task');
   grunt.loadNpmTasks('grunt-webfont');
+  grunt.loadNpmTasks('grunt-shell');
 
   // Ripple client dependencies
   var deps = ["deps/js/jquery/dist/jquery.js",
@@ -143,6 +144,17 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     meta: {},
+    shell: {
+      options: {
+        stdout: true,
+        failOnError: true
+      },
+      startdevserver: {
+        command:
+          process.platform === 'darwin' ? 'sudo node ./scripts/web-server.js'
+                                        : 'node ./scripts/web-server.js'
+      },
+    },
     recess: {
       web: {
         src: ['src/less/ripple/web.less'],
