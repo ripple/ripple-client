@@ -149,9 +149,9 @@ TrustTab.prototype.angular = function (module)
              * - sameIssuer
              * - multipleIssuers
              */
-            currency = amount.currency().to_human({full_name:$scope.currencies_all_keyed[amount.currency().get_iso()].name});
-            var balance = $scope.balances[currency];
-            $scope.currencyWarning = false;
+            // var currency = amount.currency().to_human({full_name:$scope.currencies_all_keyed[amount.currency().get_iso()].name});
+            // var balance = $scope.balances[currency];
+            // $scope.currencyWarning = false;
 
             // New trust on a currency or no rippling enabled
             // if (!balance || !$scope.allowrippling) {
