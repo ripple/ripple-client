@@ -355,8 +355,8 @@ HistoryTab.prototype.angular = function (module) {
         });
 
         if ($scope.historyShow.length && !$scope.dateMinView) {
-          setValidDateOnScopeOrNullify('dateMinView', dateMin);
-          setValidDateOnScopeOrNullify('dateMaxView', dateMax);
+          //setValidDateOnScopeOrNullify('dateMinView', dateMin);
+          //setValidDateOnScopeOrNullify('dateMaxView', dateMax);
         }
       }
     };

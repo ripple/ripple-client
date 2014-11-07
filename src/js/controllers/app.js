@@ -14,10 +14,10 @@ var module = angular.module('app', []);
 
 module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
                               'rpKeychain', 'rpTxQueue', 'rpAppManager', 'rpTracker',
-                              '$location', '$timeout',
+                              '$location', '$timeout', 'rpHistory',
                               function ($scope, $compile, $id, $net,
                                         keychain, txQueue, appManager, rpTracker,
-                                        $location, $timeout)
+                                        $location, $timeout, rpHistory)
 {
   reset();
 
@@ -94,12 +94,28 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
     myHandleAccountEvent = handleAccountEvent;
     myHandleAccountEntry = handleAccountEntry;
     $scope.loadingAccount = true;
-
-    accountObj.on('transaction', myHandleAccountEvent);
     accountObj.on('entry', function(data){
       $scope.$apply(function () {
         $scope.loadingAccount = false;
         myHandleAccountEntry(data);
+
+        $scope.userHistory = new rpHistory(account);
+        $scope.userHistory.onTransaction(myHandleAccountEvent);
+
+        // Load account transactions
+        var options = {
+          limit: Options.transactions_per_page
+        };
+
+        $scope.userHistory.getHistory(options, function(err, data){
+          if (err) {
+            handleAccountTxError(err);
+            return;
+          }
+
+          console.log('Account transaction history loaded');
+          handleAccountTx(data);
+        });
       });
     });
 
@@ -114,16 +130,6 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
     remote.requestAccountLines({account: data.account})
       .on('success', handleRippleLines)
       .on('error', handleRippleLinesError).request();
-
-    // Transactions
-    remote.request_account_tx({
-      'account': data.account,
-      'ledger_index_min': -1,
-      'descending': true,
-      'limit': Options.transactions_per_page
-    })
-      .on('success', handleAccountTx)
-      .on('error', handleAccountTxError).request();
 
     // Outstanding offers
     remote.requestAccountOffers({account: data.account})
@@ -234,19 +240,17 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
 
   function handleAccountTx(data)
   {
-    $scope.$apply(function () {
-      $scope.tx_marker = data.marker;
+    if (data.transactions) {
+      $scope.history = [];
 
-      if (data.transactions) {
-        data.transactions.reverse().forEach(function (e, key) {
-          processTxn(e.tx, e.meta, true);
-        });
+      data.transactions.reverse().forEach(function (e, key) {
+        processTxn(e.tx, e.meta, true);
+      });
 
-        $scope.$broadcast('$eventsUpdate');
-      }
+      $scope.$broadcast('$eventsUpdate');
+    }
 
-      $scope.loadState.transactions = true;
-    });
+    $scope.loadState.transactions = true;
   }
 
   function handleAccountTxError(data)

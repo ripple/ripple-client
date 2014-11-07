@@ -32,6 +32,7 @@ require('../services/popup');
 require('../services/rippletxt');
 require('../services/federation');
 require('../services/domainalias');
+require('../services/history');
 
 require('../services/integration/appManager');
 require('../services/integration/profileManager');
@@ -51,6 +52,7 @@ var appDependencies = [
   'id',
   'tracker',
   'appManager',
+  'history',
   // Directives
   'charts',
   'effects',
@@ -108,9 +110,9 @@ var tabs = tabdefs.map(function (Tab) {
   var tab = new Tab();
 
   if (tab.angular) {
-    var module = angular.module(tab.tabName, tab.angularDeps);
+    var module = angular.module(tab.tabName + 'Tab', tab.angularDeps);
     tab.angular(module);
-    appDependencies.push(tab.tabName);
+    appDependencies.push(tab.tabName + 'Tab');
   }
 
   return tab;
