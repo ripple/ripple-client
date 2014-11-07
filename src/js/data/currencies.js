@@ -183,8 +183,8 @@ module.exports = [
   {value: 'ZWL', name: 'Zimbabwean Dollar', display: false, standard_precision: 2, order: 0 },
 
   // Precious Metals
-  // {value: 'XAU', name: 'Gold', display: true, standard_precision: 2, order: 0},
-  {value: 'XAU', name: 'Gold (GBI)', display: true, standard_precision: 2, order: 0},
+  {value: 'XAU', name: 'Gold', display: true, standard_precision: 2, order: 0},
+  {value: 'XAU', name: 'Gold (GBI)', display: false, standard_precision: 2, order: 0},
   {value: 'XAG', name: 'Silver', display: false, standard_precision: 2, order: 0},
   {value: 'XPT', name: 'Platinum', display: false, standard_precision: 2, order: 0},
 
