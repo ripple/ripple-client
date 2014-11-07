@@ -23,8 +23,6 @@ BrlTab.prototype.angular = function (module)
 	module.controller('BrlCtrl', ['$rootScope', 'rpId', 'rpAppManager', 'rpTracker', '$routeParams', 'rpKeychain', 'rpNetwork', '$timeout',
     function ($scope, $id, appManager, rpTracker, $routeParams, keychain, $network, $timeout)  {
 
-      if (!$id.loginStatus) return $id.goId();
-
       $scope.$watch('lines', function () {
         if($scope.lines['rfNZPxoZ5Uaamdp339U9dCLWz2T73nZJZHBRL']){
           $scope.brlConnected = true;
@@ -34,11 +32,14 @@ BrlTab.prototype.angular = function (module)
         }
       }, true);
 
+      if (!$id.loginStatus) return $id.goId();
+
       $scope.toggleInstructions = function() {
          $scope.showInstructions = !$scope.showInstructions;
       }
 
       $scope.create_trust_line = function () {
+
         $scope.loading = true;
 
         $scope.load_notification('loading');
@@ -112,6 +113,7 @@ BrlTab.prototype.angular = function (module)
           if ($scope.tx_result=="cleared"){
             $scope.brlConnected = true;
             $scope.showInstructions = true;
+
           }
           console.log($scope.tx_result);
         }
@@ -139,14 +141,10 @@ BrlTab.prototype.angular = function (module)
           $scope.mode = 'main';
         }, 10000);
 
+      };
 
-      }
+    }]);
 
-
-
-  }]);
-}
-
-
+};
 
 module.exports = BrlTab;
