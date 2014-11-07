@@ -16,13 +16,13 @@ PretendTab.prototype.angularDeps = Tab.prototype.angularDeps.concat(['qr']);
 
 PretendTab.prototype.generateHtml = function ()
 {
-  return require('../../jade/tabs/pretend.jade')();
+  return require('../../jade/tabs/debug.jade')();
 };
 
 
 PretendTab.prototype.angular = function (module)
 {
-  module.controller('PretendCtrl', ['$rootScope', '$scope', 'rpId', '$q',
+  module.controller('DebugPretendCtrl', ['$rootScope', '$scope', 'rpId', '$q',
                                      function ($rootScope, $scope, $id, $q)
   {
 

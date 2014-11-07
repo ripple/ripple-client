@@ -85,7 +85,7 @@ var tabdefs = [
   require('../tabs/kyc'),
   require('../tabs/tx'),
   require('../tabs/xrp'),
-  require('../tabs/pretend'),
+  require('../tabs/debug'),
   require('../tabs/btc'),  
   require('../tabs/withdraw'),
   // require('../tabs/usd'),
