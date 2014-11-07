@@ -114,14 +114,29 @@ SecurityTab.prototype.angular = function (module) {
       if (!$scope.requirePasswordChanged) return;
       $scope.requirePasswordChanged = false;
       $scope.requirePassword        = !$scope.requirePassword;
+      $scope.errorSetPasswordProtection = false;
 
       keychain.setPasswordProtection($scope.requirePassword, function(err, resp){
         if (err) {
           console.log(err);
           $scope.requirePassword = !$scope.requirePassword;
-          //TODO: report errors to user
+
+          // Notify errors to the user
+          $scope.errorSetPasswordProtection = true;
         }
       });
+
+      // Notify the user
+      if (!$scope.errorSetPasswordProtection) {
+        if ($scope.requirePassword) {
+          $scope.enableRequirePasswordSuccess = true;
+          $scope.disableRequirePasswordSuccess = false;
+        } else {
+          $scope.enableRequirePasswordSuccess = false;
+          $scope.disableRequirePasswordSuccess = true;
+        }
+      }
+
     };
 
     $scope.cancelUnlockOptions = function () {
