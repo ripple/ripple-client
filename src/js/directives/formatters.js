@@ -229,9 +229,9 @@ module.directive('rpCurrency', function () {
             currency = amount.currency();
           }
 
-          mainText = currency.has_interest() ? currency.to_human().slice(0,3) : currency.to_human();
+          //TODO: Delete once Malika pushes her changes for trading pairs
+          mainText = currency.has_interest() ? currency.to_human().slice(0,3) + ' (-0.5%pa) - Gold' : currency.to_human();
 
-          // Should we look for a full name like "USD - US Dollar"?
           if (attr.rpCurrencyFull) {
             var currencyInfo = $.grep(scope.currencies_all, function(e){ return e.value == mainText; })[0];
             if (currencyInfo) {
