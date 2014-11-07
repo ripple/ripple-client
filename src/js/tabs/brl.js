@@ -22,8 +22,6 @@ BrlTab.prototype.angular = function (module)
 {
 	module.controller('BrlCtrl', ['$rootScope', 'rpId', 'rpAppManager', 'rpTracker', '$routeParams', 'rpKeychain', 'rpNetwork', '$timeout',
     function ($scope, $id, appManager, rpTracker, $routeParams, keychain, $network, $timeout)  {
-	   
-	    $scope.loading = false;
 
       if (!$id.loginStatus) return $id.goId();
 
@@ -38,7 +36,6 @@ BrlTab.prototype.angular = function (module)
 
       $scope.toggleInstructions = function() {
          $scope.showInstructions = !$scope.showInstructions;
-         store.set('show_brl_instructions', $scope.showInstructions);
       }
 
       $scope.create_trust_line = function () {
@@ -115,13 +112,6 @@ BrlTab.prototype.angular = function (module)
           if ($scope.tx_result=="cleared"){
             $scope.brlConnected = true;
             $scope.showInstructions = true;
-
-            // Save in local storage
-            if (!store.disabled) {
-              store.set('brl_connected', $scope.brlConnected);
-              store.set('show_brl_instructions', $scope.showInstructions);
-            }
-
           }
           console.log($scope.tx_result);
         }
