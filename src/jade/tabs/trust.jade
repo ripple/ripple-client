@@ -268,7 +268,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
           .col-sm-1.actions
             button.btn.btn-default.btn-sm(href="", ng-click="edit_line()", l10n) edit
 
-        .currencyBox(ng-repeat="entry in accountLines", ng-class="'currency-' + (entry.components[0].currency | lowercase)")
+        .currencyBox(ng-repeat="entry in accountLines", ng-class="'currency-' + (entry.components[0].balance._currency._iso_code | lowercase)")
           .row.currencyTitle
             .col-xs-12
               i(class="icon fa fa-money", ng-class="'fa-' + (entry.components[0].currency | lowercase)")
