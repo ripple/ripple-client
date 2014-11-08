@@ -27,7 +27,7 @@ describe('Header Navigation - dropdown menu', function() {
 
 		$('.mainnav .settings').click()
 			.then(function(){
-				$('.mainnav .settings .dropdown-menu li:nth-child(3)').click()
+				$('.mainnav .settings .dropdown-menu s.security').click()
 				.then(function(){
 						expect(browser.getCurrentUrl()).to.eventually.contain('/security').and.notify(done);
 				});
@@ -38,7 +38,7 @@ describe('Header Navigation - dropdown menu', function() {
 
 		$('.mainnav .settings').click()
 			.then(function(){
-				$('.mainnav .settings .dropdown-menu li:nth-child(1)').click()
+				$('.mainnav .settings .dropdown-menu a.account').click()
 					.then(function(){
 						expect(browser.getCurrentUrl()).to.eventually.contain('/account/public').and.notify(done);
 					});
@@ -49,7 +49,7 @@ describe('Header Navigation - dropdown menu', function() {
 
 		$('.mainnav .settings').click()
 			.then(function(){
-				$('.mainnav .settings .dropdown-menu li:nth-child(5)').click()
+				$('.mainnav .settings .dropdown-menu a.logout').click()
 					.then(function(){
 						expect(browser.getCurrentUrl()).to.eventually.contain('/login').and.notify(done);
 					});
