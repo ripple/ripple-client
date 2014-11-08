@@ -68,7 +68,7 @@ module.factory('rpDomainAlias', ['$q', '$rootScope', 'rpNetwork', 'rpRippleTxt',
 
     // If not, then get the alias
     else {
-      net.remote.request_account_info(address)
+      net.remote.requestAccountInfo({account: address})
         .on('success', function (data) {
           if (data.account_data.Domain) {
             $scope.$apply(function () {

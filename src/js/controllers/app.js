@@ -111,7 +111,7 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
     });
 
     // Ripple credit lines
-    remote.request_account_lines(data.account)
+    remote.requestAccountLines({account: data.account})
       .on('success', handleRippleLines)
       .on('error', handleRippleLinesError).request();
 
@@ -126,7 +126,7 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
       .on('error', handleAccountTxError).request();
 
     // Outstanding offers
-    remote.request_account_offers(data.account)
+    remote.requestAccountOffers({account: data.account})
       .on('success', handleOffers)
       .on('error', handleOffersError).request();
 
