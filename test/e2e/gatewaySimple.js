@@ -24,7 +24,7 @@ describe('gateway simple', function() {
   });
 
   it('should show gateways page', function(done) {
-    helperBrowser.waitForElementToDisplay(page.connectGatewayButton).then(function() { done(); });
+    helperBrowser.waitForElementToDisplay(page.connectGatewayButton).then(done);
     // hack. check if trust line advanced settings is on - than gatewayAdvanced 
     // $('#trust_counterparty').evaluate('advanced_feature_switch').then(function(on) {
     //   if (on) {
@@ -43,7 +43,7 @@ describe('gateway simple', function() {
   });
 
   it('should connect a gateway using Ripple address', function(done) {
-    page.connectGateway(config.gateway.address, 'USD', config.user.password).then(function() { done(); });
+    page.connectGateway(config.gateway.address, 'USD', config.user.password).then(done);
   });
 
   it('should show gateway', function(done) {
@@ -53,7 +53,7 @@ describe('gateway simple', function() {
   });
 
   it('should remove a gateway', function(done) {
-    page.removeGateway('USD').then(function() { done(); });
+    page.removeGateway('USD').then(done);
   });
 
   it('should show add gateway user controls (by name)', function(done) {
@@ -65,7 +65,7 @@ describe('gateway simple', function() {
   });
 
   it('should connect a gateway using Ripple name', function(done) {
-    page.connectGateway(config.gateway.name, 'USD', config.user.password).then(function() { done(); });
+    page.connectGateway(config.gateway.name, 'USD', config.user.password).then(done);
   });
 
   it('should show USD gateway', function(done) {
@@ -74,7 +74,7 @@ describe('gateway simple', function() {
   });
 
   it('should remove a USD gateway', function(done) {
-    page.removeGateway('USD').then(function() { done(); });
+    page.removeGateway('USD').then(done);
   });
 
   it('should show add gateway user controls (fake currency)', function(done) {
@@ -86,7 +86,7 @@ describe('gateway simple', function() {
   });
 
   it('should connect a gateway with fake currency', function(done) {
-    page.connectGateway(config.gateway.address, config.gateway.fakeCurrency, config.user.password).then(function() { done(); });
+    page.connectGateway(config.gateway.address, config.gateway.fakeCurrency, config.user.password).then(done);
   });
 
   it('should show gateway with fake currency', function(done) {
@@ -95,7 +95,7 @@ describe('gateway simple', function() {
   });
 
   it('should remove a fake currency gateway', function(done) {
-    page.removeGateway(config.gateway.fakeCurrency).then(function() { done(); });
+    page.removeGateway(config.gateway.fakeCurrency).then(done);
   });
 
 });
