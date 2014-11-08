@@ -3,14 +3,14 @@
 var chai = require('chai');
 var chaiAsPromised = require('chai-as-promised');
 var config = require('./protractor.conf.js').config;
-
+var helpers = require('./utils/forms');
 chai.use(chaiAsPromised);
 var expect = chai.expect;
 
 browser.manage().timeouts().setScriptTimeout(20000);
 
 describe('Header Navigation - dropdown menu', function() {
-
+    helpers.login(config.user.username, config.user.password);
 	beforeEach(function(){
 		browser.get('#/balance');
 	});
@@ -27,7 +27,7 @@ describe('Header Navigation - dropdown menu', function() {
 
 		$('.mainnav .settings').click()
 			.then(function(){
-				$('.mainnav .settings .dropdown-menu s.security').click()
+				$('.mainnav .settings .dropdown-menu a.security').click()
 				.then(function(){
 						expect(browser.getCurrentUrl()).to.eventually.contain('/security').and.notify(done);
 				});
