@@ -1,16 +1,19 @@
 section.col-xs-12.content(ng-controller="ContactsCtrl")
-  div(ng-show="!loadingAccount && !account.Balance && loadState.account && connected")
+  div(ng-show='debug') This page is not available in debug mode
+
+  div(ng-show="!loadingAccount && !account.Balance && loadState.account && connected && !debug")
     include banner/unfunded
-  .row.row-padding-small.head.hidden-xs
-    .col-xs-3.col-sm-3.col-md-3(l10n) Contact
-    .col-xs-6.col-sm-5.col-md-7(l10n) Ripple name or address
-    .col-xs-12.col-sm-4.col-md-2.text-right
-      a.btn.btn-block.btn-success.btn-sm.sign(ng-click='toggle_form()', ng-disabled='addform_visible', l10n) Add contact
+  div(ng-hide='debug')
+    .row.row-padding-small.head.hidden-xs
+      .col-xs-3.col-sm-3.col-md-3(l10n) Contact
+      .col-xs-6.col-sm-5.col-md-7(l10n) Ripple name or address
+      .col-xs-12.col-sm-4.col-md-2.text-right
+        a.btn.btn-block.btn-success.btn-sm.sign(ng-click='toggle_form()', ng-disabled='addform_visible', l10n) Add contact
   hr
-  .row.head.visible-xs
+  .row.head.visible-xs(ng-show='!debug')
     .col-xs-12.col-sm-2
       a.btn.btn-success.btn-block.btn-sm.sign.custom-btn(ng-click='toggle_form()', ng-disabled='addform_visible', l10n) Add contact
-  .row.row-padding-small.addForm(ng-show='addform_visible')
+  .row.row-padding-small.addForm(ng-show='addform_visible && !debug')
     .col-xs-12.col-md-6.col-sm-8
       form#addForm(name="addForm", ng-submit="create()", rp-unique-scope)
         .form-group
@@ -67,7 +70,7 @@ section.col-xs-12.content(ng-controller="ContactsCtrl")
             button.btn.btn-default.btn-block.custom-btn.btn-cancel(type='button', ng-click='addform_visible = false', l10n) cancel
 
   .row.row-padding-small.contact(ng-repeat="entry in userBlob.data.contacts"
-    ng-class="{editing: editing}", ng-controller="ContactRowCtrl")
+    ng-class="{editing: editing}", ng-controller="ContactRowCtrl", ng-show='!debug')
     .col-xs-3.col-md-3.col-sm-3(ng-hide='editing')
       span.name(ng-hide='editing') {{entry.name}}
     .col-xs-12.col-sm-6.col-md-6(ng-hide='editing')
@@ -138,5 +141,5 @@ section.col-xs-12.content(ng-controller="ContactsCtrl")
                   a.btn.btn-danger.btn-block(href="", l10n) Delete
             .col-xs-4.col-md-4(ng-show='editing')
               button.editing.btn-block.btn.btn-default.btn-sm.btn-cancel(ng-click='cancel($index)', l10n) cancel        
-  div(ng-hide="userBlob.data.contacts.length", l10n) You don't have any contacts yet.
+  div(ng-hide="userBlob.data.contacts.length || debug", l10n) You don't have any contacts yet.
     |  Click on 'Add contact' button in the top right corner to add a new contact.

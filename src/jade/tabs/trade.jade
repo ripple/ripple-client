@@ -10,12 +10,15 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
     div(id="section_loader")
       img(src="img/sections.png", class="loader")
       div(class="loading_sections", l10n) Loading Order Book
+
+  div(ng-show='debug') This page is not available in debug mode
+
   //- Connected
 
-  div(ng-show="!loadingAccount && !account.Balance && loadState.account && connected")
+  div(ng-show="!loadingAccount && !account.Balance && loadState.account && connected && !debug")
     include banner/unfunded
 
-  .row(ng-show='connected')
+  .row(ng-show='connected && !debug')
     .widgets.hidden-xs.col-sm-4.col-md-4.col-lg-3
       include widgets/balances
     .col-xs-12.col-sm-8.col-md-8.col-lg-9

@@ -28,24 +28,58 @@ PretendTab.prototype.angular = function (module)
 
     if (!$id.loginStatus) return $id.goId();
 
+    $scope.pretend = {
+      pretendAs : '',
+      address : ''
+    }
+
+    if ($rootScope.original_contacts) {
+        $scope.pretend_query = webutil.queryFromContacts($rootScope.original_contacts);
+    }
+
+    $scope.$watch('userBlob.data.contacts', function (contacts) {
+      if (contacts && contacts.length > 0) {
+        $scope.pretend_query = webutil.queryFromContacts(contacts);
+        $rootScope.original_contacts = contacts;
+      }
+    }, true);
+
+    $scope.$watch('pretend.pretendAs', function(rec){
+        $scope.resolveInput();
+    });
+
+    $scope.resolveInput = function () {
+      var contact = webutil.getContact($rootScope.original_contacts, $scope.pretend.pretendAs);
+      console.log('got contact ' + contact);
+      var gotAddress;
+
+      if (contact) {
+        $scope.pretend.address = contact.address;
+        gotAddress = $q.when(contact.address);
+      }
+      else if (webutil.isRippleName($scope.pretend.pretendAs)) {
+        var d = $q.defer();
+        gotAddress = d.promise;
+        ripple.AuthInfo.get(Options.domain, $scope.pretend.pretendAs, function(err, response) {
+          $scope.pretend.address = response.address;
+          d.resolve(response.address);
+        });
+      }
+      else {
+        gotAddress = $q.when($scope.pretend.pretendAs);
+        $scope.pretend.address = $scope.pretend.pretendAs;
+        $scope.address = $scope.pretend.pretendAs;
+      }
+      return gotAddress;
+    }
+
     /**
      * 
      */
     $scope.pretend = function () {
-      console.log('pretended as ' + $scope.pretendAs);
-      var gotAddress;
-      var id = $id;
-      // Trying to preted to a Ripple name
-      var rippleName = webutil.isRippleName($scope.pretendAs);
-      if (rippleName) {
-        var d = $q.defer();
-        gotAddress = d.promise;
-        ripple.AuthInfo.get(Options.domain, $scope.pretendAs, function(err, response) {
-          d.resolve(response.address);
-        });
-      } else {
-        gotAddress = $q.when($scope.pretendAs);
-      }
+      console.log('debug as ' + $scope.pretend.pretendAs);
+
+      var gotAddress = $scope.resolveInput();
 
       gotAddress.then(function(address) {
         $id.setAccount(address);
@@ -74,7 +108,7 @@ PretendTab.prototype.angular = function (module)
           console.log(err);
         });
         $rootScope.address = address;
-        $rootScope.pretended = true;
+        $rootScope.debug = true;
       });
       
     };
