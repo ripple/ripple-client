@@ -41,6 +41,7 @@ AdvancedTab.prototype.angular = function(module)
     $scope.editMaxNetworkFee = false;
     $scope.editAcctOptions = false;
     $scope.max_tx_network_fee_human = ripple.Amount.from_json($scope.options.max_tx_network_fee).to_human();
+    $scope.advancedFeatureSwitchChanged = false;
 
     $scope.advanced_feature_switch = Options.advanced_feature_switch;
 
@@ -54,6 +55,9 @@ AdvancedTab.prototype.angular = function(module)
 
       // Reload
       location.reload();
+
+      // Notify the user
+      $scope.saveBlobSuccess = true;
     };
 
     $scope.saveBridge = function () {
@@ -66,6 +70,9 @@ AdvancedTab.prototype.angular = function(module)
 
       // Reload
       location.reload();
+
+      // Notify the user
+      $scope.saveBridgeSuccess = true;
     };
 
     $scope.saveMaxNetworkFee = function () {
@@ -79,9 +86,18 @@ AdvancedTab.prototype.angular = function(module)
 
       // Reload
       location.reload();
+
+      // Notify the user
+      $scope.saveMaxNetworkFeeSuccess = true;
     };
 
     $scope.saveAcctOptions = function () {
+      //ignore it if we are not going to change anything
+      if (!$scope.advancedFeatureSwitchChanged) {
+        return;
+      }
+      $scope.advancedFeatureSwitchChanged = false;
+
       if (!store.disabled) {
         // Save in local storage
         store.set('ripple_settings', JSON.stringify($scope.options));
@@ -91,6 +107,9 @@ AdvancedTab.prototype.angular = function(module)
 
       // Reload
       location.reload();
+
+      // Notify the user
+      $scope.saveAcctOptionsSuccess = true;
     };
 
     $scope.deleteBlob = function () {
@@ -140,13 +159,12 @@ AdvancedTab.prototype.angular = function(module)
 
       // Set editing to true
       $scope.editing = true;
-
     };
 
   }]);
 
-  module.controller('ServerRowCtrl', ['$scope',
-    function ($scope) {
+  module.controller('ServerRowCtrl', ['$scope', '$rootScope',
+    function ($scope, $rootScope) {
       $scope.editing = $scope.server.isEmptyServer;
 
         // Delete the server
@@ -157,6 +175,9 @@ AdvancedTab.prototype.angular = function(module)
         if (!store.disabled) {
           store.set('ripple_settings', JSON.stringify($scope.options));
         }
+
+        // Notify the user
+        $rootScope.removeServerSuccess = true;
       };
 
       $scope.hasRemove = function () {
@@ -188,7 +209,10 @@ AdvancedTab.prototype.angular = function(module)
         }
 
         // Reload
-      location.reload();
+        location.reload();
+
+        // Notify the user
+        $rootScope.saveServerSuccess = true;
       };
     }
   ]);
