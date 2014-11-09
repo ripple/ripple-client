@@ -74,6 +74,9 @@ ContactsTab.prototype.angular = function (module) {
 
       // Clear form
       $scope.reset_form();
+
+      // Notify the user
+      $scope.createContactSuccess = true;
     };
   }]);
 
@@ -126,6 +129,9 @@ ContactsTab.prototype.angular = function (module) {
           }
 
           $scope.editing = false;
+
+          // Notify the user
+          $rootScope.updateContactSuccess = true;
         }
       };
 
@@ -142,6 +148,10 @@ ContactsTab.prototype.angular = function (module) {
         } else {
           $scope.userBlob.filter('/contacts', 'name', $scope.entry.name,
                                  'unset', '');
+
+          // Notify the user
+          $rootScope.removeContactSuccess = true;
+
         }
       };
 
