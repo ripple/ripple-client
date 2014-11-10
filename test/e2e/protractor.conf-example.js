@@ -22,6 +22,13 @@ exports.config = {
     password: ''
   },
 
+  // gateway test
+  gateway : {
+    address: 'rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q',
+    name: '~snapswap',
+    fakeCurrency: '111'
+  },
+  
   // Ripple address to send xrp to
   counterparty: ''
 };
