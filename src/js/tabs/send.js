@@ -1125,32 +1125,6 @@ SendTab.prototype.angular = function (module)
     }
   }]);
 
-  /**
-   * Contact name and address uniqueness validator
-   */
-  // TODO move to global directives
-  module.directive('unique', function() {
-    return {
-      restrict: 'A',
-      require: '?ngModel',
-      link: function ($scope, elm, attr, ctrl) {
-        if (!ctrl) return;
-
-        var validator = function(value) {
-          var unique = !webutil.getContact($scope.userBlob.data.contacts,value);
-          ctrl.$setValidity('unique', unique);
-          if (unique) return value;
-        };
-
-        ctrl.$formatters.push(validator);
-        ctrl.$parsers.unshift(validator);
-
-        attr.$observe('unique', function() {
-          validator(ctrl.$viewValue);
-        });
-      }
-    };
-  });
 };
 
 module.exports = SendTab;

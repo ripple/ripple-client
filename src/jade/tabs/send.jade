@@ -300,10 +300,14 @@ section.col-xs-12.content(ng-controller='SendCtrl')
               label(for='save_address_name', l10n) Name this user
               input.form-control#contact_name(
               name='save_address_name', type="text"
-              ng-model='saveAddressName', unique, required
+              ng-model='saveAddressName', required
+              rp-unique='userBlob.data.contacts'
+              rp-unique-field='name'
               rp-autofill='$routeParams.name')
-              .error(ng-show='saveAddressForm.save_address_name.$error.unique', l10n)
-                | You already have a contact with the same name.
+              .errorGroup(rp-errors='save_address_name')
+                .error(rp-error-on='required', l10n) Please enter a contact.
+                .error(rp-error-on='rpUnique', l10n)
+                  | This contact already exists, please choose another name.
               div
                 button.btn.btn-success(type='submit', ng-disabled='addressSaving')
                   span(ng-show='addressSaving', l10n) Saving...
@@ -332,10 +336,14 @@ section.col-xs-12.content(ng-controller='SendCtrl')
               label(for='save_address_name', l10n) Name this user
               input.form-control#contact_name(
               name='save_address_name', type="text"
-              ng-model='saveAddressName', unique, required
+              ng-model='saveAddressName', required
+              rp-unique='userBlob.data.contacts'
+              rp-unique-field='name'
               rp-autofill='$routeParams.name')
-              .error(ng-show='saveAddressForm.save_address_name.$error.unique', l10n)
-                | You already have a contact with the same name.
+              .errorGroup(rp-errors='save_address_name')
+                .error(rp-error-on='required', l10n) Please enter a contact.
+                .error(rp-error-on='rpUnique', l10n)
+                  | This contact already exists, please choose another name.
               div.row.add-contact-btns-wrapper
                 div.col-md-3.col-sm-4.col-xs-8
                   button.btn.btn-success.btn-block(type='submit'

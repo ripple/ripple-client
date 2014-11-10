@@ -133,10 +133,15 @@ ContactsTab.prototype.angular = function (module) {
        *
        * @param index
        */
-      $scope.remove = function (name) {
+      $scope.remove = function (index) {
         // Update blob
-        $scope.userBlob.filter('/contacts', 'name', $scope.entry.name,
-                               'unset', '');
+        if (!$scope.entry.name) {
+          // there was bug that allowed to create contact without name
+          $scope.userBlob.unset('/contacts/' + index);
+        } else {
+          $scope.userBlob.filter('/contacts', 'name', $scope.entry.name,
+                                 'unset', '');
+        }
       };
 
       /**
