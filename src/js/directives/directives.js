@@ -408,7 +408,6 @@ module.directive('rpAddressPopover', ['$timeout', '$interpolate', 'rpId', functi
           tip.bind('mouseleave', onPopoverLeave);
         }
         // XXX Set title to identity
-        console.log(element);
 
         element.popover('destroy');
         var content = 'Ripple address ' + identity;
