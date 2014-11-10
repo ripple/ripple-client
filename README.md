@@ -18,13 +18,11 @@ Questions? Contact us as support@ripple.com.
 
 Install Node.js, Grunt, Git and Python 2 if you haven't already.
 
-Install bower by running `bower install --allow-root`.
+Install bower by running `sudo bower install --allow-root`.
 
 Fork and clone the ripple-client repository and run `npm install`.
 
 Create a new config.js file and copy/paste from config-example.js into the same directory, located under 'src/js'.
-
-Likewise, create a new config.json file by copying config-example.json in the same directory, located under the repo root directory.
 
 ### Build
 
