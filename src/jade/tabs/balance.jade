@@ -26,11 +26,11 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
               select.currency(rp-flat-select, ng-model='selectedValueMetric'
                 ng-change='changeMetric(this)'
                 ng-options='metric.code as metric.text for metric in valueMetrics')
-            div(id="balance_loader", ng-hide="exchangeRatesNonempty")
-              img(src="img/sections.png", class="loader")
-              div(class="loading_sections", l10n) Loading Balance Totals
             .lbl(ng-show="hasNegative")
               .desc(l10n) (excluding negative balances)
+          div(id="balance_loader", ng-hide="exchangeRatesNonempty")
+            img(src="img/sections.png", class="loader")
+            div(class="loading_sections", l10n) Loading Balance Totals
           //- .trendbox.col-xs-4
           //-   .lbl(l10n) Trend
           //-     .desc(l10n) Compared to the past estimated total balance
