@@ -59,17 +59,20 @@ section.col-xs-12.content(ng-controller='UsdCtrl')
         .row
           .col-sm-4
             h5(l10n) Select your bank
-            select.form-control#bank(name='bank', ng-model="bank", required)
-              option(value="", disabled, selected, l10n) Select your bank
-              option(value="BOFAUS") Bank of America
-              option(value="HIBKUS") Capital One
-              option(value="INGBUS") Capital One 360
-              option(value="CHASUS") Chase
-              option(value="CITIUS") Citibank
-              option(value="PNCCUS") PNC
-              option(value="J447US") TD Bank
-              option(value="USBKUS") US Bank
-              option(value="PNBPUS") Wells Fargo
+            div.select-dropdown-wrapper
+              select.form-control#bank(name='bank', ng-model="bank", required)
+                option(value="", disabled, selected, l10n) Select your bank
+                option(value="BOFAUS") Bank of America
+                option(value="HIBKUS") Capital One
+                option(value="INGBUS") Capital One 360
+                option(value="CHASUS") Chase
+                option(value="CITIUS") Citibank
+                option(value="PNCCUS") PNC
+                option(value="J447US") TD Bank
+                option(value="USBKUS") US Bank
+                option(value="PNBPUS") Wells Fargo
+              span.dropdown-arrow-wrapper 
+                i.fa.fa-caret-down
 
         .row
           .col-xs-12.col-md-12.col-lg-12
