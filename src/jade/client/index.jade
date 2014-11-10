@@ -60,18 +60,28 @@ div#wrapper
       div(scope="root", rp-jade-replace="client/status.jade")
 
     .migrate-attention(l10n)
-      p(l10n) This client is deprecated. New users should sign up for&#32;
-        a(l10n-inc, href="https://www.rippletrade.com") Ripple Trade
-        | .
-      p(l10n) Existing users, please migrate to&#32;
+      p(l10n) This site is deprecated. New sign-ups are no longer allowed. New users should sign up for&#32;
         a(l10n-inc, href="https://www.rippletrade.com") Ripple Trade&#32;
-        | for:
+        | or use the&#32;
+        a(l10n-inc, href="https://download.ripple.com") downloadable client.
+      p(l10n) Migrate to&#32;
+        a(l10n-inc, href="https://www.rippletrade.com") Ripple Trade&#32;
+        | if you:
       ul
-        li(l10n) More features
-        li(l10n) Better account security (two-factor authentication)
+        li(l10n) Want to use the latest and greatest trading features.
+        li(l10n) Want better account security (two-factor authentication).
         li(l10n) Migration is easy and takes less than a minute. Migrate&#32;
           a(l10n-inc, href="https://www.rippletrade.com/#/migrate") here
           | .
+      p(l10n) Use the &#32; 
+          a(l10n-inc, href="https://download.ripple.com") downloadable client 
+          | if you:
+      ul
+        li(l10n) Want to create a self-hosted wallet (commonly known as a "cold storage wallet"). Only your computer will have the login info and your wallet will be as safe as your physical computer.
+        li(l10n) Don't want to have access to your account from other computers.
+        li(l10n) The latest downloadable client is&#32;
+          a(l10n-inc, href="https://download.ripple.com") here
+          | . You need your secret key to create an account.
       //- | Ripple.com/client will be deprecated. Please migrate your account to&#32;
       //- a(l10n-inc, href="https://www.rippletrade.com/#/migrate") Ripple Trade&#32;
       //- | or use the&#32;
