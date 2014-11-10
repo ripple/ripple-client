@@ -18,6 +18,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-jade-l10n-extractor');
   grunt.loadNpmTasks('grunt-node-webkit-builder');
   grunt.loadNpmTasks('grunt-bower-task');
+  grunt.loadNpmTasks('grunt-shell');
 
   // Ripple client dependencies
   var deps = ["deps/js/jquery/jquery.js",
@@ -117,6 +118,17 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     meta: {},
+    shell: {
+      options: {
+        stdout: true,
+        failOnError: true
+      },
+      startdevserver: {
+        command:
+          process.platform === 'darwin' ? 'sudo node ./scripts/web-server.js'
+                                        : 'node ./scripts/web-server.js'
+      },
+    },
     recess: {
       web: {
         src: ['src/less/ripple/web.less'],
@@ -125,13 +137,6 @@ module.exports = function(grunt) {
           compile: true
         }
       },
-      desktop: {
-        src: ['src/less/ripple/desktop.less'],
-        dest: 'build/dist/ripple-desktop.css',
-        options: {
-          compile: true
-        }
-      }
     },
     concat: {
       deps: {
@@ -210,28 +215,6 @@ module.exports = function(grunt) {
             VERSION: "<%= meta.version %>"
           }
         }
-      },
-      desktop: {
-        src: 'index.html',
-        dest: 'build/dist/index_desktop.html',
-        options: {
-          context: {
-            MODE: "release",
-            TARGET: "desktop",
-            VERSION: "<%= meta.version %>"
-          }
-        }
-      },
-      desktop_debug: {
-        src: 'index.html',
-        dest: 'build/dist/index_desktop_debug.html',
-        options: {
-          context: {
-            MODE: "debug",
-            TARGET: "desktop",
-            VERSION: "<%= meta.version %>"
-          }
-        }
       }
     },
     copy: {
@@ -245,32 +228,6 @@ module.exports = function(grunt) {
           {expand: true, src: ['deps/js/modernizr*.js'], dest: 'build/bundle/web'},
           {expand: true, src: ['deps/js/mixpanel.min.js'], dest: 'build/bundle/web'},
           {src: 'config-example.js', dest: 'build/bundle/web/config-example.js'}
-        ]
-      },
-      nw_desktop: {
-        files: [
-          {expand: true, src: ['build/dist/*.js'], dest: 'build/bundle/nw-desktop'},
-          {expand: true, src: ['build/dist/*.css'], dest: 'build/bundle/nw-desktop'},
-          {expand: true, src: ['fonts/*'], dest: 'build/bundle/nw-desktop'},
-          {expand: true, src: ['img/**'], dest: 'build/bundle/nw-desktop'},
-          {expand: true, src: ['deps/js/modernizr*.js'], dest: 'build/bundle/nw-desktop'},
-          {expand: true, src: ['deps/js/mixpanel.min.js'], dest: 'build/bundle/nw-desktop'},
-          {src: 'build/dist/index_desktop.html', dest: 'build/bundle/nw-desktop/index.html'},
-          {src: 'res/nw/package_desktop.json', dest: 'build/bundle/nw-desktop/package.json'},
-          {src: 'config-example.js', dest: 'build/bundle/nw-desktop/config.js'}
-        ]
-      },
-      nw_desktop_debug: {
-        files: [
-          {expand: true, src: ['build/dist/*.js'], dest: 'build/bundle/nw-desktop-debug'},
-          {expand: true, src: ['build/dist/*.css'], dest: 'build/bundle/nw-desktop-debug'},
-          {expand: true, src: ['fonts/*'], dest: 'build/bundle/nw-desktop-debug'},
-          {expand: true, src: ['img/**'], dest: 'build/bundle/nw-desktop-debug'},
-          {expand: true, src: ['deps/js/modernizr*.js'], dest: 'build/bundle/nw-desktop-debug'},
-          {expand: true, src: ['deps/js/mixpanel.min.js'], dest: 'build/bundle/nw-desktop-debug'},
-          {src: 'build/dist/index_desktop_debug.html', dest: 'build/bundle/nw-desktop-debug/index.html'},
-          {src: 'res/nw/package_desktop_debug.json', dest: 'build/bundle/nw-desktop-debug/package.json'},
-          {src: 'config-example.js', dest: 'build/bundle/nw-desktop-debug/config.js'}
         ]
       }
     },
@@ -337,20 +294,6 @@ module.exports = function(grunt) {
         },
         files: {
           src: 'test/e2e/*.js'
-        }
-      }
-    },
-    nodewebkit: {
-      desktop: {
-        options: {
-          build_dir: 'build/pkg/nw/',
-          win: true,
-          mac: true,
-          linux32: true,
-          linux64: true
-        },
-        files: {
-          src: 'build/bundle/nw-desktop/**/*'
         }
       }
     },
@@ -469,6 +412,9 @@ module.exports = function(grunt) {
   grunt.registerTask('dist', ['default',
                               'copy:nw_desktop', 'copy:nw_desktop_debug',
                               'nodewebkit:desktop']);
+
+  // Node.js server to server built files
+  grunt.registerTask('devserver', ['shell:startdevserver']);
 
   // End-to-end tests
   grunt.registerTask('e2e', ['connect:debug', 'mochaProtractor:local']);
