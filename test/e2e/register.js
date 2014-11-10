@@ -250,9 +250,11 @@ describe('secret field', function() {
 
 describe('register button', function() {
 
+  var username = "e2e-test-reg-" + Math.floor(Math.random() * 1000000);
+
   before(function(){
     browser.get('#/register');
-    $(".auth-form-wrapper #register_username").sendKeys(config.user.username + "-new");
+    $(".auth-form-wrapper #register_username").sendKeys(username);
     $(".auth-form-wrapper #register_password").sendKeys(config.user.password);
     $(".auth-form-wrapper #register_password2").sendKeys(config.user.password);
     $(".auth-form-wrapper #register_email").sendKeys("test@example.com");
@@ -267,6 +269,17 @@ describe('register button', function() {
     expect($(".submit-btn-container button").getAttribute('disabled'))
       .to.eventually.not.equal('disabled')
       .and.notify(done);
+  });
+
+  it('click should register the user', function(done) {
+    $(".submit-btn-container button").click()
+    .then(function () {
+      var message = $("form[name='resendForm']");
+      helperBrowser.waitForElement(message);
+      expect(message.isPresent())
+        .to.eventually.be.true
+        .and.notify(done);
+    });
   });
 
 });
