@@ -94,6 +94,7 @@ var tabdefs = [
   require('../tabs/privacypolicy'),
   require('../tabs/twofa'),
   require('../tabs/jpy'),
+  require('../tabs/mxn'),
   require('../tabs/404'),
   require('../tabs/brl'),
 
