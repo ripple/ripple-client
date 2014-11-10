@@ -193,6 +193,8 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                           .input-group
                             input.form-control(name='amount', type='text'
                             ng-model='order[type].first', ng-change='calc_second(type)'
+                            rp-autofill='$routeParams.type == type && $routeParams.amount'
+                            rp-autofill-amount
                             rp-amount
                             rp-amount-positive
                             rp-amount-xrp-limit
@@ -218,6 +220,8 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                           .input-group
                             input.form-control(name='price', type='text'
                             ng-model='order[type].price', ng-change='calc_second(type)'
+                            rp-autofill='$routeParams.type == type && $routeParams.price'
+                            rp-autofill-amount
                             rp-amount
                             rp-amount-positive
                             rp-amount-xrp-limit
@@ -243,6 +247,8 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                           .input-group
                             input.form-control(name='value', type='text'
                             ng-model='order[type].second', ng-change='calc_first(type)'
+                            rp-autofill='$routeParams.type == type && $routeParams.max'
+                            rp-autofill-amount
                             rp-amount
                             rp-amount-positive
                             rp-amount-xrp-limit
