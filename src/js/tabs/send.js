@@ -355,7 +355,7 @@ SendTab.prototype.angular = function (module)
         // Check allowed currencies for this address
         var requestedRecipientAddress = send.recipient_address;
         send.currency_choices_constraints.accountLines = 'pending';
-        $network.remote.request_account_currencies(requestedRecipientAddress)
+        $network.remote.requestAccountCurrencies({account: requestedRecipientAddress})
           .on('success', function (data) {
             $scope.$apply(function () {
               if (data.receive_currencies &&

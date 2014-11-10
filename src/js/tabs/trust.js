@@ -102,7 +102,7 @@ TrustTab.prototype.angular = function (module)
       $scope.verifying = true;
       $scope.error_account_reserve = false;
       // test if account is valid
-      $network.remote.request_account_info($scope.counterparty_address)
+      $network.remote.requestAccountInfo({account: $scope.counterparty_address})
         // if account is valid then just to confirm page
         .on('success', function (m){
           $scope.$apply(function(){
