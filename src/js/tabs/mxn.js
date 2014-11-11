@@ -20,7 +20,7 @@ MxnTab.prototype.generateHtml = function ()
 
 MxnTab.prototype.angular = function (module)
 {
-  module.controller('MxnCtrl', ['$rootScope', 'rpId', 'rpAppManager', 'rpTracker', '$routeParams', 'rpKeychain', 'rpNetwork', '$timeout',
+  module.controller('MxnCtrl', ['$scope', 'rpId', 'rpAppManager', 'rpTracker', '$routeParams', 'rpKeychain', 'rpNetwork', '$timeout',
     function ($scope, $id, appManager, rpTracker, $routeParams, keychain, $network, $timeout) {
 
       $scope.$watch('lines', function () {

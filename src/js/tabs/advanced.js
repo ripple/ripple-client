@@ -20,8 +20,8 @@ AdvancedTab.prototype.generateHtml = function ()
 
 AdvancedTab.prototype.angular = function(module)
 {
-  module.controller('AdvancedCtrl', ['$scope', '$rootScope', 'rpId', 'rpKeychain',
-                                    function ($scope, $rootScope, $id, $keychain)
+  module.controller('AdvancedCtrl', ['$scope', 'rpId', 'rpKeychain',
+                                    function ($scope, $id, $keychain)
   {
     if (!$id.loginStatus) return $id.goId();
 

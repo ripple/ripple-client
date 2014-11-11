@@ -20,7 +20,7 @@ JpyTab.prototype.generateHtml = function ()
 
 JpyTab.prototype.angular = function (module)
 {
-  module.controller('JpyCtrl', ['$rootScope', 'rpId', 'rpAppManager', 'rpTracker', '$routeParams', 'rpKeychain', 'rpNetwork', '$timeout',
+  module.controller('JpyCtrl', ['$scope', 'rpId', 'rpAppManager', 'rpTracker', '$routeParams', 'rpKeychain', 'rpNetwork', '$timeout',
     function ($scope, $id, appManager, rpTracker, $routeParams, keychain, $network, $timeout) {
 
       if (!$id.loginStatus) return $id.goId();

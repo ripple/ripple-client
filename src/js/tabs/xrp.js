@@ -21,17 +21,13 @@ XrpTab.prototype.generateHtml = function ()
 
 XrpTab.prototype.angular = function (module)
 {
-  module.controller('XrpCtrl', ['$rootScope', 'rpId', 'rpAppManager', 'rpTracker', '$routeParams',
-                                     function ($scope, $id, appManager, rpTracker, $routeParams)
+  module.controller('XrpCtrl', ['$scope', 'rpId', function ($scope, $id)
   {
-
     $scope.accountLines = {};
     $scope.showComponent = [];
     $scope.fundPage = 'xrp';
 
     if (!$id.loginStatus) return $id.goId();
-
-
   }]);
 };
 
