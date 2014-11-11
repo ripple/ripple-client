@@ -131,9 +131,12 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                     .col-md-3.col-sm-4.col-xs-3(ng-init="amount = $routeParams.amount ? '' : 1000000000")
                       input.form-control.value#trust_amount(name='trust_amount'
                         type='number', step='any', ng-model='amount'
-                        ng-pattern='validation_pattern'
                         rp-autofill='$routeParams.amount'
                         rp-autofill-amount
+                        rp-amount
+                        rp-amount-positive
+                        rp-max-digits
+                        rp-amount-currency='{{amount}}'
                         rp-autofill-on='addform_visible = true')
                     .col-md-6.col-sm-6.col-xs-9
                       input.form-control.currency-field#trust_amount_currency(name='trust_amount_currency', type='text'
@@ -153,7 +156,10 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                         rp-not-xrp
                         required)
                   .errorGroup(rp-errors='trust_amount')
-                    .error(rp-error-on='required', l10n) Amount field is required
+                    .error(rp-error-on='required', l10n) Amount field is required.
+                    .error(rp-error-on='rpAmount', l10n) Not a valid amount.
+                    .error(rp-error-on='rpAmountPositive', l10n) Amount must be greater than zero.
+                    .error(rp-error-on='rpMaxDigits', l10n) Your amount has too many digits. The max number of digits is 16.
                   .errorGroup(rp-errors='trust_amount_currency')
                     .error(rp-error-on='rpNotXrp', l10n)
                       | XRP can be sent without extending trust. If you really want
@@ -352,7 +358,11 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                     .col-sm-1.col-md-1.inputPadding(l10n) Limit
                     .col-sm-2.col-md-3
                       input.form-control(name='limit', type='text'
-                        ng-model='trust.limit', ng-pattern='validation_pattern'
+                        ng-model='trust.limit'
+                        rp-amount
+                        rp-amount-positive
+                        rp-max-digits
+                        rp-amount-currency='{{trust.limit}}'
                         ng-disabled='trust.loading', required)
                     .col-sm-2.col-md-2.inputPadding
                       div.rippling-checkbox
