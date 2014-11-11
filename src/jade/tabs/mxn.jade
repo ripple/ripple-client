@@ -76,22 +76,19 @@ section.col-xs-12.content(ng-controller='MxnCtrl')
       .row(ng-show="showInstructions && mxnConnected")
         .instructions.col-md-10
           a.dismiss#hide(href="", ng-click="toggle_instructions()", l10n)  ×
-          p(l10n) What would a new customer need to know to sign up for your gateway?
-          .title(l10n) TO FUND/REDEEM MEXICAN PESO
+          .title(l10n) TO FUND/REDEEM MEXICAN PESO:
           .description(l10n) 
-            p(l10n) Register/Log-in at Bitso.com 
+            p(l10n) Register or login at&#32;
               a(href="https://bitso.com/", target="_blank") Bitso.com&#32;
-              | to initiate deposits and withdrawals. To register/verify, you will need:&#32;
+              | to initiate deposits and withdrawals.
             ul
-              li(l10n) A valid non-US state-issued ID (Passport, Driving License, etc)
+              li(l10n) A valid, non-US, state-issued ID (passport, driver&#39;s license, etc).
               li(l10n)
-                | A proof of address (utility bill etc) 
-                br 
-                | * Verification is required for Peso deposits/withdrawals
-              li(l10n) To fund Ripple, see below options. Once a balance is registered on Bitso, it can be transfered into Ripple using the buttons on the Bitso ‘Dashboard’
-              li(l10n) To withdraw from Ripple, click on the ‘Redeem from Ripple’ button on the Dashboard, and follow the instructions. Once redeemed, funds can be withdrawn via the options listed below.
+                | Proof of address (utility bill or other type of bill that has your address on it). Verification is required for peso deposits or withdrawals.
+              li(l10n) To fund your Ripple account, see the below options. Once a balance is deposited with Bitso, you can send it to your Ripple account using the Bitso Dashboard.
+              li(l10n) To withdraw from your Ripple account, click on the 'Redeem from Ripple' button on the Bitso Dashboard.
 
-          .title(l10n) DEPOSIT OPTIONS:
+          .title(l10n) DEPOSIT OPTIONS
           .description(l10n) 
             p(l10n) Bitso accepts deposits by the following methods:
             ul
@@ -101,7 +98,7 @@ section.col-xs-12.content(ng-controller='MxnCtrl')
               li(l10n) MXN Cash (at locations across Mexico)
               li(l10n) Pademobile wallet
 
-          .title(l10n) WITHDRAWAL OPTIONS:
+          .title(l10n) WITHDRAWAL OPTIONS
           .description(l10n) 
             p(l10n) Bitso offers withdrawals via the following methods:
             ul
