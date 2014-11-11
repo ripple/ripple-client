@@ -130,7 +130,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                   .row(ng-show="advanced_feature_switch")
                     .col-md-3.col-sm-4.col-xs-3(ng-init="amount = $routeParams.amount ? '' : 1000000000")
                       input.form-control.value#trust_amount(name='trust_amount'
-                        type='number', step='any', ng-model='amount'
+                        type='text', step='any', ng-model='amount'
                         rp-autofill='$routeParams.amount'
                         rp-autofill-amount
                         rp-amount
