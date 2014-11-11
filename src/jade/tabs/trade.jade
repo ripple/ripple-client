@@ -306,7 +306,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                     p.literal(l10n) You do not have sufficient funds to create an order.
 
                 //- 2. Confirmation
-                form.mode-confirm(ng-switch-when='confirm', ng-submit="order_confirmed(type)")
+                form.mode-confirm(ng-switch-when='confirm', ng-submit="order_confirmed(type, order.currency_pair)")
                   p.title.literal
                     span(l10n) You are about to create an order to
                       span(ng-show="type == 'buy'", l10n-inc)  buy
@@ -399,19 +399,34 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
           h3(l10n) My Orders
             span &#32;({{offersCount}})
             small.toggle(ng-hide="isEmpty(offers)", ng-click="hideOffers = !hideOffers") {{hideOffers ? "show" : "hide"}}
-          .listings.offers(ng-hide="hideOffers")
+          div#myOrdersMsg
+          .col-sm-12.alert.alert-info(ng-show="editOrder.replacing")
+            span(l10n) Modifying your order (Step 2 of 2: Placing new order) ...
+          .col-sm-12.alert.alert-success(ng-show="editOrder.replaceSuccess")
+            span(l10n) Your order has been modified.
+            a.dismiss.pull-right(href="", ng-click="editOrder.replaceSuccess = false", l10n) Hide
+          .col-sm-12.alert.alert-danger(ng-show="editOrder.replaceError && ! editOrder.exists")
+            span(l10n) Your order could not be modified and no longer exists. Error: {{order[editOrder.type].engine_result_message}}
+            a.dismiss.pull-right(href="", ng-click="editOrder.replaceError = false", l10n) Hide
+          .col-sm-12.alert.alert-danger(ng-show="cancelOrder.errorMsg && editOrder.cancelOrderGone")
+            span(l10n) Unable to cancel order as it no longer exists.
+            a.dismiss.pull-right(href="", ng-click="dismissCancelError()", l10n) Hide
+          .col-sm-12.alert.alert-success(ng-show="cancelOrder.success")
+            span(l10n) Your order has been cancelled.
+            a.dismiss.pull-right(href="", ng-click="cancelOrder.success = false", l10n) Hide
+          div#myOrders.listings.offers(ng-hide="hideOffers")
             .my
               div(ng-hide="isEmpty(offers)")
                 .row.head.hidden-xs
                   .col-sm-1.type(l10n) Type
-                  .col-sm-4(l10n) Currencies
+                  .col-sm-3(l10n) Currencies
                     span.issuer(l10n-inc)  (Issuer)
-                  .col-sm-2.price(l10n) Price
+                  .col-sm-3.price(l10n) Price
                   .col-sm-3.amount(l10n) Amount
-                  .col-sm-2.action(l10n) Action
-              .row(ng-repeat="entry in offers", ng-class="{cancelling: cancelling}")
+                  .col-sm-2.align-right(l10n) Action
+              .row(ng-repeat="entry in offers track by entry.seq", ng-class="{entry.cancelling: cancelling}", ng-hide="entry.isZero")
                 .col-sm-1.type(data-label="Type") {{entry.type | rpucfirst}}
-                .col-sm-4(data-label="Currencies")
+                .col-sm-3(data-label="Currencies")
                   a(href="",ng-click="goto_order_currency()")
                     span {{entry.first | rpcurrency}}
                     span.issuer(ng-show="entry.first.issuer().to_json()") &nbsp;(
@@ -429,27 +444,55 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                         rp-pretty-issuer-contacts="userBlob.data.contacts"
                       ) ???
                       | )
-                .col-sm-2.price.rpamount(data-label="Price") {{entry.second | rpamountratio:entry.first | rpamount:{precision: 5, min_precision: 5} }}
-                  span.currency  {{entry.second | rpcurrency}}
-                .col-sm-3.amount.rpamount(data-label="Amount") {{entry.first | rpamount: {abs_precision: 10} }}
-                  span.currency  {{entry.first | rpcurrency}}
-                .col-sm-2.action
-                  img(src="img/button-s.png", class="loader", ng-show="cancelling")
-                  rp-confirm(
-                    l10n-action-text="Are you sure you want to cancel this order?"
-                    l10n-action-button-text="Cancel order"
-                    action-button-css="btn btn-default btn-danger"
-                    action-function="cancel_order()"
-                    cancel-button-css="btn btn-default"
-                    l10n-cancel-button-text="Keep order")
-                    a.danger(href="", l10n) Cancel
-              .emptyMessage(ng-show="isEmpty(offers)")
-                p.literal(l10n="You haven't placed any orders.") You haven&#39;t placed any orders.
-          .alert.alert-danger(ng-show="cancelError")
-            span(l10n) Unable to cancel order.    
-            span(l10n)  Error: {{cancelError}}  
-            a.dismiss(href="", ng-click="dismissCancelError()", l10n)  hide
-            
+                div(ng-hide="editOrder.seq == entry.seq")
+                  .col-sm-3.price.rpamount(data-label="Price") {{entry.second | rpamountratio:entry.first | rpamount:{hard_precision: true, precision: 5, tiny_precision: 5, max_sig_digits: 20} }}
+                    span.currency  {{entry.second | rpcurrency}}
+                  .col-sm-3.amount.rpamount(data-label="Amount") {{entry.first | rpamount:{hard_precision: true, precision: 5, tiny_precision: 5} }}
+                    span.currency  {{entry.first | rpcurrency}}
+                  .col-sm-2.action
+                    img(src="img/button-s.png", class="loader", ng-show="entry.cancelling")
+                    //- Button icons are placeholders until UI design is finalized
+                    button.btn-link.btn-xs.pull-right.fa.fa-times-circle(
+                      id="deleteOrder", type="button", ng-click="cancel_order()", ng-disabled="order.cancelling || editOrder.replacing", l10n)
+                    button.btn-link.btn-xs.pull-right.fa.fa-pencil-square-o(ng-click="beginEditOrder()", ng-disabled="order.cancelling || editOrder.replacing", l10n)
+                div(ng-show="editOrder.seq == entry.seq")
+                  form(novalidate, name="editOrderForm", ng-show="editOrder.seq == entry.seq")
+                    .value-field.col-sm-3
+                      input.form-control(name="editPrice", type="text", ng-model="editOrder.newPrice", ng-readonly="editOrder.cancelling || editOrder.replacing",
+                        ng-class="{changed: editOrder.priceChanged}", ng-change="priceEdited()", required, rp-amount, rp-amount-positive)
+                    .value-field.col-sm-3
+                      input.form-control(name="editQuantity", type="text", ng-model="editOrder.newQuantity", ng-readonly="editOrder.cancelling || editOrder.replacing", ng-disabled="editOrder.quantityFilled",
+                        ng-class="{changed: editOrder.quantityChanged}", ng-change="quantityEdited()", required, rp-amount, rp-amount-positive)
+                    .col-sm-2.action
+                      img(src="img/button-s.png", class="loader", ng-show="(editOrder.cancelling || editOrder.replacing) && entry.seq == editOrder.seq")
+                      //- Button icons are placeholders until UI design is finalized
+                      button.btn-link.btn-xs.pull-right.fa.fa-angle-double-left(ng-click="cancelEditOrder()", ng-disabled="editOrder.cancelling || editOrder.replacing", l10n)
+                      rp-confirm(rp-show="fatFingerShouldWarn()"
+                        l10n-action-text="CAUTION: Your new order is far off from the current market price. <br/> Do you still want to replace your order ?"
+                        l10n-action-button-text="Confirm"
+                        action-button-css="btn btn-default btn-success"
+                        action-function="modifyOrder()"
+                        cancel-button-css="btn btn-default"
+                        l10n-cancel-button-text="&laquo; Back")
+                        button.btn-link.btn-xs.submit.pull-right.fa.fa-check-circle(
+                          type="button", type="submit", ng-click="prepareOrderModify()", 
+                          ng-disabled="editOrderForm.$invalid || ! editOrder.orderbookReady || editOrder.cancelling || editOrder.replacing || ! (editOrder.priceChanged || editOrder.quantityChanged) || editOrder.quantityFilled", l10n)
+                .col-sm-12.alert.alert-info(ng-show="entry.cancelling && ! editOrder.cancelling")
+                  span(l10n) Cancelling order ...
+                .col-sm-12.alert.alert-info(ng-show="editOrder.cancelling && editOrder.seq == entry.seq")
+                  span(l10n) Modifying your order (Step 1 of 2: Cancelling old order) ...
+                .col-sm-12.alert.alert-danger(ng-show="cancelOrder.errorMsg && cancelOrder.seq == entry.seq && ! editOrder.cancelOrderGone")
+                  span(l10n) Unable to cancel order. Error: {{cancelOrder.errorMsg}}
+                  a.dismiss.pull-right(href="", ng-click="dismissCancelError()", l10n) Hide
+                .col-sm-12.alert.alert-warning(ng-show="editOrder.quantityFilledWarn && editOrder.seq == entry.seq")
+                  span(l10n) Your order amount has been updated by Ripple. Please go back and edit again to modify this order.
+                  a.dismiss.pull-right(href="", ng-click="editOrder.quantityFilledWarn = false", l10n) Hide
+                .col-sm-12.alert.alert-danger(ng-show="editOrder.replaceError && editOrder.seq == entry.seq")
+                  span(l10n) Your order could not be modified. Error: {{order[editOrder.type].engine_result_message}}
+                  a.dismiss.pull-right(href="", ng-click="editOrder.replaceError = false", l10n) Hide
+            .emptyMessage(ng-show="isEmpty(offers) && ! editOrder.replacing")
+              p.literal(l10n="You haven't placed any orders.") You haven&#39;t placed any orders.
+
           h3
             span(l10n) Orderbook
             small.toggle(ng-click="hideOrderBook = !hideOrderBook")

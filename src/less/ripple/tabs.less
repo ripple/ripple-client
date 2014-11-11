@@ -2213,7 +2213,7 @@
         }
 
         & > div:last-child {
-          text-align: right;
+          //text-align: right;
           border-right: none;
         }
 
@@ -2238,14 +2238,56 @@
             content: " "attr(data-label);
           }
         }
+
+        .align-right {
+          text-align: right;
+        }
+
+        .btn-link {
+          padding-left: 0px;
+          padding-right: 0px;
+        }
+
+        .btn-link[disabled] {
+          text-decoration: none;
+          color: #999999;
+        }
+
+        .form-control {
+          height: 36px;
+          padding: 5px 10px;
+        }
+
+        .form-control.changed {
+          background-color: #fcf8e3;
+        }
+
+        .input-group {
+          margin-bottom: 10px;
+        }
+
+        .action {
+          padding-left: 0px;
+          padding-right: 0px;
+        }
       }
     }
 
     .emptyMessage {
       margin: 10px 0;
     }
+
+    .alert {
+      line-height: 1.428571429;
+      padding: 8px;
+      float: left;
+    }
   }
   
+  .alert {
+    line-height: 1;
+  }
+
   .alert-danger .dismiss {
     margin:0 5px;
     color:darken(@midred, 10%);
