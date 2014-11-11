@@ -7,7 +7,7 @@ section.col-xs-12.content(ng-controller='BrlCtrl')
       | You have to be online to see this screen
 
   //- Funding
-  div(ng-show="'web' === client && !loadingAccount && !account.Balance && loadState.account && connected")
+  div(ng-show="!loadingAccount && !account.Balance && loadState.account && connected")
     include banner/unfunded
 
   .row(ng-show='connected')
@@ -68,7 +68,7 @@ section.col-xs-12.content(ng-controller='BrlCtrl')
               | Following this action will enable Rippex to hold BRL on your behalf.
 
         .row.fund-tab-description
-          .col-xs-9.col-sm-5.col-md-4.action-btn-wrapper
+          .col-xs-7.col-sm-5.col-md-4.action-btn-wrapper
             button.btn.btn-large(type="submit",ng-click="create_trust_line()", ng-hide="brlConnected", ng-disabled="loading || !account.Balance") 
               span(ng-show="!loading", l10n)  Add Rippex
               span(ng-show="loading", l10n)  Adding...
@@ -76,9 +76,10 @@ section.col-xs-12.content(ng-controller='BrlCtrl')
             button.btn.btn-large(ng-show="!showInstructions && brlConnected ", type="submit", ng-click="toggleInstructions()", l10n) Show instructions
 
 
-          .connect.col-md-2.col-xs-3.col-sm-7
-            .description.fa.fa-times(ng-show="!brlConnected", l10n) Not connected
-            .description.fa.fa-check(ng-show="brlConnected", l10n) Connected
+          .connect.col-xs-5.col-sm-7.col-md-8
+            .description.fa.fa-times(ng-show="!brlConnected && account.Balance", l10n) Not connected
+            .description.fa.fa-check(ng-show="brlConnected && account.Balance", l10n) Connected
+            .description(ng-show="!account.Balance", l10n) Your account has to be activated before you can add a gateway account.            
         .row.fund-tab-description(ng-show="showInstructions && brlConnected")
           .instructions.col-md-10
             a.dismiss(href="", id="hide", ng-click="toggleInstructions()", l10n)  ×
