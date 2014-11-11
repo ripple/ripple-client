@@ -743,7 +743,13 @@ module.directive('rpAmountXrpLimit', function () {
 
       // We don't use parseAmount here, assuming that you also use rpAmount validator
       var validator = function(value) {
-        ctrl.$setValidity('rpAmountXrpLimit', value <= 100000000000 && value >= 0.000001);
+        var currency = Currency.from_human(attr.rpAmountCurrency.slice(0, 3)).get_iso();
+
+        if (currency !== 'XRP') {
+          ctrl.$setValidity('rpAmountXrpLimit', true);
+        } else {
+          ctrl.$setValidity('rpAmountXrpLimit', value <= 100000000000 && value >= 0.000001);
+        }
 
         return value;
       };
@@ -766,7 +772,7 @@ module.directive('rpMaxDigits', function () {
 
       // We don't use parseAmount here, assuming that you also use rpAmount validator
       var validator = function(value) {
-        var currency = Currency.from_human(attr.rpAmountCurrency.slice(0, 3));
+        var currency = Currency.from_human(attr.rpAmountCurrency.slice(0, 3)).get_iso();
 
         if (currency === 'XRP') {
           ctrl.$setValidity('rpMaxDigits', true);
