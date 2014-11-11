@@ -20,7 +20,7 @@ BtcTab.prototype.generateHtml = function ()
 
 BtcTab.prototype.angular = function (module)
 {
-  module.controller('BtcCtrl', ['$rootScope', 'rpId', 'rpAppManager', 'rpTracker', '$routeParams', 'rpKeychain',
+  module.controller('BtcCtrl', ['$scope', 'rpId', 'rpAppManager', 'rpTracker', '$routeParams', 'rpKeychain',
                                      function ($scope, $id, appManager, rpTracker, $routeParams, keychain)
   {
  

@@ -20,7 +20,7 @@ GoldTab.prototype.generateHtml = function ()
 
 GoldTab.prototype.angular = function (module)
 {
-  module.controller('GoldCtrl', ['$rootScope', 'rpId', 'rpAppManager', 'rpTracker', '$routeParams', 'rpKeychain', 'rpNetwork', '$timeout',
+  module.controller('GoldCtrl', ['$scope', 'rpId', 'rpAppManager', 'rpTracker', '$routeParams', 'rpKeychain', 'rpNetwork', '$timeout',
     function ($scope, $id, appManager, rpTracker, $routeParams, keychain, $network, $timeout) {
 
       $scope.$watch('lines', function () {

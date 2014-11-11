@@ -20,7 +20,7 @@ BrlTab.prototype.generateHtml = function ()
 
 BrlTab.prototype.angular = function (module)
 {
-	module.controller('BrlCtrl', ['$rootScope', 'rpId', 'rpAppManager', 'rpTracker', '$routeParams', 'rpKeychain', 'rpNetwork', '$timeout',
+	module.controller('BrlCtrl', ['$scope', 'rpId', 'rpAppManager', 'rpTracker', '$routeParams', 'rpKeychain', 'rpNetwork', '$timeout',
     function ($scope, $id, appManager, rpTracker, $routeParams, keychain, $network, $timeout)  {
 
       $scope.$watch('lines', function () {

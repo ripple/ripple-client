@@ -24,7 +24,7 @@ BalanceTab.prototype.angular = function (module)
 {
 
 
-  module.controller('BalanceCtrl', ['$rootScope', 'rpId', 'rpNetwork', '$filter', '$http', 'rpAppManager',
+  module.controller('BalanceCtrl', ['$scope', 'rpId', 'rpNetwork', '$filter', '$http', 'rpAppManager',
                                      function ($scope, $id, $network, $filter, $http, appManager)
   {
     if (!$id.loginStatus) return $id.goId();
