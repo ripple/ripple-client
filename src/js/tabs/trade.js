@@ -55,7 +55,7 @@ TradeTab.prototype.angular = function(module)
       'precision':5,
       'min_precision':5,
       'max_sig_digits':20,
-      'abs_precision':4
+      'abs_precision':5
     };
 
     $scope.reset = function () {
