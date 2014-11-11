@@ -316,7 +316,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                   div(ng-show="component.no_ripple", l10n) Off
                   div(ng-hide="component.no_ripple", l10n) On
                 div(ng-hide="component.freeze_peer", ng-class="{ 'col-xs-2': advanced_feature_switch, 'col-xs-4 col-md-3': !advanced_feature_switch }")
-                  a(href="", ng-hide="editing", ng-click="edit_account()"
+                  a(href="", ng-hide="editing || component.limit._value.t === 0", ng-click="edit_account()"
                     l10n) edit
                   span(ng-show="editing && !advanced_feature_switch")
                     span(ng-hide="trust.loading")
