@@ -375,8 +375,6 @@ TrustTab.prototype.angular = function (module)
   module.controller('AccountRowCtrl', ['$scope', 'rpBooks', 'rpNetwork', 'rpId', 'rpKeychain', '$timeout',
     function ($scope, books, $network, id, keychain, $timeout) {
 
-      $scope.validation_pattern = /^0*(([0-9]*.?[0-9]*)|(.0*[1-9][0-9]*))$/;
-
       $scope.cancel = function () {
         $scope.editing = false;
       };
