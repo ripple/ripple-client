@@ -52,10 +52,7 @@ TradeTab.prototype.angular = function(module)
     };
 
     var OrderbookFilterOpts = {
-      'precision':5,
-      'min_precision':5,
-      'max_sig_digits':20,
-      'abs_precision':5
+      'abs_precision':6
     };
 
     $scope.reset = function () {

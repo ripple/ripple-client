@@ -114,7 +114,7 @@ section.col-xs-12.content(ng-controller="HistoryCtrl")
             span.desc(ng-hide="entry.details", ng-switch on="entry.transaction.type")
               span(ng-switch-when="sent")
                 span(l10n, rp-span-spacing) You sent
-                  span.amount(rp-pretty-amount="entry.transaction.amountSent || entry.transaction.amount")
+                  span.amount(rp-pretty-amount-high-precision="entry.transaction.amountSent || entry.transaction.amount")
                   | to
                   span.address(rp-pretty-identity="entry.transaction.counterparty", rp-address-popover="entry.transaction.counterparty")
                 != require("./history/effects.jade")()
@@ -145,19 +145,19 @@ section.col-xs-12.content(ng-controller="HistoryCtrl")
                 != require("./history/effects.jade")()
               span(ng-switch-when="offernew")
                 span(ng-show="entry.transaction.sell", l10n, rp-span-spacing) You created an order to sell
-                  span.amount(rp-pretty-amount="entry.transaction.gets")
+                  span.amount(rp-pretty-amount-high-precision="entry.transaction.gets")
                   | for
-                  span.amount(rp-pretty-amount="entry.transaction.pays")
+                  span.amount(rp-pretty-amount-high-precision="entry.transaction.pays")
                 span(ng-hide="entry.transaction.sell", l10n, rp-span-spacing) You created an order to buy
-                  span.amount(rp-pretty-amount="entry.transaction.pays")
+                  span.amount(rp-pretty-amount-high-precision="entry.transaction.pays")
                   | for
-                  span.amount(rp-pretty-amount="entry.transaction.gets")
+                  span.amount(rp-pretty-amount-high-precision="entry.transaction.gets")
                 != require("./history/effects.jade")()
               span(ng-switch-when="offercancel")
                 span(l10n, rp-span-spacing) You cancelled an order accepting&#32;
-                  span.amount(rp-pretty-amount="entry.transaction.pays")
+                  span.amount(rp-pretty-amount-high-precision="entry.transaction.pays")
                   | for
-                  span.amount(rp-pretty-amount="entry.transaction.gets")
+                  span.amount(rp-pretty-amount-high-precision="entry.transaction.gets")
                 != require("./history/effects.jade")()
               span(ng-switch-when="accountset")
                 span(l10n) Account details have been changed
