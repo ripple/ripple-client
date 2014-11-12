@@ -49,6 +49,7 @@ module.filter('rpamount', function () {
 
     // if abs_precision is passed, bypass entire currency look up (for loop - expensive)
     if (opts.abs_precision) {
+      opts.min_precision = opts.abs_precision;
       opts.precision = opts.abs_precision;
 
       return amount.to_human(opts);
