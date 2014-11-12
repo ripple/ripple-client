@@ -429,9 +429,9 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                         rp-pretty-issuer-contacts="userBlob.data.contacts"
                       ) ???
                       | )
-                .col-sm-2.price.rpamount(data-label="Price") {{entry.second | rpamountratio:entry.first | rpamount:{precision: 5, min_precision: 5} }}
+                .col-sm-2.price.rpamount(data-label="Price") {{entry.second | rpamountratio:entry.first | rpamount: {abs_precision: 6} }}
                   span.currency  {{entry.second | rpcurrency}}
-                .col-sm-3.amount.rpamount(data-label="Amount") {{entry.first | rpamount: {abs_precision: 10} }}
+                .col-sm-3.amount.rpamount(data-label="Amount") {{entry.first | rpamount: {abs_precision: 6} }}
                   span.currency  {{entry.first | rpcurrency}}
                 .col-sm-2.action
                   img(src="img/button-s.png", class="loader", ng-show="cancelling")
