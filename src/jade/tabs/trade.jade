@@ -199,7 +199,6 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                             rp-amount-positive
                             rp-amount-xrp-limit
                             rp-amount-currency="{{order.first_currency}}"
-                            rp-max-digits
                             required)
                             .input-group-addon
                               | {{order.first_currency | rpcurrency}}
@@ -215,7 +214,6 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                               | Must be greater than zero
                             .error(rp-error-on='rpAmountXrpLimit', l10n)
                               | Minimum amount of XRP you can send is a drop (0.000001) and the maximum is 100 billion XRPs.
-                            .error(rp-error-on='rpMaxDigits', l10n) Your amount has too many digits. The max number of digits is 16.
                       .col-xs-12
                         .value-field
                           label(l10n) Price of Each
