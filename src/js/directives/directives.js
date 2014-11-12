@@ -342,7 +342,7 @@ module.directive('rpPopover', [function() {
  */
 module.directive('rpAddressPopover', ['$timeout', '$interpolate', 'rpId', function($timeout, $interpolate, $id) {
   var popupDelay = 800;
-  var hideDelay = 1500;
+  var hideDelay =  700;
 
   return {
     restrict: 'A',
