@@ -5,13 +5,13 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
     include banner/unfunded
   .row(ng-show='connected && !debug')
     .col-sm-12.notification-wrapper
-      .alert.alert-success(ng-show="saveBlobSuccess", l10n) Your blob vault has been changed successfully.
-      .alert.alert-success(ng-show="saveBridgeSuccess", l10n) Your bitcoin bridge has been changed successfully.
-      .alert.alert-success(ng-show="saveAcctOptionsSuccess", l10n) Trustline advanced settings has been changed successfully.
-      .alert.alert-success(ng-show="saveMaxNetworkFeeSuccess", l10n) Maximum network fee has been changed successfully.
-      .alert.alert-success(ng-show="addServerSuccess", l10n) A new server has been successfully added.
-      .alert.alert-success(ng-show="removeServerSuccess", l10n) A server has been successfully removed.
-      .alert.alert-success(ng-show="saveServerSuccess", l10n) A server has been changed successfully.
+      .alert.alert-success(ng-show="success.saveBlob", l10n) Your blob vault has been changed successfully.
+      .alert.alert-success(ng-show="success.saveBridge", l10n) Your bitcoin bridge has been changed successfully.
+      .alert.alert-success(ng-show="success.saveAcctOptions", l10n) Trustline advanced settings has been changed successfully.
+      .alert.alert-success(ng-show="success.saveMaxNetworkFee", l10n) Maximum network fee has been changed successfully.
+      .alert.alert-success(ng-show="success.addServer && success.saveServer", l10n) A new server has been successfully added.
+      .alert.alert-success(ng-show="success.removeServer", l10n) A server has been successfully removed.
+      .alert.alert-success(ng-show="!success.addServer && success.saveServer", l10n) A server has been changed successfully.
     .col-sm-3
       include settings/navbar
     .col-sm-9.list

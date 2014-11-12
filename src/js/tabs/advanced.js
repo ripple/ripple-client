@@ -45,6 +45,9 @@ AdvancedTab.prototype.angular = function(module)
 
     $scope.advanced_feature_switch = Options.advanced_feature_switch;
 
+    // Initialize the notification object
+    $scope.success = {};
+
     $scope.saveBlob = function () {
       // Save in local storage
       if (!store.disabled) {
@@ -57,7 +60,7 @@ AdvancedTab.prototype.angular = function(module)
       location.reload();
 
       // Notify the user
-      $scope.saveBlobSuccess = true;
+      $scope.success.saveBlob = true;
     };
 
     $scope.saveBridge = function () {
@@ -72,7 +75,7 @@ AdvancedTab.prototype.angular = function(module)
       location.reload();
 
       // Notify the user
-      $scope.saveBridgeSuccess = true;
+      $scope.success.saveBridge = true;
     };
 
     $scope.saveMaxNetworkFee = function () {
@@ -88,7 +91,7 @@ AdvancedTab.prototype.angular = function(module)
       location.reload();
 
       // Notify the user
-      $scope.saveMaxNetworkFeeSuccess = true;
+      $scope.success.saveMaxNetworkFee = true;
     };
 
     $scope.saveAcctOptions = function () {
@@ -109,7 +112,7 @@ AdvancedTab.prototype.angular = function(module)
       location.reload();
 
       // Notify the user
-      $scope.saveAcctOptionsSuccess = true;
+      $scope.success.saveAcctOptions = true;
     };
 
     $scope.deleteBlob = function () {
@@ -159,15 +162,18 @@ AdvancedTab.prototype.angular = function(module)
 
       // Set editing to true
       $scope.editing = true;
+
+      // Notify the user on save later
+      $scope.success.addServer = true;
     };
 
   }]);
 
-  module.controller('ServerRowCtrl', ['$scope', '$rootScope',
-    function ($scope, $rootScope) {
+  module.controller('ServerRowCtrl', ['$scope',
+    function ($scope) {
       $scope.editing = $scope.server.isEmptyServer;
 
-        // Delete the server
+      // Delete the server
       $scope.remove = function () {
         $scope.options.server.servers.splice($scope.index,1);
 
@@ -177,7 +183,7 @@ AdvancedTab.prototype.angular = function(module)
         }
 
         // Notify the user
-        $rootScope.removeServerSuccess = true;
+        $scope.success.removeServer = true;
       };
 
       $scope.hasRemove = function () {
@@ -212,7 +218,7 @@ AdvancedTab.prototype.angular = function(module)
         location.reload();
 
         // Notify the user
-        $rootScope.saveServerSuccess = true;
+        $scope.success.saveServer = true;
       };
     }
   ]);

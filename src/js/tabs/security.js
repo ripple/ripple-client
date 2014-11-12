@@ -36,6 +36,9 @@ SecurityTab.prototype.angular = function (module) {
 
     $scope.validation_pattern_phone = /^[0-9]*$/;
 
+    // Initialize the notification object
+    $scope.success = {};
+
     $scope.$on('$blobUpdate', onBlobUpdate);
     onBlobUpdate();
 
@@ -129,11 +132,11 @@ SecurityTab.prototype.angular = function (module) {
       // Notify the user
       if (!$scope.errorSetPasswordProtection) {
         if ($scope.requirePassword) {
-          $scope.enableRequirePasswordSuccess = true;
-          $scope.disableRequirePasswordSuccess = false;
+          $scope.success.enableRequirePassword = true;
+          $scope.success.disableRequirePassword = false;
         } else {
-          $scope.enableRequirePasswordSuccess = false;
-          $scope.disableRequirePasswordSuccess = true;
+          $scope.success.enableRequirePassword = false;
+          $scope.success.disableRequirePassword = true;
         }
       }
 
@@ -174,7 +177,7 @@ SecurityTab.prototype.angular = function (module) {
                 return;
               }
 
-              $scope.success = true;
+              $scope.success.changePassword = true;
               reset();
             });
           }
@@ -185,7 +188,7 @@ SecurityTab.prototype.angular = function (module) {
       $scope.mode2FA        = '';
       $scope.loading        = false;
       $scope.error2FA       = false;
-      $scope.disableSuccess = false;
+      $scope.success.disable = false;
       $scope.phoneNumber    = $scope.currentPhone;
       $scope.countryCode    = $scope.currentCountryCode;
       window.Authy.UI.instance(true, $scope.countryCode); //enables the authy dropdown
@@ -305,7 +308,7 @@ SecurityTab.prototype.angular = function (module) {
                 //next login will require 2FA
                 store.remove('device_id');
                 $scope.enabled2FA    = true;
-                $scope.enableSuccess = true;
+                $scope.success.enable = true;
               }
             });
           });
@@ -316,7 +319,7 @@ SecurityTab.prototype.angular = function (module) {
     $scope.disable2FA = function() {
       $scope.mode2FA       = 'disable';
       $scope.error2FA      = false;
-      $scope.enableSuccess = false;
+      $scope.success.enable = false;
 
       keychain.requestSecret($id.account, $id.username, function(err, secret) {
         if (err) {
@@ -336,7 +339,7 @@ SecurityTab.prototype.angular = function (module) {
               $scope.error2FA   = true;
             } else {
               $scope.enabled2FA     = false;
-              $scope.disableSuccess = true;
+              $scope.success.disable = true;
             }
           });
         });
@@ -391,7 +394,7 @@ SecurityTab.prototype.angular = function (module) {
   };
 
   reset();
-  $scope.success = false;
+  $scope.success.changePassword = false;
 
   }]);
 };
