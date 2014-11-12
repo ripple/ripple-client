@@ -31,9 +31,11 @@ TradeTab.prototype.angular = function(module)
   module.controller('TradeCtrl', ['rpBooks', '$scope', 'rpId', 'rpNetwork',
                                   '$routeParams', '$location', '$filter',
                                   'rpTracker', 'rpKeychain', '$rootScope',
+                                  'rpPopup', '$timeout',
                                   function (books, $scope, id, $network,
                                             $routeParams, $location, $filter,
-                                            $rpTracker, keychain, $rootScope)
+                                            $rpTracker, keychain, $rootScope,
+                                            popup, $timeout)
   {
     if (!id.loginStatus) return id.goId();
 
@@ -41,6 +43,42 @@ TradeTab.prototype.angular = function(module)
     $rootScope.ripple_exchange_selection_trade = true;
 
     $scope.pairs_query = $scope.pairs_all;
+
+    $scope.fatFingerErr = false;
+
+    $scope.cancelOrder = {
+      seq: null,
+      success: false,
+      errorMsg: null
+    };
+
+    // Details for an order that is edited and sent to Ripple for modification
+    $scope.editOrder = {
+      seq: null,
+      type: null,
+      oldPrice: null,
+      oldPriceDisp: '',
+      newPrice: '',
+      priceChanged: false,
+      oldQuantity: null,
+      oldQuantityDisp: '',
+      newQuantity: '',
+      quantityChanged: false,
+      quantityFilled: false,
+      quantityFilledWarn: false,
+      fatFingerWarn: false,
+      editing: false,
+      cancelling: false,
+      cancelOrderGone: false,
+      exists: true,
+      replacing: false,
+      replaceSuccess: false,
+      replaceError: false,
+      orderbookReady: false,
+      ccyPair: null,
+      buy_amount: null,
+      sell_amount: null
+    };
 
     var currencyPairChangedByNonUser = false;
 
@@ -56,6 +94,198 @@ TradeTab.prototype.angular = function(module)
       'min_precision':5,
       'max_sig_digits':20,
       'abs_precision':5
+    };
+
+    var REF_DATE_OFFSET = 5*60000;
+    var MIXPNL_MODIFY_EVENT = 'Modify order result';
+
+    // Scroll to the location where alert messages will be displayed
+    var scrollToMessages = function() {
+      var jqElem = jQuery('#myOrdersMsg');
+      if (jqElem[0]) $timeout(function(){ jqElem[0].scrollIntoView(true); });
+    };
+
+    // Format a Ripple Amount for editing by the user
+    var formatForEdit = function(amount) {
+      var formatted = $filter('rpamount')(amount, {group_sep:false, hard_precision:true, max_sig_digits:20});
+
+      return formatted;
+    };
+
+    // Create a Ripple Amount from primitives
+    var createAmount = function(value, currency, issuer) {
+      var ccy = currency || Currency.from_json("XRP");
+      var formatted = "" + value + " " + (ccy.has_interest() ? ccy.to_hex() : ccy.get_iso());
+
+      var amount = Amount.from_human(formatted, {reference_date: new Date(+new Date() + REF_DATE_OFFSET)});
+      if (! ccy.is_native()) amount.set_issuer(issuer);
+
+      return amount;
+    };
+
+    // Set state of whether an order's price has been edited by the user
+    $scope.priceEdited = function() {
+      $scope.editOrder.priceChanged = $scope.editOrder.oldPriceDisp !== $scope.editOrder.newPrice;
+    };
+
+    // Set state of whether an order's quantity (amount) has been edited by the user
+    $scope.quantityEdited = function() {
+      $scope.editOrder.quantityChanged = $scope.editOrder.oldQuantityDisp !== $scope.editOrder.newQuantity;
+    };
+
+    // When the user clicks button/link to enable editing of Price and Amount (Quantity) values
+    $scope.beginEditOrder = function() {
+      var myOrder = this.entry;
+      // Do not allow editing of an order that has no quantity left but is still displayed as it hasn't been removed from offers
+      if (myOrder.first.is_zero()) return;
+
+      $scope.cancelOrder.errorMsg = null;
+      $scope.cancelEditOrder();  // if another order is in edit mode
+
+      // Ensure that the orderbook matches the currency pair of the order being edited, for the user 
+      // to reference and to ensure that the Fat Finger check will compare with the correct price.
+      $scope.editOrder.orderbookReady = false;
+      if ($scope.goto_order_currency.bind(this)()) {
+        // Reset Buy and Sell widgets as the currency pair has changed so the price & qty will not be relevant
+        $scope.reset_widget('buy', true);
+        $scope.reset_widget('sell', true);
+      }
+      $scope.editOrder.ccyPair = $scope.order.currency_pair;
+
+      $scope.editOrder.editing = true;
+      $scope.editOrder.seq = myOrder.seq;
+      $scope.editOrder.type = myOrder.type;
+
+      // save current price & qty
+      $scope.editOrder.oldPrice = Amount.from_json(myOrder.second).ratio_human(myOrder.first, {reference_date: new Date()});
+      $scope.editOrder.oldPriceDisp = formatForEdit($scope.editOrder.oldPrice);
+      $scope.editOrder.newPrice = $scope.editOrder.oldPriceDisp;
+
+      $scope.editOrder.oldQuantity = myOrder.first;
+      $scope.editOrder.oldQuantityDisp = formatForEdit(myOrder.first);
+      $scope.editOrder.newQuantity = $scope.editOrder.oldQuantityDisp;
+    };
+
+    // After the user has clicked button/link to confirm the Price and/or Quantity to change
+    $scope.prepareOrderModify = function() {
+      if (! ($scope.editOrder.newPrice && $scope.editOrder.newQuantity)) return;
+
+      var myOrder = this.entry;
+      var type = $scope.editOrder.type;
+
+      // Quantity (Sell / Gets)
+      var oldOrderQty = $scope.editOrder.oldQuantity;
+      var newOrderQty = $scope.editOrder.quantityChanged ?
+        createAmount($scope.editOrder.newQuantity, oldOrderQty.currency(), oldOrderQty.issuer()) : oldOrderQty;
+
+      var oldOrderPrice = $scope.editOrder.oldPrice;
+      var newOrderPrice = $scope.editOrder.priceChanged ?
+        createAmount($scope.editOrder.newPrice, oldOrderPrice.currency(), oldOrderPrice.issuer()) : oldOrderPrice;
+
+      if ($scope.editOrder.priceChanged || $scope.editOrder.quantityChanged) {
+        var newOrderValue = newOrderPrice.product_human(newOrderQty);
+
+        if (type === 'buy') {
+          $scope.editOrder.sell_amount = newOrderValue.clone();
+          $scope.editOrder.buy_amount = newOrderQty.clone();
+        } else {
+          $scope.editOrder.sell_amount = newOrderQty.clone();
+          $scope.editOrder.buy_amount = newOrderValue.clone();
+        }
+
+        checkBeforeModify();
+      }
+    };
+
+    var checkBeforeModify = function() {
+      // Check if the price is far from the current market price. If so, ask user for confirmation, otherwise proceed.
+      $scope.editOrder.fatFingerWarn = $scope.fatFingerCheck($scope.editOrder.type, $scope.editOrder.newPrice);
+      if (! $scope.editOrder.fatFingerWarn) $scope.modifyOrder();
+    };
+
+    // Start the order modification with 1st of 2 transactions
+    $scope.modifyOrder = function() {
+      if ($scope.editOrder.priceChanged || $scope.editOrder.quantityChanged) {
+        $scope.editOrder.editing = false;
+        $scope.editOrder.cancelling = true;
+
+        // First, Cancel existing order. If successful, place modified order in callback
+        $scope.cancel_order($scope.editOrder.seq, true, createAfterCancel, cancelOrderError);
+        // It is possible to cancel and create in one transaction by passing the seq of the order to be cancelled,
+        // but a two stage method is utilized instead to minimize the risk of the problem detected by the 
+        // qtyChangedOnDeleted function. (JIRA: RT-1214)
+      }
+    };
+
+    // Step 1 of modification was successful, start 2nd of 2 transaction
+    var createAfterCancel = function(qtyChanged) {
+      $scope.editOrder.cancelling = false;
+      $scope.editOrder.seq = null;
+
+      if (! qtyChanged) {
+        // Now place new order to replace old (cancelled) order
+        $scope.editOrder.replacing = true;
+        scrollToMessages();
+
+        $scope.order_confirmed($scope.editOrder.type, $scope.editOrder.ccyPair, $scope.editOrder, true, createOrderSuccess, createOrderError);
+      }
+    };
+
+    // Step 1 of modification failed, so abort
+    var cancelOrderError = function() {
+      $scope.editOrder.cancelling = false;
+
+      if (! $scope.offers[$scope.editOrder.seq]) $scope.editOrder.cancelOrderGone = true;
+    };
+
+    // Step 2 of modification was successful and is complete
+    var createOrderSuccess = function(seq) {
+      $scope.editOrder.replacing = false;
+      $scope.editOrder.replaceSuccess = true;
+      $scope.editOrder.seq = null;
+      $scope.editOrder.type = null;
+    };
+
+    // Step 2 of modification failed
+    var createOrderError = function() {
+      $scope.editOrder.replacing = false;
+      $scope.editOrder.replaceError = true;
+
+      if (! $scope.offers[$scope.editOrder.seq]) $scope.editOrder.exists = false;
+    };
+
+    // Reset all fields for no order being edited
+    $scope.cancelEditOrder = function() {
+      $scope.editOrder.seq = null;
+      $scope.editOrder.type = null;
+
+      $scope.editOrder.priceChanged = false;
+      $scope.editOrder.oldPrice = null;
+      $scope.editOrder.oldPriceDisp = '';
+      $scope.editOrder.newPrice = '';
+
+      $scope.editOrder.quantityChanged = false;
+      $scope.editOrder.oldQuantity = null;
+      $scope.editOrder.oldQuantityDisp = '';
+      $scope.editOrder.newQuantity = '';
+
+      $scope.editOrder.cancelOrderGone = false;
+      $scope.editOrder.quantityFilled = false;
+      $scope.editOrder.quantityFilledWarn = false;
+      $scope.editOrder.fatFingerWarn = false;
+
+      $scope.editOrder.editing = false;
+      $scope.editOrder.exists = true;
+      $scope.editOrder.replaceSuccess = false;
+      $scope.editOrder.replaceError = false;
+
+      $scope.editOrder.ccyPair = null;
+      $scope.editOrder.buy_amount = null;
+      $scope.editOrder.sell_amount = null;
+    };
+
+    $scope.fatFingerShouldWarn = function() {
+      return $scope.editOrder.fatFingerWarn;
     };
 
     $scope.reset = function () {
@@ -102,8 +332,10 @@ TradeTab.prototype.angular = function(module)
      *
      * @param type (buy, sell)
      */
-    $scope.reset_widget = function(type) {
+    $scope.reset_widget = function(type, widgetOnly) {
       $scope.order[type] = jQuery.extend(true, {}, widget);
+
+      if (widgetOnly) return;
 
       updateSettings();
       updateMRU();
@@ -158,7 +390,7 @@ TradeTab.prototype.angular = function(module)
         $scope.order.sell.buy_amount = $scope.order.sell.second_amount;
       }
 
-      $scope.fatFingerCheck(type);
+      $scope.fatFingerErr = $scope.fatFingerCheck(type, $scope.order[type].price);
 
       // TODO track order type
       $rpTracker.track('Trade order confirmation page', {
@@ -181,50 +413,85 @@ TradeTab.prototype.angular = function(module)
       order.second_currency = this.entry.second.currency().to_json();
       order.second_issuer = this.entry.second.issuer().to_json();
       order.currency_pair = this.entry.first.currency().to_json() + '/' + this.entry.second.currency().to_json();
-      updateSettings();
+
+      var changedPair = updateSettings();
       updateMRU();
+
+      return changedPair;
     };
 
     /**
      * Happens when user clicks on "Cancel" in "My Orders".
      */
-    $scope.cancel_order = function ()
+    $scope.cancel_order = function (seq, modifying, successCb, errorCb)
     {
-      var seq   = this.entry ? this.entry.seq : this.order.Sequence;
-      var order = this;
+      if (seq) $scope.cancelOrder.seq = seq;
+      else $scope.cancelOrder.seq = this.entry ? this.entry.seq : this.order.Sequence;
+      if (! $scope.cancelOrder.seq) return;
+
+      var order = this.order;
       var tx    = $network.remote.transaction();
+      $scope.cancelOrder.errorMsg = null;
 
-      $scope.cancelError = null;
+      tx.offer_cancel(id.account, $scope.cancelOrder.seq);
 
-      tx.offer_cancel(id.account, seq);
-      tx.on('success', function() {
-        $rpTracker.track('Trade order cancellation', {
-          'Status': 'success',
-          'Address': $scope.userBlob.data.account_id
-        });
+      tx.on('success', function(res) {
+        if ($scope.offers[$scope.cancelOrder.seq]) $scope.offers[$scope.cancelOrder.seq].cancelling = false;
+        order.cancelling = false;
+
+        if (modifying) {
+          var qtyChanged = qtyChangedOnDeleted(res);
+          if (successCb) successCb(qtyChanged);
+
+          if (qtyChanged) {
+            $rpTracker.track(MIXPNL_MODIFY_EVENT, {
+              'Status': 'error',
+              'Message': 'Qty changed after cancel requested by client',
+              'Address': $scope.userBlob.data.account_id,
+              'Transaction ID': res.tx_json.hash
+            });
+          }
+        }
+        else {
+          $scope.cancelOrder.success = true;
+          scrollToMessages();
+
+          if (successCb) successCb();
+
+          $rpTracker.track('Trade order cancellation', {
+            'Status': 'success',
+            'Address': $scope.userBlob.data.account_id
+          });
+        }
       });
 
       tx.on('error', function (err) {
         console.log("cancel error: ", err);
 
-        order.cancelling   = false;
-        $scope.cancelError = err.engine_result_message;
+        if ($scope.offers[$scope.cancelOrder.seq]) $scope.offers[$scope.cancelOrder.seq].cancelling = false;
+        order.cancelling  = false;
+        $scope.cancelOrder.errorMsg = err.engine_result_message;
+
+        if (errorCb) errorCb();
 
         if (!$scope.$$phase) {
           $scope.$apply();
         }
 
-        $rpTracker.track('Trade order cancellation', {
+        var eventProp = {
           'Status': 'error',
           'Message': err.engine_result,
           'Address': $scope.userBlob.data.account_id
-        });
+        };
+
+        if (modifying) $rpTracker.track(MIXPNL_MODIFY_EVENT, eventProp);
+        else $rpTracker.track('Trade order cancellation', eventProp);
       });
 
       keychain.requestSecret(id.account, id.username, function (err, secret) {
         if (err) {
-
           //err should equal 'canceled' here, other errors are not passed through
+          if ($scope.offers[$scope.cancelOrder.seq]) $scope.offers[$scope.cancelOrder.seq].cancelling = false;
           order.cancelling = false;
           return;
         }
@@ -233,11 +500,14 @@ TradeTab.prototype.angular = function(module)
         tx.submit();
       });
 
+      $scope.offers[$scope.cancelOrder.seq].cancelling = true;
       order.cancelling = true;
     };
 
     $scope.dismissCancelError = function() {
-      $scope.cancelError = null;
+      $scope.cancelOrder.seq = null;
+      $scope.cancelOrder.errorMsg = null;
+      $scope.editOrder.cancelOrderGone = false;
     };
 
     /**
@@ -245,11 +515,11 @@ TradeTab.prototype.angular = function(module)
      *
      * @param type (buy, sell)
      */
-    $scope.order_confirmed = function (type)
+    $scope.order_confirmed = function (type, ccyPair, ord, modifying, successCb, errorCb)
     {
-      var order = $scope.order[type];
+      var order = ord ? ord : $scope.order[type];
       var tx = $network.remote.transaction();
-
+debugger;
       tx.offer_create(
         id.account,
         order.buy_amount,
@@ -265,14 +535,13 @@ TradeTab.prototype.angular = function(module)
         tx.set_flags('Sell');
 
       tx.on('proposed', function (res) {
-
         setEngineStatus(res, false, type);
-
       });
 
       tx.on('success', function(res) {
         setEngineStatus(res, true, type);
-        order.mode = "done";
+
+        if (! modifying) order.mode = "done";
 
         var tx = rewriter.processTxn(res, res.metadata, id.account);
 
@@ -292,40 +561,54 @@ TradeTab.prototype.angular = function(module)
           }
         }
 
+        if (successCb) {
+          var seq = res.tx_json && res.tx_json.Sequence ? res.tx_json.Sequence : null;
+          successCb(seq);
+        }
+
         if (!$scope.$$phase) {
           $scope.$apply();
         }
 
-        $rpTracker.track('Trade order result', {
+        var eventProp = {
           'Status': 'success',
-          'Currency pair': $scope.order.currency_pair,
+          'Currency pair': ccyPair,
           'Address': $scope.userBlob.data.account_id,
           'Transaction ID': res.tx_json.hash
-        });
+        };
+
+        if (modifying) $rpTracker.track(MIXPNL_MODIFY_EVENT, eventProp);
+        else $rpTracker.track('Trade order result', eventProp);
       });
 
       tx.on('error', function (err) {
         setEngineStatus(err, false, type);
-        order.mode = "done";
+
+        if (! modifying) order.mode = "done";
+
+        if (errorCb) errorCb();
 
         if (!$scope.$$phase) {
           $scope.$apply();
         }
 
-        $rpTracker.track('Trade order result', {
+        var eventProp = {
           'Status': 'error',
           'Message': err.engine_result,
-          'Currency pair': $scope.order.currency_pair,
+          'Currency pair': ccyPair,
           'Address': $scope.userBlob.data.account_id,
-          'Transaction ID': res.tx_json.hash
-        });
+          'Transaction ID': err.tx_json.hash
+        };
+
+        if (modifying) $rpTracker.track(MIXPNL_MODIFY_EVENT, eventProp);
+        else $rpTracker.track('Trade order result', eventProp);
       });
 
       keychain.requestSecret(id.account, id.username, function (err, secret) {
         if (err) {
 
           //err should equal 'canceled' here, other errors are not passed through
-          order.mode = 'trade';
+          if (! modifying) order.mode = 'trade';
           return;
         }
 
@@ -333,7 +616,7 @@ TradeTab.prototype.angular = function(module)
         tx.submit();
       });
 
-      order.mode = "sending";
+      if (! modifying) order.mode = "sending";
     };
 
     $scope.loadMore = function () {
@@ -347,12 +630,66 @@ TradeTab.prototype.angular = function(module)
       $scope.orderbookState = (($scope.orderbookLength - Options.orderbook_max_rows + multiplier) < 1) ? 'full' : 'ready';
     };
 
+    // Rare ? edge case:
+    // 1. User edits order price/qty and confirms modify.
+    // 2. rippled receives the request and cancels the old order.
+    // 3. Between 1 and 2 the qty on the order changed. If this was as a result of additional execution(s),
+    //    then the order qty that was displayed to the user is higher than the order qty that was cancelled.
+    // 4. If the user edited the qty to increase it, then there is the possibility that they will be filled 
+    //    more than expected.
+    // The purpose of this fn is to check for this condition and display a popup if it occurs.
+    function qtyChangedOnDeleted(result) {
+      var changedQty;
+
+      if (result.metadata && result.metadata.AffectedNodes) {
+        var oldQty = $scope.editOrder.oldQuantity;
+        var nodes = result.metadata.AffectedNodes;
+
+        for (var i = 0; i < nodes.length; i++) {
+          if (nodes[i].DeletedNode) {
+            var delNode = nodes[i].DeletedNode;
+
+            if (delNode.LedgerEntryType && delNode.LedgerEntryType === 'Offer' && delNode.FinalFields) {
+              var delFields = delNode.FinalFields;
+
+              if (delFields.Sequence == $scope.cancelOrder.seq && delFields.TakerPays && delFields.TakerGets) {
+                var cancelledQty;
+                if ($scope.editOrder.type === 'buy') cancelledQty = Amount.from_json(delFields.TakerPays);
+                else if ($scope.editOrder.type === 'sell') cancelledQty = Amount.from_json(delFields.TakerGets);
+
+                // Calculate the difference in qty if order qty changed before cancel
+                if (cancelledQty && ! cancelledQty.equals(oldQty)) changedQty = oldQty.subtract(cancelledQty);
+              }
+              break;  // Found the Cancelled order
+            }
+          }
+        }
+
+        // If did not find the Cancelled order, difference is whole qty
+        if (i === nodes.length) changedQty = oldQty;
+      }
+
+      // Show a modal popup to inform the user if there is a difference is qty
+      if (changedQty && changedQty.is_positive()) {
+        var popupScope = $scope.$new();
+        popupScope.order = { qtyChangeAfterCancel: changedQty };
+
+        popupScope.cancel = function() {
+          popup.close();
+          popupScope.$destroy();
+        };
+
+        popup.blank(require('../../jade/popup/tradePopup.jade')(), popupScope);
+        return true;
+      }
+      else return false;
+    }
 
     /**
      * Handle transaction result
      */
-    function setEngineStatus(res, accepted, type) {
-      var order = $scope.order[type];
+    function setEngineStatus(res, accepted, type, ord) {
+      var order = ord ? ord : $scope.order[type];
 
       order.engine_result = res.engine_result;
       order.engine_result_message = res.engine_result_message;
@@ -385,7 +722,7 @@ TradeTab.prototype.angular = function(module)
       var first_currency = $scope.order.first_currency || Currency.from_json("XRP");
       var formatted = "" + order.first + " " + (first_currency.has_interest() ? first_currency.to_hex() : first_currency.get_iso());
 
-      order.first_amount = ripple.Amount.from_human(formatted, {reference_date: new Date(+new Date() + 5*60000)});
+      order.first_amount = ripple.Amount.from_human(formatted, {reference_date: new Date(+new Date() + REF_DATE_OFFSET)});
 
       if (!first_currency.is_native()) order.first_amount.set_issuer($scope.order.first_issuer);
     };
@@ -395,7 +732,7 @@ TradeTab.prototype.angular = function(module)
       var second_currency = $scope.order.second_currency || Currency.from_json("XRP");
       var formatted = "" + order.price + " " + (second_currency.has_interest() ? second_currency.to_hex() : second_currency.get_iso());
 
-      order.price_amount = ripple.Amount.from_human(formatted, {reference_date: new Date(+new Date() + 5*60000)});
+      order.price_amount = ripple.Amount.from_human(formatted, {reference_date: new Date(+new Date() + REF_DATE_OFFSET)});
 
       if (!second_currency.is_native()) order.price_amount.set_issuer($scope.order.second_issuer);
     };
@@ -405,34 +742,22 @@ TradeTab.prototype.angular = function(module)
       var second_currency = $scope.order.second_currency || Currency.from_json("XRP");
       var formatted = "" + order.second + " " + (second_currency.has_interest() ? second_currency.to_hex() : second_currency.get_iso());
 
-      order.second_amount = ripple.Amount.from_human(formatted, {reference_date: new Date(+new Date() + 5*60000)});
+      order.second_amount = ripple.Amount.from_human(formatted, {reference_date: new Date(+new Date() + REF_DATE_OFFSET)});
 
       if (!second_currency.is_native()) order.second_amount.set_issuer($scope.order.second_issuer);
     };
 
-    $scope.fatFingerCheck = function(type) {
-      var order = $scope.order[type];
-      var fatFingerMarginMultiplier = 1.1;
+    $scope.fatFingerCheck = function(type, price) {
+      var fatFingerMarginMultiplier = 1.1;  // i.e. 10%
+      var bestPrice;
 
-      $scope.fatFingerErr = false;
+      if (type === 'buy') bestPrice = $scope.book.bids[0].showPrice;
+      else if (type === 'sell') bestPrice = $scope.book.asks[0].showPrice;
+      bestPrice = +bestPrice.replace(',','');
 
-      if (type === 'buy') {
-
-        if (order.price > ($scope.book.bids[0].showPrice * fatFingerMarginMultiplier) ||
-            order.price < ($scope.book.bids[0].showPrice / fatFingerMarginMultiplier)) {
-
-          $scope.fatFingerErr = true;
-        }
-      }
-
-      else if (type === 'sell') {
-
-        if (order.price > ($scope.book.asks[0].showPrice * fatFingerMarginMultiplier) ||
-            order.price < ($scope.book.asks[0].showPrice / fatFingerMarginMultiplier)) {
-
-          $scope.fatFingerErr = true;
-        }
-      }
+      return (bestPrice &&
+          (price > (bestPrice * fatFingerMarginMultiplier) ||
+          price < (bestPrice / fatFingerMarginMultiplier)));
     };
 
     /**
@@ -490,6 +815,7 @@ TradeTab.prototype.angular = function(module)
       order.second_currency = currency;
       order.second_issuer = issuer;
       order.currency_pair = pair[1] + '/' + pair[0];
+
       updateSettings();
       updateMRU();
     };
@@ -540,12 +866,15 @@ TradeTab.prototype.angular = function(module)
         order.second_currency._iso_code +
         (order.second_currency.is_native() ? "" : "/" + order.second_issuer);
 
+      var changedPair = false;
       // Load orderbook
       if (order.prev_settings !== key) {
+        changedPair = true;
         loadOffers();
 
         order.prev_settings = key;
       }
+      else if ($scope.book.ready) $scope.editOrder.orderbookReady = true;
 
       // Update widgets
       ['buy','sell'].forEach(function(type){
@@ -555,6 +884,8 @@ TradeTab.prototype.angular = function(module)
       });
 
       updateCanBuySell();
+
+      return changedPair;
     }
 
     // This functions is called after the settings have been modified.
@@ -729,7 +1060,6 @@ TradeTab.prototype.angular = function(module)
           ($scope.lines[second_issuer+($scope.order.second_currency.has_interest() ? $scope.order.second_currency.to_hex() : $scope.order.second_currency.to_json())]
             && $scope.lines[second_issuer+($scope.order.second_currency.has_interest() ? $scope.order.second_currency.to_hex() : $scope.order.second_currency.to_json())].balance.is_positive());
 
-
       var canSell = first_currency.is_native() ||
           first_issuer == $scope.address ||
           ($scope.lines[first_issuer+($scope.order.first_currency.has_interest() ? $scope.order.first_currency.to_hex() : $scope.order.first_currency.to_json())]
@@ -742,7 +1072,9 @@ TradeTab.prototype.angular = function(module)
     var rpamountFilter = $filter('rpamount');
 
     $scope.$watchCollection('book', function () {
-      if (!jQuery.isEmptyObject($scope.book)) {
+      if (! jQuery.isEmptyObject($scope.book) && $scope.book.ready) {
+        $scope.editOrder.orderbookReady = true;
+
         ['asks','bids'].forEach(function(type){
           if ($scope.book[type]) {
             $scope.book[type].forEach(function(order){
@@ -775,6 +1107,10 @@ TradeTab.prototype.angular = function(module)
     });
 
     $scope.$watch('order.currency_pair', function (pair) {
+      // If order with a different currency pair is being edited, end the edit otherwise it will do the
+      // Fat Finger check against the wrong orderbook when the Replace action is clicked
+      if ($scope.editOrder.ccyPair !== $scope.order.currency_pair && $scope.editOrder.editing) $scope.cancelEditOrder();
+
       if (currencyPairChangedByNonUser) {
         currencyPairChangedByNonUser = false;
         return;
@@ -817,6 +1153,29 @@ TradeTab.prototype.angular = function(module)
 
     $scope.$watchCollection('offers', function(){
       $scope.offersCount = _.size($scope.offers);
+
+      if ($scope.offersCount) {
+        var editSeq = $scope.editOrder.seq;
+        if (editSeq && $scope.offers[editSeq]) {
+          var newQty = $scope.offers[editSeq].first;
+
+          if (! $scope.editOrder.cancelling) {
+            if (newQty.is_zero()) {
+              // Occasionally an order that has been completely filled is shown as zero qty and there is a delay before it is deleted.
+              // If this order is being edited, leave edit mode as the modify would fail
+              $scope.cancelEditOrder();
+              $scope.offers[editSeq].isZero = true;
+            }
+            else if (! newQty.equals($scope.editOrder.oldQuantity)) {
+              // The qty of the order changed while being edited, so update and warn
+              $scope.editOrder.newQuantity = formatForEdit(newQty);
+              $scope.editOrder.quantityChanged = false;
+              $scope.editOrder.quantityFilled = true;
+              $scope.editOrder.quantityFilledWarn = true;
+            }
+          }
+        }
+      }
     });
 
     $scope.reset();
