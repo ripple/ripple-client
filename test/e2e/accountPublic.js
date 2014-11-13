@@ -12,8 +12,6 @@ var helperBrowser = require('./utils/browser');
 chai.use(chaiAsPromised);
 var expect = chai.expect;
 
-// For some weird reason config ignores allScriptsTimeout
-browser.manage().timeouts().setScriptTimeout(60000);
 
 describe('public account', function() {
 
@@ -23,34 +21,18 @@ describe('public account', function() {
 
 
   function pressRenameSubmit() {
-    $("form[name='renameForm'] button[type='submit']").click().then(function() {
-
-      browser.wait(function () {
-        return $("div.showPublic div.alert-success").isDisplayed().then(function(isDisplayed) {
-          return isDisplayed;
-        });
-      });
-
-    });
+    return $("form[name='renameForm'] button[type='submit']").click().then( helperBrowser.waitForElementToDisplay.bind(this, $("div.showPublic div.alert-success")) );
   }
 
   function waitForRenameSubmitButtonBecameAvailable() {
-    browser.wait(function () {
-      return $("form[name='renameForm'] button[type='submit']").getAttribute('disabled').then(function (isPresent) {
-        return !isPresent;
-      });
-    });
+    return helperBrowser.waitForElementToBecameAvailable($("form[name='renameForm'] button[type='submit']"));
   }
 
   it('should show public account page', function(done) {
     browser.get('#/account/public');
 
-    // Wait for the form to render
-    browser.wait(function() {
-      return $('#address').isDisplayed().then(function(result) {
-        return result;
-      });
-    });
+    // Wait for the page to render
+    helperBrowser.waitForElementToDisplay($('#address'));
 
     expect($('.username').getText()).to.eventually.equal('~' + config.user.username)
       .and.notify(done);
@@ -83,7 +65,6 @@ describe('public account', function() {
   it('should rename user', function(done) {
     protractor.getInstance().ignoreSynchronization = true;
 
-    //pressRenameSubmit(true);
     pressRenameSubmit();
 
     expect($('.username').getText()).to.eventually.equal('~' + config.user.username + '-E2E')
