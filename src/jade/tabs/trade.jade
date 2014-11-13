@@ -452,9 +452,9 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                   .col-sm-2.action
                     img(src="img/button-s.png", class="loader", ng-show="entry.cancelling")
                     //- Button icons are placeholders until UI design is finalized
-                    button.btn-link.btn-xs.pull-right.fa.fa-times-circle(
+                    button.btn-link.btn-lg.pull-right.fa.fa-times-circle(
                       id="deleteOrder", type="button", ng-click="cancel_order()", ng-disabled="order.cancelling || editOrder.replacing", l10n)
-                    button.btn-link.btn-xs.pull-right.fa.fa-pencil-square-o(ng-click="beginEditOrder()", ng-disabled="order.cancelling || editOrder.replacing", l10n)
+                    button.btn-link.btn-lg.pull-right.fa.fa-pencil-square-o(ng-click="beginEditOrder()", ng-disabled="order.cancelling || editOrder.replacing", l10n)
                 div(ng-show="editOrder.seq == entry.seq")
                   form(novalidate, name="editOrderForm", ng-show="editOrder.seq == entry.seq")
                     .value-field.col-sm-3
@@ -466,7 +466,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                     .col-sm-2.action
                       img(src="img/button-s.png", class="loader", ng-show="(editOrder.cancelling || editOrder.replacing) && entry.seq == editOrder.seq")
                       //- Button icons are placeholders until UI design is finalized
-                      button.btn-link.btn-xs.pull-right.fa.fa-angle-double-left(ng-click="cancelEditOrder()", ng-disabled="editOrder.cancelling || editOrder.replacing", l10n)
+                      button.btn-link.btn-lg.pull-right.fa.fa-angle-double-left(ng-click="cancelEditOrder()", ng-disabled="editOrder.cancelling || editOrder.replacing", l10n)
                       rp-confirm(rp-show="fatFingerShouldWarn()"
                         l10n-action-text="CAUTION: Your new order is far off from the current market price. <br/> Do you still want to replace your order ?"
                         l10n-action-button-text="Confirm"
@@ -474,7 +474,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                         action-function="modifyOrder()"
                         cancel-button-css="btn btn-default"
                         l10n-cancel-button-text="&laquo; Back")
-                        button.btn-link.btn-xs.submit.pull-right.fa.fa-check-circle(
+                        button.btn-link.btn-lg.submit.pull-right.fa.fa-check-circle(
                           type="button", type="submit", ng-click="prepareOrderModify()", 
                           ng-disabled="editOrderForm.$invalid || ! editOrder.orderbookReady || editOrder.cancelling || editOrder.replacing || ! (editOrder.priceChanged || editOrder.quantityChanged) || editOrder.quantityFilled", l10n)
                 .col-sm-12.alert.alert-info(ng-show="entry.cancelling && ! editOrder.cancelling")
