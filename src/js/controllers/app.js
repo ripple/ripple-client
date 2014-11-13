@@ -647,8 +647,10 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
   }, true);
 
   $scope.pairs = $scope.pairs_all.slice(1);
-
-  $scope.app_loaded = true;
+  $timeout(function() {
+    $scope.app_loaded = 'loaded';
+    $("body").removeClass("loading");
+  }, 100);
 
   // Moved this to the run block
   // Nav links same page click fix
