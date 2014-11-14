@@ -80,7 +80,7 @@ AdvancedTab.prototype.angular = function(module)
       $scope.editMaxNetworkFee = false;
 
       // Reload
-      location.reload();
+      // location.reload();
     };
 
     $scope.saveAcctOptions = function () {
