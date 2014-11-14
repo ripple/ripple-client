@@ -60,28 +60,21 @@ div#wrapper
       div(scope="root", rp-jade-replace="client/status.jade")
 
     .migrate-attention(l10n)
-      p(l10n) This site is deprecated. New sign-ups are no longer allowed. New users should sign up for&#32;
-        a(l10n-inc, href="https://www.rippletrade.com") Ripple Trade&#32;
-        | or use the&#32;
-        a(l10n-inc, href="https://download.ripple.com") downloadable client.
-      p(l10n) Migrate to&#32;
-        a(l10n-inc, href="https://www.rippletrade.com") Ripple Trade&#32;
-        | if you:
+      p.announcement(l10n) ANNOUNCEMENT: On December 15, you will no longer be able to access your Ripple account from this site. After Dec 15th,&#32;
+        | the only Ripple Labs supported web client will be&#32;
+        a(l10n-inc, href="https://www.rippletrade.com") Ripple Trade.&#32; 
+        | If you want to use a different Ripple client, you should retrieve your account secret key before Dec 15th.
+      p(l10n) Instructions for migrating to&#32;
+        a(l10n-inc, href="https://www.rippletrade.com") Ripple Trade:
       ul
-        li(l10n) Want to use the latest and greatest trading features.
-        li(l10n) Want better account security (two-factor authentication).
-        li(l10n) Migration is easy and takes less than a minute. Migrate&#32;
-          a(l10n-inc, href="https://www.rippletrade.com/#/migrate") here
-          | .
-      p(l10n) Use the &#32; 
-          a(l10n-inc, href="https://download.ripple.com") downloadable client 
-          | if you:
+        li(l10n) Migrate&#32;
+          a(l10n-inc, href="https://www.rippletrade.com/#/migrate") here.&#32;
+          | Migration is easy and takes less than a minute. 
+        li(l10n) Ripple Trade has the latest and greatest trading features and better account security (two-factor authentication).
+      p(l10n) Instructions for retrieving your secret key:
       ul
-        li(l10n) Want to create a self-hosted wallet (commonly known as a "cold storage wallet"). Only your computer will have the login info and your wallet will be as safe as your physical computer.
-        li(l10n) Don't want to have access to your account from other computers.
-        li(l10n) The latest downloadable client is&#32;
-          a(l10n-inc, href="https://download.ripple.com") here
-          | . You need your secret key to create an account.
+        li(l10n) Login on ripple.com/client, then visit the Security page. Click "show" next to secret key.
+        li(l10n) Saving your secret key grants you full access to your funds through other Ripple clients and Ripple APIs.
       //- | Ripple.com/client will be deprecated. Please migrate your account to&#32;
       //- a(l10n-inc, href="https://www.rippletrade.com/#/migrate") Ripple Trade&#32;
       //- | or use the&#32;
