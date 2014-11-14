@@ -165,7 +165,7 @@ TradeTab.prototype.angular = function(module)
     };
 
     /**
-     * Happens when user cliens the currency in "My Orders".
+     * Happens when user clicks the currency in "My Orders".
      */
     $scope.goto_order_currency = function()
     {
@@ -832,6 +832,13 @@ TradeTab.prototype.angular = function(module)
         if (routeIssuers[prefix]) {
           if (ripple.UInt160.is_valid(routeIssuers[prefix][1])) {
             $scope.order[prefix + '_issuer'] = routeIssuers[prefix][1];
+          } else if (webutil.isRippleName(routeIssuers[prefix][1])) {
+            ripple.AuthInfo.get(Options.domain, routeIssuers[prefix][1], function(err, response) {
+              $scope.order[prefix + '_issuer'] = response.address;
+            });
+            // or, with this resolving method: fallback to default gateway if
+            // ripple name is not in contact.
+            //$scope.order[prefix + '_issuer'] = webutil.resolveContact($scope.userBlob.data.contacts, $scope.order[prefix + '_issuer']);
           } else {
             $location.path('/trade');
           }
@@ -840,6 +847,7 @@ TradeTab.prototype.angular = function(module)
 
       if (routeCurrencies.first && routeCurrencies.second) {
         if (routeCurrencies.first[1] !== routeCurrencies.second[1]) {
+          currencyPairChangedByNonUser = true;
           $scope.order.currency_pair = routeCurrencies.first[1] + '/' + routeCurrencies.second[1];
         } else {
           $location.path('/trade');
