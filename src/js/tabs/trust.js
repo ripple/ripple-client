@@ -625,6 +625,10 @@ TrustTab.prototype.angular = function (module)
         });
       };
 
+      $scope.isIncoming = function () {
+        return $scope.component.limit._value.t === 0;
+      };
+
     }]);
 
 };
