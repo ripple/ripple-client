@@ -78,14 +78,16 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                     rp-account-exists-loading="counterparty_loading"
                     rp-dest, rp-dest-address, rp-dest-contact, rp-not-me, rp-dest-email
                     rp-dest-ripple-name, rp-dest-model="counterparty"
+                    rp-dest-loading="counterparty_loading"
                     required
                     rp-autofill='$routeParams.to'
                     rp-autofill-counterparty_view
                     rp-autofill-on='addform_visible = true'
-                    rp-focus, rp-spinner)
+                    rp-focus, rp-spinner="{{counterparty_loading ? 4 : null}}")
                   .errorGroup(ng-messages='trustForm.trust_counterparty.$dirty && trustForm.trust_counterparty.$error')
                     div(ng-show='trustForm.trust_counterparty.$valid')
-                      .success(ng-show='counterparty != counterparty_address && counterparty_name && !error_account_reserve', ng-bind='counterparty_address')
+                      .success(ng-show='counterparty != counterparty_address && counterparty_name && !error_account_reserve')
+                        | {{counterparty_address}}
                       .error(ng-show='error_account_reserve')
                         span(l10n) This account does not meet the minimum XRP reserve, so you cannot use it as a gateway.
                     .error(ng-message='required', l10n) Please enter a Ripple name, contact, or address.
@@ -166,7 +168,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                           span.modal-permissions(l10n-inc)  on your behalf
                         div.grey-focus(ng-hide="globalOptions.advanced_feature_switch", l10n)
                           span.modal-permissions(l10n-inc) - Hold&#32;
-                          span(ng-bind="currency")
+                          span {{ currency }}
                           span.modal-permissions(l10n-inc)  on your behalf
                         div.modal-buttons
                           button.modal-btn.btn.btn-default.btn-success.btn-md(data-dismiss="modal", ng-click="grant_confirmed()",
@@ -201,99 +203,115 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
             .col-xs-12
               i(class="icon fa fa-money", ng-class="'fa-' + (entry.components[0].currency | lowercase)")
               span.currency(rp-currency="entry.components[0].limit", rp-currency-full)
-          .row.head
+          .row.head.hidden-xs.hidden-sm
             div(
               ng-class="{ 'col-sm-3 col-xs-2': globalOptions.advanced_feature_switch, 'col-sm-4 col-xs-4 col-md-5': !globalOptions.advanced_feature_switch }"
               l10n) Gateway
             div(
               ng-class="{ 'col-xs-2 col-sm-2': globalOptions.advanced_feature_switch, 'col-xs-4': !globalOptions.advanced_feature_switch }"
               l10n) Balance
-            div(ng-show="globalOptions.advanced_feature_switch", ng-class="{ 'col-xs-2': globalOptions.advanced_feature_switch }", l10n) Limit
-            div.col-xs-2.col-sm-1(ng-show="globalOptions.advanced_feature_switch", l10n) Min
-            div.col-xs-2(ng-show="globalOptions.advanced_feature_switch", l10n) Rippling
-            div(ng-class="{'col-xs-2' : globalOptions.advanced_feature_switch, 'col-xs-4 col-md-3': !globalOptions.advanced_feature_switch }"
+            div(ng-show="globalOptions.advanced_feature_switch", ng-class="{ 'col-md-2': globalOptions.advanced_feature_switch }", l10n) Limit
+            div.col-md-2(ng-show="globalOptions.advanced_feature_switch", l10n) Min
+            div.col-md-1(ng-show="globalOptions.advanced_feature_switch", l10n) Rippling
+            div(ng-class="{'col-md-1' : globalOptions.advanced_feature_switch, 'col-md-3': !globalOptions.advanced_feature_switch }"
               l10n) Edit
           hr#divider
           .lines
             .line(ng-controller="AccountRowCtrl", ng-repeat="component in entry.components")
               .row(ng-class="{ 'frozen-account': component.freeze_peer }")
-                .gateway(ng-class="{ 'col-sm-3 col-xs-2': globalOptions.advanced_feature_switch, 'col-md-5 col-sm-4 col-xs-4': !globalOptions.advanced_feature_switch }")
-                  span(rp-pretty-identity="component.account", rp-pretty-identity-filters="rpcontactnamefull | rpripplename: {tilde: true}",
-                    rp-address-popover="component.account"
+                .col-xs-full
+                  .gateway(ng-class="{ 'col-md-4': globalOptions.advanced_feature_switch, 'col-md-5': !globalOptions.advanced_feature_switch }",
+                    l10n-data-label="Gateway"
                     )
-                div(ng-class="{ 'col-xs-2 col-sm-2': globalOptions.advanced_feature_switch, 'col-xs-4': !globalOptions.advanced_feature_switch }")
-                  span(rp-address-popover, rp-address-popover-sum="component.balance") {{ component.balance | rpamount:{rel_precision: 2} }}
-                .col-xs-2(ng-show="globalOptions.advanced_feature_switch", ng-class="{ 'col-xs-1': globalOptions.advanced_feature_switch }")
-                  span(rp-address-popover, rp-address-popover-sum="component.limit") {{ component.limit | rpamount }}
-                .col-sm-1.col-xs-2(ng-show="globalOptions.advanced_feature_switch && component.limit_peer._offset == '-100'")
-                  span(rp-address-popover, rp-address-popover-sum="component.limit_peer") {{ component.limit_peer | rpamount }}
-                .col-sm-1.col-xs-2(ng-show="globalOptions.advanced_feature_switch && component.limit_peer._offset !== '-100'", 
-                                   ng-hide="component.limit_peer._offset == '-100' || !globalOptions.advanced_feature_switch")
-                  span(rp-address-popover, rp-address-popover-sum="component.limit_peer", rp-address-popover-sum-minus, ng-bind="minVal")
-                .col-sm-2.col-xs-2(ng-show="globalOptions.advanced_feature_switch")
-                  div(ng-show="component.no_ripple", l10n) Off
-                  div(ng-hide="component.no_ripple", l10n) On
-                div(ng-hide="component.freeze_peer", ng-class="{ 'col-xs-2': globalOptions.advanced_feature_switch, 'col-xs-4 col-md-3': !globalOptions.advanced_feature_switch }")
-                  a(href="", ng-hide="editing || isIncoming()", ng-click="edit_account()"
-                    l10n) edit
-                  span(
-                    ng-show="isIncoming()"
-                    rp-popover
-                    rp-popover-placement="bottom"
-                    rp-popover-trigger="hover"
-                    l10n-rp-popover-title="Incoming trust"
-                    l10n-data-content="This is an incoming trust line. Incoming trust lines are when other Ripple users trust you. You can only edit the rippling on or off option for incoming trust lines.")
-                    a(href="", ng-click="editing || edit_account()", l10n) edit
-                  span(ng-show="editing && !globalOptions.advanced_feature_switch")
-                    span(ng-hide="trust.loading")
-                      div.row.row-padding-small
-                        .col-md-7.col-sm-7.col-xs-6
-                          span(ng-show='trust.balance !== "0" && orderbookStatus === "exists"')
-                            rp-confirm(
-                            action-text="Are you sure you want to remove this gateway? Ripple Trade will attempt to convert the remaining balance of {{ trust.balance }} {{ trust.currency }} into XRP. This action can't be undone."
-                            action-button-text="Convert balance and remove"
-                            action-button-css="btn btn-default btn-danger custom-btn"
-                            action-function="delete_account()"
-                            cancel-button-css="btn btn-cancel"
-                            cancel-button-text="cancel"
-                            ng-hide="showPassword==true")
-                              button.btn.btn-block.btn-danger.submit(type="button", ng-click="load_orderbook()", ng-show="!isIncoming()", l10n) Remove
+                    span(rp-pretty-identity="component.account", rp-pretty-identity-filters="rpcontactnamefull | rpripplename: {tilde: true}",
+                      rp-address-popover="component.account"
+                      )
+                  div(ng-class="{ 'col-md-2': globalOptions.advanced_feature_switch, 'col-md-4': !globalOptions.advanced_feature_switch }",
+                    l10n-data-label="Balance"
+                    )
+                    span(rp-address-popover, rp-address-popover-sum="component.balance") {{ component.balance | rpamount:{rel_precision: 2} }}
+                  .col-md-2(ng-show="globalOptions.advanced_feature_switch",
+                    l10n-data-label="Limit"
+                    )
+                    span(rp-address-popover, rp-address-popover-sum="component.limit") {{ component.limit | rpamount }}
+                  .col-md-2(ng-show="globalOptions.advanced_feature_switch && component.limit_peer._offset == '-100'",
+                    l10n-data-label="Min"
+                    )
+                    span(rp-address-popover, rp-address-popover-sum="component.limit_peer") {{ component.limit_peer | rpamount }}
+                  .col-md-2(
+                      ng-show="globalOptions.advanced_feature_switch && component.limit_peer._offset !== '-100'",
+                      ng-hide="component.limit_peer._offset == '-100' || !globalOptions.advanced_feature_switch",
+                      l10n-data-label="Min"
+                      )
+                    span(rp-address-popover, rp-address-popover-sum="component.limit_peer", rp-address-popover-sum-minus, ng-bind="minVal")
+                  .col-md-1(ng-show="globalOptions.advanced_feature_switch",
+                    l10n-data-label="Rippling"
+                    )
+                    div(ng-show="component.no_ripple", l10n) Off
+                    div(ng-hide="component.no_ripple", l10n) On
+                  div(ng-hide="component.freeze_peer", ng-class="{ 'col-md-1': globalOptions.advanced_feature_switch, 'col-md-3': !globalOptions.advanced_feature_switch }")
+                    button.btn.btn-cancel.visible-xs.visible-sm(href="", ng-hide="editing || isIncoming()", ng-click="edit_account()"
+                      l10n) edit
+                    a.hidden-xs.hidden-sm(href="", ng-hide="editing || isIncoming()", ng-click="edit_account()"
+                      l10n) edit
+                    span(
+                      ng-show="isIncoming()"
+                      rp-popover
+                      rp-popover-placement="bottom"
+                      rp-popover-trigger="hover"
+                      l10n-rp-popover-title="Incoming trust"
+                      l10n-data-content="This is an incoming trust line. Incoming trust lines are when other Ripple users trust you. You can only edit the rippling on or off option for incoming trust lines.")
+                      a(href="", ng-click="editing || edit_account()", l10n) edit
+                    span(ng-show="editing && !globalOptions.advanced_feature_switch")
+                      span(ng-hide="trust.loading")
+                        div.row.row-padding-small
+                          .col-md-7.col-sm-7.col-xs-6
+                            span(ng-show='trust.balance !== "0" && orderbookStatus === "exists"')
+                              rp-confirm(
+                              action-text="Are you sure you want to remove this gateway? Ripple Trade will attempt to convert the remaining balance of {{ trust.balance }} {{ trust.currency }} into XRP. This action can't be undone."
+                              action-button-text="Convert balance and remove"
+                              action-button-css="btn btn-default btn-danger custom-btn"
+                              action-function="delete_account()"
+                              cancel-button-css="btn btn-cancel"
+                              cancel-button-text="cancel"
+                              ng-hide="showPassword==true")
+                                button.btn.btn-block.btn-danger.submit(type="button", ng-click="load_orderbook()", ng-show="!isIncoming()", l10n) Remove
+                                span(
+                                  rp-popover
+                                  rp-popover-placement="bottom"
+                                  rp-popover-trigger="hover"
+                                  l10n-rp-popover-title="Incoming trust"
+                                  l10n-data-content="You can't delete incoming trust lines. Incoming trust lines are when other Ripple users trust you.")
+                                  button.btn.btn-block.btn-danger.submit(type="button", ng-click="load_orderbook()", ng-show="isIncoming()", disabled, l10n) Remove
+                            span(ng-show='trust.balance !== "0" && orderbookStatus === "not"')
+                              rp-confirm(
+                              action-text="Are you sure you want to remove this gateway? Ripple Trade will return the balance of {{ trust.balance }} {{ trust.currency }} to the issuer. This action can't be undone."
+                              action-button-text="Return balance and remove"
+                              action-button-css="btn btn-default btn-danger custom-btn"
+                              action-function="delete_account()"
+                              cancel-button-css="btn btn-cancel"
+                              cancel-button-text="cancel"
+                              ng-hide="showPassword==true")
+                                button.btn.btn-block.btn-danger.submit(type="button", ng-click="load_orderbook()", ng-show="!isIncoming()", l10n) Remove
+                                span(
+                                  rp-popover
+                                  rp-popover-placement="bottom"
+                                  rp-popover-trigger="hover"
+                                  l10n-rp-popover-title="Incoming trust"
+                                  l10n-data-content="You can't delete incoming trust lines. Incoming trust lines are when other Ripple users trust you.")
+                                  button.btn.btn-block.btn-danger.submit(type="button", ng-click="load_orderbook()", ng-show="component.limit._value.t === 0", disabled, l10n) Remove
+                            span(ng-show='trust.balance === "0"')
+                              button.btn.btn-block.btn-danger.submit(type="button", ng-click="delete_account()", ng-show="!isIncoming()", l10n) Remove
                               span(
                                 rp-popover
                                 rp-popover-placement="bottom"
                                 rp-popover-trigger="hover"
                                 l10n-rp-popover-title="Incoming trust"
                                 l10n-data-content="You can't delete incoming trust lines. Incoming trust lines are when other Ripple users trust you.")
-                                button.btn.btn-block.btn-danger.submit(type="button", ng-click="load_orderbook()", ng-show="isIncoming()", disabled, l10n) Remove
-                          span(ng-show='trust.balance !== "0" && orderbookStatus === "not"')
-                            rp-confirm(
-                            action-text="Are you sure you want to remove this gateway? Ripple Trade will return the balance of {{ trust.balance }} {{ trust.currency }} to the issuer. This action can't be undone."
-                            action-button-text="Return balance and remove"
-                            action-button-css="btn btn-default btn-danger custom-btn"
-                            action-function="delete_account()"
-                            cancel-button-css="btn btn-cancel"
-                            cancel-button-text="cancel"
-                            ng-hide="showPassword==true")
-                              button.btn.btn-block.btn-danger.submit(type="button", ng-click="load_orderbook()", ng-show="!isIncoming()", l10n) Remove
-                              span(
-                                rp-popover
-                                rp-popover-placement="bottom"
-                                rp-popover-trigger="hover"
-                                l10n-rp-popover-title="Incoming trust"
-                                l10n-data-content="You can't delete incoming trust lines. Incoming trust lines are when other Ripple users trust you.")
-                                button.btn.btn-block.btn-danger.submit(type="button", ng-click="load_orderbook()", ng-show="component.limit._value.t === 0", disabled, l10n) Remove
-                          span(ng-show='trust.balance === "0"')
-                            button.btn.btn-block.btn-danger.submit(type="button", ng-click="delete_account()", ng-show="!isIncoming()", l10n) Remove
-                            span(
-                              rp-popover
-                              rp-popover-placement="bottom"
-                              rp-popover-trigger="hover"
-                              l10n-rp-popover-title="Incoming trust"
-                              l10n-data-content="You can't delete incoming trust lines. Incoming trust lines are when other Ripple users trust you.")
-                              button.btn.btn-block.btn-danger.submit(type="button", ng-click="delete_account()", ng-show="isIncoming()", disabled, l10n) Remove
-                        .col-md-5.col-sm-5.col-xs-6
-                          a.btn.btn-block.btn-cancel(href="", ng-click="cancel()"
-                          ng-disabled="trust.loading", l10n) cancel
+                                button.btn.btn-block.btn-danger.submit(type="button", ng-click="delete_account()", ng-show="isIncoming()", disabled, l10n) Remove
+                          .col-md-5.col-sm-5.col-xs-6
+                            a.btn.btn-block.btn-cancel(href="", ng-click="cancel()"
+                            ng-disabled="trust.loading", l10n) cancel
 
                 //- Account Freeze
                 div.col-xs-2(ng-show="component.freeze_peer")
