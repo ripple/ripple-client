@@ -118,7 +118,6 @@ module.directive('rpPrettyIdentity', [function () {
       }
       return function (scope, element, attr) {
         // XXX Set title to identity
-        console.log(element);
       };
     }
   };
