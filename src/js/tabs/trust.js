@@ -175,6 +175,7 @@ TrustTab.prototype.angular = function (module)
             $scope.$apply(function(){
               $scope.verifying = false;
               $scope.error_account_reserve = true;
+              console.log('There was an error', m);
             });
           });
         })
@@ -231,6 +232,15 @@ TrustTab.prototype.angular = function (module)
           setImmediate(function () {
             $scope.$apply(function () {
               $scope.mode = 'error';
+
+              if (res.engine_result === 'tejMaxFeeExceeded') {
+                $scope.load_notification("max_fee_exceeded");
+              } else {
+                $scope.load_notification("error");
+              }
+
+              $scope.reset();
+
             });
           });
         })
@@ -238,7 +248,12 @@ TrustTab.prototype.angular = function (module)
 
       keychain.requestSecret(id.account, id.username, function (err, secret) {
         // XXX Error handling
-        if (err) return;
+        if (err) {
+          $scope.load_notification('unlock_failed');
+
+          $scope.reset();
+          return;
+        }
 
         $scope.mode = 'granting';
 
@@ -411,9 +426,11 @@ TrustTab.prototype.angular = function (module)
           keychain.requestSecret(id.account, id.username, function (err, secret) {
             if (err) {
               $scope.mode = 'error';
-              console.log('Error on requestSecret: ', err);
               $scope.trust.loading = false;
-              $scope.load_notification("error");
+              $scope.load_notification('unlock_failed');
+              console.log('Error on requestSecret: ', err);
+
+              $scope.reset();
               return;
             }
 
@@ -422,9 +439,16 @@ TrustTab.prototype.angular = function (module)
             tx.submit(function(err, res) {
               if (err) {
                 $scope.mode = 'error';
-                console.log('Error on tx submit: ', err);
                 $scope.trust.loading = false;
-                $scope.load_notification("error");
+                console.log('Error on tx submit: ', err);
+
+                if (err.engine_result === 'tejMaxFeeExceeded') {
+                  $scope.load_notification("max_fee_exceeded");
+                } else {
+                  $scope.load_notification("error");
+                }
+
+                $scope.reset();
                 return;
               }
 
@@ -614,6 +638,8 @@ TrustTab.prototype.angular = function (module)
           if (err) {
             $scope.trust.loading = false;
             $scope.load_notification('error');
+
+            $scope.reset();
 
             return;
           }
