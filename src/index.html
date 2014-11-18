@@ -47,7 +47,7 @@
 
 </head>
 
-<body ng-class="{loaded: app_loaded}">
+<body ng-class="app_loaded">
 
   <script>
     function get_browser (){
@@ -69,7 +69,6 @@
 
   <div id="appLoading">
     <img src="img/main.png" class="loader" alt="" title="" />
-    <div class="loading_text">Loading Ripple Trade</div>
   </div>
 
   <!-- VERSION -->
@@ -141,6 +140,11 @@
           mixpanel.init(Options.mixpanel.token); }
   </script>
   <!-- end Mixpanel -->
+  
+  <!-- loading state -->
+  <script>
+    setTimeout(function(){ $("body").addClass("loading");}, 100);  
+  </script>
 
   </body>
 </html>
