@@ -142,7 +142,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
 
           //- 1. Order widgets
           group.row.send-widgets(ng-show="account.Balance")
-            .col-xs-12.col-sm-6(ng-repeat="type in ['buy','sell']")
+            .col-xs-12.col-md-6(ng-repeat="type in ['buy','sell']")
               .trade-widget(ng-switch="order[type].mode")
                 .head
                   span(ng-show="type == 'buy'", l10n) Buy&#32;
@@ -460,7 +460,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
               //- TODO hide one column (size/sum) to show bids/ask in the same line for mobile phones.
               //- TODO highlight changes
               .row.orderbook
-                .bids.col-xs-12.col-sm-6
+                .bids.col-xs-12.col-md-6
                   .title(l10n) Bids
                   .row.head(ng-show="book.bids.length")
                     .col-xs-4.sum(l10n) Sum
@@ -494,7 +494,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                       a(href="", ng-click="fill_widget('sell',order)")
                         span(rp-bind-color-amount="order.showPrice")
                   .message(ng-show='!book.bids.length', l10n) There are currently no bids for this pair.
-                .asks.col-xs-12.col-sm-6
+                .asks.col-xs-12.col-md-6
                   .title(l10n) Asks
                   .row.head(ng-show="book.asks.length")
                     .col-xs-4.price(l10n) Ask Price
