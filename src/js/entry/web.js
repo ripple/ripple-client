@@ -250,3 +250,6 @@ if ("function" === typeof angular.resumeBootstrap) {
     return false;
   };
 }
+
+// Set loading state for body
+setTimeout(function(){ $("body").addClass("loading");}, 100);

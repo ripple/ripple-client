@@ -13,10 +13,12 @@ body {
 #wrapper {
   position: relative;
   z-index: 2;
-  display: none;
+  opacity: 0;
   width: 100%;
   min-height: 100%;
   background-color: @white;
+  -webkit-transition: all 2s; /* For Safari 3.1 to 6.0 */
+  transition: all 2s;
 }
 
 #version, #versionbranch, #browserVersion {
@@ -40,10 +42,10 @@ body.loaded #versionbranch {
 }
 
 body.loaded #wrapper {
-  display: block;
+  opacity: 1;
 }
 
-#appLoading, #noWebSockets {
+#noWebSockets {
   text-align: center;
   position: absolute;
   top: 50%;
@@ -78,8 +80,45 @@ body.loaded #wrapper {
   }
 }
 
-body.loaded #appLoading {
-  display: none;
+#appLoading{
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 150px;
+  height: 110px;
+  margin-left: -75px;
+  margin-top: -55px;
+  z-index: 10;
+  transform: translateY(800px);
+  -webkit-transform: translateY(800px);
+  opacity: 1;
+  -webkit-transition: all 1s; /* For Safari 3.1 to 6.0 */
+  transition: all 1s;
+
+  .loading_text {
+    padding-top: 10px;
+  }
+
+  p{
+    margin: 50px 0 0 0;
+  }
+}
+
+body.loading {
+
+  #appLoading {
+    transform: translateY(1px);
+    -webkit-transform: translateY(1px);
+  }
+}
+body.loaded {
+  overflow: auto;
+  #appLoading {
+    transform: translateY(-800px);
+    -webkit-transform: translateY(-800px);
+    opacity: 0;
+  }
 }
 
 #logo {
