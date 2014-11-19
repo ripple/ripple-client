@@ -26,8 +26,6 @@ XrpTab.prototype.angular = function (module)
     $scope.accountLines = {};
     $scope.showComponent = [];
     $scope.fundPage = 'xrp';
-
-    if (!$id.loginStatus) return $id.goId();
   }]);
 };
 

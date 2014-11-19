@@ -32,7 +32,7 @@ GoldTab.prototype.angular = function (module)
         }
       }, true);
 
-      if (!$id.loginStatus) return $id.goId();
+
       
       $scope.toggle_instructions = function () {
         $scope.showInstructions = !$scope.showInstructions;

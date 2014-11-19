@@ -27,8 +27,6 @@ TrustTab.prototype.angular = function (module)
                                   function ($scope, books, $timeout, $routeParams, id,
                                             $filter, $network, $rpTracker, keychain)
   {
-    if (!id.loginStatus) return id.goId();
-
     $scope.advanced_feature_switch = Options.advanced_feature_switch;
     $scope.trust = {};
 

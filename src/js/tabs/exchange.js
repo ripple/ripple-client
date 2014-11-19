@@ -26,7 +26,7 @@ ExchangeTab.prototype.angular = function (module)
     'rpId', 'rpNetwork', 'rpTracker', 'rpKeychain', '$rootScope',
     function ($scope, $timeout, $routeParams, $id, $network, $rpTracker, keychain, $rootScope)
     {
-      if (!$id.loginStatus) return $id.goId();
+
 
       var timer, pf;
 

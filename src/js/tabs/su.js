@@ -25,8 +25,6 @@ SuTab.prototype.angular = function (module)
                                'rpNetwork', 'rpDomainAlias', 'rpKeychain',
     function ($scope, $routeParams, id, net, aliasService, keychain)
   {
-    if (!id.loginStatus) return id.goId();
-
     $scope.account = {};
 
     // Get account

@@ -140,6 +140,10 @@ app.config(['$routeProvider', '$injector', function ($routeProvider, $injector) 
         template: template
       };
 
+      if ('balance' === tab.tabName) {
+        $routeProvider.when('/', config);
+      }
+
       $routeProvider.when('/'+tab.tabName, config);
 
       if (tab.extraRoutes) {
@@ -172,15 +176,12 @@ app.config(['$routeProvider', '$injector', function ($routeProvider, $injector) 
       location.href = location.protocol + '//' + location.hostname  + port + location.pathname;
     }
   });
-  $routeProvider.when('/',{
-    redirectTo: '/balance'
-  });
 
   $routeProvider.otherwise({redirectTo: '/404'});
 }]);
 
-app.run(['$rootScope', '$injector', '$compile', '$route', '$routeParams', '$location', '$document',
-         function ($rootScope, $injector, $compile, $route, $routeParams, $location, $document)
+app.run(['$rootScope', '$injector', '$compile', '$route', '$routeParams', '$location', '$document', 'rpId',
+         function ($rootScope, $injector, $compile, $route, $routeParams, $location, $document, id)
 {
   $rootScope.productName = 'Ripple Trade';
 

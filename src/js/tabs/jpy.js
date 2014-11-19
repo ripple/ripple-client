@@ -21,10 +21,8 @@ JpyTab.prototype.generateHtml = function ()
 JpyTab.prototype.angular = function (module)
 {
   module.controller('JpyCtrl', ['$scope', 'rpId', 'rpAppManager', 'rpTracker', '$routeParams', 'rpKeychain', 'rpNetwork', '$timeout',
-    function ($scope, $id, appManager, rpTracker, $routeParams, keychain, $network, $timeout) {
-
-      if (!$id.loginStatus) return $id.goId();
-
+    function ($scope, $id, appManager, rpTracker, $routeParams, keychain, $network, $timeout)
+    {
       $scope.$watch('lines', function () {
         if($scope.lines['r94s8px6kSw1uZ1MV98dhSRTvc6VMPoPcNJPY']){
           $scope.jpyConnected = true;

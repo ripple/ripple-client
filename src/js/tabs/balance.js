@@ -27,7 +27,7 @@ BalanceTab.prototype.angular = function (module)
   module.controller('BalanceCtrl', ['$scope', 'rpId', 'rpNetwork', '$filter', '$http', 'rpAppManager',
                                      function ($scope, $id, $network, $filter, $http, appManager)
   {
-    if (!$id.loginStatus) return $id.goId();
+    //
 
     // In the following, we get and watch for changes to data that is used to
     // calculate the pie chart and aggregate balance. This data includes:

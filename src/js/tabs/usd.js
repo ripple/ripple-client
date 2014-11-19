@@ -27,8 +27,6 @@ UsdTab.prototype.angular = function (module)
   module.controller('UsdCtrl', ['$scope', 'rpId', '$routeParams', '$http', 'rpAuthFlow', 'rpNetwork', 'rpTxQueue', '$location', 'rpTracker',
     function ($scope, $id, $routeParams, $http, authflow, network, txQueue, $location, $rpTracker)
     {
-      if (!$id.loginStatus) return $id.goId();
-
       var issuer = Options.b2rAddress;
       var currency = 'USD';
       var trustAmount = '100000000000';

@@ -418,6 +418,7 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', '$t
         self.storeLoginKeys(blob.url, actualUsername, keys);
         store.set('device_id', blob.device_id);
         self.loginStatus = true;
+        $scope.loginStatus = true;
         $scope.$broadcast('$blobUpdate');
         store.set('ripple_known', true);
 
@@ -447,7 +448,8 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', '$t
     //
     //     Will work fine as long as any relogin error triggers a logout and
     //     logouts trigger a full page reload.
-    self.loginStatus = true;    
+    self.loginStatus = true;
+    $scope.loginStatus = true;
     
     $authflow.relogin(auth.url, auth.keys, deviceID, function (err, blob) {
       
@@ -466,6 +468,7 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', '$t
         self.setAccount(blob.data.account_id);
         self.setLoginKeys(auth.keys);
         self.loginStatus = true;
+        $scope.loginStatus = true;
         $scope.$broadcast('$blobUpdate');
         store.set('ripple_known', true);
         callback(null, blob);
@@ -503,6 +506,7 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', '$t
       self.storeLoginKeys(options.blob.url, options.username, keys);
       store.set('device_id', options.blob.device_id);
       self.loginStatus = true;
+      $scope.loginStatus = true;
       $scope.$broadcast('$blobUpdate');
       store.set('ripple_known', true);  
       callback();          
@@ -519,12 +523,13 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', '$t
     }
     
     // TODO make it better
-    this.account = '';
-    this.keys = {};
-    this.loginStatus = false;
-    this.username = '';
-
-    $scope.address = '';
+    //this.account = '';
+    //this.keys = {};
+    //this.loginStatus = false;
+    //$scope.loginStatus = false;
+    //this.username = '';
+    //
+    //$scope.address = '';
 //    $location.path('/login');
 
     // problem?
@@ -648,8 +653,26 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', '$t
       deferred.resolve(self.resolvedNames[address]);
     }
     return deferred.promise;
-  }
+  };
 
+  $scope.$watch('loginStatus', function (loginStatus){
+    if (loginStatus) {
+      $scope.showLogin = false;
+    }
+  });
+
+  $scope.$on('$routeChangeStart', function (ev, next) {
+    if (!$scope.loginStatus) {
+      var tab = next.tabName;
+
+      if (tab !== 'register' && tab !== 'migrate' && tab !== 'recover' && tab !== '404') {
+        $scope.showLogin = true;
+        return;
+      }
+    }
+
+    $scope.showLogin = false;
+  });
 
   return new Id();
 }]);

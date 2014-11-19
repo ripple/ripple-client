@@ -37,7 +37,7 @@ BtcTab.prototype.angular = function (module)
       }
     }, true);
 
-    if (!$id.loginStatus) return $id.goId();
+
 
     $scope.openPopup = function () {
       $scope.emailError = false;

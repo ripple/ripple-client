@@ -25,7 +25,6 @@ AccountTab.prototype.angular = function(module)
   module.controller('AccountCtrl', ['$scope', '$timeout', 'rpId', 'rpKeychain', '$routeParams',
     function ($scope, $timeout, $id, keychain, $routeParams)
     {
-      if (!$id.loginStatus) return $id.goId();
       if (!$routeParams.route) $routeParams.route = 'public';
 
       $scope.rename = function() {

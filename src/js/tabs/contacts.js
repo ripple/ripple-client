@@ -24,7 +24,7 @@ ContactsTab.prototype.angular = function (module) {
   module.controller('ContactsCtrl', ['$scope', 'rpId', 'rpTracker',
     function ($scope, $id, $rpTracker)
   {
-    if (!$id.loginStatus) return $id.goId();
+
 
     $scope.reset_form = function ()
     {

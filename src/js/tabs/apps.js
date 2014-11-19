@@ -24,7 +24,7 @@ AppsTab.prototype.angular = function (module)
   module.controller('AppsCtrl', ['$scope', 'rpId', 'rpAppManager',
     function ($scope, $id, $appManager)
   {
-    if (!$id.loginStatus) return $id.goId();
+
 
     /**
      * Add an app
