@@ -1,7 +1,10 @@
 nav.navbar(role="navigation", ng-controller="NavbarCtrl")
-  div.alert(l10n, style="background-color: #AA3333; color: #FFAAAA; padding: 1em; margin-bottom: 0;", ng-show="pretended")
+  div.alert(l10n, style="background-color: #AA3333; color: #FFAAAA; padding: 1em; margin-bottom: 0;", ng-show="debug")
     p
-      strong You are viewing an account in Pretend mode. While in this mode, you can view publicly available data, but you cannot initiate any transactions.
+      strong
+        | You are viewing an account in 
+        a(href="#/debug") Debug 
+        | mode. While in this mode, you can view publicly available data, but you cannot initiate any transactions.
   .mainnav
     .container
       .navbar-header

@@ -1,5 +1,7 @@
 section.col-xs-12.content(ng-controller="AccountCtrl")
-  .row(ng-show='connected')
+  div(ng-show='debug') This page is not available in debug mode
+
+  .row(ng-show='connected && !debug')
     div(ng-show="!loadingAccount && !account.Balance && loadState.account && connected")
       include banner/unfunded
     .col-sm-3

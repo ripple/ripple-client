@@ -11,7 +11,9 @@ section.col-xs-12.content(ng-controller='SendCtrl')
     include banner/unfunded
     p.literal(l10n="err-you-must-be-funded-before-you-can-send-money", l10n) You have to be funded before you can send money
 
-  .row(ng-show='connected')
+  div(ng-show='debug') This page is not available in debug mode
+
+  .row(ng-show='connected && !debug')
     .widgets.hidden-xs.col-sm-4.col-md-4.col-lg-3
       include widgets/balances
     .col-xs-12.col-sm-8.col-md-8.col-lg-9
