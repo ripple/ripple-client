@@ -34,6 +34,7 @@ section.col-xs-12.content(ng-controller="ContactsCtrl")
                 name='address_web', type='text', step='any'
                 ng-model='contact.view'
                 rp-dest, rp-dest-address, rp-dest-bitcoin, rp-dest-ripple-name, rp-dest-ripple-name-no-tilde
+                rp-dest-email, rp-dest-check-federation, rp-dest-federation-model="contact.federation"
                 rp-dest-model="contact.address", rp-dest-loading="address_loading"
                 rp-unique='userBlob.data.contacts'
                 rp-unique-field='address'
@@ -46,7 +47,7 @@ section.col-xs-12.content(ng-controller="ContactsCtrl")
               .error(rp-error-on='rpUnique', l10n) You already have a contact with the same Ripple name and/or the same Destination tag.
               .error(rp-error-on='rpDest', l10n) Not a valid Ripple name or address.
         .form-group
-          div
+          div(ng-hide='contact.federation')
             label(for='dt_web', l10n) Destination tag
             input.form-control.input-lg.dt#dt_web(
               name='dt_web', type='text', step='any'
@@ -103,11 +104,12 @@ section.col-xs-12.content(ng-controller="ContactsCtrl")
               rp-unique-field='address'
               rp-unique-orig='entry.address'
               rp-dest, rp-dest-address, rp-dest-bitcoin
+              rp-dest-email, rp-dest-check-federation, rp-dest-federation-model="entry.federation"
               ng-enter="update($index)")
             .errorGroup(rp-errors='editaddress')
               .error(rp-error-on='rpUnique', l10n) You already have this address.
               .error(rp-error-on='rpDest', l10n) Not a valid address.
-            .form-group
+            .form-group(ng-hide='entry.federation')
               label(for="contact_dt", l10n) Destination tag
               input.form-control.dt.inline#contact_dt(
                 name='dt', type='text', step='any'
