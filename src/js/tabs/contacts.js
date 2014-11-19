@@ -31,7 +31,8 @@ ContactsTab.prototype.angular = function (module) {
       $scope.contact = {
         name: '',
         view: '',
-        address: ''
+        address: '',
+        federation: null
       };
       if ($scope.addForm) $scope.addForm.$setPristine();
     };
@@ -58,7 +59,7 @@ ContactsTab.prototype.angular = function (module) {
         address: $scope.contact.address
       };
 
-      if ($scope.contact.dt) {
+      if ($scope.contact.dt && !$scope.contact.federation) {
         contact.dt = $scope.contact.dt;
       }
 
@@ -111,7 +112,7 @@ ContactsTab.prototype.angular = function (module) {
             address: $scope.editaddress
           };
 
-          if ($scope.editdt) {
+          if ($scope.editdt  && !$scope.contact.federation) {
             entry.dt = $scope.editdt;
           }
 

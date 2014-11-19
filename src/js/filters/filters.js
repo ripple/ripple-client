@@ -377,6 +377,7 @@ module.filter('rprange', function() {
 
 module.filter('rpaddressorigin', function() {
   return function(recipient) {
+    if (~recipient.indexOf('@')) return 'federation';
     return !isNaN(Base.decode_check([0, 5], recipient, 'bitcoin')) ? 'bitcoin' : 'ripple';
   };
 });
