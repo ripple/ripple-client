@@ -311,8 +311,7 @@ TradeTab.prototype.angular = function(module)
           'Status': 'error',
           'Message': err.engine_result,
           'Currency pair': $scope.order.currency_pair,
-          'Address': $scope.userBlob.data.account_id,
-          'Transaction ID': res.tx_json.hash
+          'Address': $scope.userBlob.data.account_id
         });
       });
 
