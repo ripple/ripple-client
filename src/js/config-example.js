@@ -18,7 +18,9 @@ var Options = {
     servers: [
       { host: 's-west.ripple.com', port: 443, secure: true },
       { host: 's-east.ripple.com', port: 443, secure: true }
-    ]
+    ],
+
+    connection_offset: 0
 
   },
 
@@ -68,8 +70,10 @@ var Options = {
   // Set max number of rows for orderbook
   orderbook_max_rows: 20,
 
+  // Show advanced parameters in the trust/gateway page
   advanced_feature_switch: false,
 
+  // Default gateway max trust amount under 'simplfied' view ie when advanced_feature_switch is false in trust/gateway page
   gateway_max_limit: 1000000000
 };
 
@@ -102,4 +106,8 @@ if (store.enabled) {
     Options.max_tx_network_fee = settings.max_tx_network_fee;
   }
 
+  Options.server.servers = Options.server.servers.map(function (server) {
+    server.host = server.host.replace(/s_(west|east)/, 's-$1');
+    return server;
+  });
 }
