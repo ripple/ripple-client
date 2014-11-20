@@ -75,8 +75,8 @@ section.col-xs-12.content(ng-controller='BtcCtrl')
                         | SnapSwap's btc2ripple service is currently unavailable.
                         |  Please check back later.
                 button.btn.btn-large(ng-show="!btcConnected && loading", ng-disabled="loading") Adding...
-                button.btn.btn-block.btn-primary(ng-show="showInstructions && btcConnected", type="submit", ng-click="showInstructions = false") Hide instructions
-                button.btn.btn-block.btn-primary(ng-show="btcConnected && !showInstructions", type="submit", ng-click="showInstructions = true") Show instructions
+                button.btn.btn-block.btn-primary(ng-show="showInstructions && btcConnected", type="submit", ng-click="toggle_instructions()") Hide instructions
+                button.btn.btn-block.btn-primary(ng-show="btcConnected && !showInstructions", type="submit", ng-click="toggle_instructions()") Show instructions
 
               .connect.col-md-8.col-sm-7.col-xs-5
                 .description(ng-show="!btcConnected", l10n)
@@ -85,22 +85,33 @@ section.col-xs-12.content(ng-controller='BtcCtrl')
                 .description(ng-show="btcConnected", l10n)
                   i.fa.fa-check
                   | Connected
-        .B2R.row(ng-show="btcConnected && showInstructions")
-          .active.col-xs-12(ng-show="B2R.active")
-            div(ng-show="loadState.B2RInstructions")
-              .instructions-b2r {{B2R.instructions.instruction}}
+        .row(ng-show="btcConnected && showInstructions")
+          .instructions.col-md-10
+            //a.dismiss#hide(href="", ng-click="toggle_instructions()")  ×
+
+            .active.col-xs-12(ng-show="B2R.active")
+              .title(l10n) Personal Deposit address
               .btc-address {{B2R.instructions.instructionParams[0].value}}
-              .qr-code
-                rp-qrcode(data="bitcoin:{{B2R.instructions.instructionParams[0].value}}", size="100")
-              .about(ng-hide="account.Balance", l10n) A small amount (~.001 BTC) of your first
-                |  transfer will be converted to XRP to activate your wallet.&#32;
-                a.why(href="https://ripple.com/wiki/Reserves",
-                target="_blank", l10n-inc) Why?
-              .limit(ng-show="B2R.limit")
-                span(l10n) Your current deposit limit is:
-                rp-inbound-bridge-limit(limit="B2R.limit")
-                a.remove(href="https://btc2ripple.com/#/my/setup"
-                target="_blank", l10n) Remove Limit
+              .description(l10n) Your current deposit limit is:
+                rp-inbound-bridge-limit.description(limit="B2R.limit")
+              .title(l10n) Deposit Instructions
+              div(ng-show="loadState.B2RInstructions")
+                .description {{B2R.instructions.instruction}}
+                //.qr-code
+                  rp-qrcode(data="bitcoin:{{B2R.instructions.instructionParams[0].value}}", size="200")
+                //.about(ng-hide="account.Balance", l10n) A small amount (~.001 BTC) of your first
+                  |  transfer will be converted to XRP to activate your wallet.&#32;
+                  a.why(href="https://ripple.com/wiki/Reserves",
+                  target="_blank", l10n-inc) Why?
+              .title(l10n) Withdrawal instructions
+              .description(l10n) To withdraw to a BTC address, go to the Send tab and enter the BTC address. Using the btc2ripple service, you will be able to
+                  | send to that BTC address.
+              .title(l10n) How to lift your deposit limit
+              .description(l10n) To remove your deposit limit, you'll need to complete a profile on btc2ripple.com using your automatically generated account credentials.
+                  | To find these credentials, look for an email with the subject line "btc2ripple credentials". Login to btc2ripple.com and follow the instructions for
+                  | completing your profile.&#32;
+                  a.remove(href="http://b2r.uservoice.com/knowledgebase/articles/453190-removing-10-btc-deposit-limit"
+                  target="_blank", l10n) Learn more.
             div(ng-hide="loadState.B2RInstructions") Loading...
           .inactive.col-xs-12(ng-hide="B2R.active")
             span(ng-show="loading")
