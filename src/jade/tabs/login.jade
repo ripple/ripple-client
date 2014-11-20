@@ -1,5 +1,5 @@
 section.col-xs-12.content(ng-controller="LoginCtrl")
-  .row.auth-form-container(ng-hide="$routeParams.tab")
+  .row.auth-form-container(ng-hide="$routeParams.to")
     .auth-form-wrapper.col-xs-12.col-sm-8.col-md-7
       form(name='loginForm', ng-submit='submitForm()')
         h2(l10n) Log In
@@ -29,15 +29,15 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
             button.btn.btn-block.btn-primary(ng-click="")
               span(l10n) Account Recovery
         a.recover(ng-href="#/recover/{{username}}", ng-hide="showRecover", l10n) Account Recovery
-  .row.switch-mode-wrapper      
-    .switch-mode-link-container(l10n) Already have a ripple.com/client account?&#32;
-      a(href='#migrate', l10n-inc) Migrate
-    .switch-mode-link-container(l10n) New to {{productName}}?&#32;
-      a(href='#register', l10n-inc) Sign Up
+    .row.switch-mode-wrapper
+      .switch-mode-link-container(l10n) Already have a ripple.com/client account?&#32;
+        a(href='#migrate', l10n-inc) Migrate
+      .switch-mode-link-container(l10n) New to {{productName}}?&#32;
+        a(href='#register', l10n-inc) Sign Up
 
-  .row.action-login(ng-show="$routeParams.tab")
+  .row.action-login(ng-show="$routeParams.to")
     .col-xs-12.col-sm-6.col-md-6
-      div.info(ng-show="'send' == $routeParams.tab")
+      div.info(ng-show="'send' == $route.current.tabName")
         p.literal {{$routeParams.label}}
         div(ng-hide="$routeParams.amount", l10n)
           p(l10n-inc) You're sending money to
@@ -51,7 +51,7 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
           p(l10n-inc) &#32;to&#32;
           .address {{ $routeParams.to | rpripplename:{tilde:true} }}
           | .
-      div.info(ng-show="'trust' == $routeParams.tab")
+      div.info(ng-show="'trust' == $route.current.tabName")
         p.literal {{$routeParams.label}}
         div(l10n)
           p(l10n-inc) You're connecting to the gateway
@@ -66,7 +66,7 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
               span.currency {{$routeParams.amount | rpamount}} {{$routeParams.amount | rpcurrency}}
           | .
 
-      div.info(ng-show="'contacts' == $routeParams.tab")
+      div.info(ng-show="'contacts' == $route.current.tabName")
         p.literal {{$routeParams.label}}
         span(l10n)
           p(l10n-inc) You're adding

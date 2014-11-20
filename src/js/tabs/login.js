@@ -232,8 +232,6 @@ LoginTab.prototype.angular = function (module) {
       $scope.status = '';
       if ($routeParams.tab) {
         $location.path('/'+$routeParams.tab);
-      } else {
-        $location.path('/balance');
       }
     }
 

@@ -23,8 +23,6 @@ HistoryTab.prototype.angular = function (module) {
   module.controller('HistoryCtrl', ['$scope', 'rpId', 'rpNetwork', 'rpTracker', 'rpAppManager',
                                      function ($scope, $id, $network, $rpTracker, appManager)
   {
-    if (!$id.loginStatus) return $id.goId();
-
     var history = [];
 
     // Latest transaction

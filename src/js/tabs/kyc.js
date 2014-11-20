@@ -22,7 +22,6 @@ KycTab.prototype.angular = function(module)
   module.controller('KycCtrl', ['$scope', 'rpId', 'rpKeychain', 'rpAuthFlow', '$timeout',
     function ($scope, $id, keychain, authflow, $timeout)
     {
-      if (!$id.loginStatus) return $id.goId();
       if (!$scope.blockscoreError) $scope.blockscoreError = false;
       if (!$scope.profile) $scope.profile = {};
       if (!$scope.profileStatus) $scope.profileStatus = 'loading';

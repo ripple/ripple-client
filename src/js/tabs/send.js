@@ -32,8 +32,6 @@ SendTab.prototype.angular = function (module)
                                            $network, $federation, $rpTracker,
                                            keychain)
   {
-    if (!$id.loginStatus) return $id.goId();
-
     var timer;
     var xrpCurrency = Currency.from_json("XRP");
 

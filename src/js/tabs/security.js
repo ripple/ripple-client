@@ -22,8 +22,6 @@ SecurityTab.prototype.angular = function (module) {
                                      function ($scope, $id, $blob, $rpTracker,
                                                keychain, $timeout, authflow, popup)
   {
-    if (!$id.loginStatus) return $id.goId();
-
     $scope.settingsPage = 'security';
 
     $scope.showComponent = [];

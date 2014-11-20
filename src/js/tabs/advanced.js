@@ -23,8 +23,6 @@ AdvancedTab.prototype.angular = function(module)
   module.controller('AdvancedCtrl', ['$scope', 'rpId', 'rpKeychain',
                                     function ($scope, $id, $keychain)
   {
-    if (!$id.loginStatus) return $id.goId();
-
     // XRP currency object.
     // {name: "XRP - Ripples", order: 146, value: "XRP"}
     var xrpCurrency = Currency.from_json("XRP");
