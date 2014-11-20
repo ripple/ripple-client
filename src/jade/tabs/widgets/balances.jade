@@ -5,13 +5,13 @@
     li.currency-xrp
       i.fa-li
       h5 XRP
-      div(ng-show="account.Balance") {{ account.Balance | rpamount }}
+      div(ng-show="account.Balance", rp-address-popover, rp-address-popover-summ="account.Balance") {{ account.Balance | rpamount }}
       div(ng-hide="account.Balance") 0.00
     li(ng-repeat="entry in balances", ng-class="'currency-' + (entry.total | rpcurrency | lowercase)")
       i.fa-li.fa-money(ng-class="'fa-' + (entry.total | rpcurrency | lowercase)")
       h5 {{ entry.total | rpcurrency }}
-      div {{ entry.total | rpamount }}
+      div(rp-address-popover, rp-address-popover-summ="entry.total") {{ entry.total | rpamount }}
       dl(ng-repeat="(issuer, component) in entry.components")
         dt(ng-show="component.gateway.app") {{rp-currency}}.{{component.gateway.app.name}}
-        dt(ng-hide="component.gateway.app", rp-pretty-identity="issuer", rp-pretty-issuer-contacts="userBlob.data.contacts")
-        dd {{ component | rpamount }}
+        dt(ng-hide="component.gateway.app", rp-pretty-identity="issuer", rp-pretty-issuer-contacts="userBlob.data.contacts", rp-address-popover="issuer")
+        dd(rp-address-popover, rp-address-popover-summ="component") {{ component | rpamount }}
