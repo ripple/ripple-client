@@ -73,6 +73,7 @@ MxnTab.prototype.angular = function (module)
               });
             })
             .on('error', function (res) {
+              setEngineStatus(res, false);
               console.log('error', res);
               setImmediate(function () {
                 $scope.$apply(function () {
@@ -88,6 +89,7 @@ MxnTab.prototype.angular = function (module)
         function setEngineStatus(res, accepted) {
           $scope.engine_result = res.engine_result;
           $scope.engine_result_message = res.engine_result_message;
+          $scope.engine_status_accepted = accepted;
 
           switch (res.engine_result.slice(0, 3)) {
             case 'tes':
@@ -138,7 +140,6 @@ MxnTab.prototype.angular = function (module)
         // window.scopeLog = $scope;
         $scope.setMode = function() {
           $scope.mode = 'main';
-          console.log('mode changed to ' + $scope.mode);
         }
         // $timeout(function(){
         //   $scope.mode = 'main';

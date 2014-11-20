@@ -12,6 +12,10 @@ section.col-xs-12.content(ng-controller='JpyCtrl')
 
   .row(ng-show='connected')
     .col-sm-12
+      // Transaction errors coming from errors.js & transactionerror.jade
+      group.mode-ripplerror(ng-show='mode=="error" && account.Balance')
+        rp-transaction-status(rp-engine-result="{{engine_result}}", rp-engine-result-message="{{engine_result_message}}", rp-accepted="{{engine_status_accepted}}")
+        
       //- N5. Notifications for connect new account
       group.mode-granted.wide(ng-show='mode=="granting" && account.Balance')
         group.pending(ng-show='tx_result!=="cleared"')
