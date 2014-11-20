@@ -306,12 +306,17 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                   rp-address-popover="component.account"
                   )
                 div(
-                  ng-class="{ 'col-xs-2 col-sm-2': advanced_feature_switch, 'col-xs-4': !advanced_feature_switch }")
+                  ng-class="{ 'col-xs-2 col-sm-2': advanced_feature_switch, 'col-xs-4': !advanced_feature_switch }",
+                  rp-address-popover, rp-address-popover-summ="component.balance")
                   {{ component.balance | rpamount:{rel_precision: 2} }}
-                div.col-xs-2(ng-show="advanced_feature_switch", ng-class="{ 'col-xs-1': advanced_feature_switch }")
+                div.col-xs-2(ng-show="advanced_feature_switch", ng-class="{ 'col-xs-1': advanced_feature_switch }",
+                             rp-address-popover, rp-address-popover-summ="component.limit")
                   div {{ component.limit | rpamount }}
-                .col-sm-1.col-xs-2(ng-show="advanced_feature_switch && component.limit_peer._offset == '-100'") {{ component.limit_peer | rpamount }}
-                .col-sm-1.col-xs-2(ng-show="advanced_feature_switch && component.limit_peer._offset !== '-100'", ng-hide="component.limit_peer._offset == '-100' || !advanced_feature_switch") -{{ component.limit_peer | rpamount }}
+                .col-sm-1.col-xs-2(ng-show="advanced_feature_switch && component.limit_peer._offset == '-100'",
+                                   rp-address-popover, rp-address-popover-summ="component.limit_peer") {{ component.limit_peer | rpamount }}
+                .col-sm-1.col-xs-2(ng-show="advanced_feature_switch && component.limit_peer._offset !== '-100'", 
+                                   ng-hide="component.limit_peer._offset == '-100' || !advanced_feature_switch",
+                                   rp-address-popover, rp-address-popover-summ="component.limit_peer", rp-address-popover-summ-minus) -{{ component.limit_peer | rpamount }}
                 .col-sm-2.col-xs-2(ng-show="advanced_feature_switch")
                   div(ng-show="component.no_ripple", l10n) Off
                   div(ng-hide="component.no_ripple", l10n) On
