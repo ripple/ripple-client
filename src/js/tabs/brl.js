@@ -76,6 +76,7 @@ BrlTab.prototype.angular = function (module)
             })
             .on('error', function (res) {
               console.log('error', res);
+              setEngineStatus(res, false);
               setImmediate(function () {
                 $scope.$apply(function () {
                   $scope.mode = 'error';
@@ -90,6 +91,7 @@ BrlTab.prototype.angular = function (module)
         function setEngineStatus(res, accepted) {
           $scope.engine_result = res.engine_result;
           $scope.engine_result_message = res.engine_result_message;
+          $scope.engine_status_accepted = accepted;
 
           switch (res.engine_result.slice(0, 3)) {
             case 'tes':
@@ -137,9 +139,9 @@ BrlTab.prototype.angular = function (module)
 
         });
 
-        $timeout(function(){
-          $scope.mode = 'main';
-        }, 10000);
+        // $timeout(function(){
+        //   $scope.mode = 'main';
+        // }, 10000);
 
       };
 

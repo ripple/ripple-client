@@ -75,6 +75,7 @@ GoldTab.prototype.angular = function (module)
               });
             })
             .on('error', function (res) {
+              setEngineStatus(res, false);
               console.log('error', res);
               setImmediate(function () {
                 $scope.$apply(function () {
@@ -90,6 +91,7 @@ GoldTab.prototype.angular = function (module)
         function setEngineStatus(res, accepted) {
           $scope.engine_result = res.engine_result;
           $scope.engine_result_message = res.engine_result_message;
+          $scope.engine_status_accepted = accepted;
 
           switch (res.engine_result.slice(0, 3)) {
             case 'tes':
@@ -137,9 +139,9 @@ GoldTab.prototype.angular = function (module)
 
         });
 
-        $timeout(function(){
-          $scope.mode = 'main';
-        }, 10000);
+        // $timeout(function(){
+        //   $scope.mode = 'main';
+        // }, 10000);
 
       };
 
