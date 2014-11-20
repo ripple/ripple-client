@@ -60,7 +60,9 @@
           .col-md-1.type(data-label="Type")
             span.rp-hidden-md.rp-hidden-lg{{entry.type | rpucfirst}}
             span.rp-hidden-xs.rp-hidden-sm{{entry.type | rptruncate:1}}
-          .col-md-3.amount.rpamount(data-label="QTY") {{entry.first | rpamount:{hard_precision: true, precision: 6, tiny_precision: 6} }}
+          .col-md-3.amount.rpamount(data-label="QTY"
+            rp-address-popover, rp-address-popover-sum="entry.first"
+            ) {{entry.first | rpamount:{hard_precision: true, precision: 6, tiny_precision: 6} }}
           .col-md-2(data-label="BASE")
             a(href="#/trade/?first={{entry.first | rpcurrency}}.{{entry.first | rpissuer}}&amp;second={{entry.second | rpcurrency}}.{{entry.second | rpissuer}}")
               span {{entry.first | rpcurrency}}
@@ -79,7 +81,9 @@
                   rp-pretty-issuer="entry.second.issuer().to_json()"
                   rp-pretty-issuer-contacts="userBlob.data.contacts"
                 ) ???
-          .col-md-3.price.rpamount(data-label="Limit") {{entry.second | rpamountratio:entry.first | rpamount:{hard_precision: true, precision: 6, tiny_precision: 6} }}
+          .col-md-3.price.rpamount(data-label="Limit"
+            rp-address-popover, rp-address-popover-sum="entry.second | rpamountratio:entry.first"
+            ) {{entry.second | rpamountratio:entry.first | rpamount:{hard_precision: true, precision: 6, tiny_precision: 6} }}
           //- .col-md-2.action(data-label="Time placed(UTC)", ng-hide="editOrder.seq == entry.seq") ...
       .emptyMessage(ng-show="isEmpty(offers)")
         p.rp-base(l10n) No current orders. 
