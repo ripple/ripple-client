@@ -103,7 +103,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                 rp-dest, rp-dest-address, rp-dest-contact, rp-dest-ripple-name
                 rp-dest-model="order.second_issuer_edit")
               .errorGroup(rp-errors='second_issuer')
-                .error(rp-error-on='rpDest', l10n) Not a valid Ripple name or address 
+                .error(rp-error-on='rpDest', l10n) Not a valid Ripple name or address
             .col-xs-3.col-sm-2.col-md-2
               button.btn.btn-block.btn-success.submit(type='submit',
                 ng-click='save_second_issuer()',
@@ -111,7 +111,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
 
         .message-select-issuer(ng-hide="order.valid_settings", l10n)
           | You must select a gateway to trade currencies.
-          |  Click the “Change gateway” link above and enter the 
+          |  Click the “Change gateway” link above and enter the
           |  gateway's address or Ripple name.&#32;
           a(href="https://support.ripplelabs.com/hc/en-us/articles/202847686-Gateway-Information", target="_blank", l10n-inc) Find a gateway.
 
@@ -445,14 +445,14 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                     action-function="cancel_order()"
                     cancel-button-css="btn btn-default"
                     l10n-cancel-button-text="Keep order")
-                    a.danger(href="", l10n) Cancel
+                    button.btn.btn-cancel(l10n) Cancel
               .emptyMessage(ng-show="isEmpty(offers)")
                 p.literal(l10n="You haven't placed any orders.") You haven&#39;t placed any orders.
           .alert.alert-danger(ng-show="cancelError")
-            span(l10n) Unable to cancel order.    
-            span(l10n)  Error: {{cancelError}}  
+            span(l10n) Unable to cancel order.
+            span(l10n)  Error: {{cancelError}}
             a.dismiss(href="", ng-click="dismissCancelError()", l10n)  hide
-            
+
           h3
             span(l10n) Orderbook
             small.toggle(ng-click="hideOrderBook = !hideOrderBook")
