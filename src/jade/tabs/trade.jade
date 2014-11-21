@@ -432,9 +432,11 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                         rp-pretty-issuer-contacts="userBlob.data.contacts"
                       ) ???
                       | )
-                .col-sm-2.price.rpamount(data-label="Price") {{entry.second | rpamountratio:entry.first | rpamount: {abs_precision: 6} }}
+                .col-sm-2.price.rpamount(data-label="Price", rp-address-popover, rp-address-popover-summ="entry.second | rpamountratio:entry.first") 
+                    | {{entry.second | rpamountratio:entry.first | rpamount: {abs_precision: 6} }}
                   span.currency  {{entry.second | rpcurrency}}
-                .col-sm-3.amount.rpamount(data-label="Amount") {{entry.first | rpamount: {abs_precision: 6} }}
+                .col-sm-3.amount.rpamount(data-label="Amount", rp-address-popover, rp-address-popover-summ="entry.first") 
+                    | {{entry.first | rpamount: {abs_precision: 6} }}
                   span.currency  {{entry.first | rpcurrency}}
                 .col-sm-2.action
                   img(src="img/button-s.png", class="loader", ng-show="cancelling")
@@ -488,12 +490,13 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                         rp-pretty-issuer-contacts="userBlob.data.contacts"
                         rp-pretty-issuer-or-short)
                   .row(ng-repeat='order in book.bids', ng-class="{my: order.my, cancelling: cancelling}")
-                    .col-xs-4.rpamount.sum(rp-address-popover="order.Account", rp-address-popover-link-to-charts)
+                    .col-xs-4.rpamount.sum(rp-address-popover="order.Account", rp-address-popover-link-to-charts, rp-address-popover-summ="order.sum")
                       a(href=""
                         ng-click="fill_widget('sell',order,true)")
                         span(rp-bind-color-amount="order.showSum")
-                    .col-xs-4.rpamount.size(rp-bind-color-amount="order.showTakerPays", rp-address-popover="order.Account", rp-address-popover-link-to-charts)
-                    .col-xs-4.rpamount.price(rp-address-popover="order.Account", rp-address-popover-link-to-charts)
+                    .col-xs-4.rpamount.size(rp-bind-color-amount="order.showTakerPays", rp-address-popover="order.Account", 
+                                            rp-address-popover-link-to-charts, rp-address-popover-summ="order.TakerPays")
+                    .col-xs-4.rpamount.price(rp-address-popover="order.Account", rp-address-popover-link-to-charts, rp-address-popover-summ="order.price")
                       a(href="", ng-click="fill_widget('sell',order)")
                         span(rp-bind-color-amount="order.showPrice")
                   .message(ng-show='!book.bids.length', l10n) There are currently no bids for this pair.
@@ -522,11 +525,12 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                         rp-pretty-issuer-contacts="userBlob.data.contacts"
                         rp-pretty-issuer-or-short)
                   .row(ng-repeat='order in book.asks', ng-class="{my: order.my, cancelling: cancelling}")
-                    .col-xs-4.rpamount.price(rp-address-popover="order.Account", rp-address-popover-link-to-charts)
+                    .col-xs-4.rpamount.price(rp-address-popover="order.Account", rp-address-popover-link-to-charts, rp-address-popover-summ="order.price")
                       a(href="", ng-click="fill_widget('buy',order)")
                         span(rp-bind-color-amount="order.showPrice")
-                    .col-xs-4.rpamount.size(rp-bind-color-amount="order.showTakerGets", rp-address-popover="order.Account", rp-address-popover-link-to-charts)
-                    .col-xs-4.rpamount.sum(rp-address-popover="order.Account", rp-address-popover-link-to-charts)
+                    .col-xs-4.rpamount.size(rp-bind-color-amount="order.showTakerGets", rp-address-popover="order.Account", 
+                                            rp-address-popover-link-to-charts, rp-address-popover-summ="order.TakerGets")
+                    .col-xs-4.rpamount.sum(rp-address-popover="order.Account", rp-address-popover-link-to-charts, rp-address-popover-summ="order.sum")
                       a(href=""
                         ng-click="fill_widget('buy',order,true)")
                         span(rp-bind-color-amount="order.showSum")
