@@ -150,6 +150,7 @@ var JsonRewriter = module.exports = {
   getAmountSent: function (tx, meta) {
     var sender = tx.Account;
     var difference = null;
+    var tmpDifference;
     var cur = null;
     var i;
     var affectedNode;
@@ -174,10 +175,10 @@ var JsonRewriter = module.exports = {
               affectedNode.ModifiedNode.FinalFields.Balance.currency === tx.SendMax.currency) {
 
               // Calculate the difference before/after. If HighLimit.issuer == [sender's account] negate it.
-              difference = affectedNode.ModifiedNode.PreviousFields.Balance.value - affectedNode.ModifiedNode.FinalFields.Balance.value;
-              if (affectedNode.ModifiedNode.FinalFields.HighLimit.issuer === sender) difference *= -1;
+              tmpDifference = affectedNode.ModifiedNode.PreviousFields.Balance.value - affectedNode.ModifiedNode.FinalFields.Balance.value;
+              if (affectedNode.ModifiedNode.FinalFields.HighLimit.issuer === sender) tmpDifference *= -1;
+              difference += tmpDifference;
               cur = affectedNode.ModifiedNode.FinalFields.Balance.currency;
-              break;
             }
           }
         }
