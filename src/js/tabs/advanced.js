@@ -20,8 +20,8 @@ AdvancedTab.prototype.generateHtml = function ()
 
 AdvancedTab.prototype.angular = function(module)
 {
-  module.controller('AdvancedCtrl', ['$scope', 'rpId', 'rpKeychain',
-                                    function ($scope, $id, $keychain)
+  module.controller('AdvancedCtrl', ['$scope', 'rpId', 'rpKeychain', 'rpNetwork',
+                                    function ($scope, $id, $keychain, $network)
   {
     // XRP currency object.
     // {name: "XRP - Ripples", order: 146, value: "XRP"}
@@ -69,9 +69,6 @@ AdvancedTab.prototype.angular = function(module)
 
       $scope.editBridge = false;
 
-      // Reload
-      location.reload();
-
       // Notify the user
       $scope.success.saveBridge = true;
     };
@@ -82,11 +79,11 @@ AdvancedTab.prototype.angular = function(module)
         $scope.options.max_tx_network_fee = ripple.Amount.from_human($scope.max_tx_network_fee_human).to_json();
         store.set('ripple_settings', JSON.stringify($scope.options));
       }
+      // This has to be updated manually because the network object is not
+      // recreated unless we do location.reload()
+      $network.remote.max_fee = $scope.options.max_tx_network_fee;
 
       $scope.editMaxNetworkFee = false;
-
-      // Reload
-      location.reload();
 
       // Notify the user
       $scope.success.saveMaxNetworkFee = true;
@@ -105,9 +102,6 @@ AdvancedTab.prototype.angular = function(module)
       }
 
       $scope.editAcctOptions = false;
-
-      // Reload
-      location.reload();
 
       // Notify the user
       $scope.success.saveAcctOptions = true;
@@ -214,11 +208,13 @@ AdvancedTab.prototype.angular = function(module)
           store.set('ripple_settings', JSON.stringify($scope.options));
         }
 
-        // Reload
-        location.reload();
-
         // Notify the user
         $scope.success.saveServer = true;
+
+        // Reload
+        // A force reload is necessary here because we have to re-initialize
+        // the network object with the new server list.
+        location.reload();
       };
     }
   ]);
