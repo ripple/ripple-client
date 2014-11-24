@@ -873,6 +873,9 @@ SendTab.prototype.angular = function (module)
         delete $scope.send.pathfind;
       }
 
+      // compute network fee
+      $scope.networkFee = network.remote.transaction()._computeFee();
+
       $scope.mode = "confirm";
 
       if (keychain.isUnlocked(id.account)) {
