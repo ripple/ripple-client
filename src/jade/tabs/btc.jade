@@ -2,14 +2,9 @@ section.col-xs-12.content(ng-controller='BtcCtrl')
   //- the ng-states & ng-clicks should be implemented
   //- Connected
   //- group.connected(ng-show="connected")
-  group.connected(ng-show="btcConnected && loading")
-    .row
-      .col-xs-12
-        div.notification-wrapper
-          .alert.alert-success
-            | Success! You can deposit BTC via your generated BTC receiving address.
 
   //- Disconnected
+
   group.disconnected(ng-hide='connected')
     p.literal(l10n="err-you-must-be-online-to-see-this-screen", l10n)
       | You have to be online to see this screen
@@ -17,6 +12,12 @@ section.col-xs-12.content(ng-controller='BtcCtrl')
   //- Funding
   div(ng-show="!loadingAccount && !account.Balance && loadState.account && connected")
     include banner/unfunded
+
+  group.connected(ng-show="btcConnected && loading")
+    .row
+      .col-xs-12
+        .alert.alert-success
+          | Success! You can deposit BTC via your generated BTC receiving address.
 
   .row(ng-show='connected')
     .col-sm-4.col-md-3.col-xs-12
@@ -39,7 +40,7 @@ section.col-xs-12.content(ng-controller='BtcCtrl')
                 .description(l10n) 0%
               .col-md-3
                 .title(l10n) Rating
-                .description(l10n) 
+                .description(l10n)
                   a(href="https://coinist.co/ripple/assets/btc-btc2ripple", target="_blank") read reviews
             .row.btc-tab-description(ng-show="!btcConnected")
               .col-xs-12.col-md-8.col-lg-6
