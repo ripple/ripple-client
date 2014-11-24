@@ -256,6 +256,9 @@ ExchangeTab.prototype.angular = function (module)
           $scope.confirm_wait = false;
         }, 1000, true);
 
+        // compute network fee
+        $scope.networkFee = network.remote.transaction()._computeFee();
+
         $scope.mode = "confirm";
       };
 

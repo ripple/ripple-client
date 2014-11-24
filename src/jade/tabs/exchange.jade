@@ -126,6 +126,13 @@ section.col-xs-12.content(ng-controller="ExchangeCtrl")
             span.value {{exchange.alt.amount | rpamount}}&#32;
             span.currency {{exchange.alt.amount | rpcurrency}} &#32;
             span &plusmn; 1%
+          .row
+            .col-xs-9.col-sm-9.col-md-9.col-lg-9
+              p.literal(l10n-inc, ng-show='showNetworkFee') You will pay a network fee of
+            .col-xs-3.col-sm-3.col-md-3.col-lg-3
+              small.toggle.literal.pull-right(ng-click='showNetworkFee = !showNetworkFee')
+                span(l10n) {{showNetworkFee ? 'Hide' : 'Show'}} network fee
+          p.amount_feedback(rp-pretty-amount="networkFee", ng-show='showNetworkFee')
           p.literal(l10n-inc) Are you sure?
         .row.row-padding-small
           .col-xs-6.col-sm-4.col-md-3.col-lg-2
