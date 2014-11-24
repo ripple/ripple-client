@@ -137,13 +137,13 @@ section.col-xs-12.content(ng-controller='KycCtrl')
                 ng-model='profile.ssn_last_4', ng-pattern='validation_pattern_sss'
                 required)
             .row
-              .col-xs-5
+              .col-xs-8.col-sm-5
                 button.btn.btn-block.btn-primary.submit(type='submit',
                   ng-disabled='identityForm.$invalid || identityLoading', l10n)
                     img(src="img/button-s.png", class="loader", ng-show="identityLoading")
                     span(ng-hide="identityLoading", l10n) Continue to identity questions
                     span(class="loading_text", ng-show="identityLoading", l10n) Verifying...
-              .col-xs-5
+              .col-xs-4.col-sm-5
                 a.button.btn.btn-link.btn-cancel(href='#/xrp', l10n) cancel
         form.row-padding-small(name="questionsForm", ng-switch-when="two", ng-submit="saveQuestions()")
           .row

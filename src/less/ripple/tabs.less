@@ -564,6 +564,7 @@
     text-align: right;
     @media (max-width: @screen-xs-max) {
       font-size: 12px;
+      text-align: left;
     }
   }
 
@@ -712,6 +713,11 @@
       margin-bottom: 10px;
       @media (max-width: @screen-xs-max) {
         font-size: 14px;
+        padding-top: 20px;
+        padding-bottom: 10px;
+        .total {
+          padding-bottom: 10px;
+        }
       }
     }
 
@@ -740,6 +746,30 @@
           text-decoration: none;
         }
       }
+      @media (max-width: @screen-xs-max) {
+        .lbl, .balance {
+          line-height: normal;
+        }
+        .lbl {
+          a {
+            display: inline-block;
+            vertical-align: top;
+            width: 100%;
+          }
+          i {
+            width: auto;
+            padding-right: 5px;
+            float: left;
+            line-height: 20px;
+          }
+          span {
+            float: left;
+            display: inline-block;
+            width: 80%;
+          }
+        }
+      }
+
     }
 
     .currency-non-native .total {
@@ -905,6 +935,10 @@
   @media (max-width: @screen-xs-max) {
     input[type="radio"], input[type="checkbox"] {
       margin: 2px 0 0;
+    }
+    div {
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
   #trustForm {
@@ -2790,7 +2824,6 @@ html.t-trade header nav ul > li.active#nav-advanced > a:after {
       padding-left:0;
     }
   }
-
 }
 
 

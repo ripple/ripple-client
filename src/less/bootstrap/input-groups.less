@@ -59,6 +59,10 @@
       line-height: 40px;
       padding-left: 7%;
       text-align: left;
+      @media (max-width: @screen-xs-max) {
+        height: 38px;
+        line-height: 36px;
+      }
     }
     .input-wrapper {
       width: 65%;
@@ -103,6 +107,9 @@
   input[type="radio"],
   input[type="checkbox"] {
     margin-top: 0;
+  }
+  @media (max-width: @screen-xs-max) {
+    padding: 8px @padding-base-horizontal;
   }
 }
 
