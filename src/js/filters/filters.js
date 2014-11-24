@@ -16,11 +16,11 @@ module.filter('rpamount', function () {
     var currency;
     var opts = jQuery.extend(true, {}, options);
 
-    if ("number" === typeof opts) {
+    if ('number' === typeof opts) {
       opts = {
         rel_min_precision: opts
       };
-    } else if ("object" !== typeof opts) {
+    } else if ('object' !== typeof opts) {
       opts = {};
     }
 

@@ -260,17 +260,19 @@ section.col-xs-12.content(ng-controller='SendCtrl')
         .dest_feedback
           .recipient(ng-show='send.recipient_name') {{send.recipient_name}}
           .recipient(ng-hide='send.recipient_name') {{send.recipient_address}}
-          .extra(href="", ng-show="send.recipient != send.recipient_address || send.recipient_name")
+          .extra(href='', ng-show='send.recipient != send.recipient_address || send.recipient_name')
             |  {{send.recipient_address}}
-          .dt(ng-show="send.dt", l10n) Destination tag: {{send.dt}}
+          .dt(ng-show='send.dt', l10n) Destination tag: {{send.dt}}
         p.literal(l10n) They will receive
-        p.amount_feedback(rp-pretty-amount="send.amount_feedback")
+        p.amount_feedback(rp-pretty-amount='send.amount_feedback')
         group(ng-show='send.indirect')
           p.literal(l10n) You will pay at most
           p.sendmax_feedback
             span.value {{send.alt.amount | rpamount}}&#32;
             span.currency {{send.alt.amount | rpcurrency}} &#32;
             span &plus; .1%
+        span.literal(l10n) Ripple network fee: 
+        span.literal(rp-pretty-amount='networkFee')
         form.call-to-action(ng-submit="send_confirmed()")
           p.literal(ng-show="send.secret", l10n) Are you sure?
           p.literal(ng-hide="send.secret", l10n) Please enter your password to confirm this transaction.
