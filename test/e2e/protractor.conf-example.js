@@ -13,13 +13,15 @@ exports.config = {
   // Credentials of a funded test account
   user: {
     username: '',
-    password: ''
+    password: '',
+    secret: ''
   },
 
   // OldBlob user credentials for testing the migration
   oldUser: {
     username: '',
-    password: ''
+    password: '',
+    secret: ''
   },
 
   // gateway test
