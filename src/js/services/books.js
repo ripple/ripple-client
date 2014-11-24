@@ -118,18 +118,27 @@ function(net, $q, $scope, $filter, $id) {
       var asks = loadBook(first, second, taker);
       var bids = loadBook(second, first, taker);
      
+      var asksReady = false;
+      var bidsReady = false;
+
       asks._shouldSubscribe = true;
       bids._shouldSubscribe = true;
-      
+
       var model = {
         asks: filterRedundantPrices(asks.offersSync(), 'asks', true),
-        bids: filterRedundantPrices(bids.offersSync(), 'bids', true)
+        bids: filterRedundantPrices(bids.offersSync(), 'bids', true),
+        ready: false  // whether BOTH Bids & Asks are ready
       };
 
       function handleAskModel(offers) {
         $scope.$apply(function () {
           model.asks = filterRedundantPrices(offers, 'asks', true);
           model.updated = true;
+
+          if (! asksReady) {
+            asksReady = true;
+            if (! model.ready && bidsReady) model.ready = true;
+          }
         });
       }
 
@@ -146,6 +155,11 @@ function(net, $q, $scope, $filter, $id) {
         $scope.$apply(function () {
           model.bids = filterRedundantPrices(offers, 'bids', true);
           model.updated = true;
+
+          if (! bidsReady) {
+            bidsReady = true;
+            if (! model.ready && asksReady) model.ready = true;
+          }
         });
       }
 
@@ -163,6 +177,10 @@ function(net, $q, $scope, $filter, $id) {
         asks.removeListener('trade', handleAskTrade);
         bids.removeListener('model', handleBidModel);
         bids.removeListener('trade', handleBidTrade);
+
+        asksReady = false;
+        bidsReady = false;
+        model.ready = false;
       };
 
       return model;
