@@ -61,7 +61,7 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
                   i.icon-ripple-logo
                   | XRP – Ripple
               .balance.col-xs-2
-                span(ng-show="account.Balance") {{ account.Balance | rpamount }}
+                span(ng-show="account.Balance", rp-address-popover, rp-address-popover-summ="account.Balance") {{ account.Balance | rpamount }}
                 span(ng-hide="account.Balance") 0
             .component.row(ng-show="entry.show")
               .lbl.col-xs-8
@@ -73,7 +73,7 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
                   rp-popover-trigger="hover"
                   l10n-data-content="Total amount of XRP in your account minus the reserve amount.")
               .balance.col-xs-2
-                span(ng-show="account.max_spend") {{account.max_spend | rpamount }}
+                span(ng-show="account.max_spend", rp-address-popover, rp-address-popover-summ="account.max_spend") {{account.max_spend | rpamount }}
                 span(ng-hide="account.max_spend") 0
             .component.row(ng-show="entry.show")
               .lbl.col-xs-8
@@ -95,7 +95,8 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
                   i(class="icon fa fa-money", ng-class="'fa-' + (entry.total | rpcurrency | lowercase)")
                   span(rp-currency="entry.total", rp-currency-full)
               .balance.col-xs-2
-                a(href="", ng-click="entry.show=!entry.show") {{ entry.total | rpamount }}
+                a(href="", ng-click="entry.show=!entry.show")
+                  span(rp-address-popover, rp-address-popover-summ="entry.total") {{ entry.total | rpamount }}
             //- TODO Remember selections
             .component.row(ng-repeat="(issuer, component) in entry.components", ng-show="entry.show")
               .head
@@ -103,7 +104,8 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
                   span.status.unverified(ng-hide="true", l10n) Unverified
                 .lbl.balance-text-wrapper.col-xs-8(ng-hide="component.gateway.app")
                   span(rp-pretty-identity="issuer", rp-address-popover="issuer")
-                .balance.col-xs-2 {{ component | rpamount }}
+                .balance.col-xs-2
+                  span(rp-address-popover, rp-address-popover-summ="component") {{ component | rpamount }}
               form.withdraw(ng-show="component.window == 'withdraw'")
                 .step1(ng-show='!step || step==1')
                   .row
