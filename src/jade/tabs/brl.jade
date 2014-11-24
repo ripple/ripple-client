@@ -88,7 +88,9 @@ section.col-xs-12.content(ng-controller='BrlCtrl')
           .instructions.col-md-10
             a.dismiss(href="", id="hide", ng-click="toggleInstructions()", l10n)  ×
             .title(l10n) NEW CUSTOMERS- SIGN UP AT RIPPEX
-            .description(l10n) Sign up at Rippex.net to initiate deposits and withdrawals. You will need:
+            .description(l10n)
+              a(href="https://rippex.net/#/conta/criar/verificada/passo1", target="_blank") Sign up
+              | &#32;at Rippex.net to initiate deposits and withdrawals. You will need:
               ul
                 li(l10n) A&#32;
                   a(href="http://en.wikipedia.org/wiki/Cadastro_de_Pessoas_F%C3%ADsicas", target="_blank") CPF number.
