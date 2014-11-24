@@ -40,6 +40,15 @@ LoginTab.prototype.angular = function (module) {
     $scope.loginForm && $scope.loginForm.$setPristine(true);
     $scope.backendMessages = [];
 
+    $scope.goto_recover = function() {
+        if($scope.username){
+          $location.path('/recover/' + $scope.username);
+        }
+        else {
+          $location.path('/recover');
+        }
+    };
+
     //set username and password here so
     //that the form will be valid if we are
     //only verifying via 2FA
