@@ -26,6 +26,9 @@ ContactsTab.prototype.angular = function (module) {
   {
 
 
+    // Initialize the notification object
+    $scope.success = {};
+
     $scope.reset_form = function ()
     {
       $scope.contact = {
@@ -74,6 +77,9 @@ ContactsTab.prototype.angular = function (module) {
 
       // Clear form
       $scope.reset_form();
+
+      // Notify the user
+      $scope.success.createContact = true;
     };
   }]);
 
@@ -126,6 +132,9 @@ ContactsTab.prototype.angular = function (module) {
           }
 
           $scope.editing = false;
+
+          // Notify the user
+          $scope.success.updateContact = true;
         }
       };
 
@@ -142,6 +151,10 @@ ContactsTab.prototype.angular = function (module) {
         } else {
           $scope.userBlob.filter('/contacts', 'name', $scope.entry.name,
                                  'unset', '');
+
+          // Notify the user
+          $scope.success.removeContact = true;
+
         }
       };
 

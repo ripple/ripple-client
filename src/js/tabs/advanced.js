@@ -41,8 +41,12 @@ AdvancedTab.prototype.angular = function(module)
     $scope.editMaxNetworkFee = false;
     $scope.editAcctOptions = false;
     $scope.max_tx_network_fee_human = ripple.Amount.from_json($scope.options.max_tx_network_fee).to_human();
+    $scope.advancedFeatureSwitchChanged = false;
 
     $scope.advanced_feature_switch = Options.advanced_feature_switch;
+
+    // Initialize the notification object
+    $scope.success = {};
 
     $scope.saveBlob = function () {
       // Save in local storage
@@ -54,6 +58,9 @@ AdvancedTab.prototype.angular = function(module)
 
       // Reload
       location.reload();
+
+      // Notify the user
+      $scope.success.saveBlob = true;
     };
 
     $scope.saveBridge = function () {
@@ -66,6 +73,9 @@ AdvancedTab.prototype.angular = function(module)
 
       // Reload
       location.reload();
+
+      // Notify the user
+      $scope.success.saveBridge = true;
     };
 
     $scope.saveMaxNetworkFee = function () {
@@ -79,9 +89,18 @@ AdvancedTab.prototype.angular = function(module)
 
       // Reload
       location.reload();
+
+      // Notify the user
+      $scope.success.saveMaxNetworkFee = true;
     };
 
     $scope.saveAcctOptions = function () {
+      //ignore it if we are not going to change anything
+      if (!$scope.advancedFeatureSwitchChanged) {
+        return;
+      }
+      $scope.advancedFeatureSwitchChanged = false;
+
       if (!store.disabled) {
         // Save in local storage
         store.set('ripple_settings', JSON.stringify($scope.options));
@@ -91,6 +110,9 @@ AdvancedTab.prototype.angular = function(module)
 
       // Reload
       location.reload();
+
+      // Notify the user
+      $scope.success.saveAcctOptions = true;
     };
 
     $scope.deleteBlob = function () {
@@ -128,19 +150,9 @@ AdvancedTab.prototype.angular = function(module)
       $scope.editAcctOptions = false;
     };
 
-
     $scope.$on('$blobUpdate', function () {
       $scope.passwordProtection = !$scope.userBlob.data.persistUnlock;
     });
-
-    $scope.setPasswordProtection = function () {
-      $keychain.setPasswordProtection(!$scope.passwordProtection, function(err, resp){
-        if (err) {
-          $scope.passwordProtection = !$scope.PasswordProtection;
-          //TODO: report errors to user
-        }
-      });
-    };
 
     // Add a new server
     $scope.addServer = function () {
@@ -151,6 +163,8 @@ AdvancedTab.prototype.angular = function(module)
       // Set editing to true
       $scope.editing = true;
 
+      // Notify the user on save later
+      $scope.success.addServer = true;
     };
 
   }]);
@@ -159,7 +173,7 @@ AdvancedTab.prototype.angular = function(module)
     function ($scope) {
       $scope.editing = $scope.server.isEmptyServer;
 
-        // Delete the server
+      // Delete the server
       $scope.remove = function () {
         $scope.options.server.servers.splice($scope.index,1);
 
@@ -167,6 +181,9 @@ AdvancedTab.prototype.angular = function(module)
         if (!store.disabled) {
           store.set('ripple_settings', JSON.stringify($scope.options));
         }
+
+        // Notify the user
+        $scope.success.removeServer = true;
       };
 
       $scope.hasRemove = function () {
@@ -198,7 +215,10 @@ AdvancedTab.prototype.angular = function(module)
         }
 
         // Reload
-      location.reload();
+        location.reload();
+
+        // Notify the user
+        $scope.success.saveServer = true;
       };
     }
   ]);

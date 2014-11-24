@@ -4,6 +4,14 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
   div(ng-show="!loadingAccount && !account.Balance && loadState.account && connected && !debug")
     include banner/unfunded
   .row(ng-show='connected && !debug')
+    .col-sm-12.notification-wrapper
+      .alert.alert-success(ng-show="success.saveBlob", l10n) Your blob vault has been changed successfully.
+      .alert.alert-success(ng-show="success.saveBridge", l10n) Your bitcoin bridge has been changed successfully.
+      .alert.alert-success(ng-show="success.saveAcctOptions", l10n) Trustline advanced settings has been changed successfully.
+      .alert.alert-success(ng-show="success.saveMaxNetworkFee", l10n) Maximum network fee has been changed successfully.
+      .alert.alert-success(ng-show="success.addServer && success.saveServer", l10n) A new server has been successfully added.
+      .alert.alert-success(ng-show="success.removeServer", l10n) A server has been successfully removed.
+      .alert.alert-success(ng-show="!success.addServer && success.saveServer", l10n) A server has been changed successfully.
     .col-sm-3
       include settings/navbar
     .col-sm-9.list
@@ -63,7 +71,9 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
             .col-xs-4.col-sm-4.col-md-3
               div.helperInput
                 label
-                  input(type="checkbox", name="acct_adv", ng-model='options.advanced_feature_switch')
+                  input(type="checkbox", name="acct_adv"
+                  ng-model="options.advanced_feature_switch"
+                  ng-click="advancedFeatureSwitchChanged = true")
                   span(l10n) Show
             .col-xs-6.col-sm-6.col-md-3
               button.btn.btn-block.btn-success.btn-xs.submit#save(type='submit'
