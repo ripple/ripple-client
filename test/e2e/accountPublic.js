@@ -21,7 +21,10 @@ describe('public account', function() {
 
 
   function pressRenameSubmit() {
-    return $("form[name='renameForm'] button[type='submit']").click().then( helperBrowser.waitForElementToDisplay.bind(this, $("div.showPublic div.alert-success")) );
+    return $("form[name='renameForm'] button[type='submit']")
+      .click().then(
+        helperBrowser.waitForElementToDisplay.bind(this, $("div.showPublic div.alert-success"))
+      );
   }
 
   function waitForRenameSubmitButtonBecameAvailable() {
