@@ -34,43 +34,6 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
               button.btn.btn-cancel.btn-block(href=""
                 ng-click="open_custom_currency_selector()", ng-disabled="adding_pair", l10n)
                 | Add Custom Pair
-            //.col-sm-6.col-md-6.col-xs-12.issuers-wrapper
-            //  ul.issuers.inline(ng-hide='order.first_currency.is_native()')
-            //    li.label(l10n) Base currency
-            //    li.value {{order.first_currency | rpcurrency}}&ensp;
-            //      span(
-            //        rp-pretty-issuer="order.first_issuer"
-            //        rp-pretty-issuer-contacts="userBlob.data.contacts"
-            //        ) ???
-            //    li: a(href=""
-            //      ng-show='show_issuer_form != "first"'
-            //      ng-click='edit_first_issuer()', l10n)
-            //      | Change gateway
-            //    li: a(href=""
-            //      ng-show='show_issuer_form == "first"'
-            //      ng-click='show_issuer_form = false', l10n)
-            //      | cancel
-            //  ul.issuers.inline(ng-show='order.first_currency.is_native()')
-            //    li.label(l10n) Base currency
-            //    li.value XRP
-            //  ul.issuers.inline(ng-hide='order.second_currency.is_native()')
-            //    li.label(l10n) Counter currency
-            //    li.value {{order.second_currency | rpcurrency}}&ensp;
-            //      span(
-            //        rp-pretty-issuer="order.second_issuer"
-            //        rp-pretty-issuer-contacts="userBlob.data.contacts"
-            //        ) ???
-            //    li: a(href=""
-            //      ng-show='show_issuer_form != "second"'
-            //      ng-click='edit_second_issuer()', l10n)
-            //      | Change gateway
-            //    li: a(href=""
-            //      ng-show='show_issuer_form == "second"'
-            //      ng-click='show_issuer_form = false', l10n)
-            //      | cancel
-            //  ul.issuers.inline(ng-show='order.second_currency.is_native()')
-            //    li.label(l10n) Counter currency
-            //    li.value XRP
           form.row#gateway_change_form(name="gateway_change_form", ng-show="adding_pair", ng-submit="add_pair()")
             .col-sm-4.col-lg-2.col-xs-12
               .description(l10n) Base Currency

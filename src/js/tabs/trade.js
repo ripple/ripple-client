@@ -918,16 +918,6 @@ TradeTab.prototype.angular = function(module)
         $scope.order.currency_pair = $scope.first_currency_selected + '.' + $scope.first_issuer_selected + '/' + $scope.second_currency_selected + '.' + $scope.second_issuer_selected;
       }
 
-      // for(var i = 0; i < $scope.userBlob.data.trade_currency_pairs.length; i++){
-      //   if($scope.userBlob.data.trade_currency_pairs[i] == $scope.order.currency_pair){
-      //     return;
-      //   }
-      //   else {
-      //     $scope.userBlob.unshift("/trade_currency_pairs", {"name": $scope.order.currency_pair});
-      //     $scope.userBlob.set('/trade_currency_pairs', $scope.pairs_query);
-      //   }
-      // }
-
       $scope.userBlob.unshift("/trade_currency_pairs", {"name": $scope.order.currency_pair});
       $scope.userBlob.set('/trade_currency_pairs', $scope.pairs_query);
 
@@ -1310,7 +1300,6 @@ TradeTab.prototype.angular = function(module)
     }
 
     $scope.$on('$blobUpdate', function () {
-      //$scope.pairs_query = $scope.pairs_all;
       update_pairs();
       resetIssuers(false);
     });
