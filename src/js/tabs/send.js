@@ -1083,8 +1083,12 @@ SendTab.prototype.angular = function (module)
       var contact = {
         name: $scope.saveAddressName,
         view: $scope.send.recipient,
-        address: $scope.send.recipient_address
+        address: $scope.send.federation ? $scope.send.recipient : $scope.send.recipient_address
       };
+
+      if ($scope.send.dt && !$scope.send.federation) {
+        contact.dt =  $scope.send.dt;
+      }
 
       $scope.userBlob.unshift('/contacts', contact, function(err, data){
         if (err) {
