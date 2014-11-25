@@ -333,11 +333,8 @@ ExchangeTab.prototype.angular = function (module)
         tx.on('error', function (res) {
           setImmediate(function () {
             $scope.$apply(function () {
-              $scope.mode = "error";
-
-              if (res.result === "tejMaxFeeExceeded") {
-                $scope.error_type = "maxFeeExceeded";
-              }
+              $scope.mode = "rippleerror";
+              setEngineStatus(res, false);
 
               if (res.error === 'remoteError' &&
                   res.remote.error === 'noPath') {
@@ -372,6 +369,8 @@ ExchangeTab.prototype.angular = function (module)
       function setEngineStatus(res, accepted) {
         $scope.engine_result = res.engine_result;
         $scope.engine_result_message = res.engine_result_message;
+        $scope.engine_status_accepted = accepted;
+
         switch (res.engine_result.slice(0, 3)) {
           case 'tes':
             $scope.tx_result = accepted ? "cleared" : "pending";

@@ -915,7 +915,7 @@ SendTab.prototype.angular = function (module)
           $scope.mode = "error";
 
           if (res.engine_result) {
-            $scope.setEngineStatus(res);
+            $scope.setEngineStatus(res, false);
           } else if (res.error === 'remoteError') {
             $scope.error_type = res.remote.error;
           } else {

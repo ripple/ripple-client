@@ -138,10 +138,18 @@ section.col-xs-12.content(ng-controller="ExchangeCtrl")
         hr
         //- p: button.btn.btn-default(ng-click='reset()', l10n) Stop waiting
 
-      //- N5. Error page
+      //- N5a. Error page
       group.mode-error(ng-show='mode=="error" && account.Balance')
         include ../messages/sendconvert/localerror
         p: button.btn.btn-link.btn-default(ng-click='cancelConfirm()', l10n) cancel
+
+      //- N5b. Ripple error page
+      group.mode-ripplerror(ng-show='mode=="rippleerror" && account.Balance')
+        rp-transaction-status(
+          rp-engine-result="{{engine_result}}"
+          rp-engine-result-message="{{engine_result_message}}"
+          rp-accepted="{{engine_status_accepted}}"
+          rp-current-tab="send_convert")
 
       //- N6. Confirmed page 
 

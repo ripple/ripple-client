@@ -1,4 +1,6 @@
 group(ng-switch on="tab")
+
+  // All fund -> individual currency tab errors
   group(ng-switch-when='fund_currency')
     .transaction-error(ng-switch on="engine_result | rptruncate:3")
       group.result-malformed(ng-switch-when='tem')
@@ -51,7 +53,9 @@ group(ng-switch on="tab")
             | Error code: Network fee exceeded [tejMaxFeeExceeded].
         span(ng-switch-default, l10n)
           | Your request could not be submitted: {{engine_result}} - {{engine_result_message}}
-  group(ng-switch-default)
+
+  // All send & convert errors
+  group(ng-switch-when='send_convert')
     .transaction-error(ng-switch on="engine_result | rptruncate:3")
       group(ng-switch-when='tes')
         group.pending(ng-hide="accepted")
@@ -105,3 +109,58 @@ group(ng-switch on="tab")
             | Error code: Network fee exceeded [tejMaxFeeExceeded].
         span(ng-switch-default, l10n)
           | Your payment could not be submitted: {{engine_result}} - {{engine_result_message}}
+
+  group(ng-switch-default)
+    .transaction-error(ng-switch on="engine_result | rptruncate:3")
+      group(ng-switch-when='tes')
+        group.pending(ng-hide="accepted")
+          h2.tx-status(l10n) Request pending
+        group.result-success(ng-show="accepted")
+          h2.tx-status(l10n) Request successful
+      group.result-malformed(ng-switch-when='tem')
+        h2.tx-status(l10n) Request failed
+        p(ng-switch on="engine_result")
+          span(ng-switch-default, l10n)
+            | Error code: {{engine_result}} - {{engine_result_message}}
+      group.result-malformed(ng-switch-when='tef')
+        div(ng-switch on="engine_result")
+            div(ng-switch-when="tefMAX_LEDGER")
+              h2.tx-status(l10n) Request failed
+              p(ng-switch on="engine_result")
+                span(l10n) Your request timed out, please try again.
+            div(ng-switch-default)
+              h2.tx-status(l10n) Request failed
+              p(ng-switch on="engine_result")
+                span(ng-switch-when="tefDST_TAG_NEEDED", l10n)
+                  | Error code: Destination tag needed [tefDST_TAG_NEEDED].
+      group.result-failed(ng-switch-when='tel')
+        h2.tx-status(l10n) Request failed
+        p(ng-switch on="engine_result")
+          span(ng-switch-when="telINSUF_FEE_P", l10n)
+            | Error code: This request failed because it exceeded the maximum network fee, please try again later [telINSUF_FEE_P].
+      group.result-malformed(ng-switch-when='tec')
+        h2.tx-status(l10n) Request failed
+        p(ng-switch on="engine_result")
+          span(ng-switch-when="tecNO_DST", l10n)
+            | Error code: No destination [tecNO_DST].
+          span(ng-switch-when="tecNO_DST_INSUF_XRP", l10n)
+            | Error code: Insufficient XRP sent to destination [tecNO_DST_INSUF_XRP].
+          span(ng-switch-default, l10n)
+            | Error: {{engine_result_message}}
+      group.result-failed(ng-switch-when='ter')
+        h2.tx-status(l10n) Request failed
+        p(ng-switch on="engine_result")
+          span(ng-switch-when="terNO_LINE", l10n)
+            | Error code: You have no trust line in this currency [terNO_LINE].
+        span(ng-switch-default, l10n)
+          | Your request failed: {{engine_result}} - {{engine_result_message}}
+      group.result-failed(ng-switch-when='tej')
+        h2.tx-status(l10n) Request failed
+        p(ng-switch on="engine_result")
+          span(ng-switch-when="tejLost", l10n)
+            | Error code: request could not be submitted [tejLost].
+          span(ng-switch-when="tejMaxFeeExceeded", l10n)
+            | This request failed because the current network fee is higher than your account limit. You can adjust your maximum network fee in Settings &gt Advanced, or try again later. <br>
+            | Error code: Network fee exceeded [tejMaxFeeExceeded].
+        span(ng-switch-default, l10n)
+          | Your request could not be submitted: {{engine_result}} - {{engine_result_message}}
