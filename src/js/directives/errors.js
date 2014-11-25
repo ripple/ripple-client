@@ -16,7 +16,8 @@ module.directive('rpTransactionStatus', function() {
     scope: {
       engine_result: '@rpEngineResult',
       engine_result_message: '@rpEngineResultMessage',
-      accepted: '@rpAccepted'
+      accepted: '@rpAccepted',
+      tab: '@rpCurrentTab'
     },
     link: function(scope, elm, attrs) {
     }

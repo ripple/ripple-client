@@ -13,7 +13,11 @@ section.col-xs-12.content(ng-controller='MxnCtrl')
   .row(ng-show='connected')
     // Transaction errors coming from errors.js & transactionerror.jade
     group.mode-ripplerror(ng-show='mode=="error" && account.Balance')
-      rp-transaction-status(rp-engine-result="{{engine_result}}", rp-engine-result-message="{{engine_result_message}}", rp-accepted="{{engine_status_accepted}}")
+      rp-transaction-status(
+        rp-engine-result="{{engine_result}}"
+        rp-engine-result-message="{{engine_result_message}}"
+        rp-accepted="{{engine_status_accepted}}"
+        rp-current-tab="fund_currency")
 
     //- N5. Notifications for connect new account
     group.mode-granted.wide(ng-show='mode=="granting" && account.Balance')
@@ -27,16 +31,6 @@ section.col-xs-12.content(ng-controller='MxnCtrl')
       group.result-malformed(ng-show='tx_result=="malformed"')
         h2.tx-status(l10n) There was a problem connecting the gateway. Please try again later.
         p(l10n) Your request is invalid, reason: {{engine_result}} - {{engine_result_message}}
-      group.result-failed(ng-show='tx_result=="failed"')
-        h2.tx-status(l10n) Gateway connection failed!
-        p(ng-switch on="engine_result")
-          span(ng-switch-when="terNO_LINE", l10n) You have no gateway connected in this currency.
-          span(ng-switch-when="tecINSUF_RESERVE_LINE", l10n) Insufficient reserve to connect gateway.
-          span(ng-switch-when="tecNO_LINE_INSUF_RESERVE", l10n) You must have at
-            | least {{account.reserve_to_add_trust | rpamount:0}} XRP to connect a gateway.&#32;
-            a(href="http://ripple.com/help/#reserve", l10n) Read more.
-          span(ng-switch-default, l10n) Gateway connection failed to clear,
-            | reason: {{engine_result_message}}
 
     .col-sm-3
       include fund/menu

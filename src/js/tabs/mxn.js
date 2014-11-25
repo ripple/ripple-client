@@ -32,6 +32,8 @@ MxnTab.prototype.angular = function (module)
         }
       }, true);
 
+
+
       $scope.toggle_instructions = function () {
         $scope.showInstructions = !$scope.showInstructions;
       };
@@ -129,21 +131,16 @@ MxnTab.prototype.angular = function (module)
 
           $scope.mode = 'granting';
 
-          console.log($scope.tx_result);
-
           tx.secret(secret);
           tx.submit();
 
-          setTimeout($scope.setMode,10000);
 
         });
-        // window.scopeLog = $scope;
-        $scope.setMode = function() {
-          $scope.mode = 'main';
-        }
+
         // $timeout(function(){
         //   $scope.mode = 'main';
         // }, 10000);
+
       };
 
     }]);

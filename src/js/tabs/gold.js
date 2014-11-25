@@ -131,8 +131,6 @@ GoldTab.prototype.angular = function (module)
 
           $scope.mode = 'granting';
 
-          console.log($scope.tx_result);
-
           tx.secret(secret);
           tx.submit();
 
