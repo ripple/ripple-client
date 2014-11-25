@@ -298,6 +298,7 @@ section.col-xs-12.content(ng-controller='SendCtrl')
             form(name="saveAddressForm"
             ng-class="{ show: show_save_address_form }"
             ng-submit='saveAddress()')
+              .name(ng-show="send.federation") {{send.recipient}}
               .address {{send.recipient_address}}
               label(for='save_address_name', l10n) Name this user
               input.form-control#contact_name(
@@ -334,6 +335,7 @@ section.col-xs-12.content(ng-controller='SendCtrl')
               | Add this address to contacts
             form(name="saveAddressForm", ng-class="{ show: show_save_address_form }"
             ng-submit='saveAddress()')
+              .name(ng-show="send.federation") {{send.recipient}}
               .address {{send.recipient_address}}
               label(for='save_address_name', l10n) Name this user
               input.form-control#contact_name(
