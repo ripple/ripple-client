@@ -32,11 +32,14 @@ JpyTab.prototype.angular = function (module)
         }
       }, true);
       
+
+
       $scope.toggle_instructions = function (){
         $scope.showInstructions = !$scope.showInstructions;
       }
 
       $scope.save_account = function (){
+
         $scope.loading = true;
       
         $scope.load_notification('loading');
@@ -128,8 +131,6 @@ JpyTab.prototype.angular = function (module)
 
           $scope.mode = 'granting';
 
-          console.log($scope.tx_result);
-
           tx.secret(secret);
           tx.submit();
 
@@ -140,7 +141,8 @@ JpyTab.prototype.angular = function (module)
         //   $scope.mode = 'main';
         // }, 10000);
 
-      }
+      };
+
     }]);
 
 };

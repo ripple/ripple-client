@@ -20,7 +20,7 @@ BrlTab.prototype.generateHtml = function ()
 
 BrlTab.prototype.angular = function (module)
 {
-	module.controller('BrlCtrl', ['$scope', 'rpId', 'rpAppManager', 'rpTracker', '$routeParams', 'rpKeychain', 'rpNetwork', '$timeout',
+  module.controller('BrlCtrl', ['$scope', 'rpId', 'rpAppManager', 'rpTracker', '$routeParams', 'rpKeychain', 'rpNetwork', '$timeout',
     function ($scope, $id, appManager, rpTracker, $routeParams, keychain, $network, $timeout)  {
 
       $scope.$watch('lines', function () {
@@ -75,8 +75,8 @@ BrlTab.prototype.angular = function (module)
               });
             })
             .on('error', function (res) {
-              console.log('error', res);
               setEngineStatus(res, false);
+              console.log('error', res);
               setImmediate(function () {
                 $scope.$apply(function () {
                   $scope.mode = 'error';
@@ -130,8 +130,6 @@ BrlTab.prototype.angular = function (module)
           }
 
           $scope.mode = 'granting';
-
-          console.log($scope.tx_result);
 
           tx.secret(secret);
           tx.submit();

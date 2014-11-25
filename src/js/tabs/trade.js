@@ -350,6 +350,8 @@ TradeTab.prototype.angular = function(module)
 
       order.engine_result = res.engine_result;
       order.engine_result_message = res.engine_result_message;
+      order.engine_status_accepted = accepted;
+
       switch (res.engine_result.slice(0, 3)) {
         case 'tes':
           order.tx_result = accepted ? "cleared" : "pending";
