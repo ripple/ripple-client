@@ -853,7 +853,6 @@ TradeTab.prototype.angular = function(module)
         //$scope.gateway_change_form.$invalid = false;
         $scope.disable_first_issuer = true;
         //$scope.first_issuer_selected = "";
-        console.log($scope.gateway_change_form.first_iss.$invalid,$scope.gateway_change_form.$invalid);
       }
       else {
         $scope.disable_first_issuer = false;
@@ -895,7 +894,6 @@ TradeTab.prototype.angular = function(module)
             });
           });
         });
-        console.log($scope.gateway_change_form.second_iss.$invalid);
       }
 
     });
@@ -1296,7 +1294,6 @@ TradeTab.prototype.angular = function(module)
 
     function update_pairs(){
       if(!$scope.userBlob.data.trade_currency_pairs){
-        console.log('blob update');
         $scope.pairs_query = [{"name": "XRP/USD.SnapSwap"},
           {"name": "XRP/USD.Bitstamp"},
           {"name": "XRP/JPY.TokyoJPY"},
@@ -1304,7 +1301,6 @@ TradeTab.prototype.angular = function(module)
           {"name": "BTC.SnapSwap/XRP"}];
       }
       else {
-        console.log('blob update exists');
         $scope.pairs_query = $scope.userBlob.data.trade_currency_pairs;
       }
     }
