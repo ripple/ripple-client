@@ -43,8 +43,6 @@ AdvancedTab.prototype.angular = function(module)
     $scope.max_tx_network_fee_human = ripple.Amount.from_json($scope.options.max_tx_network_fee).to_human();
     $scope.advancedFeatureSwitchChanged = false;
 
-    $scope.advanced_feature_switch = Options.advanced_feature_switch;
-
     // Initialize the notification object
     $scope.success = {};
 
@@ -144,10 +142,12 @@ AdvancedTab.prototype.angular = function(module)
     $scope.cancelEditMaxNetworkFee = function () {
       $scope.editMaxNetworkFee = false;
       $scope.options.max_tx_network_fee = $scope.optionsBackup.max_tx_network_fee;
+      $scope.max_tx_network_fee_human = ripple.Amount.from_json($scope.options.max_tx_network_fee).to_human();
     };
 
     $scope.cancelEditAcctOptions = function () {
       $scope.editAcctOptions = false;
+      $scope.options.advanced_feature_switch = $scope.optionsBackup.advanced_feature_switch;
     };
 
     $scope.$on('$blobUpdate', function () {

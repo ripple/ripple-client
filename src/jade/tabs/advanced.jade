@@ -61,8 +61,8 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
             .col-xs-6.col-sm-5.col-md-3
               .description Advanced settings
             .col-xs-3.col-sm-4.col-md-4
-              .description(ng-show="advanced_feature_switch", l10n) Show
-              .description(ng-hide="advanced_feature_switch", l10n) Hide
+              .description(ng-show="options.advanced_feature_switch", l10n) Show
+              .description(ng-hide="options.advanced_feature_switch", l10n) Hide
             .col-xs-3.col-sm-3.col-md-2
               a.btn.btn-cancel.btn-block(href="", ng-click="editAcctOptions = true", l10n) edit
           .row.row-padding-small.edit-trust-line(ng-show="editAcctOptions")
