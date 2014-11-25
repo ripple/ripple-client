@@ -25,53 +25,86 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
       group(ng-show="loadState.offers")
         .settings
           .row
-            .col-sm-4.col-md-4.col-xs-9.currency-config
+            .col-sm-8.col-md-8.col-xs-12.currency-config
               input.form-control.currency#currency_pair(
                 name='currency_pair', type='text'
-                rp-combobox="pairs_query", rp-combobox-select
+                rp-combobox="pairs_query", rp-combobox-select, ng-disabled="adding_pair",
                 ng-model='order.currency_pair')
-            .col-sm-2.col-md-2.col-xs-3.currency-flip
-              button.btn.btn-default.btn-block.btn-link(href=""
-                ng-disabled="order.valid_settings != true"
-                ng-click='flip_issuer()', l10n)
-                | flip
-            .col-sm-6.col-md-6.col-xs-12.issuers-wrapper
-              ul.issuers.inline(ng-hide='order.first_currency.is_native()')
-                li.label(l10n) Base currency
-                li.value {{order.first_currency | rpcurrency}}&ensp;
-                  span(
-                    rp-pretty-issuer="order.first_issuer"
-                    rp-pretty-issuer-contacts="userBlob.data.contacts"
-                    ) ???
-                li: a(href=""
-                  ng-show='show_issuer_form != "first"'
-                  ng-click='edit_first_issuer()', l10n)
-                  | Change gateway
-                li: a(href=""
-                  ng-show='show_issuer_form == "first"'
-                  ng-click='show_issuer_form = false', l10n)
-                  | cancel
-              ul.issuers.inline(ng-show='order.first_currency.is_native()')
-                li.label(l10n) Base currency
-                li.value XRP
-              ul.issuers.inline(ng-hide='order.second_currency.is_native()')
-                li.label(l10n) Counter currency
-                li.value {{order.second_currency | rpcurrency}}&ensp;
-                  span(
-                    rp-pretty-issuer="order.second_issuer"
-                    rp-pretty-issuer-contacts="userBlob.data.contacts"
-                    ) ???
-                li: a(href=""
-                  ng-show='show_issuer_form != "second"'
-                  ng-click='edit_second_issuer()', l10n)
-                  | Change gateway
-                li: a(href=""
-                  ng-show='show_issuer_form == "second"'
-                  ng-click='show_issuer_form = false', l10n)
-                  | cancel
-              ul.issuers.inline(ng-show='order.second_currency.is_native()')
-                li.label(l10n) Counter currency
-                li.value XRP
+            .col-sm-4.col-md-4.col-xs-12(ng-hide="adding_pair")
+              button.btn.btn-cancel.btn-block(href=""
+                ng-click="open_custom_currency_selector()", ng-disabled="adding_pair", l10n)
+                | Add Custom Pair
+            //.col-sm-6.col-md-6.col-xs-12.issuers-wrapper
+            //  ul.issuers.inline(ng-hide='order.first_currency.is_native()')
+            //    li.label(l10n) Base currency
+            //    li.value {{order.first_currency | rpcurrency}}&ensp;
+            //      span(
+            //        rp-pretty-issuer="order.first_issuer"
+            //        rp-pretty-issuer-contacts="userBlob.data.contacts"
+            //        ) ???
+            //    li: a(href=""
+            //      ng-show='show_issuer_form != "first"'
+            //      ng-click='edit_first_issuer()', l10n)
+            //      | Change gateway
+            //    li: a(href=""
+            //      ng-show='show_issuer_form == "first"'
+            //      ng-click='show_issuer_form = false', l10n)
+            //      | cancel
+            //  ul.issuers.inline(ng-show='order.first_currency.is_native()')
+            //    li.label(l10n) Base currency
+            //    li.value XRP
+            //  ul.issuers.inline(ng-hide='order.second_currency.is_native()')
+            //    li.label(l10n) Counter currency
+            //    li.value {{order.second_currency | rpcurrency}}&ensp;
+            //      span(
+            //        rp-pretty-issuer="order.second_issuer"
+            //        rp-pretty-issuer-contacts="userBlob.data.contacts"
+            //        ) ???
+            //    li: a(href=""
+            //      ng-show='show_issuer_form != "second"'
+            //      ng-click='edit_second_issuer()', l10n)
+            //      | Change gateway
+            //    li: a(href=""
+            //      ng-show='show_issuer_form == "second"'
+            //      ng-click='show_issuer_form = false', l10n)
+            //      | cancel
+            //  ul.issuers.inline(ng-show='order.second_currency.is_native()')
+            //    li.label(l10n) Counter currency
+            //    li.value XRP
+          form.row#gateway_change_form(name="gateway_change_form", ng-show="adding_pair", ng-submit="add_pair()")
+            .col-sm-4.col-lg-2.col-xs-12
+              .description(l10n) Base Currency
+              input.form-control(
+                name="first_currency", type="text"
+                rp-combobox="currencies", rp-combobox-select
+                ng-pattern="validation_pattern_currency"
+                ng-model="first_currency_selected")
+            .col-sm-6.col-lg-3.col-xs-11
+              .description(l10n) Base Gateway
+              input.form-control(
+                name="first_iss", type="text", ng-disabled="disable_first_issuer"
+                rp-combobox="first_iss", rp-combobox-select
+                rp-dest, rp-dest-address, rp-dest-contact, rp-dest-ripple-name, rp-dest-ripple-name-no-tilde
+                ng-model="first_issuer_selected")
+            .col-xs-1
+              .description.slash /
+            .col-sm-4.col-lg-2.col-xs-12
+              .description(l10n) Counter Currency
+              input.form-control(
+                name="second_currency", type="text"
+                rp-combobox="currencies", rp-combobox-select, ng-pattern="validation_pattern_currency"
+                ng-model="second_currency_selected")
+            .col-sm-6.col-lg-3.col-xs-12
+              .description(l10n) Counter Gateway
+              input.form-control(
+                name="second_iss", type="text", ng-disabled="disable_second_issuer"
+                rp-combobox="second_iss", rp-combobox-select
+                rp-dest, rp-dest-address, rp-dest-contact, rp-dest-ripple-name, rp-dest-ripple-name-no-tilde
+                ng-model="second_issuer_selected")
+            .col-sm-4.col-lg-2.col-xs-6#cancel_button
+              button.btn.btn-cancel.btn-block(type="button", ng-click="adding_pair = false", l10n) cancel
+            .col-sm-4.col-lg-2.col-xs-6#add_button
+              button.btn.btn-success.btn-block.submit(type="submit", ng-disabled="gateway_change_form.$invalid", l10n) Add
 
         form.issuerSelector.first-issuer(name='first_issuer_form', ng-show='show_issuer_form == "first"')
           label(for='first_issuer', l10n) Base currency issuer ({{order.first_currency | rpcurrency}})
@@ -89,7 +122,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
             .col-xs-12.col-sm-4.col-md-2
               button.btn.btn-block.btn-success.submit(type='submit',
                 ng-click='save_first_issuer()',
-                ng-disabled="first_issuer_form.$invalid", l10n) Confirm
+                ng-disabled='first_issuer_form.$invalid', l10n) Confirm
 
         form.issuerSelector.second-issuer(name='second_issuer_form', ng-show='show_issuer_form == "second"')
           label(for='second_issuer', l10n) Counter currency issuer ({{order.second_currency | rpcurrency}})
@@ -110,10 +143,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                 ng-disabled="second_issuer_form.$invalid", l10n) Confirm
 
         .message-select-issuer(ng-hide="order.valid_settings", l10n)
-          | You must select a gateway to trade currencies.
-          |  Click the “Change gateway” link above and enter the
-          |  gateway's address or Ripple name.&#32;
-          a(href="https://support.ripplelabs.com/hc/en-us/articles/202847686-Gateway-Information", target="_blank", l10n-inc) Find a gateway.
+          | To show an orderbook, choose from the dropdown above or click "Add custom pair".
 
         group(ng-if="order.valid_settings")
           ul.ticker

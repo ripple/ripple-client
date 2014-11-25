@@ -1947,6 +1947,10 @@
 }
 
 #t-trade {
+  .description{
+    font-size: 12px;
+  }
+  
   #section_loader {
     color: @midgray;
     text-align: center;
@@ -1971,6 +1975,10 @@
     .btn:last-child {
       .border-radius(4px, 0, 0, 0);
     }
+  }
+
+  #add_button, #cancel_button {
+    float: right;
   }
 
   ul.inline {
@@ -2065,6 +2073,12 @@
     .value {
       font-weight: bold;
     }
+  }
+
+  .slash {
+    padding-top: 25px;
+    //padding-left: 10px;
+    font-size: 24px;
   }
 
   .order-type {

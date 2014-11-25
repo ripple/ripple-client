@@ -1,0 +1,188 @@
+[
+  {
+    "name": "Bitstamp",
+    "accounts": [{
+      "address": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
+      "currencies": ["BTC", "USD", "EUR"],
+      "hotwallets": ["rrpNnNLKrartuEqfJGpqyDwPj1AFPg9vn1"]
+      }]
+  }, {
+    "name": "RippleChina",
+    "accounts": [{
+      "address": "razqQKzJRdB4UxFPWf5NEpEG3WMkmwgcXA",
+      "currencies": ["CNY"],
+      "hotwallets": ["r45dBj4S3VvMMYXxr9vHX4Z4Ma6ifPMCkK"]
+      }]
+  }, {
+    "name": "rippleCN",
+    "accounts": [{
+      "address": "rnuF96W4SZoCJmbHYBFoJZpR8eCaxNvekK",
+      "currencies": ["BTC", "CNY"],
+      "hotwallets": ["rNaptDNfFXo1quhKwMaNPf66iwPqA8YLky", "rno91tGDJeRcnM7EMXj8KG9UTyxRGMMz8s"]
+      }]
+  }, {
+    "name": "Payroutes",
+    "accounts": [{
+      "address": "rNPRNzBB92BVpAhhZr4iXDTveCgV5Pofm9",
+      "currencies": ["BTC", "ILS"],
+      "hotwallets": []
+      }]
+  }, {
+    "name": "SnapSwap",
+    "accounts": [{
+      "address": "rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q",
+      "currencies": ["USD","BTC","EUR","GBP"],
+      "hotwallets": ["rUQTpMqAF5jhykj4FExVeXakrZpiKF6cQV", "rhasPLL5GaXzBh5amQkN7Dr1SNF4Whb2ZT"]
+      }]
+  }, {
+    "name": "TheRock",
+    "accounts": [{
+      "address": "rLEsXccBGNR3UPuPu2hUXPjziKC3qKSBun",
+      "currencies": ["BTC", "EUR", "USD"],
+      "hotwallets": ["rUeFPRGNjtcbtezyQKKiDcS1eQyYLQ1gcr"]
+      }]
+  }, {
+    "name": "WisePass",
+    "accounts": [{
+      "address": "rPDXxSZcuVL3ZWoyU82bcde3zwvmShkRyF",
+      "currencies": ["BTC", "LTC", "USD"],
+      "hotwallets": ["r9xAQUyqs53QH2PLxe7iFbNbpU2RA9QtZx"]
+      }]
+  }, {
+    "name": "RippleUnion",
+    "accounts": [{
+      "address": "r3ADD8kXSUKHd6zTCKfnKT3zV9EZHjzp1S",
+      "currencies": ["CAD"],
+      "hotwallets": []
+    }]
+  },{
+    "name": "Justcoin",
+    "accounts": [{
+      "address": "rJHygWcTLVpSXkowott6kzgZU6viQSVYM1",
+      "currencies": ["LTC", "BTC","STR","EUR","NOK"],
+      "hotwallets": []
+      }]
+  }, {
+    "name": "XRPChina",
+    "accounts": [{
+      "address": "rM8199qFwspxiWNZRChZdZbGN5WrCepVP1",
+      "currencies": ["CNY"],
+      "hotwallets": []
+      }]
+  }, {
+    "name": "RippleSingapore",
+    "accounts": [{
+      "address": "r9Dr5xwkeLegBeXq6ujinjSBLQzQ1zQGjH",
+      "currencies": ["XAU","XAG", "USD"],
+      "hotwallets": []
+      }]
+  }, {
+    "name": "RippleTradeJapan",
+    "accounts": [{
+      "address": "rMAz5ZnK73nyNUL4foAvaxdreczCkG3vA6",
+      "currencies": ["JPY"],
+      "hotwallets": []
+      }]
+  }, {
+    "name": "Bitso",
+    "accounts": [{
+      "address": "rG6FZ31hDHN1K5Dkbma3PSB5uVCuVVRzfn",
+      "currencies": ["MXN","BTC"],
+      "hotwallets": ["rHZaDC6tsGN2JWGeXhjKL6664RNCq5hu4B"]
+      }]
+  }, {
+    "name": "Coinex",
+    "accounts": [{
+      "address": "rsP3mgGb2tcYUrxiLFiHJiQXhsziegtwBc",
+      "currencies": ["NZD","BTC","USD","AUD", "STR"],
+      "hotwallets": ["rGAmy1w1ENyTJ9BCAEicYyRM2Yk1iWZ7Z5"],
+      "domain": "coinexgateway.com"
+      }]
+  }, {
+    "name": "RippleLatAm",
+    "accounts": [{
+      "address": "rP5ShE8dGBH6hHtNvRESdMceen36XFBQmh",
+      "currencies": ["BRL","UYU","PEN","MXN","BTC","LTC","USD","CLP","ARS"],
+      "hotwallets": ["raoFdQah8c8owTj4TPMr8o1WntnXybXCgB"],
+      "domain": "ripplelatam.com"
+      }]
+  }, {
+    "name": "GBI",
+    "accounts": [{
+      "address": "rrh7rf1gV2pXAoqA8oYbpHd8TKv5ZQeo67",
+      "currencies": [
+        {
+          "label" : "XAU",
+          "code"  : "0158415500000000C1F76FF6ECB0BAC600000000"
+        }
+      ]
+      }],
+    "hotwallets": [
+    ],
+    "domain": "goldbullioninternational.com"
+  }, {
+    "name": "LakeBTC",
+    "accounts": [{
+      "address": "rpDMez6pm6dBve2TJsmDpv7Yae6V5Pyvy2",
+      "currencies": ["USD"]
+      }],
+    "hotwallets": [
+      "rP9gFJKqKGWdR4n6XjdsUPqmJfXkg4kSgZ"
+    ],
+    "domain": "lakebtc.com"
+  }, {
+    "name": "RippleFox",
+    "accounts": [{
+      "address": "rKiCet8SdvWxPXnAgYarFUXMh1zCPz432Y",
+      "currencies": ["CNY","STR"]
+      }],
+    "hotwallets": [
+      "rLSnkKvMfPD9abLoQFxQJMYyZqJcsqkL3o",
+      "rPcQaiyDxMwLr7Q9eFmn5VnVx2RN57MUmN",
+      "r3ipidkRUZWq8JYVjnSnNMf3v7o69vgLEW"
+    ],
+    "domain": "ripplefox.com"
+  }, {
+    "name": "TokyoJPY",
+    "accounts": [{
+      "address": "r94s8px6kSw1uZ1MV98dhSRTvc6VMPoPcN",
+      "currencies": ["JPY"]
+      }],
+    "hotwallets": [],
+    "domain": "tokyojpy.com"
+  }, {
+    "name": "Rippex",
+    "accounts": [{
+      "address": "rfNZPxoZ5Uaamdp339U9dCLWz2T73nZJZH",
+      "currencies": ["BRL"]
+      }],
+    "hotwallets": ["r37FUji17jCgCZvAUc8m5YqXquwHpgwa9q"],
+    "domain": "rippex.net"
+  }, {
+    "name": "RippleMarketJapan",
+    "accounts": [{
+      "address": "rJRi8WW24gt9X85PHAxfWNPCizMMhqUQwg",
+      "currencies": ["JPY"]
+      }],
+    "hotwallets": [],
+    "domain": "ripple-market.jp"
+  }, {
+    "name": "PaxMoneta",
+    "accounts": [{
+      "address": "rUkMKjQitpgAM5WTGk79xpjT38DEJY283d",
+      "currencies": ["KRW"]
+      }],
+    "hotwallets": [],
+    "domain": "paxmoneta.com"
+  }, {
+    "name": "Ripplex",
+    "accounts": [{
+      "address": "r9ZFPSb1TFdnJwbTMYHvVwFK1bQPUCVNfJ",
+      "currencies": ["JPY"]
+      }],
+    "hotwallets": [],
+    "domain": "ripplex.co.jp"
+  }
+
+
+]
