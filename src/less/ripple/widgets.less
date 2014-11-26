@@ -3,7 +3,7 @@
   color: @black;
 
   .widget {
-    padding-bottom: @padding-base-vertical;
+    padding-bottom: @padding-large-vertical;
 
     > h4 {
       font-size: inherit !important;
@@ -15,7 +15,7 @@
     &.widget-balances {
       li {
         clear: left;
-        margin: @padding-base-horizontal/4 0;
+        margin: @padding-small-vertical 0;
         padding: @padding-base-horizontal @padding-base-vertical;
         margin-left: -31px;
         padding-left: 31px;
@@ -28,14 +28,14 @@
         i.fa-li {
           font-family: 'FontAwesome';
           font-style: normal;
-          top: @padding-base-horizontal;
+          top: @padding-base-vertical*1.5;
           left: 0;
         }
 
         h5 {
           font-size: inherit !important;
           font-family: 'OpenSansBold';
-          margin: 0 0 @padding-base-vertical;
+          margin: 0;
           line-height: 20px;
           .pull-left;
         }
@@ -59,12 +59,20 @@
             overflow: hidden;
             font-weight: 400;
             .pull-left;
+
+            &:first-child {
+              margin: @padding-base-vertical 0 0;
+            }
           }
 
           dd {
             text-align: right;
             text-overflow: ellipsis;
             overflow: hidden;
+
+            &:nth-child(2) {
+              margin: @padding-base-vertical 0 0;
+            }
           }
         }
 
