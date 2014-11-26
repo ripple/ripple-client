@@ -52,6 +52,12 @@
           color: @darkgray;
           margin: 0;
           .transition(inherit);
+          height: 0;
+          overflow: hidden;
+
+          &.visible {
+            height: auto;
+          }
 
           dt {
             width: 59%;
@@ -62,6 +68,10 @@
 
             &:first-child {
               margin: @padding-base-vertical 0 0;
+            }
+
+            @media (min-width: @screen-lg) {
+              width: 70%;
             }
           }
 

@@ -7,11 +7,15 @@
       h5 XRP
       div(ng-show="account.Balance") {{ account.Balance | rpamount }}
       div(ng-hide="account.Balance") 0.00
-    li(ng-repeat="entry in balances", ng-class="'currency-' + (entry.total | rpcurrency | lowercase)")
+
+    li(
+      ng-repeat="entry in balances"
+      ng-class="'currency-' + (entry.total | rpcurrency | lowercase)"
+      ng-click="entry.hide=!entry.hide")
       i.fa-li.fa-money(ng-class="'fa-' + (entry.total | rpcurrency | lowercase)")
       h5 {{ entry.total | rpcurrency }}
       div {{ entry.total | rpamount }}
-      dl
+      dl(ng-class="{'visible' : !entry.hide}")
         div(ng-repeat="(issuer, component) in entry.components")
           dt(ng-show="component.gateway.app") {{entry.total | rpcurrency}}.{{component.gateway.app.name}}
           dt(ng-hide="component.gateway.app", rp-pretty-identity="issuer", rp-pretty-issuer-contacts="userBlob.data.contacts")
