@@ -1,7 +1,7 @@
 group(ng-switch on="tab")
 
   // All fund -> individual currency tab errors
-  group(ng-switch-when='fund_currency')
+  group(ng-switch-when='trust')
     .transaction-error(ng-switch on="engine_result | rptruncate:3")
       group.result-malformed(ng-switch-when='tem')
         h2.tx-status(l10n) Request failed
