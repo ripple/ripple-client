@@ -1,0 +1,10 @@
+form(role="form")
+  .modal-header(l10n) Modify Order Error
+  .modal-body
+    .alert.alert-danger(l10n) Sorry, your order could not be modified.
+    span(l10n) Your original order was cancelled but the modified order was not placed. <br/>
+    span(l10n) The quantity of your order changed by {{order.qtyChangeAfterCancel | rpamount}} before the order could be modified. <br/><br/>
+    span(l10n) To safeguard against the possibility of overfills a new order has not been placed. <br/>
+    span(l10n) Please check your balance and history before placing the new order manually. <br/>
+  .modal-footer
+    button.btn.btn-default(type="button", ng-click="cancel()", l10n) Close
