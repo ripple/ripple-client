@@ -1,0 +1,17 @@
+.widget.widget-networth
+  h4(l10n) Net Worth
+
+  p(l10n)
+    | In
+    select.currency(rp-flat-select, ng-model='selectedValueMetric'
+      ng-change='changeMetric(this)'
+      ng-options='metric.code as metric.text for metric in valueMetrics')
+
+  .desc(l10n) Estimated from latest trade price
+
+  .total.amount(ng-show="exchangeRatesNonempty")
+    span.amount {{ aggregateValueDisplayed }}
+    span.amountDecimal {{ aggregateValueDisplayedDecimal }}
+    span.amountCurrency {{ aggregateValueDisplayedCurrency }}
+  .lbl(ng-show="hasNegative")
+    .desc(l10n) (excluding negative balances)
