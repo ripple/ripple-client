@@ -2,11 +2,35 @@
   h4(l10n) Balances
 
   ul.fa-ul
-    li.currency-xrp
+    li.currency-xrp(ng-click="entry.show=!entry.show")
       i.fa-li
       h5 XRP
       div(ng-show="account.Balance") {{ account.Balance | rpamount }}
       div(ng-hide="account.Balance") 0.00
+      dl(ng-class="{'visible' : entry.show}")
+        dt
+          span(l10n) Reserve
+          | &#32;
+          i.fa.fa-question-circle(
+            rp-popover
+            rp-popover-placement="bottom"
+            l10n-rp-popover-title="Reserve amount"
+            rp-popover-trigger="hover"
+            l10n-data-content="Minimum amount of XRP required to fund your account. You cannot spend the reserve.")
+        dd(ng-show="account.reserve") {{ account.reserve | rpamount }}
+        dd(ng-hide="account.reserve") 0.00
+
+        dt
+          span(l10n) Available
+          | &#32;
+          i.fa.fa-question-circle(
+            rp-popover
+            rp-popover-placement="bottom"
+            l10n-rp-popover-title="Available amount"
+            rp-popover-trigger="hover"
+            l10n-data-content="Total amount of XRP in your account minus the reserve amount.")
+        dd(ng-show="account.max_spend") {{ account.max_spend | rpamount }}
+        dd(ng-hide="account.max_spend") 0.00
 
     li(
       ng-repeat="entry in balances"
@@ -20,3 +44,6 @@
           dt(ng-show="component.gateway.app") {{entry.total | rpcurrency}}.{{component.gateway.app.name}}
           dt(ng-hide="component.gateway.app", rp-pretty-identity="issuer", rp-pretty-issuer-contacts="userBlob.data.contacts")
           dd {{ component | rpamount }}
+
+  p(ng-show="$route.current.tabName == 'balance'")
+    a(href="#/trust", l10n) Add Gateway
