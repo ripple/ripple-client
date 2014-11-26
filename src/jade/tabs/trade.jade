@@ -356,45 +356,24 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                 //- 4. Done
 
                 group.mode-done(ng-switch-when='done')
-                  group.pending(ng-show='order[type].tx_result=="pending"')
+                  group.pending(ng-show='tx_result=="pending"')
                     h2.tx-status(l10n) Your order has been submitted.
-                  group.result-success(ng-show="order[type].tx_result=='cleared' && executedOnOfferCreate=='none'")
+                  group.result-success(ng-show="tx_result=='cleared' && executedOnOfferCreate=='none'")
                     h2.tx-status(l10n) Your order is now active.
-                  group.result-success(ng-show="order[type].tx_result=='cleared' && executedOnOfferCreate=='all'")
+                  group.result-success(ng-show="tx_result=='cleared' && executedOnOfferCreate=='all'")
                     h2.tx-status(l10n) Your order has been filled.
-                  group.result-success(ng-show="order[type].tx_result=='cleared' && executedOnOfferCreate=='partial'")
+                  group.result-success(ng-show="tx_result=='cleared' && executedOnOfferCreate=='partial'")
                     h2.tx-status(l10n) Your order has been partially filled. The remaining amount is now active.
-                  group.result-error(ng-show='order[type].tx_result=="error"')
-                    h2.tx-status(l10n) Request has been denied.
-                    p(l10n) We were unable to submit the request. Please try again later.
-                  group.result-malformed(ng-show='order[type].tx_result=="malformed"')
-                    h2.tx-status(l10n) Request is malformed.
-                    p(l10n) Your request is invalid, reason: {{order[type].engine_result}}
-                      |  - {{order[type].engine_result_message}}
-                  group.result-malformed(ng-show='order[type].tx_result=="claim"')
-                    h2.tx-status(l10n) Transaction failed.
-                    p(ng-switch on="order[type].engine_result")
-                      span(ng-switch-when="tecUNFUNDED_ORDER", l10n)
-                        | You do not have enough {{(type == 'buy' ? order.second_currency : order.first_currency) | rpcurrency}} to create this order.
-                      span(ng-switch-when="tecINSUF_RESERVE_OFFER", l10n)
-                        | You must have at least {{account.reserve_to_add_trust | rpamount}} XRP to submit an order.&#32;
-                        a(href="https://ripple.com/wiki/Reserves", target="_blank", l10n) More information.
-                      span(ng-switch-default, l10n)
-                        | Error: {{order[type].engine_result_message}}
-                  group.result-failed(ng-show='order[type].tx_result=="failed"')
-                    h2.tx-status(l10n) Trade failed.
-                    p(ng-switch on="order[type].engine_result")
-                      span(ng-switch-default, l10n) Trade failed, reason: {{order[type].engine_result_message}}
-                  group.result-failed(ng-show='order[type].tx_result=="local"')
-                    h2.tx-status(l10n) Transaction failed.
-                    p(ng-switch on="order[type].engine_result")
-                      span(ng-switch-when="telINSUF_FEE_P", l10n)
-                        | The particular server you sent the transaction to was too busy to forward or process
-                        |  your transaction at the fee you included in it.
-                  group.result-failed(ng-show='order[type].tx_result=="unknown"')
-                    h2.tx-status {{order[type].engine_result}}
-                    p(ng-switch on="order[type].engine_result")
-                      span(ng-switch-default) {{order[type].engine_result_message}}
+
+                  //- 4a. Ripple error page
+
+                  group.mode-ripplerror(ng-show='tx_result=="unknown"')
+                    rp-transaction-status(
+                      rp-engine-result="{{engine_result}}"
+                      rp-engine-result-message="{{engine_result_message}}"
+                      rp-accepted="{{engine_status_accepted}}"
+                      rp-current-tab="trade")
+                    
                   hr
                   .actionLink
                     a(href="#trade", ng-click="reset_widget(type)", l10n) Submit another order

@@ -594,10 +594,10 @@ TrustTab.prototype.angular = function (module)
             });
           })
           .on('error', function(res){
-            console.log('error', res);
             setImmediate(function () {
               $scope.$apply(function () {
                 $scope.mode = 'error';
+                setEngineStatus(res, false);
 
                 $scope.trust.loading = false;
                 $scope.load_notification("error");

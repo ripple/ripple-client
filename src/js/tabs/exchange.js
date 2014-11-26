@@ -394,7 +394,8 @@ ExchangeTab.prototype.angular = function (module)
             $scope.tx_result = "local";
             break;
           default:
-            console.warn("Unhandled engine status encountered!");
+            $scope.tx_result = "unknown";
+            console.warn('Unhandled engine status encountered!');
         }
       }
 

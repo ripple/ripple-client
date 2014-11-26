@@ -70,7 +70,7 @@ group(ng-switch on="tab")
       group.result-malformed(ng-switch-when='tef')
         div(ng-switch on="engine_result")
             div(ng-switch-when="tefMAX_LEDGER")
-              h2.tx-status(l10n) Payment failed
+              h2.tx-status(l10n) Payment failed [tefMAX_LEDGER].
               p(ng-switch on="engine_result")
                 span(l10n) Your payment timed out, please try again.
             div(ng-switch-default)
@@ -109,6 +109,33 @@ group(ng-switch on="tab")
             | Error code: Network fee exceeded [tejMaxFeeExceeded].
         span(ng-switch-default, l10n)
           | Your payment could not be submitted: {{engine_result}} - {{engine_result_message}}
+
+  group(ng-switch-when='trade')
+    .transaction-error(ng-switch on="engine_result | rptruncate:3")
+      group.result-malformed(ng-switch-when="tem")
+        h2.tx-status(l10n) Request is malformed.
+        p(l10n) Your request is invalid, reason: {{engine_result_message}}
+          |  - {{engine_result_message}}
+      group.result-malformed(ng-switch-when"tec")
+        h2.tx-status(l10n) Transaction failed.
+        p(ng-switch on="engine_result")
+          span(ng-switch-when="tecUNFUNDED_ORDER", l10n)
+            | You do not have enough funds to create this order [tecUNFUNDED_ORDER].
+          span(ng-switch-when="tecINSUF_RESERVE_OFFER", l10n)
+            | Insufficient reserve amount to submit an order [tecINSUF_RESERVE_OFFER].&#32;
+            a(href="https://ripple.com/wiki/Reserves", target="_blank", l10n) More information.
+          span(ng-switch-default, l10n)
+            | Error: {{engine_result_message}}
+      group.result-failed(ng-switch-when='ter')
+        h2.tx-status(l10n) Trade failed.
+        p(ng-switch on="engine_result")
+          span(ng-switch-default, l10n) Trade failed, reason: {{engine_result_message}}
+      group.result-failed(ng-switch-when="tel")
+        h2.tx-status(l10n) Transaction failed.
+        p(ng-switch on="engine_result")
+          span(ng-switch-when="telINSUF_FEE_P", l10n)
+            | The particular server you sent the transaction to was too busy to forward or process
+            |  your transaction at the fee you included in it [telINSUF_FEE_P].
 
   group(ng-switch-default)
     .transaction-error(ng-switch on="engine_result | rptruncate:3")
