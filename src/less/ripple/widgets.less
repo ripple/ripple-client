@@ -59,6 +59,7 @@
 
           &.visible {
             height: auto;
+            margin: @padding-base-vertical 0 0;
           }
 
           dt {
@@ -67,24 +68,12 @@
             overflow: hidden;
             font-weight: 400;
             .pull-left;
-
-            &:first-child {
-              margin: @padding-base-vertical 0 0;
-            }
-
-            @media (min-width: @screen-lg) {
-              width: 70%;
-            }
           }
 
           dd {
             text-align: right;
             text-overflow: ellipsis;
             overflow: hidden;
-
-            &:nth-child(2) {
-              margin: @padding-base-vertical 0 0;
-            }
           }
         }
 
@@ -110,6 +99,15 @@
           }
         }
       }
+    }
+  }
+}
+
+/* Widgets on home page */
+section[ng-controller="BalanceCtrl"] .widgets {
+  @media (min-width: @screen-lg) {
+    .widget-balances dl dt {
+      width: 70%;
     }
   }
 }
