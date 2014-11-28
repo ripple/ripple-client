@@ -3,7 +3,7 @@
 
   ul.fa-ul
     li.currency-xrp(ng-click="entry.hide=!entry.hide",ng-init="entry.hide=true")
-      i.fa-li
+      i.fa-li.fa-money
       h5 XRP
       div(ng-show="account.Balance") {{ account.Balance | rpamount }}
       div(ng-hide="account.Balance") 0.00
