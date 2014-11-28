@@ -53,14 +53,9 @@
           clear: left;
           color: @darkgray;
           margin: 0;
-          .transition(inherit);
-          height: 0;
+          padding-top: @padding-large-vertical;
+          .transition(color 2s ease-in-out);
           overflow: hidden;
-
-          &.visible {
-            height: auto;
-            margin: @padding-base-vertical 0 0;
-          }
 
           dt {
             width: 59%;

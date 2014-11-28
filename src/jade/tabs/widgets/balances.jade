@@ -2,12 +2,12 @@
   h4(l10n) Balances
 
   ul.fa-ul
-    li.currency-xrp(ng-click="entry.show=!entry.show")
+    li.currency-xrp(ng-click="entry.hide=!entry.hide",ng-init="entry.hide=true")
       i.fa-li
       h5 XRP
       div(ng-show="account.Balance") {{ account.Balance | rpamount }}
       div(ng-hide="account.Balance") 0.00
-      dl(ng-class="{'visible' : entry.show}")
+      dl(rp-auto-max-height)
         dt
           span(l10n) Reserve
           | &#32;
@@ -39,7 +39,7 @@
       i.fa-li.fa-money(ng-class="'fa-' + (entry.total | rpcurrency | lowercase)")
       h5 {{ entry.total | rpcurrency }}
       div {{ entry.total | rpamount }}
-      dl(ng-class="{'visible' : !entry.hide}")
+      dl(rp-auto-max-height)
         div(ng-repeat="(issuer, component) in entry.components")
           dt(ng-show="component.gateway.app") {{entry.total | rpcurrency}}.{{component.gateway.app.name}}
           dt(ng-hide="component.gateway.app", rp-pretty-identity="issuer", rp-pretty-issuer-contacts="userBlob.data.contacts")

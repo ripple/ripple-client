@@ -804,3 +804,38 @@ module.directive('rpSpanSpacing', [function () {
     }
   };
 }]);
+
+/**
+ * Auto-adjust max height of balance widget components (for animation)
+ */
+module.directive('rpAutoMaxHeight', [function () {
+  return {
+    restrict: 'A',
+    link: function (scope, element, attrs) {
+      var paddingTop = parseInt(element.css('paddingTop'), 10);
+      scope.$watchCollection('[account.Balance, entry.hide]', function() {
+        var numberElements = 0;
+        if (scope.entry.components !== undefined) {
+          numberElements = Object.keys(scope.entry.components).length;
+        }
+        else {
+          // XRP box
+          numberElements = 2;
+        }
+        if (scope.entry.hide) {
+          element.css('maxHeight', element.height());
+          element.stop().animate(
+            {maxHeight: paddingTop},
+            Math.max(150 * numberElements, 450)
+          );
+        }
+        else {
+          element.stop().animate(
+            {maxHeight: (paddingTop+numberElements*40)},
+            Math.max(300 * numberElements, 900)
+          );
+        }
+      });
+    }
+  };
+}]);
