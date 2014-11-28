@@ -12,6 +12,6 @@
   .total.amount(ng-show="exchangeRatesNonempty")
     span.amount {{ aggregateValueDisplayed }}
     span.amountDecimal {{ aggregateValueDisplayedDecimal }}
-    span.amountCurrency {{ aggregateValueDisplayedCurrency }}
+    span.amountCurrency {{ selectedValueMetric.split(":")[0] }}
   .lbl(ng-show="hasNegative")
     .desc(l10n) (excluding negative balances)
