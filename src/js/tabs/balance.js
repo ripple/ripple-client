@@ -184,7 +184,12 @@ BalanceTab.prototype.angular = function (module)
             .substring(0, (($scope.aggregateValueAsXrp / metric).toFixed(2)).length - 3))})).to_human();
         $scope.aggregateValueDisplayedDecimal = $scope.aggregateValueAsMetric.toFixed(2).substring((($scope.aggregateValueAsXrp / metric)
             .toFixed(2)).length - 3, (($scope.aggregateValueAsXrp / metric).toFixed(2)).length);
-
+      }
+      $scope.aggregateValueDisplayedDecimalDot =
+        ($scope.aggregateValueDisplayedDecimal.substring(0, 1) === ".");
+      if ($scope.aggregateValueDisplayedDecimalDot) {
+        $scope.aggregateValueDisplayedDecimal =
+          $scope.aggregateValueDisplayedDecimal.substring(1);
       }
     }
 

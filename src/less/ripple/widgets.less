@@ -52,6 +52,35 @@
       }
     }
 
+    &.widget-networth {
+      select.currency {
+        .flat-select();
+      }
+
+      .desc {
+        color: @darkgray;
+        font: 12px OpenSansLight;
+      }
+
+
+      .amount, .amountDot, .amountFraction {
+        color: @midgreen;
+        font: 42px OpenSansLight;
+      }
+
+      .amountDot {
+        color: @black;
+      }
+
+      .amountFraction {
+        font-size: 28px;
+      }
+
+      .amountCurrency {
+        margin-left: 15px;
+      }
+    }
+
     &.widget-balances {
       li {
         clear: left;
