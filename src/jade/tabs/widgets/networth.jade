@@ -5,6 +5,7 @@
     i.fa.fa-fw.fa-caret-down(ng-class="{'closed': !show_widget_networth}")
 
   div(rp-slide='show_widget_networth')
+    div(ng-class="{'blank': !exchangeRatesNonempty}")
     p(l10n)
       | In
       select.currency(rp-flat-select, ng-model='selectedValueMetric'
@@ -19,3 +20,6 @@
       span.amountCurrency {{ selectedValueMetric.split(":")[0] }}
     .lbl(ng-show="hasNegative")
       .desc(l10n) (excluding negative balances)
+
+    div.widget_loader(ng-hide="exchangeRatesNonempty")
+      img(src="img/sections.png", class="loader")

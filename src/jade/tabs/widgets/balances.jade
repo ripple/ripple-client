@@ -5,7 +5,7 @@
     i.fa.fa-fw.fa-caret-down(ng-class="{'closed': !show_widget_balances}")
 
   div(rp-slide='show_widget_balances')
-    ul.fa-ul
+    ul.fa-ul(ng-class="{'blank': !exchangeRatesNonempty}")
       li.currency-xrp(ng-click="entry.show=!entry.show")
         i.fa-li.fa-money
         h5 XRP
@@ -87,6 +87,9 @@
                 l10n-rp-popover-content="Balance<br>{{ component | rpamount:{precision: 30, rel_min_precision: -2, hard_precision: true} }} {{ entry.total | rpcurrency }}"
                 )
                 {{ component | rpamount:2 }}
+
+    div.widget_loader(ng-hide="exchangeRatesNonempty")
+      img(src="img/sections.png", class="loader")
 
     p(ng-show="$route.current.tabName == 'balance'")
       a(href="#/trust", l10n) Add Gateway

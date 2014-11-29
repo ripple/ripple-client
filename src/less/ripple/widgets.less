@@ -4,6 +4,28 @@
 
   .widget {
     padding-bottom: @padding-large-vertical;
+    position: relative;
+
+    .flat-select() {
+      padding-right: 20px;
+      border: none;
+      background: transparent url('../img/dropdown_arrow.svg') no-repeat;
+      background-position: center right;
+      appearance: none;
+      -moz-appearance: none;
+      -webkit-appearance: none;
+      &::-ms-expand{ display:none; } // "appearance" in Internet Explorer 10+
+    }
+
+    .widget_loader {
+      color: @midgray;
+      text-align: center;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      .translate(-50%; -50%);
+      margin-top: 10px;
+    }
 
     > h4 {
       font-size: inherit !important;

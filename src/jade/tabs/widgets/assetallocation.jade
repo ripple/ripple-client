@@ -6,7 +6,11 @@
 
   div(rp-slide='show_widget_assetallocation')
     rp-pie-chart(
+      ng-class="{'blank': !exchangeRatesNonempty}"
       rp-size="100%"
       rp-drops="account.Balance"
       rp-ious="balances"
       rp-exchange-rates="exchangeRates")
+
+    div.widget_loader(ng-hide="exchangeRatesNonempty")
+      img(src="img/sections.png", class="loader")
