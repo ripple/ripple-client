@@ -1,4 +1,7 @@
 .widget.widget-markets
-  h4(l10n) Markets
+  h4(ng-click='show_widget_markets=!show_widget_markets'
+    ng-init='show_widget_markets=true')
+    span(l10n) Markets
 
-  | 4
+  div(rp-slide='show_widget_markets')
+    | 4

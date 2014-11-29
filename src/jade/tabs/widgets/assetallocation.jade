@@ -1,8 +1,11 @@
 .widget.widget-assetallocation
-  h4(l10n) Asset Allocation
+  h4(ng-click='show_widget_assetallocation=!show_widget_assetallocation'
+    ng-init='show_widget_assetallocation=true')
+    span(l10n) Asset Allocation
 
-  rp-pie-chart(
-    rp-size="100%"
-    rp-drops="account.Balance"
-    rp-ious="balances"
-    rp-exchange-rates="exchangeRates")
+  div(rp-slide='show_widget_assetallocation')
+    rp-pie-chart(
+      rp-size="100%"
+      rp-drops="account.Balance"
+      rp-ious="balances"
+      rp-exchange-rates="exchangeRates")
