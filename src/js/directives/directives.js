@@ -392,7 +392,7 @@ module.directive('rpAddressPopover', ['$timeout', '$interpolate', 'rpId', functi
             cancelHidePopoverTimeout = null;
           } else if (!cancelShowPopoverTimeout) {
             cancelShowPopoverTimeout = $timeout( function() {
-              element.popover('show'); 
+              element.popover('show');
               shown = true;
             }, popupDelay, false );
             cancelShowPopoverTimeout['finally'](function() { cancelShowPopoverTimeout = null; });
@@ -438,7 +438,7 @@ module.directive('rpAddressPopover', ['$timeout', '$interpolate', 'rpId', functi
         if (attr.rpAddressPopoverLinkToCharts) {
           $id.resolveName(identity, { tilde: true }).then(function(name) {
             if (name != identity && tip) {
-              element.data('popover').options.content = name + '<br/>' + identity + 
+              element.data('popover').options.content = name + '<br/>' + identity +
                   '<br/><a target="_blank" href="http://www.ripplecharts.com/#/graph/' + identity + '" >Show in graph</a>';
               element.data('popover').setContent();
             }
@@ -801,41 +801,6 @@ module.directive('rpSpanSpacing', [function () {
     restrict: 'EA',
     compile: function (element, attr, linker) {
       element.find('> span').before(' ').after(' ');
-    }
-  };
-}]);
-
-/**
- * Auto-adjust max height of balance widget components (for animation)
- */
-module.directive('rpAutoMaxHeight', [function () {
-  return {
-    restrict: 'A',
-    link: function (scope, element, attrs) {
-      var paddingTop = parseInt(element.css('paddingTop'), 10);
-      scope.$watchCollection('[account.Balance, entry.hide]', function() {
-        var numberElements = 0;
-        if (scope.entry.components !== undefined) {
-          numberElements = Object.keys(scope.entry.components).length;
-        }
-        else {
-          // XRP box
-          numberElements = 2;
-        }
-        if (scope.entry.hide) {
-          element.css('maxHeight', element.height());
-          element.stop().animate(
-            {maxHeight: paddingTop},
-            Math.max(150 * numberElements, 450)
-          );
-        }
-        else {
-          element.stop().animate(
-            {maxHeight: (paddingTop+numberElements*40)},
-            Math.max(300 * numberElements, 900)
-          );
-        }
-      });
     }
   };
 }]);
