@@ -325,13 +325,20 @@ module.directive('rpPopover', [function() {
   return function(scope, element, attr) {
     if (!attr.rpPopoverTrigger) attr.rpPopoverTrigger = 'click';
 
-    $(element).popover({
+    var options = {
       html: true,
       placement: attr.rpPopoverPlacement,
-      title: attr.rpPopoverTitle,
       trigger: attr.rpPopoverTrigger
       // TODO also use rpPopoverContent attribute (there's a bug with this)
-    });
+    };
+    if (attr.rpPopoverTitle) {
+      options.title = attr.rpPopoverTitle;
+    }
+    else {
+      options.template = '<div class="popover"><div class="arrow"></div><div class="popover-inner"><div class="popover-content" ></div></div></div>';
+    }
+
+    $(element).popover(options);
 
     $('html').click(function() {
       $(element).popover('hide');
