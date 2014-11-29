@@ -343,7 +343,16 @@ module.directive('rpPopover', ['$interpolate', function($interpolate) {
     if (attr.rpPopoverContent) {
       options.content = interpolateContent;
     }
-
+    if (attr.rpPopoverDelay) {
+      var delay = attr.rpPopoverDelay;
+      if (typeof delay !== 'number') {
+        delay = 500;
+      }
+      options.delay = {
+        show: delay,
+        hide: 0
+      };
+    }
     $(element).popover(options);
 
     $('html').click(function() {
@@ -435,7 +444,7 @@ module.directive('rpAddressPopover', ['$timeout', '$interpolate', 'rpId', functi
           content: content,
           trigger: 'manual', placement: 'top',
           container: 'body',
-          template: '<div class="popover"><div class="arrow"></div><div class="popover-inner"><div class="popover-content" ></div></div></div>'
+          template: '<div class="popover"><div class="arrow"></div><div class="popover-inner"><div class="popover-content"></div></div></div>'
         };
         if (attr.rpAddressPopoverLinkToCharts) {
           options.html = true;
