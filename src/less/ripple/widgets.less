@@ -57,11 +57,24 @@
           .pull-left;
         }
 
-        > div {
+        > div:not(.popover) {
           font-family: 'OpenSansBold';
           text-align: right;
           text-overflow: ellipsis;
           overflow: hidden;
+        }
+
+        .popover {
+          max-width: 90%;
+        }
+
+        .balance + .popover {
+          left: initial !important;
+          right: 10px;
+
+          .arrow {
+            left: 90%;
+          }
         }
 
         dl {
