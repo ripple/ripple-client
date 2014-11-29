@@ -18,7 +18,7 @@
       li {
         clear: left;
         margin: @padding-small-vertical 0;
-        padding: @padding-base-horizontal @padding-base-vertical;
+        padding: @padding-base-vertical @padding-base-horizontal;
         margin-left: -31px;
         padding-left: 31px;
         border-bottom: 1px solid @midgray;
@@ -28,7 +28,7 @@
         i.fa-li {
           font-family: 'FontAwesome';
           font-style: normal;
-          top: @padding-base-vertical*1.5;
+          top: @padding-base-vertical;
           left: 0;
         }
 
@@ -53,7 +53,6 @@
           margin: 0;
           padding-top: @padding-large-vertical;
           .transition(color 2s ease-in-out);
-          overflow: hidden;
 
           dt {
             width: 59%;
@@ -68,6 +67,10 @@
             text-overflow: ellipsis;
             overflow: hidden;
           }
+        }
+
+        &:first-child {
+          margin-top: 0;
         }
 
         &.amount-plus {
