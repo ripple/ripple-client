@@ -2,6 +2,7 @@
   h4(ng-click='show_widget_orders=!show_widget_orders'
     ng-init='show_widget_orders=true')
     span(l10n) My Orders
+    i.fa.fa-fw.fa-caret-down(ng-class="{'closed': !show_widget_orders}")
 
   div(rp-slide='show_widget_orders')
     | 5

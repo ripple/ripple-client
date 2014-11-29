@@ -2,6 +2,7 @@
   h4(ng-click='show_widget_balances=!show_widget_balances'
     ng-init='show_widget_balances=true')
     span(l10n) Balances
+    i.fa.fa-fw.fa-caret-down(ng-class="{'closed': !show_widget_balances}")
 
   div(rp-slide='show_widget_balances')
     ul.fa-ul

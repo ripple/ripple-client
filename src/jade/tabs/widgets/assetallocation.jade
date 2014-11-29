@@ -2,6 +2,7 @@
   h4(ng-click='show_widget_assetallocation=!show_widget_assetallocation'
     ng-init='show_widget_assetallocation=true')
     span(l10n) Asset Allocation
+    i.fa.fa-fw.fa-caret-down(ng-class="{'closed': !show_widget_assetallocation}")
 
   div(rp-slide='show_widget_assetallocation')
     rp-pie-chart(

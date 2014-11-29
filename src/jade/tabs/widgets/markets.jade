@@ -2,6 +2,7 @@
   h4(ng-click='show_widget_markets=!show_widget_markets'
     ng-init='show_widget_markets=true')
     span(l10n) Markets
+    i.fa.fa-fw.fa-caret-down(ng-class="{'closed': !show_widget_markets}")
 
   div(rp-slide='show_widget_markets')
     | 4

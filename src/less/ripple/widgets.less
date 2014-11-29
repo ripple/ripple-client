@@ -12,6 +12,21 @@
       margin: 0 0 @padding-large-vertical 0;
       padding: @padding-large-vertical 0;
       border-bottom: 1.5px solid @darkgray;
+
+      i.fa {
+        .pull-right;
+        .transition(-webkit-transform .5s, -moz-transform .5s, -ms-transform .5s, -o-transform .5s, transform .5s;);
+        .transform(rotate(359.9deg));
+        -webkit-transform-origin: 50% 42%;
+           -moz-transform-origin: 50% 42%;
+            -ms-transform-origin: 50% 42%;
+             -o-transform-origin: 50% 42%;
+                transform-origin: 50% 42%;
+
+        &.closed {
+          .transform(rotate(180deg));
+        }
+      }
     }
 
     &.widget-balances {

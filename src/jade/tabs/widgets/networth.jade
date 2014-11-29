@@ -2,6 +2,7 @@
   h4(ng-click='show_widget_networth=!show_widget_networth'
     ng-init='show_widget_networth=true')
     span(l10n) Net Worth
+    i.fa.fa-fw.fa-caret-down(ng-class="{'closed': !show_widget_networth}")
 
   div(rp-slide='show_widget_networth')
     p(l10n)
