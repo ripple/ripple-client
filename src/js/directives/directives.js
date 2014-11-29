@@ -321,21 +321,27 @@ module.directive('rpTooltip', [function() {
 /**
  * Popovers
  */
-module.directive('rpPopover', [function() {
+module.directive('rpPopover', ['$interpolate', function($interpolate) {
   return function(scope, element, attr) {
+    var interpolateContent = function () {
+      return $interpolate(attr.rpPopoverContent)(scope);
+    };
+
     if (!attr.rpPopoverTrigger) attr.rpPopoverTrigger = 'click';
 
     var options = {
       html: true,
       placement: attr.rpPopoverPlacement,
       trigger: attr.rpPopoverTrigger
-      // TODO also use rpPopoverContent attribute (there's a bug with this)
     };
     if (attr.rpPopoverTitle) {
       options.title = attr.rpPopoverTitle;
     }
     else {
       options.template = '<div class="popover"><div class="arrow"></div><div class="popover-inner"><div class="popover-content" ></div></div></div>';
+    }
+    if (attr.rpPopoverContent) {
+      options.content = interpolateContent;
     }
 
     $(element).popover(options);
