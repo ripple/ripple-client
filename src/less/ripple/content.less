@@ -348,6 +348,10 @@ h1 {
     font: 16px OpenSansRegular;
   }
 
+  &.top .arrow:after {
+    border-top-color: @lightgray;
+  }
+
   &.bottom .arrow:after {
     border-bottom-color: @lightgray;
   }
@@ -439,7 +443,7 @@ a.danger {
   }
   .rounded(5px);
   a{
-    text-decoration: underline; 
+    text-decoration: underline;
     &#hide {
       margin-top: -8px;
       display: inline-block;
@@ -482,7 +486,7 @@ rp-pie-chart {
     font-family: OpenSansLight, sans-serif;
     pointer-events: none;
   }
-  
+
   text.percentage {
     fill: @darkgray;
     font-size: 12px;
@@ -495,7 +499,7 @@ rp-pie-chart {
   .sub {
     opacity: 0;
   }
-  
+
   .hole {
     fill: @white;
     stroke: @white;
@@ -507,8 +511,8 @@ rp-pie-chart {
     -o-transition     : opacity 0.17s;
     transition        : opacity 0.17s;
   }
-  
-  
+
+
   .main.xrp {
     fill: @color-xrp;
     stroke: @color-xrp;
@@ -517,7 +521,7 @@ rp-pie-chart {
     fill: darken(@color-xrp, 20%);
     stroke: darken(@color-xrp, 20%);
   }
-  
+
   .main.usd {
     fill: @color-usd;
     stroke: @color-usd;
@@ -532,7 +536,7 @@ rp-pie-chart {
       stroke: lighten(@color-usd, 20%);
     }
   }
-  
+
   .main.btc {
     fill: @color-btc;
     stroke: @color-btc;
@@ -547,7 +551,7 @@ rp-pie-chart {
       stroke: lighten(@color-btc, 20%);
     }
   }
-  
+
   .main.eur {
     fill: @color-eur;
     stroke: @color-eur;
@@ -562,7 +566,7 @@ rp-pie-chart {
       stroke: lighten(@color-eur, 20%);
     }
   }
-  
+
   .main.cny {
     fill: @color-cny;
     stroke: @color-cny;
@@ -577,7 +581,7 @@ rp-pie-chart {
       stroke: lighten(@color-cny, 20%);
     }
   }
-  
+
   .main.jpy {
     fill: @color-jpy;
     stroke: @color-jpy;
@@ -592,7 +596,7 @@ rp-pie-chart {
       stroke: lighten(@color-jpy, 20%);
     }
   }
-  
+
   .main.cad {
     fill: @color-cad;
     stroke: @color-cad;
@@ -607,8 +611,8 @@ rp-pie-chart {
       stroke: lighten(@color-cad, 20%);
     }
   }
-  
-  
+
+
   .main.generic1 {
     fill: @color-generic1;
     stroke: @color-generic1;
@@ -623,7 +627,7 @@ rp-pie-chart {
       stroke: lighten(@color-generic1, 20%);
     }
   }
-  
+
   .main.generic2 {
     fill: @color-generic2;
     stroke: @color-generic2;
@@ -638,8 +642,8 @@ rp-pie-chart {
       stroke: lighten(@color-generic2, 20%);
     }
   }
-  
-  
+
+
   .main.other {
     fill: @color-other;
     stroke: @color-other;
