@@ -9,7 +9,15 @@
       li.currency-xrp(ng-click="entry.show=!entry.show")
         i.fa-li.fa-money
         h5 XRP
-        div(ng-show="account.Balance") {{ account.Balance | rpamount }}
+        div.balance(ng-show="account.Balance"
+          rp-popover
+          rp-popover-placement="top"
+          rp-popover-trigger="hover"
+          rp-popover-delay
+          l10n-rp-popover-title="Balance"
+          l10n-rp-popover-content="{{ account.Balance | rpamount }} XRP"
+          )
+          {{ account.Balance | rpamount:{abs_precision: 2} }}
         div(ng-hide="account.Balance") 0.00
         dl(rp-slide="entry.show")
           dt
@@ -21,7 +29,15 @@
               l10n-rp-popover-title="Reserve amount"
               rp-popover-trigger="hover"
               l10n-data-content="Minimum amount of XRP required to fund your account. You cannot spend the reserve.")
-          dd(ng-show="account.reserve") {{ account.reserve | rpamount }}
+          dd.balance(ng-show="account.reserve"
+            rp-popover
+            rp-popover-placement="top"
+            rp-popover-trigger="hover"
+            rp-popover-delay
+            l10n-rp-popover-title="Reserve amount"
+            l10n-rp-popover-content="{{ account.reserve | rpamount }} XRP"
+            )
+            {{ account.reserve | rpamount:{abs_precision: 2} }}
           dd(ng-hide="account.reserve") 0.00
 
           dt
@@ -33,7 +49,15 @@
               l10n-rp-popover-title="Available amount"
               rp-popover-trigger="hover"
               l10n-data-content="Total amount of XRP in your account minus the reserve amount.")
-          dd(ng-show="account.max_spend") {{ account.max_spend | rpamount }}
+          dd.balance(ng-show="account.max_spend"
+            rp-popover
+            rp-popover-placement="top"
+            rp-popover-trigger="hover"
+            rp-popover-delay
+            l10n-rp-popover-title="Available amount"
+            l10n-rp-popover-content="{{ account.max_spend | rpamount }} XRP"
+            )
+            {{ account.max_spend | rpamount:{abs_precision: 2} }}
           dd(ng-hide="account.max_spend") 0.00
 
       li(
@@ -43,12 +67,26 @@
         ng-init="entry.show=true")
         i.fa-li.fa-money(ng-class="'fa-' + (entry.total | rpcurrency | lowercase)")
         h5 {{ entry.total | rpcurrency }}
-        div {{ entry.total | rpamount }}
+        div.balance(rp-popover
+              rp-popover-placement="top"
+              rp-popover-trigger="hover"
+              rp-popover-delay
+              l10n-rp-popover-title="Balance"
+              l10n-rp-popover-content="{{ entry.total | rpamount:{precision: 30, hard_precision: true} }} {{ entry.total | rpcurrency }}"
+              )
+              {{ entry.total | rpamount:2 }}
         dl(rp-slide="entry.show")
           div(ng-repeat="(issuer, component) in entry.components")
             dt(ng-show="component.gateway.app") {{entry.total | rpcurrency}}.{{component.gateway.app.name}}
             dt(ng-hide="component.gateway.app", rp-pretty-identity="issuer", rp-pretty-issuer-contacts="userBlob.data.contacts")
-            dd {{ component | rpamount }}
+            dd.balance(rp-popover
+              rp-popover-placement="top"
+              rp-popover-trigger="hover"
+              rp-popover-delay
+              l10n-rp-popover-title="Balance"
+              l10n-rp-popover-content="{{ component | rpamount:{precision: 30, rel_min_precision: -2, hard_precision: true} }} {{ entry.total | rpcurrency }}"
+              )
+              {{ component | rpamount:2 }}
 
     p(ng-show="$route.current.tabName == 'balance'")
       a(href="#/trust", l10n) Add Gateway
