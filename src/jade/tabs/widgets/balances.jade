@@ -5,12 +5,12 @@
 
   div(rp-slide='show_widget_balances')
     ul.fa-ul
-      li.currency-xrp(ng-click="entry.hide=!entry.hide",ng-init="entry.hide=true")
+      li.currency-xrp(ng-click="entry.show=!entry.show")
         i.fa-li.fa-money
         h5 XRP
         div(ng-show="account.Balance") {{ account.Balance | rpamount }}
         div(ng-hide="account.Balance") 0.00
-        dl(rp-auto-max-height)
+        dl(rp-slide="entry.show")
           dt
             span(l10n) Reserve
             | &#32;
@@ -38,11 +38,12 @@
       li(
         ng-repeat="entry in balances"
         ng-class="'currency-' + (entry.total | rpcurrency | lowercase)"
-        ng-click="entry.hide=!entry.hide")
+        ng-click="entry.show=!entry.show"
+        ng-init="entry.show=true")
         i.fa-li.fa-money(ng-class="'fa-' + (entry.total | rpcurrency | lowercase)")
         h5 {{ entry.total | rpcurrency }}
         div {{ entry.total | rpamount }}
-        dl(rp-auto-max-height)
+        dl(rp-slide="entry.show")
           div(ng-repeat="(issuer, component) in entry.components")
             dt(ng-show="component.gateway.app") {{entry.total | rpcurrency}}.{{component.gateway.app.name}}
             dt(ng-hide="component.gateway.app", rp-pretty-identity="issuer", rp-pretty-issuer-contacts="userBlob.data.contacts")
