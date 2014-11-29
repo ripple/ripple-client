@@ -13,7 +13,7 @@ util.inherits(BalanceTab, Tab);
 BalanceTab.prototype.tabName = 'balance';
 BalanceTab.prototype.mainMenu = 'wallet';
 
-BalanceTab.prototype.angularDeps = Tab.prototype.angularDeps.concat(['qr']);
+BalanceTab.prototype.angularDeps = Tab.prototype.angularDeps.concat(['qr', 'marketchart']);
 
 BalanceTab.prototype.generateHtml = function ()
 {
