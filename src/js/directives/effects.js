@@ -30,3 +30,40 @@ module.directive('rpAnimate', function() {
     }
   };
 });
+
+/**
+ * Slide box up or down
+ * Usage: div(rp-slide="entry.show")
+ */
+module.directive('rpSlide', [function () {
+  return {
+    restrict: 'A',
+    link: function (scope, element, attrs) {
+      scope.$watch(attrs.rpSlide, function(value) {
+        if (value) {
+          element.css('maxHeight', '');
+          var height = element.height();
+          element.stop().animate(
+            {maxHeight: height},
+            500,
+            function () {
+              // remove maxHeight and overflow after animation completes
+              element.css('maxHeight', '');
+              element.css('overflow', '');
+            }
+          );
+        }
+        else {
+          element.css({
+            maxHeight: element.height(),
+            overflow: 'hidden'
+          });
+          element.stop().animate(
+            {maxHeight: 0},
+            500
+          );
+        }
+      });
+    }
+  };
+}]);
