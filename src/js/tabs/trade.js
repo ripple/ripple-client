@@ -849,7 +849,7 @@ TradeTab.prototype.angular = function(module)
     $scope.$watch('first_currency_selected', function () {
       $scope.first_issuer_selected = "";
       if($scope.first_currency_selected == 'XRP') {
-        $scope.gateway_change_form.first_iss.$invalid = false;
+        $scope.gateway_change_form.first_iss.$setValidity('rpDest', true);
         //$scope.gateway_change_form.$invalid = false;
         $scope.disable_first_issuer = true;
         //$scope.first_issuer_selected = "";
@@ -869,13 +869,12 @@ TradeTab.prototype.angular = function(module)
           });
         });
       }
-
     });
 
     $scope.$watch('second_currency_selected', function () {
       $scope.second_issuer_selected = "";
       if($scope.second_currency_selected == 'XRP') {
-        $scope.gateway_change_form.second_iss.$invalid = false;
+        $scope.gateway_change_form.second_iss.$setValidity('rpDest', true);
         //$scope.gateway_change_form.$invalid = false;
         $scope.disable_second_issuer = true;
         //$scope.second_issuer_selected = "";
@@ -895,7 +894,6 @@ TradeTab.prototype.angular = function(module)
           });
         });
       }
-
     });
 
     $scope.open_custom_currency_selector = function () {
