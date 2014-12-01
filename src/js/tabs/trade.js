@@ -608,9 +608,9 @@ TradeTab.prototype.angular = function(module)
 
         tx.secret(secret);
         tx.submit();
-      });
 
-      if (! modifying) order.mode = "sending";
+        if (! modifying) order.mode = "sending";
+      });
     };
 
     $scope.loadMore = function () {
