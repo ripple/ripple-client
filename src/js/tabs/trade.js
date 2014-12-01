@@ -337,19 +337,6 @@ TradeTab.prototype.angular = function(module)
     };
 
     /**
-     * Sets current listing, and stores it in local storage.
-     *
-     * @param listing (my, orderbook)
-     */
-    $scope.setListing = function(listing){
-      $scope.order.listing = listing;
-
-      if (!store.disabled) {
-        store.set('ripple_trade_listing', listing);
-      }
-    };
-
-    /**
      * Fill buy/sell widget when clicking on orderbook orders (sum or price)
      *
      * @param type (buy/sell)
