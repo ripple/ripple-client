@@ -682,34 +682,18 @@ TradeTab.prototype.angular = function(module)
     /**
      * Handle transaction result
      */
-    function setEngineStatus(res, accepted, type, ord) {
-      var order = ord ? ord : $scope.order[type];
-
-      order.engine_result = res.engine_result;
-      order.engine_result_message = res.engine_result_message;
-      order.engine_status_accepted = accepted;
+    function setEngineStatus(res, accepted, type) {
+      $scope.engine_result = res.engine_result;
+      $scope.engine_result_message = res.engine_result_message;
+      $scope.engine_status_accepted = accepted;
 
       switch (res.engine_result.slice(0, 3)) {
         case 'tes':
-          order.tx_result = accepted ? "cleared" : "pending";
+          $scope.tx_result = accepted ? "cleared" : "pending";
           break;
-        case 'tem':
-          order.tx_result = "malformed";
-          break;
-        case 'ter':
-          order.tx_result = "failed";
-          break;
-        case 'tec':
-          order.tx_result = "claim";
-          break;
-        case 'tel':
-          order.tx_result = "local";
-          break;
-        //case 'tep':
         default:
-          order.tx_result = "unknown";
-          console.warn("Unhandled engine status encountered:"+res.engine_result);
-          break;
+          $scope.tx_result = "unknown";
+          console.warn("Unhandled engine status encountered!");
       }
     }
 

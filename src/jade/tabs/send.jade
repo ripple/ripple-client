@@ -288,7 +288,11 @@ section.col-xs-12.content(ng-controller='SendCtrl')
 
       //- N5b. Ripple error page
       group.mode-ripplerror(ng-show='mode=="rippleerror" && account.Balance')
-        rp-transaction-status(rp-engine-result="{{engine_result}}", rp-engine-result-message="{{engine_result_message}}", rp-accepted="{{engine_status_accepted}}")
+        rp-transaction-status(
+          rp-engine-result="{{engine_result}}"
+          rp-engine-result-message="{{engine_result_message}}"
+          rp-accepted="{{engine_status_accepted}}"
+          rp-current-tab="send_convert")
         group.actions
           hr
           .text-success(ng-show='addressSaved', class="actionLink", l10n) Contact saved!

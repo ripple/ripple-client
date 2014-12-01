@@ -231,6 +231,7 @@ TrustTab.prototype.angular = function (module)
             $scope.$apply(function () {
               $scope.mode = 'error';
 
+              setEngineStatus(res, false);
               if (res.engine_result === 'tejMaxFeeExceeded') {
                 $scope.load_notification("max_fee_exceeded");
               } else {
@@ -287,6 +288,7 @@ TrustTab.prototype.angular = function (module)
     function setEngineStatus(res, accepted) {
       $scope.engine_result = res.engine_result;
       $scope.engine_result_message = res.engine_result_message;
+      $scope.engine_status_accepted = accepted;
 
       switch (res.engine_result.slice(0, 3)) {
         case 'tes':
@@ -594,10 +596,10 @@ TrustTab.prototype.angular = function (module)
             });
           })
           .on('error', function(res){
-            console.log('error', res);
             setImmediate(function () {
               $scope.$apply(function () {
                 $scope.mode = 'error';
+                setEngineStatus(res, false);
 
                 $scope.trust.loading = false;
                 $scope.load_notification("error");
@@ -609,6 +611,7 @@ TrustTab.prototype.angular = function (module)
         function setEngineStatus(res, accepted) {
           $scope.engine_result = res.engine_result;
           $scope.engine_result_message = res.engine_result_message;
+          $scope.engine_status_accepted = accepted;
 
           switch (res.engine_result.slice(0, 3)) {
             case 'tes':
