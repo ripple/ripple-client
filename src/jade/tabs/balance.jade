@@ -56,15 +56,15 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
         .currency-summary
           .balancebox.currency-xrp
             .total.row
-              .lbl.col-xs-8
+              .lbl.col-xs-8.col-sm-8
                 a(href="", ng-click="entry.show=!entry.show")
                   i.icon-ripple-logo
                   | XRP – Ripple
-              .balance.col-xs-2
+              .balance.col-xs-4.col-sm-2
                 span(ng-show="account.Balance") {{ account.Balance | rpamount }}
                 span(ng-hide="account.Balance") 0
             .component.row(ng-show="entry.show")
-              .lbl.col-xs-8
+              .lbl.col-xs-8.col-sm-8
                 span(l10n) Available&#32;
                 i.fa.fa-question-circle(
                   rp-popover
@@ -72,11 +72,11 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
                   l10n-rp-popover-title="Available amount"
                   rp-popover-trigger="hover"
                   l10n-data-content="Total amount of XRP in your account minus the reserve amount.")
-              .balance.col-xs-2
+              .balance.col-xs-4.col-sm-2
                 span(ng-show="account.max_spend") {{account.max_spend | rpamount }}
                 span(ng-hide="account.max_spend") 0
             .component.row(ng-show="entry.show")
-              .lbl.col-xs-8
+              .lbl.col-xs-8.col-sm-8
                 span(l10n) Reserve&#32;
                 i.fa.fa-question-circle(
                   rp-popover
@@ -84,17 +84,17 @@ section.col-xs-12.content(ng-controller="BalanceCtrl")
                   l10n-rp-popover-title="Reserve amount"
                   rp-popover-trigger="hover"
                   l10n-data-content="Minimum amount of XRP required to fund your account. You cannot spend the reserve.")
-              .balance.col-xs-2
+              .balance.col-xs-4.col-sm-2
                 span(ng-show="account.reserve") {{ account.reserve | rpamount }}
                 span(ng-hide="account.reserve") 0
           //- TODO Determine currencies order
           .balancebox.currency-non-native(ng-repeat="entry in balances", ng-class="'currency-' + (entry.total | rpcurrency | lowercase)")
             .total.row
-              .lbl.col-xs-8
+              .lbl.col-xs-8.col-sm-8
                 a(href="", ng-click="entry.show=!entry.show")
                   i(class="icon fa fa-money", ng-class="'fa-' + (entry.total | rpcurrency | lowercase)")
                   span(rp-currency="entry.total", rp-currency-full)
-              .balance.col-xs-2
+              .balance.col-xs-4.col-sm-2
                 a(href="", ng-click="entry.show=!entry.show") {{ entry.total | rpamount }}
             //- TODO Remember selections
             .component.row(ng-repeat="(issuer, component) in entry.components", ng-show="entry.show")

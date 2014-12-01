@@ -15,6 +15,10 @@
 .modal {
   .modal-body {
     // padding: 25px 15px 25px;
+    @media (max-width: @screen-xs-max) {
+      // padding-left: 10px;
+      // padding-right: 10px;
+    }
   }
   .modal-footer{
     .unlock-btns-wrapper {
@@ -51,6 +55,9 @@
     text-align: center;
     margin: 0 0 0 10px;
     font-size: 15px;
+    @media (max-width: @screen-xs-max) {
+      margin-left: 0;
+    }
   }
 
   .actions {
@@ -99,7 +106,14 @@
         margin: 0;
         margin-left: 5%;
       }
-      
+      .btn-danger {
+        padding-left: 10px;
+        padding-right: 10px;
+        margin-left: -15px;
+      }
+      .btn {
+        margin-bottom: 10px;
+      }
     }
     a {
       margin: 0 5px;

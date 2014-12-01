@@ -277,7 +277,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
             .col-xs-12
               i(class="icon fa fa-money", ng-class="'fa-' + (entry.components[0].currency | lowercase)")
               span.currency(rp-currency="entry.components[0].limit", rp-currency-full)
-          .row.head
+          .row.head.row-padding-small-xs
             div(
               ng-class="{ 'col-sm-3 col-xs-2': advanced_feature_switch, 'col-sm-4 col-xs-4 col-md-5': !advanced_feature_switch }"
               l10n) Gateway
@@ -292,7 +292,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
           hr#divider
           .lines
             .line(ng-controller="AccountRowCtrl", ng-repeat="component in entry.components")
-              .row(ng-class="{ 'frozen-account': component.freeze_peer }")
+              .row.row-padding-small-xs(ng-class="{ 'frozen-account': component.freeze_peer }")
                 div.gateway(
                   ng-class="{ 'col-sm-3 col-xs-2': advanced_feature_switch, 'col-md-5 col-sm-4 col-xs-4': !advanced_feature_switch }",
                   rp-pretty-identity="component.account", rp-pretty-identity-filters="rpcontactnamefull | rpripplename: {tilde: true}",
@@ -322,7 +322,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                   span(ng-show="editing && !advanced_feature_switch")
                     span(ng-hide="trust.loading")
                       div.row.row-padding-small
-                        .col-md-7.col-sm-7.col-xs-6
+                        .col-md-7.col-sm-7.col-xs-8
                           span(ng-show='trust.balance !== "0" && orderbookStatus === "exists"')
                             rp-confirm(
                             action-text="Are you sure you want to remove this gateway? Ripple Trade will attempt to convert the remaining balance of {{ trust.balance }} {{ trust.currency }} into XRP. This action can't be undone."
@@ -366,7 +366,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                               l10n-rp-popover-title="Incoming trust"
                               l10n-data-content="You can't delete incoming trust lines. Incoming trust lines are when other Ripple users trust you.")
                               button.btn.btn-block.btn-danger.submit(type="button", ng-click="delete_account()", ng-show="isIncoming()", disabled, l10n) Remove
-                        .col-md-5.col-sm-5.col-xs-6
+                        .col-md-5.col-sm-5.col-xs-8
                           a.btn.btn-block.btn-cancel(href="", ng-click="cancel()"
                           ng-disabled="trust.loading", l10n) cancel
 

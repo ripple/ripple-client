@@ -24,7 +24,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
     .col-xs-12.col-sm-8.col-md-8.col-lg-9
       group(ng-show="loadState.offers")
         .settings
-          .row
+          .row.row-padding-small-xs
             .col-sm-4.col-md-4.col-xs-9.currency-config
               input.form-control.currency#currency_pair(
                 name='currency_pair', type='text'
@@ -93,7 +93,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
 
         form.issuerSelector.second-issuer(name='second_issuer_form', ng-show='show_issuer_form == "second"')
           label(for='second_issuer', l10n) Counter currency issuer ({{order.second_currency | rpcurrency}})
-          .row
+          .row.row-padding-small-xs
             .col-xs-9.col-sm-4.col-md-4
               input.form-control#second_issuer(
                 name='second_issuer', type='text', rp-combobox="issuer_query"
