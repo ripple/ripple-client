@@ -941,6 +941,13 @@ SendTab.prototype.angular = function (module)
         tx.source_tag($scope.send.st);
       }
 
+      // Invoice ID
+      // Later in the code, this will be overwritten by the one specified
+      // in quote if the latter exists
+      if ($scope.send.invoice_id) {
+        tx.invoiceID($scope.send.invoice_id.toUpperCase());
+      }
+
       // Add memo to tx
       tx.addMemo('client', 'rt' + $scope.version);
 
