@@ -45,7 +45,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
               | The particular server you sent the transaction to was too busy to forward or process
               |  your transaction at the fee you included in it.
 
-      //- N5. Notifications for edit account
+      //- N5. Notifications for edit/removing account
       group.mode-granted.wide(ng-show='notif !== "clear"')
         group(ng-switch on="notif")
           group.pending(ng-switch-when="loading")
@@ -55,17 +55,10 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
           group.result-error(ng-switch-when="error")
             h2.tx-status(l10n) There was an error while saving your changes.&#32;
             p(l10n) Please try again later.
-
-      //- N5. Notifications for removing account
-      group.mode-granted.wide(ng-show='notif !== "clear"')
-        group(ng-switch on="notif")
           group.pending(ng-switch-when="remove_gateway")
             h2.tx-status(l10n) Removing gateway...
           group.result-success(ng-switch-when="gateway_removed")
             h2.tx-status(l10n) Gateway removed.
-          group.result-error(ng-switch-when="error")
-            h2.tx-status(l10n) There was an error while saving your changes.&#32;
-            p(l10n) Please try again later.
           group.result-error(ng-switch-when="max_fee_exceeded")
             h2.tx-status(l10n) Request failed.
             p(l10n) This request failed because the transaction exceeded the maximum network fee. [maxfeeExceeded].
@@ -213,37 +206,6 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                             ng-click='toggle_form()', ng-hide="loading", l10n) cancel
                 .col-xs-4.col-sm-3.col-md-3
                   button.btn.btn-block.btn-cancel(type="button", ng-click='toggle_form()', l10n) cancel
-              .row.delete-trust
-                .col-xs-6.col-sm-6.col-md-8.col-lg-9(ng-show='balance !== "0" && orderbookStatus === "exists"')
-                  rp-confirm(
-                    action-text="Are you sure you want to remove this gateway? Ripple Trade will attempt to convert the remaining balance of {{ trust.balance }} {{ trust.currency }} into XRP. This action can't be undone."
-                    action-button-text="Convert balance and remove"
-                    action-button-css="btn btn-default btn-danger"
-                    action-function="delete_line()"
-                    cancel-button-css="btn btn-cancel"
-                    cancel-button-text="cancel"
-                    ng-hide="showPassword==true")
-                      button.btn.btn-block.btn-danger.btn-xs.submit(type="button", ng-click="load_orderbook()", l10n) Remove
-                .col-xs-6.col-sm-6.col-md-8.col-lg-9(ng-show='balance !== "0" && orderbookStatus === "not"')
-                  rp-confirm(
-                    action-text="Are you sure you want to remove this gateway? Ripple Trade will return the balance of {{ trust.balance }} {{ trust.currency }} to the issuer. This action can't be undone."
-                    action-button-text="Return balance and remove"
-                    action-button-css="btn btn-default btn-danger"
-                    action-function="delete_line()"
-                    cancel-button-css="btn btn-cancel"
-                    cancel-button-text="cancel"
-                    ng-hide="showPassword==true")
-                      button.btn.btn-block.btn-danger.btn-xs.submit(type="button", ng-click="load_orderbook()", l10n) Remove
-                .col-xs-6.col-sm-6.col-md-8.col-lg-9(ng-show='balance === "0"')
-                  rp-confirm(
-                    action-text="Are you sure you want to remove this gateway? This action can't be undone."
-                    action-button-text="Remove"
-                    action-button-css="btn btn-default btn-danger"
-                    action-function="delete_line()"
-                    cancel-button-css="btn btn-cancel"
-                    cancel-button-text="cancel"
-                    ng-hide="showPassword==true")
-                      button.btn.btn-block.btn-danger.btn-xs.submit(type="button", ng-click="load_orderbook()", l10n) Remove
               .row
                 .col-xs-12
                   p.literal.verifying(ng-show="verifying")
@@ -261,16 +223,6 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
           .col-xs-12.col-sm-4.col-md-3.actions.btn-add-trust
             a.btn.btn-primary.btn-sm.btn-block.sign(ng-click='toggle_form()', ng-show='!addform_visible && account.Balance',
             ng-disabled='addform_visible', l10n) Connect gateway
-
-        .row.row-padding-small.line.padding-vertical-xs(ng-hide="true", ng-repeat='(key, line) in linesArray | orderBy:sorting.sort:sorting.reverse')
-          .col-sm-5 {{line.account | rpcontactnamefull }}
-          .col-sm-2(rp-currency="line.balance")
-          .col-sm-2
-            span(rp-tooltip="{{line.balance | rpamount }}") {{line.balance | rpamount:{rel_precision: 0} }}
-          .col-sm-2
-            rp-trust-line(rp-line-data='line')
-          .col-sm-1.actions
-            button.btn.btn-default.btn-sm(href="", ng-click="edit_line()", l10n) edit
 
         .currencyBox(ng-repeat="entry in accountLines", ng-class="'currency-' + (entry.components[0].balance._currency._iso_code | lowercase)")
           .row.currencyTitle
