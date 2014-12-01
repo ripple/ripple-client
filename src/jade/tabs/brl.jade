@@ -35,28 +35,27 @@ section.col-xs-12.content(ng-controller='BrlCtrl')
     .col-sm-3
       include fund/menu
     .col-sm-9.list
-      .fundBtc
-        .nameLine(l10n) Brazilian Real Deposit
-        .row.gateway
-          .col-md-3
-              .title(l10n) Gateway
-              .description(l10n)
-                p(l10n) Ripple (~rippex) 
-                a(href="https://rippex.net ", target="_blank") www.rippex.net
-          .col-md-3
-              .title(l10n) Availability
-              .description(l10n) Brazil
-          .col-md-3
-              .title(l10n) Fees
-              .description(l10n) 
-                p(l10n) Deposit: 1.50 BRL + 0.5% 
-                p(l10n) Transfer: 0%
-                P(l10n)
-                  a(href='https://rippex.net/precos-prazos.php', target="_blank") More details 
-          .col-md-3
-              .title(l10n) Rating
-              .description(l10n)
-                a(href="https://coinist.co/ripple/assets/brl-rippex", target="_blank") read reviews
+      .nameLine(l10n) Brazilian Real Deposit
+      .row.gateway
+        .col-md-3
+            .title(l10n) Gateway
+            .description(l10n)
+              p(l10n) Ripple (~rippex) 
+              a(href="https://rippex.net ", target="_blank") www.rippex.net
+        .col-md-3
+            .title(l10n) Availability
+            .description(l10n) Brazil
+        .col-md-3
+            .title(l10n) Fees
+            .description(l10n) 
+              p(l10n) Deposit: 1.50 BRL + 0.5% 
+              p(l10n) Transfer: 0%
+              P(l10n)
+                a(href='https://rippex.net/precos-prazos.php', target="_blank") More details 
+        .col-md-3
+            .title(l10n) Rating
+            .description(l10n)
+              a(href="https://coinist.co/ripple/assets/brl-rippex", target="_blank") read reviews
 
       .row.fund-tab-description(ng-show="!brlConnected")
         .col-xs-12.col-md-8.col-lg-6
