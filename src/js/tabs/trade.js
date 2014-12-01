@@ -48,29 +48,14 @@ TradeTab.prototype.angular = function(module)
 
     $scope.pairs_query = $scope.userBlob.data.trade_currency_pairs;
 
-    $scope.currencies = ["XRP",
-                         "ARS",
-                         "AUD",
-                         "BRL",
-                         "BTC",
-                         "CAD",
-                         "CLP",
-                         "CNY",
-                         "EUR",
-                         "GBP",
-                         "ILS",
-                         "JPY",
-                         "KRW",
-                         "LTC",
-                         "MXN",
-                         "NOK",
-                         "NZD",
-                         "PEN",
-                         "STR",
-                         "USD",
-                         "UYU",
-                         "XAG",
-                         "XAU"];
+    $scope.currencies_all = require('../data/currencies');
+    $scope.currencies = [];
+
+    for (var i = 0; i < $scope.currencies_all.length; i++) {
+      if ($scope.currencies_all[i].custom_trade_currency_dropdown) {
+        $scope.currencies.push($scope.currencies_all[i].value);
+      }
+    }
 
     $scope.fatFingerErr = false;
 
