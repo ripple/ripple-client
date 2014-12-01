@@ -249,11 +249,6 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                   p.literal.verifying(ng-show="verifying")
                     img(src="img/button-s.png", class="loader")
                     span(class="loading_text", l10n) Verifying address
-          .col-xs-12(ng-show='addform_visible && !can_add_trust')
-            .alert.alert-warning(l10n) You must have at least
-              strong  {{account.reserve_to_add_trust | rpamount:0}} XRP
-              |  to add a new trust line.&#32;
-              a(href="https://ripple.com/wiki/Reserves", target="_blank") More information
 
         .row
           .unfunded.literal(ng-hide='account.Balance', l10n)
