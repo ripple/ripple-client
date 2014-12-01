@@ -49,6 +49,10 @@ PretendTab.prototype.angular = function (module)
     });
 
     $scope.resolveInput = function () {
+      if (!$rootScope.original_contacts) {
+        $rootScope.original_contacts = [];
+      }
+
       var contact = webutil.getContact($rootScope.original_contacts, $scope.pretend.pretendAs);
       console.log('got contact ' + contact);
       var gotAddress;
