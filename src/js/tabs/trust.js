@@ -232,11 +232,6 @@ TrustTab.prototype.angular = function (module)
               $scope.mode = 'error';
 
               setEngineStatus(res, false);
-              if (res.engine_result === 'tejMaxFeeExceeded') {
-                $scope.load_notification("max_fee_exceeded");
-              } else {
-                $scope.load_notification("error");
-              }
 
               $scope.reset();
 
@@ -410,7 +405,7 @@ TrustTab.prototype.angular = function (module)
       $scope.delete_account = function()
       {
         $scope.trust.loading = true;
-        $scope.load_notification("remove_gateway");
+        $scope.load_notification('remove_gateway');
 
         var setSecretAndSubmit = function(tx) {
 
@@ -425,7 +420,6 @@ TrustTab.prototype.angular = function (module)
                 setEngineStatus(res, true);
 
                 $scope.trust.loading = false;
-                $scope.load_notification('gateway_removed');
                 $scope.editing = false;
               });
             })
@@ -433,11 +427,15 @@ TrustTab.prototype.angular = function (module)
               console.log('error', res);
               setImmediate(function () {
                 $scope.$apply(function () {
+
+                  if (res.result === 'tejMaxFeeExceeded') {
+                    $scope.load_notification('max_fee');
+                  }
+
+                  $scope.mode = 'error';
                   setEngineStatus(res, false);
 
                   $scope.trust.loading = false;
-                  $scope.load_notification("error");
-                  $scope.mode = 'error';
                 });
               });
             });
@@ -562,8 +560,6 @@ TrustTab.prototype.angular = function (module)
 
         $scope.trust.loading = true;
 
-        $scope.load_notification('loading');
-
         var amount = ripple.Amount.from_human(
           $scope.trust.limit + ' ' + $scope.component.currency,
           {reference_date: new Date(+new Date() + 5*60000)}
@@ -596,7 +592,6 @@ TrustTab.prototype.angular = function (module)
               setEngineStatus(res, true);
 
               $scope.trust.loading = false;
-              $scope.load_notification('success');
               $scope.editing = false;
             });
           })
@@ -607,7 +602,6 @@ TrustTab.prototype.angular = function (module)
                 setEngineStatus(res, false);
 
                 $scope.trust.loading = false;
-                $scope.load_notification("error");
                 $scope.editing = false;
               });
             });
