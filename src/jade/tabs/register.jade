@@ -8,9 +8,8 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
       form(name='registerForm', ng-submit='submitForm()')
         h2(ng-hide="oldUserBlob", l10n) Sign Up
         h2(ng-show="oldUserBlob", l10n) Migrate
-        .auth-attention(l10n) Already have a ripple.com/client account? 
-          a(href='#migrate', l10n-inc) Migrate
-          | &#32your existing account.
+        .auth-attention(l10n) Already have a ripple.com/client account? Don't create a new account.
+          a(href='#migrate', l10n-inc) Instead, migrate your existing account.
         .sign-up-steps-list
           li.active(l10n) Step
             span  1
