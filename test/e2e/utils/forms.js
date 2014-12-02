@@ -16,7 +16,7 @@ exports.login = function (username,password) {
 
 				$(".auth-form-container #login_username").sendKeys(username);
 				$(".auth-form-container #login_password").sendKeys(password);
-				$(".auth-form-container .submit-btn-container button").click()
+				$("#loginBtn").click()
 					.then(function(){
 						helpers.waitForNavigation('#/balance');
 					})
