@@ -82,7 +82,7 @@ describe('login', function() {
 
           $(".auth-form-container #login_username").sendKeys(config.user.username);
           $(".auth-form-container #login_password").sendKeys("wrongpassword");
-          $(".auth-form-container .submit-btn-container button").click()
+          $("#loginBtn").click()
             .then(function(){
               var errorMessage = $("form[name='loginForm'] .text-status .backend b");
               helperBrowser.waitForElement(errorMessage);
