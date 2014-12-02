@@ -4,7 +4,9 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
       strong
         | You are viewing an account in 
         a(href="#/debug") Debug 
-        | mode. While in this mode, you can view publicly available data, but you cannot initiate any transactions.
+        | mode. While in this mode, you can view publicly available data, but you cannot initiate any transactions. Click 
+        a(href="", ng-click="page_reload()") here 
+        | to exit.
   .mainnav
     .container
       .navbar-header

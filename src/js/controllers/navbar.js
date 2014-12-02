@@ -25,6 +25,11 @@ module.controller('NavbarCtrl', ['$scope', '$element', '$compile', 'rpId',
     $scope.show_secondary = !$scope.show_secondary;
   };
 
+  $scope.page_reload = function () {
+      // Reload
+      location.reload();
+  };
+
   // Username
   $scope.$watch('userCredentials', function(){
     var username = $scope.userCredentials.username;
