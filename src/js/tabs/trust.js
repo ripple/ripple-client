@@ -357,6 +357,7 @@ TrustTab.prototype.angular = function (module)
       function setEngineStatus(res, accepted) {
         $scope.engine_result = res.engine_result;
         $scope.engine_result_message = res.engine_result_message;
+        $scope.engine_status_accepted = accepted;
 
         switch (res.engine_result.slice(0, 3)) {
           case 'tes':
@@ -414,6 +415,11 @@ TrustTab.prototype.angular = function (module)
         var setSecretAndSubmit = function(tx) {
 
           tx
+            .on('proposed', function(res){
+              $scope.$apply(function () {
+                setEngineStatus(res, false);              
+              });
+            })
             .on('success', function(res){
               $scope.$apply(function () {
                 setEngineStatus(res, true);
@@ -580,6 +586,11 @@ TrustTab.prototype.angular = function (module)
         tx
           .rippleLineSet(id.account, amount)
           .setFlags($scope.trust.rippling ? 'ClearNoRipple' : 'NoRipple')
+          .on('proposed', function(res){
+            $scope.$apply(function () {
+              setEngineStatus(res, false);              
+            });
+          })
           .on('success', function(res){
             $scope.$apply(function () {
               setEngineStatus(res, true);

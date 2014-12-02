@@ -65,6 +65,11 @@ MxnTab.prototype.angular = function (module)
         // Flags
         tx
             .rippleLineSet($id.account, amount)
+            .on('proposed', function(res){
+              $scope.$apply(function () {
+                setEngineStatus(res, false);              
+              });
+            })
             .on('success', function (res) {
               $scope.$apply(function () {
                 setEngineStatus(res, true);

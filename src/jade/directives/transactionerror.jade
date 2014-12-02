@@ -3,8 +3,13 @@ group(ng-switch on="tab")
   // All fund -> individual currency tab errors
   group(ng-switch-when='trust')
     .transaction-error(ng-switch on="engine_result | rptruncate:3")
+      group(ng-switch-when='tes')
+        group.pending(ng-hide="accepted")
+          h2.tx-status(l10n) Connecting gateway to your account...
+        group.result-success(ng-show="accepted")
+          h2.tx-status(l10n) Gateway connected.
       group.result-malformed(ng-switch-when='tem')
-        h2.tx-status(l10n) Request failed
+        h2.tx-status(l10n) There was a problem connecting to the gateway. Please try again later.
         p(ng-switch on="engine_result")
           span(ng-switch-default, l10n)
             | Error code: {{engine_result}} - {{engine_result_message}}

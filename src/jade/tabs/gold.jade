@@ -12,25 +12,12 @@ section.col-xs-12.content(ng-controller='GoldCtrl')
 
   .row(ng-show='connected')
     // Transaction errors coming from errors.js & transactionerror.jade
-    group.mode-ripplerror(ng-show='mode=="error" && account.Balance')
+    group.mode-ripplerror(ng-show='mode=="error" || mode=="granting" && account.Balance')
       rp-transaction-status(
         rp-engine-result="{{engine_result}}"
         rp-engine-result-message="{{engine_result_message}}"
         rp-accepted="{{engine_status_accepted}}"
         rp-current-tab="trust")
-
-    //- N5. Notifications for connect new account
-    group.mode-granted.wide(ng-show='mode=="granting" && account.Balance')
-      group.pending(ng-show='tx_result!=="cleared"')
-        h2.tx-status(l10n) Connecting the GBI gateway to your Ripple account...
-      group.result-success(ng-show='tx_result=="cleared"')
-        h2.tx-status(l10n) Gateway connected.
-      group.result-error(ng-show='tx_result=="error"')
-        h2.tx-status(l10n) Gateway could not be connected!
-        p(l10n) There was a problem connecting the gateway. Please try again later.
-      group.result-malformed(ng-show='tx_result=="malformed"')
-        h2.tx-status(l10n) There was a problem connecting the gateway. Please try again later.
-        p(l10n) Your request is invalid, reason: {{engine_result}} - {{engine_result_message}}
 
     .col-sm-3
       include fund/menu
