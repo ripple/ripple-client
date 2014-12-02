@@ -349,7 +349,7 @@ TradeTab.prototype.angular = function(module)
       if (widgetOnly) return;
 
       updateSettings();
-      updateMRU();
+      //updateMRU();
     };
 
     /**
@@ -410,10 +410,18 @@ TradeTab.prototype.angular = function(module)
       order.first_issuer = this.entry.first.issuer().to_json();
       order.second_currency = this.entry.second.currency().to_json();
       order.second_issuer = this.entry.second.issuer().to_json();
-      order.currency_pair = this.entry.first.currency().to_json() + '/' + this.entry.second.currency().to_json();
+      if(this.entry.first.currency().to_json() == 'XRP'){
+        order.currency_pair = this.entry.first.currency().to_json() + '/' + this.entry.second.currency().to_json() + '.' + this.entry.second.issuer().to_json();
+      }
+      else if (this.entry.second.currency().to_json() == 'XRP'){
+        order.currency_pair = this.entry.first.currency().to_json() + '.' + this.entry.first.issuer().to_json() + '/' + this.entry.second.currency().to_json();
+      }
+      else {
+        order.currency_pair = this.entry.first.currency().to_json() + '.' + this.entry.first.issuer().to_json() + '/' + this.entry.second.currency().to_json() + '.' + this.entry.second.issuer().to_json();
+      }
 
       var changedPair = updateSettings();
-      updateMRU();
+      //updateMRU();
 
       return changedPair;
     };
