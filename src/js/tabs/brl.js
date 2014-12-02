@@ -34,15 +34,13 @@ BrlTab.prototype.angular = function (module)
 
 
 
-      $scope.toggleInstructions = function() {
-         $scope.showInstructions = !$scope.showInstructions;
+      $scope.toggle_instructions = function() {
+        $scope.showInstructions = !$scope.showInstructions;
       }
 
-      $scope.create_trust_line = function () {
+      $scope.save_account = function () {
 
         $scope.loading = true;
-
-        $scope.load_notification('loading');
 
         var amount = ripple.Amount.from_human(
             Options.gateway_max_limit + ' ' + 'BRL',
@@ -65,12 +63,16 @@ BrlTab.prototype.angular = function (module)
         // Flags
         tx
             .rippleLineSet($id.account, amount)
+            .on('proposed', function(res){
+              $scope.$apply(function () {
+                setEngineStatus(res, false);              
+              });
+            })
             .on('success', function (res) {
               $scope.$apply(function () {
                 setEngineStatus(res, true);
 
-                $scope.loading = false
-                $scope.load_notification('success');
+                $scope.loading = false;
                 $scope.editing = false;
               });
             })
@@ -82,7 +84,6 @@ BrlTab.prototype.angular = function (module)
                   $scope.mode = 'error';
 
                   $scope.loading = false;
-                  $scope.load_notification("error");
                   $scope.editing = false;
                 });
               });

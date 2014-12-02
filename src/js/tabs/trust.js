@@ -232,11 +232,6 @@ TrustTab.prototype.angular = function (module)
               $scope.mode = 'error';
 
               setEngineStatus(res, false);
-              if (res.engine_result === 'tejMaxFeeExceeded') {
-                $scope.load_notification("max_fee_exceeded");
-              } else {
-                $scope.load_notification("error");
-              }
 
               $scope.reset();
 
@@ -311,42 +306,6 @@ TrustTab.prototype.angular = function (module)
       }
     }
 
-    $scope.edit_line = function ()
-    {
-      var line = this.component;
-      var filterAddress = $filter('rpcontactnamefull');
-      var contact = filterAddress(line.issuer);
-      $scope.line = this.component;
-      $scope.edituser = (contact) ? contact : 'User';
-      $scope.validation_pattern = contact ? /^[0-9.]+$/ : /^0*(([1-9][0-9]*.?[0-9]*)|(.0*[1-9][0-9]*))$/;
-
-      var lineCurrency = Currency.from_json(line.currency);
-      var formatOpts;
-      if ($scope.currencies_all_keyed[lineCurrency.get_iso()]) {
-        formatOpts = {
-          full_name:$scope.currencies_all_keyed[lineCurrency.get_iso()].name
-        };
-      }
-
-      $scope.lineCurrencyObj = lineCurrency;
-      $scope.currency = lineCurrency.to_human(formatOpts);
-      $scope.balance = line.balance.to_human();
-      $scope.balanceAmount = line.balance;
-      $scope.counterparty = line.issuer;
-      $scope.counterparty_view = contact;
-
-      $scope.amount = line.max.currency().has_interest()
-        ? +Math.round(line.max.applyInterest(new Date()).to_text())
-        : +line.max.to_text();
-
-      $scope.allowrippling = line.rippling;
-
-      // Close/open form. Triggers focus on input.
-      $scope.addform_visible = false;
-
-      $scope.load_orderbook();
-    };
-
     $scope.$watch('userBlob.data.contacts', function (contacts) {
       $scope.counterparty_query = webutil.queryFromContacts(contacts);
     }, true);
@@ -390,6 +349,32 @@ TrustTab.prototype.angular = function (module)
   module.controller('AccountRowCtrl', ['$scope', 'rpBooks', 'rpNetwork', 'rpId', 'rpKeychain', '$timeout',
     function ($scope, books, $network, id, keychain, $timeout) {
 
+      function setEngineStatus(res, accepted) {
+        $scope.engine_result = res.engine_result;
+        $scope.engine_result_message = res.engine_result_message;
+        $scope.engine_status_accepted = accepted;
+
+        switch (res.engine_result.slice(0, 3)) {
+          case 'tes':
+            $scope.tx_result = accepted ? 'cleared' : 'pending';
+            break;
+          case 'tem':
+            $scope.tx_result = 'malformed';
+            break;
+          case 'ter':
+            $scope.tx_result = 'failed';
+            break;
+          case 'tec':
+            $scope.tx_result = 'failed';
+            break;
+          case 'tel':
+            $scope.tx_result = "local";
+            break;
+          case 'tep':
+            console.warn('Unhandled engine status encountered!');
+        }
+      }
+        
       $scope.cancel = function () {
         $scope.editing = false;
       };
@@ -420,9 +405,42 @@ TrustTab.prototype.angular = function (module)
       $scope.delete_account = function()
       {
         $scope.trust.loading = true;
-        $scope.load_notification("remove_gateway");
+        $scope.load_notification('remove_gateway');
 
         var setSecretAndSubmit = function(tx) {
+
+          tx
+            .on('proposed', function(res){
+              $scope.$apply(function () {
+                setEngineStatus(res, false);              
+              });
+            })
+            .on('success', function(res){
+              $scope.$apply(function () {
+                setEngineStatus(res, true);
+
+                $scope.trust.loading = false;
+                $scope.editing = false;
+              });
+            })
+            .on('error', function(res){
+              console.log('error', res);
+              setImmediate(function () {
+                $scope.$apply(function () {
+
+                  if (res.result === 'tejMaxFeeExceeded') {
+                    $scope.load_notification('max_fee');
+                  }
+
+                  $scope.mode = 'error';
+                  setEngineStatus(res, false);
+
+                  $scope.trust.loading = false;
+                });
+              });
+            });
+
+
           keychain.requestSecret(id.account, id.username, function (err, secret) {
             if (err) {
               $scope.mode = 'error';
@@ -431,32 +449,12 @@ TrustTab.prototype.angular = function (module)
               console.log('Error on requestSecret: ', err);
 
               $scope.reset();
+              
               return;
             }
 
             tx.secret(secret);
-
-            tx.submit(function(err, res) {
-              if (err) {
-                $scope.mode = 'error';
-                $scope.trust.loading = false;
-                console.log('Error on tx submit: ', err);
-
-                if (err.engine_result === 'tejMaxFeeExceeded') {
-                  $scope.load_notification("max_fee_exceeded");
-                } else {
-                  $scope.load_notification("error");
-                }
-
-                $scope.reset();
-                return;
-              }
-
-              console.log('Transaction has been submitted with response:', res);
-              $scope.trust.loading = false;
-              $scope.load_notification("gateway_removed");
-            });
-
+            tx.submit();
           });
         };
 
@@ -562,8 +560,6 @@ TrustTab.prototype.angular = function (module)
 
         $scope.trust.loading = true;
 
-        $scope.load_notification('loading');
-
         var amount = ripple.Amount.from_human(
           $scope.trust.limit + ' ' + $scope.component.currency,
           {reference_date: new Date(+new Date() + 5*60000)}
@@ -586,12 +582,16 @@ TrustTab.prototype.angular = function (module)
         tx
           .rippleLineSet(id.account, amount)
           .setFlags($scope.trust.rippling ? 'ClearNoRipple' : 'NoRipple')
+          .on('proposed', function(res){
+            $scope.$apply(function () {
+              setEngineStatus(res, false);              
+            });
+          })
           .on('success', function(res){
             $scope.$apply(function () {
               setEngineStatus(res, true);
 
               $scope.trust.loading = false;
-              $scope.load_notification('success');
               $scope.editing = false;
             });
           })
@@ -602,37 +602,11 @@ TrustTab.prototype.angular = function (module)
                 setEngineStatus(res, false);
 
                 $scope.trust.loading = false;
-                $scope.load_notification("error");
                 $scope.editing = false;
               });
             });
           });
 
-        function setEngineStatus(res, accepted) {
-          $scope.engine_result = res.engine_result;
-          $scope.engine_result_message = res.engine_result_message;
-          $scope.engine_status_accepted = accepted;
-
-          switch (res.engine_result.slice(0, 3)) {
-            case 'tes':
-              $scope.tx_result = accepted ? 'cleared' : 'pending';
-              break;
-            case 'tem':
-              $scope.tx_result = 'malformed';
-              break;
-            case 'ter':
-              $scope.tx_result = 'failed';
-              break;
-            case 'tec':
-              $scope.tx_result = 'failed';
-              break;
-            case 'tel':
-              $scope.tx_result = "local";
-              break;
-            case 'tep':
-              console.warn('Unhandled engine status encountered!');
-          }
-        }
 
         keychain.requestSecret(id.account, id.username, function (err, secret) {
           // XXX Error handling

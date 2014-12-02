@@ -42,8 +42,6 @@ MxnTab.prototype.angular = function (module)
 
         $scope.loading = true;
 
-        $scope.load_notification('loading');
-
         var amount = ripple.Amount.from_human(
             Options.gateway_max_limit + ' ' + 'MXN',
             {reference_date: new Date(+new Date() + 5*60000)}
@@ -65,12 +63,16 @@ MxnTab.prototype.angular = function (module)
         // Flags
         tx
             .rippleLineSet($id.account, amount)
+            .on('proposed', function(res){
+              $scope.$apply(function () {
+                setEngineStatus(res, false);              
+              });
+            })
             .on('success', function (res) {
               $scope.$apply(function () {
                 setEngineStatus(res, true);
 
                 $scope.loading = false;
-                $scope.load_notification('success');
                 $scope.editing = false;
               });
             })
@@ -82,7 +84,6 @@ MxnTab.prototype.angular = function (module)
                   $scope.mode = 'error';
 
                   $scope.loading = false;
-                  $scope.load_notification("error");
                   $scope.editing = false;
                 });
               });

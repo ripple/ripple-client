@@ -42,8 +42,6 @@ GoldTab.prototype.angular = function (module)
 
         $scope.loading = true;
 
-        $scope.load_notification('loading');
-
         var amount = ripple.Amount.from_human(
             Options.gateway_max_limit + ' ' + '0158415500000000C1F76FF6ECB0BAC600000000',
             {reference_date: new Date(+new Date() + 5*60000)}
@@ -65,12 +63,16 @@ GoldTab.prototype.angular = function (module)
         // Flags
         tx
             .rippleLineSet($id.account, amount)
+            .on('proposed', function(res){
+              $scope.$apply(function () {
+                setEngineStatus(res, false);              
+              });
+            })
             .on('success', function (res) {
               $scope.$apply(function () {
                 setEngineStatus(res, true);
 
                 $scope.loading = false;
-                $scope.load_notification('success');
                 $scope.editing = false;
               });
             })
@@ -82,7 +84,6 @@ GoldTab.prototype.angular = function (module)
                   $scope.mode = 'error';
 
                   $scope.loading = false;
-                  $scope.load_notification("error");
                   $scope.editing = false;
                 });
               });
