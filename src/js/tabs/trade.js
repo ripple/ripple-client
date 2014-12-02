@@ -349,7 +349,7 @@ TradeTab.prototype.angular = function(module)
       if (widgetOnly) return;
 
       updateSettings();
-      updateMRU();
+      //updateMRU();
     };
 
     /**
@@ -410,10 +410,19 @@ TradeTab.prototype.angular = function(module)
       order.first_issuer = this.entry.first.issuer().to_json();
       order.second_currency = this.entry.second.currency().to_json();
       order.second_issuer = this.entry.second.issuer().to_json();
-      order.currency_pair = this.entry.first.currency().to_json() + '/' + this.entry.second.currency().to_json();
+
+      var first = order.first_currency == 'XRP'
+        ? 'XRP'
+        : order.first_currency + '.' + order.first_issuer;
+
+      var second = order.second_currency == 'XRP'
+        ? 'XRP'
+        : order.second_currency + '.' + order.second_issuer;
+
+      order.currency_pair = first + '/' + second;
 
       var changedPair = updateSettings();
-      updateMRU();
+      //updateMRU();
 
       return changedPair;
     };
