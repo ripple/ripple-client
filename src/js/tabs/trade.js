@@ -809,6 +809,7 @@ TradeTab.prototype.angular = function(module)
       updateMRU();
     };
 
+    // TODO: Remove all hardcoded GBI code eventually
     $scope.$watch('first_currency_selected', function () {
       $scope.first_issuer_selected = "";
       if($scope.first_currency_selected == 'XRP') {
