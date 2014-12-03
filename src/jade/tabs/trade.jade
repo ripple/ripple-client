@@ -429,7 +429,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                     img(src="img/button-s.png", class="loader", ng-show="entry.cancelling")
                     button.btn-link.btn-lg.pull-right.fa.fa-times-circle(
                       id="deleteOrder", type="button", ng-click="cancel_order()", ng-disabled="order.cancelling || editOrder.replacing", l10n)
-                    button.btn-link.btn-lg.pull-right.fa.fa-pencil-square-o(ng-click="beginEditOrder()", ng-disabled="order.cancelling || editOrder.replacing", l10n)
+                    button.btn-link.btn-lg.pull-right.fa.fa-pencil-square-o(rp-tooltip="Edit order", ng-click="beginEditOrder()", ng-disabled="order.cancelling || editOrder.replacing", l10n)
                 div(ng-show="editOrder.seq == entry.seq")
                   form(novalidate, name="editOrderForm", ng-show="editOrder.seq == entry.seq")
                     .value-field.col-sm-3
@@ -446,7 +446,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                           currency {{entry.first | rpcurrency | rptruncate:3}}
                     .col-sm-2.action
                       img(src="img/button-s.png", class="loader", ng-show="(editOrder.cancelling || editOrder.replacing) && entry.seq == editOrder.seq")
-                      button.btn-link.btn-lg.pull-right.fa.fa-angle-double-left(type="button", ng-click="cancelEditOrder()", ng-disabled="editOrder.cancelling || editOrder.replacing", l10n)
+                      button.btn-link.btn-lg.pull-right.fa.fa-angle-double-left(rp-tooltip="Cancel order", type="button", ng-click="cancelEditOrder()", ng-disabled="editOrder.cancelling || editOrder.replacing", l10n)
                       rp-confirm(rp-show="fatFingerShouldWarn()"
                         l10n-action-text="CAUTION: Your new order is far off from the current market price. <br/> Do you still want to replace your order ?"
                         l10n-action-button-text="Confirm"

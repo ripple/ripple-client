@@ -2307,6 +2307,30 @@
           padding-left: 0px;
           padding-right: 0px;
           line-height: 32px;
+          position: static;
+          .tooltip {
+            width: auto;
+            min-width: inherit;
+            max-width: inherit;
+            .tooltip-arrow {
+              border-top-color: #fff;
+              bottom: 1px;
+            }
+          }
+          @media(max-width: @screen-xs-max) {
+            .tooltip {
+              line-height: normal;
+              vertical-align: top;
+              .tooltip-inner {
+                &:before {
+                  display: none;
+                }
+              }
+              &:before {
+                display: none;
+              }
+            }
+          }
         }
       }
     }
