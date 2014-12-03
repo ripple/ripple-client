@@ -8,7 +8,7 @@
  */
 
 var DEFAULT_PAIRS = [
-  {name: 'XRP/USD.SnapSwap', last_used: 10},
+  {name: 'XRP/USD.SnapSwap', last_used: 10}
   // {name: 'XAU (-0.5%pa)/XRP', last_used: 2},
   // {name: 'XAU (-0.5%pa)/USD', last_used: 2},
   // {name: 'BTC/XRP', last_used: 1},
