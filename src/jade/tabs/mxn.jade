@@ -26,7 +26,9 @@ section.col-xs-12.content(ng-controller='MxnCtrl')
 
     .col-sm-3
       include fund/menu
-    .col-sm-9.list
+    .col-sm-9.list(ng-show='debug')
+      div This page is not available in debug mode
+    .col-sm-9.list(ng-hide='debug')
       .nameLine(l10n) Mexican Peso Deposit
       .gateway.row
         .col-md-3

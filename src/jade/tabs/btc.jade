@@ -23,7 +23,8 @@ section.col-xs-12.content(ng-controller='BtcCtrl')
     .col-sm-3
       include fund/menu
     .col-sm-9.list
-      .fundBtc
+      div(ng-show='debug') This page is not available in debug mode
+      .fundBtc(ng-hide='debug')
         .nameLine(l10n) Bitcoin Deposit
         .B2R-wrap.row
           .col-xs-12
