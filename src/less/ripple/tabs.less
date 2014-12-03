@@ -2254,7 +2254,7 @@
           }
 
           div:before {
-            display: inline-block;
+            display: block;
             width: 100px;
             font-weight: bold;
             text-transform: uppercase;
@@ -2295,7 +2295,12 @@
           text-align: center;
           font-size: 10px;
           line-height: 1;
-          padding: 0;
+          padding: 10px;
+          @media(max-width: @screen-xs-max) {
+            &:before {
+              display: block;
+            }
+          }
         }
 
         .action {
