@@ -181,7 +181,7 @@ header {
         }
       }
 
-      li.balances-dropdown {
+      .balances-dropdown {
         .currency {
           font-size: 0.75em;
           opacity: 0.8;
@@ -204,10 +204,10 @@ header {
     }
 
     ul.topMenu {
-      li.active:after {
+      .active:after {
         .virtualel;
-        width: 0px;
-        height: 0px;
+        width: 0;
+        height: 0;
         margin: -4px auto 0;
         border-style: solid;
         border-width: 0 6px 4px 6px;
@@ -218,7 +218,7 @@ header {
       }
     }
 
-    li.settings {
+    .settings {
       font-size: 1.7em;
     }
   }
@@ -439,14 +439,14 @@ footer {
       }
     }
 
-    &.wallet .nav-icon {background-position: 0px -10px;}
+    &.wallet .nav-icon {background-position: 0 -10px;}
     &.send .nav-icon {background-position: -60px -10px;}
     &.fund .nav-icon {background-position: -120px -10px;}
     &.exchange .nav-icon {background-position: -180px -10px;}
     &.advanced .nav-icon {background-position: -240px -10px;}
 
     &.active {
-      &.wallet .nav-icon {background-position: 0px -70px;}
+      &.wallet .nav-icon {background-position: 0 -70px;}
       &.send .nav-icon {background-position: -60px -70px;}
       &.fund .nav-icon {background-position: -120px -70px;}
       &.exchange .nav-icon {background-position: -180px -70px;}
