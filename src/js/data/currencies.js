@@ -111,7 +111,7 @@ module.exports = [
   {value: 'LVL', name: 'Latvian Lats', display: false, custom_trade_currency_dropdown: false, standard_precision: 2, order: 0 }, 
   {value: 'LBP', name: 'Lebanese Pound', display: false, custom_trade_currency_dropdown: false, standard_precision: 2, order: 0 }, 
   {value: 'LSL', name: 'Loti', display: false, custom_trade_currency_dropdown: false, standard_precision: 2, order: 0 }, 
-  {value: 'ZAR', name: 'Rand', display: false, custom_trade_currency_dropdown: false, standard_precision: 2, order: 0 }, 
+  {value: 'ZAR', name: 'Rand', display: true, custom_trade_currency_dropdown: true, standard_precision: 2, order: 0 }, 
   {value: 'LRD', name: 'Liberian Dollar', display: false, custom_trade_currency_dropdown: false, standard_precision: 2, order: 0 }, 
   {value: 'LYD', name: 'Libyan Dinar', display: false, custom_trade_currency_dropdown: false, standard_precision: 3, order: 0 }, 
   {value: 'LTL', name: 'Lithuanian Litas', display: false, custom_trade_currency_dropdown: false, standard_precision: 2, order: 0 }, 
