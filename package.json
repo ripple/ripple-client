@@ -54,6 +54,7 @@
     "karma-firefox-launcher": "~0.1.3",
     "karma-mocha": "~0.1.3",
     "karma-sinon-chai": "~0.1.6",
-    "mime": "~1.2.11"
+    "mime": "~1.2.11",
+    "grunt-lesslint": "~1.1.13"
   }
 }

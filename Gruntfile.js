@@ -20,6 +20,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-bower-task');
   grunt.loadNpmTasks('grunt-webfont');
   grunt.loadNpmTasks('grunt-shell');
+  grunt.loadNpmTasks('grunt-lesslint');
 
   // Ripple client dependencies
   var deps = ["deps/js/jquery/dist/jquery.js",
@@ -359,6 +360,17 @@ module.exports = function(grunt) {
           targetDir: './deps/js'
         }
       }
+    },
+    lesslint: {
+      options: {
+        imports: ['src/less/ripple/*.less'],
+        csslint: {
+          'ids': false,
+          'adjoining-classes': false,
+          'known-properties': false
+        }
+      },
+      src: ['src/less/ripple/web.less']
     }
   });
 
