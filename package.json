@@ -55,6 +55,7 @@
     "karma-mocha": "~0.1.3",
     "karma-sinon-chai": "~0.1.6",
     "mime": "~1.2.11",
-    "grunt-lesslint": "~1.1.13"
+    "grunt-lesslint": "~1.1.13",
+    "grunt-jscs": "~1.0.0"
   }
 }

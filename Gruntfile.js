@@ -21,6 +21,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-webfont');
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-lesslint');
+  grunt.loadNpmTasks("grunt-jscs");
 
   // Ripple client dependencies
   var deps = ["deps/js/jquery/dist/jquery.js",
