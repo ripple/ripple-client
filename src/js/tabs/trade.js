@@ -32,11 +32,11 @@ TradeTab.prototype.angular = function(module)
   module.controller('TradeCtrl', ['rpBooks', '$scope', 'rpId', 'rpNetwork',
                                   '$routeParams', '$location', '$filter',
                                   'rpTracker', 'rpKeychain', '$rootScope',
-                                  'rpPopup', '$timeout',
+                                  'rpPopup', '$anchorScroll', '$timeout',
                                   function (books, $scope, id, $network,
                                             $routeParams, $location, $filter,
                                             $rpTracker, keychain, $rootScope,
-                                            popup, $timeout)
+                                            popup, $anchorScroll ,$timeout)
   {
     $scope.first_currency_selected = "";
     $scope.second_currency_selected = "";
@@ -366,9 +366,20 @@ TradeTab.prototype.angular = function(module)
         $scope.order[type].first = order.sum.to_human().replace(',','');
         $scope.calc_second(type);
       }
-
+      scrollToElement('widgetGroup');
     };
-
+    function scrollToElement(element) {
+      var el = document.getElementById(element);
+      var yPos = el.getClientRects()[0].top;
+      var yScroll = window.scrollY;
+      var interval = setInterval(function(){
+          yScroll -= 10;
+          window.scroll(0,yScroll);
+          if(el.getClientRects()[0].top >= 0){
+              clearInterval(interval);
+          }
+      },5);
+    }
     /**
      * Happens when user clicks on "Place Order" button.
      *
