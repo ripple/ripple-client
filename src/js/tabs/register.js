@@ -34,7 +34,7 @@ RegisterTab.prototype.angular = function (module) {
       $id.verify({
         username: $routeParams.username,
         token: $routeParams.token
-      }, function(err, response){
+      }, function(err, response) {
         if (err) {
           $rootScope.verifyStatus = 'error';
 
@@ -71,7 +71,7 @@ RegisterTab.prototype.angular = function (module) {
     var lang = store.get('ripple_language') || 'en';
 
     $scope.countries = _.sortBy(require('../l10n/countries/' + lang + '.json'),
-      function(country){
+      function(country) {
         return country;
       }
     );
@@ -100,39 +100,39 @@ RegisterTab.prototype.angular = function (module) {
       }
 
       $id.register({
-        'username': $scope.username,
-        'password': $scope.password1,
-        'email': $scope.email,
-        'masterkey': $scope.masterkey,
-        'oldUserBlob': $scope.oldUserBlob,
-        'oldUsername': $scope.oldUsername,
-        'oldPassword': $scope.oldPassword
+        username:    $scope.username,
+        password:    $scope.password1,
+        email:       $scope.email,
+        masterkey:   $scope.masterkey,
+        oldUserBlob: $scope.oldUserBlob,
+        oldUsername: $scope.oldUsername,
+        oldPassword: $scope.oldPassword
       },
-      function(err, key){
+      function(err, key) {
         $scope.submitLoading = false;
 
         if (err) {
-          $scope.mode = "failed";
+          $scope.mode = 'failed';
           $scope.error_detail = err.message;
 
           $rpTracker.track('Sign Up', {
             'Used key': !!$scope.masterkey,
             'Password strength': $scope.strength,
-            'Result': 'fail'
+            Result: 'fail'
           });
 
           return;
         }
-        $scope.password = new Array($scope.password1.length+1).join("*");
+        $scope.password = new Array($scope.password1.length + 1).join('*');
         $scope.keyOpen = key;
-        $scope.key = $scope.keyOpen[0] + new Array($scope.keyOpen.length).join("*");
+        $scope.key = $scope.keyOpen[0] + new Array($scope.keyOpen.length).join('*');
 
         $scope.mode = 'secret';
 
         $rpTracker.track('Sign Up', {
           'Used key': !!$scope.masterkey,
           'Password strength': $scope.strength,
-          'Result': 'success'
+          Result: 'success'
         });
       });
     };
@@ -144,23 +144,25 @@ RegisterTab.prototype.angular = function (module) {
       keychain.requestSecret($id.account, $id.username,
         function (err, masterkey) {
           if (err) {
-            console.log("client: register tab: error while " +
-              "unlocking wallet: ", err);
-            $scope.mode = "error";
-            $scope.error_type = "unlockFailed";
+            console.log(
+              'client: register tab: error while '
+              + 'unlocking wallet: ', err
+            );
+            $scope.mode = 'error';
+            $scope.error_type = 'unlockFailed';
             return;
           }
-                    
+
           $id.resendEmail({
-            id:$scope.userBlob.id,
-            url:$scope.userBlob.url,
-            username: $scope.userCredentials.username,
+            id:         $scope.userBlob.id,
+            url:        $scope.userBlob.url,
+            username:   $scope.userCredentials.username,
             account_id: $scope.userBlob.data.account_id,
-            email: $scope.newEmail || $scope.userBlob.data.email,
-            masterkey: masterkey
-          }, function(err, response){
+            email:      $scope.newEmail || $scope.userBlob.data.email,
+            masterkey:  masterkey
+          }, function(err, response) {
             if (err) {
-              console.log('Error',err);
+              console.log('Error', err);
               return;
             }
 
@@ -173,22 +175,22 @@ RegisterTab.prototype.angular = function (module) {
         });
     };
 
-    var updateFormFields = function(){
+    var updateFormFields = function() {
       var username;
       var password1;
       var password2;
 
-      username = $element.find('input[name="register_username"]').eq(0).val();
-      password1 = $element.find('input[name="register_password1"]').eq(0).val();
-      password2 = $element.find('input[name="register_password2"]').eq(0).val();
+      username = $element.find('input[name=\'register_username\']').eq(0).val();
+      password1 = $element.find('input[name=\'register_password1\']').eq(0).val();
+      password2 = $element.find('input[name=\'register_password2\']').eq(0).val();
 
-      if ("string" === typeof username) {
+      if ('string' === typeof username) {
         $scope.registerForm.register_username.$setViewValue(username);
       }
-      if ("string" === typeof password1) {
+      if ('string' === typeof password1) {
         $scope.registerForm.register_password1.$setViewValue(password1);
       }
-      if ("string" === typeof password2) {
+      if ('string' === typeof password2) {
         $scope.registerForm.register_password2.$setViewValue(password2);
       }
     };

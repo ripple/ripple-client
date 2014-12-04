@@ -13,7 +13,11 @@ module.directive('rpAnimate', function() {
   return {
     restrict: 'A',
     link: function(scope, elm, attrs) {
-      if (attrs.rpAnimate !== "rp-animate" && !scope.$eval(attrs.rpAnimate)) return;
+      if (attrs.rpAnimate !== 'rp-animate'
+        && !scope.$eval(attrs.rpAnimate)
+      ) {
+        return;
+      }
       elm = jQuery(elm);
       elm.hide();
       elm.fadeIn(600);
@@ -103,7 +107,7 @@ module.directive('rpAutoZoom', [function () {
                 currentZoom = $el.css('zoom'),
                 widthElem   = 0;
             // add all child node widths to find out width
-            $el.children().each(function (){
+            $el.children().each(function () {
               widthElem += $(this).width();
             });
             if (!currentZoom) {

@@ -10,8 +10,8 @@
  * successfully.
  */
 
-var webutil = require("../util/web"),
-    log = require("../util/log");
+var webutil = require('../util/web'),
+    log = require('../util/log');
 
 var module = angular.module('authinfo', []);
 
@@ -24,7 +24,7 @@ module.factory('rpAuthInfo', ['$rootScope', 'rpRippleTxt', '$http',
     var txtPromise = $txt.get(domain);
 
     if (txtPromise) {
-      if ("function" === typeof txtPromise.then) {
+      if ('function' === typeof txtPromise.then) {
         txtPromise.then(processTxt, handleNoTxt);
       } else {
         processTxt(txtPromise);
@@ -34,21 +34,21 @@ module.factory('rpAuthInfo', ['$rootScope', 'rpRippleTxt', '$http',
     }
 
     function handleNoTxt() {
-      callback(new Error("Unable to load ripple.txt of authentication provider"));
+      callback(new Error('Unable to load ripple.txt of authentication provider'));
     }
 
     function processTxt(txt) {
       if (txt.authinfo_url) {
         $.ajax({
           url: txt.authinfo_url,
-          dataType: "json",
+          dataType: 'json',
           data: {
             domain: domain,
             username: username
           },
           error: function () {
             $scope.$apply(function() {
-              callback(new Error("Cannot connect to our login system, please try again later or contact support@ripple.com."));
+              callback(new Error('Cannot connect to our login system, please try again later or contact support@ripple.com.'));
             });
           },
           success: function (data) {
@@ -58,7 +58,7 @@ module.factory('rpAuthInfo', ['$rootScope', 'rpRippleTxt', '$http',
           }
         });
       } else {
-        callback(new Error("Authentication is not supported on "+domain));
+        callback(new Error('Authentication is not supported on ' + domain));
       }
     }
   };
@@ -72,7 +72,7 @@ module.factory('rpAuthInfo', ['$rootScope', 'rpRippleTxt', '$http',
       callback(null, data);
     })
     .error(function(data, status, headers, config) {
-      callback(new Error("Failed to get the account - XHR error"));
+      callback(new Error('Failed to get the account - XHR error'));
     });
   };
 

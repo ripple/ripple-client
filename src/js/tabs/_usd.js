@@ -35,13 +35,13 @@ UsdTab.prototype.angular = function (module)
        * Decide whether we want to show the form
        * (Only show if the user has been KYCd)
        */
-      var checkAttestation = function(){
+      var checkAttestation = function() {
         $scope.options = {
-          url         : $scope.userBlob.url,
-          auth_secret : $scope.userBlob.data.auth_secret,
-          blob_id     : $scope.userBlob.id,
-          type        : 'profile',
-          full        : true
+          url:         $scope.userBlob.url,
+          auth_secret: $scope.userBlob.data.auth_secret,
+          blob_id:     $scope.userBlob.id,
+          type:        'profile',
+          full:        true
         };
 
         authflow.getAttestationSummary($scope.options, function(err, resp) {
@@ -67,14 +67,14 @@ UsdTab.prototype.angular = function (module)
       }
 
       // If not, then wait until it's there
-      $scope.$on('$blobUpdate', function(){
+      $scope.$on('$blobUpdate', function() {
         if ($scope.mode == 'step2' || $scope.mode == 'step3')
           return;
 
         checkAttestation();
       });
 
-      //$scope.mode = 'step1';
+      // $scope.mode = 'step1';
       $scope.step1 = function() {
         $scope.mode = 'step1';
         $location.path('/usd');
@@ -89,23 +89,23 @@ UsdTab.prototype.angular = function (module)
         $http({
           method: 'POST',
           data: {
-            domain: 'snapswap.us',
-            email: $scope.userBlob.data.email,
-            rippleAddress: $id.account,
-            trustTxBlob: 'anystring',
-            usernameProposal: $scope.userCredentials.username.split("@")[0],
+            domain:           'snapswap.us',
+            email:            $scope.userBlob.data.email,
+            rippleAddress:    $id.account,
+            trustTxBlob:      'anystring',
+            usernameProposal: $scope.userCredentials.username.split('@')[0],
             data: {
               source: 'https://id.ripple.com',
-              jwt: $scope.attestation
+              jwt:    $scope.attestation
             }
           },
           url: Options.snapswapApi + '/ripple'
         })
-        .success(function(){
+        .success(function() {
           callback();
         })
-        .error(function(err){
-          console.log('Error while creating a SnapSwap account',err);
+        .error(function(err) {
+          console.log('Error while creating a SnapSwap account', err);
           callback(err);
         });
       };
@@ -123,7 +123,7 @@ UsdTab.prototype.angular = function (module)
           },
           url: Options.snapswapApi + '/ripple/' + $id.account + '/balance/USD/deposit/instantKnox?amount=' + $scope.usdAmount
         })
-        .success(function(data){
+        .success(function(data) {
           $scope.inProcess = false;
 
           $scope.fee = data.fee.toFixed(2);
@@ -132,12 +132,12 @@ UsdTab.prototype.angular = function (module)
           $scope.calculating = false;
 
           $rpTracker.track('Fund USD: Get Quote', {
-            'Amount': $scope.usdAmount,
-            'Bank': $scope.bank,
-            'Status': 'success'
+            Amount: $scope.usdAmount,
+            Bank:   $scope.bank,
+            Status: 'success'
           });
         })
-        .error(function(err){
+        .error(function(err) {
           console.log('Error while getting the quote', err);
 
           // In process
@@ -152,7 +152,7 @@ UsdTab.prototype.angular = function (module)
           }
           else if (err.title === 'Not Found') {
             // Create account if it doesn't exist yet
-            $scope.createAccount(function(err){
+            $scope.createAccount(function(err) {
               $scope.error = '';
 
               if (err) {
@@ -169,10 +169,10 @@ UsdTab.prototype.angular = function (module)
           $scope.calculating = false;
 
           $rpTracker.track('Fund USD: Get Quote', {
-            'Amount': $scope.usdAmount,
-            'Bank': $scope.bank,
-            'Status': 'error',
-            'Message': err.detail
+            Amount:  $scope.usdAmount,
+            Bank:    $scope.bank,
+            Status:  'error',
+            Message: err.detail
           });
         });
       };
@@ -182,9 +182,9 @@ UsdTab.prototype.angular = function (module)
        */
       $scope.prepareTrust = function() {
         // Is there an existing trust line?
-        if(existingTrustLine = $scope.lines[issuer + currency])
+        if (existingTrustLine = $scope.lines[issuer + currency])
           // Is the trust limit enough?
-          if(existingTrustLine.limit.to_number() >= trustAmount)
+          if (existingTrustLine.limit.to_number() >= trustAmount)
           // We're good with the existing trust line
             return;
 
@@ -193,8 +193,8 @@ UsdTab.prototype.angular = function (module)
         var noNeed;
         _.each(
           // Find all trust transactions in queue
-          _.findWhere($scope.userBlob.data.txQueue, {type: "TrustSet"}),
-          function(elm,index,txInQueue){
+          _.findWhere($scope.userBlob.data.txQueue, {type: 'TrustSet'}),
+          function(elm, index, txInQueue) {
             // Does this fulfil our needs?
             noNeed = txInQueue && txInQueue.details.currency === currency
             && txInQueue.details.issuer === issuer
@@ -228,17 +228,17 @@ UsdTab.prototype.angular = function (module)
             failure: location.origin + location.pathname + '#/usd/failure'
           },
           url: Options.snapswapApi + '/ripple/' + $id.account + '/balance/USD/deposit/instantKnox'
-        }).success(function(data){
+        }).success(function(data) {
           // Add the selected bank swift code
           $scope.iframeUrl = data.redirectUrl + '&swift_code=' + $scope.bank;
 
-          $('#knoxFrame').attr('src',$scope.iframeUrl);
+          $('#knoxFrame').attr('src', $scope.iframeUrl);
 
           $scope.mode = 'step3';
 
           $rpTracker.track('Fund USD: Confirmed', {
-            'Amount': $scope.usdAmount,
-            'Bank': $scope.bank
+            Amount: $scope.usdAmount,
+            Bank: $scope.bank
           });
         });
       };
@@ -250,7 +250,7 @@ UsdTab.prototype.angular = function (module)
         $http({
           method: 'DELETE',
           url: Options.snapswapApi + '/ripple/' + $id.account + '/processing/instantKnox'
-        }).success(function(data, status, headers, config){
+        }).success(function(data, status, headers, config) {
           $scope.mode = 'step1';
         });
 
@@ -260,7 +260,7 @@ UsdTab.prototype.angular = function (module)
       // Track the result
       if ($routeParams.result) {
         $rpTracker.track('Fund USD: Completed', {
-          'Result': $routeParams.result
+          Result: $routeParams.result
         });
       }
     }]);

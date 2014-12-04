@@ -24,8 +24,6 @@ ContactsTab.prototype.angular = function (module) {
   module.controller('ContactsCtrl', ['$scope', 'rpId', 'rpTracker',
     function ($scope, $id, $rpTracker)
   {
-
-
     // Initialize the notification object
     $scope.success = {};
 
@@ -70,7 +68,7 @@ ContactsTab.prototype.angular = function (module) {
       $scope.enable_highlight = true;
 
       // Add an element
-      $scope.userBlob.unshift("/contacts", contact);
+      $scope.userBlob.unshift('/contacts', contact);
 
       // Hide the form
       $scope.toggle_form();
@@ -111,7 +109,6 @@ ContactsTab.prototype.angular = function (module) {
         if (!$scope.inlineAddress.editaddress.$error.rpUnique
             && !$scope.inlineAddress.editaddress.$error.rpDest
             && !$scope.inlineName.editname.$error.rpUnique) {
-
           var entry = {
             name: $scope.editname,
             view: $scope.editview,
@@ -154,7 +151,6 @@ ContactsTab.prototype.angular = function (module) {
 
           // Notify the user
           $scope.success.removeContact = true;
-
         }
       };
 

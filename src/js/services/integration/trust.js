@@ -4,7 +4,7 @@
  * This is the "Trust" profile implementation
  */
 
-var module = angular.module('integrationTrust', ['txQueue','keychain']);
+var module = angular.module('integrationTrust', ['txQueue', 'keychain']);
 
 // TODO Sign sent data
 module.service('rpTrustProfile', ['$rootScope', 'rpNetwork', 'rpTxQueue', 'rpKeychain', 'rpId',
@@ -17,11 +17,11 @@ module.service('rpTrustProfile', ['$rootScope', 'rpNetwork', 'rpTxQueue', 'rpKey
 
       // TODO remove this
       grantNeccessaryTrusts: function() {
-        manifest.currencies.forEach(function(currency){
+        manifest.currencies.forEach(function(currency) {
           // Is there an existing trust line?
-          if(existingTrustLine = $scope.lines[currency.issuer + currency.currency.toUpperCase()]) {
+          if (existingTrustLine = $scope.lines[currency.issuer + currency.currency.toUpperCase()]) {
             // Is the trust limit enough?
-            if(existingTrustLine.limit.to_number() >= currency.amount)
+            if (existingTrustLine.limit.to_number() >= currency.amount)
               // We're good with the existing trust line
               return;
           }
@@ -35,7 +35,7 @@ module.service('rpTrustProfile', ['$rootScope', 'rpNetwork', 'rpTxQueue', 'rpKey
           txQueue.addTransaction(tx);
         });
 
-        if('function' == typeof callback) callback();
+        if ('function' == typeof callback) callback();
       }
     };
   };

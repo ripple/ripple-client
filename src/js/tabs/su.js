@@ -32,10 +32,10 @@ SuTab.prototype.angular = function (module)
       var alias = aliasService.getAliasForAddress(data.account);
 
       alias.then(
-        function(domain){
+        function(domain) {
           $scope.account.domain = domain;
         },
-        function(reason){
+        function(reason) {
           console.log('error', reason);
         }
       );
@@ -46,7 +46,7 @@ SuTab.prototype.angular = function (module)
 
       tx.accountSet(id.account);
       tx.tx_json.Domain = sjcl.codec.hex.fromBits(sjcl.codec.utf8String.toBits($scope.account.domain));
-      tx.on('success', function(){
+      tx.on('success', function() {
         console.log('Cool!');
       });
 

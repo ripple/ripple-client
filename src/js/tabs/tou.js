@@ -21,13 +21,8 @@ TouTab.prototype.angular = function (module) {
   module.controller('TouCtrl', ['$scope', '$element',
                                   function ($scope, $element)
   {
-
     angular.element('nav').hide();
-
   }]);
-
 };
-
-
 
 module.exports = TouTab;

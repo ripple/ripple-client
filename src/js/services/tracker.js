@@ -7,7 +7,7 @@ var module = angular.module('tracker', []);
 module.factory('rpTracker', ['$rootScope', function ($scope)
 {
   // Identify user
-  var removeBlobUpdateListener = $scope.$on('$blobUpdate', function(){
+  var removeBlobUpdateListener = $scope.$on('$blobUpdate', function() {
     if (!$scope.userCredentials.username)
       return;
 
@@ -16,7 +16,7 @@ module.factory('rpTracker', ['$rootScope', function ($scope)
       mixpanel.people.set({
         $username: $scope.userCredentials.username,
         $name: $scope.userCredentials.username,
-        "Ripple Address": $scope.address
+        'Ripple Address': $scope.address
       });
 
       removeBlobUpdateListener();
@@ -27,10 +27,10 @@ module.factory('rpTracker', ['$rootScope', function ($scope)
     }
   });
 
-  var track = function (event,properties) {
+  var track = function (event, properties) {
     if (Options.mixpanel && Options.mixpanel.track && window.mixpanel) {
       try {
-        mixpanel.track(event,properties);
+        mixpanel.track(event, properties);
       } catch (ex) {
         // This probably means the browser is blocking us
         // or mixpanel is down

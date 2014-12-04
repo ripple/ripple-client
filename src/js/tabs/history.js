@@ -33,52 +33,52 @@ HistoryTab.prototype.angular = function (module) {
     $scope.historyCsv = '';
 
     // History states
-    $scope.$watch('loadState.transactions',function(){
+    $scope.$watch('loadState.transactions', function() {
       $scope.historyState = !$scope.loadState.transactions ? 'loading' : 'ready';
     });
 
     // Open/close states of individual history items
     $scope.details = [];
 
-    //$scope.typeUsage = [];
-    //$scope.currencyUsage = [];
+    // $scope.typeUsage = [];
+    // $scope.currencyUsage = [];
 
     // Currencies from history
     var historyCurrencies = [];
 
     $scope.types = {
       sent: {
-        'types': ['sent'],
-        'checked': true
+        types: ['sent'],
+        checked: true
       },
       received: {
-        'types': ['received'],
-        'checked': true
+        types: ['received'],
+        checked: true
       },
       gateways: {
-        'types': ['trusting','trusted'],
-        'checked': true
+        types: ['trusting', 'trusted'],
+        checked: true
       },
       trades: {
-        'types': ['offernew','exchange'],
-        'checked': true
+        types: ['offernew', 'exchange'],
+        checked: true
       },
       orders: {
-        'types': ['offernew','offercancel','exchange'],
-        'checked': true
+        types: ['offernew', 'offercancel', 'exchange'],
+        checked: true
       },
       other: {
-        'types': ['accountset','failed','rippling'],
-        'checked': true
+        types: ['accountset', 'failed', 'rippling'],
+        checked: true
       }
     };
 
     $scope.advanced_feature_switch = Options.advanced_feature_switch;
 
-    $scope.orderedTypes = ['sent','received','gateways','trades','orders','other'];
+    $scope.orderedTypes = ['sent', 'received', 'gateways', 'trades', 'orders', 'other'];
 
     if (store.get('ripple_history_type_selections')) {
-      $scope.types = $.extend(true,$scope.types,store.get('ripple_history_type_selections'));
+      $scope.types = $.extend(true, $scope.types, store.get('ripple_history_type_selections'));
     }
 
     // Filters
@@ -86,37 +86,37 @@ HistoryTab.prototype.angular = function (module) {
       $scope.filters = store.get('ripple_history_filters');
     } else {
       $scope.filters = {
-        'currencies_is_active': false, // we do the currency filter only if this is true, which happens when at least one currency is off
-        'currencies': {},
-        'types': ['sent','received','exchange','trusting','trusted','offernew','offercancel','rippling'],
-        'minimumAmount': 0.000001
+        currencies_is_active: false, // we do the currency filter only if this is true, which happens when at least one currency is off
+        currencies: {},
+        types: ['sent', 'received', 'exchange', 'trusting', 'trusted', 'offernew', 'offercancel', 'rippling'],
+        minimumAmount: 0.000001
       };
     }
 
-    var getDateRangeHistory = function(dateMin,dateMax,callback)
+    var getDateRangeHistory = function(dateMin, dateMax, callback)
     {
       var completed = false;
       var history = [];
 
       var params = {
-        'account': $id.account,
-        'ledger_index_min': -1,
-        'limit': 200
+        account: $id.account,
+        ledger_index_min: -1,
+        limit: 200
       };
 
-      var getTx = function(){
+      var getTx = function() {
         $network.remote.request_account_tx(params)
         .on('success', function(data) {
           if (data.transactions.length) {
-            for(var i=0;i<data.transactions.length;i++) {
+            for (var i = 0;i < data.transactions.length; i++) {
               var date = ripple.utils.toTimestamp(data.transactions[i].tx.date);
 
-              if(date < dateMin.getTime()) {
+              if (date < dateMin.getTime()) {
                 completed = true;
                 break;
               }
 
-              if(date > dateMax.getTime())
+              if (date > dateMax.getTime())
                 continue;
 
               // Push
@@ -149,18 +149,18 @@ HistoryTab.prototype.angular = function (module) {
     // DateRange filter form
     $scope.submitDateRangeForm = function() {
       $scope.dateMaxView.setDate($scope.dateMaxView.getDate() + 1); // Including last date
-      changeDateRange($scope.dateMinView,$scope.dateMaxView);
+      changeDateRange($scope.dateMinView, $scope.dateMaxView);
     };
 
     $scope.submitMinimumAmountForm = function() {
       updateHistory();
     };
 
-    var changeDateRange = function(dateMin,dateMax) {
+    var changeDateRange = function(dateMin, dateMax) {
       history = [];
       $scope.historyState = 'loading';
 
-      getDateRangeHistory(dateMin,dateMax,function(hist){
+      getDateRangeHistory(dateMin, dateMax, function(hist) {
         $scope.$apply(function () {
           history = hist;
           $scope.historyState = 'ready';
@@ -170,15 +170,15 @@ HistoryTab.prototype.angular = function (module) {
     };
 
     // All the currencies
-    $scope.$watch('balances', function(){
+    $scope.$watch('balances', function() {
       updateCurrencies();
     });
 
     // Types filter has been changed
-    $scope.$watch('types', function(){
+    $scope.$watch('types', function() {
       var arr = [];
       var checked = {};
-      _.each($scope.types, function(type,index){
+      _.each($scope.types, function(type, index) {
         if (type.checked) {
           arr = arr.concat(type.types);
         }
@@ -195,23 +195,23 @@ HistoryTab.prototype.angular = function (module) {
     }, true);
 
     if (!store.disabled) {
-      $scope.$watch('filters', function(){
+      $scope.$watch('filters', function() {
         store.set('ripple_history_filters', $scope.filters);
       }, true);
     }
 
-    $scope.$watch('filters.types', function(){
+    $scope.$watch('filters.types', function() {
       updateHistory();
     }, true);
 
     // Currency filter has been changed
-    $scope.$watch('filters.currencies', function(){
+    $scope.$watch('filters.currencies', function() {
       updateCurrencies();
       updateHistory();
     }, true);
 
     // New transactions
-    $scope.$watchCollection('history',function(){
+    $scope.$watchCollection('history', function() {
       history = $scope.history;
 
       updateHistory();
@@ -219,13 +219,12 @@ HistoryTab.prototype.angular = function (module) {
       // Update currencies
       if (history.length)
         updateCurrencies();
-    },true);
+    }, true);
 
     // Updates the history collection
-    var updateHistory = function (){
-
-      //$scope.typeUsage = [];
-      //$scope.currencyUsage = [];
+    var updateHistory = function () {
+      // $scope.typeUsage = [];
+      // $scope.currencyUsage = [];
       $scope.historyShow = [];
 
       if (history.length) {
@@ -233,10 +232,9 @@ HistoryTab.prototype.angular = function (module) {
 
         $scope.minLedger = 0;
 
-        var currencies = _.map($scope.filters.currencies,function(obj,key){return obj.checked ? key : false;});
+        var currencies = _.map($scope.filters.currencies, function(obj, key) {return obj.checked ? key : false;});
         history.forEach(function(event)
         {
-
           // Calculate dateMin/dateMax. Used in date filter view
           if (!$scope.dateMinView) {
             if (!dateMin || dateMin > event.date)
@@ -253,21 +251,21 @@ HistoryTab.prototype.angular = function (module) {
           // Update currencies
           historyCurrencies = _.union(historyCurrencies, affectedCurrencies); // TODO put in one large array, then union outside of foreach
 
-          // Calculate min ledger. Used in "load more"
+          // Calculate min ledger. Used in 'load more'
           if (!$scope.minLedger || $scope.minLedger > event.ledger_index)
             $scope.minLedger = event.ledger_index;
 
           // Type filter
           if (event.transaction && event.transaction.type === 'error') ; // Always show errors
-          else if (event.transaction && !_.contains($scope.filters.types,event.transaction.type))
+          else if (event.transaction && !_.contains($scope.filters.types, event.transaction.type))
             return;
 
           // Some events don't have transactions.. this is a temporary fix for filtering offers
-          else if (!event.transaction && !_.contains($scope.filters.types,'offernew'))
+          else if (!event.transaction && !_.contains($scope.filters.types, 'offernew'))
             return;
 
           // Currency filter
-          //if ($scope.filters.currencies_is_active && _.intersection(currencies,event.affected_currencies).length <= 0)
+          // if ($scope.filters.currencies_is_active && _.intersection(currencies,event.affected_currencies).length <= 0)
           //  return;
 
           var effects = [];
@@ -276,21 +274,21 @@ HistoryTab.prototype.angular = function (module) {
 
           if (event.effects) {
             // Show effects
-            $.each(event.effects, function(){
-              var effect = this;
-              switch (effect.type) {
+            $.each(event.effects, function() {
+              var _this = this;
+              switch (_this.type) {
                 case 'offer_funded':
                 case 'offer_partially_funded':
                 case 'offer_bought':
                   isFundedTrade = true;
                   /* falls through */
                 case 'offer_cancelled':
-                  if (effect.type === 'offer_cancelled') {
+                  if (_this.type === 'offer_cancelled') {
                     isCancellation = true;
                     if (event.transaction && event.transaction.type === 'offercancel')
                       return;
                   }
-                  effects.push(effect);
+                  effects.push(_this);
                   break;
               }
             });
@@ -298,34 +296,34 @@ HistoryTab.prototype.angular = function (module) {
             event.showEffects = effects;
 
             // Trade filter - remove open orders that haven't been filled/partially filled
-            if (_.contains($scope.filters.types,'exchange') && !_.contains($scope.filters.types,'offercancel')) {
+            if (_.contains($scope.filters.types, 'exchange') && !_.contains($scope.filters.types, 'offercancel')) {
               if ((event.transaction && event.transaction.type === 'offernew' && !isFundedTrade) || isCancellation)
                 return;
             }
 
-            effects = [ ];
+            effects = [];
 
             var amount, maxAmount;
             var minimumAmount = $scope.filters.minimumAmount;
 
             // Balance changer effects
-            $.each(event.effects, function(){
-              var effect = this;
-              switch (effect.type) {
+            $.each(event.effects, function() {
+              var _this = this;
+              switch (_this.type) {
                 case 'fee':
                 case 'balance_change':
                 case 'trust_change_balance':
-                  effects.push(effect);
+                  effects.push(_this);
 
                   // Minimum amount filter
-                  if (effect.type === 'balance_change' || effect.type === 'trust_change_balance') {
-                    amount = effect.amount.abs().is_native()
-                      ? effect.amount.abs().to_number() / 1000000
-                      : effect.amount.abs().to_number();
+                  if (_this.type === 'balance_change' || _this.type === 'trust_change_balance') {
+                    amount = _this.amount.abs().is_native()
+                      ? _this.amount.abs().to_number() / 1000000
+                      : _this.amount.abs().to_number();
 
                     if (!maxAmount || amount > maxAmount)
                       maxAmount = amount;
-                    }
+                  }
                   break;
               }
             });
@@ -346,27 +344,27 @@ HistoryTab.prototype.angular = function (module) {
 
           // Type and currency usages
           // TODO offers/trusts
-          //if (event.transaction)
-          //  $scope.typeUsage[event.transaction.type] = $scope.typeUsage[event.transaction.type] ? $scope.typeUsage[event.transaction.type]+1 : 1;
+          // if (event.transaction)
+          //   $scope.typeUsage[event.transaction.type] = $scope.typeUsage[event.transaction.type] ? $scope.typeUsage[event.transaction.type]+1 : 1;
 
-          //event.affected_currencies.forEach(function(currency){
-          //  $scope.currencyUsage[currency] = $scope.currencyUsage[currency]? $scope.currencyUsage[currency]+1 : 1;
-          //});
+          // event.affected_currencies.forEach(function(currency){
+          //   $scope.currencyUsage[currency] = $scope.currencyUsage[currency]? $scope.currencyUsage[currency]+1 : 1;
+          // });
         });
 
         if ($scope.historyShow.length && !$scope.dateMinView) {
-          //setValidDateOnScopeOrNullify('dateMinView', dateMin);
-          //setValidDateOnScopeOrNullify('dateMaxView', dateMax);
+          // setValidDateOnScopeOrNullify('dateMinView', dateMin);
+          // setValidDateOnScopeOrNullify('dateMaxView', dateMax);
         }
       }
     };
 
     // Update the currency list
-    var updateCurrencies = function (){
+    var updateCurrencies = function () {
       if (!$.isEmptyObject($scope.balances)) {
         var currencies = _.union(
           ['XRP'],
-          _.map($scope.balances,function(obj,key){return obj.total.currency().to_human();}),
+          _.map($scope.balances, function(obj, key) {return obj.total.currency().to_human();}),
           historyCurrencies
         );
 
@@ -376,9 +374,9 @@ HistoryTab.prototype.angular = function (module) {
 
         $scope.filters.currencies_is_active = false;
 
-        _.each(currencies, function(currency){
+        _.each(currencies, function(currency) {
           var checked = ($scope.filters.currencies[currency] && $scope.filters.currencies[currency].checked) || firstProcess;
-          objCurrencies[currency] = {'checked':checked};
+          objCurrencies[currency] = {checked: checked};
 
           if (!checked)
             $scope.filters.currencies_is_active = true;
@@ -415,7 +413,7 @@ HistoryTab.prototype.angular = function (module) {
       .on('success', function(data) {
         $scope.$apply(function () {
           if (data.transactions.length < limit) {
-
+            // empty block
           }
 
           $scope.tx_marker = data.marker;
@@ -440,7 +438,7 @@ HistoryTab.prototype.angular = function (module) {
               }
             });
 
-            var newHistory = _.uniq(history.concat(transactions),false,function(ev) {return ev.hash;});
+            var newHistory = _.uniq(history.concat(transactions), false, function(ev) {return ev.hash;});
 
             $scope.historyState = (history.length === newHistory.length) ? 'full' : 'ready';
             history = newHistory;
@@ -488,17 +486,16 @@ HistoryTab.prototype.angular = function (module) {
     };
 
     $scope.exportCsv = function() {
-
       // Header (1st line) of CSV with name of each field
       // Ensure that the field values for each row added in addLineToCsvToCsv() correspond in this order
-      var csv = 'Date,Time,Ledger Number,Transaction Type,Trust address,' +
-        'Address sent from,Amount sent/sold,Currency sent/sold,Issuer of sent/sold ccy,' +
-        'Address sent to,Amount received,Currency received,Issuer of received ccy,' +
-        'Executed Price,Network Fee paid,Transaction Hash\r\n';
+      var csv = 'Date,Time,Ledger Number,Transaction Type,Trust address,'
+        + 'Address sent from,Amount sent/sold,Currency sent/sold,Issuer of sent/sold ccy,'
+        + 'Address sent to,Amount received,Currency received,Issuer of received ccy,'
+        + 'Executed Price,Network Fee paid,Transaction Hash\r\n';
 
       var addLineToCsv = function(line) {
         // Ensure that the fields match the CSV header initialized in var csv
-        csv += [ line.Date, line.Time, line.LedgerNum, line.TransType, line.TrustAddr,
+        csv += [line.Date, line.Time, line.LedgerNum, line.TransType, line.TrustAddr,
           line.FromAddr, line.SentAmount, line.SentCcy, line.SentIssuer,
           line.ToAddr, line.RecvAmount, line.RecvCcy, line.RecvIssuer,
           line.ExecPrice, line.Fee, line.TransHash
@@ -565,7 +562,7 @@ HistoryTab.prototype.angular = function (module) {
           lineTrust.TrustAddr = rippleName(transaction.counterparty);
 
           lineTrust.SentAmount = formatAmount(transaction.amount);
-          lineTrust.SentCcy = transaction.currency; //transaction.amount.currency().get_iso();
+          lineTrust.SentCcy = transaction.currency; // transaction.amount.currency().get_iso();
 
           lineTrust.SentIssuer = lineTrust.RecvIssuer = na;
 
@@ -661,7 +658,7 @@ HistoryTab.prototype.angular = function (module) {
               if (s > 0) line.Fee = '';  // Fee only applies once
               addLineToCsv(line);
 
-            break;  // end case
+              break;  // end case
             }
           }
         }
@@ -672,7 +669,6 @@ HistoryTab.prototype.angular = function (module) {
       // otherwise the file download will be a single line with header and no data
       $scope.historyCsv = $scope.historyShow.length ? csv : '';
     };
-
   }]);
 };
 

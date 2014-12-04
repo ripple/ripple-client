@@ -24,7 +24,7 @@ module.service('rpAccountProfile', ['$rootScope', 'rpNetwork', '$http',
           method: 'POST',
           data: fields
         })
-        .success(function(response){
+        .success(function(response) {
           if (response.status === 'error') {
             callback({
               message: response.message
@@ -35,7 +35,7 @@ module.service('rpAccountProfile', ['$rootScope', 'rpNetwork', '$http',
 
           callback(null, response);
         })
-        .error(function(data,status){
+        .error(function(data, status) {
           callback({
             message: 'Unable to sign up.'
           });
@@ -47,7 +47,7 @@ module.service('rpAccountProfile', ['$rootScope', 'rpNetwork', '$http',
           method: 'GET',
           params: {rippleAddress: rippleAddress}
         })
-        .success(function(response){
+        .success(function(response) {
           if (response.status === 'error') {
             callback({
               message: response.message
@@ -58,9 +58,9 @@ module.service('rpAccountProfile', ['$rootScope', 'rpNetwork', '$http',
 
           callback(null, response);
         })
-        .error(function(data,status){
+        .error(function(data, status) {
           callback({
-            message: "Can't get the user."
+            message: 'Can\'t get the user.'
           });
         });
       }

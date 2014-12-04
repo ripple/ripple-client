@@ -34,8 +34,10 @@ AccountTab.prototype.angular = function(module)
         keychain.getSecret($id.account, $id.username, $scope.password,
           function (err, masterkey) {
             if (err) {
-              console.log("client: account tab: error while " +
-                "unlocking wallet: ", err);
+              console.log(
+                'client: account tab: error while '
+                + 'unlocking wallet: ', err
+              );
 
               $scope.error = 'wrongpassword';
               $scope.loading = false;
@@ -47,10 +49,12 @@ AccountTab.prototype.angular = function(module)
               new_username: $scope.username,
               password: $scope.password,
               masterkey: masterkey
-            }, function(err){
+            }, function(err) {
               if (err) {
-                console.log('client: account tab: error while ' +
-                  'renaming account: ', err);
+                console.log(
+                  'client: account tab: error while '
+                  + 'renaming account: ', err
+                );
                 $scope.error = true;
                 $scope.loading = false;
                 return;
@@ -63,8 +67,10 @@ AccountTab.prototype.angular = function(module)
                 password: $scope.password
               }, function (err) {
                 if (err) {
-                  console.log('client: account tab: error while ' +
-                    'logging user in: ', err);
+                  console.log(
+                    'client: account tab: error while '
+                    + 'logging user in: ', err
+                  );
                   $scope.error = 'cantlogin';
                   $scope.loading = false;
                   return;
@@ -89,12 +95,10 @@ AccountTab.prototype.angular = function(module)
         if ($scope.renameForm) {
           $scope.renameForm.$setPristine(true);
         }
-
       };
 
       reset();
       $scope.success = false;
-
     }]
   );
 };

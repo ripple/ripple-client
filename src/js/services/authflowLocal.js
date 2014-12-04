@@ -28,7 +28,7 @@ module.factory('rpAuthFlow', ['$rootScope', 'rpBlob',
           return;
         }
 
-        console.log("client: authflow: login succeeded", blob);
+        console.log('client: authflow: login succeeded', blob);
         callback(null, blob, '', 'local');
       });
     };
@@ -45,10 +45,10 @@ module.factory('rpAuthFlow', ['$rootScope', 'rpBlob',
      */
     AuthFlow.register = function (opts, callback) {
       $blob.create({
-        'account': opts.account,
-        'password': opts.password,
-        'masterkey': opts.masterkey,
-        'walletfile': opts.walletfile
+        account: opts.account,
+        password: opts.password,
+        masterkey: opts.masterkey,
+        walletfile: opts.walletfile
       },
       function (err, blob) {
         if (err) {
@@ -56,7 +56,7 @@ module.factory('rpAuthFlow', ['$rootScope', 'rpBlob',
           return;
         }
 
-        console.log("client: authflow: registration succeeded", blob);
+        console.log('client: authflow: registration succeeded', blob);
         callback(null, blob, 'local');
       });
     };

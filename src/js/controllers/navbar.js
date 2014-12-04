@@ -26,16 +26,16 @@ module.controller('NavbarCtrl', ['$scope', '$element', '$compile', 'rpId',
   };
 
   $scope.page_reload = function () {
-      // Reload
-      location.reload();
+    // Reload
+    location.reload();
   };
 
   // Username
-  $scope.$watch('userCredentials', function(){
+  $scope.$watch('userCredentials', function() {
     var username = $scope.userCredentials.username;
     $scope.shortUsername = null;
-    if(username && username.length > 25) {
-      $scope.shortUsername = username.substring(0,24)+"...";
+    if (username && username.length > 25) {
+      $scope.shortUsername = username.substring(0, 24) + '...';
     }
   }, true);
 
@@ -49,7 +49,7 @@ module.controller('NavbarCtrl', ['$scope', '$element', '$compile', 'rpId',
 
   var updateNotifications = function () {
     if ($scope.events) {
-      $scope.notifications = $scope.events.slice(0,10);
+      $scope.notifications = $scope.events.slice(0, 10);
     }
   };
 
@@ -71,7 +71,7 @@ module.controller('NavbarCtrl', ['$scope', '$element', '$compile', 'rpId',
 
     if (($scope.userBlob.data.lastSeenTxDate || 0) < lastTxDate) {
       // Remember last seen date
-      $scope.userBlob.set("/lastSeenTxDate", lastTxDate);
+      $scope.userBlob.set('/lastSeenTxDate', lastTxDate);
 
       // Reset the counter
       $scope.unseen = $scope.unseenNotifications.count;

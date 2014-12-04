@@ -23,13 +23,12 @@ BtcTab.prototype.angular = function (module)
   module.controller('BtcCtrl', ['$scope', 'rpId', 'rpAppManager', 'rpTracker', '$routeParams', 'rpKeychain',
                                      function ($scope, $id, appManager, rpTracker, $routeParams, keychain)
   {
- 
     $scope.accountLines = {};
     $scope.showComponent = [];
     $scope.showInstructions = false;
 
     $scope.$watch('lines', function () {
-      if($scope.lines['rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2qBTC']){
+      if ($scope.lines.rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2qBTC) {
         $scope.btcConnected = true;
       }
       else {
@@ -48,7 +47,7 @@ BtcTab.prototype.angular = function (module)
     };
 
     // TODO don't worry, the whole thing needs to be rewritten
-    var btcwatcher = $scope.$watch('B2R', function(){
+    var btcwatcher = $scope.$watch('B2R', function() {
       if ($scope.B2R && $scope.B2R.active) {
         $scope.btcConnected = true;
 
@@ -68,10 +67,12 @@ BtcTab.prototype.angular = function (module)
 
       keychain.requestSecret($id.account, $id.username, function (err, secret) {
         if (err) {
-          console.log("client: trust profile: error while " +
-            "unlocking wallet: ", err);
-          $scope.mode = "error";
-          $scope.error_type = "unlockFailed";
+          console.log(
+            'client: trust profile: error while '
+            + 'unlocking wallet: ', err
+          );
+          $scope.mode = 'error';
+          $scope.error_type = 'unlockFailed';
           $scope.loading = false;
           return;
         }
@@ -103,7 +104,6 @@ BtcTab.prototype.angular = function (module)
 
           $scope.btcConnected = true;
           $scope.showInstructions = true;
-
         });
       });
 
@@ -111,7 +111,6 @@ BtcTab.prototype.angular = function (module)
 
       rpTracker.track('B2R Shared Email');
     };
-
   }]);
 };
 

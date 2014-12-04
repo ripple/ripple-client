@@ -12,21 +12,21 @@ var module = angular.module('charts', []);
 module.directive('rpTrustLine', ['$filter', function($filter) {
   function redraw(ctx, data) {
     // Axis distance to left and right edges
-    var axisMargin = 30;
+    var axisMargin = 30,
     // Tick length away from axis
-    var tickLen    = 5;
+        tickLen    = 5,
     // Thickness of bars
-    var barWidth   = 6;
+        barWidth   = 6,
     // Offset for text below axis
-    var lowText    = 16;
+        lowText    = 16,
     // Offset for text above bar
-    var highText   = -10;
+        highText   = -10,
 
     // Fetch size of canvas
-    var width      = ctx.canvas.width;
-    var height     = ctx.canvas.height;
-    var axisLen    = width - axisMargin * 2;
-    var axisY      = Math.floor(height / 2);
+        width      = ctx.canvas.width,
+        height     = ctx.canvas.height,
+        axisLen    = width - axisMargin * 2,
+        axisY      = Math.floor(height / 2);
 
     // Clear canvas
     ctx.clearRect(0, 0, width, height);
@@ -81,7 +81,7 @@ module.directive('rpTrustLine', ['$filter', function($filter) {
     // Draw labels
     var rpamount = $filter('rpamount');
     var fmt = {rel_precision: 0};
-    ctx.font = '11px sans-serif';
+    ctx.font = '11px OpenSansRegular';
     ctx.textAlign = 'center';
     ctx.fillText(rpamount(data.balance, fmt), f(balance), axisY + highText);
     ctx.fillStyle = '#333';
@@ -169,11 +169,11 @@ module.directive('rpPieChart', ['$filter', function($filter) {
       }
 
       var totalAsXrp = xrpAsSuch;
-      for (var cur in ious) {if (ious.hasOwnProperty(cur)){
+      for (var cur in ious) {if (ious.hasOwnProperty(cur)) {
         var components = ious[cur].components;
         var issuerSubshares = [];
         var issuer;
-        for (issuer in components) {if (components.hasOwnProperty(issuer)){
+        for (issuer in components) {if (components.hasOwnProperty(issuer)) {
           var amount = components[issuer].to_number();
           // The chart ignores negative balances. The user should be notified (separately) of this omission.
           if (amount > 0) {
@@ -264,16 +264,16 @@ module.directive('rpPieChart', ['$filter', function($filter) {
       // Draw the hole in the middle
       $('<circle></circle>').appendTo(container.find('svg')).attr({
         'class': 'hole',
-        cx:   SIZE / 2,
-        cy:   SIZE / 2,
-        r:    SIZE * 2 / 9 // like on ripplecharts.com
+        cx:      SIZE / 2,
+        cy:      SIZE / 2,
+        r:       SIZE * 2 / 9 // like on ripplecharts.com
       });
 
       // Refresh the DOM (because JQuery and SVG don't play nice)
       container.html(container.html());
 
       // Center text elements
-      container.find('text').each(function(){
+      container.find('text').each(function() {
         var width = $(this)[0].getBBox().width;
         var x = $(this).attr('x');
         $(this).attr('x', x - width / 2);
@@ -295,7 +295,7 @@ module.directive('rpPieChart', ['$filter', function($filter) {
         container.find('.main text').css('opacity', 0);
         container.find('.main path').css('opacity', 0.125);
         $(this).css('opacity', 0);
-        container.find('.sub[group="' + group + '"]').css('opacity', 1);
+        container.find('.sub[group=\'' + group + '\']').css('opacity', 1);
       }).on('mouseout', function() {
         container.find('.main').css('opacity', 1);
         container.find('.sub').css('opacity', 0);
@@ -367,10 +367,10 @@ module.directive('rpPieChart', ['$filter', function($filter) {
       }
 
       var svg = container.find('svg').attr({
-        width: '100%',
-        height: '100%',
+        width:       '100%',
+        height:      '100%',
         'xmlns:svg': 'http://www.w3.org/2000/svg',
-        'xmlns':     'http://www.w3.org/2000/svg'
+        xmlns:       'http://www.w3.org/2000/svg'
       });
 
       var sector, g;
@@ -392,13 +392,13 @@ module.directive('rpPieChart', ['$filter', function($filter) {
         }
         g = $('<g></g>').appendTo(svg).attr({
           'class': cssClass + ' ' + colorClass,
-          group: sector.group
+          group:   sector.group
         });
 
         $('<path></path>').appendTo(g).attr({
           d: sector.path,
           'class': cssClass,
-          group: sector.group
+          group:   sector.group
         });
       }
 
@@ -407,14 +407,14 @@ module.directive('rpPieChart', ['$filter', function($filter) {
 
         g = $('<g></g>').appendTo(svg).attr({
           'class': cssClass + ' pielabel',
-          group: sector.group
+          group:   sector.group
         });
 
         $('<text></text>').appendTo(g).text(sector.labelText).attr({
           x: sector.labelPosition.x,
           y: sector.labelPosition.y,
           'class': cssClass,
-          group: sector.group
+          group:   sector.group
         });
 
         var percentage = Math.round(sector.share * 100);
@@ -424,9 +424,9 @@ module.directive('rpPieChart', ['$filter', function($filter) {
 
         $('<text></text>').appendTo(g).text(percentage + '%').attr({
           'class': cssClass + ' percentage',
-          x: sector.labelPosition.x,
-          y: sector.labelPosition.y + 16,
-          group: sector.group
+          x:       sector.labelPosition.x,
+          y:       sector.labelPosition.y + 16,
+          group:   sector.group
         });
       }
     }
@@ -447,7 +447,7 @@ module.directive('rpPieChart', ['$filter', function($filter) {
       bounds.push(mainBounds);
 
       var groups = {};
-      svg.find('g.sub.pielabel').each(function(){
+      svg.find('g.sub.pielabel').each(function() {
         groups[$(this).attr('group')] = true;
       });
       var okg = Object.keys(groups);
@@ -455,7 +455,7 @@ module.directive('rpPieChart', ['$filter', function($filter) {
       var groupBounds;
       for (i = 0; i < okg.length; i++) {
         var group = okg[i];
-        var selection = svg.find('g.sub.pielabel[group="' + group + '"]');
+        var selection = svg.find('g.sub.pielabel[group=\'' + group + '\']');
         iterations = 0;
         do {
           temp = resolveCollisionsInSelection(selection);
@@ -496,7 +496,7 @@ module.directive('rpPieChart', ['$filter', function($filter) {
     // ]
     function resolveCollisionsInSelection(selection) {
       var bounds = [];
-      selection.each(function(){
+      selection.each(function() {
         var bbox = $(this)[0].getBBox();
         bounds.push({
           left:   bbox.x,

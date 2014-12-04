@@ -4,8 +4,8 @@
  * The auth flow service manages the login, unlock and registration procedures.
  */
 
-var webutil     = require("../util/web");
-var log         = require("../util/log");
+var webutil = require('../util/web'),
+    log     = require('../util/log');
 
 var module = angular.module('authflow', []);
 
@@ -24,7 +24,7 @@ module.factory('rpAuthFlow', ['$rootScope',
     var deviceID = opts.device_id || meta.client.generateDeviceID();
     meta.client.login(meta.username, opts.password, deviceID, function(err, resp) {
       if (err) {
-        $scope.$apply(function(){
+        $scope.$apply(function() {
           callback(err);
         });
 
@@ -32,12 +32,12 @@ module.factory('rpAuthFlow', ['$rootScope',
       }
 
       var keys = {
-        id    : resp.blob.id,
-        crypt : resp.blob.key
+        id:    resp.blob.id,
+        crypt: resp.blob.key
       };
 
-      console.log("client: authflow: login succeeded", resp.blob);
-      $scope.$apply(function(){
+      console.log('client: authflow: login succeeded', resp.blob);
+      $scope.$apply(function() {
         callback(null, resp.blob, keys, resp.username, resp.verified);
       });
     });
@@ -55,7 +55,7 @@ module.factory('rpAuthFlow', ['$rootScope',
    * @param {function} callback
    */
   AuthFlow.register = function (opts, callback) {
-    opts.activateLink = Options.activate_link; //add the email activation link
+    opts.activateLink = Options.activate_link; // add the email activation link
     opts.domain = Options.domain;
 
     var meta = AuthFlow.getVaultClient(opts.username);
@@ -63,19 +63,19 @@ module.factory('rpAuthFlow', ['$rootScope',
 
     meta.client.register(opts, function(err, resp) {
       if (err) {
-        $scope.$apply(function(){
+        $scope.$apply(function() {
           callback(err);
         });
         return;
       }
 
       var keys = {
-        id    : resp.blob.id,
-        crypt : resp.blob.key
+        id:    resp.blob.id,
+        crypt: resp.blob.key
       };
 
-      console.log("client: authflow: registration succeeded", resp.blob);
-      $scope.$apply(function(){
+      console.log('client: authflow: registration succeeded', resp.blob);
+      $scope.$apply(function() {
         callback(null, resp.blob, keys, resp.username);
       });
     });
@@ -83,8 +83,8 @@ module.factory('rpAuthFlow', ['$rootScope',
 
   AuthFlow.verify = function (opts, callback) {
     var meta = AuthFlow.getVaultClient(opts.username);
-    meta.client.verify(meta.username, opts.token, function(err, resp){
-      $scope.$apply(function(){
+    meta.client.verify(meta.username, opts.token, function(err, resp) {
+      $scope.$apply(function() {
         callback(err, resp);
       });
     });
@@ -94,8 +94,8 @@ module.factory('rpAuthFlow', ['$rootScope',
     opts.activateLink = Options.activate_link;
     var meta = AuthFlow.getVaultClient(opts.username);
     opts.username = meta.username;
-    meta.client.resendEmail(opts, function(err, resp){
-      $scope.$apply(function(){
+    meta.client.resendEmail(opts, function(err, resp) {
+      $scope.$apply(function() {
         callback(err, resp);
       });
     });
@@ -103,8 +103,8 @@ module.factory('rpAuthFlow', ['$rootScope',
 
   AuthFlow.rename = function (opts, callback) {
     var meta = AuthFlow.getVaultClient(opts.username);
-    meta.client.rename(opts, function(err, resp){
-      $scope.$apply(function(){
+    meta.client.rename(opts, function(err, resp) {
+      $scope.$apply(function() {
         callback(err, resp);
       });
     });
@@ -113,29 +113,29 @@ module.factory('rpAuthFlow', ['$rootScope',
   AuthFlow.relogin = function (url, keys, deviceID, callback) {
     var meta = AuthFlow.getVaultClient('');
     if (!deviceID) deviceID = meta.client.generateDeviceID();
-    meta.client.relogin(url, keys.id, keys.crypt, deviceID, function(err, resp){
-        if (err) {
-          callback(err);
-          return;
-        }
+    meta.client.relogin(url, keys.id, keys.crypt, deviceID, function(err, resp) {
+      if (err) {
+        callback(err);
+        return;
+      }
 
-       callback(null, resp.blob);
+      callback(null, resp.blob);
     });
   };
 
   AuthFlow.unlock = function (username, password, callback) {
     if (!$scope.userBlob) {
-      $scope.$apply(function(){
-        callback(new Error("Blob not found"));
+      $scope.$apply(function() {
+        callback(new Error('Blob not found'));
       });
       return;
     }
 
     var meta = AuthFlow.getVaultClient(username);
-    var encrypted_secret = $scope.userBlob.encrypted_secret;
-    meta.client.unlock(meta.username, password, encrypted_secret, function (err, resp){
-      setImmediate(function(){
-        $scope.$apply(function(){
+    var encryptedSecret = $scope.userBlob.encrypted_secret;
+    meta.client.unlock(meta.username, password, encryptedSecret, function (err, resp) {
+      setImmediate(function() {
+        $scope.$apply(function() {
           callback(err, resp);
         });
       });
@@ -145,28 +145,25 @@ module.factory('rpAuthFlow', ['$rootScope',
   AuthFlow.recoverBlob = function (username, masterkey, callback) {
     var meta = AuthFlow.getVaultClient(username);
 
-    meta.client.getAuthInfo(username, function(err, authInfo){
+    meta.client.getAuthInfo(username, function(err, authInfo) {
       if (err) {
-        $scope.$apply(function(){
+        $scope.$apply(function() {
           callback(err);
         });
-
       } else if (!authInfo.exists) {
-        $scope.$apply(function(){
-          callback(new Error ("User does not exist."));
+        $scope.$apply(function() {
+          callback(new Error ('User does not exist.'));
         });
-
       } else {
         var options = {
-          url       : authInfo.blobvault,
-          username  : authInfo.username, //must use actual username
-          masterkey : masterkey
+          url:       authInfo.blobvault,
+          username:  authInfo.username, // must use actual username
+          masterkey: masterkey
         };
         meta.client.recoverBlob(options, function (err, resp) {
           setImmediate(function() {
             $scope.$apply(function() {
-
-              //need the actual username for the change password call
+              // need the actual username for the change password call
               if (resp) {
                 resp.username = authInfo.username;
               }
@@ -176,23 +173,22 @@ module.factory('rpAuthFlow', ['$rootScope',
           });
         });
       }
-
     });
   };
 
   AuthFlow.changePassword = function (options, callback) {
     var meta = AuthFlow.getVaultClient(options.username);
 
-    meta.client.changePassword(options, function(err, resp){
-      $scope.$apply(function(){
+    meta.client.changePassword(options, function(err, resp) {
+      $scope.$apply(function() {
         callback(err, resp);
       });
     });
   };
 
-  AuthFlow.requestToken = function (url, id, force_sms, callback) {
+  AuthFlow.requestToken = function (url, id, forceSms, callback) {
     var meta = AuthFlow.getVaultClient('');
-    meta.client.requestToken(url, id, force_sms, function(err, resp){
+    meta.client.requestToken(url, id, forceSms, function(err, resp) {
       $scope.$apply(function() {
         callback(err, resp);
       });
@@ -205,7 +201,7 @@ module.factory('rpAuthFlow', ['$rootScope',
       options.device_id = meta.client.generateDeviceID();
     }
 
-    meta.client.verifyToken(options, function(err, resp){
+    meta.client.verifyToken(options, function(err, resp) {
       $scope.$apply(function() {
         callback(err, resp);
       });
@@ -259,7 +255,7 @@ module.factory('rpAuthFlow', ['$rootScope',
     if (atSign !== -1) {
       meta = {
         username: username.substring(0, atSign),
-        domain: username.substring(atSign+1)
+        domain: username.substring(atSign + 1)
       };
     }
 

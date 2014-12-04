@@ -21,13 +21,8 @@ PrivacypolicyTab.prototype.angular = function (module) {
   module.controller('PrivacypolicyCtrl', ['$scope', '$element',
     function ($scope, $element)
     {
-
       angular.element('nav').hide();
-
     }]);
-
 };
-
-
 
 module.exports = PrivacypolicyTab;

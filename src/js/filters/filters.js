@@ -12,22 +12,21 @@ var currencies = require('../data/currencies');
  */
 module.filter('rpamount', function () {
   return function (input, options) {
-
     var currency;
     var opts = jQuery.extend(true, {}, options);
 
-    if ("number" === typeof opts) {
+    if ('number' === typeof opts) {
       opts = {
         rel_min_precision: opts
       };
-    } else if ("object" !== typeof opts) {
+    } else if ('object' !== typeof opts) {
       opts = {};
     }
 
-    if (!input) return "n/a";
+    if (!input) return 'n/a';
 
-    if (opts.xrp_human && input === ("" + parseInt(input, 10))) {
-      input = input + ".0";
+    if (opts.xrp_human && input === ('' + parseInt(input, 10))) {
+      input = input + '.0';
     }
 
     var origPrecision = opts.precision;
@@ -39,7 +38,7 @@ module.filter('rpamount', function () {
     }
 
     // if hard_precision is true, do not allow precision & min_precision to be overridden
-    if (! opts.hard_precision && input._is_native) {
+    if (!opts.hard_precision && input._is_native) {
       // If XRP, then set standard precision here
       currency = currencies[0].standard_precision;
       opts.min_precision = currency;
@@ -48,7 +47,7 @@ module.filter('rpamount', function () {
 
     var amount = Amount.from_json(input);
 
-    if (!amount.is_valid()) return "n/a";
+    if (!amount.is_valid()) return 'n/a';
 
     // if abs_precision is passed, bypass entire currency look up (for loop - expensive)
     if (opts.abs_precision) {
@@ -58,7 +57,7 @@ module.filter('rpamount', function () {
       return amount.to_human(opts);
     }
 
-    if (! opts.hard_precision) {
+    if (!opts.hard_precision) {
       // Currency default precision
       for (var i = 0; i < currencies.length; i++) {
         if (currencies[i].value === amount.currency().to_human()) {
@@ -74,17 +73,17 @@ module.filter('rpamount', function () {
 
     var amtHuman = amount.to_human();
     if ((amtHuman < 0.01 && amtHuman > 0) ||
-      ("number" === typeof opts.tiny_precision && amtHuman < 0.1)) {
-        // We attempt to show the entire number, by setting opts.precision to a high number... 100
-        opts.precision = 100;
+      ('number' === typeof opts.tiny_precision && amtHuman < 0.1)) {
+      // We attempt to show the entire number, by setting opts.precision to a high number... 100
+      opts.precision = 100;
     }
 
-    var cdp = ("undefined" !== typeof currency) ? currency : 4;
+    var cdp = ('undefined' !== typeof currency) ? currency : 4;
     // Certain formatting options are relative to the currency default precision
-    if ("number" === typeof opts.rel_precision) {
+    if ('number' === typeof opts.rel_precision) {
       opts.precision = cdp + opts.rel_precision;
     }
-    if ("number" === typeof opts.rel_min_precision) {
+    if ('number' === typeof opts.rel_min_precision) {
       opts.min_precision = cdp + opts.rel_min_precision;
     }
 
@@ -98,11 +97,11 @@ module.filter('rpamount', function () {
     // tiny_precision is for tiny numbers e.g a value of 5 would format:
     // 0.000000000012866401 as
     // 0.000000000012866
-    if ("number" === typeof opts.tiny_precision) {
+    if ('number' === typeof opts.tiny_precision) {
       var reformat = false;
       var outs = out.split('.');
 
-      if (+outs[0].replace(',','') >= 1) {
+      if (+outs[0].replace(',', '') >= 1) {
         // if integer is not zero, format with original precision
         if (opts.hard_precision) {
           opts.precision = origPrecision;
@@ -149,7 +148,7 @@ module.filter('rpamount', function () {
  */
 module.filter('rpcurrency', function () {
   return function (input) {
-    if (!input) return "";
+    if (!input) return '';
 
     var currency;
     if (input instanceof Currency) {
@@ -168,7 +167,7 @@ module.filter('rpcurrency', function () {
  */
 module.filter('rpissuer', function () {
   return function (input) {
-    if (!input) return "";
+    if (!input) return '';
 
     var amount = Amount.from_json(input);
     return amount.issuer().to_json();
@@ -180,10 +179,10 @@ module.filter('rpissuer', function () {
  */
 module.filter('rpcurrencyfull', ['$rootScope', function ($scope) {
   return function (input) {
-    if (!input) return "";
+    if (!input) return '';
 
     var amount = Amount.from_json(input);
-    var currency = $.grep($scope.currencies_all, function(e){ return e.value == amount.currency().to_human(); })[0];
+    var currency = $.grep($scope.currencies_all, function(e) { return e.value == amount.currency().to_human(); })[0];
 
     if (currency) {
       return currency.name;
@@ -254,14 +253,14 @@ module.filter('rpfromnow', function () {
  *
  * Shows a ripple name for a given ripple address
  */
-module.filter("rpripplename", ['$rootScope', '$http', 'rpId', function($scope, $http, $id) {
+module.filter('rpripplename', ['$rootScope', '$http', 'rpId', function($scope, $http, $id) {
   return function(address, options) {
     var ripplename = $id.resolveNameSync(address, options);
     if (ripplename !== address) {
       return ripplename;
     }
     if (address.length > 21) {
-      return address.substring(0, 7) + "…";
+      return address.substring(0, 7) + '…';
     }
     return address;
   }
@@ -272,12 +271,12 @@ module.filter("rpripplename", ['$rootScope', '$http', 'rpId', function($scope, $
  */
 module.filter('rpcontactname', ['$rootScope', function ($scope) {
   return function (address) {
-    address = address ? ""+address : "";
+    address = address ? '' + address : '';
 
     var contact = webutil.getContact($scope.userBlob.data.contacts, address);
 
     if (!contact) {
-      return address.substring(0, 7) + "…";
+      return address.substring(0, 7) + '…';
     }
 
     return contact.name;
@@ -286,11 +285,11 @@ module.filter('rpcontactname', ['$rootScope', function ($scope) {
 
 module.filter('rpcontactnamefull', ['$rootScope', function ($scope) {
   return function (address) {
-    address = address ? ""+address : "";
+    address = address ? '' + address : '';
     var contact = webutil.getContact($scope.userBlob.data.contacts, address);
 
     if (!contact) {
-      return "" + address;
+      return '' + address;
     }
 
     return contact.name;
@@ -299,7 +298,7 @@ module.filter('rpcontactnamefull', ['$rootScope', function ($scope) {
 
 module.filter('rponlycontactname', ['$rootScope', function ($scope) {
   return function (address) {
-    address = address ? ""+address : "";
+    address = address ? '' + address : '';
 
     var contact = webutil.getContact($scope.userBlob.data.contacts, address);
 
@@ -316,8 +315,8 @@ module.filter('rponlycontactname', ['$rootScope', function ($scope) {
  */
 module.filter('rpmask', function () {
   return function (pass) {
-    pass = ""+pass;
-    return Array(pass.length+1).join("•");
+    pass = '' + pass;
+    return Array(pass.length + 1).join('•');
   };
 });
 
@@ -339,7 +338,7 @@ module.filter('rptruncate', function () {
  * @see http://stackoverflow.com/questions/3758606
  */
 module.filter('rpfilesize', function () {
-  function number_format( number, decimals, dec_point, thousands_sep ) {
+  function numberFormat(number, decimals, decPoint, thousandsSep) {
     // http://kevin.vanzonneveld.net
     // +   original by: Jonas Raoni Soares Silva (http://www.jsfromhell.com)
     // +   improved by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
@@ -347,35 +346,35 @@ module.filter('rpfilesize', function () {
     // +     bugfix by: Benjamin Lupton
     // +     bugfix by: Allan Jensen (http://www.winternet.no)
     // +    revised by: Jonas Raoni Soares Silva (http://www.jsfromhell.com)
-    // *     example 1: number_format(1234.5678, 2, '.', '');
+    // *     example 1: numberFormat(1234.5678, 2, '.', '');
     // *     returns 1: 1234.57
 
     var n = number, c = isNaN(decimals = Math.abs(decimals)) ? 2 : decimals;
-    var d = dec_point === undefined ? "," : dec_point;
-    var t = thousands_sep === undefined ? "." : thousands_sep, s = n < 0 ? "-" : "";
-    var i = parseInt(n = Math.abs(+n || 0).toFixed(c), 10) + "", j = (j = i.length) > 3 ? j % 3 : 0;
+    var d = decPoint === undefined ? ',' : decPoint;
+    var t = thousandsSep === undefined ? '.' : thousandsSep, s = n < 0 ? '-' : '';
+    var i = parseInt(n = Math.abs(+n || 0).toFixed(c), 10) + '', j = (j = i.length) > 3 ? j % 3 : 0;
 
-    return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
+    return s + (j ? i.substr(0, j) + t : '') + i.substr(j).replace(/(\d{3})(?=\d)/g, '$1' + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : '');
   }
 
   // SI (International System of Units)
   // e.g. 1000 bytes = 1 kB
   var unit = 1000;
-  var prefixes = "kMGTPE";
-  var common = "B";
+  var prefixes = 'kMGTPE';
+  var common = 'B';
 
   // Binary system
   // e.g. 1024 bytes = 1 KiB
-  //var unit = 1024
-  //var prefixes = "KMGTPE";
-  //var common = "iB";
+  // var unit = 1024
+  // var prefixes = "KMGTPE";
+  // var common = "iB";
 
   return function (str) {
     var bytes = +str;
-    if (bytes < unit) return bytes + " B";
+    if (bytes < unit) return bytes + ' B';
     var exp = Math.floor(Math.log(bytes) / Math.log(unit));
-    var pre = " "+prefixes[exp-1] + common;
-    return number_format(bytes / Math.pow(unit, exp), 2, '.', '')+pre;
+    var pre = ' ' + prefixes[exp - 1] + common;
+    return numberFormat(bytes / Math.pow(unit, exp), 2, '.', '') + pre;
   };
 });
 
@@ -384,7 +383,7 @@ module.filter('rpfilesize', function () {
  */
 module.filter('rpucfirst', function () {
   return function (str) {
-    str = ""+str;
+    str = '' + str;
     return str.charAt(0).toUpperCase() + str.slice(1);
   };
 });

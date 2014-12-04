@@ -64,9 +64,9 @@ BalanceTab.prototype.angular = function (module)
     function updateExchangeRates() {
       var currencies = [];
       var hasNegative = false;
-      for (var cur in $scope.balances) {if ($scope.balances.hasOwnProperty(cur)){
+      for (var cur in $scope.balances) {if ($scope.balances.hasOwnProperty(cur)) {
         var components = $scope.balances[cur].components;
-        for (var issuer in components) {if (components.hasOwnProperty(issuer)){
+        for (var issuer in components) {if (components.hasOwnProperty(issuer)) {
           // While we're at it, check for negative balances:
           hasNegative || (hasNegative = components[issuer].is_negative());
           currencies.push({
@@ -76,16 +76,16 @@ BalanceTab.prototype.angular = function (module)
         }}
       }}
       $scope.hasNegative = hasNegative;
-      var pairs = currencies.map(function(c){
+      var pairs = currencies.map(function(c) {
         return {
-          base:c,
-          counter:{currency:'XRP'}
+          base:    c,
+          counter: {currency: 'XRP'}
         };
       });
       if (pairs.length) {
         $scope.exchangeRatesNonempty = false;
         $http.post('https://api.ripplecharts.com/api/exchangeRates', {pairs: pairs, last: true})
-        .success(function(response){
+        .success(function(response) {
           for (var i = 0; i < response.length; i++) {
             var pair = response[i];
             if (pair.last > 0) { // Disregard unmarketable assets
@@ -103,7 +103,7 @@ BalanceTab.prototype.angular = function (module)
 
     $scope.$on('$balancesUpdate', updateExchangeRates);
 
-    $scope.$watch('exchangeRates', function(){
+    $scope.$watch('exchangeRates', function() {
       if ($scope.exchangeRates) {
         var isAmbiguous = {};
         var okser = Object.keys($scope.exchangeRates);
@@ -120,7 +120,7 @@ BalanceTab.prototype.angular = function (module)
             }
           }
         }
-        $scope.valueMetrics = okser.map(function(code){
+        $scope.valueMetrics = okser.map(function(code) {
           var curIssuer = code.split(':');
           var currencyName = $filter('rpcurrency')(ripple.Amount.from_human('0 ' + curIssuer[0])); // This is really messy
           var issuerName = curIssuer.length > 1 ? $filter('rpripplename')(curIssuer[1], false) : '';
@@ -143,10 +143,10 @@ BalanceTab.prototype.angular = function (module)
     function updateAggregateValueAsXrp() {
       if ($scope.account.Balance) {
         var av = $scope.account.Balance / 1000000;
-        for (var cur in $scope.balances) {if ($scope.balances.hasOwnProperty(cur)){
+        for (var cur in $scope.balances) {if ($scope.balances.hasOwnProperty(cur)) {
           var components = $scope.balances[cur].components;
-          for (var issuer in components) {if (components.hasOwnProperty(issuer)){
-            var rate = ( $scope.exchangeRates[cur + ':' + issuer] || 0);
+          for (var issuer in components) {if (components.hasOwnProperty(issuer)) {
+            var rate = ($scope.exchangeRates[cur + ':' + issuer] || 0);
             var sbAsXrp = components[issuer].to_number() * rate;
             av += sbAsXrp;
           }}
@@ -220,7 +220,7 @@ BalanceTab.prototype.angular = function (module)
         ledger_index_min: -1
       };
 
-      var getTx = function(){
+      var getTx = function() {
         $network.remote.request_account_tx(params)
         .on('success', function(data) {
           if (data.transactions.length) {
@@ -266,7 +266,7 @@ BalanceTab.prototype.angular = function (module)
       history = [];
       $scope.trendValueAsPercentage = undefined;
 
-      getDateRangeHistory(dateMin, dateMax, function(hist){
+      getDateRangeHistory(dateMin, dateMax, function(hist) {
         $scope.$apply(function () {
           history = hist;
           updateTrend();
@@ -277,7 +277,7 @@ BalanceTab.prototype.angular = function (module)
     var updateTrend = function() {
       $scope.trendMap = {};
       var trendMap = _.reduce(history, function(map, event) {
-          _.forEach(event.effects, function(effect){
+          _.forEach(event.effects, function(effect) {
             switch (effect.type) {
               case 'fee':
               case 'balance_change':
@@ -315,7 +315,7 @@ BalanceTab.prototype.angular = function (module)
     function updateTrendValue() {
       if (!$scope.trendMap) return;
       var av = $scope.aggregateValueAsXrp;
-      for (var cur in $scope.trendMap) {if ($scope.trendMap.hasOwnProperty(cur)){
+      for (var cur in $scope.trendMap) {if ($scope.trendMap.hasOwnProperty(cur)) {
         var rate = ($scope.exchangeRates[cur] || 0);
         var sbAsXrp = $scope.trendMap[cur] * rate;
         av -= sbAsXrp;
@@ -384,8 +384,8 @@ BalanceTab.prototype.angular = function (module)
           return;
         }
         var accounts = gateway.accounts;
-        accounts.forEach(function(account){
-          account.currencies.forEach(function(currency){
+        accounts.forEach(function(account) {
+          account.currencies.forEach(function(currency) {
             if (currency === selectedCurrency) {
               issuerAddress = account.address;
             }

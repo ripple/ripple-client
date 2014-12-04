@@ -5,9 +5,9 @@
  */
 
 // TODO build a blobPrototype.
-// There's currently a code repetition between blobLocal and blobRemote..
+// There's currently a code repetition between blobLocal and blobRemote.
 
-var webutil = require("../util/web");
+var webutil = require('../util/web');
 
 var module = angular.module('blob', []);
 
@@ -25,19 +25,19 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
   // Do NOT change the mapping of existing ops
   BlobObj.ops = {
     // Special
-    "noop": 0,
+    noop: 0,
 
     // Simple ops
-    "set": 16,
-    "unset": 17,
-    "extend": 18,
+    set: 16,
+    unset: 17,
+    extend: 18,
 
     // Meta ops
-    "push": 32,
-    "pop": 33,
-    "shift": 34,
-    "unshift": 35,
-    "filter": 36
+    push: 32,
+    pop: 33,
+    shift: 34,
+    unshift: 35,
+    filter: 36
   };
 
   BlobObj.opsReverseMap = [];
@@ -50,7 +50,7 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
    */
   BlobObj.get = function(url, id, callback)
   {
-    if (url.indexOf("://") === -1) url = "http://" + url;
+    if (url.indexOf('://') === -1) url = 'http://' + url;
 
     $.ajax({
       url: url + '/v1/blob/' + id,
@@ -60,15 +60,15 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
       .success(function (data) {
         setImmediate(function () {
           $scope.$apply(function () {
-            if (data.result === "success") {
+            if (data.result === 'success') {
               callback(null, data);
             } else {
-              callback(new Error("Incorrect Ripple name or password."));
+              callback(new Error('Incorrect Ripple name or password.'));
             }
           });
         });
       })
-      .error(webutil.getAjaxErrorHandler(callback, "BlobVault GET"));
+      .error(webutil.getAjaxErrorHandler(callback, 'BlobVault GET'));
   };
 
   /**
@@ -93,7 +93,7 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
       blob.encrypted_secret = data.encrypted_secret;
 
       if (!blob.decrypt(data.blob)) {
-        callback(new Error("Error while decrypting blob"));
+        callback(new Error('Error while decrypting blob'));
       }
 
       // Apply patches
@@ -108,9 +108,9 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
 
       // HOTFIX: Workaround for old staging accounts that have the secret stored in the blob
       //         This is NOT needed for any production accounts and will be removed in the future.
-      if (blob.encrypted_secret === "" &&
-          "object" === typeof blob.data &&
-          "string" === typeof blob.data.encrypted_secret) {
+      if (blob.encrypted_secret === '' &&
+          'object' === typeof blob.data &&
+          'string' === typeof blob.data.encrypted_secret) {
         blob.encrypted_secret = blob.data.encrypted_secret;
       }
 
@@ -153,7 +153,7 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
     }
 
     var config = {
-      method: "POST",
+      method: 'POST',
       url: opts.url + '/v1/user',
       data: {
         blob_id: opts.id,
@@ -170,15 +170,15 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
 
     $http(BlobObj.signRequestAsymmetric(config, opts.masterkey, opts.account, opts.id))
     .success(function (data) {
-      if (data.result === "success") {
+      if (data.result === 'success') {
         callback(null, blob, data);
       } else {
-        callback(new Error("Could not create blob"));
+        callback(new Error('Could not create blob'));
       }
     })
-//    .error(webutil.getAjaxErrorHandler(callback, "BlobVault POST /v1/user"));
-    .error(function(err){
-      console.log('err',err);
+//    .error(webutil.getAjaxErrorHandler(callback, 'BlobVault POST /v1/user'));
+    .error(function(err) {
+      console.log('err', err);
     });
   };
 
@@ -188,16 +188,16 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
       url: opts.url + '/v1/user/' + opts.username + '/verify/' + opts.token
     })
     .success(function(data, status, headers, config) {
-      if (data.result === "success") {
+      if (data.result === 'success') {
         callback(null, data);
       } else {
-        console.log("client: blob: could not verify:", data);
-        callback(new Error("Failed to verify the account"));
+        console.log('client: blob: could not verify:', data);
+        callback(new Error('Failed to verify the account'));
       }
     })
     .error(function(data, status, headers, config) {
-      console.log("client: blob: could not verify: "+status+" - "+data);
-      callback(new Error("Failed to verify the account - XHR error"));
+      console.log('client: blob: could not verify: ' + status + ' - ' + data);
+      callback(new Error('Failed to verify the account - XHR error'));
     });
   };
 
@@ -216,22 +216,22 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
 
     $http(BlobObj.signRequestAsymmetric(config, opts.masterkey, this.data.account_id, this.id))
       .success(function(data, status, headers, config) {
-        if (data.result === "success") {
+        if (data.result === 'success') {
           callback(null, data);
         } else {
-          console.log("client: blob: could not resend the token:", data);
-          callback(new Error("Failed to resend the token"));
+          console.log('client: blob: could not resend the token:', data);
+          callback(new Error('Failed to resend the token'));
         }
       })
       .error(function(data, status, headers, config) {
-        console.log("client: blob: could not resend the token:", data);
-        callback(new Error("Failed to resend the token"));
+        console.log('client: blob: could not resend the token:', data);
+        callback(new Error('Failed to resend the token'));
       });
   };
 
   var cryptConfig = {
-    cipher: "aes",
-    mode: "ccm",
+    cipher: 'aes',
+    mode: 'ccm',
     // tag length
     ts: 64,
     // key size
@@ -266,12 +266,12 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
     var version = sjcl.bitArray.extract(encryptedBits, 0, 8);
 
     if (version !== 0) {
-      throw new Error("Unsupported encryption version: "+version);
+      throw new Error('Unsupported encryption version: ' + version);
     }
 
     var encrypted = $.extend({}, cryptConfig, {
-      iv: sjcl.codec.base64.fromBits(sjcl.bitArray.bitSlice(encryptedBits, 8, 8+128)),
-      ct: sjcl.codec.base64.fromBits(sjcl.bitArray.bitSlice(encryptedBits, 8+128))
+      iv: sjcl.codec.base64.fromBits(sjcl.bitArray.bitSlice(encryptedBits, 8, 8 + 128)),
+      ct: sjcl.codec.base64.fromBits(sjcl.bitArray.bitSlice(encryptedBits, 8 + 128))
     });
 
     return sjcl.decrypt(key, JSON.stringify(encrypted));
@@ -295,7 +295,7 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
       this.data = JSON.parse(decrypt(this.key, data));
       return this;
     } catch (e) {
-      console.log("client: blob: decryption failed", e.toString());
+      console.log('client: blob: decryption failed', e.toString());
       console.log(e.stack);
       return false;
     }
@@ -314,7 +314,7 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
 
       return true;
     } catch (err) {
-      console.log("client: blob: failed to apply patch:", err.toString());
+      console.log('client: blob: failed to apply patch:', err.toString());
       console.log(err.stack);
       return false;
     }
@@ -322,9 +322,9 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
 
   BlobObj.prototype.consolidate = function (callback) {
     // Callback is optional
-    if ("function" !== typeof callback) callback = $.noop;
+    if ('function' !== typeof callback) callback = $.noop;
 
-    console.log("client: blob: consolidation at revision", this.revision);
+    console.log('client: blob: consolidation at revision', this.revision);
     var encrypted = this.encrypt();
 
     var config = {
@@ -340,53 +340,53 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
 
     $http(BlobObj.signRequestHmac(config, this.data.auth_secret, this.id))
       .success(function(data, status, headers, config) {
-        if (data.result === "success") {
+        if (data.result === 'success') {
           callback(null, data);
         } else {
-          console.log("client: blob: could not consolidate:", data);
-          callback(new Error("Failed to consolidate blob"));
+          console.log('client: blob: could not consolidate:', data);
+          callback(new Error('Failed to consolidate blob'));
         }
       })
       .error(function(data, status, headers, config) {
-        console.log("client: blob: could not consolidate: "+status+" - "+data);
+        console.log('client: blob: could not consolidate: ' + status + ' - ' + data);
 
         // XXX Add better error information to exception
-        callback(new Error("Failed to consolidate blob - XHR error"));
+        callback(new Error('Failed to consolidate blob - XHR error'));
       });
   };
 
   BlobObj.escapeToken = function (token) {
-    return token.replace(/[~\/]/g, function (key) { return key === "~" ? "~0" : "~1"; });
+    return token.replace(/[~\/]/g, function (key) { return key === '~' ? '~0' : '~1'; });
   };
   BlobObj.prototype.escapeToken = BlobObj.escapeToken;
 
   var unescapeToken = function(str) {
     return str.replace(/~./g, function(m) {
       switch (m) {
-      case "~0":
-        return "~";
-      case "~1":
-        return "/";
+      case '~0':
+        return '~';
+      case '~1':
+        return '/';
       }
-      throw("Invalid tilde escape: " + m);
+      throw('Invalid tilde escape: ' + m);
     });
   };
 
   BlobObj.prototype.applyUpdate = function (op, path, params) {
     // Exchange from numeric op code to string
-    if ("number" === typeof op) {
+    if ('number' === typeof op) {
       op = BlobObj.opsReverseMap[op];
     }
-    if ("string" !== typeof op) {
-      throw new Error("Blob update op code must be a number or a valid op id string");
+    if ('string' !== typeof op) {
+      throw new Error('Blob update op code must be a number or a valid op id string');
     }
 
-    // Separate each step in the "pointer"
-    var pointer = path.split("/");
+    // Separate each step in the 'pointer'
+    var pointer = path.split('/');
 
     var first = pointer.shift();
-    if (first !== "") {
-      throw new Error("Invalid JSON pointer: "+path);
+    if (first !== '') {
+      throw new Error('Invalid JSON pointer: ' + path);
     }
 
     this._traverse(this.data, pointer, path, op, params);
@@ -401,16 +401,16 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
       if (part === '-') {
         part = context.length;
       } else if (part % 1 !== 0 && part >= 0) {
-        throw new Error("Invalid pointer, array element segments must be " +
-                        "a positive integer, zero or '-'");
+        throw new Error('Invalid pointer, array element segments must be '
+                        + 'a positive integer, zero or "-"');
       }
-    } else if ("object" !== typeof context) {
+    } else if ('object' !== typeof context) {
       return null;
     } else if (!context.hasOwnProperty(part)) {
       // Some opcodes create the path as they're going along
-      if (op === "set") {
+      if (op === 'set') {
         context[part] = {};
-      } else if (op === "unshift") {
+      } else if (op === 'unshift') {
         context[part] = [];
       } else {
         return null;
@@ -423,42 +423,42 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
     }
 
     switch (op) {
-    case "set":
+    case 'set':
       context[part] = params[0];
       break;
-    case "unset":
+    case 'unset':
       if (Array.isArray(context)) {
         context.splice(part, 1);
       } else {
         delete context[part];
       }
       break;
-    case "extend":
-      if ("object" !== typeof context[part]) {
-        throw new Error("Tried to extend a non-object");
+    case 'extend':
+      if ('object' !== typeof context[part]) {
+        throw new Error('Tried to extend a non-object');
       }
       $.extend(context[part], params[0]);
       break;
-    case "unshift":
-      if ("undefined" === typeof context[part]) {
+    case 'unshift':
+      if ('undefined' === typeof context[part]) {
         context[part] = [];
       } else if (!Array.isArray(context[part])) {
-        throw new Error("Operator 'unshift' must be applied to an array.");
+        throw new Error('Operator "unshift" must be applied to an array.');
       }
       context[part].unshift(params[0]);
       break;
-    case "filter":
+    case 'filter':
       if (Array.isArray(context[part])) {
         context[part].forEach(function (element, i) {
-          if ("object" === typeof element &&
+          if ('object' === typeof element &&
               element.hasOwnProperty(params[0]) &&
               element[params[0]] === params[1]) {
-            var subpointer = originalPointer+"/"+i;
+            var subpointer = originalPointer + '/' + i;
             var subcommands = normalizeSubcommands(params.slice(2));
 
             subcommands.forEach(function (subcommand) {
               var op = subcommand[0];
-              var pointer = subpointer+subcommand[1];
+              var pointer = subpointer + subcommand[1];
               _this.applyUpdate(op, pointer, subcommand.slice(2));
             });
           }
@@ -466,7 +466,7 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
       }
       break;
     default:
-      throw new Error("Unsupported op "+op);
+      throw new Error('Unsupported op ' + op);
     }
   };
 
@@ -491,17 +491,17 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
 
   var dateAsIso8601 = (function () {
     function pad(n) {
-      return (n < 0 || n > 9 ? "" : "0") + n;
+      return (n < 0 || n > 9 ? '' : '0') + n;
     }
 
     return function dateAsIso8601() {
       var date = new Date();
-      return date.getUTCFullYear() + "-"
-        + pad(date.getUTCMonth() + 1) + "-"
-        + pad(date.getUTCDate()) + "T"
-        + pad(date.getUTCHours()) + ":"
-        + pad(date.getUTCMinutes()) + ":"
-        + pad(date.getUTCSeconds()) + ".000Z";
+      return date.getUTCFullYear() + '-'
+        + pad(date.getUTCMonth() + 1) + '-'
+        + pad(date.getUTCDate()) + 'T'
+        + pad(date.getUTCHours()) + ':'
+        + pad(date.getUTCMinutes()) + ':'
+        + pad(date.getUTCSeconds()) + '.000Z';
     };
   })();
 
@@ -545,7 +545,7 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
     ].join('\n');
   };
 
-  BlobObj.signRequestHmac = function (config, auth_secret, blob_id) {
+  BlobObj.signRequestHmac = function (config, authSecret, blobId) {
     config = $.extend({}, config);
 
     // Parse URL
@@ -557,19 +557,19 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
 
     var stringToSign = BlobObj.getStringToSign(config, parser, date, signatureType);
 
-    var hmac = new sjcl.misc.hmac(sjcl.codec.hex.toBits(auth_secret), sjcl.hash.sha512);
+    var hmac = new sjcl.misc.hmac(sjcl.codec.hex.toBits(authSecret), sjcl.hash.sha512);
     var signature = sjcl.codec.hex.fromBits(hmac.mac(stringToSign));
 
-    config.url += (parser.search ? "&" : "?") +
-      'signature=' + signature +
-      '&signature_date=' + date +
-      '&signature_blob_id=' + blob_id +
-      '&signature_type=' + signatureType;
+    config.url += (parser.search ? '&' : '?')
+      + 'signature=' + signature
+      + '&signature_date=' + date
+      + '&signature_blob_id=' + blobId
+      + '&signature_type=' + signatureType;
 
     return config;
   };
 
-  BlobObj.signRequestAsymmetric = function (config, secretKey, account, blob_id) {
+  BlobObj.signRequestAsymmetric = function (config, secretKey, account, blobId) {
     config = $.extend({}, config);
 
     // Parse URL
@@ -583,31 +583,31 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
 
     var signature = ripple.Message.signMessage(stringToSign, secretKey);
 
-    config.url += (parser.search ? "&" : "?") +
-      'signature='+webutil.base64ToBase64Url(signature)+
-      '&signature_date='+date+
-      '&signature_blob_id='+blob_id+
-      '&signature_account='+account+
-      '&signature_type='+signatureType;
+    config.url += (parser.search ? '&' : '?')
+      + 'signature=' + webutil.base64ToBase64Url(signature)
+      + '&signature_date=' + date
+      + '&signature_blob_id=' + blobId
+      + '&signature_account=' + account
+      + '&signature_type=' + signatureType;
 
     return config;
   };
 
   BlobObj.prototype.postUpdate = function (op, pointer, params, callback) {
     // Callback is optional
-    if ("function" !== typeof callback) callback = $.noop;
+    if ('function' !== typeof callback) callback = $.noop;
 
-    if ("string" === typeof op) {
+    if ('string' === typeof op) {
       op = BlobObj.ops[op];
     }
-    if ("number" !== typeof op) {
-      throw new Error("Blob update op code must be a number or a valid op id string");
+    if ('number' !== typeof op) {
+      throw new Error('Blob update op code must be a number or a valid op id string');
     }
     if (op < 0 || op > 255) {
-      throw new Error("Blob update op code out of bounds");
+      throw new Error('Blob update op code out of bounds');
     }
 
-    console.log("client: blob: submitting update", BlobObj.opsReverseMap[op], pointer, params);
+    console.log('client: blob: submitting update', BlobObj.opsReverseMap[op], pointer, params);
 
     params.unshift(pointer);
     params.unshift(op);
@@ -624,17 +624,17 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
 
     $http(BlobObj.signRequestHmac(config, this.data.auth_secret, this.id))
       .success(function(data, status, headers, config) {
-        if (data.result === "success") {
-          console.log("client: blob: saved patch as revision", data.revision);
+        if (data.result === 'success') {
+          console.log('client: blob: saved patch as revision', data.revision);
           callback(null, data);
         } else {
-          console.log("client: blob: could not save patch:", data);
-          callback(new Error("Patch could not be saved - bad result"));
+          console.log('client: blob: could not save patch:', data);
+          callback(new Error('Patch could not be saved - bad result'));
         }
       })
       .error(function(data, status, headers, config) {
-        console.log("client: blob: could not save patch: "+status+" - "+data);
-        callback(new Error("Patch could not be saved - XHR error"));
+        console.log('client: blob: could not save patch: ' + status + ' - ' + data);
+        callback(new Error('Patch could not be saved - XHR error'));
       });
   };
 
@@ -665,14 +665,14 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
 
   function normalizeSubcommands(subcommands, compress) {
     // Normalize parameter structure
-    if ("number" === typeof subcommands[0] ||
-        "string" === typeof subcommands[0]) {
+    if ('number' === typeof subcommands[0] ||
+        'string' === typeof subcommands[0]) {
       // Case 1: Single subcommand inline
       subcommands = [subcommands];
     } else if (subcommands.length === 1 &&
                Array.isArray(subcommands[0]) &&
-               ("number" === typeof subcommands[0][0] ||
-                "string" === typeof subcommands[0][0])) {
+               ('number' === typeof subcommands[0][0] ||
+                'string' === typeof subcommands[0][0])) {
       // Case 2: Single subcommand as array
       // (nothing to do)
     } else if (Array.isArray(subcommands[0])) {
@@ -682,14 +682,14 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
 
     // Normalize op name and convert strings to numeric codes
     subcommands = subcommands.map(function (subcommand) {
-      if ("string" === typeof subcommand[0]) {
+      if ('string' === typeof subcommand[0]) {
         subcommand[0] = BlobObj.ops[subcommand[0]];
       }
-      if ("number" !== typeof subcommand[0]) {
-        throw new Error("Invalid op in subcommand");
+      if ('number' !== typeof subcommand[0]) {
+        throw new Error('Invalid op in subcommand');
       }
-      if ("string" !== typeof subcommand[1]) {
-        throw new Error("Invalid path in subcommand");
+      if ('string' !== typeof subcommand[1]) {
+        throw new Error('Invalid path in subcommand');
       }
       return subcommand;
     });
@@ -716,7 +716,7 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
    */
   BlobObj.prototype.filter = function (pointer, field, value, subcommands, callback) {
     var params = Array.prototype.slice.apply(arguments);
-    if ("function" === typeof params[params.length-1]) {
+    if ('function' === typeof params[params.length - 1]) {
       callback = params.pop();
     }
     params.shift();
@@ -739,7 +739,7 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
   function deriveRecoveryEncryptionKeyFromSecret(secret) {
     var seed = ripple.Seed.from_json(secret).to_bits();
     var hmac = new sjcl.misc.hmac(seed, sjcl.hash.sha512);
-    var key = hmac.mac("ripple/hmac/recovery_encryption_key/v1");
+    var key = hmac.mac('ripple/hmac/recovery_encryption_key/v1');
     key = sjcl.bitArray.bitSlice(key, 0, 256);
     return sjcl.codec.hex.fromBits(key);
   }
@@ -755,9 +755,9 @@ module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
   };
 
   function BlobError(message, backend) {
-    this.name = "BlobError";
-    this.message = message || "";
-    this.backend = backend || "generic";
+    this.name = 'BlobError';
+    this.message = message || '';
+    this.backend = backend || 'generic';
   }
 
   BlobError.prototype = Error.prototype;

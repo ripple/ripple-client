@@ -1,8 +1,8 @@
 
 var Base58Utils = (function () {
   var alphabets = {
-    'ripple':  "rpshnaf39wBUDNEGHJKLM4PQRST7VWXYZ2bcdeCg65jkm8oFqi1tuvAxyz",
-    'bitcoin': "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"
+    ripple:  'rpshnaf39wBUDNEGHJKLM4PQRST7VWXYZ2bcdeCg65jkm8oFqi1tuvAxyz',
+    bitcoin: '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'
   };
 
   var SHA256  = function (bytes) {
@@ -30,7 +30,7 @@ var Base58Utils = (function () {
         buffer.push(alphabet[0]);
       }
 
-      return buffer.reverse().join("");
+      return buffer.reverse().join('');
     },
 
     // --> input: String
@@ -58,7 +58,7 @@ var Base58Utils = (function () {
       var bytes = sjcl.codec.bytes.fromBits(bi.toBits()).reverse();
 
       // Remove leading zeros
-      while(bytes[bytes.length-1] === 0) {
+      while (bytes[bytes.length - 1] === 0) {
         bytes.pop();
       }
 

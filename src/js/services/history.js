@@ -6,7 +6,7 @@ var module = angular.module('history', []);
 
 module.factory('rpHistory', ['$rootScope', '$http', 'rpNetwork', function ($scope, $http, network)
 {
-  var rpHistory = function(account){
+  var rpHistory = function(account) {
     this.account = account;
     this.accountObj = network.remote.account(this.account);
   };
@@ -20,7 +20,7 @@ module.factory('rpHistory', ['$rootScope', '$http', 'rpNetwork', function ($scop
     .success(function(data) {
       callback(null, data);
     })
-    .error(function(err){
+    .error(function(err) {
       callback(err);
     });
   };

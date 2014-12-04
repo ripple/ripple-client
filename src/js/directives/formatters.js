@@ -40,7 +40,7 @@ module.directive('rpPrettyIssuer', ['rpDomainAlias',
           }
 
           if (!scope.name && attr.rpPrettyIssuerOrShort) {
-            scope.name = "" + scope.issuer.substring(0, 7) + "…";
+            scope.name = scope.issuer.substring(0, 7) + '…';
           }
         }
 
@@ -60,8 +60,8 @@ module.directive('rpPrettyAmount', [function () {
     scope: {
       amount: '=rpPrettyAmount'
     },
-    template: '<span class="value">{{amount | rpamount:{reference_date:date} }}</span> ' +
-              '<span class="currency" rp-currency="amount"></span>',
+    template: '<span class="value">{{amount | rpamount:{reference_date:date} }}</span> '
+              + '<span class="currency" rp-currency="amount"></span>',
     compile: function (element, attr, linker) {
       return function (scope, element, attr) {
         scope.date = scope.date || element.inheritedData(RP_PRETTY_AMOUNT_DATE);
@@ -76,8 +76,8 @@ module.directive('rpPrettyAmountHighPrecision', [function () {
     scope: {
       amount: '=rpPrettyAmountHighPrecision'
     },
-    template: '<span class="value">{{amount | rpamount:{reference_date:date, abs_precision: 6} }}</span> ' +
-              '<span class="currency" rp-currency="amount"></span>',
+    template: '<span class="value">{{amount | rpamount:{reference_date:date, abs_precision: 6} }}</span> '
+              + '<span class="currency" rp-currency="amount"></span>',
     compile: function (element, attr, linker) {
       return function (scope, element, attr) {
         scope.date = scope.date || element.inheritedData(RP_PRETTY_AMOUNT_DATE);
@@ -128,14 +128,14 @@ module.directive('rpBindColorAmount', function () {
     restrict: 'A',
     compile: function (element, attr, linker) {
       return function (scope, element, attr) {
-        scope.$watch(attr.rpBindColorAmount, function(value){
+        scope.$watch(attr.rpBindColorAmount, function(value) {
           if (value) {
-            var parts = value.split(".");
+            var parts = value.split('.');
 
             if (parts.length === 2) { // you never know
               var decimalPart = parts[1].replace(/0(0+)$/, '0<span class="insig">$1</span>');
 
-              element[0].innerHTML = decimalPart.length > 0 ? parts[0] + "." + decimalPart : parts[0];
+              element[0].innerHTML = decimalPart.length > 0 ? parts[0] + '.' + decimalPart : parts[0];
             }
           }
         });
@@ -160,13 +160,13 @@ module.directive('rpCurrency', function () {
             currency = amount.currency();
           }
 
-          //TODO: Delete once Malika pushes her changes for trading pairs
-          mainText = currency.has_interest() ? currency.to_human().slice(0,3) + ' (-0.5%pa) - Gold' : currency.to_human();
+          // TODO: Delete once Malika pushes her changes for trading pairs
+          mainText = currency.has_interest() ? currency.to_human().slice(0, 3) + ' (-0.5%pa) - Gold' : currency.to_human();
 
           if (attr.rpCurrencyFull) {
-            var currencyInfo = $.grep(scope.currencies_all, function(e){ return e.value == mainText; })[0];
+            var currencyInfo = $.grep(scope.currencies_all, function(e) { return e.value == mainText; })[0];
             if (currencyInfo) {
-              mainText = currencyInfo.value  + " - " + currencyInfo.name;
+              mainText = currencyInfo.value  + ' - ' + currencyInfo.name;
             }
           }
 
@@ -181,10 +181,10 @@ module.directive('rpCurrency', function () {
             var helpText;
             if (interestRate > 0) {
               // Positive interest
-              helpText = "Interest: "+interestRate+" %/yr";
+              helpText = 'Interest: ' + interestRate + '%/yr';
             } else {
               // Fee
-              helpText = "Fee: "+(-interestRate)+"%/yr";
+              helpText = 'Fee: ' + (-interestRate) + '%/yr';
             }
 
             var el = $('<abbr></abbr>')

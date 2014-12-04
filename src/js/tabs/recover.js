@@ -28,7 +28,6 @@ RecoverTab.prototype.angular = function (module) {
                                   function ($scope, $element, $routeParams,
                                             $location, $id, $rootScope,
                                             popup, $timeout, $rpTracker, $authflow) {
-
     /**
      * User is already logged in
      */
@@ -50,18 +49,17 @@ RecoverTab.prototype.angular = function (module) {
     $scope.passwordError = null;
 
     $scope.submitForm = function() {
-
       // Disable submit button
       $scope.submitLoading = true;
 
       if ($scope.mode === 'recover') {
-        $authflow.recoverBlob($scope.username, $scope.masterkey, function (err, blob){
+        $authflow.recoverBlob($scope.username, $scope.masterkey, function (err, blob) {
           $scope.submitLoading = false;
 
           if (err) {
             $rpTracker.track('Recover Blob', {
-              'Status': 'error',
-              'Message': err.message
+              Status:  'error',
+              Message: err.message
             });
 
             var message = err.message || err;
@@ -80,16 +78,14 @@ RecoverTab.prototype.angular = function (module) {
           recoveredBlob       = blob;
           $scope.username     = blob.username;
           $scope.mode         = 'setPassword';
-          $scope.recoverError = null; //clear any existing errors
+          $scope.recoverError = null; // clear any existing errors
         });
-
       } else if ($scope.mode === 'setPassword') {
-
         var options = {
-          username  : $scope.username,
-          password  : $scope.password1,
-          masterkey : $scope.masterkey,
-          blob      : recoveredBlob
+          username:  $scope.username,
+          password:  $scope.password1,
+          masterkey: $scope.masterkey,
+          blob:      recoveredBlob
         };
 
         $id.changePassword(options, function(err, resp) {
@@ -97,8 +93,8 @@ RecoverTab.prototype.angular = function (module) {
 
           if (err) {
             $rpTracker.track('Change Password', {
-              'Status': 'error',
-              'Message': err.message
+              Status:  'error',
+              Message: err.message
             });
 
             $scope.passwordError = err.message || err;

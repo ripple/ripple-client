@@ -24,24 +24,22 @@ AppsTab.prototype.angular = function (module)
   module.controller('AppsCtrl', ['$scope', 'rpId', 'rpAppManager',
     function ($scope, $id, $appManager)
   {
-
-
     /**
      * Add an app
      */
-    $scope.add = function(){
+    $scope.add = function() {
       $scope.loading = true;
 
       if ($scope.app && $scope.app.rippleAddress) {
-        $appManager.getApp($scope.app.rippleAddress, function(err, app){
+        $appManager.getApp($scope.app.rippleAddress, function(err, app) {
           if (err) {
-            console.log('err',err);
+            console.log('err', err);
             $scope.error = err.message;
             return;
           }
 
           $scope.app.name = app.name;
-          $scope.userBlob.unshift("/apps", $scope.app);
+          $scope.userBlob.unshift('/apps', $scope.app);
           $scope.success = true;
 
           $scope.loading = false;

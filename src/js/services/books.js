@@ -7,10 +7,8 @@
 var module = angular.module('books', ['network']);
 var Amount = ripple.Amount;
 
-
 module.factory('rpBooks', ['rpNetwork', '$q', '$rootScope', '$filter', 'rpId',
 function(net, $q, $scope, $filter, $id) {
-
   var rowCount;
 
   function loadBook(gets, pays, taker) {
@@ -20,7 +18,7 @@ function(net, $q, $scope, $filter, $id) {
   }
 
   function filterRedundantPrices(data, action, combine) {
-    var max_rows = Options.orderbook_max_rows || 100;
+    var maxRows = Options.orderbook_max_rows || 100;
 
     var price;
     var lastprice;
@@ -30,13 +28,12 @@ function(net, $q, $scope, $filter, $id) {
 
     rowCount = 0;
     newData = _.values(_.compact(_.map(newData, function(d, i) {
-
       // This check is redundant, but saves the CPU some work
-      if (rowCount > max_rows) return;
+      if (rowCount > maxRows) return;
 
       // rippled has a bug where it shows some unfunded offers
       // We're ignoring them
-      if (d.taker_gets_funded === "0" || d.taker_pays_funded === "0")
+      if (d.taker_gets_funded === '0' || d.taker_pays_funded === '0')
         return;
 
       if (d.TakerGets.value) {
@@ -58,7 +55,7 @@ function(net, $q, $scope, $filter, $id) {
       if (!d.TakerGets.is_valid() || !d.TakerPays.is_valid())
         return;
 
-      if (action === "asks") {
+      if (action === 'asks') {
         d.price = Amount.from_quality(d.BookDirectory,
                                       d.TakerPays.currency(),
                                       d.TakerPays.issuer(), {
@@ -98,12 +95,12 @@ function(net, $q, $scope, $filter, $id) {
 
       if (d) rowCount++;
 
-      if (rowCount > max_rows) return false;
+      if (rowCount > maxRows) return false;
 
       return d;
     })));
 
-    var key = action === "asks" ? "TakerGets" : "TakerPays";
+    var key = action === 'asks' ? 'TakerGets' : 'TakerPays';
     var sum;
     _.each(newData, function (order, i) {
       if (sum) sum = order.sum = sum.add(order[key]);
@@ -117,7 +114,7 @@ function(net, $q, $scope, $filter, $id) {
     get: function(first, second, taker) {
       var asks = loadBook(first, second, taker);
       var bids = loadBook(second, first, taker);
-     
+
       var asksReady = false;
       var bidsReady = false;
 
@@ -135,9 +132,9 @@ function(net, $q, $scope, $filter, $id) {
           model.asks = filterRedundantPrices(offers, 'asks', true);
           model.updated = true;
 
-          if (! asksReady) {
+          if (!asksReady) {
             asksReady = true;
-            if (! model.ready && bidsReady) model.ready = true;
+            if (!model.ready && bidsReady) model.ready = true;
           }
         });
       }
@@ -156,9 +153,9 @@ function(net, $q, $scope, $filter, $id) {
           model.bids = filterRedundantPrices(offers, 'bids', true);
           model.updated = true;
 
-          if (! bidsReady) {
+          if (!bidsReady) {
             bidsReady = true;
-            if (! model.ready && asksReady) model.ready = true;
+            if (!model.ready && asksReady) model.ready = true;
           }
         });
       }
