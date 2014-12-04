@@ -136,7 +136,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
             p.literal(l10n) You have to be funded before you can trade
 
           //- 1. Order widgets
-          group.row.send-widgets(ng-show="account.Balance")
+          group.row.send-widgets#widgetGroup(ng-show="account.Balance")
             .col-xs-12.col-md-6(ng-repeat="type in ['buy','sell']")
               .trade-widget(ng-switch="order[type].mode")
                 .head
