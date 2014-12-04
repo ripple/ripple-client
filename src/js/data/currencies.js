@@ -111,7 +111,7 @@ module.exports = [
   {value: 'LVL', name: 'Latvian Lats', display: false, custom_trade_currency_dropdown: false, standard_precision: 2, order: 0 }, 
   {value: 'LBP', name: 'Lebanese Pound', display: false, custom_trade_currency_dropdown: false, standard_precision: 2, order: 0 }, 
   {value: 'LSL', name: 'Loti', display: false, custom_trade_currency_dropdown: false, standard_precision: 2, order: 0 }, 
-  {value: 'ZAR', name: 'Rand', display: false, custom_trade_currency_dropdown: false, standard_precision: 2, order: 0 }, 
+  {value: 'ZAR', name: 'Rand', display: true, custom_trade_currency_dropdown: true, standard_precision: 2, order: 0 }, 
   {value: 'LRD', name: 'Liberian Dollar', display: false, custom_trade_currency_dropdown: false, standard_precision: 2, order: 0 }, 
   {value: 'LYD', name: 'Libyan Dinar', display: false, custom_trade_currency_dropdown: false, standard_precision: 3, order: 0 }, 
   {value: 'LTL', name: 'Lithuanian Litas', display: false, custom_trade_currency_dropdown: false, standard_precision: 2, order: 0 }, 
@@ -184,7 +184,7 @@ module.exports = [
 
   // Precious Metals
   {value: 'XAU', name: 'Gold', display: true, custom_trade_currency_dropdown: true, standard_precision: 2, order: 0},
-  {value: 'XAU (-0.5%pa)', name: 'Gold', display: false, custom_trade_currency_dropdown: false, standard_precision: 2, order: 0},
+  {value: 'XAU (-0.5%pa)', name: 'Gold', display: false, custom_trade_currency_dropdown: true, standard_precision: 2, order: 0},
   {value: 'XAG', name: 'Silver', display: false, custom_trade_currency_dropdown: true, standard_precision: 2, order: 0},
   {value: 'XPT', name: 'Platinum', display: false, custom_trade_currency_dropdown: false, standard_precision: 2, order: 0},
 

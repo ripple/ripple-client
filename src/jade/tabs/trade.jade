@@ -40,7 +40,6 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
               input.form-control(
                 name="first_currency", type="text"
                 rp-combobox="currencies", rp-combobox-select
-                ng-pattern="validation_pattern_currency"
                 ng-model="first_currency_selected")
             .col-sm-6.col-lg-3.col-xs-11
               .description(l10n) Base Gateway
@@ -55,7 +54,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
               .description(l10n) Counter&nbsp;Currency
               input.form-control(
                 name="second_currency", type="text"
-                rp-combobox="currencies", rp-combobox-select, ng-pattern="validation_pattern_currency"
+                rp-combobox="currencies", rp-combobox-select
                 ng-model="second_currency_selected")
             .col-sm-6.col-lg-3.col-xs-12
               .description(l10n) Counter Gateway
@@ -137,7 +136,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
             p.literal(l10n) You have to be funded before you can trade
 
           //- 1. Order widgets
-          group.row.send-widgets(ng-show="account.Balance")
+          group.row.send-widgets#widgetGroup(ng-show="account.Balance")
             .col-xs-12.col-md-6(ng-repeat="type in ['buy','sell']")
               .trade-widget(ng-switch="order[type].mode")
                 .head
@@ -428,8 +427,8 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                   .col-sm-2.action
                     img(src="img/button-s.png", class="loader", ng-show="entry.cancelling")
                     button.btn-link.btn-lg.pull-right.fa.fa-times-circle(
-                      id="deleteOrder", type="button", ng-click="cancel_order()", ng-disabled="order.cancelling || editOrder.replacing", l10n)
-                    button.btn-link.btn-lg.pull-right.fa.fa-pencil-square-o(ng-click="beginEditOrder()", ng-disabled="order.cancelling || editOrder.replacing", l10n)
+                      rp-tooltip="Cancel order", id="deleteOrder", type="button", ng-click="cancel_order()", ng-disabled="order.cancelling || editOrder.replacing", l10n)
+                    button.btn-link.btn-lg.pull-right.fa.fa-pencil-square-o(rp-tooltip="Edit order", ng-click="beginEditOrder()", ng-disabled="order.cancelling || editOrder.replacing", l10n)
                 div(ng-show="editOrder.seq == entry.seq")
                   form(novalidate, name="editOrderForm", ng-show="editOrder.seq == entry.seq")
                     .value-field.col-sm-3
@@ -552,5 +551,5 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                         span(rp-bind-color-amount="order.showSum")
                   .message(ng-show='!book.asks.length', l10n) There are currently no asks for this pair.
             .foot
-              a.loadmore(ng-show="orderbookState=='ready'", href="", ng-click="loadMore()", l10n) Load more
+              a.loadmore(ng-show="orderbookState=='ready' && (book.asks.length || book.bids.length)", href="", ng-click="loadMore()", l10n) Load more
               div(ng-show="orderbookState=='full'", l10n) No more orders
