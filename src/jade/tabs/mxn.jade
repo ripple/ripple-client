@@ -12,7 +12,7 @@ section.col-xs-12.content(ng-controller='MxnCtrl')
 
   .row(ng-show='connected')
     // Transaction errors coming from errors.js & transactionerror.jade
-    group.mode-ripplerror(ng-show='mode=="error" && account.Balance')
+    group.mode-ripplerror.col-sm-12(ng-show='mode=="error" && account.Balance')
       rp-transaction-status(
         rp-engine-result="{{engine_result}}"
         rp-engine-result-message="{{engine_result_message}}"
@@ -20,7 +20,7 @@ section.col-xs-12.content(ng-controller='MxnCtrl')
         rp-current-tab="trust")
 
     //- N5. Notifications for connect new account
-    group.mode-granted.wide(ng-show='mode=="granting" && account.Balance')
+    group.mode-granted.wide.col-sm-12(ng-show='mode=="granting" && account.Balance')
       group.pending(ng-show='tx_result!=="cleared"')
         h2.tx-status(l10n) Connecting the MXN Issuer gateway to your account...
       group.result-success(ng-show='tx_result=="cleared"')
