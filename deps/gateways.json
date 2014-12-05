@@ -175,7 +175,7 @@
         "hotwallets": ["rhLSigWL4J9JBBW1JFMBvaduDkVghG7cc2"],
         "domain": "paxmoneta.com"
     }, {
-        "name": "Ripplex",
+        "name": "RippleExchangeTokyo",
         "accounts": [{
             "address": "r9ZFPSb1TFdnJwbTMYHvVwFK1bQPUCVNfJ",
             "currencies": ["JPY"]
