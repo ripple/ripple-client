@@ -213,7 +213,7 @@ header {
         border-width: 0 6px 4px 6px;
         border-color: transparent transparent @lightgray transparent;
         position: absolute;
-        bottom: 0;
+        bottom: -1px;
         left: 40%;
       }
     }
@@ -233,8 +233,7 @@ header {
 
   .subnav {
     background-color: @lightgray;
-    border-bottom: 1px solid @midgray;
-
+    position: relative;
     ul {
       list-style: none;
       margin: 0 0 0 52px;
@@ -261,8 +260,20 @@ header {
 
         &.active a {
           border-bottom: 2px solid @darkgray;
+          position: relative;
+          z-index: 2;
         }
       }
+    }
+    &:after {
+      content: "";
+      position: absolute;
+      height: 1px;
+      background-color: @midgray;
+      width: 100%;
+      left: 0;
+      bottom: 0px;
+      z-index: 1;
     }
 
     @media (max-width: @screen-xs-max) {
