@@ -45,7 +45,7 @@ module.directive('rpSlide', [function () {
           var height = element.height();
           element.stop().animate(
             {maxHeight: height},
-            500,
+            350,
             function () {
               // remove maxHeight and overflow after animation completes
               element.css('maxHeight', '');
@@ -60,7 +60,7 @@ module.directive('rpSlide', [function () {
           });
           element.stop().animate(
             {maxHeight: 0},
-            500
+            350
           );
         }
       });
