@@ -6,11 +6,17 @@
 
   div(rp-slide='show_widget_networth')
     div(ng-class="{'blank': !exchangeRatesNonempty}")
-      div(l10n)
-        span.desc(l10n-inc) In
-        select.currency(rp-flat-select, ng-model='selectedValueMetric'
-          ng-change='changeMetric(this)'
-          ng-options='metric.code as metric.text for metric in valueMetrics')
+      .row(l10n)
+        .col-xs-1(l10n-inc)
+          span.desc(l10n-inc) In
+        .col-xs-5.col-sm-3.col-md-5.col-lg-4
+          input.form-control(
+            type="text"
+            rp-combobox="valueMetrics"
+            rp-combobox-select
+            rp-combobox-small
+            ng-model="selectedValueMetric"
+            ng-change="changeMetric(this)")
 
       .desc(l10n) Estimated from latest trade price
 
