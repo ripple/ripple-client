@@ -373,6 +373,27 @@ BalanceTab.prototype.angular = function (module)
       }
     });
 
+    $scope.issuerNameToAddress = function(issuerName, selectedCurrency) {
+      if (selectedCurrency === 'XRP') {
+        return '';
+      }
+      var issuerAddress = '';
+      gateways.forEach(function(gateway) {
+        if (issuerName !== gateway.name) {
+          return;
+        }
+        var accounts = gateway.accounts;
+        accounts.forEach(function(account){
+          account.currencies.forEach(function(currency){
+            if (currency === selectedCurrency) {
+              issuerAddress = account.address;
+            }
+          });
+        });
+      });
+      return issuerAddress;
+    };
+
     $scope.first_currency_selected = 'XRP';
     $scope.second_currency_selected = 'USD';
 

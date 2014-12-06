@@ -16,57 +16,48 @@ module.directive('rpMarketChart', [function() {
       // set unique ID
       var $elem       = $(element[0]),
           id          = $elem.attr("id"),
-          windowWidth = $(window).width();
+          chart;
       if (!id) {
         id = 'marketchart-' + lastId++;
         $elem.attr('id', id);
       }
 
-      var render = function () {
-        $elem.empty();
-        var chart = PriceChartWidget({
-          id:     id,
-          width:  $elem.width() - 100,
-          height: $elem.height() - 40,
-          margin: {top: 20, right: 50, bottom: 20, left: 50},
-          resize: true
-        });
+      chart = PriceChartWidget({
+        id:     id,
+        width:  $elem.width() - 100,
+        height: $elem.height() - 40,
+        margin: {top: 20, right: 50, bottom: 20, left: 50},
+        resize: true
+      });
 
-        chart.load({
+      var render = function () {
+        if (!attrs.baseCurrency || !attrs.counterCurrency) {
+          return;
+        }
+        var options = {
           base: {
-            currency: 'XRP'
+            currency: attrs.baseCurrency,
+            issuer:   attrs.baseCurrencyIssuer
+                        ? attrs.baseCurrencyIssuer
+                        : null
           },
           counter: {
-            currency: 'USD',
-            issuer:   'rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B'
+            currency: attrs.counterCurrency,
+            issuer:   attrs.counterCurrencyIssuer
+                        ? attrs.counterCurrencyIssuer
+                        : null
           },
 
           multiple: 5,
           interval: 'minute',
           theme:    'light',
           type:     'line'
-        });
+        };
+        chart.load(options);
       };
 
-      render();
-      // $(window).resize(function () {
-      //   var currentWidth = $(window).width();
-      //   if (currentWidth !== windowWidth) {
-      //     windowWidth = currentWidth;
-      //     render();
-      //   }
-      // });
-
-      attrs.$observe('version', function(value) {
-        if (!value) {
-          return;
-        }
-
-        setVersion(value);
-        setData(data);
-        setSize(size);
-        render();
-      });
+      attrs.$observe('baseCurrencyIssuer', render);
+      attrs.$observe('counterCurrencyIssuer', render);
     }
   };
 }]);

@@ -51,4 +51,9 @@
           ng-click="/* flipCurrencies() */", l10n)
           | flip
 
-    rp-market-chart
+    rp-market-chart(
+      base-currency="{{ first_currency_selected }}"
+      base-currency-issuer="{{ issuerNameToAddress(first_issuer_selected, first_currency_selected) }}"
+      counter-currency="{{ second_currency_selected }}"
+      counter-currency-issuer="{{ issuerNameToAddress(second_issuer_selected, second_currency_selected) }}"
+      )
