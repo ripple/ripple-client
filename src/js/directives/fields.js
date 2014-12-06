@@ -227,6 +227,7 @@ module.directive('rpCombobox', [function () {
           el.val(val);
           ngModel.$setViewValue(val);
           setVisible(false);
+          el.blur();
         });
       }
 
