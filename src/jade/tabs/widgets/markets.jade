@@ -7,24 +7,48 @@
   div(rp-slide='show_widget_markets')
     .row
       //- Base currency
-      .col-xs-9.col-sm-4.col-lg-3
+      .col-xs-9.col-sm-5.col-lg-4
         .row
-          .col-xs-4
-            | XRP
-          .col-xs-8
-            | .
+          .col-xs-5
+            input.form-control(
+              name="first_currency", type="text"
+              rp-combobox="currencies", rp-combobox-select
+              rp-combobox-small
+              ng-pattern="validation_pattern_currency"
+              ng-model="first_currency_selected")
+          .col-xs-7
+            input.form-control(
+              name="first_iss", type="text", ng-disabled="disable_first_issuer"
+              rp-combobox="first_iss", rp-combobox-select
+              rp-combobox-small
+              rp-dest, rp-dest-address, rp-dest-contact, rp-dest-ripple-name, rp-dest-ripple-name-no-tilde
+              ng-model="first_issuer_selected")
       //- Flip (for sm+)
-      .hidden-xs.col-sm-2.col-lg-1
-        | flip
+      .hidden-xs.col-sm-2
+        button.btn.btn-cancel.btn-block(
+          ng-click="/* flipCurrencies() */", l10n)
+          | flip
       //- Counter currency
-      .col-xs-9.col-sm-4.col-lg-3
+      .col-xs-9.col-sm-5.col-lg-4
         .row
-          .col-xs-4
-            | USD
-          .col-xs-8
-            | Bitstamp
+          .col-xs-5
+            input.form-control(
+              name="second_currency", type="text"
+              rp-combobox="currencies", rp-combobox-select
+              rp-combobox-small
+              ng-pattern="validation_pattern_currency"
+              ng-model="second_currency_selected")
+          .col-xs-7
+            input.form-control(
+              name="second_iss", type="text", ng-disabled="disable_second_issuer"
+              rp-combobox="second_iss", rp-combobox-select
+              rp-combobox-small
+              rp-dest, rp-dest-address, rp-dest-contact, rp-dest-ripple-name, rp-dest-ripple-name-no-tilde
+              ng-model="second_issuer_selected")
       //- Flip (for xs)
       .visible-xs.col-xs-3
-        | flip
+        button.btn.btn-cancel.btn-block(
+          ng-click="/* flipCurrencies() */", l10n)
+          | flip
 
     rp-market-chart

@@ -1,7 +1,8 @@
 var util = require('util'),
     Tab = require('../client/tab').Tab,
     Amount = ripple.Amount,
-    rewriter = require('../util/jsonrewriter');
+    rewriter = require('../util/jsonrewriter'),
+    gateways = require('../../../deps/gateways.json');
 
 var BalanceTab = function ()
 {
@@ -27,6 +28,7 @@ BalanceTab.prototype.angular = function (module)
   module.controller('BalanceCtrl', ['$scope', 'rpId', 'rpNetwork', '$filter', '$http', 'rpAppManager',
                                      function ($scope, $id, $network, $filter, $http, appManager)
   {
+
     //
 
     // In the following, we get and watch for changes to data that is used to
@@ -321,6 +323,68 @@ BalanceTab.prototype.angular = function (module)
         av -= sbAsXrp;
       }}
       $scope.trendValueAsPercentage = ($scope.aggregateValueAsXrp - av) / av;
+    }
+
+    $scope.$watch('first_currency_selected', function () {
+      $scope.first_issuer_selected = "";
+      if($scope.first_currency_selected == 'XRP') {
+        $scope.disable_first_issuer = true;
+      }
+      else {
+        $scope.disable_first_issuer = false;
+        $scope.first_iss = {};
+        gateways.forEach(function(gateway) {
+          var accounts = gateway.accounts;
+          accounts.forEach(function(account){
+            account.currencies.forEach(function(currency){
+              if(currency == $scope.first_currency_selected){
+                if ($scope.first_issuer_selected === '') {
+                  $scope.first_issuer_selected = gateway.name;
+                }
+                $scope.first_iss[gateway.name] = gateway;
+              }
+            });
+          });
+        });
+      }
+    });
+
+    $scope.$watch('second_currency_selected', function () {
+      $scope.second_issuer_selected = "";
+      if($scope.second_currency_selected == 'XRP') {
+        $scope.disable_second_issuer = true;
+      }
+      else {
+        $scope.disable_second_issuer = false;
+        $scope.second_iss = {};
+        gateways.forEach(function(gateway) {
+          var accounts = gateway.accounts;
+          accounts.forEach(function(account){
+            account.currencies.forEach(function(currency){
+              if(currency == $scope.second_currency_selected){
+                if ($scope.second_issuer_selected === '') {
+                  $scope.second_issuer_selected = gateway.name;
+                }
+                $scope.second_iss[gateway.name] = gateway;
+              }
+            });
+          });
+        });
+      }
+    });
+
+    $scope.first_currency_selected = 'XRP';
+    $scope.second_currency_selected = 'USD';
+
+    $scope.validation_pattern_currency = /^[a-zA-Z]{3}/;
+
+    $scope.currencies_all = require('../data/currencies');
+    $scope.currencies = [];
+
+    for (var i = 0; i < $scope.currencies_all.length; i++) {
+      if ($scope.currencies_all[i].custom_trade_currency_dropdown) {
+        $scope.currencies.push($scope.currencies_all[i].value);
+      }
     }
 
   }]);
