@@ -394,6 +394,17 @@ BalanceTab.prototype.angular = function (module)
       return issuerAddress;
     };
 
+    $scope.flipCurrencies = function () {
+      var oldFirstCurrencySelected  = $scope.first_currency_selected,
+          oldFirstIssuerSelected    = $scope.first_issuer_selected,
+          oldSecondCurrencySelected = $scope.second_currency_selected,
+          oldSecondIssuerSelected   = $scope.second_issuer_selected;
+      $scope.first_currency_selected  = oldSecondCurrencySelected;
+      $scope.first_issuer_selected    = oldSecondIssuerSelected;
+      $scope.second_currency_selected = oldFirstCurrencySelected;
+      $scope.second_issuer_selected   = oldFirstIssuerSelected;
+    };
+
     $scope.first_currency_selected = 'XRP';
     $scope.second_currency_selected = 'USD';
 

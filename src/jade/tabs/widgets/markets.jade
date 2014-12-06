@@ -25,8 +25,8 @@
               ng-model="first_issuer_selected")
       //- Flip (for sm+)
       .hidden-xs.col-sm-2
-        button.btn.btn-cancel.btn-block(
-          ng-click="/* flipCurrencies() */", l10n)
+        button.btn.flip.btn-cancel.btn-block(
+          ng-click="flipCurrencies()", l10n)
           | flip
       //- Counter currency
       .col-xs-9.col-sm-5.col-lg-4
@@ -47,8 +47,8 @@
               ng-model="second_issuer_selected")
       //- Flip (for xs)
       .visible-xs.col-xs-3
-        button.btn.btn-cancel.btn-block(
-          ng-click="/* flipCurrencies() */", l10n)
+        button.btn.flip.btn-cancel.btn-block(
+          ng-click="flipCurrencies() ", l10n)
           | flip
 
     rp-market-chart(
