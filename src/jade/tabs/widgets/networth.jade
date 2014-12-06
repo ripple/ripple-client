@@ -1,10 +1,10 @@
 .widget.widget-networth
-  h4(ng-click='show_widget_networth=!show_widget_networth'
-    ng-init='show_widget_networth=true')
+  h4(ng-click='showWidgetNetworth=!showWidgetNetworth'
+    ng-init='showWidgetNetworth=true')
     span(l10n) Net Worth
-    i.fa.fa-fw.fa-caret-down(ng-class="{'closed': !show_widget_networth}")
+    i.fa.fa-fw.fa-caret-down(ng-class="{'closed': !showWidgetNetworth}")
 
-  div(rp-slide='show_widget_networth')
+  div(rp-slide='showWidgetNetworth')
     div(ng-class="{'blank': !exchangeRatesNonempty}")
       .row(l10n)
         .col-xs-1(l10n-inc)

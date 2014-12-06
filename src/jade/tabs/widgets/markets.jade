@@ -1,27 +1,27 @@
 .widget.widget-markets
-  h4(ng-click='show_widget_markets=!show_widget_markets'
-    ng-init='show_widget_markets=true')
+  h4(ng-click='showWidgetMarkets=!showWidgetMarkets'
+    ng-init='showWidgetMarkets=true')
     span(l10n) Markets
-    i.fa.fa-fw.fa-caret-down(ng-class="{'closed': !show_widget_markets}")
+    i.fa.fa-fw.fa-caret-down(ng-class="{'closed': !showWidgetMarkets}")
 
-  div(rp-slide='show_widget_markets')
+  div(rp-slide='showWidgetMarkets')
     .row
       //- Base currency
       .col-xs-9.col-sm-5.col-lg-4
         .row
           .col-xs-5
             input.form-control(
-              name="first_currency", type="text"
+              type="text"
               rp-combobox="currencies", rp-combobox-select
               rp-combobox-small
-              ng-pattern="validation_pattern_currency"
-              ng-model="first_currency_selected")
+              ng-pattern="validationPatternCurrency"
+              ng-model="firstCurrencySelected")
           .col-xs-7
             input.form-control(
-              name="first_iss", type="text", ng-disabled="disable_first_issuer"
-              rp-combobox="first_iss", rp-combobox-select
+              type="text", ng-disabled="disableFirstIssuer"
+              rp-combobox="firstIssuer", rp-combobox-select
               rp-combobox-small
-              ng-model="first_issuer_selected")
+              ng-model="firstIssuerSelected")
       //- Flip (for sm+)
       .hidden-xs.col-sm-2
         button.btn.flip.btn-cancel.btn-block(
@@ -32,17 +32,17 @@
         .row
           .col-xs-5
             input.form-control(
-              name="second_currency", type="text"
+              type="text"
               rp-combobox="currencies", rp-combobox-select
               rp-combobox-small
-              ng-pattern="validation_pattern_currency"
-              ng-model="second_currency_selected")
+              ng-pattern="validationPatternCurrency"
+              ng-model="secondCurrencySelected")
           .col-xs-7
             input.form-control(
-              name="second_iss", type="text", ng-disabled="disable_second_issuer"
-              rp-combobox="second_iss", rp-combobox-select
+              type="text", ng-disabled="disableSecondIssuer"
+              rp-combobox="secondIssuer", rp-combobox-select
               rp-combobox-small
-              ng-model="second_issuer_selected")
+              ng-model="secondIssuerSelected")
       //- Flip (for xs)
       .visible-xs.col-xs-3
         button.btn.flip.btn-cancel.btn-block(
@@ -50,8 +50,8 @@
           | flip
 
     rp-market-chart(
-      base-currency="{{ first_currency_selected }}"
-      base-currency-issuer="{{ issuerNameToAddress(first_issuer_selected, first_currency_selected) }}"
-      counter-currency="{{ second_currency_selected }}"
-      counter-currency-issuer="{{ issuerNameToAddress(second_issuer_selected, second_currency_selected) }}"
+      base-currency="{{ firstCurrencySelected }}"
+      base-currency-issuer="{{ issuerNameToAddress(firstIssuerSelected, firstCurrencySelected) }}"
+      counter-currency="{{ secondCurrencySelected }}"
+      counter-currency-issuer="{{ issuerNameToAddress(secondIssuerSelected, secondCurrencySelected) }}"
       )

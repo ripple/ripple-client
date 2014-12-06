@@ -1,10 +1,10 @@
 .widget.widget-assetallocation
-  h4(ng-click='show_widget_assetallocation=!show_widget_assetallocation'
-    ng-init='show_widget_assetallocation=true')
+  h4(ng-click='showWidgetAssetallocation=!showWidgetAssetallocation'
+    ng-init='showWidgetAssetallocation=true')
     span(l10n) Asset Allocation
-    i.fa.fa-fw.fa-caret-down(ng-class="{'closed': !show_widget_assetallocation}")
+    i.fa.fa-fw.fa-caret-down(ng-class="{'closed': !showWidgetAssetallocation}")
 
-  div(rp-slide='show_widget_assetallocation')
+  div(rp-slide='showWidgetAssetallocation')
     rp-pie-chart(
       ng-class="{'blank': !exchangeRatesNonempty}"
       rp-size="100%"

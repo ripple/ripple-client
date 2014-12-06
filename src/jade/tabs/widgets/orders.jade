@@ -1,10 +1,10 @@
 .widget.widget-orders
-  h4(ng-click='show_widget_orders=!show_widget_orders'
-    ng-init='show_widget_orders=true')
+  h4(ng-click='showWidgetOrders=!showWidgetOrders'
+    ng-init='showWidgetOrders=true')
     span(l10n) My Orders
-    i.fa.fa-fw.fa-caret-down(ng-class="{'closed': !show_widget_orders}")
+    i.fa.fa-fw.fa-caret-down(ng-class="{'closed': !showWidgetOrders}")
 
-  div(rp-slide='show_widget_orders')
+  div(rp-slide='showWidgetOrders')
     | 5
 
     p(ng-show="$route.current.tabName == 'balance'")

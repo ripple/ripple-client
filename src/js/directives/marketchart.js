@@ -15,7 +15,7 @@ module.directive('rpMarketChart', [function() {
     link: function($scope, element, attrs) {
       // set unique ID
       var $elem       = $(element[0]),
-          id          = $elem.attr("id"),
+          id          = $elem.attr('id'),
           chart;
       if (!id) {
         id = 'marketchart-' + lastId++;
