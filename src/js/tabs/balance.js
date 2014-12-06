@@ -126,11 +126,12 @@ BalanceTab.prototype.angular = function (module)
         }
         $scope.valueMetrics = okser.map(function(code){
           var curIssuer = code.split(":");
-          var currencyName = $filter('rpcurrency')(ripple.Amount.from_human("0 "+curIssuer[0])); //This is really messy
-          var issuerName = $filter('rpripplename')(curIssuer[1], tilde=true);
+          var currencyName = $filter('rpcurrency')(ripple.Amount.from_human("0 " + curIssuer[0])); // This is really messy
+          var issuerName = $filter('rpripplename')(curIssuer[1], false);
           return {
             code: code,
-            text: currencyName + (isAmbiguous[curIssuer[0]] ? " ("+ issuerName +")" : "")
+            name: currencyName + (isAmbiguous[curIssuer[0]] ? "." + issuerName : ""),
+            nameShort: currencyName
           };
         });
 
@@ -161,18 +162,26 @@ BalanceTab.prototype.angular = function (module)
     }
 
     function updateAggregateValueDisplayed() {
-      var metric = $scope.exchangeRates[$scope.selectedValueMetric];
+      var metric;
+      _.forEach($scope.valueMetrics, function (valueMetric) {
+        if (valueMetric.name === $scope.selectedValueMetric) {
+          $scope.selectedValueMetricCode = valueMetric.code;
+          $scope.selectedValueCurrencyShort = valueMetric.nameShort;
+          metric = $scope.exchangeRates[valueMetric.code];
+        }
+      });
+
       if (!metric) {
-        $scope.selectedValueMetric = "XRP";
+        $scope.selectedValueMetric = $scope.selectedValueMetricCode = "XRP";
         $scope.changeMetric($scope);
-        metric = $scope.exchangeRates[$scope.selectedValueMetric];
+        metric = $scope.exchangeRates[$scope.selectedValueMetricCode];
       }
 
       $scope.aggregateValueAsMetric = $scope.aggregateValueAsXrp / metric;
 
-      if($scope.selectedValueMetric === "XRP" ||
-          $scope.selectedValueMetric === "0158415500000000C1F76FF6ECB0BAC600000000:rDRXp3XC6ko3JKNh1pNrDARZzFKfBzaxyi" ||
-          $scope.selectedValueMetric === "015841551A748AD2C1F76FF6ECB0CCCD00000000:rs9M85karFkCRjvc6KMWn8Coigm9cbcgcx" )
+      if($scope.selectedValueMetricCode === "XRP" ||
+          $scope.selectedValueMetricCode === "0158415500000000C1F76FF6ECB0BAC600000000:rDRXp3XC6ko3JKNh1pNrDARZzFKfBzaxyi" ||
+          $scope.selectedValueMetricCode === "015841551A748AD2C1F76FF6ECB0CCCD00000000:rs9M85karFkCRjvc6KMWn8Coigm9cbcgcx" )
       {
         $scope.aggregateValueDisplayed = (Amount.from_json({value:($scope.aggregateValueAsMetric.toFixed(4)
             .substring(0, (($scope.aggregateValueAsXrp / metric).toFixed(4)).length - 5))})).to_human();
