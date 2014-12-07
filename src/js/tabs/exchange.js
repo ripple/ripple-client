@@ -141,7 +141,7 @@ ExchangeTab.prototype.angular = function (module)
               timer = setInterval(function(){
                 $scope.$apply(function(){
                   var seconds = Math.round((new Date() - lastUpdate) / 1000);
-                  $scope.lastUpdate = seconds ? seconds : 0;
+                  $scope.lastUpdate = seconds || 0;
                 });
               }, 1000);
 

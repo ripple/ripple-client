@@ -482,6 +482,12 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
               span(ng-show="hideOrderBook", l10n) show
               span(ng-hide="hideOrderBook", l10n) hide
           div(ng-hide="hideOrderBook")
+            .row.row-padding-small.orderbookupdate(ng-show="lastUpdate")
+              .col-xs-12.text-right(l10n) Last updated
+                span  {{lastUpdate}}
+                span(ng-show="lastUpdate > '1'", l10n-inc)  seconds
+                span(ng-show="lastUpdate == '1'", l10n-inc)  second
+                |  ago
             .listings.orders
               //- TODO hide one column (size/sum) to show bids/ask in the same line for mobile phones.
               //- TODO highlight changes
