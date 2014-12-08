@@ -1794,7 +1794,21 @@
     left: 50%;
     margin-right: -50%;
     transform: translate(-50%, -50%);
+    z-index: 1;
   }
+  .orderbook-wrapper {
+    position: relative;
+    #orderbook_loader {
+      color: @midgray;
+      text-align: center;
+      position: absolute;
+      top: 200px;
+      left: 50%;
+      margin-right: -50%;
+      transform: translate(-50%, -50%);
+      z-index: 1;
+    }
+ }
 
   .orderbook-hide {
     font-size: 85%;
@@ -2037,6 +2051,8 @@
     }
   }
 
+  .widget-myorders-table();
+
   h3 {
     margin-top: 30px;
   }
@@ -2050,8 +2066,120 @@
   .toggle:hover {
     text-decoration: underline;
   }
+  .orderlists {
+    .transition-duration(0.5s);
+  }
+  .listings {
+    padding: 0 15px;
+    border: 1px solid darken(@bg, 10%);
+    background: @bg;
 
-  .widget-myorders-table();
+    transition: 0.2s;
+    max-height: 0;
+
+    .my {
+      .head {
+        font-weight: bold;
+      }
+      .row:first-child {
+        border-top: none;
+      }
+      .row {
+        border-top: 1px solid @lightgray;
+
+        &:nth-child(even) {
+          background-color: darken(@bg, 2%);
+        }
+
+        & > div {
+          padding: 8px;
+          border-right: 1px solid @lightgray;
+        }
+
+        & > div:last-child {
+          border-right: none;
+        }
+
+        .issuer {
+          color: lighten(@black,70%);
+          font-size: 11px;
+        }
+
+        @media (max-width: @screen-xs-max) {
+          border: none;
+          padding: 4px;
+
+          & > div {
+            padding: 4px;
+            border: none;
+          }
+
+          div:before {
+            display: block;
+            width: 100px;
+            font-weight: bold;
+            text-transform: uppercase;
+            content: " "attr(data-label);
+          }
+        }
+
+        .align-right {
+          text-align: right;
+        }
+
+        .btn-link {
+          padding-left: 0px;
+          padding-right: 0px;
+        }
+
+        .btn-link[disabled] {
+          text-decoration: none;
+          color: #999999;
+        }
+
+        .form-control {
+          font-size: 14px;
+          height: 36px;
+          padding: 5px 10px;
+        }
+
+        .form-control.changed {
+          background-color: #fcf8e3;
+        }
+
+        .input-group {
+          margin-bottom: 10px;
+        }
+
+        .input-group .input-group-addon.inline-inputs-group {
+          text-align: center;
+          font-size: 10px;
+          line-height: 1;
+          padding: 10px;
+          @media(max-width: @screen-xs-max) {
+            &:before {
+              display: block;
+            }
+          }
+        }
+
+        .action {
+          padding-left: 0;
+          padding-right: 0;
+        }
+      }
+    }
+
+    .emptyMessage {
+      margin: 10px 0;
+    }
+
+    .alert {
+      line-height: 1.428571429;
+      padding: 8px;
+      float: left;
+    }
+  }
 
   .alert {
     line-height: 1;
@@ -2064,6 +2192,22 @@
 
   .alert-danger .dismiss:hover {
     color:darken(@midred, 30%);
+  }
+
+  .listings.offers {
+    max-height: 1000px;
+    overflow: auto;
+  }
+  .orderlists {
+    opacity: 1;
+    &.loading {
+      opacity: 0;
+    }
+  }
+  .listings.orders {
+    max-height: 9999px;
+    overflow: auto;
+    min-height: 720px;
   }
 
   .orderbook {
