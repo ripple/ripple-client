@@ -30,10 +30,14 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                 name='currency_pair', type='text'
                 rp-combobox="pairs_query", rp-combobox-select, ng-disabled="adding_pair",
                 ng-model='order.currency_pair')
-            .col-sm-4.col-md-4.col-xs-12(ng-hide="adding_pair")
+            .col-sm-1.col-sm-1.col-xs-6(ng-hide="adding_pair")
+              button.btn.btn-cancel.btn-block(href=""
+                ng-click="flip_issuer()", l10n)
+                | flip
+            .col-sm-3.col-md-3.col-xs-6(ng-hide="adding_pair")
               button.btn.btn-cancel.btn-block(href=""
                 ng-click="open_custom_currency_selector()", ng-disabled="adding_pair", l10n)
-                | Add custom pair
+                | add custom pair
           form.row#gateway_change_form(name="gateway_change_form", ng-show="adding_pair", ng-submit="add_pair()")
             .col-sm-4.col-lg-2.col-xs-12
               .description(l10n) Base Currency
