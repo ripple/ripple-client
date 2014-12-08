@@ -152,8 +152,6 @@ JpyTab.prototype.angular = function (module)
 
       };
 
-      };
-
     }]);
 
 };

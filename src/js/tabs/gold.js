@@ -152,8 +152,6 @@ GoldTab.prototype.angular = function (module)
 
       };
 
-      };
-
     }]);
 
 };
