@@ -477,7 +477,11 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
             small.toggle(ng-click="hideOrderBook = !hideOrderBook")
               span(ng-show="hideOrderBook", l10n) show
               span(ng-hide="hideOrderBook", l10n) hide
-          div(ng-hide="hideOrderBook")
+          div.orderbook-wrapper(ng-hide="hideOrderBook")
+            group.disconnected(ng-hide="!load_orderbook")
+              div(id="orderbook_loader")
+                img(src="img/sections.png", class="loader")
+                div(class="loading_sections", l10n) Loading Order Book
             .listings.orders
               //- TODO hide one column (size/sum) to show bids/ask in the same line for mobile phones.
               //- TODO highlight changes
