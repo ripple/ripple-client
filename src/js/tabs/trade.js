@@ -40,7 +40,7 @@ TradeTab.prototype.angular = function(module)
   {
     $scope.first_currency_selected = "";
     $scope.second_currency_selected = "";
-
+    $scope.load_orderbook = false;
     // Remember user preference on Convert vs. Trade
     $rootScope.ripple_exchange_selection_trade = true;
 
@@ -432,7 +432,9 @@ TradeTab.prototype.angular = function(module)
 
       var changedPair = updateSettings();
       //updateMRU();
-
+      if(changedPair) {
+        $scope.load_orderbook = true;
+      }
       return changedPair;
     };
 
@@ -640,8 +642,8 @@ TradeTab.prototype.angular = function(module)
 
       Options.orderbook_max_rows += multiplier;
 
+      $scope.load_orderbook = true;
       loadOffers();
-
       $scope.orderbookState = (($scope.orderbookLength - Options.orderbook_max_rows + multiplier) < 1) ? 'full' : 'ready';
     };
 
@@ -1059,7 +1061,9 @@ TradeTab.prototype.angular = function(module)
       // Load orderbook
       if (order.prev_settings !== key) {
         changedPair = true;
-        loadOffers();
+        $timeout(function(){
+          loadOffers();
+        },500);
 
         order.prev_settings = key;
       }
@@ -1263,7 +1267,6 @@ TradeTab.prototype.angular = function(module)
     $scope.$watchCollection('book', function () {
       if (! jQuery.isEmptyObject($scope.book) && $scope.book.ready) {
         $scope.editOrder.orderbookReady = true;
-
         ['asks','bids'].forEach(function(type){
           if ($scope.book[type]) {
             $scope.book[type].forEach(function(order){
@@ -1273,6 +1276,7 @@ TradeTab.prototype.angular = function(module)
               var showValue = type === 'bids' ? 'TakerPays' : 'TakerGets';
               order['show' + showValue] = rpamountFilter(order[showValue],OrderbookFilterOpts);
             });
+            $scope.load_orderbook = false;
           }
         });
       }

@@ -1955,7 +1955,21 @@
     left: 50%;
     margin-right: -50%;
     transform: translate(-50%, -50%);
+    z-index: 1;
   }
+  .orderbook-wrapper {
+    position: relative;
+    #orderbook_loader {
+      color: @midgray;
+      text-align: center;
+      position: absolute;
+      top: 15%;
+      left: 50%;
+      margin-right: -50%;
+      transform: translate(-50%, -50%);
+      z-index: 1;
+    }
+ }
 
   @bg: @white;
 
@@ -2207,7 +2221,9 @@
   .toggle:hover {
     text-decoration: underline;
   }
-
+  .orderlists {
+    .transition-duration(0.5s);
+  }
   .listings {
     padding: 0 15px;
     border: 1px solid darken(@bg, 10%);
@@ -2337,10 +2353,16 @@
     max-height: 1000px;
     overflow: auto;
   }
-
+  .orderlists {
+    opacity: 1;
+    &.loading {
+      opacity: 0;
+    }
+  }
   .listings.orders {
     max-height: 9999px;
     overflow: auto;
+    min-height: 720px;
   }
 
   .orderbook {
