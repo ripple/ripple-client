@@ -23,6 +23,10 @@ section.col-xs-12.content(ng-controller='GoldCtrl')
         group.result-error(ng-switch-when="error")
           h2.tx-status(l10n) There was an error while saving your changes.&#32;
           p(l10n) Please try again later.
+    .alert.alert-warning(ng-show='account.Balance && !can_add_trust && !gbiConnected', l10n) You must have at least
+      strong  {{account.reserve_to_add_trust | rpamount:0}} XRP
+      |  to add a new trust line.&#32;
+      a(href="https://ripple.com/wiki/Reserves", target="_blank") More information
 
     .col-sm-3
       include fund/menu
