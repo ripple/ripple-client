@@ -125,7 +125,6 @@ JpyTab.prototype.angular = function (module)
           // XXX Error handling
           if (err) {
             $scope.loading = false;
-            $scope.load_notification('error');
             console.log(err);
             return;
           }
