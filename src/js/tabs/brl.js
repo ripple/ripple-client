@@ -137,9 +137,17 @@ BrlTab.prototype.angular = function (module)
 
         });
 
-        // $timeout(function(){
-        //   $scope.mode = 'main';
-        // }, 10000);
+        // User should be notified if the reserve is insufficient to add a gateway
+        $scope.$watch('account', function() {
+          $scope.can_add_trust = false;
+          if ($scope.account.Balance && $scope.account.reserve_to_add_trust) {
+            if (!$scope.account.reserve_to_add_trust.subtract($scope.account.Balance).is_positive()
+              || $.isEmptyObject($scope.lines))
+            {
+              $scope.can_add_trust = true;
+            }
+          }
+        }, true);
 
       };
 
