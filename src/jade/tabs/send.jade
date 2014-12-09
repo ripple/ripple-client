@@ -75,6 +75,19 @@ section.col-xs-12.content(ng-controller='SendCtrl')
             rp-autofill='$routeParams.st')
             .errorGroup(rp-errors='send_st')
               .error(rp-error-on='rpStdt', l10n) Invalid source tag
+        .row.form-group(ng-show='$routeParams.invoiceid && !send.quote.invoice_id')
+          .col-xs-12.col-sm-6.col-md-5
+            label(for='send_invoiceid', l10n) Invoice ID
+            input.form-control#send_invoiceid(
+            name='send_invoiceid', type='text'
+            ng-model='send.invoice_id'
+            rp-invoice-id
+            rp-autofill='$routeParams.invoiceid')
+            .errorGroup(rp-errors='send_invoiceid')
+              .error(rp-error-on='rpInvoiceId', l10n) Invoice ID must not be more than 64 characters long.
+        .row(ng-show="send.quote.invoice_id && $routeParams.invoiceid", l10n)
+          div
+            | The invoice ID from the quote will be used instead of the one specified in the URI.
         .row.form-group(ng-repeat='field in send.extra_fields', ng-switch='field.type')
           .col-xs-12.col-sm-6.col-md-5(ng-switch-when="text")
             label(ng-bind="field.label")
