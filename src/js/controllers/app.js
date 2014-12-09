@@ -94,28 +94,12 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
     myHandleAccountEvent = handleAccountEvent;
     myHandleAccountEntry = handleAccountEntry;
     $scope.loadingAccount = true;
+
+    accountObj.on('transaction', myHandleAccountEvent);
     accountObj.on('entry', function(data){
       $scope.$apply(function () {
         $scope.loadingAccount = false;
         myHandleAccountEntry(data);
-
-        $scope.userHistory = new rpHistory(account);
-        $scope.userHistory.onTransaction(myHandleAccountEvent);
-
-        // Load account transactions
-        var options = {
-          limit: Options.transactions_per_page
-        };
-
-        $scope.userHistory.getHistory(options, function(err, data){
-          if (err) {
-            handleAccountTxError(err);
-            return;
-          }
-
-          console.log('Account transaction history loaded');
-          handleAccountTx(data);
-        });
       });
     });
 
@@ -135,6 +119,16 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
     remote.requestAccountOffers({account: data.account})
       .on('success', handleOffers)
       .on('error', handleOffersError).request();
+
+    // Transactions
+    remote.request_account_tx({
+      'account': data.account,
+      'ledger_index_min': -1,
+      'descending': true,
+      'limit': Options.transactions_per_page
+    })
+    .on('success', handleAccountTx)
+    .on('error', handleAccountTxError).request();
 
     loadB2r();
   }
@@ -240,17 +234,17 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
 
   function handleAccountTx(data)
   {
-    if (data.transactions) {
-      $scope.history = [];
-
-      data.transactions.reverse().forEach(function (e, key) {
-        processTxn(e.tx, e.meta, true);
-      });
-
+    $scope.$apply(function () {
+      $scope.tx_marker = data.marker;
+      if (data.transactions) {
+        data.transactions.reverse().forEach(function (e, key) {
+          processTxn(e.tx, e.meta, true);
+        });
+      }
       $scope.$broadcast('$eventsUpdate');
-    }
 
-    $scope.loadState.transactions = true;
+      $scope.loadState.transactions = true;
+    })
   }
 
   function handleAccountTxError(data)
