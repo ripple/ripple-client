@@ -38,6 +38,7 @@ TradeTab.prototype.angular = function(module)
                                             $rpTracker, keychain, $rootScope,
                                             popup, $anchorScroll ,$timeout)
   {
+    var timer;
     $scope.first_currency_selected = "";
     $scope.second_currency_selected = "";
 
@@ -1260,9 +1261,21 @@ TradeTab.prototype.angular = function(module)
 
     var rpamountFilter = $filter('rpamount');
 
+    var lastUpdate;
+
     $scope.$watchCollection('book', function () {
       if (! jQuery.isEmptyObject($scope.book) && $scope.book.ready) {
         $scope.editOrder.orderbookReady = true;
+
+        lastUpdate = new Date();
+
+        clearInterval(timer);
+        timer = setInterval(function(){
+          $scope.$apply(function(){
+            var seconds = Math.round((new Date() - lastUpdate) / 1000);
+            $scope.lastUpdate = seconds || 0;
+          });
+        }, 1000);
 
         ['asks','bids'].forEach(function(type){
           if ($scope.book[type]) {
