@@ -322,7 +322,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                     .col-sm-2.col-md-2.inputPadding
                       div.rippling-checkbox
                         label(l10n) Rippling&#32;
-                          input(name='rippling', type='checkbox', ng-model='trust.rippling')
+                          input(name='rippling', type='checkbox', ng-model='trust.rippling', ng-disabled='trust.loading')
                     .col-sm-7.col-md-6
                       .row.row-padding-small
                         .col-xs-6.col-sm-5
