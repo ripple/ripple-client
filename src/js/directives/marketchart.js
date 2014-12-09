@@ -25,8 +25,8 @@ module.directive('rpMarketChart', [function() {
       chart = PriceChartWidget({
         id:     id,
         width:  $elem.width() - 100,
-        height: $elem.height() - 40,
-        margin: {top: 20, right: 50, bottom: 20, left: 50},
+        height: $elem.height() - 20,
+        margin: {top: 0, right: 50, bottom: 20, left: 50},
         resize: true
       });
 
