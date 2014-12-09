@@ -261,7 +261,7 @@ module.filter("rpripplename", ['$rootScope', '$http', 'rpId', function($scope, $
 }]);
 
 /**
- * Show contact name or short address
+ * Show contact name or address
  */
 module.filter('rpcontactname', ['$rootScope', function ($scope) {
   return function (address) {
