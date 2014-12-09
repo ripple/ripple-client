@@ -260,7 +260,10 @@ module.filter("rpripplename", ['$rootScope', '$http', 'rpId', function($scope, $
     if (ripplename !== address) {
       return ripplename;
     }
-    return address.substring(0, 7) + "…";
+    if (address.length > 21) {
+      return address.substring(0, 7) + "…";
+    }
+    return address;
   }
 }]);
 
