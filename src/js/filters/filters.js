@@ -256,7 +256,11 @@ module.filter('rpfromnow', function () {
  */
 module.filter("rpripplename", ['$rootScope', '$http', 'rpId', function($scope, $http, $id) {
   return function(address, options) {
-    return $id.resolveNameSync(address, options);
+    var ripplename = $id.resolveNameSync(address, options);
+    if (ripplename !== address) {
+      return ripplename;
+    }
+    return address.substring(0, 7) + "…";
   }
 }]);
 
