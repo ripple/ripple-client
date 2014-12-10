@@ -99,6 +99,7 @@ var tabdefs = [
   require('../tabs/mxn'),
   require('../tabs/404'),
   require('../tabs/brl'),
+  require('../tabs/settingstrade'),
 
   // Hidden tabs
   require('../tabs/apps'),

@@ -1,0 +1,19 @@
+section.col-xs-12.content(ng-controller="SettingsTradeCtrl")
+  div(ng-show='debug') This page is not available in debug mode
+
+  div(ng-show="!loadingAccount && !account.Balance && loadState.account && connected && !debug")
+    include banner/unfunded
+  .row(ng-show='connected && !debug')
+    .col-sm-12
+    .col-sm-3
+      include settings/navbar
+    .col-sm-9.list
+      section
+        h4(l10n) Trade settings
+        .section
+          .descriptor(l10n) Trade currency pairs
+          div.pair(ng-repeat="entry in pairs")
+            .col-xs-12
+              span.description {{entry.name}}
+              a(href="", ng-click="deletePair($index)")
+                span.delete remove
