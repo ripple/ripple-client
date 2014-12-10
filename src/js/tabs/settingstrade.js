@@ -31,7 +31,7 @@ SettingsTradeTab.prototype.angular = function(module)
 
       $scope.deletePair = function(index){
         for (var i = 0; i < $scope.pairs.length; i++) {
-          if ($scope.pairs[i].$$hashkey == this.entry.$$hashkey) {
+          if ($scope.pairs[i].$$hashKey === this.entry.$$hashKey) {
             $scope.userBlob.unset('/trade_currency_pairs/' + index);
             return;
           }
