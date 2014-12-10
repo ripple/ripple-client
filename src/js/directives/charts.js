@@ -139,7 +139,10 @@ module.directive('rpPieChart', ['$filter', function($filter) {
 
   // Create a pie chart in the element, using the data on the scope.
   function pieChart(element, scope) {
-    var SIZE = parseInt(scope.size, 10);
+    var SIZE = Math.min($(element).height(), $(element).width());
+    if (SIZE > scope.size) {
+      SIZE = parseInt(scope.size, 10);
+    }
 
     // Main function
     function drawPieChart(container, exchangeRates, drops, ious) {
