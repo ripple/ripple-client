@@ -5,7 +5,44 @@
     i.fa.fa-fw.fa-caret-down(ng-class="{'closed': !showWidgetOrders}")
 
   div(rp-slide='showWidgetOrders')
-    | 5
+    .listings.offers
+      .my
+        div(ng-hide="isEmpty(offers)")
+          .row.head.hidden-xs
+            .col-sm-2.type(l10n) Type
+            .col-sm-4(l10n) Currencies
+              span.issuer(l10n-inc)  (Issuer)
+            .col-sm-3.price(l10n) Price
+            .col-sm-3.amount(l10n) Amount
+        .row(ng-repeat="entry in offers track by entry.seq", ng-hide="entry.isZero")
+          .col-sm-2.type(data-label="Type") {{entry.type | rpucfirst}}
+          .col-sm-4(data-label="Currencies")
+            a(href="",ng-click="goto_order_currency()")
+              span {{entry.first | rpcurrency}}
+              span.issuer(ng-show="entry.first.issuer().to_json()") &nbsp;(
+                span(
+                  rp-pretty-issuer="entry.first.issuer().to_json()"
+                  rp-pretty-issuer-contacts="userBlob.data.contacts"
+                  rp-pretty-issuer-or-short
+                ) ???
+                | )
+              span(ng-show="'buy' == entry.type", l10n)  with
+              span(ng-show="'sell' == entry.type", l10n)  for
+              span  {{entry.second | rpcurrency}}
+              span.issuer(ng-show="entry.second.issuer().to_json()") &nbsp;(
+                span(
+                  rp-pretty-issuer="entry.second.issuer().to_json()"
+                  rp-pretty-issuer-contacts="userBlob.data.contacts"
+                  rp-pretty-issuer-or-short
+                ) ???
+                | )
+          div
+            .col-sm-3.price.rpamount(data-label="Price") {{entry.second | rpamountratio:entry.first | rpamount:{hard_precision: true, precision: 6, tiny_precision: 6} }}
+              span.currency  {{entry.second | rpcurrency}}
+            .col-sm-3.amount.rpamount(data-label="Amount") {{entry.first | rpamount:{hard_precision: true, precision: 6, tiny_precision: 6} }}
+              span.currency  {{entry.first | rpcurrency}}
+      .emptyMessage(ng-show="isEmpty(offers)")
+        p.literal(l10n="You haven't placed any orders.") You haven&#39;t placed any orders.
 
     p(ng-show="$route.current.tabName == 'balance'")
       a(href="#/trade", l10n) Trade Currencies
