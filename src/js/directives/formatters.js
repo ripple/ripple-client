@@ -40,7 +40,7 @@ module.directive('rpPrettyIssuer', ['rpDomainAlias',
           }
 
           if (!scope.name && attr.rpPrettyIssuerOrShort) {
-            scope.name = "" + scope.issuer.substring(0,7) + "…";
+            scope.name = "" + scope.issuer.substring(0, 7) + "…";
           }
         }
 
