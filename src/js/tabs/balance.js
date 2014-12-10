@@ -123,7 +123,7 @@ BalanceTab.prototype.angular = function (module)
         $scope.valueMetrics = okser.map(function(code){
           var curIssuer = code.split(':');
           var currencyName = $filter('rpcurrency')(ripple.Amount.from_human('0 ' + curIssuer[0])); // This is really messy
-          var issuerName = $filter('rpripplename')(curIssuer[1], false);
+          var issuerName = curIssuer.length > 1 ? $filter('rpripplename')(curIssuer[1], false) : '';
           return {
             code: code,
             name: currencyName + (isAmbiguous[curIssuer[0]] ? '.' + issuerName : ''),
