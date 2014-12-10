@@ -40,7 +40,7 @@ TradeTab.prototype.angular = function(module)
   {
     $scope.first_currency_selected = "";
     $scope.second_currency_selected = "";
-    $scope.load_orderbook = false;
+    $scope.load_orderbook = true;
     // Remember user preference on Convert vs. Trade
     $rootScope.ripple_exchange_selection_trade = true;
 
@@ -637,13 +637,15 @@ TradeTab.prototype.angular = function(module)
     };
 
     $scope.loadMore = function () {
+      $scope.load_orderbook = true;
+
       $scope.orderbookLength = books.getLength();
       var multiplier = 30;
 
       Options.orderbook_max_rows += multiplier;
-
-      $scope.load_orderbook = true;
-      loadOffers();
+      $timeout(function(){
+        loadOffers();
+      },500);
       $scope.orderbookState = (($scope.orderbookLength - Options.orderbook_max_rows + multiplier) < 1) ? 'full' : 'ready';
     };
 
@@ -925,7 +927,7 @@ TradeTab.prototype.angular = function(module)
         order.valid_settings = false;
         return;
       }
-
+      
       var first_currency;
       var second_currency;
       var contact_to_address1;
