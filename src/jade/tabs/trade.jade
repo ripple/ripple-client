@@ -442,7 +442,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                         rp-orders-sort-header-reverse="sort_options.reverse",
                         rp-orders-sort-header-field="time") Time placed
                     span &#x25BC;
-                  .col-md-1(l10n) Cancel
+                  .col-md-1(l10n) Action
               .row(ng-repeat="entry in offers | rpcurrentpair:sort_options.current_pair_only:order.prev_settings | rpvalues | rpsortmyorders:sort_options.sort_field:sort_options.reverse track by entry.seq", ng-hide="entry.isZero",
                 ng-class="{cancelling: entry.cancelling || (editOrder.cancelling && entry.seq == editOrder.seq)}")
                 .col-md-1.type(data-label="Type")
