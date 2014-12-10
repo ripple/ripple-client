@@ -56,7 +56,9 @@ module.directive('rpMarketChart', [function() {
         chart.load(options);
       };
 
+      attrs.$observe('baseCurrency', render);
       attrs.$observe('baseCurrencyIssuer', render);
+      attrs.$observe('counterCurrency', render);
       attrs.$observe('counterCurrencyIssuer', render);
     }
   };
