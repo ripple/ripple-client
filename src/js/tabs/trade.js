@@ -38,6 +38,11 @@ TradeTab.prototype.angular = function(module)
                                             $rpTracker, keychain, $rootScope,
                                             popup, $anchorScroll ,$timeout)
   {
+    $scope.sort_options = {
+      current_pair_only: false,
+      sort_field: 'type',
+      reverse: false
+    };
     var timer;
     $scope.first_currency_selected = "";
     $scope.second_currency_selected = "";
@@ -137,6 +142,17 @@ TradeTab.prototype.angular = function(module)
 
       return amount;
     };
+
+    function resort() {
+      setTimeout(function() {
+        $scope.$digest();
+      }, 10);
+    }
+    
+    $scope.$watch('sort_options.current_pair_only', resort);
+    $scope.$watch('sort_options.sort_field', resort);
+    $scope.$watch('sort_options.reverse', resort);
+
 
     // Set state of whether an order's price has been edited by the user
     $scope.priceEdited = function() {
@@ -440,6 +456,37 @@ TradeTab.prototype.angular = function(module)
 
       return changedPair;
     };
+
+    
+    $scope.view_orders_history = function()
+    {
+      $location.url('/history?f=orders');
+    }
+
+    /**
+     * Happens when user clicks on "Cancel all" in "My Orders".
+     */
+    $scope.cancel_all_orders = function()
+    {
+      _.each($scope.offers, function(offer, index) {
+        offer.cancelling = true;
+      });
+      
+      function on_cancel_error() {
+        _.each($scope.offers, function(offer, index) {
+          offer.cancelling = false;
+        });
+      }
+
+      function cancel_one_order()
+      {
+        if (!_.isEmpty($scope.offers)) {
+          $scope.cancel_order(_.keys($scope.offers)[0], false, cancel_one_order, on_cancel_error);
+        }
+      }
+
+      cancel_one_order();
+    }
 
     /**
      * Happens when user clicks on "Cancel" in "My Orders".

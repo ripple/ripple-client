@@ -440,3 +440,84 @@ module.filter('rpheavynormalize', function () {
       .replace(/\s+/g, ' ');
   };
 });
+
+/**
+ * Used to filter My Orders on trade tab.
+ */
+module.filter('rpcurrentpair', function () {
+  return function (items, doFilter, currentKey) {
+    if (!doFilter) {
+      return items;
+    }
+
+    return _.pick(items, function(order, okey, object) {
+      var first_currency = order.first.currency();
+      var first_issuer = order.first.issuer().to_json();
+      var second_currency = order.second.currency();
+      var second_issuer = order.second.issuer().to_json();
+
+      var key = "" +
+        first_currency.to_json() +
+        (first_currency.is_native() ? "" : "/" + first_issuer) +
+        ":" +
+        second_currency._iso_code +
+        (second_currency.is_native() ? "" : "/" + second_issuer);
+
+      return key == currentKey;
+    });
+  }
+});
+
+/**
+ * Return object properties.
+ * Used in trade tab to make My Orders list sortable.
+ */
+module.filter('rpvalues', function () {
+  return function (items_object) {
+    var values = _.values(items_object);
+    return _.values(items_object);
+  }
+});
+
+/**
+ * My Orders widget sorting filter.
+ */
+module.filter('rpsortmyorders', function () {
+  return function (items_object, field, reverse) {
+    var arrayCopy = items_object.slice(0);
+    arrayCopy.sort(function(a, b) {
+      var res = 0;
+      switch(field) {
+        case 'qty':
+          //res = a.first.compareTo(b.first);
+          // Amount.compareTo doesn't compare XRP and non-XRP
+          res = a.first.to_number() - b.first.to_number();
+          break;
+        case 'limit':
+          var now = new Date();
+          var ar = Amount.from_json(a.second).ratio_human(a.first, {reference_date: now});
+          var br = Amount.from_json(b.second).ratio_human(b.first, {reference_date: now});
+          //res = ar.compareTo(br);
+          res = ar.to_number() - br.to_number();
+          break;
+        case 'type':
+          res = a.type.localeCompare(b.type) ;
+          break;
+        case 'base':
+          res = a.first.currency().to_json().localeCompare(b.first.currency().to_json());
+          break;
+        case 'counter':
+          res = a.second.currency().to_json().localeCompare(b.second.currency().to_json());
+          break;
+        case 'time':
+          break;
+        default:
+      }
+      if (reverse) {
+        res *= -1;
+      }
+      return res;
+    });
+    return arrayCopy;
+  }
+});
