@@ -199,14 +199,145 @@
         }
       }
     }
+
+    &.widget-orders {
+      .widget-myorders-table();
+
+      > div > p {
+        margin-top: 20px;
+      }
+    }
   }
 }
 
 /* Widgets on home page */
-section[ng-controller="BalanceCtrl"] .widgets {
+#t-balance .widgets {
   @media (min-width: @screen-lg) {
     .widget-balances dl dt {
       width: 70%;
     }
+  }
+}
+
+.widget-myorders-table() {
+  @bg: @white;
+
+  .listings {
+    padding: 0 15px;
+    border: 1px solid darken(@bg, 10%);
+    background: @bg;
+
+    transition: 0.2s;
+    max-height: 0;
+
+    .my {
+      .head {
+        font-weight: bold;
+      }
+      .row:first-child {
+        border-top: none;
+      }
+      .row {
+        border-top: 1px solid @lightgray;
+
+        &:nth-child(even) {
+          background-color: darken(@bg, 2%);
+        }
+
+        & > div {
+          padding: 8px;
+          border-right: 1px solid @lightgray;
+        }
+
+        & > div:last-child {
+          border-right: none;
+        }
+
+        .issuer {
+          color: lighten(@black,70%);
+          font-size: 11px;
+        }
+
+        @media (max-width: @screen-xs-max) {
+          border: none;
+          padding: 4px;
+
+          & > div {
+            padding: 4px;
+            border: none;
+          }
+
+          div:before {
+            display: block;
+            width: 100px;
+            font-weight: bold;
+            text-transform: uppercase;
+            content: " "attr(data-label);
+          }
+        }
+
+        .align-right {
+          text-align: right;
+        }
+
+        .btn-link {
+          padding-left: 0px;
+          padding-right: 0px;
+        }
+
+        .btn-link[disabled] {
+          text-decoration: none;
+          color: #999999;
+        }
+
+        .form-control {
+          font-size: 14px;
+        }
+
+        .form-control.changed {
+          background-color: transparent;
+        }
+
+        .input-group {
+          margin-bottom: 10px;
+        }
+
+        .input-group .input-group-addon.inline-inputs-group {
+          text-align: center;
+          line-height: 1;
+          padding: 8px;
+          @media(max-width: @screen-xs-max) {
+            &:before {
+              display: block;
+            }
+          }
+        }
+
+        .action {
+          padding-left: 0;
+          padding-right: 0;
+        }
+      }
+    }
+
+    .emptyMessage {
+      margin: 10px 0;
+    }
+
+    .alert {
+      line-height: 1.428571429;
+      padding: 8px;
+      float: left;
+    }
+  }
+
+  .listings.offers {
+    max-height: 1000px;
+    overflow: auto;
+  }
+
+  .listings.orders {
+    max-height: 9999px;
+    overflow: auto;
   }
 }
