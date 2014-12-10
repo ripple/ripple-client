@@ -1,4 +1,4 @@
-.widget.widget-networth
+.widget.widget-networth(ng-hide="!loadingAccount && !account.Balance && loadState.account")
   h4(ng-click='showWidgetNetworth=!showWidgetNetworth'
     ng-init='showWidgetNetworth=true')
     span(l10n) Net Worth

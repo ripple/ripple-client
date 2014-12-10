@@ -1,4 +1,4 @@
-.widget.widget-assetallocation
+.widget.widget-assetallocation(ng-hide="!loadingAccount && !account.Balance && loadState.account")
   h4(ng-click='showWidgetAssetallocation=!showWidgetAssetallocation'
     ng-init='showWidgetAssetallocation=true')
     span(l10n) Asset Allocation

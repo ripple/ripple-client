@@ -92,5 +92,7 @@
     div.widget_loader(ng-hide="balances")
       img(src="img/sections.png", class="loader")
 
-    p(ng-show="$route.current.tabName == 'balance'")
+    p(ng-show="$route.current.tabName == 'balance'"
+      ng-hide="!loadingAccount && !account.Balance && loadState.account"
+      )
       a(href="#/trust", l10n) Add Gateway
