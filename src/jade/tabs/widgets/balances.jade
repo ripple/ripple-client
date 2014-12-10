@@ -71,7 +71,7 @@
             rp-popover-delay
             l10n-rp-popover-content="Balance<br>{{ entry.total | rpamount:{precision: 30, hard_precision: true} }} {{ entry.total | rpcurrency }}"
             )
-            {{ entry.total | rpamount:2 }}
+            {{ entry.total | rpamount:{rel_min_precision: 2, tiny_precision: 3} }}
         dl(rp-slide="entry.show")
           div(ng-repeat="(issuer, component) in entry.components")
             dt(ng-show="component.gateway.app")
@@ -86,7 +86,7 @@
                 rp-popover-delay
                 l10n-rp-popover-content="Balance<br>{{ component | rpamount:{precision: 30, rel_min_precision: -2, hard_precision: true} }} {{ entry.total | rpcurrency }}"
                 )
-                {{ component | rpamount:2 }}
+                {{ component | rpamount:{rel_min_precision: 2, tiny_precision: 3} }}
 
     div.widget_loader(ng-hide="balances")
       img(src="img/sections.png", class="loader")
