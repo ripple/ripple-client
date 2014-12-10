@@ -76,9 +76,8 @@
           div(ng-repeat="(issuer, component) in entry.components")
             dt(ng-show="component.gateway.app")
               span(rp-address-popover="component.gateway.app")
-                {{entry.total | rpcurrency}}.{{component.gateway.app.name}}
+                {{component.gateway.app.name}}
             dt(ng-hide="component.gateway.app")
-              {{entry.total | rpcurrency}}.
               span(rp-pretty-identity="issuer", rp-pretty-issuer-contacts="userBlob.data.contacts", rp-address-popover="issuer")
             dd
               span.balance(rp-popover
