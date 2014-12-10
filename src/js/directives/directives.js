@@ -826,3 +826,65 @@ module.directive('rpSpanSpacing', [function () {
     }
   };
 }]);
+
+/**
+ * My Orders widget header.
+ */
+module.directive('rpOrdersSortHeader', ['$timeout', '$parse', function($timeout, $parse) {
+  return {
+    restrict: 'A',
+    compile: function (element, attr, linker) {
+      return function (scope, element, attr) {
+        if (!attr.rpOrdersSortHeaderField) {
+          // no field specified, do nothing
+          return;
+        }
+        var sortFieldGetter = $parse(attr.rpOrdersSortHeader);
+        var sortReverse = $parse(attr.rpOrdersSortHeaderReverse);
+        var fieldName = attr.rpOrdersSortHeaderField;
+
+        function draw_arrow() {
+          var sfv = sortFieldGetter(scope);
+          if (sfv == fieldName) {
+            element.find('span').addClass('sorted');
+            element.find('span').html(sortReverse(scope) ? '&#x25B2;' : '&#x25BC;');
+          }
+        }
+        draw_arrow();
+
+        var watcher = scope.$watch(attr.rpOrdersSortHeader, function() {
+          if (sortFieldGetter(scope) != fieldName) {
+            element.find('span').removeClass('sorted');
+          }
+        });
+        var watcher2 = scope.$watch(attr.rpOrdersSortHeaderReverse, draw_arrow);
+
+
+        function update_sort() {
+          var sfv = sortFieldGetter(scope);
+          if (sfv != fieldName) {
+            sortFieldGetter.assign(scope, fieldName);
+            sortReverse.assign(scope, false);
+            element.find('span').html('&#x25B2;');
+            element.find('span').addClass('sorted');
+          } else {
+            var reverseNow = sortReverse(scope);
+            sortReverse.assign(scope, !reverseNow);
+            element.find('span').html(reverseNow ? '&#x25B2;' : '&#x25BC;');
+          }
+        }
+
+        element.click(function(e) {
+          scope.$apply(update_sort);
+        });
+
+        // Make sure  is destroyed and removed.
+        scope.$on('$destroy', function() {
+          // Remove watcher
+          watcher();
+          watcher2();
+        });
+      };
+    }
+  };
+}]);
