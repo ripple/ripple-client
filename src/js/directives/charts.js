@@ -425,7 +425,7 @@ module.directive('rpPieChart', ['$filter', function($filter) {
         $('<text></text>').appendTo(g).text(percentage + '%').attr({
           'class': cssClass + ' percentage',
           x: sector.labelPosition.x,
-          y: sector.labelPosition.y + 14,
+          y: sector.labelPosition.y + 16,
           group: sector.group
         });
       }
