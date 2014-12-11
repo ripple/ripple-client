@@ -1,0 +1,331 @@
+/*
+*
+* New landing page styles
+*
+*/
+
+.header_wrapper {
+		position: fixed;
+		right: 0;
+		left: 0;
+		top: 0;
+}
+
+.logo {
+	height: 60px;
+	background: @white;
+	border-bottom: 1px solid @brand-success;
+}
+	
+img.trade_logo {
+	margin-top: 5px;
+}
+	
+.ticker {
+		display: none;
+		height: 60px;
+		background: @lightgray;
+		border-top: 1px solid @brand-success;
+		border-bottom: 1px solid @midgray;
+		
+		& p {
+			display: block;
+			float: left;
+			margin: 0;
+			padding-right: 7px;
+			padding-top: 1px;
+			font-size: 12px;
+			line-height: 12px;
+			font-weight: normal; 
+			color: #000; 
+			white-space: nowrap;
+		}
+}
+	
+.landing_wrapper {
+		padding-top: 60px;
+	
+	.circle {
+		margin: 30px auto;
+		width: 50%;
+	}
+	
+	.landing_container {
+		background: #4c8db8; /* Old browsers */
+		background : -moz-linear-gradient(83.68% 67.94% 160.57deg,rgba(67, 147, 184, 1) 0%,rgba(52, 106, 169, 1) 100%);
+		background : -webkit-linear-gradient(160.57deg, rgba(67, 147, 184, 1) 0%, rgba(52, 106, 169, 1) 100%);
+		background : -webkit-gradient(linear,83.68% 67.94% ,-3.15% 21.68% ,color-stop(0,rgba(67, 147, 184, 1) ),color-stop(1,rgba(52, 106, 169, 1) ));
+		background : -o-linear-gradient(160.57deg, rgba(67, 147, 184, 1) 0%, rgba(52, 106, 169, 1) 100%);
+		background : -ms-linear-gradient(160.57deg, rgba(67, 147, 184, 1) 0%, rgba(52, 106, 169, 1) 100%);
+		-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#4393B8 ', endColorstr='#346AA9 ' ,GradientType=0)";
+		background : linear-gradient(-70.57deg, rgba(67, 147, 184, 1) 0%, rgba(52, 106, 169, 1) 100%);
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#4393B8 ',endColorstr='#346AA9 ' , GradientType=1);
+	}
+	
+	.login_container {
+		min-height: 812px;
+		max-width: 1400px;
+		margin: auto;
+				
+		& a {
+			color: @white;
+			
+			&:hover {
+				color:  @midgray;
+			}
+		}
+	}
+
+	.section_title {
+		text-align: center;
+		font-family: 'OpenSansLight';
+	}
+
+	hr {
+		width: 250px;
+		margin-top: 30px;
+		border-top: 1px solid @brand-success;
+	}
+	
+	.why_use, .gateways {
+		padding: 50px 0;
+	}
+	
+	.top_markets, .featured_gateways {
+		background: @lightgray;
+		padding: 50px 0;
+		border-top: 1px solid @midgray;
+		border-bottom: 1px solid @midgray;
+	}
+	
+	.currency_pairs, .circle_wrap, .hold_assets {
+		text-align: center;
+	}
+	
+	.market {
+		margin-top: 40px;
+	}
+	
+	.market_text, .description {
+		text-align: center;
+		padding: 10px 0 0 0;
+	}
+	
+	.gateway_example img.gateway {
+		opacity: .2;
+		-o-transition:.5s;
+		-ms-transition:.5s;
+		-moz-transition:5s;
+		-webkit-transition:.5s;
+		transition:.5s;
+		padding-top: 20px;
+		
+		&:hover {
+			opacity: .7;
+			-o-transition:.5s;
+			-ms-transition:.5s;
+			-moz-transition:5s;
+			-webkit-transition:.5s;
+			transition:.5s;
+		}
+	}
+	
+	#t-register .auth-form-container .auth-form-wrapper, #t-login .auth-form-container .auth-form-wrapper, #t-recover .auth-form-container .auth-form-wrapper, #t-account .auth-form-container .auth-form-wrapper, #t-migrate .auth-form-container .auth-form-wrapper {
+		float: right;
+		border: none;
+		background: rgba(52,65,77,.2);
+	}
+	
+	#t-register .auth-form-container h2, #t-login .auth-form-container h2, #t-recover .auth-form-container h2, #t-account .auth-form-container h2, #t-migrate .auth-form-container h2 {
+		color: @white;
+	}
+
+	#t-register .auth-form-container .auth-form-wrapper label, #t-login .auth-form-container .auth-form-wrapper label, #t-recover .auth-form-container .auth-form-wrapper label, #t-account .auth-form-container .auth-form-wrapper label, #t-migrate .auth-form-container .auth-form-wrapper label, #t-register .auth-form-container .see-privacy-text, #t-login .auth-form-container .see-privacy-text, #t-recover .auth-form-container .see-privacy-text, #t-account .auth-form-container .see-privacy-text, #t-migrate .auth-form-container .see-privacy-text {
+		color:  @midgray;
+	}
+
+	#t-register .auth-form-container .sign-up-steps-list li.active, #t-login .auth-form-container .sign-up-steps-list li.active, #t-recover .auth-form-container .sign-up-steps-list li.active, #t-account .auth-form-container .sign-up-steps-list li.active, #t-migrate .auth-form-container .sign-up-steps-list li.active {
+		color: @white;
+		border-bottom: 1px solid @white !important;
+	}
+
+	h2.login_top {
+		//float: right;
+		border-bottom: none !important;
+		margin-bottom: 10px !important;
+		padding-bottom: 0px !important; 
+		font-size: 40px;
+		display: inline-block;
+	}
+
+	h2.sign_up_top {
+		border-bottom: none !important;
+		margin-bottom: 10px !important;
+		padding-bottom: 0px !important; 
+		font-size: 40px;
+		display: inline-block;
+	
+		& a:hover {
+			text-decoration: none;
+		}
+	}
+
+	.auth-attention {
+		clear: both;
+	}
+
+	.sign-up-steps-list {
+		clear: both;
+		//border-top: 1px solid @white;
+		padding-top: 20px;
+		color: @midgray;
+	}
+
+	img.xrp_holder {
+		margin: 150px 0;
+	}
+
+	p.hero_text {
+		text-align: center;
+		font-size: 16px;
+		color: @white;
+		max-width: 600px;
+		margin: 0;
+		padding-bottom: 50px;
+	}
+
+	.form-group {
+		clear: both;
+	}
+
+	button.btn.btn-link.recover {
+	color: @midgray;
+	}
+
+	.migrate_tab, .secret_key {
+		text-align: left !important;
+		color: @midgray;
+	}
+	
+	.input-group-addon {
+		color: @white;
+		border: none !important;
+		background-color: rgba(65,79,89,.3);
+	}
+	
+	.form-control {
+		background-color: rgba(52,65,77,.4);
+		color: @white;
+		border: none;
+	}	
+	
+	.breaker {
+		margin-top: 65px;
+	}
+	
+	.sign_up_wrapper {
+		text-align: center;
+		padding-left: 0 !important;
+	}
+	
+	.login_wrapper {
+		text-align: center;
+		padding-right: 0 !important;
+	}
+	
+	.tab_adjust {
+		padding-left: 0 !important;
+		padding-right: 0 !important;
+	}
+	
+	.bottom_text {
+		color: @midgray;
+	}
+	
+	
+}
+
+//login specific
+.t-login {
+
+	
+	h2.sign_up_top a {
+		color: @midgray !important;
+		
+		&:hover {
+			color: @white !important;
+		}
+	}
+	
+	.tab_bg {
+		background: rgba(52,65,77,.4);
+		height: 100px;
+		right:  17.7%;
+		width: 16%;
+		position: absolute;
+	}
+
+}
+
+//register specific
+.t-register {
+
+	h2.login_top a {
+		color: @midgray !important;
+		
+		&:hover {
+			color: @white !important;
+		}
+	}
+	
+	.tab_bg {
+		background: rgba(52,65,77,.4);
+		height: 100px;
+		width: 16%;
+		position: absolute;
+		right: 15px !important;
+	}
+
+}
+
+	//breakpoints
+
+	@media (max-width: 1075px) {
+	
+		h2.sign_up_top, h2.login_top {
+			font-size: 2em !important;
+		}
+		
+		.tab_bg {
+			height: 85px !important;
+		}
+	
+	}
+	
+	
+	@media (max-width: 767px) {
+		.tab_bg {
+			width: 48% !important;
+		}
+		
+		
+		.t-login .tab_bg {
+			left: 15px !important;
+		}
+		
+	}
+	
+	
+
+	
+	@media (max-width: 991px) and (min-width: 768px)  {
+	
+		.tab_bg {
+			width: 25% !important;
+		}
+		
+		.t-login .tab_bg {
+			left: 50%;
+		}
+	
+	}

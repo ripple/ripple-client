@@ -38,20 +38,99 @@
 div#wrapper
   // Header
   header
-    h1(ng-if="!loginStatus", l10n) Welcome to {{productName}}, a global value exchange
+    //h1(ng-if="!loginStatus", l10n) Welcome to {{productName}}, a global value exchange
+    .header_wrapper
+      .logo
+        img.trade_logo(src="img/ripple_trade_logo.png")
+      .ticker
+        p.symbols(l10n) Ripple Trade Japan 1.42812 JPY
+        p.symbols(l10n) SnapSwap 0.00032 BTC
+        p.symbols(l10n) rippleCN 0.071843 CNY
+        p.symbols(l10n) Ripple Trade Japan 1.42812 JPY
+
     div(ng-if="loginStatus")
       != require("./navbar.jade")()
-  .container
+.landing_wrapper.container-fluid
+    .landing_container
+  
+      .login_container
 
-    // Login
-    .row.main(ng-if="showLogin", id="t-login", role="main")
-      include ../tabs/login.jade
+        // Login
+        .container-fluid.main(ng-if="showLogin", id="t-login", role="main")
+          include ../tabs/login.jade
 
-    // Main
-    .row.main(ng-if="!showLogin", id="{{$route.current.tabClass}}", role="main", ng-view)
+        // Main
+        .container-fluid.main(ng-if="!showLogin", id="{{$route.current.tabClass}}", role="main", ng-view)
+    
+    //section 1
+    .why_use.container
+      h4.section_title(l10n) Why Use Ripple Trade?
+      hr
+      .col-xs-12.col-sm-4.circle_wrap
+        img.circle(src="img/img_feature1.svg")
+        p.description(l10n) Home of XRP - the best place to buy and sell XRP
+      .col-xs-12.col-sm-4.circle_wrap
+        img.circle(src="img/img_feature2.svg")
+        p.description(l10n) Free - no fees to sign up and use Ripple Trade
+      .col-xs-12.col-sm-4.circle_wrap
+        img.circle(src="img/img_feature3.svg")
+        p.description(l10n) No Middlemen - When you submit orders, Ripple automatically finds the best available match, without a clearinghouse or broker.
+    
+    //section 2
+    .top_markets
+      .container
+        h4.section_title(l10n) XRP Top Markets
+        hr
+        p.currency_pairs(l10n) These are several of Ripple's major currency pairs. See more price data on Ripple Charts.
+        
+        
+    //section 3
+    .gateways.container
+      h4.section_title(l10n) Deposit, trade and withdraw money on Ripple via gateways.
+      hr
+      .col-md-12
+        img.img-responsive.gateway(src="img/img_gateway1.svg")
+        
+    //section 4
+    .featured_gateways
+      .container
+        h4.section_title(l10n) Featured Ripple Gateways
+        hr
+        p.hold_assets(l10n) Hold diverse assets through members of our growing gateway network.
+        .col-xs-6.col-sm-2.gateway_example
+          img.img-responsive.gateway(src="img/gateway_logos/gw_bitso.png")
+        .col-xs-6.col-sm-2.gateway_example
+          img.img-responsive.gateway(src="img/gateway_logos/gw_bitstamp.png")
+        .col-xs-6.col-sm-2.gateway_example
+          img.img-responsive.gateway(src="img/gateway_logos/gw_btc2ripple.png")
+        .col-xs-6.col-sm-2.gateway_example
+          img.img-responsive.gateway(src="img/gateway_logos/gw_coinex.png")
+        .col-xs-6.col-sm-2.gateway_example
+          img.img-responsive.gateway(src="img/gateway_logos/gw_jpytokyo.png")
+        .col-xs-6.col-sm-2.gateway_example
+          img.img-responsive.gateway(src="img/gateway_logos/gw_justcoin.png")
+        .col-xs-6.col-sm-2.gateway_example
+          img.img-responsive.gateway(src="img/gateway_logos/gw_payroutes.png")
+        .col-xs-6.col-sm-2.gateway_example
+          img.img-responsive.gateway(src="img/gateway_logos/gw_rippex.png")
+        .col-xs-6.col-sm-2.gateway_example
+          img.img-responsive.gateway(src="img/gateway_logos/gw_ripplechina.png")
+        .col-xs-6.col-sm-2.gateway_example
+          img.img-responsive.gateway(src="img/gateway_logos/gw_ripplecn.png")
+        .col-xs-6.col-sm-2.gateway_example
+          img.img-responsive.gateway(src="img/gateway_logos/gw_ripplesingapore.png")
+        .col-xs-6.col-sm-2.gateway_example
+          img.img-responsive.gateway(src="img/gateway_logos/gw_snapswap.png")
+        .col-xs-6.col-sm-2.gateway_example
+          img.img-responsive.gateway(src="img/gateway_logos/gw_unionripple.png")
+        .col-xs-6.col-sm-2.gateway_example
+          img.img-responsive.gateway(src="img/gateway_logos/gw_wisepass.png")
+
+
+
 
     // Footer
-    footer.row
+    footer.container
       .col-xs-12.col-sm-3
         a(href="https://github.com/ripple/ripple-client/releases", target="_blank", l10n)
           | Version: {{version}}

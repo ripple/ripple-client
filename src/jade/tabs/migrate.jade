@@ -1,6 +1,10 @@
 section.col-xs-12.content(ng-controller="MigrateCtrl")
   .row.auth-form-container
-    .auth-form-wrapper.col-sm-8.col-md-7.col-xs-12
+    .col-xs-12.col-sm-4.col-md-8.hidden-xs
+      img.img-responsive.xrp_holder(src="img/xrp_temp.png")
+      p.hero_text(l10n) Full, unfettered access to the Ripple network. Tap into Ripple's liquidity pool of hundreds of assets, from XRP to crypto to gold to fiat.
+  
+    .auth-form-wrapper.col-sm-8.col-md-4.col-xs-12
       form(name='loginForm', ng-submit='submitForm()')
         h2(l10n) Migrate
         .auth-attention(l10n) To begin migration, enter the name and passphrase
@@ -28,7 +32,7 @@ section.col-xs-12.content(ng-controller="MigrateCtrl")
             ng-disabled="ajax_loading || loginForm.$invalid")
             img(src="img/button-s.png", class="loader", ng-show="ajax_loading")
             span(class="loading_text", l10n) Begin Migration
-    .switch-mode-link-container(l10n) New to {{productName}}?&#32;
-      a(href='#register', l10n-inc) Sign Up
-    .switch-mode-link-container(l10n) Have a {{productName}} account?&#32;
-      a(href='#login', l10n-inc) Log In
+        .switch-mode-link-container.bottom_text(l10n) New to {{productName}}?&#32;
+          a(href='#register', l10n-inc) Sign Up
+        .switch-mode-link-container.bottom_text(l10n) Have a {{productName}} account?&#32;
+          a(href='#login', l10n-inc) Log In
