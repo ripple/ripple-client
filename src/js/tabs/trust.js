@@ -627,7 +627,7 @@ TrustTab.prototype.angular = function (module)
       };
 
       $scope.isIncoming = function () {
-        return $scope.component.limit._value.t === 0;
+        return $scope.component.limit_peer._value.t !== 0;
       };
 
     }]);
