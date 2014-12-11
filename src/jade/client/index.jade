@@ -63,7 +63,7 @@ div#wrapper
         .container-fluid.main(ng-if="!showLogin", id="{{$route.current.tabClass}}", role="main", ng-view)
     
     //section 1
-    .why_use.container
+    .why_use.container(ng-if="!loginStatus")
       h4.section_title(l10n) Why Use Ripple Trade?
       hr
       .col-xs-12.col-sm-4.circle_wrap
@@ -77,7 +77,7 @@ div#wrapper
         p.description(l10n)  <strong>No Middlemen -  </strong> When you submit orders, Ripple automatically finds the best available match, without a clearinghouse or broker.
     
     //section 2
-    .top_markets
+    .top_markets(ng-if="!loginStatus")
       .container
         h4.section_title(l10n) XRP Top Markets
         hr
@@ -86,14 +86,14 @@ div#wrapper
         
         
     //section 3
-    .gateways.container
+    .gateways.container(ng-if="!loginStatus")
       h4.section_title(l10n) Deposit, trade and withdraw money on Ripple via gateways.
       hr
       .col-md-12
         img.img-responsive.gateway(src="img/img_gateway1.svg")
         
     //section 4
-    .featured_gateways
+    .featured_gateways(ng-if="!loginStatus")
       .container
         h4.section_title(l10n) Featured Ripple Gateways
         hr
