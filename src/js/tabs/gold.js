@@ -23,16 +23,6 @@ GoldTab.prototype.angular = function (module)
   module.controller('GoldCtrl', ['$scope', 'rpId', 'rpAppManager', 'rpTracker', '$routeParams', 'rpKeychain', 'rpNetwork', '$timeout',
     function ($scope, $id, appManager, rpTracker, $routeParams, keychain, $network, $timeout) {
 
-      $scope.$watch('lines', function () {
-        if($scope.lines['rrh7rf1gV2pXAoqA8oYbpHd8TKv5ZQeo670158415500000000C1F76FF6ECB0BAC600000000']){
-          $scope.gbiConnected = true;
-        }
-        else {
-          $scope.gbiConnected = false;
-        }
-      }, true);
-
-
       
       $scope.toggle_instructions = function () {
         $scope.showInstructions = !$scope.showInstructions;
@@ -137,20 +127,28 @@ GoldTab.prototype.angular = function (module)
 
         });
 
-        // User should be notified if the reserve is insufficient to add a gateway
-        $scope.$watch('account', function() {
-          $scope.can_add_trust = false;
-          if ($scope.account.Balance && $scope.account.reserve_to_add_trust) {
-            if (!$scope.account.reserve_to_add_trust.subtract($scope.account.Balance).is_positive()
-              || $.isEmptyObject($scope.lines))
-            {
-              $scope.can_add_trust = true;
-            }
-          }
-        }, true);
-
       };
+      
+      $scope.$watch('lines', function () {
+        if($scope.lines['rrh7rf1gV2pXAoqA8oYbpHd8TKv5ZQeo670158415500000000C1F76FF6ECB0BAC600000000']){
+          $scope.gbiConnected = true;
+        }
+        else {
+          $scope.gbiConnected = false;
+        }
+      }, true);
 
+      // User should be notified if the reserve is insufficient to add a gateway
+      $scope.$watch('account', function() {
+        $scope.can_add_trust = false;
+        if ($scope.account.Balance && $scope.account.reserve_to_add_trust) {
+          if (!$scope.account.reserve_to_add_trust.subtract($scope.account.Balance).is_positive()
+            || $.isEmptyObject($scope.lines))
+          {
+            $scope.can_add_trust = true;
+          }
+        }
+      }, true);
     }]);
 
 };
