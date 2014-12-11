@@ -32,21 +32,21 @@
 // The dropdown menu (ul)
 .dropdown-menu {
   position: absolute;
-  top: 100%;
+  top: 99%;
   left: 0;
   z-index: @zindex-dropdown;
   display: none; // none by default, but block on "open" of the menu
   float: left;
   min-width: 160px;
   padding: 5px 0;
-  margin: 2px 0 0; // override default ul
+  margin: 2px -42px 0; // override default ul
   list-style: none;
   font-size: @font-size-base;
   background-color: @dropdown-bg;
   border: 1px solid @dropdown-fallback-border; // IE8 fallback
-  border: 1px solid @dropdown-border;
+  border: 1px solid @brand-success;
   border-radius: @border-radius-base;
-  .box-shadow(0 6px 12px rgba(0,0,0,.175));
+  //.box-shadow(0 6px 12px rgba(0,0,0,.175));
   background-clip: padding-box;
 
   // Aligns the dropdown menu to right
@@ -77,8 +77,8 @@
   &:hover,
   &:focus {
     text-decoration: none;
-    color: @dropdown-link-hover-color;
-    background-color: @dropdown-link-hover-bg;
+    color: @brand-success !important;
+   // background-color: @dropdown-link-hover-bg;
   }
 }
 
@@ -87,10 +87,10 @@
   &,
   &:hover,
   &:focus {
-    color: @dropdown-link-active-color;
+    color: @brand-success;
     text-decoration: none;
     outline: 0;
-    background-color: @dropdown-link-active-bg;
+    //background-color: @dropdown-link-active-bg;
   }
 }
 

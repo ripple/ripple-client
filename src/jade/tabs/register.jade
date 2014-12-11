@@ -1,16 +1,20 @@
 
 section.col-xs-12.content(ng-controller="RegisterCtrl")
-  //- .row
-  //-   .welcome-wrapper.col-xs-12
-  //-     h3.platform(l10n) Ripple Trade is the only platform where you can trade between stores of value spanning fiat, crypto, precious metals and more.
   .row.auth-form-container(ng-show='mode=="form"')
-    .auth-form-wrapper.col-xs-12.col-sm-8.col-md-7
+    .col-xs-12.col-sm-6.col-md-8.hidden-xs
+      .welcomeText(l10n) Welcome to Ripple Trade
+      hr
+      p.heroText(l10n) Full, unfettered access to the Ripple network. Tap into Ripple's liquidity pool of hundreds of assets, from XRP to crypto to gold to fiat.
+    .tabBg
+    .auth-form-wrapper.col-xs-12.col-sm-6.col-md-4
       form(name='registerForm', ng-submit='submitForm()')
-        h2(ng-hide="oldUserBlob", l10n) Sign Up
+        .tabAdjust.col-md-12
+          .signUpWrapper.col-xs-6.col-sm-6.col-md-6
+            h2.signUpTop(ng-hide="oldUserBlob", l10n) Sign Up
+          .loginWrapper.col-xs-6.col-sm-6.col-md-6
+            h2.loginTop.switch-mode-link-container(l10n)
+              a(href='#login', l10n-inc) Log In
         h2(ng-show="oldUserBlob", l10n) Migrate
-        .auth-attention(l10n) Already have a ripple.com/client account? Don't create a new account. Instead,&#32; 
-          a(href='#migrate', l10n-inc) migrate your existing account
-          | .
         .sign-up-steps-list
           li.active(l10n) Step
             span  1
@@ -98,9 +102,6 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
                 span ({{ masterkeyAddress }})
                 |  has already been created using this secret key.
               a.btn.btn-primary.recovery(ng-href="#/recover/{{masterkeyUsername}}", l10n) Recover Account
-        div(ng-hide="showMasterKeyInput || oldUserBlob", l10n)
-          | Need to use your secret key?&#32;
-          a(href="", ng-click="showMasterKeyInput=true", l10n) Use key
         .form-group
           .checkbox
             label(for='terms', l10n) I agree to the {{productName}}&#32;
@@ -117,12 +118,13 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
             img(src="img/button-s.png", class="loader", ng-show="submitLoading")
             span(class="loading_text", ng-hide="oldUserBlob", l10n) Sign Up
             span(ng-show="oldUserBlob", l10n) Migrate Account
+        div.secretKey(ng-hide="showMasterKeyInput || oldUserBlob", l10n)
+          | Need to use your secret key?&#32;
+          a(href="", ng-click="showMasterKeyInput=true", l10n) Use key
+        .switch-mode-link-container.migrateTab(ng-hide="$routeParams.action === 'migrate'", l10n) Already have a ripple.com/client account?&#32;
+          a(ng-hide="$routeParams.action === 'migrate'", href='#/migrate', l10n-inc) Migrate
 
-    .switch-mode-link-container(ng-hide="$routeParams.action === 'migrate'", l10n) Already have a ripple.com/client account?&#32;
-      a(ng-hide="$routeParams.action === 'migrate'", href='#/migrate', l10n-inc) Migrate
-    .switch-mode-link-container(l10n) Have an account?&#32;
-      a(href='#login', l10n-inc) Log In
-
+    
   .row.mode-masterkeyerror(ng-show='mode=="failed"')
     .col-xs-12.col-md-10.col-md-offset-1
       p.literal(l10n) An error occurred during registration. Please try again later.
@@ -139,7 +141,11 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
         button.btn.btn-primary(ng-click='mode="form"', l10n) Back
 
   .row.auth-form-container(ng-show='mode=="secret"')
-    .auth-form-wrapper.col-sm-offset-2.col-sm-8.col-md-offset-3.col-md-6
+    .col-xs-12.col-sm-6.col-md-8.hidden-xs
+      .welcomeText(l10n) Welcome to Ripple Trade
+      hr
+      p.heroText(l10n) Full, unfettered access to the Ripple network. Tap into Ripple's liquidity pool of hundreds of assets, from XRP to crypto to gold to fiat.
+    .auth-form-wrapper.col-sm-offset-2.col-sm-6.col-md-offset-3.col-md-4
       h2(ng-hide="oldUserBlob", l10n) Sign Up
       h2(ng-show="oldUserBlob", l10n) Migrate
       .sign-up-steps-list
@@ -164,7 +170,7 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
         div(ng-hide="oldUserBlob", l10n) The secret key unlocks access to all
           |  your account funds in the event you lose your Ripple name or password.
           |  Please write it down and store it somewhere private and safe.&#32;
-          a(href="https://support.ripplelabs.com/hc/en-us/articles/201823366-Password-Recovery-and-Your-Secret-Key"
+          a.secretText(href="https://support.ripplelabs.com/hc/en-us/articles/201823366-Password-Recovery-and-Your-Secret-Key"
             target="_blank", l10n-inc) Read more
           |  about keys and wallet safety.
         div(ng-show="oldUserBlob", l10n) If you have not saved your secret key,
@@ -175,7 +181,7 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
           span.fa.fa-key
           span(ng-hide="showSecret") •••••••••••••••••••••••••••••
           span(ng-show="showSecret") {{keyOpen}}
-        a(href="", ng-click="showSecret=!showSecret")
+        a.secretText(href="", ng-click="showSecret=!showSecret")
           span(ng-hide="showSecret", l10n) Show secret key
           span(ng-show="showSecret", l10n) Hide secret key
       .submit-btn-container
@@ -183,7 +189,11 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
           span(l10n) Continue to email verification
 
   .row.auth-form-container.mode-verification(ng-show='mode=="verification"')
-    .auth-form-wrapper.col-sm-8.col-md-6
+    .col-xs-12.col-sm-6.col-md-8.hidden-xs
+      .welcomeText(l10n) Welcome to Ripple Trade
+      hr
+      p.heroText(l10n) Full, unfettered access to the Ripple network. Tap into Ripple's liquidity pool of hundreds of assets, from XRP to crypto to gold to fiat.
+    .auth-form-wrapper.col-sm-6.col-md-4
       h2(ng-hide="oldUserBlob", l10n) Sign Up
       h2(ng-show="oldUserBlob", l10n) Migrate
       ul.sign-up-steps-list
@@ -204,7 +214,7 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
           .change-email-bar
             input.form-control(type="email", ng-model="newEmail", placeholder="{{userBlob.data.email}}")
         .col-xs-3.col-sm-4
-          button.btn.btn-success.btn-block.btn-cancel(ng-click="resendEmail()", type="submit"
+          .reSend(ng-click="resendEmail()", type="submit"
             ng-disabled="resendForm.$invalid || resendLoading")
             img(src="img/button-s.png", class="loader", ng-show="resendLoading")
             span(class="loading_text", l10n) Re-send Email

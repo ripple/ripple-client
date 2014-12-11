@@ -10,7 +10,7 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
       .navbar-header
         .navbar-toggle.snapper-toggle
           a(href="").fa.fa-bars
-        a.navbar-brand.hidden-xs#logo(href="#/", title="Ripple")
+        a.logo.hidden-xs(href="#/", title="Ripple")
       .collapse.navbar-collapse
         ul.nav.navbar-nav.topMenu
           li#nav-wallet(ng-class="{active: $route.current.mainMenu == 'wallet'}")
@@ -108,15 +108,10 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
             a.dropdown-toggle.fa.fa-cog
             ul.dropdown-menu
               li: a(href="#/account/public", l10n)
-                i.icon-profile
                 |  Account
-              li.divider
               li: a(href="#/security", l10n)
-                i.icon-settings
                 |  Settings
-              li.divider
               li: a.logout(ng-click='logout()', l10n)
-                i.icon-logout
                 |  Log Out
   .subnav(ng-show="$route.current.mainMenu == 'wallet'")
     .container
