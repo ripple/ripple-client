@@ -68,8 +68,8 @@ section.col-xs-12.content(ng-controller='BrlCtrl')
           button.btn.btn-large(type="submit",ng-click="save_account()", ng-hide="brlConnected", ng-disabled="loading || !account.Balance")
             span(ng-show="!loading", l10n)  Add Rippex
             span(ng-show="loading", l10n)  Adding...
-          button.btn.btn-large(ng-show="showInstructions && brlConnected", type="submit", ng-click="toggle_instuctions()", l10n) Hide instructions
-          button.btn.btn-large(ng-show="!showInstructions && brlConnected ", type="submit", ng-click="toggle_instuctions()", l10n) Show instructions
+          button.btn.btn-large(ng-show="showInstructions && brlConnected", type="submit", ng-click="toggle_instructions()", l10n) Hide instructions
+          button.btn.btn-large(ng-show="!showInstructions && brlConnected ", type="submit", ng-click="toggle_instructions()", l10n) Show instructions
 
         .connect.col-xs-5.col-sm-7.col-md-8
           .description.fa.fa-times(ng-show="!brlConnected && account.Balance", l10n) Not connected
@@ -77,7 +77,7 @@ section.col-xs-12.content(ng-controller='BrlCtrl')
           .description(ng-show="!account.Balance", l10n) Your account has to be activated before you can add a gateway account.
       .row.fund-tab-description(ng-show="showInstructions && brlConnected")
         .instructions.col-md-10
-          a.dismiss(href="", id="hide", ng-click="toggle_instuctions()", l10n)  ×
+          a.dismiss(href="", id="hide", ng-click="toggle_instructions()", l10n)  ×
           .title(l10n) NEW CUSTOMERS- SIGN UP AT RIPPEX
           .description(l10n)
             a(href="https://rippex.net/#/conta/criar/verificada/passo1", target="_blank") Sign up
@@ -89,10 +89,10 @@ section.col-xs-12.content(ng-controller='BrlCtrl')
               li(l10n)
                 a(href="https://rippex.zendesk.com/hc/pt-br/articles/202324834-Crie-sua-conta-Rippex", target="_blank") Detailed instructions.
 
-        .title(l10n) EXISTING RIPPEX CUSTOMERS
-        .description(l10n) If you have a Rippex account,
-          a(href="https://rippex.net/#/login", target="_blank") login here.
+          .title(l10n) EXISTING RIPPEX CUSTOMERS
+          .description(l10n) If you have a Rippex account,
+            a(href="https://rippex.net/#/login", target="_blank") login here.
 
-        .title(l10n) DEPOSIT INSTRUCTIONS
-        .description(l10n) Rippex accepts deposits from all Brazilian banks. Instructions
-          a(href="https://rippex.zendesk.com/hc/pt-br/articles/202324844-Dep%C3%B3sitos-Transfer%C3%AAncia-Banc%C3%A1ria", target="_blank") here.
+          .title(l10n) DEPOSIT INSTRUCTIONS
+          .description(l10n) Rippex accepts deposits from all Brazilian banks. Instructions
+            a(href="https://rippex.zendesk.com/hc/pt-br/articles/202324844-Dep%C3%B3sitos-Transfer%C3%AAncia-Banc%C3%A1ria", target="_blank") here.
