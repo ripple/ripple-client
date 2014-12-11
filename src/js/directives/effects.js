@@ -39,7 +39,20 @@ module.directive('rpSlide', [function () {
   return {
     restrict: 'A',
     link: function (scope, element, attrs) {
-      scope.$watch(attrs.rpSlide, function(value) {
+      scope.$watch(attrs.rpSlide, function(value, oldValue) {
+        // don't animate on initialization
+        if (value === oldValue) {
+          if (value) {
+            element.css('maxHeight', '');
+          }
+          else {
+            element.css({
+              maxHeight: 0,
+              overflow: 'hidden'
+            });
+          }
+          return;
+        }
         if (value) {
           element.css('maxHeight', '');
           var height = element.height();
