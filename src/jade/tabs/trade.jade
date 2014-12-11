@@ -503,15 +503,15 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                               ) ???
                             span(l10n)  at 
                             span {{entry.second | rpamountratio:entry.first | rpamount:{hard_precision: true, precision: 6, tiny_precision: 6} }}
-                          div
-                            span.modal-order-type(l10n-inc) FILLED:
-                            span filled data
-                          div
-                            span.modal-order-type(l10n-inc) REMAIN:
-                            span remain data
-                          div
-                            span.modal-order-type(l10n-inc) PLACED:
-                            span Sell data
+                          //- div
+                          //-   span.modal-order-type(l10n-inc) FILLED:
+                          //-   span filled data
+                          //- div
+                          //-   span.modal-order-type(l10n-inc) REMAIN:
+                          //-   span remain data
+                          //- div
+                          //-   span.modal-order-type(l10n-inc) PLACED:
+                          //-   span time data
                         .modal-buttons
                           button.modal-btn.btn.btn-default.btn-success.btn-md(data-dismiss="modal", ng-click="cancel_order()")
                             span(l10n) Cancel order
