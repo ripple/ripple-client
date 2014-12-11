@@ -608,6 +608,7 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', '$t
     var deferred = $q.defer();
     var strippedValue = webutil.stripRippleAddress(address);
     var rpAddress = ripple.UInt160.from_json(strippedValue);
+
     if (!rpAddress.is_valid()) {
       deferred.resolve(address);
       return deferred.promise;
@@ -620,31 +621,25 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', '$t
         this.serviceInvoked[address] = true;
 
         // Get the blobvault url
-        ripple.AuthInfo.get(Options.domain, "1", function(err, authInfo) {
-          if (err) {
-            console.log("Can't get the authinfo data", err);
-            deferred.reject(err);
-          } else {
-            // Get the user
-            $http.get(authInfo.blobvault + '/v1/user/' + strippedValue)
-              .success(function(data) {
-                if (data.username) {
-                  if (opts.tilde === true) {
-                    self.resolvedNames[address] = "~".concat(data.username);
-                  } else {
-                    self.resolvedNames[address] = data.username;
-                  }
+        ripple.AuthInfo.get(Options.domain, strippedValue, function(err, data) {
+          $scope.$apply(function(){
+            if (err) {
+              console.log("Can't get the authinfo data", err);
+              deferred.reject(err);
+            } else {
+              if (data.username) {
+                if (opts.tilde === true) {
+                  self.resolvedNames[address] = "~".concat(data.username);
                 } else {
-                  // Show the ripple address if there's no name associated with it
-                  self.resolvedNames[address] = address;
+                  self.resolvedNames[address] = data.username;
                 }
-                deferred.resolve(self.resolvedNames[address]);
-              })
-              .error(function(err){
-                console.log("Can't get the blobvault", err);
-                deferred.reject(err);
-              });
-          }
+              } else {
+                // Show the ripple address if there's no name associated with it
+                self.resolvedNames[address] = address;
+              }
+              deferred.resolve(self.resolvedNames[address]);
+            }
+          });
         });
       } else {
         deferred.resolve(address);

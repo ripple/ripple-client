@@ -63,24 +63,23 @@ module.directive('rpMasterAddressExists', function ($http) {
           var account_id = ripple.Seed.from_json(value).get_key().get_address().to_json();
 
           //NOTE: is there a better way to get the blobvault URL?         
-          ripple.AuthInfo.get(Options.domain, "1", function(err, authInfo) {
-            if (err) {
-              scope.checkingMasterkey = false;
-              return;
-            }
+          ripple.AuthInfo.get(Options.domain, account_id, function(err, data) {
+            scope.$apply(function() {
+              if (err) {
+                scope.checkingMasterkey = false;
+                return;
+              }
 
-            $http.get(authInfo.blobvault + '/v1/user/' + account_id)
-              .success(function(data) {
-                if (data.username) {
-                  scope.masterkeyUsername = data.username;
-                  scope.masterkeyAddress  = account_id;
-                  ctrl.$setValidity('rpMasterAddressExists', false);
-                  scope.checkingMasterkey = false;
-                } else {
-                  ctrl.$setValidity('rpMasterAddressExists', true);
-                  scope.checkingMasterkey = false;
-                }
-              });
+              if (data.username) {
+                scope.masterkeyUsername = data.username;
+                scope.masterkeyAddress = account_id;
+                ctrl.$setValidity('rpMasterAddressExists', false);
+              } else {
+                ctrl.$setValidity('rpMasterAddressExists', true);
+              }
+
+              scope.checkingMasterkey = false;
+            })
           });
 
           return value;
