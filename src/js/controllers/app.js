@@ -100,6 +100,24 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
       $scope.$apply(function () {
         $scope.loadingAccount = false;
         myHandleAccountEntry(data);
+
+        $scope.userHistory = new rpHistory(account);
+        $scope.userHistory.onTransaction(myHandleAccountEvent);
+
+        // Load account transactions
+        var options = {
+          limit: Options.transactions_per_page
+        };
+
+        $scope.userHistory.getHistory(options, function(err, data){
+          if (err) {
+            handleAccountTxError(err);
+            return;
+          }
+
+          console.log('Account transaction history loaded');
+          handleAccountTx(data);
+        });
       });
     });
 
@@ -119,16 +137,6 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
     remote.requestAccountOffers({account: data.account})
       .on('success', handleOffers)
       .on('error', handleOffersError).request();
-
-    // Transactions
-    remote.request_account_tx({
-      'account': data.account,
-      'ledger_index_min': -1,
-      'descending': true,
-      'limit': Options.transactions_per_page
-    })
-    .on('success', handleAccountTx)
-    .on('error', handleAccountTxError).request();
 
     loadB2r();
   }
@@ -234,17 +242,15 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
 
   function handleAccountTx(data)
   {
-    $scope.$apply(function () {
-      $scope.tx_marker = data.marker;
-      if (data.transactions) {
-        data.transactions.reverse().forEach(function (e, key) {
-          processTxn(e.tx, e.meta, true);
-        });
-      }
-      $scope.$broadcast('$eventsUpdate');
+    $scope.history = [];
 
-      $scope.loadState.transactions = true;
-    })
+    data.transactions.reverse().forEach(function (e, key) {
+      processTxn(e.tx, e.meta, true);
+    });
+
+    $scope.$broadcast('$eventsUpdate');
+
+    $scope.loadState.transactions = true;
   }
 
   function handleAccountTxError(data)
@@ -276,7 +282,7 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
         'Source': is_historic ? 'app controller historic' : 'app controller event'
       });
       console.error('Error processing transaction '+processedTxn.transaction.hash+'\n',
-                    err && 'object' === typeof err && err.stack ? err.stack : err);
+        err && 'object' === typeof err && err.stack ? err.stack : err);
 
       // Add to history only
       $scope.history.unshift(processedTxn);
@@ -290,8 +296,8 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
 
       // Show status notification
       if (processedTxn.tx_result === "tesSUCCESS" &&
-          transaction &&
-          !is_historic) {
+        transaction &&
+        !is_historic) {
 
         $scope.$broadcast('$appTxNotification', {
           hash:tx.hash,
@@ -301,7 +307,7 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
 
       // Add to recent notifications
       if (processedTxn.tx_result === "tesSUCCESS" &&
-          transaction) {
+        transaction) {
 
         var effects = [];
         // Only show specific transactions
@@ -321,7 +327,7 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
             if (!funded) {
               break;
             }
-            /* falls through */
+          /* falls through */
           case 'received':
 
             // Is it unseen?
@@ -366,10 +372,10 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
         processedTxn.effects.forEach(function (effect) {
           // Only these types are offers
           if (_.contains([
-            'offer_created',
-            'offer_funded',
-            'offer_partially_funded',
-            'offer_cancelled'], effect.type))
+              'offer_created',
+              'offer_funded',
+              'offer_partially_funded',
+              'offer_cancelled'], effect.type))
           {
             var offer = {
               seq: +effect.seq,
@@ -415,16 +421,16 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
 
     $.each(effects, function () {
       if (_.contains([
-        'trust_create_local',
-        'trust_create_remote',
-        'trust_change_local',
-        'trust_change_remote',
-        'trust_change_balance',
-        'trust_change_no_ripple'], this.type))
+          'trust_create_local',
+          'trust_create_remote',
+          'trust_change_local',
+          'trust_change_remote',
+          'trust_change_balance',
+          'trust_change_no_ripple'], this.type))
       {
         var effect = this,
-            line = {},
-            index = effect.counterparty + effect.currency;
+          line = {},
+          index = effect.counterparty + effect.currency;
 
         line.currency = effect.currency;
         line.account = effect.counterparty;
@@ -434,8 +440,8 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
         if (effect.balance) {
           line.balance = effect.balance;
           updateRippleBalance(effect.currency,
-                                    effect.counterparty,
-                                    effect.balance);
+            effect.counterparty,
+            effect.balance);
           balancesUpdated = true;
         }
 
@@ -679,7 +685,7 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
   // XXX: The app also needs to handle updating its data when the connection is
   //      lost and later re-established. (... or will the Ripple lib do that for us?)
   var removeFirstConnectionListener =
-        $scope.$on('$netConnected', handleFirstConnection);
+    $scope.$on('$netConnected', handleFirstConnection);
   function handleFirstConnection() {
     removeFirstConnectionListener();
   }
