@@ -202,6 +202,11 @@ BalanceTab.prototype.angular = function (module)
       updateExchangeRates();
     }
 
+    /**
+     * Currency value trends, will be needed for red/green colorization
+     * of balances widget
+     * TODO: Needs outsourcing to Balances widget controller
+     */
     var history = [];
 
     var getDateRangeHistory = function(dateMin, dateMax, callback)
@@ -318,6 +323,9 @@ BalanceTab.prototype.angular = function (module)
       $scope.trendValueAsPercentage = ($scope.aggregateValueAsXrp - av) / av;
     }
 
+    /**
+     * Market chart widget
+     */
     $scope.$watch('firstCurrencySelected', function () {
       $scope.firstIssuerSelected = '';
       if ($scope.firstCurrencySelected == 'XRP') {
