@@ -410,6 +410,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                     span {{entry.first | rpcurrency}}
                     span.issuer(ng-show="entry.first.issuer().to_json()") &nbsp;(
                       span(
+                        rp-pretty-issuer-or-short="entry.first.issuer().to_json"
                         rp-pretty-issuer="entry.first.issuer().to_json()"
                         rp-pretty-issuer-contacts="userBlob.data.contacts"
                       ) ???
@@ -419,6 +420,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                     span  {{entry.second | rpcurrency}}
                     span.issuer(ng-show="entry.second.issuer().to_json()") &nbsp;(
                       span(
+                        rp-pretty-issuer-or-short="entry.first.issuer().to_json"
                         rp-pretty-issuer="entry.second.issuer().to_json()"
                         rp-pretty-issuer-contacts="userBlob.data.contacts"
                       ) ???
