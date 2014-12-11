@@ -23,17 +23,7 @@ JpyTab.prototype.angular = function (module)
   module.controller('JpyCtrl', ['$scope', 'rpId', 'rpAppManager', 'rpTracker', '$routeParams', 'rpKeychain', 'rpNetwork', '$timeout',
     function ($scope, $id, appManager, rpTracker, $routeParams, keychain, $network, $timeout)
     {
-      $scope.$watch('lines', function () {
-        if($scope.lines['r94s8px6kSw1uZ1MV98dhSRTvc6VMPoPcNJPY']){
-          $scope.jpyConnected = true;
-        }
-        else {
-          $scope.jpyConnected = false;
-        }
-      }, true);
       
-
-
       $scope.toggle_instructions = function (){
         $scope.showInstructions = !$scope.showInstructions;
       }
@@ -137,20 +127,28 @@ JpyTab.prototype.angular = function (module)
 
         });
         
-        // User should be notified if the reserve is insufficient to add a gateway
-        $scope.$watch('account', function() {
-          $scope.can_add_trust = false;
-          if ($scope.account.Balance && $scope.account.reserve_to_add_trust) {
-            if (!$scope.account.reserve_to_add_trust.subtract($scope.account.Balance).is_positive()
-              || $.isEmptyObject($scope.lines))
-            {
-              $scope.can_add_trust = true;
-            }
-          }
-        }, true);
-
       };
 
+      $scope.$watch('lines', function () {
+        if($scope.lines['r94s8px6kSw1uZ1MV98dhSRTvc6VMPoPcNJPY']){
+          $scope.jpyConnected = true;
+        }
+        else {
+          $scope.jpyConnected = false;
+        }
+      }, true);
+      
+      // User should be notified if the reserve is insufficient to add a gateway
+      $scope.$watch('account', function() {
+        $scope.can_add_trust = false;
+        if ($scope.account.Balance && $scope.account.reserve_to_add_trust) {
+          if (!$scope.account.reserve_to_add_trust.subtract($scope.account.Balance).is_positive()
+            || $.isEmptyObject($scope.lines))
+          {
+            $scope.can_add_trust = true;
+          }
+        }
+      }, true);
     }]);
 
 };
