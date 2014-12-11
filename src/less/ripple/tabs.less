@@ -2535,7 +2535,14 @@ header nav.navbar .open > .dropdown-menu {
 }
 
 #t-fund, #t-xrp, #t-btc, #t-usd, #t-gold, #t-trust, #t-jpy, #t-brl, #t-mxn {
-
+  .row {
+    >group, >div {
+      position: relative;
+      min-height: 1px;
+      padding-right: 15px;
+      padding-left: 15px;
+    }
+  }
   .currencies a {
     display: block;
     padding: 10px;

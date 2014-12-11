@@ -18,34 +18,37 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
     .row
 
       // Transaction errors coming from errors.js & transactionerror.jade
-      group.mode-ripplerror(ng-show='account.Balance')
-        rp-transaction-status(
-          rp-engine-result="{{engine_result}}"
-          rp-engine-result-message="{{engine_result_message}}"
-          rp-accepted="{{engine_status_accepted}}"
-          rp-current-tab="trust")
+      .col-sm-12
+        group.mode-ripplerror(ng-show='account.Balance')
+          rp-transaction-status(
+            rp-engine-result="{{engine_result}}"
+            rp-engine-result-message="{{engine_result_message}}"
+            rp-accepted="{{engine_status_accepted}}"
+            rp-current-tab="trust")
 
       //- N5. Notifications for edit/removing account
-      group.mode-granted.wide(ng-show='notif !== "clear"')
-        group(ng-switch on="notif")
-          group.pending(ng-switch-when="remove_gateway")
-            h2.tx-status(l10n) Removing gateway...
-          group.result-success(ng-switch-when="gateway_removed")
-            h2.tx-status(l10n) Gateway removed.
-          group.result-error(ng-switch-when="max_fee")
-            h2.tx-status(l10n) Request failed.
-            p(l10n) This request failed because the transaction exceeded the maximum network fee. [maxfeeExceeded].
-          group.result-error(ng-switch-when="unlock_failed")
-            h2.tx-status(l10n) Account unlock failed.
-            p(l10n) Your account could not be unlocked. Please try again later.
-          group.result-error(ng-switch-when="error")
-            h2.tx-status(l10n) There was an error while saving your changes.&#32;
-            p(l10n) Please try again later.
-
-      .alert.alert-warning(ng-show='addform_visible && !can_add_trust', l10n) You must have at least
-        strong  {{account.reserve_to_add_trust | rpamount:0}} XRP
-        |  to add a new trust line.&#32;
-        a(href="https://ripple.com/wiki/Reserves", target="_blank") More information
+      .col-sm-12
+        group.mode-granted.wide(ng-show='notif !== "clear"')
+          group(ng-switch on="notif")
+            group.pending(ng-switch-when="remove_gateway")
+              h2.tx-status(l10n) Removing gateway...
+            group.result-success(ng-switch-when="gateway_removed")
+              h2.tx-status(l10n) Gateway removed.
+            group.result-error(ng-switch-when="max_fee")
+              h2.tx-status(l10n) Request failed.
+              p(l10n) This request failed because the transaction exceeded the maximum network fee. [maxfeeExceeded].
+            group.result-error(ng-switch-when="unlock_failed")
+              h2.tx-status(l10n) Account unlock failed.
+              p(l10n) Your account could not be unlocked. Please try again later.
+            group.result-error(ng-switch-when="error")
+              h2.tx-status(l10n) There was an error while saving your changes.&#32;
+              p(l10n) Please try again later.
+            
+      .col-sm-12      
+        .alert.alert-warning(ng-show='addform_visible && !can_add_trust', l10n) You must have at least
+          strong  {{account.reserve_to_add_trust | rpamount:0}} XRP
+          |  to add a new trust line.&#32;
+          a(href="https://ripple.com/wiki/Reserves", target="_blank") More information
     .row(ng-show='connected')
 
       .col-sm-3
