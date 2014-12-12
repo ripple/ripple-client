@@ -102,9 +102,9 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                   | Currency field is required
               .row
                 .col-xs-12.form-group
-                  label(for='trust_amount', ng-show="advanced_feature_switch", l10n) Amount
-                  label(for='trust_amount', ng-hide="advanced_feature_switch", l10n) Currency
-                  .row(ng-show="advanced_feature_switch")
+                  label(for='trust_amount', ng-show="globalOptions.advanced_feature_switch", l10n) Amount
+                  label(for='trust_amount', ng-hide="globalOptions.advanced_feature_switch", l10n) Currency
+                  .row(ng-show="globalOptions.advanced_feature_switch")
                     .col-md-3.col-sm-4.col-xs-3(ng-init="amount = $routeParams.amount ? '' : 1000000000")
                       input.form-control.value#trust_amount(name='trust_amount'
                         type='text', step='any', ng-model='amount'
@@ -123,7 +123,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                         rp-autofill-on='addform_visible = true'
                         rp-not-xrp
                         required)
-                  .row(ng-hide="advanced_feature_switch")
+                  .row(ng-hide="globalOptions.advanced_feature_switch")
                     .col-md-9.col-sm-10.col-xs-12
                       input.form-control.currency-field#trust_amount_currency(name='trust_amount_currency', type='text'
                         ng-model='currency', rp-combobox="currency_query", rp-combobox-select
@@ -143,7 +143,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                       |  to trust in XRP, please use XRR currency code.
                     .error(rp-error-on='required', l10n)
                       | Currency field is required
-              .row(ng-show="advanced_feature_switch")
+              .row(ng-show="globalOptions.advanced_feature_switch")
                 .col-xs-12.allow-rippling
                   label.checkbox(for="trust_allowrippling")
                     input#trust_allowrippling(
@@ -168,11 +168,11 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                         div.modal-prompt(l10n)
                           div(l10n-inc) You are connecting a gateway, which means
                           div(l10n-inc) {{ counterparty_address | rpripplename:{tilde: true} }} can:
-                        div.grey-focus(ng-show="advanced_feature_switch", l10n)
+                        div.grey-focus(ng-show="globalOptions.advanced_feature_switch", l10n)
                           span.modal-permissions(l10n-inc) - Hold up to&#32;
                           span(rp-pretty-amount="amount_feedback")
                           span.modal-permissions(l10n-inc)  on your behalf
-                        div.grey-focus(ng-hide="advanced_feature_switch", l10n)
+                        div.grey-focus(ng-hide="globalOptions.advanced_feature_switch", l10n)
                           span.modal-permissions(l10n-inc) - Hold&#32;
                           span {{ currency }}
                           span.modal-permissions(l10n-inc)  on your behalf
@@ -211,37 +211,37 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
               span.currency(rp-currency="entry.components[0].limit", rp-currency-full)
           .row.head
             div(
-              ng-class="{ 'col-sm-3 col-xs-2': advanced_feature_switch, 'col-sm-4 col-xs-4 col-md-5': !advanced_feature_switch }"
+              ng-class="{ 'col-sm-3 col-xs-2': globalOptions.advanced_feature_switch, 'col-sm-4 col-xs-4 col-md-5': !globalOptions.advanced_feature_switch }"
               l10n) Gateway
             div(
-              ng-class="{ 'col-xs-2 col-sm-2': advanced_feature_switch, 'col-xs-4': !advanced_feature_switch }"
+              ng-class="{ 'col-xs-2 col-sm-2': globalOptions.advanced_feature_switch, 'col-xs-4': !globalOptions.advanced_feature_switch }"
               l10n) Balance
-            div(ng-show="advanced_feature_switch", ng-class="{ 'col-xs-2': advanced_feature_switch }", l10n) Limit
-            div.col-xs-2.col-sm-1(ng-show="advanced_feature_switch", l10n) Min
-            div.col-xs-2(ng-show="advanced_feature_switch", l10n) Rippling
-            div(ng-class="{'col-xs-2' : advanced_feature_switch, 'col-xs-4 col-md-3': !advanced_feature_switch }"
+            div(ng-show="globalOptions.advanced_feature_switch", ng-class="{ 'col-xs-2': globalOptions.advanced_feature_switch }", l10n) Limit
+            div.col-xs-2.col-sm-1(ng-show="globalOptions.advanced_feature_switch", l10n) Min
+            div.col-xs-2(ng-show="globalOptions.advanced_feature_switch", l10n) Rippling
+            div(ng-class="{'col-xs-2' : globalOptions.advanced_feature_switch, 'col-xs-4 col-md-3': !globalOptions.advanced_feature_switch }"
               l10n) Edit
           hr#divider
           .lines
             .line(ng-controller="AccountRowCtrl", ng-repeat="component in entry.components")
               .row(ng-class="{ 'frozen-account': component.freeze_peer }")
-                .gateway(ng-class="{ 'col-sm-3 col-xs-2': advanced_feature_switch, 'col-md-5 col-sm-4 col-xs-4': !advanced_feature_switch }")
+                .gateway(ng-class="{ 'col-sm-3 col-xs-2': globalOptions.advanced_feature_switch, 'col-md-5 col-sm-4 col-xs-4': !globalOptions.advanced_feature_switch }")
                   span(rp-pretty-identity="component.account", rp-pretty-identity-filters="rpcontactnamefull | rpripplename: {tilde: true}",
                     rp-address-popover="component.account"
                     )
-                div(ng-class="{ 'col-xs-2 col-sm-2': advanced_feature_switch, 'col-xs-4': !advanced_feature_switch }")
+                div(ng-class="{ 'col-xs-2 col-sm-2': globalOptions.advanced_feature_switch, 'col-xs-4': !globalOptions.advanced_feature_switch }")
                   span(rp-address-popover, rp-address-popover-sum="component.balance") {{ component.balance | rpamount:{rel_precision: 2} }}
-                .col-xs-2(ng-show="advanced_feature_switch", ng-class="{ 'col-xs-1': advanced_feature_switch }")
+                .col-xs-2(ng-show="globalOptions.advanced_feature_switch", ng-class="{ 'col-xs-1': globalOptions.advanced_feature_switch }")
                   span(rp-address-popover, rp-address-popover-sum="component.limit") {{ component.limit | rpamount }}
-                .col-sm-1.col-xs-2(ng-show="advanced_feature_switch && component.limit_peer._offset == '-100'")
+                .col-sm-1.col-xs-2(ng-show="globalOptions.advanced_feature_switch && component.limit_peer._offset == '-100'")
                   span(rp-address-popover, rp-address-popover-sum="component.limit_peer") {{ component.limit_peer | rpamount }}
-                .col-sm-1.col-xs-2(ng-show="advanced_feature_switch && component.limit_peer._offset !== '-100'", 
-                                   ng-hide="component.limit_peer._offset == '-100' || !advanced_feature_switch")
+                .col-sm-1.col-xs-2(ng-show="globalOptions.advanced_feature_switch && component.limit_peer._offset !== '-100'", 
+                                   ng-hide="component.limit_peer._offset == '-100' || !globalOptions.advanced_feature_switch")
                   span(rp-address-popover, rp-address-popover-sum="component.limit_peer", rp-address-popover-sum-minus) -{{ component.limit_peer | rpamount }}
-                .col-sm-2.col-xs-2(ng-show="advanced_feature_switch")
+                .col-sm-2.col-xs-2(ng-show="globalOptions.advanced_feature_switch")
                   div(ng-show="component.no_ripple", l10n) Off
                   div(ng-hide="component.no_ripple", l10n) On
-                div(ng-hide="component.freeze_peer", ng-class="{ 'col-xs-2': advanced_feature_switch, 'col-xs-4 col-md-3': !advanced_feature_switch }")
+                div(ng-hide="component.freeze_peer", ng-class="{ 'col-xs-2': globalOptions.advanced_feature_switch, 'col-xs-4 col-md-3': !globalOptions.advanced_feature_switch }")
                   a(href="", ng-hide="editing || isIncoming()", ng-click="edit_account()"
                     l10n) edit
                   span(
@@ -252,7 +252,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                     l10n-rp-popover-title="Incoming trust"
                     l10n-data-content="You can't edit incoming trust lines. Incoming trust lines are when other Ripple users trust you.")
                     a.disabled(href="", l10n) edit
-                  span(ng-show="editing && !advanced_feature_switch")
+                  span(ng-show="editing && !globalOptions.advanced_feature_switch")
                     span(ng-hide="trust.loading")
                       div.row.row-padding-small
                         .col-md-7.col-sm-7.col-xs-6
@@ -311,7 +311,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                     rp-popover-title='Account Frozen'
                     rp-popover-trigger="click"
                     data-content='This account has been frozen. Please contact the issuer to unfreeze your account. <a href=https://ripple.com/wiki/Freeze target=_blank>More about freezing</a>')
-              .row.row-padding-small-xs.editBox(ng-show="editing && advanced_feature_switch")
+              .row.row-padding-small-xs.editBox(ng-show="editing && globalOptions.advanced_feature_switch")
                 form(ng-class="{ 'frozen-account': component.freeze_peer }"
                   ng-submit="save_account()")
                   ng-form(name="accountForm")
