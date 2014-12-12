@@ -22,11 +22,6 @@
               rp-combobox="firstIssuer", rp-combobox-select
               rp-combobox-small
               ng-model="firstIssuerSelected")
-      //- Flip (for sm+)
-      .hidden-xs.col-sm-2
-        button.btn.flip.btn-cancel.btn-block(
-          ng-click="flipCurrencies()", l10n)
-          | flip
       //- Counter currency
       .col-xs-9.col-sm-5.col-lg-4
         .row
@@ -43,8 +38,8 @@
               rp-combobox="secondIssuer", rp-combobox-select
               rp-combobox-small
               ng-model="secondIssuerSelected")
-      //- Flip (for xs)
-      .visible-xs.col-xs-3
+      //- Flip
+      .col-xs-3.col-sm-2
         button.btn.flip.btn-cancel.btn-block(
           ng-click="flipCurrencies() ", l10n)
           | flip
