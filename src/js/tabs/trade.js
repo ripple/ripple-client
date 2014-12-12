@@ -1292,6 +1292,13 @@ TradeTab.prototype.angular = function(module)
     });
 
     /**
+     * Force orderbook update every 30s
+     */
+    $scope.$watch(lastUpdate, function () {
+      if (lastUpdate > 30) loadOffers();
+    }, true);
+
+    /**
      * Watch widget field changes
      */
     ['buy','sell'].forEach(function(type){
