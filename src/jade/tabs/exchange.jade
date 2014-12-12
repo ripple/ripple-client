@@ -20,9 +20,11 @@ section.col-xs-12.content(ng-controller="ExchangeCtrl")
     .widgets.hidden-xs.col-sm-4.col-md-4.col-lg-3
       include widgets/balances
     .col-xs-12.col-sm-8.col-md-8.col-lg-9
+      .nameLine(l10n) Buy (Market Rate)
+      .instructions(l10n) Submit a buy order at the current market rate. Orders will execute instantly.
       form.mode-form#exchangeForm(name="exchangeForm", ng-show='mode=="form" && account.Balance', ng-submit='exchange_prepared()')
         .form-group
-          label(for='amount', l10n="Receive (amount)") Receive
+          label(for='amount', l10n="Receive (amount)") I want to buy
           .row.row-padding-small.amount
             .col-sm-3.col-md-3.col-xs-3
               input.value.form-control#amount(
@@ -43,6 +45,8 @@ section.col-xs-12.content(ng-controller="ExchangeCtrl")
               ng-model='exchange.currency_name'
               rp-autofill='$routeParams.amount'
               rp-autofill-currency)
+            .col-sm-3.col-md-3.col-xs-12.addText
+              a.descriptor(href="#/xrp", l10n) Add more currencies
           .errorGroup(rp-errors='amount')
             .error(rp-error-on='required', l10n) Please enter an amount.
             .error(rp-error-on='rpAmount', l10n) Not a valid amount.
