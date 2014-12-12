@@ -24,245 +24,136 @@ UsdTab.prototype.extraRoutes = [
 
 UsdTab.prototype.angular = function (module)
 {
-  module.controller('UsdCtrl', ['$scope', 'rpId', '$routeParams', '$http', 'rpAuthFlow', 'rpNetwork', 'rpTxQueue', '$location', 'rpTracker',
-    function ($scope, $id, $routeParams, $http, authflow, network, txQueue, $location, $rpTracker)
+  module.controller('UsdCtrl', ['$scope', 'rpId', 'rpAppManager', 'rpTracker', '$routeParams', 'rpKeychain', 'rpNetwork', '$timeout',
+    function ($scope, $id, appManager, rpTracker, $routeParams, keychain, $network, $timeout)
     {
-      var issuer = Options.b2rAddress;
-      var currency = 'USD';
-      var trustAmount = '100000000000';
-
-      /**
-       * Decide whether we want to show the form
-       * (Only show if the user has been KYCd)
-       */
-      var checkAttestation = function(){
-        $scope.options = {
-          url         : $scope.userBlob.url,
-          auth_secret : $scope.userBlob.data.auth_secret,
-          blob_id     : $scope.userBlob.id,
-          type        : 'profile',
-          full        : true
-        };
-
-        authflow.getAttestationSummary($scope.options, function(err, resp) {
-          if (err) {
-            console.log('Error while getting attestation', err);
-            $scope.error = 'We are unable to proceed with instant deposit. Please contact support@snapswap.us.';
-            return;
-          }
-
-          if (resp && resp.decoded && resp.decoded.payload && !resp.decoded.payload.profile_verified) {
-            $scope.mode = 'noKyc';
-            return;
-          }
-
-          $scope.attestation = resp.attestation;
-          $scope.mode = 'step1';
-        });
-      };
-
-      // If blob is already loaded
-      if ($scope.userBlob.id) {
-        checkAttestation();
+     
+      $scope.toggle_instructions = function (){
+        $scope.showInstructions = !$scope.showInstructions;
       }
 
-      // If not, then wait until it's there
-      $scope.$on('$blobUpdate', function(){
-        if ($scope.mode == 'step2' || $scope.mode == 'step3')
-          return;
 
-        checkAttestation();
-      });
+      $scope.save_account = function (){
 
-      //$scope.mode = 'step1';
-      $scope.step1 = function() {
-        $scope.mode = 'step1';
-        $location.path('/usd');
-      };
+        $scope.loading = true;
 
-      /**
-       * Create the Snapswap profile and get the quote
-       */
-
-      // Create a SnapSwap account
-      $scope.createAccount = function(callback) {
-        $http({
-          method: 'POST',
-          data: {
-            domain: 'snapswap.us',
-            email: $scope.userBlob.data.email,
-            rippleAddress: $id.account,
-            trustTxBlob: 'anystring',
-            usernameProposal: $scope.userCredentials.username.split("@")[0],
-            data: {
-              source: 'https://id.ripple.com',
-              jwt: $scope.attestation
-            }
-          },
-          url: Options.snapswapApi + '/ripple'
-        })
-        .success(function(){
-          callback();
-        })
-        .error(function(err){
-          console.log('Error while creating a SnapSwap account',err);
-          callback(err);
-        });
-      };
-
-      // Get the quote
-      $scope.getQuote = function() {
-        $scope.error = '';
-        $scope.calculating = true;
-        $scope.mode = 'step2';
-
-        $http({
-          method: 'GET',
-          data: {
-            amount: Number($scope.usdAmount)
-          },
-          url: Options.snapswapApi + '/ripple/' + $id.account + '/balance/USD/deposit/instantKnox?amount=' + $scope.usdAmount
-        })
-        .success(function(data){
-          $scope.inProcess = false;
-
-          $scope.fee = data.fee.toFixed(2);
-          $scope.total = data.total.toFixed(2);
-
-          $scope.calculating = false;
-
-          $rpTracker.track('Fund USD: Get Quote', {
-            'Amount': $scope.usdAmount,
-            'Bank': $scope.bank,
-            'Status': 'success'
-          });
-        })
-        .error(function(err){
-          console.log('Error while getting the quote', err);
-
-          // In process
-          $scope.inProcess = false;
-          $scope.error = err.detail;
-
-          if (err.type === 'http://snapswap.vc/api/v1/errors/override-not-allowed') {
-            $scope.inProcess = true;
-          }
-          else if (err.type === 'http://snapswap.vc/api/v1/errors/locked-account') {
-            $scope.error = 'We are sorry, but SnapSwap has locked your account. Please contact support@snapswap.us.';
-          }
-          else if (err.title === 'Not Found') {
-            // Create account if it doesn't exist yet
-            $scope.createAccount(function(err){
-              $scope.error = '';
-
-              if (err) {
-                $scope.error = 'We are unable to proceed with instant deposit. Please contact support@snapswap.us.';
-                $scope.calculating = false;
-                return;
-              }
-
-              $scope.getQuote();
-            });
-
-            return;
-          }
-          $scope.calculating = false;
-
-          $rpTracker.track('Fund USD: Get Quote', {
-            'Amount': $scope.usdAmount,
-            'Bank': $scope.bank,
-            'Status': 'error',
-            'Message': err.detail
-          });
-        });
-      };
-
-      /**
-       * Transaction confirmed, show the deposit widget
-       */
-      $scope.prepareTrust = function() {
-        // Is there an existing trust line?
-        if(existingTrustLine = $scope.lines[issuer + currency])
-          // Is the trust limit enough?
-          if(existingTrustLine.limit.to_number() >= trustAmount)
-          // We're good with the existing trust line
-            return;
-
-        // Is there an existing trustTx in queue?
-        // (Does this really belong here? maybe just move it to txqueue.js?)
-        var noNeed;
-        _.each(
-          // Find all trust transactions in queue
-          _.findWhere($scope.userBlob.data.txQueue, {type: "TrustSet"}),
-          function(elm,index,txInQueue){
-            // Does this fulfil our needs?
-            noNeed = txInQueue && txInQueue.details.currency === currency
-            && txInQueue.details.issuer === issuer
-            && txInQueue.details.value >= trustAmount;
-          }
+        var amount = ripple.Amount.from_human(
+            Options.gateway_max_limit + ' ' + 'USD',
+            {reference_date: new Date(+new Date() + 5*60000)}
         );
 
-        // We already have the necessary trustTx waiting in line.
-        if (noNeed) return;
+        amount.set_issuer("rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q");
 
-        // Ok, looks like we need to set a trust line
-        var tx = network.remote.transaction();
-        tx.rippleLineSet($id.account, trustAmount + '/' + currency + '/' + issuer);
-        tx.setFlags('NoRipple');
+        if (!amount.is_valid()) {
+          // Invalid amount. Indicates a bug in one of the validators.
+          console.log('Invalid amount');
+          return;
+        }
 
-        // txQueue please set the trust line asap.
-        txQueue.addTransaction(tx);
+        var tx = $network.remote.transaction();
+
+        // Add memo to tx
+        tx.addMemo('client', 'rt' + $scope.version);
+
+        // Flags
+        tx
+            .rippleLineSet($id.account, amount)
+            .on('proposed', function(res){
+              $scope.$apply(function () {
+                setEngineStatus(res, false);              
+              });
+            })
+            .on('success', function (res) {
+              $scope.$apply(function () {
+                setEngineStatus(res, true);
+
+                $scope.loading = false;
+                $scope.editing = false;
+              });
+            })
+            .on('error', function (res) {
+              setEngineStatus(res, false);
+              console.log('error', res);
+              setImmediate(function () {
+                $scope.$apply(function () {
+                  $scope.mode = 'error';
+
+                  $scope.loading = false;
+                  $scope.editing = false;
+                });
+              });
+            });
+
+        function setEngineStatus(res, accepted) {
+          $scope.engine_result = res.engine_result;
+          $scope.engine_result_message = res.engine_result_message;
+          $scope.engine_status_accepted = accepted;
+
+          switch (res.engine_result.slice(0, 3)) {
+            case 'tes':
+              $scope.tx_result = accepted ? 'cleared' : 'pending';
+              break;
+            case 'tem':
+              $scope.tx_result = 'malformed';
+              break;
+            case 'ter':
+              $scope.tx_result = 'failed';
+              break;
+            case 'tec':
+              $scope.tx_result = 'failed';
+              break;
+            case 'tel':
+              $scope.tx_result = "local";
+              break;
+            case 'tep':
+              console.warn('Unhandled engine status encountered!');
+          }
+          if ($scope.tx_result=="cleared"){
+            $scope.usdConnected = true;
+            $scope.showInstructions = true;
+
+          }
+          console.log($scope.tx_result);
+        }
+
+        keychain.requestSecret($id.account, $id.username, function (err, secret) {
+          // XXX Error handling
+          if (err) {
+            $scope.loading = false;
+            console.log(err);
+            return;
+          }
+
+          $scope.mode = 'granting';
+
+          tx.secret(secret);
+          tx.submit();
+
+
+        });
+        
       };
 
-      $scope.confirm = function() {
-        // Prepare the trustline
-        $scope.prepareTrust();
+      $scope.$watch('lines', function () {
+        if($scope.lines['rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2qUSD']){
+          $scope.usdConnected = true;
+        }
+        else {
+          $scope.usdConnected = false;
+        }
+      }, true);
 
-        // Get the knox link
-        $http({
-          method: 'POST',
-          data: {
-            amount: Number($scope.usdAmount),
-            success: location.origin + location.pathname + '#/usd/success',
-            cancel: location.origin + location.pathname + '#/usd/cancel',
-            failure: location.origin + location.pathname + '#/usd/failure'
-          },
-          url: Options.snapswapApi + '/ripple/' + $id.account + '/balance/USD/deposit/instantKnox'
-        }).success(function(data){
-          // Add the selected bank swift code
-          $scope.iframeUrl = data.redirectUrl + '&swift_code=' + $scope.bank;
-
-          $('#knoxFrame').attr('src',$scope.iframeUrl);
-
-          $scope.mode = 'step3';
-
-          $rpTracker.track('Fund USD: Confirmed', {
-            'Amount': $scope.usdAmount,
-            'Bank': $scope.bank
-          });
-        });
-      };
-
-      /**
-       * Manually cancelling the deposit
-       */
-      $scope.cancel = function() {
-        $http({
-          method: 'DELETE',
-          url: Options.snapswapApi + '/ripple/' + $id.account + '/processing/instantKnox'
-        }).success(function(data, status, headers, config){
-          $scope.mode = 'step1';
-        });
-
-        $rpTracker.track('Fund USD: Cancelled a pending deposit');
-      };
-
-      // Track the result
-      if ($routeParams.result) {
-        $rpTracker.track('Fund USD: Completed', {
-          'Result': $routeParams.result
-        });
-      }
+      // User should be notified if the reserve is insufficient to add a gateway
+      $scope.$watch('account', function() {
+        $scope.can_add_trust = false;
+        if ($scope.account.Balance && $scope.account.reserve_to_add_trust) {
+          if (!$scope.account.reserve_to_add_trust.subtract($scope.account.Balance).is_positive()
+            || $.isEmptyObject($scope.lines))
+          {
+            $scope.can_add_trust = true;
+          }
+        }
+      }, true);
     }]);
 };
 
