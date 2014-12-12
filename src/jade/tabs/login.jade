@@ -1,8 +1,18 @@
 section.col-xs-12.content(ng-controller="LoginCtrl")
   .row.auth-form-container(ng-hide="$routeParams.to")
-    .auth-form-wrapper.col-xs-12.col-sm-8.col-md-7
+    .col-xs-12.col-sm-4.col-md-8.hidden-xs
+      img.img-responsive.xrp_holder(src="img/img_XRP_new.svg")
+      hr
+      p.hero_text(l10n) Full, unfettered access to the Ripple network. Tap into Ripple's liquidity pool of hundreds of assets, from XRP to crypto to gold to fiat.
+    .tab_bg
+    .auth-form-wrapper.col-xs-12.col-sm-6.col-md-4
       form(name='loginForm', ng-submit='submitForm()')
-        h2(l10n) Log In
+        .tab_adjust.col-md-12
+          .sign_up_wrapper.col-xs-6.col-sm-6.col-md-6
+            h2.sign_up_top 
+              a(href='#register', l10n-inc) Sign Up
+          .login_wrapper.col-xs-6.col-sm-6.col-md-6
+            h2.login_top(l10n) Log In
         .auth-attention.text-center(ng-show="verifyStatus")
           .status(ng-show="'verifying' === verifyStatus", l10n) Verifying...
           .status(ng-show="'verified' === verifyStatus", l10n) You have successfully verified your email address.
@@ -24,16 +34,15 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
             ng-disabled="ajax_loading || !token", ng-show="twoFactor")
             img(src="img/button-s.png", class="loader", ng-show="ajax_loading")
             span(class="loading_text", l10n) Verify
-        .submit-btn-container-recovery
-          a.recover-btn(href="#recover/{{username}}", ng-show="showRecover")
-            button.btn.btn-block.btn-primary(ng-click="")
-              span(l10n) Account Recovery
-        button.btn.btn-link.recover(ng-click="goto_recover()", ng-hide="showRecover", l10n) Account Recovery
-    .row.switch-mode-wrapper
-      .switch-mode-link-container(l10n) Already have a ripple.com/client account?&#32;
-        a(href='#migrate', l10n-inc) Migrate
-      .switch-mode-link-container(l10n) New to {{productName}}?&#32;
-        a(href='#register', l10n-inc) Sign Up
+      .row.switch-mode-wrapper
+        .switch-mode-link-container.bottom_text(l10n) Already have a ripple.com/client account?&#32;
+          a(href='#migrate', l10n-inc) Migrate
+      .submit-btn-container-recovery
+        a.recover-btn(href="#recover/{{username}}", ng-show="showRecover")
+          button.btn.btn-block.btn-primary(ng-click="")
+            span(l10n) Account Recovery
+      button.btn.btn-link.recover(ng-click="goto_recover()", ng-hide="showRecover", l10n) Account Recovery
+     
 
   .row.action-login(ng-show="$routeParams.to")
     .col-xs-12.col-sm-6.col-md-6

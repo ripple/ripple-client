@@ -1,16 +1,20 @@
 
 section.col-xs-12.content(ng-controller="RegisterCtrl")
-  //- .row
-  //-   .welcome-wrapper.col-xs-12
-  //-     h3.platform(l10n) Ripple Trade is the only platform where you can trade between stores of value spanning fiat, crypto, precious metals and more.
   .row.auth-form-container(ng-show='mode=="form"')
-    .auth-form-wrapper.col-xs-12.col-sm-8.col-md-7
+    .col-xs-12.col-sm-6.col-md-8.hidden-xs
+      img.img-responsive.xrp_holder(src="img/img_XRP_new.svg")
+      hr
+      p.hero_text(l10n) Full, unfettered access to the Ripple network. Tap into Ripple's liquidity pool of hundreds of assets, from XRP to crypto to gold to fiat.
+    .tab_bg
+    .auth-form-wrapper.col-xs-12.col-sm-6.col-md-4
       form(name='registerForm', ng-submit='submitForm()')
-        h2(ng-hide="oldUserBlob", l10n) Sign Up
+        .tab_adjust.col-md-12
+          .sign_up_wrapper.col-xs-6.col-sm-6.col-md-6
+            h2.sign_up_top(ng-hide="oldUserBlob", l10n) Sign Up
+          .login_wrapper.col-xs-6.col-sm-6.col-md-6
+            h2.login_top.switch-mode-link-container(l10n)
+              a(href='#login', l10n-inc) Log In
         h2(ng-show="oldUserBlob", l10n) Migrate
-        .auth-attention(l10n) Already have a ripple.com/client account? Don't create a new account. Instead,&#32; 
-          a(href='#migrate', l10n-inc) migrate your existing account
-          | .
         .sign-up-steps-list
           li.active(l10n) Step
             span  1
@@ -98,9 +102,6 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
                 span ({{ masterkeyAddress }})
                 |  has already been created using this secret key.
               a.btn.btn-primary.recovery(ng-href="#/recover/{{masterkeyUsername}}", l10n) Recover Account
-        div(ng-hide="showMasterKeyInput || oldUserBlob", l10n)
-          | Need to use your secret key?&#32;
-          a(href="", ng-click="showMasterKeyInput=true", l10n) Use key
         .form-group
           .checkbox
             label(for='terms', l10n) I agree to the {{productName}}&#32;
@@ -117,12 +118,13 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
             img(src="img/button-s.png", class="loader", ng-show="submitLoading")
             span(class="loading_text", ng-hide="oldUserBlob", l10n) Sign Up
             span(ng-show="oldUserBlob", l10n) Migrate Account
+        div.secret_key(ng-hide="showMasterKeyInput || oldUserBlob", l10n)
+          | Need to use your secret key?&#32;
+          a(href="", ng-click="showMasterKeyInput=true", l10n) Use key
+        .switch-mode-link-container.migrate_tab(ng-hide="$routeParams.action === 'migrate'", l10n) Already have a ripple.com/client account?&#32;
+          a(ng-hide="$routeParams.action === 'migrate'", href='#/migrate', l10n-inc) Migrate
 
-    .switch-mode-link-container(ng-hide="$routeParams.action === 'migrate'", l10n) Already have a ripple.com/client account?&#32;
-      a(ng-hide="$routeParams.action === 'migrate'", href='#/migrate', l10n-inc) Migrate
-    .switch-mode-link-container(l10n) Have an account?&#32;
-      a(href='#login', l10n-inc) Log In
-
+    
   .row.mode-masterkeyerror(ng-show='mode=="failed"')
     .col-xs-12.col-md-10.col-md-offset-1
       p.literal(l10n) An error occurred during registration. Please try again later.
