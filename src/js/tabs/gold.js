@@ -53,6 +53,7 @@ GoldTab.prototype.angular = function (module)
         // Flags
         tx
             .rippleLineSet($id.account, amount)
+            .setFlags('NoRipple')
             .on('proposed', function(res){
               $scope.$apply(function () {
                 setEngineStatus(res, false);              
