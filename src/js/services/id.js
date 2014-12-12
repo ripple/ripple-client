@@ -665,7 +665,7 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', '$t
     if (!$scope.loginStatus) {
       var tab = next.tabName;
 
-      if (tab !== 'register' && tab !== 'migrate' && tab !== 'recover' && tab !== '404') {
+      if (tab !== 'register' && tab !== 'migrate' && tab !== 'recover' && tab !== '404' && tab !== 'privacypolicy' && tab !== 'tou') {
         $scope.showLogin = true;
         return;
       }
