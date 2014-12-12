@@ -127,6 +127,11 @@ body.loaded {
 }
 
 header {
+
+	.nav > li > a:hover, .nav > li > a:focus {
+		background-color: transparent;
+	}
+	
   nav.navbar {
     font: 13px 'OpenSansRegular';
     border: none;
@@ -137,16 +142,16 @@ header {
       padding: 9px 15px;
 
       a, a:hover, a:active {
-        color: @white;
+        color: @brand-success;
         text-decoration: none;
       }
     }
 
     ul.nav {
-      height: 50px;
+      height: 60px;
 
       .navbar-text {
-        color: @white;
+        color: @brand-success;
         margin-top: 16px;
         margin-bottom: 16px;
       }
@@ -154,29 +159,30 @@ header {
       > li {
         margin-left: 1px;
         > a {
-          color: @white;
+          color: @brand-success;
           .transition-duration(0.1s);
           cursor: pointer;
-          padding: 15px;
+          padding: 20px;
 
           .caret {
-            border-top-color: @white;
-            border-bottom-color: @white;
+            border-top-color: @brand-success;
+            border-bottom-color: @brand-success;
           }
 
           &:hover,
           &:focus {
             text-decoration: none;
-            background: lighten(@midblue,3%);
+            color: @midgray;
+            //background: lighten(@midblue,3%);
           }
         }
 
         &.active {
-          background: lighten(@midblue,5%);
+          //background: lighten(@midblue,5%);
 
           a:hover,
           a:focus {
-            color: @white;
+            color: @midgray;
           }
         }
       }
@@ -192,7 +198,7 @@ header {
     .open {
       & > .dropdown-toggle {
         background: lighten(@midblue,5%);
-        height: 50px;
+        height: 60px;
       }
       & > .dropdown-menu {
         border-top: none;
@@ -211,9 +217,9 @@ header {
         margin: -4px auto 0;
         border-style: solid;
         border-width: 0 6px 4px 6px;
-        border-color: transparent transparent @lightgray transparent;
+        border-color: transparent transparent @brand-success transparent;
         position: absolute;
-        bottom: -1px;
+        //bottom: -1px;
         left: 40%;
       }
     }
@@ -224,10 +230,16 @@ header {
   }
 
   .mainnav {
-    background-color: @midblue;
+    background-color: @white;
+    border-bottom: 1px solid @brand-success;
+    height:60px;
 
     .collapse {
       padding: 0;
+    }
+    
+    .container {
+    	height: 60px;
     }
   }
 
@@ -297,7 +309,7 @@ header {
 footer {
   color: @darkgray;
   padding: 30px;
-  //border-top: 1px solid @midgray;
+  border-top: 1px solid @midgray;
   font: 12px OpenSansRegular;
 
   a {

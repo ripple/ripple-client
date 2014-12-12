@@ -5,13 +5,16 @@
 */
 
 .header_wrapper {
-		position: fixed;
-		right: 0;
-		left: 0;
-		top: 0;
+	display: none;
 }
 
-.logo {
+.header_wrapper.loggedOut {
+	display: block !important;
+	position: fixed;
+	right: 0;
+	left: 0;
+	top: 0;
+	z-index: 99999;
 	height: 60px;
 	background: @white;
 	border-bottom: 1px solid @brand-success;
@@ -25,12 +28,12 @@ img.trade_logo {
 }
 	
 .ticker {
-		display: none;
-		height: 60px;
-		background: @lightgray;
-		border-top: 1px solid @brand-success;
-		border-bottom: 1px solid @midgray;
-		
+	display: none;
+	height: 60px;
+	background: @lightgray;
+	border-top: 1px solid @brand-success;
+	border-bottom: 1px solid @midgray;
+
 		& p {
 			display: block;
 			float: left;
@@ -136,7 +139,8 @@ img.trade_logo {
 	#t-register .auth-form-container .auth-form-wrapper, #t-login .auth-form-container .auth-form-wrapper, #t-recover .auth-form-container .auth-form-wrapper, #t-account .auth-form-container .auth-form-wrapper, #t-migrate .auth-form-container .auth-form-wrapper {
 		float: right;
 		border: none;
-		background: rgba(52,65,77,.2);
+		background: rgba(255,255,255,.1);
+		border-radius: 5px;
 	}
 	
 	#t-register .auth-form-container h2, #t-login .auth-form-container h2, #t-recover .auth-form-container h2, #t-account .auth-form-container h2, #t-migrate .auth-form-container h2 {
@@ -144,7 +148,7 @@ img.trade_logo {
 	}
 
 	#t-register .auth-form-container .auth-form-wrapper label, #t-login .auth-form-container .auth-form-wrapper label, #t-recover .auth-form-container .auth-form-wrapper label, #t-account .auth-form-container .auth-form-wrapper label, #t-migrate .auth-form-container .auth-form-wrapper label, #t-register .auth-form-container .see-privacy-text, #t-login .auth-form-container .see-privacy-text, #t-recover .auth-form-container .see-privacy-text, #t-account .auth-form-container .see-privacy-text, #t-migrate .auth-form-container .see-privacy-text {
-		color:  @midgray;
+		color:  @landingblue;
 	}
 
 	#t-register .auth-form-container .sign-up-steps-list li.active, #t-login .auth-form-container .sign-up-steps-list li.active, #t-recover .auth-form-container .sign-up-steps-list li.active, #t-account .auth-form-container .sign-up-steps-list li.active, #t-migrate .auth-form-container .sign-up-steps-list li.active {
@@ -183,8 +187,8 @@ img.trade_logo {
 	}
 
 	img.xrp_holder {
-		margin: 150px 0;
-		width: 75%;
+		margin: 150px auto;
+		//width: 75%;
 	}
 
 	p.hero_text {
@@ -192,7 +196,7 @@ img.trade_logo {
 		font-size: 16px;
 		color: @white;
 		max-width: 600px;
-		margin: 0;
+		margin: auto;
 		padding-bottom: 50px;
 	}
 
@@ -206,7 +210,7 @@ img.trade_logo {
 
 	.migrate_tab, .secret_key {
 		text-align: left !important;
-		color: @midgray;
+		color: @landingblue;
 	}
 	
 	.input-group-addon {
@@ -219,7 +223,13 @@ img.trade_logo {
 		background-color: rgba(52,65,77,.4);
 		color: @white;
 		border: none;
-	}	
+		
+		&:focus {
+			-webkit-box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.075), 0 0 8px rgba(255, 255, 255, 0.4);
+			-moz-box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.075), 0 0 8px rgba(255, 255, 255, 0.4);
+			box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.075), 0 0 8px rgba(255, 255, 255, 0.4);
+		}
+	}
 	
 	.breaker {
 		margin-top: 65px;
@@ -244,6 +254,41 @@ img.trade_logo {
 		color: @midgray;
 	}
 	
+	footer.loggedOut {
+		border-top: none;
+	}
+	
+	//buttons
+	form.ng-invalid .btn-success {
+		background: rgba(255,255,255,0.2);
+		border: none;
+		-o-transition:.5s;
+		-ms-transition:.5s;
+		-moz-transition:5s;
+		-webkit-transition:.5s;
+		transition:.5s;
+	}
+	
+	.btn-success {
+		background: rgba(255,255,255,0.2);
+		border: 1px solid @white;
+		-o-transition:.5s;
+		-ms-transition:.5s;
+		-moz-transition:5s;
+		-webkit-transition:.5s;
+		transition:.5s;
+		
+		&:hover {
+			background: rgba(255,255,255,0.4);
+			-o-transition:.5s;
+		  -ms-transition:.5s;
+		  -moz-transition:5s;
+		  -webkit-transition:.5s;
+		  transition:.5s;
+		}
+		
+	}
+	
 	
 }
 
@@ -260,11 +305,12 @@ img.trade_logo {
 	}
 	
 	.tab_bg {
-		background: rgba(52,65,77,.4);
+		background: rgba(0,0,0,.3);
 		height: 100px;
 		right:  17.7%;
 		width: 16%;
 		position: absolute;
+		border-top-left-radius: 5px;
 	}
 
 }
@@ -281,11 +327,12 @@ img.trade_logo {
 	}
 	
 	.tab_bg {
-		background: rgba(52,65,77,.4);
+		background: rgba(0,0,0,.3);
 		height: 100px;
 		width: 16%;
 		position: absolute;
 		right: 15px !important;
+		border-top-right-radius: 5px;
 	}
 
 }
@@ -331,3 +378,10 @@ img.trade_logo {
 		}
 	
 	}
+
+	@media (min-width: 1200px)	{
+	
+		img.xrp_holder {
+			width: 75%;
+		}
+}

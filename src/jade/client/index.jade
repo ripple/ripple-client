@@ -38,9 +38,8 @@
 div#wrapper
   // Header
   header
-    //h1(ng-if="!loginStatus", l10n) Welcome to {{productName}}, a global value exchange
-    .header_wrapper
-      .logo
+    .header_wrapper(ng-class="{ 'loggedOut': !loginStatus }")
+      a.logo(href="/")
         img.trade_logo(src="img/img_logo_ripple_trade.svg")
       .ticker
         p.symbols(l10n) Ripple Trade Japan 1.42812 JPY
@@ -50,7 +49,7 @@ div#wrapper
 
     div(ng-if="loginStatus")
       != require("./navbar.jade")()
-.landing_wrapper.container-fluid(ng-class="{ 'loggedOut': !loginStatus  }")
+  .landing_wrapper(ng-class="{ 'loggedOut container-fluid': !loginStatus, 'container': loginStatus  }")
     .landing_container
   
       .login_container
@@ -83,6 +82,7 @@ div#wrapper
         hr
         p.currency_pairs(l10n) These are several of Ripple's major currency pairs. See more price data on 
           a(href="https://ripplecharts.com") Ripple Charts.
+          
         
         
     //section 3
@@ -131,7 +131,7 @@ div#wrapper
 
 
     // Footer
-    footer.container
+    footer.container(ng-class="{ 'loggedOut': !loginStatus }")
       .col-xs-12.col-sm-3
         a(href="https://github.com/ripple/ripple-client/releases", target="_blank", l10n)
           | Version: {{version}}
