@@ -7,7 +7,7 @@
   div(rp-slide='showWidgetMarkets')
     .row.align-with-chart-y-axis
       //- Base currency
-      .col-xs-9.col-sm-5.col-lg-4
+      .col-xs-9.col-md-5.col-lg-4
         .row
           .col-xs-5
             input.form-control(
@@ -23,7 +23,7 @@
               rp-combobox-small
               ng-model="firstIssuerSelected")
       //- Counter currency
-      .col-xs-9.col-sm-5.col-lg-4
+      .col-xs-9.col-md-5.col-lg-4
         .row
           .col-xs-5
             input.form-control(
@@ -39,7 +39,7 @@
               rp-combobox-small
               ng-model="secondIssuerSelected")
       //- Flip
-      .col-xs-3.col-sm-2
+      .col-xs-3.col-md-2
         button.btn.flip.btn-cancel.btn-block(
           ng-click="flipCurrencies() ", l10n)
           | flip
