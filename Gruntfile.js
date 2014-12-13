@@ -463,6 +463,18 @@ module.exports = function(grunt) {
                                  'deps',
                                  'copy']);
 
+  // Dev - builds the web version of the client excluding any locales
+  // Be sure to use English version for testing
+  grunt.registerTask('dev', ['bower:install',
+                             'version',
+                             'versionBranch',
+                             'preprocess',
+                             'webpack:web_debug',
+                             'webpack:web_l10n_english',
+                             'recess',
+                             'deps',
+                             'copy']);
+
   // Deps only - only rebuilds the dependencies
   grunt.registerTask('deps', ['uglify:deps',
                               'concat:deps','concat:deps_debug',
