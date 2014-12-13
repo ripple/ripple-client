@@ -20,7 +20,7 @@
 
       .desc(l10n) Estimated from latest trade price
 
-      .total
+      .total(rp-auto-zoom, rp-auto-zoom-ref=".amount")
         span.amount {{ aggregateValueDisplayed }}
         span.amountDot(ng-show="aggregateValueDisplayedDecimalDot")
           | .
