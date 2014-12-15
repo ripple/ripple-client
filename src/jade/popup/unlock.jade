@@ -1,4 +1,4 @@
-form(role="form", ng-submit="confirm()")
+form(role="form", ng-submit="confirm()", ng-keyup="onKeyUp($event)")
   .modal-header(l10n) Unlock account
   .modal-body
     .form-group

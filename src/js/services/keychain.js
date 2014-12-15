@@ -87,6 +87,9 @@ module.factory('rpKeychain', ['$rootScope', '$timeout', 'rpPopup', 'rpId',
       callback("canceled"); //need this for setting password protection
       popup.close();
     };
+    popupScope.onKeyUp = function ($event) {
+      if ($event.which === 27) popupScope.cancel();  // esc button
+    };
     popup.blank(require('../../jade/popup/unlock.jade')(), popupScope);
   };
 
