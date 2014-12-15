@@ -41,7 +41,7 @@ section.col-xs-12.content(ng-controller="SecurityCtrl")
     .col-sm-4.col-md-3.col-xs-12(ng-show="isUnlocked")
       include settings/navbar
     .col-sm-8.col-md-9.col-xs-12.list(ng-show="isUnlocked")
-      .showSecurity(ng-show="settingsPage == 'security'")
+      .show-security(ng-show="settingsPage == 'security'")
         div
           h4(l10n) Security settings
           .section
@@ -50,14 +50,15 @@ section.col-xs-12.content(ng-controller="SecurityCtrl")
               .col-xs-12.col-sm-9(l10n)
                 img(src="img/button-s.png", class="loader", id="button_loader")
                 span(class="loading_text", l10n) Loading Two-factor authentication settings...
-            .row(ng-hide="loading2FA || errorLoading2FA || mode2FA === 'verifyPhone'")
+            .row.row-padding-small-xs(ng-hide="loading2FA || errorLoading2FA || mode2FA === 'verifyPhone'")
               .col-xs-9.col-sm-8.col-md-6
-                span(ng-show="enabled2FA", l10n) Enabled
-                span(ng-hide="enabled2FA", l10n) Disabled
+                .description
+                  span(ng-show="enabled2FA", l10n) Enabled
+                  span(ng-hide="enabled2FA", l10n) Disabled
               .col-xs-3.col-sm-4.col-md-6
-                a(href="", ng-show="enabled2FA", ng-click="disable2FA()", l10n) disable
+                a.btn.btn-cancel(href="", ng-show="enabled2FA", ng-click="disable2FA()", l10n) disable
                 rp-popup(onOpen="open2FA")
-                  a(href="", rp-popup-link, ng-hide="enabled2FA", l10n) enable
+                  a.btn.btn-cancel(href="", rp-popup-link, ng-hide="enabled2FA", l10n) enable
                   div.connectModal.modal2FA(rp-popup-content)
                     .modal-header
                       .navbar-brand.hidden-sm.modal-logo#logo
@@ -114,10 +115,12 @@ section.col-xs-12.content(ng-controller="SecurityCtrl")
                   a.btn.btn-block.btn-cancel(ng-click="cancel2FA()", l10n) cancel
           .section
             .descriptor(l10n) Ripple password
-            .row
-              .col-xs-9.col-sm-8.col-md-6(ng-hide="openFormPassword") *****************
+            .row.row-padding-small-xs
+              .col-xs-9.col-sm-8.col-md-6(ng-hide="openFormPassword") 
+                .description
+                  |*****************
               .col-xs-3.col-sm-4.col-md-6
-                a(href="", ng-click="openFormPassword=!openFormPassword"
+                a.btn.btn-cancel(href="", ng-click="openFormPassword=!openFormPassword"
                 ng-hide="openFormPassword", l10n) edit
             .row
               
@@ -163,16 +166,17 @@ section.col-xs-12.content(ng-controller="SecurityCtrl")
             label(l10n) Your secret key unlocks access to your account funds. Please write it down and store it
                 |  somewhere private and safe. In the event you lose your Ripple name or password, you can use this secret
                 |  key to recover your funds.
-            .row
+            .row.row-padding-small-xs
               .col-xs-9.col-sm-8.col-md-6
-                span.value(ng-show="security.master_seed") {{security.master_seed}}
-                span.value(ng-hide="security.master_seed") ••••••••••••••••••••••••••••••••••••••••••••
+                .description
+                  span.value(ng-show="security.master_seed") {{security.master_seed}}
+                  span.value(ng-hide="security.master_seed") ••••••••••••••••••••••••••••••••••••••••••••
               .col-xs-3.col-sm-4.col-md-3
-                a(href="", ng-click="unmaskSecret()", ng-hide="security.master_seed", l10n) Show
-                a(href="", ng-click="security.master_seed = null", ng-show="security.master_seed", l10n) Hide
+                a.btn.btn-cancel(href="", ng-click="unmaskSecret()", ng-hide="security.master_seed", l10n) Show
+                a.btn.btn-cancel(href="", ng-click="security.master_seed = null", ng-show="security.master_seed", l10n) Hide
           .section
             .descriptor(l10n) Password protection for transactions
-            .row
+            .row.row-padding-small-xs
               .col-xs-12
                 .description(l10n) If you turn off password requests, you’ll still need to enter your password after each page refresh.
                 div.helperInput
@@ -185,8 +189,8 @@ section.col-xs-12.content(ng-controller="SecurityCtrl")
                           div(ng-show="requirePassword", l10n) Yes
                           div(ng-hide="requirePassword", l10n) No
                       .col-xs-3.col-sm-4.col-md-6
-                        div.description
-                          a#edit(href="", ng-click="editUnlock = true", l10n) edit
+                        div
+                          a.btn.btn-cancel#edit(href="", ng-click="editUnlock = true", l10n) edit
                     .row.edit-security-pswd(ng-show="editUnlock")
                       .col-xs-6.col-sm-5.col-md-4
                         .description Require password
@@ -200,7 +204,7 @@ section.col-xs-12.content(ng-controller="SecurityCtrl")
                           ng-disabled='serverForm.$invalid', l10n) Save
           .section
             .descriptor(l10n) Delete Ripple Trade account
-            .row
+            .row.row-padding-small-xs
               .col-xs-9.col-sm-8.col-md-6(l10n) This deletes your Ripple Trade account. You will no longer be able to login to Ripple
                 |  Trade and your account data will be deleted. However, you can still access your funds using your secret key.
               .col-xs-3.col-sm-4.col-md-3
@@ -211,4 +215,4 @@ section.col-xs-12.content(ng-controller="SecurityCtrl")
                   action-function="deleteAccount()"
                   cancel-button-css="btn btn-cancel"
                   cancel-button-text="cancel")
-                    a.danger(href="", l10n) Delete
+                    a.btn.btn-cancel.danger(href="", l10n) Delete
