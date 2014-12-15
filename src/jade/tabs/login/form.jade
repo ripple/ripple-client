@@ -1,11 +1,11 @@
-.form-group(ng-hide="twoFactor")
+.form-group(ng-hide="twoFactor || 'verifying' === verifyStatus")
 .breaker
   label(for='login_username', l10n) Ripple name
   .input-group
     span.input-group-addon.ripple-addon ~
     input.form-control#login_username(name='login_username', type='text', ng-model='username', required,
     rp-focus-on-empty, rp-autofill='$routeParams.username')
-.form-group(ng-hide="twoFactor")
+.form-group(ng-hide="twoFactor || 'verifying' === verifyStatus")
   label(for='login_password', l10n) Password
   input.form-control#login_password(name='login_password', type='password', ng-model='password', required, rp-focus)
 div.row.row-padding-small(ng-show="twoFactor")
