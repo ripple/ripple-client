@@ -23,8 +23,8 @@ ExchangeTab.prototype.generateHtml = function ()
 ExchangeTab.prototype.angular = function (module)
 {
   module.controller('ExchangeCtrl', ['$scope', '$timeout', '$routeParams',
-    'rpId', 'rpNetwork', 'rpTracker', 'rpKeychain', '$rootScope',
-    function ($scope, $timeout, $routeParams, $id, $network, $rpTracker, keychain, $rootScope)
+    'rpId', 'rpNetwork', 'rpTracker', 'rpKeychain', '$rootScope', '$location',
+    function ($scope, $timeout, $routeParams, $id, $network, $rpTracker, keychain, $rootScope, $location)
     {
 
 
@@ -56,6 +56,9 @@ ExchangeTab.prototype.angular = function (module)
         $scope.update_exchange();
       }, true);
 
+      $scope.gotoFund = function() {
+        $location.path('/xrp');
+      };
 
       $scope.reset_paths = function () {
         var exchange = $scope.exchange;
@@ -410,6 +413,8 @@ ExchangeTab.prototype.angular = function (module)
         }
       });
     }]);
+
+  
 
 };
 
