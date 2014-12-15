@@ -23,7 +23,8 @@
     border-top: 1px solid @midgray;
     background-color: @white;
     .border-radius(0, 5px, 5px, 0);
-    overflow: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
     max-height: 290px;
     z-index: 30;
     .user-select(none);
@@ -33,6 +34,7 @@
       padding: 5px;
       .rounded(5px);
       cursor: default;
+      white-space: nowrap;
 
       .additional {
         display: block;
@@ -82,5 +84,52 @@
   &.active .select {
     .border-radius(4px, 0, 0, 0);
     .bw-gradient(@lightgray, 245, 230);
+  }
+
+  &.rp-combobox-small {
+    &.active input {
+      border-color: @midgray;
+      .border-radius(2px, 0, 0, 2px);
+    }
+
+    .form-control {
+      font-size: inherit;
+      height: 20px;
+      padding: 0 4px;
+
+      &:focus {
+        .box-shadow(~"inset 0 1px 1px rgba(0,0,0,.075), 0 0 4px @{darkgray}");
+      }
+    }
+
+    ul.completions {
+      top: 19px;
+      padding: 0;
+      .border-radius(0, 5px, 5px, 0);
+      max-height: 290px;
+
+      li {
+        padding: 2px 4px;
+        .rounded(1px);
+      }
+    }
+
+    .select {
+      height: 18px;
+      width: 22px;
+      .border-radius(2px, 2px, 0, 0);
+
+      &:after {
+        .virtualel;
+        margin: -1px -2px 0 0;
+        border-top: 4px solid @black;
+        border-left: solid 3px transparent;
+        border-right: solid 3px transparent;
+      }
+    }
+
+    &.active .select {
+      .border-radius(2px, 0, 0, 0);
+    }
   }
 }

@@ -1,0 +1,33 @@
+.widget.widget-networth(ng-hide="!loadingAccount && !account.Balance && loadState.account")
+  h4(ng-click='showWidgetNetworth=!showWidgetNetworth'
+    ng-init='showWidgetNetworth=true')
+    span(l10n) Net Worth
+    i.fa.fa-fw.fa-caret-down(ng-class="{'closed': !showWidgetNetworth}")
+
+  div(rp-slide='showWidgetNetworth')
+    div(ng-class="{'blank': !exchangeRatesNonempty}")
+      .row(l10n)
+        .col-xs-1(l10n-inc)
+          span.desc(l10n-inc) In
+        .col-xs-7.col-sm-6.col-md-5
+          input.form-control(
+            type="text"
+            rp-combobox="valueMetrics"
+            rp-combobox-select
+            rp-combobox-small
+            ng-model="selectedValueMetric"
+            ng-change="changeMetric(this)")
+
+      .desc(l10n) Estimated from latest trade price
+
+      .total(rp-auto-zoom, rp-auto-zoom-ref=".amount")
+        span.amount {{ aggregateValueDisplayed }}
+        span.amountDot(ng-show="aggregateValueDisplayedDecimalDot")
+          | .
+        span.amountFraction {{ aggregateValueDisplayedDecimal }}
+        span.amountCurrency  {{ selectedValueCurrencyShort }}
+
+      .desc(ng-show="hasNegative", l10n) (excluding negative balances)
+
+    div.widget_loader(ng-hide="exchangeRatesNonempty")
+      img(src="img/sections.png", class="loader")

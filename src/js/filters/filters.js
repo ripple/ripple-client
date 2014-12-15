@@ -15,7 +15,7 @@ module.filter('rpamount', function () {
 
     var currency;
     var opts = jQuery.extend(true, {}, options);
-    
+
     if ("number" === typeof opts) {
       opts = {
         rel_min_precision: opts
@@ -37,7 +37,7 @@ module.filter('rpamount', function () {
     if (!opts.reference_date && !opts.no_interest) {
       opts.reference_date = new Date();
     }
-    
+
     // if hard_precision is true, do not allow precision & min_precision to be overridden
     if (! opts.hard_precision && input._is_native) {
       // If XRP, then set standard precision here
@@ -59,7 +59,7 @@ module.filter('rpamount', function () {
     }
 
     if (! opts.hard_precision) {
-      // Currency default precision 
+      // Currency default precision
       for (var i = 0; i < currencies.length; i++) {
         if (currencies[i].value === amount.currency().to_human()) {
           currency = currencies[i].standard_precision;
@@ -256,12 +256,19 @@ module.filter('rpfromnow', function () {
  */
 module.filter("rpripplename", ['$rootScope', '$http', 'rpId', function($scope, $http, $id) {
   return function(address, options) {
-    return $id.resolveNameSync(address, options);
+    var ripplename = $id.resolveNameSync(address, options);
+    if (ripplename !== address) {
+      return ripplename;
+    }
+    if (address.length > 21) {
+      return address.substring(0, 7) + "…";
+    }
+    return address;
   }
 }]);
 
 /**
- * Show contact name or short address
+ * Show contact name or address
  */
 module.filter('rpcontactname', ['$rootScope', function ($scope) {
   return function (address) {
@@ -270,8 +277,7 @@ module.filter('rpcontactname', ['$rootScope', function ($scope) {
     var contact = webutil.getContact($scope.userBlob.data.contacts, address);
 
     if (!contact) {
-      //return "" + address.substring(0,7) + "…";
-      return address;
+      return address.substring(0, 7) + "…";
     }
 
     return contact.name;

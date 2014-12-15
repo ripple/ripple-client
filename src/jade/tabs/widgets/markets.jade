@@ -1,0 +1,52 @@
+.widget.widget-markets
+  h4(ng-click='showWidgetMarkets=!showWidgetMarkets'
+    ng-init='showWidgetMarkets=true')
+    span(l10n) Markets
+    i.fa.fa-fw.fa-caret-down(ng-class="{'closed': !showWidgetMarkets}")
+
+  div(rp-slide='showWidgetMarkets')
+    .row.align-with-chart-y-axis
+      //- Base currency
+      .col-xs-9.col-md-5.col-lg-4
+        .row
+          .col-xs-5
+            input.form-control(
+              type="text"
+              rp-combobox="currencies", rp-combobox-select
+              rp-combobox-small
+              ng-pattern="validationPatternCurrency"
+              ng-model="firstCurrencySelected")
+          .col-xs-7
+            input.form-control(
+              type="text", ng-disabled="disableFirstIssuer"
+              rp-combobox="firstIssuer", rp-combobox-select
+              rp-combobox-small
+              ng-model="firstIssuerSelected")
+      //- Counter currency
+      .col-xs-9.col-md-5.col-lg-4
+        .row
+          .col-xs-5
+            input.form-control(
+              type="text"
+              rp-combobox="currencies", rp-combobox-select
+              rp-combobox-small
+              ng-pattern="validationPatternCurrency"
+              ng-model="secondCurrencySelected")
+          .col-xs-7
+            input.form-control(
+              type="text", ng-disabled="disableSecondIssuer"
+              rp-combobox="secondIssuer", rp-combobox-select
+              rp-combobox-small
+              ng-model="secondIssuerSelected")
+      //- Flip
+      .col-xs-3.col-md-2
+        button.btn.flip.btn-cancel.btn-block(
+          ng-click="flipCurrencies() ", l10n)
+          | flip
+
+    rp-market-chart(
+      base-currency="{{ firstCurrencySelected }}"
+      base-currency-issuer="{{ issuerNameToAddress(firstIssuerSelected, firstCurrencySelected) }}"
+      counter-currency="{{ secondCurrencySelected }}"
+      counter-currency-issuer="{{ issuerNameToAddress(secondIssuerSelected, secondCurrencySelected) }}"
+      )

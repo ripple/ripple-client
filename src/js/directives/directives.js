@@ -321,17 +321,39 @@ module.directive('rpTooltip', [function() {
 /**
  * Popovers
  */
-module.directive('rpPopover', [function() {
+module.directive('rpPopover', ['$interpolate', function($interpolate) {
   return function(scope, element, attr) {
+    var interpolateContent = function () {
+      return $interpolate(attr.rpPopoverContent)(scope);
+    };
+
     if (!attr.rpPopoverTrigger) attr.rpPopoverTrigger = 'click';
 
-    $(element).popover({
+    var options = {
       html: true,
       placement: attr.rpPopoverPlacement,
-      title: attr.rpPopoverTitle,
       trigger: attr.rpPopoverTrigger
-      // TODO also use rpPopoverContent attribute (there's a bug with this)
-    });
+    };
+    if (attr.rpPopoverTitle) {
+      options.title = attr.rpPopoverTitle;
+    }
+    else {
+      options.template = '<div class="popover"><div class="arrow"></div><div class="popover-inner"><div class="popover-content" ></div></div></div>';
+    }
+    if (attr.rpPopoverContent) {
+      options.content = interpolateContent;
+    }
+    if (attr.rpPopoverDelay) {
+      var delay = attr.rpPopoverDelay;
+      if (typeof delay !== 'number') {
+        delay = 500;
+      }
+      options.delay = {
+        show: delay,
+        hide: 0
+      };
+    }
+    $(element).popover(options);
 
     $('html').click(function() {
       $(element).popover('hide');
@@ -392,7 +414,7 @@ module.directive('rpAddressPopover', ['$timeout', '$interpolate', 'rpId', functi
             cancelHidePopoverTimeout = null;
           } else if (!cancelShowPopoverTimeout) {
             cancelShowPopoverTimeout = $timeout( function() {
-              element.popover('show'); 
+              element.popover('show');
               shown = true;
             }, popupDelay, false );
             cancelShowPopoverTimeout['finally'](function() { cancelShowPopoverTimeout = null; });
@@ -422,7 +444,7 @@ module.directive('rpAddressPopover', ['$timeout', '$interpolate', 'rpId', functi
           content: content,
           trigger: 'manual', placement: 'top',
           container: 'body',
-          template: '<div class="popover"><div class="arrow"></div><div class="popover-inner"><div class="popover-content" ></div></div></div>'
+          template: '<div class="popover"><div class="arrow"></div><div class="popover-inner"><div class="popover-content"></div></div></div>'
         };
         if (attr.rpAddressPopoverLinkToCharts) {
           options.html = true;
@@ -438,7 +460,7 @@ module.directive('rpAddressPopover', ['$timeout', '$interpolate', 'rpId', functi
         if (attr.rpAddressPopoverLinkToCharts) {
           $id.resolveName(identity, { tilde: true }).then(function(name) {
             if (name != identity && tip) {
-              element.data('popover').options.content = name + '<br/>' + identity + 
+              element.data('popover').options.content = name + '<br/>' + identity +
                   '<br/><a target="_blank" href="http://www.ripplecharts.com/#/graph/' + identity + '" >Show in graph</a>';
               element.data('popover').setContent();
             }

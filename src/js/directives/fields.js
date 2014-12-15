@@ -27,6 +27,9 @@ module.directive('rpCombobox', [function () {
       el.attr('autocomplete', 'off');
       var cplEl = $('<ul class="completions"></ul>').hide();
       el.parent().append(cplEl);
+      if (attrs.rpComboboxSmall) {
+        el.parent().addClass("rp-combobox-small");
+      }
 
       // Explicit select button
       if (attrs.rpComboboxSelect) {
@@ -224,6 +227,7 @@ module.directive('rpCombobox', [function () {
           el.val(val);
           ngModel.$setViewValue(val);
           setVisible(false);
+          el.blur();
         });
       }
 

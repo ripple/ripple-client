@@ -40,7 +40,7 @@ module.directive('rpPrettyIssuer', ['rpDomainAlias',
           }
 
           if (!scope.name && attr.rpPrettyIssuerOrShort) {
-            scope.name = "" + scope.issuer.substring(0,7) + "…";
+            scope.name = "" + scope.issuer.substring(0, 7) + "…";
           }
         }
 
@@ -111,7 +111,7 @@ module.directive('rpPrettyIdentity', [function () {
     scope: {
       identity: '=rpPrettyIdentity'
     },
-    template: '{{identity | rpcontactname | rpripplename:{tilde:true} }}',
+    template: '{{identity | rpcontactnamefull | rpripplename:{tilde:true} }}',
     compile: function (element, attr, linker) {
       if (attr.rpPrettyIdentityFilters) {
         element.text('{{identity | ' + attr.rpPrettyIdentityFilters + ' }}');
@@ -167,7 +167,7 @@ module.directive('rpCurrency', function () {
             var currencyInfo = $.grep(scope.currencies_all, function(e){ return e.value == mainText; })[0];
             if (currencyInfo) {
               mainText = currencyInfo.value  + " - " + currencyInfo.name;
-            } 
+            }
           }
 
           if (currency.has_interest()) {

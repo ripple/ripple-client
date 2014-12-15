@@ -13,6 +13,7 @@ require('../directives/directives');
 require('../directives/datalinks');
 require('../directives/errors');
 require('../directives/qr');
+require('../directives/marketchart');
 require('../filters/filters');
 require('../services/globalwrappers');
 require('../services/id');
@@ -88,7 +89,7 @@ var tabdefs = [
   require('../tabs/tx'),
   require('../tabs/xrp'),
   require('../tabs/debug'),
-  require('../tabs/btc'),  
+  require('../tabs/btc'),
   require('../tabs/withdraw'),
   // require('../tabs/usd'),
   require('../tabs/gold'),

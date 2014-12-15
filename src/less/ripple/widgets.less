@@ -3,59 +3,137 @@
   color: @black;
 
   .widget {
-    padding-bottom: @padding-base-vertical;
+    padding-bottom: @padding-large-vertical;
+    position: relative;
+
+    .widget_loader {
+      color: @midgray;
+      text-align: center;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      .translate(-50%; -50%);
+      margin-top: 10px;
+    }
 
     > h4 {
       font-size: inherit !important;
-      font-family: 'OpenSansBold';
+      font-family: 'OpenSansSemibold';
       text-transform: uppercase;
-      margin: 0;
+      margin: 0 0 @padding-large-vertical 0;
+      padding: @padding-large-vertical 0;
+      border-bottom: 1.5px solid @darkgray;
+      cursor: pointer;
+
+      i.fa {
+        .pull-right;
+        .transition(-webkit-transform .5s, -moz-transform .5s, -ms-transform .5s, -o-transform .5s, transform .5s;);
+        .transform(rotate(359.9deg));
+        -webkit-transform-origin: 50% 42%;
+           -moz-transform-origin: 50% 42%;
+            -ms-transform-origin: 50% 42%;
+             -o-transform-origin: 50% 42%;
+                transform-origin: 50% 42%;
+
+        &.closed {
+          .transform(rotate(270deg));
+        }
+      }
+    }
+
+    &.widget-networth {
+      .desc {
+        color: @darkgray;
+        font: 12px OpenSansLight;
+      }
+
+      .amount, .amountDot, .amountFraction {
+        color: @midgreen;
+        font: 42px OpenSansLight;
+      }
+
+      .amountDot {
+        color: @black;
+      }
+
+      .amountFraction {
+        font-size: 33.6px;
+      }
+
+      .amountCurrency {
+        margin-left: 10px;
+      }
+    }
+
+    &.widget-assetallocation {
+      rp-pie-chart {
+        display: block;
+        width: 200px;
+        height: 200px;
+        margin: 0 auto;
+      }
     }
 
     &.widget-balances {
       li {
         clear: left;
-        margin: @padding-base-horizontal/4 0;
-        padding: @padding-base-horizontal @padding-base-vertical;
+        margin: @padding-small-vertical 0;
+        padding: @padding-base-vertical @padding-base-horizontal;
         margin-left: -31px;
         padding-left: 31px;
-        border: 1px solid @midgray;
-        border-color: @midgray;
+        border-bottom: 1px solid @midgray;
         color: @black;
-        background: @lightgray;
+        cursor: pointer;
         .transition(all 2s ease-in-out);
 
         i.fa-li {
           font-family: 'FontAwesome';
           font-style: normal;
-          top: @padding-base-horizontal;
+          top: @padding-base-vertical;
           left: 0;
         }
 
         h5 {
           font-size: inherit !important;
-          font-family: 'OpenSansBold';
-          margin: 0 0 @padding-base-vertical;
+          font-family: 'OpenSansSemibold';
+          margin: 0;
           line-height: 20px;
           .pull-left;
         }
 
-        > div {
-          font-family: 'OpenSansBold';
+        > div:not(.popover) {
+          font-family: 'OpenSansSemibold';
           text-align: right;
           text-overflow: ellipsis;
           overflow: hidden;
+        }
+
+        .popover {
+          max-width: 90%;
+        }
+
+        .balance + .popover {
+          font-family: 'OpenSansRegular';
+          left: initial !important;
+          right: 10px;
+          color: @black;
+
+          .arrow {
+            left: 93%;
+          }
         }
 
         dl {
           clear: left;
           color: @darkgray;
           margin: 0;
-          .transition(inherit);
+          padding-top: @padding-large-vertical;
+          .transition(color 2s ease-in-out);
 
           dt {
             width: 59%;
             text-overflow: ellipsis;
+            white-space: nowrap;
             overflow: hidden;
             font-weight: 400;
             .pull-left;
@@ -68,8 +146,11 @@
           }
         }
 
+        &:first-child {
+          margin-top: 0;
+        }
+
         &.amount-plus {
-          border-color: @darkgreen;
           color: @darkgreen;
           background: @lightgreen;
           .transition(none);
@@ -80,7 +161,6 @@
         }
 
         &.amount-minus {
-          border-color: @midred;
           color: @midred;
           background: @lightred;
           .transition(none);
@@ -91,5 +171,173 @@
         }
       }
     }
+
+    &.widget-markets {
+      .row.align-with-chart-y-axis {
+        margin-left: 35px;
+      }
+
+      button.flip {
+        padding-top: 3px;
+        padding-bottom: 3px;
+      }
+
+      rp-market-chart {
+        display: block;
+        height: @screen-xs*.4;
+
+        @media (min-width: @screen-sm) {
+          height: @screen-sm*.4;
+        }
+
+        @media (min-width: @screen-md) {
+          height: @screen-md*.4;
+        }
+
+        @media (min-width: @screen-lg) {
+          height: @screen-lg*.4;
+        }
+      }
+    }
+
+    &.widget-orders {
+      .widget-myorders-table();
+
+      > div > p {
+        margin-top: 10px;
+      }
+    }
+  }
+}
+
+/* Widgets on home page */
+#t-balance .widgets {
+  @media (min-width: @screen-lg) {
+    .widget-balances dl dt {
+      width: 70%;
+    }
+  }
+}
+
+.widget-myorders-table() {
+  @bg: @white;
+
+  .listings {
+    padding: 0 15px;
+    border: 1px solid darken(@bg, 10%);
+    background: @bg;
+
+    transition: 0.2s;
+    max-height: 0;
+
+    .my {
+      .head {
+        font-weight: bold;
+      }
+      .row:first-child {
+        border-top: none;
+      }
+      .row {
+        border-top: 1px solid @lightgray;
+
+        &:nth-child(even) {
+          background-color: darken(@bg, 2%);
+        }
+
+        & > div {
+          padding: 8px;
+          border-right: 1px solid @lightgray;
+        }
+
+        & > div:last-child {
+          border-right: none;
+        }
+
+        .issuer {
+          color: lighten(@black,70%);
+          font-size: 11px;
+        }
+
+        @media (max-width: @screen-xs-max) {
+          border: none;
+          padding: 4px;
+
+          & > div {
+            padding: 4px;
+            border: none;
+          }
+
+          div:before {
+            display: block;
+            width: 100px;
+            font-weight: bold;
+            text-transform: uppercase;
+            content: " "attr(data-label);
+          }
+        }
+
+        .align-right {
+          text-align: right;
+        }
+
+        .btn-link {
+          padding-left: 0px;
+          padding-right: 0px;
+        }
+
+        .btn-link[disabled] {
+          text-decoration: none;
+          color: #999999;
+        }
+
+        .form-control {
+          font-size: 14px;
+        }
+
+        .form-control.changed {
+          background-color: transparent;
+        }
+
+        .input-group {
+          margin-bottom: 10px;
+        }
+
+        .input-group .input-group-addon.inline-inputs-group {
+          text-align: center;
+          line-height: 1;
+          padding: 8px;
+          @media(max-width: @screen-xs-max) {
+            &:before {
+              display: block;
+            }
+          }
+        }
+
+        .action {
+          padding-left: 0;
+          padding-right: 0;
+        }
+      }
+    }
+
+    .emptyMessage {
+      margin: 10px 0;
+    }
+
+    .alert {
+      line-height: 1.428571429;
+      padding: 8px;
+      float: left;
+    }
+  }
+
+  .listings.offers {
+    max-height: 1000px;
+    overflow: auto;
+  }
+
+  .listings.orders {
+    max-height: 9999px;
+    overflow: auto;
   }
 }
