@@ -311,57 +311,7 @@ BalanceTab.prototype.angular = function (module)
 
   }]);
 
-  module.directive('rpFlatSelect', [function () {
-    return {
-      restrict: 'A',
-      link: function (scope, el, attrs) {
-        var expanded = true;
-
-        var collapse = function() {
-          expanded = false;
-          element = this;
-          el.find('option').each(function(i, option){
-            $option = $(option);
-            $option.attr("rp-flat-select-text", $option.html());
-            if (i != element.selectedIndex)
-              $option.html("");
-          });
-          el.width("auto");
-        };
-
-        var expand = function() {
-          if (expanded) return;
-          expanded = true;
-          element = this;
-          el.width(el.width());
-          el.find('option').each(function(i, option){
-            $option = $(option);
-            if (!$option.attr("rp-flat-select-text"))
-              $option.attr("rp-flat-select-text", $option.html());
-            if ($option.html() != $option.attr("rp-flat-select-text"))
-              $option.html($option.attr("rp-flat-select-text"));
-          });
-        };
-
-        el.focus(expand);
-        el.mouseover(expand);
-        el.blur(collapse);
-        el.change(function(){
-          collapse.apply(this);
-          expand.apply(this);
-        });
-
-        optionsAttr = el.attr('ng-options') || el.attr('data-ng-options');
-        if (optionsAttr) {
-          watch = $.trim(optionsAttr.split('|')[0]).split(' ').pop();
-          scope.$watch(watch, function(){
-            if (el.is(":focus")) return;
-            collapse.apply(el.first()[0]);
-          });
-        }
-      }
-    };
-  }]);
+  
 };
 
 module.exports = BalanceTab;
