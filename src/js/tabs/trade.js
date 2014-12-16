@@ -1057,8 +1057,8 @@ TradeTab.prototype.angular = function(module)
           order.second_issuer = contact_to_address2;
         }
         else {
-          if(pair[0].substring(14, 17) == 'GBI') {
-            ripple.AuthInfo.get(Options.domain, '~' + pair[0].substring(14), function (err, response1) {
+          if(pair[1].substring(14, 17) == 'GBI') {
+            ripple.AuthInfo.get(Options.domain, '~' + pair[1].substring(14), function (err, response1) {
               if (err) return;
               $scope.$apply(function () {
                 order.first_issuer = response1.address;
