@@ -56,6 +56,10 @@ TradeTab.prototype.angular = function(module)
       }
     }
 
+    $scope.gotoSettings = function() {
+      $location.path('/settingstrade');
+    };
+
     $scope.fatFingerErr = false;
 
     $scope.cancelOrder = {
