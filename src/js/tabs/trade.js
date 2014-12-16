@@ -886,16 +886,10 @@ TradeTab.prototype.angular = function(module)
     }
 
     $scope.add_pair = function () {
+      formattedIssuerFirst = $scope.first_currency_selected === 'XRP' ? '' : '.' + $scope.first_issuer_selected;
+      formattedIssuerSecond = $scope.second_currency_selected === 'XRP' ? '' : '.' + $scope.second_issuer_selected;
 
-      if($scope.first_currency_selected == "XRP"){
-        $scope.order.currency_pair = $scope.first_currency_selected + '/' + $scope.second_currency_selected + '.' + $scope.second_issuer_selected;
-      }
-      else if($scope.second_currency_selected == "XRP"){
-        $scope.order.currency_pair = $scope.first_currency_selected + '.' + $scope.first_issuer_selected + '/' + $scope.second_currency_selected;
-      }
-      else {
-        $scope.order.currency_pair = $scope.first_currency_selected + '.' + $scope.first_issuer_selected + '/' + $scope.second_currency_selected + '.' + $scope.second_issuer_selected;
-      }
+      $scope.order.currency_pair = $scope.first_currency_selected + formattedIssuerFirst + '/' + $scope.second_currency_selected + formattedIssuerSecond;
 
       $scope.userBlob.unshift("/trade_currency_pairs", {"name": $scope.order.currency_pair});
       $scope.userBlob.set('/trade_currency_pairs', $scope.pairs_query);
@@ -1415,29 +1409,16 @@ TradeTab.prototype.angular = function(module)
       var routeCurrencies = {};
 
       ['first','second'].forEach(function(prefix){
-        routeIssuers[prefix] = $routeParams[prefix].match(/:(.+)$/);
+        routeIssuers[prefix] = $routeParams[prefix].match(/\.(.+)$/);
         routeCurrencies[prefix] = $routeParams[prefix].match(/^(\w{3})/);
-
-        if (routeIssuers[prefix]) {
-          if (ripple.UInt160.is_valid(routeIssuers[prefix][1])) {
-            $scope.order[prefix + '_issuer'] = routeIssuers[prefix][1];
-          } else if (webutil.isRippleName(routeIssuers[prefix][1])) {
-            ripple.AuthInfo.get(Options.domain, routeIssuers[prefix][1], function(err, response) {
-              $scope.order[prefix + '_issuer'] = response.address;
-            });
-            // or, with this resolving method: fallback to default gateway if
-            // ripple name is not in contact.
-            //$scope.order[prefix + '_issuer'] = webutil.resolveContact($scope.userBlob.data.contacts, $scope.order[prefix + '_issuer']);
-          } else {
-            $location.path('/trade');
-          }
-        }
       });
 
       if (routeCurrencies.first && routeCurrencies.second) {
         if (routeCurrencies.first[1] !== routeCurrencies.second[1]) {
           currencyPairChangedByNonUser = true;
-          $scope.order.currency_pair = routeCurrencies.first[1] + '/' + routeCurrencies.second[1];
+          formattedIssuerFirst = routeCurrencies.first[1] === 'XRP' ? '' : '.' + routeIssuers.first[1];
+          formattedIssuerSecond = routeCurrencies.second[1] === 'XRP' ? '' : '.' + routeIssuers.second[1];
+          $scope.order.currency_pair = routeCurrencies.first[1] + formattedIssuerFirst + '/' + routeCurrencies.second[1] + formattedIssuerSecond;
         } else {
           $location.path('/trade');
         }
