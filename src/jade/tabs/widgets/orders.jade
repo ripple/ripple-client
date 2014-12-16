@@ -63,7 +63,7 @@
           .col-md-3.amount.rpamount(data-label="QTY") {{entry.first | rpamount:{hard_precision: true, precision: 6, tiny_precision: 6} }}
           .col-md-2(data-label="BASE")
             //- a(href="",ng-click="goto_order_currency()")
-            a(href="#/trade/{{entry.first | rpcurrency}}:{{entry.first | rpissuer}}/{{entry.second | rpcurrency}}:{{entry.second.issuer().to_json()}}")
+            a(href="#/trade/{{entry.first | rpcurrency}}.{{entry.first | rpissuer}}/{{entry.second | rpcurrency}}.{{entry.second.issuer().to_json()}}")
               span {{entry.first | rpcurrency}}
               span.issuer(ng-show="entry.first.issuer().to_json()") &#46;
                 span(
@@ -73,7 +73,7 @@
                 ) ???
           .col-md-3(data-label="Counter")
             //- a(href="",ng-click="goto_order_currency()")
-            a(href="#/trade/{{entry.first | rpcurrency}}:{{entry.first.issuer().to_json()}}/{{entry.second | rpcurrency}}:{{entry.second.issuer().to_json()}}")
+            a(href="#/trade/{{entry.first | rpcurrency}}.{{entry.first.issuer().to_json()}}/{{entry.second | rpcurrency}}.{{entry.second.issuer().to_json()}}")
               span {{entry.second | rpcurrency}}
               span.issuer(ng-show="entry.second.issuer().to_json()") &#46;
                 span(
