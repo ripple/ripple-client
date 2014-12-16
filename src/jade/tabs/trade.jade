@@ -428,16 +428,15 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                         rp-pretty-issuer-contacts="userBlob.data.contacts"
                       ) ???
                       | )
-                div(ng-hide="editOrder.seq == entry.seq")
-                  .col-sm-3.price.rpamount(data-label="Price") {{entry.second | rpamountratio:entry.first | rpamount:{hard_precision: true, precision: 6, tiny_precision: 6} }}
-                    span.currency  {{entry.second | rpcurrency}}
-                  .col-sm-3.amount.rpamount(data-label="Amount") {{entry.first | rpamount:{hard_precision: true, precision: 6, tiny_precision: 6} }}
-                    span.currency  {{entry.first | rpcurrency}}
-                  .col-sm-2.action
-                    img(src="img/button-s.png", class="loader", ng-show="entry.cancelling")
-                    button.btn-link.btn-lg.pull-right.fa.fa-times-circle(
-                      rp-tooltip="Cancel order", id="deleteOrder", type="button", ng-click="cancel_order()", ng-disabled="order.cancelling || editOrder.replacing", l10n)
-                    button.btn-link.btn-lg.pull-right.fa.fa-pencil-square-o(rp-tooltip="Edit order", ng-click="beginEditOrder()", ng-disabled="order.cancelling || editOrder.replacing", l10n)
+                .col-sm-3.price.rpamount(data-label="Price", ng-hide="editOrder.seq == entry.seq") {{entry.second | rpamountratio:entry.first | rpamount:{hard_precision: true, precision: 6, tiny_precision: 6} }}
+                  span.currency  {{entry.second | rpcurrency}}
+                .col-sm-3.amount.rpamount(data-label="Amount", ng-hide="editOrder.seq == entry.seq") {{entry.first | rpamount:{hard_precision: true, precision: 6, tiny_precision: 6} }}
+                  span.currency  {{entry.first | rpcurrency}}
+                .col-sm-2.action(ng-hide="editOrder.seq == entry.seq")
+                  img(src="img/button-s.png", class="loader", ng-show="entry.cancelling")
+                  button.btn-link.btn-lg.pull-right.fa.fa-times-circle(
+                    rp-tooltip="Cancel order", id="deleteOrder", type="button", ng-click="cancel_order()", ng-disabled="order.cancelling || editOrder.replacing", l10n)
+                  button.btn-link.btn-lg.pull-right.fa.fa-pencil-square-o(rp-tooltip="Edit order", ng-click="beginEditOrder()", ng-disabled="order.cancelling || editOrder.replacing", l10n)
                 div(ng-show="editOrder.seq == entry.seq")
                   form(novalidate, name="editOrderForm", ng-show="editOrder.seq == entry.seq")
                     .value-field.col-sm-3

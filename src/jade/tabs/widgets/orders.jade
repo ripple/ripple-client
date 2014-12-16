@@ -36,11 +36,10 @@
                   rp-pretty-issuer-or-short
                 ) ???
                 | )
-          div
-            .col-sm-3.price.rpamount(data-label="Price") {{entry.second | rpamountratio:entry.first | rpamount:{hard_precision: true, precision: 6, tiny_precision: 6} }}
-              span.currency  {{entry.second | rpcurrency}}
-            .col-sm-3.amount.rpamount(data-label="Amount") {{entry.first | rpamount:{hard_precision: true, precision: 6, tiny_precision: 6} }}
-              span.currency  {{entry.first | rpcurrency}}
+          .col-sm-3.price.rpamount(data-label="Price") {{entry.second | rpamountratio:entry.first | rpamount:{hard_precision: true, precision: 6, tiny_precision: 6} }}
+            span.currency  {{entry.second | rpcurrency}}
+          .col-sm-3.amount.rpamount(data-label="Amount") {{entry.first | rpamount:{hard_precision: true, precision: 6, tiny_precision: 6} }}
+            span.currency  {{entry.first | rpcurrency}}
       .emptyMessage(ng-show="isEmpty(offers)")
         p.literal(l10n="You haven't placed any orders.") You haven&#39;t placed any orders.
 
