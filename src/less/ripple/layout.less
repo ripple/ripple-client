@@ -127,6 +127,19 @@ body.loaded {
 }
 
 header {
+
+	.nav > li > a:hover, .nav > li > a:focus {
+		background-color: transparent;
+	}
+	
+	ul.nav.navbar-nav.topMenu {
+		padding-left: 15px;
+	}
+	
+	ul.nav.navbar-nav.topMenu li a, ul.nav.navbar-nav.navbar-right li a {		
+			color: @darkgray;	
+	}
+	
   nav.navbar {
     font: 13px 'OpenSansRegular';
     border: none;
@@ -137,16 +150,16 @@ header {
       padding: 9px 15px;
 
       a, a:hover, a:active {
-        color: @white;
+        color: @brand-success;
         text-decoration: none;
       }
     }
 
     ul.nav {
-      height: 50px;
+      height: 60px;
 
       .navbar-text {
-        color: @white;
+        color: @brand-success;
         margin-top: 16px;
         margin-bottom: 16px;
       }
@@ -154,29 +167,29 @@ header {
       > li {
         margin-left: 1px;
         > a {
-          color: @white;
+          color: @brand-success;
           .transition-duration(0.1s);
           cursor: pointer;
-          padding: 15px;
+          padding: 20px;
 
           .caret {
-            border-top-color: @white;
-            border-bottom-color: @white;
+            border-top-color: @brand-success;
+            border-bottom-color: @brand-success;
           }
 
           &:hover,
           &:focus {
             text-decoration: none;
-            background: lighten(@midblue,3%);
+            color: @brand-success;
           }
         }
 
         &.active {
-          background: lighten(@midblue,5%);
+          color: @brand-success;
 
           a:hover,
           a:focus {
-            color: @white;
+            color: @brand-success;
           }
         }
       }
@@ -191,10 +204,12 @@ header {
 
     .open {
       & > .dropdown-toggle {
-        background: lighten(@midblue,5%);
-        height: 50px;
+        background: transparent;
+        height: 60px;
+        color: @brand-success !important;
       }
       & > .dropdown-menu {
+      	background-color: @white !important;
         border-top: none;
         img {
           width: 25%;
@@ -211,10 +226,9 @@ header {
         margin: -4px auto 0;
         border-style: solid;
         border-width: 0 6px 4px 6px;
-        border-color: transparent transparent @lightgray transparent;
+        border-color: transparent transparent @brand-success transparent;
         position: absolute;
-        bottom: -1px;
-        left: 40%;
+        left: 45%;
       }
     }
 
@@ -224,10 +238,16 @@ header {
   }
 
   .mainnav {
-    background-color: @midblue;
+    background-color: @white;
+    border-bottom: 1px solid @brand-success;
+    height:60px;
 
     .collapse {
       padding: 0;
+    }
+    
+    .container {
+    	height: 60px;
     }
   }
 
@@ -246,13 +266,13 @@ header {
         text-align: center;
 
         a {
-          color: @darkgray;
+          color: @brand-success;
           display: inline-block;
           padding: 10px;
 
           &:hover,
           &:focus {
-            color: @black;
+            color: @darkgray;
             text-decoration: none;
             border-bottom: 2px solid @midgray;
           }
@@ -296,7 +316,7 @@ header {
 
 footer {
   color: @darkgray;
-  padding: 8px 20px;
+  padding: 30px;
   border-top: 1px solid @midgray;
   font: 12px OpenSansRegular;
 
@@ -396,6 +416,7 @@ footer {
     width: 22%;
     padding-left: 18px;
     padding-right: 11px;
+    visibility: hidden;
   }
 
   .logo {
@@ -441,12 +462,12 @@ footer {
       width: 60px;
       height: 40px;
       margin-top: -10px;
-      background-image: url('../../img/sprite_menu.png');
+      //background-image: url('../../img/sprite_menu.png');
 
       // Pixel ratio: 2
       @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min-device-pixel-ratio: 2) {
-        background-image: url('../../img/sprite_menu_2x.png');
-        background-size: 300px 120px;
+       // background-image: url('../../img/sprite_menu_2x.png');
+        //background-size: 300px 120px;
       }
     }
 
@@ -615,3 +636,5 @@ footer {
   -o-animation: rotating 1s linear infinite;
   animation: rotating 1s linear infinite;
 }
+
+
