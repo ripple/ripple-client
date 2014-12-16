@@ -1,10 +1,10 @@
-var path = require("path"),
-    fs = require("fs"),
-    languages = require("./l10n/languages.json").active;
+var path = require('path'),
+    fs = require('fs'),
+    languages = require('./l10n/languages.json').active;
 
 var languageCodes = languages.map(function(i) { return i.code; }).join(' ');
 
-var BannerPlugin = require("webpack/lib/BannerPlugin");
+var BannerPlugin = require('webpack/lib/BannerPlugin');
 
 module.exports = function(grunt) {
   // grunt.loadTasks('scripts/grunt');
@@ -21,36 +21,36 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-webfont');
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-lesslint');
-  grunt.loadNpmTasks("grunt-jscs");
+  grunt.loadNpmTasks('grunt-jscs');
 
   // Ripple client dependencies
-  var deps = ["deps/js/jquery/dist/jquery.js",
-              "deps/js/authy.js",
-              "deps/js/swfobject.js",
-              "deps/js/setImmediate.js",
-              "deps/js/underscore/underscore.js",
-              "deps/js/downloadify.js",
-              "deps/js/angular/angular.js",
-              "deps/js/angular-route/angular-route.js",
-              "deps/js/store.js/store.js",
-              "deps/js/ripple/ripple-debug.js",
-              "deps/js/ripple-sjcl.js",
-              "deps/js/moment/moment.js",
-              "deps/js/bootstrap-modal.js",
-              "deps/js/bootstrap-tooltip.js",
-              "deps/js/bootstrap-popover.js",
-              "deps/js/angular-bootstrap/ui-bootstrap-tpls.js",
-              "deps/js/bootstrap-datepicker.js",
-              "deps/js/qrcode-generator/js/qrcode.js",
-              "deps/js/spin.js/spin.js",
-              "deps/js/snapjs/snap.js"];
+  var deps = ['deps/js/jquery/dist/jquery.js',
+              'deps/js/authy.js',
+              'deps/js/swfobject.js',
+              'deps/js/setImmediate.js',
+              'deps/js/underscore/underscore.js',
+              'deps/js/downloadify.js',
+              'deps/js/angular/angular.js',
+              'deps/js/angular-route/angular-route.js',
+              'deps/js/store.js/store.js',
+              'deps/js/ripple/ripple-debug.js',
+              'deps/js/ripple-sjcl.js',
+              'deps/js/moment/moment.js',
+              'deps/js/bootstrap-modal.js',
+              'deps/js/bootstrap-tooltip.js',
+              'deps/js/bootstrap-popover.js',
+              'deps/js/angular-bootstrap/ui-bootstrap-tpls.js',
+              'deps/js/bootstrap-datepicker.js',
+              'deps/js/qrcode-generator/js/qrcode.js',
+              'deps/js/spin.js/spin.js',
+              'deps/js/snapjs/snap.js'];
 
-  var compat_ie = ["compat/ie/base64/base64.js",
-                   "compat/ie/ws/web_socket.js",
-                   "compat/ie/ws/config.js",
-                   "compat/ie/xdr/xdr.js"];
+  var compatIE = ['compat/ie/base64/base64.js',
+                  'compat/ie/ws/web_socket.js',
+                  'compat/ie/ws/config.js',
+                  'compat/ie/xdr/xdr.js'];
 
-  var compat_nw = ["compat/nw/setImmediate/setImmediate.js"];
+  var compatNW = ['compat/nw/setImmediate/setImmediate.js'];
 
   /**
    * Returns true if the source is newer than the destination.
@@ -81,7 +81,7 @@ module.exports = function(grunt) {
         }
       }
     }
-    return [{dest:dest, src:compile?src:[]}];
+    return [{dest:dest, src:compile ? src : []}];
   };
 
   /**
@@ -90,29 +90,29 @@ module.exports = function(grunt) {
   var prefix = function (pre, f) {
     if (Array.isArray(f)) {
       return f.map(prefix.bind(this, pre));
-    } else if ("string" === typeof f) {
-      return pre+f;
+    } else if ('string' === typeof f) {
+      return pre + f;
     } else {
       return f;
     }
   };
 
-  grunt.registerTask("version", "Describes current git commit", function (prop) {
+  grunt.registerTask('version', 'Describes current git commit', function (prop) {
     var done = this.async();
 
-    grunt.log.write("Version: ");
+    grunt.log.write('Version: ');
 
     grunt.util.spawn({
-      cmd : "git",
-      args : [ "describe", "--tags", "--always", "--dirty" ]
+      cmd:  'git',
+      args: ['describe', '--tags', '--always', '--dirty']
     }, function (err, result) {
       if (err) {
-        grunt.config(prop || "meta.version", "unknown");
-        grunt.log.writeln("Unable to determine version, continuing".red);
+        grunt.config(prop || 'meta.version', 'unknown');
+        grunt.log.writeln('Unable to determine version, continuing'.red);
         return done();
       }
 
-      grunt.config(prop || "meta.version", result.stdout);
+      grunt.config(prop || 'meta.version', result.stdout);
 
       grunt.log.writeln(result.stdout.green);
 
@@ -120,22 +120,22 @@ module.exports = function(grunt) {
     });
   });
 
-  grunt.registerTask("versionBranch", "Describes current git branch", function (prop) {
+  grunt.registerTask('versionBranch', 'Describes current git branch', function (prop) {
     var done = this.async();
 
-    grunt.log.write("Branch: ");
+    grunt.log.write('Branch: ');
 
     grunt.util.spawn({
-      cmd : "git",
-      args : [ "rev-parse", "--abbrev-ref", "HEAD" ]
+      cmd:  'git',
+      args: ['rev-parse', '--abbrev-ref', 'HEAD']
     }, function (err, result) {
       if (err) {
-        grunt.config(prop || "meta.versionBranch", "unknown");
-        grunt.log.writeln("Unable to determine branch, continuing".red);
+        grunt.config(prop || 'meta.versionBranch', 'unknown');
+        grunt.log.writeln('Unable to determine branch, continuing'.red);
         return done();
       }
 
-      grunt.config(prop || "meta.versionBranch", result.stdout);
+      grunt.config(prop || 'meta.versionBranch', result.stdout);
 
       grunt.log.writeln(result.stdout.green);
 
@@ -172,25 +172,25 @@ module.exports = function(grunt) {
         dest: 'build/dist/deps.js',
         separator: ';'
       },
-      deps_debug: {
+      depsDebug: {
         src: deps,
         dest: 'build/dist/deps-debug.js',
         separator: ';'
       },
-      compat_ie: {
-        src: prefix('build/', compat_ie),
+      compatIE: {
+        src: prefix('build/', compatIE),
         dest: 'build/dist/compat_ie.js'
       },
-      compat_ie_debug: {
-        src: compat_ie,
+      compatIEDebug: {
+        src: compatIE,
         dest: 'build/dist/compat_ie-debug.js'
       },
-      compat_nw: {
-        src: prefix('build/', compat_nw),
+      compatNW: {
+        src: prefix('build/', compatNW),
         dest: 'build/dist/compat_nw.js'
       },
-      compat_nw_debug: {
-        src: compat_nw,
+      compatNWDebug: {
+        src: compatNW,
         dest: 'build/dist/compat_nw-debug.js'
       }
     },
@@ -199,25 +199,25 @@ module.exports = function(grunt) {
       deps: {
         expand: true,
         src: deps,
-        dest: "build/",
+        dest: 'build/',
         filter: function (from) {
-          return isNewer(from, "build/"+from);
+          return isNewer(from, 'build/' + from);
         }
       },
-      compat_ie: {
+      compatIE: {
         expand: true,
-        src: compat_ie,
-        dest: "build/",
+        src: compatIE,
+        dest: 'build/',
         filter: function (from) {
-          return isNewer(from, "build/"+from);
+          return isNewer(from, 'build/' + from);
         }
       },
-      compat_nw: {
+      compatNW: {
         expand: true,
-        src: compat_nw,
-        dest: "build/",
+        src: compatNW,
+        dest: 'build/',
         filter: function (from) {
-          return isNewer(from, "build/"+from);
+          return isNewer(from, 'build/' + from);
         }
       }
     },
@@ -227,23 +227,23 @@ module.exports = function(grunt) {
         dest: 'build/dist/web/index.html',
         options: {
           context: {
-            MODE: "release",
-            TARGET: "web",
-            VERSION: "<%= meta.version %>",
-            VERSIONBRANCH: "<%= meta.versionBranch %>",
+            MODE: 'release',
+            TARGET: 'web',
+            VERSION: '<%= meta.version %>',
+            VERSIONBRANCH: '<%= meta.versionBranch %>',
             LANGUAGES: languageCodes
           }
         }
       },
-      web_debug: {
+      webDebug: {
         src: 'src/index.html',
         dest: 'build/dist/web/index_debug.html',
         options: {
           context: {
-            MODE: "debug",
-            TARGET: "web",
-            VERSION: "<%= meta.version %>",
-            VERSIONBRANCH: "<%= meta.versionBranch %>",
+            MODE: 'debug',
+            TARGET: 'web',
+            VERSION: '<%= meta.version %>',
+            VERSIONBRANCH: '<%= meta.versionBranch %>',
             LANGUAGES: languageCodes
           }
         }
@@ -252,16 +252,16 @@ module.exports = function(grunt) {
     webfont: {
       icons: {
         options: {
-          engine: "fontforge",
-          stylesheet: "less",
+          engine: 'fontforge',
+          stylesheet: 'less',
           classPrefix: 'icon-',
           mixinPrefix: 'icon-',
           relativeFontPath: '../res/icons/font',
           syntax: 'bootstrap',
           htmlDemo: false
         },
-        src: "res/icons/svg/*.svg",
-        dest: "res/icons/font/"
+        src: 'res/icons/svg/*.svg',
+        dest: 'res/icons/font/'
       }
     },
     copy: {
@@ -291,7 +291,7 @@ module.exports = function(grunt) {
         ]
       }
     },
-    jade_l10n_extractor: {
+    jadeL10nExtractor: {
       templates: {
         options: {
         },
@@ -306,24 +306,24 @@ module.exports = function(grunt) {
         tasks: [],
         options: { livereload: true }
       },
-      scripts_debug: {
+      scriptsDebug: {
         files: ['src/js/**/*.js', 'src/jade/**/*.jade'],
-        tasks: ['webpack:web_debug', 'copy'],
+        tasks: ['webpack:webDebug', 'copy'],
         options: { nospawn: true, livereload: true }
       },
       deps: {
         files: deps,
-        tasks: ['concat:deps_debug','copy'],
+        tasks: ['concat:depsDebug', 'copy'],
         options: { livereload: true }
       },
       styles: {
         files: 'src/less/**/*.less',
-        tasks: ['recess','copy'],
+        tasks: ['recess', 'copy'],
         options: { livereload: true }
       },
       index: {
         files: ['src/index.html'],
-        tasks: ['version','versionBranch','preprocess:web_debug','copy'],
+        tasks: ['version', 'versionBranch', 'preprocess:webDebug', 'copy'],
         options: { livereload: true }
       },
       callback: {
@@ -366,7 +366,7 @@ module.exports = function(grunt) {
       options: {
         imports: ['src/less/ripple/*.less'],
         csslint: {
-          'ids': false,
+          ids: false,
           'adjoining-classes': false,
           'known-properties': false
         }
@@ -383,43 +383,43 @@ module.exports = function(grunt) {
           {
             test: /\.js$/,
             include: pathToRegExp(path.join(__dirname, 'src', 'js')),
-            loader: "jshint-loader"
+            loader: 'jshint-loader'
           }
         ]
       },
       output: {
-        path: "build/dist/"
+        path: 'build/dist/'
       },
       cache: true,
       jshint: {
-        "validthis": true,
-        "laxcomma" : true,
-        "laxbreak" : true,
-        "browser"  : true,
-        "eqnull"   : true,
-        "debug"    : true,
-        "devel"    : true,
-        "boss"     : true,
-        "expr"     : true,
-        "asi"      : true,
-        "sub"      : true
+        validthis: true,
+        laxcomma:  true,
+        laxbreak:  true,
+        browser:   true,
+        eqnull:    true,
+        debug:     true,
+        devel:     true,
+        boss:      true,
+        expr:      true,
+        asi:       true,
+        sub:       true
       },
       plugins: [
-        new BannerPlugin("Ripple Client v<%= meta.version %>\nCopyright (c) <%= grunt.template.today('yyyy') %> <%= pkg.author.name %>\nLicensed under the <%= pkg.license %> license.")
+        new BannerPlugin('Ripple Client v<%= meta.version %>\nCopyright (c) <%= grunt.template.today(\'yyyy\') %> <%= pkg.author.name %>\nLicensed under the <%= pkg.license %> license.')
       ]
     },
-    web_debug: {
+    webDebug: {
       entry: {
-        web: "./src/js/entry/web.js"
+        web: './src/js/entry/web.js'
       },
       module: {
         loaders: [
-          { test: /\.jade$/, loader: "jade-l10n-loader" },
-          { test: /\.json$/, loader: "json-loader" }
+          { test: /\.jade$/, loader: 'jade-l10n-loader' },
+          { test: /\.json$/, loader: 'json-loader' }
         ]
       },
       output: {
-        filename: "web/<%= pkg.name %>-debug.js"
+        filename: 'web/<%= pkg.name %>-debug.js'
       },
       debug: true,
       devtool: 'eval',
@@ -428,18 +428,18 @@ module.exports = function(grunt) {
   };
 
   languages.forEach(function(language){
-    webpack['web_l10n_' + language.name] = {
+    webpack['webL10n-' + language.name] = {
       entry: {
-        web: "./src/js/entry/web.js"
+        web: './src/js/entry/web.js'
       },
       module: {
         loaders: [
-          { test: /\.jade$/, loader: "jade-l10n-loader?languageFile=./l10n/" + language.code + "/messages.po" },
-          { test: /\.json$/, loader: "json-loader" }
+          { test: /\.jade$/, loader: 'jade-l10n-loader?languageFile=./l10n/' + language.code + '/messages.po' },
+          { test: /\.json$/, loader: 'json-loader' }
         ]
       },
       output: {
-        filename: "web/<%= pkg.name %>-" + language.code + ".js"
+        filename: 'web/<%= pkg.name %>-' + language.code + '.js'
       },
       optimize: {
         // TODO Minimization breaks our l10n mechanisms
@@ -463,13 +463,25 @@ module.exports = function(grunt) {
                                  'deps',
                                  'copy']);
 
+  // Dev - builds the web version of the client excluding any locales
+  // Be sure to use English version for testing
+  grunt.registerTask('dev', ['bower:install',
+                             'version',
+                             'versionBranch',
+                             'preprocess',
+                             'webpack:webDebug',
+                             'webpack:webL10n-english',
+                             'recess',
+                             'deps',
+                             'copy']);
+
   // Deps only - only rebuilds the dependencies
   grunt.registerTask('deps', ['uglify:deps',
-                              'concat:deps','concat:deps_debug',
-                              'uglify:compat_ie',
-                              'concat:compat_ie', 'concat:compat_ie_debug',
-                              'uglify:compat_nw',
-                              'concat:compat_nw', 'concat:compat_nw_debug']);
+                              'concat:deps', 'concat:depsDebug',
+                              'uglify:compatIE',
+                              'concat:compatIE', 'concat:compatIEDebug',
+                              'uglify:compatNW',
+                              'concat:compatNW', 'concat:compatNWDebug']);
 
   // Node.js server to serve built files
   grunt.registerTask('devserver', ['shell:startdevserver']);
@@ -479,5 +491,5 @@ module.exports = function(grunt) {
 };
 
 // Helpers
-function escapeRegExpString(str) { return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&"); }
-function pathToRegExp(p) { return new RegExp("^" + escapeRegExpString(p)); }
+function escapeRegExpString(str) { return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&'); }
+function pathToRegExp(p) { return new RegExp('^' + escapeRegExpString(p)); }
