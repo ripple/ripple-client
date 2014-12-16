@@ -67,8 +67,12 @@ section.col-xs-12.content(ng-controller='MxnCtrl')
           button.btn.btn-large(ng-show="mxnConnected && !showInstructions", type="submit", ng-click="toggle_instructions()") Show instructions
 
         .connect.col-xs-5.col-sm-7.col-md-8(ng-hide="loading")
-          .description.fa.fa-times(ng-show="!mxnConnected && account.Balance", l10n) Not connected
-          .description.fa.fa-check(ng-show="mxnConnected && account.Balance", l10n) Connected
+          .description(ng-show="!mxnConnected && account.Balance", l10n) 
+            i.fa.fa-times
+            |  Not connected
+          .description.fa.fa-check(ng-show="mxnConnected && account.Balance", l10n) 
+            i.fa.fa-times
+            |  Connected
           .description(ng-show="!account.Balance", l10n) Your account has to be activated before you can add a gateway account.
       .row(ng-show="showInstructions && mxnConnected")
         .instructions.col-md-10
