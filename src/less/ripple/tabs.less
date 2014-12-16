@@ -1456,7 +1456,14 @@
     }
   }
   .description {
-    margin: 5px 0 5px 0;
+    margin: 11px 0 11px 0;
+    span.value {
+      overflow: hidden;
+      display: inherit;
+      &.ng-binding {
+        text-overflow: ellipsis;
+      }
+    }
   }
 
   .descriptor {
@@ -1557,7 +1564,15 @@
 
     }
   }
-
+  .show-security {
+    a {
+      vertical-align: top;
+      text-transform: lowercase;
+      @media(max-width: @screen-xs-max) {
+        line-height: 18px;
+      }
+    }
+  }
 }
 
 #t-settingstrade{
