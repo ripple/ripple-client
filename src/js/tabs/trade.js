@@ -143,17 +143,6 @@ TradeTab.prototype.angular = function(module)
       return amount;
     };
 
-    function resort() {
-      setTimeout(function() {
-        $scope.$digest();
-      }, 10);
-    }
-    
-    $scope.$watch('sort_options.current_pair_only', resort);
-    $scope.$watch('sort_options.sort_field', resort);
-    $scope.$watch('sort_options.reverse', resort);
-
-
     // Set state of whether an order's price has been edited by the user
     $scope.priceEdited = function() {
       $scope.editOrder.priceChanged = $scope.editOrder.oldPriceDisp !== $scope.editOrder.newPrice;
