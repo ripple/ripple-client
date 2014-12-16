@@ -17,7 +17,7 @@
         .row(ng-repeat="entry in offers track by entry.seq", ng-hide="entry.isZero")
           .col-sm-2.type(data-label="Type") {{entry.type | rpucfirst}}
           .col-sm-4(data-label="Currencies")
-            a(href="#/trade/{{entry.first | rpcurrency}}/{{entry.second | rpcurrency}}")
+            a(href="#/trade/?first={{entry.first | rpcurrency}}.{{entry.first.issuer().to_json()}}&amp;second={{entry.second | rpcurrency}}.{{entry.second.issuer().to_json()}}")
               span {{entry.first | rpcurrency}}
               span.issuer(ng-show="entry.first.issuer().to_json()") &nbsp;(
                 span(
