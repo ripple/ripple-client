@@ -28,9 +28,9 @@ RegisterTab.prototype.angular = function (module) {
       return;
     }
 
-    $scope.RTRedirect = function() {
+    $scope.migrate = function() {
 
-      var path = 'https://rippletrade.com/#/register';
+      var path = 'https://rippletrade.com/#/migrate';
 
       $window.location.href = path;
     }

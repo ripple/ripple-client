@@ -20,14 +20,21 @@ LoginTab.prototype.generateHtml = function ()
 LoginTab.prototype.angular = function (module) {
   module.controller('LoginCtrl', ['$scope', '$element', '$routeParams',
                                   '$location', 'rpId', '$rootScope',
-                                  'rpPopup', '$timeout', 'rpTracker',
+                                  'rpPopup', '$timeout', 'rpTracker', '$window',
                                   function ($scope, $element, $routeParams,
                                             $location, $id, $rootScope,
-                                            popup, $timeout, $rpTracker)
+                                            popup, $timeout, $rpTracker, $window)
   {
     if ($id.loginStatus) {
       $location.path('/balance');
       return;
+    }
+
+    $scope.migrate = function() {
+
+      var RTpath = 'https://rippletrade.com/#/migrate';
+
+      $window.location.href = RTpath;
     }
 
     $scope.backendChange = function()
@@ -44,6 +51,7 @@ LoginTab.prototype.angular = function (module) {
     $scope.password = '';
     $scope.loginForm && $scope.loginForm.$setPristine(true);
     $scope.backendMessages = [];
+
 
     // Autofill fix
     $timeout(function(){
@@ -91,7 +99,12 @@ LoginTab.prototype.angular = function (module) {
 
     $scope.submitForm = function()
     {
-      if ($scope.ajax_loading) return;
+      if ($scope.ajax_loading) return;    $scope.RTRedirect = function() {
+
+      var path = 'https://rippletrade.com/#/register';
+
+      $window.location.href = path;
+    }
 
       $scope.backendMessages = [];
 

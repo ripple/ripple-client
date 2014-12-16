@@ -1,33 +1,33 @@
-.mobile-nav(rp-snapper)
-  .logo
-  a.wallet(href="#/balance", ng-class="{active: $route.current.mainMenu == 'wallet'}")
-    span.nav-icon.nav-icon-wallet
-    span(l10n) Wallet
-  a.sub(href="#/balance", ng-class="{active: $route.current.mainMenu == 'balance'}", l10n) Balance
-  a.sub(href="#/history", ng-class="{active: $route.current.mainMenu == 'history'}", l10n) History
-  a.sub(href="#/contacts", ng-class="{active: $route.current.mainMenu == 'contacts'}", l10n) Contacts
-  a.sub(href="#/convert", ng-class="{active: $route.current.mainMenu == 'convert'}", l10n) Convert
-  //a.sub(href="#/cashin", ng-class="{active: $route.current.mainMenu == 'cashin'}", l10n) Cash In
-  a.sub(href="#/security", ng-class="{active: $route.current.mainMenu == 'security'}", l10n) Security
+//- .mobile-nav(rp-snapper)
+//-   .logo
+//-   a.wallet(href="#/balance", ng-class="{active: $route.current.mainMenu == 'wallet'}")
+//-     span.nav-icon.nav-icon-wallet
+//-     span(l10n) Wallet
+//-   a.sub(href="#/balance", ng-class="{active: $route.current.mainMenu == 'balance'}", l10n) Balance
+//-   a.sub(href="#/history", ng-class="{active: $route.current.mainMenu == 'history'}", l10n) History
+//-   a.sub(href="#/contacts", ng-class="{active: $route.current.mainMenu == 'contacts'}", l10n) Contacts
+//-   a.sub(href="#/convert", ng-class="{active: $route.current.mainMenu == 'convert'}", l10n) Convert
+//-   //a.sub(href="#/cashin", ng-class="{active: $route.current.mainMenu == 'cashin'}", l10n) Cash In
+//-   a.sub(href="#/security", ng-class="{active: $route.current.mainMenu == 'security'}", l10n) Security
 
-  a.send(href="#/send", ng-class="{active: $route.current.mainMenu == 'send'}")
-    span.nav-icon.nav-icon-send
-    span(l10n) Send
+//-   a.send(href="#/send", ng-class="{active: $route.current.mainMenu == 'send'}")
+//-     span.nav-icon.nav-icon-send
+//-     span(l10n) Send
 
-  a.receive(href="#/receive", ng-class="{active: $route.current.mainMenu == 'receive'}")
-    span.nav-icon.nav-icon-receive
-    span(l10n="Receive (tabname)") Receive
+//-   a.receive(href="#/receive", ng-class="{active: $route.current.mainMenu == 'receive'}")
+//-     span.nav-icon.nav-icon-receive
+//-     span(l10n="Receive (tabname)") Receive
 
-  a.send(href="#/trade", ng-class="{active: $route.current.mainMenu == 'trade'}")
-    span.nav-icon.nav-icon-trade
-    span(l10n) Trade
+//-   a.send(href="#/trade", ng-class="{active: $route.current.mainMenu == 'trade'}")
+//-     span.nav-icon.nav-icon-trade
+//-     span(l10n) Trade
 
-  a.advanced(href="#/trust", ng-class="{active: $route.current.mainMenu == 'advanced'}")
-    span.nav-icon.nav-icon-advanced
-    span(l10n) Advanced
+//-   a.advanced(href="#/trust", ng-class="{active: $route.current.mainMenu == 'advanced'}")
+//-     span.nav-icon.nav-icon-advanced
+//-     span(l10n) Advanced
 
-  a.sub(href="#/trust", ng-class="{active: $route.current.mainMenu == 'trust'}", l10n) Trust
-  a.sub(href="#/options", ng-class="{active: $route.current.mainMenu == 'options'}", l10n) Options
+//-   a.sub(href="#/trust", ng-class="{active: $route.current.mainMenu == 'trust'}", l10n) Trust
+//-   a.sub(href="#/options", ng-class="{active: $route.current.mainMenu == 'options'}", l10n) Options
 
 // Wrapper
 div#wrapper
@@ -39,42 +39,42 @@ div#wrapper
         a(href="#/", title="Ripple")
 
       // Nav
-      nav.row.top-nav
-        ul.col-xs-12
-          li#nav-wallet.col-xs-2.col-md-1(ng-class="{active: $route.current.mainMenu == 'wallet'}")
-            a.nav-icon.nav-icon-wallet(href="#/balance")
-              span(l10n) Wallet
-          li#nav-send.col-xs-2.col-md-1(ng-class="{active: $route.current.mainMenu == 'send'}")
-            a.nav-icon.nav-icon-send(href="#/send")
-              span(l10n) Send
-          li#nav-receive.col-xs-2.col-md-1(ng-class="{active: $route.current.mainMenu == 'receive'}")
-            a.nav-icon.nav-icon-receive(href="#/receive")
-              span(l10n="Receive (tabname)") Receive
-          li#nav-trade.col-xs-2.col-md-1(ng-class="{active: $route.current.mainMenu == 'trade'}")
-            a.nav-icon.nav-icon-trade(href="#/trade")
-              span(l10n) Trade
-          li#nav-advanced.col-xs-2.col-md-1(ng-class="{active: $route.current.mainMenu == 'advanced'}")
-            a.nav-icon.nav-icon-advanced(href="#/trust")
-              span(l10n) Advanced
+      //- nav.row.top-nav
+      //-   ul.col-xs-12
+      //-     li#nav-wallet.col-xs-2.col-md-1(ng-class="{active: $route.current.mainMenu == 'wallet'}")
+      //-       a.nav-icon.nav-icon-wallet(href="#/balance")
+      //-         span(l10n) Wallet
+      //-     li#nav-send.col-xs-2.col-md-1(ng-class="{active: $route.current.mainMenu == 'send'}")
+      //-       a.nav-icon.nav-icon-send(href="#/send")
+      //-         span(l10n) Send
+      //-     li#nav-receive.col-xs-2.col-md-1(ng-class="{active: $route.current.mainMenu == 'receive'}")
+      //-       a.nav-icon.nav-icon-receive(href="#/receive")
+      //-         span(l10n="Receive (tabname)") Receive
+      //-     li#nav-trade.col-xs-2.col-md-1(ng-class="{active: $route.current.mainMenu == 'trade'}")
+      //-       a.nav-icon.nav-icon-trade(href="#/trade")
+      //-         span(l10n) Trade
+      //-     li#nav-advanced.col-xs-2.col-md-1(ng-class="{active: $route.current.mainMenu == 'advanced'}")
+      //-       a.nav-icon.nav-icon-advanced(href="#/trust")
+      //-         span(l10n) Advanced
 
       div(scope="root", rp-jade-replace="client/status.jade")
 
-    .migrate-attention(l10n)
-      p.announcement(l10n) ANNOUNCEMENT: On December 15, you will no longer be able to access your Ripple account from this site. After Dec 15th,&#32;
-        | the only Ripple Labs supported web client will be&#32;
-        a(l10n-inc, href="https://www.rippletrade.com") Ripple Trade.&#32; 
-        | If you want to use a different Ripple client, you should retrieve your account secret key before Dec 15th.
-      p(l10n) Instructions for migrating to&#32;
-        a(l10n-inc, href="https://www.rippletrade.com") Ripple Trade:
-      ul
-        li(l10n) Migrate&#32;
-          a(l10n-inc, href="https://www.rippletrade.com/#/migrate") here.&#32;
-          | Migration is easy and takes less than a minute. 
-        li(l10n) Ripple Trade has the latest and greatest trading features and better account security (two-factor authentication).
-      p(l10n) Instructions for retrieving your secret key:
-      ul
-        li(l10n) Login on ripple.com/client, then visit the Security page. Click "show" next to secret key.
-        li(l10n) Saving your secret key grants you full access to your funds through other Ripple clients and Ripple APIs.
+    //- .migrate-attention(l10n)
+    //-   p.announcement(l10n) ANNOUNCEMENT: On December 15, you will no longer be able to access your Ripple account from this site. After Dec 15th,&#32;
+    //-     | the only Ripple Labs supported web client will be&#32;
+    //-     a(l10n-inc, href="https://www.rippletrade.com") Ripple Trade.&#32; 
+    //-     | If you want to use a different Ripple client, you should retrieve your account secret key before Dec 15th.
+    //-   p(l10n) Instructions for migrating to&#32;
+    //-     a(l10n-inc, href="https://www.rippletrade.com") Ripple Trade:
+    //-   ul
+    //-     li(l10n) Migrate&#32;
+    //-       a(l10n-inc, href="https://www.rippletrade.com/#/migrate") here.&#32;
+    //-       | Migration is easy and takes less than a minute. 
+    //-     li(l10n) Ripple Trade has the latest and greatest trading features and better account security (two-factor authentication).
+    //-   p(l10n) Instructions for retrieving your secret key:
+    //-   ul
+    //-     li(l10n) Login on ripple.com/client, then visit the Security page. Click "show" next to secret key.
+    //-     li(l10n) Saving your secret key grants you full access to your funds through other Ripple clients and Ripple APIs.
       //- | Ripple.com/client will be deprecated. Please migrate your account to&#32;
       //- a(l10n-inc, href="https://www.rippletrade.com/#/migrate") Ripple Trade&#32;
       //- | or use the&#32;
@@ -85,54 +85,54 @@ div#wrapper
     .row.main(role="main", id="{{$route.current.tabClass}}", ng-view)
 
     // Footer
-    footer.row
-      .col-xs-12.col-sm-5
-        a(href="https://ripple.com/wiki/index.php?title=Ripple_Client_Release_Notes")
-          | Version: {{version}}
+    //- footer.row
+    //-   .col-xs-12.col-sm-5
+    //-     a(href="https://ripple.com/wiki/index.php?title=Ripple_Client_Release_Notes")
+    //-       | Version: {{version}}
 
-      .col-xs-12.col-sm-7.right-links
-        a(href="http://ripple.com/terms", target="_blank", l10n) Terms of Service
-        a(href="https://support.ripplelabs.com", target="_blank", l10n) Support
-        a(href="https://ripplelabs.atlassian.net/browse/WC", target="_blank", l10n) Bug reports
-        a(href="#/lang/en") English
-        a(href="#/lang/cn") 中文
-        a(href="#/lang/it") Italiano
+    //-   .col-xs-12.col-sm-7.right-links
+    //-     a(href="http://ripple.com/terms", target="_blank", l10n) Terms of Service
+    //-     a(href="https://support.ripplelabs.com", target="_blank", l10n) Support
+    //-     a(href="https://ripplelabs.atlassian.net/browse/WC", target="_blank", l10n) Bug reports
+    //-     a(href="#/lang/en") English
+    //-     a(href="#/lang/cn") 中文
+    //-     a(href="#/lang/it") Italiano
 
-        // Language selector
-        rp-popup
-          a.last(href="", rp-popup-link, l10n) more...
-          div.languageSelector(rp-popup-content)
-            .modal-header
-              button.close(type="button", data-dismiss="modal", aria-hidden="true") &times;
-              .modal-title Select a language
-            .modal-body.row.list
-              .col-sm-6
-                a(href="#/lang/en") English
-              .col-sm-6
-                a(href="#/lang/cn") 中文
-              .col-sm-6
-                a(href="#/lang/nl") Nederlands
-              .col-sm-6
-                a(href="#/lang/it") Italiano
-              .col-sm-6
-                a(href="#/lang/pl") Polski
-              .col-sm-6
-                a(href="#/lang/es") Español
-              .col-sm-6
-                a(href="#/lang/pt") Português
-              .col-sm-6
-                a(href="#/lang/de") Deutsch
-              .col-sm-6
-                a(href="#/lang/nb") Norsk
-              .col-sm-6
-                a(href="#/lang/sk") Slovenská
-              .col-sm-6
-                a(href="#/lang/ca") Català
-              .col-sm-6
-                a(href="#/lang/he") עברית
-              .col-sm-6
-                a(href="#/lang/ru") Русский
-              .col-sm-6
-                a(href="#/lang/ro") Român
-              .col-sm-6
-                a(href="#/lang/ja") 日本の
+    //-     // Language selector
+    //-     rp-popup
+    //-       a.last(href="", rp-popup-link, l10n) more...
+    //-       div.languageSelector(rp-popup-content)
+    //-         .modal-header
+    //-           button.close(type="button", data-dismiss="modal", aria-hidden="true") &times;
+    //-           .modal-title Select a language
+    //-         .modal-body.row.list
+    //-           .col-sm-6
+    //-             a(href="#/lang/en") English
+    //-           .col-sm-6
+    //-             a(href="#/lang/cn") 中文
+    //-           .col-sm-6
+    //-             a(href="#/lang/nl") Nederlands
+    //-           .col-sm-6
+    //-             a(href="#/lang/it") Italiano
+    //-           .col-sm-6
+    //-             a(href="#/lang/pl") Polski
+    //-           .col-sm-6
+    //-             a(href="#/lang/es") Español
+    //-           .col-sm-6
+    //-             a(href="#/lang/pt") Português
+    //-           .col-sm-6
+    //-             a(href="#/lang/de") Deutsch
+    //-           .col-sm-6
+    //-             a(href="#/lang/nb") Norsk
+    //-           .col-sm-6
+    //-             a(href="#/lang/sk") Slovenská
+    //-           .col-sm-6
+    //-             a(href="#/lang/ca") Català
+    //-           .col-sm-6
+    //-             a(href="#/lang/he") עברית
+    //-           .col-sm-6
+    //-             a(href="#/lang/ru") Русский
+    //-           .col-sm-6
+    //-             a(href="#/lang/ro") Român
+    //-           .col-sm-6
+    //-             a(href="#/lang/ja") 日本の
