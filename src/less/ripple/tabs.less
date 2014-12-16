@@ -2832,3 +2832,138 @@ header nav.navbar .open > .dropdown-menu {
 .currency-xsn i {
   color: @color-xsn !important;
 }
+
+
+.rp-h4 {
+  font-family: OpenSansSemibold, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: normal;
+  font-size:   @font-size-base;
+  text-transform: uppercase;
+
+  small {
+    font-weight: normal;
+    line-height: 1;
+    text-transform: none;
+  }
+
+}
+
+.rp-base {
+  font-family: OpenSansRegular, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: normal;
+  font-size:   @font-size-base;
+  line-height: 1.3em;
+}
+
+.my-orders-title {
+  .rp-h4;
+  margin-top: 30px;
+  margin-bottom: 10px;
+}
+
+.rp-checkbox {
+  .rp-base;
+  margin-bottom: 5px;
+  span {
+    padding-bottom: 3px;
+  }
+  input {
+    margin: 0px 5px 0px 0px;
+    position: relative;
+    bottom: -2px;
+  }
+}
+
+.rp-select {
+  margin-bottom: 5px;
+  span {
+    padding: 0 5px 0 0;
+  }
+}
+
+.rp-modal {
+
+  // Modal header
+  // Top section of the modal w/ title and dismiss
+  .modal-header {
+    background-color: @midblue;
+    color: @white;
+  }
+
+  // Title text within header
+  .modal-title {
+    .rp-h4;
+    margin: 0 1.5em 0 1.7em;
+  }
+
+  .modal-logo {
+    margin: -.8em -.1em -.6em -.9em;
+  }
+
+  .modal-prompt {
+    .rp-base;
+    padding-left: 40px;
+    padding-top: 30px;
+    margin-bottom: 16px;
+    @media (max-width: @screen-xs-max) {
+      padding-left: 30px;
+    }
+  }
+
+  .modal-buttons {
+    text-align: right;
+    padding: 0px 20px  20px  20px;
+  }
+
+  .modal-btn {
+    padding-left: 2em;
+    padding-right: 2em;
+    margin-right: 5px;
+  }
+
+  .modal-order {
+    background-color: @lightgray;
+    margin-bottom: 2em;
+    padding: 1em 20px;
+  }
+  
+  .modal-order-type {
+    .rp-h4;
+    width: 70px;
+    text-transform: uppercase;
+    text-align: right;
+    display: inline-block;
+    margin-right: 10px;
+  }
+
+  .modal-body {
+    padding: 0px;
+  }
+
+  .btn-success {
+    margin-bottom: 0px;
+  }
+
+}
+
+// this taken from bootstrap 3.3.1
+.rp-hidden-xs {
+  @media (max-width: @screen-xs-max) {
+    .responsive-invisibility();
+  }
+}
+.rp-hidden-sm {
+  @media (min-width: @screen-sm) and (max-width: @screen-sm-max) {
+    .responsive-invisibility();
+  }
+}
+.rp-hidden-md {
+  @media (min-width: @screen-md) and (max-width: @screen-md-max) {
+    .responsive-invisibility();
+  }
+}
+.rp-hidden-lg {
+  @media (min-width: @screen-lg) {
+    .responsive-invisibility();
+  }
+}

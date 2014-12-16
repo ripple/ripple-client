@@ -419,6 +419,22 @@ BalanceTab.prototype.angular = function (module)
         $scope.currencies.push($scope.currenciesAll[i].value);
       }
     }
+
+    /**
+     * My Orders widget
+     */
+    $scope.sort_options = {
+      current_pair_only: false,
+      sort_field: 'type',
+      reverse: false
+    };
+
+    $scope.view_orders_history = function()
+    {
+      $location.url('/history?f=orders');
+    }
+
+
   }]);
 };
 
