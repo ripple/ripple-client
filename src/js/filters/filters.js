@@ -171,6 +171,8 @@ module.filter('rpissuer', function () {
     if (!input) return "";
 
     var amount = Amount.from_json(input);
+    if (!amount.is_valid()) return "";
+    if (!amount.issuer().is_valid()) return "";
     return amount.issuer().to_json();
   };
 });
