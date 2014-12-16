@@ -1,7 +1,9 @@
 .currencies.fund-menu
+  .first_menu_item(l10n) Ripple name
   a(href="#/xrp", ng-class="{active: $route.current.tabName == 'xrp'}", class="currency-xrp", l10n)
     i.icon.fa.fa-money.fa-xrp
     | XRP
+  .menu_item(l10n) Featured gateways
   a(href="#/btc", ng-class="{active: $route.current.tabName == 'btc'}", class="currency-btc", l10n)
     i.icon.fa.fa-money.fa-btc
     | BTC
@@ -18,5 +20,6 @@
   a(href="#/mxn", ng-class="{active: $route.current.tabName == 'mxn'}", class="currency-mxn", l10n)
     i.icon.fa.fa-money.fa-mxn
     | MXN
+  .menu_item(l10n) Add any gateway
   a(href="#/trust", ng-class="{active: $route.current.tabName == 'trust'}", l10n) Gateways
 a(href="https://support.ripplelabs.com/hc/en-us/articles/202847686-Gateway-Information", target="_blank", l10n) Learn more about gateways
