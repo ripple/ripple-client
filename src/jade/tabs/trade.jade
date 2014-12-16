@@ -399,7 +399,8 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
             label
               input(type="checkbox", name="current_pair_only", ng-model="sort_options.current_pair_only")
               span(l10n) Current pair only
-          .rp-select.hidden-md.hidden-lg(ng-hide="hideOffers || isEmpty(offers)")
+          .rp-select.hidden-md.hidden-lg
+            div(ng-hide="hideOffers || isEmpty(offers)")
               span Sort by
               select.currency(rp-flat-select, ng-model='sort_options.sort_field')
                 option(value="type") Type
@@ -408,12 +409,14 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                 option(value="counter") Counter
                 option(value="limit") Limit
                 option(value="time") Time
-          .rp-checkbox.hidden-md.hidden-lg(ng-hide="hideOffers")
-            label
-              input(type="checkbox", name="reverse"
-              ng-model="sort_options.reverse")
-              span(l10n) reverse
-          hr.hidden-md.hidden-lg
+          .rp-checkbox.hidden-md.hidden-lg
+            div(ng-hide="hideOffers || isEmpty(offers)")
+              label
+                input(type="checkbox", name="reverse"
+                ng-model="sort_options.reverse")
+                span(l10n) reverse
+          div(ng-hide="isEmpty(offers)")
+            hr.hidden-md.hidden-lg
           .listings.offers(ng-hide="hideOffers")
             .my
               div
@@ -571,7 +574,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                           button.modal-btn.btn.btn-cancel.btn-md.btn-cancel(data-dismiss="modal", ng-hide="loading", l10n) back
             .emptyMessage(ng-show="isEmpty(offers) && ! editOrder.replacing")
               p.rp-base(l10n) No current orders. 
-                a(l10n, href="", ng-click="view_orders_history()") View order history
+                a(l10n, href="", ng-click="view_orders_history()") View orders history
           h3
             span(l10n) Orderbook
             small.toggle(ng-click="hideOrderBook = !hideOrderBook")
