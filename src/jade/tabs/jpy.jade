@@ -64,8 +64,12 @@ section.col-xs-12.content(ng-controller='JpyCtrl')
           button.btn.btn-large(ng-show="jpyConnected && !showInstructions", type="submit", ng-click="toggle_instructions()", l10n) Show instructions
 
         .connect.col-xs-5.col-sm-7.col-md-8(ng-hide="loading")
-          .description.fa.fa-times(ng-show="!jpyConnected && account.Balance", l10n) Not connected
-          .description.fa.fa-check(ng-show="jpyConnected && account.Balance", l10n) Connected
+          .description(ng-show="!jpyConnected && account.Balance", l10n) 
+            i.fa.fa-times
+            |  Not connected
+          .description(ng-show="jpyConnected && account.Balance", l10n) 
+            i.fa.fa-check
+            |  Connected
           .description(ng-show="!account.Balance", l10n) Your account has to be activated before you can add a gateway account.
       .row(ng-show="showInstructions && jpyConnected")
         .instructions.col-md-10
