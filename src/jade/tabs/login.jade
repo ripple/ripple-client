@@ -1,94 +1,114 @@
 section.col-xs-12.content(ng-controller="LoginCtrl")
+  .row.migrate
+    .col-xs-12.col-md-10.col-md-offset-1
+      h1(l10n) Message from Ripple Labs
+      p.literal(l10n) The old client is no longer available. Please use the latest web client&#32;
+        a(l10n-inc, href="https://www.rippletrade.com") Ripple Trade&#32;
+        | to access your funds.
+      br
+      p.literal(l10n) To access your funds:
+      p.literal(l10n) 1) Go to the Ripple Trade&#32;
+        a(l10n-inc, href="https://rippletrade.com/#/migrate") migration flow
+        | .
+      p.literal(l10n) 2) Type in your old client username and passphrase combination.
+      p.literal(l10n) 3) Sign up for Ripple Trade and your funds will move with you.
+      br
+      p.literal(l10n) Please migrate your Ripple address as soon as possible.
+      br
+      button.btn.btn-block.btn-success.migrate-btn(ng-click='migrate()') Migrate your Ripple address to Ripple Trade
+      br
+      p.literal(l10n) If you have any questions, please contact&#32;
+        a(l10n-inc, href="mailto:support@ripple.com") support@ripple.com
+        | .
+  //- .row.normal-login(ng-hide="$routeParams.tab")
+  //-   h1(l10n) Open Wallet
+  //-   .col-sm-10.col-sm-offset-1
+  //-     .row
+  //-       .col-xs-12
+  //-         p.literal(l10n) Enter the Name and Passphrase used to encrypt your Wallet below.
+  //-     form(name='loginForm', ng-submit='submitForm()')
+  //-       .row
+  //-         .col-xs-12.col-sm-6.col-md-5
+  //-           include login/form
+  //-       .row
+  //-         .col-xs-12
+  //-           .text-status(ng-show='status')
+  //-             span {{status}}
+  //-             br
+  //-             .backend(ng-repeat="message in backendMessages")
+  //-               b {{message.backend}} &#32;
+  //-               span {{message.message}}
+  //-         .col-xs-12
+  //-           .row
+  //-             .col-xs-12.col-sm-6.col-md-5
+  //-               button.btn.btn-lg.btn-submit.btn-block.btn-primary(type='submit', ng-disabled="loginForm.$invalid || ajax_loading", rp-spinner="{{ajax_loading ? 4 : null}}")
+  //-                 span(l10n) Open Wallet
+  //-             .col-xs-12.col-sm-5.col-md-4
+  //-               .storageinfo
+  //-                 span.fetch(l10n) Fetch wallet from
+  //-                 span(ng-hide="storeChange")
+  //-                   strong {{blobBackendCollection.something.name}}&#32;
+  //-                   a(href="", ng-click="storeChange=true", l10n) change
+  //-                 span(ng-show="storeChange")
+  //-                   select(ng-model="blobBackendCollection.something", ng-options="b.name for b in blobBackendCollections", ng-change="backendChange()")
+  //-                   a(href="", ng-click="storeChange=false", l10n) ok
+  //-       .row
+  //-         .col-xs-12
+  //-           p.literal
+  //-             span(l10n) New to ripple?&#32;
+  //-             a(href='#/register', l10n) Create a wallet.
 
-  .row.normal-login(ng-hide="$routeParams.tab")
-    h1(l10n) Open Wallet
-    .col-sm-10.col-sm-offset-1
-      .row
-        .col-xs-12
-          p.literal(l10n) Enter the Name and Passphrase used to encrypt your Wallet below.
-      form(name='loginForm', ng-submit='submitForm()')
-        .row
-          .col-xs-12.col-sm-6.col-md-5
-            include login/form
-        .row
-          .col-xs-12
-            .text-status(ng-show='status')
-              span {{status}}
-              br
-              .backend(ng-repeat="message in backendMessages")
-                b {{message.backend}} &#32;
-                span {{message.message}}
-          .col-xs-12
-            .row
-              .col-xs-12.col-sm-6.col-md-5
-                button.btn.btn-lg.btn-submit.btn-block.btn-primary(type='submit', ng-disabled="loginForm.$invalid || ajax_loading", rp-spinner="{{ajax_loading ? 4 : null}}")
-                  span(l10n) Open Wallet
-              .col-xs-12.col-sm-5.col-md-4
-                .storageinfo
-                  span.fetch(l10n) Fetch wallet from
-                  span(ng-hide="storeChange")
-                    strong {{blobBackendCollection.something.name}}&#32;
-                    a(href="", ng-click="storeChange=true", l10n) change
-                  span(ng-show="storeChange")
-                    select(ng-model="blobBackendCollection.something", ng-options="b.name for b in blobBackendCollections", ng-change="backendChange()")
-                    a(href="", ng-click="storeChange=false", l10n) ok
-        .row
-          .col-xs-12
-            p.literal
-              span(l10n) New to ripple?&#32;
-              a(href='#/register', l10n) Create a wallet.
+  //- .row.action-login(ng-show="$routeParams.tab")
+  //-   h1(ng-show="'send' == $routeParams.tab", l10n) Transaction summary
+  //-   h1(ng-show="'trust' == $routeParams.tab", l10n) Grant Trust
+  //-   h1(ng-show="'contacts' == $routeParams.tab", l10n) Add contact
 
-  .row.action-login(ng-show="$routeParams.tab")
-    h1(ng-show="'send' == $routeParams.tab", l10n) Transaction summary
-    h1(ng-show="'trust' == $routeParams.tab", l10n) Grant Trust
-    h1(ng-show="'contacts' == $routeParams.tab", l10n) Add contact
+  //-   .col-xs-12.col-sm-6.col-md-6
+  //-     div.info(ng-show="'send' == $routeParams.tab")
+  //-       p.literal {{$routeParams.label}}
+  //-       p(ng-show="$routeParams.amount", l10n) you will send
+  //-       p(ng-hide="$routeParams.amount", l10n) you will send money to the ripple address
+  //-       .amount(ng-show="$routeParams.amount")
+  //-         span.number {{$routeParams.amount | rpamount:{xrp_human: true} }}
+  //-         span.currency {{$routeParams.amount | rpcurrency}}
+  //-       p(ng-show="$routeParams.amount", l10n) To the ripple address
+  //-       .address {{$routeParams.to}}
+  //-     div.info(ng-show="'trust' == $routeParams.tab")
+  //-       p.literal {{$routeParams.label}}
+  //-       p(l10n) you will trust
+  //-       .amount(ng-show="$routeParams.amount")
+  //-         span.number {{$routeParams.amount | rpamount:{xrp_human: true} }}
+  //-         span.currency {{$routeParams.amount | rpcurrency}}
+  //-       p(ng-hide="$routeParams.name", l10n) To ripple address
+  //-       p(ng-show="$routeParams.name", l10n) To <b>{{$routeParams.name}}</b> with a ripple address
+  //-       .address {{$routeParams.to}}
+  //-     div.info(ng-show="'contacts' == $routeParams.tab")
+  //-       p.literal {{$routeParams.label}}
+  //-       span
+  //-         p(l10n) you will add the user
+  //-         .address {{$routeParams.to}}
+  //-         p(l10n) To your ripple contacts
 
-    .col-xs-12.col-sm-6.col-md-6
-      div.info(ng-show="'send' == $routeParams.tab")
-        p.literal {{$routeParams.label}}
-        p(ng-show="$routeParams.amount", l10n) you will send
-        p(ng-hide="$routeParams.amount", l10n) you will send money to the ripple address
-        .amount(ng-show="$routeParams.amount")
-          span.number {{$routeParams.amount | rpamount:{xrp_human: true} }}
-          span.currency {{$routeParams.amount | rpcurrency}}
-        p(ng-show="$routeParams.amount", l10n) To the ripple address
-        .address {{$routeParams.to}}
-      div.info(ng-show="'trust' == $routeParams.tab")
-        p.literal {{$routeParams.label}}
-        p(l10n) you will trust
-        .amount(ng-show="$routeParams.amount")
-          span.number {{$routeParams.amount | rpamount:{xrp_human: true} }}
-          span.currency {{$routeParams.amount | rpcurrency}}
-        p(ng-hide="$routeParams.name", l10n) To ripple address
-        p(ng-show="$routeParams.name", l10n) To <b>{{$routeParams.name}}</b> with a ripple address
-        .address {{$routeParams.to}}
-      div.info(ng-show="'contacts' == $routeParams.tab")
-        p.literal {{$routeParams.label}}
-        span
-          p(l10n) you will add the user
-          .address {{$routeParams.to}}
-          p(l10n) To your ripple contacts
-
-    .col-xs-12.col-sm-6.col-md-5.col-lg-4.col-lg-offset-1
-      form(name='loginForm', ng-submit='submitForm()')
-        include login/form
-        label.storageinfo
-          span(ng-hide="storeChange")
-            strong {{blobBackendCollection.something.name}}&#32;
-            a(href="", ng-click="storeChange=true", l10n) change
-          span(ng-show="storeChange")
-            select(ng-model="blobBackendCollection.something", ng-options="b.name for b in blobBackendCollections", ng-change="backendChange()")
-            a(href="", ng-click="storeChange=false", l10n) ok
-        .row
-          .col-xs-12.text-status(ng-show='status')
-            span {{status}}
-            br
-            .backend(ng-repeat="message in backendMessages")
-              b {{message.backend}} &#32;
-              span {{message.message}}
-        .row
-          .col-xs-12
-            button.btn.btn-lg.btn-submit.btn-block.btn-primary(type='submit', ng-disabled="loginForm.$invalid || ajax_loading", rp-spinner="{{ajax_loading ? 4 : null}}") Open Wallet
-        p.literal.hint(l10n) You can confirm this transaction on the next page.
-        p.literal(l10n) New to ripple?&#32;
-          a(href='#/register', l10n-inc) Create a wallet
+  //-   .col-xs-12.col-sm-6.col-md-5.col-lg-4.col-lg-offset-1
+  //-     form(name='loginForm', ng-submit='submitForm()')
+  //-       include login/form
+  //-       label.storageinfo
+  //-         span(ng-hide="storeChange")
+  //-           strong {{blobBackendCollection.something.name}}&#32;
+  //-           a(href="", ng-click="storeChange=true", l10n) change
+  //-         span(ng-show="storeChange")
+  //-           select(ng-model="blobBackendCollection.something", ng-options="b.name for b in blobBackendCollections", ng-change="backendChange()")
+  //-           a(href="", ng-click="storeChange=false", l10n) ok
+  //-       .row
+  //-         .col-xs-12.text-status(ng-show='status')
+  //-           span {{status}}
+  //-           br
+  //-           .backend(ng-repeat="message in backendMessages")
+  //-             b {{message.backend}} &#32;
+  //-             span {{message.message}}
+  //-       .row
+  //-         .col-xs-12
+  //-           button.btn.btn-lg.btn-submit.btn-block.btn-primary(type='submit', ng-disabled="loginForm.$invalid || ajax_loading", rp-spinner="{{ajax_loading ? 4 : null}}") Open Wallet
+  //-       p.literal.hint(l10n) You can confirm this transaction on the next page.
+  //-       p.literal(l10n) New to ripple?&#32;
+  //-         a(href='#/register', l10n-inc) Create a wallet

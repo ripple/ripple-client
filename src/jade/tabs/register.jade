@@ -1,13 +1,25 @@
 section.col-xs-12.content(ng-controller="RegisterCtrl")
   .row.migrate
     .col-xs-12.col-md-10.col-md-offset-1
-      h1(l10n) Create a Ripple Wallet
-      p.literal(l10n) On December 15th, we're deprecating ripple.com/client. If you want to create a new account, please create your new Ripple Wallet on Ripple Trade.
-  .row.migrate
-    button.btn.btn-block.btn-success.migrate-btn(ng-click='RTRedirect()') Create Ripple Trade account
-  .row.migrate
-    p.literal(l10n) Need to migrate an existing ripple.com/client account?
-    a(href="https://rippletrade.com/#/migrate") Migrate
+      h1(l10n) Message from Ripple Labs
+      p.literal(l10n) The old client is no longer available. Please use the latest web client&#32;
+        a(l10n-inc, href="https://www.rippletrade.com") Ripple Trade&#32;
+        | to access your funds.
+      br
+      p.literal(l10n) To access your funds:
+      p.literal(l10n) 1) Go to the Ripple Trade&#32;
+        a(l10n-inc, href="https://rippletrade.com/#/migrate") migration flow
+        | .
+      p.literal(l10n) 2) Type in your old client username and passphrase combination.
+      p.literal(l10n) 3) Sign up for Ripple Trade and your funds will move with you.
+      br
+      p.literal(l10n) Please migrate your Ripple address as soon as possible.
+      br
+      button.btn.btn-block.btn-success.migrate-btn(ng-click='migrate()') Migrate your Ripple address to Ripple Trade
+      br
+      p.literal(l10n) If you have any questions, please contact&#32;
+        a(l10n-inc, href="mailto:support@ripple.com") support@ripple.com
+        | .
 
 //- section.col-xs-12.content(ng-controller="RegisterCtrl")
 //-   .row.mode-form(ng-show='mode=="form"')
