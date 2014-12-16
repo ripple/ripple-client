@@ -10,20 +10,20 @@
   input.form-control#login_password(name='login_password', type='password', ng-model='password', required, rp-focus)
 div.row.row-padding-small(ng-show="twoFactor")
   .form-group.col-xs-12
-    span.status(ng-show="twoFactor.via === 'sms'", l10n) Please enter the verification code from the SMS message sent to your device: 
-    span.status(ng-show="twoFactor.via === 'app'", l10n) Please enter the verification code from the Authy app installed on your device: 
-    span.maskedPhone(ng-bind="maskedPhone") 
+    span.status(ng-show="twoFactor.via === 'sms'", l10n) Please enter the verification code from the SMS message sent to your device:
+    span.status(ng-show="twoFactor.via === 'app'", l10n) Please enter the verification code from the Authy app installed on your device:
+    span.maskedPhone(ng-bind="maskedPhone")
   .label-wrapper.col-xs-12
     label(for='token', l10n) Verification Code
   .form-group.col-xs-12.col-sm-5.col-md-6.col-lg-7
-    input.form-control(name='token', ng-model='token', rp-focus)
+    input.form-control(type='number', name='token', ng-model='token', rp-focus)
   .form-group.col-xs-12.col-sm-7.col-md-6.col-lg-5
     .row
       .col-xs-6
-        button.btn.btn-block.btn-primary.btn-nomargin-xs(type="button", ng-click="requestToken()") 
+        button.btn.btn-block.btn-primary.btn-nomargin-xs(type="button", ng-click="requestToken()")
           span(ng-show="twoFactor.via === 'sms'", l10n) Resend
           span(ng-show="twoFactor.via === 'app'", l10n) Send Via SMS
-      .col-xs-6    
+      .col-xs-6
         a.btn.btn-block.btn-cancel(ng-click="cancel2FA()", l10n) cancel
   .input-group.col-xs-12
     label
