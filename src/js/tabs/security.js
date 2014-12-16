@@ -202,6 +202,7 @@ SecurityTab.prototype.angular = function (module) {
       keychain.requestSecret($id.account, $id.username, function(err, secret) {
         if (err) {
           $scope.mode2FA = '';
+          $scope.savingPhone = false;
           return;
         }
 
