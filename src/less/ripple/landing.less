@@ -13,7 +13,7 @@ header.loggedOut {
 }
 
 .headerWrapper.loggedOut {
-	display: block !important;
+  display: block !important;
 	position: fixed;
 	right: 0;
 	left: 0;
@@ -41,9 +41,9 @@ header.loggedOut {
 	}
 
 	.landingContainer {
-	  background: url('../../img/bg_title.png'), -webkit-linear-gradient(160.57deg, rgba(67, 147, 184, 1) 0%, rgba(52, 106, 169, 1) 100%);
-	  background: url('../../img/bg_title.png'), -moz-linear-gradient(83.68% 67.94% 160.57deg,rgba(67, 147, 184, 1) 0%,rgba(52, 106, 169, 1) 100%);
-	  background: url('../../img/bg_title.png'), linear-gradient(160.57deg, rgba(67, 147, 184, 1) 0%, rgba(52, 106, 169, 1) 100%);
+	  background: url('../../img/bg_title_new.png'), -webkit-linear-gradient(160.57deg, rgba(67, 147, 184, 1) 0%, rgba(52, 106, 169, 1) 100%);
+	  background: url('../../img/bg_title_new.png'), -moz-linear-gradient(83.68% 67.94% 160.57deg,rgba(67, 147, 184, 1) 0%,rgba(52, 106, 169, 1) 100%);
+	  background: url('../../img/bg_title_new.png'), linear-gradient(160.57deg, rgba(67, 147, 184, 1) 0%, rgba(52, 106, 169, 1) 100%);
 	  background-repeat: no-repeat;
 	  background-position: 25% 60%;
 		background-color: #4c8db8; /* Old browsers */
@@ -51,9 +51,9 @@ header.loggedOut {
 		
 		 // Pixel ratio: 2
     @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2) {
-      background: url('../../img/bg_title_2x.png'), -webkit-linear-gradient(160.57deg, rgba(67, 147, 184, 1) 0%, rgba(52, 106, 169, 1) 100%);
-      background: url('../../img/bg_title_2x.png'), -moz-linear-gradient(83.68% 67.94% 160.57deg,rgba(67, 147, 184, 1) 0%,rgba(52, 106, 169, 1) 100%);
-      background: url('../../img/bg_title_2x.png'), linear-gradient(160.57deg, rgba(67, 147, 184, 1) 0%, rgba(52, 106, 169, 1) 100%);
+      background: url('../../img/bg_title_new_2x.png'), -webkit-linear-gradient(160.57deg, rgba(67, 147, 184, 1) 0%, rgba(52, 106, 169, 1) 100%);
+      background: url('../../img/bg_title_new_2x.png'), -moz-linear-gradient(83.68% 67.94% 160.57deg,rgba(67, 147, 184, 1) 0%,rgba(52, 106, 169, 1) 100%);
+      background: url('../../img/bg_title_new_2x.png'), linear-gradient(160.57deg, rgba(67, 147, 184, 1) 0%, rgba(52, 106, 169, 1) 100%);
       background-repeat: no-repeat;
       background-position: 25% 60%;
       background-size: 100%;
@@ -188,7 +188,7 @@ header.loggedOut {
 	.sign-up-steps-list, .sign-up-steps-list li.completed {
 		clear: both;
 		padding-top: 20px;
-		color: @midgray !important;
+		color: @landingblue !important;
 	}
 
 	p.heroText {
@@ -269,17 +269,35 @@ header.loggedOut {
 		color: @midgray;
 	}
 
-  .auth-attention {
-    margin: 120px 0 0 0;
-  }
+  	.auth-attention {
+    	margin: 120px 0 0 0;
+  	}
+
+  	.statusText {
+  		font-family: OpenSansBold;
+  	}
+
 
 	footer.loggedOut {
 		border-top: none;
 	}
 	
-	.loggingIn {
-	  color: @white;
+	.loggingIn, .error, .success, .fa-exclamation-triangle {
+	  color: @white !important;
 	}
+
+  	form .checking {
+    	color: @landingblue;
+  	}
+
+  	.popover h3 {
+  		color: @black;
+  	}
+
+
+
+ 
+
 
 	//buttons
 	form.ng-invalid .btn-success {
