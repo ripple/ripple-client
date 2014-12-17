@@ -890,8 +890,8 @@ TradeTab.prototype.angular = function(module)
     }
 
     $scope.add_pair = function () {
-      formattedIssuerFirst = $scope.first_currency_selected === 'XRP' ? '' : '.' + $scope.first_issuer_selected;
-      formattedIssuerSecond = $scope.second_currency_selected === 'XRP' ? '' : '.' + $scope.second_issuer_selected;
+      var formattedIssuerFirst = $scope.first_currency_selected === 'XRP' ? '' : '.' + $scope.first_issuer_selected;
+      var formattedIssuerSecond = $scope.second_currency_selected === 'XRP' ? '' : '.' + $scope.second_issuer_selected;
 
       $scope.order.currency_pair = $scope.first_currency_selected + formattedIssuerFirst + '/' + $scope.second_currency_selected + formattedIssuerSecond;
 
@@ -1411,21 +1411,21 @@ TradeTab.prototype.angular = function(module)
     if ($routeParams.first && $routeParams.second) {
       var routeIssuers = {};
       var routeCurrencies = {};
+      var param_is_valid = {};
 
       ['first','second'].forEach(function(prefix){
         routeIssuers[prefix] = $routeParams[prefix].match(/\.(.+)$/);
         routeCurrencies[prefix] = $routeParams[prefix].match(/^(\w{3})/);
+        param_is_valid[prefix] = !!routeCurrencies[prefix] && (routeCurrencies[prefix][1] === 'XRP' || !!routeIssuers[prefix]);
       });
 
-      if (routeCurrencies.first && routeCurrencies.second) {
-        if (routeCurrencies.first[1] !== routeCurrencies.second[1]) {
+      if (param_is_valid.first && param_is_valid.second && routeCurrencies.first[1] !== routeCurrencies.second[1]) {
           currencyPairChangedByNonUser = true;
-          formattedIssuerFirst = routeCurrencies.first[1] === 'XRP' ? '' : '.' + routeIssuers.first[1];
-          formattedIssuerSecond = routeCurrencies.second[1] === 'XRP' ? '' : '.' + routeIssuers.second[1];
+          var formattedIssuerFirst = routeCurrencies.first[1] === 'XRP' ? '' : '.' + routeIssuers.first[1];
+          var formattedIssuerSecond = routeCurrencies.second[1] === 'XRP' ? '' : '.' + routeIssuers.second[1];
           $scope.order.currency_pair = routeCurrencies.first[1] + formattedIssuerFirst + '/' + routeCurrencies.second[1] + formattedIssuerSecond;
-        } else {
-          $location.path('/trade');
-        }
+      } else {
+        $location.url('/trade');
       }
 
       updateSettings();
