@@ -128,6 +128,9 @@ group(ng-switch on="tab")
             | You do not have enough funds to create this order [tecUNFUNDED_ORDER].
           span(ng-switch-when="tecINSUF_RESERVE_OFFER", l10n)
             | Insufficient reserve amount to submit an order [tecINSUF_RESERVE_OFFER].&#32;
+          span(ng-switch-when="tejMaxFeeExceeded", l10n)
+            | This transaction failed because the current network fee is higher than your account limit. You can adjust your maximum network fee in Settings &gt Advanced, or try again later. <br>
+            | Error code: Network fee exceeded [tejMaxFeeExceeded].&#32;
             a(href="https://ripple.com/wiki/Reserves", target="_blank", l10n) More information.
           span(ng-switch-default, l10n)
             | Error: {{engine_result_message}}
