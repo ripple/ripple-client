@@ -38,6 +38,11 @@ TradeTab.prototype.angular = function(module)
                                             $rpTracker, keychain, $rootScope,
                                             popup, $anchorScroll ,$timeout)
   {
+    $scope.sort_options = {
+      current_pair_only: false,
+      sort_field: 'type',
+      reverse: false
+    };
     var timer;
     $scope.first_currency_selected = "";
     $scope.second_currency_selected = "";
@@ -440,6 +445,37 @@ TradeTab.prototype.angular = function(module)
 
       return changedPair;
     };
+
+    
+    $scope.view_orders_history = function()
+    {
+      $location.url('/history?f=orders');
+    }
+
+    /**
+     * Happens when user clicks on "Cancel all" in "My Orders".
+     */
+    $scope.cancel_all_orders = function()
+    {
+      _.each($scope.offers, function(offer, index) {
+        offer.cancelling = true;
+      });
+      
+      function on_cancel_error() {
+        _.each($scope.offers, function(offer, index) {
+          offer.cancelling = false;
+        });
+      }
+
+      function cancel_one_order()
+      {
+        if (!_.isEmpty($scope.offers)) {
+          $scope.cancel_order(_.keys($scope.offers)[0], false, cancel_one_order, on_cancel_error);
+        }
+      }
+
+      cancel_one_order();
+    }
 
     /**
      * Happens when user clicks on "Cancel" in "My Orders".
@@ -966,6 +1002,7 @@ TradeTab.prototype.angular = function(module)
         else {
           if(pair[0].substring(14, 17) == 'GBI') {
             ripple.AuthInfo.get(Options.domain, '~' + pair[0].substring(14), function (err, response1) {
+              if (err) return;
               $scope.$apply(function () {
                 order.first_issuer = response1.address;
               });
@@ -974,6 +1011,7 @@ TradeTab.prototype.angular = function(module)
           }
           else if (pair[0].substring(4, 5) == '~') {
             ripple.AuthInfo.get(Options.domain, pair[0].substring(4), function (err, response1) {
+              if (err) return;
               $scope.$apply(function () {
                 order.first_issuer = response1.address;
               });
@@ -984,6 +1022,7 @@ TradeTab.prototype.angular = function(module)
           else {
 
             ripple.AuthInfo.get(Options.domain, '~' + pair[0].substring(4), function (err, response1) {
+              if (err) return;
               $scope.$apply(function () {
                 order.first_issuer = response1.address;
               });
@@ -1007,8 +1046,9 @@ TradeTab.prototype.angular = function(module)
           order.second_issuer = contact_to_address2;
         }
         else {
-          if(pair[0].substring(14, 17) == 'GBI') {
-            ripple.AuthInfo.get(Options.domain, '~' + pair[0].substring(14), function (err, response1) {
+          if(pair[1].substring(14, 17) == 'GBI') {
+            ripple.AuthInfo.get(Options.domain, '~' + pair[1].substring(14), function (err, response1) {
+              if (err) return;
               $scope.$apply(function () {
                 order.first_issuer = response1.address;
               });
@@ -1017,6 +1057,7 @@ TradeTab.prototype.angular = function(module)
           }
           else if (pair[1].substring(4, 5) == '~') {
             ripple.AuthInfo.get(Options.domain, pair[1].substring(4), function (err, response2) {
+              if (err) return;
               $scope.$apply(function () {
                 order.second_issuer = response2.address;
               });
@@ -1025,6 +1066,7 @@ TradeTab.prototype.angular = function(module)
           }
           else {
             ripple.AuthInfo.get(Options.domain, '~' + pair[1].substring(4), function (err, response2) {
+              if (err) return;
               $scope.$apply(function () {
                 order.second_issuer = response2.address;
               });

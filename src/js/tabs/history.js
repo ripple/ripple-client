@@ -20,8 +20,8 @@ HistoryTab.prototype.generateHtml = function ()
 };
 
 HistoryTab.prototype.angular = function (module) {
-  module.controller('HistoryCtrl', ['$scope', 'rpId', 'rpNetwork', 'rpTracker', 'rpAppManager',
-                                     function ($scope, $id, $network, $rpTracker, appManager)
+  module.controller('HistoryCtrl', ['$scope', 'rpId', 'rpNetwork', 'rpTracker', 'rpAppManager', '$routeParams',
+                                     function ($scope, $id, $network, $rpTracker, appManager, $routeParams)
   {
     var history = [];
 
@@ -73,12 +73,19 @@ HistoryTab.prototype.angular = function (module) {
       }
     };
 
+
     $scope.advanced_feature_switch = Options.advanced_feature_switch;
 
     $scope.orderedTypes = ['sent','received','gateways','trades','orders','other'];
 
     if (store.get('ripple_history_type_selections')) {
       $scope.types = $.extend(true,$scope.types,store.get('ripple_history_type_selections'));
+    }
+
+    if ($routeParams.f && _.has($scope.types, $routeParams.f)) {
+      _.each($scope.types, function(value, key) {
+        value.checked = $routeParams.f == key;
+      });
     }
 
     // Filters

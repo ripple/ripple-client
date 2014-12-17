@@ -224,55 +224,69 @@
 
   .listings {
     padding: 0 15px;
-    border: 1px solid darken(@bg, 10%);
     background: @bg;
 
     transition: 0.2s;
     max-height: 0;
 
     .my {
-      .head {
-        font-weight: bold;
-      }
       .row:first-child {
-        border-top: none;
       }
       .row {
-        border-top: 1px solid @lightgray;
 
-        &:nth-child(even) {
-          background-color: darken(@bg, 2%);
+        &:nth-child(odd) {
+          background-color: @lightgray;
         }
 
         & > div {
           padding: 8px;
-          border-right: 1px solid @lightgray;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;          
         }
 
         & > div:last-child {
           border-right: none;
         }
 
+        .btn-lg {
+          padding: 0px;
+        }
+        .btn {
+          padding: 0px;
+          margin: 4px 4px;
+        }
+        .btn-a {
+          padding: 10px 15px;
+          margin: 0px;
+          display: block;
+        }
+
         .issuer {
-          color: lighten(@black,70%);
+          color: @black;
           font-size: 11px;
         }
 
-        @media (max-width: @screen-xs-max) {
+        @media (max-width: @screen-sm-max) {
           border: none;
           padding: 4px;
 
           & > div {
             padding: 4px;
             border: none;
+            white-space: normal;
           }
 
-          div:before {
-            display: block;
-            width: 100px;
+          > div:before {
+            display: inline-block;
+            width: 140px;
             font-weight: bold;
             text-transform: uppercase;
             content: " "attr(data-label);
+          }
+
+          .inline-inputs-group {
+            min-width: 50px;
           }
         }
 
@@ -318,6 +332,31 @@
           padding-right: 0;
         }
       }
+      .head {
+        .rp-h4;
+
+        background-color: @lightgray;
+        border: 1px solid @midgray;
+
+        div span {
+          color: @midgray;
+          float: right;
+        }
+
+        span.sorted {
+          color: @black;
+        }
+
+        & > div {
+          padding: 4px;
+          border-right: 1px solid @midgray;
+          white-space: normal;;
+        }
+        & > div:last-child {
+          border-right: none;
+        }
+
+      }
     }
 
     .emptyMessage {
@@ -340,4 +379,5 @@
     max-height: 9999px;
     overflow: auto;
   }
+
 }
