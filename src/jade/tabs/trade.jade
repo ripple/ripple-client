@@ -25,20 +25,20 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
       group(ng-show="loadState.offers")
         .settings
           .row
-            .col-sm-10.col-md-7.col-xs-10.currency-config
+            .col-sm-10.col-md-9.col-lg-7.col-xs-10.currency-config
               input.form-control.currency#currency_pair(
                 name='currency_pair', type='text'
                 rp-combobox="pairs_query", rp-combobox-select, ng-disabled="adding_pair",
                 ng-model='order.currency_pair')
-            .col-sm-2.col-md-1.col-xs-2(ng-hide="adding_pair")
+            .col-sm-2.col-md-3.col-lg-1.col-xs-2(ng-hide="adding_pair")
               button.btn.btn-cancel.btn-block(href=""
                 ng-click="flip_issuer()", l10n)
                 | flip
-            .col-sm-6.col-md-2.col-xs-6(ng-hide="adding_pair")
+            .col-md-6.col-lg-2.col-xs-6(ng-hide="adding_pair")
               button.btn.btn-cancel.btn-block(href=""
                 ng-click="open_custom_currency_selector()", ng-disabled="adding_pair", l10n)
                 | add pair
-            .col-sm-6.col-md-2.col-xs-6(ng-hide="adding_pair")
+            .col-md-6.col-lg-2.col-xs-6(ng-hide="adding_pair")
               button.btn.btn-cancel.btn-block(ng-click="gotoSettings()", l10n)
                 | edit pairs
           form.row#gateway_change_form(name="gateway_change_form", ng-show="adding_pair", ng-submit="add_pair()")
