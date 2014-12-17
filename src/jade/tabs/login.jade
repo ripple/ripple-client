@@ -44,7 +44,7 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
       button.btn.btn-link.recover(ng-click="goto_recover()", ng-hide="showRecover", l10n) Account Recovery
      
 
-  .row.action-login(ng-show="$routeParams.to")
+  .row.action-login(ng-if="$routeParams.to")
     .col-xs-12.col-sm-6.col-md-6
       div.info(ng-show="'send' == $route.current.tabName")
         p.literal {{$routeParams.label}}
