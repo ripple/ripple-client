@@ -1,5 +1,9 @@
 section.col-xs-12.content(ng-controller="RecoverCtrl")
-  .row.auth-form-container.col-sm-offset-2.col-sm-8.col-md-offset-3.col-md-6
+  .col-xs-12.col-sm-4.col-md-8.hidden-xs
+      .welcomeText(l10n) Welcome to Ripple Trade
+      hr
+      p.heroText(l10n) Full, unfettered access to the Ripple network. Tap into Ripple's liquidity pool of hundreds of assets, from XRP to crypto to gold to fiat.
+  .row.auth-form-container.col-xs-12.col-sm-6.col-md-4
     .auth-form-wrapper
       form(name='recoverForm', ng-submit='submitForm()', ng-show="mode === 'recover'")
         h2(l10n) Account Recovery
@@ -62,5 +66,5 @@ section.col-xs-12.content(ng-controller="RecoverCtrl")
             img(src="img/button-s.png", class="loader", ng-show="submitLoading")
             span(ng-show="submitLoading", l10n) Updating...
             span(ng-hide="submitLoading", l10n) Set Password
-    .switch-mode-link-container(l10n) Remember your password?&#32;
-      a(href='#login', l10n-inc) Log In
+      .switch-mode-link-container.bottomText(l10n) Remember your password?&#32;
+        a(href='#login', l10n-inc) Log In

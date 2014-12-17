@@ -5,44 +5,85 @@
     i.fa.fa-fw.fa-caret-down(ng-class="{'closed': !showWidgetOrders}")
 
   div(rp-slide='showWidgetOrders')
-    .listings.offers
+    //- .rp-checkbox(ng-show="showWidgetOrders || !isEmpty(offers)")
+    //-   label
+    //-     input(type="checkbox", name="current_pair_only", ng-model="sort_options.current_pair_only")
+    //-     span(l10n) Current pair only
+    .rp-select.hidden-md.hidden-lg
+      div(ng-hide="!showWidgetOrders || isEmpty(offers)")
+        span Sort by
+        select.currency(rp-flat-select, ng-model='sort_options.sort_field')
+          option(value="type") Type
+          option(value="qty") QTY
+          option(value="base") Base
+          option(value="counter") Counter
+          option(value="limit") Limit
+    .rp-checkbox.hidden-md.hidden-lg
+      div(ng-show="showWidgetOrders && !isEmpty(offers)")
+        label
+          input(type="checkbox", name="reverse"
+          ng-model="sort_options.reverse")
+          span(l10n) reverse
+    div(ng-hide="isEmpty(offers)")
+      hr.hidden-md.hidden-lg
+    .listings.offers(ng-show="showWidgetOrders")
       .my
-        div(ng-hide="isEmpty(offers)")
-          .row.head.hidden-xs
-            .col-sm-2.type(l10n) Type
-            .col-sm-4(l10n) Currencies
-              span.issuer(l10n-inc)  (Issuer)
-            .col-sm-3.price(l10n) Price
-            .col-sm-3.amount(l10n) Amount
-        .row(ng-repeat="entry in offers track by entry.seq", ng-hide="entry.isZero")
-          .col-sm-2.type(data-label="Type") {{entry.type | rpucfirst}}
-          .col-sm-4(data-label="Currencies")
-            a(href="#/trade/{{entry.first | rpcurrency}}/{{entry.second | rpcurrency}}")
+        div
+          .row.head.hidden-xs.hidden-sm
+            .col-md-1.type(style="cursor: pointer;", l10n, rp-orders-sort-header="sort_options.sort_field", 
+                  rp-orders-sort-header-reverse="sort_options.reverse",
+                  rp-orders-sort-header-field="type") 
+              span &#x25BC;
+            .col-md-3(style="cursor: pointer;", l10n, rp-orders-sort-header="sort_options.sort_field", 
+                  rp-orders-sort-header-reverse="sort_options.reverse",
+                  rp-orders-sort-header-field="qty") QTY
+              span &#x25BC;
+            .col-md-2(style="cursor: pointer;", l10n, rp-orders-sort-header="sort_options.sort_field", 
+                  rp-orders-sort-header-reverse="sort_options.reverse",
+                  rp-orders-sort-header-field="base") Base
+              span &#x25BC;
+            .col-md-3(style="cursor: pointer;", l10n, rp-orders-sort-header="sort_options.sort_field", 
+                  rp-orders-sort-header-reverse="sort_options.reverse",
+                  rp-orders-sort-header-field="counter") Counter
+              span &#x25BC;
+            .col-md-3(style="cursor: pointer;", l10n, rp-orders-sort-header="sort_options.sort_field", 
+                  rp-orders-sort-header-reverse="sort_options.reverse",
+                  rp-orders-sort-header-field="limit") Limit
+              span &#x25BC;
+            //- .col-md-2(style="cursor: pointer;", l10n, rp-orders-sort-header="sort_options.sort_field", 
+            //-       rp-orders-sort-header-reverse="sort_options.reverse",
+            //-       rp-orders-sort-header-field="time") Time placed
+            //-   span &#x25BC;
+            //- .col-md-2(l10n) Action
+        .row(ng-repeat="entry in offers | rpcurrentpair:sort_options.current_pair_only:order.prev_settings | rpvalues | rpsortmyorders:sort_options.sort_field:sort_options.reverse track by entry.seq",
+          ng-hide="entry.isZero")
+          .col-md-1.type(data-label="Type")
+            span.rp-hidden-md.rp-hidden-lg{{entry.type | rpucfirst}}
+            span.rp-hidden-xs.rp-hidden-sm{{entry.type | rptruncate:1}}
+          .col-md-3.amount.rpamount(data-label="QTY") {{entry.first | rpamount:{hard_precision: true, precision: 6, tiny_precision: 6} }}
+          .col-md-2(data-label="BASE")
+            a(href="#/trade/?first={{entry.first | rpcurrency}}.{{entry.first | rpissuer}}&amp;second={{entry.second | rpcurrency}}.{{entry.second | rpissuer}}")
               span {{entry.first | rpcurrency}}
-              span.issuer(ng-show="entry.first.issuer().to_json()") &nbsp;(
+              span.issuer(ng-show="entry.first.issuer().to_json()") &#46;
                 span(
+                  rp-pretty-issuer-or-short="entry.first.issuer().to_json"
                   rp-pretty-issuer="entry.first.issuer().to_json()"
                   rp-pretty-issuer-contacts="userBlob.data.contacts"
-                  rp-pretty-issuer-or-short
                 ) ???
-                | )
-              span(ng-show="'buy' == entry.type", l10n)  with
-              span(ng-show="'sell' == entry.type", l10n)  for
-              span  {{entry.second | rpcurrency}}
-              span.issuer(ng-show="entry.second.issuer().to_json()") &nbsp;(
+          .col-md-3(data-label="Counter")
+            a(href="#/trade/?first={{entry.first | rpcurrency}}.{{entry.first | rpissuer}}&amp;second={{entry.second | rpcurrency}}.{{entry.second | rpissuer}}")
+              span {{entry.second | rpcurrency}}
+              span.issuer(ng-show="entry.second.issuer().to_json()") &#46;
                 span(
+                  rp-pretty-issuer-or-short="entry.first.issuer().to_json"
                   rp-pretty-issuer="entry.second.issuer().to_json()"
                   rp-pretty-issuer-contacts="userBlob.data.contacts"
-                  rp-pretty-issuer-or-short
                 ) ???
-                | )
-          div
-            .col-sm-3.price.rpamount(data-label="Price") {{entry.second | rpamountratio:entry.first | rpamount:{hard_precision: true, precision: 6, tiny_precision: 6} }}
-              span.currency  {{entry.second | rpcurrency}}
-            .col-sm-3.amount.rpamount(data-label="Amount") {{entry.first | rpamount:{hard_precision: true, precision: 6, tiny_precision: 6} }}
-              span.currency  {{entry.first | rpcurrency}}
+          .col-md-3.price.rpamount(data-label="Limit") {{entry.second | rpamountratio:entry.first | rpamount:{hard_precision: true, precision: 6, tiny_precision: 6} }}
+          //- .col-md-2.action(data-label="Time placed(UTC)", ng-hide="editOrder.seq == entry.seq") ...
       .emptyMessage(ng-show="isEmpty(offers)")
-        p.literal(l10n="You haven't placed any orders.") You haven&#39;t placed any orders.
+        p.rp-base(l10n) No current orders. 
+          a(l10n, href="", ng-click="view_orders_history()") View orders history
 
     p(ng-show="$route.current.tabName == 'balance'")
       a.btn.btn-cancel(href="#/trade", l10n) trade currencies

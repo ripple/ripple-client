@@ -13,13 +13,13 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
               a(href='#register', l10n-inc) Sign Up
           .loginWrapper.col-xs-6.col-sm-6.col-md-6
             h2.loginTop(l10n) Log In
-        .auth-attention.text-center(ng-show="verifyStatus")
+        .auth-attention.text-center.spaceAdjust(ng-show="verifyStatus") 
           .status(ng-show="'verifying' === verifyStatus", l10n) Verifying...
           .status(ng-show="'verified' === verifyStatus", l10n) You have successfully verified your email address.
           .status(ng-show="'error' === verifyStatus", l10n) Email verification token is invalid. It has either expired or has been resent. Please check your inbox for the most recent verification email.
         include login/form
         .text-status(ng-show='status')
-          span {{status}}
+          span.loggingIn {{status}}
           br
           .backend(ng-repeat="message in backendMessages")
             b {{message.backend}} &#32;
@@ -44,7 +44,7 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
       button.btn.btn-link.recover(ng-click="goto_recover()", ng-hide="showRecover", l10n) Account Recovery
      
 
-  .row.action-login(ng-show="$routeParams.to")
+  .row.action-login(ng-if="$routeParams.to")
     .col-xs-12.col-sm-6.col-md-6
       div.info(ng-show="'send' == $route.current.tabName")
         p.literal {{$routeParams.label}}

@@ -20,7 +20,7 @@ section.col-xs-12.content(ng-controller="ExchangeCtrl")
     .widgets.hidden-xs.col-sm-4.col-md-4.col-lg-3
       include widgets/balances
     .col-xs-12.col-sm-8.col-md-8.col-lg-9
-      .nameLine(l10n) Buy (Market Rate)
+      .nameLine(l10n) Buy (Market Order)
       .instructions(l10n) Submit a buy order at the current market rate. Orders will execute instantly.
       form.mode-form#exchangeForm(name="exchangeForm", ng-show='mode=="form" && account.Balance', ng-submit='exchange_prepared()')
         .form-group

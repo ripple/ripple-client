@@ -5,14 +5,14 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
       .welcomeText(l10n) Welcome to Ripple Trade
       hr
       p.heroText(l10n) Full, unfettered access to the Ripple network. Tap into Ripple's liquidity pool of hundreds of assets, from XRP to crypto to gold to fiat.
-    .tabBg
+    .tabBg(ng-hide="oldUserBlob")
     .auth-form-wrapper.col-xs-12.col-sm-6.col-md-4
       form(name='registerForm', ng-submit='submitForm()')
-        .tabAdjust.col-md-12
+        .tabAdjust.col-md-12(ng-hide="oldUserBlob")
           .signUpWrapper.col-xs-6.col-sm-6.col-md-6
             h2.signUpTop(ng-hide="oldUserBlob", l10n) Sign Up
           .loginWrapper.col-xs-6.col-sm-6.col-md-6
-            h2.loginTop.switch-mode-link-container(l10n)
+            h2.loginTop.switch-mode-link-container
               a(href='#login', l10n-inc) Log In
         h2(ng-show="oldUserBlob", l10n) Migrate
         .sign-up-steps-list
@@ -37,11 +37,14 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
             rp-loading="usernameLoading")
           .errorGroup(rp-errors='register_username', ng-hide="usernameLoading")
             .success(rp-error-valid)
-              | Available
+               i.fa.fa-check 
+               span(l10n)  Available
             .error(rp-error-on='rpAvailableName')
               span(ng-switch on="usernameInvalidReason")
-                span(ng-switch-when="exists", l10n) Already taken!
-                span(ng-switch-when="reserved", l10n) Reserved for {{usernameReservedFor}}
+                i.fa.fa-exclamation-triangle(ng-switch-when="exists", l10n)
+                  span.statusText(l10n)  Already taken!
+                i.fa.fa-exclamation-triangle(ng-switch-when="reserved", l10n)
+                  span.statusText(l10n)  Reserved for {{usernameReservedFor}}
                   span &#32;
                   i.fa.fa-question-circle(
                   rp-popover
@@ -50,13 +53,19 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
                   rp-popover-trigger="click"
                   ng-switch-when="reserved"
                   data-content='This name belongs to a high-traffic website and has been reserved to prevent phishing.')
-                span(ng-switch-when="tooshort", l10n) Must be at least 2 characters
-                span(ng-switch-when="toolong", l10n) Must be at most 20 characters
-                span(ng-switch-when="charset", l10n) You can only use the following characters: a-z, 0-9 and hyphens (-)
-                span(ng-switch-when="starthyphen", l10n) Cannot start with hyphen (-)
-                span(ng-switch-when="endhyphen", l10n) Cannot end with hyphen (-)
-                span(ng-switch-when="multhyphen", l10n) Cannot use hyphens in a row (--)
-          span(ng-show="usernameLoading", l10n) Checking...
+                i.fa.fa-exclamation-triangle(ng-switch-when="tooshort", l10n)  
+                  span.statusText(l10n)  Must be at least 2 characters
+                i.fa.fa-exclamation-triangle(ng-switch-when="toolong", l10n)
+                  span.statusText(l10n)  Must be at most 20 characters
+                i.fa.fa-exclamation-triangle(ng-switch-when="charset", l10n)
+                  span.statusText(l10n)  You can only use the following characters: a-z, 0-9 and hyphens (-)
+                i.fa.fa-exclamation-triangle(ng-switch-when="starthyphen", l10n)
+                  span.statusText(l10n)  Cannot start with hyphen (-)
+                i.fa.fa-exclamation-triangle(ng-switch-when="endhyphen", l10n)
+                  span.statusText(l10n)  Cannot end with hyphen (-)
+                i.fa.fa-exclamation-triangle(ng-switch-when="multhyphen", l10n)
+                  span.statusText(l10n)  Cannot use hyphens in a row (--)
+          span.checking(ng-show="usernameLoading", l10n) Checking...
         .form-group(ng-class="{'field-error': 'weak' === strength || 'match' === strength}")
           label(for='register_password', l10n) Password
           input.form-control#register_password(
@@ -64,9 +73,11 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
             ng-model="password1"
             rp-strong-password, required, rp-same-in-set="passwordSet")
           p(ng-show="strength=='weak'")
-            span(l10n) Your password is weak. It does not contain numbers and symbols or it is too short.
+            i.fa.fa-exclamation-triangle
+              span.error.statusText((l10n)  Your password is weak. It does not contain numbers and symbols or it is too short.
           p(ng-show="strength=='match'")
-            span(l10n) Your Ripple name and password cannot match. Please create a new password.
+            i.fa.fa-exclamation-triangle
+              span.error.statusText((l10n)  Your Ripple name and password cannot match. Please create a new password.
         .form-group(ng-class="{'field-error': registerForm.register_password1.$error.rpSameInSet && registerForm.register_password2.$dirty}")
           label(for='register_password2', l10n) Confirm password
           input.form-control#register_password2(
@@ -75,7 +86,8 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
             ng-model="password2"
             required, rp-same-in-set="passwordSet")
           p(ng-show="registerForm.register_password1.$error.rpSameInSet && registerForm.register_password2.$dirty")
-            span(l10n) Passwords do not match
+            i.fa.fa-exclamation-triangle
+              span.error.statusText((l10n)  Passwords do not match
         div(ng-show="")
           .form-group
             div(class="strength {{strength}}") {{strength}}
@@ -84,7 +96,8 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
           input.form-control#register_email(type="email", name="register_email"
             placeholder="", ng-model="email", required)
           p(ng-show="registerForm.register_email.$error.email && registerForm.register_email.$dirty")
-            span(l10n) Email address is invalid
+            i.fa.fa-exclamation-triangle
+              span.error.statusText((l10n)  Email address is invalid
         .form-group(ng-show="showMasterKeyInput"
           ng-class="{'field-error': (registerForm.register_masterkey.$error.rpMasterKey || registerForm.register_masterkey.$error.rpMasterAddressExists)  && registerForm.register_masterkey.$dirty}")
           label(for='register_masterkey', l10n) Secret key&#32;
@@ -94,7 +107,8 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
               autocomplete='off', ng-model="masterkey", rp-master-key, rp-master-address-exists, 
               rp-focus, rp-spinner="{{checkingMasterkey ? 4 : null}}")
             p(ng-show="registerForm.register_masterkey.$error.rpMasterKey")
-              span(l10n) Secret Account Key is invalid     
+              i.fa.fa-exclamation-triangle
+                span.error.statusText((l10n)  Secret Account Key is invalid     
             .auth-attention(ng-show="registerForm.register_masterkey.$error.rpMasterAddressExists && masterkeyAddress") 
               div(l10n)
                 | The account ~
@@ -127,7 +141,8 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
     
   .row.mode-masterkeyerror(ng-show='mode=="failed"')
     .col-xs-12.col-md-10.col-md-offset-1
-      p.literal(l10n) An error occurred during registration. Please try again later.
+      i.fa.fa-exclamation-triangle
+        p.literal.error(l10n)  An error occurred during registration. Please try again later.
       p.literal(l10n) The reported error was:
         | &#32;
         span(ng-bind="error_detail")
@@ -136,7 +151,8 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
 
   .row.mode-masterkeyerror(ng-show='mode=="alreadyexists"')
     .col-xs-12.col-md-10.col-md-offset-1
-      p.literal(l10n) There is already a wallet using this username, please choose a different username and try again.
+      i.fa.fa-exclamation-triangle
+        p.literal.error(l10n) There is already a wallet using this username, please choose a different username and try again.
       p
         button.btn.btn-primary(ng-click='mode="form"', l10n) Back
 
@@ -196,7 +212,7 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
     .auth-form-wrapper.col-sm-6.col-md-4
       h2(ng-hide="oldUserBlob", l10n) Sign Up
       h2(ng-show="oldUserBlob", l10n) Migrate
-      ul.sign-up-steps-list
+      .sign-up-steps-list
         li.completed(l10n) Step
           span  1
         li.completed(l10n) Step
