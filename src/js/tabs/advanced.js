@@ -24,11 +24,11 @@ AdvancedTab.prototype.angular = function(module)
                                     function ($scope, $id, $keychain, $network)
   {
     // XRP currency object.
-    // {name: "XRP - Ripples", order: 146, value: "XRP"}
-    var xrpCurrency = Currency.from_json("XRP");
+    // {name: 'XRP - Ripples', order: 146, value: 'XRP'}
+    var xrpCurrency = Currency.from_json('XRP');
 
     $scope.xrp = {
-      name: xrpCurrency.to_human({full_name:$scope.currencies_all_keyed.XRP.name}),
+      name: xrpCurrency.to_human({full_name: $scope.currencies_all_keyed.XRP.name}),
       code: xrpCurrency.get_iso(),
       currency: xrpCurrency
     };
@@ -90,7 +90,7 @@ AdvancedTab.prototype.angular = function(module)
     };
 
     $scope.saveAcctOptions = function () {
-      //ignore it if we are not going to change anything
+      // ignore it if we are not going to change anything
       if (!$scope.advancedFeatureSwitchChanged) {
         return;
       }
@@ -108,7 +108,7 @@ AdvancedTab.prototype.angular = function(module)
     };
 
     $scope.deleteBlob = function () {
-      $scope.options.blobvault = "";
+      $scope.options.blobvault = '';
       // Save in local storage
       if (!store.disabled) {
         store.set('ripple_settings', JSON.stringify($scope.options));
@@ -116,7 +116,7 @@ AdvancedTab.prototype.angular = function(module)
     };
 
     $scope.deleteBridge = function () {
-      $scope.options.bridge.out.bitcoin = "";
+      $scope.options.bridge.out.bitcoin = '';
       // Save in local storage
       if (!store.disabled) {
         store.set('ripple_settings', JSON.stringify($scope.options));
@@ -151,7 +151,7 @@ AdvancedTab.prototype.angular = function(module)
     // Add a new server
     $scope.addServer = function () {
       // Create a new server line
-      if(!$scope.options.server.servers.isEmptyServer)
+      if (!$scope.options.server.servers.isEmptyServer)
         $scope.options.server.servers.push({isEmptyServer: true, secure: false});
 
       // Set editing to true
@@ -160,7 +160,6 @@ AdvancedTab.prototype.angular = function(module)
       // Notify the user on save later
       $scope.success.addServer = true;
     };
-
   }]);
 
   module.controller('ServerRowCtrl', ['$scope',
@@ -169,7 +168,7 @@ AdvancedTab.prototype.angular = function(module)
 
       // Delete the server
       $scope.remove = function () {
-        $scope.options.server.servers.splice($scope.index,1);
+        $scope.options.server.servers.splice($scope.index, 1);
 
         // Save in local storage
         if (!store.disabled) {
@@ -192,7 +191,6 @@ AdvancedTab.prototype.angular = function(module)
 
         $scope.editing = false;
         $scope.server = $.extend({}, $scope.optionsBackup.server.servers[$scope.index]);
-
       };
 
       $scope.noCancel = function () {

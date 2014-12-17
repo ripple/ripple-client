@@ -23,7 +23,7 @@ WithdrawTab.prototype.angular = function (module)
   module.controller('WithdrawCtrl', ['$rootScope', 'rpId', 'rpAppManager',
                                      function ($scope, $id, appManager)
   {
-
+    // Empty controller
   }]);
 };
 

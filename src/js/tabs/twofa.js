@@ -21,7 +21,6 @@ TwoFATab.prototype.angular = function(module)
   module.controller('TwoFACtrl', ['$scope', 'rpId', 'rpKeychain', 'rpAuthFlow', '$timeout',
     function ($scope, $id, keychain, authflow, $timeout)
     {
-
       if (!$scope.twoFAVerify) $scope.twoFAVerify = true;
       if (!$scope.editNum) $scope.editNum = false;
       if (!$scope.verificationCode) $scope.verificationCode = '';
@@ -37,15 +36,15 @@ TwoFATab.prototype.angular = function(module)
 
       function onBlobUpdate()
       {
-        if ("function" === typeof $scope.userBlob.encrypt) {
+        if ('function' === typeof $scope.userBlob.encrypt) {
           $scope.enc = $scope.userBlob.encrypt();
         }
 
         $scope.requirePassword = !$scope.userBlob.data.persistUnlock;
 
-        if (!$scope.loaded2FA && "function" === typeof $scope.userBlob.get2FA) {
+        if (!$scope.loaded2FA && 'function' === typeof $scope.userBlob.get2FA) {
           $scope.userBlob.get2FA(function(err, resp) {
-            $scope.$apply(function(){
+            $scope.$apply(function() {
               if (err) {
                 console.log('Error: ', err);
                 return;
@@ -66,7 +65,7 @@ TwoFATab.prototype.angular = function(module)
       $scope.requestToken = function(force, callback) {
         authflow.requestToken($scope.userBlob.url, $scope.userBlob.id, force, function(tokenError, tokenResp) {
           if (tokenError) {
-            $scope.load_notification('request_token_error');
+            $scope.loadNotification('request_token_error');
             $scope.phoneLoading = false;
             return;
           } else {
@@ -74,36 +73,35 @@ TwoFATab.prototype.angular = function(module)
               callback(tokenError, tokenResp);
             }
           }
-
         });
       };
 
       $scope.savePhone = function() {
         $scope.phoneLoading = true;
-        $scope.load_notification('loading');
+        $scope.loadNotification('loading');
 
         $scope.savingPhone = true;
 
         keychain.requestSecret($id.account, $id.username, function(err, secret) {
           if (err) {
             $scope.savingPhone = false;
-            $scope.load_notification('general_error');
+            $scope.loadNotification('general_error');
             console.log('Error: ', err);
             $scope.phoneLoading = false;
             return;
           }
 
           var options = {
-            masterkey    : secret,
-            phone        : $scope.phoneNumber,
-            country_code : $scope.countryCode
+            masterkey:    secret,
+            phone:        $scope.phoneNumber,
+            country_code: $scope.countryCode
           };
 
           $scope.userBlob.set2FA(options, function(err, resp) {
-            $scope.$apply(function(){
+            $scope.$apply(function() {
               if (err) {
                 if (err.message === 'invalid phone') {
-                  $scope.load_notification('phone_error');
+                  $scope.loadNotification('phone_error');
                 }
 
                 $scope.savingPhone = false;
@@ -111,20 +109,19 @@ TwoFATab.prototype.angular = function(module)
                 $scope.phoneLoading = false;
                 return;
               } else {
-
                 $scope.currentPhone       = options.phone;
                 $scope.currentCountryCode = options.country_code;
 
-                //request verification token
+                // request verification token
                 $scope.requestToken(false, function(err, resp) {
                   if (err) {
                     $scope.savingPhone = false;
-                    $scope.load_notification('general_error');
-                    console.log("Error: ", err);
+                    $scope.loadNotification('general_error');
+                    console.log('Error: ', err);
                     $scope.phoneLoading = false;
                     return;
                   }
-                  $scope.load_notification('clear');
+                  $scope.loadNotification('clear');
                   $scope.twoFAVerify = false;
                   $scope.savingPhone = false;
                   $scope.phoneLoading = false;
@@ -136,58 +133,54 @@ TwoFATab.prototype.angular = function(module)
       };
 
       $scope.enable2FA = function() {
-
-        $scope.load_notification('loading');
+        $scope.loadNotification('loading');
         $scope.isVerifying  = true;
 
         var options = {
-          url         : $scope.userBlob.url,
-          id          : $scope.userBlob.id,
-          token       : $scope.verificationCode,
-          remember_me : false
+          url:         $scope.userBlob.url,
+          id:          $scope.userBlob.id,
+          token:       $scope.verificationCode,
+          remember_me: false
         };
 
-        authflow.verifyToken(options, function(err, resp){
-
+        authflow.verifyToken(options, function(err, resp) {
           if (err) {
-            $scope.load_notification('invalid_token');
+            $scope.loadNotification('invalid_token');
             $scope.isVerifying  = false;
             console.log('Error: ', err);
             return;
           }
 
           keychain.requestSecret($id.account, $id.username, function(err, secret) {
-
             if (err) {
-              $scope.load_notification('general_error');
+              $scope.loadNotification('general_error');
               $scope.isVerifying = false;
               consoe.log('Error: ', err);
               return;
             }
 
             var options = {
-              masterkey : secret,
-              enabled   : true
+              masterkey: secret,
+              enabled:   true
             };
 
             $scope.userBlob.set2FA(options, function(err, resp) {
-
               $scope.$apply(function() {
                 $scope.isVerifying = false;
 
                 if (err) {
-                  $scope.load_notification('general_error');
+                  $scope.loadNotification('general_error');
                   $scope.error2FA = true;
-                  console.log("Error: ", err);
+                  console.log('Error: ', err);
                 } else {
-                  $scope.load_notification('2fa_done');
+                  $scope.loadNotification('2fa_done');
 
-                  //remove old device ID so that
-                  //next login will require 2FA
+                  // remove old device ID so that
+                  // next login will require 2FA
                   store.remove('device_id');
 
                   $timeout(function() {
-                    location.href = "#/usd";
+                    location.href = '#/usd';
                   }, 2000);
                 }
               });
@@ -195,7 +188,6 @@ TwoFATab.prototype.angular = function(module)
           });
         });
       };
-
     }]
   );
 };

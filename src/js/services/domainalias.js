@@ -50,9 +50,9 @@ module.factory('rpDomainAlias', ['$q', '$rootScope', 'rpNetwork', 'rpRippleTxt',
   {
     // Return the promise if there's already a lookup in progress for this address
     // Commenting for now.. There's a ripple-lib problem we need to fix first.
-    //if (aliases[address] && aliases[address].promise) {
-    //  return aliases[address].promise;
-    //}
+    // if (aliases[address] && aliases[address].promise) {
+    //   return aliases[address].promise;
+    // }
 
     var aliasPromise = $q.defer();
 
@@ -62,7 +62,7 @@ module.factory('rpDomainAlias', ['$q', '$rootScope', 'rpNetwork', 'rpRippleTxt',
         aliasPromise.resolve(aliases[address].domain);
       }
       else {
-        aliasPromise.reject(new Error("Invalid domain"));
+        aliasPromise.reject(new Error('Invalid domain'));
       }
     }
 
@@ -81,12 +81,12 @@ module.factory('rpDomainAlias', ['$q', '$rootScope', 'rpNetwork', 'rpRippleTxt',
                     resolved: true
                   };
 
-                  if(validateDomain(domain, address, data)) {
+                  if (validateDomain(domain, address, data)) {
                     aliases[address].domain = domain;
                     aliasPromise.resolve(domain);
                   }
                   else {
-                    aliasPromise.reject(new Error("Invalid domain"));
+                    aliasPromise.reject(new Error('Invalid domain'));
                   }
                 },
                 function (error) {
@@ -102,11 +102,11 @@ module.factory('rpDomainAlias', ['$q', '$rootScope', 'rpNetwork', 'rpRippleTxt',
             aliases[address] = {
               resolved: true
             };
-            aliasPromise.reject(new Error("No domain found"));
+            aliasPromise.reject(new Error('No domain found'));
           }
         })
         .on('error', function () {
-          aliasPromise.reject(new Error("No domain found"));
+          aliasPromise.reject(new Error('No domain found'));
         })
         .request();
 
@@ -114,14 +114,13 @@ module.factory('rpDomainAlias', ['$q', '$rootScope', 'rpNetwork', 'rpRippleTxt',
       // are not supported as property names by ES3, we're invoking the
       // method like aliasPromise['finally'](callback) to make our code
       // IE8 and Android 2.x compatible.
-      aliasPromise.promise['finally'](function(){
+      aliasPromise.promise['finally'](function() {
         aliases[address].promise = false;
       });
 
       aliases[address] = {
         promise: aliasPromise.promise
       };
-
     }
 
     return aliasPromise.promise;

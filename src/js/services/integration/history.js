@@ -22,7 +22,7 @@ module.service('rpHistoryProfile', ['$rootScope', 'rpNetwork', '$http',
             rippleAddress: rippleAddress
           }
         })
-        .success(function(response){
+        .success(function(response) {
           if (response.status === 'error') {
             callback({
               message: response.message
@@ -33,7 +33,7 @@ module.service('rpHistoryProfile', ['$rootScope', 'rpNetwork', '$http',
 
           callback(null, response.history);
         })
-        .error(function(data,status){
+        .error(function(data, status) {
           callback({
             message: 'Unable to fetch the history.'
           });

@@ -12,7 +12,7 @@ module.directive('rpLinkTx', ['$location', function ($location) {
     link: function ($scope, element, attr) {
       var url;
       $scope.$watch(attr.rpLinkTx, function (hash) {
-        url = "/tx?id="+hash;
+        url = '/tx?id=' + hash;
       });
       element.click(function () {
         $scope.$apply(function () {

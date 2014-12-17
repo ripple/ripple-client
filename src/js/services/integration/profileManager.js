@@ -27,10 +27,10 @@ module.service('rpProfileManager', [
 {
   this.getProfile = function(manifest) {
     var profiles = {
-      'accountProfile': function() {return accountProfile.fromManifest(manifest);},
-      'historyProfile': function() {return historyProfile.fromManifest(manifest);},
-      'trustProfile': function() {return trustProfile.fromManifest(manifest);},
-      'inboundBridgeProfile': function() {return inboundBridgeProfile.fromManifest(manifest);}
+      accountProfile: function() {return accountProfile.fromManifest(manifest);},
+      historyProfile: function() {return historyProfile.fromManifest(manifest);},
+      trustProfile: function() {return trustProfile.fromManifest(manifest);},
+      inboundBridgeProfile: function() {return inboundBridgeProfile.fromManifest(manifest);}
     };
 
     return profiles[manifest.type + 'Profile']();

@@ -42,8 +42,8 @@ module.directive('rpMasterKey', function () {
 });
 
 /*
- * Invalidate duplicate account_id's
- * consider the masterkey invalid unless the database does not have the derived account_id
+ * Invalidate duplicate accountId's
+ * consider the masterkey invalid unless the database does not have the derived accountId
  */
 module.directive('rpMasterAddressExists', function ($http) {
   return {
@@ -56,24 +56,24 @@ module.directive('rpMasterAddressExists', function ($http) {
         if (!value || !Base.decode_check(33, value)) {
           ctrl.$setValidity('rpMasterAddressExists', true);
           return value;
-
-        } else if (value) {
-          ctrl.$setValidity('rpMasterAddressExists', false); //while checking
+        }
+        else if (value) {
+          ctrl.$setValidity('rpMasterAddressExists', false); // while checking
           scope.checkingMasterkey = true;
-          var account_id = ripple.Seed.from_json(value).get_key().get_address().to_json();
+          var accountId = ripple.Seed.from_json(value).get_key().get_address().to_json();
 
-          //NOTE: is there a better way to get the blobvault URL?         
-          ripple.AuthInfo.get(Options.domain, "1", function(err, authInfo) {
+          // NOTE: is there a better way to get the blobvault URL?
+          ripple.AuthInfo.get(Options.domain, '1', function(err, authInfo) {
             if (err) {
               scope.checkingMasterkey = false;
               return;
             }
 
-            $http.get(authInfo.blobvault + '/v1/user/' + account_id)
+            $http.get(authInfo.blobvault + '/v1/user/' + accountId)
               .success(function(data) {
                 if (data.username) {
                   scope.masterkeyUsername = data.username;
-                  scope.masterkeyAddress  = account_id;
+                  scope.masterkeyAddress  = accountId;
                   ctrl.$setValidity('rpMasterAddressExists', false);
                   scope.checkingMasterkey = false;
                 } else {
@@ -120,11 +120,11 @@ module.directive('rpDest', ['$timeout', '$parse', 'rpFederation', function ($tim
     require: '?ngModel',
     link: function (scope, elm, attr, ctrl) {
       if (!ctrl) return;
-      
+
       function showLoading(doShow) {
         if (attr.rpDestLoading) {
           var getterL = $parse(attr.rpDestLoading);
-          getterL.assign(scope,doShow);
+          getterL.assign(scope, doShow);
         }
       }
 
@@ -136,48 +136,48 @@ module.directive('rpDest', ['$timeout', '$parse', 'rpFederation', function ($tim
         ctrl.rpDestType = null;
         if (attr.rpDestFederationModel) {
           getter = $parse(attr.rpDestFederationModel);
-          getter.assign(scope,null);
+          getter.assign(scope, null);
         }
 
         if (attr.rpDestAddress && address.is_valid()) {
-          ctrl.rpDestType = "address";
+          ctrl.rpDestType = 'address';
           ctrl.$setValidity('rpDest', true);
 
           if (attr.rpDestModel) {
             getter = $parse(attr.rpDestModel);
-            getter.assign(scope,value);
+            getter.assign(scope, value);
           }
 
           return value;
         }
 
         if (attr.rpDestContact && scope.userBlob &&
-          webutil.getContact(scope.userBlob.data.contacts,strippedValue)) {
-          ctrl.rpDestType = "contact";
+          webutil.getContact(scope.userBlob.data.contacts, strippedValue)) {
+          ctrl.rpDestType = 'contact';
           ctrl.$setValidity('rpDest', true);
 
           if (attr.rpDestModel) {
             getter = $parse(attr.rpDestModel);
-            getter.assign(scope,webutil.getContact(scope.userBlob.data.contacts,strippedValue).address);
+            getter.assign(scope, webutil.getContact(scope.userBlob.data.contacts, strippedValue).address);
           }
 
           return value;
         }
 
         if (attr.rpDestBitcoin && !isNaN(Base.decode_check([0, 5], strippedValue, 'bitcoin'))) {
-          ctrl.rpDestType = "bitcoin";
+          ctrl.rpDestType = 'bitcoin';
           ctrl.$setValidity('rpDest', true);
 
           if (attr.rpDestModel) {
             getter = $parse(attr.rpDestModel);
-            getter.assign(scope,value);
+            getter.assign(scope, value);
           }
 
           return value;
         }
 
         if (attr.rpDestEmail && emailRegex.test(strippedValue)) {
-          ctrl.rpDestType = "email";
+          ctrl.rpDestType = 'email';
           if (attr.rpDestCheckFederation) {
             ctrl.$setValidity('rpDest', false);
             showLoading(true);
@@ -195,11 +195,11 @@ module.directive('rpDest', ['$timeout', '$parse', 'rpFederation', function ($tim
                 // ctrl.$viewValue
                 if (attr.rpDestModel) {
                   getter = $parse(attr.rpDestModel);
-                  getter.assign(scope,value);
+                  getter.assign(scope, value);
                 }
                 if (attr.rpDestFederationModel) {
                   getter = $parse(attr.rpDestFederationModel);
-                  getter.assign(scope,result);
+                  getter.assign(scope, result);
                 }
               }, function () {
                 // Check if this request is still current, exit if not
@@ -211,28 +211,28 @@ module.directive('rpDest', ['$timeout', '$parse', 'rpFederation', function ($tim
 
             if (attr.rpDestModel) {
               getter = $parse(attr.rpDestModel);
-              getter.assign(scope,value);
+              getter.assign(scope, value);
             }
           }
           return value;
         }
 
         if (((attr.rpDestRippleName && webutil.isRippleName(value)) ||
-          (attr.rpDestRippleNameNoTilde && value && value[0] !== '~' && webutil.isRippleName('~'+value)))) { // TODO Don't do a client check in validators
-          ctrl.rpDestType = "rippleName";
+          (attr.rpDestRippleNameNoTilde && value && value[0] !== '~' && webutil.isRippleName('~' + value)))) { // TODO Don't do a client check in validators
+          ctrl.rpDestType = 'rippleName';
 
           if (timeoutPromise) $timeout.cancel(timeoutPromise);
 
-          timeoutPromise = $timeout(function(){
+          timeoutPromise = $timeout(function() {
             showLoading(true);
 
-            ripple.AuthInfo.get(Options.domain, value, function(err, info){
-              scope.$apply(function(){
+            ripple.AuthInfo.get(Options.domain, value, function(err, info) {
+              scope.$apply(function() {
                 ctrl.$setValidity('rpDest', info.exists);
 
                 if (attr.rpDestModel && info.exists) {
                   getter = $parse(attr.rpDestModel);
-                  getter.assign(scope,info.address);
+                  getter.assign(scope, info.address);
                 }
 
                 showLoading(false);
@@ -277,42 +277,41 @@ module.directive('rpAvailableName', function ($timeout, $parse) {
 
         if (!value) {
           // No name entered, show nothing, do nothing
-          getterInvalidReason.assign(scope,false);
+          getterInvalidReason.assign(scope, false);
         } else if (value.length < 2) {
-          getterInvalidReason.assign(scope,'tooshort');
+          getterInvalidReason.assign(scope, 'tooshort');
         } else if (value.length > 20) {
-          getterInvalidReason.assign(scope,'toolong');
+          getterInvalidReason.assign(scope, 'toolong');
         } else if (!/^[a-zA-Z0-9\-]+$/.exec(value)) {
-          getterInvalidReason.assign(scope,'charset');
+          getterInvalidReason.assign(scope, 'charset');
         } else if (/^-/.exec(value)) {
-          getterInvalidReason.assign(scope,'starthyphen');
+          getterInvalidReason.assign(scope, 'starthyphen');
         } else if (/-$/.exec(value)) {
-          getterInvalidReason.assign(scope,'endhyphen');
+          getterInvalidReason.assign(scope, 'endhyphen');
         } else if (/--/.exec(value)) {
-          getterInvalidReason.assign(scope,'multhyphen');
+          getterInvalidReason.assign(scope, 'multhyphen');
         } else {
-
-          timeoutPromise = $timeout(function(){
+          timeoutPromise = $timeout(function() {
             if (attr.rpLoading) {
               var getterL = $parse(attr.rpLoading);
-              getterL.assign(scope,true);
+              getterL.assign(scope, true);
             }
 
-            ripple.AuthInfo.get(Options.domain, value, function(err, info){
-              scope.$apply(function(){
+            ripple.AuthInfo.get(Options.domain, value, function(err, info) {
+              scope.$apply(function() {
                 if (info.exists) {
                   ctrl.$setValidity('rpAvailableName', false);
-                  getterInvalidReason.assign(scope,'exists');
+                  getterInvalidReason.assign(scope, 'exists');
                 } else if (info.reserved) {
                   ctrl.$setValidity('rpAvailableName', false);
-                  getterInvalidReason.assign(scope,'reserved');
-                  getterReserved.assign(scope,info.reserved);
+                  getterInvalidReason.assign(scope, 'reserved');
+                  getterReserved.assign(scope, info.reserved);
                 } else {
                   ctrl.$setValidity('rpAvailableName', true);
                 }
 
                 if (attr.rpLoading) {
-                  getterL.assign(scope,false);
+                  getterL.assign(scope, false);
                 }
               });
             });
@@ -348,7 +347,7 @@ module.directive('rpStdt', function () {
       if (!ctrl) return;
 
       var validator = function(value) {
-        if (!value || (!isNaN(parseFloat(value)) && isFinite(value) && value >= 0 && value < Math.pow(2,32) - 1)) {
+        if (!value || (!isNaN(parseFloat(value)) && isFinite(value) && value >= 0 && value < Math.pow(2, 32) - 1)) {
           ctrl.$setValidity('rpStdt', true);
           return value;
         } else {
@@ -407,7 +406,7 @@ module.directive('rpNotMe', function () {
       if (!ctrl) return;
 
       var validator = function(value) {
-        var contact = webutil.getContact(scope.userBlob.data.contacts,value);
+        var contact = webutil.getContact(scope.userBlob.data.contacts, value);
 
         if (value) {
           if ((contact && contact.address === scope.userBlob.data.account_id) || scope.userBlob.data.account_id === value) {
@@ -438,14 +437,14 @@ module.directive('rpIssuer', function () {
       if (!ctrl) return;
 
       var validator = function(value) {
-        if(!value){
+        if (!value) {
           ctrl.$setValidity('rpIssuer', false);
           return;
         }
 
         var shortValue = value.slice(0, 3).toUpperCase();
 
-        if ( (shortValue==="XRP") || webutil.findIssuer(scope.lines,shortValue))
+        if ((shortValue === 'XRP') || webutil.findIssuer(scope.lines, shortValue))
         {
           ctrl.$setValidity('rpIssuer', true);
           return value;
@@ -503,7 +502,7 @@ module.directive('rpSameInSet', [function() {
         function() {
           return _.size(set) === 1;
         },
-        function(value){
+        function(value) {
           ctrl.$setValidity('rpSameInSet', value);
         }
       );
@@ -549,7 +548,7 @@ module.directive('rpUnique', function() {
       }
 
       var setResult = function(result) {
-        _.forEach(group, bind(function($scope, elm, attr, ctrl){
+        _.forEach(group, bind(function($scope, elm, attr, ctrl) {
           ctrl.$setValidity('rpUnique', result);
         }));
       };
@@ -565,15 +564,15 @@ module.directive('rpUnique', function() {
       var validator = function(value) {
         var thisCtrl = ctrl;
         var pool = $scope.$eval(attr.rpUnique) || [];
-        var orig = _.every(group, bind(function($scope, elm, attr, ctrl){
+        var orig = _.every(group, bind(function($scope, elm, attr, ctrl) {
           return attr.rpUniqueOrig && checkValue(ctrl === thisCtrl ? value : ctrl.$viewValue, $scope.$eval(attr.rpUniqueOrig));
         }));
         if (orig) {
           // Original value is always allowed
           setResult(true);
         } else if (attr.rpUniqueField) {
-          var check = function (i){
-            return _.every(group, bind(function($scope, elm, attr, ctrl){
+          var check = function (i) {
+            return _.every(group, bind(function($scope, elm, attr, ctrl) {
               return checkValue(pool[i][attr.rpUniqueField], ctrl === thisCtrl ? value : ctrl.$viewValue);
             }));
           };
@@ -611,7 +610,7 @@ module.directive('rpUnique', function() {
  *     <input ng-model="dt" rp-unique="addressbook" rp-unique-field="dt" rp-unique-group="address-dt">
  *   </div>
  */
-var RP_UNIQUE_SCOPE = "rp-unique-scope";
+var RP_UNIQUE_SCOPE = 'rp-unique-scope';
 module.directive('rpUniqueScope', function() {
   return {
     restrict: 'EA',
@@ -635,7 +634,7 @@ module.directive('rpStrongPassword', function () {
 
       var validator = function(password) {
         var score = 0;
-        var username = ""+scope.username;
+        var username = '' + scope.username;
 
         if (!password) {
           scope.strength = '';
@@ -643,7 +642,7 @@ module.directive('rpStrongPassword', function () {
         }
 
         // password < 6
-        if (password.length < 6 ) {
+        if (password.length < 6) {
           ctrl.$setValidity('rpStrongPassword', false);
           scope.strength = 'weak';
           return;
@@ -657,19 +656,19 @@ module.directive('rpStrongPassword', function () {
         }
 
         checkRepetition = function (pLen, str) {
-          var res = "";
-          for (var i = 0; i < str.length; i++ ) {
+          var res = '';
+          for (var i = 0; i < str.length; i++) {
             var repeated = true;
 
-            for (var j = 0; j < pLen && (j+i+pLen) < str.length; j++) {
-              repeated = repeated && (str.charAt(j+i) === str.charAt(j+i+pLen));
+            for (var j = 0; j < pLen && (j + i + pLen) < str.length; j++) {
+              repeated = repeated && (str.charAt(j + i) === str.charAt(j + i + pLen));
             }
-            if (j<pLen) {
+            if (j < pLen) {
               repeated = false;
             }
 
             if (repeated) {
-              i += pLen-1;
+              i += pLen - 1;
               repeated = false;
             } else {
               res += str.charAt(i);
@@ -680,10 +679,10 @@ module.directive('rpStrongPassword', function () {
 
         // password length
         score += password.length * 4;
-        score += ( checkRepetition(1, password).length - password.length ) * 1;
-        score += ( checkRepetition(2, password).length - password.length ) * 1;
-        score += ( checkRepetition(3, password).length - password.length ) * 1;
-        score += ( checkRepetition(4, password).length - password.length ) * 1;
+        score += (checkRepetition(1, password).length - password.length) * 1;
+        score += (checkRepetition(2, password).length - password.length) * 1;
+        score += (checkRepetition(3, password).length - password.length) * 1;
+        score += (checkRepetition(4, password).length - password.length) * 1;
 
         // password has 3 numbers
         if (password.match(/(.*[0-9].*[0-9].*[0-9])/)) {
@@ -696,7 +695,7 @@ module.directive('rpStrongPassword', function () {
         }
 
         // password has Upper and Lower chars
-        if (password.match(/([a-z].*[A-Z])|([A-Z].*[a-z])/)){
+        if (password.match(/([a-z].*[A-Z])|([A-Z].*[a-z])/)) {
           score += 10;
         }
 
@@ -705,7 +704,7 @@ module.directive('rpStrongPassword', function () {
           score += 15;
         }
 
-        //password has number and symbol
+        // password has number and symbol
         if (password.match(/([!,@,#,$,%,&,*,?,_,~])/) && password.match(/([0-9])/)) {
           score += 15;
         }
@@ -716,7 +715,7 @@ module.directive('rpStrongPassword', function () {
         }
 
         // password is just a numbers or chars
-        if (password.match(/^\w+$/) || password.match(/^\d+$/) ) {
+        if (password.match(/^\w+$/) || password.match(/^\d+$/)) {
           score -= 10;
         }
 
@@ -759,8 +758,8 @@ module.directive('rpAmount', function () {
       if (!ctrl) return;
 
       var validator = function(value) {
-        if (value && value.toString().indexOf(",") != -1) {
-          value = value.split(",").join("");
+        if (value && value.toString().indexOf(',') != -1) {
+          value = value.split(',').join('');
         }
 
         var test = /^(([0-9]*?\.\d+)|([1-9]\d*))$/.test(value);
@@ -912,7 +911,7 @@ module.directive('rpPortNumber', function () {
       if (!ctrl) return;
 
       var validator = function(value) {
-        ctrl.$setValidity('rpPortNumber', (parseInt(value,10) == value && value >= 1 && value <= 65535));
+        ctrl.$setValidity('rpPortNumber', (parseInt(value, 10) == value && value >= 1 && value <= 65535));
         return value;
       };
 
@@ -939,7 +938,7 @@ module.directive('rpHostname', function () {
 
       function validate(str) {
         var test = /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$|^(([a-zA-Z]|[a-zA-Z][a-zA-Z0-9\-_]*[a-zA-Z0-9])\.)*([A-Za-z]|[A-Za-z][A-Za-z0-9\-]*[A-Za-z0-9])$|^\s*((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:)))(%.+)?\s*$/.test(str);
-        //var test = /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$|^(([a-zA-Z]|[a-zA-Z][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z]|[A-Za-z][A-Za-z0-9\-]*[A-Za-z0-9])$|^\s*((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:)))(%.+)?\s*$/.test(str);
+        // var test = /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$|^(([a-zA-Z]|[a-zA-Z][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z]|[A-Za-z][A-Za-z0-9\-]*[A-Za-z0-9])$|^\s*((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:)))(%.+)?\s*$/.test(str);
         return test;
       }
 
@@ -1009,4 +1008,3 @@ module.directive('rpEmail', function () {
     }
   };
 });
-

@@ -22,21 +22,19 @@ MxnTab.prototype.angular = function (module)
 {
   module.controller('MxnCtrl', ['$scope', 'rpId', 'rpAppManager', 'rpTracker', '$routeParams', 'rpKeychain', 'rpNetwork', '$timeout',
     function ($scope, $id, appManager, rpTracker, $routeParams, keychain, $network, $timeout) {
-
       $scope.toggle_instructions = function () {
         $scope.showInstructions = !$scope.showInstructions;
       };
 
       $scope.save_account = function () {
-
         $scope.loading = true;
 
         var amount = ripple.Amount.from_human(
             Options.gateway_max_limit + ' ' + 'MXN',
-            {reference_date: new Date(+new Date() + 5*60000)}
+            {reference_date: new Date(+new Date() + 5 * 60000)}
         );
 
-        amount.set_issuer("rG6FZ31hDHN1K5Dkbma3PSB5uVCuVVRzfn");
+        amount.set_issuer('rG6FZ31hDHN1K5Dkbma3PSB5uVCuVVRzfn');
 
         if (!amount.is_valid()) {
           // Invalid amount. Indicates a bug in one of the validators.
@@ -53,9 +51,9 @@ MxnTab.prototype.angular = function (module)
         tx
             .rippleLineSet($id.account, amount)
             .setFlags('NoRipple')
-            .on('proposed', function(res){
+            .on('proposed', function(res) {
               $scope.$apply(function () {
-                setEngineStatus(res, false);              
+                setEngineStatus(res, false);
               });
             })
             .on('success', function (res) {
@@ -98,15 +96,14 @@ MxnTab.prototype.angular = function (module)
               $scope.tx_result = 'failed';
               break;
             case 'tel':
-              $scope.tx_result = "local";
+              $scope.tx_result = 'local';
               break;
             case 'tep':
               console.warn('Unhandled engine status encountered!');
           }
-          if ($scope.tx_result=="cleared"){
+          if ($scope.tx_result === 'cleared') {
             $scope.mxnConnected = true;
             $scope.showInstructions = true;
-
           }
           console.log($scope.tx_result);
         }
@@ -123,14 +120,11 @@ MxnTab.prototype.angular = function (module)
 
           tx.secret(secret);
           tx.submit();
-
-
         });
-
       };
 
       $scope.$watch('lines', function () {
-        if($scope.lines['rG6FZ31hDHN1K5Dkbma3PSB5uVCuVVRzfnMXN']){
+        if ($scope.lines.rG6FZ31hDHN1K5Dkbma3PSB5uVCuVVRzfnMXN) {
           $scope.mxnConnected = true;
         }
         else {
@@ -150,7 +144,6 @@ MxnTab.prototype.angular = function (module)
         }
       }, true);
     }]);
-
 };
 
 module.exports = MxnTab;

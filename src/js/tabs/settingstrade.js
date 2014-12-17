@@ -22,14 +22,14 @@ SettingsTradeTab.prototype.angular = function(module)
   module.controller('SettingsTradeCtrl', ['$scope',
     function ($scope)
     {
-      if ($scope.userBlob.data){
+      if ($scope.userBlob.data) {
         $scope.pairs = $scope.userBlob.data.trade_currency_pairs;
       }
       $scope.$on('$blobUpdate', function () {
         $scope.pairs = $scope.userBlob.data.trade_currency_pairs;
       });
 
-      $scope.deletePair = function(index){
+      $scope.deletePair = function(index) {
         for (var i = 0; i < $scope.pairs.length; i++) {
           if ($scope.pairs[i].$$hashKey === this.entry.$$hashKey) {
             $scope.userBlob.unset('/trade_currency_pairs/' + index);

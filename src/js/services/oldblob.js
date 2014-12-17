@@ -4,8 +4,8 @@
  * The old blob service that used to manage the user's private information.
  */
 
-var webutil = require("../util/web"),
-    log = require("../util/log");
+var webutil = require('../util/web'),
+    log = require('../util/log');
 
 var module = angular.module('oldblob', []);
 
@@ -24,7 +24,7 @@ module.factory('rpOldBlob', ['$rootScope', function ($scope)
     }
 
     backends = backends.map(function (backend) {
-      if ("string" === typeof backend) {
+      if ('string' === typeof backend) {
         return BlobObj.backends[backend];
       } else {
         return backend;
@@ -64,8 +64,8 @@ module.factory('rpOldBlob', ['$rootScope', function ($scope)
     }
 
     function handleError(err, backend) {
-      console.warn("Backend failed:", backend.name, err.toString());
-      if ("string" === typeof err) {
+      console.warn('Backend failed:', backend.name, err.toString());
+      if ('string' === typeof err) {
         err = new BlobError(err, backend.name);
       } else if (!(err instanceof BlobError)) {
         err = new BlobError(err.message, backend.name);
@@ -84,13 +84,13 @@ module.factory('rpOldBlob', ['$rootScope', function ($scope)
     }
   };
 
-  BlobObj.enc = function(username,password,bl)
+  BlobObj.enc = function(username, password, bl)
   {
     // filter out contacts before they are encrypted
-    if (typeof(bl.data.contacts) === 'object')
+    if ('object' === typeof bl.data.contacts)
       bl.data.contacts = angular.fromJson(angular.toJson(bl.data.contacts));
 
-    var key = ""+username.length+'|'+username+password;
+    var key = '' + username.length + '|' + username + password;
     return btoa(sjcl.encrypt(key, JSON.stringify(bl.data), {
       iter: 1000,
       adata: JSON.stringify(bl.meta),
@@ -101,7 +101,7 @@ module.factory('rpOldBlob', ['$rootScope', function ($scope)
   BlobObj.set = function(backends, username, password, bl, callback)
   {
     // Callback is optional
-    if ("function" !== typeof callback) callback = $.noop;
+    if ('function' !== typeof callback) callback = $.noop;
 
     backends = processBackendsParam(backends);
 
@@ -116,7 +116,7 @@ module.factory('rpOldBlob', ['$rootScope', function ($scope)
   BlobObj.remove = function(backends, username, password, callback)
   {
     // Callback is optional
-    if ("function" !== typeof callback) callback = $.noop;
+    if ('function' !== typeof callback) callback = $.noop;
 
     backends = processBackendsParam(backends);
 
@@ -141,30 +141,30 @@ module.factory('rpOldBlob', ['$rootScope', function ($scope)
     var key;
     try {
       // Try new-style key
-      key = ""+user.length+'|'+user+pass;
+      key = '' + user.length + '|' + user + pass;
       return decrypt(key, atob(data));
     } catch (e1) {
-      console.log("Blob decryption failed with new-style key:", e1.toString());
+      console.log('Blob decryption failed with new-style key:', e1.toString());
       try {
         // Try old style key
-        key = user+pass;
+        key = user + pass;
         var blob = decrypt(key, atob(data));
         blob.old = true;
         return blob;
       } catch (e2) {
-        console.log("Blob decryption failed with old-style key:", e2.toString());
+        console.log('Blob decryption failed with old-style key:', e2.toString());
         return false;
       }
     }
   };
 
   var VaultBlobBackend = {
-    name: "Payward",
+    name: 'Payward',
 
     get: function (key, callback) {
       var url = Options.blobvault;
 
-      if (url.indexOf("://") === -1) url = "http://" + url;
+      if (url.indexOf('://') === -1) url = 'http://' + url;
 
       $.ajax({
         url: url + '/' + key,
@@ -173,29 +173,29 @@ module.factory('rpOldBlob', ['$rootScope', function ($scope)
         .success(function (data) {
           callback(null, data);
         })
-        .error(webutil.getAjaxErrorHandler(callback, "BlobVault GET"));
+        .error(webutil.getAjaxErrorHandler(callback, 'BlobVault GET'));
     },
 
     set: function (key, value, callback) {
       var url = Options.blobvault;
 
-      if (url.indexOf("://") === -1) url = "http://" + url;
+      if (url.indexOf('://') === -1) url = 'http://' + url;
 
       $.post(url + '/' + key, { blob: value })
         .success(function (data) {
           callback(null, data);
         })
-        .error(webutil.getAjaxErrorHandler(callback, "BlobVault SET"));
+        .error(webutil.getAjaxErrorHandler(callback, 'BlobVault SET'));
     }
   };
 
   var LocalBlobBackend = {
-    name: "Local browser",
+    name: 'Local browser',
 
     get: function (key, callback)
     {
-      console.log('local get','ripple_blob_' + key);
-      var blob = store.get('ripple_blob_'+key);
+      console.log('local get', 'ripple_blob_' + key);
+      var blob = store.get('ripple_blob_' + key);
       // We use a timeout to simulate this function being asynchronous
       callback(null, blob);
     },
@@ -203,7 +203,7 @@ module.factory('rpOldBlob', ['$rootScope', function ($scope)
     set: function (key, value, callback)
     {
       if (!store.disabled) {
-        store.set('ripple_blob_'+key, value);
+        store.set('ripple_blob_' + key, value);
       }
       callback();
     }
@@ -215,9 +215,9 @@ module.factory('rpOldBlob', ['$rootScope', function ($scope)
   };
 
   function BlobError(message, backend) {
-    this.name = "BlobError";
-    this.message = message || "";
-    this.backend = backend || "generic";
+    this.name = 'BlobError';
+    this.message = message || '';
+    this.backend = backend || 'generic';
   }
 
   BlobError.prototype = Error.prototype;

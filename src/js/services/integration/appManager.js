@@ -5,26 +5,26 @@
  * and connect them to the client.
  */
 
-var module = angular.module('appManager', ['domainalias','integrationProfileManager']);
+var module = angular.module('appManager', ['domainalias', 'integrationProfileManager']);
 
 module.service('rpAppManager', ['$rootScope', '$http', 'rpDomainAlias', 'rpRippleTxt', 'rpProfileManager',
   function($scope, $http, aliasService, txt, profileManager)
 {
-  var log = function(){
+  var log = function() {
     var mainArguments = Array.prototype.slice.call(arguments);
     mainArguments[0] = '%c ' + mainArguments[0] + ' ';
     mainArguments.splice(1, 0, 'background: green; color: white');
-    console.log.apply(console,mainArguments);
+    console.log.apply(console, mainArguments);
   };
 
   /**
    * Load all apps
    */
   var init = function () {
-    $scope.$watch('userBlob.data.apps', function(apps){
+    $scope.$watch('userBlob.data.apps', function(apps) {
       if (apps && apps.length) {
-        apps.forEach(function(appInBlob){
-          loadApp(appInBlob.rippleAddress, function(err, app){
+        apps.forEach(function(appInBlob) {
+          loadApp(appInBlob.rippleAddress, function(err, app) {
             $scope.apps[appInBlob.rippleAddress] = app;
           });
         });
@@ -41,30 +41,30 @@ module.service('rpAppManager', ['$rootScope', '$http', 'rpDomainAlias', 'rpRippl
    * @param manifest
    * @constructor
    */
-  var App = function(manifest){
+  var App = function(manifest) {
     this.name = manifest.name;
     this.description = manifest.description;
     this.image = manifest.imageUrl;
     this.rippleAddress = manifest.rippleAddress;
     this.profiles = [];
 
-    var self = this;
+    var _this = this;
 
-    _.each(manifest.profiles, function(profile,key){
-      self.profiles[key] = profileManager.getProfile(profile);
+    _.each(manifest.profiles, function(profile, key) {
+      _this.profiles[key] = profileManager.getProfile(profile);
     });
   };
 
   App.prototype.findProfile = function (type) {
-    return _.findWhere(this.profiles, {type:type});
+    return _.findWhere(this.profiles, {type: type});
   };
 
   App.prototype.getInboundBridge = function (currency) {
     var found;
 
-    this.profiles.forEach(function(profile,key){
+    this.profiles.forEach(function(profile, key) {
       if ('inboundBridge' === profile.type) {
-        profile.currencies.forEach(function(c){
+        profile.currencies.forEach(function(c) {
           if (currency.toUpperCase() === c.currency) {
             found = profile;
           }
@@ -75,8 +75,8 @@ module.service('rpAppManager', ['$rootScope', '$http', 'rpDomainAlias', 'rpRippl
     return found;
   };
 
-  var getApp = function(rippleAddress,callback) {
-    $scope.$watch('apps', function(apps){
+  var getApp = function(rippleAddress, callback) {
+    $scope.$watch('apps', function(apps) {
       if (app = apps[rippleAddress]) {
         callback(null, app);
       }
@@ -84,7 +84,7 @@ module.service('rpAppManager', ['$rootScope', '$http', 'rpDomainAlias', 'rpRippl
   };
 
   var getAllApps = function(callback) {
-    $scope.$watch('apps', function(apps){
+    $scope.$watch('apps', function(apps) {
       if (!$.isEmptyObject(apps)) callback(apps);
     }, true);
   };
@@ -95,9 +95,9 @@ module.service('rpAppManager', ['$rootScope', '$http', 'rpDomainAlias', 'rpRippl
    * @param app
    */
   var save = function(app) {
-    var watcher = $scope.$watch('userBlob', function(userBlob){
-      if (userBlob.data.created && !_.findWhere($scope.userBlob.data.apps, {rippleAddress:app.rippleAddress})) {
-        $scope.userBlob.unshift("/apps", {
+    var watcher = $scope.$watch('userBlob', function(userBlob) {
+      if (userBlob.data.created && !_.findWhere($scope.userBlob.data.apps, {rippleAddress: app.rippleAddress})) {
+        $scope.userBlob.unshift('/apps', {
           name: app.name,
           rippleAddress: app.rippleAddress
         });
@@ -113,37 +113,37 @@ module.service('rpAppManager', ['$rootScope', '$http', 'rpDomainAlias', 'rpRippl
    * @param rippleAddress
    * @param callback
    */
-  var loadApp = function(rippleAddress, callback){
+  var loadApp = function(rippleAddress, callback) {
     var domain, manifest;
 
     // Get Domain
-    log('appManager:','Looking up',rippleAddress);
+    log('appManager:', 'Looking up', rippleAddress);
 
     var alias = aliasService.getAliasForAddress(rippleAddress);
     alias.then(
       // Fulfilled
       function (domain) {
-        log('appManager:','The domain for',rippleAddress,'is',domain);
-        log('appManager:','Looking up ',domain,'for ripple.txt');
+        log('appManager:', 'The domain for', rippleAddress, 'is', domain);
+        log('appManager:', 'Looking up ', domain, 'for ripple.txt');
 
         // Get ripple.txt
         var txtPromise = txt.get(domain);
         txtPromise.then(
           // Fulfilled
-          function(rippletxt){
-            log('appManager:','Got ripple.txt',rippletxt);
+          function(rippletxt) {
+            log('appManager:', 'Got ripple.txt', rippletxt);
 
             if (rippletxt.manifest_url) {
-              log('appManager:','Looking up manifest',rippletxt.manifest_url);
+              log('appManager:', 'Looking up manifest', rippletxt.manifest_url);
 
               $http({url: rippletxt.manifest_url, method: 'get'})
                 .success(function(data, status, headers, config) {
                   manifest = jQuery.extend(true, {}, data);
 
-                  log('appManager:','Got the manifest for',manifest.name,manifest);
+                  log('appManager:', 'Got the manifest for', manifest.name, manifest);
 
                   if (!validateManifest(manifest)) {
-                    log('appManager:','Manifest is invalid.');
+                    log('appManager:', 'Manifest is invalid.');
                     return;
                   }
 
@@ -153,7 +153,7 @@ module.service('rpAppManager', ['$rootScope', '$http', 'rpDomainAlias', 'rpRippl
                   callback(null, $scope.apps[rippleAddress]);
                 })
                 .error(function(data, status, headers, config) {
-                  log('appManager:','Can\'t get the manifest');
+                  log('appManager:', 'Can\'t get the manifest');
                 });
             }
           },

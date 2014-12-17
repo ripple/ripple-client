@@ -134,13 +134,13 @@ angular.element('body').prepend(require('../../jade/client/index.jade')());
 app.config(['$routeProvider', '$injector', function ($routeProvider, $injector) {
   // Set up routing for tabs
   _.each(tabs, function (tab) {
-    if ("function" === typeof tab.generateHtml) {
+    if ('function' === typeof tab.generateHtml) {
       var template = tab.generateHtml();
 
       var config = {
         tabName: tab.tabName,
-        tabClass: 't-'+tab.tabName,
-        pageMode: 'pm-'+tab.pageMode,
+        tabClass: 't-' + tab.tabName,
+        pageMode: 'pm-' + tab.pageMode,
         mainMenu: tab.mainMenu,
         template: template
       };
@@ -149,7 +149,7 @@ app.config(['$routeProvider', '$injector', function ($routeProvider, $injector) 
         $routeProvider.when('/', config);
       }
 
-      $routeProvider.when('/'+tab.tabName, config);
+      $routeProvider.when('/' + tab.tabName, config);
 
       if (tab.extraRoutes) {
         _.each(tab.extraRoutes, function(route) {
@@ -159,25 +159,25 @@ app.config(['$routeProvider', '$injector', function ($routeProvider, $injector) 
       }
 
       _.each(tab.aliases, function (alias) {
-        $routeProvider.when('/'+alias, config);
+        $routeProvider.when('/' + alias, config);
       });
     }
   });
 
   // Language switcher
   $routeProvider.when('/lang/:language', {
-    redirectTo: function(routeParams, path, search){
+    redirectTo: function(routeParams, path, search) {
       lang = routeParams.language;
 
       if (!store.disabled) {
-        store.set('ripple_language',lang ? lang : '');
+        store.set('ripple_language', lang ? lang : '');
       }
 
       // problem?
       // reload will not work, as some pages are also available for guests.
       // Logout will show the same page instead of showing login page.
       // This line redirects user to root (login) page
-      var port = location.port.length > 0 ? ":" + location.port : "";
+      var port = location.port.length > 0 ? ':' + location.port : '';
       location.href = location.protocol + '//' + location.hostname  + port + location.pathname;
     }
   });
@@ -191,11 +191,11 @@ app.run(['$rootScope', '$injector', '$compile', '$route', '$routeParams', '$loca
   $rootScope.productName = 'Ripple Trade';
 
   // Global reference for debugging only (!)
-  if ("object" === typeof rippleclient) {
+  if ('object' === typeof rippleclient) {
     rippleclient.$scope = $rootScope;
     rippleclient.version = $rootScope.version =
       angular.element('#version').html();
-    if (typeof debug !== "undefined" && debug === true) {
+    if (typeof debug !== 'undefined' && debug === true) {
       rippleclient.versionBranch = $rootScope.versionBranch =
         angular.element('#versionbranch').text();
     }
@@ -203,7 +203,7 @@ app.run(['$rootScope', '$injector', '$compile', '$route', '$routeParams', '$loca
 
   // Helper for detecting empty object enumerations
   $rootScope.isEmpty = function (obj) {
-    return angular.equals({},obj);
+    return angular.equals({}, obj);
   };
 
   // if url has a + or %2b then replace with %20 and redirect
@@ -218,13 +218,13 @@ app.run(['$rootScope', '$injector', '$compile', '$route', '$routeParams', '$loca
   // If using the old "amnt" parameter rename it "amount"
   var amnt = $location.search().amnt;
   if (amnt) {
-    $location.search("amnt", null);
-    $location.search("amount", amnt);
+    $location.search('amnt', null);
+    $location.search('amount', amnt);
   }
 
   // Once the app controller has been instantiated
   // XXX ST: I think this should be an event instead of a watch
-  scope.$watch("app_loaded", function on_app_loaded(oldval, newval) {
+  scope.$watch('app_loaded', function (oldval, newval) {
     $('nav a').click(function() {
       if (location.hash == this.hash) {
         scope.$apply(function () {
@@ -239,7 +239,7 @@ app.run(['$rootScope', '$injector', '$compile', '$route', '$routeParams', '$loca
 app.factory('$exceptionHandler', ['$injector', function($injector) {
   return function(exception, cause) {
     var $log = $injector.get('$log');
-    $log.error.apply($log,arguments);
+    $log.error.apply($log, arguments);
     $injector.get('rpTracker').trackError('Uncaught Exception', exception);
   };
 }]);
@@ -249,7 +249,7 @@ if (!Options.blobvault) {
   Options.blobvault = Options.BLOBVAULT_SERVER;
 }
 
-if ("function" === typeof angular.resumeBootstrap) {
+if ('function' === typeof angular.resumeBootstrap) {
   angular.resumeBootstrap();
 
   angular.resumeBootstrap = function() {

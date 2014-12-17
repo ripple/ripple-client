@@ -18,13 +18,13 @@ module.factory('rpRippleTxt', ['$q', '$rootScope',
     var txtPromise = $q.defer();
 
     var urls = [
-      'https://ripple.'+domain+'/ripple.txt',
-      'https://www.'+domain+'/ripple.txt',
-      'https://'+domain+'/ripple.txt'
+      'https://ripple.' + domain + '/ripple.txt',
+      'https://www.' + domain + '/ripple.txt',
+      'https://' + domain + '/ripple.txt'
     ].reverse();
     var next = function (xhr, status) {
       if (!urls.length) {
-        txtPromise.reject(new Error("No ripple.txt found"));
+        txtPromise.reject(new Error('No ripple.txt found'));
         return;
       }
       var url = urls.pop();
@@ -57,13 +57,13 @@ module.factory('rpRippleTxt', ['$q', '$rootScope',
     txt = txt.replace('\r', '\n');
     txt = txt.split('\n');
 
-    var currentSection = "", sections = {};
+    var currentSection = '', sections = {};
     for (var i = 0, l = txt.length; i < l; i++) {
       var line = txt[i];
       if (!line.length || line[0] === '#') {
         continue;
-      } else if (line[0] === '[' && line[line.length-1] === ']') {
-        currentSection = line.slice(1, line.length-1);
+      } else if (line[0] === '[' && line[line.length - 1] === ']') {
+        currentSection = line.slice(1, line.length - 1);
         sections[currentSection] = [];
       } else {
         line = line.replace(/^\s+|\s+$/g, '');

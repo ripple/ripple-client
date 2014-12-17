@@ -71,4 +71,3 @@ module.factory('rpNetwork', ['$rootScope', function($scope)
 
   return new Network();
 }]);
-

@@ -6,8 +6,8 @@
  * processes or peer-assisted key derivation (PAKDF).
  */
 
-var webutil = require("../util/web"),
-    log = require("../util/log");
+var webutil = require('../util/web'),
+    log = require('../util/log');
 
 var module = angular.module('kdf', []);
 
@@ -16,7 +16,7 @@ function fdh(data, bytelen)
 {
   var bitlen = bytelen << 3;
 
-  if (typeof data === "string") {
+  if (typeof data === 'string') {
     data = sjcl.codec.utf8String.toBits(data);
   }
 
@@ -44,16 +44,16 @@ module.factory('rpKdf', ['$http', function ($http)
         iModulus = new sjcl.bn(String(opts.modulus)),
         iAlpha = new sjcl.bn(String(opts.alpha));
 
-    var publicInfo = "PAKDF_1_0_0:"+opts.host.length+":"+opts.host+
-          ":"+username.length+":"+username+
-          ":"+purpose.length+":"+purpose+
-          ":",
-        publicSize = Math.ceil(Math.min((7+iModulus.bitLength()) >>> 3, 256)/8),
+    var publicInfo = 'PAKDF_1_0_0:' + opts.host.length + ':' + opts.host
+          + ':' + username.length + ':' + username
+          + ':' + purpose.length + ':' + purpose
+          + ':',
+        publicSize = Math.ceil(Math.min((7 + iModulus.bitLength()) >>> 3, 256) / 8),
         publicHash = fdh(publicInfo, publicSize),
         publicHex  = sjcl.codec.hex.fromBits(publicHash),
         iPublic    = new sjcl.bn(String(publicHex)).setBitM(0),
-        secretInfo = publicInfo+":"+secret.length+":"+secret+":",
-        secretSize = (7+iModulus.bitLength()) >>> 3,
+        secretInfo = publicInfo + ':' + secret.length + ':' + secret + ':',
+        secretSize = (7 + iModulus.bitLength()) >>> 3,
         secretHash = fdh(secretInfo, secretSize),
         secretHex  = sjcl.codec.hex.fromBits(secretHash),
         iSecret    = new sjcl.bn(String(secretHex)).mod(iModulus);
@@ -74,7 +74,7 @@ module.factory('rpKdf', ['$http', function ($http)
         signreq = sjcl.codec.hex.fromBits(iSignreq.toBits());
 
     $http({
-      method: "POST",
+      method: 'POST',
       url: opts.url,
       data: {
         info: publicInfo,
@@ -83,7 +83,7 @@ module.factory('rpKdf', ['$http', function ($http)
       responseType: 'json'
     })
       .success(function (data) {
-        if (data.result === "success") {
+        if (data.result === 'success') {
           var iSignres = new sjcl.bn(String(data.signres));
           var iRandomInv = iRandom.inverseMod(iModulus);
           var iSigned = iSignres.mulmod(iRandomInv, iModulus);
@@ -94,7 +94,7 @@ module.factory('rpKdf', ['$http', function ($http)
         }
       })
       .error(function () {
-        callback(new Error("Could not query PAKDF server "+opts.host));
+        callback(new Error('Could not query PAKDF server ' + opts.host));
       });
   };
 

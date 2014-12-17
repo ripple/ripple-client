@@ -28,7 +28,7 @@ module.directive('rpCombobox', [function () {
       var cplEl = $('<ul class="completions"></ul>').hide();
       el.parent().append(cplEl);
       if (attrs.rpComboboxSmall) {
-        el.parent().addClass("rp-combobox-small");
+        el.parent().addClass('rp-combobox-small');
       }
 
       // Explicit select button
@@ -40,7 +40,7 @@ module.directive('rpCombobox', [function () {
         });
         selectEl.click(function () {
           var complFn = scope.$eval(attrs.rpCombobox);
-          if ("function" !== typeof complFn) {
+          if ('function' !== typeof complFn) {
             var options = complFn;
             complFn = webutil.queryFromOptions(complFn);
             scope.$watch(options, function(value) {
@@ -135,15 +135,15 @@ module.directive('rpCombobox', [function () {
         complFn = scope.$eval(attrs.rpCombobox);
 
         // Uses the default query function, if it's not defined
-        if ("function" !== typeof complFn) {
+        if ('function' !== typeof complFn) {
           complFn = webutil.queryFromOptions(complFn);
         }
 
-        if ("string" === typeof match && match.length) {
+        if ('string' === typeof match && match.length) {
           // Escape field value
           var escaped = webutil.escapeRegExp(match);
           // Build the regex for completion list lookup
-          re = new RegExp('('+escaped+')', 'i');
+          re = new RegExp('(' + escaped + ')', 'i');
 
           completions = complFn(match, re);
         }
@@ -186,7 +186,7 @@ module.directive('rpCombobox', [function () {
         completions.forEach(function (completion) {
           var additional = '';
 
-          if ("string" === typeof completion) {
+          if ('string' === typeof completion) {
             val = completion;
           } else {
             val = completion.name;
@@ -262,19 +262,21 @@ module.directive('rpDatepicker', [function() {
             ngModel.$setViewValue(e.date.getMonth() ? e.date : new Date(e.date));
           });
         });
-        scope.$watch(attr.ngModel,function() {
+        scope.$watch(attr.ngModel, function() {
           var update = ngModel.$viewValue;
 
           function falsy(v) {return v == '0' || v == 'false'; }
 
           if (!falsy(attr.ignoreInvalidUpdate) &&
                (update == null ||
-                 (update instanceof Date && isNaN(update.getYear())) )) {
-              return;
-            } else {
-              dp.datepicker('setValue', update)
-                .datepicker('update');
-            }
+                 (update instanceof Date && isNaN(update.getYear()))
+              )
+            ) {
+            return;
+          } else {
+            dp.datepicker('setValue', update)
+              .datepicker('update');
+          }
         });
       });
     }
@@ -290,14 +292,14 @@ module.directive('fileUploadButton', function() {
       var button = el.children()[0];
 
       el.css({
-        'position': 'relative',
+        position:        'relative',
         'margin-bottom': 14
       });
 
       var fileInput = angular.element('<input type="file" ng-model="walletfile" nwsaveas="wallet.txt" />');
 
       fileInput.bind('change', function () {
-          scope.$apply(attributes.fileUploadButton);
+        scope.$apply(attributes.fileUploadButton);
       });
 
       fileInput.css({
@@ -315,4 +317,3 @@ module.directive('fileUploadButton', function() {
     }
   };
 });
-

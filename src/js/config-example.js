@@ -45,14 +45,14 @@ var Options = {
     out: {
       // Bitcoin outbound bridge
       // bitcoin: 'snapswap.us'
-      'bitcoin': 'btc2ripple.com'
+      bitcoin: 'btc2ripple.com'
     }
   },
 
   mixpanel: {
-    'token': '',
+    token: '',
     // Don't track events by default
-    'track': false
+    track: false
   },
 
   // production

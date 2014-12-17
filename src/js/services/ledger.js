@@ -13,10 +13,9 @@ var module = angular.module('ledger', ['network', 'transactions']);
 module.factory('rpLedger', ['$q', '$rootScope', 'rpNetwork', 'rpTransactions',
                             function($q, $rootScope, net, transactions)
 {
-
-  var offerPromise = $q.defer();
-  var tickerPromise = $q.defer();
-  var requested = false;
+  var offerPromise  = $q.defer(),
+      tickerPromise = $q.defer(),
+      requested     = false;
 
   var ledger = {
     offers: offerPromise.promise,
@@ -101,7 +100,7 @@ module.factory('rpLedger', ['$q', '$rootScope', 'rpNetwork', 'rpTransactions',
    */
   function fillSum(array, field) {
     var sum = null;
-    for (var i = 0, l = array.length; i<l; i++) {
+    for (var i = 0, l = array.length; i < l; i++) {
       if (sum === null) {
         sum = array[i][field].amount;
       } else {
@@ -111,11 +110,11 @@ module.factory('rpLedger', ['$q', '$rootScope', 'rpNetwork', 'rpTransactions',
     }
   }
 
-  if(net.connected) {
+  if (net.connected) {
     doRequest();
   }
 
-  net.on('connected', function(){
+  net.on('connected', function() {
     doRequest();
   });
 
@@ -123,7 +122,7 @@ module.factory('rpLedger', ['$q', '$rootScope', 'rpNetwork', 'rpTransactions',
   {
     if (requested) return;
 
-    net.remote.request_ledger("ledger_closed", "full")
+    net.remote.request_ledger('ledger_closed', 'full')
         .on('success', handleLedger)
         .request();
 
@@ -139,9 +138,9 @@ module.factory('rpLedger', ['$q', '$rootScope', 'rpNetwork', 'rpTransactions',
 
   function handleLedger(e)
   {
-    $rootScope.$apply(function(){
+    $rootScope.$apply(function() {
       var offers = e.ledger.accountState.filter(function (node) {
-        return node.LedgerEntryType === "Offer";
+        return node.LedgerEntryType === 'Offer';
       });
 
       offerPromise.resolve(offers);

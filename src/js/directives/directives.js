@@ -183,9 +183,9 @@ module.directive('rpConfirm', ['rpPopup', '$parse', function(popup, $parse) {
         // if not specified, always show popup
         var show = attrs.rpShow ? $parse(attrs.rpShow)(scope) : true;
         if (show) {
-          popup.confirm(attrs["title"], attrs["actionText"],
-            attrs["actionButtonText"], attrs["actionFunction"], attrs["actionButtonCss"],
-            attrs["cancelButtonText"], attrs["cancelFunction"], attrs["cancelButtonCss"],
+          popup.confirm(attrs.title, attrs.actionText,
+            attrs.actionButtonText, attrs.actionFunction, attrs.actionButtonCss,
+            attrs.cancelButtonText, attrs.cancelFunction, attrs.cancelButtonCss,
             scope, popupOptions);
         }
       });
@@ -219,7 +219,7 @@ module.directive('rpPopup', ['rpPopup', '$parse', function(popup, $parse) {
 }]);
 
 // TODO Make it have different styling for different limits
-module.directive('rpInboundBridgeLimit', [function(){
+module.directive('rpInboundBridgeLimit', [function() {
   return {
     restrict: 'E',
     scope: {
@@ -249,15 +249,15 @@ module.directive('rpDownload', [function() {
         var trigger = element.find('[rp-download-trigger]');
         if (!trigger.length) trigger = element;
 
-        if ("download" in document.createElement("a")) {
+        if ('download' in document.createElement('a')) {
           scope.$watch('data', function(data) {
-            if (scope.isCsv) trigger.attr('href', data ? "data:text/csv;charset=utf-8," + escape(data) : "");
-            else trigger.attr('href', "data:text/plain," + data);
+            if (scope.isCsv) trigger.attr('href', data ? 'data:text/csv;charset=utf-8,' + escape(data) : '');
+            else trigger.attr('href', 'data:text/plain,' + data);
           });
           scope.$watch('filename', function(filename) {
             trigger.attr('download', filename);
           });
-        } else if (swfobject.hasFlashPlayerVersion("10.0.0")) {
+        } else if (swfobject.hasFlashPlayerVersion('10.0.0')) {
           element.css('position', 'relative');
 
           setImmediate(function() {
@@ -306,7 +306,7 @@ module.directive('rpTooltip', [function() {
   return function(scope, element, attr) {
     attr.$observe('rpTooltip', function(value) {
       // Title
-      var options = {'title': value};
+      var options = {title: value};
 
       // Placement
       if (attr.rpTooltipPlacement)
@@ -359,7 +359,7 @@ module.directive('rpPopover', ['$interpolate', function($interpolate) {
       $(element).popover('hide');
     });
 
-    $(element).click(function(event){
+    $(element).click(function(event) {
       event.stopPropagation();
     });
   };
@@ -385,21 +385,21 @@ module.directive('rpAddressPopover', ['$timeout', '$interpolate', 'rpId', functi
 
         function hidePopover() {
           if (!cancelHidePopoverTimeout) {
-            cancelHidePopoverTimeout = $timeout( function() {
+            cancelHidePopoverTimeout = $timeout(function() {
               element.popover('hide');
               shown = false;
-            }, hideDelay, false );
+            }, hideDelay, false);
             cancelHidePopoverTimeout['finally'](function() { cancelHidePopoverTimeout = null; });
           }
         }
 
         function onPopoverEnter() {
           if (cancelShowPopoverTimeout) {
-            $timeout.cancel( cancelShowPopoverTimeout );
+            $timeout.cancel(cancelShowPopoverTimeout);
             cancelShowPopoverTimeout = null;
           }
           if (cancelHidePopoverTimeout) {
-            $timeout.cancel( cancelHidePopoverTimeout );
+            $timeout.cancel(cancelHidePopoverTimeout);
             cancelHidePopoverTimeout = null;
           }
         }
@@ -410,27 +410,27 @@ module.directive('rpAddressPopover', ['$timeout', '$interpolate', 'rpId', functi
 
         function onElemEnter() {
           if (cancelHidePopoverTimeout) {
-            $timeout.cancel( cancelHidePopoverTimeout );
+            $timeout.cancel(cancelHidePopoverTimeout);
             cancelHidePopoverTimeout = null;
           } else if (!cancelShowPopoverTimeout) {
-            cancelShowPopoverTimeout = $timeout( function() {
+            cancelShowPopoverTimeout = $timeout(function() {
               element.popover('show');
               shown = true;
-            }, popupDelay, false );
+            }, popupDelay, false);
             cancelShowPopoverTimeout['finally'](function() { cancelShowPopoverTimeout = null; });
           }
         }
 
         function onElemLeave() {
           if (cancelShowPopoverTimeout) {
-            $timeout.cancel( cancelShowPopoverTimeout );
+            $timeout.cancel(cancelShowPopoverTimeout);
             cancelShowPopoverTimeout = null;
           } else if (shown) {
             hidePopover();
           }
         }
 
-        function unbindHanlders() {
+        function unbindHandlers() {
           element.unbind('mouseenter', onElemEnter);
           element.unbind('mouseleave', onElemLeave);
           tip.unbind('mouseenter', onPopoverEnter);
@@ -460,17 +460,17 @@ module.directive('rpAddressPopover', ['$timeout', '$interpolate', 'rpId', functi
         if (attr.rpAddressPopoverLinkToCharts) {
           $id.resolveName(identity, { tilde: true }).then(function(name) {
             if (name != identity && tip) {
-              element.data('popover').options.content = name + '<br/>' + identity +
-                  '<br/><a target="_blank" href="http://www.ripplecharts.com/#/graph/' + identity + '" >Show in graph</a>';
+              element.data('popover').options.content = name + '<br/>' + identity
+                  + '<br/><a target="_blank" href="http://www.ripplecharts.com/#/graph/' + identity + '" >Show in graph</a>';
               element.data('popover').setContent();
             }
           });
         }
         // Make sure popover is destroyed and removed.
         scope.$on('$destroy', function onDestroyPopover() {
-          $timeout.cancel( cancelHidePopoverTimeout );
-          $timeout.cancel( cancelShowPopoverTimeout );
-          unbindHanlders();
+          $timeout.cancel(cancelHidePopoverTimeout);
+          $timeout.cancel(cancelShowPopoverTimeout);
+          unbindHandlers();
           if (tip) {
             tip.remove();
             tip = null;
@@ -480,7 +480,6 @@ module.directive('rpAddressPopover', ['$timeout', '$interpolate', 'rpId', functi
     }
   };
 }]);
-
 
 module.directive('rpAutofill', ['$parse', function($parse) {
   return {
@@ -494,14 +493,16 @@ module.directive('rpAutofill', ['$parse', function($parse) {
           // Normalize amount
           if (attr.rpAutofillAmount || attr.rpAutofillCurrency) {
             // 1 XRP will be interpreted as 1 XRP, not 1 base unit
-            if (value === ("" + parseInt(value, 10))) {
+            if (value === ('' + parseInt(value, 10))) {
               value = value + '.0';
             }
 
             var convertCurrency = function(currencyObj) {
               if (attr.rpAutofillCurrencyFullname) {
                 if ($scope.currencies_all_keyed[currencyObj.get_iso()]) {
-                  return currencyObj.to_human({full_name:$scope.currencies_all_keyed[currencyObj.get_iso()].name});
+                  return currencyObj.to_human(
+                    {full_name: $scope.currencies_all_keyed[currencyObj.get_iso()].name}
+                  );
                 } else {
                   return currencyObj.to_human();
                 }
@@ -618,7 +619,6 @@ module.directive('rpSpinner', [function() {
   };
 }]);
 
-
 // Version 0.2.0
 // AngularJS simple file upload directive
 // this directive uses an iframe as a target
@@ -646,7 +646,6 @@ module.directive('ngUpload', function() {
   return {
     restrict: 'A',
     link: function(scope, element, attrs) {
-
       // Options (just 1 for now)
       // Each option should be prefixed with 'upload-Options-' or 'uploadOptions'
       // {
@@ -654,52 +653,50 @@ module.directive('ngUpload', function() {
       //    enableControls: bool
       // }
       var options = {};
-      options.enableControls = attrs['uploadOptionsEnableControls'];
+      options.enableControls = attrs.uploadOptionsEnableControls;
 
       // get scope function to execute on successful form upload
-      if (attrs['ngUpload']) {
-
-        element.attr("target", "upload_iframe");
-        element.attr("method", "post");
+      if (attrs.ngUpload) {
+        element.attr('target', 'upload_iframe');
+        element.attr('method', 'post');
 
         // Append a timestamp field to the url to prevent browser caching results
-        element.attr("action", element.attr("action") + "?_t=" + new Date().getTime());
+        element.attr('action', element.attr('action') + '?_t=' + new Date().getTime());
 
-        element.attr("enctype", "multipart/form-data");
-        element.attr("encoding", "multipart/form-data");
+        element.attr('enctype', 'multipart/form-data');
+        element.attr('encoding', 'multipart/form-data');
 
         // Retrieve the callback function
-        var fn = attrs['ngUpload'].split('(')[0];
+        var fn = attrs.ngUpload.split('(')[0];
         var callbackFn = scope.$eval(fn);
         if (callbackFn === null || callbackFn === undefined || !angular.isFunction(callbackFn)) {
-          var message = "The expression on the ngUpload directive does not point to a valid function.";
+          var message = 'The expression on the ngUpload directive does not point to a valid function.';
           // console.error(message);
-          throw message + "\n";
+          throw message + '\n';
         }
 
         // Helper function to create new iframe for each form submission
         var addNewDisposableIframe = function(submitControl) {
           // create a new iframe
-          var iframe = $("<iframe id='upload_iframe' name='upload_iframe' border='0' width='0' height='0' style='width: 0px; height: 0px; border: none; display: none' />");
+          var iframe = $('<iframe id="upload_iframe" name="upload_iframe" border="0" width="0" height="0" style="width: 0px; height: 0px; border: none; display: none" />');
 
           // attach function to load event of the iframe
           iframe.bind('load', function() {
-
             // get content - requires jQuery
             var content = iframe.contents().find('body').text();
 
             // execute the upload response function in the active scope
             scope.$apply(function() {
-              callbackFn(content, content !== "" /* upload completed */ );
+              callbackFn(content, content !== '' /* upload completed */ );
             });
 
             // remove iframe
-            if (content !== "") // Fixes a bug in Google Chrome that dispose the iframe before content is ready.
+            if (content !== '') // Fixes a bug in Google Chrome that dispose the iframe before content is ready.
               setTimeout(function() {
                 iframe.remove();
               }, 250);
 
-            //if (options.enableControls == null || !(options.enableControls.length >= 0))
+            // if (options.enableControls == null || !(options.enableControls.length >= 0))
             submitControl.attr('disabled', null);
             submitControl.attr('title', 'Click to start upload.');
           });
@@ -713,14 +710,13 @@ module.directive('ngUpload', function() {
         $('.upload-submit', element).click(
 
           function() {
-
             addNewDisposableIframe($(this) /* pass the submit control */ );
 
             scope.$apply(function() {
-              callbackFn("Please wait...", false /* upload not completed */ );
+              callbackFn('Please wait…', false /* upload not completed */ );
             });
 
-            //console.log(angular.toJson(options));
+            // console.log(angular.toJson(options));
 
             var enabled = true;
             if (options.enableControls === null || options.enableControls === undefined || options.enableControls.length >= 0) {
@@ -729,12 +725,12 @@ module.directive('ngUpload', function() {
               enabled = false;
             }
 
-            $(this).attr('title', (enabled ? '[ENABLED]: ' : '[DISABLED]: ') + 'Uploading, please wait...');
+            $(this).attr('title', (enabled ? '[ENABLED]: ' : '[DISABLED]: ') + 'Uploading, please wait…');
 
             // submit the form
             $(element).submit();
           }).attr('title', 'Click to start upload.');
-      } else console.log("No callback function found on the ngUpload directive.");
+      } else console.log('No callback function found on the ngUpload directive.');
     }
   };
 });
@@ -767,11 +763,11 @@ module.directive('rpOffCanvasMenu', function() {
 module.directive('rpSnapper', ['rpId', function($id) {
   return function($scope) {
     // Initialize snapper only if user is logged in.
-    var watcher = $scope.$watch(function(){return $id.loginStatus;}, function() {
+    var watcher = $scope.$watch(function() {return $id.loginStatus;}, function() {
       var snapper;
 
       if ($id.loginStatus) {
-        setImmediate(function(){
+        setImmediate(function() {
           snapper = new Snap({
             element: document.getElementById('wrapper'),
             disable: 'right'
@@ -781,21 +777,21 @@ module.directive('rpSnapper', ['rpId', function($id) {
           checkSize();
 
           // Snapper toggle button
-          $('.snapper-toggle').click(function(){
+          $('.snapper-toggle').click(function() {
             snapper.state().state == 'closed' ? snapper.open('left') : snapper.close();
           });
 
-          $('.mobile-nav').find('a').click(function(){
+          $('.mobile-nav').find('a').click(function() {
             snapper.close();
           });
         });
 
         // Activate if resized to mobile size
-        $(window).resize(function(){
+        $(window).resize(function() {
           checkSize();
         });
 
-        var checkSize = function(){
+        var checkSize = function() {
           // screen-xs-max
           if ('object' === typeof snapper) {
             if ($(window).width() > 767) {

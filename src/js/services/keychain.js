@@ -8,8 +8,8 @@
  * time. This class manages the timeout when the account will be re-locked.
  */
 
-var webutil = require("../util/web"),
-    log = require("../util/log");
+var webutil = require('../util/web'),
+    log = require('../util/log');
 
 var module = angular.module('keychain', ['popup']);
 
@@ -42,7 +42,7 @@ module.factory('rpKeychain', ['$rootScope', '$timeout', 'rpPopup', 'rpId',
   Keychain.prototype.requestSecret = function (account, username, purpose, callback) {
     var _this = this;
 
-    if ("function" === typeof purpose) {
+    if ('function' === typeof purpose) {
       callback = purpose;
       purpose = null;
     }
@@ -72,7 +72,7 @@ module.factory('rpKeychain', ['$rootScope', '$timeout', 'rpPopup', 'rpId',
           // XXX More fine-grained error handling would be good. Can we detect
           //     server down?
           unlock.isConfirming = false;
-          unlock.error = "password";
+          unlock.error = 'password';
         } else {
           popup.close();
 
@@ -84,7 +84,7 @@ module.factory('rpKeychain', ['$rootScope', '$timeout', 'rpPopup', 'rpId',
                       handleSecret);
     };
     popupScope.cancel = function () {
-      callback("canceled"); //need this for setting password protection
+      callback('canceled'); // need this for setting password protection
       popup.close();
     };
     popupScope.onKeyUp = function ($event) {
@@ -138,12 +138,11 @@ module.factory('rpKeychain', ['$rootScope', '$timeout', 'rpPopup', 'rpId',
    */
   Keychain.prototype.getUnlockedSecret = function (account) {
     if (!this.isUnlocked) {
-      throw new Error("Keychain: Tried to get secret for locked account synchronously.");
+      throw new Error('Keychain: Tried to get secret for locked account synchronously.');
     }
 
     return this.secrets[account].masterkey;
   };
-
 
  /**
   * setPasswordProtection
@@ -161,13 +160,11 @@ module.factory('rpKeychain', ['$rootScope', '$timeout', 'rpPopup', 'rpId',
 
         setPasswordProtection(requirePassword, secret, callback);
       });
-
     } else {
       setPasswordProtection(requirePassword, null, callback);
     }
 
     function setPasswordProtection (requirePassword, secret, callback) {
-
       $scope.userBlob.set('/persistUnlock', !requirePassword, function(err, resp) {
         if (err) {
           return callback(err);
@@ -176,14 +173,13 @@ module.factory('rpKeychain', ['$rootScope', '$timeout', 'rpPopup', 'rpId',
         if (requirePassword) {
           _this.expireSecret(id.account);
         }
-
       });
     }
   };
 
   Keychain.prototype.expireSecret = function (account) {
     var _this = this;
-    $timeout(function(){
+    $timeout(function() {
       if (_this.secrets[account] && !$scope.userBlob.data.persistUnlock) {
         delete _this.secrets[account];
       }

@@ -26,9 +26,8 @@ SecurityTab.prototype.angular = function (module) {
 
     $scope.showComponent = [];
 
-
-    $scope.isUnlocked = true; //hiding the dialog for now
-    //$scope.isUnlocked = keychain.isUnlocked($id.account);
+    $scope.isUnlocked = true; // hiding the dialog for now
+    // $scope.isUnlocked = keychain.isUnlocked($id.account);
     $scope.loading2FA      = false;
     $scope.loaded2FA       = false;
     $scope.errorLoading2FA = false;
@@ -46,18 +45,17 @@ SecurityTab.prototype.angular = function (module) {
 
     function onBlobUpdate()
     {
-      if ("function" === typeof $scope.userBlob.encrypt) {
+      if ('function' === typeof $scope.userBlob.encrypt) {
         $scope.enc = $scope.userBlob.encrypt();
       }
 
-
       $scope.requirePassword = !$scope.userBlob.data.persistUnlock;
 
-      if (!$scope.loaded2FA && "function" === typeof $scope.userBlob.get2FA) {
+      if (!$scope.loaded2FA && 'function' === typeof $scope.userBlob.get2FA) {
         $scope.loading2FA      = true;
         $scope.errorLoading2FA = false;
         $scope.userBlob.get2FA(function(err, resp) {
-          $scope.$apply(function(){
+          $scope.$apply(function() {
             $scope.loading2FA = false;
             if (err) {
               $scope.errorLoading2FA = true;
@@ -74,7 +72,6 @@ SecurityTab.prototype.angular = function (module) {
     }
 
     $scope.restoreSession = function() {
-
       if (!$scope.sessionPassword) {
         $scope.unlockError = true;
         return;
@@ -94,9 +91,7 @@ SecurityTab.prototype.angular = function (module) {
 
         $scope.isUnlocked = keychain.isUnlocked($id.account);
       });
-
     };
-
 
     $scope.unmaskSecret = function () {
       keychain.requestSecret($id.account, $id.username, 'showSecret', function (err, secret) {
@@ -109,17 +104,16 @@ SecurityTab.prototype.angular = function (module) {
       });
     };
 
-
     $scope.setPasswordProtection = function () {
       $scope.editUnlock = false;
 
-      //ignore it if we are not going to change anything
+      // ignore it if we are not going to change anything
       if (!$scope.requirePasswordChanged) return;
       $scope.requirePasswordChanged = false;
       $scope.requirePassword        = !$scope.requirePassword;
       $scope.errorSetPasswordProtection = false;
 
-      keychain.setPasswordProtection($scope.requirePassword, function(err, resp){
+      keychain.setPasswordProtection($scope.requirePassword, function(err, resp) {
         if (err) {
           console.log(err);
           $scope.requirePassword = !$scope.requirePassword;
@@ -139,7 +133,6 @@ SecurityTab.prototype.angular = function (module) {
           $scope.success.disableRequirePassword = true;
         }
       }
-
     };
 
     $scope.cancelUnlockOptions = function () {
@@ -154,8 +147,10 @@ SecurityTab.prototype.angular = function (module) {
       keychain.getSecret($id.account, $id.username, $scope.password,
           function (err, masterkey) {
             if (err) {
-              console.log("client: account tab: error while " +
-                  "unlocking wallet: ", err);
+              console.log(
+                'client: account tab: error while '
+                + 'unlocking wallet: ', err
+              );
 
               $scope.error = 'wrongpassword';
               $scope.loading = false;
@@ -168,10 +163,12 @@ SecurityTab.prototype.angular = function (module) {
               password: $scope.password1,
               masterkey: masterkey,
               blob: $scope.userBlob
-            }, function(err){
+            }, function(err) {
               if (err) {
-                console.log('client: account tab: error while ' +
-                    'changing the account password: ', err);
+                console.log(
+                  'client: account tab: error while '
+                  + 'changing the account password: ', err
+                );
                 $scope.error = true;
                 $scope.loading = false;
                 return;
@@ -191,7 +188,7 @@ SecurityTab.prototype.angular = function (module) {
       $scope.success.disable = false;
       $scope.phoneNumber    = $scope.currentPhone;
       $scope.countryCode    = $scope.currentCountryCode;
-      window.Authy.UI.instance(true, $scope.countryCode); //enables the authy dropdown
+      window.Authy.UI.instance(true, $scope.countryCode); // enables the authy dropdown
     };
 
     $scope.savePhone = function() {
@@ -207,13 +204,13 @@ SecurityTab.prototype.angular = function (module) {
         }
 
         var options = {
-          masterkey    : secret,
-          phone        : $scope.phoneNumber,
-          country_code : $scope.countryCode
+          masterkey:    secret,
+          phone:        $scope.phoneNumber,
+          country_code: $scope.countryCode
         };
 
         $scope.userBlob.set2FA(options, function(err, resp) {
-          $scope.$apply(function(){
+          $scope.$apply(function() {
             $scope.mode2FA = '';
             if (err) {
               console.log(err, resp);
@@ -221,13 +218,12 @@ SecurityTab.prototype.angular = function (module) {
               $scope.savingPhone = false;
               popup.close();
             } else {
-
               $scope.currentPhone       = options.phone;
               $scope.currentCountryCode = options.country_code;
 
-              //request verification token
+              // request verification token
               requestToken(false, function(err, resp) {
-                //TODO: handle error
+                // TODO: handle error
 
                 $scope.savingPhone = false;
                 $scope.mode2FA     = 'verifyPhone';
@@ -240,7 +236,6 @@ SecurityTab.prototype.angular = function (module) {
     };
 
     function requestToken (force, callback) {
-
       authflow.requestToken($scope.userBlob.url, $scope.userBlob.id, force, function(tokenError, tokenResp) {
         if (tokenError) {
           $scope.error2FA = true;
@@ -258,25 +253,22 @@ SecurityTab.prototype.angular = function (module) {
       $scope.isRequesting = true;
       requestToken(force, function(err, resp) {
         $scope.isRequesting = false;
-        //TODO: present message of resend success or failure
+        // TODO: present message of resend success or failure
       });
     };
 
-
     $scope.enable2FA = function() {
-
       $scope.isVerifying  = true;
       $scope.invalidToken = false;
 
       var options = {
-        url         : $scope.userBlob.url,
-        id          : $scope.userBlob.id,
-        token       : $scope.verifyToken,
-        remember_me : false
+        url:         $scope.userBlob.url,
+        id:          $scope.userBlob.id,
+        token:       $scope.verifyToken,
+        remember_me: false
       };
 
-      authflow.verifyToken(options, function(err, resp){
-
+      authflow.verifyToken(options, function(err, resp) {
         if (err) {
           $scope.invalidToken = true;
           $scope.isVerifying  = false;
@@ -284,7 +276,6 @@ SecurityTab.prototype.angular = function (module) {
         }
 
         keychain.requestSecret($id.account, $id.username, function(err, secret) {
-
           if (err) {
             $scope.mode2FA     = '';
             $scope.isVerifying = false;
@@ -292,8 +283,8 @@ SecurityTab.prototype.angular = function (module) {
           }
 
           var options = {
-            masterkey : secret,
-            enabled   : true
+            masterkey: secret,
+            enabled:   true
           };
 
           $scope.userBlob.set2FA(options, function(err, resp) {
@@ -304,11 +295,9 @@ SecurityTab.prototype.angular = function (module) {
               if (err) {
                 $scope.error2FA = true;
               } else {
-
-                //remove old device ID so that
-                //next login will require 2FA
+                // remove old device ID so that next login will require 2FA
                 store.remove('device_id');
-                $scope.enabled2FA    = true;
+                $scope.enabled2FA     = true;
                 $scope.success.enable = true;
               }
             });
@@ -329,12 +318,12 @@ SecurityTab.prototype.angular = function (module) {
         }
 
         var options = {
-          masterkey : secret,
-          enabled   : false
+          masterkey: secret,
+          enabled:   false
         };
 
         $scope.userBlob.set2FA(options, function(err, resp) {
-          $scope.$apply(function(){
+          $scope.$apply(function() {
             $scope.mode2FA = '';
             if (err) {
               $scope.error2FA   = true;
@@ -362,14 +351,14 @@ SecurityTab.prototype.angular = function (module) {
         if (err) return;
 
         var options = {
-          url         : $scope.userBlob.url,
-          blob_id     : $scope.userBlob.id,
-          username    : $id.username,
-          account_id  : $id.account,
-          masterkey   : secret
+          url:         $scope.userBlob.url,
+          blob_id:     $scope.userBlob.id,
+          username:    $id.username,
+          account_id:  $id.account,
+          masterkey:   secret
         };
 
-        authflow.deleteBlob(options, function(err){
+        authflow.deleteBlob(options, function(err) {
           if (err) {
             console.log('error: account deletion failed', err);
             return;
@@ -381,7 +370,6 @@ SecurityTab.prototype.angular = function (module) {
     };
 
     var reset = function() {
-
       $scope.openFormPassword = false;
       $scope.password1 = '';
       $scope.password2 = '';
@@ -392,11 +380,10 @@ SecurityTab.prototype.angular = function (module) {
       if ($scope.changeForm) {
         $scope.changeForm.$setPristine(true);
       }
-  };
+    };
 
-  reset();
-  $scope.success.changePassword = false;
-
+    reset();
+    $scope.success.changePassword = false;
   }]);
 };
 

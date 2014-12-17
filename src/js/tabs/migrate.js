@@ -48,7 +48,7 @@ MigrateTab.prototype.angular = function (module) {
       $scope.status = 'Logging in...';
     };
 
-    //initiate the login
+    // initiate the login
     function login () {
       $id.oldLogin({
         username: $scope.username,
@@ -56,20 +56,19 @@ MigrateTab.prototype.angular = function (module) {
       }, loginCallback);
     }
 
-    //handle the login results
+    // handle the login results
     function loginCallback (err, blob) {
-
       $scope.ajax_loading = false;
 
       if (err) {
         // TODO move to template
-        $scope.status = "Migrate failed:";
-        $scope.error = "This username/passphrase combination doesn't exist in ripple.com/client. Please try again.";
+        $scope.status = 'Migrate failed:';
+        $scope.error = 'This username/passphrase combination doesn\'t exist in ripple.com/client. Please try again.';
 
-        if (err.name === "OldBlobError") {
-          popup.confirm("Wallet Upgrade", "Ripple is upgrading the wallet encryption format. After the upgrade, only Ripple clients 0.2.24 or higher can access your wallet.<br><br>If you use other clients, please make sure they are upgraded to the current version.",
-                        "OK", "migrateConfirm()", null,
-                        "Abort login", null, null,
+        if (err.name === 'OldBlobError') {
+          popup.confirm('Wallet Upgrade', 'Ripple is upgrading the wallet encryption format. After the upgrade, only Ripple clients 0.2.24 or higher can access your wallet.<br><br>If you use other clients, please make sure they are upgraded to the current version.',
+                        'OK', 'migrateConfirm()', null,
+                        'Abort login', null, null,
                         $scope, {});
 
           $scope.migrateConfirm = function () {
@@ -78,8 +77,8 @@ MigrateTab.prototype.angular = function (module) {
           };
         }
 
-        if (err.name !== "BlobError") {
-          $scope.backendMessages.push({'backend': "ID", 'message': err.message});
+        if (err.name !== 'BlobError') {
+          $scope.backendMessages.push({backend: 'ID', message: err.message});
         }
 
         if (!$scope.$$phase) {
@@ -91,7 +90,7 @@ MigrateTab.prototype.angular = function (module) {
       $scope.error = '';
       $scope.status = '';
       if ($routeParams.tab) {
-        $location.path('/'+$routeParams.tab);
+        $location.path('/' + $routeParams.tab);
       } else {
         if ($rootScope.verifyStatus) {
           $rootScope.verifyStatus = '';
@@ -102,7 +101,6 @@ MigrateTab.prototype.angular = function (module) {
         }
       }
     }
-
   }]);
 
   /**
@@ -111,7 +109,7 @@ MigrateTab.prototype.angular = function (module) {
    */
   module.directive('rpFocusOnEmpty', ['$timeout', function($timeout) {
     return function($scope, element) {
-      $timeout(function(){
+      $timeout(function() {
         $scope.$watch(function () {return element.is(':visible');}, function(newValue) {
           if (newValue === true && !element.val())
             element.focus();

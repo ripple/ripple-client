@@ -22,7 +22,7 @@ module.service('rpInboundBridgeProfile', ['$rootScope', 'rpNetwork', 'rpId', '$h
        * @param currency
        * @param issuer
        */
-      trust: function(currency,issuer) {
+      trust: function(currency, issuer) {
         // Does this inbound bridge support this currency?
         var line = _.findWhere(manifest.currencies, {
           currency: currency.toUpperCase(),
@@ -31,14 +31,14 @@ module.service('rpInboundBridgeProfile', ['$rootScope', 'rpNetwork', 'rpId', '$h
 
         // Nope
         if (!line) {
-          console.warn("This service doesn't support " + currency + '/' + issuer);
+          console.warn('This service doesn\'t support ' + currency + '/' + issuer);
           return;
         }
 
         // Is there an existing trust line?
-        if(existingTrustLine = $scope.lines[line.issuer + line.currency]) {
+        if (existingTrustLine = $scope.lines[line.issuer + line.currency]) {
           // Is the trust limit enough?
-          if(existingTrustLine.limit.to_number() >= line.amount)
+          if (existingTrustLine.limit.to_number() >= line.amount)
           // We're good with the existing trust line
             return;
         }
@@ -48,8 +48,8 @@ module.service('rpInboundBridgeProfile', ['$rootScope', 'rpNetwork', 'rpId', '$h
         var noNeed;
         _.each(
           // Find all trust transactions in queue
-          _.findWhere($scope.userBlob.data.txQueue, {type: "TrustSet"}),
-          function(elm,index,txInQueue){
+          _.findWhere($scope.userBlob.data.txQueue, {type: 'TrustSet'}),
+          function(elm, index, txInQueue) {
             // Does this fulfil our needs?
             noNeed = txInQueue && txInQueue.details.currency === line.currency
               && txInQueue.details.issuer === line.issuer
@@ -84,7 +84,7 @@ module.service('rpInboundBridgeProfile', ['$rootScope', 'rpNetwork', 'rpId', '$h
           method: 'GET',
           params: {rippleAddress: rippleAddress}
         })
-        .success(function(response){
+        .success(function(response) {
           if (response.status === 'error') {
             callback({
               message: response.message
@@ -95,9 +95,9 @@ module.service('rpInboundBridgeProfile', ['$rootScope', 'rpNetwork', 'rpId', '$h
 
           callback(null, response);
         })
-        .error(function(data,status){
+        .error(function(data, status) {
           callback({
-            message: "Can't get the instructions."
+            message: 'Can\'t get the instructions.'
           });
         });
       },
@@ -114,7 +114,7 @@ module.service('rpInboundBridgeProfile', ['$rootScope', 'rpNetwork', 'rpId', '$h
           method: 'GET',
           params: {rippleAddress: rippleAddress}
         })
-        .success(function(response){
+        .success(function(response) {
           if (response.status === 'error') {
             callback({
               message: response.message
@@ -125,9 +125,9 @@ module.service('rpInboundBridgeProfile', ['$rootScope', 'rpNetwork', 'rpId', '$h
 
           callback(null, response.deposits);
         })
-        .error(function(data,status){
+        .error(function(data, status) {
           callback({
-            message: "Can't get pending deposits."
+            message: 'Can\'t get pending deposits.'
           });
         });
       }

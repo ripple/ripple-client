@@ -14,10 +14,10 @@ var module = angular.module('qr', []);
 module.directive('rpQrcode', ['$window', function($window) {
   var canvas2D = !!$window.CanvasRenderingContext2D,
       levels = {
-        'L': 'Low',
-        'M': 'Medium',
-        'Q': 'Quartile',
-        'H': 'High'
+        L: 'Low',
+        M: 'Medium',
+        Q: 'Quartile',
+        H: 'High'
       },
       draw = function(context, qr, modules, tile) {
         for (var row = 0; row < modules; row++) {
@@ -65,7 +65,7 @@ module.directive('rpQrcode', ['$window', function($window) {
 
             try {
               qr.make();
-            } catch(e) {
+            } catch (e) {
               error = e.message;
               return;
             }
@@ -85,8 +85,8 @@ module.directive('rpQrcode', ['$window', function($window) {
 
             if (error) {
               if (!canvas2D) {
-                domElement.innerHTML = '<img src width="' + size + '"' +
-                  'height="' + size + '">';
+                domElement.innerHTML = '<img src width="' + size + '"'
+                  + 'height="' + size + '">';
               }
               scope.$emit('qrcode:error', error);
               return;

@@ -18,7 +18,6 @@ XrpTab.prototype.generateHtml = function ()
   return require('../../jade/tabs/xrp.jade')();
 };
 
-
 XrpTab.prototype.angular = function (module)
 {
   module.controller('XrpCtrl', ['$scope', 'rpId', function ($scope, $id)

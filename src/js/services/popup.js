@@ -16,8 +16,8 @@ module.factory('rpPopup', ['$compile',
   {
     if (!popupService.popupElement && create)
     {
-      popupService.popupElement = $( '<div class="modal fade"></div>' );
-      popupService.popupElement.appendTo( 'BODY' );
+      popupService.popupElement = $('<div class=\'modal fade\'></div>');
+      popupService.popupElement.appendTo('body');
     }
 
     return popupService.popupElement;
@@ -28,12 +28,12 @@ module.factory('rpPopup', ['$compile',
     popup.modal(options);
   };
 
-  popupService.blank = function(content,scope) {
+  popupService.blank = function(content, scope) {
     var popup = popupService.getPopup(true);
 
-    var html = '<div class="modal-dialog"><div class="modal-content">';
-    html += content;
-    html += '</div></div>';
+    var html = '<div class=\'modal-dialog\'><div class=\'modal-content\'>'
+      + content
+      + '</div></div>';
 
     popup.html(html);
 
@@ -41,41 +41,42 @@ module.factory('rpPopup', ['$compile',
   };
 
   popupService.confirm = function(title, actionText, actionButtonText, actionFunction, actionButtonCss, cancelButtonText, cancelFunction, cancelButtonCss, scope, options) {
-    actionText = (actionText) ? actionText : "Are you sure?";
-    actionButtonText = (actionButtonText) ? actionButtonText : "Ok";
-    actionButtonCss = (actionButtonCss) ? actionButtonCss : "btn btn-info";
-    cancelButtonText = (cancelButtonText) ? cancelButtonText : "Cancel";
-    cancelButtonCss = (cancelButtonCss) ? cancelButtonCss : "";
+    actionText = (actionText) ? actionText : 'Are you sure?';
+    actionButtonText = (actionButtonText) ? actionButtonText : 'Ok';
+    actionButtonCss = (actionButtonCss) ? actionButtonCss : 'btn btn-info';
+    cancelButtonText = (cancelButtonText) ? cancelButtonText : 'Cancel';
+    cancelButtonCss = (cancelButtonCss) ? cancelButtonCss : '';
 
     var popup = popupService.getPopup(true);
-    var confirmHTML = '<div class="modal-dialog"><div class="modal-content">';
+    var confirmHTML = ['<div class=\'modal-dialog\'><div class=\'modal-content\'>'];
 
     if (title) {
-      confirmHTML += "<div class=\"modal-header\"><h1>"+title+"</h1></div>";
+      confirmHTML.push('<div class=\'modal-header\'><h1>' + title + '</h1></div>');
     }
 
-    confirmHTML += "<div class=\"modal-body\"><p class=\"question\">"+actionText+"</p>"
-        +    "<div class=\"actions\">";
+    confirmHTML.push('<div class=\'modal-body\'><p class=\'question\'>' + actionText + '</p>'
+        +    '<div class=\'actions\'>');
 
     if (actionFunction) {
-      confirmHTML += "<button class=\"" + actionButtonCss + " \" ng-click=\""+actionFunction+"\">"+actionButtonText+"</button>";
+      confirmHTML.push('<button class=\'' + actionButtonCss + ' \' ng-click=\'' + actionFunction + '\'>' + actionButtonText + '</button>');
     }
     else {
-      confirmHTML += "<button class=\"" + actionButtonCss + " \">"+actionButtonText+"</button>";
+      confirmHTML.push('<button class=\'' + actionButtonCss + ' \'>' + actionButtonText + '</button>');
     }
 
     if (cancelFunction) {
-      confirmHTML += "<button class=\"" + cancelButtonCss + " btn-cancel\" ng-click=\""+cancelFunction+"\">"+cancelButtonText+"</button>";
+      confirmHTML.push('<button class=\'' + cancelButtonCss + ' btn-cancel\' ng-click=\'' + cancelFunction + '\'>' + cancelButtonText + '</button>');
     }
     else {
-      confirmHTML += "<button class=\"" + cancelButtonCss + " btn-cancel\">"+cancelButtonText+"</button>";
+      confirmHTML.push('<button class=\'' + cancelButtonCss + ' btn-cancel\'>' + cancelButtonText + '</button>');
     }
 
-    confirmHTML += "</div></div></div></div>";
+    confirmHTML.push('</div></div></div></div>');
 
+    confirmHTML = confirmHTML.join('');
     popup.html(confirmHTML);
 
-    popup.find(".btn").click(function () {
+    popup.find('.btn').click(function () {
       popupService.close();
     });
 

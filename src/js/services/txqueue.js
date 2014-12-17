@@ -38,7 +38,7 @@ module.service('rpTxQueue', ['$rootScope', 'rpNetwork', 'rpKeychain', 'rpId',
           item.details = tx.tx_json.LimitAmount;
         }
 
-        $scope.userBlob.unshift("/txQueue", item);
+        $scope.userBlob.unshift('/txQueue', item);
       }
     },
 
@@ -49,17 +49,17 @@ module.service('rpTxQueue', ['$rootScope', 'rpNetwork', 'rpKeychain', 'rpId',
     checkQueue: function() {
       if (!$scope.account.Balance || !$scope.userBlob.data.txQueue) return;
 
-      var self = this;
+      var _this = this;
 
       // Get user's secret key
       keychain.requestSecret(id.account, id.username, function (err, secret) {
         if (err) {
-          console.log("client: txQueue: error while unlocking wallet: ", err);
+          console.log('client: txQueue: error while unlocking wallet: ', err);
 
           return;
         }
 
-        $scope.userBlob.data.txQueue.forEach(function(item){
+        $scope.userBlob.data.txQueue.forEach(function(item) {
           // Backward compatibility!
           // Transactions created by RT version <= 1.0.10-1
           if (item.blob) {
@@ -75,7 +75,7 @@ module.service('rpTxQueue', ['$rootScope', 'rpNetwork', 'rpKeychain', 'rpId',
           tx.submit();
         });
 
-        self.emptyQueue();
+        _this.emptyQueue();
       });
     },
 

@@ -17,7 +17,7 @@ module.factory('rpTransactions', ['$rootScope', 'rpNetwork',
 
   function subscribe() {
     if (subscribed) return;
-    net.remote.request_subscribe("transactions").request();
+    net.remote.request_subscribe('transactions').request();
     subscribed = true;
   }
 
