@@ -6,7 +6,7 @@
 
   div(rp-slide='showWidgetNetworth')
     div(ng-class="{'blank': !exchangeRatesNonempty}")
-      .row(l10n)
+      .row(ng-hide="valueMetrics.length < 2", l10n)
         .col-xs-1(l10n-inc)
           span.desc(l10n-inc) In
         .col-xs-7.col-sm-6.col-md-5
