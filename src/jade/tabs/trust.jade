@@ -32,6 +32,8 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
             h2.tx-status(l10n) Removing gateway...
           group.result-success(ng-switch-when="gateway_removed")
             h2.tx-status(l10n) Gateway removed.
+          group.result-success(ng-switch-when="changes_saved")
+            h2.tx-status(l10n) Your changes have been saved.
           group.result-error(ng-switch-when="max_fee")
             h2.tx-status(l10n) Request failed.
             p(l10n) This request failed because the transaction exceeded the maximum network fee. [maxfeeExceeded].
