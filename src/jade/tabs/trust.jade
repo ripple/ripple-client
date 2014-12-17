@@ -42,12 +42,13 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
             group.result-error(ng-switch-when="error")
               h2.tx-status(l10n) There was an error while saving your changes.&#32;
               p(l10n) Please try again later.
-              
+
       .col-sm-12
         .alert.alert-warning(ng-show='addform_visible && !can_add_trust', l10n) You must have at least
           strong  {{account.reserve_to_add_trust | rpamount:0}} XRP
           |  to add a new trust line.&#32;
           a(href="https://ripple.com/wiki/Reserves", target="_blank") More information
+          
     .row(ng-show='connected')
 
       .col-sm-3
