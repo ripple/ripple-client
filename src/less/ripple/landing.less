@@ -13,7 +13,7 @@ header.loggedOut {
 }
 
 .headerWrapper.loggedOut {
-	display: block !important;
+  display: block !important;
 	position: fixed;
 	right: 0;
 	left: 0;
@@ -188,7 +188,7 @@ header.loggedOut {
 	.sign-up-steps-list, .sign-up-steps-list li.completed {
 		clear: both;
 		padding-top: 20px;
-		color: @midgray !important;
+		color: @landingblue !important;
 	}
 
 	p.heroText {
@@ -277,9 +277,16 @@ header.loggedOut {
 		border-top: none;
 	}
 	
-	.loggingIn {
-	  color: @white;
+	.loggingIn, .error, .success   {
+	  color: @white !important;
 	}
+
+  	form .checking {
+    	color: @landingblue;
+  	}
+
+ 
+
 
 	//buttons
 	form.ng-invalid .btn-success {
