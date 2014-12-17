@@ -575,10 +575,10 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
               p.rp-base(l10n) No current orders. 
                 a(l10n, href="", ng-click="view_orders_history()") View orders history
           h3
-            span(l10n) Orderbook
-            small.toggle(ng-click="hideOrderBook = !hideOrderBook")
-              span(ng-show="hideOrderBook", l10n) show
-              span(ng-hide="hideOrderBook", l10n) hide
+            .my-orders-title(l10n) Orderbook
+              small.toggle.orderbook-hide(ng-click="hideOrderBook = !hideOrderBook")
+                span(ng-show="hideOrderBook", l10n) show
+                span(ng-hide="hideOrderBook", l10n) hide
           div(ng-hide="hideOrderBook")
             .row.row-padding-small.orderbookupdate(ng-show="lastUpdate")
               .col-xs-12.text-right(l10n) Last updated
