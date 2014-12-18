@@ -39,7 +39,6 @@ BtcTab.prototype.angular = function (module)
 
     $scope.toggle_instructions = function () {
       $scope.showInstructions = !$scope.showInstructions;
-      console.log('toggle instructions ran');
     };
 
     $scope.openPopup = function () {

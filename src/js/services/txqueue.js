@@ -18,28 +18,42 @@ module.service('rpTxQueue', ['$rootScope', 'rpNetwork', 'rpKeychain', 'rpId',
      * @param callback function
      */
     addTransaction: function(tx) {
-      // If account is funded submit the transaction right away
-      if ($scope.account.Balance) {
-        network.remote.requestSubmit()
-          .txBlob(tx.tx_json)
-          .request();
-      }
 
-      // If not, add it to the queue.
-      // (Will be submitted as soon as account gets funding)
-      else {
-        var item = {
-          tx_json: tx.tx_json,
-          type: tx.tx_json.TransactionType
-        };
+      // Get user's secret key
+      keychain.requestSecret(id.account, id.username, function (err, secret) {
+        if (err) {
+          console.log("client: txQueue: error while unlocking wallet: ", err);
 
-        // Additional details depending on a transaction type
-        if ('TrustSet' === item.type) {
-          item.details = tx.tx_json.LimitAmount;
+          return;
         }
 
-        $scope.userBlob.unshift("/txQueue", item);
-      }
+        var transaction = ripple.Transaction.from_json(tx.tx_json);
+
+        transaction.remote = network.remote;
+        transaction.secret(secret);
+
+        // If account is funded submit the transaction right away
+        if ($scope.account.Balance) {
+          transaction.submit();
+        }
+
+        // If not, add it to the queue.
+        // (Will be submitted as soon as account gets funding)
+        else {
+          var item = {
+            tx_json: tx.tx_json,
+            type: tx.tx_json.TransactionType
+          };
+
+          // Additional details depending on a transaction type
+          if ('TrustSet' === item.type) {
+            item.details = tx.tx_json.LimitAmount;
+          }
+
+          $scope.userBlob.unshift("/txQueue", item);
+        }
+      });
+
     },
 
     /**

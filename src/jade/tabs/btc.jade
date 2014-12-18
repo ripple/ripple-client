@@ -95,7 +95,6 @@ section.col-xs-12.content(ng-controller='BtcCtrl')
               .title(l10n) Personal Deposit address
               .btc-address {{B2R.instructions.instructionParams[0].value}}
               .description(l10n) Your account is fully verified.
-              .title(l10n) Deposit Instructions
               div(ng-show="loadState.B2RInstructions")
                 .description {{B2R.instructions.instruction}}
                 //.qr-code
@@ -107,7 +106,7 @@ section.col-xs-12.content(ng-controller='BtcCtrl')
               .title(l10n) Withdrawal instructions
               .description(l10n) To withdraw to a BTC address, go to the Send tab and enter the BTC address. Using the btc2ripple service, you will be able to
                   | send to that BTC address.
-            div(ng-hide="loadState.B2RInstructions") Loading...
+              div(ng-hide="loadState.B2RInstructions") Loading...
           .inactive.col-xs-12(ng-hide="B2R.active")
             span(ng-show="loading")
               label(l10n) Waiting for response from SnapSwap service...
