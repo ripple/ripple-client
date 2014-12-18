@@ -95,11 +95,12 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
     myHandleAccountEntry = handleAccountEntry;
     $scope.loadingAccount = true;
 
-    accountObj.on('transaction', myHandleAccountEvent);
     accountObj.on('entry', function(data){
       $scope.$apply(function () {
         $scope.loadingAccount = false;
         myHandleAccountEntry(data);
+
+        if ($scope.userHistory) return;
 
         $scope.userHistory = new rpHistory(account);
         $scope.userHistory.onTransaction(myHandleAccountEvent);
@@ -115,7 +116,6 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
             return;
           }
 
-          console.log('Account transaction history loaded');
           handleAccountTx(data);
         });
       });
