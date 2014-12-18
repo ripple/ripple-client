@@ -291,7 +291,7 @@ module.exports = function(grunt) {
         ]
       }
     },
-    jadeL10nExtractor: {
+    jade_l10n_extractor: {
       templates: {
         options: {
         },
