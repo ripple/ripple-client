@@ -27,15 +27,7 @@ BtcTab.prototype.angular = function (module)
     $scope.accountLines = {};
     $scope.showComponent = [];
     $scope.showInstructions = false;
-
-    $scope.$watch('lines', function () {
-      if($scope.lines['rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2qBTC']){
-        $scope.btcConnected = true;
-      }
-      else {
-        $scope.btcConnected = false;
-      }
-    }, true);
+    $scope.btcConnected = false;
 
     $scope.toggle_instructions = function () {
       $scope.showInstructions = !$scope.showInstructions;
@@ -51,7 +43,7 @@ BtcTab.prototype.angular = function (module)
       if ($scope.B2R && $scope.B2R.active) {
         $scope.btcConnected = true;
 
-        btcwatcher();
+        btcwatcher();  
       }
     });
 
