@@ -4,7 +4,7 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
     .col-xs-12.col-sm-6.col-md-8.hidden-xs
       .welcomeText(l10n) Welcome to Ripple Trade
       hr
-      p.heroText(l10n) Full, unfettered access to the Ripple network. Tap into Ripple's liquidity pool of hundreds of assets, from XRP to crypto to gold to fiat.
+      p.heroText(l10n) Trade hundreds of assets, from XRP to crypto to gold to fiat.
     .tabBg(ng-hide="oldUserBlob")
     .auth-form-wrapper.col-xs-12.col-sm-6.col-md-4
       form(name='registerForm', ng-submit='submitForm()')
@@ -41,9 +41,9 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
                span(l10n)  Available
             .error(rp-error-on='rpAvailableName')
               span(ng-switch on="usernameInvalidReason")
-                i.fa.fa-exclamation-triangle(ng-switch-when="exists", l10n)
+                i.fa.fa-exclamation-triangle(ng-switch-when="exists")
                   span.statusText(l10n)  Already taken!
-                i.fa.fa-exclamation-triangle(ng-switch-when="reserved", l10n)
+                i.fa.fa-exclamation-triangle(ng-switch-when="reserved")
                   span.statusText(l10n)  Reserved for {{usernameReservedFor}}
                   span &#32;
                   i.fa.fa-question-circle(
@@ -52,18 +52,18 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
                   rp-popover-title='Reserved domain'
                   rp-popover-trigger="click"
                   ng-switch-when="reserved"
-                  data-content='This name belongs to a high-traffic website and has been reserved to prevent phishing.')
-                i.fa.fa-exclamation-triangle(ng-switch-when="tooshort", l10n)  
+                  l10n-data-content='This name belongs to a high-traffic website and has been reserved to prevent phishing.')
+                i.fa.fa-exclamation-triangle(ng-switch-when="tooshort")  
                   span.statusText(l10n)  Must be at least 2 characters
-                i.fa.fa-exclamation-triangle(ng-switch-when="toolong", l10n)
+                i.fa.fa-exclamation-triangle(ng-switch-when="toolong")
                   span.statusText(l10n)  Must be at most 20 characters
-                i.fa.fa-exclamation-triangle(ng-switch-when="charset", l10n)
+                i.fa.fa-exclamation-triangle(ng-switch-when="charset")
                   span.statusText(l10n)  You can only use the following characters: a-z, 0-9 and hyphens (-)
-                i.fa.fa-exclamation-triangle(ng-switch-when="starthyphen", l10n)
+                i.fa.fa-exclamation-triangle(ng-switch-when="starthyphen")
                   span.statusText(l10n)  Cannot start with hyphen (-)
-                i.fa.fa-exclamation-triangle(ng-switch-when="endhyphen", l10n)
+                i.fa.fa-exclamation-triangle(ng-switch-when="endhyphen")
                   span.statusText(l10n)  Cannot end with hyphen (-)
-                i.fa.fa-exclamation-triangle(ng-switch-when="multhyphen", l10n)
+                i.fa.fa-exclamation-triangle(ng-switch-when="multhyphen")
                   span.statusText(l10n)  Cannot use hyphens in a row (--)
           span.checking(ng-show="usernameLoading", l10n) Checking...
         .form-group(ng-class="{'field-error': 'weak' === strength || 'match' === strength}")
@@ -74,10 +74,10 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
             rp-strong-password, required, rp-same-in-set="passwordSet")
           p(ng-show="strength=='weak'")
             i.fa.fa-exclamation-triangle
-              span.error.statusText((l10n)  Your password is weak. It does not contain numbers and symbols or it is too short.
+              span.error.statusText(l10n)  Your password is weak. It does not contain numbers and symbols or it is too short.
           p(ng-show="strength=='match'")
             i.fa.fa-exclamation-triangle
-              span.error.statusText((l10n)  Your Ripple name and password cannot match. Please create a new password.
+              span.error.statusText(l10n)  Your Ripple name and password cannot match. Please create a new password.
         .form-group(ng-class="{'field-error': registerForm.register_password1.$error.rpSameInSet && registerForm.register_password2.$dirty}")
           label(for='register_password2', l10n) Confirm password
           input.form-control#register_password2(
@@ -87,7 +87,7 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
             required, rp-same-in-set="passwordSet")
           p(ng-show="registerForm.register_password1.$error.rpSameInSet && registerForm.register_password2.$dirty")
             i.fa.fa-exclamation-triangle
-              span.error.statusText((l10n)  Passwords do not match
+              span.error.statusText(l10n)  Passwords do not match
         div(ng-show="")
           .form-group
             div(class="strength {{strength}}") {{strength}}
@@ -97,7 +97,7 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
             placeholder="", ng-model="email", required)
           p(ng-show="registerForm.register_email.$error.email && registerForm.register_email.$dirty")
             i.fa.fa-exclamation-triangle
-              span.error.statusText((l10n)  Email address is invalid
+              span.error.statusText(l10n)  Email address is invalid
         .form-group(ng-show="showMasterKeyInput"
           ng-class="{'field-error': (registerForm.register_masterkey.$error.rpMasterKey || registerForm.register_masterkey.$error.rpMasterAddressExists)  && registerForm.register_masterkey.$dirty}")
           label(for='register_masterkey', l10n) Secret key&#32;
@@ -108,7 +108,7 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
               rp-focus, rp-spinner="{{checkingMasterkey ? 4 : null}}")
             p(ng-show="registerForm.register_masterkey.$error.rpMasterKey")
               i.fa.fa-exclamation-triangle
-                span.error.statusText((l10n)  Secret Account Key is invalid     
+                span.error.statusText(l10n)  Secret Account Key is invalid     
             .auth-attention(ng-show="registerForm.register_masterkey.$error.rpMasterAddressExists && masterkeyAddress") 
               div(l10n)
                 | The account ~
@@ -160,7 +160,7 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
     .col-xs-12.col-sm-6.col-md-8.hidden-xs
       .welcomeText(l10n) Welcome to Ripple Trade
       hr
-      p.heroText(l10n) Full, unfettered access to the Ripple network. Tap into Ripple's liquidity pool of hundreds of assets, from XRP to crypto to gold to fiat.
+      p.heroText(l10n) Trade hundreds of assets, from XRP to crypto to gold to fiat.
     .auth-form-wrapper.col-sm-offset-2.col-sm-6.col-md-offset-3.col-md-4
       h2(ng-hide="oldUserBlob", l10n) Sign Up
       h2(ng-show="oldUserBlob", l10n) Migrate
@@ -208,7 +208,7 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
     .col-xs-12.col-sm-6.col-md-8.hidden-xs
       .welcomeText(l10n) Welcome to Ripple Trade
       hr
-      p.heroText(l10n) Full, unfettered access to the Ripple network. Tap into Ripple's liquidity pool of hundreds of assets, from XRP to crypto to gold to fiat.
+      p.heroText(l10n) Trade hundreds of assets, from XRP to crypto to gold to fiat.
     .auth-form-wrapper.col-sm-6.col-md-4
       h2(ng-hide="oldUserBlob", l10n) Sign Up
       h2(ng-show="oldUserBlob", l10n) Migrate
