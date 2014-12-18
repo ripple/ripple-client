@@ -593,6 +593,7 @@ TrustTab.prototype.angular = function (module)
 
               $scope.trust.loading = false;
               $scope.editing = false;
+              $scope.load_notification('changes_saved');
             });
           })
           .on('error', function(res){
