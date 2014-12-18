@@ -847,7 +847,7 @@ TradeTab.prototype.angular = function(module)
 
     $scope.flip_issuer = function () {
       var order = $scope.order;
-      if (!order.valid_settings) return;
+      //if (!order.valid_settings) return;
       var currency = order.first_currency;
       var issuer = order.first_issuer;
       var pair = order.currency_pair.split('/');
