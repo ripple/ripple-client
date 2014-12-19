@@ -12,23 +12,26 @@ section.col-xs-12.content(ng-controller='GoldCtrl')
 
   .row(ng-show='connected')
     // Transaction errors coming from errors.js & transactionerror.jade
-    group.mode-ripplerror(ng-show='mode=="error" || mode=="granting" && account.Balance')
-      rp-transaction-status(
-        rp-engine-result="{{engine_result}}"
-        rp-engine-result-message="{{engine_result_message}}"
-        rp-accepted="{{engine_status_accepted}}"
-        rp-current-tab="trust")
+    .col-sm-12
+      group.mode-ripplerror(ng-show='mode=="error" || mode=="granting" && account.Balance')
+        rp-transaction-status(
+          rp-engine-result="{{engine_result}}"
+          rp-engine-result-message="{{engine_result_message}}"
+          rp-accepted="{{engine_status_accepted}}"
+          rp-current-tab="trust")
 
     //- Generic non-tx related messages
-    group.mode-granted.wide(ng-show='notif !== "clear"')
-      group(ng-switch on="notif")
-        group.result-error(ng-switch-when="error")
-          h2.tx-status(l10n) There was an error while saving your changes.&#32;
-          p(l10n) Please try again later.
-    .alert.alert-warning(ng-show='account.Balance && !can_add_trust && !gbiConnected', l10n) You must have at least
-      strong  {{account.reserve_to_add_trust | rpamount:0}} XRP
-      |  to add a new trust line.&#32;
-      a(href="https://ripple.com/wiki/Reserves", target="_blank") More information
+    .col-sm-12
+      group.mode-granted.wide(ng-show='notif !== "clear"')
+        group(ng-switch on="notif")
+          group.result-error(ng-switch-when="error")
+            h2.tx-status(l10n) There was an error while saving your changes.&#32;
+            p(l10n) Please try again later.
+    .col-sm-12        
+      .alert.alert-warning(ng-show='account.Balance && !can_add_trust && !gbiConnected', l10n) You must have at least
+        strong  {{account.reserve_to_add_trust | rpamount:0}} XRP
+        |  to add a new trust line.&#32;
+        a(href="https://ripple.com/wiki/Reserves", target="_blank") More information
 
     .col-sm-3
       include fund/menu

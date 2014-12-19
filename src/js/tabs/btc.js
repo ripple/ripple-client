@@ -20,26 +20,17 @@ BtcTab.prototype.generateHtml = function ()
 
 BtcTab.prototype.angular = function (module)
 {
-  module.controller('BtcCtrl', ['$scope', 'rpId', 'rpAppManager', 'rpTracker', '$routeParams', 'rpKeychain',
-                                     function ($scope, $id, appManager, rpTracker, $routeParams, keychain)
+  module.controller('BtcCtrl', ['$scope', 'rpId', 'rpAppManager', 'rpTracker', '$routeParams', 'rpNetwork', 'rpKeychain',
+                                     function ($scope, $id, appManager, rpTracker, $routeParams, network, keychain)
   {
  
     $scope.accountLines = {};
     $scope.showComponent = [];
     $scope.showInstructions = false;
-
-    $scope.$watch('lines', function () {
-      if($scope.lines['rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2qBTC']){
-        $scope.btcConnected = true;
-      }
-      else {
-        $scope.btcConnected = false;
-      }
-    }, true);
+    $scope.btcConnected = false;
 
     $scope.toggle_instructions = function () {
       $scope.showInstructions = !$scope.showInstructions;
-      console.log('toggle instructions ran');
     };
 
     $scope.openPopup = function () {
@@ -52,19 +43,22 @@ BtcTab.prototype.angular = function (module)
       if ($scope.B2R && $scope.B2R.active) {
         $scope.btcConnected = true;
 
-        btcwatcher();
+        btcwatcher();  
       }
     });
 
     // B2R Signup
     $scope.B2RSignup = function () {
-      var fields = {};
+      var issuer = Options.b2rAddress;
+      var currency = 'BTC';
+      var amount = '100000000000';
 
-      $scope.loading = true;
+      fields = {};
 
       fields.rippleAddress = $id.account;
-
       fields.email = $scope.userBlob.data.email;
+ 
+      $scope.loading = true;
 
       keychain.requestSecret($id.account, $id.username, function (err, secret) {
         if (err) {
@@ -75,6 +69,15 @@ BtcTab.prototype.angular = function (module)
           $scope.loading = false;
           return;
         }
+
+        var tx = network.remote.transaction();
+        tx.rippleLineSet($id.account, amount + '/' + currency + '/' + issuer);
+        tx.secret(secret);
+        tx.setFlags('NoRipple');
+        tx.tx_json.Sequence = 1;
+        tx.complete();
+        tx.sign();
+        fields.txBlob = tx.serialize().to_hex();
 
         $scope.B2RApp.findProfile('account').signup(fields, function (err, response) {
           if (err) {

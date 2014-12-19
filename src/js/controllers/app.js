@@ -255,9 +255,16 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
 
   function handleAccountTxError(data)
   {
-    $scope.$apply(function () {
+    function handleAccountTxErrorInternal() {
       $scope.loadState.transactions = true;
-    });
+    }
+    // when used in $scope.userHistory.getHistory callback $scope.$apply is not needed,
+    // but this is also public function and nobody knows from there it called
+    if (!$scope.$$phase) {
+      $scope.$apply(handleAccountTxErrorInternal);
+    } else {
+      handleAccountTxErrorInternal();
+    }
   }
 
   function handleAccountEvent(e)
