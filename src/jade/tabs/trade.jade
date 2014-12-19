@@ -194,6 +194,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                           label(ng-show="type == 'sell'", l10n) Amount To Sell
                           .input-group
                             input.form-control(name='amount', type='text'
+                            input-type="{{type}}"
                             ng-model='order[type].first', ng-change='calc_second(type)'
                             rp-autofill='$routeParams.type == type && $routeParams.amount'
                             rp-autofill-amount
@@ -221,6 +222,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                           label(l10n) Price of Each
                           .input-group
                             input.form-control(name='price', type='text'
+                            input-type="{{type}}"
                             ng-model='order[type].price', ng-change='calc_second(type)'
                             rp-autofill='$routeParams.type == type && $routeParams.price'
                             rp-autofill-amount
@@ -294,7 +296,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                         | )
                     .row.btns-row
                       .col-xs-12.col-md-6.col-sm-8.btns-wrapper
-                        button.btn.btn-success.btn-block.submit(type='submit', ng-disabled='tradeForm.$invalid')
+                        button.btn.btn-success.btn-block.submit(type='submit', ng-disabled='tradeForm.$invalid', btn-type="{{type}}")
                           span(ng-show="type == 'buy'", l10n)  Buy
                           span(ng-show="type == 'sell'", l10n)  Sell
                           |  {{order.first_currency | rpcurrency}}
