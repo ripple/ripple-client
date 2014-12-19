@@ -602,8 +602,13 @@ TrustTab.prototype.angular = function (module)
                 $scope.mode = 'error';
                 setEngineStatus(res, false);
 
+                if (res.result === 'tejMaxFeeExceeded') {
+                  $scope.load_notification('max_fee');
+                }
+
                 $scope.trust.loading = false;
                 $scope.editing = false;
+
               });
             });
           });
