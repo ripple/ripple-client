@@ -32,7 +32,6 @@ module.exports = [
   {value: 'HKD', name: 'Hong Kong Dollar', display: true, custom_trade_currency_dropdown: false, standard_precision: 2, order: 0},
   {value: 'KES', name: 'Kenyan Shilling', display: true, custom_trade_currency_dropdown: false, standard_precision: 2, order: 0},
   {value: 'AMD', name: 'Armenian Drams', display: true, custom_trade_currency_dropdown: false, standard_precision: 2, order: 0},
-  {value: 'RUR', name: 'Russian Rubles', display: true, custom_trade_currency_dropdown: false, standard_precision: 2, order: 0},
   {value: 'RON', name: 'Romanian Leu', display: true, custom_trade_currency_dropdown: false, standard_precision: 2, order: 0},
   {value: 'NZD', name: 'New Zealand Dollar', display: true, custom_trade_currency_dropdown: true, standard_precision: 2, order: 0},
   {value: 'TRY', name: 'Turkish Lira', display: true, custom_trade_currency_dropdown: false, standard_precision: 2, order: 0},
