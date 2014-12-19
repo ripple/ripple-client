@@ -69,8 +69,7 @@ TradeTab.prototype.angular = function(module)
 
     $scope.cancelOrder = {
       seq: null,
-      success: false,
-      errorMsg: null
+      success: false
     };
 
     // Details for an order that is edited and sent to Ripple for modification
@@ -159,7 +158,6 @@ TradeTab.prototype.angular = function(module)
       // Do not allow editing of an order that has no quantity left but is still displayed as it hasn't been removed from offers
       if (myOrder.first.is_zero()) return;
 
-      $scope.cancelOrder.errorMsg = null;
       $scope.cancelEditOrder();  // if another order is in edit mode
 
       // Ensure that the orderbook matches the currency pair of the order being edited, for the user
@@ -458,23 +456,8 @@ TradeTab.prototype.angular = function(module)
     $scope.cancel_all_orders = function()
     {
       _.each($scope.offers, function(offer, index) {
-        offer.cancelling = true;
+        $scope.cancel_order(offer.seq, false);
       });
-      
-      function on_cancel_error() {
-        _.each($scope.offers, function(offer, index) {
-          offer.cancelling = false;
-        });
-      }
-
-      function cancel_one_order()
-      {
-        if (!_.isEmpty($scope.offers)) {
-          $scope.cancel_order(_.keys($scope.offers)[0], false, cancel_one_order, on_cancel_error);
-        }
-      }
-
-      cancel_one_order();
     }
 
     /**
@@ -482,19 +465,17 @@ TradeTab.prototype.angular = function(module)
      */
     $scope.cancel_order = function (seq, modifying, successCb, errorCb)
     {
-      if (seq) $scope.cancelOrder.seq = seq;
-      else $scope.cancelOrder.seq = this.entry ? this.entry.seq : this.order.Sequence;
-      if (! $scope.cancelOrder.seq) return;
+      if (!seq) seq = this.entry ? this.entry.seq : this.order.Sequence;
+      if (!seq) return;
+      var cancelOrder = $scope.offers[seq];
 
-      var order = this.order;
-      var tx    = $network.remote.transaction();
-      $scope.cancelOrder.errorMsg = null;
+      var tx = $network.remote.transaction();
+      cancelOrder.errorMsg = null;
 
-      tx.offer_cancel(id.account, $scope.cancelOrder.seq);
+      tx.offer_cancel(id.account, seq);
 
       tx.on('success', function(res) {
-        if ($scope.offers[$scope.cancelOrder.seq]) $scope.offers[$scope.cancelOrder.seq].cancelling = false;
-        order.cancelling = false;
+        if ($scope.offers[cancelOrder.seq]) $scope.offers[cancelOrder.seq].cancelling = false;
 
         if (modifying) {
           var qtyChanged = qtyChangedOnDeleted(res);
@@ -510,6 +491,7 @@ TradeTab.prototype.angular = function(module)
           }
         }
         else {
+          $scope.cancelOrder.seq = cancelOrder.seq;
           $scope.cancelOrder.success = true;
           scrollToMessages();
 
@@ -524,9 +506,8 @@ TradeTab.prototype.angular = function(module)
 
       tx.on('error', function (err) {
 
-        if ($scope.offers[$scope.cancelOrder.seq]) $scope.offers[$scope.cancelOrder.seq].cancelling = false;
-        order.cancelling  = false;
-        $scope.cancelOrder.errorMsg = err.engine_result_message;
+        if ($scope.offers[cancelOrder.seq]) $scope.offers[cancelOrder.seq].cancelling = false;
+        cancelOrder.errorMsg = err.engine_result_message;
 
         if (errorCb) errorCb();
 
@@ -547,8 +528,7 @@ TradeTab.prototype.angular = function(module)
       keychain.requestSecret(id.account, id.username, function (err, secret) {
         if (err) {
           //err should equal 'canceled' here, other errors are not passed through
-          if ($scope.offers[$scope.cancelOrder.seq]) $scope.offers[$scope.cancelOrder.seq].cancelling = false;
-          order.cancelling = false;
+          if ($scope.offers[cancelOrder.seq]) $scope.offers[cancelOrder.seq].cancelling = false;
           return;
         }
 
@@ -556,13 +536,11 @@ TradeTab.prototype.angular = function(module)
         tx.submit();
       });
 
-      $scope.offers[$scope.cancelOrder.seq].cancelling = true;
-      order.cancelling = true;
+      $scope.offers[cancelOrder.seq].cancelling = true;
     };
 
     $scope.dismissCancelError = function() {
       $scope.cancelOrder.seq = null;
-      $scope.cancelOrder.errorMsg = null;
       $scope.editOrder.cancelOrderGone = false;
     };
 

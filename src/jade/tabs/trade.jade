@@ -389,11 +389,11 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
           .col-sm-12.alert.alert-danger(ng-show="editOrder.replaceError && ! editOrder.exists")
             span(l10n) Your order could not be modified and no longer exists. Error: {{order[editOrder.type].engine_result_message}}
             a.dismiss.pull-right(href="", ng-click="editOrder.replaceError = false", l10n) X
-          .col-sm-12.alert.alert-danger(ng-show="cancelOrder.errorMsg && editOrder.cancelOrderGone")
+          .col-sm-12.alert.alert-danger(ng-show="editOrder.cancelOrderGone")
             span(l10n) Unable to cancel order as it no longer exists.
             a.dismiss.pull-right(href="", ng-click="dismissCancelError()", l10n) X
           .col-sm-12.alert.alert-success(ng-show="cancelOrder.success")
-            span(l10n) Your order has been cancelled.
+            span(l10n) Your order &#35;{{ cancelOrder.seq }} has been cancelled.
             a.dismiss.pull-right(href="", ng-click="cancelOrder.success = false", l10n) X
           .rp-checkbox(ng-hide="hideOffers || isEmpty(offers)")
             label
@@ -476,7 +476,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                 .col-md-2.action(ng-hide="editOrder.seq == entry.seq")
                   img(src="img/button-s.png", class="loader", ng-show="entry.cancelling")
                   rp-popup.fa.pull-right
-                    a.btn.btn-block.pull-right(rp-popup-link, ng-disabled="order.cancelling || editOrder.replacing")
+                    a.btn.btn-block.pull-right(rp-popup-link, ng-disabled="entry.cancelling || editOrder.replacing")
                       span.fa.fa-times-circle(rp-tooltip="Cancel order", id="deleteOrder", l10n)
                     .rp-modal(rp-popup-content)
                       .modal-header
@@ -518,7 +518,8 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                           button.modal-btn.btn.btn-default.btn-success.btn-md(data-dismiss="modal", ng-click="cancel_order()")
                             span(l10n) Cancel order
                           button.modal-btn.btn.btn-cancel.btn-md.btn-cancel(data-dismiss="modal", l10n) back
-                  button.btn-link.btn-lg.pull-right.fa.fa-pencil-square-o(rp-tooltip="Edit order", ng-click="beginEditOrder()", ng-disabled="order.cancelling || editOrder.replacing", l10n)
+                  button.btn-link.btn-lg.pull-right.fa.fa-pencil-square-o(rp-tooltip="Edit order", ng-click="beginEditOrder()",
+                    ng-disabled="entry.cancelling || editOrder.replacing || editOrder.cancelling", l10n)
                 div(ng-show="editOrder.seq == entry.seq")
                   form(novalidate, name="editOrderForm", ng-show="editOrder.seq == entry.seq")
                     .value-field.col-md-4
@@ -546,9 +547,9 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                         button.btn-link.btn-lg.submit.pull-right.fa.fa-check-circle(
                           type="button", type="submit", ng-click="prepareOrderModify()",
                           ng-disabled="editOrderForm.$invalid || ! editOrder.orderbookReady || editOrder.cancelling || editOrder.replacing || ! (editOrder.priceChanged || editOrder.quantityChanged) || editOrder.quantityFilled", l10n)
-                .col-md-12.alert.alert-danger(ng-show="cancelOrder.errorMsg && cancelOrder.seq == entry.seq && ! editOrder.cancelOrderGone")
-                  span(l10n) Unable to cancel order. Error: {{cancelOrder.errorMsg}}
-                  a.dismiss.pull-right(href="", ng-click="dismissCancelError()", l10n) X
+                .col-md-12.alert.alert-danger(ng-show="entry.errorMsg")
+                  span(l10n) Unable to cancel order. Error: {{entry.errorMsg}}
+                  a.dismiss.pull-right(href="", ng-click="entry.errorMsg = null", l10n) X
                 .col-md-12.alert.alert-warning(ng-show="editOrder.quantityFilledWarn && editOrder.seq == entry.seq")
                   span(l10n) Your order amount has been updated by Ripple. Please go back and edit again to modify this order.
                   a.dismiss.pull-right(href="", ng-click="editOrder.quantityFilledWarn = false", l10n) X
