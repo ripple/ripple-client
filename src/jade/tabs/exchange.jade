@@ -64,7 +64,7 @@ section.col-xs-12.content(ng-controller="ExchangeCtrl")
           //- TODO how high trust?
           p.literal(ng-show="exchange.path_status == 'no-path' && exchange.currency_code != 'XRP'", l10n)
             | Cannot convert to {{exchange.amount}} {{exchange.currency_name}}. Please make sure your account has enough funds, and a&#32;
-            a(href="https://support.ripplelabs.com/hc/en-us/categories/200194186-Gateways", target="_blank") connection
+            a(href="https://ripple.com/knowledge_center/how-to-connect-to-a-gateway-2/", target="_blank") connection
             | &#32;to a {{exchange.currency_name}} gateway.
           p.literal(ng-show="exchange.path_status == 'no-path' && exchange.currency_code == 'XRP'", l10n)
             | Sorry! Cannot convert {{exchange.amount}} {{exchange.currency_name}}. Please make sure your account has enough funds.
