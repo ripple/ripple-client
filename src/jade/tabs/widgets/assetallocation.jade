@@ -1,10 +1,10 @@
 .widget.widget-assetallocation(ng-hide="!loadingAccount && !account.Balance && loadState.account")
-  h4(ng-click='showWidgetAssetallocation=!showWidgetAssetallocation'
-    ng-init='showWidgetAssetallocation=true')
+  h4(ng-click='showWidgetAssetAllocation=!showWidgetAssetAllocation'
+    ng-init='showWidgetAssetAllocation=true')
     span(l10n) Asset Allocation
-    i.fa.fa-fw.fa-caret-down(ng-class="{'closed': !showWidgetAssetallocation}")
+    i.fa.fa-fw.fa-caret-down(ng-class="{'closed': !showWidgetAssetAllocation}")
 
-  div(rp-slide='showWidgetAssetallocation')
+  div(rp-slide='showWidgetAssetAllocation')
     rp-pie-chart(
       ng-class="{'blank': !exchangeRatesNonempty}"
       rp-size="200"
@@ -12,5 +12,5 @@
       rp-ious="balances"
       rp-exchange-rates="exchangeRates")
 
-    div.widget_loader(ng-hide="exchangeRatesNonempty")
+    div.widget_loader(ng-show="showWidgetAssetAllocation && !exchangeRatesNonempty")
       img(src="img/sections.png", class="loader")

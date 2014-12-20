@@ -29,5 +29,5 @@
 
       .desc(ng-show="hasNegative", l10n) (excluding negative balances)
 
-    div.widget_loader(ng-hide="exchangeRatesNonempty")
+    div.widget_loader(ng-show="showWidgetNetworth && !exchangeRatesNonempty")
       img(src="img/sections.png", class="loader")
