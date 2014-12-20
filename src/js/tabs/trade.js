@@ -1334,8 +1334,8 @@ TradeTab.prototype.angular = function(module)
     /**
      * Force orderbook update every 30s
      */
-    $scope.$watch(lastUpdate, function () {
-      if (lastUpdate > 30) loadOffers();
+    $scope.$watch('lastUpdate', function () {
+      if ($scope.lastUpdate > 30) $scope.book.requestOffers();
     }, true);
 
     /**

@@ -183,6 +183,11 @@ function(net, $q, $scope, $filter, $id) {
         model.ready = false;
       };
 
+      model.requestOffers = function() {
+        asks.requestOffers();
+        bids.requestOffers();
+      }
+
       return model;
     },
 
