@@ -47,13 +47,24 @@ TradeTab.prototype.angular = function(module)
   {
     var timer;
 
-    $scope.sort_options = {
-      current_pair_only: false,
-      sort_field: 'type',
+    $scope.sortOptions = {
+      currentPairOnly: false,
+      sortField: 'type',
+      sortFieldName: 'Type',
       reverse: false
     };
-    $scope.first_currency_selected = '';
-    $scope.second_currency_selected = '';
+
+    $scope.sortOptions.sortFieldName = $scope.ordersSortFieldChoicesKeyed[$scope.sortOptions.sortField];
+
+    $scope.$watch('sortOptions.sortFieldName', function () {
+      $scope.sortOptions.sortField = $scope.ordersSortFieldChoicesKeyedReverse[$scope.sortOptions.sortFieldName];
+    });
+    $scope.$watch('sortOptions.sortField', function () {
+      $scope.sortOptions.sortFieldName = $scope.ordersSortFieldChoicesKeyed[$scope.sortOptions.sortField];
+    });
+
+    $scope.first_currency_selected = "";
+    $scope.second_currency_selected = "";
     $scope.load_orderbook = true;
     // Remember user preference on Convert vs. Trade
     $rootScope.ripple_exchange_selection_trade = true;

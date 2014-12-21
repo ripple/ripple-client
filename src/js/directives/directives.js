@@ -899,6 +899,8 @@ module.directive('rpOrdersSortHeader', ['$timeout', '$parse', function($timeout,
           if (sortFieldGetter(scope) != fieldName) {
             element.find('span').removeClass('sorted');
             element.find('span').html('&#x25BC;');
+          } else {
+            element.find('span').addClass('sorted');
           }
         });
         var watcher2 = scope.$watch(attr.rpOrdersSortHeaderReverse, drawArrow);

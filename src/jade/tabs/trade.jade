@@ -399,22 +399,22 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
             span(l10n) Modifying your order (Placing new order) ...
           .rp-checkbox(ng-hide="hideOffers || isEmpty(offers)")
             label
-              input(type="checkbox", name="current_pair_only", ng-model="sort_options.current_pair_only")
+              input(type="checkbox", name="current_pair_only", ng-model="sortOptions.currentPairOnly")
               span(l10n) Current pair only
           .rp-select.hidden-md.hidden-lg
             div(ng-hide="hideOffers || isEmpty(offers)")
               span Sort by
-              select.currency(rp-flat-select, ng-model='sort_options.sort_field')
-                option(value="type") Type
-                option(value="qty") QTY
-                option(value="base") Base
-                option(value="counter") Counter
-                option(value="limit") Limit
+              .rp-combobox.rp-combobox-small.orders-sort-select
+                input.currency.form-control#orders_sort_field(
+                name='orders_sort_field', type='text'
+                rp-combobox="ordersSortFieldChoices", rp-combobox-select
+                rp-combobox-small
+                ng-model='sortOptions.sortFieldName')
           .rp-checkbox.hidden-md.hidden-lg
             div(ng-hide="hideOffers || isEmpty(offers)")
               label
                 input(type="checkbox", name="reverse"
-                ng-model="sort_options.reverse")
+                ng-model="sortOptions.reverse")
                 span(l10n) reverse
           div(ng-hide="isEmpty(offers)")
             hr.hidden-md.hidden-lg
@@ -422,32 +422,32 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
             .my
               div
                 .row.head.hidden-xs.hidden-sm
-                  .col-md-1.type(style="cursor: pointer;", l10n, rp-orders-sort-header="sort_options.sort_field", 
-                        rp-orders-sort-header-reverse="sort_options.reverse",
+                  .col-md-1.type(style="cursor: pointer;", l10n, rp-orders-sort-header="sortOptions.sortField", 
+                        rp-orders-sort-header-reverse="sortOptions.reverse",
                         rp-orders-sort-header-field="type") 
                     span &#x25BC;
-                  .col-md-3(style="cursor: pointer;", l10n, rp-orders-sort-header="sort_options.sort_field", 
-                        rp-orders-sort-header-reverse="sort_options.reverse",
+                  .col-md-3(style="cursor: pointer;", l10n, rp-orders-sort-header="sortOptions.sortField", 
+                        rp-orders-sort-header-reverse="sortOptions.reverse",
                         rp-orders-sort-header-field="qty") QTY
                     span &#x25BC;
-                  .col-md-2(style="cursor: pointer;", l10n, rp-orders-sort-header="sort_options.sort_field", 
-                        rp-orders-sort-header-reverse="sort_options.reverse",
+                  .col-md-2(style="cursor: pointer;", l10n, rp-orders-sort-header="sortOptions.sortField", 
+                        rp-orders-sort-header-reverse="sortOptions.reverse",
                         rp-orders-sort-header-field="base") Base
                     span &#x25BC;
-                  .col-md-2(style="cursor: pointer;", l10n, rp-orders-sort-header="sort_options.sort_field", 
-                        rp-orders-sort-header-reverse="sort_options.reverse",
+                  .col-md-2(style="cursor: pointer;", l10n, rp-orders-sort-header="sortOptions.sortField", 
+                        rp-orders-sort-header-reverse="sortOptions.reverse",
                         rp-orders-sort-header-field="counter") Counter
                     span &#x25BC;
-                  .col-md-2(style="cursor: pointer;", l10n, rp-orders-sort-header="sort_options.sort_field", 
-                        rp-orders-sort-header-reverse="sort_options.reverse",
+                  .col-md-2(style="cursor: pointer;", l10n, rp-orders-sort-header="sortOptions.sortField", 
+                        rp-orders-sort-header-reverse="sortOptions.reverse",
                         rp-orders-sort-header-field="limit") Limit
                     span &#x25BC;
-                  //- .col-md-2(style="cursor: pointer;", l10n, rp-orders-sort-header="sort_options.sort_field", 
-                  //-       rp-orders-sort-header-reverse="sort_options.reverse",
+                  //- .col-md-2(style="cursor: pointer;", l10n, rp-orders-sort-header="sortOptions.sortField", 
+                  //-       rp-orders-sort-header-reverse="sortOptions.reverse",
                   //-       rp-orders-sort-header-field="time") Time placed
                   //-   span &#x25BC;
                   .col-md-2(l10n) Action
-              .row(ng-repeat="entry in offers | rpcurrentpair:sort_options.current_pair_only:order.prev_settings | rpvalues | rpsortmyorders:sort_options.sort_field:sort_options.reverse track by entry.seq", ng-hide="entry.isZero",
+              .row(ng-repeat="entry in offers | rpcurrentpair:sortOptions.currentPairOnly:order.prev_settings | rpvalues | rpsortmyorders:sortOptions.sortField:sortOptions.reverse track by entry.seq", ng-hide="entry.isZero",
                 ng-class="{cancelling: entry.cancelling || (editOrder.cancelling && entry.seq == editOrder.seq)}")
                 .col-md-1.type(data-label="Type")
                   span.rp-hidden-md.rp-hidden-lg {{entry.type | rpucfirst}}
