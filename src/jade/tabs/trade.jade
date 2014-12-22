@@ -535,7 +535,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                           currency {{entry.second | rpcurrency | rptruncate:3}}
                     .col-md-3.action
                       img(src="img/button-s.png", class="loader", ng-show="(editOrder.cancelling || editOrder.replacing) && entry.seq == editOrder.seq")
-                      button.btn-link.btn-lg.pull-right.fa.fa-angle-double-left(type="button", ng-click="cancelEditOrder()", ng-disabled="editOrder.cancelling || editOrder.replacing", l10n)
+                      button.btn-link.btn-lg.pull-right.fa.fa-angle-double-left(type="button", rp-tooltip="Back" ,ng-click="cancelEditOrder()", ng-disabled="editOrder.cancelling || editOrder.replacing", l10n)
                       rp-confirm(rp-show="fatFingerShouldWarn()"
                         l10n-action-text="CAUTION: Your new order is far off from the current market price. <br/> Do you still want to replace your order ?"
                         l10n-action-button-text="Confirm"
