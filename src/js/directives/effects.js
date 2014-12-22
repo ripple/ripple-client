@@ -129,7 +129,7 @@ module.directive('rpAutoZoom', [function () {
           },
           startRenderDelayed = function () {
             if (startRenderTimeout) {
-              cancelTimeout(startRenderTimeout);
+              clearTimeout(startRenderTimeout);
             }
             startRenderTimeout = setTimeout(startRender, 100);
           };
