@@ -448,8 +448,8 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
               .row(ng-repeat="entry in offers | rpcurrentpair:sort_options.current_pair_only:order.prev_settings | rpvalues | rpsortmyorders:sort_options.sort_field:sort_options.reverse track by entry.seq", ng-hide="entry.isZero",
                 ng-class="{cancelling: entry.cancelling || (editOrder.cancelling && entry.seq == editOrder.seq)}")
                 .col-md-1.type(data-label="Type")
-                  span.rp-hidden-md.rp-hidden-lg{{entry.type | rpucfirst}}
-                  span.rp-hidden-xs.rp-hidden-sm{{entry.type | rptruncate:1}}
+                  span.rp-hidden-md.rp-hidden-lg {{entry.type | rpucfirst}}
+                  span.rp-hidden-xs.rp-hidden-sm {{entry.type | rptruncate:1}}
                 .col-md-3.amount.rpamount(data-label="QTY",
                   ng-hide="editOrder.seq == entry.seq") {{entry.first | rpamount:{hard_precision: true, precision: 6, tiny_precision: 6} }}
                 .col-md-2(data-label="BASE", ng-hide="editOrder.seq == entry.seq")

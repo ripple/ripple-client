@@ -519,6 +519,8 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
 
         gateway.user = user;
 
+        if (!gateway.inboundBridge) return;
+
         // Get inbound bridge instructions
         gateway.inboundBridge.getInstructions($scope.address,function(err, instructions){
           if (err) {
@@ -586,6 +588,8 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
             // TODO support multiple pending transactions
             $scope.pending = pending[0];
           });
+
+          if (!$scope.B2R.getInstructions) return;
 
           // Get deposit instructions
           $scope.B2R.getInstructions($scope.address,function(err, instructions){

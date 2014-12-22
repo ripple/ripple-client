@@ -15,8 +15,7 @@
             rp-popover-trigger="hover"
             rp-popover-delay
             l10n-rp-popover-content="Balance<br>{{ account.Balance | rpamount }} XRP"
-            )
-            {{ account.Balance | rpamount:{abs_precision: 2} }}
+            ) {{ account.Balance | rpamount:{abs_precision: 2} }}
         div(ng-hide="account.Balance") 0.00
         dl(rp-slide="entry.show")
           dt
@@ -34,8 +33,7 @@
               rp-popover-trigger="hover"
               rp-popover-delay
               l10n-rp-popover-content="Reserve amount<br>{{ account.reserve | rpamount }} XRP"
-              )
-              {{ account.reserve | rpamount:{abs_precision: 2} }}
+              ) {{ account.reserve | rpamount:{abs_precision: 2} }}
           dd(ng-hide="account.reserve") 0.00
 
           dt
@@ -53,8 +51,7 @@
               rp-popover-trigger="hover"
               rp-popover-delay
               l10n-rp-popover-content="Available amount<br>{{ account.max_spend | rpamount }} XRP"
-              )
-              {{ account.max_spend | rpamount:{abs_precision: 2} }}
+              ) {{ account.max_spend | rpamount:{abs_precision: 2} }}
           dd(ng-hide="account.max_spend") 0.00
 
       li(
@@ -70,13 +67,11 @@
             rp-popover-trigger="hover"
             rp-popover-delay
             l10n-rp-popover-content="Balance<br>{{ entry.total | rpamount:{precision: 30, hard_precision: true} }} {{ entry.total | rpcurrency }}"
-            )
-            {{ entry.total | rpamount:{tiny_precision: 3} }}
+            ) {{ entry.total | rpamount:{tiny_precision: 3} }}
         dl(rp-slide="entry.show")
           div(ng-repeat="(issuer, component) in entry.components")
             dt(ng-show="component.gateway.app")
-              span(rp-address-popover="component.gateway.app")
-                {{component.gateway.app.name}}
+              span(rp-address-popover="component.gateway.app") {{component.gateway.app.name}}
             dt(ng-hide="component.gateway.app")
               span(rp-pretty-identity="issuer", rp-pretty-issuer-contacts="userBlob.data.contacts", rp-address-popover="issuer")
             dd
@@ -85,8 +80,7 @@
                 rp-popover-trigger="hover"
                 rp-popover-delay
                 l10n-rp-popover-content="Balance<br>{{ component | rpamount:{precision: 30, rel_min_precision: -2, hard_precision: true} }} {{ entry.total | rpcurrency }}"
-                )
-                {{ component | rpamount:{tiny_precision: 3} }}
+                ) {{ component | rpamount:{tiny_precision: 3} }}
 
     div.widget_loader(ng-hide="balances")
       img(src="img/sections.png", class="loader")
