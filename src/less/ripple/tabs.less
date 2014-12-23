@@ -100,7 +100,12 @@
 }
 
 #t-register, #t-login, #t-recover, #t-account, #t-migrate {
-
+  a {
+    text-decoration: none;
+    &:hover, &:focus {
+      text-decoration: none;
+    }
+  }
   .rippleName {
     font-size: 18px;
   }
@@ -111,6 +116,10 @@
     font-size: 12px;
     margin-right: auto;
     margin-left: auto;
+    text-decoration: none;
+    &:hover {
+      color:  @midgray;
+    }
   }
 
   a.recover-btn {
