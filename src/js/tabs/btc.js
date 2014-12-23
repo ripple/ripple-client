@@ -58,15 +58,14 @@ BtcTab.prototype.angular = function (module)
       fields.rippleAddress = $id.account;
       fields.email = $scope.userBlob.data.email;
  
-      $scope.loading = true;
-
       keychain.requestSecret($id.account, $id.username, function (err, secret) {
         if (err) {
           console.log("client: trust profile: error while " +
             "unlocking wallet: ", err);
           $scope.mode = "error";
           $scope.error_type = "unlockFailed";
-          $scope.loading = false;
+          $scope.load_notification('error');
+  
           return;
         }
 
@@ -83,8 +82,8 @@ BtcTab.prototype.angular = function (module)
           if (err) {
             console.log('Error', err);
             $scope.emailError = true;
-            $scope.loading = false;
             $scope.btcConnected = false;
+            $scope.load_notification('error');
 
             rpTracker.track('B2R SignUp', {
               result: 'failed',
@@ -100,9 +99,8 @@ BtcTab.prototype.angular = function (module)
           rpTracker.track('B2R SignUp', {
             result: 'success'
           });
-          $scope.loading = false;
 
-          console.log('success');
+          $scope.load_notification('success');
 
           $scope.btcConnected = true;
           $scope.showInstructions = true;

@@ -13,11 +13,13 @@ section.col-xs-12.content(ng-controller='BtcCtrl')
   div(ng-show="!loadingAccount && !account.Balance && loadState.account && connected")
     include banner/unfunded
 
-  group.connected(ng-show="btcConnected && loading")
-    .row
-      .col-xs-12
-        .alert.alert-success
-          | Success! You can deposit BTC via your generated BTC receiving address.
+  group.mode-granted.wide(ng-show='notif !== "clear"')
+    group(ng-switch on="notif")
+      group.result-success(ng-switch-when="success")
+        h2.tx-status(l10n) Success! You can deposit BTC via your generated BTC receiving address.
+      group.result-error(ng-switch-when="error")
+        h2.tx-status(l10n) There was an error with your request.&#32;
+          p(l10n) Please try again later.
 
   .row(ng-show='connected')
     .col-sm-3
