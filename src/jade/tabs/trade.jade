@@ -558,30 +558,14 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                 .col-md-12.alert.alert-danger(ng-show="editOrder.replaceError && editOrder.seq == entry.seq")
                   span(l10n) Your order could not be modified. Error: {{order[editOrder.type].engine_result_message}}
                   a.dismiss.pull-right(href="", ng-click="editOrder.replaceError = false", l10n) X
-              .row(ng-hide="isEmpty(offers)")
-                .col-md-10
-                .col-md-2
-                  rp-popup
-                    a(href="", rp-popup-link, l10n, class="pull-right btn btn-cancel btn-a") cancel all
-                    .rp-modal(rp-popup-content)
-                      .modal-header
-                        .navbar-brand.hidden-xs.modal-logo#logo
-                        .modal-title(l10n) TRADE CONFIRMATION
-                      .modal-body
-                        div.modal-prompt(l10n)
-                          div(l10n-inc) Please confirm that you wish to cancel all orders.
-                        div.modal-buttons
-                          button.modal-btn.btn.btn-default.btn-success.btn-md(data-dismiss="modal", ng-click="cancel_all_orders()")
-                            span(l10n) Cancel all orders
-                          button.modal-btn.btn.btn-cancel.btn-md.btn-cancel(data-dismiss="modal", ng-hide="loading", l10n) back
             .emptyMessage(ng-show="isEmpty(offers) && ! editOrder.replacing")
               p.rp-base(l10n) No current orders. 
                 a(l10n, href="", ng-click="view_orders_history()") View orders history
           h3
-            .my-orders-title(l10n) Orderbook
-              small.toggle.orderbook-hide(ng-click="hideOrderBook = !hideOrderBook")
-                span(ng-show="hideOrderBook", l10n) show
-                span(ng-hide="hideOrderBook", l10n) hide
+            span(l10n) Orderbook
+            small.toggle(ng-click="hideOrderBook = !hideOrderBook")
+              span(ng-show="hideOrderBook", l10n) show
+              span(ng-hide="hideOrderBook", l10n) hide
           div(ng-hide="hideOrderBook")
             .row.row-padding-small.orderbookupdate(ng-show="lastUpdate")
               .col-xs-12.text-right(l10n) Last updated
@@ -589,6 +573,12 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                 span(ng-show="lastUpdate > '1'", l10n-inc)  seconds
                 span(ng-show="lastUpdate == '1'", l10n-inc)  second
                 |  ago
+        div.orderbook-wrapper(ng-if="order.valid_settings", ng-hide="hideOrderBook")
+          group.disconnected(ng-hide="!load_orderbook")
+            div(id="orderbook_loader")
+              img(src="img/sections.png", class="loader")
+              div(class="loading_sections", l10n) Loading Order Book
+          .orderlists(ng-class="load_orderbook ? 'loading' : ' '")
             .listings.orders
               //- TODO hide one column (size/sum) to show bids/ask in the same line for mobile phones.
               //- TODO highlight changes
