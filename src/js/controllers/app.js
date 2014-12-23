@@ -10,14 +10,15 @@ var util = require('util'),
     genericUtils = require('../util/generic'),
     Amount = ripple.Amount;
 
-var module = angular.module('app', []);
+angular
+  .module('app', [])
+  .controller('AppCtrl', AppCtrl);
 
-module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
-                              'rpKeychain', 'rpTxQueue', 'rpAppManager', 'rpTracker',
-                              '$location', '$timeout', 'rpHistory',
-                              function ($scope, $compile, $id, $net,
-                                        keychain, txQueue, appManager, rpTracker,
-                                        $location, $timeout, rpHistory)
+AppCtrl.$inject = ['$rootScope', 'rpId', 'rpNetwork', 'rpKeychain', 'rpTxQueue',
+  'rpAppManager', 'rpTracker', '$timeout', 'rpHistory'];
+
+function AppCtrl ($scope, $id, $net, keychain, txQueue, appManager, rpTracker,
+                  $timeout, rpHistory)
 {
   reset();
 
@@ -28,12 +29,10 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
   store.set('announcement', false);
   $scope.showAnnouncement = store.get('announcement');
 
-  //if('undefined' === typeof $scope.showAnnouncement) $scope.showAnnouncement = true;
-  //
-  //$scope.dismissBanner = function() {
-  //  store.set('announcement', false);
-  //  $scope.showAnnouncement = store.get('announcement');
-  //};
+  $net.listenId($id);
+  $net.init();
+  $id.init();
+  appManager.init();
 
   // Global reference for debugging only (!)
   if ("object" === typeof rippleclient) {
@@ -701,11 +700,6 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
     removeFirstConnectionListener();
   }
 
-  $net.listenId($id);
-  $net.init();
-  $id.init();
-  appManager.init();
-
   $scope.logout = function () {
     $id.logout();
     location.reload();
@@ -788,4 +782,4 @@ module.controller('AppCtrl', ['$rootScope', '$compile', 'rpId', 'rpNetwork',
   this.updateRippleBalance    =  updateRippleBalance;
   this.compare                =  compare;
   this.handleFirstConnection  =  handleFirstConnection;
-}]);
+};
