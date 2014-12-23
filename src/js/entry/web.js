@@ -121,7 +121,11 @@ var tabs = tabdefs.map(function (Tab) {
   return tab;
 });
 
-var app = angular.module('rp', appDependencies);
+var app = angular
+  .module('rp', appDependencies)
+  .config(Config)
+  .run(Run)
+  .factory('$exceptionHandler', ExceptionHandler);
 
 // Global reference for debugging only (!)
 var rippleclient = window.rippleclient = {};
@@ -131,7 +135,9 @@ rippleclient.types = types;
 // Install basic page template
 angular.element('body').prepend(require('../../jade/client/index.jade')());
 
-app.config(['$routeProvider', '$injector', function ($routeProvider, $injector) {
+Config.$inject = ['$routeProvider', '$injector'];
+
+function Config ($routeProvider, $injector) {
   // Set up routing for tabs
   _.each(tabs, function (tab) {
     if ("function" === typeof tab.generateHtml) {
@@ -183,10 +189,12 @@ app.config(['$routeProvider', '$injector', function ($routeProvider, $injector) 
   });
 
   $routeProvider.otherwise({redirectTo: '/404'});
-}]);
+};
 
-app.run(['$rootScope', '$injector', '$compile', '$route', '$routeParams', '$location', '$document', 'rpId',
-         function ($rootScope, $injector, $compile, $route, $routeParams, $location, $document, id)
+Run.$inject = ['$rootScope', '$injector', '$compile', '$route',
+  '$routeParams', '$location', '$document', 'rpId'];
+
+function Run ($rootScope, $injector, $compile, $route, $routeParams, $location, $document, id)
 {
   $rootScope.productName = 'Ripple Trade';
 
@@ -233,16 +241,18 @@ app.run(['$rootScope', '$injector', '$compile', '$route', '$routeParams', '$loca
       }
     });
   });
-}]);
+};
 
 // Track uncaught exceptions
-app.factory('$exceptionHandler', ['$injector', function($injector) {
+ExceptionHandler.$inject = ['$injector'];
+
+function ExceptionHandler ($injector) {
   return function(exception, cause) {
     var $log = $injector.get('$log');
     $log.error.apply($log,arguments);
     $injector.get('rpTracker').trackError('Uncaught Exception', exception);
   };
-}]);
+};
 
 // Some backwards compatibility
 if (!Options.blobvault) {
