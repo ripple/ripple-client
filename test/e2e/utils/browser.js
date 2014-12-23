@@ -13,7 +13,11 @@ exports.waitForElement = function (part) {
 };
 
 exports.waitForElementToDisplay = function (part) {
-  return browser.wait(part.isDisplayed);
+  return browser.wait(function () {
+    return part.isPresent();
+  }).then(function() {
+    return browser.wait(part.isDisplayed);
+  });
 };
 
 exports.waitForElementToBecameAvailable = function (part) {
@@ -23,3 +27,4 @@ exports.waitForElementToBecameAvailable = function (part) {
     });
   });
 };
+
