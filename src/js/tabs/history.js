@@ -253,7 +253,7 @@ HistoryTab.prototype.angular = function (module) {
               dateMax = event.date;
           }
 
-          var affectedCurrencies = _.map(event.affected_currencies, function (currencyCode) {
+          var affectedCurrencies = _.map(event.affectedCurrencies, function (currencyCode) {
             return ripple.Currency.from_json(currencyCode).to_human();
           });
 
@@ -274,7 +274,7 @@ HistoryTab.prototype.angular = function (module) {
             return;
 
           // Currency filter
-          //if ($scope.filters.currencies_is_active && _.intersection(currencies,event.affected_currencies).length <= 0)
+          //if ($scope.filters.currencies_is_active && _.intersection(currencies,event.affectedCurrencies).length <= 0)
           //  return;
 
           var effects = [];
@@ -356,7 +356,7 @@ HistoryTab.prototype.angular = function (module) {
           //if (event.transaction)
           //  $scope.typeUsage[event.transaction.type] = $scope.typeUsage[event.transaction.type] ? $scope.typeUsage[event.transaction.type]+1 : 1;
 
-          //event.affected_currencies.forEach(function(currency){
+          //event.affectedCurrencies.forEach(function(currency){
           //  $scope.currencyUsage[currency] = $scope.currencyUsage[currency]? $scope.currencyUsage[currency]+1 : 1;
           //});
         });

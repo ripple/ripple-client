@@ -3,52 +3,52 @@ exports.stripRippleAddress = function (addr)
 {
   if(typeof(addr)=='string')
   {
-    var index=addr.indexOf("?");
-    if(index>=0)
+    var index=addr.indexOf('?');
+    if (index >= 0)
     {
-      return(addr.slice(0,index));
+      return(addr.slice(0, index));
     }
   }
-  return(addr);
+  return addr;
 };
 //returns the destination tag of an address if there is one
 exports.getDestTagFromAddress = function (addr)
 {
-  var index=addr.indexOf("?");
-  if(index>=0)
+  var index=addr.indexOf('?');
+  if(index >= 0)
   {
     addr=addr.slice(index,addr.length);
-    index=addr.indexOf("dt=");
-    if(index>=0)
+    index=addr.indexOf('dt=');
+    if(index >= 0)
     {
       addr=addr.slice(index+3,addr.length);
-      index=addr.indexOf("&");
-      if(index>0) return( addr.slice(0,index) );
-      else return(addr);
+      index=addr.indexOf('&');
+      if(index > 0) return( addr.slice(0, index) );
+      else return addr;
     }
-    index=addr.indexOf("d=");
+    index=addr.indexOf('d=');
     if(index>=0)
     {
       addr=addr.slice(index+2,addr.length);
-      index=addr.indexOf("&");
-      if(index>0) return( addr.slice(0,index) );
-      else return(addr);
+      index=addr.indexOf('&');
+      if(index > 0) return( addr.slice(0, index) );
+      else return addr;
     }
   }
-  return(undefined);
+  return undefined;
 };
 
 exports.removeClassPrefix = function (el, group)
 {
   var $el = $(el);
-  var classes = $el.attr("class");
+  var classes = $el.attr('class');
 
   if (!classes || !classes.length) return;
 
-  classes = classes.split(" ").map(function(item) {
-    return item.indexOf(group) === 0 ? "" : item;
+  classes = classes.split(' ').map(function(item) {
+    return item.indexOf(group) === 0 ? '' : item;
   });
-  $el.attr("class", classes.join(" "));
+  $el.attr('class', classes.join(' '));
 };
 
 /**
@@ -57,7 +57,7 @@ exports.removeClassPrefix = function (el, group)
  * @example
  *   $.get('http://acme.com/')
  *    .success(...)
- *    .error(webutil.getAjaxErrorHandler(callback, "Acme GET"));
+ *    .error(webutil.getAjaxErrorHandler(callback, 'Acme GET'));
  */
 exports.getAjaxErrorHandler = function (callback, context)
 {
@@ -65,16 +65,16 @@ exports.getAjaxErrorHandler = function (callback, context)
   {
     switch (type) {
       case 'timeout':
-        message = "The request timed out.";
+        message = 'The request timed out.';
         break;
       case 'notmodified':
-        message = "The request was not modified but was not retrieved from the cache.";
+        message = 'The request was not modified but was not retrieved from the cache.';
         break;
       case 'parsererror':
-        message = "XML/Json format is bad.";
+        message = 'XML/Json format is bad.';
         break;
       default:
-        message = "HTTP Error (" + request.status + " " + request.statusText + ").";
+        message = 'HTTP Error (' + request.status + ' ' + request.statusText + ').';
     }
     callback(new Error(message));
   };
@@ -82,7 +82,7 @@ exports.getAjaxErrorHandler = function (callback, context)
 
 exports.scrollToTop = function ()
 {
-  $("html, body").animate({ scrollTop: 0 }, "fast");
+  $('html, body').animate({ scrollTop: 0 }, 'fast');
 };
 
 exports.findIssuer= function(lines, currency)
@@ -187,7 +187,7 @@ exports.queryFromContacts = function (contacts)
 exports.queryFromOptions = function (options)
 {
   var opts = _.map(options, function (entry) {
-    if ("object" === typeof entry || "string" === typeof entry ) {
+    if ('object' === typeof entry || 'string' === typeof entry ) {
       return entry;
     } else {
       return null;
@@ -199,11 +199,11 @@ exports.queryFromOptions = function (options)
 exports.queryFromOptionsIncludingKeys = function (options)
 {
   var opts = _.map(options, function (entry) {
-    if ("object" === typeof entry &&
-        entry.value && "string" === typeof entry.value && entry.name && "string" === typeof entry.name)
+    if ('object' === typeof entry &&
+        entry.value && 'string' === typeof entry.value && entry.name && 'string' === typeof entry.name)
     {
-      return entry.value + " - " + entry.name;
-    } else if ("object" === typeof entry || "string" === typeof entry) {
+      return entry.value + ' - ' + entry.name;
+    } else if ('object' === typeof entry || 'string' === typeof entry) {
       return entry;
     } else {
       return null;
@@ -223,7 +223,7 @@ exports.queryFromArray = function (options)
   return function (match, re) {
     if (re instanceof RegExp) {
       return options.filter(function (item) {
-        return "string" === typeof item
+        return 'string' === typeof item
           ? item.match(re)
           : (item.name ? item.name.match(re) : false);
       });
@@ -238,7 +238,7 @@ exports.queryFromArray = function (options)
  */
 exports.escapeRegExp = function (str)
 {
-  return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+  return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&');
 };
 
 /**
