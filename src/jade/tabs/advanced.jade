@@ -8,6 +8,9 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
       .alert.alert-success(ng-show="success.saveBlob", l10n) Your blob vault has been changed successfully.
       .alert.alert-success(ng-show="success.saveBridge", l10n) Your bitcoin bridge has been changed successfully.
       .alert.alert-success(ng-show="success.saveAcctOptions", l10n) Trustline advanced settings has been changed successfully.
+      .alert.alert-success(ng-show="success.saveConfirmation.send", l10n) Send confirmation settings has been changed successfully.
+      .alert.alert-success(ng-show="success.saveConfirmation.exchange", l10n) Trade (simple) confirmation settings has been changed successfully.
+      .alert.alert-success(ng-show="success.saveConfirmation.trade", l10n) Trade (advanced) confirmation settings has been changed successfully.
       .alert.alert-success(ng-show="success.saveMaxNetworkFee", l10n) Maximum network fee has been changed successfully.
       .alert.alert-success(ng-show="success.addServer && success.saveServer", l10n) A new server has been successfully added.
       .alert.alert-success(ng-show="success.removeServer", l10n) A server has been successfully removed.
@@ -55,6 +58,34 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
               button.btn.btn-block.btn-danger.btn-xs.submit#deleteBridge(type="button", ng-click="deleteBridge()", l10n) Delete
             .col-xs-3.col-sm-3.col-md-1.text-center#cancel
               a.btn.btn-cancel.btn-block(href="", ng-click="cancelEditBridge()", l10n) cancel
+        mixin confirmation(transactionType, formName, formDescriptor, boxName)
+          form(name=formName, ng-submit='saveConfirmation("'+transactionType+'")')
+            .descriptor(l10n)= formDescriptor
+            .row.advanced-form-row(ng-hide='editConfirmation.'+transactionType)
+              .col-xs-9.col-sm-8.col-md-6
+                .description(ng-show='options.confirmation.'+transactionType, l10n) Show
+                .description(ng-hide='options.confirmation.'+transactionType, l10n) Hide
+              .col-xs-1
+              .col-xs-3.col-sm-3.col-md-2
+                a.btn.btn-cancel.btn-block(href='', ng-click='editConfirmation.'+transactionType+' = true', l10n) edit
+            .row.row-padding-small.edit-trust-line(ng-show='editConfirmation.'+transactionType)
+              .col-xs-9.col-sm-8.col-md-6
+                div.helperInput
+                  label
+                    input(type='checkbox', name=boxName
+                    ng-model='options.confirmation.'+transactionType
+                    ng-click='confirmationChanged.'+transactionType+' = true')
+                    span(l10n) Show
+              .col-xs-6.col-sm-6.col-md-3
+                button.btn.btn-block.btn-success.btn-xs.submit#save(type='submit'
+                ng-disabled='serverForm.$invalid', l10n) Save
+              .col-xs-3(ng-show='hasRemove()')
+                button.btn.btn-block.btn-danger.btn-xs.submit#delete(type="button", ng-click="remove()", ng-show="hasRemove()", l10n) Delete
+              .col-xs-3.col-sm-3.col-md-2.text-center#cancel
+                a.btn.btn-cancel.btn-block(href="", ng-click='cancelEditConfirmation("'+transactionType+'")', l10n) cancel
+        +confirmation('send', 'sendConfirmationForm', 'Send confirmation page', 'sendConfirmationBox')
+        +confirmation('exchange', 'exchangeConfirmationForm', 'Exchange confirmation page', 'exchangeConfirmationBox')
+        +confirmation('trade', 'tradeConfirmationForm', 'Trade confirmation page', 'tradeConfirmationBox')
         form.trust-line-form(name="accountsAdvForm", ng-submit="saveAcctOptions()")
           .descriptor(l10n) Trust line
           .row.advanced-form-row(ng-hide="editAcctOptions")

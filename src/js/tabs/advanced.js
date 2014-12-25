@@ -41,7 +41,14 @@ AdvancedTab.prototype.angular = function(module)
     $scope.editMaxNetworkFee = false;
     $scope.editAcctOptions = false;
     $scope.max_tx_network_fee_human = ripple.Amount.from_json($scope.options.max_tx_network_fee).to_human();
+    // TODO: refactor to use factory for checkbox-style settings
+    // e.g. advanced feature switch & transaction confirmation
     $scope.advancedFeatureSwitchChanged = false;
+    $scope.confirmationChanged = {
+      send: false,
+      exchange: false,
+      trade: false
+    };
 
     // Initialize the notification object
     $scope.success = {};
@@ -89,6 +96,24 @@ AdvancedTab.prototype.angular = function(module)
       $scope.success.saveMaxNetworkFee = true;
     };
 
+    $scope.saveConfirmation = function (transactionType) {
+      //ignore it if we are not going to change anything
+      if (!$scope.confirmationChanged[transactionType]) {
+        return;
+      }
+      $scope.confirmationChanged[transactionType] = false;
+
+      if (!store.disabled) {
+        // Save in local storage
+        store.set('ripple_settings', JSON.stringify($scope.options));
+      }
+
+      $scope.editConfirmation[transactionType] = false;
+
+      // Notify the user
+      $scope.success.saveConfirmation[transactionType] = true;
+    };
+
     $scope.saveAcctOptions = function () {
       //ignore it if we are not going to change anything
       if (!$scope.advancedFeatureSwitchChanged) {
@@ -133,6 +158,11 @@ AdvancedTab.prototype.angular = function(module)
     $scope.cancelEditBridge = function () {
       $scope.editBridge = false;
       $scope.options.bridge.out.bitcoin = $scope.optionsBackup.bridge.out.bitcoin;
+    };
+
+    $scope.cancelEditConfirmation = function (transactionType) {
+      $scope.editConfirmation[transactionType] = false;
+      $scope.options.confirmation[transactionType] = $scope.optionsBackup.confirmation[transactionType];
     };
 
     $scope.cancelEditMaxNetworkFee = function () {

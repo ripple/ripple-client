@@ -269,7 +269,11 @@ ExchangeTab.prototype.angular = function (module)
         // compute network fee
         $scope.networkFee = network.remote.transaction()._computeFee();
 
-        $scope.mode = 'confirm';
+        if (Options.confirmation.exchange) {
+          $scope.mode = 'confirm';
+        } else {
+          $scope.exchange_confirmed();
+        }
       };
 
       /**

@@ -414,8 +414,6 @@ TradeTab.prototype.angular = function(module)
      */
     // TODO type is this....
     $scope.place_order = function (type) {
-      $scope.order[type].mode = 'confirm';
-
       if (type === 'buy') {
         $scope.order.buy.sell_amount = $scope.order.buy.second_amount;
         $scope.order.buy.buy_amount = $scope.order.buy.first_amount;
@@ -431,6 +429,12 @@ TradeTab.prototype.angular = function(module)
         'Currency pair': $scope.order.currency_pair,
         'Address': $scope.userBlob.data.account_id
       });
+
+      if (Options.confirmation.trade) {
+        $scope.order[type].mode = "confirm";
+      } else {
+        $scope.order_confirmed(type, $scope.order.currency_pair)
+      }
     };
 
     /**

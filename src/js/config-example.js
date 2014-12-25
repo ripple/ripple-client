@@ -72,6 +72,13 @@ var Options = {
   // Set max number of rows for orderbook
   orderbook_max_rows: 20,
 
+  // Show transaction confirmation page
+  confirmation: {
+    send: true,
+    exchange: true,
+    trade: true
+  },
+
   // Show advanced parameters in the trust/gateway page
   advanced_feature_switch: false,
 
