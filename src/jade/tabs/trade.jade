@@ -383,20 +383,20 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
             span &#32;({{offersCount}})
             small.toggle(ng-hide="isEmpty(offers)", ng-click="hideOffers = !hideOffers") {{hideOffers ? "show" : "hide"}}
           div#myOrdersMsg
+          group.mode-granted.wide(ng-show='notif !== "clear"')
+            group(ng-switch on="notif")          
+              group.pending(ng-switch-when="verifying")
+                h2.tx-status(l10n) Verifying your information. Please wait...
+              group.result-success(ng-switch-when="replace_success")
+                h2.tx-status(l10n) Your order has been modified.
+              group.result-success(ng-switch-when="cancel_success")
+                h2.tx-status(l10n) Your order &#35;{{ cancelOrder.seq }} has been cancelled.
+              group.result-error(ng-switch-when="replace_error_gone")
+                h2.tx-status(l10n) Your order could not be modified and no longer exists. Error: {{order[editOrder.type].engine_result_message}}
+              group.result-error(ng-switch-when="cancel_order_gone")
+                h2.tx-status(l10n) Unable to cancel order as it no longer exists.
           .col-sm-12.alert.alert-info(ng-show="editOrder.replacing")
             span(l10n) Modifying your order (Placing new order) ...
-          .col-sm-12.alert.alert-success(ng-show="editOrder.replaceSuccess")
-            span(l10n) Your order has been modified.
-            a.dismiss.pull-right(href="", ng-click="editOrder.replaceSuccess = false", l10n) X
-          .col-sm-12.alert.alert-danger(ng-show="editOrder.replaceError && ! editOrder.exists")
-            span(l10n) Your order could not be modified and no longer exists. Error: {{order[editOrder.type].engine_result_message}}
-            a.dismiss.pull-right(href="", ng-click="editOrder.replaceError = false", l10n) X
-          .col-sm-12.alert.alert-danger(ng-show="editOrder.cancelOrderGone")
-            span(l10n) Unable to cancel order as it no longer exists.
-            a.dismiss.pull-right(href="", ng-click="dismissCancelError()", l10n) X
-          .col-sm-12.alert.alert-success(ng-show="cancelOrder.success")
-            span(l10n) Your order &#35;{{ cancelOrder.seq }} has been cancelled.
-            a.dismiss.pull-right(href="", ng-click="cancelOrder.success = false", l10n) X
           .rp-checkbox(ng-hide="hideOffers || isEmpty(offers)")
             label
               input(type="checkbox", name="current_pair_only", ng-model="sort_options.current_pair_only")
@@ -549,15 +549,12 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                         button.btn-link.btn-lg.submit.pull-right.fa.fa-check-circle(
                           type="button", type="submit", ng-click="prepareOrderModify()",
                           ng-disabled="editOrderForm.$invalid || ! editOrder.orderbookReady || editOrder.cancelling || editOrder.replacing || ! (editOrder.priceChanged || editOrder.quantityChanged) || editOrder.quantityFilled", l10n)
-                .col-md-12.alert.alert-danger(ng-show="entry.errorMsg")
+                .col-md-12.alert.alert-danger(ng-show="notif === 'cancel_error'")
                   span(l10n) Unable to cancel order. Error: {{entry.errorMsg}}
-                  a.dismiss.pull-right(href="", ng-click="entry.errorMsg = null", l10n) X
-                .col-md-12.alert.alert-warning(ng-show="editOrder.quantityFilledWarn && editOrder.seq == entry.seq")
+                .col-md-12.alert.alert-warning(ng-show="editOrder.seq == entry.seq && notif === 'quantity_filled_warn'")
                   span(l10n) Your order amount has been updated by Ripple. Please go back and edit again to modify this order.
-                  a.dismiss.pull-right(href="", ng-click="editOrder.quantityFilledWarn = false", l10n) X
-                .col-md-12.alert.alert-danger(ng-show="editOrder.replaceError && editOrder.seq == entry.seq")
+                .col-md-12.alert.alert-danger(ng-show="editOrder.seq == entry.seq && notif === 'replace_error'")
                   span(l10n) Your order could not be modified. Error: {{order[editOrder.type].engine_result_message}}
-                  a.dismiss.pull-right(href="", ng-click="editOrder.replaceError = false", l10n) X
             .emptyMessage(ng-show="isEmpty(offers) && ! editOrder.replacing")
               p.rp-base(l10n) No current orders. 
                 a(l10n, href="", ng-click="view_orders_history()") View orders history

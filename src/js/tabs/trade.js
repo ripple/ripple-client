@@ -1,3 +1,9 @@
+
+(function (module) {
+'use strict';
+
+/* global ripple: false, angular: false, _: false, jQuery: false, store: false, Options: false */
+
 var util = require('util');
 var webutil = require('../util/web');
 var Tab = require('../client/tab').Tab;
@@ -29,15 +35,20 @@ TradeTab.prototype.extraRoutes = [
 
 TradeTab.prototype.angular = function(module)
 {
-  module.controller('TradeCtrl', ['rpBooks', '$scope', 'rpId', 'rpNetwork',
+  module.controller('TradeCtrl', TradeCtrl);
+
+  TradeCtrl.$inject = ['rpBooks', '$scope', 'rpId', 'rpNetwork',
                                   '$routeParams', '$location', '$filter',
                                   'rpTracker', 'rpKeychain', '$rootScope',
-                                  'rpPopup', '$anchorScroll', '$timeout',
-                                  function (books, $scope, id, $network,
-                                            $routeParams, $location, $filter,
-                                            $rpTracker, keychain, $rootScope,
-                                            popup, $anchorScroll ,$timeout)
+                                  'rpPopup', '$anchorScroll', '$timeout'];
+
+  function TradeCtrl(books, $scope, id, $network,
+                     $routeParams, $location, $filter,
+                     $rpTracker, keychain, $rootScope,
+                     popup, $anchorScroll ,$timeout)
   {
+    window.rootScope = $rootScope;
+
     $scope.sort_options = {
       current_pair_only: false,
       sort_field: 'type',
@@ -68,8 +79,7 @@ TradeTab.prototype.angular = function(module)
     $scope.fatFingerErr = false;
 
     $scope.cancelOrder = {
-      seq: null,
-      success: false
+      seq: null
     };
 
     // Details for an order that is edited and sent to Ripple for modification
@@ -85,15 +95,10 @@ TradeTab.prototype.angular = function(module)
       newQuantity: '',
       quantityChanged: false,
       quantityFilled: false,
-      quantityFilledWarn: false,
       fatFingerWarn: false,
       editing: false,
       cancelling: false,
-      cancelOrderGone: false,
-      exists: true,
       replacing: false,
-      replaceSuccess: false,
-      replaceError: false,
       orderbookReady: false,
       ccyPair: null,
       buy_amount: null,
@@ -119,20 +124,20 @@ TradeTab.prototype.angular = function(module)
     var MIXPNL_MODIFY_EVENT = 'Modify order result';
 
     // Scroll to the location where alert messages will be displayed
-    var scrollToMessages = function() {
+    function scrollToMessages() {
       var jqElem = jQuery('#myOrdersMsg');
       if (jqElem[0]) $timeout(function(){ jqElem[0].scrollIntoView(true); });
-    };
+    }
 
     // Format a Ripple Amount for editing by the user
-    var formatForEdit = function(amount) {
+    function formatForEdit(amount) {
       var formatted = $filter('rpamount')(amount, {group_sep:false, hard_precision:true, max_sig_digits:20});
 
       return formatted;
-    };
+    }
 
     // Create a Ripple Amount from primitives
-    var createAmount = function(value, currency, issuer) {
+    function createAmount(value, currency, issuer) {
       var ccy = currency || Currency.from_json("XRP");
       var formatted = "" + value + " " + (ccy.has_interest() ? ccy.to_hex() : ccy.get_iso());
 
@@ -140,7 +145,7 @@ TradeTab.prototype.angular = function(module)
       if (! ccy.is_native()) amount.set_issuer(issuer);
 
       return amount;
-    };
+    }
 
     // Set state of whether an order's price has been edited by the user
     $scope.priceEdited = function() {
@@ -215,11 +220,11 @@ TradeTab.prototype.angular = function(module)
       }
     };
 
-    var checkBeforeModify = function() {
+    function checkBeforeModify() {
       // Check if the price is far from the current market price. If so, ask user for confirmation, otherwise proceed.
       $scope.editOrder.fatFingerWarn = $scope.fatFingerCheck($scope.editOrder.type, $scope.editOrder.newPrice);
       if (! $scope.editOrder.fatFingerWarn) $scope.modifyOrder();
-    };
+    }
 
     // Start the order modification with 1st of 2 transactions
     $scope.modifyOrder = function() {
@@ -233,10 +238,10 @@ TradeTab.prototype.angular = function(module)
         // but a two stage method is utilized instead to minimize the risk of the problem detected by the
         // qtyChangedOnDeleted function. (JIRA: RT-1214)
       }
-    };
+    }
 
     // Step 1 of modification was successful, start 2nd of 2 transactions
-    var createAfterCancel = function(qtyChanged) {
+    function createAfterCancel(qtyChanged) {
       $scope.editOrder.cancelling = false;
       $scope.editOrder.seq = null;
 
@@ -247,30 +252,33 @@ TradeTab.prototype.angular = function(module)
 
         $scope.order_confirmed($scope.editOrder.type, $scope.editOrder.ccyPair, $scope.editOrder, true, createOrderSuccess, createOrderError);
       }
-    };
+    }
 
     // Step 1 of modification failed, so abort
-    var cancelOrderError = function() {
+    function cancelOrderError() {
       $scope.editOrder.cancelling = false;
 
-      if (! $scope.offers[$scope.editOrder.seq]) $scope.editOrder.cancelOrderGone = true;
-    };
+      if (! $scope.offers[$scope.editOrder.seq]) {
+        $rootScope.load_notification('cancel_order_gone');
+        $scope.cancelOrder.seq = null;
+      }
+    }
 
     // Step 2 of modification was successful and is complete
-    var createOrderSuccess = function(seq) {
+    function createOrderSuccess(seq) {
       $scope.editOrder.replacing = false;
-      $scope.editOrder.replaceSuccess = true;
+      $rootScope.load_notification('replace_success');
       $scope.editOrder.seq = null;
       $scope.editOrder.type = null;
-    };
+    }
 
     // Step 2 of modification failed
-    var createOrderError = function() {
+    function createOrderError() {
       $scope.editOrder.replacing = false;
-      $scope.editOrder.replaceError = true;
+      $rootScope.load_notification('replace_error');
 
-      if (! $scope.offers[$scope.editOrder.seq]) $scope.editOrder.exists = false;
-    };
+      if (! $scope.offers[$scope.editOrder.seq]) $rootScope.load_notification('replace_error_gone');
+    }
 
     // Reset all fields for no order being edited
     $scope.cancelEditOrder = function() {
@@ -287,15 +295,10 @@ TradeTab.prototype.angular = function(module)
       $scope.editOrder.oldQuantityDisp = '';
       $scope.editOrder.newQuantity = '';
 
-      $scope.editOrder.cancelOrderGone = false;
       $scope.editOrder.quantityFilled = false;
-      $scope.editOrder.quantityFilledWarn = false;
       $scope.editOrder.fatFingerWarn = false;
 
       $scope.editOrder.editing = false;
-      $scope.editOrder.exists = true;
-      $scope.editOrder.replaceSuccess = false;
-      $scope.editOrder.replaceError = false;
 
       $scope.editOrder.ccyPair = null;
       $scope.editOrder.buy_amount = null;
@@ -494,7 +497,7 @@ TradeTab.prototype.angular = function(module)
         }
         else {
           $scope.cancelOrder.seq = cancelOrder.seq;
-          $scope.cancelOrder.success = true;
+          $rootScope.load_notification('cancel_success');
           scrollToMessages();
 
           if (successCb) successCb();
@@ -508,8 +511,9 @@ TradeTab.prototype.angular = function(module)
 
       tx.on('error', function (err) {
 
-        if ($scope.offers[cancelOrder.seq]) $scope.offers[cancelOrder.seq].cancelling = false;
+        cancelOrder.cancelling = false;
         cancelOrder.errorMsg = err.engine_result_message;
+        $rootScope.load_notification('cancel_error');
 
         if (errorCb) errorCb();
 
@@ -530,7 +534,7 @@ TradeTab.prototype.angular = function(module)
       keychain.requestSecret(id.account, id.username, function (err, secret) {
         if (err) {
           //err should equal 'canceled' here, other errors are not passed through
-          if ($scope.offers[cancelOrder.seq]) $scope.offers[cancelOrder.seq].cancelling = false;
+          cancelOrder.cancelling = false;
           return;
         }
 
@@ -538,8 +542,8 @@ TradeTab.prototype.angular = function(module)
         tx.submit();
       });
 
-      $scope.offers[cancelOrder.seq].cancelling = true;
-    };
+      cancelOrder.cancelling = true;
+    }
 
     $scope.dismissCancelError = function() {
       $scope.cancelOrder.seq = null;
@@ -1423,7 +1427,7 @@ TradeTab.prototype.angular = function(module)
               $scope.editOrder.newQuantity = formatForEdit(newQty);
               $scope.editOrder.quantityChanged = false;
               $scope.editOrder.quantityFilled = true;
-              $scope.editOrder.quantityFilledWarn = true;
+              $rootScope.load_notification('quantity_filled_warn');
             }
           }
         }
@@ -1467,7 +1471,9 @@ TradeTab.prototype.angular = function(module)
         $scope.newBook.unsubscribe();
       }
     });
-  }]);
+  }
 };
 
 module.exports = TradeTab;
+
+})(module);
