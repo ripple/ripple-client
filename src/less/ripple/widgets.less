@@ -184,14 +184,16 @@
 
       rp-market-chart {
         display: block;
-        height: @screen-xs*.4;
-
+        height: @screen-xs;
+        zoom: 0.75;
+        
         @media (min-width: @screen-sm) {
-          height: @screen-sm*.4;
+          height: @screen-sm*.5;
+          zoom: 1;
         }
 
         @media (min-width: @screen-md) {
-          height: @screen-md*.4;
+          height: @screen-md*.5;
         }
 
         @media (min-width: @screen-lg) {
