@@ -47,16 +47,15 @@ TradeTab.prototype.angular = function(module)
                      $rpTracker, keychain, $rootScope,
                      popup, $anchorScroll ,$timeout)
   {
-    window.rootScope = $rootScope;
+    var timer;
 
     $scope.sort_options = {
       current_pair_only: false,
       sort_field: 'type',
       reverse: false
     };
-    var timer;
-    $scope.first_currency_selected = "";
-    $scope.second_currency_selected = "";
+    $scope.first_currency_selected = '';
+    $scope.second_currency_selected = '';
     $scope.load_orderbook = true;
     // Remember user preference on Convert vs. Trade
     $rootScope.ripple_exchange_selection_trade = true;
@@ -138,11 +137,11 @@ TradeTab.prototype.angular = function(module)
 
     // Create a Ripple Amount from primitives
     function createAmount(value, currency, issuer) {
-      var ccy = currency || Currency.from_json("XRP");
-      var formatted = "" + value + " " + (ccy.has_interest() ? ccy.to_hex() : ccy.get_iso());
+      var ccy = currency || Currency.from_json('XRP');
+      var formatted = '' + value + ' ' + (ccy.has_interest() ? ccy.to_hex() : ccy.get_iso());
 
       var amount = Amount.from_human(formatted, {reference_date: new Date(+new Date() + REF_DATE_OFFSET)});
-      if (! ccy.is_native()) amount.set_issuer(issuer);
+      if (!ccy.is_native()) amount.set_issuer(issuer);
 
       return amount;
     }
@@ -191,7 +190,7 @@ TradeTab.prototype.angular = function(module)
 
     // After the user has clicked button/link to confirm the Price and/or Quantity to change
     $scope.prepareOrderModify = function() {
-      if (! ($scope.editOrder.newPrice && $scope.editOrder.newQuantity)) return;
+      if (!($scope.editOrder.newPrice && $scope.editOrder.newQuantity)) return;
 
       var myOrder = this.entry;
       var type = $scope.editOrder.type;
@@ -223,7 +222,7 @@ TradeTab.prototype.angular = function(module)
     function checkBeforeModify() {
       // Check if the price is far from the current market price. If so, ask user for confirmation, otherwise proceed.
       $scope.editOrder.fatFingerWarn = $scope.fatFingerCheck($scope.editOrder.type, $scope.editOrder.newPrice);
-      if (! $scope.editOrder.fatFingerWarn) $scope.modifyOrder();
+      if (!$scope.editOrder.fatFingerWarn) $scope.modifyOrder();
     }
 
     // Start the order modification with 1st of 2 transactions
@@ -245,7 +244,7 @@ TradeTab.prototype.angular = function(module)
       $scope.editOrder.cancelling = false;
       $scope.editOrder.seq = null;
 
-      if (! qtyChanged) {
+      if (!qtyChanged) {
         // Now place new order to replace old (cancelled) order
         $scope.editOrder.replacing = true;
         scrollToMessages();
@@ -258,7 +257,7 @@ TradeTab.prototype.angular = function(module)
     function cancelOrderError() {
       $scope.editOrder.cancelling = false;
 
-      if (! $scope.offers[$scope.editOrder.seq]) {
+      if (!$scope.offers[$scope.editOrder.seq]) {
         $rootScope.load_notification('cancel_order_gone');
         $scope.cancelOrder.seq = null;
       }
@@ -277,7 +276,7 @@ TradeTab.prototype.angular = function(module)
       $scope.editOrder.replacing = false;
       $rootScope.load_notification('replace_error');
 
-      if (! $scope.offers[$scope.editOrder.seq]) $rootScope.load_notification('replace_error_gone');
+      if (!$scope.offers[$scope.editOrder.seq]) $rootScope.load_notification('replace_error_gone');
     }
 
     // Reset all fields for no order being edited
@@ -398,7 +397,7 @@ TradeTab.prototype.angular = function(module)
      */
     // TODO type is this....
     $scope.place_order = function (type) {
-      $scope.order[type].mode = "confirm";
+      $scope.order[type].mode = 'confirm';
 
       if (type === 'buy') {
         $scope.order.buy.sell_amount = $scope.order.buy.second_amount;
@@ -581,7 +580,7 @@ TradeTab.prototype.angular = function(module)
       tx.on('success', function(res) {
         setEngineStatus(res, true, type);
 
-        if (! modifying) order.mode = "done";
+        if (!modifying) order.mode = 'done';
 
         var tx = rewriter.processTxn(res, res.metadata, id.account);
 
@@ -624,7 +623,7 @@ TradeTab.prototype.angular = function(module)
       tx.on('error', function (err) {
         setEngineStatus(err, false, type);
 
-        if (! modifying) order.mode = "done";
+        if (!modifying) order.mode = 'done';
 
         if (errorCb) errorCb();
 
@@ -647,7 +646,7 @@ TradeTab.prototype.angular = function(module)
         if (err) {
 
           //err should equal 'canceled' here, other errors are not passed through
-          if (! modifying) order.mode = 'trade';
+          if (!modifying) order.mode = 'trade';
           return;
         }
 
@@ -656,7 +655,7 @@ TradeTab.prototype.angular = function(module)
 
       });
 
-      if (! modifying) order.mode = "sending";
+      if (!modifying) order.mode = 'sending';
     };
 
     $scope.loadMore = function () {
@@ -700,7 +699,7 @@ TradeTab.prototype.angular = function(module)
                 else if ($scope.editOrder.type === 'sell') cancelledQty = Amount.from_json(delFields.TakerGets);
 
                 // Calculate the difference in qty if order qty changed before cancel
-                if (cancelledQty && ! cancelledQty.equals(oldQty)) changedQty = oldQty.subtract(cancelledQty);
+                if (cancelledQty && !cancelledQty.equals(oldQty)) changedQty = oldQty.subtract(cancelledQty);
               }
               break;  // Found the Cancelled order
             }
@@ -737,18 +736,18 @@ TradeTab.prototype.angular = function(module)
 
       switch (res.engine_result.slice(0, 3)) {
         case 'tes':
-          $scope.tx_result = accepted ? "cleared" : "pending";
+          $scope.tx_result = accepted ? 'cleared' : 'pending';
           break;
         default:
-          $scope.tx_result = "unknown";
-          console.warn("Unhandled engine status encountered!");
+          $scope.tx_result = 'unknown';
+          console.warn('Unhandled engine status encountered!');
       }
     }
 
     $scope.update_first = function (type) {
       var order = $scope.order[type];
-      var first_currency = $scope.order.first_currency || Currency.from_json("XRP");
-      var formatted = "" + order.first + " " + (first_currency.has_interest() ? first_currency.to_hex() : first_currency.get_iso());
+      var first_currency = $scope.order.first_currency || Currency.from_json('XRP');
+      var formatted = '' + order.first + ' ' + (first_currency.has_interest() ? first_currency.to_hex() : first_currency.get_iso());
 
       order.first_amount = ripple.Amount.from_human(formatted, {reference_date: new Date(+new Date() + REF_DATE_OFFSET)});
 
@@ -757,8 +756,8 @@ TradeTab.prototype.angular = function(module)
 
     $scope.update_price = function (type) {
       var order = $scope.order[type];
-      var second_currency = $scope.order.second_currency || Currency.from_json("XRP");
-      var formatted = "" + order.price + " " + (second_currency.has_interest() ? second_currency.to_hex() : second_currency.get_iso());
+      var second_currency = $scope.order.second_currency || Currency.from_json('XRP');
+      var formatted = '' + order.price + ' ' + (second_currency.has_interest() ? second_currency.to_hex() : second_currency.get_iso());
 
       order.price_amount = ripple.Amount.from_human(formatted, {reference_date: new Date(+new Date() + REF_DATE_OFFSET)});
 
@@ -767,8 +766,8 @@ TradeTab.prototype.angular = function(module)
 
     $scope.update_second = function (type) {
       var order = $scope.order[type];
-      var second_currency = $scope.order.second_currency || Currency.from_json("XRP");
-      var formatted = "" + order.second + " " + (second_currency.has_interest() ? second_currency.to_hex() : second_currency.get_iso());
+      var second_currency = $scope.order.second_currency || Currency.from_json('XRP');
+      var formatted = '' + order.second + ' ' + (second_currency.has_interest() ? second_currency.to_hex() : second_currency.get_iso());
 
       order.second_amount = ripple.Amount.from_human(formatted, {reference_date: new Date(+new Date() + REF_DATE_OFFSET)});
 
@@ -850,7 +849,7 @@ TradeTab.prototype.angular = function(module)
 
     // TODO: Remove all hardcoded GBI code eventually
     $scope.$watch('first_currency_selected', function () {
-      $scope.first_issuer_selected = "";
+      $scope.first_issuer_selected = '';
       if($scope.first_currency_selected == 'XRP') {
         $scope.gateway_change_form.first_iss.$setValidity('rpDest', true);
         $scope.disable_first_issuer = true;
@@ -877,7 +876,7 @@ TradeTab.prototype.angular = function(module)
     });
 
     $scope.$watch('second_currency_selected', function () {
-      $scope.second_issuer_selected = "";
+      $scope.second_issuer_selected = '';
       if($scope.second_currency_selected == 'XRP') {
         $scope.gateway_change_form.second_iss.$setValidity('rpDest', true);
         $scope.disable_second_issuer = true;
@@ -904,10 +903,10 @@ TradeTab.prototype.angular = function(module)
     });
 
     $scope.open_custom_currency_selector = function () {
-      $scope.first_currency_selected = "";
-      $scope.first_issuer_selected = "";
-      $scope.second_currency_selected = "";
-      $scope.second_issuer_selected = "";
+      $scope.first_currency_selected = '';
+      $scope.first_issuer_selected = '';
+      $scope.second_currency_selected = '';
+      $scope.second_issuer_selected = '';
       $scope.adding_pair = true;
     }
 
@@ -917,7 +916,7 @@ TradeTab.prototype.angular = function(module)
 
       $scope.order.currency_pair = $scope.first_currency_selected + formattedIssuerFirst + '/' + $scope.second_currency_selected + formattedIssuerSecond;
 
-      $scope.userBlob.unshift("/trade_currency_pairs", {"name": $scope.order.currency_pair});
+      $scope.userBlob.unshift('/trade_currency_pairs', {'name': $scope.order.currency_pair});
       $scope.userBlob.set('/trade_currency_pairs', $scope.pairs_query);
 
       $scope.adding_pair = false;
@@ -934,7 +933,7 @@ TradeTab.prototype.angular = function(module)
         store.set('ripple_trade_currency_pair', pair);
       }
 
-      if ("string" !== typeof pair) pair = "";
+      if ('string' !== typeof pair) pair = '';
       pair = pair.split('/');
 
       // Invalid currency pair
@@ -950,11 +949,11 @@ TradeTab.prototype.angular = function(module)
       var contact_to_address1;
       var contact_to_address2;
 
-      var first_currency_gbi = pair[0].substring(0,13) == "XAU (-0.5%pa)"
+      var first_currency_gbi = pair[0].substring(0,13) == 'XAU (-0.5%pa)'
         ? true
         : false;
 
-      var second_currency_gbi = pair[1].substring(0,13) == "XAU (-0.5%pa)"
+      var second_currency_gbi = pair[1].substring(0,13) == 'XAU (-0.5%pa)'
         ? true
         : false;
 
@@ -973,10 +972,10 @@ TradeTab.prototype.angular = function(module)
       }
 
       if(first_currency.is_native()) {
-        order.first_issuer = "";
+        order.first_issuer = '';
       }
       else {
-        if(pair[0].substring(0,13) == "XAU (-0.5%pa)"){
+        if(pair[0].substring(0,13) == 'XAU (-0.5%pa)'){
           contact_to_address1 = webutil.resolveContact($scope.userBlob.data.contacts, pair[0].substring(14));
         }
         else {
@@ -1019,10 +1018,10 @@ TradeTab.prototype.angular = function(module)
       }
 
       if(second_currency.is_native()) {
-        order.second_issuer = "";
+        order.second_issuer = '';
       }
       else {
-        if(pair[1].substring(0,13) == "XAU (-0.5%pa)"){
+        if(pair[1].substring(0,13) == 'XAU (-0.5%pa)'){
           contact_to_address2 = webutil.resolveContact($scope.userBlob.data.contacts, pair[1].substring(14));
         }
         else {
@@ -1075,12 +1074,12 @@ TradeTab.prototype.angular = function(module)
 
       // Remember pair
       // Produces currency/issuer:currency/issuer
-      var key = "" +
+      var key = '' +
         order.first_currency.to_json() +
-        (order.first_currency.is_native() ? "" : "/" + order.first_issuer) +
-        ":" +
+        (order.first_currency.is_native() ? '' : '/' + order.first_issuer) +
+        ':' +
         order.second_currency._iso_code +
-        (order.second_currency.is_native() ? "" : "/" + order.second_issuer);
+        (order.second_currency.is_native() ? '' : '/' + order.second_issuer);
 
       var changedPair = false;
       // Load orderbook
@@ -1111,7 +1110,7 @@ TradeTab.prototype.angular = function(module)
       if (!order.valid_settings) return;
       if (!order.first_currency || !order.second_currency) return;
       if (!order.first_currency.is_valid() || !order.second_currency.is_valid()) return;
-      var canonical_name = order.first_currency.to_json() + "/" + order.second_currency.to_json();
+      var canonical_name = order.first_currency.to_json() + '/' + order.second_currency.to_json();
 
       // Remember currency pair and set last used time
       var found = false;
@@ -1129,8 +1128,8 @@ TradeTab.prototype.angular = function(module)
 
       if (!found) {
         $scope.pairs_all.unshift({
-          "name": canonical_name,
-          "last_used": new Date().getTime()
+          'name': canonical_name,
+          'last_used': new Date().getTime()
         });
       }
 
@@ -1224,16 +1223,16 @@ TradeTab.prototype.angular = function(module)
         // Persist issuer setting
         if ($scope.order.valid_settings && !$scope.order[prefix + '_currency'].is_native()) {
           if (prefix === 'first') {
-            $scope.userBlob.set("/preferred_issuer/"+
+            $scope.userBlob.set('/preferred_issuer/'+
                                 $scope.userBlob.escapeToken($scope.order.first_currency.to_json()),
                                 $scope.order.first_issuer);
           } else {
             if ($scope.order.first_currency.equals($scope.order.second_currency)) {
-              $scope.userBlob.set("/preferred_second_issuer/"+
+              $scope.userBlob.set('/preferred_second_issuer/'+
                                   $scope.userBlob.escapeToken($scope.order.second_currency.to_json()),
                                   $scope.order.second_issuer);
             } else {
-              $scope.userBlob.set("/preferred_issuer/"+
+              $scope.userBlob.set('/preferred_issuer/'+
                                   $scope.userBlob.escapeToken($scope.order.second_currency.to_json()),
                                   $scope.order.second_issuer);
             }
@@ -1247,7 +1246,7 @@ TradeTab.prototype.angular = function(module)
      */
     function loadOffers() {
       // Make sure we unsubscribe from any previously loaded orderbook
-      if ($scope.newBook && "function" === typeof $scope.newBook.unsubscribe) {
+      if ($scope.newBook && 'function' === typeof $scope.newBook.unsubscribe) {
         $scope.newBook.unsubscribe();
       }
 
@@ -1290,7 +1289,7 @@ TradeTab.prototype.angular = function(module)
     var lastUpdate;
 
     $scope.$watchCollection('newBook', function () {
-      if (! jQuery.isEmptyObject($scope.newBook) && $scope.newBook.ready) {
+      if (!jQuery.isEmptyObject($scope.newBook) && $scope.newBook.ready) {
         $scope.book = $scope.newBook;
         $scope.editOrder.orderbookReady = true;
 
@@ -1361,11 +1360,11 @@ TradeTab.prototype.angular = function(module)
 
     function update_pairs(){
       if(!$scope.userBlob.data.trade_currency_pairs){
-        $scope.pairs_query = [{"name": "XRP/USD.SnapSwap"},
-          {"name": "XRP/USD.Bitstamp"},
-          {"name": "XRP/JPY.TokyoJPY"},
-          {"name": "BTC.Bitstamp/XRP"},
-          {"name": "BTC.SnapSwap/XRP"}];
+        $scope.pairs_query = [{'name': 'XRP/USD.SnapSwap'},
+          {'name': 'XRP/USD.Bitstamp'},
+          {'name': 'XRP/JPY.TokyoJPY'},
+          {'name': 'BTC.Bitstamp/XRP'},
+          {'name': 'BTC.SnapSwap/XRP'}];
       }
       else {
         $scope.pairs_query = $scope.userBlob.data.trade_currency_pairs;
@@ -1415,14 +1414,14 @@ TradeTab.prototype.angular = function(module)
         if (editSeq && $scope.offers[editSeq]) {
           var newQty = $scope.offers[editSeq].first;
 
-          if (! $scope.editOrder.cancelling) {
+          if (!$scope.editOrder.cancelling) {
             if (newQty.is_zero()) {
               // Occasionally an order that has been completely filled is shown as zero qty and there is a delay before it is deleted.
               // If this order is being edited, leave edit mode as the modify would fail
               $scope.cancelEditOrder();
               $scope.offers[editSeq].isZero = true;
             }
-            else if (! newQty.equals($scope.editOrder.oldQuantity)) {
+            else if (!newQty.equals($scope.editOrder.oldQuantity)) {
               // The qty of the order changed while being edited, so update and warn
               $scope.editOrder.newQuantity = formatForEdit(newQty);
               $scope.editOrder.quantityChanged = false;
@@ -1467,7 +1466,7 @@ TradeTab.prototype.angular = function(module)
 
     // Unsubscribe from the book when leaving this page
     $scope.$on('$destroy', function(){
-      if ($scope.newBook && "function" === typeof $scope.newBook.unsubscribe) {
+      if ($scope.newBook && 'function' === typeof $scope.newBook.unsubscribe) {
         $scope.newBook.unsubscribe();
       }
     });

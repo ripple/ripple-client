@@ -67,11 +67,11 @@ function AppCtrl ($scope, $id, $net, keychain, txQueue, appManager, rpTracker,
     $scope.notif = status;
 
     if (cancelNotifTimeout) {
-      $timeout.cancel( cancelNotifTimeout );
+      $timeout.cancel(cancelNotifTimeout);
       cancelNotifTimeout = null;
     }
     cancelNotifTimeout = $timeout(function() {
-      $scope.notif = "clear";
+      $scope.notif = 'clear';
     }, 7000);
     cancelNotifTimeout['finally'](function() { cancelNotifTimeout = null; });
   }
