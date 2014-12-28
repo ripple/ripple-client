@@ -63,7 +63,7 @@
             "hotwallets": []
             }]
     }, {
-        "name": "XRPChina",
+        "name": "DotPayco",
         "accounts": [{
             "address": "rM8199qFwspxiWNZRChZdZbGN5WrCepVP1",
             "currencies": ["CNY"],
