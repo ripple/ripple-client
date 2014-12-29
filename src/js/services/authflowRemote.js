@@ -263,7 +263,7 @@ module.factory('rpAuthFlow', ['$rootScope',
       };
     }
 
-    meta.client = new ripple.VaultClient(meta.domain);
+    meta.client = new rippleVaultClient.VaultClient(meta.domain);
 
     return meta;
   };
