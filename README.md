@@ -1,5 +1,7 @@
 # Ripple Trade client
 
+[![Build Status](https://travis-ci.org/ripple/ripple-client.svg?branch=develop)](https://travis-ci.org/ripple/ripple-client)
+
 ## Overview
 The Ripple Trade client is an open-source GUI for the Ripple network that facilitates the peer-to-peer exchange of any store of value. It’s the only platform where you can trade between stores of value spanning fiat, cryptocurrencies, commodities, and unusual assets like pre-1965 silver dimes.
 
