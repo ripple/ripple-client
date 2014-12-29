@@ -15,29 +15,31 @@ module.directive('rpMarketChart', [function() {
     link: function($scope, element, attrs) {
       // set unique ID
       var $elem       = $(element[0]),
-          id          = $elem.attr('id'),
-          chart;
-      if (!id) {
-        id = 'marketchart-' + lastId++;
-        $elem.attr('id', id);
-      }
-
-      chart = PriceChartWidget({
-        id:     id,
-        width:  $elem.width() - 120,
-        height: $elem.height() - 20,
-        margin: {top: 0, right: 70, bottom: 20, left: 50},
-        resize: true
-      });
-
+          chart       = false;
       var render = function () {
         if (!attrs.baseCurrency || !attrs.counterCurrency) {
           return;
         }
-        
+
         var start = new Date();
         start.setDate(start.getDate()-1);
-        
+
+        if (!chart) {
+          var id  = $elem.attr('id');
+          if (!id) {
+            id = 'marketchart-' + lastId++;
+            $elem.attr('id', id);
+          }
+
+          chart = PriceChartWidget({
+            id:     id,
+            width:  $elem.width() - 120,
+            height: $elem.height() - 30,
+            margin: {top: 10, right: 70, bottom: 20, left: 50},
+            resize: true
+          });
+        }
+
         var options = {
           base: {
             currency: attrs.baseCurrency,
