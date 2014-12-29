@@ -183,9 +183,9 @@ module.directive('rpConfirm', ['rpPopup', '$parse', function(popup, $parse) {
         // if not specified, always show popup
         var show = attrs.rpShow ? $parse(attrs.rpShow)(scope) : true;
         if (show) {
-          popup.confirm(attrs["title"], attrs["actionText"],
-            attrs["actionButtonText"], attrs["actionFunction"], attrs["actionButtonCss"],
-            attrs["cancelButtonText"], attrs["cancelFunction"], attrs["cancelButtonCss"],
+          popup.confirm(attrs.title, attrs.actionText,
+            attrs.actionButtonText, attrs.actionFunction, attrs.actionButtonCss,
+            attrs.cancelButtonText, attrs.cancelFunction, attrs.cancelButtonCss,
             scope, popupOptions);
         }
       });
@@ -306,7 +306,7 @@ module.directive('rpTooltip', [function() {
   return function(scope, element, attr) {
     attr.$observe('rpTooltip', function(value) {
       // Title
-      var options = {'title': value};
+      var options = {title: value};
 
       // Placement
       if (attr.rpTooltipPlacement)
@@ -385,21 +385,21 @@ module.directive('rpAddressPopover', ['$timeout', '$interpolate', 'rpId', functi
 
         function hidePopover() {
           if (!cancelHidePopoverTimeout) {
-            cancelHidePopoverTimeout = $timeout( function() {
+            cancelHidePopoverTimeout = $timeout(function() {
               element.popover('hide');
               shown = false;
-            }, hideDelay, false );
+            }, hideDelay, false);
             cancelHidePopoverTimeout['finally'](function() { cancelHidePopoverTimeout = null; });
           }
         }
 
         function onPopoverEnter() {
           if (cancelShowPopoverTimeout) {
-            $timeout.cancel( cancelShowPopoverTimeout );
+            $timeout.cancel(cancelShowPopoverTimeout);
             cancelShowPopoverTimeout = null;
           }
           if (cancelHidePopoverTimeout) {
-            $timeout.cancel( cancelHidePopoverTimeout );
+            $timeout.cancel(cancelHidePopoverTimeout);
             cancelHidePopoverTimeout = null;
           }
         }
@@ -410,20 +410,20 @@ module.directive('rpAddressPopover', ['$timeout', '$interpolate', 'rpId', functi
 
         function onElemEnter() {
           if (cancelHidePopoverTimeout) {
-            $timeout.cancel( cancelHidePopoverTimeout );
+            $timeout.cancel(cancelHidePopoverTimeout);
             cancelHidePopoverTimeout = null;
           } else if (!cancelShowPopoverTimeout) {
-            cancelShowPopoverTimeout = $timeout( function() {
+            cancelShowPopoverTimeout = $timeout(function() {
               element.popover('show');
               shown = true;
-            }, popupDelay, false );
+            }, popupDelay, false);
             cancelShowPopoverTimeout['finally'](function() { cancelShowPopoverTimeout = null; });
           }
         }
 
         function onElemLeave() {
           if (cancelShowPopoverTimeout) {
-            $timeout.cancel( cancelShowPopoverTimeout );
+            $timeout.cancel(cancelShowPopoverTimeout);
             cancelShowPopoverTimeout = null;
           } else if (shown) {
             hidePopover();
@@ -468,8 +468,8 @@ module.directive('rpAddressPopover', ['$timeout', '$interpolate', 'rpId', functi
         }
         // Make sure popover is destroyed and removed.
         scope.$on('$destroy', function onDestroyPopover() {
-          $timeout.cancel( cancelHidePopoverTimeout );
-          $timeout.cancel( cancelShowPopoverTimeout );
+          $timeout.cancel(cancelHidePopoverTimeout);
+          $timeout.cancel(cancelShowPopoverTimeout);
           unbindHanlders();
           if (tip) {
             tip.remove();
@@ -480,7 +480,6 @@ module.directive('rpAddressPopover', ['$timeout', '$interpolate', 'rpId', functi
     }
   };
 }]);
-
 
 module.directive('rpAutofill', ['$parse', function($parse) {
   return {
@@ -618,7 +617,6 @@ module.directive('rpSpinner', [function() {
   };
 }]);
 
-
 // Version 0.2.0
 // AngularJS simple file upload directive
 // this directive uses an iframe as a target
@@ -646,7 +644,6 @@ module.directive('ngUpload', function() {
   return {
     restrict: 'A',
     link: function(scope, element, attrs) {
-
       // Options (just 1 for now)
       // Each option should be prefixed with 'upload-Options-' or 'uploadOptions'
       // {
@@ -654,11 +651,10 @@ module.directive('ngUpload', function() {
       //    enableControls: bool
       // }
       var options = {};
-      options.enableControls = attrs['uploadOptionsEnableControls'];
+      options.enableControls = attrs.uploadOptionsEnableControls;
 
       // get scope function to execute on successful form upload
-      if (attrs['ngUpload']) {
-
+      if (attrs.ngUpload) {
         element.attr("target", "upload_iframe");
         element.attr("method", "post");
 
@@ -669,7 +665,7 @@ module.directive('ngUpload', function() {
         element.attr("encoding", "multipart/form-data");
 
         // Retrieve the callback function
-        var fn = attrs['ngUpload'].split('(')[0];
+        var fn = attrs.ngUpload.split('(')[0];
         var callbackFn = scope.$eval(fn);
         if (callbackFn === null || callbackFn === undefined || !angular.isFunction(callbackFn)) {
           var message = "The expression on the ngUpload directive does not point to a valid function.";
@@ -684,7 +680,6 @@ module.directive('ngUpload', function() {
 
           // attach function to load event of the iframe
           iframe.bind('load', function() {
-
             // get content - requires jQuery
             var content = iframe.contents().find('body').text();
 
@@ -699,7 +694,7 @@ module.directive('ngUpload', function() {
                 iframe.remove();
               }, 250);
 
-            //if (options.enableControls == null || !(options.enableControls.length >= 0))
+            // if (options.enableControls == null || !(options.enableControls.length >= 0))
             submitControl.attr('disabled', null);
             submitControl.attr('title', 'Click to start upload.');
           });
@@ -713,14 +708,13 @@ module.directive('ngUpload', function() {
         $('.upload-submit', element).click(
 
           function() {
-
             addNewDisposableIframe($(this) /* pass the submit control */ );
 
             scope.$apply(function() {
               callbackFn("Please wait...", false /* upload not completed */ );
             });
 
-            //console.log(angular.toJson(options));
+            // console.log(angular.toJson(options));
 
             var enabled = true;
             if (options.enableControls === null || options.enableControls === undefined || options.enableControls.length >= 0) {
@@ -843,14 +837,14 @@ module.directive('rpOrdersSortHeader', ['$timeout', '$parse', function($timeout,
         var sortReverse = $parse(attr.rpOrdersSortHeaderReverse);
         var fieldName = attr.rpOrdersSortHeaderField;
 
-        function draw_arrow() {
+        function drawArrow() {
           var sfv = sortFieldGetter(scope);
           if (sfv == fieldName) {
             element.find('span').addClass('sorted');
             element.find('span').html(!sortReverse(scope) ? '&#x25B2;' : '&#x25BC;');
           }
         }
-        draw_arrow();
+        drawArrow();
 
         var watcher = scope.$watch(attr.rpOrdersSortHeader, function() {
           if (sortFieldGetter(scope) != fieldName) {
@@ -858,10 +852,9 @@ module.directive('rpOrdersSortHeader', ['$timeout', '$parse', function($timeout,
             element.find('span').html('&#x25BC;');
           }
         });
-        var watcher2 = scope.$watch(attr.rpOrdersSortHeaderReverse, draw_arrow);
+        var watcher2 = scope.$watch(attr.rpOrdersSortHeaderReverse, drawArrow);
 
-
-        function update_sort() {
+        function updateSort() {
           var sfv = sortFieldGetter(scope);
           if (sfv != fieldName) {
             sortFieldGetter.assign(scope, fieldName);
@@ -876,7 +869,7 @@ module.directive('rpOrdersSortHeader', ['$timeout', '$parse', function($timeout,
         }
 
         element.click(function(e) {
-          scope.$apply(update_sort);
+          scope.$apply(updateSort);
         });
 
         // Make sure  is destroyed and removed.
