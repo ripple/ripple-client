@@ -34,6 +34,10 @@ module.directive('rpMarketChart', [function() {
         if (!attrs.baseCurrency || !attrs.counterCurrency) {
           return;
         }
+        
+        var start = new Date();
+        start.setDate(start.getDate()-1);
+        
         var options = {
           base: {
             currency: attrs.baseCurrency,
@@ -49,6 +53,8 @@ module.directive('rpMarketChart', [function() {
           },
 
           multiple: 5,
+          start: start,
+          end: new Date(),
           interval: 'minute',
           theme:    'light',
           type:     'line'
