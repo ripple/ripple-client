@@ -172,7 +172,7 @@ section.col-xs-12.content(ng-controller="HistoryCtrl")
               .title(l10n) Balance Changes
               .effect.header
                 span.description(l10n) Description
-                span.issuer(l10n) Issuer
+                span.issuer(l10n, ng-show="entry.balanceEffects | rpAmountHasIssuer") Issuer
                 span.amount(l10n) Amount
                 span.balance(l10n) Final balance
               .effect(ng-repeat="effect in entry.balanceEffects")
@@ -181,6 +181,7 @@ section.col-xs-12.content(ng-controller="HistoryCtrl")
                   span(ng-show="effect.type == 'trust_change_balance'", data-label="Description", l10n) {{effect.currency}} Balance Change
                   span(ng-show="effect.type == 'fee'", data-label="Description", l10n) Fee
                 span.issuer(
+                  ng-show="entry.balanceEffects | rpAmountHasIssuer"
                   rp-pretty-issuer="effect.amount.issuer().to_json()"
                   rp-pretty-issuer-contacts="userBlob.data.contacts"
                   rp-pretty-issuer-default="-"
