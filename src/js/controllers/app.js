@@ -22,7 +22,8 @@ function AppCtrl ($scope, $id, $net, keychain, txQueue, appManager, rpTracker,
 {
   reset();
 
-  var account;
+  var account,
+      cancelNotifTimeout;
 
   // For announcement banner
 
@@ -65,9 +66,14 @@ function AppCtrl ($scope, $id, $net, keychain, txQueue, appManager, rpTracker,
 
     $scope.notif = status;
 
-    $timeout(function() {
-      $scope.notif = "clear";
+    if (cancelNotifTimeout) {
+      $timeout.cancel(cancelNotifTimeout);
+      cancelNotifTimeout = null;
+    }
+    cancelNotifTimeout = $timeout(function() {
+      $scope.notif = 'clear';
     }, 7000);
+    cancelNotifTimeout['finally'](function() { cancelNotifTimeout = null; });
   }
 
   // TODO fix this
@@ -782,4 +788,4 @@ function AppCtrl ($scope, $id, $net, keychain, txQueue, appManager, rpTracker,
   this.updateRippleBalance    =  updateRippleBalance;
   this.compare                =  compare;
   this.handleFirstConnection  =  handleFirstConnection;
-};
+}
