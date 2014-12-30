@@ -172,6 +172,8 @@ SendTab.prototype.angular = function (module)
     $scope.update_destination_remote = function () {
       var send = $scope.send;
       var recipient = send.recipient_address;
+      var strippedRecipient = webutil.stripRippleAddress(send.recipient);
+      var isRecipientValidAddress = ripple.UInt160.is_valid(strippedRecipient);
 
       // Reset federation address validity status
       if ($scope.sendForm && $scope.sendForm.send_destination)
@@ -234,6 +236,15 @@ SendTab.prototype.angular = function (module)
             send.recipient_address = response.address;
           });
 
+          $scope.check_destination();
+        });
+      }
+      else if (isRecipientValidAddress && send.recipient_address == strippedRecipient) {
+        $id.resolveName(strippedRecipient, { tilde: true }).then(function(name) {
+          send.recipient_name = name;
+          // this will trigger update
+          send.recipient = name;
+        }, function(err) {
           $scope.check_destination();
         });
       }
