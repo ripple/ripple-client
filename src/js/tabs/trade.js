@@ -45,7 +45,7 @@ TradeTab.prototype.angular = function(module)
   function TradeCtrl(books, $scope, id, $network,
                      $routeParams, $location, $filter,
                      $rpTracker, keychain, $rootScope,
-                     popup, $anchorScroll ,$timeout)
+                     popup, $anchorScroll, $timeout)
   {
     var timer;
 
