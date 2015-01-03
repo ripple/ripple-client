@@ -2256,16 +2256,16 @@
       }
     }
 
-    @media (min-width: @screen-xs-max) {
+    @media (min-width: @screen-md-max) {
       .bids {
-        border-right: 3px solid darken(@bg, 20%);
+        border-right: 1px solid darken(@bg, 20%);
       }
       .asks {
-        border-left: 3px solid darken(@bg, 20%);
+        border-left: 1px solid darken(@bg, 20%);
       }
     }
 
-    @media (max-width: @screen-xs-max) {
+    @media (max-width: @screen-md-max) {
       .asks {
         border-top: 6px solid @midgray;
         padding-top: 10px;
@@ -2274,8 +2274,19 @@
 
     .bids, .asks {
       .row {
-        padding: 5px 0;
+        padding: 4px 0;
         text-align: right;
+
+        .rpamount {
+          font-size: 13px;
+          padding-left: 5px;
+          padding-right: 5px;
+        }
+
+        .sum, .size, .price {
+          padding-left: 5px;
+          padding-right: 5px;
+        }
 
         &:nth-child(odd) {
           background-color: darken(@bg, 5%);

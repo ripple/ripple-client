@@ -580,7 +580,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
               //- TODO hide one column (size/sum) to show bids/ask in the same line for mobile phones.
               //- TODO highlight changes
               .row.orderbook
-                .bids.col-xs-12.col-md-6
+                .bids.col-xs-12.col-lg-6
                   .title(l10n) Bids
                   .row.head(ng-show="book.bids.length")
                     .col-xs-4.sum(l10n) Sum
@@ -614,7 +614,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                       a(href="", ng-click="fill_widget('sell',order,true)")
                         span(rp-bind-color-amount="order.showPrice")
                   .message(ng-show='!book.bids.length', l10n) There are currently no bids for this pair.
-                .asks.col-xs-12.col-md-6
+                .asks.col-xs-12.col-lg-6
                   .title(l10n) Asks
                   .row.head(ng-show="book.asks.length")
                     .col-xs-4.price(l10n) Ask Price
