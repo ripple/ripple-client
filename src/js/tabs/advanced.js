@@ -40,9 +40,12 @@ AdvancedTab.prototype.angular = function(module)
     $scope.editBlob = false;
     $scope.editMaxNetworkFee = false;
     $scope.editAcctOptions = false;
+    $scope.editConfirmation = {
+      send: false,
+      exchange: false,
+      trade: false
+    };
     $scope.max_tx_network_fee_human = ripple.Amount.from_json($scope.options.max_tx_network_fee).to_human();
-    // TODO: refactor to use factory for checkbox-style settings
-    // e.g. advanced feature switch & transaction confirmation
     $scope.advancedFeatureSwitchChanged = false;
     $scope.confirmationChanged = {
       send: false,
@@ -52,6 +55,24 @@ AdvancedTab.prototype.angular = function(module)
 
     // Initialize the notification object
     $scope.success = {};
+
+    // Wait until blob is fully loaded.
+    $scope.$on('!$scope.loadingAccount && !$scope.account.Balance && $scope.loadState.account && connected && !$scope.debug', function () {
+      // For options.confirmation, but will eventually be used for other user settings
+      var data = $scope.userBlob.data;
+      if (data && data.clients && data.clients.rippletradecom) {
+        // Store user blob settings into backup instead of default settings from config.js.
+        if (data.clients.rippletradecom.confirmation) {
+          // Replace default settings with user settings from blob
+          $scope.options.confirmation = data.clients.rippletradecom.confirmation;
+          // The same goes for the backup
+          $scope.optionsBackup.confirmation = $.extend(true, {}, data.clients.rippletradecom.confirmation)
+        } else {
+          // if blob is empty, then populate the blob with default settings
+          $scope.userBlob.set('/clients/rippletradecom/confirmation', $scope.options.confirmation)
+        }
+      }
+    });
 
     $scope.saveBlob = function () {
       // Save in local storage
@@ -99,14 +120,12 @@ AdvancedTab.prototype.angular = function(module)
     $scope.saveConfirmation = function (transactionType) {
       //ignore it if we are not going to change anything
       if (!$scope.confirmationChanged[transactionType]) {
+        $scope.editConfirmation[transactionType] = false;
         return;
       }
       $scope.confirmationChanged[transactionType] = false;
 
-      if (!store.disabled) {
-        // Save in local storage
-        store.set('ripple_settings', JSON.stringify($scope.options));
-      }
+      $scope.userBlob.set('/clients/rippletradecom/confirmation', $scope.options.confirmation)
 
       $scope.editConfirmation[transactionType] = false;
 
@@ -178,6 +197,8 @@ AdvancedTab.prototype.angular = function(module)
 
     $scope.$on('$blobUpdate', function () {
       $scope.passwordProtection = !$scope.userBlob.data.persistUnlock;
+      $scope.options.confirmation = $scope.userBlob.data.clients.rippletradecom.confirmation;
+
       // we assume that some fields in Options are updated in rpId service $blobUpdate handler
       $scope.optionsBackup = $.extend(true, {}, Options);
     });
