@@ -33,8 +33,8 @@ module.exports = function(grunt) {
               'deps/js/angular/angular.js',
               'deps/js/angular-route/angular-route.js',
               'deps/js/store.js/store.js',
-              'deps/js/ripple/ripple-debug.js',
               'deps/js/ripple-vault-client/ripple-vault-client-debug.js',
+              'deps/js/ripple/ripple-debug.js',
               'deps/js/ripple-sjcl.js',
               'deps/js/moment/moment.js',
               'deps/js/bootstrap-modal.js',
@@ -314,7 +314,7 @@ module.exports = function(grunt) {
       },
       deps: {
         files: deps,
-        tasks: ['concat:depsDebug', 'copy'],
+        tasks: ['uglify:deps', 'concat:depsDebug', 'copy'],
         options: { livereload: true }
       },
       styles: {
