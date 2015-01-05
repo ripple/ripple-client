@@ -64,6 +64,7 @@ Stay tuned...
 
 - [blobvault](https://github.com/ripple/ripple-blobvault)
 - [ripple-lib](https://github.com/ripple/ripple-lib)
+- [ripple-vault-client](https://github.com/ripple/ripple-vault-client)
 
 
 ## Reporting Bugs
