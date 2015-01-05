@@ -886,7 +886,7 @@ module.directive('rpOrdersSortHeader', ['$timeout', '$parse', function($timeout,
         var sortReverse = $parse(attr.rpOrdersSortHeaderReverse);
         var fieldName = attr.rpOrdersSortHeaderField;
 
-        function set_arrow_class(sorted, isUp) {
+        function setArrowClass(sorted, isUp) {
           var i = element.find('i');
           i[sorted ? 'addClass' : 'removeClass']('sorted');
           if (isUp) {
@@ -898,17 +898,17 @@ module.directive('rpOrdersSortHeader', ['$timeout', '$parse', function($timeout,
           }
         }
 
-        function draw_arrow() {
+        function drawArrow() {
           var sfv = sortFieldGetter(scope);
           if (sfv == fieldName) {
-            set_arrow_class(true, !sortReverse(scope));
+            setArrowClass(true, !sortReverse(scope));
           }
         }
         drawArrow();
 
         var watcher = scope.$watch(attr.rpOrdersSortHeader, function() {
           if (sortFieldGetter(scope) != fieldName) {
-            set_arrow_class(false, false);
+            setArrowClass(false, false);
           } else {
             element.find('span').addClass('sorted');
           }
@@ -920,7 +920,7 @@ module.directive('rpOrdersSortHeader', ['$timeout', '$parse', function($timeout,
           if (sfv != fieldName) {
             sortFieldGetter.assign(scope, fieldName);
             sortReverse.assign(scope, true);
-            set_arrow_class(true, false);
+            setArrowClass(true, false);
           } else {
             var reverseNow = sortReverse(scope);
             sortReverse.assign(scope, !reverseNow);
