@@ -35,26 +35,19 @@ exports.migrate = function (username,password) {
 		})
 };
 
-// TODO refactor to use jQuery like selectors
 exports.logout = function () {
 	browser.getCurrentUrl()
 		.then(function(url){
 			if (!url.match('login')){
-				browser.findElement(protractor.By.className('mainnav'))
-					.findElement(protractor.By.className('settings')).click()
+				$(".mainnav .settings").click()
 					.then(function(){
-
-						browser.findElement(protractor.By.className('mainnav'))
-							.findElement(protractor.By.className('settings'))
-							.findElement(protractor.By.className('dropdown-menu'))
-							.findElement(protractor.By.css('li:nth-child(5)')).click()
+						$(".mainnav .settings .dropdown-menu .logout").click()
 							.then(function(){
 								helpers.waitForNavigation('#/login');
-							});
-					});
+							})
+					})
 			} else {
 				browser.get('#/login');
 			}
-
 		});
 };
