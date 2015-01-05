@@ -161,7 +161,7 @@ function AppCtrl ($scope, $id, $net, keychain, txQueue, appManager, rpTracker,
     $scope.$apply(function () {
       $scope.lines = {};
 
-      for (var n=0, l=data.lines.length; n<l; n++) {
+      for (var n = 0, l = data.lines.length; n < l; n++) {
         var line = data.lines[n];
 
         // XXX: This reinterpretation of the server response should be in the
@@ -172,11 +172,13 @@ function AppCtrl ($scope, $id, $net, keychain, txQueue, appManager, rpTracker,
           balance: ripple.Amount.from_json({value: line.balance, currency: line.currency, issuer: account})
         });
 
-        $scope.lines[line.account+line.currency] = line;
+        $scope.lines[line.account + line.currency] = line;
         updateRippleBalance(line.currency, line.account, line.balance);
-
       }
       console.log('lines updated:', $scope.lines);
+      if (data.lines.length > 200) {
+        $scope.accountLinesWarning = true;
+      }
 
       $scope.$broadcast('$balancesUpdate');
 
