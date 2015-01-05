@@ -257,7 +257,8 @@ var JsonRewriter = module.exports = {
   },
 
   _processTxn: function (tx, meta, account) {
-    var obj = {};
+    var obj = {},
+        hasFee = false;
 
     // Currency balances that have been affected by the transaction
     var affectedCurrencies = [];
@@ -573,6 +574,7 @@ var JsonRewriter = module.exports = {
 
         // Fee effect
         if (feeEff) {
+          hasFee = true;
           if (!obj.effects) obj.effects = [];
           obj.effects.push(feeEff);
         }
@@ -603,7 +605,7 @@ var JsonRewriter = module.exports = {
 
     obj.tx_type = tx.TransactionType;
     obj.tx_result = meta.TransactionResult;
-    obj.fee = tx.Fee;
+    obj.fee = hasFee ? tx.Fee : 0;
     obj.date = ripple.utils.toTimestamp(tx.date);
     obj.dateRaw = tx.date;
     obj.hash = tx.hash;
