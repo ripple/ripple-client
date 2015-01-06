@@ -9,9 +9,9 @@
 
 var fs = require("fs");
 
-var module = angular.module('blob', []);
-
-module.factory('rpBlob', ['$rootScope', function ($scope)
+angular
+  .module('blob', []);
+  .factory('rpBlob', ['$rootScope', function ($scope)
 {
   var cryptConfig = {
     // key size

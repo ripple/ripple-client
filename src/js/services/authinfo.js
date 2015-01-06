@@ -13,9 +13,9 @@
 var webutil = require("../util/web"),
     log = require("../util/log");
 
-var module = angular.module('authinfo', []);
-
-module.factory('rpAuthInfo', ['$rootScope', 'rpRippleTxt', '$http',
+angular
+  .module('authinfo', [])
+  .factory('rpAuthInfo', ['$rootScope', 'rpRippleTxt', '$http',
   function ($scope, $txt, $http)
 {
   var AuthInfo = {};

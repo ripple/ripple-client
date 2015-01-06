@@ -9,7 +9,9 @@ var module = angular.module('errors', []);
 /**
  * Trust line graph. (Similar to small box plot.)
  */
-module.directive('rpTransactionStatus', function() {
+angular
+  .module('errors', [])
+  .directive('rpTransactionStatus', function() {
   return {
     restrict: 'E',
     template: require('../../jade/directives/transactionerror.jade'),

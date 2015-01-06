@@ -5,9 +5,9 @@
  * and connect them to the client.
  */
 
-var module = angular.module('appManager', ['domainalias','integrationProfileManager']);
-
-module.service('rpAppManager', ['$rootScope', '$http', 'rpDomainAlias', 'rpRippleTxt', 'rpProfileManager',
+angular
+  .module('appManager', ['domainalias','integrationProfileManager'])
+  .service('rpAppManager', ['$rootScope', '$http', 'rpDomainAlias', 'rpRippleTxt', 'rpProfileManager',
   function($scope, $http, aliasService, txt, profileManager)
 {
   var log = function(){

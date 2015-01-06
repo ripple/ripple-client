@@ -4,9 +4,9 @@
  * Data-centric links for things like transactions, accounts etc.
  */
 
-var module = angular.module('datalinks', []);
-
-module.directive('rpLinkTx', ['$location', function ($location) {
+angular
+  .module('datalinks', [])
+  .directive('rpLinkTx', ['$location', function ($location) {
   return {
     restrict: 'A',
     link: function ($scope, element, attr) {

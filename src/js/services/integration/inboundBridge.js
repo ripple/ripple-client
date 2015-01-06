@@ -4,9 +4,9 @@
  * This is the "InboundBridge" profile implementation
  */
 
-var module = angular.module('integrationInboundBridge', []);
-
-module.service('rpInboundBridgeProfile', ['$rootScope', 'rpNetwork', 'rpId', '$http', 'rpTxQueue',
+angular
+  .module('integrationInboundBridge', [])
+  .service('rpInboundBridgeProfile', ['$rootScope', 'rpNetwork', 'rpId', '$http', 'rpTxQueue',
   function($scope, network, id, $http, txQueue)
 {
   this.inboundBridgeProfile = function(manifest) {

@@ -7,9 +7,9 @@
 var webutil = require("../util/web"),
     log = require("../util/log");
 
-var module = angular.module('oldblob', []);
-
-module.factory('rpOldBlob', ['$rootScope', function ($scope)
+angular
+  .module('oldblob', [])
+  .factory('rpOldBlob', ['$rootScope', function ($scope)
 {
   var BlobObj = function ()
   {

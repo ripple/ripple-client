@@ -4,10 +4,10 @@
  * This is the "Account" profile implementation
  */
 
-var module = angular.module('integrationAccount', []);
-
 // TODO Sign sent data
-module.service('rpAccountProfile', ['$rootScope', 'rpNetwork', '$http',
+angular
+  .module('integrationAccount', [])
+  .service('rpAccountProfile', ['$rootScope', 'rpNetwork', '$http',
   function($scope, $network, $http)
 {
   this.accountProfile = function(manifest) {

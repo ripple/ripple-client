@@ -4,11 +4,12 @@
  * The books service is used to keep track of orderbooks.
  */
 
-var module = angular.module('books', ['network']);
 var Amount = ripple.Amount;
 
 
-module.factory('rpBooks', ['rpNetwork', '$q', '$rootScope', '$filter', 'rpId',
+angular
+  .module('books', ['network'])
+  .factory('rpBooks', ['rpNetwork', '$q', '$rootScope', '$filter', 'rpId',
 function(net, $q, $scope, $filter, $id) {
 
   var rowCount;

@@ -11,9 +11,9 @@
  * verification via ripple.txt.
  */
 
-var module = angular.module('domainalias', ['network', 'rippletxt']);
-
-module.factory('rpDomainAlias', ['$q', '$rootScope', 'rpNetwork', 'rpRippleTxt',
+angular
+  .module('domainalias', ['network', 'rippletxt'])
+  .factory('rpDomainAlias', ['$q', '$rootScope', 'rpNetwork', 'rpRippleTxt',
                                  function ($q, $scope, net, txt)
 {
   // Alias caching

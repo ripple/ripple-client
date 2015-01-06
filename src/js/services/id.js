@@ -9,9 +9,9 @@ var util = require('util'),
     Base58Utils = require('../util/base58'),
     RippleAddress = require('../util/types').RippleAddress;
 
-var module = angular.module('id', ['authflow', 'blob', 'oldblob']);
-
-module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', '$timeout',
+angular
+  .module('id', ['authflow', 'blob', 'oldblob'])
+  .factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', '$timeout',
                         'rpAuthFlow', 'rpBlob', 'rpOldBlob', '$q', '$http',
                         function($scope, $location, $route, $routeParams, $timeout,
                                  $authflow, $blob, $oldblob, $q, $http)

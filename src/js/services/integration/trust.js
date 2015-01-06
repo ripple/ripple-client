@@ -3,11 +3,10 @@
  *
  * This is the "Trust" profile implementation
  */
-
-var module = angular.module('integrationTrust', ['txQueue','keychain']);
-
 // TODO Sign sent data
-module.service('rpTrustProfile', ['$rootScope', 'rpNetwork', 'rpTxQueue', 'rpKeychain', 'rpId',
+angular
+  .module('integrationTrust', ['txQueue','keychain'])
+  .service('rpTrustProfile', ['$rootScope', 'rpNetwork', 'rpTxQueue', 'rpKeychain', 'rpId',
   function($scope, network, txQueue, keychain, id)
 {
   this.trustProfile = function(manifest) {

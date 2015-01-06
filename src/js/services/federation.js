@@ -8,9 +8,9 @@
  * we have a network-internal nickname system.
  */
 
-var module = angular.module('federation', []);
-
-module.factory('rpFederation', ['$q', '$rootScope', 'rpRippleTxt',
+angular
+  .module('federation', [])
+  .factory('rpFederation', ['$q', '$rootScope', 'rpRippleTxt',
                                function ($q, $scope, $txt) {
   var txts = {};
 
