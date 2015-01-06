@@ -21,9 +21,9 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
         .text-status(ng-show='status')
           span.loggingIn {{status}}
           br
-          .backend(ng-repeat="message in backendMessages")
+          .backend.error(ng-repeat="message in backendMessages")
             b {{message.backend}} &#32;
-            span {{message.message}}
+            span.error {{message.message}}
         .submit-btn-container
           button.btn.btn-submit.btn-block.btn-success#loginBtn(type='submit',
             ng-disabled="ajax_loading || loginForm.$invalid", ng-hide="twoFactor")

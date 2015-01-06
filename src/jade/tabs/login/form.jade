@@ -1,5 +1,5 @@
 .form-group(ng-hide="twoFactor || 'verifying' === verifyStatus")
-.breaker
+.breaker(ng-hide="twoFactor")
   label(for='login_username', l10n) Ripple name
   .input-group
     span.input-group-addon.ripple-addon ~
@@ -8,7 +8,7 @@
 .form-group(ng-hide="twoFactor || 'verifying' === verifyStatus")
   label(for='login_password', l10n) Password
   input.form-control#login_password(name='login_password', type='password', ng-model='password', required, rp-focus)
-div.row.row-padding-small(ng-show="twoFactor")
+div.row.row-padding-small.twoFactor(ng-show="twoFactor")
   .form-group.col-xs-12
     span.status.verifyText(ng-show="twoFactor.via === 'sms'", l10n) Please enter the verification code from the SMS message sent to your device:
     span.status.verifyText(ng-show="twoFactor.via === 'app'", l10n) Please enter the verification code from the Authy app installed on your device:

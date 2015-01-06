@@ -67,7 +67,7 @@ header.loggedOut {
 	}
 
 	.loginContainer {
-		min-height: 812px;
+		height: 880px;
 		max-width: 1400px;
 		margin: auto;
 			
@@ -257,6 +257,10 @@ header.loggedOut {
 		margin-top: 65px;
 	}
 
+	.twoFactor {
+		margin-top: 120px;
+	}
+
 	.signUpWrapper {
 		text-align: center;
 		padding-left: 0 !important;
@@ -276,13 +280,13 @@ header.loggedOut {
 		color: @landingblue;
 	}
 
-  	.auth-attention.spaceAdjust {
-    	margin: 120px 0 0 0;
-  	}
+	.auth-attention.spaceAdjust {
+  	margin: 120px 0 0 0;
+	}
 
-  	.statusText {
-  		font-family: OpenSansBold;
-  	}
+	.statusText {
+		font-family: OpenSansBold;
+	}
 
 
 	footer.loggedOut {
@@ -293,20 +297,20 @@ header.loggedOut {
 	  color: @white !important;
 	}
 
-  	form .checking {
-    	color: @landingblue;
-  	}
+	form .checking {
+  	color: @landingblue;
+	}
 
-  	.popover h3, .popover-content {
-  		color: @black;
-  	}
+	.popover h3, .popover-content {
+		color: @black;
+	}
 
-  	.maskedPhone {
-  		color: @white;
-  	}
+	.maskedPhone {
+		color: @white;
+	}
 
- 
 
+  
 
 	//buttons
 	form.ng-invalid .btn-success {
@@ -374,6 +378,7 @@ header.loggedOut {
 		width: 16%;
 		position: absolute;
 		border-top-left-radius: 5px;
+		cursor: pointer;
 	}
 
 }
@@ -396,6 +401,28 @@ header.loggedOut {
 		position: absolute;
 		right: 15px !important;
 		border-top-right-radius: 5px;
+		cursor: pointer;
+	}
+
+}
+
+//privacy policy and tou
+.t-privacypolicy, .t-tou {
+
+	p a {
+		color: @brand-success !important;
+	}
+
+	.landingContainer {
+		background: @white !important;
+	}
+
+	.whyUse, .gateways, .featuredGateways {
+		visibility: hidden;
+	}
+
+	header h2 {
+		text-align: center;
 	}
 
 }
