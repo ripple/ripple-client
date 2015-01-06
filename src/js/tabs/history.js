@@ -23,28 +23,24 @@ HistoryTab.prototype.angular = function (module) {
   module.controller('HistoryCtrl', ['$scope', 'rpId', 'rpNetwork', 'rpTracker', 'rpAppManager', '$routeParams',
                                      function ($scope, $id, $network, $rpTracker, appManager, $routeParams)
   {
-    var history = [];
+    $scope.advanced_feature_switch = Options.advanced_feature_switch;
 
-    // Latest transaction
-    var latest;
+    // Open/close states of individual history items
+    $scope.details = [];
+
+    var history = [];
 
     // History collection
     $scope.historyShow = [];
     $scope.historyCsv = '';
 
-    // History states
-    $scope.$watch('loadState.transactions',function(){
-      $scope.historyState = !$scope.loadState.transactions ? 'loading' : 'ready';
-    });
-
-    // Open/close states of individual history items
-    $scope.details = [];
-
-    //$scope.typeUsage = [];
-    //$scope.currencyUsage = [];
-
     // Currencies from history
     var historyCurrencies = [];
+
+    // Latest transaction
+    var latest;
+
+    $scope.orderedTypes = ['sent','received','gateways','trades','orders','other'];
 
     $scope.types = {
       sent: {
@@ -73,10 +69,15 @@ HistoryTab.prototype.angular = function (module) {
       }
     };
 
+    ///////////////////////////
 
-    $scope.advanced_feature_switch = Options.advanced_feature_switch;
+    // History states
+    $scope.$watch('loadState.transactions',function(){
+      $scope.historyState = !$scope.loadState.transactions ? 'loading' : 'ready';
+    });
 
-    $scope.orderedTypes = ['sent','received','gateways','trades','orders','other'];
+    //$scope.typeUsage = [];
+    //$scope.currencyUsage = [];
 
     if (store.get('ripple_history_type_selections')) {
       $scope.types = $.extend(true,$scope.types,store.get('ripple_history_type_selections'));

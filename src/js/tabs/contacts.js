@@ -25,9 +25,10 @@ ContactsTab.prototype.angular = function (module) {
     function ($scope, $id, $rpTracker)
   {
 
-
     // Initialize the notification object
     $scope.success = {};
+
+    ///////////////////////////
 
     $scope.reset_form = function ()
     {

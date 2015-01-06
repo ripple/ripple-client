@@ -37,7 +37,30 @@ BalanceTab.prototype.angular = function (module)
 
     // When the selected value metric changes, update the displayed amount.
 
+    $scope.currenciesAll = require('../data/currencies');
+    $scope.currencies = [];
+
+    $scope.exchangeRates || ($scope.exchangeRates = {XRP: 1});
+
+    $scope.firstCurrencySelected = 'XRP';
+    $scope.secondCurrencySelected = 'USD';
+
+    var history = [];
+
+    $scope.selectedTrendSpan = 86400000;
+
     ($scope.selectedValueMetric = store.get('balance')) || ($scope.selectedValueMetric = 'XRP');
+
+    /*** My Orders widget */
+    $scope.sort_options = {
+      current_pair_only: false,
+      sort_field: 'type',
+      reverse: false
+    };
+
+    $scope.validationPatternCurrency = /^[a-zA-Z]{3}/;
+
+    ///////////////////////////
 
     $scope.changeMetric = function(scope) {
       $scope.selectedValueMetric = scope.selectedValueMetric;
@@ -58,8 +81,6 @@ BalanceTab.prototype.angular = function (module)
     // Fetch the data from RippleCharts, and refresh it whenever any non-XRP balances change.
     // When exchangeRates changes, update the aggregate value, and the list of available value metrics,
     // and also check for negative balances to see if the user should be notified.
-
-    $scope.exchangeRates || ($scope.exchangeRates = {XRP: 1});
 
     function updateExchangeRates() {
       var currencies = [];
@@ -207,7 +228,6 @@ BalanceTab.prototype.angular = function (module)
      * of balances widget
      * TODO: Needs outsourcing to Balances widget controller
      */
-    var history = [];
 
     var getDateRangeHistory = function(dateMin, dateMax, callback)
     {
@@ -295,8 +315,6 @@ BalanceTab.prototype.angular = function (module)
         }, {});
       $scope.trendMap = trendMap;
     };
-
-    $scope.selectedTrendSpan = 86400000;
 
     $scope.changeTrendSpan = function(scope) {
       $scope.selectedTrendSpan = scope.selectedTrendSpan;
@@ -406,28 +424,11 @@ BalanceTab.prototype.angular = function (module)
       $scope.secondIssuerSelected   = oldFirstIssuerSelected;
     };
 
-    $scope.firstCurrencySelected = 'XRP';
-    $scope.secondCurrencySelected = 'USD';
-
-    $scope.validationPatternCurrency = /^[a-zA-Z]{3}/;
-
-    $scope.currenciesAll = require('../data/currencies');
-    $scope.currencies = [];
-
     for (var i = 0; i < $scope.currenciesAll.length; i++) {
       if ($scope.currenciesAll[i].custom_trade_currency_dropdown) {
         $scope.currencies.push($scope.currenciesAll[i].value);
       }
     }
-
-    /**
-     * My Orders widget
-     */
-    $scope.sort_options = {
-      current_pair_only: false,
-      sort_field: 'type',
-      reverse: false
-    };
 
     $scope.view_orders_history = function()
     {
