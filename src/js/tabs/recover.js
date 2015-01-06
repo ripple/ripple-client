@@ -26,13 +26,13 @@ RecoverTab.prototype.angular = function (module) {
                                   '$location', 'rpId', '$rootScope',
                                   'rpPopup', '$timeout', 'rpTracker', 'rpAuthFlow',
                                   function ($scope, $element, $routeParams,
-                                            $location, $id, $rootScope,
-                                            popup, $timeout, $rpTracker, $authflow) {
+                                            $location, id, $rootScope,
+                                            popup, $timeout, rpTracker, authflow) {
 
     /**
      * User is already logged in
      */
-    if ($id.loginStatus) {
+    if (id.loginStatus) {
       $location.path('/balance');
       return;
     }
@@ -55,11 +55,11 @@ RecoverTab.prototype.angular = function (module) {
       $scope.submitLoading = true;
 
       if ($scope.mode === 'recover') {
-        $authflow.recoverBlob($scope.username, $scope.masterkey, function (err, blob){
+        authflow.recoverBlob($scope.username, $scope.masterkey, function (err, blob){
           $scope.submitLoading = false;
 
           if (err) {
-            $rpTracker.track('Recover Blob', {
+            rpTracker.track('Recover Blob', {
               'Status': 'error',
               'Message': err.message
             });
@@ -73,7 +73,7 @@ RecoverTab.prototype.angular = function (module) {
             return;
           }
 
-          $rpTracker.track('Recover Blob', {
+          rpTracker.track('Recover Blob', {
             result: 'success'
           });
 
@@ -92,11 +92,11 @@ RecoverTab.prototype.angular = function (module) {
           blob      : recoveredBlob
         };
 
-        $id.changePassword(options, function(err, resp) {
+        id.changePassword(options, function(err, resp) {
           $scope.submitLoading = false;
 
           if (err) {
-            $rpTracker.track('Change Password', {
+            rpTracker.track('Change Password', {
               'Status': 'error',
               'Message': err.message
             });
@@ -105,7 +105,7 @@ RecoverTab.prototype.angular = function (module) {
             return;
           }
 
-          $rpTracker.track('Change Password', {
+          rpTracker.track('Change Password', {
             result: 'success'
           });
 

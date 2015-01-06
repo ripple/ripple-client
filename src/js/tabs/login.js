@@ -22,10 +22,10 @@ LoginTab.prototype.angular = function (module) {
                                   '$location', 'rpId', '$rootScope',
                                   'rpPopup', '$timeout', 'rpTracker', 'rpAuthFlow',
                                   function ($scope, $element, $routeParams,
-                                            $location, $id, $rootScope,
-                                            popup, $timeout, $rpTracker, authflow)
+                                            $location, id, $rootScope,
+                                            popup, $timeout, rpTracker, authflow)
   {
-    if ($id.loginStatus) {
+    if (id.loginStatus) {
       $location.path('/balance');
       return;
     }
@@ -117,7 +117,7 @@ LoginTab.prototype.angular = function (module) {
           remember_me : $scope.rememberMe
         };
 
-        $id.verifyToken(options, function(err, resp) {
+        id.verifyToken(options, function(err, resp) {
           $scope.ajax_loading = false;
 
           if (err) {
@@ -132,8 +132,8 @@ LoginTab.prototype.angular = function (module) {
             };
 
             //save credentials for login
-            $id.storeLoginKeys($scope.twoFactor.blob_url, username, keys);
-            $id.setUsername(username);
+            id.storeLoginKeys($scope.twoFactor.blob_url, username, keys);
+            id.setUsername(username);
             store.set('device_id', $scope.twoFactor.device_id);
             setImmediate(login);
           }
@@ -160,17 +160,17 @@ LoginTab.prototype.angular = function (module) {
     //initiate the login
     function login () {
       if ($scope.twoFactor) {
-        $id.relogin(loginCallback);
+        id.relogin(loginCallback);
 
       } else {
-        $id.login({
+        id.login({
           username   : $scope.username,
           password   : $scope.password
         }, loginCallback);
       }
     }
     $scope.$on('$idRemoteLogin', function(){
-      $id.relogin(loginCallback);
+      id.relogin(loginCallback);
     });
 
     //handle the login results
@@ -214,7 +214,7 @@ LoginTab.prototype.angular = function (module) {
                         $scope, {});
 
           $scope.migrateConfirm = function () {
-            $id.allowOldBlob = true;
+            id.allowOldBlob = true;
             $scope.submitForm();
           };
         }
@@ -223,7 +223,7 @@ LoginTab.prototype.angular = function (module) {
           $scope.backendMessages.push({'backend': "ID", 'message': err.message});
         }
 
-        $rpTracker.track('Login', {
+        rpTracker.track('Login', {
           'Status': 'error',
           'Message': err.message
         });
@@ -234,7 +234,7 @@ LoginTab.prototype.angular = function (module) {
         return;
       }
 
-      $rpTracker.track('Login', {
+      rpTracker.track('Login', {
         'Status': 'success'
       });
 

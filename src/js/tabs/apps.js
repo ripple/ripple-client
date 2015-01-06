@@ -22,7 +22,7 @@ AppsTab.prototype.generateHtml = function ()
 AppsTab.prototype.angular = function (module)
 {
   module.controller('AppsCtrl', ['$scope', 'rpId', 'rpAppManager',
-    function ($scope, $id, $appManager)
+    function ($scope, id, appManager)
   {
 
 
@@ -33,7 +33,7 @@ AppsTab.prototype.angular = function (module)
       $scope.loading = true;
 
       if ($scope.app && $scope.app.rippleAddress) {
-        $appManager.getApp($scope.app.rippleAddress, function(err, app){
+        appManager.getApp($scope.app.rippleAddress, function(err, app){
           if (err) {
             console.log('err',err);
             $scope.error = err.message;

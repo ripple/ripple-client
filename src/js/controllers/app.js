@@ -17,7 +17,7 @@ angular
 AppCtrl.$inject = ['$rootScope', 'rpId', 'rpNetwork', 'rpKeychain', 'rpTxQueue',
   'rpAppManager', 'rpTracker', '$timeout', 'rpHistory'];
 
-function AppCtrl ($scope, $id, $net, keychain, txQueue, appManager, rpTracker,
+function AppCtrl ($scope, id, net, keychain, txQueue, appManager, rpTracker,
                   $timeout, rpHistory)
 {
   reset();
@@ -30,15 +30,15 @@ function AppCtrl ($scope, $id, $net, keychain, txQueue, appManager, rpTracker,
   store.set('announcement', false);
   $scope.showAnnouncement = store.get('announcement');
 
-  $net.listenId($id);
-  $net.init();
-  $id.init();
+  net.listenId(id);
+  net.init();
+  id.init();
   appManager.init();
 
   // Global reference for debugging only (!)
   if ("object" === typeof rippleclient) {
-    rippleclient.id = $id;
-    rippleclient.net = $net;
+    rippleclient.id = id;
+    rippleclient.net = net;
     rippleclient.keychain = keychain;
   }
 
@@ -86,7 +86,7 @@ function AppCtrl ($scope, $id, $net, keychain, txQueue, appManager, rpTracker,
 
   function handleAccountLoad(e, data)
   {
-    var remote = $net.remote;
+    var remote = net.remote;
 
     account = data.account;
 
@@ -149,7 +149,7 @@ function AppCtrl ($scope, $id, $net, keychain, txQueue, appManager, rpTracker,
   function handleAccountUnload(e, data)
   {
     if (myHandleAccountEvent && myHandleAccountEntry) {
-      var remote = $net.remote;
+      var remote = net.remote;
       var accountObj = remote.account(data.account);
       accountObj.removeListener('transaction', myHandleAccountEvent);
       accountObj.removeListener('entry', myHandleAccountEntry);
@@ -222,7 +222,7 @@ function AppCtrl ($scope, $id, $net, keychain, txQueue, appManager, rpTracker,
 
   function handleAccountEntry(data)
   {
-    var remote = $net.remote;
+    var remote = net.remote;
     $scope.account = data;
 
     // XXX Shouldn't be using private methods
@@ -709,7 +709,7 @@ function AppCtrl ($scope, $id, $net, keychain, txQueue, appManager, rpTracker,
   }
 
   $scope.logout = function () {
-    $id.logout();
+    id.logout();
     location.reload();
   };
 

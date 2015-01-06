@@ -21,7 +21,7 @@ BtcTab.prototype.generateHtml = function ()
 BtcTab.prototype.angular = function (module)
 {
   module.controller('BtcCtrl', ['$scope', 'rpId', 'rpAppManager', 'rpTracker', '$routeParams', 'rpNetwork', 'rpKeychain',
-                                     function ($scope, $id, appManager, rpTracker, $routeParams, network, keychain)
+                                     function ($scope, id, appManager, rpTracker, $routeParams, network, keychain)
   {
  
     $scope.accountLines = {};
@@ -55,10 +55,10 @@ BtcTab.prototype.angular = function (module)
 
       fields = {};
 
-      fields.rippleAddress = $id.account;
+      fields.rippleAddress = id.account;
       fields.email = $scope.userBlob.data.email;
  
-      keychain.requestSecret($id.account, $id.username, function (err, secret) {
+      keychain.requestSecret(id.account, id.username, function (err, secret) {
         if (err) {
           console.log("client: trust profile: error while " +
             "unlocking wallet: ", err);
@@ -70,7 +70,7 @@ BtcTab.prototype.angular = function (module)
         }
 
         var tx = network.remote.transaction();
-        tx.rippleLineSet($id.account, amount + '/' + currency + '/' + issuer);
+        tx.rippleLineSet(id.account, amount + '/' + currency + '/' + issuer);
         tx.secret(secret);
         tx.setFlags('NoRipple');
         tx.tx_json.Sequence = 1;

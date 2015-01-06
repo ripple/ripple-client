@@ -42,9 +42,9 @@ TradeTab.prototype.angular = function(module)
                                   'rpTracker', 'rpKeychain', '$rootScope',
                                   'rpPopup', '$anchorScroll', '$timeout'];
 
-  function TradeCtrl(books, $scope, id, $network,
+  function TradeCtrl(books, $scope, id, network,
                      $routeParams, $location, $filter,
-                     $rpTracker, keychain, $rootScope,
+                     rpTracker, keychain, $rootScope,
                      popup, $anchorScroll, $timeout)
   {
     var timer;
@@ -410,7 +410,7 @@ TradeTab.prototype.angular = function(module)
       $scope.fatFingerErr = $scope.fatFingerCheck(type, $scope.order[type].price);
 
       // TODO track order type
-      $rpTracker.track('Trade order confirmation page', {
+      rpTracker.track('Trade order confirmation page', {
         'Currency pair': $scope.order.currency_pair,
         'Address': $scope.userBlob.data.account_id
       });
@@ -473,7 +473,7 @@ TradeTab.prototype.angular = function(module)
       if (!seq) return;
       var cancelOrder = $scope.offers[seq];
 
-      var tx = $network.remote.transaction();
+      var tx = network.remote.transaction();
       cancelOrder.errorMsg = null;
 
       tx.offer_cancel(id.account, seq);
@@ -486,7 +486,7 @@ TradeTab.prototype.angular = function(module)
           if (successCb) successCb(qtyChanged);
 
           if (qtyChanged) {
-            $rpTracker.track(MIXPNL_MODIFY_EVENT, {
+            rpTracker.track(MIXPNL_MODIFY_EVENT, {
               'Status': 'error',
               'Message': 'Qty changed after cancel requested by client',
               'Address': $scope.userBlob.data.account_id,
@@ -501,7 +501,7 @@ TradeTab.prototype.angular = function(module)
 
           if (successCb) successCb();
 
-          $rpTracker.track('Trade order cancellation', {
+          rpTracker.track('Trade order cancellation', {
             'Status': 'success',
             'Address': $scope.userBlob.data.account_id
           });
@@ -526,8 +526,8 @@ TradeTab.prototype.angular = function(module)
           'Address': $scope.userBlob.data.account_id
         };
 
-        if (modifying) $rpTracker.track(MIXPNL_MODIFY_EVENT, eventProp);
-        else $rpTracker.track('Trade order cancellation', eventProp);
+        if (modifying) rpTracker.track(MIXPNL_MODIFY_EVENT, eventProp);
+        else rpTracker.track('Trade order cancellation', eventProp);
       });
 
       keychain.requestSecret(id.account, id.username, function (err, secret) {
@@ -557,7 +557,7 @@ TradeTab.prototype.angular = function(module)
     $scope.order_confirmed = function (type, ccyPair, ord, modifying, successCb, errorCb)
     {
       var order = ord ? ord : $scope.order[type];
-      var tx = $network.remote.transaction();
+      var tx = network.remote.transaction();
 
       tx.offer_create(
         id.account,
@@ -616,8 +616,8 @@ TradeTab.prototype.angular = function(module)
           'Transaction ID': res.tx_json.hash
         };
 
-        if (modifying) $rpTracker.track(MIXPNL_MODIFY_EVENT, eventProp);
-        else $rpTracker.track('Trade order result', eventProp);
+        if (modifying) rpTracker.track(MIXPNL_MODIFY_EVENT, eventProp);
+        else rpTracker.track('Trade order result', eventProp);
       });
 
       tx.on('error', function (err) {
@@ -638,8 +638,8 @@ TradeTab.prototype.angular = function(module)
           'Address': $scope.userBlob.data.account_id
         };
 
-        if (modifying) $rpTracker.track(MIXPNL_MODIFY_EVENT, eventProp);
-        else $rpTracker.track('Trade order result', eventProp);
+        if (modifying) rpTracker.track(MIXPNL_MODIFY_EVENT, eventProp);
+        else rpTracker.track('Trade order result', eventProp);
       });
 
       keychain.requestSecret(id.account, id.username, function (err, secret) {

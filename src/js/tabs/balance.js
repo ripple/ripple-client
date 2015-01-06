@@ -24,7 +24,7 @@ BalanceTab.prototype.generateHtml = function ()
 BalanceTab.prototype.angular = function (module)
 {
   module.controller('BalanceCtrl', ['$scope', 'rpId', 'rpNetwork', '$filter', '$http', 'rpAppManager',
-                                     function ($scope, $id, $network, $filter, $http, appManager)
+                                     function ($scope, id, network, $filter, $http, appManager)
   {
     //
 
@@ -211,17 +211,17 @@ BalanceTab.prototype.angular = function (module)
 
     var getDateRangeHistory = function(dateMin, dateMax, callback)
     {
-      if (!$id.account) return;
+      if (!id.account) return;
       var completed = false;
       var history = [];
 
       var params = {
-        account:          $id.account,
+        account:          id.account,
         ledger_index_min: -1
       };
 
       var getTx = function(){
-        $network.remote.request_account_tx(params)
+        network.remote.request_account_tx(params)
         .on('success', function(data) {
           if (data.transactions.length) {
             for (var i = 0;i < data.transactions.length;i++) {
@@ -236,7 +236,7 @@ BalanceTab.prototype.angular = function (module)
                 continue;
 
               // Push
-              var tx = rewriter.processTxn(data.transactions[i].tx, data.transactions[i].meta, $id.account);
+              var tx = rewriter.processTxn(data.transactions[i].tx, data.transactions[i].meta, id.account);
               if (tx) history.push(tx);
             }
 

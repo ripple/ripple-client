@@ -22,7 +22,7 @@ ContactsTab.prototype.generateHtml = function ()
 
 ContactsTab.prototype.angular = function (module) {
   module.controller('ContactsCtrl', ['$scope', 'rpId', 'rpTracker',
-    function ($scope, $id, $rpTracker)
+    function ($scope, id, rpTracker)
   {
 
 

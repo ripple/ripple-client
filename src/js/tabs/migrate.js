@@ -22,10 +22,10 @@ MigrateTab.prototype.angular = function (module) {
                                   '$location', 'rpId', '$rootScope',
                                   'rpPopup', '$timeout', 'rpTracker', 'rpAuthFlow',
                                   function ($scope, $element, $routeParams,
-                                            $location, $id, $rootScope,
-                                            popup, $timeout, $rpTracker, authflow)
+                                            $location, id, $rootScope,
+                                            popup, $timeout, rpTracker, authflow)
   {
-    if ($id.loginStatus) {
+    if (id.loginStatus) {
       $location.path('/balance');
       return;
     }
@@ -50,7 +50,7 @@ MigrateTab.prototype.angular = function (module) {
 
     //initiate the login
     function login () {
-      $id.oldLogin({
+      id.oldLogin({
         username: $scope.username,
         password: $scope.password
       }, loginCallback);
@@ -73,7 +73,7 @@ MigrateTab.prototype.angular = function (module) {
                         $scope, {});
 
           $scope.migrateConfirm = function () {
-            $id.allowOldBlob = true;
+            id.allowOldBlob = true;
             $scope.submitForm();
           };
         }

@@ -22,7 +22,7 @@ EurTab.prototype.angular = function (module)
 {
  
   module.controller('EurCtrl', ['$scope', 'rpId', 'rpAppManager', 'rpTracker', '$routeParams', 'rpKeychain', 'rpNetwork', '$timeout',
-    function ($scope, $id, appManager, rpTracker, $routeParams, keychain, $network, $timeout)
+    function ($scope, id, appManager, rpTracker, $routeParams, keychain, $network, $timeout)
     {
     	$scope.toggle_instructions = function () {
     		$scope.showInstructions = !$scope.showInstructions;
@@ -51,7 +51,7 @@ EurTab.prototype.angular = function (module)
 
 	        // Flags
 	        tx
-	            .rippleLineSet($id.account, amount)
+	            .rippleLineSet(id.account, amount)
 	            .on('proposed', function(res){
 	              $scope.$apply(function () {
 	                setEngineStatus(res, false);              
@@ -110,7 +110,7 @@ EurTab.prototype.angular = function (module)
 	          console.log($scope.tx_result);
 	        }
 
-	        keychain.requestSecret($id.account, $id.username, function (err, secret) {
+	        keychain.requestSecret(id.account, id.username, function (err, secret) {
 	          // XXX Error handling
 	          if (err) {
 	            $scope.loading = false;

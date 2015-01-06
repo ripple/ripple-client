@@ -21,7 +21,7 @@ XrpTab.prototype.generateHtml = function ()
 
 XrpTab.prototype.angular = function (module)
 {
-  module.controller('XrpCtrl', ['$scope', 'rpId', function ($scope, $id)
+  module.controller('XrpCtrl', ['$scope', 'rpId', function ($scope, id)
   {
     $scope.accountLines = {};
     $scope.showComponent = [];

@@ -25,7 +25,7 @@ TrustTab.prototype.angular = function (module)
   module.controller('TrustCtrl', ['$scope', 'rpBooks', '$timeout', '$routeParams', 'rpId',
                                   '$filter', 'rpNetwork', 'rpTracker', 'rpKeychain',
                                   function ($scope, books, $timeout, $routeParams, id,
-                                            $filter, $network, $rpTracker, keychain)
+                                            $filter, network, rpTracker, keychain)
   {
     $scope.advanced_feature_switch = Options.advanced_feature_switch;
     $scope.trust = {};
@@ -100,7 +100,7 @@ TrustTab.prototype.angular = function (module)
       $scope.verifying = true;
       $scope.error_account_reserve = false;
       // test if account is valid
-      $network.remote.requestAccountInfo({account: $scope.counterparty_address})
+      network.remote.requestAccountInfo({account: $scope.counterparty_address})
         // if account is valid then just to confirm page
         .on('success', function (m){
           $scope.$apply(function(){
@@ -185,7 +185,7 @@ TrustTab.prototype.angular = function (module)
      */
     $scope.grant_confirmed = function () {
       var amount = $scope.amount_feedback.to_json();
-      var tx = $network.remote.transaction();
+      var tx = network.remote.transaction();
 
       // Add memo to tx
       tx.addMemo('client', 'rt' + $scope.version);
@@ -264,13 +264,13 @@ TrustTab.prototype.angular = function (module)
      */
     $scope.granted = function (hash) {
       $scope.mode = 'granted';
-      $network.remote.on('transaction', handleAccountEvent);
+      network.remote.on('transaction', handleAccountEvent);
 
       function handleAccountEvent(e) {
         $scope.$apply(function () {
           if (e.transaction.hash === hash) {
             setEngineStatus(e, true);
-            $network.remote.removeListener('transaction', handleAccountEvent);
+            network.remote.removeListener('transaction', handleAccountEvent);
           }
         });
       }
@@ -347,7 +347,7 @@ TrustTab.prototype.angular = function (module)
   }]);
 
   module.controller('AccountRowCtrl', ['$scope', 'rpBooks', 'rpNetwork', 'rpId', 'rpKeychain', '$timeout',
-    function ($scope, books, $network, id, keychain, $timeout) {
+    function ($scope, books, network, id, keychain, $timeout) {
 
       function setEngineStatus(res, accepted) {
         $scope.engine_result = res.engine_result;
@@ -459,7 +459,7 @@ TrustTab.prototype.angular = function (module)
         };
 
         var nullifyTrustLine = function(idAccount, lineCurrency, lineAccount) {
-          var tx = $network.remote.transaction();
+          var tx = network.remote.transaction();
 
           // Add memo to tx
           tx.addMemo('client', 'rt' + $scope.version);
@@ -477,7 +477,7 @@ TrustTab.prototype.angular = function (module)
           // 2) There is no market -> send back balance to issuer
 
           var sendBalanceToSelf = function() {
-            var tx = $network.remote.transaction();
+            var tx = network.remote.transaction();
 
             // Add memo to tx
             tx.addMemo('client', 'rt' + $scope.version);
@@ -491,7 +491,7 @@ TrustTab.prototype.angular = function (module)
           };
 
           var sendBalanceToIssuer = function() {
-            var tx = $network.remote.transaction();
+            var tx = network.remote.transaction();
 
             // Add memo to tx
             tx.addMemo('client', 'rt' + $scope.version);
@@ -573,7 +573,7 @@ TrustTab.prototype.angular = function (module)
           return;
         }
 
-        var tx = $network.remote.transaction();
+        var tx = network.remote.transaction();
 
         // Add memo to tx
         tx.addMemo('client', 'rt' + $scope.version);

@@ -25,20 +25,20 @@ RegisterTab.prototype.angular = function (module) {
   module.controller('RegisterCtrl', ['$scope', '$rootScope', '$location', '$element',
                                      'rpId', 'rpTracker', '$routeParams', 'rpKeychain',
                                      function ($scope, $rootScope, $location, $element,
-                                               $id, $rpTracker, $routeParams, keychain)
+                                               id, rpTracker, $routeParams, keychain)
   {
     /**
      * Email verification
      */
     if ($routeParams.token) {
-      $id.verify({
+      id.verify({
         username: $routeParams.username,
         token: $routeParams.token
       }, function(err, response){
         if (err) {
           $rootScope.verifyStatus = 'error';
 
-          $rpTracker.track('Email verification', {
+          rpTracker.track('Email verification', {
             result: 'failed',
             message: err
           });
@@ -46,7 +46,7 @@ RegisterTab.prototype.angular = function (module) {
         else if ('success' === response.result) {
           $rootScope.verifyStatus = 'verified';
 
-          $rpTracker.track('Email verification', {
+          rpTracker.track('Email verification', {
             result: 'success'
           });
         }
@@ -54,14 +54,14 @@ RegisterTab.prototype.angular = function (module) {
 
       $rootScope.verifyStatus = 'verifying';
       $rootScope.username = $routeParams.username;
-      $id.logout();
+      id.logout();
       $location.path('/login');
     }
 
     /**
      * User is already logged in
      */
-    if ($id.loginStatus) {
+    if (id.loginStatus) {
       $location.path('/balance');
       return;
     }
@@ -99,7 +99,7 @@ RegisterTab.prototype.angular = function (module) {
         $scope.masterkey = $scope.oldUserBlob.data.master_seed;
       }
 
-      $id.register({
+      id.register({
         'username': $scope.username,
         'password': $scope.password1,
         'email': $scope.email,
@@ -115,7 +115,7 @@ RegisterTab.prototype.angular = function (module) {
           $scope.mode = "failed";
           $scope.error_detail = err.message;
 
-          $rpTracker.track('Sign Up', {
+          rpTracker.track('Sign Up', {
             'Used key': !!$scope.masterkey,
             'Password strength': $scope.strength,
             'Result': 'fail'
@@ -129,7 +129,7 @@ RegisterTab.prototype.angular = function (module) {
 
         $scope.mode = 'secret';
 
-        $rpTracker.track('Sign Up', {
+        rpTracker.track('Sign Up', {
           'Used key': !!$scope.masterkey,
           'Password strength': $scope.strength,
           'Result': 'success'
@@ -141,7 +141,7 @@ RegisterTab.prototype.angular = function (module) {
     {
       $scope.resendLoading = true;
 
-      keychain.requestSecret($id.account, $id.username,
+      keychain.requestSecret(id.account, id.username,
         function (err, masterkey) {
           if (err) {
             console.log("client: register tab: error while " +
@@ -151,7 +151,7 @@ RegisterTab.prototype.angular = function (module) {
             return;
           }
                     
-          $id.resendEmail({
+          id.resendEmail({
             id:$scope.userBlob.id,
             url:$scope.userBlob.url,
             username: $scope.userCredentials.username,
@@ -224,7 +224,7 @@ RegisterTab.prototype.angular = function (module) {
       var regInProgress;
 
       // TODO Update this. It cannot exist anymore, 'cause usernames are unique
-      $id.exists($scope.username, $scope.password1, function (error, exists) {
+      id.exists($scope.username, $scope.password1, function (error, exists) {
         if (!regInProgress) {
           if (!exists) {
             regInProgress = true;
