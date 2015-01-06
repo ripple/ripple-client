@@ -6,10 +6,18 @@
  * It encapsulates a ripple.Remote instance.
  */
 
-var module = angular.module('network', []);
+(function () {
+'use strict';
 
-module.factory('rpNetwork', ['$rootScope', function($scope)
-{
+/* global ripple: false, angular: false, _: false, jQuery: false, store: false, Options: false */
+
+angular
+  .module('network', [])
+  .factory('rpNetwork', rpNetwork);
+
+rpNetwork.$inject = ['$rootScope', '$timeout'];
+
+function rpNetwork($scope, $timeout) {
   /**
    * Manage network state.
    *
@@ -30,6 +38,7 @@ module.factory('rpNetwork', ['$rootScope', function($scope)
     this.remote.max_fee = Options.max_tx_network_fee || 12;
 
     this.connected = false;
+    this.disconnectTimeout = null;
   };
 
   Network.prototype.init = function ()
@@ -52,10 +61,21 @@ module.factory('rpNetwork', ['$rootScope', function($scope)
   Network.prototype.handleConnect = function (e)
   {
     var self = this;
+    var dispatchConnectEvent = true;
+
+    if (this.disconnectTimeout) {
+      // must not happen, but in case...
+      $timeout.cancel(this.disconnectTimeout);
+      this.disconnectTimeout = null;
+      dispatchConnectEvent = false;
+    }
+
     $scope.$apply(function () {
       self.connected = true;
-      $scope.connected = true;
-      $scope.$broadcast('$netConnected');
+      if (dispatchConnectEvent) {
+        $scope.connected = true;
+        $scope.$broadcast('$netConnected');
+      }
     });
   };
 
@@ -64,11 +84,23 @@ module.factory('rpNetwork', ['$rootScope', function($scope)
     var self = this;
     $scope.$apply(function () {
       self.connected = false;
+    });
+    if (this.disconnectTimeout) {
+      // must not happen, but in case...
+      $timeout.cancel(this.disconnectTimeout);
+    }
+    this.disconnectTimeout = $timeout(this.handleDisconnectReal.bind(this), 2000);
+  };
+
+  Network.prototype.handleDisconnectReal = function(e) {
+    this.disconnectTimeout = null;
+    $scope.$apply(function () {
       $scope.connected = false;
       $scope.$broadcast('$netDisconnected');
     });
-  };
+  }
 
   return new Network();
-}]);
+}
 
+})();
