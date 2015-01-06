@@ -60,8 +60,6 @@ BalanceTab.prototype.angular = function (module)
 
     $scope.validationPatternCurrency = /^[a-zA-Z]{3}/;
 
-    ///////////////////////////
-
     $scope.changeMetric = function(scope) {
       $scope.selectedValueMetric = scope.selectedValueMetric;
 

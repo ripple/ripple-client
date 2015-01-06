@@ -28,8 +28,6 @@ ContactsTab.prototype.angular = function (module) {
     // Initialize the notification object
     $scope.success = {};
 
-    ///////////////////////////
-
     $scope.reset_form = function ()
     {
       $scope.contact = {

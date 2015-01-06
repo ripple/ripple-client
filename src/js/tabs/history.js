@@ -69,8 +69,6 @@ HistoryTab.prototype.angular = function (module) {
       }
     };
 
-    ///////////////////////////
-
     // History states
     $scope.$watch('loadState.transactions',function(){
       $scope.historyState = !$scope.loadState.transactions ? 'loading' : 'ready';
