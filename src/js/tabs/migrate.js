@@ -25,15 +25,16 @@ MigrateTab.prototype.angular = function (module) {
                                             $location, id, $rootScope,
                                             popup, $timeout, rpTracker, authflow)
   {
-    if (id.loginStatus) {
-      $location.path('/balance');
-      return;
-    }
-
+    
     $scope.attempts = 0;
     $scope.error = '';
     $scope.password = '';
     $scope.backendMessages = [];
+    
+    if (id.loginStatus) {
+      $location.path('/balance');
+      return;
+    }
 
     $scope.submitForm = function()
     {

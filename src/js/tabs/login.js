@@ -25,11 +25,6 @@ LoginTab.prototype.angular = function (module) {
                                             $location, id, $rootScope,
                                             popup, $timeout, rpTracker, authflow)
   {
-    if (id.loginStatus) {
-      $location.path('/balance');
-      return;
-    }
-
     $scope.attempts = 0;
     $scope.error = '';
     $scope.password = '';
@@ -39,6 +34,11 @@ LoginTab.prototype.angular = function (module) {
 
     $scope.loginForm && $scope.loginForm.$setPristine(true);
     $scope.backendMessages = [];
+    
+    if (id.loginStatus) {
+      $location.path('/balance');
+      return;
+    }
 
     $scope.goto_recover = function() {
         if($scope.username){

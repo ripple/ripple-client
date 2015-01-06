@@ -39,10 +39,10 @@ SecurityTab.prototype.angular = function (module) {
     // Initialize the notification object
     $scope.success = {};
 
+    $scope.security = {};
+
     $scope.$on('$blobUpdate', onBlobUpdate);
     onBlobUpdate();
-
-    $scope.security = {};
 
     function onBlobUpdate()
     {
