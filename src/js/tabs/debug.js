@@ -102,6 +102,7 @@ PretendTab.prototype.angular = function (module)
             filter: function() {}
           };
 
+        $rootScope.userHistory = null;
         $rootScope.userBlob = dummyBlob;
         id.setUsername(address);
 
