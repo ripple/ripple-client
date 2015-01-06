@@ -31,12 +31,16 @@ SettingsTradeTab.prototype.angular = function(module) {
     var dirty = false,
         saveTimeout;
 
-    if ($scope.userBlob.data){
+    if ($scope.userBlob.data && $scope.userCredentials.username) {
       $scope.pairs = $scope.userBlob.data.trade_currency_pairs;
+    } else {
+      var removeWatcher = $scope.$on('$blobUpdate', function () {
+        if (!$scope.userCredentials.username)
+          return;
+        $scope.pairs = $scope.userBlob.data.trade_currency_pairs;
+        removeWatcher();
+      });
     }
-    $scope.$on('$blobUpdate', function () {
-      $scope.pairs = $scope.userBlob.data.trade_currency_pairs;
-    });
 
     $scope.deletePair = function(index){
       for (var i = 0; i < $scope.pairs.length; i++) {
