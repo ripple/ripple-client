@@ -108,7 +108,6 @@ module.controller('NavbarCtrl', ['$scope', '$element', '$compile', 'rpId',
 //  });
 
   function setConnectionStatus(connected) {
-    $scope.connected = !!connected;
     if (connected) {
       notifyEl.find('.type-offline').remove();
     } else {
