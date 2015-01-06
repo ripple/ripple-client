@@ -61,7 +61,7 @@ function rpTxQueue($scope, network, keychain, id)
         $scope.userBlob.unshift("/txQueue", item);
       }
     });
-  };
+  }
 
   /**
    * Check if the account has been funded.
@@ -98,7 +98,7 @@ function rpTxQueue($scope, network, keychain, id)
 
       self.emptyQueue();
     });
-  };
+  }
 
   /**
    * Empty transaction queue
@@ -106,4 +106,4 @@ function rpTxQueue($scope, network, keychain, id)
   function emptyQueue() {
     $scope.userBlob.unset('/txQueue');
   }
-};
+}

@@ -734,13 +734,11 @@ TradeTab.prototype.angular = function(module)
       $scope.engine_result_message = res.engine_result_message;
       $scope.engine_status_accepted = accepted;
 
-      switch (res.engine_result.slice(0, 3)) {
-        case 'tes':
-          $scope.tx_result = accepted ? 'cleared' : 'pending';
-          break;
-        default:
-          $scope.tx_result = 'unknown';
-          console.warn('Unhandled engine status encountered!');
+      if (res.engine_result.slice(0, 3) === 'test') {
+        $scope.tx_result = accepted ? 'cleared' : 'pending';
+      } else {
+        $scope.tx_result = 'unknown';
+        console.warn('Unhandled engine status encountered!');
       }
     }
 
