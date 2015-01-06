@@ -617,7 +617,9 @@ TradeTab.prototype.angular = function(module)
           'Status': 'success',
           'Currency pair': ccyPair,
           'Address': $scope.userBlob.data.account_id,
-          'Transaction ID': res.tx_json.hash
+          'Transaction ID': res.tx_json.hash,
+          BuyAmount: order.buy_amount.to_number(false),
+          SellAmount: order.sell_amount.to_number(false)
         };
 
         if (modifying) rpTracker.track(MIXPNL_MODIFY_EVENT, eventProp);

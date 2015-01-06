@@ -3,6 +3,7 @@ var util = require('util'),
     Tab = require('../client/tab').Tab,
     Amount = ripple.Amount,
     Base = ripple.Base,
+    rewriter = require('../util/jsonrewriter'),
     Currency = ripple.Currency;
 
 var ExchangeTab = function ()
@@ -267,7 +268,7 @@ ExchangeTab.prototype.angular = function (module)
         // parse the currency name and extract the iso
         var currency = Currency.from_human($scope.exchange.currency_name);
         currency = currency.has_interest() ? currency.to_hex() : currency.get_iso();
-        var amount = Amount.from_human(""+$scope.exchange.amount+" "+currency);
+        var amount = Amount.from_human("" + $scope.exchange.amount + " " + currency);
 
         amount.set_issuer(id.account);
 
@@ -329,10 +330,34 @@ ExchangeTab.prototype.angular = function (module)
             // }
           });
         });
-        tx.on('success',function(res){
+        tx.on('success', function(res) {
           setEngineStatus(res, true);
+          try {
+            var tx = rewriter.processTxn(res.tx_json, res.metadata, id.account);
+            var ccPairs = _.map(tx.affectedCurrencies, function(currencyCode) {
+              if (currencyCode != 'XRP') {
+                var balanceChangeEffect = _.filter(tx.effects, function(effect) {
+                  return effect.type = "trust_change_balance" && effect.currency == currencyCode;
+                })[0];
+                var res =  currencyCode + '.' + id.resolveNameSync(balanceChangeEffect.amount.issuer().to_json(), { tilde: true });
+                return res;
+              }
+              return currencyCode;
+            });
+            var ccyPair = ccPairs.join('/');
+            var eventProp = {
+              Status: 'success',
+              'Currency pair': ccyPair,
+              Address: $scope.userBlob.data.account_id,
+              'Transaction ID': res.tx_json.hash,
+              Amount: amount.to_number(false)
+            };
+            rpTracker.track('Convert order result', eventProp);
+          } catch (err) {
+            console.warn(err);
+          }
         });
-        tx.on('error', function (res) {
+        tx.on('error', function(res) {
           setImmediate(function () {
             $scope.$apply(function () {
               $scope.mode = "rippleerror";
@@ -345,6 +370,19 @@ ExchangeTab.prototype.angular = function (module)
               }
             });
           });
+          try {
+            var curAltCode = $scope.exchange.alt.amount.currency().get_iso();
+            var ccyPair = $scope.exchange.currency_code + '/' + curAltCode;
+            var eventProp = {
+              Status: 'error',
+              Message: res.engine_result,
+              'Currency pair': ccyPair,
+              Address: $scope.userBlob.data.account_id
+            };
+            rpTracker.track('Convert order result', eventProp);
+          } catch (err) {
+            console.warn(err);
+          }
         });
         tx.submit();
 
@@ -412,9 +450,6 @@ ExchangeTab.prototype.angular = function (module)
         }
       });
     }]);
-
-  
-
 };
 
 module.exports = ExchangeTab;
