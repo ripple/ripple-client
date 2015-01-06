@@ -24,7 +24,7 @@ ExchangeTab.prototype.angular = function (module)
 {
   module.controller('ExchangeCtrl', ['$scope', '$timeout', '$routeParams',
     'rpId', 'rpNetwork', 'rpTracker', 'rpKeychain', '$rootScope', '$location',
-    function ($scope, $timeout, $routeParams, $id, $network, $rpTracker, keychain, $rootScope, $location)
+    function ($scope, $timeout, $routeParams, id, network, rpTracker, keychain, $rootScope, $location)
     {
 
 
@@ -106,7 +106,7 @@ ExchangeTab.prototype.angular = function (module)
         var refDate = new Date(new Date().getTime() + 5 * 60000);
 
         exchange.amount_feedback = Amount.from_human('' + exchange.amount + ' ' + matchedCurrency, { reference_date: refDate });
-        exchange.amount_feedback.set_issuer($id.account);
+        exchange.amount_feedback.set_issuer(id.account);
 
         if (exchange.amount_feedback.is_valid() && exchange.amount_feedback.is_positive()) {
           exchange.path_status = 'pending';
@@ -127,8 +127,8 @@ ExchangeTab.prototype.angular = function (module)
           if (amount.is_zero()) return;
 
           // Start path find
-          pf = $network.remote.path_find($id.account,
-              $id.account,
+          pf = network.remote.path_find(id.account,
+              id.account,
               amount);
               // $scope.generate_src_currencies());
               // XXX: Roll back pathfinding changes temporarily
@@ -270,16 +270,16 @@ ExchangeTab.prototype.angular = function (module)
         currency = currency.has_interest() ? currency.to_hex() : currency.get_iso();
         var amount = Amount.from_human(""+$scope.exchange.amount+" "+currency);
 
-        amount.set_issuer($id.account);
+        amount.set_issuer(id.account);
 
-        var tx = $network.remote.transaction();
+        var tx = network.remote.transaction();
 
         // Add memo to tx
         tx.addMemo('client', 'rt' + $rootScope.version);
 
         // Destination tag
-        tx.destination_tag(webutil.getDestTagFromAddress($id.account));
-        tx.payment($id.account, $id.account, amount.to_json());
+        tx.destination_tag(webutil.getDestTagFromAddress(id.account));
+        tx.payment(id.account, id.account, amount.to_json());
         tx.send_max($scope.exchange.alt.send_max);
         tx.paths($scope.exchange.alt.paths);
 
@@ -287,7 +287,7 @@ ExchangeTab.prototype.angular = function (module)
           tx.secret($scope.exchange.secret);
         } else {
           // Get secret asynchronously
-          keychain.requestSecret($id.account, $id.username,
+          keychain.requestSecret(id.account, id.username,
             function (err, secret) {
               if (err) {
                 console.log("client: exchange tab: error while " +
@@ -357,13 +357,13 @@ ExchangeTab.prototype.angular = function (module)
        */
       $scope.exchanged = function (hash) {
         $scope.mode = "status";
-        $network.remote.on('transaction', handleAccountEvent);
+        network.remote.on('transaction', handleAccountEvent);
 
         function handleAccountEvent(e) {
           $scope.$apply(function () {
             if (e.transaction.hash === hash) {
               setEngineStatus(e, true);
-              $network.remote.removeListener('transaction', handleAccountEvent);
+              network.remote.removeListener('transaction', handleAccountEvent);
             }
           });
         }

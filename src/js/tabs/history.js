@@ -21,7 +21,7 @@ HistoryTab.prototype.generateHtml = function ()
 
 HistoryTab.prototype.angular = function (module) {
   module.controller('HistoryCtrl', ['$scope', 'rpId', 'rpNetwork', 'rpTracker', 'rpAppManager', '$routeParams',
-                                     function ($scope, $id, $network, $rpTracker, appManager, $routeParams)
+                                     function ($scope, id, network, rpTracker, appManager, $routeParams)
   {
     var history = [];
 
@@ -106,13 +106,13 @@ HistoryTab.prototype.angular = function (module) {
       var history = [];
 
       var params = {
-        'account': $id.account,
+        'account': id.account,
         'ledger_index_min': -1,
         'limit': 200
       };
 
       var getTx = function(){
-        $network.remote.request_account_tx(params)
+        network.remote.request_account_tx(params)
         .on('success', function(data) {
           if (data.transactions.length) {
             for(var i=0;i<data.transactions.length;i++) {
@@ -127,7 +127,7 @@ HistoryTab.prototype.angular = function (module) {
                 continue;
 
               // Push
-              var tx = rewriter.processTxn(data.transactions[i].tx, data.transactions[i].meta, $id.account);
+              var tx = rewriter.processTxn(data.transactions[i].tx, data.transactions[i].meta, id.account);
               if (tx) history.push(tx);
             }
 
@@ -412,13 +412,13 @@ HistoryTab.prototype.angular = function (module) {
       var limit = 100; // TODO why 100?
 
       var params = {
-        account: $id.account,
+        account: id.account,
         ledger_index_min: -1,
         limit: limit,
         marker: $scope.tx_marker
       };
 
-      $network.remote.request_account_tx(params)
+      network.remote.request_account_tx(params)
       .on('success', function(data) {
         $scope.$apply(function () {
           if (data.transactions.length < limit) {
@@ -431,7 +431,7 @@ HistoryTab.prototype.angular = function (module) {
             var transactions = [];
 
             data.transactions.forEach(function (e) {
-              var tx = rewriter.processTxn(e.tx, e.meta, $id.account);
+              var tx = rewriter.processTxn(e.tx, e.meta, id.account);
               if (tx) {
                 var date = ripple.utils.toTimestamp(tx.date);
 
@@ -590,12 +590,12 @@ HistoryTab.prototype.angular = function (module) {
           if (sent) {
             // If sent, counterparty is Address To
             linePayment.ToAddr = rippleName(transaction.counterparty);
-            linePayment.FromAddr = rippleName($id.account);
+            linePayment.FromAddr = rippleName(id.account);
           }
           else {
             // If received, counterparty is Address From
             linePayment.FromAddr = rippleName(transaction.counterparty);
-            linePayment.ToAddr = rippleName($id.account);
+            linePayment.ToAddr = rippleName(id.account);
           }
 
           if (exists(transaction.amountSent)) {

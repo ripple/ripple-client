@@ -25,7 +25,7 @@ UsdTab.prototype.extraRoutes = [
 UsdTab.prototype.angular = function (module)
 {
   module.controller('UsdCtrl', ['$scope', 'rpId', 'rpAppManager', 'rpTracker', '$routeParams', 'rpKeychain', 'rpNetwork', '$timeout',
-    function ($scope, $id, appManager, rpTracker, $routeParams, keychain, $network, $timeout)
+    function ($scope, id, appManager, rpTracker, $routeParams, keychain, network, $timeout)
     {
      
       $scope.toggle_instructions = function (){
@@ -50,14 +50,14 @@ UsdTab.prototype.angular = function (module)
           return;
         }
 
-        var tx = $network.remote.transaction();
+        var tx = network.remote.transaction();
 
         // Add memo to tx
         tx.addMemo('client', 'rt' + $scope.version);
 
         // Flags
         tx
-            .rippleLineSet($id.account, amount)
+            .rippleLineSet(id.account, amount)
             .on('proposed', function(res){
               $scope.$apply(function () {
                 setEngineStatus(res, false);              
@@ -116,7 +116,7 @@ UsdTab.prototype.angular = function (module)
           console.log($scope.tx_result);
         }
 
-        keychain.requestSecret($id.account, $id.username, function (err, secret) {
+        keychain.requestSecret(id.account, id.username, function (err, secret) {
           // XXX Error handling
           if (err) {
             $scope.loading = false;

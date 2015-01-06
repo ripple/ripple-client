@@ -19,7 +19,7 @@ TwoFATab.prototype.generateHtml = function ()
 TwoFATab.prototype.angular = function(module)
 {
   module.controller('TwoFACtrl', ['$scope', 'rpId', 'rpKeychain', 'rpAuthFlow', '$timeout',
-    function ($scope, $id, keychain, authflow, $timeout)
+    function ($scope, id, keychain, authflow, $timeout)
     {
 
       if (!$scope.twoFAVerify) $scope.twoFAVerify = true;
@@ -84,7 +84,7 @@ TwoFATab.prototype.angular = function(module)
 
         $scope.savingPhone = true;
 
-        keychain.requestSecret($id.account, $id.username, function(err, secret) {
+        keychain.requestSecret(id.account, id.username, function(err, secret) {
           if (err) {
             $scope.savingPhone = false;
             $scope.load_notification('general_error');
@@ -156,7 +156,7 @@ TwoFATab.prototype.angular = function(module)
             return;
           }
 
-          keychain.requestSecret($id.account, $id.username, function(err, secret) {
+          keychain.requestSecret(id.account, id.username, function(err, secret) {
 
             if (err) {
               $scope.load_notification('general_error');

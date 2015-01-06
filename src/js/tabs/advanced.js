@@ -21,7 +21,7 @@ AdvancedTab.prototype.generateHtml = function ()
 AdvancedTab.prototype.angular = function(module)
 {
   module.controller('AdvancedCtrl', ['$scope', 'rpId', 'rpKeychain', 'rpNetwork',
-                                    function ($scope, $id, $keychain, $network)
+                                    function ($scope, id, keychain, network)
   {
     // XRP currency object.
     // {name: "XRP - Ripples", order: 146, value: "XRP"}
@@ -81,7 +81,7 @@ AdvancedTab.prototype.angular = function(module)
       }
       // This has to be updated manually because the network object is not
       // recreated unless we do location.reload()
-      $network.remote.max_fee = $scope.options.max_tx_network_fee;
+      network.remote.max_fee = $scope.options.max_tx_network_fee;
 
       $scope.editMaxNetworkFee = false;
 

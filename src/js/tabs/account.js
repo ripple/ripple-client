@@ -23,7 +23,7 @@ AccountTab.prototype.extraRoutes = [
 AccountTab.prototype.angular = function(module)
 {
   module.controller('AccountCtrl', ['$scope', '$timeout', 'rpId', 'rpKeychain', '$routeParams',
-    function ($scope, $timeout, $id, keychain, $routeParams)
+    function ($scope, $timeout, id, keychain, $routeParams)
     {
       if (!$routeParams.route) $routeParams.route = 'public';
 
@@ -31,7 +31,7 @@ AccountTab.prototype.angular = function(module)
         $scope.loading = true;
         $scope.error = false;
         // Get the master key
-        keychain.getSecret($id.account, $id.username, $scope.password,
+        keychain.getSecret(id.account, id.username, $scope.password,
           function (err, masterkey) {
             if (err) {
               console.log("client: account tab: error while " +
@@ -43,7 +43,7 @@ AccountTab.prototype.angular = function(module)
             }
 
             // Rename
-            $id.rename({
+            id.rename({
               new_username: $scope.username,
               password: $scope.password,
               masterkey: masterkey
@@ -58,7 +58,7 @@ AccountTab.prototype.angular = function(module)
 
               // Re-login
               // TODO implement refresh/relogin in ID.
-              $id.login({
+              id.login({
                 username: $scope.username,
                 password: $scope.password
               }, function (err) {

@@ -21,7 +21,7 @@ WithdrawTab.prototype.generateHtml = function ()
 WithdrawTab.prototype.angular = function (module)
 {
   module.controller('WithdrawCtrl', ['$rootScope', 'rpId', 'rpAppManager',
-                                     function ($scope, $id, appManager)
+                                     function ($scope, id, appManager)
   {
 
   }]);

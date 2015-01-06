@@ -19,7 +19,7 @@ SecurityTab.prototype.generateHtml = function ()
 SecurityTab.prototype.angular = function (module) {
   module.controller('SecurityCtrl', ['$scope', 'rpId', 'rpOldBlob', 'rpTracker',
                                      'rpKeychain', '$timeout', 'rpAuthFlow', 'rpPopup',
-                                     function ($scope, $id, $blob, $rpTracker,
+                                     function ($scope, id, blob, rpTracker,
                                                keychain, $timeout, authflow, popup)
   {
     $scope.settingsPage = 'security';
@@ -28,7 +28,7 @@ SecurityTab.prototype.angular = function (module) {
 
 
     $scope.isUnlocked = true; //hiding the dialog for now
-    //$scope.isUnlocked = keychain.isUnlocked($id.account);
+    //$scope.isUnlocked = keychain.isUnlocked(id.account);
     $scope.loading2FA      = false;
     $scope.loaded2FA       = false;
     $scope.errorLoading2FA = false;
@@ -83,7 +83,7 @@ SecurityTab.prototype.angular = function (module) {
       $scope.isConfirming = true;
       $scope.unlockError  = null;
 
-      keychain.getSecret($id.account, $id.username, $scope.sessionPassword, function(err, secret) {
+      keychain.getSecret(id.account, id.username, $scope.sessionPassword, function(err, secret) {
         $scope.isConfirming = false;
         $scope.sessionPassword = '';
 
@@ -92,14 +92,14 @@ SecurityTab.prototype.angular = function (module) {
           return;
         }
 
-        $scope.isUnlocked = keychain.isUnlocked($id.account);
+        $scope.isUnlocked = keychain.isUnlocked(id.account);
       });
 
     };
 
 
     $scope.unmaskSecret = function () {
-      keychain.requestSecret($id.account, $id.username, 'showSecret', function (err, secret) {
+      keychain.requestSecret(id.account, id.username, 'showSecret', function (err, secret) {
         if (err) {
           // XXX Handle error
           return;
@@ -151,7 +151,7 @@ SecurityTab.prototype.angular = function (module) {
       $scope.error = false;
 
       // Get the master key
-      keychain.getSecret($id.account, $id.username, $scope.password,
+      keychain.getSecret(id.account, id.username, $scope.password,
           function (err, masterkey) {
             if (err) {
               console.log("client: account tab: error while " +
@@ -163,8 +163,8 @@ SecurityTab.prototype.angular = function (module) {
             }
 
             // Change password
-            $id.changePassword({
-              username: $id.username,
+            id.changePassword({
+              username: id.username,
               password: $scope.password1,
               masterkey: masterkey,
               blob: $scope.userBlob
@@ -199,7 +199,7 @@ SecurityTab.prototype.angular = function (module) {
       $scope.error2FA    = false;
       $scope.savingPhone = true;
 
-      keychain.requestSecret($id.account, $id.username, function(err, secret) {
+      keychain.requestSecret(id.account, id.username, function(err, secret) {
         if (err) {
           $scope.mode2FA = '';
           $scope.savingPhone = false;
@@ -283,7 +283,7 @@ SecurityTab.prototype.angular = function (module) {
           return;
         }
 
-        keychain.requestSecret($id.account, $id.username, function(err, secret) {
+        keychain.requestSecret(id.account, id.username, function(err, secret) {
 
           if (err) {
             $scope.mode2FA     = '';
@@ -322,7 +322,7 @@ SecurityTab.prototype.angular = function (module) {
       $scope.error2FA      = false;
       $scope.success.enable = false;
 
-      keychain.requestSecret($id.account, $id.username, function(err, secret) {
+      keychain.requestSecret(id.account, id.username, function(err, secret) {
         if (err) {
           $scope.mode2FA = '';
           return;
@@ -357,15 +357,15 @@ SecurityTab.prototype.angular = function (module) {
      * Delete Ripple Account
      */
     $scope.deleteAccount = function () {
-      keychain.requestSecret($id.account, $id.username, function (err, secret) {
+      keychain.requestSecret(id.account, id.username, function (err, secret) {
         // XXX Error handling
         if (err) return;
 
         var options = {
           url         : $scope.userBlob.url,
           blob_id     : $scope.userBlob.id,
-          username    : $id.username,
-          account_id  : $id.account,
+          username    : id.username,
+          account_id  : id.account,
           masterkey   : secret
         };
 

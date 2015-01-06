@@ -20,7 +20,7 @@ KycTab.prototype.generateHtml = function ()
 KycTab.prototype.angular = function(module)
 {
   module.controller('KycCtrl', ['$scope', 'rpId', 'rpKeychain', 'rpAuthFlow', '$timeout',
-    function ($scope, $id, keychain, authflow, $timeout)
+    function ($scope, id, keychain, authflow, $timeout)
     {
       if (!$scope.blockscoreError) $scope.blockscoreError = false;
       if (!$scope.profile) $scope.profile = {};

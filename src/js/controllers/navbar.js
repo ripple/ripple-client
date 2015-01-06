@@ -11,7 +11,7 @@ var module = angular.module('navbar', []);
 
 module.controller('NavbarCtrl', ['$scope', '$element', '$compile', 'rpId',
                                  'rpNetwork', '$location',
-                                 function ($scope, el, $compile, $id,
+                                 function ($scope, el, $compile, id,
                                            network, $location)
 {
   var queue = [];

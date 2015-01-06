@@ -28,8 +28,8 @@ SendTab.prototype.angular = function (module)
   module.controller('SendCtrl', ['$scope', '$timeout', '$routeParams', 'rpId',
                                  'rpNetwork', 'rpFederation', 'rpTracker',
                                  'rpKeychain',
-                                 function ($scope, $timeout, $routeParams, $id,
-                                           $network, $federation, $rpTracker,
+                                 function ($scope, $timeout, $routeParams, id,
+                                           network, federation, rpTracker,
                                            keychain)
   {
     var timer;
@@ -187,7 +187,7 @@ SendTab.prototype.angular = function (module)
 
       if (send.federation) {
         send.path_status = "fed-check";
-        $federation.check_email(recipient)
+        federation.check_email(recipient)
           .then(function (result) {
             // Check if this request is still current, exit if not
             var now_recipient = send.recipient_address;
@@ -240,7 +240,7 @@ SendTab.prototype.angular = function (module)
         });
       }
       else if (isRecipientValidAddress && send.recipient_address == strippedRecipient) {
-        $id.resolveName(strippedRecipient, { tilde: true }).then(function(name) {
+        id.resolveName(strippedRecipient, { tilde: true }).then(function(name) {
           send.recipient_name = name;
           // this will trigger update
           send.recipient = name;
@@ -260,7 +260,7 @@ SendTab.prototype.angular = function (module)
 
       if (!ripple.UInt160.is_valid(recipient)) return;
 
-      var account = $network.remote.account(recipient);
+      var account = network.remote.account(recipient);
 
       send.path_status = 'checking';
       send.recipient_info = null;
@@ -364,7 +364,7 @@ SendTab.prototype.angular = function (module)
         // Check allowed currencies for this address
         var requestedRecipientAddress = send.recipient_address;
         send.currency_choices_constraints.accountLines = 'pending';
-        $network.remote.requestAccountCurrencies({account: requestedRecipientAddress})
+        network.remote.requestAccountCurrencies({account: requestedRecipientAddress})
           .on('success', function (data) {
             $scope.$apply(function () {
               if (data.receive_currencies &&
@@ -665,13 +665,13 @@ SendTab.prototype.angular = function (module)
 
       // Determine if we need to update the paths.
       if (send.pathfind &&
-          send.pathfind.src_account === $id.account &&
+          send.pathfind.src_account === id.account &&
           send.pathfind.dst_account === recipient &&
           send.pathfind.dst_amount.equals(amount))
         return;
 
       // Start path find
-      var pf = $network.remote.path_find($id.account,
+      var pf = network.remote.path_find(id.account,
                                          recipient,
                                          amount);
                                          //$scope.generate_src_currencies());
@@ -753,7 +753,7 @@ SendTab.prototype.angular = function (module)
           }
 
           if (!tracked) {
-            $rpTracker.track('Send pathfind', {
+            rpTracker.track('Send pathfind', {
               'Status': 'success',
               'Currency': $scope.send.currency_code,
               'Address Type': $scope.send.federation ? 'federation' : 'ripple',
@@ -775,7 +775,7 @@ SendTab.prototype.angular = function (module)
           });
         });
 
-        $rpTracker.track('Send pathfind', {
+        rpTracker.track('Send pathfind', {
           'Status': 'error',
           'Message': res.engine_result,
           'Currency': $scope.send.currency_code,
@@ -871,11 +871,11 @@ SendTab.prototype.angular = function (module)
 
       $scope.mode = "confirm";
 
-      if (keychain.isUnlocked($id.account)) {
-        $scope.send.secret = keychain.getUnlockedSecret($id.account);
+      if (keychain.isUnlocked(id.account)) {
+        $scope.send.secret = keychain.getUnlockedSecret(id.account);
       }
 
-      $rpTracker.track('Send confirmation page', {
+      rpTracker.track('Send confirmation page', {
         'Currency': $scope.send.currency_code,
         'Address Type': $scope.send.federation ? 'federation' : 'ripple',
         'Destination Tag': !!$scope.send.dt,
@@ -946,7 +946,7 @@ SendTab.prototype.angular = function (module)
 
       amount.set_issuer(address);
 
-      var tx = $network.remote.transaction();
+      var tx = network.remote.transaction();
       // Source tag
       if ($scope.send.st) {
         tx.source_tag($scope.send.st);
@@ -966,7 +966,7 @@ SendTab.prototype.angular = function (module)
         tx.secret(send.secret);
       } else {
         // Get secret asynchronously
-        keychain.getSecret($id.account, $id.username, send.unlock_password,
+        keychain.getSecret(id.account, id.username, send.unlock_password,
                            function (err, secret) {
                              if (err) {
                                console.log("client: send tab: error while " +
@@ -991,7 +991,7 @@ SendTab.prototype.angular = function (module)
           tx.tx_json.InvoiceID = $scope.send.quote.invoice_id.toUpperCase();
         }
 
-        tx.payment($id.account,
+        tx.payment(id.account,
                    $scope.send.quote.address,
                    $scope.send.quote.send[0]);
       } else {
@@ -1005,7 +1005,7 @@ SendTab.prototype.angular = function (module)
 
         tx.destination_tag(dt ? +dt : undefined); // 'cause +dt is NaN when dt is undefined
 
-        tx.payment($id.account, address, amount.to_json());
+        tx.payment(id.account, address, amount.to_json());
       }
 
       if ($scope.send.alt) {
@@ -1018,12 +1018,12 @@ SendTab.prototype.angular = function (module)
       }
 
       var maxLedger = Options.tx_last_ledger || 3;
-      tx.lastLedger($network.remote._ledger_current_index + maxLedger);
+      tx.lastLedger(network.remote._ledger_current_index + maxLedger);
 
       tx.on('success', function (res) {
         $scope.onTransactionSuccess(res, tx);
 
-        $rpTracker.track('Send result', {
+        rpTracker.track('Send result', {
           'Status': 'success',
           'Currency': $scope.send.currency_code,
           'Address Type': $scope.send.federation ? 'federation' : 'ripple',
@@ -1041,7 +1041,7 @@ SendTab.prototype.angular = function (module)
       tx.on('error', function (res) {
         $scope.onTransactionError(res, tx);
 
-        $rpTracker.track('Send result', {
+        rpTracker.track('Send result', {
           'Status': 'error',
           'Message': res.engine_result,
           'Currency': $scope.send.currency_code,
@@ -1063,13 +1063,13 @@ SendTab.prototype.angular = function (module)
      */
     $scope.sent = function (hash) {
       $scope.mode = "status";
-      $network.remote.on('transaction', handleAccountEvent);
+      network.remote.on('transaction', handleAccountEvent);
 
       function handleAccountEvent(e) {
         $scope.$apply(function () {
           if (e.transaction.hash === hash) {
             $scope.setEngineStatus(e, true);
-            $network.remote.removeListener('transaction', handleAccountEvent);
+            network.remote.removeListener('transaction', handleAccountEvent);
           }
         });
       }

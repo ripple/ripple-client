@@ -25,7 +25,7 @@ UsdTab.prototype.extraRoutes = [
 UsdTab.prototype.angular = function (module)
 {
   module.controller('UsdCtrl', ['$scope', 'rpId', '$routeParams', '$http', 'rpAuthFlow', 'rpNetwork', 'rpTxQueue', '$location', 'rpTracker',
-    function ($scope, $id, $routeParams, $http, authflow, network, txQueue, $location, $rpTracker)
+    function ($scope, id, $routeParams, $http, authflow, network, txQueue, $location, rpTracker)
     {
       var issuer = Options.b2rAddress;
       var currency = 'USD';
@@ -91,7 +91,7 @@ UsdTab.prototype.angular = function (module)
           data: {
             domain: 'snapswap.us',
             email: $scope.userBlob.data.email,
-            rippleAddress: $id.account,
+            rippleAddress: id.account,
             trustTxBlob: 'anystring',
             usernameProposal: $scope.userCredentials.username.split("@")[0],
             data: {
@@ -121,7 +121,7 @@ UsdTab.prototype.angular = function (module)
           data: {
             amount: Number($scope.usdAmount)
           },
-          url: Options.snapswapApi + '/ripple/' + $id.account + '/balance/USD/deposit/instantKnox?amount=' + $scope.usdAmount
+          url: Options.snapswapApi + '/ripple/' + id.account + '/balance/USD/deposit/instantKnox?amount=' + $scope.usdAmount
         })
         .success(function(data){
           $scope.inProcess = false;
@@ -131,7 +131,7 @@ UsdTab.prototype.angular = function (module)
 
           $scope.calculating = false;
 
-          $rpTracker.track('Fund USD: Get Quote', {
+          rpTracker.track('Fund USD: Get Quote', {
             'Amount': $scope.usdAmount,
             'Bank': $scope.bank,
             'Status': 'success'
@@ -168,7 +168,7 @@ UsdTab.prototype.angular = function (module)
           }
           $scope.calculating = false;
 
-          $rpTracker.track('Fund USD: Get Quote', {
+          rpTracker.track('Fund USD: Get Quote', {
             'Amount': $scope.usdAmount,
             'Bank': $scope.bank,
             'Status': 'error',
@@ -207,7 +207,7 @@ UsdTab.prototype.angular = function (module)
 
         // Ok, looks like we need to set a trust line
         var tx = network.remote.transaction();
-        tx.rippleLineSet($id.account, trustAmount + '/' + currency + '/' + issuer);
+        tx.rippleLineSet(id.account, trustAmount + '/' + currency + '/' + issuer);
         tx.setFlags('NoRipple');
 
         // txQueue please set the trust line asap.
@@ -227,7 +227,7 @@ UsdTab.prototype.angular = function (module)
             cancel: location.origin + location.pathname + '#/usd/cancel',
             failure: location.origin + location.pathname + '#/usd/failure'
           },
-          url: Options.snapswapApi + '/ripple/' + $id.account + '/balance/USD/deposit/instantKnox'
+          url: Options.snapswapApi + '/ripple/' + id.account + '/balance/USD/deposit/instantKnox'
         }).success(function(data){
           // Add the selected bank swift code
           $scope.iframeUrl = data.redirectUrl + '&swift_code=' + $scope.bank;
@@ -236,7 +236,7 @@ UsdTab.prototype.angular = function (module)
 
           $scope.mode = 'step3';
 
-          $rpTracker.track('Fund USD: Confirmed', {
+          rpTracker.track('Fund USD: Confirmed', {
             'Amount': $scope.usdAmount,
             'Bank': $scope.bank
           });
@@ -249,17 +249,17 @@ UsdTab.prototype.angular = function (module)
       $scope.cancel = function() {
         $http({
           method: 'DELETE',
-          url: Options.snapswapApi + '/ripple/' + $id.account + '/processing/instantKnox'
+          url: Options.snapswapApi + '/ripple/' + id.account + '/processing/instantKnox'
         }).success(function(data, status, headers, config){
           $scope.mode = 'step1';
         });
 
-        $rpTracker.track('Fund USD: Cancelled a pending deposit');
+        rpTracker.track('Fund USD: Cancelled a pending deposit');
       };
 
       // Track the result
       if ($routeParams.result) {
-        $rpTracker.track('Fund USD: Completed', {
+        rpTracker.track('Fund USD: Completed', {
           'Result': $routeParams.result
         });
       }

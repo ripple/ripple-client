@@ -23,10 +23,10 @@ PretendTab.prototype.generateHtml = function ()
 PretendTab.prototype.angular = function (module)
 {
   module.controller('DebugPretendCtrl', ['$rootScope', '$scope', 'rpId', '$q',
-                                     function ($rootScope, $scope, $id, $q)
+                                     function ($rootScope, $scope, id, $q)
   {
 
-    if (!$id.loginStatus) return $id.goId();
+    if (!id.loginStatus) return id.goId();
 
     $scope.pretend = {
       pretendAs : '',
@@ -86,7 +86,7 @@ PretendTab.prototype.angular = function (module)
       var gotAddress = $scope.resolveInput();
 
       gotAddress.then(function(address) {
-        $id.setAccount(address);
+        id.setAccount(address);
 
         // just dummy object, so no one can operate on blob
         var dummyBlob = {
@@ -103,11 +103,11 @@ PretendTab.prototype.angular = function (module)
           };
 
         $rootScope.userBlob = dummyBlob;
-        $id.setUsername(address);
+        id.setUsername(address);
 
-        var promise = $id.resolveName(address);
+        var promise = id.resolveName(address);
         promise.then(function(name) {
-          $id.setUsername(name);
+          id.setUsername(name);
         }, function(err) {
           console.log(err);
         });
