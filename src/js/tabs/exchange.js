@@ -26,7 +26,7 @@ ExchangeTab.prototype.angular = function (module)
     'rpId', 'rpNetwork', 'rpTracker', 'rpKeychain', '$rootScope', '$location',
     function ($scope, $timeout, $routeParams, $id, $network, $rpTracker, keychain, $rootScope, $location)
     {
-
+      var pathUpdateTimeout;
 
       var timer, pf;
 
@@ -66,7 +66,6 @@ ExchangeTab.prototype.angular = function (module)
         exchange.alternatives = [];
       };
 
-      var pathUpdateTimeout;
       $scope.update_exchange = function () {
         var exchange = $scope.exchange;
         var currency = ripple.Currency.from_human(exchange.currency_name);
