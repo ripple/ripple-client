@@ -17,8 +17,8 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
     //- N1. Trust form
     .row
       // Transaction errors coming from errors.js & transactionerror.jade
-      .col-sm-12
-        group.mode-ripplerror(ng-show='account.Balance')
+      .col-sm-12(ng-show='account.Balance')
+        group.mode-ripplerror
           rp-transaction-status(
             rp-engine-result="{{engine_result}}"
             rp-engine-result-message="{{engine_result_message}}"
@@ -26,8 +26,8 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
             rp-current-tab="trust")
 
       //- N5. Notifications for edit/removing account
-      .col-sm-12
-        group.mode-granted.wide(ng-show='notif !== "clear"')
+      .col-sm-12(ng-show='notif !== "clear"', ng-hide='!notif')
+        group.mode-granted.wide
           group(ng-switch on="notif")
             group.pending(ng-switch-when="remove_gateway")
               h2.tx-status(l10n) Removing gateway...
@@ -45,8 +45,8 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
             group.result-error(ng-switch-when="error")
               h2.tx-status(l10n) There was an error while saving your changes.&#32;
               p(l10n) Please try again later.
-      .col-sm-12
-        .alert.alert-warning(ng-show='addform_visible && !can_add_trust', l10n) You must have at least
+      .col-sm-12(ng-show='addform_visible && !can_add_trust')
+        .alert.alert-warning(l10n) You must have at least
           strong  {{account.reserve_to_add_trust | rpamount:0}} XRP
           |  to add a new trust line.&#32;
           a(href="https://ripple.com/wiki/Reserves", target="_blank") More information

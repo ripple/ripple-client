@@ -12,8 +12,8 @@ section.col-xs-12.content(ng-controller='JpyCtrl')
 
   .row(ng-show='connected')
     // Transaction errors coming from errors.js & transactionerror.jade
-    .col-sm-12
-      group.mode-ripplerror(ng-show='mode=="error" || mode=="granting" && account.Balance')
+    .col-sm-12(ng-show='mode=="error" || mode=="granting" && account.Balance')
+      group.mode-ripplerror
         rp-transaction-status(
           rp-engine-result="{{engine_result}}"
           rp-engine-result-message="{{engine_result_message}}"
@@ -21,15 +21,15 @@ section.col-xs-12.content(ng-controller='JpyCtrl')
           rp-current-tab="trust")
 
     //- Generic non-tx related messages
-    .col-sm-12
-      group.mode-granted.wide(ng-show='notif !== "clear"')
+    .col-sm-12(ng-show='notif !== "clear"', ng-hide='!notif')
+      group.mode-granted.wide
         group(ng-switch on="notif")
           group.result-error(ng-switch-when="error")
             h2.tx-status(l10n) There was an error while saving your changes.&#32;
             p(l10n) Please try again later.
             
-    .col-sm-12
-      .alert.alert-warning(ng-show='account.Balance && !can_add_trust && !jpyConnected', l10n) You must have at least
+    .col-sm-12(ng-show='account.Balance && !can_add_trust && !jpyConnected')
+      .alert.alert-warning(l10n) You must have at least
         strong  {{account.reserve_to_add_trust | rpamount:0}} XRP
         |  to add a new trust line.&#32;
         a(href="https://ripple.com/wiki/Reserves", target="_blank") More information
