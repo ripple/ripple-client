@@ -829,6 +829,10 @@ SendTab.prototype.angular = function (module)
 
       // Force pathfinding reset
       $scope.update_paths();
+
+      if ($routeParams.abort_url) {
+        document.location.replace($routeParams.abort_url);
+      }
     };
 
     $scope.resetAddressForm = function() {
@@ -1032,6 +1036,10 @@ SendTab.prototype.angular = function (module)
           'Address': $scope.userBlob.data.account_id,
           'Transaction ID': res.tx_json.hash
         });
+
+        if ($routeParams.return_url) {
+          document.location.replace($routeParams.return_url);
+        }
       });
 
       tx.on('proposed', function (res) {
@@ -1051,6 +1059,10 @@ SendTab.prototype.angular = function (module)
           'Address': $scope.userBlob.account_id,
           'Transaction ID': res.tx_json.hash
         });
+
+        if ($routeParams.abort_url) {
+          document.location.replace($routeParams.abort_url);
+        }
       });
 
       tx.submit();
