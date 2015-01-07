@@ -63,8 +63,8 @@ TradeTab.prototype.angular = function(module)
       $scope.sortOptions.sortFieldName = $scope.ordersSortFieldChoicesKeyed[$scope.sortOptions.sortField];
     });
 
-    $scope.first_currency_selected = "";
-    $scope.second_currency_selected = "";
+    $scope.first_currency_selected = '';
+    $scope.second_currency_selected = '';
     $scope.load_orderbook = true;
     // Remember user preference on Convert vs. Trade
     $rootScope.ripple_exchange_selection_trade = true;
@@ -408,7 +408,7 @@ TradeTab.prototype.angular = function(module)
       },5);
     }
     /**
-     * Happens when user clicks on "Place Order" button.
+     * Happens when user clicks on 'Place Order' button.
      *
      * @param type (buy, sell)
      */
@@ -431,14 +431,14 @@ TradeTab.prototype.angular = function(module)
       });
 
       if (Options.confirmation.trade) {
-        $scope.order[type].mode = "confirm";
+        $scope.order[type].mode = 'confirm';
       } else {
         $scope.order_confirmed(type, $scope.order.currency_pair)
       }
     };
 
     /**
-     * Happens when user clicks the currency in "My Orders".
+     * Happens when user clicks the currency in 'My Orders'.
      */
     $scope.goto_order_currency = function()
     {
@@ -476,7 +476,7 @@ TradeTab.prototype.angular = function(module)
     }
 
     /**
-     * Happens when user clicks on "Cancel all" in "My Orders".
+     * Happens when user clicks on 'Cancel all' in 'My Orders'.
      */
     $scope.cancel_all_orders = function()
     {
@@ -486,7 +486,7 @@ TradeTab.prototype.angular = function(module)
     }
 
     /**
-     * Happens when user clicks on "Cancel" in "My Orders".
+     * Happens when user clicks on 'Cancel' in 'My Orders'.
      */
     $scope.cancel_order = function (seq, modifying, successCb, errorCb)
     {
@@ -571,7 +571,7 @@ TradeTab.prototype.angular = function(module)
     };
 
     /**
-     * Happens when user clicks "Confirm" in order confirmation view.
+     * Happens when user clicks 'Confirm' in order confirmation view.
      *
      * @param type (buy, sell)
      */

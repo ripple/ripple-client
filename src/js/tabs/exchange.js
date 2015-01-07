@@ -339,7 +339,7 @@ ExchangeTab.prototype.angular = function (module)
             // // Removed feature until a permanent fix
             // if (!found) {
             //   $scope.currencies_all.push({
-            //     name' $scope.exchange.amount_feedback.currency().to_human().toUpperCase(),
+            //     name: $scope.exchange.amount_feedback.currency().to_human().toUpperCase(),
             //     value: $scope.exchange.amount_feedback.currency().to_human().toUpperCase(),
             //     order: 1
             //   });
