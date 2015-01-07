@@ -4,9 +4,9 @@
  * Directive to render a RippleCharts.com market chart.
  */
 
-var module = angular.module('marketchart', []);
-
-module.directive('rpMarketChart', [function() {
+angular
+  .module('marketchart', [])
+  .directive('rpMarketChart', [function() {
   var lastId = 1;
 
   return {

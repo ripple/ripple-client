@@ -9,7 +9,7 @@
 var webutil = require("../util/web"),
     log = require("../util/log");
 
-var module = angular.module('kdf', []);
+
 
 // Full domain hash based on SHA512
 function fdh(data, bytelen)
@@ -34,7 +34,9 @@ function fdh(data, bytelen)
   return output;
 }
 
-module.factory('rpKdf', ['$http', function ($http)
+angular
+  .module('kdf', [])
+  .factory('rpKdf', ['$http', function ($http)
 {
   var Kdf = {};
 

@@ -4,9 +4,9 @@
  * This auth flow service manages the login and registration procedures for the desktop client.
  */
 
-var module = angular.module('authflow', []);
-
-module.factory('rpAuthFlow', ['$rootScope', 'rpBlob',
+angular
+  .module('authflow', [])
+  .factory('rpAuthFlow', ['$rootScope', 'rpBlob',
   function ($scope, $blob)
   {
     var AuthFlow = {};

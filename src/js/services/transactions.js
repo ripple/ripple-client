@@ -8,9 +8,9 @@
  * else) to come up with something better.
  */
 
-var module = angular.module('transactions', ['network']);
-
-module.factory('rpTransactions', ['$rootScope', 'rpNetwork',
+angular
+  .module('transactions', ['network'])
+  .factory('rpTransactions', ['$rootScope', 'rpNetwork',
                                   function($scope, net) {
   var listeners = [],
       subscribed = false;

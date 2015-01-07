@@ -8,9 +8,9 @@
  * else) to come up with something better.
  */
 
-var module = angular.module('ledger', ['network', 'transactions']);
-
-module.factory('rpLedger', ['$q', '$rootScope', 'rpNetwork', 'rpTransactions',
+angular
+  .module('ledger', ['network', 'transactions'])
+  .factory('rpLedger', ['$q', '$rootScope', 'rpNetwork', 'rpTransactions',
                             function($q, $rootScope, net, transactions)
 {
 

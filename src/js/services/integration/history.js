@@ -4,9 +4,9 @@
  * This is the "History" profile implementation
  */
 
-var module = angular.module('integrationHistory', []);
-
-module.service('rpHistoryProfile', ['$rootScope', 'rpNetwork', '$http',
+angular
+  .module('integrationHistory', [])
+  .service('rpHistoryProfile', ['$rootScope', 'rpNetwork', '$http',
   function($scope, $network, $http)
 {
   this.historyProfile = function(manifest) {

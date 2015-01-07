@@ -11,9 +11,9 @@
 var webutil = require("../util/web"),
     log = require("../util/log");
 
-var module = angular.module('keychain', ['popup']);
-
-module.factory('rpKeychain', ['$rootScope', '$timeout', 'rpPopup', 'rpId',
+angular
+  .module('keychain', ['popup'])
+  .factory('rpKeychain', ['$rootScope', '$timeout', 'rpPopup', 'rpId',
                               function ($scope, $timeout, popup, id)
 {
   var Keychain = function ()

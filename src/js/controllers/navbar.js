@@ -7,9 +7,9 @@
 var Amount = ripple.Amount,
     rewriter = require('../util/jsonrewriter');
 
-var module = angular.module('navbar', []);
-
-module.controller('NavbarCtrl', ['$scope', '$element', '$compile', 'rpId',
+angular
+  .module('navbar', [])
+  .controller('NavbarCtrl', ['$scope', '$element', '$compile', 'rpId',
                                  'rpNetwork', '$location',
                                  function ($scope, el, $compile, id,
                                            network, $location)

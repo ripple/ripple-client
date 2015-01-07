@@ -2,9 +2,9 @@
  * Ripple Transaction History API
  */
 
-var module = angular.module('history', []);
-
-module.factory('rpHistory', ['$rootScope', '$http', 'rpNetwork', function ($scope, $http, network)
+angular
+  .module('history', [])
+  .factory('rpHistory', ['$rootScope', '$http', 'rpNetwork', function ($scope, $http, network)
 {
   var rpHistory = function(account){
     this.account = account;

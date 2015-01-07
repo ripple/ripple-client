@@ -3,15 +3,15 @@
  *
  * Directive to render a QR code.
  */
-
-var module = angular.module('qr', []);
-
+ 
 /**
  * angular-qrcode v3.1.0
  * (c) 2013 Monospaced http://monospaced.com
  * License: MIT
  */
-module.directive('rpQrcode', ['$window', function($window) {
+angular
+  .module('qr', [])
+  .directive('rpQrcode', ['$window', function($window) {
   var canvas2D = !!$window.CanvasRenderingContext2D,
       levels = {
         'L': 'Low',

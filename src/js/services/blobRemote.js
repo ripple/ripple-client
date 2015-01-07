@@ -9,9 +9,9 @@
 
 var webutil = require("../util/web");
 
-var module = angular.module('blob', []);
-
-module.factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
+angular
+  .module('blob', [])
+  .factory('rpBlob', ['$rootScope', '$http', function ($scope, $http)
 {
   var BlobObj = function (url, id, key)
   {

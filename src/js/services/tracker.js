@@ -2,9 +2,9 @@
  * Event tracker (analytics)
  */
 
-var module = angular.module('tracker', []);
-
-module.factory('rpTracker', ['$rootScope', function ($scope)
+angular
+  .module('tracker', [])
+  .factory('rpTracker', ['$rootScope', function ($scope)
 {
   // Identify user
   var removeBlobUpdateListener = $scope.$on('$blobUpdate', function(){

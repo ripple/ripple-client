@@ -4,9 +4,9 @@
  * The popup service is used to provide modals, alerts, and confirmation screens
  */
 
-var module = angular.module('popup', []);
-
-module.factory('rpPopup', ['$compile',
+angular
+  .module('popup', [])
+  .factory('rpPopup', ['$compile',
                            function ($compile)
 {
   var popupService = {};

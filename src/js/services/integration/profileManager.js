@@ -4,14 +4,14 @@
  * This service is used for managing profiles
  */
 
-var module = angular.module('integrationProfileManager', [
+angular
+  .module('integrationProfileManager', [
   'integrationAccount',
   'integrationHistory',
   'integrationTrust',
   'integrationInboundBridge'
-]);
-
-module.service('rpProfileManager', [
+])
+  .service('rpProfileManager', [
   '$rootScope',
   'rpAccountProfile',
   'rpHistoryProfile',
