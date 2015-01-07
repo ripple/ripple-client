@@ -1,0 +1,8 @@
+div
+  div(ng-show="summ") {{ summ }}
+  span(l10n, ng-show="type==1 && identity") Ripple address {{ identity }}
+  div(ng-show="type==2")
+    div(ng-show="rippleName") {{ rippleName }}
+    span {{ identity }}
+    br
+    a(l10n, target="_blank", href="http://www.ripplecharts.com/#/graph/{{ identity }}") Show in graph

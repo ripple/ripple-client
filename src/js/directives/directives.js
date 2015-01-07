@@ -368,20 +368,72 @@ module.directive('rpPopover', ['$interpolate', function($interpolate) {
 /**
  * Special popover to show ripple address with ability to double click on address to select.
  * Also can link to www.ripplecharts.com.
+ * rp-address-popover-link-to-charts - show ling to ripple charts
+ * rp-address-popover-sum - show full sum of according model in popover
+ * rp-address-popover-sum-minus - put minus sign before sum
  */
-module.directive('rpAddressPopover', ['$timeout', '$interpolate', 'rpId', function($timeout, $interpolate, $id) {
+module.directive('rpAddressPopover', ['$timeout', '$interpolate', 'rpId', '$filter', '$parse', '$compile',
+                                        function($timeout, $interpolate, $id, $filter, $parse, $compile) {
   var popupDelay = 800;
   var hideDelay =  700;
+  var rpamountFilter = $filter('rpamount');
+  var summFilterOpts = { force_precision: 100, min_precision: 2 };
+  var myTemplate = require('../../jade/directives/addresspopover.jade');
 
   return {
     restrict: 'A',
+    replace: false,
     compile: function (element, attr, linker) {
       return function (scope, element, attr) {
         var cancelHidePopoverTimeout;
         var cancelShowPopoverTimeout;
         var tip;
         var shown = false;
-        var identity = $interpolate('{{' + attr.rpAddressPopover + '}}')(scope);
+        var identity = '';
+        var summ = '';
+        var rippleName = '';
+
+        if (attr.rpAddressPopover && attr.rpAddressPopover != 'rp-address-popover') {
+          identity = $interpolate('{{' + attr.rpAddressPopover + '}}')(scope);
+        }
+
+        function makeContent() {
+          var s = scope.$new(true);
+          s.type = 1;
+          s.identity = identity;
+          s.rippleName = rippleName;
+          s.summ = summ;
+          if (rippleName) {
+            s.type = 2;
+            if (rippleName == identity) {
+              s.rippleName = '';
+            }
+          }
+
+          var htmlContent = $compile(myTemplate())(s);
+          return htmlContent;
+        }
+
+        function showPopover() {
+          if (attr.rpAddressPopoverSum) {
+            var nowSumm = $parse(attr.rpAddressPopoverSum)(scope);
+            nowSumm = rpamountFilter(nowSumm, summFilterOpts);
+            if (nowSumm != summ && tip) {
+              if (attr.rpAddressPopoverSumMinus && nowSumm != 'n/a') {
+                nowSumm = '-' + nowSumm;
+              }
+              summ = nowSumm;
+
+              element.data('popover').options.content = makeContent();
+              element.data('popover').setContent();
+            }
+          }
+          // allow $compile to bind values to template
+          $timeout(function () {
+            element.popover('show');
+            shown = true;
+          }, 1, false);
+        }
 
         function hidePopover() {
           if (!cancelHidePopoverTimeout) {
@@ -389,7 +441,9 @@ module.directive('rpAddressPopover', ['$timeout', '$interpolate', 'rpId', functi
               element.popover('hide');
               shown = false;
             }, hideDelay, false);
-            cancelHidePopoverTimeout['finally'](function() { cancelHidePopoverTimeout = null; });
+            cancelHidePopoverTimeout['finally'](function() {
+              cancelHidePopoverTimeout = null;
+            });
           }
         }
 
@@ -413,10 +467,7 @@ module.directive('rpAddressPopover', ['$timeout', '$interpolate', 'rpId', functi
             $timeout.cancel(cancelHidePopoverTimeout);
             cancelHidePopoverTimeout = null;
           } else if (!cancelShowPopoverTimeout) {
-            cancelShowPopoverTimeout = $timeout(function() {
-              element.popover('show');
-              shown = true;
-            }, popupDelay, false);
+            cancelShowPopoverTimeout = $timeout(showPopover, popupDelay, false);
             cancelShowPopoverTimeout['finally'](function() { cancelShowPopoverTimeout = null; });
           }
         }
@@ -436,20 +487,17 @@ module.directive('rpAddressPopover', ['$timeout', '$interpolate', 'rpId', functi
           tip.unbind('mouseenter', onPopoverEnter);
           tip.bind('mouseleave', onPopoverLeave);
         }
-        // XXX Set title to identity
 
         element.popover('destroy');
-        var content = 'Ripple address ' + identity;
+
         var options = {
-          content: content,
+          content: makeContent(),
+          html: true,
           trigger: 'manual', placement: 'top',
           container: 'body',
           template: '<div class="popover"><div class="arrow"></div><div class="popover-inner"><div class="popover-content"></div></div></div>'
         };
-        if (attr.rpAddressPopoverLinkToCharts) {
-          options.html = true;
-          options.content = identity + '<br/><a target="_blank" href="http://www.ripplecharts.com/#/graph/' + identity + '" >Show in graph</a>';
-        }
+
         var popover = element.popover(options);
         tip = element.data('popover').tip();
         element.bind('mouseenter', onElemEnter);
@@ -459,10 +507,11 @@ module.directive('rpAddressPopover', ['$timeout', '$interpolate', 'rpId', functi
 
         if (attr.rpAddressPopoverLinkToCharts) {
           $id.resolveName(identity, { tilde: true }).then(function(name) {
-            if (name != identity && tip) {
-              element.data('popover').options.content = name + '<br/>' + identity +
-                  '<br/><a target="_blank" href="http://www.ripplecharts.com/#/graph/' + identity + '" >Show in graph</a>';
-              element.data('popover').setContent();
+            rippleName = name;
+            var data = element.data('popover');
+            if (data) {
+              data.options.content = makeContent();
+              data.setContent();
             }
           });
         }
