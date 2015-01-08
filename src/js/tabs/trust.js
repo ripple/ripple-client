@@ -28,6 +28,10 @@ TrustTab.prototype.angular = function (module)
                                             $filter, network, rpTracker, keychain)
   {
     $scope.advanced_feature_switch = Options.advanced_feature_switch;
+    
+    // Get all currencies from currencies.js, parse through to display only those with display: true
+    var displayCurrenciesOnly = [];
+    
     $scope.trust = {};
 
     // Trust line sorting
@@ -309,9 +313,6 @@ TrustTab.prototype.angular = function (module)
     $scope.$watch('userBlob.data.contacts', function (contacts) {
       $scope.counterparty_query = webutil.queryFromContacts(contacts);
     }, true);
-
-    // Get all currencies from currencies.js, parse through to display only those with display: true
-    var displayCurrenciesOnly = [];
 
     for (var i = 0; i < $scope.currencies_all.length; i++) {
       if ($scope.currencies_all[i].display) {

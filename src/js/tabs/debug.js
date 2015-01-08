@@ -25,13 +25,12 @@ PretendTab.prototype.angular = function (module)
   module.controller('DebugPretendCtrl', ['$rootScope', '$scope', 'rpId', '$q',
                                      function ($rootScope, $scope, id, $q)
   {
-
-    if (!id.loginStatus) return id.goId();
-
     $scope.pretend = {
       pretendAs : '',
       address : ''
     }
+    
+    if (!id.loginStatus) return id.goId();
 
     if ($rootScope.original_contacts) {
         $scope.pretend_query = webutil.queryFromContacts($rootScope.original_contacts);

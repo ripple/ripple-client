@@ -21,17 +21,17 @@ TxTab.prototype.angular = function (module)
   module.controller('TxCtrl', ['$scope', 'rpNetwork', '$routeParams', 'rpId', '$location',
                                function ($scope, net, $routeParams, id, $location)
   {
+    $scope.state = 'loading';
+    $scope.transaction = {
+      hash: $routeParams.id
+    };
+    
     $scope.logoutTx = function () {
       id.logout();
       $location.path('/login');
     };
 
     if (!id.loginStatus) return $scope.logoutTx();
-
-    $scope.state = 'loading';
-    $scope.transaction = {
-      hash: $routeParams.id
-    };
 
     function loadTx() {
       // XXX: Dirty, dirty. But it's going to change soon anyway.
