@@ -8,7 +8,7 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
     .tabBg(ng-hide="oldUserBlob")
     .auth-form-wrapper.col-xs-12.col-sm-6.col-md-4
       form(name='registerForm', ng-submit='submitForm()')
-        .tabAdjust.col-md-12(ng-hide="oldUserBlob")
+        .tabAdjust.row(ng-hide="oldUserBlob")
           .signUpWrapper.col-xs-6.col-sm-6.col-md-6
             h2.signUpTop(ng-hide="oldUserBlob", l10n) Sign Up
           .loginWrapper.col-xs-6.col-sm-6.col-md-6
