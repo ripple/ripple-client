@@ -65,21 +65,15 @@ TradeTab.prototype.angular = function(module)
     $scope.currencies_all = require('../data/currencies');
     $scope.currencies = [];
 
-    for (var i = 0; i < $scope.currencies_all.length; i++) {
-      if ($scope.currencies_all[i].custom_trade_currency_dropdown) {
-        $scope.currencies.push($scope.currencies_all[i].value);
-      }
-    }
-
-    $scope.gotoSettings = function() {
-      $location.path('/settingstrade');
-    };
-
     $scope.fatFingerErr = false;
 
     $scope.cancelOrder = {
       seq: null
     };
+
+    var rpamountFilter = $filter('rpamount');
+
+    var lastUpdate;
 
     // Details for an order that is edited and sent to Ripple for modification
     $scope.editOrder = {
@@ -121,6 +115,16 @@ TradeTab.prototype.angular = function(module)
 
     var REF_DATE_OFFSET = 5*60000;
     var MIXPNL_MODIFY_EVENT = 'Modify order result';
+
+    for (var i = 0; i < $scope.currencies_all.length; i++) {
+      if ($scope.currencies_all[i].custom_trade_currency_dropdown) {
+        $scope.currencies.push($scope.currencies_all[i].value);
+      }
+    }
+
+    $scope.gotoSettings = function() {
+      $location.path('/settingstrade');
+    };
 
     // Scroll to the location where alert messages will be displayed
     function scrollToMessages() {
@@ -1283,10 +1287,6 @@ TradeTab.prototype.angular = function(module)
       $scope.order.buy.showWidget = canBuy;
       $scope.order.sell.showWidget = canSell;
     };
-
-    var rpamountFilter = $filter('rpamount');
-
-    var lastUpdate;
 
     $scope.$watchCollection('newBook', function () {
       if (!jQuery.isEmptyObject($scope.newBook) && $scope.newBook.ready) {

@@ -32,6 +32,8 @@ SendTab.prototype.angular = function (module)
                                            network, federation, rpTracker,
                                            keychain)
   {
+    var destUpdateTimeout;
+
     var timer;
     var xrpCurrency = Currency.from_json("XRP");
 
@@ -98,8 +100,6 @@ SendTab.prototype.angular = function (module)
     $scope.$watch('sendForm.$valid', function () {
       $scope.update_amount();
     });
-
-    var destUpdateTimeout;
 
     // Reset everything that depends on the destination
     $scope.reset_destination_deps = function() {
