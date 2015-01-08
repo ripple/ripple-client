@@ -51,7 +51,7 @@ function AppCtrl ($scope, id, net, keychain, txQueue, appManager, rpTracker,
     $scope.events = [];
     $scope.history = [];
     $scope.balances = {};
-    $scope.loadState = [];
+    $scope.loadState = {};
     $scope.unseenNotifications = {
       count: 0
     };
@@ -189,7 +189,7 @@ function AppCtrl ($scope, id, net, keychain, txQueue, appManager, rpTracker,
   function handleRippleLinesError(data)
   {
     $scope.$apply(function () {
-      $scope.loadState['lines'] = true;
+      $scope.loadState.lines = true;
     });
   }
 
