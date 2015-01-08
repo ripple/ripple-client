@@ -19,21 +19,18 @@ PretendTab.prototype.generateHtml = function ()
   return require('../../jade/tabs/debug.jade')();
 };
 
-
 PretendTab.prototype.angular = function (module)
 {
   module.controller('DebugPretendCtrl', ['$rootScope', '$scope', 'rpId', '$q',
                                      function ($rootScope, $scope, id, $q)
   {
     $scope.pretend = {
-      pretendAs : '',
-      address : ''
-    }
-    
-    if (!id.loginStatus) return id.goId();
+      pretendAs: '',
+      address: ''
+    };
 
     if ($rootScope.original_contacts) {
-        $scope.pretend_query = webutil.queryFromContacts($rootScope.original_contacts);
+      $scope.pretend_query = webutil.queryFromContacts($rootScope.original_contacts);
     }
 
     $scope.$watch('userBlob.data.contacts', function (contacts) {
@@ -74,11 +71,8 @@ PretendTab.prototype.angular = function (module)
         $scope.address = $scope.pretend.pretendAs;
       }
       return gotAddress;
-    }
+    };
 
-    /**
-     * 
-     */
     $scope.pretend = function () {
       console.log('debug as ' + $scope.pretend.pretendAs);
 
