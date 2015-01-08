@@ -137,13 +137,12 @@ module.factory('rpKeychain', ['$rootScope', '$timeout', 'rpPopup', 'rpId',
    * error otherwise.
    */
   Keychain.prototype.getUnlockedSecret = function (account) {
-    if (!this.isUnlocked) {
+    if (!this.isUnlocked(account)) {
       throw new Error("Keychain: Tried to get secret for locked account synchronously.");
     }
 
     return this.secrets[account].masterkey;
   };
-
 
  /**
   * setPasswordProtection
