@@ -40,7 +40,7 @@ HistoryTab.prototype.angular = function (module) {
     // Latest transaction
     var latest;
 
-    $scope.orderedTypes = ['sent','received','gateways','trades','orders','other'];
+    $scope.orderedTypes = ['sent', 'received', 'gateways', 'trades', 'orders', 'other'];
 
     $scope.types = {
       sent: {
