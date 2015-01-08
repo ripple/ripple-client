@@ -1615,10 +1615,31 @@
     position: relative;
   }
 
+  .grip {
+    display: inline-block;
+    position: relative;;
+    left: -10px;
+    width: 3px;
+    height: 9px;
+    background-repeat: no-repeat;
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAAJAgMAAACK3X5KAAAACVBMVEUAAAAiIiIiIiIxJsNmAAAAAnRSTlMAGRL4ZfgAAAANSURBVAjXY+hgcEHFACGKA7njBRNQAAAAAElFTkSuQmCC);
+  }
+
   .delete {
     float: right;
     color: @midred;
   }
+
+  .as-sortable-item, .as-sortable-placeholder {
+      min-height: 20px;
+      margin: 1px 2px 5px 1px;
+  }
+
+  .as-sortable-placeholder {
+      border: 1px dashed @darkgray;
+      background-color: @lightgray;
+  }
+
 }
 
 #t-advanced {

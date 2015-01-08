@@ -12,8 +12,11 @@ section.col-xs-12.content(ng-controller="SettingsTradeCtrl")
         h4(l10n) Trade settings
         .section
           .descriptor(l10n) Trade currency pairs
-          div.pair(ng-repeat="entry in pairs")
-            .col-xs-12
-              span.description {{entry.name}}
-              a(href="", ng-click="deletePair($index)")
-                span.delete remove
+          div(ng-if="pairs")
+            div(as-sortable="dragControlListeners", ng-model="pairs")
+               div.pair(ng-repeat="entry in pairs", as-sortable-item)
+                .col-xs-12(as-sortable-item-handle)
+                  i.grip
+                  span.description {{entry.name}}
+                  a(href="", ng-click="deletePair($index)")
+                    span.delete remove
