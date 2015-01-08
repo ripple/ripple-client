@@ -106,51 +106,54 @@ HistoryTab.prototype.angular = function (module) {
       var history = [];
 
       var params = {
-        'account': id.account,
-        'ledger_index_min': -1,
-        'limit': 200
+        account: $id.account,
+        ledger_index_min: -1,
+        limit: 200,
+        binary: true
       };
 
-      var getTx = function(){
-        network.remote.request_account_tx(params)
-        .on('success', function(data) {
-          if (data.transactions.length) {
-            for(var i=0;i<data.transactions.length;i++) {
-              var date = ripple.utils.toTimestamp(data.transactions[i].tx.date);
+      getTx();
 
-              if(date < dateMin.getTime()) {
-                completed = true;
-                break;
-              }
-
-              if(date > dateMax.getTime())
-                continue;
-
-              // Push
-              var tx = rewriter.processTxn(data.transactions[i].tx, data.transactions[i].meta, id.account);
-              if (tx) history.push(tx);
-            }
-
-            if (data.marker) {
-              params.marker = data.marker;
-              $scope.tx_marker = params.marker;
-            }
-            else {
-              // Received all transactions since a marker was not returned
-              completed = true;
-            }
-
-            if (completed)
-              callback(history);
-            else
-              getTx();
-          } else {
-            callback(history);
+      function getTx() {
+        $network.remote.request_account_tx(params, function(err, data) {
+          if (!data.transactions.length) {
+            return callback(history);
           }
-        }).request();
-      };
 
-      getTx(0);
+          for (var i=0;i<data.transactions.length;i++) {
+            var date = ripple.utils.toTimestamp(data.transactions[i].tx.date);
+
+            if (date < dateMin.getTime()) {
+              completed = true;
+              break;
+            }
+
+            if (date > dateMax.getTime()) {
+              continue;
+            }
+
+            // Push
+            var tx = rewriter.processTxn(data.transactions[i].tx, data.transactions[i].meta, $id.account);
+            if (tx) {
+              history.push(tx);
+            }
+          }
+
+          if (data.marker) {
+            params.marker = data.marker;
+            $scope.tx_marker = params.marker;
+          } else {
+            // Received all transactions since a marker was not returned
+            completed = true;
+          }
+
+          if (completed) {
+            callback(history);
+          } else {
+            getTx();
+          }
+        });
+      };
     };
 
     // DateRange filter form
@@ -415,11 +418,11 @@ HistoryTab.prototype.angular = function (module) {
         account: id.account,
         ledger_index_min: -1,
         limit: limit,
-        marker: $scope.tx_marker
+        marker: $scope.tx_marker,
+        binary: true
       };
 
-      network.remote.request_account_tx(params)
-      .on('success', function(data) {
+      $network.remote.request_account_tx(params, function(err, data) {
         $scope.$apply(function () {
           if (data.transactions.length < limit) {
 
@@ -454,7 +457,7 @@ HistoryTab.prototype.angular = function (module) {
             updateHistory();
           }
         });
-      }).request();
+      });
     };
 
     var exists = function(pty) {
