@@ -64,3 +64,5 @@ TBA
 
 19. Can I trust myself worth 1M$ and does this mean I have a million dollars?
 No it just means that there are two nodes that share this perception.  The rest of the network does not share this view of value.
+
+This FAQ is available on [git](https://github.com/themusicgod1/ripple-client/blob/develop/docs/RIPPLERS-FAQ.txt)
