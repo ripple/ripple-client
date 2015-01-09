@@ -51,12 +51,13 @@ section.col-xs-12.content(ng-controller='JpyCtrl')
         .col-md-3
             .title(l10n) Fees
             .description(l10n) 
-              p Deposit: 10 JPY 
-              p Withdrawal: 10 JPY + 500 JPY
+              p Deposit: .498% + tax(.08%). Deposits available during business hours. 
+              p Withdrawal: .498% + tax(.08%). Withdrawals available during business hours.
+              p Trading: free
         .col-md-3
             .title(l10n) Rating
             .description(l10n) 
-              a(href="https://coinist.co/ripple/assets/jpy-rippletradejapan", target="_blank") read reviews
+              a(href="https://coinist.co/ripple/gateways/tokyojpy", target="_blank") read reviews
       .row.fund-tab-description
         .col-xs-12.col-md-8.col-lg-6
           .descriptor(ng-show="!jpyConnected", l10n) Ripple Trade has partnered with Tokyo JPY Issuer to provide easier access to JPY. Following this action will enable Tokyo JPY Issuer to hold JPY on your behalf.
