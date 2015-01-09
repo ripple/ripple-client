@@ -18,7 +18,7 @@ section.col-xs-12.content(ng-controller="HistoryCtrl")
   //- Connected
 
   group.row(ng-show="connected && loadState.transactions && account.Balance")
-    .filters.row-padding-small.col-md-3.col-sm-5.col-xs-12
+    .filters.row-padding-small.col-lg-3.col-md-4.col-sm-5.col-xs-12
       .filter.type-filter.row
         .col-xs-12.filters-wrapper
           a.filter-title(href="", ng-click="showFilterTxTypes=!showFilterTxTypes", l10n) Transaction type
@@ -56,7 +56,7 @@ section.col-xs-12.content(ng-controller="HistoryCtrl")
                       input.form-control(type="text", rp-datepicker, ng-model="dateMaxView", readonly)
                   button.btn.btn-block.btn-primary.submit(type='submit', l10n) Filter
 
-    .transactions.col-md-9.col-sm-7.col-xs-12
+    .transactions.col-lg-9.col-md-8.col-sm-7.col-xs-12
       .head.row.hidden-xs
         .col-md-9.hidden-sm
           .type
