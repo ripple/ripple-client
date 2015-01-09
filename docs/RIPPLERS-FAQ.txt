@@ -1,0 +1,66 @@
+***/r/ripplers FAQ***
+
+1.  What *is* Ripple?
+There's a couple of different ways you could answer this.
+ * [from its founder](http://www.webisteme.com/blog/?p=449): *"Ripple is a system for making value transfers across multiple intermediaries through a financial trust/credit network.  There is no need for a central entity to manage the value of any “currency” unit — each participant issues their own currency as obligations or IOUs, denominated in whatever units they wish.  It is designed to solve the problem of central bank managers imposing their own value judgements on the economy, while being more scalable than a LETS."*
+ * Ripple is an open protocol designed to achieve that end.  More information about the protocol itself can be found on the [Ripple.com wiki](https://ripple.com/wiki/)
+ * Ripple.com is the website put together by Ripple Labs(originally under the name 'Opencoin') where the current, modern version of Ripple, implemented in a decentralized way(earlier attempts at implementing were more centralized), in an open source license can be found at http://www.ripple.com
+ * and [ripple-client](https://github.com/ripple/ripple-client) and [Rippled](https://github.com/ripple/rippled) are the client and server, respectively, (similar to bitcoin's mobile clients and bitcoin-qt).  At least one [publicly available client is available](http://ripple.com/client/), however other services may also offer similar functionality.
+ * "Ripples" or "Ripple Credits" as a currency unit ([XRP](https://ripple.com/wiki/Ripple_credits)) are a cryptocoin that allows the above model to withstand spam.
+
+2.  Where can I find XRP for use on ripple.com? 
+Try [this thread](http://www.reddit.com/r/ripplers/comments/1rs71u/how_to_buy_xrps_for_newbies/), [xrptrader](http://xrptrader.com), [bitstamp](http://www.bitstamp.net),  [Snapswap](http://snapswap.us), [kraken](https://www.kraken.com/‎), [weex](https://www.weexchange.co), [the btctalk forum thread](https://bitcointalk.org/index.php?topic=145506.0), [bitmit](http://www.bitmit.net/en/q/?q=xrp), or if that fails, ask someone in the community or check the [wiki](https://ripple.com/guide-to-getting-xrp-and-activating-your-ripple-account/)[[0](http://ripplefederation.org/‎)]
+[[2](http://www.reddit.com/r/Bitcoin/comments/1b9k4b/why_arent_we_using_ripple_as_an_exchange_instead/c956hus)][ [3](http://www.reddit.com/u/themusicgod1)] [[4](https://groups.google.com/d/msg/rippleusers/tHqoqFPDI-c/QklCcA1lTVsJ)] [[5](http://www.reddit.com/user/btc4xrp)] or if that fails, try the [seed loans thread](http://www.reddit.com/r/ripplers/comments/1dpyot/ripple_seed_loans/) [[6]](http://www.reddit.com/r/ripplers/comments/1z9qfw/we_will_activate_your_wallets/).  If you suspect you may represent a class of people who xrp may be fairly distributed to, you can also try contacting the Ripple Labs [community liason](http://www.linkedin.com/in/jonholmquist).
+
+3.  I have credit on ripple.com I want to use it with classic ripple/ripplepay or villages or vice versa.
+This is probably still possible -- but you should consider moving to the [new Ripple implementation](http://www.ripple.com) within the next few years.  However [ripple union](http://classic.rippleunion.com/) continues to still exist, or or if that fails, ask [someone in the community](http://www.reddit.com/u/themusicgod1).  
+
+4.  Ripple will never work.  Why do you exist?
+Ripple already works.  Although it isn't as big as bitcoin [though by some metrics it is gaining ground], there are hundreds of thousands of entities who use it on some level, and real trade does happen.  In fact you can [watch it working](https://ripple.com/graph/fireworks/)
+
+5.  Is there a beginner's guide? 
+TBA, but check ripple.com - they do have a [guide](https://ripple.com/guide/) but it doesn't go very deep.
+
+6.  Is ripple down? 
+Ripple, the network can be monitored by going to #ripple-watch on the freenode irc network.   Alternatively, you can view https://ripple.com/graph/ and select 'network feed'.  If you see transactions going through you can be pretty sure that it is up.  If you don't you probably won't be the only one freaking out, join #ripple as well.
+
+Also check http://console.ripplelabs-status.com/
+
+7.  I've encountered an issue.  What do I do?
+If you're running the web client, try force refreshing the page.  Shift-F5 in modern browsers should work.  Try to log in again.  If it's a transaction, make absolutely sure the transaction did not go through before proceeding.  Try to google any error message, failing that there is a github [issue tracker page for the client](https://github.com/ripple/ripple-client/issues), as well as other components, you can try to report your issue there, or possibly download the source itself and or hire someone to do so to determine the cause.  However a more general purpose HOWTO on how to troubleshoot issues is probably warranted by this point.
+
+8. How many XRP do I need?
+https://ripple.com/wiki/Reserves
+
+9. Can I use Ripple as an Open Source Exchange (ie like MtGox but decentralized) or build something like this on top?
+TBA
+
+10. I was on the original mailing list for free XRP from OpenCoin but never received it.
+Contact [Ripple Labs](http://ripple.com) and if they do not get back to you, come back and post again.
+
+11. How many pizzas can I get for a XRP?
+As far as we know, there is no pizzaXRP exchange but there are USD:XRP ones and they are tracked in realtime on ripplecharts.com
+
+12. What is ripplin?
+Ripplin is a MLM scam.  It is not to be confused with Ripple.  "Ripple" meant something very specific before the Ripple network existed even in concept form(ie relating to waves propagating through a fluid), and that definition has inspired a bunch of other words, including Ripplin.  Ripplin just happens to be completely unrelated.
+
+13. I have bitcoin.  How do I get trust in bitcoin on the ripple network?
+You may be looking for an exchange.
+
+14. How can I use Ripple for Remittance?
+TBA (insert link to remittance video here)
+
+15. When is the source code to Ripple coming?
+The source [is available](https://github.com/ripple).
+
+16. Has the Ripple network stagnated?
+One way of seeing is by checking transaction details, which is all part of the public ledger.  However there are bigger questions as far as what stagnation and growth mean in the context of an economy, as both are simple metrics that could be effectively gamed.
+
+17.  Is Ripple secure?
+Ripple is open source -- as of 2013 we are unaware of any independent security audit of the code other than the general public.  An independent audit would help, but is not 100% foolproof -- the best recommendation remains getting the source code, verifying yourself that it does what it says it does, and if you are incapable of doing that, hiring someone to do it for you.
+
+18. How do I run a gateway?
+TBA
+
+19. Can I trust myself worth 1M$ and does this mean I have a million dollars?
+No it just means that there are two nodes that share this perception.  The rest of the network does not share this view of value.
