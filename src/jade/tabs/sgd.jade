@@ -1,0 +1,105 @@
+section.col-xs-12.content(ng-controller='SgdCtrl')
+
+  //- Disconnected
+
+  group.disconnected(ng-hide='connected')
+    p.literal(l10n="err-you-must-be-online-to-see-this-screen", l10n)
+      | You have to be online to see this screen
+
+  //- Funding
+  div(ng-show="!loadingAccount && !account.Balance && loadState.account && connected")
+    include banner/unfunded
+
+  .row(ng-show='connected')
+    // Transaction errors coming from errors.js & transactionerror.jade
+    .col-sm-12(ng-show='mode=="error" || mode=="granting" && account.Balance')
+      group.mode-ripplerror
+        rp-transaction-status(
+          rp-engine-result="{{engine_result}}"
+          rp-engine-result-message="{{engine_result_message}}"
+          rp-accepted="{{engine_status_accepted}}"
+          rp-current-tab="trust")
+
+    //- Generic non-tx related messages
+    .col-sm-12(ng-show='notif !== "clear"', ng-hide="!notif")
+      group.mode-granted.wide
+        group(ng-switch on="notif")
+          group.result-error(ng-switch-when="error")
+            h2.tx-status(l10n) There was an error while saving your changes.&#32;
+            p(l10n) Please try again later.
+    .col-sm-12(ng-show='account.Balance && !can_add_trust && !sgdConnected')
+      .alert.alert-warning(l10n) You must have at least
+        strong  {{account.reserve_to_add_trust | rpamount:0}} XRP
+        |  to add a new trust line.&#32;
+        a(href="https://ripple.com/wiki/Reserves", target="_blank") More information
+
+    .col-sm-3
+      include fund/menu
+    .col-sm-9.list(ng-hide='debug')
+      .nameLine(l10n) Singapore Dollar Deposit
+      .gateway.row
+        .col-md-3
+            .title(l10n) Gateway
+            .description(l10n)            
+              | Ripple Singapore (~ripplesingapore)
+              br
+              a(href="https://ripplesingapore.com", target="_blank") www.ripplesingapore.com
+        .col-md-3
+            .title(l10n) Availability
+            .description(l10n) All countries except US sanctioned countries
+        .col-md-3
+            .title(l10n) Fees
+            .description(l10n) 
+              p(l10n) Between S$ 5 - 50&#32;
+              p(l10n)
+                a(href='https://www.ripplesingapore.com/Home/Fees', target="_blank") More details 
+        .col-md-3
+            .title(l10n) Rating
+            .description(l10n)
+              a(href="https://coinist.co/ripple/gateways/ripple-singapore", target="_blank") read reviews
+
+      .row.fund-tab-description
+        .col-xs-12.col-md-8.col-lg-6
+          .descriptor(ng-show="!sgdConnected", l10n) Ripple Trade has partnered with Ripple Singapore to provide easier access to SGD. Following this action will enable Ripple Singapore to hold SGD on your behalf.
+
+      .row.fund-tab-description
+        .col-xs-7.col-sm-5.col-md-4
+          button.btn.btn-large(ng-show="!sgdConnected && !loading", type="submit", ng-click="save_account()", ng-disabled="!account.Balance") Add Ripple Singapore
+          button.btn.btn-large(ng-show="!sgdConnected && loading", type="submit", ng-disabled="loading") Adding...
+          button.btn.btn-large(ng-show="showInstructions && sgdConnected", type="submit", ng-click="toggle_instructions()", l10n) Hide instructions
+          button.btn.btn-large(ng-show="sgdConnected && !showInstructions", type="submit", ng-click="toggle_instructions()", l10n) Show instructions
+
+        .connect.col-xs-5.col-sm-7.col-md-8(ng-hide="loading")
+          .description(ng-show="!sgdConnected && account.Balance", l10n) 
+            i.fa.fa-times
+            |  Not connected
+          .description(ng-show="sgdConnected && account.Balance", l10n)
+            i.fa.fa-check
+            |  Connected
+          .description(ng-show="!account.Balance", l10n) Your account has to be activated before you can add a gateway account.
+
+      .row(ng-show="showInstructions && sgdConnected")
+        .instructions.col-md-10
+          a.dismiss(href="", id="hide", ng-click="toggle_instructions()", l10n)  ×
+          .title(l10n) To Initiate Singapore Dollar Deposits and Withdrawals
+          .description(l10n) 
+            | Register or login to your Ripple Singapore account. You will need:&#32;
+            ul
+              li
+                p(l10n) A valid non-US, government-issued ID (passport, driver’s license, etc)
+              li
+                p(l10n) Proof of address
+              li
+                p(l10n) Verification is required for deposits or withdrawals
+
+          .title(l10n) Deposit Options
+          .description(l10n) 
+            ul 
+              li
+                p(l10n) Users can deposit SGD by entering bank credentials and initiating a bank wire transfer from user’s bank account to Ripple Singapore.
+
+          .title(l10n) Withdrawal Options
+          .description(l10n)
+            ul
+              li
+                p(l10n) Users can withdraw SGD by sending funds from their Ripple address to Ripple Singapore’s Ripple address. Ripple Singapore will send the funds to a user’s bank account using a bank wire transfer.
