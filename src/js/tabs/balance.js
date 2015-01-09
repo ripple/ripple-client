@@ -216,7 +216,7 @@ BalanceTab.prototype.angular = function (module)
       var history = [];
 
       var params = {
-        account: $id.account,
+        account: id.account,
         ledger_index_min: -1,
         binary: true
       };
@@ -224,7 +224,7 @@ BalanceTab.prototype.angular = function (module)
       getTx();
 
       function getTx(){
-        $network.remote.request_account_tx(params, function(err, data) {
+        network.remote.request_account_tx(params, function(err, data) {
           if (!data.transactions.length) {
             return callback(history);
           }
@@ -242,7 +242,7 @@ BalanceTab.prototype.angular = function (module)
             }
 
             // Push
-            var tx = rewriter.processTxn(data.transactions[i].tx, data.transactions[i].meta, $id.account);
+            var tx = rewriter.processTxn(data.transactions[i].tx, data.transactions[i].meta, id.account);
             if (tx) {
               history.push(tx);
             }
