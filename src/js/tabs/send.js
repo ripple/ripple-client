@@ -111,8 +111,10 @@ SendTab.prototype.angular = function (module)
       send.extra_fields = [];
 
       // Reset federation address validity status
-      if ($scope.sendForm && $scope.sendForm.send_destination)
-        $scope.sendForm.send_destination.$setValidity("federation", true);
+      if ($scope.sendForm && $scope.sendForm.send_destination) {
+        $scope.sendForm.send_destination.$setValidity('federation', true);
+        $scope.sendForm.send_destination.$setValidity('federationDown', true);
+      }
 
       // Now starting to work on resolving the recipient
       send.recipient_resolved = false;
@@ -176,8 +178,10 @@ SendTab.prototype.angular = function (module)
       var isRecipientValidAddress = ripple.UInt160.is_valid(strippedRecipient);
 
       // Reset federation address validity status
-      if ($scope.sendForm && $scope.sendForm.send_destination)
-        $scope.sendForm.send_destination.$setValidity("federation", true);
+      if ($scope.sendForm && $scope.sendForm.send_destination) {
+        $scope.sendForm.send_destination.$setValidity('federation', true);
+        $scope.sendForm.send_destination.$setValidity('federationDown', true);
+      }
 
       // If there was a previous federation request, we need to clean it up here.
       if (send.federation_record) {
@@ -219,18 +223,25 @@ SendTab.prototype.angular = function (module)
               $scope.sendForm.send_destination.$setValidity("federation", false);
               // XXX Show specific error message
             }
-          }, function () {
+          }, function (error) {
             // Check if this request is still current, exit if not
             var now_recipient = send.recipient_actual || send.recipient_address;
             if (recipient !== now_recipient) return;
 
-            send.path_status = "waiting";
-            $scope.sendForm.send_destination.$setValidity("federation", false);
+            send.path_status = 'waiting';
+            if (error && error.error === 'down') {
+              $scope.sendForm.send_destination.$setValidity('federationDown', false);
+              // super simple URL parsing to get only path
+              var url = error.url.split('/').slice(0, 3).join('/');
+              $scope.send.federationURL = url;
+            } else {
+              $scope.sendForm.send_destination.$setValidity('federation', false);
+            }
           })
         ;
       }
       else if (send.rippleName) {
-        ripple.AuthInfo.get(Options.domain,send.recipient,function(err, response) {
+        ripple.AuthInfo.get(Options.domain, send.recipient, function(err, response) {
           $scope.$apply(function(){
             send.recipient_name = '~' + response.username;
             send.recipient_address = response.address;
