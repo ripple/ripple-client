@@ -28,6 +28,7 @@ BtcTab.prototype.angular = function (module)
     $scope.showComponent = [];
     $scope.showInstructions = false;
     $scope.btcConnected = false;
+    $scope.emailError = false;
 
     $scope.toggle_instructions = function () {
       $scope.showInstructions = !$scope.showInstructions;
@@ -64,7 +65,6 @@ BtcTab.prototype.angular = function (module)
             "unlocking wallet: ", err);
           $scope.mode = "error";
           $scope.error_type = "unlockFailed";
-          $scope.load_notification('error');
   
           return;
         }
