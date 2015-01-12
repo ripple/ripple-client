@@ -43,8 +43,9 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
           li
             a(href="#/account/public") ~{{userCredentials.username}}
           li.dropdown.notifications-dropdown
-            a.dropdown-toggle.fa.fa-bell(ng-click="read()")
-              .number(ng-show="unseenNotifications.count") {{unseenNotifications.count}}
+            a.dropdown-toggle(ng-click="read()")
+              i.fa.fa-bell
+              span.number(ng-show="unseenNotifications.count") {{unseenNotifications.count}}
             ul#notifications.dropdown-menu
               li.message(ng-hide="loadState.transactions", l10n) Loading...
               li.message(ng-show="loadState.transactions && !notifications.length", l10n) There are no recent notifications.
