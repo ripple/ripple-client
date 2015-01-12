@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Ripple Trade\n"
-"PO-Revision-Date: 2014-10-19 11:41+0000\n"
+"PO-Revision-Date: 2014-12-20 13:25+0000\n"
 "Last-Translator: Dotan Shema <fromgamil@gmail.com>\n"
 "Language-Team: Hebrew (Israel) (http://www.transifex.com/projects/p/ripple-trade/language/he_IL/)\n"
 "MIME-Version: 1.0\n"
@@ -31,7 +31,7 @@ msgstr "המוטבים שלי"
 #: src/jade/client/index.jade:12 src/jade/client/navbar.jade:13
 #: src/jade/tabs/contacts.jade:73
 msgid "Send"
-msgstr "שלחו"
+msgstr "העברת כספים"
 
 #: src/jade/client/index.jade:16 src/jade/client/navbar.jade:123
 msgid "Convert"
@@ -44,7 +44,7 @@ msgstr "סחר"
 #: src/jade/client/index.jade:22 src/jade/client/navbar.jade:19
 #: src/jade/client/navbar.jade:128
 msgid "Fund"
-msgstr "כתובות הפקדה"
+msgstr "תקצוב חשבון"
 
 #: src/jade/client/index.jade:24 src/jade/tabs/fund/menu.jade:5
 msgid "Gateways"
@@ -64,7 +64,7 @@ msgstr "התנתקות"
 
 #: src/jade/client/index.jade:41
 msgid "Welcome to {{productName}}, a global value exchange"
-msgstr "ברוכים הבאים אל {{productName}}, סחר חליפין גלובלי"
+msgstr "ברוכים הבאים ל {{productName}}, ערך חליפין גלובלי"
 
 #: src/jade/client/index.jade:51
 msgid "Version: {{version}}"
@@ -92,7 +92,7 @@ msgstr "בחרו שפה"
 
 #: src/jade/client/navbar.jade:11
 msgid "Overview"
-msgstr "סקירת חשבון"
+msgstr "עובר ושב"
 
 #: src/jade/client/navbar.jade:15 src/jade/client/navbar.jade:17
 #: src/jade/tabs/exchange.jade:43
@@ -652,7 +652,7 @@ msgstr "הזינו סכום תקף"
 
 #: src/jade/tabs/balance.jade:113
 msgid "You are sending {{1}} BTC to:"
-msgstr "אתם שולחים {{1}} BTC אל:"
+msgstr "אתם שולחים {{1}} BTC ל:"
 
 #: src/jade/tabs/balance.jade:119 src/jade/tabs/balance.jade:134
 #: src/jade/tabs/register.jade:105 src/jade/tabs/register.jade:111
@@ -706,7 +706,7 @@ msgstr "יש  משתמש נוסף ששלח XRP לשם הריפל שלך  (~{{use
 msgid ""
 "Use the&#32{{1}}. A small amount of your first deposit will be used to "
 "activate your account."
-msgstr "השתמש ב - {{1}}. סכום קטן מההפקדה הראשונית שלך ישמש כדי להפעיל את החשבון שלך."
+msgstr "השתמש ב&#32{{1}}. סכום קטן מההפקדה הראשונית שלך ישמש כדי להפעיל את החשבון שלך."
 
 #: src/jade/tabs/btc.jade:18
 msgid "Bitcoin Deposit"
@@ -716,7 +716,7 @@ msgstr "הפקדת ביטקוין"
 msgid ""
 "A small amount (~.001 BTC) of your first transfer will be converted to XRP "
 "to activate your wallet. {{1:Why?}}"
-msgstr "סכום קטן של (~.001 BTC) מהעברה הראשונה שלכם תעבור המרה ל XRP כדי להפעיל את ארנקכם. {{1:מדוע?}}"
+msgstr "סכום קטן של (~.001 BTC) מהעברה הראשונה שלכם תעבור המרה ל XRP כדי להפעיל את ארנקכם. {{1:Why?}}"
 
 #: src/jade/tabs/btc.jade:30
 msgid "Your current deposit limit is:"
@@ -952,7 +952,7 @@ msgstr "ביטול"
 
 #: src/jade/tabs/desktop/register.jade:69 src/jade/tabs/register.jade:95
 msgid "Have an account? {{1:Log In}}"
-msgstr "כבר יש לכם חשבון? {{1:התחברו!}}"
+msgstr "כבר יש לכם חשבון? {{1:Log In}}"
 
 #: src/jade/tabs/desktop/register.jade:75
 msgid "Important:"
@@ -996,12 +996,12 @@ msgstr "כן, אני שמרתי את המפתח הסודי שלי"
 
 #: src/jade/tabs/exchange.jade:13
 msgid "You have to be funded before you can exchange money"
-msgstr "עליכם להיות ממומנים לפני שתוכלו להחליף כספים"
+msgstr "עליכם להקציב חשבון לפני שתוכלו להחליף כספים"
 
 # Receive (amount)
 #: src/jade/tabs/exchange.jade:19
 msgid "Receive (amount)"
-msgstr "קבלת תשלום"
+msgstr "התקבל"
 
 #: src/jade/tabs/exchange.jade:26 src/jade/tabs/send.jade:88
 msgid "Please enter an amount."
@@ -1026,13 +1026,13 @@ msgid ""
 "Cannot convert to {{exchange.amount}} {{exchange.currency_name}}. Please "
 "make sure your account has enough funds, and a {{1}} to a "
 "{{exchange.currency_name}} gateway."
-msgstr "לא ניתן להמיר ל {{exchange.amount}} {{exchange.currency_name}}. אנא בדקו שיש בחשבונכם מספיק כסף, ו {{1}} עבור {{exchange.currency_name}} שער תיווך \"gateway\"."
+msgstr "לא ניתן להמיר ל {{exchange.amount}} {{exchange.currency_name}}. אנא בדקו שיש בחשבונכם התקציב הנדרש, ו {{1}} עבור {{exchange.currency_name}} שער תיווך \"gateway\"."
 
 #: src/jade/tabs/exchange.jade:37
 msgid ""
 "Sorry! Cannot convert {{exchange.amount}} {{exchange.currency_name}}. Please"
 " make sure your account has enough funds."
-msgstr "סליחה! לא ניתן להמיר {{exchange.amount}} {{exchange.currency_name}}. אנא בדקו שיש בחשבונכם מספיק כסף."
+msgstr "סליחה! לא ניתן להמיר {{exchange.amount}} {{exchange.currency_name}}. אנא בדקו שיש בחשבונכם התקציב הנדרש."
 
 #: src/jade/tabs/exchange.jade:39 src/jade/tabs/send.jade:133
 msgid "Error while calculating path"
@@ -1165,11 +1165,11 @@ msgstr "טען היסטוריה מטווח ספציפי"
 
 #: src/jade/tabs/history.jade:59
 msgid "From"
-msgstr "מאת"
+msgstr "מ-"
 
 #: src/jade/tabs/history.jade:65
 msgid "To"
-msgstr "אל"
+msgstr "עד-"
 
 #: src/jade/tabs/history.jade:68
 msgid "Filter"
@@ -1618,7 +1618,7 @@ msgstr "המפתח הסודי"
 
 #: src/jade/tabs/recover.jade:17
 msgid "Unable to recover account."
-msgstr "לא מצליח לשחזר את החשבון."
+msgstr "לא ניתן לשחזר את החשבון."
 
 #: src/jade/tabs/recover.jade:22 src/jade/tabs/register.jade:74
 msgid "Recover Account"
@@ -1732,7 +1732,7 @@ msgstr "להשתמש במפתח"
 
 #: src/jade/tabs/register.jade:80
 msgid "I agree to the {{productName}} {{1:end-user license agreement}}"
-msgstr "אני מסכים/ה ל {{1:רישיון הסכם השימוש}} של {{productName}}"
+msgstr "אני מסכים/ה ל - {{1:רישיון הסכם השימוש}} של {{productName}}"
 
 #: src/jade/tabs/register.jade:83
 msgid ""
@@ -1961,7 +1961,7 @@ msgstr "לא"
 
 #: src/jade/tabs/send.jade:12
 msgid "You have to be funded before you can send money"
-msgstr "אתם צריכים לקבל מימון לפני שתוכלו לשלוח כסף"
+msgstr "אתם צריכים להקציב חשבון לפני שתוכלו לשלוח כסף"
 
 #: src/jade/tabs/send.jade:19 src/jade/tabs/send.jade:32
 msgid "Recipient"
@@ -2045,7 +2045,7 @@ msgstr "שלחו XRP"
 msgid ""
 "Destination account is unfunded; send at least {{send.xrp_deficiency | "
 "rpamount}} XRP to fund it.{{1}}"
-msgstr "חשבון יעד אינו ממומן; צריך לשלוח לפחות {{send.xrp_deficiency | rpamount}} XRP כדי להפעיל חשבון זה.{{1}}"
+msgstr "חשבון יעד אינו מתוקצב; צריך לשלוח לפחות {{send.xrp_deficiency | rpamount}} XRP כדי להפעיל חשבון זה.{{1}}"
 
 #: src/jade/tabs/send.jade:109
 msgid "Checking"
@@ -2082,7 +2082,7 @@ msgstr "אתם לא יכולים לשלוח {{send.amount}} {{send.currency}} א
 msgid ""
 "You cannot send {{send.amount}} {{send.currency}} to{{send.recipient}}. Your"
 " account has insufficient funds."
-msgstr "אתם לא יכולים לשלוח {{send.amount}} {{send.currency}} אל{{send.recipient}}. כי אין לכם מספיק כסף בחשבון."
+msgstr "אתם לא יכולים לשלוח {{send.amount}} {{send.currency}} אל{{send.recipient}}. כי אין מספיק כסף בחשבון."
 
 #: src/jade/tabs/send.jade:128
 msgid "There are no valid currency choices for this destination."
@@ -2218,7 +2218,7 @@ msgstr "מחיר אחרון"
 
 #: src/jade/tabs/trade.jade:101
 msgid "You have to be funded before you can trade"
-msgstr "עליכם להיות ממומנים על מנת שתכלו לסחור"
+msgstr "עליכם להקציב חשבון על מנת שתכלו לסחור"
 
 #: src/jade/tabs/trade.jade:108
 msgid "Buy {{1}} {{order.first_currency | rpcurrency}}"
@@ -2257,7 +2257,7 @@ msgstr "המינימום הוא (0.000001) ומקסימום הוא 100 מילי�
 
 #: src/jade/tabs/trade.jade:153
 msgid "Price of Each"
-msgstr "מחיר של כל אחד"
+msgstr "מחיר ליחידת מטבע"
 
 #: src/jade/tabs/trade.jade:168
 msgid "Order Value (max)"
@@ -2265,11 +2265,11 @@ msgstr "(חישוב שווי העסקה)"
 
 #: src/jade/tabs/trade.jade:185
 msgid "You are wanting to buy {{1}} for {{2}} ({{3}} per {{4}})"
-msgstr "אתה רוצים לקנות {{1}} עבור {{2}} ({{3}} לכל { {4}})"
+msgstr "אתם לקראת קנייה של {{1}} עבור {{2}} ({{3}} פר { {4}})"
 
 #: src/jade/tabs/trade.jade:194
 msgid "You are wanting to sell {{1}} for {{2}} ({{3}} per {{4}})"
-msgstr "האם אתם רוצים למכור {{1}} עבור {{2}} ({{3}} לכל { {4}})"
+msgstr "אתם לקראת מכירה של {{1}} עבור {{2}} ({{3}} פר { {4}})"
 
 #: src/jade/tabs/trade.jade:206
 msgid "Buy"
@@ -2281,7 +2281,7 @@ msgstr "מכירה"
 
 #: src/jade/tabs/trade.jade:213
 msgid "You do not have sufficient funds to create an order."
-msgstr "אין לך מספיק כסף כדי ליצור הזמנה."
+msgstr "אין לך מספיק תקציב כדי ליצור הזמנה."
 
 #: src/jade/tabs/trade.jade:218
 msgid "CAUTION: Your order is far off from the current market price."
@@ -2379,7 +2379,7 @@ msgstr "ההזמנות שלי{{1}}{{2}}"
 
 #: src/jade/tabs/trade.jade:299
 msgid "Type"
-msgstr "סוג הזמנה"
+msgstr "סוג"
 
 #: src/jade/tabs/trade.jade:300
 msgid "Currencies {{1: (Issuer)}}"
@@ -2404,11 +2404,11 @@ msgstr "עבור"
 # You haven't placed any orders.
 #: src/jade/tabs/trade.jade:327
 msgid "You haven't placed any orders."
-msgstr "לא בוצעו הזמנות !"
+msgstr "לא הגשתם הזמנה."
 
 #: src/jade/tabs/trade.jade:329
 msgid "Unable to cancel order."
-msgstr "לא מצליח לבטל את ההזמנה."
+msgstr "אין אפשרות לבטל את ההזמנה."
 
 #: src/jade/tabs/trade.jade:330
 msgid "Error: {{cancelError}}"
@@ -2424,7 +2424,7 @@ msgstr "הצג"
 
 #: src/jade/tabs/trade.jade:344
 msgid "Bids"
-msgstr "בקשות קנייה"
+msgstr "פקודות קנייה"
 
 #: src/jade/tabs/trade.jade:346 src/jade/tabs/trade.jade:373
 msgid "Sum{{1}}{{2}}"
@@ -2440,11 +2440,11 @@ msgstr "מחיר ליחידה {{1}}{{2}}"
 
 #: src/jade/tabs/trade.jade:363
 msgid "There are currently no bids for this pair."
-msgstr "כרגע אין הצעות לצמד מטבעות זה."
+msgstr "כרגע אין פקודות קנייה לצמד מטבעות זה."
 
 #: src/jade/tabs/trade.jade:365
 msgid "Asks"
-msgstr "הצעות מכירה"
+msgstr "פקודות מכירה"
 
 #: src/jade/tabs/trade.jade:367
 msgid "Ask Price{{1}}{{2}}"
@@ -2452,7 +2452,7 @@ msgstr "מחיר ליחידה {{1}}{{2}}"
 
 #: src/jade/tabs/trade.jade:384
 msgid "There are currently no asks for this pair."
-msgstr "כרגע אין הצעות לצמד מטבעות זה."
+msgstr "כרגע אין פקודות מכירה לצמד מטבעות זה."
 
 #: src/jade/tabs/trade.jade:387
 msgid "No more orders"

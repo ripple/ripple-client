@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Ripple Trade\n"
-"PO-Revision-Date: 2014-10-15 19:43+0000\n"
+"PO-Revision-Date: 2014-12-19 19:26+0000\n"
 "Last-Translator: Leonardo <thundercolo@yahoo.es>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/ripple-trade/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -2023,7 +2023,7 @@ msgstr "La cantidad debe ser superior a cero."
 msgid ""
 "This transaction exceeds your balance, you can send a max. of "
 "{{account.max_spend | rpamount:{rel_precision: 0} }} XRP"
-msgstr "Esta transacción excede sus fondos, puede enviar un máx. de {{account.max_spend | rpamount:{rel_precision: 0} }} XRP"
+msgstr "Esta transaccion excede sus fondos, puede enviar un max. de {{account.max_spend | rpamount:{rel_precision: 0} }} XRP"
 
 #: src/jade/tabs/send.jade:94
 msgid ""
@@ -2159,7 +2159,7 @@ msgstr "Avanzado"
 
 #: src/jade/tabs/trade.jade:10
 msgid "Loading order book..."
-msgstr "Cargando libro de órdenes..."
+msgstr "Cargando libro de ordenes..."
 
 #: src/jade/tabs/trade.jade:23
 msgid "flip"
@@ -2253,7 +2253,7 @@ msgstr "Debe ser mayor que cero"
 #: src/jade/tabs/trade.jade:149 src/jade/tabs/trade.jade:164
 #: src/jade/tabs/trade.jade:179
 msgid "Minimum is a drop (0.000001) and maximum is 100 billion XRPs"
-msgstr "Lo mínimo es un drop (0.000001) y el máximo es 100.000 millones de XRPs"
+msgstr "Lo minimo es una nimiedad (0.000001) y el maximo es 100 billones de XRPs"
 
 #: src/jade/tabs/trade.jade:153
 msgid "Price of Each"
@@ -2319,7 +2319,7 @@ msgstr "La petición ha sido denegada. "
 
 #: src/jade/tabs/trade.jade:259
 msgid "We were unable to submit the request. Please try again later."
-msgstr "No ha sido posible enviar la petición. Por favor inténtelo mas tarde."
+msgstr "No ha sido posible enviar la peticion. Por favor intentelo mas tarde."
 
 #: src/jade/tabs/trade.jade:261
 msgid "Request is malformed."
@@ -2329,7 +2329,7 @@ msgstr "La petición no esta bien hecha."
 msgid ""
 "Your request is invalid, reason: {{order[type].engine_result}} - "
 "{{order[type].engine_result_message}}"
-msgstr "Su petición no es válida, motivo: {{order[type].engine_result}} - {{order[type].engine_result_message}}"
+msgstr "Su peticion no es valida, motivo: {{order[type].engine_result}} - {{order[type].engine_result_message}}"
 
 #: src/jade/tabs/trade.jade:265 src/jade/tabs/trade.jade:279
 msgid "Transaction failed."
@@ -2367,7 +2367,7 @@ msgstr "Cambio fallido, motivo: {{order[type].engine_result_message}}"
 msgid ""
 "The particular server you sent the transaction to was too busy to forward or"
 " process your transaction at the fee you included in it."
-msgstr "El servidor al que envió la transacción estaba demasiado ocupado para procesar o redirigir su transacción con la comisión que ha incluido."
+msgstr "El servidor al que envio la transaccion estaba demasiado ocupado para procesar o redirigir su transaccion con la comision que ha incluido."
 
 #: src/jade/tabs/trade.jade:290
 msgid "Submit another order"
@@ -2478,7 +2478,7 @@ msgstr "Ha habido un problema conectando con la pasarela. Por favor inténtelo m
 msgid ""
 "Your request is invalid, reason: {{engine_result}} - "
 "{{engine_result_message}}"
-msgstr "Su petición no es válida, motivo: {{engine_result}} - {{engine_result_message}}"
+msgstr "Su peticion no es valida, motivo: {{engine_result}} - {{engine_result_message}}"
 
 #: src/jade/tabs/trust.jade:33
 msgid "Gateway connection failed!"
@@ -2508,7 +2508,7 @@ msgstr "La conexión con la pasarela no se ha efectuado, motivo: {{engine_result
 
 #: src/jade/tabs/trust.jade:43
 msgid "Transaction failed!"
-msgstr "Transacción fallida!"
+msgstr "Transaccion fallida!"
 
 #: src/jade/tabs/trust.jade:53
 msgid "Saving changes..."
