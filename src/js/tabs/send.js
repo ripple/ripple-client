@@ -114,6 +114,7 @@ SendTab.prototype.angular = function (module)
       if ($scope.sendForm && $scope.sendForm.send_destination) {
         $scope.sendForm.send_destination.$setValidity('federation', true);
         $scope.sendForm.send_destination.$setValidity('federationDown', true);
+        $scope.sendForm.send_destination.$setValidity('btcBridgeWrong', true);
       }
 
       // Now starting to work on resolving the recipient
@@ -142,11 +143,13 @@ SendTab.prototype.angular = function (module)
 
       if (recipient === send.last_recipient) return;
 
+      send.toBitcoin = false;
       // Trying to send to a Bitcoin address
       if (!isNaN(Base.decode_check([0, 5], recipient, 'bitcoin'))) {
         if (Options.bridge.out.bitcoin) { // And there is a default bridge
           recipient += '@' + Options.bridge.out.bitcoin;
           send.recipient_address = recipient;
+          send.toBitcoin = true;
         }
       }
 
@@ -181,6 +184,7 @@ SendTab.prototype.angular = function (module)
       if ($scope.sendForm && $scope.sendForm.send_destination) {
         $scope.sendForm.send_destination.$setValidity('federation', true);
         $scope.sendForm.send_destination.$setValidity('federationDown', true);
+        $scope.sendForm.send_destination.$setValidity('btcBridgeWrong', true);
       }
 
       // If there was a previous federation request, we need to clean it up here.
@@ -229,7 +233,9 @@ SendTab.prototype.angular = function (module)
             if (recipient !== now_recipient) return;
 
             send.path_status = 'waiting';
-            if (error && error.error === 'down') {
+            if (send.toBitcoin && Options.bridge.out.bitcoin != 'btc2ripple.com') {
+              $scope.sendForm.send_destination.$setValidity('btcBridgeWrong', false);
+            } else if (error && error.error === 'down') {
               $scope.sendForm.send_destination.$setValidity('federationDown', false);
               // super simple URL parsing to get only path
               var url = error.url.split('/').slice(0, 3).join('/');

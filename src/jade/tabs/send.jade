@@ -46,6 +46,8 @@ section.col-xs-12.content(ng-controller='SendCtrl')
                 | This email address is not Ripple-enabled.
               .error(rp-error-on='federationDown', l10n)
                 | Could not contact {{send.federationURL}}.<br/>Please try again later or contact support.
+              .error(rp-error-on='btcBridgeWrong', l10n)
+                | Cannot use your specified bitcoin bridge. Please go to Settings &gt; Advanced and update your bitcoin bridge URL to btc2ripple.com.
         ul.tagsLinks
           li
             a(href="", ng-click="send.show_dt_field = true"
