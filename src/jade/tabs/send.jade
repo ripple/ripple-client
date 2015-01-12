@@ -45,7 +45,7 @@ section.col-xs-12.content(ng-controller='SendCtrl')
               .error(rp-error-on='federation', l10n)
                 | This email address is not Ripple-enabled.
               .error(rp-error-on='federationDown', l10n)
-                | Could not contact {{send.federationURL}}. Please try again later or contact support.
+                | Could not contact {{send.federationURL}}.<br/>Please try again later or contact support.
         ul.tagsLinks
           li
             a(href="", ng-click="send.show_dt_field = true"
