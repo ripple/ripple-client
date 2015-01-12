@@ -267,6 +267,13 @@ section.col-xs-12.content(ng-controller='SendCtrl')
             span.value {{send.alt.amount | rpamount}}&#32;
             span.currency {{send.alt.amount | rpcurrency}} &#32;
             span &plusmn; 1%
+        .row
+          .col-xs-9.col-sm-9.col-md-9.col-lg-9
+            p.literal(l10n, ng-show='showNetworkFee') You will pay a network fee of
+          .col-xs-3.col-sm-3.col-md-3.col-lg-3
+            small.toggle.literal.pull-right(ng-click='showNetworkFee = !showNetworkFee')
+              span(l10n) {{showNetworkFee ? 'Hide' : 'Show'}} network fee
+        p.amount_feedback(rp-pretty-amount='networkFee', ng-show='showNetworkFee')
         form.call-to-action(ng-submit="send_confirmed()")
           p.literal(ng-show="send.secret", l10n) Are you sure?
           p.literal(ng-hide="send.secret", l10n) Please enter your password to confirm this transaction.
