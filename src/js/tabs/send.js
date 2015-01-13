@@ -216,6 +216,7 @@ SendTab.prototype.angular = function (module)
 
               $scope.check_destination();
             } else if (result.quote_url) {
+              send.recipient_info = {};
               // Federation destination requires us to request a quote
               send.quote_url = result.quote_url;
               send.quote_destination = result.destination;
