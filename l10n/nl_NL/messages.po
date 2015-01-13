@@ -2,7 +2,7 @@
 # Translators:
 # Matthijs den Hartog <matthijs_dh@hotmail.com>, 2013-2014
 # Jeroen Werkhoven <Jeroen.werkhoven@gmail.com>, 2014
-# Jeroen Werkhoven <Jeroen.werkhoven@gmail.com>, 2014
+# Jeroen Werkhoven <Jeroen.werkhoven@gmail.com>, 2014-2015
 # Marc V, 2014
 # Marc V, 2014
 # Marc V, 2014
@@ -12,7 +12,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Ripple Trade\n"
-"PO-Revision-Date: 2014-10-22 00:28+0000\n"
+"PO-Revision-Date: 2015-01-07 20:33+0000\n"
 "Last-Translator: Jeroen Werkhoven <Jeroen.werkhoven@gmail.com>\n"
 "Language-Team: Dutch (Netherlands) (http://www.transifex.com/projects/p/ripple-trade/language/nl_NL/)\n"
 "MIME-Version: 1.0\n"
@@ -71,7 +71,7 @@ msgstr "Uitloggen"
 
 #: src/jade/client/index.jade:41
 msgid "Welcome to {{productName}}, a global value exchange"
-msgstr "Welkom op {{productName}}, een wereldwijde uitwisselingsplaats voor alles van waarde"
+msgstr "Welkom op {{productName}}, een wereldwijde marktplaats"
 
 #: src/jade/client/index.jade:51
 msgid "Version: {{version}}"
@@ -79,7 +79,7 @@ msgstr "Versie: {{version}}"
 
 #: src/jade/client/index.jade:55
 msgid "End-User License Agreement"
-msgstr "Gebruiksrechtovereenkomst"
+msgstr "Licentieovereenkomst Voor Eindgebruikers"
 
 #: src/jade/client/index.jade:56
 msgid "Support"
@@ -209,7 +209,7 @@ msgstr "Fout code: {{engine_result}} - {{engine_result_message}}"
 
 #: src/jade/directives/transactionerror.jade:18
 msgid "Your payment timed out, please try again."
-msgstr "De tijd voor uw betatling is verstreken. Gelieve het opnieuw te proberen."
+msgstr "De tijd voor uw betaling is verstreken. Probeer u het later nog eens."
 
 #: src/jade/directives/transactionerror.jade:22
 #: src/jade/messages/sendconvert/confirmation.jade:18
@@ -221,7 +221,7 @@ msgstr "Foutcode: Bestemmingskenmerk vereist. [tefDST_TAG_NEEDED]."
 msgid ""
 "Error code: This transaction failed because it exceeded the maximum network "
 "fee, please try again later [telINSUF_FEE_P]."
-msgstr "Foutcode: De transactie is mislukt omdat de maximale netwerkheffing ... is overschreden. Gelieve het later opnieuw te proberen [telINSUF_FEE_P]."
+msgstr "Foutcode: De transactie is mislukt omdat de maximale netwerkheffing is overschreden. Probeert u het later nog eens [telINSUF_FEE_P]."
 
 #: src/jade/directives/transactionerror.jade:32
 msgid "Error code: No destination [tecNO_DST]."
@@ -259,7 +259,7 @@ msgstr "Foutcode: Netwerkheffing overschreden [tejMaxFeeExceeded]."
 msgid ""
 "Your payment could not be submitted: {{engine_result}} - "
 "{{engine_result_message}}"
-msgstr "Uw betaling kon niet worden verstuurd: {{engine_result}} - {{engine_result_message}}"
+msgstr "Uw betaling kon niet worden verzonden: {{engine_result}} - {{engine_result_message}}"
 
 #: src/jade/messages/sendconvert/confirmation.jade:4
 msgid "Transaction pending."
@@ -285,7 +285,7 @@ msgstr "Transactie mislukt"
 #: src/jade/messages/sendconvert/confirmation.jade:9
 #: src/jade/tabs/trust.jade:58 src/jade/tabs/trust.jade:70
 msgid "Please try again later."
-msgstr "Probeert u het later opnieuw."
+msgstr "Probeert u het later nog eens."
 
 #: src/jade/messages/sendconvert/confirmation.jade:23
 msgid "Error code: The destination account does not exist [tecNO_DST]."
@@ -293,7 +293,7 @@ msgstr "Foutcode: Het bestemmingsaccount bestaat niet [tecNO_DST]."
 
 #: src/jade/messages/sendconvert/confirmation.jade:34
 msgid "Your transaction failed: {{engine_result_message}}"
-msgstr "{{engine_result}} - {{engine_result_message}}"
+msgstr "Uw transactie is mislukt: {{engine_result_message}}"
 
 #: src/jade/messages/sendconvert/localerror.jade:6
 msgid ""
@@ -311,7 +311,7 @@ msgstr "Foutcode: Ripple was niet in staat een pad te vinden tussen jou en het b
 msgid ""
 "Error code: This transaction failed because it exceeded the maximum network "
 "fee. [maxfeeExceeded]."
-msgstr "Foutcode: De transactie is mislukt omdat het de maximale netwerkheffing overschreed. [maxfeeExceeded]."
+msgstr "Foutcode: De transactie is mislukt omdat de maximale netwerkheffing is overschreden. [maxfeeExceeded]."
 
 #: src/jade/messages/sendconvert/localerror.jade:15
 msgid ""
@@ -321,11 +321,11 @@ msgstr "Foutcode: De transactie is afgekeurd door het Ripple netwerk [invalidTra
 
 #: src/jade/messages/sendconvert/localerror.jade:17
 msgid "Account unlock failed"
-msgstr "Ontgrendelen account mislukt"
+msgstr "Accountontgrendeling is mislukt"
 
 #: src/jade/messages/sendconvert/localerror.jade:18
 msgid "Your account could not be unlocked. Please try again later."
-msgstr "Je account kon niet worden ontgrendeld. Probeert het later nog eens."
+msgstr "Uw account kon niet worden ontgrendeld. Probeert u het later nog eens."
 
 #: src/jade/messages/sendconvert/localerror.jade:20
 msgid ""
@@ -404,11 +404,11 @@ msgstr "Publieke Informatie"
 
 #: src/jade/tabs/account/private.jade:2
 msgid "Profile Information"
-msgstr "Profiel Informatie"
+msgstr "Profielinformatie"
 
 #: src/jade/tabs/account/private.jade:5
 msgid "Identity Information"
-msgstr "Informatie over identiteit "
+msgstr "Identiteitsinformatie"
 
 #: src/jade/tabs/account/private.jade:8 src/jade/tabs/account/private.jade:19
 msgid "Completed"
@@ -432,11 +432,11 @@ msgstr "Uw Ripple naam aan het veranderen..."
 
 #: src/jade/tabs/account/public.jade:2
 msgid "Your Ripple name has been changed successfully."
-msgstr "Uw Ripple naam is met succes gewijzigd."
+msgstr "Uw Ripple naam is succesvol gewijzigd."
 
 #: src/jade/tabs/account/public.jade:3
 msgid "Account settings"
-msgstr "Account instellingen"
+msgstr "Accountinstellingen"
 
 #: src/jade/tabs/account/public.jade:5 src/jade/tabs/login/form.jade:2
 msgid "Ripple name"
@@ -597,7 +597,7 @@ msgstr "Veilig"
 
 #: src/jade/tabs/advanced.jade:104
 msgid "Not Secure"
-msgstr "Niet veilig"
+msgstr "Onveilig"
 
 #: src/jade/tabs/advanced.jade:110
 msgid "Add new server"
@@ -623,7 +623,7 @@ msgstr "Voer een geldig ripple adres in."
 
 #: src/jade/tabs/balance.jade:21
 msgid "Total Balance{{1}}"
-msgstr "Totale Saldo{{1}}"
+msgstr "Totaal Saldo{{1}}"
 
 #: src/jade/tabs/balance.jade:22
 msgid "Estimated from latest trade price"
@@ -639,7 +639,7 @@ msgstr "Reserve"
 
 #: src/jade/tabs/balance.jade:85
 msgid "Unverified"
-msgstr "Onbevestigd"
+msgstr "Niet geverifieerd"
 
 #: src/jade/tabs/balance.jade:92
 msgid "Enter bitcoin address."
@@ -659,7 +659,7 @@ msgstr "Voer een geldige hoeveelheid in"
 
 #: src/jade/tabs/balance.jade:113
 msgid "You are sending {{1}} BTC to:"
-msgstr "U verstuurt {{1}} BTC:"
+msgstr "U verstuurt {{1}} BTC naar:"
 
 #: src/jade/tabs/balance.jade:119 src/jade/tabs/balance.jade:134
 #: src/jade/tabs/register.jade:105 src/jade/tabs/register.jade:111
@@ -675,11 +675,11 @@ msgstr "Bevestigen"
 
 #: src/jade/tabs/balance.jade:127
 msgid "Reconnecting to Ripple network"
-msgstr "Opnieuw verbinding maken met het Ripple netwerk"
+msgstr "Opnieuw aan het verbinden met het Ripple netwerk"
 
 #: src/jade/tabs/balance.jade:128
 msgid "Transaction Successful"
-msgstr "Transactie geslaagd"
+msgstr "Transactie Geslaagd"
 
 #: src/jade/tabs/balance.jade:129
 msgid "Warning"
@@ -687,7 +687,7 @@ msgstr "Waarschuwing"
 
 #: src/jade/tabs/balance.jade:130
 msgid "Transaction Failed"
-msgstr "Transactie mislukt"
+msgstr "Transactie Mislukt"
 
 #: src/jade/tabs/balance.jade:131
 msgid "Message"
@@ -701,7 +701,7 @@ msgstr "Help ons team Ripple Trade te verbeteren!&#32{{1:Neem deel aan een kort 
 msgid ""
 "Welcome to Ripple Trade! To activate your account, you'll need at least 20 "
 "XRP."
-msgstr "Welkom bij Ripple Trade! Om uw account te activeren heeft u tenminste 20 XRP nodig."
+msgstr "Welkom bij Ripple Trade! Om uw account te activeren heeft u ten minste 20 XRP nodig."
 
 #: src/jade/tabs/banner/unfunded.jade:4
 msgid ""
@@ -731,11 +731,11 @@ msgstr "Uw huidige stortingslimiet is:"
 
 #: src/jade/tabs/btc.jade:32
 msgid "Remove Limit"
-msgstr "Verwijder limiet"
+msgstr "Verwijder Limiet"
 
 #: src/jade/tabs/btc.jade:36
 msgid "Waiting for response from SnapSwap service..."
-msgstr "Wachten op een reactie van de SnapSwap service..."
+msgstr "Wachtende op een reactie van de SnapSwap service..."
 
 #: src/jade/tabs/btc.jade:38
 msgid ""
@@ -745,7 +745,7 @@ msgstr "Alvorens te storten, moet je een bitcoinadres aanmaken met behulp van {{
 
 #: src/jade/tabs/btc.jade:45
 msgid "Generate bitcoin address"
-msgstr "Genereer een bitcoin adres"
+msgstr "Genereer bitcoin adres"
 
 #: src/jade/tabs/btc.jade:49 src/jade/tabs/security.jade:56
 #: src/jade/tabs/trust.jade:160
@@ -758,7 +758,7 @@ msgstr "btc2ripple zou graag:"
 
 #: src/jade/tabs/btc.jade:53
 msgid "- Receive your email address{{1}}"
-msgstr "- Ontvang uw e-mail adres{{1}}"
+msgstr "- Uw e-mail adres ontvangen{{1}}"
 
 #: src/jade/tabs/btc.jade:54
 msgid "({{userBlob.data.email}})"
@@ -821,11 +821,11 @@ msgstr "Voer een Ripple adres in."
 msgid ""
 "You already have a contact with the same Ripple address and/or the same "
 "Destination tag."
-msgstr "U heeft al een contact met hetzelfde Ripple adres en/of hetzelfde bestemmingskenmerk."
+msgstr "U heeft al een contact met hetzelfde Ripple adres en/of hetzelfde Bestemmingskenmerk."
 
 #: src/jade/tabs/contacts.jade:40
 msgid "Not a valid Ripple address."
-msgstr "Ripple adres is niet geldig."
+msgstr "Ripple adres is ongeldig."
 
 #: src/jade/tabs/contacts.jade:43 src/jade/tabs/contacts.jade:49
 #: src/jade/tabs/contacts.jade:89 src/jade/tabs/send.jade:49
@@ -869,16 +869,16 @@ msgid ""
 "account. This is because the downloadable client stores your login "
 "information locally on your computer, so your account is as safe as the "
 "security of your personal computer."
-msgstr "U zult niet in staat zijn om in te loggen op de downloadbare client met behulp van een gebruikersnaam en / of wachtwoord dat u aanmaakt op Ripple Trade als webversie van de Ripple Client. U kunt alleen gebruik maken van een geheime sleutel om toegang te krijgen tot een bestaande Ripple portefeuille. Dit komt omdat de downloadbare client uw login gegevens lokaal in uw computer oplsaat, zodat uw portefeuille is even veilig is als de beveiliging van uw persoonlijke computer."
+msgstr "U zult niet in staat zijn om in te loggen op de downloadbare client met behulp van een gebruikersnaam en/of wachtwoord dat u aanmaakt op Ripple Trade of op de webversie van de Ripple Client. U kunt alleen gebruik maken van een beveiligingssleutel om toegang te krijgen tot een bestaand Ripple account. Dit komt omdat de downloadbare client uw login-gegevens lokaal op uw computer oplsaat, waardoor uw portefeuille zo veilig is als de beveiliging van uw persoonlijke computer."
 
 #: src/jade/tabs/desktop/login.jade:12 src/jade/tabs/desktop/login.jade:34
 msgid "Open account"
-msgstr "Open een account"
+msgstr "Portefeuille openen"
 
 #: src/jade/tabs/desktop/login.jade:15 src/jade/tabs/desktop/register.jade:5
 #: src/jade/tabs/desktop/register.jade:65
 msgid "Create new account"
-msgstr "Maak een nieuw account aan"
+msgstr "Nieuwe portefeuille aanmaken"
 
 #: src/jade/tabs/desktop/login.jade:18
 msgid "Select account file {{walletfile}}"
@@ -890,11 +890,11 @@ msgstr "Selecteer portefeuille-bestand"
 
 #: src/jade/tabs/desktop/login.jade:24
 msgid "Account password"
-msgstr "Account-wachtwoord"
+msgstr "Account wachtwoord"
 
 #: src/jade/tabs/desktop/register.jade:8
 msgid "Open existing account"
-msgstr "Open een bestaand account"
+msgstr "Bestaande portefeuille openen"
 
 #: src/jade/tabs/desktop/register.jade:11
 msgid "Create an empty account"
@@ -902,15 +902,15 @@ msgstr "Maak een leeg account aan"
 
 #: src/jade/tabs/desktop/register.jade:14
 msgid "Create a new account with a secret key"
-msgstr "Maak met een beveiligingssleutel een nieuw account aan"
+msgstr "Nieuw account aanmaken met een beveiligingssleutel"
 
 #: src/jade/tabs/desktop/register.jade:18
 msgid "Create empty account"
-msgstr "Maak een leeg account aan"
+msgstr "Leeg account aanmaken"
 
 #: src/jade/tabs/desktop/register.jade:20
 msgid "Encrypt your new account file: {{walletfile}}"
-msgstr "Versleutel uw nieuw account-bestand {{walletfile}}"
+msgstr "Versleutel uw nieuwe portefeuille-bestand: {{walletfile}}"
 
 #: src/jade/tabs/desktop/register.jade:24
 msgid "Wallet file"
@@ -920,7 +920,7 @@ msgstr "Portefeuille-bestand"
 msgid ""
 "Your password is weak. It is not a mix of letters, numbers and symbols or it"
 " is the same as your Ripple name."
-msgstr "Uw wachtwoord is zwak. Het is geen combinatie van letters, nummers en symbolen of het is hetzelfde als uw Ripple naam."
+msgstr "Uw wachtwoord is zwak. Het is geen combinatie van letters, nummers en symbolen of het is gelijk aan uw Ripple naam."
 
 #: src/jade/tabs/desktop/register.jade:33 src/jade/tabs/recover.jade:40
 #: src/jade/tabs/register.jade:49 src/jade/tabs/security.jade:123
@@ -934,11 +934,11 @@ msgstr "Wachtwoorden komen niet overeen"
 
 #: src/jade/tabs/desktop/register.jade:42
 msgid "Encrypt account"
-msgstr "Versleutel account"
+msgstr "Versleutel portefeuille"
 
 #: src/jade/tabs/desktop/register.jade:44
 msgid "Cancel and delete account file"
-msgstr "Annuleren en account-bestand verwijderen"
+msgstr "Annuleren en portefeuille-bestand verwijderen"
 
 #: src/jade/tabs/desktop/register.jade:50
 msgid "Create account with secret key"
@@ -959,7 +959,7 @@ msgstr "Annuleren"
 
 #: src/jade/tabs/desktop/register.jade:69 src/jade/tabs/register.jade:95
 msgid "Have an account? {{1:Log In}}"
-msgstr "Heeft U reeds een portefeuille?  {{1:Log In}}"
+msgstr "Heeft u een account?  {{1:Log In}}"
 
 #: src/jade/tabs/desktop/register.jade:75
 msgid "Important:"
@@ -971,7 +971,7 @@ msgid ""
 "you lose your password. In that case your contacts will be lost, but with "
 "this secret key alone anyone can retrieve your money. So please store it "
 "somewhere PRIVATE AND SAFE. Read more about keys and wallet safety in {{1}}"
-msgstr "De geheime sleutel hieronder geeft toegang tot uw geld in geval dat u uw wachtwoord zou verliezen. In dat geval zijn wel uw contacten verloren. Met deze geheime sleutel kan iedereen uw geld kan ophalen. Dus bewaar het ergens prive en veilig. Lees meer over sleutels en de beveiliging van uw portefeille in {{1}}"
+msgstr "De onderstaande beveiligingssleutel geeft u toegang tot uw geld in het onwaarschijnlijke geval dat u uw wachtwoord kwijtraakt. In dat geval zullen uw contacten verloren gaan, maar geeft deze beveiligingssleutel toegang tot al uw geld. Bewaar deze dus op een VEILIGE plek. Lees meer over beveiligingssleutels en portefeuilleveiligheid in {{1}}"
 
 #: src/jade/tabs/desktop/register.jade:79 src/jade/tabs/settings/navbar.jade:2
 msgid "Security"
@@ -995,7 +995,7 @@ msgstr "Verberg beveiligingssleutel"
 
 #: src/jade/tabs/desktop/register.jade:98
 msgid "Have you saved your secret key somewhere safe?"
-msgstr "Heeft U uw beveiligingssleutel op een veilige plek bewaard?"
+msgstr "Heeft u uw beveiligingssleutel op een veilige plek bewaard?"
 
 #: src/jade/tabs/desktop/register.jade:101
 msgid "Yes, I saved my secret key"
@@ -1008,7 +1008,7 @@ msgstr "Uw account moet gefinancierd zijn voordat u geld kunt converteren"
 # Receive (amount)
 #: src/jade/tabs/exchange.jade:19
 msgid "Receive (amount)"
-msgstr "Ontvangen"
+msgstr "Ontvang"
 
 #: src/jade/tabs/exchange.jade:26 src/jade/tabs/send.jade:88
 msgid "Please enter an amount."
@@ -1033,7 +1033,7 @@ msgid ""
 "Cannot convert to {{exchange.amount}} {{exchange.currency_name}}. Please "
 "make sure your account has enough funds, and a {{1}} to a "
 "{{exchange.currency_name}} gateway."
-msgstr "Kan niet converteren naar {{exchange.amount}} {{exchange.currency_name}}. Zorg er alstublieft voor dat u genoeg geld in uw portefeuille heeft en een {{1}} voor een {{exchange.currency_name}} gateway."
+msgstr "Kan niet converteren naar {{exchange.amount}} {{exchange.currency_name}}. Zorg er alstublieft voor dat het saldo in uw portefeuille toereikend is en u een {{1}} heeft met een {{exchange.currency_name}} gateway."
 
 #: src/jade/tabs/exchange.jade:37
 msgid ""
@@ -1238,7 +1238,7 @@ msgstr "Onbekende transactie"
 msgid ""
 "The client failed to parse this transaction. The developers have been "
 "notified of the issue."
-msgstr "De client was niet in staat de transactie te analyseren. De developers zijn hiervan op de hoogte gebracht."
+msgstr "De client was niet in staat de transactie te analyseren. De ontwikkelaars zijn hiervan op de hoogte gebracht."
 
 #: src/jade/tabs/history.jade:171
 msgid "{{1}} sent you{{2}} and activated your account!"
@@ -1356,11 +1356,11 @@ msgstr "De vragen omtrent uw identiteit zijn geverifieerd."
 msgid ""
 "Congratulations, you've verified your identity! You will now be redirected "
 "back to the instant deposit page."
-msgstr "Gefeliciteerd, u heeft uw identiteit geverifieerd! U zal nu worden teruggestuurd naar de pagina voor onmiddelijk storten."
+msgstr "Gefeliciteerd, u heeft uw identiteit geverifieerd! U zal nu worden teruggestuurd naar de pagina voor direct storten."
 
 #: src/jade/tabs/kyc.jade:24
 msgid "There was an error with your request. Please try again later."
-msgstr "Er is een fout opgetreden bij uw verzoek. Gelieve het later opnieuw te proberen."
+msgstr "Er is een fout opgetreden bij uw verzoek. Probeert u het later nog eens."
 
 #: src/jade/tabs/kyc.jade:26
 msgid ""
@@ -1376,13 +1376,13 @@ msgstr "Gelieve uw verificatiecode te controleren en het dan opnieuw te proberen
 msgid ""
 "There was an error while requesting the verification code. Please try again "
 "later."
-msgstr "Er is een fout opgetreden bij het opvragen van uw verificatiecode. Gelieve het later opnieuw te proberen."
+msgstr "Er is een fout opgetreden bij het opvragen van uw verificatiecode. Probeert u het later nog eens."
 
 #: src/jade/tabs/kyc.jade:32
 msgid ""
 "We are unable to validate your identity information. Please check your "
 "information and try again."
-msgstr "Wij zijn niet in staat om uw identiteitsinformatie te valideren. Gelieve uw informatie te controleren en het dan opnieuw te proberen."
+msgstr "Wij zijn niet in staat uw identiteitsinformatie te valideren. Gelieve uw informatie te controleren en het dan opnieuw te proberen."
 
 #: src/jade/tabs/kyc.jade:34
 msgid ""
@@ -1397,7 +1397,7 @@ msgstr "Wij kunnen uw identiteit niet verifieren. Neem alstublieft contact met o
 
 #: src/jade/tabs/kyc.jade:41
 msgid "Profile Completion"
-msgstr "Profiel Voltooiing  "
+msgstr "Profielvoltooiing"
 
 #: src/jade/tabs/kyc.jade:45
 msgid "STEP 1: IDENTITY INFORMATION"
@@ -1457,11 +1457,11 @@ msgstr "Doorgaan naar de vragen omtrent uw identiteit"
 
 #: src/jade/tabs/kyc.jade:110
 msgid "{{ q.question }}{{1}}"
-msgstr "{{ q.vraag }}{{1}}"
+msgstr "{{ q.question }}{{1}}"
 
 #: src/jade/tabs/kyc.jade:113
 msgid "{{ a.answer }}"
-msgstr "{{ a.antwoord }}"
+msgstr "{{ a.answer }}"
 
 #: src/jade/tabs/kyc.jade:116
 msgid "Continue to two-factor authentication"
@@ -1475,7 +1475,7 @@ msgstr "Two-factor authentication biedt extra beveiliging voor uw account."
 msgid ""
 "Ripple Trade has partnered with Authy to provide better security for your "
 "account.By continuing, you agree to Authy's {{1:Terms of Service}}."
-msgstr "Ripple Trade werkt samen met Authy om uw account van betere beveiliging te voorzien. Bij doorklikken gaat u akkoord met de {{1:Terms of Service}} van Authy."
+msgstr "Ripple Trade werkt samen met Authy om uw account van betere beveiliging te voorzien. Bij doorklikken gaat u akkoord met de {{1:Algemene Voorwaarden}} van Authy."
 
 #: src/jade/tabs/kyc.jade:138
 msgid "Verify phone number"
@@ -1517,7 +1517,7 @@ msgstr "E-mail verificatie-code is ongeldig. Deze is ofwel verlopen of zij is fo
 
 #: src/jade/tabs/login.jade:21
 msgid "Verify"
-msgstr "verifiëren"
+msgstr "Verifiëren"
 
 #: src/jade/tabs/login.jade:25 src/jade/tabs/login.jade:26
 #: src/jade/tabs/recover.jade:5
@@ -1538,7 +1538,7 @@ msgstr "{{1:U gaat geld versturen naar}}{{2}}."
 
 #: src/jade/tabs/login.jade:41
 msgid "{{1:You're sending}}{{2}}{{3: to }}{{4}}."
-msgstr "{{1:U verstuurt}}{{2}}{{3: naar }}{{4}}."
+msgstr "{{1:U gaat}}{{2}}{{3: versturen naar }}{{4}}."
 
 #: src/jade/tabs/login.jade:51
 msgid ""
@@ -1548,7 +1548,7 @@ msgstr "{{1:U verbindt zich met de gateway}}{{2}}{{3:voor{{1}}}}{{4:met een limi
 
 #: src/jade/tabs/login.jade:66
 msgid "{{1:You're adding}}{{2}}{{3:to your contacts list}}"
-msgstr "{{1:U voegt nu}}{{2}}{{3:toe aan uw contactlijst}}"
+msgstr "{{1:U voegt nu}}{{2}}{{3:toe aan uw contacten}}"
 
 #: src/jade/tabs/login.jade:84
 msgid "You can confirm this transaction on the next page."
@@ -1591,7 +1591,7 @@ msgid ""
 "To begin migration, enter the name and passphrase used to encrypt your "
 "ripple.com/client wallet below. After migration, you will no longer be able "
 "to login on ripple.com/client."
-msgstr "Om te beginnen met migreren voert u hieronder de naam en het wachtwoord in die zijn gebruikt bij het versleutelen van uw ripple.com/client portefeuille."
+msgstr "Om te beginnen met migreren voert u hieronder de naam en het wachtwoord in die zijn gebruikt bij het versleutelen van uw ripple.com/client portefeuille. Na migratie zult u niet langer in staat zijn in te loggen op ripple.com/client."
 
 #: src/jade/tabs/migrate.jade:10
 msgid "Existing ripple.com/client Wallet name"
@@ -1670,7 +1670,7 @@ msgstr "Herinner uw wachtwoord? {{1:Log In}}"
 msgid ""
 "Ripple Trade is the only platform where you can trade between stores of "
 "value spanning fiat, crypto, precious metals and more."
-msgstr "Ripple Trade is het enige platform waarop u kunt handelen in verschillende middelen van waarde zoals fiatgeld, cryptovaluta, edele metalen en meer."
+msgstr "Ripple Trade is het enige platform waarop u kunt handelen in verschillende middelen van waarde zoals fiat geld, cryptovaluta, edele metalen en meer."
 
 #: src/jade/tabs/register.jade:9 src/jade/tabs/register.jade:90
 #: src/jade/tabs/register.jade:115 src/jade/tabs/register.jade:158
@@ -1739,7 +1739,7 @@ msgstr "Gebruik sleutel"
 
 #: src/jade/tabs/register.jade:80
 msgid "I agree to the {{productName}} {{1:end-user license agreement}}"
-msgstr "Ik ga akkoord met de {{productName}} {{1:end-user license agreement}}"
+msgstr "Ik ga akkoord met de {{productName}} {{1:licentieovereenkomst voor eindgebruikers}}"
 
 #: src/jade/tabs/register.jade:83
 msgid ""
@@ -1797,7 +1797,7 @@ msgstr "Als U uw geheime sleutel niet heeft opgeslagen, schrijf deze op en bewaa
 
 #: src/jade/tabs/register.jade:154
 msgid "Continue to email verification"
-msgstr "Verder naar e -mail verificatie"
+msgstr "Verder naar e-mail verificatie"
 
 #: src/jade/tabs/register.jade:167
 msgid ""
@@ -1825,7 +1825,7 @@ msgstr "Actieve Sessie Timeout"
 msgid ""
 "To view or edit your security settings, you must currently have an active "
 "session."
-msgstr "Om uw beveiligingsinstellingen te kunnen zien moet u een actieve sessie hebben."
+msgstr "Om uw beveiligingsinstellingen te kunnen zien of bewerken moet u een actieve sessie hebben."
 
 #: src/jade/tabs/security.jade:13
 msgid "Restore Session"
@@ -1849,7 +1849,7 @@ msgstr "Uw Ripple wachtwoord is met succes gewijzigd."
 
 #: src/jade/tabs/security.jade:29
 msgid "Unable to load Two-factor authentication settings."
-msgstr "Instellingen voor Two-factor authentication kunnen niet worden geladen."
+msgstr "Instellingen voor Two-factor authentication konden niet worden geladen."
 
 #: src/jade/tabs/security.jade:30
 msgid "Error saving Two-factor authentication settings."
@@ -1861,11 +1861,11 @@ msgstr "De verificatiecode is ongeldig."
 
 #: src/jade/tabs/security.jade:32
 msgid "Two-factor authentication has been successfully enabled."
-msgstr "Two-factor authentication is met succes aangezet."
+msgstr "Two-factor authentication is succesvol aangezet."
 
 #: src/jade/tabs/security.jade:33
 msgid "Two-factor authentication has been successfully disabled."
-msgstr "Two-factor authentication is met succes uitgezet."
+msgstr "Two-factor authentication is succesvol uitgezet."
 
 #: src/jade/tabs/security.jade:39
 msgid "Security settings"
@@ -1907,7 +1907,7 @@ msgstr "- Uw telefoonnummer"
 
 #: src/jade/tabs/security.jade:66
 msgid "By proceeding, you agree to the Authy {{1: terms of service.}}"
-msgstr "Door verder te gaan accepteert u de {{1: terms of service.}} van Authy"
+msgstr "Door verder te gaan accepteert u de {{1: Algemene voorwaarden}} van Authy"
 
 #: src/jade/tabs/security.jade:70
 msgid "Share"
@@ -1946,7 +1946,7 @@ msgid ""
 "Your secret key unlocks access to your account funds. Please write it down "
 "and store it somewhere private and safe. In the event you lose your Ripple "
 "name or password, you can use this secret key to recover your funds."
-msgstr "Uw beveligingssleutel biedt toegang tot al uw financiën. Schrijf deze op en bewaar deze op een veilige plek. In het geval u uw Ripple naam of wachtwoord verliest, kunt u deze geheime sleutel gebruiken om uw portefeuille en uw geld te recupereren."
+msgstr "Uw beveligingssleutel biedt toegang tot al uw financiën. Schrijf deze op om op een veilige plek te bewaren. In het geval u uw Ripple naam of wachtwoord verliest, kunt u deze beveiligingssleutel gebruiken om uw financiën te herkrijgen."
 
 #: src/jade/tabs/security.jade:150
 msgid "Password protection for transactions"
@@ -2030,7 +2030,7 @@ msgstr "Hoeveelheid moet groter dan nul zijn."
 msgid ""
 "This transaction exceeds your balance, you can send a max. of "
 "{{account.max_spend | rpamount:{rel_precision: 0} }} XRP"
-msgstr "Deze transactie overschrijdt uw saldo, u kunt maximaal {{account.max_spend | rpamount:{rel_precision: 0} }} XRP verzenden"
+msgstr "Deze transactie overschrijdt uw saldo. U kunt maximaal {{account.max_spend | rpamount:{rel_precision: 0} }} XRP versturen"
 
 #: src/jade/tabs/send.jade:94
 msgid ""
@@ -2089,7 +2089,7 @@ msgstr "U kan {{send.amount}} {{send.currency}} niet naar {{send.recipient}} ver
 msgid ""
 "You cannot send {{send.amount}} {{send.currency}} to{{send.recipient}}. Your"
 " account has insufficient funds."
-msgstr "U kunt {{send.amount}} {{send.currency}} niet versturen naar {{send.recipient}}. Uw portefeuille bevat te weinig geld."
+msgstr "U kunt geen {{send.amount}} {{send.currency}} versturen naar {{send.recipient}}. Het saldo in uw portefeuille is ontoereikend."
 
 #: src/jade/tabs/send.jade:128
 msgid "There are no valid currency choices for this destination."
@@ -2174,7 +2174,7 @@ msgstr "omdraaien"
 
 #: src/jade/tabs/trade.jade:27 src/jade/tabs/trade.jade:35
 msgid "Base currency"
-msgstr "Basis-valuta"
+msgstr "Basisvaluta"
 
 #: src/jade/tabs/trade.jade:30 src/jade/tabs/trade.jade:41
 msgid "Change gateway"
@@ -2182,7 +2182,7 @@ msgstr "Gateway veranderen"
 
 #: src/jade/tabs/trade.jade:38 src/jade/tabs/trade.jade:46
 msgid "Counter currency"
-msgstr "Contra-valuta"
+msgstr "Variabele valuta"
 
 #: src/jade/tabs/trade.jade:50
 msgid "Base currency issuer ({{order.first_currency | rpcurrency}})"
@@ -2205,7 +2205,7 @@ msgid ""
 "You must select a gateway to trade currencies. Click the “Change gateway” "
 "link above and enter the  gateway's address or Ripple name. {{1:Find a "
 "gateway.}}"
-msgstr "U moet een gateway selecteren om valuta om te wisselen. Klik hierboven op \"Gateway veranderen\" en voer het adres of de Ripple naam van de gateway in. {{1:Find a gateway.}}"
+msgstr "U moet een gateway selecteren om in valuta te handelen. Klik hierboven op \"Gateway veranderen\" en voer het adres of de Ripple naam van de gateway in. {{1:Vind een gateway.}}"
 
 #: src/jade/tabs/trade.jade:79
 msgid "Bid"
@@ -2260,7 +2260,7 @@ msgstr "Moet groter zijn dan nul"
 #: src/jade/tabs/trade.jade:149 src/jade/tabs/trade.jade:164
 #: src/jade/tabs/trade.jade:179
 msgid "Minimum is a drop (0.000001) and maximum is 100 billion XRPs"
-msgstr "Het minimum is een druppel (0.000001) en het maximum is 100 miljard XRP's"
+msgstr "Minimum is een 'drop' (0.000001) en maximum is 100 miljard XRP"
 
 #: src/jade/tabs/trade.jade:153
 msgid "Price of Each"
@@ -2298,7 +2298,7 @@ msgstr "LET OP: Uw order wijkt sterk af van de huidige marktprijs."
 msgid ""
 "You are about to create an order to {{1: buy}} {{2: "
 "sell}}{{3}}{{4:for}}{{5}}{{6}}{{7:Are you sure?}}"
-msgstr "U staat op het punt een order aan te maken om {{1: buy}} {{2: sell}}{{3}}{{4:for}}{{5}}{{6}}{{7:Are you sure?}}"
+msgstr "U staat op het punt een order aan te maken om {{3}}{{1: te kopen}} {{2: te verkopen}}{{4:voor}}{{5}}{{6}}{{7:Weet u dit zeker?}}"
 
 #: src/jade/tabs/trade.jade:239
 msgid "&laquo; Back"
@@ -2326,7 +2326,7 @@ msgstr "Verzoek is geweigerd."
 
 #: src/jade/tabs/trade.jade:259
 msgid "We were unable to submit the request. Please try again later."
-msgstr "We waren niet in staat om de aanvraag te versturen. Probeert u het later opnieuw."
+msgstr "We waren niet in staat de aanvraag te versturen. Probeert u het later nog eens."
 
 #: src/jade/tabs/trade.jade:261
 msgid "Request is malformed."
@@ -2352,7 +2352,7 @@ msgstr "U heeft niet genoeg {{(type == 'buy' ? order.second_currency : order.fir
 msgid ""
 "You must have at least {{account.reserve_to_add_trust | rpamount}} XRP to "
 "submit an order. {{1}}"
-msgstr "U moet tenminste {{account.reserve_to_add_trust | rpamount}} XRP hebben om een order te creëren. {{1}}"
+msgstr "U dient ten minste {{account.reserve_to_add_trust | rpamount}} XRP te hebben om een order aan te maken. {{1}}"
 
 #: src/jade/tabs/trade.jade:271
 msgid "More information."
@@ -2368,13 +2368,13 @@ msgstr "Handel is mislukt."
 
 #: src/jade/tabs/trade.jade:277
 msgid "Trade failed, reason: {{order[type].engine_result_message}}"
-msgstr "Transactie mislukt, reden: {{order[type].engine_result_message}}"
+msgstr "Handel mislukt, reden: {{order[type].engine_result_message}}"
 
 #: src/jade/tabs/trade.jade:281 src/jade/tabs/trust.jade:45
 msgid ""
 "The particular server you sent the transaction to was too busy to forward or"
 " process your transaction at the fee you included in it."
-msgstr "De server waar u de transactie naar toestuurde was te druk om deze door te sturen of te verwerken tegen de heffing die u aan deze transactie heeft meegegeven."
+msgstr "De server waar u de transactie naar verstuurde was te druk om deze door te sturen of te verwerken tegen de heffing die u aan deze transactie heeft meegegeven."
 
 #: src/jade/tabs/trade.jade:290
 msgid "Submit another order"
@@ -2390,7 +2390,7 @@ msgstr "Type"
 
 #: src/jade/tabs/trade.jade:300
 msgid "Currencies {{1: (Issuer)}}"
-msgstr "Valuta's {{1: (Issuer)}}"
+msgstr "Valuta's {{1: (Uitgever)}}"
 
 #: src/jade/tabs/trade.jade:302
 msgid "Price"
@@ -2415,7 +2415,7 @@ msgstr "U heeft nog geen orders geplaatst."
 
 #: src/jade/tabs/trade.jade:329
 msgid "Unable to cancel order."
-msgstr "Het order kan niet geannuleerd worden."
+msgstr "Order kan niet geannuleerd worden."
 
 #: src/jade/tabs/trade.jade:330
 msgid "Error: {{cancelError}}"
@@ -2467,7 +2467,7 @@ msgstr "Geen verdere orders"
 
 #: src/jade/tabs/trust.jade:23
 msgid "Connecting a gateway to your Ripple account..."
-msgstr "Bezig met het verbinden van een gateway aan uw Ripple account..."
+msgstr "Bezig met het verbinden van een gateway met uw Ripple portefeuille..."
 
 #: src/jade/tabs/trust.jade:25
 msgid "Gateway connected."
@@ -2475,11 +2475,11 @@ msgstr "Gateway verbonden."
 
 #: src/jade/tabs/trust.jade:27
 msgid "Gateway could not be connected!"
-msgstr "Gateway kon niet worden verbonden."
+msgstr "Gateway kon niet worden verbonden!"
 
 #: src/jade/tabs/trust.jade:28 src/jade/tabs/trust.jade:30
 msgid "There was a problem connecting the gateway. Please try again later."
-msgstr "Een fout is opgetreden bij het verbinden met de gateway. Probeert u het later opnieuw."
+msgstr "Een fout is opgetreden bij het verbinden met de gateway. Probeert u het later nog eens."
 
 #: src/jade/tabs/trust.jade:31
 msgid ""
@@ -2497,7 +2497,7 @@ msgstr "U heeft geen gateway verbonden voor deze valuta."
 
 #: src/jade/tabs/trust.jade:36
 msgid "Insufficient reserve to connect gateway."
-msgstr "Onvoldoende saldo om met de gateway te verbinden."
+msgstr "Onvoldoende reserve om met de gateway te verbinden."
 
 #: src/jade/tabs/trust.jade:37
 msgid ""
@@ -2507,11 +2507,11 @@ msgstr "U dient tenminste {{account.reserve_to_add_trust | rpamount:0}} XRP hebb
 
 #: src/jade/tabs/trust.jade:39
 msgid "Read more."
-msgstr "Vervolg."
+msgstr "Lees meer."
 
 #: src/jade/tabs/trust.jade:40
 msgid "Gateway connection failed to clear, reason: {{engine_result_message}}"
-msgstr "Opzeggen van de verbinding met de gateway is mislukt, met als reden: {{engine_result_message}}"
+msgstr "Verbreken van de verbinding met de gateway is mislukt, reden: {{engine_result_message}}"
 
 #: src/jade/tabs/trust.jade:43
 msgid "Transaction failed!"
@@ -2519,7 +2519,7 @@ msgstr "Transactie mislukt!"
 
 #: src/jade/tabs/trust.jade:53
 msgid "Saving changes..."
-msgstr "Bezig met opslaan..."
+msgstr "Wijzigingen aan het opslaan..."
 
 #: src/jade/tabs/trust.jade:55
 msgid "Changes saved!"
@@ -2561,15 +2561,15 @@ msgstr "Ripple naam en adres van de Gateway"
 msgid ""
 "{{1:You are connecting a gateway, which means}}{{2:{{ counterparty_address |"
 " rpripplename:{tilde: true} }} can:}}"
-msgstr "{{1:You are connecting a gateway, which means}}{{2:{{ counterparty_address | rpripplename:{tilde: true} }} can:}}"
+msgstr "{{1:U verbindt nu met een gateway. Daarmee vertrouwt u}}{{2:{{ counterparty_address | rpripplename:{tilde: true} }} }}"
 
 #: src/jade/tabs/trust.jade:165
 msgid "{{1:- Hold up to }}{{2}} {{3: on your behalf}}"
-msgstr "{{3: Namens jou tot aan }}{{2}} {{1:- in het bezit hebben}}"
+msgstr "{{1:- maximaal}}{{2}} {{3: toe}}"
 
 #: src/jade/tabs/trust.jade:169
 msgid "{{1:- Hold }}{{2}} {{3: on your behalf}}"
-msgstr "{{3: Namens jou }}{{2}} {{1:- in het bezit hebben}}"
+msgstr "{{1:-}}{{2}} {{3: toe}}"
 
 #: src/jade/tabs/trust.jade:183 src/jade/tabs/trust.jade:186
 #: src/jade/tabs/trust.jade:189 src/jade/tabs/trust.jade:255
@@ -2586,11 +2586,11 @@ msgstr "Adres aan het verifiëren"
 #: src/jade/tabs/trust.jade:201
 msgid ""
 "Your account has to be {{1:activated}} before you can add a gateway account."
-msgstr "Uw accuont dient te worden {{1:geactiveerd}} voor u een gateway account kunt toevoegen."
+msgstr "Uw account dient te worden {{1:geactiveerd}} voor u een gateway account kunt toevoegen."
 
 #: src/jade/tabs/trust.jade:209
 msgid "Connect gateway"
-msgstr "Gateway verbinden"
+msgstr "Verbinden met gateway"
 
 #: src/jade/tabs/trust.jade:227
 msgid "Gateway"
