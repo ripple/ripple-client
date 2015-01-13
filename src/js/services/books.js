@@ -9,7 +9,7 @@ var Amount = ripple.Amount;
 
 
 module.factory('rpBooks', ['rpNetwork', '$q', '$rootScope', '$filter', 'rpId',
-function(net, $q, $scope, $filter, $id) {
+function(net, $q, $scope, $filter, id) {
 
   var rowCount;
 
@@ -81,7 +81,7 @@ function(net, $q, $scope, $filter, $id) {
       });
 
       // Don't combine current user's orders.
-      if (d.Account == $id.account) {
+      if (d.Account == id.account) {
         d.my = true;
       }
 

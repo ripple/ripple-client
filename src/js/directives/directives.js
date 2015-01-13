@@ -373,7 +373,7 @@ module.directive('rpPopover', ['$interpolate', function($interpolate) {
  * rp-address-popover-sum-minus - put minus sign before sum
  */
 module.directive('rpAddressPopover', ['$timeout', '$interpolate', 'rpId', '$filter', '$parse', '$compile',
-                                        function($timeout, $interpolate, $id, $filter, $parse, $compile) {
+                                        function($timeout, $interpolate, id, $filter, $parse, $compile) {
   var popupDelay = 800;
   var hideDelay =  700;
   var rpamountFilter = $filter('rpamount');
@@ -506,7 +506,7 @@ module.directive('rpAddressPopover', ['$timeout', '$interpolate', 'rpId', '$filt
         tip.bind('mouseleave', onPopoverLeave);
 
         if (attr.rpAddressPopoverLinkToCharts) {
-          $id.resolveName(identity, { tilde: true }).then(function(name) {
+          id.resolveName(identity, { tilde: true }).then(function(name) {
             rippleName = name;
             var data = element.data('popover');
             if (data) {
@@ -807,13 +807,13 @@ module.directive('rpOffCanvasMenu', function() {
   };
 });
 
-module.directive('rpSnapper', ['rpId', function($id) {
+module.directive('rpSnapper', ['rpId', function(id) {
   return function($scope) {
     // Initialize snapper only if user is logged in.
-    var watcher = $scope.$watch(function(){return $id.loginStatus;}, function() {
+    var watcher = $scope.$watch(function(){return id.loginStatus;}, function() {
       var snapper;
 
-      if ($id.loginStatus) {
+      if (id.loginStatus) {
         setImmediate(function(){
           snapper = new Snap({
             element: document.getElementById('wrapper'),
