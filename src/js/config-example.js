@@ -34,7 +34,7 @@ var Options = {
   // intended for developers, be careful about using this in a real setting.
   persistent_auth: false,
 
-  historyApi: 'https://history-dev.ripple.com:7443/v1',
+  historyApi: 'https://history.ripple.com:7443/v1/',
 
   // Number of transactions each page has in balance tab notifications
   transactions_per_page: 50,
