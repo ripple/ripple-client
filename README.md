@@ -88,6 +88,7 @@ Keep track of development and community news.
 - Follow [@RippleLabs on Twitter](https://twitter.com/ripplelabs)
 - Like [Ripple Labs on Facebook](https://facebook.com/ripplelabs)
 - Subscribe to [@Ripple on Reddit](http://www.reddit.com/r/Ripple)
+- Subscribe to [the Ripple user community on Reddit](http://www.reddit.com/r/Ripplers)
 - Have a question that's not a feature request or bug report? Send a message to [support@ripple.com](mailto:support@ripple.com)
 - Chat directly with our engineers! Join us [here](https://gitter.im/ripple/developers).
 
