@@ -78,12 +78,13 @@ module.directive('rpCombobox', [function () {
           var curEl = cplEl.find('li.cursor');
           if (cplEl.is(':visible')) {
             e.preventDefault();
-          }
-          if (cplEl.find('li').length === 1) {
-            // Only one completion, we'll assume that's the one they want
-            selectCompletion(cplEl.find('li'));
-          } else if (curEl.length === 1) {
-            selectCompletion(curEl);
+
+            if (cplEl.find('li').length === 1) {
+              // Only one completion, we'll assume that's the one they want
+              selectCompletion(cplEl.find('li'));
+            } else if (curEl.length === 1) {
+              selectCompletion(curEl);
+            }
           }
         }
 
