@@ -55,7 +55,7 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', '$t
    * This creates the version of the username that is displayed in the UI.
    */
   Id.normalizeUsernameForDisplay = function (username) {
-    username = ""+username;
+    username = '' + username;
 
     // Strips whitespace at beginning and end.
     username = username.trim();
@@ -70,7 +70,7 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', '$t
    * servers.
    */
   Id.normalizeUsernameForInternals = function (username) {
-    username = ""+username;
+    username = '' + username;
 
     // Strips whitespace at beginning and end.
     username = username.trim();
@@ -93,7 +93,7 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', '$t
   Id.normalizeUsernameForOldBlob = function (username) {
     // The old blob does not remove hyphens
 
-    username = ""+username;
+    username = '' + username;
 
     // Strips whitespace at beginning and end.
     username = username.trim();
@@ -110,7 +110,7 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', '$t
    * Strips whitespace at beginning and end.
    */
   Id.normalizePassword = function (password) {
-    password = ""+password;
+    password = '' + password;
     password = password.trim();
     return password;
   };
@@ -128,7 +128,7 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', '$t
     $scope.userBlob = Id.defaultBlob;
     $scope.userCredentials = {};
 
-    $scope.$watch('userBlob',function(){
+    $scope.$watch('userBlob', function(){
       // XXX Maybe the blob service should handle this stuff?
       $scope.$broadcast('$blobUpdate');
 
@@ -142,7 +142,7 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', '$t
                   });
       }
       */
-    },true);
+    }, true);
 
     $scope.$on('$blobUpdate', function(){
       // Account address
@@ -152,13 +152,21 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', '$t
     });
 
     if (!!store.get('ripple_auth')) {
-      
       self.relogin(function(err, blob) {
         if (!blob) {
-          self.logout();  
+          self.logout();
           $location.path('/login');
         }
       });
+    }
+
+    if (store.get('ripple_known')) {
+      $scope.showRegister = false;
+      $scope.showLogin = true;
+    }
+    else {
+      $scope.showRegister = true;
+      $scope.showLogin = false;
     }
 
     $(window).bind('storage', function (e) {
@@ -273,9 +281,9 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', '$t
 //      self.storeLoginKeys(username, keys);
 //      self.loginStatus = true;
 //      $scope.$broadcast('$blobUpdate');
-      
+
       // Remove old blob
-      if(Options.blobvault) {
+      if (Options.blobvault) {
         $oldblob.remove(['vault', 'local'], opts.oldUsername, opts.oldPassword, function (err, data) {
           if (err) {
             console.log("Can't delete the old blobvault:", err);
@@ -369,20 +377,16 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', '$t
       'walletfile': opts.walletfile,
       'device_id' : deviceID
     }, function (err, blob, keys, actualUsername, emailVerified) {
-      
-      //handle 2FA
+      // handle 2FA
       if (err && err.twofactor) {
- 
-        //request verification token. If they are using the
-        //app, the request will be ignored.
+        // request verification token. If they are using the
+        // app, the request will be ignored.
         $authflow.requestToken(err.twofactor.blob_url, err.twofactor.blob_id, false, function(tokenError, tokenResp) {
-          
-          //keep this for reporting
-          err.twofactor.tokenError    = tokenError; 
+          // keep this for reporting
+          err.twofactor.tokenError    = tokenError;
           err.twofactor.tokenResponse = tokenResp;
           return callback(err);
         });
-        
       } else if (err) {
         // New login protocol failed and no fallback configured
         callback(err);
@@ -432,7 +436,6 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', '$t
       }
     });
   };
-  
   Id.prototype.relogin = function (callback) {
     var self     = this;
     var auth     = store.get('ripple_auth');
@@ -440,7 +443,6 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', '$t
     if (!auth || !auth.keys) {
       return callback(new Error('Missing authentication keys'));
     }
-    
     // XXX This is technically not correct, since we don't know yet whether
     //     the login will succeed. But we need to set it now, because the page
     //     controller will likely query it long before we get a response from
@@ -450,15 +452,11 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', '$t
     //     logouts trigger a full page reload.
     self.loginStatus = true;
     $scope.loginStatus = true;
-    
     $authflow.relogin(auth.url, auth.keys, deviceID, function (err, blob) {
-      
       if (err) {
-        
         // Failed to relogin
         console.log("client: id: failed to relogin:", err.message || err.toString());
-        callback(err);        
-        
+        callback(err);
       } else {
         // Ensure certain properties exist
         $.extend(true, blob, Id.minimumBlob);
@@ -473,32 +471,27 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', '$t
         store.set('ripple_known', true);
         callback(null, blob);
       }
-    });    
+    });
   };
 
   Id.prototype.verifyToken = function (options, callback) {
     store.set('remember_me', options.remember_me);
-    $authflow.verifyToken(options, callback);    
-  }; 
-  
+    $authflow.verifyToken(options, callback);
+  };
   Id.prototype.changePassword = function (options, callback) {
     var self = this;
-    
-    $authflow.changePassword(options, function(err, resp) {  
-      
+    $authflow.changePassword(options, function(err, resp) {
       if (err) {
         return callback(err);
       }
-      
-      //NOTE: the section below changed so that you can recover with 2FA enabled
-      //We should be checking attestation statuses here also.
-      
-      //perform login, so that the email verification is checked
-      //and the username, blob, and keys get stored.
-      //self.login(options, callback); 
-      
-      var keys = {id:options.blob.id,crypt:options.blob.key};
-      
+      // NOTE: the section below changed so that you can recover with 2FA enabled
+      // We should be checking attestation statuses here also.
+
+      // perform login, so that the email verification is checked
+      // and the username, blob, and keys get stored.
+      // self.login(options, callback);
+
+      var keys = {id:options.blob.id, crypt:options.blob.key};
       $scope.userBlob = options.blob;
       self.setUsername(options.username);
       self.setAccount(options.blob.data.account_id);
@@ -508,28 +501,26 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', '$t
       self.loginStatus = true;
       $scope.loginStatus = true;
       $scope.$broadcast('$blobUpdate');
-      store.set('ripple_known', true);  
-      callback();          
+      store.set('ripple_known', true);
+      callback();
     });
   };
-  
   Id.prototype.logout = function ()
   {
     store.remove('ripple_auth');
 
-    //remove deviceID if remember me is not set
+    // remove deviceID if remember me is not set
     if (!store.get('remember_me')) {
-      store.remove('device_id');  
+      store.remove('device_id');
     }
-    
+
     // TODO make it better
-    //this.account = '';
-    //this.keys = {};
-    //this.loginStatus = false;
-    //$scope.loginStatus = false;
-    //this.username = '';
-    //
-    //$scope.address = '';
+    // this.account = '';
+    // this.keys = {};
+    // this.loginStatus = false;
+    // $scope.loginStatus = false;
+    // this.username = '';
+    // $scope.address = '';
 //    $location.path('/login');
 
     // problem?
@@ -547,15 +538,14 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', '$t
     // Callback is optional
     if ("function" !== typeof callback) callback = $.noop;
 
-    //username = Id.normalizeUsernameForDisplay(username);
-    //password = Id.normalizePassword(password);
+    // username = Id.normalizeUsernameForDisplay(username);
+    // password = Id.normalizePassword(password);
 
     $authflow.unlock(username, password, function (err, resp) {
       if (err) {
         callback(err);
         return;
       }
-    
       callback(null, resp.secret);
     });
   };
@@ -589,8 +579,8 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', '$t
  * Find a ripple name for a given ripple address
    */
   Id.prototype.resolveNameSync = function (address, options) {
-    if(!this.resolvedNames[address]) {
-      if(!this.serviceInvoked[address]) {
+    if (!this.resolvedNames[address]) {
+      if (!this.serviceInvoked[address]) {
         this.resolveName(address, options);
       }
       return address;
@@ -615,8 +605,8 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', '$t
 
     var opts = jQuery.extend(true, {}, options);
 
-    if(!this.resolvedNames[address]) {
-      if(!this.serviceInvoked[address]) {
+    if (!this.resolvedNames[address]) {
+      if (!this.serviceInvoked[address]) {
         this.serviceInvoked[address] = true;
 
         // Get the blobvault url
@@ -658,23 +648,22 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', '$t
   $scope.$watch('loginStatus', function (loginStatus){
     if (loginStatus) {
       $scope.showLogin = false;
+      $scope.showRegister = false;
+      location.hash = '/balance';
+      return;
     }
   });
 
   $scope.$on('$routeChangeStart', function (ev, next) {
     if (!$scope.loginStatus) {
       var tab = next.tabName;
-
-      if (tab !== 'register' && tab !== 'migrate' && tab !== 'recover' && tab !== '404' && tab !== 'privacypolicy' && tab !== 'tou') {
-        $scope.showLogin = true;
-        return;
+      var allTabs = ['login', 'register', 'migrate', 'recover', '404', 'privacypolicy', 'tou'];
+      if (allTabs.indexOf(tab) !== -1) {
+        $scope.showLogin = false;
+        $scope.showRegister = false;
       }
     }
-
-    $scope.showLogin = false;
   });
 
   return new Id();
 }]);
-
-
