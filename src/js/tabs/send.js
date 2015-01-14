@@ -134,7 +134,7 @@ SendTab.prototype.angular = function (module)
           || (send.recipient_info &&
           'object' === typeof send.recipient_info &&
           send.recipient_info.dest_tag_required))
-          && !send.federation;
+          && (!send.federation || (send.federation_record && !send.federation_record.dt));
     };
 
     $scope.update_destination = function () {
