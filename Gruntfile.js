@@ -404,7 +404,16 @@ module.exports = function(grunt) {
         boss:      true,
         expr:      true,
         asi:       true,
-        sub:       true
+        sub:       true,
+        jquery:    true,
+        predef: [
+          '_',
+          'angular',
+          'Options',
+          'ripple',
+          'setImmediate',
+          'store'
+        ]
       },
       plugins: [
         new BannerPlugin('Ripple Client v<%= meta.version %>\nCopyright (c) <%= grunt.template.today(\'yyyy\') %> <%= pkg.author.name %>\nLicensed under the <%= pkg.license %> license.')

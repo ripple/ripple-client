@@ -192,7 +192,7 @@ function Config ($routeProvider, $injector) {
   });
 
   $routeProvider.otherwise({redirectTo: '/404'});
-};
+}
 
 Run.$inject = ['$rootScope', '$injector', '$compile', '$route',
   '$routeParams', '$location', '$document', 'rpId'];
@@ -244,7 +244,7 @@ function Run ($rootScope, $injector, $compile, $route, $routeParams, $location, 
       }
     });
   });
-};
+}
 
 // Track uncaught exceptions
 ExceptionHandler.$inject = ['$injector'];
@@ -255,7 +255,7 @@ function ExceptionHandler ($injector) {
     $log.error.apply($log,arguments);
     $injector.get('rpTracker').trackError('Uncaught Exception', exception);
   };
-};
+}
 
 // Some backwards compatibility
 if (!Options.blobvault) {

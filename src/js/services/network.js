@@ -9,8 +9,6 @@
 (function () {
 'use strict';
 
-/* global ripple: false, angular: false, _: false, jQuery: false, store: false, Options: false */
-
 angular
   .module('network', [])
   .factory('rpNetwork', rpNetwork);
