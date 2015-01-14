@@ -763,7 +763,7 @@ module.directive('rpAmount', function () {
           value = value.split(",").join("");
         }
 
-        var test = /^(([0-9]*?\.\d+)|([1-9]\d*))$/.test(value);
+        var test = /^(([0-9]*?\.\d+)|([0-9]\d*))$/.test(value);
 
         if (test && value[0] == '.') {
           value = '0' + value;
