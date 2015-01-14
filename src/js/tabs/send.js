@@ -278,6 +278,24 @@ SendTab.prototype.angular = function (module)
 
       if (!ripple.UInt160.is_valid(recipient)) return;
 
+      if (!$scope.account || !$scope.account.reserve_base) return;
+
+      if (!send.federation && $scope.contact && $scope.contact.noDestinationCheck) {
+        send.recipient_info = {
+          loaded: true,
+          exists: true,
+          Balance: $scope.account.reserve_base,
+          // Flags
+          disallow_xrp: 0,
+          dest_tag_required: 0
+        };
+        send.recipient_resolved = true;
+        $scope.check_dt_visibility();
+        send.recipient_lines = false;
+        $scope.update_currency_constraints();
+        return;
+      }
+
       var account = network.remote.account(recipient);
 
       send.path_status = 'checking';
@@ -320,6 +338,15 @@ SendTab.prototype.angular = function (module)
 
             var reserve_base = $scope.account.reserve_base;
             send.xrp_deficiency = reserve_base.subtract(data.account_data.Balance);
+
+            if (!send.federation && $scope.contact &&
+                !send.recipient_info.disallow_xrp &&
+                !send.recipient_info.dest_tag_required &&
+                send.xrp_deficiency.compareTo(0) <= 0) {
+              // save to contact flag to not check destination next time
+              $scope.userBlob.filter('/contacts', 'name', $scope.contact.name,
+                                     'set', '/noDestinationCheck', true);
+            }
 
             send.recipient_lines = false;
             $scope.update_currency_constraints();
