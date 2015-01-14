@@ -697,10 +697,17 @@ SendTab.prototype.angular = function (module)
       var isIssuer = $scope.generate_issuer_currencies();
 
       send.pathfind = pf;
+      send.pathfindJustStarted = true;
 
       var lastUpdate;
 
       pf.on('update', function (upd) {
+        // if no paths found and it is first update - skip it, it often wrong
+        if (send.pathfindJustStarted && (!upd.alternatives || !upd.alternatives.length)) {
+          send.pathfindJustStarted = false;
+          return;
+        }
+        send.pathfindJustStarted = false;
         $scope.$apply(function () {
           lastUpdate = new Date();
 
