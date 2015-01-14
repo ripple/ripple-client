@@ -1155,6 +1155,7 @@ SendTab.prototype.angular = function (module)
         $scope.send.pathfind.close();
         delete $scope.send.pathfind;
       }
+      clearInterval(timer);
     });
 
     $scope.reset();
