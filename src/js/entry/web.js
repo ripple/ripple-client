@@ -102,6 +102,7 @@ var tabdefs = [
   require('../tabs/twofa'),
   require('../tabs/jpy'),
   require('../tabs/mxn'),
+  require('../tabs/nzd'),
   require('../tabs/404'),
   require('../tabs/brl'),
   require('../tabs/settingstrade'),

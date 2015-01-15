@@ -1,0 +1,109 @@
+section.col-xs-12.content(ng-controller='NzdCtrl')
+
+  //- Disconnected
+
+  group.disconnected(ng-hide='connected')
+    p.literal(l10n="err-you-must-be-online-to-see-this-screen", l10n)
+      | You have to be online to see this screen
+
+  //- Funding
+  div(ng-show="!loadingAccount && !account.Balance && loadState.account && connected")
+    include banner/unfunded
+
+  .row(ng-show='connected')
+    // Transaction errors coming from errors.js & transactionerror.jade
+    .col-sm-12(ng-show='mode=="error" || mode=="granting" && account.Balance')
+      group.mode-ripplerror
+        rp-transaction-status(
+          rp-engine-result="{{engine_result}}"
+          rp-engine-result-message="{{engine_result_message}}"
+          rp-accepted="{{engine_status_accepted}}"
+          rp-current-tab="trust")
+
+    //- Generic non-tx related messages
+    .col-sm-12(ng-show='notif !== "clear"', ng-hide="!notif")
+      group.mode-granted.wide
+        group(ng-switch on="notif")
+          group.result-error(ng-switch-when="error")
+            h2.tx-status(l10n) There was an error while saving your changes.&#32;
+            p(l10n) Please try again later.
+    .col-sm-12(ng-show='account.Balance && !can_add_trust && !nzdConnected')
+      .alert.alert-warning(l10n) You must have at least
+        strong  {{account.reserve_to_add_trust | rpamount:0}} XRP
+        |  to add a new trust line.&#32;
+        a(href="https://ripple.com/wiki/Reserves", target="_blank") More information
+
+    .col-sm-3
+      include fund/menu
+    .col-sm-9.list(ng-hide='debug')
+      .nameLine(l10n) New Zealand Dollar Deposit
+      .gateway.row
+        .col-md-3
+            .title(l10n) Gateway
+            .description(l10n)            
+              | Coinex (~Coinex)
+              br
+              a(href="https://coinexgateway.com", target="_blank") www.coinexgateway.com
+        .col-md-3
+            .title(l10n) Availability
+            .description(l10n) Australia and New Zealand
+        .col-md-3
+            .title(l10n) Fees
+            .description(l10n) 
+              p(l10n) .98% for deposits and withdrawals&#32;
+              p(l10n)
+                a(href="https://coinexgateway.com/Gateway/Fees.html", target="_blank") More details 
+        .col-md-3
+            .title(l10n) Rating
+            .description(l10n)
+              a(href="https://coinist.co/ripple/gateways/coinex", target="_blank") read reviews
+
+      .row.fund-tab-description
+        .col-xs-12.col-md-8.col-lg-6
+          .descriptor(ng-show="!nzdConnected", l10n) Ripple Trade has partnered with Ripple New Zealand to provide easier access to NZD. Following this action will enable Ripple New Zealand to hold NZD on your behalf.
+
+      .row.fund-tab-description
+        .col-xs-7.col-sm-5.col-md-4
+          button.btn.btn-large(ng-show="!nzdConnected && !loading", type="submit", ng-click="save_account()", ng-disabled="!account.Balance") Add NZD Coinex
+          button.btn.btn-large(ng-show="!nzdConnected && loading", type="submit", ng-disabled="loading") Adding...
+          button.btn.btn-large(ng-show="showInstructions && nzdConnected", type="submit", ng-click="toggle_instructions()", l10n) Hide instructions
+          button.btn.btn-large(ng-show="nzdConnected && !showInstructions", type="submit", ng-click="toggle_instructions()", l10n) Show instructions
+
+        .connect.col-xs-5.col-sm-7.col-md-8(ng-hide="loading")
+          .description(ng-show="!nzdConnected && account.Balance", l10n) 
+            i.fa.fa-times
+            |  Not connected
+          .description(ng-show="nzdConnected && account.Balance", l10n)
+            i.fa.fa-check
+            |  Connected
+          .description(ng-show="!account.Balance", l10n) Your account has to be activated before you can add a gateway account.
+
+      .row(ng-show="showInstructions && nzdConnected")
+        .instructions.col-md-10
+          a.dismiss(href="", id="hide", ng-click="toggle_instructions()", l10n)  ×
+          .title(l10n) To Initiate New Zealand Dollar Deposits and Withdrawals
+          .description(l10n) 
+            | Register or login to your Coinex account. You will need to submit proof of identity.&#32;
+            a(href="https://coinexgateway.com/Gateway/Verification.html", target="_blank") Details here.&#32;
+            
+          .title(l10n) Deposit Options
+          .description(l10n) 
+            | Coinex accepts deposits by the following methods:
+            ul 
+              li
+                p(l10n) International bank transfer
+              li
+                p(l10n) Ripple transaction
+              li
+                p(l10n) Stellar transaction
+
+          .title(l10n) Withdrawal Options
+          .description(l10n)
+            | Coinex accepts withdrawals by the following methods:
+            ul
+              li
+                p(l10n) Domestic or international bank transfer
+              li
+                p(l10n) Ripple transaction
+              li
+                p(l10n) Stellar transaction
