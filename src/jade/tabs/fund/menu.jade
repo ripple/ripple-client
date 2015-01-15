@@ -4,6 +4,9 @@
     i.icon.fa.fa-money.fa-xrp
     | XRP
   .menu_item(l10n) Featured gateways
+  a(href="#/aud", ng-class="{active: $route.current.tabName == 'aud'}", class="currency-aud", l10n)
+    i.icon.fa.fa-money.fa-aud
+    | AUD
   a(href="#/brl", ng-class="{active: $route.current.tabName == 'brl'}", class="currency-brl", l10n)
     i.icon.fa.fa-money.fa-brl
     | BRL
