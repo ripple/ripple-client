@@ -649,7 +649,6 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', '$t
     if (loginStatus) {
       $scope.showLogin = false;
       $scope.showRegister = false;
-      location.hash = '/balance';
       return;
     }
   });
@@ -661,6 +660,18 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', '$t
       if (allTabs.indexOf(tab) !== -1) {
         $scope.showLogin = false;
         $scope.showRegister = false;
+      }
+      else {
+        if (store.get('ripple_known')) {
+          $scope.showRegister = false;
+          $scope.showLogin = true;
+        }
+        else {
+          $scope.showRegister = true;
+          $scope.showLogin = false;
+        }
+        location.hash = '/';
+        return;
       }
     }
   });

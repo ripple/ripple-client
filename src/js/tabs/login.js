@@ -239,6 +239,7 @@ LoginTab.prototype.angular = function (module) {
       });
 
       $scope.status = '';
+      location.hash = '/balance';
       if ($routeParams.tab) {
         $location.path('/'+$routeParams.tab);
       }
