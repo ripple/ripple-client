@@ -63,7 +63,7 @@ module.directive('rpMasterAddressExists', function ($http) {
           var account_id = ripple.Seed.from_json(value).get_key().get_address().to_json();
 
           //NOTE: is there a better way to get the blobvault URL?         
-          ripple.AuthInfo.get(Options.domain, "1", function(err, authInfo) {
+          rippleVaultClient.AuthInfo.get(Options.domain, "1", function(err, authInfo) {
             if (err) {
               scope.checkingMasterkey = false;
               return;
@@ -226,7 +226,7 @@ module.directive('rpDest', ['$timeout', '$parse', 'rpFederation', function ($tim
           timeoutPromise = $timeout(function(){
             showLoading(true);
 
-            ripple.AuthInfo.get(Options.domain, value, function(err, info){
+            rippleVaultClient.AuthInfo.get(Options.domain, value, function(err, info){
               scope.$apply(function(){
                 ctrl.$setValidity('rpDest', info.exists);
 
@@ -298,7 +298,7 @@ module.directive('rpAvailableName', function ($timeout, $parse) {
               getterL.assign(scope,true);
             }
 
-            ripple.AuthInfo.get(Options.domain, value, function(err, info){
+            rippleVaultClient.AuthInfo.get(Options.domain, value, function(err, info){
               scope.$apply(function(){
                 if (info.exists) {
                   ctrl.$setValidity('rpAvailableName', false);
