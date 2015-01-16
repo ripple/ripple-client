@@ -1467,6 +1467,7 @@ TradeTab.prototype.angular = function(module)
       if ($scope.newBook && 'function' === typeof $scope.newBook.unsubscribe) {
         $scope.newBook.unsubscribe();
       }
+      clearInterval(timer);
     });
   }
 };
