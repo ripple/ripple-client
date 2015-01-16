@@ -60,7 +60,7 @@ PretendTab.prototype.angular = function (module)
       else if (webutil.isRippleName($scope.pretend.pretendAs)) {
         var d = $q.defer();
         gotAddress = d.promise;
-        ripple.AuthInfo.get(Options.domain, $scope.pretend.pretendAs, function(err, response) {
+        rippleVaultClient.AuthInfo.get(Options.domain, $scope.pretend.pretendAs, function(err, response) {
           $scope.pretend.address = response.address;
           d.resolve(response.address);
         });

@@ -248,7 +248,7 @@ SendTab.prototype.angular = function (module)
         ;
       }
       else if (send.rippleName) {
-        ripple.AuthInfo.get(Options.domain, send.recipient, function(err, response) {
+        rippleVaultClient.AuthInfo.get(Options.domain, send.recipient, function(err, response) {
           $scope.$apply(function(){
             send.recipient_name = '~' + response.username;
             send.recipient_address = response.address;
