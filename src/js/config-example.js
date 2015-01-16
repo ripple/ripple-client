@@ -20,8 +20,8 @@ var Options = {
       { host: 's-east.ripple.com', port: 443, secure: true }
     ],
 
-    connection_offset: 0
-
+    connection_offset: 0,
+    allow_partial_history: false
   },
 
   // DEPRECATED: Blobvault server (old blob protocol)
