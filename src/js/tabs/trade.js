@@ -1003,7 +1003,7 @@ TradeTab.prototype.angular = function(module)
         }
         else {
           if(pair[0].substring(14, 17) == 'GBI') {
-            ripple.AuthInfo.get(Options.domain, '~' + pair[0].substring(14), function (err, response1) {
+            rippleVaultClient.AuthInfo.get(Options.domain, '~' + pair[0].substring(14), function (err, response1) {
               if (err) return;
               $scope.$apply(function () {
                 order.first_issuer = response1.address;
@@ -1012,7 +1012,7 @@ TradeTab.prototype.angular = function(module)
             });
           }
           else if (pair[0].substring(4, 5) == '~') {
-            ripple.AuthInfo.get(Options.domain, pair[0].substring(4), function (err, response1) {
+            rippleVaultClient.AuthInfo.get(Options.domain, pair[0].substring(4), function (err, response1) {
               if (err) return;
               $scope.$apply(function () {
                 order.first_issuer = response1.address;
@@ -1023,7 +1023,7 @@ TradeTab.prototype.angular = function(module)
 
           else {
 
-            ripple.AuthInfo.get(Options.domain, '~' + pair[0].substring(4), function (err, response1) {
+            rippleVaultClient.AuthInfo.get(Options.domain, '~' + pair[0].substring(4), function (err, response1) {
               if (err) return;
               $scope.$apply(function () {
                 order.first_issuer = response1.address;
@@ -1049,7 +1049,7 @@ TradeTab.prototype.angular = function(module)
         }
         else {
           if(pair[1].substring(14, 17) == 'GBI') {
-            ripple.AuthInfo.get(Options.domain, '~' + pair[1].substring(14), function (err, response1) {
+            rippleVaultClient.AuthInfo.get(Options.domain, '~' + pair[1].substring(14), function (err, response1) {
               if (err) return;
               $scope.$apply(function () {
                 order.first_issuer = response1.address;
@@ -1058,7 +1058,7 @@ TradeTab.prototype.angular = function(module)
             });
           }
           else if (pair[1].substring(4, 5) == '~') {
-            ripple.AuthInfo.get(Options.domain, pair[1].substring(4), function (err, response2) {
+            rippleVaultClient.AuthInfo.get(Options.domain, pair[1].substring(4), function (err, response2) {
               if (err) return;
               $scope.$apply(function () {
                 order.second_issuer = response2.address;
@@ -1067,7 +1067,7 @@ TradeTab.prototype.angular = function(module)
             });
           }
           else {
-            ripple.AuthInfo.get(Options.domain, '~' + pair[1].substring(4), function (err, response2) {
+            rippleVaultClient.AuthInfo.get(Options.domain, '~' + pair[1].substring(4), function (err, response2) {
               if (err) return;
               $scope.$apply(function () {
                 order.second_issuer = response2.address;

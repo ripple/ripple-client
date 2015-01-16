@@ -615,7 +615,7 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', '$t
         this.serviceInvoked[address] = true;
 
         // Get the blobvault url
-        ripple.AuthInfo.get(Options.domain, "1", function(err, authInfo) {
+        rippleVaultClient.AuthInfo.get(Options.domain, "1", function(err, authInfo) {
           if (err) {
             console.log("Can't get the authinfo data", err);
             deferred.reject(err);
