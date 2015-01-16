@@ -605,12 +605,6 @@ SendTab.prototype.angular = function (module)
           send.xrp_deficiency = reserve_base.subtract(send.recipient_info.Balance);
         }
 
-        // If the destination doesn't exist, then don't search for paths.
-        if (!send.recipient_info.exists) {
-          send.path_status = 'none';
-          return;
-        }
-
         send.path_status = 'pending';
         pathUpdateTimeout = $timeout($scope.update_paths, 500);
       }
