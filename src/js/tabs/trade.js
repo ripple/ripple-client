@@ -801,7 +801,7 @@ TradeTab.prototype.angular = function(module)
       $scope.update_price(type);
       if (order.price_amount && order.price_amount.is_valid() &&
           order.first_amount && order.first_amount.is_valid()) {
-        order.second_amount = order.price_amount.product_human(+order.first);
+        order.second_amount = order.price_amount.product_human(order.first_amount);
         order.second = +order.second_amount.to_human({group_sep: false});
       }
     };
