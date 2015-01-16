@@ -119,22 +119,22 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
             .row
               li.col-xs-6.col-sm-3
                 span(l10n) Bid
-                span &#32&#61;&#32;
+                span &#32;&#61;&#32;
                 span.value
                   | {{book.bids[0].TakerGets | rpamountratio:book.bids[0].TakerPays | rpamount:{rel_precision: 5, rel_min_precision: 5} }}
               li.col-xs-6.col-sm-3
                 span(l10n) Ask
-                span &#32&#61;&#32;
+                span &#32;&#61;&#32;
                 span.value
                   | {{book.asks[0].TakerPays | rpamountratio:book.asks[0].TakerGets | rpamount:{rel_precision: 5, rel_min_precision: 5} }}
               li.col-xs-6.col-sm-3
                 span(l10n) Spread
-                span &#32&#61;&#32;
+                span &#32;&#61;&#32;
                 span.value
                   | {{book.asks[0].TakerPays | rpamountratio:book.asks[0].TakerGets | rpamountsubtract:(book.bids[0].TakerGets | rpamountratio:book.bids[0].TakerPays) | rpamount:{rel_precision: 5, rel_min_precision: 5} }}
               li.col-xs-6.col-sm-3
                 span(l10n) Last price
-                span &#32&#61;&#32;
+                span &#32;&#61;&#32;
                 span.value
                   | {{book.last_price | rpamount:{rel_precision: 5, rel_min_precision: 5} }}
 
@@ -581,15 +581,15 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
             .col-xs-12.col-sm-6
               div.orderbook-title(l10n)
                 |Orderbook
-                small.toggle.orderbook-hide(ng-click="hideOrderBook = !hideOrderBook")
-                  span(ng-show="hideOrderBook", l10n) show
-                  span(ng-hide="hideOrderBook", l10n) hide
+                small.toggle.orderbook-hide(ng-click="visualState.hideOrderBook = !visualState.hideOrderBook")
+                  span(ng-show="visualState.hideOrderBook", l10n) show
+                  span(ng-hide="visualState.hideOrderBook", l10n) hide
             .col-xs-12.col-sm-6.last-update(l10n) Last updated
               span  {{lastUpdate}}
               span(ng-show="lastUpdate > '1'", l10n-inc)  seconds
               span(ng-show="lastUpdate == '1'", l10n-inc)  second
               |  ago
-        div.orderbook-wrapper(ng-if="order.valid_settings", ng-hide="hideOrderBook")
+        div.orderbook-wrapper(ng-if="order.valid_settings", ng-hide="visualState.hideOrderBook")
           group.disconnected(ng-hide="!load_orderbook")
             div(id="orderbook_loader")
               img(src="img/sections.png", class="loader")
