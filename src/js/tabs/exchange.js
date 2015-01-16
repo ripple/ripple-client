@@ -133,10 +133,17 @@ ExchangeTab.prototype.angular = function (module)
               // $scope.generate_src_currencies());
               // XXX: Roll back pathfinding changes temporarily
           var isIssuer = $scope.generate_issuer_currencies();
+          var pathfindJustStarted = true;
 
           var lastUpdate;
 
           pf.on('update', function (upd) {
+            // if no paths found and it is first update - skip it, it often wrong
+            if (pathfindJustStarted && (!upd.alternatives || !upd.alternatives.length)) {
+              pathfindJustStarted = false;
+              return;
+            }
+            pathfindJustStarted = false;
             $scope.$apply(function () {
               lastUpdate = new Date();
 
