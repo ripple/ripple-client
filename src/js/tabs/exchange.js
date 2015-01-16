@@ -448,6 +448,7 @@ ExchangeTab.prototype.angular = function (module)
         if (pf && 'function' === typeof pf.close) {
           pf.close();
         }
+        clearInterval(timer);
       });
     }]);
 };
