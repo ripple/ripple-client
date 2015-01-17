@@ -42,11 +42,9 @@ ExchangeTab.prototype.angular = function (module)
         currency: xrpCurrency
       };
 
-      $scope.$watch('exchange.amount', function () {
-        $scope.update_exchange();
-      }, true);
+      $scope.$watch('exchange.amount', runUpdateExchangeIfNeeded, true);
 
-      $scope.$watch('exchange.currency_name', function () {
+      $scope.$watch('exchange.currency_name', function() {
         var exchange = $scope.exchange;
         var currency = Currency.from_human($scope.exchange.currency_name ? $scope.exchange.currency_name : 'XRP');
         exchange.currency_obj = currency;
@@ -54,8 +52,28 @@ ExchangeTab.prototype.angular = function (module)
         exchange.currency_name = currency.to_human({
           full_name: $scope.currencies_all_keyed[currency.get_iso()] ? $scope.currencies_all_keyed[currency.get_iso()].name : null
         });
-        $scope.update_exchange();
+        setImmediate(function() {
+          if ($scope.exchangeForm.amount !== undefined) {
+            $scope.$apply(function() {
+              // hack to re-validate input. remove this and uncomment $validate() when upgraded to angularjs 1.3
+              $scope.exchangeForm.amount.$modelValue = '';
+              $scope.exchangeForm.amount.$setViewValue($scope.exchange.amount);
+              // $scope.exchangeForm.amount.$validate();
+              runUpdateExchangeIfNeeded();
+            });
+          }
+        });
       }, true);
+
+      function runUpdateExchangeIfNeeded() {
+        if ($scope.exchangeForm.$valid) {
+          $scope.update_exchange();
+        } else {
+          onDestroy();
+          $scope.reset_paths();
+          $scope.exchange.path_status = 'waiting';
+        }
+      }
 
       $scope.gotoFund = function() {
         $location.path('/xrp');
@@ -119,7 +137,11 @@ ExchangeTab.prototype.angular = function (module)
         }
       };
 
-      $scope.update_paths = function () {
+      $scope.update_paths = function() {
+        if ($scope.exchangeForm.$invalid) {
+          // something was changed in form so now it is invalid
+          return;
+        }
         $scope.$apply(function () {
           $scope.exchange.path_status = 'pending';
           var amount = $scope.exchange.amount_feedback;
@@ -138,7 +160,11 @@ ExchangeTab.prototype.angular = function (module)
 
           var lastUpdate;
 
-          pf.on('update', function (upd) {
+          pf.on('update', function(upd) {
+            if (pf == null) {
+              // request came after calling pf.close();
+              return;
+            }
             // if no paths found and it is first update - skip it, it often wrong
             if (pathfindJustStarted && (!upd.alternatives || !upd.alternatives.length)) {
               pathfindJustStarted = false;
@@ -194,10 +220,16 @@ ExchangeTab.prototype.angular = function (module)
               }
             });
           });
+          pf.on('error', function(res) {
+            $scope.$apply(function() {
+              $scope.reset_paths();
+              $scope.exchange.path_status = 'waiting';
+            });
+          });
         });
       };
 
-      var updateCurrencyOptions = function(){
+      var updateCurrencyOptions = function() {
         // create a list of currency codes from the trust line objects
         var currencies = _.uniq(_.map($scope.lines, function (line) {
           return line.currency;
@@ -453,12 +485,15 @@ ExchangeTab.prototype.angular = function (module)
       updateCurrencyOptions();
 
       // Stop the pathfinding when leaving the page
-      $scope.$on('$destroy', function(){
+      $scope.$on('$destroy', onDestroy);
+
+      function onDestroy() {
         if (pf && 'function' === typeof pf.close) {
           pf.close();
+          pf = null;
         }
         clearInterval(timer);
-      });
+      }
     }]);
 };
 
