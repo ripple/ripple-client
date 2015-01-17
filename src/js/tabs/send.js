@@ -717,7 +717,8 @@ SendTab.prototype.angular = function (module)
       // Start path find
       var pf = network.remote.path_find(id.account,
                                          recipient,
-                                         amount);
+                                         amount,
+                                         $scope.generate_src_currencies());
                                          //$scope.generate_src_currencies());
                                          // XXX: Roll back pathfinding changes temporarily
       var isIssuer = $scope.generate_issuer_currencies();
@@ -796,9 +797,9 @@ SendTab.prototype.angular = function (module)
 
             $scope.send.alternatives = $scope.send.alternatives.filter(function(alt) {
               // XXX: Roll back pathfinding changes temporarily
-              /* if (currencies[alt.amount.currency().to_hex()]) {
+              if (currencies[alt.amount.currency().to_hex()]) {
                 return alt.amount.issuer().to_json() != $scope.address;
-              } */
+              }
               return true;
             });
           }

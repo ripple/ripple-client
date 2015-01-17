@@ -129,7 +129,8 @@ ExchangeTab.prototype.angular = function (module)
           // Start path find
           pf = network.remote.path_find(id.account,
               id.account,
-              amount);
+              amount,
+              $scope.generate_src_currencies());
               // $scope.generate_src_currencies());
               // XXX: Roll back pathfinding changes temporarily
           var isIssuer = $scope.generate_issuer_currencies();
@@ -177,14 +178,15 @@ ExchangeTab.prototype.angular = function (module)
                   return alt;
                 }), function(alt) {
                   // XXX: Roll back pathfinding changes temporarily
-                  /* if (currencies[alt.amount.currency().to_hex()]) {
+                  if (currencies[alt.amount.currency().to_hex()]) {
                     return alt.amount.issuer().to_json() != $scope.address;
-                  } */
+                  }
                   // return false;
                   return !(alt.amount.is_native() && $scope.account.max_spend
                     && $scope.account.max_spend.to_number() > 1
                     && $scope.account.max_spend.compareTo(alt.amount) < 0);
                 });
+
                 if (!$scope.exchange.alternatives.length) {
                   $scope.exchange.path_status  = 'no-path';
                   $scope.exchange.alternatives = [];
