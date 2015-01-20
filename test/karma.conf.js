@@ -13,6 +13,18 @@ module.exports = function(config) {
 
     browsers: ['Chrome', 'Firefox'],
     singleRun: false,
-    autoWatch: true
+    autoWatch: true,
+
+    // coverage
+    reporters: ['progress', 'coverage'],
+
+    preprocessors: {
+      'src/js/**/*.js': ['coverage']
+    },
+
+    coverageReporter: {
+      type: 'lcovonly',
+      dir: 'coverage/'
+    }
   });
 };

@@ -37,7 +37,7 @@
   "license": "ISC",
   "scripts": {
     "test": "./node_modules/.bin/karma start test/karma.conf.js",
-    "test-travis": "./node_modules/.bin/karma start test/karma.conf.js --single-run --browsers Firefox"
+    "test-travis": "./node_modules/.bin/karma start test/karma.conf.js --single-run --browsers Firefox && cat ./coverage/*/lcov.info | ./node_modules/.bin/coveralls"
   },
   "repository": {
     "type": "git",
@@ -47,15 +47,17 @@
   "devDependencies": {
     "chai": "~1.9.1",
     "chai-as-promised": "~4.1.1",
+    "coveralls": "^2.11.2",
     "delayed-stream": "0.0.5",
     "express": "~4.8.7",
+    "grunt-jscs": "~1.0.0",
+    "grunt-lesslint": "~1.1.13",
     "karma": "~0.12.16",
     "karma-cli": "0.0.4",
+    "karma-coverage": "^0.2.7",
     "karma-firefox-launcher": "~0.1.3",
     "karma-mocha": "~0.1.3",
     "karma-sinon-chai": "~0.1.6",
-    "mime": "~1.2.11",
-    "grunt-lesslint": "~1.1.13",
-    "grunt-jscs": "~1.0.0"
+    "mime": "~1.2.11"
   }
 }
