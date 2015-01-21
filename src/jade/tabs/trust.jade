@@ -73,6 +73,9 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                     name='trust_counterparty', type='text', rp-combobox="counterparty_query"
                     rp-combobox-value-as-ripple-name
                     ng-model='counterparty_view'
+                    rp-account-exists
+                    rp-account-exists-model="counterparty_address"
+                    rp-account-exists-loading="counterparty_loading"
                     rp-dest, rp-dest-address, rp-dest-contact, rp-not-me, rp-dest-email
                     rp-dest-ripple-name, rp-dest-model="counterparty"
                     rp-dest-loading="counterparty_loading"
@@ -92,6 +95,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                     .error(rp-error-on='required', l10n) Please enter a Ripple name, contact, or address.
                     .error(rp-error-on='rpNotMe', l10n) You've entered your own address.
                     .error(rp-error-on='rpDest', l10n) Please enter a valid Ripple name, contact, or address.
+                    .error(rp-error-on='rpAccountExists', l10n) You cannot add an unfunded Ripple account as a gateway.
               .errorGroup(rp-errors='trust_amount')
                 .error(rp-error-on='required', l10n) Amount field is required
               .errorGroup(rp-errors='trust_amount_currency')

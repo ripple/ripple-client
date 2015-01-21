@@ -7,6 +7,7 @@ require('../directives/charts');
 require('../directives/fields');
 require('../directives/effects');
 require('../directives/validators');
+require('../directives/accountExists.js');
 require('../directives/events');
 require('../directives/formatters');
 require('../directives/directives');
