@@ -431,11 +431,29 @@ BalanceTab.prototype.angular = function (module)
       }
     }
 
+    /**
+     * My Orders widget
+     */
+    $scope.sortOptions = {
+      currentPairOnly: false,
+      sortField: 'type',
+      sortFieldName: 'Type',
+      reverse: false
+    };
+
+    $scope.sortOptions.sortFieldName = $scope.ordersSortFieldChoicesKeyed[$scope.sortOptions.sortField];
+
+    $scope.$watch('sortOptions.sortFieldName', function () {
+      $scope.sortOptions.sortField = $scope.ordersSortFieldChoicesKeyedReverse[$scope.sortOptions.sortFieldName];
+    });
+    $scope.$watch('sortOptions.sortField', function () {
+      $scope.sortOptions.sortFieldName = $scope.ordersSortFieldChoicesKeyed[$scope.sortOptions.sortField];
+    });
+
     $scope.view_orders_history = function()
     {
       $location.url('/history?f=orders');
     }
-
 
   }]);
 };
