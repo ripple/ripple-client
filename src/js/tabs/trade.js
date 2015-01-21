@@ -1250,6 +1250,7 @@ TradeTab.prototype.angular = function(module)
     /**
      * Load orderbook
      */
+
     function loadOffers() {
       // Make sure we unsubscribe from any previously loaded orderbook
       if ($scope.newBook && 'function' === typeof $scope.newBook.unsubscribe) {
@@ -1266,7 +1267,22 @@ TradeTab.prototype.angular = function(module)
 
       $scope.orderbookState = 'ready';
     }
-
+    $scope.toggleOffers = function() {
+      $scope.hideOffers = !$scope.hideOffers;
+      $scope.userBlob.set('/clients/rippletradecom/tradeoffers', {hideOffers: $scope.hideOffers, hideOrderBook: $scope.hideOrderBook});
+    }
+    $scope.toggleOrderBook = function(){
+      $scope.hideOrderBook = !$scope.hideOrderBook;
+      $scope.userBlob.set('/clients/rippletradecom/tradeoffers', {hideOffers: $scope.hideOffers, hideOrderBook: $scope.hideOrderBook});
+    }
+    $scope.$watchCollection('[userBlob.data.clients.rippletradecom.tradeoffers.hideOffers, userBlob.data.clients.rippletradecom.tradeoffers.hideOrderBook]', function(e){
+      if (typeof e[0] !== undefined) {
+        $scope.hideOffers = e[0];
+      }
+      if (typeof e[1] !== undefined) {
+        $scope.hideOrderBook = e[1];
+      }
+    })
     /**
      * Determine whether user can sell and/or buy on this pair
      */
