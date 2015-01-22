@@ -886,19 +886,29 @@ module.directive('rpOrdersSortHeader', ['$timeout', '$parse', function($timeout,
         var sortReverse = $parse(attr.rpOrdersSortHeaderReverse);
         var fieldName = attr.rpOrdersSortHeaderField;
 
+        function setArrowClass(sorted, isUp) {
+          var i = element.find('i');
+          i[sorted ? 'addClass' : 'removeClass']('sorted');
+          if (isUp) {
+            i.addClass('fa-caret-up');
+            i.removeClass('fa-caret-down');
+          } else {
+            i.removeClass('fa-caret-up');
+            i.addClass('fa-caret-down');
+          }
+        }
+
         function drawArrow() {
           var sfv = sortFieldGetter(scope);
           if (sfv == fieldName) {
-            element.find('span').addClass('sorted');
-            element.find('span').html(!sortReverse(scope) ? '&#x25B2;' : '&#x25BC;');
+            setArrowClass(true, !sortReverse(scope));
           }
         }
         drawArrow();
 
         var watcher = scope.$watch(attr.rpOrdersSortHeader, function() {
           if (sortFieldGetter(scope) != fieldName) {
-            element.find('span').removeClass('sorted');
-            element.find('span').html('&#x25BC;');
+            setArrowClass(false, false);
           } else {
             element.find('span').addClass('sorted');
           }
@@ -910,9 +920,7 @@ module.directive('rpOrdersSortHeader', ['$timeout', '$parse', function($timeout,
           if (sfv != fieldName) {
             sortFieldGetter.assign(scope, fieldName);
             sortReverse.assign(scope, true);
-//            element.find('span').html('&#x25B2;');
-            element.find('span').html('&#x25BC;');
-            element.find('span').addClass('sorted');
+            setArrowClass(true, false);
           } else {
             var reverseNow = sortReverse(scope);
             sortReverse.assign(scope, !reverseNow);
