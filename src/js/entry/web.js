@@ -136,6 +136,9 @@ var app = angular
 var rippleclient = window.rippleclient = {};
 rippleclient.app = app;
 rippleclient.types = types;
+// for unit tests
+rippleclient.tabs = {};
+_.each(tabs, function(tab) { rippleclient.tabs[tab.tabName] = tab; });
 
 // Install basic page template
 angular.element('body').prepend(require('../../jade/client/index.jade')());
