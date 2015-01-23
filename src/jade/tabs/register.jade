@@ -25,7 +25,7 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
         .form-group
           label(for='register_username', ng-hide="oldUserBlob", l10n) Create Ripple name
           .auth-attention(ng-show="oldUserBlob", l10n) Please choose a Ripple name below. You will use this Ripple name to login to Ripple Trade, so remember it! Ripple names are unique and public, like your current Ripple address. &#32;
-            a(href="https://support.ripplelabs.com/hc/en-us/articles/202507548-Understanding-Ripple-Names", l10n) &#32;Learn More
+            a(href="https://ripple.com/knowledge_center/understanding-ripple-names/", l10n) &#32;Learn More
           .input-group
             span.input-group-addon.ripple-addon ~
             input.form-control#register_username(
@@ -186,7 +186,7 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
         div(ng-hide="oldUserBlob", l10n) The secret key unlocks access to all
           |  your account funds in the event you lose your Ripple name or password.
           |  Please write it down and store it somewhere private and safe.&#32;
-          a.secretText(href="https://support.ripplelabs.com/hc/en-us/articles/201823366-Password-Recovery-and-Your-Secret-Key"
+          a.secretText(href="https://ripple.com/knowledge_center/password-recovery-and-your-secret-key/"
             target="_blank", l10n-inc) Read more
           |  about keys and wallet safety.
         div(ng-show="oldUserBlob", l10n) If you have not saved your secret key,
