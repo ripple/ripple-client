@@ -871,31 +871,26 @@ module.directive('rpSpanSpacing', [function () {
 }]);
 
 /**
- * My Orders widget header.
+ * Used on header for my Orders widget and Contacts list.
  */
-module.directive('rpOrdersSortHeader', ['$timeout', '$parse', function($timeout, $parse) {
+module.directive('rpSortHeader', ['$timeout', '$parse', function($timeout, $parse) {
   return {
     restrict: 'A',
     compile: function (element, attr, linker) {
       return function (scope, element, attr) {
-        if (!attr.rpOrdersSortHeaderField) {
+        if (!attr.rpSortHeaderField) {
           // no field specified, do nothing
           return;
         }
-        var sortFieldGetter = $parse(attr.rpOrdersSortHeader);
-        var sortReverse = $parse(attr.rpOrdersSortHeaderReverse);
-        var fieldName = attr.rpOrdersSortHeaderField;
+        var sortFieldGetter = $parse(attr.rpSortHeader);
+        var sortReverse = $parse(attr.rpSortHeaderReverse);
+        var fieldName = attr.rpSortHeaderField;
 
         function setArrowClass(sorted, isUp) {
           var i = element.find('i');
-          i[sorted ? 'addClass' : 'removeClass']('sorted');
-          if (isUp) {
-            i.addClass('fa-caret-up');
-            i.removeClass('fa-caret-down');
-          } else {
-            i.removeClass('fa-caret-up');
-            i.addClass('fa-caret-down');
-          }
+          i.toggleClass('sorted', sorted);
+          i.toggleClass('fa-caret-up', isUp);
+          i.toggleClass('fa-caret-down', !isUp);
         }
 
         function drawArrow() {
@@ -906,14 +901,14 @@ module.directive('rpOrdersSortHeader', ['$timeout', '$parse', function($timeout,
         }
         drawArrow();
 
-        var watcher = scope.$watch(attr.rpOrdersSortHeader, function() {
+        var watcher = scope.$watch(attr.rpSortHeader, function() {
           if (sortFieldGetter(scope) != fieldName) {
             setArrowClass(false, false);
           } else {
             element.find('span').addClass('sorted');
           }
         });
-        var watcher2 = scope.$watch(attr.rpOrdersSortHeaderReverse, drawArrow);
+        var watcher2 = scope.$watch(attr.rpSortHeaderReverse, drawArrow);
 
         function updateSort() {
           var sfv = sortFieldGetter(scope);

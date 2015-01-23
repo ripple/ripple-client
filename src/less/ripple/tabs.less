@@ -819,8 +819,24 @@
 #t-contacts {
 
   .head {
-    margin-bottom: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
     line-height: 30px;
+
+    div i {
+      padding-top: 10px;
+      padding-bottom: 10px;
+      line-height: 10px;
+      color: @midgray;
+      float: right;
+      display: inline-block;
+    }
+
+    i.sorted {
+      color: @black;
+    }
+
+    cursor: pointer;
   }
 
   .addForm {

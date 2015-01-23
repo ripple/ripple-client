@@ -30,33 +30,33 @@
       .my
         div
           .row.head.hidden-xs.hidden-sm
-            .col-md-1.type(rp-orders-sort-header="sortOptions.sortField", 
-                  rp-orders-sort-header-reverse="sortOptions.reverse",
-                  rp-orders-sort-header-field="type") 
+            .col-md-1.type(rp-sort-header="sortOptions.sortField", 
+                  rp-sort-header-reverse="sortOptions.reverse",
+                  rp-sort-header-field="type") 
               i.fa.fa-fw.fa-caret-down
-            .col-md-3(rp-orders-sort-header="sortOptions.sortField", 
-                  rp-orders-sort-header-reverse="sortOptions.reverse",
-                  rp-orders-sort-header-field="qty")
+            .col-md-3(rp-sort-header="sortOptions.sortField", 
+                  rp-sort-header-reverse="sortOptions.reverse",
+                  rp-sort-header-field="qty")
               span(l10n) QTY
               i.fa.fa-fw.fa-caret-down
-            .col-md-2(rp-orders-sort-header="sortOptions.sortField", 
-                  rp-orders-sort-header-reverse="sortOptions.reverse",
-                  rp-orders-sort-header-field="base")
+            .col-md-2(rp-sort-header="sortOptions.sortField", 
+                  rp-sort-header-reverse="sortOptions.reverse",
+                  rp-sort-header-field="base")
               span(l10n) Base
               i.fa.fa-fw.fa-caret-down
-            .col-md-3(rp-orders-sort-header="sortOptions.sortField", 
-                  rp-orders-sort-header-reverse="sortOptions.reverse",
-                  rp-orders-sort-header-field="counter")
+            .col-md-3(rp-sort-header="sortOptions.sortField", 
+                  rp-sort-header-reverse="sortOptions.reverse",
+                  rp-sort-header-field="counter")
               span(l10n) Counter
               i.fa.fa-fw.fa-caret-down
-            .col-md-3(rp-orders-sort-header="sortOptions.sortField", 
-                  rp-orders-sort-header-reverse="sortOptions.reverse",
-                  rp-orders-sort-header-field="limit")
+            .col-md-3(rp-sort-header="sortOptions.sortField", 
+                  rp-sort-header-reverse="sortOptions.reverse",
+                  rp-sort-header-field="limit")
               span(l10n) Limit
               i.fa.fa-fw.fa-caret-down
-            //- .col-md-2(l10n, rp-orders-sort-header="sortOptions.sortField", 
-            //-       rp-orders-sort-header-reverse="sortOptions.reverse",
-            //-       rp-orders-sort-header-field="time") Time placed
+            //- .col-md-2(l10n, rp-sort-header="sortOptions.sortField", 
+            //-       rp-sort-header-reverse="sortOptions.reverse",
+            //-       rp-sort-header-field="time") Time placed
             //-   span &#x25BC;
             //- .col-md-2(l10n) Action
         .row(ng-repeat="entry in offers | rpcurrentpair:sortOptions.currentPairOnly:order.prev_settings | rpvalues | rpsortmyorders:sortOptions.sortField:sortOptions.reverse track by entry.seq",

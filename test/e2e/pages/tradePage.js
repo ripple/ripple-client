@@ -14,8 +14,8 @@ var TradePage = function () {
 
   this.orderIsActiveMsg     = $("group.result-success[ng-show=\"tx_result=='cleared' && executedOnOfferCreate=='none'\"]");
   this.submitAnotherButton  = $("a[ng-click=\"reset_widget(type)\"]");
-  this.qtyHead              = $('div[rp-orders-sort-header-field="qty"]');
-  this.limitHead            = $('div[rp-orders-sort-header-field="limit"]');
+  this.qtyHead              = $('div[rp-sort-header-field="qty"]');
+  this.limitHead            = $('div[rp-sort-header-field="limit"]');
   this.qty                  = $$("div[data-label='QTY']");
   this.limit                = $$("div[data-label='Limit']");
   this.currentPairOnly      = $('input[name="current_pair_only"]');
