@@ -4,7 +4,7 @@ describe('ExchangeCtrl', function() {
   var scope, dependencies, ctrl, network;
 
   beforeEach(module("rp"));
-  beforeEach(inject(function ($rootScope, $controller, rpNetwork) {
+  beforeEach(inject(function ($rootScope, $controller, rpNetwork, $compile, $document, rpId) {
     scope = $rootScope.$new();
     network = rpNetwork;
 
@@ -36,6 +36,7 @@ describe('ExchangeCtrl', function() {
       }
     };
 
+    /*
     dependencies = {
       $scope: scope,
       $element: null,
@@ -45,9 +46,13 @@ describe('ExchangeCtrl', function() {
         account: 'r4EwBWxrx5HxYRyisfGzMto3AT8FZiYdWk'
       }
     };
+    */
+    rpId.loginStatus = true;
+    rpId.account = 'r4EwBWxrx5HxYRyisfGzMto3AT8FZiYdWk';
 
-
-    ctrl = $controller("ExchangeCtrl", dependencies);
+    var templ = angular.element( rippleclient.tabs.exchange.generateHtml() );
+    var element = $compile( templ )(scope);
+    scope = element.scope();
   }));
 
   it('should be initialized with defaults', function (done) {
@@ -87,37 +92,44 @@ describe('ExchangeCtrl', function() {
     done();
   });
 
+  
   it('should update paths after entering 2 as amount for XRP', function(done) {
 
     scope.exchange.amount = "2";
+
     var spy = sinon.spy(scope, 'reset_paths');
     scope.$apply();
 
-    assert(spy.called);
-    assert.strictEqual(scope.exchange.alternatives.length, 0);
-    assert.strictEqual(scope.exchange.amount_feedback.to_text_full(), "2/XRP");
+    setTimeout(function() {
+      assert(spy.called, 'reset_paths not called');
+      assert.strictEqual(scope.exchange.alternatives.length, 0, 'paths not empty');
+      assert.strictEqual(scope.exchange.amount_feedback && scope.exchange.amount_feedback.to_text_full(), "2/XRP", 'name wrong');
 
-    done();
+      done();
+    }, 100);
   });
+
 
   it('should update paths after changing currency choice', function(done) {
 
     var spy = sinon.spy(scope, 'update_exchange');
+    scope.exchange.amount = "2";
     scope.exchange.currency_name = "USD";
 
     scope.$apply();
 
-    assert(spy.called);
+    setTimeout(function() {
+      assert(spy.called, 'update_exchange not called');
 
-    assert.isObject(scope.exchange.currency_obj);
-    assert.strictEqual(scope.exchange.currency_code, 'USD');
-    assert.strictEqual(scope.exchange.currency_name, 'USD - US Dollar');
+      assert.isObject(scope.exchange.currency_obj, 'currency_obj not object');
+      assert.strictEqual(scope.exchange.currency_code, 'USD', 'currency_code not USD');
+      assert.strictEqual(scope.exchange.currency_name, 'USD - US Dollar', 'currency_name not USD');
 
-    assert.strictEqual(scope.exchange.path_status, 'waiting');
+      assert.strictEqual(scope.exchange.path_status, 'pending', 'path_status to pending');
 
-    done();
+      done();
+    }, 100);
   });
-
 
   it('should update paths after entering 2 as amount for XRP', function(done) {
 
@@ -126,13 +138,13 @@ describe('ExchangeCtrl', function() {
     var spy = sinon.spy(scope, 'reset_paths');
     scope.$apply();
 
-    assert(spy.called);
-    assert.strictEqual(scope.exchange.alternatives.length, 0);
-    assert.strictEqual(scope.exchange.amount_feedback.to_text_full(), "0.001/USD/r4EwBWxrx5HxYRyisfGzMto3AT8FZiYdWk");
+    setTimeout(function() {
+      assert(spy.called, 'reset_paths not called for USD');
+      assert.strictEqual(scope.exchange.alternatives.length, 0, 'paths not null');
+      assert.strictEqual(scope.exchange.amount_feedback.to_text_full(), "0.001/USD/r4EwBWxrx5HxYRyisfGzMto3AT8FZiYdWk", 'feedback invalid');
 
-    done();
+      done();
+    }, 100);
   });
-
-
 
 });
