@@ -150,7 +150,7 @@ HistoryTab.prototype.angular = function (module) {
             getTx();
           }
         });
-      };
+      }
     };
 
     // DateRange filter form

@@ -35,7 +35,7 @@ module.controller('NavbarCtrl', ['$scope', '$element', '$compile', 'rpId',
     var username = $scope.userCredentials.username;
     $scope.shortUsername = null;
     if(username && username.length > 25) {
-      $scope.shortUsername = username.substring(0,24)+"...";
+      $scope.shortUsername = username.substring(0,24)+'...';
     }
   }, true);
 
@@ -71,7 +71,7 @@ module.controller('NavbarCtrl', ['$scope', '$element', '$compile', 'rpId',
 
     if (($scope.userBlob.data.lastSeenTxDate || 0) < lastTxDate) {
       // Remember last seen date
-      $scope.userBlob.set("/lastSeenTxDate", lastTxDate);
+      $scope.userBlob.set('/lastSeenTxDate', lastTxDate);
 
       // Reset the counter
       $scope.unseen = $scope.unseenNotifications.count;

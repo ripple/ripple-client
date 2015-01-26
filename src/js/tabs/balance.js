@@ -241,7 +241,7 @@ BalanceTab.prototype.angular = function (module)
 
       getTx();
 
-      function getTx(){
+      function getTx() {
         network.remote.request_account_tx(params, function(err, data) {
           if (!data.transactions.length) {
             return callback(history);
@@ -280,7 +280,7 @@ BalanceTab.prototype.angular = function (module)
             getTx();
           }
         });
-      };
+      }
     };
 
     var changeDateRange = function(dateMin, dateMax) {
