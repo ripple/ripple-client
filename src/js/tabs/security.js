@@ -375,6 +375,7 @@ SecurityTab.prototype.angular = function (module) {
             return;
           }
 
+          id.logout();
           location.reload();
         });
       });
