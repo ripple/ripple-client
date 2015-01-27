@@ -130,8 +130,7 @@ var tabs = tabdefs.map(function (Tab) {
 var app = angular
   .module('rp', appDependencies)
   .config(Config)
-  .run(Run)
-  .factory('$exceptionHandler', ExceptionHandler);
+  .run(Run);
 
 // Global reference for debugging only (!)
 var rippleclient = window.rippleclient = {};
@@ -250,17 +249,6 @@ function Run ($rootScope, $injector, $compile, $route, $routeParams, $location, 
       }
     });
   });
-}
-
-// Track uncaught exceptions
-ExceptionHandler.$inject = ['$injector'];
-
-function ExceptionHandler ($injector) {
-  return function(exception, cause) {
-    var $log = $injector.get('$log');
-    $log.error.apply($log,arguments);
-    $injector.get('rpTracker').trackError('Uncaught Exception', exception);
-  };
 }
 
 // Some backwards compatibility
