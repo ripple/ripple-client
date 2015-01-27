@@ -41,12 +41,12 @@ LoginTab.prototype.angular = function (module) {
     }
 
     $scope.goto_recover = function() {
-        if($scope.username){
-          $location.path('/recover/' + $scope.username);
-        }
-        else {
-          $location.path('/recover');
-        }
+      if($scope.username){
+        $location.path('/recover/' + $scope.username);
+      }
+      else {
+        $location.path('/recover');
+      }
     };
 
     //set username and password here so
@@ -222,11 +222,6 @@ LoginTab.prototype.angular = function (module) {
         if (err.name !== "BlobError") {
           $scope.backendMessages.push({'backend': "ID", 'message': err.message});
         }
-
-        rpTracker.track('Login', {
-          'Status': 'error',
-          'Message': err.message
-        });
 
         if (!$scope.$$phase) {
           $scope.$apply();
