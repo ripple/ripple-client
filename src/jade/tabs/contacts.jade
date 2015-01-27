@@ -8,10 +8,25 @@ section.col-xs-12.content(ng-controller="ContactsCtrl")
       .alert.alert-success(ng-show="success.createContact", l10n) A new contact has been successfully added.
       .alert.alert-success(ng-show="success.updateContact", l10n) Your contact has been successfully updated.
       .alert.alert-success(ng-show="success.removeContact", l10n) A contact has been successfully removed.
-    .row.row-padding-small.head.hidden-xs
-      .col-xs-3.col-sm-3.col-md-3(l10n) Contact
-      .col-xs-6.col-sm-5.col-md-7(l10n) Ripple name or address
-      .col-xs-12.col-sm-4.col-md-2.text-right
+    form.row-padding-small
+        .row.form-group
+          .col-xs-12.col-sm-8.col-md-6
+            label(l10n) Filter contacts
+            input.form-control(
+            name='contacts_filter', type='text'
+            ng-model='contacts_filter')
+    .row.head.hidden-xs
+      .col-xs-3.col-sm-3.col-md-3(l10n,
+          rp-sort-header="sort_options.sort_field"
+          rp-sort-header-reverse="sort_options.reverse"
+          rp-sort-header-field="contact") Contact
+        i.fa.fa-fw.fa-caret-down
+      .col-xs-6.col-sm-5.col-md-6(l10n,
+          rp-sort-header="sort_options.sort_field"
+          rp-sort-header-reverse="sort_options.reverse"
+          rp-sort-header-field="address") Ripple name or address
+        i.fa.fa-fw.fa-caret-down
+      .col-xs-12.col-sm-4.col-sm-offset-1.col-md-2.col-md-offset-1.text-right
         a.btn.btn-block.btn-success.btn-sm.sign(ng-click='toggle_form()', ng-disabled='addform_visible', l10n) Add contact
   hr
   .row.head.visible-xs(ng-show='!debug')
@@ -74,8 +89,11 @@ section.col-xs-12.content(ng-controller="ContactsCtrl")
           .col-xs-4.col-sm-4.col-md-3.text-center
             button.btn.btn-default.btn-block.custom-btn.btn-cancel(type='button', ng-click='addform_visible = false', l10n) cancel
 
-  .row.row-padding-small.contact(ng-repeat="entry in userBlob.data.contacts"
-    ng-class="{editing: editing}", ng-controller="ContactRowCtrl", ng-show='!debug')
+  .row.contact(ng-repeat="entry in userBlob.data.contacts | rpsortcontacts:sort_options.sort_field:sort_options.reverse"
+      ng-if="!contacts_filter || entry.name.indexOf(contacts_filter.toLowerCase()) > -1"
+      ng-class="{editing: editing}"
+      ng-controller="ContactRowCtrl"
+      ng-show='!debug')
     .col-xs-3.col-md-3.col-sm-3(ng-hide='editing')
       span.name(ng-hide='editing') {{entry.name}}
     .col-xs-12.col-sm-6.col-md-6(ng-hide='editing')

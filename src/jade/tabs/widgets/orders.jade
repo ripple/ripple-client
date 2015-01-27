@@ -7,22 +7,22 @@
   div(rp-slide='showWidgetOrders')
     //- .rp-checkbox(ng-show="showWidgetOrders || !isEmpty(offers)")
     //-   label
-    //-     input(type="checkbox", name="current_pair_only", ng-model="sort_options.current_pair_only")
+    //-     input(type="checkbox", name="current_pair_only", ng-model="sortOptions.currentPairOnly")
     //-     span(l10n) Current pair only
     .rp-select.hidden-md.hidden-lg
       div(ng-hide="!showWidgetOrders || isEmpty(offers)")
-        span Sort by
-        select.currency(rp-flat-select, ng-model='sort_options.sort_field')
-          option(value="type") Type
-          option(value="qty") QTY
-          option(value="base") Base
-          option(value="counter") Counter
-          option(value="limit") Limit
+        span(l10n) Sort by
+        .rp-combobox.rp-combobox-small.orders-sort-select
+          input.currency.form-control#orders_sort_field(
+          name='orders_sort_field', type='text'
+          rp-combobox="ordersSortFieldChoices", rp-combobox-select
+          rp-combobox-small
+          ng-model='sortOptions.sortFieldName')
     .rp-checkbox.hidden-md.hidden-lg
       div(ng-show="showWidgetOrders && !isEmpty(offers)")
         label
           input(type="checkbox", name="reverse"
-          ng-model="sort_options.reverse")
+          ng-model="sortOptions.reverse")
           span(l10n) reverse
     div(ng-hide="isEmpty(offers)")
       hr.hidden-md.hidden-lg
@@ -30,40 +30,44 @@
       .my
         div
           .row.head.hidden-xs.hidden-sm
-            .col-md-1.type(style="cursor: pointer;", l10n, rp-orders-sort-header="sort_options.sort_field", 
-                  rp-orders-sort-header-reverse="sort_options.reverse",
-                  rp-orders-sort-header-field="type") 
-              span &#x25BC;
-            .col-md-3(style="cursor: pointer;", l10n, rp-orders-sort-header="sort_options.sort_field", 
-                  rp-orders-sort-header-reverse="sort_options.reverse",
-                  rp-orders-sort-header-field="qty") QTY
-              span &#x25BC;
-            .col-md-2(style="cursor: pointer;", l10n, rp-orders-sort-header="sort_options.sort_field", 
-                  rp-orders-sort-header-reverse="sort_options.reverse",
-                  rp-orders-sort-header-field="base") Base
-              span &#x25BC;
-            .col-md-3(style="cursor: pointer;", l10n, rp-orders-sort-header="sort_options.sort_field", 
-                  rp-orders-sort-header-reverse="sort_options.reverse",
-                  rp-orders-sort-header-field="counter") Counter
-              span &#x25BC;
-            .col-md-3(style="cursor: pointer;", l10n, rp-orders-sort-header="sort_options.sort_field", 
-                  rp-orders-sort-header-reverse="sort_options.reverse",
-                  rp-orders-sort-header-field="limit") Limit
-              span &#x25BC;
-            //- .col-md-2(style="cursor: pointer;", l10n, rp-orders-sort-header="sort_options.sort_field", 
-            //-       rp-orders-sort-header-reverse="sort_options.reverse",
-            //-       rp-orders-sort-header-field="time") Time placed
+            .col-md-1.type(rp-sort-header="sortOptions.sortField", 
+                  rp-sort-header-reverse="sortOptions.reverse",
+                  rp-sort-header-field="type") 
+              i.fa.fa-fw.fa-caret-down
+            .col-md-3(rp-sort-header="sortOptions.sortField", 
+                  rp-sort-header-reverse="sortOptions.reverse",
+                  rp-sort-header-field="qty")
+              span(l10n) QTY
+              i.fa.fa-fw.fa-caret-down
+            .col-md-2(rp-sort-header="sortOptions.sortField", 
+                  rp-sort-header-reverse="sortOptions.reverse",
+                  rp-sort-header-field="base")
+              span(l10n) Base
+              i.fa.fa-fw.fa-caret-down
+            .col-md-3(rp-sort-header="sortOptions.sortField", 
+                  rp-sort-header-reverse="sortOptions.reverse",
+                  rp-sort-header-field="counter")
+              span(l10n) Counter
+              i.fa.fa-fw.fa-caret-down
+            .col-md-3(rp-sort-header="sortOptions.sortField", 
+                  rp-sort-header-reverse="sortOptions.reverse",
+                  rp-sort-header-field="limit")
+              span(l10n) Limit
+              i.fa.fa-fw.fa-caret-down
+            //- .col-md-2(l10n, rp-sort-header="sortOptions.sortField", 
+            //-       rp-sort-header-reverse="sortOptions.reverse",
+            //-       rp-sort-header-field="time") Time placed
             //-   span &#x25BC;
             //- .col-md-2(l10n) Action
-        .row(ng-repeat="entry in offers | rpcurrentpair:sort_options.current_pair_only:order.prev_settings | rpvalues | rpsortmyorders:sort_options.sort_field:sort_options.reverse track by entry.seq",
+        .row(ng-repeat="entry in offers | rpcurrentpair:sortOptions.currentPairOnly:order.prev_settings | rpvalues | rpsortmyorders:sortOptions.sortField:sortOptions.reverse track by entry.seq",
           ng-hide="entry.isZero")
-          .col-md-1.type(data-label="Type")
+          .col-md-1.type(l10n-data-label="Type")
             span.rp-hidden-md.rp-hidden-lg{{entry.type | rpucfirst}}
             span.rp-hidden-xs.rp-hidden-sm{{entry.type | rptruncate:1}}
-          .col-md-3.amount.rpamount(data-label="QTY"
+          .col-md-3.amount.rpamount(l10n-data-label="QTY"
             rp-address-popover, rp-address-popover-sum="entry.first"
             ) {{entry.first | rpamount:{hard_precision: true, precision: 6, tiny_precision: 6} }}
-          .col-md-2(data-label="BASE")
+          .col-md-2(l10n-data-label="BASE")
             a(href="#/trade/?first={{entry.first | rpcurrency}}.{{entry.first | rpissuer}}&amp;second={{entry.second | rpcurrency}}.{{entry.second | rpissuer}}")
               span {{entry.first | rpcurrency}}
               span.issuer(ng-show="entry.first.issuer().to_json()") &#46;
@@ -72,7 +76,7 @@
                   rp-pretty-issuer="entry.first.issuer().to_json()"
                   rp-pretty-issuer-contacts="userBlob.data.contacts"
                 ) ???
-          .col-md-3(data-label="Counter")
+          .col-md-3(l10n-data-label="Counter")
             a(href="#/trade/?first={{entry.first | rpcurrency}}.{{entry.first | rpissuer}}&amp;second={{entry.second | rpcurrency}}.{{entry.second | rpissuer}}")
               span {{entry.second | rpcurrency}}
               span.issuer(ng-show="entry.second.issuer().to_json()") &#46;
@@ -81,10 +85,10 @@
                   rp-pretty-issuer="entry.second.issuer().to_json()"
                   rp-pretty-issuer-contacts="userBlob.data.contacts"
                 ) ???
-          .col-md-3.price.rpamount(data-label="Limit"
+          .col-md-3.price.rpamount(l10n-data-label="Limit"
             rp-address-popover, rp-address-popover-sum="entry.second | rpamountratio:entry.first"
             ) {{entry.second | rpamountratio:entry.first | rpamount:{hard_precision: true, precision: 6, tiny_precision: 6} }}
-          //- .col-md-2.action(data-label="Time placed(UTC)", ng-hide="editOrder.seq == entry.seq") ...
+          //- .col-md-2.action(l10n-data-label="Time placed(UTC)", ng-hide="editOrder.seq == entry.seq") ...
       .emptyMessage(ng-show="isEmpty(offers)")
         p.rp-base(l10n) No current orders. 
           a(l10n, href="", ng-click="view_orders_history()") View orders history

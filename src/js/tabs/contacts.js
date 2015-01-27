@@ -25,6 +25,11 @@ ContactsTab.prototype.angular = function (module) {
     function ($scope, id, rpTracker)
   {
 
+    $scope.sort_options = {
+      sort_field: 'contact',
+      reverse: false
+    };
+
     // Initialize the notification object
     $scope.success = {};
 

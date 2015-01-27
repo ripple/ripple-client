@@ -605,12 +605,6 @@ SendTab.prototype.angular = function (module)
           send.xrp_deficiency = reserve_base.subtract(send.recipient_info.Balance);
         }
 
-        // If the destination doesn't exist, then don't search for paths.
-        if (!send.recipient_info.exists) {
-          send.path_status = 'none';
-          return;
-        }
-
         send.path_status = 'pending';
         pathUpdateTimeout = $timeout($scope.update_paths, 500);
       }
@@ -723,7 +717,8 @@ SendTab.prototype.angular = function (module)
       // Start path find
       var pf = network.remote.path_find(id.account,
                                          recipient,
-                                         amount);
+                                         amount,
+                                         $scope.generate_src_currencies());
                                          //$scope.generate_src_currencies());
                                          // XXX: Roll back pathfinding changes temporarily
       var isIssuer = $scope.generate_issuer_currencies();
@@ -779,7 +774,7 @@ SendTab.prototype.angular = function (module)
               var slightlyInFuture = new Date(+new Date() + 5 * 60000);
 
               alt.rate     = alt.amount.ratio_human(amount, {reference_date: slightlyInFuture});
-              alt.send_max = alt.amount.product_human(Amount.from_json('1.01'));
+              alt.send_max = alt.amount.product_human(Amount.from_json('1.001'));
               alt.paths    = raw.paths_computed
                 ? raw.paths_computed
                 : raw.paths_canonical;
@@ -802,9 +797,9 @@ SendTab.prototype.angular = function (module)
 
             $scope.send.alternatives = $scope.send.alternatives.filter(function(alt) {
               // XXX: Roll back pathfinding changes temporarily
-              /* if (currencies[alt.amount.currency().to_hex()]) {
+              if (currencies[alt.amount.currency().to_hex()]) {
                 return alt.amount.issuer().to_json() != $scope.address;
-              } */
+              }
               return true;
             });
           }
@@ -929,6 +924,9 @@ SendTab.prototype.angular = function (module)
         $scope.send.pathfind.close();
         delete $scope.send.pathfind;
       }
+
+      // compute network fee
+      $scope.networkFee = network.remote.transaction()._computeFee();
 
       $scope.mode = 'confirm';
 

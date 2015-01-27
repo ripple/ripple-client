@@ -221,6 +221,18 @@
   }
 }
 
+.orders-sort-select {
+  display: inline-block;
+  position: relative;
+  input {
+    margin-bottom: 0px;
+    display: inline-block;
+  }
+  .select {
+    top: 2px;
+  }
+}
+
 .widget-myorders-table() {
   @bg: @white;
 
@@ -260,6 +272,11 @@
         }
         .btn-a {
           padding: 10px 15px;
+          margin: 0px;
+          display: block;
+        }
+        .btn-a-sm {
+          padding: 5px 5px;
           margin: 0px;
           display: block;
         }
@@ -343,12 +360,13 @@
         background-color: @lightgray;
         border: 1px solid @midgray;
 
-        div span {
+        div i {
           color: @midgray;
           float: right;
+          margin-top: 2px;
         }
 
-        span.sorted {
+        i.sorted {
           color: @black;
         }
 
@@ -356,6 +374,7 @@
           padding: 4px;
           border-right: 1px solid @midgray;
           white-space: normal;;
+          cursor: pointer;
         }
         & > div:last-child {
           border-right: none;

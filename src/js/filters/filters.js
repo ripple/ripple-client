@@ -10,17 +10,17 @@ var currencies = require('../data/currencies');
  *
  * If the parameter is a number, the number is treated the relative
  */
-module.filter('rpamount', function () {
+module.filter('rpamount', function() {
   return function (input, options) {
 
     var currency;
     var opts = jQuery.extend(true, {}, options);
 
-    if ("number" === typeof opts) {
+    if ('number' === typeof opts) {
       opts = {
         rel_min_precision: opts
       };
-    } else if ("object" !== typeof opts) {
+    } else if ('object' !== typeof opts) {
       opts = {};
     }
 
@@ -151,7 +151,7 @@ module.filter('rpamount', function () {
  * If the input is neither an Amount or Currency object it will be passed to
  * Amount#from_json to try to interpret it.
  */
-module.filter('rpcurrency', function () {
+module.filter('rpcurrency', function() {
   return function (input) {
     if (!input) return "";
 
@@ -170,7 +170,7 @@ module.filter('rpcurrency', function () {
 /**
  * Get the currency issuer.
  */
-module.filter('rpissuer', function () {
+module.filter('rpissuer', function() {
   return function (input) {
     if (!input) return "";
 
@@ -202,7 +202,7 @@ module.filter('rpcurrencyfull', ['$rootScope', function ($scope) {
 /**
  * Calculate a ratio of two Amounts.
  */
-module.filter('rpamountratio', function () {
+module.filter('rpamountratio', function() {
   return function (numerator, denominator) {
     try {
       return Amount.from_json(numerator).ratio_human(denominator, {reference_date: new Date()});
@@ -215,7 +215,7 @@ module.filter('rpamountratio', function () {
 /**
  * Calculate the sum of two Amounts.
  */
-module.filter('rpamountadd', function () {
+module.filter('rpamountadd', function() {
   return function (a, b) {
     try {
       b = Amount.from_json(b);
@@ -229,7 +229,7 @@ module.filter('rpamountadd', function () {
 /**
  * Calculate the difference of two Amounts.
  */
-module.filter('rpamountsubtract', function () {
+module.filter('rpamountsubtract', function() {
   return function (a, b) {
     try {
       return Amount.from_json(a).subtract(b);
@@ -246,7 +246,7 @@ module.filter('rpamountsubtract', function () {
  */
 var momentCache = {};
 
-module.filter('rpfromnow', function () {
+module.filter('rpfromnow', function() {
   return function (input) {
     // This is an expensive function, cache it
     if (!momentCache[input]) momentCache[input] = moment(input).fromNow();
@@ -320,7 +320,7 @@ module.filter('rponlycontactname', ['$rootScope', function ($scope) {
  *
  * The number of the bullets will correspond to the length of the string.
  */
-module.filter('rpmask', function () {
+module.filter('rpmask', function() {
   return function (pass) {
     pass = ""+pass;
     return Array(pass.length+1).join("•");
@@ -332,7 +332,7 @@ module.filter('rpmask', function () {
  *
  * The number of the bullets will correspond to the length of the string.
  */
-module.filter('rptruncate', function () {
+module.filter('rptruncate', function() {
   return function (str, len) {
     return str ? str.slice(0, len) : '';
   };
@@ -344,7 +344,7 @@ module.filter('rptruncate', function () {
  * Based on code by aioobe @ StackOverflow.
  * @see http://stackoverflow.com/questions/3758606
  */
-module.filter('rpfilesize', function () {
+module.filter('rpfilesize', function() {
   function number_format( number, decimals, dec_point, thousands_sep ) {
     // http://kevin.vanzonneveld.net
     // +   original by: Jonas Raoni Soares Silva (http://www.jsfromhell.com)
@@ -388,7 +388,7 @@ module.filter('rpfilesize', function () {
 /**
  * Uppercase the first letter.
  */
-module.filter('rpucfirst', function () {
+module.filter('rpucfirst', function() {
   return function (str) {
     str = ""+str;
     return str.charAt(0).toUpperCase() + str.slice(1);
@@ -431,7 +431,7 @@ module.filter('rpaddressorigin', function() {
   };
 });
 
-module.filter('rpheavynormalize', function () {
+module.filter('rpheavynormalize', function() {
   return function (value, maxLength) {
     return String(value)
       // Remove non-printable and non-ASCII characters
@@ -450,7 +450,7 @@ module.filter('rpheavynormalize', function () {
 /**
  * Used to filter My Orders on trade tab.
  */
-module.filter('rpcurrentpair', function () {
+module.filter('rpcurrentpair', function() {
   return function (items, doFilter, currentKey) {
     if (!doFilter) {
       return items;
@@ -478,7 +478,7 @@ module.filter('rpcurrentpair', function () {
  * Return object properties.
  * Used in trade tab to make My Orders list sortable.
  */
-module.filter('rpvalues', function () {
+module.filter('rpvalues', function() {
   return function (items_object) {
     var values = _.values(items_object);
     return _.values(items_object);
@@ -488,7 +488,7 @@ module.filter('rpvalues', function () {
 /**
  * My Orders widget sorting filter.
  */
-module.filter('rpsortmyorders', function () {
+module.filter('rpsortmyorders', function() {
   return function (items_object, field, reverse) {
     var arrayCopy = items_object.slice(0);
     arrayCopy.sort(function(a, b) {
@@ -516,6 +516,32 @@ module.filter('rpsortmyorders', function () {
           res = a.second.currency().to_json().localeCompare(b.second.currency().to_json());
           break;
         case 'time':
+          break;
+        default:
+      }
+      if (reverse) {
+        res *= -1;
+      }
+      return res;
+    });
+    return arrayCopy;
+  }
+});
+
+/**
+ * Contacts sorting filter
+ */
+module.filter('rpsortcontacts', function() {
+  return function (items_object, field, reverse) {
+    var arrayCopy = items_object.slice(0);
+    arrayCopy.sort(function(a, b) {
+      var res = 0;
+      switch(field) {
+        case 'contact':
+          res = a.name.localeCompare(b.name);
+          break;
+        case 'address':
+          res = a.address.localeCompare(b.address);
           break;
         default:
       }

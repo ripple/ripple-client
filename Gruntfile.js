@@ -283,6 +283,8 @@ module.exports = function(grunt) {
             dest: 'build/bundle/web/js/deps', flatten: true},
           {expand: true, src: ['deps/js/mixpanel.min.js'],
             dest: 'build/bundle/web/js/deps', flatten: true},
+          {expand: true, src: ['deps/js/newrelic.js'],
+            dest: 'build/bundle/web/js/deps', flatten: true},
           {src: 'build/dist/web/index.html', dest: 'build/bundle/web/index.html'},
           {src: 'build/dist/web/index_debug.html', dest: 'build/bundle/web/index_debug.html'},
           {src: 'src/js/config.js', dest: 'build/bundle/web/config.js'},

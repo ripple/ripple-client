@@ -125,15 +125,17 @@ section.col-xs-12.content(ng-controller="ExchangeCtrl")
           p.amount_feedback
             span.value {{exchange.alt.amount | rpamount}}&#32;
             span.currency {{exchange.alt.amount | rpcurrency}} &#32;
-            span &plusmn; 1%
-          p.literal(l10n-inc) Are you sure?
-        .row.row-padding-small
-          .col-xs-6.col-sm-4.col-md-3.col-lg-2
-            button.btn.btn-block.btn-success.submit(type='submit'
-            ng-click='exchange_confirmed()'
-            ng-disabled='confirm_wait', l10n) Confirm
-          .col-xs-6.col-sm-4.col-md-3.col-lg-2
-            button.btn.btn-link.btn-default.back(ng-click='cancelConfirm()', l10n) cancel
+            span &plus; .1%
+          span.literal(l10n-inc) Ripple network fee: 
+          span.literal(rp-pretty-amount='networkFee')
+          form.call-to-action(ng-submit='exchange_confirmed()')
+            p.literal(l10n-inc) Are you sure?
+            .row.row-padding-small
+              .col-xs-6.col-sm-4.col-md-3.col-lg-2
+                button.btn.btn-block.btn-success.submit(type='submit'
+                ng-disabled='confirm_wait', l10n) Confirm
+              .col-xs-6.col-sm-4.col-md-3.col-lg-2
+                button.btn.btn-link.btn-default.back(ng-click='cancelConfirm()', l10n) cancel
 
 
       //- N4. Waiting for transaction result page

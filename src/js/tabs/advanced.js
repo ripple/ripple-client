@@ -101,6 +101,8 @@ AdvancedTab.prototype.angular = function(module)
         store.set('ripple_settings', JSON.stringify($scope.options));
       }
 
+      $scope.userBlob.set('/clients/rippletradecom/trust/advancedMode', $scope.options.advanced_feature_switch);
+
       $scope.editAcctOptions = false;
 
       // Notify the user
@@ -146,6 +148,8 @@ AdvancedTab.prototype.angular = function(module)
 
     $scope.$on('$blobUpdate', function () {
       $scope.passwordProtection = !$scope.userBlob.data.persistUnlock;
+      // we assume that some fields in Options are updated in rpId service $blobUpdate handler
+      $scope.optionsBackup = $.extend(true, {}, Options);
     });
 
     // Add a new server

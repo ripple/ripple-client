@@ -119,22 +119,22 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
             .row
               li.col-xs-6.col-sm-3
                 span(l10n) Bid
-                span &#32&#61;&#32;
+                span &#32;&#61;&#32;
                 span.value
                   | {{book.bids[0].TakerGets | rpamountratio:book.bids[0].TakerPays | rpamount:{rel_precision: 5, rel_min_precision: 5} }}
               li.col-xs-6.col-sm-3
                 span(l10n) Ask
-                span &#32&#61;&#32;
+                span &#32;&#61;&#32;
                 span.value
                   | {{book.asks[0].TakerPays | rpamountratio:book.asks[0].TakerGets | rpamount:{rel_precision: 5, rel_min_precision: 5} }}
               li.col-xs-6.col-sm-3
                 span(l10n) Spread
-                span &#32&#61;&#32;
+                span &#32;&#61;&#32;
                 span.value
                   | {{book.asks[0].TakerPays | rpamountratio:book.asks[0].TakerGets | rpamountsubtract:(book.bids[0].TakerGets | rpamountratio:book.bids[0].TakerPays) | rpamount:{rel_precision: 5, rel_min_precision: 5} }}
               li.col-xs-6.col-sm-3
                 span(l10n) Last price
-                span &#32&#61;&#32;
+                span &#32;&#61;&#32;
                 span.value
                   | {{book.last_price | rpamount:{rel_precision: 5, rel_min_precision: 5} }}
 
@@ -399,22 +399,22 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
             span(l10n) Modifying your order (Placing new order) ...
           .rp-checkbox(ng-hide="hideOffers || isEmpty(offers)")
             label
-              input(type="checkbox", name="current_pair_only", ng-model="sort_options.current_pair_only")
+              input(type="checkbox", name="current_pair_only", ng-model="sortOptions.currentPairOnly")
               span(l10n) Current pair only
           .rp-select.hidden-md.hidden-lg
             div(ng-hide="hideOffers || isEmpty(offers)")
               span Sort by
-              select.currency(rp-flat-select, ng-model='sort_options.sort_field')
-                option(value="type") Type
-                option(value="qty") QTY
-                option(value="base") Base
-                option(value="counter") Counter
-                option(value="limit") Limit
+              .rp-combobox.rp-combobox-small.orders-sort-select
+                input.currency.form-control#orders_sort_field(
+                name='orders_sort_field', type='text'
+                rp-combobox="ordersSortFieldChoices", rp-combobox-select
+                rp-combobox-small
+                ng-model='sortOptions.sortFieldName')
           .rp-checkbox.hidden-md.hidden-lg
             div(ng-hide="hideOffers || isEmpty(offers)")
               label
                 input(type="checkbox", name="reverse"
-                ng-model="sort_options.reverse")
+                ng-model="sortOptions.reverse")
                 span(l10n) reverse
           div(ng-hide="isEmpty(offers)")
             hr.hidden-md.hidden-lg
@@ -422,40 +422,42 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
             .my
               div
                 .row.head.hidden-xs.hidden-sm
-                  .col-md-1.type(style="cursor: pointer;", l10n, rp-orders-sort-header="sort_options.sort_field", 
-                        rp-orders-sort-header-reverse="sort_options.reverse",
-                        rp-orders-sort-header-field="type") 
-                    span &#x25BC;
-                  .col-md-3(style="cursor: pointer;", l10n, rp-orders-sort-header="sort_options.sort_field", 
-                        rp-orders-sort-header-reverse="sort_options.reverse",
-                        rp-orders-sort-header-field="qty") QTY
-                    span &#x25BC;
-                  .col-md-2(style="cursor: pointer;", l10n, rp-orders-sort-header="sort_options.sort_field", 
-                        rp-orders-sort-header-reverse="sort_options.reverse",
-                        rp-orders-sort-header-field="base") Base
-                    span &#x25BC;
-                  .col-md-2(style="cursor: pointer;", l10n, rp-orders-sort-header="sort_options.sort_field", 
-                        rp-orders-sort-header-reverse="sort_options.reverse",
-                        rp-orders-sort-header-field="counter") Counter
-                    span &#x25BC;
-                  .col-md-2(style="cursor: pointer;", l10n, rp-orders-sort-header="sort_options.sort_field", 
-                        rp-orders-sort-header-reverse="sort_options.reverse",
-                        rp-orders-sort-header-field="limit") Limit
-                    span &#x25BC;
-                  //- .col-md-2(style="cursor: pointer;", l10n, rp-orders-sort-header="sort_options.sort_field", 
-                  //-       rp-orders-sort-header-reverse="sort_options.reverse",
-                  //-       rp-orders-sort-header-field="time") Time placed
-                  //-   span &#x25BC;
-                  .col-md-2(l10n) Action
-              .row(ng-repeat="entry in offers | rpcurrentpair:sort_options.current_pair_only:order.prev_settings | rpvalues | rpsortmyorders:sort_options.sort_field:sort_options.reverse track by entry.seq", ng-hide="entry.isZero",
+                  .col-md-1.type(rp-sort-header="sortOptions.sortField", 
+                        rp-sort-header-reverse="sortOptions.reverse",
+                        rp-sort-header-field="type") 
+                    i.fa.fa-fw.fa-caret-down
+                  .col-md-2(rp-sort-header="sortOptions.sortField", 
+                        rp-sort-header-reverse="sortOptions.reverse",
+                        rp-sort-header-field="qty")
+                    span(l10n) QTY
+                    i.fa.fa-fw.fa-caret-down
+                  .col-md-2(rp-sort-header="sortOptions.sortField", 
+                        rp-sort-header-reverse="sortOptions.reverse",
+                        rp-sort-header-field="base")
+                    span(l10n) Base
+                    i.fa.fa-fw.fa-caret-down
+                  .col-md-2(rp-sort-header="sortOptions.sortField", 
+                        rp-sort-header-reverse="sortOptions.reverse",
+                        rp-sort-header-field="counter")
+                    span(l10n) Counter
+                    i.fa.fa-fw.fa-caret-down
+                  .col-md-2(rp-sort-header="sortOptions.sortField", 
+                        rp-sort-header-reverse="sortOptions.reverse",
+                        rp-sort-header-field="limit")
+                    span(l10n) Limit
+                    i.fa.fa-fw.fa-caret-down
+                  //- .col-md-2(l10n, rp-sort-header="sortOptions.sortField", 
+                  //-       rp-sort-header-reverse="sortOptions.reverse",
+                  //-       rp-sort-header-field="time") Time placed
+                  .col-md-3(l10n) Action
+              .row(ng-repeat="entry in offers | rpcurrentpair:sortOptions.currentPairOnly:order.prev_settings | rpvalues | rpsortmyorders:sortOptions.sortField:sortOptions.reverse track by entry.seq", ng-hide="entry.isZero",
                 ng-class="{cancelling: entry.cancelling || (editOrder.cancelling && entry.seq == editOrder.seq)}")
-                .col-md-1.type(data-label="Type")
+                .col-md-1.type(l10n-data-label="Type")
                   span.rp-hidden-md.rp-hidden-lg {{entry.type | rpucfirst}}
                   span.rp-hidden-xs.rp-hidden-sm {{entry.type | rptruncate:1}}
-                .col-md-3.amount.rpamount(data-label="QTY"
-                  rp-address-popover, rp-address-popover-sum="entry.first"
+                .col-md-2.amount.rpamount(l10n-data-label="QTY",
                   ng-hide="editOrder.seq == entry.seq") {{entry.first | rpamount:{hard_precision: true, precision: 6, tiny_precision: 6} }}
-                .col-md-2(data-label="BASE", ng-hide="editOrder.seq == entry.seq")
+                .col-md-2(l10n-data-label="BASE", ng-hide="editOrder.seq == entry.seq")
                   a(href="",ng-click="goto_order_currency()")
                     span {{entry.first | rpcurrency}}
                     span.issuer(ng-show="entry.first.issuer().to_json()") &#46;
@@ -464,7 +466,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                         rp-pretty-issuer="entry.first.issuer().to_json()"
                         rp-pretty-issuer-contacts="userBlob.data.contacts"
                       ) ???
-                .col-md-2(data-label="Counter", ng-hide="editOrder.seq == entry.seq")
+                .col-md-2(l10n-data-label="Counter", ng-hide="editOrder.seq == entry.seq")
                   a(href="",ng-click="goto_order_currency()")
                     span {{entry.second | rpcurrency}}
                     span.issuer(ng-show="entry.second.issuer().to_json()") &#46;
@@ -473,15 +475,14 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                         rp-pretty-issuer="entry.second.issuer().to_json()"
                         rp-pretty-issuer-contacts="userBlob.data.contacts"
                       ) ???
-                .col-md-2.price.rpamount(data-label="Limit"
-                  rp-address-popover, rp-address-popover-sum="entry.second | rpamountratio:entry.first"
+                .col-md-2.price.rpamount(l10n-data-label="Limit",
                   ng-hide="editOrder.seq == entry.seq") {{entry.second | rpamountratio:entry.first | rpamount:{hard_precision: true, precision: 6, tiny_precision: 6} }}
-                //- .col-md-2.action(data-label="Time placed(UTC)", ng-hide="editOrder.seq == entry.seq") ...
-                .col-md-2.action(ng-hide="editOrder.seq == entry.seq")
+                //- .col-md-2.action(l10n-data-label="Time placed(UTC)", ng-hide="editOrder.seq == entry.seq") ...
+                .col-md-3.action(ng-hide="editOrder.seq == entry.seq")
                   img(src="img/button-s.png", class="loader", ng-show="entry.cancelling")
                   rp-popup.fa.pull-right
-                    a.btn.btn-block.pull-right(rp-popup-link, ng-disabled="entry.cancelling || editOrder.replacing")
-                      span.fa.fa-times-circle(rp-tooltip="Cancel order", id="deleteOrder", l10n)
+                    a.btn.btn-block.btn-cancel.btn-cancel-order.btn-a-sm.pull-right(rp-popup-link, ng-disabled="entry.cancelling || editOrder.replacing"
+                      rp-tooltip="Cancel order", l10n) cancel
                     .rp-modal(rp-popup-content)
                       .modal-header
                         .navbar-brand.hidden-xs.modal-logo#logo
@@ -522,8 +523,9 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                           button.modal-btn.btn.btn-default.btn-success.btn-md(data-dismiss="modal", ng-click="cancel_order()")
                             span(l10n) Cancel order
                           button.modal-btn.btn.btn-cancel.btn-md.btn-cancel(data-dismiss="modal", l10n) back
-                  button.btn-link.btn-lg.pull-right.fa.fa-pencil-square-o(rp-tooltip="Edit order", ng-click="beginEditOrder()"
-                    ng-hide="entry.cancelling", ng-disabled="entry.cancelling || editOrder.replacing || editOrder.cancelling", l10n)
+                  a.pull-right.btn.btn-cancel.btn-a-sm(href="", l10n, ng-click="beginEditOrder()", rp-tooltip="Edit order"
+                    ng-hide="entry.cancelling", ng-disabled="entry.cancelling || editOrder.replacing || editOrder.cancelling"
+                    ) edit
                 div(ng-show="editOrder.seq == entry.seq")
                   form(novalidate, name="editOrderForm", ng-show="editOrder.seq == entry.seq")
                     .value-field.col-md-4
@@ -540,7 +542,8 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                           currency {{entry.second | rpcurrency | rptruncate:3}}
                     .col-md-3.action
                       img(src="img/button-s.png", class="loader", ng-show="(editOrder.cancelling || editOrder.replacing) && entry.seq == editOrder.seq")
-                      button.btn-link.btn-lg.pull-right.fa.fa-angle-double-left(type="button", rp-tooltip="Back" ,ng-click="cancelEditOrder()", ng-disabled="editOrder.cancelling || editOrder.replacing", l10n)
+                      a.pull-right.btn.btn-cancel.btn-a-sm(href="", ng-click="cancelEditOrder()", ng-disabled="editOrder.cancelling || editOrder.replacing", l10n)
+                        | back
                       rp-confirm(rp-show="fatFingerShouldWarn()"
                         l10n-action-text="CAUTION: Your new order is far off from the current market price. <br/> Do you still want to replace your order ?"
                         l10n-action-button-text="Confirm"
@@ -548,9 +551,10 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                         action-function="modifyOrder()"
                         cancel-button-css="btn btn-default"
                         l10n-cancel-button-text="&laquo; Back")
-                        button.btn-link.btn-lg.submit.pull-right.fa.fa-check-circle(
-                          type="button", type="submit", ng-click="prepareOrderModify()",
-                          ng-disabled="editOrderForm.$invalid || ! editOrder.orderbookReady || editOrder.cancelling || editOrder.replacing || ! (editOrder.priceChanged || editOrder.quantityChanged) || editOrder.quantityFilled", l10n)
+                        a.pull-right.btn.btn-cancel.btn-a-sm(
+                          href="", ng-click="prepareOrderModify()", l10n
+                          ng-disabled="editOrderForm.$invalid || ! editOrder.orderbookReady || editOrder.cancelling || editOrder.replacing || ! (editOrder.priceChanged || editOrder.quantityChanged) || editOrder.quantityFilled")
+                          | submit
                 .col-md-12.alert.alert-danger(ng-show="notif === 'cancel_error'")
                   span(l10n) Unable to cancel order. Error: {{entry.errorMsg}}
                 .col-md-12.alert.alert-warning(ng-show="editOrder.seq == entry.seq && notif === 'quantity_filled_warn'")
@@ -562,7 +566,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                 .col-md-10
                 .col-md-2
                   rp-popup
-                    a(href="", rp-popup-link, l10n, class="pull-right btn btn-cancel btn-a") cancel all
+                    a.pull-right.btn.btn-cancel.btn-a(href="", rp-popup-link, l10n) cancel all
                     .rp-modal(rp-popup-content)
                       .modal-header
                         .navbar-brand.hidden-xs.modal-logo#logo
@@ -581,15 +585,15 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
             .col-xs-12.col-sm-6
               div.orderbook-title(l10n)
                 |Orderbook
-                small.toggle.orderbook-hide(ng-click="hideOrderBook = !hideOrderBook")
-                  span(ng-show="hideOrderBook", l10n) show
-                  span(ng-hide="hideOrderBook", l10n) hide
+                small.toggle.orderbook-hide(ng-click="visualState.hideOrderBook = !visualState.hideOrderBook")
+                  span(ng-show="visualState.hideOrderBook", l10n) show
+                  span(ng-hide="visualState.hideOrderBook", l10n) hide
             .col-xs-12.col-sm-6.last-update(l10n) Last updated
               span  {{lastUpdate}}
               span(ng-show="lastUpdate > '1'", l10n-inc)  seconds
               span(ng-show="lastUpdate == '1'", l10n-inc)  second
               |  ago
-        div.orderbook-wrapper(ng-if="order.valid_settings", ng-hide="hideOrderBook")
+        div.orderbook-wrapper(ng-if="order.valid_settings", ng-hide="visualState.hideOrderBook")
           group.disconnected(ng-hide="!load_orderbook")
             div(id="orderbook_loader")
               img(src="img/sections.png", class="loader")
@@ -624,13 +628,12 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                         rp-pretty-issuer-contacts="userBlob.data.contacts"
                         rp-pretty-issuer-or-short)
                   .row(ng-repeat='order in book.bids', ng-class="{my: order.my, cancelling: cancelling}")
-                    .col-xs-4.rpamount.sum(rp-address-popover="order.Account", rp-address-popover-link-to-charts, rp-address-popover-sum="order.sum")
+                    .col-xs-4.rpamount.sum(rp-address-popover="order.Account", rp-address-popover-link-to-charts)
                       a(href=""
                         ng-click="fill_widget('sell',order,true)")
                         span(rp-bind-color-amount="order.showSum")
-                    .col-xs-4.rpamount.size(rp-bind-color-amount="order.showTakerPays", rp-address-popover="order.Account", 
-                                            rp-address-popover-link-to-charts, rp-address-popover-sum="order.TakerPays")
-                    .col-xs-4.rpamount.price(rp-address-popover="order.Account", rp-address-popover-link-to-charts, rp-address-popover-sum="order.price")
+                    .col-xs-4.rpamount.size(rp-bind-color-amount="order.showTakerPays", rp-address-popover="order.Account", rp-address-popover-link-to-charts)
+                    .col-xs-4.rpamount.price(rp-address-popover="order.Account", rp-address-popover-link-to-charts)
                       a(href="", ng-click="fill_widget('sell',order,true)")
                         span(rp-bind-color-amount="order.showPrice")
                   .message(ng-show='!book.bids.length', l10n) There are currently no bids for this pair.
@@ -659,12 +662,11 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                         rp-pretty-issuer-contacts="userBlob.data.contacts"
                         rp-pretty-issuer-or-short)
                   .row(ng-repeat='order in book.asks', ng-class="{my: order.my, cancelling: cancelling}")
-                    .col-xs-4.rpamount.price(rp-address-popover="order.Account", rp-address-popover-link-to-charts, rp-address-popover-sum="order.price")
+                    .col-xs-4.rpamount.price(rp-address-popover="order.Account", rp-address-popover-link-to-charts)
                       a(href="", ng-click="fill_widget('buy',order,true)")
                         span(rp-bind-color-amount="order.showPrice")
-                    .col-xs-4.rpamount.size(rp-bind-color-amount="order.showTakerGets", rp-address-popover="order.Account", 
-                                            rp-address-popover-link-to-charts, rp-address-popover-sum="order.TakerGets")
-                    .col-xs-4.rpamount.sum(rp-address-popover="order.Account", rp-address-popover-link-to-charts, rp-address-popover-sum="order.sum")
+                    .col-xs-4.rpamount.size(rp-bind-color-amount="order.showTakerGets", rp-address-popover="order.Account", rp-address-popover-link-to-charts)
+                    .col-xs-4.rpamount.sum(rp-address-popover="order.Account", rp-address-popover-link-to-charts)
                       a(href=""
                         ng-click="fill_widget('buy',order,true)")
                         span(rp-bind-color-amount="order.showSum")

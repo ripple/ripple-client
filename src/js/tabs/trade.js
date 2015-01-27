@@ -47,13 +47,24 @@ TradeTab.prototype.angular = function(module)
   {
     var timer;
 
-    $scope.sort_options = {
-      current_pair_only: false,
-      sort_field: 'type',
+    $scope.sortOptions = {
+      currentPairOnly: false,
+      sortField: 'type',
+      sortFieldName: 'Type',
       reverse: false
     };
-    $scope.first_currency_selected = '';
-    $scope.second_currency_selected = '';
+
+    $scope.sortOptions.sortFieldName = $scope.ordersSortFieldChoicesKeyed[$scope.sortOptions.sortField];
+
+    $scope.$watch('sortOptions.sortFieldName', function () {
+      $scope.sortOptions.sortField = $scope.ordersSortFieldChoicesKeyedReverse[$scope.sortOptions.sortFieldName];
+    });
+    $scope.$watch('sortOptions.sortField', function () {
+      $scope.sortOptions.sortFieldName = $scope.ordersSortFieldChoicesKeyed[$scope.sortOptions.sortField];
+    });
+
+    $scope.first_currency_selected = "";
+    $scope.second_currency_selected = "";
     $scope.load_orderbook = true;
     // Remember user preference on Convert vs. Trade
     $rootScope.ripple_exchange_selection_trade = true;
@@ -67,6 +78,10 @@ TradeTab.prototype.angular = function(module)
 
     $scope.cancelOrder = {
       seq: null
+    };
+
+    $scope.visualState = {
+      hideOrderBook: false
     };
 
     var rpamountFilter = $filter('rpamount');
@@ -1246,6 +1261,7 @@ TradeTab.prototype.angular = function(module)
     /**
      * Load orderbook
      */
+
     function loadOffers() {
       // Make sure we unsubscribe from any previously loaded orderbook
       if ($scope.newBook && 'function' === typeof $scope.newBook.unsubscribe) {
@@ -1262,7 +1278,22 @@ TradeTab.prototype.angular = function(module)
 
       $scope.orderbookState = 'ready';
     }
-
+    $scope.toggleOffers = function() {
+      $scope.hideOffers = !$scope.hideOffers;
+      $scope.userBlob.set('/clients/rippletradecom/tradeoffers', {hideOffers: $scope.hideOffers, hideOrderBook: $scope.hideOrderBook});
+    }
+    $scope.toggleOrderBook = function(){
+      $scope.hideOrderBook = !$scope.hideOrderBook;
+      $scope.userBlob.set('/clients/rippletradecom/tradeoffers', {hideOffers: $scope.hideOffers, hideOrderBook: $scope.hideOrderBook});
+    }
+    $scope.$watchCollection('[userBlob.data.clients.rippletradecom.tradeoffers.hideOffers, userBlob.data.clients.rippletradecom.tradeoffers.hideOrderBook]', function(e){
+      if (typeof e[0] !== undefined) {
+        $scope.hideOffers = e[0];
+      }
+      if (typeof e[1] !== undefined) {
+        $scope.hideOrderBook = e[1];
+      }
+    })
     /**
      * Determine whether user can sell and/or buy on this pair
      */

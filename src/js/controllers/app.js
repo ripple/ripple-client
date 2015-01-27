@@ -622,6 +622,28 @@ function AppCtrl ($scope, id, net, keychain, txQueue, appManager, rpTracker,
     });
   }
 
+  $scope.ordersSortFieldChoices = [
+    {name: 'Type', value: 'type'},
+    {name: 'QTY', value: 'qty'},
+    {name: 'Base', value: 'base'},
+    {name: 'Counter', value: 'counter'},
+    {name: 'Limit', value: 'limit'}
+  ];
+
+  // load strings from jade template
+  var ordersStringsHtml = $(require('../../jade/strings/myOrders.jade')());
+  _.each($scope.ordersSortFieldChoices, function(element, index) {
+    var localisedNameText = ordersStringsHtml.find('#' + element.value).text();
+    element.name = localisedNameText;
+  });
+
+  $scope.ordersSortFieldChoicesKeyed = {};
+  $scope.ordersSortFieldChoicesKeyedReverse = {};
+  _.each($scope.ordersSortFieldChoices, function(item) {
+    $scope.ordersSortFieldChoicesKeyed[item.value] = item.name;
+    $scope.ordersSortFieldChoicesKeyedReverse[item.name] = item.value;
+  });
+
   $scope.currencies_all = require('../data/currencies');
 
   // Personalized default pair set

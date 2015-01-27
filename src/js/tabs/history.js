@@ -23,8 +23,6 @@ HistoryTab.prototype.angular = function (module) {
   module.controller('HistoryCtrl', ['$scope', 'rpId', 'rpNetwork', 'rpTracker', 'rpAppManager', '$routeParams',
                                      function ($scope, id, network, rpTracker, appManager, $routeParams)
   {
-    $scope.advanced_feature_switch = Options.advanced_feature_switch;
-
     // Open/close states of individual history items
     $scope.details = [];
 
@@ -152,7 +150,7 @@ HistoryTab.prototype.angular = function (module) {
             getTx();
           }
         });
-      };
+      }
     };
 
     // DateRange filter form

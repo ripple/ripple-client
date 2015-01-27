@@ -145,6 +145,11 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', '$t
     }, true);
 
     $scope.$on('$blobUpdate', function(){
+      var d = $scope.userBlob.data;
+      Options.advanced_feature_switch = !!(d.clients &&
+          d.clients.rippletradecom &&
+          d.clients.rippletradecom.trust &&
+          d.clients.rippletradecom.trust.advancedMode);
       // Account address
       if (!$scope.address && $scope.userBlob.data.account_id) {
         $scope.address = $scope.userBlob.data.account_id;

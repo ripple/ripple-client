@@ -12,6 +12,10 @@ section.col-xs-12.content(ng-controller="SettingsTradeCtrl")
         h4(l10n) Trade settings
         .section
           .descriptor(l10n) Trade currency pairs
+          div(ng-show="!pairs || (pairs && pairs.length == 0)", l10n)
+            | No trade pairs in this account. To add a pair, go to the 
+            a(href="#/trade", l10n-inc) Trade &gt; Advanced 
+            | section.
           div(ng-if="pairs")
             div(as-sortable="dragControlListeners", ng-model="pairs")
                div.pair(ng-repeat="entry in pairs", as-sortable-item)

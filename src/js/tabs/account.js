@@ -34,8 +34,8 @@ AccountTab.prototype.angular = function(module)
         keychain.getSecret(id.account, id.username, $scope.password,
           function (err, masterkey) {
             if (err) {
-              console.log("client: account tab: error while " +
-                "unlocking wallet: ", err);
+              console.log('client: account tab: error while ' +
+                'unlocking wallet: ', err);
 
               $scope.error = 'wrongpassword';
               $scope.loading = false;

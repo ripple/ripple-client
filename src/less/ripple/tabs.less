@@ -819,8 +819,24 @@
 #t-contacts {
 
   .head {
-    margin-bottom: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
     line-height: 30px;
+
+    div i {
+      padding-top: 10px;
+      padding-bottom: 10px;
+      line-height: 10px;
+      color: @midgray;
+      float: right;
+      display: inline-block;
+    }
+
+    i.sorted {
+      color: @black;
+    }
+
+    cursor: pointer;
   }
 
   .addForm {
@@ -1255,6 +1271,16 @@
 
   .rp-combobox {
     display: block;
+  }
+
+  .toggle {
+    margin-left: 10px;
+    color: @midblue;
+    cursor: pointer;
+  }
+
+  .toggle:hover {
+    text-decoration: underline;
   }
 
   .mode-form {
@@ -2153,7 +2179,7 @@
           }
 
           div:before {
-            display: block;
+            display: inline-block;
             width: 100px;
             font-weight: bold;
             text-transform: uppercase;
@@ -2383,6 +2409,11 @@
       display: none;
     }
   }
+
+  .btn-cancel-order {
+    color: @midred;
+  }
+
 }
 
 header nav.navbar .open > .dropdown-menu {
@@ -2465,6 +2496,16 @@ header nav.navbar .open > .dropdown-menu {
     }
   }
 
+  .toggle {
+    margin-left: 10px;
+    color: @midblue;
+    cursor: pointer;
+  }
+
+  .toggle:hover {
+    text-decoration: underline;
+  }
+
   .mode-confirm {
     .amount_feedback {
       font: 34px 'OpenSansLight';
@@ -2492,7 +2533,7 @@ header nav.navbar .open > .dropdown-menu {
   }
 }
 
-#t-fund, #t-xrp, #t-btc, #t-usd, #t-gold, #t-trust, #t-jpy, #t-brl, #t-mxn, #t-eur, #t-sgd, #t-nzd {
+#t-fund, #t-xrp, #t-btc, #t-usd, #t-gold, #t-trust, #t-jpy, #t-brl, #t-mxn, #t-eur, #t-sgd, #t-aud, #t-nzd {
 
   .currencies a {
     display: block;
@@ -2526,7 +2567,7 @@ header nav.navbar .open > .dropdown-menu {
   }
 }
 
-#t-fund, #t-xrp, #t-btc, #t-usd, #t-gold, #t-jpy, #t-brl, #t-mxn, #t-eur, #t-sgd, #t-nzd {
+#t-fund, #t-xrp, #t-btc, #t-usd, #t-gold, #t-jpy, #t-brl, #t-mxn, #t-eur, #t-sgd, #t-aud, #t-nzd {
     .B2R-wrap {
       font-size: 12px;
       .dismiss {
@@ -2580,7 +2621,7 @@ header nav.navbar .open > .dropdown-menu {
     }
   }
 }
-#t-fund, #t-xrp, #t-btc, #t-usd, #t-gold, #t-brl, #t-jpy, #t-mxn, #t-eur, #t-sgd, #t-nzd {
+#t-fund, #t-xrp, #t-btc, #t-usd, #t-gold, #t-brl, #t-jpy, #t-mxn, #t-eur, #t-sgd, #t-aud, #t-nzd {
   .currency {
     font-size: 18px;
     margin: 0 0 0 5px;
@@ -2891,7 +2932,7 @@ header nav.navbar .open > .dropdown-menu {
   }
 }
 
-#t-gold, #t-jpy, #t-btc, #t-brl, #t-mxn, #t-usd, #t-eur, #t-sgd, #t-nzd {
+#t-gold, #t-jpy, #t-btc, #t-brl, #t-mxn, #t-usd, #t-eur, #t-sgd, #t-aud, #t-nzd {
   .title {
     font-family: OpenSansSemibold;
     font-size: 14px;
@@ -2946,7 +2987,7 @@ header nav.navbar .open > .dropdown-menu {
     padding-left: 5px;
   }
 }
-#t-jpy, #t-usd, #t-eur, #t-sgd, #t-nzd {
+#t-jpy, #t-usd, #t-eur, #t-sgd, #t-aud, #t-nzd {
   .description {
     p {
       margin: 0;

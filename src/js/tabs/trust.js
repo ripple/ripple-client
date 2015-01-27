@@ -27,7 +27,6 @@ TrustTab.prototype.angular = function (module)
                                   function ($scope, books, $timeout, $routeParams, id,
                                             $filter, network, rpTracker, keychain)
   {
-    $scope.advanced_feature_switch = Options.advanced_feature_switch;
     
     // Get all currencies from currencies.js, parse through to display only those with display: true
     var displayCurrenciesOnly = [];
@@ -122,7 +121,7 @@ TrustTab.prototype.angular = function (module)
               return;
             }
 
-            if ($scope.advanced_feature_switch === false || $scope.amount === "") {
+            if (Options.advanced_feature_switch === false || $scope.amount === "") {
               // $scope.amount = Number(ripple.Amount.consts.max_value);
               $scope.amount = Options.gateway_max_limit;
             }

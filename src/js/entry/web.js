@@ -7,6 +7,7 @@ require('../directives/charts');
 require('../directives/fields');
 require('../directives/effects');
 require('../directives/validators');
+require('../directives/accountExists.js');
 require('../directives/events');
 require('../directives/formatters');
 require('../directives/directives');
@@ -96,6 +97,7 @@ var tabdefs = [
   require('../tabs/usd'),
   require('../tabs/eur'),
   require('../tabs/sgd'),
+  require('../tabs/aud'),
   require('../tabs/gold'),
   require('../tabs/tou'),
   require('../tabs/privacypolicy'),
@@ -128,8 +130,7 @@ var tabs = tabdefs.map(function (Tab) {
 var app = angular
   .module('rp', appDependencies)
   .config(Config)
-  .run(Run)
-  .factory('$exceptionHandler', ExceptionHandler);
+  .run(Run);
 
 // Global reference for debugging only (!)
 var rippleclient = window.rippleclient = {};
@@ -234,6 +235,9 @@ function Run ($rootScope, $injector, $compile, $route, $routeParams, $location, 
     $location.search("amount", amnt);
   }
 
+  // put Options to rootScope so it can be used in html templates
+  $rootScope.globalOptions = Options;
+
   // Once the app controller has been instantiated
   // XXX ST: I think this should be an event instead of a watch
   scope.$watch("app_loaded", function on_app_loaded(oldval, newval) {
@@ -245,17 +249,6 @@ function Run ($rootScope, $injector, $compile, $route, $routeParams, $location, 
       }
     });
   });
-}
-
-// Track uncaught exceptions
-ExceptionHandler.$inject = ['$injector'];
-
-function ExceptionHandler ($injector) {
-  return function(exception, cause) {
-    var $log = $injector.get('$log');
-    $log.error.apply($log,arguments);
-    $injector.get('rpTracker').trackError('Uncaught Exception', exception);
-  };
 }
 
 // Some backwards compatibility
