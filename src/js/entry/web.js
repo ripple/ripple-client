@@ -97,6 +97,7 @@ var tabdefs = [
   require('../tabs/usd'),
   require('../tabs/eur'),
   require('../tabs/sgd'),
+  require('../tabs/aud'),
   require('../tabs/gold'),
   require('../tabs/tou'),
   require('../tabs/privacypolicy'),
