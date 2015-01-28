@@ -76,13 +76,14 @@ section.col-xs-12.content(ng-controller="ExchangeCtrl")
           .row.row-padding-small.alternatives
             .col-xs-12.col-sm-6.col-md-4(ng-repeat="alt in exchange.alternatives")
               .am
-                span.amnt {{alt.amount | rpamount:{rel_precision: 7} }}
+                .amnt {{alt.amount | rpamount:{rel_precision: 7} }}
+                span.currency  {{alt.amount | rpcurrency }}
                 span(ng-hide="alt.amount.is_native() || alt.amount.issuer().to_json() == account.Account")
+                  |.
                   span.issuer(
                     rp-pretty-issuer="alt.amount.issuer().to_json()"
                     rp-pretty-issuer-contacts="userBlob.data.contacts"
                     rp-pretty-issuer-or-short)
-                span.currency  {{alt.amount | rpcurrency }}
                 .ex (
                   span.rate {{alt.rate | rpamount:{rel_precision: 4} }}
                   span.pair {{exchange.currency_code}}/{{alt.amount | rpcurrency}}
