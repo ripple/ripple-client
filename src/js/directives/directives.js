@@ -207,7 +207,7 @@ module.directive('rpPopup', ['rpPopup', '$parse', function(popup, $parse) {
         }
 
         var content = element.find('[rp-popup-content]');
-        xml = new XMLSerializer().serializeToString(content[0]);
+        var xml = new XMLSerializer().serializeToString(content[0]);
 
         popup.blank(xml, scope);
         if (attrs.onopen && scope[attrs.onopen]) {
@@ -219,7 +219,7 @@ module.directive('rpPopup', ['rpPopup', '$parse', function(popup, $parse) {
 }]);
 
 // TODO Make it have different styling for different limits
-module.directive('rpInboundBridgeLimit', [function(){
+module.directive('rpInboundBridgeLimit', [function() {
   return {
     restrict: 'E',
     scope: {
