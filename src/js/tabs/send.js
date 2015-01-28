@@ -84,6 +84,18 @@ SendTab.prototype.angular = function (module)
         $scope.send.currency_code = '';
       }
       $scope.update_currency();
+
+      setImmediate(function() {
+        if ($scope.sendForm.send_amount !== undefined) {
+          $scope.$apply(function() {
+            // hack to re-validate input. remove this and uncomment $validate() when upgraded to angularjs 1.3
+            $scope.sendForm.send_amount.$modelValue = '';
+            $scope.sendForm.send_amount.$setViewValue($scope.send.amount);
+            // $scope.sendForm.send_amount.$validate();
+            $scope.update_amount();
+          });
+        }
+      });
     }, true);
 
     $scope.$watch('send.amount', function () {
