@@ -52,7 +52,7 @@ section.col-xs-12.content(ng-controller='AudCtrl')
             .description(l10n) 
               p(l10n) .98% for deposits and withdrawals&#32;
               p(l10n)
-                a(href="https://coinexgateway.com/Gateway/Fees.html", target="_blank") More details 
+                a(href="https://coinexgateway.com/Gateway/Fees.html", target="_blank") more details 
         .col-md-3
             .title(l10n) Rating
             .description(l10n)
@@ -64,7 +64,7 @@ section.col-xs-12.content(ng-controller='AudCtrl')
 
       .row.fund-tab-description
         .col-xs-7.col-sm-5.col-md-4
-          button.btn.btn-large(ng-show="!audConnected && !loading", type="submit", ng-click="save_account()", ng-disabled="!account.Balance") Add AUD Coinex
+          button.btn.btn-large(ng-show="!audConnected && !loading", type="submit", ng-click="save_account()", ng-disabled="!account.Balance") Add Coinex AUD
           button.btn.btn-large(ng-show="!audConnected && loading", type="submit", ng-disabled="loading") Adding...
           button.btn.btn-large(ng-show="showInstructions && audConnected", type="submit", ng-click="toggle_instructions()", l10n) Hide instructions
           button.btn.btn-large(ng-show="audConnected && !showInstructions", type="submit", ng-click="toggle_instructions()", l10n) Show instructions
