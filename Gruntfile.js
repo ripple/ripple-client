@@ -206,6 +206,14 @@ module.exports = function(grunt) {
           return isNewer(from, 'build/' + from);
         }
       },
+      individualDeps: {
+        expand: false,
+        files: {
+          'build/bundle/web/js/deps/newrelic.js': 'deps/js/newrelic.js',
+          'build/bundle/web/js/deps/mixpanel.js': 'deps/js/mixpanel.js',
+          'build/bundle/web/js/deps/modernizr.js': 'deps/js/modernizr.js'
+        }
+      },
       compatIE: {
         expand: true,
         src: compatIE,
@@ -279,12 +287,6 @@ module.exports = function(grunt) {
           {expand: true, src: ['res/fonts/*'], dest: 'build/bundle/web/fonts', flatten: true},
           {expand: true, src: ['res/icons/font/*'], dest: 'build/bundle/web'},
           {expand: true, src: ['img/**'], dest: 'build/bundle/web'},
-          {expand: true, src: ['deps/js/modernizr*.js'],
-            dest: 'build/bundle/web/js/deps', flatten: true},
-          {expand: true, src: ['deps/js/mixpanel.min.js'],
-            dest: 'build/bundle/web/js/deps', flatten: true},
-          {expand: true, src: ['deps/js/newrelic.js'],
-            dest: 'build/bundle/web/js/deps', flatten: true},
           {src: 'build/dist/web/index.html', dest: 'build/bundle/web/index.html'},
           {src: 'build/dist/web/index_debug.html', dest: 'build/bundle/web/index_debug.html'},
           {src: 'src/js/config.js', dest: 'build/bundle/web/config.js'},
@@ -317,7 +319,7 @@ module.exports = function(grunt) {
       },
       deps: {
         files: deps,
-        tasks: ['uglify:deps', 'concat:depsDebug', 'copy'],
+        tasks: ['uglify:deps', 'uglify:individualDeps', 'concat:depsDebug', 'copy'],
         options: { livereload: true }
       },
       styles: {
@@ -489,7 +491,7 @@ module.exports = function(grunt) {
                              'copy']);
 
   // Deps only - only rebuilds the dependencies
-  grunt.registerTask('deps', ['uglify:deps',
+  grunt.registerTask('deps', ['uglify:deps', 'uglify:individualDeps',
                               'concat:deps', 'concat:depsDebug',
                               'uglify:compatIE',
                               'concat:compatIE', 'concat:compatIEDebug',
