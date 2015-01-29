@@ -647,7 +647,6 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', '$t
     if (loginStatus) {
       $scope.showLogin = false;
       $scope.showRegister = false;
-      return;
     }
   });
 
