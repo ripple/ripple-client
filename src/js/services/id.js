@@ -647,8 +647,6 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', '$t
     if (loginStatus) {
       $scope.showLogin = false;
       $scope.showRegister = false;
-      location.hash = '/balance';
-      return;
     }
   });
 
