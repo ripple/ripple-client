@@ -113,7 +113,7 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
               div(l10n)
                 | The account ~
                 span {{ masterkeyUsername }} 
-                span ({{ masterkeyAddress }})
+                //- span ({{ masterkeyAddress }})
                 |  has already been created using this secret key.
               a.btn.btn-primary.recovery(ng-href="#/recover/{{masterkeyUsername}}", l10n) Recover Account
         .form-group
