@@ -4,15 +4,14 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
       .welcomeText(l10n) Welcome to Ripple Trade
       hr
       p.heroText(l10n) Trade hundreds of assets, from XRP to crypto to gold to fiat.
-    .tabBg
     .auth-form-wrapper.col-xs-12.col-sm-6.col-md-4
+      .tabAdjust
+        .signUpWrapper
+          h2.signUpTop 
+            a(href='#register', l10n-inc) Sign Up
+        .loginWrapper
+          h2.loginTop(l10n) Log In
       form(name='loginForm', ng-submit='submitForm()')
-        .tabAdjust.row
-          .signUpWrapper.col-xs-6.col-sm-6.col-md-6
-            h2.signUpTop 
-              a(href='#register', l10n-inc) Sign Up
-          .loginWrapper.col-xs-6.col-sm-6.col-md-6
-            h2.loginTop(l10n) Log In
         .auth-attention.text-center.spaceAdjust(ng-show="verifyStatus") 
           .status(ng-show="'verifying' === verifyStatus", l10n) Verifying...
           .status(ng-show="'verified' === verifyStatus", l10n) You have successfully verified your email address.
