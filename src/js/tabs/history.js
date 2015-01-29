@@ -106,7 +106,7 @@ HistoryTab.prototype.angular = function (module) {
         account: id.account,
         ledger_index_min: -1,
         limit: 200,
-        binary: true
+        binary: false
       };
 
       getTx();
@@ -416,7 +416,7 @@ HistoryTab.prototype.angular = function (module) {
         ledger_index_min: -1,
         limit: limit,
         marker: $scope.tx_marker,
-        binary: true
+        binary: false
       };
 
       network.remote.request_account_tx(params, function(err, data) {
