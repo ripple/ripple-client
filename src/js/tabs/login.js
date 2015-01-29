@@ -274,6 +274,4 @@ LoginTab.prototype.angular = function (module) {
   }]);
 };
 
-
-
 module.exports = LoginTab;
