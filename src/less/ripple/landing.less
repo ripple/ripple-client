@@ -163,6 +163,8 @@ header.loggedOut {
 
 	#t-register .auth-form-container h2, #t-login .auth-form-container h2, #t-recover .auth-form-container h2, #t-account .auth-form-container h2, #t-migrate .auth-form-container h2 {
 		color: @white;
+		width: 100%;
+		margin: 0;
 	}
 
 	#t-register .auth-form-container .auth-form-wrapper label, #t-login .auth-form-container .auth-form-wrapper label, #t-recover .auth-form-container .auth-form-wrapper label, #t-account .auth-form-container .auth-form-wrapper label, #t-migrate .auth-form-container .auth-form-wrapper label, #t-register .auth-form-container .see-privacy-text, #t-login .auth-form-container .see-privacy-text, #t-recover .auth-form-container .see-privacy-text, #t-account .auth-form-container .see-privacy-text, #t-migrate .auth-form-container .see-privacy-text {
@@ -176,18 +178,14 @@ header.loggedOut {
 
 	h2.loginTop {
 		border-bottom: none !important;
-		margin-bottom: 10px !important;
 		padding-bottom: 0px !important; 
 		font-size: 40px;
-		display: inline-block;
 	}
 
 	h2.signUpTop {
 		border-bottom: none !important;
-		margin-bottom: 10px !important;
 		padding-bottom: 0px !important; 
 		font-size: 40px;
-		display: inline-block;
 
 		& a:hover {
 			text-decoration: none;
@@ -270,15 +268,22 @@ header.loggedOut {
 
 	.signUpWrapper {
 		text-align: center;
+		width: 50%;
+		display: inline-block;
 	}
 
 	.loginWrapper {
 		text-align: center;
+		width: 50%;
+		display: inline-block;
 	}
 
 	.tabAdjust {
 		padding-left: 0 !important;
 		padding-right: 0 !important;
+		margin-top: -15px;
+		margin-left: -20px;
+		margin-right: -20px;
 	}
 
 	.bottomText {
@@ -370,7 +375,9 @@ header.loggedOut {
 
 	h2.signUpTop a {
 		color: @midgray !important;
-	
+		display: block;
+		background: rgba(0,0,0,0.2);
+		padding: 23px;
 		&:hover {
 			color: @white !important;
 		}
@@ -393,7 +400,9 @@ header.loggedOut {
 
 	h2.loginTop a {
 		color: @midgray !important;
-	
+		display: block;
+		background: rgba(0,0,0,0.2);
+		padding: 23px;
 		&:hover {
 			color: @white !important;
 		}
