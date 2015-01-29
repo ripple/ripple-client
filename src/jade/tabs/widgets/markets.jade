@@ -50,3 +50,6 @@
       counter-currency="{{ secondCurrencySelected }}"
       counter-currency-issuer="{{ issuerNameToAddress(secondIssuerSelected, secondCurrencySelected) }}"
       )
+
+    div.widget_loader(ng-show="showWidgetAssetAllocation && !exchangeRatesNonempty")
+      img(src="img/sections.png", class="loader")
