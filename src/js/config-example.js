@@ -76,7 +76,44 @@ var Options = {
   advanced_feature_switch: false,
 
   // Default gateway max trust amount under 'simplfied' view ie when advanced_feature_switch is false in trust/gateway page
-  gateway_max_limit: 1000000000
+  gateway_max_limit: 1000000000,
+
+  ticker: {
+    markets: [
+      {
+        base: {currency: "XRP"},
+        counter: {currency: "USD", issuer: "rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q"}
+      },
+      {
+        base: {currency: "XRP"},
+        counter: {currency: "USD", issuer: "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"}
+      },
+      {
+        base: {currency: "XRP"},
+        counter: {currency:"BTC", issuer: "rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q"}
+      },
+      {
+        base: {currency: "XRP"},
+        counter: {currency:"BTC", issuer: "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"}
+      },
+      {
+        base: {currency: "XRP"},
+        counter: {currency:"CNY", issuer: "razqQKzJRdB4UxFPWf5NEpEG3WMkmwgcXA"}
+      },
+      {
+        base: {currency: "XRP"},
+        counter: {currency:"JPY", issuer: "rMAz5ZnK73nyNUL4foAvaxdreczCkG3vA6"}
+      },
+      {
+        counter: {currency: "XRP"},
+        base: {currency: "JPY", issuer: "r94s8px6kSw1uZ1MV98dhSRTvc6VMPoPcN"}
+      },
+      {
+        base: {currency: "CNY", issuer: "rnuF96W4SZoCJmbHYBFoJZpR8eCaxNvekK"},
+        counter: {currency: "XRP"}
+      }
+    ]
+  }
 };
 
 // Load client-side overrides
