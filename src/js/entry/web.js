@@ -1,4 +1,5 @@
-var types = require('../util/types');
+var types = require('../util/types'),
+    rewriter = require('../util/jsonrewriter');
 
 // Load app modules
 require('../controllers/app');
@@ -136,6 +137,8 @@ var app = angular
 var rippleclient = window.rippleclient = {};
 rippleclient.app = app;
 rippleclient.types = types;
+// for unit tests
+rippleclient.rewriter = rewriter;
 
 // Install basic page template
 angular.element('body').prepend(require('../../jade/client/index.jade')());
