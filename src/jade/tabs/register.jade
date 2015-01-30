@@ -105,7 +105,9 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
           div.register_masterkey
             input.form-control#register_masterkey(name='register_masterkey', type='text', 
               autocomplete='off', ng-model="masterkey", rp-master-key, rp-master-address-exists, 
-              rp-focus, rp-spinner="{{checkingMasterkey ? 4 : null}}")
+              rp-focus)
+            div.inputSpinner(ng-hide="!checkingMasterkey")
+              img.loader(src="img/sections.png")
             p(ng-show="registerForm.register_masterkey.$error.rpMasterKey")
               i.fa.fa-exclamation-triangle
                 span.error.statusText(l10n)  Secret Account Key is invalid     
