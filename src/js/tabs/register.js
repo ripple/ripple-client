@@ -146,8 +146,7 @@ RegisterTab.prototype.angular = function (module) {
           if (err) {
             console.log("client: register tab: error while " +
               "unlocking wallet: ", err);
-            $scope.mode = "error";
-            $scope.error_type = "unlockFailed";
+            $scope.mode = 'verification';
             return;
           }
                     
