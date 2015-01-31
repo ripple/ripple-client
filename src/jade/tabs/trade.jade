@@ -121,17 +121,17 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                 span(l10n) Bid
                 span &#32;&#61;&#32;
                 span.value
-                  | {{book.bids[0].TakerGets | rpamountratio:book.bids[0].TakerPays | rpamount:{rel_precision: 5, rel_min_precision: 5} }}
+                  | {{ priceTicker.bid }}
               li.col-xs-6.col-sm-3
                 span(l10n) Ask
                 span &#32;&#61;&#32;
                 span.value
-                  | {{book.asks[0].TakerPays | rpamountratio:book.asks[0].TakerGets | rpamount:{rel_precision: 5, rel_min_precision: 5} }}
+                  | {{ priceTicker.ask }}
               li.col-xs-6.col-sm-3
                 span(l10n) Spread
                 span &#32;&#61;&#32;
                 span.value
-                  | {{book.asks[0].TakerPays | rpamountratio:book.asks[0].TakerGets | rpamountsubtract:(book.bids[0].TakerGets | rpamountratio:book.bids[0].TakerPays) | rpamount:{rel_precision: 5, rel_min_precision: 5} }}
+                  | {{ priceTicker.spread }}
               li.col-xs-6.col-sm-3
                 span(l10n) Last price
                 span &#32;&#61;&#32;
