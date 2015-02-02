@@ -11,8 +11,6 @@ util.inherits(BrlTab, Tab);
 BrlTab.prototype.tabName = 'brl';
 BrlTab.prototype.mainMenu = 'fund';
 
-BrlTab.prototype.angularDeps = Tab.prototype.angularDeps.concat(['qr']);
-
 BrlTab.prototype.generateHtml = function ()
 {
   return require('../../jade/tabs/brl.jade')();

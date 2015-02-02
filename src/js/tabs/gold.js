@@ -11,8 +11,6 @@ util.inherits(GoldTab, Tab);
 GoldTab.prototype.tabName = 'gold';
 GoldTab.prototype.mainMenu = 'fund';
 
-GoldTab.prototype.angularDeps = Tab.prototype.angularDeps.concat(['qr']);
-
 GoldTab.prototype.generateHtml = function ()
 {
   return require('../../jade/tabs/gold.jade')();

@@ -13,7 +13,6 @@ require('../directives/formatters');
 require('../directives/directives');
 require('../directives/datalinks');
 require('../directives/errors');
-require('../directives/qr');
 require('../directives/marketchart');
 require('../directives/ticker');
 require('../filters/filters');

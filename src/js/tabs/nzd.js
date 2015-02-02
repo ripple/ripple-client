@@ -10,8 +10,6 @@ util.inherits(NzdTab, Tab);
 NzdTab.prototype.tabName = 'nzd';
 NzdTab.prototype.mainMenu = 'fund';
 
-NzdTab.prototype.angularDeps = Tab.prototype.angularDeps.concat(['qr']);
-
 NzdTab.prototype.generateHtml = function() {
   return require('../../jade/tabs/nzd.jade')();
 };

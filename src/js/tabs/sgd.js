@@ -10,8 +10,6 @@ util.inherits(SgdTab, Tab);
 SgdTab.prototype.tabName = 'sgd';
 SgdTab.prototype.mainMenu = 'fund';
 
-SgdTab.prototype.angularDeps = Tab.prototype.angularDeps.concat(['qr']);
-
 SgdTab.prototype.generateHtml = function() {
   return require('../../jade/tabs/sgd.jade')();
 };

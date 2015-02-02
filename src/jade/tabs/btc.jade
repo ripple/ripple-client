@@ -102,8 +102,6 @@ section.col-xs-12.content(ng-controller='BtcCtrl')
               .description(l10n) Your account is fully verified.
               div(ng-show="loadState.B2RInstructions")
                 .description {{B2R.instructions.instruction}}
-                //.qr-code
-                  rp-qrcode(data="bitcoin:{{B2R.instructions.instructionParams[0].value}}", size="200")
                 //.about(ng-hide="account.Balance", l10n) A small amount (~.001 BTC) of your first
                   |  transfer will be converted to XRP to activate your wallet.&#32;
                   a.why(href="https://ripple.com/wiki/Reserves",

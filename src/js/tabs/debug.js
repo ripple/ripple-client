@@ -12,8 +12,6 @@ util.inherits(PretendTab, Tab);
 PretendTab.prototype.tabName = 'debug';
 PretendTab.prototype.mainMenu = 'debug';
 
-PretendTab.prototype.angularDeps = Tab.prototype.angularDeps.concat(['qr']);
-
 PretendTab.prototype.generateHtml = function ()
 {
   return require('../../jade/tabs/debug.jade')();
