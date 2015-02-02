@@ -90,7 +90,7 @@ section.col-xs-12.content(ng-controller="ContactsCtrl")
             button.btn.btn-default.btn-block.custom-btn.btn-cancel(type='button', ng-click='addform_visible = false', l10n) cancel
 
   .row.contact(ng-repeat="entry in userBlob.data.contacts | rpsortcontacts:sort_options.sort_field:sort_options.reverse"
-      ng-if="!contacts_filter || entry.name.indexOf(contacts_filter.toLowerCase()) > -1"
+      ng-if="!contacts_filter || entry.name.toLowerCase().indexOf(contacts_filter.toLowerCase()) > -1"
       ng-class="{editing: editing}"
       ng-controller="ContactRowCtrl"
       ng-show='!debug')
