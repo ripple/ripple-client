@@ -47,6 +47,12 @@ TradeTab.prototype.angular = function(module)
   {
     var timer;
 
+    $scope.priceTicker = {
+      bid: 'n/a',
+      ask: 'n/a',
+      spread: 'n/a'
+    };
+
     $scope.sortOptions = {
       currentPairOnly: false,
       sortField: 'type',
@@ -124,6 +130,11 @@ TradeTab.prototype.angular = function(module)
 
     var OrderbookFilterOpts = {
       'abs_precision':6
+    };
+
+    var OrderbookTickerFilterOpts = {
+      rel_precision: 5, 
+      rel_min_precision: 5
     };
 
     var REF_DATE_OFFSET = 5*60000;
@@ -1344,6 +1355,12 @@ TradeTab.prototype.angular = function(module)
             $scope.load_orderbook = false;
           }
         });
+
+        if ($scope.book && $scope.book.bids && $scope.book.bids.length && $scope.book.asks && $scope.book.asks.length) {
+          $scope.priceTicker.bid = rpamountFilter($scope.book.bids[0].price, OrderbookTickerFilterOpts);
+          $scope.priceTicker.ask = rpamountFilter($scope.book.asks[0].price, OrderbookTickerFilterOpts);
+          $scope.priceTicker.spread = rpamountFilter($scope.book.asks[0].price.subtract($scope.book.bids[0].price), OrderbookTickerFilterOpts);
+        }
       }
     });
 
