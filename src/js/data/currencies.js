@@ -148,7 +148,7 @@ module.exports = [
   {value: 'RSD', name: 'Serbian Dinar', display: false, custom_trade_currency_dropdown: false, standard_precision: 2, order: 0 }, 
   {value: 'SCR', name: 'Seychelles Rupee', display: false, custom_trade_currency_dropdown: false, standard_precision: 2, order: 0 }, 
   {value: 'SLL', name: 'Leone', display: false, custom_trade_currency_dropdown: false, standard_precision: 2, order: 0 }, 
-  {value: 'SGD', name: 'Singapore Dollar', display: false, custom_trade_currency_dropdown: false, standard_precision: 2, order: 0 }, 
+  {value: 'SGD', name: 'Singapore Dollar', display: false, custom_trade_currency_dropdown: true, standard_precision: 2, order: 0 }, 
   {value: 'SBD', name: 'Solomon Islands Dollar', display: false, custom_trade_currency_dropdown: false, standard_precision: 2, order: 0 },
   {value: 'SOS', name: 'Somali Shilling', display: false, custom_trade_currency_dropdown: false, standard_precision: 2, order: 0 }, 
   {value: 'SSP', name: 'South Sudanese Pound', display: false, custom_trade_currency_dropdown: false, standard_precision: 2, order: 0 }, 
