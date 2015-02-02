@@ -4,10 +4,11 @@ section.col-xs-12.content(ng-controller="ContactsCtrl")
   div(ng-show="!loadingAccount && !account.Balance && loadState.account && connected && !debug")
     include banner/unfunded
   div(ng-hide='debug')
-    .col-sm-12.notification-wrapper
-      .alert.alert-success(ng-show="success.createContact", l10n) A new contact has been successfully added.
-      .alert.alert-success(ng-show="success.updateContact", l10n) Your contact has been successfully updated.
-      .alert.alert-success(ng-show="success.removeContact", l10n) A contact has been successfully removed.
+    .row
+      .col-sm-12.notification-wrapper
+        .alert.alert-success(ng-show="success.createContact", l10n) A new contact has been successfully added.
+        .alert.alert-success(ng-show="success.updateContact", l10n) Your contact has been successfully updated.
+        .alert.alert-success(ng-show="success.removeContact", l10n) A contact has been successfully removed.
     form.row-padding-small
         .row.form-group
           .col-xs-12.col-sm-8.col-md-6
