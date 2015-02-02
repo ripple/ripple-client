@@ -940,8 +940,6 @@ SendTab.prototype.angular = function (module)
       // compute network fee
       $scope.networkFee = network.remote.transaction()._computeFee();
 
-      $scope.mode = 'confirm';
-
       if (keychain.isUnlocked(id.account)) {
         $scope.send.secret = keychain.getUnlockedSecret(id.account);
       }
@@ -952,6 +950,12 @@ SendTab.prototype.angular = function (module)
         'Destination Tag': !!$scope.send.dt,
         'Address': $scope.userBlob.data.account_id
       });
+
+      if (Options.confirmation.send) {
+        $scope.mode = 'confirm';
+      } else {
+        $scope.send_confirmed();
+      }
     };
 
     /**
