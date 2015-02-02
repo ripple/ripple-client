@@ -352,11 +352,22 @@ var JsonRewriter = module.exports = {
         if (node.entryType === 'AccountRoot' && node.fields.Account === account) {
           obj.accountRoot = node.fields;
 
-          if (node.fieldsPrev.Balance) {
+          // This is the first transaction on current account
+          if (node.diffType === 'CreatedNode') {
+            effect.type = 'balance_change';
+            effect.amount = ripple.Amount.from_json(node.fields.Balance);
+            effect.balance = effect.amount;
+
+            obj.balance_changer = effect.balance_changer = true;
+            affectedCurrencies.push('XRP');
+          }
+
+          // Balance has been changed
+          else if (node.fieldsPrev.Balance) {
             var balance = ripple.Amount.from_json(node.fields.Balance);
 
             // Fee
-            if(tx.Account === account && tx.Fee) {
+            if (tx.Account === account && tx.Fee) {
               feeEff = {
                 type: 'fee',
                 amount: ripple.Amount.from_json(tx.Fee).negate(),
