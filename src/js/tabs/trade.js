@@ -1356,7 +1356,7 @@ TradeTab.prototype.angular = function(module)
 
       $scope.load_orderbook = false;
 
-      $scope.priceTicker[type] = rpamountFilter(newValues[0].price, OrderbookTickerFilterOpts);
+      $scope.priceTicker[type.substring(0, 3)] = rpamountFilter(newValues[0].price, OrderbookTickerFilterOpts);
 
       $scope.book = $scope.newBook;
 
@@ -1366,12 +1366,12 @@ TradeTab.prototype.angular = function(module)
       }
     };
 
-    $scope.$watchCollection('newBook.asks', function (newValues) {
-      updateTypeBook('asks', newValues)
+    $scope.$watch('newBook.asksLastUpdate', function () {
+      updateTypeBook('asks', $scope.newBook.asks)
     });
 
-    $scope.$watchCollection('newBook.bids', function (newValues) {
-      updateTypeBook('bids', newValues)
+    $scope.$watch('newBook.bidsLastUpdate', function () {
+      updateTypeBook('bids', $scope.newBook.bids)
     });
 
     /**
