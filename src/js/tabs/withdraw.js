@@ -11,8 +11,6 @@ util.inherits(WithdrawTab, Tab);
 WithdrawTab.prototype.tabName = 'withdraw';
 WithdrawTab.prototype.mainMenu = 'fund';
 
-WithdrawTab.prototype.angularDeps = Tab.prototype.angularDeps.concat(['qr']);
-
 WithdrawTab.prototype.generateHtml = function ()
 {
   return require('../../jade/tabs/withdraw.jade')();

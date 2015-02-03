@@ -11,8 +11,6 @@ util.inherits(BtcTab, Tab);
 BtcTab.prototype.tabName = 'btc';
 BtcTab.prototype.mainMenu = 'fund';
 
-BtcTab.prototype.angularDeps = Tab.prototype.angularDeps.concat(['qr']);
-
 BtcTab.prototype.generateHtml = function ()
 {
   return require('../../jade/tabs/btc.jade')();

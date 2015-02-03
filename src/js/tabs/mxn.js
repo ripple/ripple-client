@@ -11,8 +11,6 @@ util.inherits(MxnTab, Tab);
 MxnTab.prototype.tabName = 'mxn';
 MxnTab.prototype.mainMenu = 'fund';
 
-MxnTab.prototype.angularDeps = Tab.prototype.angularDeps.concat(['qr']);
-
 MxnTab.prototype.generateHtml = function ()
 {
   return require('../../jade/tabs/mxn.jade')();

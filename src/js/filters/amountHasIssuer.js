@@ -1,5 +1,3 @@
-
-(function(angular, _) {
 'use strict';
 
 angular.module('filters')
@@ -12,6 +10,8 @@ angular.module('filters')
  */
 function rpAmountHasIssuer() {
   return function (input) {
+    if (!input) return;
+
     if (!_.isArray(input)) {
       input = [input];
     }
@@ -20,5 +20,3 @@ function rpAmountHasIssuer() {
     });
   }
 }
-
-})(angular, _);

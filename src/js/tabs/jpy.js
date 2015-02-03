@@ -11,8 +11,6 @@ util.inherits(JpyTab, Tab);
 JpyTab.prototype.tabName = 'jpy';
 JpyTab.prototype.mainMenu = 'fund';
 
-JpyTab.prototype.angularDeps = Tab.prototype.angularDeps.concat(['qr']);
-
 JpyTab.prototype.generateHtml = function ()
 {
   return require('../../jade/tabs/jpy.jade')();

@@ -10,8 +10,6 @@ util.inherits(AudTab, Tab);
 AudTab.prototype.tabName = 'aud';
 AudTab.prototype.mainMenu = 'fund';
 
-AudTab.prototype.angularDeps = Tab.prototype.angularDeps.concat(['qr']);
-
 AudTab.prototype.generateHtml = function() {
   return require('../../jade/tabs/aud.jade')();
 };

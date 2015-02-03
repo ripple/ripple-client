@@ -11,8 +11,6 @@ util.inherits(EurTab, Tab);
 EurTab.prototype.tabName = 'eur';
 EurTab.prototype.mainMenu = 'fund';
 
-EurTab.prototype.angularDeps = Tab.prototype.angularDeps.concat(['qr']);
-
 EurTab.prototype.generateHtml = function ()
 {
   return require('../../jade/tabs/eur.jade')();

@@ -11,8 +11,6 @@ util.inherits(XrpTab, Tab);
 XrpTab.prototype.tabName = 'xrp';
 XrpTab.prototype.mainMenu = 'fund';
 
-XrpTab.prototype.angularDeps = Tab.prototype.angularDeps.concat(['qr']);
-
 XrpTab.prototype.generateHtml = function ()
 {
   return require('../../jade/tabs/xrp.jade')();

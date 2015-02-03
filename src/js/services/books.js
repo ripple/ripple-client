@@ -7,10 +7,8 @@
 var module = angular.module('books', ['network']);
 var Amount = ripple.Amount;
 
-
 module.factory('rpBooks', ['rpNetwork', '$q', '$rootScope', '$filter', 'rpId',
 function(net, $q, $scope, $filter, id) {
-
   var rowCount;
 
   function loadBook(gets, pays, taker) {
@@ -30,7 +28,6 @@ function(net, $q, $scope, $filter, id) {
 
     rowCount = 0;
     newData = _.values(_.compact(_.map(newData, function(d, i) {
-
       // This check is redundant, but saves the CPU some work
       if (rowCount > max_rows) return;
 
@@ -117,7 +114,7 @@ function(net, $q, $scope, $filter, id) {
     get: function(first, second, taker) {
       var asks = loadBook(first, second, taker);
       var bids = loadBook(second, first, taker);
-     
+
       var asksReady = false;
       var bidsReady = false;
 
@@ -127,6 +124,8 @@ function(net, $q, $scope, $filter, id) {
       var model = {
         asks: filterRedundantPrices(asks.offersSync(), 'asks', true),
         bids: filterRedundantPrices(bids.offersSync(), 'bids', true),
+        asksLastUpdate: +new Date(),
+        bidsLastUpdate: +new Date(),
         ready: false  // whether BOTH Bids & Asks are ready
       };
 
@@ -135,11 +134,12 @@ function(net, $q, $scope, $filter, id) {
           model.asks = filterRedundantPrices(offers, 'asks', true);
           model.updated = true;
 
-          if (! asksReady) {
+          if (!asksReady) {
             asksReady = true;
-            if (! model.ready && bidsReady) model.ready = true;
+            if (!model.ready && bidsReady) model.ready = true;
           }
         });
+        model.asksLastUpdate = +new Date();
       }
 
       function handleAskTrade(gets, pays) {
@@ -147,6 +147,7 @@ function(net, $q, $scope, $filter, id) {
           model.last_price = gets.ratio_human(pays);
           model.updated = true;
         });
+        model.asksLastUpdate = +new Date();
       }
       asks.on('model', handleAskModel);
       asks.on('trade', handleAskTrade);
@@ -156,10 +157,11 @@ function(net, $q, $scope, $filter, id) {
           model.bids = filterRedundantPrices(offers, 'bids', true);
           model.updated = true;
 
-          if (! bidsReady) {
+          if (!bidsReady) {
             bidsReady = true;
-            if (! model.ready && asksReady) model.ready = true;
+            if (!model.ready && asksReady) model.ready = true;
           }
+          model.bidsLastUpdate = +new Date();
         });
       }
 
@@ -167,6 +169,7 @@ function(net, $q, $scope, $filter, id) {
         $scope.$apply(function () {
           model.last_price = pays.ratio_human(gets);
           model.updated = true;
+          model.bidsLastUpdate = +new Date();
         });
       }
       bids.on('model', handleBidModel);
@@ -186,7 +189,7 @@ function(net, $q, $scope, $filter, id) {
       model.requestOffers = function() {
         asks.requestOffers();
         bids.requestOffers();
-      }
+      };
 
       return model;
     },

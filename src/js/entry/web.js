@@ -13,7 +13,6 @@ require('../directives/formatters');
 require('../directives/directives');
 require('../directives/datalinks');
 require('../directives/errors');
-require('../directives/qr');
 require('../directives/marketchart');
 require('../directives/ticker');
 require('../filters/filters');
@@ -25,13 +24,9 @@ require('../services/blobRemote');
 require('../services/oldblob');
 require('../services/txqueue');
 require('../services/authflowRemote');
-require('../services/authinfo');
-require('../services/kdf');
 require('../services/keychain');
 require('../services/network');
 require('../services/books');
-require('../services/transactions');
-require('../services/ledger');
 require('../services/popup');
 require('../services/rippletxt');
 require('../services/federation');
@@ -44,6 +39,10 @@ require('../services/integration/account');
 require('../services/integration/history');
 require('../services/integration/trust');
 require('../services/integration/inboundBridge');
+
+// Unused services
+// require('../services/ledger');
+// require('../services/transactions');
 
 // Angular module dependencies
 var appDependencies = [
