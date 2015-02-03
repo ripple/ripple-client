@@ -100,7 +100,7 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
         .form-group(ng-show="showMasterKeyInput"
           ng-class="{'field-error': (registerForm.register_masterkey.$error.rpMasterKey || registerForm.register_masterkey.$error.rpMasterAddressExists)  && registerForm.register_masterkey.$dirty}")
           label(for='register_masterkey', l10n) Secret key&#32;
-          a(href="", ng-click="showMasterKeyInput=false", l10n) hide
+          a.hide-key(href="", ng-click="showMasterKeyInput=false", l10n) hide
           div.register_masterkey
             input.form-control#register_masterkey(name='register_masterkey', type='text', 
               autocomplete='off', ng-model="masterkey", rp-master-key, rp-master-address-exists, 
