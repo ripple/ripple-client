@@ -225,6 +225,21 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', '$t
     store.set('ripple_auth', {url:url, username: username, keys: keys});
   };
 
+  Id.prototype.setDeviceID = function (username, device_id) {
+    username = Id.normalizeUsernameForInternals(username);
+    return store.set(username + '|device_id', device_id);  
+  };
+  
+  Id.prototype.getDeviceID = function (username) {
+    username = Id.normalizeUsernameForInternals(username);
+    return store.get(username + '|device_id');  
+  };
+  
+  Id.prototype.removeDeviceID = function (username) {
+    username = Id.normalizeUsernameForInternals(username);
+    return store.remove(username + '|device_id');  
+  };  
+  
   Id.prototype.verify = function (opts, callback) {
     $authflow.verify(opts, callback);
   };
@@ -374,7 +389,7 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', '$t
 
     var username = Id.normalizeUsernameForDisplay(opts.username);
     var password = Id.normalizePassword(opts.password);
-    var deviceID = opts.device_id || store.get('device_id');
+    var deviceID = opts.device_id || self.getDeviceID(opts.username);
 
     $authflow.login({
       'username': Id.normalizeUsernameForInternals(username),
@@ -425,7 +440,7 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', '$t
         self.setAccount(blob.data.account_id);
         self.setLoginKeys(keys);
         self.storeLoginKeys(blob.url, actualUsername, keys);
-        store.set('device_id', blob.device_id);
+        self.setDeviceID(username, blob.device_id);
         self.loginStatus = true;
         $scope.loginStatus = true;
         $scope.$broadcast('$blobUpdate');
@@ -444,7 +459,8 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', '$t
   Id.prototype.relogin = function (callback) {
     var self     = this;
     var auth     = store.get('ripple_auth');
-    var deviceID = store.get('device_id');
+    var deviceID = self.getDeviceID(auth.username);
+    
     if (!auth || !auth.keys) {
       return callback(new Error('Missing authentication keys'));
     }
@@ -483,6 +499,7 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', '$t
     store.set('remember_me', options.remember_me);
     $authflow.verifyToken(options, callback);
   };
+
   Id.prototype.changePassword = function (options, callback) {
     var self = this;
     $authflow.changePassword(options, function(err, resp) {
@@ -502,7 +519,7 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', '$t
       self.setAccount(options.blob.data.account_id);
       self.setLoginKeys(keys);
       self.storeLoginKeys(options.blob.url, options.username, keys);
-      store.set('device_id', options.blob.device_id);
+      self.setDeviceID(options.username, options.blob.device_id);
       self.loginStatus = true;
       $scope.loginStatus = true;
       $scope.$broadcast('$blobUpdate');
@@ -512,12 +529,14 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', '$t
   };
   Id.prototype.logout = function ()
   {
-    store.remove('ripple_auth');
 
     // remove deviceID if remember me is not set
     if (!store.get('remember_me')) {
-      store.remove('device_id');
+      var auth = store.get('ripple_auth');
+      this.removeDeviceID(auth.username);
     }
+    
+    store.remove('ripple_auth');
 
     // TODO make it better
     // this.account = '';
