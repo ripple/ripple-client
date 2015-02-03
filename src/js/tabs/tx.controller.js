@@ -36,6 +36,18 @@ TxTab.prototype.angular = function (module)
 
           $scope.transaction.ledger = data.transaction.ledger_index;
           $scope.transaction.amountSent = rewriter.getAmountSent(data.transaction.tx, data.transaction.meta);
+
+          // extract message and info_url from transaction memos
+          $scope.transaction.Memos.map(function(item) {
+            var memoType = ripple.utils.hexToString(item.Memo.MemoType);
+            var memoFormat = ripple.utils.hexToString(item.Memo.MemoFormat);
+            if (memoType === 'msg') {
+              $scope.msg = memoFormat;
+            } else if (memoType === 'info_url') {
+              $scope.info_url = memoFormat;
+            }
+          });
+
           $scope.state = 'loaded';
         })
         .error(function(){});

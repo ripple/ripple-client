@@ -5,12 +5,12 @@ section.single.ddpage.content(ng-controller="TxCtrl", ng-switch on="state")
       span(class="loading_text", l10n) Loading transaction details...
   group(ng-switch-when="error")
     p.literal(l10n) An error occurred while loading the transaction details.
-  group(ng-switch-when="loaded")
+  group(ng-switch-when='loaded')
     p.literal.hash
       span(l10n) Transaction #
       span(ng-bind="transaction.hash")
       div
-        a(href="{{'https://ripplecharts.com/#/graph/' + transaction.hash}}", target="_blank", l10n) Show in graph
+        a(href='{{"https://ripplecharts.com/#/graph/" + transaction.hash}}', target='_blank', l10n) Show in graph
     hr
     p.literal.type(l10n) Transaction type:
       strong(ng-bind="transaction.TransactionType")
@@ -51,17 +51,32 @@ section.single.ddpage.content(ng-controller="TxCtrl", ng-switch on="state")
               span :
             dd {{transaction.Fee | rpamount}} XRP
           dl.details.half
-            group(ng-show="transaction.DestinationTag !== null && transaction.DestinationTag !== undefined")
+            group(ng-show='transaction.DestinationTag !== null && transaction.DestinationTag !== undefined')
               dt
                 span(l10n) Destination tag
                 span :
               dd(ng-bind="transaction.DestinationTag")
         hr
+        group.clearfix
+          dl.details.half
+            dt
+              span(l10n) Ledger number
+              span :
+            dd(ng-bind="transaction.ledger")
+          dl.details.half
+            group(ng-show='info_url')
+              dt
+                span(l10n) Info URL
+                span :
+              dd
+                a(href='{{info_url}}', target='_blank', l10n) {{info_url}}
+        hr
         dl.details
-          dt
-            span(l10n) Ledger number
-            span :
-          dd(ng-bind="transaction.ledger")
+          group(ng-show='msg')
+            dt
+              span(l10n) Message
+              span :
+            dd(ng-bind='msg')
       group(ng-switch-default)
           group.clearfix
             dl.details.half
