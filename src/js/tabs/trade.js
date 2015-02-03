@@ -1458,8 +1458,11 @@ TradeTab.prototype.angular = function(module)
 
     $scope.$on('$balancesUpdate', updateBalances);
 
-    $scope.$watch('userBlob.data.contacts', function (contacts) {
+    var contactsWatcher = $scope.$watch('userBlob.data.contacts', function (contacts) {
+      if (!contacts.length) return;
+
       $scope.issuer_query = webutil.queryFromContacts(contacts);
+      contactsWatcher();
     }, true);
 
     $scope.$watchCollection('offers', function(){
