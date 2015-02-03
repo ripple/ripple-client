@@ -1,4 +1,3 @@
-
 (function (module) {
 'use strict';
 
@@ -1332,40 +1331,47 @@ TradeTab.prototype.angular = function(module)
       $scope.order.sell.showWidget = canSell;
     };
 
-    $scope.$watchCollection('newBook', function () {
-      if (!jQuery.isEmptyObject($scope.newBook) && $scope.newBook.ready) {
-        $scope.book = $scope.newBook;
-        $scope.editOrder.orderbookReady = true;
+    var updateTypeBook = function (type, newValues) {
+      if (!newValues.length) return;
 
-        lastUpdate = new Date();
+      lastUpdate = new Date();
 
-        clearInterval(timer);
-        timer = setInterval(function(){
-          $scope.$apply(function(){
-            var seconds = Math.round((new Date() - lastUpdate) / 1000);
-            $scope.lastUpdate = seconds || 0;
-          });
-        }, 1000);
-
-        ['asks','bids'].forEach(function(type){
-          if ($scope.newBook[type]) {
-            $scope.newBook[type].forEach(function(order){
-              order.showSum = rpamountFilter(order.sum,OrderbookFilterOpts);
-              order.showPrice = rpamountFilter(order.price,OrderbookFilterOpts);
-
-              var showValue = type === 'bids' ? 'TakerPays' : 'TakerGets';
-              order['show' + showValue] = rpamountFilter(order[showValue],OrderbookFilterOpts);
-            });
-            $scope.load_orderbook = false;
-          }
+      clearInterval(timer);
+      timer = setInterval(function(){
+        $scope.$apply(function(){
+          var seconds = Math.round((new Date() - lastUpdate) / 1000);
+          $scope.lastUpdate = seconds || 0;
         });
+      }, 1000);
 
-        if ($scope.book && $scope.book.bids && $scope.book.bids.length && $scope.book.asks && $scope.book.asks.length) {
-          $scope.priceTicker.bid = rpamountFilter($scope.book.bids[0].price, OrderbookTickerFilterOpts);
-          $scope.priceTicker.ask = rpamountFilter($scope.book.asks[0].price, OrderbookTickerFilterOpts);
-          $scope.priceTicker.spread = rpamountFilter($scope.book.asks[0].price.subtract($scope.book.bids[0].price), OrderbookTickerFilterOpts);
-        }
+      var newValuesLength = newValues.length;
+
+      for (i = 0; i < newValuesLength; i++) {
+        newValues[i].showSum = rpamountFilter(newValues[i].sum, OrderbookFilterOpts);
+        newValues[i].showPrice = rpamountFilter(newValues[i].price, OrderbookFilterOpts);
+
+        var showValue = type === 'bids' ? 'TakerPays' : 'TakerGets';
+        newValues[i]['show' + showValue] = rpamountFilter(newValues[i][showValue], OrderbookFilterOpts);
       }
+
+      $scope.load_orderbook = false;
+
+      $scope.priceTicker[type] = rpamountFilter(newValues[0].price, OrderbookTickerFilterOpts);
+
+      $scope.book = $scope.newBook;
+
+      if ($scope.newBook.ready) {
+        $scope.editOrder.orderbookReady = true;
+        $scope.priceTicker.spread = rpamountFilter($scope.book.asks[0].price.subtract($scope.book.bids[0].price), OrderbookTickerFilterOpts);
+      }
+    };
+
+    $scope.$watchCollection('newBook.asks', function (newValues) {
+      updateTypeBook('asks', newValues)
+    });
+
+    $scope.$watchCollection('newBook.bids', function (newValues) {
+      updateTypeBook('bids', newValues)
     });
 
     /**
