@@ -45,9 +45,9 @@ section.col-xs-12.content(ng-controller="RecoverCtrl")
             name='password1', type='password', autocomplete="off"
             ng-model="password1"
             rp-strong-password, required, rp-focus, rp-same-in-set="passwordSet")
-          p(ng-show="strength=='weak'")
+          p.error(ng-show="strength=='weak'")
             span(l10n) Your password is weak. It does not contain numbers and symbols or it is too short.
-          p(ng-show="strength=='match'")
+          p.error(ng-show="strength=='match'")
             span(l10n) Your Ripple name and password cannot match. Please create a new password.
         .form-group(ng-class="{'field-error': setPasswordForm.password1.$error.rpSameInSet && setPasswordForm.password2.$dirty}")
           label(for='password2', l10n) Confirm password
@@ -55,7 +55,7 @@ section.col-xs-12.content(ng-controller="RecoverCtrl")
             name='password2', autocomplete="off", type='password'
             ng-model="password2"
             required, rp-same-in-set="passwordSet")
-          p(ng-show="setPasswordForm.password1.$error.rpSameInSet && setPasswordForm.password2.$dirty")
+          p.error(ng-show="setPasswordForm.password1.$error.rpSameInSet && setPasswordForm.password2.$dirty")
             span(l10n) Passwords do not match
         .error.text-center(ng-show="passwordError")
           div(l10n) Unable to change your account password.
