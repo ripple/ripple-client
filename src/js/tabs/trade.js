@@ -1465,7 +1465,7 @@ TradeTab.prototype.angular = function(module)
       contactsWatcher();
     }, true);
 
-    $scope.$watchCollection('offers', function(){
+    var offersUpdate = function(){
       $scope.offersCount = _.size($scope.offers);
 
       if ($scope.offersCount) {
@@ -1490,7 +1490,11 @@ TradeTab.prototype.angular = function(module)
           }
         }
       }
-    });
+    };
+
+    offersUpdate();
+
+    $scope.$on('$offersUpdate', offersUpdate);
 
     $scope.reset();
 
