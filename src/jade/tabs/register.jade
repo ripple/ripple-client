@@ -234,4 +234,5 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
           .reSend(ng-click="resendEmail()", type="submit"
             ng-disabled="resendForm.$invalid || resendLoading")
             img(src="img/button-s.png", class="loader", ng-show="resendLoading")
-            span(class="loading_text", l10n) Re-send Email
+            div(class="loading_text") 
+              a.btn.btn-cancel(l10n) Re-send Email
