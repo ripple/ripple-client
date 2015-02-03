@@ -1,8 +1,8 @@
 {
   "name": "ripple-client",
   "dependencies": {
-    "ripple": "~0.11.0-rc2",
-    "ripple-vault-client": "~0.4.5",
+    "ripple": "~0.11.0",
+    "ripple-vault-client": "~0.4.7",
     "angular": "~1.2.23",
     "angular-route": "~1.2.23",
     "angular-mocks": "~1.2.23",
