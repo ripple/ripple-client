@@ -678,16 +678,24 @@ function AppCtrl ($scope, id, net, keychain, txQueue, appManager, rpTracker,
     $scope.currencies_all_keyed[currency.value] = currency;
   });
 
-  $scope.$watch('currencies_all', function(){
+  var currenciesAllWatcher = $scope.$watch('currencies_all', function(){
+    if (!$scope.currencies_all.length) return;
+
     if (!store.disabled) {
       store.set('ripple_currencies_all',$scope.currencies_all);
     }
+
+    currenciesAllWatcher();
   }, true);
 
-  $scope.$watch('pairs_all', function(){
+  var pairsAllWatcher = $scope.$watch('pairs_all', function(){
+    if (!$scope.pairs_all.length) return;
+
     if (!store.disabled) {
       store.set('ripple_pairs_all',$scope.pairs_all);
     }
+
+    pairsAllWatcher();
   }, true);
 
   $scope.pairs = $scope.pairs_all.slice(1);
