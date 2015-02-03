@@ -134,7 +134,7 @@ LoginTab.prototype.angular = function (module) {
             //save credentials for login
             id.storeLoginKeys($scope.twoFactor.blob_url, username, keys);
             id.setUsername(username);
-            store.set('device_id', $scope.twoFactor.device_id);
+            id.setDeviceID(username, $scope.twoFactor.device_id);
             setImmediate(login);
           }
         });
