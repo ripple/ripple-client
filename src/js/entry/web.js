@@ -11,6 +11,7 @@ require('../directives/accountExists.js');
 require('../directives/events');
 require('../directives/formatters');
 require('../directives/directives');
+require('../directives/addressPopover.js');
 require('../directives/datalinks');
 require('../directives/errors');
 require('../directives/marketchart');
