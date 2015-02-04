@@ -33,6 +33,7 @@ module.exports = function(grunt) {
               'deps/js/angular/angular.js',
               'deps/js/angular-route/angular-route.js',
               'deps/js/store.js/store.js',
+              'deps/js/d3/d3.js',
               'deps/js/ripple/ripple-debug.js',
               'deps/js/ripple-sjcl.js',
               'deps/js/moment/moment.js',
@@ -44,7 +45,9 @@ module.exports = function(grunt) {
               'deps/js/bootstrap-datepicker.js',
               'deps/js/spin.js/spin.js',
               'deps/js/snapjs/snap.js',
-              'deps/js/ng-sortable/dist/ng-sortable.js'];
+              'deps/js/ng-sortable/dist/ng-sortable.js',
+              'deps/js/charts/ticker.js',
+              'deps/js/charts/pricechart.js'];
 
   var compatIE = ['compat/ie/base64/base64.js',
                   'compat/ie/ws/web_socket.js',
