@@ -455,7 +455,8 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                 .col-md-1.type(l10n-data-label="Type")
                   span.rp-hidden-md.rp-hidden-lg {{entry.type | rpucfirst}}
                   span.rp-hidden-xs.rp-hidden-sm {{entry.type | rptruncate:1}}
-                .col-md-2.amount.rpamount(l10n-data-label="QTY",
+                .col-md-2.amount.rpamount(l10n-data-label="QTY"
+                  rp-address-popover, rp-address-popover-sum="entry.first"
                   ng-hide="editOrder.seq == entry.seq") {{entry.first | rpamount:{hard_precision: true, precision: 6, tiny_precision: 6} }}
                 .col-md-2(l10n-data-label="BASE", ng-hide="editOrder.seq == entry.seq")
                   a(href="",ng-click="goto_order_currency()")
@@ -475,7 +476,8 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                         rp-pretty-issuer="entry.second.issuer().to_json()"
                         rp-pretty-issuer-contacts="userBlob.data.contacts"
                       ) ???
-                .col-md-2.price.rpamount(l10n-data-label="Limit",
+                .col-md-2.price.rpamount(l10n-data-label="Limit"
+                  rp-address-popover, rp-address-popover-sum="entry.second | rpamountratio:entry.first"
                   ng-hide="editOrder.seq == entry.seq") {{entry.second | rpamountratio:entry.first | rpamount:{hard_precision: true, precision: 6, tiny_precision: 6} }}
                 //- .col-md-2.action(l10n-data-label="Time placed(UTC)", ng-hide="editOrder.seq == entry.seq") ...
                 .col-md-3.action(ng-hide="editOrder.seq == entry.seq")
@@ -631,11 +633,11 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
 
                   .row(ng-repeat='order in bookShow.bids track by order.index'
                     ng-class="{my: order.my, cancelling: cancelling}")
-                    .col-xs-4.rpamount.sum
+                    .col-xs-4.rpamount.sum(rp-address-popover="order.Account", rp-address-popover-link-to-charts)
                       a(href="", ng-click="fill_widget('sell', order, true)")
                         span(rp-bind-color-amount="order.showSum")
-                    .col-xs-4.rpamount.size(rp-bind-color-amount="order.showTakerPays")
-                    .col-xs-4.rpamount.price
+                    .col-xs-4.rpamount.size(rp-bind-color-amount="order.showTakerPays", rp-address-popover="order.Account", rp-address-popover-link-to-charts)
+                    .col-xs-4.rpamount.price(rp-address-popover="order.Account", rp-address-popover-link-to-charts)
                       a(href="", ng-click="fill_widget('sell', order, true)", ng-bind="order.showPrice")
 
                   .message(ng-show='!bookShow.bids.length', l10n) There are currently no bids for this pair.
@@ -667,10 +669,10 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
 
                   .row(ng-repeat='order in bookShow.asks track by order.index'
                     ng-class="{my: order.my, cancelling: cancelling}")
-                    .col-xs-4.rpamount.price
+                    .col-xs-4.rpamount.price(rp-address-popover="order.Account", rp-address-popover-link-to-charts)
                       a(href="", ng-click="fill_widget('buy', order, true)", ng-bind="order.showPrice")
-                    .col-xs-4.rpamount.size(rp-bind-color-amount="order.showTakerGets")
-                    .col-xs-4.rpamount.sum
+                    .col-xs-4.rpamount.size(rp-bind-color-amount="order.showTakerGets", rp-address-popover="order.Account", rp-address-popover-link-to-charts)
+                    .col-xs-4.rpamount.sum(rp-address-popover="order.Account", rp-address-popover-link-to-charts)
                       a(href=""
                         ng-click="fill_widget('buy', order, true)")
                         span(rp-bind-color-amount="order.showSum")
