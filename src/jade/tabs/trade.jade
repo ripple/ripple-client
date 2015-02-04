@@ -629,12 +629,11 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                         rp-pretty-issuer-or-short)
                   .row(ng-repeat='order in book.bids', ng-class="{my: order.my, cancelling: cancelling}")
                     .col-xs-4.rpamount.sum
-                      a(href=""
-                        ng-click="fill_widget('sell',order,true)")
+                      a(href="", ng-click="fill_widget('sell', order, true)")
                         span(rp-bind-color-amount="order.showSum")
                     .col-xs-4.rpamount.size(rp-bind-color-amount="order.showTakerPays")
                     .col-xs-4.rpamount.price
-                      a(href="", ng-click="fill_widget('sell',order,true)") {{ order.showPrice }}
+                      a(href="", ng-click="fill_widget('sell', order, true)", ng-bind="order.showPrice")
                   .message(ng-show='!book.bids.length', l10n) There are currently no bids for this pair.
                 .asks.col-xs-12.col-lg-6
                   .title(l10n) Asks
@@ -662,11 +661,11 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                         rp-pretty-issuer-or-short)
                   .row(ng-repeat='order in book.asks', ng-class="{my: order.my, cancelling: cancelling}")
                     .col-xs-4.rpamount.price
-                      a(href="", ng-click="fill_widget('buy',order,true)") {{ order.showPrice }}
+                      a(href="", ng-click="fill_widget('buy', order, true)", ng-bind="order.showPrice")
                     .col-xs-4.rpamount.size(rp-bind-color-amount="order.showTakerGets")
                     .col-xs-4.rpamount.sum
                       a(href=""
-                        ng-click="fill_widget('buy',order,true)")
+                        ng-click="fill_widget('buy', order, true)")
                         span(rp-bind-color-amount="order.showSum")
                   .message(ng-show='!book.asks.length', l10n) There are currently no asks for this pair.
             .foot
