@@ -1367,11 +1367,15 @@ TradeTab.prototype.angular = function(module)
     };
 
     $scope.$watch('newBook.asksLastUpdate', function () {
-      updateTypeBook('asks', $scope.newBook.asks)
+      if ($scope.newBook) {
+        updateTypeBook('asks', $scope.newBook.asks)
+      }
     });
 
     $scope.$watch('newBook.bidsLastUpdate', function () {
-      updateTypeBook('bids', $scope.newBook.bids)
+      if ($scope.newBook) {
+        updateTypeBook('bids', $scope.newBook.bids)
+      }
     });
 
     /**
