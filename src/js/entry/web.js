@@ -46,7 +46,6 @@ require('../services/integration/inboundBridge');
 
 // Angular module dependencies
 var appDependencies = [
-  'ng',
   'ngRoute',
   // Controllers
   'app',
@@ -196,10 +195,9 @@ function Config ($routeProvider, $injector) {
   $routeProvider.otherwise({redirectTo: '/404'});
 }
 
-Run.$inject = ['$rootScope', '$injector', '$compile', '$route',
-  '$routeParams', '$location', '$document', 'rpId'];
+Run.$inject = ['$rootScope', '$route', '$routeParams', '$location'];
 
-function Run ($rootScope, $injector, $compile, $route, $routeParams, $location, $document, id)
+function Run ($rootScope, $route, $routeParams, $location)
 {
   $rootScope.productName = 'Ripple Trade';
 

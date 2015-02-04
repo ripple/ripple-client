@@ -3,9 +3,9 @@
   "dependencies": {
     "ripple": "~0.10.0",
     "ripple-vault-client": "~0.4.7",
-    "angular": "~1.2.23",
-    "angular-route": "~1.2.23",
-    "angular-mocks": "~1.2.23",
+    "angular": "~1.3.12",
+    "angular-route": "~1.3.12",
+    "angular-mocks": "~1.3.12",
     "underscore": "~1.7.0",
     "moment": "~2.8.2",
     "jquery": "~2.1.1",
@@ -17,6 +17,6 @@
     "d3": "~3.5.3"
   },
   "resolutions": {
-    "angular": "~1.2.23"
+    "angular": "~1.3.12"
   }
 }
