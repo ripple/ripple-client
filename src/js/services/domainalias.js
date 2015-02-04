@@ -16,8 +16,7 @@ var module = angular.module('domainalias', ['network', 'rippletxt']);
 module.factory('rpDomainAlias', ['$q', '$rootScope', 'rpNetwork', 'rpRippleTxt',
                                  function ($q, $scope, net, txt)
 {
-  // Alias caching
-  var aliases = {};
+  var promises = {};
 
   /**
    * Validates a domain against an object parsed from ripple.txt data.
@@ -48,41 +47,23 @@ module.factory('rpDomainAlias', ['$q', '$rootScope', 'rpNetwork', 'rpRippleTxt',
 
   function getAliasForAddress(address)
   {
-    // Return the promise if there's already a lookup in progress for this address
-    // Commenting for now.. There's a ripple-lib problem we need to fix first.
-    //if (aliases[address] && aliases[address].promise) {
-    //  return aliases[address].promise;
-    //}
+    if (promises[address]) {
+      return promises[address];
+    }
 
     var aliasPromise = $q.defer();
 
-    // We might already have the alias for given ripple address
-    if (aliases[address] && aliases[address].resolved) {
-      if (aliases[address].domain) {
-        aliasPromise.resolve(aliases[address].domain);
-      }
-      else {
-        aliasPromise.reject(new Error("Invalid domain"));
-      }
-    }
+    net.remote.requestAccountInfo({account: address})
+      .on('success', function (data) {
+        if (data.account_data.Domain) {
+          $scope.$apply(function () {
+            var domain = sjcl.codec.utf8String.fromBits(sjcl.codec.hex.toBits(data.account_data.Domain));
 
-    // If not, then get the alias
-    else {
-      net.remote.requestAccountInfo({account: address})
-        .on('success', function (data) {
-          if (data.account_data.Domain) {
-            $scope.$apply(function () {
-              var domain = sjcl.codec.utf8String.fromBits(sjcl.codec.hex.toBits(data.account_data.Domain));
-
-              var txtData = txt.get(domain);
-              txtData.then(
+            txt
+              .get(domain)
+              .then(
                 function (data) {
-                  aliases[address] = {
-                    resolved: true
-                  };
-
-                  if(validateDomain(domain, address, data)) {
-                    aliases[address].domain = domain;
+                  if (validateDomain(domain, address, data)) {
                     aliasPromise.resolve(domain);
                   }
                   else {
@@ -90,41 +71,21 @@ module.factory('rpDomainAlias', ['$q', '$rootScope', 'rpNetwork', 'rpRippleTxt',
                   }
                 },
                 function (error) {
-                  aliases[address] = {
-                    resolved: true
-                  };
                   aliasPromise.reject(new Error(error));
                 }
               );
-            });
-          }
-          else {
-            aliases[address] = {
-              resolved: true
-            };
-            aliasPromise.reject(new Error("No domain found"));
-          }
-        })
-        .on('error', function () {
+          });
+        }
+        else {
           aliasPromise.reject(new Error("No domain found"));
-        })
-        .request();
+        }
+      })
+      .on('error', function () {
+        aliasPromise.reject(new Error("No domain found"));
+      })
+      .request();
 
-      // Because finally is a reserved word in JavaScript and reserved keywords
-      // are not supported as property names by ES3, we're invoking the
-      // method like aliasPromise['finally'](callback) to make our code
-      // IE8 and Android 2.x compatible.
-      aliasPromise.promise['finally'](function(){
-        aliases[address].promise = false;
-      });
-
-      aliases[address] = {
-        promise: aliasPromise.promise
-      };
-
-    }
-
-    return aliasPromise.promise;
+    return promises[address] = aliasPromise.promise;
   }
 
   return {
