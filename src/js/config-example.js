@@ -86,7 +86,7 @@ var Options = {
   gateway_max_limit: 1000000000,
 
   ticker: {
-    markets: [ 
+    markets: [
       {
         base: {currency: "XRP"},
         counter: {currency: "USD", issuer: "rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q"}
@@ -105,7 +105,7 @@ var Options = {
       },
       {
         base: {currency: "XRP"},
-        counter: {currency: "JPY", issuer: "rMAz5ZnK73nyNUL4foAvaxdreczCkG3vA6"},
+        counter: {currency: "JPY", issuer: "rMAz5ZnK73nyNUL4foAvaxdreczCkG3vA6"}
       },
       {
         base: {currency: "XRP"},
@@ -113,13 +113,13 @@ var Options = {
       },
       {
         base: {currency: "XRP"},
-        counter: {currency: "KRW", issuer: "rUkMKjQitpgAM5WTGk79xpjT38DEJY283d"},
+        counter: {currency: "KRW", issuer: "rUkMKjQitpgAM5WTGk79xpjT38DEJY283d"}
       },
       {
         base: {currency: "XRP"},
-        counter: {currency: "EUR", issuer: "rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q"},
+        counter: {currency: "EUR", issuer: "rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q"}
       }
-    ]   
+    ]
   }
 };
 
