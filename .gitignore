@@ -23,6 +23,7 @@ deps/js/snapjs/
 deps/js/angular-bootstrap/
 deps/js/ripple-vault-client
 deps/js/ng-sortable/
+deps/js/d3/
 
 # Ignore coverage files
 /coverage
