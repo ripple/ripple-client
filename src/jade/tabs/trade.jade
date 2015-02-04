@@ -481,8 +481,8 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                 .col-md-3.action(ng-hide="editOrder.seq == entry.seq")
                   img(src="img/button-s.png", class="loader", ng-show="entry.cancelling")
                   rp-popup.fa.pull-right
-                    a.btn.btn-block.btn-cancel.btn-cancel-order.btn-a-sm.pull-right(rp-popup-link, ng-disabled="entry.cancelling || editOrder.replacing"
-                      rp-tooltip="Cancel order", l10n) cancel
+                    a.btn.btn-block.btn-cancel.btn-cancel-order.btn-a-sm.pull-right(rp-popup-link
+                    ng-disabled="entry.cancelling || editOrder.replacing", l10n) cancel
                     .rp-modal(rp-popup-content)
                       .modal-header
                         .navbar-brand.hidden-xs.modal-logo#logo
@@ -523,7 +523,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                           button.modal-btn.btn.btn-default.btn-success.btn-md(data-dismiss="modal", ng-click="cancel_order()")
                             span(l10n) Cancel order
                           button.modal-btn.btn.btn-cancel.btn-md.btn-cancel(data-dismiss="modal", l10n) back
-                  a.pull-right.btn.btn-cancel.btn-a-sm(href="", l10n, ng-click="beginEditOrder()", rp-tooltip="Edit order"
+                  a.pull-right.btn.btn-cancel.btn-a-sm(href="", l10n, ng-click="beginEditOrder()",
                     ng-hide="entry.cancelling", ng-disabled="entry.cancelling || editOrder.replacing || editOrder.cancelling"
                     ) edit
                 div(ng-show="editOrder.seq == entry.seq")
