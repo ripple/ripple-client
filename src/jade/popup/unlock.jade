@@ -1,11 +1,12 @@
-form(role="form", ng-submit="confirm()", ng-keyup="onKeyUp($event)")
+form(name="unlockForm", role="form", ng-submit="confirm()", ng-keyup="onKeyUp($event)")
   .modal-header(l10n) Unlock account
   .modal-body
     .form-group
       label(for="popup_unlock_password", l10n) Password
       input.form-control#popup_unlock_password(
         type="password", name="popup_unlock_password"
-        ng-model="unlock.password", rp-focus)
+        ng-model="unlock.password", ng-model-options="{ debounce: 300 }",
+        required, rp-focus)
     p.help-block(ng-switch on="unlock.purpose")
       span(ng-switch-when="showSecret", l10n) Please enter your password to show your secret key.
       span(ng-switch-default, l10n) Please enter your password to confirm this transaction.
@@ -15,5 +16,5 @@ form(role="form", ng-submit="confirm()", ng-keyup="onKeyUp($event)")
       span(class="loading_text", l10n) Confirming password
   .modal-footer
     .unlock-btns-wrapper
-      button.btn.btn-primary.modal-submit-btn(type="submit", ng-disabled="isConfirming", l10n) Submit
+      button.btn.btn-primary.modal-submit-btn(type="submit", ng-disabled="unlockForm.$invalid || isConfirming", l10n) Submit
       button.btn.btn-default.modal-close-btn(type="button", ng-click="cancel()", l10n) Close

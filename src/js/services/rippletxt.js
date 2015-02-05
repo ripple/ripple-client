@@ -10,46 +10,41 @@
 
 var module = angular.module('rippletxt', []);
 
-module.factory('rpRippleTxt', ['$q', '$rootScope',
-                               function ($q, $scope) {
-  var txts = {};
+module.factory('rpRippleTxt', ['$q', '$rootScope', '$http', function ($q, $scope, $http) {
+  var promises = {};
 
   function get(domain) {
+    if (promises[domain]) {
+      return promises[domain];
+    }
+
     var txtPromise = $q.defer();
 
+    // TODO at some point we should only allow one of these
     var urls = [
-      'https://ripple.'+domain+'/ripple.txt',
-      'https://www.'+domain+'/ripple.txt',
-      'https://'+domain+'/ripple.txt'
+      'https://www.' + domain + '/ripple.txt',
+      'https://' + domain + '/ripple.txt',
+      'https://ripple.' + domain + '/ripple.txt'
     ].reverse();
-    var next = function (xhr, status) {
+
+    var next = function () {
       if (!urls.length) {
         txtPromise.reject(new Error("No ripple.txt found"));
         return;
       }
+
       var url = urls.pop();
-      $.ajax({
-        url: url,
-        dataType: 'text',
-        success: function (data) {
-          $scope.$apply(function() {
-            var sections = parse(data);
-            txts[domain] = sections;
-            txtPromise.resolve(sections);
-          });
-        },
-        error: function (xhr, status) {
-          setImmediate(function () {
-            $scope.$apply(function () {
-              next(xhr, status);
-            });
-          });
-        }
-      });
+
+      $http.get(url)
+        .success(function(data) {
+          txtPromise.resolve(parse(data));
+        })
+        .error(next);
     };
+
     next();
 
-    return txtPromise.promise;
+    return promises[domain] = txtPromise.promise;
   }
 
   function parse(txt) {
@@ -62,10 +57,12 @@ module.factory('rpRippleTxt', ['$q', '$rootScope',
       var line = txt[i];
       if (!line.length || line[0] === '#') {
         continue;
-      } else if (line[0] === '[' && line[line.length-1] === ']') {
-        currentSection = line.slice(1, line.length-1);
+      }
+      else if (line[0] === '[' && line[line.length - 1] === ']') {
+        currentSection = line.slice(1, line.length - 1);
         sections[currentSection] = [];
-      } else {
+      }
+      else {
         line = line.replace(/^\s+|\s+$/g, '');
         if (sections[currentSection]) {
           sections[currentSection].push(line);

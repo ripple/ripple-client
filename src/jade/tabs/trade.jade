@@ -481,8 +481,8 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                 .col-md-3.action(ng-hide="editOrder.seq == entry.seq")
                   img(src="img/button-s.png", class="loader", ng-show="entry.cancelling")
                   rp-popup.fa.pull-right
-                    a.btn.btn-block.btn-cancel.btn-cancel-order.btn-a-sm.pull-right(rp-popup-link, ng-disabled="entry.cancelling || editOrder.replacing"
-                      rp-tooltip="Cancel order", l10n) cancel
+                    a.btn.btn-block.btn-cancel.btn-cancel-order.btn-a-sm.pull-right(rp-popup-link
+                    ng-disabled="entry.cancelling || editOrder.replacing", l10n) cancel
                     .rp-modal(rp-popup-content)
                       .modal-header
                         .navbar-brand.hidden-xs.modal-logo#logo
@@ -523,7 +523,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                           button.modal-btn.btn.btn-default.btn-success.btn-md(data-dismiss="modal", ng-click="cancel_order()")
                             span(l10n) Cancel order
                           button.modal-btn.btn.btn-cancel.btn-md.btn-cancel(data-dismiss="modal", l10n) back
-                  a.pull-right.btn.btn-cancel.btn-a-sm(href="", l10n, ng-click="beginEditOrder()", rp-tooltip="Edit order"
+                  a.pull-right.btn.btn-cancel.btn-a-sm(href="", l10n, ng-click="beginEditOrder()",
                     ng-hide="entry.cancelling", ng-disabled="entry.cancelling || editOrder.replacing || editOrder.cancelling"
                     ) edit
                 div(ng-show="editOrder.seq == entry.seq")
@@ -603,72 +603,79 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
               //- TODO hide one column (size/sum) to show bids/ask in the same line for mobile phones.
               //- TODO highlight changes
               .row.orderbook
+
                 .bids.col-xs-12.col-lg-6
                   .title(l10n) Bids
-                  .row.head(ng-show="book.bids.length")
+                  .row.head(ng-show="bookShow.bids.length")
                     .col-xs-4.sum(l10n) Sum
-                      .currency {{book.bids[0].TakerPays | rpcurrency}}
+                      .currency {{bookShow.bids[0].TakerPays | rpcurrency}}
                       .issuer(
-                        ng-show="(book.bids[0].TakerPays | rpcurrency) !== 'XRP'"
-                        rp-pretty-issuer="book.bids[0].TakerPays | rpissuer"
+                        ng-show="(bookShow.bids[0].TakerPays | rpcurrency) !== 'XRP'"
+                        rp-pretty-issuer="bookShow.bids[0].TakerPays | rpissuer"
                         rp-pretty-issuer-contacts="userBlob.data.contacts"
                         rp-pretty-issuer-or-short)
                     .col-xs-4.size(l10n) Size
-                      .currency {{book.bids[0].TakerPays | rpcurrency}}
+                      .currency {{bookShow.bids[0].TakerPays | rpcurrency}}
                       .issuer(
-                        ng-show="(book.bids[0].TakerPays | rpcurrency) !== 'XRP'"
-                        rp-pretty-issuer="book.bids[0].TakerPays | rpissuer"
+                        ng-show="(bookShow.bids[0].TakerPays | rpcurrency) !== 'XRP'"
+                        rp-pretty-issuer="bookShow.bids[0].TakerPays | rpissuer"
                         rp-pretty-issuer-contacts="userBlob.data.contacts"
                         rp-pretty-issuer-or-short)
                     .col-xs-4.price(l10n) Bid Price
-                      .currency {{book.bids[0].TakerGets | rpcurrency}}
+                      .currency {{bookShow.bids[0].TakerGets | rpcurrency}}
                       .issuer(
-                        ng-show="(book.bids[0].TakerGets | rpcurrency) !== 'XRP'"
-                        rp-pretty-issuer="book.bids[0].TakerGets | rpissuer"
+                        ng-show="(bookShow.bids[0].TakerGets | rpcurrency) !== 'XRP'"
+                        rp-pretty-issuer="bookShow.bids[0].TakerGets | rpissuer"
                         rp-pretty-issuer-contacts="userBlob.data.contacts"
                         rp-pretty-issuer-or-short)
-                  .row(ng-repeat='order in book.bids', ng-class="{my: order.my, cancelling: cancelling}")
-                    .col-xs-4.rpamount.sum(rp-address-popover="order.Account", rp-address-popover-link-to-charts)
-                      a(href=""
-                        ng-click="fill_widget('sell',order,true)")
+
+                  .row(ng-repeat='order in bookShow.bids track by order.index'
+                    ng-class="{my: order.my, cancelling: cancelling}")
+                    .col-xs-4.rpamount.sum
+                      a(href="", ng-click="fill_widget('sell', order, true)")
                         span(rp-bind-color-amount="order.showSum")
-                    .col-xs-4.rpamount.size(rp-bind-color-amount="order.showTakerPays", rp-address-popover="order.Account", rp-address-popover-link-to-charts)
-                    .col-xs-4.rpamount.price(rp-address-popover="order.Account", rp-address-popover-link-to-charts)
-                      a(href="", ng-click="fill_widget('sell',order,true)") {{ order.showPrice }}
-                  .message(ng-show='!book.bids.length', l10n) There are currently no bids for this pair.
+                    .col-xs-4.rpamount.size(rp-bind-color-amount="order.showTakerPays")
+                    .col-xs-4.rpamount.price
+                      a(href="", ng-click="fill_widget('sell', order, true)", ng-bind="order.showPrice")
+
+                  .message(ng-show='!bookShow.bids.length', l10n) There are currently no bids for this pair.
+
                 .asks.col-xs-12.col-lg-6
                   .title(l10n) Asks
-                  .row.head(ng-show="book.asks.length")
+                  .row.head(ng-show="bookShow.asks.length")
                     .col-xs-4.price(l10n) Ask Price
-                      .currency {{book.asks[0].TakerPays | rpcurrency}}
+                      .currency {{bookShow.asks[0].TakerPays | rpcurrency}}
                       .issuer(
-                        ng-show="(book.asks[0].TakerPays | rpcurrency) !== 'XRP'"
-                        rp-pretty-issuer="book.asks[0].TakerPays | rpissuer"
+                        ng-show="(bookShow.asks[0].TakerPays | rpcurrency) !== 'XRP'"
+                        rp-pretty-issuer="bookShow.asks[0].TakerPays | rpissuer"
                         rp-pretty-issuer-contacts="userBlob.data.contacts"
                         rp-pretty-issuer-or-short)
                     .col-xs-4.size(l10n) Size
-                      .currency {{book.asks[0].TakerGets | rpcurrency}}
+                      .currency {{bookShow.asks[0].TakerGets | rpcurrency}}
                       .issuer(
-                        ng-show="(book.asks[0].TakerGets | rpcurrency) !== 'XRP'"
-                        rp-pretty-issuer="book.asks[0].TakerGets | rpissuer"
+                        ng-show="(bookShow.asks[0].TakerGets | rpcurrency) !== 'XRP'"
+                        rp-pretty-issuer="bookShow.asks[0].TakerGets | rpissuer"
                         rp-pretty-issuer-contacts="userBlob.data.contacts"
                         rp-pretty-issuer-or-short)
                     .col-xs-4.sum(l10n) Sum
-                      .currency {{book.asks[0].TakerGets | rpcurrency}}
+                      .currency {{bookShow.asks[0].TakerGets | rpcurrency}}
                       .issuer(
-                        ng-show="(book.asks[0].TakerGets | rpcurrency) !== 'XRP'"
-                        rp-pretty-issuer="book.asks[0].TakerGets | rpissuer"
+                        ng-show="(bookShow.asks[0].TakerGets | rpcurrency) !== 'XRP'"
+                        rp-pretty-issuer="bookShow.asks[0].TakerGets | rpissuer"
                         rp-pretty-issuer-contacts="userBlob.data.contacts"
                         rp-pretty-issuer-or-short)
-                  .row(ng-repeat='order in book.asks', ng-class="{my: order.my, cancelling: cancelling}")
-                    .col-xs-4.rpamount.price(rp-address-popover="order.Account", rp-address-popover-link-to-charts)
-                      a(href="", ng-click="fill_widget('buy',order,true)") {{ order.showPrice }}
-                    .col-xs-4.rpamount.size(rp-bind-color-amount="order.showTakerGets", rp-address-popover="order.Account", rp-address-popover-link-to-charts)
-                    .col-xs-4.rpamount.sum(rp-address-popover="order.Account", rp-address-popover-link-to-charts)
+
+                  .row(ng-repeat='order in bookShow.asks track by order.index'
+                    ng-class="{my: order.my, cancelling: cancelling}")
+                    .col-xs-4.rpamount.price
+                      a(href="", ng-click="fill_widget('buy', order, true)", ng-bind="order.showPrice")
+                    .col-xs-4.rpamount.size(rp-bind-color-amount="order.showTakerGets")
+                    .col-xs-4.rpamount.sum
                       a(href=""
-                        ng-click="fill_widget('buy',order,true)")
+                        ng-click="fill_widget('buy', order, true)")
                         span(rp-bind-color-amount="order.showSum")
-                  .message(ng-show='!book.asks.length', l10n) There are currently no asks for this pair.
+
+                  .message(ng-show='!bookShow.asks.length', l10n) There are currently no asks for this pair.
             .foot
-              a.loadmore(ng-show="orderbookState=='ready' && (book.asks.length || book.bids.length)", href="", ng-click="loadMore()", l10n) Load more
+              a.loadmore(ng-show="orderbookState=='ready' && (bookShow.asks.length || bookShow.bids.length)", href="", ng-click="loadMore()", l10n) Load more
               div(ng-show="orderbookState=='full'", l10n) No more orders
