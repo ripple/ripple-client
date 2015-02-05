@@ -139,6 +139,8 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
           a(href="#/xrp", l10n) Fund
         li(ng-class="{active: $route.current.tabName == 'withdraw'}")
           a(href="#/withdraw", l10n) Withdraw
-  div.auth-attention.banner.text-center(ng-if="recovered", ng-show="recovered")
-    h4(l10n) Your account was successfully recovered and encrypted with the new password you provided!
-    a(href="#", ng-click="recovered = false", l10n) dismiss
+  .container.recover-status-wrapper.text-center.ng-scope(ng-if='recovered', ng-show='recovered')
+    .alert.alert-info
+        h4.tx-status(l10n='l10n')
+          | Your account was successfully recovered and encrypted with the new password you provided!
+        a.dismiss(href='#', ng-click='recovered = false', l10n='l10n') &times;
