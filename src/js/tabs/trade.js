@@ -383,7 +383,14 @@ TradeTab.prototype.angular = function(module)
 
       if (widgetOnly) return;
 
-      updateSettings();
+      // Update widgets
+      ['buy','sell'].forEach(function(type){
+        $scope.update_first(type);
+        $scope.update_price(type);
+        $scope.update_second(type);
+      });
+
+      updateCanBuySell();
       //updateMRU();
     };
 
@@ -1374,7 +1381,7 @@ TradeTab.prototype.angular = function(module)
 
       if ($scope.book.ready) {
         $scope.editOrder.orderbookReady = true;
-        $scope.priceTicker.spread = rpamountFilter($scope.bookShow.asks[0].price.subtract($scope.bookShow.bids[0].price), OrderbookTickerFilterOpts);
+        $scope.priceTicker.spread = rpamountFilter($scope.book.asks[0].price.subtract($scope.book.bids[0].price), OrderbookTickerFilterOpts);
       }
     };
 
