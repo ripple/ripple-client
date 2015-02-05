@@ -809,8 +809,8 @@ TradeTab.prototype.angular = function(module)
       var fatFingerMarginMultiplier = 1.1;  // i.e. 10%
       var bestPrice;
 
-      if (type === 'buy') bestPrice = $scope.newBook.bids[0].showPrice;
-      else if (type === 'sell') bestPrice = $scope.newBook.asks[0].showPrice;
+      if (type === 'buy') bestPrice = $scope.bookShow.bids[0].showPrice;
+      else if (type === 'sell') bestPrice = $scope.bookShow.asks[0].showPrice;
       bestPrice = +bestPrice.replace(',','');
 
       return (bestPrice &&
@@ -959,6 +959,11 @@ TradeTab.prototype.angular = function(module)
     function updateSettings() {
       var order = $scope.order;
       var pair = order.currency_pair;
+
+      $scope.bookShow = {
+        asks: [],
+        bids: []
+      };
 
       if (!store.disabled) {
         store.set('ripple_trade_currency_pair', pair);
@@ -1120,7 +1125,7 @@ TradeTab.prototype.angular = function(module)
 
         order.prev_settings = key;
       }
-      else if ($scope.newBook.ready) $scope.editOrder.orderbookReady = true;
+      else if ($scope.book.ready) $scope.editOrder.orderbookReady = true;
 
       // Update widgets
       ['buy','sell'].forEach(function(type){
@@ -1278,28 +1283,34 @@ TradeTab.prototype.angular = function(module)
 
     function loadOffers() {
       // Make sure we unsubscribe from any previously loaded orderbook
-      if ($scope.newBook && 'function' === typeof $scope.newBook.unsubscribe) {
-        $scope.newBook.unsubscribe();
+      if ($scope.book && 'function' === typeof $scope.book.unsubscribe) {
+        $scope.book.unsubscribe();
       }
 
-      $scope.newBook = books.get({
-        currency: ($scope.order.first_currency.has_interest() ? $scope.order.first_currency.to_hex() : $scope.order.first_currency.get_iso()),
+      var firstCurrency = $scope.order.first_currency;
+      var secondCurrency = $scope.order.second_currency;
+
+      $scope.book = books.get({
+        currency: (firstCurrency.has_interest() ? firstCurrency.to_hex() : firstCurrency.get_iso()),
         issuer: $scope.order.first_issuer
       }, {
-        currency: ($scope.order.second_currency.has_interest() ? $scope.order.second_currency.to_hex() : $scope.order.second_currency.get_iso()),
+        currency: (secondCurrency.has_interest() ? secondCurrency.to_hex() : secondCurrency.get_iso()),
         issuer: $scope.order.second_issuer
       }, $scope.address);
 
       $scope.orderbookState = 'ready';
-    }
+    };
+
     $scope.toggleOffers = function() {
       $scope.hideOffers = !$scope.hideOffers;
       $scope.userBlob.set('/clients/rippletradecom/tradeoffers', {hideOffers: $scope.hideOffers, hideOrderBook: $scope.hideOrderBook});
-    }
+    };
+
     $scope.toggleOrderBook = function(){
       $scope.hideOrderBook = !$scope.hideOrderBook;
       $scope.userBlob.set('/clients/rippletradecom/tradeoffers', {hideOffers: $scope.hideOffers, hideOrderBook: $scope.hideOrderBook});
-    }
+    };
+
     $scope.$watchCollection('[userBlob.data.clients.rippletradecom.tradeoffers.hideOffers, userBlob.data.clients.rippletradecom.tradeoffers.hideOrderBook]', function(e){
       if (typeof e[0] !== undefined) {
         $scope.hideOffers = e[0];
@@ -1307,7 +1318,8 @@ TradeTab.prototype.angular = function(module)
       if (typeof e[1] !== undefined) {
         $scope.hideOrderBook = e[1];
       }
-    })
+    });
+
     /**
      * Determine whether user can sell and/or buy on this pair
      */
@@ -1331,8 +1343,10 @@ TradeTab.prototype.angular = function(module)
       $scope.order.sell.showWidget = canSell;
     };
 
-    var updateTypeBook = function (type, newValues) {
-      if (!newValues.length) return;
+    var updateTypeBook = function (type) {
+      if (!$scope.book || !$scope.book[type] || !$scope.book[type].length) return;
+
+      $scope.bookShow[type] = jQuery.extend(true, [], $scope.book[type]);
 
       lastUpdate = new Date();
 
@@ -1344,38 +1358,32 @@ TradeTab.prototype.angular = function(module)
         });
       }, 1000);
 
-      var newValuesLength = newValues.length;
+      var newValuesLength = $scope.bookShow[type].length;
 
       for (i = 0; i < newValuesLength; i++) {
-        newValues[i].showSum = rpamountFilter(newValues[i].sum, OrderbookFilterOpts);
-        newValues[i].showPrice = rpamountFilter(newValues[i].price, OrderbookFilterOpts);
+        $scope.bookShow[type][i].showSum = rpamountFilter($scope.bookShow[type][i].sum, OrderbookFilterOpts);
+        $scope.bookShow[type][i].showPrice = rpamountFilter($scope.bookShow[type][i].price, OrderbookFilterOpts);
 
         var showValue = type === 'bids' ? 'TakerPays' : 'TakerGets';
-        newValues[i]['show' + showValue] = rpamountFilter(newValues[i][showValue], OrderbookFilterOpts);
+        $scope.bookShow[type][i]['show' + showValue] = rpamountFilter($scope.bookShow[type][i][showValue], OrderbookFilterOpts);
       }
 
       $scope.load_orderbook = false;
 
-      $scope.priceTicker[type.substring(0, 3)] = rpamountFilter(newValues[0].price, OrderbookTickerFilterOpts);
+      $scope.priceTicker[type.substring(0, 3)] = rpamountFilter($scope.bookShow[type][0].price, OrderbookTickerFilterOpts);
 
-      $scope.book = $scope.newBook;
-
-      if ($scope.newBook.ready) {
+      if ($scope.book.ready) {
         $scope.editOrder.orderbookReady = true;
-        $scope.priceTicker.spread = rpamountFilter($scope.book.asks[0].price.subtract($scope.book.bids[0].price), OrderbookTickerFilterOpts);
+        $scope.priceTicker.spread = rpamountFilter($scope.bookShow.asks[0].price.subtract($scope.bookShow.bids[0].price), OrderbookTickerFilterOpts);
       }
     };
 
-    $scope.$watch('newBook.asksLastUpdate', function () {
-      if (!$scope.newBook) return;
-
-      updateTypeBook('asks', $scope.newBook.asks)
+    $scope.$watch('book.asksLastUpdate', function () {
+      updateTypeBook('asks')
     });
 
-    $scope.$watch('newBook.bidsLastUpdate', function () {
-      if (!$scope.newBook) return;
-
-      updateTypeBook('bids', $scope.newBook.bids)
+    $scope.$watch('book.bidsLastUpdate', function () {
+      updateTypeBook('bids')
     });
 
     /**
@@ -1533,8 +1541,8 @@ TradeTab.prototype.angular = function(module)
 
     // Unsubscribe from the book when leaving this page
     $scope.$on('$destroy', function(){
-      if ($scope.newBook && 'function' === typeof $scope.newBook.unsubscribe) {
-        $scope.newBook.unsubscribe();
+      if ($scope.book && 'function' === typeof $scope.book.unsubscribe) {
+        $scope.book.unsubscribe();
       }
       clearInterval(timer);
     });
