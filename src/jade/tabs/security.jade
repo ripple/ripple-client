@@ -101,11 +101,11 @@ section.col-xs-12.content(ng-controller="SecurityCtrl")
                 .col-xs-9.col-md-5.col-sm-9
                   input.form-control#verifyToken(name="verifyToken", ng-model="verifyToken")
                 .col-xs-3.col-md-3.col-sm-3
-                  button.btn.btn-default.btn-block(type="button", ng-disabled="isRequesting",
+                  button.btn.btn-cancel.btn-block(type="button", ng-disabled="isRequesting",
                   ng-click="requestToken()")
                     img(src="img/button-s.png", class="loader", ng-show="isRequesting")
                     span(class="loading_text", ng-hide="via === 'app'", l10n) Resend Code
-                    span(ng-show="via === 'app'", l10n) Send Via SMS
+                    span(class="sms-txt", ng-show="via === 'app'", l10n) Send Via SMS
               .row
                 .col-xs-8.col-sm-3
                   button.btn.btn-primary.btn-block(type="button", ng-disabled="isVerifying", ng-click="enable2FA()")
