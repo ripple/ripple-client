@@ -813,6 +813,10 @@ TradeTab.prototype.angular = function(module)
     };
 
     $scope.fatFingerCheck = function(type, price) {
+      // Skip the fat finger check if there's no book
+      if (type === 'buy' && !$scope.bookShow.bids[0]) return;
+      else if (type === 'sell' && !$scope.bookShow.asks[0]) return;
+
       var fatFingerMarginMultiplier = 1.1;  // i.e. 10%
       var bestPrice;
 
@@ -1351,6 +1355,10 @@ TradeTab.prototype.angular = function(module)
     };
 
     var updateTypeBook = function (type) {
+      if ($scope.book && $scope.book[type + 'LastUpdate']) {
+        $scope.load_orderbook = false;
+      }
+
       if (!$scope.book || !$scope.book[type] || !$scope.book[type].length) return;
 
       $scope.bookShow[type] = jQuery.extend(true, [], $scope.book[type]);
@@ -1374,8 +1382,6 @@ TradeTab.prototype.angular = function(module)
         var showValue = type === 'bids' ? 'TakerPays' : 'TakerGets';
         $scope.bookShow[type][i]['show' + showValue] = rpamountFilter($scope.bookShow[type][i][showValue], OrderbookFilterOpts);
       }
-
-      $scope.load_orderbook = false;
 
       $scope.priceTicker[type.substring(0, 3)] = rpamountFilter($scope.bookShow[type][0].price, OrderbookTickerFilterOpts);
 
