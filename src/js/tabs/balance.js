@@ -235,7 +235,7 @@ BalanceTab.prototype.angular = function (module)
       var params = {
         account: id.account,
         ledger_index_min: -1,
-        binary: true
+        binary: false
       };
 
       getTx();
