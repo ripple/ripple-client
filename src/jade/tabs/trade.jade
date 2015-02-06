@@ -581,14 +581,14 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
             .emptyMessage(ng-show="isEmpty(offers) && ! editOrder.replacing")
               p.rp-base(l10n) No current orders. 
                 a(l10n, href="", ng-click="view_orders_history()") View orders history
-          .row.row-padding-small.orderbookupdate(ng-show="lastUpdate")
+          .row.row-padding-small.orderbookupdate
             .col-xs-12.col-sm-6
               div.orderbook-title(l10n)
                 | Orderbook
                 small.toggle.orderbook-hide(ng-click="visualState.hideOrderBook = !visualState.hideOrderBook")
                   span(ng-show="visualState.hideOrderBook", l10n) show
                   span(ng-hide="visualState.hideOrderBook", l10n) hide
-            .col-xs-12.col-sm-6.last-update(l10n) Last updated
+            .col-xs-12.col-sm-6.last-update(l10n, ng-show="lastUpdate") Last updated
               span  {{lastUpdate}}
               span(ng-show="lastUpdate > '1'", l10n-inc)  seconds
               span(ng-show="lastUpdate == '1'", l10n-inc)  second
