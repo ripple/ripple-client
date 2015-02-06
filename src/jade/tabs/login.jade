@@ -33,6 +33,7 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
             ng-disabled="ajax_loading || !token", ng-show="twoFactor")
             img(src="img/button-s.png", class="loader", ng-show="ajax_loading")
             span(class="loading_text", l10n) Verify
+          a.btn.btn-block.btn-cancel(class="2fa-cancel", ng-click="cancel2FA()", ng-show="twoFactor", l10n) cancel
       .row.switch-mode-wrapper
         .switch-mode-link-container.bottomText(l10n) Already have a ripple.com/client account?&#32;
           a(href='#migrate', l10n-inc) Migrate
