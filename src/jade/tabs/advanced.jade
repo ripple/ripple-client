@@ -5,14 +5,14 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
     include banner/unfunded
   .row(ng-show='connected && !debug')
     .col-sm-12.notification-wrapper
-      .alert.alert-success(ng-show="success.saveBlob", l10n) Your blob vault has been changed successfully.
+      .alert.alert-success(ng-show="success.saveBlob", l10n) Your blobvault has been changed successfully.
       .alert.alert-success(ng-show="success.saveBridge", l10n) Your bitcoin bridge has been changed successfully.
       .alert.alert-success(ng-show="success.saveAcctOptions", l10n) Trustline advanced settings have been changed successfully.
       .alert.alert-success(ng-show="success.saveConfirmation.send", l10n) Send confirmation settings have been changed successfully.
       .alert.alert-success(ng-show="success.saveConfirmation.exchange", l10n) Simple trade confirmation settings have been changed successfully.
       .alert.alert-success(ng-show="success.saveConfirmation.trade", l10n) Advanced trade confirmation settings have been changed successfully.
       .alert.alert-success(ng-show="success.saveMaxNetworkFee", l10n) Maximum network fee has been changed successfully.
-      .alert.alert-success(ng-show="success.addServer && success.saveServer", l10n) A new server has been successfully added.
+      .alert.alert-success(ng-show="success.addServer && success.saveServer", l10n) A server has been successfully added.
       .alert.alert-success(ng-show="success.removeServer", l10n) A server has been successfully removed.
       .alert.alert-success(ng-show="!success.addServer && success.saveServer", l10n) A server has been changed successfully.
     .col-sm-3
@@ -85,9 +85,9 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
                 button.btn.btn-block.btn-danger.btn-xs.submit#delete(type="button", ng-click="remove()", ng-show="hasRemove()", l10n) Delete
               .col-xs-3.col-sm-3.col-md-2.text-center#cancel
                 a.btn.btn-cancel.btn-block(href="", ng-click='cancelEditConfirmation("'+transactionType+'")', l10n) cancel
-        +confirmation('send', 'sendConfirmationForm', 'Send confirmation settings', 'If you turn this off, you will skip the final confirmation page before you send money. You might pay up to 1% more than you originally specified.', 'sendConfirmationBox')
-        +confirmation('exchange', 'exchangeConfirmationForm', 'Simple trade confirmation settings', 'If you turn this off, you will skip the final confirmation page before you execute a simple trade. You might pay up to 1% more than you originally specified.', 'exchangeConfirmationBox')
-        +confirmation('trade', 'tradeConfirmationForm', 'Advanced trade confirmation settings', 'If you turn this off, you will skip the final confirmation page before you place a trade order.', 'tradeConfirmationBox')
+        +confirmation('send', 'sendConfirmationForm', 'Send confirmation settings', 'If you hide your send confirmation page, you will not see a confirmation page when sending money. You might pay up to .1% more than you originally specified.', 'sendConfirmationBox')
+        +confirmation('exchange', 'exchangeConfirmationForm', 'Simple trade confirmation settings', 'If you hide the simple trade confirmation page, you will not see a confirmation page when placing a simple trade. You might pay up to .1% more than you originally specified.', 'exchangeConfirmationBox')
+        +confirmation('trade', 'tradeConfirmationForm', 'Advanced trade confirmation settings', 'If you hide the advanced trade confirmation page, you will not see a confirmation page when placing orders.', 'tradeConfirmationBox')
         form.trust-line-form(name="accountsAdvForm", ng-submit="saveAcctOptions()")
           .descriptor(l10n) Trust line
           .row.advanced-form-row(ng-hide="editAcctOptions")
