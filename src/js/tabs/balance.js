@@ -324,11 +324,11 @@ BalanceTab.prototype.angular = function (module)
       changeDateRange(new Date(new Date() - $scope.selectedTrendSpan), new Date());
     };
 
-    $scope.$watch('selectedTrendSpan', refreshTrend);
-    $scope.$watch('account.Balance', refreshTrend);
+    //$scope.$watch('selectedTrendSpan', refreshTrend);
+    //$scope.$watch('account.Balance', refreshTrend);
 
-    $scope.$watch('aggregateValueAsXrp', updateTrendValue);
-    $scope.$watch('trendMap', updateTrendValue);
+    //$scope.$watch('aggregateValueAsXrp', updateTrendValue);
+    //$scope.$watch('trendMap', updateTrendValue);
 
     function updateTrendValue() {
       if (!$scope.trendMap) return;
