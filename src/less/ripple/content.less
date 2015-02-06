@@ -426,7 +426,29 @@ a.danger {
 .ripple-addon {
   font-size: 18px;
 }
-
+.alert {
+  position: relative;
+  .tx-status {
+    font: 12px 'OpenSansRegular';
+    font-weight: normal;
+    margin: 0;
+    text-align: left;
+  }
+  .dismiss {
+    position: absolute;
+    right: 10px;
+    top: 14px;
+    font-family: "Helvetica Neue Bold";
+    font-size: 21px;
+    font-weight: bold;
+    color: @black;
+    text-decoration: none;
+    opacity: 0.2;
+    &:hover {
+      opacity: 0.5;
+    }
+  }
+}
 .auth-attention {
   margin-bottom: 20px;
   font-size: 13px;
