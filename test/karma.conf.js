@@ -16,7 +16,8 @@ module.exports = function(config) {
     autoWatch: true,
 
     // coverage
-    reporters: ['progress', 'coverage'],
+    // reporters: ['progress', 'coverage'],
+    reporters: ['progress'],
 
     preprocessors: {
       'src/js/**/*.js': ['coverage']
