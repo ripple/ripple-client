@@ -211,7 +211,6 @@ module.exports = function(grunt) {
       individualDeps: {
         expand: false,
         files: {
-          'build/bundle/web/js/deps/newrelic.js': 'deps/js/newrelic.js',
           'build/bundle/web/js/deps/mixpanel.js': 'deps/js/mixpanel.js',
           'build/bundle/web/js/deps/modernizr.js': 'deps/js/modernizr.js'
         }
