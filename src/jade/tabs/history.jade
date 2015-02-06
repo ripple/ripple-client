@@ -77,7 +77,7 @@ section.col-xs-12.content(ng-controller="HistoryCtrl")
             ng-class="{open: details[entry.hash]}"
             ng-class-odd="'odd'"
             rp-pretty-amount-date="entry.dateRaw")
-          .info
+          div
             span.type &nbsp;
             span.i(ng-hide="entry.details")
               i.fa.fa-arrow-down(ng-show="entry.transaction.type=='received'")
