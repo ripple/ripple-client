@@ -66,7 +66,7 @@ RecoverTab.prototype.angular = function (module) {
 
             var message = err.message || err;
             if (err.message == 'Invalid ECDSA signature') {
-              message = 'Please check your secret key';
+              message = 'Please check your secret key ';
             }
 
             $scope.recoverError = message;
