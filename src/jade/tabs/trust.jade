@@ -1,22 +1,24 @@
-section.col-xs-12.content(ng-controller="TrustCtrl")
+section.col-xs-12.content(ng-controller='TrustCtrl')
 
   //- Disconnected
 
-  group.disconnected(ng-hide="connected")
+  group.disconnected(ng-hide='connected')
     p.literal(l10n) You have to be online to see this screen
 
-  group.disconnected(ng-hide="!connected || loadState.lines")
+  group.disconnected(ng-hide='!connected || loadState.lines')
     p.literal(l10n) Loading...
 
   //- Connected
 
-  group(ng-show="connected && loadState.lines")
-    div(ng-show="!loadingAccount && !account.Balance && loadState.account && connected")
+  group(ng-show='connected && loadState.lines')
+    div(ng-show='!loadingAccount && !account.Balance && loadState.account && connected')
       include banner/unfunded
 
+    //- label. Contains message to the user
+    .alert.alert-info(ng-show='label') {{label}}
     //- N1. Trust form
     .row
-      // Transaction errors coming from errors.js & transactionerror.jade
+      //- Transaction errors coming from errors.js & transactionerror.jade
       .col-sm-12(ng-show='account.Balance')
         group.mode-ripplerror
           rp-transaction-status(
