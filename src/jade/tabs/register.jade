@@ -102,7 +102,7 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
           label(for='register_masterkey', l10n) Secret key&#32;
           a.hide-key(href="", ng-click="showMasterKeyInput=false", l10n) hide
           div.register_masterkey
-            input.form-control#register_masterkey(name='register_masterkey', type='text', 
+            input.form-control#register_masterkey(name='register_masterkey', type='password', 
               autocomplete='off', ng-model="masterkey", rp-master-key, rp-master-address-exists, 
               rp-focus)
             div.inputSpinner(ng-hide="!checkingMasterkey")
