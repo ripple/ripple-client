@@ -37,7 +37,7 @@
   "license": "ISC",
   "scripts": {
     "test": "./node_modules/.bin/karma start test/karma.conf.js",
-    "test-travis": "./node_modules/.bin/karma start test/karma.conf.js --single-run --browsers Firefox && cat ./coverage/*/lcov.info | ./node_modules/.bin/coveralls"
+    "test-travis": "./node_modules/.bin/karma start test/karma.conf.js --single-run --browsers Firefox"
   },
   "repository": {
     "type": "git",
