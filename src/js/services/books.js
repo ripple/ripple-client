@@ -33,7 +33,7 @@ function(net, $q, $scope, $filter, id) {
 
       // rippled has a bug where it shows some unfunded offers
       // We're ignoring them
-      if (d.taker_gets_funded === "0" || d.taker_pays_funded === "0")
+      if (d.taker_gets_funded === '0' || d.taker_pays_funded === '0')
         return;
 
       if (d.TakerGets.value) {
@@ -55,7 +55,7 @@ function(net, $q, $scope, $filter, id) {
       if (!d.TakerGets.is_valid() || !d.TakerPays.is_valid())
         return;
 
-      if (action === "asks") {
+      if (action === 'asks') {
         d.price = Amount.from_quality(d.BookDirectory,
                                       d.TakerPays.currency(),
                                       d.TakerPays.issuer(), {
@@ -70,6 +70,21 @@ function(net, $q, $scope, $filter, id) {
           base_currency: d.TakerPays.currency(),
           reference_date: new Date()
         });
+      }
+
+      if (!d.is_fully_funded) {
+        var currency = d.TakerPays.currency();
+        var issuer = d.TakerPays.issuer();
+
+        var takerPays = Amount.from_human('1 ' + currency.to_human());
+        takerPays.set_currency(currency);
+        takerPays.set_issuer(issuer);
+
+        if (action === 'asks') {
+          d.TakerPays = takerPays.product_human(d.TakerGets).product_human(d.price);
+        } else {
+          d.TakerPays = takerPays.product_human(d.TakerGets).ratio_human(d.price);
+        }
       }
 
       var price = rpamount(d.price, {
@@ -100,7 +115,7 @@ function(net, $q, $scope, $filter, id) {
       return d;
     })));
 
-    var key = action === "asks" ? "TakerGets" : "TakerPays";
+    var key = action === 'asks' ? 'TakerGets' : 'TakerPays';
     var sum;
     _.each(newData, function (order, i) {
       if (sum) sum = order.sum = sum.add(order[key]);
