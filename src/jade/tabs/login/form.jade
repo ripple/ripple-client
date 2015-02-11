@@ -13,18 +13,14 @@ div.row.row-padding-small.twoFactor(ng-show="twoFactor")
     span.status.verifyText(ng-show="twoFactor.via === 'sms'", l10n) Please enter the verification code from the SMS message sent to your device:
     span.status.verifyText(ng-show="twoFactor.via === 'app'", l10n) Please enter the verification code from the Authy app installed on your device:
     span.maskedPhone(ng-bind="maskedPhone")
+    span
+      button.btn.btn-cancel.btn-nomargin-xs(type="button", ng-click="requestToken()")
+        span(ng-show="twoFactor.via === 'sms'", l10n) Resend
+        span(ng-show="twoFactor.via === 'app'", l10n) Send Via SMS
   .label-wrapper.col-xs-12
     label(for='token', l10n) Verification Code
-  .form-group.col-xs-12.col-sm-8.col-md-8.col-lg-7
+  .form-group.col-xs-12
     input.form-control(type='number', name='token', ng-model='token', rp-focus)
-  .form-group.col-xs-12.col-sm-8.col-md-8.col-lg-7
-    .row
-      .col-xs-6
-        button.btn.btn-success.btn-block(type="button", ng-click="requestToken()")
-          span(ng-show="twoFactor.via === 'sms'", l10n) Resend
-          span(ng-show="twoFactor.via === 'app'", l10n) Send Via SMS
-      .col-xs-6
-        a.btn.btn-cancel.btn-block(ng-click="cancel2FA()", l10n) cancel
   .input-group.col-xs-12
     label
       input.rememberMe(name='rememberMe', type='checkbox', ng-model='rememberMe')
