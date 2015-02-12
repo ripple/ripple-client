@@ -527,15 +527,15 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', '$t
       callback();
     });
   };
+
   Id.prototype.logout = function ()
   {
-
     // remove deviceID if remember me is not set
-    if (!store.get('remember_me')) {
+    if (!store.get('remember_me') && store.get('ripple_auth')) {
       var auth = store.get('ripple_auth');
       this.removeDeviceID(auth.username);
     }
-    
+
     store.remove('ripple_auth');
 
     // TODO make it better
