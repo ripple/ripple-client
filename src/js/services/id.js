@@ -369,7 +369,6 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', '$t
         callback(oldBlobErr);
       } else {
         // Migration
-
         $scope.oldUserBlob = blob;
         $scope.oldUsername = oldBlobUsername;
         $scope.oldPassword = password;
@@ -686,7 +685,6 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', '$t
           $scope.showRegister = true;
           $scope.showLogin = false;
         }
-        location.hash = '/';
         return;
       }
     }
