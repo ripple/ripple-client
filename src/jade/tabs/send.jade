@@ -274,7 +274,7 @@ section.col-xs-12.content(ng-controller='SendCtrl')
             span &plus; .1%
         span.literal(l10n) Ripple network fee: 
         span.literal(rp-pretty-amount='networkFee')
-        form.call-to-action(ng-submit="send_confirmed()")
+        form.call-to-action(name="sendUnlockForm", ng-submit="send_confirmed()")
           p.literal(ng-show="send.secret", l10n) Are you sure?
           p.literal(ng-hide="send.secret", l10n) Please enter your password to confirm this transaction.
           .row.row-padding-small(ng-if="!send.secret")

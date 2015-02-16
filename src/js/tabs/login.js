@@ -21,9 +21,10 @@ LoginTab.prototype.angular = function (module) {
   module.controller('LoginCtrl', ['$scope', '$element', '$routeParams',
                                   '$location', 'rpId', '$rootScope',
                                   'rpPopup', '$timeout', 'rpTracker', 'rpAuthFlow',
+                                  '$interval',
                                   function ($scope, $element, $routeParams,
                                             $location, id, $rootScope,
-                                            popup, $timeout, rpTracker, authflow)
+                                            popup, $timeout, rpTracker, authflow, $interval)
   {
     $scope.attempts = 0;
     $scope.error = '';
@@ -34,6 +35,8 @@ LoginTab.prototype.angular = function (module) {
 
     $scope.loginForm && $scope.loginForm.$setPristine(true);
     $scope.backendMessages = [];
+
+    var updater;
     
     if (id.loginStatus) {
       $location.path('/balance');
@@ -257,6 +260,13 @@ LoginTab.prototype.angular = function (module) {
       $scope.twoFactor  = null;
       $scope.status     = null;
     };
+
+    // needed for password managers that don't raise change event on input field
+    updater = $interval(updateFormFields, 2000);
+
+    $scope.$on('$destroy', function() {
+      $interval.cancel(updater);
+    });
   }]);
 
   /**
