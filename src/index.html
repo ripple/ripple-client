@@ -128,6 +128,9 @@
   <!-- @endif -->
 
   <script type="text/javascript">
+    $.ajaxSetup({
+      cache: true
+    });
     $.getScript('js/ripple-client' + (debug ? '-debug' : '-'+lang) + '.js');
   </script>
 
