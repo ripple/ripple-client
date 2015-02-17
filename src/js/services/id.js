@@ -430,6 +430,13 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', '$t
 
         if (!emailVerified) {
           $scope.unverified = true;
+          // get secret to allow email re-send without unlocking
+          $authflow.unlock(Id.normalizeUsernameForInternals(username), password, function(err, resp) {
+            if (!err && resp) {
+              $scope.keyOpen = resp.secret;
+            }
+          });
+
           $location.path('/register');
 
           callback(new Error("Email has not been verified!"));
