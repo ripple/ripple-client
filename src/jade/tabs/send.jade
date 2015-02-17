@@ -164,15 +164,12 @@ section.col-xs-12.content(ng-controller='SendCtrl')
         .row
           .col-xs-12.col-sm-6.col-md-4(ng-show="send.currency_code == 'XRP'")
             button#sendXrpButton.btn.btn-block.btn-success.submit(type='submit'
-            ng-disabled='sendForm.$invalid || send.self || !send.recipient_resolved || account.max_spend.to_number() < send.amount * 1000000', l10n)
+            ng-disabled='sendForm.$invalid || send.self || send.insufficient || !send.recipient_resolved || account.max_spend.to_number() < send.amount * 1000000', l10n)
               | Send XRP
         .remote
           //- Messages
           p.literal(ng-show="send.fund_status == 'insufficient-xrp'", l10n)
-            | Destination account is unfunded; send at least
-            |  {{send.xrp_deficiency | rpamount}} XRP to fund it.
-            a(href="https://ripple.com/wiki/Reserves", target="_blank", l10n)
-              | More information
+            | Insufficient amount. You need to send at least 20 XRP to fund the account.
           p.literal(ng-show="send.path_status == 'checking'")
             img(src="img/button-s.png", class="loader")
             span(class="loading_text", l10n) Checking

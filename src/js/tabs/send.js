@@ -615,7 +615,11 @@ SendTab.prototype.angular = function (module)
         if (total.compareTo(reserve_base) < 0) {
           send.fund_status = 'insufficient-xrp';
           send.xrp_deficiency = reserve_base.subtract(send.recipient_info.Balance);
+          send.insufficient = true;
+          return;
         }
+        send.insufficient = false;
+        send.fund_status = 'none';
 
         send.path_status = 'pending';
         pathUpdateTimeout = $timeout($scope.update_paths, 500);
