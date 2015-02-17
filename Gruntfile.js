@@ -461,7 +461,7 @@ module.exports = function(grunt) {
         ]
       },
       output: {
-        filename: 'web/<%= pkg.name %>-debug.js'
+        filename: 'web/<%= pkg.name %>-<%= meta.version %>-debug.js'
       },
       debug: true,
       devtool: 'eval',
@@ -481,7 +481,7 @@ module.exports = function(grunt) {
         ]
       },
       output: {
-        filename: 'web/<%= pkg.name %>-' + language.code + '.js'
+        filename: 'web/<%= pkg.name %>-<%= meta.version %>-' + language.code + '.js'
       },
       optimize: {
         // TODO Minimization breaks our l10n mechanisms
