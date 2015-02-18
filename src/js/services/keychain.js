@@ -188,7 +188,7 @@ module.factory('rpKeychain', ['$rootScope', '$timeout', 'rpPopup', 'rpId',
 
     function setPasswordProtection (requirePassword, secret, callback) {
 
-      $scope.userBlob.set('/persistUnlock', !requirePassword, function(err, resp) {
+      $scope.userBlob.set('/clients/rippletradecom/persistUnlock', !requirePassword, function(err, resp) {
         if (err) {
           return callback(err);
         }
@@ -203,8 +203,9 @@ module.factory('rpKeychain', ['$rootScope', '$timeout', 'rpPopup', 'rpId',
 
   Keychain.prototype.expireSecret = function (account) {
     var _this = this;
-    $timeout(function(){
-      if (_this.secrets[account] && !$scope.userBlob.data.persistUnlock) {
+    $timeout(function() {
+      var d = $scope.userBlob.data;
+      if (_this.secrets[account] && !(d.clients && d.clients.rippletradecom && d.clients.rippletradecom.persistUnlock)) {
         delete _this.secrets[account];
       }
     }, Keychain.unlockDuration);

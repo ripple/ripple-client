@@ -58,7 +58,7 @@ function rpTxQueue($scope, network, keychain, id)
           item.details = tx.tx_json.LimitAmount;
         }
 
-        $scope.userBlob.unshift("/txQueue", item);
+        $scope.userBlob.unshift("/clients/rippletradecom/txQueue", item);
       }
     });
   }
@@ -68,7 +68,9 @@ function rpTxQueue($scope, network, keychain, id)
    * If yes, submit all the transactions in the queue.
    */
   function checkQueue() {
-    if (!$scope.account.Balance || !$scope.userBlob.data.txQueue) return;
+    if (!$scope.account.Balance) return;
+    var d = $scope.userBlob.data;
+    if (!(d.clients && d.clients.rippletradecom && d.clients.rippletradecom.txQueue)) return;
 
     var self = this;
 
@@ -80,7 +82,7 @@ function rpTxQueue($scope, network, keychain, id)
         return;
       }
 
-      $scope.userBlob.data.txQueue.forEach(function(item){
+      d.clients.rippletradecom.txQueue.forEach(function(item) {
         // Backward compatibility!
         // Transactions created by RT version <= 1.0.10-1
         if (item.blob) {
@@ -104,6 +106,6 @@ function rpTxQueue($scope, network, keychain, id)
    * Empty transaction queue
    */
   function emptyQueue() {
-    $scope.userBlob.unset('/txQueue');
+    $scope.userBlob.unset('/clients/rippletradecom/txQueue');
   }
 }

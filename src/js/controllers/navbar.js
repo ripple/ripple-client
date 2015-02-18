@@ -69,9 +69,10 @@ module.controller('NavbarCtrl', ['$scope', '$element', '$compile', 'rpId',
       $scope.unseen = 0;
     }
 
-    if (($scope.userBlob.data.lastSeenTxDate || 0) < lastTxDate) {
+    var d = $scope.userBlob.data;
+    if ((d.clients && d.clients.rippletradecom && d.clients.rippletradecom.lastSeenTxDate || 0) < lastTxDate) {
       // Remember last seen date
-      $scope.userBlob.set('/lastSeenTxDate', lastTxDate);
+      $scope.userBlob.set('/clients/rippletradecom/lastSeenTxDate', lastTxDate);
 
       // Reset the counter
       $scope.unseen = $scope.unseenNotifications.count;

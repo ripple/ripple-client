@@ -32,12 +32,14 @@ SettingsTradeTab.prototype.angular = function(module) {
         saveTimeout;
 
     if ($scope.userBlob.data && $scope.userCredentials.username) {
-      $scope.pairs = $scope.userBlob.data.trade_currency_pairs;
+      var d = $scope.userBlob.data;
+      $scope.pairs = d.clients && d.clients.rippletradecom && d.clients.rippletradecom.trade_currency_pairs;
     } else {
-      var removeWatcher = $scope.$on('$blobUpdate', function () {
+      var removeWatcher = $scope.$on('$blobUpdate', function() {
         if (!$scope.userCredentials.username)
           return;
-        $scope.pairs = $scope.userBlob.data.trade_currency_pairs;
+        var d = $scope.userBlob.data;
+        $scope.pairs = d.clients && d.clients.rippletradecom && d.clients.rippletradecom.trade_currency_pairs;
         removeWatcher();
       });
     }
@@ -46,7 +48,7 @@ SettingsTradeTab.prototype.angular = function(module) {
       for (var i = 0; i < $scope.pairs.length; i++) {
         if ($scope.pairs[i].$$hashKey === this.entry.$$hashKey) {
           saveTradePairs();
-          $scope.userBlob.unset('/trade_currency_pairs/' + index);
+          $scope.userBlob.unset('/clients/rippletradecom/trade_currency_pairs/' + index);
           return;
         }
       }
@@ -70,7 +72,7 @@ SettingsTradeTab.prototype.angular = function(module) {
         saveTimeout = null;
         // clear $$hashKey
         var pairs = angular.fromJson(angular.toJson($scope.pairs));
-        $scope.userBlob.set('/trade_currency_pairs', pairs);
+        $scope.userBlob.set('/clients/rippletradecom/trade_currency_pairs', pairs);
         dirty = false;
       }
     }

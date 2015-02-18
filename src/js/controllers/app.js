@@ -345,7 +345,8 @@ function AppCtrl ($scope, id, net, keychain, txQueue, appManager, rpTracker,
           case 'received':
 
             // Is it unseen?
-            if (processedTxn.date > ($scope.userBlob.data.lastSeenTxDate || 0)) {
+            var d = $scope.userBlob.data;
+            if (processedTxn.date > (d.clients && d.clients.rippletradecom && d.clients.rippletradecom.lastSeenTxDate || 0)) {
               processedTxn.unseen = true;
               $scope.unseenNotifications.count++;
             }

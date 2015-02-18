@@ -41,7 +41,7 @@ TwoFATab.prototype.angular = function(module)
           $scope.enc = $scope.userBlob.encrypt();
         }
 
-        $scope.requirePassword = !$scope.userBlob.data.persistUnlock;
+        $scope.requirePassword = !(data.clients && data.clients.rippletradecom && data.clients.rippletradecom.persistUnlock);
 
         if (!$scope.loaded2FA && "function" === typeof $scope.userBlob.get2FA) {
           $scope.userBlob.get2FA(function(err, resp) {

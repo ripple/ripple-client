@@ -189,10 +189,11 @@ UsdTab.prototype.angular = function (module)
         // Is there an existing trustTx in queue?
         // (Does this really belong here? maybe just move it to txqueue.js?)
         var noNeed;
+        var d = $scope.userBlob.data;
         _.each(
           // Find all trust transactions in queue
-          _.findWhere($scope.userBlob.data.txQueue, {type: "TrustSet"}),
-          function(elm,index,txInQueue){
+          _.findWhere(d.clients && d.clients.rippletradecom && d.clients.rippletradecom.txQueue, {type: "TrustSet"}),
+          function(elm, index, txInQueue) {
             // Does this fulfil our needs?
             noNeed = txInQueue && txInQueue.details.currency === currency
             && txInQueue.details.issuer === issuer

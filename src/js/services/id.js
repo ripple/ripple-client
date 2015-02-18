@@ -144,7 +144,7 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', '$t
       */
     }, true);
 
-    $scope.$on('$blobUpdate', function(){
+    $scope.$on('$blobUpdate', function() {
       var d = $scope.userBlob.data;
       Options.advanced_feature_switch = !!(d.clients &&
           d.clients.rippletradecom &&
@@ -163,6 +163,27 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', '$t
       // Account address
       if (!$scope.address && $scope.userBlob.data.account_id) {
         $scope.address = $scope.userBlob.data.account_id;
+      }
+
+      // migrate user data to clients.rippletradecom
+      if (_.has(d, 'persistUnlock')) {
+        $scope.userBlob.set('/clients/rippletradecom/persistUnlock', d.persistUnlock);
+        $scope.userBlob.unset('/persistUnlock');
+      }
+
+      if (_.has(d, 'lastSeenTxDate')) {
+        $scope.userBlob.set('/clients/rippletradecom/lastSeenTxDate', d.lastSeenTxDate);
+        $scope.userBlob.unset('/lastSeenTxDate');
+      }
+
+      if (_.has(d, 'trade_currency_pairs')) {
+        $scope.userBlob.set('/clients/rippletradecom/trade_currency_pairs', d.trade_currency_pairs);
+        $scope.userBlob.unset('/trade_currency_pairs');
+      }
+
+      if (_.has(d, 'txQueue')) {
+        $scope.userBlob.set('/clients/rippletradecom/txQueue', d.txQueue);
+        $scope.userBlob.unset('/txQueue');
       }
     });
 
