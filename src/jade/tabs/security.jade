@@ -1,7 +1,7 @@
 section.col-xs-12.content(ng-controller="SecurityCtrl")
   div(ng-show='debug') This page is not available in debug mode
 
-  .row(ng-show='connected && !debug')
+  .row(ng-show='!debug')
     .col-xs-12(ng-hide="isUnlocked")
       .auth-attention.sessionUnlock
         h5(l10n) Active Session Timeout
