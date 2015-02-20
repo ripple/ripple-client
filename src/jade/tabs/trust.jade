@@ -89,9 +89,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                       .success(ng-show='counterparty != counterparty_address && counterparty_name && !error_account_reserve')
                         | {{counterparty_address}}
                       .error(ng-show='error_account_reserve')
-                        span(l10n) Account does not meet the minimum XRP reserve.&#32;
-                        a(href="https://ripple.com/wiki/Account_Creation", target="_blank", l10n)
-                          | More information
+                        span(l10n) This account does not meet the minimum XRP reserve, so you cannot use it as a gateway.
                     .error(rp-error-on='required', l10n) Please enter a Ripple name, contact, or address.
                     .error(rp-error-on='rpNotMe', l10n) You've entered your own address.
                     .error(rp-error-on='rpDest', l10n) Please enter a valid Ripple name, contact, or address.
