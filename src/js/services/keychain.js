@@ -14,7 +14,8 @@ var webutil = require("../util/web"),
 var module = angular.module('keychain', ['popup']);
 
 module.factory('rpKeychain', ['$rootScope', '$timeout', 'rpPopup', 'rpId',
-                              function ($scope, $timeout, popup, id)
+                              '$interval',
+                              function ($scope, $timeout, popup, id, $interval)
 {
   var Keychain = function ()
   {
@@ -64,6 +65,14 @@ module.factory('rpKeychain', ['$rootScope', '$timeout', 'rpPopup', 'rpId',
       password: '',
       purpose: purpose
     };
+
+    popupScope.updater = $interval(function() {
+      var password = $('input[name="popup_unlock_password"]').val();
+      if (typeof password === 'string') {
+        popupScope.unlockForm.popup_unlock_password.$setViewValue(password);
+      }
+    }, 2000);
+
     popupScope.confirm = function () {
       unlock.isConfirming = true;
 
@@ -74,6 +83,7 @@ module.factory('rpKeychain', ['$rootScope', '$timeout', 'rpPopup', 'rpId',
           unlock.isConfirming = false;
           unlock.error = "password";
         } else {
+          $interval.cancel(popupScope.updater);
           popup.close();
 
           callback(null, secret);
@@ -84,7 +94,8 @@ module.factory('rpKeychain', ['$rootScope', '$timeout', 'rpPopup', 'rpId',
                       handleSecret);
     };
     popupScope.cancel = function () {
-      callback("canceled"); //need this for setting password protection
+      $interval.cancel(popupScope.updater);
+      callback('canceled'); // need this for setting password protection
       popup.close();
     };
     popupScope.onKeyUp = function ($event) {
