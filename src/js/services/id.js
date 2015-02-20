@@ -150,6 +150,16 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', '$t
           d.clients.rippletradecom &&
           d.clients.rippletradecom.trust &&
           d.clients.rippletradecom.trust.advancedMode);
+
+      // confirmation
+      // Replace default settings with user settings from blob
+      if (d && d.clients && d.clients.rippletradecom && d.clients.rippletradecom.confirmation) {
+        Options.confirmation = $.extend(true, {}, d.clients.rippletradecom.confirmation);
+      } else {
+        // if blob is empty, then populate the blob with default settings from config.js
+        $scope.userBlob.set('/clients/rippletradecom/confirmation', Options.confirmation)
+      }
+
       // Account address
       if (!$scope.address && $scope.userBlob.data.account_id) {
         $scope.address = $scope.userBlob.data.account_id;

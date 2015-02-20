@@ -56,24 +56,6 @@ AdvancedTab.prototype.angular = function(module)
     // Initialize the notification object
     $scope.success = {};
 
-    // Wait until blob is fully loaded.
-    $scope.$on('$netConnected', function () {
-      // For options.confirmation, but will eventually be used for other user settings
-      var data = $scope.userBlob.data;
-      if (data && data.clients && data.clients.rippletradecom) {
-        // Store user blob settings into backup instead of default settings from config.js.
-        if (data.clients.rippletradecom.confirmation) {
-          // Replace default settings with user settings from blob
-          $scope.options.confirmation = $.extend(true, {}, data.clients.rippletradecom.confirmation);
-          // The same goes for the backup
-          $scope.optionsBackup.confirmation = $.extend(true, {}, data.clients.rippletradecom.confirmation);
-        } else {
-          // if blob is empty, then populate the blob with default settings
-          $scope.userBlob.set('/clients/rippletradecom/confirmation', $scope.options.confirmation)
-        }
-      }
-    });
-
     $scope.saveBlob = function () {
       // Save in local storage
       if (!store.disabled) {
