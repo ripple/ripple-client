@@ -1,5 +1,6 @@
 var util = require('util');
 var Tab  = require('../client/tab').Tab;
+var settings = require('../util/settings');
 
 var TwoFATab = function ()
 {
@@ -37,13 +38,13 @@ TwoFATab.prototype.angular = function(module)
 
       function onBlobUpdate()
       {
-        if ("function" === typeof $scope.userBlob.encrypt) {
+        if ('function' === typeof $scope.userBlob.encrypt) {
           $scope.enc = $scope.userBlob.encrypt();
         }
 
-        $scope.requirePassword = !(data.clients && data.clients.rippletradecom && data.clients.rippletradecom.persistUnlock);
+        $scope.requirePassword = !settings.getSetting($scope.userBlob, 'persistUnlock');
 
-        if (!$scope.loaded2FA && "function" === typeof $scope.userBlob.get2FA) {
+        if (!$scope.loaded2FA && 'function' === typeof $scope.userBlob.get2FA) {
           $scope.userBlob.get2FA(function(err, resp) {
             $scope.$apply(function(){
               if (err) {

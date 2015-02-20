@@ -1,6 +1,7 @@
 var util = require('util'),
     webutil = require('../util/web'),
     Tab = require('../client/tab').Tab,
+    settings = require('../util/settings'),
     Currency = ripple.Currency;
 
 var AdvancedTab = function ()
@@ -33,10 +34,9 @@ AdvancedTab.prototype.angular = function(module)
       currency: xrpCurrency
     };
 
-    var data = $scope.userBlob.data;
     $scope.options = Options;
     $scope.optionsBackup = $.extend(true, {}, Options);
-    $scope.passwordProtection = !(data.clients && data.clients.rippletradecom && data.clients.rippletradecom.persistUnlock);
+    $scope.passwordProtection = !settings.getSetting($scope.userBlob, 'persistUnlock', false);
     $scope.editBridge = false;
     $scope.editBlob = false;
     $scope.editMaxNetworkFee = false;
@@ -59,19 +59,17 @@ AdvancedTab.prototype.angular = function(module)
 
     // Wait until blob is fully loaded.
     $scope.$on('$netConnected', function() {
+      if (!settings.blobIsValid($scope.userBlob)) return;
       // For options.confirmation, but will eventually be used for other user settings
-      var data = $scope.userBlob.data;
-      if (data && data.clients && data.clients.rippletradecom) {
-        // Store user blob settings into backup instead of default settings from config.js.
-        if (data.clients.rippletradecom.confirmation) {
-          // Replace default settings with user settings from blob
-          $scope.options.confirmation = $.extend(true, {}, data.clients.rippletradecom.confirmation);
-          // The same goes for the backup
-          $scope.optionsBackup.confirmation = $.extend(true, {}, data.clients.rippletradecom.confirmation);
-        } else {
-          // if blob is empty, then populate the blob with default settings
-          $scope.userBlob.set('/clients/rippletradecom/confirmation', $scope.options.confirmation)
-        }
+      // Store user blob settings into backup instead of default settings from config.js.
+      if (settings.hasSetting($scope.userBlob, 'confirmation')) {
+        // Replace default settings with user settings from blob
+        $scope.options.confirmation = $.extend(true, {}, settings.getSetting($scope.userBlob, 'confirmation'));
+        // The same goes for the backup
+        $scope.optionsBackup.confirmation = $.extend(true, {}, settings.getSetting($scope.userBlob, 'confirmation'));
+      } else {
+        // if blob is empty, then populate the blob with default settings
+        $scope.userBlob.set('/clients/rippletradecom/confirmation', $scope.options.confirmation)
       }
     });
 
@@ -198,9 +196,9 @@ AdvancedTab.prototype.angular = function(module)
 
     $scope.$on('$blobUpdate', function() {
       var data = $scope.userBlob.data;
-      $scope.passwordProtection = !(data.clients && data.clients.rippletradecom && data.clients.rippletradecom.persistUnlock);
-      if (data.clients && data.clients.rippletradecom && data.clients.rippletradecom.confirmation) {
-        $scope.options.confirmation = data.clients.rippletradecom.confirmation;
+      $scope.passwordProtection = !settings.getSetting($scope.userBlob, 'persistUnlock', false);
+      if (settings.hasSetting($scope.userBlob, 'confirmation')) {
+        $scope.options.confirmation = settings.getSetting($scope.userBlob, 'confirmation');
       }
 
       // we assume that some fields in Options are updated in rpId service $blobUpdate handler

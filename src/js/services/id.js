@@ -6,6 +6,7 @@
 
 var util = require('util'),
     webutil = require('../util/web'),
+    settings = require('../util/settings'),
     Base58Utils = require('../util/base58'),
     RippleAddress = require('../util/types').RippleAddress;
 
@@ -145,19 +146,18 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', '$t
     }, true);
 
     $scope.$on('$blobUpdate', function() {
+      if (!settings.blobIsValid($scope.userBlob)) return;
+
       var d = $scope.userBlob.data;
-      Options.advanced_feature_switch = !!(d.clients &&
-          d.clients.rippletradecom &&
-          d.clients.rippletradecom.trust &&
-          d.clients.rippletradecom.trust.advancedMode);
+      Options.advanced_feature_switch = settings.getSetting($scope.userBlob, 'trust.advancedMode', false);
 
       // confirmation
       // Replace default settings with user settings from blob
-      if (d && d.clients && d.clients.rippletradecom && d.clients.rippletradecom.confirmation) {
-        Options.confirmation = $.extend(true, {}, d.clients.rippletradecom.confirmation);
+      if (settings.hasSetting($scope.userBlob, 'confirmation')) {
+        Options.confirmation = $.extend(true, {}, settings.getSetting($scope.userBlob, 'confirmation'));
       } else {
         // if blob is empty, then populate the blob with default settings from config.js
-        $scope.userBlob.set('/clients/rippletradecom/confirmation', Options.confirmation)
+        $scope.userBlob.set('/clients/rippletradecom/confirmation', Options.confirmation);
       }
 
       // Account address
@@ -166,6 +166,13 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', '$t
       }
 
       // migrate user data to clients.rippletradecom
+      if (_.has(d, 'advancedFeatureSwitch')) {
+        if (!settings.hasSetting($scope.userBlob, 'trust.advancedMode')) {
+          $scope.userBlob.set('/clients/rippletradecom/trust/advancedMode', d.advancedFeatureSwitch);
+        }
+        $scope.userBlob.unset('/advancedFeatureSwitch');
+      }
+
       if (_.has(d, 'persistUnlock')) {
         $scope.userBlob.set('/clients/rippletradecom/persistUnlock', d.persistUnlock);
         $scope.userBlob.unset('/persistUnlock');

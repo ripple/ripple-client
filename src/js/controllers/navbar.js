@@ -5,6 +5,7 @@
  */
 
 var Amount = ripple.Amount,
+    settings = require('../util/settings'),
     rewriter = require('../util/jsonrewriter');
 
 var module = angular.module('navbar', []);
@@ -69,8 +70,7 @@ module.controller('NavbarCtrl', ['$scope', '$element', '$compile', 'rpId',
       $scope.unseen = 0;
     }
 
-    var d = $scope.userBlob.data;
-    if ((d.clients && d.clients.rippletradecom && d.clients.rippletradecom.lastSeenTxDate || 0) < lastTxDate) {
+    if (settings.getSetting($scope.userBlob, 'lastSeenTxDate', 0) < lastTxDate) {
       // Remember last seen date
       $scope.userBlob.set('/clients/rippletradecom/lastSeenTxDate', lastTxDate);
 

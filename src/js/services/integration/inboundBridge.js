@@ -4,6 +4,8 @@
  * This is the "InboundBridge" profile implementation
  */
 
+var settings = require('../../util/settings');
+
 var module = angular.module('integrationInboundBridge', []);
 
 module.service('rpInboundBridgeProfile', ['$rootScope', 'rpNetwork', 'rpId', '$http', 'rpTxQueue',
@@ -46,10 +48,9 @@ module.service('rpInboundBridgeProfile', ['$rootScope', 'rpNetwork', 'rpId', '$h
         // Is there an existing trustTx in queue?
         // (Does this really belong here? maybe just move it to txqueue.js?)
         var noNeed;
-        var d = $scope.userBlob.data;
         _.each(
           // Find all trust transactions in queue
-          _.findWhere(d.clients && d.clients.rippletradecom && d.clients.rippletradecom.txQueue, {type: "TrustSet"}),
+          _.findWhere(settings.getSetting($scope.userBlob, 'txQueue'), {type: "TrustSet"}),
           function(elm, index, txInQueue) {
             // Does this fulfil our needs?
             noNeed = txInQueue && txInQueue.details.currency === line.currency

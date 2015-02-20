@@ -1,5 +1,6 @@
 var util = require('util'),
-    Tab = require('../client/tab').Tab;
+    Tab = require('../client/tab').Tab,
+    settings = require('../util/settings');
 
 var UsdTab = function ()
 {
@@ -189,10 +190,9 @@ UsdTab.prototype.angular = function (module)
         // Is there an existing trustTx in queue?
         // (Does this really belong here? maybe just move it to txqueue.js?)
         var noNeed;
-        var d = $scope.userBlob.data;
         _.each(
           // Find all trust transactions in queue
-          _.findWhere(d.clients && d.clients.rippletradecom && d.clients.rippletradecom.txQueue, {type: "TrustSet"}),
+          _.findWhere(settings.getSetting($scope.userBlob, 'txQueue'), {type: "TrustSet"}),
           function(elm, index, txInQueue) {
             // Does this fulfil our needs?
             noNeed = txInQueue && txInQueue.details.currency === currency

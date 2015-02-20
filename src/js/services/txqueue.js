@@ -4,6 +4,8 @@
  * This is the Transaction Queue service
  */
 
+var settings = require('../util/settings');
+
 angular
   .module('txQueue', [])
   .service('rpTxQueue', rpTxQueue);
@@ -69,8 +71,7 @@ function rpTxQueue($scope, network, keychain, id)
    */
   function checkQueue() {
     if (!$scope.account.Balance) return;
-    var d = $scope.userBlob.data;
-    if (!(d.clients && d.clients.rippletradecom && d.clients.rippletradecom.txQueue)) return;
+    if (!settings.hasSetting($scope.userBlob, 'txQueue')) return;
 
     var self = this;
 
@@ -82,7 +83,7 @@ function rpTxQueue($scope, network, keychain, id)
         return;
       }
 
-      d.clients.rippletradecom.txQueue.forEach(function(item) {
+      settings.getSetting($scope.userBlob, 'txQueue').forEach(function(item) {
         // Backward compatibility!
         // Transactions created by RT version <= 1.0.10-1
         if (item.blob) {

@@ -1,5 +1,6 @@
 var util = require('util'),
-    webutil = require('../util/web');
+    webutil = require('../util/web'),
+    settings = require('../util/settings');
 var Tab = require('../client/tab').Tab;
 
 var KycTab = function ()
@@ -36,12 +37,11 @@ KycTab.prototype.angular = function(module)
 
       function onBlobUpdate()
       {
-        if ("function" === typeof $scope.userBlob.encrypt) {
+        if ('function' === typeof $scope.userBlob.encrypt) {
           $scope.enc = $scope.userBlob.encrypt();
         }
 
-        var data = $scope.userBlob.data;
-        $scope.requirePassword = !(data.clients && data.clients.rippletradecom && data.clients.rippletradecom.persistUnlock);
+        $scope.requirePassword = !settings.getSetting($scope.userBlob, 'persistUnlock', false);
 
         if (!$scope.loaded2FA && "function" === typeof $scope.userBlob.get2FA) {
           $scope.userBlob.get2FA(function(err, resp) {

@@ -3,6 +3,7 @@
 
 var util = require('util');
 var webutil = require('../util/web');
+var settings = require('../util/settings');
 var Tab = require('../client/tab').Tab;
 var Amount = ripple.Amount;
 var rewriter = require('../util/jsonrewriter');
@@ -74,8 +75,7 @@ TradeTab.prototype.angular = function(module)
     // Remember user preference on Convert vs. Trade
     $rootScope.ripple_exchange_selection_trade = true;
 
-    var d = $scope.userBlob.data;
-    $scope.pairs_query = d.clients && d.clients.rippletradecom && d.clients.rippletradecom.trade_currency_pairs;
+    $scope.pairs_query = settings.getSetting($scope.userBlob, 'trade_currency_pairs');
 
     $scope.currencies_all = require('../data/currencies');
     $scope.currencies = [];
@@ -1442,7 +1442,7 @@ TradeTab.prototype.angular = function(module)
 
     function update_pairs() {
       var d = $scope.userBlob.data;
-      if (!(d.clients && d.clients.rippletradecom && d.clients.rippletradecom.trade_currency_pairs)) {
+      if (!settings.hasSetting($scope.userBlob, 'trade_currency_pairs')) {
         $scope.pairs_query = [{name: 'XRP/USD.SnapSwap' },
           { name: 'XRP/USD.Bitstamp' },
           { name: 'XRP/JPY.TokyoJPY' },
@@ -1450,7 +1450,7 @@ TradeTab.prototype.angular = function(module)
           { name: 'BTC.SnapSwap/XRP' }];
       }
       else {
-        $scope.pairs_query = d.clients.rippletradecom.trade_currency_pairs;
+        $scope.pairs_query = settings.getSetting($scope.userBlob, 'trade_currency_pairs');
       }
     }
 

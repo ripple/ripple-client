@@ -1,5 +1,6 @@
 var util = require('util');
-var Tab  = require('../client/tab').Tab;
+var Tab  = require('../client/tab').Tab,
+    settings = require('../util/settings');
 
 var SecurityTab = function ()
 {
@@ -46,15 +47,13 @@ SecurityTab.prototype.angular = function (module) {
 
     function onBlobUpdate()
     {
-      if ("function" === typeof $scope.userBlob.encrypt) {
+      if ('function' === typeof $scope.userBlob.encrypt) {
         $scope.enc = $scope.userBlob.encrypt();
       }
 
+      $scope.requirePassword = !settings.getSetting($scope.userBlob, 'persistUnlock');
 
-      var data = $scope.userBlob.data;
-      $scope.requirePassword = !(data.clients && data.clients.rippletradecom && data.clients.rippletradecom.persistUnlock);
-
-      if (!$scope.loaded2FA && "function" === typeof $scope.userBlob.get2FA) {
+      if (!$scope.loaded2FA && 'function' === typeof $scope.userBlob.get2FA) {
         $scope.loading2FA      = true;
         $scope.errorLoading2FA = false;
         $scope.userBlob.get2FA(function(err, resp) {

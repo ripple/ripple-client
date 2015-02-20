@@ -9,6 +9,7 @@
  */
 
 var webutil = require('../util/web'),
+    settings = require('../util/settings'),
     log = require('../util/log');
 
 var module = angular.module('keychain', ['popup']);
@@ -204,8 +205,7 @@ module.factory('rpKeychain', ['$rootScope', '$timeout', 'rpPopup', 'rpId',
   Keychain.prototype.expireSecret = function (account) {
     var _this = this;
     $timeout(function() {
-      var d = $scope.userBlob.data;
-      if (_this.secrets[account] && !(d.clients && d.clients.rippletradecom && d.clients.rippletradecom.persistUnlock)) {
+      if (_this.secrets[account] && !settings.getSetting($scope.userBlob, 'persistUnlock', false)) {
         delete _this.secrets[account];
       }
     }, Keychain.unlockDuration);

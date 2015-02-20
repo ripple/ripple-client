@@ -8,6 +8,7 @@ var util = require('util'),
     events = require('events'),
     rewriter = require('../util/jsonrewriter'),
     genericUtils = require('../util/generic'),
+    settings = require('../util/settings'),
     Amount = ripple.Amount;
 
 angular
@@ -40,6 +41,8 @@ function AppCtrl ($scope, id, net, keychain, txQueue, appManager, rpTracker,
     rippleclient.id = id;
     rippleclient.net = net;
     rippleclient.keychain = keychain;
+    // for unit tests
+    rippleclient.settingsUtils = settings;
   }
 
   function reset()
@@ -309,7 +312,7 @@ function AppCtrl ($scope, id, net, keychain, txQueue, appManager, rpTracker,
       }
 
       // Show status notification
-      if (processedTxn.tx_result === "tesSUCCESS" &&
+      if (processedTxn.tx_result === 'tesSUCCESS' &&
         transaction &&
         !is_historic) {
 
@@ -320,7 +323,7 @@ function AppCtrl ($scope, id, net, keychain, txQueue, appManager, rpTracker,
       }
 
       // Add to recent notifications
-      if (processedTxn.tx_result === "tesSUCCESS" &&
+      if (processedTxn.tx_result === 'tesSUCCESS' &&
         transaction) {
 
         var effects = [];
@@ -330,7 +333,7 @@ function AppCtrl ($scope, id, net, keychain, txQueue, appManager, rpTracker,
           case 'exchange':
             var funded = false;
             processedTxn.effects.some(function(effect) {
-              if (_.contains(['offer_bought','offer_funded','offer_partially_funded'], effect.type)) {
+              if (_.contains(['offer_bought', 'offer_funded', 'offer_partially_funded'], effect.type)) {
                 funded = true;
                 effects.push(effect);
                 return true;
@@ -345,8 +348,7 @@ function AppCtrl ($scope, id, net, keychain, txQueue, appManager, rpTracker,
           case 'received':
 
             // Is it unseen?
-            var d = $scope.userBlob.data;
-            if (processedTxn.date > (d.clients && d.clients.rippletradecom && d.clients.rippletradecom.lastSeenTxDate || 0)) {
+            if (processedTxn.date > settings.getSetting($scope.userBlob, 'lastSeenTxDate', 0)) {
               processedTxn.unseen = true;
               $scope.unseenNotifications.count++;
             }

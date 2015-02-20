@@ -5,6 +5,7 @@
 
 var util = require('util'),
     webutil = require('../util/web'),
+    settings = require('../util/settings'),
     Tab = require('../client/tab').Tab;
 
 var SettingsTradeTab = function ()
@@ -32,14 +33,12 @@ SettingsTradeTab.prototype.angular = function(module) {
         saveTimeout;
 
     if ($scope.userBlob.data && $scope.userCredentials.username) {
-      var d = $scope.userBlob.data;
-      $scope.pairs = d.clients && d.clients.rippletradecom && d.clients.rippletradecom.trade_currency_pairs;
+      $scope.pairs = settings.getSetting($scope.userBlob, 'trade_currency_pairs');
     } else {
       var removeWatcher = $scope.$on('$blobUpdate', function() {
         if (!$scope.userCredentials.username)
           return;
-        var d = $scope.userBlob.data;
-        $scope.pairs = d.clients && d.clients.rippletradecom && d.clients.rippletradecom.trade_currency_pairs;
+        $scope.pairs = settings.getSetting($scope.userBlob, 'trade_currency_pairs');
         removeWatcher();
       });
     }
