@@ -89,7 +89,7 @@ section.col-xs-12.content(ng-controller="HistoryCtrl")
               i.fa.fa-exclamation-triangle(ng-show="entry.transaction.type=='failed'")
             span.i(ng-show="entry.details")
               i.fa.fa-arrow-down
-            span.dt {{entry.date | date:'EEE, MMM d, h:mm:ss a'}}
+            span.dt {{entry.date | date:'EEE, MMM d, h:mm:ss a'}}&#32;
             span.desc(ng-hide="entry.details", ng-switch on="entry.transaction.type")
               span(ng-switch-when="sent")
                 span(l10n, rp-span-spacing) You sent
