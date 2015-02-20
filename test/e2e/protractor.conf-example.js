@@ -27,7 +27,7 @@ exports.config = {
   // gateway test
   gateway : {
     address: 'rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q',
-    name: '~snapswap',
+    name: '~SnapSwap',
     fakeCurrency: '111'
   },
   
