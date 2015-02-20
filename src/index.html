@@ -116,7 +116,7 @@
 
       return resolveLanguage(store.get('ripple_language')) ||
              resolveLanguage(window.navigator.userLanguage || window.navigator.language) ||
-             "en";
+             'en';
     })();
     var debug = false;
   </script>
@@ -131,7 +131,8 @@
     $.ajaxSetup({
       cache: true
     });
-    $.getScript('js/ripple-client' + (debug ? '-debug' : '-'+lang) + '.js');
+    var version = '<!-- @echo VERSION -->';
+    $.getScript('js/ripple-client-' + version + (debug ? '-debug' : '-'+lang) + '.js');
   </script>
 
   <!-- start Mixpanel -->
