@@ -376,16 +376,12 @@ module.directive('rpInvoiceId', function () {
     link: function (scope, elm, attr, ctrl) {
       if (!ctrl) return;
 
-      var validator = function(value) {
-        ctrl.$setValidity('rpInvoiceId', !isNaN(parseInt(value, 16)) && value.length <= 64);
-        return value;
+      ctrl.$validators.rpInvoiceId = function(value) {
+        return !isNaN(parseInt(value, 16)) && value.length <= 64;
       };
 
-      ctrl.$formatters.push(validator);
-      ctrl.$parsers.unshift(validator);
-
-      attr.$observe('rpInvoiceId', function() {
-        validator(ctrl.$viewValue);
+      attr.$observe('rpInvoiceId', function(val) {
+        ctrl.$validate();
       });
     }
   };
