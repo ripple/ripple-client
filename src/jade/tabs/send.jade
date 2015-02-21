@@ -93,7 +93,7 @@ section.col-xs-12.content(ng-controller='SendCtrl')
             rp-invoice-id
             rp-autofill='$routeParams.invoiceid')
             .errorGroup(ng-messages='sendForm.send_invoiceid.$error')
-              .error(ng-message='rpInvoiceId', l10n) Invoice ID must not be more than 64 characters long.
+              .error(ng-message='rpInvoiceId', l10n) Invoice ID must be a 256-bit value encoded as a 64-character hexadecimal string.
         .row(ng-show="send.quote.invoice_id && $routeParams.invoiceid", l10n)
           div
             | The invoice ID from the quote will be used instead of the one specified in the URI.

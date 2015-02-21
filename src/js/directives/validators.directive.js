@@ -366,6 +366,7 @@ module.directive('rpStdt', function () {
 /**
  * InvoiceID validator
  *
+ * String must be in hex format
  * String must not be longer than 64 characters
  */
 module.directive('rpInvoiceId', function () {
@@ -376,13 +377,8 @@ module.directive('rpInvoiceId', function () {
       if (!ctrl) return;
 
       var validator = function(value) {
-        if (!value || value.length <= 64) {
-          ctrl.$setValidity('rpInvoiceId', true);
-          return value;
-        } else {
-          ctrl.$setValidity('rpInvoiceId', false);
-          return;
-        }
+        ctrl.$setValidity('rpInvoiceId', !isNaN(parseInt(value, 16)) && value.length <= 64);
+        return value;
       };
 
       ctrl.$formatters.push(validator);
