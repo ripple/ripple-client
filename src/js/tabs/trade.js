@@ -1310,7 +1310,7 @@ TradeTab.prototype.angular = function(module)
       }, $scope.address);
 
       $scope.orderbookState = 'ready';
-    };
+    }
 
     $scope.toggleOffers = function() {
       $scope.hideOffers = !$scope.hideOffers;

@@ -1,5 +1,3 @@
-'use strict';
-
 angular.module('filters')
   .filter('rpAmountHasIssuer', rpAmountHasIssuer);
 

@@ -54,8 +54,8 @@ section.col-xs-12.content(ng-controller='UsdCtrl')
               span.input-group-addon.ripple-addon $
               input.form-control.amount#amount(name='amount', type='number'
                 placeholder='e.g. 100', ng-model='usdAmount', required, min="1")
-            .errorGroup(rp-errors='amount')
-              .error(rp-error-on='maxAmount') {{error}}
+            .errorGroup(ng-messages='usdDeposit.amount.$error')
+              .error(ng-message='maxAmount') {{error}}
         .row
           .col-sm-4
             h5(l10n) Select your bank

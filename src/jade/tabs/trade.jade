@@ -86,8 +86,8 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                 ng-model="order.first_issuer_edit_name"
                 rp-dest, rp-dest-address, rp-dest-contact, rp-dest-ripple-name
                 rp-dest-model="order.first_issuer_edit")
-              .errorGroup(rp-errors='first_issuer')
-                .error(rp-error-on='rpDest', l10n) Not a valid Ripple address or contact
+              .errorGroup(ng-messages='first_issuer_form.first_issuer.$error')
+                .error(ng-message='rpDest', l10n) Not a valid Ripple address or contact
             .col-xs-12.col-sm-4.col-md-2
               button.btn.btn-block.btn-success.submit(type='submit',
                 ng-click='save_first_issuer()',
@@ -104,8 +104,8 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                 ng-model='order.second_issuer_edit_name'
                 rp-dest, rp-dest-address, rp-dest-contact, rp-dest-ripple-name
                 rp-dest-model="order.second_issuer_edit")
-              .errorGroup(rp-errors='second_issuer')
-                .error(rp-error-on='rpDest', l10n) Not a valid Ripple name or address
+              .errorGroup(ng-messages='second_issuer_form.second_issuer.$error')
+                .error(ng-message='rpDest', l10n) Not a valid Ripple name or address
             .col-xs-3.col-sm-2.col-md-2
               button.btn.btn-block.btn-success.submit(type='submit',
                 ng-click='save_second_issuer()',
@@ -210,12 +210,12 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                                 rp-pretty-issuer="order.first_issuer"
                                 rp-pretty-issuer-contacts="userBlob.data.contacts"
                                 rp-pretty-issuer-or-short)
-                          .errorGroup(rp-errors='amount')
-                            .error(rp-error-on='required', l10n) Required
-                            .error(rp-error-on='rpAmount', l10n) Not a valid amount.
-                            .error(rp-error-on='rpAmountPositive', l10n)
+                          .errorGroup(ng-messages='tradeForm.amount.$dirty && tradeForm.amount.$error')
+                            .error(ng-message='required', l10n) Required
+                            .error(ng-message='rpAmount', l10n) Not a valid amount.
+                            .error(ng-message='rpAmountPositive', l10n)
                               | Must be greater than zero
-                            .error(rp-error-on='rpAmountXrpLimit', l10n)
+                            .error(ng-message='rpAmountXrpLimit', l10n)
                               | Minimum amount of XRP you can send is a drop (0.000001) and the maximum is 100 billion XRPs.
                       .col-xs-12
                         .value-field
@@ -238,12 +238,12 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                                 rp-pretty-issuer="order.second_issuer"
                                 rp-pretty-issuer-contacts="userBlob.data.contacts"
                                 rp-pretty-issuer-or-short)
-                          .errorGroup(rp-errors='price')
-                            .error(rp-error-on='required', l10n) Required
-                            .error(rp-error-on='rpAmount', l10n) Not a valid amount.
-                            .error(rp-error-on='rpAmountPositive', l10n)
+                          .errorGroup(ng-messages='tradeForm.price.$dirty && tradeForm.price.$error')
+                            .error(ng-message='required', l10n) Required
+                            .error(ng-message='rpAmount', l10n) Not a valid amount.
+                            .error(ng-message='rpAmountPositive', l10n)
                               | Must be greater than zero
-                            .error(rp-error-on='rpAmountXrpLimit', l10n)
+                            .error(ng-message='rpAmountXrpLimit', l10n)
                               | Minimum amount of XRP you can send is a drop (0.000001) and the maximum is 100 billion XRPs.
                       .col-xs-12
                         .value-field
@@ -265,12 +265,12 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                                 rp-pretty-issuer="order.second_issuer"
                                 rp-pretty-issuer-contacts="userBlob.data.contacts"
                                 rp-pretty-issuer-or-short)
-                          .errorGroup(rp-errors='value')
-                            .error(rp-error-on='required', l10n) Required
-                            .error(rp-error-on='rpAmount', l10n) Not a valid amount.
-                            .error(rp-error-on='rpAmountPositive', l10n)
+                          .errorGroup(ng-messages='tradeForm.value.$dirty && tradeForm.value.$error')
+                            .error(ng-message='required', l10n) Required
+                            .error(ng-message='rpAmount', l10n) Not a valid amount.
+                            .error(ng-message='rpAmountPositive', l10n)
                               | Must be greater than zero
-                            .error(rp-error-on='rpAmountXrpLimit', l10n)
+                            .error(ng-message='rpAmountXrpLimit', l10n)
                               | Minimum amount of XRP you can send is a drop (0.000001) and the maximum is 100 billion XRPs.
                     .message
                       //- Having two very similar blocks just because of
