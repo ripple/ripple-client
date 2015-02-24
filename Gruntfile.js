@@ -14,6 +14,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-cache-bust');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
+  grunt.loadNpmTasks('grunt-contrib-imagemin');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-copy');
@@ -324,6 +325,17 @@ module.exports = function(grunt) {
         }]
       }
     },
+    imagemin: {
+      // note, this is done after 'copy' task so as not to rewrite the original img files
+      dynamic: {
+        files: [{
+          expand: true,
+          cwd: 'build/bundle/web/img/',
+          src: ['**/*.{png,svg,gif}'],
+          dest: 'build/bundle/web/img/'
+        }]
+      }
+    },
     jade_l10n_extractor: {
       templates: {
         options: {
@@ -505,6 +517,7 @@ module.exports = function(grunt) {
                                  'cssmin',
                                  'deps',
                                  'copy',
+                                 'imagemin',
                                  'cacheBust']);
 
   // Dev - builds the web version of the client excluding any locales
