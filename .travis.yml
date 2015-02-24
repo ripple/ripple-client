@@ -1,8 +1,6 @@
 language: node_js
 node_js:
   - "0.10"
-before_script:
-  - "npm install -g se-interpreter"
 before_install:
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
@@ -11,6 +9,7 @@ before_script:
   - "cp src/js/config-example.js src/js/config.js"
   - npm install -g bower
   - bower install
+  - npm install -g se-interpreter
 script: "grunt && npm run test-travis"
 script: "se-interpreter test/selenium/interpreter_config.json"
 notifications:
