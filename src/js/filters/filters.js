@@ -82,7 +82,7 @@ module.filter('rpamount', function() {
         // We attempt to show the entire number, by setting opts.precision to a high number... 100
       // opts.precision = 100;
       // quick fix. Amount.to_human uses Number.toFixed, which throws RangeError for values larger then 20.
-      opts.precision = 20;
+      opts.precision = 15;
     }
 
     var cdp = ("undefined" !== typeof currency) ? currency : 4;
