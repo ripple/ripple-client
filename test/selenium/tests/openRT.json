@@ -1,0 +1,25 @@
+{
+  "type": "script",
+  "seleniumVersion": "2",
+  "formatVersion": 2,
+  "steps": [
+    {
+      "type": "get",
+      "url": "https://www.rippletrade.com/"
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "XRP"
+    },
+    {
+      "type": "verifyTextPresent",
+      "text": "Trade hundreds of assets, from XRP to crypto to gold to fiat."
+    }
+  ],
+  "data": {
+    "configs": {},
+    "source": "none"
+  },
+  "inputs": [],
+  "timeoutSeconds": 60
+}
