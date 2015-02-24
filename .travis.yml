@@ -1,7 +1,7 @@
 language: node_js
 node_js:
   - "0.10"
-before_script:
+before_setup:
   - "npm install -g se-interpreter"
 before_install:
   - "export DISPLAY=:99.0"
