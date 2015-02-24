@@ -885,8 +885,8 @@ TradeTab.prototype.angular = function(module)
       order.second_issuer = issuer;
       order.currency_pair = pair[1] + '/' + pair[0];
 
-      updateSettings();
-      updateMRU();
+      updateSettings(); 
+      updateMRU(); 
     };
 
     // TODO: Remove all hardcoded GBI code eventually
