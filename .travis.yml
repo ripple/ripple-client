@@ -9,7 +9,8 @@ before_script:
   - "cp src/js/config-example.js src/js/config.js"
   - npm install -g bower
   - bower install
-script: "grunt && npm run test-travis"
+  - npm install -g se-interpreter
+script: "grunt && npm run test-travis && se-interpreter test/selenium/interpreter_config.json"
 notifications:
   email:
     false
@@ -19,3 +20,7 @@ notifications:
     on_success: change
     on_failure: always
     on_start: false
+env:
+  global: 
+    - SAUCE_USERNAME=tonga
+    - secure: "VJFHj5fr46Qf7h34xa/W6FmGvknPH57eQLJoEjKlZUYn0EGx9EliCdENfzAbtr3e4GnNvQh6X2bLA/lB7TRzoD84oyGkllkMayevQm/dViJbUBQsl7HOa6VwUwugW+o7T3+vPM4y5qqFv1B/fs3Fthl+eKUatccy9qK4xra1Hso="
