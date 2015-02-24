@@ -48,6 +48,8 @@ h4(l10n) Account settings
         .alert.alert-danger(ng-show="error", ng-switch on="error")
           span(ng-switch-when="wrongpassword", l10n)
             | Entered password is wrong.
+          span(ng-switch-when="server", l10n)
+            | Your account cannot be accessed at the moment. Please try again later.
           span(ng-switch-when="cantlogin", l10n)
             | Your Ripple name has been changed. Please login again.
           span(ng-switch-default, l10n)

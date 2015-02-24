@@ -8,8 +8,8 @@
  * time. This class manages the timeout when the account will be re-locked.
  */
 
-var webutil = require("../util/web"),
-    log = require("../util/log");
+var webutil = require('../util/web'),
+    log = require('../util/log');
 
 var module = angular.module('keychain', ['popup']);
 
@@ -43,7 +43,7 @@ module.factory('rpKeychain', ['$rootScope', '$timeout', 'rpPopup', 'rpId',
   Keychain.prototype.requestSecret = function (account, username, purpose, callback) {
     var _this = this;
 
-    if ("function" === typeof purpose) {
+    if ('function' === typeof purpose) {
       callback = purpose;
       purpose = null;
     }
@@ -75,13 +75,19 @@ module.factory('rpKeychain', ['$rootScope', '$timeout', 'rpPopup', 'rpId',
 
     popupScope.confirm = function () {
       unlock.isConfirming = true;
+      unlock.error = null;
 
       function handleSecret(err, secret) {
         if (err) {
           // XXX More fine-grained error handling would be good. Can we detect
           //     server down?
           unlock.isConfirming = false;
-          unlock.error = "password";
+          // check for 'Could not query PAKDF server'
+          if (err instanceof Error && typeof err.message === 'string' && err.message.indexOf('PAKDF') !== -1) {
+            unlock.error = 'server';
+          } else {
+            unlock.error = 'password';
+          }
         } else {
           $interval.cancel(popupScope.updater);
           popup.close();
@@ -93,13 +99,17 @@ module.factory('rpKeychain', ['$rootScope', '$timeout', 'rpPopup', 'rpId',
       _this.getSecret(account, username, popupScope.unlock.password,
                       handleSecret);
     };
-    popupScope.cancel = function () {
+
+    popupScope.cancel = function() {
       $interval.cancel(popupScope.updater);
-      callback('canceled'); // need this for setting password protection
+      // need this for setting password protection
+      callback('canceled');
       popup.close();
     };
-    popupScope.onKeyUp = function ($event) {
-      if ($event.which === 27) popupScope.cancel();  // esc button
+
+    popupScope.onKeyUp = function($event) {
+      // esc button
+      if ($event.which === 27) popupScope.cancel();
     };
     popup.blank(require('../../jade/popup/unlock.jade')(), popupScope);
   };
@@ -147,9 +157,9 @@ module.factory('rpKeychain', ['$rootScope', '$timeout', 'rpPopup', 'rpId',
    * This function will only work if the account is already unlocked. Throws an
    * error otherwise.
    */
-  Keychain.prototype.getUnlockedSecret = function (account) {
+  Keychain.prototype.getUnlockedSecret = function(account) {
     if (!this.isUnlocked(account)) {
-      throw new Error("Keychain: Tried to get secret for locked account synchronously.");
+      throw new Error('Keychain: Tried to get secret for locked account synchronously.');
     }
 
     return this.secrets[account].masterkey;
