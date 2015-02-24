@@ -886,7 +886,7 @@ TradeTab.prototype.angular = function(module)
       order.currency_pair = pair[1] + '/' + pair[0];
 
       updateSettings(); 
-      updateMRU();
+      updateMRU(); 
     };
 
     // TODO: Remove all hardcoded GBI code eventually
