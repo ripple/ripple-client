@@ -37,14 +37,17 @@ AdvancedTab.prototype.angular = function(module)
     $scope.options = Options;
     $scope.optionsBackup = $.extend(true, {}, Options);
     $scope.passwordProtection = !settings.getSetting($scope.userBlob, 'persistUnlock', false);
-    $scope.editBridge = false;
-    $scope.editBlob = false;
-    $scope.editMaxNetworkFee = false;
-    $scope.editAcctOptions = false;
     $scope.editConfirmation = {
       send: false,
       exchange: false,
       trade: false
+    };
+    $scope.edit = {
+      acctOptions: false,
+      blob: false,
+      bridge: false,
+      maxNetworkFee: false,
+      historyApi: false
     };
     $scope.max_tx_network_fee_human = ripple.Amount.from_json($scope.options.max_tx_network_fee).to_human();
     $scope.advancedFeatureSwitchChanged = false;
@@ -57,29 +60,13 @@ AdvancedTab.prototype.angular = function(module)
     // Initialize the notification object
     $scope.success = {};
 
-    // Wait until blob is fully loaded.
-    $scope.$on('$netConnected', function() {
-      if (!settings.blobIsValid($scope.userBlob)) return;
-      // For options.confirmation, but will eventually be used for other user settings
-      // Store user blob settings into backup instead of default settings from config.js.
-      if (settings.hasSetting($scope.userBlob, 'confirmation')) {
-        // Replace default settings with user settings from blob
-        $scope.options.confirmation = $.extend(true, {}, settings.getSetting($scope.userBlob, 'confirmation'));
-        // The same goes for the backup
-        $scope.optionsBackup.confirmation = $.extend(true, {}, settings.getSetting($scope.userBlob, 'confirmation'));
-      } else {
-        // if blob is empty, then populate the blob with default settings
-        $scope.userBlob.set('/clients/rippletradecom/confirmation', $scope.options.confirmation)
-      }
-    });
-
     $scope.saveBlob = function() {
       // Save in local storage
       if (!store.disabled) {
         store.set('ripple_settings', JSON.stringify($scope.options));
       }
 
-      $scope.editBlob = false;
+      $scope.edit.blob = false;
 
       // Reload
       location.reload();
@@ -94,7 +81,7 @@ AdvancedTab.prototype.angular = function(module)
         store.set('ripple_settings', JSON.stringify($scope.options));
       }
 
-      $scope.editBridge = false;
+      $scope.edit.bridge = false;
 
       // Notify the user
       $scope.success.saveBridge = true;
@@ -110,7 +97,7 @@ AdvancedTab.prototype.angular = function(module)
       // recreated unless we do location.reload()
       network.remote.max_fee = $scope.options.max_tx_network_fee;
 
-      $scope.editMaxNetworkFee = false;
+      $scope.edit.maxNetworkFee = false;
 
       // Notify the user
       $scope.success.saveMaxNetworkFee = true;
@@ -124,7 +111,7 @@ AdvancedTab.prototype.angular = function(module)
       }
       $scope.confirmationChanged[transactionType] = false;
 
-      $scope.userBlob.set('/clients/rippletradecom/confirmation', $scope.options.confirmation)
+      $scope.userBlob.set('/clients/rippletradecom/confirmation', $scope.options.confirmation);
 
       $scope.editConfirmation[transactionType] = false;
 
@@ -132,8 +119,16 @@ AdvancedTab.prototype.angular = function(module)
       $scope.success.saveConfirmation[transactionType] = true;
     };
 
+    $scope.saveHistoryApi = function() {
+      $scope.userBlob.set('/clients/rippletradecom/historyApi', $scope.options.historyApi);
+      $scope.edit.historyApi = false;
+
+      // Notify the user
+      $scope.success.saveHistoryApi = true;
+    }
+
     $scope.saveAcctOptions = function() {
-      // ignore it if we are not going to change anything
+      // Ignore it if we are not going to change anything
       if (!$scope.advancedFeatureSwitchChanged) {
         return;
       }
@@ -146,7 +141,7 @@ AdvancedTab.prototype.angular = function(module)
 
       $scope.userBlob.set('/clients/rippletradecom/trust/advancedMode', $scope.options.advanced_feature_switch);
 
-      $scope.editAcctOptions = false;
+      $scope.edit.acctOptions = false;
 
       // Notify the user
       $scope.success.saveAcctOptions = true;
@@ -169,12 +164,12 @@ AdvancedTab.prototype.angular = function(module)
     };
 
     $scope.cancelEditBlob = function() {
-      $scope.editBlob = false;
+      $scope.edit.blob = false;
       $scope.options.blobvault = $scope.optionsBackup.blobvault;
     };
 
     $scope.cancelEditBridge = function() {
-      $scope.editBridge = false;
+      $scope.edit.bridge = false;
       $scope.options.bridge.out.bitcoin = $scope.optionsBackup.bridge.out.bitcoin;
     };
 
@@ -184,22 +179,23 @@ AdvancedTab.prototype.angular = function(module)
     };
 
     $scope.cancelEditMaxNetworkFee = function() {
-      $scope.editMaxNetworkFee = false;
+      $scope.edit.maxNetworkFee = false;
       $scope.options.max_tx_network_fee = $scope.optionsBackup.max_tx_network_fee;
       $scope.max_tx_network_fee_human = ripple.Amount.from_json($scope.options.max_tx_network_fee).to_human();
     };
 
     $scope.cancelEditAcctOptions = function() {
-      $scope.editAcctOptions = false;
+      $scope.edit.acctOptions = false;
       $scope.options.advanced_feature_switch = $scope.optionsBackup.advanced_feature_switch;
     };
 
+    $scope.cancelEditHistoryApi = function() {
+      $scope.edit.historyApi = false;
+      $scope.options.historyApi = $scope.optionsBackup.historyApi;
+    };
+
     $scope.$on('$blobUpdate', function() {
-      var data = $scope.userBlob.data;
       $scope.passwordProtection = !settings.getSetting($scope.userBlob, 'persistUnlock', false);
-      if (settings.hasSetting($scope.userBlob, 'confirmation')) {
-        $scope.options.confirmation = settings.getSetting($scope.userBlob, 'confirmation');
-      }
 
       // we assume that some fields in Options are updated in rpId service $blobUpdate handler
       $scope.optionsBackup = $.extend(true, {}, Options);
