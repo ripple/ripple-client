@@ -5,13 +5,16 @@
 			"settings": [
 				{
 					"driverOptions": {
-						"host": "ondemand.saucelabs.com",
-						"port": 80
+						"host": "localhost",
+						"port": 4445
 					},
 					"browserOptions": {
-						"browserName": "firefox",
+						"browserName": "googlechrome",
 						"username": "${SAUCE_USERNAME}",
 						"accessKey": "${SAUCE_ACCESS_KEY}"
+						"tunnel-identifier": "${TRAVIS_JOB_NUMBER}",
+              					"build": "${TRAVIS_BUILD_NUMBER}",
+              					"tags": "${TRAVIS_BRANCH}"
 					}
 				}
 			],
