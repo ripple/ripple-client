@@ -11,6 +11,7 @@ before_script:
   - "cp src/js/config-example.js src/js/config.js"
   - npm install -g bower
   - bower install
+  - curl https://gist.github.com/santiycr/5139565/raw/sauce_connect_setup.sh | bash
 script: "grunt && npm run test-travis && se-interpreter test/selenium/interpreter_config.json"
 notifications:
   email:
