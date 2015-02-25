@@ -24,3 +24,6 @@ env:
   global: 
     - SAUCE_USERNAME=tonga
     - secure: "VJFHj5fr46Qf7h34xa/W6FmGvknPH57eQLJoEjKlZUYn0EGx9EliCdENfzAbtr3e4GnNvQh6X2bLA/lB7TRzoD84oyGkllkMayevQm/dViJbUBQsl7HOa6VwUwugW+o7T3+vPM4y5qqFv1B/fs3Fthl+eKUatccy9qK4xra1Hso="
+
+addons:
+  sauce_connect: true
