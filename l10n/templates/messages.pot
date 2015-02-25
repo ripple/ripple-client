@@ -3552,8 +3552,6 @@ msgstr "EXISTING SNAPSWAP US CUSTOMERS"
 msgid "Deposit instantly via selected banks"
 msgstr "Deposit instantly via selected banks"
 
-#: src/jade/tabs/usd.jade:95
-
 #: src/jade/tabs/usd.jade:97
 msgid "Deposit via online bank transfer (3 business days)"
 msgstr "Deposit via online bank transfer (3 business days)"
