@@ -21,44 +21,30 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
     .col-sm-9.list
       section.content#servers
         h4(l10n) Settings
-        form(name="blobForm", ng-submit='save("blobvault")')
-          .descriptor(l10n) Blob vault
-          .row.advanced-form-row(ng-hide="edit.blobvault")
-            .col-xs-9.col-sm-8.col-md-6
-              .description {{options.blobvault}}
-            .col-xs-1
-            .col-xs-3.col-sm-3.col-md-2
-              a.btn.btn-block.btn-cancel(href="", ng-click="edit.blobvault = true", l10n) edit
-          .row.row-padding-small.field-edit-row(ng-show="edit.blobvault")
-            .col-xs-12.col-sm-9.col-md-6
-              input.form-control.blobIp#blobIp(
-              name='blobIp', type='text'
-              ng-model='options.blobvault')
-            .col-xs-6.col-sm-6.col-md-3
-              button.btn.btn-block.btn-success.btn-xs.submit#saveBlob(type='submit', ng-disabled='blobForm.$invalid', l10n) Save
-            .col-xs-3.col-sm-3.col-md-2
-              button.btn.btn-block.btn-danger.btn-xs.submit#deleteBlob(type="button", ng-click="deleteBlob()", l10n) Delete
-            .col-xs-3.col-sm-3.col-md-1.text-center#cancel
-              a.btn.btn-cancel.btn-block(href="", ng-click='cancelEdit("blobvault")', l10n) cancel
-        form(name="bridgeForm", ng-submit='save("bridge")')
-          .descriptor(l10n) Bitcoin bridge
-          .row.advanced-form-row(ng-hide="edit.bridge")
-            .col-xs-9.col-sm-8.col-md-6
-              .description {{options.bridge.out.bitcoin}}
-            .col-xs-1
-            .col-xs-3.col-sm-3.col-md-2
-              a.btn.btn-block.btn-cancel(href="", ng-click="edit.bridge = true", l10n) edit
-          .row.row-padding-small.field-edit-row(ng-show="edit.bridge")
-            .col-xs-12.col-sm-9.col-md-6
-              input.form-control.btcDomain#btcDomain(
-              name='btcDomain', type='text'
-              ng-model='options.bridge.out.bitcoin')
-            .col-xs-6.col-sm-6.col-md-3
-              button.btn.btn-block.btn-success.btn-xs.submit#saveBridge(type='submit', ng-disabled='bridgeForm.$invalid', l10n) Save
-            .col-xs-3.col-sm-3.col-md-2
-              button.btn.btn-block.btn-danger.btn-xs.submit#deleteBridge(type="button", ng-click="deleteBridge()", l10n) Delete
-            .col-xs-3.col-sm-3.col-md-1.text-center#cancel
-              a.btn.btn-cancel.btn-block(href="", ng-click='cancelEdit("bridge")', l10n) cancel
+        mixin urlForm(urlType, formName, formDescriptor, description, inputName, hasDelete)
+          form(name=formName, ng-submit='save("'+urlType+'")')
+            .descriptor(l10n)= formDescriptor
+            .row.advanced-form-row(ng-hide='edit.'+urlType)
+              .col-xs-9.col-sm-8.col-md-6
+                .description= description.url
+              .col-xs-1
+              .col-xs-3.col-sm-3.col-md-2
+                a.btn.btn-block.btn-cancel(href="", ng-click='edit.'+urlType+' = true', l10n) edit
+            .row.row-padding-small.field-edit-row(ng-show='edit.'+urlType)
+              .col-xs-12.col-sm-9.col-md-6
+                input.form-control(
+                class=inputName
+                id=inputName
+                name=inputName, type='text'
+                ng-model=description.ngModel
+                required)
+              .col-xs-6.col-sm-6.col-md-3
+                button.btn.btn-block.btn-success.btn-xs.submit#save(type='submit', ng-disabled=formName+'.$invalid', l10n) Save
+              if hasDelete
+                .col-xs-3.col-sm-3.col-md-2
+                  button.btn.btn-block.btn-danger.btn-xs.submit#delete(type="button", ng-click='deleteUrl("'+urlType+'")', l10n) Delete
+              .col-xs-3.col-sm-3.col-md-1.text-center#cancel
+                a.btn.btn-cancel.btn-block(href="", ng-click='cancelEdit("'+urlType+'")', l10n) cancel
         mixin confirmation(transactionType, formName, formDescriptor, formLabel, boxName)
           form(name=formName, ng-submit='saveConfirmation("'+transactionType+'")')
             .descriptor(l10n)= formDescriptor
@@ -86,6 +72,8 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
                 button.btn.btn-block.btn-danger.btn-xs.submit#delete(type="button", ng-click="remove()", ng-show="hasRemove()", l10n) Delete
               .col-xs-3.col-sm-3.col-md-2.text-center#cancel
                 a.btn.btn-cancel.btn-block(href="", ng-click='cancelEditConfirmation("'+transactionType+'")', l10n) cancel
+        +urlForm('blobvault', 'blobForm', 'Blob vault', {url: '{{options.blobvault}}', ngModel: 'options.blobvault'}, 'blobIp', true)
+        +urlForm('bridge', 'bridgeForm', 'Bitcoin bridge', {url: '{{options.bridge.out.bitcoin}}', ngModel: 'options.bridge.out.bitcoin'}, 'btcDomain', true)
         +confirmation('send', 'sendConfirmationForm', 'Send confirmation settings', 'If you hide your send confirmation page, you will not see a confirmation page when sending money. You might pay up to .1% more than you originally specified.', 'sendConfirmationBox')
         +confirmation('exchange', 'exchangeConfirmationForm', 'Simple trade confirmation settings', 'If you hide the simple trade confirmation page, you will not see a confirmation page when placing a simple trade. You might pay up to .1% more than you originally specified.', 'exchangeConfirmationBox')
         +confirmation('trade', 'tradeConfirmationForm', 'Advanced trade confirmation settings', 'If you hide the advanced trade confirmation page, you will not see a confirmation page when placing orders.', 'tradeConfirmationBox')
@@ -142,24 +130,7 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
               a.btn.btn-cancel.btn-block(href="", ng-click='cancelEdit("maxNetworkFee")', l10n) cancel
 
         h4#serverSettings(l10n) Server settings
-        form(name="historyApiForm", ng-submit='save("historyApi")')
-          .descriptor(l10n) History API
-          .row.advanced-form-row(ng-hide="edit.historyApi")
-            .col-xs-9.col-sm-8.col-md-6
-              .description {{options.historyApi}}
-            .col-xs-1
-            .col-xs-3.col-sm-3.col-md-2
-              a.btn.btn-block.btn-cancel(href="", ng-click="edit.historyApi = true", l10n) edit
-          .row.row-padding-small.field-edit-row(ng-show="edit.historyApi")
-            .col-xs-12.col-sm-9.col-md-6.input-group
-              input.form-control.historyApi#historyApi(
-              name='historyApi', type='text'
-              ng-model='options.historyApi'
-              required)
-            .col-xs-6.col-sm-6.col-md-3
-              button.btn.btn-block.btn-success.btn-xs.submit#saveHistoryApi(type='submit', ng-disabled='historyApiForm.$invalid', l10n) Save
-            .col-xs-3.col-sm-3.col-md-1.text-center#cancel
-              a.btn.btn-cancel.btn-block(href="", ng-click='cancelEdit("historyApi")', l10n) cancel
+        +urlForm('historyApi', 'historyApiForm', 'History API', {url: '{{options.historyApi}}', ngModel: 'options.historyApi'}, 'historyAPI', false)
         form.server-row-form(ng-controller="ServerRowCtrl", ng-repeat="(index, server) in options.server.servers", ng-submit="save()")
           ng-form(name="serverForm")
             .row

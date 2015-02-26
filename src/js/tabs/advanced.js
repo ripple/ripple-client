@@ -112,16 +112,15 @@ AdvancedTab.prototype.angular = function(module)
       $scope.success.saveConfirmation[transactionType] = true;
     };
 
-    $scope.deleteBlob = function() {
-      $scope.options.blobvault = '';
-      // Save in local storage
-      if (!store.disabled) {
-        store.set('ripple_settings', JSON.stringify($scope.options));
+    $scope.deleteUrl = function(type) {
+      switch (type) {
+        case 'blobvault':
+          $scope.options.blobvault = '';
+          break;
+        case 'bridge':
+          $scope.options.bridge.out.bitcoin = '';
       }
-    };
 
-    $scope.deleteBridge = function() {
-      $scope.options.bridge.out.bitcoin = '';
       // Save in local storage
       if (!store.disabled) {
         store.set('ripple_settings', JSON.stringify($scope.options));
