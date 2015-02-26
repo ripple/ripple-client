@@ -13,7 +13,7 @@ before_script:
   - bower install
   - npm install -g se-interpreter
   - grunt connect:sauce &
-script: "grunt && npm run test-travis && se-interpreter test/selenium/interpreter_config.json"
+script: "./test/travis-run.sh"
 env:
   global: 
     - SAUCE_USERNAME=tonga
