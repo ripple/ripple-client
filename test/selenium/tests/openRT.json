@@ -5,7 +5,7 @@
   "steps": [
     {
       "type": "get",
-      "url": "localhost:4445"
+      "url": "http://localhost:9001/"
     },
     {
       "type": "waitForTextPresent",

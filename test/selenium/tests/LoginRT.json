@@ -5,7 +5,7 @@
   "steps": [
     {
       "type": "get",
-      "url": "https://www.rippletrade.com"
+      "url": "http://localhost:9001/#/login"
     },
     {
       "type": "waitForTextPresent",

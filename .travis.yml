@@ -12,6 +12,7 @@ before_script:
   - npm install -g bower
   - bower install
   - npm install -g se-interpreter
+  - grunt connect:sauce &
 script: "grunt && npm run test-travis && se-interpreter test/selenium/interpreter_config.json"
 env:
   global: 

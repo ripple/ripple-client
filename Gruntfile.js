@@ -398,6 +398,14 @@ module.exports = function(grunt) {
             ];
           }
         }
+      },
+      sauce: {
+        options: {
+          hostname: 'localhost',
+          port: 9001,
+          base: 'build/bundle/web',
+          keepalive: true
+        }
       }
     },
     bower: {
