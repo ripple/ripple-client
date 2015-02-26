@@ -128,35 +128,21 @@ AdvancedTab.prototype.angular = function(module)
       }
     };
 
-    $scope.cancelEditBlob = function() {
-      $scope.edit.blob = false;
-      $scope.options.blobvault = $scope.optionsBackup.blobvault;
-    };
-
-    $scope.cancelEditBridge = function() {
-      $scope.edit.bridge = false;
-      $scope.options.bridge.out.bitcoin = $scope.optionsBackup.bridge.out.bitcoin;
+    $scope.cancelEdit = function(type) {
+      $scope.edit[type] = false;
+      if (type === 'maxNetworkFee') {
+        $scope.options.max_tx_network_fee = $scope.optionsBackup.max_tx_network_fee;
+        $scope.max_tx_network_fee_human = ripple.Amount.from_json($scope.options.max_tx_network_fee).to_human();
+      } else if (type === 'bridge') {
+        $scope.options.bridge.out.bitcoin = $scope.optionsBackup.bridge.out.bitcoin;
+      } else {
+        $scope.options[type] = $scope.optionsBackup[type];
+      }
     };
 
     $scope.cancelEditConfirmation = function(transactionType) {
       $scope.editConfirmation[transactionType] = false;
       $scope.options.confirmation[transactionType] = $scope.optionsBackup.confirmation[transactionType];
-    };
-
-    $scope.cancelEditMaxNetworkFee = function() {
-      $scope.edit.maxNetworkFee = false;
-      $scope.options.max_tx_network_fee = $scope.optionsBackup.max_tx_network_fee;
-      $scope.max_tx_network_fee_human = ripple.Amount.from_json($scope.options.max_tx_network_fee).to_human();
-    };
-
-    $scope.cancelEditAcctOptions = function() {
-      $scope.edit.acctOptions = false;
-      $scope.options.advanced_feature_switch = $scope.optionsBackup.advanced_feature_switch;
-    };
-
-    $scope.cancelEditHistoryApi = function() {
-      $scope.edit.historyApi = false;
-      $scope.options.historyApi = $scope.optionsBackup.historyApi;
     };
 
     $scope.$on('$blobUpdate', function() {

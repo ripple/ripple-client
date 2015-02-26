@@ -39,7 +39,7 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
             .col-xs-3.col-sm-3.col-md-2
               button.btn.btn-block.btn-danger.btn-xs.submit#deleteBlob(type="button", ng-click="deleteBlob()", l10n) Delete
             .col-xs-3.col-sm-3.col-md-1.text-center#cancel
-              a.btn.btn-cancel.btn-block(href="", ng-click="cancelEditBlob()", l10n) cancel
+              a.btn.btn-cancel.btn-block(href="", ng-click='cancelEdit("blobvault")', l10n) cancel
         form(name="bridgeForm", ng-submit='save("bridge")')
           .descriptor(l10n) Bitcoin bridge
           .row.advanced-form-row(ng-hide="edit.bridge")
@@ -58,7 +58,7 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
             .col-xs-3.col-sm-3.col-md-2
               button.btn.btn-block.btn-danger.btn-xs.submit#deleteBridge(type="button", ng-click="deleteBridge()", l10n) Delete
             .col-xs-3.col-sm-3.col-md-1.text-center#cancel
-              a.btn.btn-cancel.btn-block(href="", ng-click="cancelEditBridge()", l10n) cancel
+              a.btn.btn-cancel.btn-block(href="", ng-click='cancelEdit("bridge")', l10n) cancel
         mixin confirmation(transactionType, formName, formDescriptor, formLabel, boxName)
           form(name=formName, ng-submit='saveConfirmation("'+transactionType+'")')
             .descriptor(l10n)= formDescriptor
@@ -115,7 +115,7 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
             .col-xs-3(ng-show="hasRemove()")
               button.btn.btn-block.btn-danger.btn-xs.submit#delete(type="button", ng-click="remove()", ng-show="hasRemove()", l10n) Delete
             .col-xs-3.col-sm-3.col-md-2.text-center#cancel
-              a.btn.btn-cancel.btn-block(href="", ng-click="cancelEditAcctOptions()", l10n) cancel
+              a.btn.btn-cancel.btn-block(href="", ng-click='cancelEdit("advanced_feature_switch")', l10n) cancel
         h4#networkSettings(l10n) Network settings
         form(name="maxnetworkfeeForm", ng-submit='save("maxNetworkFee")')
           .descriptor(l10n) Maximum network fee
@@ -139,7 +139,7 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
             .col-xs-6.col-sm-6.col-md-3
               button.btn.btn-block.btn-success.btn-xs.submit#saveMaxNetworkFee(type='submit', ng-disabled='maxnetworkfeeForm.$invalid', l10n) Save
             .col-xs-3.col-sm-3.col-md-1.text-center#cancel
-              a.btn.btn-cancel.btn-block(href="", ng-click="cancelEditMaxNetworkFee()", l10n) cancel
+              a.btn.btn-cancel.btn-block(href="", ng-click='cancelEdit("maxNetworkFee")', l10n) cancel
 
         h4#serverSettings(l10n) Server settings
         form(name="historyApiForm", ng-submit='save("historyApi")')
@@ -159,7 +159,7 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
             .col-xs-6.col-sm-6.col-md-3
               button.btn.btn-block.btn-success.btn-xs.submit#saveHistoryApi(type='submit', ng-disabled='historyApiForm.$invalid', l10n) Save
             .col-xs-3.col-sm-3.col-md-1.text-center#cancel
-              a.btn.btn-cancel.btn-block(href="", ng-click="cancelEditHistoryApi()", l10n) cancel
+              a.btn.btn-cancel.btn-block(href="", ng-click='cancelEdit("historyApi")', l10n) cancel
         form.server-row-form(ng-controller="ServerRowCtrl", ng-repeat="(index, server) in options.server.servers", ng-submit="save()")
           ng-form(name="serverForm")
             .row
