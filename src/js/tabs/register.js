@@ -31,6 +31,11 @@ RegisterTab.prototype.angular = function (module) {
      * Email verification
      */
     if ($routeParams.token) {
+      if (id.loginStatus) {
+        id.logout();
+        location.reload();
+        return;
+      }
       id.verify({
         username: $routeParams.username,
         token: $routeParams.token
