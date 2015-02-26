@@ -150,19 +150,14 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', '$t
 
       var d = $scope.userBlob.data;
       Options.advanced_feature_switch = settings.getSetting($scope.userBlob, 'trust.advancedMode', false);
-
+      Options.historyApi = settings.getSetting($scope.userBlob, 'historyApi', Options.historyApi);
       // confirmation
-      // Replace default settings with user settings from blob
-      if (settings.hasSetting($scope.userBlob, 'confirmation')) {
-        Options.confirmation = $.extend(true, {}, settings.getSetting($scope.userBlob, 'confirmation'));
-      } else {
-        // if blob is empty, then populate the blob with default settings from config.js
-        $scope.userBlob.set('/clients/rippletradecom/confirmation', Options.confirmation);
-      }
+      // Replace default settings with user settings from blob, if blob is empty, then reuse the original value
+      Options.confirmation = $.extend(true, {}, settings.getSetting($scope.userBlob, 'confirmation', Options.confirmation));
 
       // Account address
-      if (!$scope.address && $scope.userBlob.data.account_id) {
-        $scope.address = $scope.userBlob.data.account_id;
+      if (!$scope.address && d.account_id) {
+        $scope.address = d.account_id;
       }
 
       // migrate user data to clients.rippletradecom
