@@ -5,14 +5,14 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
     include banner/unfunded
   .row(ng-show='!debug')
     .col-sm-12.notification-wrapper
-      .alert.alert-success(ng-show="success.saveBlob", l10n) Your blobvault has been changed successfully.
-      .alert.alert-success(ng-show="success.saveBridge", l10n) Your bitcoin bridge has been changed successfully.
-      .alert.alert-success(ng-show="success.saveAcctOptions", l10n) Trustline advanced settings have been changed successfully.
+      .alert.alert-success(ng-show="success.blobvault", l10n) Your blobvault has been changed successfully.
+      .alert.alert-success(ng-show="success.bridge", l10n) Your bitcoin bridge has been changed successfully.
+      .alert.alert-success(ng-show="success.advanced_feature_switch", l10n) Trustline advanced settings have been changed successfully.
       .alert.alert-success(ng-show="success.saveConfirmation.send", l10n) Send confirmation settings have been changed successfully.
       .alert.alert-success(ng-show="success.saveConfirmation.exchange", l10n) Simple trade confirmation settings have been changed successfully.
       .alert.alert-success(ng-show="success.saveConfirmation.trade", l10n) Advanced trade confirmation settings have been changed successfully.
-      .alert.alert-success(ng-show="success.saveMaxNetworkFee", l10n) Maximum network fee has been changed successfully.
-      .alert.alert-success(ng-show="success.saveHistoryApi", l10n) History API has been changed successfully.
+      .alert.alert-success(ng-show="success.maxNetworkFee", l10n) Maximum network fee has been changed successfully.
+      .alert.alert-success(ng-show="success.historyApi", l10n) History API has been changed successfully.
       .alert.alert-success(ng-show="success.addServer && success.saveServer", l10n) A server has been successfully added.
       .alert.alert-success(ng-show="success.removeServer", l10n) A server has been successfully removed.
       .alert.alert-success(ng-show="!success.addServer && success.saveServer", l10n) A server has been changed successfully.
@@ -21,15 +21,15 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
     .col-sm-9.list
       section.content#servers
         h4(l10n) Settings
-        form(name="blobForm", ng-submit="saveBlob()")
+        form(name="blobForm", ng-submit='save("blobvault")')
           .descriptor(l10n) Blob vault
-          .row.advanced-form-row(ng-hide="edit.blob")
+          .row.advanced-form-row(ng-hide="edit.blobvault")
             .col-xs-9.col-sm-8.col-md-6
               .description {{options.blobvault}}
             .col-xs-1
             .col-xs-3.col-sm-3.col-md-2
-              a.btn.btn-block.btn-cancel(href="", ng-click="edit.blob = true", l10n) edit
-          .row.row-padding-small.field-edit-row(ng-show="edit.blob")
+              a.btn.btn-block.btn-cancel(href="", ng-click="edit.blobvault = true", l10n) edit
+          .row.row-padding-small.field-edit-row(ng-show="edit.blobvault")
             .col-xs-12.col-sm-9.col-md-6
               input.form-control.blobIp#blobIp(
               name='blobIp', type='text'
@@ -40,7 +40,7 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
               button.btn.btn-block.btn-danger.btn-xs.submit#deleteBlob(type="button", ng-click="deleteBlob()", l10n) Delete
             .col-xs-3.col-sm-3.col-md-1.text-center#cancel
               a.btn.btn-cancel.btn-block(href="", ng-click="cancelEditBlob()", l10n) cancel
-        form(name="bridgeForm", ng-submit="saveBridge()")
+        form(name="bridgeForm", ng-submit='save("bridge")')
           .descriptor(l10n) Bitcoin bridge
           .row.advanced-form-row(ng-hide="edit.bridge")
             .col-xs-9.col-sm-8.col-md-6
@@ -89,17 +89,17 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
         +confirmation('send', 'sendConfirmationForm', 'Send confirmation settings', 'If you hide your send confirmation page, you will not see a confirmation page when sending money. You might pay up to .1% more than you originally specified.', 'sendConfirmationBox')
         +confirmation('exchange', 'exchangeConfirmationForm', 'Simple trade confirmation settings', 'If you hide the simple trade confirmation page, you will not see a confirmation page when placing a simple trade. You might pay up to .1% more than you originally specified.', 'exchangeConfirmationBox')
         +confirmation('trade', 'tradeConfirmationForm', 'Advanced trade confirmation settings', 'If you hide the advanced trade confirmation page, you will not see a confirmation page when placing orders.', 'tradeConfirmationBox')
-        form.trust-line-form(name="accountsAdvForm", ng-submit="saveAcctOptions()")
+        form.trust-line-form(name="accountsAdvForm", ng-submit='save("advanced_feature_switch")')
           .descriptor(l10n) Trust line
-          .row.advanced-form-row(ng-hide="edit.acctOptions")
+          .row.advanced-form-row(ng-hide="edit.advanced_feature_switch")
             .col-xs-6.col-sm-5.col-md-3
               .description Advanced settings
             .col-xs-3.col-sm-4.col-md-4
               .description(ng-show="options.advanced_feature_switch", l10n) Show
               .description(ng-hide="options.advanced_feature_switch", l10n) Hide
             .col-xs-3.col-sm-3.col-md-2
-              a.btn.btn-cancel.btn-block(href="", ng-click="edit.acctOptions = true", l10n) edit
-          .row.row-padding-small.edit-trust-line(ng-show="edit.acctOptions")
+              a.btn.btn-cancel.btn-block(href="", ng-click="edit.advanced_feature_switch = true", l10n) edit
+          .row.row-padding-small.edit-trust-line(ng-show="edit.advanced_feature_switch")
             .col-xs-6.col-sm-5.col-md-3
               .description Advanced settings
             .col-xs-4.col-sm-4.col-md-3
@@ -117,7 +117,7 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
             .col-xs-3.col-sm-3.col-md-2.text-center#cancel
               a.btn.btn-cancel.btn-block(href="", ng-click="cancelEditAcctOptions()", l10n) cancel
         h4#networkSettings(l10n) Network settings
-        form(name="maxnetworkfeeForm", ng-submit="saveMaxNetworkFee()")
+        form(name="maxnetworkfeeForm", ng-submit='save("maxNetworkFee")')
           .descriptor(l10n) Maximum network fee
           .row.advanced-form-row(ng-hide="edit.maxNetworkFee")
             .col-xs-9.col-sm-8.col-md-6
@@ -142,7 +142,7 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
               a.btn.btn-cancel.btn-block(href="", ng-click="cancelEditMaxNetworkFee()", l10n) cancel
 
         h4#serverSettings(l10n) Server settings
-        form(name="historyApiForm", ng-submit="saveHistoryApi()")
+        form(name="historyApiForm", ng-submit='save("historyApi")')
           .descriptor(l10n) History API
           .row.advanced-form-row(ng-hide="edit.historyApi")
             .col-xs-9.col-sm-8.col-md-6

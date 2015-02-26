@@ -43,8 +43,8 @@ AdvancedTab.prototype.angular = function(module)
       trade: false
     };
     $scope.edit = {
-      acctOptions: false,
-      blob: false,
+      advanced_feature_switch: false,
+      blobvault: false,
       bridge: false,
       maxNetworkFee: false,
       historyApi: false
@@ -60,47 +60,40 @@ AdvancedTab.prototype.angular = function(module)
     // Initialize the notification object
     $scope.success = {};
 
-    $scope.saveBlob = function() {
-      // Save in local storage
-      if (!store.disabled) {
-        store.set('ripple_settings', JSON.stringify($scope.options));
+    $scope.save = function(type) {
+      switch (type) {
+        case 'maxNetworkFee':
+          $scope.options.max_tx_network_fee = ripple.Amount.from_human($scope.max_tx_network_fee_human).to_json();
+          // This has to be updated manually because the network object is not
+          // recreated unless we do location.reload()
+          network.remote.max_fee = $scope.options.max_tx_network_fee;
+          break;
+        case 'advanced_feature_switch':
+          // Ignore it if we are not going to change anything
+          if (!$scope.advancedFeatureSwitchChanged) {
+            return;
+          }
+          $scope.advancedFeatureSwitchChanged = false;
+          $scope.userBlob.set('/clients/rippletradecom/trust/advancedMode', $scope.options.advanced_feature_switch);
+          break;
+        case 'historyApi':
+          $scope.userBlob.set('/clients/rippletradecom/historyApi', $scope.options.historyApi);
+          break;
+        default:
+          // Save in local storage
+          if (!store.disabled) {
+            store.set('ripple_settings', JSON.stringify($scope.options));
+          }
       }
 
-      $scope.edit.blob = false;
+      $scope.edit[type] = false;
 
-      // Reload
-      location.reload();
-
-      // Notify the user
-      $scope.success.saveBlob = true;
-    };
-
-    $scope.saveBridge = function() {
-      // Save in local storage
-      if (!store.disabled) {
-        store.set('ripple_settings', JSON.stringify($scope.options));
+      if (type === 'blobvault') {
+        location.reload();
       }
 
-      $scope.edit.bridge = false;
-
       // Notify the user
-      $scope.success.saveBridge = true;
-    };
-
-    $scope.saveMaxNetworkFee = function () {
-      // Save in local storage
-      if (!store.disabled) {
-        $scope.options.max_tx_network_fee = ripple.Amount.from_human($scope.max_tx_network_fee_human).to_json();
-        store.set('ripple_settings', JSON.stringify($scope.options));
-      }
-      // This has to be updated manually because the network object is not
-      // recreated unless we do location.reload()
-      network.remote.max_fee = $scope.options.max_tx_network_fee;
-
-      $scope.edit.maxNetworkFee = false;
-
-      // Notify the user
-      $scope.success.saveMaxNetworkFee = true;
+      $scope.success[type] = true;
     };
 
     $scope.saveConfirmation = function(transactionType) {
@@ -117,34 +110,6 @@ AdvancedTab.prototype.angular = function(module)
 
       // Notify the user
       $scope.success.saveConfirmation[transactionType] = true;
-    };
-
-    $scope.saveHistoryApi = function() {
-      $scope.userBlob.set('/clients/rippletradecom/historyApi', $scope.options.historyApi);
-      $scope.edit.historyApi = false;
-
-      // Notify the user
-      $scope.success.saveHistoryApi = true;
-    }
-
-    $scope.saveAcctOptions = function() {
-      // Ignore it if we are not going to change anything
-      if (!$scope.advancedFeatureSwitchChanged) {
-        return;
-      }
-      $scope.advancedFeatureSwitchChanged = false;
-
-      if (!store.disabled) {
-        // Save in local storage
-        store.set('ripple_settings', JSON.stringify($scope.options));
-      }
-
-      $scope.userBlob.set('/clients/rippletradecom/trust/advancedMode', $scope.options.advanced_feature_switch);
-
-      $scope.edit.acctOptions = false;
-
-      // Notify the user
-      $scope.success.saveAcctOptions = true;
     };
 
     $scope.deleteBlob = function() {
