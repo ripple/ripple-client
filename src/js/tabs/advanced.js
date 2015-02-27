@@ -71,6 +71,7 @@ AdvancedTab.prototype.angular = function(module)
         case 'advanced_feature_switch':
           // Ignore it if we are not going to change anything
           if (!$scope.advancedFeatureSwitchChanged) {
+            $scope.edit[type] = false;
             return;
           }
           $scope.advancedFeatureSwitchChanged = false;
