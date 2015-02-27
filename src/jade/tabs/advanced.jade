@@ -158,7 +158,7 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
                     span(l10n) Secure
               .col-xs-6.col-sm-6.col-md-3
                 button.btn.btn-block.btn-success.btn-xs.submit#save(type='submit'
-                ng-disabled='serverForm.$invalid || serverForm.$dirty', l10n) Save
+                ng-disabled='serverForm.$invalid ? serverForm.$dirty: false', l10n) Save
               .col-xs-3.col-sm-3.col-md-2(ng-show="hasRemove()")
                 button.btn.btn-block.btn-danger.btn-xs.submit#delete(type="button", ng-click="remove()", ng-show="hasRemove()", l10n) Delete
               .col-xs-3.col-sm-3.col-md-1.text-center#cancel
