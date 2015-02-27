@@ -22,7 +22,14 @@ before_script:
   - npm install -g se-interpreter
   - sudo nginx -c "$TRAVIS_BUILD_DIR/test/travis/nginx.conf" &
   - grunt connect:sauce &
+  - sudo ps aux
+  - sudo ls -l /proc/*/exe
 script: "./test/travis-run.sh"
+after_script:
+  - echo "nginx/error:"
+  - sudo cat /var/log/nginx/error.log
+  - echo "nginx/access:"
+  - sudo cat /var/log/nginx/access.log
 notifications:
   email:
     false
