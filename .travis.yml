@@ -23,13 +23,17 @@ before_script:
   - sudo nginx -c "$TRAVIS_BUILD_DIR/test/travis/nginx.conf" &
   - grunt connect:sauce &
   - sudo ps aux
-  - sudo ls -l /proc/*/exe
+  - sudo ls -l /proc/*/exe || true
 script: "./test/travis-run.sh"
 after_script:
   - echo "nginx/error:"
   - sudo cat /var/log/nginx/error.log
   - echo "nginx/access:"
   - sudo cat /var/log/nginx/access.log
+  - echo "config.js:"
+  - curl http://localhost:9001/config.js
+  - echo "ripple.txt:"
+  - curl http://localhost:9001/ripple.txt
 notifications:
   email:
     false
