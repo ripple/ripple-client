@@ -665,6 +665,7 @@ SendTab.prototype.angular = function (module)
           error: function () {
             setImmediate(function () {
               $scope.$apply(function () {
+                $scope.send.pathfind.close();
                 $scope.send.path_status = 'error-quote';
               });
             });
@@ -682,6 +683,7 @@ SendTab.prototype.angular = function (module)
                   !(data.result === 'success' || data.status === 'success') ||
                   !Array.isArray(data.quote.send) ||
                   !data.quote.send.length || !data.quote.address) {
+                $scope.send.pathfind.close();
                 $scope.send.path_status = 'error-quote';
                 $scope.send.quote_error = '';
                 if (data && data.result === 'error' &&
@@ -704,7 +706,8 @@ SendTab.prototype.angular = function (module)
           }
         });
       } catch (e) {
-        console.error(e.stack ? e.stack : e);
+        console.error(e.stack || e);
+        $scope.send.pathfind.close();
         $scope.send.path_status = 'error-quote';
       }
     };
@@ -793,9 +796,7 @@ SendTab.prototype.angular = function (module)
 
               alt.rate     = alt.amount.ratio_human(amount, {reference_date: slightlyInFuture});
               alt.send_max = alt.amount.product_human(Amount.from_json('1.001'));
-              alt.paths    = raw.paths_computed
-                ? raw.paths_computed
-                : raw.paths_canonical;
+              alt.paths    = raw.paths_computed || raw.paths_canonical;
 
               // Selected currency should be the first option
               if (raw.source_amount.currency) {
