@@ -1,0 +1,20 @@
+{
+  "name": "sauce-connect-launcher-cmd",
+  "version": "0.1.1",
+  "description": "launch sauce connect",
+  "author": {
+    "name": "Ivan Tivonenko",
+    "email": "darkdarkdragon@gmail.com"
+  },
+  "dependencies": {
+    "sauce-connect-launcher": "^0.9.3"
+  },
+  "license": "MIT",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:darkdarkdragon/travis-test.git"
+  },
+  "readmeFilename": "README.md",
+  "devDependencies": {}
+}
