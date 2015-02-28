@@ -12,7 +12,7 @@ before_install:
   - echo "deb-src http://nginx.org/packages/ubuntu/ precise nginx" | sudo tee -a /etc/apt/sources.list
   - sudo apt-get update -qq
   - sudo apt-get install nginx
-  - sudo mkdir -p /var/log/nginx/
+  - sudo nginx -s stop
   - npm install -g grunt-cli
 before_script:
   - "cp test/travis/config-travis.js src/js/config.js"
@@ -20,7 +20,9 @@ before_script:
   - npm install -g bower
   - bower install
   - npm install -g se-interpreter
-  - sudo nginx -c "$TRAVIS_BUILD_DIR/test/travis/nginx.conf" &
+  - sudo nginx -c "$TRAVIS_BUILD_DIR/test/travis/nginx.conf"
+  - curl -i http://localhost:9002
+  - curl -i http://localhost:9002/
   - grunt connect:sauce &
   - sudo ps aux
   - sudo ls -l /proc/*/exe || true
@@ -33,6 +35,7 @@ after_script:
   - echo "config.js:"
   - curl http://localhost:9001/config.js
   - echo "ripple.txt:"
+  - curl http://localhost:9001/ripple.txt
   - curl http://localhost:9001/ripple.txt
 notifications:
   email:
