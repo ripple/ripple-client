@@ -5,6 +5,7 @@ js/.DS_Store
 npm-debug.log
 .DS_Store
 node_modules
+test/sauce/node_modules/
 build/
 src/js/config.js
 test/e2e/protractor.conf.js
