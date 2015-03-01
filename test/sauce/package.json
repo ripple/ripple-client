@@ -7,7 +7,7 @@
     "email": "darkdarkdragon@gmail.com"
   },
   "dependencies": {
-    "sauce-connect-launcher": "^0.9.3"
+    "sauce-connect-launcher": "git://github.com/darkdarkdragon/sauce-connect-launcher"
   },
   "license": "MIT",
   "scripts": {},
