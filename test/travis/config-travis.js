@@ -19,8 +19,7 @@ var Options = {
       { host: 'localhost', port: 9002, secure: false }
     ],
 
-    connection_offset: 0,
-    allow_partial_history: false
+    connection_offset: 0
   },
 
   // DEPRECATED: Blobvault server (old blob protocol)
