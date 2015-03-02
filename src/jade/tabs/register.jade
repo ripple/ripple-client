@@ -40,11 +40,11 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
             rp-available-name-invalid-reason="usernameInvalidReason"
             rp-available-name-reserved-for="usernameReservedFor"
             rp-loading="usernameLoading")
-          .errorGroup(rp-errors='register_username', ng-hide="usernameLoading")
-            .success(rp-error-valid)
+          .errorGroup(ng-messages='registerForm.register_username.$error', ng-hide="usernameLoading")
+            .success(ng-show='registerForm.register_username.$valid')
                i.fa.fa-check 
                span(l10n)  Available
-            .error(rp-error-on='rpAvailableName')
+            .error(ng-message='rpAvailableName')
               span(ng-switch on="usernameInvalidReason")
                 i.fa.fa-exclamation-triangle(ng-switch-when="exists")
                   span.statusText(l10n)  Already taken!

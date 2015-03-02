@@ -4,6 +4,7 @@
     "ripple": "~0.10.0",
     "ripple-vault-client": "~0.4.7",
     "angular": "~1.3.12",
+    "angular-messages": "~1.3.12",
     "angular-route": "~1.3.12",
     "angular-mocks": "~1.3.12",
     "underscore": "~1.7.0",

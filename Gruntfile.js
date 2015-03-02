@@ -35,6 +35,7 @@ module.exports = function(grunt) {
               'deps/js/downloadify.js',
               'deps/js/angular/angular.js',
               'deps/js/angular-route/angular-route.js',
+              'deps/js/angular-messages/angular-messages.js',
               'deps/js/store.js/store.js',
               'deps/js/d3/d3.js',
               'deps/js/ripple/ripple-debug.js',
@@ -463,7 +464,8 @@ module.exports = function(grunt) {
           'Options',
           'ripple',
           'setImmediate',
-          'store'
+          'store',
+          'rippleVaultClient'
         ]
       },
       plugins: [

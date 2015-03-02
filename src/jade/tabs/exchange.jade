@@ -48,14 +48,14 @@ section.col-xs-12.content(ng-controller="ExchangeCtrl")
             .col-sm-3.col-md-3.col-xs-12
               button.btn.btn-cancel.btn-block(ng-click="gotoFund()", l10n)
                 | add gateway
-          .errorGroup(rp-errors='amount')
-            .error(rp-error-on='required', l10n) Please enter an amount.
-            .error(rp-error-on='rpAmount', l10n) Not a valid amount.
-            .error(rp-error-on='rpAmountXrpLimit', l10n)
+          .errorGroup(ng-messages='exchangeForm.amount.$dirty && exchangeForm.amount.$error')
+            .error(ng-message='required', l10n) Please enter an amount.
+            .error(ng-message='rpAmount', l10n) Not a valid amount.
+            .error(ng-message='rpAmountXrpLimit', l10n)
               | You are either trying to buy too little or too much XRP.
               | Minimum amount is 0.000001 XRP and maximum amount is 100 billion XRP.
-            .error(rp-error-on='rpMaxDigits', l10n) Your amount has too many digits. The max number of digits is 16.
-            .error(rp-error-on='rpAmountPositive', l10n)
+            .error(ng-message='rpMaxDigits', l10n) Your amount has too many digits. The max number of digits is 16.
+            .error(ng-message='rpAmountPositive', l10n)
               | Please enter an amount greater than zero.
           p.literal(ng-show="exchange.path_status == 'waiting'")
           p.literal(ng-show="exchange.path_status == 'pending'", l10n)
