@@ -145,10 +145,10 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
                     rp-server-loading='server_loading'
                     rp-spinner='{{server_loading ? 4: null}}')
                 .errorGroup
-                  div(rp-errors='host')
-                    .error(rp-error-on='rpHostname', l10n) Socket ip or hostname is invalid or is down.
-                  div(rp-errors='port')
-                    .error(rp-error-on='rpPortNumber', l10n) Port number is invalid.
+                  div(ng-messages='serverForm.host.$error')
+                    .error(ng-message='rpHostname', l10n) Socket ip or hostname is invalid or is down.
+                  div(ng-messages='serverForm.port.$error')
+                    .error(ng-message='rpPortNumber', l10n) Port number is invalid.
               .col-xs-3.col-sm-2.col-md-2
                 input.form-control.socketPort(name='port', type='text', ng-model='server.port', rp-port-number)
               .col-xs-3.col-md-1.col-sm-2.editable#secureSocket

@@ -65,6 +65,7 @@ var appDependencies = [
   'validators',
   'datalinks',
   'errors',
+  'ngMessages',
   // Filters
   'filters',
   'ui.bootstrap',

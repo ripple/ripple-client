@@ -20,9 +20,9 @@ h4(l10n) Account settings
             rp-available-name-invalid-reason="usernameInvalidReason"
             rp-available-name-reserved-for="usernameReservedFor"
             rp-loading="usernameLoading")
-        .errorGroup(rp-errors='username', ng-hide="usernameLoading")
-          .success(rp-error-valid, l10n) Available
-          .error(rp-error-on='rpAvailableName')
+        .errorGroup(ng-messages='renameForm.username.$error', ng-hide="usernameLoading")
+          .success(ng-show='renameForm.username.$valid', l10n) Available
+          .error(ng-message='rpAvailableName')
             span(ng-switch on="usernameInvalidReason")
               span(ng-switch-when="exists", l10n) Already taken!
               span(ng-switch-when="reserved", l10n) Reserved for {{usernameReservedFor}}
