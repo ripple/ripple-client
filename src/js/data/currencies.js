@@ -7,7 +7,7 @@ module.exports = [
 
   // Display used for dropdown menu
   // XRP - IMPORTANT: XRP must be first entry in this list
-  {value: 'XRP', name: 'Ripple', custom_trade_currency_dropdown: true, standard_precision: 4, order: 5},
+  {value: 'XRP', name: 'Ripples', custom_trade_currency_dropdown: true, standard_precision: 4, order: 5},
 
   // Fiat - Official ISO-4217
   // From USD until HKD, the order is based on https://www.bullionvault.com/gold-news/all_the_money_in_the_world_102720093.
@@ -192,5 +192,6 @@ module.exports = [
 
   // Cryptocurrencies
   {value: 'BTC', name: 'Bitcoin', display: true, custom_trade_currency_dropdown: true, standard_precision: 4, order: 2},
-  {value: 'LTC', name: 'Litecoin', display: true, custom_trade_currency_dropdown: true, standard_precision: 4, order: 1}
+  {value: 'LTC', name: 'Litecoin', display: true, custom_trade_currency_dropdown: true, standard_precision: 4, order: 1},
+  {value: 'STR', name: 'Stellars', display: true, custom_trade_currency_dropdown: true, standard_precision: 0, order: 0}
 ];
