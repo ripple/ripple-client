@@ -1,8 +1,8 @@
 language: node_js
 node_js:
   - "0.10"
-addons:
-  sauce_connect: true
+#addons:
+#  sauce_connect: true
 before_install:
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
@@ -12,15 +12,23 @@ before_install:
   - echo "deb-src http://nginx.org/packages/ubuntu/ precise nginx" | sudo tee -a /etc/apt/sources.list
   - sudo apt-get update -qq
   - sudo apt-get install nginx
-  - sudo mkdir -p /var/log/nginx/
+  - sudo nginx -s stop
   - npm install -g grunt-cli
+  - echo "$TRAVIS_BUILD_DIR"
+  - echo "$SAUCE_USERNAME"
+  - cd test/sauce && npm install
+  - node launch_connect.js &
+  - $TRAVIS_BUILD_DIR/test/sauce/wait_for_browser_provider.sh
+  - cd $TRAVIS_BUILD_DIR
 before_script:
   - "cp test/travis/config-travis.js src/js/config.js"
   - "cp test/travis/ripple-travis.txt ripple.txt"
   - npm install -g bower
   - bower install
   - npm install -g se-interpreter
-  - sudo nginx -c "$TRAVIS_BUILD_DIR/test/travis/nginx.conf" &
+  - sudo nginx -c "$TRAVIS_BUILD_DIR/test/travis/nginx.conf"
+  - curl -i http://localhost:9002
+  - curl -i http://localhost:9002/
   - grunt connect:sauce &
   - sudo ps aux
   - sudo ls -l /proc/*/exe || true
@@ -34,18 +42,21 @@ after_script:
   - curl http://localhost:9001/config.js
   - echo "ripple.txt:"
   - curl http://localhost:9001/ripple.txt
-notifications:
-  email:
-    false
-  webhooks:
-    urls:
-      - https://webhooks.gitter.im/e/706809d6a4c29c8fb8b6
-    on_success: change
-    on_failure: always
-    on_start: false
+  - curl http://localhost:9001/ripple.txt
+#notifications:
+#  email:
+#    false
+#  webhooks:
+#    urls:
+#      - https://webhooks.gitter.im/e/706809d6a4c29c8fb8b6
+#    on_success: change
+#    on_failure: always
+#    on_start: false
 env:
   global: 
+    - SAUCE_CONNECT_VERSION=4.3.6
     - SAUCE_USERNAME=tonga
-    - secure: "VJFHj5fr46Qf7h34xa/W6FmGvknPH57eQLJoEjKlZUYn0EGx9EliCdENfzAbtr3e4GnNvQh6X2bLA/lB7TRzoD84oyGkllkMayevQm/dViJbUBQsl7HOa6VwUwugW+o7T3+vPM4y5qqFv1B/fs3Fthl+eKUatccy9qK4xra1Hso="
+    - SAUCE_ACCESS_KEY=1553f141-1258-4319-b20d-7743def99fbb
+#    - secure: "VJFHj5fr46Qf7h34xa/W6FmGvknPH57eQLJoEjKlZUYn0EGx9EliCdENfzAbtr3e4GnNvQh6X2bLA/lB7TRzoD84oyGkllkMayevQm/dViJbUBQsl7HOa6VwUwugW+o7T3+vPM4y5qqFv1B/fs3Fthl+eKUatccy9qK4xra1Hso="
 
 
