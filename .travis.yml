@@ -25,7 +25,7 @@ before_script:
   - "cp test/travis/ripple-travis.txt ripple.txt"
   - npm install -g bower
   - bower install
-  - npm install -g se-interpreter
+  - npm install -g darkdarkdragon/se-interpreter
   - sudo nginx -c "$TRAVIS_BUILD_DIR/test/travis/nginx.conf"
   - curl -i http://localhost:9002
   - grunt connect:sauce &
