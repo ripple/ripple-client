@@ -340,7 +340,7 @@ module.exports = function(grunt) {
       scriptsDebug: {
         files: ['src/js/**/*.js', 'src/jade/**/*.jade'],
         tasks: ['version', 'versionBranch', 'webpack:webDebug', 'copy'],
-        options: { nospawn: true, livereload: true }
+        options: { spawn: false, livereload: true }
       },
       deps: {
         files: deps,
