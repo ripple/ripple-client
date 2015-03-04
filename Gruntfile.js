@@ -340,17 +340,17 @@ module.exports = function(grunt) {
       },
       scriptsDebug: {
         files: ['src/js/**/*.js', 'src/jade/**/*.jade'],
-        tasks: ['webpack:webDebug', 'copy'],
+        tasks: ['version', 'versionBranch', 'webpack:webDebug', 'copy'],
         options: { nospawn: true, livereload: true }
       },
       deps: {
         files: deps,
-        tasks: ['uglify:deps', 'uglify:individualDeps', 'concat:depsDebug', 'copy'],
+        tasks: ['version', 'versionBranch', 'uglify:deps', 'uglify:individualDeps', 'concat:depsDebug', 'copy'],
         options: { livereload: true }
       },
       styles: {
         files: 'src/less/**/*.less',
-        tasks: ['recess', 'cssmin', 'copy'],
+        tasks: ['version', 'versionBranch', 'recess', 'cssmin', 'copy'],
         options: { livereload: true }
       },
       index: {
