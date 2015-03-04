@@ -11,7 +11,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-recess');
   grunt.loadNpmTasks('grunt-webpack');
   grunt.loadNpmTasks('grunt-preprocess');
-  grunt.loadNpmTasks('grunt-cache-bust');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-contrib-imagemin');
@@ -202,19 +201,6 @@ module.exports = function(grunt) {
         dest: 'build/dist/compat_nw-debug.js'
       }
     },
-    cacheBust: {
-      options: {
-        encoding: 'utf8',
-        algorithm: 'md5',
-        length: 16,
-        baseDir: 'build/bundle/web/'
-      },
-      assets: {
-        files: [{
-          src: ['build/bundle/web/index.html', 'build/bundle/web/index_debug.html', 'build/bundle/web/callback.html']
-        }]
-      }
-    },
     uglify: {
       // JavaScript dependencies
       deps: {
@@ -354,27 +340,27 @@ module.exports = function(grunt) {
       },
       scriptsDebug: {
         files: ['src/js/**/*.js', 'src/jade/**/*.jade'],
-        tasks: ['webpack:webDebug', 'copy', 'cacheBust'],
+        tasks: ['webpack:webDebug', 'copy'],
         options: { nospawn: true, livereload: true }
       },
       deps: {
         files: deps,
-        tasks: ['uglify:deps', 'uglify:individualDeps', 'concat:depsDebug', 'copy', 'cacheBust'],
+        tasks: ['uglify:deps', 'uglify:individualDeps', 'concat:depsDebug', 'copy'],
         options: { livereload: true }
       },
       styles: {
         files: 'src/less/**/*.less',
-        tasks: ['recess', 'cssmin', 'copy', 'cacheBust'],
+        tasks: ['recess', 'cssmin', 'copy'],
         options: { livereload: true }
       },
       index: {
         files: ['src/index.html'],
-        tasks: ['version', 'versionBranch', 'preprocess:webDebug', 'copy', 'cacheBust'],
+        tasks: ['version', 'versionBranch', 'preprocess:webDebug', 'copy'],
         options: { livereload: true }
       },
       callback: {
         files: ['src/callback.html'],
-        tasks: ['copy', 'cacheBust']
+        tasks: ['copy']
       },
       config: {
         files: ['src/js/config.js'],
@@ -527,8 +513,7 @@ module.exports = function(grunt) {
                                  'cssmin',
                                  'deps',
                                  'copy',
-                                 'imagemin',
-                                 'cacheBust']);
+                                 'imagemin']);
 
   // Dev - builds the web version of the client excluding any locales
   // Be sure to use English version for testing
@@ -541,8 +526,7 @@ module.exports = function(grunt) {
                              'recess',
                              'cssmin',
                              'deps',
-                             'copy',
-                             'cacheBust']);
+                             'copy']);
 
   // Deps only - only rebuilds the dependencies
   grunt.registerTask('deps', ['uglify:deps', 'uglify:individualDeps',
