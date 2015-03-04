@@ -1,70 +1,71 @@
 section.col-xs-12.content(ng-controller="RecoverCtrl")
-  .col-xs-12.col-sm-4.col-md-8.hidden-xs
-      .welcomeText(l10n) Welcome to Ripple Trade
-      hr
-      p.heroText(l10n) Trade hundreds of assets, from XRP to crypto to gold to fiat.
-  .row.auth-form-container.col-xs-12.col-sm-6.col-md-4
-    .auth-form-wrapper
-      form(name='recoverForm', ng-submit='submitForm()', ng-show="mode === 'recover'")
-        h2(l10n) Account Recovery
-        .auth-attention.text-center
-          .status(l10n) You can only recover your Ripple Trade account with a secret key. You will recover the account's Ripple name, contacts and other information.
-        .form-group
-          label(for='recover_username', l10n) Ripple Name
-          .input-group
-            span.input-group-addon.ripple-addon ~
-            input.form-control#recover_username(
-            name='recover_username', type='text', ng-model="username"
-            required, rp-focus, autocomplete="off", maxlength="20", rpDest)
-        .form-group
-          label(for='recover_masterkey', l10n) Secret Key
-          input.form-control#recover_masterkey(
-          name='recover_masterkey', type='password', autocomplete="off"
-          required, ng-model="masterkey")
-        .error.text-center(ng-show="recoverError")
-          div(l10n) Unable to recover account.
-          div(ng-bind="recoverError")
-        .submit-btn-container
-          button.btn.btn-block.btn-success(type='submit'
-            ng-disabled='recoverForm.$invalid || submitLoading')
-            img(src="img/button-s.png", class="loader", ng-show="submitLoading")
-            span(ng-show="submitLoading", l10n) Loading...
-            span(ng-hide="submitLoading", l10n) Recover Account
-      form(name='setPasswordForm', ng-submit='submitForm()', ng-show="mode === 'setPassword'")
-        h2(l10n) Set Password
-        .auth-attention.text-center
-          .status(l10n) Your account was sucessfully recovered. Please re-encrypt your account with a new password.
-        .form-group
-          label(l10n) Ripple Name
-          .rippleName
-            span ~
-            span(ng-bind="username")
-        .form-group(ng-class="{'field-error': 'weak' === strength || 'match' === strength}")
-          label(for='password1', l10n) Password
-          input.form-control#password1(
-            name='password1', type='password', autocomplete="off"
-            ng-model="password1"
-            rp-strong-password, required, rp-focus, rp-same-in-set="passwordSet")
-          p.error(ng-show="strength=='weak'")
-            span(l10n) Your password is weak. It does not contain numbers and symbols or it is too short.
-          p.error(ng-show="strength=='match'")
-            span(l10n) Your Ripple name and password cannot match. Please create a new password.
-        .form-group(ng-class="{'field-error': setPasswordForm.password1.$error.rpSameInSet && setPasswordForm.password2.$dirty}")
-          label(for='password2', l10n) Confirm password
-          input.form-control#password2(
-            name='password2', autocomplete="off", type='password'
-            ng-model="password2"
-            required, rp-same-in-set="passwordSet")
-          p.error(ng-show="setPasswordForm.password1.$error.rpSameInSet && setPasswordForm.password2.$dirty")
-            span(l10n) Passwords do not match
-        .error.text-center(ng-show="passwordError")
-          div(l10n) Unable to change your account password.
-          div(ng-bind="passwordError")
-        .submit-btn-container
-          button.btn.btn-block.btn-success(type='submit'
-            ng-disabled='setPasswordForm.$invalid || submitLoading')
-            img(src="img/button-s.png", class="loader", ng-show="submitLoading")
-            span(ng-show="submitLoading", l10n) Updating...
-            span(ng-hide="submitLoading", l10n) Set Password
-      .switch-mode-link-container.bottomText(l10n) Remember your password?&#32;
-        a(href='#login', l10n-inc) Log In
+  .row.auth-form-container
+    .col-xs-12.col-sm-4.col-md-8.hidden-xs
+        .welcomeText(l10n) Welcome to Ripple Trade
+        hr
+        p.heroText(l10n) Trade hundreds of assets, from XRP to crypto to gold to fiat.
+    .col-xs-12.col-sm-6.col-md-4
+      .auth-form-wrapper
+        form(name='recoverForm', ng-submit='submitForm()', ng-show="mode === 'recover'")
+          h2(l10n) Account Recovery
+          .auth-attention.text-center
+            .status(l10n) You can only recover your Ripple Trade account with a secret key. You will recover the account's Ripple name, contacts and other information.
+          .form-group
+            label(for='recover_username', l10n) Ripple Name
+            .input-group
+              span.input-group-addon.ripple-addon ~
+              input.form-control#recover_username(
+              name='recover_username', type='text', ng-model="username"
+              required, rp-focus, autocomplete="off", maxlength="20", rpDest)
+          .form-group
+            label(for='recover_masterkey', l10n) Secret Key
+            input.form-control#recover_masterkey(
+            name='recover_masterkey', type='password', autocomplete="off"
+            required, ng-model="masterkey")
+          .error.text-center(ng-show="recoverError")
+            div(l10n) Unable to recover account.
+            div(ng-bind="recoverError")
+          .submit-btn-container
+            button.btn.btn-block.btn-success(type='submit'
+              ng-disabled='recoverForm.$invalid || submitLoading')
+              img(src="img/button-s.png", class="loader", ng-show="submitLoading")
+              span(ng-show="submitLoading", l10n) Loading...
+              span(ng-hide="submitLoading", l10n) Recover Account
+        form(name='setPasswordForm', ng-submit='submitForm()', ng-show="mode === 'setPassword'")
+          h2(l10n) Set Password
+          .auth-attention.text-center
+            .status(l10n) Your account was sucessfully recovered. Please re-encrypt your account with a new password.
+          .form-group
+            label(l10n) Ripple Name
+            .rippleName
+              span ~
+              span(ng-bind="username")
+          .form-group(ng-class="{'field-error': 'weak' === strength || 'match' === strength}")
+            label(for='password1', l10n) Password
+            input.form-control#password1(
+              name='password1', type='password', autocomplete="off"
+              ng-model="password1"
+              rp-strong-password, required, rp-focus, rp-same-in-set="passwordSet")
+            p.error(ng-show="strength=='weak'")
+              span(l10n) Your password is weak. It does not contain numbers and symbols or it is too short.
+            p.error(ng-show="strength=='match'")
+              span(l10n) Your Ripple name and password cannot match. Please create a new password.
+          .form-group(ng-class="{'field-error': setPasswordForm.password1.$error.rpSameInSet && setPasswordForm.password2.$dirty}")
+            label(for='password2', l10n) Confirm password
+            input.form-control#password2(
+              name='password2', autocomplete="off", type='password'
+              ng-model="password2"
+              required, rp-same-in-set="passwordSet")
+            p.error(ng-show="setPasswordForm.password1.$error.rpSameInSet && setPasswordForm.password2.$dirty")
+              span(l10n) Passwords do not match
+          .error.text-center(ng-show="passwordError")
+            div(l10n) Unable to change your account password.
+            div(ng-bind="passwordError")
+          .submit-btn-container
+            button.btn.btn-block.btn-success(type='submit'
+              ng-disabled='setPasswordForm.$invalid || submitLoading')
+              img(src="img/button-s.png", class="loader", ng-show="submitLoading")
+              span(ng-show="submitLoading", l10n) Updating...
+              span(ng-hide="submitLoading", l10n) Set Password
+        .switch-mode-link-container.bottomText(l10n) Remember your password?&#32;
+          a(href='#login', l10n-inc) Log In
