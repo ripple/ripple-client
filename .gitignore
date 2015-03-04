@@ -15,6 +15,7 @@ deps/js/ripple/
 deps/js/angular/
 deps/js/angular-route/
 deps/js/angular-mocks/
+deps/js/angular-messages/
 deps/js/jquery/
 deps/js/moment/
 deps/js/spin.js/
