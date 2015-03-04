@@ -37,7 +37,12 @@ AccountTab.prototype.angular = function(module)
               console.log('client: account tab: error while ' +
                 'unlocking wallet: ', err);
 
-              $scope.error = 'wrongpassword';
+              if (err instanceof Error && typeof err.message === 'string' && err.message.indexOf('PAKDF') !== -1) {
+                $scope.error = 'server';
+              } else {
+                $scope.error = 'wrongpassword';
+              }
+
               $scope.loading = false;
               return;
             }

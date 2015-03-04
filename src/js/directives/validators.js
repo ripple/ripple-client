@@ -957,7 +957,7 @@ module.directive('rpHostname', function($timeout, $parse) {
             scope.$apply(function() {
               ctrl.$setValidity('rpHostname', false);
               showLoading(false);
-            })
+            });
           };
           connection.onmessage = function(e) {
             var test = JSON.parse(e.data).status === 'success';

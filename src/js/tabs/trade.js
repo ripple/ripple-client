@@ -3,6 +3,7 @@
 
 var util = require('util');
 var webutil = require('../util/web');
+var settings = require('../util/settings');
 var Tab = require('../client/tab').Tab;
 var Amount = ripple.Amount;
 var rewriter = require('../util/jsonrewriter');
@@ -74,7 +75,7 @@ TradeTab.prototype.angular = function(module)
     // Remember user preference on Convert vs. Trade
     $rootScope.ripple_exchange_selection_trade = true;
 
-    $scope.pairs_query = $scope.userBlob.data.trade_currency_pairs;
+    $scope.pairs_query = settings.getSetting($scope.userBlob, 'trade_currency_pairs');
 
     $scope.currencies_all = require('../data/currencies');
     $scope.currencies = [];
@@ -958,8 +959,8 @@ TradeTab.prototype.angular = function(module)
 
       $scope.order.currency_pair = $scope.first_currency_selected + formattedIssuerFirst + '/' + $scope.second_currency_selected + formattedIssuerSecond;
 
-      $scope.userBlob.unshift('/trade_currency_pairs', {'name': $scope.order.currency_pair});
-      $scope.userBlob.set('/trade_currency_pairs', $scope.pairs_query);
+      $scope.userBlob.unshift('/clients/rippletradecom/trade_currency_pairs', { name: $scope.order.currency_pair });
+      $scope.userBlob.set('/clients/rippletradecom/trade_currency_pairs', $scope.pairs_query);
 
       $scope.adding_pair = false;
     };
@@ -1310,7 +1311,7 @@ TradeTab.prototype.angular = function(module)
       }, $scope.address);
 
       $scope.orderbookState = 'ready';
-    };
+    }
 
     $scope.toggleOffers = function() {
       $scope.hideOffers = !$scope.hideOffers;
@@ -1439,20 +1440,21 @@ TradeTab.prototype.angular = function(module)
       //updateMRU();
     }, true);
 
-    function update_pairs(){
-      if(!$scope.userBlob.data.trade_currency_pairs){
-        $scope.pairs_query = [{'name': 'XRP/USD.SnapSwap'},
-          {'name': 'XRP/USD.Bitstamp'},
-          {'name': 'XRP/JPY.TokyoJPY'},
-          {'name': 'BTC.Bitstamp/XRP'},
-          {'name': 'BTC.SnapSwap/XRP'}];
+    function update_pairs() {
+      var d = $scope.userBlob.data;
+      if (!settings.hasSetting($scope.userBlob, 'trade_currency_pairs')) {
+        $scope.pairs_query = [{name: 'XRP/USD.SnapSwap' },
+          { name: 'XRP/USD.Bitstamp' },
+          { name: 'XRP/JPY.TokyoJPY' },
+          { name: 'BTC.Bitstamp/XRP' },
+          { name: 'BTC.SnapSwap/XRP' }];
       }
       else {
-        $scope.pairs_query = $scope.userBlob.data.trade_currency_pairs;
+        $scope.pairs_query = settings.getSetting($scope.userBlob, 'trade_currency_pairs');
       }
     }
 
-    if($scope.userBlob.data){
+    if ($scope.userBlob.data) {
       update_pairs();
     }
 
@@ -1460,7 +1462,6 @@ TradeTab.prototype.angular = function(module)
       update_pairs();
       resetIssuers(false);
     });
-
 
     $scope.$watch('order.type', function () {
       updateCanBuySell();

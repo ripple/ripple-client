@@ -5,6 +5,7 @@ js/.DS_Store
 npm-debug.log
 .DS_Store
 node_modules
+test/sauce/node_modules/
 build/
 src/js/config.js
 test/e2e/protractor.conf.js
@@ -14,6 +15,7 @@ deps/js/ripple/
 deps/js/angular/
 deps/js/angular-route/
 deps/js/angular-mocks/
+deps/js/angular-messages/
 deps/js/jquery/
 deps/js/moment/
 deps/js/spin.js/

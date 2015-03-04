@@ -31,6 +31,11 @@ RegisterTab.prototype.angular = function (module) {
      * Email verification
      */
     if ($routeParams.token) {
+      if (id.loginStatus) {
+        id.logout();
+        location.reload();
+        return;
+      }
       id.verify({
         username: $routeParams.username,
         token: $routeParams.token
@@ -137,39 +142,46 @@ RegisterTab.prototype.angular = function (module) {
       });
     };
 
+    var _resendEmail = function(masterkey) {
+      id.resendEmail({
+        id:$scope.userBlob.id,
+        url:$scope.userBlob.url,
+        username: $scope.userCredentials.username,
+        account_id: $scope.userBlob.data.account_id,
+        email: $scope.newEmail || $scope.userBlob.data.email,
+        masterkey: masterkey
+      }, function(err, response){
+        if (err) {
+          console.log('Error', err);
+          return;
+        }
+
+        // Update the blob
+        $scope.userBlob.set('/email', $scope.newEmail || $scope.userBlob.data.email);
+
+        $scope.resendLoading = false;
+        $scope.resendSuccess = true;
+      });
+    }
+
     $scope.resendEmail = function()
     {
       $scope.resendLoading = true;
 
-      keychain.requestSecret(id.account, id.username,
-        function (err, masterkey) {
-          if (err) {
-            console.log('client: register tab: error while ' +
-              'unlocking wallet: ', err);
-            $scope.mode = 'verification';
-            return;
-          }
-
-          id.resendEmail({
-            id:$scope.userBlob.id,
-            url:$scope.userBlob.url,
-            username: $scope.userCredentials.username,
-            account_id: $scope.userBlob.data.account_id,
-            email: $scope.newEmail || $scope.userBlob.data.email,
-            masterkey: masterkey
-          }, function(err, response){
+      if ($scope.keyOpen) {
+        _resendEmail($scope.keyOpen);
+      } else {
+        keychain.requestSecret(id.account, id.username,
+          function (err, masterkey) {
             if (err) {
-              console.log('Error', err);
+              console.log('client: register tab: error while ' +
+                'unlocking wallet: ', err);
+              $scope.mode = 'verification';
               return;
             }
-
-            // Update the blob
-            $scope.userBlob.set('/email', $scope.newEmail || $scope.userBlob.data.email);
-
-            $scope.resendLoading = false;
-            $scope.resendSuccess = true;
+            _resendEmail(masterkey);
           });
-        });
+      }
     };
 
     var updateFormFields = function() {

@@ -144,13 +144,13 @@ module.directive('rpCombobox', [function () {
           // Escape field value
           var escaped = webutil.escapeRegExp(match);
           // Build the regex for completion list lookup
-          re = new RegExp('('+escaped+')', 'i');
+          re = new RegExp('(' + escaped + ')', 'i');
 
           completions = complFn(match, re);
         }
 
         // Value as option
-        if (attrs.rpComboboxValueAsOption && match.length) {
+        if (attrs.rpComboboxValueAsOption && match && match.length) {
           var prefix = attrs.rpComboboxValueAsOptionPrefix;
 
           valueOption = (prefix && 0 !== match.indexOf(prefix))
@@ -161,7 +161,7 @@ module.directive('rpCombobox', [function () {
         }
 
         // Value as ripple name
-        if (attrs.rpComboboxValueAsRippleName && match.length) { // TODO Don't do a client check in validators
+        if (attrs.rpComboboxValueAsRippleName && match && match.length) { // TODO Don't do a client check in validators
           valueOption = (0 !== match.indexOf('~'))
             ? '~' + match
             : match;
@@ -187,7 +187,7 @@ module.directive('rpCombobox', [function () {
         completions.forEach(function (completion) {
           var additional = '';
 
-          if ("string" === typeof completion) {
+          if ('string' === typeof completion) {
             val = completion;
           } else {
             val = completion.name;

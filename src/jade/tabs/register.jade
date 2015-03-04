@@ -22,7 +22,13 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
           li(l10n) Step
             span  3
         .form-group
-          label(for='register_username', ng-hide="oldUserBlob", l10n) Create Ripple name
+          label(for='register_username', ng-hide="oldUserBlob", l10n) Create Ripple name&#32;
+          i.fa.fa-question-circle.name-tooltip(
+            rp-popover
+            rp-popover-placement="top"
+            rp-popover-trigger="click"
+            l10n-data-content="Ripple names are public and identify you on the Ripple network. <a target='_blank' href='https://ripple.com/knowledge_center/understanding-ripple-names/'>Learn more</a>"
+            )
           .auth-attention(ng-show="oldUserBlob", l10n) Please choose a Ripple name below. You will use this Ripple name to login to Ripple Trade, so remember it! Ripple names are unique and public, like your current Ripple address. &#32;
             a(href="https://ripple.com/knowledge_center/understanding-ripple-names/", l10n) &#32;Learn More
           .input-group
@@ -34,11 +40,11 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
             rp-available-name-invalid-reason="usernameInvalidReason"
             rp-available-name-reserved-for="usernameReservedFor"
             rp-loading="usernameLoading")
-          .errorGroup(rp-errors='register_username', ng-hide="usernameLoading")
-            .success(rp-error-valid)
+          .errorGroup(ng-messages='registerForm.register_username.$error', ng-hide="usernameLoading")
+            .success(ng-show='registerForm.register_username.$valid')
                i.fa.fa-check 
                span(l10n)  Available
-            .error(rp-error-on='rpAvailableName')
+            .error(ng-message='rpAvailableName')
               span(ng-switch on="usernameInvalidReason")
                 i.fa.fa-exclamation-triangle(ng-switch-when="exists")
                   span.statusText(l10n)  Already taken!

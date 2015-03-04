@@ -27,12 +27,14 @@ SendTab.prototype.angular = function (module)
 {
   module.controller('SendCtrl', ['$scope', '$timeout', '$routeParams', 'rpId',
                                  'rpNetwork', 'rpFederation', 'rpTracker',
-                                 'rpKeychain',
+                                 'rpKeychain', '$interval',
                                  function ($scope, $timeout, $routeParams, id,
                                            network, federation, rpTracker,
-                                           keychain)
+                                           keychain, $interval)
   {
-    var destUpdateTimeout;
+    var destUpdateTimeout,
+        passwordUpdater,
+        passwordUpdaterDestr;
 
     var timer;
     var xrpCurrency = Currency.from_json('XRP');
@@ -86,7 +88,7 @@ SendTab.prototype.angular = function (module)
       $scope.update_currency();
 
       setImmediate(function() {
-        if ($scope.sendForm.send_amount !== undefined) {
+        if ($scope.sendForm && $scope.sendForm.send_amount !== undefined) {
           $scope.$apply(function() {
             // hack to re-validate input. remove this and uncomment $validate() when upgraded to angularjs 1.3
             $scope.sendForm.send_amount.$modelValue = '';
@@ -277,6 +279,7 @@ SendTab.prototype.angular = function (module)
             $scope.check_destination();
           } else {
             // this will trigger update
+            send.last_recipient = null;
             send.recipient = name;
           }
         }, function(err) {
@@ -615,7 +618,11 @@ SendTab.prototype.angular = function (module)
         if (total.compareTo(reserve_base) < 0) {
           send.fund_status = 'insufficient-xrp';
           send.xrp_deficiency = reserve_base.subtract(send.recipient_info.Balance);
+          send.insufficient = true;
+          return;
         }
+        send.insufficient = false;
+        send.fund_status = 'none';
 
         send.path_status = 'pending';
         pathUpdateTimeout = $timeout($scope.update_paths, 500);
@@ -658,6 +665,7 @@ SendTab.prototype.angular = function (module)
           error: function () {
             setImmediate(function () {
               $scope.$apply(function () {
+                $scope.send.pathfind.close();
                 $scope.send.path_status = 'error-quote';
               });
             });
@@ -675,6 +683,7 @@ SendTab.prototype.angular = function (module)
                   !(data.result === 'success' || data.status === 'success') ||
                   !Array.isArray(data.quote.send) ||
                   !data.quote.send.length || !data.quote.address) {
+                $scope.send.pathfind.close();
                 $scope.send.path_status = 'error-quote';
                 $scope.send.quote_error = '';
                 if (data && data.result === 'error' &&
@@ -697,7 +706,8 @@ SendTab.prototype.angular = function (module)
           }
         });
       } catch (e) {
-        console.error(e.stack ? e.stack : e);
+        console.error(e.stack || e);
+        $scope.send.pathfind.close();
         $scope.send.path_status = 'error-quote';
       }
     };
@@ -707,7 +717,6 @@ SendTab.prototype.angular = function (module)
 
       send.alternatives = [];
     };
-
 
     $scope.update_paths = function () {
       var send = $scope.send;
@@ -787,9 +796,7 @@ SendTab.prototype.angular = function (module)
 
               alt.rate     = alt.amount.ratio_human(amount, {reference_date: slightlyInFuture});
               alt.send_max = alt.amount.product_human(Amount.from_json('1.001'));
-              alt.paths    = raw.paths_computed
-                ? raw.paths_computed
-                : raw.paths_canonical;
+              alt.paths    = raw.paths_computed || raw.paths_canonical;
 
               // Selected currency should be the first option
               if (raw.source_amount.currency) {
@@ -891,6 +898,8 @@ SendTab.prototype.angular = function (module)
       $scope.mode = 'form';
       $scope.send.alt = null;
 
+      cleanPasswordUpdater();
+
       // Force pathfinding reset
       $scope.update_paths();
 
@@ -953,10 +962,34 @@ SendTab.prototype.angular = function (module)
 
       if (Options.confirmation.send) {
         $scope.mode = 'confirm';
+        cleanPasswordUpdater();
+
+        // needed for password managers that don't raise change event on input field
+        passwordUpdater = $interval(function() {
+          var password = $('input[name="send_unlock_password"]').val();
+          if (typeof password === 'string') {
+            $scope.sendUnlockForm.send_unlock_password.$setViewValue(password);
+          }
+        }, 2000);
+
+        passwordUpdaterDestr = $scope.$on('$destroy', function() {
+          cleanPasswordUpdater();
+        });
       } else {
         $scope.send_confirmed();
       }
     };
+
+    function cleanPasswordUpdater() {
+      if (typeof passwordUpdaterDestr === 'function') {
+        passwordUpdaterDestr();
+      }
+
+      if (passwordUpdater) {
+        $interval.cancel(passwordUpdater);
+        passwordUpdater = null;
+      }
+    }
 
     /**
      * N4. Waiting for transaction result page
@@ -1018,6 +1051,8 @@ SendTab.prototype.angular = function (module)
       var address = $scope.send.recipient_address;
 
       $scope.mode = 'sending';
+
+      cleanPasswordUpdater();
 
       amount.set_issuer(address);
 

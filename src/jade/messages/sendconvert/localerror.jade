@@ -15,7 +15,7 @@ group(ng-switch on="error_type")
     p(l10n) Error code: The transaction was rejected by the Ripple network [invalidTransaction].
   group.result-error(ng-switch-when='unlockFailed')
     h2.tx-status(l10n) Account unlock failed
-    p(l10n) Your account could not be unlocked. Please try again later.
+    p(l10n) Your account cannot be accessed at the moment. Please try again later.
   group(ng-switch-default)
     p.literal(l10n) Sorry, an error occurred while submitting your transaction.
       | Make sure you are connected to the Internet and try again later.

@@ -6,6 +6,7 @@
 
 var util = require('util'),
     webutil = require('../util/web'),
+    settings = require('../util/settings'),
     Base58Utils = require('../util/base58'),
     RippleAddress = require('../util/types').RippleAddress;
 
@@ -144,15 +145,47 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', '$t
       */
     }, true);
 
-    $scope.$on('$blobUpdate', function(){
+    $scope.$on('$blobUpdate', function() {
+      if (!settings.blobIsValid($scope.userBlob)) return;
+
       var d = $scope.userBlob.data;
-      Options.advanced_feature_switch = !!(d.clients &&
-          d.clients.rippletradecom &&
-          d.clients.rippletradecom.trust &&
-          d.clients.rippletradecom.trust.advancedMode);
+      Options.advanced_feature_switch = settings.getSetting($scope.userBlob, 'trust.advancedMode', false);
+      Options.historyApi = settings.getSetting($scope.userBlob, 'historyApi', Options.historyApi);
+      // confirmation
+      // Replace default settings with user settings from blob, if blob is empty, then reuse the original value
+      Options.confirmation = $.extend(true, {}, settings.getSetting($scope.userBlob, 'confirmation', Options.confirmation));
+
       // Account address
-      if (!$scope.address && $scope.userBlob.data.account_id) {
-        $scope.address = $scope.userBlob.data.account_id;
+      if (!$scope.address && d.account_id) {
+        $scope.address = d.account_id;
+      }
+
+      // migrate user data to clients.rippletradecom
+      if (_.has(d, 'advancedFeatureSwitch')) {
+        if (!settings.hasSetting($scope.userBlob, 'trust.advancedMode')) {
+          $scope.userBlob.set('/clients/rippletradecom/trust/advancedMode', d.advancedFeatureSwitch);
+        }
+        $scope.userBlob.unset('/advancedFeatureSwitch');
+      }
+
+      if (_.has(d, 'persistUnlock')) {
+        $scope.userBlob.set('/clients/rippletradecom/persistUnlock', d.persistUnlock);
+        $scope.userBlob.unset('/persistUnlock');
+      }
+
+      if (_.has(d, 'lastSeenTxDate')) {
+        $scope.userBlob.set('/clients/rippletradecom/lastSeenTxDate', d.lastSeenTxDate);
+        $scope.userBlob.unset('/lastSeenTxDate');
+      }
+
+      if (_.has(d, 'trade_currency_pairs')) {
+        $scope.userBlob.set('/clients/rippletradecom/trade_currency_pairs', d.trade_currency_pairs);
+        $scope.userBlob.unset('/trade_currency_pairs');
+      }
+
+      if (_.has(d, 'txQueue')) {
+        $scope.userBlob.set('/clients/rippletradecom/txQueue', d.txQueue);
+        $scope.userBlob.unset('/txQueue');
       }
     });
 
@@ -430,6 +463,13 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', '$t
 
         if (!emailVerified) {
           $scope.unverified = true;
+          // get secret to allow email re-send without unlocking
+          $authflow.unlock(Id.normalizeUsernameForInternals(username), password, function(err, resp) {
+            if (!err && resp) {
+              $scope.keyOpen = resp.secret;
+            }
+          });
+
           $location.path('/register');
 
           callback(new Error("Email has not been verified!"));

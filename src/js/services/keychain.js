@@ -8,13 +8,15 @@
  * time. This class manages the timeout when the account will be re-locked.
  */
 
-var webutil = require("../util/web"),
-    log = require("../util/log");
+var webutil = require('../util/web'),
+    settings = require('../util/settings'),
+    log = require('../util/log');
 
 var module = angular.module('keychain', ['popup']);
 
 module.factory('rpKeychain', ['$rootScope', '$timeout', 'rpPopup', 'rpId',
-                              function ($scope, $timeout, popup, id)
+                              '$interval',
+                              function ($scope, $timeout, popup, id, $interval)
 {
   var Keychain = function ()
   {
@@ -42,7 +44,7 @@ module.factory('rpKeychain', ['$rootScope', '$timeout', 'rpPopup', 'rpId',
   Keychain.prototype.requestSecret = function (account, username, purpose, callback) {
     var _this = this;
 
-    if ("function" === typeof purpose) {
+    if ('function' === typeof purpose) {
       callback = purpose;
       purpose = null;
     }
@@ -64,16 +66,31 @@ module.factory('rpKeychain', ['$rootScope', '$timeout', 'rpPopup', 'rpId',
       password: '',
       purpose: purpose
     };
+
+    popupScope.updater = $interval(function() {
+      var password = $('input[name="popup_unlock_password"]').val();
+      if (typeof password === 'string') {
+        popupScope.unlockForm.popup_unlock_password.$setViewValue(password);
+      }
+    }, 2000);
+
     popupScope.confirm = function () {
       unlock.isConfirming = true;
+      unlock.error = null;
 
       function handleSecret(err, secret) {
         if (err) {
           // XXX More fine-grained error handling would be good. Can we detect
           //     server down?
           unlock.isConfirming = false;
-          unlock.error = "password";
+          // check for 'Could not query PAKDF server'
+          if (err instanceof Error && typeof err.message === 'string' && err.message.indexOf('PAKDF') !== -1) {
+            unlock.error = 'server';
+          } else {
+            unlock.error = 'password';
+          }
         } else {
+          $interval.cancel(popupScope.updater);
           popup.close();
 
           callback(null, secret);
@@ -83,12 +100,17 @@ module.factory('rpKeychain', ['$rootScope', '$timeout', 'rpPopup', 'rpId',
       _this.getSecret(account, username, popupScope.unlock.password,
                       handleSecret);
     };
-    popupScope.cancel = function () {
-      callback("canceled"); //need this for setting password protection
+
+    popupScope.cancel = function() {
+      $interval.cancel(popupScope.updater);
+      // need this for setting password protection
+      callback('canceled');
       popup.close();
     };
-    popupScope.onKeyUp = function ($event) {
-      if ($event.which === 27) popupScope.cancel();  // esc button
+
+    popupScope.onKeyUp = function($event) {
+      // esc button
+      if ($event.which === 27) popupScope.cancel();
     };
     popup.blank(require('../../jade/popup/unlock.jade')(), popupScope);
   };
@@ -136,9 +158,9 @@ module.factory('rpKeychain', ['$rootScope', '$timeout', 'rpPopup', 'rpId',
    * This function will only work if the account is already unlocked. Throws an
    * error otherwise.
    */
-  Keychain.prototype.getUnlockedSecret = function (account) {
+  Keychain.prototype.getUnlockedSecret = function(account) {
     if (!this.isUnlocked(account)) {
-      throw new Error("Keychain: Tried to get secret for locked account synchronously.");
+      throw new Error('Keychain: Tried to get secret for locked account synchronously.');
     }
 
     return this.secrets[account].masterkey;
@@ -167,7 +189,7 @@ module.factory('rpKeychain', ['$rootScope', '$timeout', 'rpPopup', 'rpId',
 
     function setPasswordProtection (requirePassword, secret, callback) {
 
-      $scope.userBlob.set('/persistUnlock', !requirePassword, function(err, resp) {
+      $scope.userBlob.set('/clients/rippletradecom/persistUnlock', !requirePassword, function(err, resp) {
         if (err) {
           return callback(err);
         }
@@ -182,8 +204,8 @@ module.factory('rpKeychain', ['$rootScope', '$timeout', 'rpPopup', 'rpId',
 
   Keychain.prototype.expireSecret = function (account) {
     var _this = this;
-    $timeout(function(){
-      if (_this.secrets[account] && !$scope.userBlob.data.persistUnlock) {
+    $timeout(function() {
+      if (_this.secrets[account] && !settings.getSetting($scope.userBlob, 'persistUnlock', false)) {
         delete _this.secrets[account];
       }
     }, Keychain.unlockDuration);
