@@ -273,7 +273,15 @@ var JsonRewriter = module.exports = {
       if ('tesSUCCESS' === meta.TransactionResult) {
         switch (tx.TransactionType) {
           case 'Payment':
-            var amount = ripple.Amount.from_json(tx.Amount);
+            
+            var amount;
+            // If partial payment, use delivered amount 
+            if(meta.DeliveredAmount){
+              amount = ripple.Amount.from_json(meta.DeliveredAmount);
+            }
+            else {
+              amount = ripple.Amount.from_json(tx.Amount);
+            }
 
             if (tx.Account === account) {
               if (tx.Destination === account) {

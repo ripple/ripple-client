@@ -38,11 +38,11 @@ section.single.ddpage.content(ng-controller="TxCtrl", ng-switch on="state")
             dt
               span(l10n) Amount received
               span :
-            dd {{transaction.Amount | rpamount}} {{transaction.Amount | rpcurrency}}
+            dd {{transaction.amount | rpamount}} {{transaction.amount | rpcurrency}}
             dt
               span(l10n) Currency received
               span :
-            dd {{transaction.Amount | rpcurrencyfull}}
+            dd {{transaction.amount | rpcurrencyfull}}
         hr
         group.clearfix
           dl.details.half
