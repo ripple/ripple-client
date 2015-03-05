@@ -15,6 +15,7 @@ module.controller('NavbarCtrl', ['$scope', '$element', '$compile', 'rpId',
                                  function ($scope, el, $compile, id,
                                            network, $location)
 {
+  $scope.loading = true;
   var queue = [];
   var tickInterval = 4000;
   var tickUpcoming = false;
@@ -34,6 +35,7 @@ module.controller('NavbarCtrl', ['$scope', '$element', '$compile', 'rpId',
   // Username
   $scope.$watch('userCredentials', function(){
     var username = $scope.userCredentials.username;
+    if(username) $scope.loading = false;
     $scope.shortUsername = null;
     if(username && username.length > 25) {
       $scope.shortUsername = username.substring(0,24)+'...';
