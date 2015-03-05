@@ -60,3 +60,9 @@ exports.getSetting = function(userBlob, settingName, def) {
   }
   return def;
 };
+
+exports.getClearServers = function(servers) {
+  return _.map(servers, function(server) {
+    return _.pick(server, 'host', 'port', 'secure');
+  });
+}

@@ -155,6 +155,19 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', '$t
       // Replace default settings with user settings from blob, if blob is empty, then reuse the original value
       Options.confirmation = $.extend(true, {}, settings.getSetting($scope.userBlob, 'confirmation', Options.confirmation));
 
+      var blobServers = settings.getSetting($scope.userBlob, 'server.servers', []);
+      if (_.isArray(blobServers) && blobServers.length > 0 && !_.isEqual(blobServers, settings.getClearServers(Options.server.servers))) {
+        Options.server.servers = blobServers;
+        // Save in local storage
+        if (!store.disabled) {
+          store.set('ripple_settings', JSON.stringify(Options));
+          // Reload
+          // A force reload is necessary here because we have to re-initialize
+          // the network object with the new server list.
+          location.reload();
+        }
+      }
+
       // Account address
       if (!$scope.address && d.account_id) {
         $scope.address = d.account_id;

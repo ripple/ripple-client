@@ -178,6 +178,8 @@ AdvancedTab.prototype.angular = function(module)
         if (!store.disabled) {
           store.set('ripple_settings', JSON.stringify($scope.options));
         }
+        var servers = settings.getClearServers($scope.options.server.servers);
+        $scope.userBlob.set('/clients/rippletradecom/server/servers', servers);
 
         // Notify the user
         $scope.success.removeServer = true;
@@ -214,6 +216,8 @@ AdvancedTab.prototype.angular = function(module)
         if (!store.disabled) {
           store.set('ripple_settings', JSON.stringify($scope.options));
         }
+        var servers = settings.getClearServers($scope.options.server.servers);
+        $scope.userBlob.set('/clients/rippletradecom/server/servers', servers);
 
         // Notify the user
         $scope.success.saveServer = true;
