@@ -455,7 +455,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                 .col-md-1.type(l10n-data-label="Type")
                   span.rp-hidden-md.rp-hidden-lg {{entry.type | rpucfirst}}
                   span.rp-hidden-xs.rp-hidden-sm {{entry.type | rptruncate:1}}
-                .col-md-2.amount.rpamount(l10n-data-label="QTY",
+                .col-md-2.amount.rpamount(l10n-data-label="QTY"
                   ng-hide="editOrder.seq == entry.seq") {{entry.first | rpamount:{hard_precision: true, precision: 6, tiny_precision: 6} }}
                 .col-md-2(l10n-data-label="BASE", ng-hide="editOrder.seq == entry.seq")
                   a(href="",ng-click="goto_order_currency()")
@@ -475,7 +475,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                         rp-pretty-issuer="entry.second.issuer().to_json()"
                         rp-pretty-issuer-contacts="userBlob.data.contacts"
                       ) ???
-                .col-md-2.price.rpamount(l10n-data-label="Limit",
+                .col-md-2.price.rpamount(l10n-data-label="Limit"
                   ng-hide="editOrder.seq == entry.seq") {{entry.second | rpamountratio:entry.first | rpamount:{hard_precision: true, precision: 6, tiny_precision: 6} }}
                 //- .col-md-2.action(l10n-data-label="Time placed(UTC)", ng-hide="editOrder.seq == entry.seq") ...
                 .col-md-3.action(ng-hide="editOrder.seq == entry.seq")
