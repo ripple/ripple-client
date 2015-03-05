@@ -156,7 +156,7 @@ AdvancedTab.prototype.angular = function(module)
     $scope.addServer = function() {
       // Create a new server line
       if (!$scope.options.server.servers.isEmptyServer)
-        $scope.options.server.servers.push({isEmptyServer: true, secure: false});
+        $scope.options.server.servers.push({isEmptyServer: true, secure: true});
 
       // Set editing to true
       $scope.editing = true;
