@@ -64,11 +64,6 @@ describe('NavbarCtrl', function(){
 
   describe('private functions', function() {
 
-    it('should set the connection status', function (done) {
-      assert.isFunction(ctrl.setConnectionStatus);
-      run(scope,done);
-    });
-
     it('should enqueue', function (done) {
       assert.isFunction(ctrl.enqueue);
       run(scope,done);
