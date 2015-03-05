@@ -205,6 +205,11 @@ AdvancedTab.prototype.angular = function(module)
         $scope.server.isEmptyServer = false;
         $scope.editing = false;
 
+        // Determine port if empty
+        if (!$scope.server.port) {
+          $scope.server.port = $scope.server.secure ? '443' : '80'
+        }
+
         // Save in local storage
         if (!store.disabled) {
           store.set('ripple_settings', JSON.stringify($scope.options));
