@@ -908,7 +908,7 @@ module.directive('rpPortNumber', function () {
       if (!ctrl) return;
 
       var validator = function(value) {
-        ctrl.$setValidity('rpPortNumber', (parseInt(value,10) == value && value >= 1 && value <= 65535));
+        ctrl.$setValidity('rpPortNumber', !value || (parseInt(value, 10) == value && value >= 1 && value <= 65535));
         return value;
       };
 
@@ -916,65 +916,6 @@ module.directive('rpPortNumber', function () {
       ctrl.$parsers.unshift(validator);
 
       attr.$observe('rpPortNumber', function() {
-        validator(ctrl.$viewValue);
-      });
-    }
-  };
-});
-
-/**
- * Hostname validator
- * Check if hostname is up and is a valid websocket server
- */
-module.directive('rpHostname', function($timeout, $parse) {
-  return {
-    restrict: 'A',
-    require: '?ngModel',
-    link: function (scope, elm, attr, ctrl) {
-      if (!ctrl) return;
-
-      var timeoutPromise;
-
-      function showLoading(doShow) {
-        if (attr.rpServerLoading) {
-          var getterL = $parse(attr.rpServerLoading);
-          getterL.assign(scope, doShow);
-        }
-      }
-
-      var validator = function(value) {
-        if (timeoutPromise) $timeout.cancel(timeoutPromise);
-
-        timeoutPromise = $timeout(function() {
-          showLoading(true);
-
-          var connection = new WebSocket('wss:'+value);
-
-          connection.onopen = function() {
-            connection.send('{"command": "ping"}');
-          };
-          connection.onerror = function(e) {
-            scope.$apply(function() {
-              ctrl.$setValidity('rpHostname', false);
-              showLoading(false);
-            });
-          };
-          connection.onmessage = function(e) {
-            var test = JSON.parse(e.data).status === 'success';
-            scope.$apply(function() {
-              ctrl.$setValidity('rpHostname', test);
-              showLoading(false);
-            });
-          };
-        }, 500);
-
-        return value;
-      };
-
-      ctrl.$formatters.push(validator);
-      ctrl.$parsers.unshift(validator);
-
-      attr.$observe('rpHostname', function() {
         validator(ctrl.$viewValue);
       });
     }
