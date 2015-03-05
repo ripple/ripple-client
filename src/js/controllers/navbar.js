@@ -40,14 +40,6 @@ module.controller('NavbarCtrl', ['$scope', '$element', '$compile', 'rpId',
     }
   }, true);
 
-  $scope.$on('$netConnected', function (e) {
-    setConnectionStatus(true);
-  });
-
-  $scope.$on('$netDisconnected', function (e) {
-    setConnectionStatus(false);
-  });
-
   var updateNotifications = function () {
     if ($scope.events) {
       $scope.notifications = $scope.events.slice(0,10);
@@ -108,24 +100,11 @@ module.controller('NavbarCtrl', ['$scope', '$element', '$compile', 'rpId',
 //    }
 //  });
 
-  function setConnectionStatus(connected) {
-    if (connected) {
-      notifyEl.find('.type-offline').remove();
-    } else {
-      notifyEl.append('<div class="notification active type-offline">OFFLINE</div>');
-    }
-  }
-
   // A notification might have been queued already before the app was fully
   // initialized. If so, we display it now.
   if (queue.length) tick();
 
   var notifyEl = $('<div>').attr('id', 'notification').insertAfter(el);
-
-  // Default to disconnected
-  setTimeout(function() {
-    setConnectionStatus($scope.connected);
-  }, 1000 * 3);
 
   /**
    * Add the status message to the queue.
@@ -181,7 +160,6 @@ module.controller('NavbarCtrl', ['$scope', '$element', '$compile', 'rpId',
   updateNotifications();
 
   // Testing Hooks
-  this.setConnectionStatus = setConnectionStatus;
   this.enqueue             = enqueue;
   this.tick                = tick;
 }]);
