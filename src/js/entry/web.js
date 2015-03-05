@@ -16,6 +16,7 @@ require('../directives/errors');
 require('../directives/marketchart');
 require('../filters/filters');
 require('../filters/amountHasIssuer.js');
+require('../validators/rpWebsocket.js');
 require('../services/globalwrappers');
 require('../services/id');
 require('../services/tracker');
