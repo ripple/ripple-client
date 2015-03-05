@@ -56,7 +56,7 @@ LoginTab.prototype.angular = function (module) {
     //that the form will be valid if we are
     //only verifying via 2FA
     if ($scope.twoFactor && $scope.twoFactor.tokenError) {
-      $scope.backendMessages.push({'backend': "2FA", 'message': $scope.twoFactor.tokenError.message});
+      $scope.backendMessages.push($scope.twoFactor.tokenError.message);
     }
 
     // Autofill fix
@@ -66,11 +66,6 @@ LoginTab.prototype.angular = function (module) {
         $scope.password = $element.find('input[name="login_password"]').val();
       });
     }, 1000);
-
-//    $rootScope.$on("$blobError", function (e, err) {
-//      console.log("BLOB ERROR", arguments);
-//      $scope.backendMessages.push({'backend': err.backend, 'message': err.message});
-//    });
 
     var updateFormFields = function(){
       var username;
@@ -125,7 +120,7 @@ LoginTab.prototype.angular = function (module) {
 
           if (err) {
             $scope.status = 'Verification Falied:';
-            $scope.backendMessages.push({'backend': "2FA", 'message': err.message});
+            $scope.backendMessages.push(err.message);
 
           } else {
             var username = (""+$scope.username).trim();
@@ -185,7 +180,7 @@ LoginTab.prototype.angular = function (module) {
       if (err && err.twofactor) {
         if (err.twofactor.tokenError) {
           $scope.status = 'Request token:';
-          $scope.backendMessages.push({'backend': "2FA", 'message': err.twofactor.tokenError.message});
+          $scope.backendMessages.push(err.twofactor.tokenError.message);
           return;
         }
 
@@ -223,7 +218,7 @@ LoginTab.prototype.angular = function (module) {
         }
 
         if (err.name !== "BlobError") {
-          $scope.backendMessages.push({'backend': "ID", 'message': err.message});
+          $scope.backendMessages.push(err.message);
         }
 
         if (!$scope.$$phase) {
@@ -249,7 +244,7 @@ LoginTab.prototype.angular = function (module) {
       authflow.requestToken($scope.twoFactor.blob_url, $scope.twoFactor.blob_id, force, function(tokenError, tokenResp) {
         if (tokenError) {
           $scope.status = 'token request failed...';
-          $scope.backendMessages.push({'backend': "2FA", 'message': tokenError.message});
+          $scope.backendMessages.push(tokenError.message);
         } else {
           $scope.status = 'token resent!';
         }

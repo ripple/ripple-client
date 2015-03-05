@@ -34,12 +34,13 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
           .input-group
             span.input-group-addon.ripple-addon ~
             input.form-control#register_username(
-            name='register_username', type='text', ng-model="username"
-            required, rp-focus, autocomplete="off", maxlength="20", rpDest
-            rp-available-name
-            rp-available-name-invalid-reason="usernameInvalidReason"
-            rp-available-name-reserved-for="usernameReservedFor"
-            rp-loading="usernameLoading")
+              name='register_username', type='text', ng-model="username"
+              tabindex="1"
+              required, rp-focus, autocomplete="off", maxlength="20", rpDest
+              rp-available-name
+              rp-available-name-invalid-reason="usernameInvalidReason"
+              rp-available-name-reserved-for="usernameReservedFor"
+              rp-loading="usernameLoading")
           .errorGroup(ng-messages='registerForm.register_username.$error', ng-hide="usernameLoading")
             .success(ng-show='registerForm.register_username.$valid')
                i.fa.fa-check 
@@ -75,6 +76,7 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
           label(for='register_password', l10n) Password
           input.form-control#register_password(
             name='register_password1', type='password', autocomplete="off"
+            tabindex="2"
             ng-model="password1"
             rp-strong-password, required, rp-same-in-set="passwordSet")
           p(ng-show="strength=='weak'")
@@ -87,6 +89,7 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
           label(for='register_password2', l10n) Confirm password
           input.form-control#register_password2(
             name='register_password2', autocomplete="off"
+            tabindex="3"
             type='password'
             ng-model="password2"
             required, rp-same-in-set="passwordSet")
@@ -99,6 +102,7 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
         .form-group(ng-class="{'field-error': registerForm.register_email.$error.email && registerForm.register_email.$dirty}")
           label(for='register_email') Email
           input.form-control#register_email(type="email", name="register_email"
+            tabindex="4"
             placeholder="", ng-model="email", required)
           p(ng-show="registerForm.register_email.$error.email && registerForm.register_email.$dirty")
             i.fa.fa-exclamation-triangle
@@ -127,7 +131,9 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
           .checkbox
             label(for='terms', l10n) I agree to the {{productName}}&#32;
               a(href="#tou", target="_blank", l10n-inc) Terms of Use
-            input#terms(type="checkbox", name="terms", ng-model="terms", required)
+            input#terms(type="checkbox", name="terms", ng-model="terms"
+              tabindex="5"
+              required)
         .see-privacy-text(l10n)
           | Please see our&#32;
           a(href="#privacypolicy", target="_blank") privacy policy
@@ -135,6 +141,7 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
           |  information about you
         .submit-btn-container
           button.btn.btn-block.btn-success(type='submit'
+            tabindex="6"
             ng-disabled='registerForm.$invalid || submitLoading')
             img(src="img/button-s.png", class="loader", ng-show="submitLoading")
             span(class="loading_text", ng-hide="oldUserBlob", l10n) Sign Up
