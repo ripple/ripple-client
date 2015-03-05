@@ -55,10 +55,8 @@ ExchangeTab.prototype.angular = function (module)
         setImmediate(function() {
           if ($scope.exchangeForm.amount !== undefined) {
             $scope.$apply(function() {
-              // hack to re-validate input. remove this and uncomment $validate() when upgraded to angularjs 1.3
-              $scope.exchangeForm.amount.$modelValue = '';
               $scope.exchangeForm.amount.$setViewValue($scope.exchange.amount);
-              // $scope.exchangeForm.amount.$validate();
+              $scope.exchangeForm.amount.$validate();
               runUpdateExchangeIfNeeded();
             });
           }
