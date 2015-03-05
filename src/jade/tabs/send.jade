@@ -5,6 +5,11 @@ section.col-xs-12.content(ng-controller='SendCtrl')
   group.disconnected(ng-hide='connected')
     p.literal(l10n="err-you-must-be-online-to-see-this-screen", l10n) You have to be online to see this screen
 
+  group.disconnected(ng-hide="!connected || loadState.account")
+    div(id="section_loader")
+      img(src="img/sections.png", class="loader")
+      div(class="loading_sections", l10n) Loading... 
+
   //- Account is unfunded
 
   div(ng-show="!loadingAccount && !account.Balance && loadState.account && connected")
@@ -13,7 +18,7 @@ section.col-xs-12.content(ng-controller='SendCtrl')
 
   div(ng-show='debug') This page is not available in debug mode
 
-  .row(ng-show='connected && !debug')
+  .row(ng-show='connected && !debug && account.Balance')
     .widgets.hidden-xs.col-sm-4.col-md-4.col-lg-3
       include widgets/balances
     .col-xs-12.col-sm-8.col-md-8.col-lg-9
