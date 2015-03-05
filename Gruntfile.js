@@ -49,7 +49,6 @@ module.exports = function(grunt) {
               'deps/js/spin.js/spin.js',
               'deps/js/snapjs/snap.js',
               'deps/js/ng-sortable/dist/ng-sortable.js',
-              'deps/js/charts/ticker.js',
               'deps/js/charts/pricechart.js'];
 
   var compatIE = ['compat/ie/base64/base64.js',
@@ -341,7 +340,7 @@ module.exports = function(grunt) {
       scriptsDebug: {
         files: ['src/js/**/*.js', 'src/jade/**/*.jade'],
         tasks: ['version', 'versionBranch', 'webpack:webDebug', 'copy'],
-        options: { nospawn: true, livereload: true }
+        options: { spawn: false, livereload: true }
       },
       deps: {
         files: deps,

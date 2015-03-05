@@ -14,7 +14,6 @@ require('../directives/directives');
 require('../directives/datalinks');
 require('../directives/errors');
 require('../directives/marketchart');
-require('../directives/ticker');
 require('../filters/filters');
 require('../filters/amountHasIssuer.js');
 require('../services/globalwrappers');
