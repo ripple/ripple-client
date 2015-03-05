@@ -172,7 +172,7 @@ AdvancedTab.prototype.angular = function(module)
 
       // Delete the server
       $scope.remove = function () {
-        $scope.options.server.servers.splice($scope.index,1);
+        $scope.options.server.servers.splice($scope.index, 1);
 
         // Save in local storage
         if (!store.disabled) {
@@ -195,7 +195,6 @@ AdvancedTab.prototype.angular = function(module)
 
         $scope.editing = false;
         $scope.server = $.extend({}, $scope.optionsBackup.server.servers[$scope.index]);
-
       };
 
       $scope.noCancel = function () {
