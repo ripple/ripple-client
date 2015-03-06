@@ -78,12 +78,11 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                     rp-account-exists-loading="counterparty_loading"
                     rp-dest, rp-dest-address, rp-dest-contact, rp-not-me, rp-dest-email
                     rp-dest-ripple-name, rp-dest-model="counterparty"
-                    rp-dest-loading="counterparty_loading"
                     required
                     rp-autofill='$routeParams.to'
                     rp-autofill-counterparty_view
                     rp-autofill-on='addform_visible = true'
-                    rp-focus, rp-spinner="{{counterparty_loading ? 4 : null}}")
+                    rp-focus, rp-spinner)
                   .errorGroup(ng-messages='trustForm.trust_counterparty.$dirty && trustForm.trust_counterparty.$error')
                     div(ng-show='trustForm.trust_counterparty.$valid')
                       .success(ng-show='counterparty != counterparty_address && counterparty_name && !error_account_reserve')

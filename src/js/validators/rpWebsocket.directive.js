@@ -4,76 +4,61 @@
 
 var module = angular.module('validators');
 
-module.directive('rpWebsocket', function($timeout, $parse) {
+module.directive('rpWebsocket', function($q, $timeout, $parse) {
   return {
     restrict: 'A',
     require: '?ngModel',
     link: function (scope, elm, attr, ctrl) {
       if (!ctrl) return;
 
-      function showLoading(doShow) {
-        if (attr.rpServerLoading) {
-          var getterL = $parse(attr.rpServerLoading);
-          getterL.assign(scope, doShow);
-        }
-      }
+      ctrl.$asyncValidators.rpWebsocket = function(value) {
 
-      var validator = function(value) {
-        if (!value) return;
+        var defer = $q.defer(),
+            connection;
 
-        var connection;
+        if (!value) return $q.when(false);
 
-        showLoading(true);
+        $timeout(function() {
+          try {
+            connection = new WebSocket(
+                // something like 'wss://host:port'
+                (attr.rpWebsocketSecure === 'true' ? 'wss' : 'ws') + '://'
+                + value
+                + (attr.rpWebsocketPort ? ':' + attr.rpWebsocketPort : '')
+                );
+          } catch (err) {}
 
-        try {
-          connection = new WebSocket(
-            // something like 'wss://host:port'
-            (attr.rpWebsocketSecure === 'true' ? 'wss' : 'ws') + '://'
-            + value
-            + (attr.rpWebsocketPort ? ':' + attr.rpWebsocketPort : '')
-          );
-        } catch (err) {}
+          if (!connection) return $q.when(false);
 
-        if (!connection) {
-          showLoading(false);
-          return;
-        }
+          connection.onopen = function() {
+            connection.send('{"command": "ping"}');
+          };
 
-        connection.onopen = function() {
-          connection.send('{"command": "ping"}');
-        };
+          connection.onerror = function(e) {
+            defer.reject();
+          };
 
-        connection.onerror = function(e) {
-          scope.$apply(function() {
-            ctrl.$setValidity('rpWebsocket', false);
-            showLoading(false);
-          });
-        };
-
-        connection.onmessage = function(e) {
-          var test = JSON.parse(e.data).status === 'success';
-          scope.$apply(function() {
-            ctrl.$setValidity('rpWebsocket', test);
-            showLoading(false);
-          });
-        };
-
-        return value;
+          connection.onmessage = function(e) {
+            if (JSON.parse(e.data).status === 'success') {
+              defer.resolve();
+            } else {
+              defer.reject();
+            }
+          };
+        }, 500);
+        return defer.promise;
       };
 
-      ctrl.$formatters.push(validator);
-      ctrl.$parsers.unshift(validator);
-
-      attr.$observe('rpWebsocket', function() {
-        validator(ctrl.$viewValue);
+      attr.$observe('rpWebsocket', function(val) {
+        ctrl.$validate();
       });
 
-      attr.$observe('rpWebsocketPort', function() {
-        validator(ctrl.$viewValue);
+      attr.$observe('rpWebsocketPort', function(val) {
+        ctrl.$validate();
       });
 
-      attr.$observe('rpWebsocketSecure', function() {
-        validator(ctrl.$viewValue);
+      attr.$observe('rpWebsocketSecure', function(val) {
+        ctrl.$validate();
       });
     }
   };

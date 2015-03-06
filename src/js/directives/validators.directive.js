@@ -45,49 +45,42 @@ module.directive('rpMasterKey', function () {
  * Invalidate duplicate accountId's
  * consider the masterkey invalid unless the database does not have the derived accountId
  */
-module.directive('rpMasterAddressExists', function ($http) {
+module.directive('rpMasterAddressExists', function ($q, $timeout, $http) {
   return {
     restrict: 'A',
     require: '?ngModel',
     link: function (scope, elm, attr, ctrl) {
       if (!ctrl) return;
 
-      var validator = function(value) {
+      ctrl.$asyncValidators.rpMasterAddressExists = function(value) {
         if (!value || !Base.decode_check(33, value)) {
-          ctrl.$setValidity('rpMasterAddressExists', true);
-          return value;
-        }
-        else if (value) {
-          ctrl.$setValidity('rpMasterAddressExists', false); //while checking
-          scope.checkingMasterkey = true;
-          var accountId = ripple.Seed.from_json(value).get_key().get_address().to_json();
+          return $q.when(true);
+        } else if (value) {
+          var accountId = ripple.Seed.from_json(value).get_key().get_address().to_json(),
+              defer = $q.defer();
 
-          rippleVaultClient.AuthInfo.get(Options.domain, accountId, function(err, data) {
-            if (err) {
-              scope.checkingMasterkey = false;
-              return;
-            }
+          $timeout(function() {
+            rippleVaultClient.AuthInfo.get(Options.domain, accountId, function(err, data) {
+              if (err) {
+                defer.reject();
+              }
 
-            if (data.username) {
-              scope.masterkeyUsername = data.username;
-              scope.masterkeyAddress  = accountId;
-              ctrl.$setValidity('rpMasterAddressExists', false);
-              scope.checkingMasterkey = false;
-            } else {
-              ctrl.$setValidity('rpMasterAddressExists', true);
-              scope.checkingMasterkey = false;
-            }
-          });
+              if (data.username) {
+                scope.masterkeyUsername = data.username;
+                scope.masterkeyAddress  = accountId;
+                defer.reject();
+              } else {
+                defer.resolve();
+              }
+            });
+          }, 500);
 
-          return value;
+          return defer.promise;
         }
       };
 
-      ctrl.$formatters.push(validator);
-      ctrl.$parsers.unshift(validator);
-
       attr.$observe('rpMasterAddressExists', function() {
-        validator(ctrl.$viewValue);
+        ctrl.$validate();
       });
     }
   };
@@ -109,25 +102,18 @@ module.directive('rpMasterAddressExists', function ($http) {
  * If the input can be validly interpreted as one of these types, the validation
  * will succeed.
  */
-module.directive('rpDest', ['$timeout', '$parse', 'rpFederation', function ($timeout, $parse, $federation) {
+module.directive('rpDest', ['$q', '$timeout', '$parse', 'rpFederation', function ($q, $timeout, $parse, $federation) {
   var emailRegex = /^\S+@\S+\.[^\s.]+$/;
   return {
     restrict: 'A',
     require: '?ngModel',
     link: function (scope, elm, attr, ctrl) {
       if (!ctrl) return;
-      
-      function showLoading(doShow) {
-        if (attr.rpDestLoading) {
-          var getterL = $parse(attr.rpDestLoading);
-          getterL.assign(scope,doShow);
-        }
-      }
 
-      var timeoutPromise, getter;
-      var validator = function(value) {
-        var strippedValue = webutil.stripRippleAddress(value);
-        var address = ripple.UInt160.from_json(strippedValue);
+      var getter;
+      ctrl.$asyncValidators.rpDest = function(value) {
+        var strippedValue = webutil.stripRippleAddress(value),
+            address = ripple.UInt160.from_json(strippedValue);
 
         ctrl.rpDestType = null;
         if (attr.rpDestFederationModel) {
@@ -135,60 +121,50 @@ module.directive('rpDest', ['$timeout', '$parse', 'rpFederation', function ($tim
           getter.assign(scope,null);
         }
 
+        // client-side validation
         if (attr.rpDestAddress && address.is_valid()) {
           ctrl.rpDestType = "address";
-          ctrl.$setValidity('rpDest', true);
 
           if (attr.rpDestModel) {
             getter = $parse(attr.rpDestModel);
             getter.assign(scope,value);
           }
 
-          return value;
+          return $q.when(true);
         }
 
         if (attr.rpDestContact && scope.userBlob &&
           webutil.getContact(scope.userBlob.data.contacts,strippedValue)) {
           ctrl.rpDestType = "contact";
-          ctrl.$setValidity('rpDest', true);
 
           if (attr.rpDestModel) {
             getter = $parse(attr.rpDestModel);
             getter.assign(scope,webutil.getContact(scope.userBlob.data.contacts,strippedValue).address);
           }
 
-          return value;
+          return $q.when(true);
         }
 
         if (attr.rpDestBitcoin && !isNaN(Base.decode_check([0, 5], strippedValue, 'bitcoin'))) {
           ctrl.rpDestType = "bitcoin";
-          ctrl.$setValidity('rpDest', true);
 
           if (attr.rpDestModel) {
             getter = $parse(attr.rpDestModel);
             getter.assign(scope,value);
           }
 
-          return value;
+          return $q.when(true);
         }
 
+        // server-side validation
         if (attr.rpDestEmail && emailRegex.test(strippedValue)) {
           ctrl.rpDestType = "email";
           if (attr.rpDestCheckFederation) {
-            ctrl.$setValidity('rpDest', false);
-            showLoading(true);
-
-            $federation.check_email(value)
+            return $federation.check_email(value)
               .then(function (result) {
                 // Check if this request is still current, exit if not
                 if (value != ctrl.$viewValue) return;
-                showLoading(false);
-                ctrl.$setValidity('rpDest', true);
 
-                // Check if this request is still current, exit if not
-                // var now_recipient = send.recipient_address;
-                // if (recipient !== now_recipient) return;
-                // ctrl.$viewValue
                 if (attr.rpDestModel) {
                   getter = $parse(attr.rpDestModel);
                   getter.assign(scope,value);
@@ -197,57 +173,49 @@ module.directive('rpDest', ['$timeout', '$parse', 'rpFederation', function ($tim
                   getter = $parse(attr.rpDestFederationModel);
                   getter.assign(scope,result);
                 }
-              }, function () {
-                // Check if this request is still current, exit if not
-                if (value != ctrl.$viewValue) return;
-                showLoading(false);
+                return true;
+              }, function() {
+                return false;
               });
           } else {
-            ctrl.$setValidity('rpDest', true);
-
             if (attr.rpDestModel) {
               getter = $parse(attr.rpDestModel);
               getter.assign(scope,value);
             }
+
+            return $q.when(true);
           }
-          return value;
         }
 
         if (((attr.rpDestRippleName && webutil.isRippleName(value)) ||
           (attr.rpDestRippleNameNoTilde && value && value[0] !== '~' && webutil.isRippleName('~'+value)))) { // TODO Don't do a client check in validators
           ctrl.rpDestType = "rippleName";
 
-          if (timeoutPromise) $timeout.cancel(timeoutPromise);
-
-          timeoutPromise = $timeout(function(){
-            showLoading(true);
-
+          var defer = $q.defer();
+          $timeout(function() {
             rippleVaultClient.AuthInfo.get(Options.domain, value, function(err, info){
               scope.$apply(function(){
-                ctrl.$setValidity('rpDest', info.exists);
-
                 if (attr.rpDestModel && info.exists) {
                   getter = $parse(attr.rpDestModel);
                   getter.assign(scope,info.address);
                 }
 
-                showLoading(false);
+                if (info.exists) {
+                  defer.resolve(info.exists);
+                } else {
+                  defer.reject();
+                }
               });
             });
           }, 500);
-
-          return value;
+          return defer.promise;
         }
 
-        ctrl.$setValidity('rpDest', false);
-        return;
+        return $q.when(false);
       };
 
-      ctrl.$formatters.push(validator);
-      ctrl.$parsers.unshift(validator);
-
       attr.$observe('rpDest', function() {
-        validator(ctrl.$viewValue);
+        ctrl.$validate();
       });
     }
   };
@@ -256,76 +224,57 @@ module.directive('rpDest', ['$timeout', '$parse', 'rpFederation', function ($tim
 /**
  * Check if the ripple name is valid and is available for use
  */
-module.directive('rpAvailableName', function ($timeout, $parse) {
+module.directive('rpAvailableName', function ($q, $timeout, $parse) {
   return {
     restrict: 'A',
     require: '?ngModel',
     link: function (scope, elm, attr, ctrl) {
       if (!ctrl) return;
 
-      var timeoutPromise;
-
-      var validator = function(value) {
-        var getterInvalidReason = $parse(attr.rpAvailableNameInvalidReason);
-        var getterReserved = $parse(attr.rpAvailableNameReservedFor);
-
-        if (timeoutPromise) $timeout.cancel(timeoutPromise);
+      ctrl.$asyncValidators.rpAvailableName = function(value) {
+        scope.usernameInvalidReason = '';
+        scope.usernameReservedFor = '';
 
         if (!value) {
           // No name entered, show nothing, do nothing
-          getterInvalidReason.assign(scope,false);
+          return $q.when(true);
         } else if (value.length < 2) {
-          getterInvalidReason.assign(scope,'tooshort');
+          scope.usernameInvalidReason = 'tooshort';
         } else if (value.length > 20) {
-          getterInvalidReason.assign(scope,'toolong');
+          scope.usernameInvalidReason = 'toolong';
         } else if (!/^[a-zA-Z0-9\-]+$/.exec(value)) {
-          getterInvalidReason.assign(scope,'charset');
+          scope.usernameInvalidReason = 'charset';
         } else if (/^-/.exec(value)) {
-          getterInvalidReason.assign(scope,'starthyphen');
+          scope.usernameInvalidReason = 'starthyphen';
         } else if (/-$/.exec(value)) {
-          getterInvalidReason.assign(scope,'endhyphen');
+          scope.usernameInvalidReason = 'endhyphen';
         } else if (/--/.exec(value)) {
-          getterInvalidReason.assign(scope,'multhyphen');
+          scope.usernameInvalidReason = 'multhyphen';
         } else {
-
-          timeoutPromise = $timeout(function(){
-            if (attr.rpLoading) {
-              var getterL = $parse(attr.rpLoading);
-              getterL.assign(scope,true);
-            }
-
+          var defer = $q.defer();
+          $timeout(function(){
             rippleVaultClient.AuthInfo.get(Options.domain, value, function(err, info){
               scope.$apply(function(){
                 if (info.exists) {
-                  ctrl.$setValidity('rpAvailableName', false);
-                  getterInvalidReason.assign(scope,'exists');
+                  scope.usernameInvalidReason = 'exists';
+                  defer.reject('exists');
                 } else if (info.reserved) {
-                  ctrl.$setValidity('rpAvailableName', false);
-                  getterInvalidReason.assign(scope,'reserved');
-                  getterReserved.assign(scope,info.reserved);
+                  scope.usernameInvalidReason = 'reserved';
+                  scope.usernameReservedFor = info.reserved;
+                  defer.reject('reserved');
                 } else {
-                  ctrl.$setValidity('rpAvailableName', true);
-                }
-
-                if (attr.rpLoading) {
-                  getterL.assign(scope,false);
+                  defer.resolve();
                 }
               });
             });
           }, 500);
 
-          return value;
+          return defer.promise;
         }
-
-        ctrl.$setValidity('rpAvailableName', false);
-        return;
+        return $q.when(false);
       };
-
-      ctrl.$formatters.push(validator);
-      ctrl.$parsers.unshift(validator);
-
-      attr.$observe('rpAvailableName', function() {
-        validator(ctrl.$viewValue);
+      attr.$observe('rpAvailableName', function(val) {
+        ctrl.$validate();
       });
     }
   };

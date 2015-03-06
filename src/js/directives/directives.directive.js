@@ -321,21 +321,22 @@ module.directive('rpNoPropagate', [function() {
 module.directive('rpSpinner', [function() {
   return {
     restrict: 'A',
-    link: function(scope, element, attr) {
+    require: '^form',
+    link: function(scope, element, attr, ctrl) {
       var spinner = null;
-      attr.$observe('rpSpinner', function(value) {
+      scope.$watch(ctrl.$name + '.' + element.attr('name') + '.$pending', function(pending) {
         element.removeClass('spinner');
         if (spinner) {
           spinner.stop();
           spinner = null;
         }
 
-        if (value > 0) {
+        if (pending) {
           spinner = new Spinner({
             lines: 9, // The number of lines to draw
             length: 3, // The length of each line
             width: 2, // The line thickness
-            radius: value, // The radius of the inner circle
+            radius: 4, // The radius of the inner circle
             className: 'spinnerInner'
           });
 

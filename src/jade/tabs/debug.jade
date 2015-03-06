@@ -10,12 +10,11 @@ section.col-xs-12.content(ng-controller='DebugPretendCtrl')
           name='pretendAddr', type='text'
           rp-combobox="pretend_query"
           rp-combobox-value-as-ripple-name
-          rp-dest-loading="pretend_loading"
           l10n-placeholder="Enter a Ripple name or address"
           ng-model='pretend.pretendAs'
           required
           rp-dest, rp-dest-address, rp-dest-ripple-name, rp-dest-contact
-          rp-spinner="{{pretend_loading ? 4 : null}}"
+          rp-spinner
           )
       .errorGroup(ng-messages='debugPretendForm.pretendAddr.$error')
         .success(ng-show='debugPretendForm.pretendAddr.$valid && pretend.pretendAs != pretend.address')
