@@ -224,7 +224,7 @@ section.col-xs-12.content(ng-controller='SendCtrl')
                       rp-pretty-issuer-or-short)
                     .ex (
                       span.rate {{alt.rate | rpamount:{rel_precision: 4} }}
-                      span.pair {{send.currency_code}}/{{alt.amount | rpcurrency}}
+                      span.pair {{alt.amount | rpcurrency}}/{{send.currency_code}}
                       | )
                   button.btn.btn-block.btn-success(type="submit"
                   ng-disabled='sendForm.$invalid', ng-click="send.alt = alt", l10n)
@@ -272,7 +272,7 @@ section.col-xs-12.content(ng-controller='SendCtrl')
         p
           span.literal(l10n) Exchange rate: &#32;
           span.value {{send.alt.rate | rpamount:{rel_precision: 4} }} &#32;
-          span.currency {{send.currency_code}}/{{send.alt.amount | rpcurrency}}
+          span.currency {{send.alt.amount | rpcurrency}}/{{send.currency_code}}
         span.literal(l10n) Ripple network fee: &#32;
         span.currency(rp-pretty-amount='networkFee')
         form.call-to-action(name="sendUnlockForm", ng-submit="send_confirmed()")
