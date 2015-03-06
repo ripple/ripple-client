@@ -83,7 +83,7 @@ section.col-xs-12.content(ng-controller="HistoryCtrl")
               span.desc(ng-hide="entry.details", ng-switch on="entry.transaction.type")
                 span(ng-switch-when="sent")
                   span(l10n, rp-span-spacing) You sent
-                    span.amount(rp-pretty-amount-high-precision="entry.transaction.amountSent || entry.transaction.amount", rp-address-popover, rp-address-popover-sum="entry.transaction.amountSent || entry.transaction.amount")
+                    span.amount(rp-pretty-amount-high-precision="entry.transaction.amountSent || entry.transaction.amount")
                     | to
                     span.address(rp-pretty-identity="entry.transaction.counterparty", rp-address-popover="entry.transaction.counterparty")
                   != require("./history/effects.jade")()
@@ -91,42 +91,42 @@ section.col-xs-12.content(ng-controller="HistoryCtrl")
                   span(l10n, rp-span-spacing)
                     span.address(rp-pretty-identity="entry.transaction.counterparty", rp-address-popover="entry.transaction.counterparty")
                     | sent you
-                    span.amount(rp-pretty-amount="entry.transaction.amount", rp-address-popover, rp-address-popover-sum="entry.transaction.amount")
+                    span.amount(rp-pretty-amount="entry.transaction.amount")
                   != require("./history/effects.jade")()
                 span(ng-switch-when="exchange")
                   span(l10n, rp-span-spacing) You requested to exchange
-                    span.amount(rp-pretty-amount="entry.transaction.spent", rp-address-popover, rp-address-popover-sum="entry.transaction.spent")
+                    span.amount(rp-pretty-amount="entry.transaction.spent")
                     | to
-                    span.amount(rp-pretty-amount="entry.transaction.amount", rp-address-popover, rp-address-popover-sum="entry.transaction.amount")
+                    span.amount(rp-pretty-amount="entry.transaction.amount")
                   != require("./history/effects.jade")()
                 span(ng-switch-when="trusted")
                   span(l10n, rp-span-spacing)
                     span.address(title="{{entry.transaction.counterparty}}") {{entry.transaction.counterparty | rpcontactname}}
                     | now trusts you for
-                    span.amount(rp-pretty-amount="entry.transaction.amount", rp-address-popover, rp-address-popover-sum="entry.transaction.amount")
+                    span.amount(rp-pretty-amount="entry.transaction.amount")
                   != require("./history/effects.jade")()
                 span(ng-switch-when="trusting")
                   span(l10n, rp-span-spacing) You have now connected to the gateway&#32;
                     span.address(rp-pretty-identity="entry.transaction.counterparty", rp-address-popover="entry.transaction.counterparty")
                     span(ng-show="globalOptions.advanced_feature_switch", l10n-inc) &#32;for&#32;
-                    span.amount(ng-show="globalOptions.advanced_feature_switch", rp-pretty-amount="entry.transaction.amount", rp-address-popover, rp-address-popover-sum="entry.transaction.amount")
+                    span.amount(ng-show="globalOptions.advanced_feature_switch", rp-pretty-amount="entry.transaction.amount")
                     | .
                   != require("./history/effects.jade")()
                 span(ng-switch-when="offernew")
                   span(ng-show="entry.transaction.sell", l10n, rp-span-spacing) You created an order to sell
-                    span.amount(rp-pretty-amount-high-precision="entry.transaction.gets", rp-address-popover, rp-address-popover-sum="entry.transaction.gets")
+                    span.amount(rp-pretty-amount-high-precision="entry.transaction.gets")
                     | for
-                    span.amount(rp-pretty-amount-high-precision="entry.transaction.pays", rp-address-popover, rp-address-popover-sum="entry.transaction.pays")
+                    span.amount(rp-pretty-amount-high-precision="entry.transaction.pays")
                   span(ng-hide="entry.transaction.sell", l10n, rp-span-spacing) You created an order to buy
-                    span.amount(rp-pretty-amount-high-precision="entry.transaction.pays", rp-address-popover, rp-address-popover-sum="entry.transaction.pays")
+                    span.amount(rp-pretty-amount-high-precision="entry.transaction.pays")
                     | for
-                    span.amount(rp-pretty-amount-high-precision="entry.transaction.gets", rp-address-popover, rp-address-popover-sum="entry.transaction.gets")
+                    span.amount(rp-pretty-amount-high-precision="entry.transaction.gets")
                   != require("./history/effects.jade")()
                 span(ng-switch-when="offercancel")
                   span(l10n, rp-span-spacing) You cancelled an order accepting&#32;
-                    span.amount(rp-pretty-amount-high-precision="entry.transaction.pays", rp-address-popover, rp-address-popover-sum="entry.transaction.pays")
+                    span.amount(rp-pretty-amount-high-precision="entry.transaction.pays")
                     | for
-                    span.amount(rp-pretty-amount-high-precision="entry.transaction.gets", rp-address-popover, rp-address-popover-sum="entry.transaction.gets")
+                    span.amount(rp-pretty-amount-high-precision="entry.transaction.gets")
                   != require("./history/effects.jade")()
                 span(ng-switch-when="accountset")
                   span(l10n) Account details have been changed
@@ -148,13 +148,13 @@ section.col-xs-12.content(ng-controller="HistoryCtrl")
                 span(l10n, rp-span-spacing)
                   span {{entry.details.app.name}}
                   |  sent you
-                  span.amount(rp-pretty-amount="entry.transaction.amount", rp-address-popover, rp-address-popover-sum="entry.transaction.amount")
+                  span.amount(rp-pretty-amount="entry.transaction.amount")
                   |  and activated your account!
                 != require("./history/effects.jade")()
               span(ng-switch-when="deposit")
                 span(l10n, rp-span-spacing)
                   | You deposited
-                  span.amount(rp-pretty-amount="entry.transaction.amount", rp-address-popover, rp-address-popover-sum="entry.transaction.amount")
+                  span.amount(rp-pretty-amount="entry.transaction.amount")
                   |  using {{entry.details.app.name}}
                 != require("./history/effects.jade")()
 
@@ -178,8 +178,8 @@ section.col-xs-12.content(ng-controller="HistoryCtrl")
                     rp-pretty-issuer-default="-"
                     data-label="Issuer"
                   )
-                  span.amount(data-label="Amount", rp-pretty-amount="effect.amount", rp-address-popover, rp-address-popover-sum="effect.amount")
-                  span.balance(data-label="Final balance", rp-pretty-amount="effect.balance", rp-address-popover, rp-address-popover-sum="effect.balance")
+                  span.amount(data-label="Amount", rp-pretty-amount="effect.amount")
+                  span.balance(data-label="Final balance", rp-pretty-amount="effect.balance")
               .links
                 a.txLink(rp-link-tx="entry.hash", l10n) Transaction details
                 a.addLink(href="#/contact?to={{entry.transaction.counterparty}}", rp-no-propagate
