@@ -37,11 +37,8 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
               name='register_username', type='text', ng-model="username"
               tabindex="1"
               required, rp-focus, autocomplete="off", maxlength="20", rpDest
-              rp-available-name
-              rp-available-name-invalid-reason="usernameInvalidReason"
-              rp-available-name-reserved-for="usernameReservedFor"
-              rp-loading="usernameLoading")
-          .errorGroup(ng-messages='registerForm.register_username.$error', ng-hide="usernameLoading")
+              rp-available-name)
+          .errorGroup(ng-messages='registerForm.register_username.$error', ng-hide="registerForm.register_username.$pending")
             .success(ng-show='registerForm.register_username.$valid')
                i.fa.fa-check 
                span(l10n)  Available
@@ -71,7 +68,7 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
                   span.statusText(l10n)  Cannot end with hyphen (-)
                 i.fa.fa-exclamation-triangle(ng-switch-when="multhyphen")
                   span.statusText(l10n)  Cannot use hyphens in a row (--)
-          span.checking(ng-show="usernameLoading", l10n) Checking...
+          span.checking(ng-show="registerForm.register_username.$pending", l10n) Checking...
         .form-group(ng-class="{'field-error': 'weak' === strength || 'match' === strength}")
           label(for='register_password', l10n) Password
           input.form-control#register_password(
@@ -112,15 +109,15 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
           label(for='register_masterkey', l10n) Secret key&#32;
           a.hide-key(href="", ng-click="showMasterKeyInput=false", l10n) hide
           div.register_masterkey
-            input.form-control#register_masterkey(name='register_masterkey', type='password', 
-              autocomplete='off', ng-model="masterkey", rp-master-key, rp-master-address-exists, 
+            input.form-control#register_masterkey(name='register_masterkey', type='password',
+              autocomplete='off', ng-model="masterkey", rp-master-key, rp-master-address-exists,
               rp-focus)
-            div.inputSpinner(ng-hide="!checkingMasterkey")
+            div.inputSpinner(ng-show="registerForm.register_masterkey.$pending")
               img.loader(src="img/sections.png")
             p(ng-show="registerForm.register_masterkey.$error.rpMasterKey")
               i.fa.fa-exclamation-triangle
                 span.error.statusText(l10n)  Secret Account Key is invalid     
-            .auth-attention(ng-show="registerForm.register_masterkey.$error.rpMasterAddressExists && masterkeyAddress") 
+            .auth-attention(ng-show="registerForm.register_masterkey.$error.rpMasterAddressExists && masterkeyAddress")
               div(l10n)
                 | The account ~
                 span {{ masterkeyUsername }} 
@@ -142,7 +139,7 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
         .submit-btn-container
           button.btn.btn-block.btn-success(type='submit'
             tabindex="6"
-            ng-disabled='registerForm.$invalid || submitLoading')
+            ng-disabled='registerForm.$invalid || registerForm.$pending')
             img(src="img/button-s.png", class="loader", ng-show="submitLoading")
             span(class="loading_text", ng-hide="oldUserBlob", l10n) Sign Up
             span(ng-show="oldUserBlob", l10n) Migrate Account
