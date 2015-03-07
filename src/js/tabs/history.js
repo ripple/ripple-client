@@ -19,6 +19,10 @@ HistoryTab.prototype.generateHtml = function ()
   return require('../../jade/tabs/history.jade')();
 };
 
+HistoryTab.prototype.extraRoutes = [
+  { name: '/history/:page' }
+];
+
 HistoryTab.prototype.angular = function (module) {
   module.controller('HistoryCtrl', ['$scope', 'rpId', 'rpNetwork', 'rpTracker', 'rpAppManager', '$routeParams',
                                      function ($scope, id, network, rpTracker, appManager, $routeParams)
@@ -26,17 +30,16 @@ HistoryTab.prototype.angular = function (module) {
     // Open/close states of individual history items
     $scope.details = [];
 
+    $scope.pagination = {};
+
+    // Current page number
+    if (!$routeParams.page) $routeParams.page = 1;
+
     var history = [];
 
     // History collection
     $scope.historyShow = [];
     $scope.historyCsv = '';
-
-    // Currencies from history
-    var historyCurrencies = [];
-
-    // Latest transaction
-    var latest;
 
     $scope.orderedTypes = ['sent', 'received', 'gateways', 'trades', 'orders', 'other'];
 
@@ -68,12 +71,53 @@ HistoryTab.prototype.angular = function (module) {
     };
 
     // History states
-    $scope.$watch('loadState.transactions',function(){
+    $scope.$watch('loadState.transactions', function(){
       $scope.historyState = !$scope.loadState.transactions ? 'loading' : 'ready';
-    });
 
-    //$scope.typeUsage = [];
-    //$scope.currencyUsage = [];
+      if ($scope.loadState.transactions) {
+        // Get history
+        if ($routeParams.page == 1) {
+          // New transactions
+          $scope.$watchCollection('history', function(){
+            history = $scope.history;
+
+            updateHistory();
+          }, true);
+        } else {
+          $scope.userHistory.getHistory({
+            limit: Options.transactions_per_page,
+            offset: ($routeParams.page - 1) * Options.transactions_per_page
+          })
+            .success(function(data){
+              if (!data.transactions.length) return;
+
+              for (var i = 0; i < data.transactions.length; i++) {
+                // Push
+                var tx = rewriter.processTxn(
+                  data.transactions[i].tx,
+                  data.transactions[i].meta,
+                  id.account);
+
+                if (tx) {
+                  history.push(tx);
+                }
+              }
+
+              updateHistory();
+            })
+            .error(function(){
+              // TODO
+            })
+        }
+
+        // Get transaction count
+        $scope.userHistory.getCount()
+          .success(function(response){
+            $scope.pagination.count = response.count;
+            $scope.pagination.pages = Math.ceil($scope.pagination.count / Options.transactions_per_page);
+          });
+      }
+    });
 
     if (store.get('ripple_history_type_selections')) {
       $scope.types = $.extend(true,$scope.types,store.get('ripple_history_type_selections'));
@@ -90,68 +134,10 @@ HistoryTab.prototype.angular = function (module) {
       $scope.filters = store.get('ripple_history_filters');
     } else {
       $scope.filters = {
-        'currencies_is_active': false, // we do the currency filter only if this is true, which happens when at least one currency is off
-        'currencies': {},
         'types': ['sent','received','exchange','trusting','trusted','offernew','offercancel','rippling'],
         'minimumAmount': 0.000001
       };
     }
-
-    var getDateRangeHistory = function(dateMin,dateMax,callback)
-    {
-      var completed = false;
-      var history = [];
-
-      var params = {
-        account: id.account,
-        ledger_index_min: -1,
-        limit: 200,
-        binary: false
-      };
-
-      getTx();
-
-      function getTx() {
-        network.remote.request_account_tx(params, function(err, data) {
-          if (!data.transactions.length) {
-            return callback(history);
-          }
-
-          for (var i=0;i<data.transactions.length;i++) {
-            var date = ripple.utils.toTimestamp(data.transactions[i].tx.date);
-
-            if (date < dateMin.getTime()) {
-              completed = true;
-              break;
-            }
-
-            if (date > dateMax.getTime()) {
-              continue;
-            }
-
-            // Push
-            var tx = rewriter.processTxn(data.transactions[i].tx, data.transactions[i].meta, id.account);
-            if (tx) {
-              history.push(tx);
-            }
-          }
-
-          if (data.marker) {
-            params.marker = data.marker;
-            $scope.tx_marker = params.marker;
-          } else {
-            // Received all transactions since a marker was not returned
-            completed = true;
-          }
-
-          if (completed) {
-            callback(history);
-          } else {
-            getTx();
-          }
-        });
-      }
-    };
 
     // DateRange filter form
     $scope.submitDateRangeForm = function() {
@@ -175,11 +161,6 @@ HistoryTab.prototype.angular = function (module) {
         });
       });
     };
-
-    // All the currencies
-    $scope.$watch('balances', function(){
-      updateCurrencies();
-    });
 
     // Types filter has been changed
     $scope.$watch('types', function(){
@@ -211,28 +192,8 @@ HistoryTab.prototype.angular = function (module) {
       updateHistory();
     }, true);
 
-    // Currency filter has been changed
-    $scope.$watch('filters.currencies', function(){
-      updateCurrencies();
-      updateHistory();
-    }, true);
-
-    // New transactions
-    $scope.$watchCollection('history',function(){
-      history = $scope.history;
-
-      updateHistory();
-
-      // Update currencies
-      if (history.length)
-        updateCurrencies();
-    },true);
-
     // Updates the history collection
     var updateHistory = function (){
-
-      //$scope.typeUsage = [];
-      //$scope.currencyUsage = [];
       $scope.historyShow = [];
 
       if (history.length) {
@@ -240,10 +201,8 @@ HistoryTab.prototype.angular = function (module) {
 
         $scope.minLedger = 0;
 
-        var currencies = _.map($scope.filters.currencies,function(obj,key){return obj.checked ? key : false;});
         history.forEach(function(event)
         {
-
           // Calculate dateMin/dateMax. Used in date filter view
           if (!$scope.dateMinView) {
             if (!dateMin || dateMin > event.date)
@@ -252,13 +211,6 @@ HistoryTab.prototype.angular = function (module) {
             if (!dateMax || dateMax < event.date)
               dateMax = event.date;
           }
-
-          var affectedCurrencies = _.map(event.affectedCurrencies, function (currencyCode) {
-            return ripple.Currency.from_json(currencyCode).to_human();
-          });
-
-          // Update currencies
-          historyCurrencies = _.union(historyCurrencies, affectedCurrencies); // TODO put in one large array, then union outside of foreach
 
           // Calculate min ledger. Used in "load more"
           if (!$scope.minLedger || $scope.minLedger > event.ledger_index)
@@ -272,10 +224,6 @@ HistoryTab.prototype.angular = function (module) {
           // Some events don't have transactions.. this is a temporary fix for filtering offers
           else if (!event.transaction && !_.contains($scope.filters.types,'offernew'))
             return;
-
-          // Currency filter
-          //if ($scope.filters.currencies_is_active && _.intersection(currencies,event.affectedCurrencies).length <= 0)
-          //  return;
 
           var effects = [];
           var isFundedTrade = false; // Partially/fully funded
@@ -350,111 +298,8 @@ HistoryTab.prototype.angular = function (module) {
 
           // Push events to history collection
           $scope.historyShow.push(event);
-
-          // Type and currency usages
-          // TODO offers/trusts
-          //if (event.transaction)
-          //  $scope.typeUsage[event.transaction.type] = $scope.typeUsage[event.transaction.type] ? $scope.typeUsage[event.transaction.type]+1 : 1;
-
-          //event.affectedCurrencies.forEach(function(currency){
-          //  $scope.currencyUsage[currency] = $scope.currencyUsage[currency]? $scope.currencyUsage[currency]+1 : 1;
-          //});
         });
-
-        if ($scope.historyShow.length && !$scope.dateMinView) {
-          //setValidDateOnScopeOrNullify('dateMinView', dateMin);
-          //setValidDateOnScopeOrNullify('dateMaxView', dateMax);
-        }
       }
-    };
-
-    // Update the currency list
-    var updateCurrencies = function (){
-      if (!$.isEmptyObject($scope.balances)) {
-        var currencies = _.union(
-          ['XRP'],
-          _.map($scope.balances,function(obj,key){return obj.total.currency().to_human();}),
-          historyCurrencies
-        );
-
-        var objCurrencies = {};
-
-        var firstProcess = $.isEmptyObject($scope.filters.currencies);
-
-        $scope.filters.currencies_is_active = false;
-
-        _.each(currencies, function(currency){
-          var checked = ($scope.filters.currencies[currency] && $scope.filters.currencies[currency].checked) || firstProcess;
-          objCurrencies[currency] = {'checked':checked};
-
-          if (!checked)
-            $scope.filters.currencies_is_active = true;
-        });
-
-        $scope.filters.currencies = objCurrencies;
-      }
-    };
-
-    var setValidDateOnScopeOrNullify = function(key, value) {
-      if (isNaN(value) || value == null) {
-        $scope[key] = null;
-      } else {
-        $scope[key] = new Date(value);
-      }
-    };
-
-    $scope.loadMore = function () {
-      var dateMin = $scope.dateMinView;
-      var dateMax = $scope.dateMaxView;
-
-      $scope.historyState = 'loading';
-
-      var limit = 100; // TODO why 100?
-
-      var params = {
-        account: id.account,
-        ledger_index_min: -1,
-        limit: limit,
-        marker: $scope.tx_marker,
-        binary: false
-      };
-
-      network.remote.request_account_tx(params, function(err, data) {
-        $scope.$apply(function () {
-          if (data.transactions.length < limit) {
-
-          }
-
-          $scope.tx_marker = data.marker;
-
-          if (data.transactions) {
-            var transactions = [];
-
-            data.transactions.forEach(function (e) {
-              var tx = rewriter.processTxn(e.tx, e.meta, id.account);
-              if (tx) {
-                var date = ripple.utils.toTimestamp(tx.date);
-
-                if (dateMin && dateMax) {
-                  if (date < dateMin.getTime() || date > dateMax.getTime())
-                    return;
-                } else if (dateMax && date > dateMax.getTime()) {
-                  return;
-                } else if (dateMin && date < dateMin.getTime()) {
-                  return;
-                }
-                transactions.push(tx);
-              }
-            });
-
-            var newHistory = _.uniq(history.concat(transactions),false,function(ev) {return ev.hash;});
-
-            $scope.historyState = (history.length === newHistory.length) ? 'full' : 'ready';
-            history = newHistory;
-            updateHistory();
-          }
-        });
-      });
     };
 
     var exists = function(pty) {
