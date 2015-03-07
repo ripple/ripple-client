@@ -187,12 +187,25 @@ section.col-xs-12.content(ng-controller="HistoryCtrl")
                   | Add
                   strong  {{entry.transaction.counterparty | rpcontactname}}
                   |  to contact list
-      .foot
-        div(ng-show="historyState=='loading'", l10n)
-          img(src="img/button-s.png", class="loader", id="button_loader")
-          |  Loading more
-        a.loadmore(ng-show="historyState=='ready'", href="", ng-click="loadMore()", l10n) Load more
-        div(ng-show="historyState=='full'", l10n) No more transactions left
+      nav
+        ul.pagination
+          li(ng-class="{disabled: $routeParams.page == 1}")
+            a(href='#/history/{{$routeParams.page-1}}', aria-label='Previous'
+              ng-hide="$routeParams.page == 1")
+              span(aria-hidden='true') &laquo;
+            span(ng-show="$routeParams.page == 1")
+              span(aria-hidden='true') &laquo;
+          li(ng-repeat="n in [] | rprange:pagination.pages"
+            ng-class="{active: $routeParams.page == n}")
+            a(href='#/history/{{n}}') {{n}}
+          li(ng-class="{disabled: $routeParams.page == pagination.pages}")
+            a(href='#/history/{{$routeParams.page+1}}', aria-label='Next'
+              ng-hide="$routeParams.page == pagination.pages")
+              span(aria-hidden='true') &raquo;
+            span(ng-show="$routeParams.page == pagination.pages")
+              span(aria-hidden='true') &raquo;
+
+
 
 // TODO filter calendar: High/low limits.
 // TODO filter calendar: High limit calculation after the low limit
