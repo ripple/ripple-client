@@ -555,3 +555,12 @@ module.filter('rpsortcontacts', function() {
     return arrayCopy;
   }
 });
+
+module.filter('rprange', function() {
+  return function(input, total) {
+    total = parseInt(total, 10);
+    for (var i = 1; i <= total; i++)
+      input.push(i);
+    return input;
+  };
+});
