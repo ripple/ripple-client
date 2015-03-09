@@ -18,11 +18,11 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
   div(ng-show="!loadingAccount && !account.Balance && loadState.account && connected && !debug")
     include banner/unfunded
 
-  .row(ng-show='connected && !debug')
+  .row(ng-show='connected && !debug && loadState.offers')
     .widgets.hidden-xs.col-sm-4.col-md-4.col-lg-3
       include widgets/balances
     .col-xs-12.col-sm-8.col-md-8.col-lg-9
-      group(ng-show="loadState.offers")
+      group
         .settings
           .row
             .col-sm-10.col-md-9.col-lg-7.col-xs-10.currency-config
