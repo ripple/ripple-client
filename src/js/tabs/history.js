@@ -19,288 +19,171 @@ HistoryTab.prototype.generateHtml = function ()
   return require('../../jade/tabs/history.jade')();
 };
 
-HistoryTab.prototype.extraRoutes = [
-  { name: '/history/:page' }
-];
-
 HistoryTab.prototype.angular = function (module) {
-  module.controller('HistoryCtrl', ['$scope', 'rpId', 'rpNetwork', 'rpTracker', 'rpAppManager', '$routeParams',
-                                     function ($scope, id, network, rpTracker, appManager, $routeParams)
+  module.controller('HistoryCtrl', ['$scope', 'rpId', 'rpNetwork', 'rpTracker', 'rpAppManager', '$routeParams', '$location',
+                                     function ($scope, id, network, rpTracker, appManager, $routeParams, $location)
   {
     // Open/close states of individual history items
     $scope.details = [];
+    $scope.pagination = {
+      currentPage: $routeParams.page ? $routeParams.page : 1
+    };
 
-    $scope.pagination = {};
+    $routeParams.types = "" + $routeParams.types;
 
-    // Current page number
-    if (!$routeParams.page) $routeParams.page = 1;
-
-    var history = [];
+    // Types
+    $scope.types = [
+      {
+        name: 'Payments & Orders',
+        types: ['Payment', 'OfferCreate', 'OfferCancel'],
+        checked: $routeParams.types.indexOf('Payment,OfferCreate,OfferCancel') !== -1
+      },
+      {
+        name: 'Gateways',
+        types: ['TrustSet'],
+        checked: $routeParams.types.indexOf('TrustSet') !== -1
+      },
+      {
+        name: 'Other',
+        types: ['AccountSet'],
+        checked: $routeParams.types.indexOf('AccountSet') !== -1
+      }
+    ];
 
     // History collection
     $scope.historyShow = [];
     $scope.historyCsv = '';
 
-    $scope.orderedTypes = ['sent', 'received', 'gateways', 'trades', 'orders', 'other'];
+    // Type filter
+    $scope.$watch('types', function(){
+      $location.url($scope.generateUrl());
+    }, true);
 
-    $scope.types = {
-      sent: {
-        'types': ['sent'],
-        'checked': true
-      },
-      received: {
-        'types': ['received'],
-        'checked': true
-      },
-      gateways: {
-        'types': ['trusting','trusted'],
-        'checked': true
-      },
-      trades: {
-        'types': ['offernew','exchange'],
-        'checked': true
-      },
-      orders: {
-        'types': ['offernew','offercancel','exchange'],
-        'checked': true
-      },
-      other: {
-        'types': ['accountset','failed','rippling'],
-        'checked': true
-      }
-    };
+    // Initial history load
+    var initialLoad = $scope.$watch('userHistory', function(){
+      if (!$scope.userHistory) return;
 
-    // History states
-    $scope.$watch('loadState.transactions', function(){
-      $scope.historyState = !$scope.loadState.transactions ? 'loading' : 'ready';
-
-      if ($scope.loadState.transactions) {
-        // Get history
-        if ($routeParams.page == 1) {
-          // New transactions
-          $scope.$watchCollection('history', function(){
-            history = $scope.history;
-
-            updateHistory();
-          }, true);
-        } else {
-          $scope.userHistory.getHistory({
-            limit: Options.transactions_per_page,
-            offset: ($routeParams.page - 1) * Options.transactions_per_page
-          })
-            .success(function(data){
-              if (!data.transactions.length) return;
-
-              for (var i = 0; i < data.transactions.length; i++) {
-                // Push
-                var tx = rewriter.processTxn(
-                  data.transactions[i].tx,
-                  data.transactions[i].meta,
-                  id.account);
-
-                if (tx) {
-                  history.push(tx);
-                }
-              }
-
-              updateHistory();
-            })
-            .error(function(){
-              // TODO
-            })
-        }
-
-        // Get transaction count
-        $scope.userHistory.getCount()
-          .success(function(response){
-            $scope.pagination.count = response.count;
-            $scope.pagination.pages = Math.ceil($scope.pagination.count / Options.transactions_per_page);
-          });
-      }
+      loadHistory();
+      initialLoad();
     });
 
-    if (store.get('ripple_history_type_selections')) {
-      $scope.types = $.extend(true,$scope.types,store.get('ripple_history_type_selections'));
-    }
+    $scope.generateUrl = function (page) {
+      // Types
+      var selectedTypesObjects = _.where($scope.types, {checked: true});
+      var selectedTypesString = _.map(selectedTypesObjects, 'types').join(',');
 
-    if ($routeParams.f && _.has($scope.types, $routeParams.f)) {
-      _.each($scope.types, function(value, key) {
-        value.checked = $routeParams.f == key;
-      });
-    }
+      // select all types if empty
+      selectedTypesString = selectedTypesString
+        ? selectedTypesString
+        : _.map($scope.types, 'types').join(',');
 
-    // Filters
-    if (store.get('ripple_history_filters')) {
-      $scope.filters = store.get('ripple_history_filters');
-    } else {
-      $scope.filters = {
-        'types': ['sent','received','exchange','trusting','trusted','offernew','offercancel','rippling'],
-        'minimumAmount': 0.000001
-      };
-    }
+      // Page
+      if (!page)
+        page = $scope.pagination.currentPage;
 
-    // DateRange filter form
-    $scope.submitDateRangeForm = function() {
-      $scope.dateMaxView.setDate($scope.dateMaxView.getDate() + 1); // Including last date
-      changeDateRange($scope.dateMinView,$scope.dateMaxView);
+      if ($routeParams.types !== selectedTypesString)
+        page = 1;
+
+      return '/history'
+        + '?types=' + selectedTypesString
+        + '&page=' + page;
     };
 
-    $scope.submitMinimumAmountForm = function() {
-      updateHistory();
-    };
+    function loadHistory() {
+      if (!$scope.userHistory) return;
 
-    var changeDateRange = function(dateMin,dateMax) {
-      history = [];
-      $scope.historyState = 'loading';
-
-      getDateRangeHistory(dateMin,dateMax,function(hist){
-        $scope.$apply(function () {
-          history = hist;
-          $scope.historyState = 'ready';
-          updateHistory();
-        });
-      });
-    };
-
-    // Types filter has been changed
-    $scope.$watch('types', function(){
-      var arr = [];
-      var checked = {};
-      _.each($scope.types, function(type,index){
-        if (type.checked) {
-          arr = arr.concat(type.types);
-        }
-
-        checked[index] = {
-          checked: !!type.checked
-        };
-      });
-      $scope.filters.types = arr;
-
-      if (!store.disabled) {
-        store.set('ripple_history_type_selections', checked);
-      }
-    }, true);
-
-    if (!store.disabled) {
-      $scope.$watch('filters', function(){
-        store.set('ripple_history_filters', $scope.filters);
-      }, true);
-    }
-
-    $scope.$watch('filters.types', function(){
-      updateHistory();
-    }, true);
-
-    // Updates the history collection
-    var updateHistory = function (){
       $scope.historyShow = [];
 
-      if (history.length) {
-        var dateMin, dateMax;
+      var appliedFilters = {
+        type: $routeParams.types,
+        limit: Options.transactions_per_page,
+        offset: $scope.pagination.currentPage > 1
+          ? ($scope.pagination.currentPage - 1) * Options.transactions_per_page
+          : 0
+      };
 
-        $scope.minLedger = 0;
-
-        history.forEach(function(event)
-        {
-          // Calculate dateMin/dateMax. Used in date filter view
-          if (!$scope.dateMinView) {
-            if (!dateMin || dateMin > event.date)
-              dateMin = event.date;
-
-            if (!dateMax || dateMax < event.date)
-              dateMax = event.date;
-          }
-
-          // Calculate min ledger. Used in "load more"
-          if (!$scope.minLedger || $scope.minLedger > event.ledger_index)
-            $scope.minLedger = event.ledger_index;
-
-          // Type filter
-          if (event.transaction && event.transaction.type === 'error') ; // Always show errors
-          else if (event.transaction && !_.contains($scope.filters.types,event.transaction.type))
-            return;
-
-          // Some events don't have transactions.. this is a temporary fix for filtering offers
-          else if (!event.transaction && !_.contains($scope.filters.types,'offernew'))
-            return;
-
-          var effects = [];
-          var isFundedTrade = false; // Partially/fully funded
-          var isCancellation = false;
-
-          if (event.effects) {
-            // Show effects
-            $.each(event.effects, function(){
-              var effect = this;
-              switch (effect.type) {
-                case 'offer_funded':
-                case 'offer_partially_funded':
-                case 'offer_bought':
-                  isFundedTrade = true;
-                  /* falls through */
-                case 'offer_cancelled':
-                  if (effect.type === 'offer_cancelled') {
-                    isCancellation = true;
-                    if (event.transaction && event.transaction.type === 'offercancel')
-                      return;
-                  }
-                  effects.push(effect);
-                  break;
-              }
-            });
-
-            event.showEffects = effects;
-
-            // Trade filter - remove open orders that haven't been filled/partially filled
-            if (_.contains($scope.filters.types,'exchange') && !_.contains($scope.filters.types,'offercancel')) {
-              if ((event.transaction && event.transaction.type === 'offernew' && !isFundedTrade) || isCancellation)
-                return;
-            }
-
-            effects = [ ];
-
-            var amount, maxAmount;
-            var minimumAmount = $scope.filters.minimumAmount;
-
-            // Balance changer effects
-            $.each(event.effects, function(){
-              var effect = this;
-              switch (effect.type) {
-                case 'fee':
-                case 'balance_change':
-                case 'trust_change_balance':
-                  effects.push(effect);
-
-                  // Minimum amount filter
-                  if (effect.type === 'balance_change' || effect.type === 'trust_change_balance') {
-                    amount = effect.amount.abs().is_native()
-                      ? effect.amount.abs().to_number() / 1000000
-                      : effect.amount.abs().to_number();
-
-                    if (!maxAmount || amount > maxAmount)
-                      maxAmount = amount;
-                    }
-                  break;
-              }
-            });
-
-            // Minimum amount filter
-            if (maxAmount && minimumAmount > maxAmount)
-              return;
-
-            event.balanceEffects = effects;
-          }
-
-          // Don't show sequence update events
-          if (event.effects && 1 === event.effects.length && event.effects[0].type == 'fee')
-            return;
-
-          // Push events to history collection
-          $scope.historyShow.push(event);
+      // Get history
+      $scope.userHistory.getHistory(appliedFilters)
+        .success(function(data){
+          $scope.loadingHistory = false;
+          updateHistory(data);
+        })
+        .error(function(){
+          $scope.loadingHistory = false;
         });
-      }
-    };
+
+      // Get transaction count
+      $scope.userHistory.getCount(appliedFilters)
+        .success(function(response){
+          $scope.pagination.count = response.count;
+          $scope.pagination.pages = Math.ceil($scope.pagination.count / Options.transactions_per_page);
+        });
+
+      $scope.loadingHistory = true;
+    }
+
+    function updateHistory(data){
+      if (!data.transactions.length) return;
+
+      data.transactions.forEach(function(transaction)
+      {
+        var event = rewriter.processTxn(
+          transaction.tx,
+          transaction.meta,
+          id.account);
+
+        if (!event) return;
+
+        var effects = [];
+        var isFundedTrade = false; // Partially / fully funded
+        var isCancellation = false;
+
+        if (event.effects) {
+          // Show effects
+          $.each(event.effects, function(){
+            var _this = this;
+
+            switch (_this.type) {
+              case 'offer_funded':
+              case 'offer_partially_funded':
+              case 'offer_bought':
+                isFundedTrade = true;
+                /* falls through */
+              case 'offer_cancelled':
+                if (_this.type === 'offer_cancelled') {
+                  isCancellation = true;
+                  if (event.transaction && event.transaction.type === 'offercancel')
+                    return;
+                }
+                effects.push(_this);
+                break;
+            }
+          });
+
+          event.showEffects = effects;
+
+          effects = [];
+
+          // Balance changer effects
+          $.each(event.effects, function(){
+            var _this = this;
+
+            switch (_this.type) {
+              case 'fee':
+              case 'balance_change':
+              case 'trust_change_balance':
+                effects.push(_this);
+                break;
+            }
+          });
+
+          event.balanceEffects = effects;
+        }
+
+        // Push events to history collection
+        $scope.historyShow.push(event);
+      });
+    }
 
     var exists = function(pty) {
       return typeof pty !== 'undefined';
@@ -524,7 +407,6 @@ HistoryTab.prototype.angular = function (module) {
       // otherwise the file download will be a single line with header and no data
       $scope.historyCsv = $scope.historyShow.length ? csv : '';
     };
-
   }]);
 };
 

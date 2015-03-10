@@ -1,10 +1,5 @@
 section.col-xs-12.content(ng-controller="HistoryCtrl")
 
-  group.disconnected(ng-hide="loadState.transactions || (!loadingAccount && !account.Balance && loadState.account)")
-    div(id="section_loader")
-      img(src="img/sections.png", class="loader")
-      div(class="loading_sections", l10n) Loading History
-
   //- Account is unfunded
   div(ng-show="loadState.transactions && !account.Balance")
     include banner/unfunded
@@ -12,7 +7,7 @@ section.col-xs-12.content(ng-controller="HistoryCtrl")
 
   //- Connected
 
-  group.row(ng-show="loadState.transactions && historyShow.length")
+  group.row
     .filters.row-padding-small.col-lg-3.col-md-4.col-sm-5.col-xs-12
       .filter.type-filter.row
         .col-xs-12.filters-wrapper
@@ -20,13 +15,12 @@ section.col-xs-12.content(ng-controller="HistoryCtrl")
             .fa.fa-caret-right(ng-show="showFilterTxTypes")
             .fa.fa-caret-down(ng-hide="showFilterTxTypes")
           .filter-choices(ng-hide="showFilterTxTypes")
-            div(ng-repeat="name in orderedTypes")
-              label(ng-class="{active: types[name].checked}")
-                i.fa.fa-plus(ng-show="types[name].checked")
-                i.fa.fa-minus(ng-hide="types[name].checked")
-                span.name {{name}}
-                //span.count {{typeUsage[name] || 0}}
-                input(type="checkbox", name="type-filter", ng-model="types[name].checked")
+            div(ng-repeat="type in types")
+              label(ng-class="{active: type.checked}")
+                i.fa.fa-plus(ng-show="type.checked")
+                i.fa.fa-minus(ng-hide="type.checked")
+                span.name {{type.name}}
+                input(type="checkbox", name="type-filter", ng-model="type.checked")
       .filter.date-filter.row
         .col-xs-12.filters-wrapper
           a.filter-title(href="", ng-click="showFilterDate=!showFilterDate", l10n) Date
@@ -52,158 +46,163 @@ section.col-xs-12.content(ng-controller="HistoryCtrl")
                   button.btn.btn-block.btn-primary.submit(type='submit', l10n) Filter
 
     .transactions.col-lg-9.col-md-8.col-sm-7.col-xs-12
-      .head.row.hidden-xs
-        .col-md-12.export-btn-wrapper.text-right
-          a#csv.btn.btn-primary.btn-sm(href='', ng-click='exportCsv()'
-            rp-download='historyCsv',
-            rp-download-csv='true',
-            rp-download-filename='ripple_historic.csv', l10n) Export to CSV
-      .head.row.visible-xs
-        .col-xs-12.export-btn-wrapper.text-right
-          a#csv.btn.btn-primary.btn-sm(href='', ng-click='exportCsv()', rp-download='historyCsv', rp-download-csv='true', rp-download-filename='ripple_historic.csv', l10n) Export to CSV
-      .message(ng-hide="historyState=='loading' || historyShow", l10n)
-        | Sorry, no transactions match your current filter.
-      ul
-        li(class="{{entry.transaction.type}}", ng-repeat="entry in historyShow track by entry.hash"
-            ng-click='details[entry.hash] = !details[entry.hash]'
-            ng-class="{open: details[entry.hash]}"
-            rp-pretty-amount-date="entry.dateRaw")
-          .cont
-            .top
-              span.i(ng-hide="entry.details")
-                i.fa.fa-arrow-down(ng-show="entry.transaction.type=='received'")
-                i.fa.fa-arrow-up(ng-show="entry.transaction.type=='sent'")
-                i.fa.fa-download.fa-rotate-90(ng-show="entry.transaction.type=='trusted'")
-                i.fa.fa-download.fa-rotate-270(ng-show="entry.transaction.type=='trusting'")
-                i.fa.fa-exchange(ng-show="!entry.transaction.type || entry.transaction.type=='offernew' || entry.transaction.type=='offercancel' || entry.transaction.type=='exchange' || entry.transaction.type=='rippling'")
-                i.fa.fa-cogs(ng-show="entry.transaction.type=='accountset'")
-                i.fa.fa-exclamation-triangle(ng-show="entry.transaction.type=='failed'")
-              span.i(ng-show="entry.details")
-                i.fa.fa-arrow-down
-              span.desc(ng-hide="entry.details", ng-switch on="entry.transaction.type")
-                span(ng-switch-when="sent")
-                  span(l10n, rp-span-spacing) You sent
-                    span.amount(rp-pretty-amount-high-precision="entry.transaction.amountSent || entry.transaction.amount")
-                    | to
-                    span.address(rp-pretty-identity="entry.transaction.counterparty", rp-address-popover="entry.transaction.counterparty")
-                  != require("./history/effects.jade")()
-                span(ng-switch-when="received")
+      div(ng-show="historyShow.length")
+        .head.row.hidden-xs
+          .col-md-12.export-btn-wrapper.text-right
+            a#csv.btn.btn-primary.btn-sm(href='', ng-click='exportCsv()'
+              rp-download='historyCsv',
+              rp-download-csv='true',
+              rp-download-filename='ripple_historic.csv', l10n) Export to CSV
+        .head.row.visible-xs
+          .col-xs-12.export-btn-wrapper.text-right
+            a#csv.btn.btn-primary.btn-sm(href='', ng-click='exportCsv()', rp-download='historyCsv', rp-download-csv='true', rp-download-filename='ripple_historic.csv', l10n) Export to CSV
+        .message(ng-hide="historyState=='loading' || historyShow", l10n)
+          | Sorry, no transactions match your current filter.
+        ul
+          li(class="{{entry.transaction.type}}", ng-repeat="entry in historyShow track by entry.hash"
+              ng-click='details[entry.hash] = !details[entry.hash]'
+              ng-class="{open: details[entry.hash]}"
+              rp-pretty-amount-date="entry.dateRaw")
+            .cont
+              .top
+                span.i(ng-hide="entry.details")
+                  i.fa.fa-arrow-down(ng-show="entry.transaction.type=='received'")
+                  i.fa.fa-arrow-up(ng-show="entry.transaction.type=='sent'")
+                  i.fa.fa-download.fa-rotate-90(ng-show="entry.transaction.type=='trusted'")
+                  i.fa.fa-download.fa-rotate-270(ng-show="entry.transaction.type=='trusting'")
+                  i.fa.fa-exchange(ng-show="!entry.transaction.type || entry.transaction.type=='offernew' || entry.transaction.type=='offercancel' || entry.transaction.type=='exchange' || entry.transaction.type=='rippling'")
+                  i.fa.fa-cogs(ng-show="entry.transaction.type=='accountset'")
+                  i.fa.fa-exclamation-triangle(ng-show="entry.transaction.type=='failed'")
+                span.i(ng-show="entry.details")
+                  i.fa.fa-arrow-down
+                span.desc(ng-hide="entry.details", ng-switch on="entry.transaction.type")
+                  span(ng-switch-when="sent")
+                    span(l10n, rp-span-spacing) You sent
+                      span.amount(rp-pretty-amount-high-precision="entry.transaction.amountSent || entry.transaction.amount")
+                      | to
+                      span.address(rp-pretty-identity="entry.transaction.counterparty", rp-address-popover="entry.transaction.counterparty")
+                    != require("./history/effects.jade")()
+                  span(ng-switch-when="received")
+                    span(l10n, rp-span-spacing)
+                      span.address(rp-pretty-identity="entry.transaction.counterparty", rp-address-popover="entry.transaction.counterparty")
+                      | sent you
+                      span.amount(rp-pretty-amount="entry.transaction.amount")
+                    != require("./history/effects.jade")()
+                  span(ng-switch-when="exchange")
+                    span(l10n, rp-span-spacing) You requested to exchange
+                      span.amount(rp-pretty-amount="entry.transaction.spent")
+                      | to
+                      span.amount(rp-pretty-amount="entry.transaction.amount")
+                    != require("./history/effects.jade")()
+                  span(ng-switch-when="trusted")
+                    span(l10n, rp-span-spacing)
+                      span.address(title="{{entry.transaction.counterparty}}") {{entry.transaction.counterparty | rpcontactname}}
+                      | now trusts you for
+                      span.amount(rp-pretty-amount="entry.transaction.amount")
+                    != require("./history/effects.jade")()
+                  span(ng-switch-when="trusting")
+                    span(l10n, rp-span-spacing) You have now connected to the gateway&#32;
+                      span.address(rp-pretty-identity="entry.transaction.counterparty", rp-address-popover="entry.transaction.counterparty")
+                      span(ng-show="globalOptions.advanced_feature_switch", l10n-inc) &#32;for&#32;
+                      span.amount(ng-show="globalOptions.advanced_feature_switch", rp-pretty-amount="entry.transaction.amount")
+                      | .
+                    != require("./history/effects.jade")()
+                  span(ng-switch-when="offernew")
+                    span(ng-show="entry.transaction.sell", l10n, rp-span-spacing) You created an order to sell
+                      span.amount(rp-pretty-amount-high-precision="entry.transaction.gets")
+                      | for
+                      span.amount(rp-pretty-amount-high-precision="entry.transaction.pays")
+                    span(ng-hide="entry.transaction.sell", l10n, rp-span-spacing) You created an order to buy
+                      span.amount(rp-pretty-amount-high-precision="entry.transaction.pays")
+                      | for
+                      span.amount(rp-pretty-amount-high-precision="entry.transaction.gets")
+                    != require("./history/effects.jade")()
+                  span(ng-switch-when="offercancel")
+                    span(l10n, rp-span-spacing) You cancelled an order accepting&#32;
+                      span.amount(rp-pretty-amount-high-precision="entry.transaction.pays")
+                      | for
+                      span.amount(rp-pretty-amount-high-precision="entry.transaction.gets")
+                    != require("./history/effects.jade")()
+                  span(ng-switch-when="accountset")
+                    span(l10n) Account details have been changed
+                    != require("./history/effects.jade")()
+                  span(ng-switch-when="rippling")
+                    span(l10n) Rippling
+                    != require("./history/effects.jade")()
+                  span(ng-switch-when="failed", l10n) Failed transaction
+                  span(ng-switch-when="error")
+                    strong(l10n) Unknown transaction
+                    ul.effects(rp-if="details[entry.hash]")
+                      li
+                        span(l10n) The client failed to parse this transaction. The developers have been notified of the issue.
+                  span(ng-switch-default)
+                    != require("./history/effects.jade")()
+                span.dt {{entry.date | date:'EEE, MMM d, h:mm:ss a'}}&#32;
+              span.desc(ng-show="entry.details", ng-switch on="entry.details.type")
+                span(ng-switch-when="giveaway")
                   span(l10n, rp-span-spacing)
-                    span.address(rp-pretty-identity="entry.transaction.counterparty", rp-address-popover="entry.transaction.counterparty")
-                    | sent you
+                    span {{entry.details.app.name}}
+                    |  sent you
                     span.amount(rp-pretty-amount="entry.transaction.amount")
+                    |  and activated your account!
                   != require("./history/effects.jade")()
-                span(ng-switch-when="exchange")
-                  span(l10n, rp-span-spacing) You requested to exchange
-                    span.amount(rp-pretty-amount="entry.transaction.spent")
-                    | to
-                    span.amount(rp-pretty-amount="entry.transaction.amount")
-                  != require("./history/effects.jade")()
-                span(ng-switch-when="trusted")
+                span(ng-switch-when="deposit")
                   span(l10n, rp-span-spacing)
-                    span.address(title="{{entry.transaction.counterparty}}") {{entry.transaction.counterparty | rpcontactname}}
-                    | now trusts you for
+                    | You deposited
                     span.amount(rp-pretty-amount="entry.transaction.amount")
+                    |  using {{entry.details.app.name}}
                   != require("./history/effects.jade")()
-                span(ng-switch-when="trusting")
-                  span(l10n, rp-span-spacing) You have now connected to the gateway&#32;
-                    span.address(rp-pretty-identity="entry.transaction.counterparty", rp-address-popover="entry.transaction.counterparty")
-                    span(ng-show="globalOptions.advanced_feature_switch", l10n-inc) &#32;for&#32;
-                    span.amount(ng-show="globalOptions.advanced_feature_switch", rp-pretty-amount="entry.transaction.amount")
-                    | .
-                  != require("./history/effects.jade")()
-                span(ng-switch-when="offernew")
-                  span(ng-show="entry.transaction.sell", l10n, rp-span-spacing) You created an order to sell
-                    span.amount(rp-pretty-amount-high-precision="entry.transaction.gets")
-                    | for
-                    span.amount(rp-pretty-amount-high-precision="entry.transaction.pays")
-                  span(ng-hide="entry.transaction.sell", l10n, rp-span-spacing) You created an order to buy
-                    span.amount(rp-pretty-amount-high-precision="entry.transaction.pays")
-                    | for
-                    span.amount(rp-pretty-amount-high-precision="entry.transaction.gets")
-                  != require("./history/effects.jade")()
-                span(ng-switch-when="offercancel")
-                  span(l10n, rp-span-spacing) You cancelled an order accepting&#32;
-                    span.amount(rp-pretty-amount-high-precision="entry.transaction.pays")
-                    | for
-                    span.amount(rp-pretty-amount-high-precision="entry.transaction.gets")
-                  != require("./history/effects.jade")()
-                span(ng-switch-when="accountset")
-                  span(l10n) Account details have been changed
-                  != require("./history/effects.jade")()
-                span(ng-switch-when="rippling")
-                  span(l10n) Rippling
-                  != require("./history/effects.jade")()
-                span(ng-switch-when="failed", l10n) Failed transaction
-                span(ng-switch-when="error")
-                  strong(l10n) Unknown transaction
-                  ul.effects(rp-if="details[entry.hash]")
-                    li
-                      span(l10n) The client failed to parse this transaction. The developers have been notified of the issue.
-                span(ng-switch-default)
-                  != require("./history/effects.jade")()
-              span.dt {{entry.date | date:'EEE, MMM d, h:mm:ss a'}}&#32;
-            span.desc(ng-show="entry.details", ng-switch on="entry.details.type")
-              span(ng-switch-when="giveaway")
-                span(l10n, rp-span-spacing)
-                  span {{entry.details.app.name}}
-                  |  sent you
-                  span.amount(rp-pretty-amount="entry.transaction.amount")
-                  |  and activated your account!
-                != require("./history/effects.jade")()
-              span(ng-switch-when="deposit")
-                span(l10n, rp-span-spacing)
-                  | You deposited
-                  span.amount(rp-pretty-amount="entry.transaction.amount")
-                  |  using {{entry.details.app.name}}
-                != require("./history/effects.jade")()
 
-            .details(ng-if="details[entry.hash]")
-              .effects(ng-show="entry.balanceEffects")
-                .title(l10n) Balance Changes
-                .effect.header
-                  span.description(l10n) Description
-                  span.issuer(l10n, ng-show="entry.balanceEffects | rpAmountHasIssuer") Issuer
-                  span.amount(l10n) Amount
-                  span.balance(l10n) Final balance
-                .effect(ng-repeat="effect in entry.balanceEffects")
-                  span.description
-                    span(ng-show="effect.type == 'balance_change'", data-label="Description", l10n) XRP Balance Change
-                    span(ng-show="effect.type == 'trust_change_balance'", data-label="Description", l10n) {{effect.currency}} Balance Change
-                    span(ng-show="effect.type == 'fee'", data-label="Description", l10n) Fee
-                  span.issuer(
-                    ng-show="entry.balanceEffects | rpAmountHasIssuer"
-                    rp-pretty-issuer="effect.amount.issuer().to_json()"
-                    rp-pretty-issuer-contacts="userBlob.data.contacts"
-                    rp-pretty-issuer-default="-"
-                    data-label="Issuer"
-                  )
-                  span.amount(data-label="Amount", rp-pretty-amount="effect.amount")
-                  span.balance(data-label="Final balance", rp-pretty-amount="effect.balance")
-              .links
-                a.txLink(rp-link-tx="entry.hash", l10n) Transaction details
-                a.addLink(href="#/contact?to={{entry.transaction.counterparty}}", rp-no-propagate
-                  ng-show="entry.transaction.counterparty && !(entry.transaction.counterparty | rponlycontactname)", l10n)
-                  | Add
-                  strong  {{entry.transaction.counterparty | rpcontactname}}
-                  |  to contact list
-      nav
-        ul.pagination
-          li(ng-class="{disabled: $routeParams.page == 1}")
-            a(href='#/history/{{$routeParams.page-1}}', aria-label='Previous'
-              ng-hide="$routeParams.page == 1")
-              span(aria-hidden='true') &laquo;
-            span(ng-show="$routeParams.page == 1")
-              span(aria-hidden='true') &laquo;
-          li(ng-repeat="n in [] | rprange:pagination.pages"
-            ng-class="{active: $routeParams.page == n}")
-            a(href='#/history/{{n}}') {{n}}
-          li(ng-class="{disabled: $routeParams.page == pagination.pages}")
-            a(href='#/history/{{$routeParams.page+1}}', aria-label='Next'
-              ng-hide="$routeParams.page == pagination.pages")
-              span(aria-hidden='true') &raquo;
-            span(ng-show="$routeParams.page == pagination.pages")
-              span(aria-hidden='true') &raquo;
+              .details(ng-if="details[entry.hash]")
+                .effects(ng-show="entry.balanceEffects")
+                  .title(l10n) Balance Changes
+                  .effect.header
+                    span.description(l10n) Description
+                    span.issuer(l10n, ng-show="entry.balanceEffects | rpAmountHasIssuer") Issuer
+                    span.amount(l10n) Amount
+                    span.balance(l10n) Final balance
+                  .effect(ng-repeat="effect in entry.balanceEffects")
+                    span.description
+                      span(ng-show="effect.type == 'balance_change'", data-label="Description", l10n) XRP Balance Change
+                      span(ng-show="effect.type == 'trust_change_balance'", data-label="Description", l10n) {{effect.currency}} Balance Change
+                      span(ng-show="effect.type == 'fee'", data-label="Description", l10n) Fee
+                    span.issuer(
+                      ng-show="entry.balanceEffects | rpAmountHasIssuer"
+                      rp-pretty-issuer="effect.amount.issuer().to_json()"
+                      rp-pretty-issuer-contacts="userBlob.data.contacts"
+                      rp-pretty-issuer-default="-"
+                      data-label="Issuer"
+                    )
+                    span.amount(data-label="Amount", rp-pretty-amount="effect.amount")
+                    span.balance(data-label="Final balance", rp-pretty-amount="effect.balance")
+                .links
+                  a.txLink(rp-link-tx="entry.hash", l10n) Transaction details
+                  a.addLink(href="#/contact?to={{entry.transaction.counterparty}}", rp-no-propagate
+                    ng-show="entry.transaction.counterparty && !(entry.transaction.counterparty | rponlycontactname)", l10n)
+                    | Add
+                    strong  {{entry.transaction.counterparty | rpcontactname}}
+                    |  to contact list
+        nav
+          ul.pagination
+            li(ng-class="{disabled: pagination.currentPage == 1}")
+              a(ng-href='{{"#" + generateUrl(pagination.currentPage-1)}}', aria-label='Previous'
+                ng-hide="pagination.currentPage == 1")
+                span(aria-hidden='true') &laquo;
+              span(ng-show="pagination.currentPage == 1")
+                span(aria-hidden='true') &laquo;
+            li(ng-repeat="n in [] | rprange:pagination.pages"
+              ng-class="{active: pagination.currentPage == n}")
+              a(ng-href='{{"#" + generateUrl(n)}}') {{n}}
+            li(ng-class="{disabled: pagination.currentPage == pagination.pages}")
+              a(ng-href='{{"#" + generateUrl(pagination.currentPage+1)}}', aria-label='Next'
+                ng-hide="pagination.currentPage == pagination.pages")
+                span(aria-hidden='true') &raquo;
+              span(ng-show="pagination.currentPage == pagination.pages")
+                span(aria-hidden='true') &raquo;
+      div(ng-show="loadingHistory")
+        div(id="section_loader")
+          img(src="img/sections.png", class="loader")
+          div(class="loading_sections", l10n) Loading History
 
 
 
