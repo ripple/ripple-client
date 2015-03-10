@@ -23,8 +23,15 @@ function RpHistory ($scope, $http, network)
     })
   };
 
-  rpHistory.prototype.getCount = function () {
-    return this.getHistory({count: true})
+  rpHistory.prototype.getCount = function (opts) {
+    opts = jQuery.extend(true, {}, opts);
+
+    delete opts.limit;
+    delete opts.offset;
+
+    opts.count = true;
+
+    return this.getHistory(opts)
   };
 
   rpHistory.prototype.onTransaction = function (callback) {
