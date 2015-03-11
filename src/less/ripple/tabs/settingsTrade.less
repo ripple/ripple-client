@@ -1,0 +1,57 @@
+#t-settingstrade{
+  .settingPage a {
+    display: block;
+    padding: 10px;
+    border-radius: 2px;
+    margin: 0 0 3px;
+    background: @lightgray;
+
+    &:hover, &.active {
+      color: @lightgray;
+      text-decoration: none;
+      background: @midblue;
+    }
+  }
+
+  .descriptor {
+    color: @darkgray;
+    margin: 0 0 10px;
+    border-top: 1px solid @midgray;
+    padding-top: 20px;
+  }
+
+  .pair {
+    background-color: @lightgray;
+    padding: 10px;
+    margin: 0;
+    margin-bottom: 10px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .grip {
+    display: inline-block;
+    position: relative;;
+    left: -10px;
+    width: 3px;
+    height: 9px;
+    background-repeat: no-repeat;
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAAJAgMAAACK3X5KAAAACVBMVEUAAAAiIiIiIiIxJsNmAAAAAnRSTlMAGRL4ZfgAAAANSURBVAjXY+hgcEHFACGKA7njBRNQAAAAAElFTkSuQmCC);
+  }
+
+  .delete {
+    float: right;
+    color: @midred;
+  }
+
+  .as-sortable-item, .as-sortable-placeholder {
+      min-height: 20px;
+      margin: 1px 2px 5px 1px;
+  }
+
+  .as-sortable-placeholder {
+      border: 1px dashed @darkgray;
+      background-color: @lightgray;
+  }
+
+}
