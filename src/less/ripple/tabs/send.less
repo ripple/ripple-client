@@ -1,0 +1,101 @@
+#t-send {
+
+  .rp-combobox {
+    display: block;
+  }
+
+  .toggle {
+    margin-left: 10px;
+    color: @midblue;
+    cursor: pointer;
+  }
+
+  .toggle:hover {
+    text-decoration: underline;
+  }
+
+  .mode-form {
+    .currency_force {
+      margin-bottom: 20px;
+    }
+
+    .remote {
+      margin: 20px 0 0 0;
+    }
+
+    .tagsLinks {
+      padding: 0;
+      list-style-type: none;
+    }
+
+    label[for=send_dt] {
+      margin-right: 20px;
+    }
+
+    .errorGroup {
+      height: auto;
+      // margin-bottom: -10px;
+    }
+    .form-group {
+      margin-bottom: 0px;
+    }
+  }
+
+  .mode-status {
+    .address {
+      font-size: 25px;
+      font: 34px 'OpenSansLight';
+      margin: 0 0 30px;
+    }
+    p {
+      margin: 0 0 40px;
+      font-size: 16px;
+    }
+    .actionLink {
+      margin-top: 20px;
+      margin-bottom: 20px;
+      font-size: 16px;
+    }
+  }
+
+  .mode-confirm {
+    .amount_feedback, .dest_feedback, .sendmax_feedback {
+      font-size: 26px;
+      margin: 0;
+      background-color: @lightgray;
+
+      .extra {
+        font-size: 18px;
+        color: @darkgray;
+        margin-top: 0.5em;
+
+        @media (max-width: 380px) {
+          font-size: 14px;
+        }
+      }
+      .dt {
+        font-size: 15px;
+        margin-top: 1em;
+      }
+    }
+
+    .dest_feedback {
+      padding: 20px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .amount_feedback, .sendmax_feedback {
+      font: 34px 'OpenSansLight';
+      padding: 10px 20px;
+
+      .currency {
+        font-size: 20px;
+      }
+    }
+  }
+
+  .actions {
+    margin: 60px 0 0 0;
+  }
+}

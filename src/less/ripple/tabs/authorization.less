@@ -1,0 +1,386 @@
+.t-register, .t-login, .t-recover, .t-migrate {
+    header nav {
+        display: none;
+    }
+}
+#t-register, #t-login, #t-recover, #t-account, #t-migrate {
+    a {
+        text-decoration: none;
+        &:hover, &:focus {
+            text-decoration: none;
+        }
+    }
+    .rippleName {
+        font-size: 18px;
+        color: @white;
+    }
+    .name-tooltip {
+        margin-left: 10px;
+        color: @midgray;
+        cursor: pointer;
+    }
+    button.recover {
+        text-align: center;
+        display: block;
+        font-size: 12px;
+        margin-right: auto;
+        margin-left: auto;
+        text-decoration: none;
+        &:hover {
+            color: @midgray;
+        }
+    }
+    a.recover-btn {
+        text-decoration: none;
+    }
+    .auth-form-container {
+        font-family: OpenSansRegular;
+        padding: 15px;
+        h2 {
+            margin: 10px 0 30px 0;
+            padding: 0 0 30px;
+            text-align: center;
+            border-bottom: 1px solid @midgray;
+        }
+        .auth-form-wrapper {
+            background: @lightgray;
+            padding: 15px 20px;
+            border: 1px solid @midgray;
+            margin-bottom: 5px;
+            margin: 0 auto 10px;
+            float: none;
+            label {
+                font-weight: 400;
+                margin-bottom: 3px;
+            }
+            .recover-description {
+                margin-bottom: 15px;
+                font-size: 13px;
+            }
+        }
+        .form-group {
+            p.error-text {
+                display: none;
+            }
+            .form-control {
+                margin-bottom: 0;
+            }
+            &.field-ok {
+                p > span {
+                    padding-top: 3px;
+                    line-height: 15px;
+                    font-size: 12px;
+                    color: @midgreen;
+                }
+                .input-group:after {
+                    content: "";
+                    position: absolute;
+                    left: 100%;
+                    bottom: 0;
+                    margin-left: 4px;
+                    width: 5px;
+                    height: 100%;
+                    background: @midgreen;
+                }
+            }
+            &.field-error {
+                margin-bottom: 15px;
+                p > span {
+                    padding-top: 3px;
+                    line-height: 15px;
+                    font-size: 12px;
+                    color: @midred;
+                }
+                .input-group:after {
+                    content: "";
+                    position: absolute;
+                    left: 100%;
+                    bottom: 0;
+                    margin-left: 4px;
+                    width: 5px;
+                    height: 100%;
+                    background: @midred;
+                }
+            }
+            &.field-warning {
+                .input-group:after {
+                    content: "";
+                    position: absolute;
+                    left: 100%;
+                    bottom: 0;
+                    margin-left: 4px;
+                    width: 5px;
+                    height: 100%;
+                    background: @lightyellow;
+                }
+            }
+        }
+        .secret-key-container {
+            margin-bottom: 30px;
+            background: @lightyellow;
+            padding: 15px;
+            border: 1px solid @midgray;
+            color: @darkyellow;
+            .rounded(5px);
+            .secret-key {
+                padding-top: 15px;
+                margin-bottom: 10px;
+                span {
+                    padding: 0 10px;
+                }
+            }
+        }
+        .switch-mode-link-container {
+            text-align: center;
+            a {
+                text-decoration: none;
+            }
+        }
+        .sign-up-steps-list {
+            margin-bottom: 15px;
+            li {
+                margin-right: 25px;
+                display: inline-block;
+                list-style: none;
+                padding-bottom: 5px;
+                border-bottom: 5px solid transparent;
+                &.active {
+                    color: @darkgray;
+                    font-weight: bold;
+                    border-bottom: 5px solid @darkgray;
+                }
+                &.completed {
+                    color: @darkgray;
+                    font-weight: bold;
+                }
+            }
+        }
+        .see-privacy-text {
+            color: @darkgray;
+            font-size: 13px;
+            margin-bottom: 15px;
+        }
+        &.mode-verify {
+            .code {
+                font-family: OpenSansBold;
+                font-size: 15px;
+                margin: 10px 0;
+            }
+            .status {
+                margin: 10px 0;
+                text-align: center;
+            }
+        }
+    }
+    .switch-mode-wrapper {
+        text-align: center;
+        font-family: OpenSansRegular;
+    }
+    &.recover-form-container {
+        padding-top: 50px;
+    }
+    .strength {
+        margin: 38px 0 0 0;
+        &.match {
+            color: @midred;
+        }
+        &.weak {
+            color: @midred;
+        }
+        &.medium {
+            color: #ff8200;
+        }
+        &.strong {
+            color: @darkgreen;
+        }
+    }
+    .text-error {
+        color: @midred;
+        margin: -20px 0 0 0;
+    }
+    .storageinfo strong {
+        color: @black;
+    }
+    .storageinfo a {
+        font-size: 0.7em;
+    }
+    .storeChange {
+        display: block;
+    }
+    .auth-form-wrapper {
+        .submit-btn-container {
+            width: 70%;
+        }
+        .submit-btn-container-recovery {
+            text-align: center;
+            .recover-btn {
+                display: inline-block;
+                width: 70%;
+            }
+            .btn {
+                min-height: 60px;
+            }
+        }
+        @media (max-width: @screen-xs-max) {
+            .submit-btn-container {
+                width: 100%;
+                button {
+                    font-size: 14px;
+                }
+            }
+            .submit-btn-container-recovery {
+                text-align: center;
+                .recover-btn {
+                    display: inline-block;
+                    width: 100%;
+                }
+            }
+        }
+    }
+}
+#t-register {
+    .auth-form-container {
+        &.mode-verification {
+            .auth-form-wrapper {
+                .btn-cancel {
+                    .loading_text {
+                        text-transform: lowercase;
+                    }
+                }
+            }
+        }
+    }
+    .register_masterkey {
+        position: relative;
+        .auth-attention {
+            margin-top: 30px;
+            text-align: center;
+            .recovery {
+                margin-top: 10px;
+            }
+        }
+    }
+    .welcome-wrapper {
+        text-align: center;
+    }
+    .platform, h4.new {
+        max-width: 700px;
+        margin: auto;
+    }
+    h4.new {
+        padding: 25px 0;
+        border-top: 1px solid @midgray;
+        font-weight: 200;
+        font-size: 1.1em;
+    }
+    span.currency {
+        font-weight: 500;
+    }
+    .xrp-xau {
+        font-size: 1.2em;
+    }
+}
+#t-migrate {
+    .text-status {
+        #error {
+            font-size: 12px;
+            color: @midred;
+        }
+    }
+}
+#t-login {
+    @media (max-width: @screen-xs-max) {
+        .content {
+            padding-top: 0;
+            .auth-form-container {
+                padding: 15px;
+                padding-bottom: 0;
+            }
+        }
+    }
+    .text-status {
+        .backend {
+            font-size: 12px;
+            span {
+                color: @midred;
+            }
+        }
+    }
+    .maskedPhone {
+        font-size: 16px;
+        margin: 0 5px;
+    }
+    .rememberMe {
+        margin: 4px 7px 0 0;
+        float: left;
+    }
+    .action-login {
+        .info {
+            font-family: OpenSansLight;
+            border-right: 1px solid @midgray;
+            @media (max-width: @screen-xs-max) {
+                border-right: none;
+            }
+            .literal {
+                font-size: 20px;
+            }
+            p {
+                padding-left: @grid-gutter-width/2;
+                padding-right: @grid-gutter-width/2;
+                @media (max-width: @screen-sm-max) and (min-width: @screen-xs-max) {
+                    padding-left: 0;
+                    padding-right: 0;
+                }
+                word-break: break-all;
+                font-size: 18px;
+                color: @black;
+            }
+            .amount, .address {
+                margin-left: -@grid-gutter-width/2;
+                background-color: @lightgray;
+                margin-bottom: 30px;
+                padding-left: @grid-gutter-width;
+                padding-right: @grid-gutter-width;
+                @media (max-width: @screen-xs-max) {
+                    margin-right: -@grid-gutter-width/2;
+                }
+                @media (max-width: @screen-sm-max) and (min-width: @screen-xs-max) {
+                    padding-left: @grid-gutter-width/2;
+                    padding-right: @grid-gutter-width/2;
+                }
+            }
+            .amount {
+                padding-top: 30px;
+                padding-bottom: 25px;
+                .number {
+                    font-weight: bold;
+                    font-size: 30px;
+                }
+                .currency {
+                    padding: 0 0 0 5px;
+                    font-size: 20px;
+                }
+            }
+            .address {
+                padding-top: 25px;
+                padding-bottom: 25px;
+                font: 18px 'OpenSansRegular';
+                color: @darkgray;
+            }
+        }
+    }
+}
+#t-options {
+    form .row {
+        margin-bottom: 10px;
+    }
+    .errorGroup {
+        height: auto;
+    }
+    .tracking {
+        margin: 0 10px 0 0;
+    }
+    .btn-block {
+        margin-bottom: 20px;
+    }
+}
