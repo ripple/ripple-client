@@ -12,7 +12,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-webpack');
   grunt.loadNpmTasks('grunt-preprocess');
   grunt.loadNpmTasks('grunt-contrib-concat');
-  grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-copy');
@@ -299,17 +298,6 @@ module.exports = function(grunt) {
         ]
       }
     },
-    cssmin: {
-      options: {
-        rebase: false
-      },
-      target: {
-        files: [{
-          'build/dist/ripple.min.css': 'build/dist/ripple.css',
-          'res/fonts/stylesheet.min.css': 'res/fonts/stylesheet.css'
-        }]
-      }
-    },
     jade_l10n_extractor: {
       templates: {
         options: {
@@ -337,7 +325,7 @@ module.exports = function(grunt) {
       },
       styles: {
         files: 'src/less/**/*.less',
-        tasks: ['recess', 'cssmin', 'copy'],
+        tasks: ['recess', 'copy'],
         options: { livereload: true }
       },
       index: {
@@ -488,7 +476,6 @@ module.exports = function(grunt) {
                                  'preprocess',
                                  'webpack',
                                  'recess',
-                                 'cssmin',
                                  'deps',
                                  'copy']);
 
@@ -501,7 +488,6 @@ module.exports = function(grunt) {
                              'webpack:webDebug',
                              'webpack:webL10n-english',
                              'recess',
-                             'cssmin',
                              'deps',
                              'copy']);
 
