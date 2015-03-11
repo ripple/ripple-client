@@ -407,6 +407,7 @@ TrustTab.prototype.angular = function (module)
         $scope.trust.loading = true;
         $scope.load_notification('remove_gateway');
 
+
         var setSecretAndSubmit = function(tx) {
 
           tx
@@ -460,12 +461,22 @@ TrustTab.prototype.angular = function (module)
 
         var nullifyTrustLine = function(idAccount, lineCurrency, lineAccount) {
           var tx = network.remote.transaction();
-
+          
           // Add memo to tx
           tx.addMemo('client', 'rt' + $scope.version);
 
           tx.trustSet(idAccount, '0' + '/' + lineCurrency + '/' + lineAccount);
-          tx.setFlags('ClearNoRipple');
+
+          var account = network.remote.account(id.account);
+          // Check if account has DefaultRipple flag set
+          account.entry(function (e, data) {
+            if (e) {
+              console.log('Error: ', e);
+            } else {
+              (data.account_data.Flags & ripple.Remote.flags.account_root.DefaultRipple)
+                ? tx.setFlags('ClearNoRipple') : tx.setFlags('NoRipple');
+            }
+          });
 
           setSecretAndSubmit(tx);
         };
