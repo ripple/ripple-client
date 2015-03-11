@@ -334,7 +334,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                         span.currency  {{order[type].second_amount | rpcurrency}}
                       .rate_feedback (
                         span.rate {{order[type].price}}
-                        span.pair {{order[type].first_amount | rpcurrency}}/{{order[type].second_amount | rpcurrency}}
+                        span.pair {{order[type].second_amount | rpcurrency}}/{{order[type].first_amount | rpcurrency}}
                         | )
                       p.literal(l10n-inc) Are you sure?
                       p.order-warning(ng-show="fatFingerErr", l10n)
