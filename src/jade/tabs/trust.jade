@@ -254,8 +254,8 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                     rp-popover-placement="bottom"
                     rp-popover-trigger="hover"
                     l10n-rp-popover-title="Incoming trust"
-                    l10n-data-content="You can't edit incoming trust lines. Incoming trust lines are when other Ripple users trust you.")
-                    a.disabled(href="", l10n) edit
+                    l10n-data-content="This is an incoming trust line. Incoming trust lines are when other Ripple users trust you. You can only edit the rippling on or off option for incoming trust lines.")
+                    a(href="", ng-click="editing || edit_account()", l10n) edit
                   span(ng-show="editing && !globalOptions.advanced_feature_switch")
                     span(ng-hide="trust.loading")
                       div.row.row-padding-small
@@ -326,7 +326,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                         rp-amount
                         rp-max-digits
                         rp-amount-currency='{{trust.limit}}'
-                        ng-disabled='trust.loading', required)
+                        ng-disabled='trust.loading || isIncoming()', required)
                     .col-sm-2.col-md-2.inputPadding
                       div.rippling-checkbox
                         label(l10n) Rippling&#32;
