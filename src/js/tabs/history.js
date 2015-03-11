@@ -50,6 +50,9 @@ HistoryTab.prototype.angular = function (module) {
       }
     ];
 
+    $scope.dateMinView = $routeParams.start ? new Date($routeParams.start) : '';
+    $scope.dateMaxView = $routeParams.end ? new Date($routeParams.end) : '';
+
     // History collection
     $scope.historyShow = [];
     $scope.historyCsv = '';
@@ -67,7 +70,17 @@ HistoryTab.prototype.angular = function (module) {
       initialLoad();
     });
 
+    $scope.submitDateRangeForm = function() {
+      $location.url($scope.generateUrl());
+    };
+
     $scope.generateUrl = function (page) {
+      var filtersLine = '';
+
+      // Page
+      if (!page)
+        page = $scope.pagination.currentPage;
+
       // Types
       var selectedTypesObjects = _.where($scope.types, {checked: true});
       var selectedTypesString = _.map(selectedTypesObjects, 'types').join(',');
@@ -77,26 +90,35 @@ HistoryTab.prototype.angular = function (module) {
         ? selectedTypesString
         : _.map($scope.types, 'types').join(',');
 
-      // Page
-      if (!page)
-        page = $scope.pagination.currentPage;
+      filtersLine += '&types=' + selectedTypesString;
+
+      // Date range
+      if ($scope.dateMinView) {
+        filtersLine += '&start=' + $scope.dateMinView.toISOString();
+      }
+
+      if ($scope.dateMaxView) {
+        filtersLine += '&end=' + $scope.dateMaxView.toISOString();
+      }
 
       if ($routeParams.types !== selectedTypesString)
         page = 1;
 
       return '/history'
-        + '?types=' + selectedTypesString
-        + '&page=' + page;
+        + '?page=' + page
+        + filtersLine
     };
 
     function loadHistory() {
-      if (!$scope.userHistory) return;
+      if (!$scope.userHistory || !$routeParams.types) return;
 
       $scope.historyShow = [];
 
       var appliedFilters = {
         type: $routeParams.types,
         limit: Options.transactions_per_page,
+        start: $routeParams.start,
+        end: $routeParams.end,
         offset: $scope.pagination.currentPage > 1
           ? ($scope.pagination.currentPage - 1) * Options.transactions_per_page
           : 0
