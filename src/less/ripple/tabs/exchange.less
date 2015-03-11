@@ -1,0 +1,61 @@
+
+#t-exchange {
+
+  .nameLine {
+    font: 28px OpenSansLight;
+
+    .name {
+      font-weight: bold;
+    }
+  }
+
+  .instructions {
+    border-bottom: 1px solid @midgray;
+    margin: 0 0 20px;
+    padding: 0 0 20px;
+  }
+
+  .no-gateway {
+    text-align: center;
+
+    .big-icon {
+      font-size: 70px;
+    }
+  }
+
+  .toggle {
+    margin-left: 10px;
+    color: @midblue;
+    cursor: pointer;
+  }
+
+  .toggle:hover {
+    text-decoration: underline;
+  }
+
+  .mode-confirm {
+    .amount_feedback {
+      font: 34px 'OpenSansLight';
+      margin: 0 0 10px 0;
+      padding: 20px;
+      background: @lightgray;
+
+      .extra {
+        font-size: 18px;
+        color: @darkgray;
+        margin-top: 0.5em;
+      }
+
+      .currency {
+        font-size: 20px;
+      }
+    }
+  }
+  #exchangeForm {
+    button {
+      &.btn-cancel {
+        white-space: normal;
+      }
+    }
+  }
+}
