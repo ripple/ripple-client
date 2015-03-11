@@ -1,8 +1,8 @@
 var types = require('../util/types');
 
 // Load app modules
-require('../controllers/app');
-require('../controllers/navbar');
+require('../controllers/app.controller');
+require('../controllers/navbar.controller');
 require('../directives/charts');
 require('../directives/fields');
 require('../directives/effects');
@@ -75,40 +75,40 @@ var appDependencies = [
 
 // Load tabs
 var tabdefs = [
-  require('../tabs/register'),
-  require('../tabs/login'),
-  require('../tabs/migrate'),
-  require('../tabs/recover'),
-  require('../tabs/balance'),
-  require('../tabs/history'),
-  require('../tabs/contacts'),
-  require('../tabs/exchange'),
-  require('../tabs/account'),
-  require('../tabs/trust'),
-  require('../tabs/send'),
-  require('../tabs/trade'),
-  require('../tabs/advanced'),
-  require('../tabs/security'),
-  require('../tabs/kyc'),
-  require('../tabs/tx'),
-  require('../tabs/xrp'),
-  require('../tabs/debug'),
-  require('../tabs/btc'),
-  require('../tabs/withdraw'),
-  require('../tabs/usd'),
-  require('../tabs/eur'),
-  require('../tabs/sgd'),
-  require('../tabs/aud'),
-  require('../tabs/gold'),
-  require('../tabs/tou'),
-  require('../tabs/privacypolicy'),
-  require('../tabs/twofa'),
-  require('../tabs/jpy'),
-  require('../tabs/mxn'),
-  require('../tabs/nzd'),
-  require('../tabs/404'),
-  require('../tabs/brl'),
-  require('../tabs/settingstrade'),
+  require('../tabs/register.controller'),
+  require('../tabs/login.controller'),
+  require('../tabs/migrate.controller'),
+  require('../tabs/recover.controller'),
+  require('../tabs/balance.controller'),
+  require('../tabs/history.controller'),
+  require('../tabs/contacts.controller'),
+  require('../tabs/exchange.controller'),
+  require('../tabs/account.controller'),
+  require('../tabs/trust.controller'),
+  require('../tabs/send.controller'),
+  require('../tabs/trade.controller'),
+  require('../tabs/advanced.controller'),
+  require('../tabs/security.controller'),
+  require('../tabs/kyc.controller'),
+  require('../tabs/tx.controller'),
+  require('../tabs/xrp.controller'),
+  require('../tabs/debug.controller'),
+  require('../tabs/btc.controller'),
+  require('../tabs/withdraw.controller'),
+  require('../tabs/usd.controller'),
+  require('../tabs/eur.controller'),
+  require('../tabs/sgd.controller'),
+  require('../tabs/aud.controller'),
+  require('../tabs/gold.controller'),
+  require('../tabs/tou.controller'),
+  require('../tabs/privacypolicy.controller'),
+  require('../tabs/twofa.controller'),
+  require('../tabs/jpy.controller'),
+  require('../tabs/mxn.controller'),
+  require('../tabs/nzd.controller'),
+  require('../tabs/404.controller'),
+  require('../tabs/brl.controller'),
+  require('../tabs/settingstrade.controller'),
 
   // Hidden tabs
   require('../tabs/apps'),
