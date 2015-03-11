@@ -83,7 +83,10 @@ var Options = {
   advanced_feature_switch: false,
 
   // Default gateway max trust amount under 'simplfied' view ie when advanced_feature_switch is false in trust/gateway page
-  gateway_max_limit: 1000000000
+  gateway_max_limit: 1000000000,
+
+  // Default threshold in XRPs for fee on RT to show higher load status
+  low_load_threshold: 0.012
 };
 
 // Load client-side overrides

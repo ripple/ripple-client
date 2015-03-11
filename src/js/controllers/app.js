@@ -105,6 +105,8 @@ function AppCtrl ($scope, id, net, keychain, txQueue, appManager, rpTracker,
 
     accountObj.on('entry', function(data){
       $scope.$apply(function () {
+        $scope.fee = remote.createTransaction()._computeFee();
+        // console.log('fee', remote.createTransaction()._computeFee());
         $scope.loadingAccount = false;
         myHandleAccountEntry(data);
 
