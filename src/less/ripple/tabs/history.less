@@ -1,4 +1,9 @@
 #t-history {
+  #section_loader {
+    color: @midgray;
+    text-align: center;
+    margin: 50px 0 0 0;
+  }
 
   @bg: @lightgray;
 
@@ -15,9 +20,9 @@
         background: @lightgray;
         padding: 10px;
         border: 1px solid @lightgray;
+        text-decoration: none;
 
         &:hover {
-          text-decoration: none;
           border: 1px solid @midgray;
         }
 
@@ -74,7 +79,7 @@
       &.active {
         color: @black;
         background: @lightblue;
-        border: 1px solid @midgray;
+        border: 1px solid @lightblue;
 
         .count {
           float: right;
@@ -99,12 +104,6 @@
       margin-bottom: 30px;
       margin-left: 0;
 
-      div{
-        float: left;
-        margin: 0 0 10px;
-        text-align: left;
-      }
-
       .dt {
         margin: 0 0 0 23px;
         width: 170px;
@@ -122,24 +121,16 @@
       padding: 10px;
     }
 
-    & > ul {
+    & > div > ul {
       list-style-type: none;
       margin: 0;
       padding: 0;
 
       & > li {
-        padding: 0 15px;
+        padding: 0 0 0 5px;
         margin: 5px 0;
         cursor: pointer;
-        background-color: @lightgray;
-
-        &.open {
-
-        }
-
-        &.odd{
-          background-color: @lightgray;
-        }
+        background-color: @midgray;
 
         .info {
           display: inline-block;
@@ -160,43 +151,44 @@
           }
         }
 
-        .type {
-          width: 8px;
-          display: block;
-          margin: 0 0 0 -15px;
-          background: @midblue;
+        .cont {
+          padding: 10px;
+          background-color: @lightgray;
         }
-        &.sent .type {
+        &.sent {
           background: @midgreen;
         }
-        &.received .type {
+        &.received {
           background: @midgreen;
         }
-        &.trusted .type {
+        &.trusted {
           background: @darkgray;
         }
-        &.trusting .type {
+        &.trusting {
           background: @darkgray;
         }
-        &.accountset .type {
+        &.accountset {
           background: @midgray;
         }
-        &.failed .type, &.error .type {
+        &.failed, &.error {
           background: @midred;
         }
 
         .i {
-          width: 30px;
+          padding: 0 10px 0 0;
           display: inline-block;
           text-align: center;
         }
 
-        .dt {
-          width: 170px;
-        }
+        .top {
+          overflow: auto;
 
-        .desc {
-
+          .i, .desc {
+            float: left;
+          }
+          .dt {
+            float: right;
+          }
         }
 
         .effects > li > span {
@@ -204,7 +196,7 @@
         }
 
         .details {
-          padding: 10px 0;
+          padding: 10px 0 0;
           @media (max-width: @screen-xs-max) {
             font-size: 12px;
           }
