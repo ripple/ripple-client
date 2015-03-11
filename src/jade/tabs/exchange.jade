@@ -88,7 +88,7 @@ section.col-xs-12.content(ng-controller="ExchangeCtrl")
                     rp-pretty-issuer-or-short)
                 .ex (
                   span.rate {{alt.rate | rpamount:{rel_precision: 4} }}
-                  span.pair {{exchange.currency_code}}/{{alt.amount | rpcurrency}}
+                  span.pair {{alt.amount | rpcurrency}}/{{exchange.currency_code}}
                   )
               button.btn.btn-block.btn-success(type="submit", ng-disabled='exchangeForm.$invalid', ng-click="exchange.alt = alt", l10n)
                 | Sell {{ alt.amount | rpcurrency }}
@@ -130,7 +130,7 @@ section.col-xs-12.content(ng-controller="ExchangeCtrl")
           p
             span.literal(l10n-inc) Exchange rate: &#32;
             span.value {{exchange.alt.rate | rpamount:{rel_precision: 4} }} &#32;
-            span.currency {{exchange.currency_code}}/{{exchange.alt.amount | rpcurrency}}
+            span.currency {{exchange.alt.amount | rpcurrency}}/{{exchange.currency_code}}
           span.literal(l10n-inc) Ripple network fee: &#32;
           span.currency(rp-pretty-amount='networkFee')
           form.call-to-action(ng-submit='exchange_confirmed()')
