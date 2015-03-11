@@ -1388,7 +1388,10 @@ TradeTab.prototype.angular = function(module)
 
       if ($scope.book.ready) {
         $scope.editOrder.orderbookReady = true;
-        $scope.priceTicker.spread = rpamountFilter($scope.book.asks[0].price.subtract($scope.book.bids[0].price), OrderbookTickerFilterOpts);
+
+        if ($scope.book.asks[0] && $scope.book.bids[0]) {
+          $scope.priceTicker.spread = rpamountFilter($scope.book.asks[0].price.subtract($scope.book.bids[0].price), OrderbookTickerFilterOpts);
+        }
       }
     };
 
