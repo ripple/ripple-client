@@ -29,24 +29,22 @@ HistoryTab.prototype.angular = function (module) {
       currentPage: $routeParams.page ? $routeParams.page : 1
     };
 
-    $routeParams.types = "" + $routeParams.types;
-
     // Types
     $scope.types = [
       {
         name: 'Payments & Orders',
         types: ['Payment', 'OfferCreate', 'OfferCancel'],
-        checked: $routeParams.types.indexOf('Payment,OfferCreate,OfferCancel') !== -1
+        checked: $routeParams.types && $routeParams.types.indexOf('Payment,OfferCreate,OfferCancel') !== -1
       },
       {
         name: 'Gateways',
         types: ['TrustSet'],
-        checked: $routeParams.types.indexOf('TrustSet') !== -1
+        checked: $routeParams.types && $routeParams.types.indexOf('TrustSet') !== -1
       },
       {
         name: 'Other',
         types: ['AccountSet'],
-        checked: $routeParams.types.indexOf('AccountSet') !== -1
+        checked: $routeParams.types && $routeParams.types.indexOf('AccountSet') !== -1
       }
     ];
 
@@ -90,7 +88,7 @@ HistoryTab.prototype.angular = function (module) {
         ? selectedTypesString
         : _.map($scope.types, 'types').join(',');
 
-      filtersLine += '&types=' + selectedTypesString;
+      if (selectedTypesString) filtersLine += '&types=' + selectedTypesString;
 
       // Date range
       if ($scope.dateMinView) {
@@ -114,18 +112,21 @@ HistoryTab.prototype.angular = function (module) {
 
       $scope.historyShow = [];
 
-      var appliedFilters = {
-        type: $routeParams.types,
+      var options = {
         limit: Options.transactions_per_page,
-        start: $routeParams.start,
-        end: $routeParams.end,
         offset: $scope.pagination.currentPage > 1
           ? ($scope.pagination.currentPage - 1) * Options.transactions_per_page
           : 0
       };
 
+      if ($routeParams.types) {
+        options.type = $routeParams.types;
+      }
+      if ($routeParams.start) options.start = $routeParams.start;
+      if ($routeParams.end) options.start = $routeParams.end;
+
       // Get history
-      $scope.userHistory.getHistory(appliedFilters)
+      $scope.userHistory.getHistory(options)
         .success(function(data){
           $scope.loadingHistory = false;
           updateHistory(data);
@@ -135,7 +136,7 @@ HistoryTab.prototype.angular = function (module) {
         });
 
       // Get transaction count
-      $scope.userHistory.getCount(appliedFilters)
+      $scope.userHistory.getCount(options)
         .success(function(response){
           $scope.pagination.count = response.count;
           $scope.pagination.pages = Math.ceil($scope.pagination.count / Options.transactions_per_page);
