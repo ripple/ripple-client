@@ -1,0 +1,319 @@
+#t-history {
+
+  @bg: @lightgray;
+
+  .filters {
+    margin: 0;
+
+    .filter {
+      margin-bottom: 10px;
+
+      .filter-title {
+        display: block;
+        color: @darkblue;
+        font: 16px OpenSansLight;
+        background: @lightgray;
+        padding: 10px;
+        border: 1px solid @lightgray;
+
+        &:hover {
+          text-decoration: none;
+          border: 1px solid @midgray;
+        }
+
+        .fa {
+          margin-top: 3px;
+          float: right;
+          color: @black;
+        }
+      }
+
+      .filter-description {
+        margin-top: 10px;
+        font: 12px OpenSansLight;
+        color: @darkgray;
+      }
+
+      .filter-choices {
+        margin-top: 10px;
+      }
+
+      .input-group {
+        margin: 0 0 10px;
+
+        i.fa-fw {
+          margin-right: 5px;
+        }
+      }
+    }
+  }
+
+  .type-filter {
+
+    i {
+      margin: 0 10px 0 0;
+    }
+
+    label {
+      width: 100%;
+      background: @lightgray;
+      padding: 6px 10px;
+      cursor: pointer;
+      text-transform: capitalize;
+      color: @darkgray;
+      font-size: 14px;
+      border: 1px solid darken(@lightgray,3%);
+
+      .count {
+        float: right;
+        margin: -8px -15px;
+        background: @lightgray;
+        padding: 8px 12px;
+      }
+
+      &.active {
+        color: @black;
+        background: @lightblue;
+        border: 1px solid @midgray;
+
+        .count {
+          float: right;
+          margin: -8px -15px;
+          background: @midblue;
+          padding: 8px 12px;
+        }
+      }
+
+      input {
+        display: none;
+      }
+    }
+  }
+
+  .transactions {
+    .head {
+      display: inline-block;
+      width: 100%;
+      padding-bottom: 10px;
+      border-bottom: 1px solid @midgray;
+      margin-bottom: 30px;
+      margin-left: 0;
+
+      div{
+        float: left;
+        margin: 0 0 10px;
+        text-align: left;
+      }
+
+      .dt {
+        margin: 0 0 0 23px;
+        width: 170px;
+      }
+    }
+    .export-btn-wrapper {
+      padding-right: 0 !important;
+      @media (max-width: @screen-xs-max) {
+        padding-left: 0;
+        margin-bottom: 20px;
+      }
+    }
+    .message {
+      background-color: @lightgray;
+      padding: 10px;
+    }
+
+    & > ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+
+      & > li {
+        padding: 0 15px;
+        margin: 5px 0;
+        cursor: pointer;
+        background-color: @lightgray;
+
+        &.open {
+
+        }
+
+        &.odd{
+          background-color: @lightgray;
+        }
+
+        .info {
+          display: inline-block;
+          width: 100%;
+          background-color: @lightgray;
+          @media (max-width: @screen-xs-max) {
+            font-size: 11px;
+          }
+          & > span {
+            display: inline-block;
+            line-height: 22px;
+            padding: 9px 0;
+            vertical-align: top;
+          }
+
+          span.address, span.amount {
+            font-weight: bold;
+          }
+        }
+
+        .type {
+          width: 8px;
+          display: block;
+          margin: 0 0 0 -15px;
+          background: @midblue;
+        }
+        &.sent .type {
+          background: @midgreen;
+        }
+        &.received .type {
+          background: @midgreen;
+        }
+        &.trusted .type {
+          background: @darkgray;
+        }
+        &.trusting .type {
+          background: @darkgray;
+        }
+        &.accountset .type {
+          background: @midgray;
+        }
+        &.failed .type, &.error .type {
+          background: @midred;
+        }
+
+        .i {
+          width: 30px;
+          display: inline-block;
+          text-align: center;
+        }
+
+        .dt {
+          width: 170px;
+        }
+
+        .desc {
+
+        }
+
+        .effects > li > span {
+          font-size: 12px;
+        }
+
+        .details {
+          padding: 10px 0;
+          @media (max-width: @screen-xs-max) {
+            font-size: 12px;
+          }
+          .effects {
+            border-top: 1px solid @midgray;
+            border-bottom: 1px solid @midgray;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+
+            & > .title {
+              display: block;
+              margin: 0 0 10px;
+            }
+
+            .effect {
+              &.header {
+                font-weight: bold;
+              }
+              & > span {
+                display: inline-block;
+              }
+
+              .description {
+                width: 25%;
+              }
+              .issuer {
+                width: 35%;
+              }
+              .amount {
+                width: 20%;
+                text-align: right;
+              }
+              .balance {
+                width: 20%;
+                text-align: right;
+              }
+            }
+
+            @media (max-width: 1023px) {
+              .effect {
+                padding: 10px 0;
+                border-top: 1px solid @midgray;
+
+                &.header {
+                  display: none;
+                }
+
+                span {
+                  display: block;
+                  width: auto !important;
+                  text-align: left !important;
+                }
+                span:before {
+                  display: inline-block;
+                  width: 150px;
+                  font-weight: bold;
+                  content: " "attr(data-label);
+                }
+              }
+            }
+
+            @media (max-width: 600px) {
+              .effect {
+                span:before {
+                  display: block;
+                  font-weight: bold;
+                  content: " "attr(data-label);
+                }
+              }
+            }
+          }
+
+          .links {
+            display: inline-block;
+            width: 100%;
+            @media (max-width: @screen-xs-max) {
+              font-size: 10px;
+            }
+            .txLink {
+              float: left;
+            }
+            .addLink {
+              float: right;
+            }
+
+            @media (max-width: 600px) {
+              a {
+                display: block;
+                float: none !important;
+                background: @midgray;
+                padding: 10px;
+                margin: 5px 0;
+              }
+            }
+          }
+        }
+      }
+
+      .add {
+        display: none;
+      }
+
+      .effects {
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
+      }
+    }
+
+  }
+}

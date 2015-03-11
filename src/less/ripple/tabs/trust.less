@@ -1,0 +1,116 @@
+#t-trust {
+  @media (max-width: @screen-xs-max) {
+    input[type="radio"], input[type="checkbox"] {
+      margin: 2px 0 0;
+    }
+  }
+  #trustForm {
+    margin-bottom: 20px;
+
+    .verifying {
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+
+    .checkbox {
+      margin-bottom: 20px;
+      margin-top: -10px;
+    }
+
+    .allow-rippling{
+      & > label, & > i {
+        float: left;
+      }
+      @media (max-width: @screen-xs-max){
+        .checkbox {
+          padding-left: 0;
+          input {
+            margin-right: 10px;
+          }
+        }
+      }
+      & > i {
+        float: left;
+        margin: -4px 0 0 5px;
+        @media (max-width: @screen-xs-max) {
+          margin: -6px 0 0 5px;
+        }
+      }
+    }
+  }
+
+  a.disabled {
+    color: @gray-light;
+
+    &:hover, &:focus {
+      text-decoration: none;
+    }
+  }
+
+  .currencyBox {
+    margin: 0 0 30px;
+  }
+
+  .editBox {
+    background: @lightgray;
+    margin: 10px 0 0 0;
+    padding: 20px 0 10px;
+
+    .inputPadding {
+      padding-top: 10px;
+      padding-bottom: 10px;
+    }
+    .rippling-checkbox {
+      margin-left: -15px;
+      margin-right: -15px;
+      @media (max-width: @screen-xs-max) {
+        padding-left: 15px;
+        padding-right: 15px;
+      }
+    }
+
+  }
+  .gateway {
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+  .limit {
+    text-overflow: ellipsis;
+      overflow: hidden;
+  }
+  .currencyTitle {
+    font-size: @font-size-big;
+
+    i {
+      width: 25px;
+    }
+    span {
+      margin: 0 0 0 10px;
+    }
+  }
+
+  #divider {
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+
+  .head {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-weight: bold;
+
+  }
+
+  .lines {
+    color: @darkgray;
+
+    .line {
+      padding: 5px 0;
+    }
+  }
+  .trust-menu {
+    @media (max-width: @screen-xs-max) {
+      font-size: 10px;
+    }
+  }
+}
