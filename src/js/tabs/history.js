@@ -30,6 +30,8 @@ HistoryTab.prototype.angular = function (module) {
       transactionsPerPage: Options.transactions_per_page
     };
 
+    $scope.loadingHistory = true;
+
     // Types
     $scope.types = [
       {
@@ -160,8 +162,6 @@ HistoryTab.prototype.angular = function (module) {
         .success(function(response){
           $scope.pagination.count = response.count;
         });
-
-      $scope.loadingHistory = true;
     }
 
     function updateHistory(data){

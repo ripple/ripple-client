@@ -54,6 +54,12 @@ section.col-xs-12.content(ng-controller="HistoryCtrl")
                   button.btn.btn-block.btn-primary.submit(type='submit', l10n) Filter
 
     .transactions.col-lg-9.col-md-8.col-sm-7.col-xs-12
+      div(ng-show="loadingHistory", id="section_loader")
+        img(src="img/sections.png", class="loader")
+        div(class="loading_sections", l10n) Loading History
+      div.emptyHistory(ng-show="!loadingHistory && !historyShow.length")
+        | Sorry, no transactions match your current filter.
+
       div(ng-show="historyShow.length")
         .head.row.hidden-xs
           .col-md-12.export-btn-wrapper.text-right
@@ -64,8 +70,6 @@ section.col-xs-12.content(ng-controller="HistoryCtrl")
         .head.row.visible-xs
           .col-xs-12.export-btn-wrapper.text-right
             a#csv.btn.btn-primary.btn-sm(href='', ng-click='exportCsv()', rp-download='historyCsv', rp-download-csv='true', rp-download-filename='ripple_historic.csv', l10n) Export to CSV
-        .message(ng-hide="historyState=='loading' || historyShow", l10n)
-          | Sorry, no transactions match your current filter.
         ul
           li(class="{{entry.transaction.type}}", ng-repeat="entry in historyShow track by entry.hash"
               ng-click='details[entry.hash] = !details[entry.hash]'
@@ -194,12 +198,6 @@ section.col-xs-12.content(ng-controller="HistoryCtrl")
           pagination.pagination-sm(total-items="pagination.count"
             ng-model="pagination.currentPage", items-per-page="pagination.transactionsPerPage"
             max-size="10", boundary-links="true")
-      div(ng-show="loadingHistory")
-        div(id="section_loader")
-          img(src="img/sections.png", class="loader")
-          div(class="loading_sections", l10n) Loading History
-
-
 
 // TODO filter calendar: High/low limits.
 // TODO filter calendar: High limit calculation after the low limit
