@@ -17,7 +17,7 @@
             l10n-rp-popover-content="Balance<br>{{ account.Balance | rpamount }} XRP"
             ) {{ account.Balance | rpamount:{abs_precision: 2} }}
         div(ng-hide="account.Balance") 0.00
-        dl(rp-slide="entry.show")
+        dl
           dt
             span(l10n) Reserve
             | &#32;
