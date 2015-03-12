@@ -332,7 +332,10 @@ TrustTab.prototype.angular = function (module)
         }
 
         obj[line.currency].components.push(line);
-
+        // correctly show "Rippling" flag for incoming trust lines
+        if (_.has(line, 'no_ripple_peer')) {
+          line.no_ripple = line.no_ripple_peer;
+        }
       });
 
       $scope.accountLines = obj;
