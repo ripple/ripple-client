@@ -6,7 +6,7 @@
 
   div(rp-slide='showWidgetBalances')
     ul.fa-ul(ng-class="{'blank': !balances}")
-      li.currency-xrp(ng-click="entry.show=!entry.show")
+      li.currency-xrp(ng-click="entry.show=!entry.show", ng-init="entry.show=true")
         i.fa-li.fa-money
         h5 XRP
         div(ng-show="account.Balance")
@@ -17,7 +17,7 @@
             l10n-rp-popover-content="Balance<br>{{ account.Balance | rpamount }} XRP"
             ) {{ account.Balance | rpamount:{abs_precision: 2} }}
         div(ng-hide="account.Balance") 0.00
-        dl
+        dl(rp-slide="entry.show")
           dt
             span(l10n) Reserve
             | &#32;
