@@ -890,16 +890,11 @@ TradeTab.prototype.angular = function(module)
       updateMRU();
     };
 
-    // TODO: Remove all hardcoded GBI code eventually
     $scope.$watch('first_currency_selected', function () {
       $scope.first_issuer_selected = '';
       if($scope.first_currency_selected == 'XRP') {
         $scope.gateway_change_form.first_iss.$setValidity('rpDest', true);
         $scope.disable_first_issuer = true;
-      }
-      else if($scope.first_currency_selected == 'XAU (-0.5%pa)'){
-        $scope.first_iss = {};
-        $scope.first_iss['GBI'] = 'GBI';
       }
       else {
         $scope.disable_first_issuer = false;
@@ -923,10 +918,6 @@ TradeTab.prototype.angular = function(module)
       if($scope.second_currency_selected == 'XRP') {
         $scope.gateway_change_form.second_iss.$setValidity('rpDest', true);
         $scope.disable_second_issuer = true;
-      }
-      else if($scope.second_currency_selected == 'XAU (-0.5%pa)'){
-        $scope.second_iss = {};
-        $scope.second_iss['GBI'] = 'GBI';
       }
       else {
         $scope.disable_second_issuer = false;
@@ -992,57 +983,20 @@ TradeTab.prototype.angular = function(module)
         return;
       }
       
-      var first_currency;
-      var second_currency;
-      var contact_to_address1;
-      var contact_to_address2;
+      var first_currency = order.first_currency = ripple.Currency.from_json(pair[0].substring(0,3));
 
-      var first_currency_gbi = pair[0].substring(0,13) == 'XAU (-0.5%pa)'
-        ? true
-        : false;
-
-      var second_currency_gbi = pair[1].substring(0,13) == 'XAU (-0.5%pa)'
-        ? true
-        : false;
-
-      if(first_currency_gbi){
-        first_currency = order.first_currency = ripple.Currency.from_json(pair[0].substring(0,13));
-      }
-      else {
-        first_currency = order.first_currency = ripple.Currency.from_json(pair[0].substring(0,3));
-      }
-
-      if(second_currency_gbi){
-        second_currency = order.second_currency = ripple.Currency.from_json(pair[1].substring(0,13));
-      }
-      else {
-        second_currency = order.second_currency = ripple.Currency.from_json(pair[1].substring(0,3));
-      }
+      var second_currency = order.second_currency = ripple.Currency.from_json(pair[1].substring(0,3));
 
       if(first_currency.is_native()) {
         order.first_issuer = '';
       }
       else {
-        if(pair[0].substring(0,13) == 'XAU (-0.5%pa)'){
-          contact_to_address1 = webutil.resolveContact($scope.userBlob.data.contacts, pair[0].substring(14));
-        }
-        else {
-          contact_to_address1 = webutil.resolveContact($scope.userBlob.data.contacts, pair[0].substring(4));
-        }
+          var contact_to_address1 = webutil.resolveContact($scope.userBlob.data.contacts, pair[0].substring(4));
         if (contact_to_address1) {
           order.first_issuer = contact_to_address1;
         }
         else {
-          if(pair[0].substring(14, 17) == 'GBI') {
-            rippleVaultClient.AuthInfo.get(Options.domain, '~' + pair[0].substring(14), function (err, response1) {
-              if (err) return;
-              $scope.$apply(function () {
-                order.first_issuer = response1.address;
-              });
-
-            });
-          }
-          else if (pair[0].substring(4, 5) == '~') {
+          if (pair[0].substring(4, 5) == '~') {
             rippleVaultClient.AuthInfo.get(Options.domain, pair[0].substring(4), function (err, response1) {
               if (err) return;
               $scope.$apply(function () {
@@ -1069,26 +1023,12 @@ TradeTab.prototype.angular = function(module)
         order.second_issuer = '';
       }
       else {
-        if(pair[1].substring(0,13) == 'XAU (-0.5%pa)'){
-          contact_to_address2 = webutil.resolveContact($scope.userBlob.data.contacts, pair[1].substring(14));
-        }
-        else {
-          contact_to_address2 = webutil.resolveContact($scope.userBlob.data.contacts, pair[1].substring(4));
-        }        
+          var contact_to_address2 = webutil.resolveContact($scope.userBlob.data.contacts, pair[1].substring(4));     
         if (contact_to_address2) {
           order.second_issuer = contact_to_address2;
         }
         else {
-          if(pair[1].substring(14, 17) == 'GBI') {
-            rippleVaultClient.AuthInfo.get(Options.domain, '~' + pair[1].substring(14), function (err, response1) {
-              if (err) return;
-              $scope.$apply(function () {
-                order.first_issuer = response1.address;
-              });
-
-            });
-          }
-          else if (pair[1].substring(4, 5) == '~') {
+          if (pair[1].substring(4, 5) == '~') {
             rippleVaultClient.AuthInfo.get(Options.domain, pair[1].substring(4), function (err, response2) {
               if (err) return;
               $scope.$apply(function () {

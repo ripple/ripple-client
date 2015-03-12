@@ -31,7 +31,7 @@ GoldTab.prototype.angular = function (module)
         $scope.loading = true;
 
         var amount = ripple.Amount.from_human(
-            Options.gateway_max_limit + ' ' + '0158415500000000C1F76FF6ECB0BAC600000000',
+            Options.gateway_max_limit + ' ' + 'XAU',
             {reference_date: new Date(+new Date() + 5*60000)}
         );
 
@@ -129,7 +129,7 @@ GoldTab.prototype.angular = function (module)
       };
       
       $scope.$watch('lines', function () {
-        if($scope.lines['rrh7rf1gV2pXAoqA8oYbpHd8TKv5ZQeo670158415500000000C1F76FF6ECB0BAC600000000']){
+        if($scope.lines['rrh7rf1gV2pXAoqA8oYbpHd8TKv5ZQeo67XAU']){
           $scope.gbiConnected = true;
         }
         else {

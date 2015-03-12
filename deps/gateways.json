@@ -110,16 +110,11 @@
         "name": "GBI",
         "accounts": [{
             "address": "rrh7rf1gV2pXAoqA8oYbpHd8TKv5ZQeo67",
-            "currencies": [
-              {
-                "label" : "XAU", 
-                "code"  : "0158415500000000C1F76FF6ECB0BAC600000000"
-              }
-            ]
-            }],
-        "hotwallets": [
-        ],
-        "domain": "goldbullioninternational.com"
+            "currencies": ["XAU"],
+            "hotwallets": [
+            ],
+            "domain": "goldbullioninternational.com"
+            }]
     }, {
         "name": "LakeBTC",
         "accounts": [{
