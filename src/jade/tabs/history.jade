@@ -26,9 +26,21 @@ section.col-xs-12.content(ng-controller="HistoryCtrl")
           a.filter-title(href="", ng-click="showFilterDate=!showFilterDate", l10n) Date
             .fa.fa-caret-right(ng-show="showFilterDate")
             .fa.fa-caret-down(ng-hide="showFilterDate")
-          div.row(ng-hide="showFilterDate")
+          .filter-choices
+            div
+              label(ng-class="{active: !customDate}")
+                i.fa.fa-plus(ng-hide="customDate")
+                i.fa.fa-minus(ng-show="customDate")
+                span.name(l10n) All dates
+                input(type="radio", name="date-filter", ng-model="customDate", value="")
+            div
+              label(ng-class="{active: customDate}")
+                i.fa.fa-plus(ng-show="customDate")
+                i.fa.fa-minus(ng-hide="customDate")
+                span.name(l10n) Custom date
+                input(type="radio", name="date-filter", ng-model="customDate", value="1")
+          div.row(ng-show="customDate")
             .col-xs-12
-              .filter-description(l10n) Load history for specific date range
               .filter-form-wrapper
                 form.filter-choices(ng-submit="submitDateRangeForm()")
                   .input-group.inline-inputs-group
