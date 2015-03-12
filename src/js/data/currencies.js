@@ -186,7 +186,7 @@ module.exports = [
 
   // Precious Metals
   {value: 'XAU', name: 'Gold', display: true, custom_trade_currency_dropdown: true, standard_precision: 2, order: 0},
-  {value: 'XAU (-0.5%pa)', name: 'Gold', display: false, custom_trade_currency_dropdown: true, standard_precision: 2, order: 0},
+  {value: 'XAU (-0.5%pa)', name: 'Gold', display: false, custom_trade_currency_dropdown: false, standard_precision: 2, order: 0},
   {value: 'XAG', name: 'Silver', display: true, custom_trade_currency_dropdown: true, standard_precision: 2, order: 0},
   {value: 'XPT', name: 'Platinum', display: true, custom_trade_currency_dropdown: true, standard_precision: 2, order: 0},
 
