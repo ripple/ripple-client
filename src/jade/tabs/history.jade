@@ -190,23 +190,10 @@ section.col-xs-12.content(ng-controller="HistoryCtrl")
                     | Add
                     strong  {{entry.transaction.counterparty | rpcontactname}}
                     |  to contact list
-        nav
-          ul.pagination
-            li(ng-class="{disabled: pagination.currentPage == 1}")
-              a(ng-href='{{"#" + generateUrl(pagination.currentPage-1)}}', aria-label='Previous'
-                ng-hide="pagination.currentPage == 1")
-                span(aria-hidden='true') &laquo;
-              span(ng-show="pagination.currentPage == 1")
-                span(aria-hidden='true') &laquo;
-            li(ng-repeat="n in [] | rprange:pagination.pages"
-              ng-class="{active: pagination.currentPage == n}")
-              a(ng-href='{{"#" + generateUrl(n)}}') {{n}}
-            li(ng-class="{disabled: pagination.currentPage == pagination.pages}")
-              a(ng-href='{{"#" + generateUrl(pagination.currentPage+1)}}', aria-label='Next'
-                ng-hide="pagination.currentPage == pagination.pages")
-                span(aria-hidden='true') &raquo;
-              span(ng-show="pagination.currentPage == pagination.pages")
-                span(aria-hidden='true') &raquo;
+        nav.paging(ng-if="pagination.count") {{pagination.pages}}
+          pagination.pagination-sm(total-items="pagination.count"
+            ng-model="pagination.currentPage", items-per-page="pagination.transactionsPerPage"
+            max-size="10", boundary-links="true")
       div(ng-show="loadingHistory")
         div(id="section_loader")
           img(src="img/sections.png", class="loader")
