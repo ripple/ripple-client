@@ -1,7 +1,7 @@
 'use strict';
 
 describe('ExchangeCtrl', function() {
-  var scope, dependencies, ctrl, network;
+  var scope, ctrl, network;
 
   beforeEach(module('rp'));
   beforeEach(inject(function ($rootScope, $controller, rpNetwork, $compile, $document, rpId) {
@@ -36,17 +36,6 @@ describe('ExchangeCtrl', function() {
       }
     };
 
-    /*
-    dependencies = {
-      $scope: scope,
-      $element: null,
-      $network: rpNetwork,
-      rpId: {
-        loginStatus: true,
-        account: 'r4EwBWxrx5HxYRyisfGzMto3AT8FZiYdWk'
-      }
-    };
-    */
     rpId.loginStatus = true;
     rpId.account = 'r4EwBWxrx5HxYRyisfGzMto3AT8FZiYdWk';
 
