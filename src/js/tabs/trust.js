@@ -615,7 +615,7 @@ TrustTab.prototype.angular = function (module)
           });
 
 
-        keychain.requestSecret(id.account, id.username, function (err, secret) {
+        keychain.requestSecret(id.account, id.username, function(err, secret) {
           // XXX Error handling
           if (err) {
             $scope.trust.loading = false;
@@ -633,8 +633,8 @@ TrustTab.prototype.angular = function (module)
         });
       };
 
-      $scope.isIncoming = function () {
-        return $scope.component.limit_peer._value.t !== 0;
+      $scope.isIncoming = function() {
+        return _.has($scope.component, 'no_ripple_peer') || $scope.component.balance.is_negative() || !$scope.component.limit_peer.is_zero();
       };
 
     }]);

@@ -293,7 +293,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                                 rp-popover-trigger="hover"
                                 l10n-rp-popover-title="Incoming trust"
                                 l10n-data-content="You can't delete incoming trust lines. Incoming trust lines are when other Ripple users trust you.")
-                                button.btn.btn-block.btn-danger.submit(type="button", ng-click="load_orderbook()", ng-show="component.limit._value.t === 0", disabled, l10n) Remove
+                                button.btn.btn-block.btn-danger.submit(type="button", ng-click="load_orderbook()", ng-show="isIncoming()", disabled, l10n) Remove
                           span(ng-show='trust.balance === "0"')
                             button.btn.btn-block.btn-danger.submit(type="button", ng-click="delete_account()", ng-show="!isIncoming()", l10n) Remove
                             span(
