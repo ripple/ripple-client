@@ -50,6 +50,7 @@ HistoryTab.prototype.angular = function (module) {
 
     $scope.dateMinView = $routeParams.start ? new Date($routeParams.start) : '';
     $scope.dateMaxView = $routeParams.end ? new Date($routeParams.end) : '';
+    $scope.customDate = $scope.dateMinView || $scope.dateMaxView;
 
     // History collection
     $scope.historyShow = [];
@@ -59,6 +60,15 @@ HistoryTab.prototype.angular = function (module) {
     $scope.$watch('types', function(){
       $location.url($scope.generateUrl());
     }, true);
+
+    // Custom date
+    $scope.$watch('customDate', function(){
+      if (!$scope.customDate && ($scope.dateMinView || $scope.dateMaxView)) {
+        $scope.dateMinView = null;
+        $scope.dateMaxView = null;
+        $location.url($scope.generateUrl());
+      }
+    });
 
     // Initial history load
     var initialLoad = $scope.$watch('userHistory', function(){
@@ -123,7 +133,7 @@ HistoryTab.prototype.angular = function (module) {
         options.type = $routeParams.types;
       }
       if ($routeParams.start) options.start = $routeParams.start;
-      if ($routeParams.end) options.start = $routeParams.end;
+      if ($routeParams.end) options.end = $routeParams.end;
 
       // Get history
       $scope.userHistory.getHistory(options)
