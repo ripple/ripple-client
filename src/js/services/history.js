@@ -2,27 +2,43 @@
  * Ripple Transaction History API
  */
 
-var module = angular.module('history', []);
+angular
+  .module('history', [])
+  .factory('rpHistory', RpHistory);
 
-module.factory('rpHistory', ['$rootScope', '$http', 'rpNetwork', function ($scope, $http, network)
+RpHistory.$inject = ['$rootScope', '$http', 'rpNetwork'];
+
+function RpHistory ($scope, $http, network)
 {
   var rpHistory = function(account){
     this.account = account;
     this.accountObj = network.remote.account(this.account);
   };
 
-  rpHistory.prototype.getHistory = function (opts, callback) {
-    $http({
+  rpHistory.prototype.getHistory = function (opts) {
+    return $http({
       url: Options.historyApi + '/accounts/' + this.account + '/transactions',
       method: 'GET',
       params: opts
     })
-    .success(function(data) {
-      callback(null, data);
+  };
+
+  rpHistory.prototype.getCount = function (opts) {
+    opts = jQuery.extend(true, {}, opts);
+
+    delete opts.limit;
+    delete opts.offset;
+
+    opts.count = true;
+
+    return this.getHistory(opts)
+  };
+
+  rpHistory.prototype.getTransaction = function (hash) {
+    return $http({
+      url: Options.historyApi + '/transactions/' + hash,
+      method: 'GET'
     })
-    .error(function(err){
-      callback(err);
-    });
   };
 
   rpHistory.prototype.onTransaction = function (callback) {
@@ -30,4 +46,4 @@ module.factory('rpHistory', ['$rootScope', '$http', 'rpNetwork', function ($scop
   };
 
   return rpHistory;
-}]);
+}

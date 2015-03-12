@@ -18,42 +18,28 @@ TxTab.prototype.generateHtml = function ()
 
 TxTab.prototype.angular = function (module)
 {
-  module.controller('TxCtrl', ['$scope', 'rpNetwork', '$routeParams', 'rpId', '$location',
-                               function ($scope, net, $routeParams, id, $location)
+  module.controller('TxCtrl', ['$scope', '$routeParams',
+                               function ($scope, $routeParams)
   {
     $scope.state = 'loading';
     $scope.transaction = {
       hash: $routeParams.id
     };
 
-    function loadTx() {
-      // XXX: Dirty, dirty. But it's going to change soon anyway.
-      var request = net.remote.request_ledger_hash();
-      request.message.command = 'tx';
-      request.message.transaction = $routeParams.id;
-      request.on('success', function (res) {
-        $scope.$apply(function () {
+    var initialLoad = $scope.$watch('userHistory', function(){
+      if (!$scope.userHistory) return;
+
+      // Get transaction
+      $scope.userHistory.getTransaction($routeParams.id)
+        .success(function(data){
+          $.extend($scope.transaction, data.transaction.tx);
+
+          $scope.amountSent = rewriter.getAmountSent(data.transaction.tx, data.transaction.meta);
           $scope.state = 'loaded';
-          // XXX This is for the upcoming tx RPC call format change.
-          var tx = res.tx ? res.tx : res;
-          _.extend($scope.transaction, res);
+        })
+        .error(function(){});
 
-          $scope.amountSent = rewriter.getAmountSent(tx, tx.meta);
-        });
-      });
-      request.on('error', function (res) {
-        $scope.$apply(function () {
-          $scope.state = 'error';
-          console.log(res);
-        });
-      });
-      request.request();
-    }
-
-    if (net.connected) loadTx();
-    else var removeListener = $scope.$on('$netConnected', function () {
-      removeListener();
-      loadTx();
+      initialLoad();
     });
   }]);
 };

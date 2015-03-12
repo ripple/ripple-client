@@ -120,14 +120,9 @@ function AppCtrl ($scope, id, net, keychain, txQueue, appManager, rpTracker,
           limit: Options.transactions_per_page
         };
 
-        $scope.userHistory.getHistory(options, function(err, data){
-          if (err) {
-            handleAccountTxError(err);
-            return;
-          }
-
-          handleAccountTx(data);
-        });
+        $scope.userHistory.getHistory(options)
+          .success(handleAccountTx)
+          .error(handleAccountTxError)
       });
     });
 
