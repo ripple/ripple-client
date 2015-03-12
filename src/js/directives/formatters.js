@@ -161,8 +161,7 @@ module.directive('rpCurrency', function () {
             currency = amount.currency();
           }
 
-          //TODO: Delete once Malika pushes her changes for trading pairs
-          mainText = currency.has_interest() ? currency.to_human().slice(0,3) + ' (-0.5%pa) - Gold' : currency.to_human();
+          mainText = currency.to_human();
 
           if (attr.rpCurrencyFull) {
             var currencyInfo = $.grep(scope.currencies_all, function(e){ return e.value == mainText; })[0];
