@@ -26,7 +26,8 @@ HistoryTab.prototype.angular = function (module) {
     // Open/close states of individual history items
     $scope.details = [];
     $scope.pagination = {
-      currentPage: $routeParams.page ? $routeParams.page : 1
+      currentPage: $routeParams.page ? $routeParams.page : 1,
+      transactionsPerPage: Options.transactions_per_page
     };
 
     // Types
@@ -57,7 +58,9 @@ HistoryTab.prototype.angular = function (module) {
     $scope.historyCsv = '';
 
     // Type filter
-    $scope.$watch('types', function(){
+    $scope.$watch('types', function(newVal, oldVal){
+      if (!oldVal || newVal == oldVal) return;
+
       $location.url($scope.generateUrl());
     }, true);
 
@@ -66,8 +69,15 @@ HistoryTab.prototype.angular = function (module) {
       if (!$scope.customDate && ($scope.dateMinView || $scope.dateMaxView)) {
         $scope.dateMinView = null;
         $scope.dateMaxView = null;
+
         $location.url($scope.generateUrl());
       }
+    });
+
+    $scope.$watch('pagination.currentPage', function(){
+      if ($scope.pagination.currentPage === $routeParams.page) return;
+
+      $location.url($scope.generateUrl());
     });
 
     // Initial history load
@@ -149,7 +159,6 @@ HistoryTab.prototype.angular = function (module) {
       $scope.userHistory.getCount(options)
         .success(function(response){
           $scope.pagination.count = response.count;
-          $scope.pagination.pages = Math.ceil($scope.pagination.count / Options.transactions_per_page);
         });
 
       $scope.loadingHistory = true;
