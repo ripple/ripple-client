@@ -34,6 +34,13 @@ function RpHistory ($scope, $http, network)
     return this.getHistory(opts)
   };
 
+  rpHistory.prototype.getTransaction = function (hash) {
+    return $http({
+      url: Options.historyApi + '/transactions/' + hash,
+      method: 'GET'
+    })
+  };
+
   rpHistory.prototype.onTransaction = function (callback) {
     this.accountObj.on('transaction', callback);
   };
