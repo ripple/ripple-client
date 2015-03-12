@@ -11,10 +11,8 @@ section.col-xs-12.content(ng-controller="HistoryCtrl")
     .filters.row-padding-small.col-lg-3.col-md-4.col-sm-5.col-xs-12
       .filter.type-filter.row
         .col-xs-12.filters-wrapper
-          a.filter-title(href="", ng-click="showFilterTxTypes=!showFilterTxTypes", l10n) Transaction type
-            .fa.fa-caret-right(ng-show="showFilterTxTypes")
-            .fa.fa-caret-down(ng-hide="showFilterTxTypes")
-          .filter-choices(ng-hide="showFilterTxTypes")
+          .filter-title(l10n) Transaction type
+          .filter-choices
             div(ng-repeat="type in types")
               label(ng-class="{active: type.checked}")
                 i.fa.fa-plus(ng-show="type.checked")
@@ -23,9 +21,7 @@ section.col-xs-12.content(ng-controller="HistoryCtrl")
                 input(type="checkbox", name="type-filter", ng-model="type.checked")
       .filter.date-filter.row
         .col-xs-12.filters-wrapper
-          a.filter-title(href="", ng-click="showFilterDate=!showFilterDate", l10n) Date
-            .fa.fa-caret-right(ng-show="showFilterDate")
-            .fa.fa-caret-down(ng-hide="showFilterDate")
+          .filter-title(l10n) Date
           .filter-choices
             div
               label(ng-class="{active: !customDate}")
