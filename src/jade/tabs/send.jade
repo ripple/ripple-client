@@ -34,12 +34,12 @@ section.col-xs-12.content(ng-controller='SendCtrl')
             name='send_destination', type='text'
             rp-combobox="recipient_query", rp-combobox-value-as-ripple-name
             l10n-placeholder="Enter a Ripple name or contact"
-            ng-model='send.recipient'
+            ng-model='send.recipient', ng-model-options='{debounce: 500}'
             rp-dest, rp-dest-address, rp-dest-contact, rp-dest-bitcoin
-            rp-dest-email, rp-dest-ripple-name, rp-dest-loading="recipient_loading"
+            rp-dest-email, rp-dest-ripple-name
             required
             rp-autofill='$routeParams.to'
-            rp-focus, rp-spinner="{{recipient_loading ? 4 : null}}")
+            rp-focus, rp-spinner)
             .errorGroup(ng-messages='sendForm.send_destination.$dirty && sendForm.send_destination.$error')
               .success(ng-show='sendForm.send_destination.$valid && send.recipient != send.recipient_address', ng-bind='send.recipient_address')
               .error(ng-message='required', l10n)
