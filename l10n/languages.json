@@ -4,6 +4,7 @@
     {"code": "de", "name": "german", "nativeName": "Deutsch"},
     {"code": "en", "name": "english", "nativeName": "English"},
     {"code": "es", "name": "spanish", "nativeName": "Español"},
+    {"code": "fr", "name": "french", "nativeName": "Français"},
     {"code": "he_IL", "name": "hebrew_israel", "nativeName": "עברית"},
     {"code": "it", "name": "italian", "nativeName": "Italiano"},
     {"code": "ja", "name": "japanese", "nativeName": "日本の"},
