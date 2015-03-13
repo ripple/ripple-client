@@ -120,18 +120,15 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
               li.col-xs-6.col-sm-3
                 span(l10n) Bid
                 span &#32;&#61;&#32;
-                span.value
-                  | {{ priceTicker.bid }}
+                span.value(ng-bind="priceTicker.bid")
               li.col-xs-6.col-sm-3
                 span(l10n) Ask
                 span &#32;&#61;&#32;
-                span.value
-                  | {{ priceTicker.ask }}
+                span.value(ng-bind="priceTicker.ask")
               li.col-xs-6.col-sm-3
                 span(l10n) Spread
                 span &#32;&#61;&#32;
-                span.value
-                  | {{ priceTicker.spread }}
+                span.value(ng-bind="priceTicker.spread")
               li.col-xs-6.col-sm-3
                 span(l10n) Last price
                 span &#32;&#61;&#32;
@@ -588,8 +585,8 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                 small.toggle.orderbook-hide(ng-click="visualState.hideOrderBook = !visualState.hideOrderBook")
                   span(ng-show="visualState.hideOrderBook", l10n) show
                   span(ng-hide="visualState.hideOrderBook", l10n) hide
-            .col-xs-12.col-sm-6.last-update(l10n, ng-show="lastUpdate") Last updated
-              span  {{lastUpdate}}
+            .col-xs-12.col-sm-6.last-update(l10n, ng-show="lastUpdate") Last updated&#32;
+              span(ng-bind="lastUpdate")
               span(ng-show="lastUpdate > '1'", l10n-inc)  seconds
               span(ng-show="lastUpdate == '1'", l10n-inc)  second
               |  ago

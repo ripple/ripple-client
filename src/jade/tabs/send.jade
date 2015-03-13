@@ -41,8 +41,7 @@ section.col-xs-12.content(ng-controller='SendCtrl')
             rp-autofill='$routeParams.to'
             rp-focus, rp-spinner="{{recipient_loading ? 4 : null}}")
             .errorGroup(ng-messages='sendForm.send_destination.$dirty && sendForm.send_destination.$error')
-              .success(ng-show='sendForm.send_destination.$valid && send.recipient != send.recipient_address')
-                | {{send.recipient_address}}
+              .success(ng-show='sendForm.send_destination.$valid && send.recipient != send.recipient_address', ng-bind='send.recipient_address')
               .error(ng-message='required', l10n)
                 | Please enter a recipient.
               .error(ng-message='rpDest', l10n)
@@ -241,8 +240,8 @@ section.col-xs-12.content(ng-controller='SendCtrl')
                       rp-pretty-issuer-or-short)
                       | )
             .row.row-padding-small.pathupdate(ng-show="send.alternatives.length && lastUpdate")
-              .col-xs-12(l10n) Paths last updated
-                span  {{lastUpdate}}
+              .col-xs-12(l10n) Paths last updated&#32;
+                span(ng-bind='lastUpdate')
                 span(ng-show="lastUpdate > '1'", l10n-inc)  seconds
                 span(ng-show="lastUpdate == '1'", l10n-inc)  second
                 |  ago
@@ -261,10 +260,9 @@ section.col-xs-12.content(ng-controller='SendCtrl')
           span  {{ (send.alt.amount || send.currency) | rpcurrency}}
           |  to
         .dest_feedback
-          .recipient(ng-show='send.recipient_name') {{send.recipient_name}}
-          .recipient(ng-hide='send.recipient_name') {{send.recipient_address}}
-          .extra(href='', ng-show='send.recipient != send.recipient_address || send.recipient_name')
-            |  {{send.recipient_address}}
+          .recipient(ng-show='send.recipient_name', ng-bind='send.recipient_name')
+          .recipient(ng-hide='send.recipient_name', ng-bind='send.recipient_address')
+          .extra(href='', ng-show='send.recipient != send.recipient_address || send.recipient_name', ng-bind='send.recipient_address')
           .dt(ng-show='send.dt', l10n) Destination tag: {{send.dt}}
         p.literal(l10n) They will receive
         p.amount_feedback(rp-pretty-amount='send.amount_feedback')
@@ -330,9 +328,9 @@ section.col-xs-12.content(ng-controller='SendCtrl')
             form(name="saveAddressForm"
             ng-class="{ show: show_save_address_form }"
             ng-submit='saveAddress()')
-              .name(ng-show="send.federation") {{send.recipient}}
-              .address(ng-show="send.recipient_name") {{send.recipient_name}}
-              .address(ng-hide="send.recipient_name") {{send.recipient_address}}
+              .name(ng-show="send.federation", ng-bind="send.recipient")
+              .address(ng-show="send.recipient_name", ng-bind="send.recipient_name")
+              .address(ng-hide="send.recipient_name", ng-bind="send.recipient_address")
               label(for='save_address_name', l10n) Name this user
               input.form-control#contact_name(
               name='save_address_name', type="text"
@@ -368,9 +366,9 @@ section.col-xs-12.content(ng-controller='SendCtrl')
               | Add this address to contacts
             form(name="saveAddressForm", ng-class="{ show: show_save_address_form }"
             ng-submit='saveAddress()')
-              .name(ng-show="send.federation") {{send.recipient}}
-              .address(ng-show="send.recipient_name") {{send.recipient_name}}
-              .address(ng-hide="send.recipient_name") {{send.recipient_address}}
+              .name(ng-show="send.federation", ng-bind="send.recipient")
+              .address(ng-show="send.recipient_name", ng-bind="send.recipient_name")
+              .address(ng-hide="send.recipient_name", ng-bind="send.recipient_address")
               label(for='save_address_name', l10n) Name this user
               input.form-control#contact_name(
               name='save_address_name', type="text"

@@ -8,12 +8,12 @@ section.single.ddpage.content(ng-controller="TxCtrl", ng-switch on="state")
   group(ng-switch-when="loaded")
     p.literal.hash
       span(l10n) Transaction #
-      span {{transaction.hash}}
+      span(ng-bind="transaction.hash")
       div
         a(href="{{'https://ripplecharts.com/#/graph/' + transaction.hash}}", target="_blank", l10n) Show in graph
     hr
     p.literal.type(l10n) Transaction type:
-      strong  {{transaction.TransactionType}}
+      strong(ng-bind="transaction.TransactionType")
     group(ng-switch on="transaction.TransactionType")
       group(ng-switch-when="Payment")
         group.clearfix
@@ -21,7 +21,7 @@ section.single.ddpage.content(ng-controller="TxCtrl", ng-switch on="state")
             dt
               span(l10n) Address sent from
               span :
-            dd {{transaction.Account}}
+            dd(ng-bind="transaction.Account")
             dt
               span(l10n) Amount sent
               span :
@@ -55,18 +55,18 @@ section.single.ddpage.content(ng-controller="TxCtrl", ng-switch on="state")
               dt
                 span(l10n) Destination tag
                 span :
-              dd {{transaction.DestinationTag}}
+              dd(ng-bind="transaction.DestinationTag")
         hr
         dl.details
           dt
             span(l10n) Ledger number
             span :
-          dd {{transaction.inLedger}}
+          dd(ng-bind="transaction.inLedger")
       group(ng-switch-default)
           group.clearfix
             dl.details.half
               dt(l10n) Address sent from:
-              dd {{transaction.Account}}
+              dd(ng-bind="transaction.Account")
             dl.details.half
           hr
           p.literal(l10n="Sorry, we don't have an info page layout for this transaction type yet.")
