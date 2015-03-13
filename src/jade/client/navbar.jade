@@ -41,7 +41,10 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
           //-       span.balance {{balance.total | rpamount:{rel_precision: 2} }}&nbsp;
           //-       span.balance(rp-currency="balance.total", rp-currency-short)
           li
-            a(href="#/account/public") ~{{userCredentials.username}}
+            span(class="serverStatus {{connected ? 'online' : 'offline'}} {{serverLoad}}"
+              rp-tooltip="{{message}}", rp-tooltip-placement="bottom")
+          li
+            a(href="#/account/public", ng-hide="loading") ~{{userCredentials.username}}
           li.dropdown.notifications-dropdown(dropdown on-toggle="toggled(open)")
             a.dropdown-toggle(ng-click="read()", href dropdown-toggle)
               i.fa.fa-bell

@@ -323,10 +323,15 @@ h1 {
 // Tooltip
 .tooltip {
   opacity: 1 !important;
+  min-width: 150px;
+
+  &.bottom .tooltip-arrow {
+    border-bottom-color: @midgray;
+  }
 
   .tooltip-inner {
     background: @white;
-    border: 1px solid @lightgray;
+    border: 1px solid @midgray;
     .border-radius(3px,3px,3px,3px);
     color: @darkgray;
     padding: 8px 15px;

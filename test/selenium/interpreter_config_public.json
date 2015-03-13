@@ -1,0 +1,26 @@
+{
+	"type": "interpreter-config",
+	"configurations": [
+		{
+			"settings": [
+				{
+					"driverOptions": {
+						"host": "localhost",
+						"port": 4445
+					},
+					"browserOptions": {
+						"browserName": "googlechrome",
+						"username": "${SAUCE_USERNAME}",
+						"accessKey": "${SAUCE_ACCESS_KEY}",
+                        "tunnel-identifier": "${TRAVIS_JOB_NUMBER}",
+                        "build": "${TRAVIS_BUILD_NUMBER}",
+                        "tags": "${TRAVIS_BRANCH}"
+					}
+				}
+			],
+			"scripts": [
+				"test/selenium/tests-public/*"
+			]
+		}
+	]
+}

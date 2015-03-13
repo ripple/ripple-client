@@ -1,0 +1,2 @@
+[authinfo_url]
+https://id.ripple.com/v1/authinfo

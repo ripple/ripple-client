@@ -46,12 +46,10 @@ header.loggedOut {
 	  background: url('../../img/bg_title.png'), linear-gradient(160.57deg, rgba(67, 147, 184, 1) 0%, rgba(52, 106, 169, 1) 100%);
 	  background-repeat: no-repeat;
 	  background-position: 25% 60%;
-	  background-attachment: fixed;
 	  z-index: 1;
 	  background-color: #4c8db8; /* Old browsers */
-	  // height: 880px;
 	  height: auto;
-	  min-height: 750px;
+	  min-height: 820px;
 	  
 		
 		 // Pixel ratio: 2
@@ -61,18 +59,12 @@ header.loggedOut {
       background: url('../../img/bg_title_2x.png'), linear-gradient(160.57deg, rgba(67, 147, 184, 1) 0%, rgba(52, 106, 169, 1) 100%);
       background-repeat: no-repeat;
       background-position: 25% 60%;
-      background-attachment: fixed;
       z-index: 1;
       background-size: 100%;
-      // height: 880px; 
       height: auto; 
-      min-height: 750px;
+      min-height: 820px;
     }
 
-    .tickerWrapper {
-			height: 60px;
-			background: @lightgray;
-		}
 	}
 
 	.loginContainer {
@@ -181,13 +173,13 @@ header.loggedOut {
 	h2.loginTop {
 		border-bottom: none !important;
 		padding-bottom: 0px !important; 
-		font-size: 40px;
+		font-size: 35px;
 	}
 
 	h2.signUpTop {
 		border-bottom: none !important;
 		padding-bottom: 0px !important; 
-		font-size: 40px;
+		font-size: 35px;
 
 		& a:hover {
 			text-decoration: none;
@@ -325,7 +317,16 @@ header.loggedOut {
 	.popover h3, .popover-content {
 		color: @black;
 	}
-
+	.popover-content {
+	 	a {
+	      color: @black;
+	      text-decoration: underline !important;
+	      &:hover {
+	      	text-decoration: underline;
+	      	color: #000;
+	      }
+	    }
+	}
 	.maskedPhone {
 		color: @white;
 	}
@@ -385,7 +386,7 @@ header.loggedOut {
 		color: @midgray !important;
 		display: block;
 		background: rgba(0,0,0,0.2);
-		padding: 23px;
+		padding: 15px;
 		&:hover {
 			color: @white !important;
 		}
@@ -410,7 +411,7 @@ header.loggedOut {
 		color: @midgray !important;
 		display: block;
 		background: rgba(0,0,0,0.2);
-		padding: 23px;
+		padding: 15px;
 		&:hover {
 			color: @white !important;
 		}

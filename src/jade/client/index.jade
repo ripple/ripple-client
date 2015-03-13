@@ -46,9 +46,6 @@ div#wrapper
   .landingWrapper(ng-class="{ 'loggedOut container-fluid': !loginStatus, 'container': loginStatus  }")
     
     .landingContainer
-      
-      .tickerWrapper(ng-if="!loginStatus")
-        rp-ticker#ticker
   
       .loginContainer
 
@@ -122,7 +119,7 @@ div#wrapper
           a(href="https://www.ripplesingapore.com/", target="_blank", l10n)
             img.img-responsive.gateway(src="img/gateway_logos/gw_ripplesingapore.svg")
         .col-xs-6.col-sm-2.gatewayExample
-          a(href="https://www.snapswap.us/", target="_blank", l10n)
+          a(href="https://snapswap.us/", target="_blank", l10n)
             img.img-responsive.gateway(src="img/gateway_logos/gw_snapswap.svg")
 
     // Footer
@@ -154,30 +151,32 @@ div#wrapper
               .col-sm-6
                 a(href="#/lang/zh_CN") 中文
               .col-sm-6
-                a(href="#/lang/nl_NL") Nederlands
-              .col-sm-6
-                a(href="#/lang/it") Italiano
-              .col-sm-6
-                a(href="#/lang/pl") Polski
-              .col-sm-6
-                a(href="#/lang/es") Español
-              .col-sm-6
-                a(href="#/lang/pt") Português
+                a(href="#/lang/ca") Català
               .col-sm-6
                 a(href="#/lang/de") Deutsch
               .col-sm-6
-                a(href="#/lang/nb_NO") Norsk
+                a(href="#/lang/es") Español
               .col-sm-6
-                a(href="#/lang/sk") Slovenská
-              .col-sm-6
-                a(href="#/lang/ca") Català
+                a(href="#/lang/fr_FR") Français
               .col-sm-6
                 a(href="#/lang/he_IL") עברית
               .col-sm-6
-                a(href="#/lang/ru") Русский
+                a(href="#/lang/it") Italiano
+              .col-sm-6
+                a(href="#/lang/ja") 日本語
+              .col-sm-6
+                a(href="#/lang/nl_NL") Nederlands
+              .col-sm-6
+                a(href="#/lang/nb_NO") Norsk
+              .col-sm-6
+                a(href="#/lang/pl") Polski
+              .col-sm-6
+                a(href="#/lang/pt") Português
               .col-sm-6
                 a(href="#/lang/ro") Român
               .col-sm-6
-                a(href="#/lang/ja") 日本語
+                a(href="#/lang/ru") Русский
+              .col-sm-6
+                a(href="#/lang/sk") Slovenská
               .col-sm-6
                 a(href="#/lang/tr") Türkçe

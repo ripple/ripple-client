@@ -49,7 +49,7 @@ section.col-xs-12.content(ng-controller='UsdCtrl')
             .description(l10n) USA
         .col-md-3
             .title(l10n) Fees
-            .description(l10n) $ 0.31-$ 5.00&#32;
+            .description(l10n) $ 0.31-$ 5.00 for deposits/withdrawals, .2% when transferring&#32;
         .col-md-3
             .title(l10n) Rating
             .description(l10n)
@@ -61,7 +61,7 @@ section.col-xs-12.content(ng-controller='UsdCtrl')
 
       .row.fund-tab-description
         .col-xs-7.col-sm-5.col-md-4
-          button.btn.btn-large(ng-show="!usdConnected && !loading", type="submit", ng-click="save_account()", ng-disabled="!account.Balance") Add SnapSwap.us
+          button.btn.btn-large(ng-show="!usdConnected && !loading", type="submit", ng-click="save_account()", ng-disabled="!account.Balance || !can_add_trust") Add SnapSwap.us
           button.btn.btn-large(ng-show="!usdConnected && loading", type="submit", ng-disabled="loading") Adding...
           button.btn.btn-large(ng-show="showInstructions && usdConnected", type="submit", ng-click="toggle_instructions()", l10n) Hide instructions
           button.btn.btn-large(ng-show="usdConnected && !showInstructions", type="submit", ng-click="toggle_instructions()", l10n) Show instructions
@@ -88,15 +88,13 @@ section.col-xs-12.content(ng-controller='UsdCtrl')
             ul 
               li
                 p(l10n) Login to your account&#32;
-                  a(href="https://snapswap.us/#/signin", target="_blank") here.
+                  a(href="https://snapswap.us/signin", target="_blank") here.
 
           .title(l10n) DEPOSIT OPTIONS
           .description(l10n)
             ul
               li
                 p(l10n) Deposit instantly via selected banks
-              li
-                p(l10n) Deposit cash at Bank of America branches (3 business days)
               li
                 p(l10n) Deposit via online bank transfer (3 business days)
 

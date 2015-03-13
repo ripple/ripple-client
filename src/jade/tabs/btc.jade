@@ -33,14 +33,14 @@ section.col-xs-12.content(ng-controller='BtcCtrl')
             .gateway.row
               .col-md-3
                 .title(l10n) Gateway
-                .description(l10n) btc2ripple (~snapswap)&#32;
+                .description(l10n) btc2ripple (~SnapSwap)&#32;
                   a(href="https://www.btc2ripple.com", target="_blank") www.btc2ripple.com
               .col-md-3
                 .title(l10n) Availability
                 .description(l10n) All countries
               .col-md-3
                 .title(l10n) Fees
-                .description(l10n) 0%
+                .description(l10n) 0% for deposits/withdrawals, .2% when transferring
               .col-md-3
                 .title(l10n) Rating
                 .description(l10n)
@@ -48,7 +48,7 @@ section.col-xs-12.content(ng-controller='BtcCtrl')
             .row.fund-tab-description(ng-show="!btcConnected")
               .col-xs-12.col-md-8.col-lg-6
                 .descriptor(l10n) Ripple Trade has partnered with btc2ripple to make depositing BTC easier. By proceeding, you agree to the btc2ripple&#32;
-                  a(href="https://btc2ripple.com/#/terms/of/service", target="_blank") terms of service.
+                  a(href="https://btc2ripple.com/terms", target="_blank") terms of service.
                   |&#32;Following this action will allow btc2ripple to hold BTC on your behalf.
             .row.fund-tab-description
               .col-xs-7.col-sm-5.col-md-4
@@ -98,10 +98,10 @@ section.col-xs-12.content(ng-controller='BtcCtrl')
 
             .active.col-xs-12(ng-show="B2R.active")
               .title(l10n) Personal Deposit address
-              .btc-address {{B2R.instructions.instructionParams[0].value}}
+              .btc-address(ng-bind="B2R.instructions.instructionParams[0].value") 
               .description(l10n) Your account is fully verified.
               div(ng-show="loadState.B2RInstructions")
-                .description {{B2R.instructions.instruction}}
+                .description(ng-bind="B2R.instructions.instruction") 
                 //.about(ng-hide="account.Balance", l10n) A small amount (~.001 BTC) of your first
                   |  transfer will be converted to XRP to activate your wallet.&#32;
                   a.why(href="https://ripple.com/wiki/Reserves",

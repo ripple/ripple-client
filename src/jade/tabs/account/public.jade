@@ -16,13 +16,10 @@ h4(l10n) Account settings
           input.form-control#username(
             name='username', type='text', ng-model="username"
             required, rp-focus, autocomplete="off", maxlength="20", rpDest
-            rp-available-name
-            rp-available-name-invalid-reason="usernameInvalidReason"
-            rp-available-name-reserved-for="usernameReservedFor"
-            rp-loading="usernameLoading")
-        .errorGroup(rp-errors='username', ng-hide="usernameLoading")
-          .success(rp-error-valid, l10n) Available
-          .error(rp-error-on='rpAvailableName')
+            rp-available-name)
+        .errorGroup(ng-messages='renameForm.username.$error', ng-hide="renameForm.username.$pending")
+          .success(ng-show='renameForm.username.$valid', l10n) Available
+          .error(ng-message='rpAvailableName')
             span(ng-switch on="usernameInvalidReason")
               span(ng-switch-when="exists", l10n) Already taken!
               span(ng-switch-when="reserved", l10n) Reserved for {{usernameReservedFor}}
@@ -40,7 +37,7 @@ h4(l10n) Account settings
               span(ng-switch-when="starthyphen", l10n) Cannot start with hyphen (-)
               span(ng-switch-when="endhyphen", l10n) Cannot end with hyphen (-)
               span(ng-switch-when="multhyphen", l10n) Cannot bundle hyphens (--)
-        span(ng-show="usernameLoading", l10n) Checking...
+        span(ng-show="renameForm.username.$pending", l10n) Checking...
         .form-group
           label(type="password", for='password', l10n) Current password
           input.form-control#password(type="password", name="password"
@@ -48,6 +45,8 @@ h4(l10n) Account settings
         .alert.alert-danger(ng-show="error", ng-switch on="error")
           span(ng-switch-when="wrongpassword", l10n)
             | Entered password is wrong.
+          span(ng-switch-when="server", l10n)
+            | Your account cannot be accessed at the moment. Please try again later.
           span(ng-switch-when="cantlogin", l10n)
             | Your Ripple name has been changed. Please login again.
           span(ng-switch-default, l10n)
@@ -62,4 +61,4 @@ h4(l10n) Account settings
             a.btn.btn-cancel.btn-block(href="", ng-click="openForm=!openForm", l10n) cancel
 .section
   .descriptor#address(l10n) Ripple address
-  div {{address}}
+  div(ng-bind="address")

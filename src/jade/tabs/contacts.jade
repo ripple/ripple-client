@@ -45,9 +45,9 @@ section.col-xs-12.content(ng-controller="ContactsCtrl")
             rp-autofill='$routeParams.name', rp-autofill-on='addform_visible = true'
             required
             rp-focus)
-          .errorGroup(rp-errors='name')
-            .error(rp-error-on='required', l10n) Please enter a contact.
-            .error(rp-error-on='rpUnique', l10n)
+          .errorGroup(ng-messages='addForm.name.$dirty && addForm.name.$error')
+            .error(ng-message='required', l10n) Please enter a contact.
+            .error(ng-message='rpUnique', l10n)
               | This contact already exists.
         .form-group
           div
@@ -58,17 +58,17 @@ section.col-xs-12.content(ng-controller="ContactsCtrl")
                 ng-model='contact.view'
                 rp-dest, rp-dest-address, rp-dest-bitcoin, rp-dest-ripple-name, rp-dest-ripple-name-no-tilde
                 rp-dest-email, rp-dest-check-federation, rp-dest-federation-model="contact.federation"
-                rp-dest-model="contact.address", rp-dest-loading="address_loading"
+                rp-dest-model="contact.address"
                 rp-unique='userBlob.data.contacts'
                 rp-unique-field='address'
                 rp-unique-group='address-dt-web'
-                rp-spinner="{{address_loading ? 4 : null}}"
+                rp-spinner
                 rp-autofill='$routeParams.to', rp-autofill-on='addform_visible = true'
                 required)
-            .errorGroup(rp-errors='address_web')
-              .error(rp-error-on='required', l10n) Please enter a Ripple name.
-              .error(rp-error-on='rpUnique', l10n) You already have a contact with the same Ripple name and/or the same Destination tag.
-              .error(rp-error-on='rpDest', l10n) Not a valid Ripple name or address.
+            .errorGroup(ng-messages='addForm.address_web.$dirty && addForm.address_web.$error')
+              .error(ng-message='required', l10n) Please enter a Ripple name.
+              .error(ng-message='rpUnique', l10n) You already have a contact with the same Ripple name and/or the same Destination tag.
+              .error(ng-message='rpDest', l10n) Not a valid Ripple name or address.
         .form-group
           div(ng-hide='contact.federation')
             label(for='dt_web', l10n) Destination tag
@@ -81,9 +81,9 @@ section.col-xs-12.content(ng-controller="ContactsCtrl")
               rp-unique-group='address-dt-web'
               rp-stdt
               rp-autofill='$routeParams.dt')
-            .errorGroup(rp-errors='dt_web')
-              .error(rp-error-on='rpStdt', l10n) Invalid destination tag
-              .error(rp-error-on='rpUnique', l10n) You already have a contact with the same Ripple name and/or the same Destination tag.
+            .errorGroup(ng-messages='addForm.dt_web.$error')
+              .error(ng-message='rpStdt', l10n) Invalid destination tag
+              .error(ng-message='rpUnique', l10n) You already have a contact with the same Ripple name and/or the same Destination tag.
         .row
           .col-xs-8.col-sm-8.col-md-9.text-left
             button.btn.btn-success.btn-block.submit.custom-btn(type='submit', ng-disabled='addForm.$invalid', l10n) Add contact
@@ -96,7 +96,7 @@ section.col-xs-12.content(ng-controller="ContactsCtrl")
       ng-controller="ContactRowCtrl"
       ng-show='!debug')
     .col-xs-3.col-md-3.col-sm-3(ng-hide='editing')
-      span.name(ng-hide='editing') {{entry.name}}
+      span.name(ng-hide='editing', ng-bind="entry.name") 
     .col-xs-12.col-sm-6.col-md-6(ng-hide='editing')
       div
         b.hidden-xs {{entry.address | rpaddressorigin}}: {{entry.address}}
@@ -118,8 +118,8 @@ section.col-xs-12.content(ng-controller="ContactsCtrl")
               rp-unique-field='name'
               rp-unique-orig='entry.name'
               ng-enter="update($index)")
-            .errorGroup(rp-errors='editname')
-              .error(rp-error-on='rpUnique', l10n)
+            .errorGroup(ng-messages='inlineName.editname.$error')
+              .error(ng-message='rpUnique', l10n)
                 | You already have a contact with the same name.
         div.col-md-4.col-sm-4.col-xs-12.address-wrapper
           ng-form(name='inlineAddress')
@@ -132,9 +132,9 @@ section.col-xs-12.content(ng-controller="ContactsCtrl")
               rp-dest, rp-dest-address, rp-dest-bitcoin
               rp-dest-email, rp-dest-check-federation, rp-dest-federation-model="entry.federation"
               ng-enter="update($index)")
-            .errorGroup(rp-errors='editaddress')
-              .error(rp-error-on='rpUnique', l10n) You already have this address.
-              .error(rp-error-on='rpDest', l10n) Not a valid address.
+            .errorGroup(ng-messages='inlineAddress.editaddress.$error')
+              .error(ng-message='rpUnique', l10n) You already have this address.
+              .error(ng-message='rpDest', l10n) Not a valid address.
             .form-group(ng-hide='entry.federation')
               label(for="contact_dt", l10n) Destination tag
               input.form-control.dt.inline#contact_dt(
@@ -144,8 +144,8 @@ section.col-xs-12.content(ng-controller="ContactsCtrl")
                 rp-stdt
                 rp-autofill='$routeParams.dt'
                 ng-enter="update($index)")
-              .errorGroup(rp-errors='dt')
-                .error(rp-error-on='rpStdt', l10n) Invalid destination tag.
+              .errorGroup(ng-messages='inlineAddress.dt.$error')
+                .error(ng-message='rpStdt', l10n) Invalid destination tag.
         div.col-md-5.col-sm-4.col-xs-12
           .row
             .col-xs-4.col-md-4

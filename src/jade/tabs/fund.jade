@@ -23,7 +23,7 @@ section.col-xs-12.content(ng-controller='FundCtrl')
             form.row-padding-small#trustForm(name='trustForm', ng-submit='grant()')
               .row
                 .col-xs-12.form-group
-                  label(for='trust_counterparty', ng-show="edituser") {{ edituser }}
+                  label(for='trust_counterparty', ng-show="edituser", ng-bind="edituser") 
                   input.form-control#trust_counterparty(
                     name='trust_counterparty', type='text', rp-combobox="counterparty_query"
                     rp-combobox-value-as-ripple-name
@@ -31,23 +31,21 @@ section.col-xs-12.content(ng-controller='FundCtrl')
                     ng-model='counterparty_view'
                     rp-dest, rp-dest-address, rp-dest-contact, rp-not-me, rp-dest-email
                     rp-dest-ripple-name, rp-dest-model="counterparty"
-                    rp-dest-loading="counterparty_loading"
                     required
                     rp-autofill='$routeParams.to'
                     rp-autofill-counterparty_view
                     rp-autofill-on='addform_visible = true'
-                    rp-focus, rp-spinner="{{counterparty_loading ? 4 : null}}")
-                  .errorGroup(rp-errors='trust_counterparty')
-                    div(rp-error-valid)
-                      .success(ng-show='counterparty != counterparty_address && counterparty_name && !error_account_reserve')
-                        | {{counterparty_address}}
+                    rp-focus, rp-spinner)
+                  .errorGroup(ng-messages='trustForm.trust_counterparty.$dirty && trustForm.trust_counterparty.$error')
+                    div(ng-show='trustForm.trust_counterparty.$valid')
+                      .success(ng-show='counterparty != counterparty_address && counterparty_name && !error_account_reserve', ng-bind="counterparty_address")
                       .error(ng-show='error_account_reserve')
                         span(l10n) Account does not meet the minimum XRP reserve.&#32;
                         a(href="https://ripple.com/wiki/Account_Creation", target="_blank", l10n)
                           | More information
-                    .error(rp-error-on='required', l10n) Please enter a Ripple name, contact, or address.
-                    .error(rp-error-on='rpNotMe', l10n) You've entered your own address.
-                    .error(rp-error-on='rpDest', l10n) Please enter a valid Ripple name, contact, or address.
+                    .error(ng-message='required', l10n) Please enter a Ripple name, contact, or address.
+                    .error(ng-message='rpNotMe', l10n) You've entered your own address.
+                    .error(ng-message='rpDest', l10n) Please enter a valid Ripple name, contact, or address.
               .row
                 .col-xs-12.form-group
                   label(for='trust_amount', l10n) Amount
@@ -68,13 +66,13 @@ section.col-xs-12.content(ng-controller='FundCtrl')
                         rp-autofill-on='addform_visible = true'
                         rp-not-xrp
                         required)
-                  .errorGroup(rp-errors='trust_amount')
-                    .error(rp-error-on='required', l10n) Amount field is required
-                  .errorGroup(rp-errors='trust_amount_currency')
-                    .error(rp-error-on='rpNotXrp', l10n)
+                  .errorGroup(ng-messages='trustForm.trust_amount.$dirty && trustForm.trust_amount.$error')
+                    .error(ng-message='required', l10n) Amount field is required
+                  .errorGroup(ng-messages='trustForm.trust_amount_currency.$dirty && trustForm.trust_amount_currency.$error')
+                    .error(ng-message='rpNotXrp', l10n)
                       | XRP can be sent without extending trust. If you really want
                       |  to trust in XRP, please use XRR currency code.
-                    .error(rp-error-on='required', l10n)
+                    .error(ng-message='required', l10n)
                       | Currency field is required
               .row
                 .col-xs-12.allow-rippling

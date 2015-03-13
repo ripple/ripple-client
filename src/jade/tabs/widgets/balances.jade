@@ -6,7 +6,7 @@
 
   div(rp-slide='showWidgetBalances')
     ul.fa-ul(ng-class="{'blank': !balances}")
-      li.currency-xrp(ng-click="entry.show=!entry.show")
+      li.currency-xrp(ng-click="entry.show=!entry.show", ng-init="entry.show=true")
         i.fa-li.fa-money
         h5 XRP
         div(ng-show="account.Balance")
@@ -81,9 +81,6 @@
                 rp-popover-delay
                 l10n-rp-popover-content="Balance<br>{{ component | rpamount:{precision: 30, rel_min_precision: -2, hard_precision: true} }} {{ entry.total | rpcurrency }}"
                 ) {{ component | rpamount:{tiny_precision: 3} }}
-
-    div.widget_loader(ng-show="showWidgetBalances && !balances")
-      img(src="img/sections.png", class="loader")
 
     p(ng-show="$route.current.tabName == 'balance'")
       a.btn.btn-cancel(href="#/trust", l10n) add gateway

@@ -49,7 +49,7 @@ section.col-xs-12.content(ng-controller='GoldCtrl')
             .description(l10n) All countries
         .col-md-3
             .title(l10n) Fees
-            .description(l10n) 0.5% per year&#32;
+            .description(l10n) 0.3%&#32;
         .col-md-3
             .title(l10n) Rating
             .description(l10n)
@@ -62,7 +62,7 @@ section.col-xs-12.content(ng-controller='GoldCtrl')
 
       .row.fund-tab-description
         .col-xs-7.col-sm-5.col-md-4
-          button.btn.btn-large(ng-show="!gbiConnected && !loading", type="submit", ng-click="save_account()", ng-disabled="!account.Balance") Add GBI
+          button.btn.btn-large(ng-show="!gbiConnected && !loading", type="submit", ng-click="save_account()", ng-disabled="!account.Balance || !can_add_trust") Add GBI
           button.btn.btn-large(ng-show="!gbiConnected && loading", type="submit", ng-disabled="loading") Adding...
           button.btn.btn-large(ng-show="showInstructions && gbiConnected", type="submit", ng-click="toggle_instructions()") Hide instructions
           button.btn.btn-large(ng-show="gbiConnected && !showInstructions", type="submit", ng-click="toggle_instructions()") Show instructions
@@ -80,7 +80,7 @@ section.col-xs-12.content(ng-controller='GoldCtrl')
           a.dismiss#hide(href="", ng-click="toggle_instructions()", l10n)  ×
           .title(l10n) Deposit
           .description(l10n) GBI does not currently support direct deposits. You can&#32;
-            a(href="#/trade") trade XAU(-.5%pa)
+            a(href="#/trade") trade XAU
             | &#32;or&#32;
             a(href="#/exchange") convert some of your current holdings
             | .

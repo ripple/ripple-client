@@ -1,0 +1,285 @@
+#t-fund, #t-xrp, #t-btc, #t-usd, #t-gold, #t-trust, #t-jpy, #t-brl, #t-mxn, #t-eur, #t-sgd, #t-aud, #t-nzd {
+    .currencies a {
+        display: block;
+        padding: 10px;
+        border-radius: 2px;
+        margin: 0 0 3px;
+        background: @lightgray;
+        i {
+            margin-right: 5px;
+            width: 13px;
+            text-align: center;
+        }
+        &:hover, &.active {
+            color: @lightgray;
+            text-decoration: none;
+            background: @midblue;
+            i:before {
+                color: @white;
+            }
+        }
+    }
+    .menu_item {
+        padding-top: 10px;
+        padding-bottom: 5px;
+    }
+    .first_menu_item {
+        padding-bottom: 5px;
+    }
+    .B2R-wrap {
+        font-size: 12px;
+        .dismiss {
+            float: right;
+            font-size: 14px;
+        }
+    }
+    .instructions {
+        display: block;
+        border-radius: 2px;
+        background: @lightgray;
+        margin: 15px;
+        border: 1px solid @midgray;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        .title {
+            font-family: OpenSansSemibold;
+            font-size: 14px;
+            font-weight: 600;
+            color: #1e1e1e;
+            text-transform: uppercase;
+        }
+    }
+    .fund-tab-description {
+        &.gateway {
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+        h4 {
+            font-family: OpenSansSemibold;
+            font-size: 14px;
+            font-weight: 600;
+            color: #1e1e1e;
+            text-transform: uppercase;
+        }
+        .description {
+            font-size: 14px;
+        }
+        .descriptor {
+            padding-bottom: 20px;
+        }
+        .connect {
+            line-height: 42px;
+            font-size: 14px;
+            i {
+                padding-right: 4px;
+            }
+            @media (max-width: @screen-xs-max) {
+                line-height: 36px;
+            }
+        }
+    }
+    .currency {
+        font-size: 18px;
+        margin: 0 0 0 5px;
+        color: darken(@darkgray, 15%);
+    }
+    .lbl {
+        font-size: 1.2em;
+        font-family: OpenSansBold;
+        .desc {
+            color: @darkgray;
+            font: 12px OpenSansLight;
+        }
+    }
+    .amount {
+        color: @darkblue;
+        .fraction {
+            font-family: OpenSansLight;
+            color: @lightgreen;
+        }
+        .currency {
+            font-family: OpenSansLight;
+            margin-left: 15px;
+        }
+    }
+    .total {
+        margin: 10px 0;
+        font-size: 15px;
+        .fraction {
+            font-size: 30px;
+        }
+        select.currency {
+            font-size: 20px;
+            padding-right: 20px;
+            border: none;
+            background: transparent url('../../img/dropdown_arrow.svg') no-repeat;
+            background-position: center right;
+            appearance: none;
+            moz-appearance: none;
+            -webkit-appearance: none;
+        }
+    }
+    .nameLine {
+        margin: 0 0 20px;
+        padding: 0 0 20px;
+        font: 28px OpenSansLight;
+        border-bottom: 1px solid @midgray;
+        .name {
+            font-weight: bold;
+        }
+    }
+    .fundXrp {
+        .address {
+            font-size: 14px;
+        }
+    }
+    .fundBtc {
+        .action {
+            margin-top: 20px;
+        }
+    }
+    .B2R {
+        border-top: none;
+        .instructions {} .btc-address {
+            font-size: 14px;
+            font-weight: bold;
+            color: @black;
+        }
+        .about {
+            float: left;
+            padding: 5px 15px;
+            width: 300px;
+            line-height: 30px;
+        }
+        .instructions-b2r {
+            font-size: 12px;
+        }
+        .btc-instructions {
+            font-size: 12px;
+        }
+        .active {
+            .qr-code {
+                height: 100px;
+                width: 100px;
+                background: @darkgray;
+                float: left;
+            }
+            .limit {
+                clear: both;
+                padding: 15px 0;
+                .amount {
+                    font-family: OpenSansBold;
+                    margin: 0 15px;
+                }
+                .remove {
+                    font: 11px OpenSansLight;
+                }
+            }
+            .instruction-value {
+                margin: 15px 0;
+                color: @black;
+                font-size: 16px;
+            }
+        }
+    }
+    .button-group {
+        text-align: center;
+    }
+    button {
+        text-align: center;
+        &:disabled {
+            background-color: @midblue;
+            color: #fff;
+            border-color: @midblue;
+        }
+    }
+    .description {
+        padding-bottom: 20px;
+    }
+    h5 {
+        font-weight: bold;
+    }
+    .ssText {
+        font-size: 14px;
+        font-family: OpenSansLight;
+        font-weight: 300;
+    }
+    .nameLine {
+        padding: 0 0 20px;
+        font: 28px OpenSansLight;
+        .name {
+            font-weight: bold;
+        }
+    }
+    #knoxFrame {
+        height: 600px;
+        border: 0;
+    }
+
+    .title {
+    font-family: OpenSansSemibold;
+    font-size: 14px;
+    color: #1e1e1e;
+    font-weight: 600;
+    text-transform: uppercase;
+    // padding-bottom: 5px;
+  }
+
+  .description {
+    font-size: 14px;
+    padding-bottom: 10px;
+    //border-right: thin solid @black;
+
+  }
+
+  .descriptor {
+    font-size: 14px;
+  }
+
+  button {
+    text-align: center;
+    border: 1px solid @midblue;
+    font-weight: bold;
+    background: @midblue;
+    color: @white;
+    width: 100%;
+
+    &:hover, &.active {
+      background: darken(@midblue, 15%);
+      border-color: darken(@midblue, 15%);
+    }
+  }
+
+  .connect{
+    ::before {
+      padding-right: 5px;
+    }
+  }
+
+  .dismiss {
+    float: right;
+  }
+
+  .gateway {
+    margin-left: 0;
+    padding-bottom: 20px;
+  }
+
+  .tos {
+    padding-bottom: 20px;
+    padding-left: 5px;
+  }
+  .description {
+    p {
+      margin: 0;
+    }
+  }
+    p {
+    margin: 0;
+  }
+  .btc-tab-description {
+    .connect {
+      line-height: normal;
+    }
+  }
+}
