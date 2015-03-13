@@ -58,11 +58,11 @@ section.col-xs-12.content(ng-controller="ContactsCtrl")
                 ng-model='contact.view'
                 rp-dest, rp-dest-address, rp-dest-bitcoin, rp-dest-ripple-name, rp-dest-ripple-name-no-tilde
                 rp-dest-email, rp-dest-check-federation, rp-dest-federation-model="contact.federation"
-                rp-dest-model="contact.address", rp-dest-loading="address_loading"
+                rp-dest-model="contact.address"
                 rp-unique='userBlob.data.contacts'
                 rp-unique-field='address'
                 rp-unique-group='address-dt-web'
-                rp-spinner="{{address_loading ? 4 : null}}"
+                rp-spinner
                 rp-autofill='$routeParams.to', rp-autofill-on='addform_visible = true'
                 required)
             .errorGroup(ng-messages='addForm.address_web.$dirty && addForm.address_web.$error')
