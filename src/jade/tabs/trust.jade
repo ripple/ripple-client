@@ -231,7 +231,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                   span(rp-address-popover, rp-address-popover-sum="component.limit_peer") {{ component.limit_peer | rpamount }}
                 .col-sm-1.col-xs-2(ng-show="globalOptions.advanced_feature_switch && component.limit_peer._offset !== '-100'", 
                                    ng-hide="component.limit_peer._offset == '-100' || !globalOptions.advanced_feature_switch")
-                  span(rp-address-popover, rp-address-popover-sum="component.limit_peer", rp-address-popover-sum-minus) -{{ component.limit_peer | rpamount }}
+                  span(rp-address-popover, rp-address-popover-sum="component.limit_peer", rp-address-popover-sum-minus) {{minVal}}
                 .col-sm-2.col-xs-2(ng-show="globalOptions.advanced_feature_switch")
                   div(ng-show="component.no_ripple", l10n) Off
                   div(ng-hide="component.no_ripple", l10n) On
