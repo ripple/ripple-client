@@ -348,7 +348,16 @@ TrustTab.prototype.angular = function (module)
 
   module.controller('AccountRowCtrl', ['$scope', 'rpBooks', 'rpNetwork', 'rpId', 'rpKeychain', '$timeout',
     function ($scope, books, network, id, keychain, $timeout) {
-
+      $scope.minVal = $scope.entry.components[0].limit_peer.to_human({rel_precision: 2});
+      // if($scope.minVal % 10 === 0) {
+      //   $scope.minVal = String($scope.minVal) + ".00";
+      //   console.warn($scope.minVal)
+      //   console.warn($scope.minVal)
+      // }
+      if($scope.minVal !== 0) {
+        $scope.minVal = -(1) * $scope.minVal;
+      }
+        $scope.minVal = Number($scope.minVal).toFixed(2);
       function setEngineStatus(res, accepted) {
         $scope.engine_result = res.engine_result;
         $scope.engine_result_message = res.engine_result_message;
