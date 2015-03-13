@@ -18,8 +18,7 @@ section.col-xs-12.content(ng-controller='DebugPretendCtrl')
           rp-spinner="{{pretend_loading ? 4 : null}}"
           )
       .errorGroup(ng-messages='debugPretendForm.pretendAddr.$error')
-        .success(ng-show='debugPretendForm.pretendAddr.$valid && pretend.pretendAs != pretend.address')
-          | {{pretend.address}}
+        .success(ng-show='debugPretendForm.pretendAddr.$valid && pretend.pretendAs != pretend.address', ng-bind='pretend.address')
         .error(ng-message='required', l10n) Please enter an address.
         .error(ng-message='rpDest', l10n) Not a valid address.
       .row.row-padding-small.amount

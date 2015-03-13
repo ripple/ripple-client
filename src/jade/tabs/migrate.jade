@@ -21,13 +21,13 @@ section.col-xs-12.content(ng-controller="MigrateCtrl")
           input.form-control#login_password(name='login_password', type='password'
             ng-model='password', required, rp-focus)
         .text-status(ng-show='status')
-          span {{status}}
+          span(ng-bind="status")
           br
-          span#error {{error}}
+          span#error(ng-bind="error")
           br
           .backend(ng-repeat="message in backendMessages")
             b {{message.backend}} &#32;
-            span {{message.message}}
+            span(ng-bind="message.message")
         .submit-btn-container
           button.btn.btn-submit.btn-block.btn-success(type='submit'
             ng-disabled="ajax_loading || loginForm.$invalid")

@@ -14,7 +14,7 @@ section.col-xs-12.content(ng-controller="AppsCtrl")
         hr
     div(ng-show="userBlob.data.apps", ng-repeat="app in userBlob.data.apps")
       .row
-        .col-sm-10 {{app.name}}
+        .col-sm-10(ng-bind="app.name") 
         .col-sm-2
           button.btn.btn-sm.btn-block.btn-danger(ng-click="remove(app.rippleAddress)") Remove
       .row
@@ -38,4 +38,4 @@ section.col-xs-12.content(ng-controller="AppsCtrl")
         button.btn.btn-block.btn-success(
           type='submit', ng-disabled='addForm.$invalid') Add
       .col-sm-2.success(ng-show="success && !error") Awesome!
-      .col-sm-2.error(ng-show="error") {{error}}
+      .col-sm-2.error(ng-show="error", ng-bind="error") 

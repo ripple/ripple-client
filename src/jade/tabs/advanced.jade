@@ -168,9 +168,9 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
                 a.btn.btn-cancel.btn-block(href="", ng-click="cancel()", ng-hide="noCancel()", l10n) cancel
             .row.advanced-form-row(ng-hide="editing")
               .col-xs-6.col-sm-5.col-md-3
-                .description {{server.host}}
+                .description(ng-bind="server.host") 
               .col-xs-3.col-sm-3.col-md-2.port-wrapper
-                .description {{server.port}}
+                .description(ng-bind="server.port") 
               .col-xs-3.col-sm-2.col-md-2#secureSocket
                 .description(ng-show="server.secure", l10n) Secure
                 .description(ng-hide="server.secure", l10n) Not Secure
