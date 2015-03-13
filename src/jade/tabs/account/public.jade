@@ -64,4 +64,4 @@ h4(l10n) Account settings
             a.btn.btn-cancel.btn-block(href="", ng-click="openForm=!openForm", l10n) cancel
 .section
   .descriptor#address(l10n) Ripple address
-  div {{address}}
+  div(ng-bind="address")

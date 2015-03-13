@@ -98,7 +98,7 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
               span.error.statusText(l10n)  Passwords do not match
         div(ng-show="")
           .form-group
-            div(class="strength {{strength}}") {{strength}}
+            div(class="strength {{strength}}", ng-bind="strength")
         .form-group(ng-class="{'field-error': registerForm.register_email.$error.email && registerForm.register_email.$dirty}")
           label(for='register_email') Email
           input.form-control#register_email(type="email", name="register_email"
@@ -123,7 +123,7 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
             .auth-attention(ng-show="registerForm.register_masterkey.$error.rpMasterAddressExists && masterkeyAddress") 
               div(l10n)
                 | The account ~
-                span {{ masterkeyUsername }} 
+                span(ng-bind="masterkeyUsername") 
                 //- span ({{ masterkeyAddress }})
                 |  has already been created using this secret key.
               a.btn.btn-primary.recovery(ng-href="#/recover/{{masterkeyUsername}}", l10n) Recover Account
@@ -210,7 +210,7 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
         div.secret-key
           span.fa.fa-key
           span(ng-hide="showSecret") •••••••••••••••••••••••••••••
-          span(ng-show="showSecret") {{keyOpen}}
+          span(ng-show="showSecret", ng-bind="keyOpen")
         a.secretText(href="", ng-click="showSecret=!showSecret")
           span(ng-hide="showSecret", l10n) Show secret key
           span(ng-show="showSecret", l10n) Hide secret key
@@ -233,8 +233,8 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
           span  2
         li.active(l10n) Step
           span  3
-      .auth-attention(l10n) We’ve sent an email to
-        span  {{userBlob.data.email}}
+      .auth-attention(l10n) We’ve sent an email to&#32;
+        span(ng-bind="userBlob.data.email")
         | . To complete registration, click the link in the email.
       .auth-attention(ng-show="resendSuccess", l10n) Email token has been resent.
       form(name="resendForm").row

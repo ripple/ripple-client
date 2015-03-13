@@ -22,7 +22,7 @@ section.col-xs-12.content(ng-controller='XrpCtrl')
             .address
               a(href="", ng-click="showRippleAddress=true"
                 ng-hide="showRippleAddress", l10n) Show address
-              div(ng-show="showRippleAddress") {{address}}
+              div(ng-show="showRippleAddress", ng-bind="address")
           .description(l10n) Ripple names are a new feature on Ripple! Use your
             |  Ripple name (~{{userCredentials.username}}) to receive money.
             |  You can still use your full Ripple address, and while we are
