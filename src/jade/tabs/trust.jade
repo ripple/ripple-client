@@ -324,10 +324,11 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                     .col-sm-7.col-md-6
                       .row.row-padding-small
                         .col-xs-6.col-sm-5
-                          button.btn.btn-block.btn-primary#save(type='submit'
-                            ng-disabled='accountForm.$invalid || trust.loading')
+                          button.btn.btn-block#save(type='submit'
+                            ng-disabled='accountForm.$invalid || trust.loading', ng-class="{ 'btn-danger':removing, 'btn-primary': !removing}")
                             span(ng-hide="trust.loading", l10n) Save
-                            span(ng-show="trust.loading", l10n) Saving...
+                            span(ng-show="trust.loading && saving", l10n) Saving...
+                            span(ng-show="trust.loading && removing", l10n) Removing...
                         .col-xs-3.col-sm-4.col-md-3(ng-hide="trust.loading")
                           .row.text-right
                             .col-xs-12(ng-show='trust.balance !== "0" && orderbookStatus === "exists"')

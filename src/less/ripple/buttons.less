@@ -52,7 +52,6 @@
 .btn-success {
 	margin-bottom: 5px;
 }
-
 .btn.btn-lg.btn-submit {
   font-size: 16px;
   line-height: 24px;
@@ -69,9 +68,9 @@
   padding-right: 10px;
 }
 .btn-nomargin-xs {
-	@media (max-width: @screen-xs-max) {
-		margin: 0; 
-	}
+  @media (max-width: @screen-xs-max) {
+    margin: 0; 
+  }
 }
 .btn-add-trust {
   float: right;
@@ -81,4 +80,12 @@
   padding-top: 14px;
   padding-bottom: 14px;
   font-size: 14px;
+}
+
+.btn-danger {
+  &:disabled {
+    color: @btn-danger-color;
+    background: @btn-danger-bg;
+    border: 1px solid @btn-danger-border;
+  }
 }
