@@ -29,7 +29,8 @@ ExchangeTab.prototype.angular = function (module)
     {
       var pathUpdateTimeout;
 
-      var timer, pf;
+      var timer;
+      var pf = null;
 
       // Remember user preference on Convert vs. Trade
       $rootScope.ripple_exchange_selection_trade = false;
@@ -159,7 +160,7 @@ ExchangeTab.prototype.angular = function (module)
           var lastUpdate;
 
           pf.on('update', function(upd) {
-            if (pf == null) {
+            if (pf === null) {
               // request came after calling pf.close();
               return;
             }
