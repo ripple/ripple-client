@@ -18,10 +18,10 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
           .status(ng-show="'error' === verifyStatus", l10n) Email verification token is invalid. It has either expired or has been resent. Please check your inbox for the most recent verification email.
         include login/form
         .text-status(ng-show='status')
-          span.loggingIn {{status}}
+          span.loggingIn(ng-bind="status")
           br
           .backend.error(ng-repeat="message in backendMessages")
-            span.error {{message}}
+            span.error(ng-bind="message")
         .submit-btn-container
           button.btn.btn-submit.btn-block.btn-success#loginBtn(type='submit',
             ng-disabled="ajax_loading || loginForm.$invalid", ng-hide="twoFactor")
@@ -46,7 +46,7 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
   .row.action-login(ng-if="$routeParams.to")
     .col-xs-12.col-sm-6.col-md-6
       div.info(ng-show="'send' == $route.current.tabName")
-        p.literal {{$routeParams.label}}
+        p.literal(ng-bind="$routeParams.label")
         div(ng-hide="$routeParams.amount", l10n)
           p(l10n-inc) You're sending money to
           .address {{ $routeParams.to | rpripplename:{tilde:true} }}
@@ -67,7 +67,7 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
           div(ng-show="$routeParams.currency", l10n-inc)
             | for
             .amount
-              span.currency {{$routeParams.currency}}
+              span.currency(ng-bind="$routeParams.currency")
           div(ng-show="$routeParams.amount", l10n-inc)
             | with a limit of
             .amount
@@ -75,7 +75,7 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
           | .
 
       div.info(ng-show="'contacts' == $route.current.tabName")
-        p.literal {{$routeParams.label}}
+        p.literal(ng-bind="$routeParams.label")
         span(l10n)
           p(l10n-inc) You're adding
           .address {{ $routeParams.to | rpripplename:{tilde:true} }}
@@ -87,10 +87,10 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
           include login/form
           .row
             .col-xs-12.text-status(ng-show='status')
-              span {{status}}
+              span(ng-bind="status")
               br
               .backend(ng-repeat="message in backendMessages")
-                span {{message}}
+                span(ng-bind="message")
           .row
             .col-xs-12
               button.btn.btn-lg.btn-submit.btn-block.btn-primary(type='submit', ng-disabled="loginForm.$invalid || ajax_loading", l10n)

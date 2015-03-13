@@ -96,7 +96,7 @@ section.col-xs-12.content(ng-controller="ContactsCtrl")
       ng-controller="ContactRowCtrl"
       ng-show='!debug')
     .col-xs-3.col-md-3.col-sm-3(ng-hide='editing')
-      span.name(ng-hide='editing') {{entry.name}}
+      span.name(ng-hide='editing', ng-bind="entry.name") 
     .col-xs-12.col-sm-6.col-md-6(ng-hide='editing')
       div
         b.hidden-xs {{entry.address | rpaddressorigin}}: {{entry.address}}

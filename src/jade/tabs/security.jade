@@ -68,7 +68,7 @@ section.col-xs-12.content(ng-controller="SecurityCtrl")
                       div.grey-focus
                         .row.modal-permissions
                           .col-xs-12.col-sm-4(l10n) - Your email address:
-                          .col-xs-12.col-sm-8.email {{userBlob.data.email}}
+                          .col-xs-12.col-sm-8.email(ng-bind="userBlob.data.email")
                         .row.modal-permissions
                           .col-xs-12.col-sm-4(l10n) - Your phone number:
                           include 2fa/form
@@ -151,7 +151,7 @@ section.col-xs-12.content(ng-controller="SecurityCtrl")
                       span(l10n) Passwords do not match
                   div(ng-show="")
                     .form-group
-                      div(class="strength {{strength}}") {{strength}}
+                      div(class="strength {{strength}}", ng-bind="strength")
                   .row
                     .col-xs-6.col-sm-6
                       button.btn.btn-success.btn-block(type="submit"
@@ -169,7 +169,7 @@ section.col-xs-12.content(ng-controller="SecurityCtrl")
             .row.row-padding-small-xs
               .col-xs-9.col-sm-8.col-md-6
                 .description
-                  span.value(ng-show="security.master_seed") {{security.master_seed}}
+                  span.value(ng-show="security.master_seed", ng-bind="security.master_seed")
                   span.value(ng-hide="security.master_seed") ••••••••••••••••••••••••••••••••••••••••••••
               .col-xs-3.col-sm-4.col-md-3
                 a.btn.btn-cancel(href="", ng-click="unmaskSecret()", ng-hide="security.master_seed", l10n) Show

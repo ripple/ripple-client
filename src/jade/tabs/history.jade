@@ -17,7 +17,7 @@ section.col-xs-12.content(ng-controller="HistoryCtrl")
               label(ng-class="{active: type.checked}")
                 i.fa.fa-plus(ng-show="type.checked")
                 i.fa.fa-minus(ng-hide="type.checked")
-                span.name {{type.name}}
+                span.name(ng-bind="type.name")
                 input(type="checkbox", name="type-filter", ng-model="type.checked")
       .filter.date-filter.row
         .col-xs-12.filters-wrapper
@@ -194,7 +194,7 @@ section.col-xs-12.content(ng-controller="HistoryCtrl")
                     | Add
                     strong  {{entry.transaction.counterparty | rpcontactname}}
                     |  to contact list
-        nav.paging(ng-if="pagination.count") {{pagination.pages}}
+        nav.paging(ng-if="pagination.count", ng-bind="pagination.pages")
           pagination.pagination-sm(total-items="pagination.count"
             ng-model="pagination.currentPage", items-per-page="pagination.transactionsPerPage"
             max-size="10", boundary-links="true")

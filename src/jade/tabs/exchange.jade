@@ -99,8 +99,8 @@ section.col-xs-12.content(ng-controller="ExchangeCtrl")
                     rp-pretty-issuer-or-short)
                   | )
           .row.pathupdate(ng-show="exchange.alternatives.length && lastUpdate")
-            .col-xs-12(l10n) Price last updated
-              span  {{lastUpdate}}
+            .col-xs-12(l10n) Price last updated&#32;
+              span(ng-bind='lastUpdate')
               span(ng-show="lastUpdate > '1'", l10n-inc)  seconds
               span(ng-show="lastUpdate == '1'", l10n-inc)  second
               |  ago
