@@ -78,32 +78,20 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                     rp-account-exists-loading="counterparty_loading"
                     rp-dest, rp-dest-address, rp-dest-contact, rp-not-me, rp-dest-email
                     rp-dest-ripple-name, rp-dest-model="counterparty"
-                    rp-dest-loading="counterparty_loading"
                     required
                     rp-autofill='$routeParams.to'
                     rp-autofill-counterparty_view
                     rp-autofill-on='addform_visible = true'
-                    rp-focus, rp-spinner="{{counterparty_loading ? 4 : null}}")
-                  .errorGroup(rp-errors='trust_counterparty')
-                    div(rp-error-valid)
-                      .success(ng-show='counterparty != counterparty_address && counterparty_name && !error_account_reserve')
-                        | {{counterparty_address}}
+                    rp-focus, rp-spinner)
+                  .errorGroup(ng-messages='trustForm.trust_counterparty.$dirty && trustForm.trust_counterparty.$error')
+                    div(ng-show='trustForm.trust_counterparty.$valid')
+                      .success(ng-show='counterparty != counterparty_address && counterparty_name && !error_account_reserve', ng-bind='counterparty_address')
                       .error(ng-show='error_account_reserve')
-                        span(l10n) Account does not meet the minimum XRP reserve.&#32;
-                        a(href="https://ripple.com/wiki/Account_Creation", target="_blank", l10n)
-                          | More information
-                    .error(rp-error-on='required', l10n) Please enter a Ripple name, contact, or address.
-                    .error(rp-error-on='rpNotMe', l10n) You've entered your own address.
-                    .error(rp-error-on='rpDest', l10n) Please enter a valid Ripple name, contact, or address.
-                    .error(rp-error-on='rpAccountExists', l10n) You cannot add an unfunded Ripple account as a gateway.
-              .errorGroup(rp-errors='trust_amount')
-                .error(rp-error-on='required', l10n) Amount field is required
-              .errorGroup(rp-errors='trust_amount_currency')
-                .error(rp-error-on='rpNotXrp', l10n)
-                  | XRP can be sent without extending trust. If you really want
-                  |  to trust in XRP, please use XRR currency code.
-                .error(rp-error-on='required', l10n)
-                  | Currency field is required
+                        span(l10n) This account does not meet the minimum XRP reserve, so you cannot use it as a gateway.
+                    .error(ng-message='required', l10n) Please enter a Ripple name, contact, or address.
+                    .error(ng-message='rpNotMe', l10n) You've entered your own address.
+                    .error(ng-message='rpDest', l10n) Please enter a valid Ripple name, contact, or address.
+                    .error(ng-message='rpAccountExists', l10n) You cannot add an unfunded Ripple account as a gateway.
               .row
                 .col-xs-12.form-group
                   label(for='trust_amount', ng-show="globalOptions.advanced_feature_switch", l10n) Amount
@@ -136,16 +124,16 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                         rp-autofill-on='addform_visible = true'
                         rp-not-xrp
                         required)
-                  .errorGroup(rp-errors='trust_amount')
-                    .error(rp-error-on='required', l10n) Amount field is required.
-                    .error(rp-error-on='rpAmount', l10n) Not a valid amount.
-                    .error(rp-error-on='rpAmountPositive', l10n) Amount must be greater than zero.
-                    .error(rp-error-on='rpMaxDigits', l10n) Your amount has too many digits. The max number of digits is 16.
-                  .errorGroup(rp-errors='trust_amount_currency')
-                    .error(rp-error-on='rpNotXrp', l10n)
+                  .errorGroup(ng-messages='trustForm.trust_amount.$dirty && trustForm.trust_amount.$error')
+                    .error(ng-message='required', l10n) Amount field is required.
+                    .error(ng-message='rpAmount', l10n) Not a valid amount.
+                    .error(ng-message='rpAmountPositive', l10n) Amount must be greater than zero.
+                    .error(ng-message='rpMaxDigits', l10n) Your amount has too many digits. The max number of digits is 16.
+                  .errorGroup(ng-messages='trustForm.trust_amount_currency.$dirty && trustForm.trust_amount_currency.$error')
+                    .error(ng-message='rpNotXrp', l10n)
                       | XRP can be sent without extending trust. If you really want
                       |  to trust in XRP, please use XRR currency code.
-                    .error(rp-error-on='required', l10n)
+                    .error(ng-message='required', l10n)
                       | Currency field is required
               .row(ng-show="globalOptions.advanced_feature_switch")
                 .col-xs-12.allow-rippling
@@ -178,7 +166,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                           span.modal-permissions(l10n-inc)  on your behalf
                         div.grey-focus(ng-hide="globalOptions.advanced_feature_switch", l10n)
                           span.modal-permissions(l10n-inc) - Hold&#32;
-                          span {{ currency }}
+                          span(ng-bind="currency")
                           span.modal-permissions(l10n-inc)  on your behalf
                         div.modal-buttons
                           button.modal-btn.btn.btn-default.btn-success.btn-md(data-dismiss="modal", ng-click="grant_confirmed()",
@@ -241,7 +229,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                   span(rp-address-popover, rp-address-popover-sum="component.limit_peer") {{ component.limit_peer | rpamount }}
                 .col-sm-1.col-xs-2(ng-show="globalOptions.advanced_feature_switch && component.limit_peer._offset !== '-100'", 
                                    ng-hide="component.limit_peer._offset == '-100' || !globalOptions.advanced_feature_switch")
-                  span(rp-address-popover, rp-address-popover-sum="component.limit_peer", rp-address-popover-sum-minus) -{{ component.limit_peer | rpamount }}
+                  span(rp-address-popover, rp-address-popover-sum="component.limit_peer", rp-address-popover-sum-minus, ng-bind="minVal")
                 .col-sm-2.col-xs-2(ng-show="globalOptions.advanced_feature_switch")
                   div(ng-show="component.no_ripple", l10n) Off
                   div(ng-hide="component.no_ripple", l10n) On

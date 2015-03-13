@@ -11,6 +11,7 @@ form(name="unlockForm", role="form", ng-submit="confirm()", ng-keyup="onKeyUp($e
       span(ng-switch-when="showSecret", l10n) Please enter your password to show your secret key.
       span(ng-switch-default, l10n) Please enter your password to confirm this transaction.
     .alert.alert-danger(ng-show="unlock.error == 'password'", l10n) This password is incorrect, please try again.
+    .alert.alert-danger(ng-show="unlock.error == 'server'", l10n) Your account cannot be accessed at the moment. Please try again later.
     p.literal(ng-show="unlock.isConfirming")
       img(src="img/button-s.png", class="loader")
       span(class="loading_text", l10n) Confirming password

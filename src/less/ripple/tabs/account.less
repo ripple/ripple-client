@@ -1,0 +1,130 @@
+#t-account, #t-public, #t-private {
+
+  .accountPage a {
+    display: block;
+    padding: 10px;
+    border-radius: 2px;
+    margin: 0 0 3px;
+    background: @lightgray;
+
+    &:hover, &.active {
+      color: @lightgray;
+      text-decoration: none;
+      background: @midblue;
+    }
+  }
+
+  #open_name_change {
+    float: left;
+    padding-left: 20px;
+  }
+
+  .nameLine {
+    margin: 0 0 20px;
+    padding: 0 0 20px;
+    font: 20px OpenSansLight;
+
+    .name {
+      font-weight: bold;
+    }
+  }
+
+  .descriptor {
+    color: @darkgray;
+    margin: 0 0 20px;
+    border-top: 1px solid @midgray;
+    padding-top: 20px;
+    color: @darkgray;
+  }
+
+  .edit {
+    padding-top: 0;
+  }
+
+  .username {
+    color: @black;
+    line-height: 42px;
+    font-family: OpenSansRegular;
+    @media (max-width: @screen-xs-max) {
+      line-height: 36px;
+    }
+  }
+
+
+
+  #nameChangeForm {
+    margin: 10px 0 0 0;
+
+  }
+
+  .auth-form-container {
+    padding-bottom: 0;
+  }
+  .public-account-row {
+    margin-bottom: 10px;
+  }
+  #renameForm {
+    width: 400px;
+    padding-top: 20px;
+    padding-bottom: 30px;
+
+    .form-group {
+
+
+      label {
+        color: @darkgray;
+      }
+
+      label[for=password]{
+        padding-top: 20px;
+      }
+      .input-group {
+        .input-group-addon:first-child {
+          background: @midblue;
+          border-color: @midblue;
+          color: @white;
+
+        }
+      }
+    }
+    @media (max-width: @screen-xs-max) {
+      width: 100%;
+      display: inline-block;
+      padding-right: 15px;
+      padding-left: 15px;
+      #open_name_change {
+        padding-left: 0;
+      }
+    }
+  }
+
+  .sessionUnlock {
+    margin-left: 15px;
+
+      label {
+        margin-top: 15px
+      }
+
+      button.spinner {
+        padding-left:0;
+      }
+  }
+
+  .confirm2FA {
+    margin-top:20px;
+    margin-bottom:20px;
+  }
+
+  .verify2FA {
+    margin-bottom:10px;
+
+    .status {
+      margin:20px 0;
+    }
+
+     button.spinner {
+      padding-left:0;
+    }
+  }
+
+}

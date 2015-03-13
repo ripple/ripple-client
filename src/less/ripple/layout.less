@@ -36,6 +36,16 @@ body {
   margin-top: 20px;
 }
 
+#section_loader {
+    color: @midgray;
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+} 
+
 body.loaded #version,
 body.loaded #versionbranch {
   display: none;
@@ -612,6 +622,14 @@ footer {
   }
 }
 
+.serverStatus {
+  padding: 6px;
+  margin: 25px 0;
+  display: inline-block;
+  border-radius: 6px;
+  background: #cccccc;
+}
+
 /* animation for png loader */
 @keyframes rotating {
   from {
@@ -653,4 +671,48 @@ footer {
   animation: rotating 1s linear infinite;
 }
 
+.animation-keyframes (color-change, #4dae4c, #81d181, online, ease-in-out, 2s, infinite, alternate);
+.animation-keyframes (color-change2, #fbdfa0, #feca5d, mediumLoad, ease-in-out, 2s, infinite, alternate);
+.animation-keyframes (color-change3, #cb514f, #e38c8f, highLoad, ease-in-out, 2s, infinite, alternate);
 
+.from (color-change, @color) {
+  background: @color;
+}
+.to (color-change, @color) {
+  background: @color;
+}
+
+.keyframes (@name, @from, @to, @vendor:"", @bind:"") {
+  @keyf: ~"@{bind}@@{vendor}keyframes @{name} { `'\n'`from ";
+  @{keyf} {
+      .from(color-change,@from);
+        }
+      to {
+        .to(color-change,@to);
+      }
+}
+
+// keyframes without any vendor prefix
+.animation-keyframes-novendor (@name, @from, @to, @anim-selector) {
+  .keyframes (@name, @from, @to);
+  @anim: ~"} `'\n'`.@{anim-selector}";
+  @{anim} {
+    animation-name:@name;
+  }
+}
+
+// keyframes with vendor prefix
+.animation-keyframes (@name, @from, @to, @anim-selector, @func, @duration, @iteration-count, @direction) {
+  @bind: "} `'\n'`";
+  .keyframes (@name, @from, @to, "-moz-");
+  .keyframes (@name, @from, @to, "-webkit-", @bind);
+  .keyframes (@name, @from, @to, "-o-", @bind);
+  .keyframes (@name, @from, @to, "", @bind);
+  @anim: ~"} `'\n'`.@{anim-selector}";
+  @{anim} {
+    -moz-animation: @name @func @duration @iteration-count @direction;
+    -webkit-animation: @name @func @duration @iteration-count @direction;
+    -o-animation: @name @func @duration @iteration-count @direction;
+    animation: @name @func @duration @iteration-count @direction;
+  }
+}

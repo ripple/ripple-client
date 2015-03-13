@@ -1,0 +1,172 @@
+#t-balance {
+
+  .content {
+    padding-top: 0;
+  }
+
+  #welcome {
+    font: 18px 'OpenSansLight';
+    margin: 0 0 10px;
+    text-align: center;
+    background: @lightgreen;
+    padding: 50px;
+
+    .title {
+      font: 18px 'OpenSansBold';
+    }
+
+    .actions {
+      margin: 40px 0 0 0;
+
+      a,span {
+        display: inline-block;
+        width: 190px;
+        height: 270px;
+        background-image: url(../img/spritex.png);
+        margin: 0 15px;
+      }
+      .receive {
+        background-position: -2px -535px;
+      }
+      .buy {
+        background-position: -2px -263px;
+      }
+      .giveaway {
+        background-position: -2px -1079px;
+      }
+      .gateway {
+        background-position: -2px -807px;
+      }
+    }
+  }
+
+  .component, .B2R {
+    font-family: OpenSansLight;
+    font-size: 16px;
+    line-height: 35px;
+    color: @darkgray;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-top: 1px solid @midgray;
+
+    .transfer {
+      float: right;
+
+      a {
+        font-size: 12px;
+        margin: 0 5px;
+        padding: 0 2px;
+        border-bottom: 3px solid transparent;
+        line-height: 16px;
+        text-decoration: none;
+      }
+
+      a.selected, a:hover{
+        border-color: @darkgray;
+        cursor: pointer;
+      }
+    }
+
+    .inactive {
+      padding-bottom: 15px;
+
+      label {
+        font: 14px OpenSansLight;
+        line-height: 25px;
+        color: @black;
+        margin-bottom: 15px;
+      }
+    }
+
+    .active {
+      .limit {
+        clear: both;
+        padding: 15px 0;
+
+        .amount {
+          font-family: OpenSansBold;
+          margin: 0 15px;
+        }
+
+        .remove {
+          font: 11px OpenSansLight;
+        }
+      }
+
+      .instruction-value {
+        margin: 15px 0;
+        color: @black;
+        font-size: 16px;
+      }
+    }
+
+    .head {
+      overflow: hidden;
+      @media (max-width: @screen-xs-max){
+        font-size: 12px;
+      }
+      .status {
+        margin: 0 20px;
+        font: 10px OpenSansRegular;
+        padding: 3px 20px;
+        .rounded(2px);
+        background: @midgray;
+        border: 1px solid @darkgray;
+
+        &.unverified {
+          color: @midred;
+          background: @lightyellow;
+          border-color: @midgray;
+        }
+      }
+      .balance-text-wrapper {
+        text-overflow: ellipsis;
+        overflow: hidden;
+      }
+
+    }
+
+    .add, .withdraw {
+      font-size: 14px;
+      color: @black;
+      border-top: 1px solid @midgray;
+      line-height: 20px;
+      padding: 15px 25px;
+      font-family: OpenSansRegular;
+      margin-top: 5px;
+
+      button {
+        margin: 5px 0;
+      }
+
+      .message {
+        margin: 5px 0;
+      }
+
+      label {
+        font: 14px OpenSansLight;
+        line-height: 25px;
+      }
+    }
+
+    .withdraw {
+
+      .errorGroups {
+        min-height: 20px;
+      }
+
+      .step2 {
+
+        .amount {
+          font-family: OpenSansBold;
+          color: @black;
+        }
+
+        .btc_address {
+          font: 18px OpenSansRegular;
+          margin: 10px 0 30px;
+        }
+      }
+    }
+  }
+}

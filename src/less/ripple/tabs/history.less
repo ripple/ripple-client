@@ -1,0 +1,308 @@
+#t-history {
+  #section_loader {
+    color: @midgray;
+    text-align: center;
+    margin: 50px 0 0 0;
+  }
+
+  @bg: @lightgray;
+
+  .filters {
+    margin: 0;
+
+    .filter {
+      margin-bottom: 10px;
+
+      .filter-title {
+        display: block;
+        font: 16px OpenSansLight;
+        padding: 10px;
+        border-bottom: 1px solid @midgray;
+        text-decoration: none;
+      }
+
+      .filter-description {
+        margin-top: 10px;
+        font: 12px OpenSansLight;
+        color: @darkgray;
+      }
+
+      .filter-choices {
+        margin-top: 10px;
+      }
+
+      .input-group {
+        margin: 0 0 10px;
+
+        i.fa-fw {
+          margin-right: 5px;
+        }
+      }
+    }
+  }
+
+  .type-filter, .date-filter {
+
+    i {
+      margin: 0 10px 0 0;
+    }
+
+    label {
+      width: 100%;
+      background: @lightgray;
+      padding: 6px 10px;
+      cursor: pointer;
+      text-transform: capitalize;
+      color: @darkgray;
+      font-size: 14px;
+      border: 1px solid darken(@lightgray,3%);
+
+      .count {
+        float: right;
+        margin: -8px -15px;
+        background: @lightgray;
+        padding: 8px 12px;
+      }
+
+      &.active {
+        color: @black;
+        background: @lightblue;
+        border: 1px solid @lightblue;
+
+        .count {
+          float: right;
+          margin: -8px -15px;
+          background: @midblue;
+          padding: 8px 12px;
+        }
+      }
+
+      input {
+        display: none;
+      }
+    }
+  }
+
+  .transactions {
+    .emptyHistory {
+      padding: 10px;
+      font: 16px OpenSansLight;
+      text-align: center;
+    }
+
+    .head {
+      display: inline-block;
+      width: 100%;
+      padding-bottom: 10px;
+      border-bottom: 1px solid @midgray;
+      margin-bottom: 30px;
+      margin-left: 0;
+
+      .dt {
+        margin: 0 0 0 23px;
+        width: 170px;
+      }
+    }
+    .export-btn-wrapper {
+      padding: 6px;
+      @media (max-width: @screen-xs-max) {
+        margin-bottom: 20px;
+      }
+    }
+    .message {
+      background-color: @lightgray;
+      padding: 10px;
+    }
+
+    & > div > ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+
+      & > li {
+        padding: 0 0 0 5px;
+        margin: 5px 0;
+        cursor: pointer;
+        background-color: @midgray;
+
+        .info {
+          display: inline-block;
+          width: 100%;
+          background-color: @lightgray;
+          @media (max-width: @screen-xs-max) {
+            font-size: 11px;
+          }
+          & > span {
+            display: inline-block;
+            line-height: 22px;
+            padding: 9px 0;
+            vertical-align: top;
+          }
+
+          span.address, span.amount {
+            font-weight: bold;
+          }
+        }
+
+        .cont {
+          padding: 10px;
+          background-color: @lightgray;
+        }
+        &.sent {
+          background: @midgreen;
+        }
+        &.received {
+          background: @midgreen;
+        }
+        &.trusted {
+          background: @darkgray;
+        }
+        &.trusting {
+          background: @darkgray;
+        }
+        &.accountset {
+          background: @midgray;
+        }
+        &.failed, &.error {
+          background: @midred;
+        }
+
+        .i {
+          padding: 0 10px 0 0;
+          display: inline-block;
+          text-align: center;
+        }
+
+        .top {
+          overflow: auto;
+
+          .i, .desc {
+            float: left;
+          }
+          .dt {
+            float: right;
+          }
+        }
+
+        .effects > li > span {
+          font-size: 12px;
+        }
+
+        .details {
+          padding: 10px 0 0;
+          @media (max-width: @screen-xs-max) {
+            font-size: 12px;
+          }
+          .effects {
+            border-top: 1px solid @midgray;
+            border-bottom: 1px solid @midgray;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+
+            & > .title {
+              display: block;
+              margin: 0 0 10px;
+            }
+
+            .effect {
+              &.header {
+                font-weight: bold;
+              }
+              & > span {
+                display: inline-block;
+              }
+
+              .description {
+                width: 25%;
+              }
+              .issuer {
+                width: 35%;
+              }
+              .amount {
+                width: 20%;
+                text-align: right;
+              }
+              .balance {
+                width: 20%;
+                text-align: right;
+              }
+            }
+
+            @media (max-width: 1023px) {
+              .effect {
+                padding: 10px 0;
+                border-top: 1px solid @midgray;
+
+                &.header {
+                  display: none;
+                }
+
+                span {
+                  display: block;
+                  width: auto !important;
+                  text-align: left !important;
+                }
+                span:before {
+                  display: inline-block;
+                  width: 150px;
+                  font-weight: bold;
+                  content: " "attr(data-label);
+                }
+              }
+            }
+
+            @media (max-width: 600px) {
+              .effect {
+                span:before {
+                  display: block;
+                  font-weight: bold;
+                  content: " "attr(data-label);
+                }
+              }
+            }
+          }
+
+          .links {
+            display: inline-block;
+            width: 100%;
+            @media (max-width: @screen-xs-max) {
+              font-size: 10px;
+            }
+            .txLink {
+              float: left;
+            }
+            .addLink {
+              float: right;
+            }
+
+            @media (max-width: 600px) {
+              a {
+                display: block;
+                float: none !important;
+                background: @midgray;
+                padding: 10px;
+                margin: 5px 0;
+              }
+            }
+          }
+        }
+      }
+
+      .add {
+        display: none;
+      }
+
+      .effects {
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
+      }
+    }
+
+  }
+
+  nav.paging {
+    text-align: right;
+  }
+}

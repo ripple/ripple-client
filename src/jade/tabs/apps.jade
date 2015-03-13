@@ -14,7 +14,7 @@ section.col-xs-12.content(ng-controller="AppsCtrl")
         hr
     div(ng-show="userBlob.data.apps", ng-repeat="app in userBlob.data.apps")
       .row
-        .col-sm-10 {{app.name}}
+        .col-sm-10(ng-bind="app.name") 
         .col-sm-2
           button.btn.btn-sm.btn-block.btn-danger(ng-click="remove(app.rippleAddress)") Remove
       .row
@@ -29,13 +29,13 @@ section.col-xs-12.content(ng-controller="AppsCtrl")
           l10n-placeholder="App Ripple Address"
           ng-model='app.rippleAddress'
           required, rp-dest, rp-dest-address)
-        .errorGroup(rp-errors='rippleAddress')
-          .error(rp-error-on='required', l10n)
+        .errorGroup(ng-messages='addForm.rippleAddress.$dirty && addForm.rippleAddress.$error')
+          .error(ng-message='required', l10n)
             | Please enter a ripple address.
-          .error(rp-error-on='rpDest', l10n)
+          .error(ng-message='rpDest', l10n)
             | Please enter a valid ripple address.
       .col-sm-2
         button.btn.btn-block.btn-success(
           type='submit', ng-disabled='addForm.$invalid') Add
       .col-sm-2.success(ng-show="success && !error") Awesome!
-      .col-sm-2.error(ng-show="error") {{error}}
+      .col-sm-2.error(ng-show="error", ng-bind="error") 

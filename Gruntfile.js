@@ -12,6 +12,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-webpack');
   grunt.loadNpmTasks('grunt-preprocess');
   grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-contrib-imagemin');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-copy');
@@ -32,6 +33,7 @@ module.exports = function(grunt) {
               'deps/js/downloadify.js',
               'deps/js/angular/angular.js',
               'deps/js/angular-route/angular-route.js',
+              'deps/js/angular-messages/angular-messages.js',
               'deps/js/store.js/store.js',
               'deps/js/d3/d3.js',
               'deps/js/ripple/ripple-debug.js',
@@ -46,7 +48,6 @@ module.exports = function(grunt) {
               'deps/js/spin.js/spin.js',
               'deps/js/snapjs/snap.js',
               'deps/js/ng-sortable/dist/ng-sortable.js',
-              'deps/js/charts/ticker.js',
               'deps/js/charts/pricechart.js'];
 
   var compatIE = ['compat/ie/base64/base64.js',
@@ -298,6 +299,17 @@ module.exports = function(grunt) {
         ]
       }
     },
+    imagemin: {
+      // note, this is done after 'copy' task so as not to rewrite the original img files
+      dynamic: {
+        files: [{
+          expand: true,
+          cwd: 'build/bundle/web/img/',
+          src: ['**/*.{png,svg,gif}'],
+          dest: 'build/bundle/web/img/'
+        }]
+      }
+    },
     jade_l10n_extractor: {
       templates: {
         options: {
@@ -315,17 +327,17 @@ module.exports = function(grunt) {
       },
       scriptsDebug: {
         files: ['src/js/**/*.js', 'src/jade/**/*.jade'],
-        tasks: ['webpack:webDebug', 'copy'],
-        options: { nospawn: true, livereload: true }
+        tasks: ['version', 'versionBranch', 'webpack:webDebug', 'copy'],
+        options: { spawn: false, livereload: true }
       },
       deps: {
         files: deps,
-        tasks: ['uglify:deps', 'uglify:individualDeps', 'concat:depsDebug', 'copy'],
+        tasks: ['version', 'versionBranch', 'uglify:deps', 'uglify:individualDeps', 'concat:depsDebug', 'copy'],
         options: { livereload: true }
       },
       styles: {
         files: 'src/less/**/*.less',
-        tasks: ['recess', 'copy'],
+        tasks: ['version', 'versionBranch', 'recess', 'copy'],
         options: { livereload: true }
       },
       index: {
@@ -359,6 +371,14 @@ module.exports = function(grunt) {
               connect.static(options.base)
             ];
           }
+        }
+      },
+      sauce: {
+        options: {
+          hostname: 'localhost',
+          port: 9001,
+          base: 'build/bundle/web',
+          keepalive: true
         }
       }
     },
@@ -417,7 +437,8 @@ module.exports = function(grunt) {
           'Options',
           'ripple',
           'setImmediate',
-          'store'
+          'store',
+          'rippleVaultClient'
         ]
       },
       plugins: [
@@ -435,7 +456,7 @@ module.exports = function(grunt) {
         ]
       },
       output: {
-        filename: 'web/<%= pkg.name %>-debug.js'
+        filename: 'web/<%= pkg.name %>-<%= meta.version %>-debug.js'
       },
       debug: true,
       devtool: 'eval',
@@ -455,7 +476,7 @@ module.exports = function(grunt) {
         ]
       },
       output: {
-        filename: 'web/<%= pkg.name %>-' + language.code + '.js'
+        filename: 'web/<%= pkg.name %>-<%= meta.version %>-' + language.code + '.js'
       },
       optimize: {
         // TODO Minimization breaks our l10n mechanisms
@@ -477,7 +498,8 @@ module.exports = function(grunt) {
                                  'webpack',
                                  'recess',
                                  'deps',
-                                 'copy']);
+                                 'copy',
+                                 'imagemin']);
 
   // Dev - builds the web version of the client excluding any locales
   // Be sure to use English version for testing

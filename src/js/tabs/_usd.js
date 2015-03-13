@@ -1,5 +1,6 @@
 var util = require('util'),
-    Tab = require('../client/tab').Tab;
+    Tab = require('../client/tab').Tab,
+    settings = require('../util/settings');
 
 var UsdTab = function ()
 {
@@ -191,8 +192,8 @@ UsdTab.prototype.angular = function (module)
         var noNeed;
         _.each(
           // Find all trust transactions in queue
-          _.findWhere($scope.userBlob.data.txQueue, {type: "TrustSet"}),
-          function(elm,index,txInQueue){
+          _.findWhere(settings.getSetting($scope.userBlob, 'txQueue'), {type: "TrustSet"}),
+          function(elm, index, txInQueue) {
             // Does this fulfil our needs?
             noNeed = txInQueue && txInQueue.details.currency === currency
             && txInQueue.details.issuer === issuer

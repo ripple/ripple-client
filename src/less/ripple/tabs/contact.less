@@ -1,0 +1,74 @@
+#t-contacts {
+
+  .head {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    line-height: 30px;
+
+    div i {
+      padding-top: 10px;
+      padding-bottom: 10px;
+      line-height: 10px;
+      color: @midgray;
+      float: right;
+      display: inline-block;
+    }
+
+    i.sorted {
+      color: @black;
+    }
+
+    cursor: pointer;
+  }
+
+  .addForm {
+    background: @lightgray;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    margin-top: -10px;
+    margin-bottom: 10px;
+    margin-right: 0;
+    margin-left: 0;
+  }
+
+  .contact {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    line-height: 40px;
+    .edit-contact-btn-wrapper {
+      div {
+        float: inherit;
+        display: inline-block;
+      }
+    }
+    &.editing {
+      background: @lightgray;
+      margin-right: 0;
+      margin-left: 0;
+      margin-bottom: 20px;
+      input {
+        margin: 0;
+      }
+      label {
+        line-height: normal;
+      }
+    }
+    .contact-input-wrapper {
+      .inline-name-form {
+        display: inline-block;
+        width: 100%;
+        margin-bottom: 15px;
+      }
+    }
+
+    @media (max-width: @screen-xs-max) {
+      .name {
+        font-weight: bold;
+      }
+    }
+  }
+
+  .danger {
+    line-height: 42px;
+  }
+}

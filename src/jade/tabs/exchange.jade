@@ -6,7 +6,9 @@ section.col-xs-12.content(ng-controller="ExchangeCtrl")
     p.literal(l10n) You have to be online to see this screen
 
   group.disconnected(ng-hide="!connected || loadState.account")
-    p.literal(l10n) Loading...
+    div(id="section_loader")
+      img(src="img/sections.png", class="loader")
+      div(class="loading_sections", l10n) Loading... 
 
   div(ng-show="!loadingAccount && !account.Balance && loadState.account && connected")
     include banner/unfunded
@@ -16,13 +18,13 @@ section.col-xs-12.content(ng-controller="ExchangeCtrl")
 
   //- Connected
 
-  .row(ng-show='connected && !debug')
+  .row(ng-show='connected && !debug && account.Balance')
     .widgets.hidden-xs.col-sm-4.col-md-4.col-lg-3
       include widgets/balances
     .col-xs-12.col-sm-8.col-md-8.col-lg-9
       .nameLine(l10n) Buy (Market Order)
       .instructions(l10n) Submit a buy order at the current market rate. Orders will execute instantly.
-      form.mode-form#exchangeForm(name="exchangeForm", ng-show='mode=="form" && account.Balance', ng-submit='exchange_prepared()')
+      form.mode-form#exchangeForm(name="exchangeForm", ng-show='mode=="form"', ng-submit='exchange_prepared()')
         .form-group
           label(for='amount', l10n="Receive (amount)") I want to buy
           .row.row-padding-small.amount
@@ -48,14 +50,14 @@ section.col-xs-12.content(ng-controller="ExchangeCtrl")
             .col-sm-3.col-md-3.col-xs-12
               button.btn.btn-cancel.btn-block(ng-click="gotoFund()", l10n)
                 | add gateway
-          .errorGroup(rp-errors='amount')
-            .error(rp-error-on='required', l10n) Please enter an amount.
-            .error(rp-error-on='rpAmount', l10n) Not a valid amount.
-            .error(rp-error-on='rpAmountXrpLimit', l10n)
+          .errorGroup(ng-messages='exchangeForm.amount.$dirty && exchangeForm.amount.$error')
+            .error(ng-message='required', l10n) Please enter an amount.
+            .error(ng-message='rpAmount', l10n) Not a valid amount.
+            .error(ng-message='rpAmountXrpLimit', l10n)
               | You are either trying to buy too little or too much XRP.
               | Minimum amount is 0.000001 XRP and maximum amount is 100 billion XRP.
-            .error(rp-error-on='rpMaxDigits', l10n) Your amount has too many digits. The max number of digits is 16.
-            .error(rp-error-on='rpAmountPositive', l10n)
+            .error(ng-message='rpMaxDigits', l10n) Your amount has too many digits. The max number of digits is 16.
+            .error(ng-message='rpAmountPositive', l10n)
               | Please enter an amount greater than zero.
           p.literal(ng-show="exchange.path_status == 'waiting'")
           p.literal(ng-show="exchange.path_status == 'pending'", l10n)
@@ -86,7 +88,7 @@ section.col-xs-12.content(ng-controller="ExchangeCtrl")
                     rp-pretty-issuer-or-short)
                 .ex (
                   span.rate {{alt.rate | rpamount:{rel_precision: 4} }}
-                  span.pair {{exchange.currency_code}}/{{alt.amount | rpcurrency}}
+                  span.pair {{alt.amount | rpcurrency}}/{{exchange.currency_code}}
                   )
               button.btn.btn-block.btn-success(type="submit", ng-disabled='exchangeForm.$invalid', ng-click="exchange.alt = alt", l10n)
                 | Sell {{ alt.amount | rpcurrency }}
@@ -97,8 +99,8 @@ section.col-xs-12.content(ng-controller="ExchangeCtrl")
                     rp-pretty-issuer-or-short)
                   | )
           .row.pathupdate(ng-show="exchange.alternatives.length && lastUpdate")
-            .col-xs-12(l10n) Price last updated
-              span  {{lastUpdate}}
+            .col-xs-12(l10n) Price last updated&#32;
+              span(ng-bind='lastUpdate')
               span(ng-show="lastUpdate > '1'", l10n-inc)  seconds
               span(ng-show="lastUpdate == '1'", l10n-inc)  second
               |  ago
@@ -116,19 +118,21 @@ section.col-xs-12.content(ng-controller="ExchangeCtrl")
         span(l10n)
           p.literal(l10n-inc) You are selling
           p.amount_feedback
-            span.value {{exchange.alt.amount | rpamount}}&#32;
+            span.value {{exchange.alt.amount | rpamount}} &#32;
             span.currency {{exchange.alt.amount | rpcurrency}}
           p.literal(l10n-inc) for
-          p.amount_feedback
-            span.value {{exchange.amount_feedback | rpamount}}&#32;
-            span.currency {{exchange.amount_feedback | rpcurrency}}
+          p.amount_feedback(rp-pretty-amount='exchange.amount_feedback')
           p.literal(l10n-inc) You will sell at most
           p.amount_feedback
-            span.value {{exchange.alt.amount | rpamount}}&#32;
+            span.value {{exchange.alt.amount | rpamount}} &#32;
             span.currency {{exchange.alt.amount | rpcurrency}} &#32;
             span &plus; .1%
-          span.literal(l10n-inc) Ripple network fee: 
-          span.literal(rp-pretty-amount='networkFee')
+          p
+            span.literal(l10n-inc) Exchange rate: &#32;
+            span.value {{exchange.alt.rate | rpamount:{rel_precision: 4} }} &#32;
+            span.currency {{exchange.alt.amount | rpcurrency}}/{{exchange.currency_code}}
+          span.literal(l10n-inc) Ripple network fee: &#32;
+          span.currency(rp-pretty-amount='networkFee')
           form.call-to-action(ng-submit='exchange_confirmed()')
             p.literal(l10n-inc) Are you sure?
             .row.row-padding-small

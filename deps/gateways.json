@@ -31,7 +31,7 @@
         "name": "SnapSwap",
         "accounts": [{
             "address": "rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q",
-            "currencies": ["USD","BTC","EUR","GBP"],
+            "currencies": ["USD", "BTC", "EUR", "GBP"],
             "hotwallets": ["rUQTpMqAF5jhykj4FExVeXakrZpiKF6cQV", "rhasPLL5GaXzBh5amQkN7Dr1SNF4Whb2ZT"]
             }]
     }, {
@@ -59,7 +59,7 @@
         "name": "Justcoin",
         "accounts": [{
             "address": "rJHygWcTLVpSXkowott6kzgZU6viQSVYM1",
-            "currencies": ["LTC", "BTC","STR","EUR","NOK"],
+            "currencies": ["LTC", "BTC", "STR", "EUR", "NOK"],
             "hotwallets": []
             }]
     }, {
@@ -73,7 +73,7 @@
         "name": "RippleSingapore",
         "accounts": [{
             "address": "r9Dr5xwkeLegBeXq6ujinjSBLQzQ1zQGjH",
-            "currencies": ["SGD"],
+            "currencies": ["XAU", "XAG", "XPT", "SGD"],
             "hotwallets": []
             }]
     }, {
@@ -87,14 +87,14 @@
         "name": "Bitso",
         "accounts": [{
             "address": "rG6FZ31hDHN1K5Dkbma3PSB5uVCuVVRzfn",
-            "currencies": ["MXN","BTC"],
+            "currencies": ["MXN", "BTC"],
             "hotwallets": ["rHZaDC6tsGN2JWGeXhjKL6664RNCq5hu4B"]
             }]
     }, {
         "name": "Coinex",
         "accounts": [{
             "address": "rsP3mgGb2tcYUrxiLFiHJiQXhsziegtwBc",
-            "currencies": ["NZD","BTC","USD","AUD", "STR"],
+            "currencies": ["NZD", "BTC", "USD", "AUD", "STR"],
             "hotwallets": ["rGAmy1w1ENyTJ9BCAEicYyRM2Yk1iWZ7Z5"],
             "domain": "coinexgateway.com"
             }]
@@ -102,7 +102,7 @@
         "name": "RippleLatAm",
         "accounts": [{
             "address": "rP5ShE8dGBH6hHtNvRESdMceen36XFBQmh",
-            "currencies": ["BRL","UYU","PEN","MXN","BTC","LTC","USD","CLP","ARS"],
+            "currencies": ["BRL", "UYU", "PEN", "MXN", "BTC", "LTC", "USD", "CLP", "ARS"],
             "hotwallets": ["raoFdQah8c8owTj4TPMr8o1WntnXybXCgB"],
             "domain": "ripplelatam.com"
             }]
@@ -110,16 +110,11 @@
         "name": "GBI",
         "accounts": [{
             "address": "rrh7rf1gV2pXAoqA8oYbpHd8TKv5ZQeo67",
-            "currencies": [
-              {
-                "label" : "XAU", 
-                "code"  : "0158415500000000C1F76FF6ECB0BAC600000000"
-              }
-            ]
-            }],
-        "hotwallets": [
-        ],
-        "domain": "goldbullioninternational.com"
+            "currencies": ["XAU"],
+            "hotwallets": [
+            ],
+            "domain": "goldbullioninternational.com"
+            }]
     }, {
         "name": "LakeBTC",
         "accounts": [{

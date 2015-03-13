@@ -7,22 +7,21 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
     .auth-form-wrapper.col-xs-12.col-sm-6.col-md-4
       .tabAdjust
         .signUpWrapper
-          h2.signUpTop 
+          h2.signUpTop
             a(href='#register', l10n-inc) Sign Up
         .loginWrapper
           h2.loginTop(l10n) Log In
       form(name='loginForm', ng-submit='submitForm()')
-        .auth-attention.text-center.spaceAdjust(ng-show="verifyStatus") 
+        .auth-attention.text-center.spaceAdjust(ng-show="verifyStatus")
           .status(ng-show="'verifying' === verifyStatus", l10n) Verifying...
           .status(ng-show="'verified' === verifyStatus", l10n) You have successfully verified your email address.
           .status(ng-show="'error' === verifyStatus", l10n) Email verification token is invalid. It has either expired or has been resent. Please check your inbox for the most recent verification email.
         include login/form
         .text-status(ng-show='status')
-          span.loggingIn {{status}}
+          span.loggingIn(ng-bind="status")
           br
           .backend.error(ng-repeat="message in backendMessages")
-            b {{message.backend}} &#32;
-            span.error {{message.message}}
+            span.error(ng-bind="message")
         .submit-btn-container
           button.btn.btn-submit.btn-block.btn-success#loginBtn(type='submit',
             ng-disabled="ajax_loading || loginForm.$invalid", ng-hide="twoFactor")
@@ -42,12 +41,12 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
           button.btn.btn-block.btn-primary(ng-click="")
             span(l10n) Account Recovery
       button.btn.btn-link.recover(ng-click="goto_recover()", ng-hide="showRecover", l10n) Account Recovery
-     
+
 
   .row.action-login(ng-if="$routeParams.to")
     .col-xs-12.col-sm-6.col-md-6
       div.info(ng-show="'send' == $route.current.tabName")
-        p.literal {{$routeParams.label}}
+        p.literal(ng-bind="$routeParams.label")
         div(ng-hide="$routeParams.amount", l10n)
           p(l10n-inc) You're sending money to
           .address {{ $routeParams.to | rpripplename:{tilde:true} }}
@@ -68,7 +67,7 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
           div(ng-show="$routeParams.currency", l10n-inc)
             | for
             .amount
-              span.currency {{$routeParams.currency}}
+              span.currency(ng-bind="$routeParams.currency")
           div(ng-show="$routeParams.amount", l10n-inc)
             | with a limit of
             .amount
@@ -76,7 +75,7 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
           | .
 
       div.info(ng-show="'contacts' == $route.current.tabName")
-        p.literal {{$routeParams.label}}
+        p.literal(ng-bind="$routeParams.label")
         span(l10n)
           p(l10n-inc) You're adding
           .address {{ $routeParams.to | rpripplename:{tilde:true} }}
@@ -88,11 +87,10 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
           include login/form
           .row
             .col-xs-12.text-status(ng-show='status')
-              span {{status}}
+              span(ng-bind="status")
               br
               .backend(ng-repeat="message in backendMessages")
-                b {{message.backend}} &#32;
-                span {{message.message}}
+                span(ng-bind="message")
           .row
             .col-xs-12
               button.btn.btn-lg.btn-submit.btn-block.btn-primary(type='submit', ng-disabled="loginForm.$invalid || ajax_loading", l10n)
