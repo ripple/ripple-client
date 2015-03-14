@@ -205,22 +205,22 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
               span.currency(rp-currency="entry.components[0].limit", rp-currency-full)
           .row.head.hidden-xs.hidden-sm
             div(
-              ng-class="{ 'col-sm-3 col-xs-2': globalOptions.advanced_feature_switch, 'col-sm-4 col-xs-4 col-md-5': !globalOptions.advanced_feature_switch }"
+              ng-class="{ 'col-md-2': globalOptions.advanced_feature_switch, 'col-md-5': !globalOptions.advanced_feature_switch }"
               l10n) Gateway
             div(
-              ng-class="{ 'col-xs-2 col-sm-2': globalOptions.advanced_feature_switch, 'col-xs-4': !globalOptions.advanced_feature_switch }"
+              ng-class="{ 'col-md-2': globalOptions.advanced_feature_switch, 'col-md-4': !globalOptions.advanced_feature_switch }"
               l10n) Balance
-            div(ng-show="globalOptions.advanced_feature_switch", ng-class="{ 'col-md-2': globalOptions.advanced_feature_switch }", l10n) Limit
-            div.col-md-2(ng-show="globalOptions.advanced_feature_switch", l10n) Min
-            div.col-md-1(ng-show="globalOptions.advanced_feature_switch", l10n) Rippling
-            div(ng-class="{'col-md-1' : globalOptions.advanced_feature_switch, 'col-md-3': !globalOptions.advanced_feature_switch }"
+            div.col-md-3(ng-show="globalOptions.advanced_feature_switch", l10n) Limit
+            div.col-md-1(ng-show="globalOptions.advanced_feature_switch", l10n) Min
+            div.col-md-2(ng-show="globalOptions.advanced_feature_switch", l10n) Rippling
+            div(ng-class="{'col-md-2' : globalOptions.advanced_feature_switch, 'col-md-3': !globalOptions.advanced_feature_switch }"
               l10n) Edit
           hr#divider
           .lines
             .line(ng-controller="AccountRowCtrl", ng-repeat="component in entry.components")
               .row(ng-class="{ 'frozen-account': component.freeze_peer }")
                 .col-xs-full
-                  .gateway(ng-class="{ 'col-md-4': globalOptions.advanced_feature_switch, 'col-md-5': !globalOptions.advanced_feature_switch }",
+                  .gateway(ng-class="{ 'col-md-2': globalOptions.advanced_feature_switch, 'col-md-5': !globalOptions.advanced_feature_switch }",
                     l10n-data-label="Gateway"
                     )
                     span(rp-pretty-identity="component.account", rp-pretty-identity-filters="rpcontactnamefull | rpripplename: {tilde: true}",
@@ -230,27 +230,28 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                     l10n-data-label="Balance"
                     )
                     span(rp-address-popover, rp-address-popover-sum="component.balance") {{ component.balance | rpamount:{rel_precision: 2} }}
-                  .col-md-2(ng-show="globalOptions.advanced_feature_switch",
+                  .col-md-3(ng-show="globalOptions.advanced_feature_switch",
                     l10n-data-label="Limit"
                     )
                     span(rp-address-popover, rp-address-popover-sum="component.limit") {{ component.limit | rpamount }}
-                  .col-md-2(ng-show="globalOptions.advanced_feature_switch && component.limit_peer._offset == '-100'",
+                  .col-md-1(ng-show="globalOptions.advanced_feature_switch && component.limit_peer._offset == '-100'",
                     l10n-data-label="Min"
                     )
                     span(rp-address-popover, rp-address-popover-sum="component.limit_peer") {{ component.limit_peer | rpamount }}
-                  .col-md-2(
+                  .col-md-1(
                       ng-show="globalOptions.advanced_feature_switch && component.limit_peer._offset !== '-100'",
                       ng-hide="component.limit_peer._offset == '-100' || !globalOptions.advanced_feature_switch",
                       l10n-data-label="Min"
                       )
                     span(rp-address-popover, rp-address-popover-sum="component.limit_peer", rp-address-popover-sum-minus, ng-bind="minVal")
-                  .col-md-1(ng-show="globalOptions.advanced_feature_switch",
+                  .col-md-2(ng-show="globalOptions.advanced_feature_switch",
                     l10n-data-label="Rippling"
                     )
                     div(ng-show="component.no_ripple", l10n) Off
                     div(ng-hide="component.no_ripple", l10n) On
-                  div(ng-hide="component.freeze_peer", ng-class="{ 'col-md-1': globalOptions.advanced_feature_switch, 'col-md-3': !globalOptions.advanced_feature_switch }")
-                    button.btn.btn-cancel.visible-xs.visible-sm(href="", ng-hide="editing || isIncoming()", ng-click="edit_account()"
+                  div(ng-hide="component.freeze_peer", ng-class="{ 'col-md-2': globalOptions.advanced_feature_switch, 'col-md-3': !globalOptions.advanced_feature_switch }")
+                    span.visible-xs.visible-sm(ng-hide="editing || isIncoming()")
+                      a.btn.btn-cancel(href="", ng-click="edit_account()"
                       l10n) edit
                     a.hidden-xs.hidden-sm(href="", ng-hide="editing || isIncoming()", ng-click="edit_account()"
                       l10n) edit
