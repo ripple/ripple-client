@@ -478,11 +478,7 @@ function AppCtrl ($scope, id, net, keychain, txQueue, appManager, rpTracker,
           line.limit_peer = effect.limit_peer;
         }
 
-        if (effect.deleted || !isSignificantLine({
-            balance: line.balance.to_number(),
-            limit: line.limit.to_number(),
-            limit_peer: line.limit_peer.to_number(),
-            no_ripple: line.no_ripple})) {
+        if (effect.deleted) {
           return delete $scope.lines[index];
         }
 
