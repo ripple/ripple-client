@@ -164,16 +164,18 @@ function AppCtrl ($scope, id, net, keychain, txQueue, appManager, rpTracker,
       for (var n = 0, l = data.lines.length; n < l; n++) {
         var line = data.lines[n];
 
-        // XXX: This reinterpretation of the server response should be in the
-        //      library upstream.
-        line = $.extend({}, line, {
-          limit: ripple.Amount.from_json({value: line.limit, currency: line.currency, issuer: line.account}),
-          limit_peer: ripple.Amount.from_json({value: line.limit_peer, currency: line.currency, issuer: account}),
-          balance: ripple.Amount.from_json({value: line.balance, currency: line.currency, issuer: account})
-        });
+        if (isSignificantLine(line)) {
+          // XXX: This reinterpretation of the server response should be in the
+          //      library upstream.
+          line = $.extend({}, line, {
+            limit: ripple.Amount.from_json({value: line.limit, currency: line.currency, issuer: line.account}),
+            limit_peer: ripple.Amount.from_json({value: line.limit_peer, currency: line.currency, issuer: account}),
+            balance: ripple.Amount.from_json({value: line.balance, currency: line.currency, issuer: account})
+          });
 
-        $scope.lines[line.account + line.currency] = line;
-        updateRippleBalance(line.currency, line.account, line.balance);
+          $scope.lines[line.account + line.currency] = line;
+          updateRippleBalance(line.currency, line.account, line.balance);
+        }
       }
       console.log('lines updated:', $scope.lines);
       if (data.lines.length > 200) {
@@ -427,6 +429,15 @@ function AppCtrl ($scope, id, net, keychain, txQueue, appManager, rpTracker,
     }
   }
 
+  // Current user doesn't care about a line where he/she's in a default state,
+  // limits are zero but the counterparty is not in a default state (has a non default flag)
+  function isSignificantLine(line) {
+    var DefaultRipple = $scope.account.Flags & ripple.Remote.flags.account_root.DefaultRipple;
+
+    return line.balance != 0 || line.limit != 0 || line.limit_peer != 0
+      || DefaultRipple === line.no_ripple;
+  }
+
   function updateLines(effects)
   {
     if (!$.isArray(effects)) return;
@@ -459,17 +470,16 @@ function AppCtrl ($scope, id, net, keychain, txQueue, appManager, rpTracker,
           balancesUpdated = true;
         }
 
-        if (effect.deleted) {
-          delete $scope.lines[index];
-          return;
-        }
-
         if (effect.limit) {
           line.limit = effect.limit;
         }
 
         if (effect.limit_peer) {
           line.limit_peer = effect.limit_peer;
+        }
+
+        if (effect.deleted) {
+          return delete $scope.lines[index];
         }
 
         $scope.lines[index] = $.extend($scope.lines[index], line);
