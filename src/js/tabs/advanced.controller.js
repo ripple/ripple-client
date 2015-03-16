@@ -174,10 +174,7 @@ AdvancedTab.prototype.angular = function(module)
       $scope.remove = function () {
         $scope.options.server.servers.splice($scope.index, 1);
 
-        // Save in local storage
-        if (!store.disabled) {
-          store.set('ripple_settings', JSON.stringify($scope.options));
-        }
+        $scope.persist();
 
         // Notify the user
         $scope.success.removeServer = true;
@@ -210,19 +207,25 @@ AdvancedTab.prototype.angular = function(module)
           $scope.server.port = $scope.server.secure ? '443' : '80'
         }
 
+        $scope.persist(function() {
+          // Reload
+          // A force reload is necessary here because we have to re-initialize
+          // the network object with the new server list.
+          location.reload();
+        });
+
+        // Notify the user
+        $scope.success.saveServer = true;
+      };
+
+      $scope.persist = function(cb) {
         // Save in local storage
         if (!store.disabled) {
           store.set('ripple_settings', JSON.stringify($scope.options));
         }
-
-        // Notify the user
-        $scope.success.saveServer = true;
-
-        // Reload
-        // A force reload is necessary here because we have to re-initialize
-        // the network object with the new server list.
-        location.reload();
-      };
+        var servers = settings.getClearServers($scope.options.server.servers);
+        $scope.userBlob.set('/clients/rippletradecom/server/servers', servers, cb);
+      }
     }
   ]);
 };
