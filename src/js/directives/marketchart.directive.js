@@ -62,6 +62,7 @@ module.directive('rpMarketChart', [function() {
           type:     'line'
         };
         chart.load(options);
+        $elem.find('img')[0].src = 'img/sections.png';
       };
 
       attrs.$observe('baseCurrency', render);
