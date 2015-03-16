@@ -22,8 +22,8 @@ BalanceTab.prototype.generateHtml = function ()
 
 BalanceTab.prototype.angular = function (module)
 {
-  module.controller('BalanceCtrl', ['$scope', 'rpId', 'rpNetwork', '$filter', '$http', 'rpAppManager',
-                                     function ($scope, id, network, $filter, $http, appManager)
+  module.controller('BalanceCtrl', ['$scope', 'rpId', 'rpNetwork', '$filter', '$http', 'rpAppManager', '$q',
+                                     function ($scope, id, network, $filter, $http, appManager, $q)
   {
     //
 
@@ -119,7 +119,9 @@ BalanceTab.prototype.angular = function (module)
 
     $scope.$on('$balancesUpdate', updateExchangeRates);
 
-    $scope.$watch('exchangeRates', function(){
+    $scope.$watch('exchangeRates', updateNetWorthDropdown, true);
+
+    function updateNetWorthDropdown() {
       if ($scope.exchangeRates) {
         var isAmbiguous = {};
         var okser = Object.keys($scope.exchangeRates);
@@ -136,10 +138,17 @@ BalanceTab.prototype.angular = function (module)
             }
           }
         }
-        $scope.valueMetrics = okser.map(function(code){
+
+        var names = [];
+
+        $scope.valueMetrics = okser.map(function(code) {
           var curIssuer = code.split(':');
+
           var currencyName = $filter('rpcurrency')(ripple.Amount.from_human('0 ' + curIssuer[0])); // This is really messy
           var issuerName = curIssuer.length > 1 ? $filter('rpripplename')(curIssuer[1], false) : '';
+          if (isAmbiguous[curIssuer[0]] && issuerName.indexOf('…') !== -1 && !id.addressDontHaveName(curIssuer[1])) {
+            names.push(id.resolveName(curIssuer[1], { tilde: true }));
+          }
           return {
             code: code,
             name: currencyName + (isAmbiguous[curIssuer[0]] ? '.' + issuerName : ''),
@@ -147,9 +156,15 @@ BalanceTab.prototype.angular = function (module)
           };
         });
 
+        if (names.length > 0) {
+          $q.all(names).then(function() {
+            updateNetWorthDropdown();
+          });
+        }
+
         updateAggregateValueAsXrp();
       }
-    }, true);
+    }
 
     // Whenever the XRP balance changes, update the aggregate value, but no need to refresh exchangeRates.
     // Update the displayed amount.
