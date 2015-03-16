@@ -406,8 +406,7 @@ TrustTab.prototype.angular = function (module)
       {
         $scope.trust.loading = true;
         $scope.load_notification('remove_gateway');
-        $scope.removing = true;
-        $scope.saving = false;
+        $scope.trust.state = 'removing';
 
         var setSecretAndSubmit = function(tx) {
 
@@ -561,8 +560,7 @@ TrustTab.prototype.angular = function (module)
       $scope.save_account = function () {
 
         $scope.trust.loading = true;
-        $scope.saving = true;
-        $scope.removing = false;
+        $scope.trust.state = 'saving';
 
         var amount = ripple.Amount.from_human(
           $scope.trust.limit + ' ' + $scope.component.currency,
