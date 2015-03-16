@@ -155,6 +155,19 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', '$t
       // Replace default settings with user settings from blob, if blob is empty, then reuse the original value
       Options.confirmation = $.extend(true, {}, settings.getSetting($scope.userBlob, 'confirmation', Options.confirmation));
 
+      var blobServers = settings.getSetting($scope.userBlob, 'server.servers', []);
+      if (_.isArray(blobServers) && blobServers.length > 0 && !_.isEqual(blobServers, settings.getClearServers(Options.server.servers))) {
+        Options.server.servers = blobServers;
+        // Save in local storage
+        if (!store.disabled) {
+          store.set('ripple_settings', JSON.stringify(Options));
+          // Reload
+          // A force reload is necessary here because we have to re-initialize
+          // the network object with the new server list.
+          location.reload();
+        }
+      }
+
       // Account address
       if (!$scope.address && d.account_id) {
         $scope.address = d.account_id;
@@ -637,11 +650,11 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', '$t
   };
 
   /**
- * Find Ripple Name
- *
- * Find a ripple name for a given ripple address
+   * Find Ripple Name
+   *
+   * Find a ripple name for a given ripple address
    */
-  Id.prototype.resolveNameSync = function (address, options) {
+  Id.prototype.resolveNameSync = function(address, options) {
     if (!this.resolvedNames[address]) {
       if (!this.serviceInvoked[address]) {
         this.resolveName(address, options);
@@ -652,11 +665,18 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', '$t
   }
 
   /**
- * Find Ripple Name
- *
- * Find a ripple name for a given ripple address
+   *
    */
-  Id.prototype.resolveName = function (address, options) {
+  Id.prototype.addressDontHaveName = function(address) {
+    return this.resolvedNames[address] === address;
+  }
+
+  /**
+   * Find Ripple Name
+   *
+   * Find a ripple name for a given ripple address
+   */
+  Id.prototype.resolveName = function(address, options) {
     var self = this;
     var deferred = $q.defer();
     var strippedValue = webutil.stripRippleAddress(address);
@@ -670,11 +690,12 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', '$t
 
     if (!this.resolvedNames[address]) {
       if (!this.serviceInvoked[address]) {
-        this.serviceInvoked[address] = true;
+        this.serviceInvoked[address] = deferred;
 
         // Get the blobvault url
         rippleVaultClient.AuthInfo.get(Options.domain, strippedValue, function(err, data) {
           if (err) {
+            self.serviceInvoked[address] = false;
             deferred.reject(err);
             return;
           }
@@ -690,10 +711,15 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', '$t
             self.resolvedNames[address] = address;
           }
 
+          self.serviceInvoked[address] = true;
           deferred.resolve(self.resolvedNames[address]);
         });
       } else {
-        deferred.resolve(address);
+        if (!_.isBoolean(this.serviceInvoked[address]) && _.isFunction(this.serviceInvoked[address].resolve)) {
+          return this.serviceInvoked[address].promise;
+        } else {
+          deferred.resolve(address);
+        }
       }
     } else {
       deferred.resolve(self.resolvedNames[address]);

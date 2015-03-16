@@ -60,3 +60,13 @@ exports.getSetting = function(userBlob, settingName, def) {
   }
   return def;
 };
+
+exports.getClearServers = function(servers) {
+  return _.map(servers, function(server) {
+    var o = _.pick(server, 'host', 'port', 'secure');
+    // when edited it comes as string from input,
+    // so convert to number to be stored in blob in consisten way
+    o.port = Number(o.port);
+    return o;
+  });
+}
