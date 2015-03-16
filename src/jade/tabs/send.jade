@@ -275,7 +275,7 @@ section.col-xs-12.content(ng-controller='SendCtrl')
         p(ng-hide="!send.alt")
           span.literal(l10n) Exchange rate: &#32;
           span.value {{send.alt.rate | rpamount:{rel_precision: 4} }} &#32;
-          span.currency {{send.alt.amount | rpcurrency}}/{{send.currency_code}}
+          span.currency {{send.alt.amount | rpcurrency}} per {{send.currency_code}}
         span.literal(l10n) Ripple network fee: &#32;
         span.currency(rp-pretty-amount='networkFee')
         form.call-to-action(name="sendUnlockForm", ng-submit="send_confirmed()")
