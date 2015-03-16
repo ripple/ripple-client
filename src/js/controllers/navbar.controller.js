@@ -40,15 +40,16 @@ module.controller('NavbarCtrl', ['$scope', '$element', '$compile', 'rpId',
     if(!$scope.connected && username) {
       $scope.message = 'Disconnected from the Ripple network'; 
     }
-    else if ($scope.currentFee && $scope.currentFee > Options.low_load_threshold && $scope.currentFee < ripple.Amount.from_json(Options.max_tx_network_fee).to_human()) {
+    else if ($scope.currentFee && $scope.connected && $scope.currentFee > Options.low_load_threshold && $scope.currentFee < ripple.Amount.from_json(Options.max_tx_network_fee).to_human()) {
       $scope.serverLoad = 'mediumLoad';
       $scope.message = 'Network fees are currently higher than normal. Fee: ' + $scope.currentFee + ' XRP';
     } 
-    else if ($scope.currentFee && $scope.currentFee >= ripple.Amount.from_json(Options.max_tx_network_fee).to_human()) {
+    else if ($scope.currentFee && $scope.connected && $scope.currentFee >= ripple.Amount.from_json(Options.max_tx_network_fee).to_human()) {
       $scope.serverLoad = 'highLoad';
       $scope.message = 'Network fees are currently higher than your maximum. Fee: ' + $scope.currentFee + ' XRP';
     }
-    else if ($scope.currentFee) {
+    else if ($scope.currentFee && $scope.connected) {
+      $scope.serverLoad = '';
       $scope.message = 'Connected to the Ripple network. Fee: ' + $scope.currentFee + ' XRP';
     }
     else {
