@@ -74,9 +74,7 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
                 a.btn.btn-cancel.btn-block(href="", ng-click='cancelEditConfirmation("'+transactionType+'")', l10n) cancel
         +urlForm('blobvault', 'blobForm', 'Blob vault', {url: '{{options.blobvault}}', ngModel: 'options.blobvault'}, 'blobIp', true)
         +urlForm('bridge', 'bridgeForm', 'Bitcoin bridge', {url: '{{options.bridge.out.bitcoin}}', ngModel: 'options.bridge.out.bitcoin'}, 'btcDomain', true)
-        +confirmation('send', 'sendConfirmationForm', 'Send confirmation settings', 'If you hide your send confirmation page, you will not see a confirmation page when sending money. You might pay up to .1% more than you originally specified.', 'sendConfirmationBox')
-        +confirmation('exchange', 'exchangeConfirmationForm', 'Simple trade confirmation settings', 'If you hide the simple trade confirmation page, you will not see a confirmation page when placing a simple trade. You might pay up to .1% more than you originally specified.', 'exchangeConfirmationBox')
-        +confirmation('trade', 'tradeConfirmationForm', 'Advanced trade confirmation settings', 'If you hide the advanced trade confirmation page, you will not see a confirmation page when placing orders.', 'tradeConfirmationBox')
+
         form.trust-line-form(name="accountsAdvForm", ng-submit='save("advanced_feature_switch")')
           .descriptor(l10n) Trust line
           .row.advanced-form-row(ng-hide="edit.advanced_feature_switch")
@@ -175,7 +173,9 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
                 .description(ng-hide="server.secure", l10n) Not Secure
               .col-xs-3.col-sm-2.col-md-2
                 a.btn.btn-cancel.btn-block(href="", ng-click="editing = true", l10n) edit
-
+        +confirmation('send', 'sendConfirmationForm', 'Send confirmation settings', 'If you hide your send confirmation page, you will not see a confirmation page when sending money. You might pay up to .1% more than you originally specified.', 'sendConfirmationBox')
+        +confirmation('exchange', 'exchangeConfirmationForm', 'Simple trade confirmation settings', 'If you hide the simple trade confirmation page, you will not see a confirmation page when placing a simple trade. You might pay up to .1% more than you originally specified.', 'exchangeConfirmationBox')
+        +confirmation('trade', 'tradeConfirmationForm', 'Advanced trade confirmation settings', 'If you hide the advanced trade confirmation page, you will not see a confirmation page when placing orders.', 'tradeConfirmationBox')
         .row
           .col-xs-12.col-sm-6.col-md-3
             button.btn.btn-block.btn-primary#newServer(type="button", ng-click="addServer()", l10n) Add new server
