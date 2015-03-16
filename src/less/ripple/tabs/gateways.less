@@ -236,20 +236,6 @@
     font-size: 14px;
   }
 
-  button {
-    text-align: center;
-    border: 1px solid @midblue;
-    font-weight: bold;
-    background: @midblue;
-    color: @white;
-    width: 100%;
-
-    &:hover, &.active {
-      background: darken(@midblue, 15%);
-      border-color: darken(@midblue, 15%);
-    }
-  }
-
   .connect{
     ::before {
       padding-right: 5px;
@@ -280,6 +266,22 @@
   .btc-tab-description {
     .connect {
       line-height: normal;
+    }
+  }
+}
+
+#t-fund, #t-xrp, #t-btc, #t-usd, #t-gold, #t-jpy, #t-brl, #t-mxn, #t-eur, #t-sgd, #t-aud, #t-nzd {
+  button {
+    text-align: center;
+    border: 1px solid @midblue;
+    font-weight: bold;
+    background: @midblue;
+    color: @white;
+    width: 100%;
+
+    &:hover, &.active {
+      background: darken(@midblue, 15%);
+      border-color: darken(@midblue, 15%);
     }
   }
 }
