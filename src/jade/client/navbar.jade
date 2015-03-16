@@ -146,4 +146,4 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
     .alert.alert-info
         h4.tx-status(l10n='l10n')
           | Your account was successfully recovered and encrypted with the new password you provided!
-        a.dismiss(href='#', ng-click='recovered = false', l10n='l10n') &times;
+        a.dismiss(ng-click='recovered = false', l10n='l10n') &times;
