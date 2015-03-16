@@ -1,49 +1,49 @@
 var types = require('../util/types');
 
 // Load app modules
-require('../controllers/app');
-require('../controllers/navbar');
-require('../directives/charts');
-require('../directives/fields');
-require('../directives/effects');
-require('../directives/validators');
-require('../directives/accountExists.js');
-require('../directives/events');
-require('../directives/formatters');
-require('../directives/directives');
-require('../directives/addressPopover.js');
-require('../directives/datalinks');
-require('../directives/errors');
-require('../directives/marketchart');
-require('../filters/filters');
-require('../filters/amountHasIssuer.js');
-require('../validators/rpWebsocket.js');
-require('../services/globalwrappers');
-require('../services/id');
-require('../services/tracker');
-require('../services/blobRemote');
-require('../services/oldblob');
-require('../services/txqueue');
-require('../services/authflowRemote');
-require('../services/keychain');
-require('../services/network');
-require('../services/books');
-require('../services/popup');
-require('../services/rippletxt');
-require('../services/federation');
-require('../services/domainalias');
-require('../services/history');
+require('../controllers/app.controller.js');
+require('../controllers/navbar.controller.js');
+require('../directives/charts.directive.js');
+require('../directives/fields.directive.js');
+require('../directives/effects.directive.js');
+require('../directives/validators.directive.js');
+require('../directives/accountExists.directive.js');
+require('../directives/events.directive.js');
+require('../directives/formatters.directive.js');
+require('../directives/directives.directive.js');
+require('../directives/addressPopover.directive.js');
+require('../directives/datalinks.directive.js');
+require('../directives/errors.directive.js');
+require('../directives/marketchart.directive.js');
+require('../filters/filters.filter.js');
+require('../filters/amountHasIssuer.filter.js');
+require('../validators/rpWebsocket.directive.js');
+require('../services/globalwrappers.service.js');
+require('../services/id.service.js');
+require('../services/tracker.service.js');
+require('../services/blobRemote.service.js');
+require('../services/oldblob.service.js');
+require('../services/txqueue.service.js');
+require('../services/authflowRemote.service.js');
+require('../services/keychain.service.js');
+require('../services/network.service.js');
+require('../services/books.service.js');
+require('../services/popup.service.js');
+require('../services/rippletxt.service.js');
+require('../services/federation.service.js');
+require('../services/domainalias.service.js');
+require('../services/history.service.js');
 
-require('../services/integration/appManager');
-require('../services/integration/profileManager');
-require('../services/integration/account');
-require('../services/integration/history');
-require('../services/integration/trust');
-require('../services/integration/inboundBridge');
+require('../services/integration/appManager.service.js');
+require('../services/integration/profileManager.service.js');
+require('../services/integration/account.service.js');
+require('../services/integration/history.service.js');
+require('../services/integration/trust.service.js');
+require('../services/integration/inboundBridge.service.js');
 
 // Unused services
-// require('../services/ledger');
-// require('../services/transactions');
+// require('../services/ledger.service.js');
+// require('../services/transactions.service.js');
 
 // Angular module dependencies
 var appDependencies = [
@@ -75,44 +75,44 @@ var appDependencies = [
 
 // Load tabs
 var tabdefs = [
-  require('../tabs/register'),
-  require('../tabs/login'),
-  require('../tabs/migrate'),
-  require('../tabs/recover'),
-  require('../tabs/balance'),
-  require('../tabs/history'),
-  require('../tabs/contacts'),
-  require('../tabs/exchange'),
-  require('../tabs/account'),
-  require('../tabs/trust'),
-  require('../tabs/send'),
-  require('../tabs/trade'),
-  require('../tabs/advanced'),
-  require('../tabs/security'),
-  require('../tabs/kyc'),
-  require('../tabs/tx'),
-  require('../tabs/xrp'),
-  require('../tabs/debug'),
-  require('../tabs/btc'),
-  require('../tabs/withdraw'),
-  require('../tabs/usd'),
-  require('../tabs/eur'),
-  require('../tabs/sgd'),
-  require('../tabs/aud'),
-  require('../tabs/gold'),
-  require('../tabs/tou'),
-  require('../tabs/privacypolicy'),
-  require('../tabs/twofa'),
-  require('../tabs/jpy'),
-  require('../tabs/mxn'),
-  require('../tabs/nzd'),
-  require('../tabs/404'),
-  require('../tabs/brl'),
-  require('../tabs/settingstrade'),
+  require('../tabs/register.controller.js'),
+  require('../tabs/login.controller.js'),
+  require('../tabs/migrate.controller.js'),
+  require('../tabs/recover.controller.js'),
+  require('../tabs/balance.controller.js'),
+  require('../tabs/history.controller.js'),
+  require('../tabs/contacts.controller.js'),
+  require('../tabs/exchange.controller.js'),
+  require('../tabs/account.controller.js'),
+  require('../tabs/trust.controller.js'),
+  require('../tabs/send.controller.js'),
+  require('../tabs/trade.controller.js'),
+  require('../tabs/advanced.controller.js'),
+  require('../tabs/security.controller.js'),
+  require('../tabs/kyc.controller.js'),
+  require('../tabs/tx.controller.js'),
+  require('../tabs/xrp.controller.js'),
+  require('../tabs/debug.controller.js'),
+  require('../tabs/btc.controller.js'),
+  require('../tabs/withdraw.controller.js'),
+  require('../tabs/usd.controller.js'),
+  require('../tabs/eur.controller.js'),
+  require('../tabs/sgd.controller.js'),
+  require('../tabs/aud.controller.js'),
+  require('../tabs/gold.controller.js'),
+  require('../tabs/tou.controller.js'),
+  require('../tabs/privacypolicy.controller.js'),
+  require('../tabs/twofa.controller.js'),
+  require('../tabs/jpy.controller.js'),
+  require('../tabs/mxn.controller.js'),
+  require('../tabs/nzd.controller.js'),
+  require('../tabs/404.controller.js'),
+  require('../tabs/brl.controller.js'),
+  require('../tabs/settingstrade.controller.js'),
 
   // Hidden tabs
-  require('../tabs/apps'),
-  require('../tabs/su')
+  require('../tabs/apps.controller.js'),
+  require('../tabs/su.controller.js')
 ];
 
 // Prepare tab modules
