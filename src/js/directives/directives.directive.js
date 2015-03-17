@@ -205,7 +205,7 @@ module.directive('rpPopover', ['$interpolate', function($interpolate) {
       }
       options.delay = {
         show: delay,
-        hide: 0
+        hide: 1000
       };
     }
     $(element).popover(options);

@@ -37,6 +37,7 @@ module.controller('NavbarCtrl', ['$scope', '$element', '$compile', 'rpId',
     if(username) $scope.loading = false;
     $scope.currentFee = ripple.Amount.from_json($scope.fee).to_human(); 
     $scope.shortUsername = null;
+
     if(!$scope.connected && username) {
       $scope.message = 'Disconnected from the Ripple network'; 
     }
@@ -46,7 +47,7 @@ module.controller('NavbarCtrl', ['$scope', '$element', '$compile', 'rpId',
     } 
     else if ($scope.currentFee && $scope.connected && $scope.currentFee >= ripple.Amount.from_json(Options.max_tx_network_fee).to_human()) {
       $scope.serverLoad = 'highLoad';
-      $scope.message = 'Network fees are currently higher than your maximum. Fee: ' + $scope.currentFee + ' XRP';
+      $scope.message = 'Network fees are currently higher than your maximum. Fee: ' + $scope.currentFee + ' XRP. ' + 'Change fees'.link('#/advanced');
     }
     else if ($scope.currentFee && $scope.connected) {
       $scope.serverLoad = '';
