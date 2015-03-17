@@ -234,13 +234,13 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                     l10n-data-label="Limit"
                     )
                     span(rp-address-popover, rp-address-popover-sum="component.limit") {{ component.limit | rpamount }}
-                  .col-md-1(ng-show="globalOptions.advanced_feature_switch && component.limit_peer._offset == '-100'",
+                  .col-md-1(ng-show="globalOptions.advanced_feature_switch && component.limit_peer.is_zero()",
                     l10n-data-label="Min"
                     )
                     span(rp-address-popover, rp-address-popover-sum="component.limit_peer") {{ component.limit_peer | rpamount }}
                   .col-md-1(
-                      ng-show="globalOptions.advanced_feature_switch && component.limit_peer._offset !== '-100'",
-                      ng-hide="component.limit_peer._offset == '-100' || !globalOptions.advanced_feature_switch",
+                      ng-show="globalOptions.advanced_feature_switch && !component.limit_peer.is_zero()",
+                      ng-hide="component.limit_peer.is_zero() || !globalOptions.advanced_feature_switch",
                       l10n-data-label="Min"
                       )
                     span(rp-address-popover, rp-address-popover-sum="component.limit_peer", rp-address-popover-sum-minus, ng-bind="minVal")
