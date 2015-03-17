@@ -243,7 +243,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                       ng-hide="component.limit_peer._offset == '-100' || !globalOptions.advanced_feature_switch",
                       l10n-data-label="Min"
                       )
-                    span(rp-address-popover, rp-address-popover-sum="component.limit_peer", rp-address-popover-sum-minus, ng-bind="minVal")
+                    span(rp-address-popover, rp-address-popover-sum="component.limit_peer", rp-address-popover-sum-minus) -{{ component.limit_peer | rpamount }}
                   .col-md-2(ng-show="globalOptions.advanced_feature_switch",
                     l10n-data-label="Rippling"
                     )
