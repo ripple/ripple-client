@@ -211,7 +211,7 @@ module.directive('rpDest', ['$q', '$timeout', '$parse', 'rpFederation', function
           return defer.promise;
         }
 
-        return $q.when(false);
+        return $q.reject(false);
       };
 
       attr.$observe('rpDest', function() {
