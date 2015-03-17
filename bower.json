@@ -1,7 +1,7 @@
 {
   "name": "ripple-client",
   "dependencies": {
-    "ripple": "~0.12.1-rc3",
+    "ripple": "~0.12.1-rc4",
     "ripple-vault-client": "~0.4.7",
     "angular": "~1.3.12",
     "angular-messages": "~1.3.12",
