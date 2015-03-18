@@ -12,7 +12,6 @@ var currencies = require('../data/currencies');
  */
 module.filter('rpamount', function() {
   return function (input, options) {
-
     var currency;
     var opts = jQuery.extend(true, {}, options);
 
@@ -27,7 +26,7 @@ module.filter('rpamount', function() {
     if (!input) return "n/a";
 
     if (opts.xrp_human && input === ("" + parseInt(input, 10))) {
-      input = input + ".0";
+      input += "/XRP";
     }
 
     var origPrecision = opts.precision;
@@ -39,7 +38,7 @@ module.filter('rpamount', function() {
     }
 
     // if hard_precision is true, do not allow precision & min_precision to be overridden
-    if (! opts.hard_precision && input._is_native) {
+    if (!opts.hard_precision && input._is_native) {
       // If XRP, then set standard precision here
       currency = currencies[0].standard_precision;
       opts.min_precision = currency;
@@ -62,7 +61,7 @@ module.filter('rpamount', function() {
       return amount.to_human(opts);
     }
 
-    if (! opts.hard_precision) {
+    if (!opts.hard_precision) {
       // Currency default precision
       for (var i = 0; i < currencies.length; i++) {
         if (currencies[i].value === amount.currency().to_human()) {
