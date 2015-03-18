@@ -47,7 +47,8 @@ AdvancedTab.prototype.angular = function(module)
       blobvault: false,
       bridge: false,
       maxNetworkFee: false,
-      historyApi: false
+      historyApi: false,
+      defaultRippleFlag: false
     };
     $scope.max_tx_network_fee_human = ripple.Amount.from_json($scope.options.max_tx_network_fee).to_human();
     $scope.advancedFeatureSwitchChanged = false;
@@ -77,6 +78,22 @@ AdvancedTab.prototype.angular = function(module)
           $scope.advancedFeatureSwitchChanged = false;
           $scope.userBlob.set('/clients/rippletradecom/trust/advancedMode', $scope.options.advanced_feature_switch);
           break;
+        case 'defaultRippleFlag':
+          // Need to set flag on account_root
+          var tx = network.remote.transaction();
+          tx.accountSet(id.account);
+          tx.setFlags('DefaultRipple');
+
+          keychain.requestSecret(id.account, id.username, function (err, secret) {
+            if (err) {
+              console.log('Error: ', err);
+              return;
+            }
+            tx.secret(secret);
+            tx.submit();
+          });
+          break;
+
         case 'historyApi':
           $scope.userBlob.set('/clients/rippletradecom/historyApi', $scope.options.historyApi);
           break;
