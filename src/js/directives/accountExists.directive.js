@@ -16,96 +16,90 @@
    */
   angular.module('validators').directive('rpAccountExists', rpAccountExists);
 
-  rpAccountExists.$inject = ['$timeout', '$parse', 'rpNetwork'];
+  rpAccountExists.$inject = ['$timeout', '$parse', 'rpNetwork', '$q'];
 
-  function rpAccountExists($timeout, $parse, $network) {
+  function rpAccountExists($timeout, $parse, $network, $q) {
     return {
       restrict: 'A',
       require: '?ngModel',
       link: function (scope, elm, attr, ctrl) {
         if (!ctrl) return;
 
-        var rpAccountExistsModelGetter;
+        var currentCheckTimeout = null,
+            currentDefer = null;
 
-        function showLoading(doShow) {
-          if (attr.rpAccountExistsLoading) {
-            var getterL = $parse(attr.rpAccountExistsLoading);
-            getterL.assign(scope, doShow);
+        ctrl.$asyncValidators.rpAccountExists = function(value) {
+
+          var strippedValue = webutil.stripRippleAddress(value),
+              address = ripple.UInt160.from_json(strippedValue);
+
+          if (currentDefer) {
+            // another check is pending, but it is not needed
+            currentDefer.resolve(true);
+            currentDefer = null;
+            $timeout.cancel(currentCheckTimeout);
+            currentCheckTimeout = null;
           }
-        }
 
-        var validator = function(value) {
-          var valToCheck = rpAccountExistsModelGetter ? rpAccountExistsModelGetter(scope) : value;
+          function checkFunded(addressToCheckPromise) {
+            return addressToCheckPromise.then(function(addressToCheck) {
+              if (addressToCheck === false) {
+                // skip check
+                return $q.when(true);
+              }
+              var address2 = ripple.UInt160.from_json(addressToCheck);
+              if (address2.is_valid()) {
+                var defer = $q.defer();
 
-          var strippedValue = webutil.stripRippleAddress(valToCheck);
-          var address = ripple.UInt160.from_json(strippedValue);
-
-          function checkCurrentValue() {
-            var currentValue = (rpAccountExistsModelGetter) ? rpAccountExistsModelGetter(scope) : ctrl.$viewValue;
-            var currentAddress = ripple.UInt160.from_json(webutil.stripRippleAddress(currentValue));
-            if (strippedValue != currentValue && !currentAddress.is_valid()) {
-              scope.$apply(function() {
-                ctrl.$setValidity('rpAccountExists', true);
-                showLoading(false);
-              });
-            }
-            return strippedValue != currentValue;
+                $network.remote.requestAccountInfo({account: addressToCheck})
+                  .on('success', function(m) {
+                    defer.resolve(true);
+                  })
+                  .on('error', function(m) {
+                    if (m && m.remote && m.remote.error === 'actNotFound') {
+                      defer.reject(false);
+                    } else {
+                      console.log('There was an error', m);
+                      defer.resolve(true);
+                    }
+                  })
+                  .request();
+                return defer.promise;
+              } else {
+                return $q.when(true);
+              }
+            });
           }
 
           if (address.is_valid()) {
-            ctrl.$setValidity('rpAccountExists', false);
-            showLoading(true);
+            return checkFunded($q.when(value));
+          } else if (scope.userBlob && webutil.getContact(scope.userBlob.data.contacts, strippedValue)) {
+            return checkFunded($q.when(webutil.getContact(scope.userBlob.data.contacts, strippedValue).address));
+          } else if (webutil.isRippleName(value)) {
+            var defer = $q.defer();
+            currentDefer = defer;
 
-            $network.remote.requestAccountInfo({account: strippedValue})
-              .on('success', function(m) {
-                if (checkCurrentValue()) {
-                  return;
+            currentCheckTimeout = $timeout(function() {
+              currentCheckTimeout = null;
+              currentDefer = null;
+
+              rippleVaultClient.AuthInfo.get(Options.domain, value, function(err, info) {
+                if (info && info.exists && info.address) {
+                  defer.resolve(info.address);
+                } else {
+                  defer.resolve(false);
                 }
-                scope.$apply(function() {
-                  ctrl.$setValidity('rpAccountExists', true);
-                  showLoading(false);
-                });
-              })
-              .on('error', function(m) {
-                if (checkCurrentValue()) {
-                  return;
-                }
-                scope.$apply(function() {
-                  showLoading(false);
-                  if (m && m.remote && m.remote.error_code === 15) {
-                    ctrl.$setValidity('rpAccountExists', false);
-                  } else {
-                    console.log('There was an error', m);
-                    ctrl.$setValidity('rpAccountExists', true);
-                  }
-                });
-              })
-              .request();
-            return value;
+              });
+            }, 500);
+
+            return checkFunded(defer.promise);
           }
 
-          ctrl.$setValidity('rpAccountExists', true);
-          return value;
+          return $q.when(true);
         };
 
-        if (attr.rpAccountExistsModel) {
-          rpAccountExistsModelGetter = $parse(attr.rpAccountExistsModel);
-          var watcher = scope.$watch(attr.rpAccountExistsModel, function() {
-            var address = rpAccountExistsModelGetter(scope);
-            validator(address);
-          });
-
-          scope.$on('$destroy', function() {
-            // Remove watcher
-            watcher();
-          });
-        }
-
-        ctrl.$formatters.push(validator);
-        ctrl.$parsers.unshift(validator);
-
         attr.$observe('rpAccountExists', function() {
-          validator(ctrl.$viewValue);
+          ctrl.$validate();
         });
       }
     };
