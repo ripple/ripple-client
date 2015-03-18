@@ -11,7 +11,7 @@ var Options = {
 
   // Rippled to connect
   server: {
-    trace: true,
+    trace: false,
     trusted: true,
     local_signing: true,
 

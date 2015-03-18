@@ -6,7 +6,7 @@ var options = {
 	username: 'tonga',
 	accessKey: '***REMOVED***',
 	verbose: true,
-    varnish: true,
+    vmVersion: 'dev-varnish',
 	logger: console.log
 };
 
