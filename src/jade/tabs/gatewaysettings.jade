@@ -1,5 +1,5 @@
 section.col-xs-12.content(ng-controller="GatewayCtrl")
-  div(ng-show='debug') This page is not available in debug mode
+  div(ng-show='debug', l10n) This page is not available in debug mode
 
   div(ng-show="!loadingAccount && !account.Balance && loadState.account && connected && !debug")
     include banner/unfunded
@@ -42,7 +42,7 @@ section.col-xs-12.content(ng-controller="GatewayCtrl")
           .descriptor(l10n) Trust line
           .row.advanced-form-row(ng-hide="edit.advanced_feature_switch")
             .col-xs-6.col-sm-5.col-md-3
-              .description Advanced settings
+              .description(l10n) Advanced settings
             .col-xs-3.col-sm-4.col-md-4
               .description(ng-show="options.advanced_feature_switch", l10n) Show
               .description(ng-hide="options.advanced_feature_switch", l10n) Hide
@@ -50,7 +50,7 @@ section.col-xs-12.content(ng-controller="GatewayCtrl")
               a.btn.btn-cancel.btn-block(href="", ng-click="edit.advanced_feature_switch = true", l10n) edit
           .row.row-padding-small.edit-trust-line(ng-show="edit.advanced_feature_switch")
             .col-xs-6.col-sm-5.col-md-3
-              .description Advanced settings
+              .description(l10n) Advanced settings
             .col-xs-4.col-sm-4.col-md-3
               div.helperInput
                 label
