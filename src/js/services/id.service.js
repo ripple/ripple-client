@@ -151,6 +151,8 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', '$t
       var d = $scope.userBlob.data;
       Options.advanced_feature_switch = settings.getSetting($scope.userBlob, 'trust.advancedMode', false);
       Options.historyApi = settings.getSetting($scope.userBlob, 'historyApi', Options.historyApi).replace(/\/[^\/]+$/, '');
+      Options.max_tx_network_fee = settings.getSetting($scope.userBlob, 'maxNetworkFee', Options.max_tx_network_fee);
+
       // confirmation
       // Replace default settings with user settings from blob, if blob is empty, then reuse the original value
       Options.confirmation = $.extend(true, {}, settings.getSetting($scope.userBlob, 'confirmation', Options.confirmation));
