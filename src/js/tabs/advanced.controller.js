@@ -68,6 +68,7 @@ AdvancedTab.prototype.angular = function(module)
           // This has to be updated manually because the network object is not
           // recreated unless we do location.reload()
           network.remote.max_fee = $scope.options.max_tx_network_fee;
+          $scope.userBlob.set('/clients/rippletradecom/maxNetworkFee', $scope.options.max_tx_network_fee)
           break;
         case 'advanced_feature_switch':
           // Ignore it if we are not going to change anything
