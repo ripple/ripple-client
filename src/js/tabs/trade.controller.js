@@ -86,10 +86,6 @@ TradeTab.prototype.angular = function(module)
       seq: null
     };
 
-    $scope.visualState = {
-      hideOrderBook: false
-    };
-
     var rpamountFilter = $filter('rpamount');
 
     var lastUpdate;
