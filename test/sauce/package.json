@@ -1,13 +1,13 @@
 {
   "name": "sauce-connect-launcher-cmd",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "launch sauce connect",
   "author": {
     "name": "Ivan Tivonenko",
     "email": "darkdarkdragon@gmail.com"
   },
   "dependencies": {
-    "sauce-connect-launcher": "git://github.com/darkdarkdragon/sauce-connect-launcher"
+    "sauce-connect-launcher": "*"
   },
   "license": "MIT",
   "scripts": {},

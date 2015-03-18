@@ -48,9 +48,11 @@ notifications:
     on_start: false
 env:
   global: 
-    - SAUCE_CONNECT_VERSION=4.3.6
+    - SAUCE_CONNECT_VERSION=4.3.7
     - SAUCE_USERNAME=tonga
     - SAUCE_ACCESS_KEY=***REMOVED***
+    - secure: "g+bSaoKAx6YQTVof5kUBdWx/REaKzqzkP+CQqsU6Whx+rp9juOtJGNtfH++PaWP1hSslRJi2Ib+9+/EU6CXzLE6IlwLHcnBikexeeF28kEivwRqxosLERLQ0axk8VGw324kgUDG1DsJNKxZFPq+LlXkPcF5eVta+BcSz5BO2ygs="
+    - secure: "BIFtSHbHke2SfyhCTjnSVwkQ3g8aGGV9ZR+tTSFQmp5RVMPEPTy0eiLx4qk+D/UTnJztQSqrtecVvhIa1iHtkwqecyS3/Hjs5h3F9pHNVdL5njk+sMcI4qL63ijpSG3j41jG81SHiCUi86u0FpGtrYzUaSBVe/DWEKwyXmYMlrM="
 #    - secure: "VJFHj5fr46Qf7h34xa/W6FmGvknPH57eQLJoEjKlZUYn0EGx9EliCdENfzAbtr3e4GnNvQh6X2bLA/lB7TRzoD84oyGkllkMayevQm/dViJbUBQsl7HOa6VwUwugW+o7T3+vPM4y5qqFv1B/fs3Fthl+eKUatccy9qK4xra1Hso="
 
 
