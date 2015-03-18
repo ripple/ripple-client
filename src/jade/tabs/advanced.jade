@@ -100,6 +100,34 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
               ng-disabled='serverForm.$invalid', l10n) Save
             .col-xs-6(ng-show="hasRemove()")
               button.btn.btn-block.btn-danger.btn-xs.submit#delete(type="button", ng-click="remove()", ng-show="hasRemove()", l10n) Delete
+            .col-xs-3.col-sm-3.col-md-2.text-center#cancel
+              a.btn.btn-cancel.btn-block(href="", ng-click='cancelEdit("advanced_feature_switch")', l10n) cancel
+        form.trust-line-form(name="accountsAdvForm", ng-submit='save("defaultRippleFlag")')
+          .descriptor(l10n) Gateways: Enable if you plan to issue balances
+          .row.advanced-form-row(ng-hide="edit.defaultRippleFlag")
+            .col-xs-6.col-sm-5.col-md-3
+              .description DefaultRipple flag
+            .col-xs-3.col-sm-4.col-md-4
+              .description(ng-show="options.defaultRippleFlag", l10n) Enabled
+              .description(ng-hide="options.defaultRippleFlag", l10n) Disabled
+            .col-xs-3.col-sm-3.col-md-2
+              a.btn.btn-cancel.btn-block(href="", ng-click="edit.defaultRippleFlag = true", l10n) edit
+          .row.row-padding-small.edit-trust-line(ng-show="edit.defaultRippleFlag")
+            .col-xs-6.col-sm-5.col-md-3
+              .description DefaultRipple flag
+            .col-xs-4.col-sm-4.col-md-3
+              div.helperInput
+                label
+                  input(type="checkbox", name="acct_adv"
+                  ng-model="options.defaultRippleFlag")
+                  span(l10n) Enable
+            .col-xs-6.col-sm-6.col-md-3
+              button.btn.btn-block.btn-success.btn-xs.submit#save(type='submit'
+              ng-disabled='serverForm.$invalid', l10n) Save
+            .col-xs-3(ng-show="hasRemove()")
+              button.btn.btn-block.btn-danger.btn-xs.submit#delete(type="button", ng-click="remove()", ng-show="hasRemove()", l10n) Delete
+            .col-xs-3.col-sm-3.col-md-2.text-center#cancel
+              a.btn.btn-cancel.btn-block(href="", ng-click='cancelEdit("defaultRippleFlag")', l10n) cancel
         h4#networkSettings(l10n) Network settings
         form(name="maxnetworkfeeForm", ng-submit='save("maxNetworkFee")')
           .descriptor(l10n) Maximum network fee
