@@ -21,7 +21,6 @@ BtcTab.prototype.angular = function (module)
   module.controller('BtcCtrl', ['$scope', 'rpId', 'rpAppManager', 'rpTracker', '$routeParams', 'rpNetwork', 'rpKeychain',
                                      function ($scope, id, appManager, rpTracker, $routeParams, network, keychain)
   {
- 
     $scope.accountLines = {};
     $scope.showComponent = [];
     $scope.showInstructions = false;
@@ -42,9 +41,9 @@ BtcTab.prototype.angular = function (module)
       if ($scope.B2R && $scope.B2R.active) {
         $scope.btcConnected = true;
 
-        btcwatcher();  
+        btcwatcher();
       }
-    });
+    }, true);
 
     // B2R Signup
     $scope.B2RSignup = function () {
