@@ -43,12 +43,9 @@ AdvancedTab.prototype.angular = function(module)
       trade: false
     };
     $scope.edit = {
-      advanced_feature_switch: false,
       blobvault: false,
-      bridge: false,
       maxNetworkFee: false,
-      historyApi: false,
-      defaultRippleFlag: false
+      historyApi: false
     };
     $scope.max_tx_network_fee_human = ripple.Amount.from_json($scope.options.max_tx_network_fee).to_human();
     $scope.confirmationChanged = {
@@ -129,8 +126,6 @@ AdvancedTab.prototype.angular = function(module)
         case 'blobvault':
           $scope.options.blobvault = '';
           break;
-        case 'bridge':
-          $scope.options.bridge.out.bitcoin = '';
       }
 
       // Save in local storage
@@ -144,8 +139,6 @@ AdvancedTab.prototype.angular = function(module)
       if (type === 'maxNetworkFee') {
         $scope.options.max_tx_network_fee = $scope.optionsBackup.max_tx_network_fee;
         $scope.max_tx_network_fee_human = ripple.Amount.from_json($scope.options.max_tx_network_fee).to_human();
-      } else if (type === 'bridge') {
-        $scope.options.bridge.out.bitcoin = $scope.optionsBackup.bridge.out.bitcoin;
       } else {
         $scope.options[type] = $scope.optionsBackup[type];
       }
