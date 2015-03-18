@@ -65,6 +65,7 @@ AdvancedTab.prototype.angular = function(module)
       switch (type) {
         case 'maxNetworkFee':
           $scope.options.max_tx_network_fee = ripple.Amount.from_human($scope.max_tx_network_fee_human).to_json();
+          $scope.userBlob.set('/clients/rippletradecom/maxNetworkFee', $scope.options.max_tx_network_fee);
           // This has to be updated manually because the network object is not
           // recreated unless we do location.reload()
           network.remote.max_fee = $scope.options.max_tx_network_fee;
