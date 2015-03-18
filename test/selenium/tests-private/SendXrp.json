@@ -1,0 +1,162 @@
+{
+  "type": "script",
+  "seleniumVersion": "2",
+  "formatVersion": 2,
+  "steps": [
+    {
+      "type": "get",
+      "url": "http://localhost:9001/#/login"
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "Welcome to Ripple Trade"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "id",
+        "value": "login_username"
+      },
+      "text": "${FUNDED_USER_NAME}"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "id",
+        "value": "login_password"
+      },
+      "text": "${FUNDED_USER_PASSWORD}"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "id",
+        "value": "loginBtn"
+      }
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "BALANCES"
+    },
+    {
+      "type": "verifyTextPresent",
+      "text": "BALANCES"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "#nav-send a"
+      }
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "Recipient"
+    },
+    {
+      "type": "verifyElementPresent",
+      "locator": {
+        "type": "id",
+        "value": "send_destination"
+      }
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "id",
+        "value": "send_destination"
+      },
+      "text": "~appsteamaccount1"
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "receive"
+    },
+    {
+      "type": "verifyElementPresent",
+      "locator": {
+        "type": "id",
+        "value": "send_amount"
+      }
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "id",
+        "value": "send_amount"
+      },
+      "text": "0.0001"
+    },
+    {
+      "type": "waitForElementAttribute",
+      "locator": {
+        "type": "id",
+        "value": "sendXrpButton"
+      },
+      "attributeName": "disabled",
+      "value": "disabled",
+      "negated": true
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "id",
+        "value": "sendXrpButton"
+      }
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "confirm"
+    },
+    {
+      "type": "verifyElementPresent",
+      "locator": {
+        "type": "id",
+        "value": "send_unlock_password"
+      }
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "id",
+        "value": "send_unlock_password"
+      },
+      "text": "${FUNDED_USER_PASSWORD}"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "id",
+        "value": "confirmButton"
+      }
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "successful"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": ".fa-cog"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "link text",
+        "value": "Log Out"
+      }
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "Welcome to Ripple Trade"
+    }
+  ],
+  "data": {
+    "configs": {},
+    "source": "none"
+  },
+  "inputs": [],
+  "timeoutSeconds": 420
+}

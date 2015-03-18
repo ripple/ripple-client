@@ -6,7 +6,7 @@ var options = {
 	username: 'tonga',
 	accessKey: '1553f141-1258-4319-b20d-7743def99fbb',
 	verbose: true,
-    varnish: true,
+    vmVersion: 'dev-varnish',
 	logger: console.log
 };
 
