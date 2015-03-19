@@ -624,7 +624,7 @@ var JsonRewriter = module.exports = {
 
     obj.tx_type = tx.TransactionType;
     obj.tx_result = meta.TransactionResult;
-    obj.fee = hasFee ? tx.Fee : 0;
+    obj.fee = ripple.Amount.from_json(hasFee ? tx.Fee : 0);
     obj.date = ripple.utils.toTimestamp(tx.date);
     obj.dateRaw = tx.date;
     obj.hash = tx.hash;
