@@ -322,7 +322,7 @@ HistoryTab.prototype.angular = function (module) {
         lineTemplate.Date = dateTime.format('YYYY-MM-DD');
         lineTemplate.Time = dateTime.format('HH:mm:ss');
         lineTemplate.LedgerNum = histLine.ledger_index;
-        lineTemplate.Fee = formatAmount(Amount.from_json(histLine.fee));
+        lineTemplate.Fee = formatAmount(histLine.fee);
         lineTemplate.TransHash = histLine.hash;
 
         // Default type-specific fields to NA, they will be overridden later if applicable
