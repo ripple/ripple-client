@@ -71,6 +71,9 @@ TrustTab.prototype.angular = function (module)
 
     // User should not even be able to try granting a trust if the reserve is insufficient
     $scope.$watch('account', function() {
+      // Check if account has DefaultRipple flag set
+      $scope.acctDefaultRippleFlag = ($scope.account.Flags & ripple.Remote.flags.account_root.DefaultRipple)
+
       $scope.can_add_trust = false;
       if ($scope.account.Balance && $scope.account.reserve_to_add_trust) {
         if (!$scope.account.reserve_to_add_trust.subtract($scope.account.Balance).is_positive()
@@ -467,16 +470,7 @@ TrustTab.prototype.angular = function (module)
 
           tx.trustSet(idAccount, '0' + '/' + lineCurrency + '/' + lineAccount);
 
-          var account = network.remote.account(id.account);
-          // Check if account has DefaultRipple flag set
-          account.entry(function (e, data) {
-            if (e) {
-              console.log('Error: ', e);
-            } else {
-              (data.account_data.Flags & ripple.Remote.flags.account_root.DefaultRipple)
-                ? tx.setFlags('ClearNoRipple') : tx.setFlags('NoRipple');
-            }
-          });
+          $scope.acctDefaultRippleFlag ? tx.setFlags('ClearNoRipple') : tx.setFlags('NoRipple');
 
           setSecretAndSubmit(tx);
         };
@@ -644,8 +638,17 @@ TrustTab.prototype.angular = function (module)
         });
       };
 
-      $scope.isIncoming = function () {
-        return $scope.component.limit_peer._value.t !== 0;
+      $scope.isIncoming = function () { 
+        if (Number($scope.component.limit.to_json().value) === 0 && $scope.acctDefaultRippleFlag) {
+          // If limit is 0 and DefaultRipple flag is on, that means that the default state
+          // for that trust line has rippling turned on.
+          
+          // This is an incoming trustline
+          return !$scope.component.no_ripple;
+        } else if (Number($scope.component.limit.to_json().value) === 0) {
+          // This is also an incoming trustline
+          return $scope.component.no_ripple;
+        }
       };
 
     }]);
