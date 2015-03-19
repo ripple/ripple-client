@@ -87,7 +87,8 @@ TradeTab.prototype.angular = function(module)
     };
 
     $scope.visualState = {
-      hideOrderBook: false
+      hideOrderBook: false,
+      hideOffers: false
     };
 
     var rpamountFilter = $filter('rpamount');
@@ -1254,21 +1255,21 @@ TradeTab.prototype.angular = function(module)
     }
 
     $scope.toggleOffers = function() {
-      $scope.hideOffers = !$scope.hideOffers;
-      $scope.userBlob.set('/clients/rippletradecom/tradeoffers', {hideOffers: $scope.hideOffers, hideOrderBook: $scope.hideOrderBook});
+      $scope.visualState.hideOffers = !$scope.visualState.hideOffers;
+      $scope.userBlob.set('/clients/rippletradecom/tradeoffers', {hideOffers: $scope.visualState.hideOffers, hideOrderBook: $scope.visualState.hideOrderBook});
     };
 
     $scope.toggleOrderBook = function(){
-      $scope.hideOrderBook = !$scope.hideOrderBook;
-      $scope.userBlob.set('/clients/rippletradecom/tradeoffers', {hideOffers: $scope.hideOffers, hideOrderBook: $scope.hideOrderBook});
+      $scope.visualState.hideOrderBook = !$scope.visualState.hideOrderBook;
+      $scope.userBlob.set('/clients/rippletradecom/tradeoffers', {hideOffers: $scope.visualState.hideOffers, hideOrderBook: $scope.visualState.hideOrderBook});
     };
 
     $scope.$watchCollection('[userBlob.data.clients.rippletradecom.tradeoffers.hideOffers, userBlob.data.clients.rippletradecom.tradeoffers.hideOrderBook]', function(e){
       if (typeof e[0] !== undefined) {
-        $scope.hideOffers = e[0];
+        $scope.visualState.hideOffers = e[0];
       }
       if (typeof e[1] !== undefined) {
-        $scope.hideOrderBook = e[1];
+        $scope.visualState.hideOrderBook = e[1];
       }
     });
 

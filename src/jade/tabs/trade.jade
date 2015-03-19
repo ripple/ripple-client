@@ -378,7 +378,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
 
           .my-orders-title(l10n) My Orders
             span &#32;({{offersCount}})
-            small.toggle(ng-hide="isEmpty(offers)", ng-click="hideOffers = !hideOffers") {{hideOffers ? "show" : "hide"}}
+            small.toggle(ng-hide="isEmpty(offers)", ng-click="toggleOffers()") {{visualState.hideOffers ? "show" : "hide"}}
           div#myOrdersMsg
           group.mode-granted.wide(ng-show='notif !== "clear"')
             group(ng-switch on="notif")          
@@ -394,12 +394,12 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                 h2.tx-status(l10n) Unable to cancel order as it no longer exists.
           .col-sm-12.alert.alert-info(ng-show="editOrder.replacing")
             span(l10n) Modifying your order (Placing new order) ...
-          .rp-checkbox(ng-hide="hideOffers || isEmpty(offers)")
+          .rp-checkbox(ng-hide="visualState.hideOffers || isEmpty(offers)")
             label
               input(type="checkbox", name="current_pair_only", ng-model="sortOptions.currentPairOnly")
               span(l10n) Current pair only
           .rp-select.hidden-md.hidden-lg
-            div(ng-hide="hideOffers || isEmpty(offers)")
+            div(ng-hide="visualState.hideOffers || isEmpty(offers)")
               span Sort by
               .rp-combobox.rp-combobox-small.orders-sort-select
                 input.currency.form-control#orders_sort_field(
@@ -408,14 +408,14 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                 rp-combobox-small
                 ng-model='sortOptions.sortFieldName')
           .rp-checkbox.hidden-md.hidden-lg
-            div(ng-hide="hideOffers || isEmpty(offers)")
+            div(ng-hide="visualState.hideOffers || isEmpty(offers)")
               label
                 input(type="checkbox", name="reverse"
                 ng-model="sortOptions.reverse")
                 span(l10n) reverse
           div(ng-hide="isEmpty(offers)")
             hr.hidden-md.hidden-lg
-          .listings.offers(ng-hide="hideOffers")
+          .listings.offers(ng-hide="visualState.hideOffers")
             .my
               div
                 .row.head.hidden-xs.hidden-sm
@@ -582,7 +582,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
             .col-xs-12.col-sm-6
               div.orderbook-title(l10n)
                 | Orderbook
-                small.toggle.orderbook-hide(ng-click="visualState.hideOrderBook = !visualState.hideOrderBook")
+                small.toggle.orderbook-hide(ng-click="toggleOrderBook()")
                   span(ng-show="visualState.hideOrderBook", l10n) show
                   span(ng-hide="visualState.hideOrderBook", l10n) hide
             .col-xs-12.col-sm-6.last-update(l10n, ng-show="lastUpdate") Last updated&#32;
