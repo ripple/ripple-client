@@ -161,7 +161,7 @@ section.col-xs-12.content(ng-controller='SendCtrl')
               | You are either trying to send too little or too much XRP.
               | Minimum amount is 0.000001 XRP and maximum amount is 100 billion XRP.
             .error(ng-message='rpMaxDigits', l10n) Your amount has too many digits. The max number of digits is 16.
-            .error(ng-show="send.recipient_info.disallow_xrp && send.currency_code=='XRP'", l10n)
+            .notice(ng-show="send.recipient_info.disallow_xrp && send.currency_code=='XRP'", l10n)
               | Recipient does not allow XRP payments. Are you sure you want to send XRP anyway?
             .notice(ng-show="send.trust_limit", l10n) {{send.recipient | rpcontactname}}
               | trusts you for {{send.trust_limit | rpamount}} {{send.trust_limit | rpcurrency}}.
