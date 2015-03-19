@@ -1248,9 +1248,6 @@ SendTab.prototype.angular = function (module)
 
     if ($routeParams.to && $routeParams.amount) {
       var amountValue = $routeParams.amount;
-      if (amountValue === ('' + parseInt(amountValue, 10))) {
-        amountValue = amountValue + '.0';
-      }
       var amount = ripple.Amount.from_json(amountValue);
       var currency = amount.currency();
       if ($scope.currencies_all_keyed[currency.get_iso()]) {
