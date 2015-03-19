@@ -90,8 +90,13 @@ SendTab.prototype.angular = function (module)
       setImmediate(function() {
         if ($scope.sendForm && $scope.sendForm.send_amount !== undefined) {
           $scope.$apply(function() {
-            $scope.sendForm.send_amount.$setViewValue($scope.send.amount);
-            $scope.sendForm.send_amount.$validate();
+            // $scope.sendForm.send_amount.$validate();
+            // hack - use of private method. this is because rpAmount and other
+            // validators not real validators, but parsers.
+            // and latest angular does not call parsers on $validate.
+            // when rpAmount and others changed to validators this can be changed
+            // back to $validate
+            $scope.sendForm.send_amount.$$parseAndValidate();
             $scope.update_amount();
           });
         }
