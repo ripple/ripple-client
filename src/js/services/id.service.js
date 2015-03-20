@@ -150,7 +150,7 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', '$t
 
       var d = $scope.userBlob.data;
       Options.advanced_feature_switch = settings.getSetting($scope.userBlob, 'trust.advancedMode', false);
-      Options.historyApi = settings.getSetting($scope.userBlob, 'historyApi', Options.historyApi).replace(/\/[^\/]+$/, '');
+      Options.historyApi = settings.getSetting($scope.userBlob, 'historyApi', Options.historyApi).replace(/[\/]*$/, '');
       Options.max_tx_network_fee = settings.getSetting($scope.userBlob, 'maxNetworkFee', Options.max_tx_network_fee);
 
       // confirmation
