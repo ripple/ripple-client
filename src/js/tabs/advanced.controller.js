@@ -96,7 +96,7 @@ AdvancedTab.prototype.angular = function(module)
           break;
 
         case 'historyApi':
-          $scope.userBlob.set('/clients/rippletradecom/historyApi', $scope.options.historyApi.replace(/\/[^\/]+$/, ''));
+          $scope.userBlob.set('/clients/rippletradecom/historyApi', $scope.options.historyApi.replace(/[\/]*$/, ''));
           break;
         default:
           // Save in local storage
