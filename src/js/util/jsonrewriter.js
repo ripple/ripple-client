@@ -557,7 +557,8 @@ var JsonRewriter = module.exports = {
           }
 
           // Another account offer. We care about it only if our transaction changed the offer amount (we bought currency)
-          else if(tx.Account === account && !$.isEmptyObject(node.fieldsPrev) /* Offer is unfunded if node.fieldsPrev is empty */) {
+          else if (tx.Account === account && !$.isEmptyObject(node.fieldsPrev) // Offer is unfunded if node.fieldsPrev is empty
+            && !$.isEmptyObject(node.fieldsPrev.TakerGets) && !$.isEmptyObject(node.fieldsPrev.TakerPays)) { // TakerGets or TakerPays might not be there if the change is smaller then a drop
             effect.type = 'offer_bought';
           }
 
