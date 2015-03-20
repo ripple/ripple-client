@@ -506,7 +506,6 @@ var JsonRewriter = module.exports = {
 
         // Offer
         else if (node.entryType === 'Offer') {
-
           // For new and cancelled offers we use 'fields'
           var fieldSet = node.fields;
 
@@ -560,9 +559,7 @@ var JsonRewriter = module.exports = {
           else if (tx.Account === account && !$.isEmptyObject(node.fieldsPrev) // Offer is unfunded if node.fieldsPrev is empty
             && !$.isEmptyObject(node.fieldsPrev.TakerGets) && !$.isEmptyObject(node.fieldsPrev.TakerPays)) { // TakerGets or TakerPays might not be there if the change is smaller then a drop
             effect.type = 'offer_bought';
-          }
 
-          if (effect.type) {
             effect.gets = ripple.Amount.from_json(fieldSet.TakerGets);
             effect.pays = ripple.Amount.from_json(fieldSet.TakerPays);
 
@@ -570,16 +567,14 @@ var JsonRewriter = module.exports = {
               effect.got = ripple.Amount.from_json(node.fieldsPrev.TakerGets).subtract(node.fields.TakerGets);
               effect.paid = ripple.Amount.from_json(node.fieldsPrev.TakerPays).subtract(node.fields.TakerPays);
             }
-          }
 
-          if (effect.gets && effect.pays) {
             effect.price = getPrice(effect, tx.date);
-          }
 
-          // Flags
-          if (node.fields.Flags) {
-            effect.flags = node.fields.Flags;
-            effect.sell = node.fields.Flags & ripple.Remote.flags.offer.Sell;
+            // Flags
+            if (node.fields.Flags) {
+              effect.flags = node.fields.Flags;
+              effect.sell = node.fields.Flags & ripple.Remote.flags.offer.Sell;
+            }
           }
         }
 
