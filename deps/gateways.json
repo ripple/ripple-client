@@ -192,5 +192,12 @@
             "currencies": ["ZAR"]
             }],
         "domain": "www.ice3x.co.za"
+    }, {
+      "name": "Senderas",
+      "accounts": [{
+            "address": "rJypGvB8H2JBj1QVYofUTU8kFtWLspNWqs",
+            "currencies": ["GBP"]
+            }],
+        "domain": "www.senderas.com"
     }
 ]
