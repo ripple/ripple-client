@@ -60,35 +60,39 @@ ContactsTab.prototype.angular = function (module) {
      */
     $scope.create = function ()
     {
-      var contact = {
-        name: $scope.contact.name,
-        view: $scope.contact.view,
-        address: $scope.contact.address
-      };
+      // Resolve name before adding
+      id.resolveName($scope.contact.address, {tilde: true}).then(function(acc){
+        var contact = {
+          name: $scope.contact.name,
+          view: $scope.contact.view,
+          address: $scope.contact.address,
+          account: acc
+        };
 
-      if ($scope.contact.dt && !$scope.contact.federation) {
-        contact.dt = $scope.contact.dt;
-      }
+        if ($scope.contact.dt && !$scope.contact.federation) {
+          contact.dt = $scope.contact.dt;
+        }
 
-      // Enable the animation
-      $scope.enable_highlight = true;
+        // Enable the animation
+        $scope.enable_highlight = true;
 
-      // Add an element
-      $scope.userBlob.unshift("/contacts", contact);
+        // Add an element
+        $scope.userBlob.unshift("/contacts", contact);
 
-      // Hide the form
-      $scope.toggle_form();
+        // Hide the form
+        $scope.toggle_form();
 
-      // Clear form
-      $scope.reset_form();
+        // Clear form
+        $scope.reset_form();
 
-      // Notify the user
-      $scope.success.createContact = true;
+        // Notify the user
+        $scope.success.createContact = true;
+      });
     };
   }]);
 
-  module.controller('ContactRowCtrl', ['$scope', '$location',
-    function ($scope, $location) {
+  module.controller('ContactRowCtrl', ['$scope', '$location', 'rpId',
+    function ($scope, $location, id) {
       $scope.editing = false;
 
       /**
@@ -115,30 +119,43 @@ ContactsTab.prototype.angular = function (module) {
         if (!$scope.inlineAddress.editaddress.$error.rpUnique
             && !$scope.inlineAddress.editaddress.$error.rpDest
             && !$scope.inlineName.editname.$error.rpUnique) {
-
+          
           var entry = {
             name: $scope.editname,
             view: $scope.editview,
-            address: $scope.editaddress
+            address: $scope.editaddress,
+            account: $scope.contact.account
+          };
+         
+          // Complete update
+          var complete = function(){
+
+            if ($scope.editdt  && !$scope.contact.federation) {
+              entry.dt = $scope.editdt;
+            }
+
+            // Update blob
+            $scope.userBlob.filter('/contacts', 'name', $scope.entry.name,
+                                   'extend', '', entry);
+            // delete destination tag
+            if (!$scope.editdt && $scope.entry.dt) {
+              $scope.userBlob.filter('/contacts', 'name', $scope.entry.name,
+                                     'unset', '/dt');
+            }
+
+            $scope.editing = false;
+
+            // Notify the user
+            $scope.success.updateContact = true;
           };
 
-          if ($scope.editdt  && !$scope.contact.federation) {
-            entry.dt = $scope.editdt;
-          }
-
-          // Update blob
-          $scope.userBlob.filter('/contacts', 'name', $scope.entry.name,
-                                 'extend', '', entry);
-          // delete destination tag
-          if (!$scope.editdt && $scope.entry.dt) {
-            $scope.userBlob.filter('/contacts', 'name', $scope.entry.name,
-                                   'unset', '/dt');
-          }
-
-          $scope.editing = false;
-
-          // Notify the user
-          $scope.success.updateContact = true;
+          // Resolve address to name
+          if (!entry.account){
+            id.resolveName(entry.address, {tilde: true}).then(function(acc){
+              entry.account = acc;
+              complete();
+            });
+          } else complete();
         }
       };
 
