@@ -63,10 +63,10 @@ section.col-xs-12.content(ng-controller='JpyCtrl')
           .descriptor(ng-show="!jpyConnected", l10n) Ripple Trade has partnered with Tokyo JPY Issuer to provide easier access to JPY. Following this action will enable Tokyo JPY Issuer to hold JPY on your behalf.
       .row.fund-tab-description
         .col-xs-7.col-sm-5.col-md-4
-          button.btn.btn-large(ng-show="!jpyConnected && !loading", type="submit", ng-click="save_account()", ng-disabled="!account.Balance || !can_add_trust") Add Tokyo JPY
-          button.btn.btn-large(ng-show="!jpyConnected && loading", type="submit", ng-disabled="loading") Adding...
-          button.btn.btn-large(ng-show="showInstructions && jpyConnected", type="submit", ng-click="toggle_instructions()", l10n) Hide instructions
-          button.btn.btn-large(ng-show="jpyConnected && !showInstructions", type="submit", ng-click="toggle_instructions()", l10n) Show instructions
+          button.btn.btn-large.btn-primary(ng-show="!jpyConnected && !loading", type="submit", ng-click="save_account()", ng-disabled="!account.Balance || !can_add_trust", l10n) Add Tokyo JPY
+          button.btn.btn-large.btn-primary(ng-show="!jpyConnected && loading", type="submit", ng-disabled="loading", l10n) Adding...
+          button.btn.btn-large.btn-primary(ng-show="showInstructions && jpyConnected", type="submit", ng-click="toggle_instructions()", l10n) Hide instructions
+          button.btn.btn-large.btn-primary(ng-show="jpyConnected && !showInstructions", type="submit", ng-click="toggle_instructions()", l10n) Show instructions
 
         .connect.col-xs-5.col-sm-7.col-md-8(ng-hide="loading")
           .description(ng-show="!jpyConnected && account.Balance", l10n) 
