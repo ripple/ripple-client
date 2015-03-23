@@ -10,37 +10,37 @@ var rewriter = require('../util/jsonrewriter');
 var Currency = ripple.Currency;
 var gateways = require('../../../deps/gateways.json');
 
-var TradeTab = function ()
+var AdvancedTradeTab = function ()
 {
   Tab.call(this);
 };
 
-util.inherits(TradeTab, Tab);
+util.inherits(AdvancedTradeTab, Tab);
 
-TradeTab.prototype.tabName = 'trade';
-TradeTab.prototype.mainMenu = 'trade';
+AdvancedTradeTab.prototype.tabName = 'advancedTrade';
+AdvancedTradeTab.prototype.mainMenu = 'advancedTrade';
 
-TradeTab.prototype.generateHtml = function ()
+AdvancedTradeTab.prototype.generateHtml = function ()
 {
-  return require('../../jade/tabs/trade.jade')();
+  return require('../../jade/tabs/trade/advancedTrade.jade')();
 };
 
-TradeTab.prototype.angularDeps = Tab.prototype.angularDeps.concat(['books']);
+AdvancedTradeTab.prototype.angularDeps = Tab.prototype.angularDeps.concat(['books']);
 
-TradeTab.prototype.extraRoutes = [
-  { name: '/trade/:first/:second' }
+AdvancedTradeTab.prototype.extraRoutes = [
+  { name: '/trade/advanced' }
 ];
 
-TradeTab.prototype.angular = function(module)
+AdvancedTradeTab.prototype.angular = function(module)
 {
-  module.controller('TradeCtrl', TradeCtrl);
+  module.controller('AdvancedTradeCtrl', AdvancedTradeCtrl);
 
-  TradeCtrl.$inject = ['rpBooks', '$scope', 'rpId', 'rpNetwork',
+  AdvancedTradeCtrl.$inject = ['rpBooks', '$scope', 'rpId', 'rpNetwork',
                                   '$routeParams', '$location', '$filter',
                                   'rpTracker', 'rpKeychain', '$rootScope',
                                   'rpPopup', '$anchorScroll', '$timeout'];
 
-  function TradeCtrl(books, $scope, id, network,
+  function AdvancedTradeCtrl(books, $scope, id, network,
                      $routeParams, $location, $filter,
                      rpTracker, keychain, $rootScope,
                      popup, $anchorScroll, $timeout)
@@ -1506,6 +1506,6 @@ TradeTab.prototype.angular = function(module)
   }
 };
 
-module.exports = TradeTab;
+module.exports = AdvancedTradeTab;
 
 })(module);
