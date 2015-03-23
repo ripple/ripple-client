@@ -51,7 +51,6 @@ AdvancedTab.prototype.angular = function(module)
       defaultRippleFlag: false
     };
     $scope.max_tx_network_fee_human = ripple.Amount.from_json($scope.options.max_tx_network_fee).to_human();
-    $scope.advancedFeatureSwitchChanged = false;
     $scope.confirmationChanged = {
       send: false,
       exchange: false,
@@ -71,12 +70,6 @@ AdvancedTab.prototype.angular = function(module)
           network.remote.max_fee = $scope.options.max_tx_network_fee;
           break;
         case 'advanced_feature_switch':
-          // Ignore it if we are not going to change anything
-          if (!$scope.advancedFeatureSwitchChanged) {
-            $scope.edit[type] = false;
-            return;
-          }
-          $scope.advancedFeatureSwitchChanged = false;
           $scope.userBlob.set('/clients/rippletradecom/trust/advancedMode', $scope.options.advanced_feature_switch);
           break;
         case 'defaultRippleFlag':
