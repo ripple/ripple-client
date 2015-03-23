@@ -21,7 +21,7 @@ GatewayTab.prototype.generateHtml = function ()
 
 GatewayTab.prototype.angular = function(module)
 {
-  module.controller('GatewayCtrl', ['$scope', 'rpId', 'rpKeychain', 'rpNetwork',
+  module.controller('GatewaySettingsCtrl', ['$scope', 'rpId', 'rpKeychain', 'rpNetwork',
                                     function ($scope, id, keychain, network)
   {
 
