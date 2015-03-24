@@ -201,6 +201,10 @@ var JsonRewriter = module.exports = {
           var diff = String(difference);
           amtSent = cur ? {value: diff, currency : cur} : diff;
         }
+
+        else {
+          amtSent = tx.Amount;
+        }
       }
     }
 
