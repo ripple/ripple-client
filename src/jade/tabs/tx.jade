@@ -25,11 +25,11 @@ section.single.ddpage.content(ng-controller="TxCtrl", ng-switch on="state")
             dt
               span(l10n) Amount sent
               span :
-            dd {{amountSent | rpamount}} {{amountSent | rpcurrency}}
+            dd {{transaction.amountSent | rpamount}} {{transaction.amountSent | rpcurrency}}
             dt
               span(l10n) Currency sent
               span :
-            dd {{amountSent | rpcurrencyfull}}
+            dd {{transaction.amountSent | rpcurrencyfull}}
           dl.details.half
             dt
               span(l10n) Address sent to
@@ -61,7 +61,7 @@ section.single.ddpage.content(ng-controller="TxCtrl", ng-switch on="state")
           dt
             span(l10n) Ledger number
             span :
-          dd(ng-bind="transaction.inLedger")
+          dd(ng-bind="transaction.ledger")
       group(ng-switch-default)
           group.clearfix
             dl.details.half
