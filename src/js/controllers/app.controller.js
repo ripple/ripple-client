@@ -238,7 +238,7 @@ function AppCtrl ($scope, id, net, keychain, txQueue, appManager, rpTracker,
     // reserve, max_spend.
 
     var ownerCount  = $scope.account.OwnerCount || 0;
-    $scope.account.reserve_base = server._reserve_base;
+    $scope.account.reserve_base = Amount.from_json(server._reserve_base); 
     $scope.account.reserve = calculateReserve(server, ownerCount);
     $scope.account.reserve_to_add_trust = calculateReserve(server, ownerCount + 1);
 
