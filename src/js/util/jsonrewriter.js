@@ -511,7 +511,6 @@ var JsonRewriter = module.exports = {
 
           // Current account offer
           if (node.fields.Account === account) {
-
             // Partially funded offer [and deleted.. no more funds]
             /* Offer has been partially funded and deleted (because of the luck of funds)
              if the node is deleted and the TakerGets/TakerPays field has been changed */
@@ -545,7 +544,6 @@ var JsonRewriter = module.exports = {
               if (effect.type === 'offer_cancelled' &&
                   obj.transaction &&
                   obj.transaction.type === 'offercancel') {
-
                 // Fill in remaining information about offer
                 obj.transaction.gets = fieldSet.TakerGets;
                 obj.transaction.pays = fieldSet.TakerPays;
@@ -560,13 +558,15 @@ var JsonRewriter = module.exports = {
             && !$.isEmptyObject(node.fieldsPrev.TakerGets) && !$.isEmptyObject(node.fieldsPrev.TakerPays)) { // TakerGets or TakerPays might not be there if the change is smaller then a drop
             effect.type = 'offer_bought';
 
-            effect.gets = ripple.Amount.from_json(fieldSet.TakerGets);
-            effect.pays = ripple.Amount.from_json(fieldSet.TakerPays);
-
             if ('offer_partially_funded' === effect.type || 'offer_bought' === effect.type) {
               effect.got = ripple.Amount.from_json(node.fieldsPrev.TakerGets).subtract(node.fields.TakerGets);
               effect.paid = ripple.Amount.from_json(node.fieldsPrev.TakerPays).subtract(node.fields.TakerPays);
             }
+          }
+
+          if (effect.type) {
+            effect.gets = ripple.Amount.from_json(fieldSet.TakerGets);
+            effect.pays = ripple.Amount.from_json(fieldSet.TakerPays);
 
             effect.price = getPrice(effect, tx.date);
 
