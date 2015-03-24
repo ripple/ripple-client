@@ -34,7 +34,8 @@ TxTab.prototype.angular = function (module)
         .success(function(data){
           $.extend($scope.transaction, data.transaction.tx);
 
-          $scope.amountSent = rewriter.getAmountSent(data.transaction.tx, data.transaction.meta);
+          $scope.transaction.ledger = data.transaction.ledger_index;
+          $scope.transaction.amountSent = rewriter.getAmountSent(data.transaction.tx, data.transaction.meta);
           $scope.state = 'loaded';
         })
         .error(function(){});
