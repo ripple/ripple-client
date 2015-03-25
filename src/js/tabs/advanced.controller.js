@@ -161,6 +161,9 @@ AdvancedTab.prototype.angular = function(module)
 
       // we assume that some fields in Options are updated in rpId service $blobUpdate handler
       $scope.optionsBackup = $.extend(true, {}, Options);
+
+      // still assuming that fields in Options have been updated in rpId service $blobUpdate handler
+      $scope.max_tx_network_fee_human = ripple.Amount.from_json($scope.options.max_tx_network_fee).to_human();
     });
 
     // Add a new server
