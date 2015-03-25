@@ -1,0 +1,94 @@
+section.col-xs-12.content(ng-controller="GatewaySettingsCtrl")
+  div(ng-show='debug', l10n) This page is not available in debug mode
+
+  div(ng-show="!loadingAccount && !account.Balance && loadState.account && connected && !debug")
+    include banner/unfunded
+  .row(ng-show='!debug')
+    .col-sm-12.notification-wrapper
+      .alert.alert-success(ng-show="success.bridge", l10n) Your bitcoin bridge has been changed successfully.
+      .alert.alert-success(ng-show="success.advanced_feature_switch", l10n) Trustline advanced settings have been changed successfully.
+      .alert.alert-success(ng-show="success.rippling", l10n) Rippling settings have been changed successfully.
+    .col-sm-3
+      include settings/navbar
+    .col-sm-9.list
+      section.content#servers
+        h4(l10n) Gateway settings
+        mixin urlForm(urlType, formName, formDescriptor, description, inputName, hasDelete)
+          form(name=formName, ng-submit='save("'+urlType+'")')
+            .descriptor(l10n)= formDescriptor
+            .row.advanced-form-row(ng-hide='edit.'+urlType)
+              .col-xs-9.col-sm-8.col-md-6
+                .description= description.url
+              .col-xs-1
+              .col-xs-3.col-sm-3.col-md-2
+                a.btn.btn-block.btn-cancel(href="", ng-click='edit.'+urlType+' = true', l10n) edit
+            .row.row-padding-small.field-edit-row(ng-show='edit.'+urlType)
+              .col-xs-12.col-sm-9.col-md-6
+                input.form-control(
+                class=inputName
+                id=inputName
+                name=inputName, type='text'
+                ng-model=description.ngModel
+                required)
+              .col-xs-6.col-sm-6.col-md-3
+                button.btn.btn-block.btn-success.btn-xs.submit#save(type='submit', ng-disabled=formName+'.$invalid', l10n) Save
+              if hasDelete
+                .col-xs-3.col-sm-3.col-md-2
+                  button.btn.btn-block.btn-danger.btn-xs.submit#delete(type="button", ng-click='deleteUrl("'+urlType+'")', l10n) Delete
+              .col-xs-3.col-sm-3.col-md-1.text-center#cancel
+                a.btn.btn-cancel.btn-block(href="", ng-click='cancelEdit("'+urlType+'")', l10n) cancel
+        +urlForm('bridge', 'bridgeForm', 'Bitcoin bridge', {url: '{{options.bridge.out.bitcoin}}', ngModel: 'options.bridge.out.bitcoin'}, 'btcDomain', true)
+        form.trust-line-form(name="accountsAdvForm", ng-submit='save("advanced_feature_switch")')
+          .descriptor(l10n) Trust line
+          .row.advanced-form-row(ng-hide="edit.advanced_feature_switch")
+            .col-xs-6.col-sm-5.col-md-3
+              .description(l10n) Advanced settings
+            .col-xs-3.col-sm-4.col-md-4
+              .description(ng-show="options.advanced_feature_switch", l10n) Show
+              .description(ng-hide="options.advanced_feature_switch", l10n) Hide
+            .col-xs-3.col-sm-3.col-md-2
+              a.btn.btn-cancel.btn-block(href="", ng-click="edit.advanced_feature_switch = true", l10n) edit
+          .row.row-padding-small.edit-trust-line(ng-show="edit.advanced_feature_switch")
+            .col-xs-6.col-sm-5.col-md-3
+              .description(l10n) Advanced settings
+            .col-xs-4.col-sm-4.col-md-3
+              div.helperInput
+                label
+                  input(type="checkbox", name="acct_adv"
+                  ng-model="options.advanced_feature_switch"
+                  ng-click="advancedFeatureSwitchChanged = true")
+                  span(l10n) Show
+            .col-xs-12.col-sm-4.col-md-4
+              button.btn.btn-block.btn-success.btn-xs.submit#save(type='submit'
+              ng-disabled='serverForm.$invalid', l10n) Save
+            .col-xs-6(ng-show="hasRemove()")
+              button.btn.btn-block.btn-danger.btn-xs.submit#delete(type="button", ng-click="remove()", ng-show="hasRemove()", l10n) Delete
+            .col-xs-3.col-sm-3.col-md-2.text-center#cancel
+              a.btn.btn-cancel.btn-block(href="", ng-click='cancelEdit("advanced_feature_switch")', l10n) cancel
+        form.trust-line-form(name="accountsAdvForm", ng-submit='save("defaultRippleFlag")')
+          .descriptor(l10n) Default Ripple Flag Setting
+          .row.advanced-form-row(ng-hide="edit.defaultRippleFlag")
+            .col-xs-6.col-sm-5.col-md-3
+              .description(l10n) Rippling
+            .col-xs-3.col-sm-4.col-md-4
+              .description(ng-show="options.defaultRippleFlag", l10n) Enabled
+              .description(ng-hide="options.defaultRippleFlag", l10n) Disabled
+            .col-xs-3.col-sm-3.col-md-2
+              a.btn.btn-cancel.btn-block(href="", ng-click="edit.defaultRippleFlag = true", l10n) edit
+          .row.row-padding-small.edit-trust-line(ng-show="edit.defaultRippleFlag")
+            .col-xs-6.col-sm-5.col-md-3
+              .description(l10n) Rippling
+            .col-xs-4.col-sm-4.col-md-3
+              div.helperInput
+                label
+                  input(type="checkbox", name="acct_adv"
+                  ng-model="options.defaultRippleFlag")
+                  span(l10n) Enable
+            .col-xs-6.col-sm-6.col-md-3
+              button.btn.btn-block.btn-success.btn-xs.submit#save(type='submit'
+              ng-disabled='serverForm.$invalid', l10n) Save
+            .col-xs-3(ng-show="hasRemove()")
+              button.btn.btn-block.btn-danger.btn-xs.submit#delete(type="button", ng-click="remove()", ng-show="hasRemove()", l10n) Delete
+            .col-xs-3.col-sm-3.col-md-2.text-center#cancel
+              a.btn.btn-cancel.btn-block(href="", ng-click='cancelEdit("defaultRippleFlag")', l10n) cancel
+        

@@ -56,8 +56,13 @@ ExchangeTab.prototype.angular = function (module)
         setImmediate(function() {
           if ($scope.exchangeForm.amount !== undefined) {
             $scope.$apply(function() {
-              $scope.exchangeForm.amount.$setViewValue($scope.exchange.amount);
-              $scope.exchangeForm.amount.$validate();
+              // $scope.exchangeForm.amount.$validate();
+              // hack - use of private method. this is because rpAmount and other
+              // validators not real validators, but parsers.
+              // and latest angular does not call parsers on $validate.
+              // when rpAmount and others changed to validators this can be changed
+              // back to $validate
+              $scope.exchangeForm.amount.$$parseAndValidate();
               runUpdateExchangeIfNeeded();
             });
           }
