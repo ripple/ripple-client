@@ -1,6 +1,6 @@
 'use strict';
 
-describe('ExchangeCtrl', function() {
+describe('SimpleTradeCtrl', function() {
   var scope, ctrl, network;
 
   beforeEach(module('rp'));
