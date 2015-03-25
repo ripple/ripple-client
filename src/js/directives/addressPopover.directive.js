@@ -74,11 +74,13 @@
     if (this.rpAddressPopoverSum) {
       var nowSumm = this.$parse(this.rpAddressPopoverSum)(this.scope);
       nowSumm = this.rpamountFilter(nowSumm, AddressPopover.summFilterOpts);
+      console.log('1', nowSumm);
+      console.log('2', this.sum);
       if (nowSumm != this.summ) {
+        console.log('true1');
         if (this.rpAddressPopoverSumMinus && nowSumm != 'n/a') {
-          if (Number(nowSumm)){
-            nowSumm = '-' + nowSumm;
-          }
+          console.log('true2');
+          nowSumm = '-' + nowSumm;
         }
         this.summ = nowSumm;
       }
