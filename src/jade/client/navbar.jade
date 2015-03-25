@@ -19,10 +19,10 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
             a(href="#/balance", l10n) Overview
           li#nav-send(ng-class="{active: $route.current.mainMenu == 'send'}")
             a(href="#/send", l10n) Send
-          li#nav-exchange(ng-class="{active: $route.current.mainMenu == 'exchange' || $route.current.mainMenu == 'trade'}", ng-show="!ripple_exchange_selection_trade")
-            a(href="#/exchange", l10n) Trade
-          li#nav-exchange(ng-class="{active: $route.current.mainMenu == 'exchange' || $route.current.mainMenu == 'trade'}", ng-show="ripple_exchange_selection_trade")
-            a(href="#/trade", l10n) Trade
+          li#nav-exchange(ng-class="{active: $route.current.mainMenu == 'advancedTrade' || $route.current.mainMenu == 'simpleTrade'}", ng-show="!ripple_exchange_selection_trade")
+            a(href="#/trade/simple", l10n) Trade
+          li#nav-exchange(ng-class="{active: $route.current.mainMenu == 'advancedTrade' || $route.current.mainMenu == 'simpleTrade'}", ng-show="ripple_exchange_selection_trade")
+            a(href="#/trade/simple", l10n) Trade
           li#nav-fund(ng-class="{active: $route.current.mainMenu == 'fund'}")
             a(href="#/xrp", l10n) Fund
           //- li#nav-fund(ng-class="{active: $route.current.mainMenu == 'pretend'}")
@@ -128,13 +128,13 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
           a(href="#/history", l10n) History
         li(ng-class="{active: $route.current.tabName == 'contacts'}")
           a(href="#/contacts", l10n) Contacts
-  .subnav(ng-show="$route.current.mainMenu == 'exchange' || $route.current.mainMenu == 'trade'")
+  .subnav(ng-show="$route.current.mainMenu == 'advancedTrade' || $route.current.mainMenu == 'simpleTrade'")
     .container
       ul
-        li(ng-class="{active: $route.current.tabName == 'exchange'}")
-          a(href="#/exchange", l10n) Simple
-        li(ng-class="{active: $route.current.tabName == 'trade'}")
-          a(href="#/trade", l10n) Advanced
+        li(ng-class="{active: $route.current.tabName == 'simpleTrade'}")
+          a(href="#/trade/simple", l10n) Simple
+        li(ng-class="{active: $route.current.tabName == 'advancedTrade'}")
+          a(href="#/trade/advanced", l10n) Advanced
   //- .subnav(ng-show="$route.current.mainMenu == 'fund'")
     .container
       ul

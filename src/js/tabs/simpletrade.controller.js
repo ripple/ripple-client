@@ -6,24 +6,28 @@ var util = require('util'),
     rewriter = require('../util/jsonrewriter'),
     Currency = ripple.Currency;
 
-var ExchangeTab = function ()
+var SimpleTradeTab = function ()
 {
   Tab.call(this);
 };
 
-util.inherits(ExchangeTab, Tab);
+util.inherits(SimpleTradeTab, Tab);
 
-ExchangeTab.prototype.tabName = 'exchange';
-ExchangeTab.prototype.mainMenu = 'exchange';
+SimpleTradeTab.prototype.tabName = 'simpleTrade';
+SimpleTradeTab.prototype.mainMenu = 'simpleTrade';
 
-ExchangeTab.prototype.generateHtml = function ()
+SimpleTradeTab.prototype.extraRoutes = [
+  { name: '/trade/simple' }
+];
+
+SimpleTradeTab.prototype.generateHtml = function ()
 {
-  return require('../../jade/tabs/exchange.jade')();
+  return require('../../jade/tabs/trade/simpleTrade.jade')();
 };
 
-ExchangeTab.prototype.angular = function (module)
+SimpleTradeTab.prototype.angular = function (module)
 {
-  module.controller('ExchangeCtrl', ['$scope', '$timeout', '$routeParams',
+  module.controller('SimpleTradeCtrl', ['$scope', '$timeout', '$routeParams',
     'rpId', 'rpNetwork', 'rpTracker', 'rpKeychain', '$rootScope', '$location',
     function ($scope, $timeout, $routeParams, id, network, rpTracker, keychain, $rootScope, $location)
     {
@@ -508,4 +512,4 @@ ExchangeTab.prototype.angular = function (module)
     }]);
 };
 
-module.exports = ExchangeTab;
+module.exports = SimpleTradeTab;

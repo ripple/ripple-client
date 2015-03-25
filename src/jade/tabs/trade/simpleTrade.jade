@@ -1,4 +1,4 @@
-section.col-xs-12.content(ng-controller="ExchangeCtrl")
+section.col-xs-12.content(ng-controller="SimpleTradeCtrl")
 
   //- Disconnected
 
@@ -11,7 +11,7 @@ section.col-xs-12.content(ng-controller="ExchangeCtrl")
       div(class="loading_sections", l10n) Loading... 
 
   div(ng-show="!loadingAccount && !account.Balance && loadState.account && connected")
-    include banner/unfunded
+    include ../banner/unfunded
     p.literal(l10n="err-you-must-be-funded-before-you-can-exchange-money", l10n) You have to be funded before you can submit an order.
 
   div(ng-show='debug') This page is not available in debug mode
@@ -20,7 +20,7 @@ section.col-xs-12.content(ng-controller="ExchangeCtrl")
 
   .row(ng-show='connected && !debug && account.Balance')
     .widgets.hidden-xs.col-sm-4.col-md-4.col-lg-3
-      include widgets/balances
+      include ../widgets/balances
     .col-xs-12.col-sm-8.col-md-8.col-lg-9
       .nameLine(l10n) Buy (Market Order)
       .instructions(l10n) Submit a buy order at the current market rate. Orders will execute instantly.
@@ -146,13 +146,13 @@ section.col-xs-12.content(ng-controller="ExchangeCtrl")
       //- N4. Waiting for transaction result page
 
       group.mode-sending(ng-show='mode=="sending" && account.Balance')
-        include ../messages/sendconvert/waiting
+        include ../../messages/sendconvert/waiting
         hr
         //- p: button.btn.btn-default(ng-click='reset()', l10n) Stop waiting
 
       //- N5a. Error page
       group.mode-error(ng-show='mode=="error" && account.Balance')
-        include ../messages/sendconvert/localerror
+        include ../../messages/sendconvert/localerror
         p: button.btn.btn-link.btn-default(ng-click='cancelConfirm()', l10n) cancel
 
       //- N5b. Ripple error page
@@ -166,7 +166,7 @@ section.col-xs-12.content(ng-controller="ExchangeCtrl")
       //- N6. Confirmed page 
 
       group.mode-status(ng-show='mode=="status" && account.Balance')
-        include ../messages/sendconvert/confirmation
+        include ../../messages/sendconvert/confirmation
         group.actions
           hr
           div(class="actionLink")
