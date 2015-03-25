@@ -39,7 +39,7 @@ describe('SimpleTradeCtrl', function() {
     rpId.loginStatus = true;
     rpId.account = 'r4EwBWxrx5HxYRyisfGzMto3AT8FZiYdWk';
 
-    var templ = angular.element(rippleclient.tabs.exchange.generateHtml());
+    var templ = angular.element(rippleclient.tabs.simpleTrade.generateHtml());
     var element = $compile(templ)(scope);
     scope = element.scope();
   }));
