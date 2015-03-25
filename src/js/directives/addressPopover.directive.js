@@ -76,9 +76,7 @@
       nowSumm = this.rpamountFilter(nowSumm, AddressPopover.summFilterOpts);
       if (nowSumm != this.summ) {
         if (this.rpAddressPopoverSumMinus && nowSumm != 'n/a') {
-          if (Number(nowSumm)){
-            nowSumm = '-' + nowSumm;
-          }
+          nowSumm = '-' + nowSumm;
         }
         this.summ = nowSumm;
       }
