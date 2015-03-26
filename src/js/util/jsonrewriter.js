@@ -561,16 +561,16 @@ var JsonRewriter = module.exports = {
           else if (tx.Account === account && !$.isEmptyObject(node.fieldsPrev) // Offer is unfunded if node.fieldsPrev is empty
             && !$.isEmptyObject(node.fieldsPrev.TakerGets) && !$.isEmptyObject(node.fieldsPrev.TakerPays)) { // TakerGets or TakerPays might not be there if the change is smaller then a drop
             effect.type = 'offer_bought';
-
-            if ('offer_partially_funded' === effect.type || 'offer_bought' === effect.type) {
-              effect.got = ripple.Amount.from_json(node.fieldsPrev.TakerGets).subtract(node.fields.TakerGets);
-              effect.paid = ripple.Amount.from_json(node.fieldsPrev.TakerPays).subtract(node.fields.TakerPays);
-            }
           }
 
           if (effect.type) {
             effect.gets = ripple.Amount.from_json(fieldSet.TakerGets);
             effect.pays = ripple.Amount.from_json(fieldSet.TakerPays);
+
+            if ('offer_partially_funded' === effect.type || 'offer_bought' === effect.type) {
+              effect.got = ripple.Amount.from_json(node.fieldsPrev.TakerGets).subtract(node.fields.TakerGets);
+              effect.paid = ripple.Amount.from_json(node.fieldsPrev.TakerPays).subtract(node.fields.TakerPays);
+            }
 
             effect.price = getPrice(effect, tx.date);
 
