@@ -109,6 +109,7 @@ var tabdefs = [
   require('../tabs/404.controller.js'),
   require('../tabs/brl.controller.js'),
   require('../tabs/settingstrade.controller.js'),
+  require('../tabs/settingsgateway.controller.js'),
 
   // Hidden tabs
   require('../tabs/apps.controller.js'),
