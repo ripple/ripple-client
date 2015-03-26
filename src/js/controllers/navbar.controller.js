@@ -28,8 +28,8 @@ module.controller('NavbarCtrl', ['$scope', '$element', '$compile', 'rpId',
   };
 
   $scope.page_reload = function () {
-      // Reload
-      location.reload();
+    // Reload
+    location.reload();
   };
 
   $scope.$watch('connected', function(){

@@ -29,21 +29,23 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
 
-  <!-- CSS -->
-  <link href="res/fonts/stylesheet.css" rel="stylesheet">
-  <link href="css/web.css" rel="stylesheet">
-  <!-- ENDS CSS -->
+  <!-- build:css /css/web.css -->
+  <!-- inject:css -->
+  <link href="../../res/fonts/stylesheet.css" rel="stylesheet">
+  <link href="../dev/css/web.css" rel="stylesheet">
+  <!-- endinject -->
+  <!-- endbuild -->
 
   <!-- FAVICON  -->
   <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon">
   <link rel="icon" href="/img/favicon.ico" type="image/x-icon">
   <!-- END FAVICON -->
 
-  <!-- All JavaScript at the bottom, except this Modernizr build.
-     Modernizr enables HTML5 elements & feature detects for optimal performance.
-     Create your own custom Modernizr build: www.modernizr.com/download/ -->
-  <script src="deps/js/modernizr.js"></script>
+  <!-- build:js /js/head.js -->
+  <script src="../../deps/js/modernizr.js"></script>
+  <!-- endbuild -->
 
+  <base href="/" />
 </head>
 
 <body ng-class="app_loaded">
@@ -71,7 +73,7 @@
   </div>
 
   <!-- VERSION -->
-  <div id="version"><!-- @echo VERSION --><!-- @if MODE == 'debug' !>-debug - <!-- @echo VERSIONBRANCH --><!-- @endif --><!-- @exclude -->[unprocessed]<!-- @endexclude --></div>
+  <div id="version"><!-- @echo VERSION --><!-- @if MODE == 'dev' !>- <!-- @echo VERSIONBRANCH --><!-- @endif --><!-- @exclude -->[unprocessed]<!-- @endexclude --></div>
 
   <div id="noWebSockets">
     <p>We apologize, but the Ripple Client needs JavaScript and WebSockets in order to function. <br />
@@ -81,50 +83,46 @@
   </div>
 
   <!-- JAVASCRIPT -->
-  <!-- @if MODE == 'release' !>
-  <script src="js/deps.js"></script>
   <!--[if IE]>
   <script src="compat/ie/ws/ws-config.js"></script>
   <script src="js/compat_ie.js"></script>
   <![endif]-->
-  <!-- @endif -->
 
-  <!-- @if MODE == 'debug' -->
-  <!--<script src="deps/deps-debug.js"></script>-->
   <!--[if IE]>
   <script src="compat/ie/ws/ws-config.js"></script>
   <script src="js/compat_ie-debug.js"></script>
   <![endif]-->
-  <!-- @endif -->
 
-  <!-- build:js js/vendor.js -->
-  <script src="deps/js/jquery/dist/jquery.js"></script>
-  <script src="deps/js/authy.js"></script>
-  <script src="deps/js/swfobject.js"></script>
-  <script src="deps/js/setImmediate.js"></script>
-  <script src="deps/js/underscore/underscore.js"></script>
-  <script src="deps/js/downloadify.js"></script>
-  <script src="deps/js/angular/angular.js"></script>
-  <script src="deps/js/angular-route/angular-route.js"></script>
-  <script src="deps/js/angular-messages/angular-messages.js"></script>
-  <script src="deps/js/store.js/store.js"></script>
-  <script src="deps/js/d3/d3.js"></script>
-  <script src="deps/js/ripple/ripple-debug.js"></script>
-  <script src="deps/js/ripple-sjcl.js"></script>
-  <script src="deps/js/moment/moment.js"></script>
-  <script src="deps/js/ripple-vault-client/ripple-vault-client-debug.js"></script>
-  <script src="deps/js/bootstrap-modal.js"></script>
-  <script src="deps/js/bootstrap-tooltip.js"></script>
-  <script src="deps/js/bootstrap-popover.js"></script>
-  <script src="deps/js/angular-bootstrap/ui-bootstrap-tpls.js"></script>
-  <script src="deps/js/bootstrap-datepicker.js"></script>
-  <script src="deps/js/spin.js/spin.js"></script>
-  <script src="deps/js/snapjs/snap.js"></script>
-  <script src="deps/js/ng-sortable/dist/ng-sortable.js"></script>
-  <script src="deps/js/charts/pricechart.js"></script>
+  <!-- build:js /js/vendor.js -->
+  <script src="../../deps/js/jquery/dist/jquery.js"></script>
+  <script src="../../deps/js/authy.js"></script>
+  <script src="../../deps/js/swfobject.js"></script>
+  <script src="../../deps/js/setImmediate.js"></script>
+  <script src="../../deps/js/underscore/underscore.js"></script>
+  <script src="../../deps/js/downloadify.js"></script>
+  <script src="../../deps/js/angular/angular.js"></script>
+  <script src="../../deps/js/angular-route/angular-route.js"></script>
+  <script src="../../deps/js/angular-messages/angular-messages.js"></script>
+  <script src="../../deps/js/store.js/store.js"></script>
+  <script src="../../deps/js/d3/d3.js"></script>
+  <script src="../../deps/js/ripple/ripple-debug.js"></script>
+  <script src="../../deps/js/ripple-sjcl.js"></script>
+  <script src="../../deps/js/moment/moment.js"></script>
+  <script src="../../deps/js/ripple-vault-client/ripple-vault-client-debug.js"></script>
+  <script src="../../deps/js/bootstrap-modal.js"></script>
+  <script src="../../deps/js/bootstrap-tooltip.js"></script>
+  <script src="../../deps/js/bootstrap-popover.js"></script>
+  <script src="../../deps/js/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+  <script src="../../deps/js/bootstrap-datepicker.js"></script>
+  <script src="../../deps/js/spin.js/spin.js"></script>
+  <script src="../../deps/js/snapjs/snap.js"></script>
+  <script src="../../deps/js/ng-sortable/dist/ng-sortable.js"></script>
+  <script src="../../deps/js/charts/pricechart.js"></script>
   <!-- endbuild -->
 
-  <script src="config.js"></script>
+  <!-- build:js /config.js -->
+  <script src="/config.js"></script>
+  <!-- endbuild -->
 
   <script>
     window.name = 'NG_DEFER_BOOTSTRAP!';
@@ -148,29 +146,22 @@
     var debug = false;
   </script>
 
-  <!-- @if MODE == 'debug' !>
-  <script>
-    var debug = true;
-  </script>
+  <!-- @if MODE == 'dev' !>
+  <!-- build:js(build/dev) /js/app.js -->
   <!-- @endif -->
 
-  <!-- build:js(buildGulp/dev) /js/app.js -->
+  <!-- @if MODE == 'dist' !>
+  <!-- build:js(build/dist) /js/app.js -->
+  <!-- @endif -->
+
   <!-- inject:js -->
-  <!--<script src="/js/app.js"></script>-->
+  <script src="js/app.js"></script>
   <!-- endinject -->
   <!-- endbuild -->
 
-  <script type="text/javascript">
-    $.ajaxSetup({
-      cache: true
-    });
-    var version = '<!-- @echo VERSION -->';
-    $.getScript('js/app.js');
-  </script>
-
   <!-- start Mixpanel -->
   <script type="text/javascript">
-      if (Options.mixpanel && Options.mixpanel.track) { (function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src='deps/js/mixpanel.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f);b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==
+      if (Options.mixpanel && Options.mixpanel.track) { (function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src='/mixpanel.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f);b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==
               typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");for(g=0;g<i.length;g++)f(c,i[g]);
           b._i.push([a,e,d])};b.__SV=1.2}})(document,window.mixpanel||[]);
           mixpanel.init(Options.mixpanel.token); }
