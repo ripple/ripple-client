@@ -727,11 +727,11 @@ SendTab.prototype.angular = function (module)
       send.path_status = 'pending';
 
       // Determine if we need to update the paths.
-      if (send.pathfind &&
-          send.pathfind.src_account === id.account &&
-          send.pathfind.dst_account === recipient &&
-          send.pathfind.dst_amount.equals(amount))
-        return;
+      //if (send.pathfind &&
+      //    send.pathfind.src_account === id.account &&
+      //    send.pathfind.dst_account === recipient &&
+      //    send.pathfind.dst_amount.equals(amount))
+      //  return;
 
       // Start path find
       var pf = network.remote.path_find(id.account,
