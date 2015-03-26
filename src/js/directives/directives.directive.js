@@ -205,7 +205,7 @@ module.directive('rpPopover', ['$interpolate', function($interpolate) {
       }
       options.delay = {
         show: delay,
-        hide: 0
+        hide: 1000
       };
     }
     $(element).popover(options);
@@ -218,6 +218,29 @@ module.directive('rpPopover', ['$interpolate', function($interpolate) {
       event.stopPropagation();
     });
   };
+}]);
+
+module.directive('rpNamePopover', [function(){
+  return function(scope, element, attr) {
+    var options = {
+      html: true,
+      placement: attr.rpNamePopoverPlacement,
+      trigger: 'manual'
+    }
+    options.template = '<div class="popover"><div class="arrow"></div><div class="popover-inner"><div class="popover-content" ></div></div></div>';
+    if (attr.rpPopoverContent) {
+      options.content = attr.content;
+    }
+
+    $(element).popover(options);
+
+    $(element).mouseenter(function(){
+      $(element).popover('show');
+    });
+    $('html').click(function(){
+      $(element).popover('hide');
+    })
+  }
 }]);
 
 module.directive('rpAutofill', ['$parse', function($parse) {
@@ -233,7 +256,7 @@ module.directive('rpAutofill', ['$parse', function($parse) {
           if (attr.rpAutofillAmount || attr.rpAutofillCurrency) {
             // 1 XRP will be interpreted as 1 XRP, not 1 base unit
             if (value === ("" + parseInt(value, 10))) {
-              value = value + '.0';
+              value += '/XRP';
             }
 
             var convertCurrency = function(currencyObj) {
@@ -259,6 +282,7 @@ module.directive('rpAutofill', ['$parse', function($parse) {
                 value = convertCurrency(amount.currency());
               }
             }
+
             // Maybe a currency?
             else {
               var currency = ripple.Currency.from_json(value);

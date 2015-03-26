@@ -331,7 +331,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                         span.currency  {{order[type].second_amount | rpcurrency}}
                       .rate_feedback (
                         span.rate {{order[type].price}}
-                        span.pair {{order[type].second_amount | rpcurrency}}/{{order[type].first_amount | rpcurrency}}
+                        span.pair {{order[type].second_amount | rpcurrency}} per {{order[type].first_amount | rpcurrency}}
                         | )
                       p.literal(l10n-inc) Are you sure?
                       p.order-warning(ng-show="fatFingerErr", l10n)
@@ -441,7 +441,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                   .col-md-2(rp-sort-header="sortOptions.sortField", 
                         rp-sort-header-reverse="sortOptions.reverse",
                         rp-sort-header-field="limit")
-                    span(l10n) Limit
+                    span(l10n) Limit Price
                     i.fa.fa-fw.fa-caret-down
                   //- .col-md-2(l10n, rp-sort-header="sortOptions.sortField", 
                   //-       rp-sort-header-reverse="sortOptions.reverse",
@@ -582,9 +582,6 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
             .col-xs-12.col-sm-6
               div.orderbook-title(l10n)
                 | Orderbook
-                small.toggle.orderbook-hide(ng-click="visualState.hideOrderBook = !visualState.hideOrderBook")
-                  span(ng-show="visualState.hideOrderBook", l10n) show
-                  span(ng-hide="visualState.hideOrderBook", l10n) hide
             .col-xs-12.col-sm-6.last-update(l10n, ng-show="lastUpdate") Last updated&#32;
               span(ng-bind="lastUpdate")
               span(ng-show="lastUpdate > '1'", l10n-inc)  seconds

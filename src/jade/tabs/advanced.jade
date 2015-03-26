@@ -72,11 +72,9 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
                 button.btn.btn-block.btn-danger.btn-xs.submit#delete(type="button", ng-click="remove()", ng-show="hasRemove()", l10n) Delete
               .col-xs-3.col-sm-3.col-md-2.text-center#cancel
                 a.btn.btn-cancel.btn-block(href="", ng-click='cancelEditConfirmation("'+transactionType+'")', l10n) cancel
-        +urlForm('blobvault', 'blobForm', 'Blob vault', {url: '{{options.blobvault}}', ngModel: 'options.blobvault'}, 'blobIp', true)
+        
         +urlForm('bridge', 'bridgeForm', 'Bitcoin bridge', {url: '{{options.bridge.out.bitcoin}}', ngModel: 'options.bridge.out.bitcoin'}, 'btcDomain', true)
-        +confirmation('send', 'sendConfirmationForm', 'Send confirmation settings', 'If you hide your send confirmation page, you will not see a confirmation page when sending money. You might pay up to .1% more than you originally specified.', 'sendConfirmationBox')
-        +confirmation('exchange', 'exchangeConfirmationForm', 'Simple trade confirmation settings', 'If you hide the simple trade confirmation page, you will not see a confirmation page when placing a simple trade. You might pay up to .1% more than you originally specified.', 'exchangeConfirmationBox')
-        +confirmation('trade', 'tradeConfirmationForm', 'Advanced trade confirmation settings', 'If you hide the advanced trade confirmation page, you will not see a confirmation page when placing orders.', 'tradeConfirmationBox')
+
         form.trust-line-form(name="accountsAdvForm", ng-submit='save("advanced_feature_switch")')
           .descriptor(l10n) Trust line
           .row.advanced-form-row(ng-hide="edit.advanced_feature_switch")
@@ -94,16 +92,37 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
               div.helperInput
                 label
                   input(type="checkbox", name="acct_adv"
-                  ng-model="options.advanced_feature_switch"
-                  ng-click="advancedFeatureSwitchChanged = true")
+                  ng-model="options.advanced_feature_switch")
                   span(l10n) Show
-            .col-xs-6.col-sm-6.col-md-3
+            .col-xs-12.col-sm-4.col-md-4
+              button.btn.btn-block.btn-success.btn-xs.submit#save(type='submit'
+              ng-disabled='serverForm.$invalid', l10n) Save
+            .col-xs-6(ng-show="hasRemove()")
+              button.btn.btn-block.btn-danger.btn-xs.submit#delete(type="button", ng-click="remove()", ng-show="hasRemove()", l10n) Delete
+        form.trust-line-form(name="accountsAdvForm", ng-submit='save("defaultRippleFlag")')
+          .descriptor(l10n) Gateways: Enable if you plan to issue balances
+          .row.advanced-form-row(ng-hide="edit.defaultRippleFlag")
+            .col-xs-6.col-sm-5.col-md-3
+              .description DefaultRipple flag
+            .col-xs-3.col-sm-4.col-md-4
+              .description(ng-show="options.defaultRippleFlag", l10n) Enabled
+              .description(ng-hide="options.defaultRippleFlag", l10n) Disabled
+            .col-xs-3.col-sm-3.col-md-2
+              a.btn.btn-cancel.btn-block(href="", ng-click="edit.defaultRippleFlag = true", l10n) edit
+          .row.row-padding-small.edit-trust-line(ng-show="edit.defaultRippleFlag")
+            .col-xs-6.col-sm-5.col-md-3
+              .description DefaultRipple flag
+            .col-xs-4.col-sm-4.col-md-3
+              div.helperInput
+                label
+                  input(type="checkbox", name="acct_adv"
+                  ng-model="options.defaultRippleFlag")
+                  span(l10n) Enable
+            .col-xs-12.col-sm-4.col-md-4
               button.btn.btn-block.btn-success.btn-xs.submit#save(type='submit'
               ng-disabled='serverForm.$invalid', l10n) Save
             .col-xs-3(ng-show="hasRemove()")
               button.btn.btn-block.btn-danger.btn-xs.submit#delete(type="button", ng-click="remove()", ng-show="hasRemove()", l10n) Delete
-            .col-xs-3.col-sm-3.col-md-2.text-center#cancel
-              a.btn.btn-cancel.btn-block(href="", ng-click='cancelEdit("advanced_feature_switch")', l10n) cancel
         h4#networkSettings(l10n) Network settings
         form(name="maxnetworkfeeForm", ng-submit='save("maxNetworkFee")')
           .descriptor(l10n) Maximum network fee
@@ -129,7 +148,13 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
             .col-xs-3.col-sm-3.col-md-1.text-center#cancel
               a.btn.btn-cancel.btn-block(href="", ng-click='cancelEdit("maxNetworkFee")', l10n) cancel
 
+        h4#confirmationSettings(l10n) Confirmation Page settings
+        +confirmation('send', 'sendConfirmationForm', 'Send confirmation settings', 'If you hide your send confirmation page, you will not see a confirmation page when sending money. You might pay up to .1% more than you originally specified.', 'sendConfirmationBox')
+        +confirmation('exchange', 'exchangeConfirmationForm', 'Simple trade confirmation settings', 'If you hide the simple trade confirmation page, you will not see a confirmation page when placing a simple trade. You might pay up to .1% more than you originally specified.', 'exchangeConfirmationBox')
+        +confirmation('trade', 'tradeConfirmationForm', 'Advanced trade confirmation settings', 'If you hide the advanced trade confirmation page, you will not see a confirmation page when placing orders.', 'tradeConfirmationBox')
+        
         h4#serverSettings(l10n) Server settings
+        +urlForm('blobvault', 'blobForm', 'Blob vault', {url: '{{options.blobvault}}', ngModel: 'options.blobvault'}, 'blobIp', true)
         +urlForm('historyApi', 'historyApiForm', 'History API', {url: '{{options.historyApi}}', ngModel: 'options.historyApi'}, 'historyAPI', false)
         form.server-row-form(ng-controller="ServerRowCtrl", ng-repeat="(index, server) in options.server.servers", ng-submit="save()")
           ng-form(name="serverForm")
@@ -175,8 +200,6 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
                 .description(ng-hide="server.secure", l10n) Not Secure
               .col-xs-3.col-sm-2.col-md-2
                 a.btn.btn-cancel.btn-block(href="", ng-click="editing = true", l10n) edit
-
         .row
           .col-xs-12.col-sm-6.col-md-3
             button.btn.btn-block.btn-primary#newServer(type="button", ng-click="addServer()", l10n) Add new server
-

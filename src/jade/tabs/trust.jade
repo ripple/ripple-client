@@ -234,35 +234,27 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                     l10n-data-label="Limit"
                     )
                     span(rp-address-popover, rp-address-popover-sum="component.limit") {{ component.limit | rpamount }}
-                  .col-md-1(ng-show="globalOptions.advanced_feature_switch && component.limit_peer._offset == '-100'",
+                  .col-md-1(ng-show="globalOptions.advanced_feature_switch && component.limit_peer.is_zero()",
                     l10n-data-label="Min"
                     )
                     span(rp-address-popover, rp-address-popover-sum="component.limit_peer") {{ component.limit_peer | rpamount }}
                   .col-md-1(
-                      ng-show="globalOptions.advanced_feature_switch && component.limit_peer._offset !== '-100'",
-                      ng-hide="component.limit_peer._offset == '-100' || !globalOptions.advanced_feature_switch",
+                      ng-show="globalOptions.advanced_feature_switch && !component.limit_peer.is_zero()",
+                      ng-hide="component.limit_peer.is_zero() || !globalOptions.advanced_feature_switch",
                       l10n-data-label="Min"
                       )
-                    span(rp-address-popover, rp-address-popover-sum="component.limit_peer", rp-address-popover-sum-minus, ng-bind="minVal")
+                    span(rp-address-popover, rp-address-popover-sum="component.limit_peer", rp-address-popover-sum-minus) -{{ component.limit_peer | rpamount }}
                   .col-md-2(ng-show="globalOptions.advanced_feature_switch",
                     l10n-data-label="Rippling"
                     )
                     div(ng-show="component.no_ripple", l10n) Off
                     div(ng-hide="component.no_ripple", l10n) On
                   div(ng-hide="component.freeze_peer", ng-class="{ 'col-md-2': globalOptions.advanced_feature_switch, 'col-md-3': !globalOptions.advanced_feature_switch }")
-                    span.visible-xs.visible-sm(ng-hide="editing || isIncoming()")
+                    span.visible-xs.visible-sm(ng-hide="editing")
                       a.btn.btn-cancel(href="", ng-click="edit_account()"
                       l10n) edit
-                    a.hidden-xs.hidden-sm(href="", ng-hide="editing || isIncoming()", ng-click="edit_account()"
+                    a.hidden-xs.hidden-sm(href="", ng-hide="editing", ng-click="edit_account()"
                       l10n) edit
-                    span(
-                      ng-show="isIncoming()"
-                      rp-popover
-                      rp-popover-placement="bottom"
-                      rp-popover-trigger="hover"
-                      l10n-rp-popover-title="Incoming trust"
-                      l10n-data-content="This is an incoming trust line. Incoming trust lines are when other Ripple users trust you. You can only edit the rippling on or off option for incoming trust lines.")
-                      a(href="", ng-click="editing || edit_account()", l10n) edit
                     span(ng-show="editing && !globalOptions.advanced_feature_switch")
                       span(ng-hide="trust.loading")
                         div.row.row-padding-small
@@ -333,18 +325,22 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                         rp-amount
                         rp-max-digits
                         rp-amount-currency='{{trust.limit}}'
-                        ng-disabled='trust.loading || isIncoming()', required)
+                        ng-disabled='trust.loading', required)
                     .col-sm-2.col-md-2.inputPadding
                       div.rippling-checkbox
                         label(l10n) Rippling&#32;
                           input(name='rippling', type='checkbox', ng-model='trust.rippling', ng-disabled='trust.loading')
                     .col-sm-7.col-md-6
                       .row.row-padding-small
-                        .col-xs-6.col-sm-5
+                        .col-xs-6.col-sm-5(ng-hide="trust.loading && trust.state==='removing'")
                           button.btn.btn-block.btn-primary#save(type='submit'
                             ng-disabled='accountForm.$invalid || trust.loading')
                             span(ng-hide="trust.loading", l10n) Save
-                            span(ng-show="trust.loading", l10n) Saving...
+                            span(ng-show="trust.loading && trust.state==='saving'", l10n) Saving...
+                        .col-xs-6.col-sm-5(ng-show="trust.loading && trust.state==='removing'")
+                          .row
+                            .col-xs-12
+                              button.btn.btn-block.btn-danger(disabled, l10n) Removing...
                         .col-xs-3.col-sm-4.col-md-3(ng-hide="trust.loading")
                           .row.text-right
                             .col-xs-12(ng-show='trust.balance !== "0" && orderbookStatus === "exists"')

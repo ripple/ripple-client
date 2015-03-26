@@ -4,6 +4,11 @@ section.col-xs-12.content(ng-controller='BalanceCtrl')
   group.disconnected(ng-hide='connected')
     p.literal(l10n) You have to be online to see this screen
 
+  group.disconnected(ng-hide="!connected || loadState.account")
+    div(id="section_loader")
+      img(src="img/sections.png", class="loader")
+      div(class="loading_sections", l10n) Loading... 
+
   group.disconnected(ng-hide='!connected || loadState.account')
     //img(src="img/sections.png", class="loader", id="section_loader", ng-hide="exchangeRatesNonempty")
 

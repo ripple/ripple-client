@@ -47,10 +47,10 @@ AdvancedTab.prototype.angular = function(module)
       blobvault: false,
       bridge: false,
       maxNetworkFee: false,
-      historyApi: false
+      historyApi: false,
+      defaultRippleFlag: false
     };
     $scope.max_tx_network_fee_human = ripple.Amount.from_json($scope.options.max_tx_network_fee).to_human();
-    $scope.advancedFeatureSwitchChanged = false;
     $scope.confirmationChanged = {
       send: false,
       exchange: false,
@@ -64,21 +64,32 @@ AdvancedTab.prototype.angular = function(module)
       switch (type) {
         case 'maxNetworkFee':
           $scope.options.max_tx_network_fee = ripple.Amount.from_human($scope.max_tx_network_fee_human).to_json();
+          $scope.userBlob.set('/clients/rippletradecom/maxNetworkFee', $scope.options.max_tx_network_fee);
           // This has to be updated manually because the network object is not
           // recreated unless we do location.reload()
           network.remote.max_fee = $scope.options.max_tx_network_fee;
           break;
         case 'advanced_feature_switch':
-          // Ignore it if we are not going to change anything
-          if (!$scope.advancedFeatureSwitchChanged) {
-            $scope.edit[type] = false;
-            return;
-          }
-          $scope.advancedFeatureSwitchChanged = false;
           $scope.userBlob.set('/clients/rippletradecom/trust/advancedMode', $scope.options.advanced_feature_switch);
           break;
+        case 'defaultRippleFlag':
+          // Need to set flag on account_root
+          var tx = network.remote.transaction();
+          tx.accountSet(id.account);
+          tx.setFlags('DefaultRipple');
+
+          keychain.requestSecret(id.account, id.username, function (err, secret) {
+            if (err) {
+              console.log('Error: ', err);
+              return;
+            }
+            tx.secret(secret);
+            tx.submit();
+          });
+          break;
+
         case 'historyApi':
-          $scope.userBlob.set('/clients/rippletradecom/historyApi', $scope.options.historyApi);
+          $scope.userBlob.set('/clients/rippletradecom/historyApi', $scope.options.historyApi.replace(/[\/]*$/, ''));
           break;
         default:
           // Save in local storage
@@ -150,6 +161,9 @@ AdvancedTab.prototype.angular = function(module)
 
       // we assume that some fields in Options are updated in rpId service $blobUpdate handler
       $scope.optionsBackup = $.extend(true, {}, Options);
+
+      // still assuming that fields in Options have been updated in rpId service $blobUpdate handler
+      $scope.max_tx_network_fee_human = ripple.Amount.from_json($scope.options.max_tx_network_fee).to_human();
     });
 
     // Add a new server
