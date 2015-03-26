@@ -748,6 +748,10 @@ SendTab.prototype.angular = function (module)
       var lastUpdate;
 
       pf.on('update', function (upd) {
+        // wrong quote
+        if ($scope.send.path_status === 'error-quote')
+          return;
+
         // if no paths found and it is first update - skip it, it often wrong
         if (send.pathfindJustStarted && (!upd.alternatives || !upd.alternatives.length)) {
           send.pathfindJustStarted = false;
