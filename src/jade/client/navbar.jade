@@ -41,8 +41,22 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
           //-       span.balance {{balance.total | rpamount:{rel_precision: 2} }}&nbsp;
           //-       span.balance(rp-currency="balance.total", rp-currency-short)
           li
-            span(class="serverStatus {{connected ? 'online' : 'offline'}} {{serverLoad}}"
-              rp-tooltip="{{message}}", rp-tooltip-placement="bottom")
+            span(class="serverStatus {{connected ? 'online' : 'offline'}} {{serverLoad}}")
+              span(ng-if="serverStatus == 'disconnected'"
+                  rp-popover, rp-popover-placement="bottom", rp-popover-trigger="hover", rp-popover-delay
+                  l10n-rp-popover-content="Disconnected from the Ripple network")
+              span(ng-if="serverStatus == 'highLoad'"
+                  rp-popover, rp-popover-placement="bottom", rp-popover-trigger="hover", rp-popover-delay
+                  l10n-rp-popover-content="Network fees are currently higher than your maximum. Fee: {{ currentFee }} XRP. <a href='#/advanced'>Change fees</a>")
+              span(ng-if="serverStatus == 'mediumLoad'"
+                  rp-popover, rp-popover-placement="bottom", rp-popover-trigger="hover", rp-popover-delay
+                  l10n-rp-popover-content="'Network fees are currently higher than normal. Fee: {{ currentFee }} XRP'")
+              span(ng-if="serverStatus == 'lowLoad'"
+                  rp-popover, rp-popover-placement="bottom", rp-popover-trigger="hover", rp-popover-delay
+                  l10n-rp-popover-content="Connected to the Ripple network. Fee: {{ currentFee }} XRP")
+              span(ng-if="serverStatus == 'connected'"
+                  rp-popover, rp-popover-placement="bottom", rp-popover-trigger="hover", rp-popover-delay
+                  l10n-rp-popover-content="Connected to the Ripple network.")
           li
             a(href="#/account/public", ng-hide="loading") ~{{userCredentials.username}}
           li.dropdown.notifications-dropdown(dropdown on-toggle="toggled(open)")
@@ -146,4 +160,4 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
     .alert.alert-info
         h4.tx-status(l10n='l10n')
           | Your account was successfully recovered and encrypted with the new password you provided!
-        a.dismiss(href='#', ng-click='recovered = false', l10n='l10n') &times;
+        a.dismiss(ng-click='recovered = false', l10n='l10n') &times;

@@ -106,7 +106,6 @@ function AppCtrl ($scope, id, net, keychain, txQueue, appManager, rpTracker,
     accountObj.on('entry', function(data){
       $scope.$apply(function () {
         $scope.fee = remote.createTransaction()._computeFee();
-        // console.log('fee', remote.createTransaction()._computeFee());
         $scope.loadingAccount = false;
         myHandleAccountEntry(data);
 
@@ -222,6 +221,10 @@ function AppCtrl ($scope, id, net, keychain, txQueue, appManager, rpTracker,
     });
   }
 
+  function calculateReserve(server, ownerCount) {
+    return Amount.from_json(server._reserve_base + server._reserve_inc * ownerCount)
+  }
+
   function handleAccountEntry(data)
   {
     var remote = net.remote;
@@ -233,11 +236,11 @@ function AppCtrl ($scope, id, net, keychain, txQueue, appManager, rpTracker,
     // As per json wire format convention, real ledger entries are CamelCase,
     // e.g. OwnerCount, additional convenience fields are lower case, e.g.
     // reserve, max_spend.
+
     var ownerCount  = $scope.account.OwnerCount || 0;
-    $scope.account.reserve_base = server._reserve(0);
-    $scope.account.reserve = server._reserve(ownerCount);
-    $scope.account.reserve_to_add_trust = server._reserve(ownerCount+1);
-    $scope.account.reserve_low_balance = $scope.account.reserve.product_human(2);
+    $scope.account.reserve_base = Amount.from_json(server._reserve_base); 
+    $scope.account.reserve = calculateReserve(server, ownerCount);
+    $scope.account.reserve_to_add_trust = calculateReserve(server, ownerCount + 1);
 
     // Maximum amount user can spend
     var bal = Amount.from_json(data.Balance);
