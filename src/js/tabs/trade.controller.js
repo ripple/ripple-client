@@ -969,10 +969,13 @@ TradeTab.prototype.angular = function(module)
       }
 
       if ('string' !== typeof pair) pair = '';
-      pair = pair.split('/');
+
+      if (pair) {
+        pair = pair.split('/');
+      }
 
       // Invalid currency pair
-      if (pair.length != 2 || pair[0].length === 0 || pair[1].length === 0) {
+      if (!pair || pair.length != 2 || pair[0].length === 0 || pair[1].length === 0) {
         order.first_currency = Currency.from_json('XRP');
         order.second_currency = Currency.from_json('XRP');
         order.valid_settings = false;
