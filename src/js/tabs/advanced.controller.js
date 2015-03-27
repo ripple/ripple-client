@@ -43,12 +43,9 @@ AdvancedTab.prototype.angular = function(module)
       trade: false
     };
     $scope.edit = {
-      advanced_feature_switch: false,
       blobvault: false,
-      bridge: false,
       maxNetworkFee: false,
       historyApi: false,
-      defaultRippleFlag: false
     };
     $scope.max_tx_network_fee_human = ripple.Amount.from_json($scope.options.max_tx_network_fee).to_human();
     $scope.confirmationChanged = {
@@ -69,25 +66,6 @@ AdvancedTab.prototype.angular = function(module)
           // recreated unless we do location.reload()
           network.remote.max_fee = $scope.options.max_tx_network_fee;
           break;
-        case 'advanced_feature_switch':
-          $scope.userBlob.set('/clients/rippletradecom/trust/advancedMode', $scope.options.advanced_feature_switch);
-          break;
-        case 'defaultRippleFlag':
-          // Need to set flag on account_root
-          var tx = network.remote.transaction();
-          tx.accountSet(id.account);
-          tx.setFlags('DefaultRipple');
-
-          keychain.requestSecret(id.account, id.username, function (err, secret) {
-            if (err) {
-              console.log('Error: ', err);
-              return;
-            }
-            tx.secret(secret);
-            tx.submit();
-          });
-          break;
-
         case 'historyApi':
           $scope.userBlob.set('/clients/rippletradecom/historyApi', $scope.options.historyApi.replace(/[\/]*$/, ''));
           break;
@@ -119,20 +97,14 @@ AdvancedTab.prototype.angular = function(module)
       $scope.userBlob.set('/clients/rippletradecom/confirmation', $scope.options.confirmation);
 
       $scope.editConfirmation[transactionType] = false;
-
       // Notify the user
       $scope.success.saveConfirmation[transactionType] = true;
     };
 
     $scope.deleteUrl = function(type) {
-      switch (type) {
-        case 'blobvault':
-          $scope.options.blobvault = '';
-          break;
-        case 'bridge':
-          $scope.options.bridge.out.bitcoin = '';
+      if (type === 'blobvault') {
+        $scope.options.blobvault = '';
       }
-
       // Save in local storage
       if (!store.disabled) {
         store.set('ripple_settings', JSON.stringify($scope.options));
@@ -144,9 +116,8 @@ AdvancedTab.prototype.angular = function(module)
       if (type === 'maxNetworkFee') {
         $scope.options.max_tx_network_fee = $scope.optionsBackup.max_tx_network_fee;
         $scope.max_tx_network_fee_human = ripple.Amount.from_json($scope.options.max_tx_network_fee).to_human();
-      } else if (type === 'bridge') {
-        $scope.options.bridge.out.bitcoin = $scope.optionsBackup.bridge.out.bitcoin;
-      } else {
+      }
+      else {
         $scope.options[type] = $scope.optionsBackup[type];
       }
     };
