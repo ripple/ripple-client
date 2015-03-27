@@ -32,27 +32,28 @@ module.controller('NavbarCtrl', ['$scope', '$element', '$compile', 'rpId',
       location.reload();
   };
 
-  $scope.$watch('fee', function(){
-    $scope.currentFee = ripple.Amount.from_json($scope.fee).to_human(); 
+  $scope.$watch('connected', function(){
+    $scope.fee = network.remote.createTransaction()._computeFee();
+    // $scope.currentFee = ripple.Amount.from_json($scope.fee).to_human(); 
 
-    if(!$scope.connected && $scope.userCredentials.username) {
+    if (!$scope.connected && $scope.userCredentials.username) {
       $scope.serverStatus = 'disconnected';
     }
-    else if ($scope.currentFee && $scope.connected && ($scope.currentFee > Options.low_load_threshold) && ($scope.currentFee < ripple.Amount.from_json(Options.max_tx_network_fee).to_human())) {
-      $scope.serverLoad = 'mediumLoad';
-      $scope.serverStatus = 'mediumLoad';
-    } 
-    else if ($scope.currentFee && $scope.connected && ($scope.currentFee >= ripple.Amount.from_json(Options.max_tx_network_fee).to_human())) {
-      $scope.serverLoad = 'highLoad';
-      $scope.serverStatus = 'highLoad';
-    }
-    else if ($scope.currentFee && $scope.connected) {
-      $scope.serverLoad = '';
-      $scope.serverStatus = 'lowLoad';
+    else if ($scope.connected && $scope.fee) {
+      if ((ripple.Amount.from_json($scope.fee).to_human() > Options.low_load_threshold) && ($scope.fee < Options.max_tx_network_fee)) {
+        $scope.serverLoad = 'mediumLoad';
+        $scope.serverStatus = 'mediumLoad';
+      } else if ($scope.fee >= Options.max_tx_network_fee) {
+        $scope.serverLoad = 'highLoad';
+        $scope.serverStatus = 'highLoad';
+      } else {
+        $scope.serverLoad = '';
+        $scope.serverStatus = 'lowLoad';
+      }
     }
     else {
       $scope.serverStatus = 'connected';
-    } 
+    }
   }, true);
 
   // Username
