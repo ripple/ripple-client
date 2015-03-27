@@ -16,7 +16,7 @@ module.directive('rpWebsocket', function($q, $timeout, $parse) {
         var defer = $q.defer(),
             connection;
 
-        if (!value) return $q.when(false);
+        if (!value) return $q.reject(false);
 
         $timeout(function() {
           try {
@@ -28,7 +28,7 @@ module.directive('rpWebsocket', function($q, $timeout, $parse) {
                 );
           } catch (err) {}
 
-          if (!connection) return $q.when(false);
+          if (!connection) return $q.reject(false);
 
           connection.onopen = function() {
             connection.send('{"command": "ping"}');
