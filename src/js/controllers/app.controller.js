@@ -437,7 +437,7 @@ function AppCtrl ($scope, id, net, keychain, txQueue, appManager, rpTracker,
   function isSignificantLine(line) {
     var DefaultRipple = $scope.account.Flags & ripple.Remote.flags.account_root.DefaultRipple;
 
-    return line.balance != 0 || line.limit != 0 || line.limit_peer != 0
+    return line.balance !== 0 || line.limit !== 0 || line.limit_peer !== 0
       || DefaultRipple === line.no_ripple;
   }
 
