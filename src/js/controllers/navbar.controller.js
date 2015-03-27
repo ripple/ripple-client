@@ -38,11 +38,11 @@ module.controller('NavbarCtrl', ['$scope', '$element', '$compile', 'rpId',
     if(!$scope.connected && $scope.userCredentials.username) {
       $scope.serverStatus = 'disconnected';
     }
-    else if ($scope.currentFee && $scope.connected && $scope.currentFee > Options.low_load_threshold && $scope.currentFee < ripple.Amount.from_json(Options.max_tx_network_fee).to_human()) {
+    else if ($scope.currentFee && $scope.connected && ($scope.currentFee > Options.low_load_threshold) && ($scope.currentFee < ripple.Amount.from_json(Options.max_tx_network_fee).to_human())) {
       $scope.serverLoad = 'mediumLoad';
       $scope.serverStatus = 'mediumLoad';
     } 
-    else if ($scope.currentFee && $scope.connected && $scope.currentFee >= ripple.Amount.from_json(Options.max_tx_network_fee).to_human()) {
+    else if ($scope.currentFee && $scope.connected && ($scope.currentFee >= ripple.Amount.from_json(Options.max_tx_network_fee).to_human())) {
       $scope.serverLoad = 'highLoad';
       $scope.serverStatus = 'highLoad';
     }
