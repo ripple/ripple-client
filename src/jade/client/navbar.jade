@@ -41,20 +41,21 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
           //-       span.balance {{balance.total | rpamount:{rel_precision: 2} }}&nbsp;
           //-       span.balance(rp-currency="balance.total", rp-currency-short)
           li
-            span(class="serverStatus {{connected ? 'online' : 'offline'}} {{serverLoad}}")
-              span(ng-if="serverStatus == 'disconnected'"
-                  rp-popover, rp-popover-placement="bottom", rp-popover-trigger="hover", rp-popover-delay
+            span(class="serverStatus {{connected ? 'online' : 'offline'}} {{serverLoad}}"
+                ng-switch='serverStatus')
+              span(ng-switch-when='disconnected'
+                  rp-popover, rp-popover-placement='bottom', rp-popover-trigger='hover', rp-popover-delay
                   l10n-rp-popover-content="Disconnected from the Ripple network")
-              span(ng-if="serverStatus == 'highLoad'"
-                  rp-popover, rp-popover-placement="bottom", rp-popover-trigger="hover", rp-popover-delay
-                  l10n-rp-popover-content="Network fees are currently higher than your maximum. Fee: {{ currentFee }} XRP. <a href='#/advanced'>Change fees</a>")
-              span(ng-if="serverStatus == 'mediumLoad'"
-                  rp-popover, rp-popover-placement="bottom", rp-popover-trigger="hover", rp-popover-delay
-                  l10n-rp-popover-content="'Network fees are currently higher than normal. Fee: {{ currentFee }} XRP'")
-              span(ng-if="serverStatus == 'lowLoad'"
-                  rp-popover, rp-popover-placement="bottom", rp-popover-trigger="hover", rp-popover-delay
-                  l10n-rp-popover-content="Connected to the Ripple network. Fee: {{ currentFee }} XRP")
-              span(ng-if="serverStatus == 'connected'"
+              span(ng-switch-when='highLoad'
+                  rp-popover, rp-popover-placement='bottom', rp-popover-trigger='hover', rp-popover-delay
+                  l10n-rp-popover-content="Network fees are currently higher than your maximum. Fee: {{ fee | rpamount }} XRP. <a href='#/advanced'>Change fees</a>")
+              span(ng-switch-when='mediumLoad'
+                  rp-popover, rp-popover-placement='bottom', rp-popover-trigger='hover', rp-popover-delay
+                  l10n-rp-popover-content="'Network fees are currently higher than normal. Fee: {{ fee | rpamount }} XRP'")
+              span(ng-switch-when='lowLoad'
+                  rp-popover, rp-popover-placement='bottom', rp-popover-trigger='hover', rp-popover-delay
+                  l10n-rp-popover-content="Connected to the Ripple network. Fee: {{ fee | rpamount }} XRP")
+              span(ng-switch-when='connected'
                   rp-popover, rp-popover-placement="bottom", rp-popover-trigger="hover", rp-popover-delay
                   l10n-rp-popover-content="Connected to the Ripple network.")
           li
