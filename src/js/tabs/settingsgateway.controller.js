@@ -4,22 +4,22 @@ var util = require('util'),
     settings = require('../util/settings'),
     Currency = ripple.Currency;
 
-var GatewaysTab = function ()
+var SettingsGatewayTab = function ()
 {
   Tab.call(this);
 };
 
-util.inherits(GatewaysTab, Tab);
+util.inherits(SettingsGatewayTab, Tab);
 
-GatewaysTab.prototype.tabName = 'settingsgateway';
-GatewaysTab.prototype.mainMenu = 'settingsgateway';
+SettingsGatewayTab.prototype.tabName = 'settingsgateway';
+SettingsGatewayTab.prototype.mainMenu = 'settingsgateway';
 
-GatewaysTab.prototype.generateHtml = function ()
+SettingsGatewayTab.prototype.generateHtml = function ()
 {
   return require('../../jade/tabs/settingsgateway.jade')();
 };
 
-GatewaysTab.prototype.angular = function(module)
+SettingsGatewayTab.prototype.angular = function(module)
 {
   module.controller('SettingsGatewayCtrl', ['$scope', 'rpId', 'rpKeychain', 'rpNetwork',
                                     function ($scope, id, keychain, network)
@@ -133,4 +133,4 @@ GatewaysTab.prototype.angular = function(module)
   }]);
 };
 
-module.exports = GatewaysTab;
+module.exports = SettingsGatewayTab;
