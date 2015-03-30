@@ -9,7 +9,7 @@
 						"port": 4445
 					},
 					"browserOptions": {
-						"browserName": "safari",
+						"browserName": "googlechrome",
 						"username": "${SAUCE_USERNAME}",
 						"accessKey": "${SAUCE_ACCESS_KEY}",
                         "tunnel-identifier": "${TRAVIS_JOB_NUMBER}",
@@ -51,7 +51,7 @@
 						"port": 4445
 					},
 					"browserOptions": {
-						"browserName": "googlechrome",
+						"browserName": "safari",
 						"username": "${SAUCE_USERNAME}",
 						"accessKey": "${SAUCE_ACCESS_KEY}",
                         "tunnel-identifier": "${TRAVIS_JOB_NUMBER}",
