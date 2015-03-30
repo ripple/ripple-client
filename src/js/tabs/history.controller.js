@@ -84,6 +84,7 @@ HistoryTab.prototype.angular = function (module) {
 
     // Initial history load
     var initialLoad = $scope.$watch('userHistory', function(){
+      if ($scope.noUserHistory) $scope.loadingHistory = false;
       if (!$scope.userHistory) return;
 
       loadHistory();
