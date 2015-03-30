@@ -1,0 +1,58 @@
+section.col-xs-12.content(ng-controller="NotificationsCtrl")
+  .row(ng-show='connected')
+    div.col-xs-12(ng-show="!loadingAccount && !account.Balance && loadState.account && connected")
+      include banner/unfunded
+  .row(ng-show='connected')
+    .col-sm-12.notification-wrapper
+      .alert.alert-success(ng-show="state.alert == 'saved_successfully'", l10n) Your notification settings have been changed successfully.
+      .alert.alert-success(ng-show="state.alert == 'saved_with_errors'", l10n) Something went wrong, try again.
+    .col-sm-4.col-md-3.col-xs-12(ng-show="connected")
+      include settings/navbar
+    .col-sm-8.col-md-9.col-xs-12.list(ng-show="connected")
+      .showSecurity(ng-show="settingsPage == 'notifications'")
+        div
+          h4(l10n) Notifications settings
+          .row
+            .col-xs-4.col-sm-3.col-md-5
+              .descriptor(l10n) Notification types
+            .col-xs-4.col-sm-2.col-md-2
+              .descriptor(l10n) Email
+            .col-xs-4.col-sm-2.col-md-2
+              .descriptor(l10n) Push
+          .row
+            .col-xs-12
+              div.helperInput
+                form(name="persistNotificationsForm", ng-submit="persistNotifications()")
+                  ng-form(name="serverForm")
+                  .row(class="edit-all")
+                    .col-xs-4.col-sm-4.col-md-5
+                      .description Enable/disable all
+                    .col-xs-4.col-sm-2.col-md-2
+                      div.helperInput.description
+                        label
+                          input(type="checkbox", name="all", ng-checked="allChecked('email')", ng-click="allClicked('email')")
+                    .col-xs-4.col-sm-2.col-md-2
+                      div.helperInput.description
+                        label
+                          input(type="checkbox", name="all", ng-checked="allChecked('push')", ng-click="allClicked('push')")
+
+                  .row(ng-repeat="nType in notificationTypes")
+                    .col-xs-4.col-sm-4.col-md-5
+                      .description {{nType.title}}
+                    .col-xs-4.col-sm-2.col-md-2
+                      div.helperInput.description
+                        label
+                          input(type="checkbox", name="{{nType.name}}", ng-model="nType.checked.email", ng-click="state.notificationsChanged = true")
+                    .col-xs-4.col-sm-2.col-md-2
+                      div.helperInput.description
+                        label
+                          input(type="checkbox", name="{{nType.name}}", ng-model="nType.checked.push", ng-click="state.notificationsChanged = true")
+                  .row
+                    .col-xs-12.col-sm-4.col-md-4.save-btn-wrapper
+                      .description
+                        button.btn.btn-block.btn-success.btn-xs.submit(id='save', type='submit'
+                        ng-disabled='!state.notificationsChanged || !serverForm.$valid  || state.waitingForResponse',
+                        l10n) Save
+                  .row
+                    .col-xs-12.col-sm-4.col-md-4.save-btn-wrapper
+                      .description

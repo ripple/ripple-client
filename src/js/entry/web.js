@@ -33,6 +33,7 @@ require('../services/rippletxt.service.js');
 require('../services/federation.service.js');
 require('../services/domainalias.service.js');
 require('../services/history.service.js');
+require('../services/notifications.service.js');
 
 require('../services/integration/appManager.service.js');
 require('../services/integration/profileManager.service.js');
@@ -70,7 +71,8 @@ var appDependencies = [
   // Filters
   'filters',
   'ui.bootstrap',
-  'ui.sortable'
+  'ui.sortable',
+  'notifications'
 ];
 
 // Load tabs
@@ -110,6 +112,7 @@ var tabdefs = [
   require('../tabs/brl.controller.js'),
   require('../tabs/settingstrade.controller.js'),
   require('../tabs/settingsgateway.controller.js'),
+  require('../tabs/notifications.controller.js'),
 
   // Hidden tabs
   require('../tabs/apps.controller.js'),

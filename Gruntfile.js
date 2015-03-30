@@ -289,6 +289,8 @@ module.exports = function(grunt) {
           {expand: true, src: ['res/fonts/*'], dest: 'build/bundle/web/fonts', flatten: true},
           {expand: true, src: ['res/icons/font/*'], dest: 'build/bundle/web'},
           {expand: true, src: ['img/**'], dest: 'build/bundle/web'},
+          {expand: true, src: ['deps/js/roost.min.js'],
+            dest: 'build/bundle/web/js/deps', flatten: true},
           {src: 'build/dist/web/index.html', dest: 'build/bundle/web/index.html'},
           {src: 'build/dist/web/index_debug.html', dest: 'build/bundle/web/index_debug.html'},
           {src: 'src/js/config.js', dest: 'build/bundle/web/config.js'},

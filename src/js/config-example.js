@@ -86,7 +86,10 @@ var Options = {
   gateway_max_limit: 1000000000,
 
   // Default threshold in XRPs for fee on RT to show higher load status
-  low_load_threshold: 0.012
+  low_load_threshold: 0.012,
+
+  //Email notifications subscription service URL
+  notifications_api_url: ''
 };
 
 // Load client-side overrides
