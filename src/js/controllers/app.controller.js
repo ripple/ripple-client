@@ -106,6 +106,7 @@ function AppCtrl ($scope, id, net, keychain, txQueue, appManager, rpTracker,
     accountObj.on('entry', function(data){
       $scope.$apply(function () {
         $scope.loadingAccount = false;
+        $scope.noUserHistory = false;
         myHandleAccountEntry(data);
 
         if ($scope.userHistory) return;
@@ -128,6 +129,8 @@ function AppCtrl ($scope, id, net, keychain, txQueue, appManager, rpTracker,
       if (err) {
         $scope.loadingAccount = false;
         $scope.loadState.account = true;
+        $scope.noUserHistory = true;
+        $scope.userHistory = null;
       }
     });
 
