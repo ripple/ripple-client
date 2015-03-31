@@ -97,16 +97,6 @@ gulp.task('less', function () {
     .pipe($.browserSync.reload({stream:true}));
 });
 
-gulp.task('images', function () {
-  return gulp.src('img/**/*')
-    .pipe($.imagemin({
-      optimizationLevel: 3,
-      progressive: true,
-      interlaced: true
-    }))
-    .pipe(gulp.dest(buildDirPath + '/dist/img/'));
-});
-
 // Static server
 gulp.task('serve:dev', function() {
   $.browserSync({
@@ -144,7 +134,11 @@ gulp.task('static', function() {
   var fontsIcons = gulp.src(['res/**/*'])
     .pipe(gulp.dest(buildDirPath + '/dist/'));
 
-  return merge(rpl, fontsIcons);
+  // Images
+  var images = gulp.src('img/**/*')
+    .pipe(gulp.dest(buildDirPath + '/dist/img/'));
+
+  return merge(rpl, fontsIcons, images);
 });
 
 // Version branch
@@ -205,7 +199,7 @@ gulp.task('default', ['dev', 'serve:dev'], function() {
 gulp.task('dev', ['clean:dev', 'bower', 'webpack:dev', 'less', 'preprocess:dev']);
 
 // Distribution
-gulp.task('dist', ['clean:dist', 'dev', 'webpack:dist', 'preprocess:dist', 'static', 'images'], function () {
+gulp.task('dist', ['clean:dist', 'dev', 'webpack:dist', 'preprocess:dist', 'static'], function () {
   var assets = $.useref.assets();
 
   return gulp.src([buildDirPath + '/dist/index.html', 'src/includes.html'])

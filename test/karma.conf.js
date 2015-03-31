@@ -6,7 +6,7 @@ module.exports = function(config) {
     files: [
       'build/dist/js/vendor-*.js',
       'deps/js/angular-mocks/angular-mocks.js',
-      'build/dist/config-*.js',
+      'src/js/config.js',
       'build/dist/js/app-en.js',
       'test/unit/**/*.js'
     ],
