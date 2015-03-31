@@ -118,6 +118,8 @@
   <script src="../../deps/js/snapjs/snap.js"></script>
   <script src="../../deps/js/ng-sortable/dist/ng-sortable.js"></script>
   <script src="../../deps/js/charts/pricechart.js"></script>
+  <script src="../../deps/js/roost.min.js"></script>
+
   <!-- endbuild -->
 
   <!-- build:js /config.js -->
@@ -162,6 +164,11 @@
           mixpanel.init(Options.mixpanel.token); }
   </script>
   <!-- end Mixpanel -->
+
+  <script>
+    var _roost = _roost || [];
+    _roost.push(['autoprompt', false]);
+  </script>
 
   <!-- loading state -->
   <script>
