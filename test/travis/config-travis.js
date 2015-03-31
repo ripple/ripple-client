@@ -7,7 +7,7 @@ var Options = {
   // Local domain
   //
   // Which domain should ripple-client consider native?
-  domain: 'ripp.site:9001',
+  domain: 'localhost:3000',
 
   // Rippled to connect
   server: {

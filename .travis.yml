@@ -24,7 +24,7 @@ before_install:
   - $TRAVIS_BUILD_DIR/test/sauce/wait_for_browser_provider.sh
   - cd $TRAVIS_BUILD_DIR
 before_script:
-  - "cp test/travis/config-travis.js src/js/config.js"
+  - "cp test/travis/config-travis.js config.js"
   - "cp test/travis/ripple-travis.txt ripple.txt"
   - npm install -g bower
   - bower install
@@ -35,8 +35,8 @@ before_script:
   - sudo ls -l /proc/*/exe || true
 script: "./test/travis-run.sh"
 after_script:
-  - curl -i http://localhost:9001/config.js
-  - curl -i http://localhost:9001/ripple.txt
+  - curl -i http://localhost:3000/config.js
+  - curl -i http://localhost:3000/ripple.txt
 notifications:
   email:
     false
