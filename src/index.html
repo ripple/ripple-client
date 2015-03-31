@@ -73,7 +73,7 @@
   </div>
 
   <!-- VERSION -->
-  <div id="version"><!-- @echo VERSION --><!-- @if MODE == 'dev' !>- <!-- @echo VERSIONBRANCH --><!-- @endif --><!-- @exclude -->[unprocessed]<!-- @endexclude --></div>
+  <div id="version"><!-- @echo VERSION --><!-- @if MODE == 'dev' !> - <!-- @echo VERSIONBRANCH --><!-- @endif --><!-- @exclude -->[unprocessed]<!-- @endexclude --></div>
 
   <div id="noWebSockets">
     <p>We apologize, but the Ripple Client needs JavaScript and WebSockets in order to function. <br />
@@ -121,7 +121,7 @@
   <!-- endbuild -->
 
   <!-- build:js /config.js -->
-  <script src="/config.js"></script>
+  <script src="../../config.js"></script>
   <!-- endbuild -->
 
   <script>
@@ -146,18 +146,13 @@
     var debug = false;
   </script>
 
-  <!-- @if MODE == 'dev' !>
-  <!-- build:js(build/dev) /js/app.js -->
-  <!-- @endif -->
-
-  <!-- @if MODE == 'dist' !>
-  <!-- build:js(build/dist) /js/app.js -->
-  <!-- @endif -->
-
-  <!-- inject:js -->
-  <script src="js/app.js"></script>
-  <!-- endinject -->
-  <!-- endbuild -->
+  <script type="text/javascript">
+      $.ajaxSetup({
+          cache: true
+      });
+      var version = '<!-- @echo VERSION -->';
+      $.getScript('js/app-' + lang + '.js?v=' + version);
+  </script>
 
   <!-- start Mixpanel -->
   <script type="text/javascript">
