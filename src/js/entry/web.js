@@ -1,5 +1,4 @@
-setTimeout(function(){
-  var types = require('../util/types');
+var types = require('../util/types');
 
 // Load app modules
 require('../controllers/app.controller.js');
@@ -23,7 +22,7 @@ require('../services/globalwrappers.service.js');
 require('../services/id.service.js');
 require('../services/tracker.service.js');
 require('../services/blobRemote.service.js');
-require('../services/oldblob.service.js');
+require('../services/oldblob.service.js'); 
 require('../services/txqueue.service.js');
 require('../services/authflowRemote.service.js');
 require('../services/keychain.service.js');
@@ -47,34 +46,34 @@ require('../services/integration/inboundBridge.service.js');
 // require('../services/ledger.service.js');
 // require('../services/transactions.service.js');
 
-// Angular module dependencies
-var appDependencies = [
-  'ngRoute',
-  // Controllers
-  'app',
-  'navbar',
-  // Services
-  'id',
-  'tracker',
-  'appManager',
-  'history',
-  // Directives
-  'charts',
-  'effects',
-  'events',
-  'fields',
-  'formatters',
-  'directives',
-  'validators',
-  'datalinks',
-  'errors',
-  'ngMessages',
-  // Filters
-  'filters',
-  'ui.bootstrap',
-  'ui.sortable',
-  'notifications'
-];
+  // Angular module dependencies
+  var appDependencies = [
+    'ngRoute',
+    // Controllers
+    'app',
+    'navbar',
+    // Services
+    'id',
+    'tracker',
+    'appManager',
+    'history',
+    // Directives
+    'charts',
+    'effects',
+    'events',
+    'fields',
+    'formatters',
+    'directives',
+    'validators',
+    'datalinks',
+    'errors',
+    'ngMessages',
+    // Filters
+    'filters',
+    'ui.bootstrap',
+    'ui.sortable',
+    'notifications'
+  ];
 
 // Load tabs
 var tabdefs = [
@@ -115,161 +114,160 @@ var tabdefs = [
   require('../tabs/settingsgateway.controller.js'),
   require('../tabs/notifications.controller.js'),
 
-  // Hidden tabs
-  require('../tabs/apps.controller.js'),
-  require('../tabs/su.controller.js')
+// Hidden tabs
+require('../tabs/apps.controller.js'),
+require('../tabs/su.controller.js')
 ];
 
-  // Prepare tab modules
-  var tabs = tabdefs.map(function (Tab) {
-    var tab = new Tab();
+// Prepare tab modules
+var tabs = tabdefs.map(function (Tab) {
+  var tab = new Tab();
 
-    if (tab.angular) {
-      var module = angular.module(tab.tabName + 'Tab', tab.angularDeps);
-      tab.angular(module);
-      appDependencies.push(tab.tabName + 'Tab');
+  if (tab.angular) {
+    var module = angular.module(tab.tabName + 'Tab', tab.angularDeps);
+    tab.angular(module);
+    appDependencies.push(tab.tabName + 'Tab');
+  }
+
+  return tab;
+});
+
+var app = angular
+  .module('rp', appDependencies)
+  .config(Config)
+  .run(Run);
+
+// Global reference for debugging only (!)
+var rippleclient = window.rippleclient = {};
+rippleclient.app = app;
+rippleclient.types = types;
+
+// for unit tests
+rippleclient.tabs = {};
+_.each(tabs, function(tab) { rippleclient.tabs[tab.tabName] = tab; });
+
+// Install basic page template
+angular.element('body').prepend(require('../../jade/client/index.jade')());
+
+Config.$inject = ['$routeProvider', '$injector'];
+
+function Config ($routeProvider, $injector) {
+  // Set up routing for tabs
+  _.each(tabs, function (tab) {
+    if ("function" === typeof tab.generateHtml) {
+      var template = tab.generateHtml();
+
+      var config = {
+        tabName: tab.tabName,
+        tabClass: 't-'+tab.tabName,
+        pageMode: 'pm-'+tab.pageMode,
+        mainMenu: tab.mainMenu,
+        template: template
+      };
+
+      if ('balance' === tab.tabName) {
+        $routeProvider.when('/', config);
+      }
+
+      $routeProvider.when('/'+tab.tabName, config);
+
+      if (tab.extraRoutes) {
+        _.each(tab.extraRoutes, function(route) {
+          $.extend({}, config, route.config);
+          $routeProvider.when(route.name, config);
+        });
+      }
+
+      _.each(tab.aliases, function (alias) {
+        $routeProvider.when('/'+alias, config);
+      });
     }
-
-    return tab;
   });
 
-  var app = angular
-    .module('rp', appDependencies)
-    .config(Config)
-    .run(Run);
+  // Language switcher
+  $routeProvider.when('/lang/:language', {
+    redirectTo: function(routeParams, path, search){
+      lang = routeParams.language;
+
+      if (!store.disabled) {
+        store.set('ripple_language',lang ? lang : '');
+      }
+
+      // problem?
+      // reload will not work, as some pages are also available for guests.
+      // Logout will show the same page instead of showing login page.
+      // This line redirects user to root (login) page
+      var port = location.port.length > 0 ? ":" + location.port : "";
+      location.href = location.protocol + '//' + location.hostname  + port + location.pathname;
+    }
+  });
+
+  $routeProvider.otherwise({redirectTo: '/404'});
+}
+
+Run.$inject = ['$rootScope', '$route', '$routeParams', '$location'];
+
+function Run ($rootScope, $route, $routeParams, $location)
+{
+  $rootScope.productName = 'Ripple Trade';
 
   // Global reference for debugging only (!)
-  var rippleclient = window.rippleclient = {};
-  rippleclient.app = app;
-  rippleclient.types = types;
-  
-  // for unit tests
-  rippleclient.tabs = {};
-  _.each(tabs, function(tab) { rippleclient.tabs[tab.tabName] = tab; });
+  if ("object" === typeof rippleclient) {
+    rippleclient.$scope = $rootScope;
+    rippleclient.version = $rootScope.version =
+      angular.element('#version').html();
+    if (typeof debug !== "undefined" && debug === true) {
+      rippleclient.versionBranch = $rootScope.versionBranch =
+        angular.element('#versionbranch').text();
+    }
+  }
 
-  // Install basic page template
-  angular.element('body').prepend(require('../../jade/client/index.jade')());
+  // Helper for detecting empty object enumerations
+  $rootScope.isEmpty = function (obj) {
+    return angular.equals({},obj);
+  };
 
-  Config.$inject = ['$routeProvider', '$injector'];
+  // if url has a + or %2b then replace with %20 and redirect
+  if (_.isArray($location.$$absUrl.match(/%2B|\+/gi)))
+    window.location = $location.$$absUrl.replace(/%2B|\+/gi, '%20');
 
-  function Config ($routeProvider, $injector) {
-    // Set up routing for tabs
-    _.each(tabs, function (tab) {
-      if ("function" === typeof tab.generateHtml) {
-        var template = tab.generateHtml();
+  var scope = $rootScope;
+  $rootScope.$route = $route;
+  $rootScope.$routeParams = $routeParams;
+  $('#main').data('$scope', scope);
 
-        var config = {
-          tabName: tab.tabName,
-          tabClass: 't-'+tab.tabName,
-          pageMode: 'pm-'+tab.pageMode,
-          mainMenu: tab.mainMenu,
-          template: template
-        };
+  // If using the old "amnt" parameter rename it "amount"
+  var amnt = $location.search().amnt;
+  if (amnt) {
+    $location.search("amnt", null);
+    $location.search("amount", amnt);
+  }
 
-        if ('balance' === tab.tabName) {
-          $routeProvider.when('/', config);
-        }
+  // put Options to rootScope so it can be used in html templates
+  $rootScope.globalOptions = Options;
 
-        $routeProvider.when('/'+tab.tabName, config);
-
-        if (tab.extraRoutes) {
-          _.each(tab.extraRoutes, function(route) {
-            $.extend({}, config, route.config);
-            $routeProvider.when(route.name, config);
-          });
-        }
-
-        _.each(tab.aliases, function (alias) {
-          $routeProvider.when('/'+alias, config);
+  // Once the app controller has been instantiated
+  // XXX ST: I think this should be an event instead of a watch
+  scope.$watch("app_loaded", function on_app_loaded(oldval, newval) {
+    $('nav a').click(function() {
+      if (location.hash == this.hash) {
+        scope.$apply(function () {
+          $route.reload();
         });
       }
     });
+  });
+}
 
-    // Language switcher
-    $routeProvider.when('/lang/:language', {
-      redirectTo: function(routeParams, path, search){
-        lang = routeParams.language;
+// Some backwards compatibility
+if (!Options.blobvault) {
+  Options.blobvault = Options.BLOBVAULT_SERVER;
+}
 
-        if (!store.disabled) {
-          store.set('ripple_language',lang ? lang : '');
-        }
+if ("function" === typeof angular.resumeBootstrap) {
+  angular.resumeBootstrap();
 
-        // problem?
-        // reload will not work, as some pages are also available for guests.
-        // Logout will show the same page instead of showing login page.
-        // This line redirects user to root (login) page
-        var port = location.port.length > 0 ? ":" + location.port : "";
-        location.href = location.protocol + '//' + location.hostname  + port + location.pathname;
-      }
-    });
-
-    $routeProvider.otherwise({redirectTo: '/404'});
-  }
-
-  Run.$inject = ['$rootScope', '$route', '$routeParams', '$location'];
-
-  function Run ($rootScope, $route, $routeParams, $location)
-  {
-    $rootScope.productName = 'Ripple Trade';
-
-    // Global reference for debugging only (!)
-    if ("object" === typeof rippleclient) {
-      rippleclient.$scope = $rootScope;
-      rippleclient.version = $rootScope.version =
-        angular.element('#version').html();
-      if (typeof debug !== "undefined" && debug === true) {
-        rippleclient.versionBranch = $rootScope.versionBranch =
-          angular.element('#versionbranch').text();
-      }
-    }
-
-    // Helper for detecting empty object enumerations
-    $rootScope.isEmpty = function (obj) {
-      return angular.equals({},obj);
-    };
-
-    // if url has a + or %2b then replace with %20 and redirect
-    if (_.isArray($location.$$absUrl.match(/%2B|\+/gi)))
-      window.location = $location.$$absUrl.replace(/%2B|\+/gi, '%20');
-
-    var scope = $rootScope;
-    $rootScope.$route = $route;
-    $rootScope.$routeParams = $routeParams;
-    $('#main').data('$scope', scope);
-
-    // If using the old "amnt" parameter rename it "amount"
-    var amnt = $location.search().amnt;
-    if (amnt) {
-      $location.search("amnt", null);
-      $location.search("amount", amnt);
-    }
-
-    // put Options to rootScope so it can be used in html templates
-    $rootScope.globalOptions = Options;
-
-    // Once the app controller has been instantiated
-    // XXX ST: I think this should be an event instead of a watch
-    scope.$watch("app_loaded", function on_app_loaded(oldval, newval) {
-      $('nav a').click(function() {
-        if (location.hash == this.hash) {
-          scope.$apply(function () {
-            $route.reload();
-          });
-        }
-      });
-    });
-  }
-
-  // Some backwards compatibility
-  if (!Options.blobvault) {
-    Options.blobvault = Options.BLOBVAULT_SERVER;
-  }
-
-  if ("function" === typeof angular.resumeBootstrap) {
-    angular.resumeBootstrap();
-
-    angular.resumeBootstrap = function() {
-      return false;
-    };
-  }
-}, 100);
+  angular.resumeBootstrap = function() {
+    return false;
+  };
+}
