@@ -79,6 +79,7 @@
     "karma-firefox-launcher": "~0.1.3",
     "karma-mocha": "~0.1.3",
     "karma-sinon-chai": "~0.1.6",
+    "merge-stream": "^0.1.7",
     "mime": "~1.2.11"
   }
 }
