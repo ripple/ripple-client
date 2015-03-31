@@ -4,10 +4,10 @@ module.exports = function(config) {
     basePath: '../',
 
     files: [
-      'build/dist/deps-debug.js',
+      'build/dist/js/vendor-*.js',
       'deps/js/angular-mocks/angular-mocks.js',
-      'src/js/config.js',
-      'build/dist/web/ripple-client-*-debug.js',
+      'build/dist/config-*.js',
+      'build/dist/js/app-en.js',
       'test/unit/**/*.js'
     ],
 
