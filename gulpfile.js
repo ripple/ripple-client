@@ -1,8 +1,10 @@
 'use strict';
 
 var gulp = require('gulp'),
+  merge = require('merge-stream'),
   modRewrite = require('connect-modrewrite'),
   BannerPlugin = require('gulp-webpack/node_modules/webpack/lib/BannerPlugin'),
+  UglifyJsPlugin = require('gulp-webpack/node_modules/webpack/lib/optimize/UglifyJsPlugin'),
 
   meta = require('./package.json'),
   languages = require('./l10n/languages.json').active,
@@ -13,6 +15,8 @@ var $ = require('gulp-load-plugins')({
 });
 
 var buildDirPath = 'build';
+
+require('events').EventEmitter.prototype._maxListeners = 100;
 
 // Clean the build folder
 gulp.task('clean:dev', function () {
@@ -31,7 +35,6 @@ gulp.task('bower', function() {
 gulp.task('webpack:dev', function() {
   // TODO jshint
   // TODO move to js/entry.js
-  // TODO prod and languages
   return gulp.src('src/js/entry/web.js')
     .pipe($.webpack({
       module: {
@@ -52,23 +55,35 @@ gulp.task('webpack:dev', function() {
 });
 
 gulp.task('webpack:dist', function() {
-  return gulp.src('src/js/entry/web.js')
-    .pipe($.webpack({
-      module: {
-        loaders: [
-          { test: /\.jade$/, loader: "jade-loader" },
-          { test: /\.json$/, loader: "json-loader" }
-        ]
-      },
-      output: {
-        filename: "app.js"
-      },
-      plugins: [
-        new BannerPlugin('Ripple Client v' + meta.version + '\nCopyright (c) ' + new Date().getFullYear() + ' ' + meta.author.name + '\nLicensed under the ' + meta.license + ' license.')
-      ],
-      debug: false
-    }))
-    .pipe(gulp.dest(buildDirPath + '/dist/js/'));
+  var pack = gulp.src('src/js/entry/web.js');
+
+  // Build languages
+  languages.forEach(function(language){
+    pack
+      .pipe($.webpack({
+        module: {
+          loaders: [
+            { test: /\.jade$/, loader: "jade-l10n-loader?languageFile=l10n/" + language.code + "/messages.po" },
+            { test: /\.json$/, loader: "json-loader" }
+          ]
+        },
+        output: {
+          filename: "app-" + language.code + ".js"
+        },
+        plugins: [
+          new BannerPlugin('Ripple Client v' + meta.version + '\nCopyright (c) ' + new Date().getFullYear() + ' ' + meta.author.name + '\nLicensed under the ' + meta.license + ' license.'),
+          new UglifyJsPlugin({
+            compress: {
+              warnings: false
+            }
+          })
+        ],
+        debug: false
+      }))
+      .pipe(gulp.dest(buildDirPath + '/dist/js/'));
+  });
+
+  return pack;
 });
 
 // TODO SASS
@@ -119,25 +134,26 @@ gulp.task('serve:dist', function() {
   });
 });
 
-// Fonts
-gulp.task('fonts', function() {
-  return gulp.src(['res/fonts/**/*'])
-    .pipe(gulp.dest(buildDirPath + '/dist/fonts/'));
-});
-
-// Ripple.txt
+// Static files
 gulp.task('static', function() {
-  return gulp.src(['ripple.txt', 'deps/js/mixpanel.js'])
+  // Ripple.txt and mixpanel script
+  var rpl = gulp.src(['ripple.txt', 'deps/js/mixpanel.js'])
     .pipe(gulp.dest(buildDirPath + '/dist/'));
+
+  // Fonts and icons
+  var fontsIcons = gulp.src(['res/**/*'])
+    .pipe(gulp.dest(buildDirPath + '/dist/'));
+
+  return merge(rpl, fontsIcons);
 });
 
 // Version branch
 gulp.task('gitVersion', function (cb) {
   require('child_process').exec('git rev-parse --abbrev-ref HEAD', function(err, stdout) {
-    meta.gitVersionBranch = stdout;
+    meta.gitVersionBranch = stdout.replace(/\n$/, '');
 
     require('child_process').exec('git describe --tags --always --dirty', function(err, stdout) {
-      meta.gitVersion = stdout;
+      meta.gitVersion = stdout.replace(/\n$/, '');
 
       cb(err)
     })
@@ -189,16 +205,17 @@ gulp.task('default', ['dev', 'serve:dev'], function() {
 gulp.task('dev', ['clean:dev', 'bower', 'webpack:dev', 'less', 'preprocess:dev']);
 
 // Distribution
-gulp.task('dist', ['clean:dist', 'dev', 'webpack:dist', 'preprocess:dist', 'static', 'fonts', 'images'], function () {
+gulp.task('dist', ['clean:dist', 'dev', 'webpack:dist', 'preprocess:dist', 'static', 'images'], function () {
   var assets = $.useref.assets();
 
-  return gulp.src([buildDirPath + '/dist/index.html'])
+  return gulp.src([buildDirPath + '/dist/index.html', 'src/includes.html'])
     // Concatenates asset files from the build blocks inside the HTML
     .pipe(assets)
     // Appends hash to extracted files app.css → app-098f6bcd.css
     .pipe($.rev())
     // Adds AngularJS dependency injection annotations
-    .pipe($.if('*.js', $.ngAnnotate()))
+    // We don't need this, cuz the app doesn't go thru this anymore
+    //.pipe($.if('*.js', $.ngAnnotate()))
     // Uglifies js files
     .pipe($.if('*.js', $.uglify()))
     // Minifies css files
