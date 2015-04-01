@@ -5,7 +5,7 @@
   "steps": [
     {
       "type": "get",
-      "url": "http://localhost:9001/#/login"
+      "url": "http://ripp.site:9001/#/login"
     },
     {
       "type": "waitForTextPresent",
