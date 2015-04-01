@@ -7,7 +7,7 @@ var Options = {
   // Local domain
   //
   // Which domain should ripple-client consider native?
-  domain: 'localhost:9001',
+  domain: 'ripp.site:9001',
 
   // Rippled to connect
   server: {
@@ -16,7 +16,8 @@ var Options = {
     local_signing: true,
 
     servers: [
-      { host: 'localhost', port: 9002, secure: false }
+      { host: 's-west.ripple.com', port: 443, secure: true },
+      { host: 's-east.ripple.com', port: 443, secure: true }
     ],
 
     connection_offset: 0
