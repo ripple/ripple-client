@@ -271,7 +271,7 @@ module.directive('rpAvailableName', function ($q, $timeout, $parse) {
 
           return defer.promise;
         }
-        return $q.when(false);
+        return $q.reject(false);
       };
       attr.$observe('rpAvailableName', function(val) {
         ctrl.$validate();

@@ -31,30 +31,36 @@ module.controller('NavbarCtrl', ['$scope', '$element', '$compile', 'rpId',
       // Reload
       location.reload();
   };
+
+  $scope.$watch('connected', function(){
+    $scope.fee = network.remote.createTransaction()._computeFee();
+    // $scope.currentFee = ripple.Amount.from_json($scope.fee).to_human(); 
+
+    if (!$scope.connected && $scope.userCredentials.username) {
+      $scope.serverStatus = 'disconnected';
+    }
+    else if ($scope.connected && $scope.fee) {
+      if ((ripple.Amount.from_json($scope.fee).to_human() > Options.low_load_threshold) && ($scope.fee < Options.max_tx_network_fee)) {
+        $scope.serverLoad = 'mediumLoad';
+        $scope.serverStatus = 'mediumLoad';
+      } else if ($scope.fee >= Options.max_tx_network_fee) {
+        $scope.serverLoad = 'highLoad';
+        $scope.serverStatus = 'highLoad';
+      } else {
+        $scope.serverLoad = '';
+        $scope.serverStatus = 'lowLoad';
+      }
+    }
+    else {
+      $scope.serverStatus = 'connected';
+    }
+  }, true);
+
   // Username
   $scope.$watch('userCredentials', function(){
     var username = $scope.userCredentials.username;
     if(username) $scope.loading = false;
-    $scope.currentFee = ripple.Amount.from_json($scope.fee).to_human(); 
     $scope.shortUsername = null;
-    if(!$scope.connected && username) {
-      $scope.message = 'Disconnected from the Ripple network'; 
-    }
-    else if ($scope.currentFee && $scope.currentFee > Options.low_load_threshold && $scope.currentFee < ripple.Amount.from_json(Options.max_tx_network_fee).to_human()) {
-      $scope.serverLoad = 'mediumLoad';
-      $scope.message = 'Network fees are currently higher than normal. Fee: ' + $scope.currentFee + ' XRP';
-    } 
-    else if ($scope.currentFee && $scope.currentFee >= ripple.Amount.from_json(Options.max_tx_network_fee).to_human()) {
-      $scope.serverLoad = 'highLoad';
-      $scope.message = 'Network fees are currently higher than your maximum. Fee: ' + $scope.currentFee + ' XRP';
-    }
-    else if ($scope.currentFee) {
-      $scope.message = 'Connected to the Ripple network. Fee: ' + $scope.currentFee + ' XRP';
-    }
-    else {
-      $scope.message = 'Connected to the Ripple network.';
-    } 
-    
 
     if(username && username.length > 25) {
       $scope.shortUsername = username.substring(0,24)+'...';

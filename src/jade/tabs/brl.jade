@@ -69,11 +69,11 @@ section.col-xs-12.content(ng-controller='BrlCtrl')
 
       .row.fund-tab-description
         .col-xs-7.col-sm-5.col-md-4.action-btn-wrapper
-          button.btn.btn-large(type="submit",ng-click="save_account()", ng-hide="brlConnected", ng-disabled="loading || !account.Balance || !can_add_trust")
+          button.btn.btn-large.btn-primary(type="submit",ng-click="save_account()", ng-hide="brlConnected", ng-disabled="loading || !account.Balance || !can_add_trust")
             span(ng-show="!loading", l10n)  Add Rippex
             span(ng-show="loading", l10n)  Adding...
-          button.btn.btn-large(ng-show="showInstructions && brlConnected", type="submit", ng-click="toggle_instructions()", l10n) Hide instructions
-          button.btn.btn-large(ng-show="!showInstructions && brlConnected ", type="submit", ng-click="toggle_instructions()", l10n) Show instructions
+          button.btn.btn-large.btn-primary(ng-show="showInstructions && brlConnected", type="submit", ng-click="toggle_instructions()", l10n) Hide instructions
+          button.btn.btn-large.btn-primary(ng-show="!showInstructions && brlConnected ", type="submit", ng-click="toggle_instructions()", l10n) Show instructions
 
         .connect.col-xs-5.col-sm-7.col-md-8
           .description(ng-show="!brlConnected && account.Balance", l10n) 

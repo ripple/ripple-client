@@ -37,7 +37,7 @@ LoginTab.prototype.angular = function (module) {
     $scope.backendMessages = [];
 
     var updater;
-    
+
     if (id.loginStatus) {
       $location.path('/balance');
       return;
@@ -232,9 +232,9 @@ LoginTab.prototype.angular = function (module) {
       });
 
       $scope.status = '';
-      location.hash = '/balance';
-      if ($routeParams.tab) {
-        $location.path('/'+$routeParams.tab);
+
+      if ($.isEmptyObject($routeParams)) {
+        $location.path('/balance');
       }
     }
 

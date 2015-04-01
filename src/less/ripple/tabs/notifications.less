@@ -1,4 +1,4 @@
-#t-advanced, #t-settingsgateway {
+#t-notifications {
   .settingPage a {
     display: block;
     padding: 10px;
@@ -31,11 +31,11 @@
   }
 
   .websocket{
-    padding-right: 0;
+    padding-right: 0px;
   }
 
   .port{
-    padding-left: 0;
+    padding-left: 0px;
   }
 
   .portNumber{
@@ -57,17 +57,37 @@
   }
 
   #save {
-    margin-top: 0;
+    margin-top: 0px;
+  }
+
+  #saveBlob {
+    margin-top: 0px;
+  }
+
+  #saveBridge {
+    margin-top: 0px;
+  }
+
+  #deleteBlob {
+    // background-color: @midred;
+    // border-color: @midred;
+    margin-top: 0px;
+  }
+
+  #deleteBridge {
+    // background-color: @midred;
+    // border-color: @midred;
+    margin-top: 0px;
   }
 
   #delete {
     // background-color: @midred;
     // border-color: @midred;
-    margin-top: 0;
+    margin-top: 0px;
   }
 
   #cancel {
-    margin-top: 0;
+    margin-top: 0px;
   }
 
   #newServer {
@@ -75,8 +95,8 @@
     margin-top: 20px;
   }
 
-  #servers, #gateways {
-    padding-top: 0;
+  #servers {
+    padding-top: 0px;
 
     .trust-line-form {
       .edit-trust-line {
@@ -108,7 +128,7 @@
       @media (max-width: @screen-xs-max) {
         .port-wrapper {
 
-          padding-left: 0;
+          padding-left: 0px;
 
         }
       }
@@ -124,10 +144,10 @@
   }
 
   #secureSocket {
-    padding-left: 0;
-    padding-right: 0;
+    padding-left: 0px;
+    padding-right: 0px;
     @media (max-width: @screen-xs-max) {
-        padding-left: 15px;
+      padding-left: 15px;
     }
     &.editable {
       line-height: 35px;

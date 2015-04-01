@@ -130,7 +130,7 @@ section.col-xs-12.content(ng-controller="ExchangeCtrl")
           p
             span.literal(l10n-inc) Exchange rate: &#32;
             span.value {{exchange.alt.rate | rpamount:{rel_precision: 4} }} &#32;
-            span.currency {{exchange.alt.amount | rpcurrency}}/{{exchange.currency_code}}
+            span.currency {{exchange.alt.amount | rpcurrency}} per {{exchange.currency_code}}
           span.literal(l10n-inc) Ripple network fee: &#32;
           span.currency(rp-pretty-amount='networkFee')
           form.call-to-action(ng-submit='exchange_confirmed()')

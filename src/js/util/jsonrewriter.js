@@ -201,6 +201,10 @@ var JsonRewriter = module.exports = {
           var diff = String(difference);
           amtSent = cur ? {value: diff, currency : cur} : diff;
         }
+
+        else {
+          amtSent = tx.Amount;
+        }
       }
     }
 
@@ -506,13 +510,11 @@ var JsonRewriter = module.exports = {
 
         // Offer
         else if (node.entryType === 'Offer') {
-
           // For new and cancelled offers we use 'fields'
           var fieldSet = node.fields;
 
           // Current account offer
           if (node.fields.Account === account) {
-
             // Partially funded offer [and deleted.. no more funds]
             /* Offer has been partially funded and deleted (because of the luck of funds)
              if the node is deleted and the TakerGets/TakerPays field has been changed */
@@ -546,7 +548,6 @@ var JsonRewriter = module.exports = {
               if (effect.type === 'offer_cancelled' &&
                   obj.transaction &&
                   obj.transaction.type === 'offercancel') {
-
                 // Fill in remaining information about offer
                 obj.transaction.gets = fieldSet.TakerGets;
                 obj.transaction.pays = fieldSet.TakerPays;
@@ -557,7 +558,8 @@ var JsonRewriter = module.exports = {
           }
 
           // Another account offer. We care about it only if our transaction changed the offer amount (we bought currency)
-          else if(tx.Account === account && !$.isEmptyObject(node.fieldsPrev) /* Offer is unfunded if node.fieldsPrev is empty */) {
+          else if (tx.Account === account && !$.isEmptyObject(node.fieldsPrev) // Offer is unfunded if node.fieldsPrev is empty
+            && !$.isEmptyObject(node.fieldsPrev.TakerGets) && !$.isEmptyObject(node.fieldsPrev.TakerPays)) { // TakerGets or TakerPays might not be there if the change is smaller then a drop
             effect.type = 'offer_bought';
           }
 
@@ -569,16 +571,14 @@ var JsonRewriter = module.exports = {
               effect.got = ripple.Amount.from_json(node.fieldsPrev.TakerGets).subtract(node.fields.TakerGets);
               effect.paid = ripple.Amount.from_json(node.fieldsPrev.TakerPays).subtract(node.fields.TakerPays);
             }
-          }
 
-          if (effect.gets && effect.pays) {
             effect.price = getPrice(effect, tx.date);
-          }
 
-          // Flags
-          if (node.fields.Flags) {
-            effect.flags = node.fields.Flags;
-            effect.sell = node.fields.Flags & ripple.Remote.flags.offer.Sell;
+            // Flags
+            if (node.fields.Flags) {
+              effect.flags = node.fields.Flags;
+              effect.sell = node.fields.Flags & ripple.Remote.flags.offer.Sell;
+            }
           }
         }
 

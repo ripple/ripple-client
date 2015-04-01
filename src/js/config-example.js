@@ -34,7 +34,7 @@ var Options = {
   // intended for developers, be careful about using this in a real setting.
   persistent_auth: false,
 
-  historyApi: 'https://history.ripple.com:7443/v1/',
+  historyApi: 'https://history.ripple.com:7443/v1',
 
   // Number of transactions each page has in balance tab notifications
   transactions_per_page: 50,
@@ -86,7 +86,10 @@ var Options = {
   gateway_max_limit: 1000000000,
 
   // Default threshold in XRPs for fee on RT to show higher load status
-  low_load_threshold: 0.012
+  low_load_threshold: 0.012,
+
+  //Email notifications subscription service URL
+  notifications_api_url: ''
 };
 
 // Load client-side overrides

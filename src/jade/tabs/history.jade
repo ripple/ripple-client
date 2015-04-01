@@ -194,7 +194,7 @@ section.col-xs-12.content(ng-controller="HistoryCtrl")
                     | Add
                     strong  {{entry.transaction.counterparty | rpcontactname}}
                     |  to contact list
-        nav.paging(ng-if="pagination.count", ng-bind="pagination.pages")
+        nav.paging(ng-if="pagination.count")
           pagination.pagination-sm(total-items="pagination.count"
             ng-model="pagination.currentPage", items-per-page="pagination.transactionsPerPage"
             max-size="10", boundary-links="true")

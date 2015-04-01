@@ -90,8 +90,13 @@ SendTab.prototype.angular = function (module)
       setImmediate(function() {
         if ($scope.sendForm && $scope.sendForm.send_amount !== undefined) {
           $scope.$apply(function() {
-            $scope.sendForm.send_amount.$setViewValue($scope.send.amount);
-            $scope.sendForm.send_amount.$validate();
+            // $scope.sendForm.send_amount.$validate();
+            // hack - use of private method. this is because rpAmount and other
+            // validators not real validators, but parsers.
+            // and latest angular does not call parsers on $validate.
+            // when rpAmount and others changed to validators this can be changed
+            // back to $validate
+            $scope.sendForm.send_amount.$$parseAndValidate();
             $scope.update_amount();
           });
         }
@@ -727,11 +732,11 @@ SendTab.prototype.angular = function (module)
       send.path_status = 'pending';
 
       // Determine if we need to update the paths.
-      if (send.pathfind &&
-          send.pathfind.src_account === id.account &&
-          send.pathfind.dst_account === recipient &&
-          send.pathfind.dst_amount.equals(amount))
-        return;
+      //if (send.pathfind &&
+      //    send.pathfind.src_account === id.account &&
+      //    send.pathfind.dst_account === recipient &&
+      //    send.pathfind.dst_amount.equals(amount))
+      //  return;
 
       // Start path find
       var pf = network.remote.path_find(id.account,
@@ -748,6 +753,10 @@ SendTab.prototype.angular = function (module)
       var lastUpdate;
 
       pf.on('update', function (upd) {
+        // wrong quote
+        if ($scope.send.path_status === 'error-quote')
+          return;
+
         // if no paths found and it is first update - skip it, it often wrong
         if (send.pathfindJustStarted && (!upd.alternatives || !upd.alternatives.length)) {
           send.pathfindJustStarted = false;
@@ -793,7 +802,7 @@ SendTab.prototype.angular = function (module)
               var slightlyInFuture = new Date(+new Date() + 5 * 60000);
 
               alt.rate     = alt.amount.ratio_human(amount, {reference_date: slightlyInFuture});
-              alt.send_max = alt.amount.product_human(Amount.from_json('1.001'));
+              alt.send_max = alt.amount.product_human(Amount.from_human('1.001'));
               alt.paths    = raw.paths_computed || raw.paths_canonical;
 
               // Selected currency should be the first option
@@ -1248,9 +1257,6 @@ SendTab.prototype.angular = function (module)
 
     if ($routeParams.to && $routeParams.amount) {
       var amountValue = $routeParams.amount;
-      if (amountValue === ('' + parseInt(amountValue, 10))) {
-        amountValue = amountValue + '.0';
-      }
       var amount = ripple.Amount.from_json(amountValue);
       var currency = amount.currency();
       if ($scope.currencies_all_keyed[currency.get_iso()]) {

@@ -161,7 +161,7 @@ section.col-xs-12.content(ng-controller='SendCtrl')
               | You are either trying to send too little or too much XRP.
               | Minimum amount is 0.000001 XRP and maximum amount is 100 billion XRP.
             .error(ng-message='rpMaxDigits', l10n) Your amount has too many digits. The max number of digits is 16.
-            .error(ng-show="send.recipient_info.disallow_xrp && send.currency_code=='XRP'", l10n)
+            .notice(ng-show="send.recipient_info.disallow_xrp && send.currency_code=='XRP'", l10n)
               | Recipient does not allow XRP payments. Are you sure you want to send XRP anyway?
             .notice(ng-show="send.trust_limit", l10n) {{send.recipient | rpcontactname}}
               | trusts you for {{send.trust_limit | rpamount}} {{send.trust_limit | rpcurrency}}.
@@ -272,10 +272,10 @@ section.col-xs-12.content(ng-controller='SendCtrl')
             span.value {{send.alt.amount | rpamount}} &#32;
             span.currency {{send.alt.amount | rpcurrency}} &#32;
             span &plus; .1% 
-        p
+        p(ng-hide="!send.alt")
           span.literal(l10n) Exchange rate: &#32;
           span.value {{send.alt.rate | rpamount:{rel_precision: 4} }} &#32;
-          span.currency {{send.alt.amount | rpcurrency}}/{{send.currency_code}}
+          span.currency {{send.alt.amount | rpcurrency}} per {{send.currency_code}}
         span.literal(l10n) Ripple network fee: &#32;
         span.currency(rp-pretty-amount='networkFee')
         form.call-to-action(name="sendUnlockForm", ng-submit="send_confirmed()")
