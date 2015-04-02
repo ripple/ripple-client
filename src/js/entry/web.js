@@ -22,7 +22,7 @@ require('../services/globalwrappers.service.js');
 require('../services/id.service.js');
 require('../services/tracker.service.js');
 require('../services/blobRemote.service.js');
-require('../services/oldblob.service.js');
+require('../services/oldblob.service.js'); 
 require('../services/txqueue.service.js');
 require('../services/authflowRemote.service.js');
 require('../services/keychain.service.js');
@@ -46,34 +46,34 @@ require('../services/integration/inboundBridge.service.js');
 // require('../services/ledger.service.js');
 // require('../services/transactions.service.js');
 
-// Angular module dependencies
-var appDependencies = [
-  'ngRoute',
-  // Controllers
-  'app',
-  'navbar',
-  // Services
-  'id',
-  'tracker',
-  'appManager',
-  'history',
-  // Directives
-  'charts',
-  'effects',
-  'events',
-  'fields',
-  'formatters',
-  'directives',
-  'validators',
-  'datalinks',
-  'errors',
-  'ngMessages',
-  // Filters
-  'filters',
-  'ui.bootstrap',
-  'ui.sortable',
-  'notifications'
-];
+  // Angular module dependencies
+  var appDependencies = [
+    'ngRoute',
+    // Controllers
+    'app',
+    'navbar',
+    // Services
+    'id',
+    'tracker',
+    'appManager',
+    'history',
+    // Directives
+    'charts',
+    'effects',
+    'events',
+    'fields',
+    'formatters',
+    'directives',
+    'validators',
+    'datalinks',
+    'errors',
+    'ngMessages',
+    // Filters
+    'filters',
+    'ui.bootstrap',
+    'ui.sortable',
+    'notifications'
+  ];
 
 // Load tabs
 var tabdefs = [
@@ -112,9 +112,9 @@ var tabdefs = [
   require('../tabs/settingsgateway.controller.js'),
   require('../tabs/notifications.controller.js'),
 
-  // Hidden tabs
-  require('../tabs/apps.controller.js'),
-  require('../tabs/su.controller.js')
+// Hidden tabs
+require('../tabs/apps.controller.js'),
+require('../tabs/su.controller.js')
 ];
 
 // Prepare tab modules
@@ -139,6 +139,7 @@ var app = angular
 var rippleclient = window.rippleclient = {};
 rippleclient.app = app;
 rippleclient.types = types;
+
 // for unit tests
 rippleclient.tabs = {};
 _.each(tabs, function(tab) { rippleclient.tabs[tab.tabName] = tab; });
