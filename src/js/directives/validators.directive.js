@@ -45,7 +45,7 @@ module.directive('rpMasterKey', function () {
  * Invalidate duplicate accountId's
  * consider the masterkey invalid unless the database does not have the derived accountId
  */
-module.directive('rpMasterAddressExists', function ($q, $timeout, $http) {
+module.directive('rpMasterAddressExists', ['$q', '$timeout', '$http', function ($q, $timeout, $http) {
   return {
     restrict: 'A',
     require: '?ngModel',
@@ -84,7 +84,7 @@ module.directive('rpMasterAddressExists', function ($q, $timeout, $http) {
       });
     }
   };
-});
+}]);
 
 /**
  * Validate a payment destination.
@@ -224,7 +224,7 @@ module.directive('rpDest', ['$q', '$timeout', '$parse', 'rpFederation', function
 /**
  * Check if the ripple name is valid and is available for use
  */
-module.directive('rpAvailableName', function ($q, $timeout, $parse) {
+module.directive('rpAvailableName', ['$q', '$timeout', '$parse', function ($q, $timeout, $parse) {
   return {
     restrict: 'A',
     require: '?ngModel',
@@ -278,7 +278,7 @@ module.directive('rpAvailableName', function ($q, $timeout, $parse) {
       });
     }
   };
-});
+}]);
 
 /**
  * Source and destination tags validator

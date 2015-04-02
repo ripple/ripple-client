@@ -7,7 +7,7 @@ npm-debug.log
 node_modules
 test/sauce/node_modules/
 build/
-src/js/config.js
+config.js
 test/e2e/protractor.conf.js
 analytics.js
 res/nw/config.js
