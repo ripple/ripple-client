@@ -16,6 +16,34 @@
                         "build": "${TRAVIS_BUILD_NUMBER}",
                         "tags": "${TRAVIS_BRANCH}"
 					}
+				},
+    			{
+					"driverOptions": {
+						"host": "localhost",
+						"port": 4445
+					},
+					"browserOptions": {
+						"browserName": "firefox",
+						"username": "${SAUCE_USERNAME}",
+						"accessKey": "${SAUCE_ACCESS_KEY}",
+                        "tunnel-identifier": "${TRAVIS_JOB_NUMBER}",
+                        "build": "${TRAVIS_BUILD_NUMBER}",
+                        "tags": "${TRAVIS_BRANCH}"
+					}
+				},
+    			{
+					"driverOptions": {
+						"host": "localhost",
+						"port": 4445
+					},
+					"browserOptions": {
+						"browserName": "safari",
+						"username": "${SAUCE_USERNAME}",
+						"accessKey": "${SAUCE_ACCESS_KEY}",
+                        "tunnel-identifier": "${TRAVIS_JOB_NUMBER}",
+                        "build": "${TRAVIS_BUILD_NUMBER}",
+                        "tags": "${TRAVIS_BRANCH}"
+					}
 				}
 			],
 			"scripts": [

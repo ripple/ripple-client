@@ -6,7 +6,9 @@ var options = {
 	username: 'tonga',
 	accessKey: '***REMOVED***',
 	verbose: true,
-    vmVersion: 'dev-varnish',
+    noProxyCaching: true,
+    noSslBumpDomains: 'ripp.site,ripple.com,s-east.ripple.com,s-west.ripple.com',
+    tunnelDomains: 'ripp.site',
 	logger: console.log
 };
 
