@@ -5,7 +5,7 @@
   "steps": [
     {
       "type": "get",
-      "url": "http://localhost:3000/"
+      "url": "http://ripp.site:3000/"
     },
     {
       "type": "waitForTextPresent",
