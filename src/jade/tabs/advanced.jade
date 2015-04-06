@@ -32,9 +32,12 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
                 input.form-control(
                 class=inputName
                 id=inputName
-                name=inputName, type='text'
+                name=inputName, type='url'
                 ng-model=description.ngModel
                 required)
+                .errorGroup(ng-show=formName+'.'+inputName+'.$dirty')
+                  div(ng-messages=formName+'.'+inputName+'.$error')
+                    .error(ng-message='url', l10n) IP or hostname is invalid.
               .col-xs-6.col-sm-6.col-md-3
                 button.btn.btn-block.btn-success.btn-xs.submit#save(type='submit', ng-disabled=formName+'.$invalid', l10n) Save
               if hasDelete
@@ -69,7 +72,7 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
                 button.btn.btn-block.btn-danger.btn-xs.submit#delete(type="button", ng-click="remove()", ng-show="hasRemove()", l10n) Delete
               .col-xs-3.col-sm-3.col-md-2.text-center#cancel
                 a.btn.btn-cancel.btn-block(href="", ng-click='cancelEditConfirmation("'+transactionType+'")', l10n) cancel
-        
+
         h4#networkSettings(l10n) Network settings
         form(name="maxnetworkfeeForm", ng-submit='save("maxNetworkFee")')
           .descriptor(l10n) Maximum network fee
@@ -99,7 +102,7 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
         +confirmation('send', 'sendConfirmationForm', 'Send confirmation settings', 'If you hide your send confirmation page, you will not see a confirmation page when sending money. You might pay up to .1% more than you originally specified.', 'sendConfirmationBox')
         +confirmation('exchange', 'exchangeConfirmationForm', 'Simple trade confirmation settings', 'If you hide the simple trade confirmation page, you will not see a confirmation page when placing a simple trade. You might pay up to .1% more than you originally specified.', 'exchangeConfirmationBox')
         +confirmation('trade', 'tradeConfirmationForm', 'Advanced trade confirmation settings', 'If you hide the advanced trade confirmation page, you will not see a confirmation page when placing orders.', 'tradeConfirmationBox')
-        
+
         h4#serverSettings(l10n) Server settings
         +urlForm('blobvault', 'blobForm', 'Blob vault', {url: '{{options.blobvault}}', ngModel: 'options.blobvault'}, 'blobIp', true)
         +urlForm('historyApi', 'historyApiForm', 'History API', {url: '{{options.historyApi}}', ngModel: 'options.historyApi'}, 'historyAPI', false)
@@ -114,11 +117,12 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
               .col-xs-6.col-sm-5.col-md-3.hostname-wrapper
                 input.form-control.host(name='host', type='text'
                   ng-model='server.host', ng-model-options="{ debounce: 500 }"
+                  required
                   rp-websocket, rp-websocket-port="{{server.port}}", rp-websocket-secure="{{server.secure}}"
                   rp-spinner)
                 .errorGroup(ng-show="serverForm.$dirty")
                   div(ng-messages='serverForm.host.$error')
-                    .error(ng-message='rpWebsocket', l10n) Socket ip or hostname is invalid or is down.
+                    .error(ng-message='rpWebsocket', l10n) IP or hostname is invalid or destination is unreachable.
                   div(ng-messages='serverForm.port.$error')
                     .error(ng-message='rpPortNumber', l10n) Port number is invalid.
               .col-xs-3.col-sm-2.col-md-2

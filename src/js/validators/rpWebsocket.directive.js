@@ -4,7 +4,7 @@
 
 var module = angular.module('validators');
 
-module.directive('rpWebsocket', function($q, $timeout, $parse) {
+module.directive('rpWebsocket', ['$q', '$timeout', '$parse', function($q, $timeout, $parse) {
   return {
     restrict: 'A',
     require: '?ngModel',
@@ -62,4 +62,4 @@ module.directive('rpWebsocket', function($q, $timeout, $parse) {
       });
     }
   };
-});
+}]);
