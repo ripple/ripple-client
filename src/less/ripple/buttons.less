@@ -1,7 +1,7 @@
 .btn {
   // font-family: 'OpenSansLight';
 	font-size: 14px;
-	font-family: OpenSansRegular; 
+	font-family: OpenSansRegular;
 	border: none;
 	line-height: 1em;
 	padding-top: 1em;
@@ -67,11 +67,13 @@
   padding-left: 10px;
   padding-right: 10px;
 }
-.btn-nomargin-xs {
-  @media (max-width: @screen-xs-max) {
-    margin: 0; 
+
+@media (max-width: @screen-xs-max) {
+  .btn-nomargin-xs {
+    margin: 0;
   }
 }
+
 .btn-add-trust {
   float: right;
 }
