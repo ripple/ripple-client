@@ -45,7 +45,7 @@ AdvancedTab.prototype.angular = function(module)
     $scope.edit = {
       blobvault: false,
       maxNetworkFee: false,
-      historyApi: false,
+      historyApi: false
     };
     $scope.max_tx_network_fee_human = ripple.Amount.from_json($scope.options.max_tx_network_fee).to_human();
     $scope.confirmationChanged = {
