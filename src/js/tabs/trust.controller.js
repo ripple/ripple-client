@@ -27,10 +27,10 @@ TrustTab.prototype.angular = function (module)
                                   function ($scope, books, $timeout, $routeParams, id,
                                             $filter, network, rpTracker, keychain)
   {
-    
+
     // Get all currencies from currencies.js, parse through to display only those with display: true
     var displayCurrenciesOnly = [];
-    
+
     $scope.trust = {};
 
     // Trust line sorting
@@ -68,6 +68,7 @@ TrustTab.prototype.angular = function (module)
       }
     };
 
+    $scope.label = $routeParams.label || '';
 
     // User should not even be able to try granting a trust if the reserve is insufficient
     $scope.$watch('account', function() {
@@ -86,7 +87,7 @@ TrustTab.prototype.angular = function (module)
 
     $scope.$watch('counterparty', function() {
       $scope.error_account_reserve = false;
-      $scope.contact = webutil.getContact($scope.userBlob.data.contacts,$scope.counterparty);
+      $scope.contact = webutil.getContact($scope.userBlob.data.contacts, $scope.counterparty);
       if ($scope.contact) {
         $scope.counterparty_name = $scope.contact.name;
         $scope.counterparty_address = $scope.contact.address;
@@ -196,6 +197,8 @@ TrustTab.prototype.angular = function (module)
       // Add memo to tx
       tx.addMemo('client', 'rt' + $scope.version);
 
+      // Save gateway to contact
+      $scope.saveAddress();
 
       // Flags
       tx
@@ -230,6 +233,14 @@ TrustTab.prototype.angular = function (module)
         .on('success', function(res){
           $scope.$apply(function () {
             setEngineStatus(res, true);
+
+            // replace or set label with return_label if return_label exists
+            $scope.label = $routeParams.return_label || $routeParams.label || '';
+
+            // redirect user
+            if ($routeParams.return_url) {
+              document.location.replace($routeParams.return_url);
+            }
           });
         })
         .on('error', function(res){
@@ -243,8 +254,7 @@ TrustTab.prototype.angular = function (module)
 
             });
           });
-        })
-      ;
+        });
 
       keychain.requestSecret(id.account, id.username, function (err, secret) {
         // XXX Error handling
@@ -309,6 +319,28 @@ TrustTab.prototype.angular = function (module)
           break;
         case 'tep':
           console.warn('Unhandled engine status encountered!');
+      }
+    }
+
+    $scope.saveAddress = function() {
+      // Add gateway to contact
+      if ($routeParams.name) {
+        if (!$scope.contact) {
+          var contact = {
+            name: $routeParams.name,
+            view: $scope.counterparty_view,
+            address: $scope.counterparty
+          };
+
+          $scope.userBlob.unshift('/contacts', contact, function(err, data){
+            if (err) {
+              console.log('Can\'t save the contact. ', err);
+              return;
+            }
+
+            $scope.contact = data;
+          });
+        }
       }
     }
 
