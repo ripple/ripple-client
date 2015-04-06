@@ -77,13 +77,6 @@
             "hotwallets": []
             }]
     }, {
-        "name": "RippleTradeJapan",
-        "accounts": [{
-            "address": "rMAz5ZnK73nyNUL4foAvaxdreczCkG3vA6",
-            "currencies": ["JPY"],
-            "hotwallets": []
-            }]
-    }, {
         "name": "Bitso",
         "accounts": [{
             "address": "rG6FZ31hDHN1K5Dkbma3PSB5uVCuVVRzfn",
