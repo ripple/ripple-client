@@ -44,7 +44,7 @@ gulp.task('webpack:dev', function() {
         ]
       },
       output: {
-        filename: "app.js"
+        filename: "app-en.js"
       },
       cache: true,
       debug: true,
