@@ -1078,6 +1078,12 @@ SendTab.prototype.angular = function (module)
 
       // Add memo to tx
       tx.addMemo('client', 'rt' + $scope.version);
+      if ($routeParams.info_url) {
+        tx.addMemo('info_url', $routeParams.info_url);
+      }
+      if ($routeParams.msg) {
+        tx.addMemo('msg', $routeParams.msg);
+      }
 
       if (send.secret) {
         tx.secret(send.secret);
@@ -1105,7 +1111,7 @@ SendTab.prototype.angular = function (module)
         }
 
         if ('string' === typeof $scope.send.quote.invoice_id) {
-          tx.tx_json.InvoiceID = $scope.send.quote.invoice_id.toUpperCase();
+          tx.invoiceID = $scope.send.quote.invoice_id.toUpperCase();
         }
 
         tx.payment(id.account,
