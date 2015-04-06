@@ -25,6 +25,9 @@ ContactsTab.prototype.angular = function (module) {
     function ($scope, id, rpTracker)
   {
 
+    // Map addr -> name
+    $scope.contactNames = {};
+
     $scope.sort_options = {
       sort_field: 'contact',
       reverse: false
@@ -70,6 +73,9 @@ ContactsTab.prototype.angular = function (module) {
         contact.dt = $scope.contact.dt;
       }
 
+      // Resolve name
+      $scope.resolveName($scope.contact.address);
+
       // Enable the animation
       $scope.enable_highlight = true;
 
@@ -85,10 +91,18 @@ ContactsTab.prototype.angular = function (module) {
       // Notify the user
       $scope.success.createContact = true;
     };
+
+    $scope.resolveName = function (addr)
+    {
+      id.resolveName(addr, {tilde: true}).then(function(acc) {
+        $scope.contactNames[addr] = acc;
+      });
+      return addr;
+    };
   }]);
 
-  module.controller('ContactRowCtrl', ['$scope', '$location',
-    function ($scope, $location) {
+  module.controller('ContactRowCtrl', ['$scope', '$location', 'rpId',
+    function ($scope, $location, id) {
       $scope.editing = false;
 
       /**
@@ -125,6 +139,9 @@ ContactsTab.prototype.angular = function (module) {
           if ($scope.editdt  && !$scope.contact.federation) {
             entry.dt = $scope.editdt;
           }
+
+          // Resolve address to name
+          $scope.resolveName(entry.address);
 
           // Update blob
           $scope.userBlob.filter('/contacts', 'name', $scope.entry.name,
