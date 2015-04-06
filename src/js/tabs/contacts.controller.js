@@ -97,7 +97,7 @@ ContactsTab.prototype.angular = function (module) {
       id.resolveName(addr, {tilde: true}).then(function(acc) {
         $scope.contactNames[addr] = acc;
       });
-      return true;
+      return addr;
     };
   }]);
 
