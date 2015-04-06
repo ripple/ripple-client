@@ -279,17 +279,7 @@ section.col-xs-12.content(ng-controller='SendCtrl')
         span.literal(l10n) Ripple network fee: &#32;
         span.currency(rp-pretty-amount='networkFee')
         form.call-to-action(name="sendUnlockForm", ng-submit="send_confirmed()")
-          p.literal(ng-show="send.secret", l10n) Are you sure?
-          p.literal(ng-hide="send.secret", l10n) Please enter your password to confirm this transaction.
-          .row.row-padding-small(ng-if="!send.secret")
-            .col-xs-12.col-sm-8.col-md-6
-              input.form-control#send_unlock_password(
-              name='send_unlock_password'
-              type='password'
-              required
-              ng-model='send.unlock_password')
-                .errorGroup(ng-messages='sendUnlockForm.send_unlock_password.$dirty && sendConfirmedForm.send_unlock_password.$error')
-                  .error(ng-message='required', l10n) Password required to unlock wallet
+          p.literal(l10n) Are you sure?
           .row.row-padding-small
             .col-xs-8.col-sm-4.col-md-3.col-lg-3
               button#confirmButton.btn.btn-block.btn-success.submit(

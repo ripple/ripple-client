@@ -32,9 +32,7 @@ SendTab.prototype.angular = function (module)
                                            network, federation, rpTracker,
                                            keychain, $interval)
   {
-    var destUpdateTimeout,
-        passwordUpdater,
-        passwordUpdaterDestr;
+    var destUpdateTimeout;
 
     var timer;
     var xrpCurrency = Currency.from_json('XRP');
@@ -905,8 +903,6 @@ SendTab.prototype.angular = function (module)
       $scope.mode = 'form';
       $scope.send.alt = null;
 
-      cleanPasswordUpdater();
-
       // Force pathfinding reset
       $scope.update_paths();
 
@@ -956,10 +952,6 @@ SendTab.prototype.angular = function (module)
       // compute network fee
       $scope.networkFee = network.remote.transaction()._computeFee();
 
-      if (keychain.isUnlocked(id.account)) {
-        $scope.send.secret = keychain.getUnlockedSecret(id.account);
-      }
-
       rpTracker.track('Send confirmation page', {
         'Currency': $scope.send.currency_code,
         'Address Type': $scope.send.federation ? 'federation' : 'ripple',
@@ -969,34 +961,10 @@ SendTab.prototype.angular = function (module)
 
       if (Options.confirmation.send) {
         $scope.mode = 'confirm';
-        cleanPasswordUpdater();
-
-        // needed for password managers that don't raise change event on input field
-        passwordUpdater = $interval(function() {
-          var password = $('input[name="send_unlock_password"]').val();
-          if (typeof password === 'string') {
-            $scope.sendUnlockForm.send_unlock_password.$setViewValue(password);
-          }
-        }, 2000);
-
-        passwordUpdaterDestr = $scope.$on('$destroy', function() {
-          cleanPasswordUpdater();
-        });
       } else {
         $scope.send_confirmed();
       }
     };
-
-    function cleanPasswordUpdater() {
-      if (typeof passwordUpdaterDestr === 'function') {
-        passwordUpdaterDestr();
-      }
-
-      if (passwordUpdater) {
-        $interval.cancel(passwordUpdater);
-        passwordUpdater = null;
-      }
-    }
 
     /**
      * N4. Waiting for transaction result page
@@ -1059,11 +1027,10 @@ SendTab.prototype.angular = function (module)
 
       $scope.mode = 'sending';
 
-      cleanPasswordUpdater();
-
       amount.set_issuer(address);
 
       var tx = network.remote.transaction();
+
       // Source tag
       if ($scope.send.st) {
         tx.source_tag($scope.send.st);
@@ -1079,11 +1046,15 @@ SendTab.prototype.angular = function (module)
       // Add memo to tx
       tx.addMemo('client', 'rt' + $scope.version);
 
+      if (keychain.isUnlocked(id.account)) {
+        send.secret = keychain.getUnlockedSecret(id.account);
+      }
+
       if (send.secret) {
         tx.secret(send.secret);
       } else {
         // Get secret asynchronously
-        keychain.getSecret(id.account, id.username, send.unlock_password,
+        keychain.requestSecret(id.account, id.username, send.unlock_password,
                            function (err, secret) {
                              if (err) {
                                console.log('client: send tab: error while ' +
