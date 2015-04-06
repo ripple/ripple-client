@@ -24,7 +24,7 @@ Install bower by running `sudo bower install --allow-root`.
 
 Fork and clone the ripple-client repository and run `npm install`.
 
-Create a new config.js file and copy/paste from config-example.js into the same directory, located under 'src/js'.
+Create a new config.js file and copy/paste from config-example.js into the same directory.
 
 ### Build
 
@@ -41,7 +41,7 @@ __This means you will only be able to log in on your dev environment with an acc
 
 If you want to point your environment at the production server:
 - set the authinfo_url in ripple.txt (in the root of the repo directory) to: `https://id.ripple.com/v1/authinfo` (make sure to rebuild + clear browser cache)
-- set the `activate_link` property in src/js/config.js to `http://ripple.com/client/#/register/activate`
+- set the `activate_link` property in config.js to `http://ripple.com/client/#/register/activate`
 
 ## Directory Layout
 
