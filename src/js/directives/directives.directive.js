@@ -56,6 +56,16 @@ module.directive('rpPopup', ['rpPopup', '$parse', function(popup, $parse) {
       a.click(function(e) {
         e.preventDefault();
 
+        var dismissOnEsc = function($event) {
+          // esc button
+          if ($event.which === 27) {
+            $(document).off('keyup', dismissOnEsc);
+            popup.close();
+          }
+        };
+
+        $(document).on('keyup', dismissOnEsc);
+
         // onShow action
         if (attrs.rpPopupOnOpen) {
           $parse(attrs.rpPopupOnOpen)(scope);
