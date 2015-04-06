@@ -21,21 +21,12 @@ module.directive('rpMasterKey', function () {
     link: function (scope, elm, attr, ctrl) {
       if (!ctrl) return;
 
-      var validator = function(value) {
-        if (value && !Base.decode_check(33, value)) {
-          ctrl.$setValidity('rpMasterKey', false);
-          return;
-        }
-
-        ctrl.$setValidity('rpMasterKey', true);
-        return value;
+      ctrl.$validators.rpMasterKey = function(value) {
+        return !value || Base.decode_check(33, value);
       };
 
-      ctrl.$formatters.push(validator);
-      ctrl.$parsers.unshift(validator);
-
-      attr.$observe('rpMasterKey', function() {
-        validator(ctrl.$viewValue);
+      attr.$observe('rpMasterKey', function(val) {
+        ctrl.$validate();
       });
     }
   };
@@ -292,21 +283,12 @@ module.directive('rpStdt', function () {
     link: function (scope, elm, attr, ctrl) {
       if (!ctrl) return;
 
-      var validator = function(value) {
-        if (!value || (!isNaN(parseFloat(value)) && isFinite(value) && value >= 0 && value < Math.pow(2,32) - 1)) {
-          ctrl.$setValidity('rpStdt', true);
-          return value;
-        } else {
-          ctrl.$setValidity('rpStdt', false);
-          return;
-        }
+      ctrl.$validators.rpStdt = function(value) {
+        return !value || (!isNaN(parseFloat(value)) && isFinite(value) && value >= 0 && value < Math.pow(2,32) - 1);
       };
 
-      ctrl.$formatters.push(validator);
-      ctrl.$parsers.unshift(validator);
-
-      attr.$observe('rpStdt', function() {
-        validator(ctrl.$viewValue);
+      attr.$observe('rpStdt', function(val) {
+        ctrl.$validate();
       });
     }
   };
@@ -315,6 +297,7 @@ module.directive('rpStdt', function () {
 /**
  * InvoiceID validator
  *
+ * String must be in hex format
  * String must not be longer than 64 characters
  */
 module.directive('rpInvoiceId', function () {
@@ -324,21 +307,12 @@ module.directive('rpInvoiceId', function () {
     link: function (scope, elm, attr, ctrl) {
       if (!ctrl) return;
 
-      var validator = function(value) {
-        if (!value || value.length <= 64) {
-          ctrl.$setValidity('rpInvoiceId', true);
-          return value;
-        } else {
-          ctrl.$setValidity('rpInvoiceId', false);
-          return;
-        }
+      ctrl.$validators.rpInvoiceId = function(value) {
+        return !isNaN(parseInt(value, 16)) && value.length <= 64;
       };
 
-      ctrl.$formatters.push(validator);
-      ctrl.$parsers.unshift(validator);
-
-      attr.$observe('rpInvoiceId', function() {
-        validator(ctrl.$viewValue);
+      attr.$observe('rpInvoiceId', function(val) {
+        ctrl.$validate();
       });
     }
   };
@@ -351,25 +325,15 @@ module.directive('rpNotMe', function () {
     link: function (scope, elm, attr, ctrl) {
       if (!ctrl) return;
 
-      var validator = function(value) {
-        var contact = webutil.getContact(scope.userBlob.data.contacts,value);
+      ctrl.$validators.rpNotMe = function(value) {
+        var contact = webutil.getContact(scope.userBlob.data.contacts, value),
+            isMe = (contact && contact.address === scope.userBlob.data.account_id) || scope.userBlob.data.account_id === value;
 
-        if (value) {
-          if ((contact && contact.address === scope.userBlob.data.account_id) || scope.userBlob.data.account_id === value) {
-            ctrl.$setValidity('rpNotMe', false);
-            return;
-          }
-        }
-
-        ctrl.$setValidity('rpNotMe', true);
-        return value;
+        return !value || !isMe;
       };
 
-      ctrl.$formatters.push(validator);
-      ctrl.$parsers.unshift(validator);
-
-      attr.$observe('rpNotMe', function() {
-        validator(ctrl.$viewValue);
+      attr.$observe('rpNotMe', function(val) {
+        ctrl.$validate();
       });
     }
   };
@@ -382,29 +346,16 @@ module.directive('rpIssuer', function () {
     link: function (scope, elm, attr, ctrl) {
       if (!ctrl) return;
 
-      var validator = function(value) {
-        if(!value){
-          ctrl.$setValidity('rpIssuer', false);
-          return;
-        }
+      ctrl.$validators.rpIssuer = function(value) {
+        if(!value) return false;
 
         var shortValue = value.slice(0, 3).toUpperCase();
 
-        if ( (shortValue==="XRP") || webutil.findIssuer(scope.lines,shortValue))
-        {
-          ctrl.$setValidity('rpIssuer', true);
-          return value;
-        } else {
-          ctrl.$setValidity('rpIssuer', false);
-          return;
-        }
+        return (shortValue==='XRP') || webutil.findIssuer(scope.lines,shortValue);
       };
 
-      ctrl.$formatters.push(validator);
-      ctrl.$parsers.unshift(validator);
-
-      attr.$observe('rpIssuer', function() {
-        validator(ctrl.$viewValue);
+      attr.$observe('rpIssuer', function(val) {
+        ctrl.$validate();
       });
     }
   };
@@ -601,7 +552,7 @@ module.directive('rpStrongPassword', function () {
           return;
         }
 
-        checkRepetition = function (pLen, str) {
+        var checkRepetition = function (pLen, str) {
           var res = "";
           for (var i = 0; i < str.length; i++ ) {
             var repeated = true;
@@ -734,15 +685,10 @@ module.directive('rpAmountPositive', function () {
       if (!ctrl) return;
 
       // We don't use parseAmount here, assuming that you also use rpAmount validator
-      var validator = function(value) {
+      ctrl.$validators.rpAmountPositive = function(value) {
         // check for positive amount
-        ctrl.$setValidity('rpAmountPositive', value > 0);
-
-        return value;
+        return value > 0;
       };
-
-      ctrl.$formatters.push(validator);
-      ctrl.$parsers.unshift(validator);
     }
   };
 });
@@ -755,20 +701,10 @@ module.directive('rpAmountXrpLimit', function () {
       if (!ctrl) return;
 
       // We don't use parseAmount here, assuming that you also use rpAmount validator
-      var validator = function(value) {
+      ctrl.$validators.rpAmountXrpLimit = function(value) {
         var currency = Currency.from_human(attr.rpAmountCurrency.slice(0, 3)).get_iso();
-
-        if (currency !== 'XRP') {
-          ctrl.$setValidity('rpAmountXrpLimit', true);
-        } else {
-          ctrl.$setValidity('rpAmountXrpLimit', value <= 100000000000 && value >= 0.000001);
-        }
-
-        return value;
+        return (currency !== 'XRP') || (value <= 100000000000 && value >= 0.000001);
       };
-
-      ctrl.$formatters.push(validator);
-      ctrl.$parsers.unshift(validator);
     }
   };
 });
@@ -856,16 +792,12 @@ module.directive('rpPortNumber', function () {
     link: function (scope, elm, attr, ctrl) {
       if (!ctrl) return;
 
-      var validator = function(value) {
-        ctrl.$setValidity('rpPortNumber', !value || (parseInt(value, 10) == value && value >= 1 && value <= 65535));
-        return value;
+      ctrl.$validators.rpPortNumber = function(value) {
+        return !value || !isNaN(parseInt(value, 10)) && value >= 1 && value <= 65535;
       };
 
-      ctrl.$formatters.push(validator);
-      ctrl.$parsers.unshift(validator);
-
-      attr.$observe('rpPortNumber', function() {
-        validator(ctrl.$viewValue);
+      attr.$observe('rpPortNumber', function(val) {
+        ctrl.$validate();
       });
     }
   };
@@ -881,43 +813,12 @@ module.directive('rpNotXrp', function () {
     link: function (scope, elm, attr, ctrl) {
       if (!ctrl) return;
 
-      var validator = function(value) {
-        ctrl.$setValidity('rpNotXrp', !value || value.toLowerCase() !== 'xrp');
-        return value;
+      ctrl.$validators.rpNotXrp = function(value) {
+        return !value || value.toLowerCase() !== 'xrp';
       };
 
-      ctrl.$formatters.push(validator);
-      ctrl.$parsers.unshift(validator);
-
-      attr.$observe('rpNotXrp', function() {
-        validator(ctrl.$viewValue);
-      });
-    }
-  };
-});
-
-/**
- * Email address validation
- */
-module.directive('rpEmail', function () {
-  return {
-    restrict: 'A',
-    require: '?ngModel',
-    link: function (scope, elm, attr, ctrl) {
-      if (!ctrl) return;
-
-      var emailRegex = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-
-      var validator = function(value) {
-        ctrl.$setValidity('rpEmail', emailRegex.test(value));
-        return value;
-      };
-
-      ctrl.$formatters.push(validator);
-      ctrl.$parsers.unshift(validator);
-
-      attr.$observe('rpEmail', function() {
-        validator(ctrl.$viewValue);
+      attr.$observe('rpNotXrp', function(val) {
+        ctrl.$validate();
       });
     }
   };
