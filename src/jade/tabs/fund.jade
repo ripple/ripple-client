@@ -10,6 +10,11 @@ section.col-xs-12.content(ng-controller='FundCtrl')
   div(ng-show="!loadingAccount && !account.Balance && loadState.account && connected")
     include banner/unfunded
 
+  div(ng-show='hasRTJapanTrust')
+    include banner/rtjapan
+  div(ng-show='hasRTJapanTrustWithRippling')
+    include banner/rtjapanrippling
+
   .row(ng-show='connected')
     .col-sm-3
       include fund/menu

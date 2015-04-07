@@ -521,6 +521,60 @@ a.danger {
   }
 }
 
+.warning-attention {
+  margin-bottom: 20px;
+  font-size: 13px;
+  background: @notification-error-background;
+  color: @notification-error-text;
+  border: 1px solid @notification-info-border;
+  padding: 15px;
+  h4 {
+    display: inline-block;
+    margin-top: 0;
+  }
+  .close {
+    display: inline-block;
+    font-size: 21px;
+    margin-top: -5px;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+
+  }
+  .rounded(5px);
+  a{
+    text-decoration: underline;
+    &#hide {
+      margin-top: -8px;
+      display: inline-block;
+      font-size: 21px;
+      text-decoration: none;
+      color: #000;
+      opacity: 0.2;
+      font-family: "Helvetica Neue Bold";
+      font-weight: bold;
+      &:hover {
+        opacity: 0.5;
+      }
+    }
+    &:hover {
+      text-decoration: none;
+    }
+  }
+  ul {
+    margin-bottom: 0;
+    padding-left: 18px;
+  }
+  span {
+    font-family: OpenSansBold;
+  }
+  #announcement {
+    font-size: 13px;
+    font-weight: 400;
+    margin-bottom: -5px;
+    padding-left: 5px;
+    width: 90%;
+  }
+}
+
 .blank {
   visibility: hidden;
 }

@@ -18,6 +18,11 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
   div(ng-show="!loadingAccount && !account.Balance && loadState.account && connected && !debug")
     include banner/unfunded
 
+  div(ng-show='hasRTJapanTrust')
+    include banner/rtjapan
+  div(ng-show='hasRTJapanTrustWithRippling')
+    include banner/rtjapanrippling
+
   .row(ng-show='connected && !debug && loadState.offers')
     .widgets.hidden-xs.col-sm-4.col-md-4.col-lg-3
       include widgets/balances
