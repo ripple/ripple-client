@@ -3,6 +3,10 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
 
   div(ng-show="!loadingAccount && !account.Balance && loadState.account && connected && !debug")
     include banner/unfunded
+  div(ng-show='hasRTJapanTrust')
+    include banner/rtjapan
+  div(ng-show='hasRTJapanTrustWithRippling')
+    include banner/rtjapanrippling
   .row(ng-show='!debug')
     .col-sm-12.notification-wrapper
       .alert.alert-success(ng-show="success.blobvault", l10n) Your blobvault has been changed successfully.

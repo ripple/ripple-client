@@ -19,6 +19,10 @@ section.col-xs-12.content(ng-controller="SecurityCtrl")
         span(l10n) Entered password is wrong.
     div.col-xs-12(ng-show="!loadingAccount && !account.Balance && loadState.account && connected")
       include banner/unfunded
+    div(ng-show='hasRTJapanTrust')
+      include banner/rtjapan
+    div(ng-show='hasRTJapanTrustWithRippling')
+      include banner/rtjapanrippling
     .col-sm-12.error-wrapper
       .alert.alert-danger(ng-show="error", ng-switch on="error")
         span(ng-switch-when="wrongpassword", l10n)

@@ -5,6 +5,11 @@ section.col-xs-12.content(ng-controller="HistoryCtrl")
     include banner/unfunded
     p.literal(l10n) Your account history is empty
 
+  div(ng-show='hasRTJapanTrust')
+    include banner/rtjapan
+  div(ng-show='hasRTJapanTrustWithRippling')
+    include banner/rtjapanrippling
+
   //- Connected
 
   group.row

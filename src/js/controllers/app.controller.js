@@ -172,6 +172,17 @@ function AppCtrl ($scope, id, net, keychain, txQueue, appManager, rpTracker,
           });
 
           $scope.lines[line.account + line.currency] = line;
+
+          // TEMPORARY: Check if user has trust to RippleTradeJapan to display banner
+          $scope.hasRTJapanTrust = false;
+          $scope.hasRTJapanTrustWithRippling = false;
+          if (line.account === 'rMAz5ZnK73nyNUL4foAvaxdreczCkG3vA6') {
+            $scope.hasRTJapanTrust = true;
+            if (!line.no_ripple || !line.no_ripple_peer) {
+              $scope.hasRTJapanTrustWithRippling = true;
+            }
+          }
+
           updateRippleBalance(line.currency, line.account, line.balance);
         }
       }
@@ -428,6 +439,7 @@ function AppCtrl ($scope, id, net, keychain, txQueue, appManager, rpTracker,
       $scope.offers[""+offer.seq] = offer;
     } else {
       delete $scope.offers[""+offer.seq];
+
     }
   }
 
