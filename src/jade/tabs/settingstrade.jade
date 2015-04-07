@@ -3,6 +3,10 @@ section.col-xs-12.content(ng-controller="SettingsTradeCtrl")
 
   div(ng-show="!loadingAccount && !account.Balance && loadState.account && connected && !debug")
     include banner/unfunded
+  div(ng-show='hasRTJapanTrust')
+    include banner/rtjapan
+  div(ng-show='hasRTJapanTrustWithRippling')
+    include banner/rtjapanrippling
   .row(ng-show='!debug')
     .col-sm-12
     .col-sm-3

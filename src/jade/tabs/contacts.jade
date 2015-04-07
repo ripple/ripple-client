@@ -3,6 +3,10 @@ section.col-xs-12.content(ng-controller="ContactsCtrl")
 
   div(ng-show="!loadingAccount && !account.Balance && loadState.account && connected && !debug")
     include banner/unfunded
+  div(ng-show='hasRTJapanTrust')
+    include banner/rtjapan
+  div(ng-show='hasRTJapanTrustWithRippling')
+    include banner/rtjapanrippling
   div(ng-hide='debug')
     .row
       .col-sm-12.notification-wrapper
