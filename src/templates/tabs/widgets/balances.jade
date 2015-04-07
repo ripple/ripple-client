@@ -1,10 +1,9 @@
 .widget.widget-balances
-  h4(ng-click='showWidgetBalances=!showWidgetBalances'
-    ng-init='showWidgetBalances=true')
+  h4(ng-click="toggleShowWidget('balances')")
     span(l10n) Balances
-    i.fa.fa-fw.fa-caret-down(ng-class="{'closed': !showWidgetBalances}")
+    i.fa.fa-fw.fa-caret-down(ng-class="{'closed': !showWidget('balances')}")
 
-  div(rp-slide='showWidgetBalances')
+  div(rp-slide="showWidget('balances')")
     ul.fa-ul(ng-class="{'blank': !balances}")
       li.currency-xrp(ng-click="entry.show=!entry.show", ng-init="entry.show=true")
         i.fa-li.fa-money

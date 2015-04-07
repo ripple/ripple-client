@@ -21,7 +21,54 @@ BalanceTab.prototype.angular = function (module)
   module.controller('BalanceCtrl', ['$scope', 'rpId', 'rpNetwork', '$filter', '$http', 'rpAppManager', '$q',
                                      function ($scope, id, network, $filter, $http, appManager, $q)
   {
-    //
+    /**
+     * Roaming widget settings
+     */
+    var setWidgetSetting = function (widgetName, setting, value) {
+      var blob = $scope.userBlob;
+      if (typeof blob.set !== 'function') {
+        return;
+      }
+      blob.set('/clients/rippletradecom/widgets/' + widgetName + '/' + setting, value);
+    };
+
+    var getWidgetSetting = function (widgetName, setting, defaultValue) {
+      var blob = $scope.userBlob;
+      // TODO is there a more general, DRY way?
+      if (typeof blob === 'undefined'
+        || typeof blob.data === 'undefined'
+        || typeof blob.data.clients === 'undefined'
+        || typeof blob.data.clients.rippletradecom === 'undefined'
+        || typeof blob.data.clients.rippletradecom.widgets === 'undefined'
+        || typeof blob.data.clients.rippletradecom.widgets[widgetName] === 'undefined'
+        || typeof blob.data.clients.rippletradecom.widgets[widgetName][setting] === 'undefined') {
+        return defaultValue;
+      }
+      return $scope.userBlob.data.clients.rippletradecom.widgets[widgetName][setting];
+    };
+
+    var toggleWidgetSetting = function (widgetName, setting, defaultValue) {
+      var blob  = $scope.userBlob,
+          value = defaultValue;
+      // TODO is there a more general, DRY way?
+      if (typeof blob.data !== 'undefined'
+        && typeof blob.data.clients !== 'undefined'
+        && typeof blob.data.clients.rippletradecom !== 'undefined'
+        && typeof blob.data.clients.rippletradecom.widgets !== 'undefined'
+        && typeof blob.data.clients.rippletradecom.widgets[widgetName] !== 'undefined'
+        && typeof blob.data.clients.rippletradecom.widgets[widgetName][setting] !== 'undefined') {
+        value = !blob.data.clients.rippletradecom.widgets[widgetName][setting];
+      }
+      setWidgetSetting(widgetName, setting, value);
+    };
+
+    $scope.toggleShowWidget = function (widgetName) {
+      toggleWidgetSetting(widgetName, 'show', false);
+    };
+
+    $scope.showWidget = function (widgetName) {
+      return getWidgetSetting(widgetName, 'show', true);
+    };
 
     // In the following, we get and watch for changes to data that is used to
     // calculate the pie chart and aggregate balance. This data includes:
