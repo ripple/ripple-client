@@ -11,6 +11,10 @@ section.col-xs-12.content(ng-controller='UsdCtrl')
     include banner/unfunded
 
   .row(ng-show='connected')
+    div(ng-show='hasRTJapanTrust')
+      include banner/rtjapan
+    div(ng-show='hasRTJapanTrustWithRippling')
+      include banner/rtjapanrippling
     .col-sm-3
       include fund/menu
     form.col-sm-9.list#usdDepositForm(action="", method="post", name="usdDeposit"

@@ -15,6 +15,10 @@ section.col-xs-12.content(ng-controller='SendCtrl')
   div(ng-show="!loadingAccount && !account.Balance && loadState.account && connected")
     include banner/unfunded
     p.literal(l10n="err-you-must-be-funded-before-you-can-send-money", l10n) You have to be funded before you can send money
+  div(ng-show='hasRTJapanTrust')
+    include banner/rtjapan
+  div(ng-show='hasRTJapanTrustWithRippling')
+    include banner/rtjapanrippling
 
   div(ng-show='debug') This page is not available in debug mode
 

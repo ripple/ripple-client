@@ -4,6 +4,10 @@ section.col-xs-12.content(ng-controller="AccountCtrl")
   .row(ng-show='!debug')
     div(ng-show="!loadingAccount && !account.Balance && loadState.account && connected")
       include banner/unfunded
+    div(ng-show='hasRTJapanTrust')
+      include banner/rtjapan
+    div(ng-show='hasRTJapanTrustWithRippling')
+      include banner/rtjapanrippling
     .col-sm-3
       include account/navbar
 
