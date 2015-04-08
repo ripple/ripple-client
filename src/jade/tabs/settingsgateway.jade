@@ -2,13 +2,13 @@ section.col-xs-12.content(ng-controller="SettingsGatewayCtrl")
   div(ng-show='debug') This page is not available in debug mode
 
   div(ng-show="!loadingAccount && !account.Balance && loadState.account && connected && !debug")
-    include banner/unfunded
+    include ../tabs/banner/unfunded
   .row(ng-show='!debug')
     .col-sm-12.notification-wrapper
       .alert.alert-success(ng-show="success.bridge", l10n) Your bitcoin bridge has been changed successfully.
       .alert.alert-success(ng-show="success.advanced_feature_switch", l10n) Trustline advanced settings have been changed successfully.
     .col-sm-3
-      include settings/navbar
+      include ../tabs/settings/navbar
     .col-sm-9.list
       section.content#gateways
         h4(l10n) Settings

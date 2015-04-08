@@ -8,11 +8,11 @@ section.col-xs-12.content(ng-controller='FundCtrl')
 
   //- Funding
   div(ng-show="!loadingAccount && !account.Balance && loadState.account && connected")
-    include banner/unfunded
+    include ../tabs/banner/unfunded
 
   .row(ng-show='connected')
     .col-sm-3
-      include fund/menu
+      include ../tabs/fund/menu
     .col-sm-9.list
       .fundAcct(ng-show="currencyPage == 'accounts'", ng-controller='TrustCtrl')
         .row

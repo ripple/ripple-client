@@ -3,15 +3,15 @@ section.col-xs-12.content(ng-controller="AccountCtrl")
 
   .row(ng-show='!debug')
     div(ng-show="!loadingAccount && !account.Balance && loadState.account && connected")
-      include banner/unfunded
+      include ../tabs/banner/unfunded
     .col-sm-3
-      include account/navbar
+      include ../tabs/account/navbar
 
     .col-sm-9.list
       div
         .showPublic(ng-show="$routeParams.route == 'public'")
-          include account/public
+          include ../tabs/account/public
         //- .showPublic(ng-show="$routeParams.route == 'private'", ng-controller="KycCtrl")
-        //-   include account/private
+        //-   include ../tabs/account/private
 
 

@@ -2,7 +2,7 @@ section.col-xs-12.content(ng-controller="HistoryCtrl")
 
   //- Account is unfunded
   div(ng-show="loadState.transactions && !account.Balance")
-    include banner/unfunded
+    include ../tabs/banner/unfunded
     p.literal(l10n) Your account history is empty
 
   //- Connected
@@ -93,32 +93,32 @@ section.col-xs-12.content(ng-controller="HistoryCtrl")
                       span.amount(rp-pretty-amount-high-precision="entry.transaction.amountSent || entry.transaction.amount")
                       | to
                       span.address(rp-pretty-identity="entry.transaction.counterparty", rp-address-popover="entry.transaction.counterparty")
-                    != require("./history/effects.jade")()
+                    include ../tabs/history/effects.jade
                   span(ng-switch-when="received")
                     span(l10n, rp-span-spacing)
                       span.address(rp-pretty-identity="entry.transaction.counterparty", rp-address-popover="entry.transaction.counterparty")
                       | sent you
                       span.amount(rp-pretty-amount="entry.transaction.amount")
-                    != require("./history/effects.jade")()
+                    include ../tabs/history/effects.jade
                   span(ng-switch-when="exchange")
                     span(l10n, rp-span-spacing) You requested to exchange
                       span.amount(rp-pretty-amount="entry.transaction.spent")
                       | to
                       span.amount(rp-pretty-amount="entry.transaction.amount")
-                    != require("./history/effects.jade")()
+                    include ../tabs/history/effects.jade
                   span(ng-switch-when="trusted")
                     span(l10n, rp-span-spacing)
                       span.address(title="{{entry.transaction.counterparty}}") {{entry.transaction.counterparty | rpcontactname}}
                       | now trusts you for
                       span.amount(rp-pretty-amount="entry.transaction.amount")
-                    != require("./history/effects.jade")()
+                    include ../tabs/history/effects.jade
                   span(ng-switch-when="trusting")
                     span(l10n, rp-span-spacing) You have now connected to the gateway&#32;
                       span.address(rp-pretty-identity="entry.transaction.counterparty", rp-address-popover="entry.transaction.counterparty")
                       span(ng-show="globalOptions.advanced_feature_switch", l10n-inc) &#32;for&#32;
                       span.amount(ng-show="globalOptions.advanced_feature_switch", rp-pretty-amount="entry.transaction.amount")
                       | .
-                    != require("./history/effects.jade")()
+                    include ../tabs/history/effects.jade
                   span(ng-switch-when="offernew")
                     span(ng-show="entry.transaction.sell", l10n, rp-span-spacing) You created an order to sell
                       span.amount(rp-pretty-amount-high-precision="entry.transaction.gets")
@@ -128,19 +128,19 @@ section.col-xs-12.content(ng-controller="HistoryCtrl")
                       span.amount(rp-pretty-amount-high-precision="entry.transaction.pays")
                       | for
                       span.amount(rp-pretty-amount-high-precision="entry.transaction.gets")
-                    != require("./history/effects.jade")()
+                    include ../tabs/history/effects.jade
                   span(ng-switch-when="offercancel")
                     span(l10n, rp-span-spacing) You cancelled an order accepting&#32;
                       span.amount(rp-pretty-amount-high-precision="entry.transaction.pays")
                       | for
                       span.amount(rp-pretty-amount-high-precision="entry.transaction.gets")
-                    != require("./history/effects.jade")()
+                    include ../tabs/history/effects.jade
                   span(ng-switch-when="accountset")
                     span(l10n) Account details have been changed
-                    != require("./history/effects.jade")()
+                    include ../tabs/history/effects.jade
                   span(ng-switch-when="rippling")
                     span(l10n) Rippling
-                    != require("./history/effects.jade")()
+                    include ../tabs/history/effects.jade
                   span(ng-switch-when="failed", l10n) Failed transaction
                   span(ng-switch-when="error")
                     strong(l10n) Unknown transaction
@@ -148,7 +148,7 @@ section.col-xs-12.content(ng-controller="HistoryCtrl")
                       li
                         span(l10n) The client failed to parse this transaction. The developers have been notified of the issue.
                   span(ng-switch-default)
-                    != require("./history/effects.jade")()
+                    include ../tabs/history/effects.jade
                 span.dt {{entry.date | date:'EEE, MMM d, h:mm:ss a'}}&#32;
               span.desc(ng-show="entry.details", ng-switch on="entry.details.type")
                 span(ng-switch-when="giveaway")
@@ -157,13 +157,13 @@ section.col-xs-12.content(ng-controller="HistoryCtrl")
                     |  sent you
                     span.amount(rp-pretty-amount="entry.transaction.amount")
                     |  and activated your account!
-                  != require("./history/effects.jade")()
+                  include ../tabs/history/effects.jade
                 span(ng-switch-when="deposit")
                   span(l10n, rp-span-spacing)
                     | You deposited
                     span.amount(rp-pretty-amount="entry.transaction.amount")
                     |  using {{entry.details.app.name}}
-                  != require("./history/effects.jade")()
+                  include ../tabs/history/effects.jade
 
               .details(ng-if="details[entry.hash]")
                 .effects(ng-show="entry.balanceEffects")

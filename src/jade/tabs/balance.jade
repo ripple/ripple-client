@@ -14,16 +14,16 @@ section.col-xs-12.content(ng-controller='BalanceCtrl')
 
   //- Connected
   div(ng-show='!loadingAccount && !account.Balance && loadState.account && connected')
-    include banner/unfunded
+    include ../tabs/banner/unfunded
 
   group(ng-show='connected && loadState.account')
-    include banner/announcement
+    include ../tabs/banner/announcement
     .widgets.row
       .col-xs-12.col-sm-4
-        include widgets/networth
-        include widgets/assetallocation
-        include widgets/balances
+        include ../tabs/widgets/networth
+        include ../tabs/widgets/assetallocation
+        include ../tabs/widgets/balances
 
       .col-xs-12.col-sm-8
-        include widgets/markets
-        include widgets/orders
+        include ../tabs/widgets/markets
+        include ../tabs/widgets/orders

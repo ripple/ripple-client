@@ -42,7 +42,7 @@ div#wrapper
       a.logo(href="/")
 
     div(ng-if="loginStatus")
-      != require("./navbar.jade")()
+      include ../client/navbar.jade
   .landingWrapper(ng-class="{ 'loggedOut container-fluid': !loginStatus, 'container': loginStatus  }")
     
     .landingContainer

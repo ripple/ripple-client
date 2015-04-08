@@ -2,11 +2,11 @@ section.col-xs-12.content(ng-controller="SettingsTradeCtrl")
   div(ng-show='debug') This page is not available in debug mode
 
   div(ng-show="!loadingAccount && !account.Balance && loadState.account && connected && !debug")
-    include banner/unfunded
+    include ../tabs/banner/unfunded
   .row(ng-show='!debug')
     .col-sm-12
     .col-sm-3
-      include settings/navbar
+      include ../tabs/settings/navbar
     .col-sm-9.list
       section
         h4(l10n) Trade settings

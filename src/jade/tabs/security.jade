@@ -18,7 +18,7 @@ section.col-xs-12.content(ng-controller="SecurityCtrl")
       .alert.alert-danger(ng-show="unlockError")
         span(l10n) Entered password is wrong.
     div.col-xs-12(ng-show="!loadingAccount && !account.Balance && loadState.account && connected")
-      include banner/unfunded
+      include ../tabs/banner/unfunded
     .col-sm-12.error-wrapper
       .alert.alert-danger(ng-show="error", ng-switch on="error")
         span(ng-switch-when="wrongpassword", l10n)
@@ -39,7 +39,7 @@ section.col-xs-12.content(ng-controller="SecurityCtrl")
       .alert.alert-success(ng-show="success.enableRequirePassword", l10n) Password protection has been successfully enabled.
       .alert.alert-success(ng-show="success.disableRequirePassword", l10n) Password protection has been successfully disabled.
     .col-sm-4.col-md-3.col-xs-12(ng-show="isUnlocked")
-      include settings/navbar
+      include ../tabs/settings/navbar
     .col-sm-8.col-md-9.col-xs-12.list(ng-show="isUnlocked")
       .show-security(ng-show="settingsPage == 'security'")
         div
@@ -71,7 +71,7 @@ section.col-xs-12.content(ng-controller="SecurityCtrl")
                           .col-xs-12.col-sm-8.email(ng-bind="userBlob.data.email")
                         .row.modal-permissions
                           .col-xs-12.col-sm-4(l10n) - Your phone number:
-                          include 2fa/form
+                          include ../tabs/2fa/form
                       div.modal-agreement(l10n) By proceeding, you agree to the Authy
                         a(href="https://www.authy.com/terms", target="_blank", l10n-inc)  terms of service.
                       div.modal-buttons

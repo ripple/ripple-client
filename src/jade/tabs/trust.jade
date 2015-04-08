@@ -12,7 +12,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
 
   group(ng-show="connected && loadState.lines")
     div(ng-show="!loadingAccount && !account.Balance && loadState.account && connected")
-      include banner/unfunded
+      include ../tabs/banner/unfunded
 
     //- N1. Trust form
     .row
@@ -53,7 +53,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
     .row(ng-show='connected')
 
       .col-sm-3
-        include fund/menu
+        include ../tabs/fund/menu
       .col-sm-9.trust-menu
         .row.row-padding-small.head(ng-hide='true')
           .col-sm-5(l10n) Name / Address

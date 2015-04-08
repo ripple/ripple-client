@@ -8,7 +8,7 @@ section.col-xs-12.content(ng-controller='UsdCtrl')
 
   //- Funding
   div(ng-show="!loadingAccount && !account.Balance && loadState.account && connected")
-    include banner/unfunded
+    include ../tabs/banner/unfunded
 
   .row(ng-show='connected')
     // Transaction errors coming from errors.js & transactionerror.jade
@@ -34,7 +34,7 @@ section.col-xs-12.content(ng-controller='UsdCtrl')
         a(href="https://ripple.com/wiki/Reserves", target="_blank") More information
 
     .col-sm-3
-      include fund/menu
+      include ../tabs/fund/menu
     .col-sm-9.list(ng-hide='debug')
       .nameLine(l10n) US Dollar Deposit
       .gateway.row
