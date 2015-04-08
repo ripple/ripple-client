@@ -11,7 +11,7 @@ section.col-xs-12.content(ng-controller='BtcCtrl')
 
   //- Funding
   div(ng-show="!loadingAccount && !account.Balance && loadState.account && connected")
-    include banner/unfunded
+    include ../tabs/banner/unfunded
 
   group.mode-granted.wide(ng-show='notif !== "clear"', ng-hide='!notif')
     group(ng-switch on="notif")
@@ -23,7 +23,7 @@ section.col-xs-12.content(ng-controller='BtcCtrl')
 
   .row(ng-show='connected')
     .col-sm-3
-      include fund/menu
+      include ../tabs/fund/menu
     .col-sm-9.list
       div(ng-show='debug') This page is not available in debug mode
       .fundBtc(ng-hide='debug')

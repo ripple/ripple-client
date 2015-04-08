@@ -16,7 +16,7 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
           .status(ng-show="'verifying' === verifyStatus", l10n) Verifying...
           .status(ng-show="'verified' === verifyStatus", l10n) You have successfully verified your email address.
           .status(ng-show="'error' === verifyStatus", l10n) Email verification token is invalid. It has either expired or has been resent. Please check your inbox for the most recent verification email.
-        include login/form
+        include ../tabs/login/form
         .text-status(ng-show='status')
           span.loggingIn(ng-bind="status")
           br
@@ -84,7 +84,7 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
     .col-xs-12.col-sm-6.col-md-5.col-lg-4.col-lg-offset-1.auth-form-container
       .auth-form-wrapper
         form(name='loginForm', ng-submit='submitForm()')
-          include login/form
+          include ../tabs/login/form
           .row
             .col-xs-12.text-status(ng-show='status')
               span(ng-bind="status")

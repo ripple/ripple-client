@@ -2,7 +2,7 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
   div(ng-show='debug') This page is not available in debug mode
 
   div(ng-show="!loadingAccount && !account.Balance && loadState.account && connected && !debug")
-    include banner/unfunded
+    include ../tabs/banner/unfunded
   .row(ng-show='!debug')
     .col-sm-12.notification-wrapper
       .alert.alert-success(ng-show="success.blobvault", l10n) Your blobvault has been changed successfully.
@@ -15,7 +15,7 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
       .alert.alert-success(ng-show="success.removeServer", l10n) A server has been successfully removed.
       .alert.alert-success(ng-show="!success.addServer && success.saveServer", l10n) A server has been changed successfully.
     .col-sm-3
-      include settings/navbar
+      include ../tabs/settings/navbar
     .col-sm-9.list
       section.content#servers
         mixin urlForm(urlType, formName, formDescriptor, description, inputName, hasDelete)

@@ -79,21 +79,21 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
                       strong.nowrap  {{entry.transaction.amount | rpamount}} {{entry.transaction.amount | rpcurrency}}
                       |  to
                       span.address(title="{{entry.transaction.counterparty}}")  {{entry.transaction.counterparty | rpcontactnamefull | rpripplename: {tilde: true} }}
-                    != require("../tabs/history/effects.jade")()
+                    include ../tabs/history/effects.jade
                   .transaction(ng-switch-when="received")
                     span.address(title="{{entry.transaction.counterparty}}", l10n)
                       span {{entry.transaction.counterparty | rpcontactnamefull | rpripplename: {tilde: true} }}
                       |  sent you
                       strong.nowrap  {{entry.transaction.amount | rpamount:{reference_date:entry.dateRaw} }} {{entry.transaction.amount | rpcurrency}}
-                    != require("../tabs/history/effects.jade")()
+                    include ../tabs/history/effects.jade
                   .transaction(ng-switch-when="exchange")
-                    != require("../tabs/history/effects.jade")()
+                    include ../tabs/history/effects.jade
                   .transaction(ng-switch-when="trusted")
                     span.address(title="{{entry.transaction.counterparty}}", l10n)
                       | {{entry.transaction.counterparty | rpcontactname}} now trusts you for
                     strong.nowrap  {{entry.transaction.amount | rpamount}}
                       | {{entry.transaction.amount | rpcurrency}}
-                    != require("../tabs/history/effects.jade")()
+                    include ../tabs/history/effects.jade
                   .transaction(ng-switch-when="trusting")
                     span(l10n) You have now connected to the gateway&#32;
                       span.address(title="{{entry.transaction.counterparty}}")
@@ -102,9 +102,9 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
                       strong.nowrap {{entry.transaction.amount | rpamount:{reference_date:entry.dateRaw} }}
                         | {{entry.transaction.amount | rpcurrency}}
                       | .
-                    != require("../tabs/history/effects.jade")()
+                    include ../tabs/history/effects.jade
                   .transaction(ng-switch-when="offernew")
-                    != require("../tabs/history/effects.jade")()
+                    include ../tabs/history/effects.jade
                   .transaction(ng-switch-when="offercancel")
                     span(l10n) You cancelled an order accepting&#32;
                       strong.nowrap {{entry.transaction.pays | rpamount}}
@@ -112,16 +112,16 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
                       |  for&#32;
                       strong.nowrap {{entry.transaction.gets | rpamount}}
                         | {{entry.transaction.gets | rpcurrency}}
-                    != require("../tabs/history/effects.jade")()
+                    include ../tabs/history/effects.jade
                   .transaction(ng-switch-when="accountset", l10n)
                     | Account details have been changed
                   .transaction(ng-switch-when="rippling")
                     span(l10n) Rippling
-                    != require("../tabs/history/effects.jade")()
+                    include ../tabs/history/effects.jade
                   .transaction(ng-switch-when="failed", l10n)
                     | Failed transaction
                   .transaction(ng-switch-default)
-                    != require("../tabs/history/effects.jade")()
+                    include ../tabs/history/effects.jade
                 .date {{entry.date | rpfromnow}}
               li.history(ng-show="notifications.length")
                 a(href="#/history", l10n) View Full History

@@ -1,13 +1,13 @@
 section.col-xs-12.content(ng-controller="NotificationsCtrl")
   .row(ng-show='connected')
     div.col-xs-12(ng-show="!loadingAccount && !account.Balance && loadState.account && connected")
-      include banner/unfunded
+      include ../tabs/banner/unfunded
   .row(ng-show='connected')
     .col-sm-12.notification-wrapper
       .alert.alert-success(ng-show="state.alert == 'saved_successfully'", l10n) Your notification settings have been changed successfully.
       .alert.alert-danger(ng-show="state.alert == 'saved_with_errors'", l10n) Something went wrong, please try again later.
     .col-sm-4.col-md-3.col-xs-12(ng-show="connected")
-      include settings/navbar
+      include ../tabs/settings/navbar
     .col-sm-8.col-md-9.col-xs-12.list(ng-show="connected")
       .showSecurity(ng-show="settingsPage == 'notifications'")
         div

@@ -148,6 +148,11 @@
     var debug = false;
   </script>
 
+  <!-- @if MODE == 'dev' -->
+  <script type="text/javascript">$.getScript('js/app-en.js');</script>
+  <!-- @endif -->
+
+  <!-- @if MODE == 'dist' -->
   <script type="text/javascript">
       $.ajaxSetup({
           cache: true
@@ -155,6 +160,7 @@
       var version = '<!-- @echo VERSION -->';
       $.getScript('js/app-' + lang + '.js?v=' + version);
   </script>
+  <!-- @endif -->
 
   <!-- start Mixpanel -->
   <script type="text/javascript">

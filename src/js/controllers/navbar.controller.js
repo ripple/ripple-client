@@ -20,8 +20,6 @@ module.controller('NavbarCtrl', ['$scope', '$element', '$compile', 'rpId',
   var tickInterval = 4000;
   var tickUpcoming = false;
 
-  var tplAccount = require('../../jade/notification/account.jade');
-
   // Activate #status panel
   $scope.toggle_secondary = function () {
     $scope.show_secondary = !$scope.show_secondary;

@@ -5,6 +5,7 @@ var gulp = require('gulp'),
   modRewrite = require('connect-modrewrite'),
   BannerPlugin = require('gulp-webpack/node_modules/webpack/lib/BannerPlugin'),
   UglifyJsPlugin = require('gulp-webpack/node_modules/webpack/lib/optimize/UglifyJsPlugin'),
+  jade = require('jade'),
 
   meta = require('./package.json'),
   languages = require('./l10n/languages.json').active,
@@ -182,10 +183,28 @@ gulp.task('preprocess:dist', ['gitVersion'], function() {
     .pipe(gulp.dest(buildDirPath + '/dist/'))
 });
 
+// TODO Languages
+gulp.task('templates', function () {
+  return gulp.src('src/jade/**/*.jade')
+    .pipe($.jade({
+      jade: jade
+    }))
+    .pipe(gulp.dest('build/dist/templates'));
+});
+
 // Default Task (Dev environment)
 gulp.task('default', ['dev', 'serve:dev'], function() {
   // Webpack
-  gulp.watch(['src/js/**/*.js', 'src/jade/**/*.jade'], ['webpack:dev']);
+  gulp.watch(['src/js/**/*.js'], ['webpack:dev']);
+
+  // Templates
+  $.watch('src/jade/**/*.jade')
+    .pipe($.jadeFindAffected())
+    .pipe($.jade({
+      jade: jade
+    }))
+    .pipe(gulp.dest('build/dist/templates'))
+    .pipe($.browserSync.reload({stream:true}));
 
   // Htmls
   gulp.watch('src/*.html', ['preprocess:dev']);
@@ -196,7 +215,7 @@ gulp.task('default', ['dev', 'serve:dev'], function() {
 });
 
 // Development
-gulp.task('dev', ['clean:dev', 'bower', 'webpack:dev', 'less', 'preprocess:dev']);
+gulp.task('dev', ['clean:dev', 'bower', 'webpack:dev', 'less', 'templates', 'preprocess:dev']);
 
 // Distribution
 gulp.task('dist', ['clean:dist', 'dev', 'webpack:dist', 'preprocess:dist', 'static'], function () {

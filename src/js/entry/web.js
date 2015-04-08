@@ -46,34 +46,34 @@ require('../services/integration/inboundBridge.service.js');
 // require('../services/ledger.service.js');
 // require('../services/transactions.service.js');
 
-  // Angular module dependencies
-  var appDependencies = [
-    'ngRoute',
-    // Controllers
-    'app',
-    'navbar',
-    // Services
-    'id',
-    'tracker',
-    'appManager',
-    'history',
-    // Directives
-    'charts',
-    'effects',
-    'events',
-    'fields',
-    'formatters',
-    'directives',
-    'validators',
-    'datalinks',
-    'errors',
-    'ngMessages',
-    // Filters
-    'filters',
-    'ui.bootstrap',
-    'ui.sortable',
-    'notifications'
-  ];
+// Angular module dependencies
+var appDependencies = [
+  'ngRoute',
+  // Controllers
+  'app',
+  'navbar',
+  // Services
+  'id',
+  'tracker',
+  'appManager',
+  'history',
+  // Directives
+  'charts',
+  'effects',
+  'events',
+  'fields',
+  'formatters',
+  'directives',
+  'validators',
+  'datalinks',
+  'errors',
+  'ngMessages',
+  // Filters
+  'filters',
+  'ui.bootstrap',
+  'ui.sortable',
+  'notifications'
+];
 
 // Load tabs
 var tabdefs = [
@@ -112,9 +112,9 @@ var tabdefs = [
   require('../tabs/settingsgateway.controller.js'),
   require('../tabs/notifications.controller.js'),
 
-// Hidden tabs
-require('../tabs/apps.controller.js'),
-require('../tabs/su.controller.js')
+  // Hidden tabs
+  require('../tabs/apps.controller.js'),
+  require('../tabs/su.controller.js')
 ];
 
 // Prepare tab modules
@@ -145,7 +145,8 @@ rippleclient.tabs = {};
 _.each(tabs, function(tab) { rippleclient.tabs[tab.tabName] = tab; });
 
 // Install basic page template
-angular.element('body').prepend(require('../../jade/client/index.jade')());
+console.log('te',$templateCache.get('../../jade/client/index.jade'));
+angular.element('body').prepend($templateCache.get('../../jade/client/index.jade'));
 
 Config.$inject = ['$routeProvider', '$injector'];
 
@@ -160,7 +161,7 @@ function Config ($routeProvider, $injector) {
         tabClass: 't-'+tab.tabName,
         pageMode: 'pm-'+tab.pageMode,
         mainMenu: tab.mainMenu,
-        template: template
+        templateUrl: 'templates/tabs/' + tab.tabName + '.html'
       };
 
       if ('balance' === tab.tabName) {
