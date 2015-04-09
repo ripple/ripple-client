@@ -932,7 +932,7 @@ TradeTab.prototype.angular = function(module)
       }
     });
 
-    $scope.open_custom_currency_selector = function () {
+    $scope.open_custom_currency_selector = function() {
       $scope.first_currency_selected = '';
       $scope.first_issuer_selected = '';
       $scope.second_currency_selected = '';
@@ -940,14 +940,18 @@ TradeTab.prototype.angular = function(module)
       $scope.adding_pair = true;
     }
 
-    $scope.add_pair = function () {
+    $scope.add_pair = function() {
       var formattedIssuerFirst = $scope.first_currency_selected === 'XRP' ? '' : '.' + $scope.first_issuer_selected;
       var formattedIssuerSecond = $scope.second_currency_selected === 'XRP' ? '' : '.' + $scope.second_issuer_selected;
+      if (($scope.second_currency_selected !== 'XRP' && ($scope.second_issuer_selected == null || $scope.second_issuer_selected === '')) ||
+          ($scope.first_currency_selected  !== 'XRP' && ($scope.first_issuer_selected  == null || $scope.first_issuer_selected  === ''))) {
+        // this could happen if gate is not validated
+        return;
+      }
 
       $scope.order.currency_pair = $scope.first_currency_selected + formattedIssuerFirst + '/' + $scope.second_currency_selected + formattedIssuerSecond;
 
       $scope.userBlob.unshift('/clients/rippletradecom/trade_currency_pairs', { name: $scope.order.currency_pair });
-      $scope.userBlob.set('/clients/rippletradecom/trade_currency_pairs', $scope.pairs_query);
 
       $scope.adding_pair = false;
     };
