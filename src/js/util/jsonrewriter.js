@@ -497,6 +497,10 @@ var JsonRewriter = module.exports = {
                 ? ripple.Amount.from_json(node.fields.Balance).negate(true)
                 : ripple.Amount.from_json(node.fields.Balance);
 
+            if (effect.balance.is_zero() && effect.balance.is_negative()) {
+              effect.balance = effect.balance.negate(true);
+            }
+
             if (obj.transaction && obj.transaction.type === 'trust_change_balance') {
               obj.transaction.balance = effect.balance;
             }
