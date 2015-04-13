@@ -797,7 +797,7 @@ SendTab.prototype.angular = function (module)
               var slightlyInFuture = new Date(+new Date() + 5 * 60000);
 
               alt.rate     = alt.amount.ratio_human(amount, {reference_date: slightlyInFuture});
-              alt.send_max = alt.amount.product_human(Amount.from_human('1.001'));
+              alt.send_max = alt.amount.scale('1.001');
               alt.paths    = raw.paths_computed || raw.paths_canonical;
 
               // Selected currency should be the first option
