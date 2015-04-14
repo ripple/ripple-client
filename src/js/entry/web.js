@@ -22,7 +22,7 @@ require('../services/globalwrappers.service.js');
 require('../services/id.service.js');
 require('../services/tracker.service.js');
 require('../services/blobRemote.service.js');
-require('../services/oldblob.service.js'); 
+require('../services/oldblob.service.js');
 require('../services/txqueue.service.js');
 require('../services/authflowRemote.service.js');
 require('../services/keychain.service.js');
@@ -151,17 +151,18 @@ function Config ($routeProvider, $injector) {
   _.each(tabs, function (tab) {
     var config = {
       tabName: tab.tabName,
-      tabClass: 't-'+tab.tabName,
-      pageMode: 'pm-'+tab.pageMode,
+      tabClass: 't-' + tab.tabName,
+      pageMode: 'pm-' + tab.pageMode,
       mainMenu: tab.mainMenu,
-      templateUrl: 'templates/tabs/' + tab.tabName + '.html'
+      // TODO l10n
+      templateUrl: 'templates/' + lang + '/tabs/' + tab.tabName + '.html'
     };
 
     if ('balance' === tab.tabName) {
       $routeProvider.when('/', config);
     }
 
-    $routeProvider.when('/'+tab.tabName, config);
+    $routeProvider.when('/' + tab.tabName, config);
 
     if (tab.extraRoutes) {
       _.each(tab.extraRoutes, function(route) {
@@ -171,7 +172,7 @@ function Config ($routeProvider, $injector) {
     }
 
     _.each(tab.aliases, function (alias) {
-      $routeProvider.when('/'+alias, config);
+      $routeProvider.when('/' + alias, config);
     });
   });
 
@@ -181,7 +182,7 @@ function Config ($routeProvider, $injector) {
       lang = routeParams.language;
 
       if (!store.disabled) {
-        store.set('ripple_language',lang ? lang : '');
+        store.set('ripple_language', lang ? lang : '');
       }
 
       // problem?

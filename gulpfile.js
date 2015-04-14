@@ -6,6 +6,7 @@ var gulp = require('gulp'),
   BannerPlugin = require('gulp-webpack/node_modules/webpack/lib/BannerPlugin'),
   UglifyJsPlugin = require('gulp-webpack/node_modules/webpack/lib/optimize/UglifyJsPlugin'),
   jade = require('jade'),
+  jadeL10n = require('jade-l10n'),
 
   meta = require('./package.json'),
   languages = require('./l10n/languages.json').active,
@@ -157,7 +158,7 @@ gulp.task('gitVersion', function (cb) {
 
 // Preprocess
 gulp.task('preprocess:dev', ['gitVersion'], function() {
-  gulp.src(buildDirPath + '/dev/templates/index.html')
+  gulp.src(buildDirPath + '/dev/templates/en/index.html')
     .pipe($.preprocess({
       context: {
         MODE: 'dev',
@@ -183,24 +184,33 @@ gulp.task('preprocess:dist', ['gitVersion'], function() {
     .pipe(gulp.dest(buildDirPath + '/dist/'))
 });
 
-// TODO Languages
+// Languages
+var languageTasks = [];
+
 gulp.task('templates:dev', function () {
   return gulp.src('src/templates/**/*.jade')
     .pipe($.jade({
       jade: jade,
       pretty: true
     }))
-    .pipe(gulp.dest('build/dev/templates'));
+    .pipe(gulp.dest('build/dev/templates/en'));
 });
 
-gulp.task('templates:prod', function () {
-  return gulp.src('src/templates/**/*.jade')
-    .pipe($.jade({
-      jade: jade,
-      pretty: true
-    }))
-    .pipe(gulp.dest('build/dist/templates'));
+languages.forEach(function(language){
+  gulp.task('templates:' + language.code, function(){
+    return gulp.src('src/templates/**/*.jade')
+      .pipe($.jade({
+        jade: jadeL10n,
+        languageFile: 'l10n/' + language.code + '/messages.po',
+        pretty: true
+      }))
+      .pipe(gulp.dest(buildDirPath + '/dist/templates/' + language.code));
+  });
+
+  languageTasks.push('templates:' + language.code);
 });
+
+gulp.task('templates:prod', languageTasks);
 
 // Default Task (Dev environment)
 gulp.task('default', ['dev'], function() {
@@ -213,11 +223,11 @@ gulp.task('default', ['dev'], function() {
   $.watch('src/templates/**/*.jade')
     .pipe($.jadeFindAffected())
     .pipe($.jade({jade: jade, pretty: true}))
-    .pipe(gulp.dest('build/dev/templates'))
+    .pipe(gulp.dest('build/dev/templates/en'))
     .pipe($.browserSync.reload({stream:true}));
 
   // Htmls
-  gulp.watch(buildDirPath + '/dev/templates/*.html', ['preprocess:dev']);
+  gulp.watch(buildDirPath + '/dev/templates/en/*.html', ['preprocess:dev']);
 
   // TODO Config
 
