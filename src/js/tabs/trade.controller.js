@@ -615,7 +615,12 @@ TradeTab.prototype.angular = function(module)
       tx.on('success', function(res) {
         setEngineStatus(res, true, type);
 
+
         if (!modifying) order.mode = 'done';
+
+        $timeout(function() {
+          $scope.reset_widget(type);
+        }, 2000);
 
         var tx = rewriter.processTxn(res, res.metadata, id.account);
 
