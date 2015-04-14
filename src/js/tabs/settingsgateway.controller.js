@@ -14,11 +14,6 @@ util.inherits(SettingsGatewayTab, Tab);
 SettingsGatewayTab.prototype.tabName = 'settingsgateway';
 SettingsGatewayTab.prototype.mainMenu = 'settingsgateway';
 
-SettingsGatewayTab.prototype.generateHtml = function ()
-{
-  return require('../../jade/tabs/settingsgateway.jade')();
-};
-
 SettingsGatewayTab.prototype.angular = function(module)
 {
   module.controller('SettingsGatewayCtrl', ['$scope', 'rpId', 'rpKeychain', 'rpNetwork',

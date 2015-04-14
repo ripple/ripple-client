@@ -12,11 +12,6 @@ RegisterTab.prototype.tabName = 'register';
 RegisterTab.prototype.pageMode = 'single';
 RegisterTab.prototype.parent = 'main';
 
-RegisterTab.prototype.generateHtml = function ()
-{
-  return require('../../jade/tabs/register.jade')();
-};
-
 RegisterTab.prototype.extraRoutes = [
   { name: '/register/activate/:username/:token' }
 ];

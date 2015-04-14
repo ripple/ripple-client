@@ -10,10 +10,6 @@ util.inherits(SgdTab, Tab);
 SgdTab.prototype.tabName = 'sgd';
 SgdTab.prototype.mainMenu = 'fund';
 
-SgdTab.prototype.generateHtml = function() {
-  return require('../../jade/tabs/sgd.jade')();
-};
-
 SgdTab.prototype.angular = function(module) {
   module.controller('SgdCtrl', ['$scope', 'rpId', 'rpAppManager', 'rpTracker', '$routeParams', 'rpKeychain', 'rpNetwork', '$timeout',
     function($scope, id, appManager, rpTracker, $routeParams, keychain, $network, $timeout)

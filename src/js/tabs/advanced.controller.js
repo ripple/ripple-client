@@ -14,11 +14,6 @@ util.inherits(AdvancedTab, Tab);
 AdvancedTab.prototype.tabName = 'advanced';
 AdvancedTab.prototype.mainMenu = 'advanced';
 
-AdvancedTab.prototype.generateHtml = function ()
-{
-  return require('../../jade/tabs/advanced.jade')();
-};
-
 AdvancedTab.prototype.angular = function(module)
 {
   module.controller('AdvancedCtrl', ['$scope', 'rpId', 'rpKeychain', 'rpNetwork',

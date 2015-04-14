@@ -12,7 +12,7 @@ var module = angular.module('errors', []);
 module.directive('rpTransactionStatus', function() {
   return {
     restrict: 'E',
-    template: require('../../jade/directives/transactionerror.jade'),
+    template: require('../../templates/directives/transactionerror.jade'),
     scope: {
       engine_result: '@rpEngineResult',
       engine_result_message: '@rpEngineResultMessage',

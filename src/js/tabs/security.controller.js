@@ -12,11 +12,6 @@ util.inherits(SecurityTab, Tab);
 SecurityTab.prototype.tabName = 'security';
 SecurityTab.prototype.mainMenu = 'security';
 
-SecurityTab.prototype.generateHtml = function ()
-{
-  return require('../../jade/tabs/security.jade')();
-};
-
 SecurityTab.prototype.angular = function (module) {
   module.controller('SecurityCtrl', ['$scope', 'rpId', 'rpOldBlob', 'rpTracker',
                                      'rpKeychain', '$timeout', 'rpAuthFlow', 'rpPopup',

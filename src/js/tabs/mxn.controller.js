@@ -11,11 +11,6 @@ util.inherits(MxnTab, Tab);
 MxnTab.prototype.tabName = 'mxn';
 MxnTab.prototype.mainMenu = 'fund';
 
-MxnTab.prototype.generateHtml = function ()
-{
-  return require('../../jade/tabs/mxn.jade')();
-};
-
 MxnTab.prototype.angular = function (module)
 {
   module.controller('MxnCtrl', ['$scope', 'rpId', 'rpAppManager', 'rpTracker', '$routeParams', 'rpKeychain', 'rpNetwork', '$timeout',

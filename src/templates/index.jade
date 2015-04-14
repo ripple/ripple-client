@@ -1,0 +1,337 @@
+doctype
+
+<!--[if lt IE 7]>
+html.no-js.lt-ie9.lt-ie8.lt-ie7(ng-app='rp', ng-controller='AppCtrl', ng-class='[$route.current.tabClass, $route.current.pageMode]', lang='en')
+<![endif]-->
+<!--[if IE 7]>
+html.no-js.lt-ie9.lt-ie8(ng-app='rp', ng-controller='AppCtrl', ng-class='[$route.current.tabClass, $route.current.pageMode]', lang='en')
+<![endif]-->
+<!--[if IE *]>
+html.no-js.lt-ie9(ng-app='rp', ng-controller='AppCtrl', ng-class='[$route.current.tabClass, $route.current.pageMode]', lang='en')
+<![endif]-->
+<!--[if gt IE 8]><!-->
+html.no-js(ng-app='rp', ng-controller='AppCtrl', ng-class='[$route.current.tabClass, $route.current.pageMode]', lang='en')
+<!--<![endif]-->
+
+html(ng-app='rp', ng-controller='AppCtrl', ng-class='[$route.current.tabClass, $route.current.pageMode]')
+  head
+    meta(charset='utf-8')
+    title Ripple Trade
+    meta(name='description', content='Ripple Trade: the only platform where you can trade between fiat, crypto, gold and more. When placing an order, the P2P Ripple network instantly finds the best match - no 3rd parties involved.')
+    meta(name='google', value='notranslate')
+    meta(property='og:description', content='Ripple Trade: the only platform where you can trade between fiat, crypto, gold and more. When placing an order, the P2P Ripple network instantly finds the best match - no 3rd parties involved.')
+    meta(name='apple-mobile-web-app-capable', ,='', content='yes')
+    meta(name='apple-mobile-web-app-title', content='Ripple Trade')
+    meta(name='mobile-web-app-capable', ,='', content='yes')
+    meta(name='mobile-web-app-title', ,='', content='Ripple Trade')
+    link(rel='apple-touch-icon', href='/img/mobile/icon60.png')
+    link(rel='apple-touch-icon', sizes='76x76', href='/img/mobile/icon76.png')
+    link(rel='apple-touch-icon', sizes='120x120', href='/img/mobile/icon120.png')
+    link(rel='apple-touch-icon', sizes='152x152', href='/img/mobile/icon152.png')
+    link(rel='icon', sizes='196x196', href='/img/mobile/icon196.png')
+    link(rel='icon', sizes='128x128', href='/img/mobile/icon128.png')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no')
+    // build:css /css/web.css
+    // inject:css
+    link(href='../../res/fonts/stylesheet.css', rel='stylesheet')
+    link(href='../dev/css/web.css', rel='stylesheet')
+    // endinject
+    // endbuild
+    // FAVICON
+    link(rel='shortcut icon', href='/img/favicon.ico', type='image/x-icon')
+    link(rel='icon', href='/img/favicon.ico', type='image/x-icon')
+    // END FAVICON
+    // build:js /js/head.js
+    script(src='../../deps/js/modernizr.js')
+    // endbuild
+    base(href='/')
+
+  body(ng-class='app_loaded')
+    .mobile-nav(rp-snapper)
+      a.wallet(href="#/balance", ng-class="{active: $route.current.tabName == 'balance'}")
+        span.nav-icon.nav-icon-wallet
+        span(l10n) Balance
+      //- a.sub(href="#/balance", ng-class="{active: $route.current.tabName == 'balance'}", l10n) Balance
+      a.sub(href="#/history", ng-class="{active: $route.current.tabName == 'history'}", l10n) History
+      a.sub(href="#/contacts", ng-class="{active: $route.current.tabName == 'contacts'}", l10n) Contacts
+
+      a.send(href="#/send", ng-class="{active: $route.current.tabName == 'send'}")
+        span.nav-icon.nav-icon-send
+        span(l10n) Send
+
+      a.exchange(href="#/exchange", ng-class="{active: $route.current.tabName == 'exchange'}")
+        span.nav-icon.nav-icon-exchange
+        span(l10n) Trade (simple)
+      //- a.sub(href="#/exchange", ng-class="{active: $route.current.tabName == 'exchange'}", l10n) Convert
+      a.sub(href="#/trade", ng-class="{active: $route.current.tabName == 'trade'}", l10n) Trade (advanced)
+
+      a.fund(href="#/xrp", ng-class="{active: $route.current.tabName == 'xrp'}")
+        span.nav-icon.nav-icon-advanced
+        span(l10n) Fund
+      //- a.sub(href="#/withdraw", ng-class="{active: $route.current.tabName == 'withdraw'}", l10n) Withdraw
+      a.sub(href="#/trust", ng-class="{active: $route.current.tabName == 'trust'}", l10n) Gateways
+
+
+      a.advanced(href="#/account/public", ng-class="{active: $route.current.tabName == 'account'}")
+        img(src="img/profile-gray.png")
+        span(l10n) Account
+      a.advanced(href="#/security", ng-class="{active: $route.current.tabName == 'security'}")
+        img(src="img/settings-gray.png")
+        span(l10n) Settings
+      a.advanced(href="#", ng-click='logout()')
+        img(src="img/logout-gray.png")
+        span(l10n) Logout
+
+    // Wrapper
+    div#wrapper
+      // Header
+      header(ng-class="{ 'loggedOut': !loginStatus }")
+        .headerWrapper(ng-class="{ 'loggedOut': !loginStatus }")
+          a.logo(href="/")
+
+        div(ng-if="loginStatus")
+          include ../templates/client/navbar.jade
+
+      .landingWrapper(ng-class="{ 'loggedOut container-fluid': !loginStatus, 'container': loginStatus  }")
+
+        .landingContainer
+
+          .loginContainer
+
+            // Register
+            .container-fluid.main(ng-if="!showLogin && showRegister", id="t-register", role="main")
+              include ../templates/tabs/register.jade
+
+            // Login
+            .container-fluid.main(ng-if="showLogin && !showRegister", id="t-login", role="main")
+              include ../templates/tabs/login.jade
+
+            // Main
+            .container-fluid.main(ng-if="!showLogin && !showRegister", id="{{$route.current.tabClass}}", role="main", ng-view)
+
+        //section 1
+        .whyUse(ng-if="!loginStatus")
+          .container
+            h4.sectionTitle(l10n) Why Use Ripple Trade?
+            hr
+            .col-xs-12.col-sm-4.circleWrap
+              img.circle(src="img/img_feature1.svg")
+              p
+                span.description(l10n) Home of XRP -
+                span(l10n) the best place to buy and sell XRP
+            .col-xs-12.col-sm-4.circleWrap
+              img.circle(src="img/img_feature2.svg")
+              p
+                span.description(l10n) Free -
+                span(l10n) no fees to sign up and use Ripple Trade
+            .col-xs-12.col-sm-4.circleWrap
+              img.circle(src="img/img_feature3.svg")
+              p
+                span.description(l10n) No Middlemen -
+                span(l10n) When you submit orders, Ripple automatically finds the best available match, without a clearinghouse or broker.
+
+        //section 2
+        .gateways.container(ng-if="!loginStatus")
+          h4.sectionTitle(l10n) Deposit, trade and withdraw money on Ripple via gateways.
+          hr
+          .col-md-12
+            img.img-responsive.gateway(src="img/img_gateway1_new.svg")
+
+        //section 3
+        .featuredGateways(ng-if="!loginStatus")
+          .container
+            h4.sectionTitle(l10n) Featured Ripple Gateways
+            hr
+            p.holdAssets(l10n) Ripple's growing gateway network.
+            .col-xs-6.col-sm-2.gatewayExample
+              a(href="https://bitso.com/", target="_blank", l10n)
+                img.img-responsive.gateway(src="img/gateway_logos/gw_bitso.svg")
+            .col-xs-6.col-sm-2.gatewayExample
+              a(href="https://www.bitstamp.net/", target="_blank", l10n)
+                img.img-responsive.gateway(src="img/gateway_logos/gw_bitstamp.svg")
+            .col-xs-6.col-sm-2.gatewayExample
+              a(href="https://btc2ripple.com/", target="_blank", l10n)
+                img.img-responsive.gateway(src="img/gateway_logos/gw_btc2ripple.svg")
+            .col-xs-6.col-sm-2.gatewayExample
+              a(href="https://coinexgateway.com/", target="_blank", l10n)
+                img.img-responsive.gateway(src="img/gateway_logos/gw_coinex.svg")
+            .col-xs-6.col-sm-2.gatewayExample
+              a(href="https://tokyojpy.com/", target="_blank", l10n)
+                img.img-responsive.gateway(src="img/gateway_logos/gw_jpytokyo.svg")
+            .col-xs-6.col-sm-2.gatewayExample
+              a(href="https://payroutes.com/", target="_blank", l10n)
+                img.img-responsive.gateway(src="img/gateway_logos/gw_payroutes.svg")
+            .col-xs-6.col-sm-2.gatewayExample
+              a(href="https://rippex.net/", target="_blank", l10n)
+                img.img-responsive.gateway(src="img/gateway_logos/gw_rippex.svg")
+            .col-xs-6.col-sm-2.gatewayExample
+              a(href="https://www.ripplesingapore.com/", target="_blank", l10n)
+                img.img-responsive.gateway(src="img/gateway_logos/gw_ripplesingapore.svg")
+            .col-xs-6.col-sm-2.gatewayExample
+              a(href="https://snapswap.us/", target="_blank", l10n)
+                img.img-responsive.gateway(src="img/gateway_logos/gw_snapswap.svg")
+
+        // Footer
+        footer.container(ng-class="{ 'loggedOut': !loginStatus }")
+          .col-xs-12.col-sm-3
+            a(href="https://github.com/ripple/ripple-client/releases", target="_blank", l10n)
+              | Version: {{version}}
+            | <br>{{versionBranch}}
+
+          .col-xs-12.col-sm-9.right-links
+            a(href="https://rippletrade.com/#/tou", target="_blank", l10n) Terms of Use
+            a(href="https://rippletrade.com/#/privacypolicy", target="_blank", l10n) Privacy Policy
+            a(href="https://ripple.com/knowledge_categories/use-ripple-trade/", target="_blank", l10n) Support
+            a(href="https://ripplelabs.atlassian.net/browse/WC", target="_blank", l10n) Bug reports
+            a(href="#/lang/en") English
+            a(href="#/lang/zh_CN") 中文
+            a(href="#/lang/ja") 日本語
+
+            // Language selector
+            rp-popup
+              a.last(href="", rp-popup-link, l10n) more...
+              div.languageSelector(rp-popup-content)
+                .modal-header
+                  button.close(type="button", data-dismiss="modal", aria-hidden="true") &times;
+                  .modal-title(l10n) Select a language
+                .modal-body.row.list
+                  .col-sm-6
+                    a(href="#/lang/en") English
+                  .col-sm-6
+                    a(href="#/lang/zh_CN") 中文
+                  .col-sm-6
+                    a(href="#/lang/ca") Català
+                  .col-sm-6
+                    a(href="#/lang/de") Deutsch
+                  .col-sm-6
+                    a(href="#/lang/es") Español
+                  .col-sm-6
+                    a(href="#/lang/fr_FR") Français
+                  .col-sm-6
+                    a(href="#/lang/he_IL") עברית
+                  .col-sm-6
+                    a(href="#/lang/it") Italiano
+                  .col-sm-6
+                    a(href="#/lang/ja") 日本語
+                  .col-sm-6
+                    a(href="#/lang/nl_NL") Nederlands
+                  .col-sm-6
+                    a(href="#/lang/nb_NO") Norsk
+                  .col-sm-6
+                    a(href="#/lang/pl") Polski
+                  .col-sm-6
+                    a(href="#/lang/pt") Português
+                  .col-sm-6
+                    a(href="#/lang/ro") Român
+                  .col-sm-6
+                    a(href="#/lang/ru") Русский
+                  .col-sm-6
+                    a(href="#/lang/sk") Slovenská
+                  .col-sm-6
+                    a(href="#/lang/tr") Türkçe
+
+
+
+    #appLoading
+      img.loader(src='img/main.png', alt='', title='')
+    // VERSION
+    #version
+      // @echo VERSION
+      // @if MODE == 'dev' !> - <!-- @echo VERSIONBRANCH
+      // @endif
+      // @exclude
+      | [unprocessed]
+      // @endexclude
+    #noWebSockets
+      p We apologize, but the Ripple Client needs JavaScript and WebSockets in order to function.
+        br
+        | Please refer to this page and download a browser that supports WebSockets. Thank you!
+        br
+        a(href='http://caniuse.com/websockets') http://caniuse.com/websockets
+
+    // JAVASCRIPT
+    <!--[if IE]>
+    script(src='compat/ie/ws/ws-config.js')
+    script(src='js/compat_ie.js')
+    <![endif]-->
+
+    // build:js /js/vendor.js
+    script(src='../../deps/js/jquery/dist/jquery.js')
+    script(src='../../deps/js/authy.js')
+    script(src='../../deps/js/swfobject.js')
+    script(src='../../deps/js/setImmediate.js')
+    script(src='../../deps/js/underscore/underscore.js')
+    script(src='../../deps/js/downloadify.js')
+    script(src='../../deps/js/angular/angular.js')
+    script(src='../../deps/js/angular-route/angular-route.js')
+    script(src='../../deps/js/angular-messages/angular-messages.js')
+    script(src='../../deps/js/store.js/store.js')
+    script(src='../../deps/js/d3/d3.js')
+    script(src='../../deps/js/ripple/ripple-debug.js')
+    script(src='../../deps/js/ripple-sjcl.js')
+    script(src='../../deps/js/moment/moment.js')
+    script(src='../../deps/js/ripple-vault-client/ripple-vault-client-debug.js')
+    script(src='../../deps/js/bootstrap-modal.js')
+    script(src='../../deps/js/bootstrap-tooltip.js')
+    script(src='../../deps/js/bootstrap-popover.js')
+    script(src='../../deps/js/angular-bootstrap/ui-bootstrap-tpls.js')
+    script(src='../../deps/js/bootstrap-datepicker.js')
+    script(src='../../deps/js/spin.js/spin.js')
+    script(src='../../deps/js/snapjs/snap.js')
+    script(src='../../deps/js/ng-sortable/dist/ng-sortable.js')
+    script(src='../../deps/js/charts/pricechart.js')
+    script(src='../../deps/js/roost.min.js')
+    // endbuild
+
+    // build:js /config.js
+    script(src='../../config.js')
+    // endbuild
+
+    script.
+      window.name = 'NG_DEFER_BOOTSTRAP!';
+      var lang = (function(){
+        var languages = "<!-- @echo LANGUAGES -->".split(" ");
+        var resolveLanguage = function(lang) {
+          if (!lang) return null;
+          if (languages.indexOf(lang) != -1) return lang;
+          if (lang.indexOf("_") != -1) {
+            lang = lang.split("_")[0];
+            if (languages.indexOf(lang) != -1) return lang;
+          }
+          return null;
+        };
+        return resolveLanguage(store.get('ripple_language')) ||
+                resolveLanguage(window.navigator.userLanguage || window.navigator.language) ||
+                'en';
+      })();
+      var debug = false;
+
+    <!-- @if MODE == 'dev' -->
+    script(type='text/javascript').
+      $.getScript('js/app-en.js');
+    <!-- @endif -->
+
+    <!-- @if MODE == 'dist' -->
+    script(type='text/javascript').
+      $.ajaxSetup({
+        cache: true
+      });
+      var version = '<!-- @echo VERSION -->';
+      $.getScript('js/app-' + lang + '.js?v=' + version);
+    <!-- @endif -->
+
+    // start Mixpanel
+    script(type='text/javascript').
+      if (Options.mixpanel && Options.mixpanel.track) { (function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src='/mixpanel.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f);b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==
+      typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");for(g=0;g<i.length;g++)f(c,i[g]);
+        b._i.push([a,e,d])};b.__SV=1.2}})(document,window.mixpanel||[]);
+        mixpanel.init(Options.mixpanel.token); }
+    // end Mixpanel
+
+    script.
+      var _roost = _roost || [];
+      _roost.push(['autoprompt', false]);
+
+    // loading state
+    script.
+      setTimeout(function(){ $("body").addClass("loading");}, 100);
