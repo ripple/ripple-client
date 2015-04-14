@@ -11,12 +11,6 @@ util.inherits(NotFoundTab, Tab);
 NotFoundTab.prototype.tabName = '404';
 NotFoundTab.prototype.mainMenu = 'none';
 
-NotFoundTab.prototype.generateHtml = function ()
-{
-
-  return require('../../jade/tabs/404.jade')();
-};
-
 NotFoundTab.prototype.angular = function (module)
 {
   module.controller('NotFoundCtrl', ['$scope', function ($scope)

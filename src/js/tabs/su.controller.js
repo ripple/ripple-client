@@ -14,11 +14,6 @@ util.inherits(SuTab, Tab);
 SuTab.prototype.tabName = 'su';
 SuTab.prototype.mainMenu = 'su';
 
-SuTab.prototype.generateHtml = function ()
-{
-  return require('../../jade/tabs/su.jade')();
-};
-
 SuTab.prototype.angular = function (module)
 {
   module.controller('SuCtrl', ['$scope', '$routeParams', 'rpId',

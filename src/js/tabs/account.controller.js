@@ -11,11 +11,6 @@ util.inherits(AccountTab, Tab);
 AccountTab.prototype.tabName = 'account';
 AccountTab.prototype.mainMenu = 'account';
 
-AccountTab.prototype.generateHtml = function ()
-{
-  return require('../../jade/tabs/account.jade')();
-};
-
 AccountTab.prototype.extraRoutes = [
   { name: '/account/:route' }
 ];

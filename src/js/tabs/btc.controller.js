@@ -11,11 +11,6 @@ util.inherits(BtcTab, Tab);
 BtcTab.prototype.tabName = 'btc';
 BtcTab.prototype.mainMenu = 'fund';
 
-BtcTab.prototype.generateHtml = function ()
-{
-  return require('../../jade/tabs/btc.jade')();
-};
-
 BtcTab.prototype.angular = function (module)
 {
   module.controller('BtcCtrl', ['$scope', 'rpId', 'rpAppManager', 'rpTracker', '$routeParams', 'rpNetwork', 'rpKeychain',

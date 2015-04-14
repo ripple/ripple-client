@@ -20,11 +20,6 @@ util.inherits(TradeTab, Tab);
 TradeTab.prototype.tabName = 'trade';
 TradeTab.prototype.mainMenu = 'trade';
 
-TradeTab.prototype.generateHtml = function ()
-{
-  return require('../../jade/tabs/trade.jade')();
-};
-
 TradeTab.prototype.angularDeps = Tab.prototype.angularDeps.concat(['books']);
 
 TradeTab.prototype.extraRoutes = [
@@ -757,7 +752,7 @@ TradeTab.prototype.angular = function(module)
           popupScope.$destroy();
         };
 
-        popup.blank(require('../../jade/popup/modifyOrderError.jade')(), popupScope);
+        popup.blank(require('../../templates/popup/modifyOrderError.jade')(), popupScope);
         return true;
       }
       else return false;

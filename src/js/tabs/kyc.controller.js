@@ -13,11 +13,6 @@ util.inherits(KycTab, Tab);
 KycTab.prototype.tabName = 'kyc';
 KycTab.prototype.mainMenu = 'kyc';
 
-KycTab.prototype.generateHtml = function ()
-{
-  return require('../../jade/tabs/kyc.jade')();
-};
-
 KycTab.prototype.angular = function(module)
 {
   module.controller('KycCtrl', ['$scope', 'rpId', 'rpKeychain', 'rpAuthFlow', '$timeout',

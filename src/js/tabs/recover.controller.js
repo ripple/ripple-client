@@ -12,11 +12,6 @@ RecoverTab.prototype.tabName = 'recover';
 RecoverTab.prototype.pageMode = 'single';
 RecoverTab.prototype.parent = 'main';
 
-RecoverTab.prototype.generateHtml = function ()
-{
-  return require('../../jade/tabs/recover.jade')();
-};
-
 RecoverTab.prototype.extraRoutes = [
   { name: '/recover/:username' }
 ];

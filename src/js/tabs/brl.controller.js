@@ -11,11 +11,6 @@ util.inherits(BrlTab, Tab);
 BrlTab.prototype.tabName = 'brl';
 BrlTab.prototype.mainMenu = 'fund';
 
-BrlTab.prototype.generateHtml = function ()
-{
-  return require('../../jade/tabs/brl.jade')();
-};
-
 BrlTab.prototype.angular = function (module)
 {
   module.controller('BrlCtrl', ['$scope', 'rpId', 'rpAppManager', 'rpTracker', '$routeParams', 'rpKeychain', 'rpNetwork', '$timeout',

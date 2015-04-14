@@ -157,7 +157,7 @@ gulp.task('gitVersion', function (cb) {
 
 // Preprocess
 gulp.task('preprocess:dev', ['gitVersion'], function() {
-  gulp.src('src/index.html')
+  gulp.src(buildDirPath + '/dev/templates/index.html')
     .pipe($.preprocess({
       context: {
         MODE: 'dev',
@@ -171,7 +171,7 @@ gulp.task('preprocess:dev', ['gitVersion'], function() {
 });
 
 gulp.task('preprocess:dist', ['gitVersion'], function() {
-  gulp.src('src/index.html')
+  gulp.src(buildDirPath + '/dist/templates/index.html')
     .pipe($.preprocess({
       context: {
         MODE: 'dist',
@@ -184,30 +184,40 @@ gulp.task('preprocess:dist', ['gitVersion'], function() {
 });
 
 // TODO Languages
-gulp.task('templates', function () {
-  return gulp.src('src/jade/**/*.jade')
+gulp.task('templates:dev', function () {
+  return gulp.src('src/templates/**/*.jade')
     .pipe($.jade({
-      jade: jade
+      jade: jade,
+      pretty: true
+    }))
+    .pipe(gulp.dest('build/dev/templates'));
+});
+
+gulp.task('templates:prod', function () {
+  return gulp.src('src/templates/**/*.jade')
+    .pipe($.jade({
+      jade: jade,
+      pretty: true
     }))
     .pipe(gulp.dest('build/dist/templates'));
 });
 
 // Default Task (Dev environment)
-gulp.task('default', ['dev', 'serve:dev'], function() {
+gulp.task('default', ['dev'], function() {
+  gulp.start('serve:dev');
+
   // Webpack
   gulp.watch(['src/js/**/*.js'], ['webpack:dev']);
 
   // Templates
-  $.watch('src/jade/**/*.jade')
+  $.watch('src/templates/**/*.jade')
     .pipe($.jadeFindAffected())
-    .pipe($.jade({
-      jade: jade
-    }))
-    .pipe(gulp.dest('build/dist/templates'))
+    .pipe($.jade({jade: jade, pretty: true}))
+    .pipe(gulp.dest('build/dev/templates'))
     .pipe($.browserSync.reload({stream:true}));
 
   // Htmls
-  gulp.watch('src/*.html', ['preprocess:dev']);
+  gulp.watch(buildDirPath + '/dev/templates/*.html', ['preprocess:dev']);
 
   // TODO Config
 
@@ -215,13 +225,17 @@ gulp.task('default', ['dev', 'serve:dev'], function() {
 });
 
 // Development
-gulp.task('dev', ['clean:dev', 'bower', 'webpack:dev', 'less', 'templates', 'preprocess:dev']);
+gulp.task('dev', ['clean:dev', 'bower', 'webpack:dev', 'less', 'templates:dev'], function () {
+  gulp.start('preprocess:dev');
+});
 
 // Distribution
-gulp.task('dist', ['clean:dist', 'dev', 'webpack:dist', 'preprocess:dist', 'static'], function () {
+gulp.task('dist', ['clean:dist', 'dev', 'webpack:dist', 'templates:prod', 'static'], function () {
   var assets = $.useref.assets();
 
-  return gulp.src([buildDirPath + '/dist/index.html', 'src/includes.html'])
+  gulp.start('preprocess:dist');
+
+  return gulp.src([buildDirPath + '/dist/index.html'])
     // Concatenates asset files from the build blocks inside the HTML
     .pipe(assets)
     // Appends hash to extracted files app.css → app-098f6bcd.css

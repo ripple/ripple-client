@@ -11,12 +11,6 @@ util.inherits(XrpTab, Tab);
 XrpTab.prototype.tabName = 'xrp';
 XrpTab.prototype.mainMenu = 'fund';
 
-XrpTab.prototype.generateHtml = function ()
-{
-  return require('../../jade/tabs/xrp.jade')();
-};
-
-
 XrpTab.prototype.angular = function (module)
 {
   module.controller('XrpCtrl', ['$scope', 'rpId', function ($scope, id)

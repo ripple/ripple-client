@@ -646,7 +646,7 @@ function AppCtrl ($scope, id, net, keychain, txQueue, appManager, rpTracker,
   ];
 
   // load strings from jade template
-  var ordersStringsHtml = $(require('../../jade/strings/myOrders.jade')());
+  var ordersStringsHtml = $(require('../../templates/strings/myOrders.jade')());
   _.each($scope.ordersSortFieldChoices, function(element, index) {
     var localisedNameText = ordersStringsHtml.find('#' + element.value).text();
     element.name = localisedNameText;

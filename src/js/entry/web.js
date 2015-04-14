@@ -144,43 +144,35 @@ rippleclient.types = types;
 rippleclient.tabs = {};
 _.each(tabs, function(tab) { rippleclient.tabs[tab.tabName] = tab; });
 
-// Install basic page template
-console.log('te',$templateCache.get('../../jade/client/index.jade'));
-angular.element('body').prepend($templateCache.get('../../jade/client/index.jade'));
-
 Config.$inject = ['$routeProvider', '$injector'];
 
 function Config ($routeProvider, $injector) {
   // Set up routing for tabs
   _.each(tabs, function (tab) {
-    if ("function" === typeof tab.generateHtml) {
-      var template = tab.generateHtml();
+    var config = {
+      tabName: tab.tabName,
+      tabClass: 't-'+tab.tabName,
+      pageMode: 'pm-'+tab.pageMode,
+      mainMenu: tab.mainMenu,
+      templateUrl: 'templates/tabs/' + tab.tabName + '.html'
+    };
 
-      var config = {
-        tabName: tab.tabName,
-        tabClass: 't-'+tab.tabName,
-        pageMode: 'pm-'+tab.pageMode,
-        mainMenu: tab.mainMenu,
-        templateUrl: 'templates/tabs/' + tab.tabName + '.html'
-      };
+    if ('balance' === tab.tabName) {
+      $routeProvider.when('/', config);
+    }
 
-      if ('balance' === tab.tabName) {
-        $routeProvider.when('/', config);
-      }
+    $routeProvider.when('/'+tab.tabName, config);
 
-      $routeProvider.when('/'+tab.tabName, config);
-
-      if (tab.extraRoutes) {
-        _.each(tab.extraRoutes, function(route) {
-          $.extend({}, config, route.config);
-          $routeProvider.when(route.name, config);
-        });
-      }
-
-      _.each(tab.aliases, function (alias) {
-        $routeProvider.when('/'+alias, config);
+    if (tab.extraRoutes) {
+      _.each(tab.extraRoutes, function(route) {
+        $.extend({}, config, route.config);
+        $routeProvider.when(route.name, config);
       });
     }
+
+    _.each(tab.aliases, function (alias) {
+      $routeProvider.when('/'+alias, config);
+    });
   });
 
   // Language switcher

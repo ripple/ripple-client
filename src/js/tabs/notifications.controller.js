@@ -10,10 +10,6 @@ util.inherits(NotificationsTab, Tab);
 NotificationsTab.prototype.tabName = 'notifications';
 NotificationsTab.prototype.mainMenu = 'notifications';
 
-NotificationsTab.prototype.generateHtml = function() {
-  return require('../../jade/tabs/notifications.jade')();
-};
-
 NotificationsTab.prototype.angular = function(module) {
   module.controller('NotificationsCtrl', ['$scope', '$window', 'rpId', 'rpNotifications', function($scope, $window, $id, $notifications) {
     if (!$id.loginStatus) {

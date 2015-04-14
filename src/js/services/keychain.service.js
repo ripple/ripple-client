@@ -112,7 +112,7 @@ module.factory('rpKeychain', ['$rootScope', '$timeout', 'rpPopup', 'rpId',
       // esc button
       if ($event.which === 27) popupScope.cancel();
     };
-    popup.blank(require('../../jade/popup/unlock.jade')(), popupScope);
+    popup.blank(require('../../templates/popup/unlock.jade')(), popupScope);
   };
 
   /**
