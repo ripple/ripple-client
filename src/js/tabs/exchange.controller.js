@@ -33,7 +33,13 @@ ExchangeTab.prototype.angular = function (module)
       var pf = null;
 
       // Remember user preference on Convert vs. Trade
-      $rootScope.ripple_exchange_selection_trade = false;
+      $rootScope.ripple_exchange_selection_trade = false; 
+
+      $scope.$watch('userBlob', function() {
+        if($scope.userBlob.exists){
+          $scope.userBlob.set('/rippletradecom/ripple_exchange_selection_trade', false);
+        }
+      })
 
       var xrpCurrency = Currency.from_json('XRP');
 

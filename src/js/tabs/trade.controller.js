@@ -75,6 +75,12 @@ TradeTab.prototype.angular = function(module)
     // Remember user preference on Convert vs. Trade
     $rootScope.ripple_exchange_selection_trade = true;
 
+    $scope.$watch('userBlob', function() {
+      if($scope.userBlob.exists){
+        $scope.userBlob.set('/rippletradecom/ripple_exchange_selection_trade', true);
+      } 
+    })
+    
     $scope.pairs_query = settings.getSetting($scope.userBlob, 'trade_currency_pairs');
 
     $scope.currencies_all = require('../data/currencies');

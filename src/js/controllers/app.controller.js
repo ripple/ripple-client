@@ -743,6 +743,10 @@ function AppCtrl ($scope, id, net, keychain, txQueue, appManager, rpTracker,
       handleAccountLoad(e, data);
     }
 
+    $scope.$watch('userBlob.data.ripple_exchange_selection_trade', function() {
+      $scope.ripple_exchange_selection_trade = $scope.userBlob.data.ripple_exchange_selection_trade;
+    })
+
     // Server is not connected yet. Handle account load after server response.
     $scope.$on('$netConnected', function(){
       if ($.isEmptyObject($scope.account)) {
