@@ -1,6 +1,6 @@
 // Error messages for the send and convert tabs
 
-group(ng-switch on="error_type")
+group(ng-switch="error_type")
   group.result-error(ng-switch-when='noDest')
     h2.tx-status(l10n) Transaction failed
     p(l10n) Error code: The account you&#39;re trying to send to does not exist [noDest].

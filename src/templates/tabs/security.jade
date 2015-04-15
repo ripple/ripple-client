@@ -20,7 +20,7 @@ section.col-xs-12.content(ng-controller="SecurityCtrl")
     div.col-xs-12(ng-show="!loadingAccount && !account.Balance && loadState.account && connected")
       include ../tabs/banner/unfunded
     .col-sm-12.error-wrapper
-      .alert.alert-danger(ng-show="error", ng-switch on="error")
+      .alert.alert-danger(ng-show="error", ng-switch="error")
         span(ng-switch-when="wrongpassword", l10n)
           | Entered password is wrong.
         span(ng-switch-when="cantlogin", l10n)

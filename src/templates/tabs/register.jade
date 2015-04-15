@@ -42,7 +42,7 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
                i.fa.fa-check 
                span(l10n)  Available
             .error(ng-message='rpAvailableName')
-              span(ng-switch on="usernameInvalidReason")
+              span(ng-switch="usernameInvalidReason")
                 i.fa.fa-exclamation-triangle(ng-switch-when="exists")
                   span.statusText(l10n)  Already taken!
                 i.fa.fa-exclamation-triangle(ng-switch-when="reserved")

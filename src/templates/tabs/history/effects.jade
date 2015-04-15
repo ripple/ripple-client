@@ -1,6 +1,5 @@
 ul.effects(ng-show="entry.effects")
-  | asdasd
-  li(ng-repeat="effect in entry.showEffects", ng-switch on="effect.type")
+  li(ng-repeat="effect in entry.showEffects", ng-switch="effect.type")
     span(ng-switch-when="offer_funded")
       span(ng-show="effect.sell", l10n, rp-span-spacing) You sold
         span.amount(rp-pretty-amount-high-precision="effect.gets")

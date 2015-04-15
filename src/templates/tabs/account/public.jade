@@ -20,7 +20,7 @@ h4(l10n) Account settings
         .errorGroup(ng-messages='renameForm.username.$error', ng-hide="renameForm.username.$pending")
           .success(ng-show='renameForm.username.$valid', l10n) Available
           .error(ng-message='rpAvailableName')
-            span(ng-switch on="usernameInvalidReason")
+            span(ng-switch="usernameInvalidReason")
               span(ng-switch-when="exists", l10n) Already taken!
               span(ng-switch-when="reserved", l10n) Reserved for {{usernameReservedFor}}
                 span &#32;
@@ -42,7 +42,7 @@ h4(l10n) Account settings
           label(type="password", for='password', l10n) Current password
           input.form-control#password(type="password", name="password"
             ng-model="password", required)
-        .alert.alert-danger(ng-show="error", ng-switch on="error")
+        .alert.alert-danger(ng-show="error", ng-switch="error")
           span(ng-switch-when="wrongpassword", l10n)
             | Entered password is wrong.
           span(ng-switch-when="server", l10n)

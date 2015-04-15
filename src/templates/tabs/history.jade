@@ -87,7 +87,7 @@ section.col-xs-12.content(ng-controller="HistoryCtrl")
                   i.fa.fa-exclamation-triangle(ng-show="entry.transaction.type=='failed'")
                 span.i(ng-show="entry.details")
                   i.fa.fa-arrow-down
-                span.desc(ng-hide="entry.details", ng-switch on="entry.transaction.type")
+                span.desc(ng-hide="entry.details", ng-switch="entry.transaction.type")
                   span(ng-switch-when="sent")
                     span(l10n, rp-span-spacing) You sent
                       span.amount(rp-pretty-amount-high-precision="entry.transaction.amountSent || entry.transaction.amount")
@@ -150,7 +150,7 @@ section.col-xs-12.content(ng-controller="HistoryCtrl")
                   span(ng-switch-default)
                     include ../tabs/history/effects.jade
                 span.dt {{entry.date | date:'EEE, MMM d, h:mm:ss a'}}&#32;
-              span.desc(ng-show="entry.details", ng-switch on="entry.details.type")
+              span.desc(ng-show="entry.details", ng-switch="entry.details.type")
                 span(ng-switch-when="giveaway")
                   span(l10n, rp-span-spacing)
                     span {{entry.details.app.name}}

@@ -23,7 +23,7 @@ section.col-xs-12.content(ng-controller='UsdCtrl')
     //- Generic non-tx related messages
     .col-sm-12(ng-show='notif !== "clear"', ng-hide='!notif')
       group.mode-granted.wide
-        group(ng-switch on="notif")
+        group(ng-switch="notif")
           group.result-error(ng-switch-when="error")
             h2.tx-status(l10n) There was an error while saving your changes.&#32;
             p(l10n) Please try again later.

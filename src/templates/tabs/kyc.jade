@@ -16,7 +16,7 @@ section.col-xs-12.content(ng-controller='KycCtrl')
     br
 
   group.mode-granted.wide(ng-show='notif !== "clear"')
-    group(ng-switch on="notif")          
+    group(ng-switch="notif")
       group.pending(ng-switch-when="verifying")
         h2.tx-status(l10n) Verifying your information. Please wait...
       group.result-success(ng-switch-when="info_verified")
@@ -55,7 +55,7 @@ section.col-xs-12.content(ng-controller='KycCtrl')
           .col-md-4.text-center.steps
             span(ng-class="{ 'selected': currentStep == 'three' }", l10n) STEP 3: TWO-FACTOR AUTHENTICATION 
         hr
-      group.col-xs-12(ng-switch on="currentStep")
+      group.col-xs-12(ng-switch="currentStep")
         form.row.row-padding-small(name="identityForm", ng-switch-when="one", ng-submit="saveIdentityInfo()")
           .col-sm-9
             .row
