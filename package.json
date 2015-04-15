@@ -47,6 +47,7 @@
     "gulp-rev": "^3.0.1",
     "gulp-rev-replace": "^0.4.0",
     "gulp-size": "^1.2.1",
+    "gulp-sync": "^0.1.4",
     "gulp-uglify": "^1.1.0",
     "gulp-useref": "^1.1.1",
     "gulp-watch": "^4.2.4",
