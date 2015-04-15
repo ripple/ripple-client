@@ -226,6 +226,7 @@ function Run ($rootScope, $route, $routeParams, $location)
   var scope = $rootScope;
   $rootScope.$route = $route;
   $rootScope.$routeParams = $routeParams;
+  $rootScope.lang = lang;
   $('#main').data('$scope', scope);
 
   // If using the old "amnt" parameter rename it "amount"

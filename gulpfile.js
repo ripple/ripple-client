@@ -158,7 +158,7 @@ gulp.task('gitVersion', function (cb) {
 
 // Preprocess
 gulp.task('preprocess:dev', ['gitVersion'], function() {
-  gulp.src(buildDirPath + '/dev/templates/en/index.html')
+  return gulp.src(buildDirPath + '/dev/templates/en/index.html')
     .pipe($.preprocess({
       context: {
         MODE: 'dev',
@@ -172,7 +172,7 @@ gulp.task('preprocess:dev', ['gitVersion'], function() {
 });
 
 gulp.task('preprocess:dist', ['gitVersion'], function() {
-  gulp.src(buildDirPath + '/dist/templates/index.html')
+  return gulp.src(buildDirPath + '/dist/templates/en/index.html')
     .pipe($.preprocess({
       context: {
         MODE: 'dist',
@@ -185,8 +185,6 @@ gulp.task('preprocess:dist', ['gitVersion'], function() {
 });
 
 // Languages
-var languageTasks = [];
-
 gulp.task('templates:dev', function () {
   return gulp.src('src/templates/**/*.jade')
     .pipe($.jade({
@@ -196,13 +194,14 @@ gulp.task('templates:dev', function () {
     .pipe(gulp.dest('build/dev/templates/en'));
 });
 
+var languageTasks = [];
+
 languages.forEach(function(language){
   gulp.task('templates:' + language.code, function(){
     return gulp.src('src/templates/**/*.jade')
       .pipe($.jade({
         jade: jadeL10n,
-        languageFile: 'l10n/' + language.code + '/messages.po',
-        pretty: true
+        languageFile: 'l10n/' + language.code + '/messages.po'
       }))
       .pipe(gulp.dest(buildDirPath + '/dist/templates/' + language.code));
   });
@@ -210,7 +209,7 @@ languages.forEach(function(language){
   languageTasks.push('templates:' + language.code);
 });
 
-gulp.task('templates:prod', languageTasks);
+gulp.task('templates:dist', $.sync(gulp).sync(languageTasks));
 
 // Default Task (Dev environment)
 gulp.task('default', ['dev'], function() {
@@ -239,11 +238,8 @@ gulp.task('dev', ['clean:dev', 'bower', 'webpack:dev', 'less', 'templates:dev'],
   gulp.start('preprocess:dev');
 });
 
-// Distribution
-gulp.task('dist', ['clean:dist', 'dev', 'webpack:dist', 'templates:prod', 'static'], function () {
+gulp.task('deps', ['preprocess:dist'], function () {
   var assets = $.useref.assets();
-
-  gulp.start('preprocess:dist');
 
   return gulp.src([buildDirPath + '/dist/index.html'])
     // Concatenates asset files from the build blocks inside the HTML
@@ -273,4 +269,9 @@ gulp.task('dist', ['clean:dist', 'dev', 'webpack:dist', 'templates:prod', 'stati
     .pipe(gulp.dest(buildDirPath + '/dist/'))
     // Print the file sizes
     .pipe($.size({ title: buildDirPath + '/dist/', showFiles: true }));
+});
+
+// Distribution
+gulp.task('dist', ['clean:dist', 'dev', 'webpack:dist', 'templates:dist', 'static'], function () {
+  gulp.start('deps');
 });
