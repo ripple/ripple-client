@@ -73,7 +73,7 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
                 rp-link-tx="entry.hash"
                 ng-show="notifications.length"
                 )
-                .desc(ng-switch on="entry.transaction.type")
+                .desc(ng-switch="entry.transaction.type")
                   .transaction(ng-switch-when="sent")
                     span(l10n) You sent
                       strong.nowrap  {{entry.transaction.amount | rpamount}} {{entry.transaction.amount | rpcurrency}}

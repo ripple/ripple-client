@@ -1,4 +1,4 @@
-section.single.ddpage.content(ng-controller="TxCtrl", ng-switch on="state")
+section.single.ddpage.content(ng-controller="TxCtrl", ng-switch="state")
   group(ng-switch-when="loading")
     p.literal
       img(src="img/button-s.png", class="loader")
@@ -14,7 +14,7 @@ section.single.ddpage.content(ng-controller="TxCtrl", ng-switch on="state")
     hr
     p.literal.type(l10n) Transaction type:
       strong(ng-bind="transaction.TransactionType")
-    group(ng-switch on="transaction.TransactionType")
+    group(ng-switch="transaction.TransactionType")
       group(ng-switch-when="Payment")
         group.clearfix
           dl.details.half

@@ -381,7 +381,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
             small.toggle(ng-hide="isEmpty(offers)", ng-click="hideOffers = !hideOffers") {{hideOffers ? "show" : "hide"}}
           div#myOrdersMsg
           group.mode-granted.wide(ng-show='notif !== "clear"')
-            group(ng-switch on="notif")          
+            group(ng-switch="notif")
               group.pending(ng-switch-when="verifying")
                 h2.tx-status(l10n) Verifying your information. Please wait...
               group.result-success(ng-switch-when="replace_success")

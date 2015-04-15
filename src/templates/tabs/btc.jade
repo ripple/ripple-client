@@ -14,7 +14,7 @@ section.col-xs-12.content(ng-controller='BtcCtrl')
     include ../tabs/banner/unfunded
 
   group.mode-granted.wide(ng-show='notif !== "clear"', ng-hide='!notif')
-    group(ng-switch on="notif")
+    group(ng-switch="notif")
       group.result-success(ng-switch-when="success")
         h2.tx-status(l10n) Success! You can deposit BTC via your generated BTC receiving address.
       group.result-error(ng-switch-when="error")
