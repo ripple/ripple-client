@@ -125,7 +125,7 @@ html(ng-app='rp', ng-controller='AppCtrl', ng-class='[$route.current.tabClass, $
 
     <!-- @if MODE == 'dev' -->
     script(type='text/javascript').
-      $.getScript('js/app-en.js');
+      $.getScript('js/app.js');
     <!-- @endif -->
 
     <!-- @if MODE == 'dist' -->
@@ -134,7 +134,7 @@ html(ng-app='rp', ng-controller='AppCtrl', ng-class='[$route.current.tabClass, $
         cache: true
       });
       var version = '<!-- @echo VERSION -->';
-      $.getScript('js/app-' + lang + '.js?v=' + version);
+      $.getScript('js/app.js?v=' + version);
     <!-- @endif -->
 
     // start Mixpanel
