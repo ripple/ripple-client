@@ -57,7 +57,9 @@ div#wrapper
           include ../tabs/login.jade
 
         // Main
-        .container-fluid.main(ng-if="!showLogin && !showRegister", id="{{$route.current.tabClass}}", role="main", ng-view)
+        .container-fluid.main.pageLoading(ng-show="pageLoading")
+          img(src="img/sections.png", class="loader")
+        .container-fluid.main(ng-if="!showLogin && !showRegister && !pageLoading", id="{{$route.current.tabClass}}", role="main", ng-view)
 
     //section 1
     .whyUse(ng-if="!loginStatus")
@@ -122,7 +124,7 @@ div#wrapper
             img.img-responsive.gateway(src="img/gateway_logos/gw_snapswap.svg")
 
     // Footer
-    footer.container(ng-class="{ 'loggedOut': !loginStatus }")
+    footer.container(ng-hide="pageLoading", ng-class="{ 'loggedOut': !loginStatus }")
       .col-xs-12.col-sm-3
         a(href="https://github.com/ripple/ripple-client/releases", target="_blank", l10n)
           | Version: {{version}}

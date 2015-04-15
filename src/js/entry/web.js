@@ -239,6 +239,15 @@ function Run ($rootScope, $route, $routeParams, $location)
   // put Options to rootScope so it can be used in html templates
   $rootScope.globalOptions = Options;
 
+  // Show loading while waiting for the template load
+  $rootScope.$on('$routeChangeStart', function() {
+    $rootScope.pageLoading = true;
+  });
+
+  $rootScope.$on('$routeChangeSuccess', function() {
+    $rootScope.pageLoading = false;
+  });
+
   // Once the app controller has been instantiated
   // XXX ST: I think this should be an event instead of a watch
   scope.$watch("app_loaded", function on_app_loaded(oldval, newval) {
