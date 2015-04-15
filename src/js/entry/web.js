@@ -154,7 +154,6 @@ function Config ($routeProvider, $injector) {
       tabClass: 't-' + tab.tabName,
       pageMode: 'pm-' + tab.pageMode,
       mainMenu: tab.mainMenu,
-      // TODO l10n
       templateUrl: 'templates/' + lang + '/tabs/' + tab.tabName + '.html'
     };
 

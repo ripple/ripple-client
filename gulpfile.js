@@ -46,7 +46,7 @@ gulp.task('webpack:dev', function() {
         ]
       },
       output: {
-        filename: "app-en.js"
+        filename: "app.js"
       },
       cache: true,
       debug: true,
@@ -57,35 +57,28 @@ gulp.task('webpack:dev', function() {
 });
 
 gulp.task('webpack:dist', function() {
-  var pack = gulp.src('src/js/entry/web.js');
-
-  // Build languages
-  languages.forEach(function(language){
-    pack
-      .pipe($.webpack({
-        module: {
-          loaders: [
-            { test: /\.jade$/, loader: "jade-l10n-loader?languageFile=l10n/" + language.code + "/messages.po" },
-            { test: /\.json$/, loader: "json-loader" }
-          ]
-        },
-        output: {
-          filename: "app-" + language.code + ".js"
-        },
-        plugins: [
-          new BannerPlugin('Ripple Client v' + meta.version + '\nCopyright (c) ' + new Date().getFullYear() + ' ' + meta.author.name + '\nLicensed under the ' + meta.license + ' license.'),
-          new UglifyJsPlugin({
-            compress: {
-              warnings: false
-            }
-          })
-        ],
-        debug: false
-      }))
-      .pipe(gulp.dest(buildDirPath + '/dist/js/'));
-  });
-
-  return pack;
+  return gulp.src('src/js/entry/web.js')
+    .pipe($.webpack({
+      module: {
+        loaders: [
+          { test: /\.jade$/, loader: "jade-loader" },
+          { test: /\.json$/, loader: "json-loader" }
+        ]
+      },
+      output: {
+        filename: "app.js"
+      },
+      plugins: [
+        new BannerPlugin('Ripple Client v' + meta.version + '\nCopyright (c) ' + new Date().getFullYear() + ' ' + meta.author.name + '\nLicensed under the ' + meta.license + ' license.'),
+        new UglifyJsPlugin({
+          compress: {
+            warnings: false
+          }
+        })
+      ],
+      debug: false
+    }))
+    .pipe(gulp.dest(buildDirPath + '/dist/js/'));
 });
 
 // TODO SASS
@@ -201,7 +194,8 @@ languages.forEach(function(language){
     return gulp.src('src/templates/**/*.jade')
       .pipe($.jade({
         jade: jadeL10n,
-        languageFile: 'l10n/' + language.code + '/messages.po'
+        languageFile: 'l10n/' + language.code + '/messages.po',
+        pretty: true
       }))
       .pipe(gulp.dest(buildDirPath + '/dist/templates/' + language.code));
   });
