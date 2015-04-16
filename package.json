@@ -59,6 +59,7 @@
     "karma-firefox-launcher": "~0.1.3",
     "karma-mocha": "~0.1.3",
     "karma-sinon-chai": "~0.1.6",
+    "karma-ng-html2js-preprocessor": "~0.1",
     "merge-stream": "^0.1.7"
   }
 }
