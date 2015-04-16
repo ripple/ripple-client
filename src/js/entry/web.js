@@ -117,6 +117,23 @@ var tabdefs = [
   require('../tabs/su.controller.js')
 ];
 
+// Language
+var lang = (function(){
+  var languages = _.pluck(require('../../../l10n/languages.json'), 'code');
+  var resolveLanguage = function(lang) {
+    if (!lang) return null;
+    if (languages.indexOf(lang) != -1) return lang;
+    if (lang.indexOf("_") != -1) {
+      lang = lang.split("_")[0];
+      if (languages.indexOf(lang) != -1) return lang;
+    }
+    return null;
+  };
+  return resolveLanguage(store.get('ripple_language')) ||
+    resolveLanguage(window.navigator.userLanguage || window.navigator.language) ||
+    'en';
+})();
+
 // Prepare tab modules
 var tabs = tabdefs.map(function (Tab) {
   var tab = new Tab();

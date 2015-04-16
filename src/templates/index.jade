@@ -106,22 +106,6 @@ html(ng-app='rp', ng-controller='AppCtrl', ng-class='[$route.current.tabClass, $
 
     script.
       window.name = 'NG_DEFER_BOOTSTRAP!';
-      var lang = (function(){
-        var languages = "<!-- @echo LANGUAGES -->".split(" ");
-        var resolveLanguage = function(lang) {
-          if (!lang) return null;
-          if (languages.indexOf(lang) != -1) return lang;
-          if (lang.indexOf("_") != -1) {
-            lang = lang.split("_")[0];
-            if (languages.indexOf(lang) != -1) return lang;
-          }
-          return null;
-        };
-        return resolveLanguage(store.get('ripple_language')) ||
-                resolveLanguage(window.navigator.userLanguage || window.navigator.language) ||
-                'en';
-      })();
-      var debug = false;
 
     <!-- @if MODE == 'dev' -->
     script(type='text/javascript').
