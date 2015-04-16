@@ -197,7 +197,7 @@
     }
   }
 
-  var myTemplate = require('../../jade/directives/addresspopover.jade')();
+  var myTemplate = require('../../templates/directives/addresspopover.jade')();
   var texts = myTemplate.split('<br/>');
 
   AddressPopover.textRippleAddress = texts[0];

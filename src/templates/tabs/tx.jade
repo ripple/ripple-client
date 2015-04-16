@@ -1,0 +1,73 @@
+section.single.ddpage.content(ng-controller="TxCtrl", ng-switch="state")
+  group(ng-switch-when="loading")
+    p.literal
+      img(src="img/button-s.png", class="loader")
+      span(class="loading_text", l10n) Loading transaction details...
+  group(ng-switch-when="error")
+    p.literal(l10n) An error occurred while loading the transaction details.
+  group(ng-switch-when="loaded")
+    p.literal.hash
+      span(l10n) Transaction #
+      span(ng-bind="transaction.hash")
+      div
+        a(href="{{'https://ripplecharts.com/#/graph/' + transaction.hash}}", target="_blank", l10n) Show in graph
+    hr
+    p.literal.type(l10n) Transaction type:
+      strong(ng-bind="transaction.TransactionType")
+    group(ng-switch="transaction.TransactionType")
+      group(ng-switch-when="Payment")
+        group.clearfix
+          dl.details.half
+            dt
+              span(l10n) Address sent from
+              span :
+            dd(ng-bind="transaction.Account")
+            dt
+              span(l10n) Amount sent
+              span :
+            dd {{transaction.amountSent | rpamount}} {{transaction.amountSent | rpcurrency}}
+            dt
+              span(l10n) Currency sent
+              span :
+            dd {{transaction.amountSent | rpcurrencyfull}}
+          dl.details.half
+            dt
+              span(l10n) Address sent to
+              span :
+            dd {{transaction.Destination}}
+            dt
+              span(l10n) Amount received
+              span :
+            dd {{transaction.Amount | rpamount}} {{transaction.Amount | rpcurrency}}
+            dt
+              span(l10n) Currency received
+              span :
+            dd {{transaction.Amount | rpcurrencyfull}}
+        hr
+        group.clearfix
+          dl.details.half
+            dt
+              span(l10n) Network fee paid
+              span :
+            dd {{transaction.Fee | rpamount}} XRP
+          dl.details.half
+            group(ng-show="transaction.DestinationTag !== null && transaction.DestinationTag !== undefined")
+              dt
+                span(l10n) Destination tag
+                span :
+              dd(ng-bind="transaction.DestinationTag")
+        hr
+        dl.details
+          dt
+            span(l10n) Ledger number
+            span :
+          dd(ng-bind="transaction.ledger")
+      group(ng-switch-default)
+          group.clearfix
+            dl.details.half
+              dt(l10n) Address sent from:
+              dd(ng-bind="transaction.Account")
+            dl.details.half
+          hr
+          p.literal(l10n="Sorry, we don't have an info page layout for this transaction type yet.")
+            | Sorry, we don&#39;t have an info page layout for this transaction type yet.

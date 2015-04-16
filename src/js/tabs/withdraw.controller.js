@@ -11,11 +11,6 @@ util.inherits(WithdrawTab, Tab);
 WithdrawTab.prototype.tabName = 'withdraw';
 WithdrawTab.prototype.mainMenu = 'fund';
 
-WithdrawTab.prototype.generateHtml = function ()
-{
-  return require('../../jade/tabs/withdraw.jade')();
-};
-
 WithdrawTab.prototype.angular = function (module)
 {
   module.controller('WithdrawCtrl', ['$rootScope', 'rpId', 'rpAppManager',

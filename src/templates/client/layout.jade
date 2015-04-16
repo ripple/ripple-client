@@ -1,0 +1,183 @@
+.mobile-nav(rp-snapper)
+  a.wallet(href="#/balance", ng-class="{active: $route.current.tabName == 'balance'}")
+    span.nav-icon.nav-icon-wallet
+    span(l10n) Balance
+  //- a.sub(href="#/balance", ng-class="{active: $route.current.tabName == 'balance'}", l10n) Balance
+  a.sub(href="#/history", ng-class="{active: $route.current.tabName == 'history'}", l10n) History
+  a.sub(href="#/contacts", ng-class="{active: $route.current.tabName == 'contacts'}", l10n) Contacts
+
+  a.send(href="#/send", ng-class="{active: $route.current.tabName == 'send'}")
+    span.nav-icon.nav-icon-send
+    span(l10n) Send
+
+  a.exchange(href="#/exchange", ng-class="{active: $route.current.tabName == 'exchange'}")
+    span.nav-icon.nav-icon-exchange
+    span(l10n) Trade (simple)
+  //- a.sub(href="#/exchange", ng-class="{active: $route.current.tabName == 'exchange'}", l10n) Convert
+  a.sub(href="#/trade", ng-class="{active: $route.current.tabName == 'trade'}", l10n) Trade (advanced)
+
+  a.fund(href="#/xrp", ng-class="{active: $route.current.tabName == 'xrp'}")
+    span.nav-icon.nav-icon-advanced
+    span(l10n) Fund
+  //- a.sub(href="#/withdraw", ng-class="{active: $route.current.tabName == 'withdraw'}", l10n) Withdraw
+  a.sub(href="#/trust", ng-class="{active: $route.current.tabName == 'trust'}", l10n) Gateways
+
+  a.advanced(href="#/account/public", ng-class="{active: $route.current.tabName == 'account'}")
+    img(src="img/profile-gray.png")
+    span(l10n) Account
+  a.advanced(href="#/security", ng-class="{active: $route.current.tabName == 'security'}")
+    img(src="img/settings-gray.png")
+    span(l10n) Settings
+  a.advanced(href="#", ng-click='logout()')
+    img(src="img/logout-gray.png")
+    span(l10n) Logout
+
+// Wrapper
+div#wrapper
+  // Header
+  header(ng-class="{ 'loggedOut': !loginStatus }")
+    .headerWrapper(ng-class="{ 'loggedOut': !loginStatus }")
+      a.logo(href="/")
+
+    div(ng-if="loginStatus")
+      include ../client/navbar.jade
+
+  .landingWrapper(ng-class="{ 'loggedOut container-fluid': !loginStatus, 'container': loginStatus  }")
+
+    .landingContainer
+
+      .loginContainer
+
+        // Register
+        .container-fluid.main(ng-if="!showLogin && showRegister", id="t-register", role="main")
+          include ../tabs/register.jade
+
+        // Login
+        .container-fluid.main(ng-if="showLogin && !showRegister", id="t-login", role="main")
+          include ../tabs/login.jade
+
+        // Main
+        .container-fluid.main.pageLoading(ng-show="pageLoading")
+          img(src="img/sections.png", class="loader")
+        .container-fluid.main(ng-if="!showLogin && !showRegister && !pageLoading", id="{{$route.current.tabClass}}", role="main", ng-view)
+
+    //section 1
+    .whyUse(ng-if="!loginStatus")
+      .container
+        h4.sectionTitle(l10n) Why Use Ripple Trade?
+        hr
+        .col-xs-12.col-sm-4.circleWrap
+          img.circle(src="img/img_feature1.svg")
+          p
+            span.description(l10n) Home of XRP -
+            span(l10n) the best place to buy and sell XRP
+        .col-xs-12.col-sm-4.circleWrap
+          img.circle(src="img/img_feature2.svg")
+          p
+            span.description(l10n) Free -
+            span(l10n) no fees to sign up and use Ripple Trade
+        .col-xs-12.col-sm-4.circleWrap
+          img.circle(src="img/img_feature3.svg")
+          p
+            span.description(l10n) No Middlemen -
+            span(l10n) When you submit orders, Ripple automatically finds the best available match, without a clearinghouse or broker.
+
+    //section 2
+    .gateways.container(ng-if="!loginStatus")
+      h4.sectionTitle(l10n) Deposit, trade and withdraw money on Ripple via gateways.
+      hr
+      .col-md-12
+        img.img-responsive.gateway(src="img/img_gateway1_new.svg")
+
+    //section 3
+    .featuredGateways(ng-if="!loginStatus")
+      .container
+        h4.sectionTitle(l10n) Featured Ripple Gateways
+        hr
+        p.holdAssets(l10n) Ripple's growing gateway network.
+        .col-xs-6.col-sm-2.gatewayExample
+          a(href="https://bitso.com/", target="_blank", l10n)
+            img.img-responsive.gateway(src="img/gateway_logos/gw_bitso.svg")
+        .col-xs-6.col-sm-2.gatewayExample
+          a(href="https://www.bitstamp.net/", target="_blank", l10n)
+            img.img-responsive.gateway(src="img/gateway_logos/gw_bitstamp.svg")
+        .col-xs-6.col-sm-2.gatewayExample
+          a(href="https://btc2ripple.com/", target="_blank", l10n)
+            img.img-responsive.gateway(src="img/gateway_logos/gw_btc2ripple.svg")
+        .col-xs-6.col-sm-2.gatewayExample
+          a(href="https://coinexgateway.com/", target="_blank", l10n)
+            img.img-responsive.gateway(src="img/gateway_logos/gw_coinex.svg")
+        .col-xs-6.col-sm-2.gatewayExample
+          a(href="https://tokyojpy.com/", target="_blank", l10n)
+            img.img-responsive.gateway(src="img/gateway_logos/gw_jpytokyo.svg")
+        .col-xs-6.col-sm-2.gatewayExample
+          a(href="https://payroutes.com/", target="_blank", l10n)
+            img.img-responsive.gateway(src="img/gateway_logos/gw_payroutes.svg")
+        .col-xs-6.col-sm-2.gatewayExample
+          a(href="https://rippex.net/", target="_blank", l10n)
+            img.img-responsive.gateway(src="img/gateway_logos/gw_rippex.svg")
+        .col-xs-6.col-sm-2.gatewayExample
+          a(href="https://www.ripplesingapore.com/", target="_blank", l10n)
+            img.img-responsive.gateway(src="img/gateway_logos/gw_ripplesingapore.svg")
+        .col-xs-6.col-sm-2.gatewayExample
+          a(href="https://snapswap.us/", target="_blank", l10n)
+            img.img-responsive.gateway(src="img/gateway_logos/gw_snapswap.svg")
+
+    // Footer
+    footer.container(ng-hide="pageLoading", ng-class="{ 'loggedOut': !loginStatus }")
+      .col-xs-12.col-sm-3
+        a(href="https://github.com/ripple/ripple-client/releases", target="_blank", l10n)
+          | Version: {{version}}
+        | <br>{{versionBranch}}
+
+      .col-xs-12.col-sm-9.right-links
+        a(href="https://rippletrade.com/#/tou", target="_blank", l10n) Terms of Use
+        a(href="https://rippletrade.com/#/privacypolicy", target="_blank", l10n) Privacy Policy
+        a(href="https://ripple.com/knowledge_categories/use-ripple-trade/", target="_blank", l10n) Support
+        a(href="https://ripplelabs.atlassian.net/browse/WC", target="_blank", l10n) Bug reports
+        a(href="#/lang/en") English
+        a(href="#/lang/zh_CN") 中文
+        a(href="#/lang/ja") 日本語
+
+        // Language selector
+        rp-popup
+          a.last(href="", rp-popup-link, l10n) more...
+          div.languageSelector(rp-popup-content)
+            .modal-header
+              button.close(type="button", data-dismiss="modal", aria-hidden="true") &times;
+              .modal-title(l10n) Select a language
+            .modal-body.row.list
+              .col-sm-6
+                a(href="#/lang/en") English
+              .col-sm-6
+                a(href="#/lang/zh_CN") 中文
+              .col-sm-6
+                a(href="#/lang/ca") Català
+              .col-sm-6
+                a(href="#/lang/de") Deutsch
+              .col-sm-6
+                a(href="#/lang/es") Español
+              .col-sm-6
+                a(href="#/lang/fr_FR") Français
+              .col-sm-6
+                a(href="#/lang/he_IL") עברית
+              .col-sm-6
+                a(href="#/lang/it") Italiano
+              .col-sm-6
+                a(href="#/lang/ja") 日本語
+              .col-sm-6
+                a(href="#/lang/nl_NL") Nederlands
+              .col-sm-6
+                a(href="#/lang/nb_NO") Norsk
+              .col-sm-6
+                a(href="#/lang/pl") Polski
+              .col-sm-6
+                a(href="#/lang/pt") Português
+              .col-sm-6
+                a(href="#/lang/ro") Român
+              .col-sm-6
+                a(href="#/lang/ru") Русский
+              .col-sm-6
+                a(href="#/lang/sk") Slovenská
+              .col-sm-6
+                a(href="#/lang/tr") Türkçe

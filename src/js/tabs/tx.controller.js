@@ -11,11 +11,6 @@ util.inherits(TxTab, Tab);
 
 TxTab.prototype.tabName = 'tx';
 
-TxTab.prototype.generateHtml = function ()
-{
-  return require('../../jade/tabs/tx.jade')();
-};
-
 TxTab.prototype.angular = function (module)
 {
   module.controller('TxCtrl', ['$scope', '$routeParams',

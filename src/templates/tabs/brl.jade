@@ -1,0 +1,106 @@
+section.col-xs-12.content(ng-controller='BrlCtrl')
+
+  //- Disconnected
+
+  group.disconnected(ng-hide='connected')
+    p.literal(l10n="err-you-must-be-online-to-see-this-screen", l10n)
+      | You have to be online to see this screen
+
+  //- Funding
+  div(ng-show="!loadingAccount && !account.Balance && loadState.account && connected")
+    include ../tabs/banner/unfunded
+
+  .row(ng-show='connected')
+    // Transaction errors coming from errors.js & transactionerror.jade
+    .col-sm-12(ng-show='mode=="error" || mode=="granting" && account.Balance')
+      group.mode-ripplerror
+        rp-transaction-status(
+          rp-engine-result="{{engine_result}}"
+          rp-engine-result-message="{{engine_result_message}}"
+          rp-accepted="{{engine_status_accepted}}"
+          rp-current-tab="trust")
+
+    //- Generic non-tx related messages
+    .col-sm-12(ng-show='notif !== "clear"', ng-hide='!notif')
+      group.mode-granted.wide
+        group(ng-switch="notif")
+          group.result-error(ng-switch-when="error")
+            h2.tx-status(l10n) There was an error while saving your changes.&#32;
+            p(l10n) Please try again later.
+            
+    .col-sm-12(ng-show='account.Balance && !can_add_trust && !brlConnected')
+      .alert.alert-warning(l10n) You must have at least
+        strong  {{account.reserve_to_add_trust | rpamount:0}} XRP
+        |  to add a new trust line.&#32;
+        a(href="https://ripple.com/wiki/Reserves", target="_blank") More information
+
+    .col-sm-3
+      include ../tabs/fund/menu
+    .col-sm-9.list(ng-show='debug')
+      div This page is not available in debug mode
+    .col-sm-9.list(ng-hide='debug')
+      .nameLine(l10n) Brazilian Real Deposit
+      .gateway.row
+        .col-md-3
+            .title(l10n) Gateway
+            .description(l10n)
+              p(l10n) Ripple (~rippex) 
+              a(href="https://rippex.net ", target="_blank") www.rippex.net
+        .col-md-3
+            .title(l10n) Availability
+            .description(l10n) Brazil
+        .col-md-3
+            .title(l10n) Fees
+            .description(l10n) 
+              p(l10n) Deposit: 1.50 BRL + 0.5% 
+              p(l10n) Transfer: 0%
+              P(l10n)
+                a(href='https://rippex.net/precos-prazos.php', target="_blank") more details 
+        .col-md-3
+            .title(l10n) Rating
+            .description(l10n)
+              a(href="https://coinist.co/ripple/assets/brl-rippex", target="_blank") read reviews
+
+      .row.fund-tab-description(ng-show="!brlConnected")
+        .col-xs-12.col-md-8.col-lg-6
+          .descriptor.tos(l10n) Ripple Trade has partnered with Rippex to provide easy access to BRL. By continuing, you agree with Rippex's&#32;
+            a(href="https://rippex.net/termos.php#/", target="_blank") terms of service.&#32;
+            | Following this action will enable Rippex to hold BRL on your behalf.
+
+      .row.fund-tab-description
+        .col-xs-7.col-sm-5.col-md-4.action-btn-wrapper
+          button.btn.btn-large.btn-primary(type="submit",ng-click="save_account()", ng-hide="brlConnected", ng-disabled="loading || !account.Balance || !can_add_trust")
+            span(ng-show="!loading", l10n)  Add Rippex
+            span(ng-show="loading", l10n)  Adding...
+          button.btn.btn-large.btn-primary(ng-show="showInstructions && brlConnected", type="submit", ng-click="toggle_instructions()", l10n) Hide instructions
+          button.btn.btn-large.btn-primary(ng-show="!showInstructions && brlConnected ", type="submit", ng-click="toggle_instructions()", l10n) Show instructions
+
+        .connect.col-xs-5.col-sm-7.col-md-8
+          .description(ng-show="!brlConnected && account.Balance", l10n) 
+            i.fa.fa-times
+            | Not connected
+          .description(ng-show="brlConnected && account.Balance", l10n) 
+            i.fa.fa-check
+            | Connected
+          .description(ng-show="!account.Balance", l10n) Your account has to be activated before you can add a gateway account.
+      .row.fund-tab-description(ng-show="showInstructions && brlConnected")
+        .instructions.col-md-10
+          a.dismiss(href="", id="hide", ng-click="toggle_instructions()", l10n)  ×
+          .title(l10n) NEW CUSTOMERS- SIGN UP AT RIPPEX
+          .description(l10n)
+            a(href="https://rippex.net/#/conta/criar/verificada/passo1", target="_blank") Sign up
+            | &#32;at Rippex.net to initiate deposits and withdrawals. You will need:
+            ul
+              li(l10n) A&#32;
+                a(href="http://en.wikipedia.org/wiki/Cadastro_de_Pessoas_F%C3%ADsicas", target="_blank") CPF number.
+              li(l10n) A bank account in Brazil.
+              li(l10n)
+                a(href="https://rippex.zendesk.com/hc/pt-br/articles/202324834-Crie-sua-conta-Rippex", target="_blank") Detailed instructions.
+
+          .title(l10n) EXISTING RIPPEX CUSTOMERS
+          .description(l10n) If you have a Rippex account,&#32;
+            a(href="https://rippex.net/#/login", target="_blank") login here.
+
+          .title(l10n) DEPOSIT INSTRUCTIONS
+          .description(l10n) Rippex accepts deposits from all Brazilian banks. Instructions&#32;
+            a(href="https://rippex.zendesk.com/hc/pt-br/articles/202324844-Dep%C3%B3sitos-Transfer%C3%AAncia-Banc%C3%A1ria", target="_blank") here.

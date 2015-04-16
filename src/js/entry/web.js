@@ -22,7 +22,7 @@ require('../services/globalwrappers.service.js');
 require('../services/id.service.js');
 require('../services/tracker.service.js');
 require('../services/blobRemote.service.js');
-require('../services/oldblob.service.js'); 
+require('../services/oldblob.service.js');
 require('../services/txqueue.service.js');
 require('../services/authflowRemote.service.js');
 require('../services/keychain.service.js');
@@ -46,34 +46,34 @@ require('../services/integration/inboundBridge.service.js');
 // require('../services/ledger.service.js');
 // require('../services/transactions.service.js');
 
-  // Angular module dependencies
-  var appDependencies = [
-    'ngRoute',
-    // Controllers
-    'app',
-    'navbar',
-    // Services
-    'id',
-    'tracker',
-    'appManager',
-    'history',
-    // Directives
-    'charts',
-    'effects',
-    'events',
-    'fields',
-    'formatters',
-    'directives',
-    'validators',
-    'datalinks',
-    'errors',
-    'ngMessages',
-    // Filters
-    'filters',
-    'ui.bootstrap',
-    'ui.sortable',
-    'notifications'
-  ];
+// Angular module dependencies
+var appDependencies = [
+  'ngRoute',
+  // Controllers
+  'app',
+  'navbar',
+  // Services
+  'id',
+  'tracker',
+  'appManager',
+  'history',
+  // Directives
+  'charts',
+  'effects',
+  'events',
+  'fields',
+  'formatters',
+  'directives',
+  'validators',
+  'datalinks',
+  'errors',
+  'ngMessages',
+  // Filters
+  'filters',
+  'ui.bootstrap',
+  'ui.sortable',
+  'notifications'
+];
 
 // Load tabs
 var tabdefs = [
@@ -112,10 +112,27 @@ var tabdefs = [
   require('../tabs/settingsgateway.controller.js'),
   require('../tabs/notifications.controller.js'),
 
-// Hidden tabs
-require('../tabs/apps.controller.js'),
-require('../tabs/su.controller.js')
+  // Hidden tabs
+  require('../tabs/apps.controller.js'),
+  require('../tabs/su.controller.js')
 ];
+
+// Language
+var lang = (function(){
+  var languages = _.pluck(require('../../../l10n/languages.json'), 'code');
+  var resolveLanguage = function(lang) {
+    if (!lang) return null;
+    if (languages.indexOf(lang) != -1) return lang;
+    if (lang.indexOf("_") != -1) {
+      lang = lang.split("_")[0];
+      if (languages.indexOf(lang) != -1) return lang;
+    }
+    return null;
+  };
+  return resolveLanguage(store.get('ripple_language')) ||
+    resolveLanguage(window.navigator.userLanguage || window.navigator.language) ||
+    'en';
+})();
 
 // Prepare tab modules
 var tabs = tabdefs.map(function (Tab) {
@@ -144,42 +161,35 @@ rippleclient.types = types;
 rippleclient.tabs = {};
 _.each(tabs, function(tab) { rippleclient.tabs[tab.tabName] = tab; });
 
-// Install basic page template
-angular.element('body').prepend(require('../../jade/client/index.jade')());
-
 Config.$inject = ['$routeProvider', '$injector'];
 
 function Config ($routeProvider, $injector) {
   // Set up routing for tabs
   _.each(tabs, function (tab) {
-    if ("function" === typeof tab.generateHtml) {
-      var template = tab.generateHtml();
+    var config = {
+      tabName: tab.tabName,
+      tabClass: 't-' + tab.tabName,
+      pageMode: 'pm-' + tab.pageMode,
+      mainMenu: tab.mainMenu,
+      templateUrl: 'templates/' + lang + '/tabs/' + tab.tabName + '.html'
+    };
 
-      var config = {
-        tabName: tab.tabName,
-        tabClass: 't-'+tab.tabName,
-        pageMode: 'pm-'+tab.pageMode,
-        mainMenu: tab.mainMenu,
-        template: template
-      };
+    if ('balance' === tab.tabName) {
+      $routeProvider.when('/', config);
+    }
 
-      if ('balance' === tab.tabName) {
-        $routeProvider.when('/', config);
-      }
+    $routeProvider.when('/' + tab.tabName, config);
 
-      $routeProvider.when('/'+tab.tabName, config);
-
-      if (tab.extraRoutes) {
-        _.each(tab.extraRoutes, function(route) {
-          $.extend({}, config, route.config);
-          $routeProvider.when(route.name, config);
-        });
-      }
-
-      _.each(tab.aliases, function (alias) {
-        $routeProvider.when('/'+alias, config);
+    if (tab.extraRoutes) {
+      _.each(tab.extraRoutes, function(route) {
+        $.extend({}, config, route.config);
+        $routeProvider.when(route.name, config);
       });
     }
+
+    _.each(tab.aliases, function (alias) {
+      $routeProvider.when('/' + alias, config);
+    });
   });
 
   // Language switcher
@@ -188,7 +198,7 @@ function Config ($routeProvider, $injector) {
       lang = routeParams.language;
 
       if (!store.disabled) {
-        store.set('ripple_language',lang ? lang : '');
+        store.set('ripple_language', lang ? lang : '');
       }
 
       // problem?
@@ -232,6 +242,7 @@ function Run ($rootScope, $route, $routeParams, $location)
   var scope = $rootScope;
   $rootScope.$route = $route;
   $rootScope.$routeParams = $routeParams;
+  $rootScope.lang = lang;
   $('#main').data('$scope', scope);
 
   // If using the old "amnt" parameter rename it "amount"
@@ -243,6 +254,15 @@ function Run ($rootScope, $route, $routeParams, $location)
 
   // put Options to rootScope so it can be used in html templates
   $rootScope.globalOptions = Options;
+
+  // Show loading while waiting for the template load
+  $rootScope.$on('$routeChangeStart', function() {
+    $rootScope.pageLoading = true;
+  });
+
+  $rootScope.$on('$routeChangeSuccess', function() {
+    $rootScope.pageLoading = false;
+  });
 
   // Once the app controller has been instantiated
   // XXX ST: I think this should be an event instead of a watch

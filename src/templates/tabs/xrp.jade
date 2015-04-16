@@ -1,0 +1,30 @@
+section.col-xs-12.content(ng-controller='XrpCtrl')
+
+  //- Disconnected
+
+  group.disconnected(ng-hide='connected')
+    p.literal(l10n="err-you-must-be-online-to-see-this-screen", l10n)
+      | You have to be online to see this screen
+
+  //- Funding
+  div(ng-show="!loadingAccount && !account.Balance && loadState.account && connected")
+    include ../tabs/banner/unfunded
+
+  .row(ng-show='connected')
+    .col-sm-3
+      include ../tabs/fund/menu
+    .col-sm-9.list
+      .fundXrp(ng-show="fundPage == 'xrp'")
+        div
+          .nameLine(l10n) Ripple name:&#32;
+            span.name(ng-show="userCredentials.username") ~{{userCredentials.username}}
+            span(ng-hide="userCredentials.username", l10n) loading...
+            .address
+              a(href="", ng-click="showRippleAddress=true"
+                ng-hide="showRippleAddress", l10n) Show address
+              div(ng-show="showRippleAddress", ng-bind="address")
+          .description(l10n) Ripple names are a new feature on Ripple! Use your
+            |  Ripple name (~{{userCredentials.username}}) to receive money.
+            |  You can still use your full Ripple address, and while we are
+            |  working to transition to Ripple names, some gateways may still
+            |  ask for your full address.

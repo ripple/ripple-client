@@ -1,0 +1,675 @@
+
+section.col-xs-12.content(ng-controller="TradeCtrl")
+
+  //- Disconnected
+
+  group.disconnected(ng-hide="connected")
+    p.literal(l10n) You have to be online to see this screen
+
+  group.disconnected(ng-hide="!connected || loadState.offers")
+    div(id="section_loader")
+      img(src="img/sections.png", class="loader")
+      div(class="loading_sections", l10n) Loading Order Book
+
+  div(ng-show='debug') This page is not available in debug mode
+
+  //- Connected
+
+  div(ng-show="!loadingAccount && !account.Balance && loadState.account && connected && !debug")
+    include ../tabs/banner/unfunded
+
+  .row(ng-show='connected && !debug && loadState.offers')
+    .widgets.hidden-xs.col-sm-4.col-md-4.col-lg-3
+      include ../tabs/widgets/balances
+    .col-xs-12.col-sm-8.col-md-8.col-lg-9
+      group
+        .settings
+          .row
+            .col-sm-10.col-md-9.col-lg-7.col-xs-10.currency-config
+              input.form-control.currency#currency_pair(
+                name='currency_pair', type='text'
+                rp-combobox="pairs_query", rp-combobox-select, ng-disabled="adding_pair",
+                ng-model='order.currency_pair')
+            .col-sm-2.col-md-3.col-lg-1.col-xs-2(ng-hide="adding_pair")
+              button.btn.btn-cancel.btn-block(href=""
+                ng-click="flip_issuer()", l10n)
+                | flip
+            .col-md-6.col-lg-2.col-xs-6(ng-hide="adding_pair")
+              button.btn.btn-cancel.btn-block(href=""
+                ng-click="open_custom_currency_selector()", ng-disabled="adding_pair", l10n)
+                | add pair
+            .col-md-6.col-lg-2.col-xs-6(ng-hide="adding_pair")
+              button.btn.btn-cancel.btn-block(ng-click="gotoSettings()", l10n)
+                | edit pairs
+          form.row#gateway_change_form(name="gateway_change_form", ng-show="adding_pair", ng-submit="add_pair()")
+            .col-sm-4.col-lg-2.col-xs-12
+              .description(l10n) Base Currency
+              input.form-control(
+                name="first_currency", type="text"
+                rp-combobox="currencies", rp-combobox-select
+                ng-model="first_currency_selected")
+            .col-sm-6.col-lg-3.col-xs-11
+              .description(l10n) Base Gateway
+              input.form-control(
+                name="first_iss", type="text", ng-disabled="disable_first_issuer"
+                rp-combobox="first_iss", rp-combobox-select
+                rp-dest, rp-dest-address, rp-dest-contact, rp-dest-ripple-name, rp-dest-ripple-name-no-tilde
+                ng-model="first_issuer_selected")
+            .col-xs-1
+              .description.slash /
+            .col-sm-4.col-lg-2.col-xs-12
+              .description(l10n) Counter&nbsp;Currency
+              input.form-control(
+                name="second_currency", type="text"
+                rp-combobox="currencies", rp-combobox-select
+                ng-model="second_currency_selected")
+            .col-sm-6.col-lg-3.col-xs-12
+              .description(l10n) Counter Gateway
+              input.form-control(
+                name="second_iss", type="text", ng-disabled="disable_second_issuer"
+                rp-combobox="second_iss", rp-combobox-select
+                rp-dest, rp-dest-address, rp-dest-contact, rp-dest-ripple-name, rp-dest-ripple-name-no-tilde
+                ng-model="second_issuer_selected")
+            .col-sm-4.col-lg-2.col-xs-6#cancel_button
+              button.btn.btn-cancel.btn-block(type="button", ng-click="adding_pair = false", l10n) cancel
+            .col-sm-4.col-lg-2.col-xs-6#add_button
+              button.btn.btn-success.btn-block.submit(type="submit", ng-disabled="gateway_change_form.$invalid", l10n) Add
+
+        form.issuerSelector.first-issuer(name='first_issuer_form', ng-show='show_issuer_form == "first"')
+          label(for='first_issuer', l10n) Base currency issuer ({{order.first_currency | rpcurrency}})
+          .row
+            .col-xs-12.col-sm-8.col-md-5
+              input.form-control#first_issuer(
+                name='first_issuer', type='text', rp-combobox="issuer_query"
+                rp-combobox-value-as-ripple-name
+                l10n-placeholder="Ripple name or contact"
+                ng-model="order.first_issuer_edit_name"
+                rp-dest, rp-dest-address, rp-dest-contact, rp-dest-ripple-name
+                rp-dest-model="order.first_issuer_edit")
+              .errorGroup(ng-messages='first_issuer_form.first_issuer.$error')
+                .error(ng-message='rpDest', l10n) Not a valid Ripple address or contact
+            .col-xs-12.col-sm-4.col-md-2
+              button.btn.btn-block.btn-success.submit(type='submit',
+                ng-click='save_first_issuer()',
+                ng-disabled='first_issuer_form.$invalid', l10n) Confirm
+
+        form.issuerSelector.second-issuer(name='second_issuer_form', ng-show='show_issuer_form == "second"')
+          label(for='second_issuer', l10n) Counter currency issuer ({{order.second_currency | rpcurrency}})
+          .row
+            .col-xs-9.col-sm-4.col-md-4
+              input.form-control#second_issuer(
+                name='second_issuer', type='text', rp-combobox="issuer_query"
+                rp-combobox-value-as-ripple-name
+                placeholder='Contact name or Ripple address'
+                ng-model='order.second_issuer_edit_name'
+                rp-dest, rp-dest-address, rp-dest-contact, rp-dest-ripple-name
+                rp-dest-model="order.second_issuer_edit")
+              .errorGroup(ng-messages='second_issuer_form.second_issuer.$error')
+                .error(ng-message='rpDest', l10n) Not a valid Ripple name or address
+            .col-xs-3.col-sm-2.col-md-2
+              button.btn.btn-block.btn-success.submit(type='submit',
+                ng-click='save_second_issuer()',
+                ng-disabled="second_issuer_form.$invalid", l10n) Confirm
+
+        .message-select-issuer(ng-hide="order.valid_settings", l10n)
+          | To show an orderbook, choose from the dropdown above or click "Add custom pair".
+
+        group(ng-if="order.valid_settings")
+          ul.ticker
+            .row
+              li.col-xs-6.col-sm-3
+                span(l10n) Bid
+                span &#32;&#61;&#32;
+                span.value(ng-bind="priceTicker.bid")
+              li.col-xs-6.col-sm-3
+                span(l10n) Ask
+                span &#32;&#61;&#32;
+                span.value(ng-bind="priceTicker.ask")
+              li.col-xs-6.col-sm-3
+                span(l10n) Spread
+                span &#32;&#61;&#32;
+                span.value(ng-bind="priceTicker.spread")
+              li.col-xs-6.col-sm-3
+                span(l10n) Last price
+                span &#32;&#61;&#32;
+                span.value
+                  | {{book.last_price | rpamount:{rel_precision: 5, rel_min_precision: 5} }}
+
+          //- Show message if account has not been funded yet.
+          .unfunded(ng-hide="account.Balance")
+            p.literal(l10n) You have to be funded before you can trade
+
+          //- 1. Order widgets
+          group.row.send-widgets#widgetGroup(ng-show="account.Balance")
+            .col-xs-12.col-md-6(ng-repeat="type in ['buy','sell']")
+              .trade-widget(ng-switch="order[type].mode")
+                .head
+                  span(ng-show="type == 'buy'", l10n) Buy&#32;
+                    span.issuer(
+                      ng-hide="order.first_currency.is_native()"
+                      rp-pretty-issuer="order.first_issuer"
+                      rp-pretty-issuer-contacts="userBlob.data.contacts"
+                      rp-pretty-issuer-or-short)
+                    |  {{order.first_currency | rpcurrency}}
+                  span(ng-show="type == 'sell'", l10n) Sell&#32;
+                    span.issuer(
+                      ng-hide="order.first_currency.is_native()"
+                      rp-pretty-issuer="order.first_issuer"
+                      rp-pretty-issuer-contacts="userBlob.data.contacts"
+                      rp-pretty-issuer-or-short)
+                    |  {{order.first_currency | rpcurrency}}
+                  span.available(ng-show="type == 'buy'", l10n)
+                    span.amount
+                      span(ng-show="order.second_currency.is_native()")
+                        | {{account.Balance | rpamount}} XRP
+                      span(ng-hide="order.second_currency.is_native()")
+                        | {{lines[order.second_issuer+order.second_currency.to_json()].balance || "0" | rpamount}}&#32;
+                        span(
+                          rp-pretty-issuer="order.second_issuer"
+                          rp-pretty-issuer-contacts="userBlob.data.contacts"
+                          rp-pretty-issuer-or-short)
+                        |  {{order.second_currency | rpcurrency}}
+                    |  available
+                  span.available(ng-show="type == 'sell'", l10n)
+                    span.amount
+                      span(ng-show="order.first_currency.is_native()")
+                        | {{account.Balance | rpamount}} XRP
+                      span(ng-hide="order.first_currency.is_native()")
+                        | {{lines[order.first_issuer+order.first_currency.to_json()].balance || "0" | rpamount}}&#32;
+                        span(
+                          rp-pretty-issuer="order.first_issuer"
+                          rp-pretty-issuer-contacts="userBlob.data.contacts"
+                          rp-pretty-issuer-or-short)
+                        |  {{order.first_currency | rpcurrency}}
+                    |  available
+                div(ng-switch-when='trade')
+                  form.mode-form(name="tradeForm", ng-submit='place_order(type)', ng-show="order[type].showWidget")
+                    .row.order-values
+                      .col-xs-12
+                        .value-field
+                          label(ng-show="type == 'buy'", l10n) Amount To Buy
+                          label(ng-show="type == 'sell'", l10n) Amount To Sell
+                          .input-group
+                            input.form-control(name='amount', type='text'
+                            input-type="{{type}}"
+                            ng-model='order[type].first', ng-change='calc_second(type)'
+                            rp-autofill='$routeParams.type == type && $routeParams.amount'
+                            rp-autofill-amount
+                            rp-amount
+                            rp-amount-positive
+                            rp-amount-xrp-limit
+                            rp-amount-currency="{{order.first_currency}}"
+                            required)
+                            .input-group-addon
+                              | {{order.first_currency | rpcurrency}}
+                              .issuer(
+                                ng-hide="order.first_currency.is_native()"
+                                rp-pretty-issuer="order.first_issuer"
+                                rp-pretty-issuer-contacts="userBlob.data.contacts"
+                                rp-pretty-issuer-or-short)
+                          .errorGroup(ng-messages='tradeForm.amount.$dirty && tradeForm.amount.$error')
+                            .error(ng-message='required', l10n) Required
+                            .error(ng-message='rpAmount', l10n) Not a valid amount.
+                            .error(ng-message='rpAmountPositive', l10n)
+                              | Must be greater than zero
+                            .error(ng-message='rpAmountXrpLimit', l10n)
+                              | Minimum amount of XRP you can send is a drop (0.000001) and the maximum is 100 billion XRPs.
+                      .col-xs-12
+                        .value-field
+                          label(l10n) Price of Each
+                          .input-group
+                            input.form-control(name='price', type='text'
+                            input-type="{{type}}"
+                            ng-model='order[type].price', ng-change='calc_second(type)'
+                            rp-autofill='$routeParams.type == type && $routeParams.price'
+                            rp-autofill-amount
+                            rp-amount
+                            rp-amount-positive
+                            rp-amount-xrp-limit
+                            rp-amount-currency="{{order.second_currency}}"
+                            required)
+                            .input-group-addon
+                              | {{order.second_currency | rpcurrency}}
+                              .issuer(
+                                ng-hide="order.second_currency.is_native()"
+                                rp-pretty-issuer="order.second_issuer"
+                                rp-pretty-issuer-contacts="userBlob.data.contacts"
+                                rp-pretty-issuer-or-short)
+                          .errorGroup(ng-messages='tradeForm.price.$dirty && tradeForm.price.$error')
+                            .error(ng-message='required', l10n) Required
+                            .error(ng-message='rpAmount', l10n) Not a valid amount.
+                            .error(ng-message='rpAmountPositive', l10n)
+                              | Must be greater than zero
+                            .error(ng-message='rpAmountXrpLimit', l10n)
+                              | Minimum amount of XRP you can send is a drop (0.000001) and the maximum is 100 billion XRPs.
+                      .col-xs-12
+                        .value-field
+                          label(l10n) Order Value (max)
+                          .input-group
+                            input.form-control(name='value', type='text'
+                            ng-model='order[type].second', ng-change='calc_first(type)'
+                            rp-autofill='$routeParams.type == type && $routeParams.max'
+                            rp-autofill-amount
+                            rp-amount
+                            rp-amount-positive
+                            rp-amount-xrp-limit
+                            rp-amount-currency="{{order.second_currency}}"
+                            required)
+                            .input-group-addon
+                              | {{order.second_currency | rpcurrency}}
+                              .issuer(
+                                ng-hide="order.second_currency.is_native()"
+                                rp-pretty-issuer="order.second_issuer"
+                                rp-pretty-issuer-contacts="userBlob.data.contacts"
+                                rp-pretty-issuer-or-short)
+                          .errorGroup(ng-messages='tradeForm.value.$dirty && tradeForm.value.$error')
+                            .error(ng-message='required', l10n) Required
+                            .error(ng-message='rpAmount', l10n) Not a valid amount.
+                            .error(ng-message='rpAmountPositive', l10n)
+                              | Must be greater than zero
+                            .error(ng-message='rpAmountXrpLimit', l10n)
+                              | Minimum amount of XRP you can send is a drop (0.000001) and the maximum is 100 billion XRPs.
+                    .message
+                      //- Having two very similar blocks just because of
+                      //- translation related issues. (Cannot use the same format for
+                      //- chinese translation)
+                      p(ng-show="tradeForm.$valid && type == 'buy'", l10n) You are wanting to buy
+                        span  {{order[type].first_amount | rpamount:{abs_precision: 6} }} {{order[type].first_amount | rpcurrency}}
+                        |  for
+                        span  {{order[type].second_amount | rpamount:{abs_precision: 6} }} {{order[type].second_amount | rpcurrency}}
+                        |  (
+                        span {{order[type].price_amount | rpamount:{abs_precision: 6} }} {{order[type].second_amount | rpcurrency}}
+                        |  per
+                        span  {{order[type].first_amount | rpcurrency}}
+                        | )
+                      p(ng-show="tradeForm.$valid && type == 'sell'", l10n) You are wanting to sell
+                        span  {{order[type].first_amount | rpamount:{abs_precision: 6} }} {{order[type].first_amount | rpcurrency}}
+                        |  for
+                        span  {{order[type].second_amount | rpamount:{abs_precision: 6} }} {{order[type].second_amount | rpcurrency}}
+                        |  (
+                        span {{order[type].price_amount | rpamount:{abs_precision: 6} }} {{order[type].second_amount | rpcurrency}}
+                        |  per
+                        span  {{order[type].first_amount | rpcurrency}}
+                        | )
+                    .row.btns-row
+                      .col-xs-12.col-md-6.col-sm-8.btns-wrapper
+                        button.btn.btn-success.btn-block.submit(type='submit', ng-disabled='tradeForm.$invalid', btn-type="{{type}}")
+                          span(ng-show="type == 'buy'", l10n)  Buy
+                          span(ng-show="type == 'sell'", l10n)  Sell
+                          |  {{order.first_currency | rpcurrency}}
+                          span(ng-hide="order.first_currency.is_native()")  (
+                            span.issuer(
+                              rp-pretty-issuer="order.first_issuer"
+                              rp-pretty-issuer-contacts="userBlob.data.contacts"
+                              rp-pretty-issuer-or-short)
+                            | )
+                  div(ng-hide="order[type].showWidget")
+                    p.literal(l10n) You do not have sufficient funds to create an order.
+
+                //- 2. Confirmation
+                form.mode-confirm(ng-switch-when='confirm', ng-submit="order_confirmed(type, order.currency_pair)")
+                  p.title.literal
+                    span(l10n) You are about to create an order to
+                      span(ng-show="type == 'buy'", l10n-inc)  buy
+                      span(ng-show="type == 'sell'", l10n-inc)  sell
+                      .amount_feedback
+                        span.value {{order[type].first_amount | rpamount: {abs_precision: 6} }}&#32;
+                        span.issuer(
+                          ng-show="(order[type].first_amount | rpcurrency) !== 'XRP'"
+                          rp-pretty-issuer="order[type].first_amount | rpissuer"
+                          rp-pretty-issuer-contacts="userBlob.data.contacts"
+                          rp-pretty-issuer-or-short)
+                        span.currency  {{order[type].first_amount | rpcurrency}}
+                      .literal(l10n-inc) for
+                      .dest_feedback
+                        span.value {{order[type].second_amount | rpamount: {abs_precision: 6} }}&#32;
+                        span.issuer(
+                          ng-show="(order[type].second_amount | rpcurrency) !== 'XRP'"
+                          rp-pretty-issuer="order[type].second_amount | rpissuer"
+                          rp-pretty-issuer-contacts="userBlob.data.contacts"
+                          rp-pretty-issuer-or-short)
+                        span.currency  {{order[type].second_amount | rpcurrency}}
+                      .rate_feedback (
+                        span.rate {{order[type].price}}
+                        span.pair {{order[type].second_amount | rpcurrency}} per {{order[type].first_amount | rpcurrency}}
+                        | )
+                      p.literal(l10n-inc) Are you sure?
+                      p.order-warning(ng-show="fatFingerErr", l10n)
+                        | CAUTION: Your order is far off from the current market price.
+                    .row.row-padding-small
+                      .col-xs-6.col-sm-offset-2.col-sm-4.col-md-offset-3.col-md-3
+                        button.btn.btn-block.btn-default.back(type='button'
+                          ng-click="order[type].mode = 'trade'", l10n) &laquo; Back
+                      .col-xs-6.col-sm-4.col-md-3
+                        button.btn.btn-block.btn-success.submit(type='submit'
+                          ng-disabled='confirm_wait', l10n) Confirm
+
+                //- 3. Sending
+
+                group.mode-sending(ng-switch-when='sending')
+                  p.literal
+                    img(src="img/button-s.png", class="loader")
+                    span(class="loading_text", l10n) Sending order to Ripple network...
+
+                //- 4. Done
+
+                group.mode-done(ng-switch-when='done')
+                  group.pending(ng-show='tx_result=="pending"')
+                    h2.tx-status(l10n) Your order has been submitted.
+                  group.result-success(ng-show="tx_result=='cleared' && executedOnOfferCreate=='none'")
+                    h2.tx-status(l10n) Your order is now active.
+                  group.result-success(ng-show="tx_result=='cleared' && executedOnOfferCreate=='all'")
+                    h2.tx-status(l10n) Your order has been filled.
+                  group.result-success(ng-show="tx_result=='cleared' && executedOnOfferCreate=='partial'")
+                    h2.tx-status(l10n) Your order has been partially filled. The remaining amount is now active.
+
+                  //- 4a. Ripple error page
+
+                  group.mode-ripplerror(ng-show='tx_result=="unknown"')
+                    rp-transaction-status(
+                      rp-engine-result="{{engine_result}}"
+                      rp-engine-result-message="{{engine_result_message}}"
+                      rp-accepted="{{engine_status_accepted}}"
+                      rp-current-tab="trade")
+                    
+                  hr
+                  .actionLink
+                    a(href="#trade", ng-click="reset_widget(type)", l10n) Submit another order
+
+          .my-orders-title(l10n) My Orders
+            span &#32;({{offersCount}})
+            small.toggle(ng-hide="isEmpty(offers)", ng-click="hideOffers = !hideOffers") {{hideOffers ? "show" : "hide"}}
+          div#myOrdersMsg
+          group.mode-granted.wide(ng-show='notif !== "clear"')
+            group(ng-switch="notif")
+              group.pending(ng-switch-when="verifying")
+                h2.tx-status(l10n) Verifying your information. Please wait...
+              group.result-success(ng-switch-when="replace_success")
+                h2.tx-status(l10n) Your order has been modified.
+              group.result-success(ng-switch-when="cancel_success")
+                h2.tx-status(l10n) Your order &#35;{{ cancelOrder.seq }} has been cancelled.
+              group.result-error(ng-switch-when="replace_error_gone")
+                h2.tx-status(l10n) Your order could not be modified and no longer exists. Error: {{order[editOrder.type].engine_result_message}}
+              group.result-error(ng-switch-when="cancel_order_gone")
+                h2.tx-status(l10n) Unable to cancel order as it no longer exists.
+          .col-sm-12.alert.alert-info(ng-show="editOrder.replacing")
+            span(l10n) Modifying your order (Placing new order) ...
+          .rp-checkbox(ng-hide="hideOffers || isEmpty(offers)")
+            label
+              input(type="checkbox", name="current_pair_only", ng-model="sortOptions.currentPairOnly")
+              span(l10n) Current pair only
+          .rp-select.hidden-md.hidden-lg
+            div(ng-hide="hideOffers || isEmpty(offers)")
+              span Sort by
+              .rp-combobox.rp-combobox-small.orders-sort-select
+                input.currency.form-control#orders_sort_field(
+                name='orders_sort_field', type='text'
+                rp-combobox="ordersSortFieldChoices", rp-combobox-select
+                rp-combobox-small
+                ng-model='sortOptions.sortFieldName')
+          .rp-checkbox.hidden-md.hidden-lg
+            div(ng-hide="hideOffers || isEmpty(offers)")
+              label
+                input(type="checkbox", name="reverse"
+                ng-model="sortOptions.reverse")
+                span(l10n) reverse
+          div(ng-hide="isEmpty(offers)")
+            hr.hidden-md.hidden-lg
+          .listings.offers(ng-hide="hideOffers")
+            .my
+              div
+                .row.head.hidden-xs.hidden-sm
+                  .col-md-1.type(rp-sort-header="sortOptions.sortField", 
+                        rp-sort-header-reverse="sortOptions.reverse",
+                        rp-sort-header-field="type") 
+                    i.fa.fa-fw.fa-caret-down
+                  .col-md-2(rp-sort-header="sortOptions.sortField", 
+                        rp-sort-header-reverse="sortOptions.reverse",
+                        rp-sort-header-field="qty")
+                    span(l10n) QTY
+                    i.fa.fa-fw.fa-caret-down
+                  .col-md-2(rp-sort-header="sortOptions.sortField", 
+                        rp-sort-header-reverse="sortOptions.reverse",
+                        rp-sort-header-field="base")
+                    span(l10n) Base
+                    i.fa.fa-fw.fa-caret-down
+                  .col-md-2(rp-sort-header="sortOptions.sortField", 
+                        rp-sort-header-reverse="sortOptions.reverse",
+                        rp-sort-header-field="counter")
+                    span(l10n) Counter
+                    i.fa.fa-fw.fa-caret-down
+                  .col-md-2(rp-sort-header="sortOptions.sortField", 
+                        rp-sort-header-reverse="sortOptions.reverse",
+                        rp-sort-header-field="limit")
+                    span(l10n) Limit Price
+                    i.fa.fa-fw.fa-caret-down
+                  //- .col-md-2(l10n, rp-sort-header="sortOptions.sortField", 
+                  //-       rp-sort-header-reverse="sortOptions.reverse",
+                  //-       rp-sort-header-field="time") Time placed
+                  .col-md-3(l10n) Action
+              .row(ng-repeat="entry in offers | rpcurrentpair:sortOptions.currentPairOnly:order.prev_settings | rpvalues | rpsortmyorders:sortOptions.sortField:sortOptions.reverse track by entry.seq", ng-hide="entry.isZero",
+                ng-class="{cancelling: entry.cancelling || (editOrder.cancelling && entry.seq == editOrder.seq)}")
+                .col-md-1.type(l10n-data-label="Type")
+                  span.rp-hidden-md.rp-hidden-lg {{entry.type | rpucfirst}}
+                  span.rp-hidden-xs.rp-hidden-sm {{entry.type | rptruncate:1}}
+                .col-md-2.amount.rpamount(l10n-data-label="QTY"
+                  ng-hide="editOrder.seq == entry.seq") {{entry.first | rpamount:{hard_precision: true, precision: 6, tiny_precision: 6} }}
+                .col-md-2(l10n-data-label="BASE", ng-hide="editOrder.seq == entry.seq")
+                  a(href="",ng-click="goto_order_currency()")
+                    span {{entry.first | rpcurrency}}
+                    span.issuer(ng-show="entry.first.issuer().to_json()") &#46;
+                      span(
+                        rp-pretty-issuer-or-short="entry.first.issuer().to_json"
+                        rp-pretty-issuer="entry.first.issuer().to_json()"
+                        rp-pretty-issuer-contacts="userBlob.data.contacts"
+                      ) ???
+                .col-md-2(l10n-data-label="Counter", ng-hide="editOrder.seq == entry.seq")
+                  a(href="",ng-click="goto_order_currency()")
+                    span {{entry.second | rpcurrency}}
+                    span.issuer(ng-show="entry.second.issuer().to_json()") &#46;
+                      span(
+                        rp-pretty-issuer-or-short="entry.first.issuer().to_json"
+                        rp-pretty-issuer="entry.second.issuer().to_json()"
+                        rp-pretty-issuer-contacts="userBlob.data.contacts"
+                      ) ???
+                .col-md-2.price.rpamount(l10n-data-label="Limit"
+                  ng-hide="editOrder.seq == entry.seq") {{entry.second | rpamountratio:entry.first | rpamount:{hard_precision: true, precision: 6, tiny_precision: 6} }}
+                //- .col-md-2.action(l10n-data-label="Time placed(UTC)", ng-hide="editOrder.seq == entry.seq") ...
+                .col-md-3.action(ng-hide="editOrder.seq == entry.seq")
+                  img(src="img/button-s.png", class="loader", ng-show="entry.cancelling")
+                  rp-popup.fa.pull-right
+                    a.btn.btn-block.btn-cancel.btn-cancel-order.btn-a-sm.pull-right(rp-popup-link
+                    ng-disabled="entry.cancelling || editOrder.replacing", l10n) cancel
+                    .rp-modal(rp-popup-content)
+                      .modal-header
+                        .navbar-brand.hidden-xs.modal-logo#logo
+                        .modal-title(l10n) TRADE CONFIRMATION
+                      .modal-body
+                        .modal-prompt(l10n)
+                          div(l10n-inc) Please confirm that you wish to cancel order &num;{{entry.seq}}
+                        .modal-order(l10n)
+                          div
+                            span.modal-order-type {{entry.type}}:
+                            span {{entry.first | rpamount:{hard_precision: true, precision: 6, tiny_precision: 6} }} 
+                            span {{entry.first | rpcurrency}}
+                            span.issuer(ng-show="entry.first.issuer().to_json()") &#46;
+                              span(
+                                rp-pretty-issuer="entry.first.issuer().to_json()"
+                                rp-pretty-issuer-contacts="userBlob.data.contacts"
+                              ) ???
+                            span(ng-show="'buy' == entry.type", l10n)  with
+                            span(ng-show="'sell' == entry.type", l10n)  for
+                            span  {{entry.second | rpcurrency}}
+                            span.issuer(ng-show="entry.second.issuer().to_json()") &#46;
+                              span(
+                                rp-pretty-issuer="entry.second.issuer().to_json()"
+                                rp-pretty-issuer-contacts="userBlob.data.contacts"
+                              ) ???
+                            span(l10n)  at 
+                            span {{entry.second | rpamountratio:entry.first | rpamount:{hard_precision: true, precision: 6, tiny_precision: 6} }}
+                          //- div
+                          //-   span.modal-order-type(l10n-inc) FILLED:
+                          //-   span filled data
+                          //- div
+                          //-   span.modal-order-type(l10n-inc) REMAIN:
+                          //-   span remain data
+                          //- div
+                          //-   span.modal-order-type(l10n-inc) PLACED:
+                          //-   span time data
+                        .modal-buttons
+                          button.modal-btn.btn.btn-default.btn-success.btn-md(data-dismiss="modal", ng-click="cancel_order()")
+                            span(l10n) Cancel order
+                          button.modal-btn.btn.btn-cancel.btn-md.btn-cancel(data-dismiss="modal", l10n) back
+                  a.pull-right.btn.btn-cancel.btn-a-sm(href="", l10n, ng-click="beginEditOrder()",
+                    ng-hide="entry.cancelling", ng-disabled="entry.cancelling || editOrder.replacing || editOrder.cancelling"
+                    ) edit
+                div(ng-show="editOrder.seq == entry.seq")
+                  form(novalidate, name="editOrderForm", ng-show="editOrder.seq == entry.seq")
+                    .value-field.col-md-4
+                      .input-group
+                        input.form-control(name="editQuantity", type="text", ng-model="editOrder.newQuantity", ng-readonly="editOrder.cancelling || editOrder.replacing", ng-disabled="editOrder.quantityFilled",
+                          ng-class="{changed: editOrder.quantityChanged}", ng-change="quantityEdited()", required, rp-amount, rp-amount-positive)
+                        .input-group-addon.inline-inputs-group
+                          currency {{entry.first | rpcurrency | rptruncate:3}}
+                    .value-field.col-md-4
+                      .input-group
+                        input.form-control(name="editPrice", type="text", ng-model="editOrder.newPrice", ng-readonly="editOrder.cancelling || editOrder.replacing",
+                          ng-class="{changed: editOrder.priceChanged}", ng-change="priceEdited()", required, rp-amount, rp-amount-positive)
+                        .input-group-addon.inline-inputs-group
+                          currency {{entry.second | rpcurrency | rptruncate:3}}
+                    .col-md-3.action
+                      img(src="img/button-s.png", class="loader", ng-show="(editOrder.cancelling || editOrder.replacing) && entry.seq == editOrder.seq")
+                      a.pull-right.btn.btn-cancel.btn-a-sm(href="", ng-click="cancelEditOrder()", ng-disabled="editOrder.cancelling || editOrder.replacing", l10n)
+                        | back
+                      rp-confirm(rp-show="fatFingerShouldWarn()"
+                        l10n-action-text="CAUTION: Your new order is far off from the current market price. <br/> Do you still want to replace your order ?"
+                        l10n-action-button-text="Confirm"
+                        action-button-css="btn btn-default btn-success"
+                        action-function="modifyOrder()"
+                        cancel-button-css="btn btn-default"
+                        l10n-cancel-button-text="&laquo; Back")
+                        a.pull-right.btn.btn-cancel.btn-a-sm(
+                          href="", ng-click="prepareOrderModify()", l10n
+                          ng-disabled="editOrderForm.$invalid || ! editOrder.orderbookReady || editOrder.cancelling || editOrder.replacing || ! (editOrder.priceChanged || editOrder.quantityChanged) || editOrder.quantityFilled")
+                          | submit
+                .col-md-12.alert.alert-danger(ng-show="notif === 'cancel_error'")
+                  span(l10n) Unable to cancel order. Error: {{entry.errorMsg}}
+                .col-md-12.alert.alert-warning(ng-show="editOrder.seq == entry.seq && notif === 'quantity_filled_warn'")
+                  span(l10n) Your order amount has been updated by Ripple. Please go back and edit again to modify this order.
+                .col-md-12.alert.alert-danger(ng-show="editOrder.seq == entry.seq && notif === 'replace_error'")
+                  span(l10n) Your order could not be modified. Error: {{order[editOrder.type].engine_result_message}}
+                  a.dismiss.pull-right(href="", ng-click="editOrder.replaceError = false", l10n) X
+              .row(ng-hide="isEmpty(offers)")
+                .col-md-10
+                .col-md-2
+                  rp-popup
+                    a.pull-right.btn.btn-cancel.btn-a(href="", rp-popup-link, l10n) cancel all
+                    .rp-modal(rp-popup-content)
+                      .modal-header
+                        .navbar-brand.hidden-xs.modal-logo#logo
+                        .modal-title(l10n) TRADE CONFIRMATION
+                      .modal-body
+                        div.modal-prompt(l10n)
+                          div(l10n-inc) Please confirm that you wish to cancel all orders.
+                        div.modal-buttons
+                          button.modal-btn.btn.btn-default.btn-success.btn-md(data-dismiss="modal", ng-click="cancel_all_orders()")
+                            span(l10n) Cancel all orders
+                          button.modal-btn.btn.btn-cancel.btn-md.btn-cancel(data-dismiss="modal", ng-hide="loading", l10n) back
+            .emptyMessage(ng-show="isEmpty(offers) && ! editOrder.replacing")
+              p.rp-base(l10n) No current orders. 
+                a(l10n, href="", ng-click="view_orders_history()") View orders history
+          .row.row-padding-small.orderbookupdate
+            .col-xs-12.col-sm-6
+              div.orderbook-title(l10n)
+                | Orderbook
+            .col-xs-12.col-sm-6.last-update(l10n, ng-show="lastUpdate") Last updated&#32;
+              span(ng-bind="lastUpdate")
+              span(ng-show="lastUpdate > '1'", l10n-inc)  seconds
+              span(ng-show="lastUpdate == '1'", l10n-inc)  second
+              |  ago
+        div.orderbook-wrapper(ng-if="order.valid_settings", ng-hide="visualState.hideOrderBook")
+          group.disconnected(ng-hide="!load_orderbook")
+            div(id="orderbook_loader")
+              img(src="img/sections.png", class="loader")
+              div(class="loading_sections", l10n) Loading Order Book
+          .orderlists(ng-class="load_orderbook ? 'loading' : ' '")
+            .listings.orders
+              //- TODO hide one column (size/sum) to show bids/ask in the same line for mobile phones.
+              //- TODO highlight changes
+              .row.orderbook
+
+                .bids.col-xs-12.col-lg-6
+                  .title(l10n) Bids
+                  .row.head(ng-show="bookShow.bids.length")
+                    .col-xs-4.sum(l10n) Sum
+                      .currency {{bookShow.bids[0].TakerPays | rpcurrency}}
+                      .issuer(
+                        ng-show="(bookShow.bids[0].TakerPays | rpcurrency) !== 'XRP'"
+                        rp-pretty-issuer="bookShow.bids[0].TakerPays | rpissuer"
+                        rp-pretty-issuer-contacts="userBlob.data.contacts"
+                        rp-pretty-issuer-or-short)
+                    .col-xs-4.size(l10n) Size
+                      .currency {{bookShow.bids[0].TakerPays | rpcurrency}}
+                      .issuer(
+                        ng-show="(bookShow.bids[0].TakerPays | rpcurrency) !== 'XRP'"
+                        rp-pretty-issuer="bookShow.bids[0].TakerPays | rpissuer"
+                        rp-pretty-issuer-contacts="userBlob.data.contacts"
+                        rp-pretty-issuer-or-short)
+                    .col-xs-4.price(l10n) Bid Price
+                      .currency {{bookShow.bids[0].TakerGets | rpcurrency}}
+                      .issuer(
+                        ng-show="(bookShow.bids[0].TakerGets | rpcurrency) !== 'XRP'"
+                        rp-pretty-issuer="bookShow.bids[0].TakerGets | rpissuer"
+                        rp-pretty-issuer-contacts="userBlob.data.contacts"
+                        rp-pretty-issuer-or-short)
+
+                  .row(ng-repeat='order in bookShow.bids track by order.index'
+                    ng-class="{my: order.my, cancelling: cancelling}")
+                    .col-xs-4.rpamount.sum
+                      a(href="", ng-click="fill_widget('sell', order, true)")
+                        span(rp-bind-color-amount="order.showSum")
+                    .col-xs-4.rpamount.size(rp-bind-color-amount="order.showTakerPays")
+                    .col-xs-4.rpamount.price
+                      a(href="", ng-click="fill_widget('sell', order, true)", ng-bind="order.showPrice")
+
+                  .message(ng-show='!bookShow.bids.length', l10n) There are currently no bids for this pair.
+
+                .asks.col-xs-12.col-lg-6
+                  .title(l10n) Asks
+                  .row.head(ng-show="bookShow.asks.length")
+                    .col-xs-4.price(l10n) Ask Price
+                      .currency {{bookShow.asks[0].TakerPays | rpcurrency}}
+                      .issuer(
+                        ng-show="(bookShow.asks[0].TakerPays | rpcurrency) !== 'XRP'"
+                        rp-pretty-issuer="bookShow.asks[0].TakerPays | rpissuer"
+                        rp-pretty-issuer-contacts="userBlob.data.contacts"
+                        rp-pretty-issuer-or-short)
+                    .col-xs-4.size(l10n) Size
+                      .currency {{bookShow.asks[0].TakerGets | rpcurrency}}
+                      .issuer(
+                        ng-show="(bookShow.asks[0].TakerGets | rpcurrency) !== 'XRP'"
+                        rp-pretty-issuer="bookShow.asks[0].TakerGets | rpissuer"
+                        rp-pretty-issuer-contacts="userBlob.data.contacts"
+                        rp-pretty-issuer-or-short)
+                    .col-xs-4.sum(l10n) Sum
+                      .currency {{bookShow.asks[0].TakerGets | rpcurrency}}
+                      .issuer(
+                        ng-show="(bookShow.asks[0].TakerGets | rpcurrency) !== 'XRP'"
+                        rp-pretty-issuer="bookShow.asks[0].TakerGets | rpissuer"
+                        rp-pretty-issuer-contacts="userBlob.data.contacts"
+                        rp-pretty-issuer-or-short)
+
+                  .row(ng-repeat='order in bookShow.asks track by order.index'
+                    ng-class="{my: order.my, cancelling: cancelling}")
+                    .col-xs-4.rpamount.price
+                      a(href="", ng-click="fill_widget('buy', order, true)", ng-bind="order.showPrice")
+                    .col-xs-4.rpamount.size(rp-bind-color-amount="order.showTakerGets")
+                    .col-xs-4.rpamount.sum
+                      a(href=""
+                        ng-click="fill_widget('buy', order, true)")
+                        span(rp-bind-color-amount="order.showSum")
+
+                  .message(ng-show='!bookShow.asks.length', l10n) There are currently no asks for this pair.
+            .foot
+              a.loadmore(ng-show="orderbookState=='ready' && (bookShow.asks.length || bookShow.bids.length)", href="", ng-click="loadMore()", l10n) Load more
+              div(ng-show="orderbookState=='full'", l10n) No more orders

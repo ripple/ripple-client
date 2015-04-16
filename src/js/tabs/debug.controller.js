@@ -12,11 +12,6 @@ util.inherits(PretendTab, Tab);
 PretendTab.prototype.tabName = 'debug';
 PretendTab.prototype.mainMenu = 'debug';
 
-PretendTab.prototype.generateHtml = function ()
-{
-  return require('../../jade/tabs/debug.jade')();
-};
-
 PretendTab.prototype.angular = function (module)
 {
   module.controller('DebugPretendCtrl', ['$rootScope', '$scope', 'rpId', '$q',

@@ -1,0 +1,222 @@
+section.col-xs-12.content(ng-controller='KycCtrl')
+
+  //- Disconnected
+
+  group.disconnected(ng-hide='connected')
+    p.literal(l10n="err-you-must-be-online-to-see-this-screen", l10n)
+      | You have to be online to see this screen
+
+  //- Funding
+  div(ng-show="!loadingAccount && !account.Balance && loadState.account && connected")
+    include ../tabs/banner/unfunded
+
+  div.auth-attention.banner(ng-hide="hideUsOnlyBanner")
+    h4#announcement(l10n) Profile completion is only available to US residents.
+    a.dismiss#hide(href="", ng-click="hideUsOnlyBanner=!hideUsOnlyBanner")  ×
+    br
+
+  group.mode-granted.wide(ng-show='notif !== "clear"')
+    group(ng-switch="notif")
+      group.pending(ng-switch-when="verifying")
+        h2.tx-status(l10n) Verifying your information. Please wait...
+      group.result-success(ng-switch-when="info_verified")
+        h2.tx-status(l10n) Your identity information has been verified.
+      group.result-success(ng-switch-when="questions_verified")
+        h2.tx-status(l10n) Your identity questions have been verified.
+      group.result-success(ng-switch-when="2fa_done")
+        h2.tx-status(l10n) Congratulations, you've verified your identity! You will now be redirected back to the instant deposit page.
+      group.result-error(ng-switch-when="general_error")
+        h2.tx-status(l10n) There was an error with your request. Please try again later.
+      group.result-error(ng-switch-when="phone_error")
+        h2.tx-status(l10n) There was an error with your request. Make sure your phone number is valid and try again.
+      group.result-error(ng-switch-when="invalid_token")
+        h2.tx-status(l10n) Please check your verification code and try again.
+      group.result-error(ng-switch-when="request_token_error")
+        h2.tx-status(l10n) There was an error while requesting the verification code. Please try again later.
+      group.result-error(ng-switch-when="info_error")
+        h2.tx-status(l10n) We are unable to validate your identity information. Please check your information and try again.
+      group.result-error(ng-switch-when="questions_error")
+        h2.tx-status(l10n) We are unable to validate your identity questions. Please check your answers and try again.
+      group.result-error(ng-switch-when="max_attempts_questions_error")
+        h2.tx-status(l10n) Sorry, you've reached your maximum number of verification attempts. Please try again in 24 hours.
+      group.result-error(ng-switch-when="contact_support")
+        h2.tx-status(l10n) We can't verify your identity. Please contact us at support@ripple.com.
+      group(ng-switch-when="loading")
+        h2.tx-status(l10n) Loading...
+  group(ng-show="connected && loadState.account && notif !== 'loading'")
+    .row
+      h3.text-center(l10n) Profile Completion
+      .col-xs-12
+        .row
+          .col-md-4.text-center.steps
+            span(ng-class="{ 'selected': currentStep == 'one' }", l10n) STEP 1: IDENTITY INFORMATION
+          .col-md-4.text-center.steps
+            span(ng-class="{ 'selected': currentStep == 'two' }", l10n) STEP 2: IDENTITY QUESTIONS
+          .col-md-4.text-center.steps
+            span(ng-class="{ 'selected': currentStep == 'three' }", l10n) STEP 3: TWO-FACTOR AUTHENTICATION 
+        hr
+      group.col-xs-12(ng-switch="currentStep")
+        form.row.row-padding-small(name="identityForm", ng-switch-when="one", ng-submit="saveIdentityInfo()")
+          .col-sm-9
+            .row
+              .col-xs-12.col-sm-6.col-md-6
+                label(for="firstName", l10n) First Name
+                input.form-control.firstName#firstName(
+                name='firstName', type='text'
+                ng-model='profile.name.given'
+                required)
+            .row
+              .col-xs-12.col-sm-6.col-md-6
+                label(for="lastName", l10n) Last Name
+                input.form-control.lastName#lastName(
+                name='lastName', type='text'
+                ng-model='profile.name.family'
+                required)
+            .row
+              .col-xs-12.col-sm-6.col-md-6
+                label(for="address", l10n) Street Address
+                br
+                input.form-control.address1#address1(
+                name='address1', type='text'
+                ng-model='profile.address.line1'
+                required)
+            .row
+              .col-xs-12.col-sm-6.col-md-6
+                label(for="city", l10n) City
+                input.form-control.city#city(
+                name='city', type='text'
+                ng-model='profile.address.locality', ng-pattern='validation_pattern_city'
+                required)
+            .row
+              .col-xs-12.col-sm-6.col-md-6
+                label(for="state", l10n) State
+                input.form-control.state#state(
+                name='state', type='text', rp-combobox="states", rp-combobox-select,
+                ng-model='profile.address.region', ng-pattern='validation_pattern_state'
+                required)
+            .row
+              .col-xs-12.col-sm-6.col-md-6
+                label(for="zip", l10n) ZIP
+                input.form-control.zip#zip(
+                name='zip', type='text'
+                ng-model='profile.address.postal_code', ng-pattern='validation_pattern_zip'
+                required)
+            .row
+              .col-xs-12.col-sm-6.col-md-6
+                label(l10n) Date of Birth
+                br
+            .row
+              .col-xs-12.col-sm-6.col-md-2
+                label(for="month", l10n) Month
+                  input.form-control.line1#month(
+                  name='month', type='text', rp-combobox="months", rp-combobox-select,
+                  ng-model='profile.birthdate.month', ng-pattern='validation_pattern_month'
+                  required)
+              .col-xs-12.col-sm-6.col-md-2
+                label(for="date", l10n) Day
+                  input.form-control.line1#date(
+                  name='date', type='text', rp-combobox="dates", rp-combobox-select,
+                  ng-model='profile.birthdate.date', ng-pattern='validation_pattern_date'
+                  required)
+              .col-xs-12.col-sm-6.col-md-2
+                label(for="year", l10n) Year
+                  input.form-control.line1#year(
+                  name='year', type='text', rp-combobox="years", rp-combobox-select,
+                  ng-model='profile.birthdate.year', ng-pattern='validation_pattern_year'
+                  required)
+            .row
+              .col-xs-12.col-sm-6.col-md-6
+                //- Don't make the following localizable, see RT-1539
+                div.security-box-label Last 4 digits of Social Security Number
+            .row
+              .col-xs-12.col-sm-6.col-md-2
+                div.ssn-hidden &#149;&#149;&#149; - &#149;&#149; -
+              .col-xs-12.col-sm-6.col-md-2
+                input.form-control.ssn#ssn(
+                name='ssn', type='ssn'
+                ng-model='profile.ssn_last_4', ng-pattern='validation_pattern_sss'
+                required)
+            .row
+              .col-xs-5
+                button.btn.btn-block.btn-primary.submit(type='submit',
+                  ng-disabled='identityForm.$invalid || identityLoading', l10n)
+                    img(src="img/button-s.png", class="loader", ng-show="identityLoading")
+                    span(ng-hide="identityLoading", l10n) Continue to identity questions
+                    span(class="loading_text", ng-show="identityLoading", l10n) Verifying...
+              .col-xs-5
+                a.button.btn.btn-link.btn-cancel(href='#/xrp', l10n) cancel
+        form.row-padding-small(name="questionsForm", ng-switch-when="two", ng-submit="saveQuestions()")
+          .row
+            .col-xs-4 
+              div.question(ng-repeat="q in questions", l10n) {{ q.question }}
+                div(ng-repeat="a in q.answers")
+                  input(
+                  id="q{{ q.id }}a{{ a.id }}", name='q{{ q.id }}', value="{{ a.id }}", type='radio',
+                  ng-model='q.answerId', required)
+                  label.answer(for="q{{ q.id }}a{{ a.id }}", l10n)  {{ a.answer }}
+          .row
+            .col-xs-5
+              button.btn.btn-block.btn-primary.submit(type='submit',
+                ng-disabled='identityForm.$invalid || questionsLoading', l10n)
+                  img(src="img/button-s.png", class="loader", ng-show="questionsLoading")
+                  span(ng-hide="questionsLoading", l10n) Continue to two-factor authentication
+                  span(class="loading_text", ng-show="questionsLoading", l10n) Verifying...
+            .col-xs-5
+              a.button.btn.btn-link.btn-cancel(href='#/xrp', l10n) cancel
+        group(ng-switch-when="three", ng-controller="TwoFACtrl")
+          .row.twoFAInfo
+            .icon-wrapper
+              i.fa.fa-lock.fa-3x
+            .col-xs-10.col-sm-4
+              span.two-factor-desc(l10n) Two-factor authentication provides extra security for your account.
+          form.section(name="twoFA", ng-submit="savePhone()", ng-show="twoFAVerify")
+            .row
+              .col-xs-12.col-sm-6.col-md-6
+                .row
+                  include ../tabs/2fa/form
+            .row.kyc-align
+              .col-xs-12.col-sm-6.col-md-6
+                span(l10n) Ripple Trade has partnered with Authy to provide better security for your account.
+                  | By continuing, you agree to Authy's&#32;
+                  a(href="https://www.authy.com/terms", target="blank", l10n-inc) Terms of Service
+                  | .
+            .row.kyc-align
+              .col-xs-12.col-sm-6.col-md-3
+                button.modal-btn.btn.btn-default.btn-primary.btn-md.btn-block(type='submit',
+                  ng-disabled='identityForm.$invalid || phoneLoading', l10n)
+                    img(src="img/button-s.png", class="loader", ng-show="phoneLoading")
+                    span(ng-hide="phoneLoading", l10n) Verify phone number
+                    span(class="loading_text", ng-show="phoneLoading", l10n) Verifying...
+              .col-xs-12.col-sm-2.col-md-1.text-center
+                a.button.btn.btn-link.btn-cancel(href='#/xrp', ng-hide="editNum", l10n) cancel
+                a.button.btn.btn-link.btn-cancel(ng-click="edit_toggle()", ng-show="editNum", l10n) cancel
+          .section(ng-hide="twoFAVerify")
+            .row
+              .col-xs-12.col-sm-4
+                .form-group.authy-control
+                  div(l10n) Phone Number
+                  div.phone-number-wrapper +{{ currentCountryCode }} {{ phoneNumber }}
+                    span.btn-link(ng-click="edit_toggle()", l10n) change
+            .row
+              .col-xs-12.col-sm-8
+                .form-group.authy-control
+                  span(l10n) A verification code has been sent to +{{ currentCountryCode }} {{ phoneNumber }}.
+            form
+              .row
+                .col-xs-12.col-sm-12
+                  label(l10n) Verification Code
+              .row
+                .col-xs-12.col-sm-4
+                  .form-group
+                    input.form-control(ng-model="verificationCode")
+                .col-xs-12.col-sm-3
+                  button.btn.btn-default.btn-md.btn-block(ng-click="requestToken()") Resend Code                  
+            .row.kyc-align
+              .col-xs-12.col-sm-6.col-md-3
+                button.modal-btn.btn.btn-default.btn-primary.btn-md.btn-block(ng-click="enable2FA()",
+                  ng-disabled="isVeryifying || phoneLoading")
+                    img(src="img/button-s.png", class="loader", ng-show="phoneLoading")
+                    span(ng-hide="phoneLoading", l10n) Submit code
+                    span(class="loading_text", ng-show="phoneLoading", l10n) Verifying...
+              .col-xs-12.col-sm-2.col-md-1.text-center
+                a.button.btn.btn-link.btn-cancel(href='#/xrp', l10n) cancel

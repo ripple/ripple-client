@@ -1,0 +1,101 @@
+ul.effects(ng-show="entry.effects")
+  li(ng-repeat="effect in entry.showEffects", ng-switch="effect.type")
+    span(ng-switch-when="offer_funded")
+      span(ng-show="effect.sell", l10n, rp-span-spacing) You sold
+        span.amount(rp-pretty-amount-high-precision="effect.gets")
+        | for
+        span.amount(rp-pretty-amount-high-precision="effect.pays")
+      span(ng-hide="effect.sell", l10n, rp-span-spacing) You bought
+        span.amount(rp-pretty-amount-high-precision="effect.pays")
+        | for
+        span.amount(rp-pretty-amount-high-precision="effect.gets")
+      | (
+      span(l10n) price
+      span :
+        strong(rp-address-popover, rp-address-popover-sum="effect.price")  {{effect.price | rpamount:{abs_precision: 4} }}
+      | ).
+      span(l10n)  This order has been filled.
+    span(ng-switch-when="offer_partially_funded")
+      span(ng-show="effect.sell", l10n, rp-span-spacing) You sold
+        span.amount(rp-pretty-amount-high-precision="effect.got")
+        | for
+        span.amount(rp-pretty-amount-high-precision="effect.paid")
+      span(ng-hide="effect.sell", l10n, rp-span-spacing) You bought
+        span.amount(rp-pretty-amount-high-precision="effect.paid")
+        | for
+        span.amount(rp-pretty-amount-high-precision="effect.got")
+      | (
+      span(l10n) price
+      span :
+        strong(rp-address-popover, rp-address-popover-sum="effect.price")  {{effect.price | rpamount:{abs_precision: 4} }}
+      | ).
+      span(ng-show="effect.cancelled", l10n) The rest of your order has been cancelled due to lack of funds.
+      span(ng-hide="effect.deleted", l10n, rp-span-spacing) This order has
+        span(rp-pretty-amount-high-precision="effect.remaining")
+        | remaining.
+    //- We don't show this if it's an offer_cancel transaction.
+    //- Instead we show it if the order has been cancelled because of luck of
+    //- funds by some other non related transaction.
+    span(ng-switch-when="offer_cancelled", l10n) Order (
+      span.amount(rp-pretty-amount-high-precision="effect.pays")
+      |  for&#32;
+      span.amount(rp-pretty-amount-high-precision="effect.gets")
+      | ) has been cancelled due to lack of funds.
+    span(ng-switch-when="offer_created")
+      span(ng-show="effect.sell", l10n, rp-span-spacing) You created an order to sell
+        span.amount(rp-pretty-amount-high-precision="effect.pays")
+        | for
+        span.amount(rp-pretty-amount-high-precision="effect.pays")
+      span(ng-hide="effect.sell", l10n, rp-span-spacing) You created an order to buy
+        span.amount(rp-pretty-amount-high-precision="effect.pays")
+        | for
+        span.amount(rp-pretty-amount-high-precision="effect.pays")
+    span(ng-switch-when="offer_bought", l10n, rp-span-spacing) You bought
+      span.amount(rp-pretty-amount-high-precision="effect.got")
+      | for
+      span.amount(rp-pretty-amount-high-precision="effect.paid")
+      | (
+      span(l10n-inc) price
+      span :
+        strong(rp-address-popover, rp-address-popover-sum="effect.price")  {{effect.price | rpamount:{abs_precision: 6} }}
+      | ).
+
+    span(ng-switch-when="trust_create_local", l10n) You have now connected to the gateway&#32;
+      span(rp-pretty-identity="effect.counterparty", rp-address-popover="effect.counterparty")
+      span(l10n-inc) &#32;for&#32;
+      span(rp-pretty-amount="effect.limit")
+      | .
+    span(ng-switch-when="trust_create_remote", l10n, rp-span-spacing)
+      span(rp-pretty-identity="effect.counterparty", rp-address-popover="effect.counterparty")
+      | is trusting you for
+      span(rp-pretty-amount="effect.limit")
+      | .
+    span(ng-switch-when="trust_change_local", l10n, rp-span-spacing)
+      | You have changed
+      span  {{effect.limit | rpcurrency}}
+      | trust for
+      span(rp-pretty-identity="effect.counterparty", rp-address-popover="effect.counterparty")
+      | from
+      span(rp-address-popover, rp-address-popover-sum="effect.prevLimit") {{effect.prevLimit | rpamount:{reference_date: entry.dateRaw} }}
+      | to
+      span(rp-address-popover, rp-address-popover-sum="effect.limit") {{effect.limit | rpamount:{reference_date: entry.dateRaw} }}
+      | .
+    span(ng-switch-when="trust_change_remote", l10n, rp-span-spacing)
+      span(rp-pretty-identity="effect.counterparty", rp-address-popover="effect.counterparty")
+      | changed the
+      span {{effect.limit | rpcurrency}}
+      | trust from
+      span(rp-address-popover, rp-address-popover-sum="effect.prevLimit") {{effect.prevLimit | rpamount:{reference_date: entry.dateRaw} }}
+      | to
+      span(rp-address-popover, rp-address-popover-sum="effect.limit") {{effect.limit | rpamount:{reference_date: entry.dateRaw} }}
+      | .
+    span(ng-switch-when="trust_change_balance", l10n, rp-span-spacing)
+      | Trust balance between you and
+      span(rp-pretty-identity="effect.counterparty", rp-address-popover="effect.counterparty")
+      | has been changed by
+      span(rp-pretty-amount="effect.amount")
+      | .
+
+    span(ng-switch-when="balance_change", l10n, rp-span-spacing) Your balance has been changed by
+      span(rp-pretty-amount="effect.amount")
+      | .

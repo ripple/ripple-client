@@ -11,11 +11,6 @@ util.inherits(JpyTab, Tab);
 JpyTab.prototype.tabName = 'jpy';
 JpyTab.prototype.mainMenu = 'fund';
 
-JpyTab.prototype.generateHtml = function ()
-{
-  return require('../../jade/tabs/jpy.jade')();
-};
-
 JpyTab.prototype.angular = function (module)
 {
   module.controller('JpyCtrl', ['$scope', 'rpId', 'rpAppManager', 'rpTracker', '$routeParams', 'rpKeychain', 'rpNetwork', '$timeout',

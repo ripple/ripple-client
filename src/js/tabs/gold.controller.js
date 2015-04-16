@@ -11,11 +11,6 @@ util.inherits(GoldTab, Tab);
 GoldTab.prototype.tabName = 'gold';
 GoldTab.prototype.mainMenu = 'fund';
 
-GoldTab.prototype.generateHtml = function ()
-{
-  return require('../../jade/tabs/gold.jade')();
-};
-
 GoldTab.prototype.angular = function (module)
 {
   module.controller('GoldCtrl', ['$scope', 'rpId', 'rpAppManager', 'rpTracker', '$routeParams', 'rpKeychain', 'rpNetwork', '$timeout',

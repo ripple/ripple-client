@@ -1,0 +1,109 @@
+section.col-xs-12.content(ng-controller='JpyCtrl')
+
+  //- Disconnected
+
+  group.disconnected(ng-hide='connected')
+    p.literal(l10n="err-you-must-be-online-to-see-this-screen", l10n)
+      | You have to be online to see this screen
+
+  //- Funding
+  div(ng-show="!loadingAccount && !account.Balance && loadState.account && connected")
+    include ../tabs/banner/unfunded
+
+  .row(ng-show='connected')
+    // Transaction errors coming from errors.js & transactionerror.jade
+    .col-sm-12(ng-show='mode=="error" || mode=="granting" && account.Balance')
+      group.mode-ripplerror
+        rp-transaction-status(
+          rp-engine-result="{{engine_result}}"
+          rp-engine-result-message="{{engine_result_message}}"
+          rp-accepted="{{engine_status_accepted}}"
+          rp-current-tab="trust")
+
+    //- Generic non-tx related messages
+    .col-sm-12(ng-show='notif !== "clear"', ng-hide='!notif')
+      group.mode-granted.wide
+        group(ng-switch="notif")
+          group.result-error(ng-switch-when="error")
+            h2.tx-status(l10n) There was an error while saving your changes.&#32;
+            p(l10n) Please try again later.
+            
+    .col-sm-12(ng-show='account.Balance && !can_add_trust && !jpyConnected')
+      .alert.alert-warning(l10n) You must have at least
+        strong  {{account.reserve_to_add_trust | rpamount:0}} XRP
+        |  to add a new trust line.&#32;
+        a(href="https://ripple.com/wiki/Reserves", target="_blank") More information
+
+    .col-sm-3
+      include ../tabs/fund/menu
+    .col-sm-9.list(ng-show='debug')
+      div This page is not available in debug mode
+    .col-sm-9.list(ng-hide='debug')
+      .nameLine(l10n) Japanese Yen Deposit
+      .gateway.row
+        .col-md-3
+            .title(l10n) Gateway
+            .description(l10n) Tokyo JPY Issuer (~tokyojpy)&#32;
+              a(href="https://tokyojpy.com", target="_blank") www.tokyojpy.com
+        .col-md-3
+            .title(l10n) Availability
+            .description(l10n) All countries
+        .col-md-3
+            .title(l10n) Fees
+            .description(l10n) 
+              p Deposit: .498% + tax(.08%). Deposits available during business hours. 
+              p Withdrawal: 463 JPY + .498% + tax(.08%). Withdrawals available during business hours.
+              p Trading: free
+        .col-md-3
+            .title(l10n) Rating
+            .description(l10n) 
+              a(href="https://coinist.co/ripple/gateways/tokyojpy", target="_blank") read reviews
+      .row.fund-tab-description
+        .col-xs-12.col-md-8.col-lg-6
+          .descriptor(ng-show="!jpyConnected", l10n) Ripple Trade has partnered with Tokyo JPY Issuer to provide easier access to JPY. Following this action will enable Tokyo JPY Issuer to hold JPY on your behalf.
+      .row.fund-tab-description
+        .col-xs-7.col-sm-5.col-md-4
+          button.btn.btn-large.btn-primary(ng-show="!jpyConnected && !loading", type="submit", ng-click="save_account()", ng-disabled="!account.Balance || !can_add_trust", l10n) Add Tokyo JPY
+          button.btn.btn-large.btn-primary(ng-show="!jpyConnected && loading", type="submit", ng-disabled="loading", l10n) Adding...
+          button.btn.btn-large.btn-primary(ng-show="showInstructions && jpyConnected", type="submit", ng-click="toggle_instructions()", l10n) Hide instructions
+          button.btn.btn-large.btn-primary(ng-show="jpyConnected && !showInstructions", type="submit", ng-click="toggle_instructions()", l10n) Show instructions
+
+        .connect.col-xs-5.col-sm-7.col-md-8(ng-hide="loading")
+          .description(ng-show="!jpyConnected && account.Balance", l10n) 
+            i.fa.fa-times
+            |  Not connected
+          .description(ng-show="jpyConnected && account.Balance", l10n) 
+            i.fa.fa-check
+            |  Connected
+          .description(ng-show="!account.Balance", l10n) Your account has to be activated before you can add a gateway account.
+      .row(ng-show="showInstructions && jpyConnected")
+        .instructions.col-md-10
+          a.dismiss(href="", id="hide", ng-click="toggle_instructions()", l10n)  ×
+          .title(l10n) NEW CUSTOMERS- SIGN UP AT TOKYO JPY ISSUER
+          .description(l10n) 
+            a(href="https://tokyojpy.com/join_registraiton_1.php", target="_blank") Register and verify your account&#32;
+            | at Tokyo JPY Issuer. You will need:
+            ul
+              li
+                p(l10n) A valid government-issued ID. 
+              li
+                p(l10n) A proof of address (utility bill, etc).
+              li
+                p(l10n) A bank account under the same name.
+
+          .title(l10n) EXISTING TOKYO JPY ISSUER CUSTOMERS
+          .description(l10n) 
+            ul 
+              li
+                p(l10n) Login to your account&#32;
+                  a(href="https://tokyojpy.com/login.php", target="_blank") here.
+          .title(l10n) DEPOSITS AND WITHDRAWALS:
+          .description(l10n)
+            ul
+              li
+                p(l10n) Tokyo JPY Issuer accepts deposits and withdrawals via bank transfer. Details&#32;
+                  a(href="https://tokyojpy.com/ripple-faq/index.php", target="_blank") here.
+              li
+                p(l10n) To deposit, you’ll need to first deposit into your Tokyo JPY Issuer account and then initiate a transfer into your Ripple account.
+              li
+                p(l10n) To withdraw to a bank account, you’ll first send money from your Ripple account to your Tokyo JPY Issuer account. Follow instructions on the Tokyo JPY Issuer site to send to your bank account.

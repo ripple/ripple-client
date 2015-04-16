@@ -1,0 +1,152 @@
+section.col-xs-12.content(ng-controller="AdvancedCtrl")
+  div(ng-show='debug') This page is not available in debug mode
+
+  div(ng-show="!loadingAccount && !account.Balance && loadState.account && connected && !debug")
+    include ../tabs/banner/unfunded
+  .row(ng-show='!debug')
+    .col-sm-12.notification-wrapper
+      .alert.alert-success(ng-show="success.blobvault", l10n) Your blobvault has been changed successfully.
+      .alert.alert-success(ng-show="success.saveConfirmation.send", l10n) Send confirmation settings have been changed successfully.
+      .alert.alert-success(ng-show="success.saveConfirmation.exchange", l10n) Simple trade confirmation settings have been changed successfully.
+      .alert.alert-success(ng-show="success.saveConfirmation.trade", l10n) Advanced trade confirmation settings have been changed successfully.
+      .alert.alert-success(ng-show="success.maxNetworkFee", l10n) Maximum network fee has been changed successfully.
+      .alert.alert-success(ng-show="success.historyApi", l10n) History API has been changed successfully.
+      .alert.alert-success(ng-show="success.addServer && success.saveServer", l10n) A server has been successfully added.
+      .alert.alert-success(ng-show="success.removeServer", l10n) A server has been successfully removed.
+      .alert.alert-success(ng-show="!success.addServer && success.saveServer", l10n) A server has been changed successfully.
+    .col-sm-3
+      include ../tabs/settings/navbar
+    .col-sm-9.list
+      section.content#servers
+        mixin urlForm(urlType, formName, formDescriptor, description, inputName, hasDelete)
+          form(name=formName, ng-submit='save("'+urlType+'")')
+            .descriptor(l10n)= formDescriptor
+            .row.advanced-form-row(ng-hide='edit.'+urlType)
+              .col-xs-9.col-sm-8.col-md-6
+                .description= description.url
+              .col-xs-1
+              .col-xs-3.col-sm-3.col-md-2
+                a.btn.btn-block.btn-cancel(href="", ng-click='edit.'+urlType+' = true', l10n) edit
+            .row.row-padding-small.field-edit-row(ng-show='edit.'+urlType)
+              .col-xs-12.col-sm-9.col-md-6
+                input.form-control(
+                class=inputName
+                id=inputName
+                name=inputName, type='text'
+                ng-model=description.ngModel
+                required)
+              .col-xs-6.col-sm-6.col-md-3
+                button.btn.btn-block.btn-success.btn-xs.submit#save(type='submit', ng-disabled=formName+'.$invalid', l10n) Save
+              if hasDelete
+                .col-xs-3.col-sm-3.col-md-2
+                  button.btn.btn-block.btn-danger.btn-xs.submit#delete(type="button", ng-click='deleteUrl("'+urlType+'")', l10n) Delete
+              .col-xs-3.col-sm-3.col-md-1.text-center#cancel
+                a.btn.btn-cancel.btn-block(href="", ng-click='cancelEdit("'+urlType+'")', l10n) cancel
+        mixin confirmation(transactionType, formName, formDescriptor, formLabel, boxName)
+          form(name=formName, ng-submit='saveConfirmation("'+transactionType+'")')
+            .descriptor(l10n)= formDescriptor
+            .row
+            label(l10n)= formLabel
+            .row.advanced-form-row(ng-hide='editConfirmation.'+transactionType)
+              .col-xs-9.col-sm-8.col-md-6
+                .description(ng-show='options.confirmation.'+transactionType, l10n) Show
+                .description(ng-hide='options.confirmation.'+transactionType, l10n) Hide
+              .col-xs-1
+              .col-xs-3.col-sm-3.col-md-2
+                a.btn.btn-cancel.btn-block(href='', ng-click='editConfirmation.'+transactionType+' = true', l10n) edit
+            .row.row-padding-small.edit-trust-line(ng-show='editConfirmation.'+transactionType)
+              .col-xs-9.col-sm-8.col-md-6
+                div.helperInput
+                  label
+                    input(type='checkbox', name=boxName
+                    ng-model='options.confirmation.'+transactionType
+                    ng-click='confirmationChanged.'+transactionType+' = true')
+                    span(l10n) Show
+              .col-xs-6.col-sm-6.col-md-3
+                button.btn.btn-block.btn-success.btn-xs.submit#save(type='submit'
+                ng-disabled='serverForm.$invalid', l10n) Save
+              .col-xs-3(ng-show='hasRemove()')
+                button.btn.btn-block.btn-danger.btn-xs.submit#delete(type="button", ng-click="remove()", ng-show="hasRemove()", l10n) Delete
+              .col-xs-3.col-sm-3.col-md-2.text-center#cancel
+                a.btn.btn-cancel.btn-block(href="", ng-click='cancelEditConfirmation("'+transactionType+'")', l10n) cancel
+        
+        h4#networkSettings(l10n) Network settings
+        form(name="maxnetworkfeeForm", ng-submit='save("maxNetworkFee")')
+          .descriptor(l10n) Maximum network fee
+          .row.advanced-form-row(ng-hide="edit.maxNetworkFee")
+            .col-xs-9.col-sm-8.col-md-6
+              .description {{max_tx_network_fee_human}} {{xrp.code}}
+            .col-xs-1
+            .col-xs-3.col-sm-3.col-md-2
+              a.btn.btn-block.btn-cancel(href="", ng-click="edit.maxNetworkFee = true", l10n) edit
+          .row.row-padding-small.field-edit-row(ng-show="edit.maxNetworkFee")
+            .col-xs-12.col-sm-9.col-md-6.input-group
+              input.form-control.maxNetworkFee#maxNetworkFee(
+              name='maxNetworkFee', type='text'
+              ng-model='max_tx_network_fee_human'
+              required
+              rp-amount
+              rp-amount-positive
+              rp-amount-xrp-limit
+              rp-amount-currency='{{xrp.name}}')
+              span.input-group-addon(ng-bind="xrp.name")
+            .col-xs-6.col-sm-6.col-md-3
+              button.btn.btn-block.btn-success.btn-xs.submit#saveMaxNetworkFee(type='submit', ng-disabled='maxnetworkfeeForm.$invalid', l10n) Save
+            .col-xs-3.col-sm-3.col-md-1.text-center#cancel
+              a.btn.btn-cancel.btn-block(href="", ng-click='cancelEdit("maxNetworkFee")', l10n) cancel
+
+        h4#confirmationSettings(l10n) Confirmation Page settings
+        +confirmation('send', 'sendConfirmationForm', 'Send confirmation settings', 'If you hide your send confirmation page, you will not see a confirmation page when sending money. You might pay up to .1% more than you originally specified.', 'sendConfirmationBox')
+        +confirmation('exchange', 'exchangeConfirmationForm', 'Simple trade confirmation settings', 'If you hide the simple trade confirmation page, you will not see a confirmation page when placing a simple trade. You might pay up to .1% more than you originally specified.', 'exchangeConfirmationBox')
+        +confirmation('trade', 'tradeConfirmationForm', 'Advanced trade confirmation settings', 'If you hide the advanced trade confirmation page, you will not see a confirmation page when placing orders.', 'tradeConfirmationBox')
+        
+        h4#serverSettings(l10n) Server settings
+        +urlForm('blobvault', 'blobForm', 'Blob vault', {url: '{{options.blobvault}}', ngModel: 'options.blobvault'}, 'blobIp', true)
+        +urlForm('historyApi', 'historyApiForm', 'History API', {url: '{{options.historyApi}}', ngModel: 'options.historyApi'}, 'historyAPI', false)
+        form.server-row-form(ng-controller="ServerRowCtrl", ng-repeat="(index, server) in options.server.servers", ng-submit="save()")
+          ng-form(name="serverForm")
+            .row
+              .col-xs-6.col-sm-5.col-md-3
+                .descriptor(l10n) WebSocket host name
+              .port.col-xs-4.col-sm-7.col-md-9
+                .descriptor.portNumber(l10n) Port number
+            .row.row-padding-small(ng-show="editing")
+              .col-xs-6.col-sm-5.col-md-3.hostname-wrapper
+                input.form-control.host(name='host', type='text'
+                  ng-model='server.host', ng-model-options="{ debounce: 500 }"
+                  rp-websocket, rp-websocket-port="{{server.port}}", rp-websocket-secure="{{server.secure}}"
+                  rp-spinner)
+                .errorGroup(ng-show="serverForm.$dirty")
+                  div(ng-messages='serverForm.host.$error')
+                    .error(ng-message='rpWebsocket', l10n) Socket ip or hostname is invalid or is down.
+                  div(ng-messages='serverForm.port.$error')
+                    .error(ng-message='rpPortNumber', l10n) Port number is invalid.
+              .col-xs-3.col-sm-2.col-md-2
+                input.form-control.socketPort(name='port', type='text'
+                  ng-model='server.port', ng-model-options="{ debounce: 500 }"
+                  rp-port-number)
+              .col-xs-3.col-md-1.col-sm-2.editable#secureSocket
+                div.helperInput
+                  label
+                    input(type="checkbox", name="secure", ng-model='server.secure')
+                    span(l10n) Secure
+              .col-xs-6.col-sm-6.col-md-3
+                button.btn.btn-block.btn-success.btn-xs.submit#save(type='submit'
+                ng-disabled='serverForm.$invalid || serverForm.$pending', l10n) Save
+              .col-xs-3.col-sm-3.col-md-1(ng-show="hasRemove()")
+                button.btn.btn-block.btn-danger.btn-xs.submit#delete(type="button", ng-click="remove()", ng-show="hasRemove()", l10n) Delete
+              .col-xs-3.col-sm-3.col-md-1.text-center#cancel
+                a.btn.btn-cancel.btn-block(href="", ng-click="cancel()", ng-hide="noCancel()", l10n) cancel
+            .row.advanced-form-row(ng-hide="editing")
+              .col-xs-6.col-sm-5.col-md-3
+                .description(ng-bind="server.host") 
+              .col-xs-3.col-sm-3.col-md-2.port-wrapper
+                .description(ng-bind="server.port") 
+              .col-xs-3.col-sm-2.col-md-2#secureSocket
+                .description(ng-show="server.secure", l10n) Secure
+                .description(ng-hide="server.secure", l10n) Not Secure
+              .col-xs-3.col-sm-2.col-md-2
+                a.btn.btn-cancel.btn-block(href="", ng-click="editing = true", l10n) edit
+        .row
+          .col-xs-12.col-sm-6.col-md-3
+            button.btn.btn-block.btn-primary#newServer(type="button", ng-click="addServer()", l10n) Add new server

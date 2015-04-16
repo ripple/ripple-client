@@ -12,11 +12,6 @@ util.inherits(TwoFATab, Tab);
 TwoFATab.prototype.tabName = 'twofa';
 TwoFATab.prototype.mainMenu = 'twofa';
 
-TwoFATab.prototype.generateHtml = function ()
-{
-  return;
-};
-
 TwoFATab.prototype.angular = function(module)
 {
   module.controller('TwoFACtrl', ['$scope', 'rpId', 'rpKeychain', 'rpAuthFlow', '$timeout',

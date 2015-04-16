@@ -1,0 +1,17 @@
+section.col-xs-12.content(ng-controller="AccountCtrl")
+  div(ng-show='debug') This page is not available in debug mode
+
+  .row(ng-show='!debug')
+    div(ng-show="!loadingAccount && !account.Balance && loadState.account && connected")
+      include ../tabs/banner/unfunded
+    .col-sm-3
+      include ../tabs/account/navbar
+
+    .col-sm-9.list
+      div
+        .showPublic(ng-show="$routeParams.route == 'public'")
+          include ../tabs/account/public
+        //- .showPublic(ng-show="$routeParams.route == 'private'", ng-controller="KycCtrl")
+        //-   include ../tabs/account/private
+
+
