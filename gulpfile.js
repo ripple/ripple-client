@@ -9,8 +9,7 @@ var gulp = require('gulp'),
   jadeL10n = require('jade-l10n'),
 
   meta = require('./package.json'),
-  languages = require('./l10n/languages.json').active,
-  languageCodes = languages.map(function(i) { return i.code; }).join(' ');
+  languages = require('./l10n/languages.json').active;
 
 var $ = require('gulp-load-plugins')({
   pattern: ['gulp-*', 'del', 'browser-sync']
@@ -156,8 +155,7 @@ gulp.task('preprocess:dev', ['gitVersion'], function() {
       context: {
         MODE: 'dev',
         VERSION: meta.gitVersion,
-        VERSIONBRANCH: meta.gitVersionBranch,
-        LANGUAGES: languageCodes
+        VERSIONBRANCH: meta.gitVersionBranch
       }
     }))
     .pipe(gulp.dest(buildDirPath + '/dev/'))
@@ -170,8 +168,7 @@ gulp.task('preprocess:dist', ['gitVersion'], function() {
       context: {
         MODE: 'dist',
         VERSION: meta.gitVersion,
-        VERSIONBRANCH: meta.gitVersionBranch,
-        LANGUAGES: languageCodes
+        VERSIONBRANCH: meta.gitVersionBranch
       }
     }))
     .pipe(gulp.dest(buildDirPath + '/dist/'))
@@ -203,7 +200,8 @@ languages.forEach(function(language){
   languageTasks.push('templates:' + language.code);
 });
 
-gulp.task('templates:dist', $.sync(gulp).sync(languageTasks));
+//gulp.task('templates:dist', $.sync(gulp).sync(languageTasks));
+gulp.task('templates:dist', ['templates:en']);
 
 // Default Task (Dev environment)
 gulp.task('default', ['dev'], function() {
