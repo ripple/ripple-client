@@ -1,0 +1,144 @@
+{
+  "type": "script",
+  "seleniumVersion": "2",
+  "formatVersion": 2,
+  "steps": [
+    {
+      "type": "get",
+      "url": "http://ripp.site:3000/#/login"
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "Welcome to Ripple Trade"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "id",
+        "value": "login_username"
+      },
+      "text": "${FUNDED_USER_NAME}"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "id",
+        "value": "login_password"
+      },
+      "text": "${FUNDED_USER_PASSWORD}"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "id",
+        "value": "loginBtn"
+      }
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "BALANCES"
+    },
+    {
+      "type": "verifyTextPresent",
+      "text": "BALANCES"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "#nav-send > a"
+      }
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "Recipient"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "id",
+        "value": "send_destination"
+      },
+      "text": "kate@snapswap.eu"
+    },
+    {
+      "type": "waitForElementPresent",
+      "locator": {
+        "type": "css selector",
+        "value": "span[ng-bind='send.currency_force']"
+      }
+    },
+    {
+      "type": "verifyText",
+      "text": "EUR - Euro",
+      "locator": {
+        "type": "css selector",
+        "value": "span[ng-bind='send.currency_force']"
+      }
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "id",
+        "value": "send_amount"
+      },
+      "text": "0.01"
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "Send XRP"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "id",
+        "value": "send_destination"
+      },
+      "text": "#kate@snapswap.eu"
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "Dollar"
+    },
+    {
+      "type": "waitForElementPresent",
+      "locator": {
+        "type": "css selector",
+        "value": "span[ng-bind='send.currency_force']"
+      }
+    },
+    {
+      "type": "verifyText",
+      "text": "USD - US Dollar",
+      "locator": {
+        "type": "css selector",
+        "value": "span[ng-bind='send.currency_force']"
+      }
+    },
+
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": ".fa-cog"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "link text",
+        "value": "Log Out"
+      }
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "Welcome to Ripple Trade"
+    }
+  ],
+  "data": {
+    "configs": {},
+    "source": "none"
+  },
+  "inputs": [],
+  "timeoutSeconds": 420
+}
