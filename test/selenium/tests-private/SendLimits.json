@@ -1,0 +1,187 @@
+{
+  "type": "script",
+  "seleniumVersion": "2",
+  "formatVersion": 2,
+  "steps": [
+    {
+      "type": "get",
+      "url": "http://ripp.site:3000/#/login"
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "Welcome to Ripple Trade"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "id",
+        "value": "login_username"
+      },
+      "text": "${FUNDED_USER_NAME}"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "id",
+        "value": "login_password"
+      },
+      "text": "${FUNDED_USER_PASSWORD}"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "id",
+        "value": "loginBtn"
+      }
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "BALANCES"
+    },
+    {
+      "type": "verifyTextPresent",
+      "text": "BALANCES"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "#nav-send > a"
+      }
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "Recipient"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "id",
+        "value": "send_destination"
+      },
+      "text": "~vakula"
+    },
+    {
+      "type": "waitForElementPresent",
+      "locator": {
+        "type": "id",
+        "value": "send_amount_currency"
+      }
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "id",
+        "value": "send_amount"
+      },
+      "text": "0.0000001"
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "too much"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "id",
+        "value": "send_amount"
+      },
+      "text": "0.000001"
+    },
+    {
+      "type": "waitForElementAttribute",
+      "locator": {
+        "type": "id",
+        "value": "sendXrpButton"
+      },
+      "attributeName": "disabled",
+      "value": "disabled",
+      "negated": true
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "id",
+        "value": "send_amount"
+      },
+      "text": "1000000000000"
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "too much"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "id",
+        "value": "send_amount_currency"
+      },
+      "text": "USD"
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "insufficient"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "id",
+        "value": "send_amount"
+      },
+      "text": "10000000000000000"
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "too many"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "id",
+        "value": "send_amount"
+      },
+      "text": ".000000000000001"
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "Send USD"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "id",
+        "value": "send_amount"
+      },
+      "text": ".0000000000000001"
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "too many"
+    },
+
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": ".fa-cog"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "link text",
+        "value": "Log Out"
+      }
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "Welcome to Ripple Trade"
+    }
+  ],
+  "data": {
+    "configs": {},
+    "source": "none"
+  },
+  "inputs": [],
+  "timeoutSeconds": 420
+}
