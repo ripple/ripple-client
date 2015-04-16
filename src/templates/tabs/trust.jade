@@ -14,6 +14,11 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
     div(ng-show="!loadingAccount && !account.Balance && loadState.account && connected")
       include ../tabs/banner/unfunded
 
+    div(ng-show='hasRTJapanTrust')
+      include banner/rtjapan
+    div(ng-show='hasRTJapanTrustWithRippling')
+      include banner/rtjapanrippling
+
     //- N1. Trust form
     .row
       // Transaction errors coming from errors.js & transactionerror.jade

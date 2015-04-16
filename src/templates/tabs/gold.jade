@@ -10,6 +10,11 @@ section.col-xs-12.content(ng-controller='GoldCtrl')
   div(ng-show="!loadingAccount && !account.Balance && loadState.account && connected")
     include ../tabs/banner/unfunded
 
+  div(ng-show='hasRTJapanTrust')
+    include banner/rtjapan
+  div(ng-show='hasRTJapanTrustWithRippling')
+    include banner/rtjapanrippling
+
   .row(ng-show='connected')
     // Transaction errors coming from errors.js & transactionerror.jade
     .col-sm-12(ng-show='mode=="error" || mode=="granting" && account.Balance')

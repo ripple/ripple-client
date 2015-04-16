@@ -16,6 +16,11 @@ section.col-xs-12.content(ng-controller='BalanceCtrl')
   div(ng-show='!loadingAccount && !account.Balance && loadState.account && connected')
     include ../tabs/banner/unfunded
 
+  div(ng-show='hasRTJapanTrust')
+    include banner/rtjapan
+  div(ng-show='hasRTJapanTrustWithRippling')
+    include banner/rtjapanrippling
+
   group(ng-show='connected && loadState.account')
     include ../tabs/banner/announcement
     .widgets.row

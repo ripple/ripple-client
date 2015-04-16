@@ -13,6 +13,11 @@ section.col-xs-12.content(ng-controller='BtcCtrl')
   div(ng-show="!loadingAccount && !account.Balance && loadState.account && connected")
     include ../tabs/banner/unfunded
 
+  div(ng-show='hasRTJapanTrust')
+    include banner/rtjapan
+  div(ng-show='hasRTJapanTrustWithRippling')
+    include banner/rtjapanrippling
+
   group.mode-granted.wide(ng-show='notif !== "clear"', ng-hide='!notif')
     group(ng-switch="notif")
       group.result-success(ng-switch-when="success")
