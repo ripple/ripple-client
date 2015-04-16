@@ -332,7 +332,15 @@ header {
     }
   }
 }
-
+@media (max-width: @screen-sm-max) {
+  header {
+    nav.navbar {
+      ul.nav > li > a {
+        padding: 20px 15px;
+      }
+    }
+  }
+}
 @sideNavWidth: 150px;
 
 #wrapper .container > .main section {
