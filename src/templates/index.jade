@@ -1,0 +1,138 @@
+doctype
+
+<!--[if lt IE 7]>
+html.no-js.lt-ie9.lt-ie8.lt-ie7(ng-app='rp', ng-controller='AppCtrl', ng-class='[$route.current.tabClass, $route.current.pageMode]', lang='en')
+<![endif]-->
+<!--[if IE 7]>
+html.no-js.lt-ie9.lt-ie8(ng-app='rp', ng-controller='AppCtrl', ng-class='[$route.current.tabClass, $route.current.pageMode]', lang='en')
+<![endif]-->
+<!--[if IE *]>
+html.no-js.lt-ie9(ng-app='rp', ng-controller='AppCtrl', ng-class='[$route.current.tabClass, $route.current.pageMode]', lang='en')
+<![endif]-->
+<!--[if gt IE 8]><!-->
+html.no-js(ng-app='rp', ng-controller='AppCtrl', ng-class='[$route.current.tabClass, $route.current.pageMode]', lang='en')
+<!--<![endif]-->
+
+html(ng-app='rp', ng-controller='AppCtrl', ng-class='[$route.current.tabClass, $route.current.pageMode]')
+  head
+    meta(charset='utf-8')
+    title Ripple Trade
+    meta(name='description', content='Ripple Trade: the only platform where you can trade between fiat, crypto, gold and more. When placing an order, the P2P Ripple network instantly finds the best match - no 3rd parties involved.')
+    meta(name='google', value='notranslate')
+    meta(property='og:description', content='Ripple Trade: the only platform where you can trade between fiat, crypto, gold and more. When placing an order, the P2P Ripple network instantly finds the best match - no 3rd parties involved.')
+    meta(name='apple-mobile-web-app-capable', ,='', content='yes')
+    meta(name='apple-mobile-web-app-title', content='Ripple Trade')
+    meta(name='mobile-web-app-capable', ,='', content='yes')
+    meta(name='mobile-web-app-title', ,='', content='Ripple Trade')
+    link(rel='apple-touch-icon', href='/img/mobile/icon60.png')
+    link(rel='apple-touch-icon', sizes='76x76', href='/img/mobile/icon76.png')
+    link(rel='apple-touch-icon', sizes='120x120', href='/img/mobile/icon120.png')
+    link(rel='apple-touch-icon', sizes='152x152', href='/img/mobile/icon152.png')
+    link(rel='icon', sizes='196x196', href='/img/mobile/icon196.png')
+    link(rel='icon', sizes='128x128', href='/img/mobile/icon128.png')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no')
+    // build:css /css/web.css
+    // inject:css
+    link(href='../../res/fonts/stylesheet.css', rel='stylesheet')
+    link(href='../dev/css/web.css', rel='stylesheet')
+    // endinject
+    // endbuild
+    // FAVICON
+    link(rel='shortcut icon', href='/img/favicon.ico', type='image/x-icon')
+    link(rel='icon', href='/img/favicon.ico', type='image/x-icon')
+    // END FAVICON
+    // build:js /js/head.js
+    script(src='../../deps/js/modernizr.js')
+    // endbuild
+    base(href='/')
+
+  body(ng-class='app_loaded')
+    div(ng-include="'templates/' + lang + '/client/layout.html'")
+
+    #appLoading
+      img.loader(src='img/main.png', alt='', title='')
+    // VERSION
+    #version
+      // @echo VERSION
+      // @if MODE == 'dev' !> - <!-- @echo VERSIONBRANCH
+      // @endif
+      // @exclude
+      | [unprocessed]
+      // @endexclude
+    #noWebSockets
+      p We apologize, but the Ripple Client needs JavaScript and WebSockets in order to function.
+        br
+        | Please refer to this page and download a browser that supports WebSockets. Thank you!
+        br
+        a(href='http://caniuse.com/websockets') http://caniuse.com/websockets
+
+    // JAVASCRIPT
+    <!--[if IE]>
+    script(src='compat/ie/ws/ws-config.js')
+    script(src='js/compat_ie.js')
+    <![endif]-->
+
+    // build:js /js/vendor.js
+    script(src='../../deps/js/jquery/dist/jquery.js')
+    script(src='../../deps/js/authy.js')
+    script(src='../../deps/js/swfobject.js')
+    script(src='../../deps/js/setImmediate.js')
+    script(src='../../deps/js/underscore/underscore.js')
+    script(src='../../deps/js/downloadify.js')
+    script(src='../../deps/js/angular/angular.js')
+    script(src='../../deps/js/angular-route/angular-route.js')
+    script(src='../../deps/js/angular-messages/angular-messages.js')
+    script(src='../../deps/js/store.js/store.js')
+    script(src='../../deps/js/d3/d3.js')
+    script(src='../../deps/js/ripple/ripple-debug.js')
+    script(src='../../deps/js/ripple-sjcl.js')
+    script(src='../../deps/js/moment/moment.js')
+    script(src='../../deps/js/ripple-vault-client/ripple-vault-client-debug.js')
+    script(src='../../deps/js/bootstrap-modal.js')
+    script(src='../../deps/js/bootstrap-tooltip.js')
+    script(src='../../deps/js/bootstrap-popover.js')
+    script(src='../../deps/js/angular-bootstrap/ui-bootstrap-tpls.js')
+    script(src='../../deps/js/bootstrap-datepicker.js')
+    script(src='../../deps/js/spin.js/spin.js')
+    script(src='../../deps/js/snapjs/snap.js')
+    script(src='../../deps/js/ng-sortable/dist/ng-sortable.js')
+    script(src='../../deps/js/charts/pricechart.js')
+    script(src='../../deps/js/roost.min.js')
+    // endbuild
+
+    // build:js /config.js
+    script(src='../../config.js')
+    // endbuild
+
+    script.
+      window.name = 'NG_DEFER_BOOTSTRAP!';
+
+    <!-- @if MODE == 'dev' -->
+    script(type='text/javascript').
+      $.getScript('js/app.js');
+    <!-- @endif -->
+
+    <!-- @if MODE == 'dist' -->
+    script(type='text/javascript').
+      $.ajaxSetup({
+        cache: true
+      });
+      var version = '<!-- @echo VERSION -->';
+      $.getScript('js/app.js?v=' + version);
+    <!-- @endif -->
+
+    // start Mixpanel
+    script(type='text/javascript').
+      if (Options.mixpanel && Options.mixpanel.track) { (function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src='/mixpanel.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f);b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==
+      typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");for(g=0;g<i.length;g++)f(c,i[g]);
+        b._i.push([a,e,d])};b.__SV=1.2}})(document,window.mixpanel||[]);
+        mixpanel.init(Options.mixpanel.token); }
+    // end Mixpanel
+
+    script.
+      var _roost = _roost || [];
+      _roost.push(['autoprompt', false]);
+
+    // loading state
+    script.
+      setTimeout(function(){ $("body").addClass("loading");}, 100);

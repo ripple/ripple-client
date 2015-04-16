@@ -14,11 +14,6 @@ util.inherits(AppsTab, Tab);
 AppsTab.prototype.tabName = 'apps';
 AppsTab.prototype.mainMenu = 'apps';
 
-AppsTab.prototype.generateHtml = function ()
-{
-  return require('../../jade/tabs/apps.jade')();
-};
-
 AppsTab.prototype.angular = function (module)
 {
   module.controller('AppsCtrl', ['$scope', 'rpId', 'rpAppManager',

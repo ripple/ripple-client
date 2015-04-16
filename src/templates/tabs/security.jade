@@ -1,0 +1,218 @@
+section.col-xs-12.content(ng-controller="SecurityCtrl")
+  div(ng-show='debug') This page is not available in debug mode
+
+  .row(ng-show='!debug')
+    .col-xs-12(ng-hide="isUnlocked")
+      .auth-attention.sessionUnlock
+        h5(l10n) Active Session Timeout
+        .status(l10n) To view or edit your security settings, you must currently have an active session.
+        .row
+          .col-xs-12.col-sm-5
+            form(ng-submit="restoreSession()")
+              label(for="sessionPassword", l10n) Password
+              input.form-control#sessionPassword(type="password",
+              name="sessionPassword", ng-model="sessionPassword", rp-focus)
+              button.btn.btn-primary.btn-block(type="submit", ng-disabled="isConfirming")
+                img(src="img/button-s.png", class="loader", ng-show="isConfirming")
+                span(l10n) Restore Session
+      .alert.alert-danger(ng-show="unlockError")
+        span(l10n) Entered password is wrong.
+    div.col-xs-12(ng-show="!loadingAccount && !account.Balance && loadState.account && connected")
+      include ../tabs/banner/unfunded
+    .col-sm-12.error-wrapper
+      .alert.alert-danger(ng-show="error", ng-switch="error")
+        span(ng-switch-when="wrongpassword", l10n)
+          | Entered password is wrong.
+        span(ng-switch-when="cantlogin", l10n)
+          | Your Ripple password has been changed, please login again
+        span(ng-switch-default, l10n)
+          | Couldn't change your Ripple password, please try again later.
+    .col-sm-12.notification-wrapper
+      .alert.alert-warning(ng-show="loading", l10n) Changing your Ripple password...
+      .alert.alert-success(ng-show="success.changePassword", l10n) Your Ripple password has been changed successfully.
+      .alert.alert-danger(ng-show="errorLoading2FA", l10n) Unable to load Two-factor authentication settings.
+      .alert.alert-danger(ng-show="error2FA", l10n) Error saving Two-factor authentication settings.
+      .alert.alert-danger(ng-show="invalidToken", l10n) The verification code is invalid.
+      .alert.alert-danger(ng-show="errorSetPasswordProtection") Error saving password protection settings.
+      .alert.alert-success(ng-show="success.enable", l10n) Two-factor authentication has been successfully enabled.
+      .alert.alert-success(ng-show="success.disable", l10n) Two-factor authentication has been successfully disabled.
+      .alert.alert-success(ng-show="success.enableRequirePassword", l10n) Password protection has been successfully enabled.
+      .alert.alert-success(ng-show="success.disableRequirePassword", l10n) Password protection has been successfully disabled.
+    .col-sm-4.col-md-3.col-xs-12(ng-show="isUnlocked")
+      include ../tabs/settings/navbar
+    .col-sm-8.col-md-9.col-xs-12.list(ng-show="isUnlocked")
+      .show-security(ng-show="settingsPage == 'security'")
+        div
+          h4(l10n) Security settings
+          .section
+            .descriptor Two-factor authentication
+            .row(ng-show="loading2FA")
+              .col-xs-12.col-sm-9(l10n)
+                img(src="img/button-s.png", class="loader", id="button_loader")
+                span(class="loading_text", l10n) Loading Two-factor authentication settings...
+            .row.row-padding-small-xs(ng-hide="loading2FA || errorLoading2FA || mode2FA === 'verifyPhone'")
+              .col-xs-9.col-sm-8.col-md-6
+                .description
+                  span(ng-show="enabled2FA", l10n) Enabled
+                  span(ng-hide="enabled2FA", l10n) Disabled
+              .col-xs-3.col-sm-4.col-md-6
+                a.btn.btn-cancel(href="", ng-show="enabled2FA", ng-click="disable2FA()", l10n) disable
+                rp-popup(onOpen="open2FA")
+                  a.btn.btn-cancel(href="", rp-popup-link, ng-hide="enabled2FA", l10n) enable
+                  div.connectModal.modal2FA(rp-popup-content)
+                    .modal-header
+                      .navbar-brand.hidden-sm.modal-logo#logo
+                      .modal-title(l10n) Connect
+                    .modal-body
+                      div.modal-prompt(l10n) Authy is providing two-factor authentication for Ripple Trade. To enable two-factor authentication, you must share some information with Authy.
+                      div.grey-focus
+                        .row.modal-permissions
+                          .col-xs-12.col-sm-4(l10n) - Your email address:
+                          .col-xs-12.col-sm-8.email(ng-bind="userBlob.data.email")
+                        .row.modal-permissions
+                          .col-xs-12.col-sm-4(l10n) - Your phone number:
+                          include ../tabs/2fa/form
+                      div.modal-agreement(l10n) By proceeding, you agree to the Authy
+                        a(href="https://www.authy.com/terms", target="_blank", l10n-inc)  terms of service.
+                      div.modal-buttons
+                        button.modal-btn.btn.btn-default.btn-primary.btn-md(ng-click="savePhone()", ng-disabled="savingPhone")
+                          span(l10n) Share
+                        button.modal-btn.btn.btn-default.btn-md.btn-link.btn-cancel(data-dismiss="modal"
+                        ng-hide="savingPhone", l10n) cancel
+            .row.confirm2FA(ng-hide="!mode2FA || mode2FA === 'verifyPhone'")
+              .col-xs-12.col-sm-9
+                .status
+                  img(src="img/button-s.png", class="loader", ng-show="mode2FA === 'savePhone' || mode2FA === 'disable' || mode2FA === 'enable'")
+                  span(class="loading_text", ng-show="mode2FA === 'savePhone'", l10n) Saving settings...
+                  span(class="loading_text", ng-show="mode2FA === 'disable'", l10n) Disabling Two-factor authentication...
+                  span(class="loading_text", ng-show="mode2FA === 'enable'", l10n) Enabling Two-factor authentication...
+            form.verify2FA(ng-show="mode2FA === 'verifyPhone'")
+              .row
+                .col-xs-12
+                  .status
+                    span(ng-hide="via === 'app'", l10n) Please enter the verification code from the SMS message sent to your device: 
+                    span(ng-show="via === 'app'", l10n) Please enter the verification code from the Authy app installed on your device: 
+                    span  +{{currentCountryCode}} {{currentPhone}}
+                    div(l10n-inc) Enter the code below to complete the process.
+              .row
+                .col-xs-12.col-sm-8
+                  label(for="verifyToken", l10n) Verification Code
+              .row
+                .col-xs-9.col-md-5.col-sm-9
+                  input.form-control#verifyToken(name="verifyToken", ng-model="verifyToken")
+                .col-xs-3.col-md-3.col-sm-3
+                  button.btn.btn-cancel.btn-block(type="button", ng-disabled="isRequesting",
+                  ng-click="requestToken()")
+                    img(src="img/button-s.png", class="loader", ng-show="isRequesting")
+                    span(class="loading_text", ng-hide="via === 'app'", l10n) Resend Code
+                    span(class="sms-txt", ng-show="via === 'app'", l10n) Send Via SMS
+              .row
+                .col-xs-8.col-sm-3
+                  button.btn.btn-primary.btn-block(type="button", ng-disabled="isVerifying", ng-click="enable2FA()")
+                    img(src="img/button-s.png", class="loader", ng-show="isVerifying")
+                    span(l10n) Enable
+                .col-xs-4.col-sm-2
+                  a.btn.btn-block.btn-cancel(ng-click="cancel2FA()", l10n) cancel
+          .section
+            .descriptor(l10n) Ripple password
+            .row.row-padding-small-xs
+              .col-xs-9.col-sm-8.col-md-6(ng-hide="openFormPassword") 
+                .description
+                  |*****************
+              .col-xs-3.col-sm-4.col-md-6
+                a.btn.btn-cancel(href="", ng-click="openFormPassword=!openFormPassword"
+                ng-hide="openFormPassword", l10n) edit
+            .row
+              
+              .auth-form-container.col-xs-12.col-md-8.col-lg-6
+                form#renameForm(name="changeForm", ng-show="openFormPassword", ng-submit="changePassword()")
+                  .form-group
+                    label(type="password", for='password', l10n) Current password
+                    input.form-control#password(type="password", name="password"
+                    rp-focus, ng-model="password", required)
+                  .form-group(ng-class="{'field-error': 'weak' === strength || 'match' === strength}")
+                    label(for='change_password', l10n) New password
+                    input.form-control(
+                    name='change_password1', type='password', autocomplete="off"
+                    ng-model="password1"
+                    rp-strong-password, required, rp-same-in-set="passwordSet")
+                    p(ng-show="strength=='weak'")
+                      span(l10n) Your password is weak. It does not contain numbers and symbols or it is too short.
+                    p(ng-show="strength=='match'")
+                      span(l10n) Your Ripple name and password cannot match. Please create a new password.
+                  .form-group(ng-class="{'field-error': changeForm.change_password1.$error.rpSameInSet && changeForm.change_password2.$dirty}")
+                    label(for='change_password2', l10n) Confirm password
+                    input.form-control(
+                    name='change_password2', autocomplete="off"
+                    type='password'
+                    ng-model="password2"
+                    required, rp-same-in-set="passwordSet")
+                    p(ng-show="changeForm.change_password1.$error.rpSameInSet && changeForm.change_password2.$dirty")
+                      span(l10n) Passwords do not match
+                  div(ng-show="")
+                    .form-group
+                      div(class="strength {{strength}}", ng-bind="strength")
+                  .row
+                    .col-xs-6.col-sm-6
+                      button.btn.btn-success.btn-block(type="submit"
+                      ng-disabled="changeForm.$invalid || loading")
+                        span(ng-hide="loading", l10n) Submit
+                        span(ng-show="loading", l10n) Loading...
+                    .col-xs-6.col-sm-6
+                      a.btn.btn-block.btn-cancel(href="", ng-click="openFormPassword=!openFormPassword", l10n) cancel
+          .section
+            .descriptor(l10n) Secret key
+            .row
+            label(l10n) Your secret key unlocks access to your account funds. Please write it down and store it
+                |  somewhere private and safe. In the event you lose your Ripple name or password, you can use this secret
+                |  key to recover your funds.
+            .row.row-padding-small-xs
+              .col-xs-9.col-sm-8.col-md-6
+                .description
+                  span.value(ng-show="security.master_seed", ng-bind="security.master_seed")
+                  span.value(ng-hide="security.master_seed") ••••••••••••••••••••••••••••••••••••••••••••
+              .col-xs-3.col-sm-4.col-md-3
+                a.btn.btn-cancel(href="", ng-click="unmaskSecret()", ng-hide="security.master_seed", l10n) Show
+                a.btn.btn-cancel(href="", ng-click="security.master_seed = null", ng-show="security.master_seed", l10n) Hide
+          .section
+            .descriptor(l10n) Password protection for transactions
+            .row.row-padding-small-xs
+              .col-xs-12
+                .description(l10n) If you turn off password requests, you’ll still need to enter your password after each page refresh.
+                div.helperInput
+                  form(name="persistUnlock", ng-submit="setPasswordProtection()")
+                    .row(ng-hide="editUnlock")
+                      .col-xs-6.col-sm-5.col-md-4
+                        .description Require password
+                      .col-xs-3.col-sm-3.col-md-2
+                        div.description
+                          div(ng-show="requirePassword", l10n) Yes
+                          div(ng-hide="requirePassword", l10n) No
+                      .col-xs-3.col-sm-4.col-md-6
+                        div
+                          a.btn.btn-cancel#edit(href="", ng-click="editUnlock = true", l10n) edit
+                    .row.edit-security-pswd(ng-show="editUnlock")
+                      .col-xs-6.col-sm-5.col-md-4
+                        .description Require password
+                      .col-xs-6.col-sm-3.col-md-2
+                        div.helperInput.description
+                          label
+                            input(type="checkbox", name="unlock", ng-checked='requirePassword', ng-click="requirePasswordChanged = true")
+                      .col-xs-12.col-sm-4.col-md-4.save-btn-wrapper
+                        .description
+                          button.btn.btn-block.btn-success.btn-xs.submit#save(type='submit'
+                          ng-disabled='serverForm.$invalid', l10n) Save
+          .section
+            .descriptor(l10n) Delete Ripple Trade account
+            .row.row-padding-small-xs
+              .col-xs-9.col-sm-8.col-md-6(l10n) This deletes your Ripple Trade account. You will no longer be able to login to Ripple
+                |  Trade and your account data will be deleted. However, you can still access your funds using your secret key.
+              .col-xs-3.col-sm-4.col-md-3
+                rp-confirm(
+                  action-text="Are you sure you want to permanently delete this account? You will lose access to ~{{userCredentials.username}}."
+                  action-button-text="Delete Ripple Trade account ~{{userCredentials.username}}"
+                  action-button-css="btn btn-default btn-danger"
+                  action-function="deleteAccount()"
+                  cancel-button-css="btn btn-cancel"
+                  cancel-button-text="cancel")
+                    a.btn.btn-cancel.danger(href="", l10n) Delete

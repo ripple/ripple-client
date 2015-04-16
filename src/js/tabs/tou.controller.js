@@ -12,11 +12,6 @@ TouTab.prototype.tabName = 'tou';
 TouTab.prototype.pageMode = 'single';
 TouTab.prototype.parent = 'main';
 
-TouTab.prototype.generateHtml = function ()
-{
-  return require('../../jade/tabs/tou.jade')();
-};
-
 TouTab.prototype.angular = function (module) {
   module.controller('TouCtrl', ['$scope', '$element',
                                   function ($scope, $element)

@@ -11,11 +11,6 @@ util.inherits(UsdTab, Tab);
 UsdTab.prototype.tabName = 'usd';
 UsdTab.prototype.mainMenu = 'fund';
 
-UsdTab.prototype.generateHtml = function ()
-{
-  return require('../../jade/tabs/usd.jade')();
-};
-
 UsdTab.prototype.extraRoutes = [
   { name: '/usd/:result' }
 ];

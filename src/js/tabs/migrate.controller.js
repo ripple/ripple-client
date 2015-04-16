@@ -12,11 +12,6 @@ MigrateTab.prototype.tabName = 'migrate';
 MigrateTab.prototype.pageMode = 'single';
 MigrateTab.prototype.parent = 'main';
 
-MigrateTab.prototype.generateHtml = function ()
-{
-  return require('../../jade/tabs/migrate.jade')();
-};
-
 MigrateTab.prototype.angular = function (module) {
   module.controller('MigrateCtrl', ['$scope', '$element', '$routeParams',
                                   '$location', 'rpId', '$rootScope',

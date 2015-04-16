@@ -1,0 +1,119 @@
+section.col-xs-12.content(ng-controller='UsdCtrl')
+
+  //- Disconnected
+
+  group.disconnected(ng-hide='connected')
+    p.literal(l10n="err-you-must-be-online-to-see-this-screen", l10n)
+      | You have to be online to see this screen
+
+  //- Funding
+  div(ng-show="!loadingAccount && !account.Balance && loadState.account && connected")
+    include ../tabs/banner/unfunded
+
+  .row(ng-show='connected')
+    .col-sm-3
+      include ../tabs/fund/menu
+    form.col-sm-9.list#usdDepositForm(action="", method="post", name="usdDeposit"
+      ng-submit="getQuote()")
+      .nameLine(l10n) USD instant deposit
+      //ol.breadcrumb
+        li.active(ng-if="mode == 'step1'", l10n) Step 1 (Amount)
+        li(ng-if="mode != 'step1'")
+          a(href="", ng-click="step1()", l10n) Step 1 (Amount)
+        li(ng-class="{active: mode == 'step2'}", l10n) Step 2 (Confirmation)
+        li(ng-class="{active: mode == 'step3'}", l10n) Step 3 (Complete deposit)
+      .row(ng-show="mode && mode!='noKyc'")
+        .col-md-4.steps
+          span(ng-class="{ 'selected': mode == 'step1' }", l10n) STEP 1: AMOUNT
+        .col-md-4.steps
+          span(ng-class="{ 'selected': mode == 'step2' }", l10n) STEP 2: CONFIRMATION
+        .col-md-4.steps
+          span(ng-class="{ 'selected': mode == 'step3' }", l10n) STEP 3: COMPLETE DEPOSIT
+      br
+      .results(ng-show="mode == 'step1'")
+        .result-success(ng-show="$routeParams.result == 'success'")
+          h2.tx-status(l10n) Success! You've completed your USD deposit. Your funds should be available within a few minutes.
+        div(ng-show="$routeParams.result == 'cancel'")
+          h2.tx-status(l10n) You cancelled your deposit.
+        .result-error(ng-show="$routeParams.result == 'failure'")
+          h2.tx-status(l10n) Your deposit failed. Your bank account was not charged. Please contact&#32;
+              a(href="mailto:support@snapswap.us") support@snapswap.us
+              | .
+
+      .noKyc(ng-show="mode=='noKyc'") Verify your identity to deposit USD (US-only).
+        | &#32;
+        a(href="#/kyc") Verify identity.
+
+      .step1(ng-show="mode=='step1'")
+        .row
+          .col-sm-6
+            h5(l10n) Amount
+        .row
+          .col-sm-4
+            .input-group.input-margin-group
+              span.input-group-addon.ripple-addon $
+              input.form-control.amount#amount(name='amount', type='number'
+                placeholder='e.g. 100', ng-model='usdAmount', required, min="1")
+            .errorGroup(ng-messages='usdDeposit.amount.$error')
+              .error(ng-message='maxAmount') {{error}}
+        .row
+          .col-sm-4
+            h5(l10n) Select your bank
+            div.select-dropdown-wrapper
+              select.form-control#bank(name='bank', ng-model="bank", required)
+                option(value="", disabled, selected, l10n) Select your bank
+                option(value="BOFAUS") Bank of America
+                option(value="HIBKUS") Capital One
+                option(value="INGBUS") Capital One 360
+                option(value="CHASUS") Chase
+                option(value="CITIUS") Citibank
+                option(value="PNCCUS") PNC
+                option(value="J447US") TD Bank
+                option(value="USBKUS") US Bank
+                option(value="PNBPUS") Wells Fargo
+              span.dropdown-arrow-wrapper 
+                i.fa.fa-caret-down
+
+        .row
+          .col-xs-12.col-md-12.col-lg-12
+            .description(class="ssText", l10n) Ripple Trade has partnered with SnapSwap to make USD deposits
+              |  easier. By continuing, you agree to SnapSwap's&#32;
+              a(href="https://snapswap.us/terms", onclick="window.open('https://snapswap.us/terms', 'newWindow', 'width= 550, height=500, top=120, left=200'); return false;") Terms of Service.&#32;
+              | To contact support, email&#32;
+              a(href="mailto:support@snapswap.us") support@snapswap.us
+              | .
+        .row
+          .col-sm-3
+            button.btn.btn-block.knox-payments-button.btn-primary(type="submit", ng-disabled="usdDeposit.$invalid") Continue
+
+      .step2(ng-show="mode=='step2'")
+        .row(ng-hide="error || calculating || !total")
+          .col-xs-12
+            | Confirm the total amount.
+            h5(l10n) Amount
+            .nameLine $ {{ usdAmount }}
+            h5(l10n) Fee
+            .nameLine $ {{ fee }}
+            h5(l10n) Total
+            .nameLine $ {{ total }}
+        .row(ng-show="calculating")
+          .col-xs-12(l10n) Calculating...
+        .row(ng-show="!calculating && error")
+          .col-xs-12.error(ng-show="inProcess") You already have an incomplete
+            |  deposit request. Please cancel it before initiating a second deposit.
+            |  Your bank account will not be charged for the incomplete deposit.
+          .col-xs-12.error(ng-hide="inProcess") {{error}}
+          //- No good
+          br
+          br
+        .row(ng-show="!calculating")
+          .col-xs-6.col-sm-3.col-lg-2
+            a.btn.btn-block.btn-cancel(href="", ng-click="step1()", l10n) Back
+          .col-xs-6.col-sm-4.col-lg-3(ng-hide="error")
+            a.btn.btn-block.btn-success(href="", ng-click="confirm()", l10n) Confirm
+          .col-xs-6.col-sm-4.col-lg-3(ng-show="inProcess")
+            a.btn.btn-danger.btn-block(ng-click="cancel()") Cancel processing
+
+      .step3(ng-show="mode=='step3'")
+        .row
+          iframe.col-sm-12#knoxFrame(name="knoxFrame")

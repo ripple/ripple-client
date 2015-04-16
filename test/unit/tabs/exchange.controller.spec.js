@@ -1,10 +1,13 @@
 'use strict';
 
+var lang = 'en';
+
 describe('ExchangeCtrl', function() {
   var scope, ctrl, network;
 
+  beforeEach(module("my.templates"));
   beforeEach(module('rp'));
-  beforeEach(inject(function ($rootScope, $controller, rpNetwork, $compile, $document, rpId) {
+  beforeEach(inject(function ($rootScope, $controller, rpNetwork, $compile, $document, rpId, $templateCache) {
     scope = $rootScope.$new();
     network = rpNetwork;
 
@@ -39,7 +42,7 @@ describe('ExchangeCtrl', function() {
     rpId.loginStatus = true;
     rpId.account = 'r4EwBWxrx5HxYRyisfGzMto3AT8FZiYdWk';
 
-    var templ = angular.element(rippleclient.tabs.exchange.generateHtml());
+    var templ = $templateCache.get('templates/en/tabs/exchange.html');
     var element = $compile(templ)(scope);
     scope = element.scope();
   }));

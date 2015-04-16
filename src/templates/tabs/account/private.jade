@@ -1,0 +1,19 @@
+h4(l10n) Profile Information
+.section
+  .descriptor(l10n) Identity Information
+  .row.public-account-row
+    .col-xs-12.col-sm-9
+      span(ng-switch="profileStatus")
+        span(ng-switch-when="loading", l10n) Loading...
+        span(ng-switch-when="complete", l10n) Completed
+        span(ng-switch-when="incomplete", l10n) Incomplete&#32;
+        a(ng-switch-when="incomplete", href="#/kyc", l10n) Complete your profile
+.section
+  .descriptor(l10n) Identity Questions
+  .row.public-account-row
+    .col-xs-12.col-sm-9
+      span(ng-switch="identityStatus")
+        span(ng-switch-when="loading", l10n) Loading...
+        span(ng-switch-when="complete", l10n) Completed
+        span(ng-switch-when="incomplete", l10n) Incomplete&#32;
+        a(ng-switch-when="incomplete", href="#/kyc", l10n) Complete your profile

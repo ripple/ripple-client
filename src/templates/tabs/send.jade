@@ -1,0 +1,396 @@
+section.col-xs-12.content(ng-controller='SendCtrl')
+
+  //- Disconnected
+
+  group.disconnected(ng-hide='connected')
+    p.literal(l10n="err-you-must-be-online-to-see-this-screen", l10n) You have to be online to see this screen
+
+  group.disconnected(ng-hide="!connected || loadState.account")
+    div(id="section_loader")
+      img(src="img/sections.png", class="loader")
+      div(class="loading_sections", l10n) Loading... 
+
+  //- Account is unfunded
+
+  div(ng-show="!loadingAccount && !account.Balance && loadState.account && connected")
+    include ../tabs/banner/unfunded
+    p.literal(l10n="err-you-must-be-funded-before-you-can-send-money", l10n) You have to be funded before you can send money
+
+  div(ng-show='debug') This page is not available in debug mode
+
+  .row(ng-show='connected && !debug && account.Balance')
+    .widgets.hidden-xs.col-sm-4.col-md-4.col-lg-3
+      include ../tabs/widgets/balances
+    .col-xs-12.col-sm-8.col-md-8.col-lg-9
+      //- 1. Send form
+
+      form.row-padding-small.mode-form#sendForm(name="sendForm", role="form"
+      ng-show='mode=="form" && account.Balance'
+      ng-submit='send_prepared()')
+        .row.form-group
+          .col-xs-12.col-sm-8.col-md-6
+            label(for='send_destination', l10n) Recipient
+            input.form-control#send_destination(
+            name='send_destination', type='text'
+            rp-combobox="recipient_query", rp-combobox-value-as-ripple-name
+            l10n-placeholder="Enter a Ripple name or contact"
+            ng-model='send.recipient', ng-model-options='{debounce: 500}'
+            rp-dest, rp-dest-address, rp-dest-contact, rp-dest-bitcoin
+            rp-dest-email, rp-dest-ripple-name
+            required
+            rp-autofill='$routeParams.to'
+            rp-focus, rp-spinner)
+            .errorGroup(ng-messages='sendForm.send_destination.$dirty && sendForm.send_destination.$error')
+              .success(ng-show='sendForm.send_destination.$valid && send.recipient != send.recipient_address', ng-bind='send.recipient_address')
+              .error(ng-message='required', l10n)
+                | Please enter a recipient.
+              .error(ng-message='rpDest', l10n)
+                | Recipient should be a Ripple name, a contact, or Ripple/Bitcoin address.
+              .error(ng-message='federation', l10n)
+                | This email address is not Ripple-enabled.
+              .error(ng-message='federationDown', l10n)
+                | Could not contact {{send.federationURL}}.<br/>Please try again later or contact support.
+              .error(ng-message='btcBridgeWrong', l10n)
+                | Cannot use your specified bitcoin bridge. Please go to Settings &gt; Advanced and update your bitcoin bridge URL to btc2ripple.com.
+        ul.tagsLinks
+          li
+            a(href="", ng-click="send.show_dt_field = true"
+            ng-hide="send.show_dt_field || send.bitcoin || send.federation", l10n)
+              | Show destination tag
+        .row.form-group(ng-show='send.show_dt_field')
+          .col-xs-12.col-sm-8.col-md-6
+            label(for='send_dt', l10n) Destination tag
+            a(href="", ng-click="send.show_dt_field = false", l10n) hide
+            input.form-control#send_dt(
+            name='send_dt', type='text'
+            ng-model='send.dt'
+            rp-stdt
+            rp-autofill='$routeParams.dt'
+            ng-required='send.recipient_info.dest_tag_required')
+            .errorGroup(ng-messages='sendForm.send_dt.$dirty && sendForm.send_dt.$error')
+              .error(ng-message='rpStdt', l10n) Invalid destination tag
+              .error(ng-message='required', l10n) Destination cannot be blank.
+            div(ng-show="send.recipient_info.dest_tag_required", l10n)
+              | This recipient requires a destination tag. Please contact the recipient
+              |  if you are unsure what the destination tag should be.
+        .row.form-group(ng-show='$routeParams.st || send.st')
+          .col-xs-12.col-sm-6.col-md-5
+            label(for='send_st', l10n) Source tag
+            input.form-control#send_st(
+            name='send_st', type='text'
+            ng-model='send.st'
+            rp-stdt
+            rp-autofill='$routeParams.st')
+            .errorGroup(ng-messages='sendForm.send_st.$error')
+              .error(ng-message='rpStdt', l10n) Invalid source tag
+        .row.form-group(ng-show='$routeParams.invoiceid && !send.quote.invoice_id')
+          .col-xs-12.col-sm-6.col-md-5
+            label(for='send_invoiceid', l10n) Invoice ID
+            input.form-control#send_invoiceid(
+            name='send_invoiceid', type='text'
+            ng-model='send.invoice_id'
+            rp-invoice-id
+            rp-autofill='$routeParams.invoiceid')
+            .errorGroup(ng-messages='sendForm.send_invoiceid.$error')
+              .error(ng-message='rpInvoiceId', l10n) Invoice ID must not be more than 64 characters long.
+        .row(ng-show="send.quote.invoice_id && $routeParams.invoiceid", l10n)
+          div
+            | The invoice ID from the quote will be used instead of the one specified in the URI.
+        .row.form-group(ng-repeat='field in send.extra_fields', ng-switch='field.type')
+          .col-xs-12.col-sm-6.col-md-5(ng-switch-when="text")
+            label(ng-bind="field.label")
+            p.field-hint(ng-show="field.hint", ng-bind="field.hint")
+            input.form-control(
+            type='text'
+            ng-model='field.value'
+            ng-required='{{field.required}}')
+          .col-xs-12.col-sm-6.col-md-5(ng-switch-when="select")
+            label(ng-bind="field.label")
+            p.field-hint(ng-show="field.hint", ng-bind="field.hint")
+            select.form-control(
+            type='text'
+            ng-model='field.value'
+            ng-required='{{field.required}}')
+              option(ng-repeat='option in field.options', ng-bind='option.label', value='{{option.value}}', ng-selected='option.selected', ng-disabled='option.disabled')
+        .form-group(ng-show="send.currency_choices.length")
+          label(for='send_amount', l10n) Recipient will receive
+          .row.amount(ng-if="!send.currency_force")
+            .col-xs-3.col-sm-3.col-md-3
+              input.form-control#send_amount(
+              name='send_amount', type='text'
+              ng-model='send.amount'
+              required
+              rp-autofill='$routeParams.amount'
+              rp-autofill-amount
+              rp-amount
+              rp-amount-positive
+              rp-amount-xrp-limit
+              rp-amount-currency='{{send.currency}}'
+              rp-max-digits)
+            .col-xs-9.col-sm-6.col-md-4
+              input.form-control.currency#send_amount_currency(
+              name='send_amount_currency', type='text'
+              rp-combobox="{{send.currency_choices}}", rp-combobox-select
+              ng-model='send.currency'
+              rp-autofill='$routeParams.amount'
+              rp-autofill-currency
+              rp-autofill-currency-fullname
+              rp-restrict-currencies='{{send.restrict_currencies}}')
+          .row(ng-if="send.currency_force")
+            .col-xs-12.col-sm-6.col-md-6.input-group.currency_force
+              input.form-control#send_amount(
+              name='send_amount', type='text'
+              ng-model='send.amount'
+              required
+              ng-disabled='!!send.force_amount'
+              rp-autofill='$routeParams.amount'
+              rp-autofill-amount
+              rp-amount
+              rp-amount-positive
+              rp-amount-xrp-limit
+              rp-amount-currency='{{send.currency}}'
+              rp-max-digits)
+              span.input-group-addon(ng-bind="send.currency_force")
+          .errorGroup(ng-messages='sendForm.send_amount_currency.$error')
+            .error(ng-message='rpRestrictCurrencies', l10n) {{send.recipient | rpcontactname}} can't receive this currency.
+          .errorGroup(ng-messages='sendForm.send_amount.$dirty && sendForm.send_amount.$error')
+            .error(ng-message='required', l10n) Please enter an amount.
+            .error(ng-message='rpAmount', l10n) Not a valid amount.
+            .error(ng-message='rpAmountPositive', l10n) Amount must be greater than zero.
+            .error(ng-message='rpAmountXrpLimit', l10n)
+              | You are either trying to send too little or too much XRP.
+              | Minimum amount is 0.000001 XRP and maximum amount is 100 billion XRP.
+            .error(ng-message='rpMaxDigits', l10n) Your amount has too many digits. The max number of digits is 16.
+            .notice(ng-show="send.recipient_info.disallow_xrp && send.currency_code=='XRP'", l10n)
+              | Recipient does not allow XRP payments. Are you sure you want to send XRP anyway?
+            .notice(ng-show="send.trust_limit", l10n) {{send.recipient | rpcontactname}}
+              | trusts you for {{send.trust_limit | rpamount}} {{send.trust_limit | rpcurrency}}.
+        .row
+          .col-xs-12.col-sm-6.col-md-4(ng-show="send.currency_code == 'XRP'")
+            button#sendXrpButton.btn.btn-block.btn-success.submit(type='submit'
+            ng-disabled='sendForm.$invalid || send.self || send.insufficient || !send.recipient_resolved || account.max_spend.to_number() < send.amount * 1000000', l10n)
+              | Send XRP
+        .remote
+          //- Messages
+          p.literal(ng-show="send.fund_status == 'insufficient-xrp'", l10n)
+            | Insufficient amount. You need to send at least 20 XRP to fund the account.
+          p.literal(ng-show="send.path_status == 'checking'")
+            img(src="img/button-s.png", class="loader")
+            span(class="loading_text", l10n) Checking
+          p.literal(ng-show="send.path_status == 'fed-check'")
+            img(src="img/button-s.png", class="loader")
+            span(class="loading_text", l10n)  Analyzing address
+          p.literal(ng-show="send.path_status == 'account-currencies'")
+            img(src="img/button-s.png", class="loader")
+            span(class="loading_text", l10n) Scanning accepted currencies
+          p.literal(ng-show="send.path_status == 'bridge-quote'")
+            img(src="img/button-s.png", class="loader")
+            span(class="loading_text", l10n) Requesting quote
+          p.literal(ng-show="send.path_status == 'pending' && send.currency_code != 'XRP'")
+            img(src="img/button-s.png", class="loader")
+            span(class="loading_text", l10n) Calculating paths
+          p.literal(ng-show="send.path_status == 'pending' && send.currency_code == 'XRP'")
+            img(src="img/button-s.png", class="loader")
+            span(class="loading_text", l10n) Calculating alternatives
+          p.literal(ng-show="send.path_status == 'no-path' && send.currency_code != 'XRP'", l10n)
+            | You cannot send {{send.amount}} {{send.currency}} to
+            |  {{send.recipient}}. Either your account has insufficient funds,
+            |  or {{send.recipient}} doesn't accept {{send.currency}}.
+          p.literal(ng-show="send.path_status == 'no-path' && send.currency_code == 'XRP' && send.sender_insufficient_xrp", l10n)
+            | You cannot send {{send.amount}} {{send.currency}} to
+            | {{send.recipient}}. Your account has insufficient funds.
+          p.literal(ng-show="send.path_status == 'error-no-currency'", l10n)
+            | There are no valid currency choices for this destination.
+          p.literal(ng-show="send.path_status == 'error-quote'", l10n)
+            | Error while retrieving quote for outbound payment.
+            span(ng-show="send.quote_error")  The outbound bridge reported: "{{send.quote_error | rpheavynormalize}}"
+          p.literal(ng-show="send.path_status == 'error'", l10n) Error while calculating path
+
+          //- Alternatives
+          .currency_sets(ng-if="send.path_status == 'done'")
+            .row.row-padding-small
+              .col-xs-12
+                p.literal(ng-show="send.currency_code != 'XRP' || send.bitcoin", l10n)
+                  | You can send
+                p.literal(ng-show="send.currency_code == 'XRP' && !send.bitcoin", l10n)
+                  | Or you can send
+            .row.row-padding-small.alternatives(ng-show="send.alternatives.length")
+              .col-xs-12.col-sm-6.col-md-4.col-lg-4(ng-repeat="alt in send.alternatives")
+                .margin
+                  .am
+                    .amnt {{alt.amount | rpamount:{rel_precision: 7} }}
+                    span.currency  {{alt.amount | rpcurrency }}
+                    span(ng-hide="alt.amount.is_native() || alt.amount.issuer().to_json() == account.Account")
+                      |.
+                      span.issuer(
+                      rp-pretty-issuer="alt.amount.issuer().to_json()"
+                      rp-pretty-issuer-contacts="userBlob.data.contacts"
+                      rp-pretty-issuer-or-short)
+                    .ex (
+                      span.rate {{alt.rate | rpamount:{rel_precision: 4} }}
+                      span.pair {{alt.amount | rpcurrency}}/{{send.currency_code}}
+                      | )
+                  button.btn.btn-block.btn-success(type="submit"
+                  ng-disabled='sendForm.$invalid', ng-click="send.alt = alt", l10n)
+                    | Send {{ alt.amount | rpcurrency }}
+                    span(ng-hide="alt.amount.is_native() || alt.amount.issuer().to_json() == account.Account")  (
+                      span.issuer(
+                      rp-pretty-issuer="alt.amount.issuer().to_json()"
+                      rp-pretty-issuer-contacts="userBlob.data.contacts"
+                      rp-pretty-issuer-or-short)
+                      | )
+            .row.row-padding-small.pathupdate(ng-show="send.alternatives.length && lastUpdate")
+              .col-xs-12(l10n) Paths last updated&#32;
+                span(ng-bind='lastUpdate')
+                span(ng-show="lastUpdate > '1'", l10n-inc)  seconds
+                span(ng-show="lastUpdate == '1'", l10n-inc)  second
+                |  ago
+
+      //- N2. Waiting for path
+
+      group.mode-wait-path(ng-show='mode=="wait_path" && account.Balance')
+        p.literal
+          img(src="img/button-s.png", class="loader")
+          span(class="loading_text", l10n) Ripple is calculating a path for your payment.
+
+      //- N3. Confirmation page
+
+      group.mode-confirm(ng-show='mode=="confirm" && account.Balance')
+        p.literal(l10n) You are sending
+          span  {{ (send.alt.amount || send.currency) | rpcurrency}}
+          |  to
+        .dest_feedback
+          .recipient(ng-show='send.recipient_name', ng-bind='send.recipient_name')
+          .recipient(ng-hide='send.recipient_name', ng-bind='send.recipient_address')
+          .extra(href='', ng-show='send.recipient != send.recipient_address || send.recipient_name', ng-bind='send.recipient_address')
+          .dt(ng-show='send.dt', l10n) Destination tag: {{send.dt}}
+        p.literal(l10n) They will receive
+        p.amount_feedback(rp-pretty-amount='send.amount_feedback')
+        group(ng-show='send.indirect')
+          p.literal(l10n) You will pay at most
+          p.sendmax_feedback
+            span.value {{send.alt.amount | rpamount}} &#32;
+            span.currency {{send.alt.amount | rpcurrency}} &#32;
+            span &plus; .1% 
+        p(ng-hide="!send.alt")
+          span.literal(l10n) Exchange rate: &#32;
+          span.value {{send.alt.rate | rpamount:{rel_precision: 4} }} &#32;
+          span.currency {{send.alt.amount | rpcurrency}} per {{send.currency_code}}
+        span.literal(l10n) Ripple network fee: &#32;
+        span.currency(rp-pretty-amount='networkFee')
+        form.call-to-action(name="sendUnlockForm", ng-submit="send_confirmed()")
+          p.literal(ng-show="send.secret", l10n) Are you sure?
+          p.literal(ng-hide="send.secret", l10n) Please enter your password to confirm this transaction.
+          .row.row-padding-small(ng-if="!send.secret")
+            .col-xs-12.col-sm-8.col-md-6
+              input.form-control#send_unlock_password(
+              name='send_unlock_password'
+              type='password'
+              required
+              ng-model='send.unlock_password')
+                .errorGroup(ng-messages='sendUnlockForm.send_unlock_password.$dirty && sendConfirmedForm.send_unlock_password.$error')
+                  .error(ng-message='required', l10n) Password required to unlock wallet
+          .row.row-padding-small
+            .col-xs-8.col-sm-4.col-md-3.col-lg-3
+              button#confirmButton.btn.btn-block.btn-success.submit(
+              type='submit'
+              ng-disabled='confirm_wait', l10n) Confirm
+            .col-xs-6.col-sm-4.col-md-3.col-lg-2
+              button.btn.btn-link.back(
+              type='button'
+              ng-click='cancelConfirm()', l10n) cancel
+
+      //- N4. Waiting for transaction result page
+
+      group.mode-sending(ng-show='mode=="sending" && account.Balance')
+        include ../messages/sendconvert/waiting
+        hr
+        //- p: button.btn.btn-default(ng-click='reset()', l10n) Stop waiting
+
+      //- N5a. Error page
+      group.mode-error(ng-show='mode=="error" && account.Balance')
+        include ../messages/sendconvert/localerror
+        p: button.btn.btn-link.btn-default(ng-click='cancelConfirm()', l10n) cancel
+
+      //- N5b. Ripple error page
+      group.mode-ripplerror(ng-show='mode=="rippleerror" && account.Balance')
+        rp-transaction-status(
+          rp-engine-result="{{engine_result}}"
+          rp-engine-result-message="{{engine_result_message}}"
+          rp-accepted="{{engine_status_accepted}}"
+          rp-current-tab="send_convert")
+        group.actions
+          hr
+          .text-success(ng-show='addressSaved', class="actionLink", l10n) Contact saved!
+          .save-address-form(ng-hide='contact', class="actionLink")
+            a(href="", ng-click='show_save_address_form = true', l10n)
+              | Add this address to contacts
+            form(name="saveAddressForm"
+            ng-class="{ show: show_save_address_form }"
+            ng-submit='saveAddress()')
+              .name(ng-show="send.federation", ng-bind="send.recipient")
+              .address(ng-show="send.recipient_name", ng-bind="send.recipient_name")
+              .address(ng-hide="send.recipient_name", ng-bind="send.recipient_address")
+              label(for='save_address_name', l10n) Name this user
+              input.form-control#contact_name(
+              name='save_address_name', type="text"
+              ng-model='saveAddressName', required
+              rp-unique='userBlob.data.contacts'
+              rp-unique-field='name'
+              rp-autofill='$routeParams.name')
+              .errorGroup(ng-messages='saveAddressForm.save_address_name.$dirty && saveAddressForm.save_address_name.$error')
+                .error(ng-message='required', l10n) Please enter a contact.
+                .error(ng-message='rpUnique', l10n, ng-hide="addressSaving || addressSaved")
+                  | This contact already exists, please choose another name.
+              div
+                button.btn.btn-success(type='submit', ng-disabled='addressSaving')
+                  span(ng-show='addressSaving', l10n) Saving...
+                  span(ng-hide='addressSaving', l10n) Save
+                a(href="", ng-click='show_save_address_form = false', l10n) cancel
+              hr
+          div(class="actionLink")
+            a(href="", ng-click="reset()", l10n) Send another payment
+          div(class="actionLink")
+            a(href="", ng-click="reset_goto('balance')", l10n) Back to balance
+          hr
+
+      //- N5c. Sent page
+
+      group.mode-status(ng-show='mode=="status" && account.Balance')
+        include ../messages/sendconvert/confirmation
+        group.actions
+          hr
+          .text-success(ng-show='addressSaved', class="actionLink", l10n) Contact saved!
+          .save-address-form(ng-hide='contact', class="actionLink")
+            a(href="", ng-click='show_save_address_form = true', l10n)
+              | Add this address to contacts
+            form(name="saveAddressForm", ng-class="{ show: show_save_address_form }"
+            ng-submit='saveAddress()')
+              .name(ng-show="send.federation", ng-bind="send.recipient")
+              .address(ng-show="send.recipient_name", ng-bind="send.recipient_name")
+              .address(ng-hide="send.recipient_name", ng-bind="send.recipient_address")
+              label(for='save_address_name', l10n) Name this user
+              input.form-control#contact_name(
+              name='save_address_name', type="text"
+              ng-model='saveAddressName', required
+              rp-unique='userBlob.data.contacts'
+              rp-unique-field='name'
+              rp-autofill='$routeParams.name')
+              .errorGroup(ng-messages='saveAddressForm.save_address_name.$dirty && saveAddressForm.save_address_name.$error')
+                .error(ng-message='required', l10n) Please enter a contact.
+                .error(ng-message='rpUnique', l10n, ng-hide="addressSaving || addressSaved")
+                  | This contact already exists, please choose another name.
+              div.row.add-contact-btns-wrapper
+                div.col-md-3.col-sm-4.col-xs-8
+                  button.btn.btn-success.btn-block(type='submit'
+                    ng-disabled='addressSaving || saveAddressForm.$invalid')
+                    span(ng-show='addressSaving', l10n) Saving...
+                    span(ng-hide='addressSaving', l10n) Save
+                div.col-md-1.col-sm-2.col-xs-4
+                  a.btn.btn-block(href="", ng-click='show_save_address_form = false', l10n) cancel
+              hr
+          div(class="actionLink")
+            a(href="", ng-click="reset()", l10n) Send another payment
+          div(class="actionLink")
+            a(href="", ng-click="reset_goto('balance')", l10n) Back to balance
+          hr

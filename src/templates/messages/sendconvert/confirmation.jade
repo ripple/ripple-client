@@ -1,0 +1,40 @@
+// Confirmation messages for the send and convert tabs
+
+group.pending(ng-show='tx_result=="pending"')
+  h2.tx-status(l10n) Transaction pending.
+group.result-success(ng-show='tx_result=="cleared"')
+  h2.tx-status(l10n) Transaction successful
+group.result-error(ng-show='tx_result=="error"')
+  h2.tx-status(l10n) Transaction failed
+  p(l10n) Please try again later.
+group.result-malformed(ng-show='tx_result=="malformed"')
+  h2.tx-status(l10n) Transaction failed
+  p(ng-switch="engine_result")
+    span(ng-switch-default, l10n)
+      | Error code: {{engine_result}} - {{engine_result_message}}
+group.result-malformed(ng-show='tx_result=="failure"')
+  h2.tx-status(l10n) Transaction failed
+  p(ng-switch="engine_result")
+    span(ng-switch-when="tefDST_TAG_NEEDED", l10n)
+      | Error code: Destination tag needed [tefDST_TAG_NEEDED].
+group.result-malformed(ng-show='tx_result=="claim"')
+  h2.tx-status(l10n) Transaction failed
+  p(ng-switch="engine_result")
+    span(ng-switch-when="tecNO_DST", l10n)
+      | Error code: The destination account does not exist [tecNO_DST].
+    span(ng-switch-when="tecNO_DST_INSUF_XRP", l10n)
+      | Error code: Insufficient XRP sent to destination [tecNO_DST_INSUF_XRP].
+    span(ng-switch-default, l10n)
+      | Error: {{engine_result_message}}
+group.result-failed(ng-show='tx_result=="failed"')
+  h2.tx-status(l10n) Transaction failed
+  p(ng-switch="engine_result")
+    span(ng-switch-when="terNO_LINE", l10n)
+      | Error code: You have no trust line in this currency [terNO_LINE].
+    span(ng-switch-default, l10n)
+      | Your transaction failed: {{engine_result_message}}
+group.result-failed(ng-show='tx_result=="local"')
+  h2.tx-status(l10n) Transaction failed
+  p(ng-switch="engine_result")
+    span(ng-switch-when="telINSUF_FEE_P", l10n)
+      | Error code: This transaction failed because it exceeded the maximum network fee, please try again later [telINSUF_FEE_P].

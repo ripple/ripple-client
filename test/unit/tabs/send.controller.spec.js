@@ -3,6 +3,7 @@
 describe('SendCtrl', function(){
   var scope, dependencies, ctrl, network;
 
+  beforeEach(module("my.templates"));
   beforeEach(module("rp"));
   beforeEach(inject(function($rootScope, $controller, rpNetwork) {
     scope = $rootScope.$new();

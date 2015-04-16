@@ -15,11 +15,6 @@ util.inherits(TrustTab, Tab);
 TrustTab.prototype.tabName = 'trust';
 TrustTab.prototype.mainMenu = 'fund';
 
-TrustTab.prototype.generateHtml = function ()
-{
-  return require('../../jade/tabs/trust.jade')();
-};
-
 TrustTab.prototype.angular = function (module)
 {
   module.controller('TrustCtrl', ['$scope', 'rpBooks', '$timeout', '$routeParams', 'rpId',

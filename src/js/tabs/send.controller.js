@@ -18,11 +18,6 @@ SendTab.prototype.mainMenu = 'send';
 
 SendTab.prototype.angularDeps = Tab.prototype.angularDeps.concat(['federation', 'keychain']);
 
-SendTab.prototype.generateHtml = function ()
-{
-  return require('../../jade/tabs/send.jade')();
-};
-
 SendTab.prototype.angular = function (module)
 {
   module.controller('SendCtrl', ['$scope', '$timeout', '$routeParams', 'rpId',

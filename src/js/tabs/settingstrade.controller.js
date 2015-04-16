@@ -18,11 +18,6 @@ util.inherits(SettingsTradeTab, Tab);
 SettingsTradeTab.prototype.tabName = 'settingstrade';
 SettingsTradeTab.prototype.mainMenu = 'settingstrade';
 
-SettingsTradeTab.prototype.generateHtml = function ()
-{
-  return require('../../jade/tabs/settingstrade.jade')();
-};
-
 SettingsTradeTab.prototype.angular = function(module) {
   module.controller('SettingsTradeCtrl', SettingsTradeCtrl);
 

@@ -14,11 +14,6 @@ util.inherits(HistoryTab, Tab);
 HistoryTab.prototype.tabName = 'history';
 HistoryTab.prototype.mainMenu = 'wallet';
 
-HistoryTab.prototype.generateHtml = function ()
-{
-  return require('../../jade/tabs/history.jade')();
-};
-
 HistoryTab.prototype.angular = function (module) {
   module.controller('HistoryCtrl', ['$scope', 'rpId', 'rpNetwork', 'rpTracker', 'rpAppManager', '$routeParams', '$location',
                                      function ($scope, id, network, rpTracker, appManager, $routeParams, $location)
