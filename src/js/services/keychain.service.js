@@ -15,8 +15,8 @@ var webutil = require('../util/web'),
 var module = angular.module('keychain', ['popup']);
 
 module.factory('rpKeychain', ['$rootScope', '$timeout', 'rpPopup', 'rpId',
-                              '$interval',
-                              function ($scope, $timeout, popup, id, $interval)
+                              '$interval', '$templateRequest',
+                              function ($scope, $timeout, popup, id, $interval, $templateRequest)
 {
   var Keychain = function ()
   {
@@ -112,7 +112,10 @@ module.factory('rpKeychain', ['$rootScope', '$timeout', 'rpPopup', 'rpId',
       // esc button
       if ($event.which === 27) popupScope.cancel();
     };
-    popup.blank(require('../../templates/popup/unlock.jade')(), popupScope);
+
+    $templateRequest('templates/' + lang + '/popup/unlock.html', false).then(function(template) {
+      popup.blank(template, popupScope);
+    });
   };
 
   /**
