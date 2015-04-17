@@ -33,12 +33,12 @@ TradeTab.prototype.angular = function(module)
   TradeCtrl.$inject = ['rpBooks', '$scope', 'rpId', 'rpNetwork',
                                   '$routeParams', '$location', '$filter',
                                   'rpTracker', 'rpKeychain', '$rootScope',
-                                  'rpPopup', '$anchorScroll', '$timeout'];
+                                  'rpPopup', '$anchorScroll', '$timeout', '$templateRequest'];
 
   function TradeCtrl(books, $scope, id, network,
                      $routeParams, $location, $filter,
                      rpTracker, keychain, $rootScope,
-                     popup, $anchorScroll, $timeout)
+                     popup, $anchorScroll, $timeout, $templateRequest)
   {
     var timer;
 
@@ -752,7 +752,10 @@ TradeTab.prototype.angular = function(module)
           popupScope.$destroy();
         };
 
-        popup.blank(require('../../templates/popup/modifyOrderError.jade')(), popupScope);
+        $templateRequest('templates/' + lang + '/popup/modifyOrderError.html', false).then(function(template) {
+          popup.blank(template, popupScope);
+        });
+
         return true;
       }
       else return false;
