@@ -156,7 +156,8 @@ gulp.task('preprocess:dev', ['gitVersion'], function() {
       context: {
         MODE: 'dev',
         VERSION: meta.gitVersion,
-        VERSIONBRANCH: meta.gitVersionBranch
+        VERSIONBRANCH: meta.gitVersionBranch,
+        VERSIONFULL: meta.gitVersion + '-' + meta.gitVersionBranch
       }
     }))
     .pipe(gulp.dest(buildDirPath + '/dev/'))
@@ -169,7 +170,8 @@ gulp.task('preprocess:dist', ['gitVersion'], function() {
       context: {
         MODE: 'dist',
         VERSION: meta.gitVersion,
-        VERSIONBRANCH: meta.gitVersionBranch
+        VERSIONBRANCH: meta.gitVersionBranch,
+        VERSIONFULL: meta.gitVersion
       }
     }))
     .pipe(gulp.dest(buildDirPath + '/dist/'))

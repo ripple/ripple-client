@@ -50,13 +50,7 @@ html(ng-app='rp', ng-controller='AppCtrl', ng-class='[$route.current.tabClass, $
     #appLoading
       img.loader(src='img/main.png', alt='', title='')
     // VERSION
-    #version
-      // @echo VERSION
-      // @if MODE == 'dev' !> - <!-- @echo VERSIONBRANCH
-      // @endif
-      // @exclude
-      | [unprocessed]
-      // @endexclude
+    #version<!-- @echo VERSIONFULL --><!-- @exclude -->[unprocessed]<!-- @endexclude -->
     #noWebSockets
       p We apologize, but the Ripple Client needs JavaScript and WebSockets in order to function.
         br
