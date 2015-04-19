@@ -762,11 +762,11 @@ TradeTab.prototype.angular = function(module)
      * Handle transaction result
      */
     function setEngineStatus(res, accepted, type) {
-      $scope.engine_result = res.engine_result;
-      $scope.engine_result_message = res.engine_result_message;
+      $scope.engine_result = res.engine_result || 'tem';
+      $scope.engine_result_message = res.engine_result_message || (res.remote && res.remote.error_exception);
       $scope.engine_status_accepted = accepted;
 
-      if (res.engine_result.slice(0, 3) === 'tes') {
+      if (res.engine_result && res.engine_result.slice(0, 3) === 'tes') {
         $scope.tx_result = accepted ? 'cleared' : 'pending';
       } else {
         $scope.tx_result = 'unknown';
