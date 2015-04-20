@@ -1067,6 +1067,11 @@ TradeTab.prototype.angular = function(module)
       // Load orderbook
       if (order.prev_settings !== key) {
         changedPair = true;
+        $scope.priceTicker = {
+          bid: 'n/a',
+          ask: 'n/a',
+          spread: 'n/a'
+        };
         loadOffers();
 
         order.prev_settings = key;
@@ -1074,7 +1079,7 @@ TradeTab.prototype.angular = function(module)
       else if ($scope.book.ready) $scope.editOrder.orderbookReady = true;
 
       // Update widgets
-      ['buy','sell'].forEach(function(type){
+      ['buy', 'sell'].forEach(function(type) {
         $scope.update_first(type);
         $scope.update_price(type);
         $scope.update_second(type);
