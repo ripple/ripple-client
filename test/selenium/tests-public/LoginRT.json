@@ -45,8 +45,8 @@
     {
       "type": "clickElement",
       "locator": {
-        "type": "xpath",
-        "value": "//div[@class='mainnav']/div/div[2]/ul[2]/li[4]/a"
+        "type": "css selector",
+        "value": ".fa-cog"
       }
     },
     {
