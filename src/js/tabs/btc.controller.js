@@ -21,6 +21,7 @@ BtcTab.prototype.angular = function (module)
     $scope.showInstructions = false;
     $scope.btcConnected = false;
     $scope.emailError = false;
+    $scope.generalError = false;
 
     $scope.toggle_instructions = function () {
       $scope.showInstructions = !$scope.showInstructions;
@@ -28,6 +29,7 @@ BtcTab.prototype.angular = function (module)
 
     $scope.openPopup = function () {
       $scope.emailError = false;
+      $scope.generalError = false;
       rpTracker.track('B2R Show Connect');
     };
 
@@ -50,14 +52,14 @@ BtcTab.prototype.angular = function (module)
 
       fields.rippleAddress = id.account;
       fields.email = $scope.userBlob.data.email;
- 
+
       keychain.requestSecret(id.account, id.username, function (err, secret) {
         if (err) {
           console.log("client: trust profile: error while " +
             "unlocking wallet: ", err);
           $scope.mode = "error";
           $scope.error_type = "unlockFailed";
-  
+
           return;
         }
 
@@ -73,9 +75,14 @@ BtcTab.prototype.angular = function (module)
         $scope.B2RApp.findProfile('account').signup(fields, function (err, response) {
           if (err) {
             console.log('Error', err);
-            $scope.emailError = true;
+            if (err && err.message == 'E-mail address is not accepted') {
+              $scope.load_notification('emailError');
+              $scope.emailError = true;
+            } else {
+              $scope.load_notification('error');
+              $scope.generalError = true;
+            }
             $scope.btcConnected = false;
-            $scope.load_notification('error');
 
             rpTracker.track('B2R SignUp', {
               result: 'failed',
