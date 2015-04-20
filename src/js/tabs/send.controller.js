@@ -929,7 +929,7 @@ SendTab.prototype.angular = function (module)
     /**
      * N3. Confirmation page
      */
-    $scope.send_prepared = function () {
+    $scope.send_prepared = function() {
       // check if paths are available, if not then it is a direct send
       $scope.send.indirect = $scope.send.alt ? $scope.send.alt.paths.length : false;
 
@@ -956,10 +956,10 @@ SendTab.prototype.angular = function (module)
       }
 
       rpTracker.track('Send confirmation page', {
-        'Currency': $scope.send.currency_code,
+        Currency: $scope.send.currency_code,
         'Address Type': $scope.send.federation ? 'federation' : 'ripple',
         'Destination Tag': !!$scope.send.dt,
-        'Address': $scope.userBlob.data.account_id
+        Address: $scope.userBlob.data.account_id
       });
 
       if (Options.confirmation.send) {
@@ -978,7 +978,18 @@ SendTab.prototype.angular = function (module)
           cleanPasswordUpdater();
         });
       } else {
-        $scope.send_confirmed();
+        if (!keychain.isUnlocked(id.account)) {
+          keychain.requestSecret(id.account, id.username, function (err, secret) {
+            if (err) {
+              console.log(err);
+              return;
+            }
+            $scope.send.secret = secret;
+            $scope.send_confirmed();
+          });
+        } else {
+          $scope.send_confirmed();
+        }
       }
     };
 
