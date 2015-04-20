@@ -30,6 +30,7 @@
     "browser-sync": "^2.2.3",
     "chai": "~1.9.1",
     "chai-as-promised": "~4.1.1",
+    "connect-logger": "0.0.1",
     "connect-modrewrite": "^0.7.11",
     "coveralls": "^2.11.2",
     "del": "^1.1.1",
