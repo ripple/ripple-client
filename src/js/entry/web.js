@@ -118,7 +118,7 @@ var tabdefs = [
 ];
 
 // Language
-var lang = (function(){
+window.lang = (function(){
   var languages = _.pluck(require('../../../l10n/languages.json'), 'code');
   var resolveLanguage = function(lang) {
     if (!lang) return null;
