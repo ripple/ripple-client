@@ -1,0 +1,167 @@
+{
+  "type": "script",
+  "seleniumVersion": "2",
+  "formatVersion": 2,
+  "steps": [
+    {
+      "type": "get",
+      "url": "http://ripp.site:3000/#/login"
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "Welcome to Ripple Trade"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "id",
+        "value": "login_username"
+      },
+      "text": "${FUNDED_USER_NAME}"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "id",
+        "value": "login_password"
+      },
+      "text": "${FUNDED_USER_PASSWORD}"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "id",
+        "value": "loginBtn"
+      }
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "BALANCES"
+    },
+    {
+      "type": "verifyTextPresent",
+      "text": "BALANCES"
+    },
+    {
+      "type": "waitForElementPresent",
+      "locator": {
+        "type": "link text",
+        "value": "Trade"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "link text",
+        "value": "Trade"
+      }
+    },
+    {
+      "type": "waitForElementPresent",
+      "locator": {
+        "type": "link text",
+        "value": "Advanced"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "link text",
+        "value": "Advanced"
+      }
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "add pair"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@id='t-trade']//button[.='add pair']"
+      }
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "name",
+        "value": "first_currency"
+      },
+      "text": "GBP"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "name",
+        "value": "first_iss"
+      },
+      "text": "rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "name",
+        "value": "second_currency"
+      },
+      "text": "XRP"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@id='add_button']//button[.='Add']"
+      }
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "edit pairs"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@id='t-trade']//button[.='edit pairs']"
+      }
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "GBP.rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q/XRP"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='section']//span[.='remove']"
+      }
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "GBP.rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q/XRP",
+      "negated": true
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": ".fa-cog"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "link text",
+        "value": "Log Out"
+      }
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "Welcome to Ripple Trade"
+    }
+  ],
+  "data": {
+    "configs": {},
+    "source": "none"
+  },
+  "inputs": [],
+  "timeoutSeconds": 420
+}
