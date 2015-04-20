@@ -114,7 +114,8 @@ gulp.task('serve:dist', function() {
           '!\\.html|\\.js|\\.css|\\.png|\\.jpg|\\.gif|\\.svg|\\.txt|\\.eot|\\.woff|\\.woff2|\\.ttf$ /index.html [L]'
         ])
       ]
-    }
+    },
+    middleware: require("connect-logger")()
   });
 });
 
