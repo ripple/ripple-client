@@ -17,7 +17,7 @@
         "type": "id",
         "value": "login_username"
       },
-      "text": "${FUNDED_USER_NAME}"
+      "text": "${FUNDED_USER_NAME2}"
     },
     {
       "type": "setElementText",
@@ -25,7 +25,7 @@
         "type": "id",
         "value": "login_password"
       },
-      "text": "${FUNDED_USER_PASSWORD}"
+      "text": "${FUNDED_USER_PASSWORD2}"
     },
     {
       "type": "clickElement",
@@ -67,6 +67,14 @@
         "type": "id",
         "value": "send_amount_currency"
       }
+    },
+    {
+      "type": "print",
+      "text": "------- waiting 5 sec"
+    },
+    {
+      "type": "pause",
+      "waitTime": "5000"
     },
     {
       "type": "setElementText",
