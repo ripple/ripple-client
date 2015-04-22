@@ -58,8 +58,15 @@ SettingsGatewayTab.prototype.angular = function(module)
         case 'defaultRippleFlag':
           // Need to set flag on account_root
           var tx = network.remote.transaction();
-          tx.accountSet(id.account);
-          tx.setFlags('DefaultRipple');
+          var isDefaultRippleEnabled = $scope.account.Flags & ripple.Remote.flags.account_root.DefaultRipple;
+
+          if (isDefaultRippleEnabled) {
+            tx.accountSet(id.account, undefined, 'DefaultRipple');
+            $scope.options.defaultRippleFlag = false;
+          } else {
+            tx.accountSet(id.account, 'DefaultRipple');
+            $scope.options.defaultRippleFlag = true;
+          }
 
           keychain.requestSecret(id.account, id.username, function (err, secret) {
             if (err) {
@@ -78,7 +85,6 @@ SettingsGatewayTab.prototype.angular = function(module)
       }
 
       $scope.edit[type] = false;
-
 
       // Notify the user
       $scope.success[type] = true;
@@ -115,6 +121,7 @@ SettingsGatewayTab.prototype.angular = function(module)
       $scope.edit[type] = false;
       if (type === 'bridge') {
         $scope.options.bridge.out.bitcoin = $scope.optionsBackup.bridge.out.bitcoin;
+
       } else {
         $scope.options[type] = $scope.optionsBackup[type];
       }
@@ -124,6 +131,16 @@ SettingsGatewayTab.prototype.angular = function(module)
       $scope.editConfirmation[transactionType] = false;
       $scope.options.confirmation[transactionType] = $scope.optionsBackup.confirmation[transactionType];
     };
+
+    $scope.$watch('account', function() {
+      // Check if account has DefaultRipple flag set
+
+      if ($scope.account.Flags & ripple.Remote.flags.account_root.DefaultRipple) {
+        $scope.options.defaultRippleFlag = true;
+      } else {
+        $scope.options.defaultRippleFlag = false;
+      }
+    }, true);
 
   }]);
 };
