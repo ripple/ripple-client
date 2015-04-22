@@ -159,6 +159,6 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
           a(href="#/withdraw", l10n) Withdraw
   .container.recover-status-wrapper.text-center.ng-scope(ng-if='recovered', ng-show='recovered')
     .alert.alert-info
-        h4.tx-status(l10n='l10n')
+        h4.tx-status(l10n)
           | Your account was successfully recovered and encrypted with the new password you provided!
         a.dismiss(ng-click='recovered = false', l10n='l10n') &times;
