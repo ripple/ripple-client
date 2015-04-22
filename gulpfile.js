@@ -91,6 +91,15 @@ gulp.task('less', function () {
     .pipe($.browserSync.reload({stream:true}));
 });
 
+// Extracts l10n strings from template files
+gulp.task('l10nExtract', function () {
+  return gulp.src('src/templates/**/*.jade')
+    .pipe($.jadeL10nExtractor({
+      filename: 'messages.pot'
+    }))
+    .pipe(gulp.dest('./l10n/templates'))
+});
+
 // Static server
 gulp.task('serve:dev', function() {
   $.browserSync({
@@ -229,7 +238,7 @@ gulp.task('default', ['dev'], function() {
 });
 
 // Development
-gulp.task('dev', ['clean:dev', 'bower', 'webpack:dev', 'less', 'templates:dev'], function () {
+gulp.task('dev', ['clean:dev', 'bower', 'webpack:dev', 'less', 'templates:dev', 'l10nExtract'], function () {
   gulp.start('preprocess:dev');
 });
 
