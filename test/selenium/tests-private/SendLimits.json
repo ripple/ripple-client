@@ -69,6 +69,14 @@
       }
     },
     {
+      "type": "print",
+      "text": "------- waiting 5 sec"
+    },
+    {
+      "type": "pause",
+      "waitTime": "5000"
+    },
+    {
       "type": "setElementText",
       "locator": {
         "type": "id",

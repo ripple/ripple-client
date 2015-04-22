@@ -45,4 +45,7 @@ env:
     - SAUCE_ACCESS_KEY=1553f141-1258-4319-b20d-7743def99fbb
     - secure: "g+bSaoKAx6YQTVof5kUBdWx/REaKzqzkP+CQqsU6Whx+rp9juOtJGNtfH++PaWP1hSslRJi2Ib+9+/EU6CXzLE6IlwLHcnBikexeeF28kEivwRqxosLERLQ0axk8VGw324kgUDG1DsJNKxZFPq+LlXkPcF5eVta+BcSz5BO2ygs="
     - secure: "BIFtSHbHke2SfyhCTjnSVwkQ3g8aGGV9ZR+tTSFQmp5RVMPEPTy0eiLx4qk+D/UTnJztQSqrtecVvhIa1iHtkwqecyS3/Hjs5h3F9pHNVdL5njk+sMcI4qL63ijpSG3j41jG81SHiCUi86u0FpGtrYzUaSBVe/DWEKwyXmYMlrM="
+    - secure: "Evu2xM7r/up6jlpbMhG/tiDsXTNwsU9aoaiKieggQaSexWzQbMKB3xh/NqiGUYeKR8VVrmDxRmy1Ym5eTdK1Pca6JGXOEhUudI3xqMC/2ttXcUGwsLSpSoB1w5zOwg5O0CnSRGlwvCrh8jj2viIwbOWvCcTcf6QBsN6ro10UOJI="
+    - secure: "dT8RdQjiwlYtic/55lZFQLEJwawnk+6O4W7gJCYZ1/PBDO7KlKz+3u0ODLC3H9vgAqQBL2m2pPtn4uFPyL7n8hscuzBbMolv6pPlAcj+AzMEfINrHJoDAkHcRR8RtityB+X82uh/KVY2lKNjfZoiiFUZwUP0DmVfKJCBQYg+uwU="
+
 #    - secure: "VJFHj5fr46Qf7h34xa/W6FmGvknPH57eQLJoEjKlZUYn0EGx9EliCdENfzAbtr3e4GnNvQh6X2bLA/lB7TRzoD84oyGkllkMayevQm/dViJbUBQsl7HOa6VwUwugW+o7T3+vPM4y5qqFv1B/fs3Fthl+eKUatccy9qK4xra1Hso="
