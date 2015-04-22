@@ -25,6 +25,8 @@ section.col-xs-12.content(ng-controller='BtcCtrl')
       group.result-error(ng-switch-when="error")
         h2.tx-status(l10n) There was an error with your request.&#32;
           p(l10n) Please try again later.
+      group.result-error(ng-switch-when="emailError")
+        h2.tx-status(l10n) There was an error with your request.&#32;
 
   .row(ng-show='connected')
     .col-sm-3
@@ -94,9 +96,12 @@ section.col-xs-12.content(ng-controller='BtcCtrl')
                 .description(ng-hide="btcConnected")
                   i.fa.fa-times
                   span(l10n) Not connected
-              span.error(ng-show="emailError", l10n)
+              span.error(ng-show="generalError", l10n)
                 | SnapSwap's btc2ripple service is currently unavailable.
                 |  Please check back later.
+              span.error(ng-show="emailError", l10n)
+                | You’ve already used this email address to generate a bitcoin receiving address in Ripple Trade.
+                | Please contact support@btc2ripple.com if you want to use this Ripple Trade account instead.
         .row(ng-show="btcConnected && showInstructions")
           .instructions.col-md-10
             //a.dismiss#hide(href="", ng-click="toggle_instructions()")  ×
