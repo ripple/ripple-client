@@ -106,6 +106,14 @@
       "text": "XRP"
     },
     {
+      "type": "print",
+      "text": "------- waiting 5 sec"
+    },
+    {
+      "type": "pause",
+      "waitTime": "5000"
+    },
+    {
       "type": "clickElement",
       "locator": {
         "type": "xpath",
@@ -128,6 +136,14 @@
       "text": "EUR.~Bitstamp/XRP"
     },
     {
+      "type": "print",
+      "text": "------- waiting 5 sec"
+    },
+    {
+      "type": "pause",
+      "waitTime": "5000"
+    },
+    {
       "type": "clickElement",
       "locator": {
         "type": "xpath",
@@ -135,9 +151,17 @@
       }
     },
     {
+      "type": "pause",
+      "waitTime": "5000"
+    },
+    {
       "type": "waitForTextPresent",
       "text": "EUR.~Bitstamp/XRP",
       "negated": true
+    },
+    {
+      "type": "pause",
+      "waitTime": "8000"
     },
     {
       "type": "clickElement",
