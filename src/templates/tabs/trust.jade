@@ -297,7 +297,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                                   rp-popover-trigger="hover"
                                   l10n-rp-popover-title="Incoming trust"
                                   l10n-data-content="You can't delete incoming trust lines. Incoming trust lines are when other Ripple users trust you.")
-                                  button.btn.btn-block.btn-danger.submit(type="button", ng-click="load_orderbook()", ng-show="component.limit._value.t === 0", disabled, l10n) Remove
+                                  button.btn.btn-block.btn-danger.submit(type="button", ng-click="load_orderbook()", ng-show="isIncoming()", disabled, l10n) Remove
                             span(ng-show='trust.balance === "0"')
                               button.btn.btn-block.btn-danger.submit(type="button", ng-click="delete_account()", ng-show="!isIncoming()", l10n) Remove
                               span(
@@ -334,7 +334,7 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                     .col-sm-2.col-md-2.inputPadding
                       div.rippling-checkbox
                         label(l10n) Rippling&#32;
-                          input(name='rippling', type='checkbox', ng-model='trust.rippling', ng-disabled='trust.loading')
+                          input(name='rippling', type='checkbox', ng-model='trust.rippling', ng-disabled='trust.balance !== "0" && isIncoming()')
                     .col-sm-7.col-md-6
                       .row.row-padding-small
                         .col-xs-6.col-sm-5(ng-hide="trust.loading && trust.state==='removing'")
