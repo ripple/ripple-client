@@ -62,8 +62,8 @@
         .row(ng-repeat="entry in offers | rpcurrentpair:sortOptions.currentPairOnly:order.prev_settings | rpvalues | rpsortmyorders:sortOptions.sortField:sortOptions.reverse track by entry.seq",
           ng-hide="entry.isZero")
           .col-md-1.type(l10n-data-label="Type")
-            span.rp-hidden-md.rp-hidden-lg{{entry.type | rpucfirst}}
-            span.rp-hidden-xs.rp-hidden-sm{{entry.type | rptruncate:1}}
+            span.rp-hidden-md.rp-hidden-lg {{entry.type | rpucfirst}}
+            span.rp-hidden-xs.rp-hidden-sm {{entry.type | rptruncate:1}}
           .col-md-3.amount.rpamount(l10n-data-label="QTY"
             rp-address-popover, rp-address-popover-sum="entry.first"
             ) {{entry.first | rpamount:{hard_precision: true, precision: 6, tiny_precision: 6} }}

@@ -154,9 +154,7 @@ section.col-xs-12.content(ng-controller="ContactsCtrl")
           .row
             .col-xs-4.col-md-4
               button.save.btn.btn-block.btn-success(
-                ng-disabled="inlineAddress.editaddress.$error.rpUnique"
-                ng-disabled="inlineName.editname.$error.rpUnique"
-                ng-disabled="inlineAddress.editaddress.$error.rpDest"
+                ng-disabled="inlineAddress.editaddress.$error.rpUnique || inlineName.editname.$error.rpUnique || inlineAddress.editaddress.$error.rpDest"
                 ng-click='update($index)', l10n) Save
             .col-xs-4.col-md-4
               rp-confirm(
