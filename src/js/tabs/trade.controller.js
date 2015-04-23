@@ -185,11 +185,13 @@ TradeTab.prototype.angular = function(module)
 
       // Ensure that the orderbook matches the currency pair of the order being edited, for the user
       // to reference and to ensure that the Fat Finger check will compare with the correct price.
-      $scope.editOrder.orderbookReady = false;
-      if ($scope.goto_order_currency.bind(this)()) {
-        // Reset Buy and Sell widgets as the currency pair has changed so the price & qty will not be relevant
-        $scope.reset_widget('buy', true);
-        $scope.reset_widget('sell', true);
+      if (getOrderCurrency(this.entry) !== $scope.order.currency_pair) {
+        $scope.editOrder.orderbookReady = false;
+        if ($scope.goto_order_currency.bind(this)()) {
+          // Reset Buy and Sell widgets as the currency pair has changed so the price & qty will not be relevant
+          $scope.reset_widget('buy', true);
+          $scope.reset_widget('sell', true);
+        }
       }
       $scope.editOrder.ccyPair = $scope.order.currency_pair;
 
@@ -446,11 +448,33 @@ TradeTab.prototype.angular = function(module)
       }
     };
 
+
+    /**
+     * Returns orders currency pair, so we can compare it with current pair.
+     */
+    function getOrderCurrency(entry) {
+      if (!entry) return '';
+      var first_currency = entry.first.currency().to_json();
+      var first_issuer = entry.first.issuer().to_json();
+      var second_currency = entry.second.currency().to_json();
+      var second_issuer = entry.second.issuer().to_json();
+
+      var first = first_currency === 'XRP'
+        ? 'XRP'
+        : first_currency + '.' + first_issuer;
+
+      var second = second_currency === 'XRP'
+        ? 'XRP'
+        : second_currency + '.' + second_issuer;
+
+      var currency_pair = first + '/' + second;
+      return currency_pair;
+    }
+
     /**
      * Happens when user clicks the currency in 'My Orders'.
      */
-    $scope.goto_order_currency = function()
-    {
+    $scope.goto_order_currency = function() {
       if (!this.entry) return;
       var entry = this.entry;
       var order = $scope.order;
@@ -460,19 +484,19 @@ TradeTab.prototype.angular = function(module)
       order.second_currency = this.entry.second.currency().to_json();
       order.second_issuer = this.entry.second.issuer().to_json();
 
-      var first = order.first_currency == 'XRP'
+      var first = order.first_currency === 'XRP'
         ? 'XRP'
         : order.first_currency + '.' + order.first_issuer;
 
-      var second = order.second_currency == 'XRP'
+      var second = order.second_currency === 'XRP'
         ? 'XRP'
         : order.second_currency + '.' + order.second_issuer;
 
       order.currency_pair = first + '/' + second;
 
       var changedPair = updateSettings();
-      //updateMRU();
-      if(changedPair) {
+      // updateMRU();
+      if (changedPair) {
         $scope.load_orderbook = true;
         $scope.reset_widget('buy', true);
         $scope.reset_widget('sell', true);
@@ -480,7 +504,6 @@ TradeTab.prototype.angular = function(module)
       return changedPair;
     };
 
-    
     $scope.view_orders_history = function()
     {
       $location.url('/history?f=orders');
