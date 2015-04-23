@@ -16,10 +16,10 @@ angular
   .controller('AppCtrl', AppCtrl);
 
 AppCtrl.$inject = ['$rootScope', 'rpId', 'rpNetwork', 'rpKeychain', 'rpTxQueue',
-  'rpAppManager', 'rpTracker', '$timeout', 'rpHistory'];
+  'rpAppManager', 'rpTracker', '$timeout', 'rpHistory', '$templateRequest'];
 
 function AppCtrl ($scope, id, net, keychain, txQueue, appManager, rpTracker,
-                  $timeout, rpHistory)
+                  $timeout, rpHistory, $templateRequest)
 {
   reset();
 
@@ -658,10 +658,11 @@ function AppCtrl ($scope, id, net, keychain, txQueue, appManager, rpTracker,
   ];
 
   // load strings from jade template
-  var ordersStringsHtml = $(require('../../templates/strings/myOrders.jade')());
-  _.each($scope.ordersSortFieldChoices, function(element, index) {
-    var localisedNameText = ordersStringsHtml.find('#' + element.value).text();
-    element.name = localisedNameText;
+  $templateRequest('templates/' + lang + '/strings/myOrders.html', true).then(function(ordersStringsHtml) {
+    _.each($scope.ordersSortFieldChoices, function(element, index) {
+      var localisedNameText = ordersStringsHtml.find('#' + element.value).text();
+      element.name = localisedNameText;
+    });
   });
 
   $scope.ordersSortFieldChoicesKeyed = {};
