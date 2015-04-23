@@ -132,6 +132,14 @@
     }
   }
 
+  .send-widgets {
+    form {
+      .input-group {
+        border-spacing: 0;
+      }
+    }
+  }
+
   .slash {
     padding-top: 25px;
     font-size: 24px;
@@ -145,7 +153,7 @@
   }
 
   .trade-widget {
-    min-height: 430px;
+    // min-height: 430px;
     padding: 15px;
     border: 1px solid darken(@bg, 10%);
     background: darken(@bg, 2%);
@@ -227,31 +235,56 @@
   }
 
   .mode-confirm {
-    text-align: center;
-
+    text-align: left;
+    font-family: OpenSansLight;
+    .alert {
+      margin-bottom: 0;
+    }
     .title {
       margin: 30px 0;
     }
-
+    label {
+      font-size: 18px;
+      margin-bottom: 0
+    }
+    sub {
+      bottom: 0;
+      font-size: 14px;
+      font-family: OpenSansRegular;
+    }
     .amount_feedback {
-      font-size: 30px;
-      margin: 50px 0 0 0;
+      font-size: 18px;
+      margin: 10px 0 0 0;
+      .ammount-currency {
+        font-size: 22px;
+      }
     }
 
     .dest_feedback {
       font-size: 30px;
       margin: 0 0 10px 0;
+      .each-price {
+        font-size: 22px;
+      }
     }
 
     .rate_feedback {
-      margin: 0 0 30px 0;
-      color: @darkgray;
+      margin: 0 0 20px 0;
       font-size: 18px;
 
       .pair {
         margin-left: 5px;
         font-size: 14px;
       }
+      .max-value {
+        .rate {
+          font-size: 22px;
+        }
+      }
+    }
+    .confirm-text {
+      font-size: 14px;
+      margin-bottom: 5px;
     }
   }
 
@@ -554,4 +587,23 @@
 
 .t-trade header nav ul > .active#nav-advanced > a:after {
   border-bottom-color: @lightgray;
+}
+
+.table {
+  display: table;
+  margin: 0;
+  border-collapse: separate;
+  border-spacing: 15px 0px;
+  .grid {
+    margin-left: -30px;
+    margin-right: -30px;
+  }
+  .table-row {
+    display: table-row;
+    .col-cell {
+      display: table-cell;
+      vertical-align: top;
+      float: none;
+    }
+  }
 }
