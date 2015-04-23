@@ -145,241 +145,256 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
             p.literal(l10n) You have to be funded before you can trade
 
           //- 1. Order widgets
-          group.row.send-widgets#widgetGroup(ng-show="account.Balance")
-            .col-xs-12.col-md-6(ng-repeat="type in ['buy','sell']")
-              .trade-widget(ng-switch="order[type].mode")
-                .head
-                  span(ng-show="type == 'buy'", l10n) Buy&#32;
-                    span.issuer(
-                      ng-hide="order.first_currency.is_native()"
-                      rp-pretty-issuer="order.first_issuer"
-                      rp-pretty-issuer-contacts="userBlob.data.contacts"
-                      rp-pretty-issuer-or-short)
-                    |  {{order.first_currency | rpcurrency}}
-                  span(ng-show="type == 'sell'", l10n) Sell&#32;
-                    span.issuer(
-                      ng-hide="order.first_currency.is_native()"
-                      rp-pretty-issuer="order.first_issuer"
-                      rp-pretty-issuer-contacts="userBlob.data.contacts"
-                      rp-pretty-issuer-or-short)
-                    |  {{order.first_currency | rpcurrency}}
-                  span.available(ng-show="type == 'buy'", l10n)
-                    span.amount
-                      span(ng-show="order.second_currency.is_native()")
-                        | {{account.Balance | rpamount}} XRP
-                      span(ng-hide="order.second_currency.is_native()")
-                        | {{lines[order.second_issuer+order.second_currency.to_json()].balance || "0" | rpamount}}&#32;
-                        span(
-                          rp-pretty-issuer="order.second_issuer"
-                          rp-pretty-issuer-contacts="userBlob.data.contacts"
-                          rp-pretty-issuer-or-short)
-                        |  {{order.second_currency | rpcurrency}}
-                    |  available
-                  span.available(ng-show="type == 'sell'", l10n)
-                    span.amount
-                      span(ng-show="order.first_currency.is_native()")
-                        | {{account.Balance | rpamount}} XRP
-                      span(ng-hide="order.first_currency.is_native()")
-                        | {{lines[order.first_issuer+order.first_currency.to_json()].balance || "0" | rpamount}}&#32;
-                        span(
+          div.row.send-widgets#widgetGroup.table(ng-show="account.Balance")
+            .grid
+              .table-row
+                .col-xs-12.col-md-6.col-cell.trade-widget(ng-repeat="type in ['buy','sell']")
+                  div(ng-switch="order[type].mode")
+                    .head
+                      span(ng-show="type == 'buy'", l10n) Buy&#32;
+                        span.issuer(
+                          ng-hide="order.first_currency.is_native()"
                           rp-pretty-issuer="order.first_issuer"
                           rp-pretty-issuer-contacts="userBlob.data.contacts"
                           rp-pretty-issuer-or-short)
                         |  {{order.first_currency | rpcurrency}}
-                    |  available
-                div(ng-switch-when='trade')
-                  form.mode-form(name="tradeForm", ng-submit='place_order(type)', ng-show="order[type].showWidget")
-                    .row.order-values
-                      .col-xs-12
-                        .value-field
-                          label(ng-show="type == 'buy'", l10n) Amount To Buy
-                          label(ng-show="type == 'sell'", l10n) Amount To Sell
-                          .input-group
-                            input.form-control(name='amount', type='text'
-                            input-type="{{type}}"
-                            ng-model='order[type].first', ng-change='calc_second(type)'
-                            rp-autofill='$routeParams.type == type && $routeParams.amount'
-                            rp-autofill-amount
-                            rp-amount
-                            rp-amount-positive
-                            rp-amount-xrp-limit
-                            rp-amount-currency="{{order.first_currency}}"
-                            required)
-                            .input-group-addon
-                              | {{order.first_currency | rpcurrency}}
-                              .issuer(
-                                ng-hide="order.first_currency.is_native()"
-                                rp-pretty-issuer="order.first_issuer"
-                                rp-pretty-issuer-contacts="userBlob.data.contacts"
-                                rp-pretty-issuer-or-short)
-                          .errorGroup(ng-messages='tradeForm.amount.$dirty && tradeForm.amount.$error')
-                            .error(ng-message='required', l10n) Required
-                            .error(ng-message='rpAmount', l10n) Not a valid amount.
-                            .error(ng-message='rpAmountPositive', l10n)
-                              | Must be greater than zero
-                            .error(ng-message='rpAmountXrpLimit', l10n)
-                              | Minimum amount of XRP you can send is a drop (0.000001) and the maximum is 100 billion XRPs.
-                      .col-xs-12
-                        .value-field
-                          label(l10n) Price of Each
-                          .input-group
-                            input.form-control(name='price', type='text'
-                            input-type="{{type}}"
-                            ng-model='order[type].price', ng-change='calc_second(type)'
-                            rp-autofill='$routeParams.type == type && $routeParams.price'
-                            rp-autofill-amount
-                            rp-amount
-                            rp-amount-positive
-                            rp-amount-xrp-limit
-                            rp-amount-currency="{{order.second_currency}}"
-                            required)
-                            .input-group-addon
-                              | {{order.second_currency | rpcurrency}}
-                              .issuer(
-                                ng-hide="order.second_currency.is_native()"
-                                rp-pretty-issuer="order.second_issuer"
-                                rp-pretty-issuer-contacts="userBlob.data.contacts"
-                                rp-pretty-issuer-or-short)
-                          .errorGroup(ng-messages='tradeForm.price.$dirty && tradeForm.price.$error')
-                            .error(ng-message='required', l10n) Required
-                            .error(ng-message='rpAmount', l10n) Not a valid amount.
-                            .error(ng-message='rpAmountPositive', l10n)
-                              | Must be greater than zero
-                            .error(ng-message='rpAmountXrpLimit', l10n)
-                              | Minimum amount of XRP you can send is a drop (0.000001) and the maximum is 100 billion XRPs.
-                      .col-xs-12
-                        .value-field
-                          label(l10n) Order Value (max)
-                          .input-group
-                            input.form-control(name='value', type='text'
-                            ng-model='order[type].second', ng-change='calc_first(type)'
-                            rp-autofill='$routeParams.type == type && $routeParams.max'
-                            rp-autofill-amount
-                            rp-amount
-                            rp-amount-positive
-                            rp-amount-xrp-limit
-                            rp-amount-currency="{{order.second_currency}}"
-                            required)
-                            .input-group-addon
-                              | {{order.second_currency | rpcurrency}}
-                              .issuer(
-                                ng-hide="order.second_currency.is_native()"
-                                rp-pretty-issuer="order.second_issuer"
-                                rp-pretty-issuer-contacts="userBlob.data.contacts"
-                                rp-pretty-issuer-or-short)
-                          .errorGroup(ng-messages='tradeForm.value.$dirty && tradeForm.value.$error')
-                            .error(ng-message='required', l10n) Required
-                            .error(ng-message='rpAmount', l10n) Not a valid amount.
-                            .error(ng-message='rpAmountPositive', l10n)
-                              | Must be greater than zero
-                            .error(ng-message='rpAmountXrpLimit', l10n)
-                              | Minimum amount of XRP you can send is a drop (0.000001) and the maximum is 100 billion XRPs.
-                    .message
-                      //- Having two very similar blocks just because of
-                      //- translation related issues. (Cannot use the same format for
-                      //- chinese translation)
-                      p(ng-show="tradeForm.$valid && type == 'buy'", l10n) You are wanting to buy
-                        span  {{order[type].first_amount | rpamount:{abs_precision: 6} }} {{order[type].first_amount | rpcurrency}}
-                        |  for
-                        span  {{order[type].second_amount | rpamount:{abs_precision: 6} }} {{order[type].second_amount | rpcurrency}}
-                        |  (
-                        span {{order[type].price_amount | rpamount:{abs_precision: 6} }} {{order[type].second_amount | rpcurrency}}
-                        |  per
-                        span  {{order[type].first_amount | rpcurrency}}
-                        | )
-                      p(ng-show="tradeForm.$valid && type == 'sell'", l10n) You are wanting to sell
-                        span  {{order[type].first_amount | rpamount:{abs_precision: 6} }} {{order[type].first_amount | rpcurrency}}
-                        |  for
-                        span  {{order[type].second_amount | rpamount:{abs_precision: 6} }} {{order[type].second_amount | rpcurrency}}
-                        |  (
-                        span {{order[type].price_amount | rpamount:{abs_precision: 6} }} {{order[type].second_amount | rpcurrency}}
-                        |  per
-                        span  {{order[type].first_amount | rpcurrency}}
-                        | )
-                    .row.btns-row
-                      .col-xs-12.col-md-6.col-sm-8.btns-wrapper
-                        button.btn.btn-success.btn-block.submit(type='submit', ng-disabled='tradeForm.$invalid', btn-type="{{type}}")
-                          span(ng-show="type == 'buy'", l10n)  Buy
-                          span(ng-show="type == 'sell'", l10n)  Sell
-                          |  {{order.first_currency | rpcurrency}}
-                          span(ng-hide="order.first_currency.is_native()")  (
-                            span.issuer(
+                      span(ng-show="type == 'sell'", l10n) Sell&#32;
+                        span.issuer(
+                          ng-hide="order.first_currency.is_native()"
+                          rp-pretty-issuer="order.first_issuer"
+                          rp-pretty-issuer-contacts="userBlob.data.contacts"
+                          rp-pretty-issuer-or-short)
+                        |  {{order.first_currency | rpcurrency}}
+                      span.available(ng-show="type == 'buy'", l10n)
+                        span.amount
+                          span(ng-show="order.second_currency.is_native()")
+                            | {{account.Balance | rpamount}} XRP
+                          span(ng-hide="order.second_currency.is_native()")
+                            | {{lines[order.second_issuer+order.second_currency.to_json()].balance || "0" | rpamount}}&#32;
+                            span(
+                              rp-pretty-issuer="order.second_issuer"
+                              rp-pretty-issuer-contacts="userBlob.data.contacts"
+                              rp-pretty-issuer-or-short)
+                            |  {{order.second_currency | rpcurrency}}
+                        |  available
+                      span.available(ng-show="type == 'sell'", l10n)
+                        span.amount
+                          span(ng-show="order.first_currency.is_native()")
+                            | {{account.Balance | rpamount}} XRP
+                          span(ng-hide="order.first_currency.is_native()")
+                            | {{lines[order.first_issuer+order.first_currency.to_json()].balance || "0" | rpamount}}&#32;
+                            span(
                               rp-pretty-issuer="order.first_issuer"
                               rp-pretty-issuer-contacts="userBlob.data.contacts"
                               rp-pretty-issuer-or-short)
+                            |  {{order.first_currency | rpcurrency}}
+                        |  available
+                    div(ng-switch-when='trade')
+                      form.mode-form(name="tradeForm", ng-submit='place_order(type)', ng-show="order[type].showWidget")
+                        .row.order-values
+                          .col-xs-12
+                            .value-field
+                              label(ng-show="type == 'buy'", l10n) Amount To Buy
+                              label(ng-show="type == 'sell'", l10n) Amount To Sell
+                              .input-group
+                                input.form-control(name='amount', type='text'
+                                input-type="{{type}}"
+                                ng-model='order[type].first', ng-change='calc_second(type)'
+                                rp-autofill='$routeParams.type == type && $routeParams.amount'
+                                rp-autofill-amount
+                                rp-amount
+                                rp-amount-positive
+                                rp-amount-xrp-limit
+                                rp-amount-currency="{{order.first_currency}}"
+                                required)
+                                .input-group-addon
+                                  | {{order.first_currency | rpcurrency}}
+                                  .issuer(
+                                    ng-hide="order.first_currency.is_native()"
+                                    rp-pretty-issuer="order.first_issuer"
+                                    rp-pretty-issuer-contacts="userBlob.data.contacts"
+                                    rp-pretty-issuer-or-short)
+                              .errorGroup(ng-messages='tradeForm.amount.$dirty && tradeForm.amount.$error')
+                                .error(ng-message='required', l10n) Required
+                                .error(ng-message='rpAmount', l10n) Not a valid amount.
+                                .error(ng-message='rpAmountPositive', l10n)
+                                  | Must be greater than zero
+                                .error(ng-message='rpAmountXrpLimit', l10n)
+                                  | Minimum amount of XRP you can send is a drop (0.000001) and the maximum is 100 billion XRPs.
+                          .col-xs-12
+                            .value-field
+                              label(l10n) Price of Each
+                              .input-group
+                                input.form-control(name='price', type='text'
+                                input-type="{{type}}"
+                                ng-model='order[type].price', ng-change='calc_second(type)'
+                                rp-autofill='$routeParams.type == type && $routeParams.price'
+                                rp-autofill-amount
+                                rp-amount
+                                rp-amount-positive
+                                rp-amount-xrp-limit
+                                rp-amount-currency="{{order.second_currency}}"
+                                required)
+                                .input-group-addon
+                                  | {{order.second_currency | rpcurrency}}
+                                  .issuer(
+                                    ng-hide="order.second_currency.is_native()"
+                                    rp-pretty-issuer="order.second_issuer"
+                                    rp-pretty-issuer-contacts="userBlob.data.contacts"
+                                    rp-pretty-issuer-or-short)
+                              .errorGroup(ng-messages='tradeForm.price.$dirty && tradeForm.price.$error')
+                                .error(ng-message='required', l10n) Required
+                                .error(ng-message='rpAmount', l10n) Not a valid amount.
+                                .error(ng-message='rpAmountPositive', l10n)
+                                  | Must be greater than zero
+                                .error(ng-message='rpAmountXrpLimit', l10n)
+                                  | Minimum amount of XRP you can send is a drop (0.000001) and the maximum is 100 billion XRPs.
+                          .col-xs-12
+                            .value-field
+                              label(l10n) Order Value (max)
+                              .input-group
+                                input.form-control(name='value', type='text'
+                                ng-model='order[type].second', ng-change='calc_first(type)'
+                                rp-autofill='$routeParams.type == type && $routeParams.max'
+                                rp-autofill-amount
+                                rp-amount
+                                rp-amount-positive
+                                rp-amount-xrp-limit
+                                rp-amount-currency="{{order.second_currency}}"
+                                required)
+                                .input-group-addon
+                                  | {{order.second_currency | rpcurrency}}
+                                  .issuer(
+                                    ng-hide="order.second_currency.is_native()"
+                                    rp-pretty-issuer="order.second_issuer"
+                                    rp-pretty-issuer-contacts="userBlob.data.contacts"
+                                    rp-pretty-issuer-or-short)
+                              .errorGroup(ng-messages='tradeForm.value.$dirty && tradeForm.value.$error')
+                                .error(ng-message='required', l10n) Required
+                                .error(ng-message='rpAmount', l10n) Not a valid amount.
+                                .error(ng-message='rpAmountPositive', l10n)
+                                  | Must be greater than zero
+                                .error(ng-message='rpAmountXrpLimit', l10n)
+                                  | Minimum amount of XRP you can send is a drop (0.000001) and the maximum is 100 billion XRPs.
+                        .message
+                          //- Having two very similar blocks just because of
+                          //- translation related issues. (Cannot use the same format for
+                          //- chinese translation)
+                          p(ng-show="tradeForm.$valid && type == 'buy'", l10n) You are wanting to buy
+                            span  {{order[type].first_amount | rpamount:{abs_precision: 6} }} {{order[type].first_amount | rpcurrency}}
+                            |  for
+                            span  {{order[type].second_amount | rpamount:{abs_precision: 6} }} {{order[type].second_amount | rpcurrency}}
+                            |  (
+                            span {{order[type].price_amount | rpamount:{abs_precision: 6} }} {{order[type].second_amount | rpcurrency}}
+                            |  per
+                            span  {{order[type].first_amount | rpcurrency}}
                             | )
-                  div(ng-hide="order[type].showWidget")
-                    p.literal(l10n) You do not have sufficient funds to create an order.
+                          p(ng-show="tradeForm.$valid && type == 'sell'", l10n) You are wanting to sell
+                            span  {{order[type].first_amount | rpamount:{abs_precision: 6} }} {{order[type].first_amount | rpcurrency}}
+                            |  for
+                            span  {{order[type].second_amount | rpamount:{abs_precision: 6} }} {{order[type].second_amount | rpcurrency}}
+                            |  (
+                            span {{order[type].price_amount | rpamount:{abs_precision: 6} }} {{order[type].second_amount | rpcurrency}}
+                            |  per
+                            span  {{order[type].first_amount | rpcurrency}}
+                            | )
+                        .row.btns-row
+                          .col-xs-12.col-md-6.col-sm-8.btns-wrapper
+                            button.btn.btn-success.btn-block.submit(type='submit', ng-disabled='tradeForm.$invalid', btn-type="{{type}}")
+                              span(ng-show="type == 'buy'", l10n)  Buy
+                              span(ng-show="type == 'sell'", l10n)  Sell
+                              |  {{order.first_currency | rpcurrency}}
+                              span(ng-hide="order.first_currency.is_native()")  (
+                                span.issuer(
+                                  rp-pretty-issuer="order.first_issuer"
+                                  rp-pretty-issuer-contacts="userBlob.data.contacts"
+                                  rp-pretty-issuer-or-short)
+                                | )
+                      div(ng-hide="order[type].showWidget")
+                        p.literal(l10n) You do not have sufficient funds to create an order.
 
-                //- 2. Confirmation
-                form.mode-confirm(ng-switch-when='confirm', ng-submit="order_confirmed(type, order.currency_pair)")
-                  p.title.literal
-                    span(l10n) You are about to create an order to
-                      span(ng-show="type == 'buy'", l10n-inc)  buy
-                      span(ng-show="type == 'sell'", l10n-inc)  sell
+                    //- 2. Confirmation
+                    form.mode-confirm(ng-switch-when='confirm', ng-submit="order_confirmed(type, order.currency_pair)")
+                      div.alert.alert-warning(ng-show="fatFingerErr")
+                        p(l10n) CAUTION: Your order is far off from the market price.
+                      //- p.title.literal
+                      //-   span(l10n) You are about to create an order to
+                      //-     span(ng-show="type == 'buy'", l10n-inc)  buy
+                      //-     span(ng-show="type == 'sell'", l10n-inc)  sell
                       .amount_feedback
-                        span.value {{order[type].first_amount | rpamount: {abs_precision: 6} }}&#32;
-                        span.issuer(
-                          ng-show="(order[type].first_amount | rpcurrency) !== 'XRP'"
-                          rp-pretty-issuer="order[type].first_amount | rpissuer"
-                          rp-pretty-issuer-contacts="userBlob.data.contacts"
-                          rp-pretty-issuer-or-short)
-                        span.currency  {{order[type].first_amount | rpcurrency}}
-                      .literal(l10n-inc) for
+                        label(ng-show="type == 'buy'", l10n) Amount to buy
+                        label(ng-show="type == 'sell'", l10n) Amount to sell
+                        div.ammount-currency
+                          span.value {{order[type].first_amount | rpamount: {abs_precision: 6} }}&#32;
+                          //- span.issuer(
+                          //-   ng-show="(order[type].first_amount | rpcurrency) !== 'XRP'"
+                          //-   rp-pretty-issuer="order[type].first_amount | rpissuer"
+                          //-   rp-pretty-issuer-contacts="userBlob.data.contacts"
+                          //-   rp-pretty-issuer-or-short)
+                          span.currency
+                            sub {{order[type].first_amount._currency._iso_code}}
+                      //- .literal(l10n-inc) for
                       .dest_feedback
-                        span.value {{order[type].second_amount | rpamount: {abs_precision: 6} }}&#32;
-                        span.issuer(
-                          ng-show="(order[type].second_amount | rpcurrency) !== 'XRP'"
-                          rp-pretty-issuer="order[type].second_amount | rpissuer"
-                          rp-pretty-issuer-contacts="userBlob.data.contacts"
-                          rp-pretty-issuer-or-short)
-                        span.currency  {{order[type].second_amount | rpcurrency}}
-                      .rate_feedback (
-                        span.rate {{order[type].price}}
-                        span.pair {{order[type].second_amount | rpcurrency}} per {{order[type].first_amount | rpcurrency}}
-                        | )
-                      p.literal(l10n-inc) Are you sure?
-                      p.order-warning(ng-show="fatFingerErr", l10n)
-                        | CAUTION: Your order is far off from the current market price.
-                    .row.row-padding-small
-                      .col-xs-6.col-sm-offset-2.col-sm-4.col-md-offset-3.col-md-3
-                        button.btn.btn-block.btn-default.back(type='button'
-                          ng-click="order[type].mode = 'trade'", l10n) &laquo; Back
-                      .col-xs-6.col-sm-4.col-md-3
-                        button.btn.btn-block.btn-success.submit(type='submit'
-                          ng-disabled='confirm_wait', l10n) Confirm
+                        label(l10n) Price of each
+                        div.each-price
+                          span.value {{order[type].second_amount | rpamount: {abs_precision: 6} }}&#32; 
+                            sub
+                              span.currency {{order.currency_pair}}
+                              //- span.currency  {{order[type].second_amount | rpcurrency}} /
+                              //- span.issuer(
+                              //-   ng-show="(order[type].second_amount | rpcurrency) !== 'XRP'"
+                              //-   rp-pretty-issuer="order[type].second_amount | rpissuer"
+                              //-   rp-pretty-issuer-contacts="userBlob.data.contacts"
+                              //-   rp-pretty-issuer-or-short)
+                        //-       (
+                        //- span.rate {{order[type].price}}
+                        //- span.pair {{order[type].second_amount | rpcurrency}} per {{order[type].first_amount | rpcurrency}}
+                        //- | )
+                      .rate_feedback 
+                        label(l10n) Order Value (max)
+                        div.max-value
+                          span.rate {{order[type].price}}
+                            sub.pair {{order[type].second_amount | rpcurrency}} per {{order[type].first_amount | rpcurrency}}
+                      p.literal.confirm-text(l10n-inc) Are you sure?
+                      .row.row-padding-small
+                        .col-xs-6.col-sm-4.col-md-3
+                          button.btn.btn-block.btn-success.submit(type='submit'
+                            ng-disabled='confirm_wait', l10n) Confirm
+                        .col-xs-6.col-sm-4.col-md-3
+                          button.btn.btn-block.btn-cancel.back(type='button'
+                            ng-click="order[type].mode = 'trade'", l10n) &laquo; Back
 
-                //- 3. Sending
+                    //- 3. Sending
 
-                group.mode-sending(ng-switch-when='sending')
-                  p.literal
-                    img(src="img/button-s.png", class="loader")
-                    span(class="loading_text", l10n) Sending order to Ripple network...
+                    group.mode-sending(ng-switch-when='sending')
+                      p.literal
+                        img(src="img/button-s.png", class="loader")
+                        span(class="loading_text", l10n) Sending order to Ripple network...
 
-                //- 4. Done
+                    //- 4. Done
 
-                group.mode-done(ng-switch-when='done')
-                  group.pending(ng-show='tx_result=="pending"')
-                    h2.tx-status(l10n) Your order has been submitted.
-                  group.result-success(ng-show="tx_result=='cleared' && executedOnOfferCreate=='none'")
-                    h2.tx-status(l10n) Your order is now active.
-                  group.result-success(ng-show="tx_result=='cleared' && executedOnOfferCreate=='all'")
-                    h2.tx-status(l10n) Your order has been filled.
-                  group.result-success(ng-show="tx_result=='cleared' && executedOnOfferCreate=='partial'")
-                    h2.tx-status(l10n) Your order has been partially filled. The remaining amount is now active.
+                    group.mode-done(ng-switch-when='done')
+                      group.pending(ng-show='tx_result=="pending"')
+                        h2.tx-status(l10n) Your order has been submitted.
+                      group.result-success(ng-show="tx_result=='cleared' && executedOnOfferCreate=='none'")
+                        h2.tx-status(l10n) Your order is now active.
+                      group.result-success(ng-show="tx_result=='cleared' && executedOnOfferCreate=='all'")
+                        h2.tx-status(l10n) Your order has been filled.
+                      group.result-success(ng-show="tx_result=='cleared' && executedOnOfferCreate=='partial'")
+                        h2.tx-status(l10n) Your order has been partially filled. The remaining amount is now active.
 
-                  //- 4a. Ripple error page
+                      //- 4a. Ripple error page
 
-                  group.mode-ripplerror(ng-show='tx_result=="unknown"')
-                    rp-transaction-status(
-                      rp-engine-result="{{engine_result}}"
-                      rp-engine-result-message="{{engine_result_message}}"
-                      rp-accepted="{{engine_status_accepted}}"
-                      rp-current-tab="trade")
-                    
-                  hr
-                  .actionLink
-                    a(href="#trade", ng-click="reset_widget(type)", l10n) Submit another order
+                      group.mode-ripplerror(ng-show='tx_result=="unknown"')
+                        rp-transaction-status(
+                          rp-engine-result="{{engine_result}}"
+                          rp-engine-result-message="{{engine_result_message}}"
+                          rp-accepted="{{engine_status_accepted}}"
+                          rp-current-tab="trade")
+                        
+                      hr
+                      .actionLink
+                        a(href="#trade", ng-click="reset_widget(type)", l10n) Submit another order
 
           .my-orders-title(l10n) My Orders
             span &#32;({{offersCount}})
