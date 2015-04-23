@@ -116,7 +116,7 @@ msgstr "Ripple's growing gateway network."
 #: src/templates/tabs/brl.jade:62
 #: src/templates/tabs/brl.jade:66
 #: src/templates/tabs/brl.jade:102
-#: src/templates/tabs/btc.jade:51
+#: src/templates/tabs/btc.jade:53
 #: src/templates/tabs/eur.jade:59
 #: src/templates/tabs/eur.jade:63
 #: src/templates/tabs/eur.jade:95
@@ -208,7 +208,7 @@ msgstr ""Connected to the Ripple network.""
 #: src/templates/client/navbar.jade:68
 #: src/templates/tabs/apps.jade:8
 #: src/templates/tabs/balance.jade:10
-#: src/templates/tabs/btc.jade:79
+#: src/templates/tabs/btc.jade:81
 #: src/templates/tabs/exchange.jade:11
 #: src/templates/tabs/kyc.jade:50
 #: src/templates/tabs/recover.jade:32
@@ -511,76 +511,6 @@ msgstr "Request pending"
 msgid "Request successful"
 msgstr "Request successful"
 
-#: src/templates/popup/modifyOrderError.jade:2
-msgid "Modify Order Error"
-msgstr "Modify Order Error"
-
-#: src/templates/popup/modifyOrderError.jade:4
-msgid "Sorry, your order could not be modified."
-msgstr "Sorry, your order could not be modified."
-
-#: src/templates/popup/modifyOrderError.jade:5
-msgid "Your original order was cancelled but the modified order was not placed. <br/>"
-msgstr "Your original order was cancelled but the modified order was not placed. <br/>"
-
-#: src/templates/popup/modifyOrderError.jade:6
-msgid "The quantity of your order changed by {{order.qtyChangeAfterCancel | rpamount}} before the order could be modified. <br/><br/>"
-msgstr "The quantity of your order changed by {{order.qtyChangeAfterCancel | rpamount}} before the order could be modified. <br/><br/>"
-
-#: src/templates/popup/modifyOrderError.jade:7
-msgid "To safeguard against the possibility of overfills a new order has not been placed. <br/>"
-msgstr "To safeguard against the possibility of overfills a new order has not been placed. <br/>"
-
-#: src/templates/popup/modifyOrderError.jade:8
-msgid "Please check your balance and history before placing the new order manually. <br/>"
-msgstr "Please check your balance and history before placing the new order manually. <br/>"
-
-#: src/templates/popup/modifyOrderError.jade:10
-#: src/templates/popup/unlock.jade:21
-msgid "Close"
-msgstr "Close"
-
-#: src/templates/popup/unlock.jade:2
-msgid "Unlock account"
-msgstr "Unlock account"
-
-#: src/templates/popup/unlock.jade:5
-#: src/templates/tabs/recover.jade:44
-#: src/templates/tabs/register.jade:72
-#: src/templates/tabs/security.jade:12
-#: src/templates/tabs/login/form.jade:9
-msgid "Password"
-msgstr "Password"
-
-#: src/templates/popup/unlock.jade:11
-msgid "Please enter your password to show your secret key."
-msgstr "Please enter your password to show your secret key."
-
-#: src/templates/popup/unlock.jade:12
-#: src/templates/tabs/send.jade:287
-msgid "Please enter your password to confirm this transaction."
-msgstr "Please enter your password to confirm this transaction."
-
-#: src/templates/popup/unlock.jade:13
-msgid "This password is incorrect, please try again."
-msgstr "This password is incorrect, please try again."
-
-#: src/templates/popup/unlock.jade:14
-#: src/templates/messages/sendconvert/localerror.jade:18
-#: src/templates/tabs/account/public.jade:48
-msgid "Your account cannot be accessed at the moment. Please try again later."
-msgstr "Your account cannot be accessed at the moment. Please try again later."
-
-#: src/templates/popup/unlock.jade:17
-msgid "Confirming password"
-msgstr "Confirming password"
-
-#: src/templates/popup/unlock.jade:20
-#: src/templates/tabs/security.jade:163
-#: src/templates/tabs/account/public.jade:58
-msgid "Submit"
-msgstr "Submit"
-
 #: src/templates/strings/myOrders.jade:3
 msgid "Type"
 msgstr "Type"
@@ -691,7 +621,7 @@ msgid "Back"
 msgstr "Back"
 
 #: src/templates/tabs/_usd.jade:112
-#: src/templates/tabs/btc.jade:80
+#: src/templates/tabs/btc.jade:82
 #: src/templates/tabs/exchange.jade:145
 #: src/templates/tabs/send.jade:299
 #: src/templates/tabs/trade.jade:97
@@ -787,7 +717,7 @@ msgstr "Delete"
 #: src/templates/tabs/advanced.jade:75
 #: src/templates/tabs/advanced.jade:100
 #: src/templates/tabs/advanced.jade:143
-#: src/templates/tabs/btc.jade:81
+#: src/templates/tabs/btc.jade:83
 #: src/templates/tabs/contacts.jade:95
 #: src/templates/tabs/contacts.jade:170
 #: src/templates/tabs/exchange.jade:148
@@ -936,7 +866,7 @@ msgid "Brazilian Real Deposit"
 msgstr "Brazilian Real Deposit"
 
 #: src/templates/tabs/brl.jade:50
-#: src/templates/tabs/btc.jade:40
+#: src/templates/tabs/btc.jade:42
 #: src/templates/tabs/eur.jade:47
 #: src/templates/tabs/gold.jade:49
 #: src/templates/tabs/jpy.jade:50
@@ -962,7 +892,7 @@ msgid "Ripple (~rippex)"
 msgstr "Ripple (~rippex)"
 
 #: src/templates/tabs/brl.jade:55
-#: src/templates/tabs/btc.jade:44
+#: src/templates/tabs/btc.jade:46
 #: src/templates/tabs/eur.jade:53
 #: src/templates/tabs/gold.jade:53
 #: src/templates/tabs/jpy.jade:54
@@ -977,7 +907,7 @@ msgid "Brazil"
 msgstr "Brazil"
 
 #: src/templates/tabs/brl.jade:58
-#: src/templates/tabs/btc.jade:47
+#: src/templates/tabs/btc.jade:49
 #: src/templates/tabs/eur.jade:56
 #: src/templates/tabs/gold.jade:56
 #: src/templates/tabs/jpy.jade:57
@@ -1004,7 +934,7 @@ msgid "Transfer: 0%"
 msgstr "Transfer: 0%"
 
 #: src/templates/tabs/brl.jade:65
-#: src/templates/tabs/btc.jade:50
+#: src/templates/tabs/btc.jade:52
 #: src/templates/tabs/eur.jade:62
 #: src/templates/tabs/gold.jade:59
 #: src/templates/tabs/jpy.jade:63
@@ -1023,7 +953,7 @@ msgid "Add Rippex"
 msgstr "Add Rippex"
 
 #: src/templates/tabs/brl.jade:79
-#: src/templates/tabs/btc.jade:86
+#: src/templates/tabs/btc.jade:88
 #: src/templates/tabs/eur.jade:73
 #: src/templates/tabs/gold.jade:71
 #: src/templates/tabs/jpy.jade:72
@@ -1034,7 +964,7 @@ msgid "Adding..."
 msgstr "Adding..."
 
 #: src/templates/tabs/brl.jade:80
-#: src/templates/tabs/btc.jade:87
+#: src/templates/tabs/btc.jade:89
 #: src/templates/tabs/eur.jade:74
 #: src/templates/tabs/gold.jade:72
 #: src/templates/tabs/jpy.jade:73
@@ -1045,7 +975,7 @@ msgid "Hide instructions"
 msgstr "Hide instructions"
 
 #: src/templates/tabs/brl.jade:81
-#: src/templates/tabs/btc.jade:88
+#: src/templates/tabs/btc.jade:90
 #: src/templates/tabs/eur.jade:75
 #: src/templates/tabs/gold.jade:73
 #: src/templates/tabs/jpy.jade:74
@@ -1123,96 +1053,104 @@ msgstr "Success! You can deposit BTC via your generated BTC receiving address."
 msgid "There was an error with your request. {{1}}"
 msgstr "There was an error with your request. {{1}}"
 
-#: src/templates/tabs/btc.jade:35
+#: src/templates/tabs/btc.jade:29
+msgid "There was an error with your request."
+msgstr "There was an error with your request."
+
+#: src/templates/tabs/btc.jade:37
 msgid "Bitcoin Deposit"
 msgstr "Bitcoin Deposit"
 
-#: src/templates/tabs/btc.jade:41
+#: src/templates/tabs/btc.jade:43
 msgid "btc2ripple (~SnapSwap) {{1}}"
 msgstr "btc2ripple (~SnapSwap) {{1}}"
 
-#: src/templates/tabs/btc.jade:45
+#: src/templates/tabs/btc.jade:47
 #: src/templates/tabs/gold.jade:54
 #: src/templates/tabs/jpy.jade:55
 msgid "All countries"
 msgstr "All countries"
 
-#: src/templates/tabs/btc.jade:48
+#: src/templates/tabs/btc.jade:50
 msgid "0% for deposits/withdrawals, .2% when transferring"
 msgstr "0% for deposits/withdrawals, .2% when transferring"
 
-#: src/templates/tabs/btc.jade:55
+#: src/templates/tabs/btc.jade:57
 msgid "Ripple Trade has partnered with btc2ripple to make depositing BTC easier. By proceeding, you agree to the btc2ripple {{1}} Following this action will allow btc2ripple to hold BTC on your behalf."
 msgstr "Ripple Trade has partnered with btc2ripple to make depositing BTC easier. By proceeding, you agree to the btc2ripple {{1}} Following this action will allow btc2ripple to hold BTC on your behalf."
 
-#: src/templates/tabs/btc.jade:61
+#: src/templates/tabs/btc.jade:63
 msgid "Add btc2ripple"
 msgstr "Add btc2ripple"
 
-#: src/templates/tabs/btc.jade:66
+#: src/templates/tabs/btc.jade:68
 #: src/templates/tabs/security.jade:69
 #: src/templates/tabs/trust.jade:165
 msgid "Connect"
 msgstr "Connect"
 
-#: src/templates/tabs/btc.jade:68
+#: src/templates/tabs/btc.jade:70
 msgid "btc2ripple would like to:"
 msgstr "btc2ripple would like to:"
 
-#: src/templates/tabs/btc.jade:70
+#: src/templates/tabs/btc.jade:72
 msgid "- Receive your email address {{1}}"
 msgstr "- Receive your email address {{1}}"
 
-#: src/templates/tabs/btc.jade:71
+#: src/templates/tabs/btc.jade:73
 msgid "({{userBlob.data.email}})"
 msgstr "({{userBlob.data.email}})"
 
-#: src/templates/tabs/btc.jade:72
+#: src/templates/tabs/btc.jade:74
 msgid "- Hold deposited BTC on your behalf"
 msgstr "- Hold deposited BTC on your behalf"
 
-#: src/templates/tabs/btc.jade:73
+#: src/templates/tabs/btc.jade:75
 msgid "By proceeding, you agree to the btc2ripple {{1}}"
 msgstr "By proceeding, you agree to the btc2ripple {{1}}"
 
-#: src/templates/tabs/btc.jade:83
-#: src/templates/tabs/btc.jade:97
+#: src/templates/tabs/btc.jade:85
+#: src/templates/tabs/btc.jade:99
 msgid "SnapSwap's btc2ripple service is currently unavailable. Please check back later."
 msgstr "SnapSwap's btc2ripple service is currently unavailable. Please check back later."
 
-#: src/templates/tabs/btc.jade:93
+#: src/templates/tabs/btc.jade:95
 #: src/templates/tabs/eur.jade:79
 #: src/templates/tabs/usd.jade:76
 msgid "Connected"
 msgstr "Connected"
 
-#: src/templates/tabs/btc.jade:96
+#: src/templates/tabs/btc.jade:98
 #: src/templates/tabs/eur.jade:78
 #: src/templates/tabs/usd.jade:75
 msgid "Not connected"
 msgstr "Not connected"
 
-#: src/templates/tabs/btc.jade:105
+#: src/templates/tabs/btc.jade:102
+msgid "You’ve already used this email address to generate a bitcoin receiving address in Ripple Trade.Please contact support@btc2ripple.com if you want to use this Ripple Trade account instead."
+msgstr "You’ve already used this email address to generate a bitcoin receiving address in Ripple Trade.Please contact support@btc2ripple.com if you want to use this Ripple Trade account instead."
+
+#: src/templates/tabs/btc.jade:110
 msgid "Personal Deposit address"
 msgstr "Personal Deposit address"
 
-#: src/templates/tabs/btc.jade:107
+#: src/templates/tabs/btc.jade:112
 msgid "Your account is fully verified."
 msgstr "Your account is fully verified."
 
-#: src/templates/tabs/btc.jade:111
+#: src/templates/tabs/btc.jade:116
 msgid "Withdrawal instructions"
 msgstr "Withdrawal instructions"
 
-#: src/templates/tabs/btc.jade:112
+#: src/templates/tabs/btc.jade:117
 msgid "To withdraw to a BTC address, go to the Send tab and enter the BTC address. Using the btc2ripple service, you will be able tosend to that BTC address."
 msgstr "To withdraw to a BTC address, go to the Send tab and enter the BTC address. Using the btc2ripple service, you will be able tosend to that BTC address."
 
-#: src/templates/tabs/btc.jade:117
+#: src/templates/tabs/btc.jade:122
 msgid "Waiting for response from SnapSwap service..."
 msgstr "Waiting for response from SnapSwap service..."
 
-#: src/templates/tabs/btc.jade:119
+#: src/templates/tabs/btc.jade:124
 msgid "To deposit, generate a bitcoin receiving address using the {{1}} service powered by SnapSwap."
 msgstr "To deposit, generate a bitcoin receiving address using the {{1}} service powered by SnapSwap."
 
@@ -2193,6 +2131,14 @@ msgstr "Set Password"
 msgid "Your account was sucessfully recovered. Please re-encrypt your account with a new password."
 msgstr "Your account was sucessfully recovered. Please re-encrypt your account with a new password."
 
+#: src/templates/tabs/recover.jade:44
+#: src/templates/tabs/register.jade:72
+#: src/templates/tabs/security.jade:12
+#: src/templates/popup/unlock.jade:5
+#: src/templates/tabs/login/form.jade:9
+msgid "Password"
+msgstr "Password"
+
 #: src/templates/tabs/recover.jade:50
 #: src/templates/tabs/register.jade:80
 #: src/templates/tabs/security.jade:144
@@ -2570,6 +2516,12 @@ msgstr "Current password"
 msgid "New password"
 msgstr "New password"
 
+#: src/templates/tabs/security.jade:163
+#: src/templates/popup/unlock.jade:20
+#: src/templates/tabs/account/public.jade:58
+msgid "Submit"
+msgstr "Submit"
+
 #: src/templates/tabs/security.jade:170
 msgid "Your secret key unlocks access to your account funds. Please write it down and store it somewhere private and safe. In the event you lose your Ripple name or password, you can use this secret key to recover your funds."
 msgstr "Your secret key unlocks access to your account funds. Please write it down and store it somewhere private and safe. In the event you lose your Ripple name or password, you can use this secret key to recover your funds."
@@ -2778,6 +2730,11 @@ msgstr "Ripple network fee:"
 #: src/templates/tabs/send.jade:286
 msgid "Are you sure?"
 msgstr "Are you sure?"
+
+#: src/templates/tabs/send.jade:287
+#: src/templates/popup/unlock.jade:12
+msgid "Please enter your password to confirm this transaction."
+msgstr "Please enter your password to confirm this transaction."
 
 #: src/templates/tabs/send.jade:296
 msgid "Password required to unlock wallet"
@@ -3578,6 +3535,57 @@ msgstr "Show address"
 #: src/templates/tabs/xrp.jade:31
 msgid "Ripple names are a new feature on Ripple! Use your Ripple name (~{{userCredentials.username}}) to receive money. You can still use your full Ripple address, and while we are working to transition to Ripple names, some gateways may still ask for your full address."
 msgstr "Ripple names are a new feature on Ripple! Use your Ripple name (~{{userCredentials.username}}) to receive money. You can still use your full Ripple address, and while we are working to transition to Ripple names, some gateways may still ask for your full address."
+
+#: src/templates/popup/modifyOrderError.jade:2
+msgid "Modify Order Error"
+msgstr "Modify Order Error"
+
+#: src/templates/popup/modifyOrderError.jade:4
+msgid "Sorry, your order could not be modified."
+msgstr "Sorry, your order could not be modified."
+
+#: src/templates/popup/modifyOrderError.jade:5
+msgid "Your original order was cancelled but the modified order was not placed. <br/>"
+msgstr "Your original order was cancelled but the modified order was not placed. <br/>"
+
+#: src/templates/popup/modifyOrderError.jade:6
+msgid "The quantity of your order changed by {{order.qtyChangeAfterCancel | rpamount}} before the order could be modified. <br/><br/>"
+msgstr "The quantity of your order changed by {{order.qtyChangeAfterCancel | rpamount}} before the order could be modified. <br/><br/>"
+
+#: src/templates/popup/modifyOrderError.jade:7
+msgid "To safeguard against the possibility of overfills a new order has not been placed. <br/>"
+msgstr "To safeguard against the possibility of overfills a new order has not been placed. <br/>"
+
+#: src/templates/popup/modifyOrderError.jade:8
+msgid "Please check your balance and history before placing the new order manually. <br/>"
+msgstr "Please check your balance and history before placing the new order manually. <br/>"
+
+#: src/templates/popup/modifyOrderError.jade:10
+#: src/templates/popup/unlock.jade:21
+msgid "Close"
+msgstr "Close"
+
+#: src/templates/popup/unlock.jade:2
+msgid "Unlock account"
+msgstr "Unlock account"
+
+#: src/templates/popup/unlock.jade:11
+msgid "Please enter your password to show your secret key."
+msgstr "Please enter your password to show your secret key."
+
+#: src/templates/popup/unlock.jade:13
+msgid "This password is incorrect, please try again."
+msgstr "This password is incorrect, please try again."
+
+#: src/templates/popup/unlock.jade:14
+#: src/templates/messages/sendconvert/localerror.jade:18
+#: src/templates/tabs/account/public.jade:48
+msgid "Your account cannot be accessed at the moment. Please try again later."
+msgstr "Your account cannot be accessed at the moment. Please try again later."
+
+#: src/templates/popup/unlock.jade:17
+msgid "Confirming password"
+msgstr "Confirming password"
 
 #: src/templates/messages/sendconvert/confirmation.jade:4
 msgid "Transaction pending."
