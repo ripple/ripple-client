@@ -170,8 +170,8 @@ function AppCtrl ($scope, id, net, keychain, txQueue, appManager, rpTracker,
           //      library upstream.
           line = $.extend({}, line, {
             limit: ripple.Amount.from_json({value: line.limit, currency: line.currency, issuer: line.account}),
-            limit_peer: ripple.Amount.from_json({value: line.limit_peer, currency: line.currency, issuer: account}),
-            balance: ripple.Amount.from_json({value: line.balance, currency: line.currency, issuer: account})
+            limit_peer: ripple.Amount.from_json({value: line.limit_peer, currency: line.currency, issuer: line.account}),
+            balance: ripple.Amount.from_json({value: line.balance, currency: line.currency, issuer: line.account})
           });
 
           $scope.lines[line.account + line.currency] = line;
