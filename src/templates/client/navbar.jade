@@ -24,7 +24,7 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
           li#nav-exchange(ng-class="{active: $route.current.mainMenu == 'exchange' || $route.current.mainMenu == 'trade'}", ng-show="ripple_exchange_selection_trade")
             a(href="#/trade", l10n) Trade
           li#nav-fund(ng-class="{active: $route.current.mainMenu == 'fund'}")
-            a(href="#/xrp", l10n) Fund
+            a(href="#/xrp", l10n) Gateways
           //- li#nav-fund(ng-class="{active: $route.current.mainMenu == 'pretend'}")
           //-   a(href="#/pretend", l10n) Pretend
         ul.nav.navbar-nav.navbar-right
@@ -150,13 +150,13 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
           a(href="#/exchange", l10n) Simple
         li(ng-class="{active: $route.current.tabName == 'trade'}")
           a(href="#/trade", l10n) Advanced
-  //- .subnav(ng-show="$route.current.mainMenu == 'fund'")
+  .subnav(ng-show="$route.current.mainMenu == 'fund'")
     .container
       ul
         li(ng-class="{active: $route.current.tabName == 'xrp'}")
-          a(href="#/xrp", l10n) Fund
-        li(ng-class="{active: $route.current.tabName == 'withdraw'}")
-          a(href="#/withdraw", l10n) Withdraw
+          a(href="#/xrp", l10n) Featured gateways
+        li(ng-class="{active: $route.current.tabName == 'trust'}")
+          a(href="#/trust", l10n) Add any gateway (trust lines)
   .container.recover-status-wrapper.text-center.ng-scope(ng-if='recovered', ng-show='recovered')
     .alert.alert-info
         h4.tx-status(l10n)
