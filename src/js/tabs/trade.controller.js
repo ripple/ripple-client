@@ -474,6 +474,8 @@ TradeTab.prototype.angular = function(module)
       //updateMRU();
       if(changedPair) {
         $scope.load_orderbook = true;
+        $scope.reset_widget('buy', true);
+        $scope.reset_widget('sell', true);
       }
       return changedPair;
     };
@@ -1377,6 +1379,9 @@ TradeTab.prototype.angular = function(module)
       }
 
       $scope.load_orderbook = true;
+      $scope.reset_widget('buy', true);
+      $scope.reset_widget('sell', true);
+
       updateSettings();
       resetIssuers(false);
       //updateMRU();
