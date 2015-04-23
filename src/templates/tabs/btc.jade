@@ -90,12 +90,15 @@ section.col-xs-12.content(ng-controller='BtcCtrl')
                 button.btn.btn-block.btn-primary(ng-show="btcConnected && !showInstructions", type="submit", ng-click="toggle_instructions()", l10n) Show instructions
 
               .connect.col-md-8.col-sm-7.col-xs-5
-                .description(ng-show="btcConnected")
+                .description(ng-show="!loadingAccount && btcConnected && loadState.B2RApp")
                   i.fa.fa-check
                   span(l10n) Connected
-                .description(ng-hide="btcConnected")
+                .description(ng-hide="loadingAccount || btcConnected || !loadState.B2RApp")
                   i.fa.fa-times
                   span(l10n) Not connected
+                .description(ng-show="loadingAccount || !loadState.B2RApp")
+                  img(src="img/button-s.png", class="loader")
+                  span(class="loading_text", l10n) Loading...
               span.error(ng-show="generalError", l10n)
                 | SnapSwap's btc2ripple service is currently unavailable.
                 |  Please check back later.
