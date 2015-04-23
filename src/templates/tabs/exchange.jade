@@ -12,7 +12,7 @@ section.col-xs-12.content(ng-controller="ExchangeCtrl")
 
   div(ng-show="!loadingAccount && !account.Balance && loadState.account && connected")
     include ../tabs/banner/unfunded
-    p.literal(l10n="err-you-must-be-funded-before-you-can-exchange-money", l10n) You have to be funded before you can submit an order.
+    p.literal(l10n="err-you-must-be-funded-before-you-can-exchange-money") You have to be funded before you can submit an order.
 
   div(ng-show='hasRTJapanTrust')
     include banner/rtjapan
@@ -94,7 +94,7 @@ section.col-xs-12.content(ng-controller="ExchangeCtrl")
                 .ex (
                   span.rate {{alt.rate | rpamount:{rel_precision: 4} }}
                   span.pair {{alt.amount | rpcurrency}}/{{exchange.currency_code}}
-                  )
+                  | )
               button.btn.btn-block.btn-success(type="submit", ng-disabled='exchangeForm.$invalid', ng-click="exchange.alt = alt", l10n)
                 | Sell {{ alt.amount | rpcurrency }}
                 span(ng-hide="alt.amount.is_native() || alt.amount.issuer().to_json() == account.Account")  (

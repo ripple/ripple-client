@@ -3,7 +3,7 @@ section.col-xs-12.content(ng-controller='SendCtrl')
   //- Disconnected
 
   group.disconnected(ng-hide='connected')
-    p.literal(l10n="err-you-must-be-online-to-see-this-screen", l10n) You have to be online to see this screen
+    p.literal(l10n="err-you-must-be-online-to-see-this-screen") You have to be online to see this screen
 
   group.disconnected(ng-hide="!connected || loadState.account")
     div(id="section_loader")
@@ -14,7 +14,7 @@ section.col-xs-12.content(ng-controller='SendCtrl')
 
   div(ng-show="!loadingAccount && !account.Balance && loadState.account && connected")
     include ../tabs/banner/unfunded
-    p.literal(l10n="err-you-must-be-funded-before-you-can-send-money", l10n) You have to be funded before you can send money
+    p.literal(l10n="err-you-must-be-funded-before-you-can-send-money") You have to be funded before you can send money
   div(ng-show='hasRTJapanTrust')
     include banner/rtjapan
   div(ng-show='hasRTJapanTrustWithRippling')

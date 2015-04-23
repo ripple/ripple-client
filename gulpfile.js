@@ -91,6 +91,15 @@ gulp.task('less', function () {
     .pipe($.browserSync.reload({stream:true}));
 });
 
+// Extracts l10n strings from template files
+gulp.task('l10nExtract', function () {
+  return gulp.src('src/templates/**/*.jade')
+    .pipe($.jadeL10nExtractor({
+      filename: 'messages.pot'
+    }))
+    .pipe(gulp.dest('./l10n/templates'))
+});
+
 // Static server
 gulp.task('serve:dev', function() {
   $.browserSync({
@@ -229,7 +238,7 @@ gulp.task('default', ['dev'], function() {
 });
 
 // Development
-gulp.task('dev', ['clean:dev', 'bower', 'webpack:dev', 'less', 'templates:dev'], function () {
+gulp.task('dev', ['clean:dev', 'bower', 'webpack:dev', 'less', 'templates:dev', 'l10nExtract'], function () {
   gulp.start('preprocess:dev');
 });
 
@@ -267,6 +276,6 @@ gulp.task('deps', ['preprocess:dist'], function () {
 });
 
 // Distribution
-gulp.task('dist', ['clean:dist', 'dev', 'webpack:dist', 'templates:dist', 'static'], function () {
+gulp.task('dist', ['clean:dist', 'bower', 'less', 'l10nExtract', 'webpack:dist', 'templates:dist', 'static'], function () {
   gulp.start('deps');
 });
