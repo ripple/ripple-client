@@ -9,10 +9,14 @@ section.col-xs-12.content(ng-controller="ContactsCtrl")
     include banner/rtjapanrippling
   div(ng-hide='debug')
     .row
-      .col-sm-12.notification-wrapper
-        .alert.alert-success(ng-show="success.createContact", l10n) A new contact has been successfully added.
-        .alert.alert-success(ng-show="success.updateContact", l10n) Your contact has been successfully updated.
-        .alert.alert-success(ng-show="success.removeContact", l10n) A contact has been successfully removed.
+      group.col-sm-12.notification-wrapper(ng-show='notif !== "clear"')
+        group(ng-switch="notif")
+          group.result-success(ng-switch-when="createContactSuccess")
+            h2.tx-status(l10n) A new contact has been successfully added.
+          group.result-success(ng-switch-when="updateContactSuccess")
+            h2.tx-status(l10n) Your contact has been successfully updated.
+          group.result-success(ng-switch-when="removeContactSuccess")
+            h2.tx-status(l10n) A contact has been successfully removed.
     form.row-padding-small
         .row.form-group
           .col-xs-12.col-sm-8.col-md-6
