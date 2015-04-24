@@ -102,8 +102,9 @@ section.col-xs-12.content(ng-controller="ContactsCtrl")
     .col-xs-3.col-md-3.col-sm-3(ng-hide='editing')
       span.name(ng-hide='editing', ng-bind="entry.name") 
     .col-xs-12.col-sm-6.col-md-6(ng-hide='editing')
-      div
-        b.hidden-xs {{entry.address | rpaddressorigin}}: {{entry.address}}
+      div.hidden-xs
+        b {{entry.address | rpaddressorigin}}: 
+        b(rp-ripple-name="entry.address") ???
     .col-xs-6.col-sm-3.col-md-3.text-right.pull-right(ng-hide='editing')
       .row
         .col-xs-4.col-md-4.col-sm-4(ng-hide='editing')
