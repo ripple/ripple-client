@@ -387,6 +387,7 @@ SendTab.prototype.angular = function (module)
       // Reset constraints
       send.currency_choices = $scope.currencies_all;
       send.currency_force = false;
+      send.currencyIsBTC = false;
 
       send.currency_choices_constraints = {};
 
@@ -485,11 +486,13 @@ SendTab.prototype.angular = function (module)
 
       if (currencies.length === 1) {
         send.currency = send.currency_force = currencies[0];
+        send.currencyIsBTC = _.startsWith(send.currency_force, 'BTC');
       } else if (currencies.length === 0) {
         send.path_status = 'error-no-currency';
         send.currency = '';
       } else {
         send.currency_force = false;
+        send.currencyIsBTC = false;
 
         if (currencies.indexOf(send.currency) === -1) {
           send.currency = currencies[0];
