@@ -148,6 +148,8 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', '$t
     $scope.$on('$blobUpdate', function() {
       if (!settings.blobIsValid($scope.userBlob)) return;
 
+      $scope.ripple_exchange_selection_trade = settings.getSetting($scope.userBlob, 'rippleExchangeSelectionTrade', false);
+
       var d = $scope.userBlob.data;
       Options.advanced_feature_switch = settings.getSetting($scope.userBlob, 'trust.advancedMode', false);
       Options.historyApi = settings.getSetting($scope.userBlob, 'historyApi', Options.historyApi).replace(/[\/]*$/, '');
