@@ -155,6 +155,11 @@ section.col-xs-12.content(ng-controller='SendCtrl')
               rp-amount-currency='{{send.currency}}'
               rp-max-digits)
               span.input-group-addon(ng-bind="send.currency_force")
+          .row(ng-if="send.currencyIsBTC")
+            .col-xs-12.col-sm-6.col-md-6
+              .alert.alert-warning(l10n)
+                | The minimum BTC transaction size is .001 BTC. 
+                a(href="https://b2r.uservoice.com/knowledgebase/articles/393152-is-there-a-minimum-transaction-size", target="_blank", l10n-inc) More info
           .errorGroup(ng-messages='sendForm.send_amount_currency.$error')
             .error(ng-message='rpRestrictCurrencies', l10n) {{send.recipient | rpcontactname}} can't receive this currency.
           .errorGroup(ng-messages='sendForm.send_amount.$dirty && sendForm.send_amount.$error')
