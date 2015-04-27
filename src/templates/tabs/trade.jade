@@ -507,8 +507,8 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                       .modal-body
                         .modal-prompt(l10n)
                           div(l10n-inc) Please confirm that you wish to cancel order &num;{{entry.seq}}
-                        .modal-order(l10n)
-                          div
+                        .modal-order
+                          div(rp-span-spacing)
                             span.modal-order-type {{entry.type}}:
                             span {{entry.first | rpamount:{hard_precision: true, precision: 6, tiny_precision: 6} }} 
                             span {{entry.first | rpcurrency}}
