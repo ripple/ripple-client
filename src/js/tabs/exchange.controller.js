@@ -1,5 +1,6 @@
 var util = require('util'),
     webutil = require('../util/web'),
+    settings = require('../util/settings'),
     Tab = require('../client/tab').Tab,
     Amount = ripple.Amount,
     Base = ripple.Base,
@@ -27,6 +28,18 @@ ExchangeTab.prototype.angular = function (module)
       var timer;
       var pf = null;
 
+      if (settings.blobIsValid($scope.userBlob)) {
+        if (settings.getSetting($scope.userBlob, 'rippleExchangeSelectionTrade', false)) {
+          $scope.userBlob.set('/clients/rippletradecom/rippleExchangeSelectionTrade', false);
+        }
+      } else {
+        var removeListener = $scope.$on('$blobUpdate', function() {
+          if (settings.getSetting($scope.userBlob, 'rippleExchangeSelectionTrade', false)) {
+            $scope.userBlob.set('/clients/rippletradecom/rippleExchangeSelectionTrade', false);
+          }
+          removeListener();
+        });
+      }
       // Remember user preference on Convert vs. Trade
       $rootScope.ripple_exchange_selection_trade = false;
 
