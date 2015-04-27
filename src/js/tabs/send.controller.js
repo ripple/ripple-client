@@ -1,5 +1,6 @@
 var util = require('util'),
     webutil = require('../util/web'),
+    settings = require('../util/settings'),
     Tab = require('../client/tab').Tab,
     Amount = ripple.Amount,
     Currency = ripple.Currency,
@@ -797,7 +798,8 @@ SendTab.prototype.angular = function (module)
               var slightlyInFuture = new Date(+new Date() + 5 * 60000);
 
               alt.rate     = alt.amount.ratio_human(amount, {reference_date: slightlyInFuture});
-              alt.send_max = alt.amount.scale('1.001');
+              var sendMaxDeviation = settings.getSetting($scope.userBlob, 'sendMaxDeviation', 0.1);
+              alt.send_max = alt.amount.scale(1 + sendMaxDeviation / 100);
               alt.paths    = raw.paths_computed || raw.paths_canonical;
 
               // Selected currency should be the first option
@@ -964,6 +966,8 @@ SendTab.prototype.angular = function (module)
 
       if (Options.confirmation.send) {
         $scope.mode = 'confirm';
+        $scope.sendMaxDeviation = settings.getSetting($scope.userBlob, 'sendMaxDeviation', 0.1);
+
         cleanPasswordUpdater();
 
         // needed for password managers that don't raise change event on input field
