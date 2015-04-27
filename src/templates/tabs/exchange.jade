@@ -131,7 +131,7 @@ section.col-xs-12.content(ng-controller="ExchangeCtrl")
           p.amount_feedback
             span.value {{exchange.alt.amount | rpamount}} &#32;
             span.currency {{exchange.alt.amount | rpcurrency}} &#32;
-            span &plus; .1%
+            span &plus; {{exchangeMaxDeviation}}%
           p
             span.literal(l10n-inc) Exchange rate: &#32;
             span.value {{exchange.alt.rate | rpamount:{rel_precision: 4} }} &#32;
