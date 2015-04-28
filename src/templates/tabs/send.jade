@@ -177,7 +177,7 @@ section.col-xs-12.content(ng-controller='SendCtrl')
         .row
           .col-xs-12.col-sm-6.col-md-4(ng-show="send.currency_code == 'XRP'")
             button#sendXrpButton.btn.btn-block.btn-success.submit(type='submit'
-            ng-disabled='sendForm.$invalid || send.self || send.insufficient || !send.recipient_resolved || account.max_spend.to_number() < send.amount * 1000000', l10n)
+            ng-disabled='sendForm.$invalid || sendForm.$pending || send.self || send.insufficient || !send.recipient_resolved || account.max_spend.to_number() < send.amount * 1000000', l10n)
               | Send XRP
         .remote
           //- Messages
@@ -240,7 +240,7 @@ section.col-xs-12.content(ng-controller='SendCtrl')
                       span.pair {{alt.amount | rpcurrency}}/{{send.currency_code}}
                       | )
                   button.btn.btn-block.btn-success(type="submit"
-                  ng-disabled='sendForm.$invalid', ng-click="send.alt = alt", l10n)
+                  ng-disabled='sendForm.$invalid || sendForm.$pending', ng-click="send.alt = alt", l10n)
                     | Send {{ alt.amount | rpcurrency }}
                     span(ng-hide="alt.amount.is_native() || alt.amount.issuer().to_json() == account.Account")  (
                       span.issuer(
