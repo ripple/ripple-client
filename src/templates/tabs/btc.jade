@@ -61,7 +61,7 @@ section.col-xs-12.content(ng-controller='BtcCtrl')
               .col-xs-7.col-sm-5.col-md-4
                 rp-popup
                   a.btn.btn-success.btn-sm.btn-block.sign(href="", rp-popup-link,
-                    ng-click="openPopup()", ng-show="!btcConnected && !loading", ng-disabled="emailError", ng-hide="btcConnected",l10n) Add btc2ripple
+                    ng-click="openPopup()", ng-show="!btcConnected && !loading && !loadingAccount && loadState.B2RApp", ng-disabled="emailError", ng-hide="btcConnected",l10n) Add btc2ripple
                   div.connectModal(rp-popup-content)
                     .modal-header
                       .navbar-brand.hidden-sm.modal-logo#logo
