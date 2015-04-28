@@ -54,7 +54,7 @@ h4(l10n) Account settings
         .row
           .col-xs-12.col-sm-6
             button.btn.btn-success.btn-block(type="submit"
-            ng-disabled="renameForm.$invalid || loading")
+            ng-disabled="renameForm.$invalid || loading || renameForm.$pending")
               span(ng-hide="loading", l10n) Submit
               span(ng-show="loading", l10n) Loading...
           .col-xs-12.col-sm-6

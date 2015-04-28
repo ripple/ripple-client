@@ -78,7 +78,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
             .col-sm-4.col-lg-2.col-xs-6#cancel_button
               button.btn.btn-cancel.btn-block(type="button", ng-click="adding_pair = false", l10n) cancel
             .col-sm-4.col-lg-2.col-xs-6#add_button
-              button.btn.btn-success.btn-block.submit(type="submit", ng-disabled="gateway_change_form.$invalid", l10n) Add
+              button.btn.btn-success.btn-block.submit(type="submit", ng-disabled="gateway_change_form.$invalid || gateway_change_form.$pending", l10n) Add
 
         form.issuerSelector.first-issuer(name='first_issuer_form', ng-show='show_issuer_form == "first"')
           label(for='first_issuer', l10n) Base currency issuer ({{order.first_currency | rpcurrency}})
