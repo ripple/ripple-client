@@ -66,7 +66,6 @@ SettingsGatewayTab.prototype.angular = function(module)
               console.log('Error: ', err);
               return;
             }
-            $scope.isDefaultRippleFlagEnabled = !$scope.isDefaultRippleFlagEnabled;
             tx.secret(secret);
             tx.submit();
           });
