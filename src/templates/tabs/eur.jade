@@ -69,7 +69,7 @@ section.col-xs-12.content(ng-controller='EurCtrl')
 
       .row.fund-tab-description
         .col-xs-7.col-sm-5.col-md-4
-          button.btn.btn-large.btn-primary(ng-show="!eurConnected && !loading", type="submit", ng-click="save_account()", ng-disabled="!account.Balance || !can_add_trust", l10n) Add SnapSwap.eu
+          button.btn.btn-large.btn-primary(ng-show="!eurConnected && !loading && loadState.account", type="submit", ng-click="save_account()", ng-disabled="!account.Balance || !can_add_trust", l10n) Add SnapSwap.eu
           button.btn.btn-large.btn-primary(ng-show="!eurConnected && loading", type="submit", ng-disabled="loading", l10n) Adding...
           button.btn.btn-large.btn-primary(ng-show="showInstructions && eurConnected", type="submit", ng-click="toggle_instructions()", l10n) Hide instructions
           button.btn.btn-large.btn-primary(ng-show="eurConnected && !showInstructions", type="submit", ng-click="toggle_instructions()", l10n) Show instructions
@@ -77,7 +77,10 @@ section.col-xs-12.content(ng-controller='EurCtrl')
         .connect.col-xs-5.col-sm-7.col-md-8(ng-hide="loading")
           .description.fa.fa-times(ng-show="!eurConnected && account.Balance", l10n) Not connected
           .description.fa.fa-check(ng-show="eurConnected && account.Balance", l10n) Connected
-          .description(ng-show="!account.Balance", l10n) Your account has to be activated before you can add a gateway account.
+          .description(ng-show="!account.Balance && loadState.account", l10n) Your account has to be activated before you can add a gateway account.
+          .description(ng-show="!loadState.account")
+            img(src="img/button-s.png", class="loader")
+            span(class="loading_text", l10n) Loading...
 
       .row(ng-show="showInstructions && eurConnected")
         .instructions.col-md-10
