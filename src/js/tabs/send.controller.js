@@ -31,6 +31,7 @@ SendTab.prototype.angular = function (module)
         passwordUpdater,
         passwordUpdaterDestr;
 
+    var pathUpdateTimeout;
     var timer;
     var xrpCurrency = Currency.from_json('XRP');
 
@@ -109,8 +110,24 @@ SendTab.prototype.angular = function (module)
     // When the send form is invalid, path finding won't trigger. So if the form
     // is changed by one of the update_* handlers and becomes valid during the
     // next digest, we need to manually trigger another update_amount.
-    $scope.$watch('sendForm.$valid', function () {
-      $scope.update_amount();
+    $scope.$watch('sendForm.$valid', function(v) {
+      if (v) {
+        $scope.update_amount();
+      } else {
+        $scope.send.last_recipient = null;
+        $scope.send.path_status = 'waiting';
+        $scope.send.fund_status = 'none';
+
+        if ($scope.send.pathfind) {
+          $scope.send.pathfind.close();
+          delete $scope.send.pathfind;
+        }
+        if (pathUpdateTimeout) {
+          $timeout.cancel(pathUpdateTimeout);
+          pathUpdateTimeout = null;
+        }
+        $scope.reset_paths();
+      }
     });
 
     // Reset everything that depends on the destination
@@ -531,8 +548,6 @@ SendTab.prototype.angular = function (module)
       $scope.update_amount();
     };
 
-    var pathUpdateTimeout;
-
     $scope.reset_amount_deps = function () {
       var send = $scope.send;
       send.sender_insufficient_xrp = false;
@@ -719,7 +734,7 @@ SendTab.prototype.angular = function (module)
       send.alternatives = [];
     };
 
-    $scope.update_paths = function () {
+    $scope.update_paths = function() {
       var send = $scope.send;
       var recipient = send.recipient_actual || send.recipient_address;
       var amount = send.amount_actual || send.amount_feedback;
