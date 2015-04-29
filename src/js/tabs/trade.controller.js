@@ -55,6 +55,24 @@ TradeTab.prototype.angular = function(module)
       reverse: false
     };
 
+    function onBlobIsValid() {
+      $scope.pairs_query = settings.getSetting($scope.userBlob, 'trade_currency_pairs');
+      // Remember user preference on Convert vs. Trade
+      if (!settings.getSetting($scope.userBlob, 'rippleExchangeSelectionTrade', false)) {
+        $scope.userBlob.set('/clients/rippletradecom/rippleExchangeSelectionTrade', true);
+      }
+    }
+
+    if (settings.blobIsValid($scope.userBlob)) {
+      onBlobIsValid();
+    } else {
+      var removeListener = $scope.$on('$blobUpdate', function() {
+        if (!settings.blobIsValid($scope.userBlob)) return;
+        onBlobIsValid();
+        removeListener();
+      });
+    }
+
     $scope.sortOptions.sortFieldName = $scope.ordersSortFieldChoicesKeyed[$scope.sortOptions.sortField];
 
     $scope.$watch('sortOptions.sortFieldName', function () {
@@ -69,8 +87,6 @@ TradeTab.prototype.angular = function(module)
     $scope.load_orderbook = true;
     // Remember user preference on Convert vs. Trade
     $rootScope.ripple_exchange_selection_trade = true;
-
-    $scope.pairs_query = settings.getSetting($scope.userBlob, 'trade_currency_pairs');
 
     $scope.currencies_all = require('../data/currencies');
     $scope.currencies = [];
