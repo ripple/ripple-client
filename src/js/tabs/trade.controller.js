@@ -414,14 +414,15 @@ TradeTab.prototype.angular = function(module)
     $scope.fill_widget = function (type, order, sum) {
       $scope.reset_widget(type);
 
-      $scope.order[type].price = order.price.to_human().replace(',','');
+      $scope.order[type].price = order.price.to_human({group_sep: false});
 
       if (sum) {
-        $scope.order[type].first = order.sum.to_human().replace(',','');
+        $scope.order[type].first = order.sum.to_human({group_sep: false});
         $scope.calc_second(type);
       }
       scrollToElement('widgetGroup');
     };
+
     function scrollToElement(element) {
       var el = document.getElementById(element);
       var yPos = el.getClientRects()[0].top;
@@ -434,6 +435,7 @@ TradeTab.prototype.angular = function(module)
           }
       },5);
     }
+
     /**
      * Happens when user clicks on 'Place Order' button.
      *
@@ -858,7 +860,7 @@ TradeTab.prototype.angular = function(module)
 
       if (type === 'buy') bestPrice = $scope.bookShow.bids[0].showPrice;
       else if (type === 'sell') bestPrice = $scope.bookShow.asks[0].showPrice;
-      bestPrice = +bestPrice.replace(',','');
+      bestPrice = +bestPrice.replace(/,/g, '');
 
       return (bestPrice &&
           (price > (bestPrice * fatFingerMarginMultiplier) ||
@@ -878,7 +880,7 @@ TradeTab.prototype.angular = function(module)
       if (order.price_amount && order.price_amount.is_valid() &&
           order.first_amount && order.first_amount.is_valid()) {
         order.second_amount = order.price_amount.product_human(order.first_amount);
-        order.second = +order.second_amount.to_human({group_sep: false});
+        order.second = order.second_amount.to_human({group_sep: false});
       }
     };
 
@@ -896,15 +898,16 @@ TradeTab.prototype.angular = function(module)
           order.second_amount && order.second_amount.is_valid()) {
 
         if (!order.price_amount.is_native()) {
-          var price = order.price_amount.to_human();
+          var price = order.price_amount.to_human({group_sep: false});
           var currency = order.price_amount.currency().to_json();
           var issuer = order.price_amount.issuer().to_json();
 
-          order.first_amount = Amount.from_json(order.second_amount.to_text_full()).ratio_human(Amount.from_json(price + '/' + currency + '/' + issuer), {reference_date: new Date()});
+          // use replace(/,/g,'') until ripple lib fixed
+          order.first_amount = Amount.from_json(order.second_amount.to_text_full().replace(/,/g, '')).ratio_human(Amount.from_json(price + '/' + currency + '/' + issuer), {reference_date: new Date()});
         } else {
-          order.first_amount = Amount.from_json(order.second_amount.to_text_full()).ratio_human(Amount.from_json(order.price_amount.to_text()), {reference_date: new Date()});
+          order.first_amount = Amount.from_json(order.second_amount.to_text_full().replace(/,/g, '')).ratio_human(Amount.from_json(order.price_amount.to_text()), {reference_date: new Date()});
         }
-        order.first = +order.first_amount.to_human({group_sep: false});
+        order.first = order.first_amount.to_human({group_sep: false});
       }
     };
 
