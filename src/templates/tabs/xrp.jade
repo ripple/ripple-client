@@ -21,15 +21,8 @@ section.col-xs-12.content(ng-controller='XrpCtrl')
     .col-sm-9.list
       .fundXrp(ng-show="fundPage == 'xrp'")
         div
-          .nameLine(l10n) Ripple name:&#32;
-            span.name(ng-show="userCredentials.username") ~{{userCredentials.username}}
-            span(ng-hide="userCredentials.username", l10n) loading...
-            .address
-              a(href="", ng-click="showRippleAddress=true"
-                ng-hide="showRippleAddress", l10n) Show address
-              div(ng-show="showRippleAddress", ng-bind="address")
-          .description(l10n) Ripple names are a new feature on Ripple! Use your
-            |  Ripple name (~{{userCredentials.username}}) to receive money.
-            |  You can still use your full Ripple address, and while we are
-            |  working to transition to Ripple names, some gateways may still
-            |  ask for your full address.
+          .nameLine(l10n) Featured Gateways
+          .description(l10n) You can fund your account through gateways, which are entry and exit points off the Ripple network.
+            | Gateways will accept deposits from you and then issue you balances on the Ripple network in return.
+            | In order to hold a balance from a gateway, you must first add or trust the gateway.
+          a(href="https://ripple.com/knowledge_center/gateway-information/") Learn more about gateways.
