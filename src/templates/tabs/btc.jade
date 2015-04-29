@@ -114,7 +114,9 @@ section.col-xs-12.content(ng-controller='BtcCtrl')
               .btc-address(ng-bind="B2R.instructions.instructionParams[0].value") 
               .description(l10n) Your account is fully verified.
               div(ng-show="loadState.B2RInstructions")
-                .description(ng-bind="B2R.instructions.instruction") 
+                .description(ng-bind="B2R.instructions.instruction")
+                .snapswap-support-link
+                  a(href="https://b2r.uservoice.com/knowledgebase/articles/466148" target="_blank") More information
                 //.about(ng-hide="account.Balance", l10n) A small amount (~.001 BTC) of your first
                   |  transfer will be converted to XRP to activate your wallet.&#32;
                   a.why(href="https://ripple.com/wiki/Reserves",
