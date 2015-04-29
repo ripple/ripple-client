@@ -22,6 +22,6 @@ section.col-xs-12.content(ng-controller='DebugPretendCtrl')
         .error(ng-message='rpDest', l10n) Not a valid address.
       .row.row-padding-small.amount
         .col-xs-12.col-sm-9.col-md-6
-          button.btn.btn-block.btn-success(type="submit", ng-disabled='debugPretendForm.$invalid',  l10n)
+          button.btn.btn-block.btn-success(type="submit", ng-disabled='debugPretendForm.$invalid || debugPretendForm.$pending',  l10n)
             | Turn on debug mode
 
