@@ -123,6 +123,27 @@ module.directive('rpPrettyIdentity', [function () {
   };
 }]);
 
+module.directive('rpRippleName', ['rpId', function(id) {
+  return {
+    restrict: 'EA',
+    scope: {
+      address: '=rpRippleName'
+    },
+    template: '{{name || address}}',
+    compile: function (element, attr, linker) {
+      return function (scope, element, attr) {
+        function update() {
+          id.resolveName(scope.address, { tilde: true }).then(function(name) {
+            scope.name = name;
+          });
+        }
+        scope.$watch('address', update);
+        update();
+      };
+    }
+  };
+}]);
+
 module.directive('rpBindColorAmount', function () {
   return {
     restrict: 'A',
