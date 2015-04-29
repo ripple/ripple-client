@@ -370,28 +370,29 @@ section.col-xs-12.content(ng-controller='SendCtrl')
               | Add this address to contacts
             form(name="saveAddressForm", ng-class="{ show: show_save_address_form }"
             ng-submit='saveAddress()')
-              .name(ng-show="send.federation", ng-bind="send.recipient")
-              .address(ng-show="send.recipient_name", ng-bind="send.recipient_name")
-              .address(ng-hide="send.recipient_name", ng-bind="send.recipient_address")
-              label(for='save_address_name', l10n) Name this user
-              input.form-control#contact_name(
-              name='save_address_name', type="text"
-              ng-model='saveAddressName', required
-              rp-unique='userBlob.data.contacts'
-              rp-unique-field='name'
-              rp-autofill='$routeParams.name')
-              .errorGroup(ng-messages='saveAddressForm.save_address_name.$dirty && saveAddressForm.save_address_name.$error')
-                .error(ng-message='required', l10n) Please enter a contact.
-                .error(ng-message='rpUnique', l10n, ng-hide="addressSaving || addressSaved")
-                  | This contact already exists, please choose another name.
-              div.row.add-contact-btns-wrapper
-                div.col-md-3.col-sm-4.col-xs-8
-                  button.btn.btn-success.btn-block(type='submit'
-                    ng-disabled='addressSaving || saveAddressForm.$invalid')
-                    span(ng-show='addressSaving', l10n) Saving...
-                    span(ng-hide='addressSaving', l10n) Save
-                div.col-md-1.col-sm-2.col-xs-4
-                  a.btn.btn-block(href="", ng-click='show_save_address_form = false', l10n) cancel
+              .form-wrapper
+                .name(ng-show="send.federation", ng-bind="send.recipient")
+                .address(ng-show="send.recipient_name", ng-bind="send.recipient_name")
+                .address(ng-hide="send.recipient_name", ng-bind="send.recipient_address")
+                label(for='save_address_name', l10n) Name this user
+                input.form-control#contact_name(
+                name='save_address_name', type="text"
+                ng-model='saveAddressName', required
+                rp-unique='userBlob.data.contacts'
+                rp-unique-field='name'
+                rp-autofill='$routeParams.name')
+                .errorGroup(ng-messages='saveAddressForm.save_address_name.$dirty && saveAddressForm.save_address_name.$error')
+                  .error(ng-message='required', l10n) Please enter a contact.
+                  .error(ng-message='rpUnique', l10n, ng-hide="addressSaving || addressSaved")
+                    | This contact already exists, please choose another name.
+                div.row.add-contact-btns-wrapper.row-padding-small
+                  div.col-xs-6.col-md-8
+                    button.btn.btn-success.btn-block(type='submit'
+                      ng-disabled='addressSaving || saveAddressForm.$invalid')
+                      span(ng-show='addressSaving', l10n) Saving...
+                      span(ng-hide='addressSaving', l10n) Save
+                  div.col-xs-6.col-md-4
+                    a.btn.btn-cancel(href="", ng-click='show_save_address_form = false', l10n) cancel
               hr
           div(class="actionLink")
             a(href="", ng-click="reset()", l10n) Send another payment
