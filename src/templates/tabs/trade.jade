@@ -190,6 +190,34 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                             |  {{order.first_currency | rpcurrency}}
                         |  available
                     div(ng-switch-when='trade')
+                      group.pending(ng-show='notif[type]=="pending"')
+                        h2.tx-status(l10n) Your order has been submitted.
+                      group.result-success(ng-show="notif[type]=='cleared' && executedOnOfferCreate=='none'")
+                        h2.tx-status(l10n) Your order is now active.
+                      group.result-success(ng-show="notif[type]=='cleared' && executedOnOfferCreate=='all'")
+                        h2.tx-status(l10n) Your order has been filled.
+                      group.result-success(ng-show="notif[type]=='cleared' && executedOnOfferCreate=='partial'")
+                        h2.tx-status(l10n) Your order has been partially filled. The remaining amount is now active.
+
+                      //- 4a. Ripple error page
+
+                      group.mode-ripplerror(ng-show='notif[type]=="unknown"')
+                        rp-transaction-status(
+                          rp-engine-result="{{engine_result}}"
+                          rp-engine-result-message="{{engine_result_message}}"
+                          rp-accepted="{{engine_status_accepted}}"
+                          rp-current-tab="trade")
+
+                      group.mode-granted.wide(ng-show='notif !== "clear"', ng-hide='!notif')
+                        group(ng-switch="notif")
+                          group.result-success(ng-switch-when="success")
+                            h2.tx-status(l10n) Success! You can deposit BTC via your generated BTC receiving address.
+                          group.result-error(ng-switch-when="error")
+                            h2.tx-status(l10n) There was an error with your request.&#32;
+                              p(l10n) Please try again later.
+                          group.result-error(ng-switch-when="emailError")
+                            h2.tx-status(l10n) There was an error with your request.&#32;
+
                       form.mode-form(name="tradeForm", ng-submit='place_order(type)', ng-show="order[type].showWidget")
                         .row.order-values
                           .col-xs-12
@@ -370,31 +398,6 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                       p.literal
                         img(src="img/button-s.png", class="loader")
                         span(class="loading_text", l10n) Sending order to Ripple network...
-
-                    //- 4. Done
-
-                    group.mode-done(ng-switch-when='done')
-                      group.pending(ng-show='tx_result=="pending"')
-                        h2.tx-status(l10n) Your order has been submitted.
-                      group.result-success(ng-show="tx_result=='cleared' && executedOnOfferCreate=='none'")
-                        h2.tx-status(l10n) Your order is now active.
-                      group.result-success(ng-show="tx_result=='cleared' && executedOnOfferCreate=='all'")
-                        h2.tx-status(l10n) Your order has been filled.
-                      group.result-success(ng-show="tx_result=='cleared' && executedOnOfferCreate=='partial'")
-                        h2.tx-status(l10n) Your order has been partially filled. The remaining amount is now active.
-
-                      //- 4a. Ripple error page
-
-                      group.mode-ripplerror(ng-show='tx_result=="unknown"')
-                        rp-transaction-status(
-                          rp-engine-result="{{engine_result}}"
-                          rp-engine-result-message="{{engine_result_message}}"
-                          rp-accepted="{{engine_status_accepted}}"
-                          rp-current-tab="trade")
-                        
-                      hr
-                      .actionLink
-                        a(href="#trade", ng-click="reset_widget(type)", l10n) Submit another order
 
           .my-orders-title(l10n) My Orders
             span &#32;({{offersCount}})
