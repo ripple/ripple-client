@@ -94,7 +94,7 @@ section.col-xs-12.content(ng-controller="ContactsCtrl")
               .error(ng-message='rpUnique', l10n) You already have a contact with the same Ripple name and/or the same Destination tag.
         .row
           .col-xs-8.col-sm-8.col-md-9.text-left
-            button.btn.btn-success.btn-block.submit.custom-btn(type='submit', ng-disabled='addForm.$invalid', l10n) Add contact
+            button.btn.btn-success.btn-block.submit.custom-btn(type='submit', ng-disabled='addForm.$invalid || addForm.$pending', l10n) Add contact
           .col-xs-4.col-sm-4.col-md-3.text-center
             button.btn.btn-default.btn-block.custom-btn.btn-cancel(type='button', ng-click='addform_visible = false', l10n) cancel
 
