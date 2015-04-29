@@ -68,8 +68,8 @@ section.col-xs-12.content(ng-controller="SettingsGatewayCtrl")
             .col-xs-6.col-sm-5.col-md-3
               .description(l10n) DefaultRipple flag
             .col-xs-3.col-sm-4.col-md-4
-              .description(ng-show="isDefaultRippleFlagEnabled", l10n) Enabled
-              .description(ng-hide="isDefaultRippleFlagEnabled", l10n) Disabled
+              .description(ng-show="currentDefaultRipplingFlagSetting", l10n) Enabled
+              .description(ng-hide="currentDefaultRipplingFlagSetting", l10n) Disabled
             .col-xs-3.col-sm-3.col-md-2
               a.btn.btn-cancel.btn-block(href="", ng-click="edit.defaultRippleFlag = true", l10n) edit
           .row.row-padding-small.edit-trust-line(ng-show="edit.defaultRippleFlag")
