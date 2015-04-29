@@ -660,7 +660,7 @@ function AppCtrl ($scope, id, net, keychain, txQueue, appManager, rpTracker,
   // load strings from jade template
   $templateRequest('templates/' + lang + '/strings/myOrders.html', true).then(function(ordersStringsHtml) {
     _.each($scope.ordersSortFieldChoices, function(element, index) {
-      var localisedNameText = ordersStringsHtml.find('#' + element.value).text();
+      var localisedNameText = $(ordersStringsHtml).find('#' + element.value).text();
       element.name = localisedNameText;
     });
   });
