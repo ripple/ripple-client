@@ -79,13 +79,13 @@ ExchangeTab.prototype.angular = function (module)
         $location.path('/xrp');
       };
 
-      $scope.reset_paths = function () {
+      $scope.reset_paths = function() {
         var exchange = $scope.exchange;
 
         exchange.alternatives = [];
       };
 
-      $scope.update_exchange = function () {
+      $scope.update_exchange = function() {
         var exchange = $scope.exchange;
         var currency = ripple.Currency.from_human(exchange.currency_name);
 
