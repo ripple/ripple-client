@@ -56,20 +56,21 @@ SettingsGatewayTab.prototype.angular = function(module)
           $scope.userBlob.set('/clients/rippletradecom/trust/advancedMode', $scope.options.advanced_feature_switch);
           break;
         case 'defaultRippleFlag':
-          // Need to set flag on account_root
-          var tx = network.remote.transaction();
-          $scope.isDefaultRippleFlagEnabled = $scope.account.Flags & ripple.Remote.flags.account_root.DefaultRipple;
-          $scope.isDefaultRippleFlagEnabled ? tx.accountSet(id.account, undefined, 'DefaultRipple') : tx.accountSet(id.account, 'DefaultRipple');
+          // Need to set flag on account_root only when chosen option is different from current setting
+          if ($scope.currentDefaultRipplingFlagSetting !== $scope.isDefaultRippleFlagEnabled) {
+            var tx = network.remote.transaction();
+            !$scope.isDefaultRippleFlagEnabled ? tx.accountSet(id.account, undefined, 'DefaultRipple') : tx.accountSet(id.account, 'DefaultRipple');
 
-          keychain.requestSecret(id.account, id.username, function (err, secret) {
-            if (err) {
-              console.log('Error: ', err);
-              return;
-            }
-            $scope.isDefaultRippleFlagEnabled = !$scope.isDefaultRippleFlagEnabled;
-            tx.secret(secret);
-            tx.submit();
-          });
+            keychain.requestSecret(id.account, id.username, function (err, secret) {
+              if (err) {
+                console.log('Error: ', err);
+                $scope.isDefaultRippleFlagEnabled = !$scope.isDefaultRippleFlagEnabled;
+                return;
+              }
+              tx.secret(secret);
+              tx.submit();
+            });
+          }
           break;
         default:
           // Save in local storage
@@ -129,6 +130,7 @@ SettingsGatewayTab.prototype.angular = function(module)
     $scope.$watch('account', function() {
       // Check if account has DefaultRipple flag set
       $scope.isDefaultRippleFlagEnabled = !!($scope.account.Flags & ripple.Remote.flags.account_root.DefaultRipple);
+      $scope.currentDefaultRipplingFlagSetting = $scope.isDefaultRippleFlagEnabled;
     }, true);
 
   }]);
