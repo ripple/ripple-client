@@ -212,8 +212,7 @@ languages.forEach(function(language){
   languageTasks.push('templates:' + language.code);
 });
 
-//gulp.task('templates:dist', $.sync(gulp).sync(languageTasks));
-gulp.task('templates:dist', ['templates:en']);
+gulp.task('templates:dist', $.sync(gulp).sync(languageTasks));
 
 // Default Task (Dev environment)
 gulp.task('default', ['dev'], function() {
