@@ -110,9 +110,9 @@ section.col-xs-12.content(ng-controller='BtcCtrl')
             //a.dismiss#hide(href="", ng-click="toggle_instructions()")  ×
 
             .active.col-xs-12(ng-show="B2R.active")
-              .title(l10n) Personal Deposit address
+              .title(l10n) Personal Bitcoin Deposit address (Bitcoins sent here will be deposited to your Ripple account)
               .btc-address(ng-bind="B2R.instructions.instructionParams[0].value") 
-              .description(l10n) Your account is fully verified.
+              .description(l10n) You have no deposit limit.
               div(ng-show="loadState.B2RInstructions")
                 .description(ng-bind="B2R.instructions.instruction") 
                 //.about(ng-hide="account.Balance", l10n) A small amount (~.001 BTC) of your first
