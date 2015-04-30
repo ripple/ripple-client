@@ -254,7 +254,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                               label(l10n) Order Value (max)
                               .input-group
                                 input.form-control(name='value', type='text'
-                                ng-model='order[type].price', ng-change='calc_first(type)'
+                                ng-model='order[type].second', ng-change='calc_first(type)'
                                 rp-autofill='$routeParams.type == type && $routeParams.max'
                                 rp-autofill-amount
                                 rp-amount
@@ -337,7 +337,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                       .dest_feedback
                         label(l10n) Price of each
                         div.each-price
-                          span.value {{order[type].price}}&#32; 
+                          span.value {{order[type].price}}&#32;
                             sub
                               span.currency {{order.currency_pair}}
                               //- span.currency  {{order[type].second_amount | rpcurrency}} /
@@ -353,7 +353,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                       .rate_feedback 
                         label(l10n) Order Value (max)
                         div.max-value
-                          span.rate {{order[type].price }}
+                          span.rate {{order[type].second_amount | rpamount: {abs_precision: 6} }}
                             sub.pair {{order[type].second_amount | rpcurrency}} per {{order[type].first_amount | rpcurrency}}
                       p.literal.confirm-text(l10n-inc) Are you sure?
                       .row.row-padding-small
