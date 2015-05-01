@@ -60,7 +60,7 @@
       "type": "clickElement",
       "locator": {
         "type": "link text",
-        "value": "Gateways"
+        "value": "Add any gateway (trust lines)"
       }
     },
     {
