@@ -486,7 +486,12 @@ SendTab.prototype.angular = function (module)
       } else {
         // The possible currencies are the intersection of all provided currency
         // constraints.
-        currencies = _.intersection.apply(_, _.values(send.currency_choices_constraints));
+        currencies = _.values(send.currency_choices_constraints);
+        if (currencies.length == 1) {
+          currencies = currencies[0];
+        } else {
+          currencies = _.intersection.apply(_, currencies);
+        }
         currencies = _.uniq(_.compact(currencies));
 
         // create the display version of the currencies
