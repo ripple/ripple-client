@@ -17,7 +17,7 @@
         "type": "id",
         "value": "login_username"
       },
-      "text": "${FUNDED_USER_NAME}"
+      "text": "${FUNDED_USER_NAME2}"
     },
     {
       "type": "setElementText",
@@ -25,7 +25,7 @@
         "type": "id",
         "value": "login_password"
       },
-      "text": "${FUNDED_USER_PASSWORD}"
+      "text": "${FUNDED_USER_PASSWORD2}"
     },
     {
       "type": "clickElement",
@@ -99,6 +99,10 @@
       "text": "BIDS"
     },
     {
+      "type": "pause",
+      "waitTime": "2000"
+    },
+    {
       "type": "setElementText",
       "locator": {
         "type": "css selector",
@@ -143,7 +147,7 @@
         "type": "id",
         "value": "popup_unlock_password"
       },
-      "text": "${FUNDED_USER_PASSWORD}"
+      "text": "${FUNDED_USER_PASSWORD2}"
     },
     {
       "type": "waitForElementAttribute",
@@ -269,6 +273,20 @@
         "value": "submit"
       }
     },
+    {
+      "type": "waitForTextPresent",
+      "text": "Confirm"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='actions']//button[.='Confirm']"
+      }
+    },
+
+
+
     {
       "type": "waitForElementPresent",
       "locator": {
