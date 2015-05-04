@@ -95,12 +95,23 @@
       "text": "USD.Bitstamp/USD.Snapswap"
     },
     {
+      "type": "pause",
+      "waitTime": "1000"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "id",
+        "value": "wrapper"
+      }
+    },
+    {
       "type": "waitForTextPresent",
       "text": "BIDS"
     },
     {
       "type": "pause",
-      "waitTime": "2000"
+      "waitTime": "5000"
     },
     {
       "type": "setElementText",
