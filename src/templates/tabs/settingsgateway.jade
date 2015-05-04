@@ -7,6 +7,8 @@ section.col-xs-12.content(ng-controller="SettingsGatewayCtrl")
     .col-sm-12.notification-wrapper
       .alert.alert-success(ng-show="success.bridge", l10n) Your bitcoin bridge has been changed successfully.
       .alert.alert-success(ng-show="success.advanced_feature_switch", l10n) Trustline advanced settings have been changed successfully.
+      .alert.alert-info(ng-show="edit.defaultRippleFlagSaving", l10n) Updating DefaultRipple flag...
+      .alert.alert-success(ng-show="notif == 'defaultRippleUpdated'", l10n) DefaultRipple flag updated
     .col-sm-3
       include ../tabs/settings/navbar
     .col-sm-9.list
@@ -68,10 +70,12 @@ section.col-xs-12.content(ng-controller="SettingsGatewayCtrl")
             .col-xs-6.col-sm-5.col-md-3
               .description(l10n) DefaultRipple flag
             .col-xs-3.col-sm-4.col-md-4
-              .description(ng-show="currentDefaultRipplingFlagSetting", l10n) Enabled
-              .description(ng-hide="currentDefaultRipplingFlagSetting", l10n) Disabled
+              .description(ng-show="currentDefaultRipplingFlagSetting && !edit.defaultRippleFlagSaving", l10n) Enabled
+              .description(ng-hide="currentDefaultRipplingFlagSetting || edit.defaultRippleFlagSaving", l10n) Disabled
+              .description(ng-show="edit.defaultRippleFlagSaving")
+                img(src="img/button-s.png", class="loader")
             .col-xs-3.col-sm-3.col-md-2
-              a.btn.btn-cancel.btn-block(href="", ng-click="edit.defaultRippleFlag = true", l10n) edit
+              a.btn.btn-cancel.btn-block(href="", ng-click="edit.defaultRippleFlag = true", ng-hide="edit.defaultRippleFlagSaving", l10n) edit
           .row.row-padding-small.edit-trust-line(ng-show="edit.defaultRippleFlag")
             .col-xs-6.col-sm-5.col-md-3
               .description(l10n) DefaultRipple flag
