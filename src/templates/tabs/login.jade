@@ -6,42 +6,16 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
       hr
       p.heroText(l10n) Trade hundreds of assets, from XRP to crypto to gold to fiat.
     .auth-form-wrapper.col-xs-12.col-sm-6.col-md-4
-      .tabAdjust
-        .signUpWrapper
-          h2.signUpTop
-            a(href='#register', l10n-inc) Sign Up
-        .loginWrapper
-          h2.loginTop(l10n) Log In
-      form(name='loginForm', ng-submit='submitForm()')
-        .auth-attention.text-center.spaceAdjust(ng-show="verifyStatus")
-          .status(ng-show="'verifying' === verifyStatus", l10n) Verifying...
-          .status(ng-show="'verified' === verifyStatus", l10n) You have successfully verified your email address.
-          .status(ng-show="'error' === verifyStatus", l10n) Email verification token is invalid. It has either expired or has been resent. Please check your inbox for the most recent verification email.
-        include ../tabs/login/form
-        .text-status(ng-show='status')
-          span.loggingIn(ng-bind="status")
-          br
-          .backend.error(ng-repeat="message in backendMessages")
-            span.error(ng-bind="message")
-        .submit-btn-container
-          button.btn.btn-submit.btn-block.btn-success#loginBtn(type='submit',
-            ng-disabled="ajax_loading || loginForm.$invalid", ng-hide="twoFactor")
-            img(src="img/button-s.png", class="loader", ng-show="ajax_loading")
-            span(class="loading_text", ng-show="ajax_loading", l10n) Logging in
-            span(ng-hide="ajax_loading", l10n) Log In
-          button.btn.btn-submit.btn-block.btn-success(type='submit',
-            ng-disabled="ajax_loading || !token", ng-show="twoFactor")
-            img(src="img/button-s.png", class="loader", ng-show="ajax_loading")
-            span(class="loading_text", l10n) Verify
-          a.btn.btn-block.btn-cancel(class="2fa-cancel", ng-click="cancel2FA()", ng-show="twoFactor", l10n) cancel
+      .text-status(ng-show='status')
+        span.loggingIn(ng-bind="status")
+        br
+        .backend.error(ng-repeat="message in backendMessages")
+          span.error(ng-bind="message")
+      .submit-btn-container
+        a.btn.btn-submit.btn-block.btn-success#loginBtn(href="{{globalOptions.backend_url}}/auth/login")
+          span(l10n) Log in
       .row.switch-mode-wrapper
-        .switch-mode-link-container.bottomText(l10n) Already have a ripple.com/client account?&#32;
-          a(href='#migrate', l10n-inc) Migrate
-      .submit-btn-container-recovery
-        a.recover-btn(href="#recover/{{username}}", ng-show="showRecover")
-          button.btn.btn-block.btn-primary(ng-click="")
-            span(l10n) Account Recovery
-      button.btn.btn-link.recover(ng-click="goto_recover()", ng-hide="showRecover", l10n) Account Recovery
+        .switch-mode-link-container.bottomText(l10n) Ripple Trade uses id.ripple.com to securily manage accounts and personal information
 
 
   .row.action-login(ng-if="$routeParams.to")

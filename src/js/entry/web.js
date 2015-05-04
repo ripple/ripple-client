@@ -64,7 +64,6 @@ var appDependencies = [
   'history',
   'notifications',
   // IDS related services
-  // 'idoauth',
   'blobids',
   'authflowids',
   // Directives
@@ -121,8 +120,6 @@ var tabdefs = [
   require('../tabs/settingstrade.controller.js'),
   require('../tabs/settingsgateway.controller.js'),
   require('../tabs/notifications.controller.js'),
-
-  require('../tabs/loginoauth.controller.js'),
 
   // Hidden tabs
   require('../tabs/apps.controller.js'),
