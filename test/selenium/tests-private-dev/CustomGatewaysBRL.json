@@ -223,6 +223,10 @@
       "negated": true
     },
     {
+      "type": "pause",
+      "waitTime": "1000"
+    },
+    {
       "type": "clickElement",
       "locator": {
         "type": "css selector",
