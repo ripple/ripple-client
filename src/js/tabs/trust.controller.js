@@ -634,19 +634,8 @@ TrustTab.prototype.angular = function (module)
         });
       };
 
-      $scope.isIncoming = function () { 
-        if (Number($scope.component.limit.to_json().value) === 0 && $scope.acctDefaultRippleFlag) {
-          // If limit is 0 and DefaultRipple flag is on, that means that the default state
-          // for that trust line has rippling turned on.
-          
-          // This is an incoming trustline
-          return true;
-        } else if (Number($scope.component.limit.to_json().value) === 0) {
-          // This is also an incoming trustline
-          return true;
-        } else {
-          return false;
-        }
+      $scope.isIncomingOnly = function () {
+        return ($scope.component.limit.is_zero() && !$scope.component.limit_peer.is_zero());
       };
 
     }]);
