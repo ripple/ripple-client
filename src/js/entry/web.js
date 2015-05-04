@@ -36,6 +36,10 @@ require('../services/domainalias.service.js');
 require('../services/history.service.js');
 require('../services/notifications.service.js');
 
+require('../services/authflowIDS.service.js');
+require('../services/blobIDS.service.js');
+//require('../services/idoauth.service.js');
+
 require('../services/integration/appManager.service.js');
 require('../services/integration/profileManager.service.js');
 require('../services/integration/account.service.js');
@@ -58,6 +62,11 @@ var appDependencies = [
   'tracker',
   'appManager',
   'history',
+  'notifications',
+  // IDS related services
+  // 'idoauth',
+  'blobids',
+  'authflowids',
   // Directives
   'charts',
   'effects',
@@ -72,8 +81,7 @@ var appDependencies = [
   // Filters
   'filters',
   'ui.bootstrap',
-  'ui.sortable',
-  'notifications'
+  'ui.sortable'
 ];
 
 // Load tabs
@@ -113,6 +121,8 @@ var tabdefs = [
   require('../tabs/settingstrade.controller.js'),
   require('../tabs/settingsgateway.controller.js'),
   require('../tabs/notifications.controller.js'),
+
+  require('../tabs/loginoauth.controller.js'),
 
   // Hidden tabs
   require('../tabs/apps.controller.js'),
