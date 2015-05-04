@@ -88,8 +88,8 @@ var Options = {
   // Default threshold in XRPs for fee on RT to show higher load status
   low_load_threshold: 0.012,
 
-  //Email notifications subscription service URL
-  notifications_api_url: ''
+  // Ripple client backend URL
+  backend_url: ''
 };
 
 // Load client-side overrides

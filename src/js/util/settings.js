@@ -5,7 +5,12 @@
  * @param userBlob
  */
 exports.blobIsValid = function(userBlob) {
-  return userBlob instanceof rippleVaultClient.Blob;
+  // return userBlob instanceof rippleVaultClient.Blob;
+  // TODO use instanceof instead of this ugly construction
+  return
+    userBlob.hasOwnProperty('data') &&
+    userBlob.hasOwnProperty('encrypted_secret') &&
+    typeof userBlob.unshift === 'function';
 }
 
 /**
