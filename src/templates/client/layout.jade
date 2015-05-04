@@ -56,10 +56,6 @@ div#wrapper
         .container-fluid.main(ng-if="showLogin && !showRegister", id="t-login", role="main")
           include ../tabs/login.jade
 
-        // LoginOAuth
-        .container-fluid.main(ng-if="showLogin && !showRegister", id="t-login", role="main")
-          include ../tabs/loginoauth.jade
-
         // Main
         .container-fluid.main.pageLoading(ng-show="pageLoading")
           img(src="img/sections.png", class="loader")
