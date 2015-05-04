@@ -113,3 +113,79 @@ section.col-xs-12.content(ng-controller='UsdCtrl')
                 p(l10n) Directly to your bank account (3-4 business days)
               li
                 p(l10n) Directly to your PayPal account (several minutes)
+      br
+      .gateway.row
+        .col-md-3
+            .title(l10n) Gateway
+            .description(l10n) 
+              | Bitstamp (~bitstamp)
+              br
+              a(href="https://www.bitstamp.net", target="_blank") www.bitstamp.net
+        .col-md-3
+            .title(l10n) Availability
+            .description(l10n) All countries
+        .col-md-3
+            .title(l10n) Fees
+            .description(l10n) Deposit/withdrawal and when transferring .2%&#32;
+        .col-md-3
+            .title(l10n) Rating
+            .description(l10n)
+              a(href="https://coinist.co/ripple/gateways/bitstamp", target="_blank") read reviews
+
+      .row.fund-tab-description
+        .col-xs-12.col-md-8.col-lg-6
+          .descriptor(ng-show="!usdConnected", l10n) Ripple Trade has partnered with Bitstamp to provide easier access to USD. Following this action will enable Bitstamp to hold USD on your behalf.
+
+      .row.fund-tab-description
+        .col-xs-7.col-sm-5.col-md-4
+          button.btn.btn-large.btn-primary(ng-show="!usdConnected && !usdLoading && loadState.account", type="submit", ng-click="save_usd_account()", ng-disabled="!account.Balance || !can_add_trust", l10n) Add Bitstamp
+          button.btn.btn-large.btn-primary(ng-show="!usdConnected && usdLoading", type="submit", ng-disabled="usdLoading", l10n) Adding...
+          button.btn.btn-large.btn-primary(ng-show="showUsdInstructions && usdConnected", type="submit", ng-click="toggle_usd_instructions()", l10n) Hide instructions
+          button.btn.btn-large.btn-primary(ng-show="usdConnected && !showUsdInstructions", type="submit", ng-click="toggle_usd_instructions()", l10n) Show instructions
+
+        .connect.col-xs-5.col-sm-7.col-md-8(ng-hide="usdLoading")
+          .description.fa.fa-times(ng-show="!usdConnected && account.Balance", l10n) Not connected
+          .description.fa.fa-check(ng-show="usdConnected && account.Balance", l10n) Connected
+          .description(ng-show="!account.Balance && loadState.account", l10n) Your account has to be activated before you can add a gateway account.
+          .description(ng-show="!loadState.account")
+            img(src="img/button-s.png", class="loader")
+            span(class="loading_text", l10n) Loading...
+
+      .row(ng-show="showUsdInstructions && usdConnected")
+        .instructions.col-md-10
+          a.dismiss(href="", id="hide", ng-click="toggle_usd_instructions()", l10n)  ×
+          .title(l10n) NEW CUSTOMERS- SIGN UP AT BITSTAMP
+          .description(l10n) 
+            | Register and verify your account at 
+            a(href="www.bitstamp.net", target="_blank") www.bitstamp.net
+            | . You will need:&#32;
+            ul
+              li
+                p(l10n) A valid government-issued ID: driver's license, international passport, or national ID card.
+              li
+                p(l10n) A proof of residency: tax return, council tax, utility bill, bank statement, certificate of residency issued by a government authority, etc.
+
+          .title(l10n) DEPOSIT OPTIONS
+          .description(l10n)
+            ul
+              li
+                p(l10n) International wire transfer (.05% deposit fee on our side (minimum fee = $7.5) and 2 - 5 business days to credit)
+              li
+                p(l10n) SEPA (All funds transferred in EUR will be converted to USD, free of charge. 1-3 business days)
+              li
+                p(l10n) AstroPay (instantly from available countries)
+              li
+                p(l10n) Bitcoin
+
+          .title(l10n) WITHDRAWAL OPTIONS
+          .description(l10n)
+            ul
+              li
+                p(l10n) International wire transfer (.09% fee on our side (minimum fee = $15) and 2 - 5 business days)
+              li
+                p(l10n) SEPA (1-3 business days)
+              li 
+                p(l10n) Bitcoin
+          .description If you have any questions, please feel free to contact Bitstamp at 
+            a(href="support@bitstamp.net", target="_blank") support@bitstamp.net
+
