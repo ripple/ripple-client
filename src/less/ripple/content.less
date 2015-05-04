@@ -195,6 +195,11 @@ h1 {
   p.literal, span.literal, a.literal {
     font: 16px 'OpenSansRegular';
 
+    &.landing {
+      font-size: 14px;
+      color: @landingblue;
+    }
+
     strong {
       font-family: 'OpenSansBold';
       font-weight: normal;
@@ -214,6 +219,7 @@ h1 {
   p.hint {
     font-size: 1em;
     margin-top: 0;
+    color: @landingblue;
   }
 
   p.lit-small {
