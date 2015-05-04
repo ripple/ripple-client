@@ -237,7 +237,7 @@ gulp.task('default', ['dev'], function() {
 });
 
 // Development
-gulp.task('dev', ['clean:dev', 'bower', 'webpack:dev', 'less', 'templates:dev', 'l10nExtract'], function () {
+gulp.task('dev', ['clean:dev', 'bower', 'webpack:dev', 'less', 'templates:dev'], function () {
   gulp.start('preprocess:dev');
 });
 
