@@ -74,8 +74,8 @@
     {
       "type": "clickElement",
       "locator": {
-        "type": "xpath",
-        "value": "//div[@id='t-brl']//button[.=' Add Rippex Adding...']"
+        "type": "id",
+        "value": "t-brl-add-rippex"
       }
     },
     {
