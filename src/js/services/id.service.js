@@ -207,13 +207,7 @@ module.factory(
         });
       }
 
-      if (store.get('ripple_known')) {
-        $scope.showRegister = false;
-        $scope.showLogin = true;
-      } else {
-        $scope.showRegister = true;
-        $scope.showLogin = false;
-      }
+      $scope.showLogin = true;
 
       $(window).bind('storage', function(e) {
         // http://stackoverflow.com/questions/18476564/ie-localstorage-event-misfired
@@ -404,7 +398,7 @@ module.factory(
      * Go to an identity page.
      *
      * Redirects the user to a page where they can identify. This could be the
-     * login or register tab most likely.
+     * login tab most likely.
      */
     Id.prototype.goId = function () {
       if (!this.isLoggedIn()) {
@@ -415,11 +409,7 @@ module.factory(
           return;
         }
 
-        if (this.isReturning()) {
-          $location.path('/login');
-        } else {
-          $location.path('/register');
-        }
+        $location.path('/login');
       }
     };
 
@@ -504,27 +494,18 @@ module.factory(
     $scope.$watch('loginStatus', function(loginStatus) {
       if (loginStatus) {
         $scope.showLogin = false;
-        $scope.showRegister = false;
       }
     });
 
     $scope.$on('$routeChangeStart', function(ev, next) {
       if (!$scope.loginStatus) {
         var tab = next.tabName;
-        var allTabs = ['login', 'register', 'migrate', 'recover', '404', 'privacypolicy', 'tou'];
+        var allTabs = ['login', 'migrate', 'recover', '404', 'privacypolicy', 'tou'];
         if (allTabs.indexOf(tab) !== -1) {
           $scope.showLogin = false;
-          $scope.showRegister = false;
         }
         else {
-          if (store.get('ripple_known')) {
-            $scope.showRegister = false;
-            $scope.showLogin = true;
-          }
-          else {
-            $scope.showRegister = true;
-            $scope.showLogin = false;
-          }
+          $scope.showLogin = true;
           return;
         }
       }
