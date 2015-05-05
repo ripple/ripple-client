@@ -331,14 +331,28 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                     .col-sm-2.col-md-2.inputPadding
                       div.rippling-checkbox
                         label(l10n) Rippling&#32;
-                          input(name='rippling', type='checkbox', ng-model='trust.rippling', ng-disabled='trust.balance !== "0" && isIncomingOnly()')
+                          input(name='rippling', type='checkbox', ng-model='trust.rippling', ng-disabled='trust.balance !== "0" && isIncomingOnly() && ripplingEnabled()')
                     .col-sm-7.col-md-6
                       .row.row-padding-small
-                        .col-xs-6.col-sm-5(ng-hide="trust.loading && trust.state==='removing'")
-                          button.btn.btn-block.btn-primary#save(type='submit'
-                            ng-disabled='accountForm.$invalid || trust.loading')
-                            span(ng-hide="trust.loading", l10n) Save
-                            span(ng-show="trust.loading && trust.state==='saving'", l10n) Saving...
+                        div(ng-hide="trust.loading && trust.state==='removing'")
+                          .col-xs-6.col-sm-5(ng-hide='trust.balance !== "0" && isIncomingOnly() && trust.rippling && !ripplingEnabled()')
+                            button.btn.btn-block.btn-primary#save(type='submit'
+                              ng-disabled='accountForm.$invalid || trust.loading')
+                              span(ng-hide="trust.loading", l10n) Save
+                              span(ng-show="trust.loading && trust.state==='saving'", l10n) Saving...
+                          .col-xs-6.col-sm-5(ng-show='trust.balance !== "0" && isIncomingOnly() && trust.rippling && !ripplingEnabled()')
+                            rp-confirm(
+                            action-text="Are you sure you want to enable rippling? This is an incoming trust line with a balance. If you enable rippling, you will not be able to disable it."
+                            action-button-text="Enable rippling and save"
+                            action-button-css="btn btn-default btn-danger"
+                            action-function="save_account()"
+                            cancel-button-css="btn btn-cancel"
+                            cancel-button-text="cancel"
+                            ng-hide="showPassword==true")
+                              button.btn.btn-block.btn-primary#save(type='submit'
+                                ng-disabled='accountForm.$invalid || trust.loading')
+                                span(ng-hide="trust.loading", l10n) Save
+                                span(ng-show="trust.loading && trust.state==='saving'", l10n) Saving...
                         .col-xs-6.col-sm-5(ng-show="trust.loading && trust.state==='removing'")
                           .row
                             .col-xs-12

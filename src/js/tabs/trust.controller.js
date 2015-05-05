@@ -384,7 +384,6 @@ TrustTab.prototype.angular = function (module)
         $scope.editing = false;
       };
 
-
       $scope.edit_account = function() {
         $scope.editing = true;
 
@@ -636,6 +635,10 @@ TrustTab.prototype.angular = function (module)
 
       $scope.isIncomingOnly = function () {
         return ($scope.component.limit.is_zero() && !$scope.component.limit_peer.is_zero());
+      };
+
+      $scope.ripplingEnabled = function () {
+        return !$scope.component.no_ripple;
       };
 
     }]);
