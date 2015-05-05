@@ -53,25 +53,29 @@
       "type": "waitForElementPresent",
       "locator": {
         "type": "link text",
-        "value": "XAU"
+        "value": "MXN"
       }
     },
     {
       "type": "clickElement",
       "locator": {
         "type": "link text",
-        "value": "XAU"
+        "value": "MXN"
       }
     },
     {
       "type": "waitForTextPresent",
-      "text": "Gold"
+      "text": "Mexican"
+    },
+    {
+      "type": "pause",
+      "waitTime": "3000"
     },
     {
       "type": "clickElement",
       "locator": {
         "type": "xpath",
-        "value": "//div[@id='t-gold']//button[.='Add GBI']"
+        "value": "//div[@id='t-mxn']//button[.='Add Bitso']"
       }
     },
     {
@@ -171,7 +175,7 @@
       "type": "clickElement",
       "locator": {
         "type": "link text",
-        "value": "Gateways"
+        "value": "Add any gateway (trust lines)"
       }
     },
     {
@@ -227,7 +231,7 @@
     },
     {
       "type": "waitForTextPresent",
-      "text": "Australian",
+      "text": "Mexican",
       "negated": true
     },
     {

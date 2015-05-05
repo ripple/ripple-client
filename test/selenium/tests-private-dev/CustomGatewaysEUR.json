@@ -53,25 +53,29 @@
       "type": "waitForElementPresent",
       "locator": {
         "type": "link text",
-        "value": "JPY"
+        "value": "EUR"
       }
     },
     {
       "type": "clickElement",
       "locator": {
         "type": "link text",
-        "value": "JPY"
+        "value": "EUR"
       }
     },
     {
       "type": "waitForTextPresent",
-      "text": "Tokyo"
+      "text": "Euro"
+    },
+    {
+      "type": "pause",
+      "waitTime": "3000"
     },
     {
       "type": "clickElement",
       "locator": {
         "type": "xpath",
-        "value": "//div[@id='t-jpy']//button[.='Add Tokyo JPY']"
+        "value": "//div[@id='t-eur']//button[.='Add SnapSwap.eu']"
       }
     },
     {
@@ -171,7 +175,7 @@
       "type": "clickElement",
       "locator": {
         "type": "link text",
-        "value": "Gateways"
+        "value": "Add any gateway (trust lines)"
       }
     },
     {
@@ -227,7 +231,7 @@
     },
     {
       "type": "waitForTextPresent",
-      "text": "Australian",
+      "text": "Euro",
       "negated": true
     },
     {
