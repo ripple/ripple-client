@@ -19,8 +19,8 @@ LoginTab.prototype.extraRoutes = [
 ];
 
 LoginTab.prototype.angular = function(module) {
-  module.controller('LoginCtrl', ['$scope', '$routeParams', '$location', 'rpTracker', 'rpId',
-    function($scope, $routeParams, $location, rpTracker, id) {
+  module.controller('LoginCtrl', ['$scope', '$location', 'rpTracker', 'rpId',
+    function($scope, $location, rpTracker, id) {
 
       function loginCallback(err) {
         if (err) {
@@ -62,7 +62,7 @@ LoginTab.prototype.angular = function(module) {
 
       // if ($routeParams.callback === 'callback' && $routeParams.token ) {
       if ($location.path() === '/login/callback' && $location.search().token) {
-        id.login($routeParams.token, loginCallback);
+        id.login($location.search().token, loginCallback);
       }
 
     }]

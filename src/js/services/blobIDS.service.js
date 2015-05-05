@@ -50,7 +50,7 @@ module.factory('rpBlobIDS', ['$rootScope', '$http', '$q', function($scope, $http
         headers: {'Authorization': 'Bearer ' + store.get('backend_token')},
         timeout: 8000
       }).then(function (response) {
-        if (!response.data || !response.data.data.account_id) {
+        if (!response.data || !response.data.data || !response.data.data.account_id) {
           return $q.reject('Could not retrieve blob');
         }
 
