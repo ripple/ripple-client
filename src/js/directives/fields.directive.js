@@ -257,15 +257,42 @@ module.directive('rpDatepicker', [function() {
     require: '?ngModel',
     link: function(scope, element, attr, ngModel) {
       attr.$observe('rpDatepicker', function() {
-        var dp = $(element).datepicker({
+        var options = {
           format: 'mm/dd/yyyy'
-        });
+        };
+
+        if (attr.rpDatepickerMin) {
+          var dateMinVal = 0;
+          options.onRender = function(date) {
+            return date.valueOf() < dateMinVal ? 'disabled' : '';
+          };
+
+          scope.$watch(attr.rpDatepickerMin, function(v) {
+            if (v instanceof Date) {
+              dateMinVal = v.valueOf();
+              var viewDate = ngModel.$viewValue.valueOf();
+              if (typeof viewDate === 'string') {
+                viewDate = Date.parse(viewDate).valueOf();
+              }
+              if (dateMinVal > viewDate) {
+                var newDate = new Date(dateMinVal + 24 * 60 * 60 * 1000);
+                ngModel.$setViewValue(newDate);
+                $(element).datepicker('setValue', newDate);
+              }
+              // fore re-render
+              $(element).data('datepicker').fill();
+            }
+          });
+        }
+
+        var dp = $(element).datepicker(options);
         dp.on('changeDate', function(e) {
           scope.$apply(function () {
             ngModel.$setViewValue(e.date.getMonth() ? e.date : new Date(e.date));
           });
         });
-        scope.$watch(attr.ngModel,function() {
+
+        scope.$watch(attr.ngModel, function() {
           var update = ngModel.$viewValue;
 
           function falsy(v) {return v == '0' || v == 'false'; }
@@ -273,8 +300,8 @@ module.directive('rpDatepicker', [function() {
           if (!falsy(attr.ignoreInvalidUpdate) &&
                (update == null ||
                  (update instanceof Date && isNaN(update.getYear())) )) {
-              return;
-            }
+            return;
+          }
         });
       });
     }
