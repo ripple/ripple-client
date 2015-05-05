@@ -190,18 +190,43 @@
       }
     },
     {
+      "type": "pause",
+      "waitTime": "3000"
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "n/a",
+      "negated": true
+    },
+    {
+      "type": "pause",
+      "waitTime": "3000"
+    },
+    {
       "type": "setElementText",
       "locator": {
         "type": "name",
         "value": "editPrice"
       },
-      "text": "1233"
+      "text": "12334"
     },
+
     {
       "type": "clickElement",
       "locator": {
         "type": "link text",
         "value": "submit"
+      }
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "Confirm"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='actions']//button[.='Confirm']"
       }
     },
     {
@@ -214,7 +239,7 @@
 
     {
       "type": "verifyText",
-      "text": "1,233",
+      "text": "12,334",
       "locator": {
         "type": "css selector",
         "value": "div[data-label='Limit']"
@@ -239,6 +264,15 @@
       }
     },
     {
+      "type": "waitForTextPresent",
+      "text": "n/a",
+      "negated": true
+    },
+    {
+      "type": "pause",
+      "waitTime": "3000"
+    },
+    {
       "type": "setElementText",
       "locator": {
         "type": "name",
@@ -251,6 +285,17 @@
       "locator": {
         "type": "link text",
         "value": "submit"
+      }
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "Confirm"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='actions']//button[.='Confirm']"
       }
     },
     {
@@ -270,7 +315,7 @@
     },
     {
       "type": "verifyText",
-      "text": "1,233",
+      "text": "12,334",
       "locator": {
         "type": "css selector",
         "value": "div[data-label='Limit']"

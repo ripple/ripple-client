@@ -53,25 +53,92 @@
       "type": "waitForElementPresent",
       "locator": {
         "type": "link text",
-        "value": "EUR"
+        "value": "Gateways"
       }
     },
     {
       "type": "clickElement",
       "locator": {
         "type": "link text",
-        "value": "EUR"
+        "value": "Add any gateway (trust lines)"
       }
     },
     {
       "type": "waitForTextPresent",
-      "text": "Euro"
+      "text": "Connect"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "link text",
+        "value": "Connect gateway"
+      }
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "address"
+    },
+    {
+      "type": "verifyElementPresent",
+      "locator": {
+        "type": "id",
+        "value": "trust_counterparty"
+      }
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "id",
+        "value": "trust_counterparty"
+      },
+      "text": "~snapswap"
+    },
+    {
+      "type": "pause",
+      "waitTime": "3000"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "xpath",
+        "value": "//form[@id='trustForm']/div[2]/div/div[2]/div/div/input"
+      },
+      "text": "USD"
+    },
+    {
+      "type": "sendKeysToElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//form[@id='trustForm']/div[2]/div/div[2]/div/div/input"
+      },
+      "text": "\n"
+    },
+    {
+      "type": "waitForElementAttribute",
+      "locator": {
+        "type": "link text",
+        "value": "Save"
+      },
+      "attributeName": "disabled",
+      "value": "disabled",
+      "negated": true
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "link text",
+        "value": "Save"
+      }
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "Confirm"
     },
     {
       "type": "clickElement",
       "locator": {
         "type": "xpath",
-        "value": "//div[@id='t-eur']//button[.='Add SnapSwap.eu']"
+        "value": "//div[@class='modal-content']//button[.='Loading...Confirm']"
       }
     },
     {
@@ -109,73 +176,6 @@
     },
     {
       "type": "waitForTextPresent",
-      "text": "Hide"
-    },
-    {
-      "type": "clickElement",
-      "locator": {
-        "type": "css selector",
-        "value": ".fa-cog"
-      }
-    },
-    {
-      "type": "clickElement",
-      "locator": {
-        "type": "link text",
-        "value": "Log Out"
-      }
-    },
-    {
-      "type": "waitForTextPresent",
-      "text": "Welcome to Ripple Trade"
-    },
-    {
-      "type": "setElementText",
-      "locator": {
-        "type": "id",
-        "value": "login_username"
-      },
-      "text": "${FUNDED_USER_NAME}"
-    },
-    {
-      "type": "setElementText",
-      "locator": {
-        "type": "id",
-        "value": "login_password"
-      },
-      "text": "${FUNDED_USER_PASSWORD}"
-    },
-    {
-      "type": "clickElement",
-      "locator": {
-        "type": "id",
-        "value": "loginBtn"
-      }
-    },
-    {
-      "type": "waitForTextPresent",
-      "text": "BALANCES"
-    },
-    {
-      "type": "verifyTextPresent",
-      "text": "BALANCES"
-    },
-    {
-      "type": "clickElement",
-      "locator": {
-        "type": "css selector",
-        "value": "#nav-fund a"
-      }
-    },
-    {
-      "type": "clickElement",
-      "locator": {
-        "type": "link text",
-        "value": "Gateways"
-      }
-    },
-    {
-      "type": "waitForTextPresent",
       "text": "edit"
     },
     {
@@ -198,36 +198,7 @@
     },
     {
       "type": "waitForTextPresent",
-      "text": "Password"
-    },
-    {
-      "type": "setElementText",
-      "locator": {
-        "type": "id",
-        "value": "popup_unlock_password"
-      },
-      "text": "${FUNDED_USER_PASSWORD}"
-    },
-    {
-      "type": "waitForElementAttribute",
-      "locator": {
-        "type": "css selector",
-        "value": ".modal-submit-btn"
-      },
-      "attributeName": "disabled",
-      "value": "disabled",
-      "negated": true
-    },
-    {
-      "type": "clickElement",
-      "locator": {
-        "type": "css selector",
-        "value": ".modal-submit-btn"
-      }
-    },
-    {
-      "type": "waitForTextPresent",
-      "text": "Australian",
+      "text": "SnapSwap",
       "negated": true
     },
     {
