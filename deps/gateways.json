@@ -155,14 +155,6 @@
         "hotwallets": [],
         "domain": "ripple-market.jp"
     }, {
-        "name": "PaxMoneta",
-        "accounts": [{
-            "address": "rUkMKjQitpgAM5WTGk79xpjT38DEJY283d",
-            "currencies": ["KRW"]
-            }],
-        "hotwallets": ["rhLSigWL4J9JBBW1JFMBvaduDkVghG7cc2"],
-        "domain": "paxmoneta.com"
-    }, {
         "name": "RippleExchangeTokyo",
         "accounts": [{
             "address": "r9ZFPSb1TFdnJwbTMYHvVwFK1bQPUCVNfJ",
