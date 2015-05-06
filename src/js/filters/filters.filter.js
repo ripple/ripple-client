@@ -261,7 +261,7 @@ module.filter('rpfromnow', function() {
  *
  * Shows a ripple name for a given ripple address
  */
-module.filter("rpripplename", ['$rootScope', '$http', 'rpId', function($scope, $http, id) {
+module.filter("rpripplename", ['rpId', function(id) {
   return function(address, options) {
     var ripplename = id.resolveNameSync(address, options);
     if (ripplename !== address) {
@@ -269,6 +269,16 @@ module.filter("rpripplename", ['$rootScope', '$http', 'rpId', function($scope, $
     }
     if (address.length > 21) {
       return address.substring(0, 7) + "…";
+    }
+    return address;
+  }
+}]);
+
+module.filter("rpripplenamefull", ['rpId', function(id) {
+  return function(address, options) {
+    var ripplename = id.resolveNameSync(address, options);
+    if (ripplename !== address) {
+      return ripplename;
     }
     return address;
   }
