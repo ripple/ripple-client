@@ -653,7 +653,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                       a(href="", ng-click="fill_widget('sell', order, true)", ng-bind="order.showPrice")
 
                   .message(ng-show='!bookShow.bids.length && book.ready', l10n) There are currently no bids for this pair.
-                  .description(ng-show="!book.ready && !bookShow.bids.length")
+                  .message(ng-show="!book.ready && !bookShow.bids.length")
                     img(src="img/button-s.png", class="loader")
                     span(class="loading_text", l10n) Loading...
 
@@ -693,7 +693,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                         span(rp-bind-color-amount="order.showSum")
 
                   .message(ng-show='!bookShow.asks.length && book.ready', l10n) There are currently no asks for this pair.
-                  .description(ng-show="!book.ready && !bookShow.asks.length")
+                  .message(ng-show="!book.ready && !bookShow.asks.length")
                     img(src="img/button-s.png", class="loader")
                     span(class="loading_text", l10n) Loading...
 
