@@ -213,6 +213,15 @@
       "waitTime": "5000"
     },
     {
+      "type": "waitForTextPresent",
+      "text": "n/a",
+      "negated": true
+    },
+    {
+      "type": "pause",
+      "waitTime": "3000"
+    },
+    {
       "type": "setElementText",
       "locator": {
         "type": "name",
@@ -227,6 +236,18 @@
         "value": "submit"
       }
     },
+    {
+      "type": "waitForTextPresent",
+      "text": "Confirm"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='actions']//button[.='Confirm']"
+      }
+    },
+
     {
       "type": "waitForElementPresent",
       "locator": {
