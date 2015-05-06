@@ -55,7 +55,7 @@ section.col-xs-12.content(ng-controller="HistoryCtrl")
                       i.fa.fa-calendar.fa-fw
                       span(l10n) To
                     .input-wrapper
-                      input.form-control(type="text", rp-datepicker, ng-model="dateMaxView", readonly)
+                      input.form-control(type="text", rp-datepicker, ng-model="dateMaxView", rp-datepicker-min="dateMinView", readonly)
                   button.btn.btn-block.btn-primary.submit(type='submit', l10n) Filter
 
     .transactions.col-lg-9.col-md-8.col-sm-7.col-xs-12
