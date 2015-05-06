@@ -91,13 +91,13 @@ ExchangeTab.prototype.angular = function (module)
         $location.path('/xrp');
       };
 
-      $scope.reset_paths = function () {
+      $scope.reset_paths = function() {
         var exchange = $scope.exchange;
 
         exchange.alternatives = [];
       };
 
-      $scope.update_exchange = function () {
+      $scope.update_exchange = function() {
         var exchange = $scope.exchange;
         var currency = ripple.Currency.from_human(exchange.currency_name);
 
@@ -204,7 +204,9 @@ ExchangeTab.prototype.angular = function (module)
                   var alt = {};
                   alt.amount   = Amount.from_json(raw.source_amount);
                   alt.rate     = alt.amount.ratio_human(amount);
-                  alt.send_max = alt.amount.scale('1.001');
+                  var exchangeMaxDeviation = settings.getSetting($scope.userBlob, 'exchangeMaxDeviation', 0.1);
+                  alt.send_max = alt.amount.scale(1 + exchangeMaxDeviation / 100);
+
                   alt.paths    = raw.paths_computed
                       ? raw.paths_computed
                       : raw.paths_canonical;
@@ -315,6 +317,7 @@ ExchangeTab.prototype.angular = function (module)
 
         if (Options.confirmation.exchange) {
           $scope.mode = 'confirm';
+          $scope.exchangeMaxDeviation = settings.getSetting($scope.userBlob, 'exchangeMaxDeviation', 1);
         } else {
           $scope.exchange_confirmed();
         }
