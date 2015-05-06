@@ -31,7 +31,6 @@ AdvancedTab.prototype.angular = function(module)
 
     $scope.options = Options;
     $scope.optionsBackup = $.extend(true, {}, Options);
-    $scope.passwordProtection = !settings.getSetting($scope.userBlob, 'persistUnlock', false);
     $scope.editConfirmation = {
       send: false,
       exchange: false,
@@ -40,9 +39,29 @@ AdvancedTab.prototype.angular = function(module)
     $scope.edit = {
       blobvault: false,
       maxNetworkFee: false,
-      historyApi: false
+      historyApi: false,
+      sendMax: false,
+      exchangeMax: false
     };
+
+    function readSettings() {
+      $scope.passwordProtection = !settings.getSetting($scope.userBlob, 'persistUnlock', false);
+      $scope.sendMaxDeviation = settings.getSetting($scope.userBlob, 'sendMaxDeviation', 0.1);
+      $scope.exchangeMaxDeviation = settings.getSetting($scope.userBlob, 'exchangeMaxDeviation', 0.1);
+    }
+
+    if (settings.blobIsValid($scope.userBlob)) {
+      readSettings();
+    } else {
+      var removeListener = $scope.$on('$blobUpdate', function() {
+        if (!settings.blobIsValid($scope.userBlob)) return;
+        readSettings();
+        removeListener();
+      });
+    }
+
     $scope.max_tx_network_fee_human = ripple.Amount.from_json($scope.options.max_tx_network_fee).to_human();
+
     $scope.confirmationChanged = {
       send: false,
       exchange: false,
@@ -54,6 +73,10 @@ AdvancedTab.prototype.angular = function(module)
 
     $scope.save = function(type) {
       switch (type) {
+        case 'sendMax':
+          $scope.userBlob.set('/clients/rippletradecom/sendMaxDeviation', $scope.sendMaxDeviation);
+        case 'exchangeMax':
+          $scope.userBlob.set('/clients/rippletradecom/exchangeMaxDeviation', $scope.exchangeMaxDeviation);
         case 'maxNetworkFee':
           $scope.options.max_tx_network_fee = ripple.Amount.from_human($scope.max_tx_network_fee_human).to_json();
           $scope.userBlob.set('/clients/rippletradecom/maxNetworkFee', $scope.options.max_tx_network_fee);
@@ -111,8 +134,11 @@ AdvancedTab.prototype.angular = function(module)
       if (type === 'maxNetworkFee') {
         $scope.options.max_tx_network_fee = $scope.optionsBackup.max_tx_network_fee;
         $scope.max_tx_network_fee_human = ripple.Amount.from_json($scope.options.max_tx_network_fee).to_human();
-      }
-      else {
+      } if (type === 'sendMax') {
+        $scope.sendMaxDeviation = settings.getSetting($scope.userBlob, 'sendMaxDeviation', 0.1);
+      } if (type === 'exchangeMax') {
+        $scope.exchangeMaxDeviation = settings.getSetting($scope.userBlob, 'exchangeMaxDeviation', 0.1);
+      } else {
         $scope.options[type] = $scope.optionsBackup[type];
       }
     };

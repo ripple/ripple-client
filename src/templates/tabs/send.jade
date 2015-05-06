@@ -280,7 +280,7 @@ section.col-xs-12.content(ng-controller='SendCtrl')
           p.sendmax_feedback
             span.value {{send.alt.amount | rpamount}} &#32;
             span.currency {{send.alt.amount | rpcurrency}} &#32;
-            span &plus; .1% 
+            span &plus; {{sendMaxDeviation}}% 
         p(ng-hide="!send.alt")
           span.literal(l10n) Exchange rate: &#32;
           span.value {{send.alt.rate | rpamount:{rel_precision: 4} }} &#32;
