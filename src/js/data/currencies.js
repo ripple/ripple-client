@@ -29,7 +29,7 @@ module.exports = [
   {value: 'PLN', name: 'Polish Zloty', display: true, custom_trade_currency_dropdown: false, standard_precision: 2, order: 0},
   {value: 'AUD', name: 'Australian Dollar', display: true, custom_trade_currency_dropdown: true, standard_precision: 2, order: 0},
   {value: 'MXN', name: 'Mexican Peso', display: true, custom_trade_currency_dropdown: true, standard_precision: 2, order: 0},
-  {value: 'KRW', name: 'South Korean Won', display: true, custom_trade_currency_dropdown: true, standard_precision: 2, order: 0},
+  {value: 'KRW', name: 'South Korean Won', display: true, custom_trade_currency_dropdown: false, standard_precision: 2, order: 0},
   {value: 'TWD', name: 'New Taiwan Dollar', display: true, custom_trade_currency_dropdown: false, standard_precision: 2, order: 0},
   {value: 'HKD', name: 'Hong Kong Dollar', display: true, custom_trade_currency_dropdown: false, standard_precision: 2, order: 0},
   // Alphabetical from here
