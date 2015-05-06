@@ -254,7 +254,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                               label(l10n) Order Value (max)
                               .input-group
                                 input.form-control(name='value', type='text'
-                                ng-model='order[type].price', ng-change='calc_first(type)'
+                                ng-model='order[type].second', ng-change='calc_first(type)'
                                 rp-autofill='$routeParams.type == type && $routeParams.max'
                                 rp-autofill-amount
                                 rp-amount
