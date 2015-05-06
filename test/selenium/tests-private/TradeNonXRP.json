@@ -213,6 +213,28 @@
       "waitTime": "5000"
     },
     {
+      "type": "clickElement",
+      "locator": {
+        "type": "link text",
+        "value": "back"
+      }
+    },
+    {
+      "type": "pause",
+      "waitTime": "5000"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "link text",
+        "value": "edit"
+      }
+    },
+    {
+      "type": "pause",
+      "waitTime": "5000"
+    },
+    {
       "type": "waitForTextPresent",
       "text": "n/a",
       "negated": true
