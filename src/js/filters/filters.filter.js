@@ -274,6 +274,16 @@ module.filter("rpripplename", ['$rootScope', '$http', 'rpId', function($scope, $
   }
 }]);
 
+module.filter("rpripplenamefull", ['$rootScope', '$http', 'rpId', function($scope, $http, id) {
+  return function(address, options) {
+    var ripplename = id.resolveNameSync(address, options);
+    if (ripplename !== address) {
+      return ripplename;
+    }
+    return address;
+  }
+}]);
+
 /**
  * Show contact name or address
  */
