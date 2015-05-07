@@ -315,9 +315,15 @@
         float: left;
     }
     .action-login {
+      .uri-form-container{
+        border-right: 1px solid @midgray;
+      }
         .info {
             font-family: OpenSansLight;
-            border-right: 1px solid @midgray;
+            
+            padding: 0 40px;
+            background: rgba(76, 141, 184, .8);
+            border-radius: 5px;
             @media (max-width: @screen-xs-max) {
                 border-right: none;
             }
@@ -333,7 +339,7 @@
                 }
                 word-break: break-all;
                 font-size: 18px;
-                color: @black;
+                color: @landingblue;
             }
             .amount, .address {
                 margin-left: -@grid-gutter-width/2;

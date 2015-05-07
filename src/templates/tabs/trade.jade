@@ -354,9 +354,9 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                       .dest_feedback
                         label(l10n) Price of each
                         div.each-price
-                          span.value {{order[type].price}}&#32; 
+                          span.value {{order[type].price}}&#32;
                             sub
-                              span.currency {{order.currency_pair}}
+                              span.currency {{order[type].second_amount | rpcurrency}} per {{order[type].first_amount | rpcurrency}}
                               //- span.currency  {{order[type].second_amount | rpcurrency}} /
                               //- span.issuer(
                               //-   ng-show="(order[type].second_amount | rpcurrency) !== 'XRP'"
@@ -370,8 +370,8 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                       .rate_feedback 
                         label(l10n) Order Value (max)
                         div.max-value
-                          span.rate {{order[type].price }}
-                            sub.pair {{order[type].second_amount | rpcurrency}} per {{order[type].first_amount | rpcurrency}}
+                          span.rate {{order[type].second_amount | rpamount: {abs_precision: 6} }}
+                            sub.pair {{order[type].second_amount | rpcurrency}}
                       p.literal.confirm-text(l10n-inc) Are you sure?
                       .row.row-padding-small
                         .col-xs-6.col-sm-4.col-md-3

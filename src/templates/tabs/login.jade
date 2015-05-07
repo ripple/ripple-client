@@ -44,12 +44,12 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
 
 
   .row.action-login(ng-if="$routeParams.to")
-    .col-xs-12.col-sm-6.col-md-6
+    .col-xs-12.col-sm-6.col-md-6.uri-form-container
       div.info(ng-show="'send' == $route.current.tabName")
         p.literal(ng-bind="$routeParams.label")
         div(ng-hide="$routeParams.amount", l10n)
           p(l10n-inc) You're sending money to
-          .address {{ $routeParams.to | rpripplename:{tilde:true} }}
+          .address {{ $routeParams.to | rpripplenamefull:{tilde:true} }}
           | .
         div(ng-show="$routeParams.amount", l10n)
           p(l10n-inc) You're sending
@@ -57,13 +57,15 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
             span.number {{$routeParams.amount | rpamount:{xrp_human: true} }}
             span.currency {{$routeParams.amount | rpcurrency}}
           p(l10n-inc) &#32;to&#32;
-          .address {{ $routeParams.to | rpripplename:{tilde:true} }}
+          .address {{ $routeParams.to | rpripplenamefull:{tilde:true} }}
           | .
+        p(l10n-inc) Log in to your Ripple Trade account to continue. You 
+          | will be able to confirm this transaction on the next page.
       div.info(ng-show="'trust' == $route.current.tabName")
         p.literal {{$routeParams.label}}
         div(l10n)
           p(l10n-inc) You're connecting to the gateway
-          .address {{ $routeParams.to | rpripplename:{tilde:true} }}
+          .address {{ $routeParams.to | rpripplenamefull:{tilde:true} }}
           div(ng-show="$routeParams.currency", l10n-inc)
             | for
             .amount
@@ -73,17 +75,24 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
             .amount
               span.currency {{$routeParams.amount | rpamount}} {{$routeParams.amount | rpcurrency}}
           | .
+        p(l10n-inc) Log in to your Ripple Trade account to continue. You 
+          | will be able to confirm this transaction on the next page.
 
       div.info(ng-show="'contacts' == $route.current.tabName")
         p.literal(ng-bind="$routeParams.label")
         span(l10n)
           p(l10n-inc) You're adding
-          .address {{ $routeParams.to | rpripplename:{tilde:true} }}
+          .address {{ $routeParams.to | rpripplenamefull:{tilde:true} }}
           p(l10n-inc) to your contacts list
+        p(l10n-inc) Log in to your Ripple Trade account to continue. You 
+          | will be able to confirm this transaction on the next page.
+
 
     .col-xs-12.col-sm-6.col-md-5.col-lg-4.col-lg-offset-1.auth-form-container
       .auth-form-wrapper
         form(name='loginForm', ng-submit='submitForm()')
+          .loginWrapper
+            h2.loginTop(l10n) Log In
           include ../tabs/login/form
           .row
             .col-xs-12.text-status(ng-show='status')
@@ -96,6 +105,5 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
               button.btn.btn-lg.btn-submit.btn-block.btn-primary(type='submit', ng-disabled="loginForm.$invalid || ajax_loading", l10n)
                 img(src="img/button-s.png", class="loader", ng-show="ajax_loading")
                 |  Log In
-          p.literal.hint(l10n) You can confirm this transaction on the next page.
-          p.literal(l10n) New to {{productName}}?&#32;
-            a(href='#/register', l10n-inc) Create a wallet
+          p.literal.landing(l10n) New to {{productName}}?&#32;
+            a(href='#/register', l10n-inc) Create an account

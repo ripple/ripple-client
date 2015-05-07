@@ -497,6 +497,11 @@ TradeTab.prototype.angular = function(module)
      */
     $scope.goto_order_currency = function() {
       if (!this.entry) return;
+      if (getOrderCurrency(this.entry) === $scope.order.currency_pair) {
+        // same pair, do nothing
+        return;
+      }
+
       var entry = this.entry;
       var order = $scope.order;
       currencyPairChangedByNonUser = true;

@@ -212,8 +212,7 @@ languages.forEach(function(language){
   languageTasks.push('templates:' + language.code);
 });
 
-//gulp.task('templates:dist', $.sync(gulp).sync(languageTasks));
-gulp.task('templates:dist', ['templates:en']);
+gulp.task('templates:dist', $.sync(gulp).sync(languageTasks));
 
 // Default Task (Dev environment)
 gulp.task('default', ['dev'], function() {
@@ -238,7 +237,7 @@ gulp.task('default', ['dev'], function() {
 });
 
 // Development
-gulp.task('dev', ['clean:dev', 'bower', 'webpack:dev', 'less', 'templates:dev', 'l10nExtract'], function () {
+gulp.task('dev', ['clean:dev', 'bower', 'webpack:dev', 'less', 'templates:dev'], function () {
   gulp.start('preprocess:dev');
 });
 

@@ -98,6 +98,50 @@ section.col-xs-12.content(ng-controller="AdvancedCtrl")
               button.btn.btn-block.btn-success.btn-xs.submit#saveMaxNetworkFee(type='submit', ng-disabled='maxnetworkfeeForm.$invalid', l10n) Save
             .col-xs-3.col-sm-3.col-md-1.text-center#cancel
               a.btn.btn-cancel.btn-block(href="", ng-click='cancelEdit("maxNetworkFee")', l10n) cancel
+        form(name="sendMaxForm", ng-submit='save("sendMax")')
+          .descriptor(l10n) Send: max deviation from specified amount
+          .row.advanced-form-row(ng-hide="edit.sendMax")
+            .col-xs-9.col-sm-8.col-md-6
+              .description {{sendMaxDeviation}} %
+            .col-xs-1
+            .col-xs-3.col-sm-3.col-md-2
+              a.btn.btn-block.btn-cancel(href="", ng-click="edit.sendMax = true", l10n) edit
+          .row.row-padding-small.field-edit-row(ng-show="edit.sendMax")
+            .col-xs-12.col-sm-9.col-md-6.input-group
+              input.form-control.maxNetworkFee#sendMaxDeviation(
+              name='sendMax', type='text'
+              ng-model='sendMaxDeviation'
+              required
+              rp-amount
+              rp-amount-positive
+              )
+              span.input-group-addon %
+            .col-xs-6.col-sm-6.col-md-3
+              button.btn.btn-block.btn-success.btn-xs.submit#sendMaxDeviationSubmit(type='submit', ng-disabled='sendMaxForm.$invalid', l10n) Save
+            .col-xs-3.col-sm-3.col-md-1.text-center#sendMaxDeviationCancel
+              a.btn.btn-cancel.btn-block(href="", ng-click='cancelEdit("sendMax")', l10n) cancel
+        form(name="exchangeMaxForm", ng-submit='save("exchangeMax")')
+          .descriptor(l10n) Simple Trade: max deviation from specified amount
+          .row.advanced-form-row(ng-hide="edit.exchangeMax")
+            .col-xs-9.col-sm-8.col-md-6
+              .description {{exchangeMaxDeviation}} %
+            .col-xs-1
+            .col-xs-3.col-sm-3.col-md-2
+              a.btn.btn-block.btn-cancel(href="", ng-click="edit.exchangeMax = true", l10n) edit
+          .row.row-padding-small.field-edit-row(ng-show="edit.exchangeMax")
+            .col-xs-12.col-sm-9.col-md-6.input-group
+              input.form-control.maxNetworkFee#exchangeMaxDeviation(
+              name='exchangeMax', type='text'
+              ng-model='exchangeMaxDeviation'
+              required
+              rp-amount
+              rp-amount-positive
+              )
+              span.input-group-addon %
+            .col-xs-6.col-sm-6.col-md-3
+              button.btn.btn-block.btn-success.btn-xs.submit#exchangeMaxDeviationSubmit(type='submit', ng-disabled='exchangeMaxForm.$invalid', l10n) Save
+            .col-xs-3.col-sm-3.col-md-1.text-center#exchangeMaxDeviationCancel
+              a.btn.btn-cancel.btn-block(href="", ng-click='cancelEdit("exchangeMax")', l10n) cancel
 
         h4#confirmationSettings(l10n) Confirmation Page settings
         +confirmation('send', 'sendConfirmationForm', 'Send confirmation settings', 'If you hide your send confirmation page, you will not see a confirmation page when sending money. You might pay up to .1% more than you originally specified.', 'sendConfirmationBox')

@@ -38,7 +38,8 @@ SettingsGatewayTab.prototype.angular = function(module)
     $scope.edit = {
       advanced_feature_switch: false,
       bridge: false,
-      defaultRippleFlag: false
+      defaultRippleFlag: false,
+      defaultRippleFlagSaving: false
     };
     $scope.max_tx_network_fee_human = ripple.Amount.from_json($scope.options.max_tx_network_fee).to_human();
     $scope.confirmationChanged = {
@@ -58,13 +59,27 @@ SettingsGatewayTab.prototype.angular = function(module)
         case 'defaultRippleFlag':
           // Need to set flag on account_root only when chosen option is different from current setting
           if ($scope.currentDefaultRipplingFlagSetting !== $scope.isDefaultRippleFlagEnabled) {
+            $scope.edit.defaultRippleFlagSaving = true;
             var tx = network.remote.transaction();
             !$scope.isDefaultRippleFlagEnabled ? tx.accountSet(id.account, undefined, 'DefaultRipple') : tx.accountSet(id.account, 'DefaultRipple');
+            tx.on('success', function(res) {
+              $scope.$apply(function() {
+                $scope.edit.defaultRippleFlagSaving = false;
+                $scope.load_notification('defaultRippleUpdated');
+              });
+            });
+            tx.on('error', function(res) {
+              console.warn(res);
+              $scope.$apply(function() {
+                $scope.edit.defaultRippleFlagSaving = false;
+              });
+            });
 
             keychain.requestSecret(id.account, id.username, function (err, secret) {
               if (err) {
                 console.log('Error: ', err);
                 $scope.isDefaultRippleFlagEnabled = !$scope.isDefaultRippleFlagEnabled;
+                $scope.edit.defaultRippleFlagSaving = false;
                 return;
               }
               tx.secret(secret);
