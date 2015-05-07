@@ -503,7 +503,7 @@ SendTab.prototype.angular = function (module)
 
       if (currencies.length === 1) {
         send.currency = send.currency_force = currencies[0];
-        send.currencyIsBTC = _.startsWith(send.currency_force, 'BTC');
+        send.currencyIsBTC = (send.currency_force.indexOf('BTC') === 0);
       } else if (currencies.length === 0) {
         send.path_status = 'error-no-currency';
         send.currency = '';
