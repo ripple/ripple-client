@@ -32,7 +32,7 @@ section.col-xs-12.content(ng-controller='SendCtrl')
       ng-show='mode=="form" && account.Balance'
       ng-submit='send_prepared()')
         .row.form-group
-          .col-xs-12.col-sm-8.col-md-6
+          .col-xs-12.col-sm-9.col-md-9
             label(for='send_destination', l10n) Recipient
             input.form-control#send_destination(
             name='send_destination', type='text'
@@ -62,7 +62,7 @@ section.col-xs-12.content(ng-controller='SendCtrl')
             ng-hide="send.show_dt_field || send.bitcoin || send.federation", l10n)
               | Show destination tag
         .row.form-group(ng-show='send.show_dt_field')
-          .col-xs-12.col-sm-8.col-md-6
+          .col-xs-12.col-sm-9.col-md-9
             label(for='send_dt', l10n) Destination tag
             a(href="", ng-click="send.show_dt_field = false", l10n) hide
             input.form-control#send_dt(
@@ -119,7 +119,7 @@ section.col-xs-12.content(ng-controller='SendCtrl')
         .form-group(ng-show="send.currency_choices.length")
           label(for='send_amount', l10n) Recipient will receive
           .row.amount(ng-if="!send.currency_force")
-            .col-xs-3.col-sm-3.col-md-3
+            .col-xs-4.col-sm-3.col-md-3
               input.form-control#send_amount(
               name='send_amount', type='text'
               ng-model='send.amount'
@@ -131,7 +131,7 @@ section.col-xs-12.content(ng-controller='SendCtrl')
               rp-amount-xrp-limit
               rp-amount-currency='{{send.currency}}'
               rp-max-digits)
-            .col-xs-9.col-sm-6.col-md-4
+            .col-xs-8.col-sm-6.col-md-6
               input.form-control.currency#send_amount_currency(
               name='send_amount_currency', type='text'
               rp-combobox="{{send.currency_choices}}", rp-combobox-select
@@ -280,7 +280,7 @@ section.col-xs-12.content(ng-controller='SendCtrl')
           p.sendmax_feedback
             span.value {{send.alt.amount | rpamount}} &#32;
             span.currency {{send.alt.amount | rpcurrency}} &#32;
-            span &plus; .1% 
+            span &plus; {{sendMaxDeviation}}% 
         p(ng-hide="!send.alt")
           span.literal(l10n) Exchange rate: &#32;
           span.value {{send.alt.rate | rpamount:{rel_precision: 4} }} &#32;

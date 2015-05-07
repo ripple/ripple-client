@@ -186,7 +186,7 @@
       "text": "0.00001",
       "locator": {
         "type": "css selector",
-        "value": "div[data-label='QTY']"
+        "value": ".my .row:nth-child(2) div[data-label='QTY']"
       }
     },
     {
@@ -194,7 +194,7 @@
       "text": "1,234",
       "locator": {
         "type": "css selector",
-        "value": "div[data-label='Limit']"
+        "value": ".my .row:nth-child(2) div[data-label='Limit']"
       }
     },
     {
@@ -213,6 +213,37 @@
       "waitTime": "5000"
     },
     {
+      "type": "clickElement",
+      "locator": {
+        "type": "link text",
+        "value": "back"
+      }
+    },
+    {
+      "type": "pause",
+      "waitTime": "5000"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "link text",
+        "value": "edit"
+      }
+    },
+    {
+      "type": "pause",
+      "waitTime": "5000"
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "n/a",
+      "negated": true
+    },
+    {
+      "type": "pause",
+      "waitTime": "3000"
+    },
+    {
       "type": "setElementText",
       "locator": {
         "type": "name",
@@ -228,6 +259,18 @@
       }
     },
     {
+      "type": "waitForTextPresent",
+      "text": "Confirm"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='actions']//button[.='Confirm']"
+      }
+    },
+
+    {
       "type": "waitForElementPresent",
       "locator": {
         "type": "link text",
@@ -240,7 +283,7 @@
       "text": "1,233",
       "locator": {
         "type": "css selector",
-        "value": "div[data-label='Limit']"
+        "value": ".my .row:nth-child(2) div[data-label='Limit']"
       }
     },
     {
@@ -248,7 +291,7 @@
       "text": "0.00001",
       "locator": {
         "type": "css selector",
-        "value": "div[data-label='QTY']"
+        "value": ".my .row:nth-child(2) div[data-label='QTY']"
       }
     },
 
@@ -310,7 +353,7 @@
       "text": "0.00002",
       "locator": {
         "type": "css selector",
-        "value": "div[data-label='QTY']"
+        "value": ".my .row:nth-child(2) div[data-label='QTY']"
       }
     },
     {
@@ -318,7 +361,7 @@
       "text": "1,233",
       "locator": {
         "type": "css selector",
-        "value": "div[data-label='Limit']"
+        "value": ".my .row:nth-child(2) div[data-label='Limit']"
       }
     },
 

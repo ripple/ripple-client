@@ -119,7 +119,7 @@ var tabdefs = [
 
 // Language
 window.lang = (function(){
-  var languages = _.pluck(require('../../../l10n/languages.json'), 'code');
+  var languages = _.pluck(require('../../../l10n/languages.json').active, 'code');
   var resolveLanguage = function(lang) {
     if (!lang) return null;
     if (languages.indexOf(lang) != -1) return lang;
