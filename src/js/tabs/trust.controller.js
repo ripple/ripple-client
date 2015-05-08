@@ -67,7 +67,7 @@ TrustTab.prototype.angular = function (module)
     // User should not even be able to try granting a trust if the reserve is insufficient
     $scope.$watch('account', function() {
       // Check if account has DefaultRipple flag set
-      $scope.acctDefaultRippleFlag = ($scope.account.Flags & ripple.Remote.flags.account_root.DefaultRipple)
+      $scope.acctDefaultRippleFlag = ($scope.account.Flags & ripple.Remote.flags.account_root.DefaultRipple);
 
       $scope.can_add_trust = false;
       if ($scope.account.Balance && $scope.account.reserve_to_add_trust) {
@@ -325,11 +325,14 @@ TrustTab.prototype.angular = function (module)
       var obj = {};
 
       _.each($scope.lines, function(line){
-        if (!obj[line.currency]) {
-          obj[line.currency] = { components: [] };
-        }
 
-        obj[line.currency].components.push(line);
+        if ($scope.isSignificantLine(line)) {
+          if (!obj[line.currency]) {
+            obj[line.currency] = { components: [] };
+          }
+
+          obj[line.currency].components.push(line);
+        }
       });
 
       $scope.accountLines = obj;

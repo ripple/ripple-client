@@ -157,6 +157,7 @@ function AppCtrl ($scope, id, net, keychain, txQueue, appManager, rpTracker,
     }
   }
 
+
   function handleRippleLines(data)
   {
     $scope.$apply(function () {
@@ -165,7 +166,7 @@ function AppCtrl ($scope, id, net, keychain, txQueue, appManager, rpTracker,
       for (var n = 0, l = data.lines.length; n < l; n++) {
         var line = data.lines[n];
 
-        if (isSignificantLine(line)) {
+        if ($scope.isSignificantLine(line)) {
           // XXX: This reinterpretation of the server response should be in the
           //      library upstream.
           line = $.extend({}, line, {
@@ -446,15 +447,6 @@ function AppCtrl ($scope, id, net, keychain, txQueue, appManager, rpTracker,
     }
   }
 
-  // Current user doesn't care about a line where he/she's in a default state,
-  // limits are zero but the counterparty is not in a default state (has a non default flag)
-  function isSignificantLine(line) {
-    var DefaultRipple = $scope.account.Flags & ripple.Remote.flags.account_root.DefaultRipple;
-
-    return line.balance !== 0 || line.limit !== 0 || line.limit_peer !== 0
-      || DefaultRipple === line.no_ripple;
-  }
-
   function updateLines(effects)
   {
     if (!$.isArray(effects)) return;
@@ -573,6 +565,18 @@ function AppCtrl ($scope, id, net, keychain, txQueue, appManager, rpTracker,
         });
       });
     });
+  }
+  // Current user doesn't care about a line where he/she's in a default state,
+  // limits are zero but the counterparty is not in a default state (has a non default flag)
+  $scope.isSignificantLine = function(line) {
+    var DefaultRipple = $scope.account.Flags & ripple.Remote.flags.account_root.DefaultRipple;
+
+    if (typeof line.balance === 'object') {
+      return !line.balance.is_zero() || !line.limit.is_zero() || !line.limit_peer.is_zero()
+        || $scope.acctDefaultRippleFlag === line.no_ripple;
+    }
+    return line.balance !== 0 || line.limit !== 0 || line.limit_peer !== 0
+      || DefaultRipple === line.no_ripple;
   }
 
   /**
