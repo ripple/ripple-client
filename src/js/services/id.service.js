@@ -200,6 +200,27 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', '$t
         $scope.userBlob.unset('/trade_currency_pairs');
       }
 
+      var tradeCurrencyPairs = settings.getSetting($scope.userBlob, 'trade_currency_pairs', []);
+      if (_.isArray(tradeCurrencyPairs) && tradeCurrencyPairs.length > 0) {
+        var changed = false;
+        if (_.find(tradeCurrencyPairs, _.partial(_.has, _, '$$hashKey'))) {
+          // clear $$hashKey
+          tradeCurrencyPairs = angular.fromJson(angular.toJson(tradeCurrencyPairs));
+          changed = true;
+        }
+        var tradeCurrencyPairsUniq = _.uniq(tradeCurrencyPairs, false, function(o) {
+          return o.name;
+        });
+        if (tradeCurrencyPairsUniq.length !== tradeCurrencyPairs.length) {
+          tradeCurrencyPairs = tradeCurrencyPairsUniq;
+          changed = true;
+        }
+
+        if (changed) {
+          $scope.userBlob.set('/clients/rippletradecom/trade_currency_pairs', tradeCurrencyPairs);
+        }
+      }
+
       if (_.has(d, 'txQueue')) {
         $scope.userBlob.set('/clients/rippletradecom/txQueue', d.txQueue);
         $scope.userBlob.unset('/txQueue');
