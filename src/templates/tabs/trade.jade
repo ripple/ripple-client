@@ -652,7 +652,10 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                     .col-xs-4.rpamount.price
                       a(href="", ng-click="fill_widget('sell', order, true)", ng-bind="order.showPrice")
 
-                  .message(ng-show='!bookShow.bids.length', l10n) There are currently no bids for this pair.
+                  .message(ng-show='!bookShow.bids.length && book.ready', l10n) There are currently no bids for this pair.
+                  .message(ng-show="!book.ready && !bookShow.bids.length")
+                    img(src="img/button-s.png", class="loader")
+                    span(class="loading_text", l10n) Loading...
 
                 .asks.col-xs-12.col-lg-6
                   .title(l10n) Asks
@@ -689,7 +692,11 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                         ng-click="fill_widget('buy', order, true)")
                         span(rp-bind-color-amount="order.showSum")
 
-                  .message(ng-show='!bookShow.asks.length', l10n) There are currently no asks for this pair.
+                  .message(ng-show='!bookShow.asks.length && book.ready', l10n) There are currently no asks for this pair.
+                  .message(ng-show="!book.ready && !bookShow.asks.length")
+                    img(src="img/button-s.png", class="loader")
+                    span(class="loading_text", l10n) Loading...
+
             .foot
               a.loadmore(ng-show="orderbookState=='ready' && (bookShow.asks.length || bookShow.bids.length)", href="", ng-click="loadMore()", l10n) Load more
               div(ng-show="orderbookState=='full'", l10n) No more orders
