@@ -206,7 +206,7 @@ UsdTab.prototype.angular = function (module)
               console.warn('Unhandled engine status encountered!');
           }
           if ($scope.usd_tx_result=="cleared"){
-            $scope.usdConnected = true;
+            $scope.usd2Connected = true;
             $scope.showUsdInstructions = true;
 
           }
@@ -240,10 +240,10 @@ UsdTab.prototype.angular = function (module)
           $scope.usdConnected = false;
         }
         if($scope.lines['rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59BUSD']){
-          $scope.usdConnected = true;
+          $scope.usd2Connected = true;
         }
         else {
-          $scope.usdConnected = false;
+          $scope.usd2Connected = false;
         }  
       }, true);
 
