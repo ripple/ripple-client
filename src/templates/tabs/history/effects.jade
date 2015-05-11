@@ -5,30 +5,48 @@ ul.effects(ng-show="entry.effects")
         span.amount(rp-pretty-amount-high-precision="effect.gets")
         | for
         span.amount(rp-pretty-amount-high-precision="effect.pays")
+        | (
+        span(l10n-inc) price :
+        strong(rp-address-popover, rp-address-popover-sum="effect.invStraightPrice")  {{effect.invStraightPrice | rpamount:{abs_precision: 6} }}
+        span {{ effect.pays | rpcurrency }}
+        | per
+        span {{ effect.gets | rpcurrency }}
+        | ).
       span(ng-hide="effect.sell", l10n, rp-span-spacing) You bought
         span.amount(rp-pretty-amount-high-precision="effect.pays")
         | for
         span.amount(rp-pretty-amount-high-precision="effect.gets")
-      | (
-      span(l10n) price
-      span :
-        strong(rp-address-popover, rp-address-popover-sum="effect.price")  {{effect.price | rpamount:{abs_precision: 4} }}
-      | ).
+        | (
+        span(l10n) price :
+        strong(rp-address-popover, rp-address-popover-sum="effect.straightPrice")  {{effect.straightPrice | rpamount:{abs_precision: 6} }}
+        span {{ effect.gets | rpcurrency }}
+        | per
+        span {{ effect.pays | rpcurrency }}
+        | ).
       span(l10n)  This order has been filled.
     span(ng-switch-when="offer_partially_funded")
       span(ng-show="effect.sell", l10n, rp-span-spacing) You sold
         span.amount(rp-pretty-amount-high-precision="effect.got")
         | for
         span.amount(rp-pretty-amount-high-precision="effect.paid")
+        | (
+        span(l10n-inc) price :
+        strong(rp-address-popover, rp-address-popover-sum="effect.invStraightPrice")  {{effect.invStraightPrice | rpamount:{abs_precision: 6} }}
+        span {{ effect.paid | rpcurrency }}
+        | per
+        span {{ effect.got | rpcurrency }}
+        | ).
       span(ng-hide="effect.sell", l10n, rp-span-spacing) You bought
         span.amount(rp-pretty-amount-high-precision="effect.paid")
         | for
         span.amount(rp-pretty-amount-high-precision="effect.got")
-      | (
-      span(l10n) price
-      span :
-        strong(rp-address-popover, rp-address-popover-sum="effect.price")  {{effect.price | rpamount:{abs_precision: 4} }}
-      | ).
+        | (
+        span(l10n-inc) price :
+        strong(rp-address-popover, rp-address-popover-sum="effect.straightPrice")  {{effect.straightPrice | rpamount:{abs_precision: 6} }}
+        span {{ effect.got | rpcurrency }}
+        | per
+        span {{ effect.paid | rpcurrency }}
+        | ).
       span(ng-show="effect.cancelled", l10n) The rest of your order has been cancelled due to lack of funds.
       span(ng-hide="effect.deleted", l10n, rp-span-spacing) This order has
         span(rp-pretty-amount-high-precision="effect.remaining")
@@ -36,9 +54,9 @@ ul.effects(ng-show="entry.effects")
     //- We don't show this if it's an offer_cancel transaction.
     //- Instead we show it if the order has been cancelled because of luck of
     //- funds by some other non related transaction.
-    span(ng-switch-when="offer_cancelled", l10n) Order (
+    span(ng-switch-when="offer_cancelled", l10n, rp-span-spacing) Order (
       span.amount(rp-pretty-amount-high-precision="effect.pays")
-      |  for&#32;
+      |  for
       span.amount(rp-pretty-amount-high-precision="effect.gets")
       | ) has been cancelled due to lack of funds.
     span(ng-switch-when="offer_created")
@@ -50,16 +68,29 @@ ul.effects(ng-show="entry.effects")
         span.amount(rp-pretty-amount-high-precision="effect.pays")
         | for
         span.amount(rp-pretty-amount-high-precision="effect.pays")
-    span(ng-switch-when="offer_bought", l10n, rp-span-spacing) You bought
-      span.amount(rp-pretty-amount-high-precision="effect.got")
-      | for
-      span.amount(rp-pretty-amount-high-precision="effect.paid")
-      | (
-      span(l10n-inc) price
-      span :
-        strong(rp-address-popover, rp-address-popover-sum="effect.price")  {{effect.price | rpamount:{abs_precision: 6} }}
-      | ).
-
+    span(ng-switch-when="offer_bought",)
+      span(ng-hide="entry.transaction.sell", l10n, rp-span-spacing) You bought
+        span.amount(rp-pretty-amount-high-precision="effect.got")
+        | for
+        span.amount(rp-pretty-amount-high-precision="effect.paid")
+        | (
+        span(l10n-inc) price :
+        strong(rp-address-popover, rp-address-popover-sum="effect.invStraightPrice")  {{effect.invStraightPrice | rpamount:{abs_precision: 6} }}
+        span {{ effect.paid | rpcurrency }}
+        | per
+        span {{ effect.got | rpcurrency }}
+        | ).
+      span(ng-show="entry.transaction.sell", l10n, rp-span-spacing) You sold
+        span.amount(rp-pretty-amount-high-precision="effect.paid")
+        | for
+        span.amount(rp-pretty-amount-high-precision="effect.got")
+        | (
+        span(l10n-inc) price :
+        strong(rp-address-popover, rp-address-popover-sum="effect.straightPrice")  {{effect.straightPrice | rpamount:{abs_precision: 6} }}
+        span {{ effect.got | rpcurrency }}
+        | per
+        span {{ effect.paid | rpcurrency }}
+        | ).
     span(ng-switch-when="trust_create_local", l10n) You have now connected to the gateway&#32;
       span(rp-pretty-identity="effect.counterparty", rp-address-popover="effect.counterparty")
       span(l10n-inc) &#32;for&#32;
