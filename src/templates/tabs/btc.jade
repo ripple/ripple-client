@@ -82,9 +82,12 @@ section.col-xs-12.content(ng-controller='BtcCtrl')
                           span(ng-hide="loading", l10n) Confirm
                         button.modal-btn.btn.btn-default.btn-link.btn-cancel(data-dismiss="modal"
                           ng-hide="loading", l10n) cancel
-                      span.modal-error(ng-show="emailError", l10n)
+                      span.modal-error(ng-show="generalError", l10n)
                         | SnapSwap's btc2ripple service is currently unavailable.
                         |  Please check back later.
+                      div.modal-error(ng-show="emailError", l10n)
+                        | You’ve already used this email address to generate a bitcoin receiving address in Ripple Trade.
+                        | Please contact support@btc2ripple.com if you want to use this Ripple Trade account instead.
                 button.btn.btn-primary(ng-show="!btcConnected && loading", ng-disabled="loading", l10n) Adding...
                 button.btn.btn-block.btn-primary(ng-show="showInstructions && btcConnected", type="submit", ng-click="toggle_instructions()", l10n) Hide instructions
                 button.btn.btn-block.btn-primary(ng-show="btcConnected && !showInstructions", type="submit", ng-click="toggle_instructions()", l10n) Show instructions
