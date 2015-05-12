@@ -41,6 +41,7 @@ TradeTab.prototype.angular = function(module)
                      popup, $anchorScroll, $timeout, $templateRequest)
   {
     var timer;
+    var cancelNotifTimeout = {};
 
     $scope.priceTicker = {
       bid: 'n/a',
@@ -123,6 +124,8 @@ TradeTab.prototype.angular = function(module)
       buy_amount: null,
       sell_amount: null
     };
+
+    $scope.notif = {};
 
     var currencyPairChangedByNonUser = false;
 
@@ -627,6 +630,25 @@ TradeTab.prototype.angular = function(module)
       $scope.editOrder.cancelOrderGone = false;
     };
 
+    $scope.showNotification = function(type, status) {
+      if (typeof status !== 'string') {
+        console.log("You must pass in a string for the status");
+        return;
+      }
+
+      $scope.notif[type] = status;
+
+      if (cancelNotifTimeout[type]) {
+        $timeout.cancel(cancelNotifTimeout[type]);
+        cancelNotifTimeout[type] = null;
+      }
+      cancelNotifTimeout[type] = $timeout(function() {
+        $scope.notif[type] = 'clear';
+      }, 9000);
+      cancelNotifTimeout[type]['finally'](function() { cancelNotifTimeout[type] = null; });
+    }
+
+
     /**
      * Happens when user clicks 'Confirm' in order confirmation view.
      *
@@ -658,7 +680,7 @@ TradeTab.prototype.angular = function(module)
       tx.on('success', function(res) {
         setEngineStatus(res, true, type);
 
-        if (!modifying) order.mode = 'done';
+        if (!modifying) $scope.reset_widget(type);
 
         var tx = rewriter.processTxn(res, res.metadata, id.account);
 
@@ -688,9 +710,9 @@ TradeTab.prototype.angular = function(module)
         }
 
         var eventProp = {
-          'Status': 'success',
+          Status: 'success',
           'Currency pair': ccyPair,
-          'Address': $scope.userBlob.data.account_id,
+          Address: $scope.userBlob.data.account_id,
           'Transaction ID': res.tx_json.hash,
           BuyAmount: order.buy_amount.to_number(false),
           SellAmount: order.sell_amount.to_number(false)
@@ -703,7 +725,7 @@ TradeTab.prototype.angular = function(module)
       tx.on('error', function (err) {
         setEngineStatus(err, false, type);
 
-        if (!modifying) order.mode = 'done';
+        if (!modifying) $scope.reset_widget(type);;
 
         if (errorCb) errorCb();
 
@@ -712,10 +734,10 @@ TradeTab.prototype.angular = function(module)
         }
 
         var eventProp = {
-          'Status': 'error',
-          'Message': err.engine_result,
+          Status: 'error',
+          Message: err.engine_result,
           'Currency pair': ccyPair,
-          'Address': $scope.userBlob.data.account_id
+          Address: $scope.userBlob.data.account_id
         };
 
         if (modifying) rpTracker.track(MIXPNL_MODIFY_EVENT, eventProp);
@@ -823,6 +845,7 @@ TradeTab.prototype.angular = function(module)
         $scope.tx_result = 'unknown';
         console.warn('Unhandled engine status encountered!');
       }
+      $scope.showNotification(type, $scope.tx_result);
     }
 
     $scope.update_first = function (type) {
@@ -979,7 +1002,7 @@ TradeTab.prototype.angular = function(module)
       }
     });
 
-    $scope.open_custom_currency_selector = function () {
+    $scope.open_custom_currency_selector = function() {
       $scope.first_currency_selected = '';
       $scope.first_issuer_selected = '';
       $scope.second_currency_selected = '';
@@ -987,14 +1010,18 @@ TradeTab.prototype.angular = function(module)
       $scope.adding_pair = true;
     }
 
-    $scope.add_pair = function () {
+    $scope.add_pair = function() {
       var formattedIssuerFirst = $scope.first_currency_selected === 'XRP' ? '' : '.' + $scope.first_issuer_selected;
       var formattedIssuerSecond = $scope.second_currency_selected === 'XRP' ? '' : '.' + $scope.second_issuer_selected;
+      if (($scope.second_currency_selected !== 'XRP' && ($scope.second_issuer_selected == null || $scope.second_issuer_selected === '')) ||
+          ($scope.first_currency_selected  !== 'XRP' && ($scope.first_issuer_selected  == null || $scope.first_issuer_selected  === ''))) {
+        // this could happen if gate is not validated
+        return;
+      }
 
       $scope.order.currency_pair = $scope.first_currency_selected + formattedIssuerFirst + '/' + $scope.second_currency_selected + formattedIssuerSecond;
 
       $scope.userBlob.unshift('/clients/rippletradecom/trade_currency_pairs', { name: $scope.order.currency_pair });
-      $scope.userBlob.set('/clients/rippletradecom/trade_currency_pairs', $scope.pairs_query);
 
       $scope.adding_pair = false;
     };

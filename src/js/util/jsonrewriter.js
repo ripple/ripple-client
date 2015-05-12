@@ -26,6 +26,30 @@ var getPrice = function(effect, referenceDate) {
   return price || 0;
 };
 
+var getStraightPrice = function(effect, referenceDate) {
+  var g = effect.got ? effect.got : effect.gets;
+  var p = effect.paid ? effect.paid : effect.pays;
+  var price;
+
+  if (!p.is_zero() && !g.is_zero()) {
+    price = g.ratio_human(p, {reference_date: referenceDate});
+  }
+
+  return price || 0;
+};
+
+var getInvStraightPrice = function(effect, referenceDate) {
+  var g = effect.got ? effect.got : effect.gets;
+  var p = effect.paid ? effect.paid : effect.pays;
+  var price;
+
+  if (!p.is_zero() && !g.is_zero()) {
+    price = p.ratio_human(g, {reference_date: referenceDate});
+  }
+
+  return price || 0;
+};
+
 /**
  * Determine if the transaction is a 'rippling' transaction based on effects
  *
@@ -497,6 +521,10 @@ var JsonRewriter = module.exports = {
                 ? ripple.Amount.from_json(node.fields.Balance).negate(true)
                 : ripple.Amount.from_json(node.fields.Balance);
 
+            if (effect.balance.is_zero() && effect.balance.is_negative()) {
+              effect.balance = effect.balance.negate(true);
+            }
+
             if (obj.transaction && obj.transaction.type === 'trust_change_balance') {
               obj.transaction.balance = effect.balance;
             }
@@ -573,6 +601,8 @@ var JsonRewriter = module.exports = {
             }
 
             effect.price = getPrice(effect, tx.date);
+            effect.straightPrice = getStraightPrice(effect, tx.date);
+            effect.invStraightPrice = getInvStraightPrice(effect, tx.date);
 
             // Flags
             if (node.fields.Flags) {

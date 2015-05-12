@@ -134,24 +134,24 @@ section.col-xs-12.content(ng-controller='UsdCtrl')
 
       .row.fund-tab-description
         .col-xs-12.col-md-8.col-lg-6
-          .descriptor(ng-show="!usdConnected", l10n) Ripple Trade has partnered with Bitstamp to provide easier access to USD. Following this action will enable Bitstamp to hold USD on your behalf.
+          .descriptor(ng-show="!usd2Connected", l10n) Ripple Trade has partnered with Bitstamp to provide easier access to USD. Following this action will enable Bitstamp to hold USD on your behalf.
 
       .row.fund-tab-description
         .col-xs-7.col-sm-5.col-md-4
-          button.btn.btn-large.btn-primary(ng-show="!usdConnected && !usdLoading && loadState.account", type="submit", ng-click="save_usd_account()", ng-disabled="!account.Balance || !can_add_trust", l10n) Add Bitstamp
-          button.btn.btn-large.btn-primary(ng-show="!usdConnected && usdLoading", type="submit", ng-disabled="usdLoading", l10n) Adding...
-          button.btn.btn-large.btn-primary(ng-show="showUsdInstructions && usdConnected", type="submit", ng-click="toggle_usd_instructions()", l10n) Hide instructions
-          button.btn.btn-large.btn-primary(ng-show="usdConnected && !showUsdInstructions", type="submit", ng-click="toggle_usd_instructions()", l10n) Show instructions
+          button.btn.btn-large.btn-primary(ng-show="!usd2Connected && !usdLoading && loadState.account", type="submit", ng-click="save_usd_account()", ng-disabled="!account.Balance || !can_add_trust", l10n) Add Bitstamp
+          button.btn.btn-large.btn-primary(ng-show="!usd2Connected && usdLoading", type="submit", ng-disabled="usdLoading", l10n) Adding...
+          button.btn.btn-large.btn-primary(ng-show="showUsdInstructions && usd2Connected", type="submit", ng-click="toggle_usd_instructions()", l10n) Hide instructions
+          button.btn.btn-large.btn-primary(ng-show="usd2Connected && !showUsdInstructions", type="submit", ng-click="toggle_usd_instructions()", l10n) Show instructions
 
         .connect.col-xs-5.col-sm-7.col-md-8(ng-hide="usdLoading")
-          .description.fa.fa-times(ng-show="!usdConnected && account.Balance", l10n) Not connected
-          .description.fa.fa-check(ng-show="usdConnected && account.Balance", l10n) Connected
+          .description.fa.fa-times(ng-show="!usd2Connected && account.Balance", l10n) Not connected
+          .description.fa.fa-check(ng-show="usd2Connected && account.Balance", l10n) Connected
           .description(ng-show="!account.Balance && loadState.account", l10n) Your account has to be activated before you can add a gateway account.
           .description(ng-show="!loadState.account")
             img(src="img/button-s.png", class="loader")
             span(class="loading_text", l10n) Loading...
 
-      .row(ng-show="showUsdInstructions && usdConnected")
+      .row(ng-show="showUsdInstructions && usd2Connected")
         .instructions.col-md-10
           a.dismiss(href="", id="hide", ng-click="toggle_usd_instructions()", l10n)  ×
           .title(l10n) NEW CUSTOMERS- SIGN UP AT BITSTAMP

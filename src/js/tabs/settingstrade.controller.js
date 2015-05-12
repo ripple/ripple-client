@@ -8,8 +8,7 @@ var util = require('util'),
     settings = require('../util/settings'),
     Tab = require('../client/tab').Tab;
 
-var SettingsTradeTab = function ()
-{
+var SettingsTradeTab = function() {
   Tab.call(this);
 };
 
@@ -24,9 +23,6 @@ SettingsTradeTab.prototype.angular = function(module) {
   SettingsTradeCtrl.$inject = ['$scope', '$timeout'];
 
   function SettingsTradeCtrl($scope, $timeout) {
-    var dirty = false,
-        saveTimeout;
-
     if ($scope.userBlob.data && $scope.userCredentials.username) {
       $scope.pairs = settings.getSetting($scope.userBlob, 'trade_currency_pairs');
     } else {
@@ -40,8 +36,7 @@ SettingsTradeTab.prototype.angular = function(module) {
 
     $scope.deletePair = function(index){
       for (var i = 0; i < $scope.pairs.length; i++) {
-        if ($scope.pairs[i].$$hashKey === this.entry.$$hashKey) {
-          saveTradePairs();
+        if ($scope.pairs[i].name === this.entry.name) {
           $scope.userBlob.unset('/clients/rippletradecom/trade_currency_pairs/' + index);
           return;
         }
@@ -50,26 +45,12 @@ SettingsTradeTab.prototype.angular = function(module) {
 
     $scope.dragControlListeners = {
         orderChanged: function(event) {
-          dirty = true;
-          if (saveTimeout) {
-            $timeout.cancel(saveTimeout);
-          }
-          saveTimeout = $timeout(saveTradePairs, 2000);
+          var sourceObj = _.clone($scope.pairs[event.source.index]);
+          var destObj = _.clone($scope.pairs[event.dest.index]);
+          $scope.userBlob.set('/clients/rippletradecom/trade_currency_pairs/' + event.source.index, sourceObj);
+          $scope.userBlob.set('/clients/rippletradecom/trade_currency_pairs/' + event.dest.index, destObj);
         }
     };
-
-    $scope.$on('$destroy', saveTradePairs);
-
-    function saveTradePairs() {
-      if (dirty) {
-        $timeout.cancel(saveTimeout);
-        saveTimeout = null;
-        // clear $$hashKey
-        var pairs = angular.fromJson(angular.toJson($scope.pairs));
-        $scope.userBlob.set('/clients/rippletradecom/trade_currency_pairs', pairs);
-        dirty = false;
-      }
-    }
   }
 };
 

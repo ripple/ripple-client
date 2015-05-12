@@ -192,7 +192,7 @@ BtcTab.prototype.angular = function (module)
               console.warn('Unhandled engine status encountered!');
           }
           if ($scope.btc_tx_result=="cleared"){
-            $scope.btcConnected = true;
+            $scope.btc2Connected = true;
             $scope.showBtcInstructions = true;
 
           }
@@ -219,10 +219,10 @@ BtcTab.prototype.angular = function (module)
 
     $scope.$watch('lines', function () {
         if($scope.lines['rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59BBTC']){
-          $scope.btcConnected = true;
+          $scope.btc2Connected = true;
         }
         else {
-          $scope.btcConnected = false;
+          $scope.btc2Connected = false;
         }  
       }, true);
 
