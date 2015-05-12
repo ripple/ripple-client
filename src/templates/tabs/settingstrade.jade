@@ -22,7 +22,7 @@ section.col-xs-12.content(ng-controller="SettingsTradeCtrl")
             | section.
           div(ng-if="pairs")
             div(as-sortable="dragControlListeners", ng-model="pairs")
-               div.pair(ng-repeat="entry in pairs", as-sortable-item)
+               div.pair(ng-repeat="entry in pairs track by entry.name", as-sortable-item)
                 .col-xs-12(as-sortable-item-handle)
                   i.grip
                   span.description(ng-bind="entry.name")
