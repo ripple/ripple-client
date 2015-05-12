@@ -110,37 +110,49 @@ module.directive('rpDest', ['$q', '$timeout', '$parse', 'rpFederation', function
     link: function (scope, elm, attr, ctrl) {
       if (!ctrl) return;
 
-      var getter;
+      var currentCheckTimeout = null,
+          currentDefer = null,
+          getter;
+
+      function setDestModelValue(value) {
+        if (attr.rpDestModel) {
+          getter = $parse(attr.rpDestModel);
+          getter.assign(scope, value);
+        }
+      }
+
       ctrl.$asyncValidators.rpDest = function(value) {
         var strippedValue = webutil.stripRippleAddress(value),
             address = ripple.UInt160.from_json(strippedValue);
 
+        if (currentDefer) {
+          // another check is pending, but it is not needed
+          currentDefer.resolve(true);
+          currentDefer = null;
+          $timeout.cancel(currentCheckTimeout);
+          currentCheckTimeout = null;
+        }
+
         ctrl.rpDestType = null;
         if (attr.rpDestFederationModel) {
           getter = $parse(attr.rpDestFederationModel);
-          getter.assign(scope,null);
+          getter.assign(scope, null);
         }
 
         // client-side validation
         if (attr.rpDestAddress && address.is_valid()) {
           ctrl.rpDestType = "address";
 
-          if (attr.rpDestModel) {
-            getter = $parse(attr.rpDestModel);
-            getter.assign(scope,value);
-          }
+          setDestModelValue(value);
 
           return $q.when(true);
         }
 
         if (attr.rpDestContact && scope.userBlob &&
-          webutil.getContact(scope.userBlob.data.contacts,strippedValue)) {
+          webutil.getContact(scope.userBlob.data.contacts, strippedValue)) {
           ctrl.rpDestType = "contact";
 
-          if (attr.rpDestModel) {
-            getter = $parse(attr.rpDestModel);
-            getter.assign(scope,webutil.getContact(scope.userBlob.data.contacts,strippedValue).address);
-          }
+          setDestModelValue(scope, webutil.getContact(scope.userBlob.data.contacts, strippedValue).address);
 
           return $q.when(true);
         }
@@ -148,10 +160,7 @@ module.directive('rpDest', ['$q', '$timeout', '$parse', 'rpFederation', function
         if (attr.rpDestBitcoin && !isNaN(Base.decode_check([0, 5], strippedValue, 'bitcoin'))) {
           ctrl.rpDestType = "bitcoin";
 
-          if (attr.rpDestModel) {
-            getter = $parse(attr.rpDestModel);
-            getter.assign(scope,value);
-          }
+          setDestModelValue(value);
 
           return $q.when(true);
         }
@@ -165,42 +174,38 @@ module.directive('rpDest', ['$q', '$timeout', '$parse', 'rpFederation', function
                 // Check if this request is still current, exit if not
                 if (value != ctrl.$viewValue) return;
 
-                if (attr.rpDestModel) {
-                  getter = $parse(attr.rpDestModel);
-                  getter.assign(scope,value);
-                }
+                setDestModelValue(value);
+
                 if (attr.rpDestFederationModel) {
                   getter = $parse(attr.rpDestFederationModel);
-                  getter.assign(scope,result);
+                  getter.assign(scope, result);
                 }
                 return true;
               }, function() {
                 return false;
               });
           } else {
-            if (attr.rpDestModel) {
-              getter = $parse(attr.rpDestModel);
-              getter.assign(scope,value);
-            }
+            setDestModelValue(value);
 
             return $q.when(true);
           }
         }
 
         if (((attr.rpDestRippleName && webutil.isRippleName(value)) ||
-          (attr.rpDestRippleNameNoTilde && value && value[0] !== '~' && webutil.isRippleName('~'+value)))) { // TODO Don't do a client check in validators
+          (attr.rpDestRippleNameNoTilde && value && value[0] !== '~' && webutil.isRippleName('~' + value)))) { // TODO Don't do a client check in validators
           ctrl.rpDestType = "rippleName";
 
           var defer = $q.defer();
-          $timeout(function() {
-            rippleVaultClient.AuthInfo.get(Options.domain, value, function(err, info){
-              scope.$apply(function(){
-                if (attr.rpDestModel && info.exists) {
-                  getter = $parse(attr.rpDestModel);
-                  getter.assign(scope,info.address);
-                }
+          currentDefer = defer;
 
+          currentCheckTimeout = $timeout(function() {
+            currentCheckTimeout = null;
+            currentDefer = null;
+
+            rippleVaultClient.AuthInfo.get(Options.domain, value, function(err, info) {
+              scope.$apply(function(){
                 if (info.exists) {
+                  setDestModelValue(info.address);
                   defer.resolve(info.exists);
                 } else {
                   defer.reject();
