@@ -256,6 +256,10 @@ section.col-xs-12.content(ng-controller="TrustCtrl")
                     a.hidden-xs.hidden-sm(href="", ng-hide="editing", ng-click="edit_account()"
                       l10n) edit
                     span(ng-show="editing && !globalOptions.advanced_feature_switch")
+                      .col-xs-6.col-sm-5(ng-show="trust.loading && trust.state==='removing'")
+                        .row
+                          .col-xs-16
+                            button.btn.btn-block.btn-danger(disabled, l10n) Removing...
                       span(ng-hide="trust.loading")
                         div.row.row-padding-small
                           .col-md-7.col-sm-7.col-xs-6
