@@ -381,12 +381,12 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                           button.btn.btn-block.btn-cancel.back(type='button'
                             ng-click="order[type].mode = 'trade'", l10n) &laquo; Back
 
-                    //- 3. Sending
+                    //- 3. 
 
-                    group.mode-sending(ng-switch-when='sending')
+                    group.mode-sending(ng-switch-when='')
                       p.literal
                         img(src="img/button-s.png", class="loader")
-                        span(class="loading_text", l10n) Sending order to Ripple network...
+                        span(class="loading_text", l10n) Sending order to the Ripple network...
 
           .my-orders-title(l10n) My Orders
             span &#32;({{offersCount}})
