@@ -99,7 +99,6 @@ var tabdefs = [
   require('../tabs/trade.controller.js'),
   require('../tabs/advanced.controller.js'),
   require('../tabs/security.controller.js'),
-  require('../tabs/kyc.controller.js'),
   require('../tabs/tx.controller.js'),
   require('../tabs/xrp.controller.js'),
   require('../tabs/debug.controller.js'),
