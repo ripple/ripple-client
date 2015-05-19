@@ -15,7 +15,10 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
         a.btn.btn-submit.btn-block.btn-success#loginBtn(href="{{globalOptions.backend_url}}/auth/login")
           span(l10n) Log in
       .row.switch-mode-wrapper
-        .switch-mode-link-container.bottomText(l10n) Ripple Trade uses id.ripple.com to securily manage accounts and personal information
+        .switch-mode-link-container.bottomText(l10n)
+          | Ripple Trade uses &nbsp;
+          a(href="https://id.ripple.com") RippleID &nbsp;
+          | to securely manage your personal information
 
 
   .row.action-login(ng-if="$routeParams.to")
