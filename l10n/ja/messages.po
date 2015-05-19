@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Ripple Trade\n"
-"PO-Revision-Date: 2015-02-25 17:35+0000\n"
+"PO-Revision-Date: 2015-05-05 17:43+0000\n"
 "Last-Translator: hideo suguri <suguri0603@hotmail.com>\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/ripple-trade/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -1690,7 +1690,7 @@ msgstr "入金"
 #: src/jade/tabs/gold.jade:78
 msgid ""
 "GBI does not currently support direct deposits. You can {{1}} or {{2}}."
-msgstr ""
+msgstr "GBIは現在、ダイレクト入金をサポートしていません。{{1}} 又は {{2}}を利用できます。"
 
 #: src/jade/tabs/gold.jade:84
 msgid "Withdrawal"
@@ -1700,7 +1700,7 @@ msgstr "引き出し"
 msgid ""
 "You can redeem the physical gold in 1 oz increments.To do so, you'll need to"
 " {{1}} and arrange to have the gold shipped to you."
-msgstr ""
+msgstr "あなたは1オンス単位で実物の金を交換することができます。そうするには、あなたは{{1}}する必要があり、金をあなたに出荷手配する必要があります。"
 
 #: src/jade/tabs/history.jade:11
 msgid "Loading History"
@@ -1909,46 +1909,46 @@ msgstr "新しいカスタマーとしてTOKYO JPYにサインアップ"
 
 #: src/jade/tabs/jpy.jade:79
 msgid "{{1}}at Tokyo JPY Issuer. You will need:{{2}}"
-msgstr ""
+msgstr "東京JPY発行所における{{1}}  あなたは以下を必要です：{{2}}"
 
 #: src/jade/tabs/jpy.jade:84
 msgid "A valid government-issued ID."
-msgstr ""
+msgstr "有効な政府発行の身分証明"
 
 #: src/jade/tabs/jpy.jade:86
 msgid "A proof of address (utility bill, etc)."
-msgstr ""
+msgstr "住所証明(公共料金など)"
 
 #: src/jade/tabs/jpy.jade:88
 msgid "A bank account under the same name."
-msgstr ""
+msgstr "同じ名前の銀行口座"
 
 #: src/jade/tabs/jpy.jade:90
 msgid "EXISTING TOKYO JPY ISSUER CUSTOMERS"
-msgstr ""
+msgstr "既存の東京JPY発行所のお客さま"
 
 #: src/jade/tabs/jpy.jade:100
 msgid ""
 "Tokyo JPY Issuer accepts deposits and withdrawals via bank transfer. Details"
 " {{1}}"
-msgstr ""
+msgstr "東京JPY発行所は、銀行振込みの入出金を受け付けます。詳細{{1}}"
 
 #: src/jade/tabs/jpy.jade:103
 msgid ""
 "To deposit, you’ll need to first deposit into your Tokyo JPY Issuer account "
 "and then initiate a transfer into your Ripple account."
-msgstr ""
+msgstr "入金するために、東京JPY発行所の口座に最初の入金をする必要があり、それから、あなたのRippleのアカウントに転送します。"
 
 #: src/jade/tabs/jpy.jade:105
 msgid ""
 "To withdraw to a bank account, you’ll first send money from your Ripple "
 "account to your Tokyo JPY Issuer account. Follow instructions on the Tokyo "
 "JPY Issuer site to send to your bank account."
-msgstr ""
+msgstr "銀行口座に出金するには、まず東京JPY発行所アカウントにリップル口座からお金をお送ります。銀行預金口座に送るには東京JPY発行所のサイトの手順に従ってください。"
 
 #: src/jade/tabs/kyc.jade:14
 msgid "Profile completion is only available to US residents."
-msgstr ""
+msgstr "プロフィールの完成は、米国居住者だけが利用できます。"
 
 #: src/jade/tabs/kyc.jade:21 src/jade/tabs/trade.jade:285
 msgid "Verifying your information. Please wait..."
@@ -2256,7 +2256,7 @@ msgstr "メキシコペソ入金"
 
 #: src/jade/tabs/mxn.jade:42
 msgid "Bitso (~bitso) {{1}}{{2}}"
-msgstr ""
+msgstr "Bitso (~bitso) {{1}}{{2}}"
 
 #: src/jade/tabs/mxn.jade:47
 msgid "All countries except the US"
@@ -3155,15 +3155,15 @@ msgstr ""
 
 #: src/jade/tabs/trade.jade:293
 msgid "Unable to cancel order as it no longer exists."
-msgstr ""
+msgstr "それはもう存在しないので、注文をキャンセルすることができません。"
 
 #: src/jade/tabs/trade.jade:295
 msgid "Modifying your order (Placing new order) ..."
-msgstr ""
+msgstr "ご注文の変更(新規注文) ..."
 
 #: src/jade/tabs/trade.jade:299
 msgid "Current pair only"
-msgstr ""
+msgstr "現在のペアのみ"
 
 #: src/jade/tabs/trade.jade:313 src/jade/tabs/widgets/orders.jade:24
 msgid "reverse"
