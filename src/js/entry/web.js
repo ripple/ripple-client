@@ -111,7 +111,6 @@ var tabdefs = [
   require('../tabs/gold.controller.js'),
   require('../tabs/tou.controller.js'),
   require('../tabs/privacypolicy.controller.js'),
-  require('../tabs/twofa.controller.js'),
   require('../tabs/jpy.controller.js'),
   require('../tabs/mxn.controller.js'),
   require('../tabs/404.controller.js'),
