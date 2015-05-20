@@ -51,7 +51,7 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
                   l10n-rp-popover-content="Network fees are currently higher than your maximum. Fee: {{ fee | rpamount }} XRP. <a href='#/advanced'>Change fees</a>")
               span(ng-switch-when='mediumLoad'
                   rp-popover, rp-popover-placement='bottom', rp-popover-trigger='hover', rp-popover-delay
-                  l10n-rp-popover-content="'Network fees are currently higher than normal. Fee: {{ fee | rpamount }} XRP'")
+                  l10n-rp-popover-content="Network fees are currently higher than normal. Fee: {{ fee | rpamount }} XRP")
               span(ng-switch-when='lowLoad'
                   rp-popover, rp-popover-placement='bottom', rp-popover-trigger='hover', rp-popover-delay
                   l10n-rp-popover-content="Connected to the Ripple network. Fee: {{ fee | rpamount }} XRP")
