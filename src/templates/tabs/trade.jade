@@ -450,7 +450,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                         rp-sort-header-field="counter")
                     span(l10n) Counter
                     i.fa.fa-fw.fa-caret-down
-                  .col-md-2(rp-sort-header="sortOptions.sortField", 
+                  .col-md-2(rp-sort-header="sortOptions.sortField",
                         rp-sort-header-reverse="sortOptions.reverse",
                         rp-sort-header-field="limit")
                     span(l10n) Limit Price
@@ -635,7 +635,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                         rp-pretty-issuer-contacts="userBlob.data.contacts"
                         rp-pretty-issuer-or-short)
 
-                  .row(ng-repeat='order in bookShow.bids track by order.index'
+                  .row(ng-repeat='order in bookShow.bids track by order.BookDirectory'
                     ng-class="{my: order.my, cancelling: cancelling}")
                     .col-xs-4.rpamount.sum
                       a(href="", ng-click="fill_widget('sell', order, true)")
@@ -674,7 +674,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                         rp-pretty-issuer-contacts="userBlob.data.contacts"
                         rp-pretty-issuer-or-short)
 
-                  .row(ng-repeat='order in bookShow.asks track by order.index'
+                  .row(ng-repeat='order in bookShow.asks track by order.BookDirectory'
                     ng-class="{my: order.my, cancelling: cancelling}")
                     .col-xs-4.rpamount.price
                       a(href="", ng-click="fill_widget('buy', order, true)", ng-bind="order.showPrice")
