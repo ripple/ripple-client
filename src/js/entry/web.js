@@ -85,7 +85,6 @@ var appDependencies = [
 
 // Load tabs
 var tabdefs = [
-  require('../tabs/register.controller.js'),
   require('../tabs/login.controller.js'),
   require('../tabs/migrate.controller.js'),
   require('../tabs/recover.controller.js'),
