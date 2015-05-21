@@ -38,18 +38,16 @@ module.factory('rpBlobIDS', ['$rootScope', '$http', '$q', function($scope, $http
 
   /**
    * Initialize a new blob object
-   *
-   * @param {function} fn - Callback function
    */
 
-  BlobObj.prototype.init = function () {
+  BlobObj.prototype.init = function() {
     var self = this;
 
     return $http.get(
       Options.backend_url + '/api/blob', {
         headers: {'Authorization': 'Bearer ' + store.get('backend_token')},
         timeout: 8000
-      }).then(function (response) {
+      }).then(function(response) {
         if (!response.data || !response.data.data || !response.data.data.account_id) {
           return $q.reject('Could not retrieve blob');
         }
@@ -64,7 +62,7 @@ module.factory('rpBlobIDS', ['$rootScope', '$http', '$q', function($scope, $http
         // return with newly assembled blob
         return self;
 
-      }, function (response) {
+      }, function(response) {
         if (response.status === 401) {
           // TODO check where should this be placed
           // backend token is broken
@@ -81,7 +79,7 @@ module.factory('rpBlobIDS', ['$rootScope', '$http', '$q', function($scope, $http
    * Set blob element
    */
 
-  BlobObj.prototype.set = function (pointer, value, fn) {
+  BlobObj.prototype.set = function(pointer, value, fn) {
     if (pointer === '/' + identityRoot && this.data[identityRoot]) {
       return fn(new Error('Cannot overwrite Identity Vault'));
     }
@@ -94,7 +92,7 @@ module.factory('rpBlobIDS', ['$rootScope', '$http', '$q', function($scope, $http
    * Remove blob element
    */
 
-  BlobObj.prototype.unset = function (pointer, fn) {
+  BlobObj.prototype.unset = function(pointer, fn) {
     if (pointer === '/' + identityRoot) {
       return fn(new Error('Cannot remove Identity Vault'));
     }
@@ -107,7 +105,7 @@ module.factory('rpBlobIDS', ['$rootScope', '$http', '$q', function($scope, $http
    * Extend blob object
    */
 
-  BlobObj.prototype.extend = function (pointer, value, fn) {
+  BlobObj.prototype.extend = function(pointer, value, fn) {
     this.applyUpdate('extend', pointer, [value]);
     this.postUpdate('extend', pointer, [value], fn);
   };
@@ -116,7 +114,7 @@ module.factory('rpBlobIDS', ['$rootScope', '$http', '$q', function($scope, $http
    * Prepend blob array
    */
 
-  BlobObj.prototype.unshift = function (pointer, value, fn) {
+  BlobObj.prototype.unshift = function(pointer, value, fn) {
     this.applyUpdate('unshift', pointer, [value]);
     this.postUpdate(fn);
   };
@@ -130,7 +128,7 @@ module.factory('rpBlobIDS', ['$rootScope', '$http', '$q', function($scope, $http
    * The subcommands can be any commands with the pointer parameter left out.
    */
 
-  BlobObj.prototype.filter = function (pointer, field, value, subcommands, callback) {
+  BlobObj.prototype.filter = function(pointer, field, value, subcommands, callback) {
     var args = Array.prototype.slice.apply(arguments);
 
     if (typeof args[args.length - 1] === 'function') {
@@ -150,7 +148,7 @@ module.factory('rpBlobIDS', ['$rootScope', '$http', '$q', function($scope, $http
    * Apply udpdate to the blob
    */
 
-  BlobObj.prototype.applyUpdate = function (op, path, params) {
+  BlobObj.prototype.applyUpdate = function(op, path, params) {
     // Exchange from numeric op code to string
     if (typeof op === 'number') {
       op = BlobObj.opsReverseMap[op];
@@ -172,7 +170,7 @@ module.factory('rpBlobIDS', ['$rootScope', '$http', '$q', function($scope, $http
   };
 
   // for applyUpdate function
-  BlobObj.prototype._traverse = function (context, pointer, originalPointer, op, params) {
+  BlobObj.prototype._traverse = function(context, pointer, originalPointer, op, params) {
     var _this = this;
     var part = _this.unescapeToken(pointer.shift());
 
@@ -227,12 +225,12 @@ module.factory('rpBlobIDS', ['$rootScope', '$http', '$q', function($scope, $http
         break;
       case 'filter':
         if (Array.isArray(context[part])) {
-          context[part].forEach(function (element, i) {
+          context[part].forEach(function(element, i) {
             if (typeof element === 'object' && element.hasOwnProperty(params[0]) && element[params[0]] === params[1]) {
               var subpointer = originalPointer + '/' + i;
               var subcommands = normalizeSubcommands(params.slice(2));
 
-              subcommands.forEach(function (subcommand) {
+              subcommands.forEach(function(subcommand) {
                 var op = subcommand[0];
                 var pointer = subpointer + subcommand[1];
                 _this.applyUpdate(op, pointer, subcommand.slice(2));
@@ -246,14 +244,14 @@ module.factory('rpBlobIDS', ['$rootScope', '$http', '$q', function($scope, $http
     }
   };
 
-  BlobObj.prototype.escapeToken = function (token) {
-    return token.replace(/[~\/]/g, function (key) {
+  BlobObj.prototype.escapeToken = function(token) {
+    return token.replace(/[~\/]/g, function(key) {
       return key === '~' ? '~0' : '~1';
     });
   };
 
-  BlobObj.prototype.unescapeToken = function (str) {
-    return str.replace(/~./g, function (m) {
+  BlobObj.prototype.unescapeToken = function(str) {
+    return str.replace(/~./g, function(m) {
       switch (m) {
         case '~0':
           return '~';
@@ -289,7 +287,7 @@ module.factory('rpBlobIDS', ['$rootScope', '$http', '$q', function($scope, $http
       blobData, {
         headers: {'Authorization': 'Bearer ' + store.get('backend_token')},
         timeout: 8000
-      }).then(function (response) {
+      }).then(function(response) {
         if (!response.data) {
           return fn(new Error('Could not save blob'));
         }
@@ -317,7 +315,7 @@ module.factory('rpBlobIDS', ['$rootScope', '$http', '$q', function($scope, $http
     }
 
     // Normalize op name and convert strings to numeric codes
-    subcommands = subcommands.map(function (subcommand) {
+    subcommands = subcommands.map(function(subcommand) {
       if (typeof subcommand[0] === 'string') {
         subcommand[0] = BlobObj.ops[subcommand[0]];
       }
@@ -337,12 +335,14 @@ module.factory('rpBlobIDS', ['$rootScope', '$http', '$q', function($scope, $http
       // Convert to the minimal possible format
       if (subcommands.length === 1) {
         return subcommands[0];
-      } else {
-        return [subcommands];
       }
-    } else {
-      return subcommands;
+
+      return [subcommands];
+
     }
+
+    return subcommands;
+
   }
 
   /**

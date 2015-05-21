@@ -16,16 +16,15 @@ var module = angular.module('id', ['authflow', 'blob', 'oldblob']);
 
 module.factory(
   'rpId', ['$rootScope', '$location', '$route', '$routeParams', '$timeout',
-  'rpAuthFlowIDS', 'rpBlobIDS', '$q', '$http',
+  'rpAuthFlowIDS', 'rpBlobIDS', '$q',
   function($scope, $location, $route, $routeParams, $timeout,
-                                 $authflow, $blob, $q, $http) {
+                                 $authflow, $blob, $q) {
     /**
      * Identity manager
      *
      * This class manages the encrypted blob and all user-specific state.
      */
-    var Id = function()
-    {
+    var Id = function() {
       this.account = null;
       this.loginStatus = false;
       // name resolution cache
@@ -87,8 +86,7 @@ module.factory(
       return username;
     };
 
-    Id.prototype.init = function()
-    {
+    Id.prototype.init = function() {
       var self = this;
 
       // Initializing sjcl.random doesn't really belong here, but there is no other
@@ -117,7 +115,9 @@ module.factory(
       }, true);
 
       $scope.$on('$blobUpdate', function() {
-        if (!settings.blobIsValid($scope.userBlob)) return;
+        if (!settings.blobIsValid($scope.userBlob)) {
+          return;
+        }
 
         $scope.ripple_exchange_selection_trade = settings.getSetting($scope.userBlob, 'rippleExchangeSelectionTrade', false);
 
@@ -211,27 +211,31 @@ module.factory(
 
       $(window).bind('storage', function(e) {
         // http://stackoverflow.com/questions/18476564/ie-localstorage-event-misfired
-        if (document.hasFocus()) return;
-
-        if (e.originalEvent.key == 'backend_token' && e.originalEvent.oldValue && !e.originalEvent.newValue) {
-          $timeout(function() { $scope.$broadcast('$idRemoteLogout'); }, 0);
+        if (document.hasFocus()) {
+          return;
         }
 
-        if (e.originalEvent.key == 'backend_token' && !e.originalEvent.oldValue && e.originalEvent.newValue) {
-          $timeout(function() { $scope.$broadcast('$idRemoteLogin'); }, 0);
+        if (e.originalEvent.key === 'backend_token' && e.originalEvent.oldValue && !e.originalEvent.newValue) {
+          $timeout(function() {
+            $scope.$broadcast('$idRemoteLogout');
+          }, 0);
+        }
+
+        if (e.originalEvent.key === 'backend_token' && !e.originalEvent.oldValue && e.originalEvent.newValue) {
+          $timeout(function() {
+            $scope.$broadcast('$idRemoteLogin');
+          }, 0);
         }
       });
     };
 
-    Id.prototype.setUsername = function(username)
-    {
+    Id.prototype.setUsername = function(username) {
       this.username = username;
       $scope.userCredentials.username = username;
       $scope.$broadcast('$idUserChange', {username: username});
     };
 
-    Id.prototype.setAccount = function(accId)
-    {
+    Id.prototype.setAccount = function(accId) {
       if (this.account !== null) {
         $scope.$broadcast('$idAccountUnload', {account: accId});
       }
@@ -240,23 +244,15 @@ module.factory(
       $scope.$broadcast('$idAccountLoad', {account: accId});
     };
 
-    Id.prototype.isReturning = function()
-    {
+    Id.prototype.isReturning = function() {
       return !!store.get('ripple_known');
     };
 
-    Id.prototype.isLoggedIn = function()
-    {
+    Id.prototype.isLoggedIn = function() {
       return this.loginStatus;
     };
 
-    Id.prototype.storeBackendToken = function(token)
-    {
-      store.set('backend_token', token);
-    };
-
-    Id.prototype.exists = function(username, callback)
-    {
+    Id.prototype.exists = function(username, callback) {
       username = Id.normalizeUsernameForDisplay(username);
 
       $authflow.exists(Id.normalizeUsernameForInternals(username), function(err, data) {
@@ -303,7 +299,6 @@ module.factory(
         callback(null);
 
       }, function(err) {
-        // TODO Divide responsibilities between controller/id/auth/blob on handling unsuccessful login
         self.logout();
         // $location.path('/login');
 
@@ -377,10 +372,8 @@ module.factory(
     };
 
     Id.prototype.unlock = function(username, password, callback) {
-      var self = this;
-
       // Callback is optional
-      if ('function' !== typeof callback) callback = $.noop;
+      if('function' !== typeof callback) callback = $.noop;
 
       // username = Id.normalizeUsernameForDisplay(username);
       // password = Id.normalizePassword(password);
@@ -503,8 +496,7 @@ module.factory(
         var allTabs = ['login', 'recover', '404', 'privacypolicy', 'tou'];
         if (allTabs.indexOf(tab) !== -1) {
           $scope.showLogin = false;
-        }
-        else {
+        } else {
           $scope.showLogin = true;
           return;
         }
