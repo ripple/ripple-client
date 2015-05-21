@@ -1364,10 +1364,14 @@ TradeTab.prototype.angular = function(module)
           ($scope.lines[second_issuer+($scope.order.second_currency.has_interest() ? $scope.order.second_currency.to_hex() : $scope.order.second_currency.to_json())]
             && $scope.lines[second_issuer+($scope.order.second_currency.has_interest() ? $scope.order.second_currency.to_hex() : $scope.order.second_currency.to_json())].balance.is_positive());
 
+      canBuy = !second_currency.is_native() || !$scope.account.max_spend ? canBuy : canBuy && $scope.account.max_spend.is_positive();
+
       var canSell = first_currency.is_native() ||
           first_issuer == $scope.address ||
           ($scope.lines[first_issuer+($scope.order.first_currency.has_interest() ? $scope.order.first_currency.to_hex() : $scope.order.first_currency.to_json())]
             && $scope.lines[first_issuer+($scope.order.first_currency.has_interest() ? $scope.order.first_currency.to_hex() : $scope.order.first_currency.to_json())].balance.is_positive());
+
+      canSell = !first_currency.is_native() || !$scope.account.max_spend ? canSell : canSell && $scope.account.max_spend.is_positive();
 
       $scope.order.buy.showWidget = canBuy;
       $scope.order.sell.showWidget = canSell;
