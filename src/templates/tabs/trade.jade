@@ -168,7 +168,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                       span.available(ng-show="type == 'buy'", l10n)
                         span.amount
                           span(ng-show="order.second_currency.is_native()")
-                            | {{account.Balance | rpamount}} XRP
+                            | {{account.max_spend | rpamount}} XRP
                           span(ng-hide="order.second_currency.is_native()")
                             | {{lines[order.second_issuer+order.second_currency.to_json()].balance || "0" | rpamount}}&#32;
                             span(
@@ -180,7 +180,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                       span.available(ng-show="type == 'sell'", l10n)
                         span.amount
                           span(ng-show="order.first_currency.is_native()")
-                            | {{account.Balance | rpamount}} XRP
+                            | {{account.max_spend | rpamount}} XRP
                           span(ng-hide="order.first_currency.is_native()")
                             | {{lines[order.first_issuer+order.first_currency.to_json()].balance || "0" | rpamount}}&#32;
                             span(
