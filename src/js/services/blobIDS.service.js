@@ -63,12 +63,6 @@ module.factory('rpBlobIDS', ['$rootScope', '$http', '$q', function($scope, $http
         return self;
 
       }, function(response) {
-        if (response.status === 401) {
-          // TODO check where should this be placed
-          // backend token is broken
-          store.remove('backend_token');
-        }
-
         return $q.reject(response.data || 'Could not retrieve blob');
       });
   };
