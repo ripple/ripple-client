@@ -22,10 +22,7 @@ require('../validators/rpWebsocket.directive.js');
 require('../services/globalwrappers.service.js');
 require('../services/id.service.js');
 require('../services/tracker.service.js');
-require('../services/blobRemote.service.js');
-require('../services/oldblob.service.js');
 require('../services/txqueue.service.js');
-require('../services/authflowRemote.service.js');
 require('../services/keychain.service.js');
 require('../services/network.service.js');
 require('../services/books.service.js');
@@ -36,9 +33,8 @@ require('../services/domainalias.service.js');
 require('../services/history.service.js');
 require('../services/notifications.service.js');
 
-require('../services/authflowIDS.service.js');
-require('../services/blobIDS.service.js');
-//require('../services/idoauth.service.js');
+require('../services/authflow.service.js');
+require('../services/blob.service.js');
 
 require('../services/integration/appManager.service.js');
 require('../services/integration/profileManager.service.js');
@@ -63,9 +59,9 @@ var appDependencies = [
   'appManager',
   'history',
   'notifications',
-  // IDS related services
-  'blobids',
-  'authflowids',
+  // ID Service related services
+  'blob',
+  'authflow',
   // Directives
   'charts',
   'effects',
