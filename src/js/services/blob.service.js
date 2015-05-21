@@ -1,8 +1,8 @@
 'use strict';
 
-var module = angular.module('blobids', []);
+var module = angular.module('blob', []);
 
-module.factory('rpBlobIDS', ['$rootScope', '$http', '$q', function($scope, $http, $q) {
+module.factory('rpBlob', ['$rootScope', '$http', '$q', function($scope, $http, $q) {
 
   // Blob object class
   function BlobObj() {

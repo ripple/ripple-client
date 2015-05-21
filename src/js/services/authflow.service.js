@@ -6,9 +6,9 @@
  * The auth flow service manages the login, unlock and registration procedures.
  */
 
-var module = angular.module('authflowids', []);
+var module = angular.module('authflow', []);
 
-module.factory('rpAuthFlowIDS', ['$rootScope', function($scope) {
+module.factory('rpAuthFlow', ['$rootScope', function($scope) {
   var AuthFlow = {};
 
   AuthFlow.exists = function(username, callback) {

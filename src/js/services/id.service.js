@@ -12,11 +12,11 @@ var util = require('util'),
     Base58Utils = require('../util/base58'),
     RippleAddress = require('../util/types').RippleAddress;
 
-var module = angular.module('id', ['authflow', 'blob', 'oldblob']);
+var module = angular.module('id', ['authflow', 'blob']);
 
 module.factory(
   'rpId', ['$rootScope', '$location', '$route', '$routeParams', '$timeout',
-  'rpAuthFlowIDS', 'rpBlobIDS', '$q',
+  'rpAuthFlow', 'rpBlob', '$q',
   function($scope, $location, $route, $routeParams, $timeout,
                                  $authflow, $blob, $q) {
     /**

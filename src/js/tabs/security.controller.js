@@ -14,8 +14,8 @@ SecurityTab.prototype.tabName = 'security';
 SecurityTab.prototype.mainMenu = 'security';
 
 SecurityTab.prototype.angular = function(module) {
-  module.controller('SecurityCtrl', ['$scope', 'rpId', 'rpOldBlob', 'rpTracker', 'rpKeychain',
-    function($scope, id, blob, rpTracker, keychain) {
+  module.controller('SecurityCtrl', ['$scope', 'rpId', 'rpTracker', 'rpKeychain',
+    function($scope, id, rpTracker, keychain) {
 
       $scope.settingsPage = 'security';
 
