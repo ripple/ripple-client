@@ -7,10 +7,11 @@
 exports.blobIsValid = function(userBlob) {
   // return userBlob instanceof rippleVaultClient.Blob;
   // TODO use instanceof instead of this ugly construction
-  return userBlob.hasOwnProperty('data') &&
+  return typeof userBlob === 'object' &&
+    userBlob.hasOwnProperty('data') &&
     userBlob.hasOwnProperty('encrypted_secret') &&
     typeof userBlob.unshift === 'function';
-}
+};
 
 /**
  * Check if there is such setting in user blob
@@ -73,4 +74,4 @@ exports.getClearServers = function(servers) {
     o.port = Number(o.port);
     return o;
   });
-}
+};
