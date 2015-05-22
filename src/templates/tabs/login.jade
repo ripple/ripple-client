@@ -12,7 +12,7 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
         .backend.error(ng-repeat="message in backendMessages")
           span.error(ng-bind="message")
       .submit-btn-container
-        a.btn.btn-submit.btn-block.btn-success#loginBtn(href="{{globalOptions.backend_url}}/auth/register")
+        a.btn.btn-submit.btn-block.btn-success#registerBtn(href="{{globalOptions.backend_url}}/auth/register")
           span(l10n) Sign up
         a.btn.btn-submit.btn-block.btn-success#loginBtn(href="{{globalOptions.backend_url}}/auth/login")
           span(l10n) Sign in
