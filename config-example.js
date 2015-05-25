@@ -88,7 +88,7 @@ var Options = {
   // Default threshold in XRPs for fee on RT to show higher load status
   low_load_threshold: 0.012,
 
-  // Ripple client backend URL
+  // Ripple trade backend URL
   backend_url: ''
 };
 
