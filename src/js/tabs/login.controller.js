@@ -19,8 +19,18 @@ LoginTab.prototype.extraRoutes = [
 ];
 
 LoginTab.prototype.angular = function(module) {
-  module.controller('LoginCtrl', ['$scope', '$location', 'rpTracker', 'rpId',
-    function($scope, $location, rpTracker, id) {
+  module.controller('LoginCtrl', ['$scope', '$location', '$sce', 'rpTracker', 'rpId',
+    function($scope, $location, $sce, rpTracker, id) {
+
+      $scope.error = '';
+      $scope.redirectTo = $location.path();
+      $scope.backendMessages = [];
+      $scope.authAction = $sce.trustAsResourceUrl(Options.backend_url + '/auth/login');
+
+      if (id.loginStatus) {
+        $location.path('/balance');
+        return;
+      }
 
       function loginCallback(err) {
         if (err) {
@@ -36,13 +46,11 @@ LoginTab.prototype.angular = function(module) {
           return;
         }
 
-        $location.path('/balance').search('');
-
-        /*
-         if ($.isEmptyObject($routeParams)) {
-         $location.path('/balance');
-         }
-         */
+        if ($location.search().redirect_to) {
+          $location.path($location.search().redirect_to).search('');
+        } else {
+          $location.path('/balance').search('');
+        }
 
         rpTracker.track('Login', {
           'Status': 'success'
@@ -51,14 +59,10 @@ LoginTab.prototype.angular = function(module) {
         $scope.status = '';
       }
 
-      $scope.error = '';
-      $scope.rememberMe = true;
-      $scope.backendMessages = [];
-
-      if (id.loginStatus) {
-        $location.path('/balance');
-        return;
-      }
+      $scope.submitForm = function(authAction) {
+        $scope.redirectTo = $location.path();
+        $scope.authAction = $sce.trustAsResourceUrl(Options.backend_url + '/auth/' + authAction);
+      };
 
       // if ($routeParams.callback === 'callback' && $routeParams.token ) {
       if ($location.path() === '/login/callback' && $location.search().token) {

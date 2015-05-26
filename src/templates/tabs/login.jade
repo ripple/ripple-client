@@ -11,11 +11,17 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
         br
         .backend.error(ng-repeat="message in backendMessages")
           span.error(ng-bind="message")
-      .submit-btn-container
-        a.btn.btn-submit.btn-block.btn-success#registerBtn(href="{{globalOptions.backend_url}}/auth/register")
-          span(l10n) Sign up
-        a.btn.btn-submit.btn-block.btn-success#loginBtn(href="{{globalOptions.backend_url}}/auth/login")
-          span(l10n) Sign in
+      form(name='loginForm' action='{{authAction}}')
+        .submit-btn-container
+          button.btn.btn-submit.btn-block.btn-success#registerBtn(type="submit" ng-click="submitForm('register')")
+            span(l10n) Sign Up
+          button.btn.btn-submit.btn-block.btn-success#loginBtn(type="submit" ng-click="submitForm('login')")
+            span(l10n) Sign In
+        .input-group.col-xs-12
+          input(name='redirect_to', type='hidden', value='{{redirectTo}}')
+          label
+            input.rememberMe(name='remember_me', type='checkbox')
+            span(for='remember_me', l10n) Remember me on this device for 30 days
       .row.switch-mode-wrapper
         .switch-mode-link-container.bottomText(l10n)
           | Ripple Trade uses &nbsp;
