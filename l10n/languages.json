@@ -8,6 +8,7 @@
     {"code": "he_IL", "name": "hebrew_israel", "nativeName": "עברית"},
     {"code": "it", "name": "italian", "nativeName": "Italiano"},
     {"code": "ja", "name": "japanese", "nativeName": "日本の"},
+    {"code": "ko", "name": "korean", "nativeName": "한국말"},
     {"code": "nb_NO", "name": "norwegian_bokmal", "nativeName": "Norsk bokmål"},
     {"code": "nl_NL", "name": "dutch_netherlands", "nativeName": "Nederlands"},
     {"code": "pl", "name": "polish", "nativeName": "Polski"},
