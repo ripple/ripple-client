@@ -15,7 +15,7 @@
             rp-popover-trigger="hover"
             rp-popover-delay
             l10n-rp-popover-content="Balance<br>{{ account.Balance | rpamount }} XRP"
-            ) {{ account.Balance | rpamount:{abs_precision: 2} }}
+            ) {{ account.Balance | rpamount:{abs_precision: 4} }}
         div(ng-hide="account.Balance") 0.00
         dl(rp-slide="entry.show")
           dt
@@ -33,7 +33,7 @@
               rp-popover-trigger="hover"
               rp-popover-delay
               l10n-rp-popover-content="Reserve amount<br>{{ account.reserve | rpamount }} XRP"
-              ) {{ account.reserve | rpamount:{abs_precision: 2} }}
+              ) {{ account.reserve | rpamount:{abs_precision: 4} }}
           dd(ng-hide="account.reserve") 0.00
 
           dt
@@ -51,7 +51,7 @@
               rp-popover-trigger="hover"
               rp-popover-delay
               l10n-rp-popover-content="Available amount<br>{{ account.max_spend | rpamount }} XRP"
-              ) {{ account.max_spend | rpamount:{abs_precision: 2} }}
+              ) {{ account.max_spend | rpamount:{abs_precision: 4} }}
           dd(ng-hide="account.max_spend") 0.00
 
       li(
