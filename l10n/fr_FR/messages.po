@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Ripple Trade\n"
-"PO-Revision-Date: 2015-03-21 01:02+0000\n"
+"PO-Revision-Date: 2015-05-24 19:08+0000\n"
 "Last-Translator: keepx <keepah@wanadoo.fr>\n"
 "Language-Team: French (France) (http://www.transifex.com/projects/p/ripple-trade/language/fr_FR/)\n"
 "MIME-Version: 1.0\n"
@@ -41,7 +41,7 @@ msgstr "Convertir"
 #: src/jade/client/index.jade:18 src/jade/client/navbar.jade:23
 #: src/jade/client/navbar.jade:25 src/jade/tabs/settings/navbar.jade:3
 msgid "Trade"
-msgstr "Echanger"
+msgstr "Échanger"
 
 #: src/jade/client/index.jade:22 src/jade/client/navbar.jade:27
 #: src/jade/client/navbar.jade:133
@@ -68,7 +68,7 @@ msgstr "Déconnexion"
 
 #: src/jade/client/index.jade:61
 msgid "Why Use Ripple Trade?"
-msgstr "Pourquoi Utiliser Ripple Trade?"
+msgstr "Pourquoi Utiliser Ripple Trade ?"
 
 #: src/jade/client/index.jade:66
 msgid "Home of XRP -"
@@ -1543,7 +1543,7 @@ msgstr "Ripple calcule un chemin pour votre conversion."
 msgid ""
 "{{1:You are exchanging}}{{2}}{{3:to}}{{4}}{{5:You will pay at "
 "most}}{{6}}{{7:Are you sure?}}"
-msgstr "{{1:Vous échangez}}{{2}}{{3:pour}}{{4}}{{5:Vous paierai au plus}}{{6}}{{7:Êtes-vous sûr?}}"
+msgstr "{{1:Vous échangez}}{{2}}{{3:pour}}{{4}}{{5:Vous paierai au plus}}{{6}}{{7:Êtes-vous sûr ?}}"
 
 #: src/jade/tabs/exchange.jade:139
 msgid "Do another conversion"
@@ -2192,7 +2192,7 @@ msgstr "Vous pouvez confirmer la transaction sur la page suivante."
 
 #: src/jade/tabs/login.jade:99
 msgid "New to {{productName}}? {{1:Create a wallet}}"
-msgstr "Nouveau sur {{productName}}? {{1:Créer un portefeuille}}"
+msgstr "Nouveau sur {{productName}} ? {{1:Créer un portefeuille}}"
 
 #: src/jade/tabs/login/form.jade:12 src/jade/tabs/security.jade:91
 msgid ""
@@ -2243,11 +2243,11 @@ msgstr "Commencer la migration"
 
 #: src/jade/tabs/migrate.jade:32
 msgid "New to {{productName}}? {{1:Sign Up}}"
-msgstr "Nouveau sur {{productName}}? {{1:S'enregistrer}}"
+msgstr "Nouveau sur {{productName}} ? {{1:S'enregistrer}}"
 
 #: src/jade/tabs/migrate.jade:34
 msgid "Have a {{productName}} account? {{1:Log In}}"
-msgstr "Vous avez un compte {{productName}}? {{1:S'identifier}}"
+msgstr "Vous avez un compte {{productName}} ? {{1:S'identifier}}"
 
 #: src/jade/tabs/mxn.jade:38
 msgid "Mexican Peso Deposit"
@@ -2401,7 +2401,7 @@ msgstr "Mise à jour..."
 
 #: src/jade/tabs/recover.jade:57
 msgid "Remember your password? {{1:Log In}}"
-msgstr "Vous vous rappelez de votre mot de passe? {{1:S'identifier}}"
+msgstr "Vous vous rappelez de votre mot de passe ? {{1:S'identifier}}"
 
 #: src/jade/tabs/register.jade:13 src/jade/tabs/register.jade:109
 #: src/jade/tabs/register.jade:141 src/jade/tabs/register.jade:188
@@ -2486,7 +2486,7 @@ msgstr "Migrer le compte"
 
 #: src/jade/tabs/register.jade:111
 msgid "Need to use your secret key? {{1}}"
-msgstr "Besoin d'utiliser votre clé secrète? {{1}}"
+msgstr "Besoin d'utiliser votre clé secrète ? {{1}}"
 
 #: src/jade/tabs/register.jade:113
 msgid "Use key"
@@ -2905,7 +2905,7 @@ msgstr "Vous paierez au plus"
 
 #: src/jade/tabs/send.jade:204
 msgid "Are you sure?"
-msgstr "Êtes-vous certain?"
+msgstr "Êtes-vous certain ?"
 
 #: src/jade/tabs/send.jade:210
 msgid "Password required to unlock wallet"
@@ -3099,7 +3099,7 @@ msgstr "Vous n'avez pas de fonds suffisants pour créer un ordre."
 msgid ""
 "You are about to create an order to {{1: buy}} {{2: "
 "sell}}{{3}}{{4:for}}{{5}}{{6}}{{7:Are you sure?}}{{8}}"
-msgstr "Vous êtes sur le point de créer un ordre pour {{1: acheter}} {{2: vendre}}{{3}}{{4:pour}}{{5}}{{6}}{{7:Êtes-vous sûr?}}{{8}}"
+msgstr "Vous êtes sur le point de créer un ordre pour {{1: acheter}} {{2: vendre}}{{3}}{{4:pour}}{{5}}{{6}}{{7:Êtes-vous sûr ?}}{{8}}"
 
 #: src/jade/tabs/trade.jade:242
 msgid "CAUTION: Your order is far off from the current market price."
