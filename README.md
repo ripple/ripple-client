@@ -37,11 +37,11 @@ Your web client is in the 'build/dist/' directory.
 ### Target backend
 
 By default, the [ripple.txt](https://wiki.ripple.com/Ripple.txt) file is pointed at the staging server.
-__This means you will only be able to log in on your dev environment with an account created on [staging.ripple.com/client](https://staging.ripple.com/client).__
+__This means you will only be able to log in on your dev environment with an account created on [staging.rippletrade.com](https://staging.rippletrade.com).__
 
 If you want to point your environment at the production server:
 - set the authinfo_url in ripple.txt (in the root of the repo directory) to: `https://id.ripple.com/v1/authinfo` (make sure to rebuild + clear browser cache)
-- set the `activate_link` property in config.js to `http://ripple.com/client/#/register/activate`
+- set the `activate_link` property in config.js to `https://rippletrade.com/#/register/activate`
 
 ## Directory Layout
 
@@ -69,7 +69,7 @@ Stay tuned...
 
 ## Reporting Bugs
 
-Have a bug or a feature request? [Please create a new issue](https://ripplelabs.atlassian.net/browse/WC). Before opening any issue, please search for [existing issues](https://ripplelabs.atlassian.net/browse/WC-1193?jql=project%20%3D%20WC) and read the [Issue Guidelines](https://github.com/rippleFoundation/ripple-client/blob/develop/CONTRIBUTING.md), written by [Nicolas Gallagher](https://github.com/necolas/).
+Have a bug or a feature request? [Please create a new issue](https://ripplelabs.atlassian.net/browse/RT). Before opening any issue, please search for [existing issues](https://ripplelabs.atlassian.net/issues/?jql=project%20%3D%20RT) and read the [Issue Guidelines](https://github.com/ripple/ripple-client/blob/develop/CONTRIBUTING.md), written by [Nicolas Gallagher](https://github.com/necolas/).
 
 
 ## Contributing
