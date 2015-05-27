@@ -12,7 +12,7 @@
     {"code": "nb_NO", "name": "norwegian_bokmal", "nativeName": "Norsk bokmål"},
     {"code": "nl_NL", "name": "dutch_netherlands", "nativeName": "Nederlands"},
     {"code": "pl", "name": "polish", "nativeName": "Polski"},
-    {"code": "pt", "name": "portuguese", "nativeName": "Português"},
+    {"code": "pt_BR", "name": "portuguese_brazil", "nativeName": "Português brasileiro"},
     {"code": "ro", "name": "romanian", "nativeName": "Român"},
     {"code": "ru", "name": "russian", "nativeName": "Русский"},
     {"code": "sk", "name": "slovak", "nativeName": "Slovenská"},
