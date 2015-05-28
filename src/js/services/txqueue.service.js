@@ -12,8 +12,7 @@ angular
 
 rpTxQueue.$inject = ['$rootScope', 'rpNetwork', 'rpKeychain', 'rpId'];
 
-function rpTxQueue($scope, network, keychain, id)
-{
+function rpTxQueue($scope, network, keychain, id) {
   return {
     addTransaction: addTransaction,
     checkQueue: checkQueue,
@@ -28,41 +27,59 @@ function rpTxQueue($scope, network, keychain, id)
    * @param callback function
    */
   function addTransaction(tx) {
-
-    // Get user's secret key
-    keychain.requestSecret(id.account, id.username, function (err, secret) {
-      if (err) {
-        console.log("client: txQueue: error while unlocking wallet: ", err);
-
-        return;
-      }
-
-      var transaction = ripple.Transaction.from_json(tx.tx_json);
-
-      transaction.remote = network.remote;
-      transaction.secret(secret);
-
-      // If account is funded submit the transaction right away
-      if ($scope.account.Balance) {
-        transaction.submit();
-      }
-
-      // If not, add it to the queue.
+    if (!$scope.account.Balance) {
+      // if account is unfunded, then there is no need to ask user for a key
+      // Add transaction to the queue.
       // (Will be submitted as soon as account gets funding)
-      else {
-        var item = {
-          tx_json: tx.tx_json,
-          type: tx.tx_json.TransactionType
-        };
+      var item = {
+        tx_json: tx.tx_json,
+        type: tx.tx_json.TransactionType
+      };
 
-        // Additional details depending on a transaction type
-        if ('TrustSet' === item.type) {
-          item.details = tx.tx_json.LimitAmount;
+      // Additional details depending on a transaction type
+      if ('TrustSet' === item.type) {
+        item.details = tx.tx_json.LimitAmount;
+      }
+
+      var saveTx = function(e1, r1) {
+        if (e1) {
+          console.warn(e1);
+          return;
+        }
+        $scope.userBlob.unshift('/clients/rippletradecom/txQueue', item);
+      }
+
+      if ($scope.userBlob.data && !$scope.userBlob.data.clients) {
+        // there is bug in RippleLib with unshift operation - if 
+        // there is empty nodes in the path, it tries to create array node,
+        // and nothing gets created under it, so create '/clients' explicitly
+        $scope.userBlob.set('/clients', { rippletradecom: {} }, saveTx);
+      } else if ($scope.userBlob.data && $scope.userBlob.data.clients && _.isArray($scope.userBlob.data.clients)) {
+        // if '/clients' already set to array, clear it
+        $scope.userBlob.unset('/clients', function(e, r) {
+          if (e) return;
+          $scope.userBlob.set('/clients', { rippletradecom: {} }, saveTx);
+        });
+      } else {
+        saveTx();
+      }
+    } else {
+      // Get user's secret key
+      keychain.requestSecret(id.account, id.username, function(err, secret) {
+        if (err) {
+          console.log('client: txQueue: error while unlocking wallet: ', err);
+          return;
         }
 
-        $scope.userBlob.unshift("/clients/rippletradecom/txQueue", item);
-      }
-    });
+        var transaction = ripple.Transaction.from_json(tx.tx_json);
+
+        transaction.remote = network.remote;
+        transaction.secret(secret);
+
+        // If account is funded submit the transaction right away
+        transaction.submit();
+      });
+    }
   }
 
   /**
@@ -78,8 +95,7 @@ function rpTxQueue($scope, network, keychain, id)
     // Get user's secret key
     keychain.requestSecret(id.account, id.username, function (err, secret) {
       if (err) {
-        console.log("client: txQueue: error while unlocking wallet: ", err);
-
+        console.log('client: txQueue: error while unlocking wallet: ', err);
         return;
       }
 
