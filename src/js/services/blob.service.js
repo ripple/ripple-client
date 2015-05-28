@@ -73,44 +73,44 @@ module.factory('rpBlob', ['$rootScope', '$http', '$q', function($scope, $http, $
    * Set blob element
    */
 
-  BlobObj.prototype.set = function(pointer, value, fn) {
+  BlobObj.prototype.set = function(pointer, value, callback) {
     if (pointer === '/' + identityRoot && this.data[identityRoot]) {
-      return fn(new Error('Cannot overwrite Identity Vault'));
+      return callback(new Error('Cannot overwrite Identity Vault'));
     }
 
     this.applyUpdate('set', pointer, [value]);
-    this.postUpdate(fn);
+    this.postUpdate(callback);
   };
 
   /**
    * Remove blob element
    */
 
-  BlobObj.prototype.unset = function(pointer, fn) {
+  BlobObj.prototype.unset = function(pointer, callback) {
     if (pointer === '/' + identityRoot) {
-      return fn(new Error('Cannot remove Identity Vault'));
+      return callback(new Error('Cannot remove Identity Vault'));
     }
 
     this.applyUpdate('unset', pointer, []);
-    this.postUpdate(fn);
+    this.postUpdate(callback);
   };
 
   /**
    * Extend blob object
    */
 
-  BlobObj.prototype.extend = function(pointer, value, fn) {
+  BlobObj.prototype.extend = function(pointer, value, callback) {
     this.applyUpdate('extend', pointer, [value]);
-    this.postUpdate('extend', pointer, [value], fn);
+    this.postUpdate('extend', pointer, [value], callback);
   };
 
   /**
    * Prepend blob array
    */
 
-  BlobObj.prototype.unshift = function(pointer, value, fn) {
+  BlobObj.prototype.unshift = function(pointer, value, callback) {
     this.applyUpdate('unshift', pointer, [value]);
-    this.postUpdate(fn);
+    this.postUpdate(callback);
   };
 
   /**
@@ -260,12 +260,11 @@ module.factory('rpBlob', ['$rootScope', '$http', '$q', function($scope, $http, $
    * Sumbit update to blob vault
    */
 
-  BlobObj.prototype.postUpdate = function(fn) {
+  BlobObj.prototype.postUpdate = function(callback) {
 
     // Callback is optional
-    if (typeof fn !== 'function') {
-      fn = function() {
-      };
+    if (typeof callback !== 'function') {
+      callback = $.noop;
     }
 
     var blobData = {};
@@ -283,12 +282,12 @@ module.factory('rpBlob', ['$rootScope', '$http', '$q', function($scope, $http, $
         timeout: 8000
       }).then(function(response) {
         if (!response.data) {
-          return fn(new Error('Could not save blob'));
+          return callback(new Error('Could not save blob'));
         }
-        return fn(null, response.data);
+        return callback(null, response.data);
 
       }, function(response) {
-        return fn(new Error('Could not save blob'));
+        return callback(new Error('Could not save blob'));
       }
     );
   };
