@@ -47,13 +47,13 @@
     },
     {
       "type": "waitForTextPresent",
-      "text": "skip two-factor authentication setup"
+      "text": "skip preliminary setup"
     },
     {
       "type": "clickElement",
       "locator": {
         "type": "link text",
-        "value": "skip two-factor authentication setup"
+        "value": "skip preliminary setup"
       }
     },
     {
