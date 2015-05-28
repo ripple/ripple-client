@@ -23,6 +23,7 @@ LoginTab.prototype.angular = function(module) {
     function($scope, $location, $sce, rpTracker, id) {
 
       $scope.error = '';
+      $scope.loggingIn = false;
       $scope.redirectTo = $location.path();
       $scope.backendMessages = [];
       $scope.authAction = $sce.trustAsResourceUrl(Options.backend_url + '/auth/login');
@@ -33,6 +34,9 @@ LoginTab.prototype.angular = function(module) {
       }
 
       function loginCallback(err) {
+        $scope.loggingIn = false;
+        $scope.status = '';
+
         if (err) {
           $scope.status = 'Login failed:';
 
@@ -43,6 +47,7 @@ LoginTab.prototype.angular = function(module) {
           if (!$scope.$$phase) {
             $scope.$apply();
           }
+
           return;
         }
 
@@ -55,8 +60,6 @@ LoginTab.prototype.angular = function(module) {
         rpTracker.track('Login', {
           'Status': 'success'
         });
-
-        $scope.status = '';
       }
 
       $scope.submitForm = function(authAction) {
@@ -66,6 +69,7 @@ LoginTab.prototype.angular = function(module) {
 
       // if ($routeParams.callback === 'callback' && $routeParams.token ) {
       if ($location.path() === '/login/callback' && $location.search().token) {
+        $scope.loggingIn = true;
         id.login($location.search().token, loginCallback);
       }
 
