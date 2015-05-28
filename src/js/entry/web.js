@@ -100,6 +100,7 @@ var tabdefs = [
   require('../tabs/usd.controller.js'),
   require('../tabs/eur.controller.js'),
   require('../tabs/sgd.controller.js'),
+  require('../tabs/cad.controller.js'),
   require('../tabs/gold.controller.js'),
   require('../tabs/tou.controller.js'),
   require('../tabs/privacypolicy.controller.js'),
