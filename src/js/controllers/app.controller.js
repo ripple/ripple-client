@@ -28,7 +28,7 @@ function AppCtrl ($scope, id, net, keychain, txQueue, appManager, rpTracker,
 
   // For announcement banner
 
-  store.set('announcement', false);
+  store.set('announcement', true);
   $scope.showAnnouncement = store.get('announcement');
 
   net.listenId(id);
