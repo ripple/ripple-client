@@ -1,0 +1,113 @@
+section.col-xs-12.content(ng-controller='CadCtrl')
+
+  //- Disconnected
+
+  group.disconnected(ng-hide='connected')
+    p.literal(l10n="err-you-must-be-online-to-see-this-screen")
+      | You have to be online to see this screen
+
+  //- Funding
+  div(ng-show="!loadingAccount && !account.Balance && loadState.account && connected")
+    include ../tabs/banner/unfunded
+
+  div(ng-show='hasRTJapanTrust')
+    include banner/rtjapan
+  div(ng-show='hasRTJapanTrustWithRippling')
+    include banner/rtjapanrippling
+
+  .row(ng-show='connected')
+    // Transaction errors coming from errors.js & transactionerror.jade
+    .col-sm-12(ng-show='mode=="error" || mode=="granting" && account.Balance')
+      group.mode-ripplerror
+        rp-transaction-status(
+          rp-engine-result="{{engine_result}}"
+          rp-engine-result-message="{{engine_result_message}}"
+          rp-accepted="{{engine_status_accepted}}"
+          rp-current-tab="trust")
+
+    //- Generic non-tx related messages
+    .col-sm-12(ng-show='notif !== "clear"', ng-hide="!notif")
+      group.mode-granted.wide
+        group(ng-switch="notif")
+          group.result-error(ng-switch-when="error")
+            h2.tx-status(l10n) There was an error while saving your changes.&#32;
+            p(l10n) Please try again later.
+    .col-sm-12(ng-show='account.Balance && !can_add_trust && !cadConnected')
+      .alert.alert-warning(l10n) You must have at least
+        strong  {{account.reserve_to_add_trust | rpamount:0}} XRP
+        |  to add a new trust line.&#32;
+        a(href="https://ripple.com/wiki/Reserves", target="_blank") More information
+
+    .col-sm-3
+      include ../tabs/fund/menu
+    .col-sm-9.list(ng-hide='debug')
+      .nameLine(l10n) Canadian Dollar Deposit
+      .gateway.row
+        .col-md-3
+            .title(l10n) Gateway
+            .description(l10n)            
+              | Bluzelle CAD Issuer (~bluzelle)
+              br
+              a(href="http://bluzelle.com", target="_blank") bluzelle.com
+        .col-md-3
+            .title(l10n) Availability
+            .description(l10n) All countries
+        .col-md-6
+            .title(l10n) Fees
+            .description
+              p(l10n) Deposit: $1 + 1.5% Max $5. Deposits available during business hours. 
+              p(l10n) Withdrawal: $1.50. Withdrawals available during business hours.
+              p(l10n) Trading: 0.1% when transferring.
+        //- .col-md-3
+        //-     .title(l10n) Rating
+        //-     .description(l10n)
+        //-       a(href="https://coinist.co/ripple/gateways/ripple-singapore", target="_blank") read reviews
+
+      .row.fund-tab-description
+        .col-xs-12.col-md-8.col-lg-6
+          .descriptor(ng-show="!cadConnected", l10n) Ripple Trade has partnered with Bluzelle to provide easier access to CAD. Following this action will enable Bluzelle to hold CAD on your behalf.
+
+      .row.fund-tab-description
+        .col-xs-7.col-sm-5.col-md-4(ng-hide="cadConnected")
+          button.btn.btn-large.btn-primary(ng-show="!cadConnected && !loading && loadState.account", type="submit", ng-click="save_account()", ng-disabled="!account.Balance || !can_add_trust", l10n) Add Bluzelle
+          button.btn.btn-large.btn-primary(ng-show="!cadConnected && loading", type="submit", ng-disabled="loading", l10n) Adding...
+          //- button.btn.btn-large.btn-primary(ng-show="showInstructions && cadConnected", type="submit", ng-click="toggle_instructions()", l10n) Hide instructions
+          //- button.btn.btn-large.btn-primary(ng-show="cadConnected && !showInstructions", type="submit", ng-click="toggle_instructions()", l10n) Show instructions
+
+        .connect.col-xs-5.col-sm-7.col-md-8(ng-hide="loading")
+          .description(ng-show="!cadConnected && account.Balance", l10n) 
+            i.fa.fa-times
+            |  Not connected
+          .description(ng-show="cadConnected && account.Balance", l10n)
+            i.fa.fa-check
+            |  Connected
+          .description(ng-show="!account.Balance && loadState.account", l10n) Your account has to be activated before you can add a gateway account.
+          .description(ng-show="!loadState.account")
+            img(src="img/button-s.png", class="loader")
+            span(class="loading_text", l10n) Loading...
+
+      //- .row(ng-show="showInstructions && cadConnected")
+      //-   .instructions.col-md-10
+      //-     a.dismiss(href="", id="hide", ng-click="toggle_instructions()", l10n)  ×
+      //-     .title(l10n) To Initiate Canadian Dollar Deposits and Withdrawals
+      //-     .description(l10n) 
+      //-       | Register or login to your Bluzelle account. You will need:&#32;
+      //-       ul
+      //-         li
+      //-           p(l10n) A valid non-US, government-issued ID (passport, driver’s license, etc)
+      //-         li
+      //-           p(l10n) Proof of address
+      //-         li
+      //-           p(l10n) Verification is required for deposits or withdrawals
+
+      //-     .title(l10n) Deposit Options
+      //-     .description(l10n) 
+      //-       ul 
+      //-         li
+      //-           p(l10n) Users can deposit CAD by entering bank credentials and initiating a bank wire transfer from user’s bank account to Bluzelle.
+
+      //-     .title(l10n) Withdrawal Options
+      //-     .description(l10n)
+      //-       ul
+      //-         li
+      //-           p(l10n) Users can withdraw CAD by sending funds from their Ripple address to Bluzelle’s Ripple address. Bluzelle will send the funds to a user’s bank account using a bank wire transfer.
