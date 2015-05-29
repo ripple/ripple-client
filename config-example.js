@@ -89,7 +89,7 @@ var Options = {
   low_load_threshold: 0.012,
 
   // Ripple trade backend URL
-  backend_url: ''
+  backend_url: 'https://backend.rippletrade.com'
 };
 
 // Load client-side overrides
