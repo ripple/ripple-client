@@ -636,7 +636,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                         rp-pretty-issuer-or-short)
 
                   .row(ng-repeat='order in bookShow.bids track by order.index'
-                    ng-class="{my: order.my, cancelling: cancelling}")
+                    ng-class="{my: order.my, cancelling: cancelling, new: order.isNew, changed: order.isChanged}")
                     .col-xs-4.rpamount.sum
                       a(href="", ng-click="fill_widget('sell', order, true)")
                         span(rp-bind-color-amount="order.showSum")
@@ -675,7 +675,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                         rp-pretty-issuer-or-short)
 
                   .row(ng-repeat='order in bookShow.asks track by order.index'
-                    ng-class="{my: order.my, cancelling: cancelling}")
+                    ng-class="{my: order.my, cancelling: cancelling, new: order.isNew, changed: order.isChanged}")
                     .col-xs-4.rpamount.price
                       a(href="", ng-click="fill_widget('buy', order, true)", ng-bind="order.showPrice")
                     .col-xs-4.rpamount.size(rp-bind-color-amount="order.showTakerGets")
