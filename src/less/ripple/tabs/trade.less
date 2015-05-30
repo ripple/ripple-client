@@ -510,31 +510,14 @@
     }
 
     .new {
-      font-weight: normal;
-      color: @black;
-      .animation-mixin(newfadeout 5s ease-out 0s);
+      color: @midblue;
+      font-weight: bold;
     }
 
     .changed {
-      font-weight: normal;
-      color: @black;
-      .animation-mixin(changefadeout 5s ease-out 0s);
+      color: @midred;
+      font-weight: bold;
     }
-
-    .keyframes-mixin(newfadeout, {
-        color: @midgreen;
-        font-weight: bold;
-      }, {
-        color: @black;
-        font-weight: normal;
-    });
-    .keyframes-mixin(changefadeout, {
-        color: @midred;
-        font-weight: bold;
-      }, {
-        color: @black;
-        font-weight: normal;
-    });
 
     @media (min-width: @screen-md-max) {
       .bids {
