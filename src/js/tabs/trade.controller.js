@@ -1377,12 +1377,14 @@ TradeTab.prototype.angular = function(module)
       $scope.order.sell.showWidget = canSell;
     };
 
-    var updateTypeBook = function (type) {
+    var updateTypeBook = function(type) {
       if ($scope.book && $scope.book[type + 'LastUpdate']) {
         $scope.load_orderbook = false;
       }
 
       if (!$scope.book || !$scope.book[type] || !$scope.book[type].length) return;
+
+      var oldBookShow = $scope.bookShow[type];
 
       $scope.bookShow[type] = jQuery.extend(true, [], $scope.book[type]);
 
@@ -1398,12 +1400,21 @@ TradeTab.prototype.angular = function(module)
 
       var newValuesLength = $scope.bookShow[type].length;
 
+      var oldBookShowIndex = _.indexBy(oldBookShow, 'BookDirectory');
+      var isUpdate = oldBookShow.length > 0;
+
       for (i = 0; i < newValuesLength; i++) {
-        $scope.bookShow[type][i].showSum = rpamountFilter($scope.bookShow[type][i].sum, OrderbookFilterOpts);
-        $scope.bookShow[type][i].showPrice = rpamountFilter($scope.bookShow[type][i].price, OrderbookFilterOpts);
+        var order = $scope.bookShow[type][i];
+        order.showSum = rpamountFilter(order.sum, OrderbookFilterOpts);
+        order.showPrice = rpamountFilter(order.price, OrderbookFilterOpts);
 
         var showValue = type === 'bids' ? 'TakerPays' : 'TakerGets';
-        $scope.bookShow[type][i]['show' + showValue] = rpamountFilter($scope.bookShow[type][i][showValue], OrderbookFilterOpts);
+        order['show' + showValue] = rpamountFilter(order[showValue], OrderbookFilterOpts);
+        order.isNew = isUpdate && !oldBookShowIndex[order.BookDirectory];
+        if (isUpdate && !order.isNew) {
+          order.isChanged = order['show' + showValue] !== oldBookShowIndex[order.BookDirectory]['show' + showValue] ||
+            order.showPrice !== oldBookShowIndex[order.BookDirectory].showPrice;
+        }
       }
 
       $scope.priceTicker[type.substring(0, 3)] = rpamountFilter($scope.bookShow[type][0].price, OrderbookTickerFilterOpts);
@@ -1435,7 +1446,7 @@ TradeTab.prototype.angular = function(module)
     /**
      * Watch widget field changes
      */
-    ['buy','sell'].forEach(function(type){
+    ['buy', 'sell'].forEach(function(type){
       $scope.$watch('order.' + type + '.first', function () {
         $scope.update_first(type);
       }, true);

@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Ripple Trade\n"
-"PO-Revision-Date: 2015-02-25 14:45+0000\n"
+"PO-Revision-Date: 2015-05-24 19:08+0000\n"
 "Last-Translator: keepx <keepah@wanadoo.fr>\n"
 "Language-Team: French (France) (http://www.transifex.com/projects/p/ripple-trade/language/fr_FR/)\n"
 "MIME-Version: 1.0\n"
@@ -41,7 +41,7 @@ msgstr "Convertir"
 #: src/jade/client/index.jade:18 src/jade/client/navbar.jade:23
 #: src/jade/client/navbar.jade:25 src/jade/tabs/settings/navbar.jade:3
 msgid "Trade"
-msgstr "Echanger"
+msgstr "Échanger"
 
 #: src/jade/client/index.jade:22 src/jade/client/navbar.jade:27
 #: src/jade/client/navbar.jade:133
@@ -68,11 +68,11 @@ msgstr "Déconnexion"
 
 #: src/jade/client/index.jade:61
 msgid "Why Use Ripple Trade?"
-msgstr "Pourquoi Utiliser Ripple Trade?"
+msgstr "Pourquoi Utiliser Ripple Trade ?"
 
 #: src/jade/client/index.jade:66
 msgid "Home of XRP -"
-msgstr ""
+msgstr "Berceau des XRP -"
 
 #: src/jade/client/index.jade:67
 msgid "the best place to buy and sell XRP"
@@ -94,11 +94,11 @@ msgstr "Sans intermédiaires -"
 msgid ""
 "When you submit orders, Ripple automatically finds the best available match,"
 " without a clearinghouse or broker."
-msgstr ""
+msgstr "Lorsque vous envoyez des ordres, Ripple détecte automatiquement la meilleure correspondance possible, sans chambre de compensation ou courtier."
 
 #: src/jade/client/index.jade:81
 msgid "Deposit, trade and withdraw money on Ripple via gateways."
-msgstr ""
+msgstr "Déposer, échanger et retirer de l'argent sur Ripple par l'intermédiaire de passerelles."
 
 #: src/jade/client/index.jade:89
 msgid "Featured Ripple Gateways"
@@ -159,13 +159,13 @@ msgid ""
 "You are viewing an account in {{1}} mode. While in this mode, you can view "
 "publicly available data, but you cannot initiate any transactions. Click "
 "{{2}} to exit."
-msgstr ""
+msgstr "Vous visualisez un compte en mode {{1}}. Dans ce mode, vous pouvez afficher les données publiquement disponibles, mais vous ne pouvez pas déclencher de transactions. Cliquez sur {{2}} pour quitter."
 
 #: src/jade/client/navbar.jade:8
 msgid ""
 "Warning: this account has over 200 trust lines, so the displayed account "
 "balance may not be accurate."
-msgstr ""
+msgstr "Avertissement: ce compte a plus de 200 lignes de confiance, de sorte que le solde du compte affiché peut ne pas être exact."
 
 #: src/jade/client/navbar.jade:19
 msgid "Overview"
@@ -314,12 +314,12 @@ msgstr "Code d'erreur: Cette demande a échoué parce qu'elle a dépassé les fr
 #: src/jade/directives/transactionerror.jade:35
 msgid ""
 "Error code: You have no gateway connected in this currency [terNO_LINE]."
-msgstr ""
+msgstr "Code d'erreur: Vous n'avez pas de passerelle connectée dans cette devise [terNO_LINE]."
 
 #: src/jade/directives/transactionerror.jade:37
 msgid ""
 "Error code: Insufficient reserve to connect gateway [tecINSUF_RESERVE_LINE]."
-msgstr ""
+msgstr "Code d'erreur: Réserve insuffisante pour connecter la passerelle [tecINSUF_RESERVE_LINE]."
 
 #: src/jade/directives/transactionerror.jade:39
 msgid ""
@@ -364,7 +364,7 @@ msgid ""
 "account limit. You can adjust your maximum network fee in Settings &gt "
 "Advanced, or try again later. <br>Error code: Network fee exceeded "
 "[tejMaxFeeExceeded]."
-msgstr ""
+msgstr "Cette demande a échoué car les frais de réseau actuels sont plus élevés que la limite de votre compte. Vous pouvez régler vos frais de réseau maximum dans Paramètres &gt Avancé, ou réessayer plus tard. <br>Code d'erreur: Frais Réseau dépassés [tejMaxFeeExceeded]."
 
 #: src/jade/directives/transactionerror.jade:59
 #: src/jade/directives/transactionerror.jade:200
@@ -431,7 +431,7 @@ msgid ""
 "account limit. You can adjust your maximum network fee in Settings &gt "
 "Advanced, or try again later. <br>Error code: Network fee exceeded "
 "[tejMaxFeeExceeded]."
-msgstr ""
+msgstr "Cette transaction a échoué car les frais de réseau actuels sont plus élevés que la limite de votre compte. Vous pouvez régler vos frais de réseau maximum dans Paramètres &gt Avancé, ou réessayer plus tard. <br>Code d'erreur: Frais Réseau dépassés [tejMaxFeeExceeded]."
 
 #: src/jade/directives/transactionerror.jade:115
 msgid ""
@@ -456,7 +456,7 @@ msgstr "La transaction a échoué."
 
 #: src/jade/directives/transactionerror.jade:127
 msgid "You do not have enough funds to create this order [tecUNFUNDED_ORDER]."
-msgstr ""
+msgstr "Vous n'avez pas suffisamment de fonds pour créer cet ordre [tecUNFUNDED_ORDER]."
 
 #: src/jade/directives/transactionerror.jade:129
 msgid ""
@@ -469,7 +469,7 @@ msgid ""
 "account limit. You can adjust your maximum network fee in Settings &gt "
 "Advanced, or try again later. <br>Error code: Network fee exceeded "
 "[tejMaxFeeExceeded]. {{1}}"
-msgstr ""
+msgstr "Cette transaction a échoué car les frais de réseau actuels sont plus élevés que la limite de votre compte. Vous pouvez régler vos frais de réseau maximum dans Paramètres &gt Avancé, ou réessayer plus tard. <br>Code d'erreur: Frais Réseau dépassés [tejMaxFeeExceeded]. {{1}}"
 
 #: src/jade/directives/transactionerror.jade:134
 msgid "More information."
@@ -481,13 +481,13 @@ msgstr "L'échange a échoué."
 
 #: src/jade/directives/transactionerror.jade:140
 msgid "Trade failed, reason: {{engine_result_message}}"
-msgstr ""
+msgstr "Échec de l'échange, raison: {{engine_result_message}}"
 
 #: src/jade/directives/transactionerror.jade:144
 msgid ""
 "The particular server you sent the transaction to was too busy to forward or"
 " process your transaction at the fee you included in it [telINSUF_FEE_P]."
-msgstr ""
+msgstr "Le serveur concerné auquel vous avez envoyé la transaction était trop occupé pour transmettre ou traiter votre transaction au niveau de frais que vous avez inclus [telINSUF_FEE_P]."
 
 #: src/jade/directives/transactionerror.jade:152
 msgid "Request pending"
@@ -597,35 +597,35 @@ msgstr "{{tx.counterparty | rpcontactname}} vous fait maintenant confiance pour"
 
 #: src/jade/popup/modifyOrderError.jade:2
 msgid "Modify Order Error"
-msgstr ""
+msgstr "Erreur Modification Ordre"
 
 #: src/jade/popup/modifyOrderError.jade:4
 msgid "Sorry, your order could not be modified."
-msgstr ""
+msgstr "Désolé, votre ordre n'a pas pu être modifié."
 
 #: src/jade/popup/modifyOrderError.jade:5
 msgid ""
 "Your original order was cancelled but the modified order was not placed. "
 "<br/>"
-msgstr ""
+msgstr "Votre ordre initial a été annulé mais l'ordre modifié n'a pas été placé. <br/>"
 
 #: src/jade/popup/modifyOrderError.jade:6
 msgid ""
 "The quantity of your order changed by {{order.qtyChangeAfterCancel | "
 "rpamount}} before the order could be modified. <br/><br/>"
-msgstr ""
+msgstr "La quantité de votre ordre a changé de {{order.qtyChangeAfterCancel | rpamount}} avant que l'ordre puisse être modifié. <br/><br/>"
 
 #: src/jade/popup/modifyOrderError.jade:7
 msgid ""
 "To safeguard against the possibility of overfills a new order has not been "
 "placed. <br/>"
-msgstr ""
+msgstr "Pour protéger contre la possibilité de dépassement un nouvel ordre n'a pas été placé. <br/>"
 
 #: src/jade/popup/modifyOrderError.jade:8
 msgid ""
 "Please check your balance and history before placing the new order manually."
 " <br/>"
-msgstr ""
+msgstr "Veuillez vérifier votre solde et historique avant de placer le nouvel ordre manuellement. <br/>"
 
 #: src/jade/popup/modifyOrderError.jade:10 src/jade/popup/unlock.jade:17
 msgid "Close"
@@ -908,19 +908,19 @@ msgstr "Adresse Ripple"
 
 #: src/jade/tabs/advanced.jade:8
 msgid "Your blob vault has been changed successfully."
-msgstr ""
+msgstr "Votre blob vault a été changé avec succès."
 
 #: src/jade/tabs/advanced.jade:9
 msgid "Your bitcoin bridge has been changed successfully."
-msgstr ""
+msgstr "Votre pont bitcoin a été changé avec succès."
 
 #: src/jade/tabs/advanced.jade:10
 msgid "Trustline advanced settings has been changed successfully."
-msgstr ""
+msgstr "Paramètres avancés de confiance changé avec succès."
 
 #: src/jade/tabs/advanced.jade:11
 msgid "Maximum network fee has been changed successfully."
-msgstr ""
+msgstr "Les frais de réseau maximum ont été changés avec succès."
 
 #: src/jade/tabs/advanced.jade:12
 msgid "A new server has been successfully added."
@@ -1012,7 +1012,7 @@ msgstr "Ajouter un nouveau serveur"
 
 #: src/jade/tabs/apps.jade:27
 msgid "App Ripple Address"
-msgstr ""
+msgstr "App Addresse Ripple"
 
 #: src/jade/tabs/apps.jade:29
 msgid "Please enter a ripple address."
@@ -1117,7 +1117,7 @@ msgid ""
 "Ripple Trade has partnered with Rippex to provide easy access to BRL. By "
 "continuing, you agree with Rippex's {{1}}Following this action will enable "
 "Rippex to hold BRL on your behalf."
-msgstr ""
+msgstr "Ripple Trade a établi un partenariat avec Rippex pour fournir un accès facile aux BRL. En continuant, vous acceptez les {{1}} de Rippex. Cette action permettra à Rippex de conserver les BRL en votre nom."
 
 #: src/jade/tabs/brl.jade:69
 msgid "Add Rippex"
@@ -1165,11 +1165,11 @@ msgstr "NOUVEAUX CLIENTS- INSCRIVEZ-VOUS SUR RIPPEX"
 msgid ""
 "{{1}} at Rippex.net to initiate deposits and withdrawals. You will "
 "need:{{2}}"
-msgstr ""
+msgstr "{{1}} à Rippex.net pour initier les dépôts et retraits. Vous aurez besoin de:{{2}}"
 
 #: src/jade/tabs/brl.jade:90
 msgid "A {{1}}"
-msgstr ""
+msgstr "UN {{1}}"
 
 #: src/jade/tabs/brl.jade:92
 msgid "A bank account in Brazil."
@@ -1181,7 +1181,7 @@ msgstr "CLIENTS ACTUELS DE RIPPEX"
 
 #: src/jade/tabs/brl.jade:97
 msgid "If you have a Rippex account, {{1}}"
-msgstr ""
+msgstr "Si vous avez un compte Rippex, {{1}}"
 
 #: src/jade/tabs/brl.jade:100
 msgid "DEPOSIT INSTRUCTIONS"
@@ -1189,11 +1189,11 @@ msgstr "INSTRUCTIONS DE DÉPÔT"
 
 #: src/jade/tabs/brl.jade:101
 msgid "Rippex accepts deposits from all Brazilian banks. Instructions {{1}}"
-msgstr ""
+msgstr "Rippex accepte les dépôts de toutes les banques brésiliennes. Instructions {{1}}"
 
 #: src/jade/tabs/btc.jade:19
 msgid "Success! You can deposit BTC via your generated BTC receiving address."
-msgstr ""
+msgstr "Succès! Vous pouvez déposer des BTC via votre adresse de réception BTC générée."
 
 #: src/jade/tabs/btc.jade:21
 msgid "There was an error with your request. {{1}}"
@@ -1221,7 +1221,7 @@ msgid ""
 "Ripple Trade has partnered with btc2ripple to make depositing BTC easier. By"
 " proceeding, you agree to the btc2ripple {{1}} Following this action will "
 "allow btc2ripple to hold BTC on your behalf."
-msgstr ""
+msgstr "Ripple Trade a établi un partenariat avec btc2ripple afin de rendre le dépôt de BTC plus facile. En continuant, vous acceptez les {{1}} de btc2ripple. Cette action permettra à btc2ripple de conserver les BTC en votre nom."
 
 #: src/jade/tabs/btc.jade:56
 msgid "Add btc2ripple"
@@ -1238,7 +1238,7 @@ msgstr "btc2ripple aimerait:"
 
 #: src/jade/tabs/btc.jade:64
 msgid "- Receive your email address {{1}}"
-msgstr ""
+msgstr "- Reçoit votre adresse email {{1}}"
 
 #: src/jade/tabs/btc.jade:65
 msgid "({{userBlob.data.email}})"
@@ -1274,7 +1274,7 @@ msgstr "Instructions de retrait"
 msgid ""
 "To withdraw to a BTC address, go to the Send tab and enter the BTC address. "
 "Using the btc2ripple service, you will be able tosend to that BTC address."
-msgstr ""
+msgstr "Pour retirer vers une adresse BTC, allez sur l'onglet Envoyer et entrez l'adresse BTC. En utilisant le service btc2ripple, vous pourrez envoyer à cette adresse BTC."
 
 #: src/jade/tabs/btc.jade:110
 msgid "Waiting for response from SnapSwap service..."
@@ -1401,7 +1401,7 @@ msgstr "€ 0.31 – € 15.00"
 msgid ""
 "Ripple Trade has partnered with SnapSwap to provide easier access to EUR. "
 "Following this action will enable SnapSwap to hold EUR on your behalf."
-msgstr ""
+msgstr "Ripple Trade a établi un partenariat avec SnapSwap pour faciliter l'accès aux EUR. Cette action permettra à SnapSwap de conserver les EUR en votre nom."
 
 #: src/jade/tabs/eur.jade:69 src/jade/tabs/usd.jade:66
 msgid "Not connected"
@@ -1466,7 +1466,7 @@ msgstr "Acheter (Ordre de marché)"
 msgid ""
 "Submit a buy order at the current market rate. Orders will execute "
 "instantly."
-msgstr ""
+msgstr "Soumettre un ordre d'achat au taux actuel du marché. Les ordres seront exécutés instantanément."
 
 # Receive (amount)
 #: src/jade/tabs/exchange.jade:27
@@ -1475,7 +1475,7 @@ msgstr "Je veux acheter"
 
 #: src/jade/tabs/exchange.jade:34 src/jade/tabs/widgets/balances.jade:49
 msgid "add gateway"
-msgstr ""
+msgstr "ajouter passerelle"
 
 #: src/jade/tabs/exchange.jade:37 src/jade/tabs/send.jade:90
 msgid "Please enter an amount."
@@ -1543,7 +1543,7 @@ msgstr "Ripple calcule un chemin pour votre conversion."
 msgid ""
 "{{1:You are exchanging}}{{2}}{{3:to}}{{4}}{{5:You will pay at "
 "most}}{{6}}{{7:Are you sure?}}"
-msgstr "{{1:Vous échangez}}{{2}}{{3:pour}}{{4}}{{5:Vous paierai au plus}}{{6}}{{7:Êtes-vous sûr?}}"
+msgstr "{{1:Vous échangez}}{{2}}{{3:pour}}{{4}}{{5:Vous paierai au plus}}{{6}}{{7:Êtes-vous sûr ?}}"
 
 #: src/jade/tabs/exchange.jade:139
 msgid "Do another conversion"
@@ -1604,7 +1604,7 @@ msgid ""
 "Allow this trust line's balances to be transferred to another issuer you "
 "trust. <a href=https://ripple.com/wiki/No_Ripple target=_blank>More "
 "information</a>"
-msgstr ""
+msgstr "Autoriser les soldes de cette ligne de confiance à être transférés vers un autre émetteur auquel vous faites confiance. <a href=https://ripple.com/wiki/No_Ripple target=_blank>Plus d'information</a>"
 
 #: src/jade/tabs/fund.jade:63
 msgid "Cancel"
@@ -1648,7 +1648,7 @@ msgstr "{{1}}XAU"
 
 #: src/jade/tabs/fund/menu.jade:28
 msgid "Add any gateway"
-msgstr ""
+msgstr "Ajouter une passerelle"
 
 #: src/jade/tabs/fund/menu.jade:30
 msgid "Learn more about gateways"
@@ -1670,7 +1670,7 @@ msgstr "0.5% par an"
 msgid ""
 "Ripple Trade has partnered with GBI to provide easy access toXAU. By "
 "continuing, you are allowing GBI to hold gold on your behalf."
-msgstr ""
+msgstr "Ripple Trade a établi un partenariat avec GBI pour fournir un accès facile aux XAU. En continuant, vous acceptez que GBI conserve l'or en votre nom."
 
 #: src/jade/tabs/gold.jade:67 src/jade/tabs/jpy.jade:68
 #: src/jade/tabs/mxn.jade:70
@@ -1684,12 +1684,12 @@ msgstr "{{1}} Connecté"
 
 #: src/jade/tabs/gold.jade:77
 msgid "Deposit"
-msgstr ""
+msgstr "Dépôt"
 
 #: src/jade/tabs/gold.jade:78
 msgid ""
 "GBI does not currently support direct deposits. You can {{1}} or {{2}}."
-msgstr ""
+msgstr "GBI ne supporte pas actuellement les dépôts directs. Vous pouvez {{1}} ou {{2}}."
 
 #: src/jade/tabs/gold.jade:84
 msgid "Withdrawal"
@@ -1699,7 +1699,7 @@ msgstr "Retrait"
 msgid ""
 "You can redeem the physical gold in 1 oz increments.To do so, you'll need to"
 " {{1}} and arrange to have the gold shipped to you."
-msgstr ""
+msgstr "Vous pouvez échanger contre de l'or physique par tranches de 1 oz. Pour ce faire, vous devrez {{1}} et prendre des dispositions pour avoir l'or livré chez vous."
 
 #: src/jade/tabs/history.jade:11
 msgid "Loading History"
@@ -1849,7 +1849,7 @@ msgstr "prix"
 
 #: src/jade/tabs/history/effects.jade:17
 msgid "This order has been filled."
-msgstr "Cette ordre a été complété."
+msgstr "Cet ordre a été exécuté."
 
 #: src/jade/tabs/history/effects.jade:32
 msgid "The rest of your order has been cancelled due to lack of funds."
@@ -1893,14 +1893,14 @@ msgstr "Dépôt de Yen japonais"
 
 #: src/jade/tabs/jpy.jade:42
 msgid "Tokyo JPY Issuer (~tokyojpy) {{1}}"
-msgstr ""
+msgstr "Tokyo JPY Issuer (~tokyojpy) {{1}}"
 
 #: src/jade/tabs/jpy.jade:59
 msgid ""
 "Ripple Trade has partnered with Tokyo JPY Issuer to provide easier access to"
 " JPY. Following this action will enable Tokyo JPY Issuer to hold JPY on your"
 " behalf."
-msgstr ""
+msgstr "Ripple Trade a établi un partenariat avec Tokyo JPY Issuer pour faciliter l'accès aux JPY. Cette action permettra à Tokyo JPY Issuer de conserver les JPY en votre nom."
 
 #: src/jade/tabs/jpy.jade:78
 msgid "NEW CUSTOMERS- SIGN UP AT TOKYO JPY ISSUER"
@@ -1908,7 +1908,7 @@ msgstr "NOUVEAUX CLIENTS- INSCRIVEZ-VOUS SUR TOKYO JPY ISSUER"
 
 #: src/jade/tabs/jpy.jade:79
 msgid "{{1}}at Tokyo JPY Issuer. You will need:{{2}}"
-msgstr ""
+msgstr "{{1}}à Tokyo JPY Issuer. Vous aurez besoin de:{{2}}"
 
 #: src/jade/tabs/jpy.jade:84
 msgid "A valid government-issued ID."
@@ -1930,24 +1930,24 @@ msgstr "CLIENTS ACTUELS DE TOKYO JPY ISSUER"
 msgid ""
 "Tokyo JPY Issuer accepts deposits and withdrawals via bank transfer. Details"
 " {{1}}"
-msgstr ""
+msgstr "Tokyo JPY Issuer accepte les dépôts et les retraits par virement bancaire. Détails {{1}}"
 
 #: src/jade/tabs/jpy.jade:103
 msgid ""
 "To deposit, you’ll need to first deposit into your Tokyo JPY Issuer account "
 "and then initiate a transfer into your Ripple account."
-msgstr ""
+msgstr "Pour faire un dépôt, vous devrez tout d'abord déposer sur votre compte Tokyo JPY Issuer et ensuite lancer un transfert sur votre compte Ripple."
 
 #: src/jade/tabs/jpy.jade:105
 msgid ""
 "To withdraw to a bank account, you’ll first send money from your Ripple "
 "account to your Tokyo JPY Issuer account. Follow instructions on the Tokyo "
 "JPY Issuer site to send to your bank account."
-msgstr ""
+msgstr "Pour retirer vers un compte bancaire, vous devez d'abord envoyer l'argent de votre compte Ripple vers votre compte Tokyo JPY Issuer. Suivez les instructions sur le site de Tokyo JPY Issuer pour envoyer à votre compte bancaire."
 
 #: src/jade/tabs/kyc.jade:14
 msgid "Profile completion is only available to US residents."
-msgstr ""
+msgstr "Le remplissage du profil est uniquement disponible pour les résidents des États-Unis."
 
 #: src/jade/tabs/kyc.jade:21 src/jade/tabs/trade.jade:285
 msgid "Verifying your information. Please wait..."
@@ -2003,7 +2003,7 @@ msgstr "Nous ne pouvons pas valider vos questions d'identité. Vérifiez vos ré
 msgid ""
 "Sorry, you've reached your maximum number of verification attempts. Please "
 "try again in 24 hours."
-msgstr ""
+msgstr "Désolé, vous avez atteint votre nombre maximum de tentatives de vérification. Veuillez réessayer dans 24 heures."
 
 #: src/jade/tabs/kyc.jade:43
 msgid ""
@@ -2119,7 +2119,7 @@ msgstr "Code de Vérification"
 
 #: src/jade/tabs/kyc.jade:183
 msgid "Submit code"
-msgstr ""
+msgstr "Envoyer Code"
 
 #: src/jade/tabs/login.jade:4 src/jade/tabs/migrate.jade:4
 #: src/jade/tabs/recover.jade:3 src/jade/tabs/register.jade:5
@@ -2192,7 +2192,7 @@ msgstr "Vous pouvez confirmer la transaction sur la page suivante."
 
 #: src/jade/tabs/login.jade:99
 msgid "New to {{productName}}? {{1:Create a wallet}}"
-msgstr "Nouveau sur {{productName}}? {{1:Créer un portefeuille}}"
+msgstr "Nouveau sur {{productName}} ? {{1:Créer un portefeuille}}"
 
 #: src/jade/tabs/login/form.jade:12 src/jade/tabs/security.jade:91
 msgid ""
@@ -2243,11 +2243,11 @@ msgstr "Commencer la migration"
 
 #: src/jade/tabs/migrate.jade:32
 msgid "New to {{productName}}? {{1:Sign Up}}"
-msgstr "Nouveau sur {{productName}}? {{1:S'enregistrer}}"
+msgstr "Nouveau sur {{productName}} ? {{1:S'enregistrer}}"
 
 #: src/jade/tabs/migrate.jade:34
 msgid "Have a {{productName}} account? {{1:Log In}}"
-msgstr "Vous avez un compte {{productName}}? {{1:S'identifier}}"
+msgstr "Vous avez un compte {{productName}} ? {{1:S'identifier}}"
 
 #: src/jade/tabs/mxn.jade:38
 msgid "Mexican Peso Deposit"
@@ -2266,15 +2266,15 @@ msgid ""
 "Ripple Trade has partnered with Bitso to provide easy access to MXN (Mexican"
 " Peso). By continuing, you agree with Bitso’s terms of service. Following "
 "this action will enable Bitso to hold MXN on your behalf."
-msgstr ""
+msgstr "Ripple Trade a établi un partenariat avec Bitso pour fournir un accès facile aux MXN (Mexican Peso). En continuant, vous acceptez les conditions de service de Bitso. Cette action permettra à Bitso de conserver les MXN en votre nom."
 
 #: src/jade/tabs/mxn.jade:80
 msgid "TO FUND/REDEEM MEXICAN PESO:"
-msgstr ""
+msgstr "POUR APPROVISIONNER/RETIRER PESO MEXICAIN:"
 
 #: src/jade/tabs/mxn.jade:82
 msgid "Register or login at {{1}}to initiate deposits and withdrawals."
-msgstr ""
+msgstr "Inscrivez-vous ou connectez-vous sur {{1}}pour initier les dépôts et retraits."
 
 #: src/jade/tabs/mxn.jade:86
 msgid ""
@@ -2285,20 +2285,20 @@ msgstr "Une pièce d'identité valide, non-US, émise par l'état (passeport, pe
 msgid ""
 "Proof of address (utility bill or other type of bill that has your address "
 "on it). Verification is required for peso deposits or withdrawals."
-msgstr ""
+msgstr "Un justificatif de domicile (facture de services publics ou autre type de facture contenant votre adresse). La vérification est requise pour les dépôts ou retraits de pesos."
 
 #: src/jade/tabs/mxn.jade:89
 msgid ""
 "To fund your Ripple account, see the below options. Once a balance is "
 "deposited with Bitso, you can send it to your Ripple account using the Bitso"
 " Dashboard."
-msgstr ""
+msgstr "Pour approvisionner votre compte Ripple, voir les options ci-dessous. Une fois qu'un solde est déposé avec Bitso, vous pouvez l'envoyer à votre compte Ripple en utilisant le tableau de bord Bitso."
 
 #: src/jade/tabs/mxn.jade:90
 msgid ""
 "To withdraw from your Ripple account, click on the 'Redeem from Ripple' "
 "button on the Bitso Dashboard."
-msgstr ""
+msgstr "Pour retirer de votre compte Ripple, cliquez sur le bouton 'Redeem from Ripple' sur le tableau de bord Bitso."
 
 #: src/jade/tabs/mxn.jade:92 src/jade/tabs/usd.jade:89
 msgid "DEPOSIT OPTIONS"
@@ -2314,7 +2314,7 @@ msgstr "Virement bancaire"
 
 #: src/jade/tabs/mxn.jade:97 src/jade/tabs/mxn.jade:107
 msgid "SPEI (Mexican instant inter-bank transfer)"
-msgstr ""
+msgstr "SPEI (transfert inter-bancaire instantané Mexicain)"
 
 #: src/jade/tabs/mxn.jade:98 src/jade/tabs/mxn.jade:108
 msgid "Bitcoin"
@@ -2322,7 +2322,7 @@ msgstr "Bitcoin"
 
 #: src/jade/tabs/mxn.jade:99
 msgid "MXN Cash (at locations across Mexico)"
-msgstr ""
+msgstr "Espèces MXN (à divers endroits au Mexique)"
 
 #: src/jade/tabs/mxn.jade:100
 msgid "Pademobile wallet"
@@ -2401,7 +2401,7 @@ msgstr "Mise à jour..."
 
 #: src/jade/tabs/recover.jade:57
 msgid "Remember your password? {{1:Log In}}"
-msgstr "Vous vous rappelez de votre mot de passe? {{1:S'identifier}}"
+msgstr "Vous vous rappelez de votre mot de passe ? {{1:S'identifier}}"
 
 #: src/jade/tabs/register.jade:13 src/jade/tabs/register.jade:109
 #: src/jade/tabs/register.jade:141 src/jade/tabs/register.jade:188
@@ -2432,13 +2432,13 @@ msgstr "En savoir plus"
 
 #: src/jade/tabs/register.jade:41
 msgid "Reserved for {{usernameReservedFor}}"
-msgstr ""
+msgstr "Réservé pour {{usernameReservedFor}}"
 
 #: src/jade/tabs/register.jade:43
 msgid ""
 "This name belongs to a high-traffic website and has been reserved to prevent"
 " phishing."
-msgstr ""
+msgstr "Ce nom appartient à un site web à fort trafic et a été réservé pour prévenir le phishing."
 
 #: src/jade/tabs/register.jade:49
 msgid "You can only use the following characters: a-z, 0-9 and hyphens (-)"
@@ -2478,7 +2478,7 @@ msgstr "J'accepte les {{1:Conditions d'utilisation}} de {{productName}}"
 msgid ""
 "Please see our {{1}} to see how we collect, use and share information about "
 "you"
-msgstr "Merci de regarder notre {{1}} pour voir comment nous recueillons, utilisons et partageons des informations vous concernant"
+msgstr "Merci de consulter notre {{1}} pour voir comment nous recueillons, utilisons et partageons des informations vous concernant"
 
 #: src/jade/tabs/register.jade:110
 msgid "Migrate Account"
@@ -2486,7 +2486,7 @@ msgstr "Migrer le compte"
 
 #: src/jade/tabs/register.jade:111
 msgid "Need to use your secret key? {{1}}"
-msgstr "Besoin d'utiliser votre clé secrète? {{1}}"
+msgstr "Besoin d'utiliser votre clé secrète ? {{1}}"
 
 #: src/jade/tabs/register.jade:113
 msgid "Use key"
@@ -2618,11 +2618,11 @@ msgstr "L'authentification à deux facteurs a été désactivée avec succès."
 
 #: src/jade/tabs/security.jade:38
 msgid "Password protection has been successfully enabled."
-msgstr ""
+msgstr "La protection par mot de passe a été activée avec succès."
 
 #: src/jade/tabs/security.jade:39
 msgid "Password protection has been successfully disabled."
-msgstr ""
+msgstr "La protection par mot de passe a été désactivée avec succès."
 
 #: src/jade/tabs/security.jade:45
 msgid "Security settings"
@@ -2780,11 +2780,11 @@ msgstr "Étiquette source invalide"
 
 #: src/jade/tabs/send.jade:59
 msgid "Invoice ID"
-msgstr ""
+msgstr "Identifiant d'envoi"
 
 #: src/jade/tabs/send.jade:62
 msgid "Invoice ID must not be more than 64 characters long."
-msgstr ""
+msgstr "L'identifiant d'envoi ne doit pas dépasser 64 caractères."
 
 #: src/jade/tabs/send.jade:77
 msgid "Recipient will receive"
@@ -2905,7 +2905,7 @@ msgstr "Vous paierez au plus"
 
 #: src/jade/tabs/send.jade:204
 msgid "Are you sure?"
-msgstr "Êtes-vous certain?"
+msgstr "Êtes-vous certain ?"
 
 #: src/jade/tabs/send.jade:210
 msgid "Password required to unlock wallet"
@@ -2946,11 +2946,11 @@ msgstr "Paramètres d'échange"
 
 #: src/jade/tabs/settingstrade.jade:14
 msgid "Trade currency pairs"
-msgstr ""
+msgstr "Échanger paire de devises"
 
 #: src/jade/tabs/trade.jade:12 src/jade/tabs/trade.jade:451
 msgid "Loading Order Book"
-msgstr ""
+msgstr "Chargement du livre d'ordres"
 
 #: src/jade/tabs/trade.jade:31 src/jade/tabs/widgets/markets.jade:24
 msgid "flip"
@@ -2958,11 +2958,11 @@ msgstr "basculer"
 
 #: src/jade/tabs/trade.jade:34
 msgid "add pair"
-msgstr ""
+msgstr "Ajouter une paire"
 
 #: src/jade/tabs/trade.jade:37
 msgid "edit pairs"
-msgstr ""
+msgstr "Modifier les paires"
 
 #: src/jade/tabs/trade.jade:41
 msgid "Base Currency"
@@ -2970,15 +2970,15 @@ msgstr "Devise de base"
 
 #: src/jade/tabs/trade.jade:44
 msgid "Base Gateway"
-msgstr ""
+msgstr "Passerelle de base"
 
 #: src/jade/tabs/trade.jade:49
 msgid "Counter&nbsp;Currency"
-msgstr ""
+msgstr "Devise de contrepartie"
 
 #: src/jade/tabs/trade.jade:52
 msgid "Counter Gateway"
-msgstr ""
+msgstr "Passerelle de contrepartie"
 
 #: src/jade/tabs/trade.jade:57
 msgid "Add"
@@ -3008,7 +3008,7 @@ msgstr "Pas un nom Ripple ou une adresse valide."
 msgid ""
 "To show an orderbook, choose from the dropdown above or click \"Add custom "
 "pair\"."
-msgstr ""
+msgstr "Pour afficher un carnet d'ordres, choisissez dans le menu déroulant ci-dessus ou cliquez sur \"Ajouter une paire personnalisée\"."
 
 #: src/jade/tabs/trade.jade:86
 msgid "Bid"
@@ -3099,7 +3099,7 @@ msgstr "Vous n'avez pas de fonds suffisants pour créer un ordre."
 msgid ""
 "You are about to create an order to {{1: buy}} {{2: "
 "sell}}{{3}}{{4:for}}{{5}}{{6}}{{7:Are you sure?}}{{8}}"
-msgstr ""
+msgstr "Vous êtes sur le point de créer un ordre pour {{1: acheter}} {{2: vendre}}{{3}}{{4:pour}}{{5}}{{6}}{{7:Êtes-vous sûr ?}}{{8}}"
 
 #: src/jade/tabs/trade.jade:242
 msgid "CAUTION: Your order is far off from the current market price."
@@ -3150,7 +3150,7 @@ msgstr "Votre ordre &#35;{{ cancelOrder.seq }} a été annulé."
 msgid ""
 "Your order could not be modified and no longer exists. Error: "
 "{{order[editOrder.type].engine_result_message}}"
-msgstr ""
+msgstr "Votre ordre n'a pas pu être modifié et n'existe plus. Erreur: {{order[editOrder.type].engine_result_message}}"
 
 #: src/jade/tabs/trade.jade:293
 msgid "Unable to cancel order as it no longer exists."
@@ -3158,15 +3158,15 @@ msgstr "Impossible d'annuler l'ordre car il n'existe plus."
 
 #: src/jade/tabs/trade.jade:295
 msgid "Modifying your order (Placing new order) ..."
-msgstr ""
+msgstr "Modification de votre ordre (Placement nouvel ordre) ..."
 
 #: src/jade/tabs/trade.jade:299
 msgid "Current pair only"
-msgstr ""
+msgstr "Paire actuelle uniquement"
 
 #: src/jade/tabs/trade.jade:313 src/jade/tabs/widgets/orders.jade:24
 msgid "reverse"
-msgstr ""
+msgstr "inverser"
 
 #: src/jade/tabs/trade.jade:322 src/jade/tabs/widgets/orders.jade:33
 msgid "QTY{{1}}"
@@ -3178,7 +3178,7 @@ msgstr "Base{{1}}"
 
 #: src/jade/tabs/trade.jade:326 src/jade/tabs/widgets/orders.jade:37
 msgid "Counter{{1}}"
-msgstr ""
+msgstr "Contre{{1}}"
 
 #: src/jade/tabs/trade.jade:328 src/jade/tabs/widgets/orders.jade:39
 msgid "Limit{{1}}"
@@ -3194,14 +3194,14 @@ msgstr "CONFIRMATION DE TRANSACTION"
 
 #: src/jade/tabs/trade.jade:362
 msgid "{{1:Please confirm that you wish to cancel order &num;{{entry.seq}}}}"
-msgstr ""
+msgstr "{{1:Veuillez confirmer que vous souhaitez annuler l'ordre &num;{{entry.seq}}}}"
 
 #: src/jade/tabs/trade.jade:364
 msgid ""
 "{{1}} div   span.modal-order-type(l10n-inc) FILLED:   span filled data div"
 "   span.modal-order-type(l10n-inc) REMAIN:   span remain data div   span"
 ".modal-order-type(l10n-inc) PLACED:   span time data"
-msgstr ""
+msgstr "{{1}} div span.modal-order-type(l10n-inc) ÉXECUTÉ: span filled data div span.modal-order-type(l10n-inc) RESTE: span remain data div span.modal-order-type(l10n-inc) PLACÉ: span time data"
 
 #: src/jade/tabs/trade.jade:371
 msgid "with"
@@ -3213,7 +3213,7 @@ msgstr "pour"
 
 #: src/jade/tabs/trade.jade:376
 msgid "at"
-msgstr ""
+msgstr "à"
 
 #: src/jade/tabs/trade.jade:389
 msgid "Cancel order"
@@ -3227,7 +3227,7 @@ msgstr "retour"
 msgid ""
 "CAUTION: Your new order is far off from the current market price. <br/> Do "
 "you still want to replace your order ?"
-msgstr ""
+msgstr "ATTENTION: Votre nouvel ordre est loin du prix du marché actuel. <br/> Voulez-vous toujours remplacer votre ordre ?"
 
 #: src/jade/tabs/trade.jade:410
 msgid "Unable to cancel order. Error: {{entry.errorMsg}}"
@@ -3237,13 +3237,13 @@ msgstr "Impossible d'annuler l'ordre. Erreur: {{entry.errorMsg}}"
 msgid ""
 "Your order amount has been updated by Ripple. Please go back and edit again "
 "to modify this order."
-msgstr ""
+msgstr "Le montant de votre ordre a été mis à jour par Ripple. Veuillez revenir en arrière et éditer à nouveau pour modifier cet ordre."
 
 #: src/jade/tabs/trade.jade:414
 msgid ""
 "Your order could not be modified. Error: "
 "{{order[editOrder.type].engine_result_message}}"
-msgstr ""
+msgstr "Votre ordre n'a pas pu être modifié. Erreur: {{order[editOrder.type].engine_result_message}}"
 
 #: src/jade/tabs/trade.jade:415
 msgid "X"
@@ -3255,7 +3255,7 @@ msgstr "tout annuler"
 
 #: src/jade/tabs/trade.jade:426
 msgid "{{1:Please confirm that you wish to cancel all orders.}}"
-msgstr ""
+msgstr "{{1:Veuillez confirmer que vous souhaitez annuler tous les ordres.}}"
 
 #: src/jade/tabs/trade.jade:430
 msgid "Cancel all orders"
@@ -3263,7 +3263,7 @@ msgstr "Annuler tous les ordres"
 
 #: src/jade/tabs/trade.jade:433 src/jade/tabs/widgets/orders.jade:64
 msgid "No current orders. {{1}}"
-msgstr ""
+msgstr "Pas d'ordres en cours. {{1}}"
 
 #: src/jade/tabs/trade.jade:434 src/jade/tabs/widgets/orders.jade:65
 msgid "View orders history"
@@ -3362,7 +3362,7 @@ msgid ""
 "Allow this trust line's balances to be transferred to another issuer you "
 "connect to. <a href=https://ripple.com/wiki/No_Ripple target=_blank>More "
 "information</a>"
-msgstr ""
+msgstr "Autoriser les soldes de cette ligne de confiance à être transférés vers un autre émetteur auquel vous vous connectez. <a href=https://ripple.com/wiki/No_Ripple target=_blank>Plus d'information</a>"
 
 #: src/jade/tabs/trust.jade:125
 msgid ""
@@ -3416,13 +3416,13 @@ msgstr "Activé"
 #: src/jade/tabs/trust.jade:239 src/jade/tabs/trust.jade:244
 #: src/jade/tabs/trust.jade:248
 msgid "Incoming trust"
-msgstr ""
+msgstr "Confiance entrante"
 
 #: src/jade/tabs/trust.jade:192
 msgid ""
 "You can't edit incoming trust lines. Incoming trust lines are when other "
 "Ripple users trust you."
-msgstr ""
+msgstr "Vous ne pouvez pas modifier les lignes de confiance entrantes. Les lignes de confiance entrantes sont quand les autres utilisateurs de Ripple vous font confiance."
 
 #: src/jade/tabs/trust.jade:200 src/jade/tabs/trust.jade:202
 #: src/jade/tabs/trust.jade:205 src/jade/tabs/trust.jade:207
@@ -3439,7 +3439,7 @@ msgstr "Enlever"
 msgid ""
 "You can't delete incoming trust lines. Incoming trust lines are when other "
 "Ripple users trust you."
-msgstr ""
+msgstr "Vous ne pouvez pas supprimer les lignes de confiance entrantes. Les lignes de confiance entrantes sont quand les autres utilisateurs de Ripple vous font confiance."
 
 #: src/jade/tabs/trust.jade:226
 msgid "Rippling {{1}}"
@@ -3523,7 +3523,7 @@ msgstr "$ 0.31-$ 5.00"
 msgid ""
 "Ripple Trade has partnered with SnapSwap to provide easier access to USD. "
 "Following this action will enable SnapSwap to hold USD on your behalf."
-msgstr ""
+msgstr "Ripple Trade a établi un partenariat avec SnapSwap pour faciliter l'accès aux USD. Cette action permettra à SnapSwap de conserver les USD en votre nom."
 
 #: src/jade/tabs/usd.jade:73
 msgid "NEW CUSTOMERS- SIGN UP AT SNAPSWAP.US"
@@ -3559,7 +3559,7 @@ msgstr "Directement sur votre compte PayPal (plusieurs minutes)"
 
 #: src/jade/tabs/widgets/assetallocation.jade:3
 msgid "Asset Allocation"
-msgstr ""
+msgstr "Allocation d'actifs"
 
 #: src/jade/tabs/widgets/balances.jade:3
 msgid "Balances"
@@ -3603,13 +3603,13 @@ msgstr "Montant disponible<br>{{ account.max_spend | rpamount }} XRP"
 msgid ""
 "Balance<br>{{ entry.total | rpamount:{precision: 30, hard_precision: true} "
 "}} {{ entry.total | rpcurrency }}"
-msgstr ""
+msgstr "Solde<br>{{ entry.total | rpamount:{precision: 30, hard_precision: true} }} {{ entry.total | rpcurrency }}"
 
 #: src/jade/tabs/widgets/balances.jade:43
 msgid ""
 "Balance<br>{{ component | rpamount:{precision: 30, rel_min_precision: -2, "
 "hard_precision: true} }} {{ entry.total | rpcurrency }}"
-msgstr ""
+msgstr "Solde<br>{{ component | rpamount:{precision: 30, rel_min_precision: -2, hard_precision: true} }} {{ entry.total | rpcurrency }}"
 
 #: src/jade/tabs/widgets/markets.jade:3
 msgid "Markets"
@@ -3621,7 +3621,7 @@ msgstr "Valeur Nette"
 
 #: src/jade/tabs/widgets/networth.jade:8
 msgid "{{1:{{1:In}}}}{{2}}"
-msgstr ""
+msgstr "{{1:{{1:Dans}}}}{{2}}"
 
 #: src/jade/tabs/widgets/networth.jade:14
 msgid "Estimated from latest trade price"

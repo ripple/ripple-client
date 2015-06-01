@@ -46,222 +46,6 @@
       "type": "clickElement",
       "locator": {
         "type": "css selector",
-        "value": "#nav-fund a"
-      }
-    },
-    {
-      "type": "waitForElementPresent",
-      "locator": {
-        "type": "link text",
-        "value": "Gateways"
-      }
-    },
-    {
-      "type": "clickElement",
-      "locator": {
-        "type": "link text",
-        "value": "Add any gateway (trust lines)"
-      }
-    },
-    {
-      "type": "waitForTextPresent",
-      "text": "Connect"
-    },
-    {
-      "type": "clickElement",
-      "locator": {
-        "type": "link text",
-        "value": "Connect gateway"
-      }
-    },
-    {
-      "type": "waitForTextPresent",
-      "text": "address"
-    },
-    {
-      "type": "verifyElementPresent",
-      "locator": {
-        "type": "id",
-        "value": "trust_counterparty"
-      }
-    },
-    {
-      "type": "setElementText",
-      "locator": {
-        "type": "id",
-        "value": "trust_counterparty"
-      },
-      "text": "~snapswap"
-    },
-    {
-      "type": "pause",
-      "waitTime": "3000"
-    },
-    {
-      "type": "setElementText",
-      "locator": {
-        "type": "xpath",
-        "value": "//form[@id='trustForm']/div[2]/div/div[2]/div/div/input"
-      },
-      "text": "USD"
-    },
-    {
-      "type": "sendKeysToElement",
-      "locator": {
-        "type": "xpath",
-        "value": "//form[@id='trustForm']/div[2]/div/div[2]/div/div/input"
-      },
-      "text": "\n"
-    },
-    {
-      "type": "waitForElementAttribute",
-      "locator": {
-        "type": "link text",
-        "value": "Save"
-      },
-      "attributeName": "disabled",
-      "value": "disabled",
-      "negated": true
-    },
-    {
-      "type": "clickElement",
-      "locator": {
-        "type": "link text",
-        "value": "Save"
-      }
-    },
-    {
-      "type": "waitForTextPresent",
-      "text": "Confirm"
-    },
-    {
-      "type": "clickElement",
-      "locator": {
-        "type": "xpath",
-        "value": "//div[@class='modal-content']//button[.='Loading...Confirm']"
-      }
-    },
-    {
-      "type": "waitForTextPresent",
-      "text": "Password"
-    },
-    {
-      "type": "setElementText",
-      "locator": {
-        "type": "id",
-        "value": "popup_unlock_password"
-      },
-      "text": "${FUNDED_USER_PASSWORD}"
-    },
-    {
-      "type": "waitForElementAttribute",
-      "locator": {
-        "type": "css selector",
-        "value": ".modal-submit-btn"
-      },
-      "attributeName": "disabled",
-      "value": "disabled",
-      "negated": true
-    },
-    {
-      "type": "clickElement",
-      "locator": {
-        "type": "css selector",
-        "value": ".modal-submit-btn"
-      }
-    },
-    {
-      "type": "waitForTextPresent",
-      "text": "connected"
-    },
-    {
-      "type": "waitForTextPresent",
-      "text": "edit"
-    },
-    {
-      "type": "clickElement",
-      "locator": {
-        "type": "link text",
-        "value": "edit"
-      }
-    },
-    {
-      "type": "waitForTextPresent",
-      "text": "Remove"
-    },
-    {
-      "type": "clickElement",
-      "locator": {
-        "type": "css selector",
-        "value": "button.btn.submit[ng-click='delete_account()']:not(.ng-hide):not(.btn-xs)"
-      }
-    },
-    {
-      "type": "waitForTextPresent",
-      "text": "SnapSwap",
-      "negated": true
-    },
-    {
-      "type": "clickElement",
-      "locator": {
-        "type": "css selector",
-        "value": ".fa-cog"
-      }
-    },
-    {
-      "type": "clickElement",
-      "locator": {
-        "type": "link text",
-        "value": "Log Out"
-      }
-    },
-    {
-      "type": "waitForTextPresent",
-      "text": "Welcome to Ripple Trade"
-    },
-    {
-      "type": "get",
-      "url": "http://ripp.site:3000/#/login"
-    },
-    {
-      "type": "waitForTextPresent",
-      "text": "Welcome to Ripple Trade"
-    },
-    {
-      "type": "setElementText",
-      "locator": {
-        "type": "id",
-        "value": "login_username"
-      },
-      "text": "${FUNDED_USER_NAME}"
-    },
-    {
-      "type": "setElementText",
-      "locator": {
-        "type": "id",
-        "value": "login_password"
-      },
-      "text": "${FUNDED_USER_PASSWORD}"
-    },
-    {
-      "type": "clickElement",
-      "locator": {
-        "type": "id",
-        "value": "loginBtn"
-      }
-    },
-    {
-      "type": "waitForTextPresent",
-      "text": "BALANCES"
-    },
-    {
-      "type": "verifyTextPresent",
-      "text": "BALANCES"
-    },
-    {
-      "type": "clickElement",
-      "locator": {
-        "type": "css selector",
         "value": "#nav-send > a"
       }
     },
@@ -614,6 +398,129 @@
     {
       "type": "waitForTextPresent",
       "text": "too many"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": ".fa-cog"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "link text",
+        "value": "Log Out"
+      }
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "Welcome to Ripple Trade"
+    },
+    {
+      "type": "get",
+      "url": "http://ripp.site:3000/#/login"
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "Welcome to Ripple Trade"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "id",
+        "value": "login_username"
+      },
+      "text": "${FUNDED_USER_NAME2}"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "id",
+        "value": "login_password"
+      },
+      "text": "${FUNDED_USER_PASSWORD2}"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "id",
+        "value": "loginBtn"
+      }
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "BALANCES"
+    },
+    {
+      "type": "verifyTextPresent",
+      "text": "BALANCES"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "#nav-send > a"
+      }
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "Recipient"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "id",
+        "value": "send_destination"
+      },
+      "text": "~vakula"
+    },
+    {
+      "type": "waitForElementPresent",
+      "locator": {
+        "type": "id",
+        "value": "send_amount_currency"
+      }
+    },
+    {
+      "type": "print",
+      "text": "------- waiting 5 sec"
+    },
+    {
+      "type": "pause",
+      "waitTime": "5000"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "id",
+        "value": "send_amount_currency"
+      },
+      "text": "USD"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "id",
+        "value": "send_amount"
+      },
+      "text": "0.00001"
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "Send USD"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "id",
+        "value": "send_amount_currency"
+      },
+      "text": "BTC"
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "Send XRP"
     },
     {
       "type": "clickElement",
