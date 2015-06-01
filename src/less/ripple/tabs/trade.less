@@ -509,6 +509,33 @@
       }
     }
 
+    .new {
+      font-weight: normal;
+      color: @black;
+      .animation-mixin(newfadeout 5s ease-out 0s);
+    }
+
+    .changed {
+      font-weight: normal;
+      color: @black;
+      .animation-mixin(changefadeout 5s ease-out 0s);
+    }
+
+    .keyframes-mixin(newfadeout, {
+        color: @midgreen;
+        font-weight: bold;
+      }, {
+        color: @black;
+        font-weight: normal;
+    });
+    .keyframes-mixin(changefadeout, {
+        color: @midred;
+        font-weight: bold;
+      }, {
+        color: @black;
+        font-weight: normal;
+    });
+
     @media (min-width: @screen-md-max) {
       .bids {
         border-right: 1px solid darken(@bg, 20%);
@@ -608,4 +635,18 @@
       float: none;
     }
   }
+}
+
+.animation-mixin(@arguments) {
+  -moz-animation: @arguments;
+  -webkit-animation: @arguments;
+  -o-animation: @arguments;
+  animation: @arguments;
+}
+
+.keyframes-mixin(@name, @fromRules, @toRules) {
+    @-moz-keyframes ~'@{name}' { 0% { @fromRules(); } 100% { @toRules(); } }
+    @-o-keyframes ~'@{name}' { 0% { @fromRules(); } 100% { @toRules(); } }
+    @-webkit-keyframes ~'@{name}' { 0% { @fromRules(); } 100% { @toRules(); } }
+            @keyframes ~'@{name}' { 0% { @fromRules(); } 100% { @toRules(); } }
 }

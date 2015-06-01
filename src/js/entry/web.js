@@ -1,4 +1,5 @@
-var types = require('../util/types');
+var types = require('../util/types'),
+    rewriter = require('../util/jsonrewriter');
 
 // Load app modules
 require('../controllers/app.controller.js');
@@ -100,6 +101,7 @@ var tabdefs = [
   require('../tabs/usd.controller.js'),
   require('../tabs/eur.controller.js'),
   require('../tabs/sgd.controller.js'),
+  require('../tabs/cad.controller.js'),
   require('../tabs/gold.controller.js'),
   require('../tabs/tou.controller.js'),
   require('../tabs/privacypolicy.controller.js'),
@@ -156,6 +158,8 @@ var app = angular
 var rippleclient = window.rippleclient = {};
 rippleclient.app = app;
 rippleclient.types = types;
+// for unit tests
+rippleclient.rewriter = rewriter;
 
 // for unit tests
 rippleclient.tabs = {};
