@@ -1,4 +1,5 @@
-var types = require('../util/types');
+var types = require('../util/types'),
+    rewriter = require('../util/jsonrewriter');
 
 // Load app modules
 require('../controllers/app.controller.js');
@@ -157,6 +158,8 @@ var app = angular
 var rippleclient = window.rippleclient = {};
 rippleclient.app = app;
 rippleclient.types = types;
+// for unit tests
+rippleclient.rewriter = rewriter;
 
 // for unit tests
 rippleclient.tabs = {};
