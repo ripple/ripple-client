@@ -43,50 +43,125 @@
       "text": "BALANCES"
     },
     {
-      "type": "clickElement",
+      "type": "waitForElementPresent",
       "locator": {
-        "type": "css selector",
-        "value": "#nav-send > a"
+        "type": "link text",
+        "value": "Trade"
       }
     },
     {
-      "type": "waitForTextPresent",
-      "text": "Recipient"
-    },
-    {
-      "type": "setElementText",
+      "type": "clickElement",
       "locator": {
-        "type": "id",
-        "value": "send_destination"
-      },
-      "text": "1F1tAaz5x1HUXrCNLbtMDqcw6o5GNn4xqX"
+        "type": "link text",
+        "value": "Trade"
+      }
     },
     {
       "type": "waitForElementPresent",
       "locator": {
-        "type": "css selector",
-        "value": "span[ng-bind='send.currency_force']"
+        "type": "link text",
+        "value": "Advanced"
       }
     },
     {
-      "type": "verifyText",
-      "text": "BTC - Bitcoin",
+      "type": "clickElement",
       "locator": {
-        "type": "css selector",
-        "value": "span[ng-bind='send.currency_force']"
+        "type": "link text",
+        "value": "Advanced"
+      }
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "add pair"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@id='t-trade']//button[.='add pair']"
       }
     },
     {
       "type": "setElementText",
       "locator": {
-        "type": "id",
-        "value": "send_amount"
+        "type": "name",
+        "value": "first_currency"
       },
-      "text": "0.00001"
+      "text": "EUR"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "name",
+        "value": "first_iss"
+      },
+      "text": "~Bitstamp"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "name",
+        "value": "second_currency"
+      },
+      "text": "XRP"
+    },
+    {
+      "type": "print",
+      "text": "------- waiting 5 sec"
+    },
+    {
+      "type": "pause",
+      "waitTime": "5000"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@id='add_button']//button[.='Add']"
+      }
     },
     {
       "type": "waitForTextPresent",
-      "text": "Send XRP"
+      "text": "edit pairs"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@id='t-trade']//button[.='edit pairs']"
+      }
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "EUR.~Bitstamp/XRP"
+    },
+    {
+      "type": "print",
+      "text": "------- waiting 5 sec"
+    },
+    {
+      "type": "pause",
+      "waitTime": "5000"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='section']//span[.='remove']"
+      }
+    },
+    {
+      "type": "pause",
+      "waitTime": "5000"
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "EUR.~Bitstamp/XRP",
+      "negated": true
+    },
+    {
+      "type": "pause",
+      "waitTime": "8000"
     },
     {
       "type": "clickElement",
@@ -146,381 +221,300 @@
       "text": "BALANCES"
     },
     {
-      "type": "clickElement",
-      "locator": {
-        "type": "css selector",
-        "value": "#nav-send > a"
-      }
-    },
-    {
-      "type": "waitForTextPresent",
-      "text": "Recipient"
-    },
-    {
-      "type": "setElementText",
-      "locator": {
-        "type": "id",
-        "value": "send_destination"
-      },
-      "text": "kate@snapswap.eu"
-    },
-    {
       "type": "waitForElementPresent",
       "locator": {
-        "type": "css selector",
-        "value": "span[ng-bind='send.currency_force']"
-      }
-    },
-    {
-      "type": "verifyText",
-      "text": "EUR - Euro",
-      "locator": {
-        "type": "css selector",
-        "value": "span[ng-bind='send.currency_force']"
-      }
-    },
-    {
-      "type": "setElementText",
-      "locator": {
-        "type": "id",
-        "value": "send_amount"
-      },
-      "text": "0.01"
-    },
-    {
-      "type": "waitForTextPresent",
-      "text": "Send XRP"
-    },
-    {
-      "type": "setElementText",
-      "locator": {
-        "type": "id",
-        "value": "send_destination"
-      },
-      "text": "#kate@snapswap.eu"
-    },
-    {
-      "type": "waitForTextPresent",
-      "text": "Dollar"
-    },
-    {
-      "type": "waitForElementPresent",
-      "locator": {
-        "type": "css selector",
-        "value": "span[ng-bind='send.currency_force']"
-      }
-    },
-    {
-      "type": "verifyText",
-      "text": "USD - US Dollar",
-      "locator": {
-        "type": "css selector",
-        "value": "span[ng-bind='send.currency_force']"
-      }
-    },
-    {
-      "type": "clickElement",
-      "locator": {
-        "type": "css selector",
-        "value": ".fa-cog"
+        "type": "link text",
+        "value": "Trade"
       }
     },
     {
       "type": "clickElement",
       "locator": {
         "type": "link text",
-        "value": "Log Out"
+        "value": "Trade"
       }
     },
     {
-      "type": "waitForTextPresent",
-      "text": "Welcome to Ripple Trade"
-    },
-    {
-      "type": "get",
-      "url": "http://ripp.site:3000/#/login"
-    },
-    {
-      "type": "waitForTextPresent",
-      "text": "Welcome to Ripple Trade"
-    },
-    {
-      "type": "setElementText",
+      "type": "waitForElementPresent",
       "locator": {
-        "type": "id",
-        "value": "login_username"
-      },
-      "text": "${FUNDED_USER_NAME2}"
-    },
-    {
-      "type": "setElementText",
-      "locator": {
-        "type": "id",
-        "value": "login_password"
-      },
-      "text": "${FUNDED_USER_PASSWORD2}"
+        "type": "link text",
+        "value": "Advanced"
+      }
     },
     {
       "type": "clickElement",
       "locator": {
-        "type": "id",
-        "value": "loginBtn"
+        "type": "link text",
+        "value": "Advanced"
       }
     },
     {
       "type": "waitForTextPresent",
-      "text": "BALANCES"
+      "text": "add pair"
     },
     {
-      "type": "verifyTextPresent",
-      "text": "BALANCES"
+      "type": "setElementText",
+      "locator": {
+        "type": "id",
+        "value": "currency_pair"
+      },
+      "text": "WRONG"
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "show"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "id",
+        "value": "currency_pair"
+      },
+      "text": "XRP/USD.Bitstamp"
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "BIDS"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "css selector",
+        "value": "input[input-type='sell'][name='amount']"
+      },
+      "text": "0.001"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "css selector",
+        "value": "input[input-type='sell'][name='price']"
+      },
+      "text": "1234"
     },
     {
       "type": "clickElement",
       "locator": {
         "type": "css selector",
-        "value": "#nav-send > a"
+        "value": "button[btn-type='sell']"
       }
     },
     {
       "type": "waitForTextPresent",
-      "text": "Recipient"
+      "text": "sure"
     },
     {
-      "type": "setElementText",
+      "type": "clickElement",
       "locator": {
-        "type": "id",
-        "value": "send_destination"
-      },
-      "text": "~vakula"
-    },
-    {
-      "type": "waitForElementPresent",
-      "locator": {
-        "type": "id",
-        "value": "send_amount_currency"
+        "type": "css selector",
+        "value": "button[ng-disabled='confirm_wait']"
       }
     },
     {
-      "type": "print",
-      "text": "------- waiting 5 sec"
-    },
-    {
-      "type": "pause",
-      "waitTime": "5000"
-    },
-    {
-      "type": "setElementText",
-      "locator": {
-        "type": "id",
-        "value": "send_amount"
-      },
-      "text": "0.0000001"
-    },
-    {
       "type": "waitForTextPresent",
-      "text": "too much"
+      "text": "Password"
     },
     {
       "type": "setElementText",
       "locator": {
         "type": "id",
-        "value": "send_amount"
+        "value": "popup_unlock_password"
       },
-      "text": "0.000001"
+      "text": "${FUNDED_USER_PASSWORD}"
     },
     {
       "type": "waitForElementAttribute",
       "locator": {
-        "type": "id",
-        "value": "sendXrpButton"
+        "type": "css selector",
+        "value": ".modal-submit-btn"
       },
       "attributeName": "disabled",
       "value": "disabled",
       "negated": true
     },
     {
-      "type": "setElementText",
-      "locator": {
-        "type": "id",
-        "value": "send_amount"
-      },
-      "text": "1000000000000"
-    },
-    {
-      "type": "waitForTextPresent",
-      "text": "too much"
-    },
-    {
-      "type": "setElementText",
-      "locator": {
-        "type": "id",
-        "value": "send_amount_currency"
-      },
-      "text": "USD"
-    },
-    {
-      "type": "waitForTextPresent",
-      "text": "insufficient"
-    },
-    {
-      "type": "setElementText",
-      "locator": {
-        "type": "id",
-        "value": "send_amount"
-      },
-      "text": "10000000000000000"
-    },
-    {
-      "type": "waitForTextPresent",
-      "text": "too many"
-    },
-    {
-      "type": "setElementText",
-      "locator": {
-        "type": "id",
-        "value": "send_amount"
-      },
-      "text": ".000000000000001"
-    },
-    {
-      "type": "waitForTextPresent",
-      "text": "Send USD"
-    },
-    {
-      "type": "setElementText",
-      "locator": {
-        "type": "id",
-        "value": "send_amount"
-      },
-      "text": ".0000000000000001"
-    },
-    {
-      "type": "waitForTextPresent",
-      "text": "too many"
-    },
-    {
       "type": "clickElement",
       "locator": {
         "type": "css selector",
-        "value": ".fa-cog"
+        "value": ".modal-submit-btn"
+      }
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "cancel"
+    },
+    {
+      "type": "verifyText",
+      "text": "0.001",
+      "locator": {
+        "type": "css selector",
+        "value": ".my .row:nth-child(2) div[data-label='QTY']"
+      }
+    },
+    {
+      "type": "verifyText",
+      "text": "1,234",
+      "locator": {
+        "type": "css selector",
+        "value": ".my .row:nth-child(2) div[data-label='Limit']"
       }
     },
     {
       "type": "clickElement",
       "locator": {
         "type": "link text",
-        "value": "Log Out"
+        "value": "edit"
       }
     },
     {
-      "type": "waitForTextPresent",
-      "text": "Welcome to Ripple Trade"
-    },
-    {
-      "type": "get",
-      "url": "http://ripp.site:3000/#/login"
+      "type": "pause",
+      "waitTime": "3000"
     },
     {
       "type": "waitForTextPresent",
-      "text": "Welcome to Ripple Trade"
+      "text": "n/a",
+      "negated": true
+    },
+    {
+      "type": "pause",
+      "waitTime": "3000"
     },
     {
       "type": "setElementText",
       "locator": {
-        "type": "id",
-        "value": "login_username"
+        "type": "name",
+        "value": "editPrice"
       },
-      "text": "${FUNDED_USER_NAME2}"
-    },
-    {
-      "type": "setElementText",
-      "locator": {
-        "type": "id",
-        "value": "login_password"
-      },
-      "text": "${FUNDED_USER_PASSWORD2}"
+      "text": "12334"
     },
     {
       "type": "clickElement",
       "locator": {
-        "type": "id",
-        "value": "loginBtn"
+        "type": "link text",
+        "value": "submit"
       }
     },
     {
       "type": "waitForTextPresent",
-      "text": "BALANCES"
+      "text": "Confirm"
     },
     {
-      "type": "verifyTextPresent",
-      "text": "BALANCES"
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='actions']//button[.='Confirm']"
+      }
+    },
+    {
+      "type": "waitForElementPresent",
+      "locator": {
+        "type": "link text",
+        "value": "cancel"
+      }
+    },
+    {
+      "type": "verifyText",
+      "text": "12,334",
+      "locator": {
+        "type": "css selector",
+        "value": ".my .row:nth-child(2) div[data-label='Limit']"
+      }
+    },
+    {
+      "type": "verifyText",
+      "text": "0.001",
+      "locator": {
+        "type": "css selector",
+        "value": ".my .row:nth-child(2) div[data-label='QTY']"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "link text",
+        "value": "edit"
+      }
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "n/a",
+      "negated": true
+    },
+    {
+      "type": "pause",
+      "waitTime": "3000"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "name",
+        "value": "editQuantity"
+      },
+      "text": "0.002"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "link text",
+        "value": "submit"
+      }
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "Confirm"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@class='actions']//button[.='Confirm']"
+      }
+    },
+    {
+      "type": "waitForElementPresent",
+      "locator": {
+        "type": "link text",
+        "value": "cancel"
+      }
+    },
+    {
+      "type": "verifyText",
+      "text": "0.002",
+      "locator": {
+        "type": "css selector",
+        "value": ".my .row:nth-child(2) div[data-label='QTY']"
+      }
+    },
+    {
+      "type": "verifyText",
+      "text": "12,334",
+      "locator": {
+        "type": "css selector",
+        "value": ".my .row:nth-child(2) div[data-label='Limit']"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "link text",
+        "value": "cancel"
+      }
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "confirm"
     },
     {
       "type": "clickElement",
       "locator": {
         "type": "css selector",
-        "value": "#nav-send > a"
+        "value": "div.modal-content button[ng-click='cancel_order()']"
       }
     },
     {
       "type": "waitForTextPresent",
-      "text": "Recipient"
-    },
-    {
-      "type": "setElementText",
-      "locator": {
-        "type": "id",
-        "value": "send_destination"
-      },
-      "text": "~vakula"
-    },
-    {
-      "type": "waitForElementPresent",
-      "locator": {
-        "type": "id",
-        "value": "send_amount_currency"
-      }
-    },
-    {
-      "type": "print",
-      "text": "------- waiting 5 sec"
-    },
-    {
-      "type": "pause",
-      "waitTime": "5000"
-    },
-    {
-      "type": "setElementText",
-      "locator": {
-        "type": "id",
-        "value": "send_amount_currency"
-      },
-      "text": "USD"
-    },
-    {
-      "type": "setElementText",
-      "locator": {
-        "type": "id",
-        "value": "send_amount"
-      },
-      "text": "0.00001"
-    },
-    {
-      "type": "waitForTextPresent",
-      "text": "Send USD"
-    },
-    {
-      "type": "setElementText",
-      "locator": {
-        "type": "id",
-        "value": "send_amount_currency"
-      },
-      "text": "BTC"
-    },
-    {
-      "type": "waitForTextPresent",
-      "text": "Send XRP"
+      "text": "cancel all",
+      "negated": true
     },
     {
       "type": "clickElement",

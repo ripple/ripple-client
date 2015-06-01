@@ -262,47 +262,197 @@
       "type": "clickElement",
       "locator": {
         "type": "css selector",
-        "value": "#nav-send > a"
+        "value": "#nav-fund a"
       }
-    },
-    {
-      "type": "waitForTextPresent",
-      "text": "Recipient"
-    },
-    {
-      "type": "setElementText",
-      "locator": {
-        "type": "id",
-        "value": "send_destination"
-      },
-      "text": "1F1tAaz5x1HUXrCNLbtMDqcw6o5GNn4xqX"
     },
     {
       "type": "waitForElementPresent",
       "locator": {
-        "type": "css selector",
-        "value": "span[ng-bind='send.currency_force']"
+        "type": "link text",
+        "value": "BRL"
       }
     },
     {
-      "type": "verifyText",
-      "text": "BTC - Bitcoin",
+      "type": "clickElement",
       "locator": {
-        "type": "css selector",
-        "value": "span[ng-bind='send.currency_force']"
+        "type": "link text",
+        "value": "BRL"
       }
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "Brazil"
+    },
+    {
+      "type": "pause",
+      "waitTime": "3000"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@id='t-brl']//button[.=' Add Rippex Adding...']"
+      }
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "Password"
     },
     {
       "type": "setElementText",
       "locator": {
         "type": "id",
-        "value": "send_amount"
+        "value": "popup_unlock_password"
       },
-      "text": "0.00001"
+      "text": "${FUNDED_USER_PASSWORD}"
+    },
+    {
+      "type": "waitForElementAttribute",
+      "locator": {
+        "type": "css selector",
+        "value": ".modal-submit-btn"
+      },
+      "attributeName": "disabled",
+      "value": "disabled",
+      "negated": true
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": ".modal-submit-btn"
+      }
     },
     {
       "type": "waitForTextPresent",
-      "text": "Send XRP"
+      "text": "connected"
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "Hide"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": ".fa-cog"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "link text",
+        "value": "Log Out"
+      }
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "Welcome to Ripple Trade"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "id",
+        "value": "login_username"
+      },
+      "text": "${FUNDED_USER_NAME}"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "id",
+        "value": "login_password"
+      },
+      "text": "${FUNDED_USER_PASSWORD}"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "id",
+        "value": "loginBtn"
+      }
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "BALANCES"
+    },
+    {
+      "type": "verifyTextPresent",
+      "text": "BALANCES"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "#nav-fund a"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "link text",
+        "value": "Add any gateway (trust lines)"
+      }
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "edit"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "link text",
+        "value": "edit"
+      }
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "Remove"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "button.btn.submit[ng-click='delete_account()']:not(.ng-hide):not(.btn-xs)"
+      }
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "Password"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "id",
+        "value": "popup_unlock_password"
+      },
+      "text": "${FUNDED_USER_PASSWORD}"
+    },
+    {
+      "type": "waitForElementAttribute",
+      "locator": {
+        "type": "css selector",
+        "value": ".modal-submit-btn"
+      },
+      "attributeName": "disabled",
+      "value": "disabled",
+      "negated": true
+    },
+    {
+      "type": "pause",
+      "waitTime": "1000"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": ".modal-submit-btn"
+      }
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "Real",
+      "negated": true
     },
     {
       "type": "clickElement",
@@ -365,74 +515,193 @@
       "type": "clickElement",
       "locator": {
         "type": "css selector",
-        "value": "#nav-send > a"
+        "value": "#nav-fund a"
       }
-    },
-    {
-      "type": "waitForTextPresent",
-      "text": "Recipient"
-    },
-    {
-      "type": "setElementText",
-      "locator": {
-        "type": "id",
-        "value": "send_destination"
-      },
-      "text": "kate@snapswap.eu"
     },
     {
       "type": "waitForElementPresent",
       "locator": {
-        "type": "css selector",
-        "value": "span[ng-bind='send.currency_force']"
+        "type": "link text",
+        "value": "EUR"
       }
     },
     {
-      "type": "verifyText",
-      "text": "EUR - Euro",
+      "type": "clickElement",
       "locator": {
-        "type": "css selector",
-        "value": "span[ng-bind='send.currency_force']"
+        "type": "link text",
+        "value": "EUR"
       }
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "Euro"
+    },
+    {
+      "type": "pause",
+      "waitTime": "3000"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@id='t-eur']//button[.='Add SnapSwap.eu']"
+      }
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "Password"
     },
     {
       "type": "setElementText",
       "locator": {
         "type": "id",
-        "value": "send_amount"
+        "value": "popup_unlock_password"
       },
-      "text": "0.01"
+      "text": "${FUNDED_USER_PASSWORD}"
+    },
+    {
+      "type": "waitForElementAttribute",
+      "locator": {
+        "type": "css selector",
+        "value": ".modal-submit-btn"
+      },
+      "attributeName": "disabled",
+      "value": "disabled",
+      "negated": true
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": ".modal-submit-btn"
+      }
     },
     {
       "type": "waitForTextPresent",
-      "text": "Send XRP"
+      "text": "connected"
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "Hide"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": ".fa-cog"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "link text",
+        "value": "Log Out"
+      }
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "Welcome to Ripple Trade"
     },
     {
       "type": "setElementText",
       "locator": {
         "type": "id",
-        "value": "send_destination"
+        "value": "login_username"
       },
-      "text": "#kate@snapswap.eu"
+      "text": "${FUNDED_USER_NAME}"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "id",
+        "value": "login_password"
+      },
+      "text": "${FUNDED_USER_PASSWORD}"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "id",
+        "value": "loginBtn"
+      }
     },
     {
       "type": "waitForTextPresent",
-      "text": "Dollar"
+      "text": "BALANCES"
     },
     {
-      "type": "waitForElementPresent",
+      "type": "verifyTextPresent",
+      "text": "BALANCES"
+    },
+    {
+      "type": "clickElement",
       "locator": {
         "type": "css selector",
-        "value": "span[ng-bind='send.currency_force']"
+        "value": "#nav-fund a"
       }
     },
     {
-      "type": "verifyText",
-      "text": "USD - US Dollar",
+      "type": "clickElement",
+      "locator": {
+        "type": "link text",
+        "value": "Add any gateway (trust lines)"
+      }
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "edit"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "link text",
+        "value": "edit"
+      }
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "Remove"
+    },
+    {
+      "type": "clickElement",
       "locator": {
         "type": "css selector",
-        "value": "span[ng-bind='send.currency_force']"
+        "value": "button.btn.submit[ng-click='delete_account()']:not(.ng-hide):not(.btn-xs)"
       }
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "Password"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "id",
+        "value": "popup_unlock_password"
+      },
+      "text": "${FUNDED_USER_PASSWORD}"
+    },
+    {
+      "type": "waitForElementAttribute",
+      "locator": {
+        "type": "css selector",
+        "value": ".modal-submit-btn"
+      },
+      "attributeName": "disabled",
+      "value": "disabled",
+      "negated": true
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": ".modal-submit-btn"
+      }
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "Euro",
+      "negated": true
     },
     {
       "type": "clickElement",
@@ -466,7 +735,7 @@
         "type": "id",
         "value": "login_username"
       },
-      "text": "${FUNDED_USER_NAME2}"
+      "text": "${FUNDED_USER_NAME}"
     },
     {
       "type": "setElementText",
@@ -474,7 +743,7 @@
         "type": "id",
         "value": "login_password"
       },
-      "text": "${FUNDED_USER_PASSWORD2}"
+      "text": "${FUNDED_USER_PASSWORD}"
     },
     {
       "type": "clickElement",
@@ -495,125 +764,193 @@
       "type": "clickElement",
       "locator": {
         "type": "css selector",
-        "value": "#nav-send > a"
+        "value": "#nav-fund a"
       }
-    },
-    {
-      "type": "waitForTextPresent",
-      "text": "Recipient"
-    },
-    {
-      "type": "setElementText",
-      "locator": {
-        "type": "id",
-        "value": "send_destination"
-      },
-      "text": "~vakula"
     },
     {
       "type": "waitForElementPresent",
       "locator": {
-        "type": "id",
-        "value": "send_amount_currency"
+        "type": "link text",
+        "value": "JPY"
       }
     },
     {
-      "type": "print",
-      "text": "------- waiting 5 sec"
-    },
-    {
-      "type": "pause",
-      "waitTime": "5000"
-    },
-    {
-      "type": "setElementText",
+      "type": "clickElement",
       "locator": {
-        "type": "id",
-        "value": "send_amount"
-      },
-      "text": "0.0000001"
+        "type": "link text",
+        "value": "JPY"
+      }
     },
     {
       "type": "waitForTextPresent",
-      "text": "too much"
+      "text": "Tokyo"
+    },
+    {
+      "type": "pause",
+      "waitTime": "3000"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "xpath",
+        "value": "//div[@id='t-jpy']//button[.='Add Tokyo JPY']"
+      }
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "Password"
     },
     {
       "type": "setElementText",
       "locator": {
         "type": "id",
-        "value": "send_amount"
+        "value": "popup_unlock_password"
       },
-      "text": "0.000001"
+      "text": "${FUNDED_USER_PASSWORD}"
     },
     {
       "type": "waitForElementAttribute",
       "locator": {
-        "type": "id",
-        "value": "sendXrpButton"
+        "type": "css selector",
+        "value": ".modal-submit-btn"
       },
       "attributeName": "disabled",
       "value": "disabled",
       "negated": true
     },
     {
-      "type": "setElementText",
+      "type": "clickElement",
       "locator": {
-        "type": "id",
-        "value": "send_amount"
-      },
-      "text": "1000000000000"
+        "type": "css selector",
+        "value": ".modal-submit-btn"
+      }
     },
     {
       "type": "waitForTextPresent",
-      "text": "too much"
-    },
-    {
-      "type": "setElementText",
-      "locator": {
-        "type": "id",
-        "value": "send_amount_currency"
-      },
-      "text": "USD"
+      "text": "connected"
     },
     {
       "type": "waitForTextPresent",
-      "text": "insufficient"
+      "text": "Hide"
     },
     {
-      "type": "setElementText",
+      "type": "clickElement",
       "locator": {
-        "type": "id",
-        "value": "send_amount"
-      },
-      "text": "10000000000000000"
+        "type": "css selector",
+        "value": ".fa-cog"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "link text",
+        "value": "Log Out"
+      }
     },
     {
       "type": "waitForTextPresent",
-      "text": "too many"
-    },
-    {
-      "type": "setElementText",
-      "locator": {
-        "type": "id",
-        "value": "send_amount"
-      },
-      "text": ".000000000000001"
-    },
-    {
-      "type": "waitForTextPresent",
-      "text": "Send USD"
+      "text": "Welcome to Ripple Trade"
     },
     {
       "type": "setElementText",
       "locator": {
         "type": "id",
-        "value": "send_amount"
+        "value": "login_username"
       },
-      "text": ".0000000000000001"
+      "text": "${FUNDED_USER_NAME}"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "id",
+        "value": "login_password"
+      },
+      "text": "${FUNDED_USER_PASSWORD}"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "id",
+        "value": "loginBtn"
+      }
     },
     {
       "type": "waitForTextPresent",
-      "text": "too many"
+      "text": "BALANCES"
+    },
+    {
+      "type": "verifyTextPresent",
+      "text": "BALANCES"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "#nav-fund a"
+      }
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "link text",
+        "value": "Add any gateway (trust lines)"
+      }
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "edit"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "link text",
+        "value": "edit"
+      }
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "Remove"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "button.btn.submit[ng-click='delete_account()']:not(.ng-hide):not(.btn-xs)"
+      }
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "Password"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "id",
+        "value": "popup_unlock_password"
+      },
+      "text": "${FUNDED_USER_PASSWORD}"
+    },
+    {
+      "type": "waitForElementAttribute",
+      "locator": {
+        "type": "css selector",
+        "value": ".modal-submit-btn"
+      },
+      "attributeName": "disabled",
+      "value": "disabled",
+      "negated": true
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": ".modal-submit-btn"
+      }
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "Japanese",
+      "negated": true
     },
     {
       "type": "clickElement",
