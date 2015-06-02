@@ -24,12 +24,12 @@ SettingsTradeTab.prototype.angular = function(module) {
 
   function SettingsTradeCtrl($scope, $timeout) {
     if ($scope.userBlob.data && $scope.userCredentials.username) {
-      $scope.pairs = settings.getSetting($scope.userBlob, 'trade_currency_pairs');
+      $scope.pairs = _.clone(settings.getSetting($scope.userBlob, 'trade_currency_pairs'));
     } else {
       var removeWatcher = $scope.$on('$blobUpdate', function() {
         if (!$scope.userCredentials.username)
           return;
-        $scope.pairs = settings.getSetting($scope.userBlob, 'trade_currency_pairs');
+        $scope.pairs = _.clone(settings.getSetting($scope.userBlob, 'trade_currency_pairs'));
         removeWatcher();
       });
     }
@@ -37,6 +37,7 @@ SettingsTradeTab.prototype.angular = function(module) {
     $scope.deletePair = function(index){
       for (var i = 0; i < $scope.pairs.length; i++) {
         if ($scope.pairs[i].name === this.entry.name) {
+          $scope.pairs.splice(i, 1);
           $scope.userBlob.unset('/clients/rippletradecom/trade_currency_pairs/' + index);
           return;
         }
@@ -44,12 +45,16 @@ SettingsTradeTab.prototype.angular = function(module) {
     }
 
     $scope.dragControlListeners = {
-        orderChanged: function(event) {
-          var sourceObj = _.clone($scope.pairs[event.source.index]);
-          var destObj = _.clone($scope.pairs[event.dest.index]);
-          $scope.userBlob.set('/clients/rippletradecom/trade_currency_pairs/' + event.source.index, sourceObj);
-          $scope.userBlob.set('/clients/rippletradecom/trade_currency_pairs/' + event.dest.index, destObj);
-        }
+      orderChanged: function(event) {
+        var direction = event.dest.index < event.source.index ? 1 : -1;
+        var p = event.dest.index;
+        var end = event.source.index + direction;
+        do {
+          var obj = $scope.pairs[p];
+          $scope.userBlob.set('/clients/rippletradecom/trade_currency_pairs/' + p, obj);
+          p += direction;
+        } while (p != end);
+      }
     };
   }
 };
