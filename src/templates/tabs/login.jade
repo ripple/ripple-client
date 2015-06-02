@@ -6,7 +6,7 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
       hr
       p.heroText(l10n) Trade hundreds of assets, from XRP to crypto to gold to fiat.
     .auth-form-wrapper.col-xs-12.col-sm-6.col-md-4
-      .tabAdjust
+      //.tabAdjust
         .signUpWrapper
           h2.signUpTop
             a(href='#register', l10n-inc) Sign Up
@@ -34,7 +34,7 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
             img(src="img/button-s.png", class="loader", ng-show="ajax_loading")
             span(class="loading_text", l10n) Verify
           a.btn.btn-block.btn-cancel(class="2fa-cancel", ng-click="cancel2FA()", ng-show="twoFactor", l10n) cancel
-      .row.switch-mode-wrapper
+      //.row.switch-mode-wrapper
         .switch-mode-link-container.bottomText(l10n) Already have a ripple.com/client account?&#32;
           a(href='#migrate', l10n-inc) Migrate
       .submit-btn-container-recovery
