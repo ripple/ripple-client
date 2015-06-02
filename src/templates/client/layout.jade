@@ -48,12 +48,8 @@ div#wrapper
 
       .loginContainer
 
-        // Register
-        .container-fluid.main(ng-if="!showLogin && showRegister", id="t-register", role="main")
-          include ../tabs/register.jade
-
         // Login
-        .container-fluid.main(ng-if="showLogin && !showRegister", id="t-login", role="main")
+        .container-fluid.main(ng-if="showLogin || showRegister", id="t-login", role="main")
           include ../tabs/login.jade
 
         // Main
