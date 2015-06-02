@@ -202,23 +202,27 @@ module.factory('rpId', ['$rootScope', '$location', '$route', '$routeParams', '$t
 
       var tradeCurrencyPairs = settings.getSetting($scope.userBlob, 'trade_currency_pairs', []);
       if (_.isArray(tradeCurrencyPairs) && tradeCurrencyPairs.length > 0) {
-        var changed = false;
-        if (_.find(tradeCurrencyPairs, _.partial(_.has, _, '$$hashKey'))) {
-          // clear $$hashKey
-          tradeCurrencyPairs = angular.fromJson(angular.toJson(tradeCurrencyPairs));
-          changed = true;
-        }
-        var tradeCurrencyPairsUniq = _.uniq(tradeCurrencyPairs, false, function(o) {
-          return o.name;
+        // clean tradeCurrencyPairs one by one
+        // we can't set whole array, because it can be too big and don't
+        // fit into blob 1k patch size limit
+        _.find(tradeCurrencyPairs, function(v, i) {
+          if (!v || !v.name) {
+            $scope.userBlob.unset('/clients/rippletradecom/trade_currency_pairs/' + i);
+            return true;
+          }
+          if (_.has(v, '$$hashKey')) {
+            // clear $$hashKey
+            $scope.userBlob.set('/clients/rippletradecom/trade_currency_pairs/' + i, angular.fromJson(angular.toJson(v)));
+            return true;
+          }
+          var count = _.reduce(tradeCurrencyPairs, function(c, b) {
+            return c + (v.name === b.name ? 1 : 0);
+          }, 0);
+          if (count > 1) {
+            $scope.userBlob.unset('/clients/rippletradecom/trade_currency_pairs/' + i);
+            return true;
+          }
         });
-        if (tradeCurrencyPairsUniq.length !== tradeCurrencyPairs.length) {
-          tradeCurrencyPairs = tradeCurrencyPairsUniq;
-          changed = true;
-        }
-
-        if (changed) {
-          $scope.userBlob.set('/clients/rippletradecom/trade_currency_pairs', tradeCurrencyPairs);
-        }
       }
 
       if (_.has(d, 'txQueue')) {
