@@ -435,14 +435,29 @@ var JsonRewriter = module.exports = {
           var low = node.fields.LowLimit;
           var viewHigh = high.issuer === account;
 
-          var which = obj.transaction.type === 'trusting' ? (viewHigh ? 'HighNoRipple' : 'LowNoRipple') :
+          // old method, because sometimes there is no transaction
+          var which = viewHigh ? 'HighNoRipple' : 'LowNoRipple';
+
+          if (obj.transaction) {
+            which = obj.transaction.type === 'trusting' ? (viewHigh ? 'HighNoRipple' : 'LowNoRipple') :
                                                             (viewHigh ? 'LowNoRipple' : 'HighNoRipple');
+          }
+
           // New trust line
           if (node.diffType === 'CreatedNode') {
             effect.limit = ripple.Amount.from_json(viewHigh ? high : low);
             effect.limit_peer = ripple.Amount.from_json(viewHigh ? low : high);
 
-            effect.type = obj.transaction.type === 'trusting' ? 'trust_create_local' : 'trust_create_remote';
+            if (obj.transaction) {
+              effect.type = obj.transaction.type === 'trusting' ? 'trust_create_local' : 'trust_create_remote';
+            } else {
+              if ((high.value > 0 && high.issuer === account)
+                   || (low.value > 0 && low.issuer === account)) {
+                effect.type = 'trust_create_local';
+              } else {
+                effect.type = 'trust_create_remote';
+              }
+            }
           }
 
           // Modified trust line
