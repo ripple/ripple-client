@@ -34,19 +34,13 @@ section.col-xs-12.content(ng-controller="SecurityCtrl")
         div
           h4(l10n) Security settings
           .section
-            .descriptor(l10n) Secret key
+            .descriptor(l10n) Security settings
             .row
-            label(l10n) Your secret key unlocks access to your account funds. Please write it down and store it
-                |  somewhere private and safe. In the event you lose your Ripple name or password, you can use this secret
-                |  key to recover your funds.
+            label(l10n) You can now manage your secret settings such as secret key, password,
+                |  and two-factor authentication through Ripple ID. Pressing edit will take you to id.ripple.com.
             .row.row-padding-small-xs
-              .col-xs-9.col-sm-8.col-md-6
-                .description
-                  span.value(ng-show="security.master_seed", ng-bind="security.master_seed")
-                  span.value(ng-hide="security.master_seed") ••••••••••••••••••••••••••••••••••••••••••••
-              .col-xs-3.col-sm-4.col-md-3
-                a.btn.btn-cancel(href="", ng-click="unmaskSecret()", ng-hide="security.master_seed", l10n) Show
-                a.btn.btn-cancel(href="", ng-click="security.master_seed = null", ng-show="security.master_seed", l10n) Hide
+              .col-xs-12.col-sm-12.col-md-9
+                a.btn.btn-cancel(href="{{globalOptions.ids_url}}/identity", target="_blank", l10n) Edit
           .section
             .descriptor(l10n) Password protection for transactions
             .row.row-padding-small-xs

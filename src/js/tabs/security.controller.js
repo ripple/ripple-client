@@ -59,17 +59,6 @@ SecurityTab.prototype.angular = function(module) {
 
       };
 
-      $scope.unmaskSecret = function () {
-        keychain.requestSecret(id.account, id.username, 'showSecret', function(err, secret) {
-          if (err) {
-            // XXX Handle error
-            return;
-          }
-
-          $scope.security.master_seed = secret;
-        });
-      };
-
       $scope.setPasswordProtection = function() {
         $scope.editUnlock = false;
 

@@ -86,6 +86,7 @@ var Options = {
 
   // Ripple trade backend URL
   backend_url: 'http://54.68.38.81:8080',
+  ids_url: 'http://idripple.com',
 
   ticker: {
     markets: [
