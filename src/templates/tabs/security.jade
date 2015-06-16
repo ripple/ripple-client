@@ -39,8 +39,9 @@ section.col-xs-12.content(ng-controller="SecurityCtrl")
             label(l10n) You can now manage your secret settings such as secret key, password,
                 |  and two-factor authentication through Ripple ID. Pressing edit will take you to id.ripple.com.
             .row.row-padding-small-xs
-              .col-xs-12.col-sm-12.col-md-9
-                a.btn.btn-cancel(href="{{globalOptions.ids_url}}/identity", target="_blank", l10n) Edit
+              .col-xs-9.col-sm-8.col-md-6
+              .col-xs-3.col-sm-4.col-md-6
+                a.btn.btn-cancel(href="{{globalOptions.ids_url}}/identity", target="_blank", l10n) edit
           .section
             .descriptor(l10n) Password protection for transactions
             .row.row-padding-small-xs
