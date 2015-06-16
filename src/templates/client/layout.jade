@@ -55,7 +55,7 @@ div#wrapper
         // Main
         .container-fluid.main.pageLoading(ng-show="pageLoading")
           img(src="img/sections.png", class="loader")
-        .container-fluid.main(ng-if="!showLogin && !showRegister && !pageLoading", id="{{$route.current.tabClass}}", role="main", ng-view)
+        .container-fluid.main(ng-if="!showLogin && !pageLoading", id="{{$route.current.tabClass}}", role="main", ng-view)
 
     //section 1
     .whyUse(ng-if="!loginStatus")

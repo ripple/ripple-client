@@ -22,10 +22,7 @@ require('../validators/rpWebsocket.directive.js');
 require('../services/globalwrappers.service.js');
 require('../services/id.service.js');
 require('../services/tracker.service.js');
-require('../services/blobRemote.service.js');
-require('../services/oldblob.service.js');
 require('../services/txqueue.service.js');
-require('../services/authflowRemote.service.js');
 require('../services/keychain.service.js');
 require('../services/network.service.js');
 require('../services/books.service.js');
@@ -35,6 +32,9 @@ require('../services/federation.service.js');
 require('../services/domainalias.service.js');
 require('../services/history.service.js');
 require('../services/notifications.service.js');
+
+require('../services/authflow.service.js');
+require('../services/blob.service.js');
 
 require('../services/integration/appManager.service.js');
 require('../services/integration/profileManager.service.js');
@@ -58,6 +58,10 @@ var appDependencies = [
   'tracker',
   'appManager',
   'history',
+  'notifications',
+  // ID Service related services
+  'blob',
+  'authflow',
   // Directives
   'charts',
   'effects',
@@ -72,15 +76,12 @@ var appDependencies = [
   // Filters
   'filters',
   'ui.bootstrap',
-  'ui.sortable',
-  'notifications'
+  'ui.sortable'
 ];
 
 // Load tabs
 var tabdefs = [
   require('../tabs/login.controller.js'),
-  require('../tabs/migrate.controller.js'),
-  require('../tabs/recover.controller.js'),
   require('../tabs/balance.controller.js'),
   require('../tabs/history.controller.js'),
   require('../tabs/contacts.controller.js'),
@@ -91,7 +92,6 @@ var tabdefs = [
   require('../tabs/trade.controller.js'),
   require('../tabs/advanced.controller.js'),
   require('../tabs/security.controller.js'),
-  require('../tabs/kyc.controller.js'),
   require('../tabs/tx.controller.js'),
   require('../tabs/xrp.controller.js'),
   require('../tabs/debug.controller.js'),
@@ -104,7 +104,6 @@ var tabdefs = [
   require('../tabs/gold.controller.js'),
   require('../tabs/tou.controller.js'),
   require('../tabs/privacypolicy.controller.js'),
-  require('../tabs/twofa.controller.js'),
   require('../tabs/jpy.controller.js'),
   require('../tabs/mxn.controller.js'),
   require('../tabs/404.controller.js'),
