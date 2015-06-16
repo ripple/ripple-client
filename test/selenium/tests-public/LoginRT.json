@@ -12,22 +12,6 @@
       "text": "Welcome to Ripple Trade"
     },
     {
-      "type": "setElementText",
-      "locator": {
-        "type": "id",
-        "value": "login_username"
-      },
-      "text": "ivegotnobalances"
-    },
-    {
-      "type": "setElementText",
-      "locator": {
-        "type": "id",
-        "value": "login_password"
-      },
-      "text": "password123"
-    },
-    {
       "type": "clickElement",
       "locator": {
         "type": "id",
@@ -36,10 +20,44 @@
     },
     {
       "type": "waitForTextPresent",
-      "text": "Your account needs to be activated"
+      "text": "IDENTITY VERIFICATION REQUIRED"
     },
     {
-      "type": "verifyTextPresent",
+      "type": "setElementText",
+      "locator": {
+        "type": "id",
+        "value": "identity"
+      },
+      "text": "ivegotnobalances"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "id",
+        "value": "password"
+      },
+      "text": "password123"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "button[type='submit']"
+      }
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "skip preliminary setup"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "link text",
+        "value": "skip preliminary setup"
+      }
+    },
+    {
+      "type": "waitForTextPresent",
       "text": "BALANCES"
     },
     {

@@ -84,6 +84,10 @@ var Options = {
   // Default gateway max trust amount under 'simplfied' view ie when advanced_feature_switch is false in trust/gateway page
   gateway_max_limit: 1000000000,
 
+  // Ripple trade backend URL
+  backend_url: 'http://54.68.38.81:8080',
+  ids_url: 'http://idripple.com',
+
   ticker: {
     markets: [
       {

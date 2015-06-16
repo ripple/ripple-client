@@ -1,3 +1,5 @@
+'use strict';
+
 var util = require('util');
 var Tab = require('../client/tab').Tab;
 
@@ -32,7 +34,7 @@ NotificationsTab.prototype.angular = function(module) {
       {name: 'trusting', title: 'Gateway added', correspondingTypes: ['trusting'], checked: {email: false, push: false}}
     ];
 
-    $scope.$watch( 'userBlob.data.email',
+    $scope.$watch('userBlob.data.email',
       function inputLoaded() {
         // Sometimes due to watcher initialization listener is called when the watch expression isn't changed,
         // so it should be checked. See $watch documentation
@@ -40,21 +42,21 @@ NotificationsTab.prototype.angular = function(module) {
           return;
         }
 
-        $notifications.getSubscription($scope.address, $scope.userBlob.data.email).success(function(data) {
+        $notifications.getSubscription().success(function(data) {
 
           $scope.subscription = data;
 
-          if (data.notification_types.email || data.notification_types.push) {
+          if (data.email || data.push) {
             _.invoke($scope.notificationTypes, function() {
               var intersection;
 
-              intersection = _.intersection(this.correspondingTypes, data.notification_types.email);
+              intersection = _.intersection(this.correspondingTypes, data.email);
               this.checked.email = false;
               if (intersection.length > 0) {
                 this.checked.email = true;
               }
 
-              intersection = _.intersection(this.correspondingTypes, data.notification_types.push);
+              intersection = _.intersection(this.correspondingTypes, data.push);
               this.checked.push = false;
               if (intersection.length > 0) {
                 this.checked.push = true;
@@ -69,37 +71,34 @@ NotificationsTab.prototype.angular = function(module) {
       $scope.state.waitingForResponse = true;
       $scope.state.alert = '';
 
-      $scope.subscription.name = $scope.userCredentials.username;
-      $scope.subscription.email = $scope.userBlob.data.email;
-      $scope.subscription.account = $scope.address;
-      $scope.subscription.notification_types = {email: [], push: []};
+      $scope.subscription = {email: [], push: []};
 
       _.each($scope.notificationTypes, function(nType) {
         if (nType.checked.email) {
           _.each(nType.correspondingTypes, function(cType) {
-            $scope.subscription.notification_types.email.push(cType);
+            $scope.subscription.email.push(cType);
           });
         }
 
         if (nType.checked.push) {
           _.each(nType.correspondingTypes, function(cType) {
-            $scope.subscription.notification_types.push.push(cType);
+            $scope.subscription.push.push(cType);
           });
         }
       });
 
-      $notifications.createUpdateSubscription($scope.subscription)
-        .success(function(data) {
+      $notifications.updateSubscription($scope.subscription)
+        .success(function() {
           $scope.state.waitingForResponse = false;
           $scope.state.alert = 'saved_successfully';
           $scope.state.notificationsChanged = false;
         })
-        .error(function(data) {
+        .error(function() {
           $scope.state.waitingForResponse = false;
           $scope.state.alert = 'saved_with_errors';
         });
 
-      // Promt to send roost push notifications
+      // Prompt to send roost push notifications
       $window._roost.push(['alias', $scope.userBlob.data.email]);
       $window._roost.prompt();
     };
