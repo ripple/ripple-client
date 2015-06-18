@@ -772,7 +772,7 @@ function AppCtrl ($scope, id, net, keychain, txQueue, appManager, rpTracker,
 
   $scope.logout = function () {
     id.logout();
-    location.reload();
+    location.href = Options.ids_url + '/auth/logout?redirect=' + encodeURIComponent(location.href);
   };
 
   $scope.$on('$idRemoteLogout', handleRemoteLogout);
