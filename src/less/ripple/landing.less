@@ -148,24 +148,24 @@ header.loggedOut {
 		}
 	}
 
-	#t-register .auth-form-container .auth-form-wrapper, #t-login .auth-form-container .auth-form-wrapper, #t-recover .auth-form-container .auth-form-wrapper, #t-account .auth-form-container .auth-form-wrapper, #t-migrate .auth-form-container .auth-form-wrapper {
+	#t-login .auth-form-container .auth-form-wrapper, #t-account .auth-form-container .auth-form-wrapper {
 		float: right;
 		border: none;
 		background: rgba(76, 141, 184, .8);
 		border-radius: 5px;
 	}
 
-	#t-register .auth-form-container h2, #t-login .auth-form-container h2, #t-recover .auth-form-container h2, #t-account .auth-form-container h2, #t-migrate .auth-form-container h2 {
+	#t-login .auth-form-container h2, #t-account .auth-form-container h2 {
 		color: @white;
 		width: 100%;
 		margin: 0;
 	}
 
-	#t-register .auth-form-container .auth-form-wrapper label, #t-login .auth-form-container .auth-form-wrapper label, #t-recover .auth-form-container .auth-form-wrapper label, #t-account .auth-form-container .auth-form-wrapper label, #t-migrate .auth-form-container .auth-form-wrapper label, #t-register .auth-form-container .see-privacy-text, #t-login .auth-form-container .see-privacy-text, #t-recover .auth-form-container .see-privacy-text, #t-account .auth-form-container .see-privacy-text, #t-migrate .auth-form-container .see-privacy-text {
+	#t-login .auth-form-container .auth-form-wrapper label, #t-account .auth-form-container .auth-form-wrapper label, #t-login .auth-form-container .see-privacy-text, #t-account .auth-form-container .see-privacy-text {
     color:  @landingblue;
 	}
 
-	#t-register .auth-form-container .sign-up-steps-list li.active, #t-login .auth-form-container .sign-up-steps-list li.active, #t-recover .auth-form-container .sign-up-steps-list li.active, #t-account .auth-form-container .sign-up-steps-list li.active, #t-migrate .auth-form-container .sign-up-steps-list li.active {
+	#t-login .auth-form-container .sign-up-steps-list li.active, #t-account .auth-form-container .sign-up-steps-list li.active {
 		color: @white;
 		border-bottom: 1px solid @white !important;
 	}
@@ -416,31 +416,6 @@ header.loggedOut {
 		width: 16%;
 		position: absolute;
 		border-top-left-radius: 5px;
-		cursor: pointer;
-	}
-
-}
-
-//register specific
-#t-register {
-
-	h2.loginTop a {
-		color: @midgray !important;
-		display: block;
-		background: rgba(0,0,0,0.2);
-		padding: 15px;
-		&:hover {
-			color: @white !important;
-		}
-	}
-
-	.tabBg {
-		background: rgba(0,0,0,.6);
-		height: 100px;
-		width: 16%;
-		position: absolute;
-		right: 15px !important;
-		border-top-right-radius: 5px;
 		cursor: pointer;
 	}
 
