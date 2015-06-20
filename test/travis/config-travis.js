@@ -5,7 +5,6 @@
  */
 var Options = {
   // Local domain
-  //
   // Which domain should ripple-client consider native?
   domain: 'ripp.site:3000',
 
@@ -85,7 +84,7 @@ var Options = {
   gateway_max_limit: 1000000000,
 
   // Ripple trade backend URL
-  backend_url: 'http://54.68.38.81:8080',
+  backend_url: 'http://54.68.38.81:8081',
   ids_url: 'http://idripple.com',
 
   ticker: {
