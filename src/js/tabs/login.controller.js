@@ -1,10 +1,9 @@
-
+'use strict';
 
 var util = require('util');
 var Tab = require('../client/tab').Tab;
 
-var LoginTab = function()
-{
+var LoginTab = function() {
   Tab.call(this);
 };
 
