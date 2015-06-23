@@ -417,9 +417,6 @@ module.factory(
       return this.resolvedNames[address];
     };
 
-    /**
-     *
-     */
     Id.prototype.addressDontHaveName = function(address) {
       return this.resolvedNames[address] === address;
     };
