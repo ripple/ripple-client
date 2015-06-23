@@ -6,19 +6,14 @@
  * The id service is used for user identification and authorization.
  */
 
-var util = require('util'),
-    webutil = require('../util/web'),
-    settings = require('../util/settings'),
-    Base58Utils = require('../util/base58'),
-    RippleAddress = require('../util/types').RippleAddress;
+var webutil = require('../util/web'),
+    settings = require('../util/settings');
 
 var module = angular.module('id', ['authflow', 'blob']);
 
 module.factory(
-  'rpId', ['$rootScope', '$location', '$route', '$routeParams', '$timeout',
-  'rpAuthFlow', 'rpBlob', '$q',
-  function($scope, $location, $route, $routeParams, $timeout,
-                                 $authflow, $blob, $q) {
+  'rpId', ['$rootScope', '$location', '$route', '$routeParams', '$timeout', 'rpAuthFlow', 'rpBlob', '$q',
+  function($scope, $location, $route, $routeParams, $timeout, $authflow, $blob, $q) {
     /**
      * Identity manager
      *
@@ -350,8 +345,7 @@ module.factory(
       });
     };
 
-    Id.prototype.logout = function()
-    {
+    Id.prototype.logout = function() {
       store.remove('backend_token');
 
       // TODO make it better
@@ -373,7 +367,9 @@ module.factory(
 
     Id.prototype.unlock = function(username, password, callback) {
       // Callback is optional
-      if('function' !== typeof callback) callback = $.noop;
+      if ('function' !== typeof callback) {
+        callback = $.noop;
+      }
 
       // username = Id.normalizeUsernameForDisplay(username);
       // password = Id.normalizePassword(password);
@@ -393,7 +389,7 @@ module.factory(
      * Redirects the user to a page where they can identify. This could be the
      * login tab most likely.
      */
-    Id.prototype.goId = function () {
+    Id.prototype.goId = function() {
       if (!this.isLoggedIn()) {
         if (_.size($routeParams)) {
           var tab = $route.current.tabName;
