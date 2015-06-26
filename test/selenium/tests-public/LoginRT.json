@@ -61,6 +61,11 @@
       "text": "BALANCES"
     },
     {
+      "type": "waitForTextPresent",
+      "text": "Connected to BrowserSync",
+      "negated": true
+    },
+    {
       "type": "clickElement",
       "locator": {
         "type": "css selector",

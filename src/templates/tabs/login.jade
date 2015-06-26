@@ -19,17 +19,7 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
             span(l10n) Sign Up
           button.btn.btn-submit.btn-block.btn-success#loginBtn(type="submit" ng-click="submitForm('login')")
             span(l10n) Sign In
-        .input-group.col-xs-12
           input(name='redirect_to', type='hidden', value='{{redirectTo}}')
-          label
-            input.rememberMe(name='remember_me', type='checkbox')
-            span(for='remember_me', l10n) Remember me on this device for 30 days
-      .row.switch-mode-wrapper
-        .switch-mode-link-container.bottomText(l10n)
-          | Ripple Trade uses &nbsp;
-          a(href="https://id.ripple.com") RippleID &nbsp;
-          | to securely manage your personal information
-
 
   .row.action-login(ng-if="$routeParams.to")
     .col-xs-12.col-sm-6.col-md-6.uri-form-container
