@@ -486,7 +486,7 @@ module.factory(
     $scope.$on('$routeChangeStart', function(ev, next) {
       if (!$scope.loginStatus) {
         var tab = next.tabName;
-        var allTabs = ['login', '404', 'privacypolicy', 'tou'];
+        var allTabs = ['login', 'logout', '404', 'privacypolicy', 'tou'];
         if (allTabs.indexOf(tab) !== -1) {
           $scope.showLogin = false;
         } else {
