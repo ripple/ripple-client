@@ -1,19 +1,18 @@
-div.warning-attention.banner(ng-show="showAnnouncement")
+div.auth-attention.banner(ng-show="showAnnouncement")
   h4#announcement(l10n)
-    |	<strong>NOTICE:</strong> Ripple Trade sign-ups are suspended from June 3 until the end of June.
-    |  You will still be able to access your existing Ripple Trade account,
-    |  but will not be able to create a new account until we launch identity
-    |  verification. For more information, please visit the
-    a(href='https://ripple.com/knowledge_center/ripple-trade-to-implement-identity-verification-procedures/', target="_blank", l10n-inc)  Knowledge Center.
+    |	<strong>NOTICE:</strong> Ripple Trade now requires customer identity verification. We are pausing account sign-ups until further notice. 
+    | Existing users have through August 30, 2015 to verify their identity details. For more information, please visit the
+    a(href='https://ripple.com/knowledge_center/ripple-trade-launches-identity-verification', target="_blank", l10n-inc)  Knowledge Center.
     br
     br
-    | お知らせ：リップルトレードのユーザー登録は六月三日から六月の終わりまで一時中止させていただきます。その間、現在お持ちのリップル口座にアクセスできますが、弊社が新しい認証システムを導入するまで、新しい口座を開くことは出来ませんのでご了承下さい。さらに詳しい説明は
-    a(href='https://ripple.com/knowledge_center/ripple-trade-to-implement-identity-verification-procedures/', target="_blank", l10n-inc)  ノレッジセンター
-    |  に記載されていますので、お読み下さい。
+    | 今後、リップルトレードを利用するには、セキュリティー強化の為、本人確認が必要となります。新規ユーザー様の登録は、現在行っておりません。今後の通知をお待ち下さい。
+    | 既存のユーザー様は、２０１５年８月３０日までに個人情報を登録していただきます。詳細は 
+    a(href='https://ripple.com/knowledge_center/ripple-trade-launches-identity-verification', target="_blank", l10n-inc)  ノレッジセンター
+    |  に記載されております。
     br
     br
-    | Ripple Trade 신규 회원가입이 6월 3일부터 6월 말까지 임시 중단되었습니다. 기존 Ripple Trade 회원께서는 로그인이 가능하나, 신분검증 기능 출시 이전까지 신규 회원가입을 받지 않고 있습니다. 자세한 내용은
-    a(href='https://ripple.com/knowledge_center/ripple-trade-to-implement-identity-verification-procedures/', target="_blank", l10n-inc)  지식센터
-    |  사이트에서 확인하여 주시기 바랍니다.
+    | Ripple Trade 실명제 도입으로, 다음번 공지까지 신규회원가입이 일시중단됩니다. 기존회원님들께선 2015년 8월 30일까지 실명확인을 해주셔야 합니다. 자세한 내용은
+    a(href='https://ripple.com/knowledge_center/ripple-trade-launches-identity-verification', target="_blank", l10n-inc)  지식센터
+    |  에서 확인하여 주시기 바랍니다.
   //a.dismiss#hide(href="", ng-click="dismissBanner()")  ×
   br
