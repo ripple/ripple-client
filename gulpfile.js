@@ -150,7 +150,7 @@ gulp.task('gitVersion', function (cb) {
   require('child_process').exec('git rev-parse --abbrev-ref HEAD', function(err, stdout) {
     meta.gitVersionBranch = stdout.replace(/\n$/, '');
 
-    require('child_process').exec('git describe --tags --always --dirty', function(err, stdout) {
+    require('child_process').exec('git describe --tags --always', function(err, stdout) {
       meta.gitVersion = stdout.replace(/\n$/, '');
 
       cb(err)
