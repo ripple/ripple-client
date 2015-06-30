@@ -14,31 +14,31 @@ section.col-xs-12.content(ng-controller="SettingsGatewayCtrl")
     .col-sm-9.list
       section.content#gateways
         h4(l10n) Settings
-        mixin urlForm(urlType, formName, formDescriptor, description, inputName, hasDelete)
-          form(name=formName, ng-submit='save("'+urlType+'")')
-            .descriptor(l10n)= formDescriptor
-            .row.advanced-form-row(ng-hide='edit.'+urlType)
-              .col-xs-9.col-sm-8.col-md-6
-                .description(l10n)= description.url
-              .col-xs-1
-              .col-xs-3.col-sm-3.col-md-2
-                a.btn.btn-block.btn-cancel(href="", ng-click='edit.'+urlType+' = true', l10n) edit
-            .row.row-padding-small.field-edit-row(ng-show='edit.'+urlType)
-              .col-xs-12.col-sm-9.col-md-6
-                input.form-control(
-                class=inputName
-                id=inputName
-                name=inputName, type='text'
-                ng-model=description.ngModel
-                required)
-              .col-xs-6.col-sm-6.col-md-3
-                button.btn.btn-block.btn-success.btn-xs.submit#save(type='submit', ng-disabled=formName+'.$invalid', l10n) Save
-              if hasDelete
-                .col-xs-3.col-sm-3.col-md-2
-                  button.btn.btn-block.btn-danger.btn-xs.submit#delete(type="button", ng-click='deleteUrl("'+urlType+'")', l10n) Delete
-              .col-xs-3.col-sm-3.col-md-1.text-center#cancel
-                a.btn.btn-cancel.btn-block(href="", ng-click='cancelEdit("'+urlType+'")', l10n) cancel
-        +urlForm('bridge', 'bridgeForm', 'Bitcoin bridge', {url: '{{options.bridge.out.bitcoin}}', ngModel: 'options.bridge.out.bitcoin'}, 'btcDomain', true)
+        //- mixin urlForm(urlType, formName, formDescriptor, description, inputName, hasDelete)
+        //-   form(name=formName, ng-submit='save("'+urlType+'")')
+        //-     .descriptor(l10n)= formDescriptor
+        //-     .row.advanced-form-row(ng-hide='edit.'+urlType)
+        //-       .col-xs-9.col-sm-8.col-md-6
+        //-         .description(l10n)= description.url
+        //-       .col-xs-1
+        //-       .col-xs-3.col-sm-3.col-md-2
+        //-         a.btn.btn-block.btn-cancel(href="", ng-click='edit.'+urlType+' = true', l10n) edit
+        //-     .row.row-padding-small.field-edit-row(ng-show='edit.'+urlType)
+        //-       .col-xs-12.col-sm-9.col-md-6
+        //-         input.form-control(
+        //-         class=inputName
+        //-         id=inputName
+        //-         name=inputName, type='text'
+        //-         ng-model=description.ngModel
+        //-         required)
+        //-       .col-xs-6.col-sm-6.col-md-3
+        //-         button.btn.btn-block.btn-success.btn-xs.submit#save(type='submit', ng-disabled=formName+'.$invalid', l10n) Save
+        //-       if hasDelete
+        //-         .col-xs-3.col-sm-3.col-md-2
+        //-           button.btn.btn-block.btn-danger.btn-xs.submit#delete(type="button", ng-click='deleteUrl("'+urlType+'")', l10n) Delete
+        //-       .col-xs-3.col-sm-3.col-md-1.text-center#cancel
+        //-         a.btn.btn-cancel.btn-block(href="", ng-click='cancelEdit("'+urlType+'")', l10n) cancel
+        //- +urlForm('bridge', 'bridgeForm', 'Bitcoin bridge', {url: '{{options.bridge.out.bitcoin}}', ngModel: 'options.bridge.out.bitcoin'}, 'btcDomain', true)
 
         form.trust-line-form(name="accountsAdvForm", ng-submit='save("advanced_feature_switch")')
           .descriptor(l10n) Trust line
