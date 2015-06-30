@@ -58,7 +58,7 @@
     },
     {
       "type": "waitForTextPresent",
-      "text": "Balances"
+      "text": "BALANCES"
     },
     {
       "type": "waitForTextPresent",
