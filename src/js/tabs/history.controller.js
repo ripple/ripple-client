@@ -349,11 +349,15 @@ HistoryTab.prototype.angular = function (module) {
           // Payment (Sent / Received)
           if (transType === 'sent') sent = true;
           else if (transType === 'received') sent = false;
+          else if (transType === 'exchange') sent = null;
           else continue;  // unrecognised payment type
 
           linePayment.TransType = capFirst(transType, true) + ' ' + capFirst(type, false);
 
-          if (sent) {
+          if (sent === null) {
+            linePayment.TransType = capFirst(transType, true);
+          }
+          else if (sent) {
             // If sent, counterparty is Address To
             linePayment.ToAddr = rippleName(transaction.counterparty);
             linePayment.FromAddr = rippleName(id.account);
