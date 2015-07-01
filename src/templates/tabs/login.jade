@@ -1,7 +1,7 @@
 section.col-xs-12.content(ng-controller="LoginCtrl")
   include ../tabs/banner/announcement
   .row.auth-form-container(ng-hide="$routeParams.to")
-    .col-xs-12.col-sm-4.col-md-8.hidden-xs
+    .col-xs-12.hidden-xs
       .welcomeText(l10n) Welcome to Ripple Trade
       hr
       p.heroText(l10n) Trade hundreds of assets, from XRP to crypto to gold to fiat.
@@ -35,7 +35,7 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
           p(l10n-inc) &#32;to&#32;
           .address {{ $routeParams.to | rpripplenamefull:{tilde:true} }}
           | .
-        p(l10n-inc) Log in to your Ripple Trade account to continue. You 
+        p(l10n-inc) Log in to your Ripple Trade account to continue. You
           | will be able to confirm this transaction on the next page.
       div.info(ng-show="'trust' == $route.current.tabName")
         p.literal {{$routeParams.label}}
@@ -51,7 +51,7 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
             .amount
               span.currency {{$routeParams.amount | rpamount}} {{$routeParams.amount | rpcurrency}}
           | .
-        p(l10n-inc) Log in to your Ripple Trade account to continue. You 
+        p(l10n-inc) Log in to your Ripple Trade account to continue. You
           | will be able to confirm this transaction on the next page.
 
       div.info(ng-show="'contacts' == $route.current.tabName")
@@ -60,7 +60,7 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
           p(l10n-inc) You're adding
           .address {{ $routeParams.to | rpripplenamefull:{tilde:true} }}
           p(l10n-inc) to your contacts list
-        p(l10n-inc) Log in to your Ripple Trade account to continue. You 
+        p(l10n-inc) Log in to your Ripple Trade account to continue. You
           | will be able to confirm this transaction on the next page.
 
 
