@@ -175,13 +175,13 @@ SendTab.prototype.angular = function (module)
 
       send.toBitcoin = false;
       // Trying to send to a Bitcoin address
-      if (!isNaN(Base.decode_check([0, 5], recipient, 'bitcoin'))) {
-        if (Options.bridge.out.bitcoin) { // And there is a default bridge
-          recipient += '@' + Options.bridge.out.bitcoin;
-          send.recipient_address = recipient;
-          send.toBitcoin = true;
-        }
-      }
+      // if (!isNaN(Base.decode_check([0, 5], recipient, 'bitcoin'))) {
+      //   if (Options.bridge.out.bitcoin) { // And there is a default bridge
+      //     recipient += '@' + Options.bridge.out.bitcoin;
+      //     send.recipient_address = recipient;
+      //     send.toBitcoin = true;
+      //   }
+      // }
 
       send.last_recipient = recipient;
 
@@ -264,7 +264,7 @@ SendTab.prototype.angular = function (module)
             if (recipient !== now_recipient) return;
 
             send.path_status = 'waiting';
-            if (send.toBitcoin && Options.bridge.out.bitcoin != 'btc2ripple.com') {
+            if (send.toBitcoin) {
               $scope.sendForm.send_destination.$setValidity('btcBridgeWrong', false);
             } else if (error && error.error === 'down') {
               $scope.sendForm.send_destination.$setValidity('federationDown', false);

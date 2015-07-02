@@ -39,7 +39,7 @@ section.col-xs-12.content(ng-controller='SendCtrl')
             rp-combobox="recipient_query", rp-combobox-value-as-ripple-name
             l10n-placeholder="Enter a Ripple name or contact"
             ng-model='send.recipient', ng-model-options='{debounce: 500}'
-            rp-dest, rp-dest-address, rp-dest-contact, rp-dest-bitcoin
+            rp-dest, rp-dest-address, rp-dest-contact
             rp-dest-email, rp-dest-ripple-name
             required
             rp-autofill='$routeParams.to'
@@ -49,13 +49,13 @@ section.col-xs-12.content(ng-controller='SendCtrl')
               .error(ng-message='required', l10n)
                 | Please enter a recipient.
               .error(ng-message='rpDest', l10n)
-                | Recipient should be a Ripple name, a contact, or Ripple/Bitcoin address.
+                | Recipient should be a Ripple name, a contact, or Ripple address.
               .error(ng-message='federation', l10n)
                 | This email address is not Ripple-enabled.
               .error(ng-message='federationDown', l10n)
                 | Could not contact {{send.federationURL}}.<br/>Please try again later or contact support.
               .error(ng-message='btcBridgeWrong', l10n)
-                | Cannot use your specified bitcoin bridge. Please go to Settings &gt; Advanced and update your bitcoin bridge URL to btc2ripple.com.
+                | You cannot send to a BTC address.
         ul.tagsLinks
           li
             a(href="", ng-click="send.show_dt_field = true"
