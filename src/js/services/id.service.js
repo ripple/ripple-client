@@ -458,18 +458,16 @@ module.factory(
             }
 
             if (data.username) {
-              if (opts.tilde === true) {
-                self.resolvedNames[address] = '~'.concat(data.username);
-              } else {
-                self.resolvedNames[address] = data.username;
-              }
+              self.resolvedNames[address] = data.username;
             } else {
               // Show the ripple address if there's no name associated with it
               self.resolvedNames[address] = address;
             }
 
             self.serviceInvoked[address] = true;
-            deferred.resolve(self.resolvedNames[address]);
+
+            var result = (self.resolvedNames[address] !== address && opts.tilde) ? '~'.concat(self.resolvedNames[address]) : self.resolvedNames[address];
+            deferred.resolve(result);
           });
         } else {
           if (!_.isBoolean(this.serviceInvoked[address]) && _.isFunction(this.serviceInvoked[address].resolve)) {
@@ -479,7 +477,8 @@ module.factory(
           }
         }
       } else {
-        deferred.resolve(self.resolvedNames[address]);
+        var result = (self.resolvedNames[address] !== address && opts.tilde) ? '~'.concat(self.resolvedNames[address]) : self.resolvedNames[address];
+        deferred.resolve(result);
       }
       return deferred.promise;
     };
