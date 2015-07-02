@@ -45,23 +45,23 @@ header.loggedOut {
 	  background: url('/img/bg_title.png'), -moz-linear-gradient(83.68% 67.94% 160.57deg,rgba(67, 147, 184, 1) 0%,rgba(52, 106, 169, 1) 100%);
 	  background: url('/img/bg_title.png'), linear-gradient(160.57deg, rgba(67, 147, 184, 1) 0%, rgba(52, 106, 169, 1) 100%);
 	  background-repeat: no-repeat;
-	  background-position: 25% 60%;
+	  background-position: 0% 30%;
 	  z-index: 1;
 	  background-color: #4c8db8; /* Old browsers */
 	  height: auto;
 	  min-height: 820px;
-	  
-		
+
+
 		 // Pixel ratio: 2
     @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2) {
       background: url('/img/bg_title_2x.png'), -webkit-linear-gradient(160.57deg, rgba(67, 147, 184, 1) 0%, rgba(52, 106, 169, 1) 100%);
       background: url('/img/bg_title_2x.png'), -moz-linear-gradient(83.68% 67.94% 160.57deg,rgba(67, 147, 184, 1) 0%,rgba(52, 106, 169, 1) 100%);
       background: url('/img/bg_title_2x.png'), linear-gradient(160.57deg, rgba(67, 147, 184, 1) 0%, rgba(52, 106, 169, 1) 100%);
       background-repeat: no-repeat;
-      background-position: 25% 60%;
+      background-position: 0% 30%;
       z-index: 1;
       background-size: 100%;
-      height: auto; 
+      height: auto;
       min-height: 820px;
     }
 
@@ -71,10 +71,10 @@ header.loggedOut {
 		height: auto;
 		max-width: 1400px;
 		margin: auto;
-			
+
 		& a {
 			color: @white;
-		
+
 			&:hover {
 			color:  @midgray;
 			}
@@ -85,14 +85,13 @@ header.loggedOut {
 		text-align: center;
 		font-family: 'OpenSansLight';
 	}
-	
+
   .welcomeText {
 		text-align: center;
 		font-family: 'OpenSansLight';
 		font-size: 60px;
 		color: @white;
-		margin: 150px auto 70px;
-		max-width: 400px;
+		margin: 50px auto 30px;
 	}
 
 	hr {
@@ -137,7 +136,7 @@ header.loggedOut {
 		-webkit-transition:.5s;
 		transition:.5s;
 		padding-top: 20px;
-	
+
 		&:hover {
 		opacity: .7;
 		-o-transition:.5s;
@@ -148,37 +147,36 @@ header.loggedOut {
 		}
 	}
 
-	#t-register .auth-form-container .auth-form-wrapper, #t-login .auth-form-container .auth-form-wrapper, #t-recover .auth-form-container .auth-form-wrapper, #t-account .auth-form-container .auth-form-wrapper, #t-migrate .auth-form-container .auth-form-wrapper {
-		float: right;
+	#t-login .auth-form-container .auth-form-wrapper, #t-account .auth-form-container .auth-form-wrapper {
 		border: none;
-		background: rgba(76, 141, 184, .8);
+		background: transparent;
 		border-radius: 5px;
 	}
 
-	#t-register .auth-form-container h2, #t-login .auth-form-container h2, #t-recover .auth-form-container h2, #t-account .auth-form-container h2, #t-migrate .auth-form-container h2 {
+	#t-login .auth-form-container h2, #t-account .auth-form-container h2 {
 		color: @white;
 		width: 100%;
 		margin: 0;
 	}
 
-	#t-register .auth-form-container .auth-form-wrapper label, #t-login .auth-form-container .auth-form-wrapper label, #t-recover .auth-form-container .auth-form-wrapper label, #t-account .auth-form-container .auth-form-wrapper label, #t-migrate .auth-form-container .auth-form-wrapper label, #t-register .auth-form-container .see-privacy-text, #t-login .auth-form-container .see-privacy-text, #t-recover .auth-form-container .see-privacy-text, #t-account .auth-form-container .see-privacy-text, #t-migrate .auth-form-container .see-privacy-text {
+	#t-login .auth-form-container .auth-form-wrapper label, #t-account .auth-form-container .auth-form-wrapper label, #t-login .auth-form-container .see-privacy-text, #t-account .auth-form-container .see-privacy-text {
     color:  @landingblue;
 	}
 
-	#t-register .auth-form-container .sign-up-steps-list li.active, #t-login .auth-form-container .sign-up-steps-list li.active, #t-recover .auth-form-container .sign-up-steps-list li.active, #t-account .auth-form-container .sign-up-steps-list li.active, #t-migrate .auth-form-container .sign-up-steps-list li.active {
+	#t-login .auth-form-container .sign-up-steps-list li.active, #t-account .auth-form-container .sign-up-steps-list li.active {
 		color: @white;
 		border-bottom: 1px solid @white !important;
 	}
 
 	h2.loginTop {
 		border-bottom: none !important;
-		padding-bottom: 0px !important; 
+		padding-bottom: 0px !important;
 		font-size: 35px;
 	}
 
 	h2.signUpTop {
 		border-bottom: none !important;
-		padding-bottom: 0px !important; 
+		padding-bottom: 0px !important;
 		font-size: 35px;
 
 		& a:hover {
@@ -202,7 +200,7 @@ header.loggedOut {
 		color: @white;
 		max-width: 600px;
 		margin: auto;
-		padding: 60px 0 50px;
+		padding: 20px 0 50px;
 	}
 
 	.form-group {
@@ -221,11 +219,11 @@ header.loggedOut {
 		text-align: left !important;
 		color: @landingblue;
 	}
-	
+
 	.secretText {
 		color: @brand-success !important;
 	}
-	
+
 	.reSend {
 		cursor: pointer;
 		margin-top: 0px;
@@ -237,7 +235,7 @@ header.loggedOut {
 			top: 2px;
 		}
 	}
-	
+
 	.loading_text:hover {
 		color: @midgray;
 		text-decoration: underline;
@@ -253,7 +251,7 @@ header.loggedOut {
 		background-color: rgba(52,65,77,.4);
 		color: @white;
 		border: none;
-	
+
 		&:focus {
 			-webkit-box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.075), 0 0 8px rgba(255, 255, 255, 0.4);
 			-moz-box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.075), 0 0 8px rgba(255, 255, 255, 0.4);
@@ -302,7 +300,7 @@ header.loggedOut {
 	footer.loggedOut {
 		border-top: none;
 	}
-	
+
 	.loggingIn, .error, .success, .fa-exclamation-triangle {
 	  color: @white !important;
 	}
@@ -349,7 +347,7 @@ header.loggedOut {
 	}
 
 
-  
+
 
 	//buttons
 	form.ng-invalid .btn-success {
@@ -378,7 +376,7 @@ header.loggedOut {
 		-moz-transition:5s;
 		-webkit-transition:.5s;
 		transition:.5s;
-	
+
 		&:hover {
 			background: rgba(255,255,255,0.4);
 			-o-transition:.5s;
@@ -391,7 +389,7 @@ header.loggedOut {
 				text-decoration: none;
 			}
 		}
-	
+
 	}
 
 }
@@ -416,31 +414,6 @@ header.loggedOut {
 		width: 16%;
 		position: absolute;
 		border-top-left-radius: 5px;
-		cursor: pointer;
-	}
-
-}
-
-//register specific
-#t-register {
-
-	h2.loginTop a {
-		color: @midgray !important;
-		display: block;
-		background: rgba(0,0,0,0.2);
-		padding: 15px;
-		&:hover {
-			color: @white !important;
-		}
-	}
-
-	.tabBg {
-		background: rgba(0,0,0,.6);
-		height: 100px;
-		width: 16%;
-		position: absolute;
-		right: 15px !important;
-		border-top-right-radius: 5px;
 		cursor: pointer;
 	}
 
@@ -474,7 +447,7 @@ header.loggedOut {
 		h2.signUpTop, h2.loginTop {
   		font-size: 2em !important;
 		}
-	
+
 		.tabBg {
   		height: 85px !important;
 		}
@@ -491,11 +464,11 @@ header.loggedOut {
 		.tabBg {
   		width: 48% !important;
 		}
-	
+
 		.t-login .tabBg, .pm-default .tabBg {
   		left: 15px !important;
 		}
-	
+
   }
 
 
@@ -506,7 +479,7 @@ header.loggedOut {
 		.tabBg {
   		width: 25% !important;
 		}
-	
+
 		.t-login .tabBg, .pm-default .tabBg {
   		left: 50%;
 		}

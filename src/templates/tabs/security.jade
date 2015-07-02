@@ -34,14 +34,26 @@ section.col-xs-12.content(ng-controller="SecurityCtrl")
         div
           h4(l10n) Security settings
           .section
+            .descriptor(l10n) Identity Verification
+            .row
+            label(l10n) Ripple Trade will verify you by matching information from your
+              |  online account to an official ID or through third party agents.&nbsp;
+              a(href="https://ripple.com/knowledge_center/ripple-trade-launches-identity-verification", target="_blank", l10n) Learn more.
+            .row.row-padding-small-xs
+              .col-xs-0.col-sm-4.col-md-6
+              .col-xs-12.col-sm-8.col-md-6.save-btn-wrapper
+                .description
+                  a.btn.btn-block.btn-success.btn-xs.submit(href="{{globalOptions.ids_url}}/identity",
+                  target="_blank", l10n) Verify or Check Status of Identity
+          .section
             .descriptor(l10n) Security settings
             .row
-            label(l10n) You can now manage your secret settings such as secret key, password,
-                |  and two-factor authentication through Ripple ID. Pressing edit will take you to id.ripple.com.
+            label(l10n) You can now manage your security settings such as secret key,
+              |  password, and two-factor authentication by clicking edit.
             .row.row-padding-small-xs
-              .col-xs-9.col-sm-8.col-md-6
-              .col-xs-3.col-sm-4.col-md-6
-                a.btn.btn-cancel(href="{{globalOptions.ids_url}}/identity", target="_blank", l10n) edit
+              .col-xs-9.col-sm-8.col-md-8
+              .col-xs-3.col-sm-4.col-md-4
+                a.btn.btn-cancel.btn-block(href="{{globalOptions.ids_url}}/identity", target="_blank", l10n) edit
           .section
             .descriptor(l10n) Password protection for transactions
             .row.row-padding-small-xs
@@ -52,13 +64,13 @@ section.col-xs-12.content(ng-controller="SecurityCtrl")
                     .row(ng-hide="editUnlock")
                       .col-xs-6.col-sm-5.col-md-4
                         .description Require password
-                      .col-xs-3.col-sm-3.col-md-2
+                      .col-xs-3.col-sm-3.col-md-4
                         div.description
                           div(ng-show="requirePassword", l10n) Yes
                           div(ng-hide="requirePassword", l10n) No
-                      .col-xs-3.col-sm-4.col-md-6
+                      .col-xs-3.col-sm-4.col-md-4
                         div
-                          a.btn.btn-cancel#edit(href="", ng-click="editUnlock = true", l10n) edit
+                          a.btn.btn-cancel.btn-block#edit(href="", ng-click="editUnlock = true", l10n) edit
                     .row.edit-security-pswd(ng-show="editUnlock")
                       .col-xs-6.col-sm-5.col-md-4
                         .description Require password

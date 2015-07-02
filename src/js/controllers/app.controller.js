@@ -770,9 +770,14 @@ function AppCtrl ($scope, id, net, keychain, txQueue, appManager, rpTracker,
     removeFirstConnectionListener();
   }
 
-  $scope.logout = function () {
+  $scope.logout = function (redirect_to) {
     id.logout();
-    location.reload();
+
+    if (!redirect_to) {
+      redirect_to = Options.ids_url + '/auth/logout?redirect=' + encodeURIComponent(location.href);
+    }
+
+    location.href = redirect_to;
   };
 
   $scope.$on('$idRemoteLogout', handleRemoteLogout);
