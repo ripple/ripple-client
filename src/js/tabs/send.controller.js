@@ -290,7 +290,7 @@ SendTab.prototype.angular = function (module)
       else if (isRecipientValidAddress && send.recipient_address == strippedRecipient) {
         id.resolveName(strippedRecipient, { tilde: true }).then(function(name) {
           send.recipient_name = name;
-          if (send.recipient == name) {
+          if (send.recipient === name) {
             // there is no name for this address
             $scope.check_destination();
           } else {
