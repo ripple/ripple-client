@@ -54,6 +54,9 @@ section.col-xs-12.content(ng-controller='SendCtrl')
                 | This email address is not Ripple-enabled.
               .error(ng-message='federationDown', l10n)
                 | Could not contact {{send.federationURL}}.<br/>Please try again later or contact support.
+              .error(ng-message='profileUnverified', l10n)
+                | You can't send to a federation address on Ripple Trade unless your identity is verified.<br/>
+                | To verify your identity, log out and log back in, and you'll be prompted to start the identity verification process.
               .error(ng-message='btcBridgeWrong', l10n)
                 | You cannot send to a BTC address.
         ul.tagsLinks

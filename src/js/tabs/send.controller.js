@@ -145,6 +145,7 @@ SendTab.prototype.angular = function (module)
         $scope.sendForm.send_destination.$setValidity('federation', true);
         $scope.sendForm.send_destination.$setValidity('federationDown', true);
         $scope.sendForm.send_destination.$setValidity('btcBridgeWrong', true);
+        $scope.sendForm.send_destination.$setValidity('profileUnverified', true);
       }
 
       // Now starting to work on resolving the recipient
@@ -196,6 +197,12 @@ SendTab.prototype.angular = function (module)
 
       // Trying to send to an email/federation address
       send.federation = ('string' === typeof recipient) && ~recipient.indexOf('@');
+      if (send.federation && store.get('profile_status') !== 'verified') {
+        if ($scope.sendForm && $scope.sendForm.send_destination) {
+          $scope.sendForm.send_destination.$setValidity('profileUnverified', false);
+        }
+        return;
+      }
 
       // Check destination tag visibility
       $scope.check_dt_visibility();
@@ -215,6 +222,7 @@ SendTab.prototype.angular = function (module)
         $scope.sendForm.send_destination.$setValidity('federation', true);
         $scope.sendForm.send_destination.$setValidity('federationDown', true);
         $scope.sendForm.send_destination.$setValidity('btcBridgeWrong', true);
+        $scope.sendForm.send_destination.$setValidity('profileUnverified', true);
       }
 
       // If there was a previous federation request, we need to clean it up here.
