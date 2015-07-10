@@ -50,6 +50,8 @@ LoginTab.prototype.angular = function(module) {
           return;
         }
 
+        store.set('profile_status', $location.search().status);
+
         if ($location.search().redirect_to) {
           $location.path($location.search().redirect_to).search('');
         } else {
