@@ -29,6 +29,10 @@ UsdTab.prototype.angular = function (module)
         $scope.showUsdInstructions = !$scope.showUsdInstructions;
       }
 
+      $scope.toggle_gatehub_instructions = function() {
+        $scope.showUsd3Instructions = !$scope.showUsd3Instructions;
+      }
+
       $scope.save_account = function (){
 
         $scope.loading = true;
@@ -38,7 +42,7 @@ UsdTab.prototype.angular = function (module)
             {reference_date: new Date(+new Date() + 5*60000)}
         );
 
-        amount.set_issuer("rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q");
+        amount.set_issuer('rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q');
 
         if (!amount.is_valid()) {
           // Invalid amount. Indicates a bug in one of the validators.
@@ -99,12 +103,12 @@ UsdTab.prototype.angular = function (module)
               $scope.tx_result = 'failed';
               break;
             case 'tel':
-              $scope.tx_result = "local";
+              $scope.tx_result = 'local';
               break;
             case 'tep':
               console.warn('Unhandled engine status encountered!');
           }
-          if ($scope.tx_result=="cleared"){
+          if ($scope.tx_result === 'cleared'){
             $scope.usdConnected = true;
             $scope.showInstructions = true;
 
@@ -139,7 +143,7 @@ UsdTab.prototype.angular = function (module)
             {reference_date: new Date(+new Date() + 5*60000)}
         );
 
-        amount.set_issuer("rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B");
+        amount.set_issuer('rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B');
 
         if (!amount.is_valid()) {
           // Invalid amount. Indicates a bug in one of the validators.
@@ -200,12 +204,12 @@ UsdTab.prototype.angular = function (module)
               $scope.usd_tx_result = 'failed';
               break;
             case 'tel':
-              $scope.usd_tx_result = "local";
+              $scope.usd_tx_result = 'local';
               break;
             case 'tep':
               console.warn('Unhandled engine status encountered!');
           }
-          if ($scope.usd_tx_result=="cleared"){
+          if ($scope.usd_tx_result === 'cleared') {
             $scope.usd2Connected = true;
             $scope.showUsdInstructions = true;
 
@@ -225,26 +229,103 @@ UsdTab.prototype.angular = function (module)
 
           tx.secret(secret);
           tx.submit();
-
-
         });
-        
       };
 
+      $scope.save_gatehub_account = function() {
+        $scope.usd3Loading = true;
 
-      $scope.$watch('lines', function () {
-        if($scope.lines['rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2qUSD']){
-          $scope.usdConnected = true;
+        var amount = ripple.Amount.from_human(
+            Options.gateway_max_limit + ' ' + 'USD',
+            {reference_date: new Date(+new Date() + 5*60000)}
+        );
+
+        amount.set_issuer('rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq');
+
+        if (!amount.is_valid()) {
+          // Invalid amount. Indicates a bug in one of the validators.
+          console.log('Invalid amount');
+          return;
         }
-        else {
-          $scope.usdConnected = false;
+
+        var tx = network.remote.transaction();
+
+        // Add memo to tx
+        tx.addMemo('client', 'rt' + $scope.version);
+
+        // Flags
+        tx
+            .rippleLineSet(id.account, amount)
+            .on('proposed', function(res){
+              $scope.$apply(function () {
+                setEngineStatus(res, false);
+              });
+            })
+            .on('success', function (res) {
+              $scope.$apply(function () {
+                setEngineStatus(res, true);
+
+                $scope.usd3Loading = false;
+              });
+            })
+            .on('error', function (res) {
+              setEngineStatus(res, false);
+              console.log('error', res);
+              setImmediate(function () {
+                $scope.$apply(function () {
+                  $scope.usd3Loading = false;
+                });
+              });
+            });
+
+        function setEngineStatus(res, accepted) {
+          $scope.usd3_engine_result = res.engine_result;
+          $scope.usd3_engine_result_message = res.engine_result_message;
+          $scope.usd3_engine_status_accepted = accepted;
+
+          switch (res.engine_result.slice(0, 3)) {
+            case 'tes':
+              $scope.usd3_tx_result = accepted ? 'cleared' : 'pending';
+              break;
+            case 'tem':
+              $scope.usd3_tx_result = 'malformed';
+              break;
+            case 'ter':
+              $scope.usd3_tx_result = 'failed';
+              break;
+            case 'tec':
+              $scope.usd3_tx_result = 'failed';
+              break;
+            case 'tel':
+              $scope.usd3_tx_result = 'local';
+              break;
+            case 'tep':
+              console.warn('Unhandled engine status encountered!');
+          }
+          if ($scope.usd3_tx_result === 'cleared') {
+            $scope.usd3Connected = true;
+            $scope.showUsd3Instructions = true;
+          }
+          console.log($scope.usd3_tx_result);
         }
-        if($scope.lines['rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59BUSD']){
-          $scope.usd2Connected = true;
-        }
-        else {
-          $scope.usd2Connected = false;
-        }  
+
+        keychain.requestSecret(id.account, id.username, function(err, secret) {
+          // XXX Error handling
+          if (err) {
+            $scope.usd3Loading = false;
+            console.log(err);
+            return;
+          }
+
+          tx.secret(secret);
+          tx.submit();
+        });
+      };
+
+      $scope.$watch('lines', function() {
+        $scope.usdConnected = !!$scope.lines.rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2qUSD;
+        $scope.usd2Connected = !!$scope.lines.rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59BUSD;
+        $scope.usd3Connected = !!$scope.lines.rhub8VRN55s94qWKDv6jmDy1pUykJzF3wqUSD;
       }, true);
 
       // User should be notified if the reserve is insufficient to add a gateway
