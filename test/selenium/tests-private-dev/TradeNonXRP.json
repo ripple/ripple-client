@@ -12,22 +12,6 @@
       "text": "Welcome to Ripple Trade"
     },
     {
-      "type": "setElementText",
-      "locator": {
-        "type": "id",
-        "value": "login_username"
-      },
-      "text": "${FUNDED_USER_NAME2}"
-    },
-    {
-      "type": "setElementText",
-      "locator": {
-        "type": "id",
-        "value": "login_password"
-      },
-      "text": "${FUNDED_USER_PASSWORD2}"
-    },
-    {
       "type": "clickElement",
       "locator": {
         "type": "id",
@@ -36,11 +20,50 @@
     },
     {
       "type": "waitForTextPresent",
+      "text": "RIPPLE NAME"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "id",
+        "value": "identity"
+      },
+      "text": "${FUNDED_USER_NAME}"
+    },
+    {
+      "type": "setElementText",
+      "locator": {
+        "type": "id",
+        "value": "password"
+      },
+      "text": "${FUNDED_USER_PASSWORD}"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "css selector",
+        "value": "button[type='submit']"
+      }
+    },
+    {
+      "type": "waitForTextPresent",
+      "text": "skip preliminary setup"
+    },
+    {
+      "type": "clickElement",
+      "locator": {
+        "type": "link text",
+        "value": "skip preliminary setup"
+      }
+    },
+    {
+      "type": "waitForTextPresent",
       "text": "BALANCES"
     },
     {
-      "type": "verifyTextPresent",
-      "text": "BALANCES"
+      "type": "waitForTextPresent",
+      "text": "Connected to BrowserSync",
+      "negated": true
     },
     {
       "type": "waitForElementPresent",
