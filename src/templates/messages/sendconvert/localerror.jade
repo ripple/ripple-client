@@ -16,6 +16,9 @@ group(ng-switch="error_type")
   group.result-error(ng-switch-when='unlockFailed')
     h2.tx-status(l10n) Account unlock failed
     p(l10n) Your account cannot be accessed at the moment. Please try again later.
+  group.result-error(ng-switch-when='wrongPassword')
+    h2.tx-status(l10n) Account unlock failed
+    p(l10n) Entered password is wrong.
   group(ng-switch-default)
     p.literal(l10n) Sorry, an error occurred while submitting your transaction.
       | Make sure you are connected to the Internet and try again later.
