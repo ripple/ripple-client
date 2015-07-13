@@ -184,5 +184,12 @@
             "currencies": ["GBP"]
             }],
         "domain": "www.senderas.com"
+    }, {
+      "name": "Gatehub",
+      "accounts": [{
+            "address": "rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq",
+            "currencies": ["USD", "EUR"]
+            }],
+        "domain": "www.gatehub.net"
     }
 ]

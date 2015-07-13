@@ -188,4 +188,69 @@ section.col-xs-12.content(ng-controller='UsdCtrl')
                 p(l10n) Bitcoin
           .description If you have any questions, please feel free to contact Bitstamp at 
             a(href="support@bitstamp.net", target="_blank") support@bitstamp.net
+      br
+      .gateway.row
+        .col-md-3
+            .title(l10n) Gateway
+            .description(l10n) 
+              | Gatehub (~gatehub)
+              br
+              a(href="https://www.gatehub.net", target="_blank") www.gatehub.net
+        .col-md-3
+            .title(l10n) Availability
+            .description(l10n) All countries
+        .col-md-6
+            .title(l10n) Fees
+            .description(l10n) Deposit/withdrawal and when transferring .2%&#32;
+
+      .row.fund-tab-description
+        .col-xs-12.col-md-8.col-lg-6
+          .descriptor(ng-show="!usd3Connected", l10n) Ripple Trade has partnered with Gatehub to provide easier access to USD. Following this action will enable Gatehub to hold USD on your behalf.
+
+      .row.fund-tab-description
+        .col-xs-7.col-sm-5.col-md-4
+          button.btn.btn-large.btn-primary(ng-show="!usd3Connected && !usd3Loading && loadState.account", type="submit", ng-click="save_gatehub_account()", ng-disabled="!account.Balance || !can_add_trust", l10n) Add Gatehub
+          button.btn.btn-large.btn-primary(ng-show="!usd3Connected && usd3Loading", type="submit", ng-disabled="usd3Loading", l10n) Adding...
+          button.btn.btn-large.btn-primary(ng-show="showUsd3Instructions && usd3Connected", type="submit", ng-click="toggle_gatehub_instructions()", l10n) Hide instructions
+          button.btn.btn-large.btn-primary(ng-show="usd3Connected && !showUsd3Instructions", type="submit", ng-click="toggle_gatehub_instructions()", l10n) Show instructions
+
+        .connect.col-xs-5.col-sm-7.col-md-8(ng-hide="usd3Loading")
+          .description.fa.fa-times(ng-show="!usd3Connected && account.Balance", l10n) Not connected
+          .description.fa.fa-check(ng-show="usd3Connected && account.Balance", l10n) Connected
+          .description(ng-show="!account.Balance && loadState.account", l10n) Your account has to be activated before you can add a gateway account.
+          .description(ng-show="!loadState.account")
+            img(src="img/button-s.png", class="loader")
+            span(class="loading_text", l10n) Loading...
+
+      .row(ng-show="showUsd3Instructions && usd3Connected")
+        .instructions.col-md-10
+          a.dismiss(href="", id="hide", ng-click="toggle_gatehub_instructions()", l10n)  ×
+          .title(l10n) NEW CUSTOMERS- SIGN UP AT GATEHUB
+          .description(l10n) 
+            | Register and verify your account at 
+            a(href="https://www.gatehub.net", target="_blank") www.gatehub.net
+            | . You will need:&#32;
+            ul
+              li
+                p(l10n) A valid government-issued ID: driver's license, international passport, or national ID card.
+              li
+                p(l10n) A proof of residency: tax return, council tax, utility bill, bank statement, certificate of residency issued by a government authority, etc.
+
+          .title(l10n) DEPOSIT OPTIONS
+          .description(l10n)
+            ul
+              li
+                p(l10n) International wire transfer (.1% deposit fee on our side (minimum fee = $15); takes 2 - 5 business days to credit)
+              li
+                p(l10n) SEPA (free of charge. 1-3 business days)
+
+          .title(l10n) WITHDRAWAL OPTIONS
+          .description(l10n)
+            ul
+              li
+                p(l10n) International wire transfer (.1% fee on our side (minimum fee = $15); takes 2 - 5 business days)
+              li
+                p(l10n) SEPA (1-3 business days)
+          .description If you have any questions, please feel free to contact Gatehub at 
+            a(href="support@gatehub.net", target="_blank") support@gatehub.net
 
