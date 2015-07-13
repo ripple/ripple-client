@@ -20,7 +20,7 @@
     },
     {
       "type": "waitForTextPresent",
-      "text": "IDENTITY VERIFICATION REQUIRED"
+      "text": "RIPPLE NAME"
     },
     {
       "type": "setElementText",
