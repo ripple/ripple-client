@@ -84,14 +84,6 @@
             "hotwallets": ["rHZaDC6tsGN2JWGeXhjKL6664RNCq5hu4B"]
             }]
     }, {
-        "name": "Coinex",
-        "accounts": [{
-            "address": "rsP3mgGb2tcYUrxiLFiHJiQXhsziegtwBc",
-            "currencies": ["NZD", "BTC", "USD", "AUD", "STR"],
-            "hotwallets": ["rGAmy1w1ENyTJ9BCAEicYyRM2Yk1iWZ7Z5"],
-            "domain": "coinexgateway.com"
-            }]
-    }, {
         "name": "RippleLatAm",
         "accounts": [{
             "address": "rP5ShE8dGBH6hHtNvRESdMceen36XFBQmh",
