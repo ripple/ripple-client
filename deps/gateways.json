@@ -183,5 +183,12 @@
             "currencies": ["USD", "EUR"]
             }],
         "domain": "www.gatehub.net"
+    }, {
+      "name": "Bluzelle",
+      "accounts": [{
+            "address": "raBDVR7JFq3Yho2jf7mcx36sjTwpRJJrGU",
+            "currencies": ["CAD"]
+            }],
+        "domain": "bluzelle.com"
     }
 ]
