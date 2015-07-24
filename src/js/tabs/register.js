@@ -30,7 +30,7 @@ RegisterTab.prototype.angular = function (module) {
 
     $scope.migrate = function() {
 
-      var path = 'https://rippletrade.com/#/migrate';
+      var path = 'https://rippletrade.com/#/';
 
       $window.location.href = path;
     }
