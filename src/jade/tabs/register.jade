@@ -7,13 +7,11 @@ section.col-xs-12.content(ng-controller="RegisterCtrl")
         | to access your funds.
       br
       p.literal(l10n) To access your funds:
-      p.literal(l10n) 1) Go to the Ripple Trade&#32;
-        a(l10n-inc, href="https://rippletrade.com/#/migrate") migration flow
+      p.literal(l10n) 1) Go to&#32;
+        a(l10n-inc, href="https://rippletrade.com/#/") Ripple Trade
         | .
-      p.literal(l10n) 2) Type in your old client username and passphrase combination.
-      p.literal(l10n) 3) Sign up for Ripple Trade and your funds will move with you.
-      br
-      p.literal(l10n) Please migrate your Ripple address as soon as possible.
+      p.literal(l10n) 2) Type in your secret key when creating an identity profile.
+      p.literal(l10n) 3) Successfully complete identity verification and your funds will move with you.
       br
       button.btn.btn-block.btn-success.migrate-btn(ng-click='migrate()') Migrate your Ripple address to Ripple Trade
       br

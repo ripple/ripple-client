@@ -32,7 +32,7 @@ LoginTab.prototype.angular = function (module) {
 
     $scope.migrate = function() {
 
-      var RTpath = 'https://rippletrade.com/#/migrate';
+      var RTpath = 'https://rippletrade.com/#/';
 
       $window.location.href = RTpath;
     }
