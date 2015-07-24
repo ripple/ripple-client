@@ -16,7 +16,9 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
       form(name='loginForm' action='{{authAction}}')
         .submit-btn-container
           button.btn.btn-submit.btn-block.btn-success#loginBtn(type="submit" ng-click="submitForm('login')")
-            span(l10n) Sign In
+            span(l10n) Log In
+          button.btn.btn-submit.btn-block.btn-success#registerBtn(type="submit" ng-click="submitForm('register')")
+            span(l10n) Sign Up
           input(name='redirect_to', type='hidden', value='{{redirectTo}}')
 
   .row.action-login(ng-if="$routeParams.to")
