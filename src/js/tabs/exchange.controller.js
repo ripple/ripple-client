@@ -356,7 +356,7 @@ ExchangeTab.prototype.angular = function (module)
                 console.log('client: exchange tab: error while ' +
                   'unlocking wallet: ', err);
                 $scope.mode = 'error';
-                $scope.error_type = 'unlockFailed';
+                $scope.error_type = err.message === 'ccm: tag doesn\'t match' ? 'wrongPassword' : 'unlockFailed';
 
                 return;
               }

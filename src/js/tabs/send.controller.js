@@ -145,6 +145,7 @@ SendTab.prototype.angular = function (module)
         $scope.sendForm.send_destination.$setValidity('federation', true);
         $scope.sendForm.send_destination.$setValidity('federationDown', true);
         $scope.sendForm.send_destination.$setValidity('btcBridgeWrong', true);
+        $scope.sendForm.send_destination.$setValidity('profileUnverified', true);
       }
 
       // Now starting to work on resolving the recipient
@@ -175,13 +176,13 @@ SendTab.prototype.angular = function (module)
 
       send.toBitcoin = false;
       // Trying to send to a Bitcoin address
-      if (!isNaN(Base.decode_check([0, 5], recipient, 'bitcoin'))) {
-        if (Options.bridge.out.bitcoin) { // And there is a default bridge
-          recipient += '@' + Options.bridge.out.bitcoin;
-          send.recipient_address = recipient;
-          send.toBitcoin = true;
-        }
-      }
+      // if (!isNaN(Base.decode_check([0, 5], recipient, 'bitcoin'))) {
+      //   if (Options.bridge.out.bitcoin) { // And there is a default bridge
+      //     recipient += '@' + Options.bridge.out.bitcoin;
+      //     send.recipient_address = recipient;
+      //     send.toBitcoin = true;
+      //   }
+      // }
 
       send.last_recipient = recipient;
 
@@ -196,6 +197,12 @@ SendTab.prototype.angular = function (module)
 
       // Trying to send to an email/federation address
       send.federation = ('string' === typeof recipient) && ~recipient.indexOf('@');
+      if (send.federation && store.get('profile_status') !== 'verified') {
+        if ($scope.sendForm && $scope.sendForm.send_destination) {
+          $scope.sendForm.send_destination.$setValidity('profileUnverified', false);
+        }
+        return;
+      }
 
       // Check destination tag visibility
       $scope.check_dt_visibility();
@@ -215,6 +222,7 @@ SendTab.prototype.angular = function (module)
         $scope.sendForm.send_destination.$setValidity('federation', true);
         $scope.sendForm.send_destination.$setValidity('federationDown', true);
         $scope.sendForm.send_destination.$setValidity('btcBridgeWrong', true);
+        $scope.sendForm.send_destination.$setValidity('profileUnverified', true);
       }
 
       // If there was a previous federation request, we need to clean it up here.
@@ -264,7 +272,7 @@ SendTab.prototype.angular = function (module)
             if (recipient !== now_recipient) return;
 
             send.path_status = 'waiting';
-            if (send.toBitcoin && Options.bridge.out.bitcoin != 'btc2ripple.com') {
+            if (send.toBitcoin) {
               $scope.sendForm.send_destination.$setValidity('btcBridgeWrong', false);
             } else if (error && error.error === 'down') {
               $scope.sendForm.send_destination.$setValidity('federationDown', false);
@@ -290,7 +298,7 @@ SendTab.prototype.angular = function (module)
       else if (isRecipientValidAddress && send.recipient_address == strippedRecipient) {
         id.resolveName(strippedRecipient, { tilde: true }).then(function(name) {
           send.recipient_name = name;
-          if (send.recipient == name) {
+          if (send.recipient === name) {
             // there is no name for this address
             $scope.check_destination();
           } else {
@@ -1122,7 +1130,7 @@ SendTab.prototype.angular = function (module)
                                console.log('client: send tab: error while ' +
                                            'unlocking wallet: ', err);
                                $scope.mode = 'error';
-                               $scope.error_type = 'unlockFailed';
+                               $scope.error_type = err.message === 'ccm: tag doesn\'t match' ? 'wrongPassword' : 'unlockFailed';
                                return;
                              }
 
