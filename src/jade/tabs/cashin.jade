@@ -14,3 +14,272 @@ section.col-xs-12.col-md-10.content(ng-controller="CashinCtrl")
     p: a.btn.btn-default(href="#/balance", l10n) Back to balance
 
   //- Connected
+
+  div(ng-show='account.Balance')
+    p.literal(l10n) Cash In
+    hr
+    ul.cashin-list
+      li
+        .row.front
+          .col-sm-2.col-sm-offset-1
+            img.logo(src="img/cashin/zipzap.png")
+          .col-sm-5
+            .description To fund your Ripple account, simply deposit cash
+              |  at one of ZipZap's U.S. payment locations. The dollars will show
+              |  up in your account within an hour. ZipZap charges $3.95 per
+              |  deposit, plus 3.5% of the total deposit. For more information
+              |  and to search for a ZipZap cash-in location, visit&#32;
+              a(href="https://www.zipzapinc.com", target="_blank") https://www.zipzapinc.com.
+              |  Your cash will be held by the&#32;
+              a(href="http://snapswap.us") SnapSwap gateway.
+          .col-sm-2
+            .actions
+              span(ng-show="loading", l10n) Loading...
+              div(ng-hide="loading")
+                span(ng-show="mode == 'step1'")
+                  button.btn.btn-success.btn-block(ng-click="displaySignupForm=true",
+                  ng-disabled="displaySignupForm", l10n) Sign Up
+
+        .row(ng-show="displaySignupForm")
+          .col-md-10.col-md-offset-1.step
+            .head
+              span To deposit cash using ZipZap please complete the following form (Step 1 of 2).
+            .alert.alert-warning Available to US customers only
+            form.signup.form-horizontal#signupForm(name='signupForm', ng-submit="signup()")
+              .form-group
+                label.control-label.col-sm-4(for='firstname', l10n) First name
+                .col-sm-8
+                  input.form-control#firstname(name='firstname', type='text',
+                    ng-model='form.firstname', required)
+                  .errorGroup(rp-errors='firstname')
+                    .error(rp-error-on='required', l10n)
+                      | Please enter your first name.
+              .form-group
+                label.control-label.col-sm-4(for='lastname', l10n) Last name
+                .col-sm-8
+                  input.form-control#lastname(name='lastname', type='text',
+                    ng-model='form.lastname', required)
+                  .errorGroup(rp-errors='lastname')
+                    .error(rp-error-on='required', l10n)
+                      | Please enter your last name.
+              .form-group
+                label.control-label.col-sm-4(for='address', l10n) Address
+                .col-sm-8
+                  input.form-control#address(name='address', type='text', ng-model='form.address'
+                  required)
+                  .errorGroup(rp-errors='address')
+                    .error(rp-error-on='required', l10n)
+                      | Please enter your address.
+              .form-group
+                label.control-label.col-sm-4(for='city', l10n) City
+                .col-sm-8
+                  input.form-control#city(name='city', type='text', ng-model='form.city'
+                  required)
+                  .errorGroup(rp-errors='city')
+                    .error(rp-error-on='required', l10n)
+                      | Please enter your city.
+              .form-group
+                label.control-label.col-sm-4(for='state', l10n) State
+                .col-sm-8
+                  select.form-control#state(name='state', type='text'
+                  ng-model='form.state', required)
+                    option(value="", selected="selected") Select a State
+                    option(value="AL") Alabama 
+                    option(value="AK") Alaska 
+                    option(value="AZ") Arizona 
+                    option(value="AR") Arkansas 
+                    option(value="CA") California 
+                    option(value="CO") Colorado 
+                    option(value="CT") Connecticut 
+                    option(value="DE") Delaware 
+                    option(value="DC") District Of Columbia 
+                    option(value="FL") Florida 
+                    option(value="GA") Georgia 
+                    option(value="HI") Hawaii 
+                    option(value="ID") Idaho 
+                    option(value="IL") Illinois 
+                    option(value="IN") Indiana 
+                    option(value="IA") Iowa 
+                    option(value="KS") Kansas 
+                    option(value="KY") Kentucky 
+                    option(value="LA") Louisiana 
+                    option(value="ME") Maine 
+                    option(value="MD") Maryland 
+                    option(value="MA") Massachusetts 
+                    option(value="MI") Michigan 
+                    option(value="MN") Minnesota 
+                    option(value="MS") Mississippi 
+                    option(value="MO") Missouri 
+                    option(value="MT") Montana 
+                    option(value="NE") Nebraska 
+                    option(value="NV") Nevada 
+                    option(value="NH") New Hampshire 
+                    option(value="NJ") New Jersey 
+                    option(value="NM") New Mexico 
+                    option(value="NY") New York 
+                    option(value="NC") North Carolina 
+                    option(value="ND") North Dakota 
+                    option(value="OH") Ohio 
+                    option(value="OK") Oklahoma 
+                    option(value="OR") Oregon 
+                    option(value="PA") Pennsylvania 
+                    option(value="RI") Rhode Island 
+                    option(value="SC") South Carolina 
+                    option(value="SD") South Dakota 
+                    option(value="TN") Tennessee 
+                    option(value="TX") Texas 
+                    option(value="UT") Utah 
+                    option(value="VT") Vermont 
+                    option(value="VA") Virginia 
+                    option(value="WA") Washington 
+                    option(value="WV") West Virginia 
+                    option(value="WI") Wisconsin 
+                    option(value="WY") Wyoming
+                  .errorGroup(rp-errors='state')
+                    .error(rp-error-on='required', l10n)
+                      | Please enter your state.
+              .form-group
+                label.control-label.col-sm-4(for='zipcode', l10n) Zip code
+                .col-sm-8
+                  input.form-control#zipcode(name='zipcode', type='text', ng-model='form.zipcode'
+                  required)
+                  .errorGroup(rp-errors='zipcode')
+                    .error(rp-error-on='required', l10n)
+                      | Please enter your zipcode.
+              //.form-group
+                label.control-label.col-sm-4(for='countrycode', l10n) Country code
+                .col-sm-8
+                  input.form-control#countrycode(name='countrycode', type='text', ng-model='form.countrycode'
+                  required, ng-minlength="2", ng-maxlength="2", disabled="disabled")
+                  .errorGroup(rp-errors='countrycode')
+                    .error(rp-error-on='required', l10n)
+                      | Please enter your country code.
+                    .error(rp-error-on='minlength', l10n)
+                      | Country code should be exactly 2 characters.
+                    .error(rp-error-on='maxlength', l10n)
+                      | Country code should be exactly 2 characters.
+              .form-group
+                label.control-label.col-sm-4(for='phone', l10n) Phone (Only Numbers)
+                .col-sm-8
+                  input.form-control#phone(name='phone', type='text', ng-model='form.phone'
+                  required)
+                  .errorGroup(rp-errors='phone')
+                    .error(rp-error-on='required', l10n)
+                      | Please enter your phone number.
+              .form-group
+                label.control-label.col-sm-4(for='dob', l10n) Date of birth (YYYY-MM-DD)
+                .col-sm-8
+                  input.form-control#dob(name='dob', type='text', ng-model='form.dob'
+                  required, rp-dob)
+                  .errorGroup(rp-errors='dob')
+                    .error(rp-error-on='required', l10n)
+                      | Please enter your date of birth.
+                    .error(rp-error-on='required', l10n)
+                      | The date of birth must be in YYYY-MM-DD format.
+              .form-group
+                label.control-label.col-sm-4(for='email', l10n) Email
+                .col-sm-8
+                  input.form-control#email(name='email', type='text', ng-model='form.email'
+                  required, rp-email)
+                  .errorGroup(rp-errors='email')
+                    .error(rp-error-on='required', l10n)
+                      | Please enter your email address.
+                    .error(rp-error-on='rpEmail', l10n)
+                      | Please use a valid email format.
+              .form-group
+                label.control-label.col-sm-4(for='ssn', l10n) Last 4 digits of your SSN
+                .col-sm-8
+                  input.form-control#ssn(name='ssn', type='text', ng-model='form.ssn'
+                  required, ng-minlength="4", ng-maxlength="4")
+                  .errorGroup(rp-errors='ssn')
+                    .error(rp-error-on='required', l10n)
+                      | Please enter last 4 digits of your social security number.
+                    .error(rp-error-on='minlength', l10n)
+                      | Please enter last 4 digits of your social security number.
+                    .error(rp-error-on='maxlength', l10n)
+                      | Please enter last 4 digits of your social security number.
+              .text-error(ng-show="error") {{error.verboseMessage}}
+              .row
+                .col-xs-4
+                  button.btn.btn-default.btn-block(type="button"
+                  ng-click="displaySignupForm=false", l10n) Cancel
+                .col-xs-8
+                  button.btn.btn-success.btn-block(type="submit",
+                  ng-disabled="signupForm.$invalid || signupProgress")
+                    span(ng-hide="signupProgress", l10n) Sign Up
+                    span(ng-show="signupProgress", l10n) Loading...
+
+        .row(ng-show="mode == 'step2'")
+          .col-md-10.col-md-offset-1.step
+            .head
+              span To deposit cash using ZipZap, create a trustline to SnapSwap, and come back to this page (Step 2 of 2).&#32;
+              a(href="", ng-click=""
+                rp-popover
+                rp-popover-placement="bottom"
+                l10n-rp-popover-title="Trust line"
+                rp-popover-trigger="click"
+                l10n-data-content="Your cash will be held by the SnapSwap gateway, so you'll need to trust SnapSwap before depositing cash at a ZipZap location. <a href=\"https://ripplelabs.zendesk.com/hc/en-us/articles/200916587-Understanding-trust-lines\", target=\"_blank\") More information about trusting</a>") Why?
+            .desc When you click "Trust SnapSwap", you'll be taken to a page that will have SnapSwap's Ripple address pre-filled. In Amount, fill in the maximum amount of USD you'll deposit with SnapSwap. Then click 'Grant Trust' and return to the Cash In tab to see ZipZap instructions.
+            a.btn.btn-success.btn-block(href="#/trust?to=rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q") Trust SnapSwap
+
+        .row.details(ng-show="mode == 'details'")
+          .col-md-10.col-md-offset-1.zipzapId Zip Zap ID:
+            span {{zipzap.ZipZapAcctNum}}
+          .col-md-3.col-md-offset-1
+            ul.account
+              li First name:
+                strong  {{zipzap.FirstName}}
+              li Last name:
+                strong  {{zipzap.LastName}}
+              li Address:
+                strong  {{zipzap.Address}}
+              li City:
+                strong  {{zipzap.City}}
+              li State:
+                strong  {{zipzap.State}}
+              li Postal code:
+                strong  {{zipzap.PostalCode}}
+              li Country code:
+                strong  {{zipzap.Country}}
+              li Phone:
+                strong  {{zipzap.Phone}}
+              li Date of birth:
+                strong  {{zipzap.DateOfBirth}}
+              li Email:
+                strong  {{zipzap.Email}}
+          .col-md-7.locator
+            div.locateTxt
+              span Follow these steps to deposit cash into your Ripple account.
+              ul
+                li Go to any ZipZap payment center and deposit cash using the
+                  |  9 digit ZipZap account number displayed on this page. Let the
+                  |  clerk know that you are making a bill payment through Softgate
+                  |  and the that the biller name is ZipZap. There is a 3.5%
+                  |  transaction fee plus an a $3.95 flat fee. You can deposit up
+                  |  to $500 per transaction.
+                li Wait approximately 1 hour, and your deposited USD will be
+                  |  in your Ripple wallet.
+                li To withdraw this money later, you will need to register for
+                  |  a Ripple gateway and follow the gateway's withdrawal policies.
+                li For support, please visit&#32;
+                  a(href="http://support.zipzapinc.com", traget="_blank") http://support.zipzapinc.com
+            div.locateTxt Locate a payment center
+            .row.row-padding-small
+              form(name="locateForm", ng-submit="locate()")
+                .col-md-8
+                  input.form-control(type="text", name="query", ng-model="query", required
+                    placeholder="Please enter your City and State or Postal Code")
+                .col-md-4
+                  button.btn.btn-success.btn-block(type="submit",
+                    ng-disabled="locateStatus=='loading' || locateForm.$invalid")
+                    span(ng-hide="locateStatus=='loading'", l10n) Search!
+                    span(ng-show="locateStatus=='loading'", l10n) Loading...
+            ul.locations
+              li(ng-repeat="location in locations.PayCenters")
+                .name {{location.PayCenterName}}
+                a(href="http://maps.google.com/maps?q={{location.Address}}, {{location.City}}, {{location.State}}, {{location.PostalCode}}", target="_blank", l10n) show on map
+                div Address: {{location.Address}}, {{location.City}},
+                  |  {{location.State}}, {{location.PostalCode}}.
+                div Phone: {{location.Phone}}
+              div(ng-show="locateStatus=='notfound'")
+                | Sorry, there are no payment centers for your query.
