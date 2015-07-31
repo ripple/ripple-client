@@ -189,7 +189,7 @@ TrustTab.prototype.angular = function (module)
       var tx = network.remote.transaction();
 
       // Add memo to tx
-      tx.addMemo('client', 'rt' + $scope.version);
+      tx.addMemo('client', 'text/plain', 'rt' + $scope.version);
 
 
       // Flags
@@ -464,7 +464,7 @@ TrustTab.prototype.angular = function (module)
           var tx = network.remote.transaction();
           
           // Add memo to tx
-          tx.addMemo('client', 'rt' + $scope.version);
+          tx.addMemo('client', 'text/plain', 'rt' + $scope.version);
 
           tx.trustSet(idAccount, '0' + '/' + lineCurrency + '/' + lineAccount);
 
@@ -483,7 +483,7 @@ TrustTab.prototype.angular = function (module)
             var tx = network.remote.transaction();
 
             // Add memo to tx
-            tx.addMemo('client', 'rt' + $scope.version);
+            tx.addMemo('client', 'text/plain', 'rt' + $scope.version);
 
             var payment = tx.payment(selfAddress, selfAddress, '100000000000');
 
@@ -497,7 +497,7 @@ TrustTab.prototype.angular = function (module)
             var tx = network.remote.transaction();
 
             // Add memo to tx
-            tx.addMemo('client', 'rt' + $scope.version);
+            tx.addMemo('client', 'text/plain', 'rt' + $scope.version);
 
             var amount = amountObject.clone();
             var newAmount = amount.set_issuer(issuerAddress);
@@ -580,7 +580,7 @@ TrustTab.prototype.angular = function (module)
         var tx = network.remote.transaction();
 
         // Add memo to tx
-        tx.addMemo('client', 'rt' + $scope.version);
+        tx.addMemo('client', 'text/plain', 'rt' + $scope.version);
 
         // Flags
         tx

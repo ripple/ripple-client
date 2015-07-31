@@ -666,7 +666,7 @@ TradeTab.prototype.angular = function(module)
       );
 
       // Add memo to tx
-      tx.addMemo('client', 'rt' + $rootScope.version);
+      tx.addMemo('client', 'text/plain', 'rt' + $rootScope.version);
 
       // Sets a tfSell flag. This is the only way to distinguish
       // sell offers from buys.
