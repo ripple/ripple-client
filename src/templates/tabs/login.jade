@@ -68,20 +68,17 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
 
     .col-xs-12.col-sm-6.col-md-5.col-lg-4.col-lg-offset-1.auth-form-container
       .auth-form-wrapper
-        form(name='loginForm', ng-submit='submitForm()')
-          .loginWrapper
-            h2.loginTop(l10n) Log In
-          include ../tabs/login/form
-          .row
-            .col-xs-12.text-status(ng-show='status')
-              span(ng-bind="status")
-              br
-              .backend(ng-repeat="message in backendMessages")
-                span(ng-bind="message")
-          .row
-            .col-xs-12
-              button.btn.btn-lg.btn-submit.btn-block.btn-primary(type='submit', ng-disabled="loginForm.$invalid || ajax_loading", l10n)
-                img(src="img/button-s.png", class="loader", ng-show="ajax_loading")
-                |  Log In
-          p.literal.landing(l10n) New to {{productName}}?&#32;
-            a(href='#/register', l10n-inc) Create an account
+        .loginOverlay(ng-show='loggingIn')
+          img.loader(src='img/main.png', alt='', title='')
+        .text-status(ng-show='status')
+          span.loggingIn(ng-bind="status")
+          br
+          .backend.error(ng-repeat="message in backendMessages")
+            span.error(ng-bind="message")
+        form(name='loginForm' action='{{authAction}}')
+          .submit-btn-container
+            button.btn.btn-submit.btn-block.btn-success#loginBtn(type="submit" ng-click="submitForm('login')")
+              span(l10n) Log In
+            button.btn.btn-submit.btn-block.btn-success#registerBtn(type="submit" ng-click="submitForm('register')")
+              span(l10n) Sign Up
+            input(name='redirect_to', type='hidden', value='{{redirectTo}}')
