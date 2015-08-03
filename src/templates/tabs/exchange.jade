@@ -139,7 +139,7 @@ section.col-xs-12.content(ng-controller="ExchangeCtrl")
           span.literal(l10n-inc) Ripple network fee: &#32;
           span.currency(rp-pretty-amount='networkFee')
           form.call-to-action(ng-submit='exchange_confirmed()')
-            p.literal(l10n-inc) Are you sure?
+            p.literal(l10n-inc) Are you sure? Ripple network transactions cannot be undone.
             .row.row-padding-small
               .col-xs-6.col-sm-4.col-md-3.col-lg-2
                 button.btn.btn-block.btn-success.submit(type='submit'
