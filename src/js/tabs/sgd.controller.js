@@ -38,7 +38,7 @@ SgdTab.prototype.angular = function(module) {
         var tx = $network.remote.transaction();
 
         // Add memo to tx
-        tx.addMemo('client', 'rt' + $scope.version);
+        tx.addMemo('client', 'text/plain', 'rt' + $scope.version);
 
         // Flags
         tx

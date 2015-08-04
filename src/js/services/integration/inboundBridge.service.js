@@ -68,7 +68,7 @@ module.service('rpInboundBridgeProfile', ['$rootScope', 'rpNetwork', 'rpId', '$h
         tx.setFlags('NoRipple');
 
         // Add memo to tx
-        tx.addMemo('client', 'rt' + $scope.version);
+        tx.addMemo('client', 'text/plain', 'rt' + $scope.version);
 
         // txQueue please set the trust line asap.
         txQueue.addTransaction(tx);
