@@ -338,7 +338,7 @@ ExchangeTab.prototype.angular = function (module)
         var tx = network.remote.transaction();
 
         // Add memo to tx
-        tx.addMemo('client', 'rt' + $rootScope.version);
+        tx.addMemo('client', 'text/plain', 'rt' + $rootScope.version);
 
         // Destination tag
         tx.destination_tag(webutil.getDestTagFromAddress(id.account));
