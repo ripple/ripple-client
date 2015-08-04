@@ -53,7 +53,7 @@ LoginTab.prototype.angular = function(module) {
         store.set('profile_status', $location.search().status);
 
         if ($location.search().redirect_to) {
-          $location.path($location.search().redirect_to).search('');
+          $location.url($location.search().redirect_to);
         } else {
           $location.path('/balance').search('');
         }
@@ -64,7 +64,7 @@ LoginTab.prototype.angular = function(module) {
       }
 
       $scope.submitForm = function(authAction) {
-        $scope.redirectTo = $location.path();
+        $scope.redirectTo = encodeURIComponent($location.url());
         $scope.authAction = $sce.trustAsResourceUrl(Options.backend_url + '/auth/' + authAction);
       };
 
