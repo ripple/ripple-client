@@ -130,12 +130,20 @@ body.loading {
     -webkit-transform: translateY(1px);
   }
 }
+
 body.loaded {
-  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
   #appLoading {
     transform: translateY(-800px);
     -webkit-transform: translateY(-800px);
     opacity: 0;
+  }
+}
+
+@media (max-width: @screen-xs-max) {
+  body.loaded {
+    overflow-x: auto;
   }
 }
 
