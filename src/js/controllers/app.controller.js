@@ -32,10 +32,7 @@ function AppCtrl ($scope, id, net, keychain, txQueue, appManager, rpTracker,
   $scope.showAnnouncement = store.get('announcement');
 
   // For new terms banner
-  if (store.get('terms') === false) {
-    store.set('terms', false);
-  }
-  else {
+  if (store.get('terms') !== false) {
     store.set('terms', true);
   }
 
