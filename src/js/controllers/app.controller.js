@@ -27,17 +27,21 @@ function AppCtrl ($scope, id, net, keychain, txQueue, appManager, rpTracker,
       cancelNotifTimeout;
 
   // For announcement banner
-
   store.set('announcement', true);
   $scope.showAnnouncement = store.get('announcement');
 
   // For new terms banner
+  var removeBlobUpdateListener = $scope.$watch('userBlob', function() {
+    if ($scope.userBlob) {
+      if (settings.getSetting($scope.userBlob, 'showDisclosure') !== false) {
+        $scope.userBlob.set('/clients/rippletradecom/showDisclosure', true);
+      }
 
-  if (settings.getSetting($scope.userBlob, 'showDisclosure') !== false) {
-    $scope.userBlob.set('/clients/rippletradecom/showDisclosure', true);
-  }
+      $scope.showTerms = settings.getSetting($scope.userBlob, 'showDisclosure');
 
-  $scope.showTerms = settings.getSetting($scope.userBlob, 'showDisclosure');
+      removeBlobUpdateListener();
+    }
+  })
 
   $scope.dismissBanner = function() {
     $scope.userBlob.set('/clients/rippletradecom/showDisclosure', false);
