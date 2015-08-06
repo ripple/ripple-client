@@ -291,7 +291,7 @@ section.col-xs-12.content(ng-controller='SendCtrl')
         span.literal(l10n) Ripple network fee: &#32;
         span.currency(rp-pretty-amount='networkFee')
         form.call-to-action(name="sendUnlockForm", ng-submit="send_confirmed()")
-          p.literal(ng-show="send.secret", l10n) Are you sure? Ripple network transactions cannot be undone.
+          p.literal(l10n) Are you sure? Ripple network transactions cannot be undone.
           p.literal(ng-hide="send.secret", l10n) Please enter your password to confirm this transaction.
           .row.row-padding-small(ng-if="!send.secret")
             .col-xs-12.col-sm-8.col-md-6
