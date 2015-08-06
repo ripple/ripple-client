@@ -199,6 +199,8 @@ section.col-xs-12.content(ng-controller="HistoryCtrl")
                     | Add
                     strong  {{entry.transaction.counterparty | rpcontactname}}
                     |  to contact list
+                .disclosure
+                  .desc Ripple Trade LLC is not liable for transaction delivery and execution. Furthermore, Ripple Trade LLC does not grant refunds.    
         nav.paging(ng-if="pagination.count")
           pagination.pagination-sm(total-items="pagination.count"
             ng-model="pagination.currentPage", items-per-page="pagination.transactionsPerPage"
