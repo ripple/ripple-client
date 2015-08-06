@@ -32,15 +32,16 @@ function AppCtrl ($scope, id, net, keychain, txQueue, appManager, rpTracker,
   $scope.showAnnouncement = store.get('announcement');
 
   // For new terms banner
-  if (store.get('terms') !== false) {
-    store.set('terms', true);
+
+  if (settings.getSetting($scope.userBlob, 'showDisclosure') !== false) {
+    $scope.userBlob.set('/clients/rippletradecom/showDisclosure', true);
   }
 
-  $scope.showTerms = store.get('terms');
+  $scope.showTerms = settings.getSetting($scope.userBlob, 'showDisclosure');
 
   $scope.dismissBanner = function() {
-    store.set('terms', false);
-    $scope.showTerms = store.get('terms');
+    $scope.userBlob.set('/clients/rippletradecom/showDisclosure', false);
+    $scope.showTerms = settings.getSetting($scope.userBlob, 'showDisclosure');
   };
 
   net.listenId(id);
