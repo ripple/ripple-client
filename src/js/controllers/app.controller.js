@@ -31,6 +31,18 @@ function AppCtrl ($scope, id, net, keychain, txQueue, appManager, rpTracker,
   store.set('announcement', true);
   $scope.showAnnouncement = store.get('announcement');
 
+  // For new terms banner
+  if (store.get('terms') !== false) {
+    store.set('terms', true);
+  }
+
+  $scope.showTerms = store.get('terms');
+
+  $scope.dismissBanner = function() {
+    store.set('terms', false);
+    $scope.showTerms = store.get('terms');
+  };
+
   net.listenId(id);
   net.init();
   id.init();
