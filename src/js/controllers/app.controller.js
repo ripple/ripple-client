@@ -32,7 +32,7 @@ function AppCtrl ($scope, id, net, keychain, txQueue, appManager, rpTracker,
 
   // For new terms banner
   var removeBlobUpdateListener = $scope.$watch('userBlob', function() {
-    if ($scope.userBlob) {
+    if ($scope.userBlob.data && $scope.userCredentials.username) {
       if (settings.getSetting($scope.userBlob, 'showDisclosure') !== false) {
         $scope.userBlob.set('/clients/rippletradecom/showDisclosure', true);
       }
@@ -41,7 +41,7 @@ function AppCtrl ($scope, id, net, keychain, txQueue, appManager, rpTracker,
 
       removeBlobUpdateListener();
     }
-  })
+  });
 
   $scope.dismissBanner = function() {
     $scope.userBlob.set('/clients/rippletradecom/showDisclosure', false);
