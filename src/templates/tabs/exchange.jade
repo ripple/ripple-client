@@ -52,7 +52,7 @@ section.col-xs-12.content(ng-controller="ExchangeCtrl")
               ng-model='exchange.currency_name'
               rp-autofill='$routeParams.amount'
               rp-autofill-currency)
-            .col-sm-3.col-md-3.col-xs-12
+            .col-sm-3.col-md-3.col-xs-12.pull-left
               button.btn.btn-cancel.btn-block(ng-click="gotoFund()", l10n)
                 | add gateway
           .errorGroup(ng-messages='exchangeForm.amount.$dirty && exchangeForm.amount.$error')
