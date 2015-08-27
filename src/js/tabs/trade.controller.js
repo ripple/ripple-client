@@ -1131,16 +1131,24 @@ TradeTab.prototype.angular = function(module)
         return;
       }
 
-      order.valid_settings = true;
 
       // Remember pair
       // Produces currency/issuer:currency/issuer
-      var key = '' +
+      var keyFirst = '' +
         order.first_currency.to_json() +
-        (order.first_currency.is_native() ? '' : '/' + order.first_issuer) +
-        ':' +
+        (order.first_currency.is_native() ? '' : '/' + order.first_issuer);
+      var keySecond = '' +
         order.second_currency._iso_code +
         (order.second_currency.is_native() ? '' : '/' + order.second_issuer);
+
+      if (keyFirst === keySecond) {
+        order.valid_settings = false;
+        return;
+      }
+
+      var key = keyFirst + ':' + keySecond;
+
+      order.valid_settings = true;
 
       var changedPair = false;
       // Load orderbook
