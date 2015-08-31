@@ -197,11 +197,21 @@ SendTab.prototype.angular = function (module)
 
       // Trying to send to an email/federation address
       send.federation = ('string' === typeof recipient) && ~recipient.indexOf('@');
-      if (send.federation && store.get('profile_status') !== 'verified') {
-        if ($scope.sendForm && $scope.sendForm.send_destination) {
-          $scope.sendForm.send_destination.$setValidity('profileUnverified', false);
+      if (send.federation) {
+        if (store.get('profile_status') !== 'verified') {
+          if ($scope.sendForm && $scope.sendForm.send_destination) {
+            $scope.sendForm.send_destination.$setValidity('profileUnverified', false);
+          }
+          return;
         }
-        return;
+        else if (recipient.substring(recipient.indexOf('@')+1) == 'btc2ripple.com' &&
+          store.get('profile_country') == 'US') {
+
+          if ($scope.sendForm && $scope.sendForm.send_destination) {
+            $scope.sendForm.send_destination.$setValidity('btc2rippleUSCustomer', false);
+          }
+          return;
+        }
       }
 
       // Check destination tag visibility
