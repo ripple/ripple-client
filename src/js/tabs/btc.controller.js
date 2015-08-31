@@ -23,13 +23,16 @@ BtcTab.prototype.angular = function (module)
     $scope.emailError = false;
     $scope.generalError = false;
 
+    $scope.countryDisallowed = (store.get('profile_country') === 'US');
+    $scope.profileUnverified = (store.get('profile_status') !== 'verified');
+
     $scope.toggle_instructions = function () {
       $scope.showInstructions = !$scope.showInstructions;
     };
 
-    $scope.toggle_btc_instructions = function (){
-        $scope.showBtcInstructions = !$scope.showBtcInstructions;
-    }
+    $scope.toggle_btc_instructions = function () {
+      $scope.showBtcInstructions = !$scope.showBtcInstructions;
+    };
 
     $scope.openPopup = function () {
       $scope.emailError = false;

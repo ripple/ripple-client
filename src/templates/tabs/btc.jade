@@ -61,7 +61,7 @@ section.col-xs-12.content(ng-controller='BtcCtrl')
               .col-xs-7.col-sm-5.col-md-4
                 rp-popup
                   a.btn.btn-success.btn-sm.btn-block.sign(href="", rp-popup-link,
-                    ng-click="openPopup()", ng-show="!btcConnected && !loading && !loadingAccount && loadState.B2RApp", ng-disabled="emailError", ng-hide="btcConnected",l10n) Add btc2ripple
+                    ng-click="openPopup()", ng-show="!btcConnected && !loading && !loadingAccount && loadState.B2RApp", ng-disabled="emailError || countryDisallowed || profileUnverified", ng-hide="btcConnected",l10n) Add btc2ripple
                   div.connectModal(rp-popup-content)
                     .modal-header
                       .navbar-brand.hidden-sm.modal-logo#logo
@@ -96,6 +96,7 @@ section.col-xs-12.content(ng-controller='BtcCtrl')
                 .description(ng-show="!loadingAccount && btcConnected && loadState.B2RApp")
                   i.fa.fa-check
                   span(l10n) Connected
+                  span(l10n) Connected
                 .description(ng-hide="loadingAccount || btcConnected || !loadState.B2RApp")
                   i.fa.fa-times
                   span(l10n) Not connected
@@ -108,6 +109,9 @@ section.col-xs-12.content(ng-controller='BtcCtrl')
               span.error(ng-show="emailError", l10n)
                 | You’ve already used this email address to generate a bitcoin receiving address in Ripple Trade.
                 | Please contact support@btc2ripple.com if you want to use this Ripple Trade account instead.
+              span.error(ng-show="countryDisallowed || profileUnverified", l10n)
+                | We're sorry, but btc2ripple is not available for unverified accounts or US residents.
+
         .row(ng-show="btcConnected && showInstructions")
           .instructions.col-md-10
             //a.dismiss#hide(href="", ng-click="toggle_instructions()")  ×
