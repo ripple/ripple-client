@@ -57,6 +57,8 @@ section.col-xs-12.content(ng-controller='SendCtrl')
               .error(ng-message='profileUnverified', l10n)
                 | You can't send to a federation address on Ripple Trade unless your identity is verified.<br/>
                 | To verify your identity, log out and log back in, and you'll be prompted to start the identity verification process.
+              .error(ng-message='btc2rippleUSCustomer', l10n)
+                | We're sorry, but the btc2ripple withdrawal service is not available for US-based customers.
               .error(ng-message='btcBridgeWrong', l10n)
                 | You cannot send to a BTC address.
         ul.tagsLinks

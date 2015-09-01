@@ -1,8 +1,9 @@
-var util = require('util'),
-    Tab = require('../client/tab').Tab;
+'use strict';
 
-var BtcTab = function ()
-{
+var util = require('util'),
+  Tab = require('../client/tab').Tab;
+
+var BtcTab = function() {
   Tab.call(this);
 };
 
@@ -11,11 +12,9 @@ util.inherits(BtcTab, Tab);
 BtcTab.prototype.tabName = 'btc';
 BtcTab.prototype.mainMenu = 'fund';
 
-BtcTab.prototype.angular = function (module)
-{
-  module.controller('BtcCtrl', ['$scope', 'rpId', 'rpAppManager', 'rpTracker', '$routeParams', 'rpNetwork', 'rpKeychain',
-                                     function ($scope, id, appManager, rpTracker, $routeParams, network, keychain)
-  {
+BtcTab.prototype.angular = function(module) { module.controller('BtcCtrl', [
+  '$scope', 'rpId', 'rpAppManager', 'rpTracker', '$routeParams', 'rpNetwork', 'rpKeychain',
+  function($scope, id, appManager, rpTracker, $routeParams, network, keychain) {
     $scope.accountLines = {};
     $scope.showComponent = [];
     $scope.showInstructions = false;
@@ -23,13 +22,16 @@ BtcTab.prototype.angular = function (module)
     $scope.emailError = false;
     $scope.generalError = false;
 
+    $scope.countryDisallowed = (store.get('profile_country') === 'US');
+    $scope.profileUnverified = (store.get('profile_status') !== 'verified');
+
     $scope.toggle_instructions = function () {
       $scope.showInstructions = !$scope.showInstructions;
     };
 
-    $scope.toggle_btc_instructions = function (){
-        $scope.showBtcInstructions = !$scope.showBtcInstructions;
-    }
+    $scope.toggle_btc_instructions = function () {
+      $scope.showBtcInstructions = !$scope.showBtcInstructions;
+    };
 
     $scope.openPopup = function () {
       $scope.emailError = false;
@@ -38,7 +40,7 @@ BtcTab.prototype.angular = function (module)
     };
 
     // TODO don't worry, the whole thing needs to be rewritten
-    var btcwatcher = $scope.$watch('B2R', function(){
+    var btcwatcher = $scope.$watch('B2R', function() {
       if ($scope.B2R && $scope.B2R.active) {
         $scope.btcConnected = true;
 
@@ -52,17 +54,17 @@ BtcTab.prototype.angular = function (module)
       var currency = 'BTC';
       var amount = '100000000000';
 
-      fields = {};
+      var fields = {};
 
       fields.rippleAddress = id.account;
       fields.email = $scope.userBlob.data.email;
 
       keychain.requestSecret(id.account, id.username, function (err, secret) {
         if (err) {
-          console.log("client: trust profile: error while " +
-            "unlocking wallet: ", err);
-          $scope.mode = "error";
-          $scope.error_type = "unlockFailed";
+          console.log('client: trust profile: error while ' +
+            'unlocking wallet: ', err);
+          $scope.mode = 'error';
+          $scope.error_type = 'unlockFailed';
 
           return;
         }
@@ -79,7 +81,7 @@ BtcTab.prototype.angular = function (module)
         $scope.B2RApp.findProfile('account').signup(fields, function (err, response) {
           if (err) {
             console.log('Error', err);
-            if (err && err.message == 'E-mail address is not accepted') {
+            if (err && err.message === 'E-mail address is not accepted') {
               $scope.load_notification('emailError');
               $scope.emailError = true;
             } else {
@@ -116,16 +118,16 @@ BtcTab.prototype.angular = function (module)
       rpTracker.track('B2R Shared Email');
     };
 
-    $scope.save_btc_account = function (){
+    $scope.save_btc_account = function() {
 
         $scope.btcLoading = true;
 
         var amount = ripple.Amount.from_human(
             Options.gateway_max_limit + ' ' + 'BTC',
-            {reference_date: new Date(+new Date() + 5*60000)}
+            {reference_date: new Date(+new Date() + 5 * 60000)}
         );
 
-        amount.set_issuer("rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B");
+        amount.set_issuer('rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B');
 
         if (!amount.is_valid()) {
           // Invalid amount. Indicates a bug in one of the validators.
@@ -141,9 +143,9 @@ BtcTab.prototype.angular = function (module)
         // Flags
         tx
             .rippleLineSet(id.account, amount)
-            .on('proposed', function(res){
-              $scope.$apply(function () {
-                setEngineStatus(res, false);              
+            .on('proposed', function(res) {
+              $scope.$apply(function() {
+                setEngineStatus(res, false);
               });
             })
             .on('success', function (res) {
@@ -158,7 +160,7 @@ BtcTab.prototype.angular = function (module)
               setEngineStatus(res, false);
               console.log('error', res);
               setImmediate(function () {
-                $scope.$apply(function () {
+                $scope.$apply(function() {
                   $scope.btcMode = 'error';
 
                   $scope.btcLoading = false;
@@ -191,7 +193,7 @@ BtcTab.prototype.angular = function (module)
             case 'tep':
               console.warn('Unhandled engine status encountered!');
           }
-          if ($scope.btc_tx_result=="cleared"){
+          if ($scope.btc_tx_result === 'cleared') {
             $scope.btc2Connected = true;
             $scope.showBtcInstructions = true;
 
@@ -214,24 +216,22 @@ BtcTab.prototype.angular = function (module)
 
 
         });
-        
+
       };
 
     $scope.$watch('lines', function () {
         if($scope.lines['rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59BBTC']){
           $scope.btc2Connected = true;
-        }
-        else {
+        } else {
           $scope.btc2Connected = false;
-        }  
+        }
       }, true);
 
     $scope.$watch('account', function() {
         $scope.can_add_trust = false;
         if ($scope.account.Balance && $scope.account.reserve_to_add_trust) {
           if (!$scope.account.reserve_to_add_trust.subtract($scope.account.Balance).is_positive()
-            || $.isEmptyObject($scope.lines))
-          {
+            || $.isEmptyObject($scope.lines)) {
             $scope.can_add_trust = true;
           }
         }
