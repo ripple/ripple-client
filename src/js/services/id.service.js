@@ -12,8 +12,8 @@ var webutil = require('../util/web'),
 var module = angular.module('id', ['authflow', 'blob']);
 
 module.factory(
-  'rpId', ['$rootScope', '$location', '$route', '$routeParams', '$timeout', '$http', 'rpAuthFlow', 'rpBlob', '$q',
-  function($scope, $location, $route, $routeParams, $timeout, $http, $authflow, $blob, $q) {
+  'rpId', ['$rootScope', '$location', '$route', '$routeParams', '$timeout', 'rpAuthFlow', 'rpBlob', 'rpAPI', '$q',
+  function($scope, $location, $route, $routeParams, $timeout, $authflow, $blob, $api, $q) {
     /**
      * Identity manager
      *
@@ -275,6 +275,8 @@ module.factory(
       }
 
       store.set('backend_token', backend_token);
+      // Update HTTP Options using new backend token value
+      $api.setHttpOptions();
 
       var blobObj = new $blob();
 
@@ -363,14 +365,6 @@ module.factory(
       // This line redirects user to root (login) page
   //    var port = location.port.length > 0 ? ":" + location.port : "";
   //    location.href = location.protocol + '//' + location.hostname  + port + location.pathname;
-    };
-
-    Id.prototype.getUserProfile = function() {
-      return $http.get(
-        Options.backend_url + '/api/user',
-        {
-          headers: {'Authorization': 'Bearer ' + store.get('backend_token')}
-        });
     };
 
     Id.prototype.unlock = function(username, password, callback) {
