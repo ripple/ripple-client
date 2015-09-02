@@ -13,7 +13,7 @@ NotificationsTab.prototype.tabName = 'notifications';
 NotificationsTab.prototype.mainMenu = 'notifications';
 
 NotificationsTab.prototype.angular = function(module) {
-  module.controller('NotificationsCtrl', ['$scope', '$window', 'rpId', 'rpNotifications', function($scope, $window, $id, $notifications) {
+  module.controller('NotificationsCtrl', ['$scope', '$window', 'rpId', 'rpAPI', function($scope, $window, $id, $api) {
     if (!$id.loginStatus) {
       return $id.goId();
     }
@@ -42,7 +42,7 @@ NotificationsTab.prototype.angular = function(module) {
           return;
         }
 
-        $notifications.getSubscription().success(function(data) {
+        $api.getSubscription().success(function(data) {
 
           $scope.subscription = data;
 
@@ -87,7 +87,7 @@ NotificationsTab.prototype.angular = function(module) {
         }
       });
 
-      $notifications.updateSubscription($scope.subscription)
+      $api.updateSubscription($scope.subscription)
         .success(function() {
           $scope.state.waitingForResponse = false;
           $scope.state.alert = 'saved_successfully';
