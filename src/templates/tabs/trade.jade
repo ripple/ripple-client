@@ -80,42 +80,6 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
             .col-sm-4.col-lg-2.col-xs-6#add_button
               button.btn.btn-success.btn-block.submit(type="submit", ng-disabled="gateway_change_form.$invalid || gateway_change_form.$pending", l10n) Add
 
-        form.issuerSelector.first-issuer(name='first_issuer_form', ng-show='show_issuer_form == "first"')
-          label(for='first_issuer', l10n) Base currency issuer ({{order.first_currency | rpcurrency}})
-          .row
-            .col-xs-12.col-sm-8.col-md-5
-              input.form-control#first_issuer(
-                name='first_issuer', type='text', rp-combobox="issuer_query"
-                rp-combobox-value-as-ripple-name
-                l10n-placeholder="Ripple name or contact"
-                ng-model="order.first_issuer_edit_name"
-                rp-dest, rp-dest-address, rp-dest-contact, rp-dest-ripple-name
-                rp-dest-model="order.first_issuer_edit")
-              .errorGroup(ng-messages='first_issuer_form.first_issuer.$error')
-                .error(ng-message='rpDest', l10n) Not a valid Ripple address or contact
-            .col-xs-12.col-sm-4.col-md-2
-              button.btn.btn-block.btn-success.submit(type='submit',
-                ng-click='save_first_issuer()',
-                ng-disabled='first_issuer_form.$invalid', l10n) Confirm
-
-        form.issuerSelector.second-issuer(name='second_issuer_form', ng-show='show_issuer_form == "second"')
-          label(for='second_issuer', l10n) Counter currency issuer ({{order.second_currency | rpcurrency}})
-          .row
-            .col-xs-9.col-sm-4.col-md-4
-              input.form-control#second_issuer(
-                name='second_issuer', type='text', rp-combobox="issuer_query"
-                rp-combobox-value-as-ripple-name
-                placeholder='Contact name or Ripple address'
-                ng-model='order.second_issuer_edit_name'
-                rp-dest, rp-dest-address, rp-dest-contact, rp-dest-ripple-name
-                rp-dest-model="order.second_issuer_edit")
-              .errorGroup(ng-messages='second_issuer_form.second_issuer.$error')
-                .error(ng-message='rpDest', l10n) Not a valid Ripple name or address
-            .col-xs-3.col-sm-2.col-md-2
-              button.btn.btn-block.btn-success.submit(type='submit',
-                ng-click='save_second_issuer()',
-                ng-disabled="second_issuer_form.$invalid", l10n) Confirm
-
         .message-select-issuer(ng-hide="order.valid_settings", l10n)
           | To show an orderbook, choose from the dropdown above or click "Add custom pair".
 
