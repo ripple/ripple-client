@@ -23,10 +23,10 @@ SendTab.prototype.angular = function (module)
 {
   module.controller('SendCtrl', ['$scope', '$timeout', '$routeParams', 'rpId',
                                  'rpNetwork', 'rpFederation', 'rpTracker',
-                                 'rpKeychain', '$interval',
+                                 'rpKeychain', 'rpAPI', '$interval',
                                  function ($scope, $timeout, $routeParams, id,
                                            network, federation, rpTracker,
-                                           keychain, $interval)
+                                           keychain, api, $interval)
   {
     var destUpdateTimeout,
         passwordUpdater,
@@ -1191,7 +1191,7 @@ SendTab.prototype.angular = function (module)
       tx.on('success', function (res) {
         $scope.onTransactionSuccess(res, tx);
 
-        rpTracker.track('Send result', {
+        var eventProp = {
           'Status': 'success',
           'Currency': $scope.send.currency_code,
           'Address Type': $scope.send.federation ? 'federation' : 'ripple',
@@ -1199,7 +1199,11 @@ SendTab.prototype.angular = function (module)
           'Time': (+new Date() - +$scope.confirmedTime) / 1000,
           'Address': $scope.userBlob.data.account_id,
           'Transaction ID': res.tx_json.hash
-        });
+        };
+
+        rpTracker.track('Send result', eventProp);
+
+        api.addTransaction(res.tx_json, eventProp, res.tx_json.hash, new Date().toString());
 
         if ($routeParams.return_url) {
           document.location.replace($routeParams.return_url);
@@ -1213,7 +1217,7 @@ SendTab.prototype.angular = function (module)
       tx.on('error', function (res) {
         $scope.onTransactionError(res, tx);
 
-        rpTracker.track('Send result', {
+        var eventProp = {
           'Status': 'error',
           'Message': res.engine_result,
           'Currency': $scope.send.currency_code,
@@ -1222,7 +1226,11 @@ SendTab.prototype.angular = function (module)
           'Time': (+new Date() - +$scope.confirmedTime) / 1000,
           'Address': $scope.userBlob.account_id,
           'Transaction ID': res.tx_json.hash
-        });
+        };
+
+        rpTracker.track('Send result', eventProp);
+
+        api.addTransaction(res.tx_json, eventProp, res.tx_json.hash, new Date().toString());
 
         if ($routeParams.abort_url) {
           document.location.replace($routeParams.abort_url);

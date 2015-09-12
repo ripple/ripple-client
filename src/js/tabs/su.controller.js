@@ -17,8 +17,8 @@ SuTab.prototype.mainMenu = 'su';
 SuTab.prototype.angular = function (module)
 {
   module.controller('SuCtrl', ['$scope', '$routeParams', 'rpId',
-                               'rpNetwork', 'rpDomainAlias', 'rpKeychain',
-    function ($scope, $routeParams, id, net, aliasService, keychain)
+                               'rpNetwork', 'rpDomainAlias', 'rpKeychain', 'rpAPI',
+    function ($scope, $routeParams, id, net, aliasService, keychain, api)
   {
     $scope.account = {};
 
@@ -41,8 +41,16 @@ SuTab.prototype.angular = function (module)
 
       tx.accountSet(id.account);
       tx.tx_json.Domain = sjcl.codec.hex.fromBits(sjcl.codec.utf8String.toBits($scope.account.domain));
-      tx.on('success', function(){
+      tx.on('success', function(res) {
         console.log('Cool!');
+
+        api.addTransaction(res.tx_json, {Status: 'success'}, res.tx_json.hash, new Date().toString());
+      });
+
+      tx.on('error', function(res) {
+        console.log('Error!');
+
+        api.addTransaction(res.tx_json, {Status: 'error'}, res.tx_json.hash, new Date().toString());
       });
 
       keychain.requestSecret(id.account, id.username, function (err, secret) {

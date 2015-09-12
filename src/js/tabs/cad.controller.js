@@ -55,6 +55,8 @@ CadTab.prototype.angular = function(module) {
                 $scope.loading = false;
                 $scope.editing = false;
               });
+
+              api.addTransaction(res.tx_json, {Status: 'success'}, res.tx_json.hash, new Date().toString());
             })
             .on('error', function(res) {
               setEngineStatus(res, false);
@@ -67,6 +69,8 @@ CadTab.prototype.angular = function(module) {
                       $scope.editing = false;
                     });
                 });
+
+              api.addTransaction(res.tx_json, {Status: 'error'}, res.tx_json.hash, new Date().toString());
             });
 
         function setEngineStatus(res, accepted) {
