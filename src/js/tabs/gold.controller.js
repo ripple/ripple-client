@@ -13,8 +13,9 @@ GoldTab.prototype.mainMenu = 'fund';
 
 GoldTab.prototype.angular = function (module)
 {
-  module.controller('GoldCtrl', ['$scope', 'rpId', 'rpAppManager', 'rpTracker', '$routeParams', 'rpKeychain', 'rpNetwork', '$timeout',
-    function ($scope, id, appManager, rpTracker, $routeParams, keychain, network, $timeout) {
+  module.controller('GoldCtrl', ['$scope', 'rpId', 'rpAppManager', 'rpTracker', '$routeParams',
+    'rpKeychain', 'rpNetwork', 'rpAPI', '$timeout',
+    function ($scope, id, appManager, rpTracker, $routeParams, keychain, network, api, $timeout) {
 
       
       $scope.toggle_instructions = function () {
@@ -59,6 +60,8 @@ GoldTab.prototype.angular = function (module)
                 $scope.loading = false;
                 $scope.editing = false;
               });
+
+              api.addTransaction(res.tx_json, {Status: 'success'}, res.tx_json.hash, new Date().toString());
             })
             .on('error', function (res) {
               setEngineStatus(res, false);
@@ -71,6 +74,8 @@ GoldTab.prototype.angular = function (module)
                   $scope.editing = false;
                 });
               });
+
+              api.addTransaction(res.tx_json, {Status: 'error'}, res.tx_json.hash, new Date().toString());
             });
 
         function setEngineStatus(res, accepted) {

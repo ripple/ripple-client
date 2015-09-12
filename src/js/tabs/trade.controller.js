@@ -33,12 +33,14 @@ TradeTab.prototype.angular = function(module)
   TradeCtrl.$inject = ['rpBooks', '$scope', 'rpId', 'rpNetwork',
                                   '$routeParams', '$location', '$filter',
                                   'rpTracker', 'rpKeychain', '$rootScope',
-                                  'rpPopup', '$anchorScroll', '$timeout', '$templateRequest'];
+                                  'rpPopup', 'rpAPI', '$anchorScroll',
+                                  '$timeout', '$templateRequest'];
 
   function TradeCtrl(books, $scope, id, network,
                      $routeParams, $location, $filter,
                      rpTracker, keychain, $rootScope,
-                     popup, $anchorScroll, $timeout, $templateRequest)
+                     popup, api, $anchorScroll,
+                     $timeout, $templateRequest)
   {
     var timer;
     var cancelNotifTimeout = {};
@@ -562,31 +564,47 @@ TradeTab.prototype.angular = function(module)
       tx.on('success', function(res) {
         if ($scope.offers[cancelOrder.seq]) $scope.offers[cancelOrder.seq].cancelling = false;
 
+        var eventProp;
+
         if (modifying) {
           var qtyChanged = qtyChangedOnDeleted(res);
           if (successCb) successCb(qtyChanged);
 
           if (qtyChanged) {
-            rpTracker.track(MIXPNL_MODIFY_EVENT, {
+            eventProp = {
               'Status': 'error',
               'Message': 'Qty changed after cancel requested by client',
               'Address': $scope.userBlob.data.account_id,
               'Transaction ID': res.tx_json.hash
-            });
+            };
+
+            rpTracker.track(MIXPNL_MODIFY_EVENT, eventProp);
+          } else {
+            eventProp = {
+              'Status': 'success',
+              'Message': 'Qty did not changed after cancel requested by client',
+              'Address': $scope.userBlob.data.account_id,
+              'Transaction ID': res.tx_json.hash
+            };
           }
-        }
-        else {
+        } else {
           $scope.cancelOrder.seq = cancelOrder.seq;
           $rootScope.load_notification('cancel_success');
           scrollToMessages();
 
-          if (successCb) successCb();
+          if (successCb) {
+            successCb();
+          }
 
-          rpTracker.track('Trade order cancellation', {
+          eventProp = {
             'Status': 'success',
             'Address': $scope.userBlob.data.account_id
-          });
+          };
+
+          rpTracker.track('Trade order cancellation', eventProp);
         }
+
+        api.addTransaction(res.tx_json, eventProp, res.tx_json.hash, new Date().toString());
       });
 
       tx.on('error', function (err) {
@@ -609,6 +627,8 @@ TradeTab.prototype.angular = function(module)
 
         if (modifying) rpTracker.track(MIXPNL_MODIFY_EVENT, eventProp);
         else rpTracker.track('Trade order cancellation', eventProp);
+
+        api.addTransaction(err.tx_json, eventProp, err.tx_json.hash, new Date().toString());
       });
 
       keychain.requestSecret(id.account, id.username, function (err, secret) {
@@ -623,7 +643,7 @@ TradeTab.prototype.angular = function(module)
       });
 
       cancelOrder.cancelling = true;
-    }
+    };
 
     $scope.dismissCancelError = function() {
       $scope.cancelOrder.seq = null;
@@ -632,7 +652,7 @@ TradeTab.prototype.angular = function(module)
 
     $scope.showNotification = function(type, status) {
       if (typeof status !== 'string') {
-        console.log("You must pass in a string for the status");
+        console.log('You must pass in a string for the status');
         return;
       }
 
@@ -720,6 +740,8 @@ TradeTab.prototype.angular = function(module)
 
         if (modifying) rpTracker.track(MIXPNL_MODIFY_EVENT, eventProp);
         else rpTracker.track('Trade order result', eventProp);
+
+        api.addTransaction(res.tx_json, eventProp, res.tx_json.hash, new Date().toString());
       });
 
       tx.on('error', function (err) {
@@ -742,6 +764,8 @@ TradeTab.prototype.angular = function(module)
 
         if (modifying) rpTracker.track(MIXPNL_MODIFY_EVENT, eventProp);
         else rpTracker.track('Trade order result', eventProp);
+
+        api.addTransaction(err.tx_json, eventProp, err.tx_json.hash, new Date().toString());
       });
 
       keychain.requestSecret(id.account, id.username, function (err, secret) {

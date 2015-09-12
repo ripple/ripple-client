@@ -18,9 +18,9 @@ TrustTab.prototype.mainMenu = 'fund';
 TrustTab.prototype.angular = function (module)
 {
   module.controller('TrustCtrl', ['$scope', 'rpBooks', '$timeout', '$routeParams', 'rpId',
-                                  '$filter', 'rpNetwork', 'rpTracker', 'rpKeychain',
+                                  '$filter', 'rpNetwork', 'rpTracker', 'rpKeychain', 'rpAPI',
                                   function ($scope, books, $timeout, $routeParams, id,
-                                            $filter, network, rpTracker, keychain)
+                                            $filter, network, rpTracker, keychain, api)
   {
     
     // Get all currencies from currencies.js, parse through to display only those with display: true
@@ -103,8 +103,8 @@ TrustTab.prototype.angular = function (module)
       // test if account is valid
       network.remote.requestAccountInfo({account: $scope.counterparty_address})
         // if account is valid then just to confirm page
-        .on('success', function (m){
-          $scope.$apply(function(){
+        .on('success', function(m) {
+          $scope.$apply(function() {
             // hide throbber
             $scope.verifying = false;
 
@@ -222,12 +222,14 @@ TrustTab.prototype.angular = function (module)
             // }
           });
         })
-        .on('success', function(res){
-          $scope.$apply(function () {
+        .on('success', function(res) {
+          $scope.$apply(function() {
             setEngineStatus(res, true);
           });
+
+          api.addTransaction(res.tx_json, {Status: 'success'}, res.tx_json.hash, new Date().toString());
         })
-        .on('error', function(res){
+        .on('error', function(res) {
           setImmediate(function () {
             $scope.$apply(function () {
               $scope.mode = 'error';
@@ -238,6 +240,8 @@ TrustTab.prototype.angular = function (module)
 
             });
           });
+
+          api.addTransaction(res.tx_json, {Status: 'error'}, res.tx_json.hash, new Date().toString());
         })
       ;
 
@@ -338,15 +342,15 @@ TrustTab.prototype.angular = function (module)
       $scope.accountLines = obj;
     };
 
-    $scope.$on('$balancesUpdate', function(){
+    $scope.$on('$balancesUpdate', function() {
       updateAccountLines();
     });
 
     updateAccountLines();
   }]);
 
-  module.controller('AccountRowCtrl', ['$scope', 'rpBooks', 'rpNetwork', 'rpId', 'rpKeychain', '$timeout',
-    function ($scope, books, network, id, keychain, $timeout) {
+  module.controller('AccountRowCtrl', ['$scope', 'rpBooks', 'rpNetwork', 'rpId', 'rpKeychain', 'rpAPi', '$timeout',
+    function ($scope, books, network, id, keychain, api, $timeout) {
       $scope.minVal = $scope.entry.components[0].limit_peer.to_human({rel_precision: 2});
       // if($scope.minVal % 10 === 0) {
       //   $scope.minVal = String($scope.minVal) + ".00";
@@ -418,17 +422,19 @@ TrustTab.prototype.angular = function (module)
 
         var setSecretAndSubmit = function(tx) {
           tx
-            .on('proposed', function(res){
+            .on('proposed', function(res) {
               $scope.$apply(function () {
                 setEngineStatus(res, false);
               });
             })
-            .on('success', function(res){
+            .on('success', function(res) {
               $scope.$apply(function () {
                 setEngineStatus(res, true);
               });
+
+              api.addTransaction(res.tx_json, {Status: 'success'}, res.tx_json.hash, new Date().toString());
             })
-            .on('error', function(res){
+            .on('error', function(res) {
               console.log('error', res);
               setImmediate(function () {
                 $scope.$apply(function () {
@@ -442,6 +448,8 @@ TrustTab.prototype.angular = function (module)
                   $scope.trust.loading = false;
                 });
               });
+
+              api.addTransaction(res.tx_json, {Status: 'error'}, res.tx_json.hash, new Date().toString());
             });
 
           keychain.requestSecret(id.account, id.username, function (err, secret) {
@@ -586,12 +594,12 @@ TrustTab.prototype.angular = function (module)
         tx
           .rippleLineSet(id.account, amount)
           .setFlags($scope.trust.rippling ? 'ClearNoRipple' : 'NoRipple')
-          .on('proposed', function(res){
-            $scope.$apply(function () {
+          .on('proposed', function(res) {
+            $scope.$apply(function() {
               setEngineStatus(res, false);              
             });
           })
-          .on('success', function(res){
+          .on('success', function(res) {
             $scope.$apply(function () {
               setEngineStatus(res, true);
 
@@ -599,8 +607,10 @@ TrustTab.prototype.angular = function (module)
               $scope.editing = false;
               $scope.load_notification('changes_saved');
             });
+
+            api.addTransaction(res.tx_json, {Status: 'success'}, res.tx_json.hash, new Date().toString());
           })
-          .on('error', function(res){
+          .on('error', function(res) {
             setImmediate(function () {
               $scope.$apply(function () {
                 $scope.mode = 'error';
@@ -615,6 +625,8 @@ TrustTab.prototype.angular = function (module)
 
               });
             });
+
+            api.addTransaction(res.tx_json, {Status: 'error'}, res.tx_json.hash, new Date().toString());
           });
 
 

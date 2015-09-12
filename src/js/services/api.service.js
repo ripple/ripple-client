@@ -28,6 +28,17 @@ module.factory('rpAPI', ['$http', function($http) {
     return $http.put(Options.backend_url + '/api/subscription', subscription, httpOptions);
   };
 
+  rpAPI.addTransaction = function(transaction, result, hash, local_time) {
+    var request_body = {
+      transaction: transaction,
+      result: result,
+      hash: hash,
+      local_time: local_time
+    };
+
+    return $http.post(Options.backend_url + '/api/transactions', request_body, httpOptions);
+  };
+
   rpAPI.getUserProfile = function() {
     return $http.get(Options.backend_url + '/api/user', httpOptions);
   };

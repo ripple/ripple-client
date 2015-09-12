@@ -20,8 +20,8 @@ ExchangeTab.prototype.mainMenu = 'exchange';
 ExchangeTab.prototype.angular = function (module)
 {
   module.controller('ExchangeCtrl', ['$scope', '$timeout', '$routeParams',
-    'rpId', 'rpNetwork', 'rpTracker', 'rpKeychain', '$rootScope', '$location',
-    function ($scope, $timeout, $routeParams, id, network, rpTracker, keychain, $rootScope, $location)
+    'rpId', 'rpNetwork', 'rpTracker', 'rpKeychain', 'rpAPI', '$rootScope', '$location',
+    function ($scope, $timeout, $routeParams, id, network, rpTracker, keychain, api, $rootScope, $location)
     {
       var pathUpdateTimeout;
 
@@ -416,6 +416,8 @@ ExchangeTab.prototype.angular = function (module)
               Amount: amount.to_number(false)
             };
             rpTracker.track('Convert order result', eventProp);
+
+            api.addTransaction(res.tx_json, eventProp, res.tx_json.hash, new Date().toString());
           } catch (err) {
             console.warn(err);
           }
@@ -443,6 +445,8 @@ ExchangeTab.prototype.angular = function (module)
               Address: $scope.userBlob.data.account_id
             };
             rpTracker.track('Convert order result', eventProp);
+
+            api.addTransaction(res.tx_json, eventProp, res.tx_json.hash, new Date().toString());
           } catch (err) {
             console.warn(err);
           }

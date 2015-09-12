@@ -16,8 +16,8 @@ SettingsGatewayTab.prototype.mainMenu = 'settingsgateway';
 
 SettingsGatewayTab.prototype.angular = function(module)
 {
-  module.controller('SettingsGatewayCtrl', ['$scope', 'rpId', 'rpKeychain', 'rpNetwork',
-                                    function ($scope, id, keychain, network)
+  module.controller('SettingsGatewayCtrl', ['$scope', 'rpId', 'rpKeychain', 'rpNetwork', 'rpAPI',
+                                    function ($scope, id, keychain, network, api)
   {
     var xrpCurrency = Currency.from_json('XRP');
 
@@ -67,12 +67,16 @@ SettingsGatewayTab.prototype.angular = function(module)
                 $scope.edit.defaultRippleFlagSaving = false;
                 $scope.load_notification('defaultRippleUpdated');
               });
+
+              api.addTransaction(res.tx_json, {Status: 'success'}, res.tx_json.hash, new Date().toString());
             });
             tx.on('error', function(res) {
               console.warn(res);
               $scope.$apply(function() {
                 $scope.edit.defaultRippleFlagSaving = false;
               });
+
+              api.addTransaction(res.tx_json, {Status: 'error'}, res.tx_json.hash, new Date().toString());
             });
 
             keychain.requestSecret(id.account, id.username, function (err, secret) {
