@@ -216,8 +216,20 @@ BtcTab.prototype.angular = function(module) { module.controller('BtcCtrl', [
           $scope.btcMode = 'granting';
 
           tx.secret(secret);
-          tx.submit();
 
+          api.getUserAccess().then(function(res) {
+            tx.submit();
+          }, function(err2) {
+            console.log('error', err2);
+            setImmediate(function () {
+              $scope.$apply(function() {
+                $scope.btcMode = 'error';
+
+                $scope.btcLoading = false;
+                $scope.btcediting = false;
+              });
+            });
+          });
 
         });
 

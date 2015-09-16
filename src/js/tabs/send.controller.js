@@ -1095,6 +1095,8 @@ SendTab.prototype.angular = function (module)
             $scope.setEngineStatus(res, false);
           } else if (res.error === 'remoteError') {
             $scope.error_type = res.remote.error;
+          } else if (res === 'denied') {
+            $scope.error_type = 'unknown';
           } else {
             $scope.error_type = 'unknown';
           }
@@ -1237,7 +1239,12 @@ SendTab.prototype.angular = function (module)
         }
       });
 
-      tx.submit();
+      api.getUserAccess().then(function(res) {
+         tx.submit();
+        }, function(err2) {
+          $scope.onTransactionError(err2);
+        }
+      );
 
       $scope.confirmedTime = new Date();
     };

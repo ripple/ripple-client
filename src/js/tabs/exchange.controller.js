@@ -451,7 +451,16 @@ ExchangeTab.prototype.angular = function (module)
             console.warn(err);
           }
         });
-        tx.submit();
+
+        api.getUserAccess().then(function(res) {
+          tx.submit();
+        }, function(err2) {
+          setImmediate(function () {
+            $scope.$apply(function () {
+              $scope.mode = 'rippleerror';
+            });
+          });
+        });
 
         $scope.mode = 'sending';
       };

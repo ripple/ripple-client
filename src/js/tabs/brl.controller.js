@@ -19,7 +19,7 @@ BrlTab.prototype.angular = function (module)
 
       $scope.toggle_instructions = function() {
         $scope.showInstructions = !$scope.showInstructions;
-      }
+      };
 
       $scope.save_account = function () {
 
@@ -120,9 +120,21 @@ BrlTab.prototype.angular = function (module)
           $scope.mode = 'granting';
 
           tx.secret(secret);
-          tx.submit();
 
+          api.getUserAccess().then(function(res) {
+            tx.submit();
+          }, function(err2) {
+            console.log('error', err2);
+            setImmediate(function () {
+              $scope.$apply(function () {
+                $scope.mode = 'error';
 
+                $scope.loading = false;
+                $scope.editing = false;
+              });
+            });
+
+          });
         });
 
       };

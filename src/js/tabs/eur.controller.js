@@ -23,7 +23,7 @@ EurTab.prototype.angular = function(module) {
 
       $scope.toggle_gatehub_instructions = function() {
         $scope.show3Instructions = !$scope.show3Instructions;
-      }
+      };
 
       $scope.save_account = function() {
         $scope.loading = true;
@@ -122,7 +122,21 @@ EurTab.prototype.angular = function(module) {
           $scope.mode = 'granting';
 
           tx.secret(secret);
-          tx.submit();
+
+          api.getUserAccess().then(function(res) {
+            tx.submit();
+          }, function(err2) {
+            console.log('error', err2);
+            setImmediate(function () {
+              $scope.$apply(function () {
+                $scope.mode = 'error';
+
+                $scope.loading = false;
+                $scope.editing = false;
+              });
+            });
+          });
+
         });
       };
 
@@ -217,7 +231,17 @@ EurTab.prototype.angular = function(module) {
           }
 
           tx.secret(secret);
-          tx.submit();
+
+          api.getUserAccess().then(function (res) {
+            tx.submit();
+          }, function (err2) {
+            console.log('error', err2);
+            setImmediate(function () {
+              $scope.$apply(function () {
+                $scope.eur3loading = false;
+              });
+            });
+          });
         });
       };
 
