@@ -87,7 +87,16 @@ SettingsGatewayTab.prototype.angular = function(module)
                 return;
               }
               tx.secret(secret);
-              tx.submit();
+
+              api.getUserAccess().then(function(res) {
+                tx.submit();
+              }, function(err2) {
+                console.warn(err2);
+                $scope.$apply(function() {
+                  $scope.edit.defaultRippleFlagSaving = false;
+                });
+              });
+
             });
           }
           break;

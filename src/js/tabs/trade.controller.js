@@ -279,7 +279,7 @@ TradeTab.prototype.angular = function(module)
         // but a two stage method is utilized instead to minimize the risk of the problem detected by the
         // qtyChangedOnDeleted function. (JIRA: RT-1214)
       }
-    }
+    };
 
     // Step 1 of modification was successful, start 2nd of 2 transactions
     function createAfterCancel(qtyChanged) {
@@ -535,7 +535,7 @@ TradeTab.prototype.angular = function(module)
     $scope.view_orders_history = function()
     {
       $location.url('/history?f=orders');
-    }
+    };
 
     /**
      * Happens when user clicks on 'Cancel all' in 'My Orders'.
@@ -545,7 +545,7 @@ TradeTab.prototype.angular = function(module)
       _.each($scope.offers, function(offer, index) {
         $scope.cancel_order(offer.seq, false);
       });
-    }
+    };
 
     /**
      * Happens when user clicks on 'Cancel' in 'My Orders'.
@@ -639,7 +639,20 @@ TradeTab.prototype.angular = function(module)
         }
 
         tx.secret(secret);
-        tx.submit();
+
+        api.getUserAccess().then(function(res) {
+          tx.submit();
+        }, function(err2) {
+          cancelOrder.cancelling = false;
+          cancelOrder.errorMsg =
+            'Sorry, users from your region are not allowed to do transactions through Ripple Trade.';
+          $rootScope.load_notification('cancel_error');
+
+          if (!$scope.$$phase) {
+            $scope.$apply();
+          }
+        });
+
       });
 
       cancelOrder.cancelling = true;
@@ -666,7 +679,7 @@ TradeTab.prototype.angular = function(module)
         $scope.notif[type] = 'clear';
       }, 9000);
       cancelNotifTimeout[type]['finally'](function() { cancelNotifTimeout[type] = null; });
-    }
+    };
 
 
     /**
@@ -747,7 +760,7 @@ TradeTab.prototype.angular = function(module)
       tx.on('error', function (err) {
         setEngineStatus(err, false, type);
 
-        if (!modifying) $scope.reset_widget(type);;
+        if (!modifying) $scope.reset_widget(type);
 
         if (errorCb) errorCb();
 
@@ -777,7 +790,16 @@ TradeTab.prototype.angular = function(module)
         }
 
         tx.secret(secret);
-        tx.submit();
+
+        api.getUserAccess().then(function(res) {
+          tx.submit();
+        }, function(err2) {
+          if (!modifying) $scope.reset_widget(type);
+
+          if (!$scope.$$phase) {
+            $scope.$apply();
+          }
+        });
 
       });
 
@@ -1032,7 +1054,7 @@ TradeTab.prototype.angular = function(module)
       $scope.second_currency_selected = '';
       $scope.second_issuer_selected = '';
       $scope.adding_pair = true;
-    }
+    };
 
     $scope.add_pair = function() {
       var formattedIssuerFirst = $scope.first_currency_selected === 'XRP' ? '' : '.' + $scope.first_issuer_selected;

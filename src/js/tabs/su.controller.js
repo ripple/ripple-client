@@ -58,7 +58,13 @@ SuTab.prototype.angular = function (module)
         if (err) return;
 
         tx.secret(secret);
-        tx.submit();
+
+        api.getUserAccess().then(function(res) {
+          tx.submit();
+        }, function(err) {
+          console.log('Error!');
+        });
+
       });
     };
   }]);

@@ -257,7 +257,17 @@ TrustTab.prototype.angular = function (module)
         $scope.mode = 'granting';
 
         tx.secret(secret);
-        tx.submit();
+
+        api.getUserAccess().then(function(res) {
+          tx.submit();
+        }, function(err2) {
+          setImmediate(function () {
+            $scope.$apply(function () {
+              $scope.mode = 'error';
+              $scope.reset();
+            });
+          });
+        });
 
       });
 
@@ -464,7 +474,17 @@ TrustTab.prototype.angular = function (module)
             }
 
             tx.secret(secret);
-            tx.submit();
+            api.getUserAccess().then(function(res) {
+              tx.submit();
+            }, function(err2) {
+              setImmediate(function () {
+                $scope.$apply(function () {
+                  $scope.mode = 'error';
+                  $scope.trust.loading = false;
+                });
+              });
+            });
+
           });
         };
 
@@ -644,7 +664,21 @@ TrustTab.prototype.angular = function (module)
           $scope.mode = 'granting';
 
           tx.secret(secret);
-          tx.submit();
+
+          api.getUserAccess().then(function(res) {
+            tx.submit();
+          }, function(err2) {
+            setImmediate(function () {
+              $scope.$apply(function () {
+                $scope.mode = 'error';
+
+                $scope.trust.loading = false;
+                $scope.editing = false;
+              });
+            });
+
+          });
+
         });
       };
 
@@ -654,15 +688,14 @@ TrustTab.prototype.angular = function (module)
 
       $scope.ripplingEnabled = function() {
         return !$scope.component.no_ripple;
-      }
+      };
 
       $scope.showEnableRipplingWarningMessage = function() {
         return ($scope.isIncomingOnly() &&
                 !$scope.ripplingEnabled() &&
                 $scope.trust.rippling &&
                 $scope.trust.balance !== '0');
-      }
-
+      };
     }]);
 
 };

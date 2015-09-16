@@ -7,7 +7,7 @@
 
 var module = angular.module('api', []);
 
-module.factory('rpAPI', ['$http', function($http) {
+module.factory('rpAPI', ['$http', '$q', function($http, $q) {
   var rpAPI = {};
   var httpOptions = {};
 
@@ -41,6 +41,16 @@ module.factory('rpAPI', ['$http', function($http) {
 
   rpAPI.getUserProfile = function() {
     return $http.get(Options.backend_url + '/api/user', httpOptions);
+  };
+
+  rpAPI.getUserAccess = function() {
+    return $http.get(Options.backend_url + '/api/user/access', httpOptions).then(function(res) {
+      if (res.data.access === 'allowed') {
+        return 'allowed';
+      }
+
+      return $q.reject('denied');
+    });
   };
 
   rpAPI.getBlob = function() {
