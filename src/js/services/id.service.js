@@ -12,8 +12,8 @@ var webutil = require('../util/web'),
 var module = angular.module('id', ['authflow', 'blob']);
 
 module.factory(
-  'rpId', ['$rootScope', '$location', '$route', '$routeParams', '$timeout', 'rpAuthFlow', 'rpBlob', 'rpAPI', '$q',
-  function($scope, $location, $route, $routeParams, $timeout, $authflow, $blob, $api, $q) {
+  'rpId', ['$rootScope', '$location', '$route', '$routeParams', '$timeout', '$q', 'rpAuthFlow', 'rpBlob', 'rpAPI',
+  function($scope, $location, $route, $routeParams, $timeout, $q, authflow, blob, api) {
     /**
      * Identity manager
      *
@@ -250,7 +250,7 @@ module.factory(
     Id.prototype.exists = function(username, callback) {
       username = Id.normalizeUsernameForDisplay(username);
 
-      $authflow.exists(Id.normalizeUsernameForInternals(username), function(err, data) {
+      authflow.exists(Id.normalizeUsernameForInternals(username), function(err, data) {
         if (!err && data) {
           // Blob found, new auth method
           callback(null, true);
@@ -276,18 +276,18 @@ module.factory(
 
       store.set('backend_token', backend_token);
       // Update HTTP Options using new backend token value
-      $api.setHttpOptions();
+      api.setHttpOptions();
 
-      var blobObj = new $blob();
+      var blobObj = new blob();
 
       // init returns a promise
-      blobObj.init().then(function(blob) {
+      blobObj.init().then(function(blobData) {
         // Ensure certain properties exist
-        $.extend(true, blob, Id.minimumBlob);
+        $.extend(true, blobData, Id.minimumBlob);
 
-        $scope.userBlob = blob;
-        self.setUsername(blob.ripple_name);
-        self.setAccount(blob.data.account_id);
+        $scope.userBlob = blobData;
+        self.setUsername(blobData.ripple_name);
+        self.setAccount(blobData.data.account_id);
         self.loginStatus = true;
         $scope.loginStatus = true;
         $scope.$broadcast('$blobUpdate');
@@ -325,22 +325,22 @@ module.factory(
       // self.loginStatus = true;
       // $scope.loginStatus = true;
 
-      var blobObj = new $blob();
+      var blobObj = new blob();
 
       // init returns a promise
-      blobObj.init().then(function(blob) {
+      blobObj.init().then(function(blobData) {
         // Ensure certain properties exist
-        $.extend(true, blob, Id.minimumBlob);
+        $.extend(true, blobData, Id.minimumBlob);
 
-        $scope.userBlob = blob;
-        self.setUsername(blob.ripple_name);
-        self.setAccount(blob.data.account_id);
+        $scope.userBlob = blobData;
+        self.setUsername(blobData.ripple_name);
+        self.setAccount(blobData.data.account_id);
         self.loginStatus = true;
         $scope.loginStatus = true;
         $scope.$broadcast('$blobUpdate');
         store.set('ripple_known', true);
 
-        callback(null, blob);
+        callback(null, blobData);
 
       }, function(err) {
         callback(new Error(err));
@@ -376,7 +376,7 @@ module.factory(
       // username = Id.normalizeUsernameForDisplay(username);
       // password = Id.normalizePassword(password);
 
-      $authflow.unlock(username, password, function(err, resp) {
+      authflow.unlock(username, password, function(err, resp) {
         if (err) {
           callback(err);
           return;
