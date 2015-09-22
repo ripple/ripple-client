@@ -2,7 +2,7 @@
 
 var module = angular.module('blob', []);
 
-module.factory('rpBlob', ['$rootScope', '$q', 'rpAPI', function($scope, $q, $api) {
+module.factory('rpBlob', ['$rootScope', '$q', 'rpAPI', function($scope, $q, api) {
 
   // Blob object class
   function BlobObj() {
@@ -43,7 +43,7 @@ module.factory('rpBlob', ['$rootScope', '$q', 'rpAPI', function($scope, $q, $api
   BlobObj.prototype.init = function() {
     var self = this;
 
-    return $api.getBlob().then(function(response) {
+    return api.getBlob().then(function(response) {
         if (!response.data || !response.data.data || !response.data.data.account_id) {
           return $q.reject('Could not retrieve blob');
         }
@@ -271,7 +271,7 @@ module.factory('rpBlob', ['$rootScope', '$q', 'rpAPI', function($scope, $q, $api
     blobData.encrypted_secret = this.encrypted_secret;
     blobData.data = this.data;
 
-    return $api.updateBlob(blobData)
+    return api.updateBlob(blobData)
       .then(function(response) {
         if (!response.data) {
           return callback(new Error('Could not save blob'));
