@@ -18,8 +18,8 @@ LoginTab.prototype.extraRoutes = [
 ];
 
 LoginTab.prototype.angular = function(module) {
-  module.controller('LoginCtrl', ['$scope', '$location', '$sce', 'rpTracker', 'rpId',
-    function($scope, $location, $sce, rpTracker, id) {
+  module.controller('LoginCtrl', ['$scope', '$location', '$sce', 'rpTracker', 'rpId', 'rpAPI',
+    function($scope, $location, $sce, tracker, id, api) {
 
       $scope.error = '';
       $scope.loggingIn = false;
@@ -50,7 +50,7 @@ LoginTab.prototype.angular = function(module) {
           return;
         }
 
-        id.getUserProfile().success(function(profile) {
+        api.getUserProfile().success(function(profile) {
 
           store.set('profile_status', profile.ids_status);
           store.set('profile_country', profile.country);
@@ -66,7 +66,7 @@ LoginTab.prototype.angular = function(module) {
             $location.path('/balance').search('');
           }
 
-          rpTracker.track('Login', {
+          tracker.track('Login', {
             'Status': 'success'
           });
         });

@@ -10,9 +10,9 @@ angular
   .module('txQueue', [])
   .service('rpTxQueue', rpTxQueue);
 
-rpTxQueue.$inject = ['$rootScope', 'rpNetwork', 'rpKeychain', 'rpId'];
+rpTxQueue.$inject = ['$rootScope', 'rpNetwork', 'rpKeychain', 'rpId', 'rpAPI'];
 
-function rpTxQueue($scope, network, keychain, id) {
+function rpTxQueue($scope, network, keychain, id, api) {
   return {
     addTransaction: addTransaction,
     checkQueue: checkQueue,
@@ -47,7 +47,7 @@ function rpTxQueue($scope, network, keychain, id) {
           return;
         }
         $scope.userBlob.unshift('/clients/rippletradecom/txQueue', item);
-      }
+      };
 
       if ($scope.userBlob.data && !$scope.userBlob.data.clients) {
         // there is bug in RippleLib with unshift operation - if 
@@ -76,8 +76,13 @@ function rpTxQueue($scope, network, keychain, id) {
         transaction.remote = network.remote;
         transaction.secret(secret);
 
-        // If account is funded submit the transaction right away
-        transaction.submit();
+        api.getUserAccess().then(function(res) {
+          // If account is funded submit the transaction right away
+          transaction.submit();
+        }, function(err2) {
+          // err
+        });
+
       });
     }
   }
@@ -112,7 +117,12 @@ function rpTxQueue($scope, network, keychain, id) {
         var tx = ripple.Transaction.from_json(item.tx_json);
         tx.remote = network.remote;
         tx.secret(secret);
-        tx.submit();
+
+        api.getUserAccess().then(function(res) {
+          tx.submit();
+        }, function(err2) {
+          // err
+        });
       });
 
       self.emptyQueue();

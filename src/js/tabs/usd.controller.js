@@ -17,23 +17,24 @@ UsdTab.prototype.extraRoutes = [
 
 UsdTab.prototype.angular = function (module)
 {
-  module.controller('UsdCtrl', ['$scope', 'rpId', 'rpAppManager', 'rpTracker', '$routeParams', 'rpKeychain', 'rpNetwork', '$timeout',
-    function ($scope, id, appManager, rpTracker, $routeParams, keychain, network, $timeout)
+  module.controller('UsdCtrl', ['$scope', 'rpId', 'rpAppManager', 'rpTracker',
+    '$routeParams', 'rpKeychain', 'rpNetwork', 'rpAPI', '$timeout',
+    function ($scope, id, appManager, rpTracker, $routeParams, keychain, network, api, $timeout)
     {
      
-      $scope.toggle_instructions = function (){
+      $scope.toggle_instructions = function() {
         $scope.showInstructions = !$scope.showInstructions;
-      }
+      };
 
-      $scope.toggle_usd_instructions = function (){
+      $scope.toggle_usd_instructions = function() {
         $scope.showUsdInstructions = !$scope.showUsdInstructions;
-      }
+      };
 
       $scope.toggle_gatehub_instructions = function() {
         $scope.showUsd3Instructions = !$scope.showUsd3Instructions;
-      }
+      };
 
-      $scope.save_account = function (){
+      $scope.save_account = function() {
 
         $scope.loading = true;
 
@@ -70,7 +71,9 @@ UsdTab.prototype.angular = function (module)
                 $scope.loading = false;
                 $scope.editing = false;
               });
-            })
+
+              api.addTransaction(res.tx_json, {Status: 'success'}, res.tx_json.hash, new Date().toString());
+          })
             .on('error', function (res) {
               setEngineStatus(res, false);
               console.log('error', res);
@@ -82,7 +85,9 @@ UsdTab.prototype.angular = function (module)
                   $scope.editing = false;
                 });
               });
-            });
+
+              api.addTransaction(res.tx_json, {Status: 'error'}, res.tx_json.hash, new Date().toString());
+          });
 
         function setEngineStatus(res, accepted) {
           $scope.engine_result = res.engine_result;
@@ -127,20 +132,30 @@ UsdTab.prototype.angular = function (module)
           $scope.mode = 'granting';
 
           tx.secret(secret);
-          tx.submit();
 
+          api.getUserAccess().then(function(res) {
+            tx.submit();
+          }, function(err2) {
+            console.log('error', err2);
+            setImmediate(function () {
+              $scope.$apply(function () {
+                $scope.mode = 'error';
 
+                $scope.loading = false;
+                $scope.editing = false;
+              });
+            });
+          });
         });
-        
       };
 
-      $scope.save_usd_account = function (){
+      $scope.save_usd_account = function () {
 
         $scope.usdLoading = true;
 
         var amount = ripple.Amount.from_human(
             Options.gateway_max_limit + ' ' + 'USD',
-            {reference_date: new Date(+new Date() + 5*60000)}
+            {reference_date: new Date(+new Date() + 5 * 60000)}
         );
 
         amount.set_issuer('rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B');
@@ -159,7 +174,7 @@ UsdTab.prototype.angular = function (module)
         // Flags
         tx
             .rippleLineSet(id.account, amount)
-            .on('proposed', function(res){
+            .on('proposed', function(res) {
               $scope.$apply(function () {
                 setEngineStatus(res, false);              
               });
@@ -171,7 +186,9 @@ UsdTab.prototype.angular = function (module)
                 $scope.usdLoading = false;
                 $scope.usdediting = false;
               });
-            })
+
+              api.addTransaction(res.tx_json, {Status: 'success'}, res.tx_json.hash, new Date().toString());
+          })
             .on('error', function (res) {
               setEngineStatus(res, false);
               console.log('error', res);
@@ -183,7 +200,9 @@ UsdTab.prototype.angular = function (module)
                   $scope.usdediting = false;
                 });
               });
-            });
+
+              api.addTransaction(res.tx_json, {Status: 'error'}, res.tx_json.hash, new Date().toString());
+          });
 
         function setEngineStatus(res, accepted) {
           $scope.usd_engine_result = res.engine_result;
@@ -228,7 +247,21 @@ UsdTab.prototype.angular = function (module)
           $scope.usdMode = 'granting';
 
           tx.secret(secret);
-          tx.submit();
+
+          api.getUserAccess().then(function(res) {
+            tx.submit();
+          }, function(err2) {
+            console.log('error', err2);
+            setImmediate(function () {
+              $scope.$apply(function () {
+                $scope.usdMode = 'error';
+
+                $scope.usdLoading = false;
+                $scope.usdediting = false;
+              });
+            });
+          });
+
         });
       };
 
@@ -267,6 +300,8 @@ UsdTab.prototype.angular = function (module)
 
                 $scope.usd3Loading = false;
               });
+
+              api.addTransaction(res.tx_json, {Status: 'success'}, res.tx_json.hash, new Date().toString());
             })
             .on('error', function (res) {
               setEngineStatus(res, false);
@@ -276,7 +311,9 @@ UsdTab.prototype.angular = function (module)
                   $scope.usd3Loading = false;
                 });
               });
-            });
+
+              api.addTransaction(res.tx_json, {Status: 'error'}, res.tx_json.hash, new Date().toString());
+          });
 
         function setEngineStatus(res, accepted) {
           $scope.usd3_engine_result = res.engine_result;
@@ -318,7 +355,17 @@ UsdTab.prototype.angular = function (module)
           }
 
           tx.secret(secret);
-          tx.submit();
+
+          api.getUserAccess().then(function(res) {
+            tx.submit();
+          }, function(err2) {
+            console.log('error', err2);
+            setImmediate(function () {
+              $scope.$apply(function () {
+                $scope.usd3Loading = false;
+              });
+            });
+          });
         });
       };
 
