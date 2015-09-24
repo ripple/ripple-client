@@ -33,12 +33,14 @@ TradeTab.prototype.angular = function(module)
   TradeCtrl.$inject = ['rpBooks', '$scope', 'rpId', 'rpNetwork',
                                   '$routeParams', '$location', '$filter',
                                   'rpTracker', 'rpKeychain', '$rootScope',
-                                  'rpPopup', '$anchorScroll', '$timeout', '$templateRequest'];
+                                  'rpPopup', 'rpAPI', '$anchorScroll',
+                                  '$timeout', '$templateRequest'];
 
   function TradeCtrl(books, $scope, id, network,
                      $routeParams, $location, $filter,
                      rpTracker, keychain, $rootScope,
-                     popup, $anchorScroll, $timeout, $templateRequest)
+                     popup, api, $anchorScroll,
+                     $timeout, $templateRequest)
   {
     var timer;
     var cancelNotifTimeout = {};
@@ -277,7 +279,7 @@ TradeTab.prototype.angular = function(module)
         // but a two stage method is utilized instead to minimize the risk of the problem detected by the
         // qtyChangedOnDeleted function. (JIRA: RT-1214)
       }
-    }
+    };
 
     // Step 1 of modification was successful, start 2nd of 2 transactions
     function createAfterCancel(qtyChanged) {
@@ -533,7 +535,7 @@ TradeTab.prototype.angular = function(module)
     $scope.view_orders_history = function()
     {
       $location.url('/history?f=orders');
-    }
+    };
 
     /**
      * Happens when user clicks on 'Cancel all' in 'My Orders'.
@@ -543,7 +545,7 @@ TradeTab.prototype.angular = function(module)
       _.each($scope.offers, function(offer, index) {
         $scope.cancel_order(offer.seq, false);
       });
-    }
+    };
 
     /**
      * Happens when user clicks on 'Cancel' in 'My Orders'.
@@ -562,31 +564,47 @@ TradeTab.prototype.angular = function(module)
       tx.on('success', function(res) {
         if ($scope.offers[cancelOrder.seq]) $scope.offers[cancelOrder.seq].cancelling = false;
 
+        var eventProp;
+
         if (modifying) {
           var qtyChanged = qtyChangedOnDeleted(res);
           if (successCb) successCb(qtyChanged);
 
           if (qtyChanged) {
-            rpTracker.track(MIXPNL_MODIFY_EVENT, {
+            eventProp = {
               'Status': 'error',
               'Message': 'Qty changed after cancel requested by client',
               'Address': $scope.userBlob.data.account_id,
               'Transaction ID': res.tx_json.hash
-            });
+            };
+
+            rpTracker.track(MIXPNL_MODIFY_EVENT, eventProp);
+          } else {
+            eventProp = {
+              'Status': 'success',
+              'Message': 'Qty did not changed after cancel requested by client',
+              'Address': $scope.userBlob.data.account_id,
+              'Transaction ID': res.tx_json.hash
+            };
           }
-        }
-        else {
+        } else {
           $scope.cancelOrder.seq = cancelOrder.seq;
           $rootScope.load_notification('cancel_success');
           scrollToMessages();
 
-          if (successCb) successCb();
+          if (successCb) {
+            successCb();
+          }
 
-          rpTracker.track('Trade order cancellation', {
+          eventProp = {
             'Status': 'success',
             'Address': $scope.userBlob.data.account_id
-          });
+          };
+
+          rpTracker.track('Trade order cancellation', eventProp);
         }
+
+        api.addTransaction(res.tx_json, eventProp, res.tx_json.hash, new Date().toString());
       });
 
       tx.on('error', function (err) {
@@ -609,6 +627,8 @@ TradeTab.prototype.angular = function(module)
 
         if (modifying) rpTracker.track(MIXPNL_MODIFY_EVENT, eventProp);
         else rpTracker.track('Trade order cancellation', eventProp);
+
+        api.addTransaction(err.tx_json, eventProp, err.tx_json.hash, new Date().toString());
       });
 
       keychain.requestSecret(id.account, id.username, function (err, secret) {
@@ -619,11 +639,24 @@ TradeTab.prototype.angular = function(module)
         }
 
         tx.secret(secret);
-        tx.submit();
+
+        api.getUserAccess().then(function(res) {
+          tx.submit();
+        }, function(err2) {
+          cancelOrder.cancelling = false;
+          cancelOrder.errorMsg =
+            'Sorry, users from your region are not allowed to do transactions through Ripple Trade.';
+          $rootScope.load_notification('cancel_error');
+
+          if (!$scope.$$phase) {
+            $scope.$apply();
+          }
+        });
+
       });
 
       cancelOrder.cancelling = true;
-    }
+    };
 
     $scope.dismissCancelError = function() {
       $scope.cancelOrder.seq = null;
@@ -632,7 +665,7 @@ TradeTab.prototype.angular = function(module)
 
     $scope.showNotification = function(type, status) {
       if (typeof status !== 'string') {
-        console.log("You must pass in a string for the status");
+        console.log('You must pass in a string for the status');
         return;
       }
 
@@ -646,7 +679,7 @@ TradeTab.prototype.angular = function(module)
         $scope.notif[type] = 'clear';
       }, 9000);
       cancelNotifTimeout[type]['finally'](function() { cancelNotifTimeout[type] = null; });
-    }
+    };
 
 
     /**
@@ -720,12 +753,14 @@ TradeTab.prototype.angular = function(module)
 
         if (modifying) rpTracker.track(MIXPNL_MODIFY_EVENT, eventProp);
         else rpTracker.track('Trade order result', eventProp);
+
+        api.addTransaction(res.tx_json, eventProp, res.tx_json.hash, new Date().toString());
       });
 
       tx.on('error', function (err) {
         setEngineStatus(err, false, type);
 
-        if (!modifying) $scope.reset_widget(type);;
+        if (!modifying) $scope.reset_widget(type);
 
         if (errorCb) errorCb();
 
@@ -742,6 +777,8 @@ TradeTab.prototype.angular = function(module)
 
         if (modifying) rpTracker.track(MIXPNL_MODIFY_EVENT, eventProp);
         else rpTracker.track('Trade order result', eventProp);
+
+        api.addTransaction(err.tx_json, eventProp, err.tx_json.hash, new Date().toString());
       });
 
       keychain.requestSecret(id.account, id.username, function (err, secret) {
@@ -753,7 +790,16 @@ TradeTab.prototype.angular = function(module)
         }
 
         tx.secret(secret);
-        tx.submit();
+
+        api.getUserAccess().then(function(res) {
+          tx.submit();
+        }, function(err2) {
+          if (!modifying) $scope.reset_widget(type);
+
+          if (!$scope.$$phase) {
+            $scope.$apply();
+          }
+        });
 
       });
 
@@ -1008,7 +1054,7 @@ TradeTab.prototype.angular = function(module)
       $scope.second_currency_selected = '';
       $scope.second_issuer_selected = '';
       $scope.adding_pair = true;
-    }
+    };
 
     $scope.add_pair = function() {
       var formattedIssuerFirst = $scope.first_currency_selected === 'XRP' ? '' : '.' + $scope.first_issuer_selected;

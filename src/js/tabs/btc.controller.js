@@ -13,8 +13,8 @@ BtcTab.prototype.tabName = 'btc';
 BtcTab.prototype.mainMenu = 'fund';
 
 BtcTab.prototype.angular = function(module) { module.controller('BtcCtrl', [
-  '$scope', 'rpId', 'rpAppManager', 'rpTracker', '$routeParams', 'rpNetwork', 'rpKeychain',
-  function($scope, id, appManager, rpTracker, $routeParams, network, keychain) {
+  '$scope', 'rpId', 'rpAppManager', 'rpTracker', '$routeParams', 'rpNetwork', 'rpKeychain', 'rpAPI',
+  function($scope, id, appManager, rpTracker, $routeParams, network, keychain, api) {
     $scope.accountLines = {};
     $scope.showComponent = [];
     $scope.showInstructions = false;
@@ -155,6 +155,8 @@ BtcTab.prototype.angular = function(module) { module.controller('BtcCtrl', [
                 $scope.btcLoading = false;
                 $scope.btcediting = false;
               });
+
+              api.addTransaction(res.tx_json, {Status: 'success'}, res.tx_json.hash, new Date().toString());
             })
             .on('error', function (res) {
               setEngineStatus(res, false);
@@ -167,6 +169,8 @@ BtcTab.prototype.angular = function(module) { module.controller('BtcCtrl', [
                   $scope.btcediting = false;
                 });
               });
+
+              api.addTransaction(res.tx_json, {Status: 'error'}, res.tx_json.hash, new Date().toString());
             });
 
         function setEngineStatus(res, accepted) {
@@ -212,8 +216,20 @@ BtcTab.prototype.angular = function(module) { module.controller('BtcCtrl', [
           $scope.btcMode = 'granting';
 
           tx.secret(secret);
-          tx.submit();
 
+          api.getUserAccess().then(function(res) {
+            tx.submit();
+          }, function(err2) {
+            console.log('error', err2);
+            setImmediate(function () {
+              $scope.$apply(function() {
+                $scope.btcMode = 'error';
+
+                $scope.btcLoading = false;
+                $scope.btcediting = false;
+              });
+            });
+          });
 
         });
 
