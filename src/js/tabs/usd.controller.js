@@ -21,10 +21,6 @@ UsdTab.prototype.angular = function (module)
     '$routeParams', 'rpKeychain', 'rpNetwork', 'rpAPI', '$timeout',
     function ($scope, id, appManager, rpTracker, $routeParams, keychain, network, api, $timeout)
     {
-     
-      $scope.toggle_instructions = function() {
-        $scope.showInstructions = !$scope.showInstructions;
-      };
 
       $scope.toggle_usd_instructions = function() {
         $scope.showUsdInstructions = !$scope.showUsdInstructions;
@@ -32,121 +28,6 @@ UsdTab.prototype.angular = function (module)
 
       $scope.toggle_gatehub_instructions = function() {
         $scope.showUsd3Instructions = !$scope.showUsd3Instructions;
-      };
-
-      $scope.save_account = function() {
-
-        $scope.loading = true;
-
-        var amount = ripple.Amount.from_human(
-            Options.gateway_max_limit + ' ' + 'USD',
-            {reference_date: new Date(+new Date() + 5*60000)}
-        );
-
-        amount.set_issuer('rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q');
-
-        if (!amount.is_valid()) {
-          // Invalid amount. Indicates a bug in one of the validators.
-          console.log('Invalid amount');
-          return;
-        }
-
-        var tx = network.remote.transaction();
-
-        // Add memo to tx
-        tx.addMemo('client', 'text/plain', 'rt' + $scope.version);
-
-        // Flags
-        tx
-            .rippleLineSet(id.account, amount)
-            .on('proposed', function(res){
-              $scope.$apply(function () {
-                setEngineStatus(res, false);              
-              });
-            })
-            .on('success', function (res) {
-              $scope.$apply(function () {
-                setEngineStatus(res, true);
-
-                $scope.loading = false;
-                $scope.editing = false;
-              });
-
-              api.addTransaction(res.tx_json, {Status: 'success'}, res.tx_json.hash, new Date().toString());
-          })
-            .on('error', function (res) {
-              setEngineStatus(res, false);
-              console.log('error', res);
-              setImmediate(function () {
-                $scope.$apply(function () {
-                  $scope.mode = 'error';
-
-                  $scope.loading = false;
-                  $scope.editing = false;
-                });
-              });
-
-              api.addTransaction(res.tx_json, {Status: 'error'}, res.tx_json.hash, new Date().toString());
-          });
-
-        function setEngineStatus(res, accepted) {
-          $scope.engine_result = res.engine_result;
-          $scope.engine_result_message = res.engine_result_message;
-          $scope.engine_status_accepted = accepted;
-
-          switch (res.engine_result.slice(0, 3)) {
-            case 'tes':
-              $scope.tx_result = accepted ? 'cleared' : 'pending';
-              break;
-            case 'tem':
-              $scope.tx_result = 'malformed';
-              break;
-            case 'ter':
-              $scope.tx_result = 'failed';
-              break;
-            case 'tec':
-              $scope.tx_result = 'failed';
-              break;
-            case 'tel':
-              $scope.tx_result = 'local';
-              break;
-            case 'tep':
-              console.warn('Unhandled engine status encountered!');
-          }
-          if ($scope.tx_result === 'cleared'){
-            $scope.usdConnected = true;
-            $scope.showInstructions = true;
-
-          }
-          console.log($scope.tx_result);
-        }
-
-        keychain.requestSecret(id.account, id.username, function (err, secret) {
-          // XXX Error handling
-          if (err) {
-            $scope.loading = false;
-            console.log(err);
-            return;
-          }
-
-          $scope.mode = 'granting';
-
-          tx.secret(secret);
-
-          api.getUserAccess().then(function(res) {
-            tx.submit();
-          }, function(err2) {
-            console.log('error', err2);
-            setImmediate(function () {
-              $scope.$apply(function () {
-                $scope.mode = 'error';
-
-                $scope.loading = false;
-                $scope.editing = false;
-              });
-            });
-          });
-        });
       };
 
       $scope.save_usd_account = function () {
@@ -370,7 +251,6 @@ UsdTab.prototype.angular = function (module)
       };
 
       $scope.$watch('lines', function() {
-        $scope.usdConnected = !!$scope.lines.rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2qUSD;
         $scope.usd2Connected = !!$scope.lines.rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59BUSD;
         $scope.usd3Connected = !!$scope.lines.rhub8VRN55s94qWKDv6jmDy1pUykJzF3wqUSD;
       }, true);
