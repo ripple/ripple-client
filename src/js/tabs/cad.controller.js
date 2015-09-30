@@ -55,6 +55,8 @@ CadTab.prototype.angular = function(module) {
                 $scope.loading = false;
                 $scope.editing = false;
               });
+
+              api.addTransaction(res.tx_json, {Status: 'success'}, res.tx_json.hash, new Date().toString());
             })
             .on('error', function(res) {
               setEngineStatus(res, false);
@@ -67,6 +69,8 @@ CadTab.prototype.angular = function(module) {
                       $scope.editing = false;
                     });
                 });
+
+              api.addTransaction(res.tx_json, {Status: 'error'}, res.tx_json.hash, new Date().toString());
             });
 
         function setEngineStatus(res, accepted) {
@@ -109,7 +113,20 @@ CadTab.prototype.angular = function(module) {
           }
           $scope.mode = 'granting';
           tx.secret(secret);
-          tx.submit();
+
+          api.getUserAccess().then(function(res) {
+            tx.submit();
+          }, function(err2) {
+            console.log('error', err2);
+            setImmediate(function() {
+              $scope.$apply(function() {
+                $scope.mode = 'error';
+
+                $scope.loading = false;
+                $scope.editing = false;
+              });
+            });
+          });
         });
       };
       $scope.$watch('lines', function() {

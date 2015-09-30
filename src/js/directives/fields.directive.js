@@ -51,7 +51,6 @@ module.directive('rpCombobox', [function () {
           if (cplEl.is(':visible')) {
             el.blur();
           } else {
-            setCompletions(complFn());
             el.focus();
           }
         });

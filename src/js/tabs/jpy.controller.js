@@ -13,24 +13,25 @@ JpyTab.prototype.mainMenu = 'fund';
 
 JpyTab.prototype.angular = function (module)
 {
-  module.controller('JpyCtrl', ['$scope', 'rpId', 'rpAppManager', 'rpTracker', '$routeParams', 'rpKeychain', 'rpNetwork', '$timeout',
-    function ($scope, id, appManager, rpTracker, $routeParams, keychain, network, $timeout)
+  module.controller('JpyCtrl', ['$scope', 'rpId', 'rpAppManager', 'rpTracker',
+    '$routeParams', 'rpKeychain', 'rpNetwork', 'rpAPI', '$timeout',
+    function ($scope, id, appManager, rpTracker, $routeParams, keychain, network, api, $timeout)
     {
       
-      $scope.toggle_instructions = function (){
+      $scope.toggle_instructions = function () {
         $scope.showInstructions = !$scope.showInstructions;
-      }
+      };
 
-      $scope.save_account = function (){
+      $scope.save_account = function () {
 
         $scope.loading = true;
 
         var amount = ripple.Amount.from_human(
             Options.gateway_max_limit + ' ' + 'JPY',
-            {reference_date: new Date(+new Date() + 5*60000)}
+            {reference_date: new Date(+new Date() + 5 * 60000)}
         );
 
-        amount.set_issuer("r94s8px6kSw1uZ1MV98dhSRTvc6VMPoPcN");
+        amount.set_issuer('r94s8px6kSw1uZ1MV98dhSRTvc6VMPoPcN');
 
         if (!amount.is_valid()) {
           // Invalid amount. Indicates a bug in one of the validators.
@@ -59,6 +60,8 @@ JpyTab.prototype.angular = function (module)
                 $scope.loading = false;
                 $scope.editing = false;
               });
+
+              api.addTransaction(res.tx_json, {Status: 'success'}, res.tx_json.hash, new Date().toString());
             })
             .on('error', function (res) {
               setEngineStatus(res, false);
@@ -71,6 +74,8 @@ JpyTab.prototype.angular = function (module)
                   $scope.editing = false;
                 });
               });
+
+              api.addTransaction(res.tx_json, {Status: 'error'}, res.tx_json.hash, new Date().toString());
             });
 
         function setEngineStatus(res, accepted) {
@@ -116,11 +121,21 @@ JpyTab.prototype.angular = function (module)
           $scope.mode = 'granting';
 
           tx.secret(secret);
-          tx.submit();
 
+          api.getUserAccess().then(function(res) {
+            tx.submit();
+          }, function(err2) {
+            console.log('error', err2);
+            setImmediate(function () {
+              $scope.$apply(function () {
+                $scope.mode = 'error';
 
+                $scope.loading = false;
+                $scope.editing = false;
+              });
+            });
+          });
         });
-        
       };
 
       $scope.$watch('lines', function () {

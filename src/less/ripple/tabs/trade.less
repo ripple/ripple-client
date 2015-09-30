@@ -159,6 +159,10 @@
     background: darken(@bg, 2%);
     word-break: break-word;
 
+    @media (max-width: @screen-sm-max) {
+      margin-bottom: 18px;
+    }
+
     .head {
       margin: -15px -15px 15px -15px;
       padding: 10px 15px;
@@ -619,18 +623,30 @@
 
 .table {
   display: table;
+  @media (max-width: @screen-sm-max) {
+    display: block;
+  }
+
   margin: 0;
   border-collapse: separate;
   border-spacing: 15px 0px;
   table-layout: fixed;
   .grid {
-    margin-left: -30px;
-    margin-right: -30px;
+    @media (min-width: @screen-sm-max) {
+      margin-left: -30px;
+      margin-right: -30px;
+    }
   }
   .table-row {
     display: table-row;
+    @media (max-width: @screen-sm-max) {
+      display: block;
+    }
     .col-cell {
       display: table-cell;
+      @media (max-width: @screen-sm-max) {
+        display: block;
+      }
       vertical-align: top;
       float: none;
     }
