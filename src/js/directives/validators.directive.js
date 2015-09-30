@@ -125,6 +125,11 @@ module.directive('rpDest', ['$q', '$timeout', '$parse', 'rpFederation', function
         var strippedValue = webutil.stripRippleAddress(value),
             address = ripple.UInt160.from_json(strippedValue);
 
+        if (typeof strippedValue !== 'string'
+          || (strippedValue.length && strippedValue[0] !== 'r')) {
+            address = ripple.UInt160.from_json();
+        }
+
         if (currentDefer) {
           // another check is pending, but it is not needed
           currentDefer.resolve(true);

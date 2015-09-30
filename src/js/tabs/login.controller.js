@@ -18,8 +18,8 @@ LoginTab.prototype.extraRoutes = [
 ];
 
 LoginTab.prototype.angular = function(module) {
-  module.controller('LoginCtrl', ['$scope', '$location', '$sce', 'rpTracker', 'rpId',
-    function($scope, $location, $sce, rpTracker, id) {
+  module.controller('LoginCtrl', ['$scope', '$location', '$sce', 'rpTracker', 'rpId', 'rpAPI',
+    function($scope, $location, $sce, tracker, id, api) {
 
       $scope.error = '';
       $scope.loggingIn = false;
@@ -33,10 +33,10 @@ LoginTab.prototype.angular = function(module) {
       }
 
       function loginCallback(err) {
-        $scope.loggingIn = false;
-        $scope.status = '';
-
         if (err) {
+          $scope.loggingIn = false;
+          $scope.status = '';
+
           $scope.status = 'Login failed:';
 
           if (err.name !== 'BlobError') {
@@ -50,16 +50,25 @@ LoginTab.prototype.angular = function(module) {
           return;
         }
 
-        store.set('profile_status', $location.search().status);
+        api.getUserProfile().success(function(profile) {
 
-        if ($location.search().redirect_to) {
-          $location.url($location.search().redirect_to);
-        } else {
-          $location.path('/balance').search('');
-        }
+          store.set('profile_status', profile.ids_status);
+          store.set('profile_country', profile.country);
 
-        rpTracker.track('Login', {
-          'Status': 'success'
+          $scope.loggingIn = false;
+          $scope.status = '';
+
+          //store.set('profile_status', $location.search().status);
+
+          if ($location.search().redirect_to) {
+            $location.url($location.search().redirect_to);
+          } else {
+            $location.path('/balance').search('');
+          }
+
+          tracker.track('Login', {
+            'Status': 'success'
+          });
         });
       }
 
