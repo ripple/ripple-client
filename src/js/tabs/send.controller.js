@@ -23,10 +23,10 @@ SendTab.prototype.angular = function (module)
 {
   module.controller('SendCtrl', ['$scope', '$timeout', '$routeParams', 'rpId',
                                  'rpNetwork', 'rpFederation', 'rpTracker',
-                                 'rpKeychain', '$interval',
+                                 'rpKeychain', 'rpAPI', '$interval',
                                  function ($scope, $timeout, $routeParams, id,
                                            network, federation, rpTracker,
-                                           keychain, $interval)
+                                           keychain, api, $interval)
   {
     var destUpdateTimeout,
         passwordUpdater,
@@ -197,11 +197,21 @@ SendTab.prototype.angular = function (module)
 
       // Trying to send to an email/federation address
       send.federation = ('string' === typeof recipient) && ~recipient.indexOf('@');
-      if (send.federation && store.get('profile_status') !== 'verified') {
-        if ($scope.sendForm && $scope.sendForm.send_destination) {
-          $scope.sendForm.send_destination.$setValidity('profileUnverified', false);
+      if (send.federation) {
+        if (store.get('profile_status') !== 'verified') {
+          if ($scope.sendForm && $scope.sendForm.send_destination) {
+            $scope.sendForm.send_destination.$setValidity('profileUnverified', false);
+          }
+          return;
         }
-        return;
+        else if (recipient.substring(recipient.indexOf('@')+1) == 'btc2ripple.com' &&
+          store.get('profile_country') == 'US') {
+
+          if ($scope.sendForm && $scope.sendForm.send_destination) {
+            $scope.sendForm.send_destination.$setValidity('btc2rippleUSCustomer', false);
+          }
+          return;
+        }
       }
 
       // Check destination tag visibility
@@ -1085,6 +1095,8 @@ SendTab.prototype.angular = function (module)
             $scope.setEngineStatus(res, false);
           } else if (res.error === 'remoteError') {
             $scope.error_type = res.remote.error;
+          } else if (res === 'denied') {
+            $scope.error_type = 'unknown';
           } else {
             $scope.error_type = 'unknown';
           }
@@ -1181,7 +1193,7 @@ SendTab.prototype.angular = function (module)
       tx.on('success', function (res) {
         $scope.onTransactionSuccess(res, tx);
 
-        rpTracker.track('Send result', {
+        var eventProp = {
           'Status': 'success',
           'Currency': $scope.send.currency_code,
           'Address Type': $scope.send.federation ? 'federation' : 'ripple',
@@ -1189,7 +1201,11 @@ SendTab.prototype.angular = function (module)
           'Time': (+new Date() - +$scope.confirmedTime) / 1000,
           'Address': $scope.userBlob.data.account_id,
           'Transaction ID': res.tx_json.hash
-        });
+        };
+
+        rpTracker.track('Send result', eventProp);
+
+        api.addTransaction(res.tx_json, eventProp, res.tx_json.hash, new Date().toString());
 
         if ($routeParams.return_url) {
           document.location.replace($routeParams.return_url);
@@ -1203,7 +1219,7 @@ SendTab.prototype.angular = function (module)
       tx.on('error', function (res) {
         $scope.onTransactionError(res, tx);
 
-        rpTracker.track('Send result', {
+        var eventProp = {
           'Status': 'error',
           'Message': res.engine_result,
           'Currency': $scope.send.currency_code,
@@ -1212,14 +1228,23 @@ SendTab.prototype.angular = function (module)
           'Time': (+new Date() - +$scope.confirmedTime) / 1000,
           'Address': $scope.userBlob.account_id,
           'Transaction ID': res.tx_json.hash
-        });
+        };
+
+        rpTracker.track('Send result', eventProp);
+
+        api.addTransaction(res.tx_json, eventProp, res.tx_json.hash, new Date().toString());
 
         if ($routeParams.abort_url) {
           document.location.replace($routeParams.abort_url);
         }
       });
 
-      tx.submit();
+      api.getUserAccess().then(function(res) {
+         tx.submit();
+        }, function(err2) {
+          $scope.onTransactionError(err2);
+        }
+      );
 
       $scope.confirmedTime = new Date();
     };

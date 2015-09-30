@@ -31,7 +31,7 @@ require('../services/rippletxt.service.js');
 require('../services/federation.service.js');
 require('../services/domainalias.service.js');
 require('../services/history.service.js');
-require('../services/notifications.service.js');
+require('../services/api.service.js');
 
 require('../services/authflow.service.js');
 require('../services/blob.service.js');
@@ -58,7 +58,7 @@ var appDependencies = [
   'tracker',
   'appManager',
   'history',
-  'notifications',
+  'api',
   // ID Service related services
   'blob',
   'authflow',

@@ -76,7 +76,7 @@ div#wrapper
           img.circle(src="img/img_feature3.svg")
           p
             span.description(l10n) No Middlemen -
-            span(l10n) When you submit orders, Ripple automatically finds the best available match, without a clearinghouse or broker.
+            span(l10n) When you submit orders, Ripple automatically searches for the best available match, without a clearinghouse or broker.
 
     //section 2
     .gateways.container(ng-if="!loginStatus")
@@ -113,8 +113,8 @@ div#wrapper
           a(href="https://www.ripplesingapore.com/", target="_blank", l10n)
             img.img-responsive.gateway(src="img/gateway_logos/gw_ripplesingapore.svg")
         .col-xs-6.col-sm-2.gatewayExample
-          a(href="https://snapswap.us/", target="_blank", l10n)
-            img.img-responsive.gateway(src="img/gateway_logos/gw_snapswap.svg")
+          a(href="https://gatehub.net/", target="_blank", l10n)
+            img.img-responsive.gateway(src="img/gateway_logos/gw_gatehub.svg")
 
     // Footer
     footer.container(ng-hide="pageLoading", ng-class="{ 'loggedOut': !loginStatus }")

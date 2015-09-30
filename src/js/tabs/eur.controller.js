@@ -11,11 +11,11 @@ util.inherits(EurTab, Tab);
 EurTab.prototype.tabName = 'eur';
 EurTab.prototype.mainMenu = 'fund';
 
-EurTab.prototype.angular = function (module)
-{
+EurTab.prototype.angular = function(module) {
  
-  module.controller('EurCtrl', ['$scope', 'rpId', 'rpAppManager', 'rpTracker', '$routeParams', 'rpKeychain', 'rpNetwork', '$timeout',
-    function ($scope, id, appManager, rpTracker, $routeParams, keychain, $network, $timeout)
+  module.controller('EurCtrl', ['$scope', 'rpId', 'rpAppManager', 'rpTracker', '$routeParams',
+    'rpKeychain', 'rpNetwork', 'rpAPI', '$timeout',
+    function ($scope, id, appManager, rpTracker, $routeParams, keychain, $network, api, $timeout)
     {
       $scope.toggle_instructions = function () {
         $scope.showInstructions = !$scope.showInstructions;
@@ -23,7 +23,7 @@ EurTab.prototype.angular = function (module)
 
       $scope.toggle_gatehub_instructions = function() {
         $scope.show3Instructions = !$scope.show3Instructions;
-      }
+      };
 
       $scope.save_account = function() {
         $scope.loading = true;
@@ -62,6 +62,8 @@ EurTab.prototype.angular = function (module)
               $scope.loading = false;
               $scope.editing = false;
             });
+
+            api.addTransaction(res.tx_json, {Status: 'success'}, res.tx_json.hash, new Date().toString());
           })
           .on('error', function (res) {
             setEngineStatus(res, false);
@@ -74,6 +76,8 @@ EurTab.prototype.angular = function (module)
                 $scope.editing = false;
               });
             });
+
+            api.addTransaction(res.tx_json, {Status: 'error'}, res.tx_json.hash, new Date().toString());
           });
 
         function setEngineStatus(res, accepted) {
@@ -118,7 +122,21 @@ EurTab.prototype.angular = function (module)
           $scope.mode = 'granting';
 
           tx.secret(secret);
-          tx.submit();
+
+          api.getUserAccess().then(function(res) {
+            tx.submit();
+          }, function(err2) {
+            console.log('error', err2);
+            setImmediate(function () {
+              $scope.$apply(function () {
+                $scope.mode = 'error';
+
+                $scope.loading = false;
+                $scope.editing = false;
+              });
+            });
+          });
+
         });
       };
 
@@ -158,6 +176,8 @@ EurTab.prototype.angular = function (module)
 
               $scope.eur3loading = false;
             });
+
+            api.addTransaction(res.tx_json, {Status: 'success'}, res.tx_json.hash, new Date().toString());
           })
           .on('error', function(res) {
             setEngineStatus(res, false);
@@ -167,6 +187,8 @@ EurTab.prototype.angular = function (module)
                 $scope.eur3loading = false;
               });
             });
+
+            api.addTransaction(res.tx_json, {Status: 'error'}, res.tx_json.hash, new Date().toString());
           });
 
         function setEngineStatus(res, accepted) {
@@ -209,7 +231,17 @@ EurTab.prototype.angular = function (module)
           }
 
           tx.secret(secret);
-          tx.submit();
+
+          api.getUserAccess().then(function (res) {
+            tx.submit();
+          }, function (err2) {
+            console.log('error', err2);
+            setImmediate(function () {
+              $scope.$apply(function () {
+                $scope.eur3loading = false;
+              });
+            });
+          });
         });
       };
 
