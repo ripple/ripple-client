@@ -39,6 +39,10 @@ module.factory('rpAPI', ['$http', '$q', function($http, $q) {
     return $http.post(Options.backend_url + '/api/transactions', request_body, httpOptions);
   };
 
+  rpAPI.getTravelData = function(address) {
+    return $http.get(Options.backend_url + '/api/transactions/travel_rule/' + address, httpOptions);
+  };
+
   rpAPI.getUserProfile = function() {
     return $http.get(Options.backend_url + '/api/user', httpOptions);
   };

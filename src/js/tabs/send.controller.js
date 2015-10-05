@@ -325,6 +325,20 @@ SendTab.prototype.angular = function (module)
       }
     };
 
+    // Check if the recipient is a known gateway that
+    // needs to receive the sender information
+    $scope.check_travel_rule = function (recipient) {
+      if (_.contains(Options.travel_rule, recipient)) {
+        api.getTravelData(recipient)
+          .then(function(response){
+            $scope.send.travelRuleData = response.data.sender_info;
+          })
+          .catch(function(err){
+            console.log('error: ', err);
+          });
+      }
+    };
+
     // Check destination for XRP sufficiency and flags
     $scope.check_destination = function () {
       var send = $scope.send;
@@ -351,6 +365,8 @@ SendTab.prototype.angular = function (module)
       }
 
       var account = network.remote.account(recipient);
+
+      $scope.check_travel_rule(recipient);
 
       send.path_status = 'checking';
       send.recipient_info = null;
@@ -1131,6 +1147,15 @@ SendTab.prototype.angular = function (module)
 
       // Add memo to tx
       tx.addMemo('client', 'text/plain', 'rt' + $scope.version);
+
+      // Travel rule data
+      if (send.travelRuleData) {
+        tx.addMemo({
+          memoType: 'travelrule',
+          memoFormat: 'text/plain',
+          memoData: send.travelRuleData
+        });
+      }
 
       if (send.secret) {
         tx.secret(send.secret);
