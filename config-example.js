@@ -90,7 +90,13 @@ var Options = {
 
   // Ripple trade backend URL
   backend_url: 'https://backend.rippletrade.com',
-  ids_url: 'https://id.ripple.com'
+  ids_url: 'https://id.ripple.com',
+
+  // Gateways that need to receive the sender information on withdrawals
+  travel_rule: [
+    'rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q',
+    'rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B'
+  ]
 };
 
 // Load client-side overrides

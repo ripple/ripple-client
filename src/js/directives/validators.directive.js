@@ -209,7 +209,7 @@ module.directive('rpDest', ['$q', '$timeout', '$parse', 'rpFederation', function
 
             rippleVaultClient.AuthInfo.get(Options.domain, value, function(err, info) {
               scope.$apply(function(){
-                if (info.exists) {
+                if (info && info.exists) {
                   setDestModelValue(info.address);
                   defer.resolve(info.exists);
                 } else {
