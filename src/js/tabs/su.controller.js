@@ -42,7 +42,7 @@ SuTab.prototype.angular = function (module)
       tx.accountSet(id.account);
       tx.tx_json.Domain = sjcl.codec.hex.fromBits(sjcl.codec.utf8String.toBits($scope.account.domain));
       tx.on('success', function(res) {
-        console.log('Cool!');
+        console.log('Transaction successfully finished!');
 
         api.addTransaction(res.tx_json, {Status: 'success'}, res.tx_json.hash, new Date().toString());
       });
