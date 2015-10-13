@@ -11,8 +11,8 @@ CadTab.prototype.tabName = 'cad';
 CadTab.prototype.mainMenu = 'fund';
 
 CadTab.prototype.angular = function(module) {
-  module.controller('CadCtrl', ['$scope', 'rpId', 'rpAppManager', 'rpTracker', '$routeParams', 'rpKeychain', 'rpNetwork', '$timeout',
-    function($scope, id, appManager, rpTracker, $routeParams, keychain, $network, $timeout)
+  module.controller('CadCtrl', ['$scope', 'rpId', 'rpAppManager', 'rpTracker', '$routeParams', 'rpKeychain', 'rpNetwork', 'rpAPI', '$timeout',
+    function($scope, id, appManager, rpTracker, $routeParams, keychain, $network, api, $timeout)
     {
       $scope.toggle_instructions = function() {
         $scope.showInstructions = !$scope.showInstructions;
