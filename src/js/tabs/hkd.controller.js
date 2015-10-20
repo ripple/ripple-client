@@ -1,19 +1,19 @@
 var util = require('util'),
     Tab = require('../client/tab').Tab;
 
-var JpyTab = function ()
+var HkdTab = function ()
 {
   Tab.call(this);
 };
 
-util.inherits(JpyTab, Tab);
+util.inherits(HkdTab, Tab);
 
-JpyTab.prototype.tabName = 'jpy';
-JpyTab.prototype.mainMenu = 'fund';
+HkdTab.prototype.tabName = 'hkd';
+HkdTab.prototype.mainMenu = 'fund';
 
-JpyTab.prototype.angular = function(module)
+HkdTab.prototype.angular = function (module)
 {
-  module.controller('JpyCtrl', ['$scope', 'rpId', 'rpAppManager', 'rpTracker',
+  module.controller('HkdCtrl', ['$scope', 'rpId', 'rpAppManager', 'rpTracker',
     '$routeParams', 'rpKeychain', 'rpNetwork', 'rpAPI', '$timeout',
     function ($scope, id, appManager, rpTracker, $routeParams, keychain, network, api, $timeout)
     {
@@ -25,7 +25,7 @@ JpyTab.prototype.angular = function(module)
         $scope.mrLoading = true;
 
         var amount = ripple.Amount.from_human(
-            Options.gateway_max_limit + ' ' + 'JPY',
+            Options.gateway_max_limit + ' ' + 'HKD',
             {reference_date: new Date(+new Date() + 5 * 60000)}
         );
 
@@ -133,129 +133,8 @@ JpyTab.prototype.angular = function(module)
         });
       };
 
-      $scope.toggle_instructions = function() {
-        $scope.showInstructions = !$scope.showInstructions;
-      };
-
-      $scope.save_account = function () {
-
-        $scope.loading = true;
-
-        var amount = ripple.Amount.from_human(
-            Options.gateway_max_limit + ' ' + 'JPY',
-            {reference_date: new Date(+new Date() + 5 * 60000)}
-        );
-
-        amount.set_issuer('r94s8px6kSw1uZ1MV98dhSRTvc6VMPoPcN');
-
-        if (!amount.is_valid()) {
-          // Invalid amount. Indicates a bug in one of the validators.
-          console.log('Invalid amount');
-          return;
-        }
-
-        var tx = network.remote.transaction();
-
-        // Add memo to tx
-        tx.addMemo('client', 'text/plain', 'rt' + $scope.version);
-
-        // Flags
-        tx
-            .rippleLineSet(id.account, amount)
-            .setFlags('NoRipple')
-            .on('proposed', function(res){
-              $scope.$apply(function () {
-                setEngineStatus(res, false);              
-              });
-            })
-            .on('success', function (res) {
-              $scope.$apply(function () {
-                setEngineStatus(res, true);
-
-                $scope.loading = false;
-                $scope.editing = false;
-              });
-
-              api.addTransaction(res.tx_json, {Status: 'success'}, res.tx_json.hash, new Date().toString());
-            })
-            .on('error', function (res) {
-              setEngineStatus(res, false);
-              console.log('error', res);
-              setImmediate(function () {
-                $scope.$apply(function () {
-                  $scope.mode = 'error';
-
-                  $scope.loading = false;
-                  $scope.editing = false;
-                });
-              });
-
-              api.addTransaction(res.tx_json, {Status: 'error'}, res.tx_json.hash, new Date().toString());
-            });
-
-        function setEngineStatus(res, accepted) {
-          $scope.engine_result = res.engine_result;
-          $scope.engine_result_message = res.engine_result_message;
-          $scope.engine_status_accepted = accepted;
-
-          switch (res.engine_result.slice(0, 3)) {
-            case 'tes':
-              $scope.tx_result = accepted ? 'cleared' : 'pending';
-              break;
-            case 'tem':
-              $scope.tx_result = 'malformed';
-              break;
-            case 'ter':
-              $scope.tx_result = 'failed';
-              break;
-            case 'tec':
-              $scope.tx_result = 'failed';
-              break;
-            case 'tel':
-              $scope.tx_result = "local";
-              break;
-            case 'tep':
-              console.warn('Unhandled engine status encountered!');
-          }
-          if ($scope.tx_result=="cleared"){
-            $scope.jpyConnected = true;
-            $scope.showInstructions = true;
-
-          }
-          console.log($scope.tx_result);
-        }
-
-        keychain.requestSecret(id.account, id.username, function (err, secret) {
-          // XXX Error handling
-          if (err) {
-            $scope.loading = false;
-            console.log(err);
-            return;
-          }
-
-          $scope.mode = 'granting';
-
-          tx.secret(secret);
-
-          api.getUserAccess().then(function(res) {
-            tx.submit();
-          }, function(err2) {
-            console.log('error', err2);
-            setImmediate(function () {
-              $scope.$apply(function () {
-                $scope.mode = 'error';
-
-                $scope.loading = false;
-                $scope.editing = false;
-              });
-            });
-          });
-        });
-      };
-
       $scope.$watch('lines', function () {
-        $scope.jpyConnected = Boolean($scope.lines['r94s8px6kSw1uZ1MV98dhSRTvc6VMPoPcNJPY']);
-        $scope.mrRippleConnected = Boolean($scope.lines['rB3gZey7VWHYRqJHLoHDEJXJ2pEPNieKiSJPY']);
+        $scope.mrRippleConnected = Boolean($scope.lines['rB3gZey7VWHYRqJHLoHDEJXJ2pEPNieKiSHKD']);
       }, true);
 
       // User should be notified if the reserve is insufficient to add a gateway
@@ -270,7 +149,6 @@ JpyTab.prototype.angular = function(module)
         }
       }, true);
     }]);
-
 };
 
-module.exports = JpyTab;
+module.exports = HkdTab;
