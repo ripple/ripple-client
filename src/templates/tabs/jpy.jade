@@ -115,3 +115,66 @@ section.col-xs-12.content(ng-controller='JpyCtrl')
                 p(l10n) To deposit, you’ll need to first deposit into your Tokyo JPY Issuer account and then initiate a transfer into your Ripple account.
               li
                 p(l10n) To withdraw to a bank account, you’ll first send money from your Ripple account to your Tokyo JPY Issuer account. Follow instructions on the Tokyo JPY Issuer site to send to your bank account.
+      br
+      .gateway.row
+        .col-md-3
+            .title(l10n) Gateway
+            .description(l10n) Mr. Ripple Japan (~mrr)&#32;
+              a(href="https://mr-ripple.com/", target="_blank") mr-ripple.com
+        .col-md-3
+            .title(l10n) Availability
+            .description(l10n) All countries
+        .col-md-6
+            .title(l10n) Fees
+            .description(l10n) 
+              p Deposit: ￥108
+              p Withdrawal: ￥108
+              p Transaction fee （JPY): .2%
+      .row.fund-tab-description
+        .col-xs-12.col-md-8.col-lg-6
+          .descriptor(ng-show="!mrRippleConnected", l10n) Ripple Trade has partnered with Mr. Ripple JPY Issuer to provide easier access to JPY. Following this action will enable Mr. Ripple JPY Issuer to hold JPY on your behalf.
+      .row.fund-tab-description
+        .col-xs-7.col-sm-5.col-md-4
+          button.btn.btn-large.btn-primary(ng-show="!mrRippleConnected && !mrLoading && loadState.account", type="submit", ng-click="save_mrripple_account()", ng-disabled="!account.Balance || !can_add_trust", l10n) Add Mr. Ripple JPY
+          button.btn.btn-large.btn-primary(ng-show="!mrRippleConnected && mrLoading", type="submit", ng-disabled="mrLoading", l10n) Adding...
+          button.btn.btn-large.btn-primary(ng-show="showMrRippleInstructions && mrRippleConnected", type="submit", ng-click="toggle_mrripple_instructions()", l10n) Hide instructions
+          button.btn.btn-large.btn-primary(ng-show="mrRippleConnected && !showMrRippleInstructions", type="submit", ng-click="toggle_mrripple_instructions()", l10n) Show instructions
+
+        .connect.col-xs-5.col-sm-7.col-md-8(ng-hide="mrLoading")
+          .description(ng-show="!mrRippleConnected && account.Balance", l10n) 
+            i.fa.fa-times
+            |  Not connected
+          .description(ng-show="mrRippleConnected && account.Balance", l10n) 
+            i.fa.fa-check
+            |  Connected
+          .description(ng-show="!account.Balance && loadState.account", l10n) Your account has to be activated before you can add a gateway account.
+          .description(ng-show="!loadState.account")
+            img(src="img/button-s.png", class="loader")
+            span(class="loading_text", l10n) Loading...
+      .row(ng-show="showMrRippleInstructions && mrRippleConnected")
+        .instructions.col-md-10
+          a.dismiss(href="", id="hide", ng-click="toggle_mrripple_instructions()", l10n)  ×
+          .title(l10n) NEW CUSTOMERS- SIGN UP AT MR RIPPLE JPY ISSUER
+          .description(l10n) 
+            a(href="https://mr-ripple.com/user/signup", target="_blank") Register and verify your account&#32;
+            | at Mr. Ripple JPY Issuer. You will need:
+            ul
+              li
+                p(l10n) A valid government-issued ID. 
+              li
+                p(l10n) A proof of address (utility bill, etc).
+              li
+                p(l10n) A bank account under the same name.
+
+          .title(l10n) EXISTING MR RIPPLE JPY ISSUER CUSTOMERS
+          .description(l10n) 
+            ul 
+              li
+                p(l10n) Login to your account&#32;
+                  a(href="https://mr-ripple.com/user/login", target="_blank") here.
+          .title(l10n) DEPOSITS AND WITHDRAWALS:
+          .description(l10n)
+            ul
+              li
+                p(l10n) Mr. Ripple JPY Issuer accepts deposits and withdrawals via bank transfer. Details&#32;
+                  a(href="https://mr-ripple.com/faq", target="_blank") here.
