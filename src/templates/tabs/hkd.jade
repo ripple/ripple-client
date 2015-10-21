@@ -1,0 +1,109 @@
+section.col-xs-12.content(ng-controller='HkdCtrl')
+
+  //- Disconnected
+
+  group.disconnected(ng-hide='connected')
+    p.literal(l10n="err-you-must-be-online-to-see-this-screen")
+      | You have to be online to see this screen
+
+  //- Funding
+  div(ng-show="!loadingAccount && !account.Balance && loadState.account && connected")
+    include ../tabs/banner/unfunded
+
+  div(ng-show='hasRTJapanTrust')
+    include banner/rtjapan
+  div(ng-show='hasRTJapanTrustWithRippling')
+    include banner/rtjapanrippling
+
+  .row(ng-show='connected')
+    // Transaction errors coming from errors.js & transactionerror.jade
+    .col-sm-12(ng-show='mode=="error" || mode=="granting" && account.Balance')
+      group.mode-ripplerror
+        rp-transaction-status(
+          rp-engine-result="{{engine_result}}"
+          rp-engine-result-message="{{engine_result_message}}"
+          rp-accepted="{{engine_status_accepted}}"
+          rp-current-tab="trust")
+
+    //- Generic non-tx related messages
+    .col-sm-12(ng-show='notif !== "clear"', ng-hide='!notif')
+      group.mode-granted.wide
+        group(ng-switch="notif")
+          group.result-error(ng-switch-when="error")
+            h2.tx-status(l10n) There was an error while saving your changes.&#32;
+            p(l10n) Please try again later.
+            
+    .col-sm-12(ng-show='account.Balance && !can_add_trust && !mrRippleConnected')
+      .alert.alert-warning(l10n) You must have at least
+        strong  {{account.reserve_to_add_trust | rpamount:0}} XRP
+        |  to add a new trust line.&#32;
+        a(href="https://ripple.com/wiki/Reserves", target="_blank") More information
+
+    .col-sm-3
+      include ../tabs/fund/menu
+    .col-sm-9.list(ng-show='debug')
+      div This page is not available in debug mode
+    .col-sm-9.list(ng-hide='debug')
+      .nameLine(l10n) Hong Kong Dollar Deposit
+      .gateway.row
+        .col-md-3
+            .title(l10n) Gateway
+            .description(l10n) Mr. Ripple Hong Kong (~mrr)&#32;
+              a(href="https://hk.mr-ripple.com/", target="_blank") hk.mr-ripple.com
+        .col-md-3
+            .title(l10n) Availability
+            .description(l10n) All countries
+        .col-md-6
+            .title(l10n) Fees
+            .description(l10n) 
+              p Deposit: Free.
+              p Withdrawal: HK$100
+              p Transaction fee （HKD): .2%
+      .row.fund-tab-description
+        .col-xs-12.col-md-8.col-lg-6
+          .descriptor(ng-show="!mrRippleConnected", l10n) Ripple Trade has partnered with Mr. Ripple HKD Issuer to provide easier access to HKD. Following this action will enable Mr. Ripple HKD Issuer to hold HKD on your behalf.
+      .row.fund-tab-description
+        .col-xs-7.col-sm-5.col-md-4
+          button.btn.btn-large.btn-primary(ng-show="!mrRippleConnected && !mrLoading && loadState.account", type="submit", ng-click="save_mrripple_account()", ng-disabled="!account.Balance || !can_add_trust", l10n) Add Mr. Ripple HKD
+          button.btn.btn-large.btn-primary(ng-show="!mrRippleConnected && mrLoading", type="submit", ng-disabled="mrLoading", l10n) Adding...
+          button.btn.btn-large.btn-primary(ng-show="showMrRippleInstructions && mrRippleConnected", type="submit", ng-click="toggle_mrripple_instructions()", l10n) Hide instructions
+          button.btn.btn-large.btn-primary(ng-show="mrRippleConnected && !showMrRippleInstructions", type="submit", ng-click="toggle_mrripple_instructions()", l10n) Show instructions
+
+        .connect.col-xs-5.col-sm-7.col-md-8(ng-hide="mrLoading")
+          .description(ng-show="!mrRippleConnected && account.Balance", l10n) 
+            i.fa.fa-times
+            |  Not connected
+          .description(ng-show="mrRippleConnected && account.Balance", l10n) 
+            i.fa.fa-check
+            |  Connected
+          .description(ng-show="!account.Balance && loadState.account", l10n) Your account has to be activated before you can add a gateway account.
+          .description(ng-show="!loadState.account")
+            img(src="img/button-s.png", class="loader")
+            span(class="loading_text", l10n) Loading...
+      .row(ng-show="showMrRippleInstructions && mrRippleConnected")
+        .instructions.col-md-10
+          a.dismiss(href="", id="hide", ng-click="toggle_mrripple_instructions()", l10n)  ×
+          .title(l10n) NEW CUSTOMERS- SIGN UP AT MR RIPPLE HKD ISSUER
+          .description(l10n) 
+            a(href="https://hk.mr-ripple.com/user/signup", target="_blank") Register and verify your account&#32;
+            | at Mr. Ripple HKD Issuer. You will need:
+            ul
+              li
+                p(l10n) A valid government-issued ID. 
+              li
+                p(l10n) A proof of address (utility bill, etc).
+              li
+                p(l10n) A bank account under the same name.
+
+          .title(l10n) EXISTING MR RIPPLE HKD ISSUER CUSTOMERS
+          .description(l10n) 
+            ul 
+              li
+                p(l10n) Login to your account&#32;
+                  a(href="https://hk.mr-ripple.com/user/login", target="_blank") here.
+          .title(l10n) DEPOSITS AND WITHDRAWALS:
+          .description(l10n)
+            ul
+              li
+                p(l10n) Mr. Ripple HKD Issuer accepts deposits and withdrawals via bank transfer. Details&#32;
+                  a(href="https://hk.mr-ripple.com/faq", target="_blank") here.
