@@ -104,6 +104,7 @@ var tabdefs = [
   require('../tabs/sgd.controller.js'),
   require('../tabs/cad.controller.js'),
   require('../tabs/gold.controller.js'),
+  require('../tabs/toujune2015.controller.js'),
   require('../tabs/tou.controller.js'),
   require('../tabs/privacypolicy.controller.js'),
   require('../tabs/jpy.controller.js'),
