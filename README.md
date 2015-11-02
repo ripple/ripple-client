@@ -9,7 +9,7 @@ The Ripple Trade client is an open-source GUI for the Ripple network that facili
 
 We would love to have folks contribute! Check out our bounties [here](https://www.bountysource.com/teams/ripple/bounties).
 
-Ripple Trade is available at www.rippletrade.com, or you can download the desktop version at [download.ripple.com](https://download.ripple.com).
+Ripple Trade is available at www.rippletrade.com.
 
 Questions? Contact us as support@ripple.com.
 
