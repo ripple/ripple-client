@@ -16,7 +16,7 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
           span.error(ng-bind="message")
       form(name='loginForm' action='{{authAction}}')
         .submit-btn-container
-          a.btn.btn-submit.btn-block.btn-success#migrateBtn(type="submit" href="https://wallet.gatehub.net/#/identity/ripple/")
+          a.btn.btn-submit.btn-block.btn-success#migrateBtn(type="submit", ng-click="migrate()")
             span(l10n) Migrate Wallet to Gatehub
           p.learnMore
             a(href="", target="_blank", l10n-inc) Learn more

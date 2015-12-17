@@ -32,6 +32,13 @@ LoginTab.prototype.angular = function(module) {
         return;
       }
 
+      $scope.migrate = function() {
+        tracker.track('Migrate to Gatehub', {
+          'Status': 'success'
+        });
+        window.location.assign('https://wallet.gatehub.net/#/identity/ripple/');
+      };
+
       function loginCallback(err) {
         if (err) {
           $scope.loggingIn = false;
