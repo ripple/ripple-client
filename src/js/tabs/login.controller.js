@@ -36,7 +36,7 @@ LoginTab.prototype.angular = function(module) {
         tracker.track('Migrate to Gatehub', {
           'Status': 'success'
         });
-        window.location.assign('https://wallet.gatehub.net/#/identity/ripple/');
+        window.location.assign('https://wallet.gatehub.net/#/identity/');
       };
 
       function loginCallback(err) {
