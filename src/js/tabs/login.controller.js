@@ -36,7 +36,7 @@ LoginTab.prototype.angular = function(module) {
         tracker.track('Migrate to Gatehub', {
           'Status': 'success'
         });
-        window.location.assign('https://signin.gatehub.net/signup?client_id=&redirect_uri=');
+        window.location.assign('https://signin.gatehub.net/signup?rt=true');
       };
 
       function loginCallback(err) {
