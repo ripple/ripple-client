@@ -41,7 +41,7 @@ nav.navbar(role="navigation", ng-controller="NavbarCtrl")
           //-       span.balance {{balance.total | rpamount:{rel_precision: 2} }}&nbsp;
           //-       span.balance(rp-currency="balance.total", rp-currency-short)
           li
-            a.btn.btn-submit.btn-block.btn-success#migrateBtn(type="submit", ng-click="logout()")
+            a.btn.btn-submit.btn-block.btn-success#migrateBtn(type="submit", ng-click="migrate()")
               span(l10n) Migrate Wallet to Gatehub
           li
             span(class="serverStatus {{connected ? 'online' : 'offline'}} {{serverLoad}}"
