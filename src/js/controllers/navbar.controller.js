@@ -11,9 +11,9 @@ var Amount = ripple.Amount,
 var module = angular.module('navbar', []);
 
 module.controller('NavbarCtrl', ['$scope', '$element', '$compile', 'rpId',
-                                 'rpNetwork', '$location',
+                                 'rpNetwork', '$location', 'rpTracker',
                                  function ($scope, el, $compile, id,
-                                           network, $location)
+                                           network, $location, tracker)
 {
   $scope.loading = true;
   var queue = [];
@@ -28,6 +28,13 @@ module.controller('NavbarCtrl', ['$scope', '$element', '$compile', 'rpId',
   $scope.page_reload = function () {
     // Reload
     location.reload();
+  };
+
+  $scope.migrate = function() {
+    tracker.track('Migrate to Gatehub', {
+      'Status': 'success'
+    });
+    window.location.assign('https://signin.gatehub.net/signup?rt=true');
   };
 
   $scope.$watch('connected', function(){
