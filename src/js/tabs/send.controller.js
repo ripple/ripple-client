@@ -328,15 +328,16 @@ SendTab.prototype.angular = function (module)
     // Check if the recipient is a known gateway that
     // needs to receive the sender information
     $scope.check_travel_rule = function (recipient) {
-      if (_.contains(Options.travel_rule, recipient)) {
-        api.getTravelData(recipient)
-          .then(function(response){
-            $scope.send.travelRuleData = response.data.sender_info;
-          })
-          .catch(function(err){
-            console.log('error: ', err);
-          });
-      }
+      api.getTravelData(recipient)
+        .then(function(response) {
+          $scope.send.travelRuleData = response.data.sender_info;
+          if (response.data.message) {
+            console.log('Travel Rule', response.data.message);
+          }
+        })
+        .catch(function(err) {
+          console.log('error: ', err);
+        });
     };
 
     // Check destination for XRP sufficiency and flags
