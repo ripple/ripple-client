@@ -382,8 +382,7 @@ section.col-xs-12.content(ng-controller="TradeCtrl")
                             ng-click="order[type].mode = 'trade'", l10n) &laquo; Back
 
                     //- 3. 
-
-                    group.mode-sending(ng-switch-when='')
+                    group.mode-sending(ng-switch-when='sending')
                       p.literal
                         img(src="img/button-s.png", class="loader")
                         span(class="loading_text", l10n) Sending order to the Ripple network...
