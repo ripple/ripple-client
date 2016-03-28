@@ -1,11 +1,28 @@
 section.col-xs-12.content(ng-controller="LoginCtrl")
   //include ../tabs/banner/touannouncement
-  include ../tabs/banner/announcement
   .row.auth-form-container(ng-hide="$routeParams.to")
     .col-xs-12.hidden-xs
-      .welcomeText(l10n) Welcome to Ripple Trade
-      hr
-      p.heroText(l10n) Trade hundreds of assets, from XRP to crypto to gold to fiat.
+      p.heroText Thank you for using Ripple Trade. While we continue to develop the Ripple ecosystem, we are no longer running Ripple Trade, the wallet application. You can still access your balances and secret key after&nbsp;
+        a(href="https://ripple.com/knowledge_center/migrating-your-ripple-trade-account-to-gatehub/") migrating your account to GateHub
+        | , or at&nbsp;
+        a(href="https://ripple.com/knowledge_center/ripple-trade-discontinues-operations/") another wallet provider
+        |  of your choice. If you choose to migrate to GateHub, click, Migrate Wallet to GateHub to get started.
+      p.heroText Ripple Tradeをご利用頂き誠にありがとうございます。Rippleのエコシステムは引き続き開発し続ける一方で、ウォレットアプリのRipple Tradeは運営を停止いたします。お客様の残高やシークレットキーは &nbsp;
+        a(href="https://ripple.com/knowledge_center/migrating-your-ripple-trade-account-to-gatehub/") アカウントをGateHubへ移行、
+        |  もしくは &nbsp;
+        a(href="https://ripple.com/knowledge_center/ripple-trade-discontinues-operations/") その他のウォレットプロバイダー
+        |  に移行後、引き続きアクセスすることができます。GateHubへ移行する場合は、Migrate Wallet to GateHub をクリックし、移行を開始してください。
+      p.heroText 感谢您使用Ripple Trade。我们将继续发展Ripple生态系统，但此刻我们将不再运营钱包应用Ripple Trade。您仍然可以在
+        a(href="https://ripple.com/knowledge_center/migrating-your-ripple-trade-account-to-gatehub/") 迁移账户至GateHub
+        |  或您所选择的 &nbsp;
+        a(href="https://ripple.com/knowledge_center/ripple-trade-discontinues-operations/") 其它钱包服务商
+        |  后获取您的资金余额及密匙。若您选择迁移账户至GateHub，请您点击 Migrate Wallet to GateHub 开始迁移。
+      p.heroText Ripple Trade를 사용해주셔서 감사합니다. Ripple 에코시스템은 계속해서 발전되지만, 소비자 지갑 웹서비스인 Ripple Trade는 운용을 중단하게됩니다. 고객님의 잔고에는 돈이 계속 남아있으며 접근하기 위해서 &nbsp;
+        a(href="https://ripple.com/knowledge_center/migrating-your-ripple-trade-account-to-gatehub/") GateHub 으로 이전
+        |  하시거나 &nbsp;
+        a(href="https://ripple.com/knowledge_center/ripple-trade-discontinues-operations/") 다른 지갑제공자 서비스
+        |  를 사용하시면 됩니다. GateHub 으로 이전하시길 원하면 여기를 클릭해주세요, Migrate Wallet to GateHub.
+
     .auth-form-wrapper.col-xs-12.col-sm-6.col-md-5.col-lg-4
       .loginOverlay(ng-show='loggingIn')
         img.loader(src='img/main.png', alt='', title='')
@@ -18,12 +35,11 @@ section.col-xs-12.content(ng-controller="LoginCtrl")
         .submit-btn-container
           a.btn.btn-submit.btn-block.btn-success#migrateBtn(type="submit", ng-click="migrate()")
             span(l10n) Migrate Wallet to Gatehub
-          p.learnMore
-            a(href='https://ripple.com/knowledge_center/migrating-your-ripple-trade-account-to-gatehub', target="_blank", l10n-inc) Learn more about migrating.   
-          button.btn.btn-submit.btn-block.btn-success#loginBtn(type="submit" ng-click="submitForm('login')")
-            span(l10n) Log In   
-          p.signUpInfo 
+          p.signUpInfo
             a(href='https://ripple.com/knowledge_center/wallet-providers/', target="_blank", l10n-inc) Learn about wallet providers.
+          p.learnMore
+            a(href='https://forum.ripple.com/viewtopic.php?f=1&t=15819', target="_blank", l10n-inc) Learn more about our decision to discontinue Ripple Trade.
+
           input(name='redirect_to', type='hidden', value='{{redirectTo}}')
 
   .row.action-login(ng-if="$routeParams.to")
