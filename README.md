@@ -9,8 +9,6 @@ We would love to have folks contribute! Check out our bounties [here](https://ww
 
 Ripple Trade is available at www.rippletrade.com.
 
-Questions? Contact us as support@ripple.com.
-
 
 ## Getting Started
 
