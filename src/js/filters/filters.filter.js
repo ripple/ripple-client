@@ -10,8 +10,8 @@ var currencies = require('../data/currencies');
  *
  * If the parameter is a number, the number is treated the relative
  */
-module.filter('rpamount', function() {
-  return function (input, options) {
+module.filter('rpamount', function rpamountFilter() {
+  return function rpamount(input, options) {
     var currency;
     var opts = jQuery.extend(true, {}, options);
 
@@ -152,8 +152,8 @@ module.filter('rpamount', function() {
  * If the input is neither an Amount or Currency object it will be passed to
  * Amount#from_json to try to interpret it.
  */
-module.filter('rpcurrency', function() {
-  return function (input) {
+module.filter('rpcurrency', function rpcurrencyFilter() {
+  return function rpcurrency(input) {
     if (!input) return "";
 
     var currency;
@@ -171,8 +171,8 @@ module.filter('rpcurrency', function() {
 /**
  * Get the currency issuer.
  */
-module.filter('rpissuer', function() {
-  return function (input) {
+module.filter('rpissuer', function rpissuerFilter() {
+  return function rpissuer(input) {
     if (!input) return "";
 
     var amount = Amount.from_json(input);
@@ -185,8 +185,8 @@ module.filter('rpissuer', function() {
 /**
  * Get the full currency name from an Amount.
  */
-module.filter('rpcurrencyfull', ['$rootScope', function ($scope) {
-  return function (input) {
+module.filter('rpcurrencyfull', ['$rootScope', function rpcurrencyfullFilter($scope) {
+  return function rpcurrencyfull(input) {
     if (!input) return "";
 
     var amount = Amount.from_json(input);
@@ -203,8 +203,8 @@ module.filter('rpcurrencyfull', ['$rootScope', function ($scope) {
 /**
  * Calculate a ratio of two Amounts.
  */
-module.filter('rpamountratio', function() {
-  return function (numerator, denominator) {
+module.filter('rpamountratio', function rpamountratioFilter() {
+  return function rpamountratio(numerator, denominator) {
     try {
       return Amount.from_json(numerator).ratio_human(denominator, {reference_date: new Date()});
     } catch (err) {
@@ -216,8 +216,8 @@ module.filter('rpamountratio', function() {
 /**
  * Calculate the sum of two Amounts.
  */
-module.filter('rpamountadd', function() {
-  return function (a, b) {
+module.filter('rpamountadd', function rpamountaddFilter() {
+  return function rpamountadd(a, b) {
     try {
       b = Amount.from_json(b);
       if (b.is_zero()) return a;
@@ -230,8 +230,8 @@ module.filter('rpamountadd', function() {
 /**
  * Calculate the difference of two Amounts.
  */
-module.filter('rpamountsubtract', function() {
-  return function (a, b) {
+module.filter('rpamountsubtract', function rpamountsubtractFilter() {
+  return function rpamountsubtract(a, b) {
     try {
       return Amount.from_json(a).subtract(b);
     } catch (err) {
@@ -247,8 +247,8 @@ module.filter('rpamountsubtract', function() {
  */
 var momentCache = {};
 
-module.filter('rpfromnow', function() {
-  return function (input) {
+module.filter('rpfromnow', function rpfromnowFilter() {
+  return function rpfromnow(input) {
     // This is an expensive function, cache it
     if (!momentCache[input]) momentCache[input] = moment(input).fromNow();
 
@@ -261,8 +261,8 @@ module.filter('rpfromnow', function() {
  *
  * Shows a ripple name for a given ripple address
  */
-module.filter("rpripplename", ['rpId', function(id) {
-  return function(address, options) {
+module.filter("rpripplename", ['rpId', function rpripplenameFilter(id) {
+  return function rpripplename(address, options) {
     var ripplename = id.resolveNameSync(address, options);
     if (ripplename !== address) {
       return ripplename;
@@ -274,8 +274,8 @@ module.filter("rpripplename", ['rpId', function(id) {
   }
 }]);
 
-module.filter("rpripplenamefull", ['rpId', function(id) {
-  return function(address, options) {
+module.filter("rpripplenamefull", ['rpId', function rpripplenamefullFilter(id) {
+  return function rpripplenamefull(address, options) {
     var ripplename = id.resolveNameSync(address, options);
     if (ripplename !== address) {
       return ripplename;
@@ -287,8 +287,8 @@ module.filter("rpripplenamefull", ['rpId', function(id) {
 /**
  * Show contact name or address
  */
-module.filter('rpcontactname', ['$rootScope', function ($scope) {
-  return function (address) {
+module.filter('rpcontactname', ['$rootScope', function rpcontactnameFilter($scope) {
+  return function rpcontactname(address) {
     address = address ? ""+address : "";
 
     var contact = webutil.getContact($scope.userBlob.data.contacts, address);
@@ -301,8 +301,8 @@ module.filter('rpcontactname', ['$rootScope', function ($scope) {
   };
 }]);
 
-module.filter('rpcontactnamefull', ['$rootScope', function ($scope) {
-  return function (address) {
+module.filter('rpcontactnamefull', ['$rootScope', function rpcontactnamefullFilter($scope) {
+  return function rpcontactnamefull(address) {
     address = address ? ""+address : "";
     var contact = webutil.getContact($scope.userBlob.data.contacts, address);
 
@@ -314,8 +314,8 @@ module.filter('rpcontactnamefull', ['$rootScope', function ($scope) {
   };
 }]);
 
-module.filter('rponlycontactname', ['$rootScope', function ($scope) {
-  return function (address) {
+module.filter('rponlycontactname', ['$rootScope', function rponlycontactnameFilter($scope) {
+  return function rponlycontactname(address) {
     address = address ? ""+address : "";
 
     var contact = webutil.getContact($scope.userBlob.data.contacts, address);
@@ -331,8 +331,8 @@ module.filter('rponlycontactname', ['$rootScope', function ($scope) {
  *
  * The number of the bullets will correspond to the length of the string.
  */
-module.filter('rpmask', function() {
-  return function (pass) {
+module.filter('rpmask', function rpmaskFilter() {
+  return function rpmask(pass) {
     pass = ""+pass;
     return Array(pass.length+1).join("•");
   };
@@ -343,8 +343,8 @@ module.filter('rpmask', function() {
  *
  * The number of the bullets will correspond to the length of the string.
  */
-module.filter('rptruncate', function() {
-  return function (str, len) {
+module.filter('rptruncate', function rptruncateFilter() {
+  return function rptruncate(str, len) {
     return str ? str.slice(0, len) : '';
   };
 });
@@ -355,7 +355,7 @@ module.filter('rptruncate', function() {
  * Based on code by aioobe @ StackOverflow.
  * @see http://stackoverflow.com/questions/3758606
  */
-module.filter('rpfilesize', function() {
+module.filter('rpfilesize', function rpfilesizeFilter() {
   function number_format( number, decimals, dec_point, thousands_sep ) {
     // http://kevin.vanzonneveld.net
     // +   original by: Jonas Raoni Soares Silva (http://www.jsfromhell.com)
@@ -387,7 +387,7 @@ module.filter('rpfilesize', function() {
   //var prefixes = "KMGTPE";
   //var common = "iB";
 
-  return function (str) {
+  return function rpfilesize(str) {
     var bytes = +str;
     if (bytes < unit) return bytes + " B";
     var exp = Math.floor(Math.log(bytes) / Math.log(unit));
@@ -399,8 +399,8 @@ module.filter('rpfilesize', function() {
 /**
  * Uppercase the first letter.
  */
-module.filter('rpucfirst', function() {
-  return function (str) {
+module.filter('rpucfirst', function rpucfirstFilter() {
+  return function rpucfirst(str) {
     str = ""+str;
     return str.charAt(0).toUpperCase() + str.slice(1);
   };
@@ -413,8 +413,8 @@ module.filter('rpucfirst', function() {
  * Example1 : ng-repeat="n in [20] | rprange"
  * Example2 : ng-repeat="n in [10, 35] | rprange"
  */
-module.filter('rprange', function() {
-  return function(input) {
+module.filter('rprange', function rprangeFilter() {
+  return function rprange(input) {
     var lowBound, highBound;
     switch (input.length) {
       case 1:
@@ -435,15 +435,15 @@ module.filter('rprange', function() {
   };
 });
 
-module.filter('rpaddressorigin', function() {
-  return function(recipient) {
+module.filter('rpaddressorigin', function rpaddressoriginFilter() {
+  return function rpaddressorigin(recipient) {
     if (~recipient.indexOf('@')) return 'federation';
     return !isNaN(Base.decode_check([0, 5], recipient, 'bitcoin')) ? 'bitcoin' : 'ripple';
   };
 });
 
-module.filter('rpheavynormalize', function() {
-  return function (value, maxLength) {
+module.filter('rpheavynormalize', function rpheavynormalizeFilter() {
+  return function rpheavynormalize(value, maxLength) {
     return String(value)
       // Remove non-printable and non-ASCII characters
       .replace(/[^ -~]/g, '')
@@ -461,8 +461,8 @@ module.filter('rpheavynormalize', function() {
 /**
  * Used to filter My Orders on trade tab.
  */
-module.filter('rpcurrentpair', function() {
-  return function (items, doFilter, currentKey) {
+module.filter('rpcurrentpair', function rpcurrentpairFilter() {
+  return function rpcurrentpair(items, doFilter, currentKey) {
     if (!doFilter) {
       return items;
     }
@@ -489,8 +489,8 @@ module.filter('rpcurrentpair', function() {
  * Return object properties.
  * Used in trade tab to make My Orders list sortable.
  */
-module.filter('rpvalues', function() {
-  return function (items_object) {
+module.filter('rpvalues', function rpvaluesFilter() {
+  return function rpvalues(items_object) {
     var values = _.values(items_object);
     return _.values(items_object);
   }
@@ -499,8 +499,8 @@ module.filter('rpvalues', function() {
 /**
  * My Orders widget sorting filter.
  */
-module.filter('rpsortmyorders', function() {
-  return function (items_object, field, reverse) {
+module.filter('rpsortmyorders', function rpsortmyordersFilter() {
+  return function rpsortmyorders(items_object, field, reverse) {
     var arrayCopy = items_object.slice(0);
     arrayCopy.sort(function(a, b) {
       var res = 0;
@@ -542,8 +542,8 @@ module.filter('rpsortmyorders', function() {
 /**
  * Contacts sorting filter
  */
-module.filter('rpsortcontacts', function() {
-  return function (items_object, field, reverse) {
+module.filter('rpsortcontacts', function rpsortcontactsFilter() {
+  return function rpsortcontacts(items_object, field, reverse) {
     var arrayCopy = items_object.slice(0);
     arrayCopy.sort(function(a, b) {
       var res = 0;
@@ -565,8 +565,8 @@ module.filter('rpsortcontacts', function() {
   }
 });
 
-module.filter('rprange', function() {
-  return function(input, total) {
+module.filter('rprange', function rprangeFilter() {
+  return function rprange(input, total) {
     total = parseInt(total, 10);
     for (var i = 1; i <= total; i++)
       input.push(i);

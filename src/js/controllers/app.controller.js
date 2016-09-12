@@ -700,27 +700,15 @@ function AppCtrl ($scope, id, net, keychain, txQueue, appManager, rpTracker,
     store.set('ripple_pairs_all',require('../data/pairs'));
   }
 
-  var pairs_all = store.get('ripple_pairs_all');
+  // var pairs_all = store.get('ripple_pairs_all');
   var pairs_default = require('../data/pairs');
-  $scope.pairs_all = genericUtils.uniqueObjArray(pairs_all, pairs_default, 'name');
+  $scope.default_trade_pair = pairs_default[0].name;
 
   function compare(a, b) {
     if (a.order < b.order) return 1;
     if (a.order > b.order) return -1;
     return 0;
   }
-
-  // sort currencies and pairs by order
-  $scope.currencies_all.sort(compare);
-
-  function compare_last_used(a, b) {
-    var time_a = a.last_used || a.order || 0;
-    var time_b = b.last_used || b.order || 0;
-    if (time_a < time_b) return 1;
-    if (time_a > time_b) return -1;
-    return 0;
-  }
-  $scope.pairs_all.sort(compare_last_used);
 
   $scope.currencies_all_keyed = {};
   _.each($scope.currencies_all, function(currency){
@@ -737,17 +725,6 @@ function AppCtrl ($scope, id, net, keychain, txQueue, appManager, rpTracker,
     currenciesAllWatcher();
   }, true);
 
-  var pairsAllWatcher = $scope.$watch('pairs_all', function(){
-    if (!$scope.pairs_all.length) return;
-
-    if (!store.disabled) {
-      store.set('ripple_pairs_all',$scope.pairs_all);
-    }
-
-    pairsAllWatcher();
-  }, true);
-
-  $scope.pairs = $scope.pairs_all.slice(1);
   $timeout(function() {
     $scope.app_loaded = 'loaded';
     $("body").removeClass("loading");
