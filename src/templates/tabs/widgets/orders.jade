@@ -1,16 +1,15 @@
 .widget.widget-orders
-  h4(ng-click='showWidgetOrders=!showWidgetOrders'
-    ng-init='showWidgetOrders=true')
+  h4(ng-click="toggleShowWidget('orders')")
     span(l10n) My Orders
-    i.fa.fa-fw.fa-caret-down(ng-class="{'closed': !showWidgetOrders}")
+    i.fa.fa-fw.fa-caret-down(ng-class="{'closed': !showWidget('orders')}")
 
-  div(rp-slide='showWidgetOrders')
-    //- .rp-checkbox(ng-show="showWidgetOrders || !isEmpty(offers)")
+  div(rp-slide="showWidget('orders')")
+    //- .rp-checkbox(ng-show="showWidget('orders') || !isEmpty(offers)")
     //-   label
     //-     input(type="checkbox", name="current_pair_only", ng-model="sortOptions.currentPairOnly")
     //-     span(l10n) Current pair only
     .rp-select.hidden-md.hidden-lg
-      div(ng-hide="!showWidgetOrders || isEmpty(offers)")
+      div(ng-hide="!showWidget('orders') || isEmpty(offers)")
         span(l10n) Sort by
         .rp-combobox.rp-combobox-small.orders-sort-select
           input.currency.form-control#orders_sort_field(
@@ -19,42 +18,42 @@
           rp-combobox-small
           ng-model='sortOptions.sortFieldName')
     .rp-checkbox.hidden-md.hidden-lg
-      div(ng-show="showWidgetOrders && !isEmpty(offers)")
+      div(ng-show="showWidget('orders') && !isEmpty(offers)")
         label
           input(type="checkbox", name="reverse"
           ng-model="sortOptions.reverse")
           span(l10n) reverse
     div(ng-hide="isEmpty(offers)")
       hr.hidden-md.hidden-lg
-    .listings.offers(ng-show="showWidgetOrders")
+    .listings.offers(ng-show="showWidget('orders')")
       .my
         div
           .row.head.hidden-xs.hidden-sm
-            .col-md-1.type(rp-sort-header="sortOptions.sortField", 
+            .col-md-1.type(rp-sort-header="sortOptions.sortField",
                   rp-sort-header-reverse="sortOptions.reverse",
-                  rp-sort-header-field="type") 
+                  rp-sort-header-field="type")
               i.fa.fa-fw.fa-caret-down
-            .col-md-3(rp-sort-header="sortOptions.sortField", 
+            .col-md-3(rp-sort-header="sortOptions.sortField",
                   rp-sort-header-reverse="sortOptions.reverse",
                   rp-sort-header-field="qty")
               span(l10n) QTY
               i.fa.fa-fw.fa-caret-down
-            .col-md-2(rp-sort-header="sortOptions.sortField", 
+            .col-md-2(rp-sort-header="sortOptions.sortField",
                   rp-sort-header-reverse="sortOptions.reverse",
                   rp-sort-header-field="base")
               span(l10n) Base
               i.fa.fa-fw.fa-caret-down
-            .col-md-3(rp-sort-header="sortOptions.sortField", 
+            .col-md-3(rp-sort-header="sortOptions.sortField",
                   rp-sort-header-reverse="sortOptions.reverse",
                   rp-sort-header-field="counter")
               span(l10n) Counter
               i.fa.fa-fw.fa-caret-down
-            .col-md-3(rp-sort-header="sortOptions.sortField", 
+            .col-md-3(rp-sort-header="sortOptions.sortField",
                   rp-sort-header-reverse="sortOptions.reverse",
                   rp-sort-header-field="limit")
               span(l10n) Limit Price
               i.fa.fa-fw.fa-caret-down
-            //- .col-md-2(l10n, rp-sort-header="sortOptions.sortField", 
+            //- .col-md-2(l10n, rp-sort-header="sortOptions.sortField",
             //-       rp-sort-header-reverse="sortOptions.reverse",
             //-       rp-sort-header-field="time") Time placed
             //-   span &#x25BC;
@@ -90,7 +89,7 @@
             ) {{entry.second | rpamountratio:entry.first | rpamount:{hard_precision: true, precision: 6, tiny_precision: 6} }}
           //- .col-md-2.action(l10n-data-label="Time placed(UTC)", ng-hide="editOrder.seq == entry.seq") ...
       .emptyMessage(ng-show="isEmpty(offers)")
-        p.rp-base(l10n) No current orders. 
+        p.rp-base(l10n) No current orders.
           a(l10n, href="", ng-click="view_orders_history()") View orders history
 
     p(ng-show="$route.current.tabName == 'balance'")

@@ -1,10 +1,9 @@
 .widget.widget-networth(ng-hide="!loadingAccount && !account.Balance && loadState.account")
-  h4(ng-click='showWidgetNetworth=!showWidgetNetworth'
-    ng-init='showWidgetNetworth=true')
+  h4(ng-click="toggleShowWidget('networth')")
     span(l10n) Net Worth
-    i.fa.fa-fw.fa-caret-down(ng-class="{'closed': !showWidgetNetworth}")
+    i.fa.fa-fw.fa-caret-down(ng-class="{'closed': !showWidget('networth')}")
 
-  div(rp-slide='showWidgetNetworth')
+  div(rp-slide="showWidget('networth')")
     div(ng-class="{'blank': !exchangeRatesNonempty}")
       .row(ng-hide="valueMetrics.length < 2", l10n)
         .col-xs-1(l10n-inc)
@@ -29,5 +28,5 @@
 
       .desc(ng-show="hasNegative", l10n) (excluding negative balances)
 
-    div.widget_loader(ng-show="showWidgetNetworth && !exchangeRatesNonempty")
+    div.widget_loader(ng-show="showWidget('networth') && !exchangeRatesNonempty")
       img(src="img/sections.png", class="loader")

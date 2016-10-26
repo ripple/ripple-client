@@ -1,10 +1,9 @@
 .widget.widget-markets
-  h4(ng-click='showWidgetMarkets=!showWidgetMarkets'
-    ng-init='showWidgetMarkets=true')
+  h4(ng-click="toggleShowWidget('markets')")
     span(l10n) Markets
-    i.fa.fa-fw.fa-caret-down(ng-class="{'closed': !showWidgetMarkets}")
+    i.fa.fa-fw.fa-caret-down(ng-class="{'closed': !showWidget('markets')}")
 
-  div(rp-slide='showWidgetMarkets')
+  div(rp-slide="showWidget('markets')")
     .row.align-with-chart-y-axis
       //- Base currency
       .col-xs-9.col-md-5.col-lg-4
