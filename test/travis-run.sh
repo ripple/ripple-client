@@ -1,6 +1,7 @@
 #!/bin/bash
 set -ev
 gulp dist
+ls -l -R build
 npm run test-travis
 gulp serve:dist &
 se-interpreter test/selenium/interpreter_config_public.json
