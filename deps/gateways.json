@@ -73,7 +73,7 @@
         "name": "RippleSingapore",
         "accounts": [{
             "address": "r9Dr5xwkeLegBeXq6ujinjSBLQzQ1zQGjH",
-            "currencies": ["XAU", "XAG", "XPT", "SGD"],
+            "currencies": ["XAU", "XAG", "XPT", "SGD", "USD"],
             "hotwallets": []
             }]
     }, {
