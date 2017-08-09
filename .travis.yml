@@ -17,12 +17,14 @@ before_install:
   - node launch_connect.js &
   - $TRAVIS_BUILD_DIR/test/sauce/wait_for_browser_provider.sh
   - cd $TRAVIS_BUILD_DIR
-before_script:
-  - "cp test/travis/config-travis.js config.js"
-  - "cp test/travis/ripple-travis.txt ripple.txt"
+install:
+  - npm install
   - npm install -g bower
   - bower install
   - npm install -g darkdarkdragon/se-interpreter
+before_script:
+  - "cp test/travis/config-travis.js config.js"
+  - "cp test/travis/ripple-travis.txt ripple.txt"
   - sudo ps aux
   - sudo ls -l /proc/*/exe || true
 script: "./test/travis-run.sh"
@@ -39,7 +41,7 @@ notifications:
     on_failure: always
     on_start: false
 env:
-  global: 
+  global:
     - SAUCE_CONNECT_VERSION=4.3.8
     - SAUCE_USERNAME=tonga
     - SAUCE_ACCESS_KEY=1553f141-1258-4319-b20d-7743def99fbb
